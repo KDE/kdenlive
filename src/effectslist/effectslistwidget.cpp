@@ -22,7 +22,7 @@
 #include "effectslist/effectslist.h"
 #include "mainwindow.h"
 
-#include <KDebug>
+#include <QDebug>
 
 
 #include <QAction>

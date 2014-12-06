@@ -22,7 +22,7 @@
 #include "kdenlivesettings.h"
 
 
-#include <KDebug>
+#include <QDebug>
 #include <KMessageBox>
 #include <KIO/NetAccess>
 #include <KGlobal>
@@ -202,7 +202,7 @@ bool ProfilesDialog::slotSaveProfile()
         int i = 0;
         QString customName = "profiles/customprofile";
         QString profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + customName + QString::number(i);
-        kDebug() << " TYING PROFILE FILE: " << profilePath;
+        //qDebug() << " TYING PROFILE FILE: " << profilePath;
         while (QFile::exists(profilePath)) {
             ++i;
             profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + customName + QString::number(i);
@@ -236,7 +236,7 @@ void ProfilesDialog::slotDeleteProfile()
     if (path.contains('/')) {
         KIO::NetAccess::del(QUrl(path), this);
         fillList();
-    } else kDebug() << "//// Cannot delete profile " << path << ", does not seem to be custom one";
+    } else //qDebug() << "//// Cannot delete profile " << path << ", does not seem to be custom one";
 }
 
 // static
@@ -262,11 +262,11 @@ MltVideoProfile ProfilesDialog::getVideoProfile(const QString &name)
 
     if (path.isEmpty() || !QFile::exists(path)) {
         if (name == "dv_pal") {
-            kDebug() << "!!! WARNING, COULD NOT FIND DEFAULT MLT PROFILE";
+            //qDebug() << "!!! WARNING, COULD NOT FIND DEFAULT MLT PROFILE";
             return result;
         }
         if (name == KdenliveSettings::default_profile()) KdenliveSettings::setDefault_profile("dv_pal");
-        kDebug() << "// WARNING, COULD NOT FIND PROFILE " << name;
+        //qDebug() << "// WARNING, COULD NOT FIND PROFILE " << name;
         return result;
     }
     KConfig confFile(path, KConfig::SimpleConfig);
@@ -479,7 +479,7 @@ void ProfilesDialog::saveProfile(MltVideoProfile &profile, QString profilePath)
         int i = 0;
         QString customName = "profiles/customprofile";
         profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + customName + QString::number(i);
-        kDebug() << " TYING PROFILE FILE: " << profilePath;
+        //qDebug() << " TYING PROFILE FILE: " << profilePath;
         while (QFile::exists(profilePath)) {
             ++i;
             profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + customName + QString::number(i);

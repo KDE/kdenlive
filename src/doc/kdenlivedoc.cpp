@@ -35,7 +35,7 @@
 #include "project/notesplugin.h"
 #include "project/dialogs/noteswidget.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KStandardDirs>
 #include <KMessageBox>
 #include <KProgressDialog>
@@ -327,7 +327,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                                             CommentedTime marker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"), e.attribute("type").toInt());
                                             DocClipBase *baseClip = m_clipManager->getClipById(e.attribute("id"));
                                             if (baseClip) baseClip->addSnapMarker(marker);
-                                            else kDebug()<< " / / Warning, missing clip: "<< e.attribute("id");
+                                            else //qDebug()<< " / / Warning, missing clip: "<< e.attribute("id");
                                         }
                                     }
                                     infoXml.removeChild(markers);
@@ -344,7 +344,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                                     m_documentMetadata.insert(props.item(i).nodeName(), props.item(i).nodeValue());
 
                                 if (validator.isModified()) setModified(true);
-                                kDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
+                                //qDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
                             }
                         }
                     }
@@ -386,7 +386,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
 
     updateProjectFolderPlacesEntry();
 
-    //kDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
+    ////qDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
     connect(m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
     connect(m_render, SIGNAL(addClip(QUrl,stringMap)), this, SLOT(slotAddClipFile(QUrl,stringMap)));
 }
@@ -395,9 +395,9 @@ KdenliveDoc::~KdenliveDoc()
 {
     m_autoSaveTimer->stop();
     delete m_commandStack;
-    kDebug() << "// DEL CLP MAN";
+    //qDebug() << "// DEL CLP MAN";
     delete m_clipManager;
-    kDebug() << "// DEL CLP MAN done";
+    //qDebug() << "// DEL CLP MAN done";
     delete m_autoSaveTimer;
     if (m_autosave) {
         if (!m_autosave->fileName().isEmpty()) m_autosave->remove();
@@ -612,9 +612,9 @@ void KdenliveDoc::slotAutoSave()
     if (m_render && m_autosave) {
         if (!m_autosave->isOpen() && !m_autosave->open(QIODevice::ReadWrite)) {
             // show error: could not open the autosave file
-            kDebug() << "ERROR; CANNOT CREATE AUTOSAVE FILE";
+            //qDebug() << "ERROR; CANNOT CREATE AUTOSAVE FILE";
         }
-        kDebug() << "// AUTOSAVE FILE: " << m_autosave->fileName();
+        //qDebug() << "// AUTOSAVE FILE: " << m_autosave->fileName();
         saveSceneList(m_autosave->fileName(), m_render->sceneList(), QStringList(), true);
     }
 }
@@ -669,7 +669,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList &
     // check if project contains custom effects to embed them in project file
     QDomNodeList effects = mlt.elementsByTagName("filter");
     int maxEffects = effects.count();
-    kDebug() << "// FOUD " << maxEffects << " EFFECTS+++++++++++++++++++++";
+    //qDebug() << "// FOUD " << maxEffects << " EFFECTS+++++++++++++++++++++";
     QMap <QString, QString> effectIds;
     for (int i = 0; i < maxEffects; ++i) {
         QDomNode m = effects.at(i);
@@ -801,7 +801,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const
     QFile file(path);
     
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        kWarning() << "//////  ERROR writing to file: " << path;
+        qWarning() << "//////  ERROR writing to file: " << path;
         KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1", path));
         return false;
     }
@@ -956,7 +956,7 @@ bool KdenliveDoc::setProfilePath(QString path)
     KdenliveSettings::setProject_fps(m_fps);
     m_width = m_profile.width;
     m_height = m_profile.height;
-    kDebug() << "Kdenlive document, init timecode from path: " << path << ",  " << m_fps;
+    //qDebug() << "Kdenlive document, init timecode from path: " << path << ",  " << m_fps;
     m_timecode.setFormat(m_fps);
     KdenliveSettings::setCurrent_profile(m_profile.path);
     return (current_fps != m_fps);
@@ -985,7 +985,7 @@ void KdenliveDoc::setRenderer(Render *render) {
     //qApp->processEvents();
     if (m_render) {
         m_render->setSceneList(m_document.toString(), m_startPos);
-        kDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
+        //qDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
         checkProjectClips();
     }
     emit progressInfo(QString(), -1);
@@ -1101,7 +1101,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
             // Clip has proxy but missing original source
         }
         else if (path.isEmpty() == false && QFile::exists(path) == false && elem.attribute("type").toInt() != Text && !elem.hasAttribute("placeholder")) {
-            kDebug() << "// FOUND MISSING CLIP: " << path << ", TYPE: " << elem.attribute("type").toInt();
+            //qDebug() << "// FOUND MISSING CLIP: " << path << ", TYPE: " << elem.attribute("type").toInt();
             const QString size = elem.attribute("file_size");
             const QString hash = elem.attribute("file_hash");
             QString newpath;
@@ -1131,7 +1131,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
                 }
             }
             if (action == KMessageBox::Yes) {
-                kDebug() << "// ASKED FOR SRCH CLIP: " << clipId;
+                //qDebug() << "// ASKED FOR SRCH CLIP: " << clipId;
                 m_searchFolder = KFileDialog::getExistingDirectory(QUrl("kfiledialog:///clipfolder"), kapp->activeWindow());
                 if (!m_searchFolder.isEmpty())
                     newpath = searchFileRecursively(QDir(m_searchFolder), size, hash);
@@ -1142,7 +1142,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
                 elem.setAttribute("placeholder", '1');
             }
             if (!newpath.isEmpty()) {
-                kDebug() << "// NEW CLIP PATH FOR CLIP " << clipId << " : " << newpath;
+                //qDebug() << "// NEW CLIP PATH FOR CLIP " << clipId << " : " << newpath;
                 if (elem.attribute("type").toInt() == SlideShow)
                     newpath.append('/' + extension);
                 elem.setAttribute("resource", newpath);
@@ -1206,10 +1206,10 @@ QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &match
                 if (QString(fileHash.toHex()) == matchHash)
                     return file.fileName();
                 else
-                    kDebug() << filesAndDirs.at(i) << "size match but not hash";
+                    //qDebug() << filesAndDirs.at(i) << "size match but not hash";
             }
         }
-        //kDebug() << filesAndDirs.at(i) << file.size() << fileHash.toHex();
+        ////qDebug() << filesAndDirs.at(i) << file.size() << fileHash.toHex();
     }
     filesAndDirs = dir.entryList(QDir::Dirs | QDir::Readable | QDir::Executable | QDir::NoDotAndDotDot);
     for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); ++i) {
@@ -1233,7 +1233,7 @@ bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, const QString 
             QString attrname = attributes.item(i).nodeName();
             if (attrname != "resource")
                 properties.insert(attrname, attributes.item(i).nodeValue());
-            //kDebug() << attrname << " = " << attributes.item(i).nodeValue();
+            ////qDebug() << attrname << " = " << attributes.item(i).nodeValue();
         }
         clip->setProperties(properties);
         emit addProjectClip(clip, false);
@@ -1345,7 +1345,7 @@ int KdenliveDoc::tracksCount() const
 TrackInfo KdenliveDoc::trackInfoAt(int ix) const
 {
     if (ix < 0 || ix >= m_tracksList.count()) {
-        kWarning() << "Track INFO outisde of range";
+        qWarning() << "Track INFO outisde of range";
         return TrackInfo();
     }
     return m_tracksList.at(ix);
@@ -1354,7 +1354,7 @@ TrackInfo KdenliveDoc::trackInfoAt(int ix) const
 void KdenliveDoc::switchTrackAudio(int ix, bool hide)
 {
     if (ix < 0 || ix >= m_tracksList.count()) {
-        kWarning() << "SWITCH Track outisde of range";
+        qWarning() << "SWITCH Track outisde of range";
         return;
     }
     m_tracksList[ix].isMute = hide; // !m_tracksList.at(ix).isMute;
@@ -1363,7 +1363,7 @@ void KdenliveDoc::switchTrackAudio(int ix, bool hide)
 void KdenliveDoc::switchTrackLock(int ix, bool lock)
 {
     if (ix < 0 || ix >= m_tracksList.count()) {
-        kWarning() << "Track Lock outisde of range";
+        qWarning() << "Track Lock outisde of range";
         return;
     }
     m_tracksList[ix].isLocked = lock;
@@ -1372,7 +1372,7 @@ void KdenliveDoc::switchTrackLock(int ix, bool lock)
 bool KdenliveDoc::isTrackLocked(int ix) const
 {
     if (ix < 0 || ix >= m_tracksList.count()) {
-        kWarning() << "Track Lock outisde of range";
+        qWarning() << "Track Lock outisde of range";
         return true;
     }
     return m_tracksList.at(ix).isLocked;
@@ -1381,7 +1381,7 @@ bool KdenliveDoc::isTrackLocked(int ix) const
 void KdenliveDoc::switchTrackVideo(int ix, bool hide)
 {
     if (ix < 0 || ix >= m_tracksList.count()) {
-        kWarning() << "SWITCH Track outisde of range";
+        qWarning() << "SWITCH Track outisde of range";
         return;
     }
     m_tracksList[ix].isBlind = hide; // !m_tracksList.at(ix).isBlind;
@@ -1406,7 +1406,7 @@ void KdenliveDoc::insertTrack(int ix, const TrackInfo &type)
 void KdenliveDoc::deleteTrack(int ix)
 {
     if (ix < 0 || ix >= m_tracksList.count()) {
-        kWarning() << "Delete Track outisde of range";
+        qWarning() << "Delete Track outisde of range";
         return;
     }
     m_tracksList.removeAt(ix);
@@ -1415,7 +1415,7 @@ void KdenliveDoc::deleteTrack(int ix)
 void KdenliveDoc::setTrackType(int ix, const TrackInfo &type)
 {
     if (ix < 0 || ix >= m_tracksList.count()) {
-        kWarning() << "SET Track Type outisde of range";
+        qWarning() << "SET Track Type outisde of range";
         return;
     }
     m_tracksList[ix].type = type.type;
@@ -1507,7 +1507,7 @@ QMap <QString, QString> KdenliveDoc::getRenderProperties() const
 void KdenliveDoc::addTrackEffect(int ix, QDomElement effect)
 {
     if (ix < 0 || ix >= m_tracksList.count()) {
-        kWarning() << "Add Track effect outisde of range";
+        qWarning() << "Add Track effect outisde of range";
         return;
     }
     effect.setAttribute("kdenlive_ix", m_tracksList.at(ix).effectsList.count() + 1);
@@ -1531,7 +1531,7 @@ void KdenliveDoc::addTrackEffect(int ix, QDomElement effect)
             // Effect has a keyframe type parameter, we need to set the values
             if (e.attribute("keyframes").isEmpty()) {
                 e.setAttribute("keyframes", "0:" + def + ';');
-                kDebug() << "///// EFFECT KEYFRAMES INITED: " << e.attribute("keyframes");
+                //qDebug() << "///// EFFECT KEYFRAMES INITED: " << e.attribute("keyframes");
                 //break;
             }
         }
@@ -1549,7 +1549,7 @@ void KdenliveDoc::addTrackEffect(int ix, QDomElement effect)
 void KdenliveDoc::removeTrackEffect(int ix, const QDomElement &effect)
 {
     if (ix < 0 || ix >= m_tracksList.count()) {
-        kWarning() << "Remove Track effect outisde of range";
+        qWarning() << "Remove Track effect outisde of range";
         return;
     }
     int toRemove = effect.attribute("kdenlive_ix").toInt();
@@ -1565,11 +1565,11 @@ void KdenliveDoc::removeTrackEffect(int ix, const QDomElement &effect)
 void KdenliveDoc::setTrackEffect(int trackIndex, int effectIndex, QDomElement effect)
 {
     if (trackIndex < 0 || trackIndex >= m_tracksList.count()) {
-        kWarning() << "Set Track effect outisde of range";
+        qWarning() << "Set Track effect outisde of range";
         return;
     }
     if (effectIndex <= 0 || effectIndex > (m_tracksList.at(trackIndex).effectsList.count()) || effect.isNull()) {
-        kDebug() << "Invalid effect index: " << effectIndex;
+        //qDebug() << "Invalid effect index: " << effectIndex;
         return;
     }
     m_tracksList[trackIndex].effectsList.removeAt(effect.attribute("kdenlive_ix").toInt());
@@ -1581,7 +1581,7 @@ void KdenliveDoc::setTrackEffect(int trackIndex, int effectIndex, QDomElement ef
 void KdenliveDoc::enableTrackEffects(int trackIndex, const QList <int> &effectIndexes, bool disable)
 {
     if (trackIndex < 0 || trackIndex >= m_tracksList.count()) {
-        kWarning() << "Set Track effect outisde of range";
+        qWarning() << "Set Track effect outisde of range";
         return;
     }
     EffectsList list = m_tracksList.at(trackIndex).effectsList;
@@ -1595,7 +1595,7 @@ void KdenliveDoc::enableTrackEffects(int trackIndex, const QList <int> &effectIn
 const EffectsList KdenliveDoc::getTrackEffects(int ix)
 {
     if (ix < 0 || ix >= m_tracksList.count()) {
-        kWarning() << "Get Track effects outisde of range";
+        qWarning() << "Get Track effects outisde of range";
         return EffectsList();
     }
     return m_tracksList.at(ix).effectsList;
@@ -1604,7 +1604,7 @@ const EffectsList KdenliveDoc::getTrackEffects(int ix)
 QDomElement KdenliveDoc::getTrackEffect(int trackIndex, int effectIndex) const
 {
     if (trackIndex < 0 || trackIndex >= m_tracksList.count()) {
-        kWarning() << "Get Track effect outisde of range";
+        qWarning() << "Get Track effect outisde of range";
         return QDomElement();
     }
     EffectsList list = m_tracksList.at(trackIndex).effectsList;
@@ -1615,7 +1615,7 @@ QDomElement KdenliveDoc::getTrackEffect(int trackIndex, int effectIndex) const
 int KdenliveDoc::hasTrackEffect(int trackIndex, const QString &tag, const QString &id) const
 {
     if (trackIndex < 0 || trackIndex >= m_tracksList.count()) {
-        kWarning() << "Get Track effect outisde of range";
+        qWarning() << "Get Track effect outisde of range";
         return -1;
     }
     EffectsList list = m_tracksList.at(trackIndex).effectsList;
@@ -1713,11 +1713,11 @@ double KdenliveDoc::getDisplayRatio(const QString &path)
     QFile file(path);
     QDomDocument doc;
     if (!file.open(QIODevice::ReadOnly)) {
-        kWarning() << "ERROR, CANNOT READ: " << path;
+        qWarning() << "ERROR, CANNOT READ: " << path;
         return 0;
     }
     if (!doc.setContent(&file)) {
-        kWarning() << "ERROR, CANNOT READ: " << path;
+        qWarning() << "ERROR, CANNOT READ: " << path;
         file.close();
         return 0;
     }
@@ -1804,7 +1804,7 @@ void KdenliveDoc::cleanupBackupFiles()
     if (hourList.count() > 20) {
         int step = hourList.count() / 10;
         for (int i = 0; i < hourList.count(); i += step) {
-            kDebug()<<"REMOVE AT: "<<i<<", COUNT: "<<hourList.count();
+            //qDebug()<<"REMOVE AT: "<<i<<", COUNT: "<<hourList.count();
             hourList.removeAt(i);
             --i;
         }

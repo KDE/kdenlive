@@ -17,7 +17,7 @@
 
 #include "complexparameter.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KLocalizedString>
 
 
@@ -116,7 +116,7 @@ void ComplexParameter::setupParam(const QDomElement &d, const QString& paramName
 
 void ComplexParameter::itemSelectionChanged()
 {
-    //kDebug() << "drop";
+    ////qDebug() << "drop";
 }
 
 void ComplexParameter::slotUpdateEffectParams(const QDomElement &e)
@@ -132,7 +132,7 @@ QDomElement ComplexParameter::getParamDesc() const
 
 void ComplexParameter::slotUpdateParameterList(const QStringList &l)
 {
-    kDebug() << l ;
+    //qDebug() << l ;
     m_ui.parameterList->clear();
     m_ui.parameterList->addItem("all");
     m_ui.parameterList->addItems(l);

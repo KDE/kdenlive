@@ -27,7 +27,7 @@
 
 
 #include <KMessageBox>
-#include <KDebug>
+#include <QDebug>
 #include <kio/directorysizejob.h>
 #include <KIO/NetAccess>
 #include <KFileDialog>
@@ -587,7 +587,7 @@ void ProjectSettings::slotExportToText()
     }
     QTemporaryFile tmpfile;
     if (!tmpfile.open()) {
-        kWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
+        qWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
         return;
     }
     QFile xmlf(tmpfile.fileName());

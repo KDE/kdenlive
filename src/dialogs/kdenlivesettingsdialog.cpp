@@ -28,7 +28,7 @@
 #include "capture/v4lcapture.h"
 #endif
 
-#include <KDebug>
+#include <QDebug>
 #include <kde_file.h>
 #include <KIO/NetAccess>
 #include <kdeversion.h>
@@ -285,7 +285,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
             if (version.contains(' ')) version = version.section(' ', -1);
             dvgrabVersion = version.toDouble();
 
-            kDebug() << "// FOUND DVGRAB VERSION: " << dvgrabVersion;
+            //qDebug() << "// FOUND DVGRAB VERSION: " << dvgrabVersion;
         }
         delete versionCheck;
         if (dvgrabVersion < 3.3) {
@@ -353,21 +353,21 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(QString device)
     QMap<QString, QString> mappable_actions(m_mappable_actions);
     QList<QString> action_names = mappable_actions.keys();
     QList<QString>::Iterator iter = action_names.begin();
-    kDebug() << "::::::::::::::::";
+    //qDebug() << "::::::::::::::::";
     while (iter != action_names.end()) {
-        kDebug() << *iter;
+        //qDebug() << *iter;
         ++iter;
     }
 
-    kDebug() << "::::::::::::::::";
+    //qDebug() << "::::::::::::::::";
 
     qSort(action_names);
     iter = action_names.begin();
     while (iter != action_names.end()) {
-        kDebug() << *iter;
+        //qDebug() << *iter;
         ++iter;
     }
-    kDebug() << "::::::::::::::::";
+    //qDebug() << "::::::::::::::::";
 
     // Here we need to compute the action_id -> index-in-action_names. We iterate over the
     // action_names, as the sorting may depend on the user-language.
@@ -489,7 +489,7 @@ void KdenliveSettingsDialog::initDevices()
                 line = stream.readLine();
             }
             file.close();
-        } else kDebug()<<" / / / /CANNOT READ PCM";
+        } else //qDebug()<<" / / / /CANNOT READ PCM";
     }
     
     // Add pulseaudio capture option
@@ -516,11 +516,11 @@ void KdenliveSettingsDialog::initDevices()
 void KdenliveSettingsDialog::slotReadAudioDevices()
 {
     QString result = QString(m_readProcess.readAllStandardOutput());
-    kDebug() << "// / / / / / READING APLAY: ";
-    kDebug() << result;
+    //qDebug() << "// / / / / / READING APLAY: ";
+    //qDebug() << result;
     QStringList lines = result.split('\n');
     foreach(const QString & data, lines) {
-        //kDebug() << "// READING LINE: " << data;
+        ////qDebug() << "// READING LINE: " << data;
         if (!data.startsWith(' ') && data.count(':') > 1) {
             QString card = data.section(':', 0, 0).section(' ', -1);
             QString device = data.section(':', 1, 1).section(' ', -1);
@@ -627,7 +627,7 @@ void KdenliveSettingsDialog::slotUpdateShuttleDevice(int ix)
 void KdenliveSettingsDialog::updateWidgets()
 {
     // Revert widgets to last saved state (for example when user pressed "Cancel")
-    // kDebug() << "// // // KCONFIG Revert called";
+    // //qDebug() << "// // // KCONFIG Revert called";
 #ifdef USE_JOGSHUTTLE
     // revert jog shuttle device
     if (m_configShuttle.shuttledevicelist->count() > 0) {
@@ -665,7 +665,7 @@ void KdenliveSettingsDialog::updateWidgets()
 void KdenliveSettingsDialog::updateSettings()
 {
     // Save changes to settings (for example when user pressed "Apply" or "Ok")
-    // kDebug() << "// // // KCONFIG UPDATE called";
+    // //qDebug() << "// // // KCONFIG UPDATE called";
     m_defaultProfile = m_configProject.kcfg_profiles_list->currentText();
     KdenliveSettings::setDefault_profile(m_defaultPath);
 
@@ -1220,7 +1220,7 @@ void KdenliveSettingsDialog::slotReloadShuttleDevices()
         m_configShuttle.shuttledevicelist->clear();
     }
     while (iter != devMap.end()) {
-        kDebug() << iter.key() << ": " << iter.value();
+        //qDebug() << iter.key() << ": " << iter.value();
         m_configShuttle.shuttledevicelist->addItem(iter.key(), iter.value());
         devNamesList << iter.key();
         devPathList << iter.value();
@@ -1231,7 +1231,7 @@ void KdenliveSettingsDialog::slotReloadShuttleDevices()
     KdenliveSettings::setShuttledevicepaths(devPathList);
     QTimer::singleShot(200, this, SLOT(slotUpdateShuttleDevice()));
 
-    kDebug() << "Devices reloaded";
+    //qDebug() << "Devices reloaded";
 
 #endif //USE_JOGSHUTTLE
 }

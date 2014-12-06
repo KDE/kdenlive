@@ -21,7 +21,7 @@
 #include "noteswidget.h"
 
 #include <KLocalizedString>
-#include <KDebug>
+#include <QDebug>
 #include <QMenu>
 #include <QMouseEvent>
 
@@ -57,7 +57,7 @@ void NotesWidget::mousePressEvent( QMouseEvent * e )
         KTextEdit::mousePressEvent(e);
         return;
     }
-    kDebug()<<"+++++++++\nCLICKED NACHOR: "<<anchor;
+    //qDebug()<<"+++++++++\nCLICKED NACHOR: "<<anchor;
     emit seekProject(anchor.toInt());
     e->setAccepted(true);
 }

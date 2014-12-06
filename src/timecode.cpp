@@ -83,7 +83,7 @@ return frameNumber;
 
 #include "timecode.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KLocalizedString>
 
 Timecode::Timecode(Formats format, double framesPerSecond)
@@ -179,7 +179,7 @@ QString Timecode::getTimecode(const GenTime & time) const
         return getTimecodeSeconds(time);
         break;
     default:
-        kWarning() <<
+        qWarning() <<
         "Unknown timecode format specified, defaulting to HH_MM_SS_FF"
         << endl;
         return getTimecodeHH_MM_SS_FF(time);

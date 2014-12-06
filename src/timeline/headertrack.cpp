@@ -25,7 +25,7 @@
 
 #include <QIcon>
 #include <KLocalizedString>
-#include <KDebug>
+#include <QDebug>
 
 #include <QMouseEvent>
 #include <QWidget>

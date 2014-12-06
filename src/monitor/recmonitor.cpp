@@ -29,7 +29,7 @@
 #include "videosurface.h"
 #include <config-kdenlive.h>
 
-#include <KDebug>
+#include <QDebug>
 #include <KLocalizedString>
 
 #include <KComboBox>
@@ -166,7 +166,7 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
 
     setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
 
-    kDebug() << "/////// BUILDING MONITOR, ID: " << videoSurface->winId();
+    //qDebug() << "/////// BUILDING MONITOR, ID: " << videoSurface->winId();
 #if KDE_IS_VERSION(4,7,0)
     m_infoMessage = new KMessageWidget;
     QVBoxLayout *s =  static_cast <QVBoxLayout *> (layout());
@@ -392,7 +392,7 @@ void RecMonitor::slotDisconnect()
 {
     if (m_captureProcess->state() == QProcess::NotRunning) {
         m_captureTime = QDateTime::currentDateTime();
-        kDebug() << "CURRENT TIME: " << m_captureTime.toString();       
+        //qDebug() << "CURRENT TIME: " << m_captureTime.toString();       
         m_didCapture = false;
         slotStartPreview(false);
         m_discAction->setIcon(QIcon::fromTheme("network-disconnect"));
@@ -532,7 +532,7 @@ void RecMonitor::slotStartPreview(bool play)
 
         m_captureProcess->setStandardOutputProcess(m_displayProcess);
         m_captureProcess->setWorkingDirectory(m_capturePath);
-        kDebug() << "Capture: Running dvgrab " << m_captureArgs.join(" ");
+        //qDebug() << "Capture: Running dvgrab " << m_captureArgs.join(" ");
 
         m_captureProcess->start(KdenliveSettings::dvgrab_path(), m_captureArgs);
         if (play) m_captureProcess->write(" ", 1);
@@ -580,7 +580,7 @@ void RecMonitor::slotStartPreview(bool play)
     control_frame->setEnabled(false);
 
     if (device_selector->currentIndex() == Firewire) {
-        kDebug() << "Capture: Running ffplay " << m_displayArgs.join(" ");
+        //qDebug() << "Capture: Running ffplay " << m_displayArgs.join(" ");
         m_displayProcess->start(KdenliveSettings::ffplaypath(), m_displayArgs);
         //video_frame->setText(i18n("Initialising..."));
     } else {
@@ -774,7 +774,7 @@ void RecMonitor::slotRecord()
 		// Problem launching capture app
 		showWarningMessage(i18n("Failed to start the capture application:\n%1", KdenliveSettings::ffmpegpath()));
 	    }
-            //kDebug() << "// Screen grab params: " << m_captureArgs;
+            ////qDebug() << "// Screen grab params: " << m_captureArgs;
             break;
         default:
             break;
@@ -783,7 +783,7 @@ void RecMonitor::slotRecord()
 
         if (device_selector->currentIndex() == Firewire) {
             m_isCapturing = true;
-            kDebug() << "Capture: Running ffplay " << m_displayArgs.join(" ");
+            //qDebug() << "Capture: Running ffplay " << m_displayArgs.join(" ");
             m_displayProcess->start(KdenliveSettings::ffplaypath(), m_displayArgs);
             video_frame->setText(i18n("Initialising..."));
         }
@@ -877,10 +877,10 @@ void RecMonitor::slotStartGrab(const QRect &rect) {
     if (KdenliveSettings::screengrabenableaudio() && !KdenliveSettings::useosscapture()) {
         QStringList alsaArgs = KdenliveSettings::screengrabalsacapture().simplified().split(' ');
         alsaProcess->setStandardOutputProcess(captureProcess);
-        kDebug() << "Capture: Running arecord " << alsaArgs.join(" ");
+        //qDebug() << "Capture: Running arecord " << alsaArgs.join(" ");
         alsaProcess->start("arecord", alsaArgs);
     }
-    kDebug() << "Capture: Running ffmpeg " << m_captureArgs.join(" ");
+    //qDebug() << "Capture: Running ffmpeg " << m_captureArgs.join(" ");
     captureProcess->start(KdenliveSettings::ffmpegpath(), m_captureArgs);
 }*/
 
@@ -978,8 +978,8 @@ void RecMonitor::manageCapturedFiles()
             }
         }
     }
-    kDebug() << "Found : " << capturedFiles.count() << " new capture files";
-    kDebug() << capturedFiles;
+    //qDebug() << "Found : " << capturedFiles.count() << " new capture files";
+    //qDebug() << capturedFiles;
 
     if (!capturedFiles.isEmpty()) {
         QPointer<ManageCapturesDialog> d = new ManageCapturesDialog(capturedFiles, this);

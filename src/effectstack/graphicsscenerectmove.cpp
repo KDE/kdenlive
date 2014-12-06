@@ -20,7 +20,7 @@
 
 #include "graphicsscenerectmove.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsRectItem>
 #include <QGraphicsSvgItem>
@@ -159,7 +159,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
 
     if (m_tool == TITLE_SELECT) {
         foreach(QGraphicsItem *g, list) {
-            kDebug() << " - - CHECKING ITEM Z:" << g->zValue() << ", TYPE: " << g->type();
+            //qDebug() << " - - CHECKING ITEM Z:" << g->zValue() << ", TYPE: " << g->type();
             // check is there is a selected item in list
             if (g->zValue() > -1000 && g->isSelected()) {
                 item = g;
@@ -186,7 +186,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
         if (item != NULL && item->flags() & QGraphicsItem::ItemIsMovable) {
             m_sceneClickPoint = e->scenePos();
             m_selectedItem = item;
-            kDebug() << "/////////  ITEM TYPE: " << item->type();
+            //qDebug() << "/////////  ITEM TYPE: " << item->type();
             if (item->type() == QGraphicsTextItem::Type) {
                 QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(item);
                 if (t->textInteractionFlags() == Qt::TextEditorInteraction) {
@@ -250,7 +250,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
         QGraphicsScene::mousePressEvent(e);
     }
 
-    kDebug() << "//////  MOUSE CLICK, RESIZE MODE: " << m_resizeMode;
+    //qDebug() << "//////  MOUSE CLICK, RESIZE MODE: " << m_resizeMode;
 
 }
 
@@ -421,7 +421,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
             if (resizeMode == Left || resizeMode == Right ) s = m_selectedItem->boundingRect().width() / newrect.width();
             else s = m_selectedItem->boundingRect().height() / newrect.height();
             m_selectedItem->scale( 1 / s, 1 / s );
-            kDebug()<<"/// SCALING SVG, RESIZE MODE: "<<resizeMode<<", RECT:"<<m_selectedItem->boundingRect();
+            //qDebug()<<"/// SCALING SVG, RESIZE MODE: "<<resizeMode<<", RECT:"<<m_selectedItem->boundingRect();
             }*/
             //gi->setPos(m_selectedItem->scenePos());
             /*if (resizeMode == NoResize) {
@@ -506,7 +506,7 @@ void GraphicsSceneRectMove::wheelEvent(QGraphicsSceneWheelEvent * wheelEvent)
 {
     if (wheelEvent->modifiers() == Qt::ControlModifier) {
         QList<QGraphicsView*> viewlist = views();
-        //kDebug() << wheelEvent->delta() << ' ' << zoom;
+        ////qDebug() << wheelEvent->delta() << ' ' << zoom;
         if (viewlist.size() > 0) {
             if (wheelEvent->delta() > 0) emit sceneZoom(true);
             else emit sceneZoom(false);
@@ -523,7 +523,7 @@ void GraphicsSceneRectMove::setScale(double s)
         viewlist[0]->scale(s, s);
         m_zoom = m_zoom * s;
     }
-    //kDebug()<<"//////////  ZOOM: "<<zoom;
+    ////qDebug()<<"//////////  ZOOM: "<<zoom;
 }
 
 void GraphicsSceneRectMove::setZoom(double s)
@@ -535,7 +535,7 @@ void GraphicsSceneRectMove::setZoom(double s)
         m_zoom = s;
     }
 
-    //kDebug()<<"//////////  ZOOM: "<<zoom;
+    ////qDebug()<<"//////////  ZOOM: "<<zoom;
 }
 
 void GraphicsSceneRectMove::setCursor(QCursor c)

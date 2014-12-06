@@ -24,7 +24,7 @@
 #include "kdenlivesettings.h"
 
 #include <QWheelEvent>
-#include <KDebug>
+#include <QDebug>
 #include <KGlobalSettings>
 
 MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget * parent)
@@ -133,7 +133,7 @@ void MarkerDialog::slotUpdateThumb()
     if (!p.isNull())
         clip_thumb->setPixmap(p);
     else
-        kDebug() << "!!!!!!!!!!!  ERROR CREATING THUMB";
+        //qDebug() << "!!!!!!!!!!!  ERROR CREATING THUMB";
 }
 
 QImage MarkerDialog::markerImage() const

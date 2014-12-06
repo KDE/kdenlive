@@ -26,7 +26,7 @@
 #include <QDomDocument>
 #include <QApplication>
 
-#include <KDebug>
+#include <QDebug>
 #include "kdenlivesettings.h"
 #include <kio/job.h>
 #include <KLocalizedString>
@@ -75,7 +75,7 @@ void ArchiveOrg::slotShowResults(KJob* job)
     KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
     QJson::Parser parser;
     bool ok;
-    //kDebug()<<"// GOT RESULT: "<<m_result;
+    ////qDebug()<<"// GOT RESULT: "<<m_result;
     QVariant data = parser.parse(storedQueryJob->data(), &ok);
     QVariant sounds;
     if (data.canConvert(QVariant::Map)) {

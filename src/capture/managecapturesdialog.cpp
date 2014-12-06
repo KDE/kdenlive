@@ -21,7 +21,7 @@
 #include "managecapturesdialog.h"
 #include "doc/kthumb.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KGlobalSettings>
 #include <KFileItem>
 #include <KIO/NetAccess>
@@ -107,7 +107,7 @@ void ManageCapturesDialog::slotDeleteCurrent()
     if (!item) return;
     const int i = m_view.treeWidget->indexOfTopLevelItem(item);
     m_view.treeWidget->takeTopLevelItem(i);
-    kDebug() << "DELETING FILE: " << item->text(0);
+    //qDebug() << "DELETING FILE: " << item->text(0);
     //KIO::NetAccess::del(QUrl(item->text(0)), this);
     QFile f(item->data(0, Qt::UserRole).toString());
     f.remove();

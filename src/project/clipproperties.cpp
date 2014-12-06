@@ -26,7 +26,7 @@
 #include "dialogs/profilesdialog.h"
 
 
-#include <KDebug>
+#include <QDebug>
 #include <KFileItem>
 #include <KFileDialog>
 #include <kdeversion.h>
@@ -1119,7 +1119,7 @@ QMap <QString, QString> ClipProperties::properties()
             if (new_path != m_old_props.value("resource")) {
                 m_clipNeedsReLoad = true;
                 props["resource"] = new_path;
-                kDebug() << "////  SLIDE EDIT, NEW:" << new_path << ", OLD; " << m_old_props.value("resource");
+                //qDebug() << "////  SLIDE EDIT, NEW:" << new_path << ", OLD; " << m_old_props.value("resource");
             }
         }
         int duration;

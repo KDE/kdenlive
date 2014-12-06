@@ -21,7 +21,7 @@
 
 #include "kdenlivesettings.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KGlobalSettings>
 
 #include <QHeaderView>
@@ -347,7 +347,7 @@ void KeyframeEdit::slotAdjustKeyframeInfo(bool seek)
         if (keyframe_list->item(item->row(), col)) {
             doubleparam->setValue(keyframe_list->item(item->row(), col)->text().toDouble());
         } else {
-            kDebug() << "Null pointer exception caught: http://www.kdenlive.org/mantis/view.php?id=1771";
+            //qDebug() << "Null pointer exception caught: http://www.kdenlive.org/mantis/view.php?id=1771";
         }
         doubleparam->blockSignals(false);
     }
@@ -444,7 +444,7 @@ void KeyframeEdit::slotUpdateVisibleParameter(int id, bool update)
         if (!doubleparam)
             continue;
         doubleparam->setInTimelineProperty(col == id);
-        //kDebug()<<"// PARAM: "<<col<<" Set TO: "<<(bool) (col == id);
+        ////qDebug()<<"// PARAM: "<<col<<" Set TO: "<<(bool) (col == id);
         
     }
     if (update) emit parameterChanged();

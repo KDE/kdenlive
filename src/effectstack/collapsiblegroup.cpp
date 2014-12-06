@@ -29,7 +29,7 @@
 #include <QMutexLocker>
 #include <QMimeData>
 
-#include <KDebug>
+#include <QDebug>
 #include <KGlobalSettings>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -341,7 +341,7 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
 	    for (int i = 0; i < m_subWidgets.count(); ++i) {
 		currentEffectIndexes << m_subWidgets.at(i)->effectIndex();
 	    }
-	    kDebug()<<"PASTING: "<<pastedEffectIndexes<<" TO "<<currentEffectIndexes;
+	    //qDebug()<<"PASTING: "<<pastedEffectIndexes<<" TO "<<currentEffectIndexes;
 	    if (pastedEffectIndexes.at(0) < currentEffectIndexes.at(0)) {
 		// Pasting group after current one:
 		emit moveEffect(pastedEffectIndexes, currentEffectIndexes.last(), pasteInfo.groupIndex, pasteInfo.groupName);

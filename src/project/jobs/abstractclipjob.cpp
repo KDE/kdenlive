@@ -22,7 +22,7 @@
 #include "kdenlivesettings.h"
 #include "doc/kdenlivedoc.h"
 
-#include <KDebug>
+#include <QDebug>
 
 
 AbstractClipJob::AbstractClipJob(JOBTYPE type, ClipType cType, const QString &id, const QStringList &) :

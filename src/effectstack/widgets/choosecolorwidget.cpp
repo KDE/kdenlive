@@ -26,7 +26,7 @@
 
 #include <KColorButton>
 #include <kdeversion.h>
-#include <KDebug>
+#include <QDebug>
 
 static QColor stringToColor(QString strColor)
 {

@@ -29,7 +29,7 @@
 #include <mlt++/Mlt.h>
 
 #include <kio/netaccess.h>
-#include <kdebug.h>
+#include <QDebug>
 #include <klocale.h>
 #include <kfileitem.h>
 #include <kmessagebox.h>
@@ -413,7 +413,7 @@ void KThumb::slotGetIntraThumbs()
             if (m_clipManager->pixmapCache->insertImage(key, img)) {
                 addedThumbs = true;
             }
-            else kDebug()<<"// INSERT FAILD FOR: "<<pos;
+            else //qDebug()<<"// INSERT FAILD FOR: "<<pos;
         }
         
     }

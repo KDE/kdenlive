@@ -31,7 +31,7 @@
 #include <QMenu>
 
 #include <KGlobal>
-#include <KDebug>
+#include <QDebug>
 #include <kdeversion.h>
 #include <KGlobalSettings>
 #include <KFileDialog>

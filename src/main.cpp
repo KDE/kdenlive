@@ -23,7 +23,7 @@
 
 
 #include <KAboutData>
-#include <KDebug>
+#include <QDebug>
 
 #include <QUrl> //new
 #include <QApplication>
@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
                 window = new MainWindow();
                 window->restore(n);
             } else {
-                kWarning() << "Unknown class " << className << " in session saved data!";
+                qWarning() << "Unknown class " << className << " in session saved data!";
             }
             ++n;
         }

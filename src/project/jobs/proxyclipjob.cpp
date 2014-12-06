@@ -24,7 +24,7 @@
 #include <QProcess>
 
 
-#include <KDebug>
+#include <QDebug>
 #include <KLocalizedString>
 
 ProxyJob::ProxyJob(ClipType cType, const QString &id, const QStringList& parameters)

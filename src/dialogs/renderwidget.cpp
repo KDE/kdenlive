@@ -25,7 +25,7 @@
 #include "dialogs/profilesdialog.h"
 
 
-#include <KDebug>
+#include <QDebug>
 #include <KMessageBox>
 #include <KRun>
 #include <KIO/NetAccess>
@@ -562,7 +562,7 @@ void RenderWidget::saveProfile(const QDomElement &newprofile)
     }
     int version = profiles.attribute("version", 0).toInt();
     if (version < 1) {
-        kDebug() << "// OLD profile version";
+        //qDebug() << "// OLD profile version";
         doc.clear();
         profiles = doc.createElement("profiles");
         profiles.setAttribute("version", 1);
@@ -729,7 +729,7 @@ void RenderWidget::slotEditProfile()
 
         int version = profiles.attribute("version", 0).toInt();
         if (version < 1) {
-            kDebug() << "// OLD profile version";
+            //qDebug() << "// OLD profile version";
             doc.clear();
             profiles = doc.createElement("profiles");
             profiles.setAttribute("version", 1);
@@ -840,7 +840,7 @@ void RenderWidget::slotDeleteProfile(bool refresh)
         destination = documentElement.attribute("destinationid");
 
         if (profileName == currentProfile && groupName == currentGroup && destination == metaGroupId) {
-            kDebug() << "// GOT it: " << profileName;
+            //qDebug() << "// GOT it: " << profileName;
             doc.documentElement().removeChild(profiles.item(i));
             break;
         }
@@ -1181,7 +1181,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
                 // rendering profile contains an MLT profile, so pass it to the running jog item, useful for dvd
                 QString prof = renderArgs.section("mlt_profile=", 1, 1);
                 prof = prof.section(' ', 0, 0);
-                kDebug() << "// render profile: " << prof;
+                //qDebug() << "// render profile: " << prof;
                 renderItem->setMetadata(prof);
             }
         }
@@ -1235,7 +1235,7 @@ void RenderWidget::startRendering(RenderJobItem *item)
 {
     if (item->type() == DirectRenderType) {
         // Normal render process
-        kDebug()<<"// Normal process";
+        //qDebug()<<"// Normal process";
         if (QProcess::startDetached(m_renderer, item->data(1, ParametersRole).toStringList()) == false) {
             item->setStatus(FAILEDJOB);
         } else {
@@ -1243,7 +1243,7 @@ void RenderWidget::startRendering(RenderJobItem *item)
         }
     } else if (item->type() == ScriptRenderType){
         // Script item
-        kDebug()<<"// SCRIPT process: "<<item->data(1, ParametersRole).toString();
+        //qDebug()<<"// SCRIPT process: "<<item->data(1, ParametersRole).toString();
         if (QProcess::startDetached('"' + item->data(1, ParametersRole).toString() + '"') == false) {
             item->setStatus(FAILEDJOB);
         }
@@ -1405,7 +1405,7 @@ void RenderWidget::refreshView(const QString &profile)
                     if (!format.isEmpty()) {
                         format = format.section(' ', 0, 0).toLower();
                         if (!formatsList.contains(format)) {
-                            kDebug() << "***** UNSUPPORTED F: " << format;
+                            //qDebug() << "***** UNSUPPORTED F: " << format;
                             //sizeItem->setHidden(true);
                             //sizeItem-item>setFlags(Qt::ItemIsSelectable);
                             dupItem->setToolTip(i18n("Unsupported video format: %1", format));
@@ -1421,7 +1421,7 @@ void RenderWidget::refreshView(const QString &profile)
                     if (!format.isEmpty()) {
                         format = format.section(' ', 0, 0).toLower();
                         if (!acodecsList.contains(format)) {
-                            kDebug() << "*****  UNSUPPORTED ACODEC: " << format;
+                            //qDebug() << "*****  UNSUPPORTED ACODEC: " << format;
                             //sizeItem->setHidden(true);
                             //sizeItem->setFlags(Qt::ItemIsSelectable);
                             dupItem->setToolTip(i18n("Unsupported audio codec: %1", format));
@@ -1438,7 +1438,7 @@ void RenderWidget::refreshView(const QString &profile)
                     if (!format.isEmpty()) {
                         format = format.section(' ', 0, 0).toLower();
                         if (!vcodecsList.contains(format)) {
-                            kDebug() << "*****  UNSUPPORTED VCODEC: " << format;
+                            //qDebug() << "*****  UNSUPPORTED VCODEC: " << format;
                             //sizeItem->setHidden(true);
                             //sizeItem->setFlags(Qt::ItemIsSelectable);
                             dupItem->setToolTip(i18n("Unsupported video codec: %1", format));
@@ -1636,8 +1636,8 @@ void RenderWidget::parseProfiles(const QString &meta, const QString &group, cons
 
 void RenderWidget::parseFile(const QString &exportFile, bool editable)
 {
-    kDebug() << "// Parsing file: " << exportFile;
-    kDebug() << "------------------------------";
+    //qDebug() << "// Parsing file: " << exportFile;
+    //qDebug() << "------------------------------";
     QDomDocument doc;
     QFile file(exportFile);
     doc.setContent(&file, false);
@@ -1656,7 +1656,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
     if (editable || groups.count() == 0) {
         QDomElement profiles = doc.documentElement();
         if (editable && profiles.attribute("version", 0).toInt() < 1) {
-            kDebug() << "// OLD profile version";
+            //qDebug() << "// OLD profile version";
             // this is an old profile version, update it
             QDomDocument newdoc;
             QDomElement newprofiles = newdoc.createElement("profiles");
@@ -1690,7 +1690,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
 
         QDomNode node = doc.elementsByTagName("profile").at(0);
         if (node.isNull()) {
-            kDebug() << "// Export file: " << exportFile << " IS BROKEN";
+            //qDebug() << "// Export file: " << exportFile << " IS BROKEN";
             return;
         }
         int count = 1;
@@ -1740,7 +1740,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             }
 
             item = new QListWidgetItem(profileName); // , m_view.size_list
-            //kDebug() << "// ADDINg item with name: " << profileName << ", GRP" << category << ", DEST:" << dest ;
+            ////qDebug() << "// ADDINg item with name: " << profileName << ", GRP" << category << ", DEST:" << dest ;
             item->setData(GroupRole, category);
             item->setData(MetaGroupRole, dest);
             item->setData(ExtensionRole, extension);
@@ -2016,12 +2016,12 @@ void RenderWidget::parseScriptFiles()
         QString renderer;
         QString melt;
         QFile file(scriptpath.path());
-        kDebug()<<"------------------\n"<<scriptpath.path();
+        //qDebug()<<"------------------\n"<<scriptpath.path();
         if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             QTextStream stream(&file);
             while (!stream.atEnd()) {
                 QString line = stream.readLine();
-                //kDebug()<<"# :"<<line;
+                ////qDebug()<<"# :"<<line;
                 if (line.startsWith(QLatin1String("TARGET="))) {
                     target = line.section("TARGET=\"", 1);
                     target = target.section('"', 0, 0);
@@ -2036,7 +2036,7 @@ void RenderWidget::parseScriptFiles()
             file.close();
         }
         if (target.isEmpty()) continue;
-        //kDebug()<<"ScRIPT RENDERER: "<<renderer<<"\n++++++++++++++++++++++++++";
+        ////qDebug()<<"ScRIPT RENDERER: "<<renderer<<"\n++++++++++++++++++++++++++";
         item = new QTreeWidgetItem(m_view.scripts_list, QStringList() << QString() << scriptpath.fileName());
         if (!renderer.isEmpty() && renderer.contains('/') && !QFile::exists(renderer)) {
             item->setIcon(0, QIcon::fromTheme("dialog-cancel"));
@@ -2077,13 +2077,13 @@ void RenderWidget::slotStartScript()
 {
     RenderJobItem* item = static_cast<RenderJobItem*> (m_view.scripts_list->currentItem());
     if (item) {
-        kDebug() << "// STARTING SCRIPT: "<<item->text(1);
+        //qDebug() << "// STARTING SCRIPT: "<<item->text(1);
         QString destination = item->data(1, Qt::UserRole).toString();
         QString path = item->data(1, Qt::UserRole + 1).toString();
         // Insert new job in queue
         RenderJobItem *renderItem = NULL;
         QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(destination, Qt::MatchExactly, 1);
-        kDebug() << "------  START SCRIPT";
+        //qDebug() << "------  START SCRIPT";
         if (!existing.isEmpty()) {
             renderItem = static_cast<RenderJobItem*> (existing.at(0));
             if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB) {
@@ -2183,7 +2183,7 @@ bool RenderWidget::startWaitingRenderJobs()
     QString autoscriptFile = getFreeScriptName(QUrl(), "auto");
     QFile file(autoscriptFile);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        kWarning() << "//////  ERROR writing to file: " << autoscriptFile;
+        qWarning() << "//////  ERROR writing to file: " << autoscriptFile;
         KMessageBox::error(0, i18n("Cannot write to file %1", autoscriptFile));
         return false;
     }

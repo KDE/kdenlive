@@ -25,7 +25,7 @@
 
 #include "kdenlivesettings.h"
 
-#include <KDebug>
+#include <QDebug>
 
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
@@ -197,7 +197,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         int xpos = projectScene()->getSnapPointForPos((int)(start.x() + newPos.x() - pos().x()), KdenliveSettings::snaptopoints());
 
         xpos = qMax(xpos, 0);
-        //kDebug()<<"GRP XPOS:"<<xpos<<", START:"<<start.x()<<",NEW:"<<newPos.x()<<"; SCENE:"<<scenePos().x()<<",POS:"<<pos().x();
+        ////qDebug()<<"GRP XPOS:"<<xpos<<", START:"<<start.x()<<",NEW:"<<newPos.x()<<"; SCENE:"<<scenePos().x()<<",POS:"<<pos().x();
         newPos.setX((int)(pos().x() + xpos - (int) start.x()));
         QStringList lockedTracks = property("locked_tracks").toStringList();
         int proposedTrack = (property("y_absolute").toInt() + newPos.y()) / trackHeight;

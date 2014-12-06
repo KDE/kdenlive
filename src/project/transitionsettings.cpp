@@ -29,7 +29,7 @@
 #include "project/projectmanager.h"
 #include "doc/kdenlivedoc.h"
 
-#include <KDebug>
+#include <QDebug>
 
 TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     QWidget(parent),
@@ -94,7 +94,7 @@ void TransitionSettings::updateTrackList()
     int limit = 1;
     if (m_usedTransition)
         limit = m_usedTransition->track() + 1;
-    //kDebug() << "/ / TRANS TRK: " << limit;
+    ////qDebug() << "/ / TRANS TRK: " << limit;
     QIcon videoIcon = QIcon::fromTheme("kdenlive-show-video");
     QIcon audioIcon = QIcon::fromTheme("kdenlive-show-audio");
     for (int i = limit; i < m_tracks.count(); ++i) {

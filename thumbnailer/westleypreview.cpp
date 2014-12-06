@@ -26,7 +26,7 @@
 
 #include <kstandarddirs.h>
 #include <krandomsequence.h>
-#include <kdebug.h>
+#include <QDebug>
 #include <ktempdir.h>
 #include <kurl.h>
 

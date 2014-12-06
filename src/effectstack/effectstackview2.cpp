@@ -29,7 +29,7 @@
 #include "monitor/monitoreditwidget.h"
 #include "monitor/monitorscene.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KLocalizedString>
 #include <KColorScheme>
 #include <KGlobalSettings>
@@ -185,7 +185,7 @@ void EffectStackView2::setupListView()
     for (int i = 0; i < effectsCount; ++i) {
         QDomElement d = m_currentEffectList.at(i).cloneNode().toElement();
         if (d.isNull()) {
-            kDebug() << " . . . . WARNING, NULL EFFECT IN STACK!!!!!!!!!";
+            //qDebug() << " . . . . WARNING, NULL EFFECT IN STACK!!!!!!!!!";
             continue;
         }
 
@@ -213,7 +213,7 @@ void EffectStackView2::setupListView()
 
         /*QDomDocument doc;
         doc.appendChild(doc.importNode(d, true));
-        kDebug() << "IMPORTED STK: " << doc.toString();*/
+        //qDebug() << "IMPORTED STK: " << doc.toString();*/
 
         ItemInfo info;
         bool isSelected = false;
@@ -906,7 +906,7 @@ void EffectStackView2::processDroppedEffect(QDomElement e, QDropEvent *event)
         EffectInfo info;
         info.fromString(effects.at(0).toElement().attribute("kdenlive_info"));
         if (info.groupIndex < 0) {
-            kDebug()<<"// ADDING EFFECT!!!";
+            //qDebug()<<"// ADDING EFFECT!!!";
             // Adding a new group effect to the stack
             event->setDropAction(Qt::CopyAction);
             event->accept();
@@ -919,7 +919,7 @@ void EffectStackView2::processDroppedEffect(QDomElement e, QDropEvent *event)
             QDomElement effect = effects.at(i).cloneNode().toElement();
             indexes << effect.attribute("kdenlive_ix").toInt();
         }
-        kDebug()<<"// Moving: "<<indexes<<" TO "<<m_currentEffectList.count();
+        //qDebug()<<"// Moving: "<<indexes<<" TO "<<m_currentEffectList.count();
         slotMoveEffect(indexes, m_currentEffectList.count(), info.groupIndex, info.groupName);
     }
     else if (ix == 0) {

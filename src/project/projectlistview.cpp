@@ -35,7 +35,7 @@
 #include <QMimeData>
 
 // KDE
-#include <KDebug>
+#include <QDebug>
 #include <QMenu>
 #include <KLocalizedString>
 
@@ -298,7 +298,7 @@ void ProjectListView::dropEvent(QDropEvent *event)
                 if (it->type() != ProjectClipType) continue;
                 QTreeWidgetItem *parent = it->parent();
                 if (parent/* && ((ProjectItem *) it)->clipId() < 10000*/)  {
-                    kDebug() << "++ item parent: " << parent->text(1);
+                    //qDebug() << "++ item parent: " << parent->text(1);
                     clone = static_cast <ProjectItem*>(parent->takeChild(parent->indexOfChild(it)));
                     if (clone) {
                         addTopLevelItem(clone);
@@ -353,7 +353,7 @@ void ProjectListView::mouseReleaseEvent(QMouseEvent *event)
 // virtual
 void ProjectListView::mouseMoveEvent(QMouseEvent *event)
 {
-    //kDebug() << "// DRAG STARTED, MOUSE MOVED: ";
+    ////qDebug() << "// DRAG STARTED, MOUSE MOVED: ";
     if (!m_dragStarted) return;
 
     if ((event->pos() - m_DragStartPosition).manhattanLength()

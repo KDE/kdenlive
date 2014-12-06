@@ -27,7 +27,7 @@
 #include <QPainter>
 
 #include <QIcon>
-#include <KDebug>
+#include <QDebug>
 
 #include "ui_wizardstandard_ui.h"
 #include "ui_wizardextra_ui.h"

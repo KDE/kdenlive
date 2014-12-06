@@ -43,6 +43,7 @@
 #include <QXmlStreamWriter>
 #include <QTimer>
 #include <QStandardPaths>
+#include <QDebug>
 
 // Recommended MLT version
 const int mltVersionMajor = MLT_MIN_MAJOR_VERSION;
@@ -568,19 +569,19 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
     }
     if (missingGlobs.isEmpty()) return;
     if (!mime) {
-        kDebug() << "KMimeTypeTrader: mimeType " << baseName << " not found";
+        //qDebug() << "KMimeTypeTrader: mimeType " << baseName << " not found";
     } else {
         QStringList extensions = mime->patterns();
         QString comment = mime->comment();
         foreach(const QString & glob, missingGlobs) {
             if (!extensions.contains(glob)) extensions << glob;
         }
-        kDebug() << "EXTS: " << extensions;
+        //qDebug() << "EXTS: " << extensions;
         QString packageFileName = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/mime/") + "packages/" + mimefile + ".xml";
-        kDebug() << "INSTALLING NEW MIME TO: " << packageFileName;
+        //qDebug() << "INSTALLING NEW MIME TO: " << packageFileName;
         QFile packageFile(packageFileName);
         if (!packageFile.open(QIODevice::WriteOnly)) {
-            kError() << "Couldn't open" << packageFileName << "for writing";
+            qCritical() << "Couldn't open" << packageFileName << "for writing";
             return;
         }
         QXmlStreamWriter writer(&packageFile);
@@ -620,7 +621,7 @@ void Wizard::runUpdateMimeDatabase()
     proc << localPackageDir;
     const int exitCode = proc.execute();
     if (exitCode) {
-        kWarning() << proc.program() << "exited with error code" << exitCode;
+        qWarning() << proc.program() << "exited with error code" << exitCode;
     }
 }
 
@@ -711,7 +712,7 @@ void Wizard::adjustSettings()
     }
     QString path = m_extra.projectfolder->url().path();
     if (KStandardDirs::makeDir(path) == false) {
-        kDebug() << "/// ERROR CREATING PROJECT FOLDER: " << path;
+        //qDebug() << "/// ERROR CREATING PROJECT FOLDER: " << path;
     } else KdenliveSettings::setDefaultprojectfolder(path);
 
 }

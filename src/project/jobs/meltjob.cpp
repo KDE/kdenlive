@@ -22,7 +22,7 @@
 #include "kdenlivesettings.h"
 #include "doc/kdenlivedoc.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <QUrl>
 #include <KLocalizedString>
 
@@ -149,7 +149,7 @@ void MeltJob::startJob()
     list = consumerParams.split(QLatin1Char(' '), QString::SkipEmptyParts);
     foreach(const QString &data, list) {
         if (data.contains(QLatin1Char('='))) {
-            kDebug()<<"// filter con: "<<data;
+            //qDebug()<<"// filter con: "<<data;
             m_consumer->set(data.section(QLatin1Char('='), 0, 0).toUtf8().constData(), data.section(QLatin1Char('='), 1, 1).toUtf8().constData());
         }
     }
@@ -163,7 +163,7 @@ void MeltJob::startJob()
     list = filterParams.split(QLatin1Char(' '), QString::SkipEmptyParts);
     foreach(const QString &data, list) {
         if (data.contains(QLatin1Char('='))) {
-            kDebug()<<"// filter p: "<<data;
+            //qDebug()<<"// filter p: "<<data;
             m_filter->set(data.section(QLatin1Char('='), 0, 0).toUtf8().constData(), data.section(QLatin1Char('='), 1, 1).toUtf8().constData());
         }
     }

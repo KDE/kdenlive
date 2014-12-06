@@ -18,7 +18,7 @@
 
 #include "effectslist.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KLocalizedString>
 
 

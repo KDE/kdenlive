@@ -23,7 +23,7 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <kglobal.h>
 
 #include <QFile>
@@ -41,19 +41,19 @@ void initEffectsThumbnailer::prepareThumbnailsCall(const QStringList& list)
 {
     m_list = list;
     start();
-    kDebug() << "done";
+    //qDebug() << "done";
 }
 
 void initEffectsThumbnailer::run()
 {
     foreach(const QString & entry, m_list) {
-        kDebug() << entry;
+        //qDebug() << entry;
         if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
             if (!MainWindow::m_lumacache.contains(entry)) {
                 QImage pix(entry);
                 //if (!pix.isNull())
 		MainWindow::m_lumacache.insert(entry, pix.scaled(30, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-                kDebug() << "stored";
+                //qDebug() << "stored";
             }
         }
     }
@@ -139,7 +139,7 @@ void initEffects::parseEffectFiles(const QString &locale)
 
     Mlt::Repository *repository = Mlt::Factory::init();
     if (!repository) {
-        kDebug() << "Repository didn't finish initialisation" ;
+        //qDebug() << "Repository didn't finish initialisation" ;
         return;
     }
 
@@ -341,7 +341,7 @@ void initEffects::parseCustomEffectsFile()
         } else if (base.tagName() == "effect") {
             effectsMap.insert(base.firstChildElement("name").text().toLower().toUtf8().data(), base);
         }
-        else kDebug() << "Unsupported effect file: " << itemName;
+        else //qDebug() << "Unsupported effect file: " << itemName;
     }
     foreach(const QDomElement & effect, effectsMap)
         MainWindow::customEffects.append(effect);
@@ -360,7 +360,7 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
     effects = doc.elementsByTagName("effect");
 
     if (effects.count() == 0) {
-        kDebug() << "Effect broken: " << name;
+        //qDebug() << "Effect broken: " << name;
         return;
     }
 
@@ -444,14 +444,14 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
 
     QDomDocument ret;
     Mlt::Properties *metadata = repository->metadata(filter_type, filtername.toAscii().data());
-    //kDebug() << filtername;
+    ////qDebug() << filtername;
     if (metadata && metadata->is_valid()) {
         if (metadata->get("title") && metadata->get("identifier")) {
             QDomElement eff = ret.createElement("effect");
             QString id = metadata->get("identifier");
             eff.setAttribute("tag", id);
             eff.setAttribute("id", id);
-            //kDebug()<<"Effect: "<<id;
+            ////qDebug()<<"Effect: "<<id;
 
             QDomElement name = ret.createElement("name");
             name.appendChild(ret.createTextNode(metadata->get("title")));
@@ -473,7 +473,7 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
             Mlt::Properties tags((mlt_properties) metadata->get_data("tags"));
             if (QString(tags.get(0)) == "Audio") eff.setAttribute("type", "audio");
             /*for (int i = 0; i < tags.count(); ++i)
-                kDebug()<<tags.get_name(i)<<"="<<tags.get(i);*/
+                //qDebug()<<tags.get_name(i)<<"="<<tags.get(i);*/
 
             Mlt::Properties param_props((mlt_properties) metadata->get_data("parameters"));
             for (int j = 0; param_props.is_valid() && j < param_props.count(); ++j) {
@@ -538,7 +538,7 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
     /*QString outstr;
      QTextStream str(&outstr);
      ret.save(str, 2);
-     kDebug() << outstr;*/
+     //qDebug() << outstr;*/
     return ret;
 }
 
@@ -719,7 +719,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
         metadata = 0;
         // Add the transition to the global list.
         transitions->append(ret.documentElement());
-        //kDebug() << ret.toString();
+        ////qDebug() << ret.toString();
     }
 
     // Add some virtual transitions.

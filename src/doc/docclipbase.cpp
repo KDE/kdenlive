@@ -31,7 +31,7 @@
 
 #include <KIO/NetAccess>
 #include <KApplication>
-#include <KDebug>
+#include <QDebug>
 
 #include <QCryptographicHash>
 
@@ -277,7 +277,7 @@ QDomElement DocClipBase::toXML(bool hideTemporaryProperties) const
         }
     }
     clip.setAttribute("analysisdata", adata);
-    //kDebug() << "/// CLIP XML: " << doc.toString();
+    ////qDebug() << "/// CLIP XML: " << doc.toString();
     return doc.documentElement();
 }
 
@@ -335,7 +335,7 @@ const QString DocClipBase::shortInfo() const
 
 void DocClipBase::updateAudioThumbnail(const audioByteArray& data)
 {
-    //kDebug() << "CLIPBASE RECIEDVED AUDIO DATA*********************************************";
+    ////qDebug() << "CLIPBASE RECIEDVED AUDIO DATA*********************************************";
     audioFrameCache = data;
     m_audioThumbCreated = true;
     emit gotAudioData();
@@ -368,7 +368,7 @@ void DocClipBase::addSnapMarker(const CommentedTime &marker)
     if ((it != m_snapMarkers.end()) && ((*it).time() == marker.time())) {
         (*it).setComment(marker.comment());
         (*it).setMarkerType(marker.markerType());
-        //kError() << "trying to add Snap Marker that already exists, this will cause inconsistancies with undo/redo";
+        //qCritical() << "trying to add Snap Marker that already exists, this will cause inconsistancies with undo/redo";
     } else {
         m_snapMarkers.insert(it, marker);
     }
@@ -384,7 +384,7 @@ void DocClipBase::editSnapMarker(const GenTime & time, const QString &comment)
     if (it != m_snapMarkers.end()) {
         (*it).setComment(comment);
     } else {
-        kError() << "trying to edit Snap Marker that does not already exists";
+        qCritical() << "trying to edit Snap Marker that does not already exists";
     }
 }
 
@@ -495,12 +495,12 @@ void DocClipBase::cleanupProducers()
 {
     /*
     int ct = 0;
-    kDebug()<<"----------------------------------------------------------------------------------";
+    //qDebug()<<"----------------------------------------------------------------------------------";
     for (int i = 0; i < m_toDeleteProducers.count(); ++i) {
         if (m_toDeleteProducers.at(i) != NULL) {
             Mlt::Properties props(m_toDeleteProducers.at(i)->get_properties());
             if (props.ref_count() > 2) {
-                kDebug()<<"PRODUCER: "<<i<<", COUNTS: "<<props.ref_count();
+                //qDebug()<<"PRODUCER: "<<i<<", COUNTS: "<<props.ref_count();
                 //exit(1);
             }
             ct++;
@@ -906,7 +906,7 @@ void DocClipBase::slotRefreshProducer()
         }
         if (getProperty("fade") == "1") {
             // we want a fade filter effect
-            kDebug() << "////////////   FADE WANTED";
+            //qDebug() << "////////////   FADE WANTED";
             Mlt::Service clipService(m_baseTrackProducers.at(0)->get_service());
             int ct = 0;
             Mlt::Filter *filter = clipService.filter(ct);
@@ -939,7 +939,7 @@ void DocClipBase::slotRefreshProducer()
                 clipService.attach(*filter);
             }
         } else {
-            kDebug() << "////////////   FADE NOT WANTED!!!";
+            //qDebug() << "////////////   FADE NOT WANTED!!!";
             Mlt::Service clipService(m_baseTrackProducers.at(0)->get_service());
             int ct = 0;
             Mlt::Filter *filter = clipService.filter(0);
@@ -1041,7 +1041,7 @@ void DocClipBase::getFileHash(const QString &url)
     if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
         QByteArray fileData;
         QByteArray fileHash;
-        //kDebug() << "SETTING HASH of" << value;
+        ////qDebug() << "SETTING HASH of" << value;
         m_properties.insert("file_size", QString::number(file.size()));
         /*
                * 1 MB = 1 second per 450 files (or faster)

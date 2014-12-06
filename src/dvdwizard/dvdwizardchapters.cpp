@@ -19,7 +19,7 @@
 
 #include "dvdwizardchapters.h"
 
-#include <KDebug>
+#include <QDebug>
 
 
 DvdWizardChapters::DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, QWidget *parent) :

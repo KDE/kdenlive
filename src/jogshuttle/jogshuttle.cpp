@@ -21,7 +21,7 @@
 
 #include "jogshuttle.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <kde_file.h>
 
 #include <QApplication>
@@ -63,7 +63,7 @@ void ShuttleThread::stop()
 
 void ShuttleThread::run()
 {
-	kDebug() << "-------  STARTING SHUTTLE: " << m_device;
+	//qDebug() << "-------  STARTING SHUTTLE: " << m_device;
 	media_ctrl mc;
 
     // open device
@@ -71,7 +71,7 @@ void ShuttleThread::run()
 
     // on failure return
     if (mc.fd < 0) {
-        kDebug() << "Can't open Jog Shuttle FILE DESCRIPTOR";
+        //qDebug() << "Can't open Jog Shuttle FILE DESCRIPTOR";
         return;
     }
 
@@ -96,13 +96,13 @@ void ShuttleThread::run()
 		// see if there was an error or timeout else process event
 		if (result < 0 && errno == EINTR) {
 			// EINTR event catched. This is not a problem - continue processing
-			kDebug() << strerror(errno) << '\n';
+			//qDebug() << strerror(errno) << '\n';
 			// continue processing
 			continue;
 		} else if (result < 0) {
 			// stop thread
 		    m_isRunning = false;
-			kDebug() << strerror(errno) << '\n';
+			//qDebug() << strerror(errno) << '\n';
 		} else if (result > 0) {
 			// we have input
 			if (FD_ISSET(mc.fd, &readset)) {
@@ -118,7 +118,7 @@ void ShuttleThread::run()
 		}
 	}
 
-    kDebug() << "-------  STOPPING SHUTTLE: ";
+    //qDebug() << "-------  STOPPING SHUTTLE: ";
 	// close the handle and return thread
     media_ctrl_close(&mc);
 }
@@ -146,7 +146,7 @@ void ShuttleThread::shuttle(const media_ctrl_event& ev)
     int value = ev.value / 2;
 
     if (value > MaxShuttleRange || value < -MaxShuttleRange) {
-        kDebug() << "Jog shuttle value is out of range: " << MaxShuttleRange;
+        //qDebug() << "Jog shuttle value is out of range: " << MaxShuttleRange;
         return;
     }
 
@@ -196,7 +196,7 @@ void JogShuttle::stopDevice()
         // if still running - do it in the hardcore way
         if (m_shuttleProcess.isRunning()) {
         	m_shuttleProcess.terminate();
-            kDebug() << "/// terminate jogshuttle process";
+            //qDebug() << "/// terminate jogshuttle process";
         }
     }
 }
@@ -241,14 +241,14 @@ DeviceMap JogShuttle::enumerateDevices(const QString& devPath)
     foreach (const QString &fileName, fileList) {
         QString devFullPath = devDir.absoluteFilePath(fileName);
         QString fileLink = JogShuttle::canonicalDevice(devFullPath);
-        kDebug() << QString(" [%1] ").arg(fileName);
-        kDebug() << QString(" [%1] ").arg(fileLink);
+        //qDebug() << QString(" [%1] ").arg(fileName);
+        //qDebug() << QString(" [%1] ").arg(fileLink);
 
         media_ctrl mc;
         media_ctrl_open_dev(&mc, (char*)fileLink.toUtf8().data());
         if (mc.fd > 0 && mc.device) {
             devs.insert(QString(mc.device->name), devFullPath);
-            kDebug() <<  QString(" [keys-count=%1] ").arg(
+            //qDebug() <<  QString(" [keys-count=%1] ").arg(
                     media_ctrl_get_keys_count(&mc));
         }
         media_ctrl_close(&mc);

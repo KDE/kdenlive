@@ -23,7 +23,7 @@
 
 #include "kdenlivesettings.h"
 
-#include <KDebug>
+#include <QDebug>
 
 #include <QDesktopWidget>
 #include <QVBoxLayout>

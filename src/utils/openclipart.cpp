@@ -24,7 +24,7 @@
 #include <QListWidget>
 #include <QDomDocument>
 
-#include <KDebug>
+#include <QDebug>
 #include <kio/job.h>
 #include <KIO/NetAccess>
 

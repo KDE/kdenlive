@@ -24,7 +24,7 @@
 #include "kdenlivesettings.h"
 #include "doc/docclipbase.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KLocalizedString>
 #include <QIcon>
 
@@ -294,7 +294,7 @@ bool ProjectItem::isProxyRunning() const
 
 bool ProjectItem::playlistHasProxies(const QString& path)
 {
-    kDebug()<<"// CHECKING FOR PROXIES";
+    //qDebug()<<"// CHECKING FOR PROXIES";
     QFile file(path);
     QDomDocument doc;
     if (!file.open(QIODevice::ReadOnly))

@@ -28,7 +28,7 @@
 #include <KGuiItem>
 #include <KIO/NetAccess>
 #include <KTar>
-#include <KDebug>
+#include <QDebug>
 #include <KApplication>
 #include <kio/directorysizejob.h>
 #if KDE_IS_VERSION(4,7,0)
@@ -788,7 +788,7 @@ bool ArchiveWidget::processProjectFile()
     QString path = archive_url->url().path() + QDir::separator() + m_name + ".kdenlive";
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        kWarning() << "//////  ERROR writing to file: " << path;
+        qWarning() << "//////  ERROR writing to file: " << path;
         KMessageBox::error(this, i18n("Cannot write to file %1", path));
         return false;
     }
@@ -923,7 +923,7 @@ void ArchiveWidget::slotExtractingFinished()
         else {
             playList.replace("$CURRENTPATH", archive_url->url().adjusted(QUrl::StripTrailingSlash).path());
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                kWarning() << "//////  ERROR writing to file: ";
+                qWarning() << "//////  ERROR writing to file: ";
                 error = true;
             }
             else {

@@ -20,7 +20,7 @@
 #include "kdenlivesettings.h"
 #include "timecode.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <QTemporaryFile>
 #include <kio/netaccess.h>
 #include <KApplication>
@@ -301,7 +301,7 @@ bool TitleDocument::saveDocument(const QUrl &url, QGraphicsRectItem* startv, QGr
     doc.documentElement().setAttribute("out", duration);
     QTemporaryFile tmpfile;
     if (!tmpfile.open()) {
-        kWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
+        qWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
         return false;
     }
     QFile xmlf(tmpfile.fileName());
@@ -354,7 +354,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
         QDomNodeList items = titles.item(0).childNodes();
         for (int i = 0; i < items.count(); ++i) {
             QGraphicsItem *gitem = NULL;
-            kDebug() << items.item(i).attributes().namedItem("type").nodeValue();
+            //qDebug() << items.item(i).attributes().namedItem("type").nodeValue();
             int zValue = items.item(i).attributes().namedItem("z-index").nodeValue().toInt();
             if (zValue > -1000) {
                 if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsTextItem") {
@@ -506,7 +506,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
             }
 
             if (items.item(i).nodeName() == "background") {
-                kDebug() << items.item(i).attributes().namedItem("color").nodeValue();
+                //qDebug() << items.item(i).attributes().namedItem("color").nodeValue();
                 QColor color = QColor(stringToColor(items.item(i).attributes().namedItem("color").nodeValue()));
                 //color.setAlpha(items.item(i).attributes().namedItem("alpha").nodeValue().toInt());
                 QList<QGraphicsItem *> items = m_scene->items();

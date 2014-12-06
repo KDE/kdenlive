@@ -21,7 +21,7 @@
 #include "cliptranscode.h"
 #include "kdenlivesettings.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KGlobalSettings>
 #include <KMessageBox>
 #include <KFileDialog>

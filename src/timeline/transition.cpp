@@ -22,7 +22,7 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 
-#include <kdebug.h>
+#include <QDebug>
 #include <klocale.h>
 #include <KGlobalSettings>
 
@@ -285,7 +285,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
 
         m_info.track = newTrack;
         m_info.startPos = GenTime((int) newPos.x(), m_fps);
-        //kDebug()<<"// ITEM NEW POS: "<<newPos.x()<<", mapped: "<<mapToScene(newPos.x(), 0).x();
+        ////qDebug()<<"// ITEM NEW POS: "<<newPos.x()<<", mapped: "<<mapToScene(newPos.x(), 0).x();
         return newPos;
     }
     return QGraphicsItem::itemChange(change, value);

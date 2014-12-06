@@ -44,7 +44,7 @@
 #include "ui_cutjobdialog_ui.h"
 #include "ui_scenecutdialog_ui.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KLocalizedString>
 #include <KFileDialog>
 #include <KMessageBox>
@@ -303,7 +303,7 @@ ProjectList::ProjectList(QWidget *parent) :
     if (KdenliveSettings::activate_nepomuk()) {
         Nepomuk::ResourceManager::instance()->init();
         if (!Nepomuk::ResourceManager::instance()->initialized()) {
-            kDebug() << "Cannot communicate with Nepomuk, DISABLING it";
+            //qDebug() << "Cannot communicate with Nepomuk, DISABLING it";
             KdenliveSettings::setActivate_nepomuk(false);
         }
     }
@@ -312,7 +312,7 @@ ProjectList::ProjectList(QWidget *parent) :
     if (KdenliveSettings::activate_nepomuk()) {
         Nepomuk2::ResourceManager::instance()->init();
         if (!Nepomuk2::ResourceManager::instance()->initialized()) {
-            kDebug() << "Cannot communicate with Nepomuk, DISABLING it";
+            //qDebug() << "Cannot communicate with Nepomuk, DISABLING it";
             KdenliveSettings::setActivate_nepomuk(false);
         }
     }
@@ -391,7 +391,7 @@ void ProjectList::setupMenu(QMenu *addMenu, QAction *defaultAction)
 void ProjectList::setupGeneratorMenu(const QHash<QString,QMenu*>& menus)
 {
     if (!m_menu) {
-        kDebug()<<"Warning, menu was not created, something is wrong";
+        //qDebug()<<"Warning, menu was not created, something is wrong";
         return;
     }
     if (!menus.contains("addMenu") && ! menus.value("addMenu") )
@@ -574,7 +574,7 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
     /*QMapIterator<QString, QString> p(commonproperties);
     while (p.hasNext()) {
         p.next();
-        kDebug() << "Result: " << p.key() << " = " << p.value();
+        //qDebug() << "Result: " << p.key() << " = " << p.value();
     }*/
     if (clipList.isEmpty()) {
         emit displayMessage(i18n("No available clip selected"), -2, ErrorMessage);
@@ -690,7 +690,7 @@ void ProjectList::slotReloadClip(const QString &id)
         if (item && !hasPendingJob(item, PROXYJOB)) {
             DocClipBase *clip = item->referencedClip();
             if (!clip || !clip->isClean() || m_render->isProcessing(item->clipId())) {
-                kDebug()<<"//// TRYING TO RELOAD: "<<item->clipId()<<", but it is busy";
+                //qDebug()<<"//// TRYING TO RELOAD: "<<item->clipId()<<", but it is busy";
                 continue;
             }
             ClipType t = item->clipType();
@@ -743,7 +743,7 @@ void ProjectList::slotMissingClip(const QString &id)
         item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
         int height = m_listView->iconSize().height();
         if (m_render == NULL) {
-            kDebug() << "*********  ERROR, NULL RENDR";
+            //qDebug() << "*********  ERROR, NULL RENDR";
             return;
         }
         int width = (int)(height  * m_render->dar());
@@ -833,7 +833,7 @@ void ProjectList::slotClipSelected()
             m_deleteButton->defaultAction()->setEnabled(true);
             clip = static_cast <ProjectItem*>(item->parent());
             if (clip == NULL) {
-                kDebug() << "-----------ERROR";
+                //qDebug() << "-----------ERROR";
                 return;
             }
             SubProjectItem *sub = static_cast <SubProjectItem*>(item);
@@ -848,7 +848,7 @@ void ProjectList::slotClipSelected()
         } else {
             clip = static_cast <ProjectItem*>(item);
             if (clip == NULL) {
-                kDebug() << "-----------ERROR";
+                //qDebug() << "-----------ERROR";
                 return;
             }
             if (clip->referencedClip())
@@ -1077,7 +1077,7 @@ void ProjectList::slotCheckScrolling()
 void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item)
 {
     if (!m_menu) {
-        kDebug()<<"Warning, menu was not created, something is wrong";
+        //qDebug()<<"Warning, menu was not created, something is wrong";
         return;
     }
     bool enable = item ? true : false;
@@ -1211,7 +1211,7 @@ void ProjectList::slotDeleteClip(const QString &clipId)
 {
     ProjectItem *item = getItemById(clipId);
     if (!item) {
-        kDebug() << "/// Cannot find clip to delete";
+        //qDebug() << "/// Cannot find clip to delete";
         return;
     }
     deleteJobsForClip(clipId);
@@ -1314,7 +1314,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         FolderProjectItem *parentitem = getFolderItemById(parent);
         if (!parentitem) {
             QStringList text;
-            //kDebug() << "Adding clip to new group: " << groupName;
+            ////qDebug() << "Adding clip to new group: " << groupName;
             if (groupName.isEmpty()) groupName = i18n("Folder");
             text << groupName;
             parentitem = new FolderProjectItem(m_listView, text, parent);
@@ -1416,7 +1416,7 @@ void ProjectList::slotGotProxy(ProjectItem *item)
     DocClipBase *clip = item->referencedClip();
     if (!clip || !clip->isClean() || m_render->isProcessing(item->clipId())) {
         // Clip is being reprocessed, abort
-        kDebug()<<"//// TRYING TO PROXY: "<<item->clipId()<<", but it is busy";
+        //qDebug()<<"//// TRYING TO PROXY: "<<item->clipId()<<", but it is busy";
         return;
     }
     
@@ -1691,7 +1691,7 @@ QStringList ProjectList::getExtensions()
 
 void ProjectList::slotAddClip(const QString &url, const QString &groupName, const QString &groupId)
 {
-    kDebug()<<"// Adding clip: "<<url;
+    //qDebug()<<"// Adding clip: "<<url;
     QList <QUrl> list;
     list.append(url);
     slotAddClip(list, groupName, groupId);
@@ -1700,7 +1700,7 @@ void ProjectList::slotAddClip(const QString &url, const QString &groupName, cons
 void ProjectList::slotAddClip(const QList <QUrl> &givenList, const QString &groupName, const QString &groupId)
 {
     if (!m_commandStack)
-        kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
+        //qDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
 
     QList <QUrl> list;
     if (givenList.isEmpty()) {
@@ -1862,10 +1862,10 @@ void ProjectList::slotRemoveInvalidProxy(const QString &id, bool durationError)
 {
     ProjectItem *item = getItemById(id);
     if (item) {
-        kDebug()<<"// Proxy for clip "<<id<<" is invalid, delete";
+        //qDebug()<<"// Proxy for clip "<<id<<" is invalid, delete";
         item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
         if (durationError) {
-            kDebug() << "Proxy duration is wrong, try changing transcoding parameters.";
+            //qDebug() << "Proxy duration is wrong, try changing transcoding parameters.";
             emit displayMessage(i18n("Proxy clip unusable (duration is different from original)."), -2, ErrorMessage);
         }
         slotUpdateJobStatus(item, PROXYJOB, JobCrashed, i18n("Failed to create proxy for %1. check parameters", item->text(0)), "project_settings");
@@ -1891,7 +1891,7 @@ void ProjectList::slotRemoveInvalidProxy(const QString &id, bool durationError)
 void ProjectList::slotAddColorClip()
 {
     if (!m_commandStack)
-        kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
+        //qDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
 
     QPointer<QDialog> dia = new QDialog(this);
     Ui::ColorClip_UI dia_ui;
@@ -1919,7 +1919,7 @@ void ProjectList::slotAddColorClip()
 void ProjectList::slotAddSlideshowClip()
 {
     if (!m_commandStack)
-        kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
+        //qDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
 
     QPointer<SlideshowClip> dia = new SlideshowClip(m_timecode, this);
 
@@ -1954,7 +1954,7 @@ void ProjectList::slotAddTitleClip()
 void ProjectList::slotAddTitleTemplateClip()
 {
     if (!m_commandStack)
-        kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
+        //qDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
 
     QStringList groupInfo = getGroup();
 
@@ -2336,7 +2336,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         if (!toReload.isEmpty())
             item->slotSetToolTip();
     } else {
-        kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
+        //qDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
         m_render->processingDone(clipId);
     }
     int queue = m_render->processingItems();
@@ -2636,11 +2636,11 @@ QDomDocument ProjectList::generateTemplateXml(QString path, const QString &repla
     QDomDocument doc;
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly)) {
-        kWarning() << "ERROR, CANNOT READ: " << path;
+        qWarning() << "ERROR, CANNOT READ: " << path;
         return doc;
     }
     if (!doc.setContent(&file)) {
-        kWarning() << "ERROR, CANNOT READ: " << path;
+        qWarning() << "ERROR, CANNOT READ: " << path;
         file.close();
         return doc;
     }
@@ -3229,7 +3229,7 @@ void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
             if ((doProxy && item->hasProxy()) || (!doProxy && !item->hasProxy() && item->referencedClip()->getProducer() != NULL)) continue;
             DocClipBase *clip = item->referencedClip();
             if (!clip || !clip->isClean() || m_render->isProcessing(item->clipId())) {
-                kDebug()<<"//// TRYING TO PROXY: "<<item->clipId()<<", but it is busy";
+                //qDebug()<<"//// TRYING TO PROXY: "<<item->clipId()<<", but it is busy";
                 continue;
             }
 
@@ -3245,7 +3245,7 @@ void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
             }
             else if (item->referencedClip()->getProducer() == NULL) {
                 // Force clip reload
-                kDebug()<<"// CLIP HAD NULL PROD------------";
+                //qDebug()<<"// CLIP HAD NULL PROD------------";
                 newProps.insert("resource", item->referencedClip()->getProperty("resource"));
             }
             // We need to insert empty proxy so that undo will work
@@ -3295,7 +3295,7 @@ void ProjectList::setJobStatus(ProjectItem *item, JOBTYPE jobType, ClipJobStatus
     if (status == JobCrashed) {
         DocClipBase *clip = item->referencedClip();
         if (!clip) {
-            kDebug()<<"// PROXY CRASHED";
+            //qDebug()<<"// PROXY CRASHED";
         }
         else if (clip->getProducer() == NULL && !clip->isPlaceHolder()) {
             // disable proxy and fetch real clip
@@ -3684,9 +3684,9 @@ void ProjectList::processClipJob(QStringList ids, const QString&destination, boo
         MeltJob *job = new MeltJob(item->clipType(), id, jobArgs, extraParams);
         if (autoAdd) {
             job->setAddClipToProject(true);
-            kDebug()<<"// ADDING TRUE";
+            //qDebug()<<"// ADDING TRUE";
         }
-        else kDebug()<<"// ADDING FALSE!!!";
+        else //qDebug()<<"// ADDING FALSE!!!";
 
         if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
             delete job;
@@ -3752,7 +3752,7 @@ void ProjectList::slotClosePopup()
 void ProjectList::slotGotFilterJobResults(QString id, int , int , stringMap results, stringMap filterInfo)
 {
     // Currently, only the first value of results is used
-    //kDebug()<<"// FILTER RES:\n"<<filterInfo<<"\n--------------\n"<<results;
+    ////qDebug()<<"// FILTER RES:\n"<<filterInfo<<"\n--------------\n"<<results;
     ProjectItem *clip = getItemById(id);
     if (!clip) return;
 
@@ -3767,7 +3767,7 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , stringMap resu
     QString key = filterInfo.value("key");
     int offset = filterInfo.value("offset").toInt();
     QStringList value = results.value(key).split(';', QString::SkipEmptyParts);
-    kDebug()<<"// RESULT; "<<key<<" = "<<value;
+    //qDebug()<<"// RESULT; "<<key<<" = "<<value;
     if (filterInfo.contains("resultmessage")) {
         QString mess = filterInfo.value("resultmessage");
         mess.replace("%count", QString::number(value.count()));

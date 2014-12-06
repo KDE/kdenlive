@@ -22,7 +22,7 @@
 
 #include <cmath>
 
-#include <KDebug>
+#include <QDebug>
 #include <KGlobalSettings>
 #include <KFileDialog>
 #include <KGlobal>
@@ -442,7 +442,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
 
     graphicsView->show();
     graphicsView->setInteractive(true);
-    kDebug() << "// TITLE WIDGWT: " << graphicsView->viewport()->width() << 'x' << graphicsView->viewport()->height();
+    //qDebug() << "// TITLE WIDGWT: " << graphicsView->viewport()->width() << 'x' << graphicsView->viewport()->height();
     m_startViewport = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
     // Setting data at -1 so that the item is recognized as undeletable by graphicsscenerectmove
     m_startViewport->setData(-1, -1);
@@ -556,7 +556,7 @@ void TitleWidget::refreshTitleTemplates()
             titletemplates.append(t);
         }
     }
-    kDebug()  << titlenamelist << titlefiles;
+    //qDebug()  << titlenamelist << titlefiles;
 }
 
 void TitleWidget::templateIndexChanged(int index)
@@ -899,7 +899,7 @@ void TitleWidget::selectionChanged()
 {
     if (m_scene->tool() != TITLE_SELECT) return;
 
-    kDebug() << "Number of selected items: " << graphicsView->scene()->selectedItems().length() << '\n';
+    //qDebug() << "Number of selected items: " << graphicsView->scene()->selectedItems().length() << '\n';
 
     QList<QGraphicsItem *> l;
 
@@ -954,7 +954,7 @@ void TitleWidget::selectionChanged()
                 break;
             }
         }
-        kDebug() << "All equal? " << allEqual << ".\n";
+        //qDebug() << "All equal? " << allEqual << ".\n";
         if (allEqual) {
             prepareTools(l.at(0));
         } else {
@@ -1001,7 +1001,7 @@ void TitleWidget::slotValueChanged(int type)
     */
 
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
-    kDebug() << l.size() << " items to be resized\n";
+    //qDebug() << l.size() << " items to be resized\n";
 
     // Get the updated value here already to do less coding afterwards
     int val = 0;
@@ -1021,7 +1021,7 @@ void TitleWidget::slotValueChanged(int type)
     }
 
     for (int k = 0; k < l.size(); ++k) {
-        kDebug() << "Type of item " << k << ": " << l.at(k)->type() << '\n';
+        //qDebug() << "Type of item " << k << ": " << l.at(k)->type() << '\n';
 
         if (l.at(k)->type() == TEXTITEM) {
             // Just update the position. We don't allow setting width/height for text items yet.
@@ -1099,8 +1099,8 @@ void TitleWidget::slotValueChanged(int type)
                 qtrans.rotate(t.rotatey, Qt::YAxis);
                 qtrans.rotate(t.rotatez, Qt::ZAxis);
                 i->setTransform(qtrans);
-                kDebug() << "scale is: " << scale << '\n';
-                kDebug() << i->boundingRect().width() << ": new width\n";
+                //qDebug() << "scale is: " << scale << '\n';
+                //qDebug() << i->boundingRect().width() << ": new width\n";
                 m_transformations[i] = t;
 
                 if (l.size() == 1) {
@@ -1144,7 +1144,7 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
         value_h->setValue(i->sceneBoundingRect().height());
     } else if (i->type() == RECTITEM) {
         QGraphicsRectItem *r = static_cast <QGraphicsRectItem *>(i);
-        kDebug() << "Rect width is: " << r->rect().width() << ", was: " << value_w->value() << '\n';
+        //qDebug() << "Rect width is: " << r->rect().width() << ", was: " << value_w->value() << '\n';
         value_w->setValue((int) r->rect().width());
         value_h->setValue((int) r->rect().height());
     } else if (i->type() == TEXTITEM) {
@@ -2265,14 +2265,14 @@ void TitleWidget::slotZIndexTop()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     qreal max = zIndexBounds(true, false);
-    kDebug() << "Max z-index is " << max << ".\n";
+    //qDebug() << "Max z-index is " << max << ".\n";
     for (int i = 0; i < l.size(); ++i) {
         qreal currentZ = l[i]->zValue();
         if (currentZ <= max) {
-            kDebug() << "Updating item " << i << ", is " << currentZ << ".\n";
+            //qDebug() << "Updating item " << i << ", is " << currentZ << ".\n";
             l[i]->setZValue(max + 1);
         } else {
-            kDebug() << "Not updating " << i << ", is " << currentZ << ".\n";
+            //qDebug() << "Not updating " << i << ", is " << currentZ << ".\n";
         }
     }
     // Update the z index value in the GUI
@@ -2398,7 +2398,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
     value_h->blockSignals(true);
 
     if (referenceItem == NULL) {
-        kDebug() << "NULL item.\n";
+        //qDebug() << "NULL item.\n";
         effect_stack->setHidden(true);
         effect_frame->setEnabled(false);
         effect_list->setCurrentIndex(0);

@@ -53,6 +53,7 @@
 #include <QMap>
 #include <QString>
 #include <QImage>
+#include <QDebug>
 
 MySpinBox::MySpinBox(QWidget * parent):
     QSpinBox(parent)
@@ -613,7 +614,7 @@ void ParameterContainer::slotCollectAllParameters()
         else if (type == "keyframe")
             paramName.append("keyframe");
         if (type != "simplekeyframe" && type != "fixed" && type != "addedgeometry" && !m_valueItems.contains(paramName)) {
-            kDebug() << "// Param: " << paramName << " NOT FOUND";
+            //qDebug() << "// Param: " << paramName << " NOT FOUND";
             continue;
         }
 
@@ -846,7 +847,7 @@ void ParameterContainer::slotStartFilterJobAction()
 	    }
 	    extraParams.insert("offset", QString::number(m_in));
             emit startFilterJob(pa.attribute("filtertag"), filterparams, pa.attribute("consumer"), pa.attribute("consumerparams"), extraParams);
-            kDebug()<<" - - -PROPS:\n"<<pa.attribute("filtertag")<<"-"<< filterparams<<"-"<< pa.attribute("consumer")<<"-"<< pa.attribute("consumerparams")<<"-"<< pa.attribute("extraparams");
+            //qDebug()<<" - - -PROPS:\n"<<pa.attribute("filtertag")<<"-"<< filterparams<<"-"<< pa.attribute("consumer")<<"-"<< pa.attribute("consumerparams")<<"-"<< pa.attribute("extraparams");
             break;
         }
     }
@@ -876,7 +877,7 @@ bool ParameterContainer::needsMonitorEffectScene() const
 void ParameterContainer::setKeyframes(const QString &data, int maximum)
 {
     if (!m_geometryWidget) {
-	kDebug()<<" / / NO GEOMETRY WIDGET FOUND FOR IMPORTING DATA";
+	//qDebug()<<" / / NO GEOMETRY WIDGET FOUND FOR IMPORTING DATA";
 	return;
     }
     m_geometryWidget->importKeyframes(data, maximum);

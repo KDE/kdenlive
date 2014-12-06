@@ -22,7 +22,7 @@
 #include "customtrackscene.h"
 #include "kdenlivesettings.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KLocalizedString>
 #include <KGlobalSettings>
 
@@ -160,7 +160,7 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit, bool /*emitChang
     moveBy(durationDiff.frames(m_fps), 0);
 
     if (m_info.startPos != GenTime(posx, m_fps)) {
-        //kDebug() << "//////  WARNING, DIFF IN XPOS: " << pos().x() << " == " << m_info.startPos.frames(m_fps);
+        ////qDebug() << "//////  WARNING, DIFF IN XPOS: " << pos().x() << " == " << m_info.startPos.frames(m_fps);
         GenTime diff = m_info.startPos - GenTime(posx, m_fps);
 
         if (type() == AVWidget)
@@ -168,14 +168,14 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit, bool /*emitChang
 
         m_info.cropDuration -= diff;
         setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
-        //kDebug()<<"// NEW START: "<<m_startPos.frames(25)<<", NW DUR: "<<m_cropDuration.frames(25);
+        ////qDebug()<<"// NEW START: "<<m_startPos.frames(25)<<", NW DUR: "<<m_cropDuration.frames(25);
     }
 
     // set crop from start to 0 (isn't relevant as this only happens for color clips, images)
     if (negCropStart)
         m_info.cropStart = GenTime();
 
-    //kDebug() << "-- NEW CLIP=" << startPos().frames(25) << '-' << endPos().frames(25);
+    ////qDebug() << "-- NEW CLIP=" << startPos().frames(25) << '-' << endPos().frames(25);
     //setRect((double) m_startPos.frames(m_fps) * scale, rect().y(), (double) m_cropDuration.frames(m_fps) * scale, rect().height());
 
     /*    if (durationDiff < GenTime()) {
@@ -183,7 +183,7 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit, bool /*emitChang
             for (int i = 0; i < collisionList.size(); ++i) {
                 QGraphicsItem *item = collisionList.at(i);
                 if (item->type() == type() && item->pos().x() < pos().x()) {
-                    kDebug() << "/////////  COLLISION DETECTED!!!!!!!!!";
+                    //qDebug() << "/////////  COLLISION DETECTED!!!!!!!!!";
                     GenTime diff = ((AbstractClipItem *)item)->endPos() + GenTime(1, m_fps) - m_startPos;
                     setRect(0, 0, (m_cropDuration - diff).frames(m_fps) - 0.02, rect().height());
                     setPos((m_startPos + diff).frames(m_fps), pos().y());
@@ -215,9 +215,9 @@ void AbstractClipItem::resizeEnd(int posx, bool /*emitChange*/)
             if (!collisionList.at(i)->isEnabled()) continue;
             QGraphicsItem *item = collisionList.at(i);
             if (item->type() == type() && item->pos().x() > pos().x()) {
-                //kDebug() << "/////////  COLLISION DETECTED!!!!!!!!!";
-                //kDebug() << "/////////  CURRENT: " << startPos().frames(25) << 'x' << endPos().frames(25) << ", RECT: " << rect() << '-' << pos();
-                //kDebug() << "/////////  COLLISION: " << ((AbstractClipItem *)item)->startPos().frames(25) << 'x' << ((AbstractClipItem *)item)->endPos().frames(25) << ", RECT: " << ((AbstractClipItem *)item)->rect() << '-' << item->pos();
+                ////qDebug() << "/////////  COLLISION DETECTED!!!!!!!!!";
+                ////qDebug() << "/////////  CURRENT: " << startPos().frames(25) << 'x' << endPos().frames(25) << ", RECT: " << rect() << '-' << pos();
+                ////qDebug() << "/////////  COLLISION: " << ((AbstractClipItem *)item)->startPos().frames(25) << 'x' << ((AbstractClipItem *)item)->endPos().frames(25) << ", RECT: " << ((AbstractClipItem *)item)->rect() << '-' << item->pos();
                 GenTime diff = static_cast<AbstractClipItem*>(item)->startPos() - startPos();
                 if (fixItem == false || diff < m_info.cropDuration) {
                     fixItem = true;
@@ -462,7 +462,7 @@ int AbstractClipItem::addKeyFrame(const GenTime &pos, const double value)
     QRectF br = sceneBoundingRect();
     double maxh = 100.0 / br.height() / m_keyframeFactor;
     int newval = (br.bottom() - value) * maxh + m_keyframeOffset;
-    //kDebug() << "Rect: " << br << "/ SCENE: " << sceneBoundingRect() << ", VALUE: " << value << ", MAX: " << maxh << ", NEWVAL: " << newval;
+    ////qDebug() << "Rect: " << br << "/ SCENE: " << sceneBoundingRect() << ", VALUE: " << value << ", MAX: " << maxh << ", NEWVAL: " << newval;
     int newpos = (int) pos.frames(m_fps) ;
     m_keyframes[newpos] = newval;
     m_selectedKeyframe = newpos;
@@ -481,7 +481,7 @@ bool AbstractClipItem::hasKeyFrames() const
         rectInView = scene()->views()[0]->viewport()->rect();
         rectInView.moveTo(scene()->views()[0]->horizontalScrollBar()->value(), scene()->views()[0]->verticalScrollBar()->value());
         rectInView.adjust(-10, -10, 10, 10);//make view rect 10 pixel greater on each site, or repaint after scroll event
-        //kDebug() << scene()->views()[0]->viewport()->rect() << ' ' <<  scene()->views()[0]->horizontalScrollBar()->value();
+        ////qDebug() << scene()->views()[0]->viewport()->rect() << ' ' <<  scene()->views()[0]->horizontalScrollBar()->value();
     }
     return rectInView;
 }*/

@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "monitor/monitormanager.h"
 #include <QCoreApplication>
 #include <locale>
+#include <QDebug>
 
 
 Core *Core::m_self = NULL;
@@ -70,7 +71,7 @@ void Core::initLocale()
     setlocale(LC_NUMERIC, NULL);
     char *separator = localeconv()->decimal_point;
     if (separator != systemLocale.decimalPoint()) {
-        kDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
+        //qDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
         // HACK: There is a locale conflict, so set locale to C
         // Make sure to override exported values or it won't work
         setenv("LANG", "C", 1);

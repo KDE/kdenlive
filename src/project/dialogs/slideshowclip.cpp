@@ -21,7 +21,7 @@
 #include "kdenlivesettings.h"
 
 
-#include <KDebug>
+#include <QDebug>
 #include <KFileItem>
 #include <KGlobal>
 #include <KGlobalSettings>
@@ -267,7 +267,7 @@ QString SlideshowClip::selectedPath()
     else url = m_view.pattern_url->url();
     QString path = selectedPath(url, m_view.method_mime->isChecked(), ".all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString(), &list);
     m_count = list.count();
-    kDebug()<<"// SELECTED PATH: "<<path;
+    //qDebug()<<"// SELECTED PATH: "<<path;
     return path;
 }
 
@@ -327,7 +327,7 @@ QString SlideshowClip::selectedPath(const QUrl &url, bool isMime, QString extens
         extension = filter + "%0" + QString::number(precision) + 'd' + ext;
 	if (firstFrame > 0) extension.append(QString("?begin:%1").arg(firstFrame));
     }
-    kDebug() << "// FOUND " << (*list).count() << " items for " << url.path();
+    //qDebug() << "// FOUND " << (*list).count() << " items for " << url.path();
     return  folder + extension;
 }
 

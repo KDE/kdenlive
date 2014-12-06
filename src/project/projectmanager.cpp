@@ -33,6 +33,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QCryptographicHash>
 #include <QFileDialog>
+#include <QDebug>
 
 
 ProjectManager::ProjectManager(QObject* parent) :
@@ -75,7 +76,7 @@ void ProjectManager::init(const QUrl& projectUrl, const QString& clipList)
         QStringList list = clipList.split(',');
         QList <QUrl> urls;
         foreach(const QString &path, list) {
-            kDebug() << QDir::current().absoluteFilePath(path);
+            //qDebug() << QDir::current().absoluteFilePath(path);
             urls << QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
         }
         pCore->window()->m_projectList->slotAddClip(urls);
@@ -290,7 +291,7 @@ void ProjectManager::openFile(const QUrl &url)
     KMimeType::Ptr mime = KMimeType::findByUrl(url);
     if (mime.data()->is("application/x-compressed-tar")) {
         // Opening a compressed project file, we need to process it
-        kDebug()<<"Opening archive, processing";
+        //qDebug()<<"Opening archive, processing";
         QPointer<ArchiveWidget> ar = new ArchiveWidget(url);
         if (ar->exec() == QDialog::Accepted) {
             openFile(QUrl(ar->extractedProjectFile()));
@@ -424,7 +425,7 @@ void ProjectManager::recoverFiles(const QList<KAutoSaveFile *> &staleFiles, cons
                   delete stale;
                   continue;
         }*/
-        kDebug() << "// OPENING RECOVERY: " << stale->fileName() << "\nMANAGED: " << stale->managedFile().path();
+        //qDebug() << "// OPENING RECOVERY: " << stale->fileName() << "\nMANAGED: " << stale->managedFile().path();
         // the stalefiles also contain ".lock" files so we must ignore them... bug in KAutoSaveFile?
         if (!stale->fileName().endsWith(".lock")) {
             doOpenFile(originUrl, stale);

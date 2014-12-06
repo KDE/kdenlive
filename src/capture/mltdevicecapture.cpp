@@ -24,7 +24,7 @@
 
 #include <mlt++/Mlt.h>
 
-#include <KDebug>
+#include <QDebug>
 
 #include <QTimer>
 #include <QString>
@@ -291,7 +291,7 @@ bool MltDeviceCapture::slotStartPreview(const QString &producer, bool xmlFormat)
             delete m_mltProducer;
             m_mltProducer = NULL;
         }
-        kDebug()<<"//// ERROR CREATRING PROD";
+        //qDebug()<<"//// ERROR CREATRING PROD";
         return false;
     }
     m_mltConsumer->connect(*m_mltProducer);
@@ -366,7 +366,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     //m_mltProfile->get_profile()->is_explicit = 1;
     
     
-    /*kDebug()<<"-- CREATING CAP: "<<params<<", PATH: "<<path;
+    /*//qDebug()<<"-- CREATING CAP: "<<params<<", PATH: "<<path;
     tmp = qstrdup(QString("avformat:" + path).toUtf8().constData());
     m_mltConsumer = new Mlt::Consumer(*m_mltProfile, tmp);
     m_mltConsumer->set("real_time", -1);
@@ -466,7 +466,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     }
 
     if (m_mltProducer == NULL || !m_mltProducer->is_valid()) {
-        kDebug()<<"//// ERROR CREATRING PROD";
+        //qDebug()<<"//// ERROR CREATRING PROD";
 	if (m_mltConsumer) {
             delete m_mltConsumer;
             m_mltConsumer = NULL;
@@ -496,18 +496,18 @@ void MltDeviceCapture::setOverlay(const QString &path)
     if (m_mltProducer == NULL || !m_mltProducer->is_valid()) return;
     Mlt::Producer parentProd(m_mltProducer->parent());
     if (parentProd.get_producer() == NULL) {
-        kDebug() << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
+        //qDebug() << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
         return;
     }
 
     Mlt::Service service(parentProd.get_service());
     if (service.type() != tractor_type) {
-        kWarning() << "// TRACTOR PROBLEM";
+        qWarning() << "// TRACTOR PROBLEM";
         return;
     }
     Mlt::Tractor tractor(service);
     if ( tractor.count() < 2) {
-        kWarning() << "// TRACTOR PROBLEM";
+        qWarning() << "// TRACTOR PROBLEM";
         return;
     }
     mlt_service_lock(service.get_service());

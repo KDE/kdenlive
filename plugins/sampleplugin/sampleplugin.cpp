@@ -21,7 +21,7 @@
 #include "sampleplugin.h"
 #include "ui_countdown_ui.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KMessageBox>
 #include <KApplication>
 
@@ -99,7 +99,7 @@ KUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
         generatorProcess.start(renderer, args);
         if (generatorProcess.waitForFinished()) {
             if (generatorProcess.exitStatus() == QProcess::CrashExit) {
-                kDebug() << "/// Generator failed: ";
+                //qDebug() << "/// Generator failed: ";
                 QString error = QString::fromLocal8Bit(generatorProcess.readAllStandardError());
                 KMessageBox::sorry(kapp->activeWindow(), i18n("Failed to generate clip:\n%1", error, i18n("Generator Failed")));
             }
@@ -107,7 +107,7 @@ KUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
                 result = view.path->url();
             }
         } else {
-            kDebug() << "/// Generator failed: ";
+            //qDebug() << "/// Generator failed: ";
             QString error = QString::fromLocal8Bit(generatorProcess.readAllStandardError());
             KMessageBox::sorry(kapp->activeWindow(), i18n("Failed to generate clip:\n%1", error, i18n("Generator Failed")));
         }

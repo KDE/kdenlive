@@ -22,7 +22,7 @@
 #include "clipstabilize.h"
 #include "effectstack/widgets/doubleparameterwidget.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <mlt++/Mlt.h>
 #include "kdenlivesettings.h"
 #include <KGlobalSettings>

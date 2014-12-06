@@ -24,7 +24,7 @@
 
 #include <mlt++/Mlt.h>
 
-#include <KDebug>
+#include <QDebug>
 
 #include <KFileDialog>
 #include <KGlobal>

@@ -35,7 +35,7 @@
 
 #include <kglobal.h>
 #include <klocale.h>
-#include <kdebug.h>
+#include <QDebug>
 
 class KoSliderComboContainer : public QMenu
 {

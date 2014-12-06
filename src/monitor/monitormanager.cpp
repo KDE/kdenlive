@@ -29,7 +29,7 @@
 
 #include <QObject>
 #include <QTimer>
-#include <KDebug>
+#include <QDebug>
 
 
 MonitorManager::MonitorManager(QObject *parent) :
@@ -278,7 +278,7 @@ void MonitorManager::slotSwitchFullscreen()
 QString MonitorManager::getProjectFolder() const
 {
     if (m_document == NULL) {
-	kDebug()<<" + + +NULL DOC!!";
+	//qDebug()<<" + + +NULL DOC!!";
 	return QString();
     }
     return m_document->projectFolder().path() + QDir::separator();

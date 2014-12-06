@@ -20,7 +20,7 @@
 
 #include "folderprojectitem.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KLocalizedString>
 #include <QIcon>
 
@@ -36,7 +36,7 @@ FolderProjectItem::FolderProjectItem(QTreeWidget * parent, const QStringList & s
     //setIcon(0, QIcon::fromTheme("folder").pixmap(sizeHint(0)));
     setToolTip(0, "<b>" + i18n("Folder"));
     //setFlags(Qt::NoItemFlags);
-    //kDebug() << "Constructed with clipId: " << m_clipId;
+    ////qDebug() << "Constructed with clipId: " << m_clipId;
 }
 
 

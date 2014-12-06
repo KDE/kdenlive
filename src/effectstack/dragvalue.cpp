@@ -32,7 +32,7 @@
 #include <QAction>
 #include <QStyle>
 
-#include <KDebug>
+#include <QDebug>
 #include <QIcon>
 #include <KLocalizedString>
 #include <KGlobalSettings>

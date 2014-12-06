@@ -21,7 +21,7 @@
 
 #include "kdenlivesettings.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <QIcon>
 #include <KLocale>
 #include <KGlobalSettings>

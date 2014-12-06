@@ -44,7 +44,7 @@
 #include "lib/audio/audioEnvelope.h"
 #include "lib/audio/audioCorrelation.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KLocalizedString>
 #include <KCursor>
 #include <KMessageBox>
@@ -930,11 +930,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                     return;
                 }
 
-                kDebug() << "SPACER TOOL + CTRL, SELECTING ALL CLIPS ON TRACK " << track << " WITH SELECTION RECT " << m_clickEvent.x() << '/' <<  track * m_tracksHeight + 1 << "; " << mapFromScene(sceneRect().width(), 0).x() - m_clickEvent.x() << '/' << m_tracksHeight - 2;
+                //qDebug() << "SPACER TOOL + CTRL, SELECTING ALL CLIPS ON TRACK " << track << " WITH SELECTION RECT " << m_clickEvent.x() << '/' <<  track * m_tracksHeight + 1 << "; " << mapFromScene(sceneRect().width(), 0).x() - m_clickEvent.x() << '/' << m_tracksHeight - 2;
             } else {
                 // Select all items on all tracks after click position
                 selection = items(event->pos().x(), 1, mapFromScene(sceneRect().width(), 0).x() - event->pos().x(), sceneRect().height());
-                kDebug() << "SELELCTING ELEMENTS WITHIN =" << event->pos().x() << '/' <<  1 << ", " << mapFromScene(sceneRect().width(), 0).x() - event->pos().x() << '/' << sceneRect().height();
+                //qDebug() << "SELELCTING ELEMENTS WITHIN =" << event->pos().x() << '/' <<  1 << ", " << mapFromScene(sceneRect().width(), 0).x() - event->pos().x() << '/' << sceneRect().height();
             }
 
             QList <GenTime> offsetList;
@@ -1289,7 +1289,7 @@ void CustomTrackView::groupSelectedItems(QList <QGraphicsItem *> selection, bool
 {
     QMutexLocker lock(&m_selectionMutex);
     if (m_selectionGroup) {
-        kDebug() << "///// ERROR, TRYING TO OVERRIDE EXISTING GROUP";
+        //qDebug() << "///// ERROR, TRYING TO OVERRIDE EXISTING GROUP";
         return;
     }
     if (selection.isEmpty()) selection = m_scene->selectedItems();
@@ -1626,7 +1626,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         QStringList list = QString(data->data("kdenlive/clip")).split(';');
         DocClipBase *clip = m_document->getBaseClip(list.at(0));
         if (clip == NULL) {
-            kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << list.at(0);
+            //qDebug() << " WARNING))))))))) CLIP NOT FOUND : " << list.at(0);
             return false;
         }
         if (clip->getProducer() == NULL) {
@@ -1680,7 +1680,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
             QString clipData = ids.at(i);
             DocClipBase *clip = m_document->getBaseClip(clipData.section('/', 0, 0));
             if (clip == NULL) {
-                kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << ids.at(i);
+                //qDebug() << " WARNING))))))))) CLIP NOT FOUND : " << ids.at(i);
                 return false;
             }
             if (clip->getProducer() == NULL) {
@@ -1784,7 +1784,7 @@ bool CustomTrackView::itemCollision(AbstractClipItem *item, const ItemInfo &newP
             QGraphicsItem *collision = collindingItems.at(i);
             if (collision->type() == item->type()) {
                 // Collision
-                kDebug() << "// COLLISIION DETECTED";
+                //qDebug() << "// COLLISIION DETECTED";
                 return true;
             }
         }
@@ -1877,7 +1877,7 @@ void CustomTrackView::deleteEffect(int track, const GenTime &pos, const QDomElem
         }
     }
     if (!m_document->renderer()->mltRemoveEffect(track, pos, index.toInt(), true)) {
-        kDebug() << "// ERROR REMOV EFFECT: " << index << ", DISABLE: " << effect.attribute("disable");
+        //qDebug() << "// ERROR REMOV EFFECT: " << index << ", DISABLE: " << effect.attribute("disable");
         emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
         return;
     }
@@ -1949,7 +1949,7 @@ void CustomTrackView::slotDropEffect(ClipItem *clip, QDomElement effect, GenTime
     slotAddEffect(effect, pos, track);
     if (clip->parentItem()) {
         // Clip is in a group, should not happen
-        kDebug()<<"/// DROPPED ON ITEM IN GRP";
+        //qDebug()<<"/// DROPPED ON ITEM IN GRP";
     }
     else if (clip != m_dragItem) {
         clearSelection(false);
@@ -2111,13 +2111,13 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, int track, QDomElement ef
 void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedEffect, bool updateEffectStack)
 {
     if (insertedEffect.isNull()) {
-        kDebug()<<"// Trying to add null effect";
+        //qDebug()<<"// Trying to add null effect";
         emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
         return;
     }
     int ix = insertedEffect.attribute("kdenlive_ix").toInt();
     QDomElement effect = insertedEffect.cloneNode().toElement();
-    //kDebug() << "// update effect ix: " << effect.attribute("kdenlive_ix")<<", GAIN: "<<EffectsList::parameter(effect, "gain");
+    ////qDebug() << "// update effect ix: " << effect.attribute("kdenlive_ix")<<", GAIN: "<<EffectsList::parameter(effect, "gain");
     if (pos < GenTime()) {
         // editing a track effect
         EffectsParameterList effectParams = getEffectArgs(effect);
@@ -2352,9 +2352,9 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         if (!item || cutTime >= item->endPos() || cutTime <= item->startPos()) {
             emit displayMessage(i18n("Cannot find clip to cut"), ErrorMessage);
             if (item)
-                kDebug() << "/////////  ERROR CUTTING CLIP : (" << item->startPos().frames(25) << '-' << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << '-' << info.endPos.frames(25) << ')' << ", CUT: " << cutTime.frames(25);
+                //qDebug() << "/////////  ERROR CUTTING CLIP : (" << item->startPos().frames(25) << '-' << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << '-' << info.endPos.frames(25) << ')' << ", CUT: " << cutTime.frames(25);
             else
-                kDebug() << "/// ERROR NO CLIP at: " << info.startPos.frames(m_document->fps()) << ", track: " << info.track;
+                //qDebug() << "/// ERROR NO CLIP at: " << info.startPos.frames(m_document->fps()) << ", track: " << info.track;
             m_blockRefresh = false;
             return NULL;
         }
@@ -2581,7 +2581,7 @@ void CustomTrackView::slotAddTransition(ClipItem* /*clip*/, ItemInfo transitionI
 void CustomTrackView::addTransition(const ItemInfo &transitionInfo, int endTrack, const QDomElement &params, bool refresh)
 {
     Transition *tr = new Transition(transitionInfo, endTrack, m_document->fps(), params, true);
-    //kDebug() << "---- ADDING transition " << params.attribute("value");
+    ////qDebug() << "---- ADDING transition " << params.attribute("value");
     if (m_document->renderer()->mltAddTransition(tr->transitionTag(), endTrack, m_document->tracksCount() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, tr->toXML(), refresh)) {
         scene()->addItem(tr);
         setDocumentModified();
@@ -2613,7 +2613,7 @@ void CustomTrackView::deleteTransition(const ItemInfo &transitionInfo, int endTr
 
 void CustomTrackView::slotTransitionUpdated(Transition *tr, QDomElement old)
 {
-    //kDebug() << "TRANS UPDATE, TRACKS: " << old.attribute("transition_btrack") << ", NEW: " << tr->toXML().attribute("transition_btrack");
+    ////qDebug() << "TRANS UPDATE, TRACKS: " << old.attribute("transition_btrack") << ", NEW: " << tr->toXML().attribute("transition_btrack");
     QDomElement xml = tr->toXML();
     if (old.isNull() || xml.isNull()) {
         emit displayMessage(i18n("Cannot update transition"), ErrorMessage);
@@ -2629,7 +2629,7 @@ void CustomTrackView::updateTransition(int track, const GenTime &pos, const QDom
 {
     Transition *item = getTransitionItemAt(pos, track);
     if (!item) {
-        kWarning() << "Unable to find transition at pos :" << pos.frames(m_document->fps()) << ", ON track: " << track;
+        qWarning() << "Unable to find transition at pos :" << pos.frames(m_document->fps()) << ", ON track: " << track;
         return;
     }
     
@@ -2637,7 +2637,7 @@ void CustomTrackView::updateTransition(int track, const GenTime &pos, const QDom
     if (oldTransition.attribute("transition_atrack") != transition.attribute("transition_atrack") || oldTransition.attribute("transition_btrack") != transition.attribute("transition_btrack"))
         force = true;
     m_document->renderer()->mltUpdateTransition(oldTransition.attribute("tag"), transition.attribute("tag"), transition.attribute("transition_btrack").toInt(), m_document->tracksCount() - transition.attribute("transition_atrack").toInt(), item->startPos(), item->endPos(), transition, force);
-    //kDebug() << "ORIGINAL TRACK: "<< oldTransition.attribute("transition_btrack") << ", NEW TRACK: "<<transition.attribute("transition_btrack");
+    ////qDebug() << "ORIGINAL TRACK: "<< oldTransition.attribute("transition_btrack") << ", NEW TRACK: "<<transition.attribute("transition_btrack");
     item->setTransitionParameters(transition);
     if (updateTransitionWidget) {
         ItemInfo info = item->info();
@@ -2771,7 +2771,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         QList<QGraphicsItem *> selection = m_scene->items(rect);
         QStringList timelineList;
 
-        kDebug()<<"// ITEMS on TRACK: "<<selection.count();
+        //qDebug()<<"// ITEMS on TRACK: "<<selection.count();
         for (int i = 0; i < selection.count(); ++i) {
                if (selection.at(i)->type() == AVWidget) {
                    ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
@@ -2780,7 +2780,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
                    timelineList.append(QString::number(start) + '-' + QString::number(end));
             }
         }
-        kDebug() << "// COMPARE:\n" << timelineList << "\n-------------------";
+        //qDebug() << "// COMPARE:\n" << timelineList << "\n-------------------";
         */
 
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
@@ -3019,7 +3019,7 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
             info = transitionInfos.at(i);
             Transition *tr = getTransitionItem(info);
             if (tr) tr->setForcedTrack(info.forceTrack, info.a_track);
-            else kDebug()<<"// Cannot update TRANSITION AT: "<<info.b_track<<" / "<<info.startPos.frames(m_document->fps());
+            else //qDebug()<<"// Cannot update TRANSITION AT: "<<info.b_track<<" / "<<info.startPos.frames(m_document->fps());
         }
         m_selectionMutex.unlock();
         resetSelectionGroup(false);
@@ -3068,7 +3068,7 @@ void CustomTrackView::removeTrack(int ix)
 
     // adjust track number
     QList<QGraphicsItem *> children = m_selectionGroup->childItems();
-    //kDebug() << "// FOUND CLIPS TO MOVE: " << children.count();
+    ////qDebug() << "// FOUND CLIPS TO MOVE: " << children.count();
     for (int i = 0; i < children.count(); ++i) {
         if (children.at(i)->type() == GroupWidget) {
             AbstractGroupItem *grp = static_cast<AbstractGroupItem*>(children.at(i));
@@ -3129,10 +3129,10 @@ void CustomTrackView::configTracks(const QList < TrackInfo > &trackInfos)
 void CustomTrackView::slotSwitchTrackAudio(int ix)
 {
     /*for (int i = 0; i < m_document->tracksCount(); ++i)
-        kDebug() << "TRK " << i << " STATE: " << m_document->trackInfoAt(i).isMute << m_document->trackInfoAt(i).isBlind;*/
+        //qDebug() << "TRK " << i << " STATE: " << m_document->trackInfoAt(i).isMute << m_document->trackInfoAt(i).isBlind;*/
     int tracknumber = m_document->tracksCount() - ix - 1;
     m_document->switchTrackAudio(tracknumber, !m_document->trackInfoAt(tracknumber).isMute);
-    kDebug() << "NEXT TRK STATE: " << m_document->trackInfoAt(tracknumber).isMute << m_document->trackInfoAt(tracknumber).isBlind;
+    //qDebug() << "NEXT TRK STATE: " << m_document->trackInfoAt(tracknumber).isMute << m_document->trackInfoAt(tracknumber).isBlind;
     m_document->renderer()->mltChangeTrackState(tracknumber + 1, m_document->trackInfoAt(tracknumber).isMute, m_document->trackInfoAt(tracknumber).isBlind);
     setDocumentModified();
 }
@@ -3213,7 +3213,7 @@ void CustomTrackView::lockTrack(int ix, bool lock, bool requestUpdate)
                 m_dragItem = NULL;
         }
     }
-    kDebug() << "NEXT TRK STATE: " << m_document->trackInfoAt(tracknumber).isLocked;
+    //qDebug() << "NEXT TRK STATE: " << m_document->trackInfoAt(tracknumber).isLocked;
     viewport()->update();
     setDocumentModified();
 }
@@ -3803,8 +3803,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                             ItemInfo trInfo = tr->info();
                             ItemInfo newTrInfo = trInfo;
                             newTrInfo.endPos = m_dragItem->endPos();
-                            kDebug() << "CLIP ENDS AT: " << newTrInfo.endPos.frames(25);
-                            kDebug() << "CLIP STARTS AT: " << newTrInfo.startPos.frames(25);
+                            //qDebug() << "CLIP ENDS AT: " << newTrInfo.endPos.frames(25);
+                            //qDebug() << "CLIP STARTS AT: " << newTrInfo.startPos.frames(25);
                             ClipItem * upperClip = getClipItemAt(m_dragItemInfo.startPos, m_dragItemInfo.track - 1);
                             if (!upperClip || !upperClip->baseClip()->isTransparent()) {
                                 if (!getClipItemAtStart(trInfo.startPos, tr->track())) {
@@ -3938,7 +3938,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 
                 //QPointF top = group->sceneBoundingRect().topLeft();
                 //QPointF oldpos = m_selectionGroup->scenePos();
-                //kDebug()<<"SELECTION GRP POS: "<<m_selectionGroup->scenePos()<<", TOP: "<<top;
+                ////qDebug()<<"SELECTION GRP POS: "<<m_selectionGroup->scenePos()<<", TOP: "<<top;
                 //group->setPos(top);
                 //TODO: get rid of the 3 lines below
                 if (m_selectionGroup) {
@@ -4143,12 +4143,12 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
 {
     ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
     m_ct++;
-    if (!item) kDebug()<<"// PROBLEM FINDING CLIP ITEM TO REMOVVE!!!!!!!!!";
-    else kDebug()<<"// deleting CLIP: "<<info.startPos.frames(m_document->fps())<<", "<<item->baseClip()->fileURL();
+    if (!item) //qDebug()<<"// PROBLEM FINDING CLIP ITEM TO REMOVVE!!!!!!!!!";
+    else //qDebug()<<"// deleting CLIP: "<<info.startPos.frames(m_document->fps())<<", "<<item->baseClip()->fileURL();
     //m_document->renderer()->saveSceneList(QString("/tmp/error%1.mlt").arg(m_ct), QDomElement());
     if (!item || m_document->renderer()->mltRemoveClip(m_document->tracksCount() - info.track, info.startPos) == false) {
         emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps())), info.track), ErrorMessage);
-        kDebug()<<"CANNOT REMOVE: "<<info.startPos.frames(m_document->fps())<<", TK: "<<info.track;
+        //qDebug()<<"CANNOT REMOVE: "<<info.startPos.frames(m_document->fps())<<", TK: "<<info.track;
         //m_document->renderer()->saveSceneList(QString("/tmp/error%1.mlt").arg(m_ct), QDomElement());
         return;
     }
@@ -4237,12 +4237,12 @@ void CustomTrackView::deleteSelectedClips()
         if (itemList.at(i)->type() == AVWidget) {
             clipCount++;
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
-            //kDebug()<<"// DELETE CLP AT: "<<item->info().startPos.frames(25);
+            ////qDebug()<<"// DELETE CLP AT: "<<item->info().startPos.frames(25);
             new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), false, false, true, true, deleteSelected);
         } else if (itemList.at(i)->type() == TransitionWidget) {
             transitionCount++;
             Transition *item = static_cast <Transition *>(itemList.at(i));
-            //kDebug()<<"// DELETE TRANS AT: "<<item->info().startPos.frames(25);
+            ////qDebug()<<"// DELETE TRANS AT: "<<item->info().startPos.frames(25);
             new AddTransitionCommand(this, item->info(), item->transitionEndTrack(), item->toXML(), true, true, deleteSelected);
         }
     }
@@ -4266,7 +4266,7 @@ void CustomTrackView::doChangeClipSpeed(ItemInfo info, const ItemInfo &speedInde
 
     ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
     if (!item) {
-        kDebug() << "ERROR: Cannot find clip for speed change";
+        //qDebug() << "ERROR: Cannot find clip for speed change";
         emit displayMessage(i18n("Cannot find clip for speed change"), ErrorMessage);
         return;
     }
@@ -4667,7 +4667,7 @@ bool CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool 
     ClipItem *item = getClipItemAt((int) start.startPos.frames(m_document->fps()), start.track);
     if (!item) {
         emit displayMessage(i18n("Cannot move clip at time: %1 on track %2", m_document->timecode().getTimecodeFromFrames(start.startPos.frames(m_document->fps())), start.track), ErrorMessage);
-        kDebug() << "----------------  ERROR, CANNOT find clip to move at.. ";
+        //qDebug() << "----------------  ERROR, CANNOT find clip to move at.. ";
         return false;
     }
     Mlt::Producer *prod = item->getProducer(end.track);
@@ -4746,7 +4746,7 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
                 m_selectionGroup->addItem(clip);
             }
             m_document->renderer()->mltRemoveClip(m_document->tracksCount() - startClip.at(i).track, startClip.at(i).startPos);
-        } else kDebug() << "//MISSING CLIP AT: " << startClip.at(i).startPos.frames(25);
+        } else //qDebug() << "//MISSING CLIP AT: " << startClip.at(i).startPos.frames(25);
     }
     for (int i = 0; i < startTransition.count(); ++i) {
         if (reverseMove) {
@@ -4762,7 +4762,7 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
                 m_selectionGroup->addItem(tr);
             }
             m_document->renderer()->mltDeleteTransition(tr->transitionTag(), tr->transitionEndTrack(), m_document->tracksCount() - startTransition.at(i).track, startTransition.at(i).startPos, startTransition.at(i).endPos, tr->toXML());
-        } else kDebug() << "//MISSING TRANSITION AT: " << startTransition.at(i).startPos.frames(25);
+        } else //qDebug() << "//MISSING TRANSITION AT: " << startTransition.at(i).startPos.frames(25);
     }
     m_document->renderer()->blockSignals(false);
 
@@ -4835,7 +4835,7 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
 
         KdenliveSettings::setSnaptopoints(snap);
         m_document->renderer()->doRefresh();
-    } else kDebug() << "///////// WARNING; NO GROUP TO MOVE";
+    } else //qDebug() << "///////// WARNING; NO GROUP TO MOVE";
 }
 
 void CustomTrackView::moveTransition(const ItemInfo &start, const ItemInfo &end, bool refresh)
@@ -4843,7 +4843,7 @@ void CustomTrackView::moveTransition(const ItemInfo &start, const ItemInfo &end,
     Transition *item = getTransitionItemAt(start.startPos, start.track);
     if (!item) {
         emit displayMessage(i18n("Cannot move transition at time: %1 on track %2", m_document->timecode().getTimecodeFromFrames(start.startPos.frames(m_document->fps())), start.track), ErrorMessage);
-        kDebug() << "----------------  ERROR, CANNOT find transition to move... ";// << startPos.x() * m_scale * FRAME_SIZE + 1 << ", " << startPos.y() * m_tracksHeight + m_tracksHeight / 2;
+        //qDebug() << "----------------  ERROR, CANNOT find transition to move... ";// << startPos.x() * m_scale * FRAME_SIZE + 1 << ", " << startPos.y() * m_tracksHeight + m_tracksHeight / 2;
         return;
     }
 
@@ -4858,7 +4858,7 @@ void CustomTrackView::moveTransition(const ItemInfo &start, const ItemInfo &end,
         item->resizeStart((int) end.startPos.frames(m_document->fps()));
     } else if (end.startPos == start.startPos) {
         // Transition end resize;
-        kDebug() << "// resize END: " << end.endPos.frames(m_document->fps());
+        //qDebug() << "// resize END: " << end.endPos.frames(m_document->fps());
         item->resizeEnd((int) end.endPos.frames(m_document->fps()));
     } else {
         // Move & resize
@@ -4893,7 +4893,7 @@ void CustomTrackView::resizeClip(const ItemInfo &start, const ItemInfo &end, boo
     if (!item) {
         if (dontWorry) return;
         emit displayMessage(i18n("Cannot move clip at time: %1 on track %2", m_document->timecode().getTimecodeFromFrames(start.startPos.frames(m_document->fps())), start.track), ErrorMessage);
-        kDebug() << "----------------  ERROR, CANNOT find clip to resize at... "; // << startPos;
+        //qDebug() << "----------------  ERROR, CANNOT find clip to resize at... "; // << startPos;
         return;
     }
     if (item->parentItem()) {
@@ -4923,7 +4923,7 @@ void CustomTrackView::resizeClip(const ItemInfo &start, const ItemInfo &end, boo
             emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
     }
     if (!resizeClipStart && end.cropStart != start.cropStart) {
-        kDebug() << "// RESIZE CROP, DIFF: " << (end.cropStart - start.cropStart).frames(25);
+        //qDebug() << "// RESIZE CROP, DIFF: " << (end.cropStart - start.cropStart).frames(25);
         ItemInfo clipinfo = end;
         clipinfo.track = m_document->tracksCount() - end.track;
         bool success = m_document->renderer()->mltResizeClipCrop(clipinfo, end.cropStart);
@@ -5332,7 +5332,7 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected, QList <GenTim
     qSort(snaps);
     m_scene->setSnapList(snaps);
     //for (int i = 0; i < m_snapPoints.size(); ++i)
-    //    kDebug() << "SNAP POINT: " << m_snapPoints.at(i).frames(25);
+    //    //qDebug() << "SNAP POINT: " << m_snapPoints.at(i).frames(25);
 }
 
 void CustomTrackView::slotSeekToPreviousSnap()
@@ -6143,7 +6143,7 @@ void CustomTrackView::adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime
                     break;
                 } else newKeyFrames.append(QString::number(pos) + '=' + locale.toString(val));
             }
-            //kDebug()<<"ORIGIN: "<<keys<<", FIXED: "<<newKeyFrames;
+            ////qDebug()<<"ORIGIN: "<<keys<<", FIXED: "<<newKeyFrames;
             e.setAttribute("keyframes", newKeyFrames.join(";"));
         }
     }
@@ -6679,7 +6679,7 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
 {
     ClipItem *clip = getClipItemAt(pos, track);
     if (clip == NULL) {
-        kDebug() << "// Cannot find clip to split!!!";
+        //qDebug() << "// Cannot find clip to split!!!";
         return;
     }
     if (split) {
@@ -6691,11 +6691,11 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
             return;
 
         for (; freetrack > 0; --freetrack) {
-            //kDebug() << "// CHK DOC TRK:" << freetrack << ", DUR:" << m_document->renderer()->mltTrackDuration(freetrack);
+            ////qDebug() << "// CHK DOC TRK:" << freetrack << ", DUR:" << m_document->renderer()->mltTrackDuration(freetrack);
             if (m_document->trackInfoAt(freetrack - 1).type == AudioTrack && !m_document->trackInfoAt(freetrack - 1).isLocked) {
-                //kDebug() << "// CHK DOC TRK:" << freetrack << ", DUR:" << m_document->renderer()->mltTrackDuration(freetrack);
+                ////qDebug() << "// CHK DOC TRK:" << freetrack << ", DUR:" << m_document->renderer()->mltTrackDuration(freetrack);
                 if (m_document->renderer()->mltTrackDuration(freetrack) < start || m_document->renderer()->mltGetSpaceLength(pos, freetrack, false) >= clip->cropDuration().frames(m_document->fps())) {
-                    //kDebug() << "FOUND SPACE ON TRK: " << freetrack;
+                    ////qDebug() << "FOUND SPACE ON TRK: " << freetrack;
                     break;
                 }
             }
@@ -6738,13 +6738,13 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
     } else {
         // unsplit clip: remove audio part and change video part to normal clip
         if (clip->parentItem() == NULL || clip->parentItem()->type() != GroupWidget) {
-            kDebug() << "//CANNOT FIND CLP GRP";
+            //qDebug() << "//CANNOT FIND CLP GRP";
             return;
         }
         AbstractGroupItem *grp = static_cast <AbstractGroupItem *>(clip->parentItem());
         QList<QGraphicsItem *> children = grp->childItems();
         if (children.count() != 2) {
-            kDebug() << "//SOMETHING IS WRONG WITH CLP GRP";
+            //qDebug() << "//SOMETHING IS WRONG WITH CLP GRP";
             return;
         }
         for (int i = 0; i < children.count(); ++i) {
@@ -6823,7 +6823,7 @@ void CustomTrackView::doChangeClipType(const GenTime &pos, int track, bool video
 {
     ClipItem *clip = getClipItemAt(pos, track);
     if (clip == NULL) {
-        kDebug() << "// Cannot find clip to split!!!";
+        //qDebug() << "// Cannot find clip to split!!!";
         return;
     }
     Mlt::Tractor *tractor = m_document->renderer()->lockService();
@@ -7155,7 +7155,7 @@ void CustomTrackView::checkTrackSequence(int track)
         }
     }
     qSort(timelineList);
-    kDebug() << "// COMPARE:\n" << times << '\n' << timelineList << "\n-------------------";
+    //qDebug() << "// COMPARE:\n" << times << '\n' << timelineList << "\n-------------------";
     if (times != timelineList) KMessageBox::sorry(this, i18n("error"), i18n("TRACTOR"));
 }
 
@@ -7398,14 +7398,14 @@ void CustomTrackView::adjustEffectParameters(EffectsParameterList &parameters, Q
                 double val = (values.at(j).section('=', 1, 1).toDouble() - offset) / factor;
                 values[j] = pos + '=' + locale.toString(val);
             }
-            // kDebug() << "/ / / /SENDING KEYFR:" << values;
+            // //qDebug() << "/ / / /SENDING KEYFR:" << values;
             parameters.addParam(paramname, values.join(";"));
             /*parameters.addParam(e.attribute("name"), e.attribute("keyframes").replace(":", "="));
             parameters.addParam("max", e.attribute("max"));
             parameters.addParam("min", e.attribute("min"));
             parameters.addParam("factor", e.attribute("factor", "1"));*/
         } else if (e.attribute("type") == "keyframe") {
-            kDebug() << "/ / / /SENDING KEYFR EFFECT TYPE";
+            //qDebug() << "/ / / /SENDING KEYFR EFFECT TYPE";
             parameters.addParam("keyframes", e.attribute("keyframes"));
             parameters.addParam("max", e.attribute("max"));
             parameters.addParam("min", e.attribute("min"));
@@ -7553,7 +7553,7 @@ void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPo
         QMap<QString, QString>::const_iterator i = filterParams.constBegin();
         while (i != filterParams.constEnd()) {
             EffectsList::setParameter(newEffect, i.key(), i.value());
-            kDebug()<<"// RESULT FILTER: "<<i.key()<<"="<< i.value();
+            //qDebug()<<"// RESULT FILTER: "<<i.key()<<"="<< i.value();
             ++i;
         }
         EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effect, newEffect, clip->selectedEffectIndex(), true, true);

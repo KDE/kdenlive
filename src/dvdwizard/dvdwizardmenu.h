@@ -31,7 +31,7 @@
 #include <QGraphicsRectItem>
 #include <QDomElement>
 
-#include <KDebug>
+#include <QDebug>
 #include <kdeversion.h>
 
 #if KDE_IS_VERSION(4,7,0)

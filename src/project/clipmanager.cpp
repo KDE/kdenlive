@@ -32,7 +32,7 @@
 
 #include <mlt++/Mlt.h>
 
-#include <KDebug>
+#include <QDebug>
 #include <KMessageBox>
 #include <KApplication>
 #include <kio/netaccess.h>
@@ -283,11 +283,11 @@ void ClipManager::slotGetAudioThumbs()
             const QByteArray channelarray = f.readAll();
             f.close();
             if (channelarray.size() != arrayWidth*(frame + lengthInFrames) * channels) {
-                kDebug() << "--- BROKEN THUMB FOR: " << url.fileName() << " ---------------------- ";
+                //qDebug() << "--- BROKEN THUMB FOR: " << url.fileName() << " ---------------------- ";
                 f.remove();
                 continue;
             }
-            kDebug() << "reading audio thumbs from file";
+            //qDebug() << "reading audio thumbs from file";
 
             int h1 = arrayWidth * channels;
             int h2 = (int) frame * h1;
@@ -312,8 +312,8 @@ void ClipManager::slotGetAudioThumbs()
         }
         
         if (!f.open(QIODevice::WriteOnly)) {
-            kDebug() << "++++++++  ERROR WRITING TO FILE: " << audioPath;
-            kDebug() << "++++++++  DISABLING AUDIO THUMBS";
+            //qDebug() << "++++++++  ERROR WRITING TO FILE: " << audioPath;
+            //qDebug() << "++++++++  DISABLING AUDIO THUMBS";
             m_thumbsMutex.lock();
             m_audioThumbsQueue.clear();
             m_thumbsMutex.unlock();
@@ -323,7 +323,7 @@ void ClipManager::slotGetAudioThumbs()
 
         Mlt::Producer producer(prof, url.path().toUtf8().constData());
         if (!producer.is_valid()) {
-            kDebug() << "++++++++  INVALID CLIP: " << url.path();
+            //qDebug() << "++++++++  INVALID CLIP: " << url.path();
             continue;
         }
         
@@ -405,7 +405,7 @@ void ClipManager::addClip(DocClipBase *clip)
     m_clipList.append(clip);
     if (clip->clipType() != Color && clip->clipType() != SlideShow  && !clip->fileURL().isEmpty()) {
         // listen for file change
-        //kDebug() << "// LISTEN FOR: " << clip->fileURL().path();
+        ////qDebug() << "// LISTEN FOR: " << clip->fileURL().path();
         m_fileWatcher.addFile(clip->fileURL().path());
     }
     const QString id = clip->getId();
@@ -447,11 +447,11 @@ void ClipManager::deleteClip(const QString &clipId)
 
 DocClipBase *ClipManager::getClipById(QString clipId)
 {
-    //kDebug() << "++++  CLIP MAN, LOOKING FOR CLIP ID: " << clipId;
+    ////qDebug() << "++++  CLIP MAN, LOOKING FOR CLIP ID: " << clipId;
     clipId = clipId.section('_', 0, 0);
     for (int i = 0; i < m_clipList.count(); ++i) {
         if (m_clipList.at(i)->getId() == clipId) {
-            //kDebug() << "++++  CLIP MAN, FOUND FOR CLIP ID: " << clipId;
+            ////qDebug() << "++++  CLIP MAN, FOUND FOR CLIP ID: " << clipId;
             return m_clipList.at(i);
         }
     }
@@ -500,7 +500,7 @@ void ClipManager::resetProducersList(const QList <Mlt::Producer *> prods, bool d
         QString markup = prod->get("markup");
         if (prod->is_blank() || !prod->is_valid() || !markup.isEmpty()) {
             // The clip is broken (missing proxy or source clip)
-            kDebug()<<"// WARNING, CLIP "<<id<<" Cannot be loaded";
+            //qDebug()<<"// WARNING, CLIP "<<id<<" Cannot be loaded";
             brokenClips << id;
         }
         else if (clip) {
@@ -517,7 +517,7 @@ void ClipManager::slotAddClip(KIO::Job *job, const QUrl &, const QUrl &dst)
     data.insert("group", meta.value("group"));
     data.insert("groupid", meta.value("groupid"));
     data.insert("comment", meta.value("comment"));
-    kDebug()<<"Finished copying: "<<dst<<" / "<<meta.value("group")<<" / "<<meta.value("groupid");
+    //qDebug()<<"Finished copying: "<<dst<<" / "<<meta.value("group")<<" / "<<meta.value("groupid");
     slotAddClipList(QList<QUrl> () << dst, data);
 }
 
@@ -551,7 +551,7 @@ void ClipManager::slotAddClipList(const QList<QUrl> &urls, const QMap <QString, 
                     continue;
                 }
             }
-            kDebug() << "Adding clip: " << file.path();
+            //qDebug() << "Adding clip: " << file.path();
             QDomDocument doc;
             QDomElement prod = doc.createElement("producer");
             doc.appendChild(prod);
@@ -626,7 +626,7 @@ void ClipManager::slotAddClipList(const QList<QUrl> &urls, const QMap <QString, 
             }
             new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true, addClips);
         }
-        else kDebug()<<"// CANNOT READ FILE: "<<file;
+        else //qDebug()<<"// CANNOT READ FILE: "<<file;
     }
     if (addClips->childCount() > 0) {
         addClips->setText(i18np("Add clip", "Add clips", addClips->childCount()));
@@ -835,7 +835,7 @@ QDomElement ClipManager::groupsXml() const
 
 void ClipManager::slotClipModified(const QString &path)
 {
-    //kDebug() << "// CLIP: " << path << " WAS MODIFIED";
+    ////qDebug() << "// CLIP: " << path << " WAS MODIFIED";
     const QList <DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
@@ -867,7 +867,7 @@ void ClipManager::slotProcessModifiedClips()
 
 void ClipManager::slotClipMissing(const QString &path)
 {
-    // kDebug() << "// CLIP: " << path << " WAS MISSING";
+    // //qDebug() << "// CLIP: " << path << " WAS MISSING";
     const QList <DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
@@ -877,7 +877,7 @@ void ClipManager::slotClipMissing(const QString &path)
 
 void ClipManager::slotClipAvailable(const QString &path)
 {
-    // kDebug() << "// CLIP: " << path << " WAS ADDED";
+    // //qDebug() << "// CLIP: " << path << " WAS ADDED";
     const QList <DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);

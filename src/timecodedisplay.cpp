@@ -22,12 +22,10 @@
 
 #include <QMouseEvent>
 #include <QLineEdit>
+#include <QFontDatabase>
 
-#include <kglobal.h>
 #include <klocale.h>
-#include <kdebug.h>
 #include <KColorScheme>
-#include <KGlobalSettings>
 
 TimecodeDisplay::TimecodeDisplay(const Timecode& t, QWidget *parent)
         : QAbstractSpinBox(parent),
@@ -37,7 +35,7 @@ TimecodeDisplay::TimecodeDisplay(const Timecode& t, QWidget *parent)
         m_maximum(-1),
         m_value(0)
 {
-    lineEdit()->setFont(KGlobalSettings::toolBarFont());
+    lineEdit()->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     lineEdit()->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     QFontMetrics fm = lineEdit()->fontMetrics();
 #if QT_VERSION >= 0x040600

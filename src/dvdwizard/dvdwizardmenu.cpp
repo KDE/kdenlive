@@ -21,7 +21,7 @@
 
 #include "kdenlivesettings.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KColorScheme>
 
 #if KDE_IS_VERSION(4,6,0)
@@ -775,9 +775,9 @@ QDomElement DvdWizardMenu::toXml() const
 
 void DvdWizardMenu::loadXml(DVDFORMAT format, const QDomElement &xml)
 {
-    kDebug() << "// LOADING MENU";
+    //qDebug() << "// LOADING MENU";
     if (xml.isNull()) return;
-    kDebug() << "// LOADING MENU 1";
+    //qDebug() << "// LOADING MENU 1";
     changeProfile(format);
     m_view.create_menu->setChecked(xml.attribute("enabled").toInt());
     if (xml.hasAttribute("background_color")) {
@@ -798,7 +798,7 @@ void DvdWizardMenu::loadXml(DVDFORMAT format, const QDomElement &xml)
     m_view.use_shadow->setChecked(xml.attribute("text_shadow").toInt());
 
     QDomNodeList buttons = xml.elementsByTagName("button");
-    kDebug() << "// LOADING MENU 2" << buttons.count();
+    //qDebug() << "// LOADING MENU 2" << buttons.count();
 
     if (buttons.count() > 0) {
         // Clear existing buttons

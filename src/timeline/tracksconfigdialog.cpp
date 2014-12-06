@@ -22,7 +22,7 @@
 
 #include <QTableWidget>
 #include <KComboBox>
-#include <KDebug>
+#include <QDebug>
 #include <QIcon>
 
 TracksDelegate::TracksDelegate(QObject *parent) :

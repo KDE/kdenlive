@@ -20,7 +20,7 @@
 
 #include "kdenlivesettings.h"
 
-#include <KDebug>
+#include <QDebug>
 
 #include <QGraphicsView>
 #include <QVBoxLayout>
@@ -340,7 +340,7 @@ void Geometryval::slotNextFrame()
     Mlt::GeometryItem item;
     int error = m_geom->next_key(&item, m_helper->value() + 1);
     int pos;
-    kDebug() << "// SEEK TO NEXT KFR: " << error;
+    //qDebug() << "// SEEK TO NEXT KFR: " << error;
     if (error) {
         // Go to end
         pos = m_helper->frameLength;
@@ -353,7 +353,7 @@ void Geometryval::slotPreviousFrame()
 {
     Mlt::GeometryItem item;
     int error = m_geom->prev_key(&item, m_helper->value() - 1);
-    kDebug() << "// SEEK TO NEXT KFR: " << error;
+    //qDebug() << "// SEEK TO NEXT KFR: " << error;
     if (error) return;
     int pos = item.frame();
     m_timePos.setValue(pos);
@@ -389,14 +389,14 @@ void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
     else
         m_geom = new Mlt::Geometry(val.toUtf8().data(), maxFrame - minFrame, m_profile.width, m_profile.height);
 
-    //kDebug() << " / / UPDATING TRANSITION VALUE: " << m_geom->serialise();
+    ////qDebug() << " / / UPDATING TRANSITION VALUE: " << m_geom->serialise();
     //read param her and set rect
     if (!m_fixedMode) {
         m_helper->setKeyGeometry(m_geom, maxFrame - minFrame - 1);
         m_helper->update();
         /*QDomDocument doc;
         doc.appendChild(doc.importNode(par, true));
-        kDebug() << "IMPORTED TRANS: " << doc.toString();*/
+        //qDebug() << "IMPORTED TRANS: " << doc.toString();*/
         if (m_path == NULL) {
             m_path = new QGraphicsPathItem();
             m_path->setPen(QPen(Qt::red));

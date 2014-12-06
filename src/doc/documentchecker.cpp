@@ -26,7 +26,7 @@
 #include "definitions.h"
 #include "kdenlivesettings.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KGlobalSettings>
 #include <KIO/NetAccess>
 #include <KFileDialog>
@@ -392,7 +392,7 @@ bool DocumentChecker::hasErrorInClips()
             // Tell Kdenlive the source is missing
             e.setAttribute("_missingsource", "1");
             QTreeWidgetItem *subitem = new QTreeWidgetItem(item, QStringList() << i18n("Source clip"));
-            kDebug()<<"// Adding missing source clip: "<<realPath;
+            //qDebug()<<"// Adding missing source clip: "<<realPath;
             subitem->setIcon(0, QIcon::fromTheme("dialog-close"));
             subitem->setText(1, realPath);
             subitem->setData(0, hashRole, e.attribute("file_hash"));
@@ -589,7 +589,7 @@ QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &m
                     return file.fileName();
             }
         }
-        //kDebug() << filesAndDirs.at(i) << file.size() << fileHash.toHex();
+        ////qDebug() << filesAndDirs.at(i) << file.size() << fileHash.toHex();
     }
     filesAndDirs = dir.entryList(QDir::Dirs | QDir::Readable | QDir::Executable | QDir::NoDotAndDotDot);
     for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); ++i) {
@@ -732,7 +732,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers
             QString luma = getProperty(trans.at(i).toElement(), "luma");
             if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
                 setProperty(trans.at(i).toElement(), "luma", child->text(1));
-                kDebug() << "replace with; " << child->text(1);
+                //qDebug() << "replace with; " << child->text(1);
             }
         }
     } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
@@ -927,7 +927,7 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
     foreach(const QString &fontelement, fonts) {
         if (m_safeFonts.contains(fontelement)) continue;
         QFont f(fontelement);
-        //kDebug() << "/ / / CHK FONTS: " << fontelement << " = " << QFontInfo(f).family();
+        ////qDebug() << "/ / / CHK FONTS: " << fontelement << " = " << QFontInfo(f).family();
         if (fontelement != QFontInfo(f).family()) {
             QDomElement e = doc.createElement("missingclip");
             e.setAttribute("type", TITLE_FONT_ELEMENT);

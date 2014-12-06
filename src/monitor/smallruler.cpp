@@ -22,7 +22,7 @@
 
 #include "kdenlivesettings.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KColorScheme>
 #include <KLocalizedString>
 

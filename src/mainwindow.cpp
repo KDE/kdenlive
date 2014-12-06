@@ -71,7 +71,7 @@
 #include <KShortcutsDialog>
 #include <KFileDialog>
 #include <KMessageBox>
-#include <KDebug>
+#include <QDebug>
 #include <KIO/NetAccess>
 #include <KConfigDialog>
 #include <KXMLGUIFactory>
@@ -547,7 +547,7 @@ void MainWindow::loadPlugins()
     QStringList filters;
     filters << "libkdenlive*";
     foreach(const QString & folder, directories) {
-        kDebug() << "Parsing plugin folder: " << folder;
+        //qDebug() << "Parsing plugin folder: " << folder;
         QDir pluginsDir(folder);
         foreach(const QString & fileName,
                 pluginsDir.entryList(filters, QDir::Files)) {
@@ -556,14 +556,14 @@ void MainWindow::loadPlugins()
              * installation.
              */
             if (!m_pluginFileNames.contains(fileName)) {
-                kDebug() << "Found plugin: " << fileName;
+                //qDebug() << "Found plugin: " << fileName;
                 QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
                 QObject *plugin = loader.instance();
                 if (plugin) {
                     populateMenus(plugin);
                     m_pluginFileNames += fileName;
                 } else
-                    kDebug() << "Error loading plugin: " << fileName << ", " << loader.errorString();
+                    //qDebug() << "Error loading plugin: " << fileName << ", " << loader.errorString();
             }
         }
     }
@@ -582,7 +582,7 @@ void MainWindow::addToMenu(QObject *plugin, const QStringList &texts,
                            QMenu *menu, const char *member,
                            QActionGroup *actionGroup)
 {
-    kDebug() << "// ADD to MENU" << texts;
+    //qDebug() << "// ADD to MENU" << texts;
     foreach(const QString & text, texts) {
         QAction *action = new QAction(text, plugin);
         action->setData(text);
@@ -654,7 +654,7 @@ void MainWindow::slotFullScreen()
 void MainWindow::slotAddEffect(const QDomElement &effect)
 {
     if (effect.isNull()) {
-        kDebug() << "--- ERROR, TRYING TO APPEND NULL EFFECT";
+        //qDebug() << "--- ERROR, TRYING TO APPEND NULL EFFECT";
         return;
     }
     QDomElement effectToAdd = effect.cloneNode().toElement();
@@ -1260,7 +1260,7 @@ void MainWindow::readOptions()
             if (KdenliveSettings::defaultprojectfolder().isEmpty()) {
                 QString path = QDir::homePath() + "/kdenlive";
                 if (KStandardDirs::makeDir(path)  == false) {
-                    kDebug() << "/// ERROR CREATING PROJECT FOLDER: " << path;
+                    //qDebug() << "/// ERROR CREATING PROJECT FOLDER: " << path;
                 } else {
                     KdenliveSettings::setDefaultprojectfolder(path);
                 }
@@ -2525,7 +2525,7 @@ int MainWindow::getNewStuff(const QString &configFile)
     if (dialog->exec()) entries = dialog->changedEntries();
     foreach(const KNS3::Entry & entry, entries) {
         if (entry.status() == KNS3::Entry::Installed)
-            kDebug() << "// Installed files: " << entry.installedFiles();
+            //qDebug() << "// Installed files: " << entry.installedFiles();
     }
     delete dialog;
 #else
@@ -2534,7 +2534,7 @@ int MainWindow::getNewStuff(const QString &configFile)
         entries = engine.downloadDialogModal(this);
     foreach(KNS::Entry * entry, entries) {
         if (entry->status() == KNS::Entry::Installed)
-            kDebug() << "// Installed files: " << entry->installedFiles();
+            //qDebug() << "// Installed files: " << entry->installedFiles();
     }
 #endif
     return entries.size();
@@ -2827,11 +2827,11 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
             // save chapters file
             QFile file(chapterFile);
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                kWarning() << "//////  ERROR writing DVD CHAPTER file: " << chapterFile;
+                qWarning() << "//////  ERROR writing DVD CHAPTER file: " << chapterFile;
             } else {
                 file.write(doc.toString().toUtf8());
                 if (file.error() != QFile::NoError) {
-                    kWarning() << "//////  ERROR writing DVD CHAPTER file: " << chapterFile;
+                    qWarning() << "//////  ERROR writing DVD CHAPTER file: " << chapterFile;
                 }
                 file.close();
             }
@@ -3172,7 +3172,7 @@ void MainWindow::slotArchiveProject()
 
 void MainWindow::slotElapsedTime()
 {
-    kDebug()<<"-----------------------------------------\n"<<"Time elapsed: "<<m_timer.elapsed()<<"\n-------------------------";
+    //qDebug()<<"-----------------------------------------\n"<<"Time elapsed: "<<m_timer.elapsed()<<"\n-------------------------";
 }
 
 

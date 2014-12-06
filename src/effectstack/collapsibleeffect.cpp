@@ -32,7 +32,7 @@
 #include <QWheelEvent>
 #include <QMimeData>
 
-#include <KDebug>
+#include <QDebug>
 #include <KComboBox>
 #include <KGlobalSettings>
 #include <KLocalizedString>
@@ -88,7 +88,7 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     QDomElement namenode = m_effect.firstChildElement("name");
     if (namenode.isNull()) {
         // Warning, broken effect?
-        kDebug()<<"// Could not create effect";
+        //qDebug()<<"// Could not create effect";
         return;
     }
     QString effectname = i18n(namenode.text().toUtf8().data());
@@ -416,7 +416,7 @@ void CollapsibleEffect::updateWidget(const ItemInfo &info, const QDomElement &ef
 void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaInfo)
 {
     if (m_effect.isNull()) {
-        //         kDebug() << "// EMPTY EFFECT STACK";
+        //         //qDebug() << "// EMPTY EFFECT STACK";
         return;
     }
 
@@ -494,7 +494,7 @@ void CollapsibleEffect::updateTimecodeFormat()
 
 void CollapsibleEffect::slotUpdateRegionEffectParams(const QDomElement /*old*/, const QDomElement /*e*/, int /*ix*/)
 {
-    kDebug()<<"// EMIT CHANGE SUBEFFECT.....:";
+    //qDebug()<<"// EMIT CHANGE SUBEFFECT.....:";
     emit parameterChanged(m_original_effect, m_effect, effectIndex());
 }
 
