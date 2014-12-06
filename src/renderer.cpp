@@ -1007,7 +1007,7 @@ void Render::processFileProperties()
                 filePropertyMap["pix_fmt"] = producer->get(query.toUtf8().constData());
                 filePropertyMap["colorspace"] = producer->get("meta.media.colorspace");
 
-            } else //qDebug() << " / / / / /WARNING, VIDEO CONTEXT IS NULL!!!!!!!!!!!!!!";
+            } else qDebug() << " / / / / /WARNING, VIDEO CONTEXT IS NULL!!!!!!!!!!!!!!";
             if (producer->get_int("audio_index") > -1) {
                 // Get the audio_index
                 int index = producer->get_int("audio_index");
@@ -1445,7 +1445,7 @@ void Render::start()
     if (m_mltConsumer->is_stopped()) {
         if (m_mltConsumer->start() == -1) {
             //KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
-            kDebug(QtWarningMsg) << "/ / / / CANNOT START MONITOR";
+            qWarning() << "/ / / / CANNOT START MONITOR";
         } else {
             m_mltConsumer->purge();
             m_mltConsumer->set("refresh", 1);
@@ -1652,7 +1652,7 @@ void Render::setDropFrames(bool show)
         m_mltConsumer->stop();
         m_mltConsumer->set("real_time", dropFrames);
         if (m_mltConsumer->start() == -1) {
-            kDebug(QtWarningMsg) << "ERROR, Cannot start monitor";
+            qWarning() << "ERROR, Cannot start monitor";
         }
 
     }
@@ -1665,7 +1665,7 @@ void Render::setConsumerProperty(const QString &name, const QString &value)
         m_mltConsumer->stop();
         m_mltConsumer->set(name.toUtf8().constData(), value.toUtf8().constData());
         if (m_isActive && m_mltConsumer->start() == -1) {
-            kDebug(QtWarningMsg) << "ERROR, Cannot start monitor";
+            qWarning() << "ERROR, Cannot start monitor";
         }
 
     }
@@ -3770,7 +3770,7 @@ void Render::mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_tr
             trList.append(cp);
             field->disconnect_service(transition);
         }
-        //else //qDebug() << "// FOUND TRANS OK, "<<resource<< ", A_: " << aTrack << ", B_ "<<bTrack;
+        //else qDebug() << "// FOUND TRANS OK, "<<resource<< ", A_: " << aTrack << ", B_ "<<bTrack;
 
         if (nextservice == NULL) break;
         properties = MLT_SERVICE_PROPERTIES(nextservice);

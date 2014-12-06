@@ -133,7 +133,7 @@ void MarkerDialog::slotUpdateThumb()
     if (!p.isNull())
         clip_thumb->setPixmap(p);
     else
-        //qDebug() << "!!!!!!!!!!!  ERROR CREATING THUMB";
+        qDebug() << "!!!!!!!!!!!  ERROR CREATING THUMB";
 }
 
 QImage MarkerDialog::markerImage() const

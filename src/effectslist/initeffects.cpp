@@ -341,7 +341,7 @@ void initEffects::parseCustomEffectsFile()
         } else if (base.tagName() == "effect") {
             effectsMap.insert(base.firstChildElement("name").text().toLower().toUtf8().data(), base);
         }
-        else //qDebug() << "Unsupported effect file: " << itemName;
+        else qDebug() << "Unsupported effect file: " << itemName;
     }
     foreach(const QDomElement & effect, effectsMap)
         MainWindow::customEffects.append(effect);

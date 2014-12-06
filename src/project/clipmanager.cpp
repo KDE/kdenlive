@@ -626,7 +626,7 @@ void ClipManager::slotAddClipList(const QList<QUrl> &urls, const QMap <QString, 
             }
             new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true, addClips);
         }
-        else //qDebug()<<"// CANNOT READ FILE: "<<file;
+        else qDebug()<<"// CANNOT READ FILE: "<<file;
     }
     if (addClips->childCount() > 0) {
         addClips->setText(i18np("Add clip", "Add clips", addClips->childCount()));

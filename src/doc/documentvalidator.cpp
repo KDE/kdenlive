@@ -119,7 +119,7 @@ bool DocumentValidator::validate(const double currentVersion)
 	    QString versionString = kdenliveDoc.attribute("version");
 	    if (versionString.contains(',')) versionString.replace(',', '.');
 	    version = versionString.toDouble(&ok);
-	    if (!ok) //qDebug()<<"// CANNOT PARSE VERSION NUMBER, ERROR!";
+	    if (!ok) qDebug()<<"// CANNOT PARSE VERSION NUMBER, ERROR!";
 	}
     }
     

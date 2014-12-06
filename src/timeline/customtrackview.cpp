@@ -2352,9 +2352,9 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         if (!item || cutTime >= item->endPos() || cutTime <= item->startPos()) {
             emit displayMessage(i18n("Cannot find clip to cut"), ErrorMessage);
             if (item)
-                //qDebug() << "/////////  ERROR CUTTING CLIP : (" << item->startPos().frames(25) << '-' << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << '-' << info.endPos.frames(25) << ')' << ", CUT: " << cutTime.frames(25);
+                qDebug() << "/////////  ERROR CUTTING CLIP : (" << item->startPos().frames(25) << '-' << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << '-' << info.endPos.frames(25) << ')' << ", CUT: " << cutTime.frames(25);
             else
-                //qDebug() << "/// ERROR NO CLIP at: " << info.startPos.frames(m_document->fps()) << ", track: " << info.track;
+                qDebug() << "/// ERROR NO CLIP at: " << info.startPos.frames(m_document->fps()) << ", track: " << info.track;
             m_blockRefresh = false;
             return NULL;
         }
@@ -3019,7 +3019,7 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
             info = transitionInfos.at(i);
             Transition *tr = getTransitionItem(info);
             if (tr) tr->setForcedTrack(info.forceTrack, info.a_track);
-            else //qDebug()<<"// Cannot update TRANSITION AT: "<<info.b_track<<" / "<<info.startPos.frames(m_document->fps());
+            else qDebug()<<"// Cannot update TRANSITION AT: "<<info.b_track<<" / "<<info.startPos.frames(m_document->fps());
         }
         m_selectionMutex.unlock();
         resetSelectionGroup(false);
@@ -4143,8 +4143,8 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
 {
     ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
     m_ct++;
-    if (!item) //qDebug()<<"// PROBLEM FINDING CLIP ITEM TO REMOVVE!!!!!!!!!";
-    else //qDebug()<<"// deleting CLIP: "<<info.startPos.frames(m_document->fps())<<", "<<item->baseClip()->fileURL();
+    if (!item) qDebug()<<"// PROBLEM FINDING CLIP ITEM TO REMOVVE!!!!!!!!!";
+    else qDebug()<<"// deleting CLIP: "<<info.startPos.frames(m_document->fps())<<", "<<item->baseClip()->fileURL();
     //m_document->renderer()->saveSceneList(QString("/tmp/error%1.mlt").arg(m_ct), QDomElement());
     if (!item || m_document->renderer()->mltRemoveClip(m_document->tracksCount() - info.track, info.startPos) == false) {
         emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps())), info.track), ErrorMessage);
@@ -4746,7 +4746,7 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
                 m_selectionGroup->addItem(clip);
             }
             m_document->renderer()->mltRemoveClip(m_document->tracksCount() - startClip.at(i).track, startClip.at(i).startPos);
-        } else //qDebug() << "//MISSING CLIP AT: " << startClip.at(i).startPos.frames(25);
+        } else qDebug() << "//MISSING CLIP AT: " << startClip.at(i).startPos.frames(25);
     }
     for (int i = 0; i < startTransition.count(); ++i) {
         if (reverseMove) {
@@ -4762,7 +4762,7 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
                 m_selectionGroup->addItem(tr);
             }
             m_document->renderer()->mltDeleteTransition(tr->transitionTag(), tr->transitionEndTrack(), m_document->tracksCount() - startTransition.at(i).track, startTransition.at(i).startPos, startTransition.at(i).endPos, tr->toXML());
-        } else //qDebug() << "//MISSING TRANSITION AT: " << startTransition.at(i).startPos.frames(25);
+        } else qDebug() << "//MISSING TRANSITION AT: " << startTransition.at(i).startPos.frames(25);
     }
     m_document->renderer()->blockSignals(false);
 
@@ -4835,7 +4835,7 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
 
         KdenliveSettings::setSnaptopoints(snap);
         m_document->renderer()->doRefresh();
-    } else //qDebug() << "///////// WARNING; NO GROUP TO MOVE";
+    } else qDebug() << "///////// WARNING; NO GROUP TO MOVE";
 }
 
 void CustomTrackView::moveTransition(const ItemInfo &start, const ItemInfo &end, bool refresh)

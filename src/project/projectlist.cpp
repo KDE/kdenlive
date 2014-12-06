@@ -1700,7 +1700,7 @@ void ProjectList::slotAddClip(const QString &url, const QString &groupName, cons
 void ProjectList::slotAddClip(const QList <QUrl> &givenList, const QString &groupName, const QString &groupId)
 {
     if (!m_commandStack)
-        //qDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
+        qDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
 
     QList <QUrl> list;
     if (givenList.isEmpty()) {
@@ -1891,7 +1891,7 @@ void ProjectList::slotRemoveInvalidProxy(const QString &id, bool durationError)
 void ProjectList::slotAddColorClip()
 {
     if (!m_commandStack)
-        //qDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
+        qDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
 
     QPointer<QDialog> dia = new QDialog(this);
     Ui::ColorClip_UI dia_ui;
@@ -1919,7 +1919,7 @@ void ProjectList::slotAddColorClip()
 void ProjectList::slotAddSlideshowClip()
 {
     if (!m_commandStack)
-        //qDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
+        qDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
 
     QPointer<SlideshowClip> dia = new SlideshowClip(m_timecode, this);
 
@@ -1954,7 +1954,7 @@ void ProjectList::slotAddTitleClip()
 void ProjectList::slotAddTitleTemplateClip()
 {
     if (!m_commandStack)
-        //qDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
+        qDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
 
     QStringList groupInfo = getGroup();
 
@@ -3686,7 +3686,7 @@ void ProjectList::processClipJob(QStringList ids, const QString&destination, boo
             job->setAddClipToProject(true);
             //qDebug()<<"// ADDING TRUE";
         }
-        else //qDebug()<<"// ADDING FALSE!!!";
+        else qDebug()<<"// ADDING FALSE!!!";
 
         if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
             delete job;

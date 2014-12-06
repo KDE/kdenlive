@@ -413,7 +413,7 @@ void KThumb::slotGetIntraThumbs()
             if (m_clipManager->pixmapCache->insertImage(key, img)) {
                 addedThumbs = true;
             }
-            else //qDebug()<<"// INSERT FAILD FOR: "<<pos;
+            else qDebug()<<"// INSERT FAILD FOR: "<<pos;
         }
         
     }

@@ -890,7 +890,7 @@ void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpda
         if (clip) prod = clip->getCloneProducer();
         if (render->setProducer(prod, position) == -1) {
             // MLT CONSUMER is broken
-            kDebug(QtWarningMsg) << "ERROR, Cannot start monitor";
+            qWarning() << "ERROR, Cannot start monitor";
         } else start();
     } else {
         if (m_currentClip) {

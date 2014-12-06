@@ -563,7 +563,7 @@ void MainWindow::loadPlugins()
                     populateMenus(plugin);
                     m_pluginFileNames += fileName;
                 } else
-                    //qDebug() << "Error loading plugin: " << fileName << ", " << loader.errorString();
+                    qDebug() << "Error loading plugin: " << fileName << ", " << loader.errorString();
             }
         }
     }
@@ -2525,7 +2525,7 @@ int MainWindow::getNewStuff(const QString &configFile)
     if (dialog->exec()) entries = dialog->changedEntries();
     foreach(const KNS3::Entry & entry, entries) {
         if (entry.status() == KNS3::Entry::Installed)
-            //qDebug() << "// Installed files: " << entry.installedFiles();
+            qDebug() << "// Installed files: " << entry.installedFiles();
     }
     delete dialog;
 #else

@@ -489,7 +489,7 @@ void KdenliveSettingsDialog::initDevices()
                 line = stream.readLine();
             }
             file.close();
-        } else //qDebug()<<" / / / /CANNOT READ PCM";
+        } else qDebug()<<" / / / /CANNOT READ PCM";
     }
     
     // Add pulseaudio capture option

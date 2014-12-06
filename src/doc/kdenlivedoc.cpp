@@ -327,7 +327,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                                             CommentedTime marker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"), e.attribute("type").toInt());
                                             DocClipBase *baseClip = m_clipManager->getClipById(e.attribute("id"));
                                             if (baseClip) baseClip->addSnapMarker(marker);
-                                            else //qDebug()<< " / / Warning, missing clip: "<< e.attribute("id");
+                                            else qDebug()<< " / / Warning, missing clip: "<< e.attribute("id");
                                         }
                                     }
                                     infoXml.removeChild(markers);
@@ -1206,7 +1206,7 @@ QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &match
                 if (QString(fileHash.toHex()) == matchHash)
                     return file.fileName();
                 else
-                    //qDebug() << filesAndDirs.at(i) << "size match but not hash";
+                    qDebug() << filesAndDirs.at(i) << "size match but not hash";
             }
         }
         ////qDebug() << filesAndDirs.at(i) << file.size() << fileHash.toHex();

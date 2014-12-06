@@ -236,7 +236,7 @@ void ProfilesDialog::slotDeleteProfile()
     if (path.contains('/')) {
         KIO::NetAccess::del(QUrl(path), this);
         fillList();
-    } else //qDebug() << "//// Cannot delete profile " << path << ", does not seem to be custom one";
+    } else qDebug() << "//// Cannot delete profile " << path << ", does not seem to be custom one";
 }
 
 // static
