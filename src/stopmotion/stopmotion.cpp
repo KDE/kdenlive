@@ -28,7 +28,7 @@
 #include "kdenlivesettings.h"
 
 #include <QDebug>
-#include <KGlobalSettings>
+#include <QFontDatabase>
 
 #include <KMessageBox>
 #include <kdeversion.h>
@@ -169,7 +169,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
     addActions(actions);
     setupUi(this);
     setWindowTitle(i18n("Stop Motion Capture"));
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
 
     live_button->setIcon(QIcon::fromTheme("camera-photo"));
 

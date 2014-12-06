@@ -80,7 +80,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
             QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(KdenliveSettings::mltpath(),
                                                                            i18n("Cannot find your MLT profiles, please give the path"),
                                                                            pCore->window());
-            getUrl->fileDialog()->setFileMode(QFileDialog::DirectoryOnly);
+            getUrl->urlRequester()->setMode(KFile::Directory);
             if (getUrl->exec() == QDialog::Rejected) {
                 delete getUrl;
                 ::exit(0);

@@ -25,7 +25,7 @@
 #include <QDebug>
 #include <mlt++/Mlt.h>
 #include "kdenlivesettings.h"
-#include <KGlobalSettings>
+#include <QFontDatabase>
 #include <KMessageBox>
 #include <KColorScheme>
 #include <KFileDialog>
@@ -36,7 +36,7 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
     m_urls(urls),
     vbox(NULL)
 {
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setWindowTitle(i18n("Stabilize Clip"));
     auto_add->setText(i18np("Add clip to project", "Add clips to project", urls.count()));

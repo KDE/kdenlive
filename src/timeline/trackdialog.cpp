@@ -30,7 +30,7 @@
 TrackDialog::TrackDialog(KdenliveDoc *doc, QWidget * parent) :
         QDialog(parent)
 {
-    //setFont(KGlobalSettings::toolBarFont());
+    //setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QIcon videoIcon = QIcon::fromTheme("kdenlive-show-video");
     QIcon audioIcon = QIcon::fromTheme("kdenlive-show-audio");
     setupUi(this);

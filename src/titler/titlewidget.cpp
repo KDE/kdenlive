@@ -23,7 +23,7 @@
 #include <cmath>
 
 #include <QDebug>
-#include <KGlobalSettings>
+#include <QFontDatabase>
 #include <KFileDialog>
 #include <KGlobal>
 
@@ -78,7 +78,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
 {
     setupUi(this);
     setMinimumSize(200, 200);
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     frame_properties->setEnabled(false);
     frame_properties->setFixedHeight(frame_toolbar->height());
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);

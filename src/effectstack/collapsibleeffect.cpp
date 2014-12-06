@@ -31,10 +31,11 @@
 #include <QProgressBar>
 #include <QWheelEvent>
 #include <QMimeData>
+#include <QFontDatabase>
 
 #include <QDebug>
 #include <KComboBox>
-#include <KGlobalSettings>
+
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KFileDialog>
@@ -55,7 +56,7 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     }
     filterWheelEvent = true;
     m_info.fromString(effect.attribute("kdenlive_info"));
-    setFont(KGlobalSettings::smallestReadableFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     buttonUp->setIcon(QIcon::fromTheme("kdenlive-up"));
     buttonUp->setToolTip(i18n("Move effect up"));
     if (!lastEffect) {

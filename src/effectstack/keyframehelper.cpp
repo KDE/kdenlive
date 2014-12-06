@@ -24,7 +24,7 @@
 #include "definitions.h"
 
 #include <QDebug>
-#include <KGlobalSettings>
+#include <QFontDatabase>
 #include <KColorScheme>
 
 #include <QMouseEvent>
@@ -49,7 +49,7 @@ KeyframeHelper::KeyframeHelper(QWidget *parent) :
   , m_hoverKeyframe(-1)
   , m_seekPosition(SEEK_INACTIVE)
 {
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setMouseTracking(true);
     QPalette p = palette();
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));

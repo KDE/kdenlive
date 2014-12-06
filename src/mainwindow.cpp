@@ -63,10 +63,9 @@
 #include <KApplication>
 #include <QAction>
 #include <KLocalizedString>
-#include <KGlobal>
-#include <KGlobalSettings>
 #include <KActionCollection>
 #include <KActionCategory>
+#include <KActionMenu>
 #include <KStandardAction>
 #include <KShortcutsDialog>
 #include <KFileDialog>
@@ -75,6 +74,7 @@
 #include <KIO/NetAccess>
 #include <KConfigDialog>
 #include <KXMLGUIFactory>
+#include <KColorSchemeManager>
 #include <KStatusBar>
 #include <KStandardDirs>
 #include <KUrlRequesterDialog>
@@ -145,14 +145,20 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     Core::initialize(this);
 
+    KSharedConfigPtr config = KSharedConfig::openConfig(KdenliveSettings::colortheme());
+    KConfigGroup g(config, QString("General"));
+    QString name = g.readEntry(QString("Name"), QStringLiteral("Oxygen"));
+
+    m_colorschemes = new KColorSchemeManager(this);
+    m_themesMenu = m_colorschemes->createSchemeSelectionMenu(QIcon(), i18n("Theme"), name, this);
+    // select current theme
+    QModelIndex index = m_colorschemes->indexForScheme(name);
+    m_colorschemes->activateScheme(index);
+    
     // Create DBus interface
     new MainWindowAdaptor(this);
     QDBusConnection dbus = QDBusConnection::sessionBus();
     dbus.registerObject("/MainWindow", this);
-
-    if (!KdenliveSettings::colortheme().isEmpty()) slotChangePalette(NULL, KdenliveSettings::colortheme());
-    // FIXME: really?
-    setFont(KGlobalSettings::toolBarFont());
 
     MltConnection::locateMeltAndProfilesPath(MltPath);
 
@@ -304,41 +310,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     menus.insert("inTimelineMenu",clipInTimeline);
     m_projectList->setupGeneratorMenu(menus);
 
-    // build themes menus
-    QMenu *themesMenu = static_cast<QMenu*>(factory()->container("themes_menu", this));
-    QActionGroup *themegroup = new QActionGroup(this);
-    themegroup->setExclusive(true);
-    action = new QAction(i18n("Default"), this);
-    action->setCheckable(true);
-    themegroup->addAction(action);
-    if (KdenliveSettings::colortheme().isEmpty()) action->setChecked(true);
-
-    const QStringList schemeFiles = KGlobal::dirs()->findAllResources("data", "color-schemes/*.colors", KStandardDirs::NoDuplicates);
-
-    for (int i = 0; i < schemeFiles.size(); ++i) {
-        // get the file name
-        const QString filename = schemeFiles.at(i);
-        const QFileInfo info(filename);
-
-        // add the entry
-        KSharedConfigPtr config = KSharedConfig::openConfig(filename);
-        QIcon icon = createSchemePreviewIcon(config);
-        KConfigGroup group(config, "General");
-        const QString name = group.readEntry("Name", info.baseName());
-        action = new QAction(name, this);
-        action->setData(filename);
-        action->setIcon(icon);
-        action->setCheckable(true);
-        themegroup->addAction(action);
-        if (KdenliveSettings::colortheme() == filename) action->setChecked(true);
-    }
-
-    themesMenu->addActions(themegroup->actions());
-    connect(themesMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotChangePalette(QAction*)));
-
     // Setup and fill effects and transitions menus.
-
-
     QMenu *m = static_cast<QMenu*>(factory()->container("video_effects_menu", this));
     m->addActions(m_effectsMenu->actions());
 
@@ -479,8 +451,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
         }
     }
     
-    connect (KGlobalSettings::self(), SIGNAL(kdisplayPaletteChanged()), this, SLOT(slotChangePalette()));
-
     pCore->projectManager()->init(Url, clipsToLoad);
 
 #ifdef USE_JOGSHUTTLE
@@ -543,7 +513,7 @@ void MainWindow::loadPlugins()
         populateMenus(plugin);
     }
 
-    QStringList directories = KGlobal::dirs()->findDirs("module", QString());
+    /*QStringList directories = KGlobal::dirs()->findDirs("module", QString()); // port to QStandardPaths ?
     QStringList filters;
     filters << "libkdenlive*";
     foreach(const QString & folder, directories) {
@@ -551,10 +521,10 @@ void MainWindow::loadPlugins()
         QDir pluginsDir(folder);
         foreach(const QString & fileName,
                 pluginsDir.entryList(filters, QDir::Files)) {
-            /*
-             * Avoid loading the same plugin twice when there is more than one
-             * installation.
-             */
+            //
+            // Avoid loading the same plugin twice when there is more than one
+            // installation.
+            //
             if (!m_pluginFileNames.contains(fileName)) {
                 //qDebug() << "Found plugin: " << fileName;
                 QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
@@ -566,7 +536,7 @@ void MainWindow::loadPlugins()
                     qDebug() << "Error loading plugin: " << fileName << ", " << loader.errorString();
             }
         }
-    }
+    }*/
 }
 
 void MainWindow::populateMenus(QObject *plugin)
@@ -1216,6 +1186,8 @@ void MainWindow::setupActions()
     }
     //m_effectsActionCollection->readSettings();
 
+    addAction("themes_menu", m_themesMenu);
+    connect(m_themesMenu->menu(), SIGNAL(triggered(QAction*)), this, SLOT(slotChangePalette(QAction*)));
 }
 
 void MainWindow::slotDisplayActionMessage(QAction *a)
@@ -2958,63 +2930,31 @@ void MainWindow::slotUpdateTrackInfo()
     m_transitionConfig->updateProjectFormat();
 }
 
-void MainWindow::slotChangePalette(QAction *action, const QString &themename)
+
+void MainWindow::slotChangePalette(QAction *action)
 {
     // Load the theme file
-    QString theme;
-    if (action == NULL) theme = themename;
-    else theme = action->data().toString();
+    QString theme = action->data().toString();
+    QModelIndex index = m_colorschemes->indexForScheme(theme);
+    m_colorschemes->activateScheme(index);
     KdenliveSettings::setColortheme(theme);
     // Make palette for all widgets.
-    QPalette plt = kapp->palette();
-    if (theme.isEmpty()) {
-        plt = QApplication::desktop()->palette();
-    } else {
-        KSharedConfigPtr config = KSharedConfig::openConfig(theme);
-
-#if KDE_IS_VERSION(4,6,3)
-        plt = KGlobalSettings::createNewApplicationPalette(config);
-#else
-        // Since there was a bug in createApplicationPalette in KDE < 4.6.3 we need
-        // to do the palette loading stuff ourselves. (https://bugs.kde.org/show_bug.cgi?id=263497)
-        QPalette::ColorGroup states[3] = { QPalette::Active, QPalette::Inactive,
-                                           QPalette::Disabled };
-        // TT thinks tooltips shouldn't use active, so we use our active colors for all states
-        KColorScheme schemeTooltip(QPalette::Active, KColorScheme::Tooltip, config);
-
-        for ( int i = 0; i < 3 ; ++i ) {
-            QPalette::ColorGroup state = states[i];
-            KColorScheme schemeView(state, KColorScheme::View, config);
-            KColorScheme schemeWindow(state, KColorScheme::Window, config);
-            KColorScheme schemeButton(state, KColorScheme::Button, config);
-            KColorScheme schemeSelection(state, KColorScheme::Selection, config);
-
-            plt.setBrush( state, QPalette::WindowText, schemeWindow.foreground() );
-            plt.setBrush( state, QPalette::Window, schemeWindow.background() );
-            plt.setBrush( state, QPalette::Base, schemeView.background() );
-            plt.setBrush( state, QPalette::Text, schemeView.foreground() );
-            plt.setBrush( state, QPalette::Button, schemeButton.background() );
-            plt.setBrush( state, QPalette::ButtonText, schemeButton.foreground() );
-            plt.setBrush( state, QPalette::Highlight, schemeSelection.background() );
-            plt.setBrush( state, QPalette::HighlightedText, schemeSelection.foreground() );
-            plt.setBrush( state, QPalette::ToolTipBase, schemeTooltip.background() );
-            plt.setBrush( state, QPalette::ToolTipText, schemeTooltip.foreground() );
-
-            plt.setColor( state, QPalette::Light, schemeWindow.shade( KColorScheme::LightShade ) );
-            plt.setColor( state, QPalette::Midlight, schemeWindow.shade( KColorScheme::MidlightShade ) );
-            plt.setColor( state, QPalette::Mid, schemeWindow.shade( KColorScheme::MidShade ) );
-            plt.setColor( state, QPalette::Dark, schemeWindow.shade( KColorScheme::DarkShade ) );
-            plt.setColor( state, QPalette::Shadow, schemeWindow.shade( KColorScheme::ShadowShade ) );
-
-            plt.setBrush( state, QPalette::AlternateBase, schemeView.background( KColorScheme::AlternateBackground) );
-            plt.setBrush( state, QPalette::Link, schemeView.foreground( KColorScheme::LinkText ) );
-            plt.setBrush( state, QPalette::LinkVisited, schemeView.foreground( KColorScheme::VisitedText ) );
-        }
-#endif
+    KSharedConfigPtr config = KSharedConfig::openConfig(theme);    
+    QPalette plt = qApp->palette();
+    
+    if (m_effectStack) m_effectStack->updatePalette();
+    if (m_projectList) m_projectList->updatePalette();
+    if (m_effectList) m_effectList->updatePalette();
+    if (m_transitionConfig) m_transitionConfig->updatePalette();
+    
+    if (m_clipMonitor) m_clipMonitor->setPalette(plt);
+    if (m_projectMonitor) m_projectMonitor->setPalette(plt);
+    
+    setStatusBarStyleSheet(plt);
+    if (pCore->projectManager()->currentTrackView()) {
+        pCore->projectManager()->currentTrackView()->updatePalette();
     }
-
-    kapp->setPalette(plt);
-    slotChangePalette();
+    m_timelineArea->setPalette(plt);
     const QObjectList children = statusBar()->children();
 
     foreach(QObject * child, children) {
@@ -3154,8 +3094,10 @@ void MainWindow::slotDeleteClip(const QString &id)
 void MainWindow::slotUpdateProxySettings()
 {
     if (m_renderWidget) m_renderWidget->updateProxyConfig(m_projectList->useProxy());
-    if (KdenliveSettings::enableproxy())
-        KStandardDirs::makeDir(pCore->projectManager()->current()->projectFolder().path() + QDir::separator() + "proxy/");
+    if (KdenliveSettings::enableproxy()) {
+        QDir dir(pCore->projectManager()->current()->projectFolder().path());
+        dir.mkdir("proxy");
+    }
     m_projectList->updateProxyConfig();
 }
 
@@ -3188,21 +3130,6 @@ void MainWindow::slotDownloadResources()
     d->show();
 }
 
-void MainWindow::slotChangePalette()
-{
-    QPalette plt = QApplication::palette();
-    if (m_effectStack) m_effectStack->updatePalette();
-    if (m_projectList) m_projectList->updatePalette();
-    if (m_effectList) m_effectList->updatePalette();
-    
-    if (m_clipMonitor) m_clipMonitor->setPalette(plt);
-    if (m_projectMonitor) m_projectMonitor->setPalette(plt);
-    
-    setStatusBarStyleSheet(plt);
-    if (pCore->projectManager()->currentTrackView()) {
-        pCore->projectManager()->currentTrackView()->updatePalette();
-    }
-}
 
 void MainWindow::slotSaveTimelineClip()
 {

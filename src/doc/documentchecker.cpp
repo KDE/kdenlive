@@ -27,13 +27,13 @@
 #include "kdenlivesettings.h"
 
 #include <QDebug>
-#include <KGlobalSettings>
+
 #include <KIO/NetAccess>
 #include <KFileDialog>
 #include <KApplication>
 #include <KUrlRequesterDialog>
 #include <KMessageBox>
-
+#include <QFontDatabase>
 #include <QTreeWidgetItem>
 #include <QFile>
 #include <QCryptographicHash>
@@ -185,7 +185,7 @@ bool DocumentChecker::hasErrorInClips()
         return false;
 
     m_dialog = new QDialog();
-    m_dialog->setFont(KGlobalSettings::toolBarFont());
+    m_dialog->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_ui.setupUi(m_dialog);
 
     foreach(const QString &l, missingLumas) {

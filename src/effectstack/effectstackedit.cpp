@@ -49,7 +49,7 @@ EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) :
     setFrameStyle(QFrame::NoFrame);
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
     
-    setStyleSheet(EffectStackView2::getStyleSheet());
+    updatePalette();
     setWidget(m_baseWidget);
     /*m_vbox = new QVBoxLayout(m_baseWidget);
     m_vbox->setContentsMargins(0, 0, 0, 0);
@@ -60,6 +60,13 @@ EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) :
 EffectStackEdit::~EffectStackEdit()
 {
     delete m_baseWidget;
+}
+
+void EffectStackEdit::updatePalette()
+{
+    setStyleSheet("");
+    setPalette(qApp->palette());
+    setStyleSheet(EffectStackView2::getStyleSheet());
 }
 
 Monitor *EffectStackEdit::monitor()

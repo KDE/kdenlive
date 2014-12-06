@@ -37,6 +37,7 @@ public:
     void updateProjectFormat();
     void updateTimecodeFormat();
     void setKeyframes(const QString &data, int maximum);
+    void updatePalette();
 
 private:
     EffectStackEdit *m_effectEdit;

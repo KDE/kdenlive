@@ -24,7 +24,7 @@
 #include <QDebug>
 #include <QIcon>
 #include <KLocale>
-#include <KGlobalSettings>
+#include <QFontDatabase>
 #include <KColorScheme>
 
 #include <QCursor>
@@ -66,7 +66,7 @@ CustomRuler::CustomRuler(const Timecode &tc, CustomTrackView *parent) :
         m_mouseMove(NO_MOVE),
         m_cursorColor(palette().text())
 {
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QFontMetricsF fontMetrics(font());
     // Define size variables
     LABEL_SIZE = fontMetrics.ascent();
@@ -100,6 +100,7 @@ CustomRuler::CustomRuler(const Timecode &tc, CustomTrackView *parent) :
 
 void CustomRuler::updatePalette()
 {
+    m_cursorColor = palette().text();
     m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::FocusColor, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
     m_zoneColor.setAlpha(180);
 }

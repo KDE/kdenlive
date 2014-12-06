@@ -54,14 +54,19 @@ EffectsListWidget::EffectsListWidget(QMenu *contextMenu, QWidget *parent) :
     setIndentation(10);
     //setSelectionMode(QAbstractItemView::ExtendedSelection);
     setDragDropMode(QAbstractItemView::DragOnly);
-    QPalette p = palette();
-    p.setBrush(QPalette::Base, p.window());
-    setPalette(p);
+    updatePalette();
     connect(this, SIGNAL(activated(QModelIndex)), this, SLOT(slotExpandItem(QModelIndex)));
 }
 
 EffectsListWidget::~EffectsListWidget()
 {
+}
+
+void EffectsListWidget::updatePalette()
+{
+    QPalette p = qApp->palette();
+    p.setBrush(QPalette::Base, p.window());
+    setPalette(p);
 }
 
 void EffectsListWidget::slotExpandItem(const QModelIndex & index)

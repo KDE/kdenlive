@@ -570,7 +570,9 @@ void TrackView::slotRebuildTrackHeaders()
 
 void TrackView::updatePalette()
 {
-    QPalette p = palette();
+    headers_container->setStyleSheet("");
+    setPalette(qApp->palette());
+    QPalette p = qApp->palette();
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     QColor norm = scheme.shade(scheme.background(KColorScheme::ActiveBackground).color(), KColorScheme::MidShade);
     p.setColor(QPalette::Button, norm);

@@ -31,7 +31,7 @@
 #include <KFileDialog>
 #include <kdeversion.h>
 #include <KRun>
-#include <KGlobalSettings>
+#include <QFontDatabase>
 #include <KGlobal>
 
 #ifdef USE_NEPOMUK
@@ -76,7 +76,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
   , m_proxyContainer(NULL)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_view.setupUi(this);
     
     // force transparency is only for group properties, so hide it
@@ -583,7 +583,7 @@ ClipProperties::ClipProperties(const QList <DocClipBase *> &cliplist, const Time
     m_clipNeedsRefresh(false),
     m_clipNeedsReLoad(false)
 {
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_view.setupUi(this);
     QString title = windowTitle();
     title.append(' ' + i18np("(%1 clip)", "(%1 clips)", cliplist.count()));

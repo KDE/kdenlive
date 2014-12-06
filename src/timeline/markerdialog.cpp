@@ -25,7 +25,7 @@
 
 #include <QWheelEvent>
 #include <QDebug>
-#include <KGlobalSettings>
+#include <QFontDatabase>
 
 MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget * parent)
     : QDialog(parent)
@@ -34,7 +34,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Time
     , m_clip(clip)
     , m_dar(4.0 / 3.0)
 {
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setWindowTitle(caption);
 

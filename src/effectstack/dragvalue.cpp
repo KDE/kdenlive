@@ -35,7 +35,7 @@
 #include <QDebug>
 #include <QIcon>
 #include <KLocalizedString>
-#include <KGlobalSettings>
+#include <QFontDatabase>
 
 
 DragValue::DragValue(const QString &label, double defaultValue, int decimals, double min, double max, int id, const QString &suffix, bool showSlider, QWidget* parent) :
@@ -365,7 +365,7 @@ CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidg
     m_step(10.0)
   //m_precision(pow(10, precision)),
 {
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setFormat(' ' + label);
     setFocusPolicy(Qt::StrongFocus);
     setCursor(Qt::PointingHandCursor);

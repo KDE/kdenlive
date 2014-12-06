@@ -8,7 +8,6 @@ install(FILES
   blacklisted_effects.txt
   blacklisted_transitions.txt
   encodingprofiles.rc
-  kdenliveui.rc
   kdenlive.notifyrc
   metadata.properties
   meta_ffmpeg.png
@@ -19,6 +18,7 @@ install(FILES
   timeline_nothumbs.png
   timeline_vthumbs.png
   DESTINATION ${DATA_INSTALL_DIR}/kdenlive)
+install(FILES kdenliveui.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kdenlive)
 install(FILES profiles.xml DESTINATION ${DATA_INSTALL_DIR}/kdenlive/export)
 install(FILES
   kdenliveeffectscategory.rc

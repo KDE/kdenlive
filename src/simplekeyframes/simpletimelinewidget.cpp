@@ -22,7 +22,7 @@
 #include <QStylePainter>
 #include <QMouseEvent>
 
-#include <KGlobalSettings>
+#include <QFontDatabase>
 #include <KColorScheme>
 
 
@@ -39,7 +39,7 @@ SimpleTimelineWidget::SimpleTimelineWidget(QWidget* parent) :
     setMouseTracking(true);
     setMinimumSize(QSize(150, 20));
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum));
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QPalette p = palette();
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     m_colSelected = scheme.decoration(KColorScheme::HoverColor).color();

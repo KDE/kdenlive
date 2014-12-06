@@ -25,13 +25,13 @@
 
 #include <QWheelEvent>
 #include <QDebug>
-#include <KGlobalSettings>
+#include <QFontDatabase>
 
 SpacerDialog::SpacerDialog(const GenTime &duration, const Timecode &tc, int track, const QList<TrackInfo> &tracks, QWidget * parent) :
     QDialog(parent),
     m_in(tc)
 {
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     inputLayout->addWidget(&m_in);
     m_in.setValue(duration);

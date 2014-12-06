@@ -22,7 +22,7 @@
 #include "kdenlivesettings.h"
 
 #include <QDebug>
-#include <KGlobalSettings>
+#include <QFontDatabase>
 
 #include <QHeaderView>
 
@@ -37,7 +37,7 @@ KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, con
         // special case: keyframe for tracks, do not allow keyframes
         widgetTable->setHidden(true);
     }
-    keyframe_list->setFont(KGlobalSettings::generalFont());
+    keyframe_list->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     buttonSeek->setChecked(KdenliveSettings::keyframeseek());
     connect(buttonSeek, SIGNAL(toggled(bool)), this, SLOT(slotSetSeeking(bool)));
 

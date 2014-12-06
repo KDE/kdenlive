@@ -32,7 +32,7 @@
 #include <QDebug>
 #include <KLocalizedString>
 #include <KColorScheme>
-#include <KGlobalSettings>
+#include <QFontDatabase>
 #include <KColorUtils>
 
 #include <QScrollBar>
@@ -54,7 +54,7 @@ EffectStackView2::EffectStackView2(Monitor *monitor, QWidget *parent) :
     setAcceptDrops(true);
 
     m_ui.setupUi(this);
-    setFont(KGlobalSettings::smallestReadableFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_ui.checkAll->setToolTip(i18n("Enable/Disable all effects"));
     m_ui.buttonShowComments->setIcon(QIcon::fromTheme("help-about"));
     m_ui.buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));

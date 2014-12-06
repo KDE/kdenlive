@@ -22,7 +22,7 @@
 #include "clipitem.h"
 
 #include <QDebug>
-#include <KGlobalSettings>
+#include <QFontDatabase>
 
 #include <QWheelEvent>
 
@@ -32,7 +32,7 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, const Timecode &t
         m_min(min),
         m_max(max)
 {
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
 
     m_pos = new TimecodeDisplay(tc);

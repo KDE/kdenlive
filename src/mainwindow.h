@@ -36,6 +36,7 @@
 #include <KActionCategory>
 #include <KSelectAction>
 #include <KSharedConfigPtr>
+#include <KColorSchemeManager>
 
 #include "kdenlivecore_export.h"
 #include "effectslist/effectslist.h"
@@ -145,6 +146,10 @@ private:
 
     /** @brief Sets up all the actions and attaches them to the collection. */
     void setupActions();
+    
+    KColorSchemeManager *m_colorschemes;
+    
+    KActionMenu *m_themesMenu;
 
     QDockWidget *m_projectListDock;
 
@@ -409,7 +414,7 @@ private slots:
     void slotUpdateTrackInfo();
 
     /** @brief Changes the color scheme. */
-    void slotChangePalette(QAction *action, const QString &themename = QString());
+    void slotChangePalette(QAction *action);
     void slotSwitchMonitors();
     void slotCheckRenderStatus();
     void slotInsertZoneToTree();
@@ -437,8 +442,7 @@ private slots:
     void slotElapsedTime();
     /** @brief Open the online services search dialog. */
     void slotDownloadResources();
-    
-    void slotChangePalette();
+
     /** @brief Save current timeline clip as mlt playlist. */
     void slotSaveTimelineClip();
     /** @brief Process keyframe data sent from a clip to effect / transition stack. */

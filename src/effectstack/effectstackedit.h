@@ -55,6 +55,7 @@ public:
     bool needsMonitorEffectScene() const;
     /** @brief Set keyframes for this transition. */
     void setKeyframes(const QString &data, int maximum);
+    void updatePalette();
 
 private:
     EffectMetaInfo m_metaInfo;

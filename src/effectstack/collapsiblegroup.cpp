@@ -30,7 +30,7 @@
 #include <QMimeData>
 
 #include <QDebug>
-#include <KGlobalSettings>
+#include <QFontDatabase>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KColorScheme>
@@ -56,7 +56,7 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, cons
 {
     m_info.groupIndex = ix;
     m_subWidgets = QList <CollapsibleEffect *> ();
-    setFont(KGlobalSettings::smallestReadableFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     frame->setObjectName("framegroup");
     decoframe->setObjectName("decoframegroup");
     QHBoxLayout *l = static_cast <QHBoxLayout *>(frame->layout());

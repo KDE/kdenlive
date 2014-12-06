@@ -23,8 +23,8 @@
 
 #include <QDebug>
 #include <KFileItem>
-#include <KGlobal>
-#include <KGlobalSettings>
+
+#include <QFontDatabase>
 #include <kdeversion.h>
 
 #include <QDir>
@@ -37,7 +37,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QWidget * parent) :
     m_timecode(tc),
     m_thumbJob(NULL)
 {
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setWindowTitle(i18n("Add Slideshow Clip"));
     m_view.setupUi(this);
     m_view.clip_name->setText(i18n("Slideshow Clip"));

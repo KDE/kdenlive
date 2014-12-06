@@ -33,7 +33,7 @@
 #include <KGlobal>
 #include <QDebug>
 #include <kdeversion.h>
-#include <KGlobalSettings>
+#include <QFontDatabase>
 #include <KFileDialog>
 #include <kio/job.h>
 #include <KIO/NetAccess>
@@ -72,7 +72,7 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     m_folder(folder),
     m_currentService(NULL)
 {
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
 #ifdef USE_QJSON

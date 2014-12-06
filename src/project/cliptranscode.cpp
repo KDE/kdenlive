@@ -22,7 +22,7 @@
 #include "kdenlivesettings.h"
 
 #include <QDebug>
-#include <KGlobalSettings>
+#include <QFontDatabase>
 #include <KMessageBox>
 #include <KFileDialog>
 
@@ -30,7 +30,7 @@
 ClipTranscode::ClipTranscode(const QList <QUrl> &urls, const QString &params, const QStringList &postParams, const QString &description, bool automaticMode, QWidget * parent) :
     QDialog(parent), m_urls(urls), m_duration(0), m_automaticMode(automaticMode), m_postParams(postParams)
 {
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
 #if KDE_IS_VERSION(4,7,0)

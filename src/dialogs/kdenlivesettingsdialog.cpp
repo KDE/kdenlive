@@ -33,6 +33,7 @@
 #include <KIO/NetAccess>
 #include <kdeversion.h>
 #include <KMessageBox>
+#include <KLineEdit>
 
 #include <QDir>
 #include <QTimer>

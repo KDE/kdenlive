@@ -267,4 +267,10 @@ void TransitionSettings::setKeyframes(const QString &data, int maximum)
     m_effectEdit->setKeyframes(data, maximum);
 }
 
+void TransitionSettings::updatePalette()
+{
+    // We need to reset current stylesheet if we want to change the palette!
+    m_effectEdit->updatePalette();
+}
+
 #include "transitionsettings.moc"

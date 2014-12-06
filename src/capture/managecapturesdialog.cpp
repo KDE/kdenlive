@@ -22,7 +22,7 @@
 #include "doc/kthumb.h"
 
 #include <QDebug>
-#include <KGlobalSettings>
+#include <QFontDatabase>
 #include <KFileItem>
 #include <KIO/NetAccess>
 
@@ -36,7 +36,7 @@
 ManageCapturesDialog::ManageCapturesDialog(const QList<QUrl> &files, QWidget * parent)
     : QDialog(parent)
 {
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_view.setupUi(this);
     m_importButton = m_view.buttonBox->button(QDialogButtonBox::Ok);
     m_importButton->setText(i18n("import"));

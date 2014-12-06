@@ -40,6 +40,7 @@ public:
     QString currentInfo() const;
     const QDomElement itemEffect(QTreeWidgetItem *item) const;
     void initList(QMenu *effectsMenu, KActionCategory *effectActions);
+    void updatePalette();
 
 protected:
     virtual void dragMoveEvent(QDragMoveEvent *event);

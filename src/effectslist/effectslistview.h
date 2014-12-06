@@ -55,6 +55,7 @@ public:
 
 private:
     EffectsListWidget *m_effectsList;
+    const QString customStyleSheet() const;
 
 private slots:
     /** @brief Applies the type filter to the effect list.
