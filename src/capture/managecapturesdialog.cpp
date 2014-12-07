@@ -43,7 +43,8 @@ ManageCapturesDialog::ManageCapturesDialog(const QList<QUrl> &files, QWidget * p
     foreach(const QUrl &url, files) {
         QStringList text;
         text << url.fileName();
-        KFileItem file(KFileItem::Unknown, KFileItem::Unknown, url, true);
+        KFileItem file(url);
+        file.setDelayedMimeTypes(true);
         text << KIO::convertSize(file.size());
         QTreeWidgetItem *item = new QTreeWidgetItem(m_view.treeWidget, text);
         item->setData(0, Qt::UserRole, url.path());

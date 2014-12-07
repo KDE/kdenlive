@@ -269,7 +269,8 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     ClipType t = m_clip->clipType();
     
     if (props.contains("proxy") && props.value("proxy") != "-") {
-        KFileItem f(KFileItem::Unknown, KFileItem::Unknown, QUrl(props.value("proxy")), true);
+        KFileItem f(QUrl(props.value("proxy")));
+        f.setDelayedMimeTypes(true);
         QFrame* line = new QFrame();
         line->setFrameShape(QFrame::HLine);
         line->setFrameShadow(QFrame::Sunken);
@@ -469,7 +470,8 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     }
 
     if (t != SlideShow && t != Color) {
-        KFileItem f(KFileItem::Unknown, KFileItem::Unknown, url, true);
+        KFileItem f(url);
+        f.setDelayedMimeTypes(true);
         m_view.clip_filesize->setText(KIO::convertSize(f.size()));
     } else {
         m_view.clip_filesize->setHidden(true);

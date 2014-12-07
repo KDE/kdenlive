@@ -960,7 +960,8 @@ void RecMonitor::manageCapturedFiles()
     foreach(const QString & name, result) {
         QUrl url = QUrl(dir.filePath(name));
         if (QFile::exists(url.path())) {
-            KFileItem file(KFileItem::Unknown, KFileItem::Unknown, url, true);
+            KFileItem file(url);
+            file.setDelayedMimeTypes(true);
             if (file.time(KFileItem::ModificationTime) > m_captureTime) {
                 // The file was captured in the last batch
                 if (url.fileName().contains(':')) {

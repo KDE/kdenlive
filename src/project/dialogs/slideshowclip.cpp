@@ -21,12 +21,12 @@
 #include "kdenlivesettings.h"
 
 
-#include <QDebug>
-#include <KFileItem>
 
-#include <QFontDatabase>
+#include <KFileItem>
 #include <kdeversion.h>
 
+#include <QDebug>
+#include <QFontDatabase>
 #include <QDir>
 #include <QStandardPaths>
 
@@ -227,17 +227,15 @@ void SlideshowClip::slotGenerateThumbs()
         if (item) {
             QString path = item->data(Qt::UserRole).toString();
             if (!path.isEmpty()) {
-                fileList.append(KFileItem(KFileItem::Unknown, KFileItem::Unknown, QUrl(path)));
+                QUrl url(path);
+                KFileItem f(url);
+                f.setDelayedMimeTypes(true);
+                fileList.append(f);
             }
         }
     }
-#if KDE_IS_VERSION(4,7,0)
     m_thumbJob = new KIO::PreviewJob(fileList, QSize(50, 50));
     m_thumbJob->setScaleType(KIO::PreviewJob::Scaled);
-#else
-    m_thumbJob = new KIO::PreviewJob(fileList, 50, 0, 0, 0, true, false, 0);
-#endif
-
     m_thumbJob->setAutoDelete(false);
     connect(m_thumbJob, SIGNAL(gotPreview(KFileItem,QPixmap)), this, SLOT(slotSetPixmap(KFileItem,QPixmap)));
     m_thumbJob->start();

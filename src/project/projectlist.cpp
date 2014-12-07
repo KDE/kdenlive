@@ -1732,7 +1732,7 @@ void ProjectList::slotAddClip(const QList <QUrl> &givenList, const QString &grou
                 QUrl url = list.at(0);
                 QString fileName = url.fileName().section('.', 0, -2);
                 if (fileName.at(fileName.size() - 1).isDigit()) {
-                    KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
+                    KFileItem item(url);
                     if (item.mimetype().startsWith(QLatin1String("image"))) {
                         // import as sequence if we found more than one image in the sequence
                         QStringList list;
