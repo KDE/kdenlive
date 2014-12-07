@@ -25,6 +25,8 @@
 #include <QDebug>
 #include <QIcon>
 
+#include "klocalizedstring.h"
+
 TracksDelegate::TracksDelegate(QObject *parent) :
         QItemDelegate(parent)
 {
@@ -70,11 +72,11 @@ TracksConfigDialog::TracksConfigDialog(KdenliveDoc * doc, int selected, QWidget*
 
     table->setColumnCount(5);
     table->setHorizontalHeaderLabels(QStringList() << i18n("Name") << i18n("Type") << i18n("Hidden") << i18n("Muted") << i18n("Locked"));
-    table->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
-    table->horizontalHeader()->setResizeMode(1, QHeaderView::Fixed);
-    table->horizontalHeader()->setResizeMode(2, QHeaderView::Fixed);
-    table->horizontalHeader()->setResizeMode(3, QHeaderView::Fixed);
-    table->horizontalHeader()->setResizeMode(4, QHeaderView::Fixed);
+    table->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    table->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Fixed);
+    table->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Fixed);
+    table->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Fixed);
+    table->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Fixed);
 
     table->setItemDelegateForColumn(1, new TracksDelegate(this));
 

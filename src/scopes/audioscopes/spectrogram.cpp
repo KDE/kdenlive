@@ -13,6 +13,8 @@
 
 #include <KSharedConfig>
 #include <KConfigGroup>
+#include "klocalizedstring.h"
+
 #include "spectrogram.h"
 
 // Defines the number of FFT samples to store.

@@ -28,6 +28,7 @@
 #include <QFontDatabase>
 #include <KMessageBox>
 #include <KColorScheme>
+#include <klocalizedstring.h>
 
 ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,QWidget * parent) :
     QDialog(parent),
@@ -201,8 +202,8 @@ void ClipStabilize::slotStartStabilize()
         while (it.hasNext()){
             it.next();
             filter.set(
-                    it.key().toAscii().data(),
-                    QString::number(it.value()["value"].toDouble()).toAscii().data());
+                    it.key().toLatin1().data(),
+                    QString::number(it.value()["value"].toDouble()).toLatin1().data());
         }
         Mlt::Producer p(*m_profile,s_url.toUtf8().data());
         if (p.is_valid()) {

@@ -23,7 +23,7 @@
 
 #include <QDebug>
 #include <QIcon>
-#include <KLocale>
+#include <klocalizedstring.h>
 #include <QFontDatabase>
 #include <KColorScheme>
 

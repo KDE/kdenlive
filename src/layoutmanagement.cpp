@@ -18,6 +18,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KConfigGroup>
 #include <KXMLGUIFactory>
 #include <KSharedConfig>
+#include <klocalizedstring.h>
 
 LayoutManagement::LayoutManagement(QObject* parent) :
     QObject(parent)
@@ -88,7 +89,7 @@ void LayoutManagement::slotLoadLayout(QAction *action)
 
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup layouts(config, "Layouts");
-    QByteArray state = QByteArray::fromBase64(layouts.readEntry(layoutId).toAscii());
+    QByteArray state = QByteArray::fromBase64(layouts.readEntry(layoutId).toLatin1());
     pCore->window()->restoreState(state);
 }
 

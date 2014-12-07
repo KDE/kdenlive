@@ -35,7 +35,6 @@
 #include <kautosavefile.h>
 #include <KActionCategory>
 #include <KSelectAction>
-#include <KSharedConfigPtr>
 #include <KColorSchemeManager>
 
 #include "kdenlivecore_export.h"

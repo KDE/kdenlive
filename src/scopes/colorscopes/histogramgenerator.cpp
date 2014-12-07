@@ -14,7 +14,7 @@
 #include <math.h>
 #include <QImage>
 #include <QPainter>
-#include <KLocale>
+#include "klocalizedstring.h"
 
 HistogramGenerator::HistogramGenerator()
 {

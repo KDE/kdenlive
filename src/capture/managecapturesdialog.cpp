@@ -24,6 +24,7 @@
 #include <QDebug>
 #include <QFontDatabase>
 #include <KFileItem>
+#include "klocalizedstring.h"
 
 #include <QTreeWidgetItem>
 #include <QFile>

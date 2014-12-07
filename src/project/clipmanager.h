@@ -37,10 +37,7 @@
 #include <klocale.h>
 #include <kdeversion.h>
 #include <KIO/CopyJob>
-
-#if KDE_IS_VERSION(4,5,0)
-#include <KImageCache>
-#endif
+#include <kimagecache.h>
 
 
 #include "gentime.h"

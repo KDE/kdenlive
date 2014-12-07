@@ -27,6 +27,8 @@
 #include <QDebug>
 #include <QFontDatabase>
 
+#include "klocalizedstring.h"
+
 SpacerDialog::SpacerDialog(const GenTime &duration, const Timecode &tc, int track, const QList<TrackInfo> &tracks, QWidget * parent) :
     QDialog(parent),
     m_in(tc)

@@ -10,7 +10,7 @@
 
 #include "colorplaneexport.h"
 #include <KMessageBox>
-
+#include "klocalizedstring.h"
 //#define DEBUG_CTE
 #ifdef DEBUG_CTE
 #include <QDebug>

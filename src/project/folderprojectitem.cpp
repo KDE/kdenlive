@@ -21,7 +21,7 @@
 #include "folderprojectitem.h"
 
 #include <QDebug>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 #include <QIcon>
 
 

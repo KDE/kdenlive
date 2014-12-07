@@ -31,20 +31,18 @@
 #include <QMenu>
 #include <QFileDialog>
 #include <QNetworkConfigurationManager>
+#include <QDebug>
+#include <QFontDatabase>
 
 #include <KSharedConfig>
-#include <QDebug>
+#include <klocalizedstring.h>
 #include <kdeversion.h>
-#include <QFontDatabase>
 #include <kio/job.h>
 #include <KIO/SimpleJob>
 #include <KRun>
 #include <KConfigGroup>
-
-#if KDE_IS_VERSION(4,4,0)
 #include <KPixmapSequence>
 #include <KPixmapSequenceOverlayPainter>
-#endif
 #include <KFileItem>
 
 #ifdef USE_NEPOMUK

@@ -23,7 +23,7 @@
 #include "timelinecommands.h"
 #include "customtrackview.h"
 
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 
 AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &effect, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),

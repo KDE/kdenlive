@@ -37,7 +37,7 @@
 // KDE
 #include <QDebug>
 #include <QMenu>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 
 ProjectListView::ProjectListView(QWidget *parent)
     : QTreeWidget(parent)
@@ -66,9 +66,9 @@ ProjectListView::ProjectListView(QWidget *parent)
             this, SLOT(configureColumns(QPoint)));
     connect(this, SIGNAL(itemCollapsed(QTreeWidgetItem*)), this, SLOT(slotCollapsed(QTreeWidgetItem*)));
     connect(this, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(slotExpanded(QTreeWidgetItem*)));
-    headerView->setClickable(true);
+    headerView->setSectionsClickable(true);
     headerView->setSortIndicatorShown(true);
-    headerView->setMovable(false);
+    headerView->setSectionsMovable(false);
     sortByColumn(0, Qt::AscendingOrder);
     setSortingEnabled(true);
     installEventFilter(this);
@@ -205,7 +205,7 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
     ProjectItem *item;
     if (it->type() == ProjectFoldeType) {
         if ((columnAt(event->pos().x()) == 0)) {
-            QPixmap pix = qVariantValue<QPixmap>(it->data(0, Qt::DecorationRole));
+            QPixmap pix = it->data(0, Qt::DecorationRole).value<QPixmap>();
             int offset = pix.width() + indentation();
             if (event->pos().x() < offset) {
                 it->setExpanded(!it->isExpanded());
@@ -227,7 +227,7 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
 
     int column = columnAt(event->pos().x());
     if (column == 0 && (item->clipType() == SlideShow || item->clipType() == Text || item->clipType() == Color || it->childCount() > 0)) {
-        QPixmap pix = qVariantValue<QPixmap>(it->data(0, Qt::DecorationRole));
+        QPixmap pix = it->data(0, Qt::DecorationRole).value<QPixmap>();
         int offset = pix.width() + indentation();
         if (item->parent()) offset += indentation();
         if (it->childCount() > 0) {
@@ -439,7 +439,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
             painter->setPen(option.palette.highlightedText().color());
         }
         const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-        QPixmap pixmap = qVariantValue<QPixmap>(index.data(Qt::DecorationRole));
+        QPixmap pixmap = index.data(Qt::DecorationRole).value<QPixmap>();
         QPoint pixmapPoint(r1.left() + textMargin, r1.top() + (r1.height() - pixmap.height()) / 2);
         painter->drawPixmap(pixmapPoint, pixmap);
         int decoWidth = pixmap.width() + 2 * textMargin;

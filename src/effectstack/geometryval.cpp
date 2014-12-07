@@ -17,11 +17,11 @@
 
 #include "geometryval.h"
 #include "graphicsscenerectmove.h"
-
 #include "kdenlivesettings.h"
 
-#include <QDebug>
+#include "klocalizedstring.h"
 
+#include <QDebug>
 #include <QGraphicsView>
 #include <QVBoxLayout>
 #include <QGraphicsRectItem>

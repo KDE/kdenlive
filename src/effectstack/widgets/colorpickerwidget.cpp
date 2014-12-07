@@ -29,7 +29,7 @@
 #include <QTimer>
 #include <QIcon>
 #include <QDebug>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 
 #ifdef Q_WS_X11
 #include <X11/Xutil.h>

@@ -27,7 +27,7 @@
 
 #include <QUrl> //new
 #include <QApplication>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 #include <KDBusService>
 #include <QCommandLineParser>
 #include <QCommandLineOption>

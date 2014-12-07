@@ -15,7 +15,7 @@
 #include <QTime>
 
 #include <KSharedConfig>
-#include <KSharedConfigPtr>
+#include "klocalizedstring.h"
 #include <KConfigGroup>
 
 RGBParade::RGBParade(QWidget *parent) :

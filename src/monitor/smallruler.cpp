@@ -24,7 +24,7 @@
 
 #include <QDebug>
 #include <KColorScheme>
-#include <KLocalizedString>
+#include "klocalizedstring.h"
 
 #include <QMouseEvent>
 #include <QPainter>

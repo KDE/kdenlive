@@ -30,7 +30,7 @@
 #include <config-kdenlive.h>
 
 #include <QDebug>
-#include <KLocalizedString>
+#include "klocalizedstring.h"
 
 #include <KComboBox>
 #include <KFileItem>

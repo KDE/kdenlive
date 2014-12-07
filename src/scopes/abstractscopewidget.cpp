@@ -19,7 +19,7 @@
 #include <QMouseEvent>
 #include <QPainter>
 
-#include <KLocale>
+#include "klocalizedstring.h"
 #include <KConfigGroup>
 #include <KSharedConfig>
 

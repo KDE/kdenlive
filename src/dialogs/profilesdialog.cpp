@@ -18,18 +18,18 @@
  ***************************************************************************/
 
 #include "profilesdialog.h"
-
 #include "kdenlivesettings.h"
 
 
-#include <QDebug>
-#include <KMessageBox>
 
+#include <KMessageBox>
+#include "klocalizedstring.h"
 #include <QDir>
 #include <QScriptEngine>
 #include <QCloseEvent>
 #include <QScriptEngine>
 #include <QStandardPaths>
+#include <QDebug>
 
 ProfilesDialog::ProfilesDialog(QWidget * parent) :
     QDialog(parent),

@@ -31,11 +31,11 @@
 #include "onmonitoritems/onmonitorrectitem.h"
 #include "onmonitoritems/onmonitorpathitem.h"
 
+#include "klocalizedstring.h"
 #include <QGraphicsView>
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QMenu>
-
 
 
 GeometryWidget::GeometryWidget(Monitor* monitor, const Timecode &timecode, int clipPos, bool showRotation, QWidget* parent):

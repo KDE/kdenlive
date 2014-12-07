@@ -11,9 +11,9 @@
 #include "vectorscope.h"
 #include "colorplaneexport.h"
 #include "vectorscopegenerator.h"
-
 #include "colortools.h"
 
+#include "klocalizedstring.h"
 #include <QAction>
 #include <QDebug>
 #include <QPainter>

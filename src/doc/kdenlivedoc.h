@@ -42,7 +42,7 @@ class MainWindow;
 class TrackInfo;
 class NotesPlugin;
 
-class KTextEdit;
+class QTextEdit;
 class QProgressDialog;
 class QUndoGroup;
 class QTimer;
@@ -177,7 +177,7 @@ private:
     int m_height;
     Timecode m_timecode;
     Render *m_render;
-    KTextEdit *m_notesWidget;
+    QTextEdit *m_notesWidget;
     QUndoStack *m_commandStack;
     ClipManager *m_clipManager;
     MltVideoProfile m_profile;

@@ -28,6 +28,7 @@
 #include <KConfigGroup>
 #include <KSharedConfig>
 #include <KIO/Global>
+#include "klocalizedstring.h"
 
 #include <QFileDialog>
 #include <QHBoxLayout>
@@ -105,9 +106,9 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
 
     connect(m_view.dvd_profile, SIGNAL(activated(int)), this, SLOT(slotCheckProfiles()));
     m_vobList->header()->setStretchLastSection(false);
-    m_vobList->header()->setResizeMode(0, QHeaderView::Stretch);
-    m_vobList->header()->setResizeMode(1, QHeaderView::Custom);
-    m_vobList->header()->setResizeMode(2, QHeaderView::Custom);
+    m_vobList->header()->setSectionResizeMode(0, QHeaderView::Stretch);
+    m_vobList->header()->setSectionResizeMode(1, QHeaderView::Custom);
+    m_vobList->header()->setSectionResizeMode(2, QHeaderView::Custom);
 
     m_capacityBar = new KCapacityBar(KCapacityBar::DrawTextInline, this);
     QHBoxLayout *lay = new QHBoxLayout;

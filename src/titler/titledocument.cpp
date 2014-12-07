@@ -39,7 +39,6 @@
 #include <QFontInfo>
 #include <QFile>
 #include <QTextCursor>
-
 #include <locale.h>
 
 #if QT_VERSION >= 0x040600
@@ -110,12 +109,12 @@ int TitleDocument::base64ToUrl(QGraphicsItem* item, QDomElement& content, bool e
 //static
 const QString TitleDocument::extractBase64Image(const QString &titlePath, const QString &data)
 {
-    QString filename = titlePath + QString(QCryptographicHash::hash(data.toAscii(), QCryptographicHash::Md5).toHex().append(".titlepart"));
+    QString filename = titlePath + QString(QCryptographicHash::hash(data.toLatin1(), QCryptographicHash::Md5).toHex().append(".titlepart"));
     QDir dir;
     dir.mkpath(titlePath);
     QFile f(filename);
     if (f.open(QIODevice::WriteOnly)) {
-        f.write(QByteArray::fromBase64(data.toAscii())) ;
+        f.write(QByteArray::fromBase64(data.toLatin1())) ;
         f.close();
         return filename;
     }
@@ -439,7 +438,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                     if (base64.isEmpty()) {
                         pix.load(url);
                     } else {
-                        pix.loadFromData(QByteArray::fromBase64(base64.toAscii()));
+                        pix.loadFromData(QByteArray::fromBase64(base64.toLatin1()));
                     }
                     QGraphicsPixmapItem *rec = m_scene->addPixmap(pix);
                     rec->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
@@ -456,7 +455,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                         rec = new QGraphicsSvgItem(url);
                     } else {
                         rec = new QGraphicsSvgItem();
-                        QSvgRenderer *renderer = new QSvgRenderer(QByteArray::fromBase64(base64.toAscii()), rec);
+                        QSvgRenderer *renderer = new QSvgRenderer(QByteArray::fromBase64(base64.toLatin1()), rec);
                         rec->setSharedRenderer(renderer);
                         //QString elem=rec->elementId();
                         //QRectF bounds = renderer->boundsOnElement(elem);

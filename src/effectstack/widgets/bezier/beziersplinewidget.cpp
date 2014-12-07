@@ -25,7 +25,7 @@
 
 #include <QIcon>
 #include <QLabel>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 
 
 BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :

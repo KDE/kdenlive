@@ -25,11 +25,12 @@
 #include "timeline/markerdialog.h"
 #include "dialogs/profilesdialog.h"
 
-
-#include <QDebug>
 #include <KFileItem>
 #include <kdeversion.h>
 #include <KRun>
+#include <klocalizedstring.h>
+
+#include <QDebug>
 #include <QFontDatabase>
 
 #ifdef USE_NEPOMUK

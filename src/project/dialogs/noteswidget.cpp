@@ -20,14 +20,14 @@
 
 #include "noteswidget.h"
 
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 #include <QDebug>
 #include <QMenu>
 #include <QMouseEvent>
 
 
 NotesWidget::NotesWidget(QWidget * parent) :
-        KTextEdit(parent)
+        QTextEdit(parent)
 {
     connect(this, SIGNAL(aboutToShowContextMenu(QMenu*)), SLOT(slotFillNotesMenu(QMenu*)));
     setMouseTracking(true);
@@ -47,14 +47,14 @@ void NotesWidget::mouseMoveEvent( QMouseEvent * e )
         viewport()->setCursor(Qt::IBeamCursor);
     else
         viewport()->setCursor(Qt::PointingHandCursor);
-    KTextEdit::mouseMoveEvent(e);
+    QTextEdit::mouseMoveEvent(e);
 }
 
 void NotesWidget::mousePressEvent( QMouseEvent * e )
 {
     QString anchor = anchorAt(e->pos());
     if (anchor.isEmpty()) {
-        KTextEdit::mousePressEvent(e);
+        QTextEdit::mousePressEvent(e);
         return;
     }
     //qDebug()<<"+++++++++\nCLICKED NACHOR: "<<anchor;

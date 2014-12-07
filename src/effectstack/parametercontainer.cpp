@@ -49,6 +49,7 @@
 #include "ui_fontval_ui.h"
 
 #include <KUrlRequester>
+#include "klocalizedstring.h"
 
 #include <QMap>
 #include <QString>

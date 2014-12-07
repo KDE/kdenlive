@@ -16,6 +16,7 @@
 #include <QVBoxLayout>
 
 #include <KSharedConfig>
+#include <klocalizedstring.h>
 
 /// CONSTANTS
 

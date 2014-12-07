@@ -16,8 +16,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "trackview.h"
 #include "customtrackview.h"
 
-#include <KStatusBar>
-
+#include "klocalizedstring.h"
+#include <QStatusBar>
 
 TimelineSearch::TimelineSearch(QObject* parent) :
     QObject(parent)

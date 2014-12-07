@@ -24,7 +24,7 @@
 #include "effectslist/effectslist.h"
 
 #include <QIcon>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 #include <QDebug>
 
 #include <QMouseEvent>

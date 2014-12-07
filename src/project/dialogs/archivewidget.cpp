@@ -22,7 +22,7 @@
 #include "projectsettings.h"
 #include "titler/titlewidget.h"
 
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 #include <KDiskFreeSpaceInfo>
 #include <KMessageBox>
 #include <KGuiItem>

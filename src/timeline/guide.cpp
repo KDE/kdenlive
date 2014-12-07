@@ -29,6 +29,7 @@
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsView>
 #include <QScrollBar>
+#include <QGraphicsItem>
 
 Guide::Guide(CustomTrackView *view, const GenTime &pos, const QString &label, double height) :
         QGraphicsLineItem(),
@@ -38,9 +39,7 @@ Guide::Guide(CustomTrackView *view, const GenTime &pos, const QString &label, do
         m_pen(QPen())
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIgnoresTransformations);
-#if QT_VERSION >= 0x040600
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
-#endif
     setToolTip(label);
     setLine(0, 0, 0, height);
     if (m_position < GenTime()) m_position = GenTime();
@@ -50,7 +49,7 @@ Guide::Guide(CustomTrackView *view, const GenTime &pos, const QString &label, do
     //m_pen.setCosmetic(true);
     setPen(m_pen);
     setZValue(999);
-    setAcceptsHoverEvents(true);
+    setAcceptHoverEvents(true);
     const QFontMetrics metric = m_view->fontMetrics();
     m_width = metric.width(' ' + m_label + ' ') + 2;
     prepareGeometryChange();

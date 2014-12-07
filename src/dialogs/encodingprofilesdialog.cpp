@@ -21,8 +21,9 @@
 
 #include "kdenlivesettings.h"
 
-#include <QDebug>
 
+#include "klocalizedstring.h"
+#include <QDebug>
 #include <QVBoxLayout>
 #include <QLineEdit>
 #include <QPlainTextEdit>

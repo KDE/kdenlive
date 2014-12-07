@@ -25,7 +25,7 @@
 #include "doc/docclipbase.h"
 
 #include <QDebug>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 #include <QIcon>
 
 #include <QFile>

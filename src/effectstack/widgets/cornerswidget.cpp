@@ -27,7 +27,7 @@
 #include "onmonitoritems/onmonitorcornersitem.h"
 
 #include <QGraphicsView>
-
+#include "klocalizedstring.h"
 #include <QIcon>
 
 inline int lerp( const int a, const int b, double t )

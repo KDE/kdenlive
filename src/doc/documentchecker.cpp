@@ -26,9 +26,11 @@
 #include "definitions.h"
 #include "kdenlivesettings.h"
 
-#include <QDebug>
 #include <KUrlRequesterDialog>
 #include <KMessageBox>
+#include <klocalizedstring.h>
+
+#include <QDebug>
 #include <QFontDatabase>
 #include <QTreeWidgetItem>
 #include <QFile>

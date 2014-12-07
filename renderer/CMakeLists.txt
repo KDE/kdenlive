@@ -14,9 +14,11 @@ include_directories(
 
 #include(${QT_USE_FILE})
 
+qt5_use_modules(kdenlive_render Widgets Concurrent DBus)
+
 target_link_libraries(kdenlive_render
   ${QT_LIBRARIES}
-  KF5::KDELibs4Support
+  ${Qt5_LIBRARIES}
 )
 
 install(TARGETS kdenlive_render DESTINATION ${BIN_INSTALL_DIR})

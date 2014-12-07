@@ -13,7 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "core.h"
 #include "mainwindow.h"
 #include "kdenlivesettings.h"
-
+#include <klocalizedstring.h>
 
 HideTitleBars::HideTitleBars(QObject* parent) :
     QObject(parent)

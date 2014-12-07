@@ -24,14 +24,13 @@
 #include "timecode.h"
 #include "dialogs/profilesdialog.h"
 
-
-#include <QDebug>
+#include "klocalizedstring.h"
 #include <KMessageBox>
 #include <KRun>
 #include <KColorScheme>
 #include <KNotification>
 
-
+#include <QDebug>
 #include <QDomDocument>
 #include <QTreeWidgetItem>
 #include <QListWidgetItem>
@@ -286,15 +285,15 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     m_view.running_jobs->setItemDelegate(m_jobsDelegate);
 
     QHeaderView *header = m_view.running_jobs->header();
-    header->setResizeMode(0, QHeaderView::Fixed);
+    header->setSectionResizeMode(0, QHeaderView::Fixed);
     header->resizeSection(0, 30);
-    header->setResizeMode(1, QHeaderView::Interactive);
+    header->setSectionResizeMode(1, QHeaderView::Interactive);
 
     m_view.scripts_list->setHeaderLabels(QStringList() << QString() << i18n("Script Files"));
     m_scriptsDelegate = new RenderViewDelegate(this);
     m_view.scripts_list->setItemDelegate(m_scriptsDelegate);
     header = m_view.scripts_list->header();
-    header->setResizeMode(0, QHeaderView::Fixed);
+    header->setSectionResizeMode(0, QHeaderView::Fixed);
     header->resizeSection(0, 30);
 
     // Find path for Kdenlive renderer

@@ -27,6 +27,7 @@
 
 #include <mlt++/Mlt.h>
 
+#include "klocalizedstring.h"
 #include <QObject>
 #include <QTimer>
 #include <QDebug>

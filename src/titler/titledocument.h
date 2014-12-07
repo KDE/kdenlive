@@ -18,8 +18,11 @@
 #define TITLEDOCUMENT_H
 
 #include <QDomDocument>
-
 #include <QUrl>
+#include <QColor>
+#include <QRectF>
+#include <QTransform>
+#include <QVariant>
 
 class QGraphicsScene;
 class QGraphicsRectItem;

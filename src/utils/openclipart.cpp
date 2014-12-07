@@ -58,7 +58,7 @@ void OpenClipArt::slotShowResults(KJob* job)
     KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
     
     QDomDocument doc;
-    doc.setContent(QString::fromAscii(storedQueryJob->data()));
+    doc.setContent(QString::fromLatin1(storedQueryJob->data()));
     QDomNodeList items = doc.documentElement().elementsByTagName("item");
     for (int i = 0; i < items.count(); ++i) {
         QDomElement currentClip = items.at(i).toElement();

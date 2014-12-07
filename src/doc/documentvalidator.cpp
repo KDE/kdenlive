@@ -26,7 +26,7 @@
 
 #include <QDebug>
 #include <KMessageBox>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 
 #include <QFile>
 #include <QColor>

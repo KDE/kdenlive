@@ -45,7 +45,7 @@
 #include "lib/audio/audioCorrelation.h"
 
 #include <QDebug>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 #include <KCursor>
 #include <KMessageBox>
 
@@ -573,7 +573,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             }
 
             if (!collision)
-                m_selectionGroup->translate(snappedPos - m_selectionGroup->sceneBoundingRect().left(), 0);
+                m_selectionGroup->setTransform(QTransform::fromTranslate(snappedPos - m_selectionGroup->sceneBoundingRect().left(), 0), true);
             //m_selectionGroup->setPos(mappedXPos + (((int) m_selectionGroup->boundingRect().topLeft().x() + 0.5) - mappedClick) , m_selectionGroup->pos().y());
         }
     }
@@ -1337,7 +1337,7 @@ void CustomTrackView::groupSelectedItems(QList <QGraphicsItem *> selection, bool
         AbstractGroupItem *newGroup = m_document->clipManager()->createGroup();
         newGroup->setPos(rectUnion.left(), rectUnion.top() - 1);
         QPointF diff = newGroup->pos();
-        newGroup->translate(-diff.x(), -diff.y());
+        newGroup->setTransform(QTransform::fromTranslate(-diff.x(), -diff.y()), true);
         //newGroup->translate((int) -rectUnion.left(), (int) -rectUnion.top() + 1);
 
         // Check if we are trying to include a group in a group
@@ -1368,7 +1368,7 @@ void CustomTrackView::groupSelectedItems(QList <QGraphicsItem *> selection, bool
         m_selectionGroup->setPos(rectUnion.left(), rectUnion.top() - 1);
         QPointF diff = m_selectionGroup->pos();
         //m_selectionGroup->translate((int) - rectUnion.left(), (int) -rectUnion.top() + 1);
-        m_selectionGroup->translate(- diff.x(), -diff.y());
+        m_selectionGroup->setTransform(QTransform::fromTranslate(- diff.x(), -diff.y()), true);
 
         scene()->addItem(m_selectionGroup);
         foreach (QGraphicsItemGroup *value, groupsList) {
@@ -2974,7 +2974,7 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
             }
         }
         // Move graphic items
-        m_selectionGroup->translate(0, m_tracksHeight);
+        m_selectionGroup->setTransform(QTransform::fromTranslate(0, m_tracksHeight), true);
 
         // adjust track number
         Mlt::Tractor *tractor = m_document->renderer()->lockService();
@@ -3052,7 +3052,7 @@ void CustomTrackView::removeTrack(int ix)
     }
     // Move graphic items
     qreal ydiff = 0 - (int) m_tracksHeight;
-    m_selectionGroup->translate(0, ydiff);
+    m_selectionGroup->setTransform(QTransform::fromTranslate(0, ydiff), true);
     Mlt::Tractor *tractor = m_document->renderer()->lockService();
 
     // adjust track number
@@ -3141,7 +3141,7 @@ void CustomTrackView::lockTrack(int ix, bool lock, bool requestUpdate)
     if (requestUpdate)
         emit doTrackLock(ix, lock);
     AbstractClipItem *clip = NULL;
-    QList<QGraphicsItem *> selection = m_scene->items(0, ix * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), m_tracksHeight / 2 - 2);
+    QList<QGraphicsItem *> selection = m_scene->items(QRectF(0, ix * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), m_tracksHeight / 2 - 2));
 
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == GroupWidget && static_cast<AbstractGroupItem*>(selection.at(i)) != m_selectionGroup) {
@@ -3446,7 +3446,7 @@ void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> t
                 trackTransitionStartList[m_document->tracksCount() - transToMove.at(i).track] = transToMove.at(i).startPos.frames(m_document->fps());
         } else emit displayMessage(i18n("Cannot move transition at position %1, track %2", m_document->timecode().getTimecodeFromFrames(transToMove.at(i).startPos.frames(m_document->fps())), transToMove.at(i).track), ErrorMessage);
     }
-    m_selectionGroup->translate(diff, 0);
+    m_selectionGroup->setTransform(QTransform::fromTranslate(diff, 0), true);
 
     // update items coordinates
     QList<QGraphicsItem *> itemList = m_selectionGroup->childItems();
@@ -4759,7 +4759,7 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
 
-        m_selectionGroup->translate(offset.frames(m_document->fps()), trackOffset *(qreal) m_tracksHeight);
+        m_selectionGroup->setTransform(QTransform::fromTranslate(offset.frames(m_document->fps()), trackOffset *(qreal) m_tracksHeight), true);
         //m_selectionGroup->moveBy(offset.frames(m_document->fps()), trackOffset *(qreal) m_tracksHeight);
 
         QList<QGraphicsItem *> children = m_selectionGroup->childItems();
@@ -6479,7 +6479,7 @@ void CustomTrackView::getClipAvailableSpace(AbstractClipItem *item, GenTime &min
     minimum = GenTime();
     maximum = GenTime();
     QList<QGraphicsItem *> selection;
-    selection = m_scene->items(0, item->track() * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), 2);
+    selection = m_scene->items(QRectF(0, item->track() * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), 2));
     selection.removeAll(item);
     for (int i = 0; i < selection.count(); ++i) {
         AbstractClipItem *clip = static_cast <AbstractClipItem *>(selection.at(i));
@@ -6495,7 +6495,7 @@ void CustomTrackView::getTransitionAvailableSpace(AbstractClipItem *item, GenTim
     minimum = GenTime();
     maximum = GenTime();
     QList<QGraphicsItem *> selection;
-    selection = m_scene->items(0, (item->track() + 1) * m_tracksHeight, sceneRect().width(), 2);
+    selection = m_scene->items(QRectF(0, (item->track() + 1) * m_tracksHeight, sceneRect().width(), 2));
     selection.removeAll(item);
     for (int i = 0; i < selection.count(); ++i) {
         AbstractClipItem *clip = static_cast <AbstractClipItem *>(selection.at(i));

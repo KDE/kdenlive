@@ -18,6 +18,7 @@
 #include <QPainter>
 #include <QTime>
 
+#include "klocalizedstring.h"
 #include <KSharedConfig>
 #include <KConfigGroup>
 #include <iostream>

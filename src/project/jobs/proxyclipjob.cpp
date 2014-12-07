@@ -25,7 +25,7 @@
 
 
 #include <QDebug>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 
 ProxyJob::ProxyJob(ClipType cType, const QString &id, const QStringList& parameters)
     : AbstractClipJob(PROXYJOB, cType, id, parameters),

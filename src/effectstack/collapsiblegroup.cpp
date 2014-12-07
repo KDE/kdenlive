@@ -31,7 +31,7 @@
 
 #include <QDebug>
 #include <QFontDatabase>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 #include <KMessageBox>
 #include <KColorScheme>
 #include <QStandardPaths>

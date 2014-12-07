@@ -23,7 +23,7 @@
 #include "kdenlivesettings.h"
 
 #include <QDebug>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 
 #include <QApplication>
 #include <QPainter>

@@ -13,8 +13,8 @@
 #include <QTime>
 
 #include <KSharedConfig>
-#include <KSharedConfigPtr>
 #include <KConfigGroup>
+#include "klocalizedstring.h"
 
 Histogram::Histogram(QWidget *parent) :
     AbstractGfxScopeWidget(false, parent)

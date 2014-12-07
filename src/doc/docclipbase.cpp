@@ -1067,8 +1067,8 @@ bool DocClipBase::checkHash() const
 QString DocClipBase::getClipHash() const
 {
     QString hash;
-    if (m_clipType == SlideShow) hash = QCryptographicHash::hash(m_properties.value("resource").toAscii().data(), QCryptographicHash::Md5).toHex();
-    else if (m_clipType == Color) hash = QCryptographicHash::hash(m_properties.value("colour").toAscii().data(), QCryptographicHash::Md5).toHex();
+    if (m_clipType == SlideShow) hash = QCryptographicHash::hash(m_properties.value("resource").toLatin1().data(), QCryptographicHash::Md5).toHex();
+    else if (m_clipType == Color) hash = QCryptographicHash::hash(m_properties.value("colour").toLatin1().data(), QCryptographicHash::Md5).toHex();
     else if (m_clipType == Text) hash = QCryptographicHash::hash(QString("title" + getId() + m_properties.value("xmldata")).toUtf8().data(), QCryptographicHash::Md5).toHex();
     else {
         if (m_properties.contains("file_hash")) hash = m_properties.value("file_hash");

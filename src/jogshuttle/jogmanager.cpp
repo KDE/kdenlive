@@ -46,7 +46,7 @@ void JogManager::slotDoAction(const QString& actionName)
 {
     QAction* action = pCore->window()->actionCollection()->action(actionName);
     if (!action) {
-        fprintf(stderr, "%s", QString("shuttle action '%1' unknown\n").arg(actionName).toAscii().constData());
+        fprintf(stderr, "%s", QString("shuttle action '%1' unknown\n").arg(actionName).toLatin1().constData());
         return;
     }
     action->trigger();

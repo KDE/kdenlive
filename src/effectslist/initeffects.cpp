@@ -442,7 +442,7 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
 {
 
     QDomDocument ret;
-    Mlt::Properties *metadata = repository->metadata(filter_type, filtername.toAscii().data());
+    Mlt::Properties *metadata = repository->metadata(filter_type, filtername.toLatin1().data());
     ////qDebug() << filtername;
     if (metadata && metadata->is_valid()) {
         if (metadata->get("title") && metadata->get("identifier")) {

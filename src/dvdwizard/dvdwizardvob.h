@@ -73,7 +73,7 @@ public:
             const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
 
-            QPixmap pixmap = qVariantValue<QPixmap>(index.data(Qt::DecorationRole));
+            QPixmap pixmap = index.data(Qt::DecorationRole).value<QPixmap>();
             QPoint pixmapPoint(r1.left() + textMargin, r1.top() + (r1.height() - pixmap.height()) / 2);
             painter->drawPixmap(pixmapPoint, pixmap);
             int decoWidth = pixmap.width() + 2 * textMargin;

@@ -18,7 +18,7 @@
 #include "complexparameter.h"
 
 #include <QDebug>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 
 
 #include <QHeaderView>

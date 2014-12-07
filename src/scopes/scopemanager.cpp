@@ -24,7 +24,7 @@
 
 
 #include <QDockWidget>
-
+#include "klocalizedstring.h"
 
 //#define DEBUG_SM
 #ifdef DEBUG_SM

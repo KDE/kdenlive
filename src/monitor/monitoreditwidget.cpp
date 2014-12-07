@@ -29,8 +29,8 @@
 #include <QVBoxLayout>
 #include <QAction>
 #include <QToolButton>
-
 #include <QIcon>
+#include "klocalizedstring.h"
 
 
 MonitorEditWidget::MonitorEditWidget(Render* renderer, QWidget* parent) :

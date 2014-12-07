@@ -20,9 +20,8 @@
 #include "slideshowclip.h"
 #include "kdenlivesettings.h"
 
-
-
 #include <KFileItem>
+#include <klocalizedstring.h>
 
 #include <QDebug>
 #include <QFontDatabase>

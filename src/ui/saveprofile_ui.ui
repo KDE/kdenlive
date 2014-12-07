@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>329</width>
-    <height>495</height>
+    <height>538</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -61,16 +61,6 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="3">
-    <widget class="KTextEdit" name="parameters">
-     <property name="readOnly">
-      <bool>false</bool>
-     </property>
-     <property name="acceptRichText">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
    <item row="7" column="0" colspan="3">
     <widget class="QGroupBox" name="abitrates">
      <property name="title">
@@ -112,18 +102,18 @@
      <zorder>default_abitrate</zorder>
     </widget>
    </item>
-   <item row="1" column="1" colspan="2">
-    <widget class="QLineEdit" name="group_name"/>
-   </item>
-   <item row="0" column="1" colspan="2">
-    <widget class="KComboBox" name="destination_list"/>
-   </item>
    <item row="2" column="0">
     <widget class="QLabel" name="label_3">
      <property name="text">
       <string>Profile name</string>
      </property>
     </widget>
+   </item>
+   <item row="0" column="1" colspan="2">
+    <widget class="KComboBox" name="destination_list"/>
+   </item>
+   <item row="1" column="1" colspan="2">
+    <widget class="QLineEdit" name="group_name"/>
    </item>
    <item row="3" column="0">
     <widget class="QLabel" name="label_4">
@@ -139,6 +129,13 @@
      </property>
      <property name="openExternalLinks">
       <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Destination</string>
      </property>
     </widget>
    </item>
@@ -159,10 +156,10 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="label_5">
-     <property name="text">
-      <string>Destination</string>
+   <item row="5" column="0" colspan="3">
+    <widget class="QTextEdit" name="parameters">
+     <property name="acceptRichText">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -173,16 +170,6 @@
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KTextEdit</class>
-   <extends>QTextEdit</extends>
-   <header>ktextedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -27,6 +27,8 @@
 #include <QDebug>
 #include <QFontDatabase>
 
+#include "klocalizedstring.h"
+
 MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget * parent)
     : QDialog(parent)
     , m_producer(NULL)

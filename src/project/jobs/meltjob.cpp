@@ -24,7 +24,7 @@
 
 #include <QDebug>
 #include <QUrl>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 
 #include <mlt++/Mlt.h>
 

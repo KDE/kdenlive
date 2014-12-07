@@ -14,6 +14,7 @@
 #include "kdenlivesettings.h"
 #include "dialogs/profilesdialog.h"
 
+#include "klocalizedstring.h"
 #include <QPainter>
 #include <QPoint>
 #include <KSharedConfig>

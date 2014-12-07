@@ -57,7 +57,7 @@
 //static bool pointLessThan(const QPointF &a, const QPointF &b);
 
 
-KisCurveWidget::KisCurveWidget(QWidget *parent, Qt::WFlags f)
+KisCurveWidget::KisCurveWidget(QWidget *parent, Qt::WindowFlags f)
         : QWidget(parent, f), d(new KisCurveWidget::Private(this))
 {
     setObjectName("KisCurveWidget");

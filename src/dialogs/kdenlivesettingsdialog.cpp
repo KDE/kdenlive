@@ -28,12 +28,12 @@
 #include "capture/v4lcapture.h"
 #endif
 
-#include <QDebug>
+#include "klocalizedstring.h"
 #include <kde_file.h>
 #include <kdeversion.h>
 #include <KMessageBox>
 #include <KLineEdit>
-
+#include <QDebug>
 #include <QDir>
 #include <QTimer>
 #include <QThread>
@@ -791,7 +791,7 @@ void KdenliveSettingsDialog::updateSettings()
         actions << m_mappable_actions[button->currentText()];
     }
     QString maps = JogShuttleConfig::actionMap(actions);
-    //fprintf(stderr, "Shuttle config: %s\n", JogShuttleConfig::actionMap(actions).toAscii().constData());
+    //fprintf(stderr, "Shuttle config: %s\n", JogShuttleConfig::actionMap(actions).toLatin1().constData());
     if (KdenliveSettings::shuttlebuttons() != maps)
         KdenliveSettings::setShuttlebuttons(maps);
 #endif

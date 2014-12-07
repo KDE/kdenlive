@@ -77,7 +77,7 @@ check_include_files(pthread.h HAVE_PTHREAD_H)
 find_package(Qt5 CONFIG REQUIRED Core DBus Test Widgets Script Svg OpenGL)
 
 find_package(KF5 REQUIRED Archive Bookmarks CoreAddons Config ConfigWidgets 
-                            DBusAddons KIO KDELibs4Support  WidgetsAddons Plotting NotifyConfig NewStuff XmlGui )
+                            DBusAddons KIO WidgetsAddons Plotting NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes )
                             #Service)
 
 

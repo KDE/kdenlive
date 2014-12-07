@@ -16,6 +16,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "doc/kdenlivedoc.h"
 #include "project/projectmanager.h"
 
+#include "klocalizedstring.h"
+
 NotesPlugin::NotesPlugin(ProjectManager *projectManager) :
     QObject(projectManager)
 {

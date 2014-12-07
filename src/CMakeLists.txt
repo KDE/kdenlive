@@ -104,7 +104,7 @@ list(APPEND kdenlive_SRCS
   core.cpp
 )
 
-kde4_add_ui_files(kdenlive_UIS
+qt5_wrap_ui(kdenlive_UIS
   ui/addtrack_ui.ui
   ui/archivewidget_ui.ui
   ui/audiospectrum_ui.ui
@@ -194,12 +194,12 @@ if(BUILD_JogShuttle)
   )
 endif(BUILD_JogShuttle)
 
-qt4_add_dbus_adaptor(kdenlive_SRCS
+qt5_add_dbus_adaptor(kdenlive_SRCS
   org.kdenlive.MainWindow.xml
   mainwindow.h
   MainWindow
 )
-qt4_add_resources(kdenlive_SRCS ui/resources.qrc)
+qt5_add_resources(kdenlive_SRCS ui/resources.qrc)
 add_executable(kdenlive
   ${kdenlive_SRCS}
   ${kdenlive_UIS}
@@ -230,7 +230,6 @@ include_directories(
 
 
 target_link_libraries(kdenlive
-   KF5::KDELibs4Support
    KF5::WidgetsAddons
    KF5::Plotting
    KF5::Archive
@@ -242,6 +241,10 @@ target_link_libraries(kdenlive
    KF5::NewStuff
    KF5::DBusAddons
    KF5::XmlGui
+   KF5::GuiAddons
+   KF5::Notifications
+   KF5::TextWidgets
+   KF5::IconThemes
    #KF5::Service
    #KF5::KIONTLM 
    #${KDE4_KDEUI_LIBS}
@@ -252,7 +255,7 @@ target_link_libraries(kdenlive
   #${KDE4_SOLID_LIBS}
   ${Qt5_LIBRARIES}
   Qt5::Svg
-  #Qt5:OpenGL
+  ${OPENGL_LIBRARIES}
   ${QT_LIBRARIES}
   ${MLT_LIBRARIES}
   ${MLTPP_LIBRARIES}

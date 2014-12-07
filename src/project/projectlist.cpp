@@ -46,7 +46,7 @@
 #include "ui_scenecutdialog_ui.h"
 
 #include <QDebug>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 #include <KMessageBox>
 #include <KFileItem>
 #include <QDialog>
@@ -725,7 +725,7 @@ void ProjectList::slotModifiedClip(const QString &id)
 {
     ProjectItem *item = getItemById(id);
     if (item) {
-        QPixmap pixmap = qVariantValue<QPixmap>(item->data(0, Qt::DecorationRole));
+        QPixmap pixmap = item->data(0, Qt::DecorationRole).value<QPixmap>();
         if (!pixmap.isNull()) {
             QPainter p(&pixmap);
             p.fillRect(0, 0, pixmap.width(), pixmap.height(), QColor(255, 255, 255, 200));
@@ -749,7 +749,7 @@ void ProjectList::slotMissingClip(const QString &id)
             return;
         }
         int width = (int)(height  * m_render->dar());
-        QPixmap pixmap = qVariantValue<QPixmap>(item->data(0, Qt::DecorationRole));
+        QPixmap pixmap = item->data(0, Qt::DecorationRole).value<QPixmap>();
         if (pixmap.isNull()) {
             pixmap = QPixmap(width, height);
             pixmap.fill(Qt::transparent);
@@ -1619,7 +1619,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, cons
                         item->setPixmap(missingPixmap);
                     }
                     else {
-                        QPixmap pixmap = qVariantValue<QPixmap>(item->data(0, Qt::DecorationRole));
+                        QPixmap pixmap = item->data(0, Qt::DecorationRole).value<QPixmap>();
                         QPainter p(&pixmap);
                         p.drawPixmap(3, 3, QIcon::fromTheme("dialog-close").pixmap(pixmap.width() - 6, pixmap.height() - 6));
                         p.end();
@@ -1637,7 +1637,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, cons
                     item->changeDuration(clip->getProducer()->get_playtime());
                 }
                 if (clip->isPlaceHolder()) {
-                    QPixmap pixmap = qVariantValue<QPixmap>(item->data(0, Qt::DecorationRole));
+                    QPixmap pixmap = item->data(0, Qt::DecorationRole).value<QPixmap>();
                     if (pixmap.isNull()) {
                         pixmap = QPixmap(width, height);
                         pixmap.fill(Qt::transparent);

@@ -18,12 +18,11 @@
 #include "keyframeedit.h"
 #include "positionedit.h"
 #include "widgets/doubleparameterwidget.h"
-
 #include "kdenlivesettings.h"
 
+#include "klocalizedstring.h"
 #include <QDebug>
 #include <QFontDatabase>
-
 #include <QHeaderView>
 
 KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, const Timecode &tc, int activeKeyframe, QWidget* parent) :

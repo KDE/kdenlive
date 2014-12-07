@@ -36,7 +36,7 @@
 #include <QDebug>
 
 #include <KComboBox>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 #include <KMessageBox>
 #include <QStandardPaths>
 

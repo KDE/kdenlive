@@ -30,6 +30,7 @@
 #include "doc/kdenlivedoc.h"
 
 #include <QDebug>
+#include "klocalizedstring.h"
 
 TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     QWidget(parent),

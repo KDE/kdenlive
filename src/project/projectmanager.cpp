@@ -26,8 +26,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KActionCollection>
 #include <QAction>
 #include <KMessageBox>
-#include <QProgressDialog>
+#include <klocalizedstring.h>
 
+#include <QProgressDialog>
 #include <QCryptographicHash>
 #include <QFileDialog>
 #include <QDebug>
@@ -203,7 +204,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     // Save timeline thumbnails
     m_trackView->projectView()->saveThumbnails();
     m_project->setUrl(QUrl(outputFileName));
-    QByteArray hash = QCryptographicHash::hash(QUrl(outputFileName).encodedPath(), QCryptographicHash::Md5).toHex();
+    QByteArray hash = QCryptographicHash::hash(QUrl(outputFileName).toEncoded(), QCryptographicHash::Md5).toHex();
     if (m_project->m_autosave == NULL) {
         m_project->m_autosave = new KAutoSaveFile(QUrl(hash), this);
     } else {
@@ -322,7 +323,7 @@ void ProjectManager::openFile(const QUrl &url)
     }
 
     // Check for backup file
-    QByteArray hash = QCryptographicHash::hash(url.encodedPath(), QCryptographicHash::Md5).toHex();
+    QByteArray hash = QCryptographicHash::hash(url.toEncoded(), QCryptographicHash::Md5).toHex();
     QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(QUrl(hash));
     if (!staleFiles.isEmpty()) {
         if (KMessageBox::questionYesNo(pCore->window(),
@@ -374,7 +375,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     progressDialog.repaint();
 
     if (stale == NULL) {
-        QByteArray hash = QCryptographicHash::hash(url.encodedPath(), QCryptographicHash::Md5).toHex();
+        QByteArray hash = QCryptographicHash::hash(url.toEncoded(), QCryptographicHash::Md5).toHex();
         stale = new KAutoSaveFile(QUrl(hash), doc);
         doc->m_autosave = stale;
     } else {

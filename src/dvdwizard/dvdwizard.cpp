@@ -27,7 +27,7 @@
 #include "monitor/monitormanager.h"
 
 
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 #include <KMessageBox>
 
 #include <QFile>

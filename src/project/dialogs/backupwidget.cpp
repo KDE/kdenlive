@@ -21,6 +21,7 @@
 #include "backupwidget.h"
 #include "kdenlivesettings.h"
 
+#include <klocalizedstring.h>
 
 BackupWidget::BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, const QString &projectId, QWidget * parent) :
         QDialog(parent)

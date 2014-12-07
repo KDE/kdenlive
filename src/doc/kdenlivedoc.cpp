@@ -37,7 +37,7 @@
 
 #include <KMessageBox>
 #include <QProgressDialog>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 #include <KIO/CopyJob>
 #include <KIO/JobUiDelegate>
 #include <KBookmarkManager>
@@ -52,6 +52,7 @@
 #include <QUndoGroup>
 #include <QTimer>
 #include <QUndoStack>
+#include <QTextEdit>
 
 #include <mlt++/Mlt.h>
 #include <KJobWidgets/KJobWidgets>

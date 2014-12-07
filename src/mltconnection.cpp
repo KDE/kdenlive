@@ -15,6 +15,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mainwindow.h"
 #include <config-kdenlive.h>
 #include <KUrlRequesterDialog>
+#include <klocalizedstring.h>
 
 #include <QFile>
 #include <QStandardPaths>

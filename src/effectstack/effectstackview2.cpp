@@ -30,7 +30,7 @@
 #include "monitor/monitorscene.h"
 
 #include <QDebug>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 #include <KColorScheme>
 #include <QFontDatabase>
 #include <KColorUtils>

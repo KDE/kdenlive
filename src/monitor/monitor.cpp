@@ -30,7 +30,7 @@
 #include "twostateaction.h"
 
 #include <QDebug>
-#include <KLocalizedString>
+#include "klocalizedstring.h"
 
 #include <QMouseEvent>
 #include <QMenu>

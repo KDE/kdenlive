@@ -31,7 +31,7 @@
 #include <framework/mlt_version.h>
 
 
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 #include <KProcess>
 #include <KRun>
 #include <KMessageWidget>

@@ -34,7 +34,7 @@
 
 #include <QDebug>
 #include <QIcon>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 #include <QFontDatabase>
 
 

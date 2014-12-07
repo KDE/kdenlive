@@ -19,7 +19,7 @@
 #include "effectslist.h"
 
 #include <QDebug>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 
 
 EffectsList::EffectsList(bool indexRequired) : m_useIndex(indexRequired)

@@ -61,7 +61,6 @@
 #endif
 
 #include <QAction>
-#include <KLocalizedString>
 #include <KActionCollection>
 #include <KActionCategory>
 #include <KActionMenu>
@@ -72,7 +71,7 @@
 #include <KConfigDialog>
 #include <KXMLGUIFactory>
 #include <KColorSchemeManager>
-#include <KStatusBar>
+#include <QStatusBar>
 #include <KUrlRequesterDialog>
 #include <QTemporaryFile>
 #include <QMenu>

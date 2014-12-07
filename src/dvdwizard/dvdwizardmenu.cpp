@@ -23,10 +23,8 @@
 
 #include <QDebug>
 #include <KColorScheme>
-
-#if KDE_IS_VERSION(4,6,0)
+#include "klocalizedstring.h"
 #include <QGraphicsDropShadowEffect>
-#endif
 
 
 #include "doc/kthumb.h"
