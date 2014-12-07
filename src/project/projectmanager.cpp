@@ -33,6 +33,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QDebug>
 #include <QMimeDatabase>
 #include <QMimeType>
+#include <KConfigGroup>
 
 ProjectManager::ProjectManager(QObject* parent) :
     QObject(parent),
@@ -209,7 +210,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
         m_project->m_autosave->setManagedFile(QUrl(hash));
     }
 
-    pCore->window()->setCaption(m_project->description());
+    pCore->window()->setWindowTitle(m_project->description());
     m_project->setModified(false);
     m_recentFilesAction->addUrl(QUrl(outputFileName));
     m_fileRevert->setEnabled(true);
@@ -487,7 +488,7 @@ void ProjectManager::slotOpenBackup(const QUrl& url)
         doOpenFile(QUrl(requestedBackup), NULL);
         m_project->setUrl(projectFile);
         m_project->setModified(true);
-        pCore->window()->setCaption(m_project->description());
+        pCore->window()->setWindowTitle(m_project->description());
     }
     delete dia;
 }

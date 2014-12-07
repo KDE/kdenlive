@@ -24,8 +24,8 @@
 
 #include <QDebug>
 #include <KLocalizedString>
-#include <KGlobalSettings>
 
+#include <QApplication>
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
 #include <QParallelAnimationGroup>
@@ -61,7 +61,7 @@ void AbstractClipItem::closeAnimation()
     if (!isEnabled()) return;
     setEnabled(false);
     setFlag(QGraphicsItem::ItemIsSelectable, false);
-    if (!(KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects)) {
+    if (QApplication::activeWindow()->style()->styleHint(QStyle::SH_Widget_Animate, 0, QApplication::activeWindow())) {
         // animation disabled
         deleteLater();
         return;

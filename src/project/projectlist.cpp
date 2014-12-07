@@ -49,14 +49,13 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KFileItem>
-#include <KDialog>
+#include <QDialog>
 
 #include <KColorScheme>
 #include <KActionCollection>
 #include <KVBox>
 #include <KHBox>
 #include <KPassivePopup>
-#include <KGlobalSettings>
 #include <KStandardDirs>
 
 #ifdef USE_NEPOMUK
@@ -79,6 +78,9 @@
 #include <QVBoxLayout>
 #include <QtConcurrent>
 #include <QFileDialog>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
 
 MyMessageWidget::MyMessageWidget(QWidget *parent) : KMessageWidget(parent) {}
 MyMessageWidget::MyMessageWidget(const QString &text, QWidget *parent) : KMessageWidget(text, parent) {}
@@ -141,7 +143,8 @@ void SmallInfoLabel::slotSetJobCount(int jobCount)
         setText(i18np("%1 job", "%1 jobs", jobCount));
         setToolTip(i18np("%1 pending job", "%1 pending jobs", jobCount));
         
-        if (!(KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects)) {
+        //if (!(KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects)) {
+        if (style()->styleHint(QStyle::SH_Widget_Animate, 0, this)) {
             setFixedWidth(sizeHint().width());
             show();
             return;
@@ -163,7 +166,8 @@ void SmallInfoLabel::slotSetJobCount(int jobCount)
         }
     }
     else {
-        if (!(KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects)) {
+        //if (!(KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects)) {
+        if (style()->styleHint(QStyle::SH_Widget_Animate, 0, this)) {
             setFixedWidth(0);
             hide();
             return;
@@ -1848,7 +1852,7 @@ void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
                 }
                 m_invalidClipDialog->addClip(id, path);
                 int result = m_invalidClipDialog->exec();
-                if (result == KDialog::Yes) replace = true;
+                if (result == QDialog::Accepted) replace = true;
             }
         }
         if (m_invalidClipDialog) {
@@ -2404,11 +2408,10 @@ bool ProjectList::adjustProjectProfileToItem(ProjectItem *item)
             // get a list of compatible profiles
             QMap <QString, QString> suggestedProfiles = ProfilesDialog::getProfilesFromProperties(width, height, fps, par, item->clipType() == Image);
             if (!suggestedProfiles.isEmpty()) {
-                QPointer<KDialog> dialog = new KDialog(this);
-                dialog->setCaption(i18n("Change project profile"));
-                dialog->setButtons(KDialog::Ok | KDialog::Cancel);
-
-                QWidget container;
+                QPointer<QDialog> dialog = new QDialog(this);
+                dialog->setWindowTitle(i18n("Change project profile"));
+                QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+                QWidget *mainWidget = new QWidget(this);
                 QVBoxLayout *l = new QVBoxLayout;
                 QLabel *label = new QLabel(i18n("Your clip does not match current project's profile.\nDo you want to change the project profile?\n\nThe following profiles match the clip (size: %1, fps: %2)", size, fps));
                 l->addWidget(label);
@@ -2423,9 +2426,18 @@ bool ProjectList::adjustProjectProfileToItem(ProjectItem *item)
                 }
                 list->setCurrentRow(0);
                 l->addWidget(list);
-                container.setLayout(l);
-                dialog->setButtonText(KDialog::Ok, i18n("Update profile"));
-                dialog->setMainWidget(&container);
+                mainWidget->setLayout(l);
+                QVBoxLayout *mainLayout = new QVBoxLayout;
+                dialog->setLayout(mainLayout);
+                mainLayout->addWidget(mainWidget);
+                QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+                okButton->setText(i18n("Update profile"));                
+                okButton->setDefault(true);
+                okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+                dialog->connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+                dialog->connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+                mainLayout->addWidget(buttonBox);
+                
                 if (dialog->exec() == QDialog::Accepted) {
                     //Change project profile
                     profileUpdated = true;
@@ -3478,15 +3490,23 @@ void ProjectList::slotUpdateJobStatus(ProjectItem *item, int type, int status, c
 
 void ProjectList::slotShowJobLog()
 {
-    KDialog d(this);
-    d.setButtons(KDialog::Close);
+    QDialog d(this);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    QWidget *mainWidget = new QWidget(this);
+    QVBoxLayout *l = new QVBoxLayout;
     QTextEdit t(&d);
     for (int i = 0; i < m_errorLog.count(); ++i) {
         if (i > 0) t.insertHtml("<br><hr /><br>");
         t.insertPlainText(m_errorLog.at(i));
     }
     t.setReadOnly(true);
-    d.setMainWidget(&t);
+    l->addWidget(&t);
+    mainWidget->setLayout(l);
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    d.setLayout(mainLayout);
+    mainLayout->addWidget(mainWidget);
+    mainLayout->addWidget(buttonBox);
+    d.connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     d.exec();
 }
 

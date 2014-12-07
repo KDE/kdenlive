@@ -24,7 +24,6 @@
 
 #include <QDebug>
 #include <klocale.h>
-#include <KGlobalSettings>
 
 #include <QBrush>
 #include <QDomElement>
@@ -45,7 +44,7 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, co
     setPos(info.startPos.frames(fps), (int)(info.track * KdenliveSettings::trackheight() + itemOffset() + 1));
 
 #if QT_VERSION >= 0x040600
-    if (!(KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects)) {
+    if (QApplication::activeWindow()->style()->styleHint(QStyle::SH_Widget_Animate, 0, QApplication::activeWindow())) {
         // animation disabled
         setRect(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal) itemHeight());
     }

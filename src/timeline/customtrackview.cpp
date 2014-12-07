@@ -70,15 +70,6 @@ bool sortGuidesList(const Guide *g1 , const Guide *g2)
     return (*g1).position() < (*g2).position();
 }
 
-
-//TODO:
-// disable animation if user asked it in KDE's global settings
-// http://lists.kde.org/?l=kde-commits&m=120398724717624&w=2
-// needs something like below (taken from dolphin)
-// #include <kglobalsettings.h>
-// const bool animate = KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects;
-// const int duration = animate ? 1500 : 1;
-
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscene, QWidget *parent) :
     QGraphicsView(projectscene, parent)
   , m_tracksHeight(KdenliveSettings::trackheight())

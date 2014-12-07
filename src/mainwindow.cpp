@@ -1366,7 +1366,8 @@ void MainWindow::slotUpdateProjectProfile(const QString &profile)
     bool updateFps = project->setProfilePath(profile);
     KdenliveSettings::setCurrent_profile(profile);
     KdenliveSettings::setProject_fps(project->fps());
-    setCaption(project->description(), project->isModified());
+    setWindowTitle(project->description());
+    setWindowModified(project->isModified());
     project->clipManager()->clearUnusedProducers();
     pCore->monitorManager()->resetProfiles(project->timecode());
     m_transitionConfig->updateProjectFormat();
@@ -1471,7 +1472,8 @@ void MainWindow::slotUpdateProjectDuration(int pos)
 
 void MainWindow::slotUpdateDocumentState(bool modified)
 {
-    setCaption(pCore->projectManager()->current()->description(), modified);
+    setWindowTitle(pCore->projectManager()->current()->description());
+    setWindowModified(modified);
     m_saveAction->setEnabled(modified);
 }
 
@@ -1569,7 +1571,8 @@ void MainWindow::connectDocument()
     m_commandStack->setActiveStack(project->commandStack());
     KdenliveSettings::setProject_display_ratio(project->dar());
 
-    setCaption(project->description(), project->isModified());
+    setWindowTitle(project->description());
+    setWindowModified(project->isModified());
     m_saveAction->setEnabled(project->isModified());
     m_normalEditTool->setChecked(true);
     connect(m_projectMonitor, SIGNAL(durationChanged(int)), this, SLOT(slotUpdateProjectDuration(int)));
