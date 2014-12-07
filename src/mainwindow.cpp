@@ -153,12 +153,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     // select current theme
     QModelIndex index = m_colorschemes->indexForScheme(name);
     m_colorschemes->activateScheme(index);
-    
-    // Create DBus interface
-    new MainWindowAdaptor(this);
-    QDBusConnection dbus = QDBusConnection::sessionBus();
-    dbus.registerObject("/MainWindow", this);
-
     MltConnection::locateMeltAndProfilesPath(MltPath);
 
     KdenliveSettings::setCurrent_profile(KdenliveSettings::default_profile());

@@ -240,6 +240,7 @@ target_link_libraries(kdenlive
    KF5::KIOWidgets 
    KF5::NotifyConfig
    KF5::NewStuff
+   KF5::DBusAddons
    KF5::XmlGui
    #KF5::Service
    #KF5::KIONTLM 

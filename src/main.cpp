@@ -28,6 +28,7 @@
 #include <QUrl> //new
 #include <QApplication>
 #include <KLocalizedString>
+#include <KDBusService>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 
@@ -56,11 +57,14 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(i18n("Jason Wood"), i18n("Original KDE 3 version author (not active anymore)"), "jasonwood@blueyonder.co.uk");
     aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
 
-    QApplication app(argc, argv);
     QCommandLineParser parser;
     KAboutData::setApplicationData(aboutData);
     parser.addVersionOption();
     parser.addHelpOption();
+    QApplication app(argc, argv);    
+    app.setOrganizationDomain("kde.org");
+    KDBusService programDBusService;
+    
     //PORTING SCRIPT: adapt aboutdata variable if necessary
     aboutData.setupCommandLine(&parser);
     parser.process(app);
