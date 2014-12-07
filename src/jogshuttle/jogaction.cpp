@@ -77,4 +77,4 @@ void JogShuttleAction::slotButton(int button_id)
     emit action(m_actionMap[button_id]);
 }
 
-#include "jogaction.moc"
+

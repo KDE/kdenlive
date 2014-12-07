@@ -342,4 +342,4 @@ void KeyframeHelper::addGeometry(Mlt::Geometry *geom)
     m_extraGeometries.append(geom);
 }
 
-#include "keyframehelper.moc"
+

@@ -502,4 +502,4 @@ void CustomRuler::paintEvent(QPaintEvent *e)
 
 }
 
-#include "customruler.moc"
+

@@ -596,4 +596,4 @@ void AudioSpectrum::handleMouseDrag(const QPoint &movement, const RescaleDirecti
     }
 }
 
-#include "audiospectrum.moc"
+

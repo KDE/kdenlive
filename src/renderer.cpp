@@ -4481,5 +4481,5 @@ bool Render::checkX11Grab()
     return result.contains("x11grab");
 }
 
-#include "renderer.moc"
+
 

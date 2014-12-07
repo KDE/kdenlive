@@ -171,6 +171,6 @@ GenTime ClipDurationDialog::duration() const
     return m_dur->gentime();
 }
 
-#include "clipdurationdialog.moc"
+
 
 

@@ -2588,4 +2588,4 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
     value_h->blockSignals(blockH);
 }
 
-#include "titlewidget.moc"
+

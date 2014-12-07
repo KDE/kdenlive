@@ -205,5 +205,5 @@ void AudioEnvelope::dumpInfo() const
     }
 }
 
-#include "audioEnvelope.moc"
+
 

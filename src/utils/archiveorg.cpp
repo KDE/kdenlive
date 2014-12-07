@@ -238,4 +238,4 @@ void ArchiveOrg::slotParseThumbs(KJob* job)
     }
 }
 
-#include "archiveorg.moc"
+

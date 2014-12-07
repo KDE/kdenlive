@@ -161,4 +161,4 @@ bool CutClipJob::isExclusive()
 }
 
 
-#include "cutclipjob.moc"
+

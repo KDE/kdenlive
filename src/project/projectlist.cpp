@@ -3870,4 +3870,4 @@ void ProjectList::checkCamcorderFilters(DocClipBase *clip, QMap <QString, QStrin
     }
 }*/
 
-#include "projectlist.moc"
+

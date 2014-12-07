@@ -196,4 +196,4 @@ void EffectStackEdit::setKeyframes(const QString &data, int maximum)
 }
 
 
-#include "effectstackedit.moc"
+

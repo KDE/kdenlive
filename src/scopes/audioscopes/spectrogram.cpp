@@ -546,4 +546,4 @@ void Spectrogram::resizeEvent(QResizeEvent *event)
 #undef DEBUG_SPECTROGRAM
 #endif
 
-#include "spectrogram.moc"
+

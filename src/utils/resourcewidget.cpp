@@ -456,4 +456,4 @@ void ResourceWidget::updateLayout()
 }
 
 
-#include "resourcewidget.moc"
+

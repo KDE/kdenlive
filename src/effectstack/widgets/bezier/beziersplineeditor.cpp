@@ -498,4 +498,4 @@ int BezierSplineEditor::nearestPointInRange(const QPointF &p, int wWidth, int wH
     return -1;
 }
 
-#include "beziersplineeditor.moc"
+

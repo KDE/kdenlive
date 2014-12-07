@@ -1236,6 +1236,6 @@ void KdenliveSettingsDialog::slotReloadShuttleDevices()
 #endif //USE_JOGSHUTTLE
 }
 
-#include "kdenlivesettingsdialog.moc"
+
 
 

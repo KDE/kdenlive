@@ -167,4 +167,4 @@ void AudioCorrelation::correlate(const qint64 *envMain, int sizeMain,
     }
 }
 
-#include "audioCorrelation.moc"
+

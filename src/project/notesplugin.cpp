@@ -48,4 +48,4 @@ NotesWidget* NotesPlugin::widget()
     return m_widget;
 }
 
-#include "notesplugin.moc"
+

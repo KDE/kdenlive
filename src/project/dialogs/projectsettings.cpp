@@ -649,6 +649,6 @@ void ProjectSettings::slotDeleteMetadataField()
     if (item) delete item;
 }
 
-#include "projectsettings.moc"
+
 
 

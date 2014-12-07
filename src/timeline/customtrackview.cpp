@@ -7651,4 +7651,4 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type)
 }
 
 
-#include "customtrackview.moc"
+

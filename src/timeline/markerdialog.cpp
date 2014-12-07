@@ -147,6 +147,6 @@ CommentedTime MarkerDialog::newMarker()
     return CommentedTime(m_in->gentime(), marker_comment->text(), marker_type->currentIndex());
 }
 
-#include "markerdialog.moc"
+
 
 

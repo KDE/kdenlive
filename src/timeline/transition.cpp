@@ -428,4 +428,4 @@ bool Transition::updateKeyframes(int oldEnd)
 }
 
 
-#include "transition.moc"
+

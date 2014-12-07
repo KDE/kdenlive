@@ -1025,5 +1025,5 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
 }
 
 
-#include "archivewidget.moc"
+
 

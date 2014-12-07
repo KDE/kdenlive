@@ -505,4 +505,4 @@ KRecentFilesAction* ProjectManager::recentFilesAction()
     return m_recentFilesAction;
 }
 
-#include "projectmanager.moc"
+

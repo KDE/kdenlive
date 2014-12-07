@@ -551,4 +551,4 @@ void GraphicsSceneRectMove::slotUpdateFontSize(int s)
     m_fontSize = s;
 }
 
-#include "graphicsscenerectmove.moc"
+

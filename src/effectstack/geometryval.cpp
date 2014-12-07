@@ -585,4 +585,4 @@ void Geometryval::slotUpdateRange(int inPoint, int outPoint)
     m_timePos.setRange(0, outPoint - inPoint - 1);
 }
 
-#include "geometryval.moc"
+

@@ -206,4 +206,4 @@ void TracksConfigDialog::slotDelete()
     }
 }
 
-#include "tracksconfigdialog.moc"
+

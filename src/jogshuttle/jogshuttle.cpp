@@ -271,4 +271,4 @@ int JogShuttle::keysCount(const QString& devPath)
 }
 
 
-#include "jogshuttle.moc"
+

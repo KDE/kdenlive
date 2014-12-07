@@ -371,4 +371,4 @@ void EffectsListWidget::contextMenuEvent(QContextMenuEvent * event)
         m_menu->popup(event->globalPos());
 }
 
-#include "effectslistwidget.moc"
+

@@ -428,5 +428,5 @@ QImage KThumb::findCachedThumb(int pos)
 }
 #endif
 
-#include "kthumb.moc"
+
 

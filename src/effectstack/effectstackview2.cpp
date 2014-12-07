@@ -999,5 +999,5 @@ const QString EffectStackView2::getStyleSheet()
     return stylesheet;
 }
 
-#include "effectstackview2.moc"
+
 

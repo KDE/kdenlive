@@ -306,4 +306,4 @@ void SimpleTimelineWidget::paintEvent(QPaintEvent* event)
     p.drawConvexPolygon(position);
 }
 
-#include "simpletimelinewidget.moc"
+

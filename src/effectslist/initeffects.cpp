@@ -764,5 +764,5 @@ QDomElement initEffects::quickParameterFill(QDomDocument & doc, const QString &n
     return parameter;
 }
 
-#include "initeffects.moc"
+
 

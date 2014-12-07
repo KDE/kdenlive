@@ -306,4 +306,4 @@ int SplineItem::getClosestPointOnCurve(const QPointF &point, double *tFinal)
     return curveSegment;
 }
 
-#include "splineitem.moc"
+

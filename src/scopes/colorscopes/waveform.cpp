@@ -185,4 +185,4 @@ QImage Waveform::renderBackground(uint)
     return QImage();
 }
 
-#include "waveform.moc"
+

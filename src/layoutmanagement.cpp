@@ -122,4 +122,4 @@ void LayoutManagement::slotOnGUISetupDone()
     initializeLayouts();
 }
 
-#include "layoutmanagement.moc"
+

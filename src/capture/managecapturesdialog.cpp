@@ -143,6 +143,6 @@ QList<QUrl> ManageCapturesDialog::importFiles()
     return result;
 }
 
-#include "managecapturesdialog.moc"
+
 
 

@@ -1863,5 +1863,5 @@ void KdenliveDoc::setMetadata(const QMap<QString, QString> &meta)
     m_documentMetadata = meta;
 }
 
-#include "kdenlivedoc.moc"
+
 

@@ -2178,5 +2178,5 @@ void ClipItem::slotGotThumbsCache()
 }
 
 
-#include "clipitem.moc"
+
 

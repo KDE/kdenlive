@@ -30,4 +30,4 @@ int QTimerWithTime::elapsed() const
     return m_time.elapsed();
 }
 
-#include "qtimerWithTime.moc"
+

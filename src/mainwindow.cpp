@@ -3130,7 +3130,7 @@ QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName
     return dockWidget;
 }
 
-#include "mainwindow.moc"
+
 
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW

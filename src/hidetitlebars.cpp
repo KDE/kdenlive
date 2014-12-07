@@ -59,4 +59,4 @@ void HideTitleBars::slotSwitchTitleBars()
     slotShowTitleBars(!KdenliveSettings::showtitlebars());
 }
 
-#include "hidetitlebars.moc"
+

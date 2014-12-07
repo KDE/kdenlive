@@ -504,4 +504,4 @@ void CustomLabel::focusOutEvent(QFocusEvent*)
     setFocusPolicy(Qt::StrongFocus);
 }
 
-#include "dragvalue.moc"
+

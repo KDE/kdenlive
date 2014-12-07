@@ -101,4 +101,4 @@ void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
     }
 }
 
-#include "mltconnection.moc"
+

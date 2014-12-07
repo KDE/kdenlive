@@ -519,4 +519,4 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     }
 }
 
-#include "projectlistview.moc"
+

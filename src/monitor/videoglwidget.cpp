@@ -217,4 +217,4 @@ void VideoGLWidget::mouseDoubleClickEvent(QMouseEvent * event)
 }
 
 
-#include "videoglwidget.moc"
+

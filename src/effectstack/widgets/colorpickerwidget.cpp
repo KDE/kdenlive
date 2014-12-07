@@ -258,4 +258,4 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
 #endif
 }
 
-#include "colorpickerwidget.moc"
+

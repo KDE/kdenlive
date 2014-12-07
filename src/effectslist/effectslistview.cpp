@@ -223,4 +223,4 @@ void EffectsListView::updatePalette()
     m_effectsList->setStyleSheet(customStyleSheet());
 }
 
-#include "effectslistview.moc"
+

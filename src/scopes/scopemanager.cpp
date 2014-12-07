@@ -323,4 +323,4 @@ template <class T> void ScopeManager::createScopeDock(T* scopeWidget, const QStr
     dock->close();
 }
 
-#include "scopemanager.moc"
+

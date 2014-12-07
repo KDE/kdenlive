@@ -93,4 +93,4 @@ void PositionEdit::setRange(int min, int max, bool absolute)
     }
 }
 
-#include "positionedit.moc"
+

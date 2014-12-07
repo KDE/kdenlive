@@ -151,4 +151,4 @@ int CubicBezierSpline::indexOf(const BPoint& p)
     return -1;
 }
 
-#include "cubicbezierspline.moc"
+

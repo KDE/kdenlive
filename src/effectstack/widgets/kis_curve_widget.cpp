@@ -468,4 +468,4 @@ void KisCurveWidget::setMaxPoints(int max)
     d->m_maxPoints = max;
 }
 
-#include "kis_curve_widget.moc"
+

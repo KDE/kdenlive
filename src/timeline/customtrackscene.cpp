@@ -107,4 +107,4 @@ EditMode CustomTrackScene::editMode() const
     return m_editMode;
 }
 
-#include "customtrackscene.moc"
+

@@ -371,4 +371,4 @@ QImage ColorTools::hsvCurvePlane(const QSize &size, const QColor &baseColor,
 
 
 
-#include "colortools.moc"
+

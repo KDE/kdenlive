@@ -277,5 +277,5 @@ void MonitorScene::wheelEvent(QGraphicsSceneWheelEvent* event)
     event->accept();
 }
 
-#include "monitorscene.moc"
+
 

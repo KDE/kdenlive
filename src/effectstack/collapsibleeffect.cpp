@@ -603,4 +603,4 @@ void CollapsibleEffect::setKeyframes(const QString &data, int maximum)
 }
 
 
-#include "collapsibleeffect.moc"
+

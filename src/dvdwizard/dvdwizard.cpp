@@ -985,4 +985,4 @@ void DvdWizard::slotLoad()
     m_pageMenu->loadXml(m_pageVob->dvdFormat(), dvdproject.firstChildElement("menu"));
 }
 
-#include "dvdwizard.moc"
+

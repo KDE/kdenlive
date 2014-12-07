@@ -541,4 +541,4 @@ bool AbstractClipItem::isMainSelectedClip()
 }
 
 
-#include "abstractclipitem.moc"
+

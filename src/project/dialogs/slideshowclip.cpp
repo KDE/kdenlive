@@ -442,6 +442,6 @@ QString SlideshowClip::animationToGeometry(const QString &animation, int &ttl)
 }
 
 
-#include "slideshowclip.moc"
+
 
 

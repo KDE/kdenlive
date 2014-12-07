@@ -246,4 +246,4 @@ void MeltJob::setStatus(ClipJobStatus status)
 }
 
 
-#include "meltjob.moc"
+

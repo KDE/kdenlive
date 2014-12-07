@@ -951,5 +951,5 @@ void DocumentChecker::slotCheckButtons()
 
 }
 
-#include "documentchecker.moc"
+
 

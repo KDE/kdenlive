@@ -405,4 +405,4 @@ void UnicodeWidget::wheelEvent(QWheelEvent * event)
     }
 }
 
-#include "unicodedialog.moc"
+

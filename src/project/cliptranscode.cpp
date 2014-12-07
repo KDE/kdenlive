@@ -284,6 +284,6 @@ void ClipTranscode::slotUpdateParams(int ix)
 
 }
 
-#include "cliptranscode.moc"
+
 
 

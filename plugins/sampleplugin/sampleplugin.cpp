@@ -117,4 +117,4 @@ QUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
 
 Q_EXPORT_PLUGIN2(kdenlive_sampleplugin, SamplePlugin)
 
-#include "sampleplugin.moc"
+

@@ -410,4 +410,4 @@ void CollapsibleGroup::adjustEffects()
 }
 
 
-#include "collapsiblegroup.moc"
+

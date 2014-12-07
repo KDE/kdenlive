@@ -157,4 +157,4 @@ ThumbCreator::Flags MltPreview::flags() const
 
 
 
-#include "westleypreview.moc"
+

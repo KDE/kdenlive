@@ -138,5 +138,5 @@ void ComplexParameter::slotUpdateParameterList(const QStringList &l)
     m_ui.parameterList->addItems(l);
 }
 
-#include "complexparameter.moc"
+
 

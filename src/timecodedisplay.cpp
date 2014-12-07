@@ -195,4 +195,3 @@ void TimecodeDisplay::slotEditingFinished()
     emit timeCodeEditingFinished();
 }
 
-#include <timecodedisplay.moc>

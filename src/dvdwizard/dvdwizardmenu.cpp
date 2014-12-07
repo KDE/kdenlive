@@ -848,4 +848,4 @@ void DvdWizardMenu::slotUnZoom()
 }
 
 
-#include "dvdwizardmenu.moc"
+

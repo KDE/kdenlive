@@ -300,4 +300,4 @@ bool OnMonitorRectItem::getView()
     }
 }
 
-#include "onmonitorrectitem.moc"
+

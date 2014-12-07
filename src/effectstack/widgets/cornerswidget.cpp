@@ -244,4 +244,4 @@ void CornersWidget::slotInsertKeyframe()
 }
 
 
-#include "cornerswidget.moc"
+

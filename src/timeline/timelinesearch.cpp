@@ -116,4 +116,4 @@ bool TimelineSearch::keyPressEvent(QKeyEvent *keyEvent)
     keyEvent->accept();
     return true;
 }
-#include "timelinesearch.moc"
+

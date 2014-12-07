@@ -83,4 +83,4 @@ void Core::initLocale()
     QLocale::setDefault(systemLocale);
 }
 
-#include "core.moc"
+

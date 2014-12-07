@@ -120,4 +120,4 @@ QString OpenClipArt::getDefaultDownloadName(QListWidgetItem *item)
 }
 
 
-#include "openclipart.moc"
+

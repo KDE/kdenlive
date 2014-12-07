@@ -160,5 +160,5 @@ void VideoContainer::switchFullScreen()
     }
 }
 
-#include "abstractmonitor.moc"
+
 

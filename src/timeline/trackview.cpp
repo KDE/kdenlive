@@ -1201,7 +1201,7 @@ void TrackView::checkTrackHeight()
     }
 }
 
-#include "trackview.moc"
+
 
 
 

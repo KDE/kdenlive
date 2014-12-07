@@ -102,4 +102,4 @@ void CaptureHandler::uyvy2rgb(unsigned char *yuv_buffer, unsigned char *rgb_buff
     }
 }
 
-#include "capturehandler.moc"
+

@@ -252,4 +252,4 @@ const QString ProxyJob::statusMessage()
 }
 
 
-#include "proxyclipjob.moc"
+

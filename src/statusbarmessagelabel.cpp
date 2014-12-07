@@ -315,4 +315,4 @@ void StatusBarMessageLabel::updateCloseButtonPosition()
 }
 
 
-#include "statusbarmessagelabel.moc"
+

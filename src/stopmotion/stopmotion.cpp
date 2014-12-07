@@ -903,4 +903,4 @@ const QString StopmotionWidget::createProducer(const MltVideoProfile &profile, c
 
 
 
-#include "stopmotion.moc"
+

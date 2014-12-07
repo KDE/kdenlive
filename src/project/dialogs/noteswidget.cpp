@@ -69,4 +69,4 @@ NotesWidget::~NotesWidget()
 
 
 
-#include "noteswidget.moc"
+

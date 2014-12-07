@@ -285,6 +285,6 @@ void ClipStabilize::slotValidate()
     accept();
 }
 
-#include "clipstabilize.moc"
+
 
 

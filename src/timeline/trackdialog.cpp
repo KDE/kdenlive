@@ -41,5 +41,5 @@ TrackDialog::TrackDialog(KdenliveDoc *doc, QWidget * parent) :
     }
 }
 
-#include "trackdialog.moc"
+
 

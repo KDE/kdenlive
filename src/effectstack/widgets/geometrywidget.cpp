@@ -1002,4 +1002,4 @@ void GeometryWidget::slotUpdateRange(int inPoint, int outPoint)
     m_timePos->setRange(0, m_outPoint - m_inPoint);
 }
 
-#include "geometrywidget.moc"
+

@@ -893,4 +893,4 @@ void ParameterContainer::setRange(int inPoint, int outPoint)
 
 
 
-#include "parametercontainer.moc"
+

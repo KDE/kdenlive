@@ -785,4 +785,4 @@ void Wizard::slotUpdateDecklinkDevice(int captureCard)
     KdenliveSettings::setDecklink_capturedevice(captureCard);
 }
 
-#include "wizard.moc"
+

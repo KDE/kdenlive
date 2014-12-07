@@ -480,4 +480,4 @@ void KeyframeEdit::slotUpdateRange(int inPoint, int outPoint)
     m_max = outPoint;
 }
 
-#include "keyframeedit.moc"
+

@@ -132,4 +132,4 @@ void ChooseColorWidget::setColor(const QColor& color)
     m_button->setColor(color);
 }
 
-#include "choosecolorwidget.moc"
+

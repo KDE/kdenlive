@@ -52,4 +52,3 @@ void JogManager::slotDoAction(const QString& actionName)
     action->trigger();
 }
 
-#include "jogmanager.moc"

@@ -145,4 +145,4 @@ void MonitorEditWidget::slotSetDirectUpdate(bool directUpdate)
     KdenliveSettings::setMonitorscene_directupdate(directUpdate);
 }
 
-#include "monitoreditwidget.moc"
+

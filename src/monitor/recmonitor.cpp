@@ -1069,5 +1069,5 @@ void RecMonitor::slotMouseSeek(int /*eventDelta*/, bool /*fast*/)
 }
 
 
-#include "recmonitor.moc"
+
 

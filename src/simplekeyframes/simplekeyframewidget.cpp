@@ -133,4 +133,4 @@ void SimpleKeyframeWidget::slotAtKeyframe(bool atKeyframe)
     }
 }
 
-#include "simplekeyframewidget.moc"
+

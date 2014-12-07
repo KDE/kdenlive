@@ -138,4 +138,4 @@ QImage Histogram::renderBackground(uint)
     return QImage();
 }
 
-#include "histogram.moc"
+

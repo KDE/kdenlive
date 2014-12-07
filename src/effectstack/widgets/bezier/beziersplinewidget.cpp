@@ -213,4 +213,4 @@ void BezierSplineWidget::slotShowAllHandles(bool show)
     KdenliveSettings::setBezier_showallhandles(show);
 }
 
-#include "beziersplinewidget.moc"
+

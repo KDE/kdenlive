@@ -273,4 +273,4 @@ void TransitionSettings::updatePalette()
     m_effectEdit->updatePalette();
 }
 
-#include "transitionsettings.moc"
+

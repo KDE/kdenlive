@@ -1299,7 +1299,7 @@ void ClipProperties::slotOpenUrl(const QString &url)
     new KRun(QUrl(url), this);
 }
 
-#include "clipproperties.moc"
+
 
 
 

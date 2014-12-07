@@ -69,4 +69,4 @@ QString AbstractService::getDefaultDownloadName(QListWidgetItem *)
 }
 
 
-#include "abstractservice.moc"
+

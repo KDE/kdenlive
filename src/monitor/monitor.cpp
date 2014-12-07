@@ -1210,5 +1210,5 @@ void Overlay::setOverlayText(const QString &text, bool isZone)
 }
 
 
-#include "monitor.moc"
+
 

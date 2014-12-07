@@ -565,6 +565,6 @@ int ProfilesDialog::getColorspaceFromDescription(const QString &description)
     return 601;
 }
 
-#include "profilesdialog.moc"
+
 
 

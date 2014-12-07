@@ -484,5 +484,5 @@ void MonitorManager::slotSetOutPoint()
     }
 }
 
-#include "monitormanager.moc"
+
 

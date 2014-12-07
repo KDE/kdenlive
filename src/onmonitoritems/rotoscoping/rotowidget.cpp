@@ -472,4 +472,4 @@ bool adjustRotoDuration(QString* data, int in, int out)
     return false;
 }
 
-#include "rotowidget.moc"
+

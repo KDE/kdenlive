@@ -60,6 +60,6 @@ int SpacerDialog::selectedTrack() const
     return track_number->currentIndex() - 1;
 }
 
-#include "spacerdialog.moc"
+
 
 

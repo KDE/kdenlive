@@ -107,4 +107,4 @@ bool AbstractClipJob::isExclusive()
 
 
 
-#include "abstractclipjob.moc"
+

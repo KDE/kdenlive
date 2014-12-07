@@ -102,4 +102,4 @@ QString BackupWidget::selectedFile() const
 }
 
 
-#include "backupwidget.moc"
+

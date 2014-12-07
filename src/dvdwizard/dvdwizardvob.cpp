@@ -682,4 +682,4 @@ void DvdWizardVob::showError(const QString &error)
 }
 
 
-#include "dvdwizardvob.moc"
+

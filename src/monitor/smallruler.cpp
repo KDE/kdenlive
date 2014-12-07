@@ -308,5 +308,5 @@ void SmallRuler::updatePalette()
     updatePixmap();
 }
 
-#include "smallruler.moc"
+
 

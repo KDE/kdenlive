@@ -299,4 +299,4 @@ bool ParameterPlotter::isNewPoints() const
     return m_newPoints;
 }
 
-#include "parameterplotter.moc"
+

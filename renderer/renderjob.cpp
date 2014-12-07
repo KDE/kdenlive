@@ -369,4 +369,4 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
     }
 }
 
-#include "renderjob.moc"
+
