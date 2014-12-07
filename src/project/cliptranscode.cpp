@@ -63,7 +63,7 @@ ClipTranscode::ClipTranscode(const QList <QUrl> &urls, const QString &params, co
         label_dest->setText(i18n("Destination folder"));
         dest_url->setMode(KFile::Directory);
         dest_url->setUrl(QUrl(m_urls.at(0).adjusted(QUrl::RemoveFilename)));
-        dest_url->fileDialog()->setFileMode(QFileDialog::Directory); //setOperationMode(KFileDialog::Saving);
+        dest_url->setMode(KFile::Directory | KFile::ExistingOnly);
         for (int i = 0; i < m_urls.count(); ++i)
             urls_list->addItem(m_urls.at(i).path());
     }

@@ -1981,7 +1981,7 @@ void ProjectList::slotAddTitleTemplateClip()
         dia_ui.buttonBox->button(QDialogButtonBox::Ok)->setFocus();
     QStringList mimeTypeFilters;
     mimeTypeFilters <<"application/x-kdenlivetitle";
-    dia_ui.template_list->fileDialog()->setMimeTypeFilters(mimeTypeFilters);
+    dia_ui.template_list->setFilter(mimeTypeFilters.join(' '));
     //warning: setting base directory doesn't work??
     dia_ui.template_list->setPath(path);
     dia_ui.text_box->setHidden(true);
@@ -2882,7 +2882,7 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
     ui.setupUi(d);
     ui.extra_params->setVisible(false);
     ui.add_clip->setChecked(KdenliveSettings::add_new_clip());
-    ui.file_url->fileDialog()->setFileMode(QFileDialog::AnyFile); //OperationMode(KFileDialog::Saving);
+    ui.file_url->setMode(KFile::File);
     ui.extra_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
     ui.file_url->setUrl(QUrl(dest));
     ui.button_more->setIcon(QIcon::fromTheme("configure"));

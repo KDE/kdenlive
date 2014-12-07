@@ -59,10 +59,10 @@ void ClipPropertiesManager::showClipPropertiesDialog(DocClipBase* clip)
             }
             if (ix != -1) dia_ui.template_list->comboBox()->setCurrentIndex(ix);
             else dia_ui.template_list->comboBox()->insertItem(0, templatePath);
-            dia_ui.template_list->fileDialog()->setNameFilter("*.kdenlivetitle");
+            dia_ui.template_list->setFilter("*.kdenlivetitle");
             //warning: setting base directory doesn't work??
 
-            dia_ui.template_list->fileDialog()->setDirectory(titlepath);
+            dia_ui.template_list->setStartDir(QUrl::fromLocalFile(titlepath));
             dia_ui.description->setText(clip->getProperty("description"));
             if (dia->exec() == QDialog::Accepted) {
                 QString textTemplate = dia_ui.template_list->comboBox()->itemData(dia_ui.template_list->comboBox()->currentIndex()).toString();
