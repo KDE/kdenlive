@@ -28,8 +28,6 @@
 #include <krandomsequence.h>
 #include <QDebug>
 #include <ktempdir.h>
-#include <kurl.h>
-
 #include <unistd.h>
 
 

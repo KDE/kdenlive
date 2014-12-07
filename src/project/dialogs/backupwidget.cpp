@@ -21,8 +21,6 @@
 #include "backupwidget.h"
 #include "kdenlivesettings.h"
 
-#include <KUrl>
-
 
 BackupWidget::BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, const QString &projectId, QWidget * parent) :
         QDialog(parent)
@@ -65,9 +63,8 @@ BackupWidget::~BackupWidget()
 void BackupWidget::slotParseBackupFiles()
 {
     QStringList filter;
-    KUrl backupFile = project_url->url();
-    backupFile.addPath(".backup/");
-    QDir dir(backupFile.path());
+    QDir dir(project_url->url().path());
+    dir.cd(".backup");
 
     filter << m_projectWildcard;
     dir.setNameFilters(filter);

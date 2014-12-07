@@ -27,12 +27,12 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QAction>
 #include <KMessageBox>
 #include <KProgressDialog>
-#include <KMimeType>
 
 #include <QCryptographicHash>
 #include <QFileDialog>
 #include <QDebug>
-
+#include <QMimeDatabase>
+#include <QMimeType>
 
 ProjectManager::ProjectManager(QObject* parent) :
     QObject(parent),
@@ -285,9 +285,10 @@ void ProjectManager::openLastFile()
 
 void ProjectManager::openFile(const QUrl &url)
 {
+    QMimeDatabase db;
     // Make sure the url is a Kdenlive project file
-    KMimeType::Ptr mime = KMimeType::findByUrl(url);
-    if (mime.data()->is("application/x-compressed-tar")) {
+    QMimeType mime = db.mimeTypeForUrl(url);
+    if (mime.inherits("application/x-compressed-tar")) {
         // Opening a compressed project file, we need to process it
         //qDebug()<<"Opening archive, processing";
         QPointer<ArchiveWidget> ar = new ArchiveWidget(url);
@@ -445,9 +446,11 @@ void ProjectManager::slotRevert()
 
 QString ProjectManager::getMimeType(bool open)
 {
+    QMimeDatabase db;
+    
     QString mimetype = "application/x-kdenlive";
-    KMimeType::Ptr mime = KMimeType::mimeType(mimetype);
-    if (!mime) {
+    QMimeType mime = db.mimeTypeForName(mimetype);
+    if (!mime.isValid()) {
         mimetype = "*.kdenlive";
         if (open) mimetype.append(" *.tar.gz");
     }

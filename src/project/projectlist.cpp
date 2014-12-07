@@ -55,7 +55,6 @@
 #include <KActionCollection>
 #include <KVBox>
 #include <KHBox>
-#include <KMimeType>
 #include <KPassivePopup>
 #include <KGlobalSettings>
 #include <KStandardDirs>
@@ -1677,11 +1676,12 @@ QStringList ProjectList::getExtensions()
     // Image mimes
     mimeTypes << "image/gif" << "image/jpeg" << "image/png" << "image/x-tga" << "image/x-bmp" << "image/svg+xml" << "image/tiff" << "image/x-xcf" << "image/x-xcf-gimp" << "image/x-vnd.adobe.photoshop" << "image/x-pcx" << "image/x-exr" << "image/x-portable-pixmap";
 
+    QMimeDatabase db;
     QStringList allExtensions;
     foreach(const QString & mimeType, mimeTypes) {
-        KMimeType::Ptr mime(KMimeType::mimeType(mimeType));
-        if (mime) {
-            allExtensions.append(mime->patterns());
+        QMimeType mime = db.mimeTypeForName(mimeType);
+        if (mime.isValid()) {
+            allExtensions.append(mime.globPatterns());
         }
     }
     allExtensions.removeDuplicates();
@@ -1770,11 +1770,11 @@ void ProjectList::slotAddClip(const QList <QUrl> &givenList, const QString &grou
             list << givenList.at(i);
     }
     QList < QList<QUrl> > foldersList;
-
+    QMimeDatabase db;
     foreach(const QUrl & file, list) {
         // Check there is no folder here
-        KMimeType::Ptr type = KMimeType::findByUrl(file);
-        if (type->is("inode/directory")) {
+        QMimeType type = db.mimeTypeForUrl(file);
+        if (type.inherits("inode/directory")) {
             // user dropped a folder, import its files
             list.removeAll(file);
             QDir dir(file.path());

@@ -44,9 +44,8 @@
 #include <QGraphicsItemGroup>
 #include <QtConcurrent>
 #include <QApplication>
+#include <QMimeType>
 
-#include <KFileMetaInfo>
-#include <KMimeType>
 #include <KJobWidgets/KJobWidgets>
 
 ClipManager::ClipManager(KdenliveDoc *doc) :
@@ -569,15 +568,18 @@ void ClipManager::slotAddClipList(const QList<QUrl> &urls, const QMap <QString, 
             }
             if (data.contains("video_index")) prod.setAttribute("video_index", data.value("video_index"));
             if (data.contains("audio_index")) prod.setAttribute("audio_index", data.value("audio_index"));
-
-            KMimeType::Ptr type = KMimeType::findByUrl(file);
-            if (type->name().startsWith(QLatin1String("image/"))) {
+            
+            QMimeDatabase db;
+            QMimeType type = db.mimeTypeForUrl(file);
+            if (type.name().startsWith(QLatin1String("image/"))) {
                 prod.setAttribute("type", (int) Image);
                 prod.setAttribute("in", 0);
                 prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
                 if (KdenliveSettings::autoimagetransparency()) prod.setAttribute("transparency", 1);
                 // Read EXIF metadata for JPEG
-                if (type->is("image/jpeg")) {
+                if (type.inherits("image/jpeg")) {
+                    //TODO KF5 how to read metadata?
+                    /*
                     KFileMetaInfo metaInfo(file.path(), QString("image/jpeg"), KFileMetaInfo::TechnicalInfo);
                     const QHash<QString, KFileMetaInfoItem> metaInfoItems = metaInfo.items();
                     foreach(const KFileMetaInfoItem & metaInfoItem, metaInfoItems) {
@@ -587,9 +589,9 @@ void ClipManager::slotAddClipList(const QList<QUrl> &urls, const QMap <QString, 
                         meta.setAttribute("tool", "KDE Metadata");
                         meta.appendChild(value);
                         prod.appendChild(meta);
-                    }
+                    }*/
                 }
-            } else if (type->is("application/x-kdenlivetitle")) {
+            } else if (type.inherits("application/x-kdenlivetitle")) {
                 // opening a title file
                 QDomDocument txtdoc("titledocument");
                 QFile txtfile(file.path());

@@ -36,7 +36,7 @@ QStringList SamplePlugin::generators(const QStringList &producers) const
 }
 
 
-KUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generator, const KUrl &projectFolder, const QStringList &/*lumaNames*/, const QStringList &/*lumaFiles*/, const double fps, const int /*width*/, const int height)
+QUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generator, const QUrl &projectFolder, const QStringList &/*lumaNames*/, const QStringList &/*lumaFiles*/, const double fps, const int /*width*/, const int height)
 {
     QString prePath;
     if (generator == i18n("Noise")) {
@@ -64,8 +64,8 @@ KUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
     view.path->setMode(KFile::File);
 
     QString clipFile = prePath + counter + QLatin1String(".mlt");
-    view.path->setUrl(KUrl(clipFile));
-    KUrl result;
+    view.path->setUrl(QUrl(clipFile));
+    QUrl result;
     
     if (d->exec() == QDialog::Accepted) {
         QProcess generatorProcess;

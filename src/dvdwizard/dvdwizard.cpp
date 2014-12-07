@@ -28,7 +28,6 @@
 
 
 #include <KLocalizedString>
-#include <kmimetype.h>
 #include <KMessageBox>
 
 #include <QFile>

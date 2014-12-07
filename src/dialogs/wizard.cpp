@@ -33,16 +33,17 @@
 
 #include <KLocalizedString>
 #include <KProcess>
-#include <kmimetype.h>
 #include <KRun>
 #include <KMessageWidget>
 #include <KStandardDirs>
 
 #include <QLabel>
+#include <QMimeType>
 #include <QFile>
 #include <QXmlStreamWriter>
 #include <QTimer>
 #include <QStandardPaths>
+#include <QMimeDatabase>
 #include <QDebug>
 
 // Recommended MLT version
@@ -558,21 +559,23 @@ void Wizard::slotCheckPrograms()
 
 void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs)
 {
+    QMimeDatabase db;
     QString mimefile = baseName;
     mimefile.replace('/', '-');
-    KMimeType::Ptr mime = KMimeType::mimeType(baseName);
+    QMimeType mime = db.mimeTypeForName(baseName);
     QStringList missingGlobs;
+
     foreach(const QString & glob, globs) {
-        KMimeType::Ptr type = KMimeType::findByPath(glob, 0, true);
-        QString mimeName = type->name();
+        QMimeType type = db.mimeTypeForFile(glob, QMimeDatabase::MatchExtension);
+        QString mimeName = type.name();
         if (!mimeName.contains("audio") && !mimeName.contains("video")) missingGlobs << glob;
     }
     if (missingGlobs.isEmpty()) return;
-    if (!mime) {
-        //qDebug() << "KMimeTypeTrader: mimeType " << baseName << " not found";
+    if (!mime.isValid() || mime.isDefault()) {
+        qDebug() << "mimeType " << baseName << " not found";
     } else {
-        QStringList extensions = mime->patterns();
-        QString comment = mime->comment();
+        QStringList extensions = mime.globPatterns();
+        QString comment = mime.comment();
         foreach(const QString & glob, missingGlobs) {
             if (!extensions.contains(glob)) extensions << glob;
         }

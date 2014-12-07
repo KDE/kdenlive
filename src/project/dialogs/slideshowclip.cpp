@@ -23,7 +23,6 @@
 
 
 #include <KFileItem>
-#include <kdeversion.h>
 
 #include <QDebug>
 #include <QFontDatabase>
