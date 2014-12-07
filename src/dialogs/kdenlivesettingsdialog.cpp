@@ -29,8 +29,6 @@
 #endif
 
 #include "klocalizedstring.h"
-#include <kde_file.h>
-#include <kdeversion.h>
 #include <KMessageBox>
 #include <KLineEdit>
 #include <QDebug>

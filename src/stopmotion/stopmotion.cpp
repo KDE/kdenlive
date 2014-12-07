@@ -31,7 +31,6 @@
 #include <QFontDatabase>
 
 #include <KMessageBox>
-#include <kdeversion.h>
 #include <KNotification>
 
 #include <QInputDialog>

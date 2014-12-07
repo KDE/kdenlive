@@ -27,7 +27,7 @@
 #include <kcolorscheme.h>
 #include <kiconloader.h>
 #include <QIcon>
-#include <klocale.h>
+#include <klocalizedstring.h>
 #include <KNotification>
 
 #include <QPainter>

@@ -32,13 +32,11 @@ ClipTranscode::ClipTranscode(const QList <QUrl> &urls, const QString &params, co
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
-#if KDE_IS_VERSION(4,7,0)
     m_infoMessage = new KMessageWidget;
     QGridLayout *s =  static_cast <QGridLayout*> (layout());
     s->addWidget(m_infoMessage, 10, 0, 1, -1);
     m_infoMessage->setCloseButtonVisible(false);
     m_infoMessage->hide();
-#endif
     log_text->setHidden(true);
     setWindowTitle(i18n("Transcode Clip"));
     if (m_automaticMode) {
@@ -108,9 +106,7 @@ ClipTranscode::~ClipTranscode()
     if (m_transcodeProcess.state() != QProcess::NotRunning) {
         m_transcodeProcess.close();
     }
-#if KDE_IS_VERSION(4,7,0)
     delete m_infoMessage;
-#endif
 }
 
 void ClipTranscode::slotStartTransCode()
@@ -120,9 +116,7 @@ void ClipTranscode::slotStartTransCode()
     }
     m_duration = 0;
     m_destination.clear();
-#if KDE_IS_VERSION(4,7,0)
     m_infoMessage->animatedHide();
-#endif
     QStringList parameters;
     QString destination;
     QString params = ffmpeg_params->toPlainText().simplified();
@@ -237,22 +231,14 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
             return;
         } else if (auto_close->isChecked()) accept();
         else {
-#if KDE_IS_VERSION(4,7,0)
             m_infoMessage->setMessageType(KMessageWidget::Positive);
             m_infoMessage->setText(i18n("Transcoding finished."));
             m_infoMessage->animatedShow();
-#else
-            log_text->setVisible(true);
-#endif
         }
     } else {
-#if KDE_IS_VERSION(4,7,0)
         m_infoMessage->setMessageType(KMessageWidget::Warning);
         m_infoMessage->setText(i18n("Transcoding failed!"));
         m_infoMessage->animatedShow();
-#else
-        log_text->setHtml(log_text->toPlainText() + "<br /><b>" + i18n("Transcoding failed!"));
-#endif
         log_text->setVisible(true);
     }
     m_transcodeProcess.close();

@@ -47,10 +47,7 @@ private:
     DvdWizardVob *m_pageVob;
     DvdWizardMenu *m_pageMenu;
     Ui::DvdWizardStatus_UI m_status;
-
-#if KDE_IS_VERSION(4,7,0)
     KMessageWidget *m_isoMessage;
-#endif
 
     DvdWizardChapters *m_pageChapters;
     QTemporaryFile m_authorFile;

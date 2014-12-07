@@ -24,7 +24,7 @@
 #include <QLineEdit>
 #include <QFontDatabase>
 
-#include <klocale.h>
+#include <klocalizedstring.h>
 #include <KColorScheme>
 
 TimecodeDisplay::TimecodeDisplay(const Timecode& t, QWidget *parent)
@@ -38,13 +38,7 @@ TimecodeDisplay::TimecodeDisplay(const Timecode& t, QWidget *parent)
     lineEdit()->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     lineEdit()->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     QFontMetrics fm = lineEdit()->fontMetrics();
-#if QT_VERSION >= 0x040600
     setMinimumWidth(fm.width("88:88:88:88888888") + contentsMargins().right() + contentsMargins().right());
-#else
-    int left, top, right, bottom;
-    getContentsMargins(&left, &top, &right, &bottom);
-    setMinimumWidth(fm.width("88:88:88:88888888") + left + right);
-#endif
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     setAccelerated(true);
 

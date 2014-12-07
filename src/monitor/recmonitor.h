@@ -36,8 +36,6 @@
 #include <QDateTime>
 #include <QIcon>
 #include <QUrl>
-
-#include <kdeversion.h>
 #include <KComboBox>
 #include <kcapacitybar.h>
 
@@ -105,10 +103,7 @@ private:
     QAction *m_addCapturedClip;
     QAction *m_previewSettings;
     QString m_error;
-
-#if KDE_IS_VERSION(4,7,0)
     KMessageWidget *m_infoMessage;
-#endif
 
     bool m_analyse;
     void checkDeviceAvailability();

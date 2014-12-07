@@ -23,7 +23,6 @@
 #include <cmath>
 
 #include <KMessageBox>
-#include <kdeversion.h>
 #include <klocalizedstring.h>
 
 #include <QDebug>
@@ -81,13 +80,10 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     frame_properties->setFixedHeight(frame_toolbar->height());
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
-
-#if KDE_IS_VERSION(4,5,0)
     rectBColor->setAlphaChannelEnabled(true);
     rectFColor->setAlphaChannelEnabled(true);
     fontColorButton->setAlphaChannelEnabled(true);
     textOutlineColor->setAlphaChannelEnabled(true);
-#endif
 
     textOutline->setMinimum(0);
     textOutline->setMaximum(200);
@@ -1864,10 +1860,8 @@ void TitleWidget::writeChoices()
     titleConfig.writeEntry("rect_background_color", rectBColor->color());
     titleConfig.writeEntry("rect_foreground_color", rectFColor->color());
 
-#if KDE_IS_VERSION(4,5,0)
     titleConfig.writeEntry("rect_background_alpha", rectBColor->color().alpha());
     titleConfig.writeEntry("rect_foreground_alpha", rectFColor->color().alpha());
-#endif
 
     titleConfig.writeEntry("rect_line_width", rectLineWidth->value());
 
@@ -1892,10 +1886,8 @@ void TitleWidget::readChoices()
     m_scene->slotUpdateFontSize(font_size->value());
     QColor fontColor = QColor(titleConfig.readEntry("font_color", fontColorButton->color()));
     QColor outlineColor = QColor(titleConfig.readEntry("font_outline_color", textOutlineColor->color()));
-#if KDE_IS_VERSION(4,5,0)
     fontColor.setAlpha(titleConfig.readEntry("font_alpha", fontColor.alpha()));
     outlineColor.setAlpha(titleConfig.readEntry("font_outline_alpha", outlineColor.alpha()));
-#endif
     fontColorButton->setColor(fontColor);
     textOutlineColor->setColor(outlineColor);
     textOutline->setValue(titleConfig.readEntry("font_outline", textOutline->value()));
@@ -1910,10 +1902,8 @@ void TitleWidget::readChoices()
     QColor fgColor = QColor(titleConfig.readEntry("rect_foreground_color", rectFColor->color()));
     QColor bgColor = QColor(titleConfig.readEntry("rect_background_color", rectBColor->color()));
 
-#if KDE_IS_VERSION(4,5,0)
     fgColor.setAlpha(titleConfig.readEntry("rect_foreground_alpha", fgColor.alpha()));
     bgColor.setAlpha(titleConfig.readEntry("rect_background_alpha", bgColor.alpha()));
-#endif
     rectFColor->setColor(fgColor);
     rectBColor->setColor(bgColor);
 
@@ -2117,9 +2107,7 @@ void TitleWidget::slotAddEffect(int ix)
         switch (effect) {
         case NOEFFECT:
             item->setData(100, QVariant());
-#if QT_VERSION >= 0x040600
             item->setGraphicsEffect(0);
-#endif
             break;
         case TYPEWRITEREFFECT:
             /*
@@ -2131,7 +2119,6 @@ void TitleWidget::slotAddEffect(int ix)
                 item->setData(100, effdata);
             }
             break;
-#if QT_VERSION >= 0x040600
             // Do not remove the non-QGraphicsEffects.
         case BLUREFFECT:
             item->setGraphicsEffect(new QGraphicsBlurEffect());
@@ -2139,7 +2126,6 @@ void TitleWidget::slotAddEffect(int ix)
         case SHADOWEFFECT:
             item->setGraphicsEffect(new QGraphicsDropShadowEffect());
             break;
-#endif
         }
     }
 }
@@ -2167,23 +2153,16 @@ void TitleWidget::slotEditTypewriter(int /*ix*/)
 
 void TitleWidget::slotEditBlur(int ix)
 {
-#if QT_VERSION < 0x040600
-    return;
-#else
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
         QGraphicsEffect *eff = l[0]->graphicsEffect();
         QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *>(eff);
         if (blur) blur->setBlurRadius(ix);
     }
-#endif
 }
 
 void TitleWidget::slotEditShadow()
 {
-#if QT_VERSION < 0x040600
-    return;
-#else
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
         QGraphicsEffect *eff = l[0]->graphicsEffect();
@@ -2193,7 +2172,6 @@ void TitleWidget::slotEditShadow()
             shadow->setOffset(shadow_x->value(), shadow_y->value());
         }
     }
-#endif
 }
 
 qreal TitleWidget::zIndexBounds(bool maxBound, bool intersectingOnly)
@@ -2438,7 +2416,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                         effect_stack->setHidden(false);
                     }
                 } else {
-#if QT_VERSION >= 0x040600
                     if (i->graphicsEffect()) {
                         QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *>(i->graphicsEffect());
                         if (blur) {
@@ -2460,10 +2437,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                         effect_list->setCurrentIndex(effect_list->findData((int) NOEFFECT));
                         effect_stack->setHidden(true);
                     }
-#else
-                    effect_list->setCurrentIndex(effect_list->findData((int) NOEFFECT));
-                    effect_stack->setHidden(true);
-#endif
                 }
                 font_size->blockSignals(true);
                 font_family->blockSignals(true);

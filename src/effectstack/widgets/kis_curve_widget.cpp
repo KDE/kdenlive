@@ -45,7 +45,7 @@
 // KDE includes.
 
 #include <kcursor.h>
-#include <klocale.h>
+#include <klocalizedstring.h>
 
 #define bounds(x,a,b) (x<a ? a : (x>b ? b :x))
 #define MOUSE_AWAY_THRES 15

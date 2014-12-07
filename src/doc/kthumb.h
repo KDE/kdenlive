@@ -23,8 +23,6 @@
 #include <QFuture>
 
 #include <QUrl>
-#include <kdeversion.h>
-
 #include <mlt++/Mlt.h>
 
 
@@ -60,12 +58,10 @@ public:
     void updateThumbUrl(const QString &hash);
     void extractImage(const QList<int> &frames);
     QImage extractImage(int frame, int width, int height);
-#if KDE_IS_VERSION(4,5,0)
     /** @brief Request thumbnails for the frame range. */
     void queryIntraThumbs(const QSet <int> &missingFrames);
     /** @brief Query cached thumbnail. */
     QImage findCachedThumb(int pos);
-#endif
     void getThumb(int frame);
     void getGenericThumb(int frame, int height, int type);
 
@@ -87,10 +83,8 @@ public:
     static uint imageVariance(const QImage &image);
 
 private slots:
-#if KDE_IS_VERSION(4,5,0)
     /** @brief Fetch all requested frames. */ 
     void slotGetIntraThumbs();
-#endif
 
 private:
     QUrl m_url;

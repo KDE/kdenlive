@@ -29,7 +29,6 @@
 
 #include <QDialog>
 #include <kio/jobclasses.h>
-#include <kdeversion.h>
 
 
 class KPixmapSequenceOverlayPainter;
@@ -75,9 +74,7 @@ private:
     QString m_folder;
     AbstractService *m_currentService;
     OnlineItemInfo m_currentInfo;
-#if KDE_IS_VERSION(4,4,0)
     KPixmapSequenceOverlayPainter *m_busyWidget;
-#endif
     QAction *m_autoPlay;
     QString m_tmpThumbFile;
     QString m_title;

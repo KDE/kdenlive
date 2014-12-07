@@ -198,13 +198,11 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     m_view.errorIcon->setPixmap(QIcon::fromTheme("dialog-warning").pixmap(height, height));
     m_view.errorBox->setHidden(true);
 
-#if KDE_IS_VERSION(4,7,0)
     m_infoMessage = new KMessageWidget;
     QGridLayout *s =  static_cast <QGridLayout*> (m_view.tab->layout());
     s->addWidget(m_infoMessage, 16, 0, 1, -1);
     m_infoMessage->setCloseButtonVisible(false);
     m_infoMessage->hide();
-#endif
 
     m_view.encoder_threads->setMaximum(QThread::idealThreadCount());
     m_view.encoder_threads->setValue(KdenliveSettings::encodethreads());
@@ -328,9 +326,7 @@ RenderWidget::~RenderWidget()
     m_view.scripts_list->clear();
     delete m_jobsDelegate;
     delete m_scriptsDelegate;
-#if KDE_IS_VERSION(4,7,0)
     delete m_infoMessage;
-#endif
 }
 
 void RenderWidget::slotEditItem(QListWidgetItem *item)
@@ -2256,37 +2252,17 @@ void RenderWidget::missingClips(bool hasMissing)
 void RenderWidget::errorMessage(const QString &message)
 {
     if (!message.isEmpty()) {
-#if KDE_IS_VERSION(4,7,0)
         m_infoMessage->setMessageType(KMessageWidget::Warning);
         m_infoMessage->setText(message);
-#if KDE_IS_VERSION(4,10,0)
         m_infoMessage->animatedShow();
-#else
-	// Workaround KDE bug in KMessageWidget
-	QTimer::singleShot(0, m_infoMessage, SLOT(animatedShow()));
-#endif
-#else
-        m_view.errorLabel->setText(message);
-        m_view.errorBox->setHidden(false);
-#endif
     }
     else {
-#if KDE_IS_VERSION(4,7,0)
 	if (m_view.tabWidget->currentIndex() == 0 && m_infoMessage->isVisible())  {
-#if KDE_IS_VERSION(4,10,0)
 	    m_infoMessage->animatedHide();
-#else
-	    QTimer::singleShot(0, m_infoMessage, SLOT(animatedHide()));
-#endif
 	} else {
 	    // Seems like animated hide does not work when page is not visible
 	    m_infoMessage->hide();
 	}
-#else
-	m_view.errorBox->setHidden(true);
-	m_view.errorLabel->setText(QString());
-#endif
-
     }
 }
 

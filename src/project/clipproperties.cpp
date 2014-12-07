@@ -26,7 +26,6 @@
 #include "dialogs/profilesdialog.h"
 
 #include <KFileItem>
-#include <kdeversion.h>
 #include <KRun>
 #include <klocalizedstring.h>
 

@@ -25,10 +25,7 @@
 #include "ui_cliptranscode_ui.h"
 
 #include <QUrl>
-#include <kdeversion.h>
-#if KDE_IS_VERSION(4,7,0)
 #include <KMessageWidget>
-#endif
 
 #include <QProcess>
 
@@ -57,10 +54,7 @@ private:
     /** @brief The path for destination transcoded file. */
     QString m_destination;
     QStringList m_postParams;
-
-#if KDE_IS_VERSION(4,7,0)
     KMessageWidget *m_infoMessage;
-#endif
     
 signals:
     void addClip(const QUrl &url);

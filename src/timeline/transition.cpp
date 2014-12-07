@@ -23,7 +23,7 @@
 #include "mainwindow.h"
 
 #include <QDebug>
-#include <klocale.h>
+#include <klocalizedstring.h>
 
 #include <QBrush>
 #include <QDomElement>

@@ -36,7 +36,6 @@
 
 #include <KSharedConfig>
 #include <klocalizedstring.h>
-#include <kdeversion.h>
 #include <kio/job.h>
 #include <KIO/SimpleJob>
 #include <KRun>
@@ -102,18 +101,14 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     config_button->setMenu(resourceMenu);
     config_button->setIcon(QIcon::fromTheme("configure"));
 
-#if KDE_IS_VERSION(4,4,0)
     m_busyWidget = new KPixmapSequenceOverlayPainter(this);
     m_busyWidget->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     m_busyWidget->setWidget(search_results->viewport());
-#endif
     
     sound_box->setEnabled(false);
     search_text->setFocus();
 #ifdef USE_NEPOMUK
-  #if KDE_IS_VERSION(4,6,0)
     Nepomuk::ResourceManager::instance()->init();
-  #endif
 #endif
     slotChangeService();
     loadConfig();
@@ -148,9 +143,7 @@ void ResourceWidget::slotStartSearch(int page)
     page_number->blockSignals(true);
     page_number->setValue(page);
     page_number->blockSignals(false);
-#if KDE_IS_VERSION(4,4,0)
     m_busyWidget->start();
-#endif
     m_currentService->slotStartSearch(search_text->text(), page);
 }
 
@@ -287,7 +280,6 @@ void ResourceWidget::slotGotFile(KJob *job)
     KIO::FileCopyJob* copyJob = static_cast<KIO::FileCopyJob*>( job );
     const QUrl filePath = copyJob->destUrl();
 #ifdef USE_NEPOMUK
-  #if KDE_IS_VERSION(4,6,0)
     Nepomuk::Resource res( filePath );
     res.setProperty( Nepomuk::Vocabulary::NIE::license(), (Nepomuk::Variant) job->property("license") );
     res.setProperty( Nepomuk::Vocabulary::NIE::licenseType(), (Nepomuk::Variant) job->property("licenseurl") );
@@ -295,7 +287,6 @@ void ResourceWidget::slotGotFile(KJob *job)
     res.setProperty( Nepomuk::Vocabulary::NCO::creator(), (Nepomuk::Variant) job->property("author") );
     //res.setDescription(item_description->toPlainText());
     //res.setProperty( Soprano::Vocabulary::NAO::description(),
-  #endif
 #endif
 
 #ifdef USE_NEPOMUKCORE
@@ -334,9 +325,7 @@ void ResourceWidget::slotChangeService()
     connect(m_currentService, SIGNAL(maxPages(int)), this, SLOT(slotSetMaximum(int)));
     connect(m_currentService, SIGNAL(searchInfo(QString)), search_info, SLOT(setText(QString)));
     connect(m_currentService, SIGNAL(gotThumb(QString)), this, SLOT(slotLoadThumb(QString)));
-#if KDE_IS_VERSION(4,4,0)
     connect(m_currentService, SIGNAL(searchDone()), m_busyWidget, SLOT(stop()));
-#endif
     
     button_preview->setVisible(m_currentService->hasPreview);
     button_import->setVisible(!m_currentService->inlineDownload);

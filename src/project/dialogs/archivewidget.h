@@ -28,8 +28,6 @@
 #include <kio/global.h>
 #include <KIO/CopyJob>
 #include <QTemporaryFile>
-#include <kdeversion.h>
-
 #include <QDialog>
 #include <QFuture>
 #include <QList>
@@ -43,10 +41,7 @@ class KArchive;
  * @brief A widget allowing to archive a project (copy all project files to a new location)
  * @author Jean-Baptiste Mardelle
  */
-
-#if KDE_IS_VERSION(4,7,0)
-    class KMessageWidget;
-#endif
+class KMessageWidget;
 
 class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI
 {
@@ -101,10 +96,7 @@ private:
     QTimer *m_progressTimer;
     KArchive *m_extractArchive;
     int m_missingClips;
-    
-#if KDE_IS_VERSION(4,7,0)
     KMessageWidget *m_infoMessage;
-#endif
 
     /** @brief Generate tree widget subitems from a string list of urls. */
     void generateItems(QTreeWidgetItem *parentItem, const QStringList &items);

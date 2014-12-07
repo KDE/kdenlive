@@ -119,7 +119,6 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
     m_transcodeAction = new QAction(i18n("Transcode"), this);
     connect(m_transcodeAction, SIGNAL(triggered()), this, SLOT(slotTranscodeFiles()));
 
-#if KDE_IS_VERSION(4,7,0)
     m_warnMessage = new KMessageWidget;
     m_warnMessage->setCloseButtonVisible(false);
     QGridLayout *s =  static_cast <QGridLayout*> (layout());
@@ -135,14 +134,6 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
         m_warnMessage->hide();
     }
     m_view.button_transcode->setHidden(true);
-#else
-    m_view.button_transcode->setDefaultAction(m_transcodeAction);
-    m_view.button_transcode->setEnabled(false);
-    if (!errorMessage.isEmpty()) {
-        m_view.error_message->setText(errorMessage);
-        m_installCheck = false;
-    }
-#endif
     
     slotCheckVobList();
 }
@@ -167,12 +158,8 @@ void DvdWizardVob::slotCheckProfiles()
     if (conflict) {
         showProfileError();
     }
-    else {
-#if KDE_IS_VERSION(4,7,0)      
+    else {   
         m_warnMessage->animatedHide();
-#else
-        if (m_installCheck) m_view.error_message->setVisible(false);
-#endif
     }
 }
 
@@ -658,28 +645,18 @@ void DvdWizardVob::slotTranscodedClip(QUrl src, QUrl transcoded)
 
 void DvdWizardVob::showProfileError()
 {
-#if KDE_IS_VERSION(4,7,0)
     m_warnMessage->setText(i18n("Your clips do not match selected DVD format, transcoding required."));
     m_warnMessage->setCloseButtonVisible(false);
     m_warnMessage->addAction(m_transcodeAction);
     m_warnMessage->animatedShow();
-#else
-    m_view.error_message->setText(i18n("Your clips do not match selected DVD format, transcoding required."));
-    m_view.error_message->setVisible(true);
-#endif
 }
 
 void DvdWizardVob::showError(const QString &error)
 {
-#if KDE_IS_VERSION(4,7,0)
     m_warnMessage->setText(error);
     m_warnMessage->setCloseButtonVisible(true);
     m_warnMessage->removeAction(m_transcodeAction);
     m_warnMessage->animatedShow();
-#else
-    m_view.error_message->setText(error);
-    m_view.error_message->setVisible(true);
-#endif    
 }
 
 

@@ -22,14 +22,10 @@
 #define DVDWIZARDVOB_H
 
 #include "ui_dvdwizardvob_ui.h"
-
-#include <kdeversion.h>
 #include <kcapacitybar.h>
 #include <QUrl>
 
-#if KDE_IS_VERSION(4,7,0)
 #include <KMessageWidget>
-#endif
 
 #include <QWizardPage>
 #include <QStyledItemDelegate>
@@ -127,9 +123,7 @@ private:
     KCapacityBar *m_capacityBar;
     QAction *m_transcodeAction;
     bool m_installCheck;
-#if KDE_IS_VERSION(4,7,0)
     KMessageWidget *m_warnMessage;
-#endif
     void showProfileError();
     void showError(const QString &error);
 

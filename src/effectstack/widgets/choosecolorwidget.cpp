@@ -25,7 +25,6 @@
 #include <QHBoxLayout>
 
 #include <KColorButton>
-#include <kdeversion.h>
 #include <QDebug>
 
 static QColor stringToColor(QString strColor)
@@ -101,9 +100,7 @@ ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, 
     rightSideLayout->setSpacing(0);
 
     m_button = new KColorButton(stringToColor(color), rightSide);
-#if KDE_IS_VERSION(4,5,0)
     if (alphaEnabled) m_button->setAlphaChannelEnabled(alphaEnabled);
-#endif
 //     m_button->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     ColorPickerWidget *picker = new ColorPickerWidget(rightSide);
 
@@ -121,9 +118,7 @@ ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, 
 QString ChooseColorWidget::getColor() const
 {
     bool alphaChannel = false;
-#if KDE_IS_VERSION(4,5,0)
     alphaChannel = m_button->isAlphaChannelEnabled();
-#endif
     return colorToString(m_button->color(), alphaChannel);
 }
 

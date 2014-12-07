@@ -21,7 +21,6 @@
 #ifndef CUSTOMTRACKVIEW_H
 #define CUSTOMTRACKVIEW_H
 
-#include <kdeversion.h>
 #include <KColorScheme>
 
 #include <QGraphicsView>

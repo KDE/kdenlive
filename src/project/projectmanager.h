@@ -32,7 +32,7 @@ class KAutoSaveFile;
  */
 
 
-class KDENLIVECORE_EXPORT ProjectManager : public QObject
+class /*KDENLIVECORE_EXPORT*/ ProjectManager : public QObject
 {
     Q_OBJECT
 

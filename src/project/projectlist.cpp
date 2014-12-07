@@ -258,7 +258,6 @@ ProjectList::ProjectList(QWidget *parent) :
     m_listView = new ProjectListView(this);
     layout->addWidget(m_listView);
     
-#if KDE_IS_VERSION(4,7,0)
     m_infoMessage = new MyMessageWidget;
     layout->addWidget(m_infoMessage);
     m_infoMessage->setCloseButtonVisible(true);
@@ -268,7 +267,6 @@ ProjectList::ProjectList(QWidget *parent) :
     m_logAction = new QAction(i18n("Show Log"), this);
     m_logAction->setCheckable(false);
     connect(m_logAction, SIGNAL(triggered()), this, SLOT(slotShowJobLog()));
-#endif
 
     setLayout(layout);
     searchView->setTreeWidget(m_listView);
@@ -339,9 +337,7 @@ ProjectList::~ProjectList()
     m_listView->blockSignals(true);
     m_listView->clear();
     delete m_listViewDelegate;
-#if KDE_IS_VERSION(4,7,0)
     delete m_infoMessage;
-#endif
 }
 
 void ProjectList::focusTree() const
@@ -3445,7 +3441,6 @@ void ProjectList::slotUpdateJobStatus(ProjectItem *item, int type, int status, c
 {
     item->setJobStatus((JOBTYPE) type, (ClipJobStatus) status);
     if (status != JobCrashed) return;
-#if KDE_IS_VERSION(4,7,0)
     QList<QAction *> actions = m_infoMessage->actions();
     if (m_infoMessage->isHidden()) {
         m_infoMessage->setText(label);
@@ -3468,36 +3463,6 @@ void ProjectList::slotUpdateJobStatus(ProjectItem *item, int type, int status, c
         if (!actions.contains(m_logAction)) m_infoMessage->addAction(m_logAction);
     }
     m_infoMessage->animatedShow();
-#else
-    // warning for KDE < 4.7
-    KPassivePopup *passivePop = new KPassivePopup( this );
-    passivePop->setAutoDelete(true);
-    connect(passivePop, SIGNAL(clicked()), this, SLOT(slotClosePopup()));
-    m_errorLog.append(details);
-    QWidget *vb = new QWidget( passivePop );
-    QVBoxLayout *vbVBoxLayout = new QVBoxLayout(vb);
-    vbVBoxLayout->setMargin(0);
-    QWidget *vh1 = new QWidget( vb );
-    QHBoxLayout *vh1HBoxLayout = new QHBoxLayout(vh1);
-    vh1HBoxLayout->setMargin(0);
-    vbVBoxLayout->addWidget(vh1);
-    KIcon icon("dialog-warning");
-    QLabel *iconLabel = new QLabel(vh1);
-    vh1HBoxLayout->addWidget(iconLabel);
-    iconLabel->setPixmap(icon.pixmap(m_listView->iconSize()));
-    (void) new QLabel( label, vh1);
-    QWidget *box = new QWidget( vb );
-    QHBoxLayout *boxHBoxLayout = new QHBoxLayout(box);
-    boxHBoxLayout->setMargin(0);
-    vbVBoxLayout->addWidget(box);
-    QPushButton *but = new QPushButton( "Show log", box );
-    boxHBoxLayout->addWidget(but);
-    connect(but, SIGNAL(clicked(bool)), this, SLOT(slotShowJobLog()));
-
-    passivePop->setView( vb );
-    passivePop->show();
-    
-#endif
 }
 
 void ProjectList::slotShowJobLog()
@@ -3770,13 +3735,11 @@ void ProjectList::updatePalette()
 
 void ProjectList::slotResetInfoMessage()
 {
-#if KDE_IS_VERSION(4,7,0)
     m_errorLog.clear();
     QList<QAction *> actions = m_infoMessage->actions();
     for (int i = 0; i < actions.count(); ++i) {
         m_infoMessage->removeAction(actions.at(i));
     }
-#endif
 }
 
 void ProjectList::slotClosePopup()

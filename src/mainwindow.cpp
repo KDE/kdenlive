@@ -77,14 +77,8 @@
 #include <QMenu>
 #include <ktogglefullscreenaction.h>
 #include <KNotifyConfigWidget>
-#if KDE_IS_VERSION(4,3,80)
 #include <kns3/downloaddialog.h>
 #include <kns3/knewstuffaction.h>
-#else
-#include <knewstuff2/engine.h>
-#include <knewstuff2/ui/knewstuffaction.h>
-#define KNS3 KNS
-#endif
 #include <KToolBar>
 #include <KColorScheme>
 
@@ -2486,7 +2480,6 @@ void MainWindow::slotResizeItemEnd()
 int MainWindow::getNewStuff(const QString &configFile)
 {
     KNS3::Entry::List entries;
-#if KDE_IS_VERSION(4,3,80)
     QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
     if (dialog->exec()) entries = dialog->changedEntries();
     foreach(const KNS3::Entry & entry, entries) {
@@ -2494,15 +2487,6 @@ int MainWindow::getNewStuff(const QString &configFile)
             qDebug() << "// Installed files: " << entry.installedFiles();
     }
     delete dialog;
-#else
-    KNS::Engine engine(0);
-    if (engine.init(configFile))
-        entries = engine.downloadDialogModal(this);
-    foreach(KNS::Entry * entry, entries) {
-        if (entry->status() == KNS::Entry::Installed)
-            //qDebug() << "// Installed files: " << entry->installedFiles();
-    }
-#endif
     return entries.size();
 }
 

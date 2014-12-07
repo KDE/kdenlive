@@ -22,7 +22,6 @@
 #include "jogshuttle.h"
 
 #include <QDebug>
-#include <kde_file.h>
 
 #include <QApplication>
 #include <QEvent>

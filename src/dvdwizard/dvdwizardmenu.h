@@ -32,11 +32,7 @@
 #include <QDomElement>
 
 #include <QDebug>
-#include <kdeversion.h>
-
-#if KDE_IS_VERSION(4,7,0)
 #include <KMessageWidget>
-#endif
 
 class DvdScene : public QGraphicsScene
 {
@@ -182,9 +178,7 @@ private:
     int m_height;
     QSize m_finalSize;
     int m_movieLength;
-#if KDE_IS_VERSION(4,7,0)
     KMessageWidget *m_menuMessage;
-#endif
 
 private slots:
     void buildButton();

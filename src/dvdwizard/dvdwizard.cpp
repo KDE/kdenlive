@@ -87,12 +87,10 @@ DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *paren
     m_status.iso_image->setFilter("*.iso");
     m_status.iso_image->setMode(KFile::File);
 
-#if KDE_IS_VERSION(4,7,0)
     m_isoMessage = new KMessageWidget;
     QGridLayout *s =  static_cast <QGridLayout*> (page4->layout());
     s->addWidget(m_isoMessage, 5, 0, 1, -1);
     m_isoMessage->hide();
-#endif
 
     addPage(page4);
 
@@ -181,9 +179,7 @@ void DvdWizard::slotprepareMonitor()
 
 void DvdWizard::generateDvd()
 {
-#if KDE_IS_VERSION(4,7,0)
     m_isoMessage->animatedHide();
-#endif
     m_status.error_box->setHidden(true);
     m_status.error_box->setCurrentIndex(0);
     m_status.menu_file->clear();
@@ -338,15 +334,9 @@ void DvdWizard::processSpumux()
     QProcess spumux;
     QString menuMovieUrl;
 
-#if QT_VERSION >= 0x040600
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     env.insert("VIDEO_FORMAT", m_pageVob->dvdFormat() == PAL || m_pageVob->dvdFormat() == PAL_WIDE ? "PAL" : "NTSC");
     spumux.setProcessEnvironment(env);
-#else
-    QStringList env = QProcess::systemEnvironment();
-    env << QString("VIDEO_FORMAT=") + QString(m_pageVob->dvdFormat() == PAL || m_pageVob->dvdFormat() == PAL_WIDE ? "PAL" : "NTSC");
-    spumux.setEnvironment(env);
-#endif
     
     if (m_pageMenu->menuMovie()) spumux.setStandardInputFile(m_menuFinalVideo.fileName());
     else spumux.setStandardInputFile(m_menuVideo.fileName());
@@ -654,15 +644,9 @@ void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap <QStrin
     m_creationLog.clear();
     m_dvdauthor = new QProcess(this);
     // Set VIDEO_FORMAT variable (required by dvdauthor 0.7)
-#if QT_VERSION >= 0x040600
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     env.insert("VIDEO_FORMAT", m_pageVob->dvdFormat() == PAL || m_pageVob->dvdFormat() == PAL_WIDE ? "PAL" : "NTSC");
     m_dvdauthor->setProcessEnvironment(env);
-#else
-    QStringList env = QProcess::systemEnvironment();
-    env << QString("VIDEO_FORMAT=") + QString(m_pageVob->dvdFormat() == PAL || m_pageVob->dvdFormat() == PAL_WIDE ? "PAL" : "NTSC");
-    m_dvdauthor->setEnvironment(env);
-#endif
     connect(m_dvdauthor, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotRenderFinished(int,QProcess::ExitStatus)));
     connect(m_dvdauthor, SIGNAL(readyReadStandardOutput()), this, SLOT(slotShowRenderInfo()));
     m_dvdauthor->setProcessChannelMode(QProcess::MergedChannels);
@@ -696,19 +680,15 @@ void DvdWizard::slotShowRenderInfo()
 }
 
 void DvdWizard::errorMessage(const QString &text) {
-#if KDE_IS_VERSION(4,7,0)
     m_isoMessage->setText(text);
     m_isoMessage->setMessageType(KMessageWidget::Error);
     m_isoMessage->animatedShow();
-#endif
 }
 
 void DvdWizard::infoMessage(const QString &text) {
-#if KDE_IS_VERSION(4,7,0)
     m_isoMessage->setText(text);
     m_isoMessage->setMessageType(KMessageWidget::Positive);
     m_isoMessage->animatedShow();
-#endif
 }
 
 void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)

@@ -40,8 +40,6 @@
 #include <QPushButton>
 
 #include <KTreeWidgetSearchLine>
-#include <kdeversion.h>
-
 #ifdef NEPOMUK
 #include <nepomuk/kratingpainter.h>
 #include <nepomuk/resource.h>
@@ -52,20 +50,8 @@
 #include <nepomuk2/resource.h>
 #endif
 
-#if KDE_IS_VERSION(4,7,0)
 #include <KMessageWidget>
-#else
-// Dummy KMessageWidget to allow compilation of MyMessageWidget class since Qt's moc doesn work inside #ifdef
-#include <QLabel>
 
-class KMessageWidget: public QLabel
-{
-public:
-    KMessageWidget(QWidget * = 0) {};
-    KMessageWidget(const QString &, QWidget * = 0) {};
-    virtual ~KMessageWidget(){};
-};
-#endif
 
 class MyMessageWidget: public KMessageWidget
 {
@@ -268,11 +254,9 @@ private:
     QStringList m_errorLog;
     ClipPropertiesManager *m_clipPropertiesManager;
 
-#if KDE_IS_VERSION(4,7,0)
     MyMessageWidget *m_infoMessage;
     /** @brief The action that will trigger the log dialog. */
     QAction *m_logAction;
-#endif
     
     void requestClipThumbnail(const QString &id);
 

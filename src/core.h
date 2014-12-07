@@ -29,7 +29,7 @@ class MonitorManager;
  * Plugins should be loaded after the widget setup.
  */
 
-class KDENLIVECORE_EXPORT Core : public QObject
+class /*KDENLIVECORE_EXPORT*/ Core : public QObject
 {
     Q_OBJECT
 

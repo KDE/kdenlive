@@ -154,25 +154,19 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     
     allFonts.removeDuplicates();
 
-#if KDE_IS_VERSION(4,7,0)
-        m_infoMessage = new KMessageWidget(this);
-        QVBoxLayout *s =  static_cast <QVBoxLayout*> (layout());
-        s->insertWidget(5, m_infoMessage);
-        m_infoMessage->setCloseButtonVisible(false);
-        m_infoMessage->setWordWrap(true);
-        m_infoMessage->hide();
-#endif
+    m_infoMessage = new KMessageWidget(this);
+    QVBoxLayout *s =  static_cast <QVBoxLayout*> (layout());
+    s->insertWidget(5, m_infoMessage);
+    m_infoMessage->setCloseButtonVisible(false);
+    m_infoMessage->setWordWrap(true);
+    m_infoMessage->hide();
         
         // missing clips, warn user
     if (m_missingClips > 0) {
         QString infoText = i18np("You have %1 missing clip in your project.", "You have %1 missing clips in your project.", m_missingClips);
-#if KDE_IS_VERSION(4,7,0)
         m_infoMessage->setMessageType(KMessageWidget::Warning);
         m_infoMessage->setText(infoText);
         m_infoMessage->animatedShow();
-#else
-        KMessageBox::sorry(this, infoText);
-#endif
     }
 
     //TODO: fonts
@@ -252,15 +246,9 @@ void ArchiveWidget::slotDisplayMessage(const QString &icon, const QString &text)
 
 void ArchiveWidget::slotJobResult(bool success, const QString &text)
 {
-#if KDE_IS_VERSION(4,7,0)
     m_infoMessage->setMessageType(success ? KMessageWidget::Positive : KMessageWidget::Warning);
     m_infoMessage->setText(text);
     m_infoMessage->animatedShow();
-#else
-    if (success) icon_info->setPixmap(QIcon::fromTheme("dialog-ok").pixmap(16, 16));
-    else icon_info->setPixmap(QIcon::fromTheme("dialog-close").pixmap(16, 16));
-    text_info->setText(text);
-#endif
 }
 
 void ArchiveWidget::openArchiveForExtraction()

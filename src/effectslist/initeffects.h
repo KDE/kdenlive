@@ -18,7 +18,7 @@
 #ifndef InitEffects_H
 #define InitEffects_H
 
-#include <klocale.h>
+#include <klocalizedstring.h>
 #include <QDomDocument>
 #include <QThread>
 #include <mlt++/Mlt.h>

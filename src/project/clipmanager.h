@@ -34,8 +34,7 @@
 
 #include <QUrl>
 #include <KDirWatch>
-#include <klocale.h>
-#include <kdeversion.h>
+#include <klocalizedstring.h>
 #include <KIO/CopyJob>
 #include <kimagecache.h>
 
@@ -119,10 +118,7 @@ Q_OBJECT public:
     /** @brief remove a clip id from the queue list. */
     void stopThumbs(const QString &id);
     void projectTreeThumbReady(const QString &id, int frame, const QImage &img, int type);
-
-#if KDE_IS_VERSION(4,5,0)
     KImageCache* pixmapCache;
-#endif
 
 public slots:
     /** @brief Request creation of a clip thumbnail for specified frames. */

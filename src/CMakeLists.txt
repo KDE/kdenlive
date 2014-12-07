@@ -100,7 +100,6 @@ list(APPEND kdenlive_SRCS
   layoutmanagement.cpp
   hidetitlebars.cpp
   mltconnection.cpp
-
   core.cpp
 )
 
@@ -245,14 +244,6 @@ target_link_libraries(kdenlive
    KF5::Notifications
    KF5::TextWidgets
    KF5::IconThemes
-   #KF5::Service
-   #KF5::KIONTLM 
-   #${KDE4_KDEUI_LIBS}
-  #${KDE4_KIO_LIBS}
-  #${KDE4_KNEWSTUFF_LIBS}
-  #${KDE4_KNOTIFYCONFIG_LIBRARY}
-  #${KDE4_KROSSUI_LIBS}
-  #${KDE4_SOLID_LIBS}
   ${Qt5_LIBRARIES}
   Qt5::Svg
   ${OPENGL_LIBRARIES}

@@ -165,12 +165,10 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
     setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
 
     //qDebug() << "/////// BUILDING MONITOR, ID: " << videoSurface->winId();
-#if KDE_IS_VERSION(4,7,0)
     m_infoMessage = new KMessageWidget;
     QVBoxLayout *s =  static_cast <QVBoxLayout *> (layout());
     s->insertWidget(1, m_infoMessage);
     m_infoMessage->hide();
-#endif
     
     slotVideoDeviceChanged(device_selector->currentIndex());
     m_previewSettings->setChecked(KdenliveSettings::enable_recording_preview());
@@ -183,9 +181,7 @@ RecMonitor::~RecMonitor()
     delete m_captureProcess;
     delete m_displayProcess;
     delete m_captureDevice;
-#if KDE_IS_VERSION(4,7,0)
     delete m_infoMessage;
-#endif
 }
 
 void RecMonitor::mouseDoubleClickEvent(QMouseEvent * event)
@@ -239,15 +235,10 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
 {
     QString capturefile;
     QString capturename;
-#if KDE_IS_VERSION(4,7,0)
     if (m_infoMessage->isVisible()) {
-#if KDE_IS_VERSION(4,10,0)
 	m_infoMessage->animatedHide();
-#else    
-	QTimer::singleShot(0, m_infoMessage, SLOT(animatedHide()));
-#endif
     }
-#endif
+
     m_previewSettings->setEnabled(ix == Video4Linux || ix == BlackMagic);
     control_frame->setVisible(ix == Video4Linux);
     m_playAction->setVisible(ix != ScreenBag);
@@ -796,7 +787,6 @@ void RecMonitor::slotRecord()
 
 void RecMonitor::showWarningMessage(const QString &text, bool logAction)
 {
-#if KDE_IS_VERSION(4,7,0)
     m_infoMessage->setText(text);
     m_infoMessage->setMessageType(KMessageWidget::Warning);
     if (logAction) {
@@ -804,22 +794,9 @@ void RecMonitor::showWarningMessage(const QString &text, bool logAction)
 	connect(manualAction, SIGNAL(triggered()), this, SLOT(slotShowLog()));
 	m_infoMessage->addAction(manualAction);
     }
-#if KDE_IS_VERSION(4,10,0)
+
     if (isVisible())
        m_infoMessage->animatedShow();
-#else
-    QTimer::singleShot(0, m_infoMessage, SLOT(animatedShow()));
-#endif
-#else
-    if (!logAction) {
-	video_frame->setPixmap(mergeSideBySide(QIcon::fromTheme("dialog-warning").pixmap(QSize(50, 50)), text));
-	
-    }
-    else {
-	video_frame->setText(QString("<qt>" + text + "<br><a href=\"http://kde.org\">" + i18n("Show log") + "</a>"));
-	connect(video_frame, SIGNAL(linkActivated(QString)), this, SLOT(slotShowLog()));
-    }
-#endif
 }
 
 const QString RecMonitor::getV4lXmlPlaylist(const MltVideoProfile &profile, bool *isXml)

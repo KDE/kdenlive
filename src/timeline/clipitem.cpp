@@ -847,7 +847,6 @@ void ClipItem::paint(QPainter *painter,
                 }
             }
             else {
-#if KDE_IS_VERSION(4,5,0)
                 if (m_clip && m_clip->thumbProducer()) {
                     QImage img;
                     QPen pen(Qt::white);
@@ -867,7 +866,6 @@ void ClipItem::paint(QPainter *painter,
                         m_clip->thumbProducer()->queryIntraThumbs(missing);
                     }
                 }
-#endif
             }
         }
     }

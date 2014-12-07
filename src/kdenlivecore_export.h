@@ -21,7 +21,7 @@
 #define _KDENLIVECORE_EXPORT_H
 
 /* needed for KDE_EXPORT and KDE_IMPORT macros */
-#include <kdemacros.h>
+
 
 #ifndef KDENLIVECORE_EXPORT
 # if defined(KDELIBS_STATIC_LIBS)

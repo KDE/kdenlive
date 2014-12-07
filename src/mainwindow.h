@@ -60,7 +60,7 @@ class Render;
 class Transition;
 class KActionCollection;
 
-class KDENLIVECORE_EXPORT MainWindow : public KXmlGuiWindow
+class /*KDENLIVECORE_EXPORT*/ MainWindow : public KXmlGuiWindow
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kdenlive.MainWindow")

@@ -24,9 +24,7 @@ NotesPlugin::NotesPlugin(ProjectManager *projectManager) :
     m_widget = new NotesWidget();
     connect(m_widget, SIGNAL(insertNotesTimecode()), SLOT(slotInsertTimecode()));
     m_widget->setTabChangesFocus(true);
-#if KDE_IS_VERSION(4,4,0)
     m_widget->setPlaceholderText(i18n("Enter your project notes here ..."));
-#endif
     pCore->window()->addDock(i18n("Project Notes"), "notes_widget", m_widget);
 
     connect(projectManager, SIGNAL(docOpened(KdenliveDoc*)), SLOT(setProject(KdenliveDoc*)));

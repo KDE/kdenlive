@@ -21,10 +21,7 @@
 #ifndef RENDERWIDGET_H
 #define RENDERWIDGET_H
 
-#include <kdeversion.h>
-#if KDE_IS_VERSION(4,7,0)
 #include <KMessageWidget>
-#endif
 
 #include <QPushButton>
 #include <QPainter>
@@ -190,10 +187,7 @@ private:
     RenderViewDelegate *m_jobsDelegate;
     bool m_blockProcessing;
     QString m_renderer;
-
-#if KDE_IS_VERSION(4,7,0)
     KMessageWidget *m_infoMessage;
-#endif
 
     void parseProfiles(const QString &meta = QString(), const QString &group = QString(), const QString &profile = QString());
     void parseFile(const QString &exportFile, bool editable);

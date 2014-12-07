@@ -66,11 +66,9 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
     //connect(&m_fileWatcher, SIGNAL(created(QString)), this, SLOT(slotClipAvailable(QString)));
     connect(&m_modifiedTimer, SIGNAL(timeout()), this, SLOT(slotProcessModifiedClips()));
 
-#if KDE_IS_VERSION(4,5,0)
     KImageCache::deleteCache("kdenlive-thumbs");
     pixmapCache = new KImageCache("kdenlive-thumbs", 10000000);
     pixmapCache->setEvictionPolicy(KSharedDataCache::EvictOldest);
-#endif
 }
 
 ClipManager::~ClipManager()
@@ -87,9 +85,7 @@ ClipManager::~ClipManager()
 
     qDeleteAll(m_clipList);
     m_clipList.clear();
-#if KDE_IS_VERSION(4,5,0)
     delete pixmapCache;
-#endif
 }
 
 void ClipManager::clear()
@@ -110,16 +106,12 @@ void ClipManager::clear()
     m_clipList.clear();
     m_clipIdCounter = 1;
     m_folderIdCounter = 1;
-#if KDE_IS_VERSION(4,5,0)
     pixmapCache->clear();
-#endif
 }
 
 void ClipManager::clearCache()
 {
-#if KDE_IS_VERSION(4,5,0)
     pixmapCache->clear();
-#endif
 }
 
 void ClipManager::slotRequestThumbs(const QString &id, const QList <int>& frames)

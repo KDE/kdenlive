@@ -29,7 +29,7 @@
 #include <mlt++/Mlt.h>
 
 #include <QDebug>
-#include <klocale.h>
+#include <klocalizedstring.h>
 #include <kfileitem.h>
 #include <kmessagebox.h>
 
@@ -363,7 +363,6 @@ void KThumb::slotCreateAudioThumbs()
     m_clipManager->askForAudioThumb(m_id);
 }
 
-#if KDE_IS_VERSION(4,5,0)
 void KThumb::queryIntraThumbs(const QSet <int> &missingFrames)
 {
     m_intraMutex.lock();
@@ -426,7 +425,6 @@ QImage KThumb::findCachedThumb(int pos)
     m_clipManager->pixmapCache->findImage(path, &img);
     return img;
 }
-#endif
 
 
 
