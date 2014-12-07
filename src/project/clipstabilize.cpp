@@ -28,7 +28,6 @@
 #include <QFontDatabase>
 #include <KMessageBox>
 #include <KColorScheme>
-#include <KFileDialog>
 
 ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,QWidget * parent) :
     QDialog(parent),
@@ -64,13 +63,10 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
                                QUrl dest(newFile);
                                dest_url->setMode(KFile::File);
                                dest_url->setUrl(QUrl(newFile));
-                               dest_url->fileDialog()->setFileMode(QFileDialog::AnyFile); //setOperationMode(KFileDialog::Saving);
-
 } else {
                                label_dest->setText(i18n("Destination folder"));
-                               dest_url->setMode(KFile::Directory);
+                               dest_url->setMode(KFile::Directory | KFile::ExistingOnly);
                                dest_url->setUrl(QUrl(m_urls.first()).adjusted(QUrl::RemoveFilename));
-                               dest_url->fileDialog()->setFileMode(QFileDialog::Directory); //OperationMode(KFileDialog::Saving);
 }
 
                                if (m_filtername=="vidstab"){

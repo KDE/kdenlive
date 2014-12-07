@@ -28,7 +28,6 @@
 
 #include <QDebug>
 #include <KFileItem>
-#include <KFileDialog>
 #include <kdeversion.h>
 #include <KRun>
 #include <QFontDatabase>
@@ -54,7 +53,7 @@
 #include <QPainter>
 #include <QFileDialog>
 #include <QStandardPaths>
-
+#include <QFileDialog>
 
 static const int VIDEOTAB = 0;
 static const int AUDIOTAB = 1;

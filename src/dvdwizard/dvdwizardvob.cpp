@@ -26,11 +26,11 @@
 
 #include <QDebug>
 
-#include <KFileDialog>
 #include <KGlobal>
 #include <KConfigGroup>
 #include <kio/global.h>
 
+#include <QFileDialog>
 #include <QHBoxLayout>
 #include <QDomDocument>
 #include <QTreeWidgetItem>
@@ -185,7 +185,7 @@ void DvdWizardVob::slotAddVobList(const QList<QUrl> &list)
 
 void DvdWizardVob::slotAddVobFile(QUrl url, const QString &chapters, bool checkFormats)
 {
-    if (url.isEmpty()) url = KFileDialog::getOpenUrl(QUrl("kfiledialog:///projectfolder"), "video/mpeg", this, i18n("Add new video file"));
+    if (url.isEmpty()) url = QFileDialog::getOpenFileUrl(this, i18n("Add new video file"), QUrl("kfiledialog:///projectfolder"), "video/mpeg");
     if (url.isEmpty()) return;
     QFile f(url.path());
     qint64 fileSize = f.size();

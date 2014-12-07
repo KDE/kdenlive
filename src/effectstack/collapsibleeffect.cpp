@@ -32,13 +32,12 @@
 #include <QWheelEvent>
 #include <QMimeData>
 #include <QFontDatabase>
-
+#include <QFileDialog>
 #include <QDebug>
-#include <KComboBox>
 
+#include <KComboBox>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KFileDialog>
 #include <KApplication>
 
 
@@ -159,12 +158,10 @@ void CollapsibleEffect::slotCreateRegion()
 {
     QString allExtensions = ProjectList::getExtensions().join(" ");
     const QString dialogFilter = allExtensions + ' ' + QLatin1Char('|') + i18n("All Supported Files") + "\n* " + QLatin1Char('|') + i18n("All Files");
-    QPointer<KFileDialog> d = new KFileDialog(QUrl("kfiledialog:///clipfolder"), dialogFilter, kapp->activeWindow());
-    d->setOperationMode(KFileDialog::Opening);
-    d->setMode(KFile::File);
-    if (d->exec() == QDialog::Accepted) {
-        QUrl url = d->selectedUrl();
-        if (!url.isEmpty()) emit createRegion(effectIndex(), url);
+    QPointer<QFileDialog> d = new QFileDialog(kapp->activeWindow(), QString(), "kfiledialog:///clipfolder", dialogFilter);
+    d->setFileMode(QFileDialog::ExistingFile);
+    if (d->exec() == QDialog::Accepted && !d->selectedUrls().isEmpty()) {
+        emit createRegion(effectIndex(), d->selectedUrls().first());
     }
     delete d;
 }

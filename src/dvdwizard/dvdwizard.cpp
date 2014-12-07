@@ -28,13 +28,13 @@
 
 
 #include <KLocalizedString>
-#include <KFileDialog>
 #include <kmimetype.h>
 #include <KIO/NetAccess>
 #include <KMessageBox>
 
 #include <QFile>
 #include <QTimer>
+#include <QFileDialog>
 #include <QDomDocument>
 #include <QMenu>
 #include <QGridLayout>
@@ -88,7 +88,6 @@ DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *paren
     m_status.iso_image->setUrl(QUrl(QDir::homePath() + "/untitled.iso"));
     m_status.iso_image->setFilter("*.iso");
     m_status.iso_image->setMode(KFile::File);
-    m_status.iso_image->fileDialog()->setFileMode(QFileDialog::AnyFile);//KFileDialog::Saving);
 
 #if KDE_IS_VERSION(4,7,0)
     m_isoMessage = new KMessageWidget;
@@ -909,7 +908,7 @@ void DvdWizard::slotAbort()
 
 void DvdWizard::slotSave()
 {
-    QUrl url = KFileDialog::getSaveUrl(QUrl("kfiledialog:///projectfolder"), "*.kdvd", this, i18n("Save DVD Project"));
+    QUrl url = QFileDialog::getSaveFileUrl(this, i18n("Save DVD Project"), QUrl("kfiledialog:///projectfolder"), "*.kdvd");
     if (url.isEmpty())
         return;
 
@@ -946,7 +945,7 @@ void DvdWizard::slotSave()
 
 void DvdWizard::slotLoad()
 {
-    const QUrl url = KFileDialog::getOpenUrl(QUrl("kfiledialog:///projectfolder"), "*.kdvd");
+    const QUrl url = QFileDialog::getOpenFileUrl(this, QString(), QUrl("kfiledialog:///projectfolder"), "*.kdvd");
     if (url.isEmpty())
         return;
     QDomDocument doc;

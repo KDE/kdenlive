@@ -30,7 +30,6 @@
 #include <QDebug>
 #include <kio/directorysizejob.h>
 #include <KIO/NetAccess>
-#include <KFileDialog>
 #include <KStandardDirs>
 
 #include <QTemporaryFile>

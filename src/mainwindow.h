@@ -246,7 +246,6 @@ private:
     QByteArray m_timelineState;
     void loadTranscoders();
     void loadClipActions();
-    QPixmap createSchemePreviewIcon(const KSharedConfigPtr &config);
 
     QTime m_timer;
     /** @brief The last selected clip in timeline. */

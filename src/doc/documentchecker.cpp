@@ -27,9 +27,8 @@
 #include "kdenlivesettings.h"
 
 #include <QDebug>
-
+#include <QFileDialog>
 #include <KIO/NetAccess>
-#include <KFileDialog>
 #include <KApplication>
 #include <KUrlRequesterDialog>
 #include <KMessageBox>
@@ -455,7 +454,7 @@ void DocumentChecker::setProperty(QDomElement effect, const QString &name, const
 
 void DocumentChecker::slotSearchClips()
 {
-    QString newpath = KFileDialog::getExistingDirectory(QUrl("kfiledialog:///clipfolder"), kapp->activeWindow(), i18n("Clips folder"));
+    QString newpath = QFileDialog::getExistingDirectory(kapp->activeWindow(), i18n("Clips folder"), "kfiledialog:///clipfolder");
     if (newpath.isEmpty()) return;
     int ix = 0;
     bool fixed = false;

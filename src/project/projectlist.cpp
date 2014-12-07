@@ -17,6 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include "core.h"
 #include "projectlist.h"
 #include "projectitem.h"
 #include "projectcommands.h"
@@ -46,7 +47,6 @@
 
 #include <QDebug>
 #include <KLocalizedString>
-#include <KFileDialog>
 #include <KMessageBox>
 #include <KIO/NetAccess>
 #include <KFileItem>
@@ -81,6 +81,7 @@
 #include <QHeaderView>
 #include <QVBoxLayout>
 #include <QtConcurrent>
+#include <QFileDialog>
 
 MyMessageWidget::MyMessageWidget(QWidget *parent) : KMessageWidget(parent) {}
 MyMessageWidget::MyMessageWidget(const QString &text, QWidget *parent) : KMessageWidget(text, parent) {}
@@ -1710,20 +1711,24 @@ void ProjectList::slotAddClip(const QList <QUrl> &givenList, const QString &grou
         b->setChecked(KdenliveSettings::autoimagesequence());
         QCheckBox *c = new QCheckBox(i18n("Transparent background for images"));
         c->setChecked(KdenliveSettings::autoimagetransparency());
-        QFrame *f = new QFrame;
+        QFrame *f = new QFrame();
         f->setFrameShape(QFrame::NoFrame);
         QHBoxLayout *l = new QHBoxLayout;
         l->addWidget(b);
         l->addWidget(c);
         l->addStretch(5);
         f->setLayout(l);
+        
 
-        QPointer<KFileDialog> d = new KFileDialog(QUrl("kfiledialog:///clipfolder"), dialogFilter, kapp->activeWindow(), f);
-        d->setOperationMode(KFileDialog::Opening);
-        d->setMode(KFile::Files);
+        QPointer<QFileDialog> d = new QFileDialog(kapp->activeWindow(), i18n("Open Clips"), m_doc->getDocumentProperty("QFileDialogClipFolder"), dialogFilter);
+        //TODO: KF5, how to add a custom widget to file dialog
+        /*QGridLayout *layout = (QGridLayout*)d->layout();
+        layout->addWidget(f, 0, 0);*/
+        d->setFileMode(QFileDialog::ExistingFiles);
         if (d->exec() == QDialog::Accepted) {
             KdenliveSettings::setAutoimagetransparency(c->isChecked());
             list = d->selectedUrls();
+            if (!list.isEmpty()) m_doc->setDocumentProperty("QFileDialogClipFolder", list.first().adjusted(QUrl::RemoveFilename).path());
             if (b->isChecked() && list.count() == 1) {
                 // Check for image sequence
                 QUrl url = list.at(0);
@@ -1976,7 +1981,7 @@ void ProjectList::slotAddTitleTemplateClip()
     mimeTypeFilters <<"application/x-kdenlivetitle";
     dia_ui.template_list->fileDialog()->setMimeTypeFilters(mimeTypeFilters);
     //warning: setting base directory doesn't work??
-    dia_ui.template_list->fileDialog()->setDirectory(path);
+    dia_ui.template_list->setPath(path);
     dia_ui.text_box->setHidden(true);
     if (dia->exec() == QDialog::Accepted) {
         QString textTemplate = dia_ui.template_list->comboBox()->itemData(dia_ui.template_list->comboBox()->currentIndex()).toString();

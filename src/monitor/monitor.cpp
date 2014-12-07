@@ -31,7 +31,6 @@
 
 #include <QDebug>
 #include <KLocalizedString>
-#include <KFileDialog>
 
 #include <QMouseEvent>
 #include <QMenu>
@@ -42,6 +41,7 @@
 #include <QVBoxLayout>
 #include <QSlider>
 #include <QDrag>
+#include <QFileDialog>
 #include <QMimeData>
 
 #define SEEK_INACTIVE (-1)
@@ -605,15 +605,12 @@ void Monitor::slotExtractCurrentFrame()
         frame = render->extractFrame(render->seekFramePosition(), m_currentClip->fileURL().path());
     }
     else frame = render->extractFrame(render->seekFramePosition());
-    QPointer<KFileDialog> fs = new KFileDialog(QUrl(), "image/png", this);
-    fs->setOperationMode(KFileDialog::Saving);
-    fs->setMode(KFile::File);
-    fs->setConfirmOverwrite(true);
-    fs->setKeepLocation(true);
+    QPointer<QFileDialog> fs = new QFileDialog(this, i18n("Save Image"), "kfiledialog:///framefolder", "image/png");
+    fs->setFileMode(QFileDialog::AnyFile);
     if (fs->exec()) {
-        QString path = fs->selectedFile();
+        QStringList path = fs->selectedFiles();
         if (!path.isEmpty()) {
-            frame.save(path);
+            frame.save(path.first());
         }
     }
     delete fs;

@@ -35,12 +35,10 @@
 #include "project/notesplugin.h"
 #include "project/dialogs/noteswidget.h"
 
-#include <QDebug>
 #include <KStandardDirs>
 #include <KMessageBox>
 #include <KProgressDialog>
 #include <KLocalizedString>
-#include <KFileDialog>
 #include <KIO/NetAccess>
 #include <KIO/CopyJob>
 #include <KIO/JobUiDelegate>
@@ -51,6 +49,8 @@
 
 #include <QCryptographicHash>
 #include <QFile>
+#include <QDebug>
+#include <QFileDialog>
 #include <QInputDialog>
 #include <QDomImplementation>
 #include <QUndoGroup>
@@ -139,9 +139,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     *openBackup = false;
     
     if (!url.isEmpty()) {
-        QString tmpFile;
-        success = KIO::NetAccess::download(url.path(), tmpFile, parent);
-        if (!success) {
+        QFile file(url.path());
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             // The file cannot be opened
             if (KMessageBox::warningContinueCancel(parent, i18n("Cannot open the project file, error is:\n%1\nDo you want to open a backup file?", KIO::NetAccess::lastErrorString()), i18n("Error opening file"), KGuiItem(i18n("Open Backup"))) == KMessageBox::Continue) {
                 *openBackup = true;
@@ -149,7 +148,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
             //KMessageBox::error(parent, KIO::NetAccess::lastErrorString());
         }
         else {
-            QFile file(tmpFile);
             QString errorMsg;
             int line;
             int col;
@@ -350,7 +348,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                     }
                 }
             }
-            KIO::NetAccess::removeTempFile(tmpFile);
         }
     }
     
@@ -1115,7 +1112,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
                 if (elem.attribute("type").toInt() == SlideShow) {
                     int res = KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
                     if (res == KMessageBox::Yes)
-                        newpath = KFileDialog::getExistingDirectory(QUrl("kfiledialog:///clipfolder"), kapp->activeWindow(), i18n("Looking for %1", path));
+                        newpath = QFileDialog::getExistingDirectory(kapp->activeWindow(), i18n("Looking for %1", path), "kfiledialog:///clipfolder");
                     else {
                         // Abort project loading
                         action = res;
@@ -1123,7 +1120,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
                 } else {
                     int res = KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
                     if (res == KMessageBox::Yes)
-                        newpath = KFileDialog::getOpenFileName(QUrl("kfiledialog:///clipfolder"), QString(), kapp->activeWindow(), i18n("Looking for %1", path));
+                        newpath = QFileDialog::getOpenFileName(kapp->activeWindow(), i18n("Looking for %1", path), "kfiledialog:///clipfolder");
                     else {
                         // Abort project loading
                         action = res;
@@ -1132,7 +1129,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
             }
             if (action == KMessageBox::Yes) {
                 //qDebug() << "// ASKED FOR SRCH CLIP: " << clipId;
-                m_searchFolder = KFileDialog::getExistingDirectory(QUrl("kfiledialog:///clipfolder"), kapp->activeWindow());
+                m_searchFolder = QFileDialog::getExistingDirectory(kapp->activeWindow(), QString(), "kfiledialog:///clipfolder");
                 if (!m_searchFolder.isEmpty())
                     newpath = searchFileRecursively(QDir(m_searchFolder), size, hash);
             } else if (action == KMessageBox::Cancel) {
@@ -1326,7 +1323,7 @@ void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString
 {
     QString titlesFolder = QDir::cleanPath(projectFolder().path() + QDir::separator() + "titles/");
     if (path.isEmpty()) {
-        path = KFileDialog::getOpenUrl(QUrl(titlesFolder), "application/x-kdenlivetitle", kapp->activeWindow(), i18n("Enter Template Path"));
+        path = QFileDialog::getOpenFileUrl(kapp->activeWindow(), i18n("Enter Template Path"), QUrl("kfiledialog:///clipfolder"),  "application/x-kdenlivetitle");
     }
 
     if (path.isEmpty()) return;

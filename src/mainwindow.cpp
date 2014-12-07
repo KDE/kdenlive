@@ -68,7 +68,6 @@
 #include <KActionMenu>
 #include <KStandardAction>
 #include <KShortcutsDialog>
-#include <KFileDialog>
 #include <KMessageBox>
 #include <QDebug>
 #include <KIO/NetAccess>
@@ -97,6 +96,7 @@
 #include <QDesktopWidget>
 #include <QBitmap>
 #include <QUndoGroup>
+#include <QFileDialog>
 
 #include <stdlib.h>
 #include <QStandardPaths>
@@ -2712,7 +2712,7 @@ void MainWindow::slotTranscode(const QList<QUrl> &urls)
 
 void MainWindow::slotTranscodeClip()
 {
-    QList<QUrl> urls = KFileDialog::getOpenUrls(QUrl("kfiledialog:///projectfolder"));
+    QList<QUrl> urls = QFileDialog::getOpenFileUrls(this, i18n("Files to transcode"), QUrl("kfiledialog:///projectfolder"));
     if (urls.isEmpty()) return;
     slotTranscode(urls);
 }
@@ -2739,7 +2739,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         //QString scriptsFolder = project->projectFolder().path(QUrl::AddTrailingSlash) + "scripts/";
         QString path = m_renderWidget->getFreeScriptName(project->url());
         QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(path, i18n("Create Render Script"), this);
-        getUrl->fileDialog()->setFileMode(QFileDialog::AnyFile);
+        getUrl->urlRequester()->setMode(KFile::File);
         if (getUrl->exec() == QDialog::Rejected) {
             delete getUrl;
             return;
@@ -2968,47 +2968,6 @@ void MainWindow::slotChangePalette(QAction *action)
     }
 }
 
-
-QPixmap MainWindow::createSchemePreviewIcon(const KSharedConfigPtr &config)
-{
-    // code taken from kdebase/workspace/kcontrol/colors/colorscm.cpp
-    const uchar bits1[] = { 0xff, 0xff, 0xff, 0x2c, 0x16, 0x0b };
-    const uchar bits2[] = { 0x68, 0x34, 0x1a, 0xff, 0xff, 0xff };
-    const QSize bitsSize(24, 2);
-    const QBitmap b1 = QBitmap::fromData(bitsSize, bits1);
-    const QBitmap b2 = QBitmap::fromData(bitsSize, bits2);
-
-    QPixmap pixmap(23, 16);
-    pixmap.fill(Qt::black); // ### use some color other than black for borders?
-
-    KConfigGroup group(config, "WM");
-    QPainter p(&pixmap);
-    KColorScheme windowScheme(QPalette::Active, KColorScheme::Window, config);
-    p.fillRect(1,  1, 7, 7, windowScheme.background());
-    p.fillRect(2,  2, 5, 2, QBrush(windowScheme.foreground().color(), b1));
-
-    KColorScheme buttonScheme(QPalette::Active, KColorScheme::Button, config);
-    p.fillRect(8,  1, 7, 7, buttonScheme.background());
-    p.fillRect(9,  2, 5, 2, QBrush(buttonScheme.foreground().color(), b1));
-
-    p.fillRect(15,  1, 7, 7, group.readEntry("activeBackground", QColor(96, 148, 207)));
-    p.fillRect(16,  2, 5, 2, QBrush(group.readEntry("activeForeground", QColor(255, 255, 255)), b1));
-
-    KColorScheme viewScheme(QPalette::Active, KColorScheme::View, config);
-    p.fillRect(1,  8, 7, 7, viewScheme.background());
-    p.fillRect(2, 12, 5, 2, QBrush(viewScheme.foreground().color(), b2));
-
-    KColorScheme selectionScheme(QPalette::Active, KColorScheme::Selection, config);
-    p.fillRect(8,  8, 7, 7, selectionScheme.background());
-    p.fillRect(9, 12, 5, 2, QBrush(selectionScheme.foreground().color(), b2));
-
-    p.fillRect(15,  8, 7, 7, group.readEntry("inactiveBackground", QColor(224, 223, 222)));
-    p.fillRect(16, 12, 5, 2, QBrush(group.readEntry("inactiveForeground", QColor(20, 19, 18)), b2));
-
-    p.end();
-    return pixmap;
-}
-
 void MainWindow::slotSwitchMonitors()
 {
     pCore->monitorManager()->slotSwitchMonitors(!m_clipMonitor->isActive());
@@ -3139,7 +3098,7 @@ void MainWindow::slotSaveTimelineClip()
             m_messageLabel->setMessage(i18n("Select a clip to save"), InformationMessage);
             return;
         }
-        QUrl url = KFileDialog::getSaveUrl(pCore->projectManager()->current()->projectFolder(), "video/mlt-playlist");
+        QUrl url = QFileDialog::getSaveFileUrl(this, i18n("Save clip"), pCore->projectManager()->current()->projectFolder(), "video/mlt-playlist");
         if (!url.isEmpty()) {
             m_projectMonitor->render->saveClip(pCore->projectManager()->current()->tracksCount() - clip->track(), clip->startPos(), url);
         }
