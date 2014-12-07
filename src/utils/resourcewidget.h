@@ -32,10 +32,9 @@
 #include <kdeversion.h>
 
 
-#if KDE_IS_VERSION(4,4,0)
 class KPixmapSequenceOverlayPainter;
-#endif
 class QAction;
+class QNetworkConfigurationManager;
 
 class ResourceWidget : public QDialog, public Ui::FreeSound_UI
 {
@@ -54,8 +53,7 @@ private slots:
     void slotSaveItem(const QString &originalUrl = QString());
     void slotOpenUrl(const QString &url);
     void slotChangeService();
-    void slotOnline();
-    void slotOffline();
+    void slotOnlineChanged(bool online);
     void slotNextPage();
     void slotPreviousPage();
     void slotOpenLink(const QUrl &url);
@@ -69,6 +67,7 @@ private slots:
     void slotSetMaximum(int max);
 
 private:
+    QNetworkConfigurationManager *m_networkManager;
     void loadConfig();
     void saveConfig();
     void parseLicense(const QString &);

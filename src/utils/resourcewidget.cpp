@@ -30,6 +30,7 @@
 #include <QAction>
 #include <QMenu>
 #include <QFileDialog>
+#include <QNetworkConfigurationManager>
 
 #include <KSharedConfig>
 #include <QDebug>
@@ -37,7 +38,6 @@
 #include <QFontDatabase>
 #include <kio/job.h>
 #include <KIO/SimpleJob>
-#include <Solid/Networking>
 #include <KRun>
 #include <KConfigGroup>
 
@@ -88,11 +88,10 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     connect(button_import, SIGNAL(clicked()), this, SLOT(slotSaveItem()));
     connect(item_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
     connect(service_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChangeService()));
-    if (Solid::Networking::status() == Solid::Networking::Unconnected) {
-        slotOffline();
+    if (!m_networkManager->isOnline()) {
+        slotOnlineChanged(false);
     }
-    connect(Solid::Networking::notifier(), SIGNAL(shouldConnect()), this, SLOT(slotOnline()));
-    connect(Solid::Networking::notifier(), SIGNAL(shouldDisconnect()), this, SLOT(slotOffline()));
+    connect(m_networkManager, SIGNAL(onlineStateChanged(bool)), this, SLOT(slotOnlineChanged(bool)));
     connect(page_next, SIGNAL(clicked()), this, SLOT(slotNextPage()));
     connect(page_prev, SIGNAL(clicked()), this, SLOT(slotPreviousPage()));
     connect(page_number, SIGNAL(valueChanged(int)), this, SLOT(slotStartSearch(int)));
@@ -353,16 +352,11 @@ void ResourceWidget::slotSetMaximum(int max)
     page_number->setMaximum(max);
 }
 
-void ResourceWidget::slotOnline()
+void ResourceWidget::slotOnlineChanged(bool online)
 {
-    button_search->setEnabled(true);
-    search_info->setText(QString());
-}
-
-void ResourceWidget::slotOffline()
-{
-    button_search->setEnabled(false);
-    search_info->setText(i18n("You need to be online\n for searching"));
+    
+    button_search->setEnabled(online);
+    search_info->setText(online ? QString() : i18n("You need to be online\n for searching"));
 }
 
 void ResourceWidget::slotNextPage()
