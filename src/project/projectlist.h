@@ -397,8 +397,6 @@ private slots:
 signals:
     void clipSelected(DocClipBase *, const QPoint &zone = QPoint(), bool forceUpdate = false);
     void receivedClipDuration(const QString &);
-    void showClipProperties(DocClipBase *);
-    void showClipProperties(const QList <DocClipBase *>&, const QMap<QString, QString> &commonproperties);
     void projectModified();
     void loadingIsOver();
     void displayMessage(const QString&, int progress, MessageType type = DefaultMessage);

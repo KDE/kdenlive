@@ -287,7 +287,8 @@ ProjectList::ProjectList(QWidget *parent) :
     connect(this, SIGNAL(addClip(QString,QString,QString)), this, SLOT(slotAddClip(QString,QString,QString)));
     connect(m_listView, SIGNAL(addClipCut(QString,int,int)), this, SLOT(slotAddClipCut(QString,int,int)));
     connect(m_listView, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(slotItemEdited(QTreeWidgetItem*,int)));
-    connect(m_listView, SIGNAL(showProperties(DocClipBase*)), this, SIGNAL(showClipProperties(DocClipBase*)));
+    connect(m_listView, SIGNAL(showProperties()), this, SLOT(slotEditClip()));
+    
     
     connect(this, SIGNAL(cancelRunningJob(QString,stringMap)), this, SLOT(slotCancelRunningJob(QString,stringMap)));
     connect(this, SIGNAL(processLog(QString,int,int,QString)), this, SLOT(slotProcessLog(QString,int,int,QString)));

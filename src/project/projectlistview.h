@@ -86,7 +86,7 @@ signals:
     void requestMenu(const QPoint &, QTreeWidgetItem *);
     void addClip();
     void addClip(const QList <QUrl> &, const QString &, const QString &);
-    void showProperties(DocClipBase *);
+    void showProperties();
     void focusMonitor(bool forceRefresh);
     void pauseMonitor();
     void addClipCut(const QString&, int, int);

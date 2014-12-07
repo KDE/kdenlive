@@ -245,7 +245,7 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
         QTreeWidget::mouseDoubleClickEvent(event);
         return;
     }
-    emit showProperties(item->referencedClip());
+    emit showProperties();
 }
 
 
