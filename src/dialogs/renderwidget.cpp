@@ -417,7 +417,7 @@ void RenderWidget::slotUpdateButtons(const QUrl &url)
     } else {
         updateButtons(); // This also checks whether the selected format is available
     }
-    if (!url.isEmpty()) {
+    if (url.isValid()) {
         QListWidgetItem *item = m_view.size_list->currentItem();
         if (!item) {
             m_view.buttonRender->setEnabled(false);
@@ -1465,7 +1465,7 @@ void RenderWidget::refreshView(const QString &profile)
 
 QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
 {
-    if (url.isEmpty()) url = QUrl(m_projectFolder);
+    if (!url.isValid()) url = QUrl(m_projectFolder);
     QString directory = url.adjusted(QUrl::RemoveFilename).path();
     QString filename = url.fileName();
     QString ext;

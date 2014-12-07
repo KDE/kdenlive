@@ -641,7 +641,7 @@ void ProjectList::trashUnusedClips()
         if (item->numReferences() == 0) {
             ids << item->clipId();
             QUrl url = item->clipUrl();
-            if (!url.isEmpty() && !urls.contains(url.path()))
+            if (url.isValid() && !urls.contains(url.path()))
                 urls << url.path();
         }
         it++;
@@ -657,7 +657,7 @@ void ProjectList::trashUnusedClips()
         item = static_cast <ProjectItem *>(*it2);
         if (item->numReferences() > 0) {
             QUrl url = item->clipUrl();
-            if (!url.isEmpty() && urls.contains(url.path())) urls.removeAll(url.path());
+            if (url.isValid() && urls.contains(url.path())) urls.removeAll(url.path());
         }
         it2++;
     }
@@ -1348,7 +1348,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     
     QUrl url = clip->fileURL();
 #ifdef USE_NEPOMUK
-    if (!url.isEmpty() && KdenliveSettings::activate_nepomuk() && clip->getProperty("description").isEmpty()) {
+    if (url.isValid() && KdenliveSettings::activate_nepomuk() && clip->getProperty("description").isEmpty()) {
         // if file has Nepomuk comment, use it
         Nepomuk::Resource f(url.path());
         QString annotation = f.description();
@@ -1705,7 +1705,8 @@ void ProjectList::slotAddClip(const QList <QUrl> &givenList, const QString &grou
     QList <QUrl> list;
     if (givenList.isEmpty()) {
         QString allExtensions = getExtensions().join(" ");
-        const QString dialogFilter = allExtensions + ' ' + QLatin1Char('|') + i18n("All Supported Files") + "\n* " + QLatin1Char('|') + i18n("All Files");
+        qDebug()<<"*********\nEXTENSIONS: "<<allExtensions<<"\n********************";
+        const QString dialogFilter =  i18n("All Supported Files") + "(" + allExtensions + ");;" + i18n("All Files") + "(*)";
         QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
         b->setChecked(KdenliveSettings::autoimagesequence());
         QCheckBox *c = new QCheckBox(i18n("Transparent background for images"));

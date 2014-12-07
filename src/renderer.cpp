@@ -668,7 +668,7 @@ void Render::processFileProperties()
             producer = new Mlt::Producer(*m_mltProfile, 0, ("kdenlivetitle:" + info.xml.attribute("resource")).toUtf8().constData());
             if (producer && producer->is_valid() && info.xml.hasAttribute("xmldata"))
                 producer->set("xmldata", info.xml.attribute("xmldata").toUtf8().constData());
-        } else if (url.isEmpty()) {
+        } else if (!url.isValid()) {
             //WARNING: when is this case used? Not sure it is working.. JBM/
             QDomDocument doc;
             QDomElement mlt = doc.createElement("mlt");

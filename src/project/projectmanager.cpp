@@ -62,7 +62,7 @@ ProjectManager::~ProjectManager()
 
 void ProjectManager::init(const QUrl& projectUrl, const QString& clipList)
 {
-    if (!projectUrl.isEmpty()) {
+    if (projectUrl.isValid()) {
         // delay loading so that the window shows up
         m_startUrl = projectUrl;
         QTimer::singleShot(500, this, SLOT(openFile()));
@@ -255,16 +255,15 @@ bool ProjectManager::saveFile()
 
 void ProjectManager::openFile()
 {
-    if (!m_startUrl.isEmpty()) {
+    if (m_startUrl.isValid()) {
         openFile(m_startUrl);
         m_startUrl = QUrl();
         return;
     }
-    QUrl url = QFileDialog::getOpenFileUrl(0, QString(), QUrl("kfiledialog:///projectfolder"), getMimeType());
-    if (url.isEmpty()) {
+    QUrl url = QFileDialog::getOpenFileUrl(QApplication::activeWindow(), QString(), QUrl("kfiledialog:///projectfolder"), getMimeType());
+    if (url.isValid()) {
         return;
     }
-
     m_recentFilesAction->addUrl(url);
     openFile(url);
 }
@@ -296,7 +295,7 @@ void ProjectManager::openFile(const QUrl &url)
         QPointer<ArchiveWidget> ar = new ArchiveWidget(url);
         if (ar->exec() == QDialog::Accepted) {
             openFile(QUrl(ar->extractedProjectFile()));
-        } else if (!m_startUrl.isEmpty()) {
+        } else if (m_startUrl.isValid()) {
             // we tried to open an invalid file from command line, init new project
             newFile(false);
         }
@@ -307,7 +306,7 @@ void ProjectManager::openFile(const QUrl &url)
     if (!url.fileName().endsWith(".kdenlive")) {
         // This is not a Kdenlive project file, abort loading
         KMessageBox::sorry(pCore->window(), i18n("File %1 is not a Kdenlive project file", url.path()));
-        if (!m_startUrl.isEmpty()) {
+        if (m_startUrl.isValid()) {
             // we tried to open an invalid file from command line, init new project
             newFile(false);
         }
@@ -450,15 +449,8 @@ void ProjectManager::slotRevert()
 
 QString ProjectManager::getMimeType(bool open)
 {
-    QMimeDatabase db;
-    
-    QString mimetype = "application/x-kdenlive";
-    QMimeType mime = db.mimeTypeForName(mimetype);
-    if (!mime.isValid()) {
-        mimetype = "*.kdenlive";
-        if (open) mimetype.append(" *.tar.gz");
-    }
-    else if (open) mimetype.append(" application/x-compressed-tar");
+    QString mimetype = i18n("Kdenlive project (*.kdenlive)");
+    if (open) mimetype.append(";;" + i18n("Archived project (*.tar.gz)"));
     return mimetype;
 }
 
@@ -473,7 +465,7 @@ void ProjectManager::slotOpenBackup(const QUrl& url)
     QUrl projectFile;
     QUrl projectFolder;
     QString projectId;
-    if (!url.isEmpty()) {
+    if (url.isValid()) {
         // we could not open the project file, guess where the backups are
         projectFolder = QUrl(KdenliveSettings::defaultprojectfolder());
         projectFile = url;

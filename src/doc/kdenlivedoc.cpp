@@ -135,7 +135,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
 
     *openBackup = false;
     
-    if (!url.isEmpty()) {
+    if (url.isValid()) {
         QFile file(url.path());
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             // The file cannot be opened
@@ -1063,7 +1063,7 @@ void KdenliveDoc::setUrl(const QUrl &url)
 
 void KdenliveDoc::setModified(bool mod)
 {
-    if (!m_url.isEmpty() && mod && KdenliveSettings::crashrecovery()) {
+    if (m_url.isValid() && mod && KdenliveSettings::crashrecovery()) {
         m_autoSaveTimer->start(3000);
     }
     if (mod == m_modified) return;
@@ -1078,10 +1078,10 @@ bool KdenliveDoc::isModified() const
 
 const QString KdenliveDoc::description() const
 {
-    if (m_url.isEmpty())
-        return i18n("Untitled") + " / " + m_profile.description;
+    if (!m_url.isValid())
+        return i18n("Untitled") + "[*] / " + m_profile.description;
     else
-        return m_url.fileName() + " / " + m_profile.description;
+        return m_url.fileName() + " [*]/ " + m_profile.description;
 }
 
 bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createClipItem)

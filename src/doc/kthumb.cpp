@@ -102,7 +102,7 @@ void KThumb::updateClipUrl(const QUrl &url, const QString &hash)
 //static
 QPixmap KThumb::getImage(const QUrl &url, int width, int height)
 {
-    if (url.isEmpty()) return QPixmap();
+    if (!url.isValid()) return QPixmap();
     return getImage(url, 0, width, height);
 }
 
@@ -145,7 +145,7 @@ QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
 {
     Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
     QPixmap pix(width, height);
-    if (url.isEmpty()) return pix;
+    if (!url.isValid()) return pix;
     Mlt::Producer *producer = new Mlt::Producer(profile, url.path().toUtf8().constData());
     double swidth = (double) profile.width() / profile.height();
     pix = QPixmap::fromImage(getFrame(producer, frame, (int) (height * swidth + 0.5), width, height));
@@ -289,7 +289,7 @@ uint KThumb::imageVariance(const QImage &image )
 /*
 void KThumb::getImage(QUrl url, int frame, int width, int height)
 {
-    if (url.isEmpty()) return;
+    if (!url.isValid()) return;
     QPixmap image(width, height);
     Mlt::Producer m_producer(url.path().toUtf8().constData());
     image.fill(Qt::black);
@@ -317,7 +317,7 @@ void KThumb::getImage(QUrl url, int frame, int width, int height)
 
 void KThumb::getThumbs(QUrl url, int startframe, int endframe, int width, int height)
 {
-    if (url.isEmpty()) return;
+    if (!url.isValid()) return;
     QPixmap image(width, height);
     Mlt::Producer m_producer(url.path().toUtf8().constData());
     image.fill(QColor(Qt::black).rgb());

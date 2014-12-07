@@ -29,7 +29,7 @@ BackupWidget::BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, co
     setupUi(this);
     setWindowTitle(i18n("Restore Backup File"));
 
-    if (projectUrl.isEmpty()) {
+    if (!projectUrl.isValid()) {
         // No url, means we opened the backup dialog from an empty project
         info_label->setText(i18n("Showing all backup files in folder"));
         m_projectWildcard = '*';

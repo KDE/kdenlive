@@ -84,7 +84,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     }
 
     QUrl url = QUrl(xml.attribute("resource"));
-    if (!m_properties.contains("file_hash") && !url.isEmpty()) getFileHash(url.path());
+    if (!m_properties.contains("file_hash") && url.isValid()) getFileHash(url.path());
 
     if (xml.hasAttribute("duration")) {
         setDuration(GenTime(xml.attribute("duration").toInt(), KdenliveSettings::project_fps()));
@@ -1060,7 +1060,7 @@ void DocClipBase::getFileHash(const QString &url)
 bool DocClipBase::checkHash() const
 {
     QUrl url = fileURL();
-    if (!url.isEmpty() && getClipHash() != getHash(url.path())) return false;
+    if (url.isValid() && getClipHash() != getHash(url.path())) return false;
     return true;
 }
 

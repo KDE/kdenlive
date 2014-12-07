@@ -449,7 +449,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
 
     // scale the view so that the title widget is not too big at startup
     graphicsView->scale(.5, .5);
-    if (!url.isEmpty()) {
+    if (url.isValid()) {
         loadTitle(url);
     } else {
         prepareTools(NULL);
@@ -651,7 +651,7 @@ void TitleWidget::slotImageTool()
     // TODO: find a way to get a list of all supported image types...
     QString allExtensions = "image/gif image/jpeg image/png image/x-tga image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr";
     QUrl url = QFileDialog::getOpenFileUrl(this, i18n("Load Image"), QUrl(), allExtensions); //"*.svg *.png *.jpg *.jpeg *.gif *.raw"
-    if (!url.isEmpty()) {
+    if (url.isValid()) {
         if (url.path().endsWith(QLatin1String(".svg"))) {
             QGraphicsSvgItem *svg = new QGraphicsSvgItem(url.toLocalFile());
             svg->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
@@ -1683,8 +1683,8 @@ void TitleWidget::itemRight()
 
 void TitleWidget::loadTitle(QUrl url)
 {
-    if (url.isEmpty()) url = QFileDialog::getOpenFileUrl(this, i18n("Load Title"), QUrl(m_projectTitlePath), "application/x-kdenlivetitle");
-    if (!url.isEmpty()) {
+    if (!url.isValid()) url = QFileDialog::getOpenFileUrl(this, i18n("Load Title"), QUrl(m_projectTitlePath), i18n("Kdenlive title (*.kdenlivetitle)"));
+    if (url.isValid()) {
         QList<QGraphicsItem *> items = m_scene->items();
         for (int i = 0; i < items.size(); ++i) {
             if (items.at(i)->zValue() > -1000) delete items.at(i);
@@ -1735,7 +1735,7 @@ void TitleWidget::saveTitle(QUrl url)
     {
         embed_image=false;
     }
-    if (url.isEmpty()) {
+    if (!url.isValid()) {
         QPointer<QFileDialog> fs = new QFileDialog(this, i18n("Save Title"), m_projectTitlePath, "application/x-kdenlivetitle");
         fs->setFileMode(QFileDialog::AnyFile);
         //TODO: KF5 porting?
@@ -1746,7 +1746,7 @@ void TitleWidget::saveTitle(QUrl url)
         }
         delete fs;
     }
-    if (!url.isEmpty()) {
+    if (url.isValid()) {
         if (m_titledocument.saveDocument(url, m_startViewport, m_endViewport, m_tc.getFrameCount(title_duration->text()), embed_image) == false)
             KMessageBox::error(this, i18n("Cannot write to file %1", url.path()));
     }

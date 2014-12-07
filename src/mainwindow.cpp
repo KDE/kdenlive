@@ -559,7 +559,7 @@ void MainWindow::generateClip()
     KdenliveDoc *project = pCore->projectManager()->current();
     QUrl clipUrl = iGenerator->generatedClip(KdenliveSettings::rendererpath(), action->data().toString(), project->projectFolder(),
                                              QStringList(), QStringList(), project->fps(), project->width(), project->height());
-    if (!clipUrl.isEmpty()) {
+    if (clipUrl.isValid()) {
         m_projectList->slotAddClip(QList <QUrl> () << clipUrl);
     }
 }
@@ -1085,7 +1085,7 @@ void MainWindow::setupActions()
     QAction *pasteEffects = addAction("paste_effects", i18n("Paste Effects"), this, SLOT(slotPasteEffects()), QIcon::fromTheme("edit-paste"));
     pasteEffects->setData("paste_effects");
 
-    m_saveAction = KStandardAction::save(pCore->projectManager(),    SLOT(saveFile()),               actionCollection());
+    m_saveAction = KStandardAction::save(pCore->projectManager(), SLOT(saveFile()), actionCollection());
     KStandardAction::quit(this,                   SLOT(close()),                  actionCollection());
     // TODO: make the following connection to slotEditKeys work
     //KStandardAction::keyBindings(this,            SLOT(slotEditKeys()),           actionCollection());
@@ -3076,8 +3076,8 @@ void MainWindow::slotSaveTimelineClip()
             m_messageLabel->setMessage(i18n("Select a clip to save"), InformationMessage);
             return;
         }
-        QUrl url = QFileDialog::getSaveFileUrl(this, i18n("Save clip"), pCore->projectManager()->current()->projectFolder(), "video/mlt-playlist");
-        if (!url.isEmpty()) {
+        QUrl url = QFileDialog::getSaveFileUrl(this, i18n("Save clip"), pCore->projectManager()->current()->projectFolder(), i18n("MLT playlist (*.mlt)"));
+        if (url.isValid()) {
             m_projectMonitor->render->saveClip(pCore->projectManager()->current()->tracksCount() - clip->track(), clip->startPos(), url);
         }
     }

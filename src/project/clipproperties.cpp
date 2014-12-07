@@ -507,7 +507,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     // Check for Nepomuk metadata
 #ifdef USE_NEPOMUK
   #if KDE_IS_VERSION(4,6,0)
-    if (!url.isEmpty()) {
+    if (url.isValid()) {
         Nepomuk::ResourceManager::instance()->init();
         Nepomuk::Resource res( url.path() );
         // Check if file has a license
@@ -528,7 +528,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
 #else
   #ifdef USE_NEPOMUKCORE
 
-    if (!url.isEmpty()) {
+    if (url.isValid()) {
         Nepomuk2::ResourceManager::instance()->init();
         Nepomuk2::Resource res( url.path() );
         // Check if file has a license
@@ -927,7 +927,7 @@ void ClipProperties::slotDeleteAnalysis()
 
 void ClipProperties::slotSaveAnalysis()
 {
-    const QString url = QFileDialog::getSaveFileName(this, i18n("Save Analysis Data"), "kfiledialog:///projectfolder", "text/plain");
+    const QString url = QFileDialog::getSaveFileName(this, i18n("Save Analysis Data"), "kfiledialog:///projectfolder", i18n("Text File (*.txt)"));
     if (url.isEmpty())
         return;
     KSharedConfigPtr config = KSharedConfig::openConfig(url, KConfig::SimpleConfig);
@@ -938,7 +938,7 @@ void ClipProperties::slotSaveAnalysis()
 
 void ClipProperties::slotLoadAnalysis()
 {
-    const QString url = QFileDialog::getOpenFileName(this, i18n("Open Analysis Data"), "kfiledialog:///projectfolder", "text/plain");
+    const QString url = QFileDialog::getOpenFileName(this, i18n("Open Analysis Data"), "kfiledialog:///projectfolder", i18n("Text File (*.txt)"));
     if (url.isEmpty())
         return;
     KSharedConfigPtr config = KSharedConfig::openConfig(url, KConfig::SimpleConfig);

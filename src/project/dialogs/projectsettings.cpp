@@ -210,7 +210,7 @@ void ProjectSettings::slotDeleteUnused()
         DocClipBase *clip = list.at(i);
         if (clip->numReferences() == 0 && clip->clipType() != SlideShow) {
             QUrl url = clip->fileURL();
-            if (!url.isEmpty() && !toDelete.contains(url.path())) toDelete << url.path();
+            if (url.isValid() && !toDelete.contains(url.path())) toDelete << url.path();
         }
     }
 
@@ -219,7 +219,7 @@ void ProjectSettings::slotDeleteUnused()
         DocClipBase *clip = list.at(i);
         if (clip->numReferences() > 0) {
             QUrl url = clip->fileURL();
-            if (!url.isEmpty() && toDelete.contains(url.path())) toDelete.removeAll(url.path());
+            if (url.isValid() && toDelete.contains(url.path())) toDelete.removeAll(url.path());
         }
     }
 

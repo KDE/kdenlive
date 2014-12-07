@@ -243,7 +243,6 @@ void ResourceWidget::slotPlaySound()
 
 void ResourceWidget::slotSaveItem(const QString &originalUrl)
 {
-    //if (m_currentUrl.isEmpty()) return;
     QListWidgetItem *item = search_results->currentItem();
     if (!item) return;
     QString path = m_folder;
