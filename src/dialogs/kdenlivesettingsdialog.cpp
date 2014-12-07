@@ -30,7 +30,6 @@
 
 #include <QDebug>
 #include <kde_file.h>
-#include <KIO/NetAccess>
 #include <kdeversion.h>
 #include <KMessageBox>
 #include <KLineEdit>

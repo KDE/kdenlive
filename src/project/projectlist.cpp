@@ -48,7 +48,6 @@
 #include <QDebug>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KIO/NetAccess>
 #include <KFileItem>
 #include <KApplication>
 #include <KDialog>
@@ -666,7 +665,7 @@ void ProjectList::trashUnusedClips()
 
     emit deleteProjectClips(ids, QMap <QString, QString>());
     for (int i = 0; i < urls.count(); ++i)
-        KIO::NetAccess::del(QUrl(urls.at(i)), this);
+        QFile::remove(urls.at(i));
 }
 
 void ProjectList::slotReloadClip(const QString &id)
@@ -1378,7 +1377,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
                 if (QFile::exists(cachedPixmap)) {
                     QPixmap pix(cachedPixmap);
                     if (pix.isNull())
-                        KIO::NetAccess::del(QUrl(cachedPixmap), this);
+                        QFile::remove(cachedPixmap);
                     sub->setData(0, Qt::DecorationRole, pix);
                 }
             }
@@ -1480,7 +1479,7 @@ void ProjectList::getCachedThumbnail(ProjectItem *item)
     if (QFile::exists(cachedPixmap)) {
         QPixmap pix(cachedPixmap);
         if (pix.isNull()) {
-            KIO::NetAccess::del(QUrl(cachedPixmap), this);
+            QFile::remove(cachedPixmap);
             requestClipThumbnail(item->clipId());
         }
         else {
@@ -1534,7 +1533,7 @@ void ProjectList::getCachedThumbnail(SubProjectItem *item)
     if (QFile::exists(cachedPixmap)) {
         QPixmap pix(cachedPixmap);
         if (pix.isNull()) {
-            KIO::NetAccess::del(QUrl(cachedPixmap), this);
+            QFile::remove(cachedPixmap);
             requestClipThumbnail(parentItem->clipId() + '#' + QString::number(pos));
         }
         else item->setData(0, Qt::DecorationRole, pix);

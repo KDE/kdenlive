@@ -28,7 +28,6 @@
 #include <KGlobal>
 
 #include <KMessageBox>
-#include <kio/netaccess.h>
 #include <kdeversion.h>
 
 #include <QDomDocument>
@@ -1697,16 +1696,10 @@ void TitleWidget::loadTitle(QUrl url)
         }
         m_scene->clearTextSelection();
         QDomDocument doc;
-        QString tmpfile;
-
-        if (KIO::NetAccess::download(url, tmpfile, 0)) {
-            QFile file(tmpfile);
-            if (file.open(QIODevice::ReadOnly)) {
-                doc.setContent(&file, false);
-                file.close();
-            } else return;
-            KIO::NetAccess::removeTempFile(tmpfile);
-        }
+        
+        QFile file(url.path());
+        doc.setContent(&file, false);
+        file.close();
         setXml(doc);
 
         /*int out;

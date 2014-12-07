@@ -34,10 +34,11 @@
 #include "dialogs/profilesdialog.h"
 
 #include <QDebug>
-#include <KMessageBox>
-#include <KIO/NetAccess>
-
 #include <QScrollBar>
+
+#include <KMessageBox>
+#include <KIO/FileCopyJob>
+
 
 TrackView::TrackView(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, QWidget *parent) :
     QWidget(parent),
@@ -450,7 +451,9 @@ void TrackView::parseDocument(const QDomDocument &doc)
             message = i18n("Your project file was upgraded to the latest Kdenlive document version.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile);
         else
             message = i18n("Your project file was modified by Kdenlive.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile);
-        if (KIO::NetAccess::file_copy(m_doc->url(), QUrl(backupFile), this))
+        
+        KIO::FileCopyJob *copyjob = KIO::file_copy(m_doc->url().path(), QUrl(backupFile));
+        if (copyjob->exec())
             KMessageBox::information(this, message);
         else
             KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version, but it was not possible to create the backup copy %1.", backupFile));

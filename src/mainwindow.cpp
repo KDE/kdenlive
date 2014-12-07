@@ -70,7 +70,6 @@
 #include <KShortcutsDialog>
 #include <KMessageBox>
 #include <QDebug>
-#include <KIO/NetAccess>
 #include <KConfigDialog>
 #include <KXMLGUIFactory>
 #include <KColorSchemeManager>

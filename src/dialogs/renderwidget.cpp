@@ -28,7 +28,6 @@
 #include <QDebug>
 #include <KMessageBox>
 #include <KRun>
-#include <KIO/NetAccess>
 #include <KColorScheme>
 #include <KNotification>
 #include <KStandardDirs>
@@ -2112,8 +2111,10 @@ void RenderWidget::slotDeleteScript()
     QTreeWidgetItem *item = m_view.scripts_list->currentItem();
     if (item) {
         QString path = item->data(1, Qt::UserRole + 1).toString();
-        KIO::NetAccess::del(path + ".mlt", this);
-        KIO::NetAccess::del(path, this);
+        bool success = true;
+        success |= QFile::remove(path + ".mlt");
+        success |= QFile::remove(path);
+        if (!success) qDebug()<<"// Error removing script or playlist: "<<path<<", "<<path<<".mlt";
         parseScriptFiles();
     }
 }

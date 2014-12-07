@@ -22,7 +22,6 @@
 #include "kdenlivesettings.h"
 
 #include <QDebug>
-#include <KIO/NetAccess>
 
 #include <QVBoxLayout>
 #include <QLineEdit>

@@ -36,7 +36,7 @@
 #include <QFontDatabase>
 #include <KFileDialog>
 #include <kio/job.h>
-#include <KIO/NetAccess>
+#include <KIO/SimpleJob>
 #include <Solid/Networking>
 #include <KRun>
 #include <KConfigGroup>
@@ -125,7 +125,7 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
 ResourceWidget::~ResourceWidget()
 {
     delete m_currentService;
-    KIO::NetAccess::removeTempFile(m_tmpThumbFile);
+    QFile::remove(m_tmpThumbFile);
     saveConfig();
 }
 
@@ -159,7 +159,10 @@ void ResourceWidget::slotStartSearch(int page)
 
 void ResourceWidget::slotUpdateCurrentSound()
 {
-    KIO::NetAccess::removeTempFile(m_tmpThumbFile);
+    if (QFile::exists(m_tmpThumbFile)) {
+        KIO::SimpleJob *job = KIO::file_delete(m_tmpThumbFile);
+        job->exec();
+    }
     if (!m_autoPlay->isChecked())
         m_currentService->stopItemPreview(NULL);
     item_license->clear();
@@ -205,7 +208,8 @@ void ResourceWidget::slotLoadThumb(const QString &url)
     QUrl img(url);
     if (img.isEmpty()) return;
     if (QFile::exists(img.path())) {
-        if (KIO::NetAccess::download(img, m_tmpThumbFile, this)) {
+        KIO::FileCopyJob *copyjob = KIO::file_copy(img, QUrl(m_tmpThumbFile));
+        if (copyjob->exec()) {
             slotSetImage(m_tmpThumbFile);
             /*QPixmap pix(tmpFile);
 
@@ -265,13 +269,11 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
         ext = m_currentService->getExtension(search_results->currentItem());
     }
     QString saveUrl = KFileDialog::getSaveFileName(QUrl(path), ext);
-    KIO::UDSEntry entry;
     QUrl srcUrl(m_currentInfo.itemDownload);
-    if (saveUrl.isEmpty() || !KIO::NetAccess::stat(srcUrl, entry, this))
+    if (saveUrl.isEmpty() || !QFile::exists(srcUrl.path()))
         return;
     KIO::FileCopyJob * getJob = KIO::file_copy(srcUrl, QUrl(saveUrl), -1, KIO::Overwrite);
-    
-    KFileItem info(entry, srcUrl);
+    KFileItem info(srcUrl);
     getJob->setSourceSize(info.size());
     getJob->setProperty("license", item_license->text());
     getJob->setProperty("licenseurl", item_license->url());

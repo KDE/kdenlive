@@ -24,7 +24,6 @@
 #include <QDebug>
 #include <QFontDatabase>
 #include <KFileItem>
-#include <KIO/NetAccess>
 
 #include <QTreeWidgetItem>
 #include <QFile>
@@ -109,8 +108,9 @@ void ManageCapturesDialog::slotDeleteCurrent()
     m_view.treeWidget->takeTopLevelItem(i);
     //qDebug() << "DELETING FILE: " << item->text(0);
     //KIO::NetAccess::del(QUrl(item->text(0)), this);
-    QFile f(item->data(0, Qt::UserRole).toString());
-    f.remove();
+    if (!QFile::remove(item->data(0, Qt::UserRole).toString())) {
+        qDebug()<<"// ERRor removing file "<<item->data(0, Qt::UserRole).toString();
+    }
     delete item;
     item = NULL;
 }

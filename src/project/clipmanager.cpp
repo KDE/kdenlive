@@ -35,9 +35,8 @@
 #include <QDebug>
 #include <KMessageBox>
 #include <KApplication>
-#include <kio/netaccess.h>
-#include <kio/jobuidelegate.h>
-
+#include <KIO/JobUiDelegate>
+#include <KIO/MkdirJob>
 #include <solid/device.h>
 #include <solid/storageaccess.h>
 #include <solid/storagedrive.h>
@@ -530,16 +529,21 @@ void ClipManager::slotAddClipList(const QList<QUrl> &urls, const QMap <QString, 
     foreach(const QUrl &file, urls) {
         if (QFile::exists(file.path())) {
             if (!data.contains("bypassDuplicate") && !getClipByResource(file.path()).empty()) {
-                if (KMessageBox::warningContinueCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to do?", file.path()), i18n("Clip already exists")) == KMessageBox::Cancel)
+                if (KMessageBox::warningContinueCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to do?", file.path()), i18n("Clip already exists")) == KMessageBox::Cancel)
                     continue;
             }
             if (isOnRemovableDevice(file)) {
-                int answer = KMessageBox::warningYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is unplugged", file.path()), i18n("File on a Removable Device"), KGuiItem(i18n("Copy file to project folder")), KGuiItem(i18n("Continue")), KStandardGuiItem::cancel(), QString("copyFilesToProjectFolder"));
+                int answer = KMessageBox::warningYesNoCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is unplugged", file.path()), i18n("File on a Removable Device"), KGuiItem(i18n("Copy file to project folder")), KGuiItem(i18n("Continue")), KStandardGuiItem::cancel(), QString("copyFilesToProjectFolder"));
                 if (answer == KMessageBox::Cancel) continue;
                 else if (answer == KMessageBox::Yes) {
                     // Copy files to project folder
                     QString sourcesFolder = m_doc->projectFolder().path() + QDir::separator() + "clips/";
-                    KIO::NetAccess::mkdir(sourcesFolder, kapp->activeWindow());
+                    KIO::MkdirJob *mkdirJob = KIO::mkdir(sourcesFolder);
+                    KJobWidgets::setWindow(mkdirJob, QApplication::activeWindow());
+                    if (!mkdirJob->exec()) {
+                        KMessageBox::sorry(QApplication::activeWindow(), i18n("Cannot create directory %1", sourcesFolder));
+                        continue;
+                    }
                     //KIO::filesize_t m_requestedSize;
                     KIO::CopyJob *copyjob = KIO::copy (file, QUrl(sourcesFolder));
                     //TODO: for some reason, passing metadata does not work...

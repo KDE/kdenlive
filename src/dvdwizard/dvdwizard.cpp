@@ -29,7 +29,6 @@
 
 #include <KLocalizedString>
 #include <kmimetype.h>
-#include <KIO/NetAccess>
 #include <KMessageBox>
 
 #include <QFile>
@@ -475,8 +474,16 @@ void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap <QStrin
     // create dvdauthor xml
     QListWidgetItem *authitem =  m_status.job_progress->item(3);
     m_status.job_progress->setCurrentRow(3);
+    bool success = true;
     authitem->setIcon(QIcon::fromTheme("system-run"));
-    KIO::NetAccess::mkdir(QUrl(m_status.tmp_folder->url().path() + QDir::separator() + "DVD"), this);
+    QDir dir(m_status.tmp_folder->url().path());
+    if (!dir.exists()) success = false;
+    else success = dir.mkdir("DVD");
+    if (!success) {
+        // We failed creating tmp DVD directory
+        KMessageBox::sorry(this, i18n("Cannot create temporary directory %1", m_status.tmp_folder->url().path() + "/DVD"));
+        return;
+    }
 
     QDomDocument dvddoc;
     QDomElement auth = dvddoc.createElement("dvdauthor");
@@ -814,7 +821,7 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
     QFile iso(m_status.iso_image->url().path());
     if (!iso.exists() || iso.size() == 0) {
         if (iso.exists()) {
-            KIO::NetAccess::del(m_status.iso_image->url(), this);
+            iso.remove();
         }
         errorMessage(i18n("DVD ISO is broken"));
         m_status.error_log->append(m_creationLog + "<br /><a name=\"result\" /><strong>" + i18n("DVD ISO is broken") + "</strong>");
@@ -845,7 +852,9 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
 
 void DvdWizard::cleanup()
 {
-    KIO::NetAccess::del(QUrl(m_status.tmp_folder->url().path() + QDir::separator() + "DVD"), this);
+    QDir dir(m_status.tmp_folder->url().path() + QDir::separator() + "DVD");
+    // Try to make sure we delete the correct directory
+    if (dir.exists() && dir.dirName() == "DVD") dir.removeRecursively();
 }
 
 
@@ -890,7 +899,7 @@ void DvdWizard::slotGenerate()
         warnMessage.append(i18n("Image file %1 already exists. Overwrite?", m_status.iso_image->url().path()));
 
     if (warnMessage.isEmpty() || KMessageBox::questionYesNo(this, warnMessage) == KMessageBox::Yes) {
-        KIO::NetAccess::del(QUrl(m_status.tmp_folder->url().path() + QDir::separator() + "DVD"), this);
+        cleanup();
         QTimer::singleShot(300, this, SLOT(generateDvd()));
         m_status.button_preview->setEnabled(false);
         m_status.button_burn->setEnabled(false);

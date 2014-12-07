@@ -29,7 +29,6 @@
 #include "project/clipmanager.h"
 #include "project/dialogs/slideshowclip.h"
 
-#include <KIO/NetAccess>
 #include <KApplication>
 #include <QDebug>
 

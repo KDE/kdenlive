@@ -26,7 +26,6 @@
 
 #include <QDebug>
 #include <kio/job.h>
-#include <KIO/NetAccess>
 
 
 OpenClipArt::OpenClipArt(QListWidget *listWidget, QObject *parent) :

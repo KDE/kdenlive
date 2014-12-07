@@ -27,7 +27,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KActionCollection>
 #include <QAction>
 #include <KMessageBox>
-#include <KIO/NetAccess>
 #include <KProgressDialog>
 #include <KMimeType>
 
@@ -430,7 +429,7 @@ void ProjectManager::recoverFiles(const QList<KAutoSaveFile *> &staleFiles, cons
         if (!stale->fileName().endsWith(".lock")) {
             doOpenFile(originUrl, stale);
         } else {
-            KIO::NetAccess::del(QUrl(stale->fileName()), pCore->window());
+            QFile::remove(stale->fileName());
         }
     }
 }

@@ -39,7 +39,6 @@
 #include <KMessageBox>
 #include <KProgressDialog>
 #include <KLocalizedString>
-#include <KIO/NetAccess>
 #include <KIO/CopyJob>
 #include <KIO/JobUiDelegate>
 #include <KApplication>
@@ -142,7 +141,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
         QFile file(url.path());
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             // The file cannot be opened
-            if (KMessageBox::warningContinueCancel(parent, i18n("Cannot open the project file, error is:\n%1\nDo you want to open a backup file?", KIO::NetAccess::lastErrorString()), i18n("Error opening file"), KGuiItem(i18n("Open Backup"))) == KMessageBox::Continue) {
+            if (KMessageBox::warningContinueCancel(parent, i18n("Cannot open the project file,\nDo you want to open a backup file?"), i18n("Error opening file"), KGuiItem(i18n("Open Backup"))) == KMessageBox::Continue) {
                 *openBackup = true;
             }
             //KMessageBox::error(parent, KIO::NetAccess::lastErrorString());
@@ -863,7 +862,7 @@ void KdenliveDoc::moveProjectData(const QUrl &url)
             QUrl oldUrl = clip->fileURL();
             QUrl newUrl = QUrl(url.path() + QDir::separator() + "titles/" + oldUrl.fileName());
             KIO::Job *job = KIO::copy(oldUrl, newUrl);
-            if (KIO::NetAccess::synchronousRun(job, 0)) clip->setProperty("resource", newUrl.path());
+            if (job->exec()) clip->setProperty("resource", newUrl.path());
         }
         QString hash = clip->getClipHash();
         QUrl oldVideoThumbUrl = QUrl(m_projectFolder.path() + QDir::separator() + "thumbs/" + hash + ".png");
@@ -882,7 +881,7 @@ void KdenliveDoc::moveProjectData(const QUrl &url)
     if (!cacheUrls.isEmpty()) {
         KIO::Job *job = KIO::copy(cacheUrls, QUrl(url.path() + QDir::separator() + "thumbs/"));
         KJobWidgets::setWindow(job, kapp->activeWindow());
-        KIO::NetAccess::synchronousRun(job, 0);
+        job->exec();
     }
 }
 
@@ -1732,23 +1731,20 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
     // Ensure backup folder exists
     if (path.isEmpty()) return;
     QFile file(path);
-    QUrl backupFile = m_projectFolder;
-    backupFile = backupFile.adjusted(QUrl::StripTrailingSlash);
-    backupFile.setPath(backupFile.path() + '/' + ".backup/");
-    KIO::NetAccess::mkdir(backupFile, kapp->activeWindow());
+    QDir backupFolder(m_projectFolder.path());
+    backupFolder.mkdir(".backup");
+
     QString fileName = QUrl(path).fileName().section('.', 0, -2);
     QFileInfo info(file);
     fileName.append('-' + m_documentProperties.value("documentid"));
     fileName.append(info.lastModified().toString("-yyyy-MM-dd-hh-mm"));
     fileName.append(".kdenlive");
-    backupFile = backupFile.adjusted(QUrl::StripTrailingSlash);
-    backupFile.setPath(backupFile.path() + '/' + fileName);
-
+    QString backupFile = backupFolder.absoluteFilePath(fileName);
     if (file.exists()) {
         // delete previous backup if it was done less than 60 seconds ago
-        QFile::remove(backupFile.path());
-        if (!QFile::copy(path, backupFile.path())) {
-            KMessageBox::information(kapp->activeWindow(), i18n("Cannot create backup copy:\n%1", backupFile.path()));
+        QFile::remove(backupFile);
+        if (!QFile::copy(path, backupFile)) {
+            KMessageBox::information(kapp->activeWindow(), i18n("Cannot create backup copy:\n%1", backupFile));
         }
     }
 }

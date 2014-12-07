@@ -24,7 +24,6 @@
 
 #include <QDebug>
 #include <KMessageBox>
-#include <KIO/NetAccess>
 #include <KGlobal>
 
 #include <QDir>
@@ -233,10 +232,12 @@ void ProfilesDialog::saveProfile(QString path)
 void ProfilesDialog::slotDeleteProfile()
 {
     const QString path = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
+    bool success = false;
     if (path.contains('/')) {
-        KIO::NetAccess::del(QUrl(path), this);
+        success = QFile::remove(path);
         fillList();
-    } else qDebug() << "//// Cannot delete profile " << path << ", does not seem to be custom one";
+    }
+    if (!success) qDebug()<< "//// Cannot delete profile " << path << ", does not seem to be custom one";
 }
 
 // static

@@ -24,7 +24,6 @@
 #include <QDebug>
 #include <QFontDatabase>
 #include <KMessageBox>
-#include <KFileDialog>
 
 
 ClipTranscode::ClipTranscode(const QList <QUrl> &urls, const QString &params, const QStringList &postParams, const QString &description, bool automaticMode, QWidget * parent) :

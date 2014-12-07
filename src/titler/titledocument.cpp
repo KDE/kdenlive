@@ -22,12 +22,12 @@
 
 #include <QDebug>
 #include <QTemporaryFile>
-#include <kio/netaccess.h>
 #include <KApplication>
 
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KStandardDirs>
+#include <KIO/FileCopyJob>
 
 #include <QGraphicsScene>
 #include <QDomElement>
@@ -313,7 +313,8 @@ bool TitleDocument::saveDocument(const QUrl &url, QGraphicsRectItem* startv, QGr
         return false;
     }
     xmlf.close();
-    return KIO::NetAccess::upload(tmpfile.fileName(), url, 0);
+    KIO::FileCopyJob *copyjob = KIO::file_copy(tmpfile.fileName(), url);
+    return copyjob->exec();
 }
 
 int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int *duration, const QString& projectpath)

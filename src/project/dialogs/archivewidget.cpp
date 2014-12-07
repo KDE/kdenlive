@@ -26,9 +26,10 @@
 #include <KDiskFreeSpaceInfo>
 #include <KMessageBox>
 #include <KGuiItem>
-#include <KIO/NetAccess>
 #include <KTar>
 #include <QDebug>
+#include <KIO/MkdirJob>
+#include <KJobWidgets>
 #include <KApplication>
 #include <kio/directorysizejob.h>
 #if KDE_IS_VERSION(4,7,0)
@@ -545,7 +546,13 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             if (parentItem->data(0, Qt::UserRole).toString() == "slideshows") {
                 QUrl slideFolder(archive_url->url().path() + QDir::separator() + "slideshows");
                 if (isArchive) m_foldersList.append("slideshows");
-                else KIO::NetAccess::mkdir(slideFolder, this);
+                else {
+                    KIO::MkdirJob *job = KIO::mkdir(slideFolder);
+                    KJobWidgets::setWindow(job, QApplication::activeWindow());
+                    if (!job->exec()) {
+                        KMessageBox::sorry(this, i18n("Cannot create directory %1", slideFolder.path()));
+                    }
+                }
                 isSlideshow = true;
             }
             else isSlideshow = false;
@@ -622,7 +629,11 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         slotStartArchiving(false);
     }
     else {
-        KIO::NetAccess::mkdir(destUrl, this);
+        KIO::MkdirJob *job = KIO::mkdir(destUrl);
+        KJobWidgets::setWindow(job, QApplication::activeWindow());
+        if (!job->exec()) {
+            KMessageBox::sorry(this, i18n("Cannot create directory %1", destUrl.path()));
+        }
         m_copyJob = KIO::copy (files, destUrl, KIO::HideProgressInfo);
         connect(m_copyJob, SIGNAL(result(KJob*)), this, SLOT(slotArchivingFinished(KJob*)));
         connect(m_copyJob, SIGNAL(processedSize(KJob*,qulonglong)), this, SLOT(slotArchivingProgress(KJob*,qulonglong)));
@@ -871,7 +882,11 @@ void ArchiveWidget::slotStartExtracting()
     }
     QFileInfo f(m_extractUrl.path());
     m_requestedSize = f.size();
-    KIO::NetAccess::mkdir(archive_url->url().adjusted(QUrl::StripTrailingSlash).path(), this);
+    KIO::MkdirJob *job = KIO::mkdir(archive_url->url());
+    KJobWidgets::setWindow(job, QApplication::activeWindow());
+    if (!job->exec()) {
+        KMessageBox::sorry(this, i18n("Cannot create directory %1", archive_url->url().path()));
+    }
     slotDisplayMessage("system-run", i18n("Extracting..."));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Abort"));
     m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::doExtracting);

@@ -48,8 +48,6 @@
 #include <KLocalizedString>
 #include <KCursor>
 #include <KMessageBox>
-#include <KIO/NetAccess>
-#include <KFileDialog>
 
 #include <QUrl>
 #include <QIcon>
@@ -5453,11 +5451,13 @@ void CustomTrackView::slotSaveClipMarkers(const QString &id)
             cbox->setItemData(i + 1, CommentedTime::markerColor(i), Qt::DecorationRole);
         }
         cbox->setCurrentIndex(0);
-        QPointer<KFileDialog> fd = new KFileDialog(QUrl("kfiledialog:///projectfolder"), "text/plain", this, cbox);
-        fd->setMode(KFile::File);
-        fd->setOperationMode(KFileDialog::Saving);
+        //TODO KF5 how to ass custom cbox to Qfiledialog
+        QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Save Clip Markers"), "kfiledialog:///projectfolder", "text/plain");
+        fd->setFileMode(QFileDialog::AnyFile);
         if (fd->exec() != QDialog::Accepted) return;
-        QString url = fd->selectedFile();
+        QStringList selection = fd->selectedFiles();
+        QString url;
+        if (!selection.isEmpty()) url = selection.first();
         delete fd;
         //QString url = KFileDialog::getSaveFileName(QUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Save markers"));
         if (url.isEmpty()) return;
@@ -5496,11 +5496,13 @@ void CustomTrackView::slotLoadClipMarkers(const QString &id)
         cbox->setItemData(i, CommentedTime::markerColor(i), Qt::DecorationRole);
     }
     cbox->setCurrentIndex(KdenliveSettings::default_marker_type());
-    QPointer<KFileDialog> fd = new KFileDialog(QUrl("kfiledialog:///projectfolder"), "text/plain", this, cbox);
-    fd->setMode(KFile::File);
-    fd->setOperationMode(KFileDialog::Opening);
+    //TODO KF5 how to ass custom cbox to Qfiledialog
+    QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Load Clip Markers"), "kfiledialog:///projectfolder", "text/plain");
+    fd->setFileMode(QFileDialog::ExistingFile);
     if (fd->exec() != QDialog::Accepted) return;
-    QString url = fd->selectedFile();
+    QStringList selection = fd->selectedFiles();
+    QString url;
+    if (!selection.isEmpty()) url = selection.first();
     delete fd;
 
     //QUrl url = KFileDialog::getOpenUrl(QUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Load marker file"));
@@ -6285,7 +6287,7 @@ void CustomTrackView::slotUpdateAllThumbs()
                     QString thumb = thumbBase + item->baseClip()->getClipHash() + "_0.png";
                     if (QFile::exists(thumb)) {
                         QPixmap pix(thumb);
-                        if (pix.isNull()) KIO::NetAccess::del(QUrl(thumb), this);
+                        if (pix.isNull()) QFile::remove(thumb);
                         item->slotSetStartThumb(pix);
                     }
                 } else {
@@ -6295,12 +6297,12 @@ void CustomTrackView::slotUpdateAllThumbs()
                     endThumb.append(QString::number((int) (item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + ".png");
                     if (QFile::exists(startThumb)) {
                         QPixmap pix(startThumb);
-                        if (pix.isNull()) KIO::NetAccess::del(QUrl(startThumb), this);
+                        if (pix.isNull()) QFile::remove(startThumb);
                         item->slotSetStartThumb(pix);
                     }
                     if (QFile::exists(endThumb)) {
                         QPixmap pix(endThumb);
-                        if (pix.isNull()) KIO::NetAccess::del(QUrl(endThumb), this);
+                        if (pix.isNull()) QFile::remove(endThumb);
                         item->slotSetEndThumb(pix);
                     }
                 }

@@ -33,7 +33,6 @@
 #include <KLocalizedString>
 
 #include <KComboBox>
-#include <KIO/NetAccess>
 #include <KFileItem>
 #include <KMessageBox>
 #include <KApplication>

@@ -28,7 +28,6 @@
 
 #include <mlt++/Mlt.h>
 
-#include <kio/netaccess.h>
 #include <QDebug>
 #include <klocale.h>
 #include <kfileitem.h>

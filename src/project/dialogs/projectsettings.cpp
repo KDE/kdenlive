@@ -29,8 +29,8 @@
 #include <KMessageBox>
 #include <QDebug>
 #include <kio/directorysizejob.h>
-#include <KIO/NetAccess>
 #include <KStandardDirs>
+#include <KIO/FileCopyJob>
 
 #include <QTemporaryFile>
 #include <QDir>
@@ -238,8 +238,14 @@ void ProjectSettings::slotDeleteUnused()
 void ProjectSettings::slotClearCache()
 {
     buttonBox->setEnabled(false);
-    KIO::NetAccess::del(QUrl(project_folder->url().path() + QDir::separator() + "thumbs/"), this);
-    KStandardDirs::makeDir(project_folder->url().path() + QDir::separator() + "thumbs/");
+    // Delete and recteate the thumbs directory
+    QDir dir(project_folder->url().path() + QDir::separator() + "thumbs/");
+    // Try to make sure we delete the correct directory
+    if (dir.exists() && dir.dirName() == "thumbs") {
+        dir.removeRecursively();
+        dir.setPath(project_folder->url().path());
+        dir.mkdir("thumbs");
+    }
     buttonBox->setEnabled(true);
     slotUpdateFiles(true);
 }
@@ -250,8 +256,14 @@ void ProjectSettings::slotDeleteProxies()
     buttonBox->setEnabled(false);
     enable_proxy->setChecked(false);
     emit disableProxies();
-    KIO::NetAccess::del(QUrl(project_folder->url().path() + QDir::separator() + "proxy/"), this);
-    KStandardDirs::makeDir(project_folder->url().path() + QDir::separator() + "proxy/");
+    // Delete and recteate the proxy directory
+    QDir dir(project_folder->url().path() + QDir::separator() + "proxy/");
+    // Try to make sure we delete the correct directory
+    if (dir.exists() && dir.dirName() == "proxy") {
+        dir.removeRecursively();
+        dir.setPath(project_folder->url().path());
+        dir.mkdir("proxy");
+    }
     buttonBox->setEnabled(true);
     slotUpdateFiles(true);
 }
@@ -598,7 +610,8 @@ void ProjectSettings::slotExportToText()
         return;
     }
     xmlf.close();
-    KIO::NetAccess::upload(tmpfile.fileName(), savePath, 0);
+    KIO::FileCopyJob *copyjob = KIO::file_copy(tmpfile.fileName(), QUrl(savePath));
+    copyjob->exec();
 }
 
 void ProjectSettings::slotUpdateProxyParams()
