@@ -53,8 +53,8 @@
 
 #include <KColorScheme>
 #include <KActionCollection>
-#include <KVBox>
-#include <KHBox>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <KPassivePopup>
 #include <KStandardDirs>
 
@@ -3472,14 +3472,24 @@ void ProjectList::slotUpdateJobStatus(ProjectItem *item, int type, int status, c
     passivePop->setAutoDelete(true);
     connect(passivePop, SIGNAL(clicked()), this, SLOT(slotClosePopup()));
     m_errorLog.append(details);
-    KVBox *vb = new KVBox( passivePop );
-    KHBox *vh1 = new KHBox( vb );
+    QWidget *vb = new QWidget( passivePop );
+    QVBoxLayout *vbVBoxLayout = new QVBoxLayout(vb);
+    vbVBoxLayout->setMargin(0);
+    QWidget *vh1 = new QWidget( vb );
+    QHBoxLayout *vh1HBoxLayout = new QHBoxLayout(vh1);
+    vh1HBoxLayout->setMargin(0);
+    vbVBoxLayout->addWidget(vh1);
     KIcon icon("dialog-warning");
     QLabel *iconLabel = new QLabel(vh1);
+    vh1HBoxLayout->addWidget(iconLabel);
     iconLabel->setPixmap(icon.pixmap(m_listView->iconSize()));
     (void) new QLabel( label, vh1);
-    KHBox *box = new KHBox( vb );
+    QWidget *box = new QWidget( vb );
+    QHBoxLayout *boxHBoxLayout = new QHBoxLayout(box);
+    boxHBoxLayout->setMargin(0);
+    vbVBoxLayout->addWidget(box);
     QPushButton *but = new QPushButton( "Show log", box );
+    boxHBoxLayout->addWidget(but);
     connect(but, SIGNAL(clicked(bool)), this, SLOT(slotShowJobLog()));
 
     passivePop->setView( vb );
