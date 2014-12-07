@@ -22,14 +22,12 @@
 
 #include <cmath>
 
-#include <QDebug>
-#include <QFontDatabase>
-#include <KFileDialog>
-#include <KGlobal>
-
 #include <KMessageBox>
 #include <kdeversion.h>
 
+#include <QDebug>
+#include <QFontDatabase>
+#include <QFileDialog>
 #include <QDomDocument>
 #include <QGraphicsItem>
 #include <QGraphicsSvgItem>
@@ -655,7 +653,7 @@ void TitleWidget::slotImageTool()
 {
     // TODO: find a way to get a list of all supported image types...
     QString allExtensions = "image/gif image/jpeg image/png image/x-tga image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr";
-    QUrl url = KFileDialog::getOpenUrl(QUrl(), allExtensions, this, i18n("Load Image")); //"*.svg *.png *.jpg *.jpeg *.gif *.raw"
+    QUrl url = QFileDialog::getOpenFileUrl(this, i18n("Load Image"), QUrl(), allExtensions); //"*.svg *.png *.jpg *.jpeg *.gif *.raw"
     if (!url.isEmpty()) {
         if (url.path().endsWith(QLatin1String(".svg"))) {
             QGraphicsSvgItem *svg = new QGraphicsSvgItem(url.toLocalFile());
@@ -1688,7 +1686,7 @@ void TitleWidget::itemRight()
 
 void TitleWidget::loadTitle(QUrl url)
 {
-    if (url.isEmpty()) url = KFileDialog::getOpenUrl(QUrl(m_projectTitlePath), "application/x-kdenlivetitle", this, i18n("Load Title"));
+    if (url.isEmpty()) url = QFileDialog::getOpenFileUrl(this, i18n("Load Title"), QUrl(m_projectTitlePath), "application/x-kdenlivetitle");
     if (!url.isEmpty()) {
         QList<QGraphicsItem *> items = m_scene->items();
         for (int i = 0; i < items.size(); ++i) {
@@ -1741,13 +1739,13 @@ void TitleWidget::saveTitle(QUrl url)
         embed_image=false;
     }
     if (url.isEmpty()) {
-        QPointer<KFileDialog> fs = new KFileDialog(QUrl(m_projectTitlePath), "application/x-kdenlivetitle", this);
-        fs->setOperationMode(KFileDialog::Saving);
-        fs->setMode(KFile::File);
-        fs->setConfirmOverwrite(true);
-        fs->setKeepLocation(true);
-        if (fs->exec()) {
-            url = fs->selectedUrl();
+        QPointer<QFileDialog> fs = new QFileDialog(this, i18n("Save Title"), m_projectTitlePath, "application/x-kdenlivetitle");
+        fs->setFileMode(QFileDialog::AnyFile);
+        //TODO: KF5 porting?
+        //fs->setConfirmOverwrite(true);
+        //fs->setKeepLocation(true);
+        if (fs->exec() && !fs->selectedUrls().isEmpty()) {
+            url = fs->selectedUrls().first();
         }
         delete fs;
     }

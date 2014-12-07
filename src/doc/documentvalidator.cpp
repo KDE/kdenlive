@@ -28,7 +28,6 @@
 #include <KMessageBox>
 #include <KApplication>
 #include <KLocalizedString>
-#include <KGlobal>
 
 #include <QFile>
 #include <QColor>

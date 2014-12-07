@@ -33,7 +33,6 @@
 #include <QMouseEvent>
 #include <QDesktopWidget>
 
-#include <kglobal.h>
 #include <klocale.h>
 #include <QDebug>
 

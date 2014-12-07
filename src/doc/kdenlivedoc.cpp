@@ -42,7 +42,6 @@
 #include <KIO/CopyJob>
 #include <KIO/JobUiDelegate>
 #include <KApplication>
-#include <KGlobal>
 #include <KBookmarkManager>
 #include <KBookmark>
 
@@ -1664,7 +1663,7 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
     
     KBookmark bookmark = root.first();
 
-    QString kdenliveName = KGlobal::mainComponent().componentName();
+    QString kdenliveName = QCoreApplication::applicationName();
     QUrl documentLocation = m_projectFolder;
 
     bool exists = false;

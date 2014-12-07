@@ -16,7 +16,7 @@
 
 #include <QPainter>
 #include <QPoint>
-#include <KGlobal>
+#include <KSharedConfig>
 
 const QSize Waveform::m_textWidth(35,0);
 const int Waveform::m_paddingBottom(20);
@@ -69,7 +69,7 @@ void Waveform::readConfig()
 {
     AbstractGfxScopeWidget::readConfig();
 
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
     ui->paintMode->setCurrentIndex(scopeConfig.readEntry("paintmode", 0));
     m_aRec601->setChecked(scopeConfig.readEntry("rec601", false));
@@ -78,7 +78,7 @@ void Waveform::readConfig()
 
 void Waveform::writeConfig()
 {
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
     scopeConfig.writeEntry("paintmode", ui->paintMode->currentIndex());
     scopeConfig.writeEntry("rec601", m_aRec601->isChecked());

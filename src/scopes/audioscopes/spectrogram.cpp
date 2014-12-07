@@ -11,7 +11,7 @@
 #include <QPainter>
 #include <QTime>
 
-#include <KGlobal>
+#include <KSharedConfig>
 #include <KConfigGroup>
 #include "spectrogram.h"
 
@@ -107,7 +107,7 @@ void Spectrogram::readConfig()
 {
     AbstractScopeWidget::readConfig();
 
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, AbstractScopeWidget::configName());
 
     ui->windowSize->setCurrentIndex(scopeConfig.readEntry("windowSize", 0));
@@ -128,7 +128,7 @@ void Spectrogram::readConfig()
 }
 void Spectrogram::writeConfig()
 {
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, AbstractScopeWidget::configName());
 
     scopeConfig.writeEntry("windowSize", ui->windowSize->currentIndex());

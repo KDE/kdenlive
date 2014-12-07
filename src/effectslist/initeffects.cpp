@@ -24,7 +24,6 @@
 #include "mainwindow.h"
 
 #include <QDebug>
-#include <kglobal.h>
 
 #include <QFile>
 #include <QDir>

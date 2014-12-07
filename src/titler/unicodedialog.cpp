@@ -9,12 +9,13 @@
 
 #include "unicodedialog.h"
 
-#include <KGlobal>
 #include <QWheelEvent>
 #include <KConfigGroup>
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QVBoxLayout>
+
+#include <KSharedConfig>
 
 /// CONSTANTS
 
@@ -293,7 +294,7 @@ QString UnicodeWidget::nextUnicode(const QString &text, Direction direction)
 void UnicodeWidget::readChoices()
 {
     // Get a pointer to a shared configuration instance, then get the TitleWidget group.
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup titleConfig(config, "TitleWidget");
 
     // Default is 2013 because there is also (perhaps interesting) information.
@@ -303,7 +304,7 @@ void UnicodeWidget::readChoices()
 void UnicodeWidget::writeChoices()
 {
     // Get a pointer to a shared configuration instance, then get the TitleWidget group.
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup titleConfig(config, "TitleWidget");
 
     titleConfig.writeEntry("unicode_number", m_lastUnicodeNumber);

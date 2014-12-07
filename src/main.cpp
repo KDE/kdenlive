@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
     KAboutData::setApplicationData(aboutData);
     parser.addVersionOption();
     parser.addHelpOption();
-    QApplication app(argc, argv);    
+    QApplication app(argc, argv);
     app.setOrganizationDomain("kde.org");
     KDBusService programDBusService;
     

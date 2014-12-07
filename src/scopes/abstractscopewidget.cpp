@@ -19,8 +19,8 @@
 #include <QMouseEvent>
 #include <QPainter>
 
+#include <KLocale>
 #include <KConfigGroup>
-#include <KGlobal>
 #include <KSharedConfig>
 
 // Uncomment for Scope debugging.
@@ -125,7 +125,7 @@ void AbstractScopeWidget::init()
 
 void AbstractScopeWidget::readConfig()
 {
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
     m_aAutoRefresh->setChecked(scopeConfig.readEntry("autoRefresh", true));
     m_aRealtime->setChecked(scopeConfig.readEntry("realtime", false));
@@ -134,7 +134,7 @@ void AbstractScopeWidget::readConfig()
 
 void AbstractScopeWidget::writeConfig()
 {
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
     scopeConfig.writeEntry("autoRefresh", m_aAutoRefresh->isChecked());
     scopeConfig.writeEntry("realtime", m_aRealtime->isChecked());

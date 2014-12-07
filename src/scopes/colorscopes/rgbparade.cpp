@@ -13,7 +13,8 @@
 #include <QPainter>
 #include <QRect>
 #include <QTime>
-#include <KGlobal>
+
+#include <KSharedConfig>
 #include <KSharedConfigPtr>
 #include <KConfigGroup>
 
@@ -59,7 +60,7 @@ void RGBParade::readConfig()
 {
     AbstractGfxScopeWidget::readConfig();
 
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
     ui->paintMode->setCurrentIndex(scopeConfig.readEntry("paintmode", 0));
     m_aAxis->setChecked(scopeConfig.readEntry("axis", false));
@@ -68,7 +69,7 @@ void RGBParade::readConfig()
 
 void RGBParade::writeConfig()
 {
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
     scopeConfig.writeEntry("paintmode", ui->paintMode->currentIndex());
     scopeConfig.writeEntry("axis", m_aAxis->isChecked());

@@ -14,9 +14,10 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mainwindow.h"
 #include <QMenu>
 #include <QInputDialog>
+
 #include <KConfigGroup>
 #include <KXMLGUIFactory>
-#include <KGlobal>
+#include <KSharedConfig>
 
 LayoutManagement::LayoutManagement(QObject* parent) :
     QObject(parent)
@@ -44,7 +45,7 @@ void LayoutManagement::initializeLayouts()
 {
     QMenu *saveLayout = static_cast<QMenu*>(pCore->window()->factory()->container("layout_save_as", pCore->window()));
     if (m_loadLayout == NULL || saveLayout == NULL) return;
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup layoutGroup(config, "Layouts");
     QStringList entries = layoutGroup.keyList();
     QList<QAction *> loadActions = m_loadLayout->actions();
@@ -85,7 +86,7 @@ void LayoutManagement::slotLoadLayout(QAction *action)
         return;
     }
 
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup layouts(config, "Layouts");
     QByteArray state = QByteArray::fromBase64(layouts.readEntry(layoutId).toAscii());
     pCore->window()->restoreState(state);
@@ -101,7 +102,7 @@ void LayoutManagement::slotSaveLayout(QAction *action)
     if (layoutName.isEmpty()) {
         return;
     }
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup layouts(config, "Layouts");
     layouts.deleteEntry(originallayoutName);
 

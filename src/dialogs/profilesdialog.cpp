@@ -24,7 +24,6 @@
 
 #include <QDebug>
 #include <KMessageBox>
-#include <KGlobal>
 
 #include <QDir>
 #include <QScriptEngine>

@@ -31,7 +31,6 @@
 #include <kdeversion.h>
 #include <KRun>
 #include <QFontDatabase>
-#include <KGlobal>
 
 #ifdef USE_NEPOMUK
   #if KDE_IS_VERSION(4,6,0)

@@ -25,14 +25,14 @@
 #include <mlt++/Mlt.h>
 
 #include <QDebug>
-
-#include <KGlobal>
 #include <KConfigGroup>
-#include <kio/global.h>
+#include <KSharedConfig>
+#include <KIO/Global>
 
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QDomDocument>
+#include <QMimeData>
 #include <QTreeWidgetItem>
 #include <QHeaderView>
 #include <unistd.h>

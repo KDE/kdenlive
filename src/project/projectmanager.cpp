@@ -23,7 +23,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "effectstack/effectstackview2.h"
 #include "project/dialogs/backupwidget.h"
 #include "project/notesplugin.h"
-#include <KFileDialog>
 #include <KActionCollection>
 #include <QAction>
 #include <KMessageBox>

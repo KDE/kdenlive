@@ -18,7 +18,7 @@
 #include <QPainter>
 #include <QTime>
 
-#include <KGlobal>
+#include <KSharedConfig>
 #include <KConfigGroup>
 #include <iostream>
 
@@ -112,7 +112,7 @@ void AudioSpectrum::readConfig()
 {
     AbstractScopeWidget::readConfig();
 
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, AbstractScopeWidget::configName());
 
     ui->windowSize->setCurrentIndex(scopeConfig.readEntry("windowSize", 0));
@@ -132,7 +132,7 @@ void AudioSpectrum::readConfig()
 }
 void AudioSpectrum::writeConfig()
 {
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, AbstractScopeWidget::configName());
 
     scopeConfig.writeEntry("windowSize", ui->windowSize->currentIndex());

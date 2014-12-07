@@ -12,7 +12,7 @@
 #include "histogramgenerator.h"
 #include <QTime>
 
-#include <KGlobal>
+#include <KSharedConfig>
 #include <KSharedConfigPtr>
 #include <KConfigGroup>
 
@@ -68,7 +68,7 @@ void Histogram::readConfig()
 {
     AbstractGfxScopeWidget::readConfig();
 
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
     ui->cbY->setChecked(scopeConfig.readEntry("yEnabled", true));
     ui->cbS->setChecked(scopeConfig.readEntry("sEnabled", false));
@@ -81,7 +81,7 @@ void Histogram::readConfig()
 
 void Histogram::writeConfig()
 {
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
     scopeConfig.writeEntry("yEnabled", ui->cbY->isChecked());
     scopeConfig.writeEntry("sEnabled", ui->cbS->isChecked());

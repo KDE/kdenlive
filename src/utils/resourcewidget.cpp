@@ -29,12 +29,12 @@
 #include <QListWidget>
 #include <QAction>
 #include <QMenu>
+#include <QFileDialog>
 
-#include <KGlobal>
+#include <KSharedConfig>
 #include <QDebug>
 #include <kdeversion.h>
 #include <QFontDatabase>
-#include <KFileDialog>
 #include <kio/job.h>
 #include <KIO/SimpleJob>
 #include <Solid/Networking>
@@ -131,7 +131,7 @@ ResourceWidget::~ResourceWidget()
 
 void ResourceWidget::loadConfig()
 {
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup resourceConfig(config, "ResourceWidget");
     QList<int> size;
     size << 100 << 400;
@@ -140,7 +140,7 @@ void ResourceWidget::loadConfig()
 
 void ResourceWidget::saveConfig()
 {
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup resourceConfig(config, "ResourceWidget");
     resourceConfig.writeEntry(QLatin1String("mainsplitter"), splitter->size());
     config->sync();
@@ -268,7 +268,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
         path.append(m_currentService->getDefaultDownloadName(item));
         ext = m_currentService->getExtension(search_results->currentItem());
     }
-    QString saveUrl = KFileDialog::getSaveFileName(QUrl(path), ext);
+    QString saveUrl = QFileDialog::getSaveFileName(this, QString(), path, ext);
     QUrl srcUrl(m_currentInfo.itemDownload);
     if (saveUrl.isEmpty() || !QFile::exists(srcUrl.path()))
         return;
