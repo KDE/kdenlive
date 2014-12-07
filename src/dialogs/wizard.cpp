@@ -35,7 +35,7 @@
 #include <KProcess>
 #include <KRun>
 #include <KMessageWidget>
-#include <KStandardDirs>
+
 
 #include <QLabel>
 #include <QMimeType>
@@ -714,8 +714,9 @@ void Wizard::adjustSettings()
         KdenliveSettings::setDefault_profile(selectedProfile);
     }
     QString path = m_extra.projectfolder->url().path();
-    if (KStandardDirs::makeDir(path) == false) {
-        //qDebug() << "/// ERROR CREATING PROJECT FOLDER: " << path;
+    QDir dir;
+    if (dir.mkpath(path) == false) {
+        qDebug() << "/// ERROR CREATING PROJECT FOLDER: " << path;
     } else KdenliveSettings::setDefaultprojectfolder(path);
 
 }

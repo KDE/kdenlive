@@ -29,6 +29,7 @@
 
 #include <QMenu>
 #include <QDir>
+#include <QStandardPaths>
 
 EffectsListView::EffectsListView(QWidget *parent) :
         QWidget(parent)

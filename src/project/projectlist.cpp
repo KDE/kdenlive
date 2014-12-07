@@ -56,7 +56,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <KPassivePopup>
-#include <KStandardDirs>
+
 
 #ifdef USE_NEPOMUK
   #include <nepomuk/global.h>
@@ -1983,7 +1983,7 @@ void ProjectList::slotAddTitleTemplateClip()
     mimeTypeFilters <<"application/x-kdenlivetitle";
     dia_ui.template_list->setFilter(mimeTypeFilters.join(' '));
     //warning: setting base directory doesn't work??
-    dia_ui.template_list->setPath(path);
+    dia_ui.template_list->setUrl(QUrl::fromLocalFile(path));
     dia_ui.text_box->setHidden(true);
     if (dia->exec() == QDialog::Accepted) {
         QString textTemplate = dia_ui.template_list->comboBox()->itemData(dia_ui.template_list->comboBox()->currentIndex()).toString();
@@ -3232,7 +3232,8 @@ void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
     
     // Make sure the proxy folder exists
     QString proxydir = m_doc->projectFolder().path() + QDir::separator() + "proxy/";
-    KStandardDirs::makeDir(proxydir);
+    QDir dir(m_doc->projectFolder().path());
+    dir.mkdir("proxy");
 
     QMap <QString, QString> newProps;
     QMap <QString, QString> oldProps;

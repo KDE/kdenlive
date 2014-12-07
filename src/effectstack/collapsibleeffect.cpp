@@ -38,6 +38,7 @@
 #include <KComboBox>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <QStandardPaths>
 
 
 CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent) :

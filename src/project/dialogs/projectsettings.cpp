@@ -29,7 +29,7 @@
 #include <KMessageBox>
 #include <QDebug>
 #include <kio/directorysizejob.h>
-#include <KStandardDirs>
+
 #include <KIO/FileCopyJob>
 
 #include <QTemporaryFile>

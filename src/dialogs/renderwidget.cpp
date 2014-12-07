@@ -30,7 +30,7 @@
 #include <KRun>
 #include <KColorScheme>
 #include <KNotification>
-#include <KStandardDirs>
+
 
 #include <QDomDocument>
 #include <QTreeWidgetItem>
@@ -916,7 +916,8 @@ void RenderWidget::slotPrepareExport(bool scriptExport)
     if (m_view.create_chapter->isChecked()) chapterFile = m_view.out_file->url().path() + ".dvdchapter";
 
     // mantisbt 1051
-    if (!KStandardDirs::makeDir(m_view.out_file->url().adjusted(QUrl::RemoveFilename).path())) {
+    QDir dir;
+    if (!dir.mkpath(m_view.out_file->url().adjusted(QUrl::RemoveFilename).path())) {
         KMessageBox::sorry(this, i18n("The directory %1, could not be created.\nPlease make sure you have the required permissions.", m_view.out_file->url().adjusted(QUrl::RemoveFilename).path()));
         return;
     }
@@ -2223,7 +2224,8 @@ QString RenderWidget::getFreeScriptName(const QUrl &projectName, const QString &
 {
     int ix = 0;
     QString scriptsFolder = m_projectFolder + "scripts/";
-    KStandardDirs::makeDir(scriptsFolder);
+    QDir dir(m_projectFolder);
+    dir.mkdir("scripts");
     QString path;
     QString fileName;
     if (projectName.isEmpty()) fileName = i18n("script");
@@ -2373,6 +2375,3 @@ void RenderWidget::keyPressEvent(QKeyEvent *e) {
     }
     else QDialog::keyPressEvent(e);
 }
-
-
-#include "renderwidget.moc"

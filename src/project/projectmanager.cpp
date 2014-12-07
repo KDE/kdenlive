@@ -26,7 +26,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KActionCollection>
 #include <QAction>
 #include <KMessageBox>
-#include <KProgressDialog>
+#include <QProgressDialog>
 
 #include <QCryptographicHash>
 #include <QFileDialog>
@@ -357,17 +357,19 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         pCore->window()->m_stopmotion = NULL;
     }
 
-    KProgressDialog progressDialog(pCore->window(), i18n("Loading project"), i18n("Loading project"));
-    progressDialog.setAllowCancel(false);
-    progressDialog.progressBar()->setMaximum(4);
+    QProgressDialog progressDialog(pCore->window());
+    progressDialog.setWindowTitle(i18n("Loading project"));
+    progressDialog.setLabelText(i18n("Loading project"));
+    progressDialog.setCancelButton(0);
+    progressDialog.setMaximum(4);
     progressDialog.show();
-    progressDialog.progressBar()->setValue(0);
+    progressDialog.setValue(0);
 
     bool openBackup;
     KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl(stale->fileName()) : url, KdenliveSettings::defaultprojectfolder(), pCore->window()->m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window(), &progressDialog);
 
-    progressDialog.progressBar()->setValue(1);
-    progressDialog.progressBar()->setMaximum(4);
+    progressDialog.setValue(1);
+    progressDialog.setMaximum(4);
     progressDialog.setLabelText(i18n("Loading project"));
     progressDialog.repaint();
 
@@ -383,7 +385,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     }
     connect(doc, SIGNAL(progressInfo(QString,int)), pCore->window(), SLOT(slotGotProgressInfo(QString,int)));
 
-    progressDialog.progressBar()->setValue(2);
+    progressDialog.setValue(2);
     progressDialog.repaint();
 
     bool ok;
@@ -392,7 +394,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_project = doc;
     pCore->window()->connectDocument();
     emit docOpened(m_project);
-    progressDialog.progressBar()->setValue(3);
+    progressDialog.setValue(3);
     progressDialog.repaint();
 
     pCore->window()->m_timelineArea->setCurrentIndex(pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme("kdenlive"), m_project->description()));
@@ -409,7 +411,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     pCore->window()->slotGotProgressInfo(QString(), -1);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_trackView->duration());
     pCore->monitorManager()->projectMonitor()->slotZoneMoved(m_trackView->inPoint(), m_trackView->outPoint());
-    progressDialog.progressBar()->setValue(4);
+    progressDialog.setValue(4);
     if (openBackup) {
         slotOpenBackup(url);
     }

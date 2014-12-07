@@ -73,7 +73,6 @@
 #include <KXMLGUIFactory>
 #include <KColorSchemeManager>
 #include <KStatusBar>
-#include <KStandardDirs>
 #include <KUrlRequesterDialog>
 #include <QTemporaryFile>
 #include <QMenu>
@@ -1200,7 +1199,7 @@ void MainWindow::setStatusBarStyleSheet(const QPalette &p)
 
 void MainWindow::saveOptions()
 {
-    KdenliveSettings::self()->writeConfig();
+    KdenliveSettings::self()->save();
     KSharedConfigPtr config = KSharedConfig::openConfig();
     pCore->projectManager()->recentFilesAction()->saveEntries(KConfigGroup(config, "Recent Files"));
     KConfigGroup treecolumns(config, "Project Tree");
@@ -1222,11 +1221,12 @@ void MainWindow::readOptions()
         if (initialGroup.readEntry("version") == "0.7") {
             //Add new settings from 0.7.1
             if (KdenliveSettings::defaultprojectfolder().isEmpty()) {
-                QString path = QDir::homePath() + "/kdenlive";
-                if (KStandardDirs::makeDir(path)  == false) {
-                    //qDebug() << "/// ERROR CREATING PROJECT FOLDER: " << path;
+                QDir dir(QDir::homePath());
+                if (!dir.mkdir("kdenlive")) {
+                    qDebug() << "/// ERROR CREATING PROJECT FOLDER: ";
                 } else {
-                    KdenliveSettings::setDefaultprojectfolder(path);
+                    dir.cd("kdenlive");
+                    KdenliveSettings::setDefaultprojectfolder(dir.path());
                 }
             }
         }

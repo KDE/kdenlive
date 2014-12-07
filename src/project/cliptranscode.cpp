@@ -54,7 +54,7 @@ ClipTranscode::ClipTranscode(const QList <QUrl> &urls, const QString &params, co
         source_url->setUrl(m_urls.at(0));
         dest_url->setMode(KFile::File);
         dest_url->setUrl(dest);
-        dest_url->fileDialog()->setFileMode(QFileDialog::AnyFile);//OperationMode(KFileDialog::Saving);
+        dest_url->setMode(KFile::File);//OperationMode(KFileDialog::Saving);
         urls_list->setHidden(true);
         connect(source_url, SIGNAL(textChanged(QString)), this, SLOT(slotUpdateParams()));
     } else {

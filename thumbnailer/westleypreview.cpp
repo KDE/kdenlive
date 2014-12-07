@@ -24,7 +24,7 @@
 #include <QImage>
 #include <QVarLengthArray>
 
-#include <kstandarddirs.h>
+
 #include <krandomsequence.h>
 #include <QDebug>
 #include <ktempdir.h>

@@ -43,7 +43,7 @@ class TrackInfo;
 class NotesPlugin;
 
 class KTextEdit;
-class KProgressDialog;
+class QProgressDialog;
 class QUndoGroup;
 class QTimer;
 class QUndoStack;
@@ -53,7 +53,7 @@ class KdenliveDoc: public QObject
     Q_OBJECT
 public:
 
-    KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent = 0, KProgressDialog *progressDialog = 0);
+    KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent = 0, QProgressDialog *progressDialog = 0);
     ~KdenliveDoc();
     QDomNodeList producersList();
     double fps() const;

@@ -26,6 +26,7 @@
 #include <QVBoxLayout>
 #include <QLineEdit>
 #include <QPlainTextEdit>
+#include <QStandardPaths>
 
 EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget * parent) :
     QDialog(parent),

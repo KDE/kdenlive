@@ -35,9 +35,8 @@
 #include "project/notesplugin.h"
 #include "project/dialogs/noteswidget.h"
 
-#include <KStandardDirs>
 #include <KMessageBox>
-#include <KProgressDialog>
+#include <QProgressDialog>
 #include <KLocalizedString>
 #include <KIO/CopyJob>
 #include <KIO/JobUiDelegate>
@@ -63,7 +62,7 @@
 
 const double DOCUMENTVERSION = 0.88;
 
-KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent, KProgressDialog *progressDialog) :
+KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent, QProgressDialog *progressDialog) :
     QObject(parent),
     m_autosave(NULL),
     m_url(url),
@@ -273,12 +272,14 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                             const int max = producers.count();
 
                             if (!progressDialog) {
-                                progressDialog = new KProgressDialog(parent, i18n("Loading project"), i18n("Adding clips"));
-                                progressDialog->setAllowCancel(false);
+                                progressDialog = new QProgressDialog(parent);
+                                progressDialog->setWindowTitle(i18n("Loading project"));
+                                progressDialog->setLabelText(i18n("Adding clips"));
+                                progressDialog->setCancelButton(0);
                             } else {
                                 progressDialog->setLabelText(i18n("Adding clips"));
                             }
-                            progressDialog->progressBar()->setMaximum(infomax);
+                            progressDialog->setMaximum(infomax);
                             progressDialog->show();
                             qApp->processEvents();
 
@@ -308,7 +309,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                                     }
                                 }
                                 if (i % 10 == 0)
-                                    progressDialog->progressBar()->setValue(i);
+                                    progressDialog->setValue(i);
                             }
 
                             if (success) {
@@ -374,9 +375,10 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     }
 
     // Make sure that the necessary folders exist
-    KStandardDirs::makeDir(m_projectFolder.path() + QDir::separator() + "titles/");
-    KStandardDirs::makeDir(m_projectFolder.path() + QDir::separator() + "thumbs/");
-    KStandardDirs::makeDir(m_projectFolder.path() + QDir::separator() + "proxy/");
+    QDir dir(m_projectFolder.path());
+    dir.mkdir("titles");
+    dir.mkdir("thumbs");
+    dir.mkdir("proxy");
 
     updateProjectFolderPlacesEntry();
 
@@ -839,10 +841,14 @@ void KdenliveDoc::setProjectFolder(QUrl url)
 {
     if (url == m_projectFolder) return;
     setModified(true);
-    KStandardDirs::makeDir(url.path());
-    KStandardDirs::makeDir(url.path() + QDir::separator() + "titles/");
-    KStandardDirs::makeDir(url.path() + QDir::separator() + "thumbs/");
-    KStandardDirs::makeDir(url.path() + QDir::separator() + "proxy/");
+    QDir dir;
+    if (!QFileInfo::exists(url.path())) {
+        dir.mkpath(url.path());
+    }
+    dir.setPath(url.path());
+    dir.mkdir("titles");
+    dir.mkdir("thumbs");
+    dir.mkdir("proxy");
     if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("You have changed the project folder. Do you want to copy the cached data from %1 to the new folder %2?", m_projectFolder.path(), url.path())) == KMessageBox::Yes) moveProjectData(url);
     m_projectFolder = url;
 
@@ -1306,7 +1312,8 @@ void KdenliveDoc::slotCreateSlideshowClipFile(const QMap <QString, QString> &pro
 void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId, const QString &templatePath)
 {
     QString titlesFolder = QDir::cleanPath(projectFolder().path() + QDir::separator() + "titles/");
-    KStandardDirs::makeDir(titlesFolder);
+    QDir dir(projectFolder().path());
+    dir.mkdir("titles");
     QPointer<TitleWidget> dia_ui = new TitleWidget(templatePath, m_timecode, titlesFolder, m_render, QApplication::activeWindow());
     if (dia_ui->exec() == QDialog::Accepted) {
         m_clipManager->slotAddTextClipFile(i18n("Title clip"), dia_ui->duration(), dia_ui->xml().toString(), group, groupId);

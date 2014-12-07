@@ -20,14 +20,13 @@
 #include "kdenlivesettings.h"
 #include "timecode.h"
 
-#include <QDebug>
-#include <QTemporaryFile>
-
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KStandardDirs>
 #include <KIO/FileCopyJob>
 
+#include <QDebug>
+#include <QTemporaryFile>
+#include <QDir>
 #include <QApplication>
 #include <QGraphicsScene>
 #include <QDomElement>
@@ -112,7 +111,8 @@ int TitleDocument::base64ToUrl(QGraphicsItem* item, QDomElement& content, bool e
 const QString TitleDocument::extractBase64Image(const QString &titlePath, const QString &data)
 {
     QString filename = titlePath + QString(QCryptographicHash::hash(data.toAscii(), QCryptographicHash::Md5).toHex().append(".titlepart"));
-    KStandardDirs::makeDir(titlePath);
+    QDir dir;
+    dir.mkpath(titlePath);
     QFile f(filename);
     if (f.open(QIODevice::WriteOnly)) {
         f.write(QByteArray::fromBase64(data.toAscii())) ;

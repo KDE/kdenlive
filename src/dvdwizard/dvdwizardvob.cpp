@@ -36,6 +36,7 @@
 #include <QTreeWidgetItem>
 #include <QHeaderView>
 #include <unistd.h>
+#include <QStandardPaths>
 
 DvdTreeWidget::DvdTreeWidget(QWidget *parent) :
     QTreeWidget(parent)

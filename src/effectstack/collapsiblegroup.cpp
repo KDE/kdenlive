@@ -34,6 +34,7 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KColorScheme>
+#include <QStandardPaths>
 
 MyEditableLabel::MyEditableLabel(QWidget * parent):
     QLineEdit(parent)
