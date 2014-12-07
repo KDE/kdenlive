@@ -41,7 +41,6 @@
 #include <KLocalizedString>
 #include <KIO/CopyJob>
 #include <KIO/JobUiDelegate>
-#include <KApplication>
 #include <KBookmarkManager>
 #include <KBookmark>
 
@@ -787,7 +786,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const
     QDomDocument sceneList = xmlSceneList(scene, expandedFolders);
     if (sceneList.isNull()) {
         //Make sure we don't save if scenelist is corrupted
-        KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1, scene list is corrupted.", path));
+        KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1, scene list is corrupted.", path));
         return false;
     }
     
@@ -797,13 +796,13 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const
     
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qWarning() << "//////  ERROR writing to file: " << path;
-        KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1", path));
+        KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", path));
         return false;
     }
 
     file.write(sceneList.toString().toUtf8());
     if (file.error() != QFile::NoError) {
-        KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1", path));
+        KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", path));
         file.close();
         return false;
     }
@@ -844,7 +843,7 @@ void KdenliveDoc::setProjectFolder(QUrl url)
     KStandardDirs::makeDir(url.path() + QDir::separator() + "titles/");
     KStandardDirs::makeDir(url.path() + QDir::separator() + "thumbs/");
     KStandardDirs::makeDir(url.path() + QDir::separator() + "proxy/");
-    if (KMessageBox::questionYesNo(kapp->activeWindow(), i18n("You have changed the project folder. Do you want to copy the cached data from %1 to the new folder %2?", m_projectFolder.path(), url.path())) == KMessageBox::Yes) moveProjectData(url);
+    if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("You have changed the project folder. Do you want to copy the cached data from %1 to the new folder %2?", m_projectFolder.path(), url.path())) == KMessageBox::Yes) moveProjectData(url);
     m_projectFolder = url;
 
     updateProjectFolderPlacesEntry();
@@ -879,7 +878,7 @@ void KdenliveDoc::moveProjectData(const QUrl &url)
     }
     if (!cacheUrls.isEmpty()) {
         KIO::Job *job = KIO::copy(cacheUrls, QUrl(url.path() + QDir::separator() + "thumbs/"));
-        KJobWidgets::setWindow(job, kapp->activeWindow());
+        KJobWidgets::setWindow(job, QApplication::activeWindow());
         job->exec();
     }
 }
@@ -906,7 +905,7 @@ bool KdenliveDoc::setProfilePath(QString path)
         // Profile not found, use embedded profile
         QDomElement profileInfo = m_document.elementsByTagName("profileinfo").at(0).toElement();
         if (profileInfo.isNull()) {
-            KMessageBox::information(kapp->activeWindow(), i18n("Project profile was not found, using default profile."), i18n("Missing Profile"));
+            KMessageBox::information(QApplication::activeWindow(), i18n("Project profile was not found, using default profile."), i18n("Missing Profile"));
             m_profile = ProfilesDialog::getVideoProfile(KdenliveSettings::default_profile());
         } else {
             m_profile.description = profileInfo.attribute("description");
@@ -922,12 +921,12 @@ bool KdenliveDoc::setProfilePath(QString path)
             QString existing = ProfilesDialog::existingProfile(m_profile);
             if (!existing.isEmpty()) {
                 m_profile = ProfilesDialog::getVideoProfile(existing);
-                KMessageBox::information(kapp->activeWindow(), i18n("Project profile not found, replacing with existing one: %1", m_profile.description), i18n("Missing Profile"));
+                KMessageBox::information(QApplication::activeWindow(), i18n("Project profile not found, replacing with existing one: %1", m_profile.description), i18n("Missing Profile"));
             } else {
                 QString newDesc = m_profile.description;
                 bool ok = true;
                 while (ok && (newDesc.isEmpty() || ProfilesDialog::existingProfileDescription(newDesc))) {
-                    newDesc = QInputDialog::getText(kapp->activeWindow(), i18n("Existing Profile"), i18n("Your project uses an unknown profile.\nIt uses an existing profile name: %1.\nPlease choose a new name to save it", newDesc), QLineEdit::Normal, newDesc, &ok);
+                    newDesc = QInputDialog::getText(QApplication::activeWindow(), i18n("Existing Profile"), i18n("Your project uses an unknown profile.\nIt uses an existing profile name: %1.\nPlease choose a new name to save it", newDesc), QLineEdit::Normal, newDesc, &ok);
                 }
                 if (ok == false) {
                     // User canceled, use default profile
@@ -937,7 +936,7 @@ bool KdenliveDoc::setProfilePath(QString path)
                         // Profile description existed, was replaced by new one
                         m_profile.description = newDesc;
                     } else {
-                        KMessageBox::information(kapp->activeWindow(), i18n("Project profile was not found, it will be added to your system now."), i18n("Missing Profile"));
+                        KMessageBox::information(QApplication::activeWindow(), i18n("Project profile was not found, it will be added to your system now."), i18n("Missing Profile"));
                     }
                     ProfilesDialog::saveProfile(m_profile);
                 }
@@ -1105,20 +1104,20 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
                 if (!m_searchFolder.isEmpty())
                     newpath = searchFileRecursively(m_searchFolder, size, hash);
                 else
-                    action = (KMessageBox::ButtonCode) KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />is invalid, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search automatically")), KGuiItem(i18n("Keep as placeholder")));
+                    action = (KMessageBox::ButtonCode) KMessageBox::questionYesNoCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br />is invalid, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search automatically")), KGuiItem(i18n("Keep as placeholder")));
             } else {
                 if (elem.attribute("type").toInt() == SlideShow) {
-                    int res = KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
+                    int res = KMessageBox::questionYesNoCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br />is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
                     if (res == KMessageBox::Yes)
-                        newpath = QFileDialog::getExistingDirectory(kapp->activeWindow(), i18n("Looking for %1", path), "kfiledialog:///clipfolder");
+                        newpath = QFileDialog::getExistingDirectory(QApplication::activeWindow(), i18n("Looking for %1", path), "kfiledialog:///clipfolder");
                     else {
                         // Abort project loading
                         action = res;
                     }
                 } else {
-                    int res = KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
+                    int res = KMessageBox::questionYesNoCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br />is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
                     if (res == KMessageBox::Yes)
-                        newpath = QFileDialog::getOpenFileName(kapp->activeWindow(), i18n("Looking for %1", path), "kfiledialog:///clipfolder");
+                        newpath = QFileDialog::getOpenFileName(QApplication::activeWindow(), i18n("Looking for %1", path), "kfiledialog:///clipfolder");
                     else {
                         // Abort project loading
                         action = res;
@@ -1127,7 +1126,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
             }
             if (action == KMessageBox::Yes) {
                 //qDebug() << "// ASKED FOR SRCH CLIP: " << clipId;
-                m_searchFolder = QFileDialog::getExistingDirectory(kapp->activeWindow(), QString(), "kfiledialog:///clipfolder");
+                m_searchFolder = QFileDialog::getExistingDirectory(QApplication::activeWindow(), QString(), "kfiledialog:///clipfolder");
                 if (!m_searchFolder.isEmpty())
                     newpath = searchFileRecursively(QDir(m_searchFolder), size, hash);
             } else if (action == KMessageBox::Cancel) {
@@ -1308,7 +1307,7 @@ void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId, cons
 {
     QString titlesFolder = QDir::cleanPath(projectFolder().path() + QDir::separator() + "titles/");
     KStandardDirs::makeDir(titlesFolder);
-    QPointer<TitleWidget> dia_ui = new TitleWidget(templatePath, m_timecode, titlesFolder, m_render, kapp->activeWindow());
+    QPointer<TitleWidget> dia_ui = new TitleWidget(templatePath, m_timecode, titlesFolder, m_render, QApplication::activeWindow());
     if (dia_ui->exec() == QDialog::Accepted) {
         m_clipManager->slotAddTextClipFile(i18n("Title clip"), dia_ui->duration(), dia_ui->xml().toString(), group, groupId);
         setModified(true);
@@ -1321,7 +1320,7 @@ void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString
 {
     QString titlesFolder = QDir::cleanPath(projectFolder().path() + QDir::separator() + "titles/");
     if (path.isEmpty()) {
-        path = QFileDialog::getOpenFileUrl(kapp->activeWindow(), i18n("Enter Template Path"), QUrl("kfiledialog:///clipfolder"),  "application/x-kdenlivetitle");
+        path = QFileDialog::getOpenFileUrl(QApplication::activeWindow(), i18n("Enter Template Path"), QUrl("kfiledialog:///clipfolder"),  "application/x-kdenlivetitle");
     }
 
     if (path.isEmpty()) return;
@@ -1645,7 +1644,7 @@ bool KdenliveDoc::saveCustomEffects(const QDomNodeList &customeffects)
         }
     }
     if (!importedEffects.isEmpty())
-        KMessageBox::informationList(kapp->activeWindow(), i18n("The following effects were imported from the project:"), importedEffects);
+        KMessageBox::informationList(QApplication::activeWindow(), i18n("The following effects were imported from the project:"), importedEffects);
     return (!importedEffects.isEmpty());
 }
 
@@ -1743,7 +1742,7 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
         // delete previous backup if it was done less than 60 seconds ago
         QFile::remove(backupFile);
         if (!QFile::copy(path, backupFile)) {
-            KMessageBox::information(kapp->activeWindow(), i18n("Cannot create backup copy:\n%1", backupFile));
+            KMessageBox::information(QApplication::activeWindow(), i18n("Cannot create backup copy:\n%1", backupFile));
         }
     }
 }

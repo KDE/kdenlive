@@ -60,7 +60,6 @@
 #include "jogshuttle/jogmanager.h"
 #endif
 
-#include <KApplication>
 #include <QAction>
 #include <KLocalizedString>
 #include <KActionCollection>

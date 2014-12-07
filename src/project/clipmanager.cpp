@@ -32,9 +32,8 @@
 
 #include <mlt++/Mlt.h>
 
-#include <QDebug>
+
 #include <KMessageBox>
-#include <KApplication>
 #include <KIO/JobUiDelegate>
 #include <KIO/MkdirJob>
 #include <solid/device.h>
@@ -44,6 +43,7 @@
 
 #include <QGraphicsItemGroup>
 #include <QtConcurrent>
+#include <QApplication>
 
 #include <KFileMetaInfo>
 #include <KMimeType>
@@ -550,7 +550,7 @@ void ClipManager::slotAddClipList(const QList<QUrl> &urls, const QMap <QString, 
                     copyjob->addMetaData("group", data.value("group"));
                     copyjob->addMetaData("groupId", data.value("groupId"));
                     copyjob->addMetaData("comment", data.value("comment"));
-                    KJobWidgets::setWindow(copyjob, kapp->activeWindow());
+                    KJobWidgets::setWindow(copyjob, QApplication::activeWindow());
                     connect(copyjob, SIGNAL(copyingDone(KIO::Job*,QUrl,QUrl,time_t,bool,bool)), this, SLOT(slotAddClip(KIO::Job*,QUrl,QUrl)));
                     continue;
                 }

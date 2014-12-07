@@ -49,7 +49,6 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KFileItem>
-#include <KApplication>
 #include <KDialog>
 
 #include <KColorScheme>
@@ -596,13 +595,13 @@ void ProjectList::slotOpenClip()
     if (item) {
         if (item->clipType() == Image) {
             if (KdenliveSettings::defaultimageapp().isEmpty())
-                KMessageBox::sorry(kapp->activeWindow(), i18n("Please set a default application to open images in the Settings dialog"));
+                KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open images in the Settings dialog"));
             else
                 QProcess::startDetached(KdenliveSettings::defaultimageapp(), QStringList() << item->clipUrl().path());
         }
         if (item->clipType() == Audio) {
             if (KdenliveSettings::defaultaudioapp().isEmpty())
-                KMessageBox::sorry(kapp->activeWindow(), i18n("Please set a default application to open audio files in the Settings dialog"));
+                KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open audio files in the Settings dialog"));
             else
                 QProcess::startDetached(KdenliveSettings::defaultaudioapp(), QStringList() << item->clipUrl().path());
         }
@@ -1146,7 +1145,7 @@ void ProjectList::slotRemoveClip()
             folderids[folder->groupName()] = folder->clipId();
             int children = folder->childCount();
 
-            if (children > 0 && KMessageBox::questionYesNo(kapp->activeWindow(), i18np("Delete folder <b>%2</b>?<br />This will also remove the clip in that folder", "Delete folder <b>%2</b>?<br />This will also remove the %1 clips in that folder",  children, folder->text(1)), i18n("Delete Folder")) != KMessageBox::Yes)
+            if (children > 0 && KMessageBox::questionYesNo(QApplication::activeWindow(), i18np("Delete folder <b>%2</b>?<br />This will also remove the clip in that folder", "Delete folder <b>%2</b>?<br />This will also remove the %1 clips in that folder",  children, folder->text(1)), i18n("Delete Folder")) != KMessageBox::Yes)
                 return;
             for (int i = 0; i < children; ++i) {
                 ProjectItem *child = static_cast <ProjectItem *>(folder->child(i));
@@ -1155,7 +1154,7 @@ void ProjectList::slotRemoveClip()
         } else {
             ProjectItem *item = static_cast <ProjectItem *>(selected.at(i));
             ids << item->clipId();
-            if (item->numReferences() > 0 && KMessageBox::questionYesNo(kapp->activeWindow(), i18np("Delete clip <b>%2</b>?<br />This will also remove the clip in timeline", "Delete clip <b>%2</b>?<br />This will also remove its %1 clips in timeline", item->numReferences(), item->text(1)), i18n("Delete Clip"), KStandardGuiItem::yes(), KStandardGuiItem::no(), "DeleteAll") == KMessageBox::No) {
+            if (item->numReferences() > 0 && KMessageBox::questionYesNo(QApplication::activeWindow(), i18np("Delete clip <b>%2</b>?<br />This will also remove the clip in timeline", "Delete clip <b>%2</b>?<br />This will also remove its %1 clips in timeline", item->numReferences(), item->text(1)), i18n("Delete Clip"), KStandardGuiItem::yes(), KStandardGuiItem::no(), "DeleteAll") == KMessageBox::No) {
                 KMessageBox::enableMessage("DeleteAll");
                 return;
             }
@@ -1719,7 +1718,7 @@ void ProjectList::slotAddClip(const QList <QUrl> &givenList, const QString &grou
         f->setLayout(l);
         
 
-        QPointer<QFileDialog> d = new QFileDialog(kapp->activeWindow(), i18n("Open Clips"), m_doc->getDocumentProperty("QFileDialogClipFolder"), dialogFilter);
+        QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), i18n("Open Clips"), m_doc->getDocumentProperty("QFileDialogClipFolder"), dialogFilter);
         //TODO: KF5, how to add a custom widget to file dialog
         /*QGridLayout *layout = (QGridLayout*)d->layout();
         layout->addWidget(f, 0, 0);*/
@@ -1843,9 +1842,9 @@ void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
             }
             else {
                 if (replace)
-                    m_invalidClipDialog = new InvalidDialog(i18n("Invalid clip"),  i18n("Clip is invalid, will be removed from project."), replace, kapp->activeWindow());
+                    m_invalidClipDialog = new InvalidDialog(i18n("Invalid clip"),  i18n("Clip is invalid, will be removed from project."), replace, QApplication::activeWindow());
                 else {
-                    m_invalidClipDialog = new InvalidDialog(i18n("Invalid clip"),  i18n("Clip is missing or invalid. Remove it from project?"), replace, kapp->activeWindow());
+                    m_invalidClipDialog = new InvalidDialog(i18n("Invalid clip"),  i18n("Clip is missing or invalid. Remove it from project?"), replace, QApplication::activeWindow());
                 }
                 m_invalidClipDialog->addClip(id, path);
                 int result = m_invalidClipDialog->exec();
@@ -2389,7 +2388,7 @@ bool ProjectList::adjustProjectProfileToItem(ProjectItem *item)
             item = static_cast <ProjectItem*>(m_listView->currentItem());
     }
     if (item == NULL || item->referencedClip() == NULL) {
-        KMessageBox::information(kapp->activeWindow(), i18n("Cannot find profile from current clip"));
+        KMessageBox::information(QApplication::activeWindow(), i18n("Cannot find profile from current clip"));
         return false;
     }
     bool profileUpdated = false;
@@ -2436,7 +2435,7 @@ bool ProjectList::adjustProjectProfileToItem(ProjectItem *item)
                 delete list;
                 delete label;
             } else if (fps > 0) {
-                KMessageBox::information(kapp->activeWindow(), i18n("Your clip does not match current project's profile.\nNo existing profile found to match the clip's properties.\nClip size: %1\nFps: %2\n", size, fps));
+                KMessageBox::information(QApplication::activeWindow(), i18n("Your clip does not match current project's profile.\nNo existing profile found to match the clip's properties.\nClip size: %1\nFps: %2\n", size, fps));
             }
         }
     }

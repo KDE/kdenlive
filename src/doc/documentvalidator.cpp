@@ -26,7 +26,6 @@
 
 #include <QDebug>
 #include <KMessageBox>
-#include <KApplication>
 #include <KLocalizedString>
 
 #include <QFile>
@@ -82,11 +81,11 @@ bool DocumentValidator::validate(const double currentVersion)
         char *separator = localeconv()->decimal_point;
 	if (newLocale.isEmpty()) {
             // Requested locale not available, ask for install
-            KMessageBox::sorry(kapp->activeWindow(), i18n("The document was created in \"%1\" locale, which is not installed on your system. Please install that language pack. Until then, Kdenlive might not be able to correctly open the document.", mlt.attribute("LC_NUMERIC")));
+            KMessageBox::sorry(QApplication::activeWindow(), i18n("The document was created in \"%1\" locale, which is not installed on your system. Please install that language pack. Until then, Kdenlive might not be able to correctly open the document.", mlt.attribute("LC_NUMERIC")));
         }
 	
         if (separator != documentLocale.decimalPoint()) {
-	    KMessageBox::sorry(kapp->activeWindow(), i18n("There is a locale conflict on your system. The document uses locale %1 which uses a \"%2\" as numeric separator (in system libraries) but Qt expects \"%3\". You might not be able to correctly open the project.", mlt.attribute("LC_NUMERIC"), separator, documentLocale.decimalPoint()));
+	    KMessageBox::sorry(QApplication::activeWindow(), i18n("There is a locale conflict on your system. The document uses locale %1 which uses a \"%2\" as numeric separator (in system libraries) but Qt expects \"%3\". You might not be able to correctly open the project.", mlt.attribute("LC_NUMERIC"), separator, documentLocale.decimalPoint()));
             //qDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
             // HACK: There is a locale conflict, so set locale to at least have correct decimal point
             if (strncmp(separator, ".", 1) == 0) documentLocale = QLocale::c();
@@ -243,14 +242,14 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     // The document is too new
     if (version > currentVersion) {
         //qDebug() << "Unable to open document with version " << version;
-        KMessageBox::sorry(kapp->activeWindow(), i18n("This project type is unsupported (version %1) and can't be loaded.\nPlease consider upgrading your Kdenlive version.", version), i18n("Unable to open project"));
+        KMessageBox::sorry(QApplication::activeWindow(), i18n("This project type is unsupported (version %1) and can't be loaded.\nPlease consider upgrading your Kdenlive version.", version), i18n("Unable to open project"));
         return false;
     }
 
     // Unsupported document versions
     if (version == 0.5 || version == 0.7) {
         //qDebug() << "Unable to open document with version " << version;
-        KMessageBox::sorry(kapp->activeWindow(), i18n("This project type is unsupported (version %1) and can't be loaded.", version), i18n("Unable to open project"));
+        KMessageBox::sorry(QApplication::activeWindow(), i18n("This project type is unsupported (version %1) and can't be loaded.", version), i18n("Unable to open project"));
         return false;
     }
 
@@ -798,7 +797,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                             if (textProperties.namedItem("font-pixel-size").isNull() && !textProperties.namedItem("font-size").isNull()) {
                                 // Ask the user if he wants to convert
                                 if (convert != KMessageBox::Yes && convert != KMessageBox::No)
-                                    convert = (KMessageBox::ButtonCode)KMessageBox::warningYesNo(kapp->activeWindow(), i18n("Some of your text clips were saved with size in points, which means different sizes on different displays. Do you want to convert them to pixel size, making them portable? It is recommended you do this on the computer they were first created on, or you could have to adjust their size."), i18n("Update Text Clips"));
+                                    convert = (KMessageBox::ButtonCode)KMessageBox::warningYesNo(QApplication::activeWindow(), i18n("Some of your text clips were saved with size in points, which means different sizes on different displays. Do you want to convert them to pixel size, making them portable? It is recommended you do this on the computer they were first created on, or you could have to adjust their size."), i18n("Update Text Clips"));
                                 if (convert == KMessageBox::Yes) {
                                     QFont font;
                                     font.setPointSize(textProperties.namedItem("font-size").nodeValue().toInt());

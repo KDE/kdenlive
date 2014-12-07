@@ -27,7 +27,6 @@
 #include "kdenlivesettings.h"
 
 #include <QDebug>
-#include <KApplication>
 #include <KUrlRequesterDialog>
 #include <KMessageBox>
 #include <QFontDatabase>

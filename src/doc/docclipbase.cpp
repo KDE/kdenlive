@@ -29,7 +29,6 @@
 #include "project/clipmanager.h"
 #include "project/dialogs/slideshowclip.h"
 
-#include <KApplication>
 #include <QDebug>
 
 #include <QCryptographicHash>
@@ -1315,7 +1314,7 @@ void DocClipBase::setAnalysisData(const QString &name, const QString &data, int 
     if (data.isEmpty()) m_analysisdata.remove(name);
     else {
         if (m_analysisdata.contains(name)) {
-            if (KMessageBox::questionYesNo(kapp->activeWindow(), i18n("Clip already contains analysis data %1", name), QString(), KGuiItem(i18n("Merge")), KGuiItem(i18n("Add"))) == KMessageBox::Yes) {
+            if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Clip already contains analysis data %1", name), QString(), KGuiItem(i18n("Merge")), KGuiItem(i18n("Add"))) == KMessageBox::Yes) {
                 // Merge data
                 Mlt::Profile *profile = m_baseTrackProducers.at(0)->profile();
                 Mlt::Geometry geometry(m_analysisdata.value(name).toUtf8().data(), m_properties.value("duration").toInt(), profile->width(), profile->height());

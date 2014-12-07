@@ -30,11 +30,8 @@
 #include <QDebug>
 #include <KIO/MkdirJob>
 #include <KJobWidgets>
-#include <KApplication>
 #include <kio/directorysizejob.h>
-#if KDE_IS_VERSION(4,7,0)
 #include <KMessageWidget>
-#endif
 
 #include <QTreeWidget>
 #include <QtConcurrent>
@@ -951,7 +948,7 @@ void ArchiveWidget::slotExtractingFinished()
         }
     }
     if (error) {
-        KMessageBox::sorry(kapp->activeWindow(), i18n("Cannot open project file %1", extractedProjectFile()), i18n("Cannot open file"));
+        KMessageBox::sorry(QApplication::activeWindow(), i18n("Cannot open project file %1", extractedProjectFile()), i18n("Cannot open file"));
         reject();
     }
     else accept();

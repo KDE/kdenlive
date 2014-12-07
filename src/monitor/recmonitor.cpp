@@ -35,7 +35,6 @@
 #include <KComboBox>
 #include <KFileItem>
 #include <KMessageBox>
-#include <KApplication>
 #include <KDiskFreeSpaceInfo>
 
 #include <QMouseEvent>
@@ -368,7 +367,7 @@ QPixmap RecMonitor::mergeSideBySide(const QPixmap& pix, const QString &txt)
     res.fill(Qt::transparent);
     p.begin(&res);
     p.drawPixmap(0, 0, pix);
-    p.setPen(kapp->palette().text().color());
+    p.setPen(palette().text().color());
     p.drawText(QRect(pixWidth + 8, 0, strWidth, strHeight), 0, txt);
     p.end();
     return res;

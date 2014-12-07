@@ -22,13 +22,13 @@
 
 #include <QDebug>
 #include <QTemporaryFile>
-#include <KApplication>
 
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KStandardDirs>
 #include <KIO/FileCopyJob>
 
+#include <QApplication>
 #include <QGraphicsScene>
 #include <QDomElement>
 #include <QGraphicsItem>
@@ -326,7 +326,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
         int doc_width = doc.documentElement().attribute("width").toInt();
         int doc_height = doc.documentElement().attribute("height").toInt();
         if (doc_width != m_width || doc_height != m_height) {
-            KMessageBox::information(kapp->activeWindow(), i18n("This title clip was created with a different frame size."), i18n("Title Profile"));
+            KMessageBox::information(QApplication::activeWindow(), i18n("This title clip was created with a different frame size."), i18n("Title Profile"));
             //TODO: convert using QTransform
             m_width = doc_width;
             m_height = doc_height;
@@ -375,7 +375,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                     font.setUnderline(txtProperties.namedItem("font-underline").nodeValue().toInt());
                     // Older Kdenlive version did not store pixel size but point size
                     if (txtProperties.namedItem("font-pixel-size").isNull()) {
-                        KMessageBox::information(kapp->activeWindow(), i18n("Some of your text clips were saved with size in points, which means different sizes on different displays. They will be converted to pixel size, making them portable, but you could have to adjust their size."), i18n("Text Clips Updated"));
+                        KMessageBox::information(QApplication::activeWindow(), i18n("Some of your text clips were saved with size in points, which means different sizes on different displays. They will be converted to pixel size, making them portable, but you could have to adjust their size."), i18n("Text Clips Updated"));
                         QFont f2;
                         f2.setPointSize(txtProperties.namedItem("font-size").nodeValue().toInt());
                         font.setPixelSize(QFontInfo(f2).pixelSize());
