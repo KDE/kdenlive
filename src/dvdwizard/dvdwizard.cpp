@@ -180,6 +180,14 @@ void DvdWizard::slotprepareMonitor()
 void DvdWizard::generateDvd()
 {
     m_isoMessage->animatedHide();
+    QDir dir(m_status.tmp_folder->url().path() + "DVD/");
+    if (!dir.exists()) dir.mkpath(dir.absolutePath());
+    if (!dir.exists()) {
+        // We failed creating tmp DVD directory
+        KMessageBox::sorry(this, i18n("Cannot create temporary directory %1", m_status.tmp_folder->url().path() + "DVD"));
+        return;
+    }    
+    
     m_status.error_box->setHidden(true);
     m_status.error_box->setCurrentIndex(0);
     m_status.menu_file->clear();
@@ -249,7 +257,6 @@ void DvdWizard::generateDvd()
             args.append("in=0");
             args.append("out=100");
             args << "-consumer" << "avformat:" + m_menuVideo.fileName()<<"properties=DVD";
-            qDebug()<<"--------------------------\n"<<args<<"\n--------------------------------";
             m_menuJob.start(KdenliveSettings::rendererpath(), args);
         } else {
             // Movie as menu background, do the compositing
@@ -478,14 +485,6 @@ void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap <QStrin
     QListWidgetItem *authitem =  m_status.job_progress->item(3);
     m_status.job_progress->setCurrentRow(3);
     authitem->setIcon(QIcon::fromTheme("system-run"));
-    QDir dir(m_status.tmp_folder->url().path() + "DVD/");
-    if (!dir.exists()) dir.mkpath(dir.absolutePath());
-    if (!dir.exists()) {
-        // We failed creating tmp DVD directory
-        KMessageBox::sorry(this, i18n("Cannot create temporary directory %1", m_status.tmp_folder->url().path() + "DVD"));
-        return;
-    }
-
     QDomDocument dvddoc;
     QDomElement auth = dvddoc.createElement("dvdauthor");
     auth.setAttribute("dest", m_status.tmp_folder->url().path() + "DVD");
@@ -884,8 +883,8 @@ void DvdWizard::slotGenerate()
     for (int i = 0; i < m_status.job_progress->count(); ++i)
         m_status.job_progress->item(i)->setIcon(QIcon());
     QString warnMessage;
-    if (QFile::exists(m_status.tmp_folder->url().path() + QDir::separator() + "DVD"))
-        warnMessage.append(i18n("Folder %1 already exists. Overwrite?\n", m_status.tmp_folder->url().path() + QDir::separator() + "DVD"));
+    if (QFile::exists(m_status.tmp_folder->url().path() + "DVD"))
+        warnMessage.append(i18n("Folder %1 already exists. Overwrite?\n", m_status.tmp_folder->url().path() + "DVD"));
     if (QFile::exists(m_status.iso_image->url().path()))
         warnMessage.append(i18n("Image file %1 already exists. Overwrite?", m_status.iso_image->url().path()));
 
