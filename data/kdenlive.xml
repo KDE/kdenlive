@@ -2,11 +2,21 @@
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
   <mime-type type="application/x-kdenlive">
     <comment>Kdenlive video project document</comment>
+    <comment xml:lang="de">Kdenlive-Videoprojektdokument</comment>
+    <comment xml:lang="pt">Documento de projecto de vídeo do Kdenlive</comment>
+    <comment xml:lang="pt_BR">Documento de projeto de vídeo do Kdenlive</comment>
+    <comment xml:lang="sl">Dokument video projekta Kdenlive</comment>
+    <comment xml:lang="uk">документ відеопроекту Kdenlive</comment>
     <sub-class-of type="video/mlt-playlist"/>
     <glob pattern="*.kdenlive"/>
   </mime-type>
   <mime-type type="application/x-kdenlivetitle">
     <comment>Kdenlive video title</comment>
+    <comment xml:lang="de">Kdenlive-Videotitel</comment>
+    <comment xml:lang="pt">Título de vídeo do Kdenlive</comment>
+    <comment xml:lang="pt_BR">Título de vídeo do Kdenlive</comment>
+    <comment xml:lang="sl">Naslov videa Kdenlive</comment>
+    <comment xml:lang="uk">заголовок відео Kdenlive</comment>
     <sub-class-of type="application/xml"/>
     <glob pattern="*.kdenlivetitle"/>
   </mime-type>
