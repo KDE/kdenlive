@@ -118,7 +118,8 @@
 #include <locale.h>
 
 static const char version[] = KDENLIVE_VERSION;
-
+static const char UNSAVED_FILE_NAME[]=".untitled.kdenlive";// filename that will be part of the autosave url for projects
+                                                            // that are autosaved before the user has saved the project once.
 namespace Mlt
 {
 class Producer;
@@ -1940,6 +1941,10 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
     if (!m_timelineArea->isEnabled() && !force) {
         return;
     }
+    // fix mantis#3160
+    QString startFile = KdenliveSettings::defaultprojectfolder() + "/.untitled.kdenlive";
+    if (checkForBackupFile(startFile))
+        return;
     m_fileRevert->setEnabled(false);
     QString profileName = KdenliveSettings::default_profile();
     KUrl projectFolder = KdenliveSettings::defaultprojectfolder();
@@ -1986,8 +1991,11 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
     m_timelineArea->setEnabled(true);
     m_projectList->setEnabled(true);
     bool openBackup;
+
     KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, m_projectMonitor->render, m_notesWidget, &openBackup, this);
-    doc->m_autosave = new KAutoSaveFile(KUrl(), doc);
+    QByteArray hash = QCryptographicHash::hash(KUrl(startFile).encodedPath(), QCryptographicHash::Md5).toHex();
+    doc->m_autosave = new KAutoSaveFile(KUrl(hash), doc);
+
     bool ok;
     TrackView *trackView = new TrackView(doc, m_tracksActionCollection->actions(), &ok, this);
     m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description());
@@ -2083,8 +2091,17 @@ bool MainWindow::saveFileAs(const QString &outputFileName)
     // Save timeline thumbnails
     m_activeTimeline->projectView()->saveThumbnails();
     m_activeDocument->setUrl(KUrl(outputFileName));
+
+    // setting up autosave file in ~/.kde/data/stalefiles/kdenlive/
+    // saved under a crytopgraphic hash version of file name
+    // actual saving by KdenliveDoc::slotAutoSave() called by a timer 3 seconds after the document has been edited
+    // This timer is set by KdenliveDoc::setModified()
     QByteArray hash = QCryptographicHash::hash(KUrl(outputFileName).encodedPath(), QCryptographicHash::Md5).toHex();
+
     if (m_activeDocument->m_autosave == NULL) {
+        // http://api.kde.org/4.14-api/kdelibs-apidocs/kdecore/html/classKAutoSaveFile.html
+        // The temporary file is not opened or created until actually needed.
+        // The file filename does not have to exist for KAutoSaveFile to be constructed (if it exists, it will not be touched).
         m_activeDocument->m_autosave = new KAutoSaveFile(KUrl(hash), this);
     } else {
         m_activeDocument->m_autosave->setManagedFile(KUrl(hash));
@@ -2165,6 +2182,34 @@ void MainWindow::openLastFile()
     }
 }
 
+// fix mantis#3160 separate check from openFile() so we can call it from newFile()
+// to find autosaved files (in ~/.kde/data/stalefiles/kdenlive) and recover it
+bool MainWindow::checkForBackupFile(const KUrl &url)
+{
+    // Check for backup file, saved under a hash filename.
+    // We only recover files that belong to the url we passed in.
+    QByteArray hash = QCryptographicHash::hash(url.encodedPath(), QCryptographicHash::Md5).toHex();
+    QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(KUrl(hash));
+    if (!staleFiles.isEmpty()) {
+        if (KMessageBox::questionYesNo(this,
+                                       i18n("Auto-saved files exist. Do you want to recover them now?"),
+                                       i18n("File Recovery"),
+                                       KGuiItem(i18n("Recover")), KGuiItem(i18n("Don't recover"))) == KMessageBox::Yes) {
+            recoverFiles(staleFiles, url);
+            return true;
+        } else {
+            // remove the stale files
+            foreach(KAutoSaveFile * stale, staleFiles) {
+                stale->open(QIODevice::ReadWrite);
+                delete stale;
+            }
+        }
+        return false;
+    }else {
+        return false;
+    }
+}
+
 void MainWindow::openFile(const KUrl &url)
 {
     // Make sure the url is a Kdenlive project file
@@ -2216,25 +2261,8 @@ void MainWindow::openFile(const KUrl &url)
             return;
         }
     }
-
-    // Check for backup file
-    QByteArray hash = QCryptographicHash::hash(url.encodedPath(), QCryptographicHash::Md5).toHex();
-    QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(KUrl(hash));
-    if (!staleFiles.isEmpty()) {
-        if (KMessageBox::questionYesNo(this,
-                                       i18n("Auto-saved files exist. Do you want to recover them now?"),
-                                       i18n("File Recovery"),
-                                       KGuiItem(i18n("Recover")), KGuiItem(i18n("Don't recover"))) == KMessageBox::Yes) {
-            recoverFiles(staleFiles, url);
-            return;
-        } else {
-            // remove the stale files
-            foreach(KAutoSaveFile * stale, staleFiles) {
-                stale->open(QIODevice::ReadWrite);
-                delete stale;
-            }
-        }
-    }
+    if (checkForBackupFile(url))
+        return;
     m_messageLabel->setMessage(i18n("Opening file %1", url.path()), InformationMessage);
     m_messageLabel->repaint();
     doOpenFile(url, NULL);
@@ -2272,10 +2300,15 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
         doc->m_autosave = stale;
     } else {
         doc->m_autosave = stale;
-        doc->setUrl(url);//stale->managedFile());
+        // if loading from an autosave of unnamed file then keep unnamed
+        if (url.fileName().contains(".untitled.kdenlive"))
+            doc->setUrl(KUrl());
+        else
+            doc->setUrl(url);
         doc->setModified(true);
         stale->setParent(doc);
     }
+
     connectDocumentInfo(doc);
 
     progressDialog.progressBar()->setValue(2);

@@ -17,7 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+/*! \class KdenliveDoc
+    \brief Represents a kdenlive project file
 
+   Instances of KdeliveDoc classes are created by void MainWindow::newFile(bool showProjectSettings, bool force)
+*/
 #ifndef KDENLIVEDOC_H
 #define KDENLIVEDOC_H
 
@@ -217,12 +221,16 @@ public slots:
     void slotCreateTextTemplateClip(const QString &group, const QString &groupId, KUrl path);
 
     /** @brief Sets the document as modified or up to date.
+     * @description  If crash recovery is turned on, a timer calls KdenliveDoc::slotAutoSave() \n
+     * Emits docModified conected to MainWindow::slotUpdateDocumentState \n
      * @param mod (optional) true if the document has to be saved */
     void setModified(bool mod = true);
     void checkProjectClips(bool displayRatioChanged = false, bool fpsChanged = false);
     void slotAddClipFile(const KUrl &url, const stringMap &data);
 
 private slots:
+    /** @brief Saves the current project at the autosave location.
+     * @description The autosave files are in ~/.kde/data/stalefiles/kdenlive/ */
     void slotAutoSave();
 
 signals:

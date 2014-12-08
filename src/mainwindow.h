@@ -316,6 +316,8 @@ private:
     ClipItem *m_mainClip;
     /** @brief Update statusbar stylesheet (in case of color theme change). */
     void setStatusBarStyleSheet(const QPalette &p);
+    /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */
+    bool checkForBackupFile(const KUrl &url);
 
 public slots:
     /** @brief Prepares opening @param url.
@@ -345,6 +347,10 @@ private slots:
     bool saveFileAs();
 
     /** @brief Set properties to match outputFileName and save the document.
+    * Creates an autosave version of the output file too, at
+    * ~/.kde/data/stalefiles/kdenlive/ \n
+    * that will be actually written in KdenliveDoc::slotAutoSave()
+    *
     * @param outputFileName The URL to save to / The document's URL.
     * @return Whether we had success. */
     bool saveFileAs(const QString &outputFileName);
@@ -374,6 +380,8 @@ private slots:
     void slotSwitchSnap();
     void slotRenderProject();
     void slotFullScreen();
+    /** @brief if modified is true adds "modified" to the caption and enables the save button.
+    * (triggered by KdenliveDoc::setModified()) */
     void slotUpdateDocumentState(bool modified);
 
     /** @brief Sets the timeline zoom slider to @param value.
