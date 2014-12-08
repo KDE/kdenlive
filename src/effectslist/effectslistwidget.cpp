@@ -88,7 +88,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
             currentFolder = currentItem()->text(0);
     }
 
-    QString effectCategory = QStandardPaths::locate(QStandardPaths::ConfigLocation, "kdenliveeffectscategory.rc");
+    QString effectCategory = QStandardPaths::locate(QStandardPaths::DataLocation, "kdenliveeffectscategory.rc");
     QDomDocument doc;
     QFile file(effectCategory);
     doc.setContent(&file, false);

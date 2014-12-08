@@ -27,7 +27,7 @@ install(FILES
   kdenlive_titles.knsrc
   kdenlive_wipes.knsrc
   kdenlivetranscodingrc
-  DESTINATION ${CONFIG_INSTALL_DIR})
+  DESTINATION ${DATA_INSTALL_DIR}/kdenlive)
 install(FILES kdenlive.xpm DESTINATION share/pixmaps)
 install(FILES kdenlive.menu DESTINATION share/menu RENAME kdenlive)
 install(FILES kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
