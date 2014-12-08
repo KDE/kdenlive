@@ -1736,7 +1736,7 @@ void TitleWidget::saveTitle(QUrl url)
         embed_image=false;
     }
     if (!url.isValid()) {
-        QPointer<QFileDialog> fs = new QFileDialog(this, i18n("Save Title"), m_projectTitlePath, "application/x-kdenlivetitle");
+        QPointer<QFileDialog> fs = new QFileDialog(this, i18n("Save Title"), m_projectTitlePath, i18n("Kdenlive title (*.kdenlivetitle)"));
         fs->setFileMode(QFileDialog::AnyFile);
         //TODO: KF5 porting?
         //fs->setConfirmOverwrite(true);

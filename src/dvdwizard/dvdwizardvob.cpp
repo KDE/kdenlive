@@ -174,7 +174,7 @@ void DvdWizardVob::slotAddVobList(const QList<QUrl> &list)
 
 void DvdWizardVob::slotAddVobFile(QUrl url, const QString &chapters, bool checkFormats)
 {
-    if (!url.isValid()) url = QFileDialog::getOpenFileUrl(this, i18n("Add new video file"), QUrl("kfiledialog:///projectfolder"), i18n("MPEG clip (*.mpeg)"));
+    if (!url.isValid()) url = QFileDialog::getOpenFileUrl(this, i18n("Add new video file"), QUrl("kfiledialog:///projectfolder"), i18n("MPEG clip (*.mpeg *.mpg *.vob)"));
     if (!url.isValid()) return;
     QFile f(url.path());
     qint64 fileSize = f.size();
