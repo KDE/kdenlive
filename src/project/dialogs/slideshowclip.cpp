@@ -225,8 +225,7 @@ void SlideshowClip::slotGenerateThumbs()
         if (item) {
             QString path = item->data(Qt::UserRole).toString();
             if (!path.isEmpty()) {
-                QUrl url(path);
-                KFileItem f(url);
+                KFileItem f(QUrl::fromLocalFile(path));
                 f.setDelayedMimeTypes(true);
                 fileList.append(f);
             }
