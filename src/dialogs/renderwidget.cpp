@@ -1889,8 +1889,9 @@ void RenderWidget::setRenderJob(const QString &dest, int progress)
         slotCheckJob();
     } else {
         QTime startTime = item->data(1, TimeRole).toTime();
-        int seconds = startTime.secsTo(QTime::currentTime());;
-        const QString t = i18n("Estimated time %1", QTime().addSecs(seconds * (100 - progress) / progress).toString("hh:mm:ss"));
+        int seconds = startTime.secsTo(QTime::currentTime());
+        QTime ti(0, 0, (int) (seconds * (100.0 - progress) / progress));
+        const QString t = i18n("Estimated time %1", ti.toString("hh:mm:ss"));
         item->setData(1, Qt::UserRole, t);
     }
 }
@@ -1908,13 +1909,12 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         item->setStatus(FINISHEDJOB);
         QTime startTime = item->data(1, TimeRole).toTime();
         int seconds = startTime.secsTo(QTime::currentTime());
-        const QTime tm = QTime().addSecs(seconds);
-        const QString t = i18n("Rendering finished in %1", tm.toString("hh:mm:ss"));
+        QString r = QTime(0, 0, seconds).toString("hh:mm:ss");
+        QString t = i18n("Rendering finished in %1", r);
         item->setData(1, Qt::UserRole, t);
-        KNotification::event("RenderFinished",
-                             i18n("Rendering of %1 finished in %2")
-                             .arg(item->text(1), QTime(0, 0, seconds).toString(QLatin1String("hh:mm:ss"))),
-                             QPixmap(), this);
+        QString notif = i18n("Rendering of %1 finished in %2", item->text(1), r);
+        //WARNING: notification below does not seem to work 
+        KNotification::event("RenderFinished", notif, QPixmap(), this);
         QString itemGroup = item->data(0, Qt::UserRole).toString();
         if (itemGroup == "dvd") {
             emit openDvdWizard(item->text(1));
@@ -1941,9 +1941,9 @@ void RenderWidget::slotAbortCurrentJob()
 {
     RenderJobItem *current = static_cast<RenderJobItem*> (m_view.running_jobs->currentItem());
     if (current) {
-        if (current->status() == RUNNINGJOB)
+        if (current->status() == RUNNINGJOB) {
             emit abortProcess(current->text(1));
-        else {
+        } else {
             delete current;
             slotCheckJob();
             checkRenderStatus();

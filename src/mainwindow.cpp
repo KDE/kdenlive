@@ -2731,7 +2731,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         }
         playlistPath = scriptPath + ".mlt";
     } else {
-        QTemporaryFile temp(QLatin1String("kdenlive_rendering_XXXXXX.mlt"));
+        QTemporaryFile temp(QDir::tempPath() + QLatin1String("/kdenlive_rendering_XXXXXX.mlt"));
         temp.setAutoRemove(false);
         temp.open();
         playlistPath = temp.fileName();
