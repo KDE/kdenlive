@@ -42,7 +42,7 @@ protected:
     void mousePressEvent ( QMouseEvent * e );
     
 private slots:
-    void slotFillNotesMenu(QMenu *menu);
+    void slotFillNotesMenu(const QPoint &pos);
     
 private:
 

@@ -29,15 +29,18 @@
 NotesWidget::NotesWidget(QWidget * parent) :
         QTextEdit(parent)
 {
-    connect(this, SIGNAL(aboutToShowContextMenu(QMenu*)), SLOT(slotFillNotesMenu(QMenu*)));
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, SIGNAL(customContextMenuRequested(const QPoint &)), SLOT(slotFillNotesMenu(const QPoint &)));
     setMouseTracking(true);
 }
 
-void NotesWidget::slotFillNotesMenu(QMenu *menu)
+void NotesWidget::slotFillNotesMenu(const QPoint &pos)
 {
+    QMenu *menu = createStandardContextMenu();
     QAction *a = new QAction(i18n("Insert current timecode"), menu);
     connect(a, SIGNAL(triggered(bool)), this, SIGNAL(insertNotesTimecode()));
     menu->insertAction(menu->actions().at(0), a);
+    menu->exec(viewport()->mapToGlobal(pos));
 }
 
 void NotesWidget::mouseMoveEvent( QMouseEvent * e )
