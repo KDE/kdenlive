@@ -158,7 +158,7 @@ void DvdWizardVob::slotCheckProfiles()
     if (conflict) {
         showProfileError();
     }
-    else {   
+    else {
         m_warnMessage->animatedHide();
     }
 }
@@ -658,6 +658,4 @@ void DvdWizardVob::showError(const QString &error)
     m_warnMessage->removeAction(m_transcodeAction);
     m_warnMessage->animatedShow();
 }
-
-
 

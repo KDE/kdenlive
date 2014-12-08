@@ -2257,12 +2257,12 @@ void RenderWidget::errorMessage(const QString &message)
         m_infoMessage->animatedShow();
     }
     else {
-	if (m_view.tabWidget->currentIndex() == 0 && m_infoMessage->isVisible())  {
-	    m_infoMessage->animatedHide();
-	} else {
-	    // Seems like animated hide does not work when page is not visible
-	    m_infoMessage->hide();
-	}
+        if (m_view.tabWidget->currentIndex() == 0 && m_infoMessage->isVisible())  {
+            m_infoMessage->animatedHide();
+        } else {
+            // Seems like animated hide does not work when page is not visible
+            m_infoMessage->hide();
+        }
     }
 }
 

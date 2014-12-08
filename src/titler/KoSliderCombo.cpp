@@ -33,7 +33,6 @@
 #include <QMouseEvent>
 #include <QDesktopWidget>
 
-#include <klocale.h>
 #include <QDebug>
 
 class KoSliderComboContainer : public QMenu

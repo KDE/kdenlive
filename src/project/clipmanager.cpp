@@ -40,6 +40,7 @@
 #include <solid/storageaccess.h>
 #include <solid/storagedrive.h>
 #include <solid/storagevolume.h>
+#include <klocalizedstring.h>
 
 #include <QGraphicsItemGroup>
 #include <QtConcurrent>

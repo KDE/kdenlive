@@ -28,6 +28,7 @@
 #include <kio/global.h>
 #include <KIO/CopyJob>
 #include <QTemporaryFile>
+
 #include <QDialog>
 #include <QFuture>
 #include <QList>
@@ -41,6 +42,7 @@ class KArchive;
  * @brief A widget allowing to archive a project (copy all project files to a new location)
  * @author Jean-Baptiste Mardelle
  */
+
 class KMessageWidget;
 
 class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI

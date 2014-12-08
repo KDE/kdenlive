@@ -38,6 +38,7 @@
 
 #include <KMessageBox>
 #include <KIO/FileCopyJob>
+#include <klocalizedstring.h>
 
 
 TrackView::TrackView(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, QWidget *parent) :

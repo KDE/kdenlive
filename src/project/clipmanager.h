@@ -34,7 +34,6 @@
 
 #include <QUrl>
 #include <KDirWatch>
-#include <klocalizedstring.h>
 #include <KIO/CopyJob>
 #include <kimagecache.h>
 

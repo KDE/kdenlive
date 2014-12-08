@@ -23,6 +23,7 @@
 #include <QFuture>
 
 #include <QUrl>
+
 #include <mlt++/Mlt.h>
 
 
@@ -71,9 +72,6 @@ public slots:
 
 public:
     static QPixmap getImage(const QUrl &url, int width, int height);
-//    static QPixmap getImage(QDomElement xml, int frame, int width, int height);
-    /* void getImage(QUrl url, int frame, int width, int height);
-     void getThumbs(QUrl url, int startframe, int endframe, int width, int height);*/
     static QPixmap getImage(const QUrl &url, int frame, int width, int height);
     static QImage getFrame(Mlt::Producer *producer, int framepos, int frameWidth, int displayWidth, int height);
     static QImage getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int height);

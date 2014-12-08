@@ -206,9 +206,8 @@ bool DvdWizardMenu::isComplete() const
             return false;
         }
     }
-
+    
     m_menuMessage->hide();
-
 
     // check that we have a "Play all" entry
     if (targets.contains(0)) return true;

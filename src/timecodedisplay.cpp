@@ -24,7 +24,6 @@
 #include <QLineEdit>
 #include <QFontDatabase>
 
-#include <klocalizedstring.h>
 #include <KColorScheme>
 
 TimecodeDisplay::TimecodeDisplay(const Timecode& t, QWidget *parent)

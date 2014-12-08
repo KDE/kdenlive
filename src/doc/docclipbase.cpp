@@ -29,6 +29,8 @@
 #include "project/clipmanager.h"
 #include "project/dialogs/slideshowclip.h"
 
+#include <klocalizedstring.h>
+
 #include <QDebug>
 
 #include <QCryptographicHash>

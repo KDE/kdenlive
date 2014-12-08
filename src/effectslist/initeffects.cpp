@@ -29,7 +29,7 @@
 #include <QDir>
 #include <QStandardPaths>
 
-#include "locale.h"
+#include <klocalizedstring.h>
 
 initEffectsThumbnailer::initEffectsThumbnailer() :
     QThread()

@@ -1,5 +1,5 @@
 /*  This file is part of the KDE project
-    Copyright (C) 2007 David Faure <faure@kde.org>
+    Copyright (C) 2007 Matthias Kretz <kretz@kde.org>
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -20,19 +20,15 @@
 #ifndef _KDENLIVECORE_EXPORT_H
 #define _KDENLIVECORE_EXPORT_H
 
-/* needed for KDE_EXPORT and KDE_IMPORT macros */
-
+#include <QtCore/QtGlobal>
 
 #ifndef KDENLIVECORE_EXPORT
-# if defined(KDELIBS_STATIC_LIBS)
-   /* No export/import for static libraries */
-#  define KDENLIVECORE_EXPORT
-# elif defined(MAKE_KDENLIVECORE_LIB)
+# if defined(MAKE_KDENLIVECORE_LIB)
    /* We are building this library */
-#  define KDENLIVECORE_EXPORT KDE_EXPORT
+#  define KDENLIVECORE_EXPORT Q_DECL_EXPORT
 # else
    /* We are using this library */
-#  define KDENLIVECORE_EXPORT KDE_IMPORT
+#  define KDENLIVECORE_EXPORT Q_DECL_IMPORT
 # endif
 #endif
 

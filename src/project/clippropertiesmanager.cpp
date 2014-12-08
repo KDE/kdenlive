@@ -25,6 +25,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timeline/customtrackview.h"
 #include "ui_templateclip_ui.h"
 #include <KMessageBox>
+#include <klocalizedstring.h>
 
 
 ClipPropertiesManager::ClipPropertiesManager(ProjectList *projectList) :

@@ -23,7 +23,6 @@
 #include "mainwindow.h"
 
 #include <QDebug>
-#include <klocalizedstring.h>
 
 #include <QBrush>
 #include <QDomElement>
@@ -32,6 +31,7 @@
 #if QT_VERSION >= 0x040600
 #include <QPropertyAnimation>
 #endif
+#include <klocalizedstring.h>
 
 Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, const QDomElement &params, bool automaticTransition) :
     AbstractClipItem(info, QRectF(), fps),

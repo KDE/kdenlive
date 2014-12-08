@@ -29,7 +29,6 @@
 #include <mlt++/Mlt.h>
 
 #include <QDebug>
-#include <klocalizedstring.h>
 #include <kfileitem.h>
 #include <kmessagebox.h>
 

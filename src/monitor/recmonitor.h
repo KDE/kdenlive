@@ -36,6 +36,7 @@
 #include <QDateTime>
 #include <QIcon>
 #include <QUrl>
+
 #include <KComboBox>
 #include <kcapacitybar.h>
 
@@ -103,6 +104,7 @@ private:
     QAction *m_addCapturedClip;
     QAction *m_previewSettings;
     QString m_error;
+
     KMessageWidget *m_infoMessage;
 
     bool m_analyse;

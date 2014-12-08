@@ -81,6 +81,7 @@
 #include <kns3/knewstuffaction.h>
 #include <KToolBar>
 #include <KColorScheme>
+#include <klocalizedstring.h>
 
 #include <QAction>
 #include <QDesktopWidget>

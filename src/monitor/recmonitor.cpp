@@ -236,9 +236,8 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
     QString capturefile;
     QString capturename;
     if (m_infoMessage->isVisible()) {
-	m_infoMessage->animatedHide();
+        m_infoMessage->animatedHide();
     }
-
     m_previewSettings->setEnabled(ix == Video4Linux || ix == BlackMagic);
     control_frame->setVisible(ix == Video4Linux);
     m_playAction->setVisible(ix != ScreenBag);

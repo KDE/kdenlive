@@ -80,6 +80,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     frame_properties->setFixedHeight(frame_toolbar->height());
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
+
     rectBColor->setAlphaChannelEnabled(true);
     rectFColor->setAlphaChannelEnabled(true);
     fontColorButton->setAlphaChannelEnabled(true);
