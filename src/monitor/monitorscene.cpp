@@ -192,6 +192,7 @@ void MonitorScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     if (m_groupMove) {
+#ifdef USE_QJSON
         // we want to move multiple items
         // rotoscoping only for now
         QPointF diff =  event->scenePos() - m_lastPos;
@@ -221,6 +222,7 @@ void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
                 }
             }
         }
+#endif
     } else {
         QGraphicsScene::mouseMoveEvent(event);
     }
@@ -229,6 +231,7 @@ void MonitorScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 void MonitorScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
     if (m_groupMove) {
+#ifdef USE_QJSON
         QList <QGraphicsItem *> selected = selectedItems();
         foreach (QGraphicsItem *item, selected) {
             if (qgraphicsitem_cast<BPointItem*>(item) && item->parentItem()) {
@@ -240,6 +243,7 @@ void MonitorScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
             }
         }
         m_groupMove = false;
+#endif
     }
     QGraphicsScene::mouseReleaseEvent(event);
     m_view->setDragMode(QGraphicsView::NoDrag);
