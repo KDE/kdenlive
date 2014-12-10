@@ -34,6 +34,7 @@
 class KPixmapSequenceOverlayPainter;
 class QAction;
 class QNetworkConfigurationManager;
+class QTemporaryFile;
 
 class ResourceWidget : public QDialog, public Ui::FreeSound_UI
 {
@@ -76,7 +77,7 @@ private:
     OnlineItemInfo m_currentInfo;
     KPixmapSequenceOverlayPainter *m_busyWidget;
     QAction *m_autoPlay;
-    QString m_tmpThumbFile;
+    QTemporaryFile *m_tmpThumbFile;
     QString m_title;
     QString m_image;
     QString m_desc;

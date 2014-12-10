@@ -24,15 +24,14 @@
 #include <QPushButton>
 #include <QListWidget>
 #include <QApplication>
-
+#include <QJsonDocument>
+#include <QJsonParseError>
 #include <QDebug>
-#include "kdenlivesettings.h"
-#include <kio/job.h>
-#include <KLocalizedString>
 
-#ifdef USE_QJSON
-#include <qjson/parser.h>
-#endif
+#include "kdenlivesettings.h"
+#include <kio/storedtransferjob.h>
+#include <KLocalizedString>
+#include <KMessageBox>
 
 FreeSound::FreeSound(QListWidget *listWidget, QObject *parent) :
         AbstractService(listWidget, parent),
@@ -57,7 +56,8 @@ void FreeSound::slotStartSearch(const QString &searchText, int page)
         uri.append("&p=" + QString::number(page));
     uri.append("&api_key=a1772c8236e945a4bee30a64058dabf8");
 
-    KJob* resolveJob = KIO::storedGet( QUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
+    
+    KIO::StoredTransferJob* resolveJob = KIO::storedGet( QUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
     connect( resolveJob, SIGNAL(result(KJob*)), this, SLOT(slotShowResults(KJob*)) );
 }
 
@@ -66,12 +66,16 @@ void FreeSound::slotShowResults(KJob* job)
 {
     if (job->error() != 0 ) return;
     m_listWidget->blockSignals(true);
-#ifdef USE_QJSON
     KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
-    QJson::Parser parser;
-    bool ok;
     ////qDebug()<<"// GOT RESULT: "<<m_result;
-    QVariant data = parser.parse(storedQueryJob->data(), &ok);
+    QJsonParseError jsonError;
+    QJsonDocument doc = QJsonDocument::fromJson(storedQueryJob->data(), &jsonError);
+    if (jsonError.error != QJsonParseError::NoError) {
+        // There was an error parsing data
+        KMessageBox::sorry(m_listWidget, jsonError.errorString(), i18n("Error Loading Data"));
+        
+    }
+    QVariant data = doc.toVariant();
     QVariant sounds;
     if (data.canConvert(QVariant::Map)) {
         QMap <QString, QVariant> map = data.toMap();
@@ -113,7 +117,6 @@ void FreeSound::slotShowResults(KJob* job)
             ++i;
         }
     }
-#endif  
     m_listWidget->blockSignals(false);
     m_listWidget->setCurrentRow(0);
     emit searchDone();
@@ -152,11 +155,14 @@ void FreeSound::slotParseResults(KJob* job)
 {
 #ifdef USE_QJSON
     KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
-    QJson::Parser parser;
-    bool ok;
+    QJsonParseError jsonError;
+    QJsonDocument doc = QJsonDocument::fromJson(storedQueryJob->data(), &jsonError);
+    if (jsonError.error != QJsonParseError::NoError) {
+        // There was an error parsing data
+        KMessageBox::sorry(m_listWidget, jsonError.errorString(), i18n("Error Loading Data"));
+    }
+    QVariant data = doc.toVariant();
     QString html = QString("<style type=\"text/css\">tr.cellone {background-color: %1;}</style>").arg(qApp->palette().alternateBase().color().name());
-    
-    QVariant data = parser.parse(storedQueryJob->data(), &ok);
     if (data.canConvert(QVariant::Map)) {
         QMap <QString, QVariant> infos = data.toMap();
         //if (m_currentId != infos.value("id").toInt()) return;

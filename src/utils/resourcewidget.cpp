@@ -33,6 +33,7 @@
 #include <QNetworkConfigurationManager>
 #include <QDebug>
 #include <QFontDatabase>
+#include <QTemporaryFile>
 
 #include <KSharedConfig>
 #include <klocalizedstring.h>
@@ -72,19 +73,22 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
-#ifdef USE_QJSON
+    m_tmpThumbFile = new QTemporaryFile;
     service_list->addItem(i18n("Freesound Audio Library"), FREESOUND);
     service_list->addItem(i18n("Archive.org Video Library"), ARCHIVEORG);
-#endif
     service_list->addItem(i18n("Open Clip Art Graphic Library"), OPENCLIPART);
     setWindowTitle(i18n("Search Online Resources"));
-    info_browser->setStyleSheet(QString("QTextBrowser { background-color: transparent;}"));
+    QPalette p = palette();
+    p.setBrush(QPalette::Base, p.window());
+    info_browser->setPalette(p);
     connect(button_search, SIGNAL(clicked()), this, SLOT(slotStartSearch()));
     connect(search_results, SIGNAL(currentRowChanged(int)), this, SLOT(slotUpdateCurrentSound()));
     connect(button_preview, SIGNAL(clicked()), this, SLOT(slotPlaySound()));
     connect(button_import, SIGNAL(clicked()), this, SLOT(slotSaveItem()));
     connect(item_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
     connect(service_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChangeService()));
+    
+    m_networkManager = new QNetworkConfigurationManager(this);
     if (!m_networkManager->isOnline()) {
         slotOnlineChanged(false);
     }
@@ -117,7 +121,7 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
 ResourceWidget::~ResourceWidget()
 {
     delete m_currentService;
-    QFile::remove(m_tmpThumbFile);
+    delete m_tmpThumbFile;
     saveConfig();
 }
 
@@ -149,10 +153,6 @@ void ResourceWidget::slotStartSearch(int page)
 
 void ResourceWidget::slotUpdateCurrentSound()
 {
-    if (QFile::exists(m_tmpThumbFile)) {
-        KIO::SimpleJob *job = KIO::file_delete(m_tmpThumbFile);
-        job->exec();
-    }
     if (!m_autoPlay->isChecked())
         m_currentService->stopItemPreview(NULL);
     item_license->clear();
@@ -197,10 +197,11 @@ void ResourceWidget::slotLoadThumb(const QString &url)
 {
     QUrl img(url);
     if (img.isEmpty()) return;
-    if (QFile::exists(img.path())) {
-        KIO::FileCopyJob *copyjob = KIO::file_copy(img, QUrl(m_tmpThumbFile));
+    m_tmpThumbFile->close();
+    if (m_tmpThumbFile->open()) {
+        KIO::FileCopyJob *copyjob = KIO::file_copy(img, QUrl::fromLocalFile(m_tmpThumbFile->fileName()), -1, KIO::Overwrite);
         if (copyjob->exec()) {
-            slotSetImage(m_tmpThumbFile);
+            slotSetImage(m_tmpThumbFile->fileName());
             /*QPixmap pix(tmpFile);
 
             int newHeight = pix.height() * item_image->width() / pix.width();

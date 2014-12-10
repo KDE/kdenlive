@@ -25,15 +25,14 @@
 #include <QListWidget>
 #include <QDomDocument>
 #include <QApplication>
-
+#include <QJsonDocument>
+#include <QJsonParseError>
 #include <QDebug>
-#include "kdenlivesettings.h"
-#include <kio/job.h>
-#include <KLocalizedString>
 
-#ifdef USE_QJSON
-#include <qjson/parser.h>
-#endif
+#include "kdenlivesettings.h"
+#include <kio/storedtransferjob.h>
+#include <KLocalizedString>
+#include <KMessageBox>
 
 ArchiveOrg::ArchiveOrg(QListWidget *listWidget, QObject *parent) :
         AbstractService(listWidget, parent),
@@ -71,12 +70,15 @@ void ArchiveOrg::slotShowResults(KJob* job)
 {
     if (job->error() != 0 ) return;
     m_listWidget->blockSignals(true);
-#ifdef USE_QJSON
     KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
-    QJson::Parser parser;
-    bool ok;
-    ////qDebug()<<"// GOT RESULT: "<<m_result;
-    QVariant data = parser.parse(storedQueryJob->data(), &ok);
+    QJsonParseError jsonError;
+    QJsonDocument doc = QJsonDocument::fromJson(storedQueryJob->data(), &jsonError);
+    if (jsonError.error != QJsonParseError::NoError) {
+        // There was an error parsing data
+        KMessageBox::sorry(m_listWidget, jsonError.errorString(), i18n("Error Loading Data"));
+    }
+    QVariant data = doc.toVariant();
+    
     QVariant sounds;
     if (data.canConvert(QVariant::Map)) {
         QMap <QString, QVariant> map = data.toMap();
@@ -113,7 +115,6 @@ void ArchiveOrg::slotShowResults(KJob* job)
             ++i;
         }
     }
-#endif  
     m_listWidget->blockSignals(false);
     m_listWidget->setCurrentRow(0);
     emit searchDone();
