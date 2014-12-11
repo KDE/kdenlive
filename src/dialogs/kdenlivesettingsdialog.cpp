@@ -1016,9 +1016,9 @@ void KdenliveSettingsDialog::slotUpdatev4lCaptureProfile()
 
 void KdenliveSettingsDialog::loadCurrentV4lProfileInfo()
 {
-    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
+    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/";
     MltVideoProfile prof;
-    if (!QFile::exists(vl4ProfilePath)) {
+    if (!QFile::exists(vl4ProfilePath + "video4linux")) {
         // No default formats found, build one
         prof.width = 320;
         prof.height = 200;
@@ -1030,6 +1030,9 @@ void KdenliveSettingsDialog::loadCurrentV4lProfileInfo()
         prof.sample_aspect_den = 1;
         prof.progressive = 1;
         prof.colorspace = 601;
+        QDir dir;
+        dir.mkpath(vl4ProfilePath);
+        vl4ProfilePath.append("video4linux");
         ProfilesDialog::saveProfile(prof, vl4ProfilePath);
     }
     else prof = ProfilesDialog::getVideoProfile(vl4ProfilePath);
@@ -1055,7 +1058,10 @@ void KdenliveSettingsDialog::saveCurrentV4lProfile()
     profile.frame_rate_num = m_configCapture.p_fps->text().section('/', 0, 0).toInt();
     profile.frame_rate_den = m_configCapture.p_fps->text().section('/', 1, 1).toInt();
     profile.progressive = m_configCapture.p_progressive->text() == i18n("Progressive");
-    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
+    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/";
+    QDir dir;
+    dir.mkpath(vl4ProfilePath);
+    vl4ProfilePath.append("video4linux");
     ProfilesDialog::saveProfile(profile, vl4ProfilePath);
 }
 
@@ -1171,7 +1177,6 @@ void KdenliveSettingsDialog::slotUpdateProxyProfile(int ix)
     QString data = m_configProject.kcfg_proxy_profile->itemData(ix).toString();
     if (data.isEmpty()) return;
     m_configProject.proxyparams->setPlainText(data.section(';', 0, 0));
-    //
 }
 
 void KdenliveSettingsDialog::slotEditVideo4LinuxProfile()
