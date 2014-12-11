@@ -502,7 +502,7 @@ void DvdWizardVob::clear()
 void DvdWizardVob::slotTranscodeFiles()
 {
     // Find transcoding infos related to selected DVD profile
-    KSharedConfigPtr config = KSharedConfig::openConfig("kdenlivetranscodingrc", KConfig::CascadeConfig);
+    KSharedConfigPtr config = KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::DataLocation, "kdenlivetranscodingrc"), KConfig::CascadeConfig);
     KConfigGroup transConfig(config, "Transcoding");
     // read the entries
     QString profileEasyName;
@@ -555,7 +555,7 @@ void DvdWizardVob::slotTranscodeFiles()
                 if (conv_pad %2 == 1) conv_pad --;
                 postParams << "-vf" << QString("scale=%1:%2,pad=%3:%4:%5:0,setdar=%6").arg(finalSize.width() - 2 * conv_pad).arg(destSize.height()).arg(finalSize.width()).arg(finalSize.height()).arg(conv_pad).arg(input_aspect);
             }
-            ClipTranscode *d = new ClipTranscode(QList<QUrl> () << QUrl(item->text(0)), params.section(';', 0, 0), postParams, i18n("Transcoding to DVD format"), true, this);
+            ClipTranscode *d = new ClipTranscode(QStringList () << item->text(0), params.section(';', 0, 0), postParams, i18n("Transcoding to DVD format"), true, this);
             connect(d, SIGNAL(transcodedClip(QUrl,QUrl)), this, SLOT(slotTranscodedClip(QUrl,QUrl)));
             d->slotStartTransCode();
             d->show();

@@ -23,10 +23,12 @@
 
 #include <QDebug>
 #include <QFontDatabase>
+#include <QStandardPaths>
+
 #include <KMessageBox>
 #include <klocalizedstring.h>
 
-ClipTranscode::ClipTranscode(const QList <QUrl> &urls, const QString &params, const QStringList &postParams, const QString &description, bool automaticMode, QWidget * parent) :
+ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, const QStringList &postParams, const QString &description, bool automaticMode, QWidget * parent) :
     QDialog(parent), m_urls(urls), m_duration(0), m_automaticMode(automaticMode), m_postParams(postParams)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -46,10 +48,10 @@ ClipTranscode::ClipTranscode(const QList <QUrl> &urls, const QString &params, co
     auto_add->setChecked(KdenliveSettings::add_new_clip());
 
     if (m_urls.count() == 1) {
-        QString fileName = m_urls.at(0).path(); //.section('.', 0, -1);
+        QString fileName = m_urls.first(); //.section('.', 0, -1);
         QString newFile = params.section(' ', -1).replace("%1", fileName);
         QUrl dest(newFile);
-        source_url->setUrl(m_urls.at(0));
+        source_url->setUrl(m_urls.first());
         dest_url->setMode(KFile::File);
         dest_url->setUrl(dest);
         dest_url->setMode(KFile::File);//OperationMode(KFileDialog::Saving);
@@ -60,10 +62,10 @@ ClipTranscode::ClipTranscode(const QList <QUrl> &urls, const QString &params, co
         source_url->setHidden(true);
         label_dest->setText(i18n("Destination folder"));
         dest_url->setMode(KFile::Directory);
-        dest_url->setUrl(QUrl(m_urls.at(0).adjusted(QUrl::RemoveFilename)));
+        dest_url->setUrl(QUrl::fromLocalFile(m_urls.first()).adjusted(QUrl::RemoveFilename));
         dest_url->setMode(KFile::Directory | KFile::ExistingOnly);
         for (int i = 0; i < m_urls.count(); ++i)
-            urls_list->addItem(m_urls.at(i).path());
+            urls_list->addItem(m_urls.at(i));
     }
     if (!params.isEmpty()) {
         label_profile->setHidden(true);
@@ -74,7 +76,7 @@ ClipTranscode::ClipTranscode(const QList <QUrl> &urls, const QString &params, co
         } else transcode_info->setHidden(true);
     } else {
         // load Profiles
-        KSharedConfigPtr config = KSharedConfig::openConfig("kdenlivetranscodingrc", KConfig::CascadeConfig);
+        KSharedConfigPtr config = KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::DataLocation, "kdenlivetranscodingrc"), KConfig::CascadeConfig);
         KConfigGroup transConfig(config, "Transcoding");
         // read the entries
         QMap< QString, QString > profiles = transConfig.entryMap();

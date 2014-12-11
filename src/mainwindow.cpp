@@ -2629,7 +2629,7 @@ void MainWindow::loadTranscoders()
     QMenu *extractAudioMenu = static_cast<QMenu*>(factory()->container("extract_audio", this));
     extractAudioMenu->clear();
 
-    KSharedConfigPtr config = KSharedConfig::openConfig("kdenlivetranscodingrc", KConfig::CascadeConfig);
+    KSharedConfigPtr config = KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::DataLocation, "kdenlivetranscodingrc"), KConfig::CascadeConfig);
     KConfigGroup transConfig(config, "Transcoding");
     // read the entries
     QMap< QString, QString > profiles = transConfig.entryMap();
@@ -2664,7 +2664,7 @@ void MainWindow::slotStartClipAction()
     m_projectList->startClipFilterJob(filtername, condition);
 }
 
-void MainWindow::slotTranscode(const QList<QUrl> &urls)
+void MainWindow::slotTranscode(const QStringList &urls)
 {
     QString params;
     QString desc;
@@ -2691,7 +2691,9 @@ void MainWindow::slotTranscode(const QList<QUrl> &urls)
 
 void MainWindow::slotTranscodeClip()
 {
-    QList<QUrl> urls = QFileDialog::getOpenFileUrls(this, i18n("Files to transcode"), QUrl("kfiledialog:///projectfolder"));
+    QString allExtensions = m_projectList->getExtensions().join(" ");
+    const QString dialogFilter =  i18n("All Supported Files") + "(" + allExtensions + ");;" + i18n("All Files") + "(*)";
+    QStringList urls = QFileDialog::getOpenFileNames(this, i18n("Files to transcode"), "kfiledialog:///projectfolder", dialogFilter);
     if (urls.isEmpty()) return;
     slotTranscode(urls);
 }

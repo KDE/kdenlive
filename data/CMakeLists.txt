@@ -17,10 +17,6 @@ install(FILES
   timeline_avthumbs.png
   timeline_nothumbs.png
   timeline_vthumbs.png
-  DESTINATION ${DATA_INSTALL_DIR}/kdenlive)
-install(FILES kdenliveui.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kdenlive)
-install(FILES profiles.xml DESTINATION ${DATA_INSTALL_DIR}/kdenlive/export)
-install(FILES
   kdenliveeffectscategory.rc
   kdenlive_projectprofiles.knsrc
   kdenlive_renderprofiles.knsrc
@@ -28,6 +24,8 @@ install(FILES
   kdenlive_wipes.knsrc
   kdenlivetranscodingrc
   DESTINATION ${DATA_INSTALL_DIR}/kdenlive)
+install(FILES kdenliveui.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kdenlive)
+install(FILES profiles.xml DESTINATION ${DATA_INSTALL_DIR}/kdenlive/export)
 install(FILES kdenlive.xpm DESTINATION share/pixmaps)
 install(FILES kdenlive.menu DESTINATION share/menu RENAME kdenlive)
 install(FILES kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})

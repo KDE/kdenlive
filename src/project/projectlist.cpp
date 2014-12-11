@@ -1705,7 +1705,6 @@ void ProjectList::slotAddClip(const QList <QUrl> &givenList, const QString &grou
     QList <QUrl> list;
     if (givenList.isEmpty()) {
         QString allExtensions = getExtensions().join(" ");
-        qDebug()<<"*********\nEXTENSIONS: "<<allExtensions<<"\n********************";
         const QString dialogFilter =  i18n("All Supported Files") + "(" + allExtensions + ");;" + i18n("All Files") + "(*)";
         QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
         b->setChecked(KdenliveSettings::autoimagesequence());
