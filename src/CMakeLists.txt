@@ -8,7 +8,6 @@ find_package(OpenGL REQUIRED)
 if(APPLE)
   find_package(SDL REQUIRED)
 endif(APPLE)
-find_package(QJSON)
 
 option(WITH_JogShuttle "Build Jog/Shuttle support" ON)
 
@@ -55,13 +54,6 @@ set_package_properties(QtScript PROPERTIES
 #  )
 #endif(APPLE)
 
-set_package_properties(QJson PROPERTIES
- DESCRIPTION   "Qt module providing core scripting facilities"
-                URL "http://qjson.sourceforge.net"
-                TYPE RUNTIME
-                PURPOSE "Required to build the rotoscoping filter and for Freesound.org queries")
-
-
 install(FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 kconfig_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
 
@@ -81,10 +73,7 @@ add_subdirectory(simplekeyframes)
 add_subdirectory(stopmotion)
 add_subdirectory(titler)
 add_subdirectory(utils)
-
-if(QJSON_FOUND)
-  add_subdirectory(onmonitoritems/rotoscoping)
-endif(QJSON_FOUND)
+add_subdirectory(onmonitoritems/rotoscoping)
 
 list(APPEND kdenlive_SRCS
   colortools.cpp
@@ -271,31 +260,6 @@ endif(OPENGL_FOUND AND QT_QTOPENGL_FOUND)
 if(SDL_FOUND)
   target_link_libraries(kdenlive ${SDL_LIBRARY})
 endif(SDL_FOUND)
-
-if(NepomukCore_FOUND)
-    add_definitions(-DUSE_NEPOMUKCORE)
-    include_directories(${NEPOMUK_CORE_INCLUDE_DIR})
-    target_link_libraries(kdenlive ${NEPOMUK_CORE_LIBRARY})
-    # Nepomuk Core does not bring in the Soprano includes it needs
-    find_package(Soprano)
-    macro_log_feature(Soprano_FOUND "Soprano libraries"
-        "RDF storage, parsing, and serialization framework"
-        "http://soprano.sourceforge.net/" TRUE ""
-        "Required by Nepomuk Core Libraries")
-    include_directories(${SOPRANO_INCLUDE_DIR})
-else()
-  if(Nepomuk_FOUND)
-    add_definitions(-DUSE_NEPOMUK)
-    include_directories(${NEPOMUK_INCLUDES})
-    target_link_libraries(kdenlive ${NEPOMUK_LIBRARIES})
-  endif(Nepomuk_FOUND)
-endif()
-
-if(QJSON_FOUND)
-  add_definitions(-DUSE_QJSON)
-  include_directories(${QJSON_INCLUDE_DIR})
-  target_link_libraries(kdenlive ${QJSON_LIBRARIES})
-endif(QJSON_FOUND)
 
 if(LIBV4L2_FOUND)
   include_directories(${LIBV4L2_INCLUDE_DIR})

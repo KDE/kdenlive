@@ -28,12 +28,9 @@
 #include "kdenlivesettings.h"
 
 #include <mlt++/Mlt.h>
-
 #include <math.h>
 
-#include <qjson/parser.h>
-#include <qjson/serializer.h>
-
+#include <QJsonDocument>
 #include <QVBoxLayout>
 
 /** @brief Listener for "tracking-finished" event in MLT rotoscoping filter. */
@@ -42,10 +39,10 @@ void tracking_finished(mlt_service *owner, RotoWidget *self, char *data)
     Q_UNUSED(owner)
 
     if (self)
-        self->setSpline(QString(data));
+        self->setSpline(QByteArray(data));
 }
 
-RotoWidget::RotoWidget(const QString &data, Monitor *monitor, const ItemInfo &info, const Timecode &t, QWidget* parent) :
+RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo &info, const Timecode &t, QWidget* parent) :
         QWidget(parent),
         m_monitor(monitor),
         m_in(info.cropStart.frames(KdenliveSettings::project_fps())),
@@ -140,10 +137,10 @@ void RotoWidget::slotUpdateData(bool editing)
     slotUpdateData(-1, editing);
 }
 
-QString RotoWidget::getSpline()
+QByteArray RotoWidget::getSpline()
 {
-    QJson::Serializer serializer;
-    return QString(serializer.serialize(m_data));
+    QJsonDocument doc = QJsonDocument::fromVariant(m_data);
+    return doc.toJson();
 }
 
 void RotoWidget::slotPositionChanged(int pos, bool seek)
@@ -355,12 +352,12 @@ void RotoWidget::setupTrackingListen(const ItemInfo &info)
     delete clip;
 }
 
-void RotoWidget::setSpline(const QString &spline, bool notify)
+void RotoWidget::setSpline(const QByteArray &spline, bool notify)
 {
-    QJson::Parser parser;
-    bool ok;
-    m_data = parser.parse(spline.simplified().toUtf8(), &ok);
-    if (!ok) {
+    QJsonParseError jsonError;
+    QJsonDocument doc = QJsonDocument::fromJson(spline, &jsonError);
+    m_data = doc.toVariant();
+    if (jsonError.error) {
         // :(
     }
     keyframeTimelineFullUpdate();
@@ -396,16 +393,15 @@ static QVariant interpolate(int position, int in, int out, QVariant *splineIn, Q
     return QVariant(keyframe);
 }
 
-bool adjustRotoDuration(QString* data, int in, int out)
+bool adjustRotoDuration(QByteArray* data, int in, int out)
 {
-    QJson::Parser parser;
-    bool ok;
-    QVariant splines = parser.parse(data->toUtf8(), &ok);
-    if (!ok) {
-        *data = QString();
+    QJsonParseError jsonError;
+    QJsonDocument doc = QJsonDocument::fromJson(*data, &jsonError);
+    if (jsonError.error) {
+        *data = QByteArray();
         return true;
     }
-
+    QVariant splines = doc.toVariant();
     if (!splines.canConvert(QVariant::Map))
         return false;
 
@@ -464,8 +460,8 @@ bool adjustRotoDuration(QString* data, int in, int out)
         ++i;
     }
 
-    QJson::Serializer serializer;
-    *data = QString(serializer.serialize(QVariant(newMap)));
+    doc = QJsonDocument::fromVariant(QVariant(newMap));
+    *data = doc.toJson();
 
     if (startFound || endFound)
         return true;

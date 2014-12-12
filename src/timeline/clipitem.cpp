@@ -28,9 +28,7 @@
 #include "doc/kthumb.h"
 #include "doc/docclipbase.h"
 #include "dialogs/profilesdialog.h"
-#ifdef USE_QJSON
 #include "onmonitoritems/rotoscoping/rotowidget.h"
-#endif
 
 #include <QDebug>
 #include <QIcon>
@@ -2050,14 +2048,12 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
                 if (!effects.contains(i))
                     effects[i] = effect.cloneNode().toElement();
                 updateNormalKeyframes(param, oldInfo);
-#ifdef USE_QJSON
             } else if (type == "roto-spline") {
                 if (!effects.contains(i))
                     effects[i] = effect.cloneNode().toElement();
-                QString value = param.attribute("value");
+                QByteArray value = param.attribute("value").toLatin1();
                 if (adjustRotoDuration(&value, cropStart().frames(m_fps), (cropStart() + cropDuration()).frames(m_fps) - 1))
-                    param.setAttribute("value", value);
-#endif    
+                    param.setAttribute("value", QString(value));
             }
         }
     }

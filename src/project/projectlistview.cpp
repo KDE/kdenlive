@@ -498,22 +498,6 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
         }
 
         painter->restore();
-    } else if (index.column() == 2 && KdenliveSettings::activate_nepomuk()) {
-        if (index.data().toString().isEmpty()) {
-            QStyledItemDelegate::paint(painter, option, index);
-            return;
-        }
-        QRect r1 = option.rect;
-        if (option.state & (QStyle::State_Selected)) {
-            painter->fillRect(r1, option.palette.highlight());
-        }
-#ifdef NEPOMUK
-        KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
-#endif
-#ifdef NEPOMUKCORE
-        KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
-#endif
-
     } else {
         QStyledItemDelegate::paint(painter, option, index);
     }

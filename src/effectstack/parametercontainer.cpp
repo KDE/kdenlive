@@ -37,9 +37,7 @@
 #include "dialogs/profilesdialog.h"
 #include "project/projectlist.h"
 #include "timeline/customtrackview.h"
-#ifdef USE_QJSON
 #include "onmonitoritems/rotoscoping/rotowidget.h"
-#endif
 
 #include "ui_listval_ui.h"
 #include "ui_boolval_ui.h"
@@ -351,16 +349,14 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             QString depends = pa.attribute("depends");
             if (!depends.isEmpty())
                 meetDependency(paramName, type, EffectsList::parameter(e, depends));
-#ifdef USE_QJSON
         } else if (type == "roto-spline") {
 	    m_needsMonitorEffectScene = true;
-            RotoWidget *roto = new RotoWidget(value, m_metaInfo->monitor, info, m_metaInfo->timecode, parent);
+            RotoWidget *roto = new RotoWidget(value.toLatin1(), m_metaInfo->monitor, info, m_metaInfo->timecode, parent);
             connect(roto, SIGNAL(valueChanged()), this, SLOT(slotCollectAllParameters()));
             connect(roto, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
             connect(this, SIGNAL(syncEffectsPos(int)), roto, SLOT(slotSyncPosition(int)));
             m_vbox->addWidget(roto);
             m_valueItems[paramName] = roto;
-#endif
         } else if (type == "wipe") {
             Wipeval *wpval = new Wipeval;
             wpval->setupUi(toFillin);
@@ -583,11 +579,9 @@ void ParameterContainer::updateTimecodeFormat()
             PositionEdit *posi = static_cast<PositionEdit*>(m_valueItems[paramName+"position"]);
             posi->updateTimecodeFormat();
             break;
-#ifdef USE_QJSON
         } else if (type == "roto-spline") {
             RotoWidget *widget = static_cast<RotoWidget *>(m_valueItems[paramName]);
             widget->updateTimecodeFormat();
-#endif
         }
     }
 }
@@ -698,11 +692,9 @@ void ParameterContainer::slotCollectAllParameters()
             QString depends = pa.attribute("depends");
             if (!depends.isEmpty())
                 meetDependency(paramName, type, EffectsList::parameter(m_effect, depends));
-#ifdef USE_QJSON
         } else if (type == "roto-spline") {
             RotoWidget *widget = static_cast<RotoWidget *>(m_valueItems.value(paramName));
             setValue = widget->getSpline();
-#endif
         } else if (type == "wipe") {
             Wipeval *wp = static_cast<Wipeval*>(m_valueItems.value(paramName));
             wipeInfo info;

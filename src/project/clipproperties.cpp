@@ -32,22 +32,6 @@
 #include <QDebug>
 #include <QFontDatabase>
 
-#ifdef USE_NEPOMUK
-  #if KDE_IS_VERSION(4,6,0)
-    #include <Nepomuk/Variant>
-    #include <Nepomuk/Resource>
-    #include <Nepomuk/ResourceManager>
-    #include <Nepomuk/Vocabulary/NIE>
-  #endif
-#endif
-#ifdef USE_NEPOMUKCORE
-  #include <Nepomuk2/Variant>
-  #include <Nepomuk2/Resource>
-  #include <Nepomuk2/ResourceManager>
-  #include <Nepomuk2/Vocabulary/NIE>
-#endif
-
-
 #include <QDir>
 #include <QPainter>
 #include <QFileDialog>
@@ -503,51 +487,6 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     m_view.analysis_load->setToolTip(i18n("Load analysis data"));
     m_view.analysis_save->setIcon(QIcon::fromTheme("document-save-as"));
     m_view.analysis_save->setToolTip(i18n("Save analysis data"));
-
-    // Check for Nepomuk metadata
-#ifdef USE_NEPOMUK
-  #if KDE_IS_VERSION(4,6,0)
-    if (url.isValid()) {
-        Nepomuk::ResourceManager::instance()->init();
-        Nepomuk::Resource res( url.path() );
-        // Check if file has a license
-        if (res.hasProperty(Nepomuk::Vocabulary::NIE::license())) {
-            QString ltype = res.property(Nepomuk::Vocabulary::NIE::licenseType()).toString();
-            m_view.clip_license->setText(i18n("License: %1", res.property(Nepomuk::Vocabulary::NIE::license()).toString()));
-            if (ltype.startsWith(QLatin1String("http"))) {
-                m_view.clip_license->setUrl(ltype);
-                connect(m_view.clip_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
-            }
-        }
-        else m_view.clip_license->setHidden(true);
-    }
-    else m_view.clip_license->setHidden(true);
-  #else
-    m_view.clip_license->setHidden(true);
-  #endif
-#else
-  #ifdef USE_NEPOMUKCORE
-
-    if (url.isValid()) {
-        Nepomuk2::ResourceManager::instance()->init();
-        Nepomuk2::Resource res( url.path() );
-        // Check if file has a license
-        if (res.hasProperty(Nepomuk2::Vocabulary::NIE::license())) {
-            QString ltype = res.property(Nepomuk2::Vocabulary::NIE::licenseType()).toString();
-            m_view.clip_license->setText(i18n("License: %1", res.property(Nepomuk2::Vocabulary::NIE::license()).toString()));
-            if (ltype.startsWith(QLatin1String("http"))) {
-                m_view.clip_license->setUrl(ltype);
-                connect(m_view.clip_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
-            }
-        }
-        else m_view.clip_license->setHidden(true);
-    }
-    else m_view.clip_license->setHidden(true);
-  #else
-    m_view.clip_license->setHidden(true);
-  #endif
-#endif
-
     slotFillMarkersList(m_clip);
     slotUpdateAnalysisData(m_clip);
     

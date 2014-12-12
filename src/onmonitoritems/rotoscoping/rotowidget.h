@@ -35,21 +35,21 @@ class Filter;
 }
 
 /** @brief Adjusts keyframes after resizing a clip. */
-bool adjustRotoDuration(QString *data, int in, int out);
+bool adjustRotoDuration(QByteArray *data, int in, int out);
 
 class RotoWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    RotoWidget(const QString &data, Monitor *monitor, const ItemInfo &info, const Timecode &t, QWidget* parent = 0);
+    RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo &info, const Timecode &t, QWidget* parent = 0);
     ~RotoWidget();
 
     /** @brief Returns the spline(s) in the JSON format used by filter_rotoscoping (MLT). */
-    QString getSpline();
+    QByteArray getSpline();
 
     /** @brief Replaces current data with \param spline (JSON). */
-    void setSpline(const QString &spline, bool notify = true);
+    void setSpline(const QByteArray &spline, bool notify = true);
 
     /** @brief Passed on to the keyframe timeline. Switches between frames and hh:mm:ss:ff timecode. */
     void updateTimecodeFormat();

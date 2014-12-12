@@ -45,26 +45,6 @@
 #include <KPixmapSequenceOverlayPainter>
 #include <KFileItem>
 
-#ifdef USE_NEPOMUK
-  #if KDE_IS_VERSION(4,6,0)
-    #include <Nepomuk/Variant>
-    #include <Nepomuk/Resource>
-    #include <Nepomuk/ResourceManager>
-    #include <Nepomuk/Vocabulary/NIE>
-    #include <Nepomuk/Vocabulary/NCO>
-    #include <Nepomuk/Vocabulary/NDO>
-  #endif
-#endif
-
-#ifdef USE_NEPOMUKCORE
-  #include <Nepomuk2/Variant>
-  #include <Nepomuk2/Resource>
-  #include <Nepomuk2/ResourceManager>
-  #include <Nepomuk2/Vocabulary/NIE>
-  #include <Nepomuk2/Vocabulary/NCO>
-  #include <Nepomuk2/Vocabulary/NDO>
-#endif
-
 ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     QDialog(parent),
     m_folder(folder),
@@ -111,9 +91,6 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     
     sound_box->setEnabled(false);
     search_text->setFocus();
-#ifdef USE_NEPOMUK
-    Nepomuk::ResourceManager::instance()->init();
-#endif
     slotChangeService();
     loadConfig();
 }
@@ -279,26 +256,6 @@ void ResourceWidget::slotGotFile(KJob *job)
     if (job->error() != 0 ) return;
     KIO::FileCopyJob* copyJob = static_cast<KIO::FileCopyJob*>( job );
     const QUrl filePath = copyJob->destUrl();
-#ifdef USE_NEPOMUK
-    Nepomuk::Resource res( filePath );
-    res.setProperty( Nepomuk::Vocabulary::NIE::license(), (Nepomuk::Variant) job->property("license") );
-    res.setProperty( Nepomuk::Vocabulary::NIE::licenseType(), (Nepomuk::Variant) job->property("licenseurl") );
-    res.setProperty( Nepomuk::Vocabulary::NDO::copiedFrom(), (Nepomuk::Variant) job->property("originurl") );
-    res.setProperty( Nepomuk::Vocabulary::NCO::creator(), (Nepomuk::Variant) job->property("author") );
-    //res.setDescription(item_description->toPlainText());
-    //res.setProperty( Soprano::Vocabulary::NAO::description(),
-#endif
-
-#ifdef USE_NEPOMUKCORE
-    Nepomuk2::Resource res( filePath );
-    res.setProperty( Nepomuk2::Vocabulary::NIE::license(), (Nepomuk2::Variant) job->property("license") );
-    res.setProperty( Nepomuk2::Vocabulary::NIE::licenseType(), (Nepomuk2::Variant) job->property("licenseurl") );
-    res.setProperty( Nepomuk2::Vocabulary::NDO::copiedFrom(), (Nepomuk2::Variant) job->property("originurl") );
-    res.setProperty( Nepomuk2::Vocabulary::NCO::creator(), (Nepomuk2::Variant) job->property("author") );
-    //res.setDescription(item_description->toPlainText());
-    //res.setProperty( Soprano::Vocabulary::NAO::description(),
-#endif
-
     emit addClip(filePath, stringMap());
 }
 

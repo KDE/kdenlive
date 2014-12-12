@@ -57,19 +57,6 @@
 #include <QHBoxLayout>
 #include <KPassivePopup>
 
-
-#ifdef USE_NEPOMUK
-  #include <nepomuk/global.h>
-  #include <nepomuk/resourcemanager.h>
-  #include <Nepomuk/Resource>
-  //#include <nepomuk/tag.h>
-#endif
-
-#ifdef USE_NEPOMUKCORE
-  #include <nepomuk2/resourcemanager.h>
-  #include <Nepomuk2/Resource>
-#endif
-
 #include <QAction>
 #include <QPixmap>
 #include <QMenu>
@@ -299,26 +286,6 @@ ProjectList::ProjectList(QWidget *parent) :
     m_listView->setItemDelegate(m_listViewDelegate);
 
     m_clipPropertiesManager = new ClipPropertiesManager(this);
-
-#ifdef USE_NEPOMUK
-    if (KdenliveSettings::activate_nepomuk()) {
-        Nepomuk::ResourceManager::instance()->init();
-        if (!Nepomuk::ResourceManager::instance()->initialized()) {
-            //qDebug() << "Cannot communicate with Nepomuk, DISABLING it";
-            KdenliveSettings::setActivate_nepomuk(false);
-        }
-    }
-#endif
-#ifdef USE_NEPOMUKCORE
-    if (KdenliveSettings::activate_nepomuk()) {
-        Nepomuk2::ResourceManager::instance()->init();
-        if (!Nepomuk2::ResourceManager::instance()->initialized()) {
-            //qDebug() << "Cannot communicate with Nepomuk, DISABLING it";
-            KdenliveSettings::setActivate_nepomuk(false);
-        }
-    }
-#endif
-
 }
 
 ProjectList::~ProjectList()
@@ -981,23 +948,6 @@ void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QSt
         emit clipNameChanged(clip->clipId(), properties.value("name"));
     }
     if (properties.contains("description")) {
-#ifdef USE_NEPOMUK
-        ClipType type = clip->clipType();
-#endif
-        monitorItemEditing(false);
-        clip->setText(1, properties.value("description"));
-        monitorItemEditing(true);
-
-#ifdef USE_NEPOMUK
-        bool hasType = (type == Audio || type == Video || type == AV ||
-                        type == Image || type == Playlist);
-
-        if (KdenliveSettings::activate_nepomuk() && hasType) {
-            // Use Nepomuk system to store clip description
-            Nepomuk::Resource f(clip->clipUrl().path());
-            f.setDescription(properties.value("description"));
-        }
-#endif
         emit projectModified();
     }
 }
@@ -1347,18 +1297,6 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     }*/
     
     QUrl url = clip->fileURL();
-#ifdef USE_NEPOMUK
-    if (url.isValid() && KdenliveSettings::activate_nepomuk() && clip->getProperty("description").isEmpty()) {
-        // if file has Nepomuk comment, use it
-        Nepomuk::Resource f(url.path());
-        QString annotation = f.description();
-        if (!annotation.isEmpty()) {
-            item->setText(1, annotation);
-            clip->setProperty("description", annotation);
-        }
-        item->setText(2, QString::number(f.rating()));
-    }
-#endif
 
     // Add info to date column
     QFileInfo fileInfo(url.path());

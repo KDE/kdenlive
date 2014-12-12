@@ -71,10 +71,11 @@ void initEffects::refreshLumas()
 
     QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, "lumas");
     foreach(const QString & folder, customLumas) {
-        QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
+        QDir directory(folder);
+        QStringList filesnames = directory.entryList(filters, QDir::Files);
         foreach(const QString & fname, filesnames) {
             imagenamelist.append(fname);
-            imagefiles.append(QUrl(folder).path() + QDir::separator() + fname);
+            imagefiles.append(directory.absoluteFilePath(fname));
         }
     }
 
@@ -84,8 +85,7 @@ void initEffects::refreshLumas()
     QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
     foreach(const QString & fname, filesnames) {
         imagenamelist.append(fname);
-        QFileInfo f(folder.path(), fname);
-        imagefiles.append(f.filePath());
+        imagefiles.append(lumafolder.absoluteFilePath(fname));
     }
     QDomElement lumaTransition = MainWindow::transitions.getEffectByTag("luma", "luma");
     QDomNodeList params = lumaTransition.elementsByTagName("parameter");
@@ -249,7 +249,7 @@ void initEffects::parseEffectFiles(const QString &locale)
     }
 
     // Set the directories to look into for effects.
-    QStringList direc = QStandardPaths::locateAll(QStandardPaths::DataLocation, "effects");
+    QStringList direc = QStandardPaths::locateAll(QStandardPaths::DataLocation, "effects", QStandardPaths::LocateDirectory);
     // Iterate through effects directories to parse all XML files.
     for (more = direc.begin(); more != direc.end(); ++more) {
         QDir directory(*more);
@@ -257,7 +257,7 @@ void initEffects::parseEffectFiles(const QString &locale)
         filter << "*.xml";
         fileList = directory.entryList(filter, QDir::Files);
         for (it = fileList.begin(); it != fileList.end(); ++it) {
-            itemName = QUrl(*more + *it).path();
+            itemName = directory.absoluteFilePath(*it);
             parseEffectFile(&MainWindow::customEffects,
                             &MainWindow::audioEffects,
                             &MainWindow::videoEffects,
@@ -324,7 +324,7 @@ void initEffects::parseCustomEffectsFile()
     QDomElement e;
     int unknownGroupCount = 0;
     foreach(const QString & filename, fileList) {
-        QString itemName = QUrl(path + filename).path();
+        QString itemName = directory.absoluteFilePath(filename);
         QFile file(itemName);
         doc.setContent(&file, false);
         file.close();
@@ -569,8 +569,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
     QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
     foreach(const QString & fname, filesnames) {
         imagenamelist.append(fname);
-        QFileInfo f(folder.path(), fname);
-        imagefiles.append(f.filePath());
+        imagefiles.append(lumafolder.absoluteFilePath(fname));
     }
     
     //WARNING: this is a hack to get around temporary invalid metadata in MLT, 2nd of june 2011 JBM
