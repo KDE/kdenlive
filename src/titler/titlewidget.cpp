@@ -39,11 +39,9 @@
 #include <QCryptographicHash>
 #include <QKeyEvent>
 
-#if QT_VERSION >= 0x040600
 #include <QGraphicsEffect>
 #include <QGraphicsBlurEffect>
 #include <QGraphicsDropShadowEffect>
-#endif
 
 #include <iostream>
 #include <QStandardPaths>

@@ -57,9 +57,7 @@
 #include <QApplication>
 #include <QMimeData>
 
-#if QT_VERSION >= 0x040600
 #include <QGraphicsDropShadowEffect>
-#endif
 
 #define SEEK_INACTIVE (-1)
 
@@ -836,7 +834,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         m_dragItem = NULL;
     }
 
-#if QT_VERSION >= 0x040800
     // Add shadow to dragged item, currently disabled because of painting artifacts
     /*if (m_dragItem) {
     QGraphicsDropShadowEffect *eff = new QGraphicsDropShadowEffect();
@@ -844,7 +841,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     eff->setOffset(3, 3);
     m_dragItem->setGraphicsEffect(eff);
     }*/
-#endif
     if (m_dragItem && m_dragItem->type() == TransitionWidget && m_dragItem->isEnabled()) {
         // update transition menu action
         m_autoTransition->setChecked(static_cast<Transition *>(m_dragItem)->isAutomatic());
@@ -2590,12 +2586,8 @@ void CustomTrackView::deleteTransition(const ItemInfo &transitionInfo, int endTr
     m_document->renderer()->mltDeleteTransition(item->transitionTag(), endTrack, m_document->tracksCount() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, item->toXML(), refresh);
     if (m_dragItem == item) m_dragItem = NULL;
 
-#if QT_VERSION >= 0x040600
     // animate item deletion
     item->closeAnimation();
-#else
-    delete item;
-#endif
     emit transitionItemSelected(NULL);
     setDocumentModified();
 }
@@ -3574,11 +3566,9 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
     }
     m_clipDrag = false;
     //setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
-#if QT_VERSION >= 0x040800
     if (m_dragItem) {
         m_dragItem->setGraphicsEffect(NULL);
     }
-#endif
     if (m_scrollTimer.isActive()) m_scrollTimer.stop();
     if (event->button() == Qt::MidButton) {
         return;
@@ -4159,7 +4149,6 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
 
     if (m_dragItem == item) m_dragItem = NULL;
 
-#if QT_VERSION >= 0x040600
     // animate item deletion
     item->closeAnimation();
     /*if (refresh) item->closeAnimation();
@@ -4169,10 +4158,6 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
         delete item;
         item = NULL;
     }*/
-#else
-    delete item;
-    item = NULL;
-#endif
 
     setDocumentModified();
     if (refresh) m_document->renderer()->doRefresh();

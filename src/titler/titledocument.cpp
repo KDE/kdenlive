@@ -41,11 +41,9 @@
 #include <QTextCursor>
 #include <locale.h>
 
-#if QT_VERSION >= 0x040600
 #include <QGraphicsEffect>
 #include <QGraphicsBlurEffect>
 #include <QGraphicsDropShadowEffect>
-#endif
 
 QByteArray fileToByteArray(const QString& filename)
 {
@@ -225,7 +223,6 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
         e.setAttribute("z-index", item->zValue());
         pos.appendChild(tr);
 
-#if QT_VERSION >= 0x040600
         // effects
         QGraphicsEffect *eff = item->graphicsEffect();
         if (eff) {
@@ -246,7 +243,6 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             }*/
             e.appendChild(effect);
         }
-#endif
 
         e.appendChild(pos);
         e.appendChild(content);
@@ -486,7 +482,6 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                 gitem->setZValue(zValue);
                 gitem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
-#if QT_VERSION >= 0x040600
                 // effects
                 QDomNode eff = items.item(i).namedItem("effect");
                 if (!eff.isNull()) {
@@ -502,7 +497,6 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                         gitem->setGraphicsEffect(shadow);
                     }
                 }
-#endif
             }
 
             if (items.item(i).nodeName() == "background") {

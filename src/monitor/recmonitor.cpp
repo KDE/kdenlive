@@ -140,7 +140,6 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
     connect(m_captureProcess, SIGNAL(readyReadStandardError()), this, SLOT(slotReadProcessInfo()));
     
     QString videoDriver = KdenliveSettings::videodrivername();
-#if QT_VERSION >= 0x040600
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     env.insert("SDL_WINDOWID", QString::number(videoSurface->winId()));
     if (!videoDriver.isEmpty()) {
@@ -150,18 +149,6 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
         } else env.insert("SDL_VIDEODRIVER", videoDriver);
     }
     m_displayProcess->setProcessEnvironment(env);
-#else
-    QStringList env = QProcess::systemEnvironment();
-    env << "SDL_WINDOWID=" + QString::number(videoSurface->winId());
-    if (!videoDriver.isEmpty()) {
-        if (videoDriver == "x11_noaccel") {
-            env << "SDL_VIDEO_YUV_HWACCEL=0";
-            env << "SDL_VIDEODRIVER=x11";
-        } else env << "SDL_VIDEODRIVER=" + videoDriver;
-    }
-    m_displayProcess->setEnvironment(env);
-#endif
-
     setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
 
     //qDebug() << "/////// BUILDING MONITOR, ID: " << videoSurface->winId();

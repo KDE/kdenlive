@@ -45,10 +45,8 @@ AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF& rect, dou
         , m_isMainSelectedClip(false)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-#if QT_VERSION >= 0x040600
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption, true);
-#endif
 }
 
 AbstractClipItem::~AbstractClipItem()
@@ -57,7 +55,6 @@ AbstractClipItem::~AbstractClipItem()
 
 void AbstractClipItem::closeAnimation()
 {
-#if QT_VERSION >= 0x040600
     if (!isEnabled()) return;
     setEnabled(false);
     setFlag(QGraphicsItem::ItemIsSelectable, false);
@@ -86,7 +83,6 @@ void AbstractClipItem::closeAnimation()
     group->addAnimation(closeAnimation);
     group->addAnimation(closeAnimation2);
     group->start(QAbstractAnimation::DeleteWhenStopped);
-#endif
 }
 
 ItemInfo AbstractClipItem::info() const

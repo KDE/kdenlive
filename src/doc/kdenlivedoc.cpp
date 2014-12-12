@@ -103,12 +103,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     m_documentProperties["proxyminsize"] = QString::number(KdenliveSettings::proxyminsize());
     m_documentProperties["generateimageproxy"] = QString::number((int) KdenliveSettings::generateimageproxy());
     m_documentProperties["proxyimageminsize"] = QString::number(KdenliveSettings::proxyimageminsize());
-#if QT_VERSION >= 0x040700
     m_documentProperties["documentid"] = QString::number(QDateTime::currentMSecsSinceEpoch());
-#else
-    QDateTime date = QDateTime::currentDateTime();
-    m_documentProperties["documentid"] = QString::number(date.toTime_t());
-#endif
 
     // Load properties
     QMapIterator<QString, QString> i(properties);

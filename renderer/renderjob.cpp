@@ -53,15 +53,9 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, int pid, const QString& rend
     m_renderProcess = new QProcess;
     
     // Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
-#if QT_VERSION >= 0x040600
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     env.insert(QLatin1String("MLT_NO_VDPAU"), QLatin1String("1"));
     m_renderProcess->setProcessEnvironment(env);
-#else
-    QStringList env = QProcess::systemEnvironment();
-    env << QLatin1String("MLT_NO_VDPAU=1");
-    m_renderProcess->setEnvironment(env);
-#endif
 
     m_prog = renderer;
     m_args << scenelist;
@@ -124,15 +118,9 @@ RenderJob::~RenderJob()
 
 void RenderJob::setLocale(const QString &locale)
 {
-#if QT_VERSION >= 0x040600
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     env.insert(QLatin1String("LC_NUMERIC"), locale);
     m_renderProcess->setProcessEnvironment(env);
-#else
-    QStringList env = QProcess::systemEnvironment();
-    env << QString::fromLatin1("LC_NUMERIC=%1").arg(locale);
-    m_renderProcess->setEnvironment(env);
-#endif
 }
 
 void RenderJob::slotAbort(const QString& url)

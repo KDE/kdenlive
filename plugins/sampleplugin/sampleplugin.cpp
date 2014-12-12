@@ -71,15 +71,9 @@ QUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
         QProcess generatorProcess;
 
         // Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
-#if QT_VERSION >= 0x040600
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
         env.insert(QLatin1String("MLT_NO_VDPAU"), QLatin1String("1"));
         generatorProcess.setProcessEnvironment(env);
-#else
-        QStringList env = QProcess::systemEnvironment();
-        env << QLatin1String("MLT_NO_VDPAU=1");
-        generatorProcess.setEnvironment(env);
-#endif
         QStringList args;
         if (generator == i18n("Noise")) {
             args << QLatin1String("noise:") << QLatin1String("in=0") << QLatin1String("out=") + QString::number((int) fps * view.duration->value());

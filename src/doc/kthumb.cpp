@@ -234,14 +234,8 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
         } else {
             image = image.scaled(displayWidth, height, Qt::IgnoreAspectRatio).rgbSwapped();
         }
-#if QT_VERSION >= 0x040800
 	p.fill(QColor(100, 100, 100, 70));
         QPainter painter(&p);
-#else
-	p.fill(Qt::transparent);
-	QPainter painter(&p);
-	painter.fillRect(p.rect(), QColor(100, 100, 100, 70));
-#endif
         painter.drawImage(p.rect(), image);
         painter.end();
     } else
@@ -261,22 +255,14 @@ uint KThumb::imageVariance(const QImage &image )
     // First pass: get pivots and taking average
     for( uint i=0; i<STEPS ; ++i ){
         pivot[i] = bits[2 * i];
-#if QT_VERSION >= 0x040700
         avg+=pivot.at(i);
-#else
-        avg+=pivot[i];
-#endif
     }
     if (STEPS)
         avg=avg/STEPS;
     // Second Step: calculate delta (average?)
     for (uint i=0; i<STEPS; ++i)
     {
-#if QT_VERSION >= 0x040700
         int curdelta=abs(int(avg - pivot.at(i)));
-#else
-        int curdelta=abs(int(avg - pivot[i]));
-#endif
         delta+=curdelta;
     }
     if (STEPS)
