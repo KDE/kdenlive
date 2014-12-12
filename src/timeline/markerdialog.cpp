@@ -71,6 +71,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Time
         int width = Kdenlive::DefaultThumbHeight * m_dar;
         if (width % 2 == 1) width++;
         QPixmap p(width, 100);
+        p.fill(Qt::transparent);
         QString colour = clip->getProperty("colour");
         int swidth = (int) (Kdenlive::DefaultThumbHeight * m_profile->width() / m_profile->height() + 0.5);
 
@@ -79,6 +80,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Time
         case AV:
         case SlideShow:
         case Playlist:
+            m_previewTimer->start();
             connect(this, SIGNAL(updateThumb()), m_previewTimer, SLOT(start()));
             break;
         case Image:
@@ -110,7 +112,6 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Time
     marker_comment->setText(t.comment());
     marker_comment->selectAll();
     marker_comment->setFocus();
-
     adjustSize();
 }
 
