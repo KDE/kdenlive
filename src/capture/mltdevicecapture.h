@@ -15,10 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-/**
+/*!
  * @class MltDeviceCapture
  * @brief Interface for MLT capture.
+ * Capturing started by   MltDeviceCapture::slotStartCapture ()
+ *
+ * Capturing is stopped  by  RecMonitor::slotStopCapture()
  */
+
+
 
 #ifndef MLTDEVICECAPTURE_H
 #define MLTDEVICECAPTURE_H
@@ -71,6 +76,7 @@ Q_OBJECT public:
 
     /** @brief Starts the MLT Video4Linux process.
      * @param surface The widget onto which the frame should be painted
+     * Called by  RecMonitor::slotRecord ()
      */
     bool slotStartCapture(const QString &params, const QString &path, const QString &playlist, bool livePreview, bool xmlPlaylist = true);
     bool slotStartPreview(const QString &producer, bool xmlFormat = false);

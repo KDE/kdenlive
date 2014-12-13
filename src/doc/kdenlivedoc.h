@@ -199,6 +199,12 @@ private:
     void setNewClipResource(const QString &id, const QString &path);
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
     void moveProjectData(const KUrl &url);
+    /**
+     * @brief check for issues with the clips in the project
+     * Instansiates DocumentChecker objects to do this task.
+     * @param infoproducers
+     * @return
+     */
     bool checkDocumentClips(QDomNodeList infoproducers);
 
     /** @brief Creates a new project. */
@@ -217,6 +223,13 @@ public slots:
     void slotCreateXmlClip(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
     void slotCreateColorClip(const QString &name, const QString &color, const QString &duration, const QString &group, const QString &groupId);
     void slotCreateSlideshowClipFile(const QMap<QString, QString> &properties, const QString &group, const QString &groupId);
+    /**
+     * @brief Create a title clip.
+     *  Instansiates TitleWidget objects
+     * @param group
+     * @param groupId
+     * @param templatePath
+     */
     void slotCreateTextClip(QString group, const QString &groupId, const QString &templatePath = QString());
     void slotCreateTextTemplateClip(const QString &group, const QString &groupId, KUrl path);
 

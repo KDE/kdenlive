@@ -17,10 +17,12 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-/**
+/*!
 * @class RecMonitor
-* @brief Records video via dvgrab, video4linux and recordmydesktop
+* @brief Records video via dvgrab (firewire), ffmpeg=video4linux and screen capture also via ffmpeg
 * @author Jean-Baptiste Mardelle
+* Recording is started by RecMonitor::slotRecord ()
+* Recording stoped in RecMonitor::slotStopCapture ()
 */
 
 #ifndef RECMONITOR_H
@@ -127,6 +129,12 @@ private:
 
 private slots:
     void slotStartPreview(bool play = true);
+    /**
+     * @brief Starts recording from the Record Monitor tab.
+     * 4 different recording modes
+     * Firewire, ScreenBag (=Screen Grab), Video4Linux (=Ffmepg)  and BlackMagic. \n
+     * calls MltDeviceCapture::slotStartCapture ()
+     */
     void slotRecord();
     void slotProcessStatus(QProcess::ProcessState status);
     void slotVideoDeviceChanged(int ix);
@@ -148,6 +156,9 @@ public slots:
     void slotPlay();
     void stop();
     void start();
+    /**
+     * @brief Stops the RecMonitor capturing
+     */
     void slotStopCapture();
     void slotUpdateCaptureFolder(const QString &currentProjectFolder);
     void slotMouseSeek(int eventDelta, bool fast);

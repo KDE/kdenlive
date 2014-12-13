@@ -591,6 +591,11 @@ void RecMonitor::slotStartPreview(bool play)
 void RecMonitor::slotRecord()
 {
     m_error.clear();
+    video_frame->setText(i18n(""));// clear error text from previous run if any.
+    // ^^ This does clear the error text but the change is not visible straight way in the UI
+    // it only becomes visible after the capture is complete. Vincent and JBM - how come? What can
+    // we do to make the error text go way as soon as a new capture starts. It is missleading to the user
+    // to have the error still display while we are happily capturing.
     if (m_captureProcess->state() == QProcess::NotRunning && device_selector->currentIndex() == Firewire) {
         slotStartPreview();
     }
@@ -641,7 +646,7 @@ void RecMonitor::slotRecord()
         if (capturename.isEmpty()) capturename = "capture";
 
         switch (device_selector->currentIndex()) {
-        case Video4Linux:
+        case Video4Linux: //ffmpeg capture
             if (rec_video->isChecked()) slotActivateMonitor();
             path = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
             profile = ProfilesDialog::getVideoProfile(path);
@@ -691,19 +696,19 @@ void RecMonitor::slotRecord()
                 m_recAction->setEnabled(false);
                 m_stopAction->setEnabled(true);
                 m_previewSettings->setEnabled(false);
-		control_frame->setEnabled(false);
+                control_frame->setEnabled(false);
             }
             else {
-                video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));
+                video_frame->setText(i18n("Failed to start ffmpeg capture,\ncheck your parameters..."));
                 videoBox->setHidden(true);
-		m_recAction->blockSignals(true);
-		m_recAction->setChecked(false);
-		m_recAction->blockSignals(false);
+                m_recAction->blockSignals(true);
+                m_recAction->setChecked(false);
+                m_recAction->blockSignals(false);
                 m_isCapturing = false;
             }
             break;
 
-        case BlackMagic:
+        case BlackMagic:// BlackMagic capture
             slotActivateMonitor();
             path = KdenliveSettings::current_profile();
             profile = ProfilesDialog::getVideoProfile(path);
@@ -727,7 +732,7 @@ void RecMonitor::slotRecord()
             }
             break;
 
-        case ScreenBag:
+        case ScreenBag:// screen grab capture
 	    m_captureArgs << "-f" << "x11grab";
 	    if (KdenliveSettings::grab_follow_mouse()) m_captureArgs << "-follow_mouse" << "centered";
 	    if (!KdenliveSettings::grab_hide_frame()) m_captureArgs << "-show_region" << "1";

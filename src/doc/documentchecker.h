@@ -36,6 +36,13 @@ class DocumentChecker: public QObject
 public:
     explicit DocumentChecker(const QDomNodeList &infoproducers, const QDomDocument &doc);
     ~DocumentChecker();
+    /**
+     * @brief checks for problems with the clips in the project
+     * Checks for missing proxies, wrong duration clips, missing fonts, missing images, missing source clips
+     * Calls DocumentChecker::checkMissingImagesAndFonts () /n
+     * Called by KdenliveDoc::checkDocumentClips ()        /n
+     * @return
+     */
     bool hasErrorInClips();
 
 private slots:

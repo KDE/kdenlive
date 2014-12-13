@@ -50,7 +50,10 @@ public:
     double rotatex, rotatey, rotatez;
 };
 
-
+/*! \class KdenliveDoc
+    \brief Represents a kdenlive project file
+Instances of TitleWidget classes are instansiated by KdenliveDoc::slotCreateTextClip ()
+*/
 class TitleWidget : public QDialog , public Ui::TitleWidget_UI
 {
     Q_OBJECT
@@ -73,9 +76,10 @@ public:
      * @return list of the image files */
     static QStringList extractImageList(const QString &xml);
 
-    /** @brief Checks for the fonts referenced by a title clip.
+    /** @brief Checks for the fonts referenced by a title clip.\n
+     * Called by DocumentChecker::hasErrorInClips () \n
      * @param xml XML data representing the title
-     * @return list of the fonts */
+     * @return list of the fonts in the title  */
     static QStringList extractFontList(const QString &xml);
 
     /** @brief Returns clip duration. */
