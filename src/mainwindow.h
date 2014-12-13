@@ -575,6 +575,9 @@ private slots:
     /** @brief Set MLT's consumer interpolation method */
     void slotSetInterpolation(int ix);
 
+// Ripple Edit 
+    void slotRippleDelete();
+
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
 };

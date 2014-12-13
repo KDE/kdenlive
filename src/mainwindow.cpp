@@ -1749,6 +1749,11 @@ void MainWindow::setupActions()
     collection.addAction("stopmotion", stopMotion);
     connect(stopMotion , SIGNAL(triggered()), this, SLOT(slotOpenStopmotion()));
 
+    KAction *rippleDelete = new KAction(KIcon(), i18n("Ripple Delete"), this);
+    rippleDelete->setShortcut(Qt::CTRL + Qt::Key_X);
+    collection.addAction("ripple_delete", rippleDelete);
+    connect(rippleDelete, SIGNAL(triggered()), this, SLOT(slotRippleDelete()));
+
     QMenu *addClips = new QMenu();
     addClips->addAction(addClip);
     addClips->addAction(addColorClip);
@@ -3164,6 +3169,45 @@ void MainWindow::slotRemoveSpace()
 {
     if (m_activeTimeline)
         m_activeTimeline->projectView()->slotRemoveSpace();
+}
+
+void MainWindow::slotRippleDelete()
+{
+  if (!m_projectMonitor->isActive() || !m_activeTimeline) return;
+      
+  int zoneStart = m_projectMonitor->getZoneStart();
+  int zoneEnd = m_projectMonitor->getZoneEnd();
+  if (!zoneStart && zoneEnd == (m_activeTimeline->duration() - 1)) return;
+
+  int zoneFrameCount = zoneEnd - zoneStart;
+  
+  m_projectMonitor->slotZoneStart();
+  m_activeTimeline->projectView()->setCursorPos(zoneStart);
+  m_activeTimeline->projectView()->slotSelectAllClips();
+  m_activeTimeline->projectView()->cutSelectedClips();    
+  m_activeTimeline->projectView()->resetSelectionGroup(false);
+  m_projectMonitor->slotZoneEnd();
+  m_activeTimeline->projectView()->setCursorPos(zoneEnd);
+  zoneEnd++;
+  m_activeTimeline->projectView()->selectItemsRightOfFrame(zoneEnd);
+  m_activeTimeline->projectView()->setInPoint();
+  m_activeTimeline->projectView()->resetSelectionGroup(false);
+
+  zoneEnd++;
+  m_activeTimeline->projectView()->selectItemsRightOfFrame(zoneEnd);
+  
+  m_activeTimeline->projectView()->spaceToolMoveToSnapPos((double) zoneEnd);
+  m_activeTimeline->projectView()->spaceToolMoveToSnapPos((double) zoneStart);
+  
+  GenTime timeOffset = GenTime(zoneFrameCount * -1, m_activeDocument->fps());
+  m_activeTimeline->projectView()->completeSpaceOperation(-1, timeOffset);
+  
+  m_projectMonitor->slotZoneStart();
+  m_activeTimeline->projectView()->setCursorPos(zoneStart);
+
+  m_activeTimeline->projectView()->resetSelectionGroup(false);
+  
+  return;
 }
 
 void MainWindow::slotInsertTrack(int ix)
