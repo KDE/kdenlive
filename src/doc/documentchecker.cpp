@@ -29,6 +29,7 @@
 #include <KUrlRequesterDialog>
 #include <KMessageBox>
 #include <klocalizedstring.h>
+#include <KRecentDirs>
 
 #include <QDebug>
 #include <QFontDatabase>
@@ -454,7 +455,8 @@ void DocumentChecker::setProperty(QDomElement effect, const QString &name, const
 
 void DocumentChecker::slotSearchClips()
 {
-    QString newpath = QFileDialog::getExistingDirectory(qApp->activeWindow(), i18n("Clips folder"), "kfiledialog:///clipfolder");
+    QString clipFolder = KRecentDirs::dir(":KdenliveClipFolder");
+    QString newpath = QFileDialog::getExistingDirectory(qApp->activeWindow(), i18n("Clips folder"), clipFolder);
     if (newpath.isEmpty()) return;
     int ix = 0;
     bool fixed = false;

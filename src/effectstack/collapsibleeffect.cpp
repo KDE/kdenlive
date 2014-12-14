@@ -34,11 +34,12 @@
 #include <QFontDatabase>
 #include <QFileDialog>
 #include <QDebug>
+#include <QStandardPaths>
 
+#include <KRecentDirs>
 #include <KComboBox>
 #include <klocalizedstring.h>
 #include <KMessageBox>
-#include <QStandardPaths>
 
 
 CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent) :
@@ -158,9 +159,12 @@ void CollapsibleEffect::slotCreateRegion()
 {
     QString allExtensions = ProjectList::getExtensions().join(" ");
     const QString dialogFilter = allExtensions + ' ' + QLatin1Char('|') + i18n("All Supported Files") + "\n* " + QLatin1Char('|') + i18n("All Files");
-    QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), QString(), "kfiledialog:///clipfolder", dialogFilter);
+    QString clipFolder = KRecentDirs::dir(":KdenliveClipFolder");
+    if (clipFolder.isEmpty()) clipFolder = QDir::homePath();
+    QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), QString(), clipFolder, dialogFilter);
     d->setFileMode(QFileDialog::ExistingFile);
     if (d->exec() == QDialog::Accepted && !d->selectedUrls().isEmpty()) {
+        KRecentDirs::add(":KdenliveClipFolder", d->selectedUrls().first().adjusted(QUrl::RemoveFilename).path());
         emit createRegion(effectIndex(), d->selectedUrls().first());
     }
     delete d;

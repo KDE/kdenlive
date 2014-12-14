@@ -36,13 +36,14 @@
 #include "project/dialogs/noteswidget.h"
 
 #include <KMessageBox>
-#include <QProgressDialog>
+#include <KRecentDirs>
 #include <klocalizedstring.h>
 #include <KIO/CopyJob>
 #include <KIO/JobUiDelegate>
 #include <KBookmarkManager>
 #include <KBookmark>
 
+#include <QProgressDialog>
 #include <QCryptographicHash>
 #include <QFile>
 #include <QDebug>
@@ -812,12 +813,9 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const
         fileName.append('-' + m_documentProperties.value("documentid"));
         fileName.append(info.lastModified().toString("-yyyy-MM-dd-hh-mm"));
         fileName.append(".kdenlive.png");
-        QUrl backupFile = m_projectFolder;
-        backupFile = backupFile.adjusted(QUrl::StripTrailingSlash);
-        backupFile.setPath(backupFile.path() + '/' + ".backup/");
-        backupFile = backupFile.adjusted(QUrl::StripTrailingSlash);
-        backupFile.setPath(backupFile.path() + '/' + fileName);
-        emit saveTimelinePreview(backupFile.path());
+        QDir backupFolder(m_projectFolder.toLocalFile());
+        backupFolder.cd(".backup");
+        emit saveTimelinePreview(backupFolder.absoluteFilePath(fileName));
     }
     return true;
 }
@@ -1085,6 +1083,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
     DocClipBase *clip = m_clipManager->getClipById(producerId);
 
     if (clip == NULL) {
+        QString clipFolder = KRecentDirs::dir(":KdenliveClipFolder");
         elem.setAttribute("id", producerId);
         QString path = elem.attribute("resource");
         QString extension;
@@ -1111,7 +1110,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
                 if (elem.attribute("type").toInt() == SlideShow) {
                     int res = KMessageBox::questionYesNoCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br />is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
                     if (res == KMessageBox::Yes)
-                        newpath = QFileDialog::getExistingDirectory(QApplication::activeWindow(), i18n("Looking for %1", path), "kfiledialog:///clipfolder");
+                        newpath = QFileDialog::getExistingDirectory(QApplication::activeWindow(), i18n("Looking for %1", path), clipFolder);
                     else {
                         // Abort project loading
                         action = res;
@@ -1119,7 +1118,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
                 } else {
                     int res = KMessageBox::questionYesNoCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br />is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
                     if (res == KMessageBox::Yes)
-                        newpath = QFileDialog::getOpenFileName(QApplication::activeWindow(), i18n("Looking for %1", path), "kfiledialog:///clipfolder");
+                        newpath = QFileDialog::getOpenFileName(QApplication::activeWindow(), i18n("Looking for %1", path), clipFolder);
                     else {
                         // Abort project loading
                         action = res;
@@ -1128,7 +1127,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
             }
             if (action == KMessageBox::Yes) {
                 //qDebug() << "// ASKED FOR SRCH CLIP: " << clipId;
-                m_searchFolder = QFileDialog::getExistingDirectory(QApplication::activeWindow(), QString(), "kfiledialog:///clipfolder");
+                m_searchFolder = QFileDialog::getExistingDirectory(QApplication::activeWindow(), QString(), clipFolder);
                 if (!m_searchFolder.isEmpty())
                     newpath = searchFileRecursively(QDir(m_searchFolder), size, hash);
             } else if (action == KMessageBox::Cancel) {
@@ -1323,7 +1322,13 @@ void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString
 {
     QString titlesFolder = QDir::cleanPath(projectFolder().path() + QDir::separator() + "titles/");
     if (path.isEmpty()) {
-        path = QFileDialog::getOpenFileUrl(QApplication::activeWindow(), i18n("Enter Template Path"), QUrl("kfiledialog:///clipfolder"),  "application/x-kdenlivetitle");
+        QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(),  i18n("Enter Template Path"), titlesFolder);
+        d->setMimeTypeFilters(QStringList() << "application/x-kdenlivetitle");
+        d->setFileMode(QFileDialog::ExistingFile);
+        if (d->exec() == QDialog::Accepted && !d->selectedUrls().isEmpty()) {
+            path = d->selectedUrls().first();
+        }
+        delete d;
     }
 
     if (path.isEmpty()) return;
@@ -1752,10 +1757,8 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
 
 void KdenliveDoc::cleanupBackupFiles()
 {
-    QUrl backupFile = m_projectFolder;
-    backupFile = backupFile.adjusted(QUrl::StripTrailingSlash);
-    backupFile.setPath(backupFile.path() + '/' + ".backup/");
-    QDir dir(backupFile.path());
+    QDir backupFolder(m_projectFolder.toLocalFile());
+    backupFolder.cd(".backup");
     QString projectFile = url().fileName().section('.', 0, -2);
     projectFile.append('-' + m_documentProperties.value("documentid"));
     projectFile.append("-??");
@@ -1766,11 +1769,9 @@ void KdenliveDoc::cleanupBackupFiles()
     projectFile.append("-??.kdenlive");
 
     QStringList filter;
-    backupFile = backupFile.adjusted(QUrl::StripTrailingSlash);
-    backupFile.setPath(backupFile.path() + '/' + projectFile);
     filter << projectFile;
-    dir.setNameFilters(filter);
-    QFileInfoList resultList = dir.entryInfoList(QDir::Files, QDir::Time);
+    backupFolder.setNameFilters(filter);
+    QFileInfoList resultList = backupFolder.entryInfoList(QDir::Files, QDir::Time);
 
     QDateTime d = QDateTime::currentDateTime();
     QStringList hourList;

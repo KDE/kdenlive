@@ -60,21 +60,17 @@
 #include "jogshuttle/jogmanager.h"
 #endif
 
-#include <QAction>
 #include <KActionCollection>
 #include <KActionCategory>
 #include <KActionMenu>
 #include <KStandardAction>
 #include <KShortcutsDialog>
 #include <KMessageBox>
-#include <QDebug>
 #include <KConfigDialog>
 #include <KXMLGUIFactory>
 #include <KColorSchemeManager>
-#include <QStatusBar>
+#include <KRecentDirs>
 #include <KUrlRequesterDialog>
-#include <QTemporaryFile>
-#include <QMenu>
 #include <ktogglefullscreenaction.h>
 #include <KNotifyConfigWidget>
 #include <kns3/downloaddialog.h>
@@ -84,6 +80,10 @@
 #include <klocalizedstring.h>
 
 #include <QAction>
+#include <QDebug>
+#include <QStatusBar>
+#include <QTemporaryFile>
+#include <QMenu>
 #include <QDesktopWidget>
 #include <QBitmap>
 #include <QUndoGroup>
@@ -2686,7 +2686,8 @@ void MainWindow::slotTranscodeClip()
 {
     QString allExtensions = m_projectList->getExtensions().join(" ");
     const QString dialogFilter =  i18n("All Supported Files") + "(" + allExtensions + ");;" + i18n("All Files") + "(*)";
-    QStringList urls = QFileDialog::getOpenFileNames(this, i18n("Files to transcode"), "kfiledialog:///projectfolder", dialogFilter);
+    QString clipFolder = KRecentDirs::dir(":KdenliveClipFolder");
+    QStringList urls = QFileDialog::getOpenFileNames(this, i18n("Files to transcode"), clipFolder, dialogFilter);
     if (urls.isEmpty()) return;
     slotTranscode(urls);
 }

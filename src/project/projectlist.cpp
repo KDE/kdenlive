@@ -45,18 +45,20 @@
 #include "ui_cutjobdialog_ui.h"
 #include "ui_scenecutdialog_ui.h"
 
-#include <QDebug>
+
 #include <klocalizedstring.h>
 #include <KMessageBox>
 #include <KFileItem>
-#include <QDialog>
-
+#include <KRecentDirs>
 #include <KColorScheme>
 #include <KActionCollection>
+#include <KPassivePopup>
+#include <KConfigGroup>
+
+#include <QDebug>
+#include <QDialog>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <KPassivePopup>
-
 #include <QAction>
 #include <QPixmap>
 #include <QMenu>
@@ -65,7 +67,6 @@
 #include <QVBoxLayout>
 #include <QtConcurrent>
 #include <QFileDialog>
-#include <KConfigGroup>
 #include <QDialogButtonBox>
 #include <QPushButton>
 
@@ -1655,8 +1656,8 @@ void ProjectList::slotAddClip(const QList <QUrl> &givenList, const QString &grou
         l->addWidget(c);
         l->addStretch(5);
         f->setLayout(l);
-        QString clipFolder = m_doc->getDocumentProperty("QFileDialogClipFolder");
-        if (clipFolder.isEmpty()) clipFolder = QDir::homePath();        
+        QString clipFolder = KRecentDirs::dir(":KdenliveClipFolder");
+        if (clipFolder.isEmpty()) clipFolder = QDir::homePath();
         QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), i18n("Open Clips"), clipFolder, dialogFilter);
         //TODO: KF5, how to add a custom widget to file dialog
         /*QGridLayout *layout = (QGridLayout*)d->layout();
@@ -1665,7 +1666,9 @@ void ProjectList::slotAddClip(const QList <QUrl> &givenList, const QString &grou
         if (d->exec() == QDialog::Accepted) {
             KdenliveSettings::setAutoimagetransparency(c->isChecked());
             list = d->selectedUrls();
-            if (!list.isEmpty()) m_doc->setDocumentProperty("QFileDialogClipFolder", list.first().adjusted(QUrl::RemoveFilename).path());
+            if (!list.isEmpty()) {
+                KRecentDirs::add(":KdenliveClipFolder", list.first().adjusted(QUrl::RemoveFilename).path());
+            }
             if (b->isChecked() && list.count() == 1) {
                 // Check for image sequence
                 QUrl url = list.at(0);

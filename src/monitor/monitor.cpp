@@ -29,9 +29,10 @@
 #include "timeline/abstractclipitem.h"
 #include "twostateaction.h"
 
-#include <QDebug>
 #include "klocalizedstring.h"
+#include <KRecentDirs>
 
+#include <QDebug>
 #include <QMouseEvent>
 #include <QMenu>
 #include <QToolButton>
@@ -605,12 +606,16 @@ void Monitor::slotExtractCurrentFrame()
         frame = render->extractFrame(render->seekFramePosition(), m_currentClip->fileURL().path());
     }
     else frame = render->extractFrame(render->seekFramePosition());
-    QPointer<QFileDialog> fs = new QFileDialog(this, i18n("Save Image"), "");
+    QString framesFolder = KRecentDirs::dir(":KdenliveFramesFolder");
+    if (framesFolder.isEmpty()) framesFolder = QDir::homePath();
+    
+    QPointer<QFileDialog> fs = new QFileDialog(this, i18n("Save Image"), framesFolder);
     fs->setMimeTypeFilters(QStringList() << "image/png");
     fs->setAcceptMode(QFileDialog::AcceptSave);
     if (fs->exec()) {
         QStringList path = fs->selectedFiles();
         if (!path.isEmpty()) {
+            KRecentDirs::add(":KdenliveFramesFolder", fs->selectedUrls().first().adjusted(QUrl::RemoveFilename).path());
             frame.save(path.first());
         }
     }

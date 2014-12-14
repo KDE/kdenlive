@@ -907,7 +907,7 @@ void DvdWizard::slotAbort()
 
 void DvdWizard::slotSave()
 {
-    QUrl url = QFileDialog::getSaveFileUrl(this, i18n("Save DVD Project"), QUrl("kfiledialog:///projectfolder"), "*.kdvd");
+    QUrl url = QFileDialog::getSaveFileUrl(this, i18n("Save DVD Project"), QUrl::fromLocalFile(QDir::homePath()), i18n("DVD project (*.kdvd)"));
     if (!url.isValid())
         return;
 
@@ -944,7 +944,7 @@ void DvdWizard::slotSave()
 
 void DvdWizard::slotLoad()
 {
-    const QUrl url = QFileDialog::getOpenFileUrl(this, QString(), QUrl("kfiledialog:///projectfolder"), i18n("DVD project (*.kdvd)"));
+    const QUrl url = QFileDialog::getOpenFileUrl(this, QString(), QUrl::fromLocalFile(QDir::homePath()), i18n("DVD project (*.kdvd)"));
     if (!url.isValid())
         return;
     QDomDocument doc;

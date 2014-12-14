@@ -5427,8 +5427,8 @@ void CustomTrackView::slotSaveClipMarkers(const QString &id)
             cbox->setItemData(i + 1, CommentedTime::markerColor(i), Qt::DecorationRole);
         }
         cbox->setCurrentIndex(0);
-        //TODO KF5 how to ass custom cbox to Qfiledialog
-        QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Save Clip Markers"), "");
+        //TODO KF5 how to add custom cbox to Qfiledialog
+        QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Save Clip Markers"), m_document->projectFolder().path());
         fd->setMimeTypeFilters(QStringList() << "text/plain");
         fd->setFileMode(QFileDialog::AnyFile);
         fd->setAcceptMode(QFileDialog::AcceptSave);
@@ -5475,7 +5475,8 @@ void CustomTrackView::slotLoadClipMarkers(const QString &id)
     }
     cbox->setCurrentIndex(KdenliveSettings::default_marker_type());
     //TODO KF5 how to ass custom cbox to Qfiledialog
-    QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Load Clip Markers"), "kfiledialog:///projectfolder", "text/plain");
+    QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Load Clip Markers"), m_document->projectFolder().path());
+    fd->setMimeTypeFilters(QStringList()<<"text/plain");
     fd->setFileMode(QFileDialog::ExistingFile);
     if (fd->exec() != QDialog::Accepted) return;
     QStringList selection = fd->selectedFiles();
