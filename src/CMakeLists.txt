@@ -199,11 +199,9 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --std=c99")
 # KDE definitions and include directories *must* always come first, Qt follows
 # (to avoid breaking builds when KDE and/or Qt are installed to different
 # prefixes).
-add_definitions(${KDE4_DEFINITIONS})
 
 include_directories(
   ${CMAKE_BINARY_DIR}
-  ${KDE4_INCLUDES} # Adds Qt include directories too.
   ${MLT_INCLUDE_DIR}
   ${MLTPP_INCLUDE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/external 

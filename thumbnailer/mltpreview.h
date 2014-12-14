@@ -20,8 +20,8 @@
  ***************************************************************************/
 
 
-#ifndef WESTLEYPREVIEW_H
-#define WESTLEYPREVIEW_H
+#ifndef MLTPREVIEW_H
+#define MLTPREVIEW_H
 
 #include <kio/thumbcreator.h>
 
@@ -29,9 +29,8 @@
 
 #include <QObject>
 
-class MltPreview : public QObject, public ThumbCreator
+class MltPreview : public ThumbCreator
 {
-    Q_OBJECT
 public:
     MltPreview();
     virtual ~MltPreview();

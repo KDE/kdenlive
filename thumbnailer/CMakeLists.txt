@@ -1,21 +1,21 @@
-set(westleypreview_SRCS westleypreview.cpp)
+set(mltpreview_SRCS mltpreview.cpp)
 
 include_directories(
-  ${KDE4_INCLUDES}
   ${MLT_INCLUDE_DIR}
   ${MLTPP_INCLUDE_DIR}
 )
 
-kde4_add_plugin(westleypreview ${westleypreview_SRCS})
+add_library(mltpreview MODULE ${mltpreview_SRCS})
 
-#include(${QT_USE_FILE})
 
-target_link_libraries(westleypreview
-  ${KDE4_KIO_LIBS}
-  ${QT_LIBRARIES}
+target_link_libraries(mltpreview
+        Qt5::Core
+        Qt5::Gui
+        KF5::KIOCore
+        KF5::KIOWidgets
   ${MLT_LIBRARIES}
   ${MLTPP_LIBRARIES}
 )
-
-install(TARGETS westleypreview DESTINATION ${PLUGIN_INSTALL_DIR})
-install(FILES westleypreview.desktop DESTINATION ${SERVICES_INSTALL_DIR})
+#FIXME: For some reason the plugin only seems to work if installed in $lib/qt5/plugins and not in $lib/plugins like KF5 recommands
+install(TARGETS mltpreview DESTINATION ${PLUGIN_INSTALL_DIR})
+install(FILES mltpreview.desktop DESTINATION ${SERVICES_INSTALL_DIR})

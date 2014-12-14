@@ -18,7 +18,7 @@
     Boston, MA 02110-1301, USA.
  ***************************************************************************/
 
-#include "westleypreview.h"
+#include "mltpreview.h"
 
 #include <QFile>
 #include <QImage>
@@ -27,22 +27,18 @@
 
 #include <krandomsequence.h>
 #include <QDebug>
-#include <ktempdir.h>
 #include <unistd.h>
 
 
 #define DBG_AREA
 
-//#include "config.h"
 extern "C" {
-KDE_EXPORT ThumbCreator *new_creator() {
+Q_DECL_EXPORT ThumbCreator *new_creator() {
     return new MltPreview;
 }
 }
 
-MltPreview::MltPreview() :
-    QObject(),
-    ThumbCreator()
+MltPreview::MltPreview()
 {
     Mlt::Factory::init();
 }
@@ -77,7 +73,6 @@ bool MltPreview::create(const QString &path, int width, int height, QImage &img)
     }
 
     //img = getFrame(producer, frame, width, height);
-
     while (variance <= 40 && ct < 4) {
         img = getFrame(producer, frame, wanted_width , wanted_height);
         variance = imageVariance(img);
@@ -92,27 +87,27 @@ bool MltPreview::create(const QString &path, int width, int height, QImage &img)
 
 QImage MltPreview::getFrame(Mlt::Producer *producer, int framepos, int width, int height)
 {
-    QImage result;
+    QImage mltImage(width, height, QImage::Format_ARGB32_Premultiplied);
     if (producer == NULL) {
-        return result;
+        return mltImage;
     }
 
     producer->seek(framepos);
     Mlt::Frame *frame = producer->get_frame();
     if (frame == NULL) {
-        return result;
+        return mltImage;
     }
 
     mlt_image_format format = mlt_image_rgb24a;
-    uint8_t *data = frame->get_image(format, width, height, 0);
-    QImage image((uchar *)data, width, height, QImage::Format_ARGB32);
 
-    if (!image.isNull()) {
-        result = image.rgbSwapped().convertToFormat(QImage::Format_RGB32);
+    const uchar* imagedata = frame->get_image(format, width, height);
+    if (imagedata != NULL) {
+        memcpy(mltImage.bits(), imagedata, width * height * 4);
+        mltImage = mltImage.rgbSwapped();
     }
 
     delete frame;
-    return result;
+    return mltImage;
 }
 
 
@@ -121,11 +116,11 @@ uint MltPreview::imageVariance(const QImage &image)
     if (image.isNull()) return 0;
     uint delta = 0;
     uint avg = 0;
-    uint bytes = image.numBytes();
+    uint bytes = image.byteCount();
     uint STEPS = bytes / 2;
     if (STEPS < 1) return 0;
     QVarLengthArray<uchar> pivot(STEPS);
-    kDebug(DBG_AREA) << "Using " << STEPS << " steps\n";
+    qDebug() << "Using " << STEPS << " steps\n";
     const uchar *bits=image.bits();
     // First pass: get pivots and taking average
     for( uint i=0; i<STEPS ; i++ ){
