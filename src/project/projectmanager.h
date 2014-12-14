@@ -71,6 +71,9 @@ public slots:
     bool saveFileAs();
 
     /** @brief Set properties to match outputFileName and save the document.
+     * Creates an autosave version of the output file too, at
+     * ~/.kde/data/stalefiles/kdenlive/ \n
+     * that will be actually written in KdenliveDoc::slotAutoSave()
     * @param outputFileName The URL to save to / The document's URL.
     * @return Whether we had success. */
     bool saveFileAs(const QString &outputFileName);
@@ -96,6 +99,8 @@ private:
     * @param open If set to true, this will return the mimetype allowed for file opening (adds .tar.gz format)
     * @return The mimetype */
     QString getMimeType(bool open = true);
+    /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */
+    bool checkForBackupFile(const QUrl &url);
 
     KdenliveDoc *m_project;
     TrackView *m_trackView;

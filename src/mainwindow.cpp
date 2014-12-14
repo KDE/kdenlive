@@ -97,7 +97,6 @@
 #include <QVBoxLayout>
 
 static const char version[] = KDENLIVE_VERSION;
-
 namespace Mlt
 {
 class Producer;

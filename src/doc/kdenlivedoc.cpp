@@ -1057,8 +1057,9 @@ void KdenliveDoc::setUrl(const QUrl &url)
 
 void KdenliveDoc::setModified(bool mod)
 {
-    if (m_url.isValid() && mod && KdenliveSettings::crashrecovery()) {
-        m_autoSaveTimer->start(3000);
+    // fix mantis#3160: The document may have an empty URL if not saved yet, but should have a m_autosave in any case
+    if (m_autosave && mod && KdenliveSettings::crashrecovery()) {
+        m_autoSaveTimer->start(3000); // will trigger slotAutoSave() in 3 seconds
     }
     if (mod == m_modified) return;
     m_modified = mod;

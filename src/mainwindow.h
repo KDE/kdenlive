@@ -197,8 +197,6 @@ private:
 
     RenderWidget *m_renderWidget;
 
-    QAction *m_fileRevert;
-
     QAction **m_transitions;
     QAction *m_buttonAudioThumbs;
     QAction *m_buttonVideoThumbs;
