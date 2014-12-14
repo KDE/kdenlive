@@ -6,6 +6,7 @@
     <comment xml:lang="cs">Dokument video projektu Kdenlive</comment>
     <comment xml:lang="de">Kdenlive-Videoprojektdokument</comment>
     <comment xml:lang="nl">Video projectdocument van Kdenlive</comment>
+    <comment xml:lang="pl">Dokument projektowy filmu w Kdenlive</comment>
     <comment xml:lang="pt">Documento de projecto de vídeo do Kdenlive</comment>
     <comment xml:lang="pt_BR">Documento de projeto de vídeo do Kdenlive</comment>
     <comment xml:lang="sk">Dokument projektu videa Kdenlive</comment>
@@ -20,6 +21,7 @@
     <comment xml:lang="cs">Název videa Kdenlive</comment>
     <comment xml:lang="de">Kdenlive-Videotitel</comment>
     <comment xml:lang="nl">Titel van Kdenlive-video</comment>
+    <comment xml:lang="pl">Tytuł filmu w Kdenlive</comment>
     <comment xml:lang="pt">Título de vídeo do Kdenlive</comment>
     <comment xml:lang="pt_BR">Título de vídeo do Kdenlive</comment>
     <comment xml:lang="sk">Titulok videa Kdenlive</comment>
