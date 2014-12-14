@@ -91,9 +91,10 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QWidget * parent) :
 
     QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, "lumas");
     foreach(const QString & folder, customLumas) {
-        QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
+        QDir directory(folder);
+        QStringList filesnames = directory.entryList(filters, QDir::Files);
         foreach(const QString & fname, filesnames) {
-            QString filePath = QFileInfo(folder, fname).filePath();
+            QString filePath = directory.absoluteFilePath(fname);
             m_view.luma_file->addItem(QIcon::fromTheme(filePath), fname, filePath);
         }
     }
@@ -105,7 +106,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QWidget * parent) :
     QDir lumafolder(folder);
     QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
     foreach(const QString & fname, filesnames) {
-        QString filePath = QFileInfo(folder, fname).filePath();
+        QString filePath = lumafolder.absoluteFilePath(fname);
         m_view.luma_file->addItem(QIcon::fromTheme(filePath), fname, filePath);
     }
 

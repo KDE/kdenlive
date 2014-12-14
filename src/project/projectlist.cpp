@@ -1655,9 +1655,9 @@ void ProjectList::slotAddClip(const QList <QUrl> &givenList, const QString &grou
         l->addWidget(c);
         l->addStretch(5);
         f->setLayout(l);
-        
-
-        QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), i18n("Open Clips"), m_doc->getDocumentProperty("QFileDialogClipFolder"), dialogFilter);
+        QString clipFolder = m_doc->getDocumentProperty("QFileDialogClipFolder");
+        if (clipFolder.isEmpty()) clipFolder = QDir::homePath();
+        QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), i18n("Open Clips"), clipFolder, dialogFilter);
         //TODO: KF5, how to add a custom widget to file dialog
         /*QGridLayout *layout = (QGridLayout*)d->layout();
         layout->addWidget(f, 0, 0);*/
@@ -1721,8 +1721,7 @@ void ProjectList::slotAddClip(const QList <QUrl> &givenList, const QString &grou
             QList <QUrl> folderFiles;
             folderFiles << file;
             foreach(const QString & path, result) {
-                QFileInfo f(file.path(), path);
-                folderFiles.append(QUrl(f.filePath()));
+                folderFiles.append(QUrl::fromLocalFile(dir.absoluteFilePath(path)));
             }
             if (folderFiles.count() > 1) foldersList.append(folderFiles);
         }
@@ -2259,11 +2258,12 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             else maxSize = m_doc->getDocumentProperty("proxyminsize").toInt();
             if ((((t == AV || t == Video || t == Playlist) && generateProxy()) || (t == Image && generateImageProxy())) && (size.section('x', 0, 0).toInt() > maxSize || size.section('x', 1, 1).toInt() > maxSize)) {
                 if (clip->getProperty("proxy").isEmpty()) {
-                    QFileInfo proxyPath(m_doc->projectFolder().path() + QDir::separator() + "proxy/", clip->getClipHash() + '.' + (t == Image ? "png" : m_doc->getDocumentProperty("proxyextension")));
+                    QDir folder(m_doc->projectFolder().path());
+                    folder.cd("proxy");
                     QMap <QString, QString> newProps;
                     // insert required duration for proxy
                     if (t != Image) newProps.insert("proxy_out", clip->producerProperty("out"));
-                    newProps.insert("proxy", proxyPath.filePath());
+                    newProps.insert("proxy", folder.absoluteFilePath(clip->getClipHash() + '.' + (t == Image ? "png" : m_doc->getDocumentProperty("proxyextension"))));
                     QMap <QString, QString> oldProps = clip->properties();
                     oldProps.insert("proxy", QString());
                     EditClipCommand *command = new EditClipCommand(this, clipId, oldProps, newProps, true);

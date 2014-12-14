@@ -837,11 +837,10 @@ void KdenliveDoc::setProjectFolder(QUrl url)
 {
     if (url == m_projectFolder) return;
     setModified(true);
-    QDir dir;
-    if (!QFileInfo::exists(url.path())) {
-        dir.mkpath(url.path());
+    QDir dir(url.toLocalFile());
+    if (!dir.exists()) {
+        dir.mkpath(dir.absolutePath());
     }
-    dir.setPath(url.path());
     dir.mkdir("titles");
     dir.mkdir("thumbs");
     dir.mkdir("proxy");

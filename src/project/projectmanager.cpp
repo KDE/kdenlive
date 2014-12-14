@@ -260,7 +260,8 @@ void ProjectManager::openFile()
         m_startUrl = QUrl();
         return;
     }
-    QUrl url = QFileDialog::getOpenFileUrl(QApplication::activeWindow(), QString(), QUrl("kfiledialog:///projectfolder"), getMimeType());
+    //TODO KF5 set default location to project folder
+    QUrl url = QFileDialog::getOpenFileUrl(QApplication::activeWindow(), QString(), QUrl(), getMimeType());
     if (url.isValid()) {
         return;
     }

@@ -605,8 +605,9 @@ void Monitor::slotExtractCurrentFrame()
         frame = render->extractFrame(render->seekFramePosition(), m_currentClip->fileURL().path());
     }
     else frame = render->extractFrame(render->seekFramePosition());
-    QPointer<QFileDialog> fs = new QFileDialog(this, i18n("Save Image"), "kfiledialog:///framefolder", "image/png");
-    fs->setFileMode(QFileDialog::AnyFile);
+    QPointer<QFileDialog> fs = new QFileDialog(this, i18n("Save Image"), "");
+    fs->setMimeTypeFilters(QStringList() << "image/png");
+    fs->setAcceptMode(QFileDialog::AcceptSave);
     if (fs->exec()) {
         QStringList path = fs->selectedFiles();
         if (!path.isEmpty()) {

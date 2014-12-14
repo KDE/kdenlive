@@ -5428,8 +5428,10 @@ void CustomTrackView::slotSaveClipMarkers(const QString &id)
         }
         cbox->setCurrentIndex(0);
         //TODO KF5 how to ass custom cbox to Qfiledialog
-        QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Save Clip Markers"), "kfiledialog:///projectfolder", "text/plain");
+        QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Save Clip Markers"), "");
+        fd->setMimeTypeFilters(QStringList() << "text/plain");
         fd->setFileMode(QFileDialog::AnyFile);
+        fd->setAcceptMode(QFileDialog::AcceptSave);
         if (fd->exec() != QDialog::Accepted) return;
         QStringList selection = fd->selectedFiles();
         QString url;

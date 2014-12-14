@@ -273,11 +273,10 @@ void ClipStabilize::slotValidate()
         }
     }
     else {
-        QUrl folder(dest_url->url());
+        QDir folder(dest_url->url().toLocalFile());
         QStringList existingFiles;
         foreach(const QString &path, m_urls) {
-            QFileInfo dest(folder.path(), QUrl(path).fileName());
-            if (QFile::exists(dest.filePath() + ".mlt")) existingFiles.append(dest.filePath() + ".mlt");
+            if (folder.exists(path + ".mlt")) existingFiles.append(folder.absoluteFilePath(path + ".mlt"));
         }
         if (!existingFiles.isEmpty()) {
             if (KMessageBox::warningContinueCancelList(this, i18n("The stabilize job will overwrite the following files:"), existingFiles) ==  KMessageBox::Cancel) return;
