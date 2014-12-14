@@ -50,7 +50,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
 
     if (KdenliveSettings::rendererpath().isEmpty()) {
         // Cannot find the MLT melt renderer, ask for location
-        QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(QString(),
+        QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(QUrl(),
                                                                        i18n("Cannot find the melt program required for rendering (part of MLT)"),
                                                                        pCore->window());
         if (getUrl->exec() == QDialog::Rejected) {
@@ -78,7 +78,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
         }
         if (profilesList.isEmpty()) {
             // Cannot find the MLT profiles, ask for location
-            QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(KdenliveSettings::mltpath(),
+            QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(QUrl::fromLocalFile(KdenliveSettings::mltpath()),
                                                                            i18n("Cannot find your MLT profiles, please give the path"),
                                                                            pCore->window());
             getUrl->urlRequester()->setMode(KFile::Directory);

@@ -308,7 +308,7 @@ bool TitleDocument::saveDocument(const QUrl &url, QGraphicsRectItem* startv, QGr
         return false;
     }
     xmlf.close();
-    KIO::FileCopyJob *copyjob = KIO::file_copy(tmpfile.fileName(), url);
+    KIO::FileCopyJob *copyjob = KIO::file_copy(QUrl::fromLocalFile(tmpfile.fileName()), url);
     return copyjob->exec();
 }
 

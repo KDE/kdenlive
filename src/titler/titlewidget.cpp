@@ -537,15 +537,14 @@ void TitleWidget::refreshTitleTemplates()
     filters << "*.kdenlivetitle" ;
     titletemplates.clear();
     QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::DataLocation, "titles");
-    foreach(const QString & folder, titleTemplates) {
-        QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
+    foreach(const QString & folderpath, titleTemplates) {
+         QDir folder(folderpath);
+        QStringList filesnames = folder.entryList(filters, QDir::Files);
         foreach(const QString & fname, filesnames) {
-            //titlenamelist.append(fname);
-            //titlefiles.append(QUrl(folder).path(QUrl::AddTrailingSlash) + fname);
             TitleTemplate t;
             t.name = fname;
-            t.file = QUrl(folder).path() + QDir::separator() + fname;
-            t.icon = QIcon(KThumb::getImage(t.file, 0, 60, 60));
+            t.file = folder.absoluteFilePath(fname);
+            t.icon = QIcon(KThumb::getImage(QUrl::fromLocalFile(t.file), 0, 60, 60));
             titletemplates.append(t);
         }
     }
@@ -560,7 +559,7 @@ void TitleWidget::templateIndexChanged(int index)
             if (KMessageBox::questionYesNo(this, i18n("Do you really want to load a new template? Changes in this title will be lost!")) == KMessageBox::No)
                 return;
         }
-        loadTitle(item);
+        loadTitle(QUrl::fromLocalFile(item));
 
         // mbt 1607: Add property to distinguish between unchanged template titles and user titles.
         // Text of unchanged template titles should be selected when clicked.

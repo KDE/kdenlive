@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
         QString mltPath = parser.value("mlt-path");
         QUrl url;
         if (parser.positionalArguments().count()) {
-            url = parser.positionalArguments().first();
+            url = QUrl::fromLocalFile(parser.positionalArguments().first());
         }
         window = new MainWindow(mltPath, url, clipsToLoad);
         window->show();

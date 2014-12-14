@@ -453,7 +453,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
         else
             message = i18n("Your project file was modified by Kdenlive.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile);
         
-        KIO::FileCopyJob *copyjob = KIO::file_copy(m_doc->url().path(), QUrl(backupFile));
+        KIO::FileCopyJob *copyjob = KIO::file_copy(m_doc->url(), QUrl::fromLocalFile(backupFile));
         if (copyjob->exec())
             KMessageBox::information(this, message);
         else

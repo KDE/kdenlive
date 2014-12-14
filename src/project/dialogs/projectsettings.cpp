@@ -270,11 +270,14 @@ void ProjectSettings::slotDeleteProxies()
 
 void ProjectSettings::slotUpdateFiles(bool cacheOnly)
 {
-    KIO::DirectorySizeJob *job = KIO::directorySize(project_folder->url().path() + QDir::separator()  + "thumbs/");
+    QDir folder(project_folder->url().path());
+    folder.cd("thumbs");
+    KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(folder.absolutePath()));
     job->exec();
     thumbs_count->setText(QString::number(job->totalFiles()));
     thumbs_size->setText(KIO::convertSize(job->totalSize()));
-    job = KIO::directorySize(project_folder->url().path() + QDir::separator()  + "proxy/");
+    folder.cd("../proxy");
+    job = KIO::directorySize(QUrl::fromLocalFile(folder.absolutePath()));
     job->exec();
     proxy_count->setText(QString::number(job->totalFiles()));
     proxy_size->setText(KIO::convertSize(job->totalSize()));
@@ -610,7 +613,7 @@ void ProjectSettings::slotExportToText()
         return;
     }
     xmlf.close();
-    KIO::FileCopyJob *copyjob = KIO::file_copy(tmpfile.fileName(), QUrl(savePath));
+    KIO::FileCopyJob *copyjob = KIO::file_copy(QUrl::fromLocalFile(tmpfile.fileName()), QUrl::fromLocalFile(savePath));
     copyjob->exec();
 }
 

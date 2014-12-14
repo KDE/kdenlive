@@ -90,7 +90,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     }
     m_fileRevert->setEnabled(false);
     QString profileName = KdenliveSettings::default_profile();
-    QUrl projectFolder = KdenliveSettings::defaultprojectfolder();
+    QUrl projectFolder = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder());
     QMap <QString, QString> documentProperties;
     QMap <QString, QString> documentMetadata;
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
@@ -367,7 +367,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     progressDialog.setValue(0);
 
     bool openBackup;
-    KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl(stale->fileName()) : url, KdenliveSettings::defaultprojectfolder(), pCore->window()->m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window(), &progressDialog);
+    KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl(stale->fileName()) : url, QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()), pCore->window()->m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window(), &progressDialog);
 
     progressDialog.setValue(1);
     progressDialog.setMaximum(4);

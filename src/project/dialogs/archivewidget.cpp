@@ -736,8 +736,8 @@ bool ArchiveWidget::processProjectFile()
         QString src = EffectsList::property(e, "resource");
         if (!src.isEmpty()) {
             if (!src.startsWith('/')) src.prepend(root);
-            QUrl srcUrl(src);
-            QUrl dest = m_replacementList.value(src);
+            QUrl srcUrl = QUrl::fromLocalFile(src);
+            QUrl dest = m_replacementList.value(srcUrl);
             if (!dest.isEmpty()) EffectsList::setProperty(e, "resource", dest.path());
         }
     }
@@ -754,8 +754,8 @@ bool ArchiveWidget::processProjectFile()
         src = EffectsList::property(e, attribute);
         if (!src.isEmpty()) {
             if (!src.startsWith('/')) src.prepend(root);
-            QUrl srcUrl(src);
-            QUrl dest = m_replacementList.value(src);
+            QUrl srcUrl = QUrl::fromLocalFile(src);
+            QUrl dest = m_replacementList.value(srcUrl);
             if (!dest.isEmpty()) EffectsList::setProperty(e, attribute, dest.path());
         }
     }

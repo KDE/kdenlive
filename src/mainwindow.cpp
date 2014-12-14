@@ -2713,7 +2713,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     if (scriptExport) {
         //QString scriptsFolder = project->projectFolder().path(QUrl::AddTrailingSlash) + "scripts/";
         QString path = m_renderWidget->getFreeScriptName(project->url());
-        QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(path, i18n("Create Render Script"), this);
+        QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(QUrl::fromLocalFile(path), i18n("Create Render Script"), this);
         getUrl->urlRequester()->setMode(KFile::File);
         if (getUrl->exec() == QDialog::Rejected) {
             delete getUrl;

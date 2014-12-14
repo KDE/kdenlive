@@ -606,8 +606,8 @@ void StopmotionWidget::sequenceNameChanged(const QString& name)
         button_addsequence->setEnabled(false);
     } else {
         // Check if we are editing an existing sequence
-        QString pattern = SlideshowClip::selectedPath(getPathForFrame(0, sequence_name->currentText()), false, QString(), &m_filesList);
-        m_sequenceFrame = m_filesList.isEmpty() ? 0 : SlideshowClip::getFrameNumberFromPath(m_filesList.last()) + 1;
+        QString pattern = SlideshowClip::selectedPath(QUrl::fromLocalFile(getPathForFrame(0, sequence_name->currentText())), false, QString(), &m_filesList);
+        m_sequenceFrame = m_filesList.isEmpty() ? 0 : SlideshowClip::getFrameNumberFromPath(QUrl::fromLocalFile(m_filesList.last())) + 1;
         if (!m_filesList.isEmpty()) {
             m_sequenceName = sequence_name->currentText();
             connect(this, SIGNAL(doCreateThumbs(QImage,int)), this, SLOT(slotCreateThumbs(QImage,int)));
@@ -679,7 +679,7 @@ void StopmotionWidget::slotPrepareThumbs()
     if (m_filesList.isEmpty())
         return;
     QString path = m_filesList.takeFirst();
-    emit doCreateThumbs(QImage(path), SlideshowClip::getFrameNumberFromPath(path));
+    emit doCreateThumbs(QImage(path), SlideshowClip::getFrameNumberFromPath(QUrl::fromLocalFile(path)));
 
 }
 
@@ -757,7 +757,7 @@ void StopmotionWidget::slotPlayPreview(bool animate)
         else frame_list->setCurrentRow(frame_list->count() - KdenliveSettings::sm_framesplayback());
         QTimer::singleShot(200, this, SLOT(slotAnimate()));
     } else {
-        SlideshowClip::selectedPath(getPathForFrame(0, sequence_name->currentText()), false, QString(), &m_animationList);
+        SlideshowClip::selectedPath(QUrl::fromLocalFile(getPathForFrame(0, sequence_name->currentText())), false, QString(), &m_animationList);
         if (KdenliveSettings::sm_framesplayback() > 0) {
             // only play the last x frames
             while (m_animationList.count() > KdenliveSettings::sm_framesplayback() + 1) {

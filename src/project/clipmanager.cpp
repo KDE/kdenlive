@@ -529,15 +529,16 @@ void ClipManager::slotAddClipList(const QList<QUrl> &urls, const QMap <QString, 
                 if (answer == KMessageBox::Cancel) continue;
                 else if (answer == KMessageBox::Yes) {
                     // Copy files to project folder
-                    QString sourcesFolder = m_doc->projectFolder().path() + QDir::separator() + "clips/";
-                    KIO::MkdirJob *mkdirJob = KIO::mkdir(sourcesFolder);
+                    QDir sourcesFolder(m_doc->projectFolder().toLocalFile());
+                    sourcesFolder.cd("clips");
+                    KIO::MkdirJob *mkdirJob = KIO::mkdir(QUrl::fromLocalFile(sourcesFolder.absolutePath()));
                     KJobWidgets::setWindow(mkdirJob, QApplication::activeWindow());
                     if (!mkdirJob->exec()) {
-                        KMessageBox::sorry(QApplication::activeWindow(), i18n("Cannot create directory %1", sourcesFolder));
+                        KMessageBox::sorry(QApplication::activeWindow(), i18n("Cannot create directory %1", sourcesFolder.absolutePath()));
                         continue;
                     }
                     //KIO::filesize_t m_requestedSize;
-                    KIO::CopyJob *copyjob = KIO::copy (file, QUrl(sourcesFolder));
+                    KIO::CopyJob *copyjob = KIO::copy(file, QUrl::fromLocalFile(sourcesFolder.absolutePath()));
                     //TODO: for some reason, passing metadata does not work...
                     copyjob->addMetaData("group", data.value("group"));
                     copyjob->addMetaData("groupId", data.value("groupId"));

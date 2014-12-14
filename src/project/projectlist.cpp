@@ -1631,7 +1631,7 @@ void ProjectList::slotAddClip(const QString &url, const QString &groupName, cons
 {
     //qDebug()<<"// Adding clip: "<<url;
     QList <QUrl> list;
-    list.append(url);
+    list.append(QUrl::fromLocalFile(url));
     slotAddClip(list, groupName, groupId);
 }
 
@@ -1656,7 +1656,7 @@ void ProjectList::slotAddClip(const QList <QUrl> &givenList, const QString &grou
         l->addStretch(5);
         f->setLayout(l);
         QString clipFolder = m_doc->getDocumentProperty("QFileDialogClipFolder");
-        if (clipFolder.isEmpty()) clipFolder = QDir::homePath();
+        if (clipFolder.isEmpty()) clipFolder = QDir::homePath();        
         QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), i18n("Open Clips"), clipFolder, dialogFilter);
         //TODO: KF5, how to add a custom widget to file dialog
         /*QGridLayout *layout = (QGridLayout*)d->layout();
@@ -1675,7 +1675,7 @@ void ProjectList::slotAddClip(const QList <QUrl> &givenList, const QString &grou
                     if (item.mimetype().startsWith(QLatin1String("image"))) {
                         // import as sequence if we found more than one image in the sequence
                         QStringList list;
-                        QString pattern = SlideshowClip::selectedPath(url.path(), false, QString(), &list);
+                        QString pattern = SlideshowClip::selectedPath(url, false, QString(), &list);
                         int count = list.count();
                         if (count > 1) {
                             delete d;
@@ -2702,7 +2702,7 @@ void ProjectList::slotAddOrUpdateSequence(const QString &frameName)
 {
     QString fileName = QUrl(frameName).fileName().section('_', 0, -2);
     QStringList list;
-    QString pattern = SlideshowClip::selectedPath(frameName, false, QString(), &list);
+    QString pattern = SlideshowClip::selectedPath(QUrl::fromLocalFile(frameName), false, QString(), &list);
     int count = list.count();
     if (count > 1) {
         const QList <DocClipBase *> existing = m_doc->clipManager()->getClipByResource(pattern);

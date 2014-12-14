@@ -51,7 +51,7 @@ ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, con
         QString fileName = m_urls.first(); //.section('.', 0, -1);
         QString newFile = params.section(' ', -1).replace("%1", fileName);
         QUrl dest(newFile);
-        source_url->setUrl(m_urls.first());
+        source_url->setUrl(QUrl::fromLocalFile(m_urls.first()));
         dest_url->setMode(KFile::File);
         dest_url->setUrl(dest);
         dest_url->setMode(KFile::File);//OperationMode(KFileDialog::Saving);
@@ -124,7 +124,7 @@ void ClipTranscode::slotStartTransCode()
     QString params = ffmpeg_params->toPlainText().simplified();
     if (!m_urls.isEmpty() && urls_list->count() > 0) {
         // We are processing multiple clips
-        source_url->setUrl(m_urls.takeFirst());
+        source_url->setUrl(QUrl::fromLocalFile(m_urls.takeFirst()));
         destination = dest_url->url().path() + QDir::separator() + source_url->url().fileName();
         QList<QListWidgetItem *> matching = urls_list->findItems(source_url->url().path(), Qt::MatchExactly);
         if (matching.count() > 0) {

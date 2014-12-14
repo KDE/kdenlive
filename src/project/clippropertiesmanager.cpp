@@ -125,7 +125,7 @@ void ClipPropertiesManager::showClipPropertiesDialog(DocClipBase* clip)
                 // we are editing an external file, asked if we want to detach from that file or save the result to that title file.
                 if (KMessageBox::questionYesNo(pCore->window(), i18n("You are editing an external title clip (%1). Do you want to save your changes to the title file or save the changes for this project only?", path), i18n("Save Title"), KGuiItem(i18n("Save to title file")), KGuiItem(i18n("Save in project only"))) == KMessageBox::Yes) {
                     // save to external file
-                    dia_ui->saveTitle(path);
+                    dia_ui->saveTitle(QUrl::fromLocalFile(path));
                 } else {
                     newprops.insert("resource", QString());
                 }

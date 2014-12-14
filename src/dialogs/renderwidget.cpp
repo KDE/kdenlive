@@ -1920,7 +1920,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
             emit openDvdWizard(item->text(1));
         } else if (itemGroup == "websites") {
             QString url = item->metadata();
-            if (!url.isEmpty()) new KRun(url, this);
+            if (!url.isEmpty()) new KRun(QUrl::fromLocalFile(url), this);
         }
     } else if (status == -2) {
         // Rendering crashed

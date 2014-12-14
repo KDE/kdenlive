@@ -605,7 +605,7 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
     if (t == TITLE_FONT_ELEMENT || t == Unknown) return;
     //|| t == TITLE_IMAGE_ELEMENT) {
 
-    QUrl url = KUrlRequesterDialog::getUrl(item->text(1), m_dialog, i18n("Enter new location for file"));
+    QUrl url = KUrlRequesterDialog::getUrl(QUrl::fromLocalFile(item->text(1)), m_dialog, i18n("Enter new location for file"));
     if (!url.isValid()) return;
     item->setText(1, url.path());
     if (QFile::exists(url.path())) {
