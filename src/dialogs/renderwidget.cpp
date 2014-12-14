@@ -2237,7 +2237,7 @@ void RenderWidget::slotPlayRendering(QTreeWidgetItem *item, int)
     RenderJobItem *renderItem = static_cast<RenderJobItem*> (item);
     if (KdenliveSettings::defaultplayerapp().isEmpty() || renderItem->status() != FINISHEDJOB) return;
     QList<QUrl> urls;
-    urls.append(QUrl(item->text(1)));
+    urls.append(QUrl::fromLocalFile(item->text(1)));
     KRun::run(KdenliveSettings::defaultplayerapp(), urls, this);
 }
 
