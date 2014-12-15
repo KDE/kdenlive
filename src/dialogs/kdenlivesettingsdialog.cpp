@@ -699,6 +699,12 @@ void KdenliveSettingsDialog::updateSettings()
         saveCurrentV4lProfile();
         KdenliveSettings::setV4l_format(0);
     }
+    
+    // Check if screengrab is fullscreen
+    if ((uint) m_configCapture.kcfg_grab_capture_type->currentIndex() != KdenliveSettings::grab_capture_type()) {
+        KdenliveSettings::setGrab_capture_type(m_configCapture.kcfg_grab_capture_type->currentIndex());
+        emit updateFullScreenGrab();
+    }
 
     // Check encoding profiles
     // FFmpeg

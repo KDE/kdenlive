@@ -143,6 +143,7 @@ public slots:
     void start();
     void slotStopCapture();
     void slotUpdateCaptureFolder(const QString &currentProjectFolder);
+    void slotUpdateFullScreenGrab();
     void slotMouseSeek(int eventDelta, bool fast);
     void slotSwitchFullScreen();
 

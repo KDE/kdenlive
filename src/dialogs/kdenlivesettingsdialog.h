@@ -117,6 +117,8 @@ signals:
     void customChanged();
     void doResetProfile();
     void updateCaptureFolder();
+    // Screengrab method changed between fullsceen and region, update rec monitor
+    void updateFullScreenGrab();
 };
 
 

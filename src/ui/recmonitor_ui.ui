@@ -6,12 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>312</width>
-    <height>204</height>
+    <width>390</width>
+    <height>206</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item>
@@ -79,6 +88,12 @@
         <enum>QFrame::Plain</enum>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <property name="topMargin">
+         <number>3</number>
+        </property>
+        <property name="bottomMargin">
+         <number>3</number>
+        </property>
         <item>
          <widget class="QCheckBox" name="rec_video">
           <property name="text">
@@ -95,6 +110,9 @@
         </item>
        </layout>
       </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="monitor_box"/>
      </item>
      <item>
       <spacer name="horizontalSpacer">

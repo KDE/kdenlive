@@ -132,6 +132,15 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
     m_spaceTimer.setInterval(30000);
     m_spaceTimer.setSingleShot(false);
 
+    // Check number of monitors for FFmpeg screen capture
+    int screens = QApplication::desktop()->screenCount();
+    if (screens > 1) {
+        for (int ix = 0; ix < screens; ix++)
+            monitor_box->addItem(i18n("Monitor %1", ix));
+    }
+    // Update screen grab monitor choice in case we changed from fullscreen
+    monitor_box->setEnabled(KdenliveSettings::grab_capture_type() == 0);
+
     control_frame_firewire->setLayout(hlayout);
     m_displayProcess = new QProcess;
     m_captureProcess = new QProcess;
@@ -213,9 +222,14 @@ void RecMonitor::slotUpdateCaptureFolder(const QString &currentProjectFolder)
             else KMessageBox::information(this, i18n("You need to stop capture before your changes can be applied"), i18n("Capturing"));
         } else slotVideoDeviceChanged(device_selector->currentIndex());
     }
-
     // update free space info
     slotUpdateFreeSpace();
+}
+
+void RecMonitor::slotUpdateFullScreenGrab()
+{
+    // Update screen grab monitor choice in case we changed from fullscreen
+    monitor_box->setEnabled(KdenliveSettings::grab_capture_type() == 0);
 }
 
 void RecMonitor::slotVideoDeviceChanged(int ix)
@@ -227,6 +241,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
     }
     m_previewSettings->setEnabled(ix == Video4Linux || ix == BlackMagic);
     control_frame->setVisible(ix == Video4Linux);
+    monitor_box->setVisible(ix == ScreenBag && monitor_box->count() > 0);
     m_playAction->setVisible(ix != ScreenBag);
     m_fwdAction->setVisible(ix == Firewire);
     m_discAction->setVisible(ix == Firewire);
@@ -611,7 +626,12 @@ void RecMonitor::slotRecord()
         bool showPreview;
 	bool isXml;
 	QString captureSize;
-	QRect screenSize = QApplication::desktop()->screenGeometry();
+        int screen = -1;
+        if (monitor_box->count() > 0) {
+            // Multi monitor setup, capture monitor selected by user
+            screen = monitor_box->currentIndex();
+        }
+	QRect screenSize = QApplication::desktop()->screenGeometry(screen);
         QString capturename = KdenliveSettings::dvgrabfilename();
         if (capturename.isEmpty()) capturename = "capture";
 
@@ -710,6 +730,7 @@ void RecMonitor::slotRecord()
             if (KdenliveSettings::grab_capture_type() == 0) {
                 // Full screen capture
 		m_captureArgs << "-s" << QString::number(screenSize.width()) + 'x' + QString::number(screenSize.height());
+                captureSize.append("+" + QString::number(screenSize.left()) + '.' + QString::number(screenSize.top()));
 	    } else {
                 // Region capture
                 m_captureArgs << "-s" << QString::number(KdenliveSettings::grab_width()) + 'x' + QString::number(KdenliveSettings::grab_height());
