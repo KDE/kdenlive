@@ -11,7 +11,6 @@ set(MLT_MIN_PATCH_VERSION 8)
 set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_PATCH_VERSION})
 
 set(QT_MIN_VERSION 5.2.0)
-#set(KDE_MIN_VERSION 4.3.0)
 
 find_package(ECM 1.2.0 REQUIRED CONFIG)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
@@ -61,26 +60,10 @@ include(CheckIncludeFiles)
 check_include_files(malloc.h HAVE_MALLOC_H)
 check_include_files(pthread.h HAVE_PTHREAD_H)
 
-# Search KDE and dependent packages.
-#find_package(KDE4 ${KDE_MIN_VERSION} REQUIRED)
-#include(KDE4Defaults)
-#include(MacroLibrary)
-#macro_log_feature(KDE4_FOUND
- # "KDELibs"
- # "KDE core libraries"
- # "http://www.kde.org"
- # TRUE
- # ${KDE_MIN_VERSION}
-#)
-
-# Find Qt core modules (QtCore and QtGui).
-#find_package(Qt4 ${QT_MIN_VERSION} REQUIRED)
-
 find_package(Qt5 CONFIG REQUIRED Core DBus Test Widgets Script Svg OpenGL)
 
 find_package(KF5 REQUIRED Archive Bookmarks CoreAddons Config ConfigWidgets 
-                            DBusAddons KIO WidgetsAddons Plotting NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes )
-                            #Service)
+                            DBusAddons KIO WidgetsAddons Plotting NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes DocTools)
 
 
 # Search MLT package.
@@ -94,8 +77,7 @@ set_package_properties(MLT PROPERTIES
 set(MLT_PREFIX ${MLT_ROOT_DIR})
 
 add_subdirectory(data)
-#TODO: re-enable
-#macro_optional_add_subdirectory(doc)
+add_subdirectory(doc)
 #add_subdirectory(plugins)
 #macro_optional_add_subdirectory(po)
 add_subdirectory(renderer)
