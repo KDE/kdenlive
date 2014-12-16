@@ -1,6 +1,6 @@
 set(sampleplugin_SRCS sampleplugin.cpp)
 
-qt5_wrap_ui(sampleplugin_UIS countdown_ui.ui)
+ki18n_wrap_ui(sampleplugin_UIS countdown_ui.ui)
 
 kde4_add_plugin(kdenlive_sampleplugin WITH_PREFIX
   ${sampleplugin_SRCS}

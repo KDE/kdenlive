@@ -92,7 +92,7 @@ list(APPEND kdenlive_SRCS
   core.cpp
 )
 
-qt5_wrap_ui(kdenlive_UIS
+ki18n_wrap_ui(kdenlive_UIS
   ui/addtrack_ui.ui
   ui/archivewidget_ui.ui
   ui/audiospectrum_ui.ui
