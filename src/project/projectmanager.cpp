@@ -274,7 +274,7 @@ void ProjectManager::openFile()
     }
     //TODO KF5 set default location to project folder
     QUrl url = QFileDialog::getOpenFileUrl(QApplication::activeWindow(), QString(), QUrl(), getMimeType());
-    if (url.isValid()) {
+    if (!url.isValid()) {
         return;
     }
     m_recentFilesAction->addUrl(url);
