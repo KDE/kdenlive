@@ -211,6 +211,16 @@ public:
     /** @brief Get effect parameters ready for MLT*/
     static void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, MltVideoProfile profile, const QString &prefix = QString());
     
+    void completeSpaceOperation(int track, GenTime &timeOffset);
+    void spaceToolMoveToSnapPos(double snappedPos);
+    void createRectangleSelection(QMouseEvent * event);
+    void spaceToolSelect(QMouseEvent * event);
+    int spaceToolSelectTrackOnly(int track, QList<QGraphicsItem *> &selection);
+    QList<QGraphicsItem *> selectAllItemsToTheRight(int x);
+    void createGroupForSelectedItems(QList<QGraphicsItem *> &selection);
+    void selectItemsRightOfFrame(int frame);
+    void resetSelectionGroup(bool selectItems = true);
+
 public slots:
     /** @brief Send seek request to MLT. */
     void seekCursorPos(int pos);
@@ -405,7 +415,6 @@ private:
     bool canBeMoved(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
     ClipItem *getClipUnderCursor() const;
     AbstractClipItem *getMainActiveClip() const;
-    void resetSelectionGroup(bool selectItems = true);
     void groupSelectedItems(QList <QGraphicsItem *> selection = QList <QGraphicsItem *>(), bool createNewGroup = false, bool selectNewGroup = false);
     /** Get available space for clip move (min and max free positions) */
     void getClipAvailableSpace(AbstractClipItem *item, GenTime &minimum, GenTime &maximum);

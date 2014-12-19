@@ -286,6 +286,8 @@ private slots:
     void slotSwitchSnap();
     void slotRenderProject();
     void slotFullScreen();
+    /** @brief if modified is true adds "modified" to the caption and enables the save button.
+    * (triggered by KdenliveDoc::setModified()) */
     void slotUpdateDocumentState(bool modified);
 
     /** @brief Sets the timeline zoom slider to @param value.
@@ -445,6 +447,9 @@ private slots:
     void slotProcessImportKeyframes(GraphicsRectItem type, const QString& data, int maximum);
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
+
+// Ripple Edit 
+    void slotRippleDelete();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

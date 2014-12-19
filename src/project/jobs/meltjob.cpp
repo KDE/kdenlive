@@ -56,6 +56,8 @@ MeltJob::MeltJob(ClipType cType, const QString &id, const QStringList &parameter
 
 void MeltJob::setProducer(Mlt::Producer *producer, const QUrl &url)
 {
+    Q_UNUSED(producer)
+
     //FIX stabilize in proxy clips?
     //m_url = QString::fromUtf8(producer->get("resource"));
     //if (m_url == QLatin1String("<playlist>") || m_url == QLatin1String("<tractor>") || m_url == QLatin1String("<producer>"))
@@ -143,7 +145,7 @@ void MeltJob::startJob()
 
     //m_consumer->set("terminate_on_pause", 1 );
     //m_consumer->set("eof", "pause" );
-    m_consumer->set("real_time", -1 );
+    m_consumer->set("real_time", -KdenliveSettings::mltthreads() );
 
 
     list = consumerParams.split(QLatin1Char(' '), QString::SkipEmptyParts);

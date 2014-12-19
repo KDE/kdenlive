@@ -98,6 +98,9 @@ public:
     /** @brief Get url for the clip's thumbnail */
     QString getMarkerThumb(GenTime pos);
 
+    int getZoneStart();
+    int getZoneEnd();
+
 protected:
     void mousePressEvent(QMouseEvent * event);
     void mouseReleaseEvent(QMouseEvent * event);

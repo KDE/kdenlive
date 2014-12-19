@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
 #include "mltdevicecapture.h"
 
 #include "kdenlivesettings.h"
@@ -173,7 +172,7 @@ void MltDeviceCapture::stop()
     if (m_mltConsumer) {
         m_mltConsumer->set("refresh", 0);
         m_mltConsumer->purge();
-	m_mltConsumer->stop();
+        m_mltConsumer->stop();
         //if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     }
     if (m_mltProducer) {
@@ -363,14 +362,6 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     char *tmp = qstrdup(m_activeProfile.toUtf8().constData());
     m_mltProfile = new Mlt::Profile(tmp);
     delete[] tmp;
-    //m_mltProfile->get_profile()->is_explicit = 1;
-    
-    
-    /*//qDebug()<<"-- CREATING CAP: "<<params<<", PATH: "<<path;
-    tmp = qstrdup(QString("avformat:" + path).toUtf8().constData());
-    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, tmp);
-    m_mltConsumer->set("real_time", -1);
-    delete[] tmp;*/
     
     m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "multi");
     if (m_mltConsumer == NULL || !m_mltConsumer->is_valid()) {
@@ -387,11 +378,11 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     Mlt::Properties *renderProps = new Mlt::Properties;
     renderProps->set("mlt_service", "avformat");
     renderProps->set("target", path.toUtf8().constData());
-    renderProps->set("real_time", -1);
-    //renderProps->set("terminate_on_pause", 0);
+    renderProps->set("real_time", -KdenliveSettings::mltthreads());
+    renderProps->set("terminate_on_pause", 0);// was commented out. restoring it  fixes mantis#3415 - FFmpeg recording freezes
+    // without this line a call to mlt_properties_get_int(terminate on pause) for in mlt/src/modules/core/consumer_multi.c is returning 1
+    // and going into and endless loop.
     renderProps->set("mlt_profile", m_activeProfile.toUtf8().constData());
-    
-
     QStringList paramList = params.split(' ', QString::SkipEmptyParts);
     for (int i = 0; i < paramList.count(); ++i) {
         tmp = qstrdup(paramList.at(i).section('=', 0, 0).toUtf8().constData());
