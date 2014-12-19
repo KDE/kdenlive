@@ -642,7 +642,9 @@ void MainWindow::slotConnectMonitors()
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(QString,QString,int,int)), m_projectList, SLOT(slotReplyGetImage(QString,QString,int,int)));
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(QString,QImage)), m_projectList, SLOT(slotReplyGetImage(QString,QImage)));
 
-    connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(QString,Mlt::Producer*,stringMap,stringMap,bool)), m_projectList, SLOT(slotReplyGetFileProperties(QString,Mlt::Producer*,stringMap,stringMap,bool)));
+    connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(QString,Mlt::Producer*,stringMap,stringMap,bool)), m_projectList, SLOT(slotReplyGetFileProperties(QString,Mlt::Producer*,stringMap,stringMap,bool)), Qt::DirectConnection);
+    //DirectConnection was necessary not to mess the analyze queue, but the monitor thread shouldn't show any UI widget (profile dialog), so adding an AutoConnection in between?
+    connect(m_projectList, SIGNAL(firstClip(ProjectItem*)), m_projectList, SLOT(adjustProjectProfileToItem(ProjectItem*)));
 
     connect(m_projectMonitor->render, SIGNAL(removeInvalidClip(QString,bool)), m_projectList, SLOT(slotRemoveInvalidClip(QString,bool)));
 
