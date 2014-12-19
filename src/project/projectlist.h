@@ -403,6 +403,7 @@ private slots:
 signals:
     void clipSelected(DocClipBase *, const QPoint &zone = QPoint(), bool forceUpdate = false);
     void receivedClipDuration(const QString &);
+    void firstClip(ProjectItem *);
     void showClipProperties(DocClipBase *);
     void showClipProperties(const QList <DocClipBase *>&, const QMap<QString, QString> &commonproperties);
     void projectModified();
