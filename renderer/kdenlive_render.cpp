@@ -72,7 +72,7 @@ int main(int argc, char **argv)
         QUrl srcurl = QUrl::fromEncoded(srcString);
         QString src = srcurl.path();
         // The QUrl path() strips the consumer: protocol, so re-add it if necessary
-        if (srcString.startsWith(QLatin1String("consumer:")))
+        if (srcString.startsWith("consumer:"))
             src.prepend(QLatin1String("consumer:"));
         QUrl desturl = QUrl::fromEncoded(args.takeFirst().toUtf8());
         QString dest = desturl.path();
