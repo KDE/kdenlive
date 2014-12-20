@@ -141,7 +141,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     // Store the button pointers into an array for easier handling them in the other functions.
     // TODO: impl enumerator or live with cut and paste :-)))
     setupJogshuttleBtns(KdenliveSettings::shuttledevice());
-
 #if 0
     m_shuttle_buttons.push_back(m_configShuttle.shuttle1);
     m_shuttle_buttons.push_back(m_configShuttle.shuttle2);
@@ -336,8 +335,8 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(QString device)
         list[i]->hide();
         list1[i]->hide();
     }
-
 #ifdef USE_JOGSHUTTLE
+    if (!m_configShuttle.kcfg_enableshuttle->isChecked()) return;
     int keysCount = JogShuttle::keysCount(device);
 
     for (int i = 0; i < keysCount; ++i) {
@@ -609,6 +608,7 @@ void KdenliveSettingsDialog::slotCheckShuttle(int state)
         m_configShuttle.shuttledevicelist->addItem(
                 devNames.at(i), devPaths.at(i));
     }
+    if (state) setupJogshuttleBtns(m_configShuttle.shuttledevicelist->itemData(m_configShuttle.shuttledevicelist->currentIndex()).toString());
 #endif /* USE_JOGSHUTTLE */
 }
 
