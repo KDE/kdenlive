@@ -16,10 +16,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
+
 /*! \class KdenliveDoc
-     \brief Represents a kdenlive project file
-     
-     Instances of KdeliveDoc classes are created by void MainWindow::newFile(bool showProjectSettings, bool force)
+    \brief Represents a kdenlive project file
+
+   Instances of KdeliveDoc classes are created by void MainWindow::newFile(bool showProjectSettings, bool force)
 */
 #ifndef KDENLIVEDOC_H
 #define KDENLIVEDOC_H
@@ -199,6 +200,12 @@ private:
     void setNewClipResource(const QString &id, const QString &path);
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
     void moveProjectData(const QUrl &url);
+    /**
+     * @brief check for issues with the clips in the project
+     * Instansiates DocumentChecker objects to do this task.
+     * @param infoproducers
+     * @return
+     */
     bool checkDocumentClips(QDomNodeList infoproducers);
 
     /** @brief Creates a new project. */
@@ -217,6 +224,13 @@ public slots:
     void slotCreateXmlClip(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
     void slotCreateColorClip(const QString &name, const QString &color, const QString &duration, const QString &group, const QString &groupId);
     void slotCreateSlideshowClipFile(const QMap<QString, QString> &properties, const QString &group, const QString &groupId);
+    /**
+     * @brief Create a title clip.
+     *  Instansiates TitleWidget objects
+     * @param group
+     * @param groupId
+     * @param templatePath
+     */
     void slotCreateTextClip(QString group, const QString &groupId, const QString &templatePath = QString());
     void slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path);
 
@@ -230,7 +244,7 @@ public slots:
 
 private slots:
     /** @brief Saves the current project at the autosave location.
-     *  @description The autosave files are in ~/.kde/data/stalefiles/kdenlive/ */
+     * @description The autosave files are in ~/.kde/data/stalefiles/kdenlive/ */
     void slotAutoSave();
 
 signals:

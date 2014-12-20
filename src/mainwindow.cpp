@@ -643,6 +643,8 @@ void MainWindow::slotConnectMonitors()
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(QString,QImage)), m_projectList, SLOT(slotReplyGetImage(QString,QImage)));
 
     connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(QString,Mlt::Producer*,stringMap,stringMap,bool)), m_projectList, SLOT(slotReplyGetFileProperties(QString,Mlt::Producer*,stringMap,stringMap,bool)), Qt::DirectConnection);
+    //DirectConnection was necessary not to mess the analyze queue, but the monitor thread shouldn't show any UI widget (profile dialog), so adding an AutoConnection in between?
+    connect(m_projectList, SIGNAL(firstClip(ProjectItem*)), m_projectList, SLOT(adjustProjectProfileToItem(ProjectItem*)));
 
     connect(m_projectMonitor->render, SIGNAL(removeInvalidClip(QString,bool)), m_projectList, SLOT(slotRemoveInvalidClip(QString,bool)));
 
@@ -1145,6 +1147,7 @@ void MainWindow::setupActions()
     connect(proxyClip, SIGNAL(toggled(bool)), m_projectList, SLOT(slotProxyCurrentItem(bool)));
 
     addAction("stopmotion", i18n("Stop Motion Capture"), this, SLOT(slotOpenStopmotion()), QIcon::fromTheme("image-x-generic"));
+    addAction("ripple_delete", i18n("Ripple Delete"), this, SLOT(slotRippleDelete()), QIcon(), Qt::CTRL + Qt::Key_X);
 
     addClips->addAction(reloadClip);
     addClips->addAction(proxyClip);
@@ -1919,6 +1922,45 @@ void MainWindow::slotRemoveSpace()
 {
     if (pCore->projectManager()->currentTrackView())
         pCore->projectManager()->currentTrackView()->projectView()->slotRemoveSpace();
+}
+
+void MainWindow::slotRippleDelete()
+{
+  if (!m_projectMonitor->isActive() || !pCore->projectManager()->currentTrackView()) return;
+      
+  int zoneStart = m_projectMonitor->getZoneStart();
+  int zoneEnd = m_projectMonitor->getZoneEnd();
+  if (!zoneStart && zoneEnd == (pCore->projectManager()->currentTrackView()->duration() - 1)) return;
+
+  int zoneFrameCount = zoneEnd - zoneStart;
+  
+  m_projectMonitor->slotZoneStart();
+  pCore->projectManager()->currentTrackView()->projectView()->setCursorPos(zoneStart);
+  pCore->projectManager()->currentTrackView()->projectView()->slotSelectAllClips();
+  pCore->projectManager()->currentTrackView()->projectView()->cutSelectedClips();    
+  pCore->projectManager()->currentTrackView()->projectView()->resetSelectionGroup(false);
+  m_projectMonitor->slotZoneEnd();
+  pCore->projectManager()->currentTrackView()->projectView()->setCursorPos(zoneEnd);
+  zoneEnd++;
+  pCore->projectManager()->currentTrackView()->projectView()->selectItemsRightOfFrame(zoneEnd);
+  pCore->projectManager()->currentTrackView()->projectView()->setInPoint();
+  pCore->projectManager()->currentTrackView()->projectView()->resetSelectionGroup(false);
+
+  zoneEnd++;
+  pCore->projectManager()->currentTrackView()->projectView()->selectItemsRightOfFrame(zoneEnd);
+  
+  pCore->projectManager()->currentTrackView()->projectView()->spaceToolMoveToSnapPos((double) zoneEnd);
+  pCore->projectManager()->currentTrackView()->projectView()->spaceToolMoveToSnapPos((double) zoneStart);
+  
+  GenTime timeOffset = GenTime(zoneFrameCount * -1, pCore->projectManager()->current()->fps());
+  pCore->projectManager()->currentTrackView()->projectView()->completeSpaceOperation(-1, timeOffset);
+  
+  m_projectMonitor->slotZoneStart();
+  pCore->projectManager()->currentTrackView()->projectView()->setCursorPos(zoneStart);
+
+  pCore->projectManager()->currentTrackView()->projectView()->resetSelectionGroup(false);
+  
+  return;
 }
 
 void MainWindow::slotInsertTrack(int ix)

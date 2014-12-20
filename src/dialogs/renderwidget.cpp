@@ -1029,7 +1029,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     if (!renderArgs.contains("threads=")) {
         renderArgs.append(QString(" threads=%1").arg(KdenliveSettings::encodethreads()));
     }
-    renderArgs.append(QString(" real_time=-1"));
+    renderArgs.append(QString(" real_time=-%1").arg(KdenliveSettings::mltthreads()));
 
     // Check if the rendering profile is different from project profile,
     // in which case we need to use the producer_comsumer from MLT

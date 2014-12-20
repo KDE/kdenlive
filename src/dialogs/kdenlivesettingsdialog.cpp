@@ -86,6 +86,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_configEnv.rendererpathurl->lineEdit()->setObjectName("kcfg_rendererpath");
     m_configEnv.ffmpegurl->lineEdit()->setObjectName("kcfg_ffmpegpath");
     m_configEnv.ffplayurl->lineEdit()->setObjectName("kcfg_ffplaypath");
+    m_configEnv.kcfg_mltthreads->setMaximum( QThread::idealThreadCount() < 4 ? QThread::idealThreadCount() : 3 );
     m_configEnv.tmppathurl->setMode(KFile::Directory);
     m_configEnv.tmppathurl->lineEdit()->setObjectName("kcfg_currenttmpfolder");
     m_configEnv.projecturl->setMode(KFile::Directory);

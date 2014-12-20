@@ -596,16 +596,6 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
-  <customwidget>
    <class>KTreeWidgetSearchLine</class>
    <extends>QLineEdit</extends>
    <header>ktreewidgetsearchline.h</header>

@@ -235,7 +235,6 @@ target_link_libraries(kdenlive
   ${Qt5_LIBRARIES}
   Qt5::Svg
   ${OPENGL_LIBRARIES}
-  ${QT_LIBRARIES}
   ${MLT_LIBRARIES}
   ${MLTPP_LIBRARIES}
   ${CMAKE_DL_LIBS}
@@ -270,6 +269,6 @@ if(BUILD_JogShuttle)
   target_link_libraries(kdenlive
     media_ctrl
   )
-endif(BUILD_JogShuttle)
+endif()
 
 install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})

@@ -678,6 +678,16 @@ void Monitor::slotEnd()
     render->seekToFrame(render->getLength());
 }
 
+int Monitor::getZoneStart()
+{
+  return m_ruler->zone().x();
+}
+
+int Monitor::getZoneEnd()
+{
+  return m_ruler->zone().y();
+}
+
 void Monitor::slotZoneStart()
 {
     slotActivateMonitor();

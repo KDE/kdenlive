@@ -196,8 +196,8 @@ void Render::buildConsumer(const QString &profileName)
                 m_mltConsumer->set("terminate_on_pause", 0);
                 m_mltConsumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
                 m_mltConsumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
-                m_mltConsumer->set("buffer", "5");
-                m_mltConsumer->set("real_time", 1);
+                m_mltConsumer->set("buffer", "1");
+                m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
             }
             if (m_mltConsumer && m_mltConsumer->is_valid()) {
                 return;
@@ -277,7 +277,7 @@ void Render::buildConsumer(const QString &profileName)
         m_mltConsumer->set("audio_driver", audioDriver.toUtf8().constData());
 
     m_mltConsumer->set("frequency", 48000);
-    m_mltConsumer->set("real_time", 1);
+    m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
 }
 
 Mlt::Producer *Render::invalidProducer(const QString &id)
@@ -1647,7 +1647,7 @@ void Render::setDropFrames(bool show)
 {
     QMutexLocker locker(&m_mutex);
     if (m_mltConsumer) {
-        int dropFrames = 1;
+        int dropFrames = KdenliveSettings::mltthreads();
         if (show == false) dropFrames = -dropFrames;
         m_mltConsumer->stop();
         m_mltConsumer->set("real_time", dropFrames);
