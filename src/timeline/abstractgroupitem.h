@@ -72,7 +72,7 @@ protected:
 private:
     QPainterPath groupShape(GraphicsRectItem type, const QPointF &offset) const;
     QPainterPath spacerGroupShape(GraphicsRectItem type, const QPointF &offset) const;
-    /** Stores the original info of the items beeing resized. */
+    /** Stores the original info of the items being resized. */
     QList <ItemInfo> m_resizeInfos;
 };
 

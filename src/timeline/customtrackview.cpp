@@ -4211,7 +4211,7 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
     item->closeAnimation();
     /*if (refresh) item->closeAnimation();
     else {
-        // no refresh, means we have several operations chained, we need to delete clip immediatly
+        // no refresh, means we have several operations chained, we need to delete clip immediately
         // so that it does not get in the way of the other
         delete item;
         item = NULL;

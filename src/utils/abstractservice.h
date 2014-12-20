@@ -62,7 +62,7 @@ public:
     ~AbstractService();
     /** @brief Get file extension for currently selected item. */
     virtual QString getExtension(QListWidgetItem *item);
-    /** @brief Get recommanded download file name. */
+    /** @brief Get recommEnded download file name. */
     virtual QString getDefaultDownloadName(QListWidgetItem *item);
         /** @brief Does this service provide a preview (for example preview a sound. */
     bool hasPreview;

@@ -581,7 +581,7 @@ void RecMonitor::slotStartPreview(bool play)
 void RecMonitor::slotRecord()
 {
     m_error.clear();
-    video_frame->setText("");// clear error text from previous run if any.
+    video_frame->clear();// clear error text from previous run if any.
     // ^^ This does clear the error text but the change is not visible straight way in the UI
     // it only becomes visible after the capture is complete. Vincent and JBM - how come? What can
     // we do to make the error text go way as soon as a new capture starts. It is missleading to the user

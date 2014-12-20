@@ -152,7 +152,7 @@ public:
     /// Automatically align the currently selected clips to synchronize their audio with the reference's audio
     void alignAudio();
 
-    /** @brief Seperates the audio of a clip to a audio track.
+    /** @brief Separates the audio of a clip to a audio track.
     * @param pos Position of the clip to split
     * @param track Track of the clip
     * @param split Split or unsplit */
@@ -167,7 +167,7 @@ public:
     int selectedTrack() const;
     QStringList selectedClips() const;
     QList<ClipItem *> selectedClipItems() const;
-    /** @brief Checks wheter an item can be inserted (make sure it does not overlap another item) */
+    /** @brief Checks whether an item can be inserted (make sure it does not overlap another item) */
     bool canBePastedTo(ItemInfo info, int type) const;
 
     /** @brief Selects a clip.

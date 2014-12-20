@@ -41,7 +41,7 @@ public:
     * @param alphaEnabled (optional) Should transparent colors be enabled */
     explicit ChooseColorWidget(const QString &text = QString(), const QString &color = "0xffffffff", bool alphaEnabled = false, QWidget* parent = 0);
 
-    /** @brief Gets the choosen color. */
+    /** @brief Gets the chosen color. */
     QString getColor() const;
 
 private:
@@ -52,7 +52,7 @@ private slots:
     void setColor(const QColor &color);
 
 signals:
-    /** @brief Emitted whenever a different color was choosen. */
+    /** @brief Emitted whenever a different color was chosen. */
     void modified();
     void displayMessage(const QString&, int);
     /** @brief When user wants to pick a color, it's better to disable filter so we get proper color values. */

@@ -210,7 +210,7 @@ void ClipPropertiesManager::slotApplyNewClipProperties(const QString& id, const 
     pCore->projectManager()->current()->setModified();
 
     if (refresh) {
-        // update clip occurences in timeline
+        // update clip occurrences in timeline
         pCore->projectManager()->currentTrackView()->projectView()->slotUpdateClip(id, reload);
     }
 }

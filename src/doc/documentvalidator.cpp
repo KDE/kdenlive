@@ -152,7 +152,7 @@ bool DocumentValidator::validate(const double currentVersion)
         tracksMax = qMax(tracks.count() - 1, tracksMax);
         QDomNodeList tracksinfo = kdenliveDoc.elementsByTagName("trackinfo");
         tracksMax = qMax(tracksinfo.count(), tracksMax);
-        tracksMax = qMax(1, tracksMax); // Force existance of one track
+        tracksMax = qMax(1, tracksMax); // Force existence of one track
         if (playlists.count() - 1 < tracksMax ||
                 tracks.count() - 1 < tracksMax ||
                 tracksinfo.count() < tracksMax) {

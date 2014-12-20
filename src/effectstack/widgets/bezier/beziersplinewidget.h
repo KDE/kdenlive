@@ -46,19 +46,19 @@ public:
     void setMode(CurveModes mode);
 
 private slots:
-    /** @brief Sets the spinboxes for modifing the selected point to @param p. */
+    /** @brief Sets the spinboxes for modifying the selected point to @param p. */
     void slotUpdatePointEntries(const BPoint &p);
 
     /** @brief Updates the spline if the current point's p was modified using the spinboxes.
-     * @param value (optional) not used, neccessary to be able to connect to DragValue's valueChanged.
+     * @param value (optional) not used, necessary to be able to connect to DragValue's valueChanged.
      * @param final (default = true) emit signal modified? */
     void slotUpdatePointP(double value = 1, bool final = true);
     /** @brief Updates the spline if the current point's h1 was modified using the spinboxes.
-     * @param value (optional) not used, neccessary to be able to connect to DragValue's valueChanged.
+     * @param value (optional) not used, necessary to be able to connect to DragValue's valueChanged.
      * @param final (default = true) emit signal modified? */
     void slotUpdatePointH1(double value = 1, bool final = true);
     /** @brief Updates the spline if the current point's h2 was modified using the spinboxes.
-     * @param value (optional) not used, neccessary to be able to connect to DragValue's valueChanged.
+     * @param value (optional) not used, necessary to be able to connect to DragValue's valueChanged.
      * @param final (default = true) emit signal modified? */
     void slotUpdatePointH2(double value = 1, bool final = true);
 

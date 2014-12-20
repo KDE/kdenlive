@@ -94,7 +94,7 @@ void ShuttleThread::run()
 
 		// see if there was an error or timeout else process event
 		if (result < 0 && errno == EINTR) {
-			// EINTR event catched. This is not a problem - continue processing
+			// EINTR event caught. This is not a problem - continue processing
 			//qDebug() << strerror(errno) << '\n';
 			// continue processing
 			continue;

@@ -1166,7 +1166,7 @@ void TrackView::slotUpdateTrackEffectState(int ix)
 {
     QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
     if (ix < 0 || ix >= widgets.count()) {
-        //qDebug() << "ERROR, Trying to access a non existant track: " << ix;
+        //qDebug() << "ERROR, Trying to access a non existent track: " << ix;
         return;
     }
     widgets.at(m_doc->tracksCount() - ix - 1)->updateEffectLabel(m_doc->trackInfoAt(ix).effectsList.effectNames());
