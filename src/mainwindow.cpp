@@ -3620,7 +3620,7 @@ void MainWindow::slotApplyNewClipProperties(const QString &id, const QMap <QStri
     m_activeDocument->setModified();
 
     if (refresh) {
-        // update clip occurences in timeline
+        // update clip occurrences in timeline
         m_activeTimeline->projectView()->slotUpdateClip(id, reload);
     }
 }

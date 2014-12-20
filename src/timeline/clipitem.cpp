@@ -69,7 +69,7 @@ ClipItem::ClipItem(DocClipBase *clip, const ItemInfo& info, double fps, double s
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (double) itemHeight());
     setPos(info.startPos.frames(fps), (double)(info.track * KdenliveSettings::trackheight()) + 1 + itemOffset());
 
-    // set speed independant info
+    // set speed independent info
     if (m_speed <= 0 && m_speed > -1)
         m_speed = -1.0;
     m_speedIndependantInfo = m_info;
@@ -1325,7 +1325,7 @@ void ClipItem::resizeStart(int posx, bool /*size*/, bool emitChange)
     const int previous = cropStart().frames(m_fps);
     AbstractClipItem::resizeStart(posx, sizeLimit);
 
-    // set speed independant info
+    // set speed independent info
     m_speedIndependantInfo = m_info;
     m_speedIndependantInfo.cropStart = GenTime((int)(m_info.cropStart.frames(m_fps) * qAbs(m_speed)), m_fps);
     m_speedIndependantInfo.cropDuration = GenTime((int)(m_info.cropDuration.frames(m_fps) * qAbs(m_speed)), m_fps);
@@ -1352,7 +1352,7 @@ void ClipItem::resizeEnd(int posx, bool emitChange)
     const int previous = cropDuration().frames(m_fps);
     AbstractClipItem::resizeEnd(posx);
 
-    // set speed independant info
+    // set speed independent info
     m_speedIndependantInfo = m_info;
     m_speedIndependantInfo.cropStart = GenTime((int)(m_info.cropStart.frames(m_fps) * qAbs(m_speed)), m_fps);
     m_speedIndependantInfo.cropDuration = GenTime((int)(m_info.cropDuration.frames(m_fps) * qAbs(m_speed)), m_fps);

@@ -47,7 +47,7 @@ public:
     QDomElement getEffectByName(const QString & name) const;
     QDomElement getEffectByTag(const QString & tag, const QString & id) const;
 
-    /** @brief Checks the existance of an effect.
+    /** @brief Checks the existence of an effect.
      * @param tag effect tag
      * @param id effect id
      * @return effect index if the effect exists, -1 otherwise */

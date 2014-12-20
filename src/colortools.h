@@ -51,7 +51,7 @@ public:
       are neutral colors. The colors on the y axis show what the neutral color will look like when modifying the curve.
       color defines the color to modify on the y axis. The other two components will be increased
       in equal terms (linear as well) on the x axis.
-      scaling \in ]0,1] defines the maximum variance of the selected component; Chosing a value lower than 1
+      scaling \in ]0,1] defines the maximum variance of the selected component; Choosing a value lower than 1
       simulates the case that the curves can adjust only +- scaling*255. This mainly delivers a more constant look
       when also using the Luma component for the curves display but might not represent the actual color change!
      */

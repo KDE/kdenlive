@@ -78,7 +78,7 @@ void StatusBarMessageLabel::setMessage(const QString& text,
         if (item.type == ErrorMessage || item.type == MltError || item.type == ProcessingJobMessage) {
             qDebug() << item.text;
 
-            // Put the new errror message at first place and immediately show it
+            // Put the new error message at first place and immediately show it
             if (item.timeoutMillis < 2000) {
                 item.timeoutMillis = 2000;
             }

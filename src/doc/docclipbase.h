@@ -226,7 +226,7 @@ private:   // Private attributes
     /** a unique numeric id */
     QString m_id;
 
-    /** Wheter the clip is a placeholder (clip missing but user wants to see it) */
+    /** Whether the clip is a placeholder (clip missing but user wants to see it) */
     bool m_placeHolder;
 
     QList <CutZoneInfo> m_cutZones;

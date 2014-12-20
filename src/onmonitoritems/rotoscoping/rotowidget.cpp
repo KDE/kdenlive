@@ -178,7 +178,7 @@ void RotoWidget::slotPositionChanged(int pos, bool seek)
             QList <BPoint> p2 = getPoints(keyframe2);
             qreal relPos = (pos - keyframe1) / (qreal)(keyframe2 - keyframe1 + 1);
 
-            // additionaly points are ignored (same behavior as MLT filter)
+            // additionally points are ignored (same behavior as MLT filter)
             int count = qMin(p1.count(), p2.count());
             for (int i = 0; i < count; ++i) {
                 BPoint bp;
