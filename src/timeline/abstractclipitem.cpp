@@ -58,7 +58,7 @@ void AbstractClipItem::closeAnimation()
     if (!isEnabled()) return;
     setEnabled(false);
     setFlag(QGraphicsItem::ItemIsSelectable, false);
-    if (QApplication::activeWindow()->style()->styleHint(QStyle::SH_Widget_Animate, 0, QApplication::activeWindow())) {
+    if (QApplication::style()->styleHint(QStyle::SH_Widget_Animate, 0, QApplication::activeWindow())) {
         // animation disabled
         deleteLater();
         return;
