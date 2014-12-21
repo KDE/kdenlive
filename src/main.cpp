@@ -35,6 +35,10 @@
 
 int main(int argc, char *argv[])
 {
+    // Init application
+    QApplication app(argc, argv);
+
+    // Create KAboutData
     KAboutData aboutData(QByteArray("kdenlive"), 
                          i18n("Kdenlive"), KDENLIVE_VERSION,
                          i18n("An open source video editor."),
@@ -56,23 +60,35 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(i18n("Steve Guilford"), i18n("Bug fixing, etc."), "s.guilford@dbplugins.com");
     aboutData.addAuthor(i18n("Jason Wood"), i18n("Original KDE 3 version author (not active anymore)"), "jasonwood@blueyonder.co.uk");
     aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
+    aboutData.setOrganizationDomain(QByteArray("kde.org"));
 
-    QCommandLineParser parser;
+
+    // Register about data
     KAboutData::setApplicationData(aboutData);
+
+    // Set app stuff from about data
+    app.setApplicationName(aboutData.componentName());
+    app.setApplicationDisplayName(aboutData.displayName());
+    app.setOrganizationDomain(aboutData.organizationDomain());
+    app.setApplicationVersion(aboutData.version());
+    
+    // Create command line parser with options
+    QCommandLineParser parser;
+    aboutData.setupCommandLine(&parser);
+    parser.setApplicationDescription(aboutData.shortDescription());
     parser.addVersionOption();
     parser.addHelpOption();
-    QApplication app(argc, argv);
-    app.setOrganizationDomain("kde.org");
-    KDBusService programDBusService;
-    
-    //PORTING SCRIPT: adapt aboutdata variable if necessary
-    aboutData.setupCommandLine(&parser);
+
+    parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("mlt-path"), i18n("Set the path for MLT environment"), QLatin1String("mlt-path")));
+    parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("i"), i18n("Comma separated list of clips to add"), QLatin1String("clips")));
+    parser.addPositionalArgument(QLatin1String("file"), i18n("Document to open"));
+
+    // Parse command line
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
-    parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("mlt-path"), i18n("Set the path for MLT environment"), QLatin1String("mlt-path")));
-    parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("+[file]"), i18n("Document to open")));
-    parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("i"), i18n("Comma separated list of clips to add"), QLatin1String("clips")));
+    // Register DBus service
+    KDBusService programDBusService;
 
     MainWindow* window = 0;
 
@@ -98,8 +114,6 @@ int main(int argc, char *argv[])
         }
         window = new MainWindow(mltPath, url, clipsToLoad);
         window->show();
-
-        
     }
     int result = app.exec();
     return result;
