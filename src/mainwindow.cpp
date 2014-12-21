@@ -2489,7 +2489,7 @@ void MainWindow::slotSaveZone(Render *render, const QPoint &zone, DocClipBase *b
             QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
             env.remove("MLT_PROFILE");
             p.setProcessEnvironment(env);
-            p.start(KdenliveSettings::rendererpath(), QStringList() << baseClip->fileURL().path() << "in=" + QString::number(zone.x()) << "out=" + QString::number(zone.y()) << "-consumer" << "xml:" + url->url().path());
+            p.start(KdenliveSettings::rendererpath(), QStringList() << baseClip->fileURL().toLocalFile() << "in=" + QString::number(zone.x()) << "out=" + QString::number(zone.y()) << "-consumer" << "xml:" + url->url().path());
             if (!p.waitForStarted(3000)) {
                 KMessageBox::sorry(this, i18n("Cannot start MLT's renderer:\n%1", KdenliveSettings::rendererpath()));
             }

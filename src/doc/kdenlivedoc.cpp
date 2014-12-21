@@ -857,7 +857,7 @@ void KdenliveDoc::moveProjectData(const QUrl &url)
         if (clip->clipType() == Text) {
             // the image for title clip must be moved
             QUrl oldUrl = clip->fileURL();
-            QUrl newUrl = QUrl(url.path() + QDir::separator() + "titles/" + oldUrl.fileName());
+            QUrl newUrl = QUrl::fromLocalFile(url.toLocalFile() + QDir::separator() + "titles/" + oldUrl.fileName());
             KIO::Job *job = KIO::copy(oldUrl, newUrl);
             if (job->exec()) clip->setProperty("resource", newUrl.path());
         }
@@ -1233,7 +1233,7 @@ bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, const QString 
         clip->setProperties(properties);
         emit addProjectClip(clip, false);
     }
-    if (orig != QDomElement()) {
+    if (!orig.isNull()) {
         QMap<QString, QString> meta;
         for (QDomNode m = orig.firstChild(); !m.isNull(); m = m.nextSibling()) {
             QString name = m.toElement().attribute("name");

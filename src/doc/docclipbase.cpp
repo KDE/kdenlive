@@ -85,8 +85,8 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
             m_analysisdata.insert(adata.at(i).section('?', 0, 0), adata.at(i).section('?', 1, 1));
     }
 
-    QUrl url = QUrl(xml.attribute("resource"));
-    if (!m_properties.contains("file_hash") && url.isValid()) getFileHash(url.path());
+    QUrl url = QUrl::fromLocalFile(xml.attribute("resource"));
+    if (!m_properties.contains("file_hash") && url.isValid()) getFileHash(url.toLocalFile());
 
     if (xml.hasAttribute("duration")) {
         setDuration(GenTime(xml.attribute("duration").toInt(), KdenliveSettings::project_fps()));
@@ -176,7 +176,7 @@ void DocClipBase::setClipType(ClipType type)
 QUrl DocClipBase::fileURL() const
 {
     QString res = m_properties.value("resource");
-    if (m_clipType != Color && !res.isEmpty()) return QUrl(res);
+    if (m_clipType != Color && !res.isEmpty()) return QUrl::fromLocalFile(res);
     return QUrl();
 }
 
@@ -1062,7 +1062,7 @@ void DocClipBase::getFileHash(const QString &url)
 bool DocClipBase::checkHash() const
 {
     QUrl url = fileURL();
-    if (url.isValid() && getClipHash() != getHash(url.path())) return false;
+    if (url.isValid() && getClipHash() != getHash(url.toLocalFile())) return false;
     return true;
 }
 
@@ -1113,7 +1113,7 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
     m_properties.insert(key, value);
     if (key == "resource") {
         getFileHash(value);
-        if (m_thumbProd) m_thumbProd->updateClipUrl(QUrl(value), m_properties.value("file_hash"));
+        if (m_thumbProd) m_thumbProd->updateClipUrl(QUrl::fromLocalFile(value), m_properties.value("file_hash"));
         //else if (key == "transparency") m_clipProducer->set("transparency", value.toInt());
     } else if (key == "out") {
         setDuration(GenTime(value.toInt() + 1, KdenliveSettings::project_fps()));

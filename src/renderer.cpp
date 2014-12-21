@@ -455,7 +455,7 @@ int Render::getLength()
 
 bool Render::isValid(const QUrl &url)
 {
-    Mlt::Producer producer(*m_mltProfile, url.path().toUtf8().constData());
+    Mlt::Producer producer(*m_mltProfile, url.toLocalFile().toUtf8().constData());
     if (producer.is_blank())
         return false;
 
@@ -659,7 +659,7 @@ void Render::processFileProperties()
             path = info.xml.attribute("resource");
             proxyProducer = false;
         }
-        QUrl url(path);
+        QUrl url = QUrl::fromLocalFile(path);
         Mlt::Producer *producer = NULL;
         ClipType type = (ClipType)info.xml.attribute("type").toInt();
         if (type == Color) {
@@ -1197,7 +1197,7 @@ int Render::setSceneList(QString playlist, int position)
     if (m_winid == -1) return -1;
     int error = 0;
 
-    ////qDebug() << "//////  RENDER, SET SCENE LIST:\n" << playlist <<"\n..........:::.";
+    //qDebug() << "//////  RENDER, SET SCENE LIST:\n" << playlist <<"\n..........:::.";
 
     // Remove previous profile info
     QDomDocument doc;
@@ -1360,7 +1360,7 @@ bool Render::saveSceneList(QString path, QDomElement kdenliveData)
 
 void Render::saveZone(QUrl url, QString desc, QPoint zone)
 {
-    Mlt::Consumer xmlConsumer(*m_mltProfile, ("xml:" + url.path()).toUtf8().constData());
+    Mlt::Consumer xmlConsumer(*m_mltProfile, ("xml:" + url.toLocalFile()).toUtf8().constData());
     m_mltProducer->optimise();
     xmlConsumer.set("terminate_on_pause", 1);
     if (m_name == Kdenlive::ClipMonitor) {
@@ -1401,7 +1401,7 @@ bool Render::saveClip(int track, const GenTime &position, const QUrl &url, const
         return false;
     }
     
-    Mlt::Consumer xmlConsumer(*m_mltProfile, ("xml:" + url.path()).toUtf8().constData());
+    Mlt::Consumer xmlConsumer(*m_mltProfile, ("xml:" + url.toLocalFile()).toUtf8().constData());
     xmlConsumer.set("terminate_on_pause", 1);
     Mlt::Playlist list;
     list.insert_at(0, clip, 0);
@@ -2123,7 +2123,7 @@ bool Render::mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement ele
 bool Render::mltRemoveClip(int track, GenTime position)
 {
     m_refreshTimer.stop();
-    
+
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
         qWarning() << "// TRACTOR PROBLEM";
@@ -4395,7 +4395,7 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
             data.insert("video_index", QString::number(vindex));
             data.insert("audio_index", QString::number(aindex));
             data.insert("bypassDuplicate", "1");
-            emit addClip(QUrl(path), data);
+            emit addClip(QUrl::fromLocalFile(path), data);
         }
         return;
     }
@@ -4460,7 +4460,7 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
                 data.insert("video_index", QString::number(vindex));
                 data.insert("audio_index", QString::number(aindex));
                 data.insert("bypassDuplicate", "1");
-                emit addClip(QUrl(path), data);
+                emit addClip(QUrl::fromLocalFile(path), data);
             }
         }
     }

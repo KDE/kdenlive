@@ -603,7 +603,7 @@ void Monitor::slotExtractCurrentFrame()
     // check if we are using a proxy
     if (m_currentClip && !m_currentClip->getProperty("proxy").isEmpty() && m_currentClip->getProperty("proxy") != "-") {
         // using proxy, use original clip url to get frame
-        frame = render->extractFrame(render->seekFramePosition(), m_currentClip->fileURL().path());
+        frame = render->extractFrame(render->seekFramePosition(), m_currentClip->fileURL().toLocalFile());
     }
     else frame = render->extractFrame(render->seekFramePosition());
     QString framesFolder = KRecentDirs::dir(":KdenliveFramesFolder");

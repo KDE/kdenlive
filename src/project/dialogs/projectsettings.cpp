@@ -239,9 +239,9 @@ void ProjectSettings::slotClearCache()
 {
     buttonBox->setEnabled(false);
     // Delete and recteate the thumbs directory
-    QDir dir(project_folder->url().path() + QDir::separator() + "thumbs/");
+    QDir dir(project_folder->url().path());
     // Try to make sure we delete the correct directory
-    if (dir.exists() && dir.dirName() == "thumbs") {
+    if (dir.cd("thumbs") && dir.dirName() == "thumbs") {
         dir.removeRecursively();
         dir.setPath(project_folder->url().path());
         dir.mkdir("thumbs");
