@@ -350,8 +350,7 @@ private:
     QList <CommentedTime> m_searchPoints;
     QList <Guide *> m_guides;
 
-    ClipItem *getClipItemAt(int pos, int track);
-    ClipItem *getClipItemAt(GenTime pos, int track);
+    ClipItem *getClipItemAtMiddlePoint(int pos, int track);
     ClipItem *getClipItemAtEnd(GenTime pos, int track);
     ClipItem *getClipItemAtStart(GenTime pos, int track);
     Transition *getTransitionItem(TransitionInfo info);
