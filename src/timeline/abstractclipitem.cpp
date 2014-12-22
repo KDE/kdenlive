@@ -47,6 +47,7 @@ AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF& rect, dou
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption, true);
+    setPen(Qt::NoPen);
 }
 
 AbstractClipItem::~AbstractClipItem()
