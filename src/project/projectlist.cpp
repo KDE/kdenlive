@@ -3448,17 +3448,13 @@ void ProjectList::slotStartFilterJob(const ItemInfo &info, const QString&id, QMa
 {
     ProjectItem *item = getItemById(id);
     if (!item) return;
-    
-    QMap <QString, QString> producerParams = QMap <QString, QString> ();
 
+    QMap <QString, QString> producerParams = QMap <QString, QString> ();
     producerParams.insert("in", QString::number((int) info.cropStart.frames(m_fps)));
     producerParams.insert("out", QString::number((int) (info.cropStart + info.cropDuration).frames(m_fps)));
     extraParams.insert("clipStartPos", QString::number((int) info.startPos.frames(m_fps)));
     extraParams.insert("clipTrack", QString::number(info.track));
-    /*QStringList jobParams;
-    jobParams << QString::number((int) info.cropStart.frames(m_fps)) << QString::number((int) (info.cropStart + info.cropDuration).frames(m_fps));
-    jobParams << QString() << filterName << filterParams << consumer << consumerParams << QString::number((int) info.startPos.frames(m_fps)) << QString::number(info.track);*/
-    // TODO: adapt to the new MeltJob format
+
     MeltJob *job = new MeltJob(item->clipType(), id, producerParams, filterParams, consumerParams, extraParams);
     if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
         delete job;
@@ -3652,7 +3648,6 @@ void ProjectList::processClipJob(QStringList ids, const QString&destination, boo
 		consumerParams.insert("consumer", consumerName + ':' + mltfile);
             }
         }
-	qDebug()<< "starting meltjob-----------\nconsume: "<<consumerParams.value("consumer");
         MeltJob *job = new MeltJob(item->clipType(), id, producerParams, filterParams, consumerParams, extraParams);
         if (autoAdd) {
             job->setAddClipToProject(true);

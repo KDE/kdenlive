@@ -1394,15 +1394,16 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
         QRectF sceneShape = rect();
         sceneShape.translate(newPos);
         QList<QGraphicsItem*> items;
-        if (projectScene()->editMode() == NormalEdit)
+        if (projectScene()->editMode() == NormalEdit) {
             items = scene()->items(sceneShape, Qt::IntersectsItemShape);
+	}
         items.removeAll(this);
         bool forwardMove = newPos.x() > pos().x();
         if (!items.isEmpty()) {
             for (int i = 0; i < items.count(); ++i) {
                 if (!items.at(i)->isEnabled()) continue;
                 if (items.at(i)->type() == type()) {
-				    int offset = 0;
+		    int offset = 0;
                     // Collision!
                     QPointF otherPos = items.at(i)->pos();
                     if ((int) otherPos.y() != (int) pos().y()) {
