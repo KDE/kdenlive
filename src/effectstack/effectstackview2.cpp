@@ -276,7 +276,7 @@ void EffectStackView2::connectEffect(CollapsibleEffect *currentEffect)
     // Check drag & drop
     currentEffect->installEventFilter( this );
     connect(currentEffect, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this , SLOT(slotUpdateEffectParams(QDomElement,QDomElement,int)));
-    connect(currentEffect, SIGNAL(startFilterJob(QString,QString,QString,QString,QMap<QString,QString>)), this , SLOT(slotStartFilterJob(QString,QString,QString,QString,QMap<QString,QString>)));
+    connect(currentEffect, SIGNAL(startFilterJob(QMap<QString,QString>&, QMap<QString,QString>&,QMap <QString, QString>&)), this , SLOT(slotStartFilterJob(QMap<QString,QString>&, QMap<QString,QString>&,QMap <QString, QString>&)));
     connect(currentEffect, SIGNAL(deleteEffect(QDomElement)), this , SLOT(slotDeleteEffect(QDomElement)));
     connect(currentEffect, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
     connect(currentEffect, SIGNAL(resetEffect(int)), this , SLOT(slotResetEffect(int)));
@@ -649,10 +649,10 @@ void EffectStackView2::slotMoveEffectUp(const QList<int> &indexes, bool up)
     else emit changeEffectPosition(m_clipref, -1, indexes, endPos);
 }
 
-void EffectStackView2::slotStartFilterJob(const QString&filterName, const QString&filterParams, const QString&consumer, const QString&consumerParams, const QMap <QString, QString> &extraParams)
+void EffectStackView2::slotStartFilterJob(QMap <QString, QString> &filterParams, QMap <QString, QString> &consumerParams, QMap <QString, QString> &extraParams)
 {
     if (!m_clipref) return;
-    emit startFilterJob(m_clipref->info(), m_clipref->clipProducer(), filterName, filterParams, consumer, consumerParams, extraParams);
+    emit startFilterJob(m_clipref->info(), m_clipref->clipProducer(), filterParams, consumerParams, extraParams);
 }
 
 void EffectStackView2::slotResetEffect(int ix)

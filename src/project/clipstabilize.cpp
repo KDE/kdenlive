@@ -72,7 +72,8 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
 
                                if (m_filtername=="vidstab"){
                                // Some default params have to be set:
-                               m_fixedParams << "algo=1" << "relative=1";
+                               m_fixedParams.insert("algo", "1");
+			       m_fixedParams.insert("relative", "1");
                                QStringList ls;
                                ls << "accuracy,type,int,value,8,min,1,max,10,tooltip,Accuracy of Shakiness detection";
                                ls << "shakiness,type,int,value,4,min,1,max,10,tooltip,How shaky is the Video";
@@ -129,28 +130,37 @@ ClipStabilize::~ClipStabilize()
     KdenliveSettings::setAdd_new_clip(auto_add->isChecked());
 }
 
-QStringList ClipStabilize::params()
+QMap <QString, QString> ClipStabilize::producerParams()
 {
-    //we must return a stringlist with:
-    // producerparams << filtername << filterparams << consumer << consumerparams
-    QStringList params;
-    // producer params
-    params << QString();
-    // filter
-    params << m_filtername;
-    QStringList filterparamsList = m_fixedParams;
-    QHashIterator <QString,QHash<QString,QString> > it(m_ui_params);
-    while (it.hasNext()){
-        it.next();
-        filterparamsList << it.key() + '=' + it.value().value("value");
-    }
-    params << filterparamsList.join(" ");
+    return QMap <QString, QString>();
+}
+
+QMap <QString, QString> ClipStabilize::filterParams()
+{
+    QMap <QString, QString> params;
+    params.insert("filter", m_filtername);
     
-    // consumer
-    params << "xml";
+    QMapIterator<QString, QString> i(m_fixedParams);
+    while (i.hasNext()) {
+	i.next();
+	params.insert(i.key(), i.value());
+    }
+
+    QHashIterator <QString,QHash<QString,QString> > it(m_ui_params);
+    while (it.hasNext()) {
+        it.next();
+	params.insert(it.key(), it.value().value("value"));
+    }
+    return params;
+}
+
+QMap <QString, QString> ClipStabilize::consumerParams()
+{
     // consumer params
-    QString title = i18n("Stabilised");
-    params << QString("all=1 title=\"%1\"").arg(title);
+    QMap <QString, QString> params;
+    params.insert("consumer", "xml");
+    params.insert("all", "1");
+    params.insert("title", i18n("Stabilised"));
     return params;
 }
 

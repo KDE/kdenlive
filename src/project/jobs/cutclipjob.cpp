@@ -25,7 +25,7 @@
 #include <QDebug>
 #include <klocalizedstring.h>
 
-CutClipJob::CutClipJob(ClipType cType, const QString &id, const QStringList &parameters) : AbstractClipJob(CUTJOB, cType, id, parameters)
+CutClipJob::CutClipJob(ClipType cType, const QString &id, const QStringList &parameters) : AbstractClipJob(CUTJOB, cType, id)
 {
     m_jobStatus = JobWaiting;
     m_dest = parameters.at(0);

@@ -25,7 +25,7 @@
 #include <QDebug>
 
 
-AbstractClipJob::AbstractClipJob(JOBTYPE type, ClipType cType, const QString &id, const QStringList &) :
+AbstractClipJob::AbstractClipJob(JOBTYPE type, ClipType cType, const QString &id) :
         QObject(),
         clipType(cType),
         jobType(type),

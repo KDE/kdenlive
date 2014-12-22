@@ -818,20 +818,46 @@ void ParameterContainer::slotStartFilterJobAction()
         QDomElement pa = namenode.item(i).toElement();
         QString type = pa.attribute("type");
         if (type == "filterjob") {
-	    QString filterparams = pa.attribute("filterparams");
-	    if (filterparams.contains("%position")) {
-		if (m_geometryWidget) filterparams.replace("%position", QString::number(m_geometryWidget->currentPosition()));
+	    QMap <QString, QString> filterParams;
+	    QMap <QString, QString> consumerParams;
+	    filterParams.insert("filter", pa.attribute("filtertag"));
+	    consumerParams.insert("consumer", pa.attribute("consumer"));
+	    QString filterattributes = pa.attribute("filterparams");
+	    if (filterattributes.contains("%position")) {
+		if (m_geometryWidget) filterattributes.replace("%position", QString::number(m_geometryWidget->currentPosition()));
 	    }
-	    if (filterparams.contains("%params")) {
+
+	    // Fill filter params
+	    QStringList filterList = filterattributes.split(" ");
+	    QString param;
+	    for (int i = 0; i < filterList.size(); ++i) {
+		param = filterList.at(i);
+		if (param != "%params") {
+		    filterParams.insert(param.section("=", 0, 0), param.section("=", 1));
+		}
+	    }
+	    if (filterattributes.contains("%params")) {
 		// Replace with current geometry
 		EffectsParameterList parameters;
 		QDomNodeList params = m_effect.elementsByTagName("parameter");
 		CustomTrackView::adjustEffectParameters(parameters, params, m_metaInfo->profile);
 		QString paramData;
-		for (int j = 0; j < parameters.count(); ++j)
-		    paramData.append(parameters.at(j).name()+'='+parameters.at(j).value()+' ');
-		filterparams.replace("%params", paramData);
+		for (int j = 0; j < parameters.count(); ++j) {
+		    filterParams.insert(parameters.at(j).name(), parameters.at(j).value());
+		}
 	    }
+
+	    // Fill consumer params
+	    QString consumerattributes = pa.attribute("consumerparams");
+	    QStringList consumerList = consumerattributes.split(" ");
+	    for (int i = 0; i < consumerList.size(); ++i) {
+		param = consumerList.at(i);
+		if (param != "%params") {
+		    consumerParams.insert(param.section("=", 0, 0), param.section("=", 1));
+		}
+	    }
+
+	    // Fill extra params
 	    QMap <QString, QString> extraParams;
 	    QDomNodeList jobparams = pa.elementsByTagName("jobparam");
 	    for (int j = 0; j < jobparams.count(); ++j) {
@@ -839,8 +865,7 @@ void ParameterContainer::slotStartFilterJobAction()
 		extraParams.insert(e.attribute("name"), e.text().toUtf8());
 	    }
 	    extraParams.insert("offset", QString::number(m_in));
-            emit startFilterJob(pa.attribute("filtertag"), filterparams, pa.attribute("consumer"), pa.attribute("consumerparams"), extraParams);
-            //qDebug()<<" - - -PROPS:\n"<<pa.attribute("filtertag")<<"-"<< filterparams<<"-"<< pa.attribute("consumer")<<"-"<< pa.attribute("consumerparams")<<"-"<< pa.attribute("extraparams");
+            emit startFilterJob(filterParams, consumerParams, extraParams);
             break;
         }
     }

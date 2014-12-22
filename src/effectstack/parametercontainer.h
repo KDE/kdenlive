@@ -105,8 +105,12 @@ signals:
     void checkMonitorPosition(int);
     void seekTimeline(int);
     void showComments(bool);    
-    /** @brief Start an MLT filter job on this clip. */
-    void startFilterJob(const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QMap <QString, QString> &extra);
+    /** @brief Start an MLT filter job on this clip. 
+     * @param filterParams a QMap containing filter name under the "filter" key, and all filter properties
+     * @param consumerParams a QMap containing consumer name under the "consumer" key, and all consumer properties
+     * @param extraParams a QMap containing extra data used by the job
+     */
+    void startFilterJob(QMap <QString, QString> &filterParams, QMap <QString, QString> &consumerParams, QMap <QString, QString> &extraParams);
     /** @brief Request import of keyframes from clip data. */
     void importClipKeyframes();
     /** @brief Master clip was resized, update effect. */

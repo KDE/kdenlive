@@ -3444,14 +3444,22 @@ void ProjectList::discardJobs(const QString &id, JOBTYPE type) {
     }
 }
 
-void ProjectList::slotStartFilterJob(ItemInfo info, const QString&id, const QString&filterName, const QString&filterParams, const QString&consumer, const QString&consumerParams, const QMap <QString, QString> &extraParams)
+void ProjectList::slotStartFilterJob(const ItemInfo &info, const QString&id, QMap <QString, QString> &filterParams, QMap <QString, QString> &consumerParams, QMap <QString, QString> &extraParams)
 {
     ProjectItem *item = getItemById(id);
     if (!item) return;
-    QStringList jobParams;
+    
+    QMap <QString, QString> producerParams = QMap <QString, QString> ();
+
+    producerParams.insert("in", QString::number((int) info.cropStart.frames(m_fps)));
+    producerParams.insert("out", QString::number((int) (info.cropStart + info.cropDuration).frames(m_fps)));
+    extraParams.insert("clipStartPos", QString::number((int) info.startPos.frames(m_fps)));
+    extraParams.insert("clipTrack", QString::number(info.track));
+    /*QStringList jobParams;
     jobParams << QString::number((int) info.cropStart.frames(m_fps)) << QString::number((int) (info.cropStart + info.cropDuration).frames(m_fps));
-    jobParams << QString() << filterName << filterParams << consumer << consumerParams << QString::number((int) info.startPos.frames(m_fps)) << QString::number(info.track);
-    MeltJob *job = new MeltJob(item->clipType(), id, jobParams, extraParams);
+    jobParams << QString() << filterName << filterParams << consumer << consumerParams << QString::number((int) info.startPos.frames(m_fps)) << QString::number(info.track);*/
+    // TODO: adapt to the new MeltJob format
+    MeltJob *job = new MeltJob(item->clipType(), id, producerParams, filterParams, consumerParams, extraParams);
     if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
         delete job;
         return;
@@ -3537,14 +3545,30 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
             return;
         }
         // Autosplit filter
-        QStringList jobParams;
+        QMap <QString, QString> producerParams = QMap <QString, QString> ();
+        QMap <QString, QString> filterParams = QMap <QString, QString> ();
+	QMap <QString, QString> consumerParams = QMap <QString, QString> ();
+	
         // Producer params
-        jobParams << QString();
+	// None
+
         // Filter params, use a smaller region of the image to speed up operation
         // In fact, it's faster to rescale whole image than using part of it (bounding=\"25%x25%:15%x15\")
-        jobParams << filterName << "shot_change_list=0 denoise=0";
-        // Consumer
-        jobParams << "null" << "all=1 terminate_on_pause=1 real_time=-1 rescale=nearest deinterlace_method=onefield top_field_first=-1";
+	filterParams.insert("filter", filterName);
+	filterParams.insert("shot_change_list", "0");
+	filterParams.insert("denoise", "0");
+	
+	// Consumer
+	consumerParams.insert("consumer", "null");
+	consumerParams.insert("all", "1");
+	consumerParams.insert("terminate_on_pause", "1");
+	consumerParams.insert("real_time", "-1");
+	// We just want to find scene change, set all mathods to the fastests
+	consumerParams.insert("rescale", "nearest");
+	consumerParams.insert("deinterlace_method", "onefield");
+	consumerParams.insert("top_field_first", "-1");
+	
+        // Extra
         QMap <QString, QString> extraParams;
         extraParams.insert("key", "shot_change_list");
         extraParams.insert("projecttreefilter", "1");
@@ -3568,54 +3592,68 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
             extraParams.insert("cutscenes", "1");
         }
         delete d;
-        processClipJob(ids.keys(), QString(), false, jobParams, i18n("Auto split"), extraParams);
+        processClipJob(ids.keys(), QString(), false, producerParams, filterParams, consumerParams, i18n("Auto split"), extraParams);
     }
     else {
         QPointer<ClipStabilize> d = new ClipStabilize(destination, filterName);
         if (d->exec() == QDialog::Accepted) {
             QMap <QString, QString> extraParams;
             extraParams.insert("producer_profile", "1");
-            processClipJob(ids.keys(), d->destination(), d->autoAddClip(), d->params(), d->desc(), extraParams);
+            processClipJob(ids.keys(), d->destination(), d->autoAddClip(), d->producerParams(), d->filterParams(), d->consumerParams(), d->desc(), extraParams);
         }
         delete d;
     }
 }
 
-void ProjectList::processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description, QMap <QString, QString> extraParams)
+void ProjectList::processClipJob(QStringList ids, const QString&destination, bool autoAdd, QMap <QString, QString> producerParams, QMap <QString, QString> filterParams, QMap <QString, QString> consumerParams, const QString &description, QMap <QString, QString> extraParams)
 {
-    QStringList preParams;
     // in and out
-    preParams << QString::number(0) << QString::number(-1);
-    // producer params
-    preParams << jobParams.takeFirst();
+    int in = 0;
+    int out = -1;
+ 
     // filter name
-    preParams << jobParams.takeFirst();
-    // filter params
-    preParams << jobParams.takeFirst();
-    // consumer
-    QString consumer = jobParams.takeFirst();
-    
+    QString filterName = filterParams.value("filter");
+
+    // consumer name
+    QString consumerName = consumerParams.value("consumer");
+
     foreach(const QString&id, ids) {
         ProjectItem *item = getItemById(id);
         if (!item) continue;
-        QStringList jobArgs;
         if (extraParams.contains("zoneonly")) {
             // Analyse clip zone only, remove in / out and replace with zone
-            preParams.takeFirst();
-            preParams.takeFirst();
             QPoint zone = item->referencedClip()->zone();
-            jobArgs << QString::number(zone.x()) << QString::number(zone.y());
+	    in = zone.x();
+	    out = zone.y();
         }
-        jobArgs << preParams;
+        producerParams.insert("in", QString::number(in));
+	producerParams.insert("out", QString::number(out));
+
         if (ids.count() == 1) {
-            jobArgs << consumer + ':' + destination;
+	    // We only have one clip to process
+	    if (filterName == "vidstab") {
+		// Append a 'filename' parameter for saving vidstab data
+		QUrl trffile = QUrl::fromLocalFile(destination + ".trf");
+		filterParams.insert("filename", trffile.path());
+		consumerParams.insert("consumer", consumerName + ':' + destination);
+           } else {
+		consumerParams.insert("consumer", consumerName + ':' + destination);
+           }
         }
         else {
-            jobArgs << consumer + ':' + destination + item->clipUrl().fileName() + ".mlt";
+	    // We have several clips to process
+	    QString mltfile = destination + item->clipUrl().fileName() + ".mlt";
+            if (filterName == "vidstab") {
+		// Append a 'filename' parameter for saving each vidstab data
+		QUrl trffile = QUrl::fromLocalFile(mltfile + ".trf");
+		filterParams.insert("filename", trffile.path());
+		consumerParams.insert("consumer", consumerName + ':' + mltfile);
+            } else {
+		consumerParams.insert("consumer", consumerName + ':' + mltfile);
+            }
         }
-        jobArgs << jobParams;
-        
-        MeltJob *job = new MeltJob(item->clipType(), id, jobArgs, extraParams);
+	qDebug()<< "starting meltjob-----------\nconsume: "<<consumerParams.value("consumer");
+        MeltJob *job = new MeltJob(item->clipType(), id, producerParams, filterParams, consumerParams, extraParams);
         if (autoAdd) {
             job->setAddClipToProject(true);
             //qDebug()<<"// ADDING TRUE";

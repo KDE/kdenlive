@@ -36,8 +36,12 @@ public:
     ~ClipStabilize();
     /** @brief Should the generated clip be added to current project. */
     bool autoAddClip() const;
-    /** @brief Return the filter parameters. */
-    QStringList params();
+    /** @brief Return the producer parameters, producer name as value of "producer" entry. */
+    QMap <QString, QString> producerParams();
+    /** @brief Return the filter parameters, filter name as value of "filter" entry. */
+    QMap <QString, QString> filterParams();
+    /** @brief Return the consumer parameters, consumer name as value of "consumer" entry. */
+    QMap <QString, QString> consumerParams();
     /** @brief Return the destination file or folder. */
     QString destination() const;
     /** @brief Return the job description. */
@@ -55,7 +59,7 @@ private:
     QHash<QString,QHash<QString,QString> > m_ui_params;
     QVBoxLayout *vbox;
     void fillParameters(QStringList);
-    QStringList m_fixedParams;
+    QMap <QString, QString> m_fixedParams;
 
 signals:
     void addClip(const QUrl &url);

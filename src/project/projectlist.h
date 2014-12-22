@@ -205,7 +205,7 @@ public slots:
     /** @brief Start transcoding selected clips. */
     void slotTranscodeClipJob(const QString &condition, QString params, QString desc);
     /** @brief Start an MLT process job. */
-    void slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QMap <QString, QString>&);
+    void slotStartFilterJob(const ItemInfo&, const QString&,QMap <QString, QString>&, QMap <QString, QString>&,QMap <QString, QString>&);
     void slotSetThumbnail(const QString &id, int framePos, QImage img);
     
 
@@ -300,7 +300,7 @@ private:
     /** @brief Get the list of job names for current clip. */
     QStringList getPendingJobs(const QString &id);
     /** @brief Start an MLT process job. */
-    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description, stringMap extraParams = stringMap());
+    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QMap <QString, QString> producerParams, QMap <QString, QString> filterParams, QMap <QString, QString> consumerParams, const QString &description, stringMap extraParams = stringMap());
     /** @brief Create rounded shape pixmap for project tree thumb. */
     QPixmap roundedPixmap(const QImage &img);
     QPixmap roundedPixmap(const QPixmap &source);

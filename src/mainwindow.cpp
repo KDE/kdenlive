@@ -195,7 +195,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
 
     m_effectStack = new EffectStackView2(m_projectMonitor);
-    connect(m_effectStack, SIGNAL(startFilterJob(ItemInfo,QString,QString,QString,QString,QString,QMap<QString,QString>)), m_projectList, SLOT(slotStartFilterJob(ItemInfo,QString,QString,QString,QString,QString,QMap<QString,QString>)));
+    connect(m_effectStack, SIGNAL(startFilterJob(const ItemInfo&,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)), m_projectList, SLOT(slotStartFilterJob(const ItemInfo &,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)));
     m_effectStackDock = addDock(i18n("Effect Stack"), "effect_stack", m_effectStack);
 
     m_transitionConfig = new TransitionSettings(m_projectMonitor);
