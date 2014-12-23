@@ -2347,23 +2347,24 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             if (!item->hasProxy() || m_render->activeClipId() == item->clipId()) {
                 emit requestClipSelect(clipId);
             }
-            bool updatedProfile = false;
             if (item->parent()) {
                 if (item->parent()->type() == ProjectFoldeType)
                     static_cast <FolderProjectItem *>(item->parent())->switchIcon();
-            } else if (KdenliveSettings::checkfirstprojectclip() &&  m_listView->topLevelItemCount() == 1 && m_refreshed && m_allClipsProcessed) {
-                // this is the first clip loaded in project, check if we want to adjust project settings to the clip
+            } else if (KdenliveSettings::checkfirstprojectclip()
+                &&  m_listView->topLevelItemCount() == 1
+                && m_refreshed && m_allClipsProcessed) {
+                // this is the first clip loaded in project, check if we want
+                // to adjust project settings to the clip
                 emit firstClip(item);
-                //updatedProfile = adjustProjectProfileToItem(item);
-                //if (updatedProfile == false) {
-                //    emit clipSelected(item->referencedClip());
-                //}
             }
         } else {
             int max = m_doc->clipManager()->clipsCount();
-            if (max > 0) emit displayMessage(i18n("Loading clips"), (int)(100 *(max - queue) / max));
+            if (max > 0)
+                emit displayMessage(i18n("Loading clips"), (int)(100 *(max - queue) / max));
         }
-        if (m_allClipsProcessed) emit processNextThumbnail();
+
+        if (m_allClipsProcessed)
+            emit processNextThumbnail();
     }
     if (!item) {
         // no item for producer, delete it
