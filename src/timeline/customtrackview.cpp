@@ -7581,6 +7581,7 @@ void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPo
         emit displayMessage(i18n("Cannot find clip for effect update %1.", extra.value("finalfilter")), ErrorMessage);
         return;
     }
+
     QDomElement newEffect;
     QDomElement effect = clip->getEffectAtIndex(clip->selectedEffectIndex());
     if (effect.attribute("id") == extra.value("finalfilter")) {

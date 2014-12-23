@@ -846,7 +846,6 @@ void ParameterContainer::slotStartFilterJobAction()
 		    filterParams.insert(parameters.at(j).name(), parameters.at(j).value());
 		}
 	    }
-
 	    // Fill consumer params
 	    QString consumerattributes = pa.attribute("consumerparams");
 	    QStringList consumerList = consumerattributes.split(" ");
