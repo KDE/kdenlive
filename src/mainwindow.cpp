@@ -440,6 +440,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
 #endif
+    KMessageBox::information(this, "Warning, development version for testing only. we are currently working on core functionnalities,\ndo not save any project or your project files might be corrupted.");
 }
 
 MainWindow::~MainWindow()
@@ -642,7 +643,7 @@ void MainWindow::slotConnectMonitors()
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(QString,QString,int,int)), m_projectList, SLOT(slotReplyGetImage(QString,QString,int,int)));
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(QString,QImage)), m_projectList, SLOT(slotReplyGetImage(QString,QImage)));
 
-    connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(QString,Mlt::Producer*,stringMap,stringMap,bool)), m_projectList, SLOT(slotReplyGetFileProperties(QString,Mlt::Producer*,stringMap,stringMap,bool)), Qt::DirectConnection);
+    connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(requestClipInfo &,Mlt::Producer &,stringMap,stringMap)), m_projectList, SLOT(slotReplyGetFileProperties(requestClipInfo &,Mlt::Producer &,stringMap,stringMap)), Qt::DirectConnection);
     //DirectConnection was necessary not to mess the analyze queue, but the monitor thread shouldn't show any UI widget (profile dialog), so adding an AutoConnection in between?
     connect(m_projectList, SIGNAL(firstClip(ProjectItem*)), m_projectList, SLOT(adjustProjectProfileToItem(ProjectItem*)));
 

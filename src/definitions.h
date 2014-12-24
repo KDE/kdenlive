@@ -151,6 +151,19 @@ public:
         duration(0) {}
 };
 
+struct requestClipInfo {
+    QDomElement xml;
+    QString clipId;
+    int binIndex;
+    int imageHeight;
+    bool replaceProducer;
+
+    bool operator==(const requestClipInfo &a)
+    {
+        return clipId == a.clipId;
+    }
+};
+
 typedef QMap<QString, QString> stringMap;
 typedef QMap <int, QMap <int, QByteArray> > audioByteArray;
 

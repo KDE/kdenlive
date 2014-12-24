@@ -2,7 +2,7 @@
 <effect tag="loudness" id="loudness" type="audio">
 	<name>Loudness</name>
 	<description>Correct audio loudness as recommended by EBU R128</description>
-	<author>Brian Matherly &lt;pez4brian@yahoo.com&gt;</author>
+	<author>Brian Matherly</author>
 	<parameter type="double" name="program" max="-10" min="-50" default="-23.00" decimals="2">
 		<name>Target Program Loudness</name>
 	</parameter>

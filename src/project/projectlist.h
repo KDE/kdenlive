@@ -168,7 +168,7 @@ public slots:
     void updateAllClips(bool displayRatioChanged, bool fpsChanged, const QStringList &brokenClips);
     void slotReplyGetImage(const QString &clipId, const QImage &img);
     void slotReplyGetImage(const QString &clipId, const QString &name, int width, int height);
-    void slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const stringMap &properties, const stringMap &metadata, bool replace);
+    void slotReplyGetFileProperties(requestClipInfo &clipInfo, Mlt::Producer &producer, const stringMap &properties, const stringMap &metadata);
     void slotAddClip(DocClipBase *clip, bool getProperties);
     void slotDeleteClip(const QString &clipId);
     void slotUpdateClip(const QString &id);

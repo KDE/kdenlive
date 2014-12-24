@@ -524,8 +524,11 @@ void DocClipBase::setValid()
     m_placeHolder = false;
 }
 
-void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readPropertiesFromProducer)
+void DocClipBase::setProducer(Mlt::Producer &producer, bool reset, bool readPropertiesFromProducer)
 {
+    setDuration(GenTime(producer.get_length(), KdenliveSettings::project_fps()));
+    return;
+    /*
     if (producer == NULL) return;
     if (reset) {
         QMutexLocker locker(&m_producerMutex);
@@ -603,6 +606,7 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
     }
     if (updated && readPropertiesFromProducer && (m_clipType != Color && m_clipType != Image && m_clipType != Text))
         setDuration(GenTime(producer->get_length(), KdenliveSettings::project_fps()));
+    */
 }
 
 static double getPixelAspect(QMap<QString, QString>& props) {
@@ -744,6 +748,7 @@ Mlt::Producer *DocClipBase::getCloneProducer()
 Mlt::Producer *DocClipBase::getProducer(int track)
 {
     QMutexLocker locker(&m_producerMutex);
+
     if (track == -1 || (m_clipType != Audio && m_clipType != AV && m_clipType != Playlist)) {
         if (m_baseTrackProducers.count() == 0) {
             return NULL;

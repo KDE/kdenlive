@@ -141,6 +141,9 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     bool ok;
     m_trackView = new TrackView(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
     pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme("kdenlive"), doc->description());
+    // HACK: Set clipmonitor's binPlaylist to projectMonitor, we should have only one object for this
+    pCore->monitorManager()->clipMonitor()->render->setBinPlaylist(pCore->monitorManager()->projectMonitor()->render->binPlaylist());
+    pCore->monitorManager()->clipMonitor()->render->setBinIndex(pCore->monitorManager()->projectMonitor()->render->binIndex());
 
     m_project = doc;
     if (!ok) {
@@ -202,7 +205,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges)
 bool ProjectManager::saveFileAs(const QString &outputFileName)
 {
     pCore->monitorManager()->stopActiveMonitor();
-
     if (m_project->saveSceneList(outputFileName, pCore->monitorManager()->projectMonitor()->sceneList(), pCore->window()->m_projectList->expandedFolders()) == false) {
         return false;
     }
@@ -256,6 +258,7 @@ bool ProjectManager::saveFile()
         qDebug()<<"SaveFile called without project";
         return false;
     }
+    KMessageBox::information(QApplication::activeWindow(), "Warning, development version for testing only. we are currently working on core functionnalities,\ndo not save any project or your project files might be corrupted.");
     if (m_project->url().isEmpty()) {
         return saveFileAs();
     } else {

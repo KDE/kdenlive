@@ -49,8 +49,9 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-
 #define SEEK_INACTIVE (-1)
+
+static const char* kPlaylistTrackId = "main bin";
 
 static void kdenlive_callback(void* /*ptr*/, int level, const char* fmt, va_list vl)
 {
@@ -105,9 +106,11 @@ Render::Render(Kdenlive::MonitorId rendererName, int winid, QString profile, QWi
     m_name(rendererName),
     m_mltConsumer(NULL),
     m_mltProducer(NULL),
+    m_binPlaylist(NULL),
     m_mltProfile(NULL),
     m_showFrameEvent(NULL),
     m_pauseEvent(NULL),
+    m_binIdList(new QStringList()),
     m_isZoneMode(false),
     m_isLoopMode(false),
     m_isSplitView(false),
@@ -808,7 +811,10 @@ void Render::processFileProperties()
                 }
                 if (frame) delete frame;
             }
-            emit replyGetFileProperties(info.clipId, producer, stringMap(), stringMap(), info.replaceProducer);
+            removeBinClip(info.clipId);
+	    m_binIdList->append(info.clipId);
+	    m_binPlaylist->append(*producer);
+            emit replyGetFileProperties(info, *producer, stringMap(), stringMap());
             continue;
         }
 
@@ -1020,6 +1026,7 @@ void Render::processFileProperties()
                         filePropertyMap["audiocodec"] = producer->get(property);
                 }
             }
+            producer->set("mlt_service", "avformat-novalidate");
         }
 
         // metadata
@@ -1033,7 +1040,10 @@ void Render::processFileProperties()
                 metadataPropertyMap[ name.section('.', 0, -2)] = value;
         }
         producer->seek(0);
-        emit replyGetFileProperties(info.clipId, producer, filePropertyMap, metadataPropertyMap, info.replaceProducer);
+	info.binIndex = m_binPlaylist->count();
+	m_binPlaylist->append(*producer);
+	m_binIdList->append(info.clipId);
+        emit replyGetFileProperties(info, *producer, filePropertyMap, metadataPropertyMap);
     }
 }
 
@@ -1082,6 +1092,12 @@ void Render::loadUrl(const QString &url)
     setProducer(producer, 0);
 }
 
+int Render::setMonitorProducer(const QString &id, int position)
+{
+    Mlt::Producer *prod = getBinClip(id);
+    return setProducer(prod, position);
+}
+
 int Render::setProducer(Mlt::Producer *producer, int position)
 {
     m_refreshTimer.stop();
@@ -1090,7 +1106,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     QString currentId;
     int consumerPosition = 0;
     if (m_winid == -1 || !m_mltConsumer) {
-        //qDebug()<<" / / / / WARNING, MONITOR NOT READY";
+        qDebug()<<" / / / / WARNING, MONITOR NOT READY";
         if (producer) delete producer;
         return -1;
     }
@@ -1111,7 +1127,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
         producer->set("id", "black");
     }
     if (!producer || !producer->is_valid()) {
-        //qDebug() << " WARNING - - - - -INVALID PLAYLIST: ";
+        qDebug() << " WARNING - - - - -INVALID PLAYLIST: ";
         return -1;
     }
     if (m_mltProducer) currentId = m_mltProducer->get("id");
@@ -1260,6 +1276,11 @@ int Render::setSceneList(QString playlist, int position)
         m_mltProducer = NULL;
         emit stopped();
     }
+    if (m_binPlaylist) {
+	m_binPlaylist->clear();
+	delete m_binPlaylist;
+	m_binPlaylist = NULL;
+    }
 
     blockSignals(true);
     m_locale = QLocale();
@@ -1282,6 +1303,28 @@ int Render::setSceneList(QString playlist, int position)
         m_mltProducer->seek(position);
     }
 
+    // Fill Bin's playlist
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    if (service.type() != tractor_type) {
+        qWarning() << "// TRACTOR PROBLEM";
+    }
+    Mlt::Tractor tractor(service);
+    Mlt::Properties retainList((mlt_properties) tractor.get_data("xml_retain"));
+    if (retainList.is_valid() && retainList.get_data(kPlaylistTrackId)) {
+        Mlt::Playlist playlist((mlt_playlist) retainList.get_data(kPlaylistTrackId));
+        if (playlist.is_valid() && playlist.type() == playlist_type)
+            m_binPlaylist = new Mlt::Playlist(playlist);
+    }
+    // No Playlist found, create new one
+    if (!m_binPlaylist) {
+	m_binPlaylist = new Mlt::Playlist(*m_mltProfile);
+    }
+    m_binPlaylist->set("id", kPlaylistTrackId);
+    QString retain = QString("xml_retain %1").arg(kPlaylistTrackId);
+    tractor.set(retain.toUtf8().constData(), m_binPlaylist->get_service(), 0);
+
+    m_binPlaylist->append(*m_blackClip);
+
     //qDebug() << "// NEW SCENE LIST DURATION SET TO: " << m_mltProducer->get_playtime();
     m_mltConsumer->connect(*m_mltProducer);
     m_mltProducer->set_speed(0);
@@ -1292,6 +1335,16 @@ int Render::setSceneList(QString playlist, int position)
     return error;
     ////qDebug()<<"// SETSCN LST, POS: "<<position;
     //if (position != 0) emit rendererPosition(position);
+}
+
+
+int Render::getBinClipDuration(const QString &id)
+{
+    Mlt::Producer *prod = getBinClip(id);
+    if (prod == NULL) return -1;
+    int length = prod->get_playtime();
+    delete prod;
+    return length;
 }
 
 void Render::checkMaxThreads()
@@ -1313,6 +1366,55 @@ void Render::checkMaxThreads()
         mlt_service_cache_set_size(service.get_service(), "producer_avformat", requestedThreads);
         //qDebug()<<"// MLT threads updated to: "<<mlt_service_cache_get_size(service.get_service(), "producer_avformat");
     }
+}
+
+Mlt::Playlist *Render::binPlaylist()
+{
+    return m_binPlaylist;
+}
+
+void Render::setBinPlaylist(Mlt::Playlist *binList)
+{
+    m_binPlaylist = binList;
+}
+
+QStringList &Render::binIndex()
+{
+    return *m_binIdList;
+}
+
+void Render::setBinIndex(QStringList &binIndex)
+{
+    m_binIdList = &binIndex;
+}
+
+void Render::removeBinClip(const QString &id)
+{
+    Mlt::Producer *producer = NULL;
+    int index = m_binIdList->indexOf(id) + 1;
+    if (index > 0 && index <= m_binPlaylist->count()) {
+	m_binPlaylist->remove(index);
+    }
+
+    // Rebuild bin index
+    m_binIdList->clear();
+    for (int ix = 1;ix <= m_binPlaylist->count(); ix++) {
+	producer = m_binPlaylist->get_clip(ix);
+	if (!producer) continue;
+	m_binIdList->append(QString::fromUtf8(producer->parent().get("id")));
+    }
+}
+
+Mlt::Producer *Render::getBinClip(const QString &id)
+{
+    int index = m_binIdList->indexOf(id) + 1;
+    if (index == 0 || index > m_binPlaylist->count()) return NULL;
+    return m_binPlaylist->get_clip(index);
+}
+
+int Render::clipBinIndex(const QString &id) const
+{
+    return m_binIdList->indexOf(id) + 1;
 }
 
 const QString Render::sceneList()

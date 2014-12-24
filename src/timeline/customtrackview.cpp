@@ -1653,7 +1653,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
             //qDebug() << " WARNING))))))))) CLIP NOT FOUND : " << list.at(0);
             return false;
         }
-        if (clip->getProducer() == NULL) {
+        if (m_document->renderer()->clipBinIndex(clip->getId()) == 0) {
             emit displayMessage(i18n("Clip not ready"), ErrorMessage);
             return false;
         }
@@ -1707,7 +1707,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
                 //qDebug() << " WARNING))))))))) CLIP NOT FOUND : " << ids.at(i);
                 return false;
             }
-            if (clip->getProducer() == NULL) {
+            if (m_document->renderer()->clipBinIndex(clip->getId()) == 0) {
                 emit displayMessage(i18n("Clip not ready"), ErrorMessage);
                 return false;
             }
@@ -2752,7 +2752,8 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             ItemInfo clipInfo = info;
             clipInfo.track = m_document->tracksCount() - item->track();
 
-            int worked = m_document->renderer()->mltInsertClip(clipInfo, item->xml(), item->baseClip()->getProducer(item->track()), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
+            //int worked = m_document->renderer()->mltInsertClip(clipInfo, item->xml(), item->baseClip()->getProducer(item->track()), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
+	    int worked = m_document->renderer()->mltInsertClip(clipInfo, item->xml(), m_document->renderer()->getBinClip(item->baseClip()->getId()), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
             if (worked == -1) {
                 emit displayMessage(i18n("Cannot insert clip in timeline"), ErrorMessage);
                 brokenClips.append(item);
@@ -3744,7 +3745,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             // we are moving one clip, easy
             if (m_dragItem->type() == AVWidget && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
                 ClipItem *item = static_cast <ClipItem *>(m_dragItem);
-                Mlt::Producer *prod = item->getProducer(info.track);
+                //Mlt::Producer *prod = item->getProducer(info.track);
+		Mlt::Producer *prod = m_document->renderer()->getBinClip(item->baseClip()->getId());
                 bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - info.track), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(info.startPos.frames(m_document->fps())), prod, m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
 
                 if (success) {
@@ -3954,7 +3956,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         int trackProducer = info.track;
                         info.track = m_document->tracksCount() - info.track;
                         adjustTimelineClips(m_scene->editMode(), clip, ItemInfo(), moveGroup);
-                        m_document->renderer()->mltInsertClip(info, clip->xml(), clip->getProducer(trackProducer), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
+                        //m_document->renderer()->mltInsertClip(info, clip->xml(), clip->getProducer(trackProducer), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
+			m_document->renderer()->mltInsertClip(info, clip->xml(), m_document->renderer()->getBinClip(clip->baseClip()->getId()), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
                         for (int i = 0; i < clip->effectsCount(); ++i) {
                             m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(clip->effect(i)), false);
                         }
@@ -4497,7 +4500,7 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
         return;
     }
 
-    if (baseclip->getProducer() == NULL) {
+    if (m_document->renderer()->clipBinIndex(baseclip->getId()) == 0) {
         // If the clip has no producer, we must wait until it is created...
         
         emit displayMessage(i18n("Waiting for clip..."), InformationMessage);
@@ -4509,13 +4512,13 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
         }
         // If the clip is not ready, give it 3x3 seconds to complete the task...
         for (int i = 0; i < 3; ++i) {
-            if (baseclip->getProducer() == NULL) {
+            if (m_document->renderer()->clipBinIndex(baseclip->getId()) == 0) {
                 m_mutex.lock();
                 m_producerNotReady.wait(&m_mutex, 3000);
                 m_mutex.unlock();
             } else break;
         }
-        if (baseclip->getProducer() == NULL) {
+        if (m_document->renderer()->clipBinIndex(baseclip->getId()) == 0) {
             emit displayMessage(i18n("Cannot insert clip..."), ErrorMessage);
             return;
         }
@@ -4536,7 +4539,8 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
     baseclip->addReference();
     m_document->updateClip(baseclip->getId());
     info.track = m_document->tracksCount() - info.track;
-    m_document->renderer()->mltInsertClip(info, xml, item->getProducer(producerTrack), overwrite, push);
+    //m_document->renderer()->mltInsertClip(info, xml, item->getProducer(producerTrack), overwrite, push);
+    m_document->renderer()->mltInsertClip(info, xml, m_document->renderer()->getBinClip(item->baseClip()->getId()), overwrite, push);
     for (int i = 0; i < item->effectsCount(); ++i) {
         m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(item->effect(i)), false);
     }
@@ -4698,7 +4702,8 @@ bool CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool 
         //qDebug() << "----------------  ERROR, CANNOT find clip to move at.. ";
         return false;
     }
-    Mlt::Producer *prod = item->getProducer(end.track);
+    //Mlt::Producer *prod = item->getProducer(end.track);
+    Mlt::Producer *prod = m_document->renderer()->getBinClip(item->baseClip()->getId());
 
 #ifdef DEBUG
     qDebug() << "Moving item " << (long)item << " from .. to:";

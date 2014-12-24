@@ -72,18 +72,6 @@ class Service;
 class Event;
 }
 
-struct requestClipInfo {
-    QDomElement xml;
-    QString clipId;
-    int imageHeight;
-    bool replaceProducer;
-
-    bool operator==(const requestClipInfo &a)
-    {
-        return clipId == a.clipId;
-    }
-};
-
 class MltErrorEvent : public QEvent
 {
 public:
@@ -136,6 +124,7 @@ class Render: public AbstractRender
      *
      * Creates the producer from the text playlist. */
     int setSceneList(QString playlist, int position = 0);
+    int setMonitorProducer(const QString &id, int position);
     int setProducer(Mlt::Producer *producer, int position);
 
     /** @brief Get the current MLT producer playlist.
@@ -304,6 +293,17 @@ class Render: public AbstractRender
 
     /** @brief Returns a pointer to the main producer. */
     Mlt::Producer *getProducer();
+    /** @brief Returns a pointer to the bin's playlist. */
+    Mlt::Playlist *binPlaylist();
+    void setBinPlaylist(Mlt::Playlist *binList);
+    QStringList &binIndex();
+    void setBinIndex(QStringList &binIndex);
+    /** @brief Returns the duration of a clip in the bin from its index position. */
+    int getBinClipDuration(const QString &id);
+    int clipBinIndex(const QString &id) const;
+    void removeBinClip(const QString &id);
+    Mlt::Producer *getBinClip(const QString &id);
+
     /** @brief Returns the number of clips to process (When requesting clip info). */
     int processingItems();
     /** @brief Processing of this clip is over, producer was set on clip, remove from list. */
@@ -358,9 +358,13 @@ private:
     Kdenlive::MonitorId m_name;
     Mlt::Consumer * m_mltConsumer;
     Mlt::Producer * m_mltProducer;
+    Mlt::Playlist * m_binPlaylist;
     Mlt::Profile *m_mltProfile;
     Mlt::Event *m_showFrameEvent;
     Mlt::Event *m_pauseEvent;
+    /** @brief An index list containing the clip id's in the same order as the bin playlist.
+     *  Can be used to find a producer from it's clip Id. */
+    QStringList *m_binIdList;
     double m_fps;
 
     /** @brief True if we are playing a zone.
@@ -429,7 +433,7 @@ private slots:
 signals:
 
     /** @brief The renderer received a reply to a getFileProperties request. */
-    void replyGetFileProperties(const QString &clipId, Mlt::Producer*, const stringMap &, const stringMap &, bool replaceProducer);
+    void replyGetFileProperties(requestClipInfo &, Mlt::Producer &, const stringMap &, const stringMap &);
 
     /** @brief The renderer received a reply to a getImage request. */
     void replyGetImage(const QString &, const QString &, int, int);

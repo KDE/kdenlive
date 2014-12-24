@@ -73,6 +73,9 @@ Q_OBJECT public:
     virtual ~ ClipManager();
     void addClip(DocClipBase *clip);
     void deleteClip(const QString &clipId);
+    
+    // Set producer on a DocClipBase and insert it in the bin's playlist
+    void setClipProducer(DocClipBase *clip, Mlt::Producer *producer, bool replace);
 
     /** @brief Add a file to the project.
      * @ref slotAddClipList
