@@ -106,6 +106,9 @@
 	  <Action name="edit_item_duration" />
 	  <Action name="save_timeline_clip" />
       </Menu>
+      <Menu name="all_clips" ><text>All clips</text>
+          <Action name="ripple_delete" />
+      </Menu>
       <Menu name="guide_menu" ><text>Guides</text>
 		<Action name="add_guide" />
 		<Action name="edit_guide" />
