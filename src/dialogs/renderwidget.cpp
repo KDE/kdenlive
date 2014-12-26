@@ -1236,12 +1236,15 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
 void RenderWidget::checkRenderStatus()
 {
     // check if we have a job waiting to render
-    if (m_blockProcessing) return;
+    if (m_blockProcessing)
+        return;
+
     RenderJobItem* item = static_cast<RenderJobItem*> (m_view.running_jobs->topLevelItem(0));
     
     // Make sure no other rendering is running
     while (item) {
-        if (item->status() == RUNNINGJOB) return;
+        if (item->status() == RUNNINGJOB)
+            return;
         item = static_cast<RenderJobItem*> (m_view.running_jobs->itemBelow(item));
     }
     item = static_cast<RenderJobItem*> (m_view.running_jobs->topLevelItem(0));
@@ -1253,11 +1256,15 @@ void RenderWidget::checkRenderStatus()
             item->setData(1, TimeRole, QTime::currentTime());
             waitingJob = true;
             startRendering(item);
+            while (item->status() == WAITINGJOB) {
+                QCoreApplication::processEvents();
+            }
             break;
         }
         item = static_cast<RenderJobItem*> (m_view.running_jobs->itemBelow(item));
     }
-    if (waitingJob == false && m_view.shutdown->isChecked()) emit shutdown();
+    if (waitingJob == false && m_view.shutdown->isChecked())
+        emit shutdown();
 }
 
 void RenderWidget::startRendering(RenderJobItem *item)

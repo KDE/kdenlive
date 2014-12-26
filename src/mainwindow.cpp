@@ -4334,7 +4334,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     QList<QString> trackNames;
     const QList <TrackInfo> trackInfoList = m_activeDocument->tracksList();
     int tracksCount = 1;
-    bool stemExport = true;
+    bool stemExport = false;
 
     if (scriptExport) {
         QString path = m_renderWidget->getFreeScriptName(m_activeDocument->url());
@@ -4496,17 +4496,6 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
                     if (j != (trackInfoCount - i)) {
                         tracks.at(j).toElement().setAttribute("hide", "both");
                     }
-#if 0
-                    else {
-                        QDomElement e = tracks.at(j).toElement();
-                        if (!e.isNull() && e.hasAttribute("producer")) {
-                            kDebug() << "Track-Producer: " << e.attribute("producer");
-                            if (e.hasAttribute("hide")) {
-                                kDebug() << "Track-Hide: " << e.attribute("hide");
-                            }
-                        }
-                    }
-#endif
                 }
                 docList << docCopy;
                 tracksCount++;
