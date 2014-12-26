@@ -940,6 +940,19 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
     if (destBase.isEmpty())
         return;
 
+    // Generate script file
+    QFile file(scriptPath);
+    if (scriptExport) {
+        // Generate script file
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            KMessageBox::error(this, i18n("Cannot write to file %1", scriptPath));
+            return;
+        }
+        QTextStream outStream(&file);
+        outStream << "#! /bin/sh" << '\n' << '\n';
+        outStream << "RENDERER=" << '\"' + m_renderer + '\"' << '\n';
+        outStream << "MELT=" << '\"' + KdenliveSettings::rendererpath() + '\"' << "\n\n";
+    }
 
     int stemCount = playlistPaths.count();
 
@@ -948,7 +961,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
 
         if (stemCount > 1) {
             dest.replace(".wav", "");
-            dest = dest + "_" + trackNames.at(stemIdx) + ".wav";
+            dest = dest + "_" + QString(trackNames.at(stemIdx)).replace(" ","_") + ".wav";
             kDebug() << "dest: " << dest << endl;
         }
 
@@ -1104,41 +1117,41 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         }
 
         if (resizeProfile)
-            render_process_args << "consumer:" + (scriptExport ? "$SOURCE" : playlistPaths.at(stemIdx));
+            render_process_args << "consumer:" + (scriptExport ? "$SOURCE_" + QString::number(stemIdx) : playlistPaths.at(stemIdx));
         else
-            render_process_args <<  (scriptExport ? "$SOURCE" : playlistPaths.at(stemIdx));
+            render_process_args <<  (scriptExport ? "$SOURCE_" + QString::number(stemIdx) : playlistPaths.at(stemIdx));
 
-        render_process_args << (scriptExport ? "$TARGET" : KUrl(dest).url());
+        render_process_args << (scriptExport ? "$TARGET_" + QString::number(stemIdx) : KUrl(dest).url());
         render_process_args << paramsList;
 
         QString group = m_view.size_list->currentItem()->data(MetaGroupRole).toString();
 
         if (scriptExport) {
-            // Generate script file
-            QFile file(scriptPath);
-            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                KMessageBox::error(this, i18n("Cannot write to file %1", scriptPath));
-                return;
-            }
             QTextStream outStream(&file);
-            outStream << "#! /bin/sh" << '\n' << '\n';
-            outStream << "SOURCE=" << '\"' + QUrl(playlistPaths.at(stemIdx)).toEncoded() + '\"' << '\n';
-            outStream << "TARGET=" << '\"' + QUrl(dest).toEncoded() + '\"' << '\n';
-            outStream << "RENDERER=" << '\"' + m_renderer + '\"' << '\n';
-            outStream << "MELT=" << '\"' + KdenliveSettings::rendererpath() + '\"' << '\n';
-            outStream << "PARAMETERS=" << '\"' + render_process_args.join(" ") + '\"' << '\n';
-            outStream << "$RENDERER $PARAMETERS" << '\n' << '\n';
-            if (file.error() != QFile::NoError) {
-                KMessageBox::error(this, i18n("Cannot write to file %1", scriptPath));
-                file.close();
-                return;
-            }
-            file.close();
-            QFile::setPermissions(scriptPath, file.permissions() | QFile::ExeUser);
+            QString stemIdxStr(QString::number(stemIdx));
 
-            QTimer::singleShot(400, this, SLOT(parseScriptFiles()));
-            m_view.tabWidget->setCurrentIndex(2);
-            return;
+            outStream << "SOURCE_" << stemIdxStr << "=" << '\"' + QUrl(playlistPaths.at(stemIdx)).toEncoded() + '\"' << '\n';
+            outStream << "TARGET_" << stemIdxStr << "=" << '\"' + QUrl(dest).toEncoded() + '\"' << '\n';
+            outStream << "PARAMETERS_" << stemIdxStr << "=" << '\"' + render_process_args.join(" ") + '\"' << '\n';
+            outStream << "$RENDERER $PARAMETERS_" << stemIdxStr << "\n\n";
+
+            if (stemIdx == (stemCount - 1)) {
+                if (file.error() != QFile::NoError) {
+                    KMessageBox::error(this, i18n("Cannot write to file %1", scriptPath));
+                    file.close();
+                    return;
+                }
+                file.close();
+                QFile::setPermissions(scriptPath,
+                        file.permissions() | QFile::ExeUser);
+
+                QTimer::singleShot(400, this, SLOT(parseScriptFiles()));
+                m_view.tabWidget->setCurrentIndex(2);
+                return;
+
+            } else {
+                continue;
+            }
         }
 
         // Save rendering profile to document

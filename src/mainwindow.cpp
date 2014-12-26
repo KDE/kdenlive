@@ -4334,7 +4334,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     QList<QString> trackNames;
     const QList <TrackInfo> trackInfoList = m_activeDocument->tracksList();
     int tracksCount = 1;
-    bool stemExport = false;
+    bool stemExport = true;
 
     if (scriptExport) {
         QString path = m_renderWidget->getFreeScriptName(m_activeDocument->url());
@@ -4511,7 +4511,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
         // add track number to path name
         if (stemExport) {
-            plPath = plPath + "_" + QString(trackNames.at(i));/*.replace(" ", "_")*/;
+            plPath = plPath + "_" + QString(trackNames.at(i)).replace(" ", "_");
         }
         // add mlt suffix
         plPath += mltSuffix;
