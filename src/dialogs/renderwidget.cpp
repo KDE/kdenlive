@@ -959,12 +959,16 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
     for (int stemIdx = 0; stemIdx < stemCount; stemIdx++) {
         QString dest(destBase);
 
+        // on stem export append track name to each filename
         if (stemCount > 1) {
-            QString suffix = QFileInfo(dest).suffix();
-            QString path = QFileInfo(dest).absolutePath();
-            dest = QFileInfo(dest).completeBaseName();
-            dest = path + "/" + dest + "_" + QString(trackNames.at(stemIdx)).replace(" ","_") + "." + suffix;
-            kDebug() << "dest: " << dest << endl;
+            QFileInfo dfi(dest);
+            QStringList filePath;
+            // construct the full file path
+            filePath << dfi.absolutePath() << QDir::separator() << dfi.completeBaseName() + "_" <<
+                    QString(trackNames.at(stemIdx)).replace(" ","_") << "." << dfi.suffix();
+            dest = filePath.join("");
+            // debug output
+            kDebug() << "dest: " << dest;
         }
 
         // Check whether target file has an extension.
