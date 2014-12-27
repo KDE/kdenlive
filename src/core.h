@@ -17,6 +17,7 @@ the Free Software Foundation, either version 3 of the License, or
 class MainWindow;
 class ProjectManager;
 class MonitorManager;
+class BinController;
 
 #define pCore Core::self()
 
@@ -52,7 +53,9 @@ public:
     ProjectManager *projectManager();
     /** @brief Returns a pointer to the monitor manager. */
     MonitorManager *monitorManager();
-
+    /** @brief Returns a pointer to the project bin controller. */
+    BinController *binController();
+    
 private:
     Core(MainWindow *mainWindow);
     static Core *m_self;
@@ -64,6 +67,7 @@ private:
     MainWindow *m_mainWindow;
     ProjectManager *m_projectManager;
     MonitorManager *m_monitorManager;
+    BinController *m_binController;
 };
 
 #endif

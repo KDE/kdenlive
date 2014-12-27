@@ -62,7 +62,7 @@
 #include "locale.h"
 
 
-const double DOCUMENTVERSION = 0.88;
+const double DOCUMENTVERSION = 0.90;
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent, QProgressDialog *progressDialog) :
     QObject(parent),

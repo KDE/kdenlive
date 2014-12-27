@@ -69,7 +69,7 @@ class Monitor : public AbstractMonitor
     Q_OBJECT
 
 public:
-    Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profile = QString(), QWidget *parent = 0);
+    Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = 0);
     ~Monitor();
     Render *render;
     AbstractRender *abstractRender();
@@ -142,7 +142,7 @@ private:
 
 #ifdef USE_OPENGL
     VideoGLWidget *m_glWidget;
-    bool createOpenGlWidget(QWidget *parent, const QString &profile);
+    bool createOpenGlWidget(QWidget *parent);
 #endif
 
     GenTime getSnapForPos(bool previous);

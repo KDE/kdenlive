@@ -29,7 +29,9 @@
 #include "timeline/abstractclipitem.h"
 #include "timeline/abstractgroupitem.h"
 #include "titler/titledocument.h"
-#include <renderer.h>
+#include "mltcontroller/bincontroller.h"
+#include "renderer.h"
+#include "core.h"
 
 #include <mlt++/Mlt.h>
 
@@ -394,8 +396,7 @@ QMap <QString, QString> ClipManager::documentFolderList() const
 
 void ClipManager::setClipProducer(DocClipBase *clip, Mlt::Producer *producer, bool replace)
 {
-    m_doc->renderer()->binPlaylist()->append(*producer);
-    clip->setProducer(*producer, replace);
+    //clip->setProducer(*producer, replace);
 }
 
 void ClipManager::addClip(DocClipBase *clip)
@@ -431,7 +432,7 @@ void ClipManager::deleteClip(const QString &clipId)
     for (int i = 0; i < m_clipList.count(); ++i) {
         if (m_clipList.at(i)->getId() == clipId) {
             DocClipBase *clip = m_clipList.takeAt(i);
-	    m_doc->renderer()->removeBinClip(clip->getId());
+	    pCore->binController()->removeBinClip(clip->getId());
             if (clip->clipType() != Color && clip->clipType() != SlideShow  && !clip->fileURL().isEmpty()) {
                 //if (m_clipList.at(i)->clipType() == IMAGE || m_clipList.at(i)->clipType() == AUDIO || (m_clipList.at(i)->clipType() == TEXT && !m_clipList.at(i)->fileURL().isEmpty())) {
                 // listen for file change

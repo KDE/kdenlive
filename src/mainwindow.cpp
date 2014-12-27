@@ -37,6 +37,7 @@
 #include "effectslist/effectslistview.h"
 #include "effectstack/effectstackview2.h"
 #include "project/transitionsettings.h"
+#include "mltcontroller/bincontroller.h"
 #include "dialogs/renderwidget.h"
 #include "renderer.h"
 #include "project/clipproperties.h"
@@ -168,7 +169,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_projectList = new ProjectList();
     m_projectListDock = addDock(i18n("Project Tree"), "project_tree", m_projectList);
 
-    m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), QString(), m_timelineArea);
+    m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), m_timelineArea);
 
     // Connect the project list
     connect(m_projectList, SIGNAL(clipSelected(DocClipBase*,QPoint,bool)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase*,QPoint,bool)));
@@ -183,7 +184,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), m_projectList, SLOT(slotUpdateClipCut(QPoint)));
     connect(m_clipMonitor, SIGNAL(extractZone(QString,QPoint)), m_projectList, SLOT(slotCutClipJob(QString,QPoint)));
 
-    m_projectMonitor = new Monitor(Kdenlive::ProjectMonitor, pCore->monitorManager(), QString());
+    m_projectMonitor = new Monitor(Kdenlive::ProjectMonitor, pCore->monitorManager());
 
 #ifndef Q_WS_MAC
     m_recMonitor = new RecMonitor(Kdenlive::RecordMonitor, pCore->monitorManager());
@@ -1361,8 +1362,9 @@ void MainWindow::slotUpdateProjectProfile(const QString &profile)
     m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
     m_clipMonitor->slotSetClipProducer(NULL);
     bool updateFps = project->setProfilePath(profile);
-    KdenliveSettings::setCurrent_profile(profile);
+    pCore->binController()->resetProfile(profile);
     KdenliveSettings::setProject_fps(project->fps());
+
     setWindowTitle(project->description());
     setWindowModified(project->isModified());
     project->clipManager()->clearUnusedProducers();
@@ -1478,10 +1480,10 @@ void MainWindow::connectDocument()
 {
     KdenliveDoc *project = pCore->projectManager()->current();
     TrackView *trackView = pCore->projectManager()->currentTrackView();
-
-    KdenliveSettings::setCurrent_profile(project->profilePath());
+    pCore->binController()->resetProfile(project->profilePath());
+    // Resetting monitor profiles should now be handled by binController
+    //pCore->monitorManager()->resetProfiles(project->timecode());
     KdenliveSettings::setProject_fps(project->fps());
-    pCore->monitorManager()->resetProfiles(project->timecode());
     m_clipMonitorDock->raise();
     m_projectList->setDocument(project);
     m_transitionConfig->updateProjectFormat();

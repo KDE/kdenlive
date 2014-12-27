@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mainwindow.h"
 #include "project/projectmanager.h"
 #include "monitor/monitormanager.h"
+#include "mltcontroller/bincontroller.h"
 #include <QCoreApplication>
 #include <locale>
 #include <QDebug>
@@ -28,6 +29,7 @@ Core::Core(MainWindow *mainWindow) :
 
 Core::~Core()
 {
+    delete m_binController;
     m_self = 0;
 }
 
@@ -42,6 +44,7 @@ void Core::init()
     initLocale();
 
     m_projectManager = new ProjectManager(this);
+    m_binController = new BinController();
     m_monitorManager = new MonitorManager(this);
 }
 
@@ -63,6 +66,11 @@ ProjectManager *Core::projectManager()
 MonitorManager* Core::monitorManager()
 {
     return m_monitorManager;
+}
+
+BinController *Core::binController()
+{
+    return m_binController;
 }
 
 void Core::initLocale()

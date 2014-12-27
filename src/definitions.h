@@ -52,6 +52,8 @@ const QString stopmotionMonitor("stopmotionMonitor");
 
 }
 
+
+
 enum OperationType {
     None = 0,
     MoveOperation = 1,
@@ -67,6 +69,16 @@ enum OperationType {
     Spacer = 11,
     RubberSelection = 12,
     ScrollTimeline = 13
+};
+
+namespace PlaylistState {
+
+    enum ClipState {
+	Original = 0,
+	VideoOnly = 1,
+	AudioOnly = 2
+    };
+
 };
 
 enum ClipType {

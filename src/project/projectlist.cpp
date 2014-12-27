@@ -29,6 +29,7 @@
 #include "clipstabilize.h"
 #include "dialogs/slideshowclip.h"
 #include "clippropertiesmanager.h"
+#include "mltcontroller/bincontroller.h"
 #include "kdenlivesettings.h"
 #include "renderer.h"
 #include "doc/kthumb.h"
@@ -806,7 +807,7 @@ void ProjectList::slotClipSelected()
             }
             SubProjectItem *sub = static_cast <SubProjectItem*>(item);
             //if (clip->referencedClip()->getProducer() == NULL) m_render->getFileProperties(clip->referencedClip()->toXML(), clip->clipId(), m_listView->iconSize().height(), true);
-	    if (m_render->clipBinIndex(clip->clipId()) == 0) m_render->getFileProperties(clip->referencedClip()->toXML(), clip->clipId(), m_listView->iconSize().height(), true);
+	    if (!pCore->binController()->hasClip(clip->clipId())) m_render->getFileProperties(clip->referencedClip()->toXML(), clip->clipId(), m_listView->iconSize().height(), true);
             emit clipSelected(clip->referencedClip(), sub->zone());
             m_extractAudioAction->setEnabled(false);
             m_transcodeAction->setEnabled(false);
@@ -1526,7 +1527,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, cons
             item = static_cast <ProjectItem *>(*it);
             clip = item->referencedClip();
             //if (clip->getProducer() == NULL) {
-	    if (m_render->clipBinIndex(clip->getId()) == 0) {
+	    if (!pCore->binController()->hasClip(clip->getId())) {
                 bool replace = false;
                 if (brokenClips.contains(item->clipId())) {
                     // if this is a proxy clip, disable proxy
@@ -1576,7 +1577,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, cons
                 }
                 if (item->data(0, ItemDelegate::DurationRole).toString().isEmpty()) {
                     //item->changeDuration(clip->getProducer()->get_playtime());
-		    item->changeDuration(m_render->getBinClipDuration(clip->getId()));
+		    item->changeDuration(pCore->binController()->getBinClipDuration(clip->getId()));
                 }
                 if (clip->isPlaceHolder()) {
                     QPixmap pixmap = item->data(0, Qt::DecorationRole).value<QPixmap>();
@@ -1827,7 +1828,7 @@ void ProjectList::slotRemoveInvalidProxy(const QString &id, bool durationError)
             QFile::remove(path);
         }
         //if (item->referencedClip()->getProducer() == NULL) {
-        if (m_render->clipBinIndex(item->clipId()) == 0) {
+        if (!pCore->binController()->hasClip(item->clipId())) {
             // Clip has no valid producer, request it
             slotProxyCurrentItem(false, item);
         }
@@ -3040,7 +3041,7 @@ void ProjectList::slotProcessJobs()
         if (job->jobType == MLTJOB) {
             MeltJob *jb = static_cast<MeltJob *> (job);
             //jb->setProducer(currentClip->getProducer(), currentClip->fileURL());
-	    jb->setProducer(m_render->getBinClip(currentClip->getId()), currentClip->fileURL());
+	    jb->setProducer(pCore->binController()->getBinClip(currentClip->getId(), -1), currentClip->fileURL());
             if (jb->isProjectFilter())
                 connect(job, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SLOT(slotGotFilterJobResults(QString,int,int,stringMap,stringMap)));
             else
@@ -3186,7 +3187,7 @@ void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
         ClipType t = item->clipType();
         if ((t == Video || t == AV || t == Unknown || t == Image || t == Playlist) && item->referencedClip()) {
             //if ((doProxy && item->hasProxy()) || (!doProxy && !item->hasProxy() && item->referencedClip()->getProducer() != NULL)) continue;
-	    if ((doProxy && item->hasProxy()) || (!doProxy && !item->hasProxy() && m_render->clipBinIndex(item->clipId()) != 0)) continue;
+	    if ((doProxy && item->hasProxy()) || (!doProxy && !item->hasProxy() && pCore->binController()->hasClip(item->clipId()))) continue;
             DocClipBase *clip = item->referencedClip();
             if (!clip || !clip->isClean() || m_render->isProcessing(item->clipId())) {
                 //qDebug()<<"//// TRYING TO PROXY: "<<item->clipId()<<", but it is busy";
@@ -3204,7 +3205,7 @@ void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
                 //oldProps.insert("proxy", QString());
             }
             //else if (item->referencedClip()->getProducer() == NULL) {
-            else if (m_render->clipBinIndex(item->clipId()) == 0) {
+            else if (!pCore->binController()->hasClip(item->clipId())) {
                 // Force clip reload
                 //qDebug()<<"// CLIP HAD NULL PROD------------";
                 newProps.insert("resource", item->referencedClip()->getProperty("resource"));
@@ -3259,7 +3260,7 @@ void ProjectList::setJobStatus(ProjectItem *item, JOBTYPE jobType, ClipJobStatus
             //qDebug()<<"// PROXY CRASHED";
         }
         //else if (clip->getProducer() == NULL && !clip->isPlaceHolder()) {
-        else if (m_render->clipBinIndex(clip->getId()) == 0 && !clip->isPlaceHolder()) {
+        else if (!pCore->binController()->hasClip(clip->getId()) && !clip->isPlaceHolder()) {
             // disable proxy and fetch real clip
             clip->setProperty("proxy", "-");
             QDomElement xml = clip->toXML();

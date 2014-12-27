@@ -23,6 +23,7 @@
 #include "definitions.h"
 #include "effectslist/initeffects.h"
 #include "mainwindow.h"
+#include "mltcontroller/bincontroller.h"
 
 #include <QDebug>
 #include <KMessageBox>
@@ -147,6 +148,16 @@ bool DocumentValidator::validate(const double currentVersion)
          * to the maximum between MLT and Kdenlive playlists and tracks
          */
         QDomNodeList playlists = m_doc.elementsByTagName("playlist");
+	// Remove "main bin" playlist that simply holds the bin's clips and is not a real playlist
+	for (int i = 0; i < playlists.count(); ++i) {
+	    QString playlistId = playlists.at(i).toElement().attribute("id");
+	    if (playlistId == BinController::id()) {
+		// remove pseudo-playlist
+		playlists.at(i).parentNode().removeChild(playlists.at(i));
+		break;
+	    }
+	}
+	
         int tracksMax = playlists.count() - 1; // Remove the black track
         QDomNodeList tracks = tractor.elementsByTagName("track");
         tracksMax = qMax(tracks.count() - 1, tracksMax);

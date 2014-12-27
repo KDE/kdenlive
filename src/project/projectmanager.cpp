@@ -141,10 +141,6 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     bool ok;
     m_trackView = new TrackView(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
     pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme("kdenlive"), doc->description());
-    // HACK: Set clipmonitor's binPlaylist to projectMonitor, we should have only one object for this
-    pCore->monitorManager()->clipMonitor()->render->setBinPlaylist(pCore->monitorManager()->projectMonitor()->render->binPlaylist());
-    pCore->monitorManager()->clipMonitor()->render->setBinIndex(pCore->monitorManager()->projectMonitor()->render->binIndex());
-
     m_project = doc;
     if (!ok) {
         // MLT is broken

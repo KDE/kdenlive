@@ -74,6 +74,7 @@ add_subdirectory(stopmotion)
 add_subdirectory(titler)
 add_subdirectory(utils)
 add_subdirectory(onmonitoritems/rotoscoping)
+add_subdirectory(mltcontroller)
 
 list(APPEND kdenlive_SRCS
   colortools.cpp

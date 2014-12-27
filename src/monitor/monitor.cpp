@@ -48,7 +48,7 @@
 #define SEEK_INACTIVE (-1)
 
 
-Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profile, QWidget *parent) :
+Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent) :
     AbstractMonitor(id, manager, parent)
     , render(NULL)
     , m_currentClip(NULL)
@@ -148,22 +148,19 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profil
     setLayout(layout);
     setMinimumHeight(200);
 
-    if (profile.isEmpty())
-        profile = KdenliveSettings::current_profile();
-
     bool monitorCreated = false;
 #ifdef Q_WS_MAC
-    createOpenGlWidget(videoBox, profile);
+    createOpenGlWidget(videoBox);
     monitorCreated = true;
     //m_glWidget->setFixedSize(width, height);
 #elif defined(USE_OPENGL)
     if (KdenliveSettings::openglmonitors()) {
-        monitorCreated = createOpenGlWidget(videoBox, profile);
+        monitorCreated = createOpenGlWidget(videoBox);
     }
 #endif
     if (!monitorCreated) {
 	createVideoSurface();
-        render = new Render(m_id, (int) videoSurface->winId(), profile, this);
+        render = new Render(m_id, m_monitorManager->binController(), (int) videoSurface->winId(), this);
 	connect(videoSurface, SIGNAL(refreshMonitor()), render, SLOT(doRefresh()));
     }
 #ifdef USE_OPENGL
@@ -229,9 +226,9 @@ QWidget *Monitor::container()
 }
 
 #ifdef USE_OPENGL
-bool Monitor::createOpenGlWidget(QWidget *parent, const QString &profile)
+bool Monitor::createOpenGlWidget(QWidget *parent)
 {
-    render = new Render(id(), 0, profile, this);
+    render = new Render(id(), m_monitorManager->binController(), 0, this);
     m_glWidget = new VideoGLWidget(parent);
     if (m_glWidget == NULL) {
         // Creation failed, we are in trouble...

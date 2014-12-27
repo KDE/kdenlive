@@ -285,6 +285,11 @@ QString MonitorManager::getProjectFolder() const
     return m_document->projectFolder().path() + QDir::separator();
 }
 
+BinController *MonitorManager::binController()
+{
+    return pCore->binController();
+}
+
 void MonitorManager::setupActions()
 {
     QAction * monitorPlay = new QAction(QIcon::fromTheme("media-playback-start"), i18n("Play"), this);

@@ -53,8 +53,8 @@
 #include <QTimer>
 
 class QPixmap;
-
 class KComboBox;
+class BinController;
 
 namespace Mlt
 {
@@ -102,7 +102,7 @@ class Render: public AbstractRender
      *  @param rendererName A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    Render(Kdenlive::MonitorId rendererName, int winid, QString profile = QString(), QWidget *parent = 0);
+    Render(Kdenlive::MonitorId rendererName, BinController *binController, int winid, QWidget *parent = 0);
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~Render();
@@ -205,7 +205,7 @@ class Render: public AbstractRender
      * Playlist manipulation.
      */
     Mlt::Producer *checkSlowMotionProducer(Mlt::Producer *prod, QDomElement element);
-    int mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod, bool overwrite = false, bool push = false);
+    int mltInsertClip(ItemInfo info, QDomElement element, const QString &clipId, bool overwrite = false, bool push = false);
     bool mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement element, Mlt::Producer *prod);
     bool mltCutClip(int track, const GenTime &position);
     void mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset);
@@ -217,8 +217,8 @@ class Render: public AbstractRender
     bool mltResizeClipEnd(ItemInfo info, GenTime clipDuration, bool refresh = true);
     bool mltResizeClipStart(ItemInfo info, GenTime diff);
     bool mltResizeClipCrop(ItemInfo info, GenTime newCropStart);
-    bool mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart, Mlt::Producer *prod, bool overwrite = false, bool insert = false);
-    bool mltMoveClip(int startTrack, int endTrack, int pos, int moveStart, Mlt::Producer *prod, bool overwrite = false, bool insert = false);
+    bool mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart, const QString &clipId, bool overwrite = false, bool insert = false);
+    bool mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEnd, const QString &clipId, bool overwrite = false, bool insert = false);
     bool mltRemoveClip(int track, GenTime position);
 
     /** @brief Deletes an effect from a clip in MLT's playlist. */
@@ -294,15 +294,6 @@ class Render: public AbstractRender
     /** @brief Returns a pointer to the main producer. */
     Mlt::Producer *getProducer();
     /** @brief Returns a pointer to the bin's playlist. */
-    Mlt::Playlist *binPlaylist();
-    void setBinPlaylist(Mlt::Playlist *binList);
-    QStringList &binIndex();
-    void setBinIndex(QStringList &binIndex);
-    /** @brief Returns the duration of a clip in the bin from its index position. */
-    int getBinClipDuration(const QString &id);
-    int clipBinIndex(const QString &id) const;
-    void removeBinClip(const QString &id);
-    Mlt::Producer *getBinClip(const QString &id);
 
     /** @brief Returns the number of clips to process (When requesting clip info). */
     int processingItems();
@@ -358,13 +349,10 @@ private:
     Kdenlive::MonitorId m_name;
     Mlt::Consumer * m_mltConsumer;
     Mlt::Producer * m_mltProducer;
-    Mlt::Playlist * m_binPlaylist;
     Mlt::Profile *m_mltProfile;
     Mlt::Event *m_showFrameEvent;
     Mlt::Event *m_pauseEvent;
-    /** @brief An index list containing the clip id's in the same order as the bin playlist.
-     *  Can be used to find a producer from it's clip Id. */
-    QStringList *m_binIdList;
+    BinController *m_binController;
     double m_fps;
 
     /** @brief True if we are playing a zone.
@@ -405,7 +393,7 @@ private:
 
     /** @brief Build the MLT Consumer object with initial settings.
      *  @param profileName The MLT profile to use for the consumer */
-    void buildConsumer(const QString& profileName);
+    void buildConsumer();
     void resetZoneMode();
     void fillSlowMotionProducers();
     /** @brief Get the track number of the lowest audible (non muted) audio track
@@ -418,7 +406,7 @@ private:
     void checkMaxThreads();
     /** @brief Clone serialisable properties only */
     void cloneProperties(Mlt::Properties &dest, Mlt::Properties &source);
-
+    Mlt::Producer *getProducerForTrack(Mlt::Playlist &trackPlaylist, const QString &clipId, int track);
 private slots:
 
     /** @brief Refreshes the monitor display. */
