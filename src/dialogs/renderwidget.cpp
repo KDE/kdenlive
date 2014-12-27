@@ -2071,8 +2071,8 @@ void RenderWidget::parseScriptFiles()
             while (!stream.atEnd()) {
                 QString line = stream.readLine();
                 //kDebug()<<"# :"<<line;
-                if (line.startsWith(QLatin1String("TARGET="))) {
-                    target = line.section("TARGET=\"", 1);
+                if (line.startsWith(QLatin1String("TARGET_0="))) {
+                    target = line.section("TARGET_0=\"", 1);
                     target = target.section('"', 0, 0);
                 } else if (line.startsWith(QLatin1String("RENDERER="))) {
                     renderer = line.section("RENDERER=\"", 1);
