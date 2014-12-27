@@ -136,6 +136,8 @@ public:
     void updateProxyConfig(bool enable);
     /** @brief Should we render using proxy clips. */
     bool proxyRendering();
+    /** @brief Returns true if the stem audio export checkbox is set. */
+    bool isStemAudioExportEnabled() const;
 
 protected:
     virtual QSize sizeHint() const;

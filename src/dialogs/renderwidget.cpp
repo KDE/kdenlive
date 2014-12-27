@@ -2403,6 +2403,11 @@ bool RenderWidget::proxyRendering()
     return m_view.proxy_render->isChecked();
 }
 
+bool RenderWidget::isStemAudioExportEnabled() const
+{
+    return (m_view.stemAudioExport->isChecked());
+}
+
 void RenderWidget::setRescaleEnabled(bool enable)
 {
     for (int i = 0; i < m_view.rescale_box->layout()->count(); ++i) {

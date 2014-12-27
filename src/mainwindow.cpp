@@ -4334,7 +4334,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     QList<QString> trackNames;
     const QList <TrackInfo> trackInfoList = m_activeDocument->tracksList();
     int tracksCount = 1;
-    bool stemExport = true;
+    bool stemExport = m_renderWidget->isStemAudioExportEnabled();
 
     if (scriptExport) {
         QString path = m_renderWidget->getFreeScriptName(m_activeDocument->url());
