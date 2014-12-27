@@ -136,13 +136,18 @@ public:
     void updateProxyConfig(bool enable);
     /** @brief Should we render using proxy clips. */
     bool proxyRendering();
+    /** @brief Returns true if the stem audio export checkbox is set. */
+    bool isStemAudioExportEnabled() const;
 
 protected:
     virtual QSize sizeHint() const;
     virtual void keyPressEvent(QKeyEvent *e);
 
 public slots:
-    void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap <QString, QString> &metadata, const QString &playlistPath, const QString &scriptPath, bool exportAudio);
+    void slotExport(bool scriptExport, int zoneIn, int zoneOut,
+            const QMap <QString, QString> &metadata,
+            const QList<QString> &playlistPaths, const QList<QString> &trackNames,
+            const QString &scriptPath, bool exportAudio);
 
 private slots:
     void slotUpdateButtons(const KUrl &url);

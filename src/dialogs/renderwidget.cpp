@@ -927,294 +927,343 @@ void RenderWidget::slotPrepareExport(bool scriptExport)
     emit prepareRenderingData(scriptExport, m_view.render_zone->isChecked(), chapterFile);
 }
 
-
-void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap<QString, QString> &metadata, const QString &playlistPath, const QString &scriptPath, bool exportAudio)
+void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
+        const QMap<QString, QString> &metadata,
+        const QList<QString> &playlistPaths, const QList<QString> &trackNames,
+        const QString &scriptPath, bool exportAudio)
 {
     QListWidgetItem *item = m_view.size_list->currentItem();
     if (!item)
         return;
 
-    QString dest = m_view.out_file->url().path().trimmed();
-    if (dest.isEmpty())
+    QString destBase = m_view.out_file->url().path().trimmed();
+    if (destBase.isEmpty())
         return;
 
-    // Check whether target file has an extension.
-    // If not, ask whether extension should be added or not.
-    QString extension = item->data(ExtensionRole).toString();
-    if (!dest.endsWith(extension, Qt::CaseInsensitive)) {
-        if (KMessageBox::questionYesNo(this, i18n("File has no extension. Add extension (%1)?", extension)) == KMessageBox::Yes) {
-            dest.append('.' + extension);
-        }
-    }
-    // Checks for image sequence
-    if (extension == "jpg" || extension == "png") {
-        // format string for counter?
-        if(!QRegExp(".*%[0-9]*d.*").exactMatch(dest)) {
-            dest = dest.section('.',0,-2) + "_%05d." + extension;
-        }
-    }
-
-    QFile f(dest);
-    if (f.exists()) {
-        if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes)
-            return;
-    }
-
-    QStringList overlayargs;
-    if (m_view.tc_overlay->isChecked()) {
-        QString filterFile = KStandardDirs::locate("appdata", "metadata.properties");
-        overlayargs << "meta.attr.timecode=1" << "meta.attr.timecode.markup=#" + QString(m_view.tc_type->currentIndex() ? "frame" : "timecode");
-        overlayargs << "-attach" << "data_feed:attr_check" << "-attach";
-        overlayargs << "data_show:" + filterFile << "_loader=1" << "dynamic=1";
-    }
-
-    QStringList render_process_args;
-
-    if (!scriptExport) render_process_args << "-erase";
-    if (KdenliveSettings::usekuiserver()) render_process_args << "-kuiserver";
-
-    // get process id
-    render_process_args << QString("-pid:%1").arg(QCoreApplication::applicationPid());
-
-    // Set locale for render process if required
-    if (QLocale().decimalPoint() != QLocale::system().decimalPoint()) {
-	const QString currentLocale = setlocale(LC_NUMERIC, NULL);
-        render_process_args << QString("-locale:%1").arg(currentLocale);
-    }
-
-    if (m_view.render_zone->isChecked()) render_process_args << "in=" + QString::number(zoneIn) << "out=" + QString::number(zoneOut);
-    else if (m_view.render_guide->isChecked()) {
-        double fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
-        double guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
-        double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
-        render_process_args << "in=" + QString::number((int) GenTime(guideStart).frames(fps)) << "out=" + QString::number((int) GenTime(guideEnd).frames(fps));
-    }
-
-    if (!overlayargs.isEmpty()) render_process_args << "preargs=" + overlayargs.join(" ");
-
-    if (scriptExport)
-        render_process_args << "$MELT";
-    else
-        render_process_args << KdenliveSettings::rendererpath();
-    render_process_args << m_profile.path << item->data(RenderRole).toString();
-    if (m_view.play_after->isChecked()) render_process_args << KdenliveSettings::KdenliveSettings::defaultplayerapp();
-    else render_process_args << "-";
-
-    QString renderArgs = m_view.advanced_params->toPlainText().simplified();
-    
-    // Project metadata
-    if (m_view.export_meta->isChecked()) {
-        QMap<QString, QString>::const_iterator i = metadata.constBegin();
-        while (i != metadata.constEnd()) {
-            renderArgs.append(QString(" %1=%2").arg(i.key()).arg(QString(QUrl::toPercentEncoding(i.value()))));
-            ++i;
-        }
-    }
-
-    // Adjust frame scale
-    int width;
-    int height;
-    if (m_view.rescale->isChecked() && m_view.rescale->isEnabled()) {
-        width = m_view.rescale_width->value();
-        height = m_view.rescale_height->value();
-    } else {
-        width = m_profile.width;
-        height = m_profile.height;
-    }
-
-    //renderArgs.replace("%width", QString::number((int)(m_profile.height * m_profile.display_aspect_num / (double) m_profile.display_aspect_den + 0.5)));
-    //renderArgs.replace("%height", QString::number((int)m_profile.height));
-
-    // Adjust scanning
-    if (m_view.scanning_list->currentIndex() == 1) renderArgs.append(" progressive=1");
-    else if (m_view.scanning_list->currentIndex() == 2) renderArgs.append(" progressive=0");
-
-    // disable audio if requested
-    if (!exportAudio) renderArgs.append(" an=1 ");
-
-    // Set the thread counts
-    if (!renderArgs.contains("threads=")) {
-        renderArgs.append(QString(" threads=%1").arg(KdenliveSettings::encodethreads()));
-    }
-    renderArgs.append(QString(" real_time=-%1").arg(KdenliveSettings::mltthreads()));
-
-    // Check if the rendering profile is different from project profile,
-    // in which case we need to use the producer_comsumer from MLT
-    QString std = renderArgs;
-    QString destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
-    const QString currentSize = QString::number(width) + 'x' + QString::number(height);
-    QString subsize = currentSize;
-    if (std.startsWith(QLatin1String("s="))) {
-        subsize = std.section(' ', 0, 0).toLower();
-        subsize = subsize.section('=', 1, 1);
-    } else if (std.contains(" s=")) {
-        subsize = std.section(" s=", 1, 1);
-        subsize = subsize.section(' ', 0, 0).toLower();
-    } else if (destination != "audioonly" && m_view.rescale->isChecked() && m_view.rescale->isEnabled()) {
-        subsize = QString(" s=%1x%2").arg(width).arg(height);
-        // Add current size parameter
-        renderArgs.append(subsize);
-    }
-    bool resizeProfile = (subsize != currentSize);
-    QStringList paramsList = renderArgs.split(' ', QString::SkipEmptyParts);
-
-    QScriptEngine sEngine;
-    sEngine.globalObject().setProperty("bitrate", m_view.comboBitrates->currentText().toInt());
-    sEngine.globalObject().setProperty("quality", m_view.comboBitrates->currentText().toInt());
-    sEngine.globalObject().setProperty("audiobitrate", m_view.comboAudioBitrates->currentText().toInt());
-    sEngine.globalObject().setProperty("audioquality", m_view.comboAudioBitrates->currentText().toInt());
-    sEngine.globalObject().setProperty("dar", '@' + QString::number(m_profile.display_aspect_num) + '/' + QString::number(m_profile.display_aspect_den));
-    sEngine.globalObject().setProperty("passes", static_cast<int>(m_view.checkTwoPass->isChecked()) + 1);
-
-    for (int i = 0; i < paramsList.count(); ++i) {
-        QString paramName = paramsList.at(i).section('=', 0, 0);
-        QString paramValue = paramsList.at(i).section('=', 1, 1);
-        // If the profiles do not match we need to use the consumer tag
-        if (paramName == "mlt_profile=" && paramValue != m_profile.path) {
-            resizeProfile = true;
-        }
-        // evaluate expression
-        if (paramValue.startsWith('%')) {
-            paramValue = sEngine.evaluate(paramValue.remove(0, 1)).toString();
-            paramsList[i] = paramName + '=' + paramValue;
-        }
-        sEngine.globalObject().setProperty(paramName.toUtf8().constData(), paramValue);
-    }
-
-    if (resizeProfile)
-        render_process_args << "consumer:" + (scriptExport ? "$SOURCE" : playlistPath);
-    else
-        render_process_args <<  (scriptExport ? "$SOURCE" : playlistPath);
-
-    render_process_args << (scriptExport ? "$TARGET" : KUrl(dest).url());
-    render_process_args << paramsList;
-
-    QString group = m_view.size_list->currentItem()->data(MetaGroupRole).toString();
-
-    //QString scriptName;
+    // Generate script file
+    QFile file(scriptPath);
     if (scriptExport) {
         // Generate script file
-        QFile file(scriptPath);
         if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
             KMessageBox::error(this, i18n("Cannot write to file %1", scriptPath));
             return;
         }
         QTextStream outStream(&file);
         outStream << "#! /bin/sh" << '\n' << '\n';
-        outStream << "SOURCE=" << '\"' + QUrl(playlistPath).toEncoded() + '\"' << '\n';
-        outStream << "TARGET=" << '\"' + QUrl(dest).toEncoded() + '\"' << '\n';
         outStream << "RENDERER=" << '\"' + m_renderer + '\"' << '\n';
-        outStream << "MELT=" << '\"' + KdenliveSettings::rendererpath() + '\"' << '\n';
-        outStream << "PARAMETERS=" << '\"' + render_process_args.join(" ") + '\"' << '\n';
-        outStream << "$RENDERER $PARAMETERS" << '\n' << '\n';
-        if (file.error() != QFile::NoError) {
-            KMessageBox::error(this, i18n("Cannot write to file %1", scriptPath));
-            file.close();
-            return;
-        }
-        file.close();
-        QFile::setPermissions(scriptPath, file.permissions() | QFile::ExeUser);
-
-        QTimer::singleShot(400, this, SLOT(parseScriptFiles()));
-        m_view.tabWidget->setCurrentIndex(2);
-        return;
+        outStream << "MELT=" << '\"' + KdenliveSettings::rendererpath() + '\"' << "\n\n";
     }
 
-    // Save rendering profile to document
-    QMap <QString, QString> renderProps;
-    renderProps.insert("renderdestination", m_view.size_list->currentItem()->data(MetaGroupRole).toString());
-    renderProps.insert("rendercategory", m_view.size_list->currentItem()->data(GroupRole).toString());
-    renderProps.insert("renderprofile", m_view.size_list->currentItem()->text());
-    renderProps.insert("renderurl", dest);
-    renderProps.insert("renderzone", QString::number(m_view.render_zone->isChecked()));
-    renderProps.insert("renderguide", QString::number(m_view.render_guide->isChecked()));
-    renderProps.insert("renderstartguide", QString::number(m_view.guide_start->currentIndex()));
-    renderProps.insert("renderendguide", QString::number(m_view.guide_end->currentIndex()));
-    renderProps.insert("renderscanning", QString::number(m_view.scanning_list->currentIndex()));
-    int export_audio = 0;
-    if (m_view.export_audio->checkState() == Qt::Checked)
-        export_audio = 2;
-    else if (m_view.export_audio->checkState() == Qt::Unchecked)
-        export_audio = 1;
-    renderProps.insert("renderexportaudio", QString::number(export_audio));
-    renderProps.insert("renderrescale", QString::number(m_view.rescale->isChecked()));
-    renderProps.insert("renderrescalewidth", QString::number(m_view.rescale_width->value()));
-    renderProps.insert("renderrescaleheight", QString::number(m_view.rescale_height->value()));
-    renderProps.insert("rendertcoverlay", QString::number(m_view.tc_overlay->isChecked()));
-    renderProps.insert("rendertctype", QString::number(m_view.tc_type->currentIndex()));
-    renderProps.insert("renderratio", QString::number(m_view.rescale_keep->isChecked()));
-    renderProps.insert("renderplay", QString::number(m_view.play_after->isChecked()));
-    renderProps.insert("rendertwopass", QString::number(m_view.checkTwoPass->isChecked()));
-    renderProps.insert("renderbitrate", m_view.comboBitrates->currentText());
-    renderProps.insert("renderaudiobitrate", m_view.comboAudioBitrates->currentText());
+    int stemCount = playlistPaths.count();
 
-    emit selectedRenderProfile(renderProps);
+    for (int stemIdx = 0; stemIdx < stemCount; stemIdx++) {
+        QString dest(destBase);
 
-    // insert item in running jobs list
-    RenderJobItem *renderItem = NULL;
-    QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
-    if (!existing.isEmpty()) {
-        renderItem = static_cast<RenderJobItem*> (existing.at(0));
-        if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB) {
-            KMessageBox::information(this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it...", dest), i18n("Already running"));
-            return;
+        // on stem export append track name to each filename
+        if (stemCount > 1) {
+            QFileInfo dfi(dest);
+            QStringList filePath;
+            // construct the full file path
+            filePath << dfi.absolutePath() << QDir::separator() << dfi.completeBaseName() + "_" <<
+                    QString(trackNames.at(stemIdx)).replace(" ","_") << "." << dfi.suffix();
+            dest = filePath.join("");
+            // debug output
+            kDebug() << "dest: " << dest;
         }
-        if (renderItem->type() != DirectRenderType) {
-            delete renderItem;
-            renderItem = NULL;
-        }
-        else {
-            renderItem->setData(1, ProgressRole, 0);
-            renderItem->setStatus(WAITINGJOB);
-            renderItem->setIcon(0, KIcon("media-playback-pause"));
-            renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
-            renderItem->setData(1, ParametersRole, dest);
-        }
-    }
-    if (!renderItem) renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);    
-    renderItem->setData(1, TimeRole, QTime::currentTime());
 
-    // Set rendering type
-    if (group == "dvd") {
-        if (m_view.open_dvd->isChecked()) {
-            renderItem->setData(0, Qt::UserRole, group);
-            if (renderArgs.contains("mlt_profile=")) {
-                //TODO: probably not valid anymore (no more MLT profiles in args)
-                // rendering profile contains an MLT profile, so pass it to the running jog item, useful for dvd
-                QString prof = renderArgs.section("mlt_profile=", 1, 1);
-                prof = prof.section(' ', 0, 0);
-                kDebug() << "// render profile: " << prof;
-                renderItem->setMetadata(prof);
+        // Check whether target file has an extension.
+        // If not, ask whether extension should be added or not.
+        QString extension = item->data(ExtensionRole).toString();
+        if (!dest.endsWith(extension, Qt::CaseInsensitive)) {
+            if (KMessageBox::questionYesNo(this, i18n("File has no extension. Add extension (%1)?", extension)) == KMessageBox::Yes) {
+                dest.append('.' + extension);
             }
         }
-    } else {
-        if (group == "websites" && m_view.open_browser->isChecked()) {
-            renderItem->setData(0, Qt::UserRole, group);
-            // pass the url
-            QString url = m_view.size_list->currentItem()->data(ExtraRole).toString();
-            renderItem->setMetadata(url);
+        // Checks for image sequence
+        if (extension == "jpg" || extension == "png") {
+            // format string for counter?
+            if(!QRegExp(".*%[0-9]*d.*").exactMatch(dest)) {
+                dest = dest.section('.',0,-2) + "_%05d." + extension;
+            }
         }
-    }
 
-    renderItem->setData(1, ParametersRole, render_process_args);
-    if (exportAudio == false)
-        renderItem->setData(1, ExtraInfoRole, i18n("Video without audio track"));
-    else
-        renderItem->setData(1, ExtraInfoRole, QString());
-    m_view.running_jobs->setCurrentItem(renderItem);
-    m_view.tabWidget->setCurrentIndex(1);
-    checkRenderStatus();
+        QFile f(dest);
+        if (f.exists()) {
+            if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes)
+                return;
+        }
+
+        QStringList overlayargs;
+        if (m_view.tc_overlay->isChecked()) {
+            QString filterFile = KStandardDirs::locate("appdata", "metadata.properties");
+            overlayargs << "meta.attr.timecode=1" << "meta.attr.timecode.markup=#" + QString(m_view.tc_type->currentIndex() ? "frame" : "timecode");
+            overlayargs << "-attach" << "data_feed:attr_check" << "-attach";
+            overlayargs << "data_show:" + filterFile << "_loader=1" << "dynamic=1";
+        }
+
+        QStringList render_process_args;
+
+        if (!scriptExport)
+            render_process_args << "-erase";
+        if (KdenliveSettings::usekuiserver())
+            render_process_args << "-kuiserver";
+
+        // get process id
+        render_process_args << QString("-pid:%1").arg(QCoreApplication::applicationPid());
+
+        // Set locale for render process if required
+        if (QLocale().decimalPoint() != QLocale::system().decimalPoint()) {
+            const QString currentLocale = setlocale(LC_NUMERIC, NULL);
+            render_process_args << QString("-locale:%1").arg(currentLocale);
+        }
+
+        if (m_view.render_zone->isChecked()) {
+            render_process_args << "in=" + QString::number(zoneIn) << "out=" + QString::number(zoneOut);
+        } else if (m_view.render_guide->isChecked()) {
+            double fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
+            double guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
+            double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
+            render_process_args << "in=" + QString::number((int) GenTime(guideStart).frames(fps)) << "out=" + QString::number((int) GenTime(guideEnd).frames(fps));
+        }
+
+        if (!overlayargs.isEmpty())
+            render_process_args << "preargs=" + overlayargs.join(" ");
+
+        if (scriptExport)
+            render_process_args << "$MELT";
+        else
+            render_process_args << KdenliveSettings::rendererpath();
+
+        render_process_args << m_profile.path << item->data(RenderRole).toString();
+        if (m_view.play_after->isChecked())
+            render_process_args << KdenliveSettings::KdenliveSettings::defaultplayerapp();
+        else
+            render_process_args << "-";
+
+        QString renderArgs = m_view.advanced_params->toPlainText().simplified();
+
+        // Project metadata
+        if (m_view.export_meta->isChecked()) {
+            QMap<QString, QString>::const_iterator i = metadata.constBegin();
+            while (i != metadata.constEnd()) {
+                renderArgs.append(QString(" %1=%2").arg(i.key()).arg(QString(QUrl::toPercentEncoding(i.value()))));
+                ++i;
+            }
+        }
+
+        // Adjust frame scale
+        int width;
+        int height;
+        if (m_view.rescale->isChecked() && m_view.rescale->isEnabled()) {
+            width = m_view.rescale_width->value();
+            height = m_view.rescale_height->value();
+        } else {
+            width = m_profile.width;
+            height = m_profile.height;
+        }
+
+
+        // Adjust scanning
+        if (m_view.scanning_list->currentIndex() == 1)
+            renderArgs.append(" progressive=1");
+        else if (m_view.scanning_list->currentIndex() == 2)
+            renderArgs.append(" progressive=0");
+
+        // disable audio if requested
+        if (!exportAudio)
+            renderArgs.append(" an=1 ");
+
+        // Set the thread counts
+        if (!renderArgs.contains("threads=")) {
+            renderArgs.append(QString(" threads=%1").arg(KdenliveSettings::encodethreads()));
+        }
+        renderArgs.append(QString(" real_time=-%1").arg(KdenliveSettings::mltthreads()));
+
+        // Check if the rendering profile is different from project profile,
+        // in which case we need to use the producer_comsumer from MLT
+        QString std = renderArgs;
+        QString destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
+        const QString currentSize = QString::number(width) + 'x' + QString::number(height);
+        QString subsize = currentSize;
+        if (std.startsWith(QLatin1String("s="))) {
+            subsize = std.section(' ', 0, 0).toLower();
+            subsize = subsize.section('=', 1, 1);
+        } else if (std.contains(" s=")) {
+            subsize = std.section(" s=", 1, 1);
+            subsize = subsize.section(' ', 0, 0).toLower();
+        } else if (destination != "audioonly" && m_view.rescale->isChecked() && m_view.rescale->isEnabled()) {
+            subsize = QString(" s=%1x%2").arg(width).arg(height);
+            // Add current size parameter
+            renderArgs.append(subsize);
+        }
+        bool resizeProfile = (subsize != currentSize);
+        QStringList paramsList = renderArgs.split(' ', QString::SkipEmptyParts);
+
+        QScriptEngine sEngine;
+        sEngine.globalObject().setProperty("bitrate", m_view.comboBitrates->currentText().toInt());
+        sEngine.globalObject().setProperty("quality", m_view.comboBitrates->currentText().toInt());
+        sEngine.globalObject().setProperty("audiobitrate", m_view.comboAudioBitrates->currentText().toInt());
+        sEngine.globalObject().setProperty("audioquality", m_view.comboAudioBitrates->currentText().toInt());
+        sEngine.globalObject().setProperty("dar", '@' + QString::number(m_profile.display_aspect_num) + '/' + QString::number(m_profile.display_aspect_den));
+        sEngine.globalObject().setProperty("passes", static_cast<int>(m_view.checkTwoPass->isChecked()) + 1);
+
+        for (int i = 0; i < paramsList.count(); ++i) {
+            QString paramName = paramsList.at(i).section('=', 0, 0);
+            QString paramValue = paramsList.at(i).section('=', 1, 1);
+            // If the profiles do not match we need to use the consumer tag
+            if (paramName == "mlt_profile=" && paramValue != m_profile.path) {
+                resizeProfile = true;
+            }
+            // evaluate expression
+            if (paramValue.startsWith('%')) {
+                paramValue = sEngine.evaluate(paramValue.remove(0, 1)).toString();
+                paramsList[i] = paramName + '=' + paramValue;
+            }
+            sEngine.globalObject().setProperty(paramName.toUtf8().constData(), paramValue);
+        }
+
+        if (resizeProfile)
+            render_process_args << "consumer:" + (scriptExport ? "$SOURCE_" + QString::number(stemIdx) : playlistPaths.at(stemIdx));
+        else
+            render_process_args <<  (scriptExport ? "$SOURCE_" + QString::number(stemIdx) : playlistPaths.at(stemIdx));
+
+        render_process_args << (scriptExport ? "$TARGET_" + QString::number(stemIdx) : KUrl(dest).url());
+        render_process_args << paramsList;
+
+        QString group = m_view.size_list->currentItem()->data(MetaGroupRole).toString();
+
+        if (scriptExport) {
+            QTextStream outStream(&file);
+            QString stemIdxStr(QString::number(stemIdx));
+
+            outStream << "SOURCE_" << stemIdxStr << "=" << '\"' + QUrl(playlistPaths.at(stemIdx)).toEncoded() + '\"' << '\n';
+            outStream << "TARGET_" << stemIdxStr << "=" << '\"' + QUrl(dest).toEncoded() + '\"' << '\n';
+            outStream << "PARAMETERS_" << stemIdxStr << "=" << '\"' + render_process_args.join(" ") + '\"' << '\n';
+            outStream << "$RENDERER $PARAMETERS_" << stemIdxStr << "\n\n";
+
+            if (stemIdx == (stemCount - 1)) {
+                if (file.error() != QFile::NoError) {
+                    KMessageBox::error(this, i18n("Cannot write to file %1", scriptPath));
+                    file.close();
+                    return;
+                }
+                file.close();
+                QFile::setPermissions(scriptPath,
+                        file.permissions() | QFile::ExeUser);
+
+                QTimer::singleShot(400, this, SLOT(parseScriptFiles()));
+                m_view.tabWidget->setCurrentIndex(2);
+                return;
+
+            } else {
+                continue;
+            }
+        }
+
+        // Save rendering profile to document
+        QMap <QString, QString> renderProps;
+        renderProps.insert("renderdestination", m_view.size_list->currentItem()->data(MetaGroupRole).toString());
+        renderProps.insert("rendercategory", m_view.size_list->currentItem()->data(GroupRole).toString());
+        renderProps.insert("renderprofile", m_view.size_list->currentItem()->text());
+        renderProps.insert("renderurl", dest);
+        renderProps.insert("renderzone", QString::number(m_view.render_zone->isChecked()));
+        renderProps.insert("renderguide", QString::number(m_view.render_guide->isChecked()));
+        renderProps.insert("renderstartguide", QString::number(m_view.guide_start->currentIndex()));
+        renderProps.insert("renderendguide", QString::number(m_view.guide_end->currentIndex()));
+        renderProps.insert("renderscanning", QString::number(m_view.scanning_list->currentIndex()));
+        int export_audio = 0;
+        if (m_view.export_audio->checkState() == Qt::Checked)
+            export_audio = 2;
+        else if (m_view.export_audio->checkState() == Qt::Unchecked)
+            export_audio = 1;
+
+        renderProps.insert("renderexportaudio", QString::number(export_audio));
+        renderProps.insert("renderrescale", QString::number(m_view.rescale->isChecked()));
+        renderProps.insert("renderrescalewidth", QString::number(m_view.rescale_width->value()));
+        renderProps.insert("renderrescaleheight", QString::number(m_view.rescale_height->value()));
+        renderProps.insert("rendertcoverlay", QString::number(m_view.tc_overlay->isChecked()));
+        renderProps.insert("rendertctype", QString::number(m_view.tc_type->currentIndex()));
+        renderProps.insert("renderratio", QString::number(m_view.rescale_keep->isChecked()));
+        renderProps.insert("renderplay", QString::number(m_view.play_after->isChecked()));
+        renderProps.insert("rendertwopass", QString::number(m_view.checkTwoPass->isChecked()));
+        renderProps.insert("renderbitrate", m_view.comboBitrates->currentText());
+        renderProps.insert("renderaudiobitrate", m_view.comboAudioBitrates->currentText());
+
+        emit selectedRenderProfile(renderProps);
+
+        // insert item in running jobs list
+        RenderJobItem *renderItem = NULL;
+        QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
+        if (!existing.isEmpty()) {
+            renderItem = static_cast<RenderJobItem*> (existing.at(0));
+            if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB) {
+                KMessageBox::information(this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it...", dest), i18n("Already running"));
+                return;
+            }
+            if (renderItem->type() != DirectRenderType) {
+                delete renderItem;
+                renderItem = NULL;
+            }
+            else {
+                renderItem->setData(1, ProgressRole, 0);
+                renderItem->setStatus(WAITINGJOB);
+                renderItem->setIcon(0, KIcon("media-playback-pause"));
+                renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
+                renderItem->setData(1, ParametersRole, dest);
+            }
+        }
+        if (!renderItem) {
+            renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);
+        }
+        renderItem->setData(1, TimeRole, QTime::currentTime());
+
+        // Set rendering type
+        if (group == "dvd") {
+            if (m_view.open_dvd->isChecked()) {
+                renderItem->setData(0, Qt::UserRole, group);
+                if (renderArgs.contains("mlt_profile=")) {
+                    //TODO: probably not valid anymore (no more MLT profiles in args)
+                    // rendering profile contains an MLT profile, so pass it to the running jog item, useful for dvd
+                    QString prof = renderArgs.section("mlt_profile=", 1, 1);
+                    prof = prof.section(' ', 0, 0);
+                    kDebug() << "// render profile: " << prof;
+                    renderItem->setMetadata(prof);
+                }
+            }
+        } else {
+            if (group == "websites" && m_view.open_browser->isChecked()) {
+                renderItem->setData(0, Qt::UserRole, group);
+                // pass the url
+                QString url = m_view.size_list->currentItem()->data(ExtraRole).toString();
+                renderItem->setMetadata(url);
+            }
+        }
+
+        renderItem->setData(1, ParametersRole, render_process_args);
+        if (exportAudio == false)
+            renderItem->setData(1, ExtraInfoRole, i18n("Video without audio track"));
+        else
+            renderItem->setData(1, ExtraInfoRole, QString());
+
+        m_view.running_jobs->setCurrentItem(renderItem);
+        m_view.tabWidget->setCurrentIndex(1);
+        // check render status
+        checkRenderStatus();
+    } // end loop
 }
 
 void RenderWidget::checkRenderStatus()
 {
     // check if we have a job waiting to render
-    if (m_blockProcessing) return;
+    if (m_blockProcessing)
+        return;
+
     RenderJobItem* item = static_cast<RenderJobItem*> (m_view.running_jobs->topLevelItem(0));
     
     // Make sure no other rendering is running
     while (item) {
-        if (item->status() == RUNNINGJOB) return;
+        if (item->status() == RUNNINGJOB)
+            return;
         item = static_cast<RenderJobItem*> (m_view.running_jobs->itemBelow(item));
     }
     item = static_cast<RenderJobItem*> (m_view.running_jobs->topLevelItem(0));
@@ -1226,11 +1275,15 @@ void RenderWidget::checkRenderStatus()
             item->setData(1, TimeRole, QTime::currentTime());
             waitingJob = true;
             startRendering(item);
+            while (item->status() == WAITINGJOB) {
+                QCoreApplication::processEvents();
+            }
             break;
         }
         item = static_cast<RenderJobItem*> (m_view.running_jobs->itemBelow(item));
     }
-    if (waitingJob == false && m_view.shutdown->isChecked()) emit shutdown();
+    if (waitingJob == false && m_view.shutdown->isChecked())
+        emit shutdown();
 }
 
 void RenderWidget::startRendering(RenderJobItem *item)
@@ -2024,8 +2077,8 @@ void RenderWidget::parseScriptFiles()
             while (!stream.atEnd()) {
                 QString line = stream.readLine();
                 //kDebug()<<"# :"<<line;
-                if (line.startsWith(QLatin1String("TARGET="))) {
-                    target = line.section("TARGET=\"", 1);
+                if (line.startsWith(QLatin1String("TARGET_0="))) {
+                    target = line.section("TARGET_0=\"", 1);
                     target = target.section('"', 0, 0);
                 } else if (line.startsWith(QLatin1String("RENDERER="))) {
                     renderer = line.section("RENDERER=\"", 1);
@@ -2348,6 +2401,11 @@ void RenderWidget::updateProxyConfig(bool enable)
 bool RenderWidget::proxyRendering()
 {
     return m_view.proxy_render->isChecked();
+}
+
+bool RenderWidget::isStemAudioExportEnabled() const
+{
+    return (m_view.stemAudioExport->isChecked());
 }
 
 void RenderWidget::setRescaleEnabled(bool enable)
