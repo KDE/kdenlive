@@ -960,8 +960,10 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         QString dest(destBase);
 
         if (stemCount > 1) {
-            dest.replace(".wav", "");
-            dest = dest + "_" + QString(trackNames.at(stemIdx)).replace(" ","_") + ".wav";
+            QString suffix = QFileInfo(dest).suffix();
+            QString path = QFileInfo(dest).absolutePath();
+            dest = QFileInfo(dest).completeBaseName();
+            dest = path + "/" + dest + "_" + QString(trackNames.at(stemIdx)).replace(" ","_") + "." + suffix;
             kDebug() << "dest: " << dest << endl;
         }
 
