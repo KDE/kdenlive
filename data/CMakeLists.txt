@@ -28,7 +28,7 @@ install(FILES kdenlive.xpm DESTINATION share/pixmaps)
 install(FILES kdenlive.menu DESTINATION share/menu RENAME kdenlive)
 install(FILES kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 
-#find_package(SharedMimeInfo REQUIRED)
+find_package(SharedMimeInfo REQUIRED)
 install(FILES kdenlive.xml westley.xml DESTINATION ${XDG_MIME_INSTALL_DIR})
-#update_xdg_mimetypes(${XDG_MIME_INSTALL_DIR})
+update_xdg_mimetypes(${XDG_MIME_INSTALL_DIR})
 
