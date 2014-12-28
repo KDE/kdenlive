@@ -27,7 +27,6 @@
 #include <KActionCategory>
 
 class EffectsList;
-class KIcon;
 
 class EffectsListWidget : public QTreeWidget
 {

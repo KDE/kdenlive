@@ -52,7 +52,6 @@
 #include <QSemaphore>
 #include <QTimer>
 
-class QPixmap;
 class KComboBox;
 class BinController;
 

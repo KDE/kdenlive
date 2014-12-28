@@ -17,7 +17,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "kdenlivecore_export.h"
 
 class Project;
-class AbstractProjectPart;
 class TrackView;
 class KdenliveDoc;
 class NotesPlugin;
