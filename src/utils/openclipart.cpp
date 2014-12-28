@@ -47,7 +47,7 @@ void OpenClipArt::slotStartSearch(const QString &searchText, int page)
         uri.append("&page=" + QString::number(page));
         
     KJob* resolveJob = KIO::storedGet( QUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
-    connect( resolveJob, SIGNAL(result(KJob*)), this, SLOT(slotShowResults(KJob*)) );
+    connect(resolveJob, &KJob::result, this, &OpenClipArt::slotShowResults);
 }
 
 

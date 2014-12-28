@@ -70,7 +70,7 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
     m_startLayout = new QVBoxLayout;
     m_startLayout->addWidget(m_welcomeLabel);
     QPushButton *but = new QPushButton(QIcon::fromTheme("help-about"), i18n("Discover the features of this Kdenlive release"), this);
-    connect(but, SIGNAL(clicked()), this, SLOT(slotShowWebInfos()));
+    connect(but, &QPushButton::clicked, this, &Wizard::slotShowWebInfos);
     m_startLayout->addStretch();
     m_startLayout->addWidget(but);
 
@@ -468,7 +468,7 @@ void Wizard::checkMissingCodecs()
         infoMessage->setCloseButtonVisible(false);
         infoMessage->setWordWrap(true);
         infoMessage->setMessageType(KMessageWidget::Warning);
-        connect(infoMessage, SIGNAL(linkActivated(QString)), this, SLOT(slotOpenManual()));
+        connect(infoMessage, &KMessageWidget::linkActivated, this, &Wizard::slotOpenManual);
         infoMessage->setText(missing);
         infoMessage->animatedShow();
     }

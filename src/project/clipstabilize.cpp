@@ -94,7 +94,7 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
 
 }
 
-                               connect(buttonBox->button(QDialogButtonBox::Ok),SIGNAL(clicked()), this, SLOT(slotValidate()));
+                               connect(buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &ClipStabilize::slotValidate);
 
                                vbox=new QVBoxLayout(optionsbox);
                                QHashIterator<QString,QHash<QString,QString> > hi(m_ui_params);
@@ -107,13 +107,13 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
                 "",0/*id*/,""/*suffix*/,val["decimals"]!=""?val["decimals"].toInt():0,this);
         dbl->setObjectName(hi.key());
         dbl->setToolTip(val["tooltip"]);
-        connect(dbl,SIGNAL(valueChanged(double)),this,SLOT(slotUpdateParams()));
+        connect(dbl, &DoubleParameterWidget::valueChanged, this, &ClipStabilize::slotUpdateParams);
         vbox->addWidget(dbl);
     }else if (val["type"]=="bool"){
                            QCheckBox *ch=new QCheckBox(hi.key(),this);
                            ch->setCheckState(val["value"] == "0" ? Qt::Unchecked : Qt::Checked);
                            ch->setObjectName(hi.key());
-                           connect(ch, SIGNAL(stateChanged(int)) , this,SLOT(slotUpdateParams()));
+                           connect(ch, &QCheckBox::stateChanged, this, &ClipStabilize::slotUpdateParams);
                            ch->setToolTip(val["tooltip"]);
                            vbox->addWidget(ch);
 

@@ -132,8 +132,8 @@ void EncodingProfilesDialog::slotAddProfile()
     QLineEdit *pext = new QLineEdit;
     l->addWidget(pext);
     QDialogButtonBox *box = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Cancel);
-    connect(box, SIGNAL(accepted()), d, SLOT(accept()));
-    connect(box, SIGNAL(rejected()), d, SLOT(reject()));
+    connect(box, &QDialogButtonBox::accepted, d.data(), &QDialog::accept);
+    connect(box, &QDialogButtonBox::rejected, d.data(), &QDialog::reject);
     l->addWidget(box);
     d->setLayout(l);
     
@@ -164,8 +164,8 @@ void EncodingProfilesDialog::slotEditProfile()
     QLineEdit *pext = new QLineEdit;
     l->addWidget(pext);
     QDialogButtonBox *box = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Cancel);
-    connect(box, SIGNAL(accepted()), d, SLOT(accept()));
-    connect(box, SIGNAL(rejected()), d, SLOT(reject()));
+    connect(box, &QDialogButtonBox::accepted, d.data(), &QDialog::accept);
+    connect(box, &QDialogButtonBox::rejected, d.data(), &QDialog::reject);
     l->addWidget(box);
     d->setLayout(l);
     

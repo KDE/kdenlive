@@ -32,7 +32,7 @@ AudioSignal::AudioSignal(QWidget *parent): AbstractAudioScopeWidget(false, paren
     setMinimumWidth(10);
     dbscale << 0 << -1 << -2 << -3 << -4 << -5 << -6 << -8 << -10 << -20 << -40 ;
     m_menu->removeAction(m_aRealtime);
-    connect(&m_timer,SIGNAL(timeout()),this,SLOT(slotNoAudioTimeout()));
+    connect(&m_timer, &QTimer::timeout, this, &AudioSignal::slotNoAudioTimeout);
     init();
 }
 

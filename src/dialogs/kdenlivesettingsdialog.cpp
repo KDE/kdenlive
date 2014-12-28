@@ -466,7 +466,7 @@ void KdenliveSettingsDialog::initDevices()
     if (!QStandardPaths::findExecutable("aplay").isEmpty()) {
         m_readProcess.setOutputChannelMode(KProcess::OnlyStdoutChannel);
         m_readProcess.setProgram("aplay", QStringList() << "-l");
-        connect(&m_readProcess, SIGNAL(readyReadStandardOutput()) , this, SLOT(slotReadAudioDevices()));
+        connect(&m_readProcess, &KProcess::readyReadStandardOutput, this, &KdenliveSettingsDialog::slotReadAudioDevices);
         m_readProcess.execute(5000);
     } else {
         // If aplay is not installed on the system, parse the /proc/asound/pcm file

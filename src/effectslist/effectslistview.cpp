@@ -63,10 +63,10 @@ EffectsListView::EffectsListView(QWidget *parent) :
 
     connect(type_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(filterList(int)));
     connect(buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
-    connect(m_effectsList, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateInfo()));
-    connect(m_effectsList, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(slotEffectSelected()));
+    connect(m_effectsList, &EffectsListWidget::itemSelectionChanged, this, &EffectsListView::slotUpdateInfo);
+    connect(m_effectsList, &EffectsListWidget::itemDoubleClicked, this, &EffectsListView::slotEffectSelected);
     connect(search_effect, SIGNAL(hiddenChanged(QTreeWidgetItem*,bool)), this, SLOT(slotUpdateSearch(QTreeWidgetItem*,bool)));
-    connect(m_effectsList, SIGNAL(applyEffect(QDomElement)), this, SIGNAL(addEffect(QDomElement)));
+    connect(m_effectsList, &EffectsListWidget::applyEffect, this, &EffectsListView::addEffect);
     connect(search_effect, SIGNAL(textChanged(QString)), this, SLOT(slotAutoExpand(QString)));
     //m_effectsList->setCurrentRow(0);
 }

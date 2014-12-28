@@ -67,7 +67,7 @@ Vectorscope::Vectorscope(QWidget *parent) :
     connect(ui->backgroundMode, SIGNAL(currentIndexChanged(int)), this, SLOT(slotBackgroundChanged()));
     connect(ui->sliderGain, SIGNAL(valueChanged(int)), this, SLOT(slotGainChanged(int)));
     connect(ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
-    connect(this, SIGNAL(signalMousePositionChanged()), this, SLOT(forceUpdateHUD()));
+    connect(this, &Vectorscope::signalMousePositionChanged, this, &Vectorscope::forceUpdateHUD);
     ui->sliderGain->setValue(0);
 
 
@@ -77,24 +77,24 @@ Vectorscope::Vectorscope(QWidget *parent) :
 
     m_aExportBackground = new QAction(i18n("Export background"), this);
     m_menu->addAction(m_aExportBackground);
-    connect(m_aExportBackground, SIGNAL(triggered()), this, SLOT(slotExportBackground()));
+    connect(m_aExportBackground, &QAction::triggered, this, &Vectorscope::slotExportBackground);
 
     m_menu->addSeparator()->setText(i18n("Drawing options"));
 
     m_a75PBox = new QAction(i18n("75% box"), this);
     m_a75PBox->setCheckable(true);
     m_menu->addAction(m_a75PBox);
-    connect(m_a75PBox, SIGNAL(changed()), this, SLOT(forceUpdateBackground()));
+    connect(m_a75PBox, &QAction::changed, this, &Vectorscope::forceUpdateBackground);
 
     m_aAxisEnabled = new QAction(i18n("Draw axis"), this);
     m_aAxisEnabled->setCheckable(true);
     m_menu->addAction(m_aAxisEnabled);
-    connect(m_aAxisEnabled, SIGNAL(changed()), this, SLOT(forceUpdateBackground()));
+    connect(m_aAxisEnabled, &QAction::changed, this, &Vectorscope::forceUpdateBackground);
 
     m_aIQLines = new QAction(i18n("Draw I/Q lines"), this);
     m_aIQLines->setCheckable(true);
     m_menu->addAction(m_aIQLines);
-    connect(m_aIQLines, SIGNAL(changed()), this, SLOT(forceUpdateBackground()));
+    connect(m_aIQLines, &QAction::changed, this, &Vectorscope::forceUpdateBackground);
 
     m_menu->addSeparator()->setText(i18n("Color Space"));
     m_aColorSpace_YPbPr = new QAction(i18n("YPbPr"), this);
@@ -106,8 +106,8 @@ Vectorscope::Vectorscope(QWidget *parent) :
     m_agColorSpace->addAction(m_aColorSpace_YUV);
     m_menu->addAction(m_aColorSpace_YPbPr);
     m_menu->addAction(m_aColorSpace_YUV);
-    connect(m_aColorSpace_YPbPr, SIGNAL(toggled(bool)), this, SLOT(slotColorSpaceChanged()));
-    connect(m_aColorSpace_YUV, SIGNAL(toggled(bool)), this, SLOT(slotColorSpaceChanged()));
+    connect(m_aColorSpace_YPbPr, &QAction::toggled, this, &Vectorscope::slotColorSpaceChanged);
+    connect(m_aColorSpace_YUV, &QAction::toggled, this, &Vectorscope::slotColorSpaceChanged);
 
     // To make the 1.0x text show
     slotGainChanged(ui->sliderGain->value());

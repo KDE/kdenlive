@@ -58,7 +58,7 @@ void FreeSound::slotStartSearch(const QString &searchText, int page)
 
     
     KIO::StoredTransferJob* resolveJob = KIO::storedGet( QUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
-    connect( resolveJob, SIGNAL(result(KJob*)), this, SLOT(slotShowResults(KJob*)) );
+    connect(resolveJob, &KIO::StoredTransferJob::result, this, &FreeSound::slotShowResults);
 }
 
 
@@ -144,7 +144,7 @@ OnlineItemInfo FreeSound::displayItemDetails(QListWidgetItem *item)
     QString extraInfoUrl = item->data(infoData).toString();
     if (!extraInfoUrl.isEmpty()) {
         KJob* resolveJob = KIO::storedGet( QUrl(extraInfoUrl), KIO::NoReload, KIO::HideProgressInfo );
-        connect( resolveJob, SIGNAL(result(KJob*)), this, SLOT(slotParseResults(KJob*)) );
+        connect(resolveJob, &KJob::result, this, &FreeSound::slotParseResults);
     }
     emit gotThumb(item->data(imageRole).toString());
     return info;

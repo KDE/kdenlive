@@ -74,22 +74,22 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
     m_pauseIcon = QIcon::fromTheme("media-playback-pause");
 
     m_discAction = toolbar->addAction(QIcon::fromTheme("network-connect"), i18n("Connect"));
-    connect(m_discAction, SIGNAL(triggered()), this, SLOT(slotDisconnect()));
+    connect(m_discAction, &QAction::triggered, this, &RecMonitor::slotDisconnect);
 
     m_rewAction = toolbar->addAction(QIcon::fromTheme("media-seek-backward"), i18n("Rewind"));
-    connect(m_rewAction, SIGNAL(triggered()), this, SLOT(slotRewind()));
+    connect(m_rewAction, &QAction::triggered, this, &RecMonitor::slotRewind);
 
     m_playAction = toolbar->addAction(m_playIcon, i18n("Play"));
     connect(m_playAction, SIGNAL(triggered()), this, SLOT(slotStartPreview()));
 
     m_stopAction = toolbar->addAction(QIcon::fromTheme("media-playback-stop"), i18n("Stop"));
-    connect(m_stopAction, SIGNAL(triggered()), this, SLOT(slotStopCapture()));
+    connect(m_stopAction, &QAction::triggered, this, &RecMonitor::slotStopCapture);
     m_stopAction->setEnabled(false);
     m_fwdAction = toolbar->addAction(QIcon::fromTheme("media-seek-forward"), i18n("Forward"));
-    connect(m_fwdAction, SIGNAL(triggered()), this, SLOT(slotForward()));
+    connect(m_fwdAction, &QAction::triggered, this, &RecMonitor::slotForward);
 
     m_recAction = toolbar->addAction(QIcon::fromTheme("media-record"), i18n("Record"));
-    connect(m_recAction, SIGNAL(triggered()), this, SLOT(slotRecord()));
+    connect(m_recAction, &QAction::triggered, this, &RecMonitor::slotRecord);
     m_recAction->setCheckable(true);
 
     rec_options->setIcon(QIcon::fromTheme("system-run"));
@@ -111,7 +111,7 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
     toolbar->addSeparator();
 
     QAction *configAction = toolbar->addAction(QIcon::fromTheme("configure"), i18n("Configure"));
-    connect(configAction, SIGNAL(triggered()), this, SLOT(slotConfigure()));
+    connect(configAction, &QAction::triggered, this, &RecMonitor::slotConfigure);
     configAction->setCheckable(false);
 
     hlayout->addWidget(toolbar);
@@ -128,7 +128,7 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
     m_freeSpace->setMaximumHeight(fontMetrics.height() * 1.2);
     slotUpdateFreeSpace();
     hlayout->addWidget(m_freeSpace);
-    connect(&m_spaceTimer, SIGNAL(timeout()), this, SLOT(slotUpdateFreeSpace()));
+    connect(&m_spaceTimer, &QTimer::timeout, this, &RecMonitor::slotUpdateFreeSpace);
     m_spaceTimer.setInterval(30000);
     m_spaceTimer.setSingleShot(false);
 
@@ -145,8 +145,8 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
     m_displayProcess = new QProcess;
     m_captureProcess = new QProcess;
 
-    connect(m_captureProcess, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(slotProcessStatus(QProcess::ProcessState)));
-    connect(m_captureProcess, SIGNAL(readyReadStandardError()), this, SLOT(slotReadProcessInfo()));
+    connect(m_captureProcess, &QProcess::stateChanged, this, &RecMonitor::slotProcessStatus);
+    connect(m_captureProcess, &QProcess::readyReadStandardError, this, &RecMonitor::slotReadProcessInfo);
     
     QString videoDriver = KdenliveSettings::videodrivername();
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -168,7 +168,7 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
     
     slotVideoDeviceChanged(device_selector->currentIndex());
     m_previewSettings->setChecked(KdenliveSettings::enable_recording_preview());
-    connect(m_previewSettings, SIGNAL(triggered(bool)), this, SLOT(slotChangeRecordingPreview(bool)));
+    connect(m_previewSettings, &QAction::triggered, this, &RecMonitor::slotChangeRecordingPreview);
 }
 
 RecMonitor::~RecMonitor()
@@ -803,7 +803,7 @@ void RecMonitor::showWarningMessage(const QString &text, bool logAction)
     m_infoMessage->setMessageType(KMessageWidget::Warning);
     if (logAction) {
 	QAction *manualAction = new QAction(i18n("Show log"), this);
-	connect(manualAction, SIGNAL(triggered()), this, SLOT(slotShowLog()));
+	connect(manualAction, &QAction::triggered, this, &RecMonitor::slotShowLog);
 	m_infoMessage->addAction(manualAction);
     }
 
@@ -1041,7 +1041,7 @@ void RecMonitor::buildMltDevice(const QString &path)
     if (m_captureDevice == NULL) {
 	m_monitorManager->updateScopeSource();
         m_captureDevice = new MltDeviceCapture(path, videoSurface, this);
-        connect(m_captureDevice, SIGNAL(droppedFrames(int)), this, SLOT(slotDroppedFrames(int)));
+        connect(m_captureDevice, &MltDeviceCapture::droppedFrames, this, &RecMonitor::slotDroppedFrames);
         m_captureDevice->sendFrameForAnalysis = m_analyse;
         m_monitorManager->updateScopeSource();
     }

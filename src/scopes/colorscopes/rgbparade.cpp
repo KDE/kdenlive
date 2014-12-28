@@ -32,15 +32,15 @@ RGBParade::RGBParade(QWidget *parent) :
     m_aAxis = new QAction(i18n("Draw axis"), this);
     m_aAxis->setCheckable(true);
     m_menu->addAction(m_aAxis);
-    connect(m_aAxis, SIGNAL(changed()), this, SLOT(forceUpdateScope()));
+    connect(m_aAxis, &QAction::changed, this, &RGBParade::forceUpdateScope);
 
     m_aGradRef = new QAction(i18n("Gradient reference line"), this);
     m_aGradRef->setCheckable(true);
     m_menu->addAction(m_aGradRef);
-    connect(m_aGradRef, SIGNAL(changed()), this, SLOT(forceUpdateScope()));
+    connect(m_aGradRef, &QAction::changed, this, &RGBParade::forceUpdateScope);
 
     connect(ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
-    connect(this, SIGNAL(signalMousePositionChanged()), this, SLOT(forceUpdateHUD()));
+    connect(this, &RGBParade::signalMousePositionChanged, this, &RGBParade::forceUpdateHUD);
 
     m_rgbParadeGenerator = new RGBParadeGenerator();
     init();

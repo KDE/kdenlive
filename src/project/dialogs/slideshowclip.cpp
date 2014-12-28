@@ -140,7 +140,7 @@ void SlideshowClip::slotEnableThumbs(int state)
     } else {
         KdenliveSettings::setShowslideshowthumbs(false);
         if (m_thumbJob) {
-            disconnect(m_thumbJob, SIGNAL(gotPreview(KFileItem,QPixmap)), this, SLOT(slotSetPixmap(KFileItem,QPixmap)));
+            disconnect(m_thumbJob, &KIO::PreviewJob::gotPreview, this, &SlideshowClip::slotSetPixmap);
             m_thumbJob->kill();
             m_thumbJob = NULL;
         }
@@ -235,7 +235,7 @@ void SlideshowClip::slotGenerateThumbs()
     m_thumbJob = new KIO::PreviewJob(fileList, QSize(50, 50));
     m_thumbJob->setScaleType(KIO::PreviewJob::Scaled);
     m_thumbJob->setAutoDelete(false);
-    connect(m_thumbJob, SIGNAL(gotPreview(KFileItem,QPixmap)), this, SLOT(slotSetPixmap(KFileItem,QPixmap)));
+    connect(m_thumbJob, &KIO::PreviewJob::gotPreview, this, &SlideshowClip::slotSetPixmap);
     m_thumbJob->start();
 }
 

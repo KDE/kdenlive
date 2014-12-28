@@ -45,9 +45,9 @@ Histogram::Histogram(QWidget *parent) :
     connect(ui->cbR, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
     connect(ui->cbG, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
     connect(ui->cbB, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
-    connect(m_aUnscaled, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
-    connect(m_aRec601, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
-    connect(m_aRec709, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
+    connect(m_aUnscaled, &QAction::toggled, this, &Histogram::forceUpdateScope);
+    connect(m_aRec601, &QAction::toggled, this, &Histogram::forceUpdateScope);
+    connect(m_aRec709, &QAction::toggled, this, &Histogram::forceUpdateScope);
 
     init();
     m_histogramGenerator = new HistogramGenerator();

@@ -47,9 +47,9 @@ Waveform::Waveform(QWidget *parent) :
 
 
     connect(ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
-    connect(this, SIGNAL(signalMousePositionChanged()), this, SLOT(forceUpdateHUD()));
-    connect(m_aRec601, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
-    connect(m_aRec709, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
+    connect(this, &Waveform::signalMousePositionChanged, this, &Waveform::forceUpdateHUD);
+    connect(m_aRec601, &QAction::toggled, this, &Waveform::forceUpdateScope);
+    connect(m_aRec709, &QAction::toggled, this, &Waveform::forceUpdateScope);
 
     init();
     m_waveformGenerator = new WaveformGenerator();

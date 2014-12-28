@@ -265,7 +265,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         l->addStretch(5);
         QPushButton *pb = new QPushButton(i18n("Delete proxy"));
         l->addWidget(pb);
-        connect(pb, SIGNAL(clicked()), this, SLOT(slotDeleteProxy()));
+        connect(pb, &QPushButton::clicked, this, &ClipProperties::slotDeleteProxy);
         m_proxyContainer->setLayout(l);
         if (t == Image) {
             m_view.tab_image->layout()->addWidget(line);
@@ -501,8 +501,8 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     connect(m_view.analysis_save, SIGNAL(clicked()), this, SLOT(slotSaveAnalysis()));
     connect(m_view.analysis_load, SIGNAL(clicked()), this, SLOT(slotLoadAnalysis()));
     
-    connect(this, SIGNAL(accepted()), this, SLOT(slotApplyProperties()));
-    connect(m_view.buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotApplyProperties()));
+    connect(this, &ClipProperties::accepted, this, &ClipProperties::slotApplyProperties);
+    connect(m_view.buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, this, &ClipProperties::slotApplyProperties);
     m_view.buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     
     m_view.metadata_list->resizeColumnToContents(0);

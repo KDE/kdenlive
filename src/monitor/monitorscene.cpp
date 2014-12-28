@@ -63,7 +63,7 @@ MonitorScene::MonitorScene(Render *renderer, QObject* parent) :
     m_background->setPixmap(bg);
     addItem(m_background);
 
-    connect(m_renderer, SIGNAL(frameUpdated(QImage)), this, SLOT(slotSetBackgroundImage(QImage)));
+    connect(m_renderer, &Render::frameUpdated, this, &MonitorScene::slotSetBackgroundImage);
 }
 
 void MonitorScene::centerView()

@@ -44,8 +44,8 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     vbox1->setSpacing(0);
     vbox1->addWidget(m_effectEdit);
     frame->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
-    connect(m_effectEdit, SIGNAL(seekTimeline(int)), this, SLOT(slotSeekTimeline(int)));
-    connect(m_effectEdit, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
+    connect(m_effectEdit, &EffectStackEdit::seekTimeline, this, &TransitionSettings::slotSeekTimeline);
+    connect(m_effectEdit, &EffectStackEdit::importClipKeyframes, this, &TransitionSettings::importClipKeyframes);
     
     setEnabled(false);
 
