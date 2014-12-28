@@ -24,7 +24,6 @@
 #include <QWidget>
 
 
-class QLabel;
 class DragValue;
 
 /**

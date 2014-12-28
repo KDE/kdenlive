@@ -52,8 +52,6 @@
 #include <QSemaphore>
 #include <QTimer>
 
-class QPixmap;
-
 class KComboBox;
 
 namespace Mlt

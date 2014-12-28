@@ -26,7 +26,6 @@
 #include <QPainter>
 #include <QStyledItemDelegate>
 
-class DocClipBase;
 
 
 class ItemDelegate: public QStyledItemDelegate

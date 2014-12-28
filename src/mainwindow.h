@@ -46,7 +46,6 @@
 #include "stopmotion/stopmotion.h"
 
 class KdenliveDoc;
-class TrackView;
 class ProjectList;
 class EffectsListView;
 class EffectStackView;

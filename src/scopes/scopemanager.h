@@ -17,7 +17,6 @@
 #include <QtCore/QList>
 
 class QDockWidget;
-class MonitorManager;
 class AbstractRender;
 
 /**
