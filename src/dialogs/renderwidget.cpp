@@ -940,20 +940,8 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
     if (destBase.isEmpty())
         return;
 
-    // Generate script file
+    // script file
     QFile file(scriptPath);
-    if (scriptExport) {
-        // Generate script file
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            KMessageBox::error(this, i18n("Cannot write to file %1", scriptPath));
-            return;
-        }
-        QTextStream outStream(&file);
-        outStream << "#! /bin/sh" << '\n' << '\n';
-        outStream << "RENDERER=" << '\"' + m_renderer + '\"' << '\n';
-        outStream << "MELT=" << '\"' + KdenliveSettings::rendererpath() + '\"' << "\n\n";
-    }
-
     int stemCount = playlistPaths.count();
 
     for (int stemIdx = 0; stemIdx < stemCount; stemIdx++) {
@@ -989,8 +977,31 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
 
         QFile f(dest);
         if (f.exists()) {
-            if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes)
+            if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
+                foreach (const QString& playlistFilePath, playlistPaths) {
+                    QFile playlistFile(playlistFilePath);
+                    if (playlistFile.exists()) {
+                        if (playlistFile.isOpen()) {
+                            playlistFile.close();
+                        }
+                        playlistFile.remove();
+                    }
+                }
                 return;
+            }
+        }
+
+        // Generate script file
+        if (scriptExport && stemIdx == 0) {
+            // Generate script file
+            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                KMessageBox::error(this, i18n("Cannot write to file %1", scriptPath));
+                return;
+            }
+            QTextStream outStream(&file);
+            outStream << "#! /bin/sh" << '\n' << '\n';
+            outStream << "RENDERER=" << '\"' + m_renderer + '\"' << '\n';
+            outStream << "MELT=" << '\"' + KdenliveSettings::rendererpath() + '\"' << "\n\n";
         }
 
         QStringList overlayargs;
