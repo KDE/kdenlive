@@ -1356,6 +1356,12 @@ void RenderWidget::refreshCategory(const QString &group, const QString &profile)
     else
         m_view.open_browser->setVisible(false);
 
+    if (destination == "audioonly") {
+        m_view.stemAudioExport->setVisible(true);
+    } else {
+        m_view.stemAudioExport->setVisible(false);
+    }
+
     // hide groups that are not in the correct destination
     for (int i = 0; i < m_renderCategory.count(); ++i) {
         QListWidgetItem *sizeItem = m_renderCategory.at(i);
@@ -2405,7 +2411,8 @@ bool RenderWidget::proxyRendering()
 
 bool RenderWidget::isStemAudioExportEnabled() const
 {
-    return (m_view.stemAudioExport->isChecked());
+    return (m_view.stemAudioExport->isChecked()
+            && m_view.stemAudioExport->isVisible());
 }
 
 void RenderWidget::setRescaleEnabled(bool enable)
