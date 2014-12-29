@@ -1176,7 +1176,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         renderProps.insert("renderdestination", m_view.size_list->currentItem()->data(MetaGroupRole).toString());
         renderProps.insert("rendercategory", m_view.size_list->currentItem()->data(GroupRole).toString());
         renderProps.insert("renderprofile", m_view.size_list->currentItem()->text());
-        renderProps.insert("renderurl", dest);
+        renderProps.insert("renderurl", destBase);
         renderProps.insert("renderzone", QString::number(m_view.render_zone->isChecked()));
         renderProps.insert("renderguide", QString::number(m_view.render_guide->isChecked()));
         renderProps.insert("renderstartguide", QString::number(m_view.guide_start->currentIndex()));
