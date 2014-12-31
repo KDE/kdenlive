@@ -35,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class KdenliveDoc;
 class QSplitter;
 class KToolBar;
+class KSplitterCollapserButton;
 class QMenu;
 class ProjectItemModel;
 class ProjectClip;
@@ -44,6 +45,7 @@ class Monitor;
 class QItemSelectionModel;
 class ProjectSortProxyModel;
 class JobManager;
+class QTableWidget;
 
 namespace Mlt {
   class Producer;
@@ -302,7 +304,6 @@ private slots:
     void slotSaveHeaders();
 
 public slots:
-    void showClipProperties(const QModelIndex &ix);
     void slotThumbnailReady(const QString &id, const QImage &img);
     /** @brief The producer for this clip is ready.
      *  @param id the clip id
@@ -311,7 +312,9 @@ public slots:
      */
     void slotProducerReady(requestClipInfo info, Mlt::Producer *producer);
     void slotDeleteClip();
-    void slotShowClipProperties();
+    void slotRefreshClipProperties();
+    void slotSwitchClipProperties(const QModelIndex &ix);
+    void slotSwitchClipProperties();
     void slotAddFolder();
 
 protected:
@@ -339,6 +342,8 @@ private:
     QByteArray m_headerInfo;
     EventEater *m_eventEater;
     QWidget *m_propertiesPanel;
+    QTableWidget *m_propertiesTable;
+    KSplitterCollapserButton *m_collapser;
     Monitor *m_monitor;
     QMenu *m_menu;
     QAction *m_openAction;

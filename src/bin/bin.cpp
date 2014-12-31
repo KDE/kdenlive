@@ -43,7 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QMenu>
 #include <QDebug>
 #include <QTableWidget>
-
+#include <KSplitterCollapserButton>
 
 EventEater::EventEater(QObject *parent) : QObject(parent)
 {
@@ -167,10 +167,22 @@ Bin::Bin(QWidget* parent) :
     m_splitter = new QSplitter(this);
     m_headerInfo = QByteArray::fromBase64(KdenliveSettings::treeviewheaders().toLatin1());
 
-    connect(m_eventEater, SIGNAL(editItem(QModelIndex)), this, SLOT(showClipProperties(QModelIndex)), Qt::UniqueConnection);
+    connect(m_eventEater, SIGNAL(editItem(QModelIndex)), this, SLOT(slotSwitchClipProperties(QModelIndex)), Qt::UniqueConnection);
     connect(m_eventEater, SIGNAL(showMenu(QString)), this, SLOT(showClipMenu(QString)), Qt::UniqueConnection);
 
     layout->addWidget(m_splitter);
+    m_propertiesPanel = new QWidget(m_splitter);
+    QVBoxLayout *lay = new QVBoxLayout;
+    m_propertiesPanel->setLayout(lay);
+    m_propertiesTable = new QTableWidget(this);
+    m_propertiesTable->setColumnCount(2);
+    QHeaderView *header = m_propertiesTable->horizontalHeader();
+    header->setStretchLastSection(true);
+    lay->addWidget(m_propertiesTable);
+
+    m_splitter->addWidget(m_propertiesPanel);
+    m_collapser = new KSplitterCollapserButton(m_propertiesPanel, m_splitter);
+    connect(m_collapser, SIGNAL(clicked(bool)), this, SLOT(slotRefreshClipProperties()));
 }
 
 Bin::~Bin()
@@ -395,9 +407,18 @@ void Bin::selectProxyModel(const QModelIndex &id)
     if (id.isValid()) {
         ProjectClip *currentItem = static_cast<ProjectClip*>(m_proxyModel->mapToSource(id).internalPointer());
 	if (currentItem) {
-            m_openedProducer = currentItem->clipId();
-	    currentItem->setCurrent(true);
-	    m_editAction->setEnabled(true);
+            if (!currentItem->isFolder()) {
+                m_openedProducer = currentItem->clipId();
+                currentItem->setCurrent(true);
+                m_editAction->setEnabled(true);
+                if (m_propertiesPanel->width() > 0) {
+                    // if info panel is displayed, update info
+                    if (!currentItem->isFolder()) showClipProperties(currentItem);
+                }
+            } else {
+                // A folder was selected, disable editing clip
+                m_editAction->setEnabled(false);
+            }
 	    m_deleteAction->setEnabled(true);
         } else {
 	    m_editAction->setEnabled(false);
@@ -452,11 +473,11 @@ void Bin::slotInitView(QAction *action)
         }
         m_listType = static_cast<BinViewType>(viewType);
     }
-    
+
     if (m_itemView) {
         delete m_itemView;
     }
-    
+
     switch (m_listType) {
     case BinIconView:
         m_itemView = new QListView(m_splitter);
@@ -471,6 +492,9 @@ void Bin::slotInitView(QAction *action)
     m_itemView->setModel(m_proxyModel);
     m_itemView->setSelectionModel(m_proxyModel->selectionModel());
     m_splitter->addWidget(m_itemView);
+    m_splitter->insertWidget(2, m_propertiesPanel);
+    m_splitter->setSizes(QList <int>() << 4 << 2);
+    m_collapser->collapse();
 
     // setup some default view specific parameters
     if (m_listType == BinTreeView) {
@@ -504,7 +528,6 @@ void Bin::slotSetIconSize(int size)
     QSize zoom = m_iconSize;
     zoom = zoom * (size / 4.0);
     m_itemView->setIconSize(zoom);
-    m_itemModel->setIconSize(zoom);
 }
 
 
@@ -520,8 +543,8 @@ void Bin::slotMarkersNeedUpdate(const QString &id, const QList<int> &markers)
 
 void Bin::closeEditing()
 {
-    delete m_propertiesPanel;
-    m_propertiesPanel = NULL;
+    //delete m_propertiesPanel;
+    //m_propertiesPanel = NULL;
 }
 
 
@@ -548,63 +571,71 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_menu->exec(event->globalPos());
 }
 
-void Bin::slotShowClipProperties()
+
+void Bin::slotRefreshClipProperties()
 {
     QModelIndex current = m_proxyModel->selectionModel()->currentIndex();
     if (current.isValid()) {
-        ProjectClip *currentItem = static_cast<ProjectClip *>(m_proxyModel->mapToSource(current).internalPointer());
-        showClipProperties(currentItem);
+        ProjectClip *clip = static_cast<ProjectClip *>(m_proxyModel->mapToSource(current).internalPointer());
+        if (clip && !clip->isFolder()) {
+            showClipProperties(clip);
+        }
     }
 }
 
-void Bin::showClipProperties(const QModelIndex &ix)
+void Bin::slotSwitchClipProperties()
 {
-    ProjectClip *clip = static_cast<ProjectClip *>(m_proxyModel->mapToSource(ix).internalPointer());
-    showClipProperties(clip);
+    QModelIndex current = m_proxyModel->selectionModel()->currentIndex();
+    slotSwitchClipProperties(current);
+}
+
+void Bin::slotSwitchClipProperties(const QModelIndex &ix)
+{
+    if (ix.isValid()) {
+        if (m_collapser->isWidgetCollapsed()) {
+            ProjectClip *clip = static_cast<ProjectClip *>(m_proxyModel->mapToSource(ix).internalPointer());
+            if (clip && !clip->isFolder()) {
+                m_collapser->restore();
+                showClipProperties(clip);
+            }
+        }
+        else m_collapser->collapse();
+    }
+    else m_collapser->collapse();
 }
 
 void Bin::showClipProperties(ProjectClip *clip)
 {
     closeEditing();
-    if (!clip) return;
-    m_propertiesPanel = new QWidget(m_splitter);
-    QVBoxLayout *lay = new QVBoxLayout;
-    m_propertiesPanel->setLayout(lay);
+    if (!clip || m_propertiesPanel->width() == 0) return;
+    QMap <QString, QString> props = clip->properties();
+    m_propertiesTable->clearContents();
+    if (props.isEmpty()) {
+        // Producer for this clip is not ready yet or no properties in this clip
+        return;
+    }
     // TODO: Build proper clip properties widget
     //PropertiesView *view = new PropertiesView(clip, m_propertiesPanel);
-    QTableWidget *table = new QTableWidget(this);
-    table->setColumnCount(2);
-    table->setRowCount(2);
-    table->horizontalHeader()->hide();
-    table->verticalHeader()->hide();
-    QTableWidgetItem *key;
-    QTableWidgetItem *value;
-    Mlt::Properties *props = clip->properties();
-    int video_index = props->get_int("video_index");
-    int audio_index = props->get_int("audio_index");
-    QString codecKey = "meta.media." + QString::number(video_index) + ".codec.long_name";
-    QString codec = props->get(codecKey.toUtf8().constData());
-    key = new QTableWidgetItem(i18n("Video codec"));
-    table->setItem(0, 0, key);
-    value = new QTableWidgetItem(codec);
-    table->setItem(0, 1, value);
-    
-    codecKey = "meta.media." + QString::number(audio_index) + ".codec.long_name";
-    codec = props->get(codecKey.toUtf8().constData());
-    key = new QTableWidgetItem(i18n("Audio codec"));
-    table->setItem(1, 0, key);
-    value = new QTableWidgetItem(codec);
-    table->setItem(1, 1, value);
-    
+
+    m_propertiesTable->setRowCount(props.size());
+    m_propertiesTable->horizontalHeader()->hide();
+    m_propertiesTable->verticalHeader()->hide();
+    QTableWidgetItem *keyitem;
+    QTableWidgetItem *valueitem;
+    QMapIterator<QString, QString> i(props);
+    int ix = 0;
+    while (i.hasNext()) {
+        i.next();
+        keyitem = new QTableWidgetItem(i.key());
+        m_propertiesTable->setItem(ix, 0, keyitem);
+        valueitem = new QTableWidgetItem(i.value());
+        m_propertiesTable->setItem(ix, 1, valueitem);
+        ix++;
+    }
     //m_editedProducer= new Producer(producer, desc, pCore->clipPluginManager());
     //connect(m_editedProducer, SIGNAL(updateClip()), this, SLOT(refreshEditedClip()));
     //connect(m_editedProducer, SIGNAL(reloadClip(QString)), this, SLOT(reloadClip(QString)));
     //connect(m_editedProducer, SIGNAL(editingDone()), this, SLOT(closeEditing()));
-    
-    lay->addWidget(table);
-    m_splitter->addWidget(m_propertiesPanel);
-    m_splitter->setStretchFactor(m_splitter->indexOf(m_itemView), 1);
-    m_splitter->setStretchFactor(m_splitter->indexOf(m_propertiesPanel), 20);
 }
 
 void Bin::reloadClip(const QString &id)

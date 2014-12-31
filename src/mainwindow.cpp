@@ -1133,7 +1133,7 @@ void MainWindow::setupActions()
     addClips->addAction(addAction("download_resource", i18n("Online Resources"), this, SLOT(slotDownloadResources()),
                                   QIcon::fromTheme("download")));
     
-    QAction *clipProperties = addAction("clip_properties", i18n("Clip Properties"), pCore->bin(), SLOT(slotShowClipProperties()), QIcon::fromTheme("document-edit"));
+    QAction *clipProperties = addAction("clip_properties", i18n("Clip Properties"), pCore->bin(), SLOT(slotSwitchClipProperties()), QIcon::fromTheme("document-edit"));
     clipProperties->setData("clip_properties");
     clipProperties->setEnabled(false);
 

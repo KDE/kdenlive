@@ -130,7 +130,7 @@ public:
     Mlt::Producer *producer();
 
     //TODO
-    Mlt::Properties *properties();
+    QMap <QString, QString> properties();
     
     /** @brief Set properties on this clip. TODO: should we store all in MLT or use extra m_properties ?. */
     void setProperties(QMap <QString, QString> properties);
