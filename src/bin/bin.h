@@ -266,8 +266,11 @@ public:
     /** @brief Get the document's renderer frame size  */
     const QSize getRenderSize();
 
-    /** @brief Give a number available for a clip id, used when adding a new clip to the project. Clip ids must be unique */
+    /** @brief Give a number available for a clip id, used when adding a new clip to the project. Id must be unique */
     int getFreeClipId();
+    
+    /** @brief Give a number available for a folder id, used when adding a new folder to the project. Id must be unique */
+    int getFreeFolderId();
 
     /** @brief Returns the id of the last inserted clip */
     int lastClipId() const;
@@ -306,7 +309,7 @@ public slots:
      *  @param replaceProducer If true, we replace the producer even if the clip already has one
      *  @param producer The MLT producer
      */
-    void slotProducerReady(const QString &id, bool replaceProducer, Mlt::Producer *producer);
+    void slotProducerReady(requestClipInfo info, Mlt::Producer *producer);
     void slotDeleteClip();
     void slotShowClipProperties();
     void slotAddFolder();
@@ -324,7 +327,10 @@ private:
     KToolBar *m_toolbar;
     KdenliveDoc* m_doc;
     QSplitter *m_splitter;
+    /** @brief Holds an available unique id for a clip to be created */
     int m_clipCounter;
+    /** @brief Holds an available unique id for a folder to be created */
+    int m_folderCounter;
     /** @brief Default view type (icon, tree, ...) */
     BinViewType m_listType;
     /** @brief Default icon size for the views. */

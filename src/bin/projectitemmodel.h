@@ -71,7 +71,6 @@ public:
     void onAboutToRemoveItem(AbstractProjectItem *item);
     /** @brief Prepare some stuff after removing a new item */
     void onItemRemoved(AbstractProjectItem *item);
-    
 
 public slots:
     /** @brief An item in the list was modified, notify */

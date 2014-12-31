@@ -27,21 +27,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDomElement>
 #include <KLocalizedString>
 
-ProjectFolder::ProjectFolder(const QDomElement& description, ProjectFolder* parent) :
-    AbstractProjectItem(description, parent)
+ProjectFolder::ProjectFolder(const QString &id, const QString &name, ProjectFolder* parent) :
+    AbstractProjectItem(AbstractProjectItem::FolderItem, id, parent)
+    , m_bin(NULL)
 {
-    loadChildren(description);
-}
-
-ProjectFolder::ProjectFolder(ProjectFolder* parent) :
-    AbstractProjectItem(QDomElement(), parent)
-{
-    m_name = i18n("Folder");
+    //loadChildren(description);
+    m_name = name;
     m_thumbnail = QIcon::fromTheme("folder").pixmap(40, 40);
 }
 
 ProjectFolder::ProjectFolder(Bin *bin) :
-    AbstractProjectItem(QDomElement())
+    AbstractProjectItem(AbstractProjectItem::FolderItem, QString::number(-1))
     , m_bin(bin)
 {
 }
@@ -58,6 +54,19 @@ ProjectClip* ProjectFolder::clip(const QString &id)
         clip = at(i)->clip(id);
         if (clip) {
             return clip;
+        }
+    }
+    return NULL;
+}
+
+ProjectFolder* ProjectFolder::folder(const QString &id)
+{
+    if (m_id == id) return this;
+    ProjectFolder *folderItem;
+    for (int i = 0; i < count(); ++i) {
+        folderItem = at(i)->folder(id);
+        if (folderItem) {
+            return folderItem;
         }
     }
     return NULL;
@@ -81,6 +90,9 @@ Bin* ProjectFolder::bin()
     if (m_bin) {
         return m_bin;
     } else {
+        if (parent()) {
+            return parent()->bin();
+        }
         return AbstractProjectItem::bin();
     }
 }
@@ -97,7 +109,7 @@ QDomElement ProjectFolder::toXml(QDomDocument& document)
 
 void ProjectFolder::loadChildren(const QDomElement& description)
 {
-    QDomNodeList childen = description.childNodes();
+    /*QDomNodeList childen = description.childNodes();
     for (int i = 0; i < childen.count(); ++i) {
         QDomElement childElement = childen.at(i).toElement();
         if (childElement.tagName() == "folder") {
@@ -105,6 +117,6 @@ void ProjectFolder::loadChildren(const QDomElement& description)
         } else {
             childElement.setTagName("producer");
         }
-    }
+    }*/
 }
 

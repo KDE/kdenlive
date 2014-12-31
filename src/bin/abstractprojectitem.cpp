@@ -29,24 +29,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDebug>
 
 
-AbstractProjectItem::AbstractProjectItem(const QString &id, AbstractProjectItem* parent) :
+AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, AbstractProjectItem* parent) :
     QObject()
     , m_parent(NULL)
     , m_id(id)
     , m_isCurrent(false)
     , m_jobProgress(0)
     , m_jobType(AbstractClipJob::NOJOBTYPE)
+    , m_itemType(type)
 {
     setParent(parent);
 }
 
-AbstractProjectItem::AbstractProjectItem(const QDomElement& description, AbstractProjectItem* parent) :
+AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement& description, AbstractProjectItem* parent) :
     QObject()
     , m_parent(NULL)
     , m_id(description.attribute("id"))
     , m_isCurrent(false)
     , m_jobProgress(0)
     , m_jobType(AbstractClipJob::NOJOBTYPE)
+    , m_itemType(type)
 {
     setParent(parent);
 }
@@ -129,9 +131,9 @@ void AbstractProjectItem::finishInsert(AbstractProjectItem* parent)
 void AbstractProjectItem::addChild(AbstractProjectItem* child)
 {
     if (child && !contains(child)) {
-        bin()->emitAboutToAddItem(child);
+        if (bin()) bin()->emitAboutToAddItem(child);
         append(child);
-	bin()->emitItemAdded(this);
+	if (bin()) bin()->emitItemAdded(this);
     }
 }
 
@@ -151,6 +153,11 @@ int AbstractProjectItem::index() const
     }
 
     return 0;
+}
+
+bool AbstractProjectItem::isFolder() const
+{
+    return m_itemType == FolderItem;
 }
 
 QVariant AbstractProjectItem::data(DataType type) const

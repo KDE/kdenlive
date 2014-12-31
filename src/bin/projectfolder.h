@@ -44,10 +44,7 @@ public:
      * @param description element describing the folder and its children
      * @param parent parent folder
      */
-    ProjectFolder(const QDomElement &description, ProjectFolder* parent = 0);
-
-    /** @brief Creates an empty folder. */
-    ProjectFolder(ProjectFolder *parent = 0);
+    ProjectFolder(const QString &id, const QString &name, ProjectFolder* parent = 0);
 
     /** @brief Creates an empty root folder. */
     ProjectFolder(Bin *bin);
@@ -59,6 +56,12 @@ public:
      * @param id id of the child which should be returned
      */
     ProjectClip *clip(const QString &id);
+
+    /** 
+     * @brief Returns itself or a child folder that matches the requested id.
+     * @param id id of the child which should be returned
+     */
+    ProjectFolder* folder(const QString &id);
 
     /** 
      * @brief Returns the clip if it is a child (also indirect).

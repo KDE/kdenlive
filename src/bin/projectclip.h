@@ -69,6 +69,8 @@ public:
 
     /** @brief Returns this if @param id matches the clip's id or NULL otherwise. */
     ProjectClip *clip(const QString &id);
+    
+    ProjectFolder* folder(const QString &id);
 
     /** @brief Returns this if @param ix matches the clip's index or NULL otherwise. */
     ProjectClip* clipAt(int ix);

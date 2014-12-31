@@ -35,7 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 ProjectClip::ProjectClip(const QString &id, Mlt::Producer *producer, ProjectFolder* parent) :
-    AbstractProjectItem(id, parent),
+    AbstractProjectItem(AbstractProjectItem::ClipItem, id, parent),
     m_producer(producer)
 {
     m_properties = QMap <QString, QString> ();
@@ -52,7 +52,7 @@ ProjectClip::ProjectClip(const QString &id, Mlt::Producer *producer, ProjectFold
 }
 
 ProjectClip::ProjectClip(const QDomElement& description, ProjectFolder* parent) :
-    AbstractProjectItem(description, parent)
+    AbstractProjectItem(AbstractProjectItem::ClipItem, description, parent)
     , m_producer(NULL)
 {
     Q_ASSERT(description.hasAttribute("id"));
@@ -105,6 +105,11 @@ ProjectClip* ProjectClip::clip(const QString &id)
     if (id == m_id) {
         return this;
     }
+    return NULL;
+}
+
+ProjectFolder* ProjectClip::folder(const QString &id)
+{
     return NULL;
 }
 

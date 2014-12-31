@@ -797,7 +797,7 @@ void Render::processFileProperties()
             // replace clip
             m_binController->removeBinClip(info.clipId);
 	    m_binController->addClipToBin(info.clipId, *producer);
-	    emit gotFileProperties(info.clipId, info.replaceProducer, producer);
+	    emit gotFileProperties(info, producer);
             //emit replyGetFileProperties(info, *producer, stringMap(), stringMap());
             continue;
         }
@@ -1025,7 +1025,7 @@ void Render::processFileProperties()
         }
         producer->seek(0);
 	m_binController->addClipToBin(info.clipId, *producer);
-	emit gotFileProperties(info.clipId, info.replaceProducer, producer);
+	emit gotFileProperties(info, producer);
         //emit replyGetFileProperties(info, *producer, filePropertyMap, metadataPropertyMap);
     }
 }
@@ -1321,7 +1321,11 @@ int Render::setSceneList(QString playlist, int position)
             m_blackClip = &original->parent();
         }
         else {
-            emit gotFileProperties(id, true, &original->parent());
+            requestClipInfo info;
+            // pass basic info, the others (folder, etc) will be taken from the producer itself
+            info.clipId = id;
+            info.replaceProducer = true;
+            emit gotFileProperties(info, &original->parent());
         }
         //delete original;
     }

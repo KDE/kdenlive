@@ -133,6 +133,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     qRegisterMetaType<QVector<qint16> > ();
     qRegisterMetaType<stringMap> ("stringMap");
     qRegisterMetaType<audioByteArray> ("audioByteArray");
+    qRegisterMetaType<requestClipInfo> ("requestClipInfo");
 
     Core::initialize(this);
 
@@ -649,7 +650,7 @@ void MainWindow::slotConnectMonitors()
     
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(QString,QImage)), pCore->bin(), SLOT(slotThumbnailReady(QString,QImage)));
     
-    connect(m_projectMonitor->render, SIGNAL(gotFileProperties(const QString &,bool,Mlt::Producer *)), pCore->bin(), SLOT(slotProducerReady(const QString &,bool,Mlt::Producer *)));
+    connect(m_projectMonitor->render, SIGNAL(gotFileProperties(requestClipInfo,Mlt::Producer *)), pCore->bin(), SLOT(slotProducerReady(requestClipInfo,Mlt::Producer *)));
 
     connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(requestClipInfo &,Mlt::Producer &,stringMap,stringMap)), m_projectList, SLOT(slotReplyGetFileProperties(requestClipInfo &,Mlt::Producer &,stringMap,stringMap)), Qt::DirectConnection);
     //DirectConnection was necessary not to mess the analyze queue, but the monitor thread shouldn't show any UI widget (profile dialog), so adding an AutoConnection in between?
@@ -1117,7 +1118,7 @@ void MainWindow::setupActions()
 
     QMenu *addClips = new QMenu();
 
-    QAction *addClip = addAction("add_clip", i18n("Add Clip"), m_projectList, SLOT(slotAddClip()), QIcon::fromTheme("kdenlive-add-clip"));
+    QAction *addClip = addAction("add_clip", i18n("Add Clip"), pCore->bin(), SLOT(slotAddClip()), QIcon::fromTheme("kdenlive-add-clip"));
     addClips->addAction(addClip);
     addClips->addAction(addAction("add_color_clip", i18n("Add Color Clip"), m_projectList, SLOT(slotAddColorClip()), 
                                   QIcon::fromTheme("kdenlive-add-color-clip")));

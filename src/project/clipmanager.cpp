@@ -504,14 +504,15 @@ void ClipManager::slotAddClipList(const QList <QUrl> &givenList, const QString &
             if (folderFiles.count() > 1) foldersList.append(folderFiles);
         }
     }
-    if (givenList.isEmpty() && !list.isEmpty()) {
+    /*if (givenList.isEmpty() && !list.isEmpty()) {
         QStringList groupInfo; // = getGroup();
         groupInfo << QString() << QString();
         QMap <QString, QString> data;
         data.insert("group", groupInfo.at(0));
         data.insert("groupId", groupInfo.at(1));
         doAddClipList(list, data);
-    } else if (!list.isEmpty()) {
+    } else*/
+    if (!list.isEmpty()) {
         QMap <QString, QString> data;
         data.insert("group", groupName);
         data.insert("groupId", groupId);

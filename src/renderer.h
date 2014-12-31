@@ -419,7 +419,7 @@ signals:
 
     /** @brief The renderer received a reply to a getFileProperties request. */
     void replyGetFileProperties(requestClipInfo &, Mlt::Producer &, const stringMap &, const stringMap &);
-    void gotFileProperties(const QString&, bool, Mlt::Producer *);
+    void gotFileProperties(requestClipInfo,Mlt::Producer *);
 
     /** @brief The renderer received a reply to a getImage request. */
     void replyGetImage(const QString &, const QString &, int, int);

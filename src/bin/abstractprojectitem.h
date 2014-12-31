@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 class ProjectClip;
+class ProjectFolder;
 class Bin;
 class QDomElement;
 class QDomDocument;
@@ -50,11 +51,17 @@ class AbstractProjectItem : public QObject, public QList<AbstractProjectItem *>
     Q_OBJECT
 
 public:
+
+    enum PROJECTITEMTYPE {
+        FolderItem = 0,
+        ClipItem = 1
+    };
+
     /**
      * @brief Constructor.
      * @param parent parent this item should be added to
      */
-    AbstractProjectItem(const QString &id, AbstractProjectItem *parent = 0);
+    AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, AbstractProjectItem *parent = 0);
     /**
      * @brief Creates a project item upon project load.
      * @param description element for this item.
@@ -62,7 +69,7 @@ public:
      *
      * We try to read the attributes "name" and "description"
      */
-    AbstractProjectItem(const QDomElement &description, AbstractProjectItem* parent = 0);
+    AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, AbstractProjectItem* parent = 0);
     virtual ~AbstractProjectItem();
 
     bool operator==(const AbstractProjectItem *projectItem) const;
@@ -94,9 +101,14 @@ public:
 
     /** @brief Returns the index this item has in its parent's child list. */
     int index() const;
+    
+    /** @brief Returns true if current item is a folder. */
+    bool isFolder() const;
 
     /** @brief Used to search for a clip with a specific id. */
     virtual ProjectClip *clip(const QString &id) = 0;
+    /** @brief Used to search for a folder with a specific id. */
+    virtual ProjectFolder* folder(const QString &id) = 0;
     virtual ProjectClip *clipAt(int ix) = 0;
 
     /** @brief Returns the clip's id. */
@@ -160,6 +172,7 @@ protected:
     AbstractClipJob::JOBTYPE m_jobType;
     int m_jobProgress;
     QString m_jobMessage;
+    PROJECTITEMTYPE m_itemType;
 
     /** @brief Returns a rounded border pixmap from the @param source pixmap. */
     QPixmap roundedPixmap(const QPixmap &source);

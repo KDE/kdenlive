@@ -41,6 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QVBoxLayout>
 #include <QSlider>
 #include <QMenu>
+#include <QDebug>
 #include <QTableWidget>
 
 
@@ -193,7 +194,23 @@ Monitor *Bin::monitor()
 
 void Bin::slotAddClip()
 {
-    pCore->projectManager()->current()->clipManager()->slotAddClip(QString(), QString(), QString());
+    // Check if we are in a folder
+    QString folderName;
+    QString folderId;
+    QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
+    if (ix.isValid()) {
+        AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
+        while (!currentItem->isFolder()) {
+            currentItem = currentItem->parent();
+        }
+        if (currentItem == m_rootFolder) {
+            // clip was added to root folder, leave folder info empty
+        } else {
+            folderName = currentItem->name();
+            folderId = currentItem->clipId();
+        }
+    }
+    pCore->projectManager()->current()->clipManager()->slotAddClip(QString(), folderName, folderId);
 }
 
 void Bin::deleteClip(const QString &id)
@@ -219,7 +236,6 @@ void Bin::slotDeleteClip()
     }
     // For some reason, we get duplicates, which is not expected
     //ids.removeDuplicates();
-    qDebug()<<"++++++++++++++++++\nBIN DELETE IDS: "<<ids;
     pCore->projectManager()->deleteProjectClips(ids);
 }
 
@@ -248,6 +264,11 @@ void Bin::setMonitor(Monitor *monitor)
     connect(m_eventEater, SIGNAL(focusClipMonitor()), m_monitor, SLOT(slotActivateMonitor()), Qt::UniqueConnection);
 }
 
+int Bin::getFreeFolderId()
+{
+    return m_folderCounter++;
+}
+
 int Bin::getFreeClipId()
 {
     return m_clipCounter++;
@@ -266,13 +287,14 @@ void Bin::setDocument(KdenliveDoc* project)
     delete m_jobManager;
     delete m_rootFolder;
     m_clipCounter = 1;
+    m_folderCounter = 1;
     m_doc = project;
     m_openedProducer.clear();
     int iconHeight = style()->pixelMetric(QStyle::PM_ToolBarIconSize) * 2;
     m_iconSize = QSize(iconHeight * m_doc->dar(), iconHeight);
     m_itemModel->setIconSize(m_iconSize);
     m_jobManager = new JobManager(this, project->fps());
-    m_rootFolder = new ProjectFolder(this);    
+    m_rootFolder = new ProjectFolder(this);
     connect(this, SIGNAL(producerReady(QString)), m_doc->renderer(), SLOT(slotProcessingDone(QString)));
     //connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_itemView
     //connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
@@ -282,12 +304,42 @@ void Bin::setDocument(KdenliveDoc* project)
 
 void Bin::createClip(QDomElement xml)
 {
-    ProjectClip *newItem = new ProjectClip(xml, m_rootFolder);
+    // Check if clip should be in a folder
+    QString groupId = xml.attribute("groupid");
+    ProjectFolder *parentFolder = m_rootFolder;
+    if (!groupId.isEmpty()) {
+        QString groupName = xml.attribute("group");
+        parentFolder = m_rootFolder->folder(groupId);
+        if (!parentFolder) {
+            // parent folder does not exist, put in root folder
+            parentFolder = m_rootFolder;
+        }
+    }
+    ProjectClip *newItem = new ProjectClip(xml, parentFolder);
 }
 
 void Bin::slotAddFolder()
 {
-    ProjectFolder *newItem = new ProjectFolder(m_rootFolder);
+    // Check parent item
+    QString folderName;
+    QString folderId;
+    QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
+    ProjectFolder *parentFolder  = m_rootFolder;
+    if (ix.isValid()) {
+        AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
+        while (!currentItem->isFolder()) {
+            currentItem = currentItem->parent();
+        }
+        if (currentItem->isFolder()) {
+            parentFolder = static_cast<ProjectFolder *>(currentItem);
+        }
+        if (parentFolder != m_rootFolder) {
+            // clip was added to a sub folder, set info
+            folderName = currentItem->name();
+            folderId = currentItem->clipId();
+        }
+    }
+    ProjectFolder *newItem = new ProjectFolder(QString::number(getFreeFolderId()), i18n("Folder"), parentFolder);
 }
 
 void Bin::emitAboutToAddItem(AbstractProjectItem* item)
@@ -312,8 +364,11 @@ void Bin::emitItemRemoved(AbstractProjectItem* item)
 
 void Bin::rowsInserted(const QModelIndex &/*parent*/, int /*start*/, int end)
 {
-    const QModelIndex id = m_itemModel->index(end, 0, QModelIndex());
-    m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
+    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    if (indexes.isEmpty()) {
+      const QModelIndex id = m_itemModel->index(end, 0, QModelIndex());
+      m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
+    }
     //selectModel(id);
 }
 
@@ -326,7 +381,6 @@ void Bin::rowsRemoved(const QModelIndex &/*parent*/, int start, int /*end*/)
 
 void Bin::selectModel(const QModelIndex &id)
 {
-    qDebug()<<"* * * * * SELECT MODEL CALLED * * * * * *";
     m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
     /*if (id.isValid()) {
         AbstractProjectItem *currentItem = static_cast<AbstractProjectItem*>(id.internalPointer());
@@ -338,7 +392,6 @@ void Bin::selectModel(const QModelIndex &id)
 
 void Bin::selectProxyModel(const QModelIndex &id)
 {
-    qDebug()<<"* * * * * SELECT PROXY MODEL CALLED * * * * * *";
     if (id.isValid()) {
         ProjectClip *currentItem = static_cast<ProjectClip*>(m_proxyModel->mapToSource(id).internalPointer());
 	if (currentItem) {
@@ -583,20 +636,32 @@ ProjectClip *Bin::getBinClip(const QString &id)
     return clip;
 }
 
-void Bin::slotProducerReady(const QString &id, bool replaceProducer, Mlt::Producer *producer)
+void Bin::slotProducerReady(requestClipInfo info, Mlt::Producer *producer)
 {
-    ProjectClip *clip = m_rootFolder->clip(id);
+    ProjectClip *clip = m_rootFolder->clip(info.clipId);
     if (clip) {
-	clip->setProducer(producer, replaceProducer);
-        emit producerReady(id);
-        if (m_openedProducer == id ) {
+	clip->setProducer(producer, info.replaceProducer);
+        emit producerReady(info.clipId);
+        if (m_openedProducer == info.clipId) {
             m_monitor->open(clip->producer());
         }
     }
     else {
 	// Clip not found, create it
-        ProjectClip *newItem = new ProjectClip(id, producer, m_rootFolder);
-        if (id.toInt() >= m_clipCounter) m_clipCounter = id.toInt() + 1;
+        QString groupId = producer->get("groupid");
+        ProjectFolder *parentFolder;
+        if (!groupId.isEmpty()) {
+            QString groupName = producer->get("group");
+            parentFolder = m_rootFolder->folder(groupId);
+            if (!parentFolder) {
+                // parent folder does not exist, put in root folder
+                parentFolder = m_rootFolder;
+            }
+            if (groupId.toInt() >= m_folderCounter) m_folderCounter = groupId.toInt() + 1;
+        }
+        else parentFolder = m_rootFolder;
+        ProjectClip *newItem = new ProjectClip(info.clipId, producer, parentFolder);
+        if (info.clipId.toInt() >= m_clipCounter) m_clipCounter = info.clipId.toInt() + 1;
     }
 }
 
