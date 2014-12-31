@@ -343,6 +343,7 @@ private:
     QByteArray m_headerInfo;
     EventEater *m_eventEater;
     QWidget *m_propertiesPanel;
+    QSlider *m_slider;
     QTableWidget *m_propertiesTable;
     KSplitterCollapserButton *m_collapser;
     Monitor *m_monitor;

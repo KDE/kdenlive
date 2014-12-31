@@ -118,12 +118,12 @@ Bin::Bin(QWidget* parent) :
     connect(m_itemModel, SIGNAL(markersNeedUpdate(QString,QList<int>)), this, SLOT(slotMarkersNeedUpdate(QString,QList<int>)));
 
     // Zoom slider
-    QSlider *slider = new QSlider(Qt::Horizontal, this);
-    slider->setMaximumWidth(100);
-    slider->setRange(0, 10);
-    slider->setValue(4);
-    connect(slider, SIGNAL(valueChanged(int)), this, SLOT(slotSetIconSize(int)));
-    m_toolbar->addWidget(slider);
+    m_slider = new QSlider(Qt::Horizontal, this);
+    m_slider->setMaximumWidth(100);
+    m_slider->setRange(0, 10);
+    m_slider->setValue(4);
+    connect(m_slider, SIGNAL(valueChanged(int)), this, SLOT(slotSetIconSize(int)));
+    m_toolbar->addWidget(m_slider);
 
     // View type
     KSelectAction *listType = new KSelectAction(QIcon::fromTheme("view-list-tree"), i18n("View Mode"), this);
@@ -488,7 +488,9 @@ void Bin::slotInitView(QAction *action)
     }
     m_itemView->setMouseTracking(true);
     m_itemView->viewport()->installEventFilter(m_eventEater);
-    m_itemView->setIconSize(m_iconSize);
+    QSize zoom = m_iconSize;
+    zoom = zoom * (m_slider->value() / 4.0);
+    m_itemView->setIconSize(zoom);
     m_itemView->setModel(m_proxyModel);
     m_itemView->setSelectionModel(m_proxyModel->selectionModel());
     m_splitter->addWidget(m_itemView);
@@ -597,6 +599,10 @@ void Bin::slotSwitchClipProperties(const QModelIndex &ix)
             if (clip && !clip->isFolder()) {
                 m_collapser->restore();
                 showClipProperties(clip);
+            }
+            else if (clip->isFolder() && m_listType == BinIconView) {
+                // Double clicking on a folder enters it in icon view
+                m_itemView->setRootIndex(ix);
             }
         }
         else m_collapser->collapse();
