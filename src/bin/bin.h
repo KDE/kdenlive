@@ -279,6 +279,7 @@ public:
 
     /** @brief Defines the values for data roles  */
     enum DATATYPE {
+        ItemTypeRole = 4, 
 	JobType = Qt::UserRole + 1,
 	JobProgress,
 	JobMessage

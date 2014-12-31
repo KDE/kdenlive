@@ -29,6 +29,7 @@ ProjectSortProxyModel::ProjectSortProxyModel(QObject *parent)
 {
     m_selection = new QItemSelectionModel(this);
     connect(m_selection, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(onCurrentRowChanged(QItemSelection,QItemSelection)));
+    setDynamicSortFilter(true);
 }
 
 bool ProjectSortProxyModel::filterAcceptsRow(int sourceRow,
@@ -36,6 +37,18 @@ bool ProjectSortProxyModel::filterAcceptsRow(int sourceRow,
 {
     QModelIndex index0 = sourceModel()->index(sourceRow, 0, sourceParent);
     return (sourceModel()->data(index0).toString().contains(m_searchString));
+}
+
+bool ProjectSortProxyModel::lessThan(const QModelIndex & left, const QModelIndex & right) const
+{
+    // Check item type (folder or clip) as defined in projectitemmodel
+    int leftType = sourceModel()->data(left, 4).toInt();
+    int rightType = sourceModel()->data(right, 4).toInt();
+    if (leftType == rightType) {
+        // Let the normal alphabetical sort happen
+        return QSortFilterProxyModel::lessThan(right, left);
+    }
+    return leftType > rightType;
 }
 
 QItemSelectionModel* ProjectSortProxyModel::selectionModel()

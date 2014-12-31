@@ -38,7 +38,6 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id
     , m_jobType(AbstractClipJob::NOJOBTYPE)
     , m_itemType(type)
 {
-    setParent(parent);
 }
 
 AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement& description, AbstractProjectItem* parent) :
@@ -50,7 +49,6 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement
     , m_jobType(AbstractClipJob::NOJOBTYPE)
     , m_itemType(type)
 {
-    setParent(parent);
 }
 
 AbstractProjectItem::~AbstractProjectItem()
@@ -131,9 +129,9 @@ void AbstractProjectItem::finishInsert(AbstractProjectItem* parent)
 void AbstractProjectItem::addChild(AbstractProjectItem* child)
 {
     if (child && !contains(child)) {
-        if (bin()) bin()->emitAboutToAddItem(child);
+        bin()->emitAboutToAddItem(child);
         append(child);
-	if (bin()) bin()->emitItemAdded(this);
+	bin()->emitItemAdded(child);
     }
 }
 
@@ -175,6 +173,9 @@ QVariant AbstractProjectItem::data(DataType type) const
             break;
 	case DataDuration:
 	    data = QVariant(m_duration);
+            break;
+        case ItemTypeRole:
+            data = QVariant(m_itemType);
             break;
 	case JobType:
 	    data = QVariant(m_jobType);

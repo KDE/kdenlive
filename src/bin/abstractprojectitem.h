@@ -121,10 +121,11 @@ public:
         DataDescription,
         DataDate,
         DataThumbnail,
+        ItemTypeRole = 4,
         DataDuration,
 	JobType = Qt::UserRole + 1,
 	JobProgress,
-	JobMessage
+	JobMessage,
     };
 
     /** @brief Returns the data that describes this item.

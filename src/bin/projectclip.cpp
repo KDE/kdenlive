@@ -49,6 +49,7 @@ ProjectClip::ProjectClip(const QString &id, Mlt::Producer *producer, ProjectFold
     m_duration = producer->get_length_time(mlt_time_smpte_df);
 
     getFileHash();
+    setParent(parent);
 }
 
 ProjectClip::ProjectClip(const QDomElement& description, ProjectFolder* parent) :
@@ -61,6 +62,7 @@ ProjectClip::ProjectClip(const QDomElement& description, ProjectFolder* parent) 
     m_name = m_url.fileName();
     if (description.hasAttribute("zone"))
 	m_zone = QPoint(description.attribute("zone").section(':', 0, 0).toInt(), description.attribute("zone").section(':', 1, 1).toInt());
+    setParent(parent);
 }
 
 
