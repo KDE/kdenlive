@@ -147,27 +147,31 @@ bool DocumentValidator::validate(const double currentVersion)
          * Make sure at least one track exists, and they're equal in number to
          * to the maximum between MLT and Kdenlive playlists and tracks
          */
+        // In older Kdenlive project files, one playlist is not a real track (the black track), we have: track count = playlist count- 1
+        // In newer Qt5 Kdenlive, the Bin playlist should not appear as a track. So we should have: track count = playlist count- 2
+        int trackOffset = 1;
         QDomNodeList playlists = m_doc.elementsByTagName("playlist");
 	// Remove "main bin" playlist that simply holds the bin's clips and is not a real playlist
 	for (int i = 0; i < playlists.count(); ++i) {
 	    QString playlistId = playlists.at(i).toElement().attribute("id");
 	    if (playlistId == BinController::id()) {
 		// remove pseudo-playlist
-		playlists.at(i).parentNode().removeChild(playlists.at(i));
+		//playlists.at(i).parentNode().removeChild(playlists.at(i));
+                trackOffset = 2;
 		break;
 	    }
 	}
 	
-        int tracksMax = playlists.count() - 1; // Remove the black track
+        int tracksMax = playlists.count() - trackOffset; // Remove the black track and bin track
         QDomNodeList tracks = tractor.elementsByTagName("track");
         tracksMax = qMax(tracks.count() - 1, tracksMax);
         QDomNodeList tracksinfo = kdenliveDoc.elementsByTagName("trackinfo");
         tracksMax = qMax(tracksinfo.count(), tracksMax);
         tracksMax = qMax(1, tracksMax); // Force existence of one track
-        if (playlists.count() - 1 < tracksMax ||
-                tracks.count() - 1 < tracksMax ||
+        if (playlists.count() - trackOffset < tracksMax ||
+                tracks.count() < tracksMax ||
                 tracksinfo.count() < tracksMax) {
-            //qDebug() << "//// WARNING, PROJECT IS CORRUPTED, MISSING TRACK";
+            qDebug() << "//// WARNING, PROJECT IS CORRUPTED, MISSING TRACK";
             m_modified = true;
             int difference;
             // use the MLT tracks as reference

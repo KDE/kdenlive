@@ -28,12 +28,17 @@
 #include "renderer.h"
 #include "mainwindow.h"
 #include "project/clipmanager.h"
+#include "project/projectcommands.h"
 #include "project/projectlist.h"
 #include "effectslist/initeffects.h"
 #include "dialogs/profilesdialog.h"
 #include "titler/titlewidget.h"
 #include "project/notesplugin.h"
 #include "project/dialogs/noteswidget.h"
+#include "core.h"
+#include "bin/bin.h"
+#include "bin/projectclip.h"
+#include "mltcontroller/bincontroller.h"
 
 #include <KMessageBox>
 #include <KRecentDirs>
@@ -132,7 +137,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     *openBackup = false;
     
     if (url.isValid()) {
-        QFile file(url.path());
+        QFile file(url.toLocalFile());
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             // The file cannot be opened
             if (KMessageBox::warningContinueCancel(parent, i18n("Cannot open the project file,\nDo you want to open a backup file?"), i18n("Error opening file"), KGuiItem(i18n("Open Backup"))) == KMessageBox::Continue) {
@@ -141,6 +146,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
             //KMessageBox::error(parent, KIO::NetAccess::lastErrorString());
         }
         else {
+            qDebug()<<" // / processing file oprn";
             QString errorMsg;
             int line;
             int col;
@@ -188,6 +194,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                 }
             }
             if (success) {
+                qDebug()<<" // / processing file oprn: validate";
                 parent->slotGotProgressInfo(i18n("Validating"), 0);
                 qApp->processEvents();
                 DocumentValidator validator(m_document, url);
@@ -206,6 +213,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                     // TODO: backup the document or alert the user?
                     success = validator.validate(DOCUMENTVERSION);
                     if (success) { // Let the validator handle error messages
+                        qDebug()<<" // / processing file validate ok";
                         parent->slotGotProgressInfo(i18n("Check missing clips"), 0);
                         qApp->processEvents();
                         QDomNodeList infoproducers = m_document.elementsByTagName("kdenlive_producer");
@@ -348,6 +356,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     
     // Something went wrong, or a new file was requested: create a new project
     if (!success) {
+        qDebug()<<" // / ERROR ON OPENING";
         m_url.clear();
         setProfilePath(profileName);
         m_document = createEmptyDocument(tracks.x(), tracks.y());
@@ -381,7 +390,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
 
     ////qDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
     connect(m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
-    connect(m_render, SIGNAL(addClip(QUrl,stringMap)), this, SLOT(slotAddClipFile(QUrl,stringMap)));
+    connect(m_render, SIGNAL(addClip(const QUrl&,const QMap<QString,QString>&)), m_clipManager, SLOT(slotAddClipFile(const QUrl&,const QMap<QString,QString>&)));
 }
 
 KdenliveDoc::~KdenliveDoc()
@@ -400,6 +409,7 @@ KdenliveDoc::~KdenliveDoc()
 
 int KdenliveDoc::setSceneList()
 {
+    qDebug()<<" ++++++++ SETTING SCENE LIST ++++++++++++++++";
     m_render->resetProfile(KdenliveSettings::current_profile(), true);
     if (m_render->setSceneList(m_document.toString(), m_documentProperties.value("position").toInt()) == -1) {
         // INVALID MLT Consumer, something is wrong
@@ -1080,6 +1090,15 @@ const QString KdenliveDoc::description() const
 bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createClipItem)
 {
     const QString producerId = clipId.section('_', 0, 0);
+    m_clipManager->addProjectClip(elem, producerId);
+    m_render->getFileProperties(elem, producerId, 150, true);
+
+    QString str;
+    QTextStream stream(&str);
+    elem.save(stream, 4);
+    qDebug()<<"ADDING CLIP COMMAND\n-----------\n"<<str;
+
+    return true;
     DocClipBase *clip = m_clipManager->getClipById(producerId);
 
     if (clip == NULL) {
@@ -1255,27 +1274,15 @@ bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, const QString 
 
 void KdenliveDoc::deleteClip(const QString &clipId)
 {
-    emit signalDeleteProjectClip(clipId);
+    //emit signalDeleteProjectClip(clipId);
+    qDebug()<<"++++++++++++++++++++++++++++\nDELETING CLIP ID: "<<clipId;
+    m_clipManager->deleteClip(clipId);
 }
 
-void KdenliveDoc::slotAddClipList(const QList<QUrl> &urls, const stringMap &data)
+void KdenliveDoc::addClipList(const QList<QUrl> &urls, const QMap<QString, QString> &data)
 {
-    m_clipManager->slotAddClipList(urls, data);
-    //emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
-    setModified(true);
-}
-
-
-void KdenliveDoc::slotAddClipFile(const QUrl &url, const stringMap &data)
-{
-    m_clipManager->slotAddClipFile(url, data);
+    m_clipManager->doAddClipList(urls, data);
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
-    setModified(true);
-}
-
-const QString KdenliveDoc::getFreeClipId()
-{
-    return QString::number(m_clipManager->getFreeClipId());
 }
 
 DocClipBase *KdenliveDoc::getBaseClip(const QString &clipId)
@@ -1709,6 +1716,16 @@ QStringList KdenliveDoc::getExpandedFolders()
     return result;
 }
 
+const QSize KdenliveDoc::getRenderSize()
+{
+    QSize size;
+    if (m_render) {
+	size.setWidth(m_render->frameRenderWidth());
+	size.setHeight(m_render->renderHeight());
+    }
+    qDebug()<<"/ / /PROXY SIZE: "<<size;
+    return size;
+}
 // static
 double KdenliveDoc::getDisplayRatio(const QString &path)
 {
@@ -1860,5 +1877,63 @@ void KdenliveDoc::setMetadata(const QMap<QString, QString> &meta)
     m_documentMetadata = meta;
 }
 
+void KdenliveDoc::slotProxyCurrentItem(bool doProxy)
+{
+    QList<ProjectClip *> clipList = pCore->bin()->selectedClips();
+    QUndoCommand *command = new QUndoCommand();
+    if (doProxy) command->setText(i18np("Add proxy clip", "Add proxy clips", clipList.count()));
+    else command->setText(i18np("Remove proxy clip", "Remove proxy clips", clipList.count()));
 
+    // Make sure the proxy folder exists
+    QString proxydir = projectFolder().path() + QDir::separator() + "proxy/";
+    QDir dir(projectFolder().path());
+    dir.mkdir("proxy");
+
+    QMap <QString, QString> newProps;
+    QMap <QString, QString> oldProps;
+    if (!doProxy) newProps.insert("proxy", "-");
+    for (int i = 0; i < clipList.count(); ++i) {
+        ProjectClip *item = clipList.at(i);
+        ClipType t = item->clipType();
+        if ((t == Video || t == AV || t == Unknown || t == Image || t == Playlist) && item->hasProducer()) {
+	    if ((doProxy && item->hasProxy()) || (!doProxy && !item->hasProxy() && pCore->binController()->hasClip(item->clipId()))) continue;
+            if (m_render->isProcessing(item->clipId())) {
+                //qDebug()<<"//// TRYING TO PROXY: "<<item->clipId()<<", but it is busy";
+                continue;
+            }
+
+            //oldProps = clip->properties();
+            if (doProxy) {
+                newProps.clear();
+                QString path = proxydir + item->hash() + '.' + (t == Image ? "png" : getDocumentProperty("proxyextension"));
+                // insert required duration for proxy
+                newProps.insert("proxy_out", item->getProducerProperty("out"));
+                newProps.insert("proxy", path);
+                // We need to insert empty proxy so that undo will work
+                //oldProps.insert("proxy", QString());
+            }
+            else if (!pCore->binController()->hasClip(item->clipId())) {
+                // Force clip reload
+                newProps.insert("resource", item->url().toLocalFile());
+            }
+            // We need to insert empty proxy so that undo will work
+            //TODO: how to handle clip properties
+            //oldProps = clip->currentProperties(newProps);
+            if (doProxy) oldProps.insert("proxy", "-");
+            new EditClipCommand(this, item->clipId(), oldProps, newProps, true, command);
+        }
+    }
+    if (command->childCount() > 0) {
+        m_commandStack->push(command);
+    }
+    else delete command;
+}
+
+void KdenliveDoc::slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties)
+{
+    ProjectClip *item = pCore->bin()->getBinClip(id);
+    if (item) {
+	item->setProperties(properties);
+    }
+}
 

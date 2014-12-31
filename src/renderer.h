@@ -204,7 +204,7 @@ class Render: public AbstractRender
      * Playlist manipulation.
      */
     Mlt::Producer *checkSlowMotionProducer(Mlt::Producer *prod, QDomElement element);
-    int mltInsertClip(ItemInfo info, QDomElement element, const QString &clipId, bool overwrite = false, bool push = false);
+    int mltInsertClip(ItemInfo info, const QString &clipId, bool overwrite = false, bool push = false);
     bool mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement element, Mlt::Producer *prod);
     bool mltCutClip(int track, const GenTime &position);
     void mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset);
@@ -296,8 +296,6 @@ class Render: public AbstractRender
 
     /** @brief Returns the number of clips to process (When requesting clip info). */
     int processingItems();
-    /** @brief Processing of this clip is over, producer was set on clip, remove from list. */
-    void processingDone(const QString &id);
     /** @brief Force processing of clip with selected id. */
     void forceProcessing(const QString &id);
     /** @brief Are we currently processing clip with selected id. */
@@ -421,6 +419,7 @@ signals:
 
     /** @brief The renderer received a reply to a getFileProperties request. */
     void replyGetFileProperties(requestClipInfo &, Mlt::Producer &, const stringMap &, const stringMap &);
+    void gotFileProperties(const QString&, bool, Mlt::Producer *);
 
     /** @brief The renderer received a reply to a getImage request. */
     void replyGetImage(const QString &, const QString &, int, int);
@@ -459,7 +458,7 @@ signals:
      * Used in Mac OS X. */
     void showImageSignal(QImage);
     void showAudioSignal(const QVector<double> &);
-    void addClip(const QUrl &, stringMap);
+    void addClip(const QUrl &, const QMap<QString,QString>&);
     void checkSeeking();
     /** @brief Activate current monitor. */
     void activateMonitor(Kdenlive::MonitorId);
@@ -484,6 +483,8 @@ public slots:
     void seekToFrame(int pos);
     /** @brief Starts a timer to query for a refresh. */
     void doRefresh();
+    /** @brief Processing of this clip is over, producer was set on clip, remove from list. */
+    void slotProcessingDone(const QString &id);
 };
 
 #endif

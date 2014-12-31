@@ -71,7 +71,7 @@ public:
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
     void moveTransition(const ItemInfo &start, const ItemInfo &end, bool refresh);
     void resizeClip(const ItemInfo &start, const ItemInfo &end, bool dontWorry = false);
-    void addClip(QDomElement xml, const QString &clipId, ItemInfo info, EffectsList list = EffectsList(), bool overwrite = false, bool push = false, bool refresh = true);
+    void addClip(const QString &clipId, ItemInfo info, EffectsList list = EffectsList(), bool overwrite = false, bool push = false, bool refresh = true);
     void deleteClip(ItemInfo info, bool refresh = true);
     void slotDeleteClipMarker(const QString &comment, const QString &id, const GenTime &position);
     void slotDeleteAllClipMarkers(const QString &id);

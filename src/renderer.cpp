@@ -30,6 +30,7 @@
 #include "project/dialogs/slideshowclip.h"
 #include "dialogs/profilesdialog.h"
 #include "mltcontroller/bincontroller.h"
+#include "bin/projectclip.h"
 
 #include <mlt++/Mlt.h>
 
@@ -595,7 +596,7 @@ int Render::processingItems()
     return count;
 }
 
-void Render::processingDone(const QString &id)
+void Render::slotProcessingDone(const QString &id)
 {
     QMutexLocker lock(&m_infoMutex);
     m_processingClipId.removeAll(id);
@@ -632,12 +633,14 @@ void Render::processFileProperties()
                 // proxy is missing, re-create it
                 emit requestProxy(info.clipId);
                 proxyProducer = false;
-                path = info.xml.attribute("resource");
+                //path = info.xml.attribute("resource");
+		path = ProjectClip::getXmlProperty(info.xml, "resource");
             }
             else proxyProducer = true;
         }
         else {
-            path = info.xml.attribute("resource");
+	    path = ProjectClip::getXmlProperty(info.xml, "resource");
+            //path = info.xml.attribute("resource");
             proxyProducer = false;
         }
         QUrl url = QUrl::fromLocalFile(path);
@@ -646,7 +649,7 @@ void Render::processFileProperties()
         if (type == Color) {
             producer = new Mlt::Producer(*m_mltProfile, 0, ("colour:" + info.xml.attribute("colour")).toUtf8().constData());
         } else if (type == Text) {
-            producer = new Mlt::Producer(*m_mltProfile, 0, ("kdenlivetitle:" + info.xml.attribute("resource")).toUtf8().constData());
+            producer = new Mlt::Producer(*m_mltProfile, 0, ("kdenlivetitle:" + path).toUtf8().constData());
             if (producer && producer->is_valid() && info.xml.hasAttribute("xmldata"))
                 producer->set("xmldata", info.xml.attribute("xmldata").toUtf8().constData());
         } else if (!url.isValid()) {
@@ -680,12 +683,14 @@ void Render::processFileProperties()
             delete producer;
             continue;
         }
+        else qDebug()<<"/ // CORRECTLY CREATED PRODUCER: "<<path;
 
         if (proxyProducer && info.xml.hasAttribute("proxy_out")) {
             producer->set("length", info.xml.attribute("proxy_out").toInt() + 1);
             producer->set("out", info.xml.attribute("proxy_out").toInt());
             if (producer->get_out() != info.xml.attribute("proxy_out").toInt()) {
                 // Proxy file length is different than original clip length, this will corrupt project so disable this proxy clip
+                qDebug()<<"/ // PROXY LENGTH MISMATCH, DELETE PRODUCER";
                 m_processingClipId.removeAll(info.clipId);
                 emit removeInvalidProxy(info.clipId, true);
                 delete producer;
@@ -791,8 +796,9 @@ void Render::processFileProperties()
             }
             // replace clip
             m_binController->removeBinClip(info.clipId);
-	    m_binController->addClipToBin(*producer);
-            emit replyGetFileProperties(info, *producer, stringMap(), stringMap());
+	    m_binController->addClipToBin(info.clipId, *producer);
+	    emit gotFileProperties(info.clipId, info.replaceProducer, producer);
+            //emit replyGetFileProperties(info, *producer, stringMap(), stringMap());
             continue;
         }
 
@@ -1018,8 +1024,9 @@ void Render::processFileProperties()
                 metadataPropertyMap[ name.section('.', 0, -2)] = value;
         }
         producer->seek(0);
-	m_binController->addClipToBin(*producer);
-        emit replyGetFileProperties(info, *producer, filePropertyMap, metadataPropertyMap);
+	m_binController->addClipToBin(info.clipId, *producer);
+	emit gotFileProperties(info.clipId, info.replaceProducer, producer);
+        //emit replyGetFileProperties(info, *producer, filePropertyMap, metadataPropertyMap);
     }
 }
 
@@ -1258,7 +1265,7 @@ int Render::setSceneList(QString playlist, int position)
     m_locale.setNumberOptions(QLocale::OmitGroupSeparator);
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
     if (!m_mltProducer || !m_mltProducer->is_valid()) {
-        //qDebug() << " WARNING - - - - -INVALID PLAYLIST: " << playlist.toUtf8().constData();
+        qDebug() << " WARNING - - - - -INVALID PLAYLIST: " << playlist.toUtf8().constData();
         m_mltProducer = m_blackClip->cut(0, 1);
         error = -1;
     }
@@ -1279,26 +1286,45 @@ int Render::setSceneList(QString playlist, int position)
     if (service.type() != tractor_type) {
         qWarning() << "// TRACTOR PROBLEM";
     }
+    blockSignals(false);
     Mlt::Tractor tractor(service);
     Mlt::Properties retainList((mlt_properties) tractor.get_data("xml_retain"));
     if (retainList.is_valid() && retainList.get_data(m_binController->id().toUtf8().constData())) {
         Mlt::Playlist playlist((mlt_playlist) retainList.get_data(m_binController->id().toUtf8().constData()));
-        if (playlist.is_valid() && playlist.type() == playlist_type)
+        if (playlist.is_valid() && playlist.type() == playlist_type) {
+            // Load bin clips
 	    m_binController->initializeBin(playlist);
+        }
     }
     // No Playlist found, create new one
     m_binController->createIfNeeded();
     QString retain = QString("xml_retain %1").arg(m_binController->id());
     tractor.set(retain.toUtf8().constData(), m_binController->service(), 0);
 
-    m_binController->addClipToBin(*m_blackClip);
+    if (!m_binController->hasClip("black")) m_binController->addClipToBin("black", *m_blackClip);
 
     //qDebug() << "// NEW SCENE LIST DURATION SET TO: " << m_mltProducer->get_playtime();
     m_mltConsumer->connect(*m_mltProducer);
     m_mltProducer->set_speed(0);
     fillSlowMotionProducers();
-    blockSignals(false);
     emit durationChanged(m_mltProducer->get_playtime());
+
+    // Fill bin
+    int size = m_binController->clipCount();
+    for (int i = 0; i < size; i++) {
+        Mlt::Producer *original = m_binController->getOriginalProducerAtIndex(i);
+        if (!original->is_valid()) continue;
+        QString id = original->parent().get("id");
+        if (id == "black") {
+            //TODO: delegate handling of black clip to bincontroller
+            delete m_blackClip;
+            m_blackClip = &original->parent();
+        }
+        else {
+            emit gotFileProperties(id, true, &original->parent());
+        }
+        //delete original;
+    }
 
     return error;
     ////qDebug()<<"// SETSCN LST, POS: "<<position;
@@ -1915,7 +1941,7 @@ Mlt::Producer *Render::checkSlowMotionProducer(Mlt::Producer *prod, QDomElement 
     return slowprod;
 }
 
-int Render::mltInsertClip(ItemInfo info, QDomElement element, const QString &clipId, bool overwrite, bool push)
+int Render::mltInsertClip(ItemInfo info, const QString &clipId, bool overwrite, bool push)
 {
     m_refreshTimer.stop();
     if (m_mltProducer == NULL) {
@@ -1947,15 +1973,17 @@ int Render::mltInsertClip(ItemInfo info, QDomElement element, const QString &cli
     Mlt::Producer *prod = getProducerForTrack(trackPlaylist, clipId, info.track);
     if (prod == NULL) {
         //qDebug() << "Cannot insert clip without producer //////";
+	service.unlock();
         return -1;
     }
     
     ////qDebug()<<"/// INSERT cLIP: "<<info.cropStart.frames(m_fps)<<", "<<info.startPos.frames(m_fps)<<"-"<<info.endPos.frames(m_fps);
-    prod = checkSlowMotionProducer(prod, element);
+    //TODO: create new producer if speed effect is applied
+    /*prod = checkSlowMotionProducer(prod, element);
     if (prod == NULL || !prod->is_valid()) {
         service.unlock();
         return -1;
-    }
+    }*/
 
     int cutPos = (int) info.cropStart.frames(m_fps);
     if (cutPos < 0) cutPos = 0;

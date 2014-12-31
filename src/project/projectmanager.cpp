@@ -10,6 +10,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "projectmanager.h"
 #include "core.h"
+#include "clipmanager.h"
+#include "bin/bin.h"
 #include "mainwindow.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitormanager.h"
@@ -139,6 +141,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     QByteArray hash = QCryptographicHash::hash(startFile.toEncoded(), QCryptographicHash::Md5).toHex();
     doc->m_autosave = new KAutoSaveFile(QUrl(hash), doc);
     bool ok;
+    pCore->bin()->setDocument(doc);
     m_trackView = new TrackView(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
     pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme("kdenlive"), doc->description());
     m_project = doc;
@@ -519,6 +522,21 @@ void ProjectManager::slotOpenBackup(const QUrl& url)
 TrackView* ProjectManager::currentTrackView()
 {
     return m_trackView;
+}
+
+//TODO: re-add folder deletion
+void ProjectManager::deleteProjectClips(QStringList ids)
+{
+    if (pCore->projectManager()->currentTrackView()) {
+        if (!ids.isEmpty()) {
+            for (int i = 0; i < ids.size(); ++i) {
+                pCore->projectManager()->currentTrackView()->slotDeleteClip(ids.at(i));
+            }
+            pCore->projectManager()->current()->clipManager()->slotDeleteClips(ids);
+        }
+        //if (!folderids.isEmpty()) m_projectList->deleteProjectFolder(folderids);
+        pCore->projectManager()->current()->setModified(true);
+    }
 }
 
 KRecentFilesAction* ProjectManager::recentFilesAction()

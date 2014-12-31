@@ -27,6 +27,7 @@
 #include "kdenlivesettings.h"
 #include "doc/kthumb.h"
 #include "doc/docclipbase.h"
+#include "bin/projectclip.h"
 #include "dialogs/profilesdialog.h"
 #include "onmonitoritems/rotoscoping/rotowidget.h"
 
@@ -115,6 +116,86 @@ ClipItem::ClipItem(DocClipBase *clip, const ItemInfo& info, double fps, double s
     } else if (m_clipType == Audio) {
         m_baseColor = QColor(141, 215, 166);
         connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
+    }
+    m_paintColor = m_baseColor;
+}
+
+ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double speed, int strobe, int frame_width, bool generateThumbs) :
+    AbstractClipItem(info, QRectF(), fps),
+    m_binClip(clip),
+    m_startFade(0),
+    m_endFade(0),
+    m_audioOnly(false),
+    m_videoOnly(false),
+    m_startPix(QPixmap()),
+    m_endPix(QPixmap()),
+    m_hasThumbs(false),
+    m_selectedEffect(-1),
+    m_timeLine(0),
+    m_startThumbRequested(false),
+    m_endThumbRequested(false),
+    //m_hover(false),
+    m_speed(speed),
+    m_strobe(strobe),
+    m_framePixelWidth(0),
+    m_limitedKeyFrames(false)
+{
+    setZValue(2);
+    m_effectList = EffectsList(true);
+    FRAME_SIZE = frame_width;
+    setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (double) itemHeight());
+    setPos(info.startPos.frames(fps), (double)(info.track * KdenliveSettings::trackheight()) + 1 + itemOffset());
+
+    // set speed independent info
+    if (m_speed <= 0 && m_speed > -1)
+        m_speed = -1.0;
+    m_speedIndependantInfo = m_info;
+    m_speedIndependantInfo.cropStart = GenTime((int)(m_info.cropStart.frames(m_fps) * qAbs(m_speed)), m_fps);
+    m_speedIndependantInfo.cropDuration = GenTime((int)(m_info.cropDuration.frames(m_fps) * qAbs(m_speed)), m_fps);
+
+    m_videoPix = QIcon::fromTheme("kdenlive-show-video").pixmap(QSize(16, 16));
+    m_audioPix = QIcon::fromTheme("kdenlive-show-audio").pixmap(QSize(16, 16));
+
+    if (m_speed == 1.0)
+        m_clipName = m_binClip->name();
+    else
+        m_clipName = m_binClip->name() + " - " + QString::number(m_speed * 100, 'f', 0) + '%';
+
+    m_producer = m_binClip->clipId();
+    m_clipType = m_binClip->clipType();
+    //m_cropStart = info.cropStart;
+    m_maxDuration = GenTime(m_binClip->duration(), fps);
+    setAcceptDrops(true);
+    //TODO:
+    m_audioThumbReady = false; //m_clip->audioThumbCreated();
+    //setAcceptsHoverEvents(true);
+    connect(this , SIGNAL(prepareAudioThumb(double,int,int,int,int)) , this, SLOT(slotPrepareAudioThumb(double,int,int,int,int)));
+
+    if (m_clipType == Video || m_clipType == AV || m_clipType == SlideShow || m_clipType == Playlist) {
+        m_baseColor = QColor(141, 166, 215);
+	//TODO:
+        if (false && !m_clip->isPlaceHolder()) {
+            m_hasThumbs = true;
+            m_startThumbTimer.setSingleShot(true);
+            /*connect(&m_startThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetStartThumb()));
+            m_endThumbTimer.setSingleShot(true);
+            connect(&m_endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
+            connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
+            connect(m_clip->thumbProducer(), SIGNAL(thumbsCached()), this, SLOT(slotGotThumbsCache()));
+            connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
+            if (generateThumbs) QTimer::singleShot(200, this, SLOT(slotFetchThumbs()));*/
+        }
+
+    } else if (m_clipType == Color) {
+        QString colour = m_clip->getProperty("colour");
+        colour = colour.replace(0, 2, "#");
+        m_baseColor = QColor(colour.left(7));
+    } else if (m_clipType == Image || m_clipType == Text) {
+        m_baseColor = QColor(141, 166, 215);
+        //connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
+    } else if (m_clipType == Audio) {
+        m_baseColor = QColor(141, 215, 166);
+        //connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
     }
     m_paintColor = m_baseColor;
 }
@@ -833,7 +914,8 @@ void ClipItem::paint(QPainter *painter,
         }
 
         // if we are in full zoom, paint thumbnail for every frame
-        if (m_clip->thumbProducer() && clipType() != Color && clipType() != Audio && !m_audioOnly && transformation.m11() == FRAME_SIZE) {
+        //TODO
+        if (false && m_clip->thumbProducer() && clipType() != Color && clipType() != Audio && !m_audioOnly && transformation.m11() == FRAME_SIZE) {
             int offset = (m_info.startPos - m_info.cropStart).frames(m_fps);
             int left = qMax((int) m_info.cropStart.frames(m_fps) + 1, (int) mapToScene(exposed.left(), 0).x() - offset);
             int right = qMin((int)(m_info.cropStart + m_info.cropDuration).frames(m_fps) - 1, (int) mapToScene(exposed.right(), 0).x() - offset);
@@ -952,7 +1034,8 @@ void ClipItem::paint(QPainter *painter,
 
 
         // draw markers
-        if (isEnabled() && m_clip) {
+	//TODO:
+        if (false && isEnabled() && m_clip) {
             QList < CommentedTime > markers = m_clip->commentedSnapMarkers();
             QList < CommentedTime >::Iterator it = markers.begin();
             GenTime pos;
@@ -1034,6 +1117,11 @@ void ClipItem::paint(QPainter *painter,
     framePen.setWidthF(1.5);
     painter->setPen(framePen);
     painter->drawRoundedRect(mapped.adjusted(0.5, 0, -0.5, 0), 3, 3);
+}
+
+const QString &ClipItem::getBinId() const
+{
+    return m_binClip->clipId();
 }
 
 

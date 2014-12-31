@@ -20,6 +20,7 @@
 
 #include "projectcommands.h"
 #include "projectlist.h"
+#include "doc/kdenlivedoc.h"
 
 #include <klocalizedstring.h>
 
@@ -81,9 +82,9 @@ void AddFolderCommand::redo()
         m_view->slotAddFolder(m_name, m_id, true);
 }
 
-EditClipCommand::EditClipCommand(ProjectList *list, const QString &id, const QMap <QString, QString> &oldparams, const QMap <QString, QString> &newparams, bool doIt, QUndoCommand * parent) :
+EditClipCommand::EditClipCommand(KdenliveDoc *doc, const QString &id, const QMap <QString, QString> &oldparams, const QMap <QString, QString> &newparams, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
-        m_list(list),
+        m_doc(doc),
         m_oldparams(oldparams),
         m_newparams(newparams),
         m_id(id),
@@ -94,13 +95,13 @@ EditClipCommand::EditClipCommand(ProjectList *list, const QString &id, const QMa
 // virtual
 void EditClipCommand::undo()
 {
-    m_list->slotUpdateClipProperties(m_id, m_oldparams);
+    m_doc->slotUpdateClipProperties(m_id, m_oldparams);
 }
 // virtual
 void EditClipCommand::redo()
 {
     if (m_doIt)
-        m_list->slotUpdateClipProperties(m_id, m_newparams);
+        m_doc->slotUpdateClipProperties(m_id, m_newparams);
     m_doIt = true;
 }
 

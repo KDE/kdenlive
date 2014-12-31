@@ -23,6 +23,9 @@ class ProjectList;
  * @brief Handles the clip properties dialog.
  */
 
+//TODO:
+// Port to use KdenliveDoc instead of ProjectList
+
 class ClipPropertiesManager : public QObject
 {
     Q_OBJECT

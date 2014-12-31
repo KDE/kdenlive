@@ -174,6 +174,7 @@ public slots:
     void slotOpenFile(const QString &);
     void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
     void updateClipProducer(Mlt::Producer *prod);
+    void open(Mlt::Producer *prod);
     void refreshMonitor(bool visible);
     void refreshMonitor();
     void slotSeek(int pos);

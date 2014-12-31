@@ -188,7 +188,7 @@ void ProjectItem::slotSetToolTip()
     if (!jobInfo.isEmpty()) {
         tip.append(jobInfo + " | ");
     }
-    if (hasProxy() && data(0, JobTypeRole).toInt() != PROXYJOB) {
+    if (hasProxy() && data(0, JobTypeRole).toInt() != AbstractClipJob::PROXYJOB) {
         tip.append(i18n("Proxy clip") + " | ");
     }
     tip.append(m_clip->shortInfo());
@@ -247,19 +247,8 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     }
 }
 
-void ProjectItem::setJobStatus(JOBTYPE jobType, ClipJobStatus status, int progress, const QString &statusMessage)
-{
-    setData(0, JobTypeRole, jobType);
-    if (progress > 0) setData(0, JobProgressRole, qMin(100, progress));
-    else {
-        setData(0, JobProgressRole, status);
-        if ((status == JobAborted || status == JobCrashed  || status == JobDone) || !statusMessage.isEmpty())
-            setData(0, JobStatusMessage, statusMessage);
-        slotSetToolTip();
-    }
-}
 
-void ProjectItem::setConditionalJobStatus(ClipJobStatus status, JOBTYPE requestedJobType)
+void ProjectItem::setConditionalJobStatus(ClipJobStatus status, AbstractClipJob::JOBTYPE requestedJobType)
 {
     if (data(0, JobTypeRole).toInt() == requestedJobType) {
         setData(0, JobProgressRole, status);
@@ -285,10 +274,14 @@ bool ProjectItem::isJobRunning() const
     return false;
 }
 
+void ProjectItem::setJobStatus(AbstractClipJob::JOBTYPE jobType, ClipJobStatus status, int progress, const QString &statusMessage)
+{
+}
+
 bool ProjectItem::isProxyRunning() const
 {
     int s = data(0, JobProgressRole).toInt();
-    if ((s == JobWorking || s > 0) && data(0, JobTypeRole).toInt() == (int) PROXYJOB) return true;
+    if ((s == JobWorking || s > 0) && data(0, JobTypeRole).toInt() == (int) AbstractClipJob::PROXYJOB) return true;
     return false;
 }
 

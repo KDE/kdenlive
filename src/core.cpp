@@ -13,6 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/projectmanager.h"
 #include "monitor/monitormanager.h"
 #include "mltcontroller/bincontroller.h"
+#include "bin/bin.h"
 #include <QCoreApplication>
 #include <locale>
 #include <QDebug>
@@ -42,8 +43,8 @@ void Core::initialize(MainWindow* mainWindow)
 void Core::init()
 {
     initLocale();
-
     m_projectManager = new ProjectManager(this);
+    m_binWidget = new Bin();
     m_binController = new BinController();
     m_monitorManager = new MonitorManager(this);
 }
@@ -71,6 +72,11 @@ MonitorManager* Core::monitorManager()
 BinController *Core::binController()
 {
     return m_binController;
+}
+
+Bin *Core::bin()
+{
+    return m_binWidget;
 }
 
 void Core::initLocale()

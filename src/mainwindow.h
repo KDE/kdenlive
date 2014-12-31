@@ -40,6 +40,7 @@
 #include "kdenlivecore_export.h"
 #include "effectslist/effectslist.h"
 #include "gentime.h"
+#include "bin/bin.h"
 #include "definitions.h"
 #include "statusbarmessagelabel.h"
 #include "dvdwizard/dvdwizard.h"
@@ -149,6 +150,7 @@ private:
     
     KActionMenu *m_themesMenu;
 
+    QDockWidget *m_projectBinDock;
     QDockWidget *m_projectListDock;
 
     QDockWidget *m_effectListDock;
@@ -216,6 +218,7 @@ private:
     QAction *m_loopZone;
     QAction *m_playZone;
     QAction *m_loopClip;
+    QAction *m_proxyClip;
     QActionGroup *m_clipTypeGroup;
     KActionCollection *m_effectsActionCollection;
 
@@ -417,10 +420,6 @@ private slots:
     void slotInsertZoneToTree();
     void slotInsertZoneToTimeline();
 
-    /** @brief Deletes items from timeline and document.
-    * @param ids The ids of the clips to delete.
-    * @param folderids The names and ids of the folders to delete. */
-    void slotDeleteProjectClips(const QStringList &ids, const QMap<QString, QString> &folderids);
     /** @brief Update the capture folder if user asked a change. */
     void slotUpdateCaptureFolder();
 

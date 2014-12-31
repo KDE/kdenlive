@@ -18,6 +18,7 @@ class MainWindow;
 class ProjectManager;
 class MonitorManager;
 class BinController;
+class Bin;
 
 #define pCore Core::self()
 
@@ -56,6 +57,8 @@ public:
     /** @brief Returns a pointer to the project bin controller. */
     BinController *binController();
     
+    Bin *bin();
+    
 private:
     Core(MainWindow *mainWindow);
     static Core *m_self;
@@ -68,6 +71,7 @@ private:
     ProjectManager *m_projectManager;
     MonitorManager *m_monitorManager;
     BinController *m_binController;
+    Bin *m_binWidget;
 };
 
 #endif

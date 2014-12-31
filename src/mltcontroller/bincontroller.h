@@ -60,9 +60,10 @@ public:
     mlt_service service();
     
     /** @brief Add a new clip producer to the project.
+     * @param id The clip's id
      * @param producer The MLT producer for this clip
      * */
-    void addClipToBin(Mlt::Producer &producer);
+    void addClipToBin(const QString &id, Mlt::Producer &producer);
     
     /** @brief Returns the name MLT will use to store our bin's playlist */
     static const QString id();
@@ -112,6 +113,14 @@ public:
      * @param producer The clip's original producer
      */
     QString getProducerXML(Mlt::Producer &producer);
+    
+    /** @brief Returns the clip data as rendered by MLT's XML consumer
+     * @param id The clip's original id
+     * @returns An XML element containing the clip xml
+     */
+    QString xmlFromId(const QString & id);
+    int clipCount() const;
+    Mlt::Producer *getOriginalProducerAtIndex(int ix);
 
 private:
     /** @brief The MLT playlist holding our Producers */
@@ -129,6 +138,9 @@ private:
     
     /** @brief Can be used to copy filters from a clip to another */
     void duplicateFilters(Mlt::Producer original, Mlt::Producer clone);
+    
+    /** @brief Rebuild the indexes */
+    void rebuildIndex();
 };
 
 #endif

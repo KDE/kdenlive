@@ -20,4 +20,5 @@ set(kdenlive_SRCS
   project/jobs/proxyclipjob.cpp
   project/jobs/cutclipjob.cpp
   project/jobs/meltjob.cpp
+  project/jobs/jobmanager.cpp
   PARENT_SCOPE)

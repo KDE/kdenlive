@@ -35,6 +35,7 @@
 
 class DocClipBase;
 class Transition;
+class ProjectClip;
 
 namespace Mlt
 {
@@ -46,7 +47,8 @@ class ClipItem : public AbstractClipItem
     Q_OBJECT
 
 public:
-    ClipItem(DocClipBase *clip, const ItemInfo &info, double fps, double speed, int strobe, int frame_width, bool generateThumbs = true);
+    Q_DECL_DEPRECATED ClipItem(DocClipBase *clip, const ItemInfo &info, double fps, double speed, int strobe, int frame_width, bool generateThumbs = true);
+    ClipItem(ProjectClip *clip, const ItemInfo &info, double fps, double speed, int strobe, int frame_width, bool generateThumbs = true);
     virtual ~ ClipItem();
     virtual void paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
@@ -58,6 +60,7 @@ public:
     static int itemHeight();
     const QString clipProducer() const;
     int clipType() const;
+    const QString &getBinId() const;
     DocClipBase *baseClip() const;
     QString clipName() const;
     void setClipName(const QString &name);
@@ -206,6 +209,7 @@ protected:
 
 private:
     DocClipBase *m_clip;
+    ProjectClip *m_binClip;
     ItemInfo m_speedIndependantInfo;
     QString m_producer;
     ClipType m_clipType;

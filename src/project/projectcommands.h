@@ -25,6 +25,7 @@
 #include <QMap>
 #include <QPoint>
 class ProjectList;
+class KdenliveDoc;
 
 class AddClipCutCommand : public QUndoCommand
 {
@@ -58,18 +59,17 @@ private:
 class EditClipCommand : public QUndoCommand
 {
 public:
-    EditClipCommand(ProjectList *list, const QString &id, const QMap <QString, QString> &oldparams, const QMap <QString, QString> &newparams, bool doIt, QUndoCommand * parent = 0);
+    EditClipCommand(KdenliveDoc *doc, const QString &id, const QMap <QString, QString> &oldparams, const QMap <QString, QString> &newparams, bool doIt, QUndoCommand * parent = 0);
     void undo();
     void redo();
 private:
-    ProjectList *m_list;
+    KdenliveDoc *m_doc;
     QMap <QString, QString> m_oldparams;
     QMap <QString, QString> m_newparams;
     QString m_id;
     bool m_doIt;
 };
 
-class ProjectList;
 
 class EditClipCutCommand : public QUndoCommand
 {

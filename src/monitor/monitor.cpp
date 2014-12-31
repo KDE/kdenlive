@@ -880,6 +880,12 @@ void Monitor::updateClipProducer(Mlt::Producer *prod)
     render->setProducer(prod, render->seekFramePosition());
 }
 
+void Monitor::open(Mlt::Producer *prod)
+{
+    if (render == NULL) return;
+    render->setProducer(prod, -1);
+}
+
 void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpdate, int position)
 {
     if (render == NULL) return;

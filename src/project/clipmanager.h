@@ -77,19 +77,23 @@ Q_OBJECT public:
     // Set producer on a DocClipBase and insert it in the bin's playlist
     void setClipProducer(DocClipBase *clip, Mlt::Producer *producer, bool replace);
 
-    /** @brief Add a file to the project.
-     * @ref slotAddClipList
-     * @param url file to add
-     * @param group name of the group to insert the file in (can be empty)
-     * @param groupId id of the group (if any) */
-    void slotAddClipFile(const QUrl &url, const QMap<QString, QString> &data);
-
     /** @brief Adds a list of files to the project.
      * @param urls files to add
      * @param group name of the group to insert the files in (can be empty)
      * @param groupId id of the group (if any)
      * It checks for duplicated items and asks to the user for instructions. */
-    void slotAddClipList(const QList<QUrl> &urls, const QMap<QString, QString> &data);
+    void doAddClipList(const QList<QUrl> &urls, const QMap<QString, QString> &data = QMap<QString, QString>());
+    
+    /** @brief Build a ProjectClip item
+     * @param xml description of the clip
+     * @param clipId The id we want to set on this clip */
+    void addProjectClip(QDomElement xml, const QString &clipId);
+    
+    void deleteProjectClip(const QString &clipId);
+
+    void slotAddClip(const QString &url, const QString &groupName, const QString &groupId);
+    void slotAddClipList(const QList <QUrl> &givenList, const QString &groupName, const QString &groupId);
+
     void slotAddTextClipFile(const QString &titleName, int out, const QString &xml, const QString &group, const QString &groupId);
     void slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId);
     void slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
@@ -102,7 +106,6 @@ Q_OBJECT public:
     void checkAudioThumbs();
     QList <DocClipBase*> documentClipList() const;
     QMap <QString, QString> documentFolderList() const;
-    int getFreeClipId();
     int getFreeFolderId();
     int lastClipId() const;
     void askForAudioThumb(const QString &id);
@@ -125,6 +128,13 @@ Q_OBJECT public:
 public slots:
     /** @brief Request creation of a clip thumbnail for specified frames. */
     void slotRequestThumbs(const QString &id, const QList<int> &frames);
+
+    /** @brief Add a file to the project.
+     * @ref slotAddClipList
+     * @param url file to add
+     * @param group name of the group to insert the file in (can be empty)
+     * @param groupId id of the group (if any) */
+    void slotAddClipFile(const QUrl &url, const QMap<QString, QString> &data);
     
 private slots:
     /** A clip was externally modified, monitor for more changes and prepare for reload */
@@ -136,7 +146,7 @@ private slots:
     void slotGetThumbs();
     void slotGetAudioThumbs();
     /** @brief Clip has been copied, add it now. */
-    void slotAddClip(KIO::Job *job, const QUrl &, const QUrl &dst);
+    void slotAddCopiedClip(KIO::Job *job, const QUrl &, const QUrl &dst);
 
 private:   // Private attributes
     /** the list of clips in the document */
@@ -147,7 +157,6 @@ private:   // Private attributes
     QList <QString> m_audioThumbsQueue;
     /** the document undo stack*/
     KdenliveDoc *m_doc;
-    int m_clipIdCounter;
     int m_folderIdCounter;
     KDirWatch m_fileWatcher;
     /** Timer used to reload clips when they have been externally modified */
@@ -173,7 +182,7 @@ private:   // Private attributes
     QList<SolidVolumeInfo> m_removableVolumes;
 
     QPoint m_projectTreeThumbSize;
-    
+
     /** @brief Get a list of drives, to check if we have files on removable media. */
     void listRemovableVolumes();
     /** @brief Check if added file is on a removable drive. */

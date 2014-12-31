@@ -1,0 +1,10 @@
+set(kdenlive_SRCS
+  ${kdenlive_SRCS}
+  bin/bin.cpp
+  bin/projectitemmodel.cpp
+  bin/abstractprojectitem.cpp
+  bin/projectclip.cpp
+  bin/projectfolder.cpp
+  bin/projectsortproxymodel.cpp
+  PARENT_SCOPE
+)

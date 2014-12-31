@@ -80,6 +80,7 @@ void BinController::initializeBin(Mlt::Playlist playlist)
 {
     m_binPlaylist = new Mlt::Playlist(playlist);
     m_binPlaylist->set("id", kPlaylistTrackId);
+    rebuildIndex();
 }
 
 void BinController::createIfNeeded()
@@ -100,14 +101,30 @@ mlt_service BinController::service()
     return m_binPlaylist->get_service();
 }
 
-void BinController::addClipToBin(Mlt::Producer &producer)
+int BinController::clipCount() const
+{
+    return m_binIdList.size();
+}
+
+Mlt::Producer *BinController::getOriginalProducerAtIndex(int ix)
+{
+    if (ix < 0 || ix > m_binIdList.size()) return NULL;
+    return m_binPlaylist->get_clip(ix);
+}
+
+void BinController::addClipToBin(const QString &id, Mlt::Producer &producer)
 {
     /** Test: we can use filters on clips in the bin this way
     Mlt::Filter f(*m_mltProfile, "sepia");
     producer.attach(f);
     */
+    if (m_binIdList.contains(id)) {
+        // we are replacing a producer
+        //TODO: replace it in timeline
+        removeBinClip(id);
+    }
     m_binPlaylist->append(producer);
-    m_binIdList.append(QString::fromUtf8(producer.parent().get("id")));
+    m_binIdList.append(id);
 }
 
 bool BinController::hasClip(const QString &id)
@@ -137,15 +154,21 @@ bool BinController::removeBinClip(const QString &id)
     if (index > 0 && index < m_binPlaylist->count()) {
 	error = m_binPlaylist->remove(index);
     }
+    rebuildIndex();
+    return !error;
+}
+
+void BinController::rebuildIndex()
+{
     // Rebuild bin index
     m_binIdList.clear();
+    Mlt::Producer *producer;
     for (int ix = 0;ix < m_binPlaylist->count(); ix++) {
-	producer = m_binPlaylist->get_clip(ix);
-	if (!producer) continue;
-	m_binIdList.append(QString::fromUtf8(producer->parent().get("id")));
-	delete producer;
+        producer = m_binPlaylist->get_clip(ix);
+        if (!producer) continue;
+        m_binIdList.append(QString::fromUtf8(producer->parent().get("id")));
+        delete producer;
     }
-    return !error;
 }
 
 Mlt::Producer *BinController::getBinClip(const QString &id, int track, int clipState, double speed)
@@ -206,6 +229,23 @@ void BinController::duplicateFilters(Mlt::Producer original, Mlt::Producer clone
         ct++;
         filter = clipService.filter(ct);
     }
+}
+
+QString BinController::xmlFromId(const QString & id)
+{
+    int index = m_binIdList.indexOf(id);
+    Mlt::Producer *original = m_binPlaylist->get_clip(index);
+    if (original == NULL) return QString();
+    QString xml = getProducerXML(original->parent());
+    delete original;
+    QDomDocument mltData;
+    mltData.setContent(xml);
+    QDomElement producer = mltData.documentElement().firstChildElement("producer");
+    QString str;
+    QTextStream stream(&str);
+    producer.save(stream, 4);
+    qDebug()<<"PRODUCER XML\n-----------\n"<<str;
+    return str;
 }
 
 QString BinController::getProducerXML(Mlt::Producer &producer)

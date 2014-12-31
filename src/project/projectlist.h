@@ -284,7 +284,7 @@ private:
      * @param status The job status (see definitions.h)
      * @param progress The job progress (in percents)
      * @param statusMessage The job info message */
-    void setJobStatus(ProjectItem *item, JOBTYPE jobType, ClipJobStatus status, int progress = 0, const QString &statusMessage = QString());
+    void setJobStatus(ProjectItem *item, AbstractClipJob::JOBTYPE jobType, ClipJobStatus status, int progress = 0, const QString &statusMessage = QString());
     void monitorItemEditing(bool enable);
     /** @brief Get cached thumbnail for a project's clip or create it if no cache. */
     void getCachedThumbnail(ProjectItem *item);
@@ -292,11 +292,11 @@ private:
     /** @brief The clip is about to be reloaded, cancel thumbnail requests. */
     void resetThumbsProducer(DocClipBase *clip);
     /** @brief Check if a clip has a running or pending job process. */
-    bool hasPendingJob(ProjectItem *item, JOBTYPE type);
+    bool hasPendingJob(ProjectItem *item, AbstractClipJob::JOBTYPE type);
     /** @brief Delete pending jobs for a clip. */
     void deleteJobsForClip(const QString &clipId);
     /** @brief Discard specific job type for a clip. */
-    void discardJobs(const QString &id, JOBTYPE type = NOJOBTYPE);
+    void discardJobs(const QString &id, AbstractClipJob::JOBTYPE type = AbstractClipJob::NOJOBTYPE);
     /** @brief Get the list of job names for current clip. */
     QStringList getPendingJobs(const QString &id);
     /** @brief Start an MLT process job. */

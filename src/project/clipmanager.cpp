@@ -31,7 +31,9 @@
 #include "titler/titledocument.h"
 #include "mltcontroller/bincontroller.h"
 #include "renderer.h"
+#include "dialogs/slideshowclip.h"
 #include "core.h"
+#include "bin/bin.h"
 
 #include <mlt++/Mlt.h>
 
@@ -44,13 +46,17 @@
 #include <solid/storagedrive.h>
 #include <solid/storagevolume.h>
 #include <klocalizedstring.h>
+#include <KJobWidgets/KJobWidgets>
+#include <KRecentDirs>
+#include <KFileItem>
 
 #include <QGraphicsItemGroup>
 #include <QtConcurrent>
 #include <QApplication>
 #include <QMimeType>
-
-#include <KJobWidgets/KJobWidgets>
+#include <QCheckBox>
+#include <QHBoxLayout>
+#include <QFileDialog>
 
 ClipManager::ClipManager(KdenliveDoc *doc) :
     QObject(),
@@ -60,7 +66,6 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
     m_closing(false),
     m_abortAudioThumb(false)
 {
-    m_clipIdCounter = 1;
     m_folderIdCounter = 1;
     m_modifiedTimer.setInterval(1500);
     connect(&m_fileWatcher, &KDirWatch::dirty, this, &ClipManager::slotClipModified);
@@ -108,7 +113,6 @@ void ClipManager::clear()
     m_modifiedClips.clear();
     qDeleteAll(m_clipList);
     m_clipList.clear();
-    m_clipIdCounter = 1;
     m_folderIdCounter = 1;
     pixmapCache->clear();
 }
@@ -399,6 +403,157 @@ void ClipManager::setClipProducer(DocClipBase *clip, Mlt::Producer *producer, bo
     //clip->setProducer(*producer, replace);
 }
 
+void ClipManager::slotAddClip(const QString &url, const QString &groupName, const QString &groupId)
+{
+    //qDebug()<<"// Adding clip: "<<url;
+    QList <QUrl> list = QList <QUrl>();
+    if (!url.isEmpty()) list.append(QUrl::fromLocalFile(url));
+    slotAddClipList(list, groupName, groupId);
+}
+
+void ClipManager::slotAddClipList(const QList <QUrl> &givenList, const QString &groupName, const QString &groupId)
+{
+    if (!m_doc->commandStack())
+        qDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
+
+    QList <QUrl> list;
+    if (givenList.isEmpty()) {
+        QString allExtensions = "*"; //getExtensions().join(" ");
+        const QString dialogFilter =  i18n("All Supported Files") + "(" + allExtensions + ");;" + i18n("All Files") + "(*)";
+        QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
+        b->setChecked(KdenliveSettings::autoimagesequence());
+        QCheckBox *c = new QCheckBox(i18n("Transparent background for images"));
+        c->setChecked(KdenliveSettings::autoimagetransparency());
+        QFrame *f = new QFrame();
+        f->setFrameShape(QFrame::NoFrame);
+        QHBoxLayout *l = new QHBoxLayout;
+        l->addWidget(b);
+        l->addWidget(c);
+        l->addStretch(5);
+        f->setLayout(l);
+        QString clipFolder = KRecentDirs::dir(":KdenliveClipFolder");
+        if (clipFolder.isEmpty()) clipFolder = QDir::homePath();
+        QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), i18n("Open Clips"), clipFolder, dialogFilter);
+        //TODO: KF5, how to add a custom widget to file dialog
+        /*QGridLayout *layout = (QGridLayout*)d->layout();
+        layout->addWidget(f, 0, 0);*/
+        d->setFileMode(QFileDialog::ExistingFiles);
+        if (d->exec() == QDialog::Accepted) {
+            KdenliveSettings::setAutoimagetransparency(c->isChecked());
+            list = d->selectedUrls();
+            if (!list.isEmpty()) {
+                KRecentDirs::add(":KdenliveClipFolder", list.first().adjusted(QUrl::RemoveFilename).path());
+            }
+            if (b->isChecked() && list.count() == 1) {
+                // Check for image sequence
+                QUrl url = list.at(0);
+                QString fileName = url.fileName().section('.', 0, -2);
+                if (fileName.at(fileName.size() - 1).isDigit()) {
+                    KFileItem item(url);
+                    if (item.mimetype().startsWith(QLatin1String("image"))) {
+                        // import as sequence if we found more than one image in the sequence
+                        QStringList list;
+                        QString pattern = SlideshowClip::selectedPath(url, false, QString(), &list);
+                        int count = list.count();
+                        if (count > 1) {
+                            delete d;
+                            QStringList groupInfo; // = getGroup();
+                            groupInfo << QString() << QString();
+                            // get image sequence base name
+                            while (fileName.at(fileName.size() - 1).isDigit()) {
+                                fileName.chop(1);
+                            }
+                            QMap <QString, QString> properties;
+                            properties.insert("name", fileName);
+                            properties.insert("resource", pattern);
+                            properties.insert("in", "0");
+                            QString duration = m_doc->timecode().reformatSeparators(KdenliveSettings::sequence_duration());
+                            properties.insert("out", QString::number(m_doc->getFramePos(duration) * count));
+                            properties.insert("ttl", QString::number(m_doc->getFramePos(duration)));
+                            properties.insert("loop", QString::number(false));
+                            properties.insert("crop", QString::number(false));
+                            properties.insert("fade", QString::number(false));
+                            properties.insert("luma_duration", QString::number(m_doc->getFramePos(m_doc->timecode().getTimecodeFromFrames(int(ceil(m_doc->timecode().fps()))))));
+                            m_doc->slotCreateSlideshowClipFile(properties, groupInfo.at(0), groupInfo.at(1));
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        delete d;
+    } else {
+        for (int i = 0; i < givenList.count(); ++i)
+            list << givenList.at(i);
+    }
+    QList < QList<QUrl> > foldersList;
+    QMimeDatabase db;
+    foreach(const QUrl & file, list) {
+        // Check there is no folder here
+        QMimeType type = db.mimeTypeForUrl(file);
+        if (type.inherits("inode/directory")) {
+            // user dropped a folder, import its files
+            list.removeAll(file);
+            QDir dir(file.path());
+            QStringList result = dir.entryList(QDir::Files);
+            QList <QUrl> folderFiles;
+            folderFiles << file;
+            foreach(const QString & path, result) {
+                folderFiles.append(QUrl::fromLocalFile(dir.absoluteFilePath(path)));
+            }
+            if (folderFiles.count() > 1) foldersList.append(folderFiles);
+        }
+    }
+    if (givenList.isEmpty() && !list.isEmpty()) {
+        QStringList groupInfo; // = getGroup();
+        groupInfo << QString() << QString();
+        QMap <QString, QString> data;
+        data.insert("group", groupInfo.at(0));
+        data.insert("groupId", groupInfo.at(1));
+        doAddClipList(list, data);
+    } else if (!list.isEmpty()) {
+        QMap <QString, QString> data;
+        data.insert("group", groupName);
+        data.insert("groupId", groupId);
+        doAddClipList(list, data);
+    }
+    
+    if (!foldersList.isEmpty()) {
+        // create folders
+        for (int i = 0; i < foldersList.count(); ++i) {
+            QList <QUrl> urls = foldersList.at(i);
+            QUrl folderUrl = urls.takeFirst();
+            QString folderName = folderUrl.fileName();
+            /*FolderProjectItem *folder = NULL;
+            if (!folderName.isEmpty()) {
+                folder = getFolderItemByName(folderName);
+                if (folder == NULL) {
+                    slotAddFolder(folderName);
+                    folder = getFolderItemByName(folderName);
+                }
+            }
+            if (folder) {
+                QMap <QString, QString> data;
+                data.insert("group", folder->groupName());
+                data.insert("groupId", folder->clipId());
+                doAddClipList(urls, data);
+            }
+            else*/ doAddClipList(urls);
+        }
+    }
+}
+
+void ClipManager::deleteProjectClip(const QString &clipId)
+{
+    pCore->bin()->deleteClip(clipId);
+}
+
+void ClipManager::addProjectClip(QDomElement xml, const QString &clipId)
+{
+    xml.setAttribute("id", clipId);
+    pCore->bin()->createClip(xml);
+}
+
 void ClipManager::addClip(DocClipBase *clip)
 {
     m_clipList.append(clip);
@@ -408,7 +563,6 @@ void ClipManager::addClip(DocClipBase *clip)
         m_fileWatcher.addFile(clip->fileURL().path());
     }
     const QString id = clip->getId();
-    if (id.toInt() >= m_clipIdCounter) m_clipIdCounter = id.toInt() + 1;
     const QString gid = clip->getProperty("groupid");
     if (!gid.isEmpty() && gid.toInt() >= m_folderIdCounter) m_folderIdCounter = gid.toInt() + 1;
 }
@@ -419,9 +573,12 @@ void ClipManager::slotDeleteClips(QStringList ids)
     delClips->setText(i18np("Delete clip", "Delete clips", ids.size()));
 
     for (int i = 0; i < ids.size(); ++i) {
-        DocClipBase *clip = getClipById(ids.at(i));
-        if (clip) {
-            new AddClipCommand(m_doc, clip->toXML(), ids.at(i), false, delClips);
+        QString xml = pCore->binController()->xmlFromId(ids.at(i));
+	QDomDocument doc;
+	doc.setContent(xml);
+        //DocClipBase *clip = getClipById(ids.at(i));
+        if (!xml.isNull()) {
+            new AddClipCommand(m_doc, doc.documentElement(), ids.at(i), false, delClips);
         }
     }
     m_doc->commandStack()->push(delClips);
@@ -429,10 +586,12 @@ void ClipManager::slotDeleteClips(QStringList ids)
 
 void ClipManager::deleteClip(const QString &clipId)
 {
+    pCore->binController()->removeBinClip(clipId);
+    pCore->bin()->deleteClip(clipId);
+    return;
     for (int i = 0; i < m_clipList.count(); ++i) {
         if (m_clipList.at(i)->getId() == clipId) {
             DocClipBase *clip = m_clipList.takeAt(i);
-	    pCore->binController()->removeBinClip(clip->getId());
             if (clip->clipType() != Color && clip->clipType() != SlideShow  && !clip->fileURL().isEmpty()) {
                 //if (m_clipList.at(i)->clipType() == IMAGE || m_clipList.at(i)->clipType() == AUDIO || (m_clipList.at(i)->clipType() == TEXT && !m_clipList.at(i)->fileURL().isEmpty())) {
                 // listen for file change
@@ -510,7 +669,7 @@ void ClipManager::resetProducersList(const QList <Mlt::Producer *> prods, bool d
     emit checkAllClips(displayRatioChanged, fpsChanged, brokenClips);
 }
 
-void ClipManager::slotAddClip(KIO::Job *job, const QUrl &, const QUrl &dst)
+void ClipManager::slotAddCopiedClip(KIO::Job *job, const QUrl &, const QUrl &dst)
 {
     KIO::MetaData meta = job->metaData();
     QMap <QString, QString> data;
@@ -518,10 +677,10 @@ void ClipManager::slotAddClip(KIO::Job *job, const QUrl &, const QUrl &dst)
     data.insert("groupid", meta.value("groupid"));
     data.insert("comment", meta.value("comment"));
     //qDebug()<<"Finished copying: "<<dst<<" / "<<meta.value("group")<<" / "<<meta.value("groupid");
-    slotAddClipList(QList<QUrl> () << dst, data);
+    doAddClipList(QList<QUrl> () << dst, data);
 }
 
-void ClipManager::slotAddClipList(const QList<QUrl> &urls, const QMap <QString, QString> &data)
+void ClipManager::doAddClipList(const QList<QUrl> &urls, const QMap <QString, QString> &data)
 {
     QUndoCommand *addClips = new QUndoCommand();
     // Update list of removable volumes
@@ -554,7 +713,7 @@ void ClipManager::slotAddClipList(const QList<QUrl> &urls, const QMap <QString, 
                     copyjob->addMetaData("groupId", data.value("groupId"));
                     copyjob->addMetaData("comment", data.value("comment"));
                     KJobWidgets::setWindow(copyjob, QApplication::activeWindow());
-                    connect(copyjob, &KIO::CopyJob::copyingDone, this, &ClipManager::slotAddClip);
+                    connect(copyjob, &KIO::CopyJob::copyingDone, this, &ClipManager::slotAddCopiedClip);
                     continue;
                 }
             }
@@ -562,8 +721,13 @@ void ClipManager::slotAddClipList(const QList<QUrl> &urls, const QMap <QString, 
             QDomDocument doc;
             QDomElement prod = doc.createElement("producer");
             doc.appendChild(prod);
-            prod.setAttribute("resource", file.path());
-            uint id = m_clipIdCounter++;
+	    QDomElement prop = doc.createElement("property");
+	    prop.setAttribute("name", "resource");
+	    QDomText value = doc.createTextNode(file.path());
+            prop.appendChild(value);
+	    prod.appendChild(prop);
+            //prod.setAttribute("resource", file.path());
+            uint id = pCore->bin()->getFreeClipId();
             prod.setAttribute("id", QString::number(id));
             if (data.contains("comment")) prod.setAttribute("description", data.value("comment"));
             if (data.contains("group")) {
@@ -646,8 +810,7 @@ void ClipManager::slotAddClipList(const QList<QUrl> &urls, const QMap <QString, 
 
 void ClipManager::slotAddClipFile(const QUrl &url, const QMap <QString, QString> &data)
 {
-    
-    slotAddClipList(QList<QUrl>() << url, data);
+    doAddClipList(QList<QUrl>() << url, data);
 }
 
 void ClipManager::slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId)
@@ -656,7 +819,7 @@ void ClipManager::slotAddXmlClipFile(const QString &name, const QDomElement &xml
     doc.appendChild(doc.importNode(xml, true));
     QDomElement prod = doc.documentElement();
     prod.setAttribute("type", (int) Playlist);
-    uint id = m_clipIdCounter++;
+    uint id = pCore->bin()->getFreeClipId();
     prod.setAttribute("id", QString::number(id));
     prod.setAttribute("name", name);
     if (!group.isEmpty()) {
@@ -675,7 +838,7 @@ void ClipManager::slotAddColorClipFile(const QString &name, const QString &color
     prod.setAttribute("mlt_service", "colour");
     prod.setAttribute("colour", color);
     prod.setAttribute("type", (int) Color);
-    uint id = m_clipIdCounter++;
+    uint id = pCore->bin()->getFreeClipId();
     prod.setAttribute("id", QString::number(id));
     prod.setAttribute("in", "0");
     prod.setAttribute("out", m_doc->getFramePos(duration) - 1);
@@ -699,7 +862,7 @@ void ClipManager::slotAddSlideshowClipFile(QMap <QString, QString> properties, c
         ++i;
     }
     prod.setAttribute("type", (int) SlideShow);
-    uint id = m_clipIdCounter++;
+    uint id = pCore->bin()->getFreeClipId();
     if (!group.isEmpty()) {
         prod.setAttribute("groupname", group);
         prod.setAttribute("groupid", groupId);
@@ -718,7 +881,7 @@ void ClipManager::slotAddTextClipFile(const QString &titleName, int duration, co
     //prod.setAttribute("resource", imagePath);
     prod.setAttribute("name", titleName);
     prod.setAttribute("xmldata", xml);
-    uint id = m_clipIdCounter++;
+    uint id = pCore->bin()->getFreeClipId();
     prod.setAttribute("id", QString::number(id));
     if (!group.isEmpty()) {
         prod.setAttribute("groupname", group);
@@ -739,7 +902,7 @@ void ClipManager::slotAddTextTemplateClip(QString titleName, const QUrl &path, c
     doc.appendChild(prod);
     prod.setAttribute("name", titleName);
     prod.setAttribute("resource", path.path());
-    uint id = m_clipIdCounter++;
+    uint id = pCore->bin()->getFreeClipId();
     prod.setAttribute("id", QString::number(id));
     if (!group.isEmpty()) {
         prod.setAttribute("groupname", group);
@@ -770,19 +933,9 @@ void ClipManager::slotAddTextTemplateClip(QString titleName, const QUrl &path, c
     m_doc->commandStack()->push(command);
 }
 
-int ClipManager::getFreeClipId()
-{
-    return m_clipIdCounter++;
-}
-
 int ClipManager::getFreeFolderId()
 {
     return m_folderIdCounter++;
-}
-
-int ClipManager::lastClipId() const
-{
-    return m_clipIdCounter - 1;
 }
 
 QString ClipManager::projectFolder() const
@@ -805,6 +958,11 @@ AbstractGroupItem *ClipManager::createGroup()
     AbstractGroupItem *group = new AbstractGroupItem(m_doc->fps());
     m_groupsList.append(group);
     return group;
+}
+
+int ClipManager::lastClipId() const
+{
+    return pCore->bin()->lastClipId();
 }
 
 void ClipManager::removeGroup(AbstractGroupItem *group)

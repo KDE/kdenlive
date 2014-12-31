@@ -165,11 +165,14 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
 
     /// Add Widgets ///
+    m_projectBinDock = addDock(i18n("Project Bin"), "project_bin", pCore->bin());
 
+    //WARNING Deprecated, projectlist widget is replaced by new Bin created in Core
     m_projectList = new ProjectList();
-    m_projectListDock = addDock(i18n("Project Tree"), "project_tree", m_projectList);
+    //m_projectListDock = addDock(i18n("Project Tree"), "project_tree", m_projectList);
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), m_timelineArea);
+    pCore->bin()->setMonitor(m_clipMonitor);
 
     // Connect the project list
     connect(m_projectList, SIGNAL(clipSelected(DocClipBase*,QPoint,bool)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase*,QPoint,bool)));
@@ -349,7 +352,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     slotConnectMonitors();
 
-    m_projectListDock->raise();
+    m_projectBinDock->raise();
 
     actionCollection()->addAssociatedWidget(m_clipMonitor->container());
     actionCollection()->addAssociatedWidget(m_projectMonitor->container());
@@ -640,9 +643,13 @@ void MainWindow::slotConnectMonitors()
 {
     m_projectList->setRenderer(m_projectMonitor->render);
     connect(m_projectList, SIGNAL(pauseMonitor()), pCore->monitorManager(), SLOT(slotPause()));
-    connect(m_projectList, SIGNAL(deleteProjectClips(QStringList,QMap<QString,QString>)), this, SLOT(slotDeleteProjectClips(QStringList,QMap<QString,QString>)));
+    //connect(m_projectList, SIGNAL(deleteProjectClips(QStringList,QMap<QString,QString>)), this, SLOT(slotDeleteProjectClips(QStringList,QMap<QString,QString>)));
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(QString,QString,int,int)), m_projectList, SLOT(slotReplyGetImage(QString,QString,int,int)));
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(QString,QImage)), m_projectList, SLOT(slotReplyGetImage(QString,QImage)));
+    
+    connect(m_projectMonitor->render, SIGNAL(replyGetImage(QString,QImage)), pCore->bin(), SLOT(slotThumbnailReady(QString,QImage)));
+    
+    connect(m_projectMonitor->render, SIGNAL(gotFileProperties(const QString &,bool,Mlt::Producer *)), pCore->bin(), SLOT(slotProducerReady(const QString &,bool,Mlt::Producer *)));
 
     connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(requestClipInfo &,Mlt::Producer &,stringMap,stringMap)), m_projectList, SLOT(slotReplyGetFileProperties(requestClipInfo &,Mlt::Producer &,stringMap,stringMap)), Qt::DirectConnection);
     //DirectConnection was necessary not to mess the analyze queue, but the monitor thread shouldn't show any UI widget (profile dialog), so adding an AutoConnection in between?
@@ -1120,12 +1127,12 @@ void MainWindow::setupActions()
                                   QIcon::fromTheme("kdenlive-add-text-clip")));
     addClips->addAction(addAction("add_text_template_clip", i18n("Add Template Title"), m_projectList, SLOT(slotAddTitleTemplateClip()),
                                   QIcon::fromTheme("kdenlive-add-text-clip")));
-    addClips->addAction(addAction("add_folder", i18n("Create Folder"), m_projectList, SLOT(slotAddFolder()),
+    addClips->addAction(addAction("add_folder", i18n("Create Folder"), pCore->bin(), SLOT(slotAddFolder()),
                                   QIcon::fromTheme("folder-new")));
     addClips->addAction(addAction("download_resource", i18n("Online Resources"), this, SLOT(slotDownloadResources()),
                                   QIcon::fromTheme("download")));
     
-    QAction *clipProperties = addAction("clip_properties", i18n("Clip Properties"), m_projectList, SLOT(slotEditClip()), QIcon::fromTheme("document-edit"));
+    QAction *clipProperties = addAction("clip_properties", i18n("Clip Properties"), pCore->bin(), SLOT(slotShowClipProperties()), QIcon::fromTheme("document-edit"));
     clipProperties->setData("clip_properties");
     clipProperties->setEnabled(false);
 
@@ -1133,7 +1140,7 @@ void MainWindow::setupActions()
     openClip->setData("edit_clip");
     openClip->setEnabled(false);
 
-    QAction *deleteClip = addAction("delete_clip", i18n("Delete Clip"), m_projectList, SLOT(slotRemoveClip()), QIcon::fromTheme("edit-delete"));
+    QAction *deleteClip = addAction("delete_clip", i18n("Delete Clip"), pCore->bin(), SLOT(slotDeleteClip()), QIcon::fromTheme("edit-delete"));
     deleteClip->setData("delete_clip");
     deleteClip->setEnabled(false);
 
@@ -1141,22 +1148,22 @@ void MainWindow::setupActions()
     reloadClip->setData("reload_clip");
     reloadClip->setEnabled(false);
 
-    QAction *proxyClip = new QAction(i18n("Proxy Clip"), this);
-    addAction("proxy_clip", proxyClip);
-    proxyClip->setData("proxy_clip");
-    proxyClip->setCheckable(true);
-    proxyClip->setChecked(false);
-    connect(proxyClip, SIGNAL(toggled(bool)), m_projectList, SLOT(slotProxyCurrentItem(bool)));
+    m_proxyClip = new QAction(i18n("Proxy Clip"), this);
+    addAction("proxy_clip", m_proxyClip);
+    m_proxyClip->setData("proxy_clip");
+    m_proxyClip->setCheckable(true);
+    m_proxyClip->setChecked(false);
 
     addAction("stopmotion", i18n("Stop Motion Capture"), this, SLOT(slotOpenStopmotion()), QIcon::fromTheme("image-x-generic"));
     addAction("ripple_delete", i18n("Ripple Delete"), this, SLOT(slotRippleDelete()), QIcon(), Qt::CTRL + Qt::Key_X);
 
     addClips->addAction(reloadClip);
-    addClips->addAction(proxyClip);
+    addClips->addAction(m_proxyClip);
     addClips->addAction(clipProperties);
     addClips->addAction(openClip);
     addClips->addAction(deleteClip);
-    m_projectList->setupMenu(addClips, addClip);
+    //m_projectList->setupMenu(addClips, addClip);
+    pCore->bin()->setupMenu(addClips, addClip);
 
     // Setup effects and transitions actions.
     m_effectsActionCollection = new KActionCollection(this, "effects");//KGlobal::mainComponent());
@@ -1515,6 +1522,7 @@ void MainWindow::connectDocument()
     connect(project, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
     connect(project, SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
     connect(project, SIGNAL(saveTimelinePreview(QString)), trackView, SLOT(slotSaveTimelinePreview(QString)));
+    connect(m_proxyClip, SIGNAL(toggled(bool)), project, SLOT(slotProxyCurrentItem(bool)));
 
     connect(trackView->projectView(), SIGNAL(updateClipMarkers(DocClipBase*)), this, SLOT(slotUpdateClipMarkers(DocClipBase*)));
     connect(trackView, SIGNAL(showTrackEffects(int,TrackInfo)), this, SLOT(slotTrackSelected(int,TrackInfo)));
@@ -1733,8 +1741,8 @@ void MainWindow::slotDeleteItem()
     if (QApplication::focusWidget() &&
             QApplication::focusWidget()->parentWidget() &&
             QApplication::focusWidget()->parentWidget()->parentWidget() &&
-            QApplication::focusWidget()->parentWidget()->parentWidget() == m_projectListDock) {
-        m_projectList->slotRemoveClip();
+            QApplication::focusWidget()->parentWidget()->parentWidget() == pCore->bin()) {
+        pCore->bin()->slotDeleteClip();
 
     } else {
         QWidget *widget = QApplication::focusWidget();
@@ -2106,12 +2114,12 @@ void MainWindow::slotEditItemDuration()
 
 void MainWindow::slotAddProjectClip(const QUrl &url, const stringMap &data)
 {
-    pCore->projectManager()->current()->slotAddClipFile(url, data);
+    pCore->projectManager()->current()->addClipList(QList<QUrl>() << url, data);
 }
 
 void MainWindow::slotAddProjectClipList(const QList<QUrl> &urls)
 {
-    pCore->projectManager()->current()->slotAddClipList(urls);
+    pCore->projectManager()->current()->addClipList(urls);
 }
 
 void MainWindow::slotAddTransition(QAction *result)
@@ -2408,7 +2416,7 @@ void MainWindow::slotClipInProjectTree()
         if (clipIds.isEmpty()) {
             return;
         }
-        m_projectListDock->raise();
+        m_projectBinDock->raise();
         m_projectList->selectItemById(clipIds.at(0));
         if (m_projectMonitor->isActive()) {
             slotSwitchMonitors();
@@ -3010,20 +3018,6 @@ void MainWindow::slotInsertZoneToTimeline()
     pCore->projectManager()->currentTrackView()->projectView()->insertClipCut(m_clipMonitor->activeClip(), info.at(1).toInt(), info.at(2).toInt());
 }
 
-
-void MainWindow::slotDeleteProjectClips(const QStringList &ids, const QMap<QString, QString> &folderids)
-{
-    if (pCore->projectManager()->currentTrackView()) {
-        if (!ids.isEmpty()) {
-            for (int i = 0; i < ids.size(); ++i) {
-                pCore->projectManager()->currentTrackView()->slotDeleteClip(ids.at(i));
-            }
-            pCore->projectManager()->current()->clipManager()->slotDeleteClips(ids);
-        }
-        if (!folderids.isEmpty()) m_projectList->deleteProjectFolder(folderids);
-        pCore->projectManager()->current()->setModified(true);
-    }
-}
 
 void MainWindow::slotMonitorRequestRenderFrame(bool request)
 {

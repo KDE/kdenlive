@@ -87,7 +87,6 @@ public:
      *
      * If the clip wasn't added before, it tries to add it to the project. */
     bool addClipInfo(QDomElement elem, QDomElement orig, const QString &clipId);
-    void slotAddClipList(const QList<QUrl> &urls, const stringMap &data = stringMap());
     void deleteClip(const QString &clipId);
     int getFramePos(const QString &duration);
     DocClipBase *getBaseClip(const QString &clipId);
@@ -103,7 +102,6 @@ public:
     /** @brief Updates the project profile.
      * @return true if frame rate was changed */
     bool setProfilePath(QString path);
-    const QString getFreeClipId();
 
     /** @brief Defines whether the document needs to be saved. */
     bool isModified() const;
@@ -150,6 +148,7 @@ public:
     int setSceneList();
     void setDocumentProperty(const QString &name, const QString &value);
     const QString getDocumentProperty(const QString &name) const;
+    void addClipList(const QList<QUrl> &urls, const QMap<QString, QString> &data = QMap<QString, QString>());
 
     /** @brief Gets the list of renderer properties saved into the document. */
     QMap <QString, QString> getRenderProperties() const;
@@ -172,6 +171,9 @@ public:
     const QMap <QString, QString> metadata() const;
     /** @brief Set the document metadata (author, copyright, ...) */
     void setMetadata(const QMap <QString, QString>& meta);
+    void slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties);
+    /** @brief Get frame size of the renderer */
+    const QSize getRenderSize();
     
 private:
     QUrl m_url;
@@ -240,7 +242,7 @@ public slots:
      * @param mod (optional) true if the document has to be saved */
     void setModified(bool mod = true);
     void checkProjectClips(bool displayRatioChanged = false, bool fpsChanged = false);
-    void slotAddClipFile(const QUrl &url, const stringMap &data);
+    void slotProxyCurrentItem(bool doProxy);
 
 private slots:
     /** @brief Saves the current project at the autosave location.
