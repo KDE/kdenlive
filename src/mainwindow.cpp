@@ -3017,7 +3017,7 @@ void MainWindow::slotInsertZoneToTimeline()
 {
     if (pCore->projectManager()->currentTrackView() == NULL || m_clipMonitor->activeClip() == NULL) return;
     QStringList info = m_clipMonitor->getZoneInfo();
-    pCore->projectManager()->currentTrackView()->projectView()->insertClipCut(m_clipMonitor->activeClip(), info.at(1).toInt(), info.at(2).toInt());
+    pCore->projectManager()->currentTrackView()->projectView()->insertClipCut(m_clipMonitor->activeClipId(), info.at(1).toInt(), info.at(2).toInt());
 }
 
 

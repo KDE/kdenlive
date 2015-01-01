@@ -58,6 +58,9 @@ public:
     /** @brief Returns a clone of our master producer */
     Mlt::Producer *masterProducer();
     
+    /** @brief Returns the MLT's producer id */
+    const QString &clipId();
+    
     /** @brief Returns the clip name (usually file name) */
     QString clipName() const;
     

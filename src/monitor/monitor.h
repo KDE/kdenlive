@@ -38,6 +38,7 @@
 
 class SmallRuler;
 class DocClipBase;
+class ClipController;
 class AbstractClipItem;
 class Transition;
 class ClipItem;
@@ -80,6 +81,7 @@ public:
     void setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL, QAction *loopClip = NULL);
     const QString sceneList();
     DocClipBase *activeClip();
+    const QString &activeClipId();
     GenTime position();
     void checkOverlay();
     void updateTimecodeFormat();
@@ -118,6 +120,7 @@ protected:
 
 private:
     DocClipBase *m_currentClip;
+    ClipController *m_controller;
     SmallRuler *m_ruler;
     Overlay *m_overlay;
     int m_length;
@@ -174,7 +177,7 @@ public slots:
     void slotOpenFile(const QString &);
     void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
     void updateClipProducer(Mlt::Producer *prod);
-    void open(Mlt::Producer *prod);
+    void openClip(ClipController *controller);
     void refreshMonitor(bool visible);
     void refreshMonitor();
     void slotSeek(int pos);

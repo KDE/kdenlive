@@ -54,7 +54,7 @@ void ProjectFolder::setCurrent(bool current, bool notify)
 {
     AbstractProjectItem::setCurrent(current, notify);
     if (current) {
-        bin()->openProducer(QString(), NULL);
+        bin()->openProducer(NULL);
     }
 }
 

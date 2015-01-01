@@ -228,14 +228,14 @@ void Bin::slotAddClip()
 
 void Bin::deleteClip(const QString &id)
 {
+    if (m_monitor->activeClipId() == id) {
+        m_monitor->openClip(NULL);
+    }
     ProjectClip *clip = m_rootFolder->clip(id);
     if (!clip) return;
     m_jobManager->discardJobs(id);
     m_rootFolder->removeChild(clip);
     delete clip;
-    if (m_openedProducer == id) {
-        m_openedProducer.clear();
-    }
 }
 
 void Bin::slotDeleteClip()
@@ -296,7 +296,7 @@ int Bin::lastClipId() const
 void Bin::setDocument(KdenliveDoc* project)
 {
     // Remove clip from Bin's monitor
-    m_monitor->open(NULL);
+    m_monitor->openClip(NULL);
     closeEditing();
     setEnabled(false);
     delete m_rootFolder;
@@ -306,7 +306,6 @@ void Bin::setDocument(KdenliveDoc* project)
     m_clipCounter = 1;
     m_folderCounter = 1;
     m_doc = project;
-    m_openedProducer.clear();
     int iconHeight = style()->pixelMetric(QStyle::PM_ToolBarIconSize) * 2;
     m_iconSize = QSize(iconHeight * m_doc->dar(), iconHeight);
     m_itemModel->setIconSize(m_iconSize);
@@ -417,7 +416,6 @@ void Bin::selectProxyModel(const QModelIndex &id)
             currentItem->setCurrent(true);
             if (!currentItem->isFolder()) {
                 m_editAction->setEnabled(true);
-                m_openedProducer = currentItem->clipId();
                 if (m_propertiesPanel->width() > 0) {
                     // if info panel is displayed, update info
                     if (!currentItem->isFolder()) showClipProperties(currentItem);
@@ -425,7 +423,6 @@ void Bin::selectProxyModel(const QModelIndex &id)
             } else {
                 // A folder was selected, disable editing clip
                 m_editAction->setEnabled(false);
-                m_openedProducer.clear();
             }
 	    m_deleteAction->setEnabled(true);
         } else {
@@ -693,8 +690,21 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
     if (clip) {
 	clip->setProducer(controller, info.replaceProducer);
         emit producerReady(info.clipId);
-        if (m_openedProducer == info.clipId) {
-            m_monitor->open(clip->producer());
+        QString currentClip = m_monitor->activeClipId();
+        if (currentClip.isEmpty()) {
+            //No clip displayed in monitor, check if item is selected
+            QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+            foreach (const QModelIndex &ix, indexes) {
+                ProjectClip *currentItem = static_cast<ProjectClip *>(m_proxyModel->mapToSource(ix).internalPointer());
+                if (currentItem->clipId() == info.clipId) {
+                    // Item was selected, show it in monitor
+                    m_monitor->openClip(controller);
+                    break;
+                }
+            }
+        }
+        else if (currentClip == info.clipId) {
+            m_monitor->openClip(controller);
         }
     }
     else {
@@ -716,10 +726,9 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
     }
 }
 
-void Bin::openProducer(const QString &id, Mlt::Producer *producer)
+void Bin::openProducer(ClipController *controller)
 {
-    m_openedProducer = id;
-    m_monitor->open(producer);
+    m_monitor->openClip(controller);
 }
 
 void Bin::emitItemUpdated(AbstractProjectItem* item)

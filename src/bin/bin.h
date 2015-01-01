@@ -226,7 +226,7 @@ public:
     Monitor *monitor();
 
     /** @brief Open a producer in the clip monitor */
-    void openProducer(const QString &id, Mlt::Producer *producer);
+    void openProducer(ClipController *controller);
 
     /** @brief Trigger deletion of an item */
     void deleteClip(const QString &id);
@@ -354,8 +354,6 @@ private:
     QAction *m_proxyAction;
     QAction *m_editAction;
     QAction *m_deleteAction;
-    /** @brief Keeps the id of the clip currently displayed in monitor. */
-    QString m_openedProducer;
     void showClipProperties(ProjectClip *clip);
     void selectModel(const QModelIndex &id);
 

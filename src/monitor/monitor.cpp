@@ -23,7 +23,7 @@
 #include "monitoreditwidget.h"
 #include "videosurface.h"
 #include "smallruler.h"
-
+#include "mltcontroller/clipcontroller.h"
 #include "kdenlivesettings.h"
 #include "doc/docclipbase.h"
 #include "timeline/abstractclipitem.h"
@@ -52,6 +52,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     AbstractMonitor(id, manager, parent)
     , render(NULL)
     , m_currentClip(NULL)
+    , m_controller(NULL)
     , m_overlay(NULL)
     , m_length(2)
     , m_dragStarted(false)
@@ -880,10 +881,24 @@ void Monitor::updateClipProducer(Mlt::Producer *prod)
     render->setProducer(prod, render->seekFramePosition());
 }
 
-void Monitor::open(Mlt::Producer *prod)
+void Monitor::openClip(ClipController *controller)
 {
     if (render == NULL) return;
-    render->setProducer(prod, -1);
+    m_controller = controller;
+    if (controller) {
+        render->setProducer(m_controller->masterProducer(), -1);
+    }
+    else {
+        render->setProducer(NULL, -1);
+    }
+}
+
+const QString &Monitor::activeClipId()
+{
+    if (m_controller) {
+        return m_controller->clipId();
+    }
+    return QString();
 }
 
 void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpdate, int position)

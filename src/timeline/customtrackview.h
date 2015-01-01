@@ -186,7 +186,7 @@ public:
     * @param out The outpoint of the clip (crop from end)
     *
     * Inserts at the position of timeline cursor and selected track. */
-    void insertClipCut(DocClipBase *clip, int in, int out);
+    void insertClipCut(const QString &id, int in, int out);
     void clearSelection(bool emitInfo = true);
     void editItemDuration();
     void buildGuidesMenu(QMenu *goMenu) const;

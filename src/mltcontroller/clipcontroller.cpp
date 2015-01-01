@@ -84,6 +84,12 @@ bool ClipController::isValid()
     return m_masterProducer->is_valid();
 }
 
+const QString &ClipController::clipId()
+{
+    if (m_masterProducer == NULL) return QString();
+    return property("id");
+}
+
 void ClipController::updateProducer(Mlt::Producer* producer)
 {
     //TODO replace all track producers
@@ -151,7 +157,7 @@ int ClipController::getPlaytime() const
 
 QString ClipController::property(const QString &name)
 {
-    return QString(m_masterProducer->get(name.toUtf8().constData()));
+    return QString(m_masterProducer->parent().get(name.toUtf8().constData()));
 }
 
 QUrl ClipController::clipUrl() const
@@ -172,19 +178,19 @@ QString ClipController::serviceName() const
 void ClipController::setProperty(const QString& name, int value)
 {
     //TODO: also set property on all track producers
-    m_masterProducer->set(name.toUtf8().constData(), value);
+    m_masterProducer->parent().set(name.toUtf8().constData(), value);
 }
 
 void ClipController::setProperty(const QString& name, double value)
 {
     //TODO: also set property on all track producers
-    m_masterProducer->set(name.toUtf8().constData(), value);
+    m_masterProducer->parent().set(name.toUtf8().constData(), value);
 }
 
 void ClipController::setProperty(const QString& name, const QString& value)
 {
     //TODO: also set property on all track producers
-    m_masterProducer->set(name.toUtf8().constData(), value.toUtf8().constData());
+    m_masterProducer->parent().set(name.toUtf8().constData(), value.toUtf8().constData());
 }
 
 ClipType ClipController::clipType() const

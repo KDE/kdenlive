@@ -148,8 +148,8 @@ void ProjectClip::reloadProducer()
 void ProjectClip::setCurrent(bool current, bool notify)
 {
     AbstractProjectItem::setCurrent(current, notify);
-    if (current && m_controller) {
-        bin()->openProducer(m_id, m_controller->masterProducer());
+    if (current) {
+        bin()->openProducer(m_controller);
     }
 }
 

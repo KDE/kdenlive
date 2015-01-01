@@ -1592,7 +1592,7 @@ void CustomTrackView::activateMonitor()
     emit activateDocumentMonitor();
 }
 
-void CustomTrackView::insertClipCut(DocClipBase *clip, int in, int out)
+void CustomTrackView::insertClipCut(const QString &id, int in, int out)
 {
     resetSelectionGroup();
     ItemInfo info;
@@ -1624,7 +1624,7 @@ void CustomTrackView::insertClipCut(DocClipBase *clip, int in, int out)
     QUndoCommand *addCommand = new QUndoCommand();
     addCommand->setText(i18n("Add timeline clip"));
     new RefreshMonitorCommand(this, false, true, addCommand);
-    new AddTimelineClipCommand(this, clip->getId(), pasteInfo, EffectsList(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, true, false, addCommand);
+    new AddTimelineClipCommand(this, id, pasteInfo, EffectsList(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, true, false, addCommand);
     new RefreshMonitorCommand(this, true, false, addCommand);
     updateTrackDuration(pasteInfo.track, addCommand);
     
