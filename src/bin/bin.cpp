@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "monitor/monitor.h"
 #include "doc/kdenlivedoc.h"
 #include "core.h"
+#include "mltcontroller/clipcontroller.h"
 #include "projectsortproxymodel.h"
 #include "mlt++/Mlt.h"
 
@@ -229,6 +230,7 @@ void Bin::deleteClip(const QString &id)
 {
     ProjectClip *clip = m_rootFolder->clip(id);
     if (!clip) return;
+    m_jobManager->discardJobs(id);
     m_rootFolder->removeChild(clip);
     delete clip;
     if (m_openedProducer == id) {
@@ -293,11 +295,14 @@ int Bin::lastClipId() const
 
 void Bin::setDocument(KdenliveDoc* project)
 {
+    // Remove clip from Bin's monitor
+    m_monitor->open(NULL);
     closeEditing();
+    setEnabled(false);
+    delete m_rootFolder;
     delete m_itemView;
     m_itemView = NULL;
     delete m_jobManager;
-    delete m_rootFolder;
     m_clipCounter = 1;
     m_folderCounter = 1;
     m_doc = project;
@@ -307,6 +312,7 @@ void Bin::setDocument(KdenliveDoc* project)
     m_itemModel->setIconSize(m_iconSize);
     m_jobManager = new JobManager(this, project->fps());
     m_rootFolder = new ProjectFolder(this);
+    setEnabled(true);
     connect(this, SIGNAL(producerReady(QString)), m_doc->renderer(), SLOT(slotProcessingDone(QString)));
     //connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_itemView
     //connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
@@ -407,10 +413,11 @@ void Bin::selectProxyModel(const QModelIndex &id)
     if (id.isValid()) {
         ProjectClip *currentItem = static_cast<ProjectClip*>(m_proxyModel->mapToSource(id).internalPointer());
 	if (currentItem) {
+            // Set item as current so that it displays its content in clip monitor
+            currentItem->setCurrent(true);
             if (!currentItem->isFolder()) {
-                m_openedProducer = currentItem->clipId();
-                currentItem->setCurrent(true);
                 m_editAction->setEnabled(true);
+                m_openedProducer = currentItem->clipId();
                 if (m_propertiesPanel->width() > 0) {
                     // if info panel is displayed, update info
                     if (!currentItem->isFolder()) showClipProperties(currentItem);
@@ -418,6 +425,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
             } else {
                 // A folder was selected, disable editing clip
                 m_editAction->setEnabled(false);
+                m_openedProducer.clear();
             }
 	    m_deleteAction->setEnabled(true);
         } else {
@@ -669,15 +677,21 @@ void Bin::slotThumbnailReady(const QString &id, const QImage &img)
 
 ProjectClip *Bin::getBinClip(const QString &id)
 {
-    ProjectClip *clip = m_rootFolder->clip(id);
+    ProjectClip *clip;
+    if (id.contains("_")) {
+        clip = m_rootFolder->clip(id.section("_", 0, 0));
+    }
+    else {
+        clip = m_rootFolder->clip(id);
+    }
     return clip;
 }
 
-void Bin::slotProducerReady(requestClipInfo info, Mlt::Producer *producer)
+void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
 {
     ProjectClip *clip = m_rootFolder->clip(info.clipId);
     if (clip) {
-	clip->setProducer(producer, info.replaceProducer);
+	clip->setProducer(controller, info.replaceProducer);
         emit producerReady(info.clipId);
         if (m_openedProducer == info.clipId) {
             m_monitor->open(clip->producer());
@@ -685,10 +699,10 @@ void Bin::slotProducerReady(requestClipInfo info, Mlt::Producer *producer)
     }
     else {
 	// Clip not found, create it
-        QString groupId = producer->get("groupid");
+        QString groupId = controller->property("groupid");
         ProjectFolder *parentFolder;
         if (!groupId.isEmpty()) {
-            QString groupName = producer->get("group");
+            QString groupName = controller->property("group");
             parentFolder = m_rootFolder->folder(groupId);
             if (!parentFolder) {
                 // parent folder does not exist, put in root folder
@@ -697,7 +711,7 @@ void Bin::slotProducerReady(requestClipInfo info, Mlt::Producer *producer)
             if (groupId.toInt() >= m_folderCounter) m_folderCounter = groupId.toInt() + 1;
         }
         else parentFolder = m_rootFolder;
-        ProjectClip *newItem = new ProjectClip(info.clipId, producer, parentFolder);
+        ProjectClip *newItem = new ProjectClip(info.clipId, controller, parentFolder);
         if (info.clipId.toInt() >= m_clipCounter) m_clipCounter = info.clipId.toInt() + 1;
     }
 }

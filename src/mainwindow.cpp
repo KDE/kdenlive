@@ -439,8 +439,9 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
             KdenliveSettings::setDecklink_extension(data.section(';', 1, 1));
         }
     }
-    
+
     pCore->projectManager()->init(Url, clipsToLoad);
+    QTimer::singleShot(0, pCore->projectManager(), SLOT(slotLoadOnOpen()));
 
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
@@ -650,7 +651,7 @@ void MainWindow::slotConnectMonitors()
     
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(QString,QImage)), pCore->bin(), SLOT(slotThumbnailReady(QString,QImage)));
     
-    connect(m_projectMonitor->render, SIGNAL(gotFileProperties(requestClipInfo,Mlt::Producer *)), pCore->bin(), SLOT(slotProducerReady(requestClipInfo,Mlt::Producer *)));
+    connect(m_projectMonitor->render, SIGNAL(gotFileProperties(requestClipInfo,ClipController *)), pCore->bin(), SLOT(slotProducerReady(requestClipInfo,ClipController *)));
 
     connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(requestClipInfo &,Mlt::Producer &,stringMap,stringMap)), m_projectList, SLOT(slotReplyGetFileProperties(requestClipInfo &,Mlt::Producer &,stringMap,stringMap)), Qt::DirectConnection);
     //DirectConnection was necessary not to mess the analyze queue, but the monitor thread shouldn't show any UI widget (profile dialog), so adding an AutoConnection in between?

@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectclip.h"
 #include "projectfolder.h"
 #include "bin.h"
+#include "mltcontroller/clipcontroller.h"
 
 #include <QDomElement>
 #include <QFile>
@@ -31,22 +32,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KLocalizedString>
 
-#include <mlt++/Mlt.h>
 
 
-ProjectClip::ProjectClip(const QString &id, Mlt::Producer *producer, ProjectFolder* parent) :
+ProjectClip::ProjectClip(const QString &id, ClipController *controller, ProjectFolder* parent) :
     AbstractProjectItem(AbstractProjectItem::ClipItem, id, parent),
-    m_producer(producer)
+    m_controller(controller)
 {
     m_properties = QMap <QString, QString> ();
-    QString resource = producer->get("resource");
-    if (!resource.isEmpty()) {
-        m_url = QUrl::fromLocalFile(resource);
-        if (m_url.isValid()) {
-            m_name = m_url.fileName();
-        }
-    }
-    m_duration = producer->get_length_time(mlt_time_smpte_df);
+    m_name = m_controller->clipName();
+    m_duration = m_controller->getStringDuration();
 
     getFileHash();
     setParent(parent);
@@ -54,12 +48,12 @@ ProjectClip::ProjectClip(const QString &id, Mlt::Producer *producer, ProjectFold
 
 ProjectClip::ProjectClip(const QDomElement& description, ProjectFolder* parent) :
     AbstractProjectItem(AbstractProjectItem::ClipItem, description, parent)
-    , m_producer(NULL)
+    , m_controller(NULL)
 {
     Q_ASSERT(description.hasAttribute("id"));
     m_properties = QMap <QString, QString> ();
-    m_url = QUrl::fromLocalFile(getXmlProperty(description, "resource"));
-    m_name = m_url.fileName();
+    QUrl resource = QUrl::fromLocalFile(getXmlProperty(description, "resource"));
+    m_name = resource.fileName();
     if (description.hasAttribute("zone"))
 	m_zone = QPoint(description.attribute("zone").section(':', 0, 0).toInt(), description.attribute("zone").section(':', 1, 1).toInt());
     setParent(parent);
@@ -68,9 +62,7 @@ ProjectClip::ProjectClip(const QDomElement& description, ProjectFolder* parent) 
 
 ProjectClip::~ProjectClip()
 {
-    // Cancel all clip jobs so that we don't crash trying to access the deleted clip
-    bin()->discardJobs(m_id);
-    delete m_producer;
+    delete m_controller;
 }
 
 QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &propertyName)
@@ -88,18 +80,8 @@ QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &
 
 ClipType ProjectClip::clipType() const
 {
-    //TODO: store in properties
-    if (m_producer == NULL) return Unknown;
-    QString service = m_producer->get("mlt_service");
-    if (service == "avformat" || service == "avformat-novalidate") {
-	return AV;
-    }
-    if (service == "qimage" || service == "pixbuf") {
-	return Image;
-    }
-    if (service == "color") {
-	return Color;
-    }
+    if (m_controller == NULL) return Unknown;
+    return m_controller->clipType();
 }
 
 ProjectClip* ProjectClip::clip(const QString &id)
@@ -123,14 +105,14 @@ ProjectClip* ProjectClip::clipAt(int ix)
     return NULL;
 }
 
-bool ProjectClip::hasUrl() const
+/*bool ProjectClip::isValid() const
 {
-    return m_url.isValid();
-}
+    return m_controller->isValid();
+}*/
 
 QUrl ProjectClip::url() const
 {
-    return m_url;
+    return m_controller->clipUrl();
 }
 
 bool ProjectClip::hasLimitedDuration() const
@@ -141,8 +123,8 @@ bool ProjectClip::hasLimitedDuration() const
 
 int ProjectClip::duration() const
 {
-    if (m_producer) {
-	return m_producer->get_playtime();
+    if (m_controller) {
+	return m_controller->getPlaytime();
     }
     return -1;
 }
@@ -166,8 +148,8 @@ void ProjectClip::reloadProducer()
 void ProjectClip::setCurrent(bool current, bool notify)
 {
     AbstractProjectItem::setCurrent(current, notify);
-    if (current && m_producer) {
-        bin()->openProducer(m_id, producer());
+    if (current && m_controller) {
+        bin()->openProducer(m_id, m_controller->masterProducer());
     }
 }
 
@@ -180,7 +162,7 @@ QDomElement ProjectClip::toXml(QDomDocument& document)
     QString path = m_properties.value("proxy");
     if (path.length() < 2) {
         // No proxy
-        path = m_url.toLocalFile();
+        path = m_controller->clipUrl().toLocalFile();
     }
     QDomText value = document.createTextNode(path);
     prop.appendChild(value);
@@ -219,36 +201,39 @@ void ProjectClip::setThumbnail(QImage img)
     bin()->emitItemUpdated(this);
 }
 
-void ProjectClip::setProducer(Mlt::Producer *producer, bool replaceProducer)
+void ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
 {
-    if (!replaceProducer && m_producer) {
+    if (!replaceProducer && m_controller) {
         qDebug()<<"// RECIEVED PRODUCER BUT WE ALREADY HAVE ONE\n----------";
         return;
     }
-    if (m_producer) {
-        delete m_producer;
+    if (m_controller) {
+        // Replace clip for this controller
+        m_controller->updateProducer(controller->masterProducer());
+        delete controller;
     }
-    m_producer = producer;
-    m_duration = producer->get_length_time(mlt_time_smpte_df);
+    else m_controller = controller;
+    m_duration = m_controller->getStringDuration();
     bin()->emitItemUpdated(this);
     getFileHash();
 }
 
 Mlt::Producer *ProjectClip::producer()
 {
-    if (!m_producer) return NULL;
-    return new Mlt::Producer(*m_producer);
+    if (!m_controller) return NULL;
+    return m_controller->masterProducer();
 }
 
 bool ProjectClip::hasProducer() const
 {
-    return m_producer!= NULL;
+    return m_controller!= NULL;
 }
 
 QMap <QString, QString> ProjectClip::properties()
 {
-    //TODO: move into its own class that creates its own widget (reuse clipproperties)
+    //TODO: move into its own class in ClipController
     QMap <QString, QString> result;
+    /*
     if (m_producer) {
         mlt_properties props = m_producer->get_properties();
         QString key = "video_index";
@@ -260,6 +245,7 @@ QMap <QString, QString> ProjectClip::properties()
         codecKey = "meta.media." + QString::number(audio_index) + ".codec.long_name";
         result.insert(i18n("Audio codec"), mlt_properties_get(props, codecKey.toUtf8().constData()));
     }
+    */
     return result;
 }
 
@@ -287,25 +273,22 @@ void ProjectClip::removeMarker(int position)
 
 void ProjectClip::setProducerProperty(const char *name, int data)
 {
-    if (m_producer) {
-	m_producer->set(name, data);
-	//TODO: also set property on all track producers
+    if (m_controller) {
+	m_controller->setProperty(name, data);
     }
 }
 
 void ProjectClip::setProducerProperty(const char *name, double data)
 {
-    if (m_producer) {
-	m_producer->set(name, data);
-	//TODO: also set property on all track producers
+    if (m_controller) {
+        m_controller->setProperty(name, data);
     }
 }
 
 void ProjectClip::setProducerProperty(const char *name, const char *data)
 {
-    if (m_producer) {
-	m_producer->set(name, data);
-	//TODO: also set property on all track producers
+    if (m_controller) {
+        m_controller->setProperty(name, data);
     }
 }
 
@@ -313,8 +296,8 @@ void ProjectClip::setProducerProperty(const char *name, const char *data)
 QString ProjectClip::getProducerProperty(const QString &key)
 {
     QString value;
-    if (m_producer) {
-	value = m_producer->get(key.toUtf8().constData());
+    if (m_controller) {
+	value = m_controller->property(key);
     }
     return value;
 }
@@ -328,8 +311,7 @@ const QString ProjectClip::hash()
 void ProjectClip::getFileHash()
 {
     if (clipType() == SlideShow) return;    
-    QFile file(m_url.toLocalFile());
-    qDebug()<<"// CREATE FILE HASH FOR CLIP";
+    QFile file(m_controller->clipUrl().toLocalFile());
     if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
         QByteArray fileData;
         QByteArray fileHash;

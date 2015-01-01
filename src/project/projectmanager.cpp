@@ -62,20 +62,18 @@ ProjectManager::~ProjectManager()
 {
 }
 
-void ProjectManager::init(const QUrl& projectUrl, const QString& clipList)
+void ProjectManager::slotLoadOnOpen()
 {
-    if (projectUrl.isValid()) {
-        // delay loading so that the window shows up
-        m_startUrl = projectUrl;
-        QTimer::singleShot(500, this, SLOT(openFile()));
-    } else if (KdenliveSettings::openlastproject()) {
-        QTimer::singleShot(500, this, SLOT(openLastFile()));
-    } else {
-        newFile(false);
+    if (m_startUrl.isValid()) {
+        openFile();
     }
+    else if (KdenliveSettings::openlastproject()) {
+        openLastFile();
+    }
+    else newFile(false);
 
-    if (!clipList.isEmpty() && m_project) {
-        QStringList list = clipList.split(',');
+    if (!m_loadClipsOnOpen.isEmpty() && m_project) {
+        QStringList list = m_loadClipsOnOpen.split(',');
         QList <QUrl> urls;
         foreach(const QString &path, list) {
             //qDebug() << QDir::current().absoluteFilePath(path);
@@ -83,6 +81,13 @@ void ProjectManager::init(const QUrl& projectUrl, const QString& clipList)
         }
         pCore->window()->m_projectList->slotAddClip(urls);
     }
+    m_loadClipsOnOpen.clear();
+}
+
+void ProjectManager::init(const QUrl& projectUrl, const QString& clipList)
+{
+    m_startUrl = projectUrl;
+    m_loadClipsOnOpen = clipList;
 }
 
 void ProjectManager::newFile(bool showProjectSettings, bool force)
@@ -415,7 +420,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         stale->setParent(doc);
     }
     connect(doc, SIGNAL(progressInfo(QString,int)), pCore->window(), SLOT(slotGotProgressInfo(QString,int)));
-
+    pCore->bin()->setDocument(doc);
     progressDialog.setValue(2);
     progressDialog.repaint();
 

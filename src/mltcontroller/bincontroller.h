@@ -27,6 +27,8 @@
 
 #include "definitions.h"
 
+class ClipController;
+
 namespace Mlt
 {
 class Playlist;
@@ -63,10 +65,10 @@ public:
      * @param id The clip's id
      * @param producer The MLT producer for this clip
      * */
-    void addClipToBin(const QString &id, Mlt::Producer &producer);
+    void addClipToBin(const QString &id, ClipController *controller);
     
     /** @brief Returns the name MLT will use to store our bin's playlist */
-    static const QString id();
+    static const QString binPlaylistId();
     
     /** @brief Clear the bin's playlist */
     void destroyBin();
@@ -78,21 +80,13 @@ public:
     
     /** @brief If our bin's playlist does not exist, create a new one */
     void createIfNeeded();
-    
-    /** @brief Returns the duration of a clip from its id. 
-     * @param id The clip's id as stored in DocClipBase
-     */
-    int getBinClipDuration(const QString &id);
-    
+
      /** @brief Returns true if a clip with that id is in our bin's playlist
      * @param id The clip's id as stored in DocClipBase
      */
     bool hasClip(const QString &id);
     
-    /** @brief Returns the position (index) of a clip within our bin's playlist
-     * @param id The clip's id as stored in DocClipBase
-     */
-    int clipBinIndex(const QString &id) const;
+    QStringList getClipIds() const;
     
     /** @brief Delete a clip from the bin from its id. 
      * @param id The clip's id as stored in DocClipBase
@@ -120,15 +114,15 @@ public:
      */
     QString xmlFromId(const QString & id);
     int clipCount() const;
-    Mlt::Producer *getOriginalProducerAtIndex(int ix);
+    Mlt::Producer *cloneProducer(Mlt::Producer &original);
+    
+    ClipController *getController(const QString &id);
+
+    void replaceBinPlaylistClip(const QString &id, Mlt::Producer &producer);
 
 private:
     /** @brief The MLT playlist holding our Producers */
     Mlt::Playlist * m_binPlaylist;
-    
-    /** @brief An index list containing the clip id's in the same order as the bin playlist.
-     *  Can be used to find a producer from it's clip Id. */
-    QStringList m_binIdList;
     
     /** @brief The current MLT profile's filename */
     QString m_activeProfile;
@@ -139,8 +133,8 @@ private:
     /** @brief Can be used to copy filters from a clip to another */
     void duplicateFilters(Mlt::Producer original, Mlt::Producer clone);
     
-    /** @brief Rebuild the indexes */
-    void rebuildIndex();
+    /** @brief This list holds all producer controllers for the playlist, indexed by id */
+    QMap <QString, ClipController *> m_clipList;
 };
 
 #endif

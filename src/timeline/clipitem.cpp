@@ -1124,6 +1124,11 @@ const QString &ClipItem::getBinId() const
     return m_binClip->clipId();
 }
 
+const QString &ClipItem::getBinHash() const
+{
+    return m_binClip->hash();
+}
+
 
 OperationType ClipItem::operationMode(const QPointF &pos)
 {

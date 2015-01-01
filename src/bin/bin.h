@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QSortFilterProxyModel>
 
 class KdenliveDoc;
+class ClipController;
 class QSplitter;
 class KToolBar;
 class KSplitterCollapserButton;
@@ -311,7 +312,7 @@ public slots:
      *  @param replaceProducer If true, we replace the producer even if the clip already has one
      *  @param producer The MLT producer
      */
-    void slotProducerReady(requestClipInfo info, Mlt::Producer *producer);
+    void slotProducerReady(requestClipInfo info, ClipController *controller);
     void slotDeleteClip();
     void slotRefreshClipProperties();
     void slotSwitchClipProperties(const QModelIndex &ix);

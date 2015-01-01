@@ -110,10 +110,11 @@ TrackView::TrackView(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok
     connect(m_trackview, SIGNAL(showTrackEffects(int,TrackInfo)), this, SIGNAL(showTrackEffects(int,TrackInfo)));
     connect(m_trackview, SIGNAL(updateTrackEffectState(int)), this, SLOT(slotUpdateTrackEffectState(int)));
 
-
-    parseDocument(m_doc->toXml());
     if (m_doc->setSceneList() == -1) *ok = false;
     else *ok = true;
+    
+    //TODO: loading the timeline clips should be done directly from MLT's track playlist and not by reading xml
+    parseDocument(m_doc->toXml());
     connect(m_trackview, SIGNAL(cursorMoved(int,int)), m_ruler, SLOT(slotCursorMoved(int,int)));
     connect(m_trackview, SIGNAL(updateRuler()), m_ruler, SLOT(updateRuler()));
 
@@ -207,7 +208,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
     int pos = m_projectTracks - 1;
     m_invalidProducers.clear();
     QDomNodeList producers = doc.elementsByTagName("producer");
-    for (int i = 0; i < producers.count(); ++i) {
+    /*for (int i = 0; i < producers.count(); ++i) {
         // Check for invalid producers
         QDomNode n = producers.item(i);
         e = n.toElement();
@@ -223,7 +224,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
             doc.documentElement().removeChild(producers.at(i));
             --i;
         }
-    }
+    }*/
 
     int trackIndex = 0;
     for (int i = 0; i < m_projectTracks; ++i) {
@@ -637,10 +638,14 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const Q
                 if (strobe == 0) strobe = 1;
             }
             id = id.section('_', 0, 0);
-            DocClipBase *clip = m_doc->clipManager()->getClipById(id);
+            ProjectClip *clip = m_doc->getBinClip(id);
+            qDebug()<<"****************************************************\nTRYING TO LOAD CLIP:"<<id<<"\n*******************";
             if (clip == NULL) {
+                qDebug()<<" - - - -ERROR LOADING IT ------------";
                 // The clip in playlist was not listed in the kdenlive producers,
                 // something went wrong, repair required.
+                //TODO or delete?
+                /*
                 qWarning() << "CANNOT INSERT CLIP " << id;
                 QString docRoot = m_doc->toXml().documentElement().attribute("root");
                 if (!docRoot.endsWith('/')) docRoot.append('/');
@@ -649,8 +654,8 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const Q
                     // We found the original producer in Kdenlive's producers
                     // Found correct producer
                     m_documentErrors.append(i18n("Replaced wrong clip producer %1 with %2", id, clip->getId()) + '\n');
-                    QString prodId = clip->getId();
-                    if (clip->clipType() == Playlist || clip->clipType() == AV || clip->clipType() == Audio) {
+                    QString prodId = clip->clipId();
+                    if (clip->clipType() == Playlist | AV | Audio) {
                         // We need producer for the track
                         prodId.append('_' + QString::number(ix));
                     }
@@ -734,6 +739,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const Q
                     }
                 }
                 m_doc->setModified(true);
+                */
             }
 
             if (clip != NULL) {
@@ -744,13 +750,13 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const Q
                 clipinfo.cropDuration = clipinfo.endPos - clipinfo.startPos;
 
                 clipinfo.track = ix;
-                ////qDebug() << "// INSERTING CLIP: " << in << 'x' << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
+                qDebug() << "// INSERTING CLIP: " << in << 'x' << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
                 ClipItem *item = new ClipItem(clip, clipinfo, m_doc->fps(), speed, strobe, frame_width, false);
                 if (idString.endsWith(QLatin1String("_video"))) item->setVideoOnly(true);
                 else if (idString.endsWith(QLatin1String("_audio"))) item->setAudioOnly(true);
                 m_scene->addItem(item);
                 if (locked) item->setItemLocked(true);
-                clip->addReference();
+                //clip->addReference();
                 position += (out - in + 1);
                 if (speed != 1.0 || strobe > 1) {
                     QDomElement speedeffect = MainWindow::videoEffects.getEffectByTag(QString(), "speed").cloneNode().toElement();

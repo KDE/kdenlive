@@ -31,7 +31,7 @@
 #include "dialogs/profilesdialog.h"
 #include "mltcontroller/bincontroller.h"
 #include "bin/projectclip.h"
-
+#include "mltcontroller/clipcontroller.h"
 #include <mlt++/Mlt.h>
 
 #include <QDebug>
@@ -795,9 +795,9 @@ void Render::processFileProperties()
                 if (frame) delete frame;
             }
             // replace clip
-            m_binController->removeBinClip(info.clipId);
-	    m_binController->addClipToBin(info.clipId, *producer);
-	    emit gotFileProperties(info, producer);
+            ClipController *controller = new ClipController(m_binController, *producer);
+            m_binController->addClipToBin(info.clipId, controller);
+	    emit gotFileProperties(info, controller);
             //emit replyGetFileProperties(info, *producer, stringMap(), stringMap());
             continue;
         }
@@ -1024,8 +1024,9 @@ void Render::processFileProperties()
                 metadataPropertyMap[ name.section('.', 0, -2)] = value;
         }
         producer->seek(0);
-	m_binController->addClipToBin(info.clipId, *producer);
-	emit gotFileProperties(info, producer);
+        ClipController *controller = new ClipController(m_binController, *producer);
+	m_binController->addClipToBin(info.clipId, controller);
+	emit gotFileProperties(info, controller);
         //emit replyGetFileProperties(info, *producer, filePropertyMap, metadataPropertyMap);
     }
 }
@@ -1289,8 +1290,8 @@ int Render::setSceneList(QString playlist, int position)
     blockSignals(false);
     Mlt::Tractor tractor(service);
     Mlt::Properties retainList((mlt_properties) tractor.get_data("xml_retain"));
-    if (retainList.is_valid() && retainList.get_data(m_binController->id().toUtf8().constData())) {
-        Mlt::Playlist playlist((mlt_playlist) retainList.get_data(m_binController->id().toUtf8().constData()));
+    if (retainList.is_valid() && retainList.get_data(m_binController->binPlaylistId().toUtf8().constData())) {
+        Mlt::Playlist playlist((mlt_playlist) retainList.get_data(m_binController->binPlaylistId().toUtf8().constData()));
         if (playlist.is_valid() && playlist.type() == playlist_type) {
             // Load bin clips
 	    m_binController->initializeBin(playlist);
@@ -1298,10 +1299,9 @@ int Render::setSceneList(QString playlist, int position)
     }
     // No Playlist found, create new one
     m_binController->createIfNeeded();
-    QString retain = QString("xml_retain %1").arg(m_binController->id());
+    QString retain = QString("xml_retain %1").arg(m_binController->binPlaylistId());
     tractor.set(retain.toUtf8().constData(), m_binController->service(), 0);
-
-    if (!m_binController->hasClip("black")) m_binController->addClipToBin("black", *m_blackClip);
+    //if (!m_binController->hasClip("black")) m_binController->addClipToBin("black", *m_blackClip);
 
     //qDebug() << "// NEW SCENE LIST DURATION SET TO: " << m_mltProducer->get_playtime();
     m_mltConsumer->connect(*m_mltProducer);
@@ -1310,22 +1310,20 @@ int Render::setSceneList(QString playlist, int position)
     emit durationChanged(m_mltProducer->get_playtime());
 
     // Fill bin
-    int size = m_binController->clipCount();
-    for (int i = 0; i < size; i++) {
-        Mlt::Producer *original = m_binController->getOriginalProducerAtIndex(i);
-        if (!original->is_valid()) continue;
-        QString id = original->parent().get("id");
+    QStringList ids = m_binController->getClipIds();
+    foreach(const QString &id, ids) {
         if (id == "black") {
             //TODO: delegate handling of black clip to bincontroller
-            delete m_blackClip;
-            m_blackClip = &original->parent();
+            //delete m_blackClip;
+            //m_blackClip = &original->parent();
         }
         else {
             requestClipInfo info;
             // pass basic info, the others (folder, etc) will be taken from the producer itself
             info.clipId = id;
             info.replaceProducer = true;
-            emit gotFileProperties(info, &original->parent());
+            qDebug()<<" // / PRODUCER READY FOR: "<<id;
+            emit gotFileProperties(info, m_binController->getController(id));
         }
         //delete original;
     }

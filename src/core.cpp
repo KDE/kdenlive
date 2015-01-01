@@ -47,6 +47,7 @@ void Core::init()
     m_binWidget = new Bin();
     m_binController = new BinController();
     m_monitorManager = new MonitorManager(this);
+    emit coreIsReady();
 }
 
 Core* Core::self()

@@ -6328,14 +6328,14 @@ void CustomTrackView::slotUpdateAllThumbs()
             if (item && item->isEnabled() && item->clipType() != Color && item->clipType() != Audio) {
                 // Check if we have a cached thumbnail
                 if (item->clipType() == Image || item->clipType() == Text) {
-                    QString thumb = thumbBase + item->baseClip()->getClipHash() + "_0.png";
+                    QString thumb = thumbBase + item->getBinHash() + "_0.png";
                     if (QFile::exists(thumb)) {
                         QPixmap pix(thumb);
                         if (pix.isNull()) QFile::remove(thumb);
                         item->slotSetStartThumb(pix);
                     }
                 } else {
-                    QString startThumb = thumbBase + item->baseClip()->getClipHash() + '_';
+                    QString startThumb = thumbBase + item->getBinHash() + '_';
                     QString endThumb = startThumb;
                     startThumb.append(QString::number((int) item->speedIndependantCropStart().frames(m_document->fps())) + ".png");
                     endThumb.append(QString::number((int) (item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + ".png");
@@ -6368,13 +6368,13 @@ void CustomTrackView::saveThumbnails()
             if (item->clipType() != Color) {
                 // Check if we have a cached thumbnail
                 if (item->clipType() == Image || item->clipType() == Text || item->clipType() == Audio) {
-                    QString thumb = thumbBase + item->baseClip()->getClipHash() + "_0.png";
+                    QString thumb = thumbBase + item->getBinHash() + "_0.png";
                     if (!QFile::exists(thumb)) {
                         QPixmap pix(item->startThumb());
                         pix.save(thumb);
                     }
                 } else {
-                    QString startThumb = thumbBase + item->baseClip()->getClipHash() + '_';
+                    QString startThumb = thumbBase + item->getBinHash() + '_';
                     QString endThumb = startThumb;
                     startThumb.append(QString::number((int) item->speedIndependantCropStart().frames(m_document->fps())) + ".png");
                     endThumb.append(QString::number((int) (item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + ".png");

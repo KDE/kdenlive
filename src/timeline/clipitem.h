@@ -61,6 +61,7 @@ public:
     const QString clipProducer() const;
     int clipType() const;
     const QString &getBinId() const;
+    const QString &getBinHash() const;
     DocClipBase *baseClip() const;
     QString clipName() const;
     void setClipName(const QString &name);

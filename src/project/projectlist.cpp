@@ -1580,7 +1580,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, cons
                 }
                 if (item->data(0, ItemDelegate::DurationRole).toString().isEmpty()) {
                     //item->changeDuration(clip->getProducer()->get_playtime());
-		    item->changeDuration(pCore->binController()->getBinClipDuration(clip->getId()));
+		    //item->changeDuration(pCore->binController()->getBinClipDuration(clip->getId()));
                 }
                 if (clip->isPlaceHolder()) {
                     QPixmap pixmap = item->data(0, Qt::DecorationRole).value<QPixmap>();

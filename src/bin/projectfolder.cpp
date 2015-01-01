@@ -41,13 +41,22 @@ ProjectFolder::ProjectFolder(Bin *bin) :
     AbstractProjectItem(AbstractProjectItem::FolderItem, QString::number(-1))
     , m_bin(bin)
 {
+    m_name = "root";
     setParent(NULL);
 }
 
 ProjectFolder::~ProjectFolder()
 {
+    qDebug()<<" * * *DELETING PRO FOLDER: "<<m_name;
 }
 
+void ProjectFolder::setCurrent(bool current, bool notify)
+{
+    AbstractProjectItem::setCurrent(current, notify);
+    if (current) {
+        bin()->openProducer(QString(), NULL);
+    }
+}
 
 ProjectClip* ProjectFolder::clip(const QString &id)
 {

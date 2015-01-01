@@ -54,6 +54,7 @@
 
 class KComboBox;
 class BinController;
+class ClipController;
 
 namespace Mlt
 {
@@ -419,7 +420,7 @@ signals:
 
     /** @brief The renderer received a reply to a getFileProperties request. */
     void replyGetFileProperties(requestClipInfo &, Mlt::Producer &, const stringMap &, const stringMap &);
-    void gotFileProperties(requestClipInfo,Mlt::Producer *);
+    void gotFileProperties(requestClipInfo,ClipController *);
 
     /** @brief The renderer received a reply to a getImage request. */
     void replyGetImage(const QString &, const QString &, int, int);

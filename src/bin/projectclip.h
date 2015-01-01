@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class ProjectFolder;
 class QDomElement;
+class ClipController;
 
 namespace Mlt {
   class Producer;
@@ -54,7 +55,7 @@ public:
     /**
      * @brief Constructor; used when loading a project and the producer is already available.
      */
-    ProjectClip(const QString &id, Mlt::Producer *producer, ProjectFolder* parent);
+    ProjectClip(const QString &id, ClipController *controller, ProjectFolder* parent);
     /**
      * @brief Constructor.
      * @param description element describing the clip; the "id" attribute and "resource" property are used
@@ -121,7 +122,7 @@ public:
      *  @param producer The producer
      *  @param replaceProducer If true, we replace existing producer with this one
      * . */
-    void setProducer(Mlt::Producer *producer, bool replaceProducer);
+    void setProducer(ClipController *controller, bool replaceProducer);
     
     /** @brief Returns true if this clip already has a producer. */
     bool hasProducer() const;
@@ -170,8 +171,8 @@ private:
     QList <int> m_markers;
     //TODO: handle properties inside MLT ?
     QMap <QString, QString> m_properties;
-    /** @brief The MLT producer for this clip. */
-    Mlt::Producer *m_producer;
+    /** @brief The Clip controller for this clip. */
+    ClipController *m_controller;
     /** @brief Generate and store file hash if not available. */
     void getFileHash();
 };

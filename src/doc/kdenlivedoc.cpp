@@ -409,15 +409,12 @@ KdenliveDoc::~KdenliveDoc()
 
 int KdenliveDoc::setSceneList()
 {
-    qDebug()<<" ++++++++ SETTING SCENE LIST ++++++++++++++++";
     m_render->resetProfile(KdenliveSettings::current_profile(), true);
     if (m_render->setSceneList(m_document.toString(), m_documentProperties.value("position").toInt()) == -1) {
         // INVALID MLT Consumer, something is wrong
         return -1;
     }
     m_documentProperties.remove("position");
-    // m_document xml is now useless, clear it
-    m_document.clear();
     return 0;
 }
 
@@ -1283,6 +1280,11 @@ void KdenliveDoc::addClipList(const QList<QUrl> &urls, const QMap<QString, QStri
 {
     m_clipManager->doAddClipList(urls, data);
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
+}
+
+ProjectClip *KdenliveDoc::getBinClip(const QString &clipId)
+{
+    return pCore->bin()->getBinClip(clipId);
 }
 
 DocClipBase *KdenliveDoc::getBaseClip(const QString &clipId)

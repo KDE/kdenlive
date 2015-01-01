@@ -154,7 +154,7 @@ bool DocumentValidator::validate(const double currentVersion)
 	// Remove "main bin" playlist that simply holds the bin's clips and is not a real playlist
 	for (int i = 0; i < playlists.count(); ++i) {
 	    QString playlistId = playlists.at(i).toElement().attribute("id");
-	    if (playlistId == BinController::id()) {
+	    if (playlistId == BinController::binPlaylistId()) {
 		// remove pseudo-playlist
 		//playlists.at(i).parentNode().removeChild(playlists.at(i));
                 trackOffset = 2;

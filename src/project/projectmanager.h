@@ -44,11 +44,7 @@ public:
     KdenliveDoc *current();
     TrackView *currentTrackView();
 
-    /** @brief Opens or creates a file.
-     * Command line argument passed in Url has
-     * precedence, then "openlastproject", then just a plain empty file.
-     * If opening Url fails, openlastproject will _not_ be used.
-     */
+    /** @brief Store command line args for later opening. */
     void init(const QUrl &projectUrl, const QString &clipList);
 
     void doOpenFile(const QUrl &url, KAutoSaveFile *stale);
@@ -61,6 +57,8 @@ public slots:
     /** @brief Shows file open dialog. */
     void openFile();
     void openLastFile();
+    /** @brief Load files / clips passed on the command line. */
+    void slotLoadOnOpen();
 
     /** @brief Checks whether a URL is available to save to.
     * @return Whether the file was saved. */
@@ -104,9 +102,11 @@ private:
 
     KdenliveDoc *m_project;
     TrackView *m_trackView;
+    
+    QUrl m_startUrl;
+    QString m_loadClipsOnOpen;
 
     QAction *m_fileRevert;
-    QUrl m_startUrl;
     KRecentFilesAction *m_recentFilesAction;
     NotesPlugin *m_notesPlugin;
 };

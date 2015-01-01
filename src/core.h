@@ -72,6 +72,9 @@ private:
     MonitorManager *m_monitorManager;
     BinController *m_binController;
     Bin *m_binWidget;
+    
+signals:
+    void coreIsReady();
 };
 
 #endif
