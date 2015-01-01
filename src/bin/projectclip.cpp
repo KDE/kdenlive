@@ -35,8 +35,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 ProjectClip::ProjectClip(const QString &id, ClipController *controller, ProjectFolder* parent) :
-    AbstractProjectItem(AbstractProjectItem::ClipItem, id, parent),
-    m_controller(controller)
+    AbstractProjectItem(AbstractProjectItem::ClipItem, id, parent)
+    , m_controller(controller)
+    , audioFrameCache()
+    , m_audioThumbCreated(false)
 {
     m_properties = QMap <QString, QString> ();
     m_name = m_controller->clipName();
@@ -49,6 +51,8 @@ ProjectClip::ProjectClip(const QString &id, ClipController *controller, ProjectF
 ProjectClip::ProjectClip(const QDomElement& description, ProjectFolder* parent) :
     AbstractProjectItem(AbstractProjectItem::ClipItem, description, parent)
     , m_controller(NULL)
+    , audioFrameCache()
+    , m_audioThumbCreated(false)
 {
     Q_ASSERT(description.hasAttribute("id"));
     m_properties = QMap <QString, QString> ();
@@ -76,6 +80,25 @@ QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &
         }
     }
     return value;
+}
+
+void ProjectClip::updateAudioThumbnail(const audioByteArray& data)
+{
+    ////qDebug() << "CLIPBASE RECIEDVED AUDIO DATA*********************************************";
+    audioFrameCache = data;
+    m_audioThumbCreated = true;
+    emit gotAudioData();
+}
+
+QList < CommentedTime > ProjectClip::commentedSnapMarkers() const
+{
+    if (m_controller) return m_controller->commentedSnapMarkers();
+    return QList < CommentedTime > ();
+}
+
+bool ProjectClip::audioThumbCreated() const
+{
+    return m_audioThumbCreated;
 }
 
 ClipType ProjectClip::clipType() const
@@ -121,12 +144,12 @@ bool ProjectClip::hasLimitedDuration() const
     return m_hasLimitedDuration;
 }
 
-int ProjectClip::duration() const
+GenTime ProjectClip::duration() const
 {
     if (m_controller) {
 	return m_controller->getPlaytime();
     }
-    return -1;
+    return GenTime();
 }
 
 QString ProjectClip::serializeClip()
@@ -224,7 +247,7 @@ Mlt::Producer *ProjectClip::producer()
     return m_controller->masterProducer();
 }
 
-bool ProjectClip::hasProducer() const
+bool ProjectClip::isReady() const
 {
     return m_controller!= NULL;
 }
@@ -292,8 +315,16 @@ void ProjectClip::setProducerProperty(const char *name, const char *data)
     }
 }
 
+int ProjectClip::getProducerIntProperty(const QString &key) const
+{
+    int value = 0;
+    if (m_controller) {
+        value = m_controller->int_property(key);
+    }
+    return value;
+}
 
-QString ProjectClip::getProducerProperty(const QString &key)
+QString ProjectClip::getProducerProperty(const QString &key) const
 {
     QString value;
     if (m_controller) {
@@ -304,19 +335,23 @@ QString ProjectClip::getProducerProperty(const QString &key)
 
 const QString ProjectClip::hash()
 {
-    if (!m_properties.contains("file_hash")) getFileHash();
-    return m_properties.value("file_hash");
+    if (!m_controller) return QString();
+    QString clipHash = m_controller->property("file_hash");
+    if (clipHash.isEmpty()) {
+        return getFileHash();
+    }
+    return clipHash;
 }
 
-void ProjectClip::getFileHash()
+const QString ProjectClip::getFileHash() const
 {
-    if (clipType() == SlideShow) return;    
+    if (clipType() == SlideShow) return QString();
     QFile file(m_controller->clipUrl().toLocalFile());
     if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
         QByteArray fileData;
         QByteArray fileHash;
         ////qDebug() << "SETTING HASH of" << value;
-        m_properties.insert("file_size", QString::number(file.size()));
+        //m_properties.insert("file_size", QString::number(file.size()));
         /*
                * 1 MB = 1 second per 450 files (or faster)
                * 10 MB = 9 seconds per 450 files (or faster)
@@ -329,8 +364,11 @@ void ProjectClip::getFileHash()
             fileData = file.readAll();
         file.close();
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
-        m_properties.insert("file_hash", QString(fileHash.toHex()));
+        QString result = fileHash.toHex();
+        m_controller->setProperty("file_hash", result);
+        return result;
     }
+    return QString();
 }
 
 const QString ProjectClip::getProperty(const QString &key) const

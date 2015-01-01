@@ -25,7 +25,6 @@
 #include "smallruler.h"
 #include "mltcontroller/clipcontroller.h"
 #include "kdenlivesettings.h"
-#include "doc/docclipbase.h"
 #include "timeline/abstractclipitem.h"
 #include "twostateaction.h"
 
@@ -51,7 +50,6 @@
 Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent) :
     AbstractMonitor(id, manager, parent)
     , render(NULL)
-    , m_currentClip(NULL)
     , m_controller(NULL)
     , m_overlay(NULL)
     , m_length(2)
@@ -360,16 +358,11 @@ double Monitor::fps() const
     return m_monitorManager->timecode().fps();
 }
 
-DocClipBase *Monitor::activeClip()
+void Monitor::updateMarkers(ClipController *source)
 {
-    return m_currentClip;
-}
-
-void Monitor::updateMarkers(DocClipBase *source)
-{
-    if (source == m_currentClip && source != NULL) {
+    if (source == m_controller && source != NULL) {
         m_markerMenu->clear();
-        QList <CommentedTime> markers = m_currentClip->commentedSnapMarkers();
+        QList <CommentedTime> markers = m_controller->commentedSnapMarkers();
         if (!markers.isEmpty()) {
             QList <int> marks;
             for (int i = 0; i < markers.count(); ++i) {
@@ -392,12 +385,12 @@ void Monitor::setMarkers(const QList<CommentedTime> &markers)
 
 void Monitor::slotSeekToPreviousSnap()
 {
-    if (m_currentClip) slotSeek(getSnapForPos(true).frames(m_monitorManager->timecode().fps()));
+    if (m_controller) slotSeek(getSnapForPos(true).frames(m_monitorManager->timecode().fps()));
 }
 
 void Monitor::slotSeekToNextSnap()
 {
-    if (m_currentClip) slotSeek(getSnapForPos(false).frames(m_monitorManager->timecode().fps()));
+    if (m_controller) slotSeek(getSnapForPos(false).frames(m_monitorManager->timecode().fps()));
 }
 
 GenTime Monitor::position()
@@ -408,7 +401,7 @@ GenTime Monitor::position()
 GenTime Monitor::getSnapForPos(bool previous)
 {
     QList <GenTime> snaps;
-    QList < GenTime > markers = m_currentClip->snapMarkers();
+    QList < GenTime > markers = m_controller->snapMarkers();
     for (int i = 0; i < markers.size(); ++i) {
         GenTime t = markers.at(i);
         snaps.append(t);
@@ -417,7 +410,7 @@ GenTime Monitor::getSnapForPos(bool previous)
     snaps.append(GenTime(zone.x(), m_monitorManager->timecode().fps()));
     snaps.append(GenTime(zone.y(), m_monitorManager->timecode().fps()));
     snaps.append(GenTime());
-    snaps.append(m_currentClip->duration());
+    snaps.append(m_controller->getPlaytime());
     qSort(snaps);
 
     const GenTime pos = render->seekPosition();
@@ -496,7 +489,7 @@ void Monitor::mouseReleaseEvent(QMouseEvent * event)
 // virtual
 void Monitor::mouseMoveEvent(QMouseEvent *event)
 {
-    if (!m_dragStarted || m_currentClip == NULL) return;
+    if (!m_dragStarted || m_controller == NULL) return;
 
     if ((event->pos() - m_DragStartPosition).manhattanLength()
             < QApplication::startDragDistance())
@@ -507,7 +500,7 @@ void Monitor::mouseMoveEvent(QMouseEvent *event)
         QMimeData *mimeData = new QMimeData;
 
         QStringList list;
-        list.append(m_currentClip->getId());
+        list.append(m_controller->clipId());
         QPoint p = m_ruler->zone();
         list.append(QString::number(p.x()));
         list.append(QString::number(p.y()));
@@ -582,26 +575,32 @@ void Monitor::slotMouseSeek(int eventDelta, bool fast)
 
 void Monitor::slotSetThumbFrame()
 {
-    if (m_currentClip == NULL) {
+    if (m_controller == NULL) {
         return;
     }
-    m_currentClip->setClipThumbFrame((uint) render->seekFramePosition());
-    emit refreshClipThumbnail(m_currentClip->getId(), true);
+    //TODO
+    /*m_controller->setClipThumbFrame((uint) render->seekFramePosition());
+    emit refreshClipThumbnail(m_controller->clipId(), true);*/
 }
 
 void Monitor::slotExtractCurrentZone()
 {
-    if (m_currentClip == NULL) return;
-    emit extractZone(m_currentClip->getId(), m_ruler->zone());
+    if (m_controller == NULL) return;
+    emit extractZone(m_controller->clipId(), m_ruler->zone());
+}
+
+ClipController *Monitor::currentController() const
+{
+    return m_controller;
 }
 
 void Monitor::slotExtractCurrentFrame()
 {
     QImage frame;
     // check if we are using a proxy
-    if (m_currentClip && !m_currentClip->getProperty("proxy").isEmpty() && m_currentClip->getProperty("proxy") != "-") {
+    if (m_controller && !m_controller->property("proxy").isEmpty() && m_controller->property("proxy") != "-") {
         // using proxy, use original clip url to get frame
-        frame = render->extractFrame(render->seekFramePosition(), m_currentClip->fileURL().toLocalFile());
+        frame = render->extractFrame(render->seekFramePosition(), m_controller->property("resource"));
     }
     else frame = render->extractFrame(render->seekFramePosition());
     QString framesFolder = KRecentDirs::dir(":KdenliveFramesFolder");
@@ -650,8 +649,8 @@ void Monitor::checkOverlay()
     else if (pos == zone.y())
         overlayText = i18n("Out Point");
     else {
-        if (m_currentClip) {
-            overlayText = m_currentClip->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
+        if (m_controller) {
+            overlayText = m_controller->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
 	    if (!overlayText.isEmpty()) {
 		m_overlay->setOverlayText(overlayText, false);
 		return;
@@ -785,8 +784,8 @@ void Monitor::adjustRulerSize(int length)
 {
     if (length > 0) m_length = length;
     m_ruler->adjustScale(m_length);
-    if (m_currentClip != NULL) {
-        QPoint zone = m_currentClip->zone();
+    if (m_controller != NULL) {
+        QPoint zone = m_controller->zone();
         m_ruler->setZone(zone.x(), zone.y());
     }
 }
@@ -893,7 +892,7 @@ void Monitor::openClip(ClipController *controller)
     }
 }
 
-const QString &Monitor::activeClipId()
+const QString Monitor::activeClipId()
 {
     if (m_controller) {
         return m_controller->clipId();
@@ -901,6 +900,7 @@ const QString &Monitor::activeClipId()
     return QString();
 }
 
+/*
 void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpdate, int position)
 {
     if (render == NULL) return;
@@ -917,10 +917,7 @@ void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpda
         m_currentClip = clip;
 	if (position == -1) position = clip->lastSeekPosition;
         updateMarkers(clip);
-        /*Mlt::Producer *prod = NULL;
-        if (clip) prod = clip->getCloneProducer();
-        if (render->setProducer(prod, position) == -1) {*/
-	if (render->setMonitorProducer(clip->getId(), position) == -1) {
+  	if (render->setMonitorProducer(clip->getId(), position) == -1) {
             // MLT CONSUMER is broken
             qWarning() << "ERROR, Cannot start monitor";
         } else start();
@@ -941,6 +938,7 @@ void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpda
         render->seek(zone.x());
     }
 }
+*/
 
 void Monitor::slotOpenFile(const QString &file)
 {
@@ -952,7 +950,8 @@ void Monitor::slotOpenFile(const QString &file)
 void Monitor::slotSaveZone()
 {
     if (render == NULL) return;
-    emit saveZone(render, m_ruler->zone(), m_currentClip);
+    //TODO
+    //emit saveZone(render, m_ruler->zone(), m_currentClip);
 
     //render->setSceneList(doc, 0);
 }
@@ -999,8 +998,8 @@ const QString Monitor::sceneList()
 
 void Monitor::setClipZone(const QPoint &pos)
 {
-    if (m_currentClip == NULL) return;
-    m_currentClip->setZone(pos);
+    if (m_controller == NULL) return;
+    m_controller->setZone(pos);
 }
 
 void Monitor::slotSwitchDropFrames(bool show)
@@ -1055,8 +1054,8 @@ void Monitor::updateTimecodeFormat()
 QStringList Monitor::getZoneInfo() const
 {
     QStringList result;
-    if (m_currentClip == NULL) return result;
-    result << m_currentClip->getId();
+    if (m_controller == NULL) return result;
+    result << m_controller->clipId();
     QPoint zone = m_ruler->zone();
     result << QString::number(zone.x()) << QString::number(zone.y());
     return result;
@@ -1171,18 +1170,19 @@ AbstractRender *Monitor::abstractRender()
 
 void Monitor::reloadProducer(const QString &id)
 {
-    if (!m_currentClip) return;
-    if (m_currentClip->getId() == id)
-        slotSetClipProducer(m_currentClip, m_currentClip->zone(), true);
+    if (!m_controller) return;
+    if (m_controller->clipId() == id)
+        openClip(m_controller);
 }
 
 QString Monitor::getMarkerThumb(GenTime pos)
 {
-    if (!m_currentClip) return QString();
-    if (!m_currentClip->getClipHash().isEmpty()) {
+    //TODO
+    /*if (!m_controller) return QString();
+    if (!m_controller->getClipHash().isEmpty()) {
 	QString url = m_monitorManager->getProjectFolder() + "thumbs/" + m_currentClip->getClipHash() + '#' + QString::number((int) pos.frames(m_monitorManager->timecode().fps())) + ".png";
         if (QFile::exists(url)) return url;
-    }
+    }*/
     return QString();
 }
 

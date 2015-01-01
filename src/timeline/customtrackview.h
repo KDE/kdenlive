@@ -37,6 +37,7 @@
 #include "effectslist/effectslist.h"
 #include "timeline/customtrackscene.h"
 
+class ClipController;
 class ClipItem;
 class AbstractClipItem;
 class AbstractGroupItem;
@@ -522,7 +523,7 @@ signals:
     void displayMessage(const QString &, MessageType);
     void showClipFrame(DocClipBase *, QPoint, bool, const int);
     void doTrackLock(int, bool);
-    void updateClipMarkers(DocClipBase *);
+    void updateClipMarkers(ClipController*);
     void updateClipExtraData(DocClipBase *);
     void updateTrackHeaders();
     void playMonitor();

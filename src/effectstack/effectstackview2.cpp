@@ -22,7 +22,7 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "doc/kthumb.h"
-#include "doc/docclipbase.h"
+#include "bin/projectclip.h"
 #include "project/projectlist.h"
 #include "effectslist/effectslist.h"
 #include "timeline/clipitem.h"
@@ -116,9 +116,11 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c)
                 m_ui.checkAll->setText(i18n("Effects for %1", cname));
             }
             m_ui.checkAll->setEnabled(true);
-            QString size = c->baseClip()->getProperty("frame_size");
-            double factor = c->baseClip()->getProperty("aspect_ratio").toDouble();
-            m_effectMetaInfo.frameSize = QPoint((int)(size.section('x', 0, 0).toInt() * factor + 0.5), size.section('x', 1, 1).toInt());
+            //TODO
+            int frameWidth = c->binClip()->getProducerIntProperty("meta.media.width");
+            int frameHeight = c->binClip()->getProducerIntProperty("meta.media.height");
+            double factor = c->binClip()->getProducerProperty("aspect_ratio").toDouble();
+            m_effectMetaInfo.frameSize = QPoint((int)(frameWidth * factor + 0.5), frameHeight);
         }
     }
     if (m_clipref == NULL) {
@@ -652,7 +654,7 @@ void EffectStackView2::slotMoveEffectUp(const QList<int> &indexes, bool up)
 void EffectStackView2::slotStartFilterJob(QMap <QString, QString> &filterParams, QMap <QString, QString> &consumerParams, QMap <QString, QString> &extraParams)
 {
     if (!m_clipref) return;
-    emit startFilterJob(m_clipref->info(), m_clipref->clipProducer(), filterParams, consumerParams, extraParams);
+    emit startFilterJob(m_clipref->info(), m_clipref->getBinId(), filterParams, consumerParams, extraParams);
 }
 
 void EffectStackView2::slotResetEffect(int ix)

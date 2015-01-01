@@ -194,12 +194,22 @@ Mlt::Producer *BinController::cloneProducer(Mlt::Producer &original)
     return clone;
 }
 
-Mlt::Producer *BinController::getBinClip(const QString &id, int track, int clipState, double speed)
+Mlt::Producer *BinController::getBinClip(const QString &id, int track, PlaylistState::ClipState clipState, double speed)
 {
     if (!m_clipList.contains(id)) return NULL;
     // TODO: framebuffer speed clips
     ClipController *controller = m_clipList.value(id);
-    return controller->getTrackProducer(id, track, clipState, speed);
+    return controller->getTrackProducer(track, clipState, speed);
+}
+
+double BinController::fps() const
+{
+    return m_mltProfile->fps();
+}
+
+double BinController::dar() const
+{
+    return m_mltProfile->dar();
 }
 
 void BinController::duplicateFilters(Mlt::Producer original, Mlt::Producer clone)

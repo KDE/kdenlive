@@ -79,7 +79,7 @@ class KdenliveDoc;
 class DocClipBase;
 class AbstractClipJob;
 class ItemDelegate;
-class ClipPropertiesManager;
+//class ClipPropertiesManager;
 
 class SmallInfoLabel: public QPushButton
 {
@@ -252,7 +252,9 @@ private:
     SmallInfoLabel *m_infoLabel;
     /** @brief A list of strings containing the last error logs for clip jobs. */
     QStringList m_errorLog;
-    ClipPropertiesManager *m_clipPropertiesManager;
+    
+    //TODO
+    //ClipPropertiesManager *m_clipPropertiesManager;
 
     MyMessageWidget *m_infoMessage;
     /** @brief The action that will trigger the log dialog. */

@@ -53,6 +53,12 @@ public:
     /** @brief Returns the MLT profile used everywhere in the project. */
     Mlt::Profile *profile();
     
+    /** @brief Returns the project's fps. */
+    double fps() const;
+    
+    /** @brief Returns the project's dar. */
+    double dar() const;
+
     /** @brief Reset the profile to a new one, for example when loading a document with another profile.
      * @param newProfile The file name for the new MLT profile
      * */
@@ -101,7 +107,7 @@ public:
      @param clipState The state of the clip (if we need an audio only or video only producer).
      @param speed If the clip has a speed effect (framebuffer producer), we indicate the speed here
     */
-    Mlt::Producer *getBinClip(const QString &id, int track, int clipState = PlaylistState::Original, double speed = 1.0);
+    Mlt::Producer *getBinClip(const QString &id, int track, PlaylistState::ClipState clipState = PlaylistState::Original, double speed = 1.0);
     
     /** @brief Returns the clip data as rendered by MLT's XML consumer, used to duplicate a clip
      * @param producer The clip's original producer

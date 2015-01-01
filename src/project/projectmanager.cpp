@@ -190,7 +190,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges)
     }
 
     pCore->window()->slotTimelineClipSelected(NULL, false);
-    pCore->monitorManager()->clipMonitor()->slotSetClipProducer(NULL);
+    pCore->monitorManager()->clipMonitor()->openClip(NULL);
     pCore->window()->m_projectList->slotResetProjectList();
     pCore->window()->m_timelineArea->removeTab(0);
 

@@ -2,8 +2,8 @@ add_subdirectory(dialogs)
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
   project/clipmanager.cpp
-  project/clipproperties.cpp
-  project/clippropertiesmanager.cpp
+#  project/clipproperties.cpp
+#  project/clippropertiesmanager.cpp
   project/clipstabilize.cpp
   project/cliptranscode.cpp
   project/folderprojectitem.cpp

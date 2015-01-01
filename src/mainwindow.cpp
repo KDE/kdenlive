@@ -21,6 +21,8 @@
 #include "mainwindow.h"
 #include "mainwindowadaptor.h"
 #include "core.h"
+#include "bin/projectclip.h"
+#include "mltcontroller/clipcontroller.h"
 #include "kdenlivesettings.h"
 #include "dialogs/kdenlivesettingsdialog.h"
 #include "effectslist/initeffects.h"
@@ -175,9 +177,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), m_timelineArea);
     pCore->bin()->setMonitor(m_clipMonitor);
 
-    // Connect the project list
-    connect(m_projectList, SIGNAL(clipSelected(DocClipBase*,QPoint,bool)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase*,QPoint,bool)));
-    connect(m_projectList, SIGNAL(raiseClipMonitor(bool)), m_clipMonitor, SLOT(slotActivateMonitor(bool)));
     connect(m_projectList, SIGNAL(loadingIsOver()), this, SLOT(slotElapsedTime()));
     connect(m_projectList, SIGNAL(displayMessage(QString,int,MessageType)), this, SLOT(slotGotProgressInfo(QString,int,MessageType)));
     connect(m_projectList, SIGNAL(updateRenderStatus()), this, SLOT(slotCheckRenderStatus()));
@@ -627,18 +626,20 @@ void MainWindow::slotAddEffect(const QDomElement &effect)
 
 void MainWindow::slotUpdateClip(const QString &id)
 {
-    DocClipBase *clip = pCore->projectManager()->current()->clipManager()->getClipById(id);
+    ProjectClip *clip = pCore->bin()->getBinClip(id);
     if (!clip) {
         return;
     }
-    if (clip->numReferences() > 0) {
+    //TOFO
+    /*if (clip->numReferences() > 0) {
         pCore->projectManager()->currentTrackView()->projectView()->slotUpdateClip(id);
+    }*/
+    //TODO Should probably be removed
+    if (m_clipMonitor->activeClipId() == id) {
+        m_clipMonitor->openClip(pCore->binController()->getController(id));
     }
-    if (m_clipMonitor->activeClip() && m_clipMonitor->activeClip()->getId() == id) {
-        Mlt::Producer *monitorProducer = clip->getCloneProducer();
-        m_clipMonitor->updateClipProducer(monitorProducer);
-    }
-    clip->cleanupProducers();
+    //TODO
+    //clip->cleanupProducers();
 }
 
 void MainWindow::slotConnectMonitors()
@@ -1369,7 +1370,7 @@ void MainWindow::slotUpdateProjectProfile(const QString &profile)
     // Deselect current effect / transition
     m_effectStack->slotClipItemSelected(NULL);
     m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
-    m_clipMonitor->slotSetClipProducer(NULL);
+    m_clipMonitor->openClip(NULL);
     bool updateFps = project->setProfilePath(profile);
     pCore->binController()->resetProfile(profile);
     KdenliveSettings::setProject_fps(project->fps());
@@ -1515,7 +1516,6 @@ void MainWindow::connectDocument()
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
     connect(m_projectMonitor->render, SIGNAL(refreshDocumentProducers(bool,bool)), project, SLOT(checkProjectClips(bool,bool)));
 
-    connect(project, SIGNAL(addProjectClip(DocClipBase*,bool)), m_projectList, SLOT(slotAddClip(DocClipBase*,bool)));
     connect(project, SIGNAL(resetProjectList()), m_projectList, SLOT(slotResetProjectList()));
     connect(project, SIGNAL(signalDeleteProjectClip(QString)), this, SLOT(slotDeleteClip(QString)));
     connect(project, SIGNAL(updateClipDisplay(QString)), m_projectList, SLOT(slotUpdateClip(QString)));
@@ -1526,7 +1526,7 @@ void MainWindow::connectDocument()
     connect(project, SIGNAL(saveTimelinePreview(QString)), trackView, SLOT(slotSaveTimelinePreview(QString)));
     connect(m_proxyClip, SIGNAL(toggled(bool)), project, SLOT(slotProxyCurrentItem(bool)));
 
-    connect(trackView->projectView(), SIGNAL(updateClipMarkers(DocClipBase*)), this, SLOT(slotUpdateClipMarkers(DocClipBase*)));
+    connect(trackView->projectView(), SIGNAL(updateClipMarkers(ClipController*)), this, SLOT(slotUpdateClipMarkers(ClipController*)));
     connect(trackView, SIGNAL(showTrackEffects(int,TrackInfo)), this, SLOT(slotTrackSelected(int,TrackInfo)));
 
     connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*,bool)), this, SLOT(slotTimelineClipSelected(ClipItem*,bool)));
@@ -1763,7 +1763,7 @@ void MainWindow::slotDeleteItem()
     }
 }
 
-void MainWindow::slotUpdateClipMarkers(DocClipBase *clip)
+void MainWindow::slotUpdateClipMarkers(ClipController *clip)
 {
     if (m_clipMonitor->isActive()) {
         m_clipMonitor->checkOverlay();
@@ -1775,25 +1775,25 @@ void MainWindow::slotAddClipMarker()
 {
     KdenliveDoc *project = pCore->projectManager()->current();
 
-    DocClipBase *clip = NULL;
+    ClipController *clip = NULL;
     GenTime pos;
     if (m_projectMonitor->isActive()) {
         if (pCore->projectManager()->currentTrackView()) {
             ClipItem *item = pCore->projectManager()->currentTrackView()->projectView()->getActiveClipUnderCursor();
             if (item) {
                 pos = GenTime((int)((m_projectMonitor->position() - item->startPos() + item->cropStart()).frames(project->fps()) * item->speed() + 0.5), project->fps());
-                clip = item->baseClip();
+                clip = pCore->binController()->getController(item->getBinId());
             }
         }
     } else {
-        clip = m_clipMonitor->activeClip();
+        clip = m_clipMonitor->currentController();
         pos = m_clipMonitor->position();
     }
     if (!clip) {
         m_messageLabel->setMessage(i18n("Cannot find clip to add marker"), ErrorMessage);
         return;
     }
-    QString id = clip->getId();
+    QString id = clip->clipId();
     CommentedTime marker(pos, i18n("Marker"), KdenliveSettings::default_marker_type());
     QPointer<MarkerDialog> d = new MarkerDialog(clip, marker,
                                                 project->timecode(), i18n("Add Marker"), this);
@@ -1807,18 +1807,18 @@ void MainWindow::slotAddClipMarker()
 
 void MainWindow::slotDeleteClipMarker()
 {
-    DocClipBase *clip = NULL;
+    ClipController *clip = NULL;
     GenTime pos;
     if (m_projectMonitor->isActive()) {
         if (pCore->projectManager()->currentTrackView()) {
             ClipItem *item = pCore->projectManager()->currentTrackView()->projectView()->getActiveClipUnderCursor();
             if (item) {
                 pos = (m_projectMonitor->position() - item->startPos() + item->cropStart()) / item->speed();
-                clip = item->baseClip();
+                clip = pCore->binController()->getController(item->getBinId());
             }
         }
     } else {
-        clip = m_clipMonitor->activeClip();
+        clip = m_clipMonitor->currentController();
         pos = m_clipMonitor->position();
     }
     if (!clip) {
@@ -1826,7 +1826,7 @@ void MainWindow::slotDeleteClipMarker()
         return;
     }
 
-    QString id = clip->getId();
+    QString id = clip->clipId();
     QString comment = clip->markerComment(pos);
     if (comment.isEmpty()) {
         m_messageLabel->setMessage(i18n("No marker found at cursor time"), ErrorMessage);
@@ -1837,38 +1837,38 @@ void MainWindow::slotDeleteClipMarker()
 
 void MainWindow::slotDeleteAllClipMarkers()
 {
-    DocClipBase *clip = NULL;
+    ClipController *clip = NULL;
     if (m_projectMonitor->isActive()) {
         if (pCore->projectManager()->currentTrackView()) {
             ClipItem *item = pCore->projectManager()->currentTrackView()->projectView()->getActiveClipUnderCursor();
             if (item) {
-                clip = item->baseClip();
+                clip = pCore->binController()->getController(item->getBinId());
             }
         }
     } else {
-        clip = m_clipMonitor->activeClip();
+        clip = m_clipMonitor->currentController();
     }
     if (!clip) {
         m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), ErrorMessage);
         return;
     }
-    pCore->projectManager()->currentTrackView()->projectView()->slotDeleteAllClipMarkers(clip->getId());
+    pCore->projectManager()->currentTrackView()->projectView()->slotDeleteAllClipMarkers(clip->clipId());
 }
 
 void MainWindow::slotEditClipMarker()
 {
-    DocClipBase *clip = NULL;
+    ClipController *clip = NULL;
     GenTime pos;
     if (m_projectMonitor->isActive()) {
         if (pCore->projectManager()->currentTrackView()) {
             ClipItem *item = pCore->projectManager()->currentTrackView()->projectView()->getActiveClipUnderCursor();
             if (item) {
                 pos = (m_projectMonitor->position() - item->startPos() + item->cropStart()) / item->speed();
-                clip = item->baseClip();
+                clip = pCore->binController()->getController(item->getBinId());
             }
         }
     } else {
-        clip = m_clipMonitor->activeClip();
+        clip = m_clipMonitor->currentController();
         pos = m_clipMonitor->position();
     }
     if (!clip) {
@@ -1876,7 +1876,7 @@ void MainWindow::slotEditClipMarker()
         return;
     }
 
-    QString id = clip->getId();
+    QString id = clip->clipId();
     CommentedTime oldMarker = clip->markerAt(pos);
     if (oldMarker == CommentedTime()) {
         m_messageLabel->setMessage(i18n("No marker found at cursor time"), ErrorMessage);
@@ -1904,7 +1904,7 @@ void MainWindow::slotAddMarkerGuideQuickly()
         return;
 
     if (m_clipMonitor->isActive()) {
-        DocClipBase *clip = m_clipMonitor->activeClip();
+        ClipController *clip = m_clipMonitor->currentController();
         GenTime pos = m_clipMonitor->position();
 
         if (!clip) {
@@ -1913,7 +1913,7 @@ void MainWindow::slotAddMarkerGuideQuickly()
         }
         //TODO: allow user to set default marker category
         CommentedTime marker(pos, pCore->projectManager()->current()->timecode().getDisplayTimecode(pos, false), KdenliveSettings::default_marker_type());
-        pCore->projectManager()->currentTrackView()->projectView()->slotAddClipMarker(clip->getId(), QList <CommentedTime>() <<marker);
+        pCore->projectManager()->currentTrackView()->projectView()->slotAddClipMarker(clip->clipId(), QList <CommentedTime>() <<marker);
     } else {
         pCore->projectManager()->currentTrackView()->projectView()->slotAddGuide(false);
     }
@@ -2411,7 +2411,7 @@ void MainWindow::slotClipInProjectTree()
     if (pCore->projectManager()->currentTrackView()) {
         QStringList clipIds;
         if (m_mainClip) {
-            clipIds << m_mainClip->clipProducer();
+            clipIds << m_mainClip->getBinId();
         } else {
             clipIds = pCore->projectManager()->currentTrackView()->projectView()->selectedClips();
         }
@@ -3008,14 +3008,14 @@ void MainWindow::slotSwitchMonitors()
 
 void MainWindow::slotInsertZoneToTree()
 {
-    if (!m_clipMonitor->isActive() || m_clipMonitor->activeClip() == NULL) return;
+    if (!m_clipMonitor->isActive() || m_clipMonitor->currentController() == NULL) return;
     QStringList info = m_clipMonitor->getZoneInfo();
     m_projectList->slotAddClipCut(info.at(0), info.at(1).toInt(), info.at(2).toInt());
 }
 
 void MainWindow::slotInsertZoneToTimeline()
 {
-    if (pCore->projectManager()->currentTrackView() == NULL || m_clipMonitor->activeClip() == NULL) return;
+    if (pCore->projectManager()->currentTrackView() == NULL || m_clipMonitor->currentController() == NULL) return;
     QStringList info = m_clipMonitor->getZoneInfo();
     pCore->projectManager()->currentTrackView()->projectView()->insertClipCut(m_clipMonitor->activeClipId(), info.at(1).toInt(), info.at(2).toInt());
 }
@@ -3060,10 +3060,10 @@ void MainWindow::slotOpenStopmotion()
 
 void MainWindow::slotDeleteClip(const QString &id)
 {
-    QList <ClipProperties *> list = findChildren<ClipProperties *>();
+    /*QList <ClipProperties *> list = findChildren<ClipProperties *>();
     for (int i = 0; i < list.size(); ++i) {
         list.at(i)->disableClipId(id);
-    }
+    }*/
     m_projectList->slotDeleteClip(id);
 }
 

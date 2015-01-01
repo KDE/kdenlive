@@ -59,7 +59,7 @@ public:
     Mlt::Producer *masterProducer();
     
     /** @brief Returns the MLT's producer id */
-    const QString &clipId();
+    const QString clipId();
     
     /** @brief Returns the clip name (usually file name) */
     QString clipName() const;
@@ -70,8 +70,8 @@ public:
     /** @brief Returns the clip's type as defined in definitions.h */
     ClipType clipType() const;
     
-    /** @brief Returns the clip's duration in frames */
-    int getPlaytime() const;
+    /** @brief Returns the clip's duration */
+    GenTime getPlaytime() const;
     /**
      * @brief Sets a property.
      * @param name name of the property
@@ -85,7 +85,9 @@ public:
      * @brief Returns the value of a property.
      * @param name name o the property
      */
-    QString property(const QString &name);
+    QString property(const QString &name) const;
+    int int_property(const QString &name) const;
+    const QString getClipHash() const;
 
     /** @brief Returns the clip duration as a string like 00:00:02:01. */
     const QString getStringDuration();
@@ -104,19 +106,37 @@ public:
     /** @brief Returns the original master producer. */
     Mlt::Producer &originalProducer();
     
+    /** @brief Returns the current profile's display aspect ratio. */
+    double dar() const;
+    
     /** @brief Get a clone of master producer for a specific track. Retrieve it if it already exists
      *  in our list, otherwise we create it. */
-    Mlt::Producer *getTrackProducer(const QString &id, int track, int clipState, double speed);
+    Mlt::Producer *getTrackProducer(int track, PlaylistState::ClipState clipState = PlaylistState::Original, double speed = 1.0);
     
     /** @brief Sets the master producer for this clip when we build the controller without master clip. */
     void addMasterProducer(Mlt::Producer &producer);
+    
+    QList < CommentedTime > commentedSnapMarkers() const;
+    GenTime findNextSnapMarker(const GenTime & currTime);
+    GenTime findPreviousSnapMarker(const GenTime & currTime);
+    QString deleteSnapMarker(const GenTime & time);
+    void editSnapMarker(const GenTime & time, const QString &comment);
+    void addSnapMarker(const CommentedTime &marker);
+    QList < GenTime > snapMarkers() const;
+    QString markerComment(const GenTime &t) const;
+    CommentedTime markerAt(const GenTime &t) const;
+    void setZone(const QPoint &zone);
+    QPoint zone() const;
 
 private:
     Mlt::Producer *m_masterProducer;
     QString m_service;
+    GenTime m_duration;
     QUrl m_url;
     QString m_name;
     BinController *m_binController;
+    /** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
+    QList < CommentedTime > m_snapMarkers;
 };
 
 #endif

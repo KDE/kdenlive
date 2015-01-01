@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ClipController::ClipController(BinController *bincontroller, Mlt::Producer& producer) : QObject()
     , m_binController(bincontroller)
+    , m_snapMarkers(QList < CommentedTime >())
 {
     m_masterProducer = &producer;
     if (!m_masterProducer->is_valid()) qDebug()<<"// WARNING, USING INVALID PRODUCER";
@@ -41,11 +42,13 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer& prod
             m_name = m_url.fileName();
         }
         m_service = m_masterProducer->get("mlt_service");
+        m_duration = GenTime(m_masterProducer->get_playtime(), m_binController->fps());
     }
 }
 
 ClipController::ClipController(BinController *bincontroller) : QObject()
     , m_binController(bincontroller)
+    , m_snapMarkers(QList < CommentedTime >())
 {
     m_masterProducer = NULL;
 }
@@ -54,11 +57,17 @@ ClipController::~ClipController()
 {
 }
 
+double ClipController::dar() const
+{
+    return m_binController->dar();
+}
+
 void ClipController::addMasterProducer(Mlt::Producer &producer)
 {
     m_masterProducer = &producer;
     if (!m_masterProducer->is_valid()) qDebug()<<"// WARNING, USING INVALID PRODUCER";
     else {
+        m_duration = GenTime(m_masterProducer->get_playtime(), m_binController->fps());
         insert(0, m_masterProducer);
         m_url = QUrl::fromLocalFile(m_masterProducer->get("resource"));
         if (m_url.isValid()) {
@@ -84,7 +93,7 @@ bool ClipController::isValid()
     return m_masterProducer->is_valid();
 }
 
-const QString &ClipController::clipId()
+const QString ClipController::clipId()
 {
     if (m_masterProducer == NULL) return QString();
     return property("id");
@@ -99,6 +108,7 @@ void ClipController::updateProducer(Mlt::Producer* producer)
     if (!m_masterProducer->is_valid()) qDebug()<<"// WARNING, USING INVALID PRODUCER";
     else {
         append(m_masterProducer);
+        m_duration = GenTime(m_masterProducer->get_playtime(), m_binController->fps());
         // URL and name shoule not be updated otherwise when proxying a clip we cannot find back the original url
         /*m_url = QUrl::fromLocalFile(m_masterProducer->get("resource"));
         if (m_url.isValid()) {
@@ -108,12 +118,12 @@ void ClipController::updateProducer(Mlt::Producer* producer)
     }
 }
 
-Mlt::Producer *ClipController::getTrackProducer(const QString &id, int track, int clipState, double speed)
+Mlt::Producer *ClipController::getTrackProducer(int track, PlaylistState::ClipState clipState, double speed)
 {
-    QString clipWithTrackId = id;
     if (track == -1) {
         return m_masterProducer;
     }
+    QString clipWithTrackId = clipId();
     clipWithTrackId.append("_" + QString::number(track));
     
     //TODO handle audio / video only producers and framebuffer
@@ -150,14 +160,21 @@ const QString ClipController::getStringDuration()
     return QString(i18n("Unknown"));
 }
 
-int ClipController::getPlaytime() const
+GenTime ClipController::getPlaytime() const
 {
-    return m_masterProducer->get_playtime();
+    return m_duration;
 }
 
-QString ClipController::property(const QString &name)
+QString ClipController::property(const QString &name) const
 {
+    if (!m_masterProducer) return QString();
     return QString(m_masterProducer->parent().get(name.toUtf8().constData()));
+}
+
+int ClipController::int_property(const QString &name) const
+{
+    if (!m_masterProducer) return 0;
+    return m_masterProducer->parent().get_int(name.toUtf8().constData());
 }
 
 QUrl ClipController::clipUrl() const
@@ -276,3 +293,137 @@ QPixmap ClipController::pixmap(int framePosition, int width, int height)
         p.fill(QColor(Qt::red).rgb());
     return p;*/
 }
+
+QList < GenTime > ClipController::snapMarkers() const
+{
+    QList < GenTime > markers;
+    for (int count = 0; count < m_snapMarkers.count(); ++count) {
+        markers.append(m_snapMarkers.at(count).time());
+    }
+
+    return markers;
+}
+
+QList < CommentedTime > ClipController::commentedSnapMarkers() const
+{
+    return m_snapMarkers;
+}
+
+
+void ClipController::addSnapMarker(const CommentedTime &marker)
+{
+    QList < CommentedTime >::Iterator it = m_snapMarkers.begin();
+    for (it = m_snapMarkers.begin(); it != m_snapMarkers.end(); ++it) {
+        if ((*it).time() >= marker.time())
+            break;
+    }
+
+    if ((it != m_snapMarkers.end()) && ((*it).time() == marker.time())) {
+        (*it).setComment(marker.comment());
+        (*it).setMarkerType(marker.markerType());
+        //qCritical() << "trying to add Snap Marker that already exists, this will cause inconsistancies with undo/redo";
+    } else {
+        m_snapMarkers.insert(it, marker);
+    }
+}
+
+void ClipController::editSnapMarker(const GenTime & time, const QString &comment)
+{
+    QList < CommentedTime >::Iterator it;
+    for (it = m_snapMarkers.begin(); it != m_snapMarkers.end(); ++it) {
+        if ((*it).time() == time)
+            break;
+    }
+    if (it != m_snapMarkers.end()) {
+        (*it).setComment(comment);
+    } else {
+        qCritical() << "trying to edit Snap Marker that does not already exists";
+    }
+}
+
+QString ClipController::deleteSnapMarker(const GenTime & time)
+{
+    QString result = i18n("Marker");
+    QList < CommentedTime >::Iterator itt = m_snapMarkers.begin();
+
+    while (itt != m_snapMarkers.end()) {
+        if ((*itt).time() == time)
+            break;
+        ++itt;
+    }
+
+    if ((itt != m_snapMarkers.end()) && ((*itt).time() == time)) {
+        result = (*itt).comment();
+        m_snapMarkers.erase(itt);
+    }
+    return result;
+}
+
+
+GenTime ClipController::findPreviousSnapMarker(const GenTime & currTime)
+{
+    int it;
+    for (it = 0; it < m_snapMarkers.count(); ++it) {
+        if (m_snapMarkers.at(it).time() >= currTime)
+            break;
+    }
+    if (it == 0) return GenTime();
+    else if (it == m_snapMarkers.count() - 1 && m_snapMarkers.at(it).time() < currTime)
+        return m_snapMarkers.at(it).time();
+    else return m_snapMarkers.at(it - 1).time();
+}
+
+GenTime ClipController::findNextSnapMarker(const GenTime & currTime)
+{
+    int it;
+    for (it = 0; it < m_snapMarkers.count(); ++it) {
+        if (m_snapMarkers.at(it).time() > currTime)
+            break;
+    }
+    if (it < m_snapMarkers.count() && m_snapMarkers.at(it).time() > currTime) return m_snapMarkers.at(it).time();
+    return m_duration;
+}
+
+QString ClipController::markerComment(const GenTime &t) const
+{
+    QList < CommentedTime >::ConstIterator itt = m_snapMarkers.begin();
+    while (itt != m_snapMarkers.end()) {
+        if ((*itt).time() == t)
+            return (*itt).comment();
+        ++itt;
+    }
+    return QString();
+}
+
+CommentedTime ClipController::markerAt(const GenTime &t) const
+{
+    QList < CommentedTime >::ConstIterator itt = m_snapMarkers.begin();
+    while (itt != m_snapMarkers.end()) {
+        if ((*itt).time() == t)
+            return (*itt);
+        ++itt;
+    }
+    return CommentedTime();
+}
+
+void ClipController::setZone(const QPoint &zone)
+{
+    setProperty("kdenlive_zone_in", QString::number(zone.x()));
+    setProperty("kdenlive_zone_out", QString::number(zone.y()));
+}
+
+QPoint ClipController::zone() const
+{
+    int in = int_property("kdenlive_zone_in");
+    int out = int_property("kdenlive_zone_out");
+    if (out <= in ) out = in + 50;
+    QPoint zone(in, out);
+    return zone;
+}
+
+const QString ClipController::getClipHash() const
+{
+    return property("file_hash");
+}
+
+

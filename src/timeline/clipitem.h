@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2015 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -33,7 +33,6 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QTimer>
 
-class DocClipBase;
 class Transition;
 class ProjectClip;
 
@@ -47,7 +46,6 @@ class ClipItem : public AbstractClipItem
     Q_OBJECT
 
 public:
-    Q_DECL_DEPRECATED ClipItem(DocClipBase *clip, const ItemInfo &info, double fps, double speed, int strobe, int frame_width, bool generateThumbs = true);
     ClipItem(ProjectClip *clip, const ItemInfo &info, double fps, double speed, int strobe, int frame_width, bool generateThumbs = true);
     virtual ~ ClipItem();
     virtual void paint(QPainter *painter,
@@ -58,11 +56,10 @@ public:
     void resizeEnd(int posx, bool emitChange = true);
     OperationType operationMode(const QPointF &pos);
     static int itemHeight();
-    const QString clipProducer() const;
     int clipType() const;
     const QString &getBinId() const;
-    const QString &getBinHash() const;
-    DocClipBase *baseClip() const;
+    const QString getBinHash() const;
+    ProjectClip *binClip() const;
     QString clipName() const;
     void setClipName(const QString &name);
     QDomElement xml() const;
@@ -126,7 +123,7 @@ public:
 
     /** @brief Gets clip's marker times.
     * @return A list of the times. */
-    QList <GenTime> snapMarkers() const;
+    QList <GenTime> snapMarkers(const QList < GenTime > markers ) const;
     QList <CommentedTime> commentedSnapMarkers() const;
 
     /** @brief Gets the position of the fade in effect. */
@@ -191,7 +188,7 @@ public:
      * @param trackSpecific (default = true) Whether to return general producer for a specific track.
      * @return Fitting producer
      * Which producer is returned depends on the type of this clip (audioonly, videoonly, normal) */
-    Mlt::Producer *getProducer(int track, bool trackSpecific = true);
+    //Mlt::Producer *getProducer(int track, bool trackSpecific = true);
     void resetFrameWidth(int width);
     /** @brief Clip is about to be deleted, block thumbs. */
     void stopThumbs();
@@ -209,10 +206,8 @@ protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:
-    DocClipBase *m_clip;
     ProjectClip *m_binClip;
     ItemInfo m_speedIndependantInfo;
-    QString m_producer;
     ClipType m_clipType;
     QString m_clipName;
     QString m_effectNames;

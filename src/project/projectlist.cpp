@@ -28,7 +28,7 @@
 #include "projectlistview.h"
 #include "clipstabilize.h"
 #include "dialogs/slideshowclip.h"
-#include "clippropertiesmanager.h"
+//#include "clippropertiesmanager.h"
 #include "mltcontroller/bincontroller.h"
 #include "kdenlivesettings.h"
 #include "renderer.h"
@@ -287,7 +287,7 @@ ProjectList::ProjectList(QWidget *parent) :
     m_listViewDelegate = new ItemDelegate(m_listView);
     m_listView->setItemDelegate(m_listViewDelegate);
 
-    m_clipPropertiesManager = new ClipPropertiesManager(this);
+    //m_clipPropertiesManager = new ClipPropertiesManager(this);
 }
 
 ProjectList::~ProjectList()
@@ -442,7 +442,7 @@ void ProjectList::slotEditClip()
         item = static_cast <ProjectItem*>(m_listView->currentItem());
     if (item && (item->flags() & Qt::ItemIsDragEnabled)) {
         emit clipSelected(item->referencedClip());
-        m_clipPropertiesManager->showClipPropertiesDialog(item->referencedClip());
+        //m_clipPropertiesManager->showClipPropertiesDialog(item->referencedClip());
     }
 }
 
@@ -548,7 +548,7 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
         emit displayMessage(i18n("No available clip selected"), -2, ErrorMessage);
     }
     else {
-        m_clipPropertiesManager->showClipPropertiesDialog(clipList, commonproperties);
+        //m_clipPropertiesManager->showClipPropertiesDialog(clipList, commonproperties);
     }
 }
 

@@ -101,7 +101,7 @@ public:
     virtual bool hasLimitedDuration() const;
 
     /** @brief Returns the clip's duration. */
-    virtual int duration() const;
+    GenTime duration() const;
 
     /** @brief Calls AbstractProjectItem::setCurrent and sets the bin monitor to use the clip's producer. */
     virtual void setCurrent(bool current, bool notify = true);
@@ -125,7 +125,7 @@ public:
     void setProducer(ClipController *controller, bool replaceProducer);
     
     /** @brief Returns true if this clip already has a producer. */
-    bool hasProducer() const;
+    bool isReady() const;
     
     /** @brief Returns this clip's producer. */
     Mlt::Producer *producer();
@@ -153,14 +153,23 @@ public:
     void setProducerProperty(const char *name, const char *data);
     
     /** @brief Get a property from the MLT producer. */
-    QString getProducerProperty(const QString &key);
+    QString getProducerProperty(const QString &key) const;
+    int getProducerIntProperty(const QString &key) const;
+    
+    QList < CommentedTime > commentedSnapMarkers() const;
 
     /** @brief Returns true if we are using a proxy for this clip. */
     bool hasProxy() const;
+    
+    /** Cache for every audio Frame with 10 Bytes */
+    /** format is frame -> channel ->bytes */
+    QMap<int, QMap<int, QByteArray> > audioFrameCache;
+    bool audioThumbCreated() const;
 
 public slots:
     //TODO
     QPixmap thumbnail(bool force = false);
+    void updateAudioThumbnail(const audioByteArray& data);
 
 protected:
     QUrl m_url;
@@ -174,7 +183,11 @@ private:
     /** @brief The Clip controller for this clip. */
     ClipController *m_controller;
     /** @brief Generate and store file hash if not available. */
-    void getFileHash();
+    const QString getFileHash() const;
+    bool m_audioThumbCreated;
+    
+signals:
+    void gotAudioData();
 };
 
 #endif

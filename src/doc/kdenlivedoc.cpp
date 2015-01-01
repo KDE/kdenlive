@@ -22,7 +22,7 @@
 #include "docclipbase.h"
 #include "documentchecker.h"
 #include "documentvalidator.h"
-
+#include "mltcontroller/clipcontroller.h"
 #include <config-kdenlive.h>
 #include "kdenlivesettings.h"
 #include "renderer.h"
@@ -1287,6 +1287,11 @@ ProjectClip *KdenliveDoc::getBinClip(const QString &clipId)
     return pCore->bin()->getBinClip(clipId);
 }
 
+ClipController *KdenliveDoc::getClipController(const QString &clipId)
+{
+    return pCore->binController()->getController(clipId);
+}
+
 DocClipBase *KdenliveDoc::getBaseClip(const QString &clipId)
 {
     return m_clipManager->getClipById(clipId);
@@ -1897,7 +1902,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy)
     for (int i = 0; i < clipList.count(); ++i) {
         ProjectClip *item = clipList.at(i);
         ClipType t = item->clipType();
-        if ((t == Video || t == AV || t == Unknown || t == Image || t == Playlist) && item->hasProducer()) {
+        if ((t == Video || t == AV || t == Unknown || t == Image || t == Playlist) && item->isReady()) {
 	    if ((doProxy && item->hasProxy()) || (!doProxy && !item->hasProxy() && pCore->binController()->hasClip(item->clipId()))) continue;
             if (m_render->isProcessing(item->clipId())) {
                 //qDebug()<<"//// TRYING TO PROXY: "<<item->clipId()<<", but it is busy";

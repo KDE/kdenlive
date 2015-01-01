@@ -409,7 +409,7 @@ private slots:
     /** @brief Removes the focus of anything. */
     void slotRemoveFocus();
     void slotCleanProject();
-    void slotUpdateClipMarkers(DocClipBase *clip);
+    void slotUpdateClipMarkers(ClipController *clip);
     void slotShutdown();
     void slotUpdateTrackInfo();
 

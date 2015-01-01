@@ -37,7 +37,6 @@
 #include <QIcon>
 
 class SmallRuler;
-class DocClipBase;
 class ClipController;
 class AbstractClipItem;
 class Transition;
@@ -80,12 +79,12 @@ public:
     void pause();
     void setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL, QAction *loopClip = NULL);
     const QString sceneList();
-    DocClipBase *activeClip();
-    const QString &activeClipId();
+    const QString activeClipId();
     GenTime position();
     void checkOverlay();
     void updateTimecodeFormat();
-    void updateMarkers(DocClipBase *source);
+    void updateMarkers(ClipController *source);
+    ClipController *currentController() const;
     void setMarkers(const QList <CommentedTime> &markers);
     MonitorEditWidget *getEffectEdit();
     QWidget *container();
@@ -119,7 +118,6 @@ protected:
     virtual QStringList mimeTypes() const;
 
 private:
-    DocClipBase *m_currentClip;
     ClipController *m_controller;
     SmallRuler *m_ruler;
     Overlay *m_overlay;
@@ -175,7 +173,7 @@ private slots:
 
 public slots:
     void slotOpenFile(const QString &);
-    void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
+    //void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
     void updateClipProducer(Mlt::Producer *prod);
     void openClip(ClipController *controller);
     void refreshMonitor(bool visible);
@@ -222,7 +220,7 @@ signals:
     void refreshClipThumbnail(const QString &, bool);
     void adjustMonitorSize();
     void zoneUpdated(const QPoint&);
-    void saveZone(Render *, const QPoint&, DocClipBase *);
+    //void saveZone(Render *, const QPoint&, DocClipBase *);
     /** @brief  Editing transitions / effects over the monitor requires the renderer to send frames as QImage.
      *      This causes a major slowdown, so we only enable it if required */
     void requestFrameForAnalysis(bool);

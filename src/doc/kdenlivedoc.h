@@ -46,6 +46,7 @@ class MainWindow;
 class TrackInfo;
 class NotesPlugin;
 class ProjectClip;
+class ClipController;
 
 class QTextEdit;
 class QProgressDialog;
@@ -91,6 +92,7 @@ public:
     void deleteClip(const QString &clipId);
     int getFramePos(const QString &duration);
     ProjectClip *getBinClip(const QString &clipId);
+    ClipController *getClipController(const QString &clipId);
     DocClipBase *getBaseClip(const QString &clipId);
     void updateClip(const QString &id);
 
