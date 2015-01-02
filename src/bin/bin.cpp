@@ -410,22 +410,29 @@ void Bin::selectModel(const QModelIndex &id)
 void Bin::selectProxyModel(const QModelIndex &id)
 {
     if (id.isValid()) {
-        ProjectClip *currentItem = static_cast<ProjectClip*>(m_proxyModel->mapToSource(id).internalPointer());
+        AbstractProjectItem *currentItem = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(id).internalPointer());
 	if (currentItem) {
             // Set item as current so that it displays its content in clip monitor
             currentItem->setCurrent(true);
             if (!currentItem->isFolder()) {
                 m_editAction->setEnabled(true);
+                m_reloadAction->setEnabled(true);
                 if (m_propertiesPanel->width() > 0) {
                     // if info panel is displayed, update info
-                    if (!currentItem->isFolder()) showClipProperties(currentItem);
+                    showClipProperties((ProjectClip *)currentItem);
+                    m_deleteAction->setText(i18n("Delete Clip"));
+                    m_proxyAction->setText(i18n("Proxy Clip"));
                 }
             } else {
                 // A folder was selected, disable editing clip
                 m_editAction->setEnabled(false);
+                m_reloadAction->setEnabled(false);
+                m_deleteAction->setText(i18n("Delete Folder"));
+                m_proxyAction->setText(i18n("Proxy Folder"));
             }
 	    m_deleteAction->setEnabled(true);
         } else {
+            m_reloadAction->setEnabled(false);
 	    m_editAction->setEnabled(false);
 	    m_deleteAction->setEnabled(false);
 	}
@@ -562,19 +569,16 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
         QModelIndex idx = m_itemView->indexAt(m_itemView->viewport()->mapFromGlobal(event->globalPos()));
         if (idx != QModelIndex()) {
 	    // User right clicked on a clip
-            ProjectClip *currentItem = static_cast<ProjectClip *>(m_proxyModel->mapToSource(idx).internalPointer());
+            AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(idx).internalPointer());
             if (currentItem) {
 		enableClipActions = true;
 		m_proxyAction->blockSignals(true);
-		m_proxyAction->setChecked(currentItem->hasProxy());
+		if (!currentItem->isFolder()) m_proxyAction->setChecked(((ProjectClip *)currentItem)->hasProxy());
 		m_proxyAction->blockSignals(false);
             }
         }
     }
-    m_deleteAction->setEnabled(enableClipActions);
-    m_proxyAction->setEnabled(enableClipActions);
-    m_editAction->setEnabled(enableClipActions);
-    m_reloadAction->setEnabled(enableClipActions);
+    // Actions are enabled / disabled on clip selection changes that is triggered by the model
     m_menu->exec(event->globalPos());
 }
 
