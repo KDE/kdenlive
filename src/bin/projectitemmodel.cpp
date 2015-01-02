@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QIcon>
 #include <QMimeData>
 #include <QDebug>
+#include <QStringListModel>
 
 
 ProjectItemModel::ProjectItemModel(Bin *bin) :
@@ -88,9 +89,31 @@ QVariant ProjectItemModel::data(const QModelIndex& index, int role) const
 Qt::ItemFlags ProjectItemModel::flags(const QModelIndex& index) const
 {
     if (!index.isValid()) {
-        return 0;
+        return Qt::ItemIsDropEnabled;
     }
+    AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
+    if (item->isFolder()) return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled;
+}
+
+bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
+{
+    if (action == Qt::IgnoreAction)
+        return true;
+
+    if (data->hasUrls()) {
+        emit itemDropped(data->urls(), parent);
+        return true;
+    }
+
+    if (data->hasFormat("kdenlive/producerslist")) {
+        // Dropping an Bin item
+        QStringList ids = QString(data->data("kdenlive/producerslist")).split(';');
+        emit itemDropped(ids, parent);
+        return true;
+    }
+
+    return false;
 }
 
 QVariant ProjectItemModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -176,17 +199,21 @@ int ProjectItemModel::columnCount(const QModelIndex& parent) const
     }
 }
 
+Qt::DropActions ProjectItemModel::supportedDropActions() const
+{
+    return Qt::CopyAction | Qt::MoveAction;
+}
+
 QStringList ProjectItemModel::mimeTypes() const
 {
     QStringList types;
-    types << QLatin1String("kdenlive/producerslist");
+    types << QLatin1String("kdenlive/producerslist") << QLatin1String("text/uri-list");
     return types;
 }
 
 QMimeData* ProjectItemModel::mimeData(const QModelIndexList& indices) const
 {
     QMimeData *mimeData = new QMimeData();
-
     if (indices.count() >= 1 && indices.at(0).isValid()) {
         AbstractProjectItem *item = static_cast<AbstractProjectItem*>(indices.at(0).internalPointer());
         ProjectClip *clip = qobject_cast<ProjectClip*>(item);

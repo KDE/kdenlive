@@ -33,11 +33,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "klocalizedstring.h"
 #include <QDir>
 #include <QUndoStack>
+#include <QUndoCommand>
 #include <QStandardPaths>
 #include <QDebug>
 #include <QDialog>
 #include <QPointer>
-
+#include <QMimeDatabase>
 
 //static
 void ClipCreationDialogDialog::createColorClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
@@ -143,4 +144,93 @@ void ClipCreationDialogDialog::createTitleClip(KdenliveDoc *doc, QStringList gro
         doc->commandStack()->push(command);
     }
     delete dia_ui;
+}
+
+void ClipCreationDialogDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, QStringList groupInfo, Bin *bin)
+{
+    QUndoCommand *addClips = new QUndoCommand();
+    foreach(const QUrl &file, urls) {
+        QDomDocument xml;
+        QDomElement prod = xml.createElement("producer");
+        xml.appendChild(prod);
+        QDomElement prop = xml.createElement("property");
+        prop.setAttribute("name", "resource");
+        QDomText value = xml.createTextNode(file.path());
+        prop.appendChild(value);
+        prod.appendChild(prop);
+        //prod.setAttribute("resource", file.path());
+        uint id = bin->getFreeClipId();
+        prod.setAttribute("id", QString::number(id));
+        if (!groupInfo.isEmpty()) {
+            prod.setAttribute("group", groupInfo.at(0));
+            prod.setAttribute("groupid", groupInfo.at(1));
+            }
+        QMimeDatabase db;
+        QMimeType type = db.mimeTypeForUrl(file);
+        if (type.name().startsWith(QLatin1String("image/"))) {
+            prod.setAttribute("type", (int) Image);
+            prod.setAttribute("in", 0);
+            prod.setAttribute("out", doc->getFramePos(KdenliveSettings::image_duration()) - 1);
+            if (KdenliveSettings::autoimagetransparency()) prod.setAttribute("transparency", 1);
+                // Read EXIF metadata for JPEG
+                if (type.inherits("image/jpeg")) {
+                    //TODO KF5 how to read metadata?
+                    /*
+                    KFileMetaInfo metaInfo(file.path(), QString("image/jpeg"), KFileMetaInfo::TechnicalInfo);
+                    const QHash<QString, KFileMetaInfoItem> metaInfoItems = metaInfo.items();
+                    foreach(const KFileMetaInfoItem & metaInfoItem, metaInfoItems) {
+                        QDomElement meta = xml.createElement("metaproperty");
+                        meta.setAttribute("name", "meta.attr." + metaInfoItem.name().section('#', 1));
+                        QDomText value = xml.createTextNode(metaInfoItem.value().toString());
+                        meta.setAttribute("tool", "KDE Metadata");
+                        meta.appendChild(value);
+                        prod.appendChild(meta);
+                    }*/
+                }
+        } else if (type.inherits("application/x-kdenlivetitle")) {
+            // opening a title file
+            QDomDocument txtdoc("titledocument");
+            QFile txtfile(file.path());
+            if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
+                txtfile.close();
+                prod.setAttribute("type", (int) Text);
+                // extract embeded images
+                QDomNodeList items = txtdoc.elementsByTagName("content");
+                for (int i = 0; i < items.count() ; ++i) {
+                    QDomElement content = items.item(i).toElement();
+                    if (content.hasAttribute("base64")) {
+                        QString titlesFolder = doc->projectFolder().path() + QDir::separator() + "titles/";
+                        QString path = TitleDocument::extractBase64Image(titlesFolder, content.attribute("base64"));
+                        if (!path.isEmpty()) {
+                            content.setAttribute("url", path);
+                            content.removeAttribute("base64");
+                        }
+                    }
+                }
+                prod.setAttribute("transparency", 1);
+                prod.setAttribute("in", 0);
+                int duration = 0;
+                if (txtdoc.documentElement().hasAttribute("duration")) {
+                    duration = txtdoc.documentElement().attribute("duration").toInt();
+                } else if (txtdoc.documentElement().hasAttribute("out")) {
+                    duration = txtdoc.documentElement().attribute("out").toInt();
+                }
+                if (duration <= 0)
+                    duration = doc->getFramePos(KdenliveSettings::title_duration()) - 1;
+                prod.setAttribute("duration", duration);
+                prod.setAttribute("out", duration);
+                txtdoc.documentElement().setAttribute("duration", duration);
+                txtdoc.documentElement().setAttribute("out", duration);
+                QString titleData = txtdoc.toString();
+                prod.setAttribute("xmldata", titleData);
+            } else {
+                txtfile.close();
+            }
+        }
+        new AddClipCommand(doc, xml.documentElement(), QString::number(id), true, addClips);
+    }
+    if (addClips->childCount() > 0) {
+        addClips->setText(i18np("Add clip", "Add clips", addClips->childCount()));
+        doc->commandStack()->push(addClips);
+    }
 }

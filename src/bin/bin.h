@@ -304,6 +304,8 @@ private slots:
     void slotMarkersNeedUpdate(const QString &id, const QList <int> &markers);
     void reloadClip(const QString &id);
     void slotSaveHeaders();
+    void slotItemDropped(QStringList ids, const QModelIndex &parent);
+    void slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent);
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img);

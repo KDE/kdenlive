@@ -29,6 +29,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class KdenliveDoc;
 class Bin;
 
+/**
+ * @class ClipCreationDialogDialog
+ * @brief This class contains a list of static methods displaying widgets 
+ *  allowing creation of all clip types.
+ */
+
 class ClipCreationDialogDialog
 {
 
@@ -36,6 +42,7 @@ public:
     static void createColorClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
     static void createSlideshowClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
     static void createTitleClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin);
+    static void createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, QStringList groupInfo, Bin *bin);
 };
 
 

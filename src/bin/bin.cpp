@@ -113,11 +113,14 @@ Bin::Bin(QWidget* parent) :
 
     // Connect models
     m_proxyModel->setSourceModel(m_itemModel);
-    connect(m_itemModel, SIGNAL(dataChanged(const QModelIndex&,const QModelIndex&)), m_proxyModel, SLOT(slotDataChanged(const QModelIndex&,const QModelIndex&)));
+    connect(m_itemModel, SIGNAL(dataChanged(const QModelIndex&,const QModelIndex&)), m_proxyModel, SLOT(slotDataChanged(const QModelIndex&,const
+    QModelIndex&)));
     connect(m_itemModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(rowsInserted(QModelIndex,int,int)));
     connect(m_itemModel, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(rowsRemoved(QModelIndex,int,int)));
     connect(m_proxyModel, SIGNAL(selectModel(QModelIndex)), this, SLOT(selectProxyModel(QModelIndex)));
     connect(m_itemModel, SIGNAL(markersNeedUpdate(QString,QList<int>)), this, SLOT(slotMarkersNeedUpdate(QString,QList<int>)));
+    connect(m_itemModel, SIGNAL(itemDropped(QStringList, const QModelIndex &)), this, SLOT(slotItemDropped(QStringList, const QModelIndex &)));
+    connect(m_itemModel, SIGNAL(itemDropped(const QList<QUrl>&, const QModelIndex &)), this, SLOT(slotItemDropped(const QList<QUrl>&, const QModelIndex &)));
 
     // Zoom slider
     m_slider = new QSlider(Qt::Horizontal, this);
@@ -543,6 +546,7 @@ void Bin::slotInitView(QAction *action)
     }
     m_itemView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     m_itemView->setDragDropMode(QAbstractItemView::DragDrop);
+    m_itemView->setAcceptDrops(true);
 }
 
 void Bin::slotSetIconSize(int size)
@@ -871,5 +875,44 @@ void Bin::slotCreateProjectClip()
     }
 }
 
+void Bin::slotItemDropped(QStringList ids, const QModelIndex &parent)
+{
+    AbstractProjectItem *parentItem;
+    if (parent.isValid()) {
+        parentItem = static_cast<AbstractProjectItem *>(parent.internalPointer());
+        while (!parentItem->isFolder()) {
+            parentItem = parentItem->parent();
+        }
+    }
+    else {
+        parentItem = m_rootFolder;
+    }
+    foreach(const QString &id, ids) {
+        ProjectClip *currentItem = getBinClip(id);
+        AbstractProjectItem *currentParent = currentItem->parent();
+        if (currentParent != parentItem) {
+            // Item was dropped on a different folder
+            currentParent->removeChild(currentItem);
+            currentItem->setParent(parentItem);
+        }
+    }
+}
+
+void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
+{
+    QStringList folderInfo;
+    if (parent.isValid()) {
+        AbstractProjectItem *parentItem = static_cast<AbstractProjectItem *>(parent.internalPointer());
+        while (!parentItem->isFolder()) {
+            parentItem = parentItem->parent();
+        }
+        if (parentItem != m_rootFolder) {
+            folderInfo << parentItem->name();
+            folderInfo << parentItem->clipId();
+        }
+    }
+    //TODO: verify if urls exist, check for folders
+    ClipCreationDialogDialog::createClipsCommand(pCore->projectManager()->current(), urls, folderInfo, this);
+}
 
 

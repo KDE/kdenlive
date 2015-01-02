@@ -71,6 +71,8 @@ public:
     void onAboutToRemoveItem(AbstractProjectItem *item);
     /** @brief Prepare some stuff after removing a new item */
     void onItemRemoved(AbstractProjectItem *item);
+    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+    Qt::DropActions supportedDropActions() const;
 
 public slots:
     /** @brief An item in the list was modified, notify */
@@ -85,6 +87,8 @@ private:
 signals:
     //TODO
     void markersNeedUpdate(const QString &id,const QList<int>&);
+    void itemDropped(QStringList, const QModelIndex &);
+    void itemDropped(const QList <QUrl> &, const QModelIndex &);
 };
 
 #endif
