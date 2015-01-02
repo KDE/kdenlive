@@ -196,7 +196,7 @@ void ClipController::appendTrackProducer(int track, Mlt::Producer &producer)
 
 const QString ClipController::getStringDuration()
 {
-    if (m_masterProducer) return m_masterProducer->get_length_time(mlt_time_smpte_df);
+    if (m_masterProducer) return m_masterProducer->get_length_time(mlt_time_smpte);
     return QString(i18n("Unknown"));
 }
 
