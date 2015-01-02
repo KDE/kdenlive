@@ -397,15 +397,15 @@ QMap <QString, QString> ClipManager::documentFolderList() const
     return m_folderList;
 }
 
-void ClipManager::slotAddClip(const QString &url, const QString &groupName, const QString &groupId)
+void ClipManager::slotAddClip(const QString &url, const QStringList &groupInfo)
 {
     //qDebug()<<"// Adding clip: "<<url;
     QList <QUrl> list = QList <QUrl>();
     if (!url.isEmpty()) list.append(QUrl::fromLocalFile(url));
-    slotAddClipList(list, groupName, groupId);
+    slotAddClipList(list, groupInfo);
 }
 
-void ClipManager::slotAddClipList(const QList <QUrl> &givenList, const QString &groupName, const QString &groupId)
+void ClipManager::slotAddClipList(const QList <QUrl> &givenList, const QStringList &groupInfo)
 {
     if (!m_doc->commandStack())
         qDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
@@ -451,8 +451,7 @@ void ClipManager::slotAddClipList(const QList <QUrl> &givenList, const QString &
                         int count = list.count();
                         if (count > 1) {
                             delete d;
-                            QStringList groupInfo; // = getGroup();
-                            groupInfo << QString() << QString();
+                            /*QStringList groupInfo = getGroup(); */
                             // get image sequence base name
                             while (fileName.at(fileName.size() - 1).isDigit()) {
                                 fileName.chop(1);
@@ -498,18 +497,12 @@ void ClipManager::slotAddClipList(const QList <QUrl> &givenList, const QString &
             if (folderFiles.count() > 1) foldersList.append(folderFiles);
         }
     }
-    /*if (givenList.isEmpty() && !list.isEmpty()) {
-        QStringList groupInfo; // = getGroup();
-        groupInfo << QString() << QString();
+    if (givenList.isEmpty() && !list.isEmpty()) {
         QMap <QString, QString> data;
-        data.insert("group", groupInfo.at(0));
-        data.insert("groupId", groupInfo.at(1));
-        doAddClipList(list, data);
-    } else*/
-    if (!list.isEmpty()) {
-        QMap <QString, QString> data;
-        data.insert("group", groupName);
-        data.insert("groupId", groupId);
+        if (!groupInfo.isEmpty()) {
+            data.insert("group", groupInfo.at(0));
+            data.insert("groupId", groupInfo.at(1));
+        }
         doAddClipList(list, data);
     }
     
@@ -541,12 +534,6 @@ void ClipManager::slotAddClipList(const QList <QUrl> &givenList, const QString &
 void ClipManager::deleteProjectClip(const QString &clipId)
 {
     pCore->bin()->deleteClip(clipId);
-}
-
-void ClipManager::addProjectClip(QDomElement xml, const QString &clipId)
-{
-    xml.setAttribute("id", clipId);
-    pCore->bin()->createClip(xml);
 }
 
 void ClipManager::slotDeleteClips(QStringList ids)
@@ -765,7 +752,7 @@ void ClipManager::slotAddXmlClipFile(const QString &name, const QDomElement &xml
     m_doc->commandStack()->push(command);
 }
 
-void ClipManager::slotAddColorClipFile(const QString &name, const QString &color, const QString &duration, const QString &group, const QString &groupId)
+void ClipManager::slotAddColorClipFile(const QString &name, const QString &color, const QString &duration, const QStringList &groupInfo)
 {
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
@@ -778,9 +765,9 @@ void ClipManager::slotAddColorClipFile(const QString &name, const QString &color
     prod.setAttribute("in", "0");
     prod.setAttribute("out", m_doc->getFramePos(duration) - 1);
     prod.setAttribute("name", name);
-    if (!group.isEmpty()) {
-        prod.setAttribute("groupname", group);
-        prod.setAttribute("groupid", groupId);
+    if (!groupInfo.isEmpty()) {
+        prod.setAttribute("group", groupInfo.at(0));
+        prod.setAttribute("groupid", groupInfo.at(1));
     }
     AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);
     m_doc->commandStack()->push(command);

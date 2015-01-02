@@ -32,23 +32,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ClipController::ClipController(BinController *bincontroller, Mlt::Producer& producer) : QObject()
     , m_binController(bincontroller)
     , m_snapMarkers(QList < CommentedTime >())
+    , m_hasLimitedDuration(true)
 {
     m_masterProducer = &producer;
     if (!m_masterProducer->is_valid()) qDebug()<<"// WARNING, USING INVALID PRODUCER";
     else {
         append(m_masterProducer);
         m_url = QUrl::fromLocalFile(m_masterProducer->get("resource"));
-        if (m_url.isValid()) {
-            m_name = m_url.fileName();
-        }
         m_service = m_masterProducer->get("mlt_service");
-        m_duration = GenTime(m_masterProducer->get_playtime(), m_binController->fps());
+        getInfoForProducer();
     }
 }
 
 ClipController::ClipController(BinController *bincontroller) : QObject()
     , m_binController(bincontroller)
     , m_snapMarkers(QList < CommentedTime >())
+    , m_hasLimitedDuration(true)
+    , m_clipType(Unknown)
 {
     m_masterProducer = NULL;
 }
@@ -67,14 +67,49 @@ void ClipController::addMasterProducer(Mlt::Producer &producer)
     m_masterProducer = &producer;
     if (!m_masterProducer->is_valid()) qDebug()<<"// WARNING, USING INVALID PRODUCER";
     else {
-        m_duration = GenTime(m_masterProducer->get_playtime(), m_binController->fps());
         insert(0, m_masterProducer);
         m_url = QUrl::fromLocalFile(m_masterProducer->get("resource"));
-        if (m_url.isValid()) {
-            m_name = m_url.fileName();
-        }
         m_service = m_masterProducer->get("mlt_service");
+        getInfoForProducer();
     }
+}
+
+void ClipController::getInfoForProducer()
+{
+    m_duration = GenTime(m_masterProducer->get_playtime(), m_binController->fps());
+    if (m_service == "avformat" || m_service == "avformat-novalidate") {
+        m_clipType = AV;
+    }
+    else if (m_service == "qimage" || m_service == "pixbuf") {
+        m_clipType = Image;
+    }
+    else if (m_service == "colour" || m_service == "color") {
+        m_clipType = Color;
+    }
+    else if (m_service == "kdenlivetitle") {
+        m_clipType = Text;
+    }
+    else if (m_service == "mlt") {
+        m_clipType = Playlist;
+    }
+    else m_clipType = Unknown;
+
+    if (m_clipType == AV || m_clipType == Video || m_clipType ==  Audio || m_clipType ==  Image || m_clipType ==  Playlist) {
+        m_name = m_url.fileName();
+    }
+    else if (m_clipType == Color) {
+        m_name = i18n("Color");
+        m_hasLimitedDuration = false;
+    }
+    else if (m_clipType == Text) {
+        m_name = i18n("Title");
+        m_hasLimitedDuration = false;
+    }
+}
+
+bool ClipController::hasLimitedDuration() const
+{
+    return m_hasLimitedDuration;
 }
 
 Mlt::Producer &ClipController::originalProducer()
@@ -118,10 +153,15 @@ void ClipController::updateProducer(Mlt::Producer* producer)
     }
 }
 
+
 Mlt::Producer *ClipController::getTrackProducer(int track, PlaylistState::ClipState clipState, double speed)
 {
     if (track == -1) {
         return m_masterProducer;
+    }
+    if  (m_clipType != AV && m_clipType != Audio && m_clipType != Playlist) {
+        // Only producers with audio need a different producer for each track (or we have an audio crackle bug)
+        return new Mlt::Producer(m_masterProducer->parent());
     }
     QString clipWithTrackId = clipId();
     clipWithTrackId.append("_" + QString::number(track));
@@ -212,17 +252,7 @@ void ClipController::setProperty(const QString& name, const QString& value)
 
 ClipType ClipController::clipType() const
 {
-    if (!m_masterProducer || !m_masterProducer->is_valid()) return Unknown;
-    if (m_service == "avformat" || m_service == "avformat-novalidate") {
-        return AV;
-    }
-    if (m_service == "qimage" || m_service == "pixbuf") {
-        return Image;
-    }
-    if (m_service == "color") {
-        return Color;
-    }
-    return Unknown;
+    return m_clipType;
 }
 
 

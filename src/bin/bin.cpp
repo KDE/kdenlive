@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "project/jobs/jobmanager.h"
 #include "monitor/monitor.h"
 #include "doc/kdenlivedoc.h"
+#include "dialogs/clipcreationdialog.h"
 #include "core.h"
 #include "mltcontroller/clipcontroller.h"
 #include "projectsortproxymodel.h"
@@ -205,11 +206,9 @@ Monitor *Bin::monitor()
     return m_monitor;
 }
 
-void Bin::slotAddClip()
+const QStringList Bin::getFolderInfo()
 {
-    // Check if we are in a folder
-    QString folderName;
-    QString folderId;
+    QStringList folderInfo;
     QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
     if (ix.isValid() && m_proxyModel->selectionModel()->isSelected(ix)) {
         AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
@@ -219,11 +218,18 @@ void Bin::slotAddClip()
         if (currentItem == m_rootFolder) {
             // clip was added to root folder, leave folder info empty
         } else {
-            folderName = currentItem->name();
-            folderId = currentItem->clipId();
+            folderInfo << currentItem->name();
+            folderInfo << currentItem->clipId();
         }
     }
-    pCore->projectManager()->current()->clipManager()->slotAddClip(QString(), folderName, folderId);
+    return folderInfo;
+}
+
+void Bin::slotAddClip()
+{
+    // Check if we are in a folder
+    QStringList folderInfo = getFolderInfo();
+    pCore->projectManager()->current()->clipManager()->slotAddClip(QString(), folderInfo);
 }
 
 void Bin::deleteClip(const QString &id)
@@ -840,3 +846,8 @@ bool Bin::hasPendingJob(const QString &id, AbstractClipJob::JOBTYPE type)
     return m_jobManager->hasPendingJob(id, type);
 }
 
+void Bin::slotCreateColorClip()
+{
+    QStringList folderInfo = getFolderInfo();
+    ClipCreationDialogDialog::createColorClip(pCore->projectManager()->current(), folderInfo);
+}

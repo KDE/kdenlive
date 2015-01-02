@@ -1845,34 +1845,6 @@ void ProjectList::slotRemoveInvalidProxy(const QString &id, bool durationError)
     m_thumbnailQueue.removeAll(id);
 }
 
-void ProjectList::slotAddColorClip()
-{
-    if (!m_commandStack)
-        qDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
-
-    QPointer<QDialog> dia = new QDialog(this);
-    Ui::ColorClip_UI dia_ui;
-    dia_ui.setupUi(dia);
-    dia->setWindowTitle(i18n("Color Clip"));
-    dia_ui.clip_name->setText(i18n("Color Clip"));
-
-    TimecodeDisplay *t = new TimecodeDisplay(m_timecode);
-    t->setValue(KdenliveSettings::color_duration());
-    dia_ui.clip_durationBox->addWidget(t);
-    dia_ui.clip_color->setColor(KdenliveSettings::colorclipcolor());
-
-    if (dia->exec() == QDialog::Accepted) {
-        QString color = dia_ui.clip_color->color().name();
-        KdenliveSettings::setColorclipcolor(color);
-        color = color.replace(0, 1, "0x") + "ff";
-        QStringList groupInfo = getGroup();
-        m_doc->slotCreateColorClip(dia_ui.clip_name->text(), color, m_timecode.getTimecode(t->gentime()), groupInfo.at(0), groupInfo.at(1));
-    }
-    delete t;
-    delete dia;
-}
-
-
 void ProjectList::slotAddSlideshowClip()
 {
     if (!m_commandStack)

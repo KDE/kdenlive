@@ -78,21 +78,15 @@ Q_OBJECT public:
      * @param groupId id of the group (if any)
      * It checks for duplicated items and asks to the user for instructions. */
     void doAddClipList(const QList<QUrl> &urls, const QMap<QString, QString> &data = QMap<QString, QString>());
-    
-    /** @brief Build a ProjectClip item
-     * @param xml description of the clip
-     * @param clipId The id we want to set on this clip */
-    void addProjectClip(QDomElement xml, const QString &clipId);
-    
     void deleteProjectClip(const QString &clipId);
 
-    void slotAddClip(const QString &url, const QString &groupName, const QString &groupId);
-    void slotAddClipList(const QList <QUrl> &givenList, const QString &groupName, const QString &groupId);
+    void slotAddClip(const QString &url, const QStringList &groupInfo);
+    void slotAddClipList(const QList <QUrl> &givenList, const QStringList &groupInfo);
 
     void slotAddTextClipFile(const QString &titleName, int out, const QString &xml, const QString &group, const QString &groupId);
     void slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId);
     void slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
-    void slotAddColorClipFile(const QString &name, const QString &color, const QString &duration, const QString &group, const QString &groupId);
+    void slotAddColorClipFile(const QString &name, const QString &color, const QString &duration, const QStringList &groupInfo);
     void slotAddSlideshowClipFile(QMap <QString, QString> properties, const QString &group, const QString &groupId);
     //const QList <DocClipBase *> getClipByResource(const QString &resource);
     void slotDeleteClips(QStringList ids);

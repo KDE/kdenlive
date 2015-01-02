@@ -1087,7 +1087,8 @@ const QString KdenliveDoc::description() const
 bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createClipItem)
 {
     const QString producerId = clipId.section('_', 0, 0);
-    m_clipManager->addProjectClip(elem, producerId);
+    elem.setAttribute("id", producerId);
+    pCore->bin()->createClip(elem);
     m_render->getFileProperties(elem, producerId, 150, true);
 
     QString str;
@@ -1300,9 +1301,9 @@ void KdenliveDoc::slotCreateXmlClip(const QString &name, const QDomElement &xml,
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
 }
 
-void KdenliveDoc::slotCreateColorClip(const QString &name, const QString &color, const QString &duration, const QString &group, const QString &groupId)
+void KdenliveDoc::slotCreateColorClip(const QString &name, const QString &color, const QString &duration, const QStringList &groupInfo)
 {
-    m_clipManager->slotAddColorClipFile(name, color, duration, group, groupId);
+    m_clipManager->slotAddColorClipFile(name, color, duration, groupInfo);
     setModified(true);
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
 }

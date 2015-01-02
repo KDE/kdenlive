@@ -1651,9 +1651,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
     QMutexLocker lock(&m_selectionMutex);
     if (track < 0 || track > m_document->tracksCount() - 1 || m_document->trackInfoAt(m_document->tracksCount() - track - 1).isLocked) return true;
     if (data->hasFormat("kdenlive/clip")) {
-        qDebug()<< " * * RECIEVED DRAD";
         QStringList list = QString(data->data("kdenlive/clip")).split(';');
-        qDebug()<< " * * RECIEVED DRAD:" << list.at(0);
         ProjectClip *clip = m_document->getBinClip(list.at(0));
         if (clip == NULL) {
             //qDebug() << " WARNING))))))))) CLIP NOT FOUND : " << list.at(0);

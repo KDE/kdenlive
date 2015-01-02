@@ -318,6 +318,7 @@ public slots:
     void slotSwitchClipProperties(const QModelIndex &ix);
     void slotSwitchClipProperties();
     void slotAddFolder();
+    void slotCreateColorClip();
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);
@@ -356,6 +357,7 @@ private:
     QAction *m_deleteAction;
     void showClipProperties(ProjectClip *clip);
     void selectModel(const QModelIndex &id);
+    const QStringList getFolderInfo();
 
 signals:
     void itemUpdated(AbstractProjectItem*);

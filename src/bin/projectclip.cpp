@@ -56,8 +56,11 @@ ProjectClip::ProjectClip(const QDomElement& description, ProjectFolder* parent) 
 {
     Q_ASSERT(description.hasAttribute("id"));
     m_properties = QMap <QString, QString> ();
-    QUrl resource = QUrl::fromLocalFile(getXmlProperty(description, "resource"));
-    m_name = resource.fileName();
+    QString resource = getXmlProperty(description, "resource");
+    if (!resource.isEmpty()) {
+        m_name = QUrl::fromLocalFile(resource).fileName();
+    }
+    else m_name = description.attribute("name");
     if (description.hasAttribute("zone"))
 	m_zone = QPoint(description.attribute("zone").section(':', 0, 0).toInt(), description.attribute("zone").section(':', 1, 1).toInt());
     setParent(parent);
@@ -140,8 +143,10 @@ QUrl ProjectClip::url() const
 
 bool ProjectClip::hasLimitedDuration() const
 {
-    //TODO: should be false for color and image clips
-    return m_hasLimitedDuration;
+    if (m_controller) {
+        return m_controller->hasLimitedDuration();
+    }
+    return true;
 }
 
 GenTime ProjectClip::duration() const
@@ -235,8 +240,12 @@ void ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
         m_controller->updateProducer(controller->masterProducer());
         delete controller;
     }
-    else m_controller = controller;
-    m_duration = m_controller->getStringDuration();
+    else {
+        // We did not yet have the controller, update info
+        m_controller = controller;
+        if (m_name.isEmpty()) m_name = m_controller->clipName();
+        m_duration = m_controller->getStringDuration();
+    }
     bin()->emitItemUpdated(this);
     getFileHash();
 }

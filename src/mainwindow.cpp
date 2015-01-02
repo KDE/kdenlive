@@ -1123,7 +1123,7 @@ void MainWindow::setupActions()
 
     QAction *addClip = addAction("add_clip", i18n("Add Clip"), pCore->bin(), SLOT(slotAddClip()), QIcon::fromTheme("kdenlive-add-clip"));
     addClips->addAction(addClip);
-    addClips->addAction(addAction("add_color_clip", i18n("Add Color Clip"), m_projectList, SLOT(slotAddColorClip()), 
+    addClips->addAction(addAction("add_color_clip", i18n("Add Color Clip"), pCore->bin(), SLOT(slotCreateColorClip()), 
                                   QIcon::fromTheme("kdenlive-add-color-clip")));
     addClips->addAction(addAction("add_slide_clip", i18n("Add Slideshow Clip"), m_projectList, SLOT(slotAddSlideshowClip()),
                                   QIcon::fromTheme("kdenlive-add-slide-clip")));

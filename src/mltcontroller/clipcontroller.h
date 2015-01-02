@@ -127,6 +127,7 @@ public:
     CommentedTime markerAt(const GenTime &t) const;
     void setZone(const QPoint &zone);
     QPoint zone() const;
+    bool hasLimitedDuration() const;
 
 private:
     Mlt::Producer *m_masterProducer;
@@ -134,9 +135,12 @@ private:
     GenTime m_duration;
     QUrl m_url;
     QString m_name;
+    ClipType m_clipType;
+    bool m_hasLimitedDuration;
     BinController *m_binController;
     /** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
     QList < CommentedTime > m_snapMarkers;
+    void getInfoForProducer();
 };
 
 #endif

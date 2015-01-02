@@ -226,7 +226,7 @@ private:
 
 public slots:
     void slotCreateXmlClip(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
-    void slotCreateColorClip(const QString &name, const QString &color, const QString &duration, const QString &group, const QString &groupId);
+    void slotCreateColorClip(const QString &name, const QString &color, const QString &duration, const QStringList &groupInfo);
     void slotCreateSlideshowClipFile(const QMap<QString, QString> &properties, const QString &group, const QString &groupId);
     /**
      * @brief Create a title clip.

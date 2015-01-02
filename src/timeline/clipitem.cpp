@@ -67,7 +67,6 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
     FRAME_SIZE = frame_width;
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (double) itemHeight());
     setPos(info.startPos.frames(fps), (double)(info.track * KdenliveSettings::trackheight()) + 1 + itemOffset());
-
     // set speed independent info
     if (m_speed <= 0 && m_speed > -1)
         m_speed = -1.0;
@@ -85,13 +84,18 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
 
     m_clipType = m_binClip->clipType();
     //m_cropStart = info.cropStart;
-    m_maxDuration = m_binClip->duration();
+    if (m_binClip->hasLimitedDuration()) {
+        m_maxDuration = m_binClip->duration();
+    }
+    else {
+        // For color / image / text clips, we have unlimited duration
+        m_maxDuration = GenTime();
+    }
     setAcceptDrops(true);
     m_audioThumbReady = m_binClip->audioThumbCreated();
     //setAcceptsHoverEvents(true);
     connect(this , SIGNAL(prepareAudioThumb(double,int,int,int,int)) , this, SLOT(slotPrepareAudioThumb(double,int,int,int,int)));
-
-    if (m_clipType == Video || m_clipType == AV || m_clipType == SlideShow || m_clipType == Playlist) {
+    if (m_clipType == AV || m_clipType == Video || m_clipType == SlideShow || m_clipType == Playlist ) {
         m_baseColor = QColor(141, 166, 215);
 	//TODO:
         if (false /*&& !m_clip->isPlaceHolder()*/) {
@@ -107,7 +111,7 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
         }
 
     } else if (m_clipType == Color) {
-        QString colour = m_binClip->getProducerProperty("colour");
+        QString colour = m_binClip->getProducerProperty("resource");
         colour = colour.replace(0, 2, "#");
         m_baseColor = QColor(colour.left(7));
     } else if (m_clipType == Image || m_clipType == Text) {

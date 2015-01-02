@@ -77,7 +77,7 @@ QVariant ProjectItemModel::data(const QModelIndex& index, int role) const
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
         return item->data(AbstractProjectItem::DataDuration);
     }
-    if (role == Bin::JobType | Bin::JobProgress | Bin::JobMessage | Bin::ItemTypeRole) {
+    if (role == Bin::JobType || role == Bin::JobProgress || role ==  Bin::JobMessage || role ==  Bin::ItemTypeRole) {
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
         return item->data((AbstractProjectItem::DataType) role);
     }
