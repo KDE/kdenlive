@@ -1123,14 +1123,21 @@ void MainWindow::setupActions()
 
     QAction *addClip = addAction("add_clip", i18n("Add Clip"), pCore->bin(), SLOT(slotAddClip()), QIcon::fromTheme("kdenlive-add-clip"));
     addClips->addAction(addClip);
-    addClips->addAction(addAction("add_color_clip", i18n("Add Color Clip"), pCore->bin(), SLOT(slotCreateColorClip()), 
-                                  QIcon::fromTheme("kdenlive-add-color-clip")));
-    addClips->addAction(addAction("add_slide_clip", i18n("Add Slideshow Clip"), m_projectList, SLOT(slotAddSlideshowClip()),
-                                  QIcon::fromTheme("kdenlive-add-slide-clip")));
-    addClips->addAction(addAction("add_text_clip", i18n("Add Title Clip"), m_projectList, SLOT(slotAddTitleClip()),
-                                  QIcon::fromTheme("kdenlive-add-text-clip")));
+    QAction *action = addAction("add_color_clip", i18n("Add Color Clip"), pCore->bin(), SLOT(slotCreateProjectClip()), 
+                                  QIcon::fromTheme("kdenlive-add-color-clip"));
+    action->setData((int) Color);
+    addClips->addAction(action);
+    action = addAction("add_slide_clip", i18n("Add Slideshow Clip"), pCore->bin(), SLOT(slotCreateProjectClip()),
+                                  QIcon::fromTheme("kdenlive-add-slide-clip"));
+    action->setData((int) SlideShow);
+    addClips->addAction(action);
+    action = addAction("add_text_clip", i18n("Add Title Clip"), pCore->bin(), SLOT(slotCreateProjectClip()),
+                                  QIcon::fromTheme("kdenlive-add-text-clip"));
+    action->setData((int) Text);
+    addClips->addAction(action);
     addClips->addAction(addAction("add_text_template_clip", i18n("Add Template Title"), m_projectList, SLOT(slotAddTitleTemplateClip()),
                                   QIcon::fromTheme("kdenlive-add-text-clip")));
+    
     addClips->addAction(addAction("add_folder", i18n("Create Folder"), pCore->bin(), SLOT(slotAddFolder()),
                                   QIcon::fromTheme("folder-new")));
     addClips->addAction(addAction("download_resource", i18n("Online Resources"), this, SLOT(slotDownloadResources()),

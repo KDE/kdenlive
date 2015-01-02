@@ -1301,34 +1301,6 @@ void KdenliveDoc::slotCreateXmlClip(const QString &name, const QDomElement &xml,
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
 }
 
-void KdenliveDoc::slotCreateColorClip(const QString &name, const QString &color, const QString &duration, const QStringList &groupInfo)
-{
-    m_clipManager->slotAddColorClipFile(name, color, duration, groupInfo);
-    setModified(true);
-    emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
-}
-
-void KdenliveDoc::slotCreateSlideshowClipFile(const QMap <QString, QString> &properties, const QString &group, const QString &groupId)
-{
-    m_clipManager->slotAddSlideshowClipFile(properties, group, groupId);
-    setModified(true);
-    emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
-}
-
-void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId, const QString &templatePath)
-{
-    QString titlesFolder = QDir::cleanPath(projectFolder().path() + QDir::separator() + "titles/");
-    QDir dir(projectFolder().path());
-    dir.mkdir("titles");
-    QPointer<TitleWidget> dia_ui = new TitleWidget(QUrl::fromLocalFile(templatePath), m_timecode, titlesFolder, m_render, QApplication::activeWindow());
-    if (dia_ui->exec() == QDialog::Accepted) {
-        m_clipManager->slotAddTextClipFile(i18n("Title clip"), dia_ui->duration(), dia_ui->xml().toString(), group, groupId);
-        setModified(true);
-        emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
-    }
-    delete dia_ui;
-}
-
 void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path)
 {
     QString titlesFolder = QDir::cleanPath(projectFolder().path() + QDir::separator() + "titles/");

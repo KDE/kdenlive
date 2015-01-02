@@ -86,8 +86,6 @@ Q_OBJECT public:
     void slotAddTextClipFile(const QString &titleName, int out, const QString &xml, const QString &group, const QString &groupId);
     void slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId);
     void slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
-    void slotAddColorClipFile(const QString &name, const QString &color, const QString &duration, const QStringList &groupInfo);
-    void slotAddSlideshowClipFile(QMap <QString, QString> properties, const QString &group, const QString &groupId);
     //const QList <DocClipBase *> getClipByResource(const QString &resource);
     void slotDeleteClips(QStringList ids);
     void setThumbsProgress(const QString &message, int progress);

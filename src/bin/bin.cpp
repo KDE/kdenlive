@@ -846,8 +846,30 @@ bool Bin::hasPendingJob(const QString &id, AbstractClipJob::JOBTYPE type)
     return m_jobManager->hasPendingJob(id, type);
 }
 
-void Bin::slotCreateColorClip()
+void Bin::slotCreateProjectClip()
 {
+    QAction* act = qobject_cast<QAction *>(sender());
+    if (act == 0) {
+        // Cannot access triggering action, something is wrong
+        qDebug()<<"// Error in clip creation action";
+        return;
+    }
+    ClipType type = (ClipType) act->data().toInt();
     QStringList folderInfo = getFolderInfo();
-    ClipCreationDialogDialog::createColorClip(pCore->projectManager()->current(), folderInfo);
+    switch (type) {
+      case Color:
+          ClipCreationDialogDialog::createColorClip(pCore->projectManager()->current(), folderInfo, this);
+          break;
+      case SlideShow:
+          ClipCreationDialogDialog::createSlideshowClip(pCore->projectManager()->current(), folderInfo, this);
+          break;
+      case Text:
+          ClipCreationDialogDialog::createTitleClip(pCore->projectManager()->current(), folderInfo, QString(), this);
+          break;
+      default:
+          break;
+    }
 }
+
+
+

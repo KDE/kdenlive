@@ -1711,7 +1711,8 @@ void ProjectList::slotAddClip(const QList <QUrl> &givenList, const QString &grou
                             properties.insert("crop", QString::number(false));
                             properties.insert("fade", QString::number(false));
                             properties.insert("luma_duration", QString::number(m_doc->getFramePos(m_timecode.getTimecodeFromFrames(int(ceil(m_timecode.fps()))))));
-                            m_doc->slotCreateSlideshowClipFile(properties, groupInfo.at(0), groupInfo.at(1));
+                            //TODO
+                            //m_doc->slotCreateSlideshowClipFile(properties, groupInfo.at(0), groupInfo.at(1));
                             return;
                         }
                     }
@@ -1845,40 +1846,7 @@ void ProjectList::slotRemoveInvalidProxy(const QString &id, bool durationError)
     m_thumbnailQueue.removeAll(id);
 }
 
-void ProjectList::slotAddSlideshowClip()
-{
-    if (!m_commandStack)
-        qDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
 
-    QPointer<SlideshowClip> dia = new SlideshowClip(m_timecode, this);
-
-    if (dia->exec() == QDialog::Accepted) {
-        QStringList groupInfo = getGroup();
-        
-        QMap <QString, QString> properties;
-        properties.insert("name", dia->clipName());
-        properties.insert("resource", dia->selectedPath());
-        properties.insert("in", "0");
-        properties.insert("out", QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount() - 1));
-        properties.insert("ttl", QString::number(m_doc->getFramePos(dia->clipDuration())));
-        properties.insert("loop", QString::number(dia->loop()));
-        properties.insert("crop", QString::number(dia->crop()));
-        properties.insert("fade", QString::number(dia->fade()));
-        properties.insert("luma_duration", dia->lumaDuration());
-        properties.insert("luma_file", dia->lumaFile());
-        properties.insert("softness", QString::number(dia->softness()));
-        properties.insert("animation", dia->animation());
-        
-        m_doc->slotCreateSlideshowClipFile(properties, groupInfo.at(0), groupInfo.at(1));
-    }
-    delete dia;
-}
-
-void ProjectList::slotAddTitleClip()
-{
-    QStringList groupInfo = getGroup();
-    m_doc->slotCreateTextClip(groupInfo.at(0), groupInfo.at(1));
-}
 
 void ProjectList::slotAddTitleTemplateClip()
 {

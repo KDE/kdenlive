@@ -467,7 +467,8 @@ void ClipManager::slotAddClipList(const QList <QUrl> &givenList, const QStringLi
                             properties.insert("crop", QString::number(false));
                             properties.insert("fade", QString::number(false));
                             properties.insert("luma_duration", QString::number(m_doc->getFramePos(m_doc->timecode().getTimecodeFromFrames(int(ceil(m_doc->timecode().fps()))))));
-                            m_doc->slotCreateSlideshowClipFile(properties, groupInfo.at(0), groupInfo.at(1));
+                            //TODO
+                            //m_doc->slotCreateSlideshowClipFile(properties, groupInfo.at(0), groupInfo.at(1));
                             return;
                         }
                     }
@@ -752,69 +753,10 @@ void ClipManager::slotAddXmlClipFile(const QString &name, const QDomElement &xml
     m_doc->commandStack()->push(command);
 }
 
-void ClipManager::slotAddColorClipFile(const QString &name, const QString &color, const QString &duration, const QStringList &groupInfo)
-{
-    QDomDocument doc;
-    QDomElement prod = doc.createElement("producer");
-    doc.appendChild(prod);
-    prod.setAttribute("mlt_service", "colour");
-    prod.setAttribute("colour", color);
-    prod.setAttribute("type", (int) Color);
-    uint id = pCore->bin()->getFreeClipId();
-    prod.setAttribute("id", QString::number(id));
-    prod.setAttribute("in", "0");
-    prod.setAttribute("out", m_doc->getFramePos(duration) - 1);
-    prod.setAttribute("name", name);
-    if (!groupInfo.isEmpty()) {
-        prod.setAttribute("group", groupInfo.at(0));
-        prod.setAttribute("groupid", groupInfo.at(1));
-    }
-    AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);
-    m_doc->commandStack()->push(command);
-}
-
-void ClipManager::slotAddSlideshowClipFile(QMap <QString, QString> properties, const QString &group, const QString &groupId)
-{
-    QDomDocument doc;
-    QDomElement prod = doc.createElement("producer");
-    doc.appendChild(prod);
-    QMap<QString, QString>::const_iterator i = properties.constBegin();
-    while (i != properties.constEnd()) {
-        prod.setAttribute(i.key(), i.value());
-        ++i;
-    }
-    prod.setAttribute("type", (int) SlideShow);
-    uint id = pCore->bin()->getFreeClipId();
-    if (!group.isEmpty()) {
-        prod.setAttribute("groupname", group);
-        prod.setAttribute("groupid", groupId);
-    }
-    AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);
-    m_doc->commandStack()->push(command);
-}
-
-
 
 void ClipManager::slotAddTextClipFile(const QString &titleName, int duration, const QString &xml, const QString &group, const QString &groupId)
 {
-    QDomDocument doc;
-    QDomElement prod = doc.createElement("producer");
-    doc.appendChild(prod);
-    //prod.setAttribute("resource", imagePath);
-    prod.setAttribute("name", titleName);
-    prod.setAttribute("xmldata", xml);
-    uint id = pCore->bin()->getFreeClipId();
-    prod.setAttribute("id", QString::number(id));
-    if (!group.isEmpty()) {
-        prod.setAttribute("groupname", group);
-        prod.setAttribute("groupid", groupId);
-    }
-    prod.setAttribute("type", (int) Text);
-    prod.setAttribute("transparency", "1");
-    prod.setAttribute("in", "0");
-    prod.setAttribute("out", duration - 1);
-    AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);
-    m_doc->commandStack()->push(command);
+
 }
 
 void ClipManager::slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId)

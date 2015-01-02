@@ -27,12 +27,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "definitions.h"
 
 class KdenliveDoc;
+class Bin;
 
 class ClipCreationDialogDialog
 {
 
 public:
-    static void createColorClip(KdenliveDoc *doc, QStringList groupInfo, QWidget *parent = 0);
+    static void createColorClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
+    static void createSlideshowClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
+    static void createTitleClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin);
 };
 
 

@@ -318,7 +318,7 @@ public slots:
     void slotSwitchClipProperties(const QModelIndex &ix);
     void slotSwitchClipProperties();
     void slotAddFolder();
-    void slotCreateColorClip();
+    void slotCreateProjectClip();
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);

@@ -310,8 +310,6 @@ private:
 
 private slots:
     void slotClipSelected();
-    void slotAddSlideshowClip();
-    void slotAddTitleClip();
     void slotAddTitleTemplateClip();
 
     /** @brief Shows the context menu after enabling and disabling actions based on the item's type.
