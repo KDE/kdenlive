@@ -1148,7 +1148,7 @@ void MainWindow::setupActions()
     deleteClip->setData("delete_clip");
     deleteClip->setEnabled(false);
 
-    QAction *reloadClip = addAction("reload_clip", i18n("Reload Clip"), m_projectList, SLOT(slotReloadClip()), QIcon::fromTheme("view-refresh"));
+    QAction *reloadClip = addAction("reload_clip", i18n("Reload Clip"), pCore->bin(), SLOT(slotReloadClip()), QIcon::fromTheme("view-refresh"));
     reloadClip->setData("reload_clip");
     reloadClip->setEnabled(false);
 

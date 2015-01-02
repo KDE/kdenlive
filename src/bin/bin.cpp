@@ -211,7 +211,7 @@ void Bin::slotAddClip()
     QString folderName;
     QString folderId;
     QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
-    if (ix.isValid()) {
+    if (ix.isValid() && m_proxyModel->selectionModel()->isSelected(ix)) {
         AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
         while (!currentItem->isFolder()) {
             currentItem = currentItem->parent();
@@ -255,11 +255,16 @@ void Bin::slotDeleteClip()
 
 void Bin::slotReloadClip()
 {
-    QModelIndex parent2 = m_proxyModel->selectionModel()->currentIndex();
-    /*AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(parent2.internalPointer());
-    if (currentItem) {
-        reloadClip(currentItem->clipId());
-    }*/
+    QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
+    if (ix.isValid() && m_proxyModel->selectionModel()->isSelected(ix)) {
+        AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(ix.internalPointer());
+        if (currentItem && !currentItem->isFolder()) {
+            reloadClip(currentItem->clipId());
+            QDomDocument doc;
+            QDomElement xml = currentItem->toXml(doc);
+            pCore->projectManager()->current()->renderer()->getFileProperties(xml, currentItem->clipId(), 150, true);
+        }
+    }
 }
 
 ProjectFolder *Bin::rootFolder()
@@ -342,7 +347,7 @@ void Bin::slotAddFolder()
     QString folderId;
     QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
     ProjectFolder *parentFolder  = m_rootFolder;
-    if (ix.isValid()) {
+    if (ix.isValid() && m_proxyModel->selectionModel()->isSelected(ix)) {
         AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
         while (!currentItem->isFolder()) {
             currentItem = currentItem->parent();
@@ -586,7 +591,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
 void Bin::slotRefreshClipProperties()
 {
     QModelIndex current = m_proxyModel->selectionModel()->currentIndex();
-    if (current.isValid()) {
+    if (current.isValid() && m_proxyModel->selectionModel()->isSelected(current)) {
         ProjectClip *clip = static_cast<ProjectClip *>(m_proxyModel->mapToSource(current).internalPointer());
         if (clip && !clip->isFolder()) {
             showClipProperties(clip);
