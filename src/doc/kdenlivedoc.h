@@ -41,7 +41,6 @@
 
 class Render;
 class ClipManager;
-class DocClipBase;
 class MainWindow;
 class TrackInfo;
 class NotesPlugin;
@@ -93,7 +92,6 @@ public:
     int getFramePos(const QString &duration);
     ProjectClip *getBinClip(const QString &clipId);
     ClipController *getClipController(const QString &clipId);
-    DocClipBase *getBaseClip(const QString &clipId);
     void updateClip(const QString &id);
 
     /** @brief Informs Kdenlive of the audio thumbnails generation progress. */
@@ -255,7 +253,7 @@ private slots:
 
 signals:
     void resetProjectList();
-    void addProjectClip(DocClipBase *, bool getInfo = true);
+    //void addProjectClip(DocClipBase *, bool getInfo = true);
     void signalDeleteProjectClip(const QString &);
     void updateClipDisplay(const QString&);
     void progressInfo(const QString &, int);

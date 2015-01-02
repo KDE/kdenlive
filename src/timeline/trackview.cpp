@@ -1074,10 +1074,12 @@ DocClipBase *TrackView::getMissingProducer(const QString &id) const
         //qDebug()<<"******************\nADJUSTED 2\n*************************";
     }
     DocClipBase *missingClip = NULL;
+    //TODO
+    /*
     if (!resource.isEmpty()) {
         QList <DocClipBase *> list = m_doc->clipManager()->getClipByResource(resource);
         if (!list.isEmpty()) missingClip = list.at(0);
-    }
+    }*/
     return missingClip;
 }
 

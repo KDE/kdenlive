@@ -73,6 +73,7 @@ class Producer;
 }
 
 class ProjectItem;
+class BinController;
 class ProjectListView;
 class Render;
 class KdenliveDoc;
@@ -112,7 +113,7 @@ public:
     ProjectList(QWidget *parent = 0);
     virtual ~ProjectList();
 
-    QDomElement producersList();
+    BinController *binController();
     void setRenderer(Render *projectRender);
     void slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties);
     QByteArray headerInfo() const;
@@ -125,7 +126,6 @@ public:
     QDomDocument generateTemplateXml(QString data, const QString &replaceString);
     void cleanup();
     void trashUnusedClips();
-    QList <DocClipBase*> documentClipList() const;
     void addClipCut(const QString &id, int in, int out, const QString desc, bool newItem);
     void removeClipCut(const QString &id, int in, int out);
     void focusTree() const;

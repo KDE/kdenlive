@@ -19,7 +19,6 @@
 
 
 #include "kdenlivedoc.h"
-#include "docclipbase.h"
 #include "documentchecker.h"
 #include "documentvalidator.h"
 #include "mltcontroller/clipcontroller.h"
@@ -326,8 +325,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                                         e = markerslist.at(k).toElement();
                                         if (e.tagName() == "marker") {
                                             CommentedTime marker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"), e.attribute("type").toInt());
-                                            DocClipBase *baseClip = m_clipManager->getClipById(e.attribute("id"));
-                                            if (baseClip) baseClip->addSnapMarker(marker);
+                                            ClipController *controller = getClipController(e.attribute("id"));
+                                            if (controller) controller->addSnapMarker(marker);
                                             else qDebug()<< " / / Warning, missing clip: "<< e.attribute("id");
                                         }
                                     }
@@ -759,18 +758,19 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList &
     }
 
     // Save project clips
+    
     QDomElement e;
-    QList <DocClipBase*> list = m_clipManager->documentClipList();
+    QList <ClipController*> list = pCore->binController()->getControllerList();
     for (int i = 0; i < list.count(); ++i) {
-        e = list.at(i)->toXML(true);
+        /*e = list.at(i)->toXML(true);
         e.setTagName("kdenlive_producer");
-        addedXml.appendChild(sceneList.importNode(e, true));
+        addedXml.appendChild(sceneList.importNode(e, true));*/
         QList < CommentedTime > marks = list.at(i)->commentedSnapMarkers();
         for (int j = 0; j < marks.count(); ++j) {
             QDomElement marker = sceneList.createElement("marker");
             marker.setAttribute("time", marks.at(j).time().ms() / 1000);
             marker.setAttribute("comment", marks.at(j).comment());
-            marker.setAttribute("id", e.attribute("id"));
+            marker.setAttribute("id", list.at(i)->clipId());
             marker.setAttribute("type", marks.at(j).markerType());
             markers.appendChild(marker);
         }
@@ -857,13 +857,13 @@ void KdenliveDoc::setProjectFolder(QUrl url)
 
 void KdenliveDoc::moveProjectData(const QUrl &url)
 {
-    QList <DocClipBase*> list = m_clipManager->documentClipList();
+    QList <ClipController*> list = pCore->binController()->getControllerList();
     QList<QUrl> cacheUrls;
     for (int i = 0; i < list.count(); ++i) {
-        DocClipBase *clip = list.at(i);
+        ClipController *clip = list.at(i);
         if (clip->clipType() == Text) {
             // the image for title clip must be moved
-            QUrl oldUrl = clip->fileURL();
+            QUrl oldUrl = clip->clipUrl();
             QUrl newUrl = QUrl::fromLocalFile(url.toLocalFile() + QDir::separator() + "titles/" + oldUrl.fileName());
             KIO::Job *job = KIO::copy(oldUrl, newUrl);
             if (job->exec()) clip->setProperty("resource", newUrl.path());
@@ -994,7 +994,7 @@ void KdenliveDoc::setRenderer(Render *render) {
 void KdenliveDoc::checkProjectClips(bool displayRatioChanged, bool fpsChanged)
 {
     if (m_render == NULL) return;
-    m_clipManager->resetProducersList(m_render->producersList(), displayRatioChanged, fpsChanged);
+    //m_clipManager->resetProducersList(m_render->producersList(), displayRatioChanged, fpsChanged);
 }
 
 Render *KdenliveDoc::renderer()
@@ -1096,7 +1096,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
     qDebug()<<"ADDING CLIP COMMAND\n-----------\n"<<str;
 
     return true;
-    DocClipBase *clip = m_clipManager->getClipById(producerId);
+    /*DocClipBase *clip = m_clipManager->getClipById(producerId);
 
     if (clip == NULL) {
         QString clipFolder = KRecentDirs::dir(":KdenliveClipFolder");
@@ -1168,7 +1168,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
     if (createClipItem) {
         emit addProjectClip(clip);
     }
-
+    */
     return true;
 }
 
@@ -1233,7 +1233,7 @@ QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &match
 
 bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, const QString &clipId)
 {
-    DocClipBase *clip = m_clipManager->getClipById(clipId);
+    /*DocClipBase *clip = m_clipManager->getClipById(clipId);
     if (clip == NULL) {
         if (!addClip(elem, clipId, false))
             return false;
@@ -1265,7 +1265,7 @@ bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, const QString 
                 clip->setMetadata(meta);
         }
     }
-    return true;
+    return true;*/
 }
 
 
@@ -1292,10 +1292,6 @@ ClipController *KdenliveDoc::getClipController(const QString &clipId)
     return pCore->binController()->getController(clipId);
 }
 
-DocClipBase *KdenliveDoc::getBaseClip(const QString &clipId)
-{
-    return m_clipManager->getClipById(clipId);
-}
 
 void KdenliveDoc::slotCreateXmlClip(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId)
 {

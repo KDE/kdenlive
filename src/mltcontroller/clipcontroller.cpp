@@ -229,7 +229,6 @@ ClipType ClipController::clipType() const
 QPixmap ClipController::pixmap(int framePosition, int width, int height)
 {
     //int currentPosition = position();
-    return QPixmap();
     m_masterProducer->seek(framePosition);
     Mlt::Frame *frame = m_masterProducer->get_frame();
     if (frame == NULL || !frame->is_valid()) {
@@ -274,24 +273,6 @@ QPixmap ClipController::pixmap(int framePosition, int width, int height)
     pixmap.convertFromImage(image);
 
     return pixmap;
-
-    //const uchar* imagedata = frame->get_image(format, ow, oh);
-    //QImage image(imagedata, ow, oh, QImage::Format_ARGB32_Premultiplied);
-    
-    /*if (!image.isNull()) {
-        if (ow > (2 * displayWidth)) {
-            // there was a scaling problem, do it manually
-            image = image.scaled(displayWidth, height).rgbSwapped();
-        } else {
-            image = image.scaled(displayWidth, height, Qt::IgnoreAspectRatio).rgbSwapped();
-        }
-        p.fill(QColor(Qt::black).rgb());
-        QPainter painter(&p);
-        painter.drawImage(p.rect(), image);
-        painter.end();
-    } else
-        p.fill(QColor(Qt::red).rgb());
-    return p;*/
 }
 
 QList < GenTime > ClipController::snapMarkers() const

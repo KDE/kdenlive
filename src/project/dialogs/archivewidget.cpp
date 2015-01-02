@@ -21,6 +21,7 @@
 #include "archivewidget.h"
 #include "projectsettings.h"
 #include "titler/titlewidget.h"
+#include "mltcontroller/clipcontroller.h"
 
 #include <klocalizedstring.h>
 #include <KDiskFreeSpaceInfo>
@@ -36,7 +37,7 @@
 #include <QTreeWidget>
 #include <QtConcurrent>
 
-ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList <DocClipBase*> &list, const QStringList &luma_list, QWidget * parent) :
+ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList <ClipController*> &list, const QStringList &luma_list, QWidget * parent) :
         QDialog(parent)
         , m_requestedSize(0)
         , m_copyJob(NULL)
@@ -113,31 +114,31 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     QMap <QString, QString>proxyUrls;
 
     for (int i = 0; i < list.count(); ++i) {
-        DocClipBase *clip = list.at(i);
+        ClipController *clip = list.at(i);
         ClipType t = clip->clipType();
-        QString id = clip->getId();
+        QString id = clip->clipId();
         if (t == SlideShow) {
-            QUrl slideUrl = clip->fileURL();
+            QUrl slideUrl = clip->clipUrl();
             //TODO: Slideshow files
             slideUrls.insert(id, slideUrl.path());
         }
-        else if (t == Image) imageUrls.insert(id, clip->fileURL().path());
+        else if (t == Image) imageUrls.insert(id, clip->clipUrl().path());
         else if (t == Text) {
-            QStringList imagefiles = TitleWidget::extractImageList(clip->getProperty("xmldata"));
-            QStringList fonts = TitleWidget::extractFontList(clip->getProperty("xmldata"));
+            QStringList imagefiles = TitleWidget::extractImageList(clip->property("xmldata"));
+            QStringList fonts = TitleWidget::extractFontList(clip->property("xmldata"));
             extraImageUrls << imagefiles;
             allFonts << fonts;
         } else if (t == Playlist) {
-            playlistUrls.insert(id, clip->fileURL().path());
-            QStringList files = ProjectSettings::extractPlaylistUrls(clip->fileURL().path());
+            playlistUrls.insert(id, clip->clipUrl().path());
+            QStringList files = ProjectSettings::extractPlaylistUrls(clip->clipUrl().path());
             otherUrls << files;
         }
-        else if (!clip->fileURL().isEmpty()) {
-            if (t == Audio) audioUrls.insert(id, clip->fileURL().path());
+        else if (!clip->clipUrl().isEmpty()) {
+            if (t == Audio) audioUrls.insert(id, clip->clipUrl().path());
             else {
-                videoUrls.insert(id, clip->fileURL().path());
+                videoUrls.insert(id, clip->clipUrl().path());
                 // Check if we have a proxy
-                QString proxy = clip->getProperty("proxy");
+                QString proxy = clip->property("proxy");
                 if (!proxy.isEmpty() && proxy != "-" && QFile::exists(proxy)) proxyUrls.insert(id, proxy);
             }
         }

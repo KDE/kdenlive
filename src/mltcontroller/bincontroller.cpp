@@ -290,3 +290,8 @@ ClipController *BinController::getController(const QString &id)
     return m_clipList.value(id);
 }
 
+const QList <ClipController *> BinController::getControllerList() const
+{
+    return m_clipList.values();
+}
+

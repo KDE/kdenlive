@@ -1489,6 +1489,7 @@ void ProjectList::getCachedThumbnail(SubProjectItem *item)
 
 void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, const QStringList &brokenClips)
 {
+    /*
     if (!m_allClipsProcessed) m_listView->setEnabled(false);
     m_listView->setSortingEnabled(false);
     QTreeWidgetItemIterator it(m_listView);
@@ -1609,6 +1610,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, cons
         monitorItemEditing(true);
         slotProcessNextThumbnail();
     }
+    */
 }
 
 // static
@@ -1991,14 +1993,14 @@ void ProjectList::setDocument(KdenliveDoc *doc)
         folder->setExpanded(openedFolders.contains(f.key()));
     }
 
-    QList <DocClipBase*> list = doc->clipManager()->documentClipList();
+    /*QList <DocClipBase*> list = doc->clipManager()->documentClipList();
     if (list.isEmpty()) {
         // blank document
         m_refreshed = true;
         m_allClipsProcessed = true;
     }
     for (int i = 0; i < list.count(); ++i)
-        slotAddClip(list.at(i), false);
+        slotAddClip(list.at(i), false);*/
 
     m_listView->blockSignals(false);
     connect(m_doc->clipManager(), SIGNAL(reloadClip(QString)), this, SLOT(slotReloadClip(QString)));
@@ -2026,32 +2028,6 @@ void ProjectList::slotSetThumbnail(const QString &id, int framePos, QImage img)
         QString hash = pItem->getClipHash();
         if (!hash.isEmpty()) m_doc->cacheImage(hash + '#' + QString::number(framePos), img);
     }
-}
-
-QList <DocClipBase*> ProjectList::documentClipList() const
-{
-    if (m_doc == NULL)
-        return QList <DocClipBase*> ();
-
-    return m_doc->clipManager()->documentClipList();
-}
-
-QDomElement ProjectList::producersList()
-{
-    QDomDocument doc;
-    QDomElement prods = doc.createElement("producerlist");
-    doc.appendChild(prods);
-    QTreeWidgetItemIterator it(m_listView);
-    while (*it) {
-        if ((*it)->type() != ProjectClipType) {
-            // subitem
-            ++it;
-            continue;
-        }
-        prods.appendChild(doc.importNode(((ProjectItem *)(*it))->toXml(), true));
-        ++it;
-    }
-    return prods;
 }
 
 void ProjectList::slotCheckForEmptyQueue()
@@ -2094,8 +2070,9 @@ void ProjectList::slotProcessNextThumbnail()
         slotCheckForEmptyQueue();
         return;
     }
-    int max = m_doc->clipManager()->clipsCount();
-    emit displayMessage(i18n("Loading thumbnails"), (int)(100 *(max - m_thumbnailQueue.count()) / max));
+    //TODO
+    /*int max = m_doc->clipManager()->clipsCount();
+    emit displayMessage(i18n("Loading thumbnails"), (int)(100 *(max - m_thumbnailQueue.count()) / max));*/
     slotRefreshClipThumbnail(m_thumbnailQueue.takeFirst(), false);
 }
 
@@ -2312,9 +2289,12 @@ void ProjectList::slotReplyGetFileProperties(requestClipInfo &clipInfo, Mlt::Pro
                 emit firstClip(item);
             }
         } else {
+            //TODO
+            /*
             int max = m_doc->clipManager()->clipsCount();
             if (max > 0)
                 emit displayMessage(i18n("Loading clips"), (int)(100 *(max - queue) / max));
+            */
         }
 
         if (m_allClipsProcessed)
@@ -2717,6 +2697,8 @@ void ProjectList::slotAddOrUpdateSequence(const QString &frameName)
     QString pattern = SlideshowClip::selectedPath(QUrl::fromLocalFile(frameName), false, QString(), &list);
     int count = list.count();
     if (count > 1) {
+        //TODO
+        /*
         const QList <DocClipBase *> existing = m_doc->clipManager()->getClipByResource(pattern);
         if (!existing.isEmpty()) {
             // Sequence already exists, update
@@ -2728,9 +2710,8 @@ void ProjectList::slotAddOrUpdateSequence(const QString &frameName)
             oldprops["out"] = existing.at(0)->getProperty("out");
             newprops["out"] = QString::number(ttl * count - 1);
             slotUpdateClipProperties(id, newprops);
-	    //TODO
             /*EditClipCommand *command = new EditClipCommand(this, id, oldprops, newprops, false);
-            m_commandStack->push(command);*/
+            m_commandStack->push(command);
         } else {
             // Create sequence
             QStringList groupInfo = getGroup();
@@ -2748,6 +2729,7 @@ void ProjectList::slotAddOrUpdateSequence(const QString &frameName)
 
             m_doc->slotCreateSlideshowClipFile(properties, groupInfo.at(0), groupInfo.at(1));
         }
+        */
     } else emit displayMessage(i18n("Sequence not found"), -2, ErrorMessage);
 }
 
@@ -2995,6 +2977,7 @@ void ProjectList::slotAbortProxy(const QString &id, const QString &path)
 
 void ProjectList::slotProcessJobs()
 {
+  /*
     while (!m_jobList.isEmpty() && !m_abortAllJobs) {
         emit projectModified();
         AbstractClipJob *job = NULL;
@@ -3066,6 +3049,7 @@ void ProjectList::slotProcessJobs()
     }
     // Thread finished, cleanup & update count
     QTimer::singleShot(200, this, SIGNAL(checkJobProcess()));
+    */
 }
 
 
@@ -3326,6 +3310,8 @@ void ProjectList::processThumbOverlays(ProjectItem *item, QPixmap &pix)
 
 void ProjectList::slotCancelJobs()
 {
+    //TODO in jobmanager
+  /*
     m_abortAllJobs = true;
     for (int i = 0; i < m_jobList.count(); ++i) {
         m_jobList.at(i)->setStatus(JobAborted);
@@ -3353,19 +3339,22 @@ void ProjectList::slotCancelJobs()
     m_jobList.clear();
     m_abortAllJobs = false;
     m_infoLabel->slotSetJobCount(0);
+    */
 }
 
 void ProjectList::slotCancelRunningJob(const QString id, stringMap newProps)
 {
+    //TODO
+    /*
     if (newProps.isEmpty() || m_closing) return;
     DocClipBase *currentClip = m_doc->clipManager()->getClipById(id);
     if (!currentClip) return;
     QMap <QString, QString> oldProps = currentClip->currentProperties(newProps);
     if (newProps == oldProps) return;
     QMapIterator<QString, QString> i(oldProps);
-    //TODO
-    /*EditClipCommand *command = new EditClipCommand(this, id, oldProps, newProps, true);
-    m_commandStack->push(command);*/
+    EditClipCommand *command = new EditClipCommand(this, id, oldProps, newProps, true);
+    m_commandStack->push(command);
+    */
 }
 
 bool ProjectList::hasPendingJob(ProjectItem *item, AbstractClipJob::JOBTYPE type)
@@ -3542,11 +3531,13 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
             delete cons;
             QString groupId;
             QString groupName;
-            DocClipBase *base = m_doc->clipManager()->getClipById(keys.at(ix));
+            //TODO
+            /*DocClipBase *base = m_doc->clipManager()->getClipById(keys.at(ix));
             if (base) {
                 groupId = base->getProperty("groupid");
                 groupName = base->getProperty("groupname");
             }
+            */
             emit addClip(dest, groupId, groupName);
             ix++;
         }
@@ -3812,6 +3803,11 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , stringMap resu
     }
 }
 
+// Should be removed (hack to fix projectsettings)
+BinController *ProjectList::binController()
+{
+    return pCore->binController();
+}
 
 /*
 // Work in progress: apply filter based on clip's camcorder

@@ -669,8 +669,9 @@ void MainWindow::slotConnectMonitors()
 
     connect(m_projectMonitor, SIGNAL(requestFrameForAnalysis(bool)), this, SLOT(slotMonitorRequestRenderFrame(bool)));
 
-    connect(m_clipMonitor, SIGNAL(saveZone(Render*,QPoint,DocClipBase*)), this, SLOT(slotSaveZone(Render*,QPoint,DocClipBase*)));
-    connect(m_projectMonitor, SIGNAL(saveZone(Render*,QPoint,DocClipBase*)), this, SLOT(slotSaveZone(Render*,QPoint,DocClipBase*)));
+    //TODO
+    /*connect(m_clipMonitor, SIGNAL(saveZone(Render*,QPoint,DocClipBase*)), this, SLOT(slotSaveZone(Render*,QPoint,DocClipBase*)));
+    connect(m_projectMonitor, SIGNAL(saveZone(Render*,QPoint,DocClipBase*)), this, SLOT(slotSaveZone(Render*,QPoint,DocClipBase*)));*/
 }
 
 void MainWindow::slotAdjustClipMonitor()
@@ -1313,7 +1314,7 @@ void MainWindow::slotEditProjectSettings()
         if (project->getDocumentProperty("proxyparams") != w->proxyParams()) {
             project->setModified();
             project->setDocumentProperty("proxyparams", w->proxyParams());
-            if (project->clipManager()->clipsCount() > 0 && KMessageBox::questionYesNo(this, i18n("You have changed the proxy parameters. Do you want to recreate all proxy clips for this project?")) == KMessageBox::Yes) {
+            if (pCore->binController()->clipCount() > 0 && KMessageBox::questionYesNo(this, i18n("You have changed the proxy parameters. Do you want to recreate all proxy clips for this project?")) == KMessageBox::Yes) {
                 //TODO: rebuild all proxies
                 //m_projectList->rebuildProxies();
             }
@@ -1537,7 +1538,7 @@ void MainWindow::connectDocument()
     connect(trackView, SIGNAL(setZoom(int)), this, SLOT(slotSetZoom(int)));
     connect(trackView->projectView(), SIGNAL(displayMessage(QString,MessageType)), m_messageLabel, SLOT(setMessage(QString,MessageType)));
 
-    connect(trackView->projectView(), SIGNAL(showClipFrame(DocClipBase*,QPoint,bool,int)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase*,QPoint,bool,int)));
+    //connect(trackView->projectView(), SIGNAL(showClipFrame(DocClipBase*,QPoint,bool,int)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase*,QPoint,bool,int)));
     connect(trackView->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
 
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), m_projectMonitor, SLOT(slotSetSelectedClip(Transition*)));
@@ -2454,7 +2455,7 @@ void MainWindow::hideEvent(QHideEvent */*event*/)
         pCore->monitorManager()->stopActiveMonitor();
 }
 
-void MainWindow::slotSaveZone(Render *render, const QPoint &zone, DocClipBase *baseClip, QUrl path)
+/*void MainWindow::slotSaveZone(Render *render, const QPoint &zone, DocClipBase *baseClip, QUrl path)
 {
     QPointer<QDialog> dialog = new QDialog(this);
     dialog->setWindowTitle("Save clip zone");
@@ -2513,7 +2514,7 @@ void MainWindow::slotSaveZone(Render *render, const QPoint &zone, DocClipBase *b
         else render->saveZone(url->url(), edit->text(), zone);
     }
     delete dialog;
-}
+}*/
 
 void MainWindow::slotResizeItemStart()
 {
@@ -3079,7 +3080,7 @@ void MainWindow::slotUpdateProxySettings()
 
 void MainWindow::slotArchiveProject()
 {
-    QList <DocClipBase*> list = m_projectList->documentClipList();
+    QList <ClipController*> list = pCore->binController()->getControllerList();
     QDomDocument doc = pCore->projectManager()->current()->xmlSceneList(m_projectMonitor->sceneList(), m_projectList->expandedFolders());
     QPointer<ArchiveWidget> d = new ArchiveWidget(pCore->projectManager()->current()->url().fileName(), doc, list, pCore->projectManager()->currentTrackView()->projectView()->extractTransitionsLumas(), this);
     if (d->exec()) {

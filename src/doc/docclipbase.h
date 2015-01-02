@@ -58,7 +58,7 @@ public:
      *   done here. If a new clip type is added then it should be possible to combine it with both audio
      *   and video. */
 
-    DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id);
+    Q_DECL_DEPRECATED DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id);
 //    DocClipBase & operator=(const DocClipBase & clip);
     virtual ~ DocClipBase();
 

@@ -43,7 +43,6 @@
 
 
 class KdenliveDoc;
-class DocClipBase;
 class AbstractGroupItem;
 
 
@@ -71,12 +70,8 @@ Q_OBJECT public:
 
     ClipManager(KdenliveDoc *doc);
     virtual ~ ClipManager();
-    void addClip(DocClipBase *clip);
     void deleteClip(const QString &clipId);
     
-    // Set producer on a DocClipBase and insert it in the bin's playlist
-    void setClipProducer(DocClipBase *clip, Mlt::Producer *producer, bool replace);
-
     /** @brief Adds a list of files to the project.
      * @param urls files to add
      * @param group name of the group to insert the files in (can be empty)
@@ -99,19 +94,16 @@ Q_OBJECT public:
     void slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
     void slotAddColorClipFile(const QString &name, const QString &color, const QString &duration, const QString &group, const QString &groupId);
     void slotAddSlideshowClipFile(QMap <QString, QString> properties, const QString &group, const QString &groupId);
-    DocClipBase *getClipById(QString clipId);
-    const QList <DocClipBase *> getClipByResource(const QString &resource);
+    //const QList <DocClipBase *> getClipByResource(const QString &resource);
     void slotDeleteClips(QStringList ids);
     void setThumbsProgress(const QString &message, int progress);
     void checkAudioThumbs();
-    QList <DocClipBase*> documentClipList() const;
     QMap <QString, QString> documentFolderList() const;
     int getFreeFolderId();
     int lastClipId() const;
     void askForAudioThumb(const QString &id);
     QString projectFolder() const;
     void clearUnusedProducers();
-    void resetProducersList(const QList <Mlt::Producer *> prods, bool displayRatioChanged, bool fpsChanged);
     void addFolder(const QString&, const QString&);
     void deleteFolder(const QString&);
     void clear();
@@ -119,7 +111,6 @@ Q_OBJECT public:
     AbstractGroupItem *createGroup();
     void removeGroup(AbstractGroupItem *group);
     QDomElement groupsXml() const;
-    int clipsCount() const;
     /** @brief remove a clip id from the queue list. */
     void stopThumbs(const QString &id);
     void projectTreeThumbReady(const QString &id, int frame, const QImage &img, int type);
@@ -150,7 +141,6 @@ private slots:
 
 private:   // Private attributes
     /** the list of clips in the document */
-    QList <DocClipBase*> m_clipList;
     /** the list of groups in the document */
     QList <AbstractGroupItem *> m_groupsList;
     QMap <QString, QString> m_folderList;

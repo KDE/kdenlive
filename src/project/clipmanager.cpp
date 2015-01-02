@@ -20,11 +20,10 @@
 
 #include "clipmanager.h"
 #include "subprojectitem.h"
-
+#include "mltcontroller/clipcontroller.h"
 #include "kdenlivesettings.h"
 #include "doc/kthumb.h"
 #include "doc/doccommands.h"
-#include "doc/docclipbase.h"
 #include "doc/kdenlivedoc.h"
 #include "timeline/abstractclipitem.h"
 #include "timeline/abstractgroupitem.h"
@@ -92,8 +91,6 @@ ClipManager::~ClipManager()
     m_audioThumbsQueue.clear();
     m_thumbsMutex.unlock();
 
-    qDeleteAll(m_clipList);
-    m_clipList.clear();
     delete pixmapCache;
 }
 
@@ -111,8 +108,6 @@ void ClipManager::clear()
     m_abortAudioThumb = false;
     m_folderList.clear();
     m_modifiedClips.clear();
-    qDeleteAll(m_clipList);
-    m_clipList.clear();
     m_folderIdCounter = 1;
     pixmapCache->clear();
 }
@@ -187,6 +182,8 @@ void ClipManager::slotGetThumbs()
         }
         m_thumbsMutex.unlock();
         qSort(values);
+        //TODO
+        /*
         DocClipBase *clip = getClipById(m_processingThumbId);
         if (!clip) continue;
         max = m_requestedThumbs.size() + values.count();
@@ -207,6 +204,7 @@ void ClipManager::slotGetThumbs()
             done++;
             if (max > 3) emit displayMessage(i18n("Loading thumbnails"), 100 * done / max);
         }
+        */
     }
     m_processingThumbId.clear();
     emit displayMessage(QString(), -1);
@@ -227,11 +225,14 @@ void ClipManager::checkAudioThumbs()
     }
 
     m_thumbsMutex.lock();
+    //TODO
+    /*
     for (int i = 0; i < m_clipList.count(); ++i) {
         DocClipBase *clip = m_clipList.at(i);
         if (clip->hasAudioThumb() && !clip->audioThumbCreated())
             m_audioThumbsQueue.append(m_clipList.at(i)->getId());
     }
+    */
     m_thumbsMutex.unlock();
     if (!m_audioThumbsThread.isRunning() && !m_audioThumbsQueue.isEmpty()) {
         m_audioThumbsThread = QtConcurrent::run(this, &ClipManager::slotGetAudioThumbs);
@@ -240,17 +241,18 @@ void ClipManager::checkAudioThumbs()
 
 void ClipManager::askForAudioThumb(const QString &id)
 {
-    DocClipBase *clip = getClipById(id);
+    /*DocClipBase *clip = getClipById(id);
     if (clip && KdenliveSettings::audiothumbnails() && (clip->hasAudioThumb())) {
         m_thumbsMutex.lock();
         if (!m_audioThumbsQueue.contains(id)) m_audioThumbsQueue.append(id);
         m_thumbsMutex.unlock();
         if (!m_audioThumbsThread.isRunning()) m_audioThumbsThread = QtConcurrent::run(this, &ClipManager::slotGetAudioThumbs);
-    }
+    }*/
 }
 
 void ClipManager::slotGetAudioThumbs()
 {
+    /*
     Mlt::Profile prof((char*) KdenliveSettings::current_profile().toUtf8().constData());
     mlt_audio_format audioFormat = mlt_audio_s16;
     while (!m_abortAudioThumb && !m_audioThumbsQueue.isEmpty()) {
@@ -327,11 +329,11 @@ void ClipManager::slotGetAudioThumbs()
         
         producer.set("video_index", "-1");
 
-        if (KdenliveSettings::normaliseaudiothumbs()) {
-            /*Mlt::Filter m_convert(prof, "volume");
-            m_convert.set("gain", "normalise");
-            producer.attach(m_convert);*/
-        }
+        //if (KdenliveSettings::normaliseaudiothumbs()) {
+            //Mlt::Filter m_convert(prof, "volume");
+            //m_convert.set("gain", "normalise");
+            //producer.attach(m_convert);
+        //}
 
         int last_val = 0;
         double framesPerSecond = mlt_producer_get_fps(producer.get_producer());
@@ -381,6 +383,7 @@ void ClipManager::slotGetAudioThumbs()
         }
     }
     m_processingAudioThumbId.clear();
+    */
 }
 
 void ClipManager::setThumbsProgress(const QString &message, int progress)
@@ -388,19 +391,10 @@ void ClipManager::setThumbsProgress(const QString &message, int progress)
     m_doc->setThumbsProgress(message, progress);
 }
 
-QList <DocClipBase*> ClipManager::documentClipList() const
-{
-    return m_clipList;
-}
 
 QMap <QString, QString> ClipManager::documentFolderList() const
 {
     return m_folderList;
-}
-
-void ClipManager::setClipProducer(DocClipBase *clip, Mlt::Producer *producer, bool replace)
-{
-    //clip->setProducer(*producer, replace);
 }
 
 void ClipManager::slotAddClip(const QString &url, const QString &groupName, const QString &groupId)
@@ -555,19 +549,6 @@ void ClipManager::addProjectClip(QDomElement xml, const QString &clipId)
     pCore->bin()->createClip(xml);
 }
 
-void ClipManager::addClip(DocClipBase *clip)
-{
-    m_clipList.append(clip);
-    if (clip->clipType() != Color && clip->clipType() != SlideShow  && !clip->fileURL().isEmpty()) {
-        // listen for file change
-        ////qDebug() << "// LISTEN FOR: " << clip->fileURL().path();
-        m_fileWatcher.addFile(clip->fileURL().path());
-    }
-    const QString id = clip->getId();
-    const QString gid = clip->getProperty("groupid");
-    if (!gid.isEmpty() && gid.toInt() >= m_folderIdCounter) m_folderIdCounter = gid.toInt() + 1;
-}
-
 void ClipManager::slotDeleteClips(QStringList ids)
 {
     QUndoCommand *delClips = new QUndoCommand();
@@ -587,38 +568,17 @@ void ClipManager::slotDeleteClips(QStringList ids)
 
 void ClipManager::deleteClip(const QString &clipId)
 {
+    ClipController *controller = pCore->binController()->getController(clipId);
+    ClipType type = controller->clipType();
+    QString url = controller->clipUrl().toLocalFile();
+    if (type != Color && type != SlideShow  && !url.isEmpty()) {
+        m_fileWatcher.removeFile(url);
+    }
     pCore->binController()->removeBinClip(clipId);
     pCore->bin()->deleteClip(clipId);
-    return;
-    for (int i = 0; i < m_clipList.count(); ++i) {
-        if (m_clipList.at(i)->getId() == clipId) {
-            DocClipBase *clip = m_clipList.takeAt(i);
-            if (clip->clipType() != Color && clip->clipType() != SlideShow  && !clip->fileURL().isEmpty()) {
-                //if (m_clipList.at(i)->clipType() == IMAGE || m_clipList.at(i)->clipType() == AUDIO || (m_clipList.at(i)->clipType() == TEXT && !m_clipList.at(i)->fileURL().isEmpty())) {
-                // listen for file change
-                m_fileWatcher.removeFile(clip->fileURL().path());
-            }
-            delete clip;
-            clip = NULL;
-            break;
-        }
-    }
 }
 
-DocClipBase *ClipManager::getClipById(QString clipId)
-{
-    ////qDebug() << "++++  CLIP MAN, LOOKING FOR CLIP ID: " << clipId;
-    clipId = clipId.section('_', 0, 0);
-    for (int i = 0; i < m_clipList.count(); ++i) {
-        if (m_clipList.at(i)->getId() == clipId) {
-            ////qDebug() << "++++  CLIP MAN, FOUND FOR CLIP ID: " << clipId;
-            return m_clipList.at(i);
-        }
-    }
-    return NULL;
-}
-
-const QList <DocClipBase *> ClipManager::getClipByResource(const QString &resource)
+/*const QList <DocClipBase *> ClipManager::getClipByResource(const QString &resource)
 {
     QList <DocClipBase *> list;
     QString clipResource;
@@ -632,43 +592,16 @@ const QList <DocClipBase *> ClipManager::getClipByResource(const QString &resour
         }
     }
     return list;
-}
+}*/
 
 
 void ClipManager::clearUnusedProducers()
 {
-    for (int i = 0; i < m_clipList.count(); ++i) {
+/*    for (int i = 0; i < m_clipList.count(); ++i) {
         if (m_clipList.at(i)->numReferences() == 0) m_clipList.at(i)->deleteProducers();
-    }
+    }*/
 }
 
-void ClipManager::resetProducersList(const QList <Mlt::Producer *> prods, bool displayRatioChanged, bool fpsChanged)
-{
-    for (int i = 0; i < m_clipList.count(); ++i) {
-        if (m_clipList.at(i)->numReferences() > 0 || displayRatioChanged || fpsChanged) {
-            m_clipList.at(i)->deleteProducers();
-        }
-    }
-    QString id;
-    Mlt::Producer *prod;
-    QStringList brokenClips;
-    for (int i = 0; i < prods.count(); ++i) {
-        prod = prods.at(i);
-        id = prod->get("id");
-        if (id.contains('_')) id = id.section('_', 0, 0);
-        DocClipBase *clip = getClipById(id);
-        QString markup = prod->get("markup");
-        if (prod->is_blank() || !prod->is_valid() || !markup.isEmpty()) {
-            // The clip is broken (missing proxy or source clip)
-            //qDebug()<<"// WARNING, CLIP "<<id<<" Cannot be loaded";
-            brokenClips << id;
-        }
-        else if (clip) {
-            clip->setProducer(*prod, false, true);
-        }
-    }
-    emit checkAllClips(displayRatioChanged, fpsChanged, brokenClips);
-}
 
 void ClipManager::slotAddCopiedClip(KIO::Job *job, const QUrl &, const QUrl &dst)
 {
@@ -689,7 +622,8 @@ void ClipManager::doAddClipList(const QList<QUrl> &urls, const QMap <QString, QS
     listRemovableVolumes();
     foreach(const QUrl &file, urls) {
         if (QFile::exists(file.path())) {
-            if (!data.contains("bypassDuplicate") && !getClipByResource(file.path()).empty()) {
+            //TODO check for duplicates
+            if (!data.contains("bypassDuplicate") && false /*!getClipByResource(file.path()).empty()*/) {
                 if (KMessageBox::warningContinueCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to do?", file.path()), i18n("Clip already exists")) == KMessageBox::Cancel)
                     continue;
             }
@@ -1004,8 +938,9 @@ QDomElement ClipManager::groupsXml() const
 
 void ClipManager::slotClipModified(const QString &path)
 {
-    ////qDebug() << "// CLIP: " << path << " WAS MODIFIED";
-    const QList <DocClipBase *> list = getClipByResource(path);
+    qDebug() << "// CLIP: " << path << " WAS MODIFIED";
+    //TODO
+    /*const QList <DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         if (clip != NULL) {
@@ -1015,7 +950,7 @@ void ClipManager::slotClipModified(const QString &path)
             m_modifiedClips[id] = QTime::currentTime();
         }
     }
-    if (!m_modifiedTimer.isActive()) m_modifiedTimer.start();
+    if (!m_modifiedTimer.isActive()) m_modifiedTimer.start();*/
 }
 
 void ClipManager::slotProcessModifiedClips()
@@ -1036,27 +971,24 @@ void ClipManager::slotProcessModifiedClips()
 
 void ClipManager::slotClipMissing(const QString &path)
 {
-    // //qDebug() << "// CLIP: " << path << " WAS MISSING";
-    const QList <DocClipBase *> list = getClipByResource(path);
+    qDebug() << "// CLIP: " << path << " WAS MISSING";
+    //TODO
+    /*const QList <DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         if (clip != NULL) emit missingClip(clip->getId());
-    }
+    }*/
 }
 
 void ClipManager::slotClipAvailable(const QString &path)
 {
-    // //qDebug() << "// CLIP: " << path << " WAS ADDED";
-    const QList <DocClipBase *> list = getClipByResource(path);
+    qDebug() << "// CLIP: " << path << " WAS ADDED";
+    //TODO
+    /*const QList <DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         if (clip != NULL) emit availableClip(clip->getId());
-    }
-}
-
-int ClipManager::clipsCount() const
-{
-    return m_clipList.count();
+    }*/
 }
 
 

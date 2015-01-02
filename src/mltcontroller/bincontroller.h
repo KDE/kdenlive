@@ -123,6 +123,7 @@ public:
     Mlt::Producer *cloneProducer(Mlt::Producer &original);
     
     ClipController *getController(const QString &id);
+    const QList <ClipController *> getControllerList() const;
 
     void replaceBinPlaylistClip(const QString &id, Mlt::Producer &producer);
 

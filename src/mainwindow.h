@@ -55,7 +55,6 @@ class TransitionSettings;
 class Monitor;
 class RecMonitor;
 class RenderWidget;
-class DocClipBase;
 class Render;
 class Transition;
 class KActionCollection;
@@ -361,7 +360,7 @@ private slots:
 
     void slotAdjustClipMonitor();
     void slotAdjustProjectMonitor();
-    void slotSaveZone(Render *render, const QPoint &zone, DocClipBase *baseClip = NULL, QUrl path = QUrl());
+    //void slotSaveZone(Render *render, const QPoint &zone, DocClipBase *baseClip = NULL, QUrl path = QUrl());
 
     void slotResizeItemStart();
     void slotResizeItemEnd();
