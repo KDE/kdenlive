@@ -626,17 +626,24 @@ void Render::processFileProperties()
         m_infoMutex.unlock();
         QString path;
         bool proxyProducer;
-        if (info.xml.hasAttribute("proxy") && info.xml.attribute("proxy") != "-") {
-            path = info.xml.attribute("proxy");
-            // Check for missing proxies
-            if (QFileInfo(path).size() <= 0) {
-                // proxy is missing, re-create it
-                emit requestProxy(info.clipId);
+        QString proxy = ProjectClip::getXmlProperty(info.xml, "proxy");
+        if (!proxy.isEmpty()) {
+            if (proxy == "-") {
+                path = ProjectClip::getXmlProperty(info.xml, "kdenlive_originalUrl");
                 proxyProducer = false;
-                //path = info.xml.attribute("resource");
-		path = ProjectClip::getXmlProperty(info.xml, "resource");
             }
-            else proxyProducer = true;
+            else {
+                path = proxy;
+                // Check for missing proxies
+                if (QFileInfo(path).size() <= 0) {
+                    // proxy is missing, re-create it
+                    emit requestProxy(info.clipId);
+                    proxyProducer = false;
+                    //path = info.xml.attribute("resource");
+                    path = ProjectClip::getXmlProperty(info.xml, "resource");
+                }
+                else proxyProducer = true;
+            }
         }
         else {
 	    path = ProjectClip::getXmlProperty(info.xml, "resource");
@@ -683,8 +690,6 @@ void Render::processFileProperties()
             delete producer;
             continue;
         }
-        else qDebug()<<"/ // CORRECTLY CREATED PRODUCER: "<<path;
-
         if (proxyProducer && info.xml.hasAttribute("proxy_out")) {
             producer->set("length", info.xml.attribute("proxy_out").toInt() + 1);
             producer->set("out", info.xml.attribute("proxy_out").toInt());
@@ -773,8 +778,6 @@ void Render::processFileProperties()
 
         if (clipOut > 0) producer->set_in_and_out(info.xml.attribute("in").toInt(), clipOut);
 
-        producer->set("id", info.clipId.toUtf8().constData());
-
         if (info.xml.hasAttribute("templatetext"))
             producer->set("templatetext", info.xml.attribute("templatetext").toUtf8().constData());
 
@@ -784,6 +787,8 @@ void Render::processFileProperties()
 
         if ((!info.replaceProducer && info.xml.hasAttribute("file_hash")) || proxyProducer) {
             // Clip  already has all properties
+            // We want to replace an existing producer. We MUST NOT set the producer's id property until 
+            // the old one has been removed.
             if (proxyProducer) {
                 // Recreate clip thumb
                 if (frameNumber > 0) producer->seek(frameNumber);
@@ -795,13 +800,13 @@ void Render::processFileProperties()
                 if (frame) delete frame;
             }
             // replace clip
-            ClipController *controller = new ClipController(m_binController, *producer);
-            m_binController->addClipToBin(info.clipId, controller);
-	    emit gotFileProperties(info, controller);
-            //emit replyGetFileProperties(info, *producer, stringMap(), stringMap());
+            qDebug()<<" / / /CREATED PROD: "<<producer->get("resource");
+            m_binController->replaceProducer(info.clipId, *producer);
+            emit gotFileProperties(info, NULL);
             continue;
         }
-
+        // We are not replacing an existing producer, so set the id
+        producer->set("id", info.clipId.toUtf8().constData());
         stringMap filePropertyMap;
         stringMap metadataPropertyMap;
         char property[200];
@@ -1024,9 +1029,17 @@ void Render::processFileProperties()
                 metadataPropertyMap[ name.section('.', 0, -2)] = value;
         }
         producer->seek(0);
-        ClipController *controller = new ClipController(m_binController, *producer);
-	m_binController->addClipToBin(info.clipId, controller);
-	emit gotFileProperties(info, controller);
+        if (m_binController->hasClip(info.clipId)) {
+            // If controller already exists, we just want to update the producer
+            m_binController->replaceProducer(info.clipId, *producer);
+            emit gotFileProperties(info, NULL);
+        }
+        else {
+            // Create the controller
+            ClipController *controller = new ClipController(m_binController, *producer);
+            m_binController->addClipToBin(info.clipId, controller);
+            emit gotFileProperties(info, controller);
+        }
         //emit replyGetFileProperties(info, *producer, filePropertyMap, metadataPropertyMap);
     }
 }

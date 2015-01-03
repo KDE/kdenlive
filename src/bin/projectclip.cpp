@@ -40,10 +40,9 @@ ProjectClip::ProjectClip(const QString &id, ClipController *controller, ProjectF
     , audioFrameCache()
     , m_audioThumbCreated(false)
 {
-    m_properties = QMap <QString, QString> ();
+    m_clipStatus = StatusReady;
     m_name = m_controller->clipName();
     m_duration = m_controller->getStringDuration();
-
     getFileHash();
     setParent(parent);
 }
@@ -55,7 +54,7 @@ ProjectClip::ProjectClip(const QDomElement& description, ProjectFolder* parent) 
     , m_audioThumbCreated(false)
 {
     Q_ASSERT(description.hasAttribute("id"));
-    m_properties = QMap <QString, QString> ();
+    m_clipStatus = StatusWaiting;
     QString resource = getXmlProperty(description, "resource");
     if (!resource.isEmpty()) {
         m_name = QUrl::fromLocalFile(resource).fileName();
@@ -69,7 +68,7 @@ ProjectClip::ProjectClip(const QDomElement& description, ProjectFolder* parent) 
 
 ProjectClip::~ProjectClip()
 {
-    delete m_controller;
+    // controller is deleted in bincontroller
 }
 
 QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &propertyName)
@@ -170,7 +169,7 @@ void ProjectClip::reloadProducer()
 {
     QDomDocument doc;
     QDomElement xml = toXml(doc);
-    bin()->reloadProducer(m_id, doc.documentElement());
+    bin()->reloadProducer(m_id, xml);
 }
 
 void ProjectClip::setCurrent(bool current, bool notify)
@@ -183,20 +182,11 @@ void ProjectClip::setCurrent(bool current, bool notify)
 
 QDomElement ProjectClip::toXml(QDomDocument& document)
 {
-    QDomElement prod = document.createElement("producer");
-    document.appendChild(prod);
-    QDomElement prop = document.createElement("property");
-    prop.setAttribute("name", "resource");
-    QString path = m_properties.value("proxy");
-    if (path.length() < 2) {
-        // No proxy
-        path = m_controller->clipUrl().toLocalFile();
+    if (m_controller) {
+        m_controller->getProducerXML(document);
+        return document.documentElement().firstChildElement("producer");
     }
-    QDomText value = document.createTextNode(path);
-    prop.appendChild(value);
-    prod.appendChild(prop);
-    prod.setAttribute("id", m_id);
-    return prod;
+    return QDomElement();
 }
 
 QPixmap ProjectClip::thumbnail(bool force)
@@ -237,7 +227,7 @@ void ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
     }
     if (m_controller) {
         // Replace clip for this controller
-        m_controller->updateProducer(controller->masterProducer());
+        //m_controller->updateProducer(m_id, &(controller->originalProducer()));
         delete controller;
     }
     else {
@@ -246,6 +236,7 @@ void ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
         if (m_name.isEmpty()) m_name = m_controller->clipName();
         m_duration = m_controller->getStringDuration();
     }
+    m_clipStatus = StatusReady;
     bin()->emitItemUpdated(this);
     getFileHash();
 }
@@ -380,14 +371,9 @@ const QString ProjectClip::getFileHash() const
     return QString();
 }
 
-const QString ProjectClip::getProperty(const QString &key) const
-{
-    return m_properties.value(key);
-}
-
 bool ProjectClip::hasProxy() const
 {
-    QString proxy = m_properties.value("proxy");
+    QString proxy = getProducerProperty("proxy");
     if (proxy.isEmpty() || proxy == "-") return false;
     return true;
 }
@@ -398,15 +384,12 @@ void ProjectClip::setProperties(QMap <QString, QString> properties)
     bool refreshProducer = false;
     QStringList keys;
     keys << "luma_duration" << "luma_file" << "fade" << "ttl" << "softness" << "crop" << "animation";
-    QString oldProxy = m_properties.value("proxy");
     while (i.hasNext()) {
         i.next();
         setProducerProperty(i.key().toUtf8().data(), i.value().toUtf8().data());
-	m_properties.insert(i.key(), i.value());
         if (clipType() == SlideShow && keys.contains(i.key())) refreshProducer = true;
     }
     if (properties.contains("proxy")) {
-	qDebug()<<"/// CLIP UPDATE, ASK PROXY";
         QString value = properties.value("proxy");
         // If value is "-", that means user manually disabled proxy on this clip
         if (value.isEmpty() || value == "-") {
@@ -414,10 +397,14 @@ void ProjectClip::setProperties(QMap <QString, QString> properties)
             if (bin()->hasPendingJob(m_id, AbstractClipJob::PROXYJOB)) {
                 bin()->discardJobs(m_id, AbstractClipJob::PROXYJOB);
             }
-            else reloadProducer();
+            else {
+                reloadProducer();
+            }
         }
         else {
-	    bin()->startJob(m_id, AbstractClipJob::PROXYJOB);
+            // A proxy was requested, make sure to keep original url
+            setProducerProperty("kdenlive_originalUrl", url().toLocalFile().toUtf8().data());
+            bin()->startJob(m_id, AbstractClipJob::PROXYJOB);
         }
     }
     //if (refreshProducer) slotRefreshProducer();
@@ -437,3 +424,4 @@ void ProjectClip::setJobStatus(AbstractClipJob::JOBTYPE jobType, ClipJobStatus s
     }
     bin()->emitItemUpdated(this);
 }
+

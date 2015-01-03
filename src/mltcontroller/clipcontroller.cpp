@@ -33,13 +33,18 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer& prod
     , m_binController(bincontroller)
     , m_snapMarkers(QList < CommentedTime >())
     , m_hasLimitedDuration(true)
+    , m_properties(new Mlt::Properties(producer.get_properties()))
 {
     m_masterProducer = &producer;
     if (!m_masterProducer->is_valid()) qDebug()<<"// WARNING, USING INVALID PRODUCER";
     else {
-        append(m_masterProducer);
-        m_url = QUrl::fromLocalFile(m_masterProducer->get("resource"));
-        m_service = m_masterProducer->get("mlt_service");
+        QString proxy = m_properties->get("proxy");
+        if (proxy.length() > 2) {
+            // This is a proxy producer, read original url from kdenlive property
+            m_url = QUrl::fromLocalFile(m_properties->get("kdenlive_originalUrl"));
+        }
+        else m_url = QUrl::fromLocalFile(m_properties->get("resource"));
+        m_service = m_properties->get("mlt_service");
         getInfoForProducer();
     }
 }
@@ -49,6 +54,7 @@ ClipController::ClipController(BinController *bincontroller) : QObject()
     , m_snapMarkers(QList < CommentedTime >())
     , m_hasLimitedDuration(true)
     , m_clipType(Unknown)
+    , m_properties(NULL)
 {
     m_masterProducer = NULL;
 }
@@ -64,14 +70,28 @@ double ClipController::dar() const
 
 void ClipController::addMasterProducer(Mlt::Producer &producer)
 {
+    m_properties = new Mlt::Properties(producer.get_properties());
     m_masterProducer = &producer;
     if (!m_masterProducer->is_valid()) qDebug()<<"// WARNING, USING INVALID PRODUCER";
     else {
-        insert(0, m_masterProducer);
-        m_url = QUrl::fromLocalFile(m_masterProducer->get("resource"));
-        m_service = m_masterProducer->get("mlt_service");
+        QString proxy = m_properties->get("proxy");
+        if (proxy.length() > 2) {
+            // This is a proxy producer, read original url from kdenlive property
+            m_url = QUrl::fromLocalFile(m_properties->get("kdenlive_originalUrl"));
+        }
+        else m_url = QUrl::fromLocalFile(m_properties->get("resource"));
+        m_service = m_properties->get("mlt_service");
         getInfoForProducer();
     }
+}
+
+void ClipController::getProducerXML(QDomDocument& document)
+{
+    if (m_masterProducer) {
+        QString xml = m_binController->getProducerXML(*m_masterProducer);
+        document.setContent(xml);
+    }
+    else qDebug()<<" + + ++ NO MASTER PROD";
 }
 
 void ClipController::getInfoForProducer()
@@ -134,15 +154,25 @@ const QString ClipController::clipId()
     return property("id");
 }
 
-void ClipController::updateProducer(Mlt::Producer* producer)
+const char *ClipController::getPassPropertiesList() const
+{
+    return "proxy,kdenlive_originalUrl,force_aspect_ratio,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,video_index,audio_index,force_colorspace,set.force_full_luma,templatetext,file_hash";
+}
+
+void ClipController::updateProducer(const QString &id, Mlt::Producer* producer)
 {
     //TODO replace all track producers
-    removeAll(m_masterProducer);
+    Mlt::Properties passProperties;
+    // Keep track of necessary properties
+    passProperties.pass_list(*m_properties, getPassPropertiesList());
+    delete m_properties;
     delete m_masterProducer;
     m_masterProducer = producer;
+    m_properties = new Mlt::Properties(producer->get_properties());
+    // Pass properties from previous producer
+    m_properties->pass_list(passProperties, getPassPropertiesList());
     if (!m_masterProducer->is_valid()) qDebug()<<"// WARNING, USING INVALID PRODUCER";
     else {
-        append(m_masterProducer);
         m_duration = GenTime(m_masterProducer->get_playtime(), m_binController->fps());
         // URL and name shoule not be updated otherwise when proxying a clip we cannot find back the original url
         /*m_url = QUrl::fromLocalFile(m_masterProducer->get("resource"));
@@ -207,14 +237,14 @@ GenTime ClipController::getPlaytime() const
 
 QString ClipController::property(const QString &name) const
 {
-    if (!m_masterProducer) return QString();
-    return QString(m_masterProducer->parent().get(name.toUtf8().constData()));
+    if (!m_properties) return QString();
+    return QString(m_properties->get(name.toUtf8().constData()));
 }
 
 int ClipController::int_property(const QString &name) const
 {
-    if (!m_masterProducer) return 0;
-    return m_masterProducer->parent().get_int(name.toUtf8().constData());
+    if (!m_properties) return 0;
+    return m_properties->get_int(name.toUtf8().constData());
 }
 
 QUrl ClipController::clipUrl() const

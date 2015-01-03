@@ -98,6 +98,15 @@ public:
 
             // Draw thumbnail
             opt.icon.paint(painter, r);
+            
+            // Overlay icon if necessary
+            /* WIP
+            int clipStatus = index.data(AbstractProjectItem::ClipStatus).toInt();
+            if (clipStatus == (int) AbstractProjectItem::StatusWaiting) {
+                QIcon reload = QIcon::fromTheme("media-playback-pause");
+                reload.paint(painter, r);
+            }
+            */
 
             int decoWidth = r.width() + 2 * textMargin;
             QFont font = painter->font();
@@ -255,6 +264,9 @@ public:
     void emitAboutToRemoveItem(AbstractProjectItem* item);
     void emitItemRemoved(AbstractProjectItem* item);
     void setupMenu(QMenu *addMenu, QAction *defaultAction);
+    
+    /** @brief The source file was modified, we will reload it soon, disable item in the meantime */
+    void setWaitingStatus(const QString &id);
 
     /** @brief Update status for clip jobs  */
     void updateJobStatus(const QString&, int, int, const QString &label = QString(), const QString &actionName = QString(), const QString &details = QString());
@@ -277,6 +289,9 @@ public:
 
     /** @brief Returns the id of the last inserted clip */
     int lastClipId() const;
+    
+    /** @brief Ask MLT to reload this clip's producer  */
+    void reloadClip(const QString &id);
 
     /** @brief Defines the values for data roles  */
     enum DATATYPE {
@@ -302,7 +317,6 @@ private slots:
     void closeEditing();
     void refreshEditedClip();
     void slotMarkersNeedUpdate(const QString &id, const QList <int> &markers);
-    void reloadClip(const QString &id);
     void slotSaveHeaders();
     void slotItemDropped(QStringList ids, const QModelIndex &parent);
     void slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent);

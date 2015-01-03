@@ -136,9 +136,6 @@ public:
     /** @brief Set properties on this clip. TODO: should we store all in MLT or use extra m_properties ?. */
     void setProperties(QMap <QString, QString> properties);
     
-    /** @brief Get a property stored in m_properties. */
-    const QString getProperty(const QString &key) const;
-    
     /** @brief Get an XML property from MLT produced xml. */
     static QString getXmlProperty(const QDomElement &producer, const QString &propertyName);
     
@@ -165,6 +162,8 @@ public:
     /** format is frame -> channel ->bytes */
     QMap<int, QMap<int, QByteArray> > audioFrameCache;
     bool audioThumbCreated() const;
+    
+    void setWaitingStatus(const QString &id);
 
 public slots:
     //TODO
@@ -172,14 +171,11 @@ public slots:
     void updateAudioThumbnail(const audioByteArray& data);
 
 protected:
-    QUrl m_url;
     bool m_hasLimitedDuration;
 
 private:
     //TODO: clip markers
     QList <int> m_markers;
-    //TODO: handle properties inside MLT ?
-    QMap <QString, QString> m_properties;
     /** @brief The Clip controller for this clip. */
     ClipController *m_controller;
     /** @brief Generate and store file hash if not available. */

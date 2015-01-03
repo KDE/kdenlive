@@ -186,6 +186,9 @@ QVariant AbstractProjectItem::data(DataType type) const
 	case JobMessage:
 	    data = QVariant(m_jobMessage);
             break;
+        case ClipStatus:
+            data = QVariant(m_clipStatus);
+            break;
         default:
             break;
     }
@@ -239,5 +242,10 @@ void AbstractProjectItem::setZone(const QPoint &/*zone*/)
 QPoint AbstractProjectItem::zone() const
 {
     return QPoint();
+}
+
+void AbstractProjectItem::setClipStatus(CLIPSTATUS status)
+{
+    m_clipStatus = status;
 }
 

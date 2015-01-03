@@ -139,6 +139,18 @@ int BinController::clipCount() const
     return m_clipList.size();
 }
 
+void BinController::replaceProducer(const QString &id, Mlt::Producer &producer)
+{
+    ClipController *ctrl = m_clipList.value(id);
+    if (!ctrl) {
+        qDebug()<<" / // errror controller not foound, crashiong";
+        return;
+    }
+    ctrl->updateProducer(id, &producer);
+    replaceBinPlaylistClip(id, producer);
+    producer.set("id", id.toUtf8().constData());
+}
+
 void BinController::addClipToBin(const QString &id, ClipController *controller) // Mlt::Producer &producer)
 {
     /** Test: we can use filters on clips in the bin this way
@@ -149,16 +161,24 @@ void BinController::addClipToBin(const QString &id, ClipController *controller) 
     replaceBinPlaylistClip(id, controller->originalProducer());
 
     if (m_clipList.contains(id)) {
+        // There is something wrong, we should not be recreating an existing controller!
         // we are replacing a producer
         //TODO: replace it in timeline
-        ClipController *c2 = m_clipList.value(id);
-        c2->updateProducer(controller->masterProducer());
-        removeBinClip(id);
+        /*ClipController *c2 = m_clipList.value(id);
+        c2->updateProducer(id, &controller->originalProducer());
+        controller->originalProducer().set("id", id.toUtf8().constData());*/
+        //removeBinClip(id);
     }
-    m_clipList.insert(id, controller);
+    else m_clipList.insert(id, controller);
 }
 
 void BinController::replaceBinPlaylistClip(const QString &id, Mlt::Producer &producer)
+{
+    removeBinPlaylistClip(id);
+    m_binPlaylist->append(producer);
+}
+
+void BinController::removeBinPlaylistClip(const QString &id)
 {
     int size = m_binPlaylist->count();
     for (int i = 0; i < size; i++) {
@@ -166,10 +186,10 @@ void BinController::replaceBinPlaylistClip(const QString &id, Mlt::Producer &pro
         QString prodId = prod->parent().get("id");
         if (prodId == id) {
             m_binPlaylist->remove(i);
+            delete prod;
             break;
         }
     }
-    m_binPlaylist->append(producer);
 }
 
 bool BinController::hasClip(const QString &id)
@@ -181,6 +201,7 @@ bool BinController::hasClip(const QString &id)
 bool BinController::removeBinClip(const QString &id)
 {
     if (!m_clipList.contains(id)) return false;
+    removeBinPlaylistClip(id);
     ClipController *controller = m_clipList.take(id);
     delete controller;
     return true;
@@ -295,3 +316,16 @@ const QList <ClipController *> BinController::getControllerList() const
     return m_clipList.values();
 }
 
+const QStringList BinController::getBinIdsByResource(const QUrl &url) const
+{
+    QStringList controllers;
+    QMapIterator<QString, ClipController *> i(m_clipList);
+    while (i.hasNext()) {
+        i.next();
+        ClipController *ctrl = i.value();
+        if (ctrl->clipUrl() == url) {
+            controllers << i.key();
+        }
+    }
+    return controllers;
+}

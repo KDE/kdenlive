@@ -30,7 +30,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "project/dialogs/slideshowclip.h"
 
 #include <KMessageBox>
+#include <KRecentDirs>
 #include "klocalizedstring.h"
+
 #include <QDir>
 #include <QUndoStack>
 #include <QUndoCommand>
@@ -149,6 +151,27 @@ void ClipCreationDialogDialog::createTitleClip(KdenliveDoc *doc, QStringList gro
 void ClipCreationDialogDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, QStringList groupInfo, Bin *bin)
 {
     QUndoCommand *addClips = new QUndoCommand();
+    
+    //TODO check folders 
+    /*QList < QList<QUrl> > foldersList;
+    QMimeDatabase db;
+    foreach(const QUrl & file, list) {
+        // Check there is no folder here
+        QMimeType type = db.mimeTypeForUrl(file);
+        if (type.inherits("inode/directory")) {
+            // user dropped a folder, import its files
+            list.removeAll(file);
+            QDir dir(file.path());
+            QStringList result = dir.entryList(QDir::Files);
+            QList <QUrl> folderFiles;
+            folderFiles << file;
+            foreach(const QString & path, result) {
+                folderFiles.append(QUrl::fromLocalFile(dir.absoluteFilePath(path)));
+            }
+            if (folderFiles.count() > 1) foldersList.append(folderFiles);
+        }
+    }*/
+    
     foreach(const QUrl &file, urls) {
         QDomDocument xml;
         QDomElement prod = xml.createElement("producer");
@@ -232,5 +255,86 @@ void ClipCreationDialogDialog::createClipsCommand(KdenliveDoc *doc, const QList<
     if (addClips->childCount() > 0) {
         addClips->setText(i18np("Add clip", "Add clips", addClips->childCount()));
         doc->commandStack()->push(addClips);
+    }
+}
+
+void ClipCreationDialogDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
+{
+    QList <QUrl> list;
+    QString allExtensions = "*"; //getExtensions().join(" ");
+    const QString dialogFilter =  i18n("All Supported Files") + "(" + allExtensions + ");;" + i18n("All Files") + "(*)";
+    QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
+    b->setChecked(KdenliveSettings::autoimagesequence());
+    QCheckBox *c = new QCheckBox(i18n("Transparent background for images"));
+    c->setChecked(KdenliveSettings::autoimagetransparency());
+    QFrame *f = new QFrame();
+    f->setFrameShape(QFrame::NoFrame);
+    QHBoxLayout *l = new QHBoxLayout;
+    l->addWidget(b);
+    l->addWidget(c);
+    l->addStretch(5);
+    f->setLayout(l);
+    QString clipFolder = KRecentDirs::dir(":KdenliveClipFolder");
+    if (clipFolder.isEmpty()) {
+        clipFolder = QDir::homePath();
+    }
+    QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), i18n("Open Clips"), clipFolder, dialogFilter);
+    //TODO: KF5, how to add a custom widget to file dialog
+    /*QGridLayout *layout = (QGridLayout*)d->layout();
+    layout->addWidget(f, 0, 0);*/
+    d->setFileMode(QFileDialog::ExistingFiles);
+    if (d->exec() == QDialog::Accepted) {
+        KdenliveSettings::setAutoimagetransparency(c->isChecked());
+        list = d->selectedUrls();
+        if (!list.isEmpty()) {
+            KRecentDirs::add(":KdenliveClipFolder", list.first().adjusted(QUrl::RemoveFilename).path());
+        }
+        if (b->isChecked() && list.count() == 1) {
+            // Check for image sequence
+            QUrl url = list.at(0);
+            QString fileName = url.fileName().section('.', 0, -2);
+            if (fileName.at(fileName.size() - 1).isDigit()) {
+                KFileItem item(url);
+                if (item.mimetype().startsWith(QLatin1String("image"))) {
+                    // import as sequence if we found more than one image in the sequence
+                    QStringList list;
+                    QString pattern = SlideshowClip::selectedPath(url, false, QString(), &list);
+                    int count = list.count();
+                    if (count > 1) {
+                        delete d;
+                        /*QStringList groupInfo = getGroup(); */
+                        // get image sequence base name
+                        while (fileName.at(fileName.size() - 1).isDigit()) {
+                            fileName.chop(1);
+                        }
+                        QDomDocument xml;
+                        QDomElement prod = xml.createElement("producer");
+                        xml.appendChild(prod);
+                        prod.setAttribute("name", fileName);
+                        prod.setAttribute("resource", pattern);
+                        prod.setAttribute("in", "0");
+                        QString duration = doc->timecode().reformatSeparators(KdenliveSettings::sequence_duration());
+                        prod.setAttribute("out", QString::number(doc->getFramePos(duration) * count));
+                        prod.setAttribute("ttl", QString::number(doc->getFramePos(duration)));
+                        prod.setAttribute("loop", QString::number(false));
+                        prod.setAttribute("crop", QString::number(false));
+                        prod.setAttribute("fade", QString::number(false));
+                        prod.setAttribute("luma_duration", QString::number(doc->getFramePos(doc->timecode().getTimecodeFromFrames(int(ceil(doc->timecode().fps()))))));
+                        if (!groupInfo.isEmpty()) {
+                            prod.setAttribute("group", groupInfo.at(0));
+                            prod.setAttribute("groupid", groupInfo.at(1));
+                        }
+                        uint id = bin->getFreeClipId();
+                        AddClipCommand *command = new AddClipCommand(doc, xml.documentElement(), QString::number(id), true);
+                        doc->commandStack()->push(command);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+    delete d;
+    if (!list.isEmpty()) {
+        ClipCreationDialogDialog::createClipsCommand(doc, list, groupInfo, bin);
     }
 }

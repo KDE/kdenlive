@@ -952,7 +952,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         if (transitionClip && transitionClip->binClip()) {
             int frameWidth = transitionClip->binClip()->getProducerIntProperty("meta.media.width");
             int frameHeight = transitionClip->binClip()->getProducerIntProperty("meta.media.height");
-            double factor = transitionClip->binClip()->getProperty("aspect_ratio").toDouble();
+            double factor = transitionClip->binClip()->getProducerProperty("aspect_ratio").toDouble();
             if (factor == 0) factor = 1.0;
             p.setX((int)(frameWidth * factor + 0.5));
             p.setY(frameHeight);
@@ -2671,7 +2671,7 @@ void CustomTrackView::updateTransition(int track, const GenTime &pos, const QDom
         if (transitionClip && transitionClip->binClip()) {
             int frameWidth = transitionClip->binClip()->getProducerIntProperty("meta.media.width");
             int frameHeight = transitionClip->binClip()->getProducerIntProperty("meta.media.height");
-            double factor = transitionClip->binClip()->getProperty("aspect_ratio").toDouble();
+            double factor = transitionClip->binClip()->getProducerProperty("aspect_ratio").toDouble();
             if (factor == 0) factor = 1.0;
             p.setX((int)(frameWidth * factor + 0.5));
             p.setY(frameHeight);
@@ -4924,7 +4924,7 @@ void CustomTrackView::moveTransition(const ItemInfo &start, const ItemInfo &end,
         if (transitionClip && transitionClip->binClip()) {
             int frameWidth = transitionClip->binClip()->getProducerIntProperty("meta.media.width");
             int frameHeight = transitionClip->binClip()->getProducerIntProperty("meta.media.height");
-            double factor = transitionClip->binClip()->getProperty("aspect_ratio").toDouble();
+            double factor = transitionClip->binClip()->getProducerProperty("aspect_ratio").toDouble();
             if (factor == 0) factor = 1.0;
             p.setX((int)(frameWidth * factor + 0.5));
             p.setY(frameHeight);
@@ -5175,7 +5175,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
             if (transitionClip && transitionClip->binClip()) {
                 int frameWidth = transitionClip->binClip()->getProducerIntProperty("meta.media.width");
                 int frameHeight = transitionClip->binClip()->getProducerIntProperty("meta.media.height");
-                double factor = transitionClip->binClip()->getProperty("aspect_ratio").toDouble();
+                double factor = transitionClip->binClip()->getProducerProperty("aspect_ratio").toDouble();
                 if (factor == 0) factor = 1.0;
                 p.setX((int)(frameWidth * factor + 0.5));
                 p.setY(frameHeight);

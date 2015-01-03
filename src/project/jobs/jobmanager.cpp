@@ -445,7 +445,7 @@ void JobManager::createProxy(const QString &id)
     if (!item || hasPendingJob(id, AbstractClipJob::PROXYJOB) /*|| item->referencedClip()->isPlaceHolder()*/) {
 	return;
     }
-    QString path = item->getProperty("proxy");
+    QString path = item->getProducerProperty("proxy");
     if (path.isEmpty()) {
         item->setJobStatus(AbstractClipJob::PROXYJOB, JobCrashed, -1, i18n("Failed to create proxy, empty path."));
         return;

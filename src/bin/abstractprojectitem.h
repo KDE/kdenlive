@@ -27,7 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QObject>
 #include <QPixmap>
-#include <QUrl>
 
 
 class ProjectClip;
@@ -126,7 +125,16 @@ public:
 	JobType = Qt::UserRole + 1,
 	JobProgress,
 	JobMessage,
+        ClipStatus
     };
+    
+    enum CLIPSTATUS {
+        StatusReady = 0,
+        StatusMissing,
+        StatusWaiting
+    };
+    
+    void setClipStatus(AbstractProjectItem::CLIPSTATUS status);
 
     /** @brief Returns the data that describes this item.
      * @param type type of data to return
@@ -170,8 +178,10 @@ protected:
     QString m_duration;
     QPoint m_zone;
     QString m_id;
+    CLIPSTATUS m_clipStatus;
     AbstractClipJob::JOBTYPE m_jobType;
     int m_jobProgress;
+    
     QString m_jobMessage;
     PROJECTITEMTYPE m_itemType;
 

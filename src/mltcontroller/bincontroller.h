@@ -126,6 +126,10 @@ public:
     const QList <ClipController *> getControllerList() const;
 
     void replaceBinPlaylistClip(const QString &id, Mlt::Producer &producer);
+    
+    /** @brief Get the list of ids whose clip have the resource indicated by @param url */
+    const QStringList getBinIdsByResource(const QUrl &url) const;
+    void replaceProducer(const QString &id, Mlt::Producer &producer);
 
 private:
     /** @brief The MLT playlist holding our Producers */
@@ -142,6 +146,9 @@ private:
     
     /** @brief This list holds all producer controllers for the playlist, indexed by id */
     QMap <QString, ClipController *> m_clipList;
+    
+    /** @brief Remove a clip from MLT's special bin playlist */
+    void removeBinPlaylistClip(const QString &id);
 };
 
 #endif

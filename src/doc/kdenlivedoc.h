@@ -30,9 +30,11 @@
 #include <QList>
 #include <QDir>
 #include <QObject>
-
+#include <QTimer>
 #include <QUrl>
+
 #include <kautosavefile.h>
+#include <KDirWatch>
 
 #include "gentime.h"
 #include "timecode.h"
@@ -176,10 +178,17 @@ public:
     void slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties);
     /** @brief Get frame size of the renderer */
     const QSize getRenderSize();
+    /** @brief Add url to the file watcher so that we monitor changes */
+    void watchFile(const QUrl &url);
     
 private:
     QUrl m_url;
     QDomDocument m_document;
+    KDirWatch m_fileWatcher;
+    /** Timer used to reload clips when they have been externally modified */
+    QTimer m_modifiedTimer;
+    /** List of the clip IDs that need to be reloaded after being externally modified */
+    QMap <QString, QTime> m_modifiedClips;
     double m_fps;
     int m_width;
     int m_height;
@@ -240,6 +249,10 @@ private slots:
     /** @brief Saves the current project at the autosave location.
      * @description The autosave files are in ~/.kde/data/stalefiles/kdenlive/ */
     void slotAutoSave();
+    void slotClipModified(const QString &path);
+    void slotClipMissing(const QString &path);
+    void slotClipAvailable(const QString &path);
+    void slotProcessModifiedClips();
 
 signals:
     void resetProjectList();

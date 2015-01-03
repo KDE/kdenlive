@@ -50,7 +50,9 @@ public:
     bool isValid();
     
     /** @brief Replaces the master producer and (TODO) the track producers with an updated producer, for example a proxy */
-    void updateProducer(Mlt::Producer *producer);
+    void updateProducer(const QString &id, Mlt::Producer *producer);
+    
+    void getProducerXML(QDomDocument& document);
     
     /** @brief Append a track producer retrieved from document loading to out list */
     void appendTrackProducer(int track, Mlt::Producer &producer);
@@ -131,6 +133,7 @@ public:
 
 private:
     Mlt::Producer *m_masterProducer;
+    Mlt::Properties *m_properties;
     QString m_service;
     GenTime m_duration;
     QUrl m_url;
@@ -138,8 +141,11 @@ private:
     ClipType m_clipType;
     bool m_hasLimitedDuration;
     BinController *m_binController;
-    /** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
+    /** @brief A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
     QList < CommentedTime > m_snapMarkers;
+    /** @brief When replacing a producer, it is important that we keep some properties, for exemple force_ stuff and url for proxies
+     * this method returns a list of properties that we want to keep when replacing a producer . */
+    const char *getPassPropertiesList() const;
     void getInfoForProducer();
 };
 

@@ -43,6 +43,7 @@ public:
     static void createSlideshowClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
     static void createTitleClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin);
     static void createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, QStringList groupInfo, Bin *bin);
+    static void createClipsCommand(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
 };
 
 

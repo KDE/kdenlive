@@ -69,9 +69,6 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
     m_modifiedTimer.setInterval(1500);
     connect(&m_fileWatcher, &KDirWatch::dirty, this, &ClipManager::slotClipModified);
     connect(&m_fileWatcher, &KDirWatch::deleted, this, &ClipManager::slotClipMissing);
-
-    // Seems like a dirty signal is emitted anyways when a watched file is created, so don't react twice.
-    //connect(&m_fileWatcher, SIGNAL(created(QString)), this, SLOT(slotClipAvailable(QString)));
     connect(&m_modifiedTimer, &QTimer::timeout, this, &ClipManager::slotProcessModifiedClips);
 
     KImageCache::deleteCache("kdenlive-thumbs");
@@ -562,8 +559,10 @@ void ClipManager::deleteClip(const QString &clipId)
     if (type != Color && type != SlideShow  && !url.isEmpty()) {
         m_fileWatcher.removeFile(url);
     }
-    pCore->binController()->removeBinClip(clipId);
+    // Delete clip in bin
     pCore->bin()->deleteClip(clipId);
+    // Delete controller and Mlt::Producer
+    pCore->binController()->removeBinClip(clipId);
 }
 
 /*const QList <DocClipBase *> ClipManager::getClipByResource(const QString &resource)

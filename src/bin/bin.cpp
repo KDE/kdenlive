@@ -232,7 +232,7 @@ void Bin::slotAddClip()
 {
     // Check if we are in a folder
     QStringList folderInfo = getFolderInfo();
-    pCore->projectManager()->current()->clipManager()->slotAddClip(QString(), folderInfo);
+    ClipCreationDialogDialog::createClipsCommand(pCore->projectManager()->current(), folderInfo, this);
 }
 
 void Bin::deleteClip(const QString &id)
@@ -264,13 +264,19 @@ void Bin::slotDeleteClip()
 
 void Bin::slotReloadClip()
 {
-    QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
-    if (ix.isValid() && m_proxyModel->selectionModel()->isSelected(ix)) {
-        AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(ix.internalPointer());
+    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    foreach (const QModelIndex &ix, indexes) {
+        if (!ix.isValid()) {
+            continue;
+        }
+        AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
         if (currentItem && !currentItem->isFolder()) {
-            reloadClip(currentItem->clipId());
+            m_monitor->openClip(NULL);
             QDomDocument doc;
             QDomElement xml = currentItem->toXml(doc);
+            currentItem->setClipStatus(AbstractProjectItem::StatusWaiting);
+            
+            // We need to set a temporary id before all outdated producers are replaced;
             pCore->projectManager()->current()->renderer()->getFileProperties(xml, currentItem->clipId(), 150, true);
         }
     }
@@ -670,12 +676,11 @@ void Bin::showClipProperties(ProjectClip *clip)
 
 void Bin::reloadClip(const QString &id)
 {
-    /*pCore->projectManager()->current()->binMonitor()->prepareReload(id);
-    pCore->projectManager()->current()->bin()->reloadClip(id);
-    if (m_propertiesPanel && m_propertiesPanel->property("clipId").toString() == id) {
-	m_editedProducer->setProducer(pCore->projectManager()->current()->bin()->clipProducer(id));
-    }
-    pCore->projectManager()->current()->binMonitor()->open(pCore->projectManager()->current()->bin()->clipProducer(id));*/
+    ProjectClip *clip = m_rootFolder->clip(id);
+    if (!clip) return;
+    QDomDocument doc;
+    QDomElement xml = clip->toXml(doc);
+    pCore->projectManager()->current()->renderer()->getFileProperties(xml, id, 150, true);
 }
 
 void Bin::refreshEditedClip()
@@ -703,12 +708,24 @@ ProjectClip *Bin::getBinClip(const QString &id)
     return clip;
 }
 
+void Bin::setWaitingStatus(const QString &id)
+{
+    ProjectClip *clip = m_rootFolder->clip(id);
+    if (clip) clip->setClipStatus(AbstractProjectItem::StatusWaiting);
+}
+
 void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
 {
     ProjectClip *clip = m_rootFolder->clip(info.clipId);
     if (clip) {
-	clip->setProducer(controller, info.replaceProducer);
-        emit producerReady(info.clipId);
+        if (!clip->hasProxy()) {
+            // Check for file modifications
+            ClipType t = clip->clipType();
+            if (t == AV || t == Audio || t == Image || t == Video || t == Playlist) {
+                m_doc->watchFile(clip->url());
+            }
+        }
+	if (controller) clip->setProducer(controller, info.replaceProducer);
         QString currentClip = m_monitor->activeClipId();
         if (currentClip.isEmpty()) {
             //No clip displayed in monitor, check if item is selected
@@ -717,13 +734,15 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
                 ProjectClip *currentItem = static_cast<ProjectClip *>(m_proxyModel->mapToSource(ix).internalPointer());
                 if (currentItem->clipId() == info.clipId) {
                     // Item was selected, show it in monitor
-                    m_monitor->openClip(controller);
+                    currentItem->setCurrent(true);
                     break;
                 }
             }
         }
         else if (currentClip == info.clipId) {
-            m_monitor->openClip(controller);
+            m_monitor->openClip(NULL);
+            clip->setCurrent(true);
+            //m_monitor->openClip(controller);
         }
     }
     else {
@@ -743,6 +762,7 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
         ProjectClip *newItem = new ProjectClip(info.clipId, controller, parentFolder);
         if (info.clipId.toInt() >= m_clipCounter) m_clipCounter = info.clipId.toInt() + 1;
     }
+    emit producerReady(info.clipId);
 }
 
 void Bin::openProducer(ClipController *controller)
@@ -814,7 +834,7 @@ JobManager *Bin::jobManager()
 
 void Bin::updateJobStatus(const QString&id, int jobType, int status, const QString &label, const QString &actionName, const QString &details)
 {
-    ProjectClip *clip = getBinClip(id);
+    ProjectClip *clip = m_rootFolder->clip(id);
     if (clip) {
         clip->setJobStatus((AbstractClipJob::JOBTYPE) jobType, (ClipJobStatus) status);
     }
@@ -822,7 +842,7 @@ void Bin::updateJobStatus(const QString&id, int jobType, int status, const QStri
 
 void Bin::gotProxy(const QString &id)
 {
-    ProjectClip *clip = getBinClip(id);
+    ProjectClip *clip = m_rootFolder->clip(id);
     if (clip) {
         QDomDocument doc;
         QDomElement xml = clip->toXml(doc);
@@ -888,7 +908,7 @@ void Bin::slotItemDropped(QStringList ids, const QModelIndex &parent)
         parentItem = m_rootFolder;
     }
     foreach(const QString &id, ids) {
-        ProjectClip *currentItem = getBinClip(id);
+        ProjectClip *currentItem = m_rootFolder->clip(id);
         AbstractProjectItem *currentParent = currentItem->parent();
         if (currentParent != parentItem) {
             // Item was dropped on a different folder
@@ -902,6 +922,7 @@ void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
 {
     QStringList folderInfo;
     if (parent.isValid()) {
+        // Check if drop occured on a folder
         AbstractProjectItem *parentItem = static_cast<AbstractProjectItem *>(parent.internalPointer());
         while (!parentItem->isFolder()) {
             parentItem = parentItem->parent();
@@ -914,5 +935,4 @@ void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
     //TODO: verify if urls exist, check for folders
     ClipCreationDialogDialog::createClipsCommand(pCore->projectManager()->current(), urls, folderInfo, this);
 }
-
 
