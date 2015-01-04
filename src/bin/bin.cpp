@@ -34,6 +34,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "dialogs/clipcreationdialog.h"
 #include "core.h"
 #include "mltcontroller/clipcontroller.h"
+#include "mltcontroller/clippropertiescontroller.h"
+#include "project/projectcommands.h"
 #include "projectsortproxymodel.h"
 #include "mlt++/Mlt.h"
 
@@ -44,7 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QSlider>
 #include <QMenu>
 #include <QDebug>
-#include <QTableWidget>
+#include <QUndoCommand>
 #include <KSplitterCollapserButton>
 
 EventEater::EventEater(QObject *parent) : QObject(parent)
@@ -91,7 +93,6 @@ Bin::Bin(QWidget* parent) :
   , m_iconSize(160, 90)
   , m_propertiesPanel(NULL)
 {
-    // TODO: proper ui, search line, add menu, ...
     QVBoxLayout *layout = new QVBoxLayout(this);
 
     // Create toolbar for buttons
@@ -145,24 +146,6 @@ Bin::Bin(QWidget* parent) :
     listType->setToolBarMode(KSelectAction::MenuMode);
     connect(listType, SIGNAL(triggered(QAction*)), this, SLOT(slotInitView(QAction*)));
     m_toolbar->addAction(listType);
-    
-    /*m_addButton = new QToolButton;
-    m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
-    m_addButton->setAutoRaise(true);
-    m_addButton->setIconSize(iconSize);
-    box->addWidget(m_addButton);
-
-    m_editButton = new QToolButton;
-    m_editButton->setAutoRaise(true);
-    m_editButton->setIconSize(iconSize);
-    box->addWidget(m_editButton);
-
-    m_deleteButton = new QToolButton;
-    m_deleteButton->setAutoRaise(true);
-    m_deleteButton->setIconSize(iconSize);
-    box->addWidget(m_deleteButton);
-    frame->setLayout(box);
-    layout->addWidget(frame);*/
 
     m_eventEater = new EventEater(this);
     connect(m_eventEater, SIGNAL(addClip()), this, SLOT(slotAddClip()));
@@ -177,14 +160,6 @@ Bin::Bin(QWidget* parent) :
 
     layout->addWidget(m_splitter);
     m_propertiesPanel = new QWidget(m_splitter);
-    QVBoxLayout *lay = new QVBoxLayout;
-    m_propertiesPanel->setLayout(lay);
-    m_propertiesTable = new QTableWidget(this);
-    m_propertiesTable->setColumnCount(2);
-    QHeaderView *header = m_propertiesTable->horizontalHeader();
-    header->setStretchLastSection(true);
-    lay->addWidget(m_propertiesTable);
-
     m_splitter->addWidget(m_propertiesPanel);
     m_collapser = new KSplitterCollapserButton(m_propertiesPanel, m_splitter);
     connect(m_collapser, SIGNAL(clicked(bool)), this, SLOT(slotRefreshClipProperties()));
@@ -458,10 +433,14 @@ void Bin::selectProxyModel(const QModelIndex &id)
 	}
     }
     else {
+        // No item selected in bin
 	m_editAction->setEnabled(false);
 	m_deleteAction->setEnabled(false);
+        // Hide properties panel
+        m_collapser->collapse();
+        showClipProperties(NULL);
 	// Display black bg in clip monitor
-	//pCore->projectManager()->current()->bin()->monitor()->open(NULL, ClipMonitor);	
+	m_monitor->openClip(NULL);
     }
 }
 
@@ -606,11 +585,14 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
 
 void Bin::slotRefreshClipProperties()
 {
-    QModelIndex current = m_proxyModel->selectionModel()->currentIndex();
-    if (current.isValid() && m_proxyModel->selectionModel()->isSelected(current)) {
-        ProjectClip *clip = static_cast<ProjectClip *>(m_proxyModel->mapToSource(current).internalPointer());
-        if (clip && !clip->isFolder()) {
-            showClipProperties(clip);
+    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    foreach (const QModelIndex &ix, indexes) {
+        if (ix.isValid()) {
+            ProjectClip *clip = static_cast<ProjectClip *>(m_proxyModel->mapToSource(ix).internalPointer());
+            if (clip && !clip->isFolder()) {
+                showClipProperties(clip);
+                break;
+            }
         }
     }
 }
@@ -643,35 +625,39 @@ void Bin::slotSwitchClipProperties(const QModelIndex &ix)
 void Bin::showClipProperties(ProjectClip *clip)
 {
     closeEditing();
-    if (!clip || m_propertiesPanel->width() == 0) return;
-    QMap <QString, QString> props = clip->properties();
-    m_propertiesTable->clearContents();
-    if (props.isEmpty()) {
-        // Producer for this clip is not ready yet or no properties in this clip
+    QString panelId = m_propertiesPanel->property("clipId").toString();
+    if (!clip || m_propertiesPanel->width() == 0) {
+        m_propertiesPanel->setProperty("clipId", QVariant());
+        foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
+            delete w;
+        }
         return;
     }
-    // TODO: Build proper clip properties widget
-    //PropertiesView *view = new PropertiesView(clip, m_propertiesPanel);
-
-    m_propertiesTable->setRowCount(props.size());
-    m_propertiesTable->horizontalHeader()->hide();
-    m_propertiesTable->verticalHeader()->hide();
-    QTableWidgetItem *keyitem;
-    QTableWidgetItem *valueitem;
-    QMapIterator<QString, QString> i(props);
-    int ix = 0;
-    while (i.hasNext()) {
-        i.next();
-        keyitem = new QTableWidgetItem(i.key());
-        m_propertiesTable->setItem(ix, 0, keyitem);
-        valueitem = new QTableWidgetItem(i.value());
-        m_propertiesTable->setItem(ix, 1, valueitem);
-        ix++;
+    if (panelId == clip->clipId()) {
+        // the properties panel is already displaying current clip, do nothing
+        return;
     }
-    //m_editedProducer= new Producer(producer, desc, pCore->clipPluginManager());
-    //connect(m_editedProducer, SIGNAL(updateClip()), this, SLOT(refreshEditedClip()));
-    //connect(m_editedProducer, SIGNAL(reloadClip(QString)), this, SLOT(reloadClip(QString)));
-    //connect(m_editedProducer, SIGNAL(editingDone()), this, SLOT(closeEditing()));
+    
+    // Cleanup widget for new content
+    foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
+            delete w;
+    }
+    m_propertiesPanel->setProperty("clipId", clip->clipId());
+    QVBoxLayout *lay = (QVBoxLayout*) m_propertiesPanel->layout();
+    if (lay == 0) {
+        lay = new QVBoxLayout(m_propertiesPanel);
+        m_propertiesPanel->setLayout(lay);
+    }
+    ClipPropertiesController *panel = clip->buildProperties(m_propertiesPanel);
+    connect(panel, SIGNAL(updateClipProperties(const QString &, QMap<QString, QString>, QMap<QString, QString>)), this, SLOT(slotEditClipCommand(const QString &, QMap<QString, QString>, QMap<QString, QString>)));
+    lay->addWidget(panel);
+}
+
+
+void Bin::slotEditClipCommand(const QString &id, QMap<QString, QString>oldProps, QMap<QString, QString>newProps)
+{
+    EditClipCommand *command = new EditClipCommand(m_doc, id, oldProps, newProps, true);
+    m_doc->commandStack()->push(command);
 }
 
 void Bin::reloadClip(const QString &id)
@@ -853,6 +839,12 @@ void Bin::gotProxy(const QString &id)
 void Bin::reloadProducer(const QString &id, QDomElement xml)
 {
     pCore->projectManager()->current()->renderer()->getFileProperties(xml, id, 150, true);
+}
+
+void Bin::refreshMonitor(const QString &id)
+{
+    if (m_monitor->activeClipId() == id)
+        m_monitor->refreshMonitor();
 }
 
 void Bin::discardJobs(const QString &id, AbstractClipJob::JOBTYPE type)

@@ -91,7 +91,8 @@ enum ClipType {
     Text = 6,
     SlideShow = 7,
     Virtual = 8,
-    Playlist = 9
+    Playlist = 9,
+    WebVfx = 10
 };
 
 enum ProjectItemType {

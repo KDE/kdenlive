@@ -99,32 +99,33 @@ void ClipController::getInfoForProducer()
     m_duration = GenTime(m_masterProducer->get_playtime(), m_binController->fps());
     if (m_service == "avformat" || m_service == "avformat-novalidate") {
         m_clipType = AV;
+        m_name = m_url.fileName();
     }
     else if (m_service == "qimage" || m_service == "pixbuf") {
         m_clipType = Image;
+        m_name = m_url.fileName();
+        m_hasLimitedDuration = false;
     }
     else if (m_service == "colour" || m_service == "color") {
         m_clipType = Color;
-    }
-    else if (m_service == "kdenlivetitle") {
-        m_clipType = Text;
-    }
-    else if (m_service == "mlt") {
-        m_clipType = Playlist;
-    }
-    else m_clipType = Unknown;
-
-    if (m_clipType == AV || m_clipType == Video || m_clipType ==  Audio || m_clipType ==  Image || m_clipType ==  Playlist) {
-        m_name = m_url.fileName();
-    }
-    else if (m_clipType == Color) {
         m_name = i18n("Color");
         m_hasLimitedDuration = false;
     }
-    else if (m_clipType == Text) {
+    else if (m_service == "kdenlivetitle") {
+        m_clipType = Text;
+        //m_name = m_url.fileName();
         m_name = i18n("Title");
         m_hasLimitedDuration = false;
     }
+    else if (m_service == "mlt") {
+        m_clipType = Playlist;
+        m_name = m_url.fileName();
+    }
+    else if (m_service == "webvfx") {
+        m_clipType = WebVfx;
+        m_name = m_url.fileName();
+    }
+    else m_clipType = Unknown;
 }
 
 bool ClipController::hasLimitedDuration() const
@@ -467,4 +468,8 @@ const QString ClipController::getClipHash() const
     return property("file_hash");
 }
 
+Mlt::Properties &ClipController::properties()
+{
+    return *m_properties;
+}
 

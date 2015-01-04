@@ -622,6 +622,24 @@ void Render::processFileProperties()
     while (!m_requestList.isEmpty()) {
         m_infoMutex.lock();
         info = m_requestList.takeFirst();
+
+        if (info.xml.hasAttribute("thumbnailOnly")) {
+            // Special case, we just want the thumbnail for existing producer
+            Mlt::Producer *prod = new Mlt::Producer(*m_binController->getBinClip(info.clipId));
+            int frameNumber = info.xml.attribute("thumbnail", "-1").toInt();
+            if (frameNumber > 0) prod->seek(frameNumber);
+            Mlt::Frame *frame = prod->get_frame();
+            if (frame && frame->is_valid()) {
+                int imageWidth = (int)((double) info.imageHeight * m_mltProfile->width() / m_mltProfile->height() + 0.5);
+                int fullWidth = (int)((double) info.imageHeight * m_mltProfile->dar() + 0.5);
+                QImage img = KThumb::getFrame(frame, imageWidth, fullWidth, info.imageHeight);
+                emit replyGetImage(info.clipId, img);
+            }
+            delete frame;
+            delete prod;
+            m_infoMutex.unlock();
+            return;
+        }
         m_processingClipId.append(info.clipId);
         m_infoMutex.unlock();
         QString path;

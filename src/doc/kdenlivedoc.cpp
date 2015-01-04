@@ -1920,11 +1920,11 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy)
     else delete command;
 }
 
-void KdenliveDoc::slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties)
+void KdenliveDoc::slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties, bool refreshPropertiesPanel)
 {
     ProjectClip *item = pCore->bin()->getBinClip(id);
     if (item) {
-	item->setProperties(properties);
+	item->setProperties(properties, refreshPropertiesPanel);
     }
 }
 

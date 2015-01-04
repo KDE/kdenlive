@@ -30,7 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QStyledItemDelegate>
 #include <QPainter>
 #include <QDomElement>
-#include <QSortFilterProxyModel>
 
 class KdenliveDoc;
 class ClipController;
@@ -46,7 +45,6 @@ class Monitor;
 class QItemSelectionModel;
 class ProjectSortProxyModel;
 class JobManager;
-class QTableWidget;
 
 namespace Mlt {
   class Producer;
@@ -257,6 +255,9 @@ public:
 
     /** @brief Reload / replace a producer */
     void reloadProducer(const QString &id, QDomElement xml);
+    
+    /** @brief Current producer has changed, refresh monitor */
+    void refreshMonitor(const QString &id);
 
     /** @brief Some stuff used to notify the Item Model */
     void emitAboutToAddItem(AbstractProjectItem* item);
@@ -320,6 +321,7 @@ private slots:
     void slotSaveHeaders();
     void slotItemDropped(QStringList ids, const QModelIndex &parent);
     void slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent);
+    void slotEditClipCommand(const QString &id, QMap<QString, QString>oldProps, QMap<QString, QString>newProps);
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img);
@@ -362,7 +364,6 @@ private:
     EventEater *m_eventEater;
     QWidget *m_propertiesPanel;
     QSlider *m_slider;
-    QTableWidget *m_propertiesTable;
     KSplitterCollapserButton *m_collapser;
     Monitor *m_monitor;
     QMenu *m_menu;

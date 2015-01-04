@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class ProjectFolder;
 class QDomElement;
 class ClipController;
+class ClipPropertiesController;
 
 namespace Mlt {
   class Producer;
@@ -63,7 +64,7 @@ public:
     ProjectClip(const QDomElement &description, ProjectFolder *parent);
     virtual ~ProjectClip();
 
-    void reloadProducer();
+    void reloadProducer(bool thumbnailOnly = false);
 
     /** @brief Returns a unique hash identifier used to store clip thumbnails. */
     //virtual void hash() = 0;
@@ -78,6 +79,7 @@ public:
 
     /** @brief Returns the clip type as defined in definitions.h */
     ClipType clipType() const;
+    ClipPropertiesController *buildProperties(QWidget *parent);
 
     //TODO
     void setZone(const QPoint &zone);
@@ -134,7 +136,7 @@ public:
     QMap <QString, QString> properties();
     
     /** @brief Set properties on this clip. TODO: should we store all in MLT or use extra m_properties ?. */
-    void setProperties(QMap <QString, QString> properties);
+    void setProperties(QMap <QString, QString> properties, bool refreshPanel = false);
     
     /** @brief Get an XML property from MLT produced xml. */
     static QString getXmlProperty(const QDomElement &producer, const QString &propertyName);
@@ -184,6 +186,7 @@ private:
     
 signals:
     void gotAudioData();
+    void refreshPropertiesPanel();
 };
 
 #endif

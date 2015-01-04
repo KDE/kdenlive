@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectfolder.h"
 #include "bin.h"
 #include "mltcontroller/clipcontroller.h"
+#include "mltcontroller/clippropertiescontroller.h"
 
 #include <QDomElement>
 #include <QFile>
@@ -165,10 +166,14 @@ QString ProjectClip::serializeClip()
     return QString();
 }
 
-void ProjectClip::reloadProducer()
+void ProjectClip::reloadProducer(bool thumbnailOnly)
 {
     QDomDocument doc;
     QDomElement xml = toXml(doc);
+    if (thumbnailOnly) {
+        // set a special flag to request thumbnail only
+        xml.setAttribute("thumbnailOnly", "1");
+    }
     bin()->reloadProducer(m_id, xml);
 }
 
@@ -378,7 +383,7 @@ bool ProjectClip::hasProxy() const
     return true;
 }
 
-void ProjectClip::setProperties(QMap <QString, QString> properties)
+void ProjectClip::setProperties(QMap <QString, QString> properties, bool refreshPanel)
 {
     QMapIterator<QString, QString> i(properties);
     bool refreshProducer = false;
@@ -407,7 +412,19 @@ void ProjectClip::setProperties(QMap <QString, QString> properties)
             bin()->startJob(m_id, AbstractClipJob::PROXYJOB);
         }
     }
-    //if (refreshProducer) slotRefreshProducer();
+    else if (properties.contains("resource")) {
+        // Clip resource changed, update thumbnail
+        reloadProducer(true);
+        refreshProducer = true;
+    }
+    if (refreshPanel) {
+        // Some of the clip properties have changed through a command, update properties panel
+        emit refreshPropertiesPanel();
+    }
+    if (refreshProducer) {
+        // producer has changed, refresh monitor
+        bin()->refreshMonitor(m_id);
+    }
 }
 
 void ProjectClip::setJobStatus(AbstractClipJob::JOBTYPE jobType, ClipJobStatus status, int progress, const QString &statusMessage)
@@ -423,5 +440,13 @@ void ProjectClip::setJobStatus(AbstractClipJob::JOBTYPE jobType, ClipJobStatus s
 	}
     }
     bin()->emitItemUpdated(this);
+}
+
+
+ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
+{
+    ClipPropertiesController *panel = new ClipPropertiesController(m_id, clipType(), m_controller->properties(), parent);
+    connect(this, SIGNAL(refreshPropertiesPanel()), panel, SLOT(slotReloadProperties()));
+    return panel;
 }
 

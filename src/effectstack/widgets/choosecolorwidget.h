@@ -47,13 +47,16 @@ public:
 private:
     KColorButton *m_button;
 
+public slots:
+    void slotColorModified(const QColor &color);
+    
 private slots:
     /** @brief Updates the different color choosing options to have all selected @param color. */
     void setColor(const QColor &color);
 
 signals:
     /** @brief Emitted whenever a different color was chosen. */
-    void modified();
+    void modified(QColor = QColor());
     void displayMessage(const QString&, int);
     /** @brief When user wants to pick a color, it's better to disable filter so we get proper color values. */
     void disableCurrentFilter(bool);
