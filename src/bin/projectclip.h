@@ -164,7 +164,8 @@ public:
     /** format is frame -> channel ->bytes */
     QMap<int, QMap<int, QByteArray> > audioFrameCache;
     bool audioThumbCreated() const;
-    
+
+    void updateParentInfo(const QString &folderid, const QString &foldername);
     void setWaitingStatus(const QString &id);
 
 public slots:
@@ -183,7 +184,7 @@ private:
     /** @brief Generate and store file hash if not available. */
     const QString getFileHash() const;
     bool m_audioThumbCreated;
-    
+
 signals:
     void gotAudioData();
     void refreshPropertiesPanel();

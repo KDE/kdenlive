@@ -37,6 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "mltcontroller/clippropertiescontroller.h"
 #include "project/projectcommands.h"
 #include "projectsortproxymodel.h"
+#include "bincommands.h"
 #include "mlt++/Mlt.h"
 
 
@@ -218,23 +219,31 @@ void Bin::deleteClip(const QString &id)
     ProjectClip *clip = m_rootFolder->clip(id);
     if (!clip) return;
     m_jobManager->discardJobs(id);
-    m_rootFolder->removeChild(clip);
+    AbstractProjectItem *parent = clip->parent();
+    parent->removeChild(clip);
     delete clip;
 }
 
 void Bin::slotDeleteClip()
 {
     QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
-    QStringList ids;
+    QStringList clipIds;
+    QStringList foldersIds;
     foreach (const QModelIndex &ix, indexes) {
-	ProjectClip *currentItem = static_cast<ProjectClip *>(m_proxyModel->mapToSource(ix).internalPointer());
+	AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
 	if (currentItem) {
-	    ids << currentItem->clipId();
+            if (currentItem->isFolder()) {
+                //TODO: check for non empty folders
+                foldersIds << currentItem->clipId();
+            }
+            else  {
+                clipIds << currentItem->clipId();
+            }
 	}
     }
     // For some reason, we get duplicates, which is not expected
     //ids.removeDuplicates();
-    pCore->projectManager()->deleteProjectClips(ids);
+    pCore->projectManager()->deleteProjectClips(clipIds, foldersIds);
 }
 
 void Bin::slotReloadClip()
@@ -317,10 +326,10 @@ void Bin::setDocument(KdenliveDoc* project)
 void Bin::createClip(QDomElement xml)
 {
     // Check if clip should be in a folder
-    QString groupId = xml.attribute("groupid");
+    QString groupId = ProjectClip::getXmlProperty(xml, "kdenlive.groupid");
     ProjectFolder *parentFolder = m_rootFolder;
     if (!groupId.isEmpty()) {
-        QString groupName = xml.attribute("group");
+        QString groupName = ProjectClip::getXmlProperty(xml, "kdenlive.groupname");
         parentFolder = m_rootFolder->folder(groupId);
         if (!parentFolder) {
             // parent folder does not exist, put in root folder
@@ -333,8 +342,6 @@ void Bin::createClip(QDomElement xml)
 void Bin::slotAddFolder()
 {
     // Check parent item
-    QString folderName;
-    QString folderId;
     QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
     ProjectFolder *parentFolder  = m_rootFolder;
     if (ix.isValid() && m_proxyModel->selectionModel()->isSelected(ix)) {
@@ -345,14 +352,42 @@ void Bin::slotAddFolder()
         if (currentItem->isFolder()) {
             parentFolder = static_cast<ProjectFolder *>(currentItem);
         }
-        if (parentFolder != m_rootFolder) {
-            // clip was added to a sub folder, set info
-            folderName = currentItem->name();
-            folderId = currentItem->clipId();
-        }
     }
-    ProjectFolder *newItem = new ProjectFolder(QString::number(getFreeFolderId()), i18n("Folder"), parentFolder);
+    AddBinFolderCommand *command = new AddBinFolderCommand(this, QString::number(getFreeFolderId()), i18n("Folder"), parentFolder->clipId());
+    m_doc->commandStack()->push(command);
 }
+
+void Bin::doAddFolder(const QString &id, const QString &name, const QString &parentId)
+{
+    ProjectFolder *parentFolder = m_rootFolder->folder(parentId);
+    if (!parentFolder) {
+        qDebug()<<"  / / ERROR IN PARENT FOLDER";
+        return;
+    }
+    ProjectFolder *newItem = new ProjectFolder(id, name, parentFolder);
+}
+
+void Bin::removeFolder(const QString &id, QUndoCommand *deleteCommand)
+{
+    // Check parent item
+    ProjectFolder *folder = m_rootFolder->folder(id);
+    AbstractProjectItem *parent = folder->parent();
+    new AddBinFolderCommand(this, folder->clipId(), folder->name(), parent->clipId(), true, deleteCommand);
+}
+
+void Bin::doRemoveFolder(const QString &id)
+{
+    ProjectFolder *folder = m_rootFolder->folder(id);
+    if (!folder) {
+        qDebug()<<"  / / FOLDER not found";
+        return;
+    }
+    //TODO: warn user on non-empty folders
+    AbstractProjectItem *parent = folder->parent();
+    parent->removeChild(folder);
+    delete folder;
+}
+
 
 void Bin::emitAboutToAddItem(AbstractProjectItem* item)
 {
@@ -733,10 +768,10 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
     }
     else {
 	// Clip not found, create it
-        QString groupId = controller->property("groupid");
+        QString groupId = controller->property("kdenlive.groupid");
         ProjectFolder *parentFolder;
         if (!groupId.isEmpty()) {
-            QString groupName = controller->property("group");
+            QString groupName = controller->property("kdenlive.groupname");
             parentFolder = m_rootFolder->folder(groupId);
             if (!parentFolder) {
                 // parent folder does not exist, put in root folder
@@ -899,15 +934,27 @@ void Bin::slotItemDropped(QStringList ids, const QModelIndex &parent)
     else {
         parentItem = m_rootFolder;
     }
+    QUndoCommand *moveCommand = new QUndoCommand();
+    moveCommand->setText(i18np("Move Clip", "Move Clips", ids.count()));
     foreach(const QString &id, ids) {
         ProjectClip *currentItem = m_rootFolder->clip(id);
         AbstractProjectItem *currentParent = currentItem->parent();
         if (currentParent != parentItem) {
             // Item was dropped on a different folder
-            currentParent->removeChild(currentItem);
-            currentItem->setParent(parentItem);
+            new MoveBinClipCommand(this, id, currentParent->clipId(), parentItem->clipId(), moveCommand);
         }
     }
+    m_doc->commandStack()->push(moveCommand);
+}
+
+void Bin::doMoveClip(const QString &id, const QString &newParentId)
+{
+    ProjectClip *currentItem = m_rootFolder->clip(id);
+    AbstractProjectItem *currentParent = currentItem->parent();
+    ProjectFolder *newParent = m_rootFolder->folder(newParentId);
+    currentParent->removeChild(currentItem);
+    currentItem->setParent(newParent);
+    currentItem->updateParentInfo(newParentId, newParent->name());
 }
 
 void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)

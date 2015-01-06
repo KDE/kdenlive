@@ -57,10 +57,14 @@ ProjectClip::ProjectClip(const QDomElement& description, ProjectFolder* parent) 
     Q_ASSERT(description.hasAttribute("id"));
     m_clipStatus = StatusWaiting;
     QString resource = getXmlProperty(description, "resource");
-    if (!resource.isEmpty()) {
+    QString clipName = getXmlProperty(description, "kdenlive.clipname");
+    if (!clipName.isEmpty()) {
+        m_name = clipName;
+    }
+    else if (!resource.isEmpty()) {
         m_name = QUrl::fromLocalFile(resource).fileName();
     }
-    else m_name = description.attribute("name");
+    else m_name = i18n("Untitled");
     if (description.hasAttribute("zone"))
 	m_zone = QPoint(description.attribute("zone").section(':', 0, 0).toInt(), description.attribute("zone").section(':', 1, 1).toInt());
     setParent(parent);
@@ -448,5 +452,11 @@ ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
     ClipPropertiesController *panel = new ClipPropertiesController(m_id, clipType(), m_controller->properties(), parent);
     connect(this, SIGNAL(refreshPropertiesPanel()), panel, SLOT(slotReloadProperties()));
     return panel;
+}
+
+void ProjectClip::updateParentInfo(const QString &folderid, const QString &foldername)
+{
+    m_controller->setProperty("kdenlive.groupid", folderid);
+    m_controller->setProperty("kdenlive.groupname", foldername);
 }
 

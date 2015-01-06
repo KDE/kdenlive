@@ -108,13 +108,15 @@ void ClipController::getInfoForProducer()
     }
     else if (m_service == "colour" || m_service == "color") {
         m_clipType = Color;
-        m_name = i18n("Color");
+        m_name = m_properties->get("kdenlive.clipname");
+        if (m_name.isEmpty()) m_name = i18n("Color");
         m_hasLimitedDuration = false;
     }
     else if (m_service == "kdenlivetitle") {
         m_clipType = Text;
         //m_name = m_url.fileName();
-        m_name = i18n("Title");
+        m_name = m_properties->get("kdenlive.clipname");
+        if (m_name.isEmpty()) m_name = i18n("Title");
         m_hasLimitedDuration = false;
     }
     else if (m_service == "mlt") {

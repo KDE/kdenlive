@@ -6,5 +6,6 @@ set(kdenlive_SRCS
   bin/projectclip.cpp
   bin/projectfolder.cpp
   bin/projectsortproxymodel.cpp
+  bin/bincommands.cpp
   PARENT_SCOPE
 )

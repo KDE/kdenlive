@@ -3510,11 +3510,10 @@ void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> t
     m_document->renderer()->mltInsertSpace(trackClipStartList, trackTransitionStartList, track, duration, offset);
 }
 
-void CustomTrackView::deleteClip(const QString &clipId)
+void CustomTrackView::deleteClip(const QString &clipId, QUndoCommand *deleteCommand)
 {
     resetSelectionGroup();
     QList<QGraphicsItem *> itemList = items();
-    QUndoCommand *deleteCommand = new QUndoCommand();
     new RefreshMonitorCommand(this, false, true, deleteCommand);
     int count = 0;
     for (int i = 0; i < itemList.count(); ++i) {
@@ -3531,12 +3530,13 @@ void CustomTrackView::deleteClip(const QString &clipId)
         }
     }
     if (count == 0) {
-        delete deleteCommand;
+        // No clip to delete
+        //delete deleteCommand;
     } else {
         deleteCommand->setText(i18np("Delete timeline clip", "Delete timeline clips", count));
         new RefreshMonitorCommand(this, true, false, deleteCommand);
         updateTrackDuration(-1, deleteCommand);
-        m_commandStack->push(deleteCommand);
+        //m_commandStack->push(deleteCommand);
     }
 }
 

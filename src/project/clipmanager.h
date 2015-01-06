@@ -44,7 +44,7 @@
 
 class KdenliveDoc;
 class AbstractGroupItem;
-
+class QUndoCommand;
 
 class SolidVolumeInfo
 {
@@ -87,7 +87,7 @@ Q_OBJECT public:
     void slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId);
     void slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
     //const QList <DocClipBase *> getClipByResource(const QString &resource);
-    void slotDeleteClips(QStringList ids);
+    void slotDeleteClips(QStringList clipIds, QStringList folderIds, QUndoCommand *deleteCommand);
     void setThumbsProgress(const QString &message, int progress);
     void checkAudioThumbs();
     QMap <QString, QString> documentFolderList() const;

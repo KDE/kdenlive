@@ -117,15 +117,15 @@ public:
 
     enum DataType {
         DataName = 0,
-        DataDescription,
-        DataDate,
-        DataThumbnail,
+        DataDescription = 1,
+        DataDate = 2,
+        DataThumbnail = 3,
         ItemTypeRole = 4,
-        DataDuration,
+        DataDuration = 5,
 	JobType = Qt::UserRole + 1,
-	JobProgress,
-	JobMessage,
-        ClipStatus
+	JobProgress = Qt::UserRole + 2,
+	JobMessage = Qt::UserRole + 3,
+        ClipStatus = Qt::UserRole + 4,
     };
     
     enum CLIPSTATUS {

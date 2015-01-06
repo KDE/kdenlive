@@ -37,6 +37,7 @@ class QSplitter;
 class KToolBar;
 class KSplitterCollapserButton;
 class QMenu;
+class QUndoCommand;
 class ProjectItemModel;
 class ProjectClip;
 class ProjectFolder;
@@ -293,16 +294,16 @@ public:
     
     /** @brief Ask MLT to reload this clip's producer  */
     void reloadClip(const QString &id);
-
-    /** @brief Defines the values for data roles  */
-    enum DATATYPE {
-        ItemTypeRole = 4, 
-	JobType = Qt::UserRole + 1,
-	JobProgress,
-	JobMessage
-    };
-
     
+    /** @brief Create a folder  */
+    void doAddFolder(const QString &id, const QString &name, const QString &parentId);
+    
+    /** @brief Delete a folder  */
+    void doRemoveFolder(const QString &id);
+    
+    void removeFolder(const QString &id, QUndoCommand *deleteCommand);
+    void doMoveClip(const QString &id, const QString &newParentId);
+
 private slots:
     void slotAddClip();
     void slotReloadClip();

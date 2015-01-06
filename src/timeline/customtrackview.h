@@ -79,7 +79,7 @@ public:
     void addMarker(const QString &id, const CommentedTime &marker);
     void addData(const QString &id, const QString &key, const QString &data);
     void setScale(double scaleFactor, double verticalScale);
-    void deleteClip(const QString &clipId);
+    void deleteClip(const QString &clipId, QUndoCommand *deleteCommand);
     /** @brief An effect was dropped on @param clip */
     void slotDropEffect(ClipItem *clip, QDomElement effect, GenTime pos, int track);
     /** @brief Add effect to current clip */

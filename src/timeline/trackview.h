@@ -40,7 +40,8 @@ class ClipItem;
 class CustomTrackView;
 class KdenliveDoc;
 class CustomRuler;
-class DocClipBase;
+//class DocClipBase;
+class QUndoCommand;
 
 class TrackView : public QWidget, public Ui::TimeLine_UI
 {
@@ -79,7 +80,7 @@ protected:
     void keyPressEvent(QKeyEvent * event);
 
 public slots:
-    void slotDeleteClip(const QString &clipId);
+    void slotDeleteClip(const QString &clipId, QUndoCommand *deleteCommand);
     void slotChangeZoom(int horizontal, int vertical = -1);
     void setDuration(int dur);
     void slotSetZone(const QPoint &p, bool updateDocumentProperties = true);
@@ -103,7 +104,7 @@ private:
     
     void parseDocument(const QDomDocument &doc);
     int slotAddProjectTrack(int ix, QDomElement xml, bool locked, const QDomNodeList &producers);
-    DocClipBase *getMissingProducer(const QString &id) const;
+    //DocClipBase *getMissingProducer(const QString &id) const;
     void adjustTrackHeaders();
     /** @brief Add effects from the xml. Returns true if some effect was upgraded, false if everything went fine.*/
     void slotAddProjectEffects(QDomNodeList effects, QDomElement parentNode, ClipItem *clip, int trackIndex);

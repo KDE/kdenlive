@@ -534,21 +534,26 @@ void ClipManager::deleteProjectClip(const QString &clipId)
     pCore->bin()->deleteClip(clipId);
 }
 
-void ClipManager::slotDeleteClips(QStringList ids)
+void ClipManager::slotDeleteClips(QStringList clipIds, QStringList folderIds, QUndoCommand *deleteCommand)
 {
-    QUndoCommand *delClips = new QUndoCommand();
-    delClips->setText(i18np("Delete clip", "Delete clips", ids.size()));
+    /*QUndoCommand *delClips = new QUndoCommand();
+    delClips->setText(i18np("Delete clip", "Delete clips", ids.size()));*/
 
-    for (int i = 0; i < ids.size(); ++i) {
-        QString xml = pCore->binController()->xmlFromId(ids.at(i));
+    for (int i = 0; i < clipIds.size(); ++i) {
+        QString xml = pCore->binController()->xmlFromId(clipIds.at(i));
 	QDomDocument doc;
 	doc.setContent(xml);
         //DocClipBase *clip = getClipById(ids.at(i));
         if (!xml.isNull()) {
-            new AddClipCommand(m_doc, doc.documentElement(), ids.at(i), false, delClips);
+            new AddClipCommand(m_doc, doc.documentElement(), clipIds.at(i), false, deleteCommand);
         }
     }
-    m_doc->commandStack()->push(delClips);
+    
+    for (int i = 0; i < folderIds.size(); ++i) {
+        pCore->bin()->removeFolder(folderIds.at(i), deleteCommand);
+    }
+
+    m_doc->commandStack()->push(deleteCommand);
 }
 
 void ClipManager::deleteClip(const QString &clipId)

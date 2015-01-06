@@ -49,7 +49,7 @@ public:
 
     void doOpenFile(const QUrl &url, KAutoSaveFile *stale);
     void recoverFiles(const QList<KAutoSaveFile *> &staleFiles, const QUrl &originUrl);
-    void deleteProjectClips(QStringList ids);
+    void deleteProjectClips(QStringList clipIds, QStringList folderIds);
     KRecentFilesAction *recentFilesAction();
 
 public slots:

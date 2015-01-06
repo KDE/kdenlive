@@ -278,7 +278,6 @@ QString BinController::xmlFromId(const QString & id)
     QString str;
     QTextStream stream(&str);
     producer.save(stream, 4);
-    qDebug()<<"PRODUCER XML\n-----------\n"<<str;
     return str;
 }
 

@@ -42,7 +42,7 @@ ClipPropertiesController::ClipPropertiesController(const QString &id, ClipType t
         mlt_color color = m_properties.get_color("resource");
         ChooseColorWidget *choosecolor = new ChooseColorWidget(i18n("Color"), QColor::fromRgb(color.r, color.g, color.b).name(), false, this);
         vbox->addWidget(choosecolor);
-        connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
+        //connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
         connect(choosecolor, SIGNAL(modified(QColor)), this, SLOT(slotColorModified(QColor)));
         connect(this, SIGNAL(modified(QColor)), choosecolor, SLOT(slotColorModified(QColor)));
         setLayout(vbox);

@@ -530,15 +530,17 @@ TrackView* ProjectManager::currentTrackView()
 }
 
 //TODO: re-add folder deletion
-void ProjectManager::deleteProjectClips(QStringList ids)
+void ProjectManager::deleteProjectClips(QStringList clipIds, QStringList folderIds)
 {
+    QUndoCommand *deleteCommand = new QUndoCommand();
+    deleteCommand->setText(i18n("Delete clips"));
     if (pCore->projectManager()->currentTrackView()) {
-        if (!ids.isEmpty()) {
-            for (int i = 0; i < ids.size(); ++i) {
-                pCore->projectManager()->currentTrackView()->slotDeleteClip(ids.at(i));
+        if (!clipIds.isEmpty()) {
+            for (int i = 0; i < clipIds.size(); ++i) {
+                pCore->projectManager()->currentTrackView()->slotDeleteClip(clipIds.at(i), deleteCommand);
             }
-            pCore->projectManager()->current()->clipManager()->slotDeleteClips(ids);
         }
+        pCore->projectManager()->current()->clipManager()->slotDeleteClips(clipIds, folderIds, deleteCommand);
         //if (!folderids.isEmpty()) m_projectList->deleteProjectFolder(folderids);
         pCore->projectManager()->current()->setModified(true);
     }

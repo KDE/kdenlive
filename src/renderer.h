@@ -405,6 +405,8 @@ private:
     /** @brief Clone serialisable properties only */
     void cloneProperties(Mlt::Properties &dest, Mlt::Properties &source);
     Mlt::Producer *getProducerForTrack(Mlt::Playlist &trackPlaylist, const QString &clipId, int track);
+    ClipType getTypeForService(const QString &id) const;
+    
 private slots:
 
     /** @brief Refreshes the monitor display. */

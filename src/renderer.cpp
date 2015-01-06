@@ -614,6 +614,16 @@ bool Render::isProcessing(const QString &id)
     return false;
 }
 
+ClipType Render::getTypeForService(const QString &id) const
+{
+    if (id.isEmpty()) return Unknown;
+    if (id == "color" || id == "colour") return Color;
+    if (id == "kdenlivetitle") return Text;
+    if (id == "xml") return Playlist;
+    if (id == "webvfx") return WebVfx;
+    return Unknown;
+}
+
 void Render::processFileProperties()
 {
     requestClipInfo info;
@@ -642,6 +652,8 @@ void Render::processFileProperties()
         }
         m_processingClipId.append(info.clipId);
         m_infoMutex.unlock();
+        //TODO: read all xml meta.kdenlive properties into a QMap or an MLT::Properties and pass them to the newly created producer
+
         QString path;
         bool proxyProducer;
         QString proxy = ProjectClip::getXmlProperty(info.xml, "proxy");
@@ -671,12 +683,18 @@ void Render::processFileProperties()
         QUrl url = QUrl::fromLocalFile(path);
         Mlt::Producer *producer = NULL;
         ClipType type = (ClipType)info.xml.attribute("type").toInt();
+        if (type == Unknown) {
+            type = getTypeForService(ProjectClip::getXmlProperty(info.xml, "mlt_service"));
+        }
         if (type == Color) {
-            producer = new Mlt::Producer(*m_mltProfile, 0, ("colour:" + info.xml.attribute("colour")).toUtf8().constData());
+            path.prepend("color:");
+            producer = new Mlt::Producer(*m_mltProfile, 0, path.toUtf8().constData());
         } else if (type == Text) {
-            producer = new Mlt::Producer(*m_mltProfile, 0, ("kdenlivetitle:" + path).toUtf8().constData());
-            if (producer && producer->is_valid() && info.xml.hasAttribute("xmldata"))
-                producer->set("xmldata", info.xml.attribute("xmldata").toUtf8().constData());
+            path.prepend("kdenlivetitle:");
+            producer = new Mlt::Producer(*m_mltProfile, 0, path.toUtf8().constData());
+            QString xmldata = ProjectClip::getXmlProperty(info.xml, "xmldata");
+            if (producer && producer->is_valid() && !xmldata.isEmpty())
+                producer->set("xmldata", xmldata.toUtf8().constData());
         } else if (!url.isValid()) {
             //WARNING: when is this case used? Not sure it is working.. JBM/
             QDomDocument doc;
@@ -696,9 +714,8 @@ void Render::processFileProperties()
         } else {
             producer = new Mlt::Producer(*m_mltProfile, path.toUtf8().constData());
         }
-
         if (producer == NULL || producer->is_blank() || !producer->is_valid()) {
-            //qDebug() << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: "<<path;
+            qDebug() << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: "<<path;
             m_processingClipId.removeAll(info.clipId);
             if (proxyProducer) {
                 // Proxy file is corrupted
@@ -708,6 +725,16 @@ void Render::processFileProperties()
             delete producer;
             continue;
         }
+        QString clipName = ProjectClip::getXmlProperty(info.xml, "kdenlive.clipname");
+        if (!clipName.isEmpty()) {
+            producer->set("kdenlive.clipname", clipName.toUtf8().constData());
+        }
+        QString groupId = ProjectClip::getXmlProperty(info.xml, "kdenlive.groupid");
+        if (groupId.isEmpty()) {
+            producer->set("kdenlive.groupid", groupId.toUtf8().constData());
+            producer->set("kdenlive.groupname", ProjectClip::getXmlProperty(info.xml, "kdenlive.groupname").toUtf8().constData());
+        }
+        
         if (proxyProducer && info.xml.hasAttribute("proxy_out")) {
             producer->set("length", info.xml.attribute("proxy_out").toInt() + 1);
             producer->set("out", info.xml.attribute("proxy_out").toInt());

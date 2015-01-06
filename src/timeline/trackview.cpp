@@ -464,9 +464,9 @@ void TrackView::parseDocument(const QDomDocument &doc)
     //m_scrollBox->setGeometry(0, 0, 300 * zoomFactor(), m_scrollArea->height());
 }
 
-void TrackView::slotDeleteClip(const QString &clipId)
+void TrackView::slotDeleteClip(const QString &clipId, QUndoCommand *deleteCommand)
 {
-    m_trackview->deleteClip(clipId);
+    m_trackview->deleteClip(clipId, deleteCommand);
 }
 
 void TrackView::setCursorPos(int pos)
@@ -1021,7 +1021,7 @@ QDomElement TrackView::getEffectByTag(const QString &effecttag, const QString &e
 }
 
 
-DocClipBase *TrackView::getMissingProducer(const QString &id) const
+/*DocClipBase *TrackView::getMissingProducer(const QString &id) const
 {
     QDomElement missingXml;
     QDomDocument doc = m_doc->toXml();
@@ -1075,13 +1075,13 @@ DocClipBase *TrackView::getMissingProducer(const QString &id) const
     }
     DocClipBase *missingClip = NULL;
     //TODO
-    /*
+    
     if (!resource.isEmpty()) {
         QList <DocClipBase *> list = m_doc->clipManager()->getClipByResource(resource);
         if (!list.isEmpty()) missingClip = list.at(0);
-    }*/
+    }
     return missingClip;
-}
+}*/
 
 QGraphicsScene *TrackView::projectScene()
 {
