@@ -295,12 +295,10 @@ public:
     /** @brief Ask MLT to reload this clip's producer  */
     void reloadClip(const QString &id);
     
-    /** @brief Create a folder  */
-    void doAddFolder(const QString &id, const QString &name, const QString &parentId);
-    
     /** @brief Delete a folder  */
     void doRemoveFolder(const QString &id);
-    
+    /** @brief Add a folder  */
+    void doAddFolder(const QString &id, const QString &name, const QString &parentId);
     void removeFolder(const QString &id, QUndoCommand *deleteCommand);
     void doMoveClip(const QString &id, const QString &newParentId);
 
@@ -328,10 +326,11 @@ public slots:
     void slotThumbnailReady(const QString &id, const QImage &img);
     /** @brief The producer for this clip is ready.
      *  @param id the clip id
-     *  @param replaceProducer If true, we replace the producer even if the clip already has one
-     *  @param producer The MLT producer
+     *  @param controller The Controller for this clip
      */
     void slotProducerReady(requestClipInfo info, ClipController *controller);
+    /** @brief Create a folder when opening a document */
+    void slotLoadFolders(QMap<QString,QString> foldersData);
     void slotDeleteClip();
     void slotRefreshClipProperties();
     void slotSwitchClipProperties(const QModelIndex &ix);
@@ -380,6 +379,7 @@ private:
 signals:
     void itemUpdated(AbstractProjectItem*);
     void producerReady(const QString &id);
+    void storeFolder(QString,QString);
 };
 
 #endif

@@ -46,6 +46,8 @@ void Core::init()
     m_projectManager = new ProjectManager(this);
     m_binWidget = new Bin();
     m_binController = new BinController();
+    connect(m_binWidget, SIGNAL(storeFolder(QString,QString)), m_binController, SLOT(slotStoreFolder(QString,QString)));
+    connect(m_binController, SIGNAL(loadFolders(QMap<QString,QString>)), m_binWidget, SLOT(slotLoadFolders(QMap<QString,QString>)));
     m_monitorManager = new MonitorManager(this);
     emit coreIsReady();
 }

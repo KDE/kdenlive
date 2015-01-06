@@ -1423,6 +1423,7 @@ const QString Render::sceneList()
     if (!xmlConsumer.is_valid()) return QString();
     m_mltProducer->optimise();
     xmlConsumer.set("terminate_on_pause", 1);
+    xmlConsumer.set("store", "kdenlive");
     Mlt::Producer prod(m_mltProducer->get_producer());
     if (!prod.is_valid()) return QString();
     bool split = m_isSplitView;

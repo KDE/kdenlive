@@ -365,6 +365,38 @@ void Bin::doAddFolder(const QString &id, const QString &name, const QString &par
         return;
     }
     ProjectFolder *newItem = new ProjectFolder(id, name, parentFolder);
+    emit storeFolder(parentId + "." + id, name);
+}
+
+
+void Bin::slotLoadFolders(QMap<QString,QString> foldersData)
+{
+    // Folder parent is saved in folderId, separated by a dot. for example "1.3" means parent folder id is "1" and new folder id is "3".
+    ProjectFolder *parentFolder = m_rootFolder;
+    QStringList folderIds = foldersData.keys();
+    while (!folderIds.isEmpty()) {
+        for (int i = 0; i < folderIds.count(); i++) {
+            QString id = folderIds.at(i);
+            QString parentId = id.section(".", 0, 0);
+            if (parentId == "-1") {
+                parentFolder = m_rootFolder;
+            }
+            else {
+                // This is a sub-folder
+                parentFolder = m_rootFolder->folder(parentId);
+                if (parentFolder == m_rootFolder) {
+                    // parent folder not yet created, try later
+                    continue;
+                }
+            }
+            // parent was found, create our folder
+            QString folderId = id.section(".", 1, 1);
+            int numericId = folderId.toInt();
+            if (numericId >= m_folderCounter) m_folderCounter = numericId + 1;
+            ProjectFolder *newItem = new ProjectFolder(folderId, foldersData.value(id), parentFolder);
+            folderIds.removeAll(id);
+        }
+    }
 }
 
 void Bin::removeFolder(const QString &id, QUndoCommand *deleteCommand)
@@ -385,6 +417,7 @@ void Bin::doRemoveFolder(const QString &id)
     //TODO: warn user on non-empty folders
     AbstractProjectItem *parent = folder->parent();
     parent->removeChild(folder);
+    emit storeFolder(parent->clipId()+ "." + id, QString());
     delete folder;
 }
 

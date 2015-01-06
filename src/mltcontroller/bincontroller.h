@@ -44,8 +44,10 @@ class Profile;
  * The project profile, used to build the monitors renderers is stored here
  */
 
-class BinController
+class BinController : public QObject
 {
+    Q_OBJECT
+
 public:
     BinController(QString profileName = QString());
     virtual ~BinController();
@@ -121,15 +123,18 @@ public:
     QString xmlFromId(const QString & id);
     int clipCount() const;
     Mlt::Producer *cloneProducer(Mlt::Producer &original);
-    
+
     ClipController *getController(const QString &id);
     const QList <ClipController *> getControllerList() const;
-
     void replaceBinPlaylistClip(const QString &id, Mlt::Producer &producer);
-    
+
     /** @brief Get the list of ids whose clip have the resource indicated by @param url */
     const QStringList getBinIdsByResource(const QUrl &url) const;
     void replaceProducer(const QString &id, Mlt::Producer &producer);
+
+public slots:
+    /** @brief Stored a Bin Folder id / name to MLT's bin playlist. Using an empry folderName deletes the property */
+    void slotStoreFolder(const QString &folderId, const QString &folderName);
 
 private:
     /** @brief The MLT playlist holding our Producers */
@@ -149,6 +154,9 @@ private:
     
     /** @brief Remove a clip from MLT's special bin playlist */
     void removeBinPlaylistClip(const QString &id);
+    
+signals:
+    void loadFolders(QMap<QString,QString>);
 };
 
 #endif

@@ -26,7 +26,8 @@
 
 static const char* kPlaylistTrackId = "main bin";
 
-BinController::BinController(QString profileName)
+BinController::BinController(QString profileName) :
+  QObject()
 {
     m_mltProfile = NULL;
     m_binPlaylist = NULL;
@@ -81,6 +82,16 @@ void BinController::destroyBin()
 
 void BinController::initializeBin(Mlt::Playlist playlist)
 {
+    // Load folders
+    Mlt::Properties foldeProperties;
+    Mlt::Properties playlistProps(playlist.get_properties());
+    foldeProperties.pass_values(playlistProps, "kdenlive.folder.");
+    QMap <QString,QString> foldersData;
+    for (int i = 0; i < foldeProperties.count(); i++) {
+        foldersData.insert(foldeProperties.get_name(i), foldeProperties.get(i));
+    }
+    emit loadFolders(foldersData);
+
     // Fill Controller's list
     m_binPlaylist = new Mlt::Playlist(playlist);
     m_binPlaylist->set("id", kPlaylistTrackId);
@@ -122,6 +133,18 @@ void BinController::createIfNeeded()
     if (m_binPlaylist) return;
     m_binPlaylist = new Mlt::Playlist(*m_mltProfile);
     m_binPlaylist->set("id", kPlaylistTrackId);
+}
+
+void BinController::slotStoreFolder(const QString &folderId, const QString &folderName)
+{
+    QString propertyName = "kdenlive.folder." + folderId;
+    if (folderName.isEmpty()) {
+        // Remove this folder info
+        m_binPlaylist->set(propertyName.toUtf8().constData(), (char *) NULL);
+    }
+    else {
+        m_binPlaylist->set(propertyName.toUtf8().constData(), folderName.toUtf8().constData());
+    }
 }
 
 mlt_service BinController::service()
