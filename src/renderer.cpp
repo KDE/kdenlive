@@ -730,7 +730,7 @@ void Render::processFileProperties()
             producer->set("kdenlive.clipname", clipName.toUtf8().constData());
         }
         QString groupId = ProjectClip::getXmlProperty(info.xml, "kdenlive.groupid");
-        if (groupId.isEmpty()) {
+        if (!groupId.isEmpty()) {
             producer->set("kdenlive.groupid", groupId.toUtf8().constData());
             producer->set("kdenlive.groupname", ProjectClip::getXmlProperty(info.xml, "kdenlive.groupname").toUtf8().constData());
         }

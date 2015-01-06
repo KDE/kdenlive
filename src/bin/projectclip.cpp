@@ -261,26 +261,6 @@ bool ProjectClip::isReady() const
     return m_controller!= NULL;
 }
 
-QMap <QString, QString> ProjectClip::properties()
-{
-    //TODO: move into its own class in ClipController
-    QMap <QString, QString> result;
-    /*
-    if (m_producer) {
-        mlt_properties props = m_producer->get_properties();
-        QString key = "video_index";
-        int video_index = mlt_properties_get_int(props, key.toUtf8().constData());
-        QString codecKey = "meta.media." + QString::number(video_index) + ".codec.long_name";
-        result.insert(i18n("Video codec"), mlt_properties_get(props, codecKey.toUtf8().constData()));
-        key = "audio_index";
-        int audio_index = mlt_properties_get_int(props, key.toUtf8().constData());
-        codecKey = "meta.media." + QString::number(audio_index) + ".codec.long_name";
-        result.insert(i18n("Audio codec"), mlt_properties_get(props, codecKey.toUtf8().constData()));
-    }
-    */
-    return result;
-}
-
 void ProjectClip::setZone(const QPoint &zone)
 {
     m_zone = zone;

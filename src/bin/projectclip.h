@@ -132,9 +132,6 @@ public:
     /** @brief Returns this clip's producer. */
     Mlt::Producer *producer();
 
-    //TODO
-    QMap <QString, QString> properties();
-    
     /** @brief Set properties on this clip. TODO: should we store all in MLT or use extra m_properties ?. */
     void setProperties(QMap <QString, QString> properties, bool refreshPanel = false);
     

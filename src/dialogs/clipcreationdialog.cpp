@@ -64,7 +64,6 @@ void ClipCreationDialogDialog::createColorClip(KdenliveDoc *doc, QStringList gro
         QDomDocument xml;
         QDomElement prod = xml.createElement("producer");
         xml.appendChild(prod);
-        
         prod.setAttribute("type", (int) Color);
         uint id = bin->getFreeClipId();
         prod.setAttribute("id", QString::number(id));
