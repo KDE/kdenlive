@@ -15,8 +15,8 @@
       <li>Basic DVD Wizard</li>
     </ul>
   </description>
-  <url type="homepage">http://kdenlive.org/</url>
-  <url type="bugtracker">https://bugs.kdenlive.org</url>
+  <url type="homepage">https://kdenlive.org/</url>
+  <url type="bugtracker">https://bugs.kde.org</url>
   <url type="help">https://userbase.kde.org/Kdenlive/Manual</url>
   <screenshots>
     <screenshot type="default" width="1280" height="720">
