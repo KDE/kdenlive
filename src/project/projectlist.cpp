@@ -1893,9 +1893,9 @@ QStringList ProjectList::getGroup() const
 
     if (item) {
         FolderProjectItem *folder = static_cast <FolderProjectItem *>(item);
-        result << folder->groupName() << folder->clipId();
+        result << folder->clipId();
     } else {
-        result << QString() << QString();
+        result << QString();
     }
     return result;
 }

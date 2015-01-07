@@ -74,8 +74,7 @@ void ClipCreationDialogDialog::createColorClip(KdenliveDoc *doc, QStringList gro
         properties.insert("kdenlive.clipname", dia_ui.clip_name->text());
         properties.insert("mlt_service", "color");
         if (!groupInfo.isEmpty()) {
-            properties.insert("kdenlive.groupname", groupInfo.at(0));
-            properties.insert("kdenlive.groupid", groupInfo.at(1));
+            properties.insert("kdenlive.folderid", groupInfo.at(0));
         }
         addXmlProperties(prod, properties);
         AddClipCommand *command = new AddClipCommand(doc, xml.documentElement(), QString::number(id), true);
@@ -110,8 +109,7 @@ void ClipCreationDialogDialog::createSlideshowClip(KdenliveDoc *doc, QStringList
         properties.insert("softness", QString::number(dia->softness()));
         properties.insert("animation", dia->animation());
         if (!groupInfo.isEmpty()) {
-            properties.insert("kdenlive.groupname", groupInfo.at(0));
-            properties.insert("kdenlive.groupid", groupInfo.at(1));
+            properties.insert("kdenlive.folderid", groupInfo.at(0));
         }
         addXmlProperties(prod, properties);
         uint id = bin->getFreeClipId();
@@ -141,8 +139,7 @@ void ClipCreationDialogDialog::createTitleClip(KdenliveDoc *doc, QStringList gro
         properties.insert("xmldata", dia_ui->xml().toString());
         properties.insert("kdenlive.clipname", i18n("Title clip"));
         if (!groupInfo.isEmpty()) {
-            properties.insert("kdenlive.groupname", groupInfo.at(0));
-            properties.insert("kdenlive.groupid", groupInfo.at(1));
+            properties.insert("kdenlive.folderid", groupInfo.at(0));
         }
         addXmlProperties(prod, properties);
         prod.setAttribute("type", (int) Text);
@@ -199,8 +196,7 @@ void ClipCreationDialogDialog::createClipsCommand(KdenliveDoc *doc, const QList<
         QMap <QString, QString> properties;
         properties.insert("resource", file.path());
         if (!groupInfo.isEmpty()) {
-            properties.insert("kdenlive.groupname", groupInfo.at(0));
-            properties.insert("kdenlive.groupid", groupInfo.at(1));
+            properties.insert("kdenlive.folderid", groupInfo.at(0));
         }
         addXmlProperties(prod, properties);
         //prod.setAttribute("resource", file.path());
@@ -340,8 +336,7 @@ void ClipCreationDialogDialog::createClipsCommand(KdenliveDoc *doc, QStringList 
                         properties.insert("fade", QString::number(false));
                         properties.insert("luma_duration", QString::number(doc->getFramePos(doc->timecode().getTimecodeFromFrames(int(ceil(doc->timecode().fps()))))));
                         if (!groupInfo.isEmpty()) {
-                            properties.insert("kdenlive.groupname", groupInfo.at(0));
-                            properties.insert("kdenlive.groupid", groupInfo.at(1));
+                            properties.insert("kdenlive.folderid", groupInfo.at(0));
                         }
                         addXmlProperties(prod, properties);
                         uint id = bin->getFreeClipId();

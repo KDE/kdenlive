@@ -436,7 +436,6 @@ ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
 
 void ProjectClip::updateParentInfo(const QString &folderid, const QString &foldername)
 {
-    m_controller->setProperty("kdenlive.groupid", folderid);
-    m_controller->setProperty("kdenlive.groupname", foldername);
+    m_controller->setProperty("kdenlive.folderid", folderid);
 }
 

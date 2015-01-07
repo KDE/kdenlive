@@ -326,10 +326,9 @@ void Bin::setDocument(KdenliveDoc* project)
 void Bin::createClip(QDomElement xml)
 {
     // Check if clip should be in a folder
-    QString groupId = ProjectClip::getXmlProperty(xml, "kdenlive.groupid");
+    QString groupId = ProjectClip::getXmlProperty(xml, "kdenlive.folderid");
     ProjectFolder *parentFolder = m_rootFolder;
     if (!groupId.isEmpty()) {
-        QString groupName = ProjectClip::getXmlProperty(xml, "kdenlive.groupname");
         parentFolder = m_rootFolder->folder(groupId);
         if (!parentFolder) {
             // parent folder does not exist, put in root folder
@@ -801,10 +800,9 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
     }
     else {
 	// Clip not found, create it
-        QString groupId = controller->property("kdenlive.groupid");
+        QString groupId = controller->property("kdenlive.folderid");
         ProjectFolder *parentFolder;
         if (!groupId.isEmpty()) {
-            QString groupName = controller->property("kdenlive.groupname");
             parentFolder = m_rootFolder->folder(groupId);
             if (!parentFolder) {
                 // parent folder does not exist, put in root folder
