@@ -1,30 +1,90 @@
 [Global]
 IconName=kdenlive
 Comment=Kdenlive
+Comment[fr]=Kdenlive
+Comment[it]=Kdenlive
+Comment[nl]=Kdenlive
+Comment[sv]=Kdenlive
+Comment[uk]=Kdenlive
+Comment[x-test]=xxKdenlivexx
 
 [Event/RenderFinished]
 Name=Rendering finished
+Name[fr]=Rendu terminé
+Name[it]=Esportazione terminata
+Name[nl]=Weergave uitwerken beëindigd
+Name[sv]=Återgivning klar
+Name[uk]=Обробку завершено
+Name[x-test]=xxRendering finishedxx
 Comment=Rendering is over
+Comment[fr]=Le rendu est terminé
+Comment[it]=L'esportazione è terminata
+Comment[nl]=Weergave uitwerken is gereed
+Comment[sv]=Återgivningen är gjord
+Comment[uk]=Виконання обробки завершено
+Comment[x-test]=xxRendering is overxx
 Action=Popup
 
 [Event/RenderStarted]
 Name=Rendering started
+Name[fr]=Rendu démarré
+Name[it]=Esportazione avviata
+Name[nl]=Weergave uitwerken begonnen
+Name[sv]=Återgivning startad
+Name[uk]=Обробку розпочато
+Name[x-test]=xxRendering startedxx
 Comment=Rendering was started
+Comment[fr]=Le rendu a démarré
+Comment[it]=L'esportazione è stata avviata
+Comment[nl]=Weergave uitwerken is begonnen
+Comment[sv]=Återgivningen har startats
+Comment[uk]=Було розпочато обробку
+Comment[x-test]=xxRendering was startedxx
 Action=Popup
 
 [Event/FrameCaptured]
 Name=Frame captured
+Name[fr]=Cadre capturé
+Name[it]=Fotogramma acquisito
+Name[nl]=Frame opgenomen
+Name[sv]=Ram lagrad
+Name[uk]=Захоплено кадр
+Name[x-test]=xxFrame capturedxx
 Comment=A frame was captured to disk
+Comment[fr]=Un cadre a été capturé sur le disque
+Comment[it]=È stato acquisito un fotogramma sul disco
+Comment[nl]=Een frame is op schijf opgenomen
+Comment[sv]=En ram har lagrats på disk
+Comment[uk]=Було захоплено кадр, програма зберегла його на диску
+Comment[x-test]=xxA frame was captured to diskxx
 Sound=KDE-Sys-App-Message.ogg
 Action=Sound
 
 [Event/ReadyToCapture]
 Name=Ready to capture
+Name[fr]=Prêt pour la capture
+Name[it]=Pronto per la registrazione
+Name[nl]=Gereed om op te nemen
+Name[sv]=Klar att lagra
+Name[uk]=Приготовано до захоплення
+Name[x-test]=xxReady to capturexx
 Sound=KDE-Sys-App-Positive.ogg
 Action=Sound
 
 [Event/ErrorMessage]
 Name=Error
+Name[fr]=Erreur
+Name[it]=Errore
+Name[nl]=Fout
+Name[sv]=Fel
+Name[uk]=Помилка
+Name[x-test]=xxErrorxx
 Comment=An error occurred in Kdenlive
+Comment[fr]=Une erreur est survenue dans Kdenlive
+Comment[it]=Si è verificato un errore in Kdenlive
+Comment[nl]=Er is een fout opgetreden in Kdenlive
+Comment[sv]=Ett fel uppstod i Kdenlive
+Comment[uk]=У коді Kdenlive сталася помилка
+Comment[x-test]=xxAn error occurred in Kdenlivexx
 Sound=KDE-Sys-Warning.ogg
 Action=Sound

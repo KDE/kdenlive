@@ -1,6 +1,12 @@
 [Desktop Entry]
 Type=Service
 Name=MLT Playlist
+Name[fr]=Liste de lecture « MLT »
+Name[it]=Scaletta MLT
+Name[nl]=MLT-afspeellijst
+Name[sv]=MLT-spellista
+Name[uk]=Список відтворення MLT
+Name[x-test]=xxMLT Playlistxx
 X-KDE-ServiceTypes=ThumbCreator
 MimeType=video/mlt-playlist;application/x-kdenlive;application/x-kdenlivetitle;
 X-KDE-Library=mltpreview
