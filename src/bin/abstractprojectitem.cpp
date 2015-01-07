@@ -158,6 +158,13 @@ bool AbstractProjectItem::isFolder() const
     return m_itemType == FolderItem;
 }
 
+bool AbstractProjectItem::rename(const QString &name)
+{
+    if (m_name == name) return false;
+    m_name = name;
+    return true;
+}
+
 QVariant AbstractProjectItem::data(DataType type) const
 {
     QVariant data;

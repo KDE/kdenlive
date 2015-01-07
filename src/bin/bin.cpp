@@ -70,7 +70,8 @@ bool EventEater::eventFilter(QObject *obj, QEvent *event)
                 emit addClip();
             }
             else {
-		emit editItem(idx);
+		//emit editItem(idx);
+                return QObject::eventFilter(obj, event);
             }
         }
         else {
@@ -123,7 +124,8 @@ Bin::Bin(QWidget* parent) :
     connect(m_itemModel, SIGNAL(markersNeedUpdate(QString,QList<int>)), this, SLOT(slotMarkersNeedUpdate(QString,QList<int>)));
     connect(m_itemModel, SIGNAL(itemDropped(QStringList, const QModelIndex &)), this, SLOT(slotItemDropped(QStringList, const QModelIndex &)));
     connect(m_itemModel, SIGNAL(itemDropped(const QList<QUrl>&, const QModelIndex &)), this, SLOT(slotItemDropped(const QList<QUrl>&, const QModelIndex &)));
-
+    connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)), this, SLOT(slotItemEdited(QModelIndex,QModelIndex,QVector<int>)));
+    
     // Zoom slider
     m_slider = new QSlider(Qt::Horizontal, this);
     m_slider->setMaximumWidth(100);
@@ -352,8 +354,14 @@ void Bin::slotAddFolder()
             parentFolder = static_cast<ProjectFolder *>(currentItem);
         }
     }
-    AddBinFolderCommand *command = new AddBinFolderCommand(this, QString::number(getFreeFolderId()), i18n("Folder"), parentFolder->clipId());
+    QString newId = QString::number(getFreeFolderId());
+    AddBinFolderCommand *command = new AddBinFolderCommand(this, newId, i18n("Folder"), parentFolder->clipId());
     m_doc->commandStack()->push(command);
+    
+    // Edit folder name
+    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    if (indexes.isEmpty()) return;
+    m_itemView->edit(indexes.first());
 }
 
 void Bin::doAddFolder(const QString &id, const QString &name, const QString &parentId)
@@ -596,6 +604,7 @@ void Bin::slotInitView(QAction *action)
 	view->setResizeMode(QListView::Adjust);
 	view->setUniformItemSizes(true);
     }
+    m_itemView->setEditTriggers(QAbstractItemView::DoubleClicked);
     m_itemView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     m_itemView->setDragDropMode(QAbstractItemView::DragDrop);
     m_itemView->setAcceptDrops(true);
@@ -1005,4 +1014,18 @@ void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
     //TODO: verify if urls exist, check for folders
     ClipCreationDialogDialog::createClipsCommand(pCore->projectManager()->current(), urls, folderInfo, this);
 }
+
+void Bin::slotItemEdited(QModelIndex ix,QModelIndex,QVector<int>)
+{
+    // An item name was edited
+    //TODO: rename clips
+    if (!ix.isValid()) return;
+    AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(ix.internalPointer());
+    if (currentItem && currentItem->isFolder()) {
+        AbstractProjectItem *parentFolder = currentItem->parent();
+        emit storeFolder(parentFolder->clipId() + "." + currentItem->clipId(), currentItem->name());
+    }
+}
+
+
 

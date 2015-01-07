@@ -59,7 +59,7 @@ QVariant ProjectItemModel::data(const QModelIndex& index, int role) const
     if (!index.isValid()) {
         return QVariant();
     }
-    if (role == Qt::DisplayRole) {
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
         return item->data(static_cast<AbstractProjectItem::DataType>(index.column()));
     }
@@ -86,14 +86,25 @@ QVariant ProjectItemModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
+bool ProjectItemModel::setData(const QModelIndex & index, const QVariant & value, int role)
+{
+    AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
+    if (item->rename(value.toString())) {
+        emit dataChanged(index, index, QVector<int> () << role);
+        return true;
+    }
+    // Item name was not changed
+    return false;
+}
+
 Qt::ItemFlags ProjectItemModel::flags(const QModelIndex& index) const
 {
     if (!index.isValid()) {
         return Qt::ItemIsDropEnabled;
     }
     AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
-    if (item->isFolder()) return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
-    return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled;
+    if (item->isFolder()) return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable;
+    return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEditable;
 }
 
 bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)

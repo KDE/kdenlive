@@ -45,6 +45,8 @@ public:
 
     /** @brief Returns item data depending on role requested */
     QVariant data(const QModelIndex &index, int role) const;
+    /** @brief Called when user edits an item */
+    bool setData(const QModelIndex & index, const QVariant & value, int role = Qt::EditRole);
     /** @brief Allow selection and drag & drop */
     Qt::ItemFlags flags(const QModelIndex &index) const;
     /** @brief Returns column names in case we want to use columns in QTreeView */

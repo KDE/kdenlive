@@ -321,6 +321,7 @@ private slots:
     void slotItemDropped(QStringList ids, const QModelIndex &parent);
     void slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent);
     void slotEditClipCommand(const QString &id, QMap<QString, QString>oldProps, QMap<QString, QString>newProps);
+    void slotItemEdited(QModelIndex,QModelIndex,QVector<int>);
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img);

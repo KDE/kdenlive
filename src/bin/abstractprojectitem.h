@@ -165,6 +165,7 @@ public:
     virtual void setCurrent(bool current, bool notify = true);
 
     virtual QDomElement toXml(QDomDocument &document) = 0;
+    bool rename(const QString &name);
 
 signals:
     void childAdded(AbstractProjectItem *child);
