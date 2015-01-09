@@ -108,14 +108,14 @@ void ClipController::getInfoForProducer()
     }
     else if (m_service == "colour" || m_service == "color") {
         m_clipType = Color;
-        m_name = m_properties->get("kdenlive.clipname");
+        m_name = m_properties->get("kdenlive:clipname");
         if (m_name.isEmpty()) m_name = i18n("Color");
         m_hasLimitedDuration = false;
     }
     else if (m_service == "kdenlivetitle") {
         m_clipType = Text;
         //m_name = m_url.fileName();
-        m_name = m_properties->get("kdenlive.clipname");
+        m_name = m_properties->get("kdenlive:clipname");
         if (m_name.isEmpty()) m_name = i18n("Title");
         m_hasLimitedDuration = false;
     }
@@ -452,14 +452,14 @@ CommentedTime ClipController::markerAt(const GenTime &t) const
 
 void ClipController::setZone(const QPoint &zone)
 {
-    setProperty("kdenlive_zone_in", QString::number(zone.x()));
-    setProperty("kdenlive_zone_out", QString::number(zone.y()));
+    setProperty("kdenlive:zone_in", QString::number(zone.x()));
+    setProperty("kdenlive:zone_out", QString::number(zone.y()));
 }
 
 QPoint ClipController::zone() const
 {
-    int in = int_property("kdenlive_zone_in");
-    int out = int_property("kdenlive_zone_out");
+    int in = int_property("kdenlive:zone_in");
+    int out = int_property("kdenlive:zone_out");
     if (out <= in ) out = in + 50;
     QPoint zone(in, out);
     return zone;

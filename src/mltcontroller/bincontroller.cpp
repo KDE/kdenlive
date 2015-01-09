@@ -85,7 +85,7 @@ void BinController::initializeBin(Mlt::Playlist playlist)
     // Load folders
     Mlt::Properties foldeProperties;
     Mlt::Properties playlistProps(playlist.get_properties());
-    foldeProperties.pass_values(playlistProps, "kdenlive.folder.");
+    foldeProperties.pass_values(playlistProps, "kdenlive:folder.");
     QMap <QString,QString> foldersData;
     for (int i = 0; i < foldeProperties.count(); i++) {
         foldersData.insert(foldeProperties.get_name(i), foldeProperties.get(i));
@@ -137,7 +137,7 @@ void BinController::createIfNeeded()
 
 void BinController::slotStoreFolder(const QString &folderId, const QString &folderName)
 {
-    QString propertyName = "kdenlive.folder." + folderId;
+    QString propertyName = "kdenlive:folder." + folderId;
     if (folderName.isEmpty()) {
         // Remove this folder info
         m_binPlaylist->set(propertyName.toUtf8().constData(), (char *) NULL);

@@ -57,7 +57,7 @@ ProjectClip::ProjectClip(const QDomElement& description, ProjectFolder* parent) 
     Q_ASSERT(description.hasAttribute("id"));
     m_clipStatus = StatusWaiting;
     QString resource = getXmlProperty(description, "resource");
-    QString clipName = getXmlProperty(description, "kdenlive.clipname");
+    QString clipName = getXmlProperty(description, "kdenlive:clipname");
     if (!clipName.isEmpty()) {
         m_name = clipName;
     }
@@ -436,7 +436,7 @@ ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
 
 void ProjectClip::updateParentInfo(const QString &folderid, const QString &foldername)
 {
-    m_controller->setProperty("kdenlive.folderid", folderid);
+    m_controller->setProperty("kdenlive:folderid", folderid);
 }
 
 bool ProjectClip::matches(QString condition)

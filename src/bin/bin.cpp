@@ -338,7 +338,7 @@ void Bin::slotAddUrl(QString url, QString,QString)
 void Bin::createClip(QDomElement xml)
 {
     // Check if clip should be in a folder
-    QString groupId = ProjectClip::getXmlProperty(xml, "kdenlive.folderid");
+    QString groupId = ProjectClip::getXmlProperty(xml, "kdenlive:folderid");
     ProjectFolder *parentFolder = m_rootFolder;
     if (!groupId.isEmpty()) {
         parentFolder = m_rootFolder->folder(groupId);
@@ -819,7 +819,7 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
     }
     else {
 	// Clip not found, create it
-        QString groupId = controller->property("kdenlive.folderid");
+        QString groupId = controller->property("kdenlive:folderid");
         ProjectFolder *parentFolder;
         if (!groupId.isEmpty()) {
             parentFolder = m_rootFolder->folder(groupId);

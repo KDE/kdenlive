@@ -71,10 +71,10 @@ void ClipCreationDialogDialog::createColorClip(KdenliveDoc *doc, QStringList gro
         prod.setAttribute("out", doc->getFramePos(doc->timecode().getTimecode(t->gentime())) - 1);
         QMap <QString, QString> properties;
         properties.insert("resource", color);
-        properties.insert("kdenlive.clipname", dia_ui.clip_name->text());
+        properties.insert("kdenlive:clipname", dia_ui.clip_name->text());
         properties.insert("mlt_service", "color");
         if (!groupInfo.isEmpty()) {
-            properties.insert("kdenlive.folderid", groupInfo.at(0));
+            properties.insert("kdenlive:folderid", groupInfo.at(0));
         }
         addXmlProperties(prod, properties);
         AddClipCommand *command = new AddClipCommand(doc, xml.documentElement(), QString::number(id), true);
@@ -98,7 +98,7 @@ void ClipCreationDialogDialog::createSlideshowClip(KdenliveDoc *doc, QStringList
         prod.setAttribute("out", QString::number(doc->getFramePos(dia->clipDuration()) * dia->imageCount() - 1));
         prod.setAttribute("type", (int) SlideShow);
         QMap <QString, QString> properties;
-        properties.insert("kdenlive.clipname", dia->clipName());
+        properties.insert("kdenlive:clipname", dia->clipName());
         properties.insert("resource", dia->selectedPath());
         properties.insert("ttl", QString::number(doc->getFramePos(dia->clipDuration())));
         properties.insert("loop", QString::number(dia->loop()));
@@ -109,7 +109,7 @@ void ClipCreationDialogDialog::createSlideshowClip(KdenliveDoc *doc, QStringList
         properties.insert("softness", QString::number(dia->softness()));
         properties.insert("animation", dia->animation());
         if (!groupInfo.isEmpty()) {
-            properties.insert("kdenlive.folderid", groupInfo.at(0));
+            properties.insert("kdenlive:folderid", groupInfo.at(0));
         }
         addXmlProperties(prod, properties);
         uint id = bin->getFreeClipId();
@@ -137,9 +137,9 @@ void ClipCreationDialogDialog::createTitleClip(KdenliveDoc *doc, QStringList gro
 
         QMap <QString, QString> properties;
         properties.insert("xmldata", dia_ui->xml().toString());
-        properties.insert("kdenlive.clipname", i18n("Title clip"));
+        properties.insert("kdenlive:clipname", i18n("Title clip"));
         if (!groupInfo.isEmpty()) {
-            properties.insert("kdenlive.folderid", groupInfo.at(0));
+            properties.insert("kdenlive:folderid", groupInfo.at(0));
         }
         addXmlProperties(prod, properties);
         prod.setAttribute("type", (int) Text);
@@ -196,7 +196,7 @@ void ClipCreationDialogDialog::createClipsCommand(KdenliveDoc *doc, const QList<
         QMap <QString, QString> properties;
         properties.insert("resource", file.path());
         if (!groupInfo.isEmpty()) {
-            properties.insert("kdenlive.folderid", groupInfo.at(0));
+            properties.insert("kdenlive:folderid", groupInfo.at(0));
         }
         addXmlProperties(prod, properties);
         //prod.setAttribute("resource", file.path());
@@ -329,14 +329,14 @@ void ClipCreationDialogDialog::createClipsCommand(KdenliveDoc *doc, QStringList 
                         prod.setAttribute("out", QString::number(doc->getFramePos(duration) * count));
                         QMap <QString, QString> properties;
                         properties.insert("resource", pattern);
-                        properties.insert("kdenlive.clipname", fileName);
+                        properties.insert("kdenlive:clipname", fileName);
                         properties.insert("ttl", QString::number(doc->getFramePos(duration)));
                         properties.insert("loop", QString::number(false));
                         properties.insert("crop", QString::number(false));
                         properties.insert("fade", QString::number(false));
                         properties.insert("luma_duration", QString::number(doc->getFramePos(doc->timecode().getTimecodeFromFrames(int(ceil(doc->timecode().fps()))))));
                         if (!groupInfo.isEmpty()) {
-                            properties.insert("kdenlive.folderid", groupInfo.at(0));
+                            properties.insert("kdenlive:folderid", groupInfo.at(0));
                         }
                         addXmlProperties(prod, properties);
                         uint id = bin->getFreeClipId();

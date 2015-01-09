@@ -725,13 +725,13 @@ void Render::processFileProperties()
             delete producer;
             continue;
         }
-        QString clipName = ProjectClip::getXmlProperty(info.xml, "kdenlive.clipname");
+        QString clipName = ProjectClip::getXmlProperty(info.xml, "kdenlive:clipname");
         if (!clipName.isEmpty()) {
-            producer->set("kdenlive.clipname", clipName.toUtf8().constData());
+            producer->set("kdenlive:clipname", clipName.toUtf8().constData());
         }
-        QString groupId = ProjectClip::getXmlProperty(info.xml, "kdenlive.folderid");
+        QString groupId = ProjectClip::getXmlProperty(info.xml, "kdenlive:folderid");
         if (!groupId.isEmpty()) {
-            producer->set("kdenlive.folderid", groupId.toUtf8().constData());
+            producer->set("kdenlive:folderid", groupId.toUtf8().constData());
         }
         
         if (proxyProducer && info.xml.hasAttribute("proxy_out")) {
