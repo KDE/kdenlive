@@ -319,10 +319,20 @@ void Bin::setDocument(KdenliveDoc* project)
     m_rootFolder = new ProjectFolder(this);
     setEnabled(true);
     connect(this, SIGNAL(producerReady(QString)), m_doc->renderer(), SLOT(slotProcessingDone(QString)));
+    connect(m_jobManager, SIGNAL(addClip(QString,QString,QString)), this, SLOT(slotAddUrl(QString,QString,QString)));
+    connect(m_proxyAction, SIGNAL(toggled(bool)), m_doc, SLOT(slotProxyCurrentItem(bool)));
     //connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_itemView
     //connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
     slotInitView(NULL);
     autoSelect();
+}
+
+void Bin::slotAddUrl(QString url, QString,QString)
+{
+    QList <QUrl>urls;
+    urls << QUrl::fromLocalFile(url);
+    QStringList folderInfo = getFolderInfo();
+    ClipCreationDialogDialog::createClipsCommand(m_doc, urls, folderInfo, this);
 }
 
 void Bin::createClip(QDomElement xml)
@@ -836,44 +846,77 @@ void Bin::emitItemUpdated(AbstractProjectItem* item)
     emit itemUpdated(item);
 }
 
-void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction)
+
+void Bin::setupGeneratorMenu(const QHash<QString,QMenu*>& menus)
 {
-    QList <QAction *> actions = addMenu->actions();
-    for (int i = 0; i < actions.count(); ++i) {
-        if (actions.at(i)->data().toString() == "clip_properties") {
-	    m_editAction = actions.at(i);
-	    m_toolbar->addAction(m_editAction);
-            //m_editButton->setDefaultAction(actions.at(i));
-            actions.removeAt(i);
-            --i;
-        } else if (actions.at(i)->data().toString() == "delete_clip") {
-	    m_deleteAction = actions.at(i);
-	    m_toolbar->addAction(m_deleteAction);
-            //m_deleteButton->setDefaultAction(actions.at(i));
-            actions.removeAt(i);
-            --i;
-        } else if (actions.at(i)->data().toString() == "edit_clip") {
-            m_openAction = actions.at(i);
-            actions.removeAt(i);
-            --i;
-        } else if (actions.at(i)->data().toString() == "reload_clip") {
-            m_reloadAction = actions.at(i);
-            actions.removeAt(i);
-            --i;
-        } else if (actions.at(i)->data().toString() == "proxy_clip") {
-            m_proxyAction = actions.at(i);
-            actions.removeAt(i);
-            --i;
-        }
+    if (!m_menu) {
+        //qDebug()<<"Warning, menu was not created, something is wrong";
+        return;
     }
+    if (!menus.contains("addMenu") && ! menus.value("addMenu") )
+        return;
+
+    QMenu *menu = m_addButton->menu();
+    if (menus.contains("addMenu") && menus.value("addMenu")){
+        QMenu* addMenu=menus.value("addMenu");
+        menu->addMenu(addMenu);
+        m_addButton->setMenu(menu);
+        if (addMenu->isEmpty())
+            addMenu->setEnabled(false);
+    }
+    if (menus.contains("extractAudioMenu") && menus.value("extractAudioMenu") ){
+        QMenu* extractAudioMenu = menus.value("extractAudioMenu");
+        m_menu->addMenu(extractAudioMenu);
+        m_extractAudioAction = extractAudioMenu;
+    }
+    if (menus.contains("transcodeMenu") && menus.value("transcodeMenu") ){
+        QMenu* transcodeMenu = menus.value("transcodeMenu");
+        m_menu->addMenu(transcodeMenu);
+        if (transcodeMenu->isEmpty())
+            transcodeMenu->setEnabled(false);
+        m_transcodeAction = transcodeMenu;
+    }
+    if (menus.contains("clipActionsMenu") && menus.value("clipActionsMenu") ){
+        QMenu* stabilizeMenu=menus.value("clipActionsMenu");
+        m_menu->addMenu(stabilizeMenu);
+        if (stabilizeMenu->isEmpty())
+            stabilizeMenu->setEnabled(false);
+        m_clipsActionsMenu = stabilizeMenu;
+
+    }
+    if (m_reloadAction) m_menu->addAction(m_reloadAction);
+    if (m_proxyAction) m_menu->addAction(m_proxyAction);
+    if (menus.contains("inTimelineMenu") && menus.value("inTimelineMenu")){
+        QMenu* inTimelineMenu=menus.value("inTimelineMenu");
+        m_menu->addMenu(inTimelineMenu);
+        inTimelineMenu->setEnabled(false);
+    }
+    m_menu->addAction(m_editAction);
+    m_menu->addAction(m_openAction);
+    m_menu->addAction(m_deleteAction);
+    m_menu->insertSeparator(m_deleteAction);
+}
+
+void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, QHash <QString, QAction*> actions)
+{
+    // Setup actions
+    m_editAction = actions.value("properties");
+    m_toolbar->addAction(m_editAction);
+
+    m_deleteAction = actions.value("delete");
+    m_toolbar->addAction(m_deleteAction);
+
+    m_openAction = actions.value("open");
+    m_reloadAction = actions.value("reload");
+    m_proxyAction = actions.value("proxy");
 
     QMenu *m = new QMenu;
-    m->addActions(actions);
-    QToolButton *addButton = new QToolButton;
-    addButton->setMenu(m);
-    addButton->setDefaultAction(defaultAction);
-    addButton->setPopupMode(QToolButton::MenuButtonPopup);
-    m_toolbar->addWidget(addButton);
+    m->addActions(addMenu->actions());
+    m_addButton = new QToolButton;
+    m_addButton->setMenu(m);
+    m_addButton->setDefaultAction(defaultAction);
+    m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
+    m_toolbar->addWidget(m_addButton);
     m_menu = new QMenu();
     m_menu->addActions(addMenu->actions());
 }
@@ -1027,5 +1070,28 @@ void Bin::slotItemEdited(QModelIndex ix,QModelIndex,QVector<int>)
     }
 }
 
+
+void Bin::slotStartClipJob(bool enable)
+{
+    QAction* act = qobject_cast<QAction *>(sender());
+    if (act == 0) {
+        // Cannot access triggering action, something is wrong
+        qDebug()<<"// Error in clip job action";
+        return;
+    }
+    startClipJob(act->data().toStringList());
+}
+
+void Bin::startClipJob(const QStringList &params)
+{
+    QStringList data = params;
+    if (data.isEmpty()) {
+        qDebug()<<"// Error in clip job action";
+        return;
+    }
+    AbstractClipJob::JOBTYPE jobType = (AbstractClipJob::JOBTYPE) data.takeFirst().toInt();
+    QList <ProjectClip *>clips = selectedClips();
+    m_jobManager->prepareJobs(clips, jobType, data);
+}
 
 

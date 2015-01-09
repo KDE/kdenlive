@@ -439,3 +439,10 @@ void ProjectClip::updateParentInfo(const QString &folderid, const QString &folde
     m_controller->setProperty("kdenlive.folderid", folderid);
 }
 
+bool ProjectClip::matches(QString condition)
+{
+    //TODO
+    return true;
+}
+
+

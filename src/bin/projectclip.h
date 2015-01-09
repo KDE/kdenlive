@@ -164,6 +164,8 @@ public:
 
     void updateParentInfo(const QString &folderid, const QString &foldername);
     void setWaitingStatus(const QString &id);
+    /** @brief Returns true if the clip matched a condition, for example vcodec=mpeg1video. */
+    bool matches(QString condition);
 
 public slots:
     //TODO

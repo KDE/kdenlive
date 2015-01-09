@@ -56,14 +56,38 @@ public:
     /** @brief Start a job for a clip. 
      *  @param id the clip id
      *  @param type The type of job that you want to start
+     *  @param parameters The parameters requested for this job if necessary
      */
-    void startJob(const QString &id, AbstractClipJob::JOBTYPE type);
+    void startJob(const QString &id, AbstractClipJob::JOBTYPE type, QStringList parameters = QStringList());
 
     /** @brief Check if there is a pending / running job a clip. 
      *  @param id the clip id
      *  @param type The type of job that you want to query
      */
     bool hasPendingJob(const QString &clipId, AbstractClipJob::JOBTYPE type);
+    
+    /** @brief Get ready to process selected job
+     *  @param clips the list of selected clips
+     *  @param jobType the jobtype requested
+     *  @param type the parameters for the job
+     */
+    QStringList prepareJobs(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList params);
+    
+    /** @brief Filter a list of selected clips to keep only those that match the job type
+     *  @param clips the list of selected clips
+     *  @param jobType the jobtype requested
+     *  @param type the parameters for the job, might be relevant to filter clips
+     *  @returns A QMap list (id, urls) of clip that match the job type 
+     */
+    QList <ProjectClip *> filterClips(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList &params);
+    
+    /** @brief Put the job in our queue. 
+     *  @param clip the clip to whom the job will be applied
+     *  @param job the job 
+     *  @param runQueue If true, try to start the job right now. False waits for a later command to start processing, useful when adding many jobs quickly.
+     */
+    
+    void launchJob(ProjectClip *clip, AbstractClipJob *job, bool runQueue = true);
 
 private slots:
     void slotCheckJobProcess();

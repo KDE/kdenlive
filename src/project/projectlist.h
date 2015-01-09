@@ -119,8 +119,6 @@ public:
     QByteArray headerInfo() const;
     void setHeaderInfo(const QByteArray &state);
     void updateProjectFormat(Timecode t);
-    void setupMenu(QMenu *addMenu, QAction *defaultAction);
-    void setupGeneratorMenu(const QHash<QString,QMenu*>& menus);
     /** @brief Get a list of selected clip Id's and url's that match a condition. */
     QMap <QString, QString> getConditionalIds(const QString &condition) const;
     QDomDocument generateTemplateXml(QString data, const QString &replaceString);
@@ -199,8 +197,6 @@ public slots:
     void slotDeleteProxy(const QString proxyPath);
     /** @brief Start a hard cut clip job. */
     void slotCutClipJob(const QString &id, QPoint zone);
-    /** @brief Start transcoding selected clips. */
-    void slotTranscodeClipJob(const QString &condition, QString params, QString desc);
     /** @brief Start an MLT process job. */
     void slotStartFilterJob(const ItemInfo&, const QString&,QMap <QString, QString>&, QMap <QString, QString>&,QMap <QString, QString>&);
     void slotSetThumbnail(const QString &id, int framePos, QImage img);

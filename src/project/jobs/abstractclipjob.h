@@ -32,7 +32,7 @@ class AbstractClipJob : public QObject
     Q_OBJECT
 
 public:
-    enum JOBTYPE { NOJOBTYPE = 0, PROXYJOB = 1, CUTJOB = 2, MLTJOB = 3};
+    enum JOBTYPE { NOJOBTYPE = 0, PROXYJOB = 1, CUTJOB = 2, MLTJOB = 3, TRANSCODEJOB = 4};
     AbstractClipJob(JOBTYPE type, ClipType cType, const QString &id);    virtual ~ AbstractClipJob();
     ClipType clipType;
     JOBTYPE jobType;

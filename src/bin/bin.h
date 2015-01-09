@@ -37,6 +37,7 @@ class QSplitter;
 class KToolBar;
 class KSplitterCollapserButton;
 class QMenu;
+class QToolButton;
 class QUndoCommand;
 class ProjectItemModel;
 class ProjectClip;
@@ -265,7 +266,7 @@ public:
     void emitItemAdded(AbstractProjectItem* item);
     void emitAboutToRemoveItem(AbstractProjectItem* item);
     void emitItemRemoved(AbstractProjectItem* item);
-    void setupMenu(QMenu *addMenu, QAction *defaultAction);
+    void setupMenu(QMenu *addMenu, QAction *defaultAction, QHash <QString, QAction*> actions);
     
     /** @brief The source file was modified, we will reload it soon, disable item in the meantime */
     void setWaitingStatus(const QString &id);
@@ -301,6 +302,8 @@ public:
     void doAddFolder(const QString &id, const QString &name, const QString &parentId);
     void removeFolder(const QString &id, QUndoCommand *deleteCommand);
     void doMoveClip(const QString &id, const QString &newParentId);
+    void setupGeneratorMenu(const QHash<QString,QMenu*>& menus);
+    void startClipJob(const QStringList &params);
 
 private slots:
     void slotAddClip();
@@ -322,6 +325,7 @@ private slots:
     void slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent);
     void slotEditClipCommand(const QString &id, QMap<QString, QString>oldProps, QMap<QString, QString>newProps);
     void slotItemEdited(QModelIndex,QModelIndex,QVector<int>);
+    void slotAddUrl(QString url, QString,QString);
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img);
@@ -338,6 +342,8 @@ public slots:
     void slotSwitchClipProperties();
     void slotAddFolder();
     void slotCreateProjectClip();
+    /** @brief Triggered by a clip job action, start the job */
+    void slotStartClipJob(bool enable);
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);
@@ -351,6 +357,10 @@ private:
     JobManager *m_jobManager;
     KToolBar *m_toolbar;
     KdenliveDoc* m_doc;
+    QToolButton *m_addButton;
+    QMenu *m_extractAudioAction;
+    QMenu *m_transcodeAction;
+    QMenu *m_clipsActionsMenu;
     QSplitter *m_splitter;
     /** @brief Holds an available unique id for a clip to be created */
     int m_clipCounter;

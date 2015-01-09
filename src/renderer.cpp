@@ -746,7 +746,8 @@ void Render::processFileProperties()
                 continue;
             }
         }
-        if (info.xml.hasAttribute("force_aspect_ratio")) {
+        //TODO: handle forced properties
+        /*if (info.xml.hasAttribute("force_aspect_ratio")) {
             double aspect = info.xml.attribute("force_aspect_ratio").toDouble();
             if (aspect > 0) producer->set("force_aspect_ratio", aspect);
         }
@@ -794,7 +795,7 @@ void Render::processFileProperties()
         if (info.xml.hasAttribute("full_luma")) {
             int full_luma = info.xml.attribute("full_luma").toInt();
             if (full_luma != 0) producer->set("set.force_full_luma", full_luma);
-        }
+        }*/
 
         int clipOut = 0;
         int duration = 0;

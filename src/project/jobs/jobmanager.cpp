@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/kdenlivedoc.h"
 #include "abstractclipjob.h"
 #include "proxyclipjob.h"
+#include "cutclipjob.h"
 #include "bin/projectclip.h"
 #include "project/clipstabilize.h"
 #include "meltjob.h"
@@ -403,7 +404,6 @@ void JobManager::slotProcessJobs()
 
         if (job->jobType == AbstractClipJob::MLTJOB) {
             MeltJob *jb = static_cast<MeltJob *> (job);
-            //jb->setProducer(currentClip->getProducer(), currentClip->fileURL());
 	    jb->setProducer(currentClip->producer(), currentClip->url());
             if (jb->isProjectFilter())
                 connect(job, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SLOT(slotGotFilterJobResults(QString,int,int,stringMap,stringMap)));
@@ -428,7 +428,7 @@ void JobManager::slotProcessJobs()
     QTimer::singleShot(200, this, SIGNAL(checkJobProcess()));
 }
 
-void JobManager::startJob(const QString &id, AbstractClipJob::JOBTYPE type)
+void JobManager::startJob(const QString &id, AbstractClipJob::JOBTYPE type, QStringList parameters)
 {
     switch (type) {
       case AbstractClipJob::PROXYJOB:
@@ -439,6 +439,7 @@ void JobManager::startJob(const QString &id, AbstractClipJob::JOBTYPE type)
     }
 }
 
+//TODO: move to proxyclipjob
 void JobManager::createProxy(const QString &id)
 {
     ProjectClip *item = m_bin->getBinClip(id);
@@ -464,12 +465,48 @@ void JobManager::createProxy(const QString &id)
     }
     QSize renderSize = m_bin->getRenderSize();
     ProxyJob *job = new ProxyJob(item->clipType(), id, QStringList() << path << sourcePath << item->getProducerProperty("_exif_orientation") << m_bin->getDocumentProperty("proxyparams").simplified() << QString::number(renderSize.width()) << QString::number(renderSize.height()));
-    if (job->isExclusive() && hasPendingJob(id, job->jobType)) {
+    
+    launchJob(item, job);
+}
+
+QList <ProjectClip *> JobManager::filterClips(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList &params)
+{
+     //TODO: filter depending on clip type
+    if (jobType == AbstractClipJob::TRANSCODEJOB) {
+        return CutClipJob::filterClips(clips, params);
+    }
+}
+
+QStringList JobManager::prepareJobs(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList params)
+{
+    //TODO filter clips
+    //QMap <QString, QString> matching = filterClips(clips, jobType, params);
+
+    QMap <ProjectClip *, AbstractClipJob *> jobs;
+    if (jobType == AbstractClipJob::TRANSCODEJOB) {
+        jobs = CutClipJob::prepareJob(m_fps, clips, params);
+    }
+    qDebug()<<"* * * CREATED: "<<jobs.count()<<" jobs";
+    if (!jobs.isEmpty()) {
+        QMapIterator<ProjectClip *, AbstractClipJob *> i(jobs);
+        while (i.hasNext()) {
+            i.next();
+            launchJob(i.key(), i.value(), false);
+        }
+        slotCheckJobProcess();
+    }
+}
+
+
+void JobManager::launchJob(ProjectClip *clip, AbstractClipJob *job, bool runQueue)
+{
+    if (job->isExclusive() && hasPendingJob(clip->clipId(), job->jobType)) {
         delete job;
         return;
     }
 
     m_jobList.append(job);
-    item->setJobStatus(job->jobType, JobWaiting, 0, job->statusMessage());
-    slotCheckJobProcess();
+    qDebug()<<" / / /APPENDED JOB for clip: "<<clip->clipId();
+    clip->setJobStatus(job->jobType, JobWaiting, 0, job->statusMessage());
+    if (runQueue) slotCheckJobProcess();
 }

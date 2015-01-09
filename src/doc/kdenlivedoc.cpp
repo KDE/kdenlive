@@ -1880,28 +1880,29 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy)
     QDir dir(projectFolder().path());
     dir.mkdir("proxy");
 
+    // Prepare updated properties
     QMap <QString, QString> newProps;
     QMap <QString, QString> oldProps;
     if (!doProxy) newProps.insert("proxy", "-");
+
+    // Parse clips
     for (int i = 0; i < clipList.count(); ++i) {
         ProjectClip *item = clipList.at(i);
         ClipType t = item->clipType();
+        
+        // Only allow proxy on some clip types
         if ((t == Video || t == AV || t == Unknown || t == Image || t == Playlist) && item->isReady()) {
 	    if ((doProxy && item->hasProxy()) || (!doProxy && !item->hasProxy() && pCore->binController()->hasClip(item->clipId()))) continue;
             if (m_render->isProcessing(item->clipId())) {
-                //qDebug()<<"//// TRYING TO PROXY: "<<item->clipId()<<", but it is busy";
                 continue;
             }
 
-            //oldProps = clip->properties();
             if (doProxy) {
                 newProps.clear();
                 QString path = proxydir + item->hash() + '.' + (t == Image ? "png" : getDocumentProperty("proxyextension"));
                 // insert required duration for proxy
                 newProps.insert("proxy_out", item->getProducerProperty("out"));
                 newProps.insert("proxy", path);
-                // We need to insert empty proxy so that undo will work
-                //oldProps.insert("proxy", QString());
             }
             else if (!pCore->binController()->hasClip(item->clipId())) {
                 // Force clip reload

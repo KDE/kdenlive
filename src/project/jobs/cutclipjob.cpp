@@ -20,9 +20,16 @@
 
 #include "cutclipjob.h"
 #include "kdenlivesettings.h"
+#include "bin/projectclip.h"
 #include "doc/kdenlivedoc.h"
 
+#include "ui_cutjobdialog_ui.h"
+
+#include <KMessageBox>
+#include <QApplication>
 #include <QDebug>
+#include <QDialog>
+#include <QPointer>
 #include <klocalizedstring.h>
 
 CutClipJob::CutClipJob(ClipType cType, const QString &id, const QStringList &parameters) : AbstractClipJob(CUTJOB, cType, id)
@@ -34,8 +41,10 @@ CutClipJob::CutClipJob(ClipType cType, const QString &id, const QStringList &par
     m_end = parameters.at(3);
     if (m_start.isEmpty()) {
         // this is a transcoding job
+        jobType = AbstractClipJob::TRANSCODEJOB;
         description = i18n("Transcode clip");
     } else {
+        jobType = AbstractClipJob::CUTJOB;
         description = i18n("Cut clip");
     }
     m_jobDuration = parameters.at(4).toInt();
@@ -107,6 +116,7 @@ void CutClipJob::processLogInfo()
     if (!log.isEmpty()) m_logDetails.append(log + QLatin1Char('\n'));
     int progress;
     // Parse FFmpeg output
+    //TODO: parsing progress info works with FFmpeg but not with libav
     if (log.contains(QLatin1String("frame="))) {
         progress = log.section(QLatin1String("frame="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
         emit jobProgress(m_clipId, (int) (100.0 * progress / m_jobDuration), jobType);
@@ -160,5 +170,97 @@ bool CutClipJob::isExclusive()
     return false;
 }
 
+// static 
+QList <ProjectClip *> CutClipJob::filterClips(QList <ProjectClip *>clips, const QStringList &params)
+{
+    QString condition;
+    if (params.count() > 3) {
+        // there is a condition for this job, for example operate only on vcodec=mpeg1video
+        condition = params.at(3);
+    }
+    QList <ProjectClip *> result;
+    for (int i = 0; i < clips.count(); i++) {
+        ProjectClip *clip = clips.at(i);
+        ClipType type = clip->clipType();
+        if (type != AV && type != Audio && type != Video) {
+            // Clip will not be processed by this job
+            continue;
+        }
+        if (!condition.isEmpty() && !clip->matches(condition)) {
+            // Clip does not match requested condition, do not process
+            continue;
+        }
+        result << clip;
+    }
+    return result;
+}
 
+// static 
+QMap <ProjectClip *, AbstractClipJob *> CutClipJob::prepareJob(double fps, QList <ProjectClip*> clips, QStringList parameters)
+{
+    QMap <ProjectClip *, AbstractClipJob *> jobs;
+    QString params = parameters.at(0);
+    QString desc;
+    if (parameters.count() > 1)
+        desc = parameters.at(1);
 
+    //const QString &condition, QString params, QString desc
+    QStringList existingFiles;
+    QStringList sources;
+    QStringList destinations;
+    for (int i = 0; i < clips.count(); i++) {
+        QString source = clips.at(i)->url().toLocalFile();
+        sources << source;
+        QString newFile = params.section(' ', -1).replace("%1", source);
+        destinations << newFile;
+        if (QFile::exists(newFile)) existingFiles << newFile;
+    }
+    if (!existingFiles.isEmpty()) {
+        if (KMessageBox::warningContinueCancelList(QApplication::activeWindow(), i18n("The transcoding job will overwrite the following files:"), existingFiles) ==  KMessageBox::Cancel) return jobs;
+    }
+    
+    QPointer<QDialog> d = new QDialog(QApplication::activeWindow());
+    Ui::CutJobDialog_UI ui;
+    ui.setupUi(d);
+    d->setWindowTitle(i18n("Transcoding"));
+    ui.extra_params->setMaximumHeight(QFontMetrics(qApp->font()).lineSpacing() * 5);
+    if (clips.count() == 1) {
+        ui.file_url->setUrl(QUrl(destinations.first()));
+    }
+    else {
+        ui.destination_label->setVisible(false);
+        ui.file_url->setVisible(false);
+    }
+    ui.extra_params->setVisible(false);
+    d->adjustSize();
+    ui.button_more->setIcon(QIcon::fromTheme("configure"));
+    ui.add_clip->setChecked(KdenliveSettings::add_new_clip());
+    ui.extra_params->setPlainText(params.simplified().section(' ', 0, -2));
+    QString mess = desc;
+    mess.append(' ' + i18np("(%1 clip)", "(%1 clips)", clips.count()));
+    ui.info_label->setText(mess);
+    if (d->exec() != QDialog::Accepted) {
+        delete d;
+        return jobs;
+    }
+    params = ui.extra_params->toPlainText().simplified();
+    KdenliveSettings::setAdd_new_clip(ui.add_clip->isChecked());
+    for (int i = 0; i < clips.count(); i++) {
+        ProjectClip *item = clips.at(i);
+        QString src = sources.at(i);
+        QString dest;
+        if (clips.count() > 1) {
+            dest = destinations.at(i);
+        }
+        else dest = ui.file_url->url().path();
+        QStringList jobParams;
+        jobParams << dest << src << QString() << QString();
+        jobParams << QString::number((int) item->duration().frames(fps));
+        jobParams << QString::number(KdenliveSettings::add_new_clip());
+        jobParams << params;
+        CutClipJob *job = new CutClipJob(item->clipType(), item->clipId(), jobParams);
+        jobs.insert(item, job);
+    }
+    delete d;
+    return jobs;
+}

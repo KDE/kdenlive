@@ -30,6 +30,8 @@ Core::Core(MainWindow *mainWindow) :
 
 Core::~Core()
 {
+    delete m_projectManager;
+    delete m_binWidget;
     delete m_binController;
     m_self = 0;
 }

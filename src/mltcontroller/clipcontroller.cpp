@@ -159,7 +159,7 @@ const QString ClipController::clipId()
 
 const char *ClipController::getPassPropertiesList() const
 {
-    return "proxy,kdenlive_originalUrl,force_aspect_ratio,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,video_index,audio_index,force_colorspace,set.force_full_luma,templatetext,file_hash";
+    return "proxy,kdenlive_originalUrl,force_aspect_ratio,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_colorspace,set.force_full_luma,templatetext,file_hash";
 }
 
 void ClipController::updateProducer(const QString &id, Mlt::Producer* producer)

@@ -296,7 +296,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     menus.insert("transcodeMenu",static_cast<QMenu*>(factory()->container("transcoders", this)));
     menus.insert("clipActionsMenu",static_cast<QMenu*>(factory()->container("clip_actions", this)));
     menus.insert("inTimelineMenu",clipInTimeline);
-    m_projectList->setupGeneratorMenu(menus);
+    pCore->bin()->setupGeneratorMenu(menus);
 
     // Setup and fill effects and transitions menus.
     QMenu *m = static_cast<QMenu*>(factory()->container("video_effects_menu", this));
@@ -451,13 +451,11 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 MainWindow::~MainWindow()
 {
     delete m_stopmotion;
-
     m_effectStack->slotClipItemSelected(NULL);
     m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
-
     if (m_projectMonitor) m_projectMonitor->stop();
     if (m_clipMonitor) m_clipMonitor->stop();
-
+    delete pCore;
     delete m_effectStack;
     delete m_transitionConfig;
     delete m_projectMonitor;
@@ -1159,22 +1157,22 @@ void MainWindow::setupActions()
     reloadClip->setData("reload_clip");
     reloadClip->setEnabled(false);
 
-    m_proxyClip = new QAction(i18n("Proxy Clip"), this);
-    addAction("proxy_clip", m_proxyClip);
-    m_proxyClip->setData("proxy_clip");
-    m_proxyClip->setCheckable(true);
-    m_proxyClip->setChecked(false);
+    QAction *proxyClip = new QAction(i18n("Proxy Clip"), this);
+    addAction("proxy_clip", proxyClip);
+    proxyClip->setData(QStringList() << QString::number((int) AbstractClipJob::PROXYJOB));
+    proxyClip->setCheckable(true);
+    proxyClip->setChecked(false);
 
     addAction("stopmotion", i18n("Stop Motion Capture"), this, SLOT(slotOpenStopmotion()), QIcon::fromTheme("image-x-generic"));
     addAction("ripple_delete", i18n("Ripple Delete"), this, SLOT(slotRippleDelete()), QIcon(), Qt::CTRL + Qt::Key_X);
 
-    addClips->addAction(reloadClip);
-    addClips->addAction(m_proxyClip);
-    addClips->addAction(clipProperties);
-    addClips->addAction(openClip);
-    addClips->addAction(deleteClip);
-    //m_projectList->setupMenu(addClips, addClip);
-    pCore->bin()->setupMenu(addClips, addClip);
+    QHash <QString, QAction*> actions;
+    actions.insert("reload", reloadClip);
+    actions.insert("proxy", proxyClip);
+    actions.insert("properties", clipProperties);
+    actions.insert("open", openClip);
+    actions.insert("delete", deleteClip);
+    pCore->bin()->setupMenu(addClips, addClip, actions);
 
     // Setup effects and transitions actions.
     m_effectsActionCollection = new KActionCollection(this, "effects");//KGlobal::mainComponent());
@@ -1532,7 +1530,6 @@ void MainWindow::connectDocument()
     connect(project, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
     connect(project, SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
     connect(project, SIGNAL(saveTimelinePreview(QString)), trackView, SLOT(slotSaveTimelinePreview(QString)));
-    connect(m_proxyClip, SIGNAL(toggled(bool)), project, SLOT(slotProxyCurrentItem(bool)));
 
     connect(trackView->projectView(), SIGNAL(updateClipMarkers(ClipController*)), this, SLOT(slotUpdateClipMarkers(ClipController*)));
     connect(trackView, SIGNAL(showTrackEffects(int,TrackInfo)), this, SLOT(slotTrackSelected(int,TrackInfo)));
@@ -2693,7 +2690,9 @@ void MainWindow::loadTranscoders()
     QMapIterator<QString, QString> i(profiles);
     while (i.hasNext()) {
         i.next();
-        QStringList data = i.value().split(';');
+        QStringList data;
+        data << QString::number((int) AbstractClipJob::TRANSCODEJOB);
+        data << i.value().split(';');
         QAction *a;
         // separate audio transcoding in a separate menu
         if (data.count() > 2 && data.at(2) == "audio") {
@@ -2704,7 +2703,8 @@ void MainWindow::loadTranscoders()
         }
         a->setData(data);
         if (data.count() > 1) a->setToolTip(data.at(1));
-        connect(a, SIGNAL(triggered()), this, SLOT(slotTranscode()));
+        // slottranscode
+        connect(a, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
     }
 }
 
@@ -2729,12 +2729,7 @@ void MainWindow::slotTranscode(const QStringList &urls)
     if (urls.isEmpty()) {
         QAction *action = qobject_cast<QAction *>(sender());
         QStringList data = action->data().toStringList();
-        params = data.at(0);
-        if (data.count() > 1)
-            desc = data.at(1);
-        if (data.count() > 3)
-            condition = data.at(3);
-        m_projectList->slotTranscodeClipJob(condition, params, desc);
+        pCore->bin()->startClipJob(data);
         return;
     }
     if (urls.isEmpty()) {

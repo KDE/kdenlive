@@ -24,6 +24,7 @@
 
 #include "abstractclipjob.h"
 
+class ProjectClip;
 
 class CutClipJob : public AbstractClipJob
 {
@@ -38,6 +39,8 @@ public:
     void processLogInfo();
     const QString statusMessage();
     bool isExclusive();
+    static QMap <ProjectClip *, AbstractClipJob *> prepareJob(double fps, QList <ProjectClip *> ids,  QStringList parameters);
+    static QList <ProjectClip *> filterClips(QList <ProjectClip *>clips, const QStringList &params);
     
 private:
     QString m_dest;
