@@ -109,9 +109,6 @@ private:
     double m_fps;
     /** @brief Get the list of job names for current clip. */
     QStringList getPendingJobs(const QString &id);
-    void slotStartFilterJob(const ItemInfo &info, const QString&id, QMap <QString, QString> &filterParams, QMap <QString, QString> &consumerParams, QMap <QString, QString> &extraParams);
-    void startClipFilterJob(QList <ProjectClip *> clipList, const QString &filterName);
-    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QMap <QString, QString> producerParams, QMap <QString, QString> filterParams, QMap <QString, QString> consumerParams, const QString &description, QMap <QString, QString> extraParams);
     /** @brief Create a proxy for a clip. */
     void createProxy(const QString &id);
 

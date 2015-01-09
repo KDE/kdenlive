@@ -1,4 +1,5 @@
 add_subdirectory(dialogs)
+add_subdirectory(jobs)
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
   project/clipmanager.cpp
@@ -16,9 +17,4 @@ set(kdenlive_SRCS
   project/subprojectitem.cpp
   project/transitionsettings.cpp
   project/notesplugin.cpp
-  project/jobs/abstractclipjob.cpp
-  project/jobs/proxyclipjob.cpp
-  project/jobs/cutclipjob.cpp
-  project/jobs/meltjob.cpp
-  project/jobs/jobmanager.cpp
   PARENT_SCOPE)

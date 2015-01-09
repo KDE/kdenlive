@@ -1,6 +1,6 @@
 /***************************************************************************
  *                                                                         *
- *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2015 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,55 +18,23 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef MELTJOB
-#define MELTJOB
+#ifndef FILTERJOB
+#define FILTERJOB
 
-
-#include "abstractclipjob.h"
+#include <QList>
+#include <QMap>
+#include <QStringList>
 
 class QUrl;
+class ProjectClip;
+class AbstractClipJob;
 
-namespace Mlt{
-class Profile;
-class Producer;
-class Consumer;
-class Filter;
-class Event;
-}
-
-class MeltJob : public AbstractClipJob
+class FilterJob
 {
-    Q_OBJECT
 
 public:
-    MeltJob(ClipType cType, const QString id,  const QMap <QString, QString> producerParams, const QMap <QString, QString> filterParams, const QMap <QString, QString> consumerParams, const stringMap extraParams = stringMap());
-    virtual ~ MeltJob();
-    const QString destination() const;
-    void startJob();
-    stringMap cancelProperties();
-    bool addClipToProject;
-    const QString statusMessage();
-    void setStatus(ClipJobStatus status);
-    void emitFrameNumber(int pos);
-    /** Make the job work on a project tree clip. */
-    bool isProjectFilter() const;
-    
-private:
-    Mlt::Consumer *m_consumer;
-    Mlt::Producer *m_producer;
-    Mlt::Profile *m_profile;
-    Mlt::Filter *m_filter;
-    Mlt::Event *m_showFrameEvent;
-    QMap <QString, QString> m_producerParams;
-    QMap <QString, QString> m_filterParams;
-    QMap <QString, QString> m_consumerParams;
-    QString m_dest;
-    QString m_url;
-    int m_length;
-    QMap <QString, QString> m_extra;
-
-signals:
-    void gotFilterJobResults(const QString &id, int startPos, int track, const stringMap &result, const stringMap &extra);
+    static QList <ProjectClip *> filterClips(QList <ProjectClip *>clips, const QStringList &params);
+    static QMap <ProjectClip *, AbstractClipJob *> prepareJob(double fps, QList <ProjectClip*> clips, QStringList parameters);
 };
 
 #endif

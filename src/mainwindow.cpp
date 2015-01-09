@@ -2650,8 +2650,10 @@ void MainWindow::loadClipActions()
             else {
                 delete filter;
                 QAction *action=actionMenu->addAction(i18n("Stabilize"));
-                action->setData("vidstab");
-                connect(action,SIGNAL(triggered()), this, SLOT(slotStartClipAction()));
+                QStringList stabJob;
+                stabJob << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << "vidstab";
+                action->setData(stabJob);
+                connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
             }
         }
         filter = Mlt::Factory::filter(profile,(char*)"motion_est");
@@ -2662,14 +2664,18 @@ void MainWindow::loadClipActions()
             else {
                 delete filter;
                 QAction *action=actionMenu->addAction(i18n("Automatic scene split"));
-                action->setData("motion_est");
-                connect(action,SIGNAL(triggered()), this, SLOT(slotStartClipAction()));
+                QStringList stabJob;
+                stabJob << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << "motion_est";
+                action->setData(stabJob);
+                connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
             }
         }
         if (KdenliveSettings::producerslist().contains("framebuffer")) {
             QAction *action=actionMenu->addAction(i18n("Reverse clip"));
-            action->setData("framebuffer");
-            connect(action,SIGNAL(triggered()), this, SLOT(slotStartClipAction()));
+            QStringList stabJob;
+            stabJob << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << "framebuffer";
+            action->setData(stabJob);
+            connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
         }
     }
 
@@ -2706,19 +2712,6 @@ void MainWindow::loadTranscoders()
         // slottranscode
         connect(a, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
     }
-}
-
-void MainWindow::slotStartClipAction()
-{
-    QString condition,filtername;
-    QStringList ids;
-
-    // Stablize selected clips
-    QAction *action = qobject_cast<QAction *>(sender());
-    if (action){
-        filtername=action->data().toString();
-    }
-    m_projectList->startClipFilterJob(filtername, condition);
 }
 
 void MainWindow::slotTranscode(const QStringList &urls)

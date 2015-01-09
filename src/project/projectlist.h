@@ -154,8 +154,6 @@ public:
     void clearSelection();
     /** @brief Print required overlays over clip thumb (proxy, stabilized,...). */
     void processThumbOverlays(ProjectItem *item, QPixmap &pix);
-    /** @brief Start an MLT process job. */
-    void startClipFilterJob(const QString &filterName, const QString &condition);
     /** @brief Set current document for the project tree. */
     void setDocument(KdenliveDoc *doc);
     
@@ -294,8 +292,6 @@ private:
     void discardJobs(const QString &id, AbstractClipJob::JOBTYPE type = AbstractClipJob::NOJOBTYPE);
     /** @brief Get the list of job names for current clip. */
     QStringList getPendingJobs(const QString &id);
-    /** @brief Start an MLT process job. */
-    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QMap <QString, QString> producerParams, QMap <QString, QString> filterParams, QMap <QString, QString> consumerParams, const QString &description, stringMap extraParams = stringMap());
     /** @brief Create rounded shape pixmap for project tree thumb. */
     QPixmap roundedPixmap(const QImage &img);
     QPixmap roundedPixmap(const QPixmap &source);

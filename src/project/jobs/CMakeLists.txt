@@ -1,0 +1,9 @@
+set(kdenlive_SRCS
+  ${kdenlive_SRCS}
+  project/jobs/abstractclipjob.cpp
+  project/jobs/proxyclipjob.cpp
+  project/jobs/cutclipjob.cpp
+  project/jobs/meltjob.cpp
+  project/jobs/filterjob.cpp
+  project/jobs/jobmanager.cpp
+  PARENT_SCOPE)
