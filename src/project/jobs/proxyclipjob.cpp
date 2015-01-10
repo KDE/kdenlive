@@ -21,6 +21,8 @@
 #include "proxyclipjob.h"
 #include "kdenlivesettings.h"
 #include "doc/kdenlivedoc.h"
+#include "bin/projectclip.h"
+#include "bin/bin.h"
 #include <QProcess>
 
 
@@ -249,6 +251,55 @@ const QString ProxyJob::statusMessage()
         break;
     }
     return statusInfo;
+}
+
+// static 
+QList <ProjectClip *> ProxyJob::filterClips(QList <ProjectClip *>clips)
+{
+    QList <ProjectClip *> result;
+    for (int i = 0; i < clips.count(); i++) {
+        ProjectClip *clip = clips.at(i);
+        ClipType type = clip->clipType();
+        if (type != AV && type != Video && type != Playlist && type != Image) {
+            // Clip will not be processed by this job
+            continue;
+        }
+        result << clip;
+    }
+    return result;
+}
+
+// static
+QMap <ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, QList <ProjectClip *>clips)
+{
+    QMap <ProjectClip *, AbstractClipJob *> jobs;
+    QSize renderSize = bin->getRenderSize();
+    QString params = bin->getDocumentProperty("proxyparams").simplified();
+    for (int i = 0; i < clips.count(); i++) {
+        ProjectClip *item = clips.at(i);
+        QString id = item->clipId();
+        QString path = item->getProducerProperty("proxy");
+        if (path.isEmpty()) {
+            item->setJobStatus(AbstractClipJob::PROXYJOB, JobCrashed, -1, i18n("Failed to create proxy, empty path."));
+            continue;
+        }
+        if (QFileInfo(path).size() > 0) {
+            // Proxy already created
+            item->setJobStatus(AbstractClipJob::PROXYJOB, JobDone);
+            bin->gotProxy(id);
+            continue;
+        }
+        QString sourcePath = item->url().toLocalFile();
+        if (item->clipType() == Playlist) {
+            // Special case: playlists use the special 'consumer' producer to support resizing
+            sourcePath.prepend("consumer:");
+        }
+        QStringList parameters;
+        parameters << path << sourcePath << item->getProducerProperty("_exif_orientation") << params << QString::number(renderSize.width()) << QString::number(renderSize.height());
+        ProxyJob *job = new ProxyJob(item->clipType(), id, parameters);
+        jobs.insert(item, job);
+    }
+    return jobs;
 }
 
 

@@ -100,7 +100,6 @@ bool JobManager::hasPendingJob(const QString &clipId, AbstractClipJob::JOBTYPE t
         AbstractClipJob *job = m_jobList.at(i);
         if (job->clipId() == clipId && job->jobType == type && (job->status() == JobWaiting || job->status() == JobWorking)) return true;
     }
-
     return false;
 }
 
@@ -209,68 +208,29 @@ void JobManager::slotProcessJobs()
     QTimer::singleShot(200, this, SIGNAL(checkJobProcess()));
 }
 
-void JobManager::startJob(const QString &id, AbstractClipJob::JOBTYPE type, QStringList parameters)
-{
-    switch (type) {
-      case AbstractClipJob::PROXYJOB:
-	createProxy(id);
-	break;
-      default:
-	break;
-    }
-}
-
-//TODO: move to proxyclipjob
-void JobManager::createProxy(const QString &id)
-{
-    ProjectClip *item = m_bin->getBinClip(id);
-    if (!item || hasPendingJob(id, AbstractClipJob::PROXYJOB) /*|| item->referencedClip()->isPlaceHolder()*/) {
-	return;
-    }
-    QString path = item->getProducerProperty("proxy");
-    if (path.isEmpty()) {
-        item->setJobStatus(AbstractClipJob::PROXYJOB, JobCrashed, -1, i18n("Failed to create proxy, empty path."));
-        return;
-    }
-    
-    if (QFileInfo(path).size() > 0) {
-        // Proxy already created
-        item->setJobStatus(AbstractClipJob::PROXYJOB, JobDone);
-        m_bin->gotProxy(id);
-        return;
-    }
-    QString sourcePath = item->url().toLocalFile();
-    if (item->clipType() == Playlist) {
-        // Special case: playlists use the special 'consumer' producer to support resizing
-        sourcePath.prepend("consumer:");
-    }
-    QSize renderSize = m_bin->getRenderSize();
-    ProxyJob *job = new ProxyJob(item->clipType(), id, QStringList() << path << sourcePath << item->getProducerProperty("_exif_orientation") << m_bin->getDocumentProperty("proxyparams").simplified() << QString::number(renderSize.width()) << QString::number(renderSize.height()));
-    
-    launchJob(item, job);
-}
-
 QList <ProjectClip *> JobManager::filterClips(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList &params)
 {
      //TODO: filter depending on clip type
     if (jobType == AbstractClipJob::TRANSCODEJOB) {
         return CutClipJob::filterClips(clips, params);
-    }
-    else if (jobType == AbstractClipJob::FILTERCLIPJOB) {
+    } else if (jobType == AbstractClipJob::FILTERCLIPJOB) {
         return FilterJob::filterClips(clips, params);
+    } else if (jobType == AbstractClipJob::PROXYJOB) {
+        return ProxyJob::filterClips(clips);
     }
 }
 
-QStringList JobManager::prepareJobs(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList params)
+void JobManager::prepareJobs(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList params)
 {
     //TODO filter clips
     //QMap <QString, QString> matching = filterClips(clips, jobType, params);
-
     QMap <ProjectClip *, AbstractClipJob *> jobs;
     if (jobType == AbstractClipJob::TRANSCODEJOB) {
         jobs = CutClipJob::prepareJob(m_fps, clips, params);
     } else if (jobType == AbstractClipJob::FILTERCLIPJOB) {
-        jobs = FilterJob::prepareJob(m_fps, clips, params);
+        jobs = FilterJob::prepareJob(clips, params);
+    } else if (jobType == AbstractClipJob::PROXYJOB) {
+        jobs = ProxyJob::prepareJob(m_bin, clips);
     }
     if (!jobs.isEmpty()) {
         QMapIterator<ProjectClip *, AbstractClipJob *> i(jobs);

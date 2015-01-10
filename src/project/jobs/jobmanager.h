@@ -53,13 +53,6 @@ public:
      */
     void discardJobs(const QString &id, AbstractClipJob::JOBTYPE type = AbstractClipJob::NOJOBTYPE);
 
-    /** @brief Start a job for a clip. 
-     *  @param id the clip id
-     *  @param type The type of job that you want to start
-     *  @param parameters The parameters requested for this job if necessary
-     */
-    void startJob(const QString &id, AbstractClipJob::JOBTYPE type, QStringList parameters = QStringList());
-
     /** @brief Check if there is a pending / running job a clip. 
      *  @param id the clip id
      *  @param type The type of job that you want to query
@@ -71,7 +64,7 @@ public:
      *  @param jobType the jobtype requested
      *  @param type the parameters for the job
      */
-    QStringList prepareJobs(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList params);
+    void prepareJobs(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList params = QStringList());
     
     /** @brief Filter a list of selected clips to keep only those that match the job type
      *  @param clips the list of selected clips

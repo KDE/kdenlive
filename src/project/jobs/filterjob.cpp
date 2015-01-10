@@ -57,7 +57,7 @@ QList <ProjectClip *> FilterJob::filterClips(QList <ProjectClip *>clips, const Q
     return result;
 }
 
-QMap <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(double fps, QList <ProjectClip*> clips, QStringList parameters)
+QMap <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectClip*> clips, QStringList parameters)
 {
     QMap <ProjectClip *, AbstractClipJob *> jobs;
     QStringList sources;

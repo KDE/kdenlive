@@ -34,7 +34,7 @@ class FilterJob
 
 public:
     static QList <ProjectClip *> filterClips(QList <ProjectClip *>clips, const QStringList &params);
-    static QMap <ProjectClip *, AbstractClipJob *> prepareJob(double fps, QList <ProjectClip*> clips, QStringList parameters);
+    static QMap <ProjectClip *, AbstractClipJob *> prepareJob(QList <ProjectClip*> clips, QStringList parameters);
 };
 
 #endif
