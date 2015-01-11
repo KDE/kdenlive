@@ -79,7 +79,7 @@ void ProjectManager::slotLoadOnOpen()
             //qDebug() << QDir::current().absoluteFilePath(path);
             urls << QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
         }
-        pCore->window()->m_projectList->slotAddClip(urls);
+        pCore->bin()->droppedUrls(urls);
     }
     m_loadClipsOnOpen.clear();
 }

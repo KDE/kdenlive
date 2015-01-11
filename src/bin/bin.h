@@ -304,6 +304,7 @@ public:
     void doMoveClip(const QString &id, const QString &newParentId);
     void setupGeneratorMenu(const QHash<QString,QMenu*>& menus);
     void startClipJob(const QStringList &params);
+    void droppedUrls(QList <QUrl> urls, const QMap<QString,QString> properties = QMap<QString,QString>());
 
 private slots:
     void slotAddClip();

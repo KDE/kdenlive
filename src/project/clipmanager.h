@@ -71,17 +71,7 @@ Q_OBJECT public:
     ClipManager(KdenliveDoc *doc);
     virtual ~ ClipManager();
     void deleteClip(const QString &clipId);
-    
-    /** @brief Adds a list of files to the project.
-     * @param urls files to add
-     * @param group name of the group to insert the files in (can be empty)
-     * @param groupId id of the group (if any)
-     * It checks for duplicated items and asks to the user for instructions. */
-    void doAddClipList(const QList<QUrl> &urls, const QMap<QString, QString> &data = QMap<QString, QString>());
     void deleteProjectClip(const QString &clipId);
-
-    void slotAddClip(const QString &url, const QStringList &groupInfo);
-    void slotAddClipList(const QList <QUrl> &givenList, const QStringList &groupInfo);
 
     void slotAddTextClipFile(const QString &titleName, int out, const QString &xml, const QString &group, const QString &groupId);
     void slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId);
@@ -111,13 +101,6 @@ Q_OBJECT public:
 public slots:
     /** @brief Request creation of a clip thumbnail for specified frames. */
     void slotRequestThumbs(const QString &id, const QList<int> &frames);
-
-    /** @brief Add a file to the project.
-     * @ref slotAddClipList
-     * @param url file to add
-     * @param group name of the group to insert the file in (can be empty)
-     * @param groupId id of the group (if any) */
-    void slotAddClipFile(const QUrl &url, const QMap<QString, QString> &data);
     
 private slots:
     /** A clip was externally modified, monitor for more changes and prepare for reload */

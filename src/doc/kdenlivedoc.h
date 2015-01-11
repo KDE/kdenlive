@@ -152,7 +152,6 @@ public:
     int setSceneList();
     void setDocumentProperty(const QString &name, const QString &value);
     const QString getDocumentProperty(const QString &name) const;
-    void addClipList(const QList<QUrl> &urls, const QMap<QString, QString> &data = QMap<QString, QString>());
 
     /** @brief Gets the list of renderer properties saved into the document. */
     QMap <QString, QString> getRenderProperties() const;

@@ -564,7 +564,7 @@ void MainWindow::generateClip()
     QUrl clipUrl = iGenerator->generatedClip(KdenliveSettings::rendererpath(), action->data().toString(), project->projectFolder(),
                                              QStringList(), QStringList(), project->fps(), project->width(), project->height());
     if (clipUrl.isValid()) {
-        m_projectList->slotAddClip(QList <QUrl> () << clipUrl);
+        pCore->bin()->droppedUrls(QList <QUrl> () << clipUrl);
     }
 }
 
@@ -2119,14 +2119,14 @@ void MainWindow::slotEditItemDuration()
         pCore->projectManager()->currentTrackView()->projectView()->editItemDuration();
 }
 
-void MainWindow::slotAddProjectClip(const QUrl &url, const stringMap &data)
+void MainWindow::slotAddProjectClip(const QUrl &url, const QMap<QString,QString> &data)
 {
-    pCore->projectManager()->current()->addClipList(QList<QUrl>() << url, data);
+    pCore->bin()->droppedUrls(QList<QUrl>() << url, data);
 }
 
 void MainWindow::slotAddProjectClipList(const QList<QUrl> &urls)
 {
-    pCore->projectManager()->current()->addClipList(urls);
+    pCore->bin()->droppedUrls(urls);
 }
 
 void MainWindow::slotAddTransition(QAction *result)

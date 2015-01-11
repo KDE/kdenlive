@@ -1046,6 +1046,12 @@ void Bin::doMoveClip(const QString &id, const QString &newParentId)
     currentItem->updateParentInfo(newParentId, newParent->name());
 }
 
+void Bin::droppedUrls(QList <QUrl> urls, const QMap<QString,QString> properties)
+{
+    QModelIndex current = m_proxyModel->mapToSource(m_proxyModel->selectionModel()->currentIndex());
+    slotItemDropped(urls, current);
+}
+
 void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
 {
     QStringList folderInfo;

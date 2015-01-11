@@ -1292,12 +1292,6 @@ void KdenliveDoc::deleteClip(const QString &clipId)
     pCore->binController()->removeBinClip(clipId);
 }
 
-void KdenliveDoc::addClipList(const QList<QUrl> &urls, const QMap<QString, QString> &data)
-{
-    m_clipManager->doAddClipList(urls, data);
-    emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
-}
-
 ProjectClip *KdenliveDoc::getBinClip(const QString &clipId)
 {
     return pCore->bin()->getBinClip(clipId);

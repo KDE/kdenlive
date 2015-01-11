@@ -165,7 +165,6 @@ public slots:
     void slotReplyGetImage(const QString &clipId, const QImage &img);
     void slotReplyGetImage(const QString &clipId, const QString &name, int width, int height);
     void slotReplyGetFileProperties(requestClipInfo &clipInfo, Mlt::Producer &producer, const stringMap &properties, const stringMap &metadata);
-    void slotAddClip(DocClipBase *clip, bool getProperties);
     void slotDeleteClip(const QString &clipId);
     void slotUpdateClip(const QString &id);
     void slotRefreshClipThumbnail(const QString &clipId, bool update = true);
@@ -176,8 +175,6 @@ public slots:
 
     /** @brief Prepares removing the selected items. */
     void slotRemoveClip();
-    void slotAddClip(const QString &url, const QString &groupName, const QString &groupId);
-    void slotAddClip(const QList <QUrl> &givenList = QList <QUrl> (), const QString &groupName = QString(), const QString &groupId = QString());
 
     /** @brief Adds, edits or deletes a folder item.
     *
