@@ -64,7 +64,7 @@ protected:
     
 signals:
     void jobProgress(const QString&, int, int);
-    void cancelRunningJob(const QString &, const stringMap&);
+    void cancelRunningJob(const QString &, const QMap<QString, QString>&);
 };
 
 

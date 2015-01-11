@@ -45,6 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 JobManager::JobManager(Bin *bin, double fps): QObject()
   , m_bin(bin)
   , m_fps(fps)
+  , m_abortAllJobs(false)
 {
     connect(this, SIGNAL(processLog(QString,int,int,QString)), this, SLOT(slotProcessLog(QString,int,int,QString)));
     connect(this, SIGNAL(checkJobProcess()), this, SLOT(slotCheckJobProcess()));
@@ -95,10 +96,12 @@ void JobManager::discardJobs(const QString &id, AbstractClipJob::JOBTYPE type)
 bool JobManager::hasPendingJob(const QString &clipId, AbstractClipJob::JOBTYPE type)
 {
     QMutexLocker lock(&m_jobMutex);
-    for (int i = 0; i < m_jobList.count(); ++i) {
+    for (int i = 0; i < m_jobList.count(); i++) {
         if (m_abortAllJobs) break;
         AbstractClipJob *job = m_jobList.at(i);
-        if (job->clipId() == clipId && job->jobType == type && (job->status() == JobWaiting || job->status() == JobWorking)) return true;
+        if (job->clipId() == clipId && job->jobType == type && (job->status() == JobWaiting || job->status() == JobWorking)) {
+            return true;
+        }
     }
     return false;
 }
@@ -181,7 +184,7 @@ void JobManager::slotProcessJobs()
             QFile::remove(destination);
         }
         connect(job, SIGNAL(jobProgress(QString,int,int)), this, SIGNAL(processLog(QString,int,int)));
-        connect(job, SIGNAL(cancelRunningJob(QString,stringMap)), this, SIGNAL(cancelRunningJob(QString,stringMap)));
+        connect(job, SIGNAL(cancelRunningJob(QString,QMap<QString, QString>)), m_bin, SLOT(slotCancelRunningJob(QString,QMap<QString, QString>)));
 
         if (job->jobType == AbstractClipJob::MLTJOB) {
             MeltJob *jb = static_cast<MeltJob *> (job);
@@ -219,6 +222,7 @@ QList <ProjectClip *> JobManager::filterClips(QList <ProjectClip *>clips, Abstra
         return ProxyJob::filterClips(clips);
     }
 }
+
 
 void JobManager::prepareJobs(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList params)
 {

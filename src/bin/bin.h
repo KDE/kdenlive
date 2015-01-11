@@ -345,6 +345,7 @@ public slots:
     /** @brief Triggered by a clip job action, start the job */
     void slotStartClipJob(bool enable);
     void slotEditClipCommand(const QString &id, QMap<QString, QString>oldProps, QMap<QString, QString>newProps);
+    void slotCancelRunningJob(const QString &id, const QMap<QString, QString> &newProps);
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);

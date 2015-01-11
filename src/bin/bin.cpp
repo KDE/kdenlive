@@ -1144,4 +1144,21 @@ void Bin::startClipJob(const QStringList &params)
     m_jobManager->prepareJobs(clips, jobType, data);
 }
 
+void Bin::slotCancelRunningJob(const QString &id, const QMap<QString, QString> &newProps)
+{
+    if (newProps.isEmpty()) return;
+    ProjectClip *clip = getBinClip(id);
+    if (!clip) return;
+    QMap <QString, QString> oldProps;
+    QMapIterator<QString, QString> i(newProps);
+    while (i.hasNext()) {
+        i.next();
+        QString value = newProps.value(i.key());
+        oldProps.insert(i.key(), value);
+    }
+    if (newProps == oldProps) return;
+    EditClipCommand *command = new EditClipCommand(m_doc, id, oldProps, newProps, true);
+    m_doc->commandStack()->push(command);
+}
+
 
