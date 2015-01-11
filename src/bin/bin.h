@@ -158,7 +158,7 @@ public:
             subTextColor.setAlphaF(.5);
             painter->setPen(subTextColor);
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop , subText, &bounding);
-	                
+
             int jobProgress = index.data(AbstractProjectItem::JobProgress).toInt();
             if (jobProgress != 0 && jobProgress != JobDone && jobProgress != JobAborted) {
                 if (jobProgress != JobCrashed) {

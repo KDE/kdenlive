@@ -414,6 +414,7 @@ void ProjectClip::setJobStatus(AbstractClipJob::JOBTYPE jobType, ClipJobStatus s
 {
     m_jobType = jobType;
     if (progress > 0) {
+        if (m_jobProgress == progress) return;
 	m_jobProgress = progress;
     }
     else {

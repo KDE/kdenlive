@@ -199,7 +199,7 @@ void MeltJob::startJob()
     if (!jobResults.isEmpty() && m_jobStatus != JobAborted) {
 	emit gotFilterJobResults(m_clipId, startPos, track, jobResults, m_extra);
     }
-    if (m_jobStatus == JobAborted || m_jobStatus == JobWorking) m_jobStatus = JobDone;
+    if (m_jobStatus == JobWorking) m_jobStatus = JobDone;
 }
 
 
@@ -241,7 +241,7 @@ const QString MeltJob::statusMessage()
 
 void MeltJob::emitFrameNumber(int pos)
 {
-    if (m_length > 0) {
+    if (m_length > 0 && m_jobStatus != JobAborted) {
         emit jobProgress(m_clipId, (int) (100 * pos / m_length), jobType);
     }
 }

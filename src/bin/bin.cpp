@@ -296,6 +296,7 @@ Bin::Bin(QWidget* parent) :
 
 Bin::~Bin()
 {
+    delete m_jobManager;
 }
 
 void Bin::slotSaveHeaders()
