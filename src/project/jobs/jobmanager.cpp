@@ -258,3 +258,51 @@ void JobManager::launchJob(ProjectClip *clip, AbstractClipJob *job, bool runQueu
     clip->setJobStatus(job->jobType, JobWaiting, 0, job->statusMessage());
     if (runQueue) slotCheckJobProcess();
 }
+
+void JobManager::slotDiscardClipJobs()
+{
+    QAction* act = qobject_cast<QAction *>(sender());
+    if (act == 0) {
+        // Cannot access triggering action, something is wrong
+        qDebug()<<"// Error in job action";
+        return;
+    }
+    QString id = act->data().toString();
+    if (id.isEmpty()) return;
+    discardJobs(id);
+}
+
+void JobManager::slotCancelJobs()
+{
+    m_abortAllJobs = true;
+    for (int i = 0; i < m_jobList.count(); ++i) {
+        m_jobList.at(i)->setStatus(JobAborted);
+    }
+    m_jobThreads.waitForFinished();
+    m_jobThreads.clearFutures();
+    
+    //TODO: undo job cancelation ? not sure it's necessary
+    /*QUndoCommand *command = new QUndoCommand();
+    command->setText(i18np("Cancel job", "Cancel jobs", m_jobList.count()));
+    m_jobMutex.lock();
+    for (int i = 0; i < m_jobList.count(); ++i) {
+        DocClipBase *currentClip = m_doc->clipManager()->getClipById(m_jobList.at(i)->clipId());
+        if (!currentClip) continue;
+        QMap <QString, QString> newProps = m_jobList.at(i)->cancelProperties();
+        if (newProps.isEmpty()) continue;
+        QMap <QString, QString> oldProps = currentClip->currentProperties(newProps);
+        //TODO
+        //new EditClipCommand(this, m_jobList.at(i)->clipId(), oldProps, newProps, true, command);
+    }
+    m_jobMutex.unlock();
+    if (command->childCount() > 0) {
+        m_doc->commandStack()->push(command);
+    }
+    else delete command;
+    */
+    if (!m_jobList.isEmpty()) qDeleteAll(m_jobList);
+    m_jobList.clear();
+    m_abortAllJobs = false;
+    emit jobCount(0);
+}
+

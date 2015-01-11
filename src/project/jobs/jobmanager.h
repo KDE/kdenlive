@@ -65,7 +65,7 @@ public:
      *  @param type the parameters for the job
      */
     void prepareJobs(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList params = QStringList());
-    
+
     /** @brief Filter a list of selected clips to keep only those that match the job type
      *  @param clips the list of selected clips
      *  @param jobType the jobtype requested
@@ -73,19 +73,27 @@ public:
      *  @returns A QMap list (id, urls) of clip that match the job type 
      */
     QList <ProjectClip *> filterClips(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList &params);
-    
+
     /** @brief Put the job in our queue. 
      *  @param clip the clip to whom the job will be applied
      *  @param job the job 
      *  @param runQueue If true, try to start the job right now. False waits for a later command to start processing, useful when adding many jobs quickly.
      */
-    
     void launchJob(ProjectClip *clip, AbstractClipJob *job, bool runQueue = true);
+
+    /** @brief Get the list of job names for current clip. */
+    QStringList getPendingJobs(const QString &id);
 
 private slots:
     void slotCheckJobProcess();
     void slotProcessJobs();
     void slotProcessLog(const QString &id, int progress, int type, const QString &message);
+
+public slots:
+    /** @brief Discard jobs running on a clip whose id is in the calling action's data. */
+    void slotDiscardClipJobs();
+    /** @brief Discard all running jobs. */
+    void slotCancelJobs();
 
 private:
     /** @brief A pointer to the project's bin. */
@@ -100,8 +108,6 @@ private:
     bool m_abortAllJobs;
     /** @brief Stores the project's fps, useful for some jobs. */
     double m_fps;
-    /** @brief Get the list of job names for current clip. */
-    QStringList getPendingJobs(const QString &id);
     /** @brief Create a proxy for a clip. */
     void createProxy(const QString &id);
 

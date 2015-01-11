@@ -30,10 +30,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QStyledItemDelegate>
 #include <QPainter>
 #include <QDomElement>
+#include <QPushButton>
 
 class KdenliveDoc;
 class ClipController;
 class QSplitter;
+class QTimeLine;
 class KToolBar;
 class KSplitterCollapserButton;
 class QMenu;
@@ -51,6 +53,33 @@ class JobManager;
 namespace Mlt {
   class Producer;
 };
+
+
+class SmallJobLabel: public QPushButton
+{
+    Q_OBJECT
+public:
+    SmallJobLabel(QWidget *parent = 0);
+    static const QString getStyleSheet(const QPalette &p);
+    void setAction(QAction *action);
+private:
+    enum ItemRole {
+        NameRole = Qt::UserRole,
+        DurationRole,
+        UsageRole
+    };
+
+    QTimeLine* m_timeLine;
+    QAction *m_action;
+
+public slots:
+    void slotSetJobCount(int jobCount);
+
+private slots:
+    void slotTimeLineChanged(qreal value);
+    void slotTimeLineFinished();
+};
+
 
 /**
  * @class BinItemDelegate
@@ -326,6 +355,7 @@ private slots:
     void slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent);
     void slotItemEdited(QModelIndex,QModelIndex,QVector<int>);
     void slotAddUrl(QString url, QString,QString);
+    void slotPrepareJobsMenu();
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img);
@@ -385,11 +415,16 @@ private:
     QAction *m_proxyAction;
     QAction *m_editAction;
     QAction *m_deleteAction;
+    QMenu *m_jobsMenu;
+    QAction *m_cancelJobs;
+    QAction *m_discardCurrentClipJobs;
+    SmallJobLabel *m_infoLabel;
     void showClipProperties(ProjectClip *clip);
     void selectModel(const QModelIndex &id);
     const QStringList getFolderInfo();
     /** @brief Get the QModelIndex value for an item in the Bin. */
     QModelIndex getIndexForId(const QString &id, bool folderWanted) const;
+    AbstractProjectItem *getFirstSelectedClip();
 
 signals:
     void itemUpdated(AbstractProjectItem*);

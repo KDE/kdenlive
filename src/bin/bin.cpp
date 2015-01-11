@@ -42,13 +42,107 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include <KToolBar>
+#include <KColorScheme>
 
 #include <QVBoxLayout>
+#include <QTimeLine>
 #include <QSlider>
 #include <QMenu>
 #include <QDebug>
 #include <QUndoCommand>
 #include <KSplitterCollapserButton>
+
+
+SmallJobLabel::SmallJobLabel(QWidget *parent) : QPushButton(parent)
+{
+    setFixedWidth(0);
+    setFlat(true);
+    m_timeLine = new QTimeLine(500, this);
+    QObject::connect(m_timeLine, SIGNAL(valueChanged(qreal)), this, SLOT(slotTimeLineChanged(qreal)));
+    QObject::connect(m_timeLine, SIGNAL(finished()), this, SLOT(slotTimeLineFinished()));
+    hide();
+}
+
+const QString SmallJobLabel::getStyleSheet(const QPalette &p)
+{
+    KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    QColor bg = scheme.background(KColorScheme::LinkBackground).color();
+    QColor fg = scheme.foreground(KColorScheme::LinkText).color();
+    QString style = QString("QPushButton {margin:3px;padding:2px;background-color: rgb(%1, %2, %3);border-radius: 4px;border: none;color: rgb(%4, %5, %6)}").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(fg.red()).arg(fg.green()).arg(fg.blue());
+    
+    bg = scheme.background(KColorScheme::ActiveBackground).color();
+    fg = scheme.foreground(KColorScheme::ActiveText).color();
+    style.append(QString("\nQPushButton:hover {margin:3px;padding:2px;background-color: rgb(%1, %2, %3);border-radius: 4px;border: none;color: rgb(%4, %5, %6)}").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(fg.red()).arg(fg.green()).arg(fg.blue()));
+    
+    return style;
+}
+
+void SmallJobLabel::setAction(QAction *action)
+{
+    m_action = action;
+}
+
+void SmallJobLabel::slotTimeLineChanged(qreal value)
+{
+    setFixedWidth(qMin(value * 2, qreal(1.0)) * sizeHint().width());
+    update();
+}
+
+void SmallJobLabel::slotTimeLineFinished()
+{
+    if (m_timeLine->direction() == QTimeLine::Forward) {
+        // Show
+        m_action->setVisible(true);
+    } else {
+        // Hide
+        m_action->setVisible(false);
+        setText(QString());
+    }
+}
+
+void SmallJobLabel::slotSetJobCount(int jobCount)
+{
+    if (jobCount > 0) {
+        // prepare animation
+        setText(i18np("%1 job", "%1 jobs", jobCount));
+        setToolTip(i18np("%1 pending job", "%1 pending jobs", jobCount));
+        
+        //if (!(KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects)) {
+        if (style()->styleHint(QStyle::SH_Widget_Animate, 0, this)) {
+            setFixedWidth(sizeHint().width());
+            m_action->setVisible(true);
+            return;
+        }
+        
+        if (m_action->isVisible()) {
+            setFixedWidth(sizeHint().width());
+            update();
+            return;
+        }
+        
+        setFixedWidth(0);
+        m_action->setVisible(true);
+        int wantedWidth = sizeHint().width();
+        setGeometry(-wantedWidth, 0, wantedWidth, height());
+        m_timeLine->setDirection(QTimeLine::Forward);
+        if (m_timeLine->state() == QTimeLine::NotRunning) {
+            m_timeLine->start();
+        }
+    }
+    else {
+        //if (!(KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects)) {
+        if (style()->styleHint(QStyle::SH_Widget_Animate, 0, this)) {
+            setFixedWidth(0);
+            m_action->setVisible(false);
+            return;
+        }
+        // hide
+        m_timeLine->setDirection(QTimeLine::Backward);
+        if (m_timeLine->state() == QTimeLine::NotRunning) {
+            m_timeLine->start();
+        }
+    }
+}
 
 EventEater::EventEater(QObject *parent) : QObject(parent)
 {
@@ -111,6 +205,23 @@ Bin::Bin(QWidget* parent) :
     searchLine->setClearButtonEnabled(true);
     connect(searchLine, SIGNAL(textChanged(const QString &)), m_proxyModel, SLOT(slotSetSearchString(const QString &)));
     m_toolbar->addWidget(searchLine);
+
+    // small info button for pending jobs
+    m_infoLabel = new SmallJobLabel(this);
+    m_infoLabel->setStyleSheet(SmallJobLabel::getStyleSheet(palette()));
+    QAction *infoAction = m_toolbar->addWidget(m_infoLabel);
+    m_jobsMenu = new QMenu(this);
+    connect(m_jobsMenu, SIGNAL(aboutToShow()), this, SLOT(slotPrepareJobsMenu()));
+    m_cancelJobs = new QAction(i18n("Cancel All Jobs"), this);
+    m_cancelJobs->setCheckable(false);
+    connect(this, SIGNAL(checkJobProcess()), this, SLOT(slotCheckJobProcess()));
+    m_discardCurrentClipJobs = new QAction(i18n("Cancel Current Clip Jobs"), this);
+    m_discardCurrentClipJobs->setCheckable(false);
+    m_jobsMenu->addAction(m_cancelJobs);
+    m_jobsMenu->addAction(m_discardCurrentClipJobs);
+    m_infoLabel->setMenu(m_jobsMenu);
+    
+    m_infoLabel->setAction(infoAction);
 
     // Build item view model
     m_itemModel = new ProjectItemModel(this);
@@ -245,6 +356,21 @@ void Bin::deleteClip(const QString &id)
     delete clip;
 }
 
+AbstractProjectItem *Bin::getFirstSelectedClip()
+{
+    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    if (indexes.isEmpty()) {
+        return NULL;
+    }
+    foreach (const QModelIndex &ix, indexes) {
+        AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
+        if (!currentItem->isFolder()) {
+            return currentItem;
+        }
+    }
+    return NULL;
+}
+
 void Bin::slotDeleteClip()
 {
     QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
@@ -340,6 +466,9 @@ void Bin::setDocument(KdenliveDoc* project)
     connect(this, SIGNAL(producerReady(QString)), m_doc->renderer(), SLOT(slotProcessingDone(QString)));
     connect(m_jobManager, SIGNAL(addClip(QString,QString,QString)), this, SLOT(slotAddUrl(QString,QString,QString)));
     connect(m_proxyAction, SIGNAL(toggled(bool)), m_doc, SLOT(slotProxyCurrentItem(bool)));
+    connect(m_jobManager, SIGNAL(jobCount(int)), m_infoLabel, SLOT(slotSetJobCount(int)));
+    connect(m_discardCurrentClipJobs, SIGNAL(triggered()), m_jobManager, SLOT(slotDiscardClipJobs()));
+    connect(m_cancelJobs, SIGNAL(triggered()), m_jobManager, SLOT(slotCancelJobs()));
     //connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_itemView
     //connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
     slotInitView(NULL);
@@ -1159,6 +1288,21 @@ void Bin::slotCancelRunningJob(const QString &id, const QMap<QString, QString> &
     if (newProps == oldProps) return;
     EditClipCommand *command = new EditClipCommand(m_doc, id, oldProps, newProps, true);
     m_doc->commandStack()->push(command);
+}
+
+
+void Bin::slotPrepareJobsMenu()
+{
+    AbstractProjectItem *item = getFirstSelectedClip();
+    if (item) {
+        QString id = item->clipId();
+        m_discardCurrentClipJobs->setData(id);
+        QStringList jobs = m_jobManager->getPendingJobs(id);
+        m_discardCurrentClipJobs->setEnabled(!jobs.isEmpty());
+    } else {
+        m_discardCurrentClipJobs->setData(QString());
+        m_discardCurrentClipJobs->setEnabled(false);
+    }
 }
 
 
