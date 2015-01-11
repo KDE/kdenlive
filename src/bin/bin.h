@@ -387,6 +387,8 @@ private:
     void showClipProperties(ProjectClip *clip);
     void selectModel(const QModelIndex &id);
     const QStringList getFolderInfo();
+    /** @brief Get the QModelIndex value for an item in the Bin. */
+    QModelIndex getIndexForId(const QString &id, bool folderWanted) const;
 
 signals:
     void itemUpdated(AbstractProjectItem*);

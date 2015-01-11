@@ -118,7 +118,8 @@ public:
     enum DataType {
         DataName = Qt::DisplayRole,
         DataThumbnail = Qt::DecorationRole,
-        DataDescription = Qt::UserRole,
+        DataId = Qt::UserRole,
+        DataDescription,
         DataDate,
         ItemTypeRole,
         DataDuration,
@@ -177,7 +178,7 @@ protected:
     AbstractProjectItem *m_parent;
     QString m_name;
     QString m_description;
-    QPixmap m_thumbnail;
+    QIcon m_thumbnail;
     QString m_duration;
     QPoint m_zone;
     QString m_id;

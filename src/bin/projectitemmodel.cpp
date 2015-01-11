@@ -66,7 +66,7 @@ QVariant ProjectItemModel::data(const QModelIndex& index, int role) const
     if (role == Qt::DecorationRole && index.column() == 0) {
         // Data has to be returned as icon to allow the view to scale it
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
-        QIcon icon = QIcon(item->data(AbstractProjectItem::DataThumbnail).value<QPixmap>());
+        QIcon icon = item->data(AbstractProjectItem::DataThumbnail).value<QIcon>();
         if (icon.isNull()) {
             QPixmap pix(m_iconSize);
             pix.fill(Qt::lightGray);

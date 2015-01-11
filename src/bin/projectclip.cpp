@@ -203,25 +203,14 @@ QDomElement ProjectClip::toXml(QDomDocument& document)
     return QDomElement();
 }
 
-QPixmap ProjectClip::thumbnail(bool force)
-{
-/*    if ((force || m_thumbnail.isNull()) && m_baseProducer) {
-	int width = 80 * bin()->project()->displayRatio();
-	if (width % 2 == 1) width++;
-	bin()->project()->monitorManager()->requestThumbnails(m_id, QList <int>() << 0);
-    }
-    */
-    return m_thumbnail;
-}
-
 void ProjectClip::setThumbnail(QImage img)
 {
-    m_thumbnail = roundedPixmap(QPixmap::fromImage(img));
-    if (hasProxy() && !m_thumbnail.isNull()) {
+    QPixmap thumb = roundedPixmap(QPixmap::fromImage(img));
+    if (hasProxy() && !thumb.isNull()) {
         // Overlay proxy icon
-        QPainter p(&m_thumbnail);
+        QPainter p(&thumb);
         QColor c(220, 220, 10, 200);
-        QRect r(0, 0, m_thumbnail.height() / 2.5, m_thumbnail.height() / 2.5);
+        QRect r(0, 0, thumb.height() / 2.5, thumb.height() / 2.5);
         p.fillRect(r, c);
         QFont font = p.font();
         font.setPixelSize(r.height());
@@ -230,6 +219,7 @@ void ProjectClip::setThumbnail(QImage img)
         p.setPen(Qt::black);
         p.drawText(r, Qt::AlignCenter, i18nc("The first letter of Proxy, used as abbreviation", "P"));
     }
+    m_thumbnail = QIcon(thumb);
     bin()->emitItemUpdated(this);
 }
 

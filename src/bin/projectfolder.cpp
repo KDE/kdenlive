@@ -34,7 +34,7 @@ ProjectFolder::ProjectFolder(const QString &id, const QString &name, ProjectFold
     //loadChildren(description);
     m_name = name;
     m_clipStatus = StatusReady;
-    m_thumbnail = QIcon::fromTheme("folder").pixmap(40, 40);
+    m_thumbnail = QIcon::fromTheme("folder");
     setParent(parent);
 }
 

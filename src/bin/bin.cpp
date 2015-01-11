@@ -205,7 +205,11 @@ Monitor *Bin::monitor()
 const QStringList Bin::getFolderInfo()
 {
     QStringList folderInfo;
-    QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
+    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    if (indexes.isEmpty()) {
+        return folderInfo;
+    }
+    QModelIndex ix = indexes.first();
     if (ix.isValid() && m_proxyModel->selectionModel()->isSelected(ix)) {
         AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
         while (!currentItem->isFolder()) {
@@ -214,8 +218,8 @@ const QStringList Bin::getFolderInfo()
         if (currentItem == m_rootFolder) {
             // clip was added to root folder, leave folder info empty
         } else {
-            folderInfo << currentItem->name();
             folderInfo << currentItem->clipId();
+            folderInfo << currentItem->name();
         }
     }
     return folderInfo;
@@ -382,11 +386,30 @@ void Bin::slotAddFolder()
     QString newId = QString::number(getFreeFolderId());
     AddBinFolderCommand *command = new AddBinFolderCommand(this, newId, i18n("Folder"), parentFolder->clipId());
     m_doc->commandStack()->push(command);
-    
+
     // Edit folder name
-    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
-    if (indexes.isEmpty()) return;
-    m_itemView->edit(indexes.first());
+    ix = getIndexForId(newId, true);
+    if (ix.isValid()) {
+        m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(ix), QItemSelectionModel::ClearAndSelect);
+        m_itemView->edit(m_proxyModel->mapFromSource(ix));
+    }
+}
+
+QModelIndex Bin::getIndexForId(const QString &id, bool folderWanted) const
+{
+    QModelIndexList items = m_itemModel->match(m_itemModel->index(0, 0), AbstractProjectItem::DataId, QVariant::fromValue(id), 2, Qt::MatchRecursive);
+    for (int i = 0; i < items.count(); i++) {
+        AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(items.at(i).internalPointer());
+        if (folderWanted && currentItem->isFolder()) {
+            // We found our folder
+            return items.at(i);
+        }
+        else if (!folderWanted && !currentItem->isFolder()) {
+            // We found our clip
+            return items.at(i);
+        }
+    }
+    return QModelIndex();
 }
 
 void Bin::doAddFolder(const QString &id, const QString &name, const QString &parentId)

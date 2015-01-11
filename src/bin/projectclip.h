@@ -171,7 +171,6 @@ public:
 
 public slots:
     //TODO
-    QPixmap thumbnail(bool force = false);
     void updateAudioThumbnail(const audioByteArray& data);
 
 protected:

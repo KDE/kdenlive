@@ -207,6 +207,9 @@ QVariant AbstractProjectItem::data(DataType type) const
         case ClipToolTip:
             data = QVariant(getToolTip());
             break;
+        case DataId:
+            data = QVariant(m_id);
+            break;
         default:
             break;
     }

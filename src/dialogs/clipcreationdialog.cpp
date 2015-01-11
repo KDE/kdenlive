@@ -354,7 +354,6 @@ void ClipCreationDialogDialog::createClipsCommand(KdenliveDoc *doc, QStringList 
                     int count = list.count();
                     if (count > 1) {
                         delete d;
-                        /*QStringList groupInfo = getGroup(); */
                         // get image sequence base name
                         while (fileName.at(fileName.size() - 1).isDigit()) {
                             fileName.chop(1);
