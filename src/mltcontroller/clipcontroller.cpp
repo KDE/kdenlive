@@ -38,10 +38,10 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer& prod
     m_masterProducer = &producer;
     if (!m_masterProducer->is_valid()) qDebug()<<"// WARNING, USING INVALID PRODUCER";
     else {
-        QString proxy = m_properties->get("proxy");
+        QString proxy = m_properties->get("kdenlive:proxy");
         if (proxy.length() > 2) {
             // This is a proxy producer, read original url from kdenlive property
-            m_url = QUrl::fromLocalFile(m_properties->get("kdenlive_originalUrl"));
+            m_url = QUrl::fromLocalFile(m_properties->get("kdenlive:originalurl"));
         }
         else m_url = QUrl::fromLocalFile(m_properties->get("resource"));
         m_service = m_properties->get("mlt_service");
@@ -74,10 +74,10 @@ void ClipController::addMasterProducer(Mlt::Producer &producer)
     m_masterProducer = &producer;
     if (!m_masterProducer->is_valid()) qDebug()<<"// WARNING, USING INVALID PRODUCER";
     else {
-        QString proxy = m_properties->get("proxy");
+        QString proxy = m_properties->get("kdenlive:proxy");
         if (proxy.length() > 2) {
             // This is a proxy producer, read original url from kdenlive property
-            m_url = QUrl::fromLocalFile(m_properties->get("kdenlive_originalUrl"));
+            m_url = QUrl::fromLocalFile(m_properties->get("kdenlive:originalurl"));
         }
         else m_url = QUrl::fromLocalFile(m_properties->get("resource"));
         m_service = m_properties->get("mlt_service");
@@ -150,7 +150,7 @@ const QString ClipController::clipId()
 
 const char *ClipController::getPassPropertiesList() const
 {
-    return "proxy,kdenlive_originalUrl,force_aspect_ratio,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_colorspace,set.force_full_luma,templatetext,file_hash";
+    return "kdenlive:proxy,kdenlive:originalurl,force_aspect_ratio,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_colorspace,set.force_full_luma,templatetext,file_hash";
 }
 
 void ClipController::updateProducer(const QString &id, Mlt::Producer* producer)

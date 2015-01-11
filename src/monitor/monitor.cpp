@@ -599,7 +599,7 @@ void Monitor::slotExtractCurrentFrame()
 {
     QImage frame;
     // check if we are using a proxy
-    if (m_controller && !m_controller->property("proxy").isEmpty() && m_controller->property("proxy") != "-") {
+    if (m_controller && !m_controller->property("kdenlive:proxy").isEmpty() && m_controller->property("kdenlive:proxy") != "-") {
         // using proxy, use original clip url to get frame
         frame = render->extractFrame(render->seekFramePosition(), m_controller->property("resource"));
     }

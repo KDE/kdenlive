@@ -117,10 +117,10 @@ public:
             QRect r2 = option.rect;
             r2.adjust(decoWidth, mid, 0, 0);
             QRectF bounding;
-            painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data().toString(), &bounding);
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(AbstractProjectItem::DataName).toString(), &bounding);
             font.setBold(false);
             painter->setFont(font);
-            QString subText = index.data(Qt::UserRole).toString();
+            QString subText = index.data(AbstractProjectItem::DataDuration).toString();
             //int usage = index.data(UsageRole).toInt();
             //if (usage != 0) subText.append(QString(" (%1)").arg(usage));
             //if (option.state & (QStyle::State_Selected)) painter->setPen(option.palette.color(QPalette::Mid));

@@ -76,6 +76,11 @@ ProjectClip::~ProjectClip()
     // controller is deleted in bincontroller
 }
 
+QString ProjectClip::getToolTip() const
+{
+    return url().toLocalFile();
+}
+
 QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &propertyName)
 {
     QString value;
@@ -362,7 +367,7 @@ const QString ProjectClip::getFileHash() const
 
 bool ProjectClip::hasProxy() const
 {
-    QString proxy = getProducerProperty("proxy");
+    QString proxy = getProducerProperty("kdenlive:proxy");
     if (proxy.isEmpty() || proxy == "-") return false;
     return true;
 }
@@ -378,8 +383,8 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
         setProducerProperty(i.key().toUtf8().data(), i.value().toUtf8().data());
         if (clipType() == SlideShow && keys.contains(i.key())) refreshProducer = true;
     }
-    if (properties.contains("proxy")) {
-        QString value = properties.value("proxy");
+    if (properties.contains("kdenlive:proxy")) {
+        QString value = properties.value("kdenlive:proxy");
         // If value is "-", that means user manually disabled proxy on this clip
         if (value.isEmpty() || value == "-") {
             // reset proxy
@@ -392,7 +397,7 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
         }
         else {
             // A proxy was requested, make sure to keep original url
-            setProducerProperty("kdenlive_originalUrl", url().toLocalFile().toUtf8().data());
+            setProducerProperty("kdenlive:originalurl", url().toLocalFile().toUtf8().data());
             bin()->startJob(m_id, AbstractClipJob::PROXYJOB);
         }
     }

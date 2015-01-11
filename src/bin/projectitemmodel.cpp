@@ -73,16 +73,11 @@ QVariant ProjectItemModel::data(const QModelIndex& index, int role) const
             icon = QIcon(pix);
         }
         return icon;
-    } 
-    if (role == Qt::UserRole) {
-        AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
-        return item->data(AbstractProjectItem::DataDuration);
     }
-    if (role == AbstractProjectItem::JobType || role == AbstractProjectItem::JobProgress || role ==  AbstractProjectItem::JobMessage || role ==  AbstractProjectItem::ItemTypeRole || role == AbstractProjectItem::ClipStatus) {
+    else {
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
         return item->data((AbstractProjectItem::DataType) role);
     }
-
     return QVariant();
 }
 

@@ -1877,7 +1877,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy)
     // Prepare updated properties
     QMap <QString, QString> newProps;
     QMap <QString, QString> oldProps;
-    if (!doProxy) newProps.insert("proxy", "-");
+    if (!doProxy) newProps.insert("kdenlive:proxy", "-");
 
     // Parse clips
     for (int i = 0; i < clipList.count(); ++i) {
@@ -1896,7 +1896,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy)
                 QString path = proxydir + item->hash() + '.' + (t == Image ? "png" : getDocumentProperty("proxyextension"));
                 // insert required duration for proxy
                 newProps.insert("proxy_out", item->getProducerProperty("out"));
-                newProps.insert("proxy", path);
+                newProps.insert("kdenlive:proxy", path);
             }
             else if (!pCore->binController()->hasClip(item->clipId())) {
                 // Force clip reload
@@ -1905,7 +1905,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy)
             // We need to insert empty proxy so that undo will work
             //TODO: how to handle clip properties
             //oldProps = clip->currentProperties(newProps);
-            if (doProxy) oldProps.insert("proxy", "-");
+            if (doProxy) oldProps.insert("kdenlive:proxy", "-");
             new EditClipCommand(this, item->clipId(), oldProps, newProps, true, command);
         }
     }

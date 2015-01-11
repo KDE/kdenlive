@@ -858,8 +858,8 @@ void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QSt
     if (!clip)
         return;
     clip->setProperties(properties);
-    if (properties.contains("proxy")) {
-        if (properties.value("proxy") == "-" || properties.value("proxy").isEmpty())
+    if (properties.contains("kdenlive:proxy")) {
+        if (properties.value("kdenlive:proxy") == "-" || properties.value("kdenlive:proxy").isEmpty())
             // this should only apply to proxy jobs
             clip->setConditionalJobStatus(NoJob, AbstractClipJob::PROXYJOB);
     }

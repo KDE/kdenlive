@@ -656,10 +656,10 @@ void Render::processFileProperties()
 
         QString path;
         bool proxyProducer;
-        QString proxy = ProjectClip::getXmlProperty(info.xml, "proxy");
+        QString proxy = ProjectClip::getXmlProperty(info.xml, "kdenlive:proxy");
         if (!proxy.isEmpty()) {
             if (proxy == "-") {
-                path = ProjectClip::getXmlProperty(info.xml, "kdenlive_originalUrl");
+                path = ProjectClip::getXmlProperty(info.xml, "kdenlive:originalurl");
                 proxyProducer = false;
             }
             else {

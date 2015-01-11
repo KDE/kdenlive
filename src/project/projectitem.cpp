@@ -258,7 +258,7 @@ void ProjectItem::setConditionalJobStatus(ClipJobStatus status, AbstractClipJob:
 bool ProjectItem::hasProxy() const
 {
     if (m_clip == NULL) return false;
-    if (m_clip->getProperty("proxy").size() < 2 || data(0, JobProgressRole).toInt() == JobCrashed) return false;
+    if (m_clip->getProperty("kdenlive:proxy").size() < 2 || data(0, JobProgressRole).toInt() == JobCrashed) return false;
     return true;
 }
 
@@ -300,7 +300,7 @@ bool ProjectItem::playlistHasProxies(const QString& path)
     QString root = doc.documentElement().attribute("root");
     QDomNodeList kdenliveProducers = doc.elementsByTagName("kdenlive_producer");
     for (int i = 0; i < kdenliveProducers.count(); ++i) {
-        QString proxy = kdenliveProducers.at(i).toElement().attribute("proxy");
+        QString proxy = kdenliveProducers.at(i).toElement().attribute("kdenlive:proxy");
         if (!proxy.isEmpty() && proxy != "-") return true;
     }
     return false;

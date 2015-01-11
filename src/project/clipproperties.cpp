@@ -252,8 +252,8 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
 
     ClipType t = m_clip->clipType();
     
-    if (props.contains("proxy") && props.value("proxy") != "-") {
-        KFileItem f(QUrl(props.value("proxy")));
+    if (props.contains("kdenlive:proxy") && props.value("kdenlive:proxy") != "-") {
+        KFileItem f(QUrl(props.value("kdenlive:proxy")));
         f.setDelayedMimeTypes(true);
         QFrame* line = new QFrame();
         line->setFrameShape(QFrame::HLine);
@@ -1226,7 +1226,7 @@ void ClipProperties::slotUpdateDurationFormat(int ix)
 
 void ClipProperties::slotDeleteProxy()
 {
-    const QString proxy = m_clip->getProperty("proxy");
+    const QString proxy = m_clip->getProperty("kdenlive:proxy");
     if (proxy.isEmpty())
         return;
     emit deleteProxy(proxy);

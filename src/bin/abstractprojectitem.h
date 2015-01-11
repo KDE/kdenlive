@@ -116,16 +116,17 @@ public:
     virtual QPoint zone() const;
 
     enum DataType {
-        DataName = 0,
-        DataDescription = 1,
-        DataDate = 2,
-        DataThumbnail = 3,
-        ItemTypeRole = 4,
-        DataDuration = 5,
-	JobType = Qt::UserRole + 1,
-	JobProgress = Qt::UserRole + 2,
-	JobMessage = Qt::UserRole + 3,
-        ClipStatus = Qt::UserRole + 4,
+        DataName = Qt::DisplayRole,
+        DataThumbnail = Qt::DecorationRole,
+        DataDescription = Qt::UserRole,
+        DataDate,
+        ItemTypeRole,
+        DataDuration,
+	JobType,
+	JobProgress,
+	JobMessage,
+        ClipStatus,
+        ClipToolTip = Qt::ToolTipRole
     };
     
     enum CLIPSTATUS {
@@ -165,6 +166,7 @@ public:
     virtual void setCurrent(bool current, bool notify = true);
 
     virtual QDomElement toXml(QDomDocument &document) = 0;
+    virtual QString getToolTip() const = 0;
     bool rename(const QString &name);
 
 signals:

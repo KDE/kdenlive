@@ -77,6 +77,7 @@ public:
 
     /** @brief Returns an xml description of the folder. */
     QDomElement toXml(QDomDocument &document);
+    virtual QString getToolTip() const;
 
 protected:
 

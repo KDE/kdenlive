@@ -107,6 +107,7 @@ Bin::Bin(QWidget* parent) :
     m_proxyModel = new ProjectSortProxyModel(this);
     m_proxyModel->setDynamicSortFilter(true);
     QLineEdit *searchLine = new QLineEdit(this);
+    searchLine->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
     searchLine->setClearButtonEnabled(true);
     connect(searchLine, SIGNAL(textChanged(const QString &)), m_proxyModel, SLOT(slotSetSearchString(const QString &)));
     m_toolbar->addWidget(searchLine);
@@ -129,10 +130,12 @@ Bin::Bin(QWidget* parent) :
     // Zoom slider
     m_slider = new QSlider(Qt::Horizontal, this);
     m_slider->setMaximumWidth(100);
+    m_slider->setMinimumWidth(40);
     m_slider->setRange(0, 10);
     m_slider->setValue(4);
     connect(m_slider, SIGNAL(valueChanged(int)), this, SLOT(slotSetIconSize(int)));
-    m_toolbar->addWidget(m_slider);
+    QWidgetAction * widgetslider = new QWidgetAction(this);
+    widgetslider->setDefaultWidget(m_slider);
 
     // View type
     KSelectAction *listType = new KSelectAction(QIcon::fromTheme("view-list-tree"), i18n("View Mode"), this);
@@ -148,7 +151,19 @@ Bin::Bin(QWidget* parent) :
     }
     listType->setToolBarMode(KSelectAction::MenuMode);
     connect(listType, SIGNAL(triggered(QAction*)), this, SLOT(slotInitView(QAction*)));
-    m_toolbar->addAction(listType);
+
+    // Settings menu
+    QMenu *settingsMenu = new QMenu(i18n("Settings"), this);
+    settingsMenu->addAction(listType);
+    QMenu *sliderMenu = new QMenu(i18n("Zoom"), this);
+    sliderMenu->setIcon(QIcon::fromTheme("file-zoom-in"));
+    sliderMenu->addAction(widgetslider);
+    settingsMenu->addMenu(sliderMenu);
+    QToolButton *button = new QToolButton;
+    button->setIcon(QIcon::fromTheme("configure"));
+    button->setMenu(settingsMenu);
+    button->setPopupMode(QToolButton::InstantPopup);
+    m_toolbar->addWidget(button);
 
     m_eventEater = new EventEater(this);
     connect(m_eventEater, SIGNAL(addClip()), this, SLOT(slotAddClip()));

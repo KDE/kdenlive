@@ -233,7 +233,7 @@ const QString ProxyJob::destination() const
 stringMap ProxyJob::cancelProperties()
 {
     QMap <QString, QString> props;
-    props.insert(QLatin1String("proxy"), QLatin1String("-"));
+    props.insert(QLatin1String("kdenlive:proxy"), QLatin1String("-"));
     return props;
 }
 
@@ -278,7 +278,7 @@ QMap <ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, QList <Pr
     for (int i = 0; i < clips.count(); i++) {
         ProjectClip *item = clips.at(i);
         QString id = item->clipId();
-        QString path = item->getProducerProperty("proxy");
+        QString path = item->getProducerProperty("kdenlive:proxy");
         if (path.isEmpty()) {
             item->setJobStatus(AbstractClipJob::PROXYJOB, JobCrashed, -1, i18n("Failed to create proxy, empty path."));
             continue;

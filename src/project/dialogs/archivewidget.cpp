@@ -138,7 +138,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
             else {
                 videoUrls.insert(id, clip->clipUrl().path());
                 // Check if we have a proxy
-                QString proxy = clip->property("proxy");
+                QString proxy = clip->property("kdenlive:proxy");
                 if (!proxy.isEmpty() && proxy != "-" && QFile::exists(proxy)) proxyUrls.insert(id, proxy);
             }
         }
@@ -722,10 +722,10 @@ bool ArchiveWidget::processProjectFile()
             QUrl dest = m_replacementList.value(src);
             if (!dest.isEmpty()) e.setAttribute("resource", dest.path());
         }
-        if (e.hasAttribute("proxy") && e.attribute("proxy") != "-") {
-            QUrl src(e.attribute("proxy"));
+        if (e.hasAttribute("kdenlive:proxy") && e.attribute("kdenlive:proxy") != "-") {
+            QUrl src(e.attribute("kdenlive:proxy"));
             QUrl dest = m_replacementList.value(src);
-            if (!dest.isEmpty()) e.setAttribute("proxy", dest.path());
+            if (!dest.isEmpty()) e.setAttribute("kdenlive:proxy", dest.path());
         }
     }
 

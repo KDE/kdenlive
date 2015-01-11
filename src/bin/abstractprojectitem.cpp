@@ -161,10 +161,10 @@ bool AbstractProjectItem::isFolder() const
 bool AbstractProjectItem::rename(const QString &name)
 {
     if (m_name == name) return false;
+    QMap <QString, QString> newProperites;
+    QMap <QString, QString> oldProperites;
     if (!isFolder()) {
         // Rename clip
-        QMap <QString, QString> newProperites;
-        QMap <QString, QString> oldProperites;
         oldProperites.insert("kdenlive:clipname", m_name);
         newProperites.insert("kdenlive:clipname", name);
         bin()->slotEditClipCommand(m_id, oldProperites, newProperites);
@@ -203,6 +203,9 @@ QVariant AbstractProjectItem::data(DataType type) const
             break;
         case ClipStatus:
             data = QVariant(m_clipStatus);
+            break;
+        case ClipToolTip:
+            data = QVariant(getToolTip());
             break;
         default:
             break;

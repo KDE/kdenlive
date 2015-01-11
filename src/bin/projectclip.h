@@ -138,6 +138,8 @@ public:
     /** @brief Get an XML property from MLT produced xml. */
     static QString getXmlProperty(const QDomElement &producer, const QString &propertyName);
     
+    virtual QString getToolTip() const;
+
     /** @brief The clip hash created from the clip's resource. */
     const QString hash();
     
