@@ -9,7 +9,7 @@ set(kdenlive_render_SRCS
 add_executable(kdenlive_render ${kdenlive_render_SRCS})
 
 include_directories(
-  ${QT_INCLUDES}
+  
 )
 
 #include(${QT_USE_FILE})

@@ -2,14 +2,13 @@ set(sampleplugin_SRCS sampleplugin.cpp)
 
 ki18n_wrap_ui(sampleplugin_UIS countdown_ui.ui)
 
-kde4_add_plugin(kdenlive_sampleplugin WITH_PREFIX
+add_library(kdenlive_sampleplugin MODULE WITH_PREFIX
   ${sampleplugin_SRCS}
   ${sampleplugin_UIS}
 )
 
 add_definitions(${KDE4_DEFINITIONS})
 
-include_directories(${KDE4_INCLUDES})
 
 include(${QT_USE_FILE})
 
@@ -19,9 +18,9 @@ add_definitions(-DQT_PLUGIN)
 add_definitions(-DQT_SHARED)
 
 target_link_libraries(kdenlive_sampleplugin
-  ${KDE4_KDECORE_LIBS}
-  ${KDE4_KDEUI_LIBS}
-  ${KDE4_KIO_LIBS}
+  KF5::KDELibs4Support
+  
+  KF5::KIOCore
   ${QT_LIBRARIES}
 )
 
