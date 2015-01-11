@@ -324,7 +324,6 @@ private slots:
     void slotSaveHeaders();
     void slotItemDropped(QStringList ids, const QModelIndex &parent);
     void slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent);
-    void slotEditClipCommand(const QString &id, QMap<QString, QString>oldProps, QMap<QString, QString>newProps);
     void slotItemEdited(QModelIndex,QModelIndex,QVector<int>);
     void slotAddUrl(QString url, QString,QString);
 
@@ -345,6 +344,7 @@ public slots:
     void slotCreateProjectClip();
     /** @brief Triggered by a clip job action, start the job */
     void slotStartClipJob(bool enable);
+    void slotEditClipCommand(const QString &id, QMap<QString, QString>oldProps, QMap<QString, QString>newProps);
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);

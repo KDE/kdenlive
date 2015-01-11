@@ -150,7 +150,6 @@ private:
     QString m_service;
     GenTime m_duration;
     QUrl m_url;
-    QString m_name;
     ClipType m_clipType;
     bool m_hasLimitedDuration;
     BinController *m_binController;

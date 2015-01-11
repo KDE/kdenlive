@@ -1073,10 +1073,10 @@ void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
 void Bin::slotItemEdited(QModelIndex ix,QModelIndex,QVector<int>)
 {
     // An item name was edited
-    //TODO: rename clips
     if (!ix.isValid()) return;
     AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(ix.internalPointer());
     if (currentItem && currentItem->isFolder()) {
+        //TODO: Use undo command for this
         AbstractProjectItem *parentFolder = currentItem->parent();
         emit storeFolder(parentFolder->clipId() + "." + currentItem->clipId(), currentItem->name());
     }

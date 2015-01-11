@@ -401,6 +401,10 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
         reloadProducer(true);
         refreshProducer = true;
     }
+    if (properties.contains("kdenlive:clipname")) {
+        m_name = properties.value("kdenlive:clipname");
+        bin()->emitItemUpdated(this);
+    }
     if (refreshPanel) {
         // Some of the clip properties have changed through a command, update properties panel
         emit refreshPropertiesPanel();

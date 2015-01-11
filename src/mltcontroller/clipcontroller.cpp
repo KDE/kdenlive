@@ -99,33 +99,24 @@ void ClipController::getInfoForProducer()
     m_duration = GenTime(m_masterProducer->get_playtime(), m_binController->fps());
     if (m_service == "avformat" || m_service == "avformat-novalidate") {
         m_clipType = AV;
-        m_name = m_url.fileName();
     }
     else if (m_service == "qimage" || m_service == "pixbuf") {
         m_clipType = Image;
-        m_name = m_url.fileName();
         m_hasLimitedDuration = false;
     }
     else if (m_service == "colour" || m_service == "color") {
         m_clipType = Color;
-        m_name = m_properties->get("kdenlive:clipname");
-        if (m_name.isEmpty()) m_name = i18n("Color");
         m_hasLimitedDuration = false;
     }
     else if (m_service == "kdenlivetitle") {
         m_clipType = Text;
-        //m_name = m_url.fileName();
-        m_name = m_properties->get("kdenlive:clipname");
-        if (m_name.isEmpty()) m_name = i18n("Title");
         m_hasLimitedDuration = false;
     }
     else if (m_service == "mlt") {
         m_clipType = Playlist;
-        m_name = m_url.fileName();
     }
     else if (m_service == "webvfx") {
         m_clipType = WebVfx;
-        m_name = m_url.fileName();
     }
     else m_clipType = Unknown;
 }
@@ -257,7 +248,9 @@ QUrl ClipController::clipUrl() const
 
 QString ClipController::clipName() const
 {
-    return m_name;
+    QString name = property("kdenlive:clipname");
+    if (!name.isEmpty()) return name;
+    return m_url.fileName();
 }
 
 QString ClipController::serviceName() const
