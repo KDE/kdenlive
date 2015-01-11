@@ -6,11 +6,13 @@
     <comment xml:lang="cs">Dokument video projektu Kdenlive</comment>
     <comment xml:lang="en_GB">Kdenlive video project document</comment>
     <comment xml:lang="nl">Video projectdocument van Kdenlive</comment>
+    <comment xml:lang="pl">Dokument projektowy filmu w Kdenlive</comment>
     <comment xml:lang="pt">Documento de projecto de vídeo do Kdenlive</comment>
     <comment xml:lang="pt_BR">Documento de projeto de vídeo do Kdenlive</comment>
     <comment xml:lang="sk">Dokument video projektu Kdenlive</comment>
     <comment xml:lang="sv">Kdenlive-videoprojektdokument</comment>
     <comment xml:lang="uk">документ відеопроекту Kdenlive</comment>
+    <comment xml:lang="zh_CN">Kdenlive 视频项目文档</comment>
     <sub-class-of type="video/mlt-playlist"/>
     <glob pattern="*.kdenlive"/>
   </mime-type>
@@ -20,11 +22,13 @@
     <comment xml:lang="cs">Název videa Kdenlive</comment>
     <comment xml:lang="en_GB">Kdenlive video title</comment>
     <comment xml:lang="nl">Titel van Kdenlive-video</comment>
+    <comment xml:lang="pl">Tytuł filmu w Kdenlive</comment>
     <comment xml:lang="pt">Título de vídeo do Kdenlive</comment>
     <comment xml:lang="pt_BR">Título de vídeo do Kdenlive</comment>
     <comment xml:lang="sk">Názov videa Kdenlive</comment>
     <comment xml:lang="sv">Kdenlive-video</comment>
     <comment xml:lang="uk">заголовок відео Kdenlive</comment>
+    <comment xml:lang="zh_CN">Kdenlive 视频标题</comment>
     <sub-class-of type="application/xml"/>
     <glob pattern="*.kdenlivetitle"/>
   </mime-type>
