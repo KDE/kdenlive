@@ -73,7 +73,7 @@ ProjectClip* ProjectFolder::clip(const QString &id)
 
 QString ProjectFolder::getToolTip() const
 {
-    return QString(i18n("%1 clips", size()));
+    return QString(i18np("%1 clip", "%1 clips", size()));
 }
 
 ProjectFolder* ProjectFolder::folder(const QString &id)
