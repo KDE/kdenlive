@@ -25,6 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "abstractprojectitem.h"
 
+#include <KMessageWidget>
+
 #include <QWidget>
 #include <QApplication>
 #include <QStyledItemDelegate>
@@ -52,6 +54,20 @@ class JobManager;
 
 namespace Mlt {
   class Producer;
+};
+
+class BinMessageWidget: public KMessageWidget
+{
+    Q_OBJECT
+public:
+    BinMessageWidget(QWidget *parent = 0);
+    BinMessageWidget(const QString &text, QWidget *parent = 0);
+
+protected:
+    bool event(QEvent* ev);
+
+signals:
+    void messageClosing();
 };
 
 
@@ -300,8 +316,7 @@ public:
     /** @brief The source file was modified, we will reload it soon, disable item in the meantime */
     void setWaitingStatus(const QString &id);
 
-    /** @brief Update status for clip jobs  */
-    void updateJobStatus(const QString&, int, int, const QString &label = QString(), const QString &actionName = QString(), const QString &details = QString());
+
     const QString getDocumentProperty(const QString &key);
 
     /** @brief A proxy clip was just created, pass it to the responsible item  */
@@ -338,10 +353,13 @@ public:
 private slots:
     void slotAddClip();
     void slotReloadClip();
+
     /** @brief Setup the bin view type (icon view, tree view, ...).
     * @param action The action whose data defines the view type or NULL to keep default view */
     void slotInitView(QAction *action);
 
+    /** @brief Update status for clip jobs  */
+    void slotUpdateJobStatus(const QString&, int, int, const QString &label = QString(), const QString &actionName = QString(), const QString &details = QString());
     void slotSetIconSize(int size);
     void rowsInserted(const QModelIndex &parent, int start, int end);
     void rowsRemoved(const QModelIndex &parent, int start, int end);
@@ -356,6 +374,7 @@ private slots:
     void slotItemEdited(QModelIndex,QModelIndex,QVector<int>);
     void slotAddUrl(QString url, QString,QString);
     void slotPrepareJobsMenu();
+    void slotShowJobLog();
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img);
@@ -419,6 +438,11 @@ private:
     QAction *m_cancelJobs;
     QAction *m_discardCurrentClipJobs;
     SmallJobLabel *m_infoLabel;
+    /** @brief The info widget for failed jobs. */
+    BinMessageWidget *m_infoMessage;
+    /** @brief The action that will trigger the log dialog. */
+    QAction *m_logAction;
+    QStringList m_errorLog;
     void showClipProperties(ProjectClip *clip);
     void selectModel(const QModelIndex &id);
     const QStringList getFolderInfo();

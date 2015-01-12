@@ -112,10 +112,9 @@ private:
     void createProxy(const QString &id);
 
 signals:
-    //TODO connect to some widget to display message
-    void displayMessage(const QString&, int progress, MessageType type = DefaultMessage);
     void addClip(const QString, const QString &, const QString &);
     void processLog(const QString&, int , int, const QString & = QString());
+    void updateJobStatus(const QString&, int, int, const QString &label = QString(), const QString &actionName = QString(), const QString &details = QString());
     void jobCount(int);
     void checkJobProcess();
 };

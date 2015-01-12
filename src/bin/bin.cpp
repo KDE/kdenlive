@@ -40,10 +40,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bincommands.h"
 #include "mlt++/Mlt.h"
 
-
 #include <KToolBar>
 #include <KColorScheme>
 
+#include <QDialogButtonBox>
 #include <QVBoxLayout>
 #include <QTimeLine>
 #include <QSlider>
@@ -52,6 +52,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUndoCommand>
 #include <KSplitterCollapserButton>
 
+
+BinMessageWidget::BinMessageWidget(QWidget *parent) : KMessageWidget(parent) {}
+BinMessageWidget::BinMessageWidget(const QString &text, QWidget *parent) : KMessageWidget(text, parent) {}
+
+
+bool BinMessageWidget::event(QEvent* ev) {
+    if (ev->type() == QEvent::Hide || ev->type() == QEvent::Close) emit messageClosing();
+    return KMessageWidget::event(ev);
+}
 
 SmallJobLabel::SmallJobLabel(QWidget *parent) : QPushButton(parent)
 {
@@ -292,11 +301,23 @@ Bin::Bin(QWidget* parent) :
     m_splitter->addWidget(m_propertiesPanel);
     m_collapser = new KSplitterCollapserButton(m_propertiesPanel, m_splitter);
     connect(m_collapser, SIGNAL(clicked(bool)), this, SLOT(slotRefreshClipProperties()));
+    
+    // Info widget for failed jobs, other errors
+    m_infoMessage = new BinMessageWidget;
+    layout->addWidget(m_infoMessage);
+    m_infoMessage->setCloseButtonVisible(true);
+    connect(m_infoMessage, SIGNAL(messageClosing()), this, SLOT(slotResetInfoMessage()));
+    //m_infoMessage->setWordWrap(true);
+    m_infoMessage->hide();
+    m_logAction = new QAction(i18n("Show Log"), this);
+    m_logAction->setCheckable(false);
+    connect(m_logAction, SIGNAL(triggered()), this, SLOT(slotShowJobLog()));
 }
 
 Bin::~Bin()
 {
     delete m_jobManager;
+    delete m_infoMessage;
 }
 
 void Bin::slotSaveHeaders()
@@ -470,6 +491,7 @@ void Bin::setDocument(KdenliveDoc* project)
     connect(m_jobManager, SIGNAL(jobCount(int)), m_infoLabel, SLOT(slotSetJobCount(int)));
     connect(m_discardCurrentClipJobs, SIGNAL(triggered()), m_jobManager, SLOT(slotDiscardClipJobs()));
     connect(m_cancelJobs, SIGNAL(triggered()), m_jobManager, SLOT(slotCancelJobs()));
+    connect(m_jobManager, SIGNAL(updateJobStatus(QString,int,int,QString,QString,QString)), this, SLOT(slotUpdateJobStatus(QString,int,int,QString,QString,QString)));
     //connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_itemView
     //connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
     slotInitView(NULL);
@@ -1104,12 +1126,58 @@ JobManager *Bin::jobManager()
     return m_jobManager;
 }
 
-void Bin::updateJobStatus(const QString&id, int jobType, int status, const QString &label, const QString &actionName, const QString &details)
+void Bin::slotUpdateJobStatus(const QString&id, int jobType, int status, const QString &label, const QString &actionName, const QString &details)
 {
     ProjectClip *clip = m_rootFolder->clip(id);
     if (clip) {
         clip->setJobStatus((AbstractClipJob::JOBTYPE) jobType, (ClipJobStatus) status);
     }
+    if (status == JobCrashed) {
+        QList<QAction *> actions = m_infoMessage->actions();
+        if (m_infoMessage->isHidden()) {
+            m_infoMessage->setText(label);
+            m_infoMessage->setWordWrap(m_infoMessage->text().length() > 35);
+            m_infoMessage->setMessageType(KMessageWidget::Warning);
+        }
+
+        if (!actionName.isEmpty()) {
+            QAction *action = NULL;
+            QList< KActionCollection * > collections = KActionCollection::allCollections();
+            for (int i = 0; i < collections.count(); ++i) {
+                KActionCollection *coll = collections.at(i);
+                action = coll->action(actionName);
+                if (action) break;
+            }
+            if (action && !actions.contains(action)) m_infoMessage->addAction(action);
+        }
+        if (!details.isEmpty()) {
+            m_errorLog.append(details);
+            if (!actions.contains(m_logAction)) m_infoMessage->addAction(m_logAction);
+        }
+        m_infoMessage->animatedShow();
+    }
+}
+
+void Bin::slotShowJobLog()
+{
+    QDialog d(this);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    QWidget *mainWidget = new QWidget(this);
+    QVBoxLayout *l = new QVBoxLayout;
+    QTextEdit t(&d);
+    for (int i = 0; i < m_errorLog.count(); ++i) {
+        if (i > 0) t.insertHtml("<br><hr /><br>");
+        t.insertPlainText(m_errorLog.at(i));
+    }
+    t.setReadOnly(true);
+    l->addWidget(&t);
+    mainWidget->setLayout(l);
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    d.setLayout(mainLayout);
+    mainLayout->addWidget(mainWidget);
+    mainLayout->addWidget(buttonBox);
+    d.connect(buttonBox, SIGNAL(rejected()), &d, SLOT(accept()));
+    d.exec();
 }
 
 void Bin::gotProxy(const QString &id)

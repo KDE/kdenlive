@@ -176,7 +176,7 @@ void JobManager::slotProcessJobs()
         if (!destination.isEmpty()) {
             QFile file(destination);
             if (!file.open(QIODevice::WriteOnly)) {
-                m_bin->updateJobStatus(job->clipId(), job->jobType, JobCrashed, i18n("Cannot write to path: %1", destination));
+                emit updateJobStatus(job->clipId(), job->jobType, JobCrashed, i18n("Cannot write to path: %1", destination));
                 job->setStatus(JobCrashed);
                 continue;
             }
@@ -195,7 +195,7 @@ void JobManager::slotProcessJobs()
         }
         job->startJob();
         if (job->status() == JobDone) {
-            m_bin->updateJobStatus(job->clipId(), job->jobType, JobDone);
+            emit updateJobStatus(job->clipId(), job->jobType, JobDone);
             //TODO: replace with more generic clip replacement framework
             if (job->jobType == AbstractClipJob::PROXYJOB) {
                 m_bin->gotProxy(job->clipId());
@@ -204,7 +204,7 @@ void JobManager::slotProcessJobs()
                 emit addClip(destination, QString(), QString());
             }
         } else if (job->status() == JobCrashed || job->status() == JobAborted) {
-            m_bin->updateJobStatus(job->clipId(), job->jobType, job->status(), job->errorMessage(), QString(), job->logDetails());
+            emit updateJobStatus(job->clipId(), job->jobType, job->status(), job->errorMessage(), QString(), job->logDetails());
         }
     }
     // Thread finished, cleanup & update count
