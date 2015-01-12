@@ -1158,6 +1158,16 @@ void Bin::slotUpdateJobStatus(const QString&id, int jobType, int status, const Q
     }
 }
 
+void Bin::displayMessage(const QString &text, KMessageWidget::MessageType type)
+{
+    if (m_infoMessage->isHidden()) {
+        m_infoMessage->setText(text);
+        m_infoMessage->setWordWrap(m_infoMessage->text().length() > 35);
+        m_infoMessage->setMessageType(type);
+        m_infoMessage->animatedShow();
+    }
+}
+
 void Bin::slotShowJobLog()
 {
     QDialog d(this);

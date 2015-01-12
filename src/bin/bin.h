@@ -349,6 +349,7 @@ public:
     void setupGeneratorMenu(const QHash<QString,QMenu*>& menus);
     void startClipJob(const QStringList &params);
     void droppedUrls(QList <QUrl> urls, const QMap<QString,QString> properties = QMap<QString,QString>());
+    void displayMessage(const QString &text, KMessageWidget::MessageType type);
 
 private slots:
     void slotAddClip();

@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDebug>
 #include <QtConcurrent>
 
-
+#include <KMessageWidget>
 #include <klocalizedstring.h>
 #include <KMessageBox>
 #include "ui_scenecutdialog_ui.h"
@@ -227,14 +227,18 @@ QList <ProjectClip *> JobManager::filterClips(QList <ProjectClip *>clips, Abstra
 void JobManager::prepareJobs(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList params)
 {
     //TODO filter clips
-    //QMap <QString, QString> matching = filterClips(clips, jobType, params);
+    QList <ProjectClip *> matching = filterClips(clips, jobType, params);
+    if (matching.isEmpty()) {
+        m_bin->displayMessage(i18n("No valid clip to process"), KMessageWidget::Information);
+        return;
+    }
     QMap <ProjectClip *, AbstractClipJob *> jobs;
     if (jobType == AbstractClipJob::TRANSCODEJOB) {
-        jobs = CutClipJob::prepareJob(m_fps, clips, params);
+        jobs = CutClipJob::prepareJob(m_fps, matching, params);
     } else if (jobType == AbstractClipJob::FILTERCLIPJOB) {
-        jobs = FilterJob::prepareJob(clips, params);
+        jobs = FilterJob::prepareJob(matching, params);
     } else if (jobType == AbstractClipJob::PROXYJOB) {
-        jobs = ProxyJob::prepareJob(m_bin, clips);
+        jobs = ProxyJob::prepareJob(m_bin, matching);
     }
     if (!jobs.isEmpty()) {
         QMapIterator<ProjectClip *, AbstractClipJob *> i(jobs);
