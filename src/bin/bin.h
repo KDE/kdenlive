@@ -111,7 +111,16 @@ public:
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
     {
         QSize hint = QStyledItemDelegate::sizeHint(option, index);
-        return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, hint.height()));
+        int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
+        if (type == AbstractProjectItem::FolderItem) {
+            return QSize(hint.width(), qMin(option.fontMetrics.lineSpacing() + 4, hint.height()));
+        }
+        if (type == AbstractProjectItem::ClipItem) {
+            return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, hint.height()));
+        }
+        if (type == AbstractProjectItem::SubClipItem) {
+            return QSize(hint.width(), qMin((int) (option.fontMetrics.lineSpacing() * 1.5) + 4, hint.height()));
+        }
 
         QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
         QString line1 = index.data(Qt::DisplayRole).toString();
@@ -130,17 +139,17 @@ public:
             painter->setClipRect(r1);
             QStyleOptionViewItemV4 opt(option);
             initStyleOption(&opt, index);
-
+            int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
             QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
             const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-            QRect r = QStyle::alignedRect(opt.direction, Qt::AlignVCenter | Qt::AlignLeft,
-                                          opt.decorationSize, r1);
+            //QRect r = QStyle::alignedRect(opt.direction, Qt::AlignVCenter | Qt::AlignLeft, opt.decorationSize, r1);
 
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
             if (option.state & QStyle::State_Selected) {
                 painter->setPen(option.palette.highlightedText().color());
             }
-
+            QRect r = r1;
+            r.setWidth(opt.decorationSize.width());
             // Draw thumbnail
             opt.icon.paint(painter, r);
             
@@ -157,60 +166,66 @@ public:
             QFont font = painter->font();
             font.setBold(true);
             painter->setFont(font);
-            int mid = (int)((r1.height() / 2));
-            r1.adjust(decoWidth, 0, 0, -mid);
-            QRect r2 = option.rect;
-            r2.adjust(decoWidth, mid, 0, 0);
-            QRectF bounding;
-            painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(AbstractProjectItem::DataName).toString(), &bounding);
-            font.setBold(false);
-            painter->setFont(font);
-            QString subText = index.data(AbstractProjectItem::DataDuration).toString();
-            //int usage = index.data(UsageRole).toInt();
-            //if (usage != 0) subText.append(QString(" (%1)").arg(usage));
-            //if (option.state & (QStyle::State_Selected)) painter->setPen(option.palette.color(QPalette::Mid));
-            r2.adjust(0, bounding.bottom() - r2.top(), 0, 0);
-            QColor subTextColor = painter->pen().color();
-            subTextColor.setAlphaF(.5);
-            painter->setPen(subTextColor);
-            painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop , subText, &bounding);
+            if (type == AbstractProjectItem::ClipItem) {
+                int mid = (int)((r1.height() / 2));
+                r1.adjust(decoWidth, 0, 0, -mid);
+                QRect r2 = option.rect;
+                r2.adjust(decoWidth, mid, 0, 0);
+                QRectF bounding;
+                painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(AbstractProjectItem::DataName).toString(), &bounding);
+                font.setBold(false);
+                painter->setFont(font);
+                QString subText = index.data(AbstractProjectItem::DataDuration).toString();
+                //int usage = index.data(UsageRole).toInt();
+                //if (usage != 0) subText.append(QString(" (%1)").arg(usage));
+                //if (option.state & (QStyle::State_Selected)) painter->setPen(option.palette.color(QPalette::Mid));
+                r2.adjust(0, bounding.bottom() - r2.top(), 0, 0);
+                QColor subTextColor = painter->pen().color();
+                subTextColor.setAlphaF(.5);
+                painter->setPen(subTextColor);
+                painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop , subText, &bounding);
 
-            int jobProgress = index.data(AbstractProjectItem::JobProgress).toInt();
-            if (jobProgress != 0 && jobProgress != JobDone && jobProgress != JobAborted) {
-                if (jobProgress != JobCrashed) {
-                    // Draw job progress bar
-                    QColor color = option.palette.alternateBase().color();
-                    painter->setPen(Qt::NoPen);
-                    color.setAlpha(180);
-                    painter->setBrush(QBrush(color));
-                    QRect progress(r1.x() + 1, opt.rect.bottom() - 12, r1.width() / 2, 8);
-                    painter->drawRect(progress);
-                    painter->setBrush(option.palette.text());
-                    if (jobProgress > 0) {
-                        progress.adjust(1, 1, 0, -1);
-                        progress.setWidth((progress.width() - 4) * jobProgress / 100);
-                        painter->drawRect(progress);
-                    } else if (jobProgress == JobWaiting) {
-                        // Draw kind of a pause icon
-                        progress.adjust(1, 1, 0, -1);
-                        progress.setWidth(2);
-                        painter->drawRect(progress);
-                        progress.moveLeft(progress.right() + 2);
-                        painter->drawRect(progress);
-                    }
-                } else if (jobProgress == JobCrashed) {
-                    QString jobText = index.data(AbstractProjectItem::JobMessage).toString();
-                    if (!jobText.isEmpty()) {
-                        QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + jobText + " ");
+                int jobProgress = index.data(AbstractProjectItem::JobProgress).toInt();
+                if (jobProgress != 0 && jobProgress != JobDone && jobProgress != JobAborted) {
+                    if (jobProgress != JobCrashed) {
+                        // Draw job progress bar
+                        QColor color = option.palette.alternateBase().color();
                         painter->setPen(Qt::NoPen);
-                        painter->setBrush(option.palette.highlight());
-                        painter->drawRoundedRect(txtBounding, 2, 2);
-                        painter->setPen(option.palette.highlightedText().color());
-                        painter->drawText(txtBounding, Qt::AlignCenter, jobText);
+                        color.setAlpha(180);
+                        painter->setBrush(QBrush(color));
+                        QRect progress(r1.x() + 1, opt.rect.bottom() - 12, r1.width() / 2, 8);
+                        painter->drawRect(progress);
+                        painter->setBrush(option.palette.text());
+                        if (jobProgress > 0) {
+                            progress.adjust(1, 1, 0, -1);
+                            progress.setWidth((progress.width() - 4) * jobProgress / 100);
+                            painter->drawRect(progress);
+                        } else if (jobProgress == JobWaiting) {
+                            // Draw kind of a pause icon
+                            progress.adjust(1, 1, 0, -1);
+                            progress.setWidth(2);
+                            painter->drawRect(progress);
+                            progress.moveLeft(progress.right() + 2);
+                            painter->drawRect(progress);
+                        }
+                    } else if (jobProgress == JobCrashed) {
+                        QString jobText = index.data(AbstractProjectItem::JobMessage).toString();
+                        if (!jobText.isEmpty()) {
+                            QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + jobText + " ");
+                            painter->setPen(Qt::NoPen);
+                            painter->setBrush(option.palette.highlight());
+                            painter->drawRoundedRect(txtBounding, 2, 2);
+                            painter->setPen(option.palette.highlightedText().color());
+                            painter->drawText(txtBounding, Qt::AlignCenter, jobText);
+                        }
                     }
                 }
             }
-            
+            else {
+                r1.adjust(decoWidth, 0, 0, 0);
+                QRectF bounding;
+                painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(AbstractProjectItem::DataName).toString(), &bounding);
+            }
             painter->restore();
         } else {
             QStyledItemDelegate::paint(painter, option, index);
@@ -281,6 +296,7 @@ public:
 
     /** @brief Open a producer in the clip monitor */
     void openProducer(ClipController *controller);
+    void openProducer(ClipController *controller, int in, int out);
 
     /** @brief Trigger deletion of an item */
     void deleteClip(const QString &id);
@@ -350,6 +366,9 @@ public:
     void startClipJob(const QStringList &params);
     void droppedUrls(QList <QUrl> urls, const QMap<QString,QString> properties = QMap<QString,QString>());
     void displayMessage(const QString &text, KMessageWidget::MessageType type);
+    
+    void addClipCut(const QString&id, int in, int out);
+    void removeClipCut(const QString&id, int in, int out);
 
 private slots:
     void slotAddClip();
@@ -376,6 +395,8 @@ private slots:
     void slotAddUrl(QString url, QString,QString);
     void slotPrepareJobsMenu();
     void slotShowJobLog();
+    /** @brief Add a sub clip */
+    void slotAddClipCut(const QString&id, int in, int out);
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img);

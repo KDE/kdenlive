@@ -439,7 +439,7 @@ signals:
 
     /** @brief An error occurred within this renderer. */
     void error(const QString &, const QString &);
-    void durationChanged(int);
+    void durationChanged(int, int offset = 0);
     void rendererPosition(int);
     void rendererStopped(int);
     /** @brief The clip is not valid, should be removed from project. */

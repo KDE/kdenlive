@@ -4,6 +4,7 @@ set(kdenlive_SRCS
   bin/projectitemmodel.cpp
   bin/abstractprojectitem.cpp
   bin/projectclip.cpp
+  bin/projectsubclip.cpp
   bin/projectfolder.cpp
   bin/projectsortproxymodel.cpp
   bin/bincommands.cpp

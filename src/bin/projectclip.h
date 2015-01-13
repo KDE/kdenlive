@@ -34,6 +34,7 @@ class ProjectFolder;
 class QDomElement;
 class ClipController;
 class ClipPropertiesController;
+class ProjectSubClip;
 
 namespace Mlt {
   class Producer;
@@ -73,6 +74,8 @@ public:
     ProjectClip *clip(const QString &id);
     
     ProjectFolder* folder(const QString &id);
+    
+    ProjectSubClip* getSubClip(int in, int out);
 
     /** @brief Returns this if @param ix matches the clip's index or NULL otherwise. */
     ProjectClip* clipAt(int ix);
@@ -131,6 +134,8 @@ public:
     
     /** @brief Returns this clip's producer. */
     Mlt::Producer *producer();
+    
+    ClipController *controller();
 
     /** @brief Set properties on this clip. TODO: should we store all in MLT or use extra m_properties ?. */
     void setProperties(QMap <QString, QString> properties, bool refreshPanel = false);

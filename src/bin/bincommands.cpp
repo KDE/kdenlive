@@ -72,3 +72,35 @@ void MoveBinClipCommand::redo()
     m_bin->doMoveClip(m_clipId, m_newParentId);
 }
 
+
+AddBinClipCutCommand::AddBinClipCutCommand(Bin *bin, const QString &clipId, int in, int out, bool add, QUndoCommand *parent) :
+    QUndoCommand(parent)
+    , m_bin(bin)
+    , m_clipId(clipId)
+    , m_in(in)
+    , m_out(out)
+    , m_addCut(add)
+{
+    setText(i18n("Add Sub Clip"));
+}
+
+// virtual
+void AddBinClipCutCommand::undo()
+{
+    if (m_addCut) {
+        m_bin->removeClipCut(m_clipId, m_in, m_out);
+    }
+    else {
+        m_bin->addClipCut(m_clipId, m_in, m_out);
+    }
+}
+// virtual
+void AddBinClipCutCommand::redo()
+{
+    if (m_addCut) {
+        m_bin->addClipCut(m_clipId, m_in, m_out);
+    }
+    else {
+        m_bin->removeClipCut(m_clipId, m_in, m_out);
+    }
+}

@@ -176,6 +176,7 @@ public slots:
     //void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
     void updateClipProducer(Mlt::Producer *prod);
     void openClip(ClipController *controller);
+    void openClipZone(ClipController *controller, int in, int out);
     void refreshMonitor(bool visible);
     void refreshMonitor();
     void slotSeek(int pos);
@@ -200,7 +201,7 @@ public slots:
     void slotZoneMoved(int start, int end);
     void slotSeekToNextSnap();
     void slotSeekToPreviousSnap();
-    void adjustRulerSize(int length);
+    void adjustRulerSize(int length, int offset = 0);
     void setTimePos(const QString &pos);
     QStringList getZoneInfo() const;
     /** @brief Display the on monitor effect scene (to adjust geometry over monitor). */

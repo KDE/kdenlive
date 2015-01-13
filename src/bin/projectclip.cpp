@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "projectclip.h"
 #include "projectfolder.h"
+#include "projectsubclip.h"
 #include "bin.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/clippropertiescontroller.h"
@@ -42,6 +43,9 @@ ProjectClip::ProjectClip(const QString &id, ClipController *controller, ProjectF
     , m_audioThumbCreated(false)
 {
     m_clipStatus = StatusReady;
+    QPixmap pix(64, 36);
+    pix.fill(Qt::lightGray);
+    m_thumbnail = QIcon(pix);
     m_name = m_controller->clipName();
     m_duration = m_controller->getStringDuration();
     getFileHash();
@@ -56,6 +60,9 @@ ProjectClip::ProjectClip(const QDomElement& description, ProjectFolder* parent) 
 {
     Q_ASSERT(description.hasAttribute("id"));
     m_clipStatus = StatusWaiting;
+    QPixmap pix(64, 36);
+    pix.fill(Qt::lightGray);
+    m_thumbnail = QIcon(pix);
     QString resource = getXmlProperty(description, "resource");
     QString clipName = getXmlProperty(description, "kdenlive:clipname");
     if (!clipName.isEmpty()) {
@@ -129,6 +136,18 @@ ProjectClip* ProjectClip::clip(const QString &id)
 
 ProjectFolder* ProjectClip::folder(const QString &id)
 {
+    return NULL;
+}
+
+ProjectSubClip* ProjectClip::getSubClip(int in, int out)
+{
+    ProjectSubClip *clip;
+    for (int i = 0; i < count(); ++i) {
+        clip = static_cast<ProjectSubClip *>(at(i))->subClip(in, out);
+        if (clip) {
+            return clip;
+        }
+    }
     return NULL;
 }
 
@@ -249,6 +268,11 @@ Mlt::Producer *ProjectClip::producer()
 {
     if (!m_controller) return NULL;
     return m_controller->masterProducer();
+}
+
+ClipController *ProjectClip::controller()
+{
+    return m_controller;
 }
 
 bool ProjectClip::isReady() const

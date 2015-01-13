@@ -178,7 +178,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     layout->addWidget(m_ruler);
     
     connect(m_audioSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSetVolume(int)));
-    connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
+    connect(render, SIGNAL(durationChanged(int,int)), this, SLOT(adjustRulerSize(int,int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
 
@@ -781,10 +781,11 @@ void Monitor::rendererStopped(int pos)
     m_playAction->setActive(false);
 }
 
-void Monitor::adjustRulerSize(int length)
+void Monitor::adjustRulerSize(int length, int offset)
 {
     if (length > 0) m_length = length;
-    m_ruler->adjustScale(m_length);
+    m_ruler->adjustScale(m_length, offset);
+    m_timePos->setRange(offset, offset + length);
     if (m_controller != NULL) {
         QPoint zone = m_controller->zone();
         m_ruler->setZone(zone.x(), zone.y());
@@ -887,6 +888,18 @@ void Monitor::openClip(ClipController *controller)
     m_controller = controller;
     if (controller) {
         render->setProducer(m_controller->masterProducer(), -1);
+    }
+    else {
+        render->setProducer(NULL, -1);
+    }
+}
+
+void Monitor::openClipZone(ClipController *controller, int in, int out)
+{
+    if (render == NULL) return;
+    m_controller = controller;
+    if (controller) {
+        render->setProducer(m_controller->zoneProducer(in, out), -1);
     }
     else {
         render->setProducer(NULL, -1);

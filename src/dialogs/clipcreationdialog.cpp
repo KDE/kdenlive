@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kdenlivesettings.h"
 #include "doc/kdenlivedoc.h"
 #include "bin/bin.h"
+#include "bin/bincommands.h"
 #include "ui_colorclip_ui.h"
 #include "timecodedisplay.h"
 #include "doc/doccommands.h"
@@ -390,3 +391,6 @@ void ClipCreationDialogDialog::createClipsCommand(KdenliveDoc *doc, QStringList 
         ClipCreationDialogDialog::createClipsCommand(doc, list, groupInfo, bin);
     }
 }
+
+
+

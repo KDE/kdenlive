@@ -54,6 +54,19 @@ private:
     QString m_newParentId;
 };
 
+class AddBinClipCutCommand : public QUndoCommand
+{
+public:
+    explicit AddBinClipCutCommand(Bin *bin, const QString &clipId, int in, int out, bool add, QUndoCommand *parent = 0);
+    void undo();
+    void redo();
+private:
+    Bin *m_bin;
+    QString m_clipId;
+    int m_in;
+    int m_out;
+    bool m_addCut;
+};
 
 #endif
 

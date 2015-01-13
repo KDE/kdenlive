@@ -53,7 +53,8 @@ public:
 
     enum PROJECTITEMTYPE {
         FolderItem = 0,
-        ClipItem = 1
+        ClipItem = 1,
+        SubClipItem = 2
     };
 
     /**

@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectitemmodel.h"
 #include "abstractprojectitem.h"
 #include "projectclip.h"
+#include "projectsubclip.h"
 #include "projectfolder.h"
 #include "bin.h"
 
@@ -67,11 +68,6 @@ QVariant ProjectItemModel::data(const QModelIndex& index, int role) const
         // Data has to be returned as icon to allow the view to scale it
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
         QIcon icon = item->data(AbstractProjectItem::DataThumbnail).value<QIcon>();
-        if (icon.isNull()) {
-            QPixmap pix(m_iconSize);
-            pix.fill(Qt::lightGray);
-            icon = QIcon(pix);
-        }
         return icon;
     }
     else {
@@ -117,6 +113,11 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
         QStringList ids = QString(data->data("kdenlive/producerslist")).split(';');
         emit itemDropped(ids, parent);
         return true;
+    }
+    
+    if (data->hasFormat("kdenlive/clip")) {
+        QStringList list = QString(data->data("kdenlive/clip")).split(';');
+        emit addClipCut(list.at(0), list.at(1).toInt(), list.at(2).toInt());
     }
 
     return false;
@@ -213,7 +214,7 @@ Qt::DropActions ProjectItemModel::supportedDropActions() const
 QStringList ProjectItemModel::mimeTypes() const
 {
     QStringList types;
-    types << QLatin1String("kdenlive/producerslist") << QLatin1String("text/uri-list");
+    types << QLatin1String("kdenlive/producerslist") << QLatin1String("text/uri-list") << QLatin1String("kdenlive/clip");
     return types;
 }
 
@@ -230,6 +231,19 @@ QMimeData* ProjectItemModel::mimeData(const QModelIndexList& indices) const
             data.append(list.join(QLatin1String(";")).toUtf8());
             mimeData->setData(QLatin1String("kdenlive/producerslist"),  data);
             return mimeData;
+        } else {
+            ProjectSubClip *sub = qobject_cast<ProjectSubClip*>(item);
+            if (sub) {
+                QStringList list;
+                list << sub->clipId();
+                QPoint p = sub->zone();
+                list.append(QString::number(p.x()));
+                list.append(QString::number(p.y()));
+                QByteArray data;
+                data.append(list.join(QLatin1String(";")).toUtf8());
+                mimeData->setData(QLatin1String("kdenlive/clip"),  data);
+                return mimeData;
+            }
         }
     }
 }

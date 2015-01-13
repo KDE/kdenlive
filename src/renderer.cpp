@@ -363,7 +363,8 @@ void Render::seek(const GenTime &time)
 void Render::seek(int time)
 {
     resetZoneMode();
-    time = qMax(0, time);
+    //TODO can we get rid of this check ?
+    time = qMax(0, time - m_mltProducer->get_in());
     time = qMin(m_mltProducer->get_playtime(), time);
     if (requestedSeekPosition == SEEK_INACTIVE) {
         requestedSeekPosition = time;
@@ -1220,7 +1221,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     if (monitorIsActive) {
         startConsumer();
     }
-    emit durationChanged(m_mltProducer->get_playtime());
+    emit durationChanged(m_mltProducer->get_playtime(), m_mltProducer->get_in());
     position = m_mltProducer->position();
     emit rendererPosition(position);
     return 0;
@@ -1716,9 +1717,12 @@ void Render::seekToFrameDiff(int diff)
     if (!m_mltProducer || !m_isActive)
         return;
     resetZoneMode();
-    if (requestedSeekPosition == SEEK_INACTIVE)
-        seek(m_mltProducer->position() + diff);
-    else seek(requestedSeekPosition + diff);
+    if (requestedSeekPosition == SEEK_INACTIVE) {
+        seek(m_mltConsumer->position() + diff);
+    }
+    else {
+        seek(requestedSeekPosition + diff);
+    }
 }
 
 void Render::refreshIfActive()
@@ -1837,7 +1841,7 @@ void Render::emitConsumerStopped(bool forcePause)
 {
     // This is used to know when the playing stopped
     if (m_mltProducer && (forcePause || (!m_paused && m_mltProducer->get_speed() == 0))) {
-        double pos = m_mltProducer->position();
+        double pos = m_mltConsumer->position();
         m_paused = true;
         if (m_isLoopMode) play(m_loopStart);
         //else if (m_isZoneMode) resetZoneMode();

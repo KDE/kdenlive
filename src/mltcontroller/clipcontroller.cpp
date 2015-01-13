@@ -136,6 +136,11 @@ Mlt::Producer *ClipController::masterProducer()
     return new Mlt::Producer(*m_masterProducer);
 }
 
+Mlt::Producer *ClipController::zoneProducer(int in, int out)
+{
+    return m_masterProducer->cut(in, out);
+}
+
 bool ClipController::isValid()
 {
     if (m_masterProducer == NULL) return false;
