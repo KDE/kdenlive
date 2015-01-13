@@ -102,8 +102,8 @@ public:
     /** @brief Returns the index this item has in its parent's child list. */
     int index() const;
     
-    /** @brief Returns true if current item is a folder. */
-    bool isFolder() const;
+    /** @brief Returns the type of this item (folder, clip, subclip, etc). */
+    PROJECTITEMTYPE itemType() const;
 
     /** @brief Used to search for a clip with a specific id. */
     virtual ProjectClip *clip(const QString &id) = 0;

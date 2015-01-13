@@ -153,9 +153,9 @@ int AbstractProjectItem::index() const
     return 0;
 }
 
-bool AbstractProjectItem::isFolder() const
+AbstractProjectItem::PROJECTITEMTYPE AbstractProjectItem::itemType() const
 {
-    return m_itemType == FolderItem;
+    return m_itemType;
 }
 
 bool AbstractProjectItem::rename(const QString &name)
@@ -163,7 +163,7 @@ bool AbstractProjectItem::rename(const QString &name)
     if (m_name == name) return false;
     QMap <QString, QString> newProperites;
     QMap <QString, QString> oldProperites;
-    if (!isFolder()) {
+    if (m_itemType == ClipItem) {
         // Rename clip
         oldProperites.insert("kdenlive:clipname", m_name);
         newProperites.insert("kdenlive:clipname", name);

@@ -347,7 +347,7 @@ const QStringList Bin::getFolderInfo()
     QModelIndex ix = indexes.first();
     if (ix.isValid() && m_proxyModel->selectionModel()->isSelected(ix)) {
         AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
-        while (!currentItem->isFolder()) {
+        while (currentItem->itemType() != AbstractProjectItem::FolderItem) {
             currentItem = currentItem->parent();
         }
         if (currentItem == m_rootFolder) {
@@ -403,22 +403,23 @@ void Bin::slotDeleteClip()
     QStringList subClipIds;
     QStringList foldersIds;
     foreach (const QModelIndex &ix, indexes) {
+        if (!ix.isValid()) continue;
         AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
-        ProjectClip *clip = qobject_cast<ProjectClip*>(item);
-        if (clip) {
-            clipIds << clip->clipId();
-        } else {
-            ProjectFolder *folder = qobject_cast<ProjectFolder*>(item);
-            if (folder) {
-                foldersIds << folder->clipId();
-            }
-            else {
+        if (!item) continue;
+        AbstractProjectItem::PROJECTITEMTYPE type = item->itemType();
+        switch (type) {
+            case AbstractProjectItem::ClipItem:
+                clipIds << item->clipId();
+                break;
+            case AbstractProjectItem::FolderItem:
+                foldersIds << item->clipId();
+                break;
+            case AbstractProjectItem::SubClipItem:
                 //TODO
-                ProjectSubClip *sub = qobject_cast<ProjectSubClip*>(item);
-                if (sub) {
-                    subClipIds << sub->clipId();
-                }
-            }
+                subClipIds << item->clipId();
+                break;
+            default:
+                break;
         }
     }
     // For some reason, we get duplicates, which is not expected
@@ -540,11 +541,11 @@ void Bin::slotAddFolder()
     ProjectFolder *parentFolder  = m_rootFolder;
     if (ix.isValid() && m_proxyModel->selectionModel()->isSelected(ix)) {
         AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
-        while (!currentItem->isFolder()) {
+        while (currentItem->itemType() != AbstractProjectItem::FolderItem) {
             currentItem = currentItem->parent();
         }
-        if (currentItem->isFolder()) {
-            parentFolder = static_cast<ProjectFolder *>(currentItem);
+        if (currentItem->itemType() == AbstractProjectItem::FolderItem) {
+            parentFolder = qobject_cast<ProjectFolder *>(currentItem);
         }
     }
     QString newId = QString::number(getFreeFolderId());
@@ -564,11 +565,12 @@ QModelIndex Bin::getIndexForId(const QString &id, bool folderWanted) const
     QModelIndexList items = m_itemModel->match(m_itemModel->index(0, 0), AbstractProjectItem::DataId, QVariant::fromValue(id), 2, Qt::MatchRecursive);
     for (int i = 0; i < items.count(); i++) {
         AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(items.at(i).internalPointer());
-        if (folderWanted && currentItem->isFolder()) {
+        AbstractProjectItem::PROJECTITEMTYPE type = currentItem->itemType();
+        if (folderWanted && type == AbstractProjectItem::FolderItem) {
             // We found our folder
             return items.at(i);
         }
-        else if (!folderWanted && qobject_cast< ProjectClip* >(currentItem)) {
+        else if (!folderWanted && type == AbstractProjectItem::ClipItem) {
             // We found our clip
             return items.at(i);
         }
@@ -696,7 +698,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
 	if (currentItem) {
             // Set item as current so that it displays its content in clip monitor
             currentItem->setCurrent(true);
-            if (!currentItem->isFolder()) {
+            if (currentItem->itemType() != AbstractProjectItem::FolderItem) {
                 m_editAction->setEnabled(true);
                 m_reloadAction->setEnabled(true);
                 if (m_propertiesPanel->width() > 0) {
@@ -878,9 +880,9 @@ void Bin::slotRefreshClipProperties()
     QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     foreach (const QModelIndex &ix, indexes) {
         if (ix.isValid()) {
-            ProjectClip *clip = static_cast<ProjectClip *>(m_proxyModel->mapToSource(ix).internalPointer());
-            if (clip && !clip->isFolder()) {
-                showClipProperties(clip);
+            AbstractProjectItem *clip = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
+            if (clip && clip->itemType() == AbstractProjectItem::ClipItem) {
+                showClipProperties(qobject_cast<ProjectClip *>(clip));
                 break;
             }
         }
@@ -1289,7 +1291,7 @@ void Bin::slotItemDropped(QStringList ids, const QModelIndex &parent)
     AbstractProjectItem *parentItem;
     if (parent.isValid()) {
         parentItem = static_cast<AbstractProjectItem *>(parent.internalPointer());
-        while (!parentItem->isFolder()) {
+        while (parentItem->itemType() != AbstractProjectItem::FolderItem) {
             parentItem = parentItem->parent();
         }
     }
@@ -1331,7 +1333,7 @@ void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
     if (parent.isValid()) {
         // Check if drop occured on a folder
         AbstractProjectItem *parentItem = static_cast<AbstractProjectItem *>(parent.internalPointer());
-        while (!parentItem->isFolder()) {
+        while (parentItem->itemType() != AbstractProjectItem::FolderItem) {
             parentItem = parentItem->parent();
         }
         if (parentItem != m_rootFolder) {
@@ -1348,7 +1350,7 @@ void Bin::slotItemEdited(QModelIndex ix,QModelIndex,QVector<int>)
     // An item name was edited
     if (!ix.isValid()) return;
     AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(ix.internalPointer());
-    if (currentItem && currentItem->isFolder()) {
+    if (currentItem && currentItem->itemType() == AbstractProjectItem::FolderItem) {
         //TODO: Use undo command for this
         AbstractProjectItem *parentFolder = currentItem->parent();
         emit storeFolder(parentFolder->clipId() + "." + currentItem->clipId(), currentItem->name());
@@ -1421,7 +1423,13 @@ void Bin::addClipCut(const QString&id, int in, int out)
 {
     ProjectClip *clip = getBinClip(id);
     if (!clip) return;
-    ProjectSubClip *sub = new ProjectSubClip(clip, in, out);
+    // Check that we don't already have that subclip
+    ProjectSubClip *sub = clip->getSubClip(in, out);
+    if (sub) {
+        // A subblip with same zone already exists
+        return;
+    }
+    sub = new ProjectSubClip(clip, in, out);
 }
 
 void Bin::removeClipCut(const QString&id, int in, int out)

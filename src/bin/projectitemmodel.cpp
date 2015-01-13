@@ -94,8 +94,20 @@ Qt::ItemFlags ProjectItemModel::flags(const QModelIndex& index) const
         return Qt::ItemIsDropEnabled;
     }
     AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
-    if (item->isFolder()) return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable;
-    return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEditable;
+    AbstractProjectItem::PROJECTITEMTYPE type = item->itemType();
+    switch (type) {
+      case AbstractProjectItem::FolderItem:
+          return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable;
+          break;
+      case AbstractProjectItem::ClipItem:
+          return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEditable;
+          break;
+      case AbstractProjectItem::SubClipItem:
+          return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled;
+          break;
+      default:
+          return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
+    }
 }
 
 bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
@@ -223,27 +235,24 @@ QMimeData* ProjectItemModel::mimeData(const QModelIndexList& indices) const
     QMimeData *mimeData = new QMimeData();
     if (indices.count() >= 1 && indices.at(0).isValid()) {
         AbstractProjectItem *item = static_cast<AbstractProjectItem*>(indices.at(0).internalPointer());
-        ProjectClip *clip = qobject_cast<ProjectClip*>(item);
-        if (clip) {
+        AbstractProjectItem::PROJECTITEMTYPE type = item->itemType();
+        if (type == AbstractProjectItem::ClipItem) {
             QStringList list;
-            list << clip->clipId();
+            list << item->clipId();
             QByteArray data;
             data.append(list.join(QLatin1String(";")).toUtf8());
             mimeData->setData(QLatin1String("kdenlive/producerslist"),  data);
             return mimeData;
-        } else {
-            ProjectSubClip *sub = qobject_cast<ProjectSubClip*>(item);
-            if (sub) {
-                QStringList list;
-                list << sub->clipId();
-                QPoint p = sub->zone();
-                list.append(QString::number(p.x()));
-                list.append(QString::number(p.y()));
-                QByteArray data;
-                data.append(list.join(QLatin1String(";")).toUtf8());
-                mimeData->setData(QLatin1String("kdenlive/clip"),  data);
-                return mimeData;
-            }
+        } else if (type == AbstractProjectItem::SubClipItem) {
+            QStringList list;
+            list << item->clipId();
+            QPoint p = item->zone();
+            list.append(QString::number(p.x()));
+            list.append(QString::number(p.y()));
+            QByteArray data;
+            data.append(list.join(QLatin1String(";")).toUtf8());
+            mimeData->setData(QLatin1String("kdenlive/clip"),  data);
+            return mimeData;
         }
     }
 }
