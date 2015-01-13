@@ -72,8 +72,6 @@ ProjectClip::ProjectClip(const QDomElement& description, ProjectFolder* parent) 
         m_name = QUrl::fromLocalFile(resource).fileName();
     }
     else m_name = i18n("Untitled");
-    if (description.hasAttribute("zone"))
-	m_zone = QPoint(description.attribute("zone").section(':', 0, 0).toInt(), description.attribute("zone").section(':', 1, 1).toInt());
     setParent(parent);
 }
 
@@ -280,14 +278,16 @@ bool ProjectClip::isReady() const
     return m_controller!= NULL;
 }
 
-void ProjectClip::setZone(const QPoint &zone)
+/*void ProjectClip::setZone(const QPoint &zone)
 {
     m_zone = zone;
-}
+}*/
 
 QPoint ProjectClip::zone() const
 {
-    return m_zone;
+    int x = getProducerIntProperty("kdenlive:zone_in");
+    int y = getProducerIntProperty("kdenlive:zone_out");
+    return QPoint(x, y);
 }
 
 void ProjectClip::addMarker(int position)
@@ -344,7 +344,7 @@ QString ProjectClip::getProducerProperty(const QString &key) const
 const QString ProjectClip::hash()
 {
     if (!m_controller) return QString();
-    QString clipHash = m_controller->property("file_hash");
+    QString clipHash = m_controller->property("kdenlive:file_hash");
     if (clipHash.isEmpty()) {
         return getFileHash();
     }
@@ -373,10 +373,16 @@ const QString ProjectClip::getFileHash() const
         file.close();
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         QString result = fileHash.toHex();
-        m_controller->setProperty("file_hash", result);
+        m_controller->setProperty("kdenlive:file_hash", result);
         return result;
     }
     return QString();
+}
+
+double ProjectClip::getOriginalFps() const
+{
+    if (!m_controller) return 0;
+    return m_controller->originalFps();
 }
 
 bool ProjectClip::hasProxy() const

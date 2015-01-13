@@ -113,7 +113,6 @@ public:
 
     /** @brief Returns the clip's id. */
     const QString &clipId() const;
-    virtual void setZone(const QPoint &zone);
     virtual QPoint zone() const;
 
     enum DataType {
@@ -181,7 +180,6 @@ protected:
     QString m_description;
     QIcon m_thumbnail;
     QString m_duration;
-    QPoint m_zone;
     QString m_id;
     CLIPSTATUS m_clipStatus;
     AbstractClipJob::JOBTYPE m_jobType;

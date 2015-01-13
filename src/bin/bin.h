@@ -413,6 +413,8 @@ public slots:
     void slotSwitchClipProperties();
     void slotAddFolder();
     void slotCreateProjectClip();
+    /** @brief Start a Cut Clip job on this clip (extract selected zone using FFmpeg) */
+    void slotStartCutJob(const QString &id);
     /** @brief Triggered by a clip job action, start the job */
     void slotStartClipJob(bool enable);
     void slotEditClipCommand(const QString &id, QMap<QString, QString>oldProps, QMap<QString, QString>newProps);

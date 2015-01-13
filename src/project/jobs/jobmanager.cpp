@@ -214,15 +214,15 @@ void JobManager::slotProcessJobs()
 QList <ProjectClip *> JobManager::filterClips(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList &params)
 {
      //TODO: filter depending on clip type
-    if (jobType == AbstractClipJob::TRANSCODEJOB) {
+    if (jobType == AbstractClipJob::TRANSCODEJOB || AbstractClipJob::CUTJOB) {
         return CutClipJob::filterClips(clips, params);
     } else if (jobType == AbstractClipJob::FILTERCLIPJOB) {
         return FilterJob::filterClips(clips, params);
     } else if (jobType == AbstractClipJob::PROXYJOB) {
         return ProxyJob::filterClips(clips);
     }
+    return QList <ProjectClip *> ();
 }
-
 
 void JobManager::prepareJobs(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList params)
 {
@@ -234,7 +234,11 @@ void JobManager::prepareJobs(QList <ProjectClip *>clips, AbstractClipJob::JOBTYP
     }
     QMap <ProjectClip *, AbstractClipJob *> jobs;
     if (jobType == AbstractClipJob::TRANSCODEJOB) {
-        jobs = CutClipJob::prepareJob(m_fps, matching, params);
+        jobs = CutClipJob::prepareTranscodeJob(m_fps, matching, params);
+    } else if (jobType == AbstractClipJob::CUTJOB) {
+        ProjectClip *clip = matching.first();
+        double originalFps = clip->getOriginalFps();
+        jobs = CutClipJob::prepareCutClipJob(m_fps, originalFps, clip);
     } else if (jobType == AbstractClipJob::FILTERCLIPJOB) {
         jobs = FilterJob::prepareJob(matching, params);
     } else if (jobType == AbstractClipJob::PROXYJOB) {

@@ -226,7 +226,7 @@ signals:
      *      This causes a major slowdown, so we only enable it if required */
     void requestFrameForAnalysis(bool);
     /** @brief Request a zone extraction (ffmpeg transcoding). */
-    void extractZone(const QString &id, const QPoint &zone);
+    void extractZone(const QString &id);
 };
 
 #endif

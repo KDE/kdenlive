@@ -50,7 +50,7 @@ MeltJob::MeltJob(ClipType cType, const QString id, const QMap <QString, QString>
     m_extra(extraParams)
 {
     m_jobStatus = JobWaiting;
-    description = i18n("Process clip");
+    description = i18n("Processing clip");
     QString consum = m_consumerParams.value("consumer");
     if (consum.contains(QLatin1Char(':')))
         m_dest = consum.section(QLatin1Char(':'), 1);

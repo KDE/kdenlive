@@ -26,6 +26,11 @@
 
 #include "definitions.h"
 
+/**
+ * @class AbstractClipJob
+ * @brief This is the base class for all Kdenlive clip jobs.
+ *
+ */
 
 class AbstractClipJob : public QObject
 {

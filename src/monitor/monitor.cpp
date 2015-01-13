@@ -587,7 +587,7 @@ void Monitor::slotSetThumbFrame()
 void Monitor::slotExtractCurrentZone()
 {
     if (m_controller == NULL) return;
-    emit extractZone(m_controller->clipId(), m_ruler->zone());
+    emit extractZone(m_controller->clipId());
 }
 
 ClipController *Monitor::currentController() const

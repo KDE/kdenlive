@@ -256,10 +256,6 @@ void AbstractProjectItem::setCurrent(bool current, bool notify)
     }
 }
 
-void AbstractProjectItem::setZone(const QPoint &/*zone*/)
-{
-}
-
 QPoint AbstractProjectItem::zone() const
 {
     return QPoint();

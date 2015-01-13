@@ -97,8 +97,18 @@ void ClipController::getProducerXML(QDomDocument& document)
 void ClipController::getInfoForProducer()
 {
     m_duration = GenTime(m_masterProducer->get_playtime(), m_binController->fps());
+    m_audioIndex = int_property("audio_index");
+    m_videoIndex = int_property("video_index");
     if (m_service == "avformat" || m_service == "avformat-novalidate") {
-        m_clipType = AV;
+        if (m_audioIndex == -1) {
+            m_clipType = Video;
+        }
+        else if (m_videoIndex == -1) {
+            m_clipType = Audio;
+        }
+        else {
+            m_clipType = AV;
+        }
     }
     else if (m_service == "qimage" || m_service == "pixbuf") {
         m_clipType = Image;
@@ -244,6 +254,29 @@ int ClipController::int_property(const QString &name) const
 {
     if (!m_properties) return 0;
     return m_properties->get_int(name.toUtf8().constData());
+}
+
+double ClipController::double_property(const QString &name) const
+{
+    if (!m_properties) return 0;
+    return m_properties->get_double(name.toUtf8().constData());
+}
+
+double ClipController::originalFps() const
+{
+    if (!m_properties) return 0;
+    QString propertyName = QString("meta.media.%1.stream.frame_rate").arg(m_videoIndex);
+    return m_properties->get_double(propertyName.toUtf8().constData());
+}
+
+QSize ClipController::originalFrameSize() const
+{
+    if (!m_properties) return QSize();
+    QString propertyName = QString("meta.media.%1.codec.width").arg(m_videoIndex);
+    int x = m_properties->get_int(propertyName.toUtf8().constData());
+    propertyName = QString("meta.media.%1.codec.height").arg(m_videoIndex);
+    int y = m_properties->get_int(propertyName.toUtf8().constData());
+    return QSize(x, y);
 }
 
 QUrl ClipController::clipUrl() const
@@ -450,8 +483,8 @@ CommentedTime ClipController::markerAt(const GenTime &t) const
 
 void ClipController::setZone(const QPoint &zone)
 {
-    setProperty("kdenlive:zone_in", QString::number(zone.x()));
-    setProperty("kdenlive:zone_out", QString::number(zone.y()));
+    setProperty("kdenlive:zone_in", zone.x());
+    setProperty("kdenlive:zone_out", zone.y());
 }
 
 QPoint ClipController::zone() const
@@ -465,7 +498,7 @@ QPoint ClipController::zone() const
 
 const QString ClipController::getClipHash() const
 {
-    return property("file_hash");
+    return property("kdenlive:file_hash");
 }
 
 Mlt::Properties &ClipController::properties()

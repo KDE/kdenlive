@@ -69,6 +69,7 @@ void CutClipJob::startJob()
         // Make sure we don't block when proxy file already exists
         parameters << QLatin1String("-y");
         parameters << m_dest;
+        qDebug()<<"/ / / STARTING CUT JOB: "<<parameters;
         m_jobProcess = new QProcess;
         m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters);
@@ -196,7 +197,77 @@ QList <ProjectClip *> CutClipJob::filterClips(QList <ProjectClip *>clips, const 
 }
 
 // static 
-QMap <ProjectClip *, AbstractClipJob *> CutClipJob::prepareJob(double fps, QList <ProjectClip*> clips, QStringList parameters)
+
+QMap <ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fps, double originalFps, ProjectClip *clip)
+{
+    QMap <ProjectClip *, AbstractClipJob *> jobs;
+    if (!clip) return jobs;
+    QString source = clip->url().toLocalFile();
+    QPoint zone = clip->zone();
+    QString ext = source.section('.', -1);
+    QString dest = source.section('.', 0, -2) + '_' + QString::number(zone.x()) + '.' + ext;
+
+    if (originalFps == 0) originalFps = fps;
+    // if clip and project have different frame rate, adjust in and out
+    int in = zone.x();
+    int out = zone.y();
+    in = GenTime(in, fps).frames(originalFps);
+    out = GenTime(out, fps).frames(originalFps);
+    int max = clip->duration().frames(originalFps);
+    int duration = out - in + 1;
+    QString timeIn = Timecode::getStringTimecode(in, originalFps, true);
+    QString timeOut = Timecode::getStringTimecode(duration, originalFps, true);
+    
+    QPointer<QDialog> d = new QDialog(QApplication::activeWindow());
+    Ui::CutJobDialog_UI ui;
+    ui.setupUi(d);
+    ui.extra_params->setVisible(false);
+    ui.add_clip->setChecked(KdenliveSettings::add_new_clip());
+    ui.file_url->setMode(KFile::File);
+    ui.extra_params->setMaximumHeight(QFontMetrics(QApplication::font()).lineSpacing() * 5);
+    ui.file_url->setUrl(QUrl(dest));
+    ui.button_more->setIcon(QIcon::fromTheme("configure"));
+    ui.extra_params->setPlainText("-acodec copy -vcodec copy");
+    QString mess = i18n("Extracting %1 out of %2", timeOut, Timecode::getStringTimecode(max, originalFps, true));
+    ui.info_label->setText(mess);
+    if (d->exec() != QDialog::Accepted) {
+        delete d;
+        return jobs;
+    }
+    dest = ui.file_url->url().path();
+    bool acceptPath = dest != source;
+    if (acceptPath && QFileInfo(dest).size() > 0) {
+        // destination file olready exists, overwrite?
+        acceptPath = false;
+    }
+    while (!acceptPath) {
+        // Do not allow to save over original clip
+        if (dest == source) ui.info_label->setText("<b>" + i18n("You cannot overwrite original clip.") + "</b><br>" + mess);
+        else if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Overwrite file %1", dest)) == KMessageBox::Yes) break;
+        if (d->exec() != QDialog::Accepted) {
+            delete d;
+            return jobs;
+        }
+        dest = ui.file_url->url().path();
+        acceptPath = dest != source;
+        if (acceptPath && QFileInfo(dest).size() > 0) {
+            acceptPath = false;
+        }
+    }
+    QString extraParams = ui.extra_params->toPlainText().simplified();
+    KdenliveSettings::setAdd_new_clip(ui.add_clip->isChecked());
+    delete d;
+
+    QStringList jobParams;
+    jobParams << dest << source << timeIn << timeOut << QString::number(duration) << QString::number(KdenliveSettings::add_new_clip());
+    if (!extraParams.isEmpty()) jobParams << extraParams;
+    CutClipJob *job = new CutClipJob(clip->clipType(), clip->clipId(), jobParams);
+    jobs.insert(clip, job);
+    return jobs;
+}
+
+// static 
+QMap <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double fps, QList <ProjectClip*> clips, QStringList parameters)
 {
     QMap <ProjectClip *, AbstractClipJob *> jobs;
     QString params = parameters.at(0);

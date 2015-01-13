@@ -102,6 +102,10 @@ public:
      */
     QString property(const QString &name) const;
     int int_property(const QString &name) const;
+    double double_property(const QString &name) const;
+
+    double originalFps() const;
+    QSize originalFrameSize() const;
     const QString getClipHash() const;
 
     /** @brief Returns the clip duration as a string like 00:00:02:01. */
@@ -151,6 +155,8 @@ private:
     QString m_service;
     GenTime m_duration;
     QUrl m_url;
+    int m_audioIndex;
+    int m_videoIndex;
     ClipType m_clipType;
     bool m_hasLimitedDuration;
     BinController *m_binController;

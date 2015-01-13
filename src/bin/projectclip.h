@@ -83,10 +83,6 @@ public:
     /** @brief Returns the clip type as defined in definitions.h */
     ClipType clipType() const;
     ClipPropertiesController *buildProperties(QWidget *parent);
-
-    //TODO
-    void setZone(const QPoint &zone);
-    //TODO
     QPoint zone() const;
     //TODO
     void addMarker(int position);
@@ -107,6 +103,9 @@ public:
 
     /** @brief Returns the clip's duration. */
     GenTime duration() const;
+    
+    /** @brief Returns the original clip's fps. */
+    double getOriginalFps() const;
 
     /** @brief Calls AbstractProjectItem::setCurrent and sets the bin monitor to use the clip's producer. */
     virtual void setCurrent(bool current, bool notify = true);

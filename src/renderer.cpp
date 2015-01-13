@@ -831,7 +831,7 @@ void Render::processFileProperties()
         int fullWidth = (int)((double) info.imageHeight * m_mltProfile->dar() + 0.5);
         int frameNumber = info.xml.attribute("thumbnail", "-1").toInt();
 
-        if ((!info.replaceProducer && info.xml.hasAttribute("file_hash")) || proxyProducer) {
+        if ((!info.replaceProducer && info.xml.hasAttribute("kdenlive:file_hash")) || proxyProducer) {
             // Clip  already has all properties
             // We want to replace an existing producer. We MUST NOT set the producer's id property until 
             // the old one has been removed.

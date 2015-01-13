@@ -1237,11 +1237,17 @@ void Bin::discardJobs(const QString &id, AbstractClipJob::JOBTYPE type)
     m_jobManager->discardJobs(id, type);
 }
 
+
+void Bin::slotStartCutJob(const QString &id)
+{
+    startJob(id, AbstractClipJob::CUTJOB);
+}
+
 void Bin::startJob(const QString &id, AbstractClipJob::JOBTYPE type)
 {
     QList <ProjectClip *> clips;
     ProjectClip *clip = getBinClip(id);
-    if (clip && !hasPendingJob(id, AbstractClipJob::PROXYJOB)) {
+    if (clip && !hasPendingJob(id, type)) {
         // Launch job
         clips << clip;
         m_jobManager->prepareJobs(clips, type);

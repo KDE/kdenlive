@@ -34,21 +34,44 @@ class Filter;
 class Event;
 }
 
+/**
+ * @class MeltJob
+ * @brief This class contains a Job that will run an MLT Producer, with some optional filter
+ *
+ */
+
 class MeltJob : public AbstractClipJob
 {
     Q_OBJECT
 
 public:
+    /** @brief Creates the Job.
+     *  @param cType the Clip Type (AV, PLAYLIST, AUDIO, ...) as defined in definitions.h. Some jobs will act differently depending on clip type
+     *  @param id the id of the clip that requested this clip job
+     *  @param producerParams the parameters that will be passed to the Mlt::Producer. The "producer" value will be used to initialize the producer.
+     *         should contain the in and out values (in=0, out=-1 to process all clip)
+     *  @param filterParams the parameters that will be passed to the (optional) Mlt::Filter attached to the producer. The "filter" value 
+     *         should contain the MLT's filter name.
+     *  @param consumerParams the parameters passed to the Mlt::Consumer. The "consumer" value should hold the consumer's initialization string.
+        @param extraParams these parameters can be used to further affect the Job handling.
+     */
     MeltJob(ClipType cType, const QString id,  const QMap <QString, QString> producerParams, const QMap <QString, QString> filterParams, const QMap <QString, QString> consumerParams, const stringMap extraParams = stringMap());
     virtual ~ MeltJob();
+    /** @brief Returns the file path that will be written by this Mlt job. Empty when no file is written. */
     const QString destination() const;
+    /** @brief Start processing the job. */
     void startJob();
+    /** @brief These properties can be used to undo the action that launched this job. */
     stringMap cancelProperties();
+    /** @brief When true, this will tell the JobManager to add the @destination() file to the project Bin. */
     bool addClipToProject;
+    /** @brief Returns a text string describing the job's current activity. */
     const QString statusMessage();
+    /** @brief Sets the status for this job (can be used by the JobManager to abort the job). */
     void setStatus(ClipJobStatus status);
+    /** @brief Here we will send the current progress info to anyone interested. */
     void emitFrameNumber(int pos);
-    /** Make the job work on a project tree clip. */
+    /** @brief Returns true if the job was called by a clip in the project Bin. */
     bool isProjectFilter() const;
     
 private:
@@ -66,6 +89,7 @@ private:
     QMap <QString, QString> m_extra;
 
 signals:
+    /** @brief When user requested a to process an Mlt::Filter, this will send back all necessary infos. */
     void gotFilterJobResults(const QString &id, int startPos, int track, const stringMap &result, const stringMap &extra);
 };
 
