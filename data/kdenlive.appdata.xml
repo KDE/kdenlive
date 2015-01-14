@@ -6,6 +6,7 @@
   <name>Kdenlive</name>
   <name xml:lang="ca">Kdenlive</name>
   <name xml:lang="cs">Kdenlive</name>
+  <name xml:lang="de">Kdenlive</name>
   <name xml:lang="en-GB">Kdenlive</name>
   <name xml:lang="nl">Kdenlive</name>
   <name xml:lang="pl">Kdenlive</name>
@@ -19,6 +20,7 @@
   <summary>Video Editor</summary>
   <summary xml:lang="ca">Editor de vídeo</summary>
   <summary xml:lang="cs">Editor videí</summary>
+  <summary xml:lang="de">Video-Editor</summary>
   <summary xml:lang="en-GB">Video Editor</summary>
   <summary xml:lang="nl">Videobewerker</summary>
   <summary xml:lang="pl">Edytor wideo</summary>
@@ -44,6 +46,7 @@
     <p>Features:</p>
     <p xml:lang="ca">Característiques:</p>
     <p xml:lang="cs">Vlastnosti:</p>
+    <p xml:lang="de">Funktionen:</p>
     <p xml:lang="en-GB">Features:</p>
     <p xml:lang="nl">Mogelijkheden:</p>
     <p xml:lang="pl">Możliwości:</p>
@@ -68,6 +71,7 @@
       <li xml:lang="zh-CN">直观的多轨界面。</li>
       <li>Many effects and transitions.</li>
       <li xml:lang="ca">Molts efectes i transicions.</li>
+      <li xml:lang="de">Viele Effekte und Übergänge.</li>
       <li xml:lang="en-GB">Many effects and transitions.</li>
       <li xml:lang="nl">Veel effecten en overgangen.</li>
       <li xml:lang="pl">Wiele efektów i przejść.</li>
