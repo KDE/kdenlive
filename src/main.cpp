@@ -45,8 +45,7 @@ int main(int argc, char *argv[])
                          KAboutLicense::GPL,
                          i18n("Copyright © 2007–2014 Kdenlive authors"),
                          i18n("Please report bugs to http://bugs.kde.org"),
-                         "https://kdenlive.org",
-                         "https://bugs.kde.org");
+                         "https://kdenlive.org");
     aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 porting, main developer and maintainer"), "jb@kdenlive.org");
     aboutData.addAuthor(i18n("Vincent Pinon"), i18n("Interim maintainer, bugs fixing, minor functions, profiles updates, etc."), "vpinon@april.org");
     aboutData.addAuthor(i18n("Laurent Montel"), i18n("Bugs fixing, clean up code, optimization etc."), "montel@kde.org");
