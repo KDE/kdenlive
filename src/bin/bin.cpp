@@ -978,7 +978,7 @@ void Bin::slotThumbnailReady(const QString &id, const QImage &img)
 
 ProjectClip *Bin::getBinClip(const QString &id)
 {
-    ProjectClip *clip;
+    ProjectClip *clip = NULL;
     if (id.contains("_")) {
         clip = m_rootFolder->clip(id.section("_", 0, 0));
     }

@@ -48,7 +48,6 @@ ProjectFolder::ProjectFolder(Bin *bin) :
 
 ProjectFolder::~ProjectFolder()
 {
-    qDebug()<<" * * *DELETING PRO FOLDER: "<<m_name;
 }
 
 void ProjectFolder::setCurrent(bool current, bool notify)

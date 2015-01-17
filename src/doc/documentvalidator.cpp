@@ -126,6 +126,7 @@ bool DocumentValidator::validate(const double currentVersion)
     if (!upgrade(version, currentVersion))
         return false;
 
+    return true;
     /*
      * Check the syntax (this will be replaced by XSD validation with Qt 4.6)
      * and correct some errors

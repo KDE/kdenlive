@@ -232,8 +232,8 @@ void TrackView::parseDocument(const QDomDocument &doc)
         QString playlist_name = e.attribute("producer");
         if (playlist_name != "black_track" && playlist_name != "playlistmain") {
             // find playlist related to this track
-            p = QDomElement();
-            for (int j = 0; j < m_projectTracks; ++j) {
+            p.clear();
+            for (int j = 0; j < playlists.count(); ++j) {
                 p = playlists.item(j).toElement();
                 if (p.attribute("id") == playlist_name) {
                     // playlist found, check track effects
@@ -243,7 +243,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
                 }
             }
             if (p.attribute("id") != playlist_name) { // then it didn't work.
-                //qDebug() << "NO PLAYLIST FOUND FOR TRACK " << pos;
+                qDebug() << "NO PLAYLIST FOUND FOR TRACK " << pos;
             }
             if (e.attribute("hide") == "video") {
                 m_doc->switchTrackVideo(i - 1, true);
@@ -260,7 +260,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
             if (trackduration > duration) duration = trackduration;
         } else {
             // background black track
-            for (int j = 0; j < m_projectTracks; ++j) {
+            for (int j = 0; j < playlists.count(); ++j) {
                 p = playlists.item(j).toElement();
                 if (p.attribute("id") == playlist_name) break;
             }
@@ -639,7 +639,6 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const Q
             }
             id = id.section('_', 0, 0);
             ProjectClip *clip = m_doc->getBinClip(id);
-            qDebug()<<"****************************************************\nTRYING TO LOAD CLIP:"<<id<<"\n*******************";
             if (clip == NULL) {
                 qDebug()<<" - - - -ERROR LOADING IT ------------";
                 // The clip in playlist was not listed in the kdenlive producers,
