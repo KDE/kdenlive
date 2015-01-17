@@ -50,6 +50,7 @@ ProjectClip::ProjectClip(const QString &id, ClipController *controller, ProjectF
     m_duration = m_controller->getStringDuration();
     getFileHash();
     setParent(parent);
+    bin()->loadSubClips(id, m_controller->getSubClips());
 }
 
 ProjectClip::ProjectClip(const QDomElement& description, ProjectFolder* parent) :
@@ -302,21 +303,28 @@ void ProjectClip::removeMarker(int position)
     //bin()->markersUpdated(m_id, m_markers);
 }
 
-void ProjectClip::setProducerProperty(const char *name, int data)
+void ProjectClip::resetProducerProperty(const QString &name)
+{
+    if (m_controller) {
+        m_controller->resetProperty(name);
+    }
+}
+
+void ProjectClip::setProducerProperty(const QString &name, int data)
 {
     if (m_controller) {
 	m_controller->setProperty(name, data);
     }
 }
 
-void ProjectClip::setProducerProperty(const char *name, double data)
+void ProjectClip::setProducerProperty(const QString &name, double data)
 {
     if (m_controller) {
         m_controller->setProperty(name, data);
     }
 }
 
-void ProjectClip::setProducerProperty(const char *name, const char *data)
+void ProjectClip::setProducerProperty(const QString &name, const QString &data)
 {
     if (m_controller) {
         m_controller->setProperty(name, data);
@@ -400,7 +408,7 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
     keys << "luma_duration" << "luma_file" << "fade" << "ttl" << "softness" << "crop" << "animation";
     while (i.hasNext()) {
         i.next();
-        setProducerProperty(i.key().toUtf8().data(), i.value().toUtf8().data());
+        setProducerProperty(i.key(), i.value());
         if (clipType() == SlideShow && keys.contains(i.key())) refreshProducer = true;
     }
     if (properties.contains("kdenlive:proxy")) {
@@ -417,7 +425,7 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
         }
         else {
             // A proxy was requested, make sure to keep original url
-            setProducerProperty("kdenlive:originalurl", url().toLocalFile().toUtf8().data());
+            setProducerProperty("kdenlive:originalurl", url().toLocalFile());
             bin()->startJob(m_id, AbstractClipJob::PROXYJOB);
         }
     }

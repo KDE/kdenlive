@@ -53,7 +53,7 @@ public:
     /**
      * @brief Constructor; used when loading a project and the producer is already available.
      */
-    ProjectSubClip(ProjectClip *parent, int in, int out);
+    ProjectSubClip(ProjectClip *parent, int in, int out, const QString &name = QString());
     virtual ~ProjectSubClip();
 
     ProjectClip *clip(const QString &id);
@@ -70,6 +70,9 @@ public:
 
     /** @brief Sets thumbnail for this clip. */
     void setThumbnail(QImage);
+    
+    /** @brief Remove reference to this subclip in the master clip, to be done before a subclip is deleted. */
+    void discard();
     QPoint zone() const;
     virtual QString getToolTip() const;
 

@@ -148,11 +148,13 @@ public:
     const QString hash();
     
     /** @brief Set a property on the MLT producer. */
-    void setProducerProperty(const char *name, int data);
+    void setProducerProperty(const QString &name, int data);
     /** @brief Set a property on the MLT producer. */
-    void setProducerProperty(const char *name, double data);
+    void setProducerProperty(const QString &name, double data);
     /** @brief Set a property on the MLT producer. */
-    void setProducerProperty(const char *name, const char *data);
+    void setProducerProperty(const QString &name, const QString &data);
+    /** @brief Reset a property on the MLT producer (=delete the property). */
+    void resetProducerProperty(const QString &name);
     
     /** @brief Get a property from the MLT producer. */
     QString getProducerProperty(const QString &key) const;

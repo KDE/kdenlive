@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class ClipController;
 
-ProjectSubClip::ProjectSubClip(ProjectClip *parent, int in, int out) :
+ProjectSubClip::ProjectSubClip(ProjectClip *parent, int in, int out, const QString &name) :
     AbstractProjectItem(AbstractProjectItem::SubClipItem, parent->clipId(), parent)
     , m_masterClip(parent)
     , m_in(in)
@@ -37,14 +37,26 @@ ProjectSubClip::ProjectSubClip(ProjectClip *parent, int in, int out) :
     QPixmap pix(64, 36);
     pix.fill(Qt::lightGray);
     m_thumbnail = QIcon(pix);
-    m_name = i18n("Zone %1-%2", in, out);
+    if (name.isEmpty()) {
+        m_name = i18n("Zone %1-%2", in, out);
+    }
+    else {
+        m_name = name;
+    }
     m_clipStatus = StatusReady;
     setParent(parent);
+    // Save subclip in MLT
+    parent->setProducerProperty("kdenlive:clipzone." + m_name, QString::number(in) + ";" +  QString::number(out));
 }
 
 ProjectSubClip::~ProjectSubClip()
 {
     // controller is deleted in bincontroller
+}
+
+void ProjectSubClip::discard()
+{
+    if (m_masterClip) m_masterClip->resetProducerProperty("kdenlive:clipzone." + m_name);
 }
 
 QString ProjectSubClip::getToolTip() const

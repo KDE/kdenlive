@@ -95,6 +95,13 @@ public:
     void setProperty(const QString &name, const QString &value);
     void setProperty(const QString& name, int value);
     void setProperty(const QString& name, double value);
+    void resetProperty(const QString& name);
+    
+    /**
+     * @brief Returns the list of SubClips defined for this clip. the list is of this type:
+     * { subclip name , subclip in/out } where the subclip in/ou value is a semi-colon separated in/out value, like "25;220"
+     */
+    QMap <QString, QString> getSubClips();
     
     /**
      * @brief Returns the value of a property.

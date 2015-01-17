@@ -1419,6 +1419,23 @@ void Bin::slotAddClipCut(const QString&id, int in, int out)
     m_doc->commandStack()->push(command);
 }
 
+void Bin::loadSubClips(const QString&id, const QMap <QString,QString> data)
+{
+    ProjectClip *clip = getBinClip(id);
+    if (!clip) return;
+    QMapIterator<QString, QString> i(data);
+    while (i.hasNext()) {
+        i.next();
+        if (!i.value().contains(";")) { 
+            // Problem, the zone has no in/out points
+            continue;
+        }
+        int in = i.value().section(";", 0, 0).toInt();
+        int out = i.value().section(";", 1, 1).toInt();
+        new ProjectSubClip(clip, in, out, i.key());
+    }
+}
+
 void Bin::addClipCut(const QString&id, int in, int out)
 {
     ProjectClip *clip = getBinClip(id);
@@ -1426,7 +1443,7 @@ void Bin::addClipCut(const QString&id, int in, int out)
     // Check that we don't already have that subclip
     ProjectSubClip *sub = clip->getSubClip(in, out);
     if (sub) {
-        // A subblip with same zone already exists
+        // A subclip with same zone already exists
         return;
     }
     sub = new ProjectSubClip(clip, in, out);
@@ -1438,6 +1455,7 @@ void Bin::removeClipCut(const QString&id, int in, int out)
     if (!clip) return;
     ProjectSubClip *sub = clip->getSubClip(in, out);
     if (sub) {
+        sub->discard();
         delete sub;
     }
 }
