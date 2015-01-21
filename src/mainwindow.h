@@ -47,7 +47,6 @@
 #include "stopmotion/stopmotion.h"
 
 class KdenliveDoc;
-class ProjectList;
 class EffectsListView;
 class EffectStackView;
 class EffectStackView2;
@@ -104,7 +103,6 @@ public:
 
     // TODO make private again
     QTabWidget* m_timelineArea;
-    ProjectList *m_projectList;
     StopmotionWidget *m_stopmotion;
     QUndoGroup *m_commandStack;
     KActionCollection *m_tracksActionCollection;
@@ -420,9 +418,6 @@ private slots:
 
     /** @brief Update the capture folder if user asked a change. */
     void slotUpdateCaptureFolder();
-
-    /** @brief Delete a clip from current project */
-    void slotDeleteClip(const QString &id);
 
     /** @brief The monitor informs that it needs (or not) to have frames sent by the renderer. */
     void slotMonitorRequestRenderFrame(bool request);

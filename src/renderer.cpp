@@ -38,7 +38,7 @@
 #include <KMessageBox>
 #include <KLocalizedString>
 #include <QDialog>
-
+#include <QPainter>
 #include <QString>
 #include <QApplication>
 #include <QProcess>
@@ -999,7 +999,11 @@ void Render::processFileProperties()
                 if (frameNumber > -1) filePropertyMap["thumbnail"] = QString::number(frameNumber);
                 emit replyGetImage(info.clipId, img);
             } else if (frame->get_int("test_audio") == 0) {
-                emit replyGetImage(info.clipId, "audio-x-generic", fullWidth, info.imageHeight);
+                QIcon icon = QIcon::fromTheme("audio-x-generic");
+                QImage img(fullWidth, info.imageHeight, QImage::Format_ARGB32_Premultiplied);
+                QPainter painter( &img );
+                icon.paint(&painter, 0, 0, img.width(), img.height());
+                emit replyGetImage(info.clipId, img);
                 filePropertyMap["type"] = "audio";
             }
         }
@@ -1086,7 +1090,6 @@ void Render::processFileProperties()
             m_binController->addClipToBin(info.clipId, controller);
             emit gotFileProperties(info, controller);
         }
-        //emit replyGetFileProperties(info, *producer, filePropertyMap, metadataPropertyMap);
     }
 }
 

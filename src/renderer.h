@@ -421,11 +421,9 @@ private slots:
 signals:
 
     /** @brief The renderer received a reply to a getFileProperties request. */
-    void replyGetFileProperties(requestClipInfo &, Mlt::Producer &, const stringMap &, const stringMap &);
     void gotFileProperties(requestClipInfo,ClipController *);
 
     /** @brief The renderer received a reply to a getImage request. */
-    void replyGetImage(const QString &, const QString &, int, int);
     void replyGetImage(const QString &, const QImage &);
 
     /** @brief The renderer stopped, either playing or rendering. */

@@ -274,7 +274,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                             for (int i = 0; i < folders.count(); ++i) {
                                 e = folders.item(i).cloneNode().toElement();
                                 if (e.hasAttribute("opened")) expandedFolders.append(e.attribute("id"));
-                                m_clipManager->addFolder(e.attribute("id"), e.attribute("name"));
+                                //Deprecated
+                                //m_clipManager->addFolder(e.attribute("id"), e.attribute("name"));
                             }
                             m_documentProperties["expandedfolders"] = expandedFolders.join(";");
 
@@ -613,6 +614,12 @@ QDomElement KdenliveDoc::guidesXml() const
     return m_guidesXml.documentElement();
 }
 
+bool KdenliveDoc::useProxy() const
+{
+    return m_documentProperties.value("enableproxy").toInt();
+}
+
+
 void KdenliveDoc::slotAutoSave()
 {
     if (m_render && m_autosave) {
@@ -621,7 +628,7 @@ void KdenliveDoc::slotAutoSave()
             //qDebug() << "ERROR; CANNOT CREATE AUTOSAVE FILE";
         }
         //qDebug() << "// AUTOSAVE FILE: " << m_autosave->fileName();
-        saveSceneList(m_autosave->fileName(), m_render->sceneList(), QStringList(), true);
+        saveSceneList(m_autosave->fileName(), m_render->sceneList(), true);
     }
 }
 
@@ -647,7 +654,7 @@ QPoint KdenliveDoc::zone() const
     return QPoint(m_documentProperties.value("zonein").toInt(), m_documentProperties.value("zoneout").toInt());
 }
 
-QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList &expandedFolders)
+QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
 {
     QDomDocument sceneList;
     sceneList.setContent(scene, true);
@@ -760,7 +767,6 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList &
         QDomElement folder = sceneList.createElement("folder");
         folder.setAttribute("id", f.key());
         folder.setAttribute("name", f.value());
-        if (expandedFolders.contains(f.key())) folder.setAttribute("opened", "1");
         addedXml.appendChild(folder);
     }
 
@@ -794,9 +800,9 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList &
     return sceneList;
 }
 
-bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const QStringList &expandedFolders, bool autosave)
+bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, bool autosave)
 {
-    QDomDocument sceneList = xmlSceneList(scene, expandedFolders);
+    QDomDocument sceneList = xmlSceneList(scene);
     if (sceneList.isNull()) {
         //Make sure we don't save if scenelist is corrupted
         KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1, scene list is corrupted.", path));

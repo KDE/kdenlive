@@ -372,6 +372,11 @@ public:
     
     /** @brief Create the subclips defined in the parent clip. */
     void loadSubClips(const QString&id, const QMap <QString,QString> data);
+    
+    /** @brief Select a clip in the Bin from its id. */
+    void selectClipById(const QString &id);
+    /** @brief Set focus to the Bin view. */
+    void focusBinView() const;
 
 private slots:
     void slotAddClip();
@@ -398,8 +403,6 @@ private slots:
     void slotAddUrl(QString url, QString,QString);
     void slotPrepareJobsMenu();
     void slotShowJobLog();
-    /** @brief Add a sub clip */
-    void slotAddClipCut(const QString&id, int in, int out);
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img);
@@ -422,6 +425,10 @@ public slots:
     void slotStartClipJob(bool enable);
     void slotEditClipCommand(const QString &id, QMap<QString, QString>oldProps, QMap<QString, QString>newProps);
     void slotCancelRunningJob(const QString &id, const QMap<QString, QString> &newProps);
+    /** @brief Start a filter job requested by a filter applied in timeline */
+    void slotStartFilterJob(const ItemInfo &info, const QString&id, QMap <QString, QString> &filterParams, QMap <QString, QString> &consumerParams, QMap <QString, QString> &extraParams);
+    /** @brief Add a sub clip */
+    void slotAddClipCut(const QString&id, int in, int out);
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);
@@ -481,6 +488,7 @@ signals:
     void itemUpdated(AbstractProjectItem*);
     void producerReady(const QString &id);
     void storeFolder(QString,QString);
+    void gotFilterJobResults(QString,int,int,stringMap,stringMap);
 };
 
 #endif

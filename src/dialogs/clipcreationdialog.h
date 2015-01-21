@@ -30,18 +30,20 @@ class KdenliveDoc;
 class Bin;
 
 /**
- * @class ClipCreationDialogDialog
+ * @class ClipCreationDialog
  * @brief This class contains a list of static methods displaying widgets 
  *  allowing creation of all clip types.
  */
 
-class ClipCreationDialogDialog
+class ClipCreationDialog
 {
 
 public:
+    static QStringList getExtensions();
     static void createColorClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
     static void createSlideshowClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
     static void createTitleClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin);
+    static void createTitleTemplateClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin);
     static void createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, QStringList groupInfo, Bin *bin);
     static void createClipsCommand(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
     static void addXmlProperties(QDomElement &producer, QMap <QString, QString> &properties);

@@ -25,6 +25,8 @@
 #include "doc/kthumb.h"
 #include "doc/doccommands.h"
 #include "doc/kdenlivedoc.h"
+#include "project/projectmanager.h"
+#include "timeline/trackview.h"
 #include "timeline/abstractclipitem.h"
 #include "timeline/abstractgroupitem.h"
 #include "titler/titledocument.h"
@@ -394,6 +396,25 @@ QMap <QString, QString> ClipManager::documentFolderList() const
     return m_folderList;
 }
 
+void ClipManager::deleteProjectItems(QStringList clipIds, QStringList folderIds)
+{
+    // Create meta command
+    QUndoCommand *deleteCommand = new QUndoCommand();
+    deleteCommand->setText(i18n("Delete clips"));
+    if (pCore->projectManager()->currentTrackView()) {
+        // Remove clips from timeline
+        if (!clipIds.isEmpty()) {
+            for (int i = 0; i < clipIds.size(); ++i) {
+                pCore->projectManager()->currentTrackView()->slotDeleteClip(clipIds.at(i), deleteCommand);
+            }
+        }
+        // remove clips and folders from bin
+        slotDeleteClips(clipIds, folderIds, deleteCommand);
+        m_doc->setModified(true);
+    }
+}
+
+
 void ClipManager::deleteProjectClip(const QString &clipId)
 {
     pCore->bin()->deleteClip(clipId);
@@ -401,14 +422,10 @@ void ClipManager::deleteProjectClip(const QString &clipId)
 
 void ClipManager::slotDeleteClips(QStringList clipIds, QStringList folderIds, QUndoCommand *deleteCommand)
 {
-    /*QUndoCommand *delClips = new QUndoCommand();
-    delClips->setText(i18np("Delete clip", "Delete clips", ids.size()));*/
-
     for (int i = 0; i < clipIds.size(); ++i) {
         QString xml = pCore->binController()->xmlFromId(clipIds.at(i));
 	QDomDocument doc;
 	doc.setContent(xml);
-        //DocClipBase *clip = getClipById(ids.at(i));
         if (!xml.isNull()) {
             new AddClipCommand(m_doc, doc.documentElement(), clipIds.at(i), false, deleteCommand);
         }
@@ -543,15 +560,6 @@ QString ClipManager::projectFolder() const
     return m_doc->projectFolder().path();
 }
 
-void ClipManager::addFolder(const QString &id, const QString &name)
-{
-    m_folderList.insert(id, name);
-}
-
-void ClipManager::deleteFolder(const QString &id)
-{
-    m_folderList.remove(id);
-}
 
 AbstractGroupItem *ClipManager::createGroup()
 {

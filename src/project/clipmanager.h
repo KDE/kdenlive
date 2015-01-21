@@ -17,11 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-/**
- * @class ClipManager
- * @brief Manages the list of clips in a document.
- * @author Jean-Baptiste Mardelle
- */
 
 #ifndef CLIPMANAGER_H
 #define CLIPMANAGER_H
@@ -64,6 +59,11 @@ namespace Mlt
 class Producer;
 }
 
+/**
+ * @class ClipManager
+ * @brief Takes care of clip operations that might affect timeline and bin
+ */
+
 class ClipManager: public QObject
 {
 Q_OBJECT public:
@@ -86,8 +86,8 @@ Q_OBJECT public:
     void askForAudioThumb(const QString &id);
     QString projectFolder() const;
     void clearUnusedProducers();
-    void addFolder(const QString&, const QString&);
-    void deleteFolder(const QString&);
+    /** @brief Prepare deletion of clips and folders from the Bin. */
+    void deleteProjectItems(QStringList clipIds, QStringList folderIds);
     void clear();
     void clearCache();
     AbstractGroupItem *createGroup();

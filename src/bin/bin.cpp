@@ -364,7 +364,7 @@ void Bin::slotAddClip()
 {
     // Check if we are in a folder
     QStringList folderInfo = getFolderInfo();
-    ClipCreationDialogDialog::createClipsCommand(pCore->projectManager()->current(), folderInfo, this);
+    ClipCreationDialog::createClipsCommand(pCore->projectManager()->current(), folderInfo, this);
 }
 
 void Bin::deleteClip(const QString &id)
@@ -424,7 +424,7 @@ void Bin::slotDeleteClip()
     }
     // For some reason, we get duplicates, which is not expected
     //ids.removeDuplicates();
-    pCore->projectManager()->deleteProjectClips(clipIds, foldersIds);
+    m_doc->clipManager()->deleteProjectItems(clipIds, foldersIds);
 }
 
 void Bin::slotReloadClip()
@@ -505,6 +505,9 @@ void Bin::setDocument(KdenliveDoc* project)
     connect(m_discardCurrentClipJobs, SIGNAL(triggered()), m_jobManager, SLOT(slotDiscardClipJobs()));
     connect(m_cancelJobs, SIGNAL(triggered()), m_jobManager, SLOT(slotCancelJobs()));
     connect(m_jobManager, SIGNAL(updateJobStatus(QString,int,int,QString,QString,QString)), this, SLOT(slotUpdateJobStatus(QString,int,int,QString,QString,QString)));
+    
+    connect(m_jobManager, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SLOT(gotFilterJobResults(QString,int,int,stringMap,stringMap)));
+    
     //connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_itemView
     //connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
     slotInitView(NULL);
@@ -516,7 +519,7 @@ void Bin::slotAddUrl(QString url, QString,QString)
     QList <QUrl>urls;
     urls << QUrl::fromLocalFile(url);
     QStringList folderInfo = getFolderInfo();
-    ClipCreationDialogDialog::createClipsCommand(m_doc, urls, folderInfo, this);
+    ClipCreationDialog::createClipsCommand(m_doc, urls, folderInfo, this);
 }
 
 void Bin::createClip(QDomElement xml)
@@ -576,6 +579,14 @@ QModelIndex Bin::getIndexForId(const QString &id, bool folderWanted) const
         }
     }
     return QModelIndex();
+}
+
+void Bin::selectClipById(const QString &id)
+{
+    QModelIndex ix = getIndexForId(id, false);
+    if (ix.isValid()) {
+        m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(ix), QItemSelectionModel::ClearAndSelect);
+    }
 }
 
 void Bin::doAddFolder(const QString &id, const QString &name, const QString &parentId)
@@ -1273,13 +1284,16 @@ void Bin::slotCreateProjectClip()
     QStringList folderInfo = getFolderInfo();
     switch (type) {
       case Color:
-          ClipCreationDialogDialog::createColorClip(pCore->projectManager()->current(), folderInfo, this);
+          ClipCreationDialog::createColorClip(pCore->projectManager()->current(), folderInfo, this);
           break;
       case SlideShow:
-          ClipCreationDialogDialog::createSlideshowClip(pCore->projectManager()->current(), folderInfo, this);
+          ClipCreationDialog::createSlideshowClip(pCore->projectManager()->current(), folderInfo, this);
           break;
       case Text:
-          ClipCreationDialogDialog::createTitleClip(pCore->projectManager()->current(), folderInfo, QString(), this);
+          ClipCreationDialog::createTitleClip(pCore->projectManager()->current(), folderInfo, QString(), this);
+          break;
+      case TextTemplate:
+          ClipCreationDialog::createTitleTemplateClip(pCore->projectManager()->current(), folderInfo, QString(), this);
           break;
       default:
           break;
@@ -1342,7 +1356,7 @@ void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
         }
     }
     //TODO: verify if urls exist, check for folders
-    ClipCreationDialogDialog::createClipsCommand(pCore->projectManager()->current(), urls, folderInfo, this);
+    ClipCreationDialog::createClipsCommand(pCore->projectManager()->current(), urls, folderInfo, this);
 }
 
 void Bin::slotItemEdited(QModelIndex ix,QModelIndex,QVector<int>)
@@ -1460,5 +1474,22 @@ void Bin::removeClipCut(const QString&id, int in, int out)
     }
 }
 
+void Bin::slotStartFilterJob(const ItemInfo &info, const QString&id, QMap <QString, QString> &filterParams, QMap <QString, QString> &consumerParams, QMap <QString, QString> &extraParams)
+{
+    ProjectClip *clip = getBinClip(id);
+    if (!clip) return;
 
+    QMap <QString, QString> producerParams = QMap <QString, QString> ();
+    producerParams.insert("in", QString::number((int) info.cropStart.frames(m_doc->fps())));
+    producerParams.insert("out", QString::number((int) (info.cropStart + info.cropDuration).frames(m_doc->fps())));
+    extraParams.insert("clipStartPos", QString::number((int) info.startPos.frames(m_doc->fps())));
+    extraParams.insert("clipTrack", QString::number(info.track));
+
+    m_jobManager->prepareJobFromTimeline(clip, producerParams, filterParams, consumerParams, extraParams);
+}
+
+void Bin::focusBinView() const
+{
+    m_itemView->setFocus();
+}
 

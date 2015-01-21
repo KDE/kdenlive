@@ -39,18 +39,18 @@ AddClipCutCommand::AddClipCutCommand(ProjectList *list, const QString &id, int i
 // virtual
 void AddClipCutCommand::undo()
 {
-    if (m_remove)
+    /*if (m_remove)
         m_list->addClipCut(m_id, m_in, m_out, m_desc, m_newItem);
     else
-        m_list->removeClipCut(m_id, m_in, m_out);
+        m_list->removeClipCut(m_id, m_in, m_out);*/
 }
 // virtual
 void AddClipCutCommand::redo()
 {
-    if (m_remove)
+    /*if (m_remove)
         m_list->removeClipCut(m_id, m_in, m_out);
     else
-        m_list->addClipCut(m_id, m_in, m_out, m_desc, m_newItem);
+        m_list->addClipCut(m_id, m_in, m_out, m_desc, m_newItem);*/
 }
 
 AddFolderCommand::AddFolderCommand(ProjectList *view, const QString &folderName, const QString &clipId, bool doIt, QUndoCommand *parent) :
@@ -68,18 +68,18 @@ AddFolderCommand::AddFolderCommand(ProjectList *view, const QString &folderName,
 // virtual
 void AddFolderCommand::undo()
 {
-    if (m_doIt)
+    /*if (m_doIt)
         m_view->slotAddFolder(m_name, m_id, true);
     else
-        m_view->slotAddFolder(m_name, m_id, false);
+        m_view->slotAddFolder(m_name, m_id, false);*/
 }
 // virtual
 void AddFolderCommand::redo()
 {
-    if (m_doIt)
+    /*if (m_doIt)
         m_view->slotAddFolder(m_name, m_id, false);
     else
-        m_view->slotAddFolder(m_name, m_id, true);
+        m_view->slotAddFolder(m_name, m_id, true);*/
 }
 
 EditClipCommand::EditClipCommand(KdenliveDoc *doc, const QString &id, const QMap <QString, QString> &oldparams, const QMap <QString, QString> &newparams, bool doIt, QUndoCommand * parent) :
@@ -122,14 +122,14 @@ EditClipCutCommand::EditClipCutCommand(ProjectList *list, const QString &id, con
 // virtual
 void EditClipCutCommand::undo()
 {
-    m_list->doUpdateClipCut(m_id, m_newZone, m_oldZone, m_oldComment);
+    //m_list->doUpdateClipCut(m_id, m_newZone, m_oldZone, m_oldComment);
 }
 // virtual
 void EditClipCutCommand::redo()
 {
-    if (m_doIt)
+    /*if (m_doIt)
         m_list->doUpdateClipCut(m_id, m_oldZone, m_newZone, m_newComment);
-    m_doIt = true;
+    m_doIt = true;*/
 }
 
 EditFolderCommand::EditFolderCommand(ProjectList *view, const QString &newfolderName, const QString &oldfolderName, const QString &clipId, bool doIt, QUndoCommand *parent) :
@@ -145,11 +145,11 @@ EditFolderCommand::EditFolderCommand(ProjectList *view, const QString &newfolder
 // virtual
 void EditFolderCommand::undo()
 {
-    m_view->slotAddFolder(m_oldname, m_id, false, true);
+    //m_view->slotAddFolder(m_oldname, m_id, false, true);
 }
 // virtual
 void EditFolderCommand::redo()
 {
-    if (m_doIt) m_view->slotAddFolder(m_name, m_id, false, true);
+    //if (m_doIt) m_view->slotAddFolder(m_name, m_id, false, true);
     m_doIt = true;
 }

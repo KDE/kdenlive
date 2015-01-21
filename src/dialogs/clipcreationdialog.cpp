@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bin/bin.h"
 #include "bin/bincommands.h"
 #include "ui_colorclip_ui.h"
+#include "ui_templateclip_ui.h"
 #include "timecodedisplay.h"
 #include "doc/doccommands.h"
 #include "titler/titlewidget.h"
@@ -43,8 +44,36 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPointer>
 #include <QMimeDatabase>
 
+
+// static
+QStringList ClipCreationDialog::getExtensions()
+{
+    // Build list of mime types
+    QStringList mimeTypes = QStringList() << "application/x-kdenlive" << "application/x-kdenlivetitle" << "video/mlt-playlist" << "text/plain";
+
+    // Video mimes
+    mimeTypes <<  "video/x-flv" << "application/vnd.rn-realmedia" << "video/x-dv" << "video/dv" << "video/x-msvideo" << "video/x-matroska" << "video/mpeg" << "video/ogg" << "video/x-ms-wmv" << "video/mp4" << "video/quicktime" << "video/webm" << "video/3gpp" << "video/mp2t";
+
+    // Audio mimes
+    mimeTypes << "audio/x-flac" << "audio/x-matroska" << "audio/mp4" << "audio/mpeg" << "audio/x-mp3" << "audio/ogg" << "audio/x-wav" << "audio/x-aiff" << "audio/aiff" << "application/ogg" << "application/mxf" << "application/x-shockwave-flash" << "audio/ac3";
+
+    // Image mimes
+    mimeTypes << "image/gif" << "image/jpeg" << "image/png" << "image/x-tga" << "image/x-bmp" << "image/svg+xml" << "image/tiff" << "image/x-xcf" << "image/x-xcf-gimp" << "image/x-vnd.adobe.photoshop" << "image/x-pcx" << "image/x-exr" << "image/x-portable-pixmap";
+
+    QMimeDatabase db;
+    QStringList allExtensions;
+    foreach(const QString & mimeType, mimeTypes) {
+        QMimeType mime = db.mimeTypeForName(mimeType);
+        if (mime.isValid()) {
+            allExtensions.append(mime.globPatterns());
+        }
+    }
+    allExtensions.removeDuplicates();
+    return allExtensions;
+}
+
 //static
-void ClipCreationDialogDialog::createColorClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
+void ClipCreationDialog::createColorClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
 {
     QPointer<QDialog> dia = new QDialog(bin);
     Ui::ColorClip_UI dia_ui;
@@ -86,7 +115,7 @@ void ClipCreationDialogDialog::createColorClip(KdenliveDoc *doc, QStringList gro
 }
 
 //static
-void ClipCreationDialogDialog::createSlideshowClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
+void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
 {
     QPointer<SlideshowClip> dia = new SlideshowClip(doc->timecode(), bin);
 
@@ -120,7 +149,7 @@ void ClipCreationDialogDialog::createSlideshowClip(KdenliveDoc *doc, QStringList
     delete dia;
 }
 
-void ClipCreationDialogDialog::createTitleClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin)
+void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin)
 {
     // Make sure the titles folder exists
     QDir dir(doc->projectFolder().path());
@@ -153,7 +182,74 @@ void ClipCreationDialogDialog::createTitleClip(KdenliveDoc *doc, QStringList gro
     delete dia_ui;
 }
 
-void ClipCreationDialogDialog::addXmlProperties(QDomElement &producer, QMap <QString, QString> &properties)
+
+void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin)
+{
+    // Get the list of existing templates
+    QStringList filter;
+    filter << "*.kdenlivetitle";
+    const QString path = doc->projectFolder().path() + QDir::separator() + "titles/";
+    QStringList templateFiles = QDir(path).entryList(filter, QDir::Files);
+
+    QPointer<QDialog> dia = new QDialog(QApplication::activeWindow());
+    Ui::TemplateClip_UI dia_ui;
+    dia_ui.setupUi(dia);
+    for (int i = 0; i < templateFiles.size(); ++i)
+        dia_ui.template_list->comboBox()->addItem(templateFiles.at(i), path + templateFiles.at(i));
+
+    if (!templateFiles.isEmpty())
+        dia_ui.buttonBox->button(QDialogButtonBox::Ok)->setFocus();
+    QStringList mimeTypeFilters;
+    mimeTypeFilters <<"application/x-kdenlivetitle";
+    dia_ui.template_list->setFilter(mimeTypeFilters.join(' '));
+    //warning: setting base directory doesn't work??
+    dia_ui.template_list->setUrl(QUrl::fromLocalFile(path));
+    dia_ui.text_box->setHidden(true);
+    if (dia->exec() == QDialog::Accepted) {
+        QString textTemplate = dia_ui.template_list->comboBox()->itemData(dia_ui.template_list->comboBox()->currentIndex()).toString();
+        if (textTemplate.isEmpty()) textTemplate = dia_ui.template_list->comboBox()->currentText();
+        // Create a cloned template clip
+        QDomDocument xml;
+        QDomElement prod = xml.createElement("producer");
+        xml.appendChild(prod);
+        
+        QMap <QString, QString> properties;
+        properties.insert("resource", textTemplate);
+        properties.insert("kdenlive:clipname", i18n("Template title clip"));
+        if (!groupInfo.isEmpty()) {
+            properties.insert("kdenlive:folderid", groupInfo.at(0));
+        }
+        addXmlProperties(prod, properties);
+        uint id = bin->getFreeClipId();
+        prod.setAttribute("id", QString::number(id));
+        prod.setAttribute("type", (int) Text);
+        prod.setAttribute("transparency", "1");
+        prod.setAttribute("in", "0");
+
+        int duration = 0;
+        QDomDocument titledoc;
+        QFile txtfile(textTemplate);
+        if (txtfile.open(QIODevice::ReadOnly) && titledoc.setContent(&txtfile)) {
+            if (titledoc.documentElement().hasAttribute("duration")) {
+                duration = titledoc.documentElement().attribute("duration").toInt();
+            } else {
+                // keep some time for backwards compatibility - 26/12/12
+                duration = titledoc.documentElement().attribute("out").toInt();
+            }
+        }
+        txtfile.close();
+
+        if (duration == 0) duration = doc->getFramePos(KdenliveSettings::title_duration());
+        prod.setAttribute("duration", duration - 1);
+        prod.setAttribute("out", duration - 1);
+
+        AddClipCommand *command = new AddClipCommand(doc, xml.documentElement(), QString::number(id), true);
+        doc->commandStack()->push(command);
+    }
+    delete dia;
+}
+
+void ClipCreationDialog::addXmlProperties(QDomElement &producer, QMap <QString, QString> &properties)
 {
     QMapIterator<QString, QString> i(properties);
     while (i.hasNext()) {
@@ -166,7 +262,7 @@ void ClipCreationDialogDialog::addXmlProperties(QDomElement &producer, QMap <QSt
     }
 }
 
-void ClipCreationDialogDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, QStringList groupInfo, Bin *bin)
+void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, QStringList groupInfo, Bin *bin)
 {
     QUndoCommand *addClips = new QUndoCommand();
     
@@ -311,11 +407,12 @@ void ClipCreationDialogDialog::createClipsCommand(KdenliveDoc *doc, const QList<
     }
 }
 
-void ClipCreationDialogDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
+void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
 {
     QList <QUrl> list;
-    QString allExtensions = "*"; //getExtensions().join(" ");
-    const QString dialogFilter =  i18n("All Supported Files") + "(" + allExtensions + ");;" + i18n("All Files") + "(*)";
+    QString allExtensions = getExtensions().join(" ");
+    QStringList dialogFilter; //i18n("All Supported Files") + "(" + allExtensions + ");;" + i18n("All Files") + "(*)";
+    dialogFilter << allExtensions << "application/octet-stream";
     QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
     b->setChecked(KdenliveSettings::autoimagesequence());
     QCheckBox *c = new QCheckBox(i18n("Transparent background for images"));
@@ -331,10 +428,11 @@ void ClipCreationDialogDialog::createClipsCommand(KdenliveDoc *doc, QStringList 
     if (clipFolder.isEmpty()) {
         clipFolder = QDir::homePath();
     }
-    QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), i18n("Open Clips"), clipFolder, dialogFilter);
+    QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), i18n("Open Clips"), clipFolder);
     //TODO: KF5, how to add a custom widget to file dialog
     /*QGridLayout *layout = (QGridLayout*)d->layout();
     layout->addWidget(f, 0, 0);*/
+    d->setMimeTypeFilters(dialogFilter);
     d->setFileMode(QFileDialog::ExistingFiles);
     if (d->exec() == QDialog::Accepted) {
         KdenliveSettings::setAutoimagetransparency(c->isChecked());
@@ -388,7 +486,7 @@ void ClipCreationDialogDialog::createClipsCommand(KdenliveDoc *doc, QStringList 
     }
     delete d;
     if (!list.isEmpty()) {
-        ClipCreationDialogDialog::createClipsCommand(doc, list, groupInfo, bin);
+        ClipCreationDialog::createClipsCommand(doc, list, groupInfo, bin);
     }
 }
 

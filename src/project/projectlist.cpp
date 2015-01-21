@@ -894,7 +894,7 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
             if (item->text(0) == folder->groupName()) return;
             editFolder(item->text(0), folder->groupName(), folder->clipId());
             folder->setGroupName(item->text(0));
-            m_doc->clipManager()->addFolder(folder->clipId(), item->text(0));
+            //m_doc->clipManager()->addFolder(folder->clipId(), item->text(0));
             const int children = item->childCount();
             for (int i = 0; i < children; ++i) {
                 ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
@@ -1125,7 +1125,7 @@ void ProjectList::slotAddFolder(const QString &foldername, const QString &clipId
     if (remove) {
         FolderProjectItem *item = getFolderItemById(clipId);
         if (item) {
-            m_doc->clipManager()->deleteFolder(clipId);
+            //m_doc->clipManager()->deleteFolder(clipId);
             QTreeWidgetItem *newSelectedItem = m_listView->itemAbove(item);
             if (!newSelectedItem)
                 newSelectedItem = m_listView->itemBelow(item);
@@ -1142,7 +1142,7 @@ void ProjectList::slotAddFolder(const QString &foldername, const QString &clipId
                 m_listView->blockSignals(true);
                 item->setGroupName(foldername);
                 m_listView->blockSignals(false);
-                m_doc->clipManager()->addFolder(clipId, foldername);
+                //m_doc->clipManager()->addFolder(clipId, foldername);
                 const int children = item->childCount();
                 for (int i = 0; i < children; ++i) {
                     ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
@@ -1152,7 +1152,7 @@ void ProjectList::slotAddFolder(const QString &foldername, const QString &clipId
         } else {
             m_listView->blockSignals(true);
             m_listView->setCurrentItem(new FolderProjectItem(m_listView, QStringList() << foldername, clipId));
-            m_doc->clipManager()->addFolder(clipId, foldername);
+            //m_doc->clipManager()->addFolder(clipId, foldername);
             m_listView->blockSignals(false);
             m_listView->editItem(m_listView->currentItem(), 0);
         }
@@ -3029,27 +3029,6 @@ void ProjectList::discardJobs(const QString &id, AbstractClipJob::JOBTYPE type) 
     }
 }
 
-void ProjectList::slotStartFilterJob(const ItemInfo &info, const QString&id, QMap <QString, QString> &filterParams, QMap <QString, QString> &consumerParams, QMap <QString, QString> &extraParams)
-{
-    ProjectItem *item = getItemById(id);
-    if (!item) return;
-
-    QMap <QString, QString> producerParams = QMap <QString, QString> ();
-    producerParams.insert("in", QString::number((int) info.cropStart.frames(m_fps)));
-    producerParams.insert("out", QString::number((int) (info.cropStart + info.cropDuration).frames(m_fps)));
-    extraParams.insert("clipStartPos", QString::number((int) info.startPos.frames(m_fps)));
-    extraParams.insert("clipTrack", QString::number(info.track));
-
-    MeltJob *job = new MeltJob(item->clipType(), id, producerParams, filterParams, consumerParams, extraParams);
-    if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
-        delete job;
-        return;
-    }
-    job->description = i18n("Filter %1", extraParams.value("finalfilter"));
-    m_jobList.append(job);
-    setJobStatus(item, job->jobType, JobWaiting, 0, job->statusMessage());
-    slotCheckJobProcess();
-}
 
 void ProjectList::slotPrepareJobsMenu()
 {

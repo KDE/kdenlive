@@ -118,9 +118,9 @@ public:
     double dar() const;
     double projectDuration() const;
     /** @brief Returns the project file xml. */
-    QDomDocument xmlSceneList(const QString &scene, const QStringList &expandedFolders);
+    QDomDocument xmlSceneList(const QString &scene);
     /** @brief Saves the project file xml to a file. */
-    bool saveSceneList(const QString &path, const QString &scene, const QStringList &expandedFolders, bool autosave = false);
+    bool saveSceneList(const QString &path, const QString &scene, bool autosave = false);
     int tracksCount() const;
     TrackInfo trackInfoAt(int ix) const;
     void insertTrack(int ix, const TrackInfo &type);
@@ -179,6 +179,8 @@ public:
     const QSize getRenderSize();
     /** @brief Add url to the file watcher so that we monitor changes */
     void watchFile(const QUrl &url);
+    
+    bool useProxy() const;
     
 private:
     QUrl m_url;

@@ -21,7 +21,7 @@
 #include "collapsibleeffect.h"
 #include "effectslist/effectslist.h"
 #include "kdenlivesettings.h"
-#include "project/projectlist.h"
+#include "dialogs/clipcreationdialog.h"
 
 #include <QInputDialog>
 #include <QDialog>
@@ -157,7 +157,7 @@ void CollapsibleEffect::slotCreateGroup()
 
 void CollapsibleEffect::slotCreateRegion()
 {
-    QString allExtensions = ProjectList::getExtensions().join(" ");
+    QString allExtensions = ClipCreationDialog::getExtensions().join(" ");
     const QString dialogFilter = allExtensions + ' ' + QLatin1Char('|') + i18n("All Supported Files") + "\n* " + QLatin1Char('|') + i18n("All Files");
     QString clipFolder = KRecentDirs::dir(":KdenliveClipFolder");
     if (clipFolder.isEmpty()) clipFolder = QDir::homePath();

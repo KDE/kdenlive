@@ -10,7 +10,6 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "projectmanager.h"
 #include "core.h"
-#include "clipmanager.h"
 #include "bin/bin.h"
 #include "mainwindow.h"
 #include "kdenlivesettings.h"
@@ -140,7 +139,6 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         delete w;
     }
     pCore->window()->m_timelineArea->setEnabled(true);
-    pCore->window()->m_projectList->setEnabled(true);
     bool openBackup;
     KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window());
     QByteArray hash = QCryptographicHash::hash(startFile.toEncoded(), QCryptographicHash::Md5).toHex();
@@ -191,8 +189,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges)
 
     pCore->window()->slotTimelineClipSelected(NULL, false);
     pCore->monitorManager()->clipMonitor()->openClip(NULL);
-    pCore->window()->m_projectList->slotResetProjectList();
-    pCore->window()->m_timelineArea->removeTab(0);
 
     delete m_project;
     m_project = NULL;
@@ -209,7 +205,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges)
 bool ProjectManager::saveFileAs(const QString &outputFileName)
 {
     pCore->monitorManager()->stopActiveMonitor();
-    if (m_project->saveSceneList(outputFileName, pCore->monitorManager()->projectMonitor()->sceneList(), pCore->window()->m_projectList->expandedFolders()) == false) {
+    if (m_project->saveSceneList(outputFileName, pCore->monitorManager()->projectMonitor()->sceneList()) == false) {
         return false;
     }
 
@@ -436,7 +432,6 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     pCore->window()->m_timelineArea->setCurrentIndex(pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme("kdenlive"), m_project->description()));
     if (!ok) {
         pCore->window()->m_timelineArea->setEnabled(false);
-        pCore->window()->m_projectList->setEnabled(false);
         KMessageBox::sorry(pCore->window(), i18n("Cannot open file %1.\nProject is corrupted.", url.path()));
         pCore->window()->slotGotProgressInfo(QString(), -1);
         newFile(false, true);
@@ -529,22 +524,6 @@ TrackView* ProjectManager::currentTrackView()
     return m_trackView;
 }
 
-//TODO: re-add folder deletion
-void ProjectManager::deleteProjectClips(QStringList clipIds, QStringList folderIds)
-{
-    QUndoCommand *deleteCommand = new QUndoCommand();
-    deleteCommand->setText(i18n("Delete clips"));
-    if (pCore->projectManager()->currentTrackView()) {
-        if (!clipIds.isEmpty()) {
-            for (int i = 0; i < clipIds.size(); ++i) {
-                pCore->projectManager()->currentTrackView()->slotDeleteClip(clipIds.at(i), deleteCommand);
-            }
-        }
-        pCore->projectManager()->current()->clipManager()->slotDeleteClips(clipIds, folderIds, deleteCommand);
-        //if (!folderids.isEmpty()) m_projectList->deleteProjectFolder(folderids);
-        pCore->projectManager()->current()->setModified(true);
-    }
-}
 
 KRecentFilesAction* ProjectManager::recentFilesAction()
 {

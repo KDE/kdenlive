@@ -128,8 +128,8 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c)
         // If monitor scene is displayed, hide it
         if (m_monitorSceneWanted) {
             m_effectMetaInfo.monitor->slotShowEffectScene(false);
+            m_monitorSceneWanted = false;
         }
-        m_monitorSceneWanted = false;
         clear();
         return;
     }

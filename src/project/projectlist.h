@@ -192,8 +192,6 @@ public slots:
     void slotDeleteProxy(const QString proxyPath);
     /** @brief Start a hard cut clip job. */
     void slotCutClipJob(const QString &id, QPoint zone);
-    /** @brief Start an MLT process job. */
-    void slotStartFilterJob(const ItemInfo&, const QString&,QMap <QString, QString>&, QMap <QString, QString>&,QMap <QString, QString>&);
     void slotSetThumbnail(const QString &id, int framePos, QImage img);
     
 

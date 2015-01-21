@@ -224,6 +224,13 @@ QList <ProjectClip *> JobManager::filterClips(QList <ProjectClip *>clips, Abstra
     return QList <ProjectClip *> ();
 }
 
+void JobManager::prepareJobFromTimeline(ProjectClip *clip, const QMap<QString,QString>&producerParams, const QMap<QString,QString>&filterParams, const QMap<QString,QString>&consumerParams, const QMap<QString,QString>&extraParams)
+{
+    MeltJob *job = new MeltJob(clip->clipType(), clip->clipId(), producerParams, filterParams, consumerParams, extraParams);
+    job->description = i18n("Filter %1", extraParams.value("finalfilter"));
+    launchJob(clip, job);
+}
+
 void JobManager::prepareJobs(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList params)
 {
     //TODO filter clips

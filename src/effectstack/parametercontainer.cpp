@@ -35,7 +35,7 @@
 #include "mainwindow.h"
 #include "colortools.h"
 #include "dialogs/profilesdialog.h"
-#include "project/projectlist.h"
+#include "dialogs/clipcreationdialog.h"
 #include "timeline/customtrackview.h"
 #include "onmonitoritems/rotoscoping/rotowidget.h"
 
@@ -417,7 +417,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             cval->setupUi(toFillin);
             cval->label->setText(paramName);
 	    cval->setToolTip(comment);
-            cval->urlwidget->setFilter(ProjectList::getExtensions().join(' '));
+            cval->urlwidget->setFilter(ClipCreationDialog::getExtensions().join(' '));
             m_valueItems[paramName] = cval;
             cval->urlwidget->setUrl(QUrl(value));
             connect(cval->urlwidget, SIGNAL(returnPressed()) , this, SLOT(slotCollectAllParameters()));
