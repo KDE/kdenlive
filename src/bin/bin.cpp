@@ -1469,6 +1469,7 @@ void Bin::removeClipCut(const QString&id, int in, int out)
     if (!clip) return;
     ProjectSubClip *sub = clip->getSubClip(in, out);
     if (sub) {
+        clip->removeChild(sub);
         sub->discard();
         delete sub;
     }
