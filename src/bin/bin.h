@@ -429,6 +429,8 @@ public slots:
     void slotStartFilterJob(const ItemInfo &info, const QString&id, QMap <QString, QString> &filterParams, QMap <QString, QString> &consumerParams, QMap <QString, QString> &extraParams);
     /** @brief Add a sub clip */
     void slotAddClipCut(const QString&id, int in, int out);
+    /** @brief Open current clip in an external editing application */
+    void slotOpenClip();
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);
@@ -482,7 +484,7 @@ private:
     const QStringList getFolderInfo();
     /** @brief Get the QModelIndex value for an item in the Bin. */
     QModelIndex getIndexForId(const QString &id, bool folderWanted) const;
-    AbstractProjectItem *getFirstSelectedClip();
+    ProjectClip *getFirstSelectedClip();
 
 signals:
     void itemUpdated(AbstractProjectItem*);

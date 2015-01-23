@@ -43,6 +43,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KToolBar>
 #include <KColorScheme>
+#include <KMessageBox>
+#include <KSplitterCollapserButton>
+
 
 #include <QDialogButtonBox>
 #include <QVBoxLayout>
@@ -51,7 +54,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QMenu>
 #include <QDebug>
 #include <QUndoCommand>
-#include <KSplitterCollapserButton>
 
 
 BinMessageWidget::BinMessageWidget(QWidget *parent) : KMessageWidget(parent) {}
@@ -380,7 +382,7 @@ void Bin::deleteClip(const QString &id)
     delete clip;
 }
 
-AbstractProjectItem *Bin::getFirstSelectedClip()
+ProjectClip *Bin::getFirstSelectedClip()
 {
     QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     if (indexes.isEmpty()) {
@@ -876,8 +878,25 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
 		enableClipActions = true;
 		m_proxyAction->blockSignals(true);
                 ProjectClip *clip = qobject_cast<ProjectClip*>(currentItem);
-		if (clip) m_proxyAction->setChecked(clip->hasProxy());
+		if (clip) {
+                    m_proxyAction->setChecked(clip->hasProxy());
+                    
+                    QList<QAction *> transcodeActions = m_transcodeAction->actions();
+                    QStringList data;
+                    QString condition;
+                    for (int i = 0; i < transcodeActions.count(); ++i) {
+                        data = transcodeActions.at(i)->data().toStringList();
+                        if (data.count() > 3) {
+                            condition = data.at(4);
+                            if (condition.startsWith(QLatin1String("vcodec")))
+                                transcodeActions.at(i)->setEnabled(clip->hasCodec(condition.section('=', 1, 1), false));
+                            else if (condition.startsWith(QLatin1String("acodec")))
+                                transcodeActions.at(i)->setEnabled(clip->hasCodec(condition.section('=', 1, 1), true));
+                        }
+                    }
+                }
 		m_proxyAction->blockSignals(false);
+                
             }
         }
     }
@@ -1415,7 +1434,7 @@ void Bin::slotCancelRunningJob(const QString &id, const QMap<QString, QString> &
 
 void Bin::slotPrepareJobsMenu()
 {
-    AbstractProjectItem *item = getFirstSelectedClip();
+    ProjectClip *item = getFirstSelectedClip();
     if (item) {
         QString id = item->clipId();
         m_discardCurrentClipJobs->setData(id);
@@ -1492,5 +1511,24 @@ void Bin::slotStartFilterJob(const ItemInfo &info, const QString&id, QMap <QStri
 void Bin::focusBinView() const
 {
     m_itemView->setFocus();
+}
+
+
+void Bin::slotOpenClip()
+{
+    ProjectClip *clip = getFirstSelectedClip();
+    if (!clip) return;
+    if (clip->clipType() == Image) {
+      if (KdenliveSettings::defaultimageapp().isEmpty())
+          KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open images in the Settings dialog"));
+      else
+          QProcess::startDetached(KdenliveSettings::defaultimageapp(), QStringList() << clip->url().path());
+   }
+   if (clip->clipType() == Audio) {
+      if (KdenliveSettings::defaultaudioapp().isEmpty())
+          KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open audio files in the Settings dialog"));
+      else
+          QProcess::startDetached(KdenliveSettings::defaultaudioapp(), QStringList() << clip->url().path());
+    }
 }
 

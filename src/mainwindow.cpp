@@ -1134,7 +1134,6 @@ void MainWindow::setupActions()
     clipProperties->setData("clip_properties");
     clipProperties->setEnabled(false);
 
-    //TODO
     QAction *openClip = addAction("edit_clip", i18n("Edit Clip"), pCore->bin(), SLOT(slotOpenClip()), QIcon::fromTheme("document-open"));
     openClip->setData("edit_clip");
     openClip->setEnabled(false);

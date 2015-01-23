@@ -280,6 +280,13 @@ double ClipController::originalFps() const
     return m_properties->get_double(propertyName.toUtf8().constData());
 }
 
+const QString ClipController::codec(bool audioCodec) const
+{
+    if (!m_properties) return QString();
+    QString propertyName = QString("meta.media.%1.codec.name").arg(audioCodec ? m_audioIndex : m_videoIndex);
+    return m_properties->get(propertyName.toUtf8().constData());
+}
+
 QSize ClipController::originalFrameSize() const
 {
     if (!m_properties) return QSize();

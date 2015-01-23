@@ -112,6 +112,7 @@ public:
     double double_property(const QString &name) const;
 
     double originalFps() const;
+    const QString codec(bool audioCodec) const;
     QSize originalFrameSize() const;
     const QString getClipHash() const;
 
