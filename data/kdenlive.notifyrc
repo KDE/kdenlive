@@ -23,6 +23,7 @@ Comment[zh_CN]=Kdenlive
 
 [Event/RenderFinished]
 Name=Rendering finished
+Name[ar]=انتهى التّصيير
 Name[ca]=Ha acabat la renderització
 Name[cs]=Renderování bylo dokončeno
 Name[de]=Rendern fertiggestellt
@@ -43,6 +44,7 @@ Name[uk]=Обробку завершено
 Name[x-test]=xxRendering finishedxx
 Name[zh_CN]=渲染结束
 Comment=Rendering is over
+Comment[ar]=قد انتهى التّصيير
 Comment[ca]=La renderització ja ha acabat
 Comment[cs]=Renderování je hotové
 Comment[de]=Das Rendern ist beendet
@@ -66,6 +68,7 @@ Action=Popup
 
 [Event/RenderStarted]
 Name=Rendering started
+Name[ar]=بدأ التّصيير
 Name[ca]=Ha començat la renderització
 Name[cs]=Renderování začalo
 Name[de]=Rendern wurde gestartet
@@ -86,6 +89,7 @@ Name[uk]=Обробку розпочато
 Name[x-test]=xxRendering startedxx
 Name[zh_CN]=渲染开始
 Comment=Rendering was started
+Comment[ar]=قد بدأ التّصيير
 Comment[ca]=La renderització ja ha començat
 Comment[cs]=Renderování bylo začato
 Comment[de]=Das Rendern wurde gestartet
@@ -109,6 +113,7 @@ Action=Popup
 
 [Event/FrameCaptured]
 Name=Frame captured
+Name[ar]=التُقط إطار
 Name[ca]=S'ha capturat un fotograma
 Name[cs]=Snímek zachycen
 Name[de]=Bild aufgenommen
@@ -129,6 +134,7 @@ Name[uk]=Захоплено кадр
 Name[x-test]=xxFrame capturedxx
 Name[zh_CN]=已抓取帧
 Comment=A frame was captured to disk
+Comment[ar]=قد التُقط إطار إلى القرص
 Comment[ca]=S'ha capturat i desat un fotograma al disc
 Comment[cs]=Snímek byl zachycen na disk
 Comment[de]=Ein Bild wurde aufgenommen und auf auf Festplatte gespeichert
@@ -153,6 +159,7 @@ Action=Sound
 
 [Event/ReadyToCapture]
 Name=Ready to capture
+Name[ar]=جاهز للالتقاط
 Name[ca]=A punt per capturar
 Name[cs]=Připraven zachytávat
 Name[de]=Bereit zur Aufnahme
@@ -177,6 +184,7 @@ Action=Sound
 
 [Event/ErrorMessage]
 Name=Error
+Name[ar]=خطأ
 Name[ca]=Error
 Name[cs]=Chyba
 Name[de]=Fehler
