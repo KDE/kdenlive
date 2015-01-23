@@ -483,7 +483,7 @@ bool ProjectClip::matches(QString condition)
     return true;
 }
 
-bool ProjectClip::hasCodec(const QString &codec, bool audioCodec) const
+bool ProjectClip::hasCodec(const QString codec, bool audioCodec) const
 {
     if (!m_controller) return false;
     return codec == m_controller->codec(audioCodec);

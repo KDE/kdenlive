@@ -880,7 +880,6 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
                 ProjectClip *clip = qobject_cast<ProjectClip*>(currentItem);
 		if (clip) {
                     m_proxyAction->setChecked(clip->hasProxy());
-                    
                     QList<QAction *> transcodeActions = m_transcodeAction->actions();
                     QStringList data;
                     QString condition;
@@ -888,15 +887,14 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
                         data = transcodeActions.at(i)->data().toStringList();
                         if (data.count() > 3) {
                             condition = data.at(4);
-                            if (condition.startsWith(QLatin1String("vcodec")))
+                            if (condition.startsWith("vcodec"))
                                 transcodeActions.at(i)->setEnabled(clip->hasCodec(condition.section('=', 1, 1), false));
-                            else if (condition.startsWith(QLatin1String("acodec")))
+                            else if (condition.startsWith("acodec"))
                                 transcodeActions.at(i)->setEnabled(clip->hasCodec(condition.section('=', 1, 1), true));
                         }
                     }
                 }
 		m_proxyAction->blockSignals(false);
-                
             }
         }
     }
