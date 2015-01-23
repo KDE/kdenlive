@@ -898,7 +898,14 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
             }
         }
     }
-    // Actions are enabled / disabled on clip selection changes that is triggered by the model
+    // Enable / disable clip actions
+    m_proxyAction->setEnabled(enableClipActions);
+    m_transcodeAction->setEnabled(enableClipActions);
+    m_editAction->setEnabled(enableClipActions);
+    m_reloadAction->setEnabled(enableClipActions);
+    m_clipsActionsMenu->setEnabled(enableClipActions);
+    m_extractAudioAction->setEnabled(enableClipActions);
+    // Show menu
     m_menu->exec(event->globalPos());
 }
 
