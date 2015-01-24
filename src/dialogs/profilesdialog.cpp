@@ -253,14 +253,9 @@ MltVideoProfile ProfilesDialog::getVideoProfile(const QString &name)
 
     if (!isCustom) {
         // List the Mlt profiles
-        profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
-        if (profilesFiles.contains(name)) {
-	  path = KdenliveSettings::mltpath();
-	  if (path.endsWith('/'))
-	    path += name;
-	  else
-	    path = path + '/' + name;
-	}
+        QDir mltDir(KdenliveSettings::mltpath());
+        profilesFiles = mltDir.entryList(profilesFilter, QDir::Files);
+        if (profilesFiles.contains(name)) path = mltDir.absoluteFilePath(name);
     }
     if (isCustom || path.isEmpty()) {
         path = name;
@@ -310,18 +305,20 @@ bool ProfilesDialog::existingProfileDescription(const QString &desc)
     profilesFilter << "*";
 
     // List the Mlt profiles
-    QStringList profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+    QDir mltDir(KdenliveSettings::mltpath());
+    QStringList profilesFiles = mltDir.entryList(profilesFilter, QDir::Files);
     for (int i = 0; i < profilesFiles.size(); ++i) {
-        KConfig confFile(KdenliveSettings::mltpath() + profilesFiles.at(i), KConfig::SimpleConfig);
+        KConfig confFile(mltDir.absoluteFilePath(profilesFiles.at(i)), KConfig::SimpleConfig);
         if (desc == confFile.entryMap().value("description")) return true;
     }
 
     // List custom profiles
     QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, "profiles");
     for (int i = 0; i < customProfiles.size(); ++i) {
-        profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
+        QDir customDir(customProfiles.at(i));
+        profilesFiles = customDir.entryList(profilesFilter, QDir::Files);
         for (int j = 0; j < profilesFiles.size(); ++j) {
-            KConfig confFile(customProfiles.at(i) + profilesFiles.at(j), KConfig::SimpleConfig);
+            KConfig confFile(customDir.absoluteFilePath(profilesFiles.at(j)), KConfig::SimpleConfig);
             if (desc == confFile.entryMap().value("description")) return true;
         }
     }
@@ -336,9 +333,10 @@ QString ProfilesDialog::existingProfile(const MltVideoProfile &profile)
     profilesFilter << "*";
 
     // Check the Mlt profiles
-    QStringList profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+    QDir mltDir(KdenliveSettings::mltpath());
+    QStringList profilesFiles = mltDir.entryList(profilesFilter, QDir::Files);
     for (int i = 0; i < profilesFiles.size(); ++i) {
-        KConfig confFile(KdenliveSettings::mltpath() + profilesFiles.at(i), KConfig::SimpleConfig);
+        KConfig confFile(mltDir.absoluteFilePath(profilesFiles.at(i)), KConfig::SimpleConfig);
         if (profile.display_aspect_den != confFile.entryMap().value("display_aspect_den").toInt()) continue;
         if (profile.display_aspect_num != confFile.entryMap().value("display_aspect_num").toInt()) continue;
         if (profile.sample_aspect_den != confFile.entryMap().value("sample_aspect_den").toInt()) continue;
@@ -382,9 +380,10 @@ QMap <QString, QString> ProfilesDialog::getProfilesInfo()
     profilesFilter << "*";
 
     // List the Mlt profiles
-    QStringList profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+    QDir mltDir(KdenliveSettings::mltpath());
+    QStringList profilesFiles = mltDir.entryList(profilesFilter, QDir::Files);
     for (int i = 0; i < profilesFiles.size(); ++i) {
-        KConfig confFile(KdenliveSettings::mltpath() + profilesFiles.at(i), KConfig::SimpleConfig);
+        KConfig confFile(mltDir.absoluteFilePath(profilesFiles.at(i)), KConfig::SimpleConfig);
         QString desc = confFile.entryMap().value("description");
         if (!desc.isEmpty()) result.insert(desc, profilesFiles.at(i));
     }
@@ -409,10 +408,10 @@ QMap< QString, QString > ProfilesDialog::getSettingsFromFile(const QString& path
     QStringList profilesFiles;
     QStringList profilesFilter;
     profilesFilter << "*";
-
+    QDir mltDir(KdenliveSettings::mltpath());
     if (!path.contains('/')) {
         // This is an MLT profile
-        KConfig confFile(KdenliveSettings::mltpath() + path, KConfig::SimpleConfig);
+        KConfig confFile(mltDir.absoluteFilePath(path), KConfig::SimpleConfig);
         return confFile.entryMap();
     } else {
         // This is a custom profile
@@ -442,9 +441,10 @@ QMap <QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int
     QMap <QString, QString> result;
     profilesFilter << "*";
     // List the Mlt profiles
-    profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+    QDir mltDir(KdenliveSettings::mltpath());
+    profilesFiles = mltDir.entryList(profilesFilter, QDir::Files);
     for (int i = 0; i < profilesFiles.size(); ++i) {
-        KConfig confFile(KdenliveSettings::mltpath() + profilesFiles.at(i), KConfig::SimpleConfig);
+        KConfig confFile(mltDir.absoluteFilePath(profilesFiles.at(i)), KConfig::SimpleConfig);
         QMap< QString, QString > values = confFile.entryMap();
         int profileWidth;
         if (useDisplayWidth) profileWidth = values.value("height").toInt() * values.value("display_aspect_num").toInt() / values.value("display_aspect_den").toInt() + 0.5;
