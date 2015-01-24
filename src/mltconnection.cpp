@@ -67,14 +67,16 @@ void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
 
     QStringList profilesFilter;
     profilesFilter << "*";
-    QStringList profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+    QDir mltDir(KdenliveSettings::mltpath());
+    QStringList profilesList = mltDir.entryList(profilesFilter, QDir::Files);
     if (profilesList.isEmpty()) {
         // Cannot find MLT path, try finding melt
         QString profilePath = KdenliveSettings::rendererpath();
         if (!profilePath.isEmpty()) {
             profilePath = profilePath.section('/', 0, -3);
             KdenliveSettings::setMltpath(profilePath + "/share/mlt/profiles/");
-            profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+            mltDir = QDir(KdenliveSettings::mltpath());
+            profilesList = mltDir.entryList(profilesFilter, QDir::Files);
         }
         if (profilesList.isEmpty()) {
             // Cannot find the MLT profiles, ask for location
@@ -90,7 +92,8 @@ void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
             delete getUrl;
             if (mltPath.isEmpty()) ::exit(0);
             KdenliveSettings::setMltpath(mltPath.path() + QDir::separator());
-            profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+            mltDir = QDir(KdenliveSettings::mltpath());
+            profilesList = mltDir.entryList(profilesFilter, QDir::Files);
         }
     }
 

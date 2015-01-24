@@ -401,7 +401,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         QDir lumafolder(folder);
         QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
         foreach(const QString & fname, filesnames) {
-            QString filePath = QUrl(folder + QDir::separator() + fname).path();
+            QString filePath = lumafolder.absoluteFilePath(fname);
             m_view.luma_file->addItem(QIcon::fromTheme(filePath), fname, filePath);
         }
 
