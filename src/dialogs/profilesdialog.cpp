@@ -254,7 +254,13 @@ MltVideoProfile ProfilesDialog::getVideoProfile(const QString &name)
     if (!isCustom) {
         // List the Mlt profiles
         profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
-        if (profilesFiles.contains(name)) path = KdenliveSettings::mltpath() + name;
+        if (profilesFiles.contains(name)) {
+	  path = KdenliveSettings::mltpath();
+	  if (path.endsWith('/'))
+	    path += name;
+	  else
+	    path = path + '/' + name;
+	}
     }
     if (isCustom || path.isEmpty()) {
         path = name;
