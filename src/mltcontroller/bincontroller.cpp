@@ -102,7 +102,7 @@ void BinController::initializeBin(Mlt::Playlist playlist)
         if (id.contains("_")) {
             // This is a track producer
             QString mainId = id.section("_", 0, 0);
-            int track = id.section("_", 1, 1).toInt();
+            QString track = id.section("_", 1, 1);
             if (m_clipList.contains(mainId)) {
                 // The controller for this track producer already exists
                 m_clipList.value(mainId)->appendTrackProducer(track, producer->parent());
@@ -238,12 +238,12 @@ Mlt::Producer *BinController::cloneProducer(Mlt::Producer &original)
     return clone;
 }
 
-Mlt::Producer *BinController::getBinClip(const QString &id, int track, PlaylistState::ClipState clipState, double speed)
+Mlt::Producer *BinController::getBinProducer(const QString &id, const QString trackName, PlaylistState::ClipState clipState, double speed)
 {
     if (!m_clipList.contains(id)) return NULL;
     // TODO: framebuffer speed clips
     ClipController *controller = m_clipList.value(id);
-    return controller->getTrackProducer(track, clipState, speed);
+    return controller->getTrackProducer(trackName, clipState, speed);
 }
 
 double BinController::fps() const

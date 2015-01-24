@@ -41,7 +41,7 @@ class BinController;
  */
 
 
-class ClipController : public QObject , public QList<Mlt::Producer *>
+class ClipController : public QObject , public QMap<QString,Mlt::Producer *>
 {
 public:
     /**
@@ -67,7 +67,7 @@ public:
     void getProducerXML(QDomDocument& document);
     
     /** @brief Append a track producer retrieved from document loading to out list */
-    void appendTrackProducer(int track, Mlt::Producer &producer);
+    void appendTrackProducer(const QString trackName, Mlt::Producer &producer);
     
     /** @brief Returns a clone of our master producer */
     Mlt::Producer *masterProducer();
@@ -138,7 +138,7 @@ public:
     
     /** @brief Get a clone of master producer for a specific track. Retrieve it if it already exists
      *  in our list, otherwise we create it. */
-    Mlt::Producer *getTrackProducer(int track, PlaylistState::ClipState clipState = PlaylistState::Original, double speed = 1.0);
+    Mlt::Producer *getTrackProducer(const QString trackName, PlaylistState::ClipState clipState = PlaylistState::Original, double speed = 1.0);
     
     /** @brief Sets the master producer for this clip when we build the controller without master clip. */
     void addMasterProducer(Mlt::Producer &producer);

@@ -109,7 +109,7 @@ public:
      @param clipState The state of the clip (if we need an audio only or video only producer).
      @param speed If the clip has a speed effect (framebuffer producer), we indicate the speed here
     */
-    Mlt::Producer *getBinClip(const QString &id, int track = -1, PlaylistState::ClipState clipState = PlaylistState::Original, double speed = 1.0);
+    Mlt::Producer *getBinProducer(const QString &id, const QString trackName = QString(), PlaylistState::ClipState clipState = PlaylistState::Original, double speed = 1.0);
     
     /** @brief Returns the clip data as rendered by MLT's XML consumer, used to duplicate a clip
      * @param producer The clip's original producer

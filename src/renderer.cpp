@@ -636,7 +636,7 @@ void Render::processFileProperties()
 
         if (info.xml.hasAttribute("thumbnailOnly")) {
             // Special case, we just want the thumbnail for existing producer
-            Mlt::Producer *prod = new Mlt::Producer(*m_binController->getBinClip(info.clipId));
+            Mlt::Producer *prod = new Mlt::Producer(*m_binController->getBinProducer(info.clipId));
             int frameNumber = info.xml.attribute("thumbnail", "-1").toInt();
             if (frameNumber > 0) prod->seek(frameNumber);
             Mlt::Frame *frame = prod->get_frame();
@@ -1140,7 +1140,7 @@ void Render::loadUrl(const QString &url)
 
 int Render::setMonitorProducer(const QString &id, int position)
 {
-    Mlt::Producer *prod = m_binController->getBinClip(id, -1);
+    Mlt::Producer *prod = m_binController->getBinProducer(id);
     return setProducer(prod, position);
 }
 
@@ -2037,8 +2037,7 @@ int Render::mltInsertClip(ItemInfo info, const QString &clipId, bool overwrite, 
     Mlt::Producer trackProducer(tractor.track(info.track));
     int trackDuration = trackProducer.get_playtime() - 1;
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-    
-    Mlt::Producer *prod = getProducerForTrack(trackPlaylist, clipId, info.track);
+    Mlt::Producer *prod = getProducerForTrack(trackPlaylist, clipId);
     if (prod == NULL) {
         //qDebug() << "Cannot insert clip without producer //////";
 	service.unlock();
@@ -2082,11 +2081,25 @@ int Render::mltInsertClip(ItemInfo info, const QString &clipId, bool overwrite, 
 }
 
 
+Mlt::Producer *Render::getTrackProducer(const QString &id, int track, bool audioOnly, bool videoOnly)
+{
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    if (service.type() != tractor_type) {
+        qWarning() << "// TRACTOR PROBLEM";
+        return NULL;
+    }
+    Mlt::Tractor tractor(service);
+    Mlt::Producer destTrackProducer(tractor.track(track));
+    Mlt::Playlist destTrackPlaylist((mlt_playlist) destTrackProducer.get_service());
+    return getProducerForTrack(destTrackPlaylist, id);
+}
 
-Mlt::Producer *Render::getProducerForTrack(Mlt::Playlist &trackPlaylist, const QString &clipId, int track)
+
+Mlt::Producer *Render::getProducerForTrack(Mlt::Playlist &trackPlaylist, const QString &clipId)
 {
     //TODO: find a better way to check if a producer is already inserted in a track ?
-    QString clipIdWithTrack = clipId + "_" + QString::number(track);
+    QString trackName = trackPlaylist.get("id");
+    /*QString clipIdWithTrack = clipId + "_" + trackName;
     Mlt::Producer *prod = NULL;
     for (int i = 0; i < trackPlaylist.count(); i++) {
 	if (trackPlaylist.is_blank(i)) continue;
@@ -2099,8 +2112,8 @@ Mlt::Producer *Render::getProducerForTrack(Mlt::Playlist &trackPlaylist, const Q
 	}
 	else delete p;
     }
-    if (prod == NULL) prod = m_binController->getBinClip(clipId, track);
-    return prod;
+    if (prod == NULL) prod = m_binController->getBinProducer(clipId, trackName);*/
+    return m_binController->getBinProducer(clipId, trackName);;
 }
 
 bool Render::mltCutClip(int track, const GenTime &position)
@@ -3740,7 +3753,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
                 clip = clipProducer;
             } else {
 		//qDebug()<<"// Moving clip from track: "<<startTrack<<" to "<<endTrack;
-		Mlt::Producer *prod = getProducerForTrack(destTrackPlaylist, clipId, endTrack);
+		Mlt::Producer *prod = getProducerForTrack(destTrackPlaylist, clipId);
                 if (prod == NULL) {
                     // Special case: prod is null when using placeholder clips.
                     // in that case, use the producer existing in playlist. Note that

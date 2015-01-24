@@ -204,9 +204,9 @@ void ClipController::updateProducer(const QString &id, Mlt::Producer* producer)
 }
 
 
-Mlt::Producer *ClipController::getTrackProducer(int track, PlaylistState::ClipState clipState, double speed)
+Mlt::Producer *ClipController::getTrackProducer(const QString trackName, PlaylistState::ClipState clipState, double speed)
 {
-    if (track == -1) {
+    if (trackName.isEmpty()) {
         return m_masterProducer;
     }
     if  (m_clipType != AV && m_clipType != Audio && m_clipType != Playlist) {
@@ -214,34 +214,26 @@ Mlt::Producer *ClipController::getTrackProducer(int track, PlaylistState::ClipSt
         return new Mlt::Producer(m_masterProducer->parent());
     }
     QString clipWithTrackId = clipId();
-    clipWithTrackId.append("_" + QString::number(track));
+    clipWithTrackId.append("_" + trackName);
     
     //TODO handle audio / video only producers and framebuffer
     if (clipState == PlaylistState::AudioOnly) clipWithTrackId.append("_audio");
     else if (clipState == PlaylistState::VideoOnly) clipWithTrackId.append("_video");
-
-    if (size() > track) {
-        Mlt::Producer *trackProducer = at(track);
-        if (trackProducer) return trackProducer;
-    } else {
-        while (size() < track) {
-            append(NULL);
-        }
+    
+    if (contains(trackName)) {
+        return value(trackName);
     }
 
     Mlt::Producer *clone = m_binController->cloneProducer(*m_masterProducer);
     clone->set("id", clipWithTrackId.toUtf8().constData());
-    insert(track, clone);
+    insert(trackName, clone);
     m_binController->replaceBinPlaylistClip(clipWithTrackId, clone->parent());
     return clone;
 }
 
-void ClipController::appendTrackProducer(int track, Mlt::Producer &producer)
+void ClipController::appendTrackProducer(const QString trackName, Mlt::Producer &producer)
 {
-    while (size() < track) {
-            append(NULL);
-    }
-    insert(track, &producer);
+    insert(trackName, &producer);
 }
 
 const QString ClipController::getStringDuration()

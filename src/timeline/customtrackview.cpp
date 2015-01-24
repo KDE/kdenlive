@@ -2991,7 +2991,9 @@ int CustomTrackView::duration() const
 
 void CustomTrackView::addTrack(const TrackInfo &type, int ix)
 {
-    QList <TransitionInfo> transitionInfos;
+//TODO
+/*
+  QList <TransitionInfo> transitionInfos;
     if (ix == -1 || ix == m_document->tracksCount()) {
         m_document->insertTrack(0, type);
         transitionInfos = m_document->renderer()->mltInsertTrack(1, type.type == VideoTrack);
@@ -3067,10 +3069,13 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
     //setFixedHeight(50 * m_tracksCount);
 
     updateTrackNames(ix, true);
+    */
 }
 
 void CustomTrackView::removeTrack(int ix)
 {
+  //TODO
+  /*
     // Clear effect stack
     clearSelection();
     emit transitionItemSelected(NULL);
@@ -3142,6 +3147,7 @@ void CustomTrackView::removeTrack(int ix)
 
     updateTrackNames(ix, false);
     //QTimer::singleShot(500, this, SIGNAL(trackHeightChanged()));
+    */
 }
 
 void CustomTrackView::configTracks(const QList < TrackInfo > &trackInfos)
@@ -4316,8 +4322,7 @@ void CustomTrackView::doChangeClipSpeed(ItemInfo info, const ItemInfo &speedInde
         return;
     }
     info.track = m_document->tracksCount() - item->track();
-    ClipController *controller = m_document->getClipController(item->getBinId());
-    int endPos = m_document->renderer()->mltChangeClipSpeed(info, speedIndependantInfo, speed, oldspeed, strobe, controller->getTrackProducer(item->track()));
+    int endPos = m_document->renderer()->mltChangeClipSpeed(info, speedIndependantInfo, speed, oldspeed, strobe, m_document->renderer()->getTrackProducer(item->getBinId(), item->track()));
     if (endPos >= 0) {
         item->setSpeed(speed, strobe);
         item->updateRectGeometry();
@@ -4573,21 +4578,18 @@ void CustomTrackView::slotUpdateClip(const QString &clipId, bool reload)
     QList<QGraphicsItem *> list = scene()->items();
     QList <ClipItem *>clipList;
     ClipItem *clip = NULL;
-    ClipController *baseClip = NULL;
     Mlt::Tractor *tractor = m_document->renderer()->lockService();
     for (int i = 0; i < list.size(); ++i) {
         if (list.at(i)->type() == AVWidget) {
             clip = static_cast <ClipItem *>(list.at(i));
             if (clip->getBinId() == clipId) {
-                if (baseClip == NULL) {
-                    baseClip = m_document->getClipController(clipId);
-                }
                 ItemInfo info = clip->info();
-                Mlt::Producer *prod = NULL;
+                Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clipId, info.track, clip->isAudioOnly(), clip->isVideoOnly());
                 //TODO: get audio / video only producers
-                if (clip->isAudioOnly()) prod = baseClip->getTrackProducer(info.track);
+                
+                /*if (clip->isAudioOnly()) prod = baseClip->getTrackProducer(info.track);
                 else if (clip->isVideoOnly()) prod = baseClip->getTrackProducer(info.track);
-                else prod = baseClip->getTrackProducer(info.track);
+                else prod = baseClip->getTrackProducer(info.track);*/
                 if (reload && !m_document->renderer()->mltUpdateClip(tractor, info, clip->xml(), prod)) {
                     emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", info.startPos.frames(m_document->fps()), info.track), ErrorMessage);
                 }
@@ -6644,8 +6646,7 @@ void CustomTrackView::setAudioAlignReference()
         ClipItem *clip = static_cast<ClipItem*>(selection.at(0));
         if (clip->clipType() == AV || clip->clipType() == Audio) {
             m_audioAlignmentReference = clip;
-            ClipController *controller = m_document->getClipController(clip->getBinId());
-            AudioEnvelope *envelope = new AudioEnvelope(clip->binClip()->url().path(), controller->getTrackProducer(clip->track()));
+            AudioEnvelope *envelope = new AudioEnvelope(clip->binClip()->url().path(), m_document->renderer()->getTrackProducer(clip->getBinId(), clip->track()));
             m_audioCorrelator = new AudioCorrelation(envelope);
             connect(m_audioCorrelator, SIGNAL(gotAudioAlignData(int,int,int)), this, SLOT(slotAlignClip(int,int,int)));
             connect(m_audioCorrelator, SIGNAL(displayMessage(QString,MessageType)), this, SIGNAL(displayMessage(QString,MessageType)));
@@ -6684,8 +6685,7 @@ void CustomTrackView::alignAudio()
 
             if (clip->clipType() == AV || clip->clipType() == Audio) {
                 ItemInfo info = clip->info();
-                ClipController *controller = m_document->getClipController(clip->getBinId());
-                AudioEnvelope *envelope = new AudioEnvelope(clip->binClip()->url().path(), controller->getTrackProducer(clip->track()), info.cropStart.frames(m_document->fps()), info.cropDuration.frames(m_document->fps()), clip->track(), info.startPos.frames(m_document->fps()));
+                AudioEnvelope *envelope = new AudioEnvelope(clip->binClip()->url().path(), m_document->renderer()->getTrackProducer(clip->getBinId(), clip->track()), info.cropStart.frames(m_document->fps()), info.cropDuration.frames(m_document->fps()), clip->track(), info.startPos.frames(m_document->fps()));
                 m_audioCorrelator->addChild(envelope);
             }
         }
@@ -6779,9 +6779,8 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
             if (audioClip) {
                 clip->setVideoOnly(true);
                 Mlt::Tractor *tractor = m_document->renderer()->lockService();
-                ClipController *controller = m_document->getClipController(clip->getBinId());
                 //TODO use VIDEO ONLY producer
-                if (m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - track, start, controller->getTrackProducer(info.track)) == false) {
+                if (m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - track, start, m_document->renderer()->getTrackProducer(clip->getBinId(), info.track, false, true)) == false) {
                     emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", start, track), ErrorMessage);
                 }
                 m_document->renderer()->unlockService(tractor);
@@ -6821,12 +6820,11 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
                 deleteClip(clp->info());
                 clip->setVideoOnly(false);
                 Mlt::Tractor *tractor = m_document->renderer()->lockService();
-                ClipController *controller = m_document->getClipController(clip->getBinId());
                 if (!m_document->renderer()->mltUpdateClipProducer(
                             tractor,
                             m_document->tracksCount() - info.track,
                             info.startPos.frames(m_document->fps()),
-                            controller->getTrackProducer(info.track))) {
+                            m_document->renderer()->getTrackProducer(clip->getBinId(), info.track))) {
 
                     emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)",
                                              info.startPos.frames(m_document->fps()), info.track),
@@ -6898,15 +6896,7 @@ void CustomTrackView::doChangeClipType(const GenTime &pos, int track, bool video
     int start = pos.frames(m_document->fps());
     clip->setAudioOnly(audioOnly);
     clip->setVideoOnly(videoOnly);
-    ClipController *controller = m_document->getClipController(clip->getBinId());
-    Mlt::Producer *producer;
-    //TODO: audio / video only
-    if (videoOnly)
-        producer = controller->getTrackProducer(track);
-    else if (audioOnly)
-        producer = controller->getTrackProducer(track);
-    else
-        producer = controller->getTrackProducer(track);
+    Mlt::Producer *producer = m_document->renderer()->getTrackProducer(clip->getBinId(), track, audioOnly, videoOnly);
     if (m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - track, start, producer) == false)
         emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", start, track), ErrorMessage);
     m_document->renderer()->unlockService(tractor);

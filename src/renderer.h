@@ -328,6 +328,9 @@ class Render: public AbstractRender
     /** @brief Check if the installed FFmpeg / Libav supports x11grab */
     static bool checkX11Grab();
     
+    /** @brief Get a track producer from a clip's id */
+    Mlt::Producer *getTrackProducer(const QString &id, int track, bool audioOnly = false, bool videoOnly = false);
+    
     /** @brief Ask to set this monitor as active */
     void setActiveMonitor();
     
@@ -404,7 +407,8 @@ private:
     void checkMaxThreads();
     /** @brief Clone serialisable properties only */
     void cloneProperties(Mlt::Properties &dest, Mlt::Properties &source);
-    Mlt::Producer *getProducerForTrack(Mlt::Playlist &trackPlaylist, const QString &clipId, int track);
+    /** @brief Get a track producer from a clip's id */
+    Mlt::Producer *getProducerForTrack(Mlt::Playlist &trackPlaylist, const QString &clipId);
     ClipType getTypeForService(const QString &id) const;
     
 private slots:

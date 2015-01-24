@@ -171,12 +171,12 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), m_timelineArea);
     pCore->bin()->setMonitor(m_clipMonitor);
+    connect(pCore->bin(), SIGNAL(clipNeedsReload(QString)),this, SLOT(slotUpdateClip(QString)));
 
     //TODO deprecated, replace with Bin methods if necessary
     /*connect(m_projectList, SIGNAL(loadingIsOver()), this, SLOT(slotElapsedTime()));
     connect(m_projectList, SIGNAL(displayMessage(QString,int,MessageType)), this, SLOT(slotGotProgressInfo(QString,int,MessageType)));
     connect(m_projectList, SIGNAL(updateRenderStatus()), this, SLOT(slotCheckRenderStatus()));
-    connect(m_projectList, SIGNAL(clipNeedsReload(QString)),this, SLOT(slotUpdateClip(QString)));
     connect(m_projectList, SIGNAL(updateProfile(QString)), this, SLOT(slotUpdateProjectProfile(QString)));
     connect(m_projectList, SIGNAL(refreshClip(QString,bool)), pCore->monitorManager(), SLOT(slotRefreshCurrentMonitor(QString)));
     connect(m_projectList, SIGNAL(findInTimeline(QString)), this, SLOT(slotClipInTimeline(QString)));
@@ -623,10 +623,10 @@ void MainWindow::slotUpdateClip(const QString &id)
     if (!clip) {
         return;
     }
-    //TOFO
-    /*if (clip->numReferences() > 0) {
+    //TODO
+    //if (clip->numReferences() > 0) {
         pCore->projectManager()->currentTrackView()->projectView()->slotUpdateClip(id);
-    }*/
+    //}
     //TODO Should probably be removed
     if (m_clipMonitor->activeClipId() == id) {
         m_clipMonitor->openClip(pCore->binController()->getController(id));
