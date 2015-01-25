@@ -251,7 +251,7 @@ signals:
     void focusClipMonitor();
     void addClip();
     void deleteSelectedClips();
-    void editItem(const QModelIndex&);
+    void editItem(const QModelIndex&, const QPoint pos);
     void showMenu(const QString&);
     //void editItemInTimeline(const QString&, const QString&, ProducerWrapper*);
 };
@@ -415,7 +415,7 @@ public slots:
     void slotLoadFolders(QMap<QString,QString> foldersData);
     void slotDeleteClip();
     void slotRefreshClipProperties();
-    void slotSwitchClipProperties(const QModelIndex &ix);
+    void slotSwitchClipProperties(const QModelIndex &ix, const QPoint pos);
     void slotSwitchClipProperties();
     void slotAddFolder();
     void slotCreateProjectClip();

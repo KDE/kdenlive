@@ -178,7 +178,7 @@ public:
     /** @brief Returns true if the clip's video codec is equal to @param codec. 
      *  @param audioCodec set to true if you want to check audio codec. When false, this will check the video codec
      */
-    bool hasCodec(const QString codec, bool audioCodec) const;
+    const QString codec(bool audioCodec) const;
 
 public slots:
     //TODO

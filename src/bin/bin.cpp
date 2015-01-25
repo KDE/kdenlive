@@ -176,8 +176,8 @@ bool EventEater::eventFilter(QObject *obj, QEvent *event)
                 emit addClip();
             }
             else {
-		//emit editItem(idx);
-                return QObject::eventFilter(obj, event);
+		emit editItem(idx, mouseEvent->pos());
+                //return QObject::eventFilter(obj, event);
             }
         }
         else {
@@ -297,7 +297,7 @@ Bin::Bin(QWidget* parent) :
     m_splitter = new QSplitter(this);
     m_headerInfo = QByteArray::fromBase64(KdenliveSettings::treeviewheaders().toLatin1());
 
-    connect(m_eventEater, SIGNAL(editItem(QModelIndex)), this, SLOT(slotSwitchClipProperties(QModelIndex)), Qt::UniqueConnection);
+    connect(m_eventEater, SIGNAL(editItem(QModelIndex,QPoint)), this, SLOT(slotSwitchClipProperties(QModelIndex,QPoint)), Qt::UniqueConnection);
     connect(m_eventEater, SIGNAL(showMenu(QString)), this, SLOT(showClipMenu(QString)), Qt::UniqueConnection);
 
     layout->addWidget(m_splitter);
@@ -835,6 +835,7 @@ void Bin::slotInitView(QAction *action)
     m_itemView->setEditTriggers(QAbstractItemView::DoubleClicked);
     m_itemView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     m_itemView->setDragDropMode(QAbstractItemView::DragDrop);
+    m_itemView->setAlternatingRowColors(true);
     m_itemView->setAcceptDrops(true);
 }
 
@@ -871,7 +872,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     bool enableClipActions = false;
     if (m_itemView) {
         QModelIndex idx = m_itemView->indexAt(m_itemView->viewport()->mapFromGlobal(event->globalPos()));
-        if (idx != QModelIndex()) {
+        if (idx.isValid()) {
 	    // User right clicked on a clip
             AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(idx).internalPointer());
             if (currentItem) {
@@ -883,14 +884,16 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
                     QList<QAction *> transcodeActions = m_transcodeAction->actions();
                     QStringList data;
                     QString condition;
+                    QString audioCodec = clip->codec(true);
+                    QString videoCodec = clip->codec(false);
                     for (int i = 0; i < transcodeActions.count(); ++i) {
                         data = transcodeActions.at(i)->data().toStringList();
                         if (data.count() > 3) {
                             condition = data.at(4);
                             if (condition.startsWith("vcodec"))
-                                transcodeActions.at(i)->setEnabled(clip->hasCodec(condition.section('=', 1, 1), false));
+                                transcodeActions.at(i)->setEnabled(condition.section('=', 1, 1) == videoCodec);
                             else if (condition.startsWith("acodec"))
-                                transcodeActions.at(i)->setEnabled(clip->hasCodec(condition.section('=', 1, 1), true));
+                                transcodeActions.at(i)->setEnabled(condition.section('=', 1, 1) == audioCodec);
                         }
                     }
                 }
@@ -927,12 +930,20 @@ void Bin::slotRefreshClipProperties()
 void Bin::slotSwitchClipProperties()
 {
     QModelIndex current = m_proxyModel->selectionModel()->currentIndex();
-    slotSwitchClipProperties(current);
+    slotSwitchClipProperties(current, QPoint());
 }
 
-void Bin::slotSwitchClipProperties(const QModelIndex &ix)
+void Bin::slotSwitchClipProperties(const QModelIndex &ix, const QPoint pos)
 {
     if (ix.isValid()) {
+        QRect IconRect = m_itemView->visualRect(ix);
+        IconRect.setSize(m_itemView->iconSize());
+        if (!pos.isNull() && !IconRect.contains(pos)) {
+            // User clicked outside icon, trigger rename
+            m_itemView->edit(ix);
+            return;
+        }
+        // User clicked in the icon, open clip properties
         if (m_collapser->isWidgetCollapsed()) {
             AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
             ProjectClip *clip = qobject_cast<ProjectClip*>(item);
