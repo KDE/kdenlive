@@ -159,6 +159,7 @@ public:
     /** @brief Get a property from the MLT producer. */
     QString getProducerProperty(const QString &key) const;
     int getProducerIntProperty(const QString &key) const;
+    QColor getProducerColorProperty(const QString &key) const;
     
     QList < CommentedTime > commentedSnapMarkers() const;
 

@@ -110,6 +110,7 @@ public:
     QString property(const QString &name) const;
     int int_property(const QString &name) const;
     double double_property(const QString &name) const;
+    QColor color_property(const QString &name) const;
 
     double originalFps() const;
     const QString codec(bool audioCodec) const;

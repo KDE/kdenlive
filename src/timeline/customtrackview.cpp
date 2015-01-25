@@ -4584,14 +4584,16 @@ void CustomTrackView::slotUpdateClip(const QString &clipId, bool reload)
             clip = static_cast <ClipItem *>(list.at(i));
             if (clip->getBinId() == clipId) {
                 ItemInfo info = clip->info();
-                Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clipId, info.track, clip->isAudioOnly(), clip->isVideoOnly());
                 //TODO: get audio / video only producers
                 
                 /*if (clip->isAudioOnly()) prod = baseClip->getTrackProducer(info.track);
                 else if (clip->isVideoOnly()) prod = baseClip->getTrackProducer(info.track);
                 else prod = baseClip->getTrackProducer(info.track);*/
-                if (reload && !m_document->renderer()->mltUpdateClip(tractor, info, clip->xml(), prod)) {
-                    emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", info.startPos.frames(m_document->fps()), info.track), ErrorMessage);
+                if (reload) {
+                    Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clipId, info.track, clip->isAudioOnly(), clip->isVideoOnly());
+                    if (!m_document->renderer()->mltUpdateClip(tractor, info, clip->xml(), prod)) {
+                        emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", info.startPos.frames(m_document->fps()), info.track), ErrorMessage);
+                    }
                 }
                 else clipList.append(clip);
             }

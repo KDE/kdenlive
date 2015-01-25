@@ -265,6 +265,13 @@ double ClipController::double_property(const QString &name) const
     return m_properties->get_double(name.toUtf8().constData());
 }
 
+QColor ClipController::color_property(const QString &name) const
+{
+    if (!m_properties) return QColor();
+    mlt_color color = m_properties->get_color(name.toUtf8().constData());
+    return QColor::fromRgb(color.r, color.g, color.b);
+}
+
 double ClipController::originalFps() const
 {
     if (!m_properties) return 0;

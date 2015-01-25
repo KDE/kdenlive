@@ -171,7 +171,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), m_timelineArea);
     pCore->bin()->setMonitor(m_clipMonitor);
-    connect(pCore->bin(), SIGNAL(clipNeedsReload(QString)),this, SLOT(slotUpdateClip(QString)));
+    connect(pCore->bin(), SIGNAL(clipNeedsReload(QString,bool)),this, SLOT(slotUpdateClip(QString,bool)));
 
     //TODO deprecated, replace with Bin methods if necessary
     /*connect(m_projectList, SIGNAL(loadingIsOver()), this, SLOT(slotElapsedTime()));
@@ -617,7 +617,7 @@ void MainWindow::slotAddEffect(const QDomElement &effect)
     else pCore->projectManager()->currentTrackView()->projectView()->slotAddEffect(effectToAdd, GenTime(), -1);
 }
 
-void MainWindow::slotUpdateClip(const QString &id)
+void MainWindow::slotUpdateClip(const QString &id, bool reload)
 {
     ProjectClip *clip = pCore->bin()->getBinClip(id);
     if (!clip) {
@@ -625,7 +625,7 @@ void MainWindow::slotUpdateClip(const QString &id)
     }
     //TODO
     //if (clip->numReferences() > 0) {
-        pCore->projectManager()->currentTrackView()->projectView()->slotUpdateClip(id);
+        pCore->projectManager()->currentTrackView()->projectView()->slotUpdateClip(id, reload);
     //}
     //TODO Should probably be removed
     if (m_clipMonitor->activeClipId() == id) {

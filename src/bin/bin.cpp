@@ -1263,8 +1263,9 @@ void Bin::reloadProducer(const QString &id, QDomElement xml)
     pCore->projectManager()->current()->renderer()->getFileProperties(xml, id, 150, true);
 }
 
-void Bin::refreshMonitor(const QString &id)
+void Bin::refreshClip(const QString &id)
 {
+    emit clipNeedsReload(id, false);
     if (m_monitor->activeClipId() == id)
         m_monitor->refreshMonitor();
 }

@@ -269,7 +269,7 @@ private slots:
     /** @brief Reflects setting changes to the GUI. */
     void updateConfiguration();
     void slotConnectMonitors();
-    void slotUpdateClip(const QString &id);
+    void slotUpdateClip(const QString &id, bool reload);
     void slotUpdateMousePosition(int pos);
     void slotUpdateProjectDuration(int pos);
     void slotAddEffect(const QDomElement &effect);

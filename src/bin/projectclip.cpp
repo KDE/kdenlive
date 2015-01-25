@@ -331,6 +331,14 @@ void ProjectClip::setProducerProperty(const QString &name, const QString &data)
     }
 }
 
+QColor ProjectClip::getProducerColorProperty(const QString &key) const
+{
+    if (m_controller) {
+        return m_controller->color_property(key);
+    }
+    return QColor();
+}
+
 int ProjectClip::getProducerIntProperty(const QString &key) const
 {
     int value = 0;
@@ -431,7 +439,12 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
     }
     else if (properties.contains("resource")) {
         // Clip resource changed, update thumbnail
-        reloadProducer(true);
+        if (clipType() == Color) {
+            //reloadProducer(true);
+        }
+        else {
+            reloadProducer(true);
+        }
         refreshProducer = true;
     }
     if (properties.contains("kdenlive:clipname")) {
@@ -444,7 +457,7 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
     }
     if (refreshProducer) {
         // producer has changed, refresh monitor
-        bin()->refreshMonitor(m_id);
+        bin()->refreshClip(m_id);
     }
 }
 

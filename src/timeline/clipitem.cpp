@@ -111,9 +111,7 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
         }
 
     } else if (m_clipType == Color) {
-        QString colour = m_binClip->getProducerProperty("resource");
-        colour = colour.replace(0, 2, "#");
-        m_baseColor = QColor(colour.left(7));
+        m_baseColor = m_binClip->getProducerColorProperty("resource");
     } else if (m_clipType == Image || m_clipType == Text) {
         m_baseColor = QColor(141, 166, 215);
         //connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
@@ -598,9 +596,8 @@ void ClipItem::refreshClip(bool checkDuration, bool forceResetThumbs)
         }
     }
     if (m_clipType == Color) {
-        QString colour = m_binClip->getProducerProperty("colour");
-        colour = colour.replace(0, 2, "#");
-        m_baseColor = QColor(colour.left(7));
+        m_baseColor = m_binClip->getProducerColorProperty("resource");
+        m_paintColor = m_baseColor;
         update();
     } else if (KdenliveSettings::videothumbnails()) resetThumbs(forceResetThumbs);
 }

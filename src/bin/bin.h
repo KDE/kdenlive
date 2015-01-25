@@ -319,8 +319,8 @@ public:
     /** @brief Reload / replace a producer */
     void reloadProducer(const QString &id, QDomElement xml);
     
-    /** @brief Current producer has changed, refresh monitor */
-    void refreshMonitor(const QString &id);
+    /** @brief Current producer has changed, refresh monitor and timeline*/
+    void refreshClip(const QString &id);
 
     /** @brief Some stuff used to notify the Item Model */
     void emitAboutToAddItem(AbstractProjectItem* item);
@@ -491,6 +491,8 @@ signals:
     void producerReady(const QString &id);
     void storeFolder(QString,QString);
     void gotFilterJobResults(QString,int,int,stringMap,stringMap);
+    /** @brief The clip was changed and thumbnail needs a refresh. */
+    void clipNeedsReload(const QString &,bool);
 };
 
 #endif
