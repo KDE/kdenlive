@@ -29,7 +29,7 @@
 #include <QStandardPaths>
 
 
-SlideshowClip::SlideshowClip(const Timecode &tc, QWidget * parent) :
+SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, QWidget * parent) :
     QDialog(parent),
     m_count(0),
     m_timecode(tc),
@@ -73,7 +73,11 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QWidget * parent) :
     m_view.clip_duration->setInputMask(m_timecode.mask());
     m_view.luma_duration->setInputMask(m_timecode.mask());
     m_view.luma_duration->setText(m_timecode.getTimecodeFromFrames(int(ceil(m_timecode.fps()))));
-    m_view.folder_url->setUrl(QUrl::fromLocalFile(QDir::homePath()));
+
+    if (clipFolder.isEmpty()) {
+        clipFolder = QDir::homePath();
+    }
+    m_view.folder_url->setUrl(QUrl::fromLocalFile(clipFolder));
 
     m_view.clip_duration_format->addItem(i18n("hh:mm:ss:ff"));
     m_view.clip_duration_format->addItem(i18n("Frames"));

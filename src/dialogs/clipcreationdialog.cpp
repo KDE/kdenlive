@@ -33,12 +33,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KMessageBox>
 #include <KRecentDirs>
+#include <KFileWidget>
 #include "klocalizedstring.h"
 
 #include <QDir>
 #include <QUndoStack>
 #include <QUndoCommand>
 #include <QStandardPaths>
+#include <QPushButton>
 #include <QDebug>
 #include <QDialog>
 #include <QPointer>
@@ -117,10 +119,11 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, QStringList groupInfo
 //static
 void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
 {
-    QPointer<SlideshowClip> dia = new SlideshowClip(doc->timecode(), bin);
+    QPointer<SlideshowClip> dia = new SlideshowClip(doc->timecode(), KRecentDirs::dir(":KdenliveSlideShowFolder"), bin);
 
     if (dia->exec() == QDialog::Accepted) {
         // Ready, create xml
+        KRecentDirs::add(":KdenliveSlideShowFolder", QUrl::fromLocalFile(dia->selectedPath()).adjusted(QUrl::RemoveFilename).path());
         QDomDocument xml;
         QDomElement prod = xml.createElement("producer");
         xml.appendChild(prod);
@@ -411,8 +414,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupI
 {
     QList <QUrl> list;
     QString allExtensions = getExtensions().join(" ");
-    QStringList dialogFilter; //i18n("All Supported Files") + "(" + allExtensions + ");;" + i18n("All Files") + "(*)";
-    dialogFilter << allExtensions << "application/octet-stream";
+    QString dialogFilter = allExtensions + "|" + i18n("All Supported Files") + "\n*|" + i18n("All Files");
     QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
     b->setChecked(KdenliveSettings::autoimagesequence());
     QCheckBox *c = new QCheckBox(i18n("Transparent background for images"));
@@ -428,15 +430,23 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupI
     if (clipFolder.isEmpty()) {
         clipFolder = QDir::homePath();
     }
-    QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), i18n("Open Clips"), clipFolder);
-    //TODO: KF5, how to add a custom widget to file dialog
-    /*QGridLayout *layout = (QGridLayout*)d->layout();
-    layout->addWidget(f, 0, 0);*/
-    d->setMimeTypeFilters(dialogFilter);
-    d->setFileMode(QFileDialog::ExistingFiles);
-    if (d->exec() == QDialog::Accepted) {
+    QDialog *dlg = new QDialog(QApplication::activeWindow());
+    KFileWidget *fileWidget = new KFileWidget(QUrl::fromLocalFile(clipFolder), dlg);
+    QVBoxLayout *layout = new QVBoxLayout;
+    layout->addWidget(fileWidget);
+    fileWidget->setCustomWidget(f);
+    fileWidget->okButton()->show();
+    fileWidget->cancelButton()->show();
+    QObject::connect(fileWidget->okButton(), &QPushButton::clicked, fileWidget, &KFileWidget::slotOk);
+    QObject::connect(fileWidget, &KFileWidget::accepted, fileWidget, &KFileWidget::accept);
+    QObject::connect(fileWidget, &KFileWidget::accepted, dlg, &QDialog::accept);
+    QObject::connect(fileWidget->cancelButton(), &QPushButton::clicked, dlg, &QDialog::reject);
+    dlg->setLayout(layout);
+    fileWidget->setFilter(dialogFilter);
+    fileWidget->setMode(KFile::Files | KFile::ExistingOnly);
+    if (dlg->exec() == QDialog::Accepted) {
         KdenliveSettings::setAutoimagetransparency(c->isChecked());
-        list = d->selectedUrls();
+        list = fileWidget->selectedUrls();
         if (!list.isEmpty()) {
             KRecentDirs::add(":KdenliveClipFolder", list.first().adjusted(QUrl::RemoveFilename).path());
         }
@@ -452,7 +462,8 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupI
                     QString pattern = SlideshowClip::selectedPath(url, false, QString(), &list);
                     int count = list.count();
                     if (count > 1) {
-                        delete d;
+                        delete fileWidget;
+                        delete dlg;
                         // get image sequence base name
                         while (fileName.at(fileName.size() - 1).isDigit()) {
                             fileName.chop(1);
@@ -484,7 +495,8 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupI
             }
         }
     }
-    delete d;
+    delete fileWidget;
+    delete dlg;
     if (!list.isEmpty()) {
         ClipCreationDialog::createClipsCommand(doc, list, groupInfo, bin);
     }

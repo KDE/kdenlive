@@ -696,6 +696,8 @@ void Render::processFileProperties()
             QString xmldata = ProjectClip::getXmlProperty(info.xml, "xmldata");
             if (producer && producer->is_valid() && !xmldata.isEmpty())
                 producer->set("xmldata", xmldata.toUtf8().constData());
+        } else if (type == SlideShow) {
+            producer = new Mlt::Producer(*m_mltProfile, "xml-string", info.xml.ownerDocument().toString().toUtf8().constData());
         } else if (!url.isValid()) {
             //WARNING: when is this case used? Not sure it is working.. JBM/
             QDomDocument doc;
