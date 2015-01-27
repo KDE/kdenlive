@@ -19,7 +19,6 @@
 #define InitEffects_H
 
 #include <QDomDocument>
-#include <QThread>
 #include <QStringList>
 #include <mlt++/Mlt.h>
 
@@ -29,18 +28,6 @@
   */
 
 class EffectsList;
-
-class initEffectsThumbnailer : public QThread
-{
-    Q_OBJECT
-public:
-    initEffectsThumbnailer();
-    void prepareThumbnailsCall(const QStringList&);
-    void run();
-private :
-    QStringList m_list;
-
-};
 
 class initEffects
 {
@@ -111,7 +98,6 @@ public:
 
 private:
     initEffects(); // disable the constructor
-    static initEffectsThumbnailer thumbnailer;
 };
 
 
