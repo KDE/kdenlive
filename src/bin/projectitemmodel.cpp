@@ -105,6 +105,9 @@ Qt::ItemFlags ProjectItemModel::flags(const QModelIndex& index) const
       case AbstractProjectItem::SubClipItem:
           return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled;
           break;
+      case AbstractProjectItem::FolderUpItem:
+          return Qt::ItemIsEnabled;
+          break;
       default:
           return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
     }

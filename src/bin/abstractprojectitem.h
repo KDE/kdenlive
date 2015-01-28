@@ -52,9 +52,10 @@ class AbstractProjectItem : public QObject, public QList<AbstractProjectItem *>
 public:
 
     enum PROJECTITEMTYPE {
-        FolderItem = 0,
-        ClipItem = 1,
-        SubClipItem = 2
+        FolderUpItem = 0,
+        FolderItem = 1,
+        ClipItem = 2,
+        SubClipItem = 3
     };
 
     /**
@@ -110,6 +111,8 @@ public:
     /** @brief Used to search for a folder with a specific id. */
     virtual ProjectFolder* folder(const QString &id) = 0;
     virtual ProjectClip *clipAt(int ix) = 0;
+    /** @brief Returns the folderUp item child if there is any. */
+    AbstractProjectItem *upFolder();
 
     /** @brief Returns the clip's id. */
     const QString &clipId() const;

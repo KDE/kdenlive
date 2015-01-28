@@ -112,7 +112,7 @@ public:
     {
         QSize hint = QStyledItemDelegate::sizeHint(option, index);
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
-        if (type == AbstractProjectItem::FolderItem) {
+        if (type == AbstractProjectItem::FolderItem || type == AbstractProjectItem::FolderUpItem) {
             return QSize(hint.width(), qMin(option.fontMetrics.lineSpacing() + 4, hint.height()));
         }
         if (type == AbstractProjectItem::ClipItem) {
@@ -251,7 +251,7 @@ signals:
     void focusClipMonitor();
     void addClip();
     void deleteSelectedClips();
-    void editItem(const QModelIndex&, const QPoint pos);
+    void itemDoubleClicked(const QModelIndex&, const QPoint pos);
     void showMenu(const QString&);
     //void editItemInTimeline(const QString&, const QString&, ProducerWrapper*);
 };
@@ -415,7 +415,8 @@ public slots:
     void slotLoadFolders(QMap<QString,QString> foldersData);
     void slotDeleteClip();
     void slotRefreshClipProperties();
-    void slotSwitchClipProperties(const QModelIndex &ix, const QPoint pos);
+    void slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos);
+    void slotSwitchClipProperties(const QModelIndex &ix);
     void slotSwitchClipProperties();
     void slotAddFolder();
     void slotCreateProjectClip();

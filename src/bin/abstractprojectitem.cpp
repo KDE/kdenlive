@@ -256,6 +256,17 @@ void AbstractProjectItem::setCurrent(bool current, bool notify)
     }
 }
 
+AbstractProjectItem* AbstractProjectItem::upFolder()
+{
+    for (int i = 0; i < count(); ++i) {
+        AbstractProjectItem *child = at(i);
+        if (child->itemType() == FolderUpItem) {
+            return child;
+        }
+    }
+    return NULL;
+}
+
 QPoint AbstractProjectItem::zone() const
 {
     return QPoint();

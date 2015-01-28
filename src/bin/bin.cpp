@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectclip.h"
 #include "projectsubclip.h"
 #include "projectfolder.h"
+#include "projectfolderup.h"
 #include "kdenlivesettings.h"
 #include "project/projectmanager.h"
 #include "project/clipmanager.h"
@@ -171,12 +172,14 @@ bool EventEater::eventFilter(QObject *obj, QEvent *event)
         QAbstractItemView *view = qobject_cast<QAbstractItemView*>(obj->parent());
         if (view) {
             QModelIndex idx = view->indexAt(mouseEvent->pos());
-            if (idx == QModelIndex()) {
+            if (!idx.isValid()) {
                 // User double clicked on empty area
                 emit addClip();
             }
             else {
-		emit editItem(idx, mouseEvent->pos());
+                /*AbstractProjectItem *item = static_cast<AbstractProjectItem*>(idx.internalPointer());
+                if (item->itemType() == AbstractProjectItem::FolderItem) qDebug()<<"*****************  FLD CLK ****************";*/
+		emit itemDoubleClicked(idx, mouseEvent->pos());
                 //return QObject::eventFilter(obj, event);
             }
         }
@@ -297,7 +300,7 @@ Bin::Bin(QWidget* parent) :
     m_splitter = new QSplitter(this);
     m_headerInfo = QByteArray::fromBase64(KdenliveSettings::treeviewheaders().toLatin1());
 
-    connect(m_eventEater, SIGNAL(editItem(QModelIndex,QPoint)), this, SLOT(slotSwitchClipProperties(QModelIndex,QPoint)), Qt::UniqueConnection);
+    connect(m_eventEater, SIGNAL(itemDoubleClicked(QModelIndex,QPoint)), this, SLOT(slotItemDoubleClicked(QModelIndex,QPoint)), Qt::UniqueConnection);
     connect(m_eventEater, SIGNAL(showMenu(QString)), this, SLOT(showClipMenu(QString)), Qt::UniqueConnection);
 
     layout->addWidget(m_splitter);
@@ -785,6 +788,19 @@ void Bin::slotInitView(QAction *action)
             QTreeView *view = static_cast<QTreeView*>(m_itemView);
             m_headerInfo = view->header()->saveState();
         }
+        else {
+            // remove the current folderUp item if any
+            QModelIndex ix = m_itemView->rootIndex();
+            if (ix.isValid()) {
+                AbstractProjectItem *currentItem = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
+                AbstractProjectItem *folderUp = currentItem->upFolder();
+                if (folderUp) {
+                    // there is a folderUp item, delete it
+                    currentItem->removeChild(folderUp);
+                    delete folderUp;
+                }
+            }
+        }
         m_listType = static_cast<BinViewType>(viewType);
     }
 
@@ -832,7 +848,7 @@ void Bin::slotInitView(QAction *action)
 	view->setResizeMode(QListView::Adjust);
 	view->setUniformItemSizes(true);
     }
-    m_itemView->setEditTriggers(QAbstractItemView::DoubleClicked);
+    m_itemView->setEditTriggers(QAbstractItemView::NoEditTriggers); //DoubleClicked);
     m_itemView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     m_itemView->setDragDropMode(QAbstractItemView::DragDrop);
     m_itemView->setAlternatingRowColors(true);
@@ -927,14 +943,45 @@ void Bin::slotRefreshClipProperties()
     }
 }
 
-void Bin::slotSwitchClipProperties()
-{
-    QModelIndex current = m_proxyModel->selectionModel()->currentIndex();
-    slotSwitchClipProperties(current, QPoint());
-}
 
-void Bin::slotSwitchClipProperties(const QModelIndex &ix, const QPoint pos)
+void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
 {
+    AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());  
+    if (m_listType == BinIconView) {
+        if (item->count() > 0 || item->itemType() == AbstractProjectItem::FolderItem) {
+            ProjectFolderUp *upItem = new ProjectFolderUp(item);
+            m_itemView->setRootIndex(ix);
+            // delete current folderUp item
+            AbstractProjectItem *parentItem = item->parent();
+            if (parentItem) {
+                AbstractProjectItem *currentUp = parentItem->upFolder();
+                if (currentUp) {
+                    parentItem->removeChild(currentUp);
+                    delete currentUp;
+                }
+            }
+            return;
+        }
+        if (item->itemType() == AbstractProjectItem::FolderUpItem) {
+            AbstractProjectItem *parentItem = item->parent();
+            QModelIndex parent = getIndexForId(parentItem->parent()->clipId(), parentItem->parent()->itemType() == AbstractProjectItem::FolderItem);
+            if (parentItem->parent() != m_rootFolder) {
+                // We are entering a parent folder
+                ProjectFolderUp *upItem = new ProjectFolderUp(parentItem->parent());
+            }
+            m_itemView->setRootIndex(m_proxyModel->mapFromSource(parent));
+            parentItem->removeChild(item);
+            delete item;
+            return;
+        }
+    }
+    else {
+        if (item->count() > 0) {
+            QTreeView *view = static_cast<QTreeView*>(m_itemView);
+            view->setExpanded(ix, !view->isExpanded(ix));
+            return;
+        }
+    }
     if (ix.isValid()) {
         QRect IconRect = m_itemView->visualRect(ix);
         IconRect.setSize(m_itemView->iconSize());
@@ -943,6 +990,19 @@ void Bin::slotSwitchClipProperties(const QModelIndex &ix, const QPoint pos)
             m_itemView->edit(ix);
             return;
         }
+        slotSwitchClipProperties(ix);
+    }
+}
+
+void Bin::slotSwitchClipProperties()
+{
+    QModelIndex current = m_proxyModel->selectionModel()->currentIndex();
+    slotSwitchClipProperties(current);
+}
+
+void Bin::slotSwitchClipProperties(const QModelIndex &ix)
+{
+    if (ix.isValid()) {
         // User clicked in the icon, open clip properties
         if (m_collapser->isWidgetCollapsed()) {
             AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
@@ -952,10 +1012,6 @@ void Bin::slotSwitchClipProperties(const QModelIndex &ix, const QPoint pos)
                 showClipProperties(clip);
             }
             else m_collapser->collapse();
-            /*else if (clip->isFolder() && m_listType == BinIconView) {
-                // Double clicking on a folder enters it in icon view
-                m_itemView->setRootIndex(ix);
-            }*/
         }
         else m_collapser->collapse();
     }

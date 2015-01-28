@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "projectsortproxymodel.h"
+#include "abstractprojectitem.h"
 
 #include <QItemSelectionModel>
 
@@ -42,8 +43,8 @@ bool ProjectSortProxyModel::filterAcceptsRow(int sourceRow,
 bool ProjectSortProxyModel::lessThan(const QModelIndex & left, const QModelIndex & right) const
 {
     // Check item type (folder or clip) as defined in projectitemmodel
-    int leftType = sourceModel()->data(left, 4).toInt();
-    int rightType = sourceModel()->data(right, 4).toInt();
+    int leftType = sourceModel()->data(left, AbstractProjectItem::ItemTypeRole).toInt();
+    int rightType = sourceModel()->data(right, AbstractProjectItem::ItemTypeRole).toInt();
     if (leftType == rightType) {
         // Let the normal alphabetical sort happen
         return QSortFilterProxyModel::lessThan(right, left);
@@ -66,7 +67,8 @@ void ProjectSortProxyModel::onCurrentRowChanged(const QItemSelection& current, c
 {
     Q_UNUSED(previous)
     QModelIndex id;
-    if (!current.isEmpty()) id = current.indexes().first();
+    QModelIndexList indexes = current.indexes();
+    if (!indexes.isEmpty()) id = indexes.first();
     emit selectModel(id);
 }
 
