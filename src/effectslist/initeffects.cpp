@@ -31,35 +31,6 @@
 
 #include <klocalizedstring.h>
 
-initEffectsThumbnailer::initEffectsThumbnailer() :
-    QThread()
-{
-}
-
-void initEffectsThumbnailer::prepareThumbnailsCall(const QStringList& list)
-{
-    m_list = list;
-    start();
-    //qDebug() << "done";
-}
-
-void initEffectsThumbnailer::run()
-{
-    foreach(const QString & entry, m_list) {
-        //qDebug() << entry;
-        if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
-            if (!MainWindow::m_lumacache.contains(entry)) {
-                QImage pix(entry);
-                //if (!pix.isNull())
-		MainWindow::m_lumacache.insert(entry, pix.scaled(30, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-                //qDebug() << "stored";
-            }
-        }
-    }
-}
-
-initEffectsThumbnailer initEffects::thumbnailer;
-
 // static
 void initEffects::refreshLumas()
 {

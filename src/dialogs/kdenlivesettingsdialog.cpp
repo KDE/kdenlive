@@ -34,7 +34,6 @@
 #include <QDebug>
 #include <QDir>
 #include <QTimer>
-#include <QThread>
 
 #include <stdlib.h>
 #include <stdio.h>
