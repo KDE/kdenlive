@@ -51,6 +51,7 @@ class Monitor;
 class QItemSelectionModel;
 class ProjectSortProxyModel;
 class JobManager;
+class ProjectFolderUp;
 
 namespace Mlt {
   class Producer;
@@ -440,6 +441,8 @@ private:
     ProjectItemModel *m_itemModel;
     QAbstractItemView *m_itemView;
     ProjectFolder *m_rootFolder;
+    /** @brief An "Up" item that is inserted in bin when using icon view so that user can navigate up */
+    ProjectFolderUp *m_folderUp;
     BinItemDelegate *m_binTreeViewDelegate;
     ProjectSortProxyModel *m_proxyModel;
     JobManager *m_jobManager;

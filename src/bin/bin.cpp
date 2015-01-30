@@ -200,6 +200,7 @@ Bin::Bin(QWidget* parent) :
   , m_listType(BinTreeView)
   , m_jobManager(NULL)
   , m_rootFolder(NULL)
+  , m_folderUp(NULL)
   , m_doc(NULL)
   , m_iconSize(160, 90)
   , m_propertiesPanel(NULL)
@@ -780,6 +781,7 @@ void Bin::slotInitView(QAction *action)
     closeEditing();
     if (action) {
         int viewType = action->data().toInt();
+        KdenliveSettings::setBinMode(viewType);
         if (viewType == m_listType) {
             return;
         }
@@ -790,18 +792,16 @@ void Bin::slotInitView(QAction *action)
         }
         else {
             // remove the current folderUp item if any
-            QModelIndex ix = m_itemView->rootIndex();
-            if (ix.isValid()) {
-                AbstractProjectItem *currentItem = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
-                AbstractProjectItem *folderUp = currentItem->upFolder();
-                if (folderUp) {
-                    // there is a folderUp item, delete it
-                    currentItem->removeChild(folderUp);
-                    delete folderUp;
-                }
+            if (m_folderUp) {
+                delete m_folderUp;
+                m_folderUp = NULL;
             }
         }
         m_listType = static_cast<BinViewType>(viewType);
+    }
+    else {
+        // first initialization, use saved mode
+        m_listType = static_cast<BinViewType>(KdenliveSettings::binMode());
     }
 
     if (m_itemView) {
@@ -811,6 +811,7 @@ void Bin::slotInitView(QAction *action)
     switch (m_listType) {
     case BinIconView:
         m_itemView = new QListView(m_splitter);
+        m_folderUp = new ProjectFolderUp(NULL);
         break;
     default:
         m_itemView = new QTreeView(m_splitter);
@@ -949,29 +950,19 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
     AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());  
     if (m_listType == BinIconView) {
         if (item->count() > 0 || item->itemType() == AbstractProjectItem::FolderItem) {
-            ProjectFolderUp *upItem = new ProjectFolderUp(item);
+            m_folderUp->setParent(item);
             m_itemView->setRootIndex(ix);
-            // delete current folderUp item
-            AbstractProjectItem *parentItem = item->parent();
-            if (parentItem) {
-                AbstractProjectItem *currentUp = parentItem->upFolder();
-                if (currentUp) {
-                    parentItem->removeChild(currentUp);
-                    delete currentUp;
-                }
-            }
             return;
         }
-        if (item->itemType() == AbstractProjectItem::FolderUpItem) {
+        if (item == m_folderUp) {
             AbstractProjectItem *parentItem = item->parent();
             QModelIndex parent = getIndexForId(parentItem->parent()->clipId(), parentItem->parent()->itemType() == AbstractProjectItem::FolderItem);
             if (parentItem->parent() != m_rootFolder) {
                 // We are entering a parent folder
-                ProjectFolderUp *upItem = new ProjectFolderUp(parentItem->parent());
+                m_folderUp->setParent(parentItem->parent());
             }
+            else m_folderUp->setParent(NULL);
             m_itemView->setRootIndex(m_proxyModel->mapFromSource(parent));
-            parentItem->removeChild(item);
-            delete item;
             return;
         }
     }
