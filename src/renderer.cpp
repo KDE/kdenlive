@@ -2036,7 +2036,6 @@ int Render::mltInsertClip(ItemInfo info, const QString &clipId, bool overwrite, 
         return -1;
     }
     service.lock();
-    qDebug()<<" + + INSERTINH CLP on TKL: "<<info.track;
     Mlt::Producer trackProducer(tractor.track(info.track));
     int trackDuration = trackProducer.get_playtime() - 1;
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
@@ -2047,7 +2046,7 @@ int Render::mltInsertClip(ItemInfo info, const QString &clipId, bool overwrite, 
         return -1;
     }
     
-    qDebug()<<"/// INSERT cLIP: "<<prod->get("id")<<" : "<< info.cropStart.frames(m_fps)<<", "<<info.startPos.frames(m_fps)<<"-"<<info.endPos.frames(m_fps);
+    //qDebug()<<"/// INSERT cLIP: "<<prod->get("id")<<" : "<< info.cropStart.frames(m_fps)<<", "<<info.startPos.frames(m_fps)<<"-"<<info.endPos.frames(m_fps);
     //TODO: create new producer if speed effect is applied
     /*prod = checkSlowMotionProducer(prod, element);
     if (prod == NULL || !prod->is_valid()) {
