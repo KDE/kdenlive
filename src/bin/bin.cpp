@@ -1395,7 +1395,7 @@ void Bin::slotItemDropped(QStringList ids, const QModelIndex &parent)
     moveCommand->setText(i18np("Move Clip", "Move Clips", ids.count()));
     QStringList folderIds;
     foreach(const QString &id, ids) {
-        if (id.contains("@")) {
+        if (id.contains("/")) {
             // trying to move clip zone, not allowed. Ignore
             continue;
         }

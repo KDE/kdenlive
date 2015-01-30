@@ -220,20 +220,15 @@ Mlt::Producer *ClipController::getTrackProducer(const QString trackName, Playlis
     if (clipState == PlaylistState::AudioOnly) clipWithTrackId.append("_audio");
     else if (clipState == PlaylistState::VideoOnly) clipWithTrackId.append("_video");
     
-    if (contains(trackName)) {
-        return value(trackName);
-    }
-
     Mlt::Producer *clone = m_binController->cloneProducer(*m_masterProducer);
     clone->set("id", clipWithTrackId.toUtf8().constData());
-    insert(trackName, clone);
-    m_binController->replaceBinPlaylistClip(clipWithTrackId, clone->parent());
+    //m_binController->replaceBinPlaylistClip(clipWithTrackId, clone->parent());
     return clone;
 }
 
 void ClipController::appendTrackProducer(const QString trackName, Mlt::Producer &producer)
 {
-    insert(trackName, &producer);
+    //insert(trackName, &producer);
 }
 
 const QString ClipController::getStringDuration()

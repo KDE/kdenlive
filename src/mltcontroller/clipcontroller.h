@@ -41,7 +41,7 @@ class BinController;
  */
 
 
-class ClipController : public QObject , public QMap<QString,Mlt::Producer *>
+class ClipController : public QObject
 {
 public:
     /**

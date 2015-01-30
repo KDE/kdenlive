@@ -2758,6 +2758,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             clipInfo.track = m_document->tracksCount() - item->track();
 	    QString clipBinId = item->getBinId();
             //int worked = m_document->renderer()->mltInsertClip(clipInfo, item->xml(), item->baseClip()->getProducer(item->track()), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
+            qDebug()<<" / / /INSERTINV CLP: "<<clipBinId<<" / "<<clipInfo.startPos.frames(25)<<"-"<<clipInfo.cropDuration.frames(25);
 	    int worked = m_document->renderer()->mltInsertClip(clipInfo /*, item->xml()*/, clipBinId, m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
             if (worked == -1) {
                 emit displayMessage(i18n("Cannot insert clip in timeline"), ErrorMessage);

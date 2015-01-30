@@ -239,6 +239,7 @@ bool BinController::removeBinClip(const QString &id)
 Mlt::Producer *BinController::cloneProducer(Mlt::Producer &original)
 {
     QString xml = getProducerXML(original);
+    qDebug()<<"************************\n"<<xml;
     Mlt::Producer *clone = new Mlt::Producer(*m_mltProfile, "xml-string", xml.toUtf8().constData());
     return clone;
 }
@@ -248,6 +249,7 @@ Mlt::Producer *BinController::getBinProducer(const QString &id, const QString tr
     if (!m_clipList.contains(id)) return NULL;
     // TODO: framebuffer speed clips
     ClipController *controller = m_clipList.value(id);
+    qDebug()<<"CHKG TK PROD: "<<trackName;
     return controller->getTrackProducer(trackName, clipState, speed);
 }
 

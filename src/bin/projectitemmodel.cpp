@@ -237,7 +237,7 @@ QMimeData* ProjectItemModel::mimeData(const QModelIndexList& indices) const
 {
     // Mime data is a list of id's separated by ';'.
     // Clip ids are represented like:  2 (where 2 is the clip's id)
-    // Clip zone ids are represented like:  2@10-200 (where 2 is the clip's id, 10 and 200 are in and out points)
+    // Clip zone ids are represented like:  2/10/200 (where 2 is the clip's id, 10 and 200 are in and out points)
     // Folder ids are represented like:  #2 (where 2 is the folder's id)
     QMimeData *mimeData = new QMimeData();
     QStringList list;
@@ -250,7 +250,7 @@ QMimeData* ProjectItemModel::mimeData(const QModelIndexList& indices) const
             list << item->clipId();
         } else if (type == AbstractProjectItem::SubClipItem) {
             QPoint p = item->zone();
-            list << item->clipId() + "@" + QString::number(p.x()) + "-" + QString::number(p.y());
+            list << item->clipId() + "/" + QString::number(p.x()) + "/" + QString::number(p.y());
         }
         else if (type == AbstractProjectItem::FolderItem) {
             list << "#" + item->clipId();
