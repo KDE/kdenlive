@@ -363,6 +363,7 @@ public:
     void doAddFolder(const QString &id, const QString &name, const QString &parentId);
     void removeFolder(const QString &id, QUndoCommand *deleteCommand);
     void doMoveClip(const QString &id, const QString &newParentId);
+    void doMoveFolder(const QString &id, const QString &newParentId);
     void setupGeneratorMenu(const QHash<QString,QMenu*>& menus);
     void startClipJob(const QStringList &params);
     void droppedUrls(QList <QUrl> urls, const QMap<QString,QString> properties = QMap<QString,QString>());
@@ -493,7 +494,7 @@ private:
 signals:
     void itemUpdated(AbstractProjectItem*);
     void producerReady(const QString &id);
-    void storeFolder(QString,QString);
+    void storeFolder(QString,QString,QString,QString);
     void gotFilterJobResults(QString,int,int,stringMap,stringMap);
     /** @brief The clip was changed and thumbnail needs a refresh. */
     void clipNeedsReload(const QString &,bool);

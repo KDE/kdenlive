@@ -135,9 +135,14 @@ void BinController::createIfNeeded()
     m_binPlaylist->set("id", kPlaylistTrackId);
 }
 
-void BinController::slotStoreFolder(const QString &folderId, const QString &folderName)
+void BinController::slotStoreFolder(const QString &folderId, const QString &parentId, const QString &oldParentId, const QString &folderName)
 {
-    QString propertyName = "kdenlive:folder." + folderId;
+    if (!oldParentId.isEmpty()) {
+        // Folder was moved, remove old reference
+        QString oldPropertyName = "kdenlive:folder." + oldParentId + "." + folderId;
+        m_binPlaylist->set(oldPropertyName.toUtf8().constData(), (char *) NULL);
+    }
+    QString propertyName = "kdenlive:folder." + parentId + "." + folderId;
     if (folderName.isEmpty()) {
         // Remove this folder info
         m_binPlaylist->set(propertyName.toUtf8().constData(), (char *) NULL);

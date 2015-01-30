@@ -134,7 +134,7 @@ public:
 
 public slots:
     /** @brief Stored a Bin Folder id / name to MLT's bin playlist. Using an empry folderName deletes the property */
-    void slotStoreFolder(const QString &folderId, const QString &folderName);
+    void slotStoreFolder(const QString &folderId, const QString &parentId, const QString &oldParentId, const QString &folderName);
 
 private:
     /** @brief The MLT playlist holding our Producers */

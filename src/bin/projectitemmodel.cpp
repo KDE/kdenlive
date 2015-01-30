@@ -235,29 +235,33 @@ QStringList ProjectItemModel::mimeTypes() const
 
 QMimeData* ProjectItemModel::mimeData(const QModelIndexList& indices) const
 {
+    // Mime data is a list of id's separated by ';'.
+    // Clip ids are represented like:  2 (where 2 is the clip's id)
+    // Clip zone ids are represented like:  2@10-200 (where 2 is the clip's id, 10 and 200 are in and out points)
+    // Folder ids are represented like:  #2 (where 2 is the folder's id)
     QMimeData *mimeData = new QMimeData();
-    if (indices.count() >= 1 && indices.at(0).isValid()) {
-        AbstractProjectItem *item = static_cast<AbstractProjectItem*>(indices.at(0).internalPointer());
+    QStringList list;
+    for (int i = 0; i < indices.count(); i++) {
+        QModelIndex ix = indices.at(i);
+        if (!ix.isValid()) continue;
+        AbstractProjectItem *item = static_cast<AbstractProjectItem*>(ix.internalPointer());
         AbstractProjectItem::PROJECTITEMTYPE type = item->itemType();
         if (type == AbstractProjectItem::ClipItem) {
-            QStringList list;
             list << item->clipId();
-            QByteArray data;
-            data.append(list.join(QLatin1String(";")).toUtf8());
-            mimeData->setData(QLatin1String("kdenlive/producerslist"),  data);
-            return mimeData;
         } else if (type == AbstractProjectItem::SubClipItem) {
-            QStringList list;
-            list << item->clipId();
             QPoint p = item->zone();
-            list.append(QString::number(p.x()));
-            list.append(QString::number(p.y()));
-            QByteArray data;
-            data.append(list.join(QLatin1String(";")).toUtf8());
-            mimeData->setData(QLatin1String("kdenlive/clip"),  data);
-            return mimeData;
+            list << item->clipId() + "@" + QString::number(p.x()) + "-" + QString::number(p.y());
+        }
+        else if (type == AbstractProjectItem::FolderItem) {
+            list << "#" + item->clipId();
         }
     }
+    if (!list.isEmpty()) {
+        QByteArray data;
+        data.append(list.join(QLatin1String(";")).toUtf8());
+        mimeData->setData(QLatin1String("kdenlive/producerslist"),  data);
+    }
+    return mimeData;
 }
 
 

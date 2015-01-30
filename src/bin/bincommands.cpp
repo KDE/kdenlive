@@ -72,6 +72,25 @@ void MoveBinClipCommand::redo()
     m_bin->doMoveClip(m_clipId, m_newParentId);
 }
 
+MoveBinFolderCommand::MoveBinFolderCommand(Bin *bin, const QString &clipId, const QString &oldParentId, const QString &newParentId, QUndoCommand *parent) :
+        QUndoCommand(parent),
+        m_bin(bin),
+        m_clipId(clipId),
+        m_oldParentId(oldParentId),
+        m_newParentId(newParentId)
+{
+    setText(i18n("Move Clip"));
+}
+// virtual
+void MoveBinFolderCommand::undo()
+{
+    m_bin->doMoveFolder(m_clipId, m_oldParentId);
+}
+// virtual
+void MoveBinFolderCommand::redo()
+{
+    m_bin->doMoveFolder(m_clipId, m_newParentId);
+}
 
 AddBinClipCutCommand::AddBinClipCutCommand(Bin *bin, const QString &clipId, int in, int out, bool add, QUndoCommand *parent) :
     QUndoCommand(parent)

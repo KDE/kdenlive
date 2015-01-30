@@ -197,7 +197,7 @@ Bin::Bin(QWidget* parent) :
     QWidget(parent)
   , m_itemModel(NULL)
   , m_itemView(NULL)
-  , m_listType(BinTreeView)
+  , m_listType((BinViewType) KdenliveSettings::binMode())
   , m_jobManager(NULL)
   , m_rootFolder(NULL)
   , m_folderUp(NULL)
@@ -603,7 +603,7 @@ void Bin::doAddFolder(const QString &id, const QString &name, const QString &par
         return;
     }
     ProjectFolder *newItem = new ProjectFolder(id, name, parentFolder);
-    emit storeFolder(parentId + "." + id, name);
+    emit storeFolder(id, parentId, QString(), name);
 }
 
 
@@ -655,7 +655,7 @@ void Bin::doRemoveFolder(const QString &id)
     //TODO: warn user on non-empty folders
     AbstractProjectItem *parent = folder->parent();
     parent->removeChild(folder);
-    emit storeFolder(parent->clipId()+ "." + id, QString());
+    emit storeFolder(id, parent->clipId(), QString(), QString());
     delete folder;
 }
 
@@ -798,10 +798,6 @@ void Bin::slotInitView(QAction *action)
             }
         }
         m_listType = static_cast<BinViewType>(viewType);
-    }
-    else {
-        // first initialization, use saved mode
-        m_listType = static_cast<BinViewType>(KdenliveSettings::binMode());
     }
 
     if (m_itemView) {
@@ -1397,12 +1393,33 @@ void Bin::slotItemDropped(QStringList ids, const QModelIndex &parent)
     }
     QUndoCommand *moveCommand = new QUndoCommand();
     moveCommand->setText(i18np("Move Clip", "Move Clips", ids.count()));
+    QStringList folderIds;
     foreach(const QString &id, ids) {
+        if (id.contains("@")) {
+            // trying to move clip zone, not allowed. Ignore
+            continue;
+        }
+        if (id.startsWith("#")) {
+            // moving a folder, keep it for later
+            folderIds << id;
+            continue;
+        }
         ProjectClip *currentItem = m_rootFolder->clip(id);
         AbstractProjectItem *currentParent = currentItem->parent();
         if (currentParent != parentItem) {
             // Item was dropped on a different folder
             new MoveBinClipCommand(this, id, currentParent->clipId(), parentItem->clipId(), moveCommand);
+        }
+    }
+    if (!folderIds.isEmpty()) { 
+        foreach(QString id, folderIds) {
+            id.remove(0, 1);
+            ProjectFolder *currentItem = m_rootFolder->folder(id);
+            AbstractProjectItem *currentParent = currentItem->parent();
+            if (currentParent != parentItem) {
+                // Item was dropped on a different folder
+                new MoveBinFolderCommand(this, id, currentParent->clipId(), parentItem->clipId(), moveCommand);
+            }
         }
     }
     m_doc->commandStack()->push(moveCommand);
@@ -1416,6 +1433,16 @@ void Bin::doMoveClip(const QString &id, const QString &newParentId)
     currentParent->removeChild(currentItem);
     currentItem->setParent(newParent);
     currentItem->updateParentInfo(newParentId, newParent->name());
+}
+
+void Bin::doMoveFolder(const QString &id, const QString &newParentId)
+{
+    ProjectFolder *currentItem = m_rootFolder->folder(id);
+    AbstractProjectItem *currentParent = currentItem->parent();
+    ProjectFolder *newParent = m_rootFolder->folder(newParentId);
+    currentParent->removeChild(currentItem);
+    currentItem->setParent(newParent);
+    emit storeFolder(id, newParent->clipId(), currentParent->clipId(), currentItem->name());
 }
 
 void Bin::droppedUrls(QList <QUrl> urls, const QMap<QString,QString> properties)
@@ -1450,7 +1477,7 @@ void Bin::slotItemEdited(QModelIndex ix,QModelIndex,QVector<int>)
     if (currentItem && currentItem->itemType() == AbstractProjectItem::FolderItem) {
         //TODO: Use undo command for this
         AbstractProjectItem *parentFolder = currentItem->parent();
-        emit storeFolder(parentFolder->clipId() + "." + currentItem->clipId(), currentItem->name());
+        emit storeFolder(currentItem->clipId(), parentFolder->clipId(), QString(), currentItem->name());
     }
 }
 

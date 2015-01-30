@@ -54,6 +54,19 @@ private:
     QString m_newParentId;
 };
 
+class MoveBinFolderCommand : public QUndoCommand
+{
+public:
+    explicit MoveBinFolderCommand(Bin *bin, const QString &clipId, const QString &oldParentId, const QString &newParentId, QUndoCommand *parent = 0);
+    void undo();
+    void redo();
+private:
+    Bin *m_bin;
+    QString m_clipId;
+    QString m_oldParentId;
+    QString m_newParentId;
+};
+
 class AddBinClipCutCommand : public QUndoCommand
 {
 public:
