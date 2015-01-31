@@ -1065,6 +1065,21 @@ void Bin::slotThumbnailReady(const QString &id, const QImage &img)
     if (clip) clip->setThumbnail(img);
 }
 
+QStringList Bin::getBinFolderClipIds(const QString &id) const
+{
+    QStringList ids;
+    ProjectFolder *folder = m_rootFolder->folder(id);
+    if (folder) {
+        for (int i = 0; i < folder->count(); i++) {
+            AbstractProjectItem *child = folder->at(i);
+            if (child->itemType() == AbstractProjectItem::ClipItem) {
+                ids << child->clipId();
+            }
+        }
+    }
+    return ids;
+}
+
 ProjectClip *Bin::getBinClip(const QString &id)
 {
     ProjectClip *clip = NULL;

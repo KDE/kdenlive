@@ -1303,6 +1303,11 @@ ProjectClip *KdenliveDoc::getBinClip(const QString &clipId)
     return pCore->bin()->getBinClip(clipId);
 }
 
+QStringList KdenliveDoc::getBinFolderClipIds(const QString &folderId) const
+{
+    return pCore->bin()->getBinFolderClipIds(folderId);
+}
+
 ClipController *KdenliveDoc::getClipController(const QString &clipId)
 {
     return pCore->binController()->getController(clipId);

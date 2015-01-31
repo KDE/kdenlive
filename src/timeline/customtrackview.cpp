@@ -1702,6 +1702,19 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         int track = (int)(framePos.y() / m_tracksHeight);
         framePos.setX((int)(framePos.x() + 0.5));
         framePos.setY(track * m_tracksHeight);
+        
+        // Check if user dragged a folder
+        for (int i = 0; i < ids.size(); ++i) {
+            if (ids.at(i).startsWith("#")) {
+                QString folderId = ids.at(i);
+                folderId.remove(0, 1);
+                QStringList clipsInFolder = m_document->getBinFolderClipIds(folderId);
+                ids.removeAt(i);
+                for (int j = 0; j < clipsInFolder.count(); j++) {
+                    ids.insert(i + j, clipsInFolder.at(j));
+                }
+            }
+        }
 
         // Check if clips can be inserted at that position
         for (int i = 0; i < ids.size(); ++i) {

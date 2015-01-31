@@ -379,6 +379,8 @@ public:
     void selectClipById(const QString &id);
     /** @brief Set focus to the Bin view. */
     void focusBinView() const;
+    /** @brief Get a string list of all clip ids that are inside a folder defined by id. */
+    QStringList getBinFolderClipIds(const QString &id) const;
 
 private slots:
     void slotAddClip();

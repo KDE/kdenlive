@@ -92,7 +92,10 @@ public:
     bool addClipInfo(QDomElement elem, QDomElement orig, const QString &clipId);
     void deleteClip(const QString &clipId);
     int getFramePos(const QString &duration);
+    /** @brief Get a bin's clip from its id. */
     ProjectClip *getBinClip(const QString &clipId);
+    /** @brief Get a list of all clip ids that are inside a folder. */
+    QStringList getBinFolderClipIds(const QString &folderId) const;
     ClipController *getClipController(const QString &clipId);
     void updateClip(const QString &id);
 
