@@ -606,6 +606,18 @@ void Bin::doAddFolder(const QString &id, const QString &name, const QString &par
     emit storeFolder(id, parentId, QString(), name);
 }
 
+void Bin::renameFolder(const QString &id, const QString &name)
+{
+    ProjectFolder *folder = m_rootFolder->folder(id);
+    if (!folder || !folder->parent()) {
+        qDebug()<<"  / / ERROR IN PARENT FOLDER";
+        return;
+    }
+    folder->setName(name);
+    emit itemUpdated(folder);
+    emit storeFolder(id, folder->parent()->clipId(), QString(), name);
+}
+
 
 void Bin::slotLoadFolders(QMap<QString,QString> foldersData)
 {
@@ -1487,15 +1499,40 @@ void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
 void Bin::slotItemEdited(QModelIndex ix,QModelIndex,QVector<int>)
 {
     // An item name was edited
-    if (!ix.isValid()) return;
+/*    if (!ix.isValid()) return;
     AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(ix.internalPointer());
     if (currentItem && currentItem->itemType() == AbstractProjectItem::FolderItem) {
         //TODO: Use undo command for this
+        
         AbstractProjectItem *parentFolder = currentItem->parent();
+        RenameBinFolderCommand *command = new RenameBinFolderCommand(this, currentItem->clipId(), const QString &newName, const QString &oldName, QUndoCommand *parent) :
         emit storeFolder(currentItem->clipId(), parentFolder->clipId(), QString(), currentItem->name());
-    }
+    }*/
 }
 
+void Bin::renameFolderCommand(const QString &id, const QString &newName, const QString &oldName)
+{
+    RenameBinFolderCommand *command = new RenameBinFolderCommand(this, id, newName, oldName);
+    m_doc->commandStack()->push(command);
+}
+
+void Bin::renameSubClipCommand(const QString &id, const QString &newName, const QString oldName, int in, int out)
+{
+    RenameBinSubClipCommand *command = new RenameBinSubClipCommand(this, id, newName, oldName, in, out);
+    m_doc->commandStack()->push(command);
+}
+
+void Bin::renameSubClip(const QString &id, const QString &newName, const QString oldName, int in, int out)
+{
+    ProjectClip *clip = m_rootFolder->clip(id);
+    if (!clip) return;
+    ProjectSubClip *sub = clip->getSubClip(in, out);
+    if (!sub) return;
+    sub->setName(newName);
+    clip->setProducerProperty("kdenlive:clipzone." + oldName, QString());
+    clip->setProducerProperty("kdenlive:clipzone." + newName, QString::number(in) + ";" +  QString::number(out));
+    emit itemUpdated(sub);
+}
 
 void Bin::slotStartClipJob(bool enable)
 {

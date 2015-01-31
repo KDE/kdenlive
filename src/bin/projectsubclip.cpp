@@ -112,3 +112,13 @@ void ProjectSubClip::setCurrent(bool current, bool notify)
         m_masterClip->bin()->openProducer(m_masterClip->controller(), m_in, m_out);
     }
 }
+
+bool ProjectSubClip::rename(const QString &name)
+{
+    if (m_name == name) return false;
+    // Rename folder
+    bin()->renameSubClipCommand(m_id, name, m_name, m_in, m_out);
+    return true;
+}
+
+

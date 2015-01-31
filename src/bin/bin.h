@@ -381,6 +381,15 @@ public:
     void focusBinView() const;
     /** @brief Get a string list of all clip ids that are inside a folder defined by id. */
     QStringList getBinFolderClipIds(const QString &id) const;
+    /** @brief Build a rename folder command. */
+    void renameFolderCommand(const QString &id, const QString &newName, const QString &oldName);
+    /** @brief Rename a folder and store new name in MLT. */
+    void renameFolder(const QString &id, const QString &name);
+    /** @brief Build a rename subclip command. */
+    void renameSubClipCommand(const QString &id, const QString &newName, const QString oldName, int in, int out);
+    /** @brief Rename a clip zone (subclip). */
+    void renameSubClip(const QString &id, const QString &newName, const QString oldName, int in, int out);
+    
 
 private slots:
     void slotAddClip();
@@ -496,7 +505,8 @@ private:
 signals:
     void itemUpdated(AbstractProjectItem*);
     void producerReady(const QString &id);
-    void storeFolder(QString,QString,QString,QString);
+    /** @brief Save folder info into MLT. */
+    void storeFolder(QString folderId, QString parentId, QString oldParentId, QString folderName);
     void gotFilterJobResults(QString,int,int,stringMap,stringMap);
     /** @brief The clip was changed and thumbnail needs a refresh. */
     void clipNeedsReload(const QString &,bool);

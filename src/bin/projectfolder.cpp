@@ -137,3 +137,11 @@ void ProjectFolder::loadChildren(const QDomElement& description)
     }*/
 }
 
+bool ProjectFolder::rename(const QString &name)
+{
+    if (m_name == name) return false;
+    // Rename folder
+    bin()->renameFolderCommand(m_id, name, m_name);
+    return true;
+}
+

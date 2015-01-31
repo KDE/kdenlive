@@ -75,6 +75,7 @@ public:
     void discard();
     QPoint zone() const;
     virtual QString getToolTip() const;
+    virtual bool rename(const QString &name);
 
 private:
     ProjectClip *m_masterClip;

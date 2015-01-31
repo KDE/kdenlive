@@ -169,7 +169,7 @@ public:
 
     virtual QDomElement toXml(QDomDocument &document) = 0;
     virtual QString getToolTip() const = 0;
-    bool rename(const QString &name);
+    virtual bool rename(const QString &name) = 0;
 
 signals:
     void childAdded(AbstractProjectItem *child);

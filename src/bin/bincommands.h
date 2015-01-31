@@ -67,6 +67,34 @@ private:
     QString m_newParentId;
 };
 
+class RenameBinFolderCommand : public QUndoCommand
+{
+public:
+    explicit RenameBinFolderCommand(Bin *bin, const QString &folderId, const QString &newName, const QString &oldName, QUndoCommand *parent = 0);
+    void undo();
+    void redo();
+private:
+    Bin *m_bin;
+    QString m_clipId;
+    QString m_oldName;
+    QString m_newName;
+};
+
+class RenameBinSubClipCommand : public QUndoCommand
+{
+public:
+    explicit RenameBinSubClipCommand(Bin *bin, const QString &clipId, const QString &newName, const QString &oldName, int in, int out, QUndoCommand *parent = 0);
+    void undo();
+    void redo();
+private:
+    Bin *m_bin;
+    QString m_clipId;
+    QString m_oldName;
+    QString m_newName;
+    int m_in;
+    int m_out;
+};
+
 class AddBinClipCutCommand : public QUndoCommand
 {
 public:

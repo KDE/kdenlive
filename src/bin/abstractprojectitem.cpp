@@ -158,20 +158,6 @@ AbstractProjectItem::PROJECTITEMTYPE AbstractProjectItem::itemType() const
     return m_itemType;
 }
 
-bool AbstractProjectItem::rename(const QString &name)
-{
-    if (m_name == name) return false;
-    QMap <QString, QString> newProperites;
-    QMap <QString, QString> oldProperites;
-    if (m_itemType == ClipItem) {
-        // Rename clip
-        oldProperites.insert("kdenlive:clipname", m_name);
-        newProperites.insert("kdenlive:clipname", name);
-        bin()->slotEditClipCommand(m_id, oldProperites, newProperites);
-    }
-    m_name = name;
-    return true;
-}
 
 QVariant AbstractProjectItem::data(DataType type) const
 {

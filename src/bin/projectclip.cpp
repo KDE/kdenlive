@@ -501,3 +501,17 @@ const QString ProjectClip::codec(bool audioCodec) const
     if (!m_controller) return QString();
     return m_controller->codec(audioCodec);
 }
+
+bool ProjectClip::rename(const QString &name)
+{
+    if (m_name == name) return false;
+    // Rename clip
+    QMap <QString, QString> newProperites;
+    QMap <QString, QString> oldProperites;
+    oldProperites.insert("kdenlive:clipname", m_name);
+    newProperites.insert("kdenlive:clipname", name);
+    bin()->slotEditClipCommand(m_id, oldProperites, newProperites);
+    m_name = name;
+    return true;
+}
+

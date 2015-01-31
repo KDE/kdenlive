@@ -87,3 +87,7 @@ void ProjectFolderUp::loadChildren(const QDomElement& description)
 {
 }
 
+bool ProjectFolderUp::rename(const QString &)
+{
+    return false;
+}

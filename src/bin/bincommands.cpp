@@ -92,6 +92,49 @@ void MoveBinFolderCommand::redo()
     m_bin->doMoveFolder(m_clipId, m_newParentId);
 }
 
+RenameBinFolderCommand::RenameBinFolderCommand(Bin *bin, const QString &folderId, const QString &newName, const QString &oldName, QUndoCommand *parent) :
+        QUndoCommand(parent),
+        m_bin(bin),
+        m_clipId(folderId),
+        m_oldName(oldName),
+        m_newName(newName)
+{
+    setText(i18n("Rename Folder"));
+}
+// virtual
+void RenameBinFolderCommand::undo()
+{
+    m_bin->renameFolder(m_clipId, m_oldName);
+}
+// virtual
+void RenameBinFolderCommand::redo()
+{
+    m_bin->renameFolder(m_clipId, m_newName);
+}
+
+RenameBinSubClipCommand::RenameBinSubClipCommand(Bin *bin, const QString &clipId, const QString &newName, const QString &oldName, int in, int out, QUndoCommand *parent) :
+        QUndoCommand(parent),
+        m_bin(bin),
+        m_clipId(clipId),
+        m_oldName(oldName),
+        m_newName(newName),
+        m_in(in),
+        m_out(out)
+{
+    setText(i18n("Rename Zone"));
+}
+// virtual
+void RenameBinSubClipCommand::undo()
+{
+    m_bin->renameSubClip(m_clipId, m_oldName, m_newName, m_in, m_out);
+}
+// virtual
+void RenameBinSubClipCommand::redo()
+{
+    m_bin->renameSubClip(m_clipId, m_newName, m_oldName, m_in, m_out);
+}
+
+
 AddBinClipCutCommand::AddBinClipCutCommand(Bin *bin, const QString &clipId, int in, int out, bool add, QUndoCommand *parent) :
     QUndoCommand(parent)
     , m_bin(bin)
