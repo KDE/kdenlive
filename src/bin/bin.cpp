@@ -911,19 +911,23 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
                     QString condition;
                     QString audioCodec = clip->codec(true);
                     QString videoCodec = clip->codec(false);
-                    bool skipCondition = false;
+                    bool noCodecInfo = false;
                     if (audioCodec.isEmpty() && videoCodec.isEmpty()) {
-                        skipCondition = true;
+                        noCodecInfo = true;
                     }
                     for (int i = 0; i < transcodeActions.count(); ++i) {
-                        if (skipCondition) {
-                            // No audio / video codec, this is an MLT clip, skip conditions
-                            transcodeActions.at(i)->setEnabled(true);
-                            continue;
-                        }
                         data = transcodeActions.at(i)->data().toStringList();
                         if (data.count() > 4) {
                             condition = data.at(4);
+                            if (condition.isEmpty()) {
+                                transcodeActions.at(i)->setEnabled(true);
+                                continue;
+                            }
+                            if (noCodecInfo) {
+                                // No audio / video codec, this is an MLT clip, disable conditionnal transcoding
+                                transcodeActions.at(i)->setEnabled(false);
+                                continue;
+                            }
                             if (condition.startsWith("vcodec"))
                                 transcodeActions.at(i)->setEnabled(condition.section('=', 1, 1) == videoCodec);
                             else if (condition.startsWith("acodec"))
