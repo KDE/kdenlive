@@ -31,6 +31,9 @@ BinController::BinController(QString profileName) :
 {
     m_mltProfile = NULL;
     m_binPlaylist = NULL;
+    // Disable VDPAU that crashes in multithread environment.
+    //TODO: make configurable
+    setenv("MLT_NO_VDPAU", "1", 1);
     Mlt::Factory::init();
     if (profileName.isEmpty()) {
         profileName = KdenliveSettings::current_profile();

@@ -3168,7 +3168,7 @@ void CustomTrackView::configTracks(const QList < TrackInfo > &trackInfos)
 {
     for (int i = 0; i < trackInfos.count(); ++i) {
         m_document->setTrackType(i, trackInfos.at(i));
-        m_document->renderer()->mltChangeTrackState(i + 1, m_document->trackInfoAt(i).isMute, m_document->trackInfoAt(i).isBlind);
+        m_document->renderer()->mltChangeTrackState(i + 1, m_document->trackInfoAt(i).trackName, m_document->trackInfoAt(i).isMute, m_document->trackInfoAt(i).isBlind);
         lockTrack(m_document->tracksCount() - i - 1, m_document->trackInfoAt(i).isLocked, false);
     }
 
@@ -3183,7 +3183,7 @@ void CustomTrackView::slotSwitchTrackAudio(int ix)
     int tracknumber = m_document->tracksCount() - ix - 1;
     m_document->switchTrackAudio(tracknumber, !m_document->trackInfoAt(tracknumber).isMute);
     //qDebug() << "NEXT TRK STATE: " << m_document->trackInfoAt(tracknumber).isMute << m_document->trackInfoAt(tracknumber).isBlind;
-    m_document->renderer()->mltChangeTrackState(tracknumber + 1, m_document->trackInfoAt(tracknumber).isMute, m_document->trackInfoAt(tracknumber).isBlind);
+    m_document->renderer()->mltChangeTrackState(tracknumber + 1, QString(), m_document->trackInfoAt(tracknumber).isMute, m_document->trackInfoAt(tracknumber).isBlind);
     setDocumentModified();
 }
 
@@ -3272,7 +3272,7 @@ void CustomTrackView::slotSwitchTrackVideo(int ix)
 {
     int tracknumber = m_document->tracksCount() - ix;
     m_document->switchTrackVideo(tracknumber - 1, !m_document->trackInfoAt(tracknumber - 1).isBlind);
-    m_document->renderer()->mltChangeTrackState(tracknumber, m_document->trackInfoAt(tracknumber - 1).isMute, m_document->trackInfoAt(tracknumber - 1).isBlind);
+    m_document->renderer()->mltChangeTrackState(tracknumber, QString(), m_document->trackInfoAt(tracknumber - 1).isMute, m_document->trackInfoAt(tracknumber - 1).isBlind);
     setDocumentModified();
 }
 

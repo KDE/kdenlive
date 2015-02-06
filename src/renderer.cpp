@@ -307,18 +307,18 @@ int Render::resetProfile(const QString &profileName, bool dropSceneList)
             m_mltConsumer->stop();
         m_mltConsumer->purge();
     }
-    QString scene;
+    /*QString scene;
     if (!dropSceneList)
         scene = sceneList();
     int pos = 0;
     double current_fps = m_mltProfile->fps();
     double current_dar = m_mltProfile->dar();
     delete m_blackClip;
-    m_blackClip = NULL;
+    m_blackClip = NULL;*/
     m_requestList.clear();
     m_infoThread.waitForFinished();
 
-    if (m_mltProducer) {
+    /*if (m_mltProducer) {
         pos = m_mltProducer->position();
 
         Mlt::Service service(m_mltProducer->get_service());
@@ -335,11 +335,11 @@ int Render::resetProfile(const QString &profileName, bool dropSceneList)
     }
     m_mltProducer = NULL;
     //TODO: manage changing profile through binController
-    buildConsumer();
+    buildConsumer();*/
     double new_fps = m_mltProfile->fps();
     double new_dar = m_mltProfile->dar();
 
-    if (!dropSceneList) {
+    /*if (!dropSceneList) {
         // We need to recover our playlist
         if (current_fps != new_fps) {
             // fps changed, we must update the scenelist positions
@@ -348,7 +348,7 @@ int Render::resetProfile(const QString &profileName, bool dropSceneList)
         setSceneList(scene, pos);
         // producers have changed (different profile), so reset them...
         emit refreshDocumentProducers(new_dar != current_dar, current_fps != new_fps);
-    }
+    }*/
     return 1;
 }
 
@@ -3447,7 +3447,7 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration, bool refresh)
     return true;
 }
 
-void Render::mltChangeTrackState(int track, bool mute, bool blind)
+void Render::mltChangeTrackState(int track, const QString &name, bool mute, bool blind)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
@@ -3465,7 +3465,10 @@ void Render::mltChangeTrackState(int track, bool mute, bool blind)
         // We un-mute a previously muted track
         if (track < getLowestNonMutedAudioTrack(tractor)) audioMixingBroken = true;
     }
-
+    if (!name.isEmpty()) {
+        // Rename track
+        trackProducer.set("kdenlive:track_name", name.toUtf8().constData());
+    }
     if (mute) {
         if (blind) trackProducer.set("hide", 3);
         else trackProducer.set("hide", 2);

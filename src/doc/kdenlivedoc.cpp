@@ -527,11 +527,12 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
     playlist.appendChild(blank0);
 
     // create playlists
-    int total = tracks.count() + 1;
+    int total = tracks.count();
 
-    for (int i = 1; i < total; ++i) {
+    for (int i = 0; i < total; ++i) {
         QDomElement playlist = doc.createElement("playlist");
         playlist.setAttribute("id", "playlist" + QString::number(i));
+        playlist.setAttribute("kdenlive:track_name", tracks.at(i).trackName);
         mlt.appendChild(playlist);
     }
 
@@ -540,19 +541,19 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
     tractor.appendChild(track0);
 
     // create audio and video tracks
-    for (int i = 1; i < total; ++i) {
+    for (int i = 0; i < total; ++i) {
         QDomElement track = doc.createElement("track");
         track.setAttribute("producer", "playlist" + QString::number(i));
-        if (tracks.at(i - 1).type == AudioTrack) {
+        if (tracks.at(i).type == AudioTrack) {
             track.setAttribute("hide", "video");
-        } else if (tracks.at(i - 1).isBlind)
+        } else if (tracks.at(i).isBlind)
             track.setAttribute("hide", "video");
-        if (tracks.at(i - 1).isMute)
+        if (tracks.at(i).isMute)
             track.setAttribute("hide", "audio");
         tractor.appendChild(track);
     }
 
-    for (int i = 2; i < total ; ++i) {
+    for (int i = 2; i < total + 1 ; ++i) {
         QDomElement transition = doc.createElement("transition");
         transition.setAttribute("always_active", "1");
 

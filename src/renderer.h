@@ -258,7 +258,7 @@ class Render: public AbstractRender
     void mltMoveTrackEffect(int track, int oldPos, int newPos);
 
     /** @brief Enables/disables audio/video in a track. */
-    void mltChangeTrackState(int track, bool mute, bool blind);
+    void mltChangeTrackState(int track, const QString &name, bool mute, bool blind);
     bool mltMoveTransition(QString type, int startTrack,  int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut);
     bool mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);
     void mltDeleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);
