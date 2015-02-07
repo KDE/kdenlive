@@ -2639,6 +2639,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
 
     QString serv = clipparent.get("mlt_service");
     QString id = clipparent.get("id");
+    id = id.section("_", 0,  0);
     if (speed <= 0 && speed > -1) speed = 1.0;
     ////qDebug() << "CLIP SERVICE: " << serv;
     if ((serv == "avformat" || serv == "avformat-novalidate") && (speed != 1.0 || strobe > 1)) {
