@@ -23,6 +23,7 @@
 #include "definitions.h"
 #include "effectslist/initeffects.h"
 #include "mainwindow.h"
+#include "core.h"
 #include "mltcontroller/bincontroller.h"
 
 #include <QDebug>
@@ -982,6 +983,57 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         if (!m_doc.firstChildElement("mlt").hasAttribute("LC_NUMERIC")) {
             m_doc.firstChildElement("mlt").setAttribute("LC_NUMERIC", "C");
         }
+    }
+    
+    if (version <= 0.88) {
+        // convert to new MLT-only format
+        QDomNodeList producers = m_doc.elementsByTagName("producer");
+        QDomDocumentFragment frag = m_doc.createDocumentFragment();
+        
+        // Create Bin Playlist
+        QDomElement main_playlist = m_doc.createElement("playlist");
+        QDomElement prop = m_doc.createElement("property");
+        prop.setAttribute("name", "xml_retain");
+        QDomText val = m_doc.createTextNode("1");
+        prop.appendChild(val);
+        main_playlist.appendChild(prop);
+
+        QDomNode mlt = m_doc.firstChildElement("mlt");
+        main_playlist.setAttribute("id", pCore->binController()->binPlaylistId());
+        mlt.toElement().setAttribute("producer", pCore->binController()->binPlaylistId());
+        QStringList ids;
+        int max = producers.count();
+        QDomNode firstProd = m_doc.firstChildElement("producer");
+        for (int i = 0; i < max; ++i) {
+            QDomElement prod = producers.at(i).toElement();
+            QString id = prod.attribute("id");
+            QString prodId = id.section("_", 0, 0);
+            if (ids.contains(prodId)) {
+                // Already processed, continue
+                continue;
+            }
+            if (id == prodId) {
+                // This is an original producer, just add it to the main playlist
+                QDomElement entry = m_doc.createElement("entry");
+                entry.setAttribute("in", prod.attribute("in"));
+                entry.setAttribute("out", prod.attribute("out"));
+                entry.setAttribute("producer", id);
+                main_playlist.appendChild(entry);
+            }
+            else {
+                QDomElement originalProd = prod.cloneNode().toElement();
+                originalProd.setAttribute("id", prodId);
+                frag.appendChild(originalProd);
+                QDomElement entry = m_doc.createElement("entry");
+                entry.setAttribute("in", prod.attribute("in"));
+                entry.setAttribute("out", prod.attribute("out"));
+                entry.setAttribute("producer", prodId);
+                main_playlist.appendChild(entry);
+            }
+            ids.append(prodId);
+        }
+        frag.appendChild(main_playlist);
+        mlt.insertBefore(frag, firstProd);
     }
 
     // The document has been converted: mark it as modified

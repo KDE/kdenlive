@@ -295,7 +295,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                             progressDialog->show();
                             qApp->processEvents();
 
-                            for (int i = 0; i < infomax; ++i) {
+                            /*for (int i = 0; i < infomax; ++i) {
                                 e = infoproducers.item(i).cloneNode().toElement();
                                 QString prodId = e.attribute("id");
                                 if (!e.isNull() && prodId != "black" && !prodId.startsWith(QLatin1String("slowmotion"))) {
@@ -313,6 +313,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
 
                                     if (!addClipInfo(e, orig, prodId)) {
                                         // The user manually aborted the loading.
+                                        qDebug()<<" ***********  ADDCLIPINFO ERROR *************";
                                         success = false;
                                         emit resetProjectList();
                                         m_tracksList.clear();
@@ -322,7 +323,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                                 }
                                 if (i % 10 == 0)
                                     progressDialog->setValue(i);
-                            }
+                            }*/
 
                             if (success) {
                                 QDomElement markers = infoXml.firstChildElement("markers");
