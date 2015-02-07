@@ -116,6 +116,11 @@ class Render: public AbstractRender
      * @param list The xml describing the playlist
      * @param position (optional) time to seek to */
     int setSceneList(const QDomDocument &list, int position = 0);
+    
+    /** @brief Reloads the current project's scenlist from xml.
+     * @param list The xml describing the playlist
+     * @param position (optional) time to seek to */
+    int reloadSceneList(QString playlist, int position);
 
     /** @brief Sets the current MLT producer playlist.
      * @param list new playlist
@@ -264,7 +269,7 @@ class Render: public AbstractRender
     void mltDeleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);
     void mltUpdateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool force = false);
     void mltUpdateTransitionParams(QString type, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml);
-    QList <TransitionInfo> mltInsertTrack(int ix, bool videoTrack);
+    QList <TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack);
     void mltDeleteTrack(int ix);
     bool mltUpdateClipProducer(Mlt::Tractor *tractor, int track, int pos, Mlt::Producer *prod);
     void mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track);

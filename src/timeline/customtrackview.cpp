@@ -3005,16 +3005,14 @@ int CustomTrackView::duration() const
 
 void CustomTrackView::addTrack(const TrackInfo &type, int ix)
 {
-//TODO
-/*
-  QList <TransitionInfo> transitionInfos;
+    QList <TransitionInfo> transitionInfos;
     if (ix == -1 || ix == m_document->tracksCount()) {
         m_document->insertTrack(0, type);
-        transitionInfos = m_document->renderer()->mltInsertTrack(1, type.type == VideoTrack);
+        transitionInfos = m_document->renderer()->mltInsertTrack(1,  type.trackName, type.type == VideoTrack);
     } else {
         m_document->insertTrack(m_document->tracksCount() - ix, type);
         // insert track in MLT playlist
-        transitionInfos = m_document->renderer()->mltInsertTrack(m_document->tracksCount() - ix, type.type == VideoTrack);
+        transitionInfos = m_document->renderer()->mltInsertTrack(m_document->tracksCount() - ix,  type.trackName, type.type == VideoTrack);
 
         double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;
         QRectF r(0, startY, sceneRect().width(), sceneRect().height() - startY);
@@ -3042,21 +3040,6 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
             }
             AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
             item->updateItem();
-            ItemInfo clipinfo = item->info();
-            if (item->type() == AVWidget) {
-                ClipItem *clip = static_cast <ClipItem *>(item);
-                // slowmotion clips are not track dependant, so no need to update them
-                if (clip->speed() != 1.0) continue;
-                // We add a move clip command so that we get the correct producer for new track number
-                if (clip->clipType() == AV || clip->clipType() == Audio) {
-                    ClipController *controller = m_document->getClipController(clip->getBinId());
-                    Mlt::Producer *prod = controller->getTrackProducer(clipinfo.track);
-                    if (m_document->renderer()->mltUpdateClipProducer(tractor, (int)(m_document->tracksCount() - clipinfo.track), clipinfo.startPos.frames(m_document->fps()), prod) == false) {
-                        // problem updating clip
-                        emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", clipinfo.startPos.frames(m_document->fps()), clipinfo.track), ErrorMessage);
-                    }
-                }
-            }
         }
         // Sync transition tracks with MLT playlist
         TransitionInfo info;
@@ -3083,13 +3066,10 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
     //setFixedHeight(50 * m_tracksCount);
 
     updateTrackNames(ix, true);
-    */
 }
 
 void CustomTrackView::removeTrack(int ix)
 {
-  //TODO
-  /*
     // Clear effect stack
     clearSelection();
     emit transitionItemSelected(NULL);
@@ -3126,15 +3106,6 @@ void CustomTrackView::removeTrack(int ix)
         if (children.at(i)->type() == AVWidget) {
             ClipItem *clip = static_cast <ClipItem *>(children.at(i));
             clip->updateItem();
-            ItemInfo clipinfo = clip->info();
-            // We add a move clip command so that we get the correct producer for new track number
-            if (clip->clipType() == AV || clip->clipType() == Audio || clip->clipType() == Playlist) {
-                ClipController *controller = m_document->getClipController(clip->getBinId());
-                Mlt::Producer *prod = controller->getTrackProducer(clipinfo.track);
-                if (prod == NULL || !m_document->renderer()->mltUpdateClipProducer(tractor, (int)(m_document->tracksCount() - clipinfo.track), clipinfo.startPos.frames(m_document->fps()), prod)) {
-                    emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", clipinfo.startPos.frames(m_document->fps()), clipinfo.track), ErrorMessage);
-                }
-            }
         } else if (children.at(i)->type() == TransitionWidget) {
             Transition *tr = static_cast <Transition *>(children.at(i));
             tr->updateItem();
@@ -3161,7 +3132,6 @@ void CustomTrackView::removeTrack(int ix)
 
     updateTrackNames(ix, false);
     //QTimer::singleShot(500, this, SIGNAL(trackHeightChanged()));
-    */
 }
 
 void CustomTrackView::configTracks(const QList < TrackInfo > &trackInfos)
@@ -5351,6 +5321,9 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected, QList <GenTim
             }
             // Add clip markers
             ClipController *controller = m_document->getClipController(item->getBinId());
+            if (!controller) {
+                qDebug()<<" + + ++ WARN, NO CTLRR!!!";
+            }
             QList < GenTime > markers = item->snapMarkers(controller->snapMarkers());
             for (int j = 0; j < markers.size(); ++j) {
                 GenTime t = markers.at(j);

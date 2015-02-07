@@ -1398,6 +1398,95 @@ int Render::setSceneList(QString playlist, int position)
 }
 
 
+int Render::reloadSceneList(QString playlist, int position)
+{
+    requestedSeekPosition = SEEK_INACTIVE;
+    m_refreshTimer.stop();
+    QMutexLocker locker(&m_mutex);
+    if (m_winid == -1) return -1;
+    int error = 0;
+
+    //qDebug() << "//////  RENDER, SET SCENE LIST:\n" << playlist <<"\n..........:::.";
+
+    // Remove previous profile info
+    /*QDomDocument doc;
+    doc.setContent(playlist);
+    QDomElement profile = doc.documentElement().firstChildElement("profile");
+    doc.documentElement().removeChild(profile);
+    playlist = doc.toString();*/
+
+    if (m_mltConsumer) {
+        if (!m_mltConsumer->is_stopped()) {
+            m_mltConsumer->stop();
+        }
+        m_mltConsumer->set("refresh", 0);
+    } else {
+        qWarning() << "///////  ERROR, TRYING TO USE NULL MLT CONSUMER";
+        error = -1;
+    }
+    m_requestList.clear();
+    m_infoThread.waitForFinished();
+
+    if (m_mltProducer) {
+        m_mltProducer->set_speed(0);
+        qDeleteAll(m_slowmotionProducers.values());
+        m_slowmotionProducers.clear();
+
+        delete m_mltProducer;
+        m_mltProducer = NULL;
+        emit stopped();
+    }
+    blockSignals(true);
+    m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
+    if (!m_mltProducer || !m_mltProducer->is_valid()) {
+        qDebug() << " WARNING - - - - -INVALID PLAYLIST: " << playlist.toUtf8().constData();
+        m_mltProducer = m_blackClip->cut(0, 1);
+        error = -1;
+    }
+    m_mltProducer->set("eof", "pause");
+    checkMaxThreads();
+    int volume = KdenliveSettings::volume();
+    m_mltProducer->set("meta.volume", (double)volume / 100);
+    m_mltProducer->optimise();
+
+    m_fps = m_mltProducer->get_fps();
+    if (position != 0) {
+        // Seek to correct place after opening project.
+        m_mltProducer->seek(position);
+    }
+
+    // Fill Bin's playlist
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    if (service.type() != tractor_type) {
+        qWarning() << "// TRACTOR PROBLEM";
+    }
+    blockSignals(false);
+    Mlt::Tractor tractor(service);
+    Mlt::Properties retainList((mlt_properties) tractor.get_data("xml_retain"));
+    if (retainList.is_valid() && retainList.get_data(m_binController->binPlaylistId().toUtf8().constData())) {
+        Mlt::Playlist playlist((mlt_playlist) retainList.get_data(m_binController->binPlaylistId().toUtf8().constData()));
+        if (playlist.is_valid() && playlist.type() == playlist_type) {
+            // Load bin clips
+            m_binController->initializeBin(playlist);
+        }
+    }
+    // No Playlist found, create new one
+    m_binController->createIfNeeded();
+    QString retain = QString("xml_retain %1").arg(m_binController->binPlaylistId());
+    tractor.set(retain.toUtf8().constData(), m_binController->service(), 0);
+    //if (!m_binController->hasClip("black")) m_binController->addClipToBin("black", *m_blackClip);
+
+    //qDebug() << "// NEW SCENE LIST DURATION SET TO: " << m_mltProducer->get_playtime();
+    m_mltConsumer->connect(*m_mltProducer);
+    m_mltProducer->set_speed(0);
+    fillSlowMotionProducers();
+    emit durationChanged(m_mltProducer->get_playtime());
+
+    return error;
+    ////qDebug()<<"// SETSCN LST, POS: "<<position;
+    //if (position != 0) emit rendererPosition(position);
+}
+
 void Render::checkMaxThreads()
 {
     // Make sure we don't use too much threads, MLT avformat does not cope with too much threads
@@ -4215,7 +4304,7 @@ void Render::fillSlowMotionProducers()
     }
 }
 
-QList <TransitionInfo> Render::mltInsertTrack(int ix, bool videoTrack)
+QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool videoTrack)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
@@ -4227,6 +4316,7 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, bool videoTrack)
     Mlt::Tractor tractor(service);
     QList <TransitionInfo> transitionInfos;
     Mlt::Playlist playlist;
+    playlist.set("kdenlive:track_name", name.toUtf8().constData());
     int ct = tractor.count();
     if (ix > ct) {
         //qDebug() << "// ERROR, TRYING TO insert TRACK " << ix << ", max: " << ct;
@@ -4372,7 +4462,7 @@ void Render::mltDeleteTrack(int ix)
     }
     tractor.removeChild(track);
     ////qDebug() << "/////////// RESULT SCENE: \n" << doc.toString();
-    setSceneList(doc.toString(), m_mltConsumer->position());
+    reloadSceneList(doc.toString(), m_mltConsumer->position());
     emit refreshDocumentProducers(false, false);
 }
 
