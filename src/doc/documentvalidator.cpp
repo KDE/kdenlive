@@ -1002,23 +1002,33 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         main_playlist.setAttribute("id", pCore->binController()->binPlaylistId());
         mlt.toElement().setAttribute("producer", pCore->binController()->binPlaylistId());
         QStringList ids;
-        int max = producers.count();
+        QStringList slowmotionIds;
         QDomNode firstProd = m_doc.firstChildElement("producer");
-        for (int i = 0; i < max; ++i) {
+        for (int i = 0; i < producers.count(); ++i) {
             QDomElement prod = producers.at(i).toElement();
             QString id = prod.attribute("id");
+            if (id.startsWith("slowmotion")) {
+                // No need to process slowmotion producers
+                QString slowmo = id.section(":", 1, 1).section("_", 0, 0);
+                if (!slowmotionIds.contains(slowmo)) {
+                    slowmotionIds << slowmo;
+                }
+                continue;
+            }
             QString prodId = id.section("_", 0, 0);
             if (ids.contains(prodId)) {
                 // Already processed, continue
                 continue;
             }
             if (id == prodId) {
-                // This is an original producer, just add it to the main playlist
+                // This is an original producer, move it to the main playlist
                 QDomElement entry = m_doc.createElement("entry");
                 entry.setAttribute("in", prod.attribute("in"));
                 entry.setAttribute("out", prod.attribute("out"));
                 entry.setAttribute("producer", id);
                 main_playlist.appendChild(entry);
+                frag.appendChild(prod);
+                i--;
             }
             else {
                 QDomElement originalProd = prod.cloneNode().toElement();
@@ -1031,6 +1041,48 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 main_playlist.appendChild(entry);
             }
             ids.append(prodId);
+        }
+        // Make sure all slowmotion producers have a master clip
+        QDomNodeList kdenlive_producers = m_doc.elementsByTagName("kdenlive_producer");
+        for (int i = 0; i < slowmotionIds.count(); i++) {
+            QString slo = slowmotionIds.at(i);
+            if (!ids.contains(slo)) {
+                // rebuild producer from Kdenlive's old xml format
+                for (int j = 0; j < kdenlive_producers.count(); j++) {
+                    QDomElement prod = kdenlive_producers.at(j).toElement();
+                    QString id = prod.attribute("id");
+                    if (id == slo) {
+                        // We found the kdenlive_producer, build MLT producer
+                        QDomElement original = m_doc.createElement("producer");
+                        original.setAttribute("in", 0);
+                        original.setAttribute("out", prod.attribute("duration").toInt() - 1);
+                        original.setAttribute("id", id);
+                        QDomElement prop = m_doc.createElement("property");
+                        prop.setAttribute("name", "resource");
+                        QDomText val = m_doc.createTextNode(prod.attribute("resource"));
+                        prop.appendChild(val);
+                        original.appendChild(prop);
+                        QDomElement prop2 = m_doc.createElement("property");
+                        prop2.setAttribute("name", "mlt_service");
+                        QDomText val2 = m_doc.createTextNode("avformat");
+                        prop2.appendChild(val2);
+                        original.appendChild(prop2);
+                        QDomElement prop3 = m_doc.createElement("property");
+                        prop3.setAttribute("name", "length");
+                        QDomText val3 = m_doc.createTextNode(prod.attribute("duration"));
+                        prop3.appendChild(val3);
+                        original.appendChild(prop3);
+                        QDomElement entry = m_doc.createElement("entry");
+                        entry.setAttribute("in", original.attribute("in"));
+                        entry.setAttribute("out", original.attribute("out"));
+                        entry.setAttribute("producer", id);
+                        main_playlist.appendChild(entry);
+                        frag.appendChild(original);
+                        ids << slo;
+                        break;
+                    }
+                }
+            }
         }
         frag.appendChild(main_playlist);
         mlt.insertBefore(frag, firstProd);
