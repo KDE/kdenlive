@@ -17,6 +17,7 @@
   <name xml:lang="sk">Kdenlive</name>
   <name xml:lang="sl">Kdenlive</name>
   <name xml:lang="sv">Kdenlive</name>
+  <name xml:lang="tr">Kdenlive</name>
   <name xml:lang="uk">Kdenlive</name>
   <name xml:lang="x-test">xxKdenlivexx</name>
   <name xml:lang="zh-CN">Kdenlive</name>
@@ -34,6 +35,7 @@
   <summary xml:lang="sk">Editor videa</summary>
   <summary xml:lang="sl">Urejevalnik videa</summary>
   <summary xml:lang="sv">Videoeditor</summary>
+  <summary xml:lang="tr">Video Düzenleyicisi</summary>
   <summary xml:lang="uk">Відеоредактор</summary>
   <summary xml:lang="x-test">xxVideo Editorxx</summary>
   <summary xml:lang="zh-CN">视频编辑器</summary>
@@ -66,6 +68,7 @@
     <p xml:lang="sk">Funkcie:</p>
     <p xml:lang="sl">Zmožnosti:</p>
     <p xml:lang="sv">Funktioner:</p>
+    <p xml:lang="tr">Özellikler:</p>
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="x-test">xxFeatures:xx</p>
     <p xml:lang="zh-CN">功能：</p>
