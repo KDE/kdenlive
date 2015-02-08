@@ -541,7 +541,7 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
     files = doc.elementsByTagName("transition");
     for (int i = 0; i < files.count(); ++i) {
         QDomElement e = files.at(i).toElement();
-        QString url = EffectsList::property(e, "luma");
+        QString url = EffectsList::property(e, "resource");
         if (!url.isEmpty()) {
             if (!url.startsWith('/')) url.prepend(root);
             urls << url;

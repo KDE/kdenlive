@@ -166,8 +166,9 @@ bool DocumentChecker::hasErrorInClips()
     QDomNodeList trans = m_doc.elementsByTagName("transition");
     max = trans.count();
     for (int i = 0; i < max; ++i) {
-        QString luma = getProperty(trans.at(i).toElement(), "luma");
-        if (!luma.isEmpty() && !filesToCheck.contains(luma))
+        QString service = getProperty(trans.at(i).toElement(), "mlt_service");
+        QString luma = getProperty(trans.at(i).toElement(), "resource");
+        if (service == "luma" && !luma.isEmpty() && !filesToCheck.contains(luma))
             filesToCheck.append(luma);
     }
     // Check existence of luma files
@@ -730,17 +731,18 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers
         }
     } else if (child->data(0, statusRole).toInt() == LUMAOK) {
         for (int i = 0; i < trans.count(); ++i) {
-            QString luma = getProperty(trans.at(i).toElement(), "luma");
-            if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
-                setProperty(trans.at(i).toElement(), "luma", child->text(1));
+            QString service = getProperty(trans.at(i).toElement(), "mlt_service");
+            QString luma = getProperty(trans.at(i).toElement(), "resource");
+            if (service == "luma" && !luma.isEmpty() && luma == child->data(0, idRole).toString()) {
+                setProperty(trans.at(i).toElement(), "resource", child->text(1));
                 //qDebug() << "replace with; " << child->text(1);
             }
         }
     } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
         for (int i = 0; i < trans.count(); ++i) {
-            QString luma = getProperty(trans.at(i).toElement(), "luma");
+            QString luma = getProperty(trans.at(i).toElement(), "resource");
             if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
-                setProperty(trans.at(i).toElement(), "luma", QString());
+                setProperty(trans.at(i).toElement(), "resource", QString());
             }
         }
     }
@@ -855,8 +857,8 @@ void DocumentChecker::slotDeleteSelected()
         foreach (const QString &lumaPath, deletedLumas) {
             for (int i = 0; i < transitions.count(); ++i) {
                 e = transitions.item(i).toElement();
-                QString resource = EffectsList::property(e, "luma");
-                if (resource == lumaPath) EffectsList::removeProperty(e, "luma");
+                QString resource = EffectsList::property(e, "resource");
+                if (resource == lumaPath) EffectsList::removeProperty(e, "resource");
             }
         }
     }
