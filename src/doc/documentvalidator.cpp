@@ -1019,6 +1019,17 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             prop.appendChild(val);
             main_playlist.appendChild(prop);
         }
+        
+        // Move folders
+        QDomNodeList folders = m_doc.elementsByTagName("folder");
+        for (int i = 0; i < folders.count(); ++i) {
+            QDomElement folder = folders.at(i).toElement();
+            QDomElement prop = m_doc.createElement("property");
+            prop.setAttribute("name", "kdenlive:folder.-1." + folder.attribute("id"));
+            QDomText val = m_doc.createTextNode(folder.attribute("name"));
+            prop.appendChild(val);
+            main_playlist.appendChild(prop);
+        }
 
         QDomNode mlt = m_doc.firstChildElement("mlt");
         main_playlist.setAttribute("id", pCore->binController()->binPlaylistId());
@@ -1064,8 +1075,31 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
             ids.append(prodId);
         }
-        // Make sure all slowmotion producers have a master clip
+        
+        // Set clip folders
         QDomNodeList kdenlive_producers = m_doc.elementsByTagName("kdenlive_producer");
+        for (int j = 0; j < kdenlive_producers.count(); j++) {
+            QDomElement prod = kdenlive_producers.at(j).toElement();
+            if (!prod.hasAttribute("groupid")) continue;
+            QString id = prod.attribute("id");
+            QString folder = prod.attribute("groupid");
+            QDomNodeList mlt_producers = frag.childNodes();
+            for (int k = 0; k < mlt_producers.count(); k++) {
+                QDomElement mltprod = mlt_producers.at(k).toElement();
+                if (mltprod.tagName() != "producer") continue;
+                if (mltprod.attribute("id") == id) {
+                    // We have found our producer, set folder info
+                    QDomElement prop = m_doc.createElement("property");
+                    prop.setAttribute("name", "kdenlive:folderid");
+                    QDomText val = m_doc.createTextNode(folder);
+                    prop.appendChild(val);
+                    mltprod.appendChild(prop);
+                    break;
+                }
+            }
+        }
+        
+        // Make sure all slowmotion producers have a master clip
         for (int i = 0; i < slowmotionIds.count(); i++) {
             QString slo = slowmotionIds.at(i);
             if (!ids.contains(slo)) {
