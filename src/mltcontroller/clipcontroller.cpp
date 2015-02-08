@@ -402,6 +402,24 @@ QList < CommentedTime > ClipController::commentedSnapMarkers() const
     return m_snapMarkers;
 }
 
+void ClipController::loadSnapMarker(const QString &seconds, const QString &hash)
+{
+    QLocale locale;
+    GenTime markerTime(locale.toDouble(seconds));
+    CommentedTime marker(hash, markerTime);
+    QList < CommentedTime >::Iterator it = m_snapMarkers.begin();
+    for (it = m_snapMarkers.begin(); it != m_snapMarkers.end(); ++it) {
+        if ((*it).time() >= marker.time())
+            break;
+    }
+    if ((it != m_snapMarkers.end()) && ((*it).time() == marker.time())) {
+        (*it).setComment(marker.comment());
+        (*it).setMarkerType(marker.markerType());
+        //qCritical() << "trying to add Snap Marker that already exists, this will cause inconsistancies with undo/redo";
+    } else {
+        m_snapMarkers.insert(it, marker);
+    }
+}
 
 void ClipController::addSnapMarker(const CommentedTime &marker)
 {
@@ -410,13 +428,16 @@ void ClipController::addSnapMarker(const CommentedTime &marker)
         if ((*it).time() >= marker.time())
             break;
     }
-
+    QLocale locale;
+    QString markerId = clipId() + ":" + locale.toString(marker.time().seconds());
     if ((it != m_snapMarkers.end()) && ((*it).time() == marker.time())) {
         (*it).setComment(marker.comment());
         (*it).setMarkerType(marker.markerType());
+        m_binController->storeMarker(markerId, marker.hash());
         //qCritical() << "trying to add Snap Marker that already exists, this will cause inconsistancies with undo/redo";
     } else {
         m_snapMarkers.insert(it, marker);
+        m_binController->storeMarker(markerId, marker.hash());
     }
 }
 
@@ -427,8 +448,11 @@ void ClipController::editSnapMarker(const GenTime & time, const QString &comment
         if ((*it).time() == time)
             break;
     }
+    QLocale locale;
+    QString markerId = clipId() + ":" + locale.toString(time.seconds());
     if (it != m_snapMarkers.end()) {
         (*it).setComment(comment);
+        m_binController->storeMarker(markerId, (*it).hash());
     } else {
         qCritical() << "trying to edit Snap Marker that does not already exists";
     }
@@ -444,10 +468,12 @@ QString ClipController::deleteSnapMarker(const GenTime & time)
             break;
         ++itt;
     }
-
+    QLocale locale;
+    QString markerId = clipId() + ":" + locale.toString(time.seconds());
     if ((itt != m_snapMarkers.end()) && ((*itt).time() == time)) {
         result = (*itt).comment();
         m_snapMarkers.erase(itt);
+        m_binController->storeMarker(markerId, QString());
     }
     return result;
 }

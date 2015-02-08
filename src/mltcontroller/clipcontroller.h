@@ -150,6 +150,7 @@ public:
     QString deleteSnapMarker(const GenTime & time);
     void editSnapMarker(const GenTime & time, const QString &comment);
     void addSnapMarker(const CommentedTime &marker);
+    void loadSnapMarker(const QString &seconds, const QString &hash);
     QList < GenTime > snapMarkers() const;
     QString markerComment(const GenTime &t) const;
     CommentedTime markerAt(const GenTime &t) const;

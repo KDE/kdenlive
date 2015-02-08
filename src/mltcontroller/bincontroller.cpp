@@ -86,12 +86,12 @@ void BinController::destroyBin()
 void BinController::initializeBin(Mlt::Playlist playlist)
 {
     // Load folders
-    Mlt::Properties foldeProperties;
+    Mlt::Properties folderProperties;
     Mlt::Properties playlistProps(playlist.get_properties());
-    foldeProperties.pass_values(playlistProps, "kdenlive:folder.");
+    folderProperties.pass_values(playlistProps, "kdenlive:folder.");
     QMap <QString,QString> foldersData;
-    for (int i = 0; i < foldeProperties.count(); i++) {
-        foldersData.insert(foldeProperties.get_name(i), foldeProperties.get(i));
+    for (int i = 0; i < folderProperties.count(); i++) {
+        foldersData.insert(folderProperties.get_name(i), folderProperties.get(i));
     }
     emit loadFolders(foldersData);
 
@@ -129,6 +129,17 @@ void BinController::initializeBin(Mlt::Playlist playlist)
             }
         }
     }
+    // Load markers
+    Mlt::Properties markerProperties;
+    markerProperties.pass_values(playlistProps, "kdenlive:marker.");
+    QMap <QString,QString> markersData;
+    for (int i = 0; i < markerProperties.count(); i++) {
+        QString markerId = markerProperties.get_name(i);
+        QString controllerId = markerId.section(":", 0, 0);
+        ClipController *ctrl = m_clipList.value(controllerId);
+        if (!ctrl) continue;
+        ctrl->loadSnapMarker(markerId.section(":", 1), markerProperties.get(i));
+    }
 }
 
 void BinController::createIfNeeded()
@@ -152,6 +163,18 @@ void BinController::slotStoreFolder(const QString &folderId, const QString &pare
     }
     else {
         m_binPlaylist->set(propertyName.toUtf8().constData(), folderName.toUtf8().constData());
+    }
+}
+
+void BinController::storeMarker(const QString &markerId, const QString &markerHash)
+{
+    QString propertyName = "kdenlive:marker." + markerId;
+    if (markerHash.isEmpty()) {
+        // Remove this marker
+        m_binPlaylist->set(propertyName.toUtf8().constData(), (char *) NULL);
+    }
+    else {
+        m_binPlaylist->set(propertyName.toUtf8().constData(), markerHash.toUtf8().constData());
     }
 }
 

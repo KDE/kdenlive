@@ -887,6 +887,7 @@ void Monitor::openClip(ClipController *controller)
     if (render == NULL) return;
     m_controller = controller;
     if (controller) {
+        updateMarkers(controller);
         render->setProducer(m_controller->masterProducer(), -1);
     }
     else {

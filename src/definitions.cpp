@@ -139,6 +139,9 @@ CommentedTime::CommentedTime(): t(GenTime(0)), type(0) {}
 CommentedTime::CommentedTime(const GenTime &time, const QString &comment, int markerType)
     : t(time), c(comment), type(markerType) { }
 
+CommentedTime::CommentedTime(const QString &hash, const GenTime &time)
+    : t(time), c(hash.section(":", 1)), type(hash.section(":", 0, 0).toInt()) { }
+
 QString CommentedTime::comment() const          {
     return (c.isEmpty() ? i18n("Marker") : c);
 }
@@ -153,6 +156,11 @@ void CommentedTime::setComment(const QString &comm) {
 
 void CommentedTime::setMarkerType(int t) {
     type = t;
+}
+
+QString CommentedTime::hash() const
+{
+    return QString::number(type) + ":" + (c.isEmpty() ? i18n("Marker") : c);
 }
 
 int CommentedTime::markerType() const {

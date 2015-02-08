@@ -282,9 +282,12 @@ class CommentedTime
 public:
     CommentedTime();
     CommentedTime(const GenTime &time, const QString& comment, int markerType = 0);
+    CommentedTime(const QString& hash, const GenTime &time);
 
-    QString comment()   const;
+    QString comment() const;
     GenTime time() const;
+    /** @brief Returns a string containing infos needed to store marker info. string equals marker type + ":" + marker comment */
+    QString hash() const;
     void    setComment(const QString &comm);
     void setMarkerType(int t);
     int markerType() const;
