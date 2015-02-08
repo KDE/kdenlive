@@ -73,8 +73,6 @@ public:
     //void setRenderer(Render *render);
     QUndoStack *commandStack();
     Render *renderer();
-    QDomDocument m_guidesXml;
-    QDomElement guidesXml() const;
     ClipManager *clipManager();
 
     /** @brief Adds a clip to the project tree.
@@ -115,15 +113,14 @@ public:
 
     /** @brief Returns the project folder, used to store project files. */
     QUrl projectFolder() const;
-    void syncGuides(const QList <Guide *> &guides);
     void setZoom(int horizontal, int vertical);
     QPoint zoom() const;
     double dar() const;
     double projectDuration() const;
     /** @brief Returns the project file xml. */
-    QDomDocument xmlSceneList(const QString &scene);
+    QDomDocument xmlSceneList(const QString &scene, QMap <double, QString> guidesData);
     /** @brief Saves the project file xml to a file. */
-    bool saveSceneList(const QString &path, const QString &scene, bool autosave = false);
+    bool saveSceneList(const QString &path, const QString &scene, QMap <double, QString> guidesData, bool autosave = false);
     int tracksCount() const;
     TrackInfo trackInfoAt(int ix) const;
     void insertTrack(int ix, const TrackInfo &type);
@@ -202,7 +199,6 @@ private:
     QUndoStack *m_commandStack;
     ClipManager *m_clipManager;
     MltVideoProfile m_profile;
-    QTimer *m_autoSaveTimer;
     QString m_searchFolder;
 
     /** @brief Tells whether the current document has been changed after being saved. */
@@ -248,11 +244,11 @@ public slots:
     void setModified(bool mod = true);
     void checkProjectClips(bool displayRatioChanged = false, bool fpsChanged = false);
     void slotProxyCurrentItem(bool doProxy);
-
-private slots:
     /** @brief Saves the current project at the autosave location.
      * @description The autosave files are in ~/.kde/data/stalefiles/kdenlive/ */
-    void slotAutoSave();
+    void slotAutoSave(QMap <double, QString> guidesData);
+
+private slots:
     void slotClipModified(const QString &path);
     void slotClipMissing(const QString &path);
     void slotClipAvailable(const QString &path);
@@ -273,6 +269,8 @@ signals:
     void guidesUpdated();
     /** @brief When creating a backup file, also save a thumbnail of current timeline */
     void saveTimelinePreview(const QString &path);
+    /** @brief Trigger the autosave timer start */
+    void startAutoSave();
 };
 
 #endif

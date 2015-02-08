@@ -1406,7 +1406,7 @@ void MainWindow::slotRenderProject()
         connect(m_renderWidget, SIGNAL(openDvdWizard(QString)), this, SLOT(slotDvdWizard(QString)));
         if (project) {
             m_renderWidget->setProfile(project->mltProfile());
-            m_renderWidget->setGuides(project->guidesXml(), project->projectDuration());
+            m_renderWidget->setGuides(pCore->projectManager()->currentTrackView()->projectView()->guidesData(), project->projectDuration());
             m_renderWidget->setDocumentPath(project->projectFolder().path() + QDir::separator());
             m_renderWidget->setRenderProfile(project->getRenderProperties());
         }
@@ -1481,6 +1481,7 @@ void MainWindow::connectDocument()
     KdenliveDoc *project = pCore->projectManager()->current();
     TrackView *trackView = pCore->projectManager()->currentTrackView();
     pCore->binController()->resetProfile(project->profilePath());
+    connect(project, SIGNAL(startAutoSave()), pCore->projectManager(), SLOT(slotStartAutoSave()));
     // Resetting monitor profiles should now be handled by binController
     //pCore->monitorManager()->resetProfiles(project->timecode());
     KdenliveSettings::setProject_fps(project->fps());
@@ -1507,7 +1508,7 @@ void MainWindow::connectDocument()
     connect(project, SIGNAL(signalDeleteProjectClip(QString)), this, SLOT(slotDeleteClip(QString)));
 
     connect(project, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
-    connect(project, SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
+    connect(trackView->projectView(), SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
     connect(project, SIGNAL(saveTimelinePreview(QString)), trackView, SLOT(slotSaveTimelinePreview(QString)));
 
     connect(trackView->projectView(), SIGNAL(updateClipMarkers(ClipController*)), this, SLOT(slotUpdateClipMarkers(ClipController*)));
@@ -1556,7 +1557,7 @@ void MainWindow::connectDocument()
     if (m_renderWidget) {
         slotCheckRenderStatus();
         m_renderWidget->setProfile(project->mltProfile());
-        m_renderWidget->setGuides(project->guidesXml(), project->projectDuration());
+        m_renderWidget->setGuides(pCore->projectManager()->currentTrackView()->projectView()->guidesData(), project->projectDuration());
         m_renderWidget->setDocumentPath(project->projectFolder().path() + QDir::separator());
         m_renderWidget->setRenderProfile(project->getRenderProperties());
     }
@@ -1594,7 +1595,7 @@ void MainWindow::slotZoneMoved(int start, int end)
 void MainWindow::slotGuidesUpdated()
 {
     if (m_renderWidget)
-        m_renderWidget->setGuides(pCore->projectManager()->current()->guidesXml(), pCore->projectManager()->current()->projectDuration());
+        m_renderWidget->setGuides(pCore->projectManager()->currentTrackView()->projectView()->guidesData(), pCore->projectManager()->current()->projectDuration());
 }
 
 void MainWindow::slotEditKeys()
@@ -2778,22 +2779,22 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         chapters.setAttribute("fps", project->fps());
         doc.appendChild(chapters);
 
-        QDomElement guidesxml = project->guidesXml();
-        QDomNodeList nodes = guidesxml.elementsByTagName("guide");
-        for (int i = 0; i < nodes.count(); ++i) {
-            QDomElement e = nodes.item(i).toElement();
-            if (!e.isNull()) {
-                QString comment = e.attribute("comment");
-                int time = (int) GenTime(e.attribute("time").toDouble()).frames(project->fps());
-                if (time >= in && time < out) {
-                    if (zoneOnly) time = time - in;
-                    QDomElement chapter = doc.createElement("chapter");
-                    chapters.appendChild(chapter);
-                    chapter.setAttribute("title", comment);
-                    chapter.setAttribute("time", time);
-                }
+        
+        QMap <double, QString> guidesData = pCore->projectManager()->currentTrackView()->projectView()->guidesData();
+        QMapIterator<double, QString> g(guidesData);
+        QLocale locale;
+        while (g.hasNext()) {
+            g.next();
+            int time = (int) GenTime(g.key()).frames(project->fps());
+            if (time >= in && time < out) {
+                if (zoneOnly) time = time - in;
+                QDomElement chapter = doc.createElement("chapter");
+                chapters.appendChild(chapter);
+                chapter.setAttribute("title", g.value());
+                chapter.setAttribute("time", time);
             }
         }
+
         if (chapters.childNodes().count() > 0) {
             if (pCore->projectManager()->currentTrackView()->projectView()->hasGuide(out, 0) == -1) {
                 // Always insert a guide in pos 0
@@ -3049,7 +3050,7 @@ void MainWindow::slotUpdateProxySettings()
 void MainWindow::slotArchiveProject()
 {
     QList <ClipController*> list = pCore->binController()->getControllerList();
-    QDomDocument doc = pCore->projectManager()->current()->xmlSceneList(m_projectMonitor->sceneList());
+    QDomDocument doc = pCore->projectManager()->current()->xmlSceneList(m_projectMonitor->sceneList(), pCore->projectManager()->currentTrackView()->projectView()->guidesData());
     QPointer<ArchiveWidget> d = new ArchiveWidget(pCore->projectManager()->current()->url().fileName(), doc, list, pCore->projectManager()->currentTrackView()->projectView()->extractTransitionsLumas(), this);
     if (d->exec()) {
         m_messageLabel->setMessage(i18n("Archiving project"), OperationCompletedMessage);

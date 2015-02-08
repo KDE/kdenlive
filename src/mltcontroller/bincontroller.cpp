@@ -142,6 +142,26 @@ void BinController::initializeBin(Mlt::Playlist playlist)
     }
 }
 
+QMap<double,QString> BinController::takeGuidesData()
+{
+    QLocale locale;
+    // Load guides
+    Mlt::Properties guidesProperties;
+    Mlt::Properties playlistProps(m_binPlaylist->get_properties());
+    guidesProperties.pass_values(playlistProps, "kdenlive:guide.");
+    
+    qDebug()<<"***********\nFOUND GUIDES: "<<guidesProperties.count()<<"\n**********";
+    QMap <double,QString> guidesData;
+    for (int i = 0; i < guidesProperties.count(); i++) {
+        double time = locale.toDouble(guidesProperties.get_name(i));
+        guidesData.insert(time, guidesProperties.get(i));
+        // Clear bin data
+        QString propertyName = "kdenlive:guide." + QString(guidesProperties.get_name(i));
+        m_binPlaylist->set(propertyName.toUtf8().constData(), (char *) NULL);
+    }
+    return guidesData;
+}
+
 void BinController::createIfNeeded()
 {
     if (m_binPlaylist) return;

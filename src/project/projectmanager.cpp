@@ -11,6 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "projectmanager.h"
 #include "core.h"
 #include "bin/bin.h"
+#include "mltcontroller/bincontroller.h"
 #include "mainwindow.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitormanager.h"
@@ -55,6 +56,9 @@ ProjectManager::ProjectManager(QObject* parent) :
     connect(backupAction, SIGNAL(triggered(bool)), SLOT(slotOpenBackup()));
 
     m_notesPlugin = new NotesPlugin(this);
+
+    m_autoSaveTimer.setSingleShot(true);
+    connect(&m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
 }
 
 ProjectManager::~ProjectManager()
@@ -186,7 +190,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges)
             break;
         }
     }
-
+    m_autoSaveTimer.stop();
     pCore->window()->slotTimelineClipSelected(NULL, false);
     pCore->monitorManager()->clipMonitor()->openClip(NULL);
 
@@ -205,10 +209,11 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges)
 bool ProjectManager::saveFileAs(const QString &outputFileName)
 {
     pCore->monitorManager()->stopActiveMonitor();
-    if (m_project->saveSceneList(outputFileName, pCore->monitorManager()->projectMonitor()->sceneList()) == false) {
+
+    if (m_project->saveSceneList(outputFileName, pCore->monitorManager()->projectMonitor()->sceneList(), m_trackView->projectView()->guidesData()) == false) {
         return false;
     }
-
+    
     // Save timeline thumbnails
     m_trackView->projectView()->saveThumbnails();
     m_project->setUrl(QUrl::fromLocalFile(outputFileName));
@@ -428,6 +433,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
 
     bool ok;
     m_trackView = new TrackView(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
+    m_trackView->loadGuides(pCore->binController()->takeGuidesData());
 
     m_project = doc;
     pCore->window()->connectDocument();
@@ -534,6 +540,17 @@ TrackView* ProjectManager::currentTrackView()
 KRecentFilesAction* ProjectManager::recentFilesAction()
 {
     return m_recentFilesAction;
+}
+
+
+void ProjectManager::slotStartAutoSave()
+{
+    m_autoSaveTimer.start(3000); // will trigger slotAutoSave() in 3 seconds
+}
+
+void ProjectManager::slotAutoSave()
+{
+    m_project->slotAutoSave(m_trackView->projectView()->guidesData());
 }
 
 

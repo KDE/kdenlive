@@ -221,6 +221,8 @@ public:
     void createGroupForSelectedItems(QList<QGraphicsItem *> &selection);
     void selectItemsRightOfFrame(int frame);
     void resetSelectionGroup(bool selectItems = true);
+    /** @brief Returns all infos necessary to save guides. */
+    QMap <double, QString> guidesData() const;
 
 public slots:
     /** @brief Send seek request to MLT. */
@@ -536,6 +538,8 @@ signals:
     void updateRuler();
     /** @brief Send data from a clip to be imported as keyframes for effect / transition.*/
     void importKeyframes(GraphicsRectItem type, const QString&, int maximum);
+    /** @brief Guides were changed, inform render widget*/
+    void guidesUpdated();
 };
 
 #endif

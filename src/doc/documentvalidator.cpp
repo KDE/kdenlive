@@ -1009,6 +1009,17 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             main_playlist.appendChild(prop);
         }
 
+        // Move guides
+        QDomNodeList guides = m_doc.elementsByTagName("guide");
+        for (int i = 0; i < guides.count(); ++i) {
+            QDomElement guide = guides.at(i).toElement();
+            QDomElement prop = m_doc.createElement("property");
+            prop.setAttribute("name", "kdenlive:guide." + guide.attribute("time"));
+            QDomText val = m_doc.createTextNode(guide.attribute("comment"));
+            prop.appendChild(val);
+            main_playlist.appendChild(prop);
+        }
+
         QDomNode mlt = m_doc.firstChildElement("mlt");
         main_playlist.setAttribute("id", pCore->binController()->binPlaylistId());
         mlt.toElement().setAttribute("producer", pCore->binController()->binPlaylistId());

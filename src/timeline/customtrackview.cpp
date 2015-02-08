@@ -3700,7 +3700,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             m_commandStack->push(command);
             m_dragGuide->updateGuide(GenTime(m_dragGuide->pos().x(), m_document->fps()));
             qSort(m_guides.begin(), m_guides.end(), sortGuidesList);
-            m_document->syncGuides(m_guides);
+            emit guidesUpdated();
         }
         m_dragGuide = NULL;
         m_dragItem = NULL;
@@ -5658,6 +5658,15 @@ void CustomTrackView::buildGuidesMenu(QMenu *goMenu) const
     goMenu->setEnabled(!m_guides.isEmpty());
 }
 
+QMap <double, QString> CustomTrackView::guidesData() const
+{
+    QMap <double, QString> data;
+    for (int i = 0; i < m_guides.count(); ++i) {
+        data.insert(m_guides.at(i)->position().seconds(), m_guides.at(i)->label());
+    }
+    return data;
+}
+
 void CustomTrackView::editGuide(const GenTime &oldPos, const GenTime &pos, const QString &comment)
 {
     if (comment.isEmpty() && pos < GenTime()) {
@@ -5684,7 +5693,7 @@ void CustomTrackView::editGuide(const GenTime &oldPos, const GenTime &pos, const
         }
     } else addGuide(pos, comment);
     qSort(m_guides.begin(), m_guides.end(), sortGuidesList);
-    m_document->syncGuides(m_guides);
+    emit guidesUpdated();
 }
 
 bool CustomTrackView::addGuide(const GenTime &pos, const QString &comment)
@@ -5699,7 +5708,7 @@ bool CustomTrackView::addGuide(const GenTime &pos, const QString &comment)
     scene()->addItem(g);
     m_guides.append(g);
     qSort(m_guides.begin(), m_guides.end(), sortGuidesList);
-    m_document->syncGuides(m_guides);
+    emit guidesUpdated();
     return true;
 }
 

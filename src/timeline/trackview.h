@@ -71,6 +71,9 @@ public:
     *
     * Parses all tracks to check if there is audio data. */
     bool checkProjectAudio() const;
+    
+    /** @brief Load guides from data */
+    void loadGuides(QMap <double, QString> guidesData);
 
     void checkTrackHeight();
     void updateProfile();
@@ -86,6 +89,7 @@ public slots:
     void slotSetZone(const QPoint &p, bool updateDocumentProperties = true);
     /** @brief Save a snapshot image of current timeline view */
     void slotSaveTimelinePreview(const QString &path);
+
 private:
     CustomRuler *m_ruler;
     CustomTrackView *m_trackview;

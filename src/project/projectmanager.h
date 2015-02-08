@@ -13,6 +13,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QObject>
 #include <QUrl>
+#include <QTimer>
+
 #include <KRecentFilesAction>
 #include "kdenlivecore_export.h"
 
@@ -23,7 +25,6 @@ class NotesPlugin;
 class QAction;
 class QUrl;
 class KAutoSaveFile;
-
 
 /**
  * @class ProjectManager
@@ -81,11 +82,16 @@ public slots:
     *
     * Checks if already open and whether backup exists */
     void openFile(const QUrl &url);
+    
+    /** @brief Start autosave timer */
+    void slotStartAutoSave();
 
 private slots:
     void slotRevert();
     /** @brief Open the project's backupdialog. */
     void slotOpenBackup(const QUrl &url = QUrl());
+    /** @brief Start autosaving the document. */
+    void slotAutoSave();
 
 signals:
     void docOpened(KdenliveDoc *document);
@@ -101,6 +107,8 @@ private:
 
     KdenliveDoc *m_project;
     TrackView *m_trackView;
+    
+    QTimer m_autoSaveTimer;
     
     QUrl m_startUrl;
     QString m_loadClipsOnOpen;

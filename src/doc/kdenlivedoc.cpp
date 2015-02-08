@@ -91,8 +91,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     m_profile.colorspace = 0;
 
     m_clipManager = new ClipManager(this);
-    m_autoSaveTimer = new QTimer(this);
-    m_autoSaveTimer->setSingleShot(true);
     connect(m_clipManager, SIGNAL(displayMessage(QString,int)), parent, SLOT(slotGotProgressInfo(QString,int)));
     bool success = false;
 
@@ -397,18 +395,15 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     updateProjectFolderPlacesEntry();
 
     ////qDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
-    connect(m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
     connect(m_render, SIGNAL(addClip(const QUrl&,const QMap<QString,QString>&)), m_clipManager, SLOT(slotAddClipFile(const QUrl&,const QMap<QString,QString>&)));
 }
 
 KdenliveDoc::~KdenliveDoc()
 {
-    m_autoSaveTimer->stop();
     delete m_commandStack;
     //qDebug() << "// DEL CLP MAN";
     delete m_clipManager;
     //qDebug() << "// DEL CLP MAN done";
-    delete m_autoSaveTimer;
     if (m_autosave) {
         if (!m_autosave->fileName().isEmpty()) m_autosave->remove();
         delete m_autosave;
@@ -593,36 +588,13 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
     return doc;
 }
 
-
-void KdenliveDoc::syncGuides(const QList <Guide *> &guides)
-{
-    m_guidesXml.clear();
-    QDomElement guideNode = m_guidesXml.createElement("guides");
-    m_guidesXml.appendChild(guideNode);
-    QDomElement e;
-
-    for (int i = 0; i < guides.count(); ++i) {
-        e = m_guidesXml.createElement("guide");
-        e.setAttribute("time", guides.at(i)->position().ms() / 1000);
-        e.setAttribute("comment", guides.at(i)->label());
-        guideNode.appendChild(e);
-    }
-    setModified(true);
-    emit guidesUpdated();
-}
-
-QDomElement KdenliveDoc::guidesXml() const
-{
-    return m_guidesXml.documentElement();
-}
-
 bool KdenliveDoc::useProxy() const
 {
     return m_documentProperties.value("enableproxy").toInt();
 }
 
 
-void KdenliveDoc::slotAutoSave()
+void KdenliveDoc::slotAutoSave(QMap <double, QString> guidesData)
 {
     if (m_render && m_autosave) {
         if (!m_autosave->isOpen() && !m_autosave->open(QIODevice::ReadWrite)) {
@@ -630,7 +602,7 @@ void KdenliveDoc::slotAutoSave()
             //qDebug() << "ERROR; CANNOT CREATE AUTOSAVE FILE";
         }
         //qDebug() << "// AUTOSAVE FILE: " << m_autosave->fileName();
-        saveSceneList(m_autosave->fileName(), m_render->sceneList(), true);
+        saveSceneList(m_autosave->fileName(), m_render->sceneList(), guidesData, true);
     }
 }
 
@@ -656,7 +628,7 @@ QPoint KdenliveDoc::zone() const
     return QPoint(m_documentProperties.value("zonein").toInt(), m_documentProperties.value("zoneout").toInt());
 }
 
-QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
+QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, QMap <double, QString> guidesData)
 {
     QDomDocument sceneList;
     sceneList.setContent(scene, true);
@@ -677,6 +649,31 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
             }
         }
     }
+    QDomNodeList pls = mlt.elementsByTagName("playlist");
+    QDomElement mainPlaylist;
+    for (int i = 0; i < pls.count(); ++i) {
+        if (pls.at(i).toElement().attribute("id") == pCore->binController()->binPlaylistId()) {
+            mainPlaylist = pls.at(i).toElement();
+            break;
+        }
+    }
+    
+    // Append markers
+    
+    
+    // Append guides
+    QMapIterator<double, QString> g(guidesData);
+    QLocale locale;
+    while (g.hasNext()) {
+        g.next();
+        QString propertyName = "kdenlive:guide." + locale.toString(g.key());
+        QDomElement prop = sceneList.createElement("property");
+        prop.setAttribute("name", propertyName);
+        QDomText val = sceneList.createTextNode(g.value());
+        prop.appendChild(val);
+        mainPlaylist.appendChild(prop);
+    }
+
 
     QDomElement addedXml = sceneList.createElement("kdenlivedoc");
     mlt.appendChild(addedXml);
@@ -792,9 +789,6 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
     }
     addedXml.appendChild(markers);
 
-    // Add guides
-    if (!m_guidesXml.isNull()) addedXml.appendChild(sceneList.importNode(m_guidesXml.documentElement(), true));
-
     // Add clip groups
     addedXml.appendChild(sceneList.importNode(m_clipManager->groupsXml(), true));
 
@@ -802,9 +796,9 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
     return sceneList;
 }
 
-bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, bool autosave)
+bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, QMap <double, QString> guidesData, bool autosave)
 {
-    QDomDocument sceneList = xmlSceneList(scene);
+    QDomDocument sceneList = xmlSceneList(scene, guidesData);
     if (sceneList.isNull()) {
         //Make sure we don't save if scenelist is corrupted
         KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1, scene list is corrupted.", path));
@@ -1079,7 +1073,7 @@ void KdenliveDoc::setModified(bool mod)
 {
     // fix mantis#3160: The document may have an empty URL if not saved yet, but should have a m_autosave in any case
     if (m_autosave && mod && KdenliveSettings::crashrecovery()) {
-        m_autoSaveTimer->start(3000); // will trigger slotAutoSave() in 3 seconds
+        emit startAutoSave();
     }
     if (mod == m_modified) return;
     m_modified = mod;

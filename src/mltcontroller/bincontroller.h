@@ -132,6 +132,7 @@ public:
     const QStringList getBinIdsByResource(const QUrl &url) const;
     void replaceProducer(const QString &id, Mlt::Producer &producer);
     void storeMarker(const QString &markerId, const QString &markerHash);
+    QMap<double,QString> takeGuidesData();
 
 public slots:
     /** @brief Stored a Bin Folder id / name to MLT's bin playlist. Using an empry folderName deletes the property */

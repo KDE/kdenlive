@@ -417,16 +417,6 @@ void TrackView::parseDocument(const QDomDocument &doc)
     
     int currentPos = propsXml.attribute("position").toInt();
     if (currentPos > 0) m_trackview->initCursorPos(currentPos);
-    
-
-    // Add guides
-    QDomNodeList guides = infoXml.elementsByTagName("guide");
-    for (int i = 0; i < guides.count(); ++i) {
-        e = guides.item(i).toElement();
-        const QString comment = e.attribute("comment");
-        const GenTime pos = GenTime(e.attribute("time").toDouble());
-        m_trackview->addGuide(pos, comment);
-    }
 
     // Rebuild groups
     QDomNodeList groups = infoXml.elementsByTagName("group");
@@ -773,6 +763,16 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const Q
     }
     //qDebug() << "*************  ADD DOC TRACK " << ix << ", DURATION: " << position;
     return position;
+}
+
+void TrackView::loadGuides(QMap <double, QString> guidesData)
+{
+    QMapIterator<double, QString> i(guidesData);
+    while (i.hasNext()) {
+        i.next();
+        const GenTime pos = GenTime(i.key());
+        m_trackview->addGuide(pos, i.value());
+    }
 }
 
 void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNode, ClipItem *clip, int trackIndex)
