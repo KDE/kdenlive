@@ -2908,6 +2908,7 @@ void MainWindow::slotUpdateTimecodeFormat(int ix)
     m_projectMonitor->updateTimecodeFormat();
     m_transitionConfig->updateTimecodeFormat();
     m_effectStack->updateTimecodeFormat();
+    pCore->bin()->updateTimecodeFormat();
     //pCore->projectManager()->currentTrackView()->projectView()->clearSelection();
     pCore->projectManager()->currentTrackView()->updateRuler();
     slotUpdateMousePosition(pCore->projectManager()->currentTrackView()->projectView()->getMousePos());

@@ -1057,6 +1057,7 @@ void Bin::showClipProperties(ProjectClip *clip)
         m_propertiesPanel->setLayout(lay);
     }
     ClipPropertiesController *panel = clip->buildProperties(m_propertiesPanel);
+    connect(this, SIGNAL(refreshTimeCode()), panel, SLOT(slotRefreshTimeCode()));
     connect(panel, SIGNAL(updateClipProperties(const QString &, QMap<QString, QString>, QMap<QString, QString>)), this, SLOT(slotEditClipCommand(const QString &, QMap<QString, QString>, QMap<QString, QString>)));
     lay->addWidget(panel);
 }
@@ -1693,3 +1694,7 @@ void Bin::slotOpenClip()
     }
 }
 
+void Bin::updateTimecodeFormat()
+{
+    emit refreshTimeCode();
+}

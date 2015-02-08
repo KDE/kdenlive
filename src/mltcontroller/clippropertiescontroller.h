@@ -54,6 +54,7 @@ public:
 
 public slots:
     void slotReloadProperties();
+    void slotRefreshTimeCode();
 
 private slots:
     void slotColorModified(QColor newcolor);
@@ -69,6 +70,7 @@ signals:
     void updateClipProperties(const QString &,QMap <QString, QString>, QMap <QString, QString>);
     void modified(QColor);
     void modified(int);
+    void updateTimeCodeFormat();
 };
 
 #endif

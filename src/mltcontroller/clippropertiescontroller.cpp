@@ -39,6 +39,7 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, const QString &i
 {
     if (type == Color || type == Image) {
         QVBoxLayout *vbox = new QVBoxLayout;
+        // Edit duration widget
         m_originalProperties.insert("out", m_properties.get("out"));
         m_originalProperties.insert("length", m_properties.get("length"));
         QLabel *lab = new QLabel(i18n("Duration"), this);
@@ -47,8 +48,10 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, const QString &i
         timePos->setValue(m_properties.get_int("out") + 1);
         vbox->addWidget(timePos);
         connect(timePos, SIGNAL(timeCodeEditingFinished(int)), this, SLOT(slotDurationChanged(int)));
+        connect(this, SIGNAL(updateTimeCodeFormat()), timePos, SLOT(slotUpdateTimeCodeFormat()));
         connect(this, SIGNAL(modified(int)), timePos, SLOT(setValue(int)));
         if (type == Color) {
+            // Edit color widget
             m_originalProperties.insert("resource", m_properties.get("resource"));
             mlt_color color = m_properties.get_color("resource");
             ChooseColorWidget *choosecolor = new ChooseColorWidget(i18n("Color"), QColor::fromRgb(color.r, color.g, color.b).name(), false, this);
@@ -64,6 +67,11 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, const QString &i
 
 ClipPropertiesController::~ClipPropertiesController()
 {
+}
+
+void ClipPropertiesController::slotRefreshTimeCode()
+{
+    emit updateTimeCodeFormat();
 }
 
 void ClipPropertiesController::slotReloadProperties()
@@ -88,7 +96,6 @@ void ClipPropertiesController::slotColorModified(QColor newcolor)
 
 void ClipPropertiesController::slotDurationChanged(int duration)
 {
-    qDebug()<<"NEW DUR: "<<duration;
     QMap <QString, QString> properties;
     properties.insert("length", QString::number(duration));
     properties.insert("out", QString::number(duration - 1));

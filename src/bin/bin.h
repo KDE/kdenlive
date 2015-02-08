@@ -392,7 +392,8 @@ public:
     void renameSubClip(const QString &id, const QString &newName, const QString oldName, int in, int out);
     /** @brief Returns current project's timecode. */
     Timecode projectTimecode() const;
-    
+    /** @brief Trigger timecode format refresh where needed. */
+    void updateTimecodeFormat();
 
 private slots:
     void slotAddClip();
@@ -513,6 +514,8 @@ signals:
     void gotFilterJobResults(QString,int,int,stringMap,stringMap);
     /** @brief The clip was changed and thumbnail needs a refresh. */
     void clipNeedsReload(const QString &,bool);
+    /** @brief Trigger timecode format refresh where needed. */
+    void refreshTimeCode();
 };
 
 #endif
