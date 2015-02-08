@@ -30,33 +30,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDebug>
 #include <QPixmap>
 #include <QVBoxLayout>
-
+#include <QLabel>
 
 ClipPropertiesController::ClipPropertiesController(Timecode tc, const QString &id, ClipType type, Mlt::Properties &properties, QWidget *parent) : QWidget(parent)
     , m_id(id)
     , m_type(type)
     , m_properties(properties)
 {
-    if (type == Color) {
+    if (type == Color || type == Image) {
         QVBoxLayout *vbox = new QVBoxLayout;
-        m_originalProperties.insert("resource", m_properties.get("resource"));
         m_originalProperties.insert("out", m_properties.get("out"));
         m_originalProperties.insert("length", m_properties.get("length"));
+        QLabel *lab = new QLabel(i18n("Duration"), this);
+        vbox->addWidget(lab);
         TimecodeDisplay *timePos = new TimecodeDisplay(tc, this);
         timePos->setValue(m_properties.get_int("out") + 1);
         vbox->addWidget(timePos);
         connect(timePos, SIGNAL(timeCodeEditingFinished(int)), this, SLOT(slotDurationChanged(int)));
         connect(this, SIGNAL(modified(int)), timePos, SLOT(setValue(int)));
-
-        mlt_color color = m_properties.get_color("resource");
-        ChooseColorWidget *choosecolor = new ChooseColorWidget(i18n("Color"), QColor::fromRgb(color.r, color.g, color.b).name(), false, this);
-        vbox->addWidget(choosecolor);
-        //connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
-        connect(choosecolor, SIGNAL(modified(QColor)), this, SLOT(slotColorModified(QColor)));
-        connect(this, SIGNAL(modified(QColor)), choosecolor, SLOT(slotColorModified(QColor)));
+        if (type == Color) {
+            m_originalProperties.insert("resource", m_properties.get("resource"));
+            mlt_color color = m_properties.get_color("resource");
+            ChooseColorWidget *choosecolor = new ChooseColorWidget(i18n("Color"), QColor::fromRgb(color.r, color.g, color.b).name(), false, this);
+            vbox->addWidget(choosecolor);
+            //connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
+            connect(choosecolor, SIGNAL(modified(QColor)), this, SLOT(slotColorModified(QColor)));
+            connect(this, SIGNAL(modified(QColor)), choosecolor, SLOT(slotColorModified(QColor)));
+        }
         setLayout(vbox);
         vbox->addStretch(10);
-        choosecolor->show();
     }
 }
 
