@@ -163,7 +163,6 @@ private:
     Mlt::Producer *m_masterProducer;
     Mlt::Properties *m_properties;
     QString m_service;
-    GenTime m_duration;
     QUrl m_url;
     int m_audioIndex;
     int m_videoIndex;

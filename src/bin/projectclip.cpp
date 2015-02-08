@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectfolder.h"
 #include "projectsubclip.h"
 #include "bin.h"
+#include "timecode.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/clippropertiescontroller.h"
 
@@ -447,6 +448,11 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
         }
         refreshProducer = true;
     }
+    if (properties.contains("length")) {
+        m_duration = m_controller->getStringDuration();
+        bin()->emitItemUpdated(this);
+    }
+
     if (properties.contains("kdenlive:clipname")) {
         m_name = properties.value("kdenlive:clipname");
         bin()->emitItemUpdated(this);
@@ -480,7 +486,7 @@ void ProjectClip::setJobStatus(AbstractClipJob::JOBTYPE jobType, ClipJobStatus s
 
 ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
 {
-    ClipPropertiesController *panel = new ClipPropertiesController(m_id, clipType(), m_controller->properties(), parent);
+    ClipPropertiesController *panel = new ClipPropertiesController(bin()->projectTimecode(), m_id, clipType(), m_controller->properties(), parent);
     connect(this, SIGNAL(refreshPropertiesPanel()), panel, SLOT(slotReloadProperties()));
     return panel;
 }

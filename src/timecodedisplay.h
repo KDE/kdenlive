@@ -108,7 +108,7 @@ signals:
      * @param final if the value is final ie not produced during sliding (on slider release it's final)
      */
     void valueChanged(int value, bool final);
-    void timeCodeEditingFinished();
+    void timeCodeEditingFinished(int value = -1);
 
 protected:
     virtual void keyPressEvent(QKeyEvent *e);

@@ -96,7 +96,6 @@ void ClipController::getProducerXML(QDomDocument& document)
 
 void ClipController::getInfoForProducer()
 {
-    m_duration = GenTime(m_masterProducer->get_playtime(), m_binController->fps());
     m_audioIndex = int_property("audio_index");
     m_videoIndex = int_property("video_index");
     if (m_service == "avformat" || m_service == "avformat-novalidate") {
@@ -193,7 +192,6 @@ void ClipController::updateProducer(const QString &id, Mlt::Producer* producer)
     m_properties->pass_list(passProperties, getPassPropertiesList());
     if (!m_masterProducer->is_valid()) qDebug()<<"// WARNING, USING INVALID PRODUCER";
     else {
-        m_duration = GenTime(m_masterProducer->get_playtime(), m_binController->fps());
         // URL and name shoule not be updated otherwise when proxying a clip we cannot find back the original url
         /*m_url = QUrl::fromLocalFile(m_masterProducer->get("resource"));
         if (m_url.isValid()) {
@@ -239,7 +237,7 @@ const QString ClipController::getStringDuration()
 
 GenTime ClipController::getPlaytime() const
 {
-    return m_duration;
+    return GenTime(m_masterProducer->get_playtime(), m_binController->fps());
 }
 
 QString ClipController::property(const QString &name) const
@@ -500,7 +498,7 @@ GenTime ClipController::findNextSnapMarker(const GenTime & currTime)
             break;
     }
     if (it < m_snapMarkers.count() && m_snapMarkers.at(it).time() > currTime) return m_snapMarkers.at(it).time();
-    return m_duration;
+    return getPlaytime();
 }
 
 QString ClipController::markerComment(const GenTime &t) const

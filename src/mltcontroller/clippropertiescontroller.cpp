@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "clippropertiescontroller.h"
 #include "bincontroller.h"
+#include "timecodedisplay.h"
 #include "effectstack/widgets/choosecolorwidget.h"
 
 #include <KLocalizedString>
@@ -31,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QVBoxLayout>
 
 
-ClipPropertiesController::ClipPropertiesController(const QString &id, ClipType type, Mlt::Properties &properties, QWidget *parent) : QWidget(parent)
+ClipPropertiesController::ClipPropertiesController(Timecode tc, const QString &id, ClipType type, Mlt::Properties &properties, QWidget *parent) : QWidget(parent)
     , m_id(id)
     , m_type(type)
     , m_properties(properties)
@@ -39,6 +40,14 @@ ClipPropertiesController::ClipPropertiesController(const QString &id, ClipType t
     if (type == Color) {
         QVBoxLayout *vbox = new QVBoxLayout;
         m_originalProperties.insert("resource", m_properties.get("resource"));
+        m_originalProperties.insert("out", m_properties.get("out"));
+        m_originalProperties.insert("length", m_properties.get("length"));
+        TimecodeDisplay *timePos = new TimecodeDisplay(tc, this);
+        timePos->setValue(m_properties.get_int("out") + 1);
+        vbox->addWidget(timePos);
+        connect(timePos, SIGNAL(timeCodeEditingFinished(int)), this, SLOT(slotDurationChanged(int)));
+        connect(this, SIGNAL(modified(int)), timePos, SLOT(setValue(int)));
+
         mlt_color color = m_properties.get_color("resource");
         ChooseColorWidget *choosecolor = new ChooseColorWidget(i18n("Color"), QColor::fromRgb(color.r, color.g, color.b).name(), false, this);
         vbox->addWidget(choosecolor);
@@ -59,6 +68,9 @@ void ClipPropertiesController::slotReloadProperties()
 {
     if (m_type == Color) {
         m_originalProperties.insert("resource", m_properties.get("resource"));
+        m_originalProperties.insert("out", m_properties.get("out"));
+        m_originalProperties.insert("length", m_properties.get("length"));
+        emit modified(m_properties.get_int("length"));
         mlt_color color = m_properties.get_color("resource");
         emit modified(QColor::fromRgb(color.r, color.g, color.b));
     }
@@ -71,4 +83,15 @@ void ClipPropertiesController::slotColorModified(QColor newcolor)
     emit updateClipProperties(m_id, m_originalProperties, properties);
     m_originalProperties = properties;
 }
+
+void ClipPropertiesController::slotDurationChanged(int duration)
+{
+    qDebug()<<"NEW DUR: "<<duration;
+    QMap <QString, QString> properties;
+    properties.insert("length", QString::number(duration));
+    properties.insert("out", QString::number(duration - 1));
+    emit updateClipProperties(m_id, m_originalProperties, properties);
+    m_originalProperties = properties;
+}
+
 

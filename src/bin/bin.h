@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KDENLIVE_BIN_H
 
 #include "abstractprojectitem.h"
+#include "timecode.h"
 
 #include <KMessageWidget>
 
@@ -389,6 +390,8 @@ public:
     void renameSubClipCommand(const QString &id, const QString &newName, const QString oldName, int in, int out);
     /** @brief Rename a clip zone (subclip). */
     void renameSubClip(const QString &id, const QString &newName, const QString oldName, int in, int out);
+    /** @brief Returns current project's timecode. */
+    Timecode projectTimecode() const;
     
 
 private slots:

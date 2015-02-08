@@ -309,7 +309,7 @@ Bin::Bin(QWidget* parent) :
     m_splitter->addWidget(m_propertiesPanel);
     m_collapser = new KSplitterCollapserButton(m_propertiesPanel, m_splitter);
     connect(m_collapser, SIGNAL(clicked(bool)), this, SLOT(slotRefreshClipProperties()));
-    
+
     // Info widget for failed jobs, other errors
     m_infoMessage = new BinMessageWidget;
     layout->addWidget(m_infoMessage);
@@ -1648,6 +1648,11 @@ void Bin::removeClipCut(const QString&id, int in, int out)
         sub->discard();
         delete sub;
     }
+}
+
+Timecode Bin::projectTimecode() const
+{
+    return m_doc->timecode();
 }
 
 void Bin::slotStartFilterJob(const ItemInfo &info, const QString&id, QMap <QString, QString> &filterParams, QMap <QString, QString> &consumerParams, QMap <QString, QString> &extraParams)

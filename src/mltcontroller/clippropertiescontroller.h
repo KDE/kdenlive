@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CLIPPROPERTIESCONTROLLER_H
 
 #include "definitions.h"
+#include "timecode.h"
 
 #include <mlt++/Mlt.h>
 #include <QString>
@@ -48,7 +49,7 @@ public:
      * @param properties The clip's properties
      * @param parent The widget where our infos will be displayed
      */
-    explicit ClipPropertiesController(const QString &id, ClipType type, Mlt::Properties &properties, QWidget *parent);
+    explicit ClipPropertiesController(Timecode tc, const QString &id, ClipType type, Mlt::Properties &properties, QWidget *parent);
     virtual ~ClipPropertiesController();
 
 public slots:
@@ -56,6 +57,7 @@ public slots:
 
 private slots:
     void slotColorModified(QColor newcolor);
+    void slotDurationChanged(int duration);
 
 private:
     QString m_id;
@@ -66,6 +68,7 @@ private:
 signals:
     void updateClipProperties(const QString &,QMap <QString, QString>, QMap <QString, QString>);
     void modified(QColor);
+    void modified(int);
 };
 
 #endif
