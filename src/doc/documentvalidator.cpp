@@ -998,6 +998,17 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         prop.appendChild(val);
         main_playlist.appendChild(prop);
 
+        // Move markers
+        QDomNodeList markers = m_doc.elementsByTagName("marker");
+        for (int i = 0; i < markers.count(); ++i) {
+            QDomElement marker = markers.at(i).toElement();
+            QDomElement prop = m_doc.createElement("property");
+            prop.setAttribute("name", "kdenlive:marker." + marker.attribute("id") + ":" + marker.attribute("time"));
+            QDomText val = m_doc.createTextNode(marker.attribute("type") + ":" + marker.attribute("comment"));
+            prop.appendChild(val);
+            main_playlist.appendChild(prop);
+        }
+
         QDomNode mlt = m_doc.firstChildElement("mlt");
         main_playlist.setAttribute("id", pCore->binController()->binPlaylistId());
         mlt.toElement().setAttribute("producer", pCore->binController()->binPlaylistId());
