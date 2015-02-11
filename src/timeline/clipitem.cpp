@@ -1343,7 +1343,9 @@ void ClipItem::resizeEnd(int posx, bool emitChange)
 {
     const int max = (startPos() - cropStart() + maxDuration()).frames(m_fps);
     if (posx > max && maxDuration() != GenTime()) posx = max;
-    if (posx == endPos().frames(m_fps)) return;
+    if (posx == endPos().frames(m_fps)) {
+        return;
+    }
     ////qDebug() << "// NEW POS: " << posx << ", OLD END: " << endPos().frames(m_fps);
     const int previous = cropDuration().frames(m_fps);
     AbstractClipItem::resizeEnd(posx);
