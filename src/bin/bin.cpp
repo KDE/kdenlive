@@ -624,27 +624,33 @@ void Bin::slotLoadFolders(QMap<QString,QString> foldersData)
     // Folder parent is saved in folderId, separated by a dot. for example "1.3" means parent folder id is "1" and new folder id is "3".
     ProjectFolder *parentFolder = m_rootFolder;
     QStringList folderIds = foldersData.keys();
-    while (!folderIds.isEmpty()) {
-        for (int i = 0; i < folderIds.count(); i++) {
-            QString id = folderIds.at(i);
-            QString parentId = id.section(".", 0, 0);
-            if (parentId == "-1") {
-                parentFolder = m_rootFolder;
+    for (int i = 0; i < folderIds.count(); i++) {
+        QString id = folderIds.at(i);
+        QString parentId = id.section(".", 0, 0);
+        if (parentId == "-1") {
+            parentFolder = m_rootFolder;
+        }
+        else {
+            // This is a sub-folder
+            parentFolder = m_rootFolder->folder(parentId);
+            if (parentFolder == m_rootFolder) {
+                // parent folder not yet created, create unnamed placeholder
+                parentFolder = new ProjectFolder(parentId, QString(), parentFolder);
             }
-            else {
-                // This is a sub-folder
-                parentFolder = m_rootFolder->folder(parentId);
-                if (parentFolder == m_rootFolder) {
-                    // parent folder not yet created, try later
-                    continue;
-                }
-            }
-            // parent was found, create our folder
-            QString folderId = id.section(".", 1, 1);
-            int numericId = folderId.toInt();
-            if (numericId >= m_folderCounter) m_folderCounter = numericId + 1;
+        }
+        // parent was found, create our folder
+        QString folderId = id.section(".", 1, 1);
+        int numericId = folderId.toInt();
+        if (numericId >= m_folderCounter) m_folderCounter = numericId + 1;
+        // Check if placeholder folder was created
+        ProjectFolder *placeHolder = parentFolder->folder(folderId);
+        if (placeHolder) {
+            // Rename placeholder
+            placeHolder->setName(foldersData.value(id));
+        }
+        else {
+            // Create new folder
             ProjectFolder *newItem = new ProjectFolder(folderId, foldersData.value(id), parentFolder);
-            folderIds.removeAll(id);
         }
     }
 }
@@ -1502,7 +1508,6 @@ void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
             parentItem = parentItem->parent();
         }
         if (parentItem != m_rootFolder) {
-            folderInfo << parentItem->name();
             folderInfo << parentItem->clipId();
         }
     }
