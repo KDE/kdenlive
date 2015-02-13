@@ -157,6 +157,9 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     //m_timelineArea->setTabBarHidden(true);
     m_timelineArea->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_timelineArea->setMinimumHeight(200);
+    // Hide tabbar
+    QTabBar *bar = m_timelineArea->findChild<QTabBar *>();
+    bar->setHidden(true);
 
     // FIXME: the next call returns a newly allocated object, which leaks
     initEffects::parseEffectFiles();
