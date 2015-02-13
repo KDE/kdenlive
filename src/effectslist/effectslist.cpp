@@ -116,7 +116,11 @@ QStringList EffectsList::effectIdInfo(const int ix) const
         info << groupName << groupName << effect.attribute("id") << QString::number(Kdenlive::groupEffect);
     } else {
         QDomElement namenode = effect.firstChildElement("name");
-        info << i18n(namenode.text().toUtf8().data()) << effect.attribute("tag") << effect.attribute("id");
+        QString name = namenode.text();
+        if (name.isEmpty()) {
+            name = effect.attribute("tag");
+        }
+        info << i18n(name.toUtf8().data()) << effect.attribute("tag") << effect.attribute("id");
     }
     return info;
 }
