@@ -21,6 +21,7 @@
   <name xml:lang="uk">Kdenlive</name>
   <name xml:lang="x-test">xxKdenlivexx</name>
   <name xml:lang="zh-CN">Kdenlive</name>
+  <name xml:lang="zh-TW">Kdenlive</name>
   <summary>Video Editor</summary>
   <summary xml:lang="ar">محرّر فيديوهات</summary>
   <summary xml:lang="ca">Editor de vídeo</summary>
@@ -39,6 +40,7 @@
   <summary xml:lang="uk">Відеоредактор</summary>
   <summary xml:lang="x-test">xxVideo Editorxx</summary>
   <summary xml:lang="zh-CN">视频编辑器</summary>
+  <summary xml:lang="zh-TW">影像編輯器</summary>
   <description>
     <p>Kdenlive is a non linear video editor. It is based on the MLT framework and accepts many audio and video formats, allows you to add effects, transitions and render into the format of your choice.</p>
     <p xml:lang="ca">El Kdenlive és un editor no lineal de vídeo. Està basat en l'entorn de treball MLT i accepta molts formats d'àudio i vídeo, permetent afegir efectes, transicions i representacions en el format de la vostra elecció.</p>
@@ -55,6 +57,7 @@
     <p xml:lang="uk">Kdenlive — нелінійний відеоредактор. Програму засновано на наборі засобів MLT, вона може працювати з даними у багатьох форматах зберігання відео та звукових даних, дозволяє додавати ефекти, переходи та надає змогу зберегти результати редагування у вибраному вами форматі.</p>
     <p xml:lang="x-test">xxKdenlive is a non linear video editor. It is based on the MLT framework and accepts many audio and video formats, allows you to add effects, transitions and render into the format of your choice.xx</p>
     <p xml:lang="zh-CN">Kdenlive 是一个非线性视频编辑器。它基于 MLT 框架并且支持许多音频和视频格式，允许您添加特效，转场并渲染为您想要的格式。</p>
+    <p xml:lang="zh-TW">Kdenlive 是一套非線性的影像編輯器。基於 MLT 框架，可接受許多影音格式，讓您可以加入特效，過場並轉編碼成您選擇的格式。</p>
     <p>Features:</p>
     <p xml:lang="ar">الميزات:</p>
     <p xml:lang="ca">Característiques:</p>
@@ -73,6 +76,7 @@
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="x-test">xxFeatures:xx</p>
     <p xml:lang="zh-CN">功能：</p>
+    <p xml:lang="zh-TW">功能：</p>
     <ul>
       <li>Intuitive multitrack interface.</li>
       <li xml:lang="ar">واجهة متعدّدة المسارات بديهيّة</li>
@@ -91,6 +95,7 @@
       <li xml:lang="uk">Інтуїтивно зрозумілий інтерфейс для роботи з декількома доріжками одночасно.</li>
       <li xml:lang="x-test">xxIntuitive multitrack interface.xx</li>
       <li xml:lang="zh-CN">直观的多轨界面。</li>
+      <li xml:lang="zh-TW">直觀式的多軌介面</li>
       <li>Many effects and transitions.</li>
       <li xml:lang="ar">تأثيرات وانتقالات عديدة.</li>
       <li xml:lang="ca">Molts efectes i transicions.</li>
@@ -108,6 +113,7 @@
       <li xml:lang="uk">Багато ефектів та переходів.</li>
       <li xml:lang="x-test">xxMany effects and transitions.xx</li>
       <li xml:lang="zh-CN">提供许多特效和转场。</li>
+      <li xml:lang="zh-TW">許多特效與轉場效果。</li>
       <li>Color scopes</li>
       <li xml:lang="ar">نطاقات الألوان</li>
       <li xml:lang="ca">Àmbits de color</li>
@@ -124,6 +130,7 @@
       <li xml:lang="uk">Контексти кольорів</li>
       <li xml:lang="x-test">xxColor scopesxx</li>
       <li xml:lang="zh-CN">颜色范围</li>
+      <li xml:lang="zh-TW">顏色範圍</li>
       <li>Basic DVD Wizard</li>
       <li xml:lang="ar">مُرشد DVD أساسيّ</li>
       <li xml:lang="ca">Assistent bàsic per als DVD</li>
@@ -140,6 +147,7 @@
       <li xml:lang="uk">Базовий майстер створення DVD.</li>
       <li xml:lang="x-test">xxBasic DVD Wizardxx</li>
       <li xml:lang="zh-CN">基础 DVD 向导</li>
+      <li xml:lang="zh-TW">基本 DVD 精靈</li>
     </ul>
   </description>
   <url type="homepage">https://kdenlive.org/</url>

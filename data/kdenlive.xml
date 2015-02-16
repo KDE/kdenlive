@@ -17,6 +17,7 @@
     <comment xml:lang="tr">Kdenlive video proje belgesi</comment>
     <comment xml:lang="uk">документ відеопроекту Kdenlive</comment>
     <comment xml:lang="zh_CN">Kdenlive 视频项目文档</comment>
+    <comment xml:lang="zh_TW">Kdenlive 影片專案文件</comment>
     <sub-class-of type="video/mlt-playlist"/>
     <glob pattern="*.kdenlive"/>
   </mime-type>
@@ -37,6 +38,7 @@
     <comment xml:lang="tr">Kdenlive video başlığı</comment>
     <comment xml:lang="uk">заголовок відео Kdenlive</comment>
     <comment xml:lang="zh_CN">Kdenlive 视频标题</comment>
+    <comment xml:lang="zh_TW">Kdenlive 影片標題</comment>
     <sub-class-of type="application/xml"/>
     <glob pattern="*.kdenlivetitle"/>
   </mime-type>
