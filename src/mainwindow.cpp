@@ -679,6 +679,7 @@ void MainWindow::addAction(const QString &name, QAction *action)
 {
     m_actionNames.append(name);
     actionCollection()->addAction(name, action);
+    actionCollection()->setDefaultShortcut(action, action->shortcut()); //Fix warning about setDefaultShortcut
 }
 
 QAction *MainWindow::addAction(const QString &name, const QString &text, const QObject *receiver,
