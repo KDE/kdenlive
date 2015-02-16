@@ -37,7 +37,6 @@ MonitorEditWidget::MonitorEditWidget(Render* renderer, QWidget* parent) :
         QWidget(parent)
 {
     setAutoFillBackground(true);
-    setAttribute(Qt::WA_PaintOnScreen, false);
     setAttribute(Qt::WA_OpaquePaintEvent, false);
     setContentsMargins(0, 0, 0, 0);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
