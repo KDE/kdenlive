@@ -46,7 +46,6 @@ VideoGLWidget::VideoGLWidget(QWidget *parent)
     , m_display_ratio(4.0 / 3.0)
     , m_backgroundColor(Qt::gray)
 {  
-    setAttribute(Qt::WA_PaintOnScreen);
     setAttribute(Qt::WA_OpaquePaintEvent);
 }
 
