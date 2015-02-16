@@ -1088,9 +1088,9 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
         QString path = elem.attribute("resource");
         QString extension;
         if (elem.attribute("type").toInt() == SlideShow) {
-            QFileInfo f(path);
+            QUrl f = QUrl::fromLocalFile(path);
             extension = f.fileName();
-            path = f.filePath();
+            path = f.adjusted(QUrl::RemoveFilename).path();
         }
         if (elem.hasAttribute("_missingsource")) {
             // Clip has proxy but missing original source
