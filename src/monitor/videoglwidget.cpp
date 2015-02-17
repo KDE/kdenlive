@@ -20,12 +20,6 @@
 
 #include "videoglwidget.h"
 
-#ifdef Q_WS_MAC
-#include <OpenGL/glu.h>
-#else
-#include <GL/glu.h>
-#endif
-
 #include <QApplication>
 #include <QMouseEvent>
 #include <QDesktopWidget>
@@ -35,7 +29,7 @@
 #endif
 
 VideoGLWidget::VideoGLWidget(QWidget *parent)
-    : QGLWidget(parent)
+    : QOpenGLWidget(parent)
     , x(0)
     , y(0)
     , w(width())
@@ -74,7 +68,8 @@ void VideoGLWidget::setImageAspectRatio(double ratio)
 
 void VideoGLWidget::initializeGL()
 {
-    qglClearColor(m_backgroundColor);
+    initializeOpenGLFunctions();
+    glClearColor(m_backgroundColor.redF(), m_backgroundColor.greenF(), m_backgroundColor.blueF(), m_backgroundColor.alphaF());
     glShadeModel(GL_FLAT);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
@@ -111,10 +106,6 @@ void VideoGLWidget::resizeGL(int width, int height)
     y = (height - h) / 2;
 
     glViewport(0, 0, width, height);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluOrtho2D(0, width, height, 0);
-    glMatrixMode(GL_MODELVIEW);
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
@@ -122,10 +113,6 @@ void VideoGLWidget::activateMonitor()
 {
     makeCurrent();
     glViewport(0, 0, width(), height());
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluOrtho2D(0, width(), height(), 0);
-    glMatrixMode(GL_MODELVIEW);
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
@@ -165,7 +152,6 @@ void VideoGLWidget::showImage(const QImage &image)
     glTexParameterf(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, m_image_width, m_image_height, 0, GL_RGB,
                  GL_UNSIGNED_BYTE, image.bits());
-    updateGL();
 }
 
 void VideoGLWidget::mouseDoubleClickEvent(QMouseEvent * event)
