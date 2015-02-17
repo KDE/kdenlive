@@ -54,6 +54,7 @@
 #include <KActionCollection>
 #include <KPassivePopup>
 #include <KConfigGroup>
+#include <KRecentDirs>
 
 #include <QDebug>
 #include <QDialog>
@@ -1869,7 +1870,7 @@ void ProjectList::slotAddSlideshowClip()
 
     if (dia->exec() == QDialog::Accepted) {
         QStringList groupInfo = getGroup();
-        
+        KRecentDirs::add(":KdenliveSlideShowFolder", QUrl::fromLocalFile(dia->selectedPath()).adjusted(QUrl::RemoveFilename).path());
         QMap <QString, QString> properties;
         properties.insert("name", dia->clipName());
         properties.insert("resource", dia->selectedPath());

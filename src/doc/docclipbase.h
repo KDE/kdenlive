@@ -254,6 +254,7 @@ private:   // Private attributes
     Mlt::Producer *cloneProducer(Mlt::Producer *source);
     /** @brief Offset all keyframes of a geometry. */
     const QString geometryWithOffset(const QString &data, int offset);
+    QString getProducerXML(Mlt::Producer &producer);
 
    
 public slots:
