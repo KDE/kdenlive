@@ -88,3 +88,4 @@ add_subdirectory(thumbnailer)
 
 
 configure_file(config-kdenlive.h.cmake config-kdenlive.h @ONLY)
+feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
