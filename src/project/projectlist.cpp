@@ -2345,9 +2345,9 @@ bool ProjectList::adjustProjectProfileToItem(ProjectItem *item)
                 QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
                 QWidget *mainWidget = new QWidget(this);
                 QVBoxLayout *l = new QVBoxLayout;
-                QLabel *label = new QLabel(i18n("Your clip does not match current project's profile.\nDo you want to change the project profile?\n\nThe following profiles match the clip (size: %1, fps: %2)", size, fps));
+                QLabel *label = new QLabel(i18n("Your clip does not match current project's profile.\nDo you want to change the project profile?\n\nThe following profiles match the clip (size: %1, fps: %2)", size, fps), dialog);
                 l->addWidget(label);
-                QListWidget *list = new QListWidget;
+                QListWidget *list = new QListWidget(dialog);
                 list->setAlternatingRowColors(true);
                 QMapIterator<QString, QString> i(suggestedProfiles);
                 while (i.hasNext()) {
@@ -2363,11 +2363,11 @@ bool ProjectList::adjustProjectProfileToItem(ProjectItem *item)
                 dialog->setLayout(mainLayout);
                 mainLayout->addWidget(mainWidget);
                 QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
-                okButton->setText(i18n("Update profile"));                
+                okButton->setText(i18n("Update profile"));
                 okButton->setDefault(true);
                 okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-                dialog->connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-                dialog->connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+                dialog->connect(buttonBox, SIGNAL(accepted()), dialog, SLOT(accept()));
+                dialog->connect(buttonBox, SIGNAL(rejected()), dialog, SLOT(reject()));
                 mainLayout->addWidget(buttonBox);
                 
                 if (dialog->exec() == QDialog::Accepted) {
@@ -2376,8 +2376,7 @@ bool ProjectList::adjustProjectProfileToItem(ProjectItem *item)
                     if (list->currentItem())
                         emit updateProfile(list->currentItem()->data(Qt::UserRole).toString());
                 }
-                delete list;
-                delete label;
+                dialog->deleteLater();
             } else if (fps > 0) {
                 KMessageBox::information(QApplication::activeWindow(), i18n("Your clip does not match current project's profile.\nNo existing profile found to match the clip's properties.\nClip size: %1\nFps: %2\n", size, fps));
             }
