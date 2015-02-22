@@ -1,10 +1,90 @@
 install(FILES
-    visible.png  	
-    novisible.png
-    DESTINATION ${DATA_INSTALL_DIR}/kdenlive/pics)
-    
+  visible.png  	
+  novisible.png
+  DESTINATION ${DATA_INSTALL_DIR}/kdenlive/pics)
 
-#TODO: add icon names 
-#ecm_install_icons( ${ICON_INSTALL_DIR}   )
-
-
+ecm_install_icons(ICONS
+  128-actions-kdenlive-select-all.png
+  128-mimetypes-application-x-kdenlivetitle.png
+  16-actions-kdenlive-add-clip.png
+  16-actions-kdenlive-add-color-clip.png
+  16-actions-kdenlive-add-slide-clip.png
+  16-actions-kdenlive-add-text-clip.png
+  16-actions-kdenlive-align-bottom.png
+  16-actions-kdenlive-align-hor.png
+  16-actions-kdenlive-align-left.png
+  16-actions-kdenlive-align-none.png
+  16-actions-kdenlive-align-right.png
+  16-actions-kdenlive-align-top.png
+  16-actions-kdenlive-align-vert.png
+  16-actions-kdenlive-custom-effect.png
+  16-actions-kdenlive-deleffect.png
+  16-actions-kdenlive-down.png
+  16-actions-kdenlive-hide-audio.png
+  16-actions-kdenlive-hide-video.png
+  16-actions-kdenlive-insert-edit.png
+  16-actions-kdenlive-insert-rect.png
+  16-actions-kdenlive-insert-unicode.png
+  16-actions-kdenlive-lock.png
+  16-actions-kdenlive-menu.png
+  16-actions-kdenlive-normal-edit.png
+  16-actions-kdenlive-object-height.png
+  16-actions-kdenlive-object-width.png
+  16-actions-kdenlive-overwrite-edit.png
+  16-actions-kdenlive-select-all.png
+  16-actions-kdenlive-select-images.png
+  16-actions-kdenlive-select-rects.png
+  16-actions-kdenlive-select-texts.png
+  16-actions-kdenlive-select-tool.png
+  16-actions-kdenlive-show-audio.png
+  16-actions-kdenlive-show-audiothumb.png
+  16-actions-kdenlive-show-markers.png
+  16-actions-kdenlive-show-video.png
+  16-actions-kdenlive-show-videothumb.png
+  16-actions-kdenlive-snap.png
+  16-actions-kdenlive-spacer-tool.png
+  16-actions-kdenlive-split-audio.png
+  16-actions-kdenlive-track_has_effect.png
+  16-actions-kdenlive-unlock.png
+  16-actions-kdenlive-unselect-all.png
+  16-actions-kdenlive-up.png
+  16-actions-kdenlive-zindex-bottom.png
+  16-actions-kdenlive-zindex-down.png
+  16-actions-kdenlive-zindex-top.png
+  16-actions-kdenlive-zindex-up.png
+  16-actions-kdenlive-zone-end.png
+  16-actions-kdenlive-zone-start.png
+  16-actions-kdenlive-zoom-large.png
+  16-actions-kdenlive-zoom-small.png
+  22-actions-kdenlive-select-all.png
+  22-actions-kdenlive-spacer-tool.png
+  32-actions-kdenlive-select-all.png
+  32-apps-kdenlive.png
+  32-mimetypes-application-x-kdenlivetitle.png
+  48-actions-kdenlive-select-all.png
+  48-apps-kdenlive.png
+  64-actions-kdenlive-select-all.png
+  64-apps-kdenlive.png
+  64-mimetypes-application-x-kdenlivetitle.png
+  sc-actions-kdenlive-align-none.svgz
+  sc-actions-kdenlive-insert-rect.svgz
+  sc-actions-kdenlive-insert-unicode.svgz
+  sc-actions-kdenlive-object-height.svgz
+  sc-actions-kdenlive-object-width.svgz
+  sc-actions-kdenlive-select-all.svgz
+  sc-actions-kdenlive-select-images.svgz
+  sc-actions-kdenlive-select-rects.svgz
+  sc-actions-kdenlive-select-texts.svgz
+  sc-actions-kdenlive-select-tool.svgz
+  sc-actions-kdenlive-spacer-tool.svgz
+  sc-actions-kdenlive-unselect-all.svgz
+  sc-actions-kdenlive-zindex-bottom.svgz
+  sc-actions-kdenlive-zindex-down.svgz
+  sc-actions-kdenlive-zindex-top.svgz
+  sc-actions-kdenlive-zindex-up.svgz
+  sc-actions-kdenlive-zone-end.svgz
+  sc-actions-kdenlive-zone-start.svgz
+  sc-mimetypes-application-x-kdenlive.svgz
+  sc-mimetypes-application-x-kdenlivetitle.svgz
+  sc-mimetypes-video-mlt-playlist.svgz
+  DESTINATION ${ICON_INSTALL_DIR})
