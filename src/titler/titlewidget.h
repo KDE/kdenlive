@@ -47,7 +47,7 @@ public:
         rotatez = 0.0;
     }
     double scalex, scaley;
-    double rotatex, rotatey, rotatez;
+    int rotatex, rotatey, rotatez;
 };
 
 /*! \class KdenliveDoc
@@ -205,7 +205,7 @@ private:
      */
     qreal zIndexBounds(bool maxBound, bool intersectingOnly);
 
-    void itemRotate(qreal val, int axis);
+    void itemRotate(int val, int axis);
 
     void selectItems(int itemType);
 
@@ -222,9 +222,9 @@ public slots:
     void rectChanged();
     void zIndexChanged(int);
     void itemScaled(int);
-    void itemRotateX(qreal);
-    void itemRotateY(qreal);
-    void itemRotateZ(qreal);
+    void itemRotateX(int);
+    void itemRotateY(int);
+    void itemRotateZ(int);
     /** Save a title to a title file */
     void saveTitle(QUrl url = QUrl());
     /** Load a title from a title file */
