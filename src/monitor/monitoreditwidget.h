@@ -16,8 +16,8 @@
  *   along with Kdenlive.  If not, see <http://www.gnu.org/licenses/>.     *
  ***************************************************************************/
 
-#ifndef MONITOREDITWIDGET_H_
-#define MONITOREDITWIDGET_H_
+#ifndef MONITOREDITWIDGET_H
+#define MONITOREDITWIDGET_H
 
 #include "ui_monitoreditwidget_ui.h"
 

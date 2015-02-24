@@ -16,8 +16,8 @@
  *   along with Kdenlive.  If not, see <http://www.gnu.org/licenses/>.     *
  ***************************************************************************/
 
-#ifndef DRAGVALUE_H_
-#define DRAGVALUE_H_
+#ifndef DRAGVALUE_H
+#define DRAGVALUE_H
 
 #include <QWidget>
 #include <kselectaction.h>

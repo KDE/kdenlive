@@ -18,8 +18,8 @@
 * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef _MEDIA_CTRL_H
-#define _MEDIA_CTRL_H
+#ifndef MEDIACTRL_H
+#define MEDIACTRL_H
 
 #include <sys/time.h>
 

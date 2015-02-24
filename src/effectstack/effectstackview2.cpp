@@ -15,9 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "effectstackview2.h"
+
 #include "collapsibleeffect.h"
 #include "collapsiblegroup.h"
-#include "effectstackview2.h"
 
 #include "kdenlivesettings.h"
 #include "mainwindow.h"

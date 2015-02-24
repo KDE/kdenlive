@@ -27,7 +27,6 @@
 #include <QDir>
 #include <QScriptEngine>
 #include <QCloseEvent>
-#include <QScriptEngine>
 #include <QStandardPaths>
 #include <QDebug>
 

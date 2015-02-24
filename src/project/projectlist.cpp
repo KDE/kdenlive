@@ -17,8 +17,9 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "core.h"
 #include "projectlist.h"
+
+#include "core.h"
 #include "projectitem.h"
 #include "projectcommands.h"
 #include "jobs/proxyclipjob.h"
@@ -54,7 +55,6 @@
 #include <KActionCollection>
 #include <KPassivePopup>
 #include <KConfigGroup>
-#include <KRecentDirs>
 
 #include <QDebug>
 #include <QDialog>
