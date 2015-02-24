@@ -211,9 +211,13 @@ void Wizard::slotUpdateCaptureParameters()
     m_capture.v4l_formats->blockSignals(true);
     m_capture.v4l_formats->clear();
 
-    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
-    if (QFile::exists(vl4ProfilePath)) {
-        MltVideoProfile profileInfo = ProfilesDialog::getVideoProfile(vl4ProfilePath);
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/");
+    if (!dir.exists()) {
+            dir.mkpath(".");
+    }
+    
+    if (dir.exists("video4linux")) {
+        MltVideoProfile profileInfo = ProfilesDialog::getVideoProfile(dir.absoluteFilePath("video4linux"));
         m_capture.v4l_formats->addItem(i18n("Current settings (%1x%2, %3/%4fps)", profileInfo.width, profileInfo.height, profileInfo.frame_rate_num, profileInfo.frame_rate_den), QStringList() << QString("unknown") <<QString::number(profileInfo.width)<<QString::number(profileInfo.height)<<QString::number(profileInfo.frame_rate_num)<<QString::number(profileInfo.frame_rate_den));
     }
     QStringList pixelformats = formats.split('>', QString::SkipEmptyParts);
@@ -234,7 +238,7 @@ void Wizard::slotUpdateCaptureParameters()
             }
         }
     }
-    if (!QFile::exists(vl4ProfilePath)) {
+    if (!dir.exists("video4linux")) {
         if (m_capture.v4l_formats->count() > 9) slotSaveCaptureFormat();
         else {
             // No existing profile and no autodetected profiles
@@ -249,7 +253,7 @@ void Wizard::slotUpdateCaptureParameters()
             profileInfo.sample_aspect_den = 1;
             profileInfo.progressive = 1;
             profileInfo.colorspace = 601;
-            ProfilesDialog::saveProfile(profileInfo, vl4ProfilePath);
+            ProfilesDialog::saveProfile(profileInfo, dir.absoluteFilePath("video4linux"));
             m_capture.v4l_formats->addItem(i18n("Default settings (%1x%2, %3/%4fps)", profileInfo.width, profileInfo.height, profileInfo.frame_rate_num, profileInfo.frame_rate_den), QStringList() << QString("unknown") <<QString::number(profileInfo.width)<<QString::number(profileInfo.height)<<QString::number(profileInfo.frame_rate_num)<<QString::number(profileInfo.frame_rate_den));
         }
     }
@@ -776,8 +780,11 @@ void Wizard::slotSaveCaptureFormat()
     profile.frame_rate_num = format.at(3).toInt();
     profile.frame_rate_den = format.at(4).toInt();
     profile.progressive = 1;
-    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
-    ProfilesDialog::saveProfile(profile, vl4ProfilePath);
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/");
+    if (!dir.exists()) {
+            dir.mkpath(".");
+    }
+    ProfilesDialog::saveProfile(profile, dir.absoluteFilePath("video4linux"));
 }
 
 void Wizard::slotUpdateDecklinkDevice(int captureCard)
