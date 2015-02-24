@@ -7699,7 +7699,7 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type)
                 PosSect =key.section(':', 0, 0);
                 result.append( PosSect);
                 // add the size component to the key frame data - making it the same size as the clip
-                result.append(":" + QString::number( m_document->mltProfile().width) + "x" + QString::number( m_document->mltProfile().height) );
+                result.append(':' + QString::number( m_document->mltProfile().width) + 'x' + QString::number( m_document->mltProfile().height) );
                 result.append(';');
             }
         }

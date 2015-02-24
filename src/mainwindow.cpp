@@ -2729,7 +2729,7 @@ void MainWindow::slotTranscode(const QStringList &urls)
 void MainWindow::slotTranscodeClip()
 {
     QString allExtensions = m_projectList->getExtensions().join(" ");
-    const QString dialogFilter =  i18n("All Supported Files") + "(" + allExtensions + ");;" + i18n("All Files") + "(*)";
+    const QString dialogFilter =  i18n("All Supported Files") + '(' + allExtensions + ");;" + i18n("All Files") + "(*)";
     QString clipFolder = KRecentDirs::dir(":KdenliveClipFolder");
     QStringList urls = QFileDialog::getOpenFileNames(this, i18n("Files to transcode"), clipFolder, dialogFilter);
     if (urls.isEmpty()) return;
