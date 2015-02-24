@@ -85,7 +85,7 @@ struct requestClipInfo {
 class MltErrorEvent : public QEvent
 {
 public:
-    MltErrorEvent(const QString &message)
+    explicit MltErrorEvent(const QString &message)
         : QEvent(QEvent::User),
           m_message(message)
     {

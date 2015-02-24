@@ -69,7 +69,7 @@ class ClipManager: public QObject
 {
 Q_OBJECT public:
 
-    ClipManager(KdenliveDoc *doc);
+    explicit ClipManager(KdenliveDoc *doc);
     virtual ~ ClipManager();
     void addClip(DocClipBase *clip);
     void deleteClip(const QString &clipId);

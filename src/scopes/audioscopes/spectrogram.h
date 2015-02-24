@@ -35,7 +35,7 @@ class Spectrogram : public AbstractAudioScopeWidget {
     Q_OBJECT
 
 public:
-    Spectrogram(QWidget *parent = 0);
+    explicit Spectrogram(QWidget *parent = 0);
     ~Spectrogram();
 
     QString widgetName() const;

@@ -57,8 +57,8 @@ class MyMessageWidget: public KMessageWidget
 {
     Q_OBJECT
 public:
-    MyMessageWidget(QWidget *parent = 0);
-    MyMessageWidget(const QString &text, QWidget *parent = 0);
+    explicit MyMessageWidget(QWidget *parent = 0);
+    explicit MyMessageWidget(const QString &text, QWidget *parent = 0);
 
 protected:
     bool event(QEvent* ev);
@@ -85,7 +85,7 @@ class SmallInfoLabel: public QPushButton
 {
     Q_OBJECT
 public:
-    SmallInfoLabel(QWidget *parent = 0);
+    explicit SmallInfoLabel(QWidget *parent = 0);
     static const QString getStyleSheet(const QPalette &p);
 private:
     enum ItemRole {
@@ -109,7 +109,7 @@ class ProjectList : public QWidget
     Q_OBJECT
 
 public:
-    ProjectList(QWidget *parent = 0);
+    explicit ProjectList(QWidget *parent = 0);
     virtual ~ProjectList();
 
     QDomElement producersList();

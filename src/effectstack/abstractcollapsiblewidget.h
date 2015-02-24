@@ -31,7 +31,7 @@ class AbstractCollapsibleWidget : public QWidget, public Ui::CollapsibleWidget_U
     Q_OBJECT
 
 public:
-    AbstractCollapsibleWidget(QWidget * parent = 0);
+    explicit AbstractCollapsibleWidget(QWidget * parent = 0);
     virtual void setActive(bool activate) = 0;
     virtual bool isGroup() const = 0;
     

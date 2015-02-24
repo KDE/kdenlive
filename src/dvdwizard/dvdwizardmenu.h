@@ -38,7 +38,7 @@ class DvdScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    DvdScene(QObject * parent = 0): QGraphicsScene(parent) {
+    explicit DvdScene(QObject * parent = 0): QGraphicsScene(parent) {
         m_width = 0; m_height = 0;
     }
     void setProfile(int width, int height) {
@@ -69,7 +69,7 @@ class DvdButtonUnderline : public QGraphicsRectItem
 {
 
 public:
-    DvdButtonUnderline( const QRectF & rect, QGraphicsItem * parent = 0 ) : QGraphicsRectItem(rect, parent) {}
+    explicit DvdButtonUnderline( const QRectF & rect, QGraphicsItem * parent = 0 ) : QGraphicsRectItem(rect, parent) {}
 
     int type() const {
         // Enable the use of qgraphicsitem_cast with this item.
