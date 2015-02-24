@@ -93,7 +93,7 @@ MltDeviceCapture::~MltDeviceCapture()
     if (m_mltProfile) delete m_mltProfile;
 }
 
-void MltDeviceCapture::buildConsumer(const QString &profileName)
+bool MltDeviceCapture::buildConsumer(const QString &profileName)
 {
     if (!profileName.isEmpty()) m_activeProfile = profileName;
 
@@ -148,6 +148,12 @@ void MltDeviceCapture::buildConsumer(const QString &profileName)
     //m_mltConsumer->set("progressive", 0);
     //m_mltConsumer->set("buffer", 1);
     //m_mltConsumer->set("real_time", 0);
+    if (!m_mltConsumer->is_valid()) {
+            delete m_mltConsumer;
+            m_mltConsumer = NULL;
+            return false;
+    }
+    return true;
 }
 
 void MltDeviceCapture::pause()
@@ -278,7 +284,7 @@ void MltDeviceCapture::showAudio(Mlt::Frame& frame)
 bool MltDeviceCapture::slotStartPreview(const QString &producer, bool xmlFormat)
 {
     if (m_mltConsumer == NULL) {
-        buildConsumer();
+        if (!buildConsumer()) return false;
     }
     char *tmp = qstrdup(producer.toUtf8().constData());
     if (xmlFormat) m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", tmp);
@@ -297,11 +303,11 @@ bool MltDeviceCapture::slotStartPreview(const QString &producer, bool xmlFormat)
     if (m_mltConsumer->start() == -1) {
         delete m_mltConsumer;
         m_mltConsumer = NULL;
-        return 0;
+        return false;
     }
     m_droppedFramesTimer.start();
     //connect(this, SIGNAL(imageReady(QImage)), this, SIGNAL(frameUpdated(QImage)));
-    return 1;
+    return true;
 }
 
 void MltDeviceCapture::slotCheckDroppedFrames()
