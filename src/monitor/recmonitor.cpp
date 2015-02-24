@@ -483,7 +483,13 @@ void RecMonitor::slotStartPreview(bool play)
     QStringList dvargs = KdenliveSettings::dvgrabextra().simplified().split(' ', QString::SkipEmptyParts);
     int ix = device_selector->currentIndex();
     bool isXml;
-    videoBox->setHidden(ix != Video4Linux && ix != BlackMagic && ix != Firewire);
+    if (ix != Video4Linux && ix != BlackMagic && ix != Firewire) {
+            // no need for sdl preview
+            videoBox->setHidden(true);
+    } else {
+            videoBox->setHidden(false);
+            videoBox->show();
+    }
     switch (ix) {
     case Firewire:
         switch (KdenliveSettings::firewireformat()) {
@@ -1044,6 +1050,7 @@ void RecMonitor::buildMltDevice(const QString &path)
         m_captureDevice->sendFrameForAnalysis = m_analyse;
         m_monitorManager->updateScopeSource();
     }
+    videoSurface->show();
 }
 
 void RecMonitor::slotChangeRecordingPreview(bool enable)
