@@ -86,7 +86,7 @@ AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent) :
     m_aRealtime = new QAction(i18n("Realtime (with precision loss)"), this);
     m_aRealtime->setCheckable(true);
 
-    m_menu = new QMenu(parent);
+    m_menu = new QMenu();
     // Disabled dark palette on menus since it breaks up with some themes: kdenlive issue #2950
     //m_menu->setPalette(m_scopePalette);
     m_menu->addAction(m_aAutoRefresh);

@@ -102,9 +102,6 @@ namespace Mlt
 class Producer;
 };
 
-Q_DECLARE_METATYPE(QVector<qint16>)
-
-
 EffectsList MainWindow::videoEffects;
 EffectsList MainWindow::audioEffects;
 EffectsList MainWindow::customEffects;
