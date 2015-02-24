@@ -103,8 +103,8 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     // Setup timer to trigger audio thumbs creation
     m_audioTimer.setSingleShot(true);
     m_audioTimer.setInterval(800);
+    connect(this, SIGNAL(getAudioThumbs()), this, SLOT(slotGetAudioThumbs()));
     connect(&m_audioTimer, SIGNAL(timeout()), m_thumbProd, SLOT(slotCreateAudioThumbs()));
-    
 }
 
 DocClipBase::~DocClipBase()
@@ -546,7 +546,7 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
                 m_thumbProd->setProducer(producer);
         }
         else m_thumbProd->setProducer(producer);
-        getAudioThumbs();
+        emit getAudioThumbs();
     }
     bool updated = false;
     if (id.contains('_')) {
@@ -1220,14 +1220,14 @@ QMap <QString, QString> DocClipBase::currentProperties(const QMap <QString, QStr
     return currentProps;
 }
 
-bool DocClipBase::getAudioThumbs()
+void DocClipBase::slotGetAudioThumbs()
 {
-    if (m_thumbProd == NULL || isPlaceHolder() || !KdenliveSettings::audiothumbnails()) return false;
+    if (m_thumbProd == NULL || isPlaceHolder() || !KdenliveSettings::audiothumbnails()) return;
     if (m_audioThumbCreated) {
-        return false;
+        return;
     }
     m_audioTimer.start();
-    return true;
+    return;
 }
 
 bool DocClipBase::isPlaceHolder() const

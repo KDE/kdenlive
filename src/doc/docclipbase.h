@@ -189,7 +189,6 @@ public:
     void reloadThumbProducer();
     void cleanupProducers();
     bool isClean() const;
-    bool getAudioThumbs();
     void setAnalysisData(const QString &name, const QString &data, int offset = 0);
     QMap <QString, QString> analysisData() const;
     int lastSeekPosition;
@@ -274,12 +273,17 @@ public slots:
     void setMetadata(const QMap <QString, QString> &properties, const QString &tool = QString());
     void slotExtractImage(const QList <int> &frames);
 
+private slots:
+    void slotGetAudioThumbs();
+
 signals:
     void gotAudioData();
     /** @brief Generate a proxy clip (lower resolution copy) named like the clip's hash. */
     void createProxy(const QString &id);
     /** @brief Abort creation of the proxy clip (lower resolution copy). */
     void abortProxy(const QString &id, const QString &proxyPath);
+    /** @brief Request creation of audio thumbnails. */
+    void getAudioThumbs();
 };
 
 #endif
