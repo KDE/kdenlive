@@ -992,6 +992,7 @@ void RecMonitor::mousePressEvent(QMouseEvent *event)
 
 void RecMonitor::slotUpdateFreeSpace()
 {
+    if (m_capturePath.isEmpty()) return;
     KDiskFreeSpaceInfo info = KDiskFreeSpaceInfo::freeSpaceInfo(m_capturePath);
     if (info.isValid() && info.size() > 0) {
         m_freeSpace->setValue(100 * info.used() / info.size());

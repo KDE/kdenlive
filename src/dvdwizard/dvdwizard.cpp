@@ -56,7 +56,7 @@ DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *paren
   , m_menuVideo(QLatin1String("XXXXXX.vob"))
   , m_menuFinalVideo(QLatin1String("XXXXXX.vob"))
   , m_menuImageBackground(QLatin1String("XXXXXX.png"))
-  , m_burnMenu(new QMenu(this))  
+  , m_burnMenu(new QMenu(parent))
 {
     setWindowTitle(i18n("DVD Wizard"));
     //setPixmap(QWizard::WatermarkPixmap, QPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, "banner.png")));

@@ -809,7 +809,9 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
         if (clipeffect.isNull()) {
             //qDebug() << "///  WARNING, EFFECT: " << effecttag << ": " << effectid << " not found, removing it from project";
             m_documentErrors.append(i18n("Effect %1:%2 not found in MLT, it was removed from this project\n", effecttag, effectid));
-            if (parentNode.removeChild(effects.at(ix)).isNull()) //qDebug() << "///  PROBLEM REMOVING EFFECT: " << effecttag;
+            if (parentNode.removeChild(effects.at(ix)).isNull()) {
+                //qDebug() << "///  PROBLEM REMOVING EFFECT: " << effecttag;
+            }
             ix--;
         } else {
             QDomElement currenteffect = clipeffect.cloneNode().toElement();

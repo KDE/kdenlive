@@ -244,9 +244,9 @@ bool Monitor::createOpenGlWidget(QWidget *parent, const QString &profile)
 }
 #endif
 
-void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu, QAction *loopClip)
+void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu, QAction *loopClip, QWidget* parent)
 {
-    m_contextMenu = new QMenu(this);
+    m_contextMenu = new QMenu(parent);
     m_contextMenu->addMenu(m_playMenu);
     if (goMenu)
         m_contextMenu->addMenu(goMenu);

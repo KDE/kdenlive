@@ -209,7 +209,7 @@ ProjectList::ProjectList(QWidget *parent) :
     m_infoLabel->setStyleSheet(SmallInfoLabel::getStyleSheet(palette()));
     connect(this, SIGNAL(jobCount(int)), m_infoLabel, SLOT(slotSetJobCount(int)));
     connect(this, SIGNAL(requestClipSelect(QString)), this, SLOT(selectClip(QString)));
-    m_jobsMenu = new QMenu(this);
+    m_jobsMenu = new QMenu();
     connect(m_jobsMenu, SIGNAL(aboutToShow()), this, SLOT(slotPrepareJobsMenu()));
     QAction *cancelJobs = new QAction(i18n("Cancel All Jobs"), this);
     cancelJobs->setCheckable(false);

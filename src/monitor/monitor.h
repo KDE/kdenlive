@@ -77,7 +77,7 @@ public:
     void setCustomProfile(const QString &profile, const Timecode &tc);
     void resetSize();
     void pause();
-    void setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL, QAction *loopClip = NULL);
+    void setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL, QAction *loopClip = NULL, QWidget* parent = NULL);
     const QString sceneList();
     DocClipBase *activeClip();
     GenTime position();

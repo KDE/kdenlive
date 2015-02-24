@@ -153,11 +153,11 @@ QString EffectsList::getEffectInfo(const QDomElement &effect) const
 {
     QString info;
     QDomElement namenode = effect.firstChildElement("description");
-    if (!namenode.isNull())
+    if (!namenode.isNull() && !namenode.firstChild().nodeValue().isEmpty())
         info = i18n(namenode.firstChild().nodeValue().simplified().toUtf8().data());
 
     namenode = effect.firstChildElement("author");
-    if (!namenode.isNull())
+    if (!namenode.isNull() && !namenode.text().isEmpty())
         info.append("<br /><strong>" + i18n("Author:") + " </strong>" + i18n(namenode.text().toUtf8().data()));
 
     namenode = effect.firstChildElement("version");
