@@ -1,3 +1,21 @@
+15.04
+    Changes:
+    * Port to KDE Frameworks 5
+    * Add ripple delete function
+    * Add stem audio export
+    * Make images sequences generation more convenient
+    * Save and restore title widget size
+    * Start some refactoring
+    * Fix warnings from compiler, static analyzers, execution...
+
+    Bug fix:
+    * #3407 don't copy clips if project is also on removable drive
+    * #3408 crash on selecting clip with grouped effects
+    * #3405 crash on adding 1st clip not matching project profile
+    * #3338 import clip keyframes
+    * #3160 Autosave new projects before saving
+    * #3415 FFmpeg recording freeze
+
 0.9.10
     Changes:
     * handle VBR encoding profiles, and use it!

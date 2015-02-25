@@ -2,7 +2,7 @@ About Kdenlive
 ==============
 
 Kdenlive is a video editing application,
-based on MLT Framework and KDE Platform 4.
+based on MLT Framework and KDE Frameworks 5
 
 Please check the project page for more information:
 http://kdenlive.org
@@ -36,7 +36,7 @@ We welcome all feedback and offers for help!
 
 * Talk about us!
 * Report bugs you encounter (if not already done) on:
-  http://kdenlive.org/mantis
+  http://bugs.kde.org
 * Help other users on forum and bug tracker:
   http://forum.kde.org/viewforum.php?f=262
 * Help to fill the manual at:
