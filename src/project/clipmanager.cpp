@@ -32,23 +32,22 @@
 
 #include <mlt++/Mlt.h>
 
-#include <KDebug>
-#include <KMessageBox>
-#include <KFileDialog>
-#include <KApplication>
-#include <kio/netaccess.h>
-#include <kio/jobuidelegate.h>
 
+#include <KMessageBox>
+#include <KIO/JobUiDelegate>
+#include <KIO/MkdirJob>
 #include <solid/device.h>
 #include <solid/storageaccess.h>
 #include <solid/storagedrive.h>
 #include <solid/storagevolume.h>
+#include <klocalizedstring.h>
 
 #include <QGraphicsItemGroup>
-#include <QtConcurrentRun>
+#include <QtConcurrent>
+#include <QApplication>
+#include <QMimeType>
 
-#include <KFileMetaInfo>
-
+#include <KJobWidgets/KJobWidgets>
 
 ClipManager::ClipManager(KdenliveDoc *doc) :
     QObject(),
@@ -68,11 +67,9 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
     //connect(&m_fileWatcher, SIGNAL(created(QString)), this, SLOT(slotClipAvailable(QString)));
     connect(&m_modifiedTimer, SIGNAL(timeout()), this, SLOT(slotProcessModifiedClips()));
 
-#if KDE_IS_VERSION(4,5,0)
     KImageCache::deleteCache("kdenlive-thumbs");
     pixmapCache = new KImageCache("kdenlive-thumbs", 10000000);
     pixmapCache->setEvictionPolicy(KSharedDataCache::EvictOldest);
-#endif
 }
 
 ClipManager::~ClipManager()
@@ -89,9 +86,7 @@ ClipManager::~ClipManager()
 
     qDeleteAll(m_clipList);
     m_clipList.clear();
-#if KDE_IS_VERSION(4,5,0)
     delete pixmapCache;
-#endif
 }
 
 void ClipManager::clear()
@@ -112,16 +107,12 @@ void ClipManager::clear()
     m_clipList.clear();
     m_clipIdCounter = 1;
     m_folderIdCounter = 1;
-#if KDE_IS_VERSION(4,5,0)
     pixmapCache->clear();
-#endif
 }
 
 void ClipManager::clearCache()
 {
-#if KDE_IS_VERSION(4,5,0)
     pixmapCache->clear();
-#endif
 }
 
 void ClipManager::slotRequestThumbs(const QString &id, const QList <int>& frames)
@@ -261,7 +252,7 @@ void ClipManager::slotGetAudioThumbs()
         m_thumbsMutex.unlock();
         DocClipBase *clip = getClipById(m_processingAudioThumbId);
         if (!clip || clip->audioThumbCreated()) continue;
-        KUrl url = clip->fileURL();
+        QUrl url = clip->fileURL();
         QString hash = clip->getClipHash();
         if (hash.isEmpty()) continue;
         QString audioPath = projectFolder() + "/thumbs/" + hash + ".thumb";
@@ -283,11 +274,11 @@ void ClipManager::slotGetAudioThumbs()
             const QByteArray channelarray = f.readAll();
             f.close();
             if (channelarray.size() != arrayWidth*(frame + lengthInFrames) * channels) {
-                kDebug() << "--- BROKEN THUMB FOR: " << url.fileName() << " ---------------------- ";
+                //qDebug() << "--- BROKEN THUMB FOR: " << url.fileName() << " ---------------------- ";
                 f.remove();
                 continue;
             }
-            kDebug() << "reading audio thumbs from file";
+            //qDebug() << "reading audio thumbs from file";
 
             int h1 = arrayWidth * channels;
             int h2 = (int) frame * h1;
@@ -312,8 +303,8 @@ void ClipManager::slotGetAudioThumbs()
         }
         
         if (!f.open(QIODevice::WriteOnly)) {
-            kDebug() << "++++++++  ERROR WRITING TO FILE: " << audioPath;
-            kDebug() << "++++++++  DISABLING AUDIO THUMBS";
+            //qDebug() << "++++++++  ERROR WRITING TO FILE: " << audioPath;
+            //qDebug() << "++++++++  DISABLING AUDIO THUMBS";
             m_thumbsMutex.lock();
             m_audioThumbsQueue.clear();
             m_thumbsMutex.unlock();
@@ -323,7 +314,7 @@ void ClipManager::slotGetAudioThumbs()
 
         Mlt::Producer producer(prof, url.path().toUtf8().constData());
         if (!producer.is_valid()) {
-            kDebug() << "++++++++  INVALID CLIP: " << url.path();
+            //qDebug() << "++++++++  INVALID CLIP: " << url.path();
             continue;
         }
         
@@ -405,7 +396,7 @@ void ClipManager::addClip(DocClipBase *clip)
     m_clipList.append(clip);
     if (clip->clipType() != Color && clip->clipType() != SlideShow  && !clip->fileURL().isEmpty()) {
         // listen for file change
-        //kDebug() << "// LISTEN FOR: " << clip->fileURL().path();
+        ////qDebug() << "// LISTEN FOR: " << clip->fileURL().path();
         m_fileWatcher.addFile(clip->fileURL().path());
     }
     const QString id = clip->getId();
@@ -447,11 +438,11 @@ void ClipManager::deleteClip(const QString &clipId)
 
 DocClipBase *ClipManager::getClipById(QString clipId)
 {
-    //kDebug() << "++++  CLIP MAN, LOOKING FOR CLIP ID: " << clipId;
+    ////qDebug() << "++++  CLIP MAN, LOOKING FOR CLIP ID: " << clipId;
     clipId = clipId.section('_', 0, 0);
     for (int i = 0; i < m_clipList.count(); ++i) {
         if (m_clipList.at(i)->getId() == clipId) {
-            //kDebug() << "++++  CLIP MAN, FOUND FOR CLIP ID: " << clipId;
+            ////qDebug() << "++++  CLIP MAN, FOUND FOR CLIP ID: " << clipId;
             return m_clipList.at(i);
         }
     }
@@ -500,7 +491,7 @@ void ClipManager::resetProducersList(const QList <Mlt::Producer *> prods, bool d
         QString markup = prod->get("markup");
         if (prod->is_blank() || !prod->is_valid() || !markup.isEmpty()) {
             // The clip is broken (missing proxy or source clip)
-            kDebug()<<"// WARNING, CLIP "<<id<<" Cannot be loaded";
+            //qDebug()<<"// WARNING, CLIP "<<id<<" Cannot be loaded";
             brokenClips << id;
         }
         else if (clip) {
@@ -510,48 +501,55 @@ void ClipManager::resetProducersList(const QList <Mlt::Producer *> prods, bool d
     emit checkAllClips(displayRatioChanged, fpsChanged, brokenClips);
 }
 
-void ClipManager::slotAddClip(KIO::Job *job, const KUrl &, const KUrl &dst)
+void ClipManager::slotAddClip(KIO::Job *job, const QUrl &, const QUrl &dst)
 {
     KIO::MetaData meta = job->metaData();
     QMap <QString, QString> data;
     data.insert("group", meta.value("group"));
     data.insert("groupid", meta.value("groupid"));
     data.insert("comment", meta.value("comment"));
-    kDebug()<<"Finished copying: "<<dst<<" / "<<meta.value("group")<<" / "<<meta.value("groupid");
-    slotAddClipList(KUrl::List () << dst, data);
+    //qDebug()<<"Finished copying: "<<dst<<" / "<<meta.value("group")<<" / "<<meta.value("groupid");
+    slotAddClipList(QList<QUrl> () << dst, data);
 }
 
-void ClipManager::slotAddClipList(const KUrl::List &urls, const QMap <QString, QString> &data)
+void ClipManager::slotAddClipList(const QList<QUrl> &urls, const QMap <QString, QString> &data)
 {
     QUndoCommand *addClips = new QUndoCommand();
     // Update list of removable volumes
     //TODO: update only when new volume is plugged / unplugged
     listRemovableVolumes();
-    foreach(const KUrl & file, urls) {
-        if (QFile::exists(file.path())) {//KIO::NetAccess::exists(file, KIO::NetAccess::SourceSide, NULL)) {
+    foreach(const QUrl &file, urls) {
+        if (QFile::exists(file.path())) {
             if (!data.contains("bypassDuplicate") && !getClipByResource(file.path()).empty()) {
-                if (KMessageBox::warningContinueCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to do?", file.path()), i18n("Clip already exists")) == KMessageBox::Cancel)
+                if (KMessageBox::warningContinueCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to do?", file.path()), i18n("Clip already exists")) == KMessageBox::Cancel)
                     continue;
             }
-            if (isOnRemovableDevice(file) && !isOnRemovableDevice(m_doc->projectFolder().path())) {
-                int answer = KMessageBox::warningYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is unplugged", file.path()), i18n("File on a Removable Device"), KGuiItem(i18n("Copy file to project folder")), KGuiItem(i18n("Continue")), KStandardGuiItem::cancel(), QString("copyFilesToProjectFolder"));
+            if (isOnRemovableDevice(file) && !isOnRemovableDevice(m_doc->projectFolder())) {
+                int answer = KMessageBox::warningYesNoCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is unplugged", file.path()), i18n("File on a Removable Device"), KGuiItem(i18n("Copy file to project folder")), KGuiItem(i18n("Continue")), KStandardGuiItem::cancel(), QString("copyFilesToProjectFolder"));
+
                 if (answer == KMessageBox::Cancel) continue;
                 else if (answer == KMessageBox::Yes) {
                     // Copy files to project folder
-                    QString sourcesFolder = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "clips/";
-                    KIO::NetAccess::mkdir(sourcesFolder, kapp->activeWindow());
+                    QDir sourcesFolder(m_doc->projectFolder().toLocalFile());
+                    sourcesFolder.cd("clips");
+                    KIO::MkdirJob *mkdirJob = KIO::mkdir(QUrl::fromLocalFile(sourcesFolder.absolutePath()));
+                    KJobWidgets::setWindow(mkdirJob, QApplication::activeWindow());
+                    if (!mkdirJob->exec()) {
+                        KMessageBox::sorry(QApplication::activeWindow(), i18n("Cannot create directory %1", sourcesFolder.absolutePath()));
+                        continue;
+                    }
                     //KIO::filesize_t m_requestedSize;
-                    KIO::CopyJob *copyjob = KIO::copy (file, KUrl(sourcesFolder));
+                    KIO::CopyJob *copyjob = KIO::copy(file, QUrl::fromLocalFile(sourcesFolder.absolutePath()));
                     //TODO: for some reason, passing metadata does not work...
                     copyjob->addMetaData("group", data.value("group"));
                     copyjob->addMetaData("groupId", data.value("groupId"));
                     copyjob->addMetaData("comment", data.value("comment"));
-                    copyjob->ui()->setWindow(kapp->activeWindow());
-                    connect(copyjob, SIGNAL(copyingDone(KIO::Job*,KUrl,KUrl,time_t,bool,bool)), this, SLOT(slotAddClip(KIO::Job*,KUrl,KUrl)));
+                    KJobWidgets::setWindow(copyjob, QApplication::activeWindow());
+                    connect(copyjob, SIGNAL(copyingDone(KIO::Job*,QUrl,QUrl,time_t,bool,bool)), this, SLOT(slotAddClip(KIO::Job*,QUrl,QUrl)));
                     continue;
                 }
             }
-            kDebug() << "Adding clip: " << file.path();
+            //qDebug() << "Adding clip: " << file.path();
             QDomDocument doc;
             QDomElement prod = doc.createElement("producer");
             doc.appendChild(prod);
@@ -565,15 +563,18 @@ void ClipManager::slotAddClipList(const KUrl::List &urls, const QMap <QString, Q
             }
             if (data.contains("video_index")) prod.setAttribute("video_index", data.value("video_index"));
             if (data.contains("audio_index")) prod.setAttribute("audio_index", data.value("audio_index"));
-
-            KMimeType::Ptr type = KMimeType::findByUrl(file);
-            if (type->name().startsWith(QLatin1String("image/"))) {
+            
+            QMimeDatabase db;
+            QMimeType type = db.mimeTypeForUrl(file);
+            if (type.name().startsWith(QLatin1String("image/"))) {
                 prod.setAttribute("type", (int) Image);
                 prod.setAttribute("in", 0);
                 prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
                 if (KdenliveSettings::autoimagetransparency()) prod.setAttribute("transparency", 1);
                 // Read EXIF metadata for JPEG
-                if (type->is("image/jpeg")) {
+                if (type.inherits("image/jpeg")) {
+                    //TODO KF5 how to read metadata?
+                    /*
                     KFileMetaInfo metaInfo(file.path(), QString("image/jpeg"), KFileMetaInfo::TechnicalInfo);
                     const QHash<QString, KFileMetaInfoItem> metaInfoItems = metaInfo.items();
                     foreach(const KFileMetaInfoItem & metaInfoItem, metaInfoItems) {
@@ -583,9 +584,9 @@ void ClipManager::slotAddClipList(const KUrl::List &urls, const QMap <QString, Q
                         meta.setAttribute("tool", "KDE Metadata");
                         meta.appendChild(value);
                         prod.appendChild(meta);
-                    }
+                    }*/
                 }
-            } else if (type->is("application/x-kdenlivetitle")) {
+            } else if (type.inherits("application/x-kdenlivetitle")) {
                 // opening a title file
                 QDomDocument txtdoc("titledocument");
                 QFile txtfile(file.path());
@@ -597,7 +598,7 @@ void ClipManager::slotAddClipList(const KUrl::List &urls, const QMap <QString, Q
                     for (int i = 0; i < items.count() ; ++i) {
                         QDomElement content = items.item(i).toElement();
                         if (content.hasAttribute("base64")) {
-                            QString titlesFolder = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "titles/";
+                            QString titlesFolder = m_doc->projectFolder().path() + QDir::separator() + "titles/";
                             QString path = TitleDocument::extractBase64Image(titlesFolder, content.attribute("base64"));
                             if (!path.isEmpty()) {
                                 content.setAttribute("url", path);
@@ -626,7 +627,7 @@ void ClipManager::slotAddClipList(const KUrl::List &urls, const QMap <QString, Q
             }
             new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true, addClips);
         }
-        else kDebug()<<"// CANNOT READ FILE: "<<file;
+        else qDebug()<<"// CANNOT READ FILE: "<<file;
     }
     if (addClips->childCount() > 0) {
         addClips->setText(i18np("Add clip", "Add clips", addClips->childCount()));
@@ -634,9 +635,10 @@ void ClipManager::slotAddClipList(const KUrl::List &urls, const QMap <QString, Q
     }
 }
 
-void ClipManager::slotAddClipFile(const KUrl &url, const QMap <QString, QString> &data)
+void ClipManager::slotAddClipFile(const QUrl &url, const QMap <QString, QString> &data)
 {
-    slotAddClipList(KUrl::List(url), data);
+    
+    slotAddClipList(QList<QUrl>() << url, data);
 }
 
 void ClipManager::slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId)
@@ -721,7 +723,7 @@ void ClipManager::slotAddTextClipFile(const QString &titleName, int duration, co
     m_doc->commandStack()->push(command);
 }
 
-void ClipManager::slotAddTextTemplateClip(QString titleName, const KUrl &path, const QString &group, const QString &groupId)
+void ClipManager::slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId)
 {
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
@@ -834,7 +836,7 @@ QDomElement ClipManager::groupsXml() const
 
 void ClipManager::slotClipModified(const QString &path)
 {
-    //kDebug() << "// CLIP: " << path << " WAS MODIFIED";
+    ////qDebug() << "// CLIP: " << path << " WAS MODIFIED";
     const QList <DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
@@ -866,7 +868,7 @@ void ClipManager::slotProcessModifiedClips()
 
 void ClipManager::slotClipMissing(const QString &path)
 {
-    // kDebug() << "// CLIP: " << path << " WAS MISSING";
+    // //qDebug() << "// CLIP: " << path << " WAS MISSING";
     const QList <DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
@@ -876,7 +878,7 @@ void ClipManager::slotClipMissing(const QString &path)
 
 void ClipManager::slotClipAvailable(const QString &path)
 {
-    // kDebug() << "// CLIP: " << path << " WAS ADDED";
+    // //qDebug() << "// CLIP: " << path << " WAS ADDED";
     const QList <DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
@@ -951,10 +953,10 @@ void ClipManager::listRemovableVolumes()
     }
 }
 
-bool ClipManager::isOnRemovableDevice(const KUrl &url)
+bool ClipManager::isOnRemovableDevice(const QUrl &url)
 {
     //SolidVolumeInfo volume;
-    QString path = url.path(KUrl::RemoveTrailingSlash);
+    QString path = url.adjusted(QUrl::StripTrailingSlash).path();
     int volumeMatch = 0;
 
     //FIXME: Network shares! Here we get only the volume of the mount path...
@@ -987,4 +989,4 @@ void ClipManager::projectTreeThumbReady(const QString &id, int frame, const QIma
 }
 
 
-#include "clipmanager.moc"
+

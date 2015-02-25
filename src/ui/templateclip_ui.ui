@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>372</width>
-    <height>178</height>
+    <height>198</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
@@ -35,11 +35,9 @@
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <widget class="KTextEdit" name="description"/>
+       <widget class="QTextEdit" name="description"/>
       </item>
      </layout>
-     <zorder>description</zorder>
-     <zorder>description</zorder>
     </widget>
    </item>
    <item row="2" column="2">
@@ -72,16 +70,13 @@
    <class>KUrlRequester</class>
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>KUrlComboRequester</class>
    <extends>KUrlRequester</extends>
    <header>kurlrequester.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KTextEdit</class>
-   <extends>QTextEdit</extends>
-   <header>ktextedit.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

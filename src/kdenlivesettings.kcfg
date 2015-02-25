@@ -20,11 +20,6 @@
       <default>true</default>
     </entry>
 
-    <entry name="activatetabs" type="Bool">
-      <label>Create a new tab when opening a document.</label>
-      <default>false</default>
-    </entry>
-
     <entry name="usekuiserver" type="Bool">
       <label>Use KDE central job management to track render jobs.</label>
       <default>false</default>
@@ -580,11 +575,11 @@
     </entry>
     <entry name="default_profile" type="String">
       <label>Default project format.</label>
-      <default>hdv_1080_50i</default>
+      <default>atsc_1080p_25</default>
     </entry>
     <entry name="current_profile" type="String">
       <label>active project format.</label>
-      <default>hdv_1080_50i</default>
+      <default>atsc_1080p_25</default>
     </entry>
 
     <entry name="showdescriptioncolumn" type="Bool">

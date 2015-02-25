@@ -27,25 +27,23 @@
 #include "kdenlivesettings.h"
 #include "doc/docclipbase.h"
 #include "timeline/abstractclipitem.h"
+#include "twostateaction.h"
 
-#include <KDebug>
-#include <KLocalizedString>
-#include <KFileDialog>
-#include <KApplication>
-#include <KMessageBox>
-#include <KSelectAction>
+#include "klocalizedstring.h"
+#include <KRecentDirs>
 
+#include <QDebug>
 #include <QMouseEvent>
-#include <QStylePainter>
 #include <QMenu>
 #include <QToolButton>
 #include <QToolBar>
 #include <QDesktopWidget>
 #include <QLabel>
-#include <QIntValidator>
 #include <QVBoxLayout>
 #include <QSlider>
-
+#include <QDrag>
+#include <QFileDialog>
+#include <QMimeData>
 
 #define SEEK_INACTIVE (-1)
 
@@ -83,36 +81,37 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profil
     m_toolbar = new QToolBar(this);
     m_toolbar->setIconSize(QSize(s, s));
 
-    m_playIcon = KIcon("media-playback-start");
-    m_pauseIcon = KIcon("media-playback-pause");
+    m_playIcon = QIcon::fromTheme("media-playback-start");
+    m_pauseIcon = QIcon::fromTheme("media-playback-pause");
 
 
     if (id != Kdenlive::DvdMonitor) {
-        m_toolbar->addAction(KIcon("kdenlive-zone-start"), i18n("Set zone start"), this, SLOT(slotSetZoneStart()));
-        m_toolbar->addAction(KIcon("kdenlive-zone-end"), i18n("Set zone end"), this, SLOT(slotSetZoneEnd()));
+        m_toolbar->addAction(QIcon::fromTheme("kdenlive-zone-start"), i18n("Set zone start"), this, SLOT(slotSetZoneStart()));
+        m_toolbar->addAction(QIcon::fromTheme("kdenlive-zone-end"), i18n("Set zone end"), this, SLOT(slotSetZoneEnd()));
     }
 
-    m_toolbar->addAction(KIcon("media-seek-backward"), i18n("Rewind"), this, SLOT(slotRewind()));
-    //m_toolbar->addAction(KIcon("media-skip-backward"), i18n("Rewind 1 frame"), this, SLOT(slotRewindOneFrame()));
+    m_toolbar->addAction(QIcon::fromTheme("media-seek-backward"), i18n("Rewind"), this, SLOT(slotRewind()));
+    //m_toolbar->addAction(QIcon::fromTheme("media-skip-backward"), i18n("Rewind 1 frame"), this, SLOT(slotRewindOneFrame()));
 
     QToolButton *playButton = new QToolButton(m_toolbar);
     m_playMenu = new QMenu(i18n("Play..."), this);
-    m_playAction = m_playMenu->addAction(m_playIcon, i18n("Play"));
+    m_playAction = new TwostateAction(m_playIcon, i18n("Play"), m_pauseIcon, i18n("Pause"));
+    m_playMenu->addAction(m_playAction);
     connect(m_playAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
 
     playButton->setMenu(m_playMenu);
     playButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_toolbar->addWidget(playButton);
 
-    //m_toolbar->addAction(KIcon("media-skip-forward"), i18n("Forward 1 frame"), this, SLOT(slotForwardOneFrame()));
-    m_toolbar->addAction(KIcon("media-seek-forward"), i18n("Forward"), this, SLOT(slotForward()));
+    //m_toolbar->addAction(QIcon::fromTheme("media-skip-forward"), i18n("Forward 1 frame"), this, SLOT(slotForwardOneFrame()));
+    m_toolbar->addAction(QIcon::fromTheme("media-seek-forward"), i18n("Forward"), this, SLOT(slotForward()));
 
     playButton->setDefaultAction(m_playAction);
 
     if (id != Kdenlive::DvdMonitor) {
         QToolButton *configButton = new QToolButton(m_toolbar);
         m_configMenu = new QMenu(i18n("Misc..."), this);
-        configButton->setIcon(KIcon("system-run"));
+        configButton->setIcon(QIcon::fromTheme("system-run"));
         configButton->setMenu(m_configMenu);
         configButton->setPopupMode(QToolButton::QToolButton::InstantPopup);
         m_toolbar->addWidget(configButton);
@@ -123,8 +122,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profil
             m_configMenu->addMenu(m_markerMenu);
             connect(m_markerMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotGoToMarker(QAction*)));
         }
-        m_configMenu->addAction(KIcon("transform-scale"), i18n("Resize (100%)"), this, SLOT(slotSetSizeOneToOne()));
-        m_configMenu->addAction(KIcon("transform-scale"), i18n("Resize (50%)"), this, SLOT(slotSetSizeOneToTwo()));
+        m_configMenu->addAction(QIcon::fromTheme("transform-scale"), i18n("Resize (100%)"), this, SLOT(slotSetSizeOneToOne()));
+        m_configMenu->addAction(QIcon::fromTheme("transform-scale"), i18n("Resize (50%)"), this, SLOT(slotSetSizeOneToTwo()));
     }
 
     // Create Volume slider popup
@@ -135,9 +134,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profil
     m_audioSlider->setRange(0, 100);
     poplayout->addWidget(m_audioSlider);
     m_volumePopup->setLayout(poplayout);
-    KIcon icon;
-    if (KdenliveSettings::volume() == 0) icon = KIcon("audio-volume-muted");
-    else icon = KIcon("audio-volume-medium");
+    QIcon icon;
+    if (KdenliveSettings::volume() == 0) icon = QIcon::fromTheme("audio-volume-muted");
+    else icon = QIcon::fromTheme("audio-volume-medium");
 
     m_volumeWidget = m_toolbar->widgetForAction(m_toolbar->addAction(icon, i18n("Audio volume"), this, SLOT(slotShowVolume())));
 
@@ -245,9 +244,9 @@ bool Monitor::createOpenGlWidget(QWidget *parent, const QString &profile)
 }
 #endif
 
-void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu, QAction *loopClip)
+void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu, QAction *loopClip, QWidget* parent)
 {
-    m_contextMenu = new QMenu(this);
+    m_contextMenu = new QMenu(parent);
     m_contextMenu->addMenu(m_playMenu);
     if (goMenu)
         m_contextMenu->addMenu(goMenu);
@@ -272,28 +271,28 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     //TODO: add save zone to timeline monitor when fixed
     if (m_id == Kdenlive::ClipMonitor) {
         m_contextMenu->addMenu(m_markerMenu);
-        m_contextMenu->addAction(KIcon("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
-        QAction *extractZone = m_configMenu->addAction(KIcon("document-new"), i18n("Extract Zone"), this, SLOT(slotExtractCurrentZone()));
+        m_contextMenu->addAction(QIcon::fromTheme("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
+        QAction *extractZone = m_configMenu->addAction(QIcon::fromTheme("document-new"), i18n("Extract Zone"), this, SLOT(slotExtractCurrentZone()));
         m_contextMenu->addAction(extractZone);
     }
-    QAction *extractFrame = m_configMenu->addAction(KIcon("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
+    QAction *extractFrame = m_configMenu->addAction(QIcon::fromTheme("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
     m_contextMenu->addAction(extractFrame);
 
     if (m_id != Kdenlive::ClipMonitor) {
-        QAction *splitView = m_contextMenu->addAction(KIcon("view-split-left-right"), i18n("Split view"), render, SLOT(slotSplitView(bool)));
+        QAction *splitView = m_contextMenu->addAction(QIcon::fromTheme("view-split-left-right"), i18n("Split view"), render, SLOT(slotSplitView(bool)));
         splitView->setCheckable(true);
         m_configMenu->addAction(splitView);
     } else {
-        QAction *setThumbFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
+        QAction *setThumbFrame = m_contextMenu->addAction(QIcon::fromTheme("document-new"), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
         m_configMenu->addAction(setThumbFrame);
     }
 
-    QAction *showTips = m_contextMenu->addAction(KIcon("help-hint"), i18n("Monitor overlay infos"));
+    QAction *showTips = m_contextMenu->addAction(QIcon::fromTheme("help-hint"), i18n("Monitor overlay infos"));
     showTips->setCheckable(true);
     connect(showTips, SIGNAL(toggled(bool)), this, SLOT(slotSwitchMonitorInfo(bool)));
     showTips->setChecked(KdenliveSettings::displayMonitorInfo());
 
-    QAction *dropFrames = m_contextMenu->addAction(KIcon(), i18n("Real time (drop frames)"));
+    QAction *dropFrames = m_contextMenu->addAction(QIcon(), i18n("Real time (drop frames)"));
     dropFrames->setCheckable(true);
     dropFrames->setChecked(true);
     connect(dropFrames, SIGNAL(toggled(bool)), this, SLOT(slotSwitchDropFrames(bool)));
@@ -315,12 +314,12 @@ void Monitor::slotSetSizeOneToOne()
     const int maxHeight = r.height() - 20;
     int width = render->renderWidth();
     int height = render->renderHeight();
-    kDebug() << "// render info: " << width << 'x' << height;
+    //qDebug() << "// render info: " << width << 'x' << height;
     while (width >= maxWidth || height >= maxHeight) {
         width = width * 0.8;
         height = height * 0.8;
     }
-    kDebug() << "// MONITOR; set SIZE: " << width << ", " << height;
+    //qDebug() << "// MONITOR; set SIZE: " << width << ", " << height;
     videoBox->setFixedSize(width, height);
     updateGeometry();
     adjustSize();
@@ -335,12 +334,12 @@ void Monitor::slotSetSizeOneToTwo()
     const int maxHeight = r.height() - 20;
     int width = render->renderWidth() / 2;
     int height = render->renderHeight() / 2;
-    kDebug() << "// render info: " << width << 'x' << height;
+    //qDebug() << "// render info: " << width << 'x' << height;
     while (width >= maxWidth || height >= maxHeight) {
         width = width * 0.8;
         height = height * 0.8;
     }
-    kDebug() << "// MONITOR; set SIZE: " << width << ", " << height;
+    //qDebug() << "// MONITOR; set SIZE: " << width << ", " << height;
     videoBox->setFixedSize(width, height);
     updateGeometry();
     adjustSize();
@@ -604,18 +603,20 @@ void Monitor::slotExtractCurrentFrame()
     // check if we are using a proxy
     if (m_currentClip && !m_currentClip->getProperty("proxy").isEmpty() && m_currentClip->getProperty("proxy") != "-") {
         // using proxy, use original clip url to get frame
-        frame = render->extractFrame(render->seekFramePosition(), m_currentClip->fileURL().path());
+        frame = render->extractFrame(render->seekFramePosition(), m_currentClip->fileURL().toLocalFile());
     }
     else frame = render->extractFrame(render->seekFramePosition());
-    QPointer<KFileDialog> fs = new KFileDialog(KUrl(), "image/png", this);
-    fs->setOperationMode(KFileDialog::Saving);
-    fs->setMode(KFile::File);
-    fs->setConfirmOverwrite(true);
-    fs->setKeepLocation(true);
+    QString framesFolder = KRecentDirs::dir(":KdenliveFramesFolder");
+    if (framesFolder.isEmpty()) framesFolder = QDir::homePath();
+    
+    QPointer<QFileDialog> fs = new QFileDialog(this, i18n("Save Image"), framesFolder);
+    fs->setMimeTypeFilters(QStringList() << "image/png");
+    fs->setAcceptMode(QFileDialog::AcceptSave);
     if (fs->exec()) {
-        QString path = fs->selectedFile();
+        QStringList path = fs->selectedFiles();
         if (!path.isEmpty()) {
-            frame.save(path);
+            KRecentDirs::add(":KdenliveFramesFolder", fs->selectedUrls().first().adjusted(QUrl::RemoveFilename).path());
+            frame.save(path.first());
         }
     }
     delete fs;
@@ -721,8 +722,7 @@ void Monitor::slotRewind(double speed)
 		render->play(-8);
 	}
     } else render->play(speed);
-    m_playAction->setIcon(m_pauseIcon);
-    m_playAction->setToolTip(i18n("Pause"));
+    m_playAction->setActive(true);
 }
 
 void Monitor::slotForward(double speed)
@@ -730,23 +730,24 @@ void Monitor::slotForward(double speed)
     slotActivateMonitor();
     if (speed == 0) {
         double currentspeed = render->playSpeed();
-	if (currentspeed <= 0) render->play(1);
+        if (currentspeed <= 0) render->play(1);
         else switch((int) currentspeed) {
-	    case 1:
-		render->play(2);
-		break;
-	    case 2:
-		render->play(3);
-		break;
-	    case 3:
-		render->play(5);
-		break;
-	    default:
-		render->play(8);
-	}
-    } else render->play(speed);
-    m_playAction->setIcon(m_pauseIcon);
-    m_playAction->setToolTip(i18n("Pause"));
+        case 1:
+            render->play(2);
+            break;
+        case 2:
+            render->play(3);
+            break;
+        case 3:
+            render->play(5);
+            break;
+        default:
+            render->play(8);
+        }
+    } else {
+        render->play(speed);
+    }
+    m_playAction->setActive(true);
 }
 
 void Monitor::slotRewindOneFrame(int diff)
@@ -777,10 +778,9 @@ void Monitor::rendererStopped(int pos)
 {
     if (m_ruler->slotNewValue(pos)) {
         m_timePos->setValue(pos);
-	checkOverlay();
+        checkOverlay();
     }
-    m_playAction->setIcon(m_playIcon);
-    m_playAction->setToolTip(i18n("Play"));
+    m_playAction->setActive(false);
 }
 
 void Monitor::adjustRulerSize(int length)
@@ -829,8 +829,7 @@ void Monitor::pause()
     if (render == NULL) return;
     slotActivateMonitor();
     render->pause();
-    m_playAction->setIcon(m_playIcon);
-    m_playAction->setToolTip(i18n("Play"));
+    m_playAction->setActive(false);
 }
 
 void Monitor::slotPlay()
@@ -838,13 +837,11 @@ void Monitor::slotPlay()
     if (render == NULL) return;
     slotActivateMonitor();
     if (render->isPlaying()) {
-        m_playAction->setIcon(m_playIcon);
-        m_playAction->setToolTip(i18n("Play"));
+        m_playAction->setActive(false);
         render->switchPlay(false);
     }
     else {
-        m_playAction->setIcon(m_pauseIcon);
-        m_playAction->setToolTip(i18n("Pause"));
+        m_playAction->setActive(true);
         render->switchPlay(true);
     }
     m_ruler->refreshRuler();
@@ -855,9 +852,11 @@ void Monitor::slotPlayZone()
     if (render == NULL) return;
     slotActivateMonitor();
     QPoint p = m_ruler->zone();
-    render->playZone(GenTime(p.x(), m_monitorManager->timecode().fps()), GenTime(p.y(), m_monitorManager->timecode().fps()));
-    m_playAction->setIcon(m_pauseIcon);
-    m_playAction->setToolTip(i18n("Pause"));
+    bool ok = render->playZone(GenTime(p.x(), m_monitorManager->timecode().fps()), GenTime(p.y(), m_monitorManager->timecode().fps()));
+    if (ok) {
+        m_playAction->setActive(true);
+    }
+    qDebug() << ok;
 }
 
 void Monitor::slotLoopZone()
@@ -866,8 +865,7 @@ void Monitor::slotLoopZone()
     slotActivateMonitor();
     QPoint p = m_ruler->zone();
     render->loopZone(GenTime(p.x(), m_monitorManager->timecode().fps()), GenTime(p.y(), m_monitorManager->timecode().fps()));
-    m_playAction->setIcon(m_pauseIcon);
-    m_playAction->setToolTip(i18n("Pause"));
+    m_playAction->setActive(true);
 }
 
 void Monitor::slotLoopClip()
@@ -876,8 +874,7 @@ void Monitor::slotLoopClip()
         return;
     slotActivateMonitor();
     render->loopZone(m_selectedClip->startPos(), m_selectedClip->endPos());
-    m_playAction->setIcon(m_pauseIcon);
-    m_playAction->setToolTip(i18n("Pause"));
+    m_playAction->setActive(true);
 }
 
 void Monitor::updateClipProducer(Mlt::Producer *prod)
@@ -906,7 +903,7 @@ void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpda
         if (clip) prod = clip->getCloneProducer();
         if (render->setProducer(prod, position) == -1) {
             // MLT CONSUMER is broken
-            kDebug(QtWarningMsg) << "ERROR, Cannot start monitor";
+            qWarning() << "ERROR, Cannot start monitor";
         } else start();
     } else {
         if (m_currentClip) {
@@ -1129,9 +1126,9 @@ bool Monitor::effectSceneDisplayed()
 void Monitor::slotSetVolume(int volume)
 {
     KdenliveSettings::setVolume(volume);
-    KIcon icon;
-    if (volume == 0) icon = KIcon("audio-volume-muted");
-    else icon = KIcon("audio-volume-medium");
+    QIcon icon;
+    if (volume == 0) icon = QIcon::fromTheme("audio-volume-muted");
+    else icon = QIcon::fromTheme("audio-volume-medium");
     static_cast <QToolButton *>(m_volumeWidget)->setIcon(icon);
     render->slotSetVolume(volume);
 }
@@ -1229,5 +1226,5 @@ void Overlay::setOverlayText(const QString &text, bool isZone)
 }
 
 
-#include "monitor.moc"
+
 

@@ -32,7 +32,6 @@
 #include <QDomElement>
 #include <QGraphicsSceneMouseEvent>
 #include <QTimer>
-#include <QFuture>
 
 class DocClipBase;
 class Transition;

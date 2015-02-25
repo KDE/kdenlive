@@ -21,9 +21,8 @@
 #include "sampleplugin.h"
 #include "ui_countdown_ui.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KMessageBox>
-#include <KApplication>
 
 #include <QDialog>
 #include <QProcess>
@@ -37,7 +36,7 @@ QStringList SamplePlugin::generators(const QStringList &producers) const
 }
 
 
-KUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generator, const KUrl &projectFolder, const QStringList &/*lumaNames*/, const QStringList &/*lumaFiles*/, const double fps, const int /*width*/, const int height)
+QUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generator, const QUrl &projectFolder, const QStringList &/*lumaNames*/, const QStringList &/*lumaFiles*/, const double fps, const int /*width*/, const int height)
 {
     QString prePath;
     if (generator == i18n("Noise")) {
@@ -65,22 +64,16 @@ KUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
     view.path->setMode(KFile::File);
 
     QString clipFile = prePath + counter + QLatin1String(".mlt");
-    view.path->setUrl(KUrl(clipFile));
-    KUrl result;
+    view.path->setUrl(QUrl(clipFile));
+    QUrl result;
     
     if (d->exec() == QDialog::Accepted) {
         QProcess generatorProcess;
 
         // Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
-#if QT_VERSION >= 0x040600
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
         env.insert(QLatin1String("MLT_NO_VDPAU"), QLatin1String("1"));
         generatorProcess.setProcessEnvironment(env);
-#else
-        QStringList env = QProcess::systemEnvironment();
-        env << QLatin1String("MLT_NO_VDPAU=1");
-        generatorProcess.setEnvironment(env);
-#endif
         QStringList args;
         if (generator == i18n("Noise")) {
             args << QLatin1String("noise:") << QLatin1String("in=0") << QLatin1String("out=") + QString::number((int) fps * view.duration->value());
@@ -99,17 +92,17 @@ KUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
         generatorProcess.start(renderer, args);
         if (generatorProcess.waitForFinished()) {
             if (generatorProcess.exitStatus() == QProcess::CrashExit) {
-                kDebug() << "/// Generator failed: ";
+                //qDebug() << "/// Generator failed: ";
                 QString error = QString::fromLocal8Bit(generatorProcess.readAllStandardError());
-                KMessageBox::sorry(kapp->activeWindow(), i18n("Failed to generate clip:\n%1", error, i18n("Generator Failed")));
+                KMessageBox::sorry(QApplication::activeWindow(), i18n("Failed to generate clip:\n%1", error), i18n("Generator Failed"));
             }
             else {
                 result = view.path->url();
             }
         } else {
-            kDebug() << "/// Generator failed: ";
+            //qDebug() << "/// Generator failed: ";
             QString error = QString::fromLocal8Bit(generatorProcess.readAllStandardError());
-            KMessageBox::sorry(kapp->activeWindow(), i18n("Failed to generate clip:\n%1", error, i18n("Generator Failed")));
+            KMessageBox::sorry(QApplication::activeWindow(), i18n("Failed to generate clip:\n%1", error), i18n("Generator Failed"));
         }
     }
     delete d;
@@ -118,4 +111,4 @@ KUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
 
 Q_EXPORT_PLUGIN2(kdenlive_sampleplugin, SamplePlugin)
 
-#include "sampleplugin.moc"
+

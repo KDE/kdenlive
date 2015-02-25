@@ -21,7 +21,6 @@
 
 #include "timecode.h"
 
-#include <QtCore>
 #include <QWidget>
 
 class SimpleTimelineWidget;

@@ -22,17 +22,14 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 
-#include <kdebug.h>
-#include <KIcon>
-#include <klocale.h>
+#include <QDebug>
 
 #include <QBrush>
 #include <QDomElement>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
-#if QT_VERSION >= 0x040600
 #include <QPropertyAnimation>
-#endif
+#include <klocalizedstring.h>
 
 Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, const QDomElement &params, bool automaticTransition) :
     AbstractClipItem(info, QRectF(), fps),
@@ -44,8 +41,7 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, co
     m_info.cropDuration = info.endPos - info.startPos;
     setPos(info.startPos.frames(fps), (int)(info.track * KdenliveSettings::trackheight() + itemOffset() + 1));
 
-#if QT_VERSION >= 0x040600
-    if (!(KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects)) {
+    if (QApplication::style()->styleHint(QStyle::SH_Widget_Animate, 0, QApplication::activeWindow())) {
         // animation disabled
         setRect(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal) itemHeight());
     }
@@ -59,9 +55,6 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, co
         startAnimation->setEasingCurve(QEasingCurve::OutQuad);
         startAnimation->start(QAbstractAnimation::DeleteWhenStopped);
     }
-#else
-    setRect(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal) itemHeight());
-#endif
 
     m_info.cropStart = GenTime();
     m_maxDuration = GenTime(600);
@@ -285,7 +278,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
 
         m_info.track = newTrack;
         m_info.startPos = GenTime((int) newPos.x(), m_fps);
-        //kDebug()<<"// ITEM NEW POS: "<<newPos.x()<<", mapped: "<<mapToScene(newPos.x(), 0).x();
+        ////qDebug()<<"// ITEM NEW POS: "<<newPos.x()<<", mapped: "<<mapToScene(newPos.x(), 0).x();
         return newPos;
     }
     return QGraphicsItem::itemChange(change, value);
@@ -429,4 +422,4 @@ bool Transition::updateKeyframes(int oldEnd)
 }
 
 
-#include "transition.moc"
+

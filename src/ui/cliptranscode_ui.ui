@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>291</width>
-    <height>450</height>
+    <width>317</width>
+    <height>483</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,13 +41,10 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="0" colspan="3">
-    <widget class="KTextEdit" name="ffmpeg_params">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+   <item row="9" column="0" colspan="2">
+    <widget class="QCheckBox" name="auto_add">
+     <property name="text">
+      <string>Add clip to project</string>
      </property>
     </widget>
    </item>
@@ -58,18 +55,22 @@
      </property>
     </widget>
    </item>
-   <item row="8" column="0" colspan="3">
-    <widget class="KTextEdit" name="log_text">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
+   <item row="11" column="0">
+    <widget class="QPushButton" name="button_start">
+     <property name="text">
+      <string comment="@action:button start transcode">Start</string>
      </property>
     </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_profile">
+     <property name="text">
+      <string>Profile</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" colspan="2">
+    <widget class="KComboBox" name="profile_list"/>
    </item>
    <item row="11" column="2">
     <widget class="QDialogButtonBox" name="buttonBox">
@@ -78,20 +79,6 @@
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Abort</set>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="0">
-    <widget class="QPushButton" name="button_start">
-     <property name="text">
-      <string comment="@action:button start transcode">Start</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="0" colspan="2">
-    <widget class="QCheckBox" name="auto_add">
-     <property name="text">
-      <string>Add clip to project</string>
      </property>
     </widget>
    </item>
@@ -118,20 +105,10 @@
      </property>
     </spacer>
    </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_profile">
-     <property name="text">
-      <string>Profile</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1" colspan="2">
-    <widget class="KComboBox" name="profile_list"/>
-   </item>
-   <item row="2" column="0" colspan="3">
-    <widget class="QListWidget" name="urls_list">
-     <property name="alternatingRowColors">
-      <bool>true</bool>
+   <item row="7" column="1" colspan="2">
+    <widget class="QProgressBar" name="job_progress">
+     <property name="value">
+      <number>0</number>
      </property>
     </widget>
    </item>
@@ -145,10 +122,42 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="1" colspan="2">
-    <widget class="QProgressBar" name="job_progress">
-     <property name="value">
-      <number>0</number>
+   <item row="2" column="0" colspan="3">
+    <widget class="QListWidget" name="urls_list">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0" colspan="3">
+    <widget class="QTextEdit" name="log_text">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0" colspan="3">
+    <widget class="QPlainTextEdit" name="ffmpeg_params">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
@@ -164,6 +173,7 @@
    <class>KUrlRequester</class>
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

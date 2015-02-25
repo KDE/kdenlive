@@ -25,16 +25,17 @@
 #include "effectslist/effectslist.h"
 #include "dialogs/profilesdialog.h"
 
-#include <KStandardDirs>
-#include <KMessageBox>
-#include <KDebug>
-#include <kio/directorysizejob.h>
-#include <KIO/NetAccess>
-#include <KTemporaryFile>
-#include <KFileDialog>
 
+#include <KMessageBox>
+#include <QDebug>
+#include <kio/directorysizejob.h>
+#include <klocalizedstring.h>
+#include <KIO/FileCopyJob>
+
+#include <QTemporaryFile>
 #include <QDir>
 #include <kmessagebox.h>
+#include <QFileDialog>
 
 ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString &projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
     QDialog(parent), m_savedProject(savedProject), m_projectList(projectlist), m_lumas(lumas)
@@ -50,7 +51,7 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QStrin
         profiles_list->addItem(i.key(), i.value());
     }
     project_folder->setMode(KFile::Directory);
-    project_folder->setUrl(KUrl(projectPath));
+    project_folder->setUrl(QUrl(projectPath));
     QString currentProf = KdenliveSettings::current_profile();
 
     for (int i = 0; i < profiles_list->count(); ++i) {
@@ -95,7 +96,7 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QStrin
 
 
     // load proxy profiles
-    KConfig conf("encodingprofiles.rc", KConfig::CascadeConfig, "appdata");
+    KConfig conf("encodingprofiles.rc", KConfig::CascadeConfig); //, "appdata");
     KConfigGroup group(&conf, "proxy");
     QMap <QString, QString> values = group.entryMap();
     QMapIterator<QString, QString> k(values);
@@ -121,7 +122,7 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QStrin
     slotUpdateProxyParams();
 
     // Proxy GUI stuff
-    proxy_showprofileinfo->setIcon(KIcon("help-about"));
+    proxy_showprofileinfo->setIcon(QIcon::fromTheme("help-about"));
     connect(proxy_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateProxyParams()));
     proxyparams->setVisible(false);
     proxyparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
@@ -186,8 +187,8 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QStrin
     
     connect(add_metadata, SIGNAL(clicked()), this, SLOT(slotAddMetadataField()));
     connect(delete_metadata, SIGNAL(clicked()), this, SLOT(slotDeleteMetadataField()));
-    add_metadata->setIcon(KIcon("list-add"));
-    delete_metadata->setIcon(KIcon("list-remove"));
+    add_metadata->setIcon(QIcon::fromTheme("list-add"));
+    delete_metadata->setIcon(QIcon::fromTheme("list-remove"));
     
     slotUpdateDisplay();
     if (m_projectList != NULL) {
@@ -208,8 +209,8 @@ void ProjectSettings::slotDeleteUnused()
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         if (clip->numReferences() == 0 && clip->clipType() != SlideShow) {
-            KUrl url = clip->fileURL();
-            if (!url.isEmpty() && !toDelete.contains(url.path())) toDelete << url.path();
+            QUrl url = clip->fileURL();
+            if (url.isValid() && !toDelete.contains(url.path())) toDelete << url.path();
         }
     }
 
@@ -217,8 +218,8 @@ void ProjectSettings::slotDeleteUnused()
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         if (clip->numReferences() > 0) {
-            KUrl url = clip->fileURL();
-            if (!url.isEmpty() && toDelete.contains(url.path())) toDelete.removeAll(url.path());
+            QUrl url = clip->fileURL();
+            if (url.isValid() && toDelete.contains(url.path())) toDelete.removeAll(url.path());
         }
     }
 
@@ -237,8 +238,14 @@ void ProjectSettings::slotDeleteUnused()
 void ProjectSettings::slotClearCache()
 {
     buttonBox->setEnabled(false);
-    KIO::NetAccess::del(KUrl(project_folder->url().path(KUrl::AddTrailingSlash) + "thumbs/"), this);
-    KStandardDirs::makeDir(project_folder->url().path(KUrl::AddTrailingSlash) + "thumbs/");
+    // Delete and recteate the thumbs directory
+    QDir dir(project_folder->url().path());
+    // Try to make sure we delete the correct directory
+    if (dir.cd("thumbs") && dir.dirName() == "thumbs") {
+        dir.removeRecursively();
+        dir.setPath(project_folder->url().path());
+        dir.mkdir("thumbs");
+    }
     buttonBox->setEnabled(true);
     slotUpdateFiles(true);
 }
@@ -249,19 +256,28 @@ void ProjectSettings::slotDeleteProxies()
     buttonBox->setEnabled(false);
     enable_proxy->setChecked(false);
     emit disableProxies();
-    KIO::NetAccess::del(KUrl(project_folder->url().path(KUrl::AddTrailingSlash) + "proxy/"), this);
-    KStandardDirs::makeDir(project_folder->url().path(KUrl::AddTrailingSlash) + "proxy/");
+    // Delete and recteate the proxy directory
+    QDir dir(project_folder->url().path() + QDir::separator() + "proxy/");
+    // Try to make sure we delete the correct directory
+    if (dir.exists() && dir.dirName() == "proxy") {
+        dir.removeRecursively();
+        dir.setPath(project_folder->url().path());
+        dir.mkdir("proxy");
+    }
     buttonBox->setEnabled(true);
     slotUpdateFiles(true);
 }
 
 void ProjectSettings::slotUpdateFiles(bool cacheOnly)
 {
-    KIO::DirectorySizeJob *job = KIO::directorySize(project_folder->url().path(KUrl::AddTrailingSlash) + "thumbs/");
+    QDir folder(project_folder->url().path());
+    folder.cd("thumbs");
+    KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(folder.absolutePath()));
     job->exec();
     thumbs_count->setText(QString::number(job->totalFiles()));
     thumbs_size->setText(KIO::convertSize(job->totalSize()));
-    job = KIO::directorySize(project_folder->url().path(KUrl::AddTrailingSlash) + "proxy/");
+    folder.cd("../proxy");
+    job = KIO::directorySize(QUrl::fromLocalFile(folder.absolutePath()));
     job->exec();
     proxy_count->setText(QString::number(job->totalFiles()));
     proxy_size->setText(KIO::convertSize(job->totalSize()));
@@ -280,25 +296,25 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
 
     // Setup categories
     QTreeWidgetItem *videos = new QTreeWidgetItem(files_list, QStringList() << i18n("Video clips"));
-    videos->setIcon(0, KIcon("video-x-generic"));
+    videos->setIcon(0, QIcon::fromTheme("video-x-generic"));
     videos->setExpanded(true);
     QTreeWidgetItem *sounds = new QTreeWidgetItem(files_list, QStringList() << i18n("Audio clips"));
-    sounds->setIcon(0, KIcon("audio-x-generic"));
+    sounds->setIcon(0, QIcon::fromTheme("audio-x-generic"));
     sounds->setExpanded(true);
     QTreeWidgetItem *images = new QTreeWidgetItem(files_list, QStringList() << i18n("Image clips"));
-    images->setIcon(0, KIcon("image-x-generic"));
+    images->setIcon(0, QIcon::fromTheme("image-x-generic"));
     images->setExpanded(true);
     QTreeWidgetItem *slideshows = new QTreeWidgetItem(files_list, QStringList() << i18n("Slideshow clips"));
-    slideshows->setIcon(0, KIcon("image-x-generic"));
+    slideshows->setIcon(0, QIcon::fromTheme("image-x-generic"));
     slideshows->setExpanded(true);
     QTreeWidgetItem *texts = new QTreeWidgetItem(files_list, QStringList() << i18n("Text clips"));
-    texts->setIcon(0, KIcon("text-plain"));
+    texts->setIcon(0, QIcon::fromTheme("text-plain"));
     texts->setExpanded(true);
     QTreeWidgetItem *playlists = new QTreeWidgetItem(files_list, QStringList() << i18n("Playlist clips"));
-    playlists->setIcon(0, KIcon("video-mlt-playlist"));
+    playlists->setIcon(0, QIcon::fromTheme("video-mlt-playlist"));
     playlists->setExpanded(true);
     QTreeWidgetItem *others = new QTreeWidgetItem(files_list, QStringList() << i18n("Other clips"));
-    others->setIcon(0, KIcon("unknown"));
+    others->setIcon(0, QIcon::fromTheme("unknown"));
     others->setExpanded(true);
     int count = 0;
     QStringList allFonts;
@@ -423,7 +439,7 @@ QString ProjectSettings::selectedProfile() const
     return profiles_list->itemData(profiles_list->currentIndex()).toString();
 }
 
-KUrl ProjectSettings::selectedFolder() const
+QUrl ProjectSettings::selectedFolder() const
 {
     return project_folder->url();
 }
@@ -511,7 +527,7 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
                 if (!url.startsWith('/')) url.prepend(root);
                 if (url.section('.', 0, -2).endsWith(QLatin1String("/.all"))) {
                     // slideshow clip, extract image urls
-                    urls << extractSlideshowUrls(KUrl(url));
+                    urls << extractSlideshowUrls(QUrl(url));
                 } else urls << url;
                 if (url.endsWith(QLatin1String(".mlt")) || url.endsWith(QLatin1String(".kdenlive"))) {
                     //TODO: Do something to avoid infinite loops if 2 files reference themselves...
@@ -525,7 +541,7 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
     files = doc.elementsByTagName("transition");
     for (int i = 0; i < files.count(); ++i) {
         QDomElement e = files.at(i).toElement();
-        QString url = EffectsList::property(e, "luma");
+        QString url = EffectsList::property(e, "resource");
         if (!url.isEmpty()) {
             if (!url.startsWith('/')) url.prepend(root);
             urls << url;
@@ -537,10 +553,10 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
 
 
 //static
-QStringList ProjectSettings::extractSlideshowUrls(const KUrl &url)
+QStringList ProjectSettings::extractSlideshowUrls(const QUrl &url)
 {
     QStringList urls;
-    QString path = url.directory(KUrl::AppendTrailingSlash);
+    QString path = url.adjusted(QUrl::RemoveFilename).path();
     QString ext = url.path().section('.', -1);
     QDir dir(path);
     if (url.path().contains(".all.")) {
@@ -569,7 +585,7 @@ QStringList ProjectSettings::extractSlideshowUrls(const KUrl &url)
 
 void ProjectSettings::slotExportToText()
 {
-    QString savePath = KFileDialog::getSaveFileName(project_folder->url(), "text/plain", this);
+    QString savePath = QFileDialog::getSaveFileName(this, QString(), project_folder->url().path(), "text/plain");
     if (savePath.isEmpty()) return;
     QString data;
     data.append(i18n("Project folder: %1",  project_folder->url().path()) + '\n');
@@ -583,9 +599,9 @@ void ProjectSettings::slotExportToText()
             }
         }
     }
-    KTemporaryFile tmpfile;
+    QTemporaryFile tmpfile;
     if (!tmpfile.open()) {
-        kWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
+        qWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
         return;
     }
     QFile xmlf(tmpfile.fileName());
@@ -597,7 +613,8 @@ void ProjectSettings::slotExportToText()
         return;
     }
     xmlf.close();
-    KIO::NetAccess::upload(tmpfile.fileName(), savePath, 0);
+    KIO::FileCopyJob *copyjob = KIO::file_copy(QUrl::fromLocalFile(tmpfile.fileName()), QUrl::fromLocalFile(savePath));
+    copyjob->exec();
 }
 
 void ProjectSettings::slotUpdateProxyParams()
@@ -635,6 +652,6 @@ void ProjectSettings::slotDeleteMetadataField()
     if (item) delete item;
 }
 
-#include "projectsettings.moc"
+
 
 

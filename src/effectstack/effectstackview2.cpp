@@ -15,9 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "effectstackview2.h"
+
 #include "collapsibleeffect.h"
 #include "collapsiblegroup.h"
-#include "effectstackview2.h"
 
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
@@ -29,20 +30,15 @@
 #include "monitor/monitoreditwidget.h"
 #include "monitor/monitorscene.h"
 
-#include <KDebug>
-#include <KLocalizedString>
-#include <KMessageBox>
-#include <KStandardDirs>
-#include <KFileDialog>
+#include <QDebug>
+#include <klocalizedstring.h>
 #include <KColorScheme>
+#include <QFontDatabase>
 #include <KColorUtils>
 
-#include <QMenu>
-#include <QTextStream>
-#include <QFile>
-#include <QInputDialog>
 #include <QScrollBar>
-
+#include <QDrag>
+#include <QMimeData>
 
 EffectStackView2::EffectStackView2(Monitor *monitor, QWidget *parent) :
         QWidget(parent),
@@ -59,9 +55,9 @@ EffectStackView2::EffectStackView2(Monitor *monitor, QWidget *parent) :
     setAcceptDrops(true);
 
     m_ui.setupUi(this);
-    setFont(KGlobalSettings::smallestReadableFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_ui.checkAll->setToolTip(i18n("Enable/Disable all effects"));
-    m_ui.buttonShowComments->setIcon(KIcon("help-about"));
+    m_ui.buttonShowComments->setIcon(QIcon::fromTheme("help-about"));
     m_ui.buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
 
     connect(m_ui.checkAll, SIGNAL(stateChanged(int)), this, SLOT(slotCheckAll(int)));
@@ -190,7 +186,7 @@ void EffectStackView2::setupListView()
     for (int i = 0; i < effectsCount; ++i) {
         QDomElement d = m_currentEffectList.at(i).cloneNode().toElement();
         if (d.isNull()) {
-            kDebug() << " . . . . WARNING, NULL EFFECT IN STACK!!!!!!!!!";
+            //qDebug() << " . . . . WARNING, NULL EFFECT IN STACK!!!!!!!!!";
             continue;
         }
 
@@ -218,7 +214,7 @@ void EffectStackView2::setupListView()
 
         /*QDomDocument doc;
         doc.appendChild(doc.importNode(d, true));
-        kDebug() << "IMPORTED STK: " << doc.toString();*/
+        //qDebug() << "IMPORTED STK: " << doc.toString();*/
 
         ItemInfo info;
         bool isSelected = false;
@@ -281,7 +277,7 @@ void EffectStackView2::connectEffect(CollapsibleEffect *currentEffect)
     // Check drag & drop
     currentEffect->installEventFilter( this );
     connect(currentEffect, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this , SLOT(slotUpdateEffectParams(QDomElement,QDomElement,int)));
-    connect(currentEffect, SIGNAL(startFilterJob(QString,QString,QString,QString,QMap<QString,QString>)), this , SLOT(slotStartFilterJob(QString,QString,QString,QString,QMap<QString,QString>)));
+    connect(currentEffect, SIGNAL(startFilterJob(QMap<QString,QString>&, QMap<QString,QString>&,QMap <QString, QString>&)), this , SLOT(slotStartFilterJob(QMap<QString,QString>&, QMap<QString,QString>&,QMap <QString, QString>&)));
     connect(currentEffect, SIGNAL(deleteEffect(QDomElement)), this , SLOT(slotDeleteEffect(QDomElement)));
     connect(currentEffect, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
     connect(currentEffect, SIGNAL(resetEffect(int)), this , SLOT(slotResetEffect(int)));
@@ -292,7 +288,7 @@ void EffectStackView2::connectEffect(CollapsibleEffect *currentEffect)
     connect(currentEffect, SIGNAL(createGroup(int)), this , SLOT(slotCreateGroup(int)));
     connect(currentEffect, SIGNAL(moveEffect(QList<int>,int,int,QString)), this , SLOT(slotMoveEffect(QList<int>,int,int,QString)));
     connect(currentEffect, SIGNAL(addEffect(QDomElement)), this , SLOT(slotAddEffect(QDomElement)));
-    connect(currentEffect, SIGNAL(createRegion(int,KUrl)), this, SLOT(slotCreateRegion(int,KUrl)));
+    connect(currentEffect, SIGNAL(createRegion(int,QUrl)), this, SLOT(slotCreateRegion(int,QUrl)));
     connect(currentEffect, SIGNAL(deleteGroup(QDomDocument)), this , SLOT(slotDeleteGroup(QDomDocument)));
     connect(currentEffect, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
 }
@@ -654,10 +650,10 @@ void EffectStackView2::slotMoveEffectUp(const QList<int> &indexes, bool up)
     else emit changeEffectPosition(m_clipref, -1, indexes, endPos);
 }
 
-void EffectStackView2::slotStartFilterJob(const QString&filterName, const QString&filterParams, const QString&consumer, const QString&consumerParams, const QMap <QString, QString> &extraParams)
+void EffectStackView2::slotStartFilterJob(QMap <QString, QString> &filterParams, QMap <QString, QString> &consumerParams, QMap <QString, QString> &extraParams)
 {
     if (!m_clipref) return;
-    emit startFilterJob(m_clipref->info(), m_clipref->clipProducer(), filterName, filterParams, consumer, consumerParams, extraParams);
+    emit startFilterJob(m_clipref->info(), m_clipref->clipProducer(), filterParams, consumerParams, extraParams);
 }
 
 void EffectStackView2::slotResetEffect(int ix)
@@ -669,8 +665,7 @@ void EffectStackView2::slotResetEffect(int ix)
     effectLists["audio"] = &MainWindow::audioEffects;
     effectLists["video"] = &MainWindow::videoEffects;
     effectLists["custom"] = &MainWindow::customEffects;
-    foreach(const QString &type, effectLists.keys()) {
-        EffectsList *list = effectLists[type];
+    foreach(const EffectsList* list, effectLists) {
         dom = list->getEffectByTag(QString(), effectId).cloneNode().toElement();
         if (!dom.isNull()) break;
     }
@@ -700,7 +695,7 @@ void EffectStackView2::slotResetEffect(int ix)
                     break;
                 }
             }
-            //m_ui.region_url->setUrl(KUrl(dom.attribute("region")));
+            //m_ui.region_url->setUrl(QUrl(dom.attribute("region")));
             emit updateEffect(m_clipref, -1, old, dom, ix,false);
         }
     }
@@ -715,7 +710,7 @@ void EffectStackView2::slotShowComments()
     emit showComments(m_ui.buttonShowComments->isChecked());
 }
 
-void EffectStackView2::slotCreateRegion(int ix, KUrl url)
+void EffectStackView2::slotCreateRegion(int ix, QUrl url)
 {
     QDomElement oldeffect = m_currentEffectList.itemFromIndex(ix);
     QDomElement neweffect = oldeffect.cloneNode().toElement();
@@ -911,7 +906,7 @@ void EffectStackView2::processDroppedEffect(QDomElement e, QDropEvent *event)
         EffectInfo info;
         info.fromString(effects.at(0).toElement().attribute("kdenlive_info"));
         if (info.groupIndex < 0) {
-            kDebug()<<"// ADDING EFFECT!!!";
+            //qDebug()<<"// ADDING EFFECT!!!";
             // Adding a new group effect to the stack
             event->setDropAction(Qt::CopyAction);
             event->accept();
@@ -924,7 +919,7 @@ void EffectStackView2::processDroppedEffect(QDomElement e, QDropEvent *event)
             QDomElement effect = effects.at(i).cloneNode().toElement();
             indexes << effect.attribute("kdenlive_ix").toInt();
         }
-        kDebug()<<"// Moving: "<<indexes<<" TO "<<m_currentEffectList.count();
+        //qDebug()<<"// Moving: "<<indexes<<" TO "<<m_currentEffectList.count();
         slotMoveEffect(indexes, m_currentEffectList.count(), info.groupIndex, info.groupName);
     }
     else if (ix == 0) {
@@ -1004,5 +999,5 @@ const QString EffectStackView2::getStyleSheet()
     return stylesheet;
 }
 
-#include "effectstackview2.moc"
+
 

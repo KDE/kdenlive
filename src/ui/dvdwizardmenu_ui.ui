@@ -57,7 +57,7 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="KLineEdit" name="play_text"/>
+           <widget class="QLineEdit" name="play_text"/>
           </item>
           <item row="0" column="2">
            <widget class="QLabel" name="label_6">
@@ -91,7 +91,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="KIntSpinBox" name="font_size">
+           <widget class="QSpinBox" name="font_size">
             <property name="minimum">
              <number>10</number>
             </property>
@@ -303,14 +303,9 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
   </customwidget>
   <customwidget>
    <class>KUrlRequester</class>

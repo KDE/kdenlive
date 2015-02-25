@@ -26,9 +26,7 @@
 #include "doc/docclipbase.h"
 
 
-#include <KDebug>
-#include <KLocalizedString>
-#include <KIcon>
+#include <QDebug>
 
 const int DurationRole = Qt::UserRole + 1;
 
@@ -48,7 +46,7 @@ SubProjectItem::SubProjectItem(double display_ratio, QTreeWidgetItem * parent, i
     pix.fill(Qt::gray);
     setData(0, Qt::DecorationRole, pix);
     //setFlags(Qt::NoItemFlags);
-    //kDebug() << "Constructed with clipId: " << m_clipId;
+    ////qDebug() << "Constructed with clipId: " << m_clipId;
 }
 
 

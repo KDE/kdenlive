@@ -23,12 +23,11 @@
 
 #include "kdenlivesettings.h"
 
-#include <KDebug>
+#include <QDebug>
 
-#include <QPaintEvent>
 #include <QDesktopWidget>
 #include <QVBoxLayout>
-
+#include <QMouseEvent>
 
 AbstractMonitor::AbstractMonitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent): 
     QWidget(parent),
@@ -116,11 +115,7 @@ void VideoContainer::switchFullScreen()
     if (!isFullScreen()) {
         // Check if we ahave a multiple monitor setup
         setUpdatesEnabled(false);
-#if QT_VERSION >= 0x040600
         int monitors = QApplication::desktop()->screenCount();
-#else
-        int monitors = QApplication::desktop()->numScreens();
-#endif
         if (monitors > 1) {
             QRect screenres;
             // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget
@@ -161,5 +156,5 @@ void VideoContainer::switchFullScreen()
     }
 }
 
-#include "abstractmonitor.moc"
+
 

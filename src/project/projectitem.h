@@ -29,9 +29,8 @@
 #include <QTreeWidgetItem>
 #include <QTreeWidget>
 #include <QDomElement>
-#include <QProcess>
 
-#include <KUrl>
+#include <QUrl>
 
 
 class DocClipBase;
@@ -54,7 +53,7 @@ public:
      *
      * The clipId is used both to identify clips and folders (groups) */
     const QString &clipId() const;
-    const KUrl clipUrl() const;
+    const QUrl clipUrl() const;
     int clipMaxDuration() const;
     ClipType clipType() const;
     void changeDuration(int frames);

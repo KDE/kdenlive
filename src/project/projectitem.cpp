@@ -24,9 +24,9 @@
 #include "kdenlivesettings.h"
 #include "doc/docclipbase.h"
 
-#include <KDebug>
-#include <KLocalizedString>
-#include <KIcon>
+#include <QDebug>
+#include <klocalizedstring.h>
+#include <QIcon>
 
 #include <QFile>
 
@@ -63,19 +63,19 @@ void ProjectItem::buildItem(const QSize &pixmapSize)
     if (m_clip->isPlaceHolder()) setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
     else setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
     QString name = m_clip->getProperty("name");
-    if (name.isEmpty()) name = KUrl(m_clip->getProperty("resource")).fileName();
+    if (name.isEmpty()) name = QUrl(m_clip->getProperty("resource")).fileName();
     m_clipType = (ClipType) m_clip->getProperty("type").toInt();
     switch(m_clipType) {
 	case Audio:
-	    setData(0, Qt::DecorationRole, KIcon("audio-x-generic").pixmap(pixmapSize));
+	    setData(0, Qt::DecorationRole, QIcon::fromTheme("audio-x-generic").pixmap(pixmapSize));
 	    m_pixmapSet = true;
 	    break;
 	case Image:
 	case SlideShow:
-	    setData(0, Qt::DecorationRole, KIcon("image-x-generic").pixmap(pixmapSize));
+	    setData(0, Qt::DecorationRole, QIcon::fromTheme("image-x-generic").pixmap(pixmapSize));
 	    break;
 	default:
-	    setData(0, Qt::DecorationRole, KIcon("video-x-generic").pixmap(pixmapSize));
+	    setData(0, Qt::DecorationRole, QIcon::fromTheme("video-x-generic").pixmap(pixmapSize));
     }
     if (m_clipType != Unknown) slotSetToolTip();
     
@@ -136,11 +136,11 @@ QDomElement ProjectItem::toXml() const
     return m_clip->toXML();
 }
 
-const KUrl ProjectItem::clipUrl() const
+const QUrl ProjectItem::clipUrl() const
 {
     if (m_clipType != Color && m_clipType != Virtual && m_clipType != Unknown)
-        return KUrl(m_clip->getProperty("resource"));
-    else return KUrl();
+        return QUrl(m_clip->getProperty("resource"));
+    else return QUrl();
 }
 
 void ProjectItem::changeDuration(int frames)
@@ -294,7 +294,7 @@ bool ProjectItem::isProxyRunning() const
 
 bool ProjectItem::playlistHasProxies(const QString& path)
 {
-    kDebug()<<"// CHECKING FOR PROXIES";
+    //qDebug()<<"// CHECKING FOR PROXIES";
     QFile file(path);
     QDomDocument doc;
     if (!file.open(QIODevice::ReadOnly))

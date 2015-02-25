@@ -146,7 +146,7 @@
          </widget>
         </item>
         <item>
-         <widget class="KIntSpinBox" name="spinX">
+         <widget class="QSpinBox" name="spinX">
           <property name="minimum">
            <number>-10000</number>
           </property>
@@ -166,7 +166,7 @@
          </widget>
         </item>
         <item>
-         <widget class="KIntSpinBox" name="spinY">
+         <widget class="QSpinBox" name="spinY">
           <property name="minimum">
            <number>-10000</number>
           </property>
@@ -183,7 +183,7 @@
          </widget>
         </item>
         <item>
-         <widget class="KIntSpinBox" name="spinWidth">
+         <widget class="QSpinBox" name="spinWidth">
           <property name="minimum">
            <number>1</number>
           </property>
@@ -200,7 +200,7 @@
          </widget>
         </item>
         <item>
-         <widget class="KIntSpinBox" name="spinHeight">
+         <widget class="QSpinBox" name="spinHeight">
           <property name="minimum">
            <number>1</number>
           </property>
@@ -221,7 +221,7 @@
          </widget>
         </item>
         <item>
-         <widget class="KIntSpinBox" name="spinResize">
+         <widget class="QSpinBox" name="spinResize">
           <property name="suffix">
            <string>%</string>
           </property>
@@ -306,11 +306,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
-  </customwidget>
  </customwidgets>
  <resources/>
  <connections/>

@@ -23,22 +23,15 @@
 
 #include <mlt++/Mlt.h>
 
-#include <KDebug>
-#include <KStandardDirs>
-#include <KMessageBox>
-#include <KLocalizedString>
-#include <KTemporaryFile>
+#include <QDebug>
 
 #include <QTimer>
-#include <QDir>
 #include <QString>
-#include <QApplication>
 #include <QThread>
 
 #include <cstdlib>
 #include <cstdarg>
 
-#include <QDebug>
 
 
 
@@ -100,7 +93,7 @@ MltDeviceCapture::~MltDeviceCapture()
     if (m_mltProfile) delete m_mltProfile;
 }
 
-void MltDeviceCapture::buildConsumer(const QString &profileName)
+bool MltDeviceCapture::buildConsumer(const QString &profileName)
 {
     if (!profileName.isEmpty()) m_activeProfile = profileName;
 
@@ -155,6 +148,12 @@ void MltDeviceCapture::buildConsumer(const QString &profileName)
     //m_mltConsumer->set("progressive", 0);
     //m_mltConsumer->set("buffer", 1);
     //m_mltConsumer->set("real_time", 0);
+    if (!m_mltConsumer->is_valid()) {
+            delete m_mltConsumer;
+            m_mltConsumer = NULL;
+            return false;
+    }
+    return true;
 }
 
 void MltDeviceCapture::pause()
@@ -285,7 +284,7 @@ void MltDeviceCapture::showAudio(Mlt::Frame& frame)
 bool MltDeviceCapture::slotStartPreview(const QString &producer, bool xmlFormat)
 {
     if (m_mltConsumer == NULL) {
-        buildConsumer();
+        if (!buildConsumer()) return false;
     }
     char *tmp = qstrdup(producer.toUtf8().constData());
     if (xmlFormat) m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", tmp);
@@ -297,18 +296,18 @@ bool MltDeviceCapture::slotStartPreview(const QString &producer, bool xmlFormat)
             delete m_mltProducer;
             m_mltProducer = NULL;
         }
-        kDebug()<<"//// ERROR CREATRING PROD";
+        //qDebug()<<"//// ERROR CREATRING PROD";
         return false;
     }
     m_mltConsumer->connect(*m_mltProducer);
     if (m_mltConsumer->start() == -1) {
         delete m_mltConsumer;
         m_mltConsumer = NULL;
-        return 0;
+        return false;
     }
     m_droppedFramesTimer.start();
     //connect(this, SIGNAL(imageReady(QImage)), this, SIGNAL(frameUpdated(QImage)));
-    return 1;
+    return true;
 }
 
 void MltDeviceCapture::slotCheckDroppedFrames()
@@ -369,14 +368,6 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     char *tmp = qstrdup(m_activeProfile.toUtf8().constData());
     m_mltProfile = new Mlt::Profile(tmp);
     delete[] tmp;
-    //m_mltProfile->get_profile()->is_explicit = 1;
-    
-    
-    /*kDebug()<<"-- CREATING CAP: "<<params<<", PATH: "<<path;
-    tmp = qstrdup(QString("avformat:" + path).toUtf8().constData());
-    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, tmp);
-    m_mltConsumer->set("real_time", -KdenliveSettings::mltthreads());
-    delete[] tmp;*/
     
     m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "multi");
     if (m_mltConsumer == NULL || !m_mltConsumer->is_valid()) {
@@ -472,7 +463,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     }
 
     if (m_mltProducer == NULL || !m_mltProducer->is_valid()) {
-        kDebug()<<"//// ERROR CREATRING PROD";
+        //qDebug()<<"//// ERROR CREATRING PROD";
 	if (m_mltConsumer) {
             delete m_mltConsumer;
             m_mltConsumer = NULL;
@@ -502,18 +493,18 @@ void MltDeviceCapture::setOverlay(const QString &path)
     if (m_mltProducer == NULL || !m_mltProducer->is_valid()) return;
     Mlt::Producer parentProd(m_mltProducer->parent());
     if (parentProd.get_producer() == NULL) {
-        kDebug() << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
+        //qDebug() << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
         return;
     }
 
     Mlt::Service service(parentProd.get_service());
     if (service.type() != tractor_type) {
-        kWarning() << "// TRACTOR PROBLEM";
+        qWarning() << "// TRACTOR PROBLEM";
         return;
     }
     Mlt::Tractor tractor(service);
     if ( tractor.count() < 2) {
-        kWarning() << "// TRACTOR PROBLEM";
+        qWarning() << "// TRACTOR PROBLEM";
         return;
     }
     mlt_service_lock(service.get_service());
@@ -702,4 +693,4 @@ void MltDeviceCapture::slotAllowPreview()
 
 
 
-#include "mltdevicecapture.moc"
+

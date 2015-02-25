@@ -24,11 +24,11 @@
 #include <QProcess>
 
 
-#include <KDebug>
-#include <KLocalizedString>
+#include <QDebug>
+#include <klocalizedstring.h>
 
 ProxyJob::ProxyJob(ClipType cType, const QString &id, const QStringList& parameters)
-    : AbstractClipJob(PROXYJOB, cType, id, parameters),
+    : AbstractClipJob(PROXYJOB, cType, id),
       m_jobDuration(0),
       m_isFfmpegJob(true)
 {
@@ -252,4 +252,4 @@ const QString ProxyJob::statusMessage()
 }
 
 
-#include "proxyclipjob.moc"
+

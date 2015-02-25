@@ -17,7 +17,6 @@
 #include <QtCore/QList>
 
 class QDockWidget;
-class MonitorManager;
 class AbstractRender;
 
 /**
@@ -34,28 +33,24 @@ class ScopeManager : QObject
 
     struct GfxScopeData {
         AbstractGfxScopeWidget *scope;
-        QDockWidget *scopeDockWidget;
         bool singleFrameRequested;
         GfxScopeData() {
             scope = NULL;
-            scopeDockWidget = NULL;
             singleFrameRequested = false;
         }
     };
 
     struct AudioScopeData {
         AbstractAudioScopeWidget *scope;
-        QDockWidget *scopeDockWidget;
         bool singleFrameRequested;
         AudioScopeData() {
             scope = NULL;
-            scopeDockWidget = NULL;
             singleFrameRequested = false; 
         }
     };
 
 public:
-    ScopeManager(MonitorManager *monitorManager);
+    explicit ScopeManager(QObject *parent = 0);
 
     /**
       Adds a scope and sets up signal/slot connections to ensure that the scope
@@ -69,7 +64,6 @@ public:
     bool addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *colorScopeWidget = NULL);
 
 private:
-    MonitorManager *m_monitorManager;
     QList<AudioScopeData> m_audioScopes;
     QList<GfxScopeData> m_colorScopes;
 
@@ -99,6 +93,19 @@ private:
       \see checkActiveAudioScopes() for audio data
       */
     void checkActiveColourScopes();
+
+    /**
+      Creates all the scopes in audioscopes/ and colorscopes/.
+      New scopes are not detected automatically but have to be added.
+     */
+    void createScopes();
+
+    /**
+      Creates a dock for @param scopeWidget with the title @param title and
+      adds it to the manager.
+      @param scopeWidget has to be of type AbstractAudioScopeWidget or AbstractGfxScopeWidget (@see addScope).
+     */
+    template <class T> void createScopeDock(T *scopeWidget, const QString &title);
 
 private slots:
     /**

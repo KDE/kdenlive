@@ -24,7 +24,7 @@
 #include <QDomDocument>
 #include <QColor>
 
-#include <KUrl>
+#include <QUrl>
 
 class QScriptValue;
 
@@ -32,14 +32,14 @@ class DocumentValidator
 {
 
 public:
-    DocumentValidator(const QDomDocument &doc, const KUrl &documentUrl);
+    DocumentValidator(const QDomDocument &doc, const QUrl &documentUrl);
     bool isProject() const;
     bool validate(const double currentVersion);
     bool isModified() const;
 
 private:
     QDomDocument m_doc;
-    KUrl m_url;
+    QUrl m_url;
     bool m_modified;
     bool upgrade(double version, const double currentVersion);
     QStringList getInfoFromEffectName(const QString &oldName);

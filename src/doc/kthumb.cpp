@@ -28,23 +28,19 @@
 
 #include <mlt++/Mlt.h>
 
-#include <kio/netaccess.h>
-#include <kdebug.h>
-#include <klocale.h>
+#include <QDebug>
 #include <kfileitem.h>
 #include <kmessagebox.h>
-#include <KStandardDirs>
 
 #include <qxml.h>
 #include <QImage>
-#include <QApplication>
-#include <QtConcurrentRun>
 #include <QVarLengthArray>
 #include <QPainter>
+#include <QtConcurrent>
 
 static QMutex m_intraMutex;
 
-KThumb::KThumb(ClipManager *clipManager, const KUrl &url, const QString &id, const QString &hash, QObject * parent) :
+KThumb::KThumb(ClipManager *clipManager, const QUrl &url, const QString &id, const QString &hash, QObject * parent) :
     QObject(parent),
     m_url(url),
     m_thumbFile(),
@@ -96,16 +92,16 @@ void KThumb::updateThumbUrl(const QString &hash)
     m_thumbFile = m_clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
 }
 
-void KThumb::updateClipUrl(const KUrl &url, const QString &hash)
+void KThumb::updateClipUrl(const QUrl &url, const QString &hash)
 {
     m_url = url;
     m_thumbFile = m_clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
 }
 
 //static
-QPixmap KThumb::getImage(const KUrl& url, int width, int height)
+QPixmap KThumb::getImage(const QUrl &url, int width, int height)
 {
-    if (url.isEmpty()) return QPixmap();
+    if (!url.isValid()) return QPixmap();
     return getImage(url, 0, width, height);
 }
 
@@ -144,11 +140,11 @@ QImage KThumb::extractImage(int frame, int width, int height)
 }
 
 //static
-QPixmap KThumb::getImage(const KUrl& url, int frame, int width, int height)
+QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
 {
     Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
     QPixmap pix(width, height);
-    if (url.isEmpty()) return pix;
+    if (!url.isValid()) return pix;
     Mlt::Producer *producer = new Mlt::Producer(profile, url.path().toUtf8().constData());
     double swidth = (double) profile.width() / profile.height();
     pix = QPixmap::fromImage(getFrame(producer, frame, (int) (height * swidth + 0.5), width, height));
@@ -238,14 +234,8 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
         } else {
             image = image.scaled(displayWidth, height, Qt::IgnoreAspectRatio).rgbSwapped();
         }
-#if QT_VERSION >= 0x040800
 	p.fill(QColor(100, 100, 100, 70));
         QPainter painter(&p);
-#else
-	p.fill(Qt::transparent);
-	QPainter painter(&p);
-	painter.fillRect(p.rect(), QColor(100, 100, 100, 70));
-#endif
         painter.drawImage(p.rect(), image);
         painter.end();
     } else
@@ -258,29 +248,21 @@ uint KThumb::imageVariance(const QImage &image )
 {
     uint delta = 0;
     uint avg = 0;
-    uint bytes = image.numBytes();
+    uint bytes = image.byteCount();
     uint STEPS = bytes/2;
     QVarLengthArray<uchar> pivot(STEPS);
     const uchar *bits=image.bits();
     // First pass: get pivots and taking average
     for( uint i=0; i<STEPS ; ++i ){
         pivot[i] = bits[2 * i];
-#if QT_VERSION >= 0x040700
         avg+=pivot.at(i);
-#else
-        avg+=pivot[i];
-#endif
     }
     if (STEPS)
         avg=avg/STEPS;
     // Second Step: calculate delta (average?)
     for (uint i=0; i<STEPS; ++i)
     {
-#if QT_VERSION >= 0x040700
         int curdelta=abs(int(avg - pivot.at(i)));
-#else
-        int curdelta=abs(int(avg - pivot[i]));
-#endif
         delta+=curdelta;
     }
     if (STEPS)
@@ -290,9 +272,9 @@ uint KThumb::imageVariance(const QImage &image )
 }
 
 /*
-void KThumb::getImage(KUrl url, int frame, int width, int height)
+void KThumb::getImage(QUrl url, int frame, int width, int height)
 {
-    if (url.isEmpty()) return;
+    if (!url.isValid()) return;
     QPixmap image(width, height);
     Mlt::Producer m_producer(url.path().toUtf8().constData());
     image.fill(Qt::black);
@@ -318,9 +300,9 @@ void KThumb::getImage(KUrl url, int frame, int width, int height)
     emit thumbReady(frame, image);
 }
 
-void KThumb::getThumbs(KUrl url, int startframe, int endframe, int width, int height)
+void KThumb::getThumbs(QUrl url, int startframe, int endframe, int width, int height)
 {
-    if (url.isEmpty()) return;
+    if (!url.isValid()) return;
     QPixmap image(width, height);
     Mlt::Producer m_producer(url.path().toUtf8().constData());
     image.fill(QColor(Qt::black).rgb());
@@ -366,7 +348,6 @@ void KThumb::slotCreateAudioThumbs()
     m_clipManager->askForAudioThumb(m_id);
 }
 
-#if KDE_IS_VERSION(4,5,0)
 void KThumb::queryIntraThumbs(const QSet <int> &missingFrames)
 {
     m_intraMutex.lock();
@@ -415,7 +396,7 @@ void KThumb::slotGetIntraThumbs()
             if (m_clipManager->pixmapCache->insertImage(key, img)) {
                 addedThumbs = true;
             }
-            else kDebug()<<"// INSERT FAILD FOR: "<<pos;
+            else qDebug()<<"// INSERT FAILD FOR: "<<pos;
         }
         
     }
@@ -429,7 +410,6 @@ QImage KThumb::findCachedThumb(int pos)
     m_clipManager->pixmapCache->findImage(path, &img);
     return img;
 }
-#endif
 
-#include "kthumb.moc"
+
 

@@ -27,23 +27,21 @@
 #include "ui_smconfig_ui.h"
 #include "kdenlivesettings.h"
 
-#include <KDebug>
-#include <KGlobalSettings>
-#include <KFileDialog>
-#include <KStandardDirs>
+#include <QDebug>
+#include <QFontDatabase>
+
 #include <KMessageBox>
-#include <kdeversion.h>
 #include <KNotification>
 
-#include <QtConcurrentRun>
 #include <QInputDialog>
-#include <KComboBox>
 #include <QVBoxLayout>
 #include <QTimer>
 #include <QPainter>
 #include <QAction>
 #include <QWheelEvent>
 #include <QMenu>
+#include <QtConcurrent>
+#include <QStandardPaths>
 
 MyLabel::MyLabel(QWidget* parent) :
     QLabel(parent)
@@ -141,7 +139,7 @@ void StopmotionMonitor::slotMouseSeek(int /*eventDelta*/, bool /*fast*/)
 {
 }
 
-StopmotionWidget::StopmotionWidget(MonitorManager *manager, const KUrl &projectFolder, const QList<QAction *> &actions, QWidget* parent) :
+StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectFolder, const QList<QAction *> &actions, QWidget* parent) :
     QDialog(parent)
   , Ui::Stopmotion_UI()
   , m_projectFolder(projectFolder)
@@ -170,9 +168,9 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const KUrl &projectF
     addActions(actions);
     setupUi(this);
     setWindowTitle(i18n("Stop Motion Capture"));
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
 
-    live_button->setIcon(KIcon("camera-photo"));
+    live_button->setIcon(QIcon::fromTheme("camera-photo"));
 
     m_captureAction = actions.at(0);
     connect(m_captureAction, SIGNAL(triggered()), this, SLOT(slotCaptureFrame()));
@@ -183,12 +181,12 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const KUrl &projectF
     connect(actions.at(1), SIGNAL(triggered()), this, SLOT(slotSwitchLive()));
 
     QAction *intervalCapture = new QAction(i18n("Interval capture"), this);
-    intervalCapture->setIcon(KIcon("chronometer"));
+    intervalCapture->setIcon(QIcon::fromTheme("chronometer"));
     intervalCapture->setCheckable(true);
     intervalCapture->setChecked(false);
     capture_interval->setDefaultAction(intervalCapture);
 
-    preview_button->setIcon(KIcon("media-playback-start"));
+    preview_button->setIcon(QIcon::fromTheme("media-playback-start"));
     capture_button->setEnabled(false);
 
 
@@ -231,16 +229,16 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const KUrl &projectF
     connect(effectsMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotUpdateOverlayEffect(QAction*)));
     confMenu->addMenu(effectsMenu);
 
-    QAction* showThumbs = new QAction(KIcon("image-x-generic"), i18n("Show sequence thumbnails"), this);
+    QAction* showThumbs = new QAction(QIcon::fromTheme("image-x-generic"), i18n("Show sequence thumbnails"), this);
     showThumbs->setCheckable(true);
     showThumbs->setChecked(KdenliveSettings::showstopmotionthumbs());
     connect(showThumbs, SIGNAL(triggered(bool)), this, SLOT(slotShowThumbs(bool)));
 
-    QAction* removeCurrent = new QAction(KIcon("edit-delete"), i18n("Delete current frame"), this);
+    QAction* removeCurrent = new QAction(QIcon::fromTheme("edit-delete"), i18n("Delete current frame"), this);
     removeCurrent->setShortcut(Qt::Key_Delete);
     connect(removeCurrent, SIGNAL(triggered()), this, SLOT(slotRemoveFrame()));
 
-    QAction* conf = new QAction(KIcon("configure"), i18n("Configure"), this);
+    QAction* conf = new QAction(QIcon::fromTheme("configure"), i18n("Configure"), this);
     connect(conf, SIGNAL(triggered()), this, SLOT(slotConfigure()));
 
     confMenu->addAction(showThumbs);
@@ -248,7 +246,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const KUrl &projectF
     confMenu->addAction(analyse);
     confMenu->addAction(mirror);
     confMenu->addAction(conf);
-    config_button->setIcon(KIcon("configure"));
+    config_button->setIcon(QIcon::fromTheme("configure"));
     config_button->setMenu(confMenu);
 
     connect(sequence_name, SIGNAL(textChanged(QString)), this, SLOT(sequenceNameChanged(QString)));
@@ -296,13 +294,13 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const KUrl &projectF
     m_frame_preview->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     video_preview->setLayout(layout);
 
-    //kDebug()<<video_preview->winId();
+    ////qDebug()<<video_preview->winId();
 
     QString profilePath;
     // Create MLT producer data
     if (capture_device->itemData(capture_device->currentIndex()) == "v4l") {
         // Capture using a video4linux device
-        profilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
+        profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
     }
     else {
         // Decklink capture
@@ -436,7 +434,7 @@ void StopmotionWidget::parseExistingSequences()
     filters << "*_0000.png";
     //dir.setNameFilters(filters);
     QStringList sequences = dir.entryList(filters, QDir::Files, QDir::Name);
-    //kDebug()<<"PF: "<<<<", sm: "<<sequences;
+    ////qDebug()<<"PF: "<<<<", sm: "<<sequences;
     foreach(const QString &sequencename, sequences) {
         sequence_name->addItem(sequencename.section('_', 0, -2));
     }
@@ -471,7 +469,7 @@ void StopmotionWidget::slotLive(bool isOn)
         // Create MLT producer data
         if (capture_device->itemData(capture_device->currentIndex()) == "v4l") {
             // Capture using a video4linux device
-            profilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
+            profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
             profile = ProfilesDialog::getVideoProfile(profilePath);
             service = "avformat-novalidate";
             QString devicePath = capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 1).toString();
@@ -505,7 +503,7 @@ void StopmotionWidget::slotLive(bool isOn)
             log_box->setCurrentIndex(0);
         }
         else {
-            kDebug()<<"// problem starting stopmo";
+            //qDebug()<<"// problem starting stopmo";
             log_box->insertItem(-1, i18n("Failed to start device"));
             log_box->setCurrentIndex(0);
         }
@@ -608,8 +606,8 @@ void StopmotionWidget::sequenceNameChanged(const QString& name)
         button_addsequence->setEnabled(false);
     } else {
         // Check if we are editing an existing sequence
-        QString pattern = SlideshowClip::selectedPath(getPathForFrame(0, sequence_name->currentText()), false, QString(), &m_filesList);
-        m_sequenceFrame = m_filesList.isEmpty() ? 0 : SlideshowClip::getFrameNumberFromPath(m_filesList.last()) + 1;
+        QString pattern = SlideshowClip::selectedPath(QUrl::fromLocalFile(getPathForFrame(0, sequence_name->currentText())), false, QString(), &m_filesList);
+        m_sequenceFrame = m_filesList.isEmpty() ? 0 : SlideshowClip::getFrameNumberFromPath(QUrl::fromLocalFile(m_filesList.last())) + 1;
         if (!m_filesList.isEmpty()) {
             m_sequenceName = sequence_name->currentText();
             connect(this, SIGNAL(doCreateThumbs(QImage,int)), this, SLOT(slotCreateThumbs(QImage,int)));
@@ -681,7 +679,7 @@ void StopmotionWidget::slotPrepareThumbs()
     if (m_filesList.isEmpty())
         return;
     QString path = m_filesList.takeFirst();
-    emit doCreateThumbs(QImage(path), SlideshowClip::getFrameNumberFromPath(path));
+    emit doCreateThumbs(QImage(path), SlideshowClip::getFrameNumberFromPath(QUrl::fromLocalFile(path)));
 
 }
 
@@ -716,7 +714,7 @@ QString StopmotionWidget::getPathForFrame(int ix, QString seqName)
 {
     if (seqName.isEmpty())
         seqName = m_sequenceName;
-    return m_projectFolder.path(KUrl::AddTrailingSlash) + seqName + QLatin1Char('_') + QString::number(ix).rightJustified(4, '0', false) + QLatin1String(".png");
+    return m_projectFolder.path() + QDir::separator() + seqName + QLatin1Char('_') + QString::number(ix).rightJustified(4, '0', false) + QLatin1String(".png");
 }
 
 void StopmotionWidget::slotShowFrame(const QString& path)
@@ -759,7 +757,7 @@ void StopmotionWidget::slotPlayPreview(bool animate)
         else frame_list->setCurrentRow(frame_list->count() - KdenliveSettings::sm_framesplayback());
         QTimer::singleShot(200, this, SLOT(slotAnimate()));
     } else {
-        SlideshowClip::selectedPath(getPathForFrame(0, sequence_name->currentText()), false, QString(), &m_animationList);
+        SlideshowClip::selectedPath(QUrl::fromLocalFile(getPathForFrame(0, sequence_name->currentText())), false, QString(), &m_animationList);
         if (KdenliveSettings::sm_framesplayback() > 0) {
             // only play the last x frames
             while (m_animationList.count() > KdenliveSettings::sm_framesplayback() + 1) {
@@ -904,4 +902,4 @@ const QString StopmotionWidget::createProducer(const MltVideoProfile &profile, c
 
 
 
-#include "stopmotion.moc"
+

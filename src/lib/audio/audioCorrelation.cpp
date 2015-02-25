@@ -11,7 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "audioCorrelation.h"
 #include "fftCorrelation.h"
 
-#include <KLocale>
+#include "klocalizedstring.h"
 #include <QDebug>
 #include <QTime>
 #include <cmath>
@@ -167,4 +167,4 @@ void AudioCorrelation::correlate(const qint64 *envMain, int sizeMain,
     }
 }
 
-#include "audioCorrelation.moc"
+

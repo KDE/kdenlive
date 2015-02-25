@@ -24,8 +24,10 @@
 #include "kdenlivesettings.h"
 
 #include <QWheelEvent>
-#include <KDebug>
+#include <QDebug>
+#include <QFontDatabase>
 
+#include "klocalizedstring.h"
 
 MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget * parent)
     : QDialog(parent)
@@ -34,7 +36,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Time
     , m_clip(clip)
     , m_dar(4.0 / 3.0)
 {
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setWindowTitle(caption);
 
@@ -69,6 +71,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Time
         int width = Kdenlive::DefaultThumbHeight * m_dar;
         if (width % 2 == 1) width++;
         QPixmap p(width, 100);
+        p.fill(Qt::transparent);
         QString colour = clip->getProperty("colour");
         int swidth = (int) (Kdenlive::DefaultThumbHeight * m_profile->width() / m_profile->height() + 0.5);
 
@@ -77,6 +80,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Time
         case AV:
         case SlideShow:
         case Playlist:
+            m_previewTimer->start();
             connect(this, SIGNAL(updateThumb()), m_previewTimer, SLOT(start()));
             break;
         case Image:
@@ -108,7 +112,6 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Time
     marker_comment->setText(t.comment());
     marker_comment->selectAll();
     marker_comment->setFocus();
-
     adjustSize();
 }
 
@@ -133,7 +136,7 @@ void MarkerDialog::slotUpdateThumb()
     if (!p.isNull())
         clip_thumb->setPixmap(p);
     else
-        kDebug() << "!!!!!!!!!!!  ERROR CREATING THUMB";
+        qDebug() << "!!!!!!!!!!!  ERROR CREATING THUMB";
 }
 
 QImage MarkerDialog::markerImage() const
@@ -147,6 +150,6 @@ CommentedTime MarkerDialog::newMarker()
     return CommentedTime(m_in->gentime(), marker_comment->text(), marker_type->currentIndex());
 }
 
-#include "markerdialog.moc"
+
 
 

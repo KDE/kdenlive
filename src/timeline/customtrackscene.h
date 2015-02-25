@@ -28,7 +28,6 @@
 
 #include <QList>
 #include <QGraphicsScene>
-#include <QPixmap>
 
 #include "gentime.h"
 

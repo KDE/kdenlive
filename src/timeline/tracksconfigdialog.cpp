@@ -22,8 +22,10 @@
 
 #include <QTableWidget>
 #include <KComboBox>
-#include <KDebug>
-#include <KIcon>
+#include <QDebug>
+#include <QIcon>
+
+#include "klocalizedstring.h"
 
 TracksDelegate::TracksDelegate(QObject *parent) :
         QItemDelegate(parent)
@@ -70,31 +72,31 @@ TracksConfigDialog::TracksConfigDialog(KdenliveDoc * doc, int selected, QWidget*
 
     table->setColumnCount(5);
     table->setHorizontalHeaderLabels(QStringList() << i18n("Name") << i18n("Type") << i18n("Hidden") << i18n("Muted") << i18n("Locked"));
-    table->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
-    table->horizontalHeader()->setResizeMode(1, QHeaderView::Fixed);
-    table->horizontalHeader()->setResizeMode(2, QHeaderView::Fixed);
-    table->horizontalHeader()->setResizeMode(3, QHeaderView::Fixed);
-    table->horizontalHeader()->setResizeMode(4, QHeaderView::Fixed);
+    table->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    table->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Fixed);
+    table->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Fixed);
+    table->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Fixed);
+    table->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Fixed);
 
     table->setItemDelegateForColumn(1, new TracksDelegate(this));
 
-    buttonReset->setIcon(KIcon("document-revert"));
+    buttonReset->setIcon(QIcon::fromTheme("document-revert"));
     buttonReset->setToolTip(i18n("Reset"));
     connect(buttonReset, SIGNAL(clicked()), this, SLOT(setupOriginal()));
 
-    buttonAdd->setIcon(KIcon("list-add"));
+    buttonAdd->setIcon(QIcon::fromTheme("list-add"));
     buttonAdd->setToolTip(i18n("Add Track"));
     buttonAdd->setEnabled(false);
 
-    buttonDelete->setIcon(KIcon("list-remove"));
+    buttonDelete->setIcon(QIcon::fromTheme("list-remove"));
     buttonDelete->setToolTip(i18n("Delete Track"));
     connect(buttonDelete, SIGNAL(clicked()), this, SLOT(slotDelete()));
 
-    buttonUp->setIcon(KIcon("arrow-up"));
+    buttonUp->setIcon(QIcon::fromTheme("arrow-up"));
     buttonUp->setToolTip(i18n("Move Track upwards"));
     buttonUp->setEnabled(false);
 
-    buttonDown->setIcon(KIcon("arrow-down"));
+    buttonDown->setIcon(QIcon::fromTheme("arrow-down"));
     buttonDown->setToolTip(i18n("Move Track downwards"));
     buttonDown->setEnabled(false);
 
@@ -206,4 +208,4 @@ void TracksConfigDialog::slotDelete()
     }
 }
 
-#include "tracksconfigdialog.moc"
+

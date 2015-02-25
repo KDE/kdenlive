@@ -18,12 +18,11 @@
 #include "keyframeedit.h"
 #include "positionedit.h"
 #include "widgets/doubleparameterwidget.h"
-
 #include "kdenlivesettings.h"
 
-#include <KDebug>
-#include <KGlobalSettings>
-
+#include "klocalizedstring.h"
+#include <QDebug>
+#include <QFontDatabase>
 #include <QHeaderView>
 
 KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, const Timecode &tc, int activeKeyframe, QWidget* parent) :
@@ -37,17 +36,17 @@ KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, con
         // special case: keyframe for tracks, do not allow keyframes
         widgetTable->setHidden(true);
     }
-    keyframe_list->setFont(KGlobalSettings::generalFont());
+    keyframe_list->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     buttonSeek->setChecked(KdenliveSettings::keyframeseek());
     connect(buttonSeek, SIGNAL(toggled(bool)), this, SLOT(slotSetSeeking(bool)));
 
-    buttonKeyframes->setIcon(KIcon("chronometer"));
-    button_add->setIcon(KIcon("list-add"));
+    buttonKeyframes->setIcon(QIcon::fromTheme("chronometer"));
+    button_add->setIcon(QIcon::fromTheme("list-add"));
     button_add->setToolTip(i18n("Add keyframe"));
-    button_delete->setIcon(KIcon("list-remove"));
+    button_delete->setIcon(QIcon::fromTheme("list-remove"));
     button_delete->setToolTip(i18n("Delete keyframe"));
-    buttonResetKeyframe->setIcon(KIcon("edit-undo"));
-    buttonSeek->setIcon(KIcon("insert-link"));
+    buttonResetKeyframe->setIcon(QIcon::fromTheme("edit-undo"));
+    buttonSeek->setIcon(QIcon::fromTheme("insert-link"));
     connect(keyframe_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotAdjustKeyframeInfo()));
     connect(keyframe_list, SIGNAL(cellChanged(int,int)), this, SLOT(slotGenerateParams(int,int)));
 
@@ -347,7 +346,7 @@ void KeyframeEdit::slotAdjustKeyframeInfo(bool seek)
         if (keyframe_list->item(item->row(), col)) {
             doubleparam->setValue(keyframe_list->item(item->row(), col)->text().toDouble());
         } else {
-            kDebug() << "Null pointer exception caught: http://www.kdenlive.org/mantis/view.php?id=1771";
+            //qDebug() << "Null pointer exception caught: http://www.kdenlive.org/mantis/view.php?id=1771";
         }
         doubleparam->blockSignals(false);
     }
@@ -444,7 +443,7 @@ void KeyframeEdit::slotUpdateVisibleParameter(int id, bool update)
         if (!doubleparam)
             continue;
         doubleparam->setInTimelineProperty(col == id);
-        //kDebug()<<"// PARAM: "<<col<<" Set TO: "<<(bool) (col == id);
+        ////qDebug()<<"// PARAM: "<<col<<" Set TO: "<<(bool) (col == id);
         
     }
     if (update) emit parameterChanged();
@@ -480,4 +479,4 @@ void KeyframeEdit::slotUpdateRange(int inPoint, int outPoint)
     m_max = outPoint;
 }
 
-#include "keyframeedit.moc"
+

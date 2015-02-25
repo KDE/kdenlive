@@ -21,16 +21,15 @@
 #include "backupwidget.h"
 #include "kdenlivesettings.h"
 
-#include <KUrl>
+#include <klocalizedstring.h>
 
-
-BackupWidget::BackupWidget(const KUrl &projectUrl, const KUrl &projectFolder, const QString &projectId, QWidget * parent) :
+BackupWidget::BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, const QString &projectId, QWidget * parent) :
         QDialog(parent)
 {
     setupUi(this);
     setWindowTitle(i18n("Restore Backup File"));
 
-    if (projectUrl.isEmpty()) {
+    if (!projectUrl.isValid()) {
         // No url, means we opened the backup dialog from an empty project
         info_label->setText(i18n("Showing all backup files in folder"));
         m_projectWildcard = '*';
@@ -65,9 +64,8 @@ BackupWidget::~BackupWidget()
 void BackupWidget::slotParseBackupFiles()
 {
     QStringList filter;
-    KUrl backupFile = project_url->url();
-    backupFile.addPath(".backup/");
-    QDir dir(backupFile.path());
+    QDir dir(project_url->url().path());
+    dir.cd(".backup");
 
     filter << m_projectWildcard;
     dir.setNameFilters(filter);
@@ -105,4 +103,4 @@ QString BackupWidget::selectedFile() const
 }
 
 
-#include "backupwidget.moc"
+

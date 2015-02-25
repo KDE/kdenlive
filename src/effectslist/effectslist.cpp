@@ -18,8 +18,8 @@
 
 #include "effectslist.h"
 
-#include <KDebug>
-#include <KLocalizedString>
+#include <QDebug>
+#include <klocalizedstring.h>
 
 
 EffectsList::EffectsList(bool indexRequired) : m_useIndex(indexRequired)
@@ -116,7 +116,11 @@ QStringList EffectsList::effectIdInfo(const int ix) const
         info << groupName << groupName << effect.attribute("id") << QString::number(Kdenlive::groupEffect);
     } else {
         QDomElement namenode = effect.firstChildElement("name");
-        info << i18n(namenode.text().toUtf8().data()) << effect.attribute("tag") << effect.attribute("id");
+        QString name = namenode.text();
+        if (name.isEmpty()) {
+            name = effect.attribute("tag");
+        }
+        info << i18n(name.toUtf8().data()) << effect.attribute("tag") << effect.attribute("id");
     }
     return info;
 }
@@ -149,11 +153,11 @@ QString EffectsList::getEffectInfo(const QDomElement &effect) const
 {
     QString info;
     QDomElement namenode = effect.firstChildElement("description");
-    if (!namenode.isNull())
+    if (!namenode.isNull() && !namenode.firstChild().nodeValue().isEmpty())
         info = i18n(namenode.firstChild().nodeValue().simplified().toUtf8().data());
 
     namenode = effect.firstChildElement("author");
-    if (!namenode.isNull())
+    if (!namenode.isNull() && !namenode.text().isEmpty())
         info.append("<br /><strong>" + i18n("Author:") + " </strong>" + i18n(namenode.text().toUtf8().data()));
 
     namenode = effect.firstChildElement("version");

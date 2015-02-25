@@ -28,7 +28,7 @@ class TracksDelegate : public QItemDelegate
 {
     Q_OBJECT
 public:
-    TracksDelegate(QObject *parent = 0);
+    explicit TracksDelegate(QObject *parent = 0);
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     void setEditorData(QWidget *editor, const QModelIndex &index) const;
     void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;

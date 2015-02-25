@@ -23,16 +23,13 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 
-#include <KDebug>
-#include <kglobal.h>
-#include <KStandardDirs>
+#include <QDebug>
 
 #include <QFile>
-#include <QRegExp>
 #include <QDir>
-#include <QIcon>
+#include <QStandardPaths>
 
-#include "locale.h"
+#include <klocalizedstring.h>
 
 initEffectsThumbnailer::initEffectsThumbnailer() :
     QThread()
@@ -43,19 +40,19 @@ void initEffectsThumbnailer::prepareThumbnailsCall(const QStringList& list)
 {
     m_list = list;
     start();
-    kDebug() << "done";
+    //qDebug() << "done";
 }
 
 void initEffectsThumbnailer::run()
 {
     foreach(const QString & entry, m_list) {
-        kDebug() << entry;
+        //qDebug() << entry;
         if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
             if (!MainWindow::m_lumacache.contains(entry)) {
                 QImage pix(entry);
                 //if (!pix.isNull())
 		MainWindow::m_lumacache.insert(entry, pix.scaled(30, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-                kDebug() << "stored";
+                //qDebug() << "stored";
             }
         }
     }
@@ -72,26 +69,23 @@ void initEffects::refreshLumas()
     QStringList filters;
     filters << "*.pgm" << "*.png";
 
-    QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
+    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, "lumas");
     foreach(const QString & folder, customLumas) {
-        QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
+        QDir directory(folder);
+        QStringList filesnames = directory.entryList(filters, QDir::Files);
         foreach(const QString & fname, filesnames) {
             imagenamelist.append(fname);
-            imagefiles.append(KUrl(folder).path(KUrl::AddTrailingSlash) + fname);
+            imagefiles.append(directory.absoluteFilePath(fname));
         }
     }
 
     // Check for MLT lumas
-    KUrl folder(mlt_environment("MLT_DATA"));
-    folder.addPath("lumas");
-    folder.addPath(mlt_environment("MLT_NORMALISATION"));
+    QUrl folder(QString(mlt_environment("MLT_DATA")) + QDir::separator() + "lumas" + QDir::separator() + QString(mlt_environment("MLT_NORMALISATION")));
     QDir lumafolder(folder.path());
     QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
     foreach(const QString & fname, filesnames) {
         imagenamelist.append(fname);
-        KUrl path(folder);
-        path.addPath(fname);
-        imagefiles.append(path.toLocalFile());
+        imagefiles.append(lumafolder.absoluteFilePath(fname));
     }
     QDomElement lumaTransition = MainWindow::transitions.getEffectByTag("luma", "luma");
     QDomNodeList params = lumaTransition.elementsByTagName("parameter");
@@ -144,7 +138,7 @@ void initEffects::parseEffectFiles(const QString &locale)
 
     Mlt::Repository *repository = Mlt::Factory::init();
     if (!repository) {
-        kDebug() << "Repository didn't finish initialisation" ;
+        //qDebug() << "Repository didn't finish initialisation" ;
         return;
     }
 
@@ -177,7 +171,7 @@ void initEffects::parseEffectFiles(const QString &locale)
     delete transitions;
 
     // Remove blacklisted transitions from the list.
-    QFile file(KStandardDirs::locate("appdata", "blacklisted_transitions.txt"));
+    QFile file(QStandardPaths::locate(QStandardPaths::DataLocation, "blacklisted_transitions.txt"));
     if (file.open(QIODevice::ReadOnly)) {
         QTextStream in(&file);
         while (!in.atEnd()) {
@@ -194,7 +188,7 @@ void initEffects::parseEffectFiles(const QString &locale)
 
     // Remove blacklisted effects from the filters list.
     QStringList mltFiltersList = filtersList;
-    QFile file2(KStandardDirs::locate("appdata", "blacklisted_effects.txt"));
+    QFile file2(QStandardPaths::locate(QStandardPaths::DataLocation, "blacklisted_effects.txt"));
     if (file2.open(QIODevice::ReadOnly)) {
         QTextStream in(&file2);
         while (!in.atEnd()) {
@@ -255,7 +249,7 @@ void initEffects::parseEffectFiles(const QString &locale)
     }
 
     // Set the directories to look into for effects.
-    QStringList direc = KGlobal::dirs()->findDirs("appdata", "effects");
+    QStringList direc = QStandardPaths::locateAll(QStandardPaths::DataLocation, "effects", QStandardPaths::LocateDirectory);
     // Iterate through effects directories to parse all XML files.
     for (more = direc.begin(); more != direc.end(); ++more) {
         QDir directory(*more);
@@ -263,7 +257,7 @@ void initEffects::parseEffectFiles(const QString &locale)
         filter << "*.xml";
         fileList = directory.entryList(filter, QDir::Files);
         for (it = fileList.begin(); it != fileList.end(); ++it) {
-            itemName = KUrl(*more + *it).path();
+            itemName = directory.absoluteFilePath(*it);
             parseEffectFile(&MainWindow::customEffects,
                             &MainWindow::audioEffects,
                             &MainWindow::videoEffects,
@@ -315,7 +309,7 @@ void initEffects::parseCustomEffectsFile()
      * cannot be sure about it.
      */
     QMap<QString, QDomElement> effectsMap;
-    QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
+    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects";
     QDir directory = QDir(path);
     QStringList filter;
     filter << "*.xml";
@@ -330,7 +324,7 @@ void initEffects::parseCustomEffectsFile()
     QDomElement e;
     int unknownGroupCount = 0;
     foreach(const QString & filename, fileList) {
-        QString itemName = KUrl(path + filename).path();
+        QString itemName = directory.absoluteFilePath(filename);
         QFile file(itemName);
         doc.setContent(&file, false);
         file.close();
@@ -346,7 +340,7 @@ void initEffects::parseCustomEffectsFile()
         } else if (base.tagName() == "effect") {
             effectsMap.insert(base.firstChildElement("name").text().toLower().toUtf8().data(), base);
         }
-        else kDebug() << "Unsupported effect file: " << itemName;
+        else qDebug() << "Unsupported effect file: " << itemName;
     }
     foreach(const QDomElement & effect, effectsMap)
         MainWindow::customEffects.append(effect);
@@ -365,7 +359,7 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
     effects = doc.elementsByTagName("effect");
 
     if (effects.count() == 0) {
-        kDebug() << "Effect broken: " << name;
+        //qDebug() << "Effect broken: " << name;
         return;
     }
 
@@ -448,15 +442,15 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
 {
 
     QDomDocument ret;
-    Mlt::Properties *metadata = repository->metadata(filter_type, filtername.toAscii().data());
-    //kDebug() << filtername;
+    Mlt::Properties *metadata = repository->metadata(filter_type, filtername.toLatin1().data());
+    ////qDebug() << filtername;
     if (metadata && metadata->is_valid()) {
         if (metadata->get("title") && metadata->get("identifier")) {
             QDomElement eff = ret.createElement("effect");
             QString id = metadata->get("identifier");
             eff.setAttribute("tag", id);
             eff.setAttribute("id", id);
-            //kDebug()<<"Effect: "<<id;
+            ////qDebug()<<"Effect: "<<id;
 
             QDomElement name = ret.createElement("name");
             name.appendChild(ret.createTextNode(metadata->get("title")));
@@ -478,7 +472,7 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
             Mlt::Properties tags((mlt_properties) metadata->get_data("tags"));
             if (QString(tags.get(0)) == "Audio") eff.setAttribute("type", "audio");
             /*for (int i = 0; i < tags.count(); ++i)
-                kDebug()<<tags.get_name(i)<<"="<<tags.get(i);*/
+                //qDebug()<<tags.get_name(i)<<"="<<tags.get(i);*/
 
             Mlt::Properties param_props((mlt_properties) metadata->get_data("parameters"));
             for (int j = 0; param_props.is_valid() && j < param_props.count(); ++j) {
@@ -543,7 +537,7 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
     /*QString outstr;
      QTextStream str(&outstr);
      ret.save(str, 2);
-     kDebug() << outstr;*/
+     //qDebug() << outstr;*/
     return ret;
 }
 
@@ -558,7 +552,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
     QStringList imagefiles = QStringList() << QString();
     QStringList filters;
     filters << "*.pgm" << "*.png";
-    QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
+    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, "lumas");
     foreach(QString folder, customLumas) {
         if (!folder.endsWith('/'))
             folder.append('/');
@@ -570,16 +564,12 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
     }
 
     // Check for MLT luma files.
-    KUrl folder(mlt_environment("MLT_DATA"));
-    folder.addPath("lumas");
-    folder.addPath(mlt_environment("MLT_NORMALISATION"));
+    QUrl folder(QString(mlt_environment("MLT_DATA")) + QDir::separator() + "lumas" + QDir::separator() + QString(mlt_environment("MLT_NORMALISATION")));
     QDir lumafolder(folder.path());
     QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
     foreach(const QString & fname, filesnames) {
         imagenamelist.append(fname);
-        KUrl path(folder);
-        path.addPath(fname);
-        imagefiles.append(path.toLocalFile());
+        imagefiles.append(lumafolder.absoluteFilePath(fname));
     }
     
     //WARNING: this is a hack to get around temporary invalid metadata in MLT, 2nd of june 2011 JBM
@@ -727,7 +717,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
         metadata = 0;
         // Add the transition to the global list.
         transitions->append(ret.documentElement());
-        //kDebug() << ret.toString();
+        ////qDebug() << ret.toString();
     }
 
     // Add some virtual transitions.
@@ -773,5 +763,5 @@ QDomElement initEffects::quickParameterFill(QDomDocument & doc, const QString &n
     return parameter;
 }
 
-#include "initeffects.moc"
+
 

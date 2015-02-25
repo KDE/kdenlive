@@ -10,8 +10,11 @@
 
 #include "histogram.h"
 #include "histogramgenerator.h"
-#include <QMenu>
 #include <QTime>
+
+#include <KSharedConfig>
+#include <KConfigGroup>
+#include "klocalizedstring.h"
 
 Histogram::Histogram(QWidget *parent) :
     AbstractGfxScopeWidget(false, parent)
@@ -65,7 +68,7 @@ void Histogram::readConfig()
 {
     AbstractGfxScopeWidget::readConfig();
 
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
     ui->cbY->setChecked(scopeConfig.readEntry("yEnabled", true));
     ui->cbS->setChecked(scopeConfig.readEntry("sEnabled", false));
@@ -78,7 +81,7 @@ void Histogram::readConfig()
 
 void Histogram::writeConfig()
 {
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
     scopeConfig.writeEntry("yEnabled", ui->cbY->isChecked());
     scopeConfig.writeEntry("sEnabled", ui->cbS->isChecked());
@@ -135,4 +138,4 @@ QImage Histogram::renderBackground(uint)
     return QImage();
 }
 
-#include "histogram.moc"
+

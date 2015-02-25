@@ -186,14 +186,14 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="KLineEdit" name="kcfg_defaultimageapp">
+        <widget class="QLineEdit" name="kcfg_defaultimageapp">
          <property name="showClearButton" stdset="0">
           <bool>true</bool>
          </property>
         </widget>
        </item>
        <item row="0" column="2">
-        <widget class="KPushButton" name="kp_image">
+        <widget class="QPushButton" name="kp_image">
          <property name="text">
           <string>Change</string>
          </property>
@@ -207,14 +207,14 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="KLineEdit" name="kcfg_defaultaudioapp">
+        <widget class="QLineEdit" name="kcfg_defaultaudioapp">
          <property name="showClearButton" stdset="0">
           <bool>true</bool>
          </property>
         </widget>
        </item>
        <item row="1" column="2">
-        <widget class="KPushButton" name="kp_audio">
+        <widget class="QPushButton" name="kp_audio">
          <property name="text">
           <string>Change</string>
          </property>
@@ -228,14 +228,14 @@
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="KLineEdit" name="kcfg_defaultplayerapp">
+        <widget class="QLineEdit" name="kcfg_defaultplayerapp">
          <property name="showClearButton" stdset="0">
           <bool>true</bool>
          </property>
         </widget>
        </item>
        <item row="2" column="2">
-        <widget class="KPushButton" name="kp_player">
+        <widget class="QPushButton" name="kp_player">
          <property name="text">
           <string>Change</string>
          </property>
@@ -303,16 +303,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
   <customwidget>
    <class>KUrlRequester</class>
    <extends>QFrame</extends>

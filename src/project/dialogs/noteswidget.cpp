@@ -20,24 +20,27 @@
 
 #include "noteswidget.h"
 
-#include <KLocalizedString>
-#include <KDebug>
+#include <klocalizedstring.h>
+#include <QDebug>
 #include <QMenu>
 #include <QMouseEvent>
 
 
 NotesWidget::NotesWidget(QWidget * parent) :
-        KTextEdit(parent)
+        QTextEdit(parent)
 {
-    connect(this, SIGNAL(aboutToShowContextMenu(QMenu*)), this, SLOT(slotFillNotesMenu(QMenu*)));
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, SIGNAL(customContextMenuRequested(const QPoint &)), SLOT(slotFillNotesMenu(const QPoint &)));
     setMouseTracking(true);
 }
 
-void NotesWidget::slotFillNotesMenu(QMenu *menu)
+void NotesWidget::slotFillNotesMenu(const QPoint &pos)
 {
+    QMenu *menu = createStandardContextMenu();
     QAction *a = new QAction(i18n("Insert current timecode"), menu);
     connect(a, SIGNAL(triggered(bool)), this, SIGNAL(insertNotesTimecode()));
     menu->insertAction(menu->actions().at(0), a);
+    menu->exec(viewport()->mapToGlobal(pos));
 }
 
 void NotesWidget::mouseMoveEvent( QMouseEvent * e )
@@ -47,17 +50,17 @@ void NotesWidget::mouseMoveEvent( QMouseEvent * e )
         viewport()->setCursor(Qt::IBeamCursor);
     else
         viewport()->setCursor(Qt::PointingHandCursor);
-    KTextEdit::mouseMoveEvent(e);
+    QTextEdit::mouseMoveEvent(e);
 }
 
 void NotesWidget::mousePressEvent( QMouseEvent * e )
 {
     QString anchor = anchorAt(e->pos());
     if (anchor.isEmpty()) {
-        KTextEdit::mousePressEvent(e);
+        QTextEdit::mousePressEvent(e);
         return;
     }
-    kDebug()<<"+++++++++\nCLICKED NACHOR: "<<anchor;
+    //qDebug()<<"+++++++++\nCLICKED NACHOR: "<<anchor;
     emit seekProject(anchor.toInt());
     e->setAccepted(true);
 }
@@ -69,4 +72,4 @@ NotesWidget::~NotesWidget()
 
 
 
-#include "noteswidget.moc"
+

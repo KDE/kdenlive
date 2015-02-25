@@ -17,14 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef __V4LCAPTUREHANDLER_H__
-#define __V4LCAPTUREHANDLER_H__
+#ifndef V4LCAPTURE_H
+#define V4LCAPTURE_H
 //#include "src.h"
 
-#include <QWidget>
-#include <QObject>
-#include <QLayout>
-#include <QLabel>
+#include <QStringList>
 
 
 class V4lCaptureHandler

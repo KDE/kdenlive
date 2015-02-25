@@ -18,7 +18,6 @@
 #ifndef COMPLEXPARAM_H
 #define COMPLEXPARAM_H
 
-#include <KIcon>
 
 #include "ui_keyframewidget_ui.h"
 

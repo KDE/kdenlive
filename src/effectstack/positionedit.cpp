@@ -20,7 +20,7 @@
 #include "timecodedisplay.h"
 #include "kdenlivesettings.h"
 
-#include <KDebug>
+#include <QDebug>
 
 #include <QLabel>
 #include <QSlider>
@@ -93,4 +93,4 @@ void PositionEdit::setRange(int min, int max, bool absolute)
     }
 }
 
-#include "positionedit.moc"
+

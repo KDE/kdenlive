@@ -22,12 +22,12 @@
 
 #include "kdenlivesettings.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KColorScheme>
-#include <KLocalizedString>
+#include "klocalizedstring.h"
 
 #include <QMouseEvent>
-#include <QStylePainter>
+#include <QPainter>
 
 #define SEEK_INACTIVE (-1)
 
@@ -304,8 +304,9 @@ void SmallRuler::updatePalette()
     KSharedConfigPtr config = KSharedConfig::openConfig(KdenliveSettings::colortheme());
     m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::FocusColor, config).brush(this).color();
     m_zoneColor.setAlpha(180);
+    m_cursorColor = palette().text();
     updatePixmap();
 }
 
-#include "smallruler.moc"
+
 

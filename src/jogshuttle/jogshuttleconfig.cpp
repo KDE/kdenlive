@@ -45,18 +45,18 @@ QStringList JogShuttleConfig::actionMap(const QString& actionsConfig)
   foreach (const QString& mapping, mappings) {
     QStringList parts = mapping.split(KEY_VALUE_SEP);
     if (parts.size() != 2) {
-      fprintf(stderr, "Invalid button configuration: %s", mapping.toAscii().constData());
+      fprintf(stderr, "Invalid button configuration: %s", mapping.toLatin1().constData());
       continue;
     }
     // skip the 'button' prefix
     int button_id = parts[0].mid(BUTTON_PREFIX.length()).toInt();
-    //fprintf(stderr, " - Handling map key='%s' (ID=%d), value='%s'\n", parts[0].data().toAscii(), button_id, parts[1].data().toAscii()); // DBG
+    //fprintf(stderr, " - Handling map key='%s' (ID=%d), value='%s'\n", parts[0].data().toLatin1(), button_id, parts[1].data().toLatin1()); // DBG
     while (actionMap.size() <= button_id)
         actionMap << QString();
     actionMap[button_id] = parts[1];
   }
   
-  //for (int i = 0; i < actionMap.size(); ++i) fprintf(stderr, "button #%d -> action '%s'\n", i, actionMap[i].data().toAscii());  //DBG
+  //for (int i = 0; i < actionMap.size(); ++i) fprintf(stderr, "button #%d -> action '%s'\n", i, actionMap[i].data().toLatin1());  //DBG
   return actionMap;
 }
 

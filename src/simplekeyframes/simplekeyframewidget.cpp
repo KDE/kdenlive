@@ -23,8 +23,8 @@
 #include <QToolButton>
 #include <QGridLayout>
 
-#include <KIcon>
-#include <KLocalizedString>
+#include <QIcon>
+#include <klocalizedstring.h>
 
 SimpleKeyframeWidget::SimpleKeyframeWidget(const Timecode &t, int duration, QWidget *parent) :
         QWidget(parent)
@@ -38,17 +38,17 @@ SimpleKeyframeWidget::SimpleKeyframeWidget(const Timecode &t, int duration, QWid
 
     m_buttonAddDelete = new QToolButton(this);
     m_buttonAddDelete->setAutoRaise(true);
-    m_buttonAddDelete->setIcon(KIcon("document-new"));
+    m_buttonAddDelete->setIcon(QIcon::fromTheme("document-new"));
     m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
 
     m_buttonPrevious = new QToolButton(this);
     m_buttonPrevious->setAutoRaise(true);
-    m_buttonPrevious->setIcon(KIcon("media-skip-backward"));
+    m_buttonPrevious->setIcon(QIcon::fromTheme("media-skip-backward"));
     m_buttonPrevious->setToolTip(i18n("Go to previous keyframe"));
 
     m_buttonNext = new QToolButton(this);
     m_buttonNext->setAutoRaise(true);
-    m_buttonNext->setIcon(KIcon("media-skip-forward"));
+    m_buttonNext->setIcon(QIcon::fromTheme("media-skip-forward"));
     m_buttonNext->setToolTip(i18n("Go to next keyframe"));
 
     m_time = new TimecodeDisplay(t, this);
@@ -125,12 +125,12 @@ void SimpleKeyframeWidget::updateTimecodeFormat()
 void SimpleKeyframeWidget::slotAtKeyframe(bool atKeyframe)
 {
     if (atKeyframe) {
-        m_buttonAddDelete->setIcon(KIcon("edit-delete"));
+        m_buttonAddDelete->setIcon(QIcon::fromTheme("edit-delete"));
         m_buttonAddDelete->setToolTip(i18n("Delete keyframe"));
     } else {
-        m_buttonAddDelete->setIcon(KIcon("document-new"));
+        m_buttonAddDelete->setIcon(QIcon::fromTheme("document-new"));
         m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
     }
 }
 
-#include "simplekeyframewidget.moc"
+

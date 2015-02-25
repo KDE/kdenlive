@@ -174,7 +174,7 @@ private slots:
     void slotSetCurrentEffect(int ix);
     
     /** @brief Triggers a filter job on this clip. */
-    void slotStartFilterJob(const QString&filterName, const QString&filterParams, const QString&consumer, const QString&consumerParams, const QMap <QString, QString> &extraParams);
+    void slotStartFilterJob(QMap <QString, QString> &, QMap <QString, QString> &, QMap <QString, QString> &);
     
     /** @brief Reset an effect to its default values. */
     void slotResetEffect(int ix);
@@ -183,7 +183,7 @@ private slots:
     void slotCreateGroup(int ix);
     
     /** @brief Create a region effect with ix index. */
-    void slotCreateRegion(int ix, KUrl url);
+    void slotCreateRegion(int ix, QUrl url);
     
     /** @brief Move an effect.
       ** @param currentIndexes the list of effect indexes to move in stack layout
@@ -230,7 +230,7 @@ signals:
     void updateClipRegion(ClipItem*, int, const QString&);
     void displayMessage(const QString&, int);
     void showComments(bool show);
-    void startFilterJob(const ItemInfo &info, const QString &clipId, const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QMap<QString, QString> &extraParams);
+    void startFilterJob(const ItemInfo &info, const QString &clipId, QMap<QString, QString>&, QMap<QString, QString>&, QMap<QString, QString>&);
     void addEffect(ClipItem*,const QDomElement &);
     void importClipKeyframes(GraphicsRectItem = AVWidget);
 };

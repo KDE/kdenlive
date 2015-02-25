@@ -23,7 +23,7 @@
 #include "timelinecommands.h"
 #include "customtrackview.h"
 
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 
 AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &effect, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
@@ -392,41 +392,6 @@ void EditGuideCommand::redo()
 {
     if (m_doIt) {
         m_view->editGuide(m_oldPos, m_pos, m_comment);
-    }
-    m_doIt = true;
-}
-
-EditKeyFrameCommand::EditKeyFrameCommand(CustomTrackView *view, const int track, const GenTime &pos, const int effectIndex, const QString& oldkeyframes, const QString& newkeyframes, bool doIt) :
-    QUndoCommand(),
-    m_view(view),
-    m_oldkfr(oldkeyframes),
-    m_newkfr(newkeyframes),
-    m_track(track),
-    m_index(effectIndex),
-    m_pos(pos),
-    m_doIt(doIt)
-{
-    int prev = m_oldkfr.split(QLatin1Char(';'), QString::SkipEmptyParts).count();
-    int next = m_newkfr.split(QLatin1Char(';'), QString::SkipEmptyParts).count();
-    if (prev == next)
-        setText(i18n("Edit keyframe"));
-    else if (prev > next)
-        setText(i18n("Delete keyframe"));
-    else
-        setText(i18n("Add keyframe"));
-    //kDebug() << "///  CREATE GUIDE COMMAND, TIMES: " << m_oldPos.frames(25) << 'x' << m_pos.frames(25);
-}
-// virtual
-void EditKeyFrameCommand::undo()
-{
-    m_view->editKeyFrame(m_pos, m_track, m_index, m_oldkfr);
-    m_doIt = true;
-}
-// virtual
-void EditKeyFrameCommand::redo()
-{
-    if (m_doIt) {
-        m_view->editKeyFrame(m_pos, m_track, m_index, m_newkfr);
     }
     m_doIt = true;
 }

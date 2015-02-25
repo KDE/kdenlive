@@ -28,12 +28,10 @@
 #include "doc/kthumb.h"
 #include "doc/docclipbase.h"
 #include "dialogs/profilesdialog.h"
-#ifdef USE_QJSON
 #include "onmonitoritems/rotoscoping/rotowidget.h"
-#endif
 
-#include <KDebug>
-#include <KIcon>
+#include <QDebug>
+#include <QIcon>
 
 #include <QPainter>
 #include <QTimer>
@@ -76,8 +74,8 @@ ClipItem::ClipItem(DocClipBase *clip, const ItemInfo& info, double fps, double s
     m_speedIndependantInfo.cropStart = GenTime((int)(m_info.cropStart.frames(m_fps) * qAbs(m_speed)), m_fps);
     m_speedIndependantInfo.cropDuration = GenTime((int)(m_info.cropDuration.frames(m_fps) * qAbs(m_speed)), m_fps);
 
-    m_videoPix = KIcon("kdenlive-show-video").pixmap(QSize(16, 16));
-    m_audioPix = KIcon("kdenlive-show-audio").pixmap(QSize(16, 16));
+    m_videoPix = QIcon::fromTheme("kdenlive-show-video").pixmap(QSize(16, 16));
+    m_audioPix = QIcon::fromTheme("kdenlive-show-audio").pixmap(QSize(16, 16));
 
     if (m_speed == 1.0)
         m_clipName = m_clip->name();
@@ -146,7 +144,7 @@ ClipItem *ClipItem::clone(const ItemInfo &info) const
             duplicate->slotSetEndThumb(m_endPix);
         }
     }
-    //kDebug() << "// CLoning clip: " << (info.cropStart + (info.endPos - info.startPos)).frames(m_fps) << ", CURRENT end: " << (cropStart() + duration()).frames(m_fps);
+    ////qDebug() << "// CLoning clip: " << (info.cropStart + (info.endPos - info.startPos)).frames(m_fps) << ", CURRENT end: " << (cropStart() + duration()).frames(m_fps);
     duplicate->setEffectList(m_effectList);
     duplicate->setVideoOnly(m_videoOnly);
     duplicate->setAudioOnly(m_audioOnly);
@@ -847,7 +845,6 @@ void ClipItem::paint(QPainter *painter,
                 }
             }
             else {
-#if KDE_IS_VERSION(4,5,0)
                 if (m_clip && m_clip->thumbProducer()) {
                     QImage img;
                     QPen pen(Qt::white);
@@ -863,11 +860,10 @@ void ClipItem::paint(QPainter *painter,
                         painter->drawLine(xpos, xpos + QPointF(0, mapped.height()));
                     }
                     if (!missing.isEmpty()) {
-                        kDebug()<<"QUERYING PIXMAPS: "<<missing;
+                        //qDebug()<<"QUERYING PIXMAPS: "<<missing;
                         m_clip->thumbProducer()->queryIntraThumbs(missing);
                     }
                 }
-#endif
             }
         }
     }
@@ -880,7 +876,7 @@ void ClipItem::paint(QPainter *painter,
         double endpixel = exposed.right();
         if (endpixel < 0)
             endpixel = 0;
-        //kDebug()<<"///  REPAINTING AUDIO THMBS ZONE: "<<startpixel<<"x"<<endpixel;
+        ////qDebug()<<"///  REPAINTING AUDIO THMBS ZONE: "<<startpixel<<"x"<<endpixel;
 
         /*QPainterPath path = m_clipType == AV ? roundRectPathLower : resultClipPath;*/
         QRectF mappedRect;
@@ -1146,7 +1142,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
 {
     // Bail out, if caller provided invalid data
     if (channels <= 0) {
-        kWarning() << "Unable to draw image with " << channels << "number of channels";
+        qWarning() << "Unable to draw image with " << channels << "number of channels";
         return;
     }
     int factor = 64;
@@ -1154,7 +1150,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
         factor = m_clip->getProperty("audio_max").toInt();
     }
 
-    //kDebug() << "// PREP AUDIO THMB FRMO : scale:" << pixelForOneFrame<< ", from: " << startpixel << ", to: " << endpixel;
+    ////qDebug() << "// PREP AUDIO THMB FRMO : scale:" << pixelForOneFrame<< ", from: " << startpixel << ", to: " << endpixel;
     //if ( (!audioThumbWasDrawn || framePixelWidth!=pixelForOneFrame ) && !baseClip()->audioFrameChache.isEmpty()){
     bool fullAreaDraw = pixelForOneFrame < 10;
     bool simplifiedAudio = !KdenliveSettings::displayallchannels();
@@ -1347,8 +1343,10 @@ void ClipItem::resizeEnd(int posx, bool emitChange)
 {
     const int max = (startPos() - cropStart() + maxDuration()).frames(m_fps);
     if (posx > max && maxDuration() != GenTime()) posx = max;
-    if (posx == endPos().frames(m_fps)) return;
-    //kDebug() << "// NEW POS: " << posx << ", OLD END: " << endPos().frames(m_fps);
+    if (posx == endPos().frames(m_fps)) {
+        return;
+    }
+    ////qDebug() << "// NEW POS: " << posx << ", OLD END: " << endPos().frames(m_fps);
     const int previous = cropDuration().frames(m_fps);
     AbstractClipItem::resizeEnd(posx);
 
@@ -1379,7 +1377,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
         //if (parentItem()) return pos();
         if (property("resizingEnd").isValid()) return pos();
         QPointF newPos = value.toPointF();
-        //kDebug() << "/// MOVING CLIP ITEM.------------\n++++++++++";
+        ////qDebug() << "/// MOVING CLIP ITEM.------------\n++++++++++";
         int xpos = projectScene()->getSnapPointForPos((int) newPos.x(), KdenliveSettings::snaptopoints());
         xpos = qMax(xpos, 0);
         newPos.setX(xpos);
@@ -1398,15 +1396,16 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
         QRectF sceneShape = rect();
         sceneShape.translate(newPos);
         QList<QGraphicsItem*> items;
-        if (projectScene()->editMode() == NormalEdit)
+        if (projectScene()->editMode() == NormalEdit) {
             items = scene()->items(sceneShape, Qt::IntersectsItemShape);
+	}
         items.removeAll(this);
         bool forwardMove = newPos.x() > pos().x();
         if (!items.isEmpty()) {
             for (int i = 0; i < items.count(); ++i) {
                 if (!items.at(i)->isEnabled()) continue;
                 if (items.at(i)->type() == type()) {
-				    int offset = 0;
+		    int offset = 0;
                     // Collision!
                     QPointF otherPos = items.at(i)->pos();
                     if ((int) otherPos.y() != (int) pos().y()) {
@@ -1447,7 +1446,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
         }
         m_info.track = newTrack;
         m_info.startPos = GenTime((int) newPos.x(), m_fps);
-        //kDebug()<<"// ITEM NEW POS: "<<newPos.x()<<", mapped: "<<mapToScene(newPos.x(), 0).x();
+        ////qDebug()<<"// ITEM NEW POS: "<<newPos.x()<<", mapped: "<<mapToScene(newPos.x(), 0).x();
         return newPos;
     }
     if (change == ItemParentChange) {
@@ -1502,7 +1501,7 @@ QDomElement ClipItem::getEffectAtIndex(int ix) const
 
 void ClipItem::updateEffect(QDomElement effect)
 {
-    //kDebug() << "CHange EFFECT AT: " << ix << ", CURR: " << m_effectList.at(ix).attribute("tag") << ", NEW: " << effect.attribute("tag");
+    ////qDebug() << "CHange EFFECT AT: " << ix << ", CURR: " << m_effectList.at(ix).attribute("tag") << ", NEW: " << effect.attribute("tag");
     m_effectList.updateEffect(effect);
     m_effectNames = m_effectList.effectNames().join(" / ");
     QString id = effect.attribute("id");
@@ -1523,7 +1522,7 @@ void ClipItem::enableEffects(QList <int> indexes, bool disable)
 bool ClipItem::moveEffect(QDomElement effect, int ix)
 {
     if (ix <= 0 || ix > (m_effectList.count()) || effect.isNull()) {
-        kDebug() << "Invalid effect index: " << ix;
+        //qDebug() << "Invalid effect index: " << ix;
         return false;
     }
     m_effectList.removeAt(effect.attribute("kdenlive_ix").toInt());
@@ -2052,14 +2051,12 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
                 if (!effects.contains(i))
                     effects[i] = effect.cloneNode().toElement();
                 updateNormalKeyframes(param, oldInfo);
-#ifdef USE_QJSON
             } else if (type == "roto-spline") {
                 if (!effects.contains(i))
                     effects[i] = effect.cloneNode().toElement();
-                QString value = param.attribute("value");
+                QByteArray value = param.attribute("value").toLatin1();
                 if (adjustRotoDuration(&value, cropStart().frames(m_fps), (cropStart() + cropDuration()).frames(m_fps) - 1))
-                    param.setAttribute("value", value);
-#endif    
+                    param.setAttribute("value", QString(value));
             }
         }
     }
@@ -2178,5 +2175,5 @@ void ClipItem::slotGotThumbsCache()
 }
 
 
-#include "clipitem.moc"
+
 

@@ -32,7 +32,7 @@ class PropertiesViewDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    PropertiesViewDelegate(QWidget *parent)
+    explicit PropertiesViewDelegate(QWidget *parent)
         : QStyledItemDelegate(parent)
     {
         m_height = parent->fontMetrics().height() * 1.2;

@@ -23,8 +23,8 @@
 #include "kdenlivesettings.h"
 #include "definitions.h"
 
-#include <KDebug>
-#include <KGlobalSettings>
+#include <QDebug>
+#include <QFontDatabase>
 #include <KColorScheme>
 
 #include <QMouseEvent>
@@ -49,7 +49,7 @@ KeyframeHelper::KeyframeHelper(QWidget *parent) :
   , m_hoverKeyframe(-1)
   , m_seekPosition(SEEK_INACTIVE)
 {
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setMouseTracking(true);
     QPalette p = palette();
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
@@ -342,4 +342,4 @@ void KeyframeHelper::addGeometry(Mlt::Geometry *geom)
     m_extraGeometries.append(geom);
 }
 
-#include "keyframehelper.moc"
+

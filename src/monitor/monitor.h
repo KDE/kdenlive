@@ -34,7 +34,7 @@
 #include <QDomElement>
 #include <QToolBar>
 
-#include <KIcon>
+#include <QIcon>
 
 class SmallRuler;
 class DocClipBase;
@@ -45,13 +45,14 @@ class MonitorEditWidget;
 class Monitor;
 class MonitorManager;
 class QSlider;
+class TwostateAction;
 
 
 class Overlay : public QLabel
 {
     Q_OBJECT
 public:
-    Overlay(QWidget* parent = 0);
+    explicit Overlay(QWidget* parent = 0);
     void setOverlayText(const QString &, bool isZone = true);
 
 protected:
@@ -76,7 +77,7 @@ public:
     void setCustomProfile(const QString &profile, const Timecode &tc);
     void resetSize();
     void pause();
-    void setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL, QAction *loopClip = NULL);
+    void setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL, QAction *loopClip = NULL, QWidget* parent = NULL);
     const QString sceneList();
     DocClipBase *activeClip();
     GenTime position();
@@ -114,12 +115,6 @@ protected:
     void wheelEvent(QWheelEvent * event);
     void mouseMoveEvent(QMouseEvent *event);
     virtual QStringList mimeTypes() const;
-   
-    /*virtual void dragMoveEvent(QDragMoveEvent * event);
-    virtual Qt::DropActions supportedDropActions() const;*/
-
-    //virtual void resizeEvent(QResizeEvent * event);
-    //virtual void paintEvent(QPaintEvent * event);
 
 private:
     DocClipBase *m_currentClip;
@@ -127,10 +122,10 @@ private:
     Overlay *m_overlay;
     int m_length;
     bool m_dragStarted;
-    KIcon m_playIcon;
-    KIcon m_pauseIcon;
+    QIcon m_playIcon;
+    QIcon m_pauseIcon;
     TimecodeDisplay *m_timePos;
-    QAction *m_playAction;
+    TwostateAction *m_playAction;
     /** Has to be available so we can enable and disable it. */
     QAction *m_loopClipAction;
     QMenu *m_contextMenu;

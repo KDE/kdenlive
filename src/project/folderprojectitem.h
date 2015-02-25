@@ -24,7 +24,7 @@
 #include <QTreeWidgetItem>
 #include <QTreeWidget>
 
-#include <KDebug>
+#include <QDebug>
 
 #include "definitions.h"
 

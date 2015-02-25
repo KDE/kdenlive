@@ -29,16 +29,14 @@
 #include <QVBoxLayout>
 #include <QAction>
 #include <QToolButton>
-#include <QMouseEvent>
-
-#include <KIcon>
+#include <QIcon>
+#include "klocalizedstring.h"
 
 
 MonitorEditWidget::MonitorEditWidget(Render* renderer, QWidget* parent) :
         QWidget(parent)
 {
     setAutoFillBackground(true);
-    setAttribute(Qt::WA_PaintOnScreen, false);
     setAttribute(Qt::WA_OpaquePaintEvent, false);
     setContentsMargins(0, 0, 0, 0);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -57,18 +55,18 @@ MonitorEditWidget::MonitorEditWidget(Render* renderer, QWidget* parent) :
     m_customControlsLayout->setContentsMargins(0, 4, 0, 4);
     m_customControlsLayout->setSpacing(0);
 
-    m_visibilityAction = new QAction(KIcon("video-display"), i18n("Show/Hide edit mode"), this);
+    m_visibilityAction = new QAction(QIcon::fromTheme("video-display"), i18n("Show/Hide edit mode"), this);
     m_visibilityAction->setCheckable(true);
     m_visibilityAction->setChecked(KdenliveSettings::showOnMonitorScene());
     m_visibilityAction->setVisible(false);
 
-    m_ui.buttonDirectUpdate->setIcon(KIcon("transform-scale"));
+    m_ui.buttonDirectUpdate->setIcon(QIcon::fromTheme("transform-scale"));
     m_ui.buttonDirectUpdate->setToolTip(i18n("Update parameters while monitor scene changes"));
     m_ui.buttonDirectUpdate->setChecked(KdenliveSettings::monitorscene_directupdate());
 
-    m_ui.buttonZoomFit->setIcon(KIcon("zoom-fit-best"));
+    m_ui.buttonZoomFit->setIcon(QIcon::fromTheme("zoom-fit-best"));
     m_ui.buttonZoomFit->setToolTip(i18n("Fit zoom to monitor size"));
-    m_ui.buttonZoomOriginal->setIcon(KIcon("zoom-original"));
+    m_ui.buttonZoomOriginal->setIcon(QIcon::fromTheme("zoom-original"));
     m_ui.buttonZoomOriginal->setToolTip(i18n("Original size"));
 
     connect(m_ui.sliderZoom, SIGNAL(valueChanged(int)), m_scene, SLOT(slotZoom(int)));
@@ -146,4 +144,4 @@ void MonitorEditWidget::slotSetDirectUpdate(bool directUpdate)
     KdenliveSettings::setMonitorscene_directupdate(directUpdate);
 }
 
-#include "monitoreditwidget.moc"
+

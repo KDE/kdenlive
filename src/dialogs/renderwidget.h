@@ -21,10 +21,7 @@
 #ifndef RENDERWIDGET_H
 #define RENDERWIDGET_H
 
-#include <kdeversion.h>
-#if KDE_IS_VERSION(4,7,0)
 #include <KMessageWidget>
-#endif
 
 #include <QPushButton>
 #include <QPainter>
@@ -42,7 +39,7 @@ class RenderViewDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    RenderViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {}
+    explicit RenderViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {}
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index) const {
@@ -125,7 +122,7 @@ public:
     void reloadProfiles();
     void setRenderProfile(const QMap <QString, QString>& props);
     int waitingJobsCount() const;
-    QString getFreeScriptName(const KUrl &projectName = KUrl(), const QString &prefix = QString());
+    QString getFreeScriptName(const QUrl &projectName = QUrl(), const QString &prefix = QString());
     bool startWaitingRenderJobs();
     void missingClips(bool hasMissing);
     /** @brief Returns true if the export audio checkbox is set to automatic. */
@@ -150,7 +147,7 @@ public slots:
             const QString &scriptPath, bool exportAudio);
 
 private slots:
-    void slotUpdateButtons(const KUrl &url);
+    void slotUpdateButtons(const QUrl &url);
     void slotUpdateButtons();
     void refreshView(const QString &profile = QString());
     void refreshCategory(const QString &group = QString(), const QString &profile = QString());
@@ -195,15 +192,12 @@ private:
     RenderViewDelegate *m_jobsDelegate;
     bool m_blockProcessing;
     QString m_renderer;
-
-#if KDE_IS_VERSION(4,7,0)
     KMessageWidget *m_infoMessage;
-#endif
 
     void parseProfiles(const QString &meta = QString(), const QString &group = QString(), const QString &profile = QString());
     void parseFile(const QString &exportFile, bool editable);
     void updateButtons();
-    KUrl filenameWithExtension(KUrl url, const QString &extension);
+    QUrl filenameWithExtension(QUrl url, const QString &extension);
     /** @brief Check if a job needs to be started. */
     void checkRenderStatus();
     void startRendering(RenderJobItem *item);

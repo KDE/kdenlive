@@ -192,18 +192,10 @@ void OnMonitorRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
                 if (p - pos() != QPointF()) {
                     if (diffWidth > diffHeight) {
                         if (m_mode != ResizeBottomLeft)
-#if QT_VERSION >= 0x040600
                             setY(p.y() - r.height() + rect().normalized().height());
-#else
-                            setPos(x(), p.y() - r.height() + rect().normalized().height());
-#endif
                     } else {
                         if (m_mode != ResizeTopRight)
-#if QT_VERSION >= 0x040600
                             setX(p.x() - r.width() + rect().normalized().width());
-#else
-                            setPos(p.x() - r.width() + rect().normalized().width(), y());
-#endif
                     }
                 }
             }
@@ -300,4 +292,4 @@ bool OnMonitorRectItem::getView()
     }
 }
 
-#include "onmonitorrectitem.moc"
+

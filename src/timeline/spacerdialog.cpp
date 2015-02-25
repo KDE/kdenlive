@@ -24,14 +24,16 @@
 #include "kdenlivesettings.h"
 
 #include <QWheelEvent>
-#include <KDebug>
+#include <QDebug>
+#include <QFontDatabase>
 
+#include "klocalizedstring.h"
 
 SpacerDialog::SpacerDialog(const GenTime &duration, const Timecode &tc, int track, const QList<TrackInfo> &tracks, QWidget * parent) :
     QDialog(parent),
     m_in(tc)
 {
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     inputLayout->addWidget(&m_in);
     m_in.setValue(duration);
@@ -60,6 +62,6 @@ int SpacerDialog::selectedTrack() const
     return track_number->currentIndex() - 1;
 }
 
-#include "spacerdialog.moc"
+
 
 

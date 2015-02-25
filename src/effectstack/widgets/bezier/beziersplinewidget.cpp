@@ -23,8 +23,9 @@
 
 #include <QVBoxLayout>
 
-#include <KIcon>
-#include <KLocalizedString>
+#include <QIcon>
+#include <QLabel>
+#include <klocalizedstring.h>
 
 
 BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
@@ -38,13 +39,13 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     m_ui.setupUi(widget);
     layout->addWidget(widget);
 
-    m_ui.buttonLinkHandles->setIcon(KIcon(QLatin1String("insert-link")));
-    m_ui.buttonZoomIn->setIcon(KIcon(QLatin1String("zoom-in")));
-    m_ui.buttonZoomOut->setIcon(KIcon(QLatin1String("zoom-out")));
-    m_ui.buttonGridChange->setIcon(KIcon(QLatin1String("view-grid")));
+    m_ui.buttonLinkHandles->setIcon(QIcon::fromTheme(QLatin1String("insert-link")));
+    m_ui.buttonZoomIn->setIcon(QIcon::fromTheme(QLatin1String("zoom-in")));
+    m_ui.buttonZoomOut->setIcon(QIcon::fromTheme(QLatin1String("zoom-out")));
+    m_ui.buttonGridChange->setIcon(QIcon::fromTheme(QLatin1String("view-grid")));
     m_ui.buttonShowPixmap->setIcon(QIcon(QPixmap::fromImage(ColorTools::rgbCurvePlane(QSize(16, 16), ColorTools::COL_Luma, 0.8))));
-    m_ui.buttonResetSpline->setIcon(KIcon(QLatin1String("view-refresh")));
-    m_ui.buttonShowAllHandles->setIcon(KIcon(QLatin1String("draw-bezier-curves")));
+    m_ui.buttonResetSpline->setIcon(QIcon::fromTheme(QLatin1String("view-refresh")));
+    m_ui.buttonShowAllHandles->setIcon(QIcon::fromTheme(QLatin1String("draw-bezier-curves")));
     m_ui.widgetPoint->setEnabled(false);
 
     m_pX = new DragValue(i18n("In"), 0, 3, 0, 1, -1, QString(), false, this);
@@ -212,4 +213,4 @@ void BezierSplineWidget::slotShowAllHandles(bool show)
     KdenliveSettings::setBezier_showallhandles(show);
 }
 
-#include "beziersplinewidget.moc"
+

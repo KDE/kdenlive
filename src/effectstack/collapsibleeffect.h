@@ -27,7 +27,6 @@
 
 
 #include <QDomElement>
-#include <QToolButton>
 
 class QLabel;
 
@@ -130,13 +129,13 @@ signals:
     void checkMonitorPosition(int);
     void seekTimeline(int);
     /** @brief Start an MLT filter job on this clip. */
-    void startFilterJob(const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QMap <QString, QString> &extraParams);
+    void startFilterJob(QMap<QString,QString>&, QMap<QString,QString>&,QMap <QString, QString>&);
     /** @brief An effect was reset, trigger param reload. */
     void resetEffect(int ix);
     /** @brief Ask for creation of a group. */
     void createGroup(int ix);
     void unGroup(CollapsibleEffect *);
-    void createRegion(int, const KUrl&);
+    void createRegion(int, const QUrl&);
     void deleteGroup(const QDomDocument&);
     void importClipKeyframes();
 };

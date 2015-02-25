@@ -25,7 +25,6 @@ VideoSurface::VideoSurface(QWidget* parent) :
     QWidget(parent)
 {
     // MonitorRefresh is used as container for the SDL display (it's window id is passed to SDL)
-    setAttribute(Qt::WA_PaintOnScreen);
     setAttribute(Qt::WA_OpaquePaintEvent);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     setAttribute(Qt::WA_NoSystemBackground);

@@ -16,7 +16,7 @@
 #include <QWidget>
 #include <QSemaphore>
 #include <QFuture>
-class QMenu;
+#include <QMenu>
 /**
   \brief Abstract class for audio/colour scopes (receive data and paint it).
 

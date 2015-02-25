@@ -30,7 +30,6 @@
 
 #include <QString>
 #include <QGraphicsRectItem>
-#include <QPixmap>
 #include <QDomElement>
 #include <QMap>
 

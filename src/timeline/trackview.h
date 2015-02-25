@@ -31,13 +31,10 @@
 #include "ui_timeline_ui.h"
 #include "definitions.h"
 
-#include <QScrollArea>
-#include <QGroupBox>
 #include <QGraphicsScene>
 #include <QGraphicsLineItem>
 #include <QDomElement>
 
-#include <KRuler>
 
 class ClipItem;
 class CustomTrackView;

@@ -30,15 +30,16 @@
 #include <QLabel>
 #include <QProgressBar>
 #include <QWheelEvent>
+#include <QMimeData>
+#include <QFontDatabase>
+#include <QFileDialog>
+#include <QDebug>
+#include <QStandardPaths>
 
-#include <KDebug>
+#include <KRecentDirs>
 #include <KComboBox>
-#include <KGlobalSettings>
-#include <KLocalizedString>
+#include <klocalizedstring.h>
 #include <KMessageBox>
-#include <KStandardDirs>
-#include <KFileDialog>
-#include <KApplication>
 
 
 CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent) :
@@ -55,72 +56,72 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     }
     filterWheelEvent = true;
     m_info.fromString(effect.attribute("kdenlive_info"));
-    setFont(KGlobalSettings::smallestReadableFont());
-    buttonUp->setIcon(KIcon("kdenlive-up"));
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    buttonUp->setIcon(QIcon::fromTheme("kdenlive-up"));
     buttonUp->setToolTip(i18n("Move effect up"));
     if (!lastEffect) {
-        buttonDown->setIcon(KIcon("kdenlive-down"));
+        buttonDown->setIcon(QIcon::fromTheme("kdenlive-down"));
         buttonDown->setToolTip(i18n("Move effect down"));
     }
-    buttonDel->setIcon(KIcon("kdenlive-deleffect"));
+    buttonDel->setIcon(QIcon::fromTheme("kdenlive-deleffect"));
     buttonDel->setToolTip(i18n("Delete effect"));
     if (effectIndex() == 1) buttonUp->setVisible(false);
     if (m_lastEffect) buttonDown->setVisible(false);
     //buttonUp->setVisible(false);
     //buttonDown->setVisible(false);
     
-    /*buttonReset->setIcon(KIcon("view-refresh"));
+    /*buttonReset->setIcon(QIcon::fromTheme("view-refresh"));
     buttonReset->setToolTip(i18n("Reset effect"));*/
     //checkAll->setToolTip(i18n("Enable/Disable all effects"));
-    //buttonShowComments->setIcon(KIcon("help-about"));
+    //buttonShowComments->setIcon(QIcon::fromTheme("help-about"));
     //buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
     m_menu = new QMenu;
-    m_menu->addAction(KIcon("view-refresh"), i18n("Reset Effect"), this, SLOT(slotResetEffect()));
-    m_menu->addAction(KIcon("document-save"), i18n("Save Effect"), this, SLOT(slotSaveEffect()));
+    m_menu->addAction(QIcon::fromTheme("view-refresh"), i18n("Reset Effect"), this, SLOT(slotResetEffect()));
+    m_menu->addAction(QIcon::fromTheme("document-save"), i18n("Save Effect"), this, SLOT(slotSaveEffect()));
     
     QHBoxLayout *l = static_cast <QHBoxLayout *>(frame->layout());
     title = new QLabel(this);
     l->insertWidget(2, title);
     
-    m_groupAction = new QAction(KIcon("folder-new"), i18n("Create Group"), this);
+    m_groupAction = new QAction(QIcon::fromTheme("folder-new"), i18n("Create Group"), this);
     connect(m_groupAction, SIGNAL(triggered(bool)), this, SLOT(slotCreateGroup()));
     
     QDomElement namenode = m_effect.firstChildElement("name");
     if (namenode.isNull()) {
         // Warning, broken effect?
-        kDebug()<<"// Could not create effect";
+        //qDebug()<<"// Could not create effect";
         return;
     }
     QString effectname = i18n(namenode.text().toUtf8().data());
-    if (m_regionEffect) effectname.append(':' + KUrl(EffectsList::parameter(m_effect, "resource")).fileName());
+    if (m_regionEffect) effectname.append(':' + QUrl(EffectsList::parameter(m_effect, "resource")).fileName());
     title->setText(effectname);
     /*
      * Do not show icon, makes too much visual noise
     QString type = m_effect.attribute("type", QString());
     KIcon icon;
-    if (type == "audio") icon = KIcon("kdenlive-show-audio");
-    else if (m_effect.attribute("tag") == "region") icon = KIcon("kdenlive-mask-effect");
-    else if (type == "custom") icon = KIcon("kdenlive-custom-effect");
-    else icon = KIcon("kdenlive-show-video");
+    if (type == "audio") icon = QIcon::fromTheme("kdenlive-show-audio");
+    else if (m_effect.attribute("tag") == "region") icon = QIcon::fromTheme("kdenlive-mask-effect");
+    else if (type == "custom") icon = QIcon::fromTheme("kdenlive-custom-effect");
+    else icon = QIcon::fromTheme("kdenlive-show-video");
     effecticon->setPixmap(icon.pixmap(16,16));*/
 
     if (!m_regionEffect) {
         if (m_info.groupIndex == -1) m_menu->addAction(m_groupAction);
-        m_menu->addAction(KIcon("folder-new"), i18n("Create Region"), this, SLOT(slotCreateRegion()));
+        m_menu->addAction(QIcon::fromTheme("folder-new"), i18n("Create Region"), this, SLOT(slotCreateRegion()));
     }
     setupWidget(info, metaInfo);
     setAcceptDrops(true);
-    menuButton->setIcon(KIcon("kdenlive-menu"));
+    menuButton->setIcon(QIcon::fromTheme("kdenlive-menu"));
     menuButton->setMenu(m_menu);
     
     if (m_effect.attribute("disable") == "1") {
         title->setEnabled(false);
         enabledButton->setChecked(true);
-        enabledButton->setIcon(KIcon("layer-visible-off"));
+        enabledButton->setIcon(QIcon::fromTheme("layer-visible-off"));
     }
     else {
         enabledButton->setChecked(false);
-        enabledButton->setIcon(KIcon("layer-visible-on"));
+        enabledButton->setIcon(QIcon::fromTheme("layer-visible-on"));
     }
 
     connect(collapseButton, SIGNAL(clicked()), this, SLOT(slotSwitch()));
@@ -156,14 +157,15 @@ void CollapsibleEffect::slotCreateGroup()
 
 void CollapsibleEffect::slotCreateRegion()
 {
-    QString allExtensions = ProjectList::getExtensions();
+    QString allExtensions = ProjectList::getExtensions().join(" ");
     const QString dialogFilter = allExtensions + ' ' + QLatin1Char('|') + i18n("All Supported Files") + "\n* " + QLatin1Char('|') + i18n("All Files");
-    QPointer<KFileDialog> d = new KFileDialog(KUrl("kfiledialog:///clipfolder"), dialogFilter, kapp->activeWindow());
-    d->setOperationMode(KFileDialog::Opening);
-    d->setMode(KFile::File);
-    if (d->exec() == QDialog::Accepted) {
-        KUrl url = d->selectedUrl();
-        if (!url.isEmpty()) emit createRegion(effectIndex(), url);
+    QString clipFolder = KRecentDirs::dir(":KdenliveClipFolder");
+    if (clipFolder.isEmpty()) clipFolder = QDir::homePath();
+    QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), QString(), clipFolder, dialogFilter);
+    d->setFileMode(QFileDialog::ExistingFile);
+    if (d->exec() == QDialog::Accepted && !d->selectedUrls().isEmpty()) {
+        KRecentDirs::add(":KdenliveClipFolder", d->selectedUrls().first().adjusted(QUrl::RemoveFilename).path());
+        emit createRegion(effectIndex(), d->selectedUrls().first());
     }
     delete d;
 }
@@ -263,7 +265,7 @@ void CollapsibleEffect::slotDisable(bool disable, bool emitInfo)
     enabledButton->blockSignals(true);
     enabledButton->setChecked(disable);
     enabledButton->blockSignals(false);
-    enabledButton->setIcon(disable ? KIcon("layer-visible-off") : KIcon("layer-visible-on"));
+    enabledButton->setIcon(disable ? QIcon::fromTheme("layer-visible-off") : QIcon::fromTheme("layer-visible-on"));
     m_effect.setAttribute("disable", disable ? 1 : 0);
     if (!disable || KdenliveSettings::disable_effect_parameters()) {
         widgetFrame->setEnabled(!disable);
@@ -290,7 +292,7 @@ void CollapsibleEffect::slotSaveEffect()
 {
     QString name = QInputDialog::getText(this, i18n("Save Effect"), i18n("Name for saved effect: "));
     if (name.isEmpty()) return;
-    QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
+    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects";
     path = path + name + ".xml";
     if (QFile::exists(path)) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path)) == KMessageBox::No) return;
 
@@ -416,7 +418,7 @@ void CollapsibleEffect::updateWidget(const ItemInfo &info, const QDomElement &ef
 void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaInfo)
 {
     if (m_effect.isNull()) {
-        //         kDebug() << "// EMPTY EFFECT STACK";
+        //         //qDebug() << "// EMPTY EFFECT STACK";
         return;
     }
 
@@ -456,7 +458,7 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
     }
     connect (m_paramWidget, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this, SIGNAL(parameterChanged(QDomElement,QDomElement,int)));
     
-    connect(m_paramWidget, SIGNAL(startFilterJob(QString,QString,QString,QString,QMap<QString,QString>)), this, SIGNAL(startFilterJob(QString,QString,QString,QString,QMap<QString,QString>)));
+    connect(m_paramWidget, SIGNAL(startFilterJob(QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)), this, SIGNAL(startFilterJob(QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)));
     
     connect (this, SIGNAL(syncEffectsPos(int)), m_paramWidget, SIGNAL(syncEffectsPos(int)));
     connect (m_paramWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
@@ -472,7 +474,7 @@ void CollapsibleEffect::slotDisableEffect(bool disable)
     enabledButton->blockSignals(true);
     enabledButton->setChecked(disable);
     enabledButton->blockSignals(false);
-    enabledButton->setIcon(disable ? KIcon("layer-visible-off") : KIcon("layer-visible-on"));
+    enabledButton->setIcon(disable ? QIcon::fromTheme("layer-visible-off") : QIcon::fromTheme("layer-visible-on"));
     m_effect.setAttribute("disable", disable ? 1 : 0);
     emit effectStateChanged(disable, effectIndex(), isActive() && needsMonitorEffectScene());
 }
@@ -494,7 +496,7 @@ void CollapsibleEffect::updateTimecodeFormat()
 
 void CollapsibleEffect::slotUpdateRegionEffectParams(const QDomElement /*old*/, const QDomElement /*e*/, int /*ix*/)
 {
-    kDebug()<<"// EMIT CHANGE SUBEFFECT.....:";
+    //qDebug()<<"// EMIT CHANGE SUBEFFECT.....:";
     emit parameterChanged(m_original_effect, m_effect, effectIndex());
 }
 
@@ -608,4 +610,4 @@ void CollapsibleEffect::setKeyframes(const QString &data, int maximum)
 }
 
 
-#include "collapsibleeffect.moc"
+

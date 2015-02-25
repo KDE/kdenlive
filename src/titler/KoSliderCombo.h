@@ -20,7 +20,7 @@
 #ifndef KOSLIDERCOMBO_H_
 #define KOSLIDERCOMBO_H_
 
-#include <KComboBox>
+#include <QComboBox>
 
 
 /**
@@ -37,7 +37,7 @@
  *
  * The input of the numerical line edit is constrained to numbers and decimal signs.
  */
-class KoSliderCombo : public KComboBox
+class KoSliderCombo : public QComboBox
 {
 
     Q_OBJECT

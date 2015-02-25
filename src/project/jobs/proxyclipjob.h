@@ -21,7 +21,6 @@
 #ifndef PROXYCLIPJOB
 #define PROXYCLIPJOB
 
-#include <QObject>
 #include "abstractclipjob.h"
 
 

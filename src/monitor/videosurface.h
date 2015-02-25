@@ -27,7 +27,7 @@ class VideoSurface : public QWidget
 {
     Q_OBJECT
 public:
-    VideoSurface(QWidget *parent = 0);
+    explicit VideoSurface(QWidget *parent = 0);
 
 signals:
     void refreshMonitor();

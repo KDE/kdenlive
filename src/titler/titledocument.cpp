@@ -20,14 +20,14 @@
 #include "kdenlivesettings.h"
 #include "timecode.h"
 
-#include <KDebug>
-#include <KTemporaryFile>
-#include <kio/netaccess.h>
-#include <KApplication>
-#include <KStandardDirs>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KIO/FileCopyJob>
 
+#include <QDebug>
+#include <QTemporaryFile>
+#include <QDir>
+#include <QApplication>
 #include <QGraphicsScene>
 #include <QDomElement>
 #include <QGraphicsItem>
@@ -39,14 +39,11 @@
 #include <QFontInfo>
 #include <QFile>
 #include <QTextCursor>
-
 #include <locale.h>
 
-#if QT_VERSION >= 0x040600
 #include <QGraphicsEffect>
 #include <QGraphicsBlurEffect>
 #include <QGraphicsDropShadowEffect>
-#endif
 
 QByteArray fileToByteArray(const QString& filename)
 {
@@ -110,11 +107,12 @@ int TitleDocument::base64ToUrl(QGraphicsItem* item, QDomElement& content, bool e
 //static
 const QString TitleDocument::extractBase64Image(const QString &titlePath, const QString &data)
 {
-    QString filename = titlePath + QString(QCryptographicHash::hash(data.toAscii(), QCryptographicHash::Md5).toHex().append(".titlepart"));
-    KStandardDirs::makeDir(titlePath);
+    QString filename = titlePath + QString(QCryptographicHash::hash(data.toLatin1(), QCryptographicHash::Md5).toHex().append(".titlepart"));
+    QDir dir;
+    dir.mkpath(titlePath);
     QFile f(filename);
     if (f.open(QIODevice::WriteOnly)) {
-        f.write(QByteArray::fromBase64(data.toAscii())) ;
+        f.write(QByteArray::fromBase64(data.toLatin1())) ;
         f.close();
         return filename;
     }
@@ -225,7 +223,6 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
         e.setAttribute("z-index", item->zValue());
         pos.appendChild(tr);
 
-#if QT_VERSION >= 0x040600
         // effects
         QGraphicsEffect *eff = item->graphicsEffect();
         if (eff) {
@@ -246,7 +243,6 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             }*/
             e.appendChild(effect);
         }
-#endif
 
         e.appendChild(pos);
         e.appendChild(content);
@@ -289,7 +285,7 @@ QColor TitleDocument::getBackgroundColor() const
 }
 
 
-bool TitleDocument::saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int duration, bool embed)
+bool TitleDocument::saveDocument(const QUrl &url, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int duration, bool embed)
 {
     if (!m_scene)
         return false;
@@ -298,9 +294,9 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGr
     doc.documentElement().setAttribute("duration", duration);
     // keep some time for backwards compatibility (opening projects with older versions) - 26/12/12
     doc.documentElement().setAttribute("out", duration);
-    KTemporaryFile tmpfile;
+    QTemporaryFile tmpfile;
     if (!tmpfile.open()) {
-        kWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
+        qWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
         return false;
     }
     QFile xmlf(tmpfile.fileName());
@@ -312,7 +308,8 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGr
         return false;
     }
     xmlf.close();
-    return KIO::NetAccess::upload(tmpfile.fileName(), url, 0);
+    KIO::FileCopyJob *copyjob = KIO::file_copy(QUrl::fromLocalFile(tmpfile.fileName()), url);
+    return copyjob->exec();
 }
 
 int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int *duration, const QString& projectpath)
@@ -324,7 +321,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
         int doc_width = doc.documentElement().attribute("width").toInt();
         int doc_height = doc.documentElement().attribute("height").toInt();
         if (doc_width != m_width || doc_height != m_height) {
-            KMessageBox::information(kapp->activeWindow(), i18n("This title clip was created with a different frame size."), i18n("Title Profile"));
+            KMessageBox::information(QApplication::activeWindow(), i18n("This title clip was created with a different frame size."), i18n("Title Profile"));
             //TODO: convert using QTransform
             m_width = doc_width;
             m_height = doc_height;
@@ -353,7 +350,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
         QDomNodeList items = titles.item(0).childNodes();
         for (int i = 0; i < items.count(); ++i) {
             QGraphicsItem *gitem = NULL;
-            kDebug() << items.item(i).attributes().namedItem("type").nodeValue();
+            //qDebug() << items.item(i).attributes().namedItem("type").nodeValue();
             int zValue = items.item(i).attributes().namedItem("z-index").nodeValue().toInt();
             if (zValue > -1000) {
                 if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsTextItem") {
@@ -373,7 +370,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                     font.setUnderline(txtProperties.namedItem("font-underline").nodeValue().toInt());
                     // Older Kdenlive version did not store pixel size but point size
                     if (txtProperties.namedItem("font-pixel-size").isNull()) {
-                        KMessageBox::information(kapp->activeWindow(), i18n("Some of your text clips were saved with size in points, which means different sizes on different displays. They will be converted to pixel size, making them portable, but you could have to adjust their size."), i18n("Text Clips Updated"));
+                        KMessageBox::information(QApplication::activeWindow(), i18n("Some of your text clips were saved with size in points, which means different sizes on different displays. They will be converted to pixel size, making them portable, but you could have to adjust their size."), i18n("Text Clips Updated"));
                         QFont f2;
                         f2.setPointSize(txtProperties.namedItem("font-size").nodeValue().toInt());
                         font.setPixelSize(QFontInfo(f2).pixelSize());
@@ -437,7 +434,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                     if (base64.isEmpty()) {
                         pix.load(url);
                     } else {
-                        pix.loadFromData(QByteArray::fromBase64(base64.toAscii()));
+                        pix.loadFromData(QByteArray::fromBase64(base64.toLatin1()));
                     }
                     QGraphicsPixmapItem *rec = m_scene->addPixmap(pix);
                     rec->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
@@ -454,7 +451,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                         rec = new QGraphicsSvgItem(url);
                     } else {
                         rec = new QGraphicsSvgItem();
-                        QSvgRenderer *renderer = new QSvgRenderer(QByteArray::fromBase64(base64.toAscii()), rec);
+                        QSvgRenderer *renderer = new QSvgRenderer(QByteArray::fromBase64(base64.toLatin1()), rec);
                         rec->setSharedRenderer(renderer);
                         //QString elem=rec->elementId();
                         //QRectF bounds = renderer->boundsOnElement(elem);
@@ -485,7 +482,6 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                 gitem->setZValue(zValue);
                 gitem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
-#if QT_VERSION >= 0x040600
                 // effects
                 QDomNode eff = items.item(i).namedItem("effect");
                 if (!eff.isNull()) {
@@ -501,11 +497,10 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                         gitem->setGraphicsEffect(shadow);
                     }
                 }
-#endif
             }
 
             if (items.item(i).nodeName() == "background") {
-                kDebug() << items.item(i).attributes().namedItem("color").nodeValue();
+                //qDebug() << items.item(i).attributes().namedItem("color").nodeValue();
                 QColor color = QColor(stringToColor(items.item(i).attributes().namedItem("color").nodeValue()));
                 //color.setAlpha(items.item(i).attributes().namedItem("alpha").nodeValue().toInt());
                 QList<QGraphicsItem *> items = m_scene->items();

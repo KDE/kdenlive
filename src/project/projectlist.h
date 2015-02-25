@@ -30,26 +30,16 @@
 #include "kdenlivesettings.h"
 #include "project/invaliddialog.h"
 
-#include <QDomNodeList>
 #include <QHash>
-#include <QToolBar>
 #include <QToolButton>
 #include <QTreeWidget>
-#include <QPainter>
 #include <QUndoStack>
-#include <QTimer>
-#include <QApplication>
 #include <QFuture>
 #include <QFutureSynchronizer>
-#include <QListWidget>
 #include <QTimeLine>
 #include <QPushButton>
 
 #include <KTreeWidgetSearchLine>
-#include <KUrl>
-#include <KIcon>
-#include <kdeversion.h>
-
 #ifdef NEPOMUK
 #include <nepomuk/kratingpainter.h>
 #include <nepomuk/resource.h>
@@ -60,27 +50,15 @@
 #include <nepomuk2/resource.h>
 #endif
 
-#if KDE_IS_VERSION(4,7,0)
 #include <KMessageWidget>
-#else
-// Dummy KMessageWidget to allow compilation of MyMessageWidget class since Qt's moc doesn work inside #ifdef
-#include <QLabel>
 
-class KMessageWidget: public QLabel
-{
-public:
-    KMessageWidget(QWidget * = 0) {};
-    KMessageWidget(const QString &, QWidget * = 0) {};
-    virtual ~KMessageWidget(){};
-};
-#endif
 
 class MyMessageWidget: public KMessageWidget
 {
     Q_OBJECT
 public:
-    MyMessageWidget(QWidget *parent = 0);
-    MyMessageWidget(const QString &text, QWidget *parent = 0);
+    explicit MyMessageWidget(QWidget *parent = 0);
+    explicit MyMessageWidget(const QString &text, QWidget *parent = 0);
 
 protected:
     bool event(QEvent* ev);
@@ -101,12 +79,13 @@ class KdenliveDoc;
 class DocClipBase;
 class AbstractClipJob;
 class ItemDelegate;
+class ClipPropertiesManager;
 
 class SmallInfoLabel: public QPushButton
 {
     Q_OBJECT
 public:
-    SmallInfoLabel(QWidget *parent = 0);
+    explicit SmallInfoLabel(QWidget *parent = 0);
     static const QString getStyleSheet(const QPalette &p);
 private:
     enum ItemRole {
@@ -130,7 +109,7 @@ class ProjectList : public QWidget
     Q_OBJECT
 
 public:
-    ProjectList(QWidget *parent = 0);
+    explicit ProjectList(QWidget *parent = 0);
     virtual ~ProjectList();
 
     QDomElement producersList();
@@ -157,7 +136,7 @@ public:
     void selectItemById(const QString &clipId);
 
     /** @brief Returns a string list of all supported mime extensions. */
-    static QString getExtensions();
+    static QStringList getExtensions();
     /** @brief Returns a list of urls containing original and proxy urls. */
     QMap <QString, QString> getProxies();
     /** @brief Enable / disable proxies. */
@@ -226,7 +205,7 @@ public slots:
     /** @brief Start transcoding selected clips. */
     void slotTranscodeClipJob(const QString &condition, QString params, QString desc);
     /** @brief Start an MLT process job. */
-    void slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QMap <QString, QString>&);
+    void slotStartFilterJob(const ItemInfo&, const QString&,QMap <QString, QString>&, QMap <QString, QString>&,QMap <QString, QString>&);
     void slotSetThumbnail(const QString &id, int framePos, QImage img);
     
 
@@ -273,12 +252,11 @@ private:
     SmallInfoLabel *m_infoLabel;
     /** @brief A list of strings containing the last error logs for clip jobs. */
     QStringList m_errorLog;
+    ClipPropertiesManager *m_clipPropertiesManager;
 
-#if KDE_IS_VERSION(4,7,0)
     MyMessageWidget *m_infoMessage;
     /** @brief The action that will trigger the log dialog. */
     QAction *m_logAction;
-#endif
     
     void requestClipThumbnail(const QString &id);
 
@@ -322,7 +300,7 @@ private:
     /** @brief Get the list of job names for current clip. */
     QStringList getPendingJobs(const QString &id);
     /** @brief Start an MLT process job. */
-    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description, stringMap extraParams = stringMap());
+    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QMap <QString, QString> producerParams, QMap <QString, QString> filterParams, QMap <QString, QString> consumerParams, const QString &description, stringMap extraParams = stringMap());
     /** @brief Create rounded shape pixmap for project tree thumb. */
     QPixmap roundedPixmap(const QImage &img);
     QPixmap roundedPixmap(const QPixmap &source);
@@ -404,8 +382,6 @@ signals:
     void clipSelected(DocClipBase *, const QPoint &zone = QPoint(), bool forceUpdate = false);
     void receivedClipDuration(const QString &);
     void firstClip(ProjectItem *);
-    void showClipProperties(DocClipBase *);
-    void showClipProperties(const QList <DocClipBase *>&, const QMap<QString, QString> &commonproperties);
     void projectModified();
     void loadingIsOver();
     void displayMessage(const QString&, int progress, MessageType type = DefaultMessage);

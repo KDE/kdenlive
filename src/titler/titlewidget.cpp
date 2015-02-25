@@ -18,38 +18,33 @@
 #include "titlewidget.h"
 #include "kdenlivesettings.h"
 #include "doc/kthumb.h"
-#include "titler/KoSliderCombo.h"
+#include "KoSliderCombo.h"
 
 #include <cmath>
 
-#include <KDebug>
-#include <KGlobalSettings>
-#include <KFileDialog>
-#include <KStandardDirs>
 #include <KMessageBox>
-#include <kio/netaccess.h>
-#include <kdeversion.h>
+#include <klocalizedstring.h>
 
+#include <QDebug>
+#include <QFontDatabase>
+#include <QFileDialog>
 #include <QDomDocument>
 #include <QGraphicsItem>
 #include <QGraphicsSvgItem>
 #include <QTimer>
 #include <QToolBar>
-#include <QMenu>
 #include <QSignalMapper>
 #include <QTextBlockFormat>
 #include <QTextCursor>
-#include <KComboBox>
 #include <QCryptographicHash>
 #include <QKeyEvent>
 
-#if QT_VERSION >= 0x040600
 #include <QGraphicsEffect>
 #include <QGraphicsBlurEffect>
 #include <QGraphicsDropShadowEffect>
-#endif
 
 #include <iostream>
+#include <QStandardPaths>
 
 static QList<TitleTemplate> titletemplates;
 
@@ -65,7 +60,7 @@ const int BLUREFFECT = 1;
 const int SHADOWEFFECT = 2;
 const int TYPEWRITEREFFECT = 3;
 
-TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &projectTitlePath, Render *render, QWidget *parent) :
+TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &projectTitlePath, Render *render, QWidget *parent) :
     QDialog(parent),
     Ui::TitleWidget_UI(),
     m_startViewport(NULL),
@@ -78,52 +73,50 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
 {
     setupUi(this);
     setMinimumSize(200, 200);
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     frame_properties->setEnabled(false);
     frame_properties->setFixedHeight(frame_toolbar->height());
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
 
-#if KDE_IS_VERSION(4,5,0)
     rectBColor->setAlphaChannelEnabled(true);
     rectFColor->setAlphaChannelEnabled(true);
     fontColorButton->setAlphaChannelEnabled(true);
     textOutlineColor->setAlphaChannelEnabled(true);
-#endif
 
     textOutline->setMinimum(0);
     textOutline->setMaximum(200);
-    textOutline->setDecimals(0);
+    //textOutline->setDecimals(0);
     textOutline->setValue(0);
     textOutline->setToolTip(i18n("Outline width"));
 
     backgroundAlpha->setMinimum(0);
     backgroundAlpha->setMaximum(255);
-    backgroundAlpha->setDecimals(0);
+   //backgroundAlpha->setDecimals(0);
     backgroundAlpha->setValue(0);
     backgroundAlpha->setToolTip(i18n("Background color opacity"));
 
     itemrotatex->setMinimum(-360);
     itemrotatex->setMaximum(360);
-    itemrotatex->setDecimals(0);
+    //itemrotatex->setDecimals(0);
     itemrotatex->setValue(0);
     itemrotatex->setToolTip(i18n("Rotation around the X axis"));
 
     itemrotatey->setMinimum(-360);
     itemrotatey->setMaximum(360);
-    itemrotatey->setDecimals(0);
+    //itemrotatey->setDecimals(0);
     itemrotatey->setValue(0);
     itemrotatey->setToolTip(i18n("Rotation around the Y axis"));
 
     itemrotatez->setMinimum(-360);
     itemrotatez->setMaximum(360);
-    itemrotatez->setDecimals(0);
+    //itemrotatez->setDecimals(0);
     itemrotatez->setValue(0);
     itemrotatez->setToolTip(i18n("Rotation around the Z axis"));
 
     rectLineWidth->setMinimum(0);
     rectLineWidth->setMaximum(100);
-    rectLineWidth->setDecimals(0);
+    //rectLineWidth->setDecimals(0);
     rectLineWidth->setValue(0);
     rectLineWidth->setToolTip(i18n("Border width"));
 
@@ -139,20 +132,20 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
     title_duration->setText(m_tc.reformatSeparators(KdenliveSettings::title_duration()));
 
     connect(backgroundColor, SIGNAL(changed(QColor)), this, SLOT(slotChangeBackground())) ;
-    connect(backgroundAlpha, SIGNAL(valueChanged(qreal,bool)), this, SLOT(slotChangeBackground())) ;
+    connect(backgroundAlpha, SIGNAL(valueChanged(int)), this, SLOT(slotChangeBackground())) ;
 
     connect(fontColorButton, SIGNAL(changed(QColor)), this, SLOT(slotUpdateText())) ;
     connect(textOutlineColor, SIGNAL(changed(QColor)), this, SLOT(slotUpdateText())) ;
     connect(font_family, SIGNAL(currentFontChanged(QFont)), this, SLOT(slotUpdateText())) ;
     connect(font_size, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText())) ;
-    connect(textOutline, SIGNAL(valueChanged(qreal,bool)), this, SLOT(slotUpdateText()));
+    connect(textOutline, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText()));
     connect(font_weight_box, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateText()));
 
     connect(font_family, SIGNAL(editTextChanged(QString)), this, SLOT(slotFontText(QString)));
 
     connect(rectFColor, SIGNAL(changed(QColor)), this, SLOT(rectChanged()));
     connect(rectBColor, SIGNAL(changed(QColor)), this, SLOT(rectChanged()));
-    connect(rectLineWidth, SIGNAL(valueChanged(qreal,bool)), this, SLOT(rectChanged()));
+    connect(rectLineWidth, SIGNAL(valueChanged(int)), this, SLOT(rectChanged()));
 
     // Fill effects
     effect_list->addItem(i18n("None"), NOEFFECT);
@@ -162,9 +155,9 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
 
     connect(zValue, SIGNAL(valueChanged(int)), this, SLOT(zIndexChanged(int)));
     connect(itemzoom, SIGNAL(valueChanged(int)), this, SLOT(itemScaled(int)));
-    connect(itemrotatex, SIGNAL(valueChanged(qreal,bool)), this, SLOT(itemRotateX(qreal)));
-    connect(itemrotatey, SIGNAL(valueChanged(qreal,bool)), this, SLOT(itemRotateY(qreal)));
-    connect(itemrotatez, SIGNAL(valueChanged(qreal,bool)), this, SLOT(itemRotateZ(qreal)));
+    connect(itemrotatex, SIGNAL(valueChanged(int)), this, SLOT(itemRotateX(int)));
+    connect(itemrotatey, SIGNAL(valueChanged(int)), this, SLOT(itemRotateY(int)));
+    connect(itemrotatez, SIGNAL(valueChanged(int)), this, SLOT(itemRotateZ(int)));
     connect(itemhcenter, SIGNAL(clicked()), this, SLOT(itemHCenter()));
     connect(itemvcenter, SIGNAL(clicked()), this, SLOT(itemVCenter()));
     connect(itemtop, SIGNAL(clicked()), this, SLOT(itemTop()));
@@ -230,39 +223,39 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
     buttonAlignRight->setIconSize(iconSize);
     buttonAlignNone->setIconSize(iconSize);
     
-    buttonFitZoom->setIcon(KIcon("zoom-fit-best"));
-    buttonRealSize->setIcon(KIcon("zoom-original"));
-    buttonItalic->setIcon(KIcon("format-text-italic"));
-    buttonUnder->setIcon(KIcon("format-text-underline"));
-    buttonAlignCenter->setIcon(KIcon("format-justify-center"));
-    buttonAlignLeft->setIcon(KIcon("format-justify-left"));
-    buttonAlignRight->setIcon(KIcon("format-justify-right"));
-    buttonAlignNone->setIcon(KIcon("kdenlive-align-none"));
+    buttonFitZoom->setIcon(QIcon::fromTheme("zoom-fit-best"));
+    buttonRealSize->setIcon(QIcon::fromTheme("zoom-original"));
+    buttonItalic->setIcon(QIcon::fromTheme("format-text-italic"));
+    buttonUnder->setIcon(QIcon::fromTheme("format-text-underline"));
+    buttonAlignCenter->setIcon(QIcon::fromTheme("format-justify-center"));
+    buttonAlignLeft->setIcon(QIcon::fromTheme("format-justify-left"));
+    buttonAlignRight->setIcon(QIcon::fromTheme("format-justify-right"));
+    buttonAlignNone->setIcon(QIcon::fromTheme("kdenlive-align-none"));
 
     buttonAlignNone->setToolTip(i18n("No alignment"));
     buttonAlignRight->setToolTip(i18n("Align right"));
     buttonAlignLeft->setToolTip(i18n("Align left"));
     buttonAlignCenter->setToolTip(i18n("Align center"));
 
-    m_unicodeAction = new QAction(KIcon("kdenlive-insert-unicode"), QString(), this);
+    m_unicodeAction = new QAction(QIcon::fromTheme("kdenlive-insert-unicode"), QString(), this);
     m_unicodeAction->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_U);
     m_unicodeAction->setToolTip(getTooltipWithShortcut(i18n("Insert Unicode character"), m_unicodeAction));
     connect(m_unicodeAction, SIGNAL(triggered()), this, SLOT(slotInsertUnicode()));
     buttonInsertUnicode->setDefaultAction(m_unicodeAction);
 
-    m_zUp = new QAction(KIcon("kdenlive-zindex-up"), QString(), this);
+    m_zUp = new QAction(QIcon::fromTheme("kdenlive-zindex-up"), QString(), this);
     m_zUp->setShortcut(Qt::Key_PageUp);
     m_zUp->setToolTip(i18n("Raise object"));
     connect(m_zUp, SIGNAL(triggered()), this, SLOT(slotZIndexUp()));
     zUp->setDefaultAction(m_zUp);
 
-    m_zDown = new QAction(KIcon("kdenlive-zindex-down"), QString(), this);
+    m_zDown = new QAction(QIcon::fromTheme("kdenlive-zindex-down"), QString(), this);
     m_zDown->setShortcut(Qt::Key_PageDown);
     m_zDown->setToolTip(i18n("Lower object"));
     connect(m_zDown, SIGNAL(triggered()), this, SLOT(slotZIndexDown()));
     zDown->setDefaultAction(m_zDown);
 
-    m_zTop = new QAction(KIcon("kdenlive-zindex-top"), QString(), this);
+    m_zTop = new QAction(QIcon::fromTheme("kdenlive-zindex-top"), QString(), this);
     // TODO mbt 1414: Shortcut should change z index only if
     // cursor is NOT in a text field ...
     //m_zTop->setShortcut(Qt::Key_Home);
@@ -270,37 +263,37 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
     connect(m_zTop, SIGNAL(triggered()), this, SLOT(slotZIndexTop()));
     zTop->setDefaultAction(m_zTop);
 
-    m_zBottom = new QAction(KIcon("kdenlive-zindex-bottom"), QString(), this);
+    m_zBottom = new QAction(QIcon::fromTheme("kdenlive-zindex-bottom"), QString(), this);
     // TODO mbt 1414
     //m_zBottom->setShortcut(Qt::Key_End);
     m_zBottom->setToolTip(i18n("Lower object to bottom"));
     connect(m_zBottom, SIGNAL(triggered()), this, SLOT(slotZIndexBottom()));
     zBottom->setDefaultAction(m_zBottom);
 
-    m_selectAll = new QAction(KIcon("kdenlive-select-all"), QString(), this);
+    m_selectAll = new QAction(QIcon::fromTheme("kdenlive-select-all"), QString(), this);
     m_selectAll->setShortcut(Qt::CTRL + Qt::Key_A);
     connect(m_selectAll, SIGNAL(triggered()), this, SLOT(slotSelectAll()));
     buttonSelectAll->setDefaultAction(m_selectAll);
 
-    m_selectText = new QAction(KIcon("kdenlive-select-texts"), QString(), this);
+    m_selectText = new QAction(QIcon::fromTheme("kdenlive-select-texts"), QString(), this);
     m_selectText->setShortcut(Qt::CTRL + Qt::Key_T);
     connect(m_selectText, SIGNAL(triggered()), this, SLOT(slotSelectText()));
     buttonSelectText->setDefaultAction(m_selectText);
     buttonSelectText->setEnabled(false);
 
-    m_selectRects = new QAction(KIcon("kdenlive-select-rects"), QString(), this);
+    m_selectRects = new QAction(QIcon::fromTheme("kdenlive-select-rects"), QString(), this);
     m_selectRects->setShortcut(Qt::CTRL + Qt::Key_R);
     connect(m_selectRects, SIGNAL(triggered()), this, SLOT(slotSelectRects()));
     buttonSelectRects->setDefaultAction(m_selectRects);
     buttonSelectRects->setEnabled(false);
 
-    m_selectImages = new QAction(KIcon("kdenlive-select-images"), QString(), this);
+    m_selectImages = new QAction(QIcon::fromTheme("kdenlive-select-images"), QString(), this);
     m_selectImages->setShortcut(Qt::CTRL + Qt::Key_I);
     connect(m_selectImages, SIGNAL(triggered()), this, SLOT(slotSelectImages()));
     buttonSelectImages->setDefaultAction(m_selectImages);
     buttonSelectImages->setEnabled(false);
 
-    m_unselectAll = new QAction(KIcon("kdenlive-unselect-all"), QString(), this);
+    m_unselectAll = new QAction(QIcon::fromTheme("kdenlive-unselect-all"), QString(), this);
     m_unselectAll->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_A);
     connect(m_unselectAll, SIGNAL(triggered()), this, SLOT(slotSelectNone()));
     buttonUnselectAll->setDefaultAction(m_unselectAll);
@@ -310,9 +303,9 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
     zTop->setIconSize(iconSize);
     zBottom->setIconSize(iconSize);
     
-    zDown->setIcon(KIcon("kdenlive-zindex-down"));
-    zTop->setIcon(KIcon("kdenlive-zindex-top"));
-    zBottom->setIcon(KIcon("kdenlive-zindex-bottom"));
+    zDown->setIcon(QIcon::fromTheme("kdenlive-zindex-down"));
+    zTop->setIcon(QIcon::fromTheme("kdenlive-zindex-top"));
+    zBottom->setIcon(QIcon::fromTheme("kdenlive-zindex-bottom"));
     connect(zDown, SIGNAL(clicked()), this, SLOT(slotZIndexDown()));
     connect(zTop, SIGNAL(clicked()), this, SLOT(slotZIndexTop()));
     connect(zBottom, SIGNAL(clicked()), this, SLOT(slotZIndexBottom()));
@@ -339,17 +332,17 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
     itemright->setIconSize(iconSize);
     itemleft->setIconSize(iconSize);
     
-    itemhcenter->setIcon(KIcon("kdenlive-align-hor"));
+    itemhcenter->setIcon(QIcon::fromTheme("kdenlive-align-hor"));
     itemhcenter->setToolTip(i18n("Align item horizontally"));
-    itemvcenter->setIcon(KIcon("kdenlive-align-vert"));
+    itemvcenter->setIcon(QIcon::fromTheme("kdenlive-align-vert"));
     itemvcenter->setToolTip(i18n("Align item vertically"));
-    itemtop->setIcon(KIcon("kdenlive-align-top"));
+    itemtop->setIcon(QIcon::fromTheme("kdenlive-align-top"));
     itemtop->setToolTip(i18n("Align item to top"));
-    itembottom->setIcon(KIcon("kdenlive-align-bottom"));
+    itembottom->setIcon(QIcon::fromTheme("kdenlive-align-bottom"));
     itembottom->setToolTip(i18n("Align item to bottom"));
-    itemright->setIcon(KIcon("kdenlive-align-right"));
+    itemright->setIcon(QIcon::fromTheme("kdenlive-align-right"));
     itemright->setToolTip(i18n("Align item to right"));
-    itemleft->setIcon(KIcon("kdenlive-align-left"));
+    itemleft->setIcon(QIcon::fromTheme("kdenlive-align-left"));
     itemleft->setToolTip(i18n("Align item to left"));
 
 
@@ -359,25 +352,25 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
     QToolBar *m_toolbar = new QToolBar("titleToolBar", this);
     m_toolbar->setIconSize(iconSize);
 
-    m_buttonCursor = m_toolbar->addAction(KIcon("transform-move"), i18n("Selection Tool"));
+    m_buttonCursor = m_toolbar->addAction(QIcon::fromTheme("transform-move"), i18n("Selection Tool"));
     m_buttonCursor->setCheckable(true);
     m_buttonCursor->setShortcut(Qt::ALT + Qt::Key_S);
     m_buttonCursor->setToolTip(i18n("Selection Tool") + ' ' + m_buttonCursor->shortcut().toString());
     connect(m_buttonCursor, SIGNAL(triggered()), this, SLOT(slotSelectTool()));
 
-    m_buttonText = m_toolbar->addAction(KIcon("insert-text"), i18n("Add Text"));
+    m_buttonText = m_toolbar->addAction(QIcon::fromTheme("insert-text"), i18n("Add Text"));
     m_buttonText->setCheckable(true);
     m_buttonText->setShortcut(Qt::ALT + Qt::Key_T);
     m_buttonText->setToolTip(i18n("Add Text") + ' ' + m_buttonText->shortcut().toString());
     connect(m_buttonText, SIGNAL(triggered()), this, SLOT(slotTextTool()));
 
-    m_buttonRect = m_toolbar->addAction(KIcon("kdenlive-insert-rect"), i18n("Add Rectangle"));
+    m_buttonRect = m_toolbar->addAction(QIcon::fromTheme("kdenlive-insert-rect"), i18n("Add Rectangle"));
     m_buttonRect->setCheckable(true);
     m_buttonRect->setShortcut(Qt::ALT + Qt::Key_R);
     m_buttonRect->setToolTip(i18n("Add Rectangle") + ' ' + m_buttonRect->shortcut().toString());
     connect(m_buttonRect, SIGNAL(triggered()), this, SLOT(slotRectTool()));
 
-    m_buttonImage = m_toolbar->addAction(KIcon("insert-image"), i18n("Add Image"));
+    m_buttonImage = m_toolbar->addAction(QIcon::fromTheme("insert-image"), i18n("Add Image"));
     m_buttonImage->setCheckable(false);
     m_buttonImage->setShortcut(Qt::ALT + Qt::Key_I);
     m_buttonImage->setToolTip(i18n("Add Image") + ' ' + m_buttonImage->shortcut().toString());
@@ -385,13 +378,13 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
 
     m_toolbar->addSeparator();
 
-    m_buttonLoad = m_toolbar->addAction(KIcon("document-open"), i18n("Open Document"));
+    m_buttonLoad = m_toolbar->addAction(QIcon::fromTheme("document-open"), i18n("Open Document"));
     m_buttonLoad->setCheckable(false);
     m_buttonLoad->setShortcut(Qt::CTRL + Qt::Key_O);
     m_buttonLoad->setToolTip(i18n("Open Document") + ' ' + m_buttonLoad->shortcut().toString());
     connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));
 
-    m_buttonSave = m_toolbar->addAction(KIcon("document-save-as"), i18n("Save As"));
+    m_buttonSave = m_toolbar->addAction(QIcon::fromTheme("document-save-as"), i18n("Save As"));
     m_buttonSave->setCheckable(false);
     m_buttonSave->setShortcut(Qt::CTRL + Qt::Key_S);
     m_buttonSave->setToolTip(i18n("Save As") + ' ' + m_buttonSave->shortcut().toString());
@@ -442,7 +435,7 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
 
     graphicsView->show();
     graphicsView->setInteractive(true);
-    kDebug() << "// TITLE WIDGWT: " << graphicsView->viewport()->width() << 'x' << graphicsView->viewport()->height();
+    //qDebug() << "// TITLE WIDGWT: " << graphicsView->viewport()->width() << 'x' << graphicsView->viewport()->height();
     m_startViewport = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
     // Setting data at -1 so that the item is recognized as undeletable by graphicsscenerectmove
     m_startViewport->setData(-1, -1);
@@ -455,7 +448,7 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
 
     // scale the view so that the title widget is not too big at startup
     graphicsView->scale(.5, .5);
-    if (!url.isEmpty()) {
+    if (url.isValid()) {
         loadTitle(url);
     } else {
         prepareTools(NULL);
@@ -475,7 +468,7 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
     foreach(const TitleTemplate &t, titletemplates) {
         templateBox->addItem(t.icon, t.name, t.file);
     }
-    lastDocumentHash = QCryptographicHash::hash(xml().toString().toAscii(), QCryptographicHash::Md5).toHex();
+    lastDocumentHash = QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex();
 }
 
 TitleWidget::~TitleWidget()
@@ -543,31 +536,30 @@ void TitleWidget::refreshTitleTemplates()
     QStringList filters;
     filters << "*.kdenlivetitle" ;
     titletemplates.clear();
-    QStringList titleTemplates = KGlobal::dirs()->findDirs("appdata", "titles");
-    foreach(const QString & folder, titleTemplates) {
-        QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
+    QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::DataLocation, "titles");
+    foreach(const QString & folderpath, titleTemplates) {
+         QDir folder(folderpath);
+        QStringList filesnames = folder.entryList(filters, QDir::Files);
         foreach(const QString & fname, filesnames) {
-            //titlenamelist.append(fname);
-            //titlefiles.append(KUrl(folder).path(KUrl::AddTrailingSlash) + fname);
             TitleTemplate t;
             t.name = fname;
-            t.file = KUrl(folder).path(KUrl::AddTrailingSlash) + fname;
-            t.icon = QIcon(KThumb::getImage(t.file, 0, 60, 60));
+            t.file = folder.absoluteFilePath(fname);
+            t.icon = QIcon(KThumb::getImage(QUrl::fromLocalFile(t.file), 0, 60, 60));
             titletemplates.append(t);
         }
     }
-    kDebug()  << titlenamelist << titlefiles;
+    //qDebug()  << titlenamelist << titlefiles;
 }
 
 void TitleWidget::templateIndexChanged(int index)
 {
     QString item = templateBox->itemData(index).toString();
     if (!item.isEmpty()) {
-        if (lastDocumentHash != QCryptographicHash::hash(xml().toString().toAscii(), QCryptographicHash::Md5).toHex()) {
+        if (lastDocumentHash != QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex()) {
             if (KMessageBox::questionYesNo(this, i18n("Do you really want to load a new template? Changes in this title will be lost!")) == KMessageBox::No)
                 return;
         }
-        loadTitle(item);
+        loadTitle(QUrl::fromLocalFile(item));
 
         // mbt 1607: Add property to distinguish between unchanged template titles and user titles.
         // Text of unchanged template titles should be selected when clicked.
@@ -581,7 +573,7 @@ void TitleWidget::templateIndexChanged(int index)
             }
 
         }
-        lastDocumentHash = QCryptographicHash::hash(xml().toString().toAscii(), QCryptographicHash::Md5).toHex();
+        lastDocumentHash = QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex();
     }
 }
 //virtual
@@ -656,8 +648,8 @@ void TitleWidget::slotImageTool()
 {
     // TODO: find a way to get a list of all supported image types...
     QString allExtensions = "image/gif image/jpeg image/png image/x-tga image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr";
-    KUrl url = KFileDialog::getOpenUrl(KUrl(), allExtensions, this, i18n("Load Image")); //"*.svg *.png *.jpg *.jpeg *.gif *.raw"
-    if (!url.isEmpty()) {
+    QUrl url = QFileDialog::getOpenFileUrl(this, i18n("Load Image"), QUrl(), allExtensions); //"*.svg *.png *.jpg *.jpeg *.gif *.raw"
+    if (url.isValid()) {
         if (url.path().endsWith(QLatin1String(".svg"))) {
             QGraphicsSvgItem *svg = new QGraphicsSvgItem(url.toLocalFile());
             svg->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
@@ -899,7 +891,7 @@ void TitleWidget::selectionChanged()
 {
     if (m_scene->tool() != TITLE_SELECT) return;
 
-    kDebug() << "Number of selected items: " << graphicsView->scene()->selectedItems().length() << '\n';
+    //qDebug() << "Number of selected items: " << graphicsView->scene()->selectedItems().length() << '\n';
 
     QList<QGraphicsItem *> l;
 
@@ -954,7 +946,7 @@ void TitleWidget::selectionChanged()
                 break;
             }
         }
-        kDebug() << "All equal? " << allEqual << ".\n";
+        //qDebug() << "All equal? " << allEqual << ".\n";
         if (allEqual) {
             prepareTools(l.at(0));
         } else {
@@ -1001,7 +993,7 @@ void TitleWidget::slotValueChanged(int type)
     */
 
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
-    kDebug() << l.size() << " items to be resized\n";
+    //qDebug() << l.size() << " items to be resized\n";
 
     // Get the updated value here already to do less coding afterwards
     int val = 0;
@@ -1021,7 +1013,7 @@ void TitleWidget::slotValueChanged(int type)
     }
 
     for (int k = 0; k < l.size(); ++k) {
-        kDebug() << "Type of item " << k << ": " << l.at(k)->type() << '\n';
+        //qDebug() << "Type of item " << k << ": " << l.at(k)->type() << '\n';
 
         if (l.at(k)->type() == TEXTITEM) {
             // Just update the position. We don't allow setting width/height for text items yet.
@@ -1099,8 +1091,8 @@ void TitleWidget::slotValueChanged(int type)
                 qtrans.rotate(t.rotatey, Qt::YAxis);
                 qtrans.rotate(t.rotatez, Qt::ZAxis);
                 i->setTransform(qtrans);
-                kDebug() << "scale is: " << scale << '\n';
-                kDebug() << i->boundingRect().width() << ": new width\n";
+                //qDebug() << "scale is: " << scale << '\n';
+                //qDebug() << i->boundingRect().width() << ": new width\n";
                 m_transformations[i] = t;
 
                 if (l.size() == 1) {
@@ -1144,7 +1136,7 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
         value_h->setValue(i->sceneBoundingRect().height());
     } else if (i->type() == RECTITEM) {
         QGraphicsRectItem *r = static_cast <QGraphicsRectItem *>(i);
-        kDebug() << "Rect width is: " << r->rect().width() << ", was: " << value_w->value() << '\n';
+        //qDebug() << "Rect width is: " << r->rect().width() << ", was: " << value_w->value() << '\n';
         value_w->setValue((int) r->rect().width());
         value_h->setValue((int) r->rect().height());
     } else if (i->type() == TEXTITEM) {
@@ -1557,22 +1549,22 @@ void TitleWidget::itemScaled(int val)
     }
 }
 
-void TitleWidget::itemRotateX(qreal val)
+void TitleWidget::itemRotateX(int val)
 {
     itemRotate(val, 0);
 }
 
-void TitleWidget::itemRotateY(qreal val)
+void TitleWidget::itemRotateY(int val)
 {
     itemRotate(val, 1);
 }
 
-void TitleWidget::itemRotateZ(qreal val)
+void TitleWidget::itemRotateZ(int val)
 {
     itemRotate(val, 2);
 }
 
-void TitleWidget::itemRotate(qreal val, int axis)
+void TitleWidget::itemRotate(int val, int axis)
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
@@ -1687,26 +1679,20 @@ void TitleWidget::itemRight()
     }
 }
 
-void TitleWidget::loadTitle(KUrl url)
+void TitleWidget::loadTitle(QUrl url)
 {
-    if (url.isEmpty()) url = KFileDialog::getOpenUrl(KUrl(m_projectTitlePath), "application/x-kdenlivetitle", this, i18n("Load Title"));
-    if (!url.isEmpty()) {
+    if (!url.isValid()) url = QFileDialog::getOpenFileUrl(this, i18n("Load Title"), QUrl(m_projectTitlePath), i18n("Kdenlive title (*.kdenlivetitle)"));
+    if (url.isValid()) {
         QList<QGraphicsItem *> items = m_scene->items();
         for (int i = 0; i < items.size(); ++i) {
             if (items.at(i)->zValue() > -1000) delete items.at(i);
         }
         m_scene->clearTextSelection();
         QDomDocument doc;
-        QString tmpfile;
-
-        if (KIO::NetAccess::download(url, tmpfile, 0)) {
-            QFile file(tmpfile);
-            if (file.open(QIODevice::ReadOnly)) {
-                doc.setContent(&file, false);
-                file.close();
-            } else return;
-            KIO::NetAccess::removeTempFile(tmpfile);
-        }
+        
+        QFile file(url.path());
+        doc.setContent(&file, false);
+        file.close();
         setXml(doc);
 
         /*int out;
@@ -1727,7 +1713,7 @@ void TitleWidget::loadTitle(KUrl url)
     }
 }
 
-void TitleWidget::saveTitle(KUrl url)
+void TitleWidget::saveTitle(QUrl url)
 {
     if (anim_start->isChecked()) slotAnimStart(false);
     if (anim_end->isChecked()) slotAnimEnd(false);
@@ -1747,18 +1733,20 @@ void TitleWidget::saveTitle(KUrl url)
     {
         embed_image=false;
     }
-    if (url.isEmpty()) {
-        QPointer<KFileDialog> fs = new KFileDialog(KUrl(m_projectTitlePath), "application/x-kdenlivetitle", this);
-        fs->setOperationMode(KFileDialog::Saving);
-        fs->setMode(KFile::File);
-        fs->setConfirmOverwrite(true);
-        fs->setKeepLocation(true);
-        if (fs->exec()) {
-            url = fs->selectedUrl();
+    if (!url.isValid()) {
+        QPointer<QFileDialog> fs = new QFileDialog(this, i18n("Save Title"), m_projectTitlePath);
+        fs->setMimeTypeFilters(QStringList() << "application/x-kdenlivetitle");
+        fs->setFileMode(QFileDialog::AnyFile);
+        fs->setAcceptMode(QFileDialog::AcceptSave);
+        //TODO: KF5 porting?
+        //fs->setConfirmOverwrite(true);
+        //fs->setKeepLocation(true);
+        if (fs->exec() && !fs->selectedUrls().isEmpty()) {
+            url = fs->selectedUrls().first();
         }
         delete fs;
     }
-    if (!url.isEmpty()) {
+    if (url.isValid()) {
         if (m_titledocument.saveDocument(url, m_startViewport, m_endViewport, m_tc.getFrameCount(title_duration->text()), embed_image) == false)
             KMessageBox::error(this, i18n("Cannot write to file %1", url.path()));
     }
@@ -1855,7 +1843,7 @@ void TitleWidget::slotAccepted()
 void TitleWidget::writeChoices()
 {
     // Get a pointer to a shared configuration instance, then get the TitleWidget group.
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup titleConfig(config, "TitleWidget");
     // Write the entries
     titleConfig.writeEntry("dialog_geometry", saveGeometry());
@@ -1872,10 +1860,8 @@ void TitleWidget::writeChoices()
     titleConfig.writeEntry("rect_background_color", rectBColor->color());
     titleConfig.writeEntry("rect_foreground_color", rectFColor->color());
 
-#if KDE_IS_VERSION(4,5,0)
     titleConfig.writeEntry("rect_background_alpha", rectBColor->color().alpha());
     titleConfig.writeEntry("rect_foreground_alpha", rectFColor->color().alpha());
-#endif
 
     titleConfig.writeEntry("rect_line_width", rectLineWidth->value());
 
@@ -1890,7 +1876,7 @@ void TitleWidget::writeChoices()
 void TitleWidget::readChoices()
 {
     // Get a pointer to a shared configuration instance, then get the TitleWidget group.
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup titleConfig(config, "TitleWidget");
     // read the entries
     const QByteArray geometry = titleConfig.readEntry("dialog_geometry", QByteArray());
@@ -1900,10 +1886,8 @@ void TitleWidget::readChoices()
     m_scene->slotUpdateFontSize(font_size->value());
     QColor fontColor = QColor(titleConfig.readEntry("font_color", fontColorButton->color()));
     QColor outlineColor = QColor(titleConfig.readEntry("font_outline_color", textOutlineColor->color()));
-#if KDE_IS_VERSION(4,5,0)
     fontColor.setAlpha(titleConfig.readEntry("font_alpha", fontColor.alpha()));
     outlineColor.setAlpha(titleConfig.readEntry("font_outline_alpha", outlineColor.alpha()));
-#endif
     fontColorButton->setColor(fontColor);
     textOutlineColor->setColor(outlineColor);
     textOutline->setValue(titleConfig.readEntry("font_outline", textOutline->value()));
@@ -1918,10 +1902,8 @@ void TitleWidget::readChoices()
     QColor fgColor = QColor(titleConfig.readEntry("rect_foreground_color", rectFColor->color()));
     QColor bgColor = QColor(titleConfig.readEntry("rect_background_color", rectBColor->color()));
 
-#if KDE_IS_VERSION(4,5,0)
     fgColor.setAlpha(titleConfig.readEntry("rect_foreground_alpha", fgColor.alpha()));
     bgColor.setAlpha(titleConfig.readEntry("rect_background_alpha", bgColor.alpha()));
-#endif
     rectFColor->setColor(fgColor);
     rectBColor->setColor(bgColor);
 
@@ -2125,9 +2107,7 @@ void TitleWidget::slotAddEffect(int ix)
         switch (effect) {
         case NOEFFECT:
             item->setData(100, QVariant());
-#if QT_VERSION >= 0x040600
             item->setGraphicsEffect(0);
-#endif
             break;
         case TYPEWRITEREFFECT:
             /*
@@ -2139,7 +2119,6 @@ void TitleWidget::slotAddEffect(int ix)
                 item->setData(100, effdata);
             }
             break;
-#if QT_VERSION >= 0x040600
             // Do not remove the non-QGraphicsEffects.
         case BLUREFFECT:
             item->setGraphicsEffect(new QGraphicsBlurEffect());
@@ -2147,7 +2126,6 @@ void TitleWidget::slotAddEffect(int ix)
         case SHADOWEFFECT:
             item->setGraphicsEffect(new QGraphicsDropShadowEffect());
             break;
-#endif
         }
     }
 }
@@ -2175,23 +2153,16 @@ void TitleWidget::slotEditTypewriter(int /*ix*/)
 
 void TitleWidget::slotEditBlur(int ix)
 {
-#if QT_VERSION < 0x040600
-    return;
-#else
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
         QGraphicsEffect *eff = l[0]->graphicsEffect();
         QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *>(eff);
         if (blur) blur->setBlurRadius(ix);
     }
-#endif
 }
 
 void TitleWidget::slotEditShadow()
 {
-#if QT_VERSION < 0x040600
-    return;
-#else
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
         QGraphicsEffect *eff = l[0]->graphicsEffect();
@@ -2201,7 +2172,6 @@ void TitleWidget::slotEditShadow()
             shadow->setOffset(shadow_x->value(), shadow_y->value());
         }
     }
-#endif
 }
 
 qreal TitleWidget::zIndexBounds(bool maxBound, bool intersectingOnly)
@@ -2265,14 +2235,14 @@ void TitleWidget::slotZIndexTop()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     qreal max = zIndexBounds(true, false);
-    kDebug() << "Max z-index is " << max << ".\n";
+    //qDebug() << "Max z-index is " << max << ".\n";
     for (int i = 0; i < l.size(); ++i) {
         qreal currentZ = l[i]->zValue();
         if (currentZ <= max) {
-            kDebug() << "Updating item " << i << ", is " << currentZ << ".\n";
+            //qDebug() << "Updating item " << i << ", is " << currentZ << ".\n";
             l[i]->setZValue(max + 1);
         } else {
-            kDebug() << "Not updating " << i << ", is " << currentZ << ".\n";
+            //qDebug() << "Not updating " << i << ", is " << currentZ << ".\n";
         }
     }
     // Update the z index value in the GUI
@@ -2398,7 +2368,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
     value_h->blockSignals(true);
 
     if (referenceItem == NULL) {
-        kDebug() << "NULL item.\n";
+        //qDebug() << "NULL item.\n";
         effect_stack->setHidden(true);
         effect_frame->setEnabled(false);
         effect_list->setCurrentIndex(0);
@@ -2446,7 +2416,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                         effect_stack->setHidden(false);
                     }
                 } else {
-#if QT_VERSION >= 0x040600
                     if (i->graphicsEffect()) {
                         QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *>(i->graphicsEffect());
                         if (blur) {
@@ -2468,10 +2437,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                         effect_list->setCurrentIndex(effect_list->findData((int) NOEFFECT));
                         effect_stack->setHidden(true);
                     }
-#else
-                    effect_list->setCurrentIndex(effect_list->findData((int) NOEFFECT));
-                    effect_stack->setHidden(true);
-#endif
                 }
                 font_size->blockSignals(true);
                 font_family->blockSignals(true);
@@ -2597,4 +2562,4 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
     value_h->blockSignals(blockH);
 }
 
-#include "titlewidget.moc"
+

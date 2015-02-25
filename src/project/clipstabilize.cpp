@@ -22,16 +22,13 @@
 #include "clipstabilize.h"
 #include "effectstack/widgets/doubleparameterwidget.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <mlt++/Mlt.h>
 #include "kdenlivesettings.h"
-#include <KGlobalSettings>
+#include <QFontDatabase>
 #include <KMessageBox>
 #include <KColorScheme>
-#include <QtConcurrentRun>
-#include <QTimer>
-#include <QSlider>
-#include <KFileDialog>
+#include <klocalizedstring.h>
 
 ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,QWidget * parent) :
     QDialog(parent),
@@ -39,7 +36,7 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
     m_urls(urls),
     vbox(NULL)
 {
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setWindowTitle(i18n("Stabilize Clip"));
     auto_add->setText(i18np("Add clip to project", "Add clips to project", urls.count()));
@@ -64,21 +61,19 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
                                if (m_urls.count() == 1) {
                                QString newFile = m_urls.first();
                                newFile.append(".mlt");
-                               KUrl dest(newFile);
+                               QUrl dest(newFile);
                                dest_url->setMode(KFile::File);
-                               dest_url->setUrl(KUrl(newFile));
-                               dest_url->fileDialog()->setOperationMode(KFileDialog::Saving);
-
+                               dest_url->setUrl(QUrl(newFile));
 } else {
                                label_dest->setText(i18n("Destination folder"));
-                               dest_url->setMode(KFile::Directory);
-                               dest_url->setUrl(KUrl(KUrl(m_urls.first()).directory()));
-                               dest_url->fileDialog()->setOperationMode(KFileDialog::Saving);
+                               dest_url->setMode(KFile::Directory | KFile::ExistingOnly);
+                               dest_url->setUrl(QUrl(m_urls.first()).adjusted(QUrl::RemoveFilename));
 }
 
                                if (m_filtername=="vidstab"){
                                // Some default params have to be set:
-                               m_fixedParams << "algo=1" << "relative=1";
+                               m_fixedParams.insert("algo", "1");
+			       m_fixedParams.insert("relative", "1");
                                QStringList ls;
                                ls << "accuracy,type,int,value,8,min,1,max,10,tooltip,Accuracy of Shakiness detection";
                                ls << "shakiness,type,int,value,4,min,1,max,10,tooltip,How shaky is the Video";
@@ -135,28 +130,37 @@ ClipStabilize::~ClipStabilize()
     KdenliveSettings::setAdd_new_clip(auto_add->isChecked());
 }
 
-QStringList ClipStabilize::params()
+QMap <QString, QString> ClipStabilize::producerParams()
 {
-    //we must return a stringlist with:
-    // producerparams << filtername << filterparams << consumer << consumerparams
-    QStringList params;
-    // producer params
-    params << QString();
-    // filter
-    params << m_filtername;
-    QStringList filterparamsList = m_fixedParams;
-    QHashIterator <QString,QHash<QString,QString> > it(m_ui_params);
-    while (it.hasNext()){
-        it.next();
-        filterparamsList << it.key() + '=' + it.value().value("value");
-    }
-    params << filterparamsList.join(" ");
+    return QMap <QString, QString>();
+}
+
+QMap <QString, QString> ClipStabilize::filterParams()
+{
+    QMap <QString, QString> params;
+    params.insert("filter", m_filtername);
     
-    // consumer
-    params << "xml";
+    QMapIterator<QString, QString> i(m_fixedParams);
+    while (i.hasNext()) {
+	i.next();
+	params.insert(i.key(), i.value());
+    }
+
+    QHashIterator <QString,QHash<QString,QString> > it(m_ui_params);
+    while (it.hasNext()) {
+        it.next();
+	params.insert(it.key(), it.value().value("value"));
+    }
+    return params;
+}
+
+QMap <QString, QString> ClipStabilize::consumerParams()
+{
     // consumer params
-    QString title = i18n("Stabilised");
-    params << QString("all=1 title=\"%1\"").arg(title);
+    QMap <QString, QString> params;
+    params.insert("consumer", "xml");
+    params.insert("all", "1");
+    params.insert("title", i18n("Stabilised"));
     return params;
 }
 
@@ -165,7 +169,7 @@ QString ClipStabilize::destination() const
     if (m_urls.count() == 1)
         return dest_url->url().path();
     else
-        return dest_url->url().path(KUrl::AddTrailingSlash);
+        return dest_url->url().path() + QDir::separator();
 }
 
 QString ClipStabilize::desc() const
@@ -185,7 +189,7 @@ void ClipStabilize::slotStartStabilize()
     //QString params = ffmpeg_params->toPlainText().simplified();
     if (urls_list->count() > 0) {
         source_url->setUrl(m_urls.takeFirst());
-        destination = dest_url->url().path(KUrl::AddTrailingSlash)+ source_url->url().fileName()+".mlt";
+        destination = dest_url->url().path(::AddTrailingSlash)+ source_url->url().fileName()+".mlt";
         QList<QListWidgetItem *> matching = urls_list->findItems(source_url->url().path(), Qt::MatchExactly);
         if (matching.count() > 0) {
             matching.at(0)->setFlags(Qt::ItemIsSelectable);
@@ -208,8 +212,8 @@ void ClipStabilize::slotStartStabilize()
         while (it.hasNext()){
             it.next();
             filter.set(
-                    it.key().toAscii().data(),
-                    QString::number(it.value()["value"].toDouble()).toAscii().data());
+                    it.key().toLatin1().data(),
+                    QString::number(it.value()["value"].toDouble()).toLatin1().data());
         }
         Mlt::Producer p(*m_profile,s_url.toUtf8().data());
         if (p.is_valid()) {
@@ -279,12 +283,10 @@ void ClipStabilize::slotValidate()
         }
     }
     else {
-        KUrl folder(dest_url->url());
+        QDir folder(dest_url->url().toLocalFile());
         QStringList existingFiles;
         foreach(const QString &path, m_urls) {
-            KUrl dest = folder;
-            dest.addPath(KUrl(path).fileName());
-            if (QFile::exists(dest.path() + ".mlt")) existingFiles.append(dest.path() + ".mlt");
+            if (folder.exists(path + ".mlt")) existingFiles.append(folder.absoluteFilePath(path + ".mlt"));
         }
         if (!existingFiles.isEmpty()) {
             if (KMessageBox::warningContinueCancelList(this, i18n("The stabilize job will overwrite the following files:"), existingFiles) ==  KMessageBox::Cancel) return;
@@ -293,6 +295,6 @@ void ClipStabilize::slotValidate()
     accept();
 }
 
-#include "clipstabilize.moc"
+
 
 

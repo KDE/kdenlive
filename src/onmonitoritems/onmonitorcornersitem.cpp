@@ -269,4 +269,4 @@ bool OnMonitorCornersItem::getView()
     }
 }
 
-#include "onmonitorcornersitem.moc"
+

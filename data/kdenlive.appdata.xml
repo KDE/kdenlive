@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component type="desktop">
+  <id>kdenlive.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0+</project_license>
+  <name>Kdenlive</name>
+  <summary>Video Editor</summary>
+  <description>
+    <p>Kdenlive is a non linear video editor. It is based on the MLT framework and accepts many audio and video formats, allows you to add effects, transitions and render into the format of your choice.</p>
+    <p>Features:</p>
+    <ul>
+      <li>Intuitive multitrack inteface.</li>
+      <li>Many effects and transitions.</li>
+      <li>Color scopes</li>
+      <li>Basic DVD Wizard</li>
+    </ul>
+  </description>
+  <url type="homepage">http://kdenlive.org/</url>
+  <url type="bugtracker">https://bugs.kdenlive.org</url>
+  <url type="help">https://userbase.kde.org/Kdenlive/Manual</url>
+  <screenshots>
+    <screenshot type="default" width="1280" height="720">
+      <image>http://kdenlive.org/sites/kdenlive.org/files/kdenlive-screenshot.png</image>
+    </screenshot>
+  </screenshots>
+  <project_group>KDE</project_group>
+  <provides>
+    <binary>kdenlive</binary>
+    <binary>kdenlive_render</binary>
+  </provides>
+</component>

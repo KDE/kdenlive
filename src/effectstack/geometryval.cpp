@@ -17,16 +17,15 @@
 
 #include "geometryval.h"
 #include "graphicsscenerectmove.h"
-
 #include "kdenlivesettings.h"
 
-#include <KDebug>
+#include "klocalizedstring.h"
 
+#include <QDebug>
 #include <QGraphicsView>
 #include <QVBoxLayout>
 #include <QGraphicsRectItem>
 #include <QMenu>
-#include <QInputDialog>
 #include <QTimer>
 
 
@@ -73,26 +72,26 @@ Geometryval::Geometryval(const MltVideoProfile &profile, const Timecode &t, cons
     frameBorder->setPen(QPen(QBrush(QColor(255, 255, 255, 255)), 1.0, Qt::DashLine));
     m_scene->addItem(frameBorder);
 
-    buttonNext->setIcon(KIcon("media-skip-forward"));
+    buttonNext->setIcon(QIcon::fromTheme("media-skip-forward"));
     buttonNext->setToolTip(i18n("Go to next keyframe"));
-    buttonPrevious->setIcon(KIcon("media-skip-backward"));
+    buttonPrevious->setIcon(QIcon::fromTheme("media-skip-backward"));
     buttonPrevious->setToolTip(i18n("Go to previous keyframe"));
-    buttonAdd->setIcon(KIcon("document-new"));
+    buttonAdd->setIcon(QIcon::fromTheme("document-new"));
     buttonAdd->setToolTip(i18n("Add keyframe"));
-    buttonDelete->setIcon(KIcon("edit-delete"));
+    buttonDelete->setIcon(QIcon::fromTheme("edit-delete"));
     buttonDelete->setToolTip(i18n("Delete keyframe"));
 
     m_configMenu = new QMenu(i18n("Misc..."), this);
     buttonMenu->setMenu(m_configMenu);
     buttonMenu->setPopupMode(QToolButton::MenuButtonPopup);
 
-    m_editOptions = m_configMenu->addAction(KIcon("system-run"), i18n("Show/Hide options"));
+    m_editOptions = m_configMenu->addAction(QIcon::fromTheme("system-run"), i18n("Show/Hide options"));
     m_editOptions->setCheckable(true);
     buttonMenu->setDefaultAction(m_editOptions);
     connect(m_editOptions, SIGNAL(triggered()), this, SLOT(slotSwitchOptions()));
     slotSwitchOptions();
 
-    m_reset = m_configMenu->addAction(KIcon("view-refresh"), i18n("Reset"), this, SLOT(slotResetPosition()));
+    m_reset = m_configMenu->addAction(QIcon::fromTheme("view-refresh"), i18n("Reset"), this, SLOT(slotResetPosition()));
 
     m_syncAction = m_configMenu->addAction(i18n("Sync timeline cursor"), this, SLOT(slotSyncCursor()));
     m_syncAction->setCheckable(true);
@@ -112,17 +111,17 @@ Geometryval::Geometryval(const MltVideoProfile &profile, const Timecode &t, cons
     connect(buttonAdd , SIGNAL(clicked()) , this , SLOT(slotAddFrame()));
     connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateTransitionProperties()));
 
-    buttonhcenter->setIcon(KIcon("kdenlive-align-hor"));
+    buttonhcenter->setIcon(QIcon::fromTheme("kdenlive-align-hor"));
     buttonhcenter->setToolTip(i18n("Align item horizontally"));
-    buttonvcenter->setIcon(KIcon("kdenlive-align-vert"));
+    buttonvcenter->setIcon(QIcon::fromTheme("kdenlive-align-vert"));
     buttonvcenter->setToolTip(i18n("Align item vertically"));
-    buttontop->setIcon(KIcon("kdenlive-align-top"));
+    buttontop->setIcon(QIcon::fromTheme("kdenlive-align-top"));
     buttontop->setToolTip(i18n("Align item to top"));
-    buttonbottom->setIcon(KIcon("kdenlive-align-bottom"));
+    buttonbottom->setIcon(QIcon::fromTheme("kdenlive-align-bottom"));
     buttonbottom->setToolTip(i18n("Align item to bottom"));
-    buttonright->setIcon(KIcon("kdenlive-align-right"));
+    buttonright->setIcon(QIcon::fromTheme("kdenlive-align-right"));
     buttonright->setToolTip(i18n("Align item to right"));
-    buttonleft->setIcon(KIcon("kdenlive-align-left"));
+    buttonleft->setIcon(QIcon::fromTheme("kdenlive-align-left"));
     buttonleft->setToolTip(i18n("Align item to left"));
 
     connect(buttonhcenter, SIGNAL(clicked()), this, SLOT(slotAlignHCenter()));
@@ -341,7 +340,7 @@ void Geometryval::slotNextFrame()
     Mlt::GeometryItem item;
     int error = m_geom->next_key(&item, m_helper->value() + 1);
     int pos;
-    kDebug() << "// SEEK TO NEXT KFR: " << error;
+    //qDebug() << "// SEEK TO NEXT KFR: " << error;
     if (error) {
         // Go to end
         pos = m_helper->frameLength;
@@ -354,7 +353,7 @@ void Geometryval::slotPreviousFrame()
 {
     Mlt::GeometryItem item;
     int error = m_geom->prev_key(&item, m_helper->value() - 1);
-    kDebug() << "// SEEK TO NEXT KFR: " << error;
+    //qDebug() << "// SEEK TO NEXT KFR: " << error;
     if (error) return;
     int pos = item.frame();
     m_timePos.setValue(pos);
@@ -390,14 +389,14 @@ void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
     else
         m_geom = new Mlt::Geometry(val.toUtf8().data(), maxFrame - minFrame, m_profile.width, m_profile.height);
 
-    //kDebug() << " / / UPDATING TRANSITION VALUE: " << m_geom->serialise();
+    ////qDebug() << " / / UPDATING TRANSITION VALUE: " << m_geom->serialise();
     //read param her and set rect
     if (!m_fixedMode) {
         m_helper->setKeyGeometry(m_geom, maxFrame - minFrame - 1);
         m_helper->update();
         /*QDomDocument doc;
         doc.appendChild(doc.importNode(par, true));
-        kDebug() << "IMPORTED TRANS: " << doc.toString();*/
+        //qDebug() << "IMPORTED TRANS: " << doc.toString();*/
         if (m_path == NULL) {
             m_path = new QGraphicsPathItem();
             m_path->setPen(QPen(Qt::red));
@@ -586,4 +585,4 @@ void Geometryval::slotUpdateRange(int inPoint, int outPoint)
     m_timePos.setRange(0, outPoint - inPoint - 1);
 }
 
-#include "geometryval.moc"
+

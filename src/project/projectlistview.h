@@ -26,7 +26,6 @@
 #include <QPainter>
 #include <QStyledItemDelegate>
 
-class DocClipBase;
 
 
 class ItemDelegate: public QStyledItemDelegate
@@ -38,7 +37,7 @@ public:
         UsageRole
     };
 
-    ItemDelegate(QAbstractItemView* parent = 0)
+    explicit ItemDelegate(QAbstractItemView* parent = 0)
         : QStyledItemDelegate(parent)
     {
     }
@@ -54,7 +53,7 @@ class ProjectListView : public QTreeWidget
     Q_OBJECT
 
 public:
-    ProjectListView(QWidget *parent = 0);
+    explicit ProjectListView(QWidget *parent = 0);
     ~ProjectListView();
     void processLayout();
     void updateStyleSheet();
@@ -86,7 +85,7 @@ signals:
     void requestMenu(const QPoint &, QTreeWidgetItem *);
     void addClip();
     void addClip(const QList <QUrl> &, const QString &, const QString &);
-    void showProperties(DocClipBase *);
+    void showProperties();
     void focusMonitor(bool forceRefresh);
     void pauseMonitor();
     void addClipCut(const QString&, int, int);

@@ -24,11 +24,9 @@
 #include "effectslist/initeffects.h"
 #include "mainwindow.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KMessageBox>
-#include <KApplication>
-#include <KLocalizedString>
-#include <KStandardDirs>
+#include <klocalizedstring.h>
 
 #include <QFile>
 #include <QColor>
@@ -39,9 +37,10 @@
 #include <mlt++/Mlt.h>
 
 #include <locale>
+#include <QStandardPaths>
 
 
-DocumentValidator::DocumentValidator(const QDomDocument &doc, const KUrl &documentUrl):
+DocumentValidator::DocumentValidator(const QDomDocument &doc, const QUrl &documentUrl):
         m_doc(doc),
         m_url(documentUrl),
         m_modified(false)
@@ -63,7 +62,7 @@ bool DocumentValidator::validate(const double currentVersion)
     if (rootDir == "$CURRENTPATH") {
         // The document was extracted from a Kdenlive archived project, fix root directory
         QString playlist = m_doc.toString();
-        playlist.replace("$CURRENTPATH", m_url.directory(KUrl::IgnoreTrailingSlash));
+        playlist.replace("$CURRENTPATH", m_url.adjusted(QUrl::RemoveFilename).path());
         m_doc.setContent(playlist);
         mlt = m_doc.firstChildElement("mlt");
         kdenliveDoc = mlt.firstChildElement("kdenlivedoc");
@@ -82,12 +81,12 @@ bool DocumentValidator::validate(const double currentVersion)
         char *separator = localeconv()->decimal_point;
 	if (newLocale.isEmpty()) {
             // Requested locale not available, ask for install
-            KMessageBox::sorry(kapp->activeWindow(), i18n("The document was created in \"%1\" locale, which is not installed on your system. Please install that language pack. Until then, Kdenlive might not be able to correctly open the document.", mlt.attribute("LC_NUMERIC")));
+            KMessageBox::sorry(QApplication::activeWindow(), i18n("The document was created in \"%1\" locale, which is not installed on your system. Please install that language pack. Until then, Kdenlive might not be able to correctly open the document.", mlt.attribute("LC_NUMERIC")));
         }
 	
         if (separator != documentLocale.decimalPoint()) {
-	    KMessageBox::sorry(kapp->activeWindow(), i18n("There is a locale conflict on your system. The document uses locale %1 which uses a \"%2\" as numeric separator (in system libraries) but Qt expects \"%3\". You might not be able to correctly open the project.", mlt.attribute("LC_NUMERIC"), separator, documentLocale.decimalPoint()));
-            kDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
+	    KMessageBox::sorry(QApplication::activeWindow(), i18n("There is a locale conflict on your system. The document uses locale %1 which uses a \"%2\" as numeric separator (in system libraries) but Qt expects \"%3\". You might not be able to correctly open the project.", mlt.attribute("LC_NUMERIC"), separator, documentLocale.decimalPoint()));
+            //qDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
             // HACK: There is a locale conflict, so set locale to at least have correct decimal point
             if (strncmp(separator, ".", 1) == 0) documentLocale = QLocale::c();
             else if (strncmp(separator, ",", 1) == 0) documentLocale = QLocale("fr_FR.UTF-8");
@@ -118,7 +117,7 @@ bool DocumentValidator::validate(const double currentVersion)
 	    QString versionString = kdenliveDoc.attribute("version");
 	    if (versionString.contains(',')) versionString.replace(',', '.');
 	    version = versionString.toDouble(&ok);
-	    if (!ok) kDebug()<<"// CANNOT PARSE VERSION NUMBER, ERROR!";
+	    if (!ok) qDebug()<<"// CANNOT PARSE VERSION NUMBER, ERROR!";
 	}
     }
     
@@ -157,7 +156,7 @@ bool DocumentValidator::validate(const double currentVersion)
         if (playlists.count() - 1 < tracksMax ||
                 tracks.count() - 1 < tracksMax ||
                 tracksinfo.count() < tracksMax) {
-            kDebug() << "//// WARNING, PROJECT IS CORRUPTED, MISSING TRACK";
+            //qDebug() << "//// WARNING, PROJECT IS CORRUPTED, MISSING TRACK";
             m_modified = true;
             int difference;
             // use the MLT tracks as reference
@@ -233,7 +232,7 @@ bool DocumentValidator::validate(const double currentVersion)
 
 bool DocumentValidator::upgrade(double version, const double currentVersion)
 {
-    kDebug() << "Opening a document with version " << version;
+    //qDebug() << "Opening a document with version " << version;
 
     // No conversion needed
     if (version == currentVersion) {
@@ -242,15 +241,15 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
 
     // The document is too new
     if (version > currentVersion) {
-        kDebug() << "Unable to open document with version " << version;
-        KMessageBox::sorry(kapp->activeWindow(), i18n("This project type is unsupported (version %1) and can't be loaded.\nPlease consider upgrading your Kdenlive version.", version), i18n("Unable to open project"));
+        //qDebug() << "Unable to open document with version " << version;
+        KMessageBox::sorry(QApplication::activeWindow(), i18n("This project type is unsupported (version %1) and can't be loaded.\nPlease consider upgrading your Kdenlive version.", version), i18n("Unable to open project"));
         return false;
     }
 
     // Unsupported document versions
     if (version == 0.5 || version == 0.7) {
-        kDebug() << "Unable to open document with version " << version;
-        KMessageBox::sorry(kapp->activeWindow(), i18n("This project type is unsupported (version %1) and can't be loaded.", version), i18n("Unable to open project"));
+        //qDebug() << "Unable to open document with version " << version;
+        KMessageBox::sorry(QApplication::activeWindow(), i18n("This project type is unsupported (version %1) and can't be loaded.", version), i18n("Unable to open project"));
         return false;
     }
 
@@ -279,7 +278,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             m_doc.documentElement().appendChild(westley);
         }
         if (tractor.isNull()) {
-            kDebug() << "// NO MLT PLAYLIST, building empty one";
+            //qDebug() << "// NO MLT PLAYLIST, building empty one";
             QDomElement blank_tractor = m_doc.createElement("tractor");
             westley.appendChild(blank_tractor);
             QDomElement blank_playlist = m_doc.createElement("playlist");
@@ -339,7 +338,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                                 inserted = true;
                                 break;
                             } else {
-                                kDebug() << "playlist_id: " << playlist_id << " producer:" << track_elem.attribute("producer");
+                                //qDebug() << "playlist_id: " << playlist_id << " producer:" << track_elem.attribute("producer");
                                 if (playlist_id < track_elem.attribute("producer")) {
                                     tractor.insertBefore(track, track_elem);
                                     inserted = true;
@@ -353,7 +352,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         }
                     }
                 } else {
-                    kWarning() << "tractor was not a QDomElement";
+                    qWarning() << "tractor was not a QDomElement";
                     tractor.insertAfter(track, QDomNode());
                 }
 #endif
@@ -421,7 +420,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     for (int j = 0; j < attrs.count(); ++j) {
                         QDomAttr a = attrs.item(j).toAttr();
                         if (!a.isNull()) {
-                            kDebug() << " FILTER; adding :" << a.name() << ':' << a.value();
+                            //qDebug() << " FILTER; adding :" << a.name() << ':' << a.value();
                             QDomElement e = m_doc.createElement("property");
                             e.setAttribute("name", a.name());
                             QDomText value = m_doc.createTextNode(a.value());
@@ -456,7 +455,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 for (int j = 0; j < attrs.count(); ++j) {
                     QDomAttr a = attrs.item(j).toAttr();
                     if (!a.isNull()) {
-                        kDebug() << " FILTER; adding :" << a.name() << ':' << a.value();
+                        //qDebug() << " FILTER; adding :" << a.name() << ':' << a.value();
                         QDomElement e = m_doc.createElement("property");
                         e.setAttribute("name", a.name());
                         QDomText value = m_doc.createTextNode(a.value());
@@ -474,7 +473,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             if (prod.attribute("mlt_service") == "framebuffer") {
                 QString slowmotionprod = prod.attribute("resource");
                 slowmotionprod.replace(':', '?');
-                kDebug() << "// FOUND WRONG SLOWMO, new: " << slowmotionprod;
+                //qDebug() << "// FOUND WRONG SLOWMO, new: " << slowmotionprod;
                 prod.setAttribute("resource", slowmotionprod);
             }
         }
@@ -569,7 +568,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         // QStringList titleInfo = TitleWidget::getFreeTitleInfo(projectFolder());
                         // prod.setAttribute("titlename", titleInfo.at(0));
                         // prod.setAttribute("resource", titleInfo.at(1));
-                        //kDebug()<<"TITLE DATA:\n"<<tdoc.toString();
+                        ////qDebug()<<"TITLE DATA:\n"<<tdoc.toString();
                         prod.removeChild(m);
                     } // End conversion of title clips.
 
@@ -605,21 +604,21 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         // Add all the producers that has a resource in westley
         QDomElement westley_element = westley0.toElement();
         if (westley_element.isNull()) {
-            kWarning() << "westley0 element in document was not a QDomElement - unable to add producers to new kdenlivedoc";
+            qWarning() << "westley0 element in document was not a QDomElement - unable to add producers to new kdenlivedoc";
         } else {
             QDomNodeList wproducers = westley_element.elementsByTagName("producer");
             int kmax = wproducers.count();
             for (int i = 0; i < kmax; ++i) {
                 QDomElement wproducer = wproducers.at(i).toElement();
                 if (wproducer.isNull()) {
-                    kWarning() << "Found producer in westley0, that was not a QDomElement";
+                    qWarning() << "Found producer in westley0, that was not a QDomElement";
                     continue;
                 }
                 if (wproducer.attribute("id") == "black") continue;
                 // We have to do slightly different things, depending on the type
-                kDebug() << "Converting producer element with type" << wproducer.attribute("type");
+                //qDebug() << "Converting producer element with type" << wproducer.attribute("type");
                 if (wproducer.attribute("type").toInt() == Text) {
-                    kDebug() << "Found TEXT element in producer" << endl;
+                    //qDebug() << "Found TEXT element in producer" << endl;
                     QDomElement kproducer = wproducer.cloneNode(true).toElement();
                     kproducer.setTagName("kdenlive_producer");
                     infoXml_new.appendChild(kproducer);
@@ -670,7 +669,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 QDomElement folder = folders.at(i).toElement();
                 if (!folder.isNull()) {
                     QString groupName = folder.attribute("name");
-                    kDebug() << "groupName: " << groupName << " with groupId: " << groupId;
+                    //qDebug() << "groupName: " << groupName << " with groupId: " << groupId;
                     QDomNodeList fproducers = folder.elementsByTagName("producer");
                     int psize = fproducers.size();
                     for (int j = 0; j < psize; ++j) {
@@ -710,26 +709,26 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         // adds <avfile /> information to <kdenlive_producer />
         QDomNodeList kproducers = m_doc.elementsByTagName("kdenlive_producer");
         QDomNodeList avfiles = infoXml_old.elementsByTagName("avfile");
-        kDebug() << "found" << avfiles.count() << "<avfile />s and" << kproducers.count() << "<kdenlive_producer />s";
+        //qDebug() << "found" << avfiles.count() << "<avfile />s and" << kproducers.count() << "<kdenlive_producer />s";
         for (int i = 0; i < avfiles.count(); ++i) {
             QDomElement avfile = avfiles.at(i).toElement();
             QDomElement kproducer;
             if (avfile.isNull())
-                kWarning() << "found an <avfile /> that is not a QDomElement";
+                qWarning() << "found an <avfile /> that is not a QDomElement";
             else {
                 QString id = avfile.attribute("id");
                 // this is horrible, must be rewritten, it's just for test
                 for (int j = 0; j < kproducers.count(); ++j) {
-                    //kDebug() << "checking <kdenlive_producer /> with id" << kproducers.at(j).toElement().attribute("id");
+                    ////qDebug() << "checking <kdenlive_producer /> with id" << kproducers.at(j).toElement().attribute("id");
                     if (kproducers.at(j).toElement().attribute("id") == id) {
                         kproducer = kproducers.at(j).toElement();
                         break;
                     }
                 }
                 if (kproducer == QDomElement())
-                    kWarning() << "no match for <avfile /> with id =" << id;
+                    qWarning() << "no match for <avfile /> with id =" << id;
                 else {
-                    //kDebug() << "ready to set additional <avfile />'s attributes (id =" << id << ')';
+                    ////qDebug() << "ready to set additional <avfile />'s attributes (id =" << id << ')';
                     kproducer.setAttribute("channels", avfile.attribute("channels"));
                     kproducer.setAttribute("duration", avfile.attribute("duration"));
                     kproducer.setAttribute("frame_size", avfile.attribute("width") + 'x' + avfile.attribute("height"));
@@ -798,7 +797,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                             if (textProperties.namedItem("font-pixel-size").isNull() && !textProperties.namedItem("font-size").isNull()) {
                                 // Ask the user if he wants to convert
                                 if (convert != KMessageBox::Yes && convert != KMessageBox::No)
-                                    convert = (KMessageBox::ButtonCode)KMessageBox::warningYesNo(kapp->activeWindow(), i18n("Some of your text clips were saved with size in points, which means different sizes on different displays. Do you want to convert them to pixel size, making them portable? It is recommended you do this on the computer they were first created on, or you could have to adjust their size."), i18n("Update Text Clips"));
+                                    convert = (KMessageBox::ButtonCode)KMessageBox::warningYesNo(QApplication::activeWindow(), i18n("Some of your text clips were saved with size in points, which means different sizes on different displays. Do you want to convert them to pixel size, making them portable? It is recommended you do this on the computer they were first created on, or you could have to adjust their size."), i18n("Update Text Clips"));
                                 if (convert == KMessageBox::Yes) {
                                     QFont font;
                                     font.setPointSize(textProperties.namedItem("font-size").nodeValue().toInt());
@@ -1074,13 +1073,9 @@ bool DocumentValidator::isModified() const
 void DocumentValidator::updateEffects()
 {
     // WARNING: order by findDirs will determine which js file to use (in case multiple scripts for the same filter exist)
-    QMap <QString, KUrl> paths;
-#if QT_VERSION >= 0x040700
+    QMap <QString, QUrl> paths;
     QMap <QString, QScriptProgram> scripts;
-#else
-    QMap <QString, QString> scripts;
-#endif
-    QStringList directories = KGlobal::dirs()->findDirs("appdata", "effects/update");
+    QStringList directories = QStandardPaths::locateAll(QStandardPaths::DataLocation, "effects/update");
     foreach (const QString &directoryName, directories) {
         QDir directory(directoryName);
         QStringList fileList = directory.entryList(QStringList() << "*.js", QDir::Files);
@@ -1088,7 +1083,7 @@ void DocumentValidator::updateEffects()
             QString identifier = fileName;
             // remove extension (".js")
             identifier.chop(3);
-            paths.insert(identifier, KUrl(directoryName + fileName));
+            paths.insert(identifier, QUrl(directoryName + fileName));
         }
     }
 
@@ -1126,11 +1121,7 @@ void DocumentValidator::updateEffects()
                     if (!scriptFile.open(QIODevice::ReadOnly)) {
                         continue;
                     }
-#if QT_VERSION >= 0x040700
                     QScriptProgram scriptProgram(scriptFile.readAll());
-#else
-                    QString scriptProgram = scriptFile.readAll();
-#endif
                     scriptFile.close();
                     scripts.insert(effectId, scriptProgram);
                 }

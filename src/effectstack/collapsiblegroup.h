@@ -27,13 +27,11 @@
 #include "timecode.h"
 #include "effectstack/keyframeedit.h"
 
-#include <QDomElement>
-#include <QToolButton>
-#include <KLineEdit>
+#include <QLineEdit>
 #include <QMutex>
 
 
-class MyEditableLabel : public KLineEdit
+class MyEditableLabel : public QLineEdit
 {
     Q_OBJECT
 public:

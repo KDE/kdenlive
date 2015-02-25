@@ -26,74 +26,53 @@
 #include "kdenlivesettings.h"
 
 #include <QPushButton>
-#include <QSpinBox>
 #include <QListWidget>
 #include <QAction>
 #include <QMenu>
+#include <QFileDialog>
+#include <QNetworkConfigurationManager>
+#include <QDebug>
+#include <QFontDatabase>
+#include <QTemporaryFile>
 
-#include <KDebug>
-#include <kdeversion.h>
-#include <KGlobalSettings>
-#include <KMessageBox>
-#include <KFileDialog>
+#include <KSharedConfig>
+#include <klocalizedstring.h>
 #include <kio/job.h>
-#include <KIO/NetAccess>
-#include <Solid/Networking>
+#include <KIO/SimpleJob>
 #include <KRun>
 #include <KConfigGroup>
-
-#if KDE_IS_VERSION(4,4,0)
 #include <KPixmapSequence>
 #include <KPixmapSequenceOverlayPainter>
-#endif
 #include <KFileItem>
-
-#ifdef USE_NEPOMUK
-  #if KDE_IS_VERSION(4,6,0)
-    #include <Nepomuk/Variant>
-    #include <Nepomuk/Resource>
-    #include <Nepomuk/ResourceManager>
-    #include <Nepomuk/Vocabulary/NIE>
-    #include <Nepomuk/Vocabulary/NCO>
-    #include <Nepomuk/Vocabulary/NDO>
-  #endif
-#endif
-
-#ifdef USE_NEPOMUKCORE
-  #include <Nepomuk2/Variant>
-  #include <Nepomuk2/Resource>
-  #include <Nepomuk2/ResourceManager>
-  #include <Nepomuk2/Vocabulary/NIE>
-  #include <Nepomuk2/Vocabulary/NCO>
-  #include <Nepomuk2/Vocabulary/NDO>
-#endif
 
 ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     QDialog(parent),
     m_folder(folder),
     m_currentService(NULL)
 {
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
-#ifdef USE_QJSON
+    m_tmpThumbFile = new QTemporaryFile;
     service_list->addItem(i18n("Freesound Audio Library"), FREESOUND);
     service_list->addItem(i18n("Archive.org Video Library"), ARCHIVEORG);
-#endif
     service_list->addItem(i18n("Open Clip Art Graphic Library"), OPENCLIPART);
     setWindowTitle(i18n("Search Online Resources"));
-    info_browser->setStyleSheet(QString("QTextBrowser { background-color: transparent;}"));
+    QPalette p = palette();
+    p.setBrush(QPalette::Base, p.window());
+    info_browser->setPalette(p);
     connect(button_search, SIGNAL(clicked()), this, SLOT(slotStartSearch()));
     connect(search_results, SIGNAL(currentRowChanged(int)), this, SLOT(slotUpdateCurrentSound()));
     connect(button_preview, SIGNAL(clicked()), this, SLOT(slotPlaySound()));
     connect(button_import, SIGNAL(clicked()), this, SLOT(slotSaveItem()));
     connect(item_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
     connect(service_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChangeService()));
-    if (Solid::Networking::status() == Solid::Networking::Unconnected) {
-        slotOffline();
+    
+    m_networkManager = new QNetworkConfigurationManager(this);
+    if (!m_networkManager->isOnline()) {
+        slotOnlineChanged(false);
     }
-    connect(Solid::Networking::notifier(), SIGNAL(shouldConnect()), this, SLOT(slotOnline()));
-    connect(Solid::Networking::notifier(), SIGNAL(shouldDisconnect()), this, SLOT(slotOffline()));
+    connect(m_networkManager, SIGNAL(onlineStateChanged(bool)), this, SLOT(slotOnlineChanged(bool)));
     connect(page_next, SIGNAL(clicked()), this, SLOT(slotNextPage()));
     connect(page_prev, SIGNAL(clicked()), this, SLOT(slotPreviousPage()));
     connect(page_number, SIGNAL(valueChanged(int)), this, SLOT(slotStartSearch(int)));
@@ -104,21 +83,14 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     QMenu *resourceMenu = new QMenu;
     resourceMenu->addAction(m_autoPlay);
     config_button->setMenu(resourceMenu);
-    config_button->setIcon(KIcon("configure"));
+    config_button->setIcon(QIcon::fromTheme("configure"));
 
-#if KDE_IS_VERSION(4,4,0)
     m_busyWidget = new KPixmapSequenceOverlayPainter(this);
     m_busyWidget->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     m_busyWidget->setWidget(search_results->viewport());
-#endif
     
     sound_box->setEnabled(false);
     search_text->setFocus();
-#ifdef USE_NEPOMUK
-  #if KDE_IS_VERSION(4,6,0)
-    Nepomuk::ResourceManager::instance()->init();
-  #endif
-#endif
     slotChangeService();
     loadConfig();
 }
@@ -126,13 +98,13 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
 ResourceWidget::~ResourceWidget()
 {
     delete m_currentService;
-    KIO::NetAccess::removeTempFile(m_tmpThumbFile);
+    delete m_tmpThumbFile;
     saveConfig();
 }
 
 void ResourceWidget::loadConfig()
 {
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup resourceConfig(config, "ResourceWidget");
     QList<int> size;
     size << 100 << 400;
@@ -141,7 +113,7 @@ void ResourceWidget::loadConfig()
 
 void ResourceWidget::saveConfig()
 {
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup resourceConfig(config, "ResourceWidget");
     resourceConfig.writeEntry(QLatin1String("mainsplitter"), splitter->size());
     config->sync();
@@ -152,15 +124,12 @@ void ResourceWidget::slotStartSearch(int page)
     page_number->blockSignals(true);
     page_number->setValue(page);
     page_number->blockSignals(false);
-#if KDE_IS_VERSION(4,4,0)
     m_busyWidget->start();
-#endif
     m_currentService->slotStartSearch(search_text->text(), page);
 }
 
 void ResourceWidget::slotUpdateCurrentSound()
 {
-    KIO::NetAccess::removeTempFile(m_tmpThumbFile);
     if (!m_autoPlay->isChecked())
         m_currentService->stopItemPreview(NULL);
     item_license->clear();
@@ -203,11 +172,13 @@ void ResourceWidget::slotUpdateCurrentSound()
 
 void ResourceWidget::slotLoadThumb(const QString &url)
 {
-    KUrl img(url);
+    QUrl img(url);
     if (img.isEmpty()) return;
-    if (KIO::NetAccess::exists(img, KIO::NetAccess::SourceSide, this)) {
-        if (KIO::NetAccess::download(img, m_tmpThumbFile, this)) {
-            slotSetImage(m_tmpThumbFile);
+    m_tmpThumbFile->close();
+    if (m_tmpThumbFile->open()) {
+        KIO::FileCopyJob *copyjob = KIO::file_copy(img, QUrl::fromLocalFile(m_tmpThumbFile->fileName()), -1, KIO::Overwrite);
+        if (copyjob->exec()) {
+            slotSetImage(m_tmpThumbFile->fileName());
             /*QPixmap pix(tmpFile);
 
             int newHeight = pix.height() * item_image->width() / pix.width();
@@ -250,29 +221,26 @@ void ResourceWidget::slotPlaySound()
 
 void ResourceWidget::slotSaveItem(const QString &originalUrl)
 {
-    //if (m_currentUrl.isEmpty()) return;
     QListWidgetItem *item = search_results->currentItem();
     if (!item) return;
     QString path = m_folder;
     QString ext;
     if (!path.endsWith('/')) path.append('/');
     if (!originalUrl.isEmpty()) {
-        path.append(KUrl(originalUrl).fileName());
-        ext = "*." + KUrl(originalUrl).fileName().section('.', -1);
+        path.append(QUrl(originalUrl).fileName());
+        ext = "*." + QUrl(originalUrl).fileName().section('.', -1);
         m_currentInfo.itemDownload = originalUrl;
     }
     else {
         path.append(m_currentService->getDefaultDownloadName(item));
         ext = m_currentService->getExtension(search_results->currentItem());
     }
-    QString saveUrl = KFileDialog::getSaveFileName(KUrl(path), ext);
-    KIO::UDSEntry entry;
-    KUrl srcUrl(m_currentInfo.itemDownload);
-    if (saveUrl.isEmpty() || !KIO::NetAccess::stat(srcUrl, entry, this))
+    QString saveUrl = QFileDialog::getSaveFileName(this, QString(), path, ext);
+    QUrl srcUrl(m_currentInfo.itemDownload);
+    if (saveUrl.isEmpty() || !QFile::exists(srcUrl.path()))
         return;
-    KIO::FileCopyJob * getJob = KIO::file_copy(srcUrl, KUrl(saveUrl), -1, KIO::Overwrite);
-    
-    KFileItem info(entry, srcUrl);
+    KIO::FileCopyJob * getJob = KIO::file_copy(srcUrl, QUrl(saveUrl), -1, KIO::Overwrite);
+    KFileItem info(srcUrl);
     getJob->setSourceSize(info.size());
     getJob->setProperty("license", item_license->text());
     getJob->setProperty("licenseurl", item_license->url());
@@ -287,35 +255,13 @@ void ResourceWidget::slotGotFile(KJob *job)
 {
     if (job->error() != 0 ) return;
     KIO::FileCopyJob* copyJob = static_cast<KIO::FileCopyJob*>( job );
-    const KUrl filePath = copyJob->destUrl();
-#ifdef USE_NEPOMUK
-  #if KDE_IS_VERSION(4,6,0)
-    Nepomuk::Resource res( filePath );
-    res.setProperty( Nepomuk::Vocabulary::NIE::license(), (Nepomuk::Variant) job->property("license") );
-    res.setProperty( Nepomuk::Vocabulary::NIE::licenseType(), (Nepomuk::Variant) job->property("licenseurl") );
-    res.setProperty( Nepomuk::Vocabulary::NDO::copiedFrom(), (Nepomuk::Variant) job->property("originurl") );
-    res.setProperty( Nepomuk::Vocabulary::NCO::creator(), (Nepomuk::Variant) job->property("author") );
-    //res.setDescription(item_description->toPlainText());
-    //res.setProperty( Soprano::Vocabulary::NAO::description(),
-  #endif
-#endif
-
-#ifdef USE_NEPOMUKCORE
-    Nepomuk2::Resource res( filePath );
-    res.setProperty( Nepomuk2::Vocabulary::NIE::license(), (Nepomuk2::Variant) job->property("license") );
-    res.setProperty( Nepomuk2::Vocabulary::NIE::licenseType(), (Nepomuk2::Variant) job->property("licenseurl") );
-    res.setProperty( Nepomuk2::Vocabulary::NDO::copiedFrom(), (Nepomuk2::Variant) job->property("originurl") );
-    res.setProperty( Nepomuk2::Vocabulary::NCO::creator(), (Nepomuk2::Variant) job->property("author") );
-    //res.setDescription(item_description->toPlainText());
-    //res.setProperty( Soprano::Vocabulary::NAO::description(),
-#endif
-
+    const QUrl filePath = copyJob->destUrl();
     emit addClip(filePath, stringMap());
 }
 
 void ResourceWidget::slotOpenUrl(const QString &url)
 {
-    new KRun(KUrl(url), this);
+    new KRun(QUrl(url), this);
 }
 
 void ResourceWidget::slotChangeService()
@@ -336,9 +282,7 @@ void ResourceWidget::slotChangeService()
     connect(m_currentService, SIGNAL(maxPages(int)), this, SLOT(slotSetMaximum(int)));
     connect(m_currentService, SIGNAL(searchInfo(QString)), search_info, SLOT(setText(QString)));
     connect(m_currentService, SIGNAL(gotThumb(QString)), this, SLOT(slotLoadThumb(QString)));
-#if KDE_IS_VERSION(4,4,0)
     connect(m_currentService, SIGNAL(searchDone()), m_busyWidget, SLOT(stop()));
-#endif
     
     button_preview->setVisible(m_currentService->hasPreview);
     button_import->setVisible(!m_currentService->inlineDownload);
@@ -352,16 +296,11 @@ void ResourceWidget::slotSetMaximum(int max)
     page_number->setMaximum(max);
 }
 
-void ResourceWidget::slotOnline()
+void ResourceWidget::slotOnlineChanged(bool online)
 {
-    button_search->setEnabled(true);
-    search_info->setText(QString());
-}
-
-void ResourceWidget::slotOffline()
-{
-    button_search->setEnabled(false);
-    search_info->setText(i18n("You need to be online\n for searching"));
+    
+    button_search->setEnabled(online);
+    search_info->setText(online ? QString() : i18n("You need to be online\n for searching"));
 }
 
 void ResourceWidget::slotNextPage()
@@ -461,4 +400,4 @@ void ResourceWidget::updateLayout()
 }
 
 
-#include "resourcewidget.moc"
+

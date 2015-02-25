@@ -37,9 +37,7 @@
 #include "dialogs/profilesdialog.h"
 #include "project/projectlist.h"
 #include "timeline/customtrackview.h"
-#ifdef USE_QJSON
 #include "onmonitoritems/rotoscoping/rotowidget.h"
-#endif
 
 #include "ui_listval_ui.h"
 #include "ui_boolval_ui.h"
@@ -49,11 +47,12 @@
 #include "ui_fontval_ui.h"
 
 #include <KUrlRequester>
-#include <KFileDialog>
+#include "klocalizedstring.h"
 
 #include <QMap>
 #include <QString>
 #include <QImage>
+#include <QDebug>
 
 MySpinBox::MySpinBox(QWidget * parent):
     QSpinBox(parent)
@@ -350,16 +349,14 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             QString depends = pa.attribute("depends");
             if (!depends.isEmpty())
                 meetDependency(paramName, type, EffectsList::parameter(e, depends));
-#ifdef USE_QJSON
         } else if (type == "roto-spline") {
 	    m_needsMonitorEffectScene = true;
-            RotoWidget *roto = new RotoWidget(value, m_metaInfo->monitor, info, m_metaInfo->timecode, parent);
+            RotoWidget *roto = new RotoWidget(value.toLatin1(), m_metaInfo->monitor, info, m_metaInfo->timecode, parent);
             connect(roto, SIGNAL(valueChanged()), this, SLOT(slotCollectAllParameters()));
             connect(roto, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
             connect(this, SIGNAL(syncEffectsPos(int)), roto, SLOT(slotSyncPosition(int)));
             m_vbox->addWidget(roto);
             m_valueItems[paramName] = roto;
-#endif
         } else if (type == "wipe") {
             Wipeval *wpval = new Wipeval;
             wpval->setupUi(toFillin);
@@ -420,11 +417,11 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             cval->setupUi(toFillin);
             cval->label->setText(paramName);
 	    cval->setToolTip(comment);
-            cval->urlwidget->fileDialog()->setFilter(ProjectList::getExtensions());
+            cval->urlwidget->setFilter(ProjectList::getExtensions().join(' '));
             m_valueItems[paramName] = cval;
-            cval->urlwidget->setUrl(KUrl(value));
+            cval->urlwidget->setUrl(QUrl(value));
             connect(cval->urlwidget, SIGNAL(returnPressed()) , this, SLOT(slotCollectAllParameters()));
-            connect(cval->urlwidget, SIGNAL(urlSelected(KUrl)) , this, SLOT(slotCollectAllParameters()));
+            connect(cval->urlwidget, SIGNAL(urlSelected(QUrl)) , this, SLOT(slotCollectAllParameters()));
             m_uiItems.append(cval);
 	} else if (type == "keywords") {
             Keywordval* kval = new Keywordval;
@@ -582,11 +579,9 @@ void ParameterContainer::updateTimecodeFormat()
             PositionEdit *posi = static_cast<PositionEdit*>(m_valueItems[paramName+"position"]);
             posi->updateTimecodeFormat();
             break;
-#ifdef USE_QJSON
         } else if (type == "roto-spline") {
             RotoWidget *widget = static_cast<RotoWidget *>(m_valueItems[paramName]);
             widget->updateTimecodeFormat();
-#endif
         }
     }
 }
@@ -614,7 +609,7 @@ void ParameterContainer::slotCollectAllParameters()
         else if (type == "keyframe")
             paramName.append("keyframe");
         if (type != "simplekeyframe" && type != "fixed" && type != "addedgeometry" && !m_valueItems.contains(paramName)) {
-            kDebug() << "// Param: " << paramName << " NOT FOUND";
+            //qDebug() << "// Param: " << paramName << " NOT FOUND";
             continue;
         }
 
@@ -697,11 +692,9 @@ void ParameterContainer::slotCollectAllParameters()
             QString depends = pa.attribute("depends");
             if (!depends.isEmpty())
                 meetDependency(paramName, type, EffectsList::parameter(m_effect, depends));
-#ifdef USE_QJSON
         } else if (type == "roto-spline") {
             RotoWidget *widget = static_cast<RotoWidget *>(m_valueItems.value(paramName));
             setValue = widget->getSpline();
-#endif
         } else if (type == "wipe") {
             Wipeval *wp = static_cast<Wipeval*>(m_valueItems.value(paramName));
             wipeInfo info;
@@ -748,7 +741,7 @@ void ParameterContainer::slotCollectAllParameters()
             KUrlRequester *req = static_cast<Urlval*>(m_valueItems.value(paramName))->urlwidget;
             setValue = req->url().path();
 	} else if (type == "keywords"){
-            KLineEdit *line = static_cast<Keywordval*>(m_valueItems.value(paramName))->lineeditwidget;
+            QLineEdit *line = static_cast<Keywordval*>(m_valueItems.value(paramName))->lineeditwidget;
             KComboBox *combo = static_cast<Keywordval*>(m_valueItems.value(paramName))->comboboxwidget;
             if(combo->currentIndex())
             {
@@ -825,20 +818,45 @@ void ParameterContainer::slotStartFilterJobAction()
         QDomElement pa = namenode.item(i).toElement();
         QString type = pa.attribute("type");
         if (type == "filterjob") {
-	    QString filterparams = pa.attribute("filterparams");
-	    if (filterparams.contains("%position")) {
-		if (m_geometryWidget) filterparams.replace("%position", QString::number(m_geometryWidget->currentPosition()));
+	    QMap <QString, QString> filterParams;
+	    QMap <QString, QString> consumerParams;
+	    filterParams.insert("filter", pa.attribute("filtertag"));
+	    consumerParams.insert("consumer", pa.attribute("consumer"));
+	    QString filterattributes = pa.attribute("filterparams");
+	    if (filterattributes.contains("%position")) {
+		if (m_geometryWidget) filterattributes.replace("%position", QString::number(m_geometryWidget->currentPosition()));
 	    }
-	    if (filterparams.contains("%params")) {
+
+	    // Fill filter params
+	    QStringList filterList = filterattributes.split(' ');
+	    QString param;
+	    for (int i = 0; i < filterList.size(); ++i) {
+		param = filterList.at(i);
+		if (param != "%params") {
+		    filterParams.insert(param.section('=', 0, 0), param.section('=', 1));
+		}
+	    }
+	    if (filterattributes.contains("%params")) {
 		// Replace with current geometry
 		EffectsParameterList parameters;
 		QDomNodeList params = m_effect.elementsByTagName("parameter");
 		CustomTrackView::adjustEffectParameters(parameters, params, m_metaInfo->profile);
 		QString paramData;
-		for (int j = 0; j < parameters.count(); ++j)
-		    paramData.append(parameters.at(j).name()+'='+parameters.at(j).value()+' ');
-		filterparams.replace("%params", paramData);
+		for (int j = 0; j < parameters.count(); ++j) {
+		    filterParams.insert(parameters.at(j).name(), parameters.at(j).value());
+		}
 	    }
+	    // Fill consumer params
+	    QString consumerattributes = pa.attribute("consumerparams");
+	    QStringList consumerList = consumerattributes.split(' ');
+	    for (int i = 0; i < consumerList.size(); ++i) {
+		param = consumerList.at(i);
+		if (param != "%params") {
+		    consumerParams.insert(param.section('=', 0, 0), param.section('=', 1));
+		}
+	    }
+
+	    // Fill extra params
 	    QMap <QString, QString> extraParams;
 	    QDomNodeList jobparams = pa.elementsByTagName("jobparam");
 	    for (int j = 0; j < jobparams.count(); ++j) {
@@ -846,8 +864,7 @@ void ParameterContainer::slotStartFilterJobAction()
 		extraParams.insert(e.attribute("name"), e.text().toUtf8());
 	    }
 	    extraParams.insert("offset", QString::number(m_in));
-            emit startFilterJob(pa.attribute("filtertag"), filterparams, pa.attribute("consumer"), pa.attribute("consumerparams"), extraParams);
-            kDebug()<<" - - -PROPS:\n"<<pa.attribute("filtertag")<<"-"<< filterparams<<"-"<< pa.attribute("consumer")<<"-"<< pa.attribute("consumerparams")<<"-"<< pa.attribute("extraparams");
+            emit startFilterJob(filterParams, consumerParams, extraParams);
             break;
         }
     }
@@ -877,7 +894,7 @@ bool ParameterContainer::needsMonitorEffectScene() const
 void ParameterContainer::setKeyframes(const QString &data, int maximum)
 {
     if (!m_geometryWidget) {
-	kDebug()<<" / / NO GEOMETRY WIDGET FOUND FOR IMPORTING DATA";
+	//qDebug()<<" / / NO GEOMETRY WIDGET FOUND FOR IMPORTING DATA";
 	return;
     }
     m_geometryWidget->importKeyframes(data, maximum);
@@ -893,4 +910,4 @@ void ParameterContainer::setRange(int inPoint, int outPoint)
 
 
 
-#include "parametercontainer.moc"
+

@@ -258,7 +258,7 @@
            </widget>
           </item>
           <item row="0" column="2" colspan="3">
-           <widget class="KIntSpinBox" name="proxy_minsize">
+           <widget class="QSpinBox" name="proxy_minsize">
             <property name="suffix">
              <string>pixels</string>
             </property>
@@ -278,7 +278,7 @@
            </widget>
           </item>
           <item row="1" column="2" colspan="3">
-           <widget class="KIntSpinBox" name="proxy_imageminsize">
+           <widget class="QSpinBox" name="proxy_imageminsize">
             <property name="suffix">
              <string>pixels</string>
             </property>
@@ -459,7 +459,7 @@
         </widget>
        </item>
        <item row="1" column="4">
-        <widget class="KPushButton" name="delete_unused">
+        <widget class="QPushButton" name="delete_unused">
          <property name="text">
           <string>Delete files</string>
          </property>
@@ -487,7 +487,7 @@
         </widget>
        </item>
        <item row="2" column="4">
-        <widget class="KPushButton" name="clear_cache">
+        <widget class="QPushButton" name="clear_cache">
          <property name="text">
           <string>Clear cache</string>
          </property>
@@ -515,7 +515,7 @@
         </widget>
        </item>
        <item row="3" column="4">
-        <widget class="KPushButton" name="delete_proxies">
+        <widget class="QPushButton" name="delete_proxies">
          <property name="text">
           <string>Delete proxies</string>
          </property>
@@ -596,23 +596,8 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
    <class>KTreeWidgetSearchLine</class>
-   <extends>KLineEdit</extends>
+   <extends>QLineEdit</extends>
    <header>ktreewidgetsearchline.h</header>
   </customwidget>
   <customwidget>

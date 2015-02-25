@@ -11,15 +11,15 @@
 #include "vectorscope.h"
 #include "colorplaneexport.h"
 #include "vectorscopegenerator.h"
-
 #include "colortools.h"
 
+#include "klocalizedstring.h"
 #include <QAction>
 #include <QDebug>
 #include <QPainter>
-
+#include <KSharedConfig>
+#include <KConfigGroup>
 #include <QTime>
-#include <QMenu>
 
 const float P75 = .75;
 
@@ -141,7 +141,7 @@ void Vectorscope::readConfig()
 {
     AbstractGfxScopeWidget::readConfig();
 
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
     m_a75PBox->setChecked(scopeConfig.readEntry("75PBox", false));
     m_aAxisEnabled->setChecked(scopeConfig.readEntry("axis", false));
@@ -155,7 +155,7 @@ void Vectorscope::readConfig()
 
 void Vectorscope::writeConfig()
 {
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
     scopeConfig.writeEntry("75PBox", m_a75PBox->isChecked());
     scopeConfig.writeEntry("axis", m_aAxisEnabled->isChecked());
@@ -559,4 +559,4 @@ void Vectorscope::slotColorSpaceChanged()
     forceUpdate();
 }
 
-#include "vectorscope.moc"
+

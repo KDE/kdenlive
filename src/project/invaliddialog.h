@@ -21,12 +21,11 @@
 #ifndef INVALIDDIALOG_H
 #define INVALIDDIALOG_H
 
-// KDE
-#include <KDialog>
+#include <QDialog>
 
 class QListWidget;
 
-class InvalidDialog : public KDialog
+class InvalidDialog : public QDialog
 {
     Q_OBJECT
 

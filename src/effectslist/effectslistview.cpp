@@ -24,29 +24,21 @@
 
 #include "kdenlivesettings.h"
 
-#include <KDebug>
-#include <KLocalizedString>
-#include <KStandardDirs>
+#include <QDebug>
+#include <klocalizedstring.h>
 
 #include <QMenu>
 #include <QDir>
-
+#include <QStandardPaths>
 
 EffectsListView::EffectsListView(QWidget *parent) :
         QWidget(parent)
 {
     setupUi(this);
-    QString styleSheet = "QTreeView::branch:has-siblings:!adjoins-item{border-image:none;border:0px} \
-    QTreeView::branch:has-siblings:adjoins-item {border-image: none;border:0px}      \
-    QTreeView::branch:!has-children:!has-siblings:adjoins-item {border-image: none;border:0px} \
-    QTreeView::branch:has-children:!has-siblings:closed,QTreeView::branch:closed:has-children:has-siblings {   \
-         border-image: none;image: url(:/images/stylesheet-branch-closed.png);}      \
-    QTreeView::branch:open:has-children:!has-siblings,QTreeView::branch:open:has-children:has-siblings  {    \
-         border-image: none;image: url(:/images/stylesheet-branch-open.png);}";
-
+    
     QMenu *contextMenu = new QMenu(this);
     m_effectsList = new EffectsListWidget(contextMenu);
-    m_effectsList->setStyleSheet(styleSheet);
+    m_effectsList->setStyleSheet(customStyleSheet());
     QVBoxLayout *lyr = new QVBoxLayout(effectlistframe);
     lyr->addWidget(m_effectsList);
     lyr->setContentsMargins(0, 0, 0, 0);
@@ -55,7 +47,7 @@ EffectsListView::EffectsListView(QWidget *parent) :
     
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
-    buttonInfo->setIcon(KIcon("help-about"));
+    buttonInfo->setIcon(QIcon::fromTheme("help-about"));
     buttonInfo->setToolTip(i18n("Show/Hide the effect description"));
     buttonInfo->setIconSize(iconSize);
     setFocusPolicy(Qt::StrongFocus);
@@ -67,7 +59,7 @@ EffectsListView::EffectsListView(QWidget *parent) :
     else
         infopanel->hide();
 
-    contextMenu->addAction(KIcon("edit-delete"), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
+    contextMenu->addAction(QIcon::fromTheme("edit-delete"), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
 
     connect(type_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(filterList(int)));
     connect(buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
@@ -78,6 +70,18 @@ EffectsListView::EffectsListView(QWidget *parent) :
     connect(search_effect, SIGNAL(textChanged(QString)), this, SLOT(slotAutoExpand(QString)));
     //m_effectsList->setCurrentRow(0);
 }
+
+const QString EffectsListView::customStyleSheet() const
+{
+    return QString("QTreeView::branch:has-siblings:!adjoins-item{border-image:none;border:0px} \
+    QTreeView::branch:has-siblings:adjoins-item {border-image: none;border:0px}      \
+    QTreeView::branch:!has-children:!has-siblings:adjoins-item {border-image: none;border:0px} \
+    QTreeView::branch:has-children:!has-siblings:closed,QTreeView::branch:closed:has-children:has-siblings {   \
+         border-image: none;image: url(:/images/stylesheet-branch-closed.png);}      \
+    QTreeView::branch:open:has-children:!has-siblings,QTreeView::branch:open:has-children:has-siblings  {    \
+         border-image: none;image: url(:/images/stylesheet-branch-open.png);}");
+}
+
 
 void EffectsListView::filterList(int pos)
 {
@@ -145,7 +149,7 @@ void EffectsListView::slotRemoveEffect()
 {
     QTreeWidgetItem *item = m_effectsList->currentItem();
     QString effectId = item->text(0);
-    QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
+    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects";
 
     QDir directory = QDir(path);
     QStringList filter;
@@ -153,14 +157,14 @@ void EffectsListView::slotRemoveEffect()
     const QStringList fileList = directory.entryList(filter, QDir::Files);
     QString itemName;
     foreach(const QString &filename, fileList) {
-        itemName = KUrl(path + filename).path();
+        itemName = QUrl(path + filename).path();
         QDomDocument doc;
         QFile file(itemName);
         doc.setContent(&file, false);
         file.close();
         QDomNodeList effects = doc.elementsByTagName("effect");
         if (effects.count() != 1) {
-            kDebug() << "More than one effect in file " << itemName << ", NOT SUPPORTED YET";
+            //qDebug() << "More than one effect in file " << itemName << ", NOT SUPPORTED YET";
         } else {
             QDomElement e = effects.item(0).toElement();
             if (e.attribute("id") == effectId) {
@@ -213,7 +217,10 @@ void EffectsListView::slotAutoExpand(const QString &text)
 
 void EffectsListView::updatePalette()
 {
-    m_effectsList->setStyleSheet(m_effectsList->styleSheet());
+    // We need to reset current stylesheet if we want to change the palette!
+    m_effectsList->setStyleSheet("");
+    m_effectsList->updatePalette();
+    m_effectsList->setStyleSheet(customStyleSheet());
 }
 
-#include "effectslistview.moc"
+

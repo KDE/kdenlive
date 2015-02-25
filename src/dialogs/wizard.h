@@ -26,8 +26,8 @@
 #include <QItemDelegate>
 #include <QPainter>
 
-#include <KIcon>
-#include <KDebug>
+#include <QIcon>
+#include <QDebug>
 
 #include "ui_wizardstandard_ui.h"
 #include "ui_wizardextra_ui.h"
@@ -97,8 +97,8 @@ private:
     void slotCheckPrograms();
     void checkMltComponents();
     void checkMissingCodecs();
-    KIcon m_okIcon;
-    KIcon m_badIcon;
+    QIcon m_okIcon;
+    QIcon m_badIcon;
 
 private slots:
     void slotCheckThumbs();

@@ -22,9 +22,9 @@
 #include "kdenlivesettings.h"
 #include "doc/kdenlivedoc.h"
 
-#include <KDebug>
-#include <KUrl>
-#include <KLocalizedString>
+#include <QDebug>
+#include <QUrl>
+#include <klocalizedstring.h>
 
 #include <mlt++/Mlt.h>
 
@@ -35,8 +35,8 @@ static void consumer_frame_render(mlt_consumer, MeltJob * self, mlt_frame frame_
     self->emitFrameNumber((int) frame.get_position());
 }
 
-MeltJob::MeltJob(ClipType cType, const QString &id, const QStringList &parameters,  const QMap <QString, QString>&extraParams)
-    : AbstractClipJob(MLTJOB, cType, id, parameters),
+MeltJob::MeltJob(ClipType cType, const QString id, const QMap <QString, QString> producerParams, const QMap <QString, QString> filterParams, const QMap <QString, QString> consumerParams,  const QMap <QString, QString>extraParams)
+    : AbstractClipJob(MLTJOB, cType, id),
     addClipToProject(0),
     m_consumer(NULL),
     m_producer(NULL),
@@ -44,17 +44,19 @@ MeltJob::MeltJob(ClipType cType, const QString &id, const QStringList &parameter
     m_filter(NULL),
     m_showFrameEvent(NULL),
     m_length(0),
+    m_producerParams(producerParams),
+    m_filterParams(filterParams),
+    m_consumerParams(consumerParams),
     m_extra(extraParams)
 {
     m_jobStatus = JobWaiting;
-    m_params = parameters;
     description = i18n("Process clip");
-    QString consum = m_params.at(5);
+    QString consum = m_consumerParams.value("consumer");
     if (consum.contains(QLatin1Char(':')))
         m_dest = consum.section(QLatin1Char(':'), 1);
 }
 
-void MeltJob::setProducer(Mlt::Producer *producer, const KUrl &url)
+void MeltJob::setProducer(Mlt::Producer *producer, const QUrl &url)
 {
     Q_UNUSED(producer)
 
@@ -71,23 +73,23 @@ void MeltJob::startJob()
         setStatus(JobCrashed);
         return;
     }
-    int in = m_params.takeFirst().toInt();
+    int in = m_producerParams.value("in").toInt();
     if (in > 0 && !m_extra.contains(QLatin1String("offset"))) m_extra.insert(QLatin1String("offset"), QString::number(in));
-    int out = m_params.takeFirst().toInt();
-    QString producerParams =m_params.takeFirst(); 
-    QString filter = m_params.takeFirst();
-    QString filterParams = m_params.takeFirst();
-    QString consumer = m_params.takeFirst();
-    if (consumer.contains(QLatin1Char(':'))) m_dest = consumer.section(QLatin1Char(':'), 1);
-    QString consumerParams = m_params.takeFirst();
-    
+    int out = m_producerParams.value("out").toInt();
+    QString filterName = m_filterParams.value("filter");
+    QString consumerName = m_consumerParams.value("consumer");
+    if (consumerName.contains(QLatin1Char(':'))) m_dest = consumerName.section(QLatin1Char(':'), 1);
+
     // optional params
     int startPos = -1;
-    if (!m_params.isEmpty()) startPos = m_params.takeFirst().toInt();
     int track = -1;
-    if (!m_params.isEmpty()) track = m_params.takeFirst().toInt();
+
+    // used when triggering a job from an effect
+    if (m_extra.contains("clipStartPos")) startPos = m_extra.value("clipStartPos").toInt();
+    if (m_extra.contains("clipTrack")) track = m_extra.value("clipTrack").toInt();
+
     if (!m_extra.contains(QLatin1String("finalfilter")))
-        m_extra.insert(QLatin1String("finalfilter"), filter);
+        m_extra.insert(QLatin1String("finalfilter"), filterName);
 
     if (out != -1 && out <= in) {
         m_errorMessage.append(i18n("Clip zone undefined (%1 - %2).", in, out));
@@ -125,50 +127,66 @@ void MeltJob::startJob()
 	m_profile->from_producer(*m_producer);
 	m_profile->set_explicit(true);
     }
-    QStringList list = producerParams.split(QLatin1Char(' '), QString::SkipEmptyParts);
-    foreach(const QString &data, list) {
-        if (data.contains(QLatin1Char('='))) {
-            m_producer->set(data.section(QLatin1Char('='), 0, 0).toUtf8().constData(), data.section(QLatin1Char('='), 1, 1).toUtf8().constData());
-        }
+
+    // Process producer params
+    QMapIterator<QString, QString> i(m_producerParams);
+    QStringList ignoredProps;
+    ignoredProps << "producer" << "in" << "out";
+    while (i.hasNext()) {
+	i.next();
+	QString key = i.key();
+	if (!ignoredProps.contains(key)) {
+	    m_producer->set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
+	}
     }
-    if (consumer.contains(QLatin1String(":"))) {
-        m_consumer = new Mlt::Consumer(*m_profile, consumer.section(QLatin1Char(':'), 0, 0).toUtf8().constData(), consumer.section(QLatin1Char(':'), 1).toUtf8().constData());
+
+    // Build consumer
+    if (consumerName.contains(QLatin1String(":"))) {
+        m_consumer = new Mlt::Consumer(*m_profile, consumerName.section(QLatin1Char(':'), 0, 0).toUtf8().constData(), m_dest.toUtf8().constData());
     }
     else {
-        m_consumer = new Mlt::Consumer(*m_profile, consumer.toUtf8().constData());
+        m_consumer = new Mlt::Consumer(*m_profile, consumerName.toUtf8().constData());
     }
     if (!m_consumer || !m_consumer->is_valid()) {
-        m_errorMessage.append(i18n("Cannot create consumer %1.", consumer));
+        m_errorMessage.append(i18n("Cannot create consumer %1.", consumerName));
         setStatus(JobCrashed);
         return;
     }
 
-    //m_consumer->set("terminate_on_pause", 1 );
-    //m_consumer->set("eof", "pause" );
     m_consumer->set("real_time", -KdenliveSettings::mltthreads() );
 
-
-    list = consumerParams.split(QLatin1Char(' '), QString::SkipEmptyParts);
-    foreach(const QString &data, list) {
-        if (data.contains(QLatin1Char('='))) {
-            kDebug()<<"// filter con: "<<data;
-            m_consumer->set(data.section(QLatin1Char('='), 0, 0).toUtf8().constData(), data.section(QLatin1Char('='), 1, 1).toUtf8().constData());
-        }
+    // Process consumer params
+    QMapIterator<QString, QString> j(m_consumerParams);
+    ignoredProps.clear();
+    ignoredProps << "consumer";
+    while (j.hasNext()) {
+	j.next();
+	QString key = j.key();
+	if (!ignoredProps.contains(key)) {
+	    m_consumer->set(j.key().toUtf8().constData(), j.value().toUtf8().constData());
+	}
     }
-    
-    m_filter = new Mlt::Filter(*m_profile, filter.toUtf8().data());
+
+    // Build filter
+    m_filter = new Mlt::Filter(*m_profile, filterName.toUtf8().data());
     if (!m_filter || !m_filter->is_valid()) {
-	m_errorMessage = i18n("Filter %1 crashed", filter);
+	m_errorMessage = i18n("Filter %1 crashed", filterName);
         setStatus(JobCrashed);
 	return;
     }
-    list = filterParams.split(QLatin1Char(' '), QString::SkipEmptyParts);
-    foreach(const QString &data, list) {
-        if (data.contains(QLatin1Char('='))) {
-            kDebug()<<"// filter p: "<<data;
-            m_filter->set(data.section(QLatin1Char('='), 0, 0).toUtf8().constData(), data.section(QLatin1Char('='), 1, 1).toUtf8().constData());
-        }
+
+    // Process filter params
+    QMapIterator<QString, QString> k(m_filterParams);
+    ignoredProps.clear();
+    ignoredProps << "filter";
+    while (k.hasNext()) {
+	k.next();
+	QString key = k.key();
+	if (!ignoredProps.contains(key)) {
+	    m_filter->set(k.key().toUtf8().constData(), k.value().toUtf8().constData());
+	}
     }
+
     Mlt::Tractor tractor;
     Mlt::Playlist playlist;
     playlist.append(*m_producer);
@@ -180,11 +198,11 @@ void MeltJob::startJob()
     m_showFrameEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_render);
     m_producer->set_speed(1);
     m_consumer->run();
-    
+
     QMap <QString, QString> jobResults;
     if (m_jobStatus != JobAborted && m_extra.contains(QLatin1String("key"))) {
-    QString result = QString::fromLatin1(m_filter->get(m_extra.value(QLatin1String("key")).toUtf8().constData()));
-    jobResults.insert(m_extra.value(QLatin1String("key")), result);
+	QString result = QString::fromLatin1(m_filter->get(m_extra.value(QLatin1String("key")).toUtf8().constData()));
+	jobResults.insert(m_extra.value(QLatin1String("key")), result);
     }
     if (!jobResults.isEmpty() && m_jobStatus != JobAborted) {
 	emit gotFilterJobResults(m_clipId, startPos, track, jobResults, m_extra);
@@ -248,4 +266,4 @@ void MeltJob::setStatus(ClipJobStatus status)
 }
 
 
-#include "meltjob.moc"
+

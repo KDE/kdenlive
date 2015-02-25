@@ -21,7 +21,6 @@
 #ifndef CUSTOMTRACKVIEW_H
 #define CUSTOMTRACKVIEW_H
 
-#include <kdeversion.h>
 #include <KColorScheme>
 
 #include <QGraphicsView>
@@ -102,13 +101,11 @@ public:
     void setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition, QActionGroup *clipTypeGroup, QMenu *markermenu);
     bool checkTrackHeight();
     void updateSceneFrameWidth();
-    //QList <TrackInfo> tracksList() const;
     void setTool(ProjectTool tool);
     ClipItem *cutClip(const ItemInfo &info, const GenTime &cutTime, bool cut, const EffectsList &oldStack = EffectsList(), bool execute = true);
     void slotSeekToPreviousSnap();
     void slotSeekToNextSnap();
     double getSnapPointForPos(double pos);
-    void editKeyFrame(const GenTime &pos, const int track, const int index, const QString &keyframes);
     bool findString(const QString &text);
     void selectFound(QString track, QString pos);
     bool findNextString(const QString &text);
@@ -118,7 +115,6 @@ public:
     void clipStart();
     void clipEnd();
     void doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id);
-    /** @brief Sets the document as modified. */
     void setDocumentModified();
     void setInPoint();
     void setOutPoint();
@@ -354,8 +350,7 @@ private:
     QList <CommentedTime> m_searchPoints;
     QList <Guide *> m_guides;
 
-    ClipItem *getClipItemAt(int pos, int track);
-    ClipItem *getClipItemAt(GenTime pos, int track);
+    ClipItem *getClipItemAtMiddlePoint(int pos, int track);
     ClipItem *getClipItemAtEnd(GenTime pos, int track);
     ClipItem *getClipItemAtStart(GenTime pos, int track);
     Transition *getTransitionItem(TransitionInfo info);

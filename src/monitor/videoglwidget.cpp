@@ -20,13 +20,15 @@
 
 #include "videoglwidget.h"
 
-#include <QtGui>
-#include <QtOpenGL>
 #ifdef Q_WS_MAC
 #include <OpenGL/glu.h>
 #else
 #include <GL/glu.h>
 #endif
+
+#include <QApplication>
+#include <QMouseEvent>
+#include <QDesktopWidget>
 
 #ifndef GL_TEXTURE_RECTANGLE_EXT
 #define GL_TEXTURE_RECTANGLE_EXT GL_TEXTURE_RECTANGLE_NV
@@ -44,7 +46,6 @@ VideoGLWidget::VideoGLWidget(QWidget *parent)
     , m_display_ratio(4.0 / 3.0)
     , m_backgroundColor(Qt::gray)
 {  
-    setAttribute(Qt::WA_PaintOnScreen);
     setAttribute(Qt::WA_OpaquePaintEvent);
 }
 
@@ -173,11 +174,7 @@ void VideoGLWidget::mouseDoubleClickEvent(QMouseEvent * event)
     Qt::WindowFlags flags = windowFlags();
     if (!isFullScreen()) {
         // Check if we ahave a multiple monitor setup
-#if QT_VERSION >= 0x040600
         int monitors = QApplication::desktop()->screenCount();
-#else
-        int monitors = QApplication::desktop()->numScreens();
-#endif
         if (monitors > 1) {
             QRect screenres;
             // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget
@@ -215,4 +212,4 @@ void VideoGLWidget::mouseDoubleClickEvent(QMouseEvent * event)
 }
 
 
-#include "videoglwidget.moc"
+

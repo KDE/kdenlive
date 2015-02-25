@@ -20,8 +20,6 @@
 #ifndef HEADERTRACK_H
 #define HEADERTRACK_H
 
-#include <QContextMenuEvent>
-#include <QMenu>
 #include <QDomElement>
 
 #include "definitions.h"

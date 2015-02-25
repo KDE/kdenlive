@@ -28,7 +28,7 @@
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="KLineEdit" name="lineeditwidget"/>
+    <widget class="QLineEdit" name="lineeditwidget"/>
    </item>
    <item row="2" column="0">
     <widget class="KComboBox" name="comboboxwidget"/>
@@ -42,7 +42,7 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>

@@ -19,12 +19,10 @@
 #define KTHUMB_H
 
 #include <QPixmap>
-#include <QFile>
 #include <QDomElement>
 #include <QFuture>
 
-#include <KUrl>
-#include <kdeversion.h>
+#include <QUrl>
 
 #include <mlt++/Mlt.h>
 
@@ -53,7 +51,7 @@ class KThumb: public QObject
    Q_OBJECT 
 public:
 
-    explicit KThumb(ClipManager *clipManager, const KUrl &url, const QString &id, const QString &hash, QObject * parent = 0);
+    explicit KThumb(ClipManager *clipManager, const QUrl &url, const QString &id, const QString &hash, QObject * parent = 0);
     ~KThumb();
     void setProducer(Mlt::Producer *producer);
     bool hasProducer() const;
@@ -61,25 +59,20 @@ public:
     void updateThumbUrl(const QString &hash);
     void extractImage(const QList<int> &frames);
     QImage extractImage(int frame, int width, int height);
-#if KDE_IS_VERSION(4,5,0)
     /** @brief Request thumbnails for the frame range. */
     void queryIntraThumbs(const QSet <int> &missingFrames);
     /** @brief Query cached thumbnail. */
     QImage findCachedThumb(int pos);
-#endif
     void getThumb(int frame);
     void getGenericThumb(int frame, int height, int type);
 
 public slots:
-    void updateClipUrl(const KUrl &url, const QString &hash);
+    void updateClipUrl(const QUrl &url, const QString &hash);
     void slotCreateAudioThumbs();
 
 public:
-    static QPixmap getImage(const KUrl &url, int width, int height);
-//    static QPixmap getImage(QDomElement xml, int frame, int width, int height);
-    /* void getImage(KUrl url, int frame, int width, int height);
-     void getThumbs(KUrl url, int startframe, int endframe, int width, int height);*/
-    static QPixmap getImage(const KUrl& url, int frame, int width, int height);
+    static QPixmap getImage(const QUrl &url, int width, int height);
+    static QPixmap getImage(const QUrl &url, int frame, int width, int height);
     static QImage getFrame(Mlt::Producer *producer, int framepos, int frameWidth, int displayWidth, int height);
     static QImage getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int height);
     /** @brief Calculates image variance, useful to know if a thumbnail is interesting. 
@@ -88,13 +81,11 @@ public:
     static uint imageVariance(const QImage &image);
 
 private slots:
-#if KDE_IS_VERSION(4,5,0)
     /** @brief Fetch all requested frames. */ 
     void slotGetIntraThumbs();
-#endif
 
 private:
-    KUrl m_url;
+    QUrl m_url;
     QString m_thumbFile;
     double m_dar;
     double m_ratio;

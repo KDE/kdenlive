@@ -18,12 +18,13 @@
  ***************************************************************************/
 
 #include "jogaction.h"
+#include "core.h"
 #include "monitor/monitormanager.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <klocalizedstring.h>
-#include <KDebug>
+#include <QDebug>
 
 // TODO(fleury): this should probably be a user configuration parameter (at least the max speed).
 //const double SPEEDS[] = {0.0, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0, 32.0};
@@ -36,29 +37,18 @@ JogShuttleAction::JogShuttleAction (const JogShuttle* jogShuttle, const QStringL
     // Add action map 0 used for stopping the monitor when the shuttle is in neutral position.
     if (m_actionMap.size() == 0)
       m_actionMap.append("monitor_pause");
-    
-    connect(m_jogShuttle, SIGNAL(jogBack()), this, SLOT(slotJogBack()));
-    connect(m_jogShuttle, SIGNAL(jogForward()), this, SLOT(slotJogForward()));
-    connect(m_jogShuttle, SIGNAL(shuttlePos(int)), this, SLOT(slotShuttlePos(int)));
-    connect(m_jogShuttle, SIGNAL(button(int)), this, SLOT(slotButton(int)));
+
+    connect(m_jogShuttle, SIGNAL(jogBack()), pCore->monitorManager(), SLOT(slotRewindOneFrame()));
+    connect(m_jogShuttle, SIGNAL(jogForward()), pCore->monitorManager(), SLOT(slotForwardOneFrame()));
+    connect(m_jogShuttle, SIGNAL(shuttlePos(int)), SLOT(slotShuttlePos(int)));
+    connect(m_jogShuttle, SIGNAL(button(int)), SLOT(slotButton(int)));
+
+    connect(this, SIGNAL(rewind(double)), pCore->monitorManager(), SLOT(slotRewind(double)));
+    connect(this, SIGNAL(forward(double)), pCore->monitorManager(), SLOT(slotForward(double)));
 }
 
 JogShuttleAction::~JogShuttleAction()
 {
-    disconnect(m_jogShuttle, SIGNAL(jogBack()), this, SLOT(slotJogBack()));
-    disconnect(m_jogShuttle, SIGNAL(jogForward()), this, SLOT(slotJogForward()));
-    disconnect(m_jogShuttle, SIGNAL(shuttlePos(int)), this, SLOT(slotShuttlePos(int)));
-    disconnect(m_jogShuttle, SIGNAL(button(int)), this, SLOT(slotButton(int)));
-}
-
-void JogShuttleAction::slotJogBack()
-{
-    emit rewindOneFrame();
-}
-
-void JogShuttleAction::slotJogForward()
-{
-    emit forwardOneFrame();
 }
 
 void JogShuttleAction::slotShuttlePos(int shuttle_pos)
@@ -68,7 +58,7 @@ void JogShuttleAction::slotShuttlePos(int shuttle_pos)
         if (shuttle_pos < 0)
             emit rewind(-SPEEDS[magnitude]);
         if (shuttle_pos == 0) {
-            //kDebug() << "Shuttle pos0 action: " << m_actionMap[0];
+            ////qDebug() << "Shuttle pos0 action: " << m_actionMap[0];
             emit action(m_actionMap[0]);
         }
         if (shuttle_pos > 0)
@@ -80,11 +70,11 @@ void JogShuttleAction::slotButton(int button_id)
 {
     if (button_id >= m_actionMap.size() || m_actionMap[button_id].isEmpty()) {
         // TODO(fleury): Shoudl this go to the status bar to inform the user ?
-        kDebug() << "No action applied for button: " << button_id;
+        //qDebug() << "No action applied for button: " << button_id;
         return;
     }
-    //kDebug() << "Shuttle button =" << button_id << ": action=" << m_actionMap[button_id];
+    ////qDebug() << "Shuttle button =" << button_id << ": action=" << m_actionMap[button_id];
     emit action(m_actionMap[button_id]);
 }
 
-#include "jogaction.moc"
+

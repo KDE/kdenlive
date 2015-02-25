@@ -39,7 +39,7 @@ namespace Kdenlive {
 class EffectsList: public QDomDocument
 {
 public:
-    EffectsList(bool indexRequired = false);
+    explicit EffectsList(bool indexRequired = false);
     ~EffectsList();
 
     /** @brief Returns the XML element of an effect.

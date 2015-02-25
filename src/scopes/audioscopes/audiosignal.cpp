@@ -19,10 +19,9 @@
 
 #include "audiosignal.h"
 
-#include <KDebug>
+#include <QDebug>
 
 #include <QPainter>
-#include <QMenu>
 #include <QTime>
 
 #include <math.h>
@@ -222,4 +221,4 @@ double AudioSignal::valueToPixel(double in)
     return 1.0- log10( in)/log10(1.0/127.0);
 }
 
-#include "audiosignal.moc"
+

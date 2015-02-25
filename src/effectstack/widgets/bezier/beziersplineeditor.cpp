@@ -19,6 +19,8 @@
 #include "beziersplineeditor.h"
 #include "kdenlivesettings.h"
 
+#include "complex"
+
 #include <QPainter>
 #include <QMouseEvent>
 
@@ -218,9 +220,6 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
     p.setPen(QPen(Qt::red, 1, Qt::SolidLine));
 
     QPolygonF handle = QPolygonF() << QPointF(0, -3) << QPointF(3, 0) << QPointF(0, 3) << QPointF(-3, 0);
-#if QT_VERSION < 0x040600
-    QPolygonF tmp;
-#endif
 
     for (int i = 0; i <= max; ++i) {
         point = m_spline.getPoint(i, wWidth, wHeight, true);
@@ -238,22 +237,10 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
         p.drawEllipse(QRectF(point.p.x() - 3,
                              point.p.y() - 3, 6, 6));
         if (i != 0 && (i == m_currentPointIndex || m_showAllHandles)) {
-#if QT_VERSION >= 0x040600
             p.drawConvexPolygon(handle.translated(point.h1.x(), point.h1.y()));
-#else
-            tmp = handle;
-            tmp.translate(point.h1.x(), point.h1.y());
-            p.drawConvexPolygon(tmp);
-#endif
         }
         if (i != max && (i == m_currentPointIndex || m_showAllHandles)) {
-#if QT_VERSION >= 0x040600
             p.drawConvexPolygon(handle.translated(point.h2.x(), point.h2.y()));
-#else
-            tmp = handle;
-            tmp.translate(point.h2.x(), point.h2.y());
-            p.drawConvexPolygon(tmp);
-#endif
         }
 
         if ( i == m_currentPointIndex)
@@ -496,4 +483,4 @@ int BezierSplineEditor::nearestPointInRange(const QPointF &p, int wWidth, int wH
     return -1;
 }
 
-#include "beziersplineeditor.moc"
+

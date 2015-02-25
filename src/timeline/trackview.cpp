@@ -33,12 +33,13 @@
 #include "effectslist/initeffects.h"
 #include "dialogs/profilesdialog.h"
 
-#include <KDebug>
-#include <KMessageBox>
-#include <KIO/NetAccess>
-
+#include <QDebug>
 #include <QScrollBar>
-#include <QInputDialog>
+
+#include <KMessageBox>
+#include <KIO/FileCopyJob>
+#include <klocalizedstring.h>
+
 
 TrackView::TrackView(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, QWidget *parent) :
     QWidget(parent),
@@ -74,14 +75,14 @@ TrackView::TrackView(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok
     size_frame->setMaximumHeight(m_ruler->height());
 
     QToolButton *butSmall = new QToolButton(this);
-    butSmall->setIcon(KIcon("kdenlive-zoom-small"));
+    butSmall->setIcon(QIcon::fromTheme("kdenlive-zoom-small"));
     butSmall->setToolTip(i18n("Smaller tracks"));
     butSmall->setAutoRaise(true);
     connect(butSmall, SIGNAL(clicked()), this, SLOT(slotVerticalZoomDown()));
     sizeLayout->addWidget(butSmall);
 
     QToolButton *butLarge = new QToolButton(this);
-    butLarge->setIcon(KIcon("kdenlive-zoom-large"));
+    butLarge->setIcon(QIcon::fromTheme("kdenlive-zoom-large"));
     butLarge->setToolTip(i18n("Bigger tracks"));
     butLarge->setAutoRaise(true);
     connect(butLarge, SIGNAL(clicked()), this, SLOT(slotVerticalZoomUp()));
@@ -241,7 +242,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
                 }
             }
             if (p.attribute("id") != playlist_name) { // then it didn't work.
-                kDebug() << "NO PLAYLIST FOUND FOR TRACK " << pos;
+                //qDebug() << "NO PLAYLIST FOUND FOR TRACK " << pos;
             }
             if (e.attribute("hide") == "video") {
                 m_doc->switchTrackVideo(i - 1, true);
@@ -254,7 +255,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
 
             trackduration = slotAddProjectTrack(pos, p, m_doc->isTrackLocked(i - 1), producers);
             pos--;
-            //kDebug() << " PRO DUR: " << trackduration << ", TRACK DUR: " << duration;
+            ////qDebug() << " PRO DUR: " << trackduration << ", TRACK DUR: " << duration;
             if (trackduration > duration) duration = trackduration;
         } else {
             // background black track
@@ -269,7 +270,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
     // parse transitions
     QDomNodeList transitions = tractor.elementsByTagName("transition");
 
-    //kDebug() << "//////////// TIMELINE FOUND: " << projectTransitions << " transitions";
+    ////qDebug() << "//////////// TIMELINE FOUND: " << projectTransitions << " transitions";
     for (int i = 0; i < transitions.count(); ++i) {
         e = transitions.item(i).toElement();
         QDomNodeList transitionparams = e.childNodes();
@@ -288,7 +289,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
                 // do not add audio mixing transitions
                 if (paramName == "internal_added" && p.text() == "237") {
                     transitionAdd = false;
-                    //kDebug() << "//  TRANSITRION " << i << " IS NOT VALID (INTERN ADDED)";
+                    ////qDebug() << "//  TRANSITRION " << i << " IS NOT VALID (INTERN ADDED)";
                     //break;
                 } else if (paramName == "a_track") {
                     a_track = qMax(0, p.text().toInt());
@@ -381,17 +382,17 @@ void TrackView::parseDocument(const QDomDocument &doc)
 
             /*QDomDocument doc;
             doc.appendChild(doc.importNode(base, true));
-            kDebug() << "///////  TRANSITION XML: "<< doc.toString();*/
+            //qDebug() << "///////  TRANSITION XML: "<< doc.toString();*/
 
             transitionInfo.startPos = GenTime(e.attribute("in").toInt(), m_doc->fps());
             transitionInfo.endPos = GenTime(e.attribute("out").toInt() + 1, m_doc->fps());
             transitionInfo.track = m_projectTracks - 1 - b_track;
 
-            //kDebug() << "///////////////   +++++++++++  ADDING TRANSITION ON TRACK: " << b_track << ", TOTAL TRKA: " << m_projectTracks;
+            ////qDebug() << "///////////////   +++++++++++  ADDING TRANSITION ON TRACK: " << b_track << ", TOTAL TRKA: " << m_projectTracks;
             if (transitionInfo.startPos >= transitionInfo.endPos || base.isNull()) {
                 // invalid transition, remove it.
                 m_documentErrors.append(i18n("Removed invalid transition: (%1, %2, %3)", e.attribute("id"), mlt_service, transitionId) + '\n');
-                kDebug() << "///// REMOVED INVALID TRANSITION: " << e.attribute("id");
+                //qDebug() << "///// REMOVED INVALID TRANSITION: " << e.attribute("id");
                 tractor.removeChild(transitions.item(i));
                 --i;
             } else if (m_trackview->canBePastedTo(transitionInfo, TransitionWidget)) {
@@ -430,7 +431,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
     QDomNodeList groups = infoXml.elementsByTagName("group");
     m_trackview->loadGroups(groups);
     m_trackview->setDuration(duration);
-    kDebug() << "///////////  TOTAL PROJECT DURATION: " << duration;
+    //qDebug() << "///////////  TOTAL PROJECT DURATION: " << duration;
 
     // Remove Kdenlive extra info from xml doc before sending it to MLT
     mlt.removeChild(infoXml);
@@ -451,7 +452,9 @@ void TrackView::parseDocument(const QDomDocument &doc)
             message = i18n("Your project file was upgraded to the latest Kdenlive document version.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile);
         else
             message = i18n("Your project file was modified by Kdenlive.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile);
-        if (KIO::NetAccess::file_copy(m_doc->url(), KUrl(backupFile), this))
+        
+        KIO::FileCopyJob *copyjob = KIO::file_copy(m_doc->url(), QUrl::fromLocalFile(backupFile));
+        if (copyjob->exec())
             KMessageBox::information(this, message);
         else
             KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version, but it was not possible to create the backup copy %1.", backupFile));
@@ -571,13 +574,15 @@ void TrackView::slotRebuildTrackHeaders()
 
 void TrackView::updatePalette()
 {
-    QPalette p = palette();
+    headers_container->setStyleSheet("");
+    setPalette(qApp->palette());
+    QPalette p = qApp->palette();
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     QColor norm = scheme.shade(scheme.background(KColorScheme::ActiveBackground).color(), KColorScheme::MidShade);
     p.setColor(QPalette::Button, norm);
     QColor col = scheme.background().color();
     QColor col2 = scheme.foreground().color();
-    headers_container->setStyleSheet(QString("KLineEdit { background-color: transparent;color: %1;} KLineEdit:hover{ background-color: %2;} KLineEdit:focus { background-color: %2;}").arg(col2.name()).arg(col.name()));
+    headers_container->setStyleSheet(QString("QLineEdit { background-color: transparent;color: %1;} QLineEdit:hover{ background-color: %2;} QLineEdit:focus { background-color: %2;}").arg(col2.name()).arg(col.name()));
     m_trackview->updatePalette();
     m_ruler->updatePalette();
     
@@ -636,7 +641,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const Q
             if (clip == NULL) {
                 // The clip in playlist was not listed in the kdenlive producers,
                 // something went wrong, repair required.
-                kWarning() << "CANNOT INSERT CLIP " << id;
+                qWarning() << "CANNOT INSERT CLIP " << id;
                 QString docRoot = m_doc->toXml().documentElement().attribute("root");
                 if (!docRoot.endsWith('/')) docRoot.append('/');
                 clip = getMissingProducer(idString);
@@ -702,7 +707,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const Q
                             QString resource = EffectsList::property(prod, "resource");
                             if (!resource.startsWith('/') && service != "colour") {
                                 resource.prepend(docRoot);
-                                kDebug()<<"******************\nADJUSTED 1\n*************************";
+                                //qDebug()<<"******************\nADJUSTED 1\n*************************";
                             }
                             QString length = EffectsList::property(prod, "length");
                             producerXml.setAttribute("mlt_service", service);
@@ -739,7 +744,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const Q
                 clipinfo.cropDuration = clipinfo.endPos - clipinfo.startPos;
 
                 clipinfo.track = ix;
-                //kDebug() << "// INSERTING CLIP: " << in << 'x' << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
+                ////qDebug() << "// INSERTING CLIP: " << in << 'x' << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
                 ClipItem *item = new ClipItem(clip, clipinfo, m_doc->fps(), speed, strobe, frame_width, false);
                 if (idString.endsWith(QLatin1String("_video"))) item->setVideoOnly(true);
                 else if (idString.endsWith(QLatin1String("_audio"))) item->setAudioOnly(true);
@@ -761,7 +766,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const Q
             }
         }
     }
-    kDebug() << "*************  ADD DOC TRACK " << ix << ", DURATION: " << position;
+    //qDebug() << "*************  ADD DOC TRACK " << ix << ", DURATION: " << position;
     return position;
 }
 
@@ -798,13 +803,15 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 effectparam.firstChild().setNodeValue(effectindex);
             }
         }
-        //kDebug() << "+ + CLIP EFF FND: " << effecttag << ", " << effectid << ", " << effectindex;
+        ////qDebug() << "+ + CLIP EFF FND: " << effecttag << ", " << effectid << ", " << effectindex;
         // get effect standard tags
         QDomElement clipeffect = getEffectByTag(effecttag, effectid);
         if (clipeffect.isNull()) {
-            kDebug() << "///  WARNING, EFFECT: " << effecttag << ": " << effectid << " not found, removing it from project";
+            //qDebug() << "///  WARNING, EFFECT: " << effecttag << ": " << effectid << " not found, removing it from project";
             m_documentErrors.append(i18n("Effect %1:%2 not found in MLT, it was removed from this project\n", effecttag, effectid));
-            if (parentNode.removeChild(effects.at(ix)).isNull()) kDebug() << "///  PROBLEM REMOVING EFFECT: " << effecttag;
+            if (parentNode.removeChild(effects.at(ix)).isNull()) {
+                //qDebug() << "///  PROBLEM REMOVING EFFECT: " << effecttag;
+            }
             ix--;
         } else {
             QDomElement currenteffect = clipeffect.cloneNode().toElement();
@@ -813,7 +820,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
             QDomNodeList clipeffectparams = currenteffect.childNodes();
 
             if (MainWindow::videoEffects.hasKeyFrames(currenteffect)) {
-                //kDebug() << " * * * * * * * * * * ** CLIP EFF WITH KFR FND  * * * * * * * * * * *";
+                ////qDebug() << " * * * * * * * * * * ** CLIP EFF WITH KFR FND  * * * * * * * * * * *";
                 // effect is key-framable, read all effects to retrieve keyframes
                 QString factor;
                 QString starttag;
@@ -1060,7 +1067,7 @@ DocClipBase *TrackView::getMissingProducer(const QString &id) const
     // prepend MLT XML document root if no path in clip resource and not a color clip
     if (!resource.startsWith('/') && service != "colour") {
         resource.prepend(docRoot);
-        kDebug()<<"******************\nADJUSTED 2\n*************************";
+        //qDebug()<<"******************\nADJUSTED 2\n*************************";
     }
     DocClipBase *missingClip = NULL;
     if (!resource.isEmpty()) {
@@ -1161,7 +1168,7 @@ void TrackView::slotUpdateTrackEffectState(int ix)
 {
     QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
     if (ix < 0 || ix >= widgets.count()) {
-        kDebug() << "ERROR, Trying to access a non existent track: " << ix;
+        //qDebug() << "ERROR, Trying to access a non existent track: " << ix;
         return;
     }
     widgets.at(m_doc->tracksCount() - ix - 1)->updateEffectLabel(m_doc->trackInfoAt(ix).effectsList.effectNames());
@@ -1197,7 +1204,7 @@ void TrackView::checkTrackHeight()
     }
 }
 
-#include "trackview.moc"
+
 
 
 

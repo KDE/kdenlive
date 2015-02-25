@@ -23,16 +23,15 @@
 #include "kdenlivesettings.h"
 #include "effectslist/effectslist.h"
 
-#include <KIcon>
-#include <KLocalizedString>
-#include <KDebug>
+#include <QIcon>
+#include <klocalizedstring.h>
+#include <QDebug>
 
 #include <QMouseEvent>
 #include <QWidget>
-#include <QPainter>
 #include <QAction>
-#include <QTimer>
 #include <QDomDocument>
+#include <QMimeData>
 
 HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, const QList <QAction *> &actions, QWidget *parent) :
         QWidget(parent),
@@ -58,7 +57,7 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, const QList <QAc
     buttonLock->setChecked(info.isLocked);
     buttonLock->setFixedSize(iconSize, iconSize);
     buttonLock->setToolTip(i18n("Lock track"));
-    effect_label->setPixmap(KIcon("kdenlive-track_has_effect").pixmap(iconSize, iconSize));
+    effect_label->setPixmap(QIcon::fromTheme("kdenlive-track_has_effect").pixmap(iconSize, iconSize));
     updateEffectLabel(info.effectsList.effectNames());
     setAcceptDrops(true);
 
@@ -66,21 +65,21 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, const QList <QAc
         setBackgroundRole(QPalette::AlternateBase);
         setAutoFillBackground(true);
         if (!info.isBlind)
-            buttonVideo->setIcon(KIcon("kdenlive-show-video"));
+            buttonVideo->setIcon(QIcon::fromTheme("kdenlive-show-video"));
         else
-            buttonVideo->setIcon(KIcon("kdenlive-hide-video"));
+            buttonVideo->setIcon(QIcon::fromTheme("kdenlive-hide-video"));
     } else {
         buttonVideo->setHidden(true);
     }
     if (!info.isMute)
-        buttonAudio->setIcon(KIcon("kdenlive-show-audio"));
+        buttonAudio->setIcon(QIcon::fromTheme("kdenlive-show-audio"));
     else
-        buttonAudio->setIcon(KIcon("kdenlive-hide-audio"));
+        buttonAudio->setIcon(QIcon::fromTheme("kdenlive-hide-audio"));
 
     if (!info.isLocked)
-        buttonLock->setIcon(KIcon("kdenlive-unlock"));
+        buttonLock->setIcon(QIcon::fromTheme("kdenlive-unlock"));
     else
-        buttonLock->setIcon(KIcon("kdenlive-lock"));
+        buttonLock->setIcon(QIcon::fromTheme("kdenlive-lock"));
 
     connect(buttonVideo, SIGNAL(clicked()), this, SLOT(switchVideo()));
     connect(buttonAudio, SIGNAL(clicked()), this, SLOT(switchAudio()));
@@ -208,27 +207,27 @@ void HeaderTrack::adjustSize(int height)
 void HeaderTrack::switchVideo()
 {
     if (buttonVideo->isChecked())
-        buttonVideo->setIcon(KIcon("kdenlive-hide-video"));
+        buttonVideo->setIcon(QIcon::fromTheme("kdenlive-hide-video"));
     else
-        buttonVideo->setIcon(KIcon("kdenlive-show-video"));
+        buttonVideo->setIcon(QIcon::fromTheme("kdenlive-show-video"));
     emit switchTrackVideo(m_index);
 }
 
 void HeaderTrack::switchAudio()
 {
     if (buttonAudio->isChecked())
-        buttonAudio->setIcon(KIcon("kdenlive-hide-audio"));
+        buttonAudio->setIcon(QIcon::fromTheme("kdenlive-hide-audio"));
     else
-        buttonAudio->setIcon(KIcon("kdenlive-show-audio"));
+        buttonAudio->setIcon(QIcon::fromTheme("kdenlive-show-audio"));
     emit switchTrackAudio(m_index);
 }
 
 void HeaderTrack::switchLock(bool emitSignal)
 {
     if (buttonLock->isChecked())
-        buttonLock->setIcon(KIcon("kdenlive-lock"));
+        buttonLock->setIcon(QIcon::fromTheme("kdenlive-lock"));
     else
-        buttonLock->setIcon(KIcon("kdenlive-unlock"));
+        buttonLock->setIcon(QIcon::fromTheme("kdenlive-unlock"));
     if (emitSignal)
         emit switchTrackLock(m_index);
 }
@@ -248,4 +247,4 @@ void HeaderTrack::slotRenameTrack()
 
 
 
-#include "headertrack.moc"
+

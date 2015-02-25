@@ -20,7 +20,6 @@
 #include "customtrackscene.h"
 #include "doc/kdenlivedoc.h"
 
-#include <KStandardDirs>
 
 CustomTrackScene::CustomTrackScene(KdenliveDoc *doc, QObject *parent) :
         QGraphicsScene(parent),
@@ -108,4 +107,4 @@ EditMode CustomTrackScene::editMode() const
     return m_editMode;
 }
 
-#include "customtrackscene.moc"
+

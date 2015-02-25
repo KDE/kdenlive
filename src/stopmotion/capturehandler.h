@@ -17,12 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef __CAPTUREHANDLER_H__
-#define __CAPTUREHANDLER_H__
+#ifndef CAPTUREHANDLER_H
+#define CAPTUREHANDLER_H
 
 #include <QWidget>
 #include <QObject>
-#include <QLayout>
 
 class CaptureHandler : public QObject
 {

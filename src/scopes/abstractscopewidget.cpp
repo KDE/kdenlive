@@ -13,14 +13,14 @@
 #include "renderer.h"
 #include "monitor/monitor.h"
 
-#include <QtCore/qtconcurrentrun.h>
+#include <QtConcurrent>
 #include <QColor>
 #include <QMenu>
 #include <QMouseEvent>
 #include <QPainter>
 
+#include "klocalizedstring.h"
 #include <KConfigGroup>
-#include <KGlobal>
 #include <KSharedConfig>
 
 // Uncomment for Scope debugging.
@@ -86,7 +86,7 @@ AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent) :
     m_aRealtime = new QAction(i18n("Realtime (with precision loss)"), this);
     m_aRealtime->setCheckable(true);
 
-    m_menu = new QMenu(this);
+    m_menu = new QMenu();
     // Disabled dark palette on menus since it breaks up with some themes: kdenlive issue #2950
     //m_menu->setPalette(m_scopePalette);
     m_menu->addAction(m_aAutoRefresh);
@@ -125,7 +125,7 @@ void AbstractScopeWidget::init()
 
 void AbstractScopeWidget::readConfig()
 {
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
     m_aAutoRefresh->setChecked(scopeConfig.readEntry("autoRefresh", true));
     m_aRealtime->setChecked(scopeConfig.readEntry("realtime", false));
@@ -134,7 +134,7 @@ void AbstractScopeWidget::readConfig()
 
 void AbstractScopeWidget::writeConfig()
 {
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
     scopeConfig.writeEntry("autoRefresh", m_aAutoRefresh->isChecked());
     scopeConfig.writeEntry("realtime", m_aRealtime->isChecked());
@@ -565,4 +565,4 @@ void AbstractScopeWidget::handleMouseDrag(const QPoint &, const RescaleDirection
 #undef DEBUG_ASW
 #endif
 
-#include "abstractscopewidget.moc"
+

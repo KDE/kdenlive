@@ -26,13 +26,11 @@
 
 #include <kcolorscheme.h>
 #include <kiconloader.h>
-#include <kicon.h>
-#include <klocale.h>
+#include <QIcon>
 #include <KNotification>
+#include <klocalizedstring.h>
 
-#include <QFontMetrics>
 #include <QPainter>
-#include <QKeyEvent>
 #include <QPushButton>
 #include <QPixmap>
 
@@ -317,4 +315,4 @@ void StatusBarMessageLabel::updateCloseButtonPosition()
 }
 
 
-#include "statusbarmessagelabel.moc"
+

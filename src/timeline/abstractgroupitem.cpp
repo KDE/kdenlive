@@ -25,13 +25,13 @@
 
 #include "kdenlivesettings.h"
 
-#include <KDebug>
+#include <QDebug>
 
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QDomDocument>
-#include <QMimeData>
 #include <QGraphicsSceneMouseEvent>
+#include <QMimeData>
 
 
 AbstractGroupItem::AbstractGroupItem(double /* fps */) :
@@ -40,9 +40,7 @@ AbstractGroupItem::AbstractGroupItem(double /* fps */) :
 {
     setZValue(1);
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-#if QT_VERSION >= 0x040600
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
-#endif
     setAcceptDrops(true);
     m_resizeInfos = QList <ItemInfo>();
 }
@@ -197,7 +195,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         int xpos = projectScene()->getSnapPointForPos((int)(start.x() + newPos.x() - pos().x()), KdenliveSettings::snaptopoints());
 
         xpos = qMax(xpos, 0);
-        //kDebug()<<"GRP XPOS:"<<xpos<<", START:"<<start.x()<<",NEW:"<<newPos.x()<<"; SCENE:"<<scenePos().x()<<",POS:"<<pos().x();
+        ////qDebug()<<"GRP XPOS:"<<xpos<<", START:"<<start.x()<<",NEW:"<<newPos.x()<<"; SCENE:"<<scenePos().x()<<",POS:"<<pos().x();
         newPos.setX((int)(pos().x() + xpos - (int) start.x()));
         QStringList lockedTracks = property("locked_tracks").toStringList();
         int proposedTrack = (property("y_absolute").toInt() + newPos.y()) / trackHeight;
@@ -524,4 +522,4 @@ GenTime AbstractGroupItem::duration()
     return end - start;
 }
 
-#include "abstractgroupitem.moc"
+

@@ -11,27 +11,39 @@
 #include "scopemanager.h"
 #include "definitions.h"
 #include "kdenlivesettings.h"
+#include "core.h"
+#include "mainwindow.h"
 #include "monitor/monitormanager.h"
+#include "colorscopes/vectorscope.h"
+#include "colorscopes/waveform.h"
+#include "colorscopes/rgbparade.h"
+#include "colorscopes/histogram.h"
+#include "audioscopes/audiosignal.h"
+#include "audioscopes/audiospectrum.h"
+#include "audioscopes/spectrogram.h"
+
 
 #include <QDockWidget>
-
+#include "klocalizedstring.h"
 
 //#define DEBUG_SM
 #ifdef DEBUG_SM
 #include <QtCore/QDebug>
 #endif
 
-ScopeManager::ScopeManager(MonitorManager *monitorManager) :
-    m_monitorManager(monitorManager),
+ScopeManager::ScopeManager(QObject *parent) :
+    QObject(parent),
     m_lastConnectedRenderer(NULL)
 {
     m_signalMapper = new QSignalMapper(this);
 
-    connect(m_monitorManager, SIGNAL(checkColorScopes()), this, SLOT(slotUpdateActiveRenderer()));
-    connect(m_monitorManager, SIGNAL(clearScopes()), this, SLOT(slotClearColorScopes()));
-    connect(m_signalMapper, SIGNAL(mapped(QString)), this, SLOT(slotRequestFrame(QString)));
+    connect(pCore->monitorManager(), SIGNAL(checkColorScopes()), SLOT(slotUpdateActiveRenderer()));
+    connect(pCore->monitorManager(), SIGNAL(clearScopes()), SLOT(slotClearColorScopes()));
+    connect(m_signalMapper, SIGNAL(mapped(QString)), SLOT(slotRequestFrame(QString)));
 
     slotUpdateActiveRenderer();
+
+    createScopes();
 }
 
 bool ScopeManager::addScope(AbstractAudioScopeWidget *audioScope, QDockWidget *audioScopeWidget)
@@ -55,7 +67,6 @@ bool ScopeManager::addScope(AbstractAudioScopeWidget *audioScope, QDockWidget *a
 
         AudioScopeData asd;
         asd.scope = audioScope;
-        asd.scopeDockWidget = audioScopeWidget;
         m_audioScopes.append(asd);
 
         connect(audioScope, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotCheckActiveScopes()));
@@ -87,7 +98,6 @@ bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *col
 
         GfxScopeData gsd;
         gsd.scope = colorScope;
-        gsd.scopeDockWidget = colorScopeWidget;
         m_colorScopes.append(gsd);
 
         connect(colorScope, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotCheckActiveScopes()));
@@ -191,9 +201,9 @@ void ScopeManager::slotUpdateActiveRenderer()
         m_lastConnectedRenderer->disconnect(this);
     }
 
-    m_lastConnectedRenderer = m_monitorManager->activeRenderer();
+    m_lastConnectedRenderer = pCore->monitorManager()->activeRenderer();
     // DVD monitor shouldn't be monitored or will cause crash on deletion
-    if (m_monitorManager->isActive(Kdenlive::DvdMonitor)) m_lastConnectedRenderer = NULL;
+    if (pCore->monitorManager()->isActive(Kdenlive::DvdMonitor)) m_lastConnectedRenderer = NULL;
 
     // Connect new renderer
     if (m_lastConnectedRenderer != NULL) {
@@ -266,7 +276,7 @@ void ScopeManager::checkActiveAudioScopes()
 #endif
 
     KdenliveSettings::setMonitor_audio(audioStillRequested);
-    m_monitorManager->slotUpdateAudioMonitoring();
+    pCore->monitorManager()->slotUpdateAudioMonitoring();
 }
 void ScopeManager::checkActiveColourScopes()
 {
@@ -278,18 +288,39 @@ void ScopeManager::checkActiveColourScopes()
 
     // Notify monitors whether frames are still required
     Monitor *monitor;
-    monitor = static_cast<Monitor*>( m_monitorManager->monitor(Kdenlive::ProjectMonitor) );
+    monitor = static_cast<Monitor*>( pCore->monitorManager()->monitor(Kdenlive::ProjectMonitor) );
     if (monitor != NULL) { 
 	if (monitor->effectSceneDisplayed()) monitor->render->sendFrameForAnalysis = true;
 	else monitor->render->sendFrameForAnalysis = imageStillRequested;
     }
 
-    monitor = static_cast<Monitor*>( m_monitorManager->monitor(Kdenlive::ClipMonitor) );
+    monitor = static_cast<Monitor*>( pCore->monitorManager()->monitor(Kdenlive::ClipMonitor) );
     if (monitor != NULL) { monitor->render->sendFrameForAnalysis = imageStillRequested; }
 
-    RecMonitor *recMonitor = static_cast<RecMonitor*>( m_monitorManager->monitor(Kdenlive::RecordMonitor) );
+    RecMonitor *recMonitor = static_cast<RecMonitor*>( pCore->monitorManager()->monitor(Kdenlive::RecordMonitor) );
     if (recMonitor != NULL) { recMonitor->analyseFrames(imageStillRequested); }
 }
 
+void ScopeManager::createScopes()
+{
+    createScopeDock(new Vectorscope(pCore->window()),   i18n("Vectorscope"));
+    createScopeDock(new Waveform(pCore->window()),      i18n("Waveform"));
+    createScopeDock(new RGBParade(pCore->window()),     i18n("RGB Parade"));
+    createScopeDock(new Histogram(pCore->window()),     i18n("Histogram"));
 
-#include "scopemanager.moc"
+    createScopeDock(new AudioSignal(pCore->window()),   i18n("Audio Signal"));
+    createScopeDock(new AudioSpectrum(pCore->window()), i18n("AudioSpectrum"));
+    createScopeDock(new Spectrogram(pCore->window()),   i18n("Spectrogram"));
+}
+
+template <class T> void ScopeManager::createScopeDock(T* scopeWidget, const QString& title)
+{
+    QDockWidget *dock = pCore->window()->addDock(title, scopeWidget->widgetName(), scopeWidget);
+    addScope(scopeWidget, dock);
+
+    // close for initial layout
+    // actual state will be restored by session management
+    dock->close();
+}
+
+

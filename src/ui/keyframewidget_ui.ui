@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>KeyframeWidget_UI</class>
- <widget class="QWidget" name="KeyframeWidget_UI" >
-  <property name="geometry" >
+ <widget class="QWidget" name="KeyframeWidget_UI">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,24 +10,24 @@
     <height>698</height>
    </rect>
   </property>
-  <property name="sizePolicy" >
-   <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <layout class="QGridLayout" >
-   <item row="0" column="0" >
-    <layout class="QVBoxLayout" >
+  <layout class="QGridLayout">
+   <item row="0" column="0">
+    <layout class="QVBoxLayout">
      <item>
-      <widget class="ParameterPlotter" name="kplotwidget" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+      <widget class="ParameterPlotter" name="kplotwidget" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="minimumSize" >
+       <property name="minimumSize">
         <size>
          <width>150</width>
          <height>200</height>
@@ -35,62 +36,62 @@
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" >
+      <layout class="QHBoxLayout">
        <item>
-        <widget class="QToolButton" name="buttonLeftRight" >
-         <property name="toolTip" >
+        <widget class="QToolButton" name="buttonLeftRight">
+         <property name="toolTip">
           <string>move on X axis</string>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>...</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QToolButton" name="buttonUpDown" >
-         <property name="enabled" >
+        <widget class="QToolButton" name="buttonUpDown">
+         <property name="enabled">
           <bool>true</bool>
          </property>
-         <property name="toolTip" >
+         <property name="toolTip">
           <string>move on Y axis</string>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>...</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QToolButton" name="buttonShowInTimeline" >
-         <property name="enabled" >
+        <widget class="QToolButton" name="buttonShowInTimeline">
+         <property name="enabled">
           <bool>false</bool>
          </property>
-         <property name="toolTip" >
+         <property name="toolTip">
           <string>update values in timeline</string>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>...</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QToolButton" name="buttonNewPoints" >
-         <property name="enabled" >
+        <widget class="QToolButton" name="buttonNewPoints">
+         <property name="enabled">
           <bool>false</bool>
          </property>
-         <property name="toolTip" >
+         <property name="toolTip">
           <string>create new points</string>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>...</string>
          </property>
         </widget>
        </item>
        <item>
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>40</width>
            <height>20</height>
@@ -99,27 +100,27 @@
         </spacer>
        </item>
        <item>
-        <widget class="QCheckBox" name="checkBox" >
-         <property name="text" >
+        <widget class="QCheckBox" name="checkBox">
+         <property name="text">
           <string>GraphView</string>
          </property>
-         <property name="checked" >
+         <property name="checked">
           <bool>true</bool>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="KComboBox" name="parameterList" />
+        <widget class="KComboBox" name="parameterList"/>
        </item>
        <item>
-        <widget class="QToolButton" name="buttonHelp" >
-         <property name="enabled" >
+        <widget class="QToolButton" name="buttonHelp">
+         <property name="enabled">
           <bool>true</bool>
          </property>
-         <property name="toolTip" >
+         <property name="toolTip">
           <string>parameter description</string>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>...</string>
          </property>
         </widget>
@@ -127,7 +128,7 @@
       </layout>
      </item>
      <item>
-      <widget class="KTextEdit" name="infoBox" />
+      <widget class="QTextEdit" name="infoBox"/>
      </item>
     </layout>
    </item>
@@ -140,13 +141,8 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KTextEdit</class>
-   <extends>QTextEdit</extends>
-   <header>ktextedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>ParameterPlotter</class>
-   <extends>KPlotWidget</extends>
+   <extends>QWidget</extends>
    <header>effectstack/parameterplotter.h</header>
   </customwidget>
  </customwidgets>

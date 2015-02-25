@@ -21,7 +21,7 @@
 #ifndef NOTESWIDGET_H
 #define NOTESWIDGET_H
 
-#include <KTextEdit>
+#include <QTextEdit>
 
 /**
  * @class NotesWidget
@@ -29,7 +29,7 @@
  * @author Jean-Baptiste Mardelle
  */
 
-class NotesWidget : public KTextEdit
+class NotesWidget : public QTextEdit
 {
     Q_OBJECT
 
@@ -42,7 +42,7 @@ protected:
     void mousePressEvent ( QMouseEvent * e );
     
 private slots:
-    void slotFillNotesMenu(QMenu *menu);
+    void slotFillNotesMenu(const QPoint &pos);
     
 private:
 

@@ -31,11 +31,13 @@
 #include <QApplication>
 #include <QHeaderView>
 #include <QAction>
+#include <QDrag>
+#include <QMimeData>
 
 // KDE
-#include <KDebug>
-#include <KMenu>
-#include <KLocalizedString>
+#include <QDebug>
+#include <QMenu>
+#include <klocalizedstring.h>
 
 ProjectListView::ProjectListView(QWidget *parent)
     : QTreeWidget(parent)
@@ -64,9 +66,9 @@ ProjectListView::ProjectListView(QWidget *parent)
             this, SLOT(configureColumns(QPoint)));
     connect(this, SIGNAL(itemCollapsed(QTreeWidgetItem*)), this, SLOT(slotCollapsed(QTreeWidgetItem*)));
     connect(this, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(slotExpanded(QTreeWidgetItem*)));
-    headerView->setClickable(true);
+    headerView->setSectionsClickable(true);
     headerView->setSortIndicatorShown(true);
-    headerView->setMovable(false);
+    headerView->setSectionsMovable(false);
     sortByColumn(0, Qt::AscendingOrder);
     setSortingEnabled(true);
     installEventFilter(this);
@@ -105,8 +107,8 @@ void ProjectListView::processLayout()
 
 void ProjectListView::configureColumns(const QPoint& pos)
 {
-    KMenu popup(this);
-    popup.addTitle(i18nc("@title:menu", "Columns"));
+    QMenu popup(this);
+    popup.addSection(i18nc("@title:menu", "Columns"));
 
     QHeaderView* headerView = header();
     for (int i = 1; i < headerView->count(); ++i) {
@@ -203,7 +205,7 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
     ProjectItem *item;
     if (it->type() == ProjectFoldeType) {
         if ((columnAt(event->pos().x()) == 0)) {
-            QPixmap pix = qVariantValue<QPixmap>(it->data(0, Qt::DecorationRole));
+            QPixmap pix = it->data(0, Qt::DecorationRole).value<QPixmap>();
             int offset = pix.width() + indentation();
             if (event->pos().x() < offset) {
                 it->setExpanded(!it->isExpanded());
@@ -225,7 +227,7 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
 
     int column = columnAt(event->pos().x());
     if (column == 0 && (item->clipType() == SlideShow || item->clipType() == Text || item->clipType() == Color || it->childCount() > 0)) {
-        QPixmap pix = qVariantValue<QPixmap>(it->data(0, Qt::DecorationRole));
+        QPixmap pix = it->data(0, Qt::DecorationRole).value<QPixmap>();
         int offset = pix.width() + indentation();
         if (item->parent()) offset += indentation();
         if (it->childCount() > 0) {
@@ -243,7 +245,7 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
         QTreeWidget::mouseDoubleClickEvent(event);
         return;
     }
-    emit showProperties(item->referencedClip());
+    emit showProperties();
 }
 
 
@@ -296,7 +298,7 @@ void ProjectListView::dropEvent(QDropEvent *event)
                 if (it->type() != ProjectClipType) continue;
                 QTreeWidgetItem *parent = it->parent();
                 if (parent/* && ((ProjectItem *) it)->clipId() < 10000*/)  {
-                    kDebug() << "++ item parent: " << parent->text(1);
+                    //qDebug() << "++ item parent: " << parent->text(1);
                     clone = static_cast <ProjectItem*>(parent->takeChild(parent->indexOfChild(it)));
                     if (clone) {
                         addTopLevelItem(clone);
@@ -351,7 +353,7 @@ void ProjectListView::mouseReleaseEvent(QMouseEvent *event)
 // virtual
 void ProjectListView::mouseMoveEvent(QMouseEvent *event)
 {
-    //kDebug() << "// DRAG STARTED, MOUSE MOVED: ";
+    ////qDebug() << "// DRAG STARTED, MOUSE MOVED: ";
     if (!m_dragStarted) return;
 
     if ((event->pos() - m_DragStartPosition).manhattanLength()
@@ -437,7 +439,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
             painter->setPen(option.palette.highlightedText().color());
         }
         const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-        QPixmap pixmap = qVariantValue<QPixmap>(index.data(Qt::DecorationRole));
+        QPixmap pixmap = index.data(Qt::DecorationRole).value<QPixmap>();
         QPoint pixmapPoint(r1.left() + textMargin, r1.top() + (r1.height() - pixmap.height()) / 2);
         painter->drawPixmap(pixmapPoint, pixmap);
         int decoWidth = pixmap.width() + 2 * textMargin;
@@ -496,25 +498,9 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
         }
 
         painter->restore();
-    } else if (index.column() == 2 && KdenliveSettings::activate_nepomuk()) {
-        if (index.data().toString().isEmpty()) {
-            QStyledItemDelegate::paint(painter, option, index);
-            return;
-        }
-        QRect r1 = option.rect;
-        if (option.state & (QStyle::State_Selected)) {
-            painter->fillRect(r1, option.palette.highlight());
-        }
-#ifdef NEPOMUK
-        KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
-#endif
-#ifdef NEPOMUKCORE
-        KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
-#endif
-
     } else {
         QStyledItemDelegate::paint(painter, option, index);
     }
 }
 
-#include "projectlistview.moc"
+

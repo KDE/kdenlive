@@ -22,13 +22,12 @@
 #include "effectslist/effectslist.h"
 #include "mainwindow.h"
 
-#include <KDebug>
-#include <KStandardDirs>
-#include <KAction>
-
-#include <QApplication>
-#include <QMouseEvent>
+#include "klocalizedstring.h"
+#include <QDebug>
+#include <QAction>
 #include <QMenu>
+#include <QMimeData>
+#include <QStandardPaths>
 
 
 static const int EFFECT_VIDEO = 1;
@@ -54,14 +53,19 @@ EffectsListWidget::EffectsListWidget(QMenu *contextMenu, QWidget *parent) :
     setIndentation(10);
     //setSelectionMode(QAbstractItemView::ExtendedSelection);
     setDragDropMode(QAbstractItemView::DragOnly);
-    QPalette p = palette();
-    p.setBrush(QPalette::Base, p.window());
-    setPalette(p);
+    updatePalette();
     connect(this, SIGNAL(activated(QModelIndex)), this, SLOT(slotExpandItem(QModelIndex)));
 }
 
 EffectsListWidget::~EffectsListWidget()
 {
+}
+
+void EffectsListWidget::updatePalette()
+{
+    QPalette p = qApp->palette();
+    p.setBrush(QPalette::Base, p.window());
+    setPalette(p);
 }
 
 void EffectsListWidget::slotExpandItem(const QModelIndex & index)
@@ -84,7 +88,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
             currentFolder = currentItem()->text(0);
     }
 
-    QString effectCategory = KStandardDirs::locate("config", "kdenliveeffectscategory.rc");
+    QString effectCategory = QStandardPaths::locate(QStandardPaths::DataLocation, "kdenliveeffectscategory.rc");
     QDomDocument doc;
     QFile file(effectCategory);
     doc.setContent(&file, false);
@@ -145,9 +149,9 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
 
     //insertTopLevelItems(0, folders);
 
-    loadEffects(&MainWindow::videoEffects, KIcon("kdenlive-show-video"), misc, &folders, EFFECT_VIDEO, current, &found);
-    loadEffects(&MainWindow::audioEffects, KIcon("kdenlive-show-audio"), audio, &folders, EFFECT_AUDIO, current, &found);
-    loadEffects(&MainWindow::customEffects, KIcon("kdenlive-custom-effect"), custom, static_cast<QList<QTreeWidgetItem *> *>(0), EFFECT_CUSTOM, current, &found);
+    loadEffects(&MainWindow::videoEffects, QIcon::fromTheme("kdenlive-show-video"), misc, &folders, EFFECT_VIDEO, current, &found);
+    loadEffects(&MainWindow::audioEffects, QIcon::fromTheme("kdenlive-show-audio"), audio, &folders, EFFECT_AUDIO, current, &found);
+    loadEffects(&MainWindow::customEffects, QIcon::fromTheme("kdenlive-custom-effect"), custom, static_cast<QList<QTreeWidgetItem *> *>(0), EFFECT_CUSTOM, current, &found);
 
     if (!found && !currentFolder.isEmpty()) {
         // previously selected effect was removed, focus on its parent folder
@@ -188,7 +192,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
         }
         for (int j = 0; j < effectsInCategory; ++j) {
             QTreeWidgetItem *item = topLevelItem(i)->child(j);
-            KAction *a = new KAction(KIcon(item->icon(0)), item->text(0), sub);
+            QAction *a = new QAction(item->icon(0), item->text(0), sub);
             QStringList data = item->data(0, IdRole).toStringList();
             QString id = data.at(1);
             if (id.isEmpty()) id = data.at(0);
@@ -219,7 +223,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
     }
 }
 
-void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, int type, const QString &current, bool *found)
+void EffectsListWidget::loadEffects(const EffectsList *effectlist, QIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, int type, const QString &current, bool *found)
 {
     QStringList effectInfo, l;
     QTreeWidgetItem *item;
@@ -245,7 +249,7 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, Q
 
         if (!effectInfo.isEmpty()) {
             item = new QTreeWidgetItem(parentItem, QStringList(effectInfo.takeFirst()));
-            if (effectInfo.count() == 4) item->setIcon(0, KIcon("folder"));
+            if (effectInfo.count() == 4) item->setIcon(0, QIcon::fromTheme("folder"));
             else item->setIcon(0, icon);
             item->setData(0, TypeRole, type);
             item->setData(0, IdRole, effectInfo);
@@ -366,4 +370,4 @@ void EffectsListWidget::contextMenuEvent(QContextMenuEvent * event)
         m_menu->popup(event->globalPos());
 }
 
-#include "effectslistwidget.moc"
+

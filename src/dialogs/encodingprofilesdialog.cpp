@@ -21,16 +21,13 @@
 
 #include "kdenlivesettings.h"
 
-#include <KStandardDirs>
-#include <KDebug>
-#include <KMessageBox>
-#include <KIO/NetAccess>
 
-#include <QDir>
-#include <QCloseEvent>
+#include "klocalizedstring.h"
+#include <QDebug>
 #include <QVBoxLayout>
-#include <KLineEdit>
+#include <QLineEdit>
 #include <QPlainTextEdit>
+#include <QStandardPaths>
 
 EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget * parent) :
     QDialog(parent),
@@ -43,12 +40,12 @@ EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget * parent
     profile_type->addItem(i18n("Screen capture"), 2);
     profile_type->addItem(i18n("Decklink capture"), 3);
     
-    button_add->setIcon(KIcon("list-add"));
-    button_edit->setIcon(KIcon("document-edit"));
-    button_delete->setIcon(KIcon("list-remove"));
-    button_download->setIcon(KIcon("download"));
+    button_add->setIcon(QIcon::fromTheme("list-add"));
+    button_edit->setIcon(QIcon::fromTheme("document-edit"));
+    button_delete->setIcon(QIcon::fromTheme("list-remove"));
+    button_download->setIcon(QIcon::fromTheme("download"));
     
-    m_configFile = new KConfig("encodingprofiles.rc", KConfig::CascadeConfig, "appdata");
+    m_configFile = new KConfig("encodingprofiles.rc", KConfig::CascadeConfig, QStandardPaths::DataLocation);
     profile_type->setCurrentIndex(profileType);
     connect(profile_type, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLoadProfiles()));
     connect(profile_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotShowParams()));
@@ -126,13 +123,13 @@ void EncodingProfilesDialog::slotAddProfile()
     QPointer<QDialog> d = new QDialog(this);
     QVBoxLayout *l = new QVBoxLayout;
     l->addWidget(new QLabel(i18n("Profile name:")));
-    KLineEdit *pname = new KLineEdit;
+    QLineEdit *pname = new QLineEdit;
     l->addWidget(pname);
     l->addWidget(new QLabel(i18n("Parameters:")));
     QPlainTextEdit *pparams = new QPlainTextEdit;
     l->addWidget(pparams);
     l->addWidget(new QLabel(i18n("File extension:")));
-    KLineEdit *pext = new KLineEdit;
+    QLineEdit *pext = new QLineEdit;
     l->addWidget(pext);
     QDialogButtonBox *box = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Cancel);
     connect(box, SIGNAL(accepted()), d, SLOT(accept()));
@@ -158,13 +155,13 @@ void EncodingProfilesDialog::slotEditProfile()
     QPointer<QDialog> d = new QDialog(this);
     QVBoxLayout *l = new QVBoxLayout;
     l->addWidget(new QLabel(i18n("Profile name:")));
-    KLineEdit *pname = new KLineEdit;
+    QLineEdit *pname = new QLineEdit;
     l->addWidget(pname);
     l->addWidget(new QLabel(i18n("Parameters:")));
     QPlainTextEdit *pparams = new QPlainTextEdit;
     l->addWidget(pparams);
     l->addWidget(new QLabel(i18n("File extension:")));
-    KLineEdit *pext = new KLineEdit;
+    QLineEdit *pext = new QLineEdit;
     l->addWidget(pext);
     QDialogButtonBox *box = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Cancel);
     connect(box, SIGNAL(accepted()), d, SLOT(accept()));
@@ -187,5 +184,5 @@ void EncodingProfilesDialog::slotEditProfile()
     delete d;
 }
 
-#include "encodingprofilesdialog.moc"
+
 

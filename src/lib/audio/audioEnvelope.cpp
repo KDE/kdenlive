@@ -13,8 +13,8 @@
 #include "audioStreamInfo.h"
 #include <QDebug>
 #include <QImage>
-#include <QtConcurrentRun>
 #include <QTime>
+#include <QtConcurrent>
 #include <cmath>
 
 AudioEnvelope::AudioEnvelope(const QString &url, Mlt::Producer *producer, int offset, int length, int track, int startPos) :
@@ -205,5 +205,5 @@ void AudioEnvelope::dumpInfo() const
     }
 }
 
-#include "audioEnvelope.moc"
+
 

@@ -18,7 +18,7 @@
 
 
 #include "transitionsettings.h"
-
+#include "core.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "timeline/transition.h"
@@ -26,8 +26,11 @@
 #include "effectstack/effectstackedit.h"
 #include "monitor/monitoreditwidget.h"
 #include "monitor/monitorscene.h"
+#include "project/projectmanager.h"
+#include "doc/kdenlivedoc.h"
 
-#include <KDebug>
+#include <QDebug>
+#include "klocalizedstring.h"
 
 TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     QWidget(parent),
@@ -70,10 +73,11 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     connect(m_effectEdit, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this , SLOT(slotUpdateEffectParams(QDomElement,QDomElement)));
 }
 
-void TransitionSettings::updateProjectFormat(const MltVideoProfile &profile, const Timecode &t, const QList<TrackInfo> &info)
+void TransitionSettings::updateProjectFormat()
 {
-    m_effectEdit->updateProjectFormat(profile, t);
-    m_tracks = info;
+    KdenliveDoc *project = pCore->projectManager()->current();
+    m_effectEdit->updateProjectFormat(project->mltProfile(), project->timecode());
+    m_tracks = project->tracksList();
     updateTrackList();
 }
 
@@ -91,9 +95,9 @@ void TransitionSettings::updateTrackList()
     int limit = 1;
     if (m_usedTransition)
         limit = m_usedTransition->track() + 1;
-    //kDebug() << "/ / TRANS TRK: " << limit;
-    KIcon videoIcon("kdenlive-show-video");
-    KIcon audioIcon("kdenlive-show-audio");
+    ////qDebug() << "/ / TRANS TRK: " << limit;
+    QIcon videoIcon = QIcon::fromTheme("kdenlive-show-video");
+    QIcon audioIcon = QIcon::fromTheme("kdenlive-show-audio");
     for (int i = limit; i < m_tracks.count(); ++i) {
         int ix = m_tracks.count() - i - 1;
         transitionTrack->addItem(m_tracks.at(ix).type == VideoTrack ? videoIcon : audioIcon,
@@ -264,4 +268,10 @@ void TransitionSettings::setKeyframes(const QString &data, int maximum)
     m_effectEdit->setKeyframes(data, maximum);
 }
 
-#include "transitionsettings.moc"
+void TransitionSettings::updatePalette()
+{
+    // We need to reset current stylesheet if we want to change the palette!
+    m_effectEdit->updatePalette();
+}
+
+

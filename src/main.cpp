@@ -21,46 +21,75 @@
 #include <config-kdenlive.h>
 #include "mainwindow.h"
 
-#include <KApplication>
+
 #include <KAboutData>
-#include <KDebug>
-#include <KCmdLineArgs>
-#include <KUrl> //new
+#include <QDebug>
+
+#include <QUrl> //new
+#include <QApplication>
+#include <klocalizedstring.h>
+#include <KDBusService>
+#include <QCommandLineParser>
+#include <QCommandLineOption>
 
 
 int main(int argc, char *argv[])
 {
-    KAboutData aboutData(QByteArray("kdenlive"), QByteArray("kdenlive"),
-                         ki18n("Kdenlive"), KDENLIVE_VERSION,
-                         ki18n("An open source video editor."),
-                         KAboutData::License_GPL,
-                         ki18n("Copyright © 2007–2014 Kdenlive authors"));
-    aboutData.addAuthor(ki18n("Jean-Baptiste Mardelle"), ki18n("MLT and KDE SC 4 porting, main developer and maintainer"), "jb@kdenlive.org");
-    aboutData.addAuthor(ki18n("Vincent Pinon"), ki18n("Interim maintainer, bugs fixing, minor functions, profiles updates, etc."), "vpinon@april.org");
-    aboutData.addAuthor(ki18n("Laurent Montel"), ki18n("Bugs fixing, clean up code, optimization etc."), "montel@kde.org");
-    aboutData.addAuthor(ki18n("Marco Gittler"), ki18n("MLT transitions and effects, timeline, audio thumbs"), "g.marco@freenet.de");
-    aboutData.addAuthor(ki18n("Dan Dennedy"), ki18n("Bug fixing, etc."), "dan@dennedy.org");
-    aboutData.addAuthor(ki18n("Simon A. Eugster"), ki18n("Color scopes, bug fixing, etc."), "simon.eu@gmail.com");
-    aboutData.addAuthor(ki18n("Till Theato"), ki18n("Bug fixing, etc."), "root@ttill.de");
-    aboutData.addAuthor(ki18n("Alberto Villa"), ki18n("Bug fixing, logo, etc."), "avilla@FreeBSD.org");
-    aboutData.addAuthor(ki18n("Jean-Michel Poure"), ki18n("Rendering profiles customization"), "jm@poure.com");
-    aboutData.addAuthor(ki18n("Ray Lehtiniemi"), ki18n("Bug fixing, etc."), "rayl@mail.com");
-    aboutData.addAuthor(ki18n("Steve Guilford"), ki18n("Bug fixing, etc."), "s.guilford@dbplugins.com");
-    aboutData.addAuthor(ki18n("Jason Wood"), ki18n("Original KDE 3 version author (not active anymore)"), "jasonwood@blueyonder.co.uk");
-    aboutData.setHomepage("http://kdenlive.org");
-    aboutData.setCustomAuthorText(ki18n("Please report bugs to http://kdenlive.org/mantis"), ki18n("Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive.org/mantis</a>"));
-    aboutData.setTranslator(ki18n("NAME OF TRANSLATORS"), ki18n("EMAIL OF TRANSLATORS"));
-    aboutData.setBugAddress("http://kdenlive.org/mantis");
+    // Init application
+    QApplication app(argc, argv);
 
-    KCmdLineArgs::init(argc, argv, &aboutData);
+    // Create KAboutData
+    KAboutData aboutData(QByteArray("kdenlive"), 
+                         i18n("Kdenlive"), KDENLIVE_VERSION,
+                         i18n("An open source video editor."),
+                         KAboutLicense::GPL,
+                         i18n("Copyright © 2007–2014 Kdenlive authors"),
+                         i18n("Please report bugs to http://kdenlive.org/mantis"),
+                         "http://kdenlive.org",
+                         "http://bugs.kdenlive.org");
+    aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 porting, main developer and maintainer"), "jb@kdenlive.org");
+    aboutData.addAuthor(i18n("Vincent Pinon"), i18n("Interim maintainer, bugs fixing, minor functions, profiles updates, etc."), "vpinon@april.org");
+    aboutData.addAuthor(i18n("Laurent Montel"), i18n("Bugs fixing, clean up code, optimization etc."), "montel@kde.org");
+    aboutData.addAuthor(i18n("Marco Gittler"), i18n("MLT transitions and effects, timeline, audio thumbs"), "g.marco@freenet.de");
+    aboutData.addAuthor(i18n("Dan Dennedy"), i18n("Bug fixing, etc."), "dan@dennedy.org");
+    aboutData.addAuthor(i18n("Simon A. Eugster"), i18n("Color scopes, bug fixing, etc."), "simon.eu@gmail.com");
+    aboutData.addAuthor(i18n("Till Theato"), i18n("Bug fixing, etc."), "root@ttill.de");
+    aboutData.addAuthor(i18n("Alberto Villa"), i18n("Bug fixing, logo, etc."), "avilla@FreeBSD.org");
+    aboutData.addAuthor(i18n("Jean-Michel Poure"), i18n("Rendering profiles customization"), "jm@poure.com");
+    aboutData.addAuthor(i18n("Ray Lehtiniemi"), i18n("Bug fixing, etc."), "rayl@mail.com");
+    aboutData.addAuthor(i18n("Steve Guilford"), i18n("Bug fixing, etc."), "s.guilford@dbplugins.com");
+    aboutData.addAuthor(i18n("Jason Wood"), i18n("Original KDE 3 version author (not active anymore)"), "jasonwood@blueyonder.co.uk");
+    aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
+    aboutData.setOrganizationDomain(QByteArray("kde.org"));
 
-    KCmdLineOptions options;
-    options.add("mlt-path <path>", ki18n("Set the path for MLT environment"));
-    options.add("+[file]", ki18n("Document to open")); //new
-    options.add("i <clips>", ki18n("Comma separated list of clips to add")); //new
-    KCmdLineArgs::addCmdLineOptions(options); //new
 
-    KApplication app;
+    // Register about data
+    KAboutData::setApplicationData(aboutData);
+
+    // Set app stuff from about data
+    app.setApplicationName(aboutData.componentName());
+    app.setApplicationDisplayName(aboutData.displayName());
+    app.setOrganizationDomain(aboutData.organizationDomain());
+    app.setApplicationVersion(aboutData.version());
+    
+    // Create command line parser with options
+    QCommandLineParser parser;
+    aboutData.setupCommandLine(&parser);
+    parser.setApplicationDescription(aboutData.shortDescription());
+    parser.addVersionOption();
+    parser.addHelpOption();
+
+    parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("mlt-path"), i18n("Set the path for MLT environment"), QLatin1String("mlt-path")));
+    parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("i"), i18n("Comma separated list of clips to add"), QLatin1String("clips")));
+    parser.addPositionalArgument(QLatin1String("file"), i18n("Document to open"));
+
+    // Parse command line
+    parser.process(app);
+    aboutData.processCommandLine(&parser);
+
+    // Register DBus service
+    KDBusService programDBusService;
+
     MainWindow* window = 0;
 
     // see if we are starting with session management
@@ -72,23 +101,21 @@ int main(int argc, char *argv[])
                 window = new MainWindow();
                 window->restore(n);
             } else {
-                kWarning() << "Unknown class " << className << " in session saved data!";
+                qWarning() << "Unknown class " << className << " in session saved data!";
             }
             ++n;
         }
     } else {
-        KCmdLineArgs *args = KCmdLineArgs::parsedArgs(); //new
-        QString clipsToLoad = args->getOption("i");
-        QString mltPath = args->getOption("mlt-path");
-        KUrl url;
-        if (args->count()) {
-            url = args->url(0);
+        QString clipsToLoad = parser.value("i");
+        QString mltPath = parser.value("mlt-path");
+        QUrl url;
+        if (parser.positionalArguments().count()) {
+            url = QUrl::fromLocalFile(parser.positionalArguments().first());
         }
         window = new MainWindow(mltPath, url, clipsToLoad);
         window->show();
-
-        args->clear();
     }
+    qRegisterMetaType< QVector<int> >();
     int result = app.exec();
     return result;
 }

@@ -22,14 +22,10 @@
 #define DVDWIZARDVOB_H
 
 #include "ui_dvdwizardvob_ui.h"
-
-#include <kdeversion.h>
 #include <kcapacitybar.h>
-#include <KUrl>
+#include <QUrl>
 
-#if KDE_IS_VERSION(4,7,0)
 #include <KMessageWidget>
-#endif
 
 #include <QWizardPage>
 #include <QStyledItemDelegate>
@@ -61,7 +57,7 @@ class DvdViewDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    DvdViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {}
+    explicit DvdViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {}
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index) const {
@@ -73,7 +69,7 @@ public:
             const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
 
-            QPixmap pixmap = qVariantValue<QPixmap>(index.data(Qt::DecorationRole));
+            QPixmap pixmap = index.data(Qt::DecorationRole).value<QPixmap>();
             QPoint pixmapPoint(r1.left() + textMargin, r1.top() + (r1.height() - pixmap.height()) / 2);
             painter->drawPixmap(pixmapPoint, pixmap);
             int decoWidth = pixmap.width() + 2 * textMargin;
@@ -85,7 +81,7 @@ public:
             r1.adjust(decoWidth, 0, 0, -mid);
             QRect r2 = option.rect;
             r2.adjust(decoWidth, mid, 0, 0);
-            painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom, KUrl(index.data().toString()).fileName());
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom, QUrl(index.data().toString()).fileName());
             font.setBold(false);
             painter->setFont(font);
             QString subText = index.data(Qt::UserRole).toString();
@@ -127,14 +123,12 @@ private:
     KCapacityBar *m_capacityBar;
     QAction *m_transcodeAction;
     bool m_installCheck;
-#if KDE_IS_VERSION(4,7,0)
     KMessageWidget *m_warnMessage;
-#endif
     void showProfileError();
     void showError(const QString &error);
 
 public slots:
-    void slotAddVobFile(KUrl url = KUrl(), const QString &chapters = QString(), bool checkFormats = true);
+    void slotAddVobFile(QUrl url = QUrl(), const QString &chapters = QString(), bool checkFormats = true);
     void slotAddVobList(const QList<QUrl> &list);
     void slotCheckProfiles();
 
@@ -144,7 +138,7 @@ private slots:
     void slotItemUp();
     void slotItemDown();
     void slotTranscodeFiles();
-    void slotTranscodedClip(KUrl, KUrl);
+    void slotTranscodedClip(QUrl, QUrl);
     
 signals:
     void prepareMonitor();

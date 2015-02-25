@@ -17,12 +17,11 @@
 
 #include "complexparameter.h"
 
-#include <KDebug>
-#include <KLocalizedString>
+#include <QDebug>
+#include <klocalizedstring.h>
 
 
 #include <QHeaderView>
-#include <QMenu>
 
 ComplexParameter::ComplexParameter(QWidget *parent) :
         QWidget(parent)
@@ -32,15 +31,15 @@ ComplexParameter::ComplexParameter(QWidget *parent) :
     //m_ui.effectlist->verticalHeader()->setVisible(false);
 
 
-    m_ui.buttonLeftRight->setIcon(KIcon("go-next"));//better icons needed
+    m_ui.buttonLeftRight->setIcon(QIcon::fromTheme("go-next"));//better icons needed
     m_ui.buttonLeftRight->setToolTip(i18n("Allow horizontal moves"));
-    m_ui.buttonUpDown->setIcon(KIcon("go-up"));
+    m_ui.buttonUpDown->setIcon(QIcon::fromTheme("go-up"));
     m_ui.buttonUpDown->setToolTip(i18n("Allow vertical moves"));
-    m_ui.buttonShowInTimeline->setIcon(KIcon("kmplayer"));
+    m_ui.buttonShowInTimeline->setIcon(QIcon::fromTheme("kmplayer"));
     m_ui.buttonShowInTimeline->setToolTip(i18n("Show keyframes in timeline"));
-    m_ui.buttonHelp->setIcon(KIcon("help-about"));
+    m_ui.buttonHelp->setIcon(QIcon::fromTheme("help-about"));
     m_ui.buttonHelp->setToolTip(i18n("Parameter info"));
-    m_ui.buttonNewPoints->setIcon(KIcon("document-new"));
+    m_ui.buttonNewPoints->setIcon(QIcon::fromTheme("document-new"));
     m_ui.buttonNewPoints->setToolTip(i18n("Add keyframe"));
 
     connect(m_ui.buttonLeftRight, SIGNAL(clicked()), this , SLOT(slotSetMoveX()));
@@ -117,7 +116,7 @@ void ComplexParameter::setupParam(const QDomElement &d, const QString& paramName
 
 void ComplexParameter::itemSelectionChanged()
 {
-    //kDebug() << "drop";
+    ////qDebug() << "drop";
 }
 
 void ComplexParameter::slotUpdateEffectParams(const QDomElement &e)
@@ -133,11 +132,11 @@ QDomElement ComplexParameter::getParamDesc() const
 
 void ComplexParameter::slotUpdateParameterList(const QStringList &l)
 {
-    kDebug() << l ;
+    //qDebug() << l ;
     m_ui.parameterList->clear();
     m_ui.parameterList->addItem("all");
     m_ui.parameterList->addItems(l);
 }
 
-#include "complexparameter.moc"
+
 

@@ -27,11 +27,10 @@
 
 #include <kio/global.h>
 #include <KIO/CopyJob>
-#include <KTemporaryFile>
-#include <kdeversion.h>
+#include <QTemporaryFile>
 
-#include <QLabel>
 #include <QDialog>
+#include <QFuture>
 #include <QList>
 
 
@@ -44,9 +43,7 @@ class KArchive;
  * @author Jean-Baptiste Mardelle
  */
 
-#if KDE_IS_VERSION(4,7,0)
-    class KMessageWidget;
-#endif
+class KMessageWidget;
 
 class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI
 {
@@ -55,7 +52,7 @@ class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI
 public:
     ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList <DocClipBase*> &list, const QStringList &luma_list, QWidget * parent = 0);
     // Constructor for extracting widget
-    explicit ArchiveWidget(const KUrl &url, QWidget * parent = 0);
+    explicit ArchiveWidget(const QUrl &url, QWidget * parent = 0);
     ~ArchiveWidget();
 
     QString extractedProjectFile() const;
@@ -86,25 +83,22 @@ protected:
 private:
     KIO::filesize_t m_requestedSize;
     KIO::CopyJob *m_copyJob;
-    QMap <KUrl, KUrl> m_duplicateFiles;
-    QMap <KUrl, KUrl> m_replacementList;
+    QMap <QUrl, QUrl> m_duplicateFiles;
+    QMap <QUrl, QUrl> m_replacementList;
     QString m_name;
     QDomDocument m_doc;
-    KTemporaryFile *m_temp;
+    QTemporaryFile *m_temp;
     bool m_abortArchive;
     QFuture<void> m_archiveThread;
     QStringList m_foldersList;
     QMap <QString, QString> m_filesList;
     bool m_extractMode;
-    KUrl m_extractUrl;
+    QUrl m_extractUrl;
     QString m_projectName;
     QTimer *m_progressTimer;
     KArchive *m_extractArchive;
     int m_missingClips;
-    
-#if KDE_IS_VERSION(4,7,0)
     KMessageWidget *m_infoMessage;
-#endif
 
     /** @brief Generate tree widget subitems from a string list of urls. */
     void generateItems(QTreeWidgetItem *parentItem, const QStringList &items);

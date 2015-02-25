@@ -8,10 +8,14 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#include <QPainter>
-#include <QMenu>
-
 #include "spectrogram.h"
+
+#include <QPainter>
+#include <QTime>
+
+#include <KSharedConfig>
+#include <KConfigGroup>
+#include "klocalizedstring.h"
 
 // Defines the number of FFT samples to store.
 // Around 4 kB for a window size of 2000. Should be at least as large as the
@@ -105,7 +109,7 @@ void Spectrogram::readConfig()
 {
     AbstractScopeWidget::readConfig();
 
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, AbstractScopeWidget::configName());
 
     ui->windowSize->setCurrentIndex(scopeConfig.readEntry("windowSize", 0));
@@ -126,7 +130,7 @@ void Spectrogram::readConfig()
 }
 void Spectrogram::writeConfig()
 {
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, AbstractScopeWidget::configName());
 
     scopeConfig.writeEntry("windowSize", ui->windowSize->currentIndex());
@@ -544,4 +548,4 @@ void Spectrogram::resizeEvent(QResizeEvent *event)
 #undef DEBUG_SPECTROGRAM
 #endif
 
-#include "spectrogram.moc"
+

@@ -22,13 +22,8 @@
 #include "effectstack/dragvalue.h"
 
 #include <QGridLayout>
-#include <QLabel>
-#include <QSpinBox>
-#include <QToolButton>
 
-#include <KDebug>
-#include <KIcon>
-#include <KLocalizedString>
+#include <QDebug>
 
 
 DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString &suffix, int decimals, QWidget *parent) 
@@ -99,4 +94,4 @@ void DoubleParameterWidget::slotShowComment( bool show)
     Q_UNUSED(show)
 }
 
-#include "doubleparameterwidget.moc"
+

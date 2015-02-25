@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _PARAMETERPLOTTER_H_
-#define _PARAMETERPLOTTER_H_
+#ifndef PARAMETERPLOTTER_H
+#define PARAMETERPLOTTER_H
 
 #include <KPlotWidget>
 #include <QDomElement>

@@ -9,7 +9,7 @@
  ***************************************************************************/
 
 #include "rgbparadegenerator.h"
-#include <KLocalizedString>
+#include "klocalizedstring.h"
 #include <QColor>
 #include <QPainter>
 

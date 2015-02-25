@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "definitions.h"
+#include <klocalizedstring.h>
 
 QDebug operator << (QDebug qd, const ItemInfo &info)
 {

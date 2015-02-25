@@ -20,15 +20,11 @@
 #include "timecodedisplay.h"
 #include "kdenlivesettings.h"
 
-#include <QValidator>
 #include <QMouseEvent>
+#include <QLineEdit>
+#include <QFontDatabase>
 
-#include <kglobal.h>
-#include <klocale.h>
-#include <kdebug.h>
-#include <krestrictedline.h>
 #include <KColorScheme>
-#include <KRestrictedLine>
 
 TimecodeDisplay::TimecodeDisplay(const Timecode& t, QWidget *parent)
         : QAbstractSpinBox(parent),
@@ -38,16 +34,10 @@ TimecodeDisplay::TimecodeDisplay(const Timecode& t, QWidget *parent)
         m_maximum(-1),
         m_value(0)
 {
-    lineEdit()->setFont(KGlobalSettings::toolBarFont());
+    lineEdit()->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     lineEdit()->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     QFontMetrics fm = lineEdit()->fontMetrics();
-#if QT_VERSION >= 0x040600
     setMinimumWidth(fm.width("88:88:88:88888888") + contentsMargins().right() + contentsMargins().right());
-#else
-    int left, top, right, bottom;
-    getContentsMargins(&left, &top, &right, &bottom);
-    setMinimumWidth(fm.width("88:88:88:88888888") + left + right);
-#endif
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     setAccelerated(true);
 
@@ -198,4 +188,3 @@ void TimecodeDisplay::slotEditingFinished()
     emit timeCodeEditingFinished();
 }
 
-#include <timecodedisplay.moc>

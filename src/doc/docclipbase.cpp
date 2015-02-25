@@ -29,13 +29,11 @@
 #include "project/clipmanager.h"
 #include "project/dialogs/slideshowclip.h"
 
-#include <KIO/NetAccess>
-#include <KStandardDirs>
-#include <KApplication>
-#include <KDebug>
+#include <klocalizedstring.h>
+
+#include <QDebug>
 
 #include <QCryptographicHash>
-#include <QtConcurrentRun>
 
 #include <cstdio>
 #include <kmessagebox.h>
@@ -87,8 +85,8 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
             m_analysisdata.insert(adata.at(i).section('?', 0, 0), adata.at(i).section('?', 1, 1));
     }
 
-    KUrl url = KUrl(xml.attribute("resource"));
-    if (!m_properties.contains("file_hash") && !url.isEmpty()) getFileHash(url.path());
+    QUrl url = QUrl::fromLocalFile(xml.attribute("resource"));
+    if (!m_properties.contains("file_hash") && url.isValid()) getFileHash(url.toLocalFile());
 
     if (xml.hasAttribute("duration")) {
         setDuration(GenTime(xml.attribute("duration").toInt(), KdenliveSettings::project_fps()));
@@ -105,8 +103,8 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     // Setup timer to trigger audio thumbs creation
     m_audioTimer.setSingleShot(true);
     m_audioTimer.setInterval(800);
+    connect(this, SIGNAL(getAudioThumbs()), this, SLOT(slotGetAudioThumbs()));
     connect(&m_audioTimer, SIGNAL(timeout()), m_thumbProd, SLOT(slotCreateAudioThumbs()));
-    
 }
 
 DocClipBase::~DocClipBase()
@@ -175,11 +173,11 @@ void DocClipBase::setClipType(ClipType type)
     m_properties.insert("type", QString::number((int) type));
 }
 
-KUrl DocClipBase::fileURL() const
+QUrl DocClipBase::fileURL() const
 {
     QString res = m_properties.value("resource");
-    if (m_clipType != Color && !res.isEmpty()) return KUrl(res);
-    return KUrl();
+    if (m_clipType != Color && !res.isEmpty()) return QUrl::fromLocalFile(res);
+    return QUrl();
 }
 
 void DocClipBase::setClipThumbFrame(const uint &ix)
@@ -279,7 +277,7 @@ QDomElement DocClipBase::toXML(bool hideTemporaryProperties) const
         }
     }
     clip.setAttribute("analysisdata", adata);
-    //kDebug() << "/// CLIP XML: " << doc.toString();
+    ////qDebug() << "/// CLIP XML: " << doc.toString();
     return doc.documentElement();
 }
 
@@ -319,7 +317,7 @@ const QString DocClipBase::shortInfo() const
         else tip.append(i18n("Text clip") + "</b><br />" + fileURL().path());
         break;
     case SlideShow:
-        tip.append(i18n("Slideshow clip") + "</b><br />" + fileURL().directory());
+        tip.append(i18n("Slideshow clip") + "</b><br />" + fileURL().adjusted(QUrl::RemoveFilename).path());
         break;
     case Virtual:
         tip.append(i18n("Virtual clip"));
@@ -337,7 +335,7 @@ const QString DocClipBase::shortInfo() const
 
 void DocClipBase::updateAudioThumbnail(const audioByteArray& data)
 {
-    //kDebug() << "CLIPBASE RECIEDVED AUDIO DATA*********************************************";
+    ////qDebug() << "CLIPBASE RECIEDVED AUDIO DATA*********************************************";
     audioFrameCache = data;
     m_audioThumbCreated = true;
     emit gotAudioData();
@@ -370,7 +368,7 @@ void DocClipBase::addSnapMarker(const CommentedTime &marker)
     if ((it != m_snapMarkers.end()) && ((*it).time() == marker.time())) {
         (*it).setComment(marker.comment());
         (*it).setMarkerType(marker.markerType());
-        //kError() << "trying to add Snap Marker that already exists, this will cause inconsistancies with undo/redo";
+        //qCritical() << "trying to add Snap Marker that already exists, this will cause inconsistancies with undo/redo";
     } else {
         m_snapMarkers.insert(it, marker);
     }
@@ -386,7 +384,7 @@ void DocClipBase::editSnapMarker(const GenTime & time, const QString &comment)
     if (it != m_snapMarkers.end()) {
         (*it).setComment(comment);
     } else {
-        kError() << "trying to edit Snap Marker that does not already exists";
+        qCritical() << "trying to edit Snap Marker that does not already exists";
     }
 }
 
@@ -497,12 +495,12 @@ void DocClipBase::cleanupProducers()
 {
     /*
     int ct = 0;
-    kDebug()<<"----------------------------------------------------------------------------------";
+    //qDebug()<<"----------------------------------------------------------------------------------";
     for (int i = 0; i < m_toDeleteProducers.count(); ++i) {
         if (m_toDeleteProducers.at(i) != NULL) {
             Mlt::Properties props(m_toDeleteProducers.at(i)->get_properties());
             if (props.ref_count() > 2) {
-                kDebug()<<"PRODUCER: "<<i<<", COUNTS: "<<props.ref_count();
+                //qDebug()<<"PRODUCER: "<<i<<", COUNTS: "<<props.ref_count();
                 //exit(1);
             }
             ct++;
@@ -548,7 +546,7 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
                 m_thumbProd->setProducer(producer);
         }
         else m_thumbProd->setProducer(producer);
-        getAudioThumbs();
+        emit getAudioThumbs();
     }
     bool updated = false;
     if (id.contains('_')) {
@@ -787,10 +785,12 @@ Mlt::Producer *DocClipBase::cloneProducer(Mlt::Producer *source)
         // Xml producer sometimes loses the correct url
         url = m_properties.value("resource");
     }
-    if (m_clipType == SlideShow || KIO::NetAccess::exists(KUrl(url), KIO::NetAccess::SourceSide, 0)) {
-        result = new Mlt::Producer(*(source->profile()), url.toUtf8().constData());
+    if (m_clipType == SlideShow || QFile::exists(url)) {
+        QString xml = getProducerXML(*source);
+        result = new Mlt::Producer(*(source->profile()), "xml-string", xml.toUtf8().constData());
     }
     if (result == NULL || !result->is_valid()) {
+
         // placeholder clip
         QString txt = '+' + i18n("Missing clip") + ".txt";
         char *tmp = qstrdup(txt.toUtf8().constData());
@@ -808,6 +808,30 @@ Mlt::Producer *DocClipBase::cloneProducer(Mlt::Producer *source)
     Mlt::Properties props(result->get_properties());
     props.inherit(src_props);*/
     return result;
+}
+
+QString DocClipBase::getProducerXML(Mlt::Producer &producer)
+{
+    QString filename = "string";
+    Mlt::Consumer c(*(producer.profile()), "xml", filename.toUtf8().constData());
+    Mlt::Service s(producer.get_service());
+    if (!s.is_valid())
+        return "";
+    int ignore = s.get_int("ignore_points");
+    if (ignore)
+        s.set("ignore_points", 0);
+    c.set("time_format", "frames");
+    c.set("no_meta", 1);
+    c.set("store", "kdenlive");
+    if (filename != "string") {
+        c.set("no_root", 1);
+        c.set("root", QFileInfo(filename).absolutePath().toUtf8().constData());
+    }
+    c.connect(s);
+    c.start();
+    if (ignore)
+        s.set("ignore_points", ignore);
+    return QString::fromUtf8(c.get(filename.toUtf8().constData()));
 }
 
 void DocClipBase::setProducerProperty(const char *name, int data)
@@ -907,7 +931,7 @@ void DocClipBase::slotRefreshProducer()
         }
         if (getProperty("fade") == "1") {
             // we want a fade filter effect
-            kDebug() << "////////////   FADE WANTED";
+            //qDebug() << "////////////   FADE WANTED";
             Mlt::Service clipService(m_baseTrackProducers.at(0)->get_service());
             int ct = 0;
             Mlt::Filter *filter = clipService.filter(ct);
@@ -940,7 +964,7 @@ void DocClipBase::slotRefreshProducer()
                 clipService.attach(*filter);
             }
         } else {
-            kDebug() << "////////////   FADE NOT WANTED!!!";
+            //qDebug() << "////////////   FADE NOT WANTED!!!";
             Mlt::Service clipService(m_baseTrackProducers.at(0)->get_service());
             int ct = 0;
             Mlt::Filter *filter = clipService.filter(0);
@@ -1042,7 +1066,7 @@ void DocClipBase::getFileHash(const QString &url)
     if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
         QByteArray fileData;
         QByteArray fileHash;
-        //kDebug() << "SETTING HASH of" << value;
+        ////qDebug() << "SETTING HASH of" << value;
         m_properties.insert("file_size", QString::number(file.size()));
         /*
                * 1 MB = 1 second per 450 files (or faster)
@@ -1062,16 +1086,16 @@ void DocClipBase::getFileHash(const QString &url)
 
 bool DocClipBase::checkHash() const
 {
-    KUrl url = fileURL();
-    if (!url.isEmpty() && getClipHash() != getHash(url.path())) return false;
+    QUrl url = fileURL();
+    if (url.isValid() && getClipHash() != getHash(url.toLocalFile())) return false;
     return true;
 }
 
 QString DocClipBase::getClipHash() const
 {
     QString hash;
-    if (m_clipType == SlideShow) hash = QCryptographicHash::hash(m_properties.value("resource").toAscii().data(), QCryptographicHash::Md5).toHex();
-    else if (m_clipType == Color) hash = QCryptographicHash::hash(m_properties.value("colour").toAscii().data(), QCryptographicHash::Md5).toHex();
+    if (m_clipType == SlideShow) hash = QCryptographicHash::hash(m_properties.value("resource").toLatin1().data(), QCryptographicHash::Md5).toHex();
+    else if (m_clipType == Color) hash = QCryptographicHash::hash(m_properties.value("colour").toLatin1().data(), QCryptographicHash::Md5).toHex();
     else if (m_clipType == Text) hash = QCryptographicHash::hash(QString("title" + getId() + m_properties.value("xmldata")).toUtf8().data(), QCryptographicHash::Md5).toHex();
     else {
         if (m_properties.contains("file_hash")) hash = m_properties.value("file_hash");
@@ -1114,7 +1138,7 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
     m_properties.insert(key, value);
     if (key == "resource") {
         getFileHash(value);
-        if (m_thumbProd) m_thumbProd->updateClipUrl(KUrl(value), m_properties.value("file_hash"));
+        if (m_thumbProd) m_thumbProd->updateClipUrl(QUrl::fromLocalFile(value), m_properties.value("file_hash"));
         //else if (key == "transparency") m_clipProducer->set("transparency", value.toInt());
     } else if (key == "out") {
         setDuration(GenTime(value.toInt() + 1, KdenliveSettings::project_fps()));
@@ -1196,14 +1220,14 @@ QMap <QString, QString> DocClipBase::currentProperties(const QMap <QString, QStr
     return currentProps;
 }
 
-bool DocClipBase::getAudioThumbs()
+void DocClipBase::slotGetAudioThumbs()
 {
-    if (m_thumbProd == NULL || isPlaceHolder() || !KdenliveSettings::audiothumbnails()) return false;
+    if (m_thumbProd == NULL || isPlaceHolder() || !KdenliveSettings::audiothumbnails()) return;
     if (m_audioThumbCreated) {
-        return false;
+        return;
     }
     m_audioTimer.start();
-    return true;
+    return;
 }
 
 bool DocClipBase::isPlaceHolder() const
@@ -1317,7 +1341,7 @@ void DocClipBase::setAnalysisData(const QString &name, const QString &data, int 
     if (data.isEmpty()) m_analysisdata.remove(name);
     else {
         if (m_analysisdata.contains(name)) {
-            if (KMessageBox::questionYesNo(kapp->activeWindow(), i18n("Clip already contains analysis data %1", name), QString(), KGuiItem(i18n("Merge")), KGuiItem(i18n("Add"))) == KMessageBox::Yes) {
+            if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Clip already contains analysis data %1", name), QString(), KGuiItem(i18n("Merge")), KGuiItem(i18n("Add"))) == KMessageBox::Yes) {
                 // Merge data
                 Mlt::Profile *profile = m_baseTrackProducers.at(0)->profile();
                 Mlt::Geometry geometry(m_analysisdata.value(name).toUtf8().data(), m_properties.value("duration").toInt(), profile->width(), profile->height());
@@ -1370,5 +1394,5 @@ QMap <QString, QString> DocClipBase::analysisData() const
 }
 
 
-#include "docclipbase.moc"
+
 

@@ -27,4 +27,4 @@ AbstractCollapsibleWidget::AbstractCollapsibleWidget(QWidget * parent) :
     setupUi(this);
 }
 
-#include "abstractcollapsiblewidget.moc"
+

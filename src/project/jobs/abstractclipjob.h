@@ -33,7 +33,7 @@ class AbstractClipJob : public QObject
     Q_OBJECT
 
 public:
-    AbstractClipJob(JOBTYPE type, ClipType cType, const QString &id, const QStringList &parameters);    virtual ~ AbstractClipJob();
+    AbstractClipJob(JOBTYPE type, ClipType cType, const QString &id);    virtual ~ AbstractClipJob();
     ClipType clipType;
     JOBTYPE jobType;
     QString description;

@@ -34,9 +34,10 @@ class TransitionSettings : public QWidget, public Ui::TransitionSettings_UI
 public:
     explicit TransitionSettings(Monitor *monitor, QWidget* parent = 0);
     void raiseWindow(QWidget*);
-    void updateProjectFormat(const MltVideoProfile &profile, const Timecode &t, const QList <TrackInfo>& info);
+    void updateProjectFormat();
     void updateTimecodeFormat();
     void setKeyframes(const QString &data, int maximum);
+    void updatePalette();
 
 private:
     EffectStackEdit *m_effectEdit;

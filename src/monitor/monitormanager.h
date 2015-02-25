@@ -33,7 +33,7 @@ class MonitorManager : public QObject
     Q_OBJECT
 
 public:
-    explicit MonitorManager(QWidget *parent = 0);
+    explicit MonitorManager(QObject *parent = 0);
     void initMonitors(Monitor *clipMonitor, Monitor *projectMonitor, RecMonitor *recMonitor);
     void appendMonitor(AbstractMonitor *monitor);
     void removeMonitor(AbstractMonitor *monitor);
@@ -54,6 +54,9 @@ public:
     /** @brief Change an MLT consumer property for both monitors. */
     void setConsumerProperty(const QString &name, const QString &value);
 
+    Monitor *clipMonitor();
+    Monitor *projectMonitor();
+
 public slots:
 
     /** @brief Activates a monitor.
@@ -73,6 +76,10 @@ public slots:
     void slotStart();
     void slotEnd();
     void slotResetProfiles();
+    void slotZoneStart();
+    void slotZoneEnd();
+    void slotSetInPoint();
+    void slotSetOutPoint();
     
     /** @brief Switch current monitor to fullscreen. */
     void slotSwitchFullscreen();
@@ -86,7 +93,15 @@ public slots:
 private slots:
     void slotRefreshCurrentMonitor(const QString &id);
 
+    /** @brief Set MLT's consumer deinterlace method */
+    void slotSetDeinterlacer(int ix);
+    /** @brief Set MLT's consumer interpolation method */
+    void slotSetInterpolation(int ix);
+
 private:
+    /** @brief Sets up all the actions and attaches them to the collection of MainWindow. */
+    void setupActions();
+
     KdenliveDoc *m_document;
     Monitor *m_clipMonitor;
     Monitor *m_projectMonitor;

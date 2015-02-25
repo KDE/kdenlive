@@ -19,9 +19,8 @@
 
 #include "dvdwizardchapters.h"
 
-#include <KDebug>
+#include <QDebug>
 
-#include <QFile>
 
 DvdWizardChapters::DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, QWidget *parent) :
     QWizardPage(parent),
@@ -251,4 +250,4 @@ QDomElement DvdWizardChapters::toXml() const
     return doc.documentElement();
 }
 
-#include "dvdwizardchapters.moc"
+

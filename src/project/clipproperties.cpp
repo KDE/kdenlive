@@ -25,33 +25,17 @@
 #include "timeline/markerdialog.h"
 #include "dialogs/profilesdialog.h"
 
-#include <KStandardDirs>
-#include <KDebug>
 #include <KFileItem>
-#include <KFileDialog>
-#include <kdeversion.h>
-#include <KUrlLabel>
 #include <KRun>
+#include <klocalizedstring.h>
 
-#ifdef USE_NEPOMUK
-  #if KDE_IS_VERSION(4,6,0)
-    #include <Nepomuk/Variant>
-    #include <Nepomuk/Resource>
-    #include <Nepomuk/ResourceManager>
-    #include <Nepomuk/Vocabulary/NIE>
-  #endif
-#endif
-#ifdef USE_NEPOMUKCORE
-  #include <Nepomuk2/Variant>
-  #include <Nepomuk2/Resource>
-  #include <Nepomuk2/ResourceManager>
-  #include <Nepomuk2/Vocabulary/NIE>
-#endif
-
+#include <QDebug>
+#include <QFontDatabase>
 
 #include <QDir>
 #include <QPainter>
-
+#include <QFileDialog>
+#include <QStandardPaths>
 
 static const int VIDEOTAB = 0;
 static const int AUDIOTAB = 1;
@@ -73,14 +57,14 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
   , m_proxyContainer(NULL)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_view.setupUi(this);
     
     // force transparency is only for group properties, so hide it
     m_view.clip_force_transparency->setHidden(true);
     m_view.clip_transparency->setHidden(true);
     
-    KUrl url = m_clip->fileURL();
+    QUrl url = m_clip->fileURL();
     m_view.clip_path->setText(url.path());
     m_view.clip_description->setText(m_clip->description());
     connect(m_view.clip_description, SIGNAL(textChanged(QString)), this, SLOT(slotModified()));
@@ -230,7 +214,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
                 iconName = "meta_magiclantern.png";
             parent = new QTreeWidgetItem(m_view.metadata_list, QStringList() << parentName);
             if (!iconName.isEmpty()) {
-                KIcon icon(KStandardDirs::locate("appdata", iconName));
+                QIcon icon(QStandardPaths::locate(QStandardPaths::DataLocation, iconName));
                 parent->setIcon(0, icon);
             }
         }
@@ -268,7 +252,8 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     ClipType t = m_clip->clipType();
     
     if (props.contains("proxy") && props.value("proxy") != "-") {
-        KFileItem f(KFileItem::Unknown, KFileItem::Unknown, KUrl(props.value("proxy")), true);
+        KFileItem f(QUrl(props.value("proxy")));
+        f.setDelayedMimeTypes(true);
         QFrame* line = new QFrame();
         line->setFrameShape(QFrame::HLine);
         line->setFrameShadow(QFrame::Sunken);
@@ -333,7 +318,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     } else if (t == SlideShow) {
         if (url.fileName().startsWith(QLatin1String(".all."))) {
             // the image sequence is defined by mimetype
-            m_view.clip_path->setText(url.directory());
+            m_view.clip_path->setText(url.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).path());
         } else {
             // the image sequence is defined by pattern
             m_view.slide_type_label->setHidden(true);
@@ -399,12 +384,12 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         QStringList filters;
         filters << "*.pgm" << "*.png";
 
-        QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
+        QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, "lumas");
         foreach(const QString & folder, customLumas) {
             QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
             foreach(const QString & fname, filesnames) {
-                QString filePath = KUrl(folder).path(KUrl::AddTrailingSlash) + fname;
-                m_view.luma_file->addItem(KIcon(filePath), fname, filePath);
+                QString filePath = QUrl(folder + QDir::separator() + fname).path();
+                m_view.luma_file->addItem(QIcon::fromTheme(filePath), fname, filePath);
             }
         }
 
@@ -415,8 +400,8 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         QDir lumafolder(folder);
         QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
         foreach(const QString & fname, filesnames) {
-            QString filePath = KUrl(folder).path(KUrl::AddTrailingSlash) + fname;
-            m_view.luma_file->addItem(KIcon(filePath), fname, filePath);
+            QString filePath = lumafolder.absoluteFilePath(fname);
+            m_view.luma_file->addItem(QIcon::fromTheme(filePath), fname, filePath);
         }
 
         if (!lumaFile.isEmpty()) {
@@ -468,7 +453,8 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     }
 
     if (t != SlideShow && t != Color) {
-        KFileItem f(KFileItem::Unknown, KFileItem::Unknown, url, true);
+        KFileItem f(url);
+        f.setDelayedMimeTypes(true);
         m_view.clip_filesize->setText(KIO::convertSize(f.size()));
     } else {
         m_view.clip_filesize->setHidden(true);
@@ -484,67 +470,22 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     }
 
     // markers
-    m_view.marker_new->setIcon(KIcon("document-new"));
+    m_view.marker_new->setIcon(QIcon::fromTheme("document-new"));
     m_view.marker_new->setToolTip(i18n("Add marker"));
-    m_view.marker_edit->setIcon(KIcon("document-properties"));
+    m_view.marker_edit->setIcon(QIcon::fromTheme("document-properties"));
     m_view.marker_edit->setToolTip(i18n("Edit marker"));
-    m_view.marker_delete->setIcon(KIcon("trash-empty"));
+    m_view.marker_delete->setIcon(QIcon::fromTheme("trash-empty"));
     m_view.marker_delete->setToolTip(i18n("Delete marker"));
-    m_view.marker_save->setIcon(KIcon("document-save-as"));
+    m_view.marker_save->setIcon(QIcon::fromTheme("document-save-as"));
     m_view.marker_save->setToolTip(i18n("Save markers"));
-    m_view.marker_load->setIcon(KIcon("document-open"));
+    m_view.marker_load->setIcon(QIcon::fromTheme("document-open"));
     m_view.marker_load->setToolTip(i18n("Load markers"));
-    m_view.analysis_delete->setIcon(KIcon("trash-empty"));
+    m_view.analysis_delete->setIcon(QIcon::fromTheme("trash-empty"));
     m_view.analysis_delete->setToolTip(i18n("Delete analysis data"));
-    m_view.analysis_load->setIcon(KIcon("document-open"));
+    m_view.analysis_load->setIcon(QIcon::fromTheme("document-open"));
     m_view.analysis_load->setToolTip(i18n("Load analysis data"));
-    m_view.analysis_save->setIcon(KIcon("document-save-as"));
+    m_view.analysis_save->setIcon(QIcon::fromTheme("document-save-as"));
     m_view.analysis_save->setToolTip(i18n("Save analysis data"));
-
-    // Check for Nepomuk metadata
-#ifdef USE_NEPOMUK
-  #if KDE_IS_VERSION(4,6,0)
-    if (!url.isEmpty()) {
-        Nepomuk::ResourceManager::instance()->init();
-        Nepomuk::Resource res( url.path() );
-        // Check if file has a license
-        if (res.hasProperty(Nepomuk::Vocabulary::NIE::license())) {
-            QString ltype = res.property(Nepomuk::Vocabulary::NIE::licenseType()).toString();
-            m_view.clip_license->setText(i18n("License: %1", res.property(Nepomuk::Vocabulary::NIE::license()).toString()));
-            if (ltype.startsWith(QLatin1String("http"))) {
-                m_view.clip_license->setUrl(ltype);
-                connect(m_view.clip_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
-            }
-        }
-        else m_view.clip_license->setHidden(true);
-    }
-    else m_view.clip_license->setHidden(true);
-  #else
-    m_view.clip_license->setHidden(true);
-  #endif
-#else
-  #ifdef USE_NEPOMUKCORE
-
-    if (!url.isEmpty()) {
-        Nepomuk2::ResourceManager::instance()->init();
-        Nepomuk2::Resource res( url.path() );
-        // Check if file has a license
-        if (res.hasProperty(Nepomuk2::Vocabulary::NIE::license())) {
-            QString ltype = res.property(Nepomuk2::Vocabulary::NIE::licenseType()).toString();
-            m_view.clip_license->setText(i18n("License: %1", res.property(Nepomuk2::Vocabulary::NIE::license()).toString()));
-            if (ltype.startsWith(QLatin1String("http"))) {
-                m_view.clip_license->setUrl(ltype);
-                connect(m_view.clip_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
-            }
-        }
-        else m_view.clip_license->setHidden(true);
-    }
-    else m_view.clip_license->setHidden(true);
-  #else
-    m_view.clip_license->setHidden(true);
-  #endif
-#endif
-
     slotFillMarkersList(m_clip);
     slotUpdateAnalysisData(m_clip);
     
@@ -580,7 +521,7 @@ ClipProperties::ClipProperties(const QList <DocClipBase *> &cliplist, const Time
     m_clipNeedsRefresh(false),
     m_clipNeedsReLoad(false)
 {
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_view.setupUi(this);
     QString title = windowTitle();
     title.append(' ' + i18np("(%1 clip)", "(%1 clips)", cliplist.count()));
@@ -924,7 +865,7 @@ void ClipProperties::slotDeleteAnalysis()
 
 void ClipProperties::slotSaveAnalysis()
 {
-    const QString url = KFileDialog::getSaveFileName(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Save Analysis Data"));
+    const QString url = QFileDialog::getSaveFileName(this, i18n("Save Analysis Data"), "kfiledialog:///projectfolder", i18n("Text File (*.txt)"));
     if (url.isEmpty())
         return;
     KSharedConfigPtr config = KSharedConfig::openConfig(url, KConfig::SimpleConfig);
@@ -935,7 +876,7 @@ void ClipProperties::slotSaveAnalysis()
 
 void ClipProperties::slotLoadAnalysis()
 {
-    const QString url = KFileDialog::getOpenFileName(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Open Analysis Data"));
+    const QString url = QFileDialog::getOpenFileName(this, i18n("Open Analysis Data"), "kfiledialog:///projectfolder", i18n("Text File (*.txt)"));
     if (url.isEmpty())
         return;
     KSharedConfigPtr config = KSharedConfig::openConfig(url, KConfig::SimpleConfig);
@@ -1116,7 +1057,7 @@ QMap <QString, QString> ClipProperties::properties()
             if (new_path != m_old_props.value("resource")) {
                 m_clipNeedsReLoad = true;
                 props["resource"] = new_path;
-                kDebug() << "////  SLIDE EDIT, NEW:" << new_path << ", OLD; " << m_old_props.value("resource");
+                //qDebug() << "////  SLIDE EDIT, NEW:" << new_path << ", OLD; " << m_old_props.value("resource");
             }
         }
         int duration;
@@ -1185,7 +1126,7 @@ void ClipProperties::parseFolder(bool reloadThumb)
 {
     QString path = m_view.clip_path->text();
     bool isMime = !(path.contains('%'));
-    if (!isMime) path = KUrl(path).directory();
+    if (!isMime) path = QUrl(path).adjusted(QUrl::RemoveFilename).path();
     QDir dir(path);
 
     QStringList filters;
@@ -1208,7 +1149,7 @@ void ClipProperties::parseFolder(bool reloadThumb)
             offset = m_view.clip_path->text().section(':', -1).toInt();
             path = path.section('?', 0, 0);
         }
-        QString filter = KUrl(path).fileName();
+        QString filter = QUrl(path).fileName();
         QString ext = filter.section('.', -1);
         filter = filter.section('%', 0, -2);
         QString regexp = '^' + filter + "\\d+\\." + ext + '$';
@@ -1245,7 +1186,7 @@ void ClipProperties::parseFolder(bool reloadThumb)
         if (width % 2 == 1) width++;
         QString filePath = m_view.clip_path->text();
         if (isMime) filePath.append(extension);
-        QPixmap pix = m_clip->thumbProducer()->getImage(KUrl(filePath), 1, width, 180);
+        QPixmap pix = m_clip->thumbProducer()->getImage(QUrl(filePath), 1, width, 180);
         m_view.clip_thumb->setPixmap(pix);
     }
 }
@@ -1293,10 +1234,10 @@ void ClipProperties::slotDeleteProxy()
 
 void ClipProperties::slotOpenUrl(const QString &url)
 {
-    new KRun(KUrl(url), this);
+    new KRun(QUrl(url), this);
 }
 
-#include "clipproperties.moc"
+
 
 
 

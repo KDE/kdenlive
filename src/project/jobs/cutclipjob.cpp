@@ -22,10 +22,10 @@
 #include "kdenlivesettings.h"
 #include "doc/kdenlivedoc.h"
 
-#include <KDebug>
-#include <KLocalizedString>
+#include <QDebug>
+#include <klocalizedstring.h>
 
-CutClipJob::CutClipJob(ClipType cType, const QString &id, const QStringList &parameters) : AbstractClipJob(CUTJOB, cType, id, parameters)
+CutClipJob::CutClipJob(ClipType cType, const QString &id, const QStringList &parameters) : AbstractClipJob(CUTJOB, cType, id)
 {
     m_jobStatus = JobWaiting;
     m_dest = parameters.at(0);
@@ -161,4 +161,4 @@ bool CutClipJob::isExclusive()
 }
 
 
-#include "cutclipjob.moc"
+

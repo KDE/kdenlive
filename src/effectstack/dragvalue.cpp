@@ -24,24 +24,18 @@
 #include <math.h>
 
 #include <QHBoxLayout>
-#include <QToolButton>
-#include <KLineEdit>
-#include <QDoubleValidator>
-#include <QIntValidator>
 #include <QMouseEvent>
 #include <QFocusEvent>
 #include <QWheelEvent>
 #include <QApplication>
 #include <QMenu>
 #include <QAction>
-#include <QLabel>
-#include <QPainter>
 #include <QStyle>
 
-#include <KDebug>
-#include <KIcon>
-#include <KLocalizedString>
-#include <KGlobalSettings>
+#include <QDebug>
+#include <QIcon>
+#include <klocalizedstring.h>
+#include <QFontDatabase>
 
 
 DragValue::DragValue(const QString &label, double defaultValue, int decimals, double min, double max, int id, const QString &suffix, bool showSlider, QWidget* parent) :
@@ -122,12 +116,12 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     m_directUpdate->setChecked(KdenliveSettings::dragvalue_directupdate());
     m_menu->addAction(m_directUpdate);
     
-    QAction *reset = new QAction(KIcon("edit-undo"), i18n("Reset value"), this);
+    QAction *reset = new QAction(QIcon::fromTheme("edit-undo"), i18n("Reset value"), this);
     connect(reset, SIGNAL(triggered()), this, SLOT(slotReset()));
     m_menu->addAction(reset);
     
     if (m_id > -1) {
-        QAction *timeline = new QAction(KIcon("go-jump"), i18n("Show %1 in timeline", label), this);
+        QAction *timeline = new QAction(QIcon::fromTheme("go-jump"), i18n("Show %1 in timeline", label), this);
         connect(timeline, SIGNAL(triggered()), this, SLOT(slotSetInTimeline()));
         connect(m_label, SIGNAL(setInTimeline()), this, SLOT(slotSetInTimeline()));
         m_menu->addAction(timeline);
@@ -371,7 +365,7 @@ CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidg
     m_step(10.0)
   //m_precision(pow(10, precision)),
 {
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setFormat(' ' + label);
     setFocusPolicy(Qt::StrongFocus);
     setCursor(Qt::PointingHandCursor);
@@ -510,4 +504,4 @@ void CustomLabel::focusOutEvent(QFocusEvent*)
     setFocusPolicy(Qt::StrongFocus);
 }
 
-#include "dragvalue.moc"
+

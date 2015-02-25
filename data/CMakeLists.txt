@@ -8,8 +8,6 @@ install(FILES
   blacklisted_effects.txt
   blacklisted_transitions.txt
   encodingprofiles.rc
-  kdenliveui.rc
-  kdenlive.notifyrc
   metadata.properties
   meta_ffmpeg.png
   meta_libav.png
@@ -18,21 +16,19 @@ install(FILES
   timeline_avthumbs.png
   timeline_nothumbs.png
   timeline_vthumbs.png
-  DESTINATION ${DATA_INSTALL_DIR}/kdenlive)
-install(FILES profiles.xml DESTINATION ${DATA_INSTALL_DIR}/kdenlive/export)
-install(FILES
   kdenliveeffectscategory.rc
-  kdenlive_projectprofiles.knsrc
-  kdenlive_renderprofiles.knsrc
-  kdenlive_titles.knsrc
-  kdenlive_wipes.knsrc
   kdenlivetranscodingrc
-  DESTINATION ${CONFIG_INSTALL_DIR})
+  DESTINATION ${DATA_INSTALL_DIR}/kdenlive)
+install(FILES  kdenlive.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
+install(FILES kdenlive_projectprofiles.knsrc kdenlive_renderprofiles.knsrc kdenlive_wipes.knsrc kdenlive_titles.knsrc DESTINATION ${CONFIG_INSTALL_DIR})
+install(FILES kdenliveui.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kdenlive)
+install(FILES profiles.xml DESTINATION ${DATA_INSTALL_DIR}/kdenlive/export)
+install(FILES kdenlive.appdata.xml DESTINATION ${SHARE_INSTALL_PREFIX}/appdata)
 install(FILES kdenlive.xpm DESTINATION share/pixmaps)
 install(FILES kdenlive.menu DESTINATION share/menu RENAME kdenlive)
 install(FILES kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 
-find_package(SharedMimeInfo REQUIRED)
+#find_package(SharedMimeInfo REQUIRED)
 install(FILES kdenlive.xml westley.xml DESTINATION ${XDG_MIME_INSTALL_DIR})
-update_xdg_mimetypes(${XDG_MIME_INSTALL_DIR})
+#update_xdg_mimetypes(${XDG_MIME_INSTALL_DIR})
 

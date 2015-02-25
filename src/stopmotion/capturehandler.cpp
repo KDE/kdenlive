@@ -20,7 +20,6 @@
 #include "capturehandler.h"
 #include "kdenlivesettings.h"
 
-#include <KLocalizedString>
 
 CaptureHandler::CaptureHandler(QVBoxLayout *lay, QWidget *parent):
     m_layout(lay),
@@ -103,4 +102,4 @@ void CaptureHandler::uyvy2rgb(unsigned char *yuv_buffer, unsigned char *rgb_buff
     }
 }
 
-#include "capturehandler.moc"
+

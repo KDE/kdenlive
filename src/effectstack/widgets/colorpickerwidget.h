@@ -21,7 +21,6 @@
 #ifndef COLORPICKERWIDGET_H
 #define COLORPICKERWIDGET_H
 
-#include <QtCore>
 #include <QWidget>
 #include <QFrame>
 

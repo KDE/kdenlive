@@ -21,31 +21,31 @@
 #include "managecapturesdialog.h"
 #include "doc/kthumb.h"
 
-#include <KDebug>
-#include <KGlobalSettings>
+#include <QDebug>
+#include <QFontDatabase>
 #include <KFileItem>
-#include <KIO/NetAccess>
+#include "klocalizedstring.h"
 
 #include <QTreeWidgetItem>
 #include <QFile>
-#include <QHeaderView>
 #include <QIcon>
 #include <QPixmap>
 #include <QTimer>
 
 
-ManageCapturesDialog::ManageCapturesDialog(const KUrl::List &files, QWidget * parent)
+ManageCapturesDialog::ManageCapturesDialog(const QList<QUrl> &files, QWidget * parent)
     : QDialog(parent)
 {
-    setFont(KGlobalSettings::toolBarFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_view.setupUi(this);
     m_importButton = m_view.buttonBox->button(QDialogButtonBox::Ok);
     m_importButton->setText(i18n("import"));
     m_view.treeWidget->setIconSize(QSize(70, 50));
-    foreach(const KUrl &url, files) {
+    foreach(const QUrl &url, files) {
         QStringList text;
         text << url.fileName();
-        KFileItem file(KFileItem::Unknown, KFileItem::Unknown, url, true);
+        KFileItem file(url);
+        file.setDelayedMimeTypes(true);
         text << KIO::convertSize(file.size());
         QTreeWidgetItem *item = new QTreeWidgetItem(m_view.treeWidget, text);
         item->setData(0, Qt::UserRole, url.path());
@@ -77,7 +77,7 @@ void ManageCapturesDialog::slotCheckItemIcon()
         QTreeWidgetItem *item = m_view.treeWidget->topLevelItem(ct);
         //QTreeWidgetItem *item = m_view.treeWidget->currentItem();
         if (item->icon(0).isNull()) {
-            QPixmap p = KThumb::getImage(KUrl(item->data(0, Qt::UserRole).toString()), 0, 70, 50);
+            QPixmap p = KThumb::getImage(QUrl(item->data(0, Qt::UserRole).toString()), 0, 70, 50);
             item->setIcon(0, QIcon(p));
             m_view.treeWidget->resizeColumnToContents(0);
             repaint();
@@ -108,10 +108,11 @@ void ManageCapturesDialog::slotDeleteCurrent()
     if (!item) return;
     const int i = m_view.treeWidget->indexOfTopLevelItem(item);
     m_view.treeWidget->takeTopLevelItem(i);
-    kDebug() << "DELETING FILE: " << item->text(0);
-    //KIO::NetAccess::del(KUrl(item->text(0)), this);
-    QFile f(item->data(0, Qt::UserRole).toString());
-    f.remove();
+    //qDebug() << "DELETING FILE: " << item->text(0);
+    //KIO::NetAccess::del(QUrl(item->text(0)), this);
+    if (!QFile::remove(item->data(0, Qt::UserRole).toString())) {
+        qDebug()<<"// ERRor removing file "<<item->data(0, Qt::UserRole).toString();
+    }
     delete item;
     item = NULL;
 }
@@ -130,19 +131,19 @@ void ManageCapturesDialog::slotToggle()
     }
 }
 
-KUrl::List ManageCapturesDialog::importFiles()
+QList<QUrl> ManageCapturesDialog::importFiles()
 {
-    KUrl::List result;
+    QList<QUrl> result;
 
     const int count = m_view.treeWidget->topLevelItemCount();
     for (int i = 0; i < count; ++i) {
         QTreeWidgetItem *item = m_view.treeWidget->topLevelItem(i);
         if (item && item->checkState(0) == Qt::Checked)
-            result.append(KUrl(item->data(0, Qt::UserRole).toString()));
+            result.append(QUrl(item->data(0, Qt::UserRole).toString()));
     }
     return result;
 }
 
-#include "managecapturesdialog.moc"
+
 
 

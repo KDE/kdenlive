@@ -111,7 +111,7 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="KIntSpinBox" name="kcfg_videotracks"/>
+    <widget class="QSpinBox" name="kcfg_videotracks"/>
    </item>
    <item row="1" column="2">
     <widget class="QLabel" name="label_7">
@@ -121,7 +121,7 @@
     </widget>
    </item>
    <item row="1" column="3">
-    <widget class="KIntSpinBox" name="kcfg_audiotracks"/>
+    <widget class="QSpinBox" name="kcfg_audiotracks"/>
    </item>
    <item row="1" column="4">
     <spacer name="horizontalSpacer">
@@ -156,7 +156,7 @@
        </widget>
       </item>
       <item row="0" column="2" colspan="3">
-       <widget class="KIntSpinBox" name="kcfg_proxyminsize">
+       <widget class="QSpinBox" name="kcfg_proxyminsize">
         <property name="suffix">
          <string>pixels</string>
         </property>
@@ -176,7 +176,7 @@
        </widget>
       </item>
       <item row="1" column="2" colspan="3">
-       <widget class="KIntSpinBox" name="kcfg_proxyimageminsize">
+       <widget class="QSpinBox" name="kcfg_proxyimageminsize">
         <property name="suffix">
          <string>pixels</string>
         </property>
@@ -263,11 +263,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
-  </customwidget>
   <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>

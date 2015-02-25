@@ -26,8 +26,6 @@
 
 #include <QWidget>
 #include <QDomElement>
-#include <QVBoxLayout>
-#include <QList>
 #include <QMap>
 #include <QScrollArea>
 
@@ -57,6 +55,7 @@ public:
     bool needsMonitorEffectScene() const;
     /** @brief Set keyframes for this transition. */
     void setKeyframes(const QString &data, int maximum);
+    void updatePalette();
 
 private:
     EffectMetaInfo m_metaInfo;
@@ -79,7 +78,7 @@ signals:
     void showComments(bool show);
     void effectStateChanged(bool enabled);
     /** @brief Start an MLT filter job on this clip. */
-    void startFilterJob(const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QMap <QString, QString>&);
+    void startFilterJob(QMap<QString,QString>&, QMap<QString,QString>&,QMap <QString, QString>&);
     void importClipKeyframes(GraphicsRectItem = AVWidget);
 };
 

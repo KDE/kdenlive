@@ -8,10 +8,7 @@ the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 */
 
-#include <QMap>
 #include <QFile>
-#include <QTime>
-#include <QImage>
 #include <QDebug>
 #include <QFileInfo>
 #include <QDateTime>

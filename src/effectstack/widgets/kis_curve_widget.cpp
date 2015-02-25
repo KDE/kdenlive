@@ -36,18 +36,15 @@
 #include <QEvent>
 #include <QRect>
 #include <QFont>
-#include <QFontMetrics>
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QPaintEvent>
-#include <QList>
 
 #include <QSpinBox>
 
 // KDE includes.
 
 #include <kcursor.h>
-#include <klocale.h>
 
 #define bounds(x,a,b) (x<a ? a : (x>b ? b :x))
 #define MOUSE_AWAY_THRES 15
@@ -59,7 +56,7 @@
 //static bool pointLessThan(const QPointF &a, const QPointF &b);
 
 
-KisCurveWidget::KisCurveWidget(QWidget *parent, Qt::WFlags f)
+KisCurveWidget::KisCurveWidget(QWidget *parent, Qt::WindowFlags f)
         : QWidget(parent, f), d(new KisCurveWidget::Private(this))
 {
     setObjectName("KisCurveWidget");
@@ -470,4 +467,4 @@ void KisCurveWidget::setMaxPoints(int max)
     d->m_maxPoints = max;
 }
 
-#include "kis_curve_widget.moc"
+

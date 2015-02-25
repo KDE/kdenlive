@@ -34,9 +34,9 @@
 
 #include <mlt/framework/mlt_types.h>
 
-#include <QtConcurrentRun>
 #include <QTimer>
- 
+#include <QMutex>
+
 namespace Mlt
 {
 class Consumer;
@@ -124,8 +124,9 @@ private:
     QMutex m_mutex;
 
     /** @brief Build the MLT Consumer object with initial settings.
-     *  @param profileName The MLT profile to use for the consumer */
-    void buildConsumer(const QString &profileName = QString());
+     *  @param profileName The MLT profile to use for the consumer 
+     *  @returns true if consumer is valid */
+    bool buildConsumer(const QString &profileName = QString());
 
 
 private slots:

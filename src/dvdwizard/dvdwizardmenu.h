@@ -31,18 +31,14 @@
 #include <QGraphicsRectItem>
 #include <QDomElement>
 
-#include <KDebug>
-#include <kdeversion.h>
-
-#if KDE_IS_VERSION(4,7,0)
+#include <QDebug>
 #include <KMessageWidget>
-#endif
 
 class DvdScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    DvdScene(QObject * parent = 0): QGraphicsScene(parent) {
+    explicit DvdScene(QObject * parent = 0): QGraphicsScene(parent) {
         m_width = 0; m_height = 0;
     }
     void setProfile(int width, int height) {
@@ -73,7 +69,7 @@ class DvdButtonUnderline : public QGraphicsRectItem
 {
 
 public:
-    DvdButtonUnderline( const QRectF & rect, QGraphicsItem * parent = 0 ) : QGraphicsRectItem(rect, parent) {}
+    explicit DvdButtonUnderline( const QRectF & rect, QGraphicsItem * parent = 0 ) : QGraphicsRectItem(rect, parent) {}
 
     int type() const {
         // Enable the use of qgraphicsitem_cast with this item.
@@ -182,9 +178,7 @@ private:
     int m_height;
     QSize m_finalSize;
     int m_movieLength;
-#if KDE_IS_VERSION(4,7,0)
     KMessageWidget *m_menuMessage;
-#endif
 
 private slots:
     void buildButton();

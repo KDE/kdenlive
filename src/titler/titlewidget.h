@@ -47,7 +47,7 @@ public:
         rotatez = 0.0;
     }
     double scalex, scaley;
-    double rotatex, rotatey, rotatez;
+    int rotatex, rotatey, rotatez;
 };
 
 /*! \class KdenliveDoc
@@ -66,7 +66,7 @@ public:
      * @param projectPath default path to save to or load from title documents
      * @param render project renderer
      * @param parent (optional) parent widget */
-    explicit TitleWidget(const KUrl &url, const Timecode &tc, const QString &projectTitlePath, Render *render, QWidget *parent = 0);
+    explicit TitleWidget(const QUrl &url, const Timecode &tc, const QString &projectTitlePath, Render *render, QWidget *parent = 0);
     virtual ~TitleWidget();
     QDomDocument xml();
     void setXml(const QDomDocument& doc);
@@ -205,7 +205,7 @@ private:
      */
     qreal zIndexBounds(bool maxBound, bool intersectingOnly);
 
-    void itemRotate(qreal val, int axis);
+    void itemRotate(int val, int axis);
 
     void selectItems(int itemType);
 
@@ -222,13 +222,13 @@ public slots:
     void rectChanged();
     void zIndexChanged(int);
     void itemScaled(int);
-    void itemRotateX(qreal);
-    void itemRotateY(qreal);
-    void itemRotateZ(qreal);
+    void itemRotateX(int);
+    void itemRotateY(int);
+    void itemRotateZ(int);
     /** Save a title to a title file */
-    void saveTitle(KUrl url = KUrl());
+    void saveTitle(QUrl url = QUrl());
     /** Load a title from a title file */
-    void loadTitle(KUrl url = KUrl());
+    void loadTitle(QUrl url = QUrl());
 
 private slots:
 

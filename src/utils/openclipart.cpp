@@ -24,9 +24,8 @@
 #include <QListWidget>
 #include <QDomDocument>
 
-#include <KDebug>
+#include <QDebug>
 #include <kio/job.h>
-#include <KIO/NetAccess>
 
 
 OpenClipArt::OpenClipArt(QListWidget *listWidget, QObject *parent) :
@@ -47,7 +46,7 @@ void OpenClipArt::slotStartSearch(const QString &searchText, int page)
     if (page > 1)
         uri.append("&page=" + QString::number(page));
         
-    KJob* resolveJob = KIO::storedGet( KUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
+    KJob* resolveJob = KIO::storedGet( QUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
     connect( resolveJob, SIGNAL(result(KJob*)), this, SLOT(slotShowResults(KJob*)) );
 }
 
@@ -59,7 +58,7 @@ void OpenClipArt::slotShowResults(KJob* job)
     KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
     
     QDomDocument doc;
-    doc.setContent(QString::fromAscii(storedQueryJob->data()));
+    doc.setContent(QString::fromLatin1(storedQueryJob->data()));
     QDomNodeList items = doc.documentElement().elementsByTagName("item");
     for (int i = 0; i < items.count(); ++i) {
         QDomElement currentClip = items.at(i).toElement();
@@ -121,4 +120,4 @@ QString OpenClipArt::getDefaultDownloadName(QListWidgetItem *item)
 }
 
 
-#include "openclipart.moc"
+

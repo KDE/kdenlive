@@ -16,8 +16,11 @@
 #include "lib/external/kiss_fft/tools/kiss_fftr.h"
 
 #include <QPainter>
-#include <QMenu>
+#include <QTime>
 
+#include "klocalizedstring.h"
+#include <KSharedConfig>
+#include <KConfigGroup>
 #include <iostream>
 
 // (defined in the header file)
@@ -110,7 +113,7 @@ void AudioSpectrum::readConfig()
 {
     AbstractScopeWidget::readConfig();
 
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, AbstractScopeWidget::configName());
 
     ui->windowSize->setCurrentIndex(scopeConfig.readEntry("windowSize", 0));
@@ -130,7 +133,7 @@ void AudioSpectrum::readConfig()
 }
 void AudioSpectrum::writeConfig()
 {
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, AbstractScopeWidget::configName());
 
     scopeConfig.writeEntry("windowSize", ui->windowSize->currentIndex());
@@ -594,4 +597,4 @@ void AudioSpectrum::handleMouseDrag(const QPoint &movement, const RescaleDirecti
     }
 }
 
-#include "audiospectrum.moc"
+

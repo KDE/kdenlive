@@ -27,18 +27,17 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QMutexLocker>
+#include <QMimeData>
 
-#include <KDebug>
-#include <KGlobalSettings>
-#include <KLocalizedString>
+#include <QDebug>
+#include <QFontDatabase>
+#include <klocalizedstring.h>
 #include <KMessageBox>
-#include <KStandardDirs>
-#include <KFileDialog>
-#include <KUrlRequester>
 #include <KColorScheme>
+#include <QStandardPaths>
 
 MyEditableLabel::MyEditableLabel(QWidget * parent):
-    KLineEdit(parent)
+    QLineEdit(parent)
 {
     setFrame(false);
     setReadOnly(true);
@@ -58,7 +57,7 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, cons
 {
     m_info.groupIndex = ix;
     m_subWidgets = QList <CollapsibleEffect *> ();
-    setFont(KGlobalSettings::smallestReadableFont());
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     frame->setObjectName("framegroup");
     decoframe->setObjectName("decoframegroup");
     QHBoxLayout *l = static_cast <QHBoxLayout *>(frame->layout());
@@ -67,26 +66,26 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, cons
     m_title->setText(info.groupName.isEmpty() ? i18n("Effect Group") : info.groupName);
     m_info.groupName = m_title->text();
     connect(m_title, SIGNAL(editingFinished()), this, SLOT(slotRenameGroup()));
-    buttonUp->setIcon(KIcon("kdenlive-up"));
+    buttonUp->setIcon(QIcon::fromTheme("kdenlive-up"));
     buttonUp->setToolTip(i18n("Move effect up"));
-    buttonDown->setIcon(KIcon("kdenlive-down"));
+    buttonDown->setIcon(QIcon::fromTheme("kdenlive-down"));
     buttonDown->setToolTip(i18n("Move effect down"));
 
-    buttonDel->setIcon(KIcon("kdenlive-deleffect"));
+    buttonDel->setIcon(QIcon::fromTheme("kdenlive-deleffect"));
     buttonDel->setToolTip(i18n("Delete effect"));
     if (firstGroup) buttonUp->setVisible(false);
     if (lastGroup) buttonDown->setVisible(false);
     m_menu = new QMenu;
-    m_menu->addAction(KIcon("view-refresh"), i18n("Reset Group"), this, SLOT(slotResetGroup()));
-    m_menu->addAction(KIcon("document-save"), i18n("Save Group"), this, SLOT(slotSaveGroup()));
+    m_menu->addAction(QIcon::fromTheme("view-refresh"), i18n("Reset Group"), this, SLOT(slotResetGroup()));
+    m_menu->addAction(QIcon::fromTheme("document-save"), i18n("Save Group"), this, SLOT(slotSaveGroup()));
     
-    m_menu->addAction(KIcon("list-remove"), i18n("Ungroup"), this, SLOT(slotUnGroup()));
+    m_menu->addAction(QIcon::fromTheme("list-remove"), i18n("Ungroup"), this, SLOT(slotUnGroup()));
     setAcceptDrops(true);
-    menuButton->setIcon(KIcon("kdenlive-menu"));
+    menuButton->setIcon(QIcon::fromTheme("kdenlive-menu"));
     menuButton->setMenu(m_menu);
     
     enabledButton->setChecked(false);
-    enabledButton->setIcon(KIcon("layer-visible-on"));
+    enabledButton->setIcon(QIcon::fromTheme("layer-visible-on"));
     
     if (info.groupIsCollapsed) {
 	slotShow(false);
@@ -133,7 +132,7 @@ void CollapsibleGroup::slotEnable(bool disable, bool emitInfo)
     m_title->setEnabled(!disable);
     enabledButton->blockSignals(true);
     enabledButton->setChecked(disable);
-    enabledButton->setIcon(disable ? KIcon("layer-visible-off") : KIcon("layer-visible-on"));
+    enabledButton->setIcon(disable ? QIcon::fromTheme("layer-visible-off") : QIcon::fromTheme("layer-visible-on"));
     enabledButton->blockSignals(false);
     for (int i = 0; i < m_subWidgets.count(); ++i)
 	m_subWidgets.at(i)->slotDisable(disable, emitInfo);
@@ -167,9 +166,9 @@ void CollapsibleGroup::slotEffectDown()
 
 void CollapsibleGroup::slotSaveGroup()
 {
-    QString name = QInputDialog::getText(this, i18n("Save Group"), i18n("Name for saved group: "), KLineEdit::Normal, m_title->text());
+    QString name = QInputDialog::getText(this, i18n("Save Group"), i18n("Name for saved group: "), QLineEdit::Normal, m_title->text());
     if (name.isEmpty()) return;
-    QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
+    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects";
     path = path + name + ".xml";
     if (QFile::exists(path)) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path)) == KMessageBox::No) return;
 
@@ -343,7 +342,7 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
 	    for (int i = 0; i < m_subWidgets.count(); ++i) {
 		currentEffectIndexes << m_subWidgets.at(i)->effectIndex();
 	    }
-	    kDebug()<<"PASTING: "<<pastedEffectIndexes<<" TO "<<currentEffectIndexes;
+	    //qDebug()<<"PASTING: "<<pastedEffectIndexes<<" TO "<<currentEffectIndexes;
 	    if (pastedEffectIndexes.at(0) < currentEffectIndexes.at(0)) {
 		// Pasting group after current one:
 		emit moveEffect(pastedEffectIndexes, currentEffectIndexes.last(), pasteInfo.groupIndex, pasteInfo.groupName);
@@ -411,4 +410,4 @@ void CollapsibleGroup::adjustEffects()
 }
 
 
-#include "collapsiblegroup.moc"
+

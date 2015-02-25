@@ -24,17 +24,20 @@
 
 #include <mlt++/Mlt.h>
 
-#include <KUrlRequester>
-#include <KDebug>
-#include <KStandardDirs>
-#include <KFileItem>
-#include <KFileDialog>
+#include <QDebug>
+#include <KConfigGroup>
+#include <KSharedConfig>
+#include <KIO/Global>
+#include "klocalizedstring.h"
 
+#include <QFileDialog>
 #include <QHBoxLayout>
 #include <QDomDocument>
+#include <QMimeData>
 #include <QTreeWidgetItem>
 #include <QHeaderView>
 #include <unistd.h>
+#include <QStandardPaths>
 
 DvdTreeWidget::DvdTreeWidget(QWidget *parent) :
     QTreeWidget(parent)
@@ -70,10 +73,10 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
     m_installCheck(true)
 {
     m_view.setupUi(this);
-    m_view.button_add->setIcon(KIcon("list-add"));
-    m_view.button_delete->setIcon(KIcon("list-remove"));
-    m_view.button_up->setIcon(KIcon("go-up"));
-    m_view.button_down->setIcon(KIcon("go-down"));
+    m_view.button_add->setIcon(QIcon::fromTheme("list-add"));
+    m_view.button_delete->setIcon(QIcon::fromTheme("list-remove"));
+    m_view.button_up->setIcon(QIcon::fromTheme("go-up"));
+    m_view.button_down->setIcon(QIcon::fromTheme("go-down"));
     m_vobList = new DvdTreeWidget(this);
     QVBoxLayout *lay1 = new QVBoxLayout;
     lay1->addWidget(m_vobList);
@@ -92,8 +95,8 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
     m_vobList->setIconSize(QSize(60, 45));
 
     QString errorMessage;
-    if (KStandardDirs::findExe("dvdauthor").isEmpty()) errorMessage.append(i18n("<strong>Program %1 is required for the DVD wizard.</strong>", i18n("dvdauthor")));
-    if (KStandardDirs::findExe("mkisofs").isEmpty() && KStandardDirs::findExe("genisoimage").isEmpty()) errorMessage.append(i18n("<strong>Program %1 or %2 is required for the DVD wizard.</strong>", i18n("mkisofs"), i18n("genisoimage")));
+    if (QStandardPaths::findExecutable("dvdauthor").isEmpty()) errorMessage.append(i18n("<strong>Program %1 is required for the DVD wizard.</strong>", i18n("dvdauthor")));
+    if (QStandardPaths::findExecutable("mkisofs").isEmpty() && QStandardPaths::findExecutable("genisoimage").isEmpty()) errorMessage.append(i18n("<strong>Program %1 or %2 is required for the DVD wizard.</strong>", i18n("mkisofs"), i18n("genisoimage")));
     if (!errorMessage.isEmpty()) {
         m_view.button_add->setEnabled(false);
         m_view.dvd_profile->setEnabled(false);
@@ -103,9 +106,9 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
 
     connect(m_view.dvd_profile, SIGNAL(activated(int)), this, SLOT(slotCheckProfiles()));
     m_vobList->header()->setStretchLastSection(false);
-    m_vobList->header()->setResizeMode(0, QHeaderView::Stretch);
-    m_vobList->header()->setResizeMode(1, QHeaderView::Custom);
-    m_vobList->header()->setResizeMode(2, QHeaderView::Custom);
+    m_vobList->header()->setSectionResizeMode(0, QHeaderView::Stretch);
+    m_vobList->header()->setSectionResizeMode(1, QHeaderView::Custom);
+    m_vobList->header()->setSectionResizeMode(2, QHeaderView::Custom);
 
     m_capacityBar = new KCapacityBar(KCapacityBar::DrawTextInline, this);
     QHBoxLayout *lay = new QHBoxLayout;
@@ -116,7 +119,6 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
     m_transcodeAction = new QAction(i18n("Transcode"), this);
     connect(m_transcodeAction, SIGNAL(triggered()), this, SLOT(slotTranscodeFiles()));
 
-#if KDE_IS_VERSION(4,7,0)
     m_warnMessage = new KMessageWidget;
     m_warnMessage->setCloseButtonVisible(false);
     QGridLayout *s =  static_cast <QGridLayout*> (layout());
@@ -132,14 +134,6 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
         m_warnMessage->hide();
     }
     m_view.button_transcode->setHidden(true);
-#else
-    m_view.button_transcode->setDefaultAction(m_transcodeAction);
-    m_view.button_transcode->setEnabled(false);
-    if (!errorMessage.isEmpty()) {
-        m_view.error_message->setText(errorMessage);
-        m_installCheck = false;
-    }
-#endif
     
     slotCheckVobList();
 }
@@ -165,27 +159,23 @@ void DvdWizardVob::slotCheckProfiles()
         showProfileError();
     }
     else {
-#if KDE_IS_VERSION(4,7,0)      
         m_warnMessage->animatedHide();
-#else
-        if (m_installCheck) m_view.error_message->setVisible(false);
-#endif
     }
 }
 
 void DvdWizardVob::slotAddVobList(const QList<QUrl> &list)
 {
     foreach (const QUrl &url, list) {
-        slotAddVobFile(KUrl(url), QString(), false);
+        slotAddVobFile(url, QString(), false);
     }
     slotCheckVobList();
     slotCheckProfiles();
 }
 
-void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters, bool checkFormats)
+void DvdWizardVob::slotAddVobFile(QUrl url, const QString &chapters, bool checkFormats)
 {
-    if (url.isEmpty()) url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///projectfolder"), "video/mpeg", this, i18n("Add new video file"));
-    if (url.isEmpty()) return;
+    if (!url.isValid()) url = QFileDialog::getOpenFileUrl(this, i18n("Add new video file"), QUrl::fromLocalFile(QDir::homePath()), i18n("MPEG clip (*.mpeg *.mpg *.vob)"));
+    if (!url.isValid()) return;
     QFile f(url.path());
     qint64 fileSize = f.size();
 
@@ -193,7 +183,7 @@ void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters, bool checkF
     profile.set_explicit(false);
     QTreeWidgetItem *item = new QTreeWidgetItem(m_vobList, QStringList() << url.path() << QString() << KIO::convertSize(fileSize));
     item->setData(2, Qt::UserRole, fileSize);
-    item->setData(0, Qt::DecorationRole, KIcon("video-x-generic").pixmap(60, 45));
+    item->setData(0, Qt::DecorationRole, QIcon::fromTheme("video-x-generic").pixmap(60, 45));
     item->setToolTip(0, url.path());
 
     QString resource = url.path();
@@ -307,7 +297,7 @@ bool DvdWizardVob::isComplete() const
 
 void DvdWizardVob::setUrl(const QString &url)
 {
-    slotAddVobFile(KUrl(url));
+    slotAddVobFile(QUrl(url));
 }
 
 QStringList DvdWizardVob::selectedUrls() const
@@ -512,7 +502,7 @@ void DvdWizardVob::clear()
 void DvdWizardVob::slotTranscodeFiles()
 {
     // Find transcoding infos related to selected DVD profile
-    KSharedConfigPtr config = KSharedConfig::openConfig("kdenlivetranscodingrc", KConfig::CascadeConfig);
+    KSharedConfigPtr config = KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::DataLocation, "kdenlivetranscodingrc"), KConfig::CascadeConfig);
     KConfigGroup transConfig(config, "Transcoding");
     // read the entries
     QString profileEasyName;
@@ -565,8 +555,8 @@ void DvdWizardVob::slotTranscodeFiles()
                 if (conv_pad %2 == 1) conv_pad --;
                 postParams << "-vf" << QString("scale=%1:%2,pad=%3:%4:%5:0,setdar=%6").arg(finalSize.width() - 2 * conv_pad).arg(destSize.height()).arg(finalSize.width()).arg(finalSize.height()).arg(conv_pad).arg(input_aspect);
             }
-            ClipTranscode *d = new ClipTranscode(KUrl::List () << KUrl(item->text(0)), params.section(';', 0, 0), postParams, i18n("Transcoding to DVD format"), true, this);
-            connect(d, SIGNAL(transcodedClip(KUrl,KUrl)), this, SLOT(slotTranscodedClip(KUrl,KUrl)));
+            ClipTranscode *d = new ClipTranscode(QStringList () << item->text(0), params.section(';', 0, 0), postParams, i18n("Transcoding to DVD format"), true, this);
+            connect(d, SIGNAL(transcodedClip(QUrl,QUrl)), this, SLOT(slotTranscodedClip(QUrl,QUrl)));
             d->slotStartTransCode();
             d->show();
 
@@ -574,7 +564,7 @@ void DvdWizardVob::slotTranscodeFiles()
     }
 }
 
-void DvdWizardVob::slotTranscodedClip(KUrl src, KUrl transcoded)
+void DvdWizardVob::slotTranscodedClip(QUrl src, QUrl transcoded)
 {
     if (transcoded.isEmpty()) {
         // Transcoding canceled or failed
@@ -584,7 +574,7 @@ void DvdWizardVob::slotTranscodedClip(KUrl src, KUrl transcoded)
     int max = m_vobList->topLevelItemCount();
     for (int i = 0; i < max; ++i) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
-        if (KUrl(item->text(0)).path() == src.path()) {
+        if (QUrl(item->text(0)).path() == src.path()) {
             // Replace movie with transcoded version
             item->setText(0, transcoded.path());
 
@@ -595,7 +585,7 @@ void DvdWizardVob::slotTranscodedClip(KUrl src, KUrl transcoded)
             profile.set_explicit(false);
             item->setText(2, KIO::convertSize(fileSize));
             item->setData(2, Qt::UserRole, fileSize);
-            item->setData(0, Qt::DecorationRole, KIcon("video-x-generic").pixmap(60, 45));
+            item->setData(0, Qt::DecorationRole, QIcon::fromTheme("video-x-generic").pixmap(60, 45));
             item->setToolTip(0, transcoded.path());
 
             QString resource = transcoded.path();
@@ -655,29 +645,17 @@ void DvdWizardVob::slotTranscodedClip(KUrl src, KUrl transcoded)
 
 void DvdWizardVob::showProfileError()
 {
-#if KDE_IS_VERSION(4,7,0)
     m_warnMessage->setText(i18n("Your clips do not match selected DVD format, transcoding required."));
     m_warnMessage->setCloseButtonVisible(false);
     m_warnMessage->addAction(m_transcodeAction);
     m_warnMessage->animatedShow();
-#else
-    m_view.error_message->setText(i18n("Your clips do not match selected DVD format, transcoding required."));
-    m_view.error_message->setVisible(true);
-#endif
 }
 
 void DvdWizardVob::showError(const QString &error)
 {
-#if KDE_IS_VERSION(4,7,0)
     m_warnMessage->setText(error);
     m_warnMessage->setCloseButtonVisible(true);
     m_warnMessage->removeAction(m_transcodeAction);
     m_warnMessage->animatedShow();
-#else
-    m_view.error_message->setText(error);
-    m_view.error_message->setVisible(true);
-#endif    
 }
 
-
-#include "dvdwizardvob.moc"
