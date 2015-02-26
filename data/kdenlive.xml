@@ -2,7 +2,7 @@
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
   <mime-type type="application/x-kdenlive">
     <comment>Kdenlive video project document</comment>
-    <comment xml:lang="bs">Kdenlive video projektna dokumentacije</comment>
+    <comment xml:lang="bs">Kdenlive video projekt dokument</comment>
     <comment xml:lang="ca">document de projecte de vídeo del Kdenlive</comment>
     <comment xml:lang="cs">Dokument video projektu Kdenlive</comment>
     <comment xml:lang="da">Kdenlive videoprojekt-dokument</comment>
@@ -13,17 +13,19 @@
     <comment xml:lang="pl">Dokument projektowy filmu w Kdenlive</comment>
     <comment xml:lang="pt">Documento de projecto de vídeo do Kdenlive</comment>
     <comment xml:lang="pt_BR">Documento de projeto de vídeo do Kdenlive</comment>
-    <comment xml:lang="sk">Dokument projektu videa Kdenlive</comment>
+    <comment xml:lang="sk">Dokument video projektu Kdenlive</comment>
     <comment xml:lang="sl">Dokument video projekta Kdenlive</comment>
     <comment xml:lang="sv">Kdenlive-videoprojektdokument</comment>
     <comment xml:lang="tr">Kdenlive video proje belgesi</comment>
     <comment xml:lang="uk">документ відеопроекту Kdenlive</comment>
+    <comment xml:lang="zh_CN">Kdenlive 视频项目文档</comment>
+    <comment xml:lang="zh_TW">Kdenlive 影片專案文件</comment>
     <sub-class-of type="video/mlt-playlist"/>
     <glob pattern="*.kdenlive"/>
   </mime-type>
   <mime-type type="application/x-kdenlivetitle">
     <comment>Kdenlive video title</comment>
-    <comment xml:lang="bs">Kdenlice video naslov</comment>
+    <comment xml:lang="bs">Kdenlive video naslov</comment>
     <comment xml:lang="ca">títol de vídeo del Kdenlive</comment>
     <comment xml:lang="cs">Název videa Kdenlive</comment>
     <comment xml:lang="da">Kdenlive videotitel</comment>
@@ -34,11 +36,13 @@
     <comment xml:lang="pl">Tytuł filmu w Kdenlive</comment>
     <comment xml:lang="pt">Título de vídeo do Kdenlive</comment>
     <comment xml:lang="pt_BR">Título de vídeo do Kdenlive</comment>
-    <comment xml:lang="sk">Titulok videa Kdenlive</comment>
+    <comment xml:lang="sk">Názov videa Kdenlive</comment>
     <comment xml:lang="sl">Naslov videa Kdenlive</comment>
     <comment xml:lang="sv">Kdenlive-video</comment>
     <comment xml:lang="tr">Kdenlive video başlığı</comment>
     <comment xml:lang="uk">заголовок відео Kdenlive</comment>
+    <comment xml:lang="zh_CN">Kdenlive 视频标题</comment>
+    <comment xml:lang="zh_TW">Kdenlive 影片標題</comment>
     <sub-class-of type="application/xml"/>
     <glob pattern="*.kdenlivetitle"/>
   </mime-type>
