@@ -36,7 +36,6 @@
 #include <QPainter>
 #include <QFileDialog>
 #include <QStandardPaths>
-#include <QFileDialog>
 
 static const int VIDEOTAB = 0;
 static const int AUDIOTAB = 1;

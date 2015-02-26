@@ -103,8 +103,8 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     // Setup timer to trigger audio thumbs creation
     m_audioTimer.setSingleShot(true);
     m_audioTimer.setInterval(800);
+    connect(this, SIGNAL(getAudioThumbs()), this, SLOT(slotGetAudioThumbs()));
     connect(&m_audioTimer, SIGNAL(timeout()), m_thumbProd, SLOT(slotCreateAudioThumbs()));
-    
 }
 
 DocClipBase::~DocClipBase()
@@ -549,7 +549,7 @@ void DocClipBase::setProducer(Mlt::Producer &producer, bool reset, bool readProp
                 m_thumbProd->setProducer(producer);
         }
         else m_thumbProd->setProducer(producer);
-        getAudioThumbs();
+        emit getAudioThumbs();
     }
     bool updated = false;
     if (id.contains('_')) {
@@ -791,7 +791,8 @@ Mlt::Producer *DocClipBase::cloneProducer(Mlt::Producer *source)
         url = m_properties.value("resource");
     }
     if (m_clipType == SlideShow || QFile::exists(url)) {
-        result = new Mlt::Producer(*(source->profile()), url.toUtf8().constData());
+        QString xml = getProducerXML(*source);
+        result = new Mlt::Producer(*(source->profile()), "xml-string", xml.toUtf8().constData());
     }
     if (result == NULL || !result->is_valid()) {
 
@@ -812,6 +813,30 @@ Mlt::Producer *DocClipBase::cloneProducer(Mlt::Producer *source)
     Mlt::Properties props(result->get_properties());
     props.inherit(src_props);*/
     return result;
+}
+
+QString DocClipBase::getProducerXML(Mlt::Producer &producer)
+{
+    QString filename = "string";
+    Mlt::Consumer c(*(producer.profile()), "xml", filename.toUtf8().constData());
+    Mlt::Service s(producer.get_service());
+    if (!s.is_valid())
+        return "";
+    int ignore = s.get_int("ignore_points");
+    if (ignore)
+        s.set("ignore_points", 0);
+    c.set("time_format", "frames");
+    c.set("no_meta", 1);
+    c.set("store", "kdenlive");
+    if (filename != "string") {
+        c.set("no_root", 1);
+        c.set("root", QFileInfo(filename).absolutePath().toUtf8().constData());
+    }
+    c.connect(s);
+    c.start();
+    if (ignore)
+        s.set("ignore_points", ignore);
+    return QString::fromUtf8(c.get(filename.toUtf8().constData()));
 }
 
 void DocClipBase::setProducerProperty(const char *name, int data)
@@ -1200,14 +1225,14 @@ QMap <QString, QString> DocClipBase::currentProperties(const QMap <QString, QStr
     return currentProps;
 }
 
-bool DocClipBase::getAudioThumbs()
+void DocClipBase::slotGetAudioThumbs()
 {
-    if (m_thumbProd == NULL || isPlaceHolder() || !KdenliveSettings::audiothumbnails()) return false;
+    if (m_thumbProd == NULL || isPlaceHolder() || !KdenliveSettings::audiothumbnails()) return;
     if (m_audioThumbCreated) {
-        return false;
+        return;
     }
     m_audioTimer.start();
-    return true;
+    return;
 }
 
 bool DocClipBase::isPlaceHolder() const

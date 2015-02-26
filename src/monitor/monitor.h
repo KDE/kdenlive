@@ -52,7 +52,7 @@ class Overlay : public QLabel
 {
     Q_OBJECT
 public:
-    Overlay(QWidget* parent = 0);
+    explicit Overlay(QWidget* parent = 0);
     void setOverlayText(const QString &, bool isZone = true);
 
 protected:
@@ -77,7 +77,7 @@ public:
     void setCustomProfile(const QString &profile, const Timecode &tc);
     void resetSize();
     void pause();
-    void setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL, QAction *loopClip = NULL);
+    void setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL, QAction *loopClip = NULL, QWidget* parent = NULL);
     const QString sceneList();
     const QString activeClipId();
     GenTime position();

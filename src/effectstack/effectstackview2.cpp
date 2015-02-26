@@ -15,9 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "effectstackview2.h"
+
 #include "collapsibleeffect.h"
 #include "collapsiblegroup.h"
-#include "effectstackview2.h"
 
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
@@ -666,8 +667,7 @@ void EffectStackView2::slotResetEffect(int ix)
     effectLists["audio"] = &MainWindow::audioEffects;
     effectLists["video"] = &MainWindow::videoEffects;
     effectLists["custom"] = &MainWindow::customEffects;
-    foreach(const QString &type, effectLists.keys()) {
-        EffectsList *list = effectLists[type];
+    foreach(const EffectsList* list, effectLists) {
         dom = list->getEffectByTag(QString(), effectId).cloneNode().toElement();
         if (!dom.isNull()) break;
     }

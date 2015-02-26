@@ -17,8 +17,8 @@
     Boston, MA 02110-1301, USA.
 */
 
-#ifndef _KDENLIVECORE_EXPORT_H
-#define _KDENLIVECORE_EXPORT_H
+#ifndef KDENLIVECORE_EXPORT_H
+#define KDENLIVECORE_EXPORT_H
 
 #include <QtCore/QtGlobal>
 

@@ -132,20 +132,20 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     title_duration->setText(m_tc.reformatSeparators(KdenliveSettings::title_duration()));
 
     connect(backgroundColor, SIGNAL(changed(QColor)), this, SLOT(slotChangeBackground())) ;
-    connect(backgroundAlpha, SIGNAL(valueChanged(qreal,bool)), this, SLOT(slotChangeBackground())) ;
+    connect(backgroundAlpha, SIGNAL(valueChanged(int)), this, SLOT(slotChangeBackground())) ;
 
     connect(fontColorButton, SIGNAL(changed(QColor)), this, SLOT(slotUpdateText())) ;
     connect(textOutlineColor, SIGNAL(changed(QColor)), this, SLOT(slotUpdateText())) ;
     connect(font_family, SIGNAL(currentFontChanged(QFont)), this, SLOT(slotUpdateText())) ;
     connect(font_size, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText())) ;
-    connect(textOutline, SIGNAL(valueChanged(qreal,bool)), this, SLOT(slotUpdateText()));
+    connect(textOutline, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText()));
     connect(font_weight_box, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateText()));
 
     connect(font_family, SIGNAL(editTextChanged(QString)), this, SLOT(slotFontText(QString)));
 
     connect(rectFColor, SIGNAL(changed(QColor)), this, SLOT(rectChanged()));
     connect(rectBColor, SIGNAL(changed(QColor)), this, SLOT(rectChanged()));
-    connect(rectLineWidth, SIGNAL(valueChanged(qreal,bool)), this, SLOT(rectChanged()));
+    connect(rectLineWidth, SIGNAL(valueChanged(int)), this, SLOT(rectChanged()));
 
     // Fill effects
     effect_list->addItem(i18n("None"), NOEFFECT);
@@ -155,9 +155,9 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
 
     connect(zValue, SIGNAL(valueChanged(int)), this, SLOT(zIndexChanged(int)));
     connect(itemzoom, SIGNAL(valueChanged(int)), this, SLOT(itemScaled(int)));
-    connect(itemrotatex, SIGNAL(valueChanged(qreal,bool)), this, SLOT(itemRotateX(qreal)));
-    connect(itemrotatey, SIGNAL(valueChanged(qreal,bool)), this, SLOT(itemRotateY(qreal)));
-    connect(itemrotatez, SIGNAL(valueChanged(qreal,bool)), this, SLOT(itemRotateZ(qreal)));
+    connect(itemrotatex, SIGNAL(valueChanged(int)), this, SLOT(itemRotateX(int)));
+    connect(itemrotatey, SIGNAL(valueChanged(int)), this, SLOT(itemRotateY(int)));
+    connect(itemrotatez, SIGNAL(valueChanged(int)), this, SLOT(itemRotateZ(int)));
     connect(itemhcenter, SIGNAL(clicked()), this, SLOT(itemHCenter()));
     connect(itemvcenter, SIGNAL(clicked()), this, SLOT(itemVCenter()));
     connect(itemtop, SIGNAL(clicked()), this, SLOT(itemTop()));
@@ -1549,22 +1549,22 @@ void TitleWidget::itemScaled(int val)
     }
 }
 
-void TitleWidget::itemRotateX(qreal val)
+void TitleWidget::itemRotateX(int val)
 {
     itemRotate(val, 0);
 }
 
-void TitleWidget::itemRotateY(qreal val)
+void TitleWidget::itemRotateY(int val)
 {
     itemRotate(val, 1);
 }
 
-void TitleWidget::itemRotateZ(qreal val)
+void TitleWidget::itemRotateZ(int val)
 {
     itemRotate(val, 2);
 }
 
-void TitleWidget::itemRotate(qreal val, int axis)
+void TitleWidget::itemRotate(int val, int axis)
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {

@@ -29,7 +29,7 @@ class AudioCorrelation : public QObject
     Q_OBJECT
 public:
     /// AudioCorrelation will take ownership of mainTrackEnvelope
-    AudioCorrelation(AudioEnvelope *mainTrackEnvelope);
+    explicit AudioCorrelation(AudioEnvelope *mainTrackEnvelope);
     ~AudioCorrelation();
 
     /**

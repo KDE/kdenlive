@@ -18,7 +18,7 @@ class AudioStreamInfo;
 class AudioInfo
 {
 public:
-    AudioInfo(Mlt::Producer *producer);
+    explicit AudioInfo(Mlt::Producer *producer);
     ~AudioInfo();
 
     int size() const;

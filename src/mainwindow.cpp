@@ -105,9 +105,6 @@ namespace Mlt
 class Producer;
 };
 
-Q_DECLARE_METATYPE(QVector<qint16>)
-
-
 EffectsList MainWindow::videoEffects;
 EffectsList MainWindow::audioEffects;
 EffectsList MainWindow::customEffects;
@@ -2721,7 +2718,7 @@ void MainWindow::slotTranscode(const QStringList &urls)
 void MainWindow::slotTranscodeClip()
 {
     QString allExtensions = ClipCreationDialog::getExtensions().join(" ");
-    const QString dialogFilter =  i18n("All Supported Files") + "(" + allExtensions + ");;" + i18n("All Files") + "(*)";
+    const QString dialogFilter =  i18n("All Supported Files") + '(' + allExtensions + ");;" + i18n("All Files") + "(*)";
     QString clipFolder = KRecentDirs::dir(":KdenliveClipFolder");
     QStringList urls = QFileDialog::getOpenFileNames(this, i18n("Files to transcode"), clipFolder, dialogFilter);
     if (urls.isEmpty()) return;
@@ -2746,6 +2743,13 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     if (m_renderWidget == NULL) return;
     QString scriptPath;
     QString playlistPath;
+    QString mltSuffix(".mlt");
+    QList<QString> playlistPaths;
+    QList<QString> trackNames;
+    const QList <TrackInfo> trackInfoList = project->tracksList();
+    int tracksCount = 1;
+    bool stemExport = m_renderWidget->isStemAudioExportEnabled();
+
     if (scriptExport) {
         //QString scriptsFolder = project->projectFolder().path(QUrl::AddTrailingSlash) + "scripts/";
         QString path = m_renderWidget->getFreeScriptName(project->url());
@@ -2762,13 +2766,14 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
             if (KMessageBox::warningYesNo(this, i18n("Script file already exists. Do you want to overwrite it?")) != KMessageBox::Yes)
                 return;
         }
-        playlistPath = scriptPath + ".mlt";
+        playlistPath = scriptPath;
     } else {
         QTemporaryFile temp(QDir::tempPath() + QLatin1String("/kdenlive_rendering_XXXXXX.mlt"));
         temp.setAutoRemove(false);
         temp.open();
         playlistPath = temp.fileName();
     }
+
     QString playlistContent = m_projectMonitor->sceneList();
     if (!chapterFile.isEmpty()) {
         int in = 0;
@@ -2820,6 +2825,8 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
             }
         }
     }
+
+    // check if audio export is selected
     bool exportAudio;
     if (m_renderWidget->automaticAudioExport()) {
         exportAudio = pCore->projectManager()->currentTrackView()->checkProjectAudio();
@@ -2853,7 +2860,9 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         for (uint n = 0; n < producers.length(); ++n) {
             QDomElement e = producers.item(n).toElement();
             producerResource = EffectsList::property(e, "resource");
-            if (producerResource.isEmpty()) continue;
+            if (producerResource.isEmpty()) {
+                continue;
+            }
             if (!producerResource.startsWith('/')) {
                 producerResource.prepend(root + '/');
             }
@@ -2862,7 +2871,9 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
                 suffix = '?' + producerResource.section('?', 1);
                 producerResource = producerResource.section('?', 0, 0);
             }
-            else suffix.clear();
+            else {
+                suffix.clear();
+            }
             if (!producerResource.isEmpty()) {
                 if (proxies.contains(producerResource)) {
                     EffectsList::setProperty(e, "resource", proxies.value(producerResource) + suffix);
@@ -2873,36 +2884,70 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
                 }
             }
         }
+    }
 
-        /*QMapIterator<QString, QString> i(proxies);
-        while (i.hasNext()) {
-            i.next();
-            // Replace all keys with their values (proxy path with original path)
-            QString key = i.key();
-            playlistContent.replace(key, i.value());
-            if (!root.isEmpty() && key.startsWith(root)) {
-                // in case the resource path in MLT playlist is relative
-                key.remove(0, root.count() + 1);
-                playlistContent.replace(key, i.value());
+    QList<QDomDocument> docList;
+
+    // check which audio tracks have to be exported
+    if (stemExport) {
+        CustomTrackView* ctv = pCore->projectManager()->currentTrackView()->projectView();
+        int trackInfoCount = trackInfoList.count();
+        tracksCount = 0;
+
+        for (int i = 0; i < trackInfoCount; i++) {
+            TrackInfo info = trackInfoList.at(trackInfoCount - i - 1);
+            if (!info.isMute && ctv->hasAudio(i)) {
+                QDomDocument docCopy = doc.cloneNode(true).toDocument();
+                // save track name
+                trackNames << info.trackName;
+                qDebug() << "Track-Name: " << info.trackName;
+                // create stem export playlist content
+                QDomNodeList tracks = docCopy.elementsByTagName("track");
+                for (int j = trackInfoCount; j >= 0; j--) {
+                    if (j != (trackInfoCount - i)) {
+                        tracks.at(j).toElement().setAttribute("hide", "both");
+                    }
+                }
+                docList << docCopy;
+                tracksCount++;
             }
-        }*/
+        }
+    } else {
+        docList << doc;
     }
-    playlistContent = doc.toString();
 
-    // Do save scenelist
-    QFile file(playlistPath);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        m_messageLabel->setMessage(i18n("Cannot write to file %1", playlistPath), ErrorMessage);
-        return;
-    }
-    file.write(playlistContent.toUtf8());
-    if (file.error() != QFile::NoError) {
-        m_messageLabel->setMessage(i18n("Cannot write to file %1", playlistPath), ErrorMessage);
+    // create full playlistPaths
+    for (int i = 0; i < tracksCount; i++) {
+        QString plPath(playlistPath);
+
+        // add track number to path name
+        if (stemExport) {
+            plPath = plPath + "_" + QString(trackNames.at(i)).replace(" ", "_");
+        }
+        // add mlt suffix
+        plPath += mltSuffix;
+        playlistPaths << plPath;
+        qDebug() << "playlistPath: " << plPath << endl;
+
+        // Do save scenelist
+        QFile file(plPath);
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            m_messageLabel->setMessage(i18n("Cannot write to file %1", plPath), ErrorMessage);
+            return;
+        }
+        file.write(docList.at(i).toString().toUtf8());
+        if (file.error() != QFile::NoError) {
+            m_messageLabel->setMessage(i18n("Cannot write to file %1", plPath), ErrorMessage);
+            file.close();
+            return;
+        }
         file.close();
-        return;
     }
-    file.close();
-    m_renderWidget->slotExport(scriptExport, pCore->projectManager()->currentTrackView()->inPoint(), pCore->projectManager()->currentTrackView()->outPoint(), project->metadata(), playlistPath, scriptPath, exportAudio);
+    m_renderWidget->slotExport(scriptExport,
+            pCore->projectManager()->currentTrackView()->inPoint(),
+            pCore->projectManager()->currentTrackView()->outPoint(),
+            project->metadata(),
+            playlistPaths, trackNames, scriptPath, exportAudio);
 }
 
 void MainWindow::slotUpdateTimecodeFormat(int ix)

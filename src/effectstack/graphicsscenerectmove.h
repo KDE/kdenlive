@@ -30,7 +30,7 @@ class GraphicsSceneRectMove: public QGraphicsScene
 {
     Q_OBJECT
 public:
-    GraphicsSceneRectMove(QObject* parent = 0);
+    explicit GraphicsSceneRectMove(QObject* parent = 0);
 
     void setSelectedItem(QGraphicsItem *item);
     void setScale(double s);

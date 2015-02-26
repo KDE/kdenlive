@@ -68,7 +68,7 @@ class ClipManager: public QObject
 {
 Q_OBJECT public:
 
-    ClipManager(KdenliveDoc *doc);
+    explicit ClipManager(KdenliveDoc *doc);
     virtual ~ ClipManager();
     void deleteClip(const QString &clipId);
     void deleteProjectClip(const QString &clipId);

@@ -16,8 +16,8 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-#ifndef _KIS_CURVE_WIDGET_P_H_
-#define _KIS_CURVE_WIDGET_P_H_
+#ifndef KIS_CURVE_WIDGET_P_H
+#define KIS_CURVE_WIDGET_P_H
 #include "kis_cubic_curve.h"
 
 enum enumState {

@@ -27,7 +27,6 @@
 #include <QDir>
 #include <QScriptEngine>
 #include <QCloseEvent>
-#include <QScriptEngine>
 #include <QStandardPaths>
 #include <QDebug>
 
@@ -217,7 +216,7 @@ void ProfilesDialog::saveProfile(QString path)
 {
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly)) {
-        KMessageBox::sorry(this, i18n("Cannot write to file %1", path));
+        KMessageBox::sorry(this, i18n("Cannot open file %1", path));
         return;
     }
     QTextStream out(&file);
@@ -493,7 +492,7 @@ void ProfilesDialog::saveProfile(MltVideoProfile &profile, QString profilePath)
     }
     QFile file(profilePath);
     if (!file.open(QIODevice::WriteOnly)) {
-        KMessageBox::sorry(0, i18n("Cannot write to file %1", profilePath));
+        KMessageBox::sorry(0, i18n("Cannot open file %1", profilePath));
         return;
     }
     QTextStream out(&file);

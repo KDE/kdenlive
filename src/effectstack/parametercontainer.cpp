@@ -828,12 +828,12 @@ void ParameterContainer::slotStartFilterJobAction()
 	    }
 
 	    // Fill filter params
-	    QStringList filterList = filterattributes.split(" ");
+	    QStringList filterList = filterattributes.split(' ');
 	    QString param;
 	    for (int i = 0; i < filterList.size(); ++i) {
 		param = filterList.at(i);
 		if (param != "%params") {
-		    filterParams.insert(param.section("=", 0, 0), param.section("=", 1));
+		    filterParams.insert(param.section('=', 0, 0), param.section('=', 1));
 		}
 	    }
 	    if (filterattributes.contains("%params")) {
@@ -848,11 +848,11 @@ void ParameterContainer::slotStartFilterJobAction()
 	    }
 	    // Fill consumer params
 	    QString consumerattributes = pa.attribute("consumerparams");
-	    QStringList consumerList = consumerattributes.split(" ");
+	    QStringList consumerList = consumerattributes.split(' ');
 	    for (int i = 0; i < consumerList.size(); ++i) {
 		param = consumerList.at(i);
 		if (param != "%params") {
-		    consumerParams.insert(param.section("=", 0, 0), param.section("=", 1));
+		    consumerParams.insert(param.section('=', 0, 0), param.section('=', 1));
 		}
 	    }
 

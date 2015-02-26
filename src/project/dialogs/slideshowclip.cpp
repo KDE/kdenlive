@@ -22,6 +22,7 @@
 
 #include <KFileItem>
 #include <klocalizedstring.h>
+#include <KRecentDirs>
 
 #include <QDebug>
 #include <QFontDatabase>
@@ -40,6 +41,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, QWidget * p
     m_view.setupUi(this);
     m_view.clip_name->setText(i18n("Slideshow Clip"));
     m_view.folder_url->setMode(KFile::Directory);
+    m_view.folder_url->setUrl(QUrl::fromLocalFile(KRecentDirs::dir(":KdenliveSlideShowFolder")));
     m_view.icon_list->setIconSize(QSize(50, 50));
     m_view.show_thumbs->setChecked(KdenliveSettings::showslideshowthumbs());
 

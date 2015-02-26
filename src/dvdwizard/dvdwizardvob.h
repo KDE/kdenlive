@@ -57,7 +57,7 @@ class DvdViewDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    DvdViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {}
+    explicit DvdViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {}
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index) const {

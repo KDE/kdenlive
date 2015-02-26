@@ -125,7 +125,6 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
     m_freeSpace->setMaximumWidth(150);
     QFontMetricsF fontMetrics(font());
     m_freeSpace->setMaximumHeight(fontMetrics.height() * 1.2);
-    slotUpdateFreeSpace();
     hlayout->addWidget(m_freeSpace);
     connect(&m_spaceTimer, &QTimer::timeout, this, &RecMonitor::slotUpdateFreeSpace);
     m_spaceTimer.setInterval(30000);
@@ -740,11 +739,11 @@ void RecMonitor::slotRecord()
             if (KdenliveSettings::grab_capture_type() == 0) {
                 // Full screen capture
 		m_captureArgs << "-s" << QString::number(screenSize.width()) + 'x' + QString::number(screenSize.height());
-                captureSize.append("+" + QString::number(screenSize.left()) + '.' + QString::number(screenSize.top()));
+                captureSize.append('+' + QString::number(screenSize.left()) + '.' + QString::number(screenSize.top()));
 	    } else {
                 // Region capture
                 m_captureArgs << "-s" << QString::number(KdenliveSettings::grab_width()) + 'x' + QString::number(KdenliveSettings::grab_height());
-                captureSize.append("+" + QString::number(KdenliveSettings::grab_offsetx()) + '.' + QString::number(KdenliveSettings::grab_offsetx()));
+                captureSize.append('+' + QString::number(KdenliveSettings::grab_offsetx()) + '.' + QString::number(KdenliveSettings::grab_offsetx()));
             }
             // fps
             m_captureArgs << "-r" << QString::number(KdenliveSettings::grab_fps());
@@ -992,6 +991,7 @@ void RecMonitor::mousePressEvent(QMouseEvent *event)
 
 void RecMonitor::slotUpdateFreeSpace()
 {
+    if (m_capturePath.isEmpty()) return;
     KDiskFreeSpaceInfo info = KDiskFreeSpaceInfo::freeSpaceInfo(m_capturePath);
     if (info.isValid() && info.size() > 0) {
         m_freeSpace->setValue(100 * info.used() / info.size());

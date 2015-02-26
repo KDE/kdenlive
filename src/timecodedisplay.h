@@ -17,8 +17,8 @@
  * Boston, MA 02110-1301, USA.
 */
 
-#ifndef TIMECODEDISPLAY_H_
-#define TIMECODEDISPLAY_H_
+#ifndef TIMECODEDISPLAY_H
+#define TIMECODEDISPLAY_H
 
 #include "timecode.h"
 #include "gentime.h"

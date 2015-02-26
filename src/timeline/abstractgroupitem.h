@@ -34,7 +34,7 @@ class AbstractGroupItem : public QObject , public QGraphicsItemGroup
 {
     Q_OBJECT
 public:
-    AbstractGroupItem(double fps);
+    explicit AbstractGroupItem(double fps);
     virtual int type() const;
     CustomTrackScene* projectScene();
     void addItem(QGraphicsItem * item);

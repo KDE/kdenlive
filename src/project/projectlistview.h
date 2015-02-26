@@ -37,7 +37,7 @@ public:
         UsageRole
     };
 
-    ItemDelegate(QAbstractItemView* parent = 0)
+    explicit ItemDelegate(QAbstractItemView* parent = 0)
         : QStyledItemDelegate(parent)
     {
     }
@@ -53,7 +53,7 @@ class ProjectListView : public QTreeWidget
     Q_OBJECT
 
 public:
-    ProjectListView(QWidget *parent = 0);
+    explicit ProjectListView(QWidget *parent = 0);
     ~ProjectListView();
     void processLayout();
     void updateStyleSheet();

@@ -60,7 +60,7 @@ public:
     Bin *bin();
     
 private:
-    Core(MainWindow *mainWindow);
+    explicit Core(MainWindow *mainWindow);
     static Core *m_self;
     void init();
 

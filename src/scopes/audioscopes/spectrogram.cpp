@@ -8,14 +8,14 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
+#include "spectrogram.h"
+
 #include <QPainter>
 #include <QTime>
 
 #include <KSharedConfig>
 #include <KConfigGroup>
 #include "klocalizedstring.h"
-
-#include "spectrogram.h"
 
 // Defines the number of FFT samples to store.
 // Around 4 kB for a window size of 2000. Should be at least as large as the

@@ -16,8 +16,8 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef _KIS_CUBIC_CURVE_H_
-#define _KIS_CUBIC_CURVE_H_
+#ifndef KIS_CUBIC_CURVE_H
+#define KIS_CUBIC_CURVE_H
 
 #include<QList>
 #include<QVector>

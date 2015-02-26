@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>465</width>
-    <height>788</height>
+    <height>809</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -103,6 +103,13 @@
         <widget class="QLabel" name="label_5">
          <property name="text">
           <string>Scanning</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="2">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Encoder threads</string>
          </property>
         </widget>
        </item>
@@ -202,10 +209,17 @@
          </layout>
         </widget>
        </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="QLabel" name="label_9">
+       <item row="7" column="0">
+        <widget class="QCheckBox" name="checkTwoPass">
          <property name="text">
-          <string>Encoder threads</string>
+          <string>2 pass</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QCheckBox" name="rescale">
+         <property name="text">
+          <string>Rescale</string>
          </property>
         </widget>
        </item>
@@ -225,21 +239,10 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
-        <widget class="QCheckBox" name="checkTwoPass">
-         <property name="text">
-          <string>2 pass</string>
-         </property>
-        </widget>
+       <item row="0" column="2" colspan="3">
+        <widget class="KComboBox" name="destination_list"/>
        </item>
-       <item row="8" column="0">
-        <widget class="QCheckBox" name="rescale">
-         <property name="text">
-          <string>Rescale</string>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="0" colspan="5">
+       <item row="14" column="0" colspan="5">
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item>
           <widget class="QCheckBox" name="export_meta">
@@ -303,7 +306,7 @@
          </item>
         </layout>
        </item>
-       <item row="14" column="0" colspan="5">
+       <item row="15" column="0" colspan="5">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="QRadioButton" name="render_full">
@@ -344,7 +347,7 @@
          </item>
         </layout>
        </item>
-       <item row="17" column="0" colspan="5">
+       <item row="18" column="0" colspan="5">
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
           <widget class="QPushButton" name="buttonRender">
@@ -428,10 +431,7 @@
          </item>
         </layout>
        </item>
-       <item row="0" column="2" colspan="3">
-        <widget class="KComboBox" name="destination_list"/>
-       </item>
-       <item row="16" column="0" colspan="5">
+       <item row="17" column="0" colspan="5">
         <widget class="QGroupBox" name="errorBox">
          <property name="title">
           <string/>
@@ -460,7 +460,21 @@
          </layout>
         </widget>
        </item>
-       <item row="15" column="0" colspan="5">
+       <item row="12" column="0" colspan="5">
+        <widget class="QCheckBox" name="open_browser">
+         <property name="text">
+          <string>Open browser window after export</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0" colspan="5">
+        <widget class="QCheckBox" name="play_after">
+         <property name="text">
+          <string>Play after render</string>
+         </property>
+        </widget>
+       </item>
+       <item row="16" column="0" colspan="5">
         <widget class="QGroupBox" name="guides_box">
          <property name="title">
           <string/>
@@ -503,35 +517,41 @@
          </layout>
         </widget>
        </item>
-       <item row="12" column="0" colspan="5">
-        <widget class="QCheckBox" name="play_after">
-         <property name="text">
-          <string>Play after render</string>
-         </property>
-        </widget>
-       </item>
        <item row="11" column="0" colspan="5">
-        <widget class="QCheckBox" name="open_browser">
-         <property name="text">
-          <string>Open browser window after export</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0" colspan="5">
         <widget class="QCheckBox" name="create_chapter">
          <property name="text">
           <string>Create chapter file based on guides</string>
          </property>
         </widget>
        </item>
-       <item row="9" column="0" colspan="5">
+       <item row="10" column="0" colspan="5">
         <widget class="QCheckBox" name="open_dvd">
          <property name="text">
           <string>Open Dvd wizard after rendering</string>
          </property>
         </widget>
        </item>
-       <item row="8" column="1" colspan="4">
+       <item row="7" column="2" colspan="2">
+        <widget class="QCheckBox" name="proxy_render">
+         <property name="text">
+          <string>Render using proxy clips</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="4">
+        <widget class="QCheckBox" name="export_audio">
+         <property name="text">
+          <string>Export audio</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+         <property name="tristate">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1" colspan="4">
         <layout class="QHBoxLayout" name="rescale_box">
          <item>
           <widget class="QSpinBox" name="rescale_width">
@@ -588,23 +608,10 @@
          </item>
         </layout>
        </item>
-       <item row="7" column="2" colspan="2">
-        <widget class="QCheckBox" name="proxy_render">
+       <item row="8" column="0" colspan="3">
+        <widget class="QCheckBox" name="stemAudioExport">
          <property name="text">
-          <string>Render using proxy clips</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="4">
-        <widget class="QCheckBox" name="export_audio">
-         <property name="text">
-          <string>Export audio</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-         <property name="tristate">
-          <bool>true</bool>
+          <string>Stem audio export</string>
          </property>
         </widget>
        </item>

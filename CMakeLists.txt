@@ -2,12 +2,12 @@ project(Kdenlive)
 
 # An odd patch version number means development version, while an even one means
 # stable release. An additional number can be used for bugfix-only releases.
-set(KDENLIVE_VERSION 0.9.99)
+set(KDENLIVE_VERSION 15.03.80)
 cmake_minimum_required(VERSION 2.8.12)
 # Minimum versions of main dependencies.
 set(MLT_MIN_MAJOR_VERSION 0)
-set(MLT_MIN_MINOR_VERSION 8)
-set(MLT_MIN_PATCH_VERSION 8)
+set(MLT_MIN_MINOR_VERSION 9)
+set(MLT_MIN_PATCH_VERSION 4)
 set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_PATCH_VERSION})
 
 set(QT_MIN_VERSION 5.2.0)

@@ -30,7 +30,7 @@ class ProfilesDialog : public QDialog
     Q_OBJECT
 
 public:
-    ProfilesDialog(QWidget * parent = 0);
+    explicit ProfilesDialog(QWidget * parent = 0);
     /** @brief Using this constructor, the dialog only allows editing one profile. */
     explicit ProfilesDialog(QString profilePath, QWidget * parent = 0);
 
