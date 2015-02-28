@@ -85,7 +85,12 @@
     <p xml:lang="zh-TW">功能：</p>
     <ul>
       <li>Intuitive multitrack interface.</li>
+      <li xml:lang="ca">Interfície multipista intuïtiva.</li>
+      <li xml:lang="nl">Intuïtief interface met meerdere tracks.</li>
+      <li xml:lang="pl">Intuicyjny interfejs wielościeżkowy.</li>
+      <li xml:lang="sv">Intuitivt gränssnitt med flera spår.</li>
       <li xml:lang="uk">Інтуїтивно зрозумілий інтерфейс для роботи з декількома доріжками одночасно.</li>
+      <li xml:lang="x-test">xxIntuitive multitrack interface.xx</li>
       <li>Many effects and transitions.</li>
       <li xml:lang="ar">تأثيرات وانتقالات عديدة.</li>
       <li xml:lang="ast">Munchos efeutos y transiciones.</li>
