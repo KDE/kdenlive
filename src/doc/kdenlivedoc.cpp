@@ -340,7 +340,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                                     infoXml.removeChild(markers);
                                 }
 
-                                m_projectFolder = QUrl(infoXml.attribute("projectfolder"));
+                                m_projectFolder = QUrl::fromLocalFile(infoXml.attribute("projectfolder"));
                                 QDomElement docproperties = infoXml.firstChildElement("documentproperties");
                                 QDomNamedNodeMap props = docproperties.attributes();
                                 for (int i = 0; i < props.count(); ++i)
@@ -383,7 +383,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     // Make sure the project folder is usable
     if (m_projectFolder.isEmpty() || !QFile::exists(m_projectFolder.path())) {
         KMessageBox::information(parent, i18n("Document project folder is invalid, setting it to the default one: %1", KdenliveSettings::defaultprojectfolder()));
-        m_projectFolder = QUrl(KdenliveSettings::defaultprojectfolder());
+        m_projectFolder = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder());
     }
 
     // Make sure that the necessary folders exist
@@ -825,7 +825,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, QMap 
     if (!autosave) {
         cleanupBackupFiles();
         QFileInfo info(file);
-        QString fileName = QUrl(path).fileName().section('.', 0, -2);
+        QString fileName = QUrl::fromLocalFile(path).fileName().section('.', 0, -2);
         fileName.append('-' + m_documentProperties.value("documentid"));
         fileName.append(info.lastModified().toString("-yyyy-MM-dd-hh-mm"));
         fileName.append(".kdenlive.png");
@@ -878,21 +878,21 @@ void KdenliveDoc::moveProjectData(const QUrl &url)
             if (job->exec()) clip->setProperty("resource", newUrl.path());
         }
         QString hash = clip->getClipHash();
-        QUrl oldVideoThumbUrl = QUrl(m_projectFolder.path() + QDir::separator() + "thumbs/" + hash + ".png");
+        QUrl oldVideoThumbUrl = QUrl::fromLocalFile(m_projectFolder.path() + QDir::separator() + "thumbs/" + hash + ".png");
         if (QFile::exists(oldVideoThumbUrl.path())) {
             cacheUrls << oldVideoThumbUrl;
         }
-        QUrl oldAudioThumbUrl = QUrl(m_projectFolder.path() + QDir::separator() + "thumbs/" + hash + ".thumb");
+        QUrl oldAudioThumbUrl = QUrl::fromLocalFile(m_projectFolder.path() + QDir::separator() + "thumbs/" + hash + ".thumb");
         if (QFile::exists(oldAudioThumbUrl.path())) {
             cacheUrls << oldAudioThumbUrl;
         }
-        QUrl oldVideoProxyUrl = QUrl(m_projectFolder.path() + QDir::separator() + "proxy/" + hash + '.' + KdenliveSettings::proxyextension());
+        QUrl oldVideoProxyUrl = QUrl::fromLocalFile(m_projectFolder.path() + QDir::separator() + "proxy/" + hash + '.' + KdenliveSettings::proxyextension());
         if (QFile::exists(oldVideoProxyUrl.path())) {
             cacheUrls << oldVideoProxyUrl;
         }
     }
     if (!cacheUrls.isEmpty()) {
-        KIO::Job *job = KIO::copy(cacheUrls, QUrl(url.path() + QDir::separator() + "thumbs/"));
+        KIO::Job *job = KIO::copy(cacheUrls, QUrl::fromLocalFile(url.path() + QDir::separator() + "thumbs/"));
         KJobWidgets::setWindow(job, QApplication::activeWindow());
         job->exec();
     }
@@ -1749,7 +1749,7 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
     QDir backupFolder(m_projectFolder.path());
     backupFolder.mkdir(".backup");
 
-    QString fileName = QUrl(path).fileName().section('.', 0, -2);
+    QString fileName = QUrl::fromLocalFile(path).fileName().section('.', 0, -2);
     QFileInfo info(file);
     fileName.append('-' + m_documentProperties.value("documentid"));
     fileName.append(info.lastModified().toString("-yyyy-MM-dd-hh-mm"));

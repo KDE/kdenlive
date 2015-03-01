@@ -99,7 +99,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         return;
     }
     // fix mantis#3160
-    QUrl startFile = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder() + "/.untitled.kdenlive");
+    QUrl startFile = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder() + "/_untitled.kdenlive");
     if (checkForBackupFile(startFile)) {
         return;
     }
@@ -145,8 +145,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     pCore->window()->m_timelineArea->setEnabled(true);
     bool openBackup;
     KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window());
-    QByteArray hash = QCryptographicHash::hash(startFile.toEncoded(), QCryptographicHash::Md5).toHex();
-    doc->m_autosave = new KAutoSaveFile(QUrl(hash), doc);
+    doc->m_autosave = new KAutoSaveFile(startFile, doc);
     bool ok;
     pCore->bin()->setDocument(doc);
     m_trackView = new TrackView(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
@@ -218,21 +217,20 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     m_trackView->projectView()->saveThumbnails();
     m_project->setUrl(QUrl::fromLocalFile(outputFileName));
     // setting up autosave file in ~/.kde/data/stalefiles/kdenlive/
-    // saved under a crytopgraphic hash version of file name
+    // saved under file name
     // actual saving by KdenliveDoc::slotAutoSave() called by a timer 3 seconds after the document has been edited
     // This timer is set by KdenliveDoc::setModified()
-    QByteArray hash = QCryptographicHash::hash(QUrl::fromLocalFile(outputFileName).toEncoded(), QCryptographicHash::Md5).toHex();
     if (m_project->m_autosave == NULL) {
         // The temporary file is not opened or created until actually needed.
         // The file filename does not have to exist for KAutoSaveFile to be constructed (if it exists, it will not be touched).
-        m_project->m_autosave = new KAutoSaveFile(QUrl(hash), this);
+        m_project->m_autosave = new KAutoSaveFile(QUrl::fromLocalFile(outputFileName), this);
     } else {
-        m_project->m_autosave->setManagedFile(QUrl(hash));
+        m_project->m_autosave->setManagedFile(QUrl::fromLocalFile(outputFileName));
     }
 
     pCore->window()->setWindowTitle(m_project->description());
     m_project->setModified(false);
-    m_recentFilesAction->addUrl(QUrl(outputFileName));
+    m_recentFilesAction->addUrl(QUrl::fromLocalFile(outputFileName));
     m_fileRevert->setEnabled(true);
     pCore->window()->m_undoView->stack()->setClean();
 
@@ -317,8 +315,7 @@ bool ProjectManager::checkForBackupFile(const QUrl &url)
 {
     // Check for backup file, saved under a hash filename.
     // We only recover files that belong to the url we passed in.
-    QByteArray hash = QCryptographicHash::hash(url.toEncoded(), QCryptographicHash::Md5).toHex();
-    QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(QUrl(hash));
+    QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(url);
     if (!staleFiles.isEmpty()) {
         if (KMessageBox::questionYesNo(pCore->window(),
                                        i18n("Auto-saved files exist. Do you want to recover them now?"),
@@ -348,7 +345,7 @@ void ProjectManager::openFile(const QUrl &url)
         //qDebug()<<"Opening archive, processing";
         QPointer<ArchiveWidget> ar = new ArchiveWidget(url);
         if (ar->exec() == QDialog::Accepted) {
-            openFile(QUrl(ar->extractedProjectFile()));
+            openFile(QUrl::fromLocalFile(ar->extractedProjectFile()));
         } else if (m_startUrl.isValid()) {
             // we tried to open an invalid file from command line, init new project
             newFile(false);
@@ -405,7 +402,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     progressDialog.setValue(0);
 
     bool openBackup;
-    KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl(stale->fileName()) : url, QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()), pCore->window()->m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window(), &progressDialog);
+    KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()), pCore->window()->m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window(), &progressDialog);
 
     progressDialog.setValue(1);
     progressDialog.setMaximum(4);
@@ -413,13 +410,12 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     progressDialog.repaint();
 
     if (stale == NULL) {
-        QByteArray hash = QCryptographicHash::hash(url.toEncoded(), QCryptographicHash::Md5).toHex();
-        stale = new KAutoSaveFile(QUrl(hash), doc);
+        stale = new KAutoSaveFile(url, doc);
         doc->m_autosave = stale;
     } else {
         doc->m_autosave = stale;
         // if loading from an autosave of unnamed file then keep unnamed
-        if (url.fileName().contains(".untitled.kdenlive"))
+        if (url.fileName().contains("_untitled.kdenlive"))
             doc->setUrl(QUrl());
         else
             doc->setUrl(url);
@@ -510,7 +506,7 @@ void ProjectManager::slotOpenBackup(const QUrl& url)
     QString projectId;
     if (url.isValid()) {
         // we could not open the project file, guess where the backups are
-        projectFolder = QUrl(KdenliveSettings::defaultprojectfolder());
+        projectFolder = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder());
         projectFile = url;
     } else {
         projectFolder = m_project->projectFolder();
@@ -523,7 +519,7 @@ void ProjectManager::slotOpenBackup(const QUrl& url)
         QString requestedBackup = dia->selectedFile();
         m_project->backupLastSavedVersion(projectFile.path());
         closeCurrentDocument(false);
-        doOpenFile(QUrl(requestedBackup), NULL);
+        doOpenFile(QUrl::fromLocalFile(requestedBackup), NULL);
         m_project->setUrl(projectFile);
         m_project->setModified(true);
         pCore->window()->setWindowTitle(m_project->description());
