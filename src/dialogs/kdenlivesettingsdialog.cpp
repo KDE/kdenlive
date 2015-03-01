@@ -60,8 +60,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_configMisc.setupUi(p1);
     m_page1 = addPage(p1, i18n("Misc"), "configure");
 
-    // Hide multi tab option until Kdenlive really supports it
-    m_configMisc.kcfg_activatetabs->setVisible(false);
     // Hide avformat-novalidate trick, causes crash (bug #2205 and #2206)
     m_configMisc.kcfg_projectloading_avformatnovalidate->setVisible(false);
     
