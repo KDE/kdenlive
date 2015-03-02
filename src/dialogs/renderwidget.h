@@ -209,7 +209,7 @@ private:
 signals:
     void abortProcess(const QString &url);
     void openDvdWizard(const QString &url);
-    /** Send the infos about rendering that will be saved in the document:
+    /** Send the info about rendering that will be saved in the document:
     (profile destination, profile name and url of rendered file */
     void selectedRenderProfile(const QMap <QString, QString> &renderProps);
     void prepareRenderingData(bool scriptExport, bool zoneOnly, const QString &chapterFile);

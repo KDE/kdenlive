@@ -228,7 +228,7 @@ private:   // Private attributes
 
     QList <CutZoneInfo> m_cutZones;
 
-    /** Holds clip infos like fps, size,... */
+    /** Holds clip info like fps, size,... */
     QMap <QString, QString> m_properties;
     /** Holds clip metadata like author, copyright,... */
     QMap <QString, QStringList> m_metadata;

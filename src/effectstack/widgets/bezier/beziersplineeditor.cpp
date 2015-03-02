@@ -340,7 +340,7 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent* event)
     double y = 1.0 - (event->pos().y() - offsetY) / (double)(wHeight);
     
     if (m_mode == ModeNormal) {
-        // If no point is selected set the the cursor shape if on top
+        // If no point is selected set the cursor shape if on top
         point_types type;
         int nearestPointIndex = nearestPointInRange(QPointF(x, y), wWidth, wHeight, &type);
 

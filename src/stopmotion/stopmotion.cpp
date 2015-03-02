@@ -155,10 +155,10 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
     m_monitor->setHidden(true);
     connect(m_monitor, SIGNAL(stopCapture()), this, SLOT(slotStopCapture()));
     m_manager->appendMonitor(m_monitor);
-    QAction* analyse = new QAction(i18n("Send frames to color scopes"), this);
-    analyse->setCheckable(true);
-    analyse->setChecked(KdenliveSettings::analyse_stopmotion());
-    connect(analyse, SIGNAL(triggered(bool)), this, SLOT(slotSwitchAnalyse(bool)));
+    QAction* analyze = new QAction(i18n("Send frames to color scopes"), this);
+    analyze->setCheckable(true);
+    analyze->setChecked(KdenliveSettings::analyse_stopmotion());
+    connect(analyze, SIGNAL(triggered(bool)), this, SLOT(slotSwitchAnalyse(bool)));
 
     QAction* mirror = new QAction(i18n("Mirror display"), this);
     mirror->setCheckable(true);
@@ -243,7 +243,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
 
     confMenu->addAction(showThumbs);
     confMenu->addAction(removeCurrent);
-    confMenu->addAction(analyse);
+    confMenu->addAction(analyze);
     confMenu->addAction(mirror);
     confMenu->addAction(conf);
     config_button->setIcon(QIcon::fromTheme("configure"));

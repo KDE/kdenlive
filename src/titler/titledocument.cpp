@@ -249,15 +249,15 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
         if (item->zValue() > -1000) main.appendChild(e);
     }
     if (startv && endv) {
-        QDomElement endp = doc.createElement("endviewport");
-        QDomElement startp = doc.createElement("startviewport");
+        QDomElement endport = doc.createElement("endviewport");
+        QDomElement startport = doc.createElement("startviewport");
         QRectF r(endv->pos().x(), endv->pos().y(), endv->rect().width(), endv->rect().height());
-        endp.setAttribute("rect", rectFToString(r));
+        endport.setAttribute("rect", rectFToString(r));
         QRectF r2(startv->pos().x(), startv->pos().y(), startv->rect().width(), startv->rect().height());
-        startp.setAttribute("rect", rectFToString(r2));
+        startport.setAttribute("rect", rectFToString(r2));
 
-        main.appendChild(startp);
-        main.appendChild(endp);
+        main.appendChild(startport);
+        main.appendChild(endport);
     }
     QDomElement backgr = doc.createElement("background");
     QColor color = getBackgroundColor();

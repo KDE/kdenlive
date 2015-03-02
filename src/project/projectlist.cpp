@@ -2163,7 +2163,7 @@ void ProjectList::extractMetadata(DocClipBase *clip)
         //Check for Canon THM file
         url = url.section('.', 0, -2) + ".THM";
         if (QFile::exists(url)) {
-            // Read the exif metadata embeded in the THM file
+            // Read the exif metadata embedded in the THM file
             QProcess p;
             QStringList args;
             args << "-g" << "-args" << url;
@@ -3622,7 +3622,7 @@ void ProjectList::processClipJob(QStringList ids, const QString&destination, boo
         ProjectItem *item = getItemById(id);
         if (!item) continue;
         if (extraParams.contains("zoneonly")) {
-            // Analyse clip zone only, remove in / out and replace with zone
+            // Analyze clip zone only, remove in / out and replace with zone
             QPoint zone = item->referencedClip()->zone();
 	    in = zone.x();
 	    out = zone.y();

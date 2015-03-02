@@ -593,7 +593,7 @@ void ClipManager::slotAddClipList(const QList<QUrl> &urls, const QMap <QString, 
                 if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
                     txtfile.close();
                     prod.setAttribute("type", (int) Text);
-                    // extract embeded images
+                    // extract embedded images
                     QDomNodeList items = txtdoc.elementsByTagName("content");
                     for (int i = 0; i < items.count() ; ++i) {
                         QDomElement content = items.item(i).toElement();

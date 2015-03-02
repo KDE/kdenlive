@@ -1030,10 +1030,10 @@ AbstractRender *RecMonitor::abstractRender()
 }
 
 
-void RecMonitor::analyseFrames(bool analyse)
+void RecMonitor::analyseFrames(bool analyze)
 {
-    m_analyse = analyse;
-    if (m_captureDevice) m_captureDevice->sendFrameForAnalysis = analyse;
+    m_analyse = analyze;
+    if (m_captureDevice) m_captureDevice->sendFrameForAnalysis = analyze;
 }
 
 void RecMonitor::slotDroppedFrames(int dropped)

@@ -164,8 +164,8 @@ void FreeSound::slotParseResults(KJob* job)
     QVariant data = doc.toVariant();
     QString html = QString("<style type=\"text/css\">tr.cellone {background-color: %1;}</style>").arg(qApp->palette().alternateBase().color().name());
     if (data.canConvert(QVariant::Map)) {
-        QMap <QString, QVariant> infos = data.toMap();
-        //if (m_currentId != infos.value("id").toInt()) return;
+        QMap <QString, QVariant> info = data.toMap();
+        //if (m_currentId != info.value("id").toInt()) return;
         
         html += "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\">";
     
@@ -175,25 +175,25 @@ void FreeSound::slotParseResults(KJob* job)
             m_metaInfo.remove(i18n("Duration"));
         }
         
-        if (infos.contains("samplerate")) {
+        if (info.contains("samplerate")) {
             html += "<tr class=\"cellone\">";
-            html += "<td>" + i18n("Samplerate") + "</td><td>" + QString::number(infos.value("samplerate").toDouble()) + "</td></tr>";
+            html += "<td>" + i18n("Samplerate") + "</td><td>" + QString::number(info.value("samplerate").toDouble()) + "</td></tr>";
         }
-        if (infos.contains("channels")) {
+        if (info.contains("channels")) {
             html += "<tr>";
-            html += "<td>" + i18n("Channels") + "</td><td>" + QString::number(infos.value("channels").toInt()) + "</td></tr>";
+            html += "<td>" + i18n("Channels") + "</td><td>" + QString::number(info.value("channels").toInt()) + "</td></tr>";
         }
-        if (infos.contains("filesize")) {
+        if (info.contains("filesize")) {
             html += "<tr class=\"cellone\">";
-            KIO::filesize_t fSize = infos.value("filesize").toDouble();
+            KIO::filesize_t fSize = info.value("filesize").toDouble();
             html += "<td>" + i18n("File size") + "</td><td>" + KIO::convertSize(fSize) + "</td></tr>";
         }
-        if (infos.contains("license")) {
-            m_metaInfo.insert("license", infos.value("license").toString());
+        if (info.contains("license")) {
+            m_metaInfo.insert("license", info.value("license").toString());
         }
         html +="</table>";
-        if (infos.contains("description")) {
-            m_metaInfo.insert("description", infos.value("description").toString());
+        if (info.contains("description")) {
+            m_metaInfo.insert("description", info.value("description").toString());
         }
     }
     emit gotMetaInfo(html);
