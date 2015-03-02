@@ -175,7 +175,7 @@ void Render::buildConsumer(const QString &profileName)
     } else {
         m_mltProfile = new Mlt::Profile(m_activeProfile.toUtf8().constData());
     }
-    setenv("MLT_PROFILE", m_activeProfile.toUtf8().constData(), 1);
+    qputenv("MLT_PROFILE", m_activeProfile.toUtf8().constData());
     m_mltProfile->set_explicit(true);
 
     m_blackClip = new Mlt::Producer(*m_mltProfile, "colour:black");
@@ -209,13 +209,13 @@ void Render::buildConsumer(const QString &profileName)
     QString videoDriver = KdenliveSettings::videodrivername();
     if (!videoDriver.isEmpty()) {
         if (videoDriver == "x11_noaccel") {
-            setenv("SDL_VIDEO_YUV_HWACCEL", "0", 1);
+            qputenv("SDL_VIDEO_YUV_HWACCEL", "0");
             videoDriver = "x11";
         } else {
-            unsetenv("SDL_VIDEO_YUV_HWACCEL");
+            qunsetenv("SDL_VIDEO_YUV_HWACCEL");
         }
     }
-    setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
+    qputenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1");
 
     //m_mltConsumer->set("fullscreen", 1);
     if (m_winid == 0) {

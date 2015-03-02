@@ -74,7 +74,7 @@ void Core::initLocale()
         //qDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
         // HACK: There is a locale conflict, so set locale to C
         // Make sure to override exported values or it won't work
-        setenv("LANG", "C", 1);
+        qputenv("LANG", "C");
         setlocale(LC_NUMERIC, "C");
         systemLocale = QLocale::c();
     }
