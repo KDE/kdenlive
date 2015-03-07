@@ -865,7 +865,7 @@ void ClipProperties::slotDeleteAnalysis()
 
 void ClipProperties::slotSaveAnalysis()
 {
-    const QString url = QFileDialog::getSaveFileName(this, i18n("Save Analysis Data"), "kfiledialog:///projectfolder", i18n("Text File (*.txt)"));
+    const QString url = QFileDialog::getSaveFileName(this, i18n("Save Analysis Data"), m_clip->fileURL().adjusted(QUrl::RemoveFilename).path(), i18n("Text File (*.txt)"));
     if (url.isEmpty())
         return;
     KSharedConfigPtr config = KSharedConfig::openConfig(url, KConfig::SimpleConfig);
@@ -876,7 +876,7 @@ void ClipProperties::slotSaveAnalysis()
 
 void ClipProperties::slotLoadAnalysis()
 {
-    const QString url = QFileDialog::getOpenFileName(this, i18n("Open Analysis Data"), "kfiledialog:///projectfolder", i18n("Text File (*.txt)"));
+    const QString url = QFileDialog::getOpenFileName(this, i18n("Open Analysis Data"), m_clip->fileURL().adjusted(QUrl::RemoveFilename).path(), i18n("Text File (*.txt)"));
     if (url.isEmpty())
         return;
     KSharedConfigPtr config = KSharedConfig::openConfig(url, KConfig::SimpleConfig);
