@@ -183,7 +183,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
 
     if (id != Kdenlive::ClipMonitor) {
-        connect(render, SIGNAL(rendererPosition(int)), this, SIGNAL(renderPosition(int)));
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
         connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SIGNAL(zoneUpdated(QPoint)));
     } else {
@@ -769,6 +768,9 @@ void Monitor::seekCursor(int pos)
     if (m_ruler->slotNewValue(pos)) {
         m_timePos->setValue(pos);
 	checkOverlay();
+        if (m_id != Kdenlive::ClipMonitor) {
+            emit renderPosition(pos);
+        }
     }
 }
 

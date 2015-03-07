@@ -32,8 +32,9 @@ public:
 signals:
     void refreshMonitor();
 
-protected:
+/*protected:
     virtual void paintEvent ( QPaintEvent * event );
+*/
 };
 
 #endif // VIDEOSURFACE_H
