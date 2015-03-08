@@ -881,16 +881,6 @@ void Bin::slotSetIconSize(int size)
 }
 
 
-void Bin::slotMarkersNeedUpdate(const QString &id, const QList<int> &markers)
-{
-    // Check if we have a clip timeline that needs update
-    /*TimelineWidget *tml = pCore->window()->getTimeline(id);
-    if (tml) {
-        tml->updateMarkers(markers);
-    }*/
-    // Update clip monitor
-}
-
 void Bin::closeEditing()
 {
     //delete m_propertiesPanel;
@@ -1371,6 +1361,12 @@ void Bin::refreshClip(const QString &id)
         m_monitor->refreshMonitor();
 }
 
+void Bin::refreshClipMarkers(const QString &id)
+{
+    if (m_monitor->activeClipId() == id)
+        m_monitor->updateMarkers();
+}
+
 void Bin::discardJobs(const QString &id, AbstractClipJob::JOBTYPE type)
 {
     m_jobManager->discardJobs(id, type);
@@ -1667,6 +1663,7 @@ void Bin::slotStartFilterJob(const ItemInfo &info, const QString&id, QMap <QStri
     if (!clip) return;
 
     QMap <QString, QString> producerParams = QMap <QString, QString> ();
+    producerParams.insert("producer", clip->url().path());
     producerParams.insert("in", QString::number((int) info.cropStart.frames(m_doc->fps())));
     producerParams.insert("out", QString::number((int) (info.cropStart + info.cropDuration).frames(m_doc->fps())));
     extraParams.insert("clipStartPos", QString::number((int) info.startPos.frames(m_doc->fps())));
@@ -1702,4 +1699,194 @@ void Bin::slotOpenClip()
 void Bin::updateTimecodeFormat()
 {
     emit refreshTimeCode();
+}
+
+
+void Bin::slotGotFilterJobResults(QString id, int , int , stringMap results, stringMap filterInfo)
+{
+    // Currently, only the first value of results is used
+    ProjectClip *clip = getBinClip(id);
+    if (!clip) return;
+
+    // Check for return value
+    int markersType = -1;
+    if (filterInfo.contains("addmarkers")) markersType = filterInfo.value("addmarkers").toInt();
+    if (results.isEmpty()) {
+        emit displayMessage(i18n("No data returned from clip analysis"), KMessageWidget::Warning);
+        return;
+    }
+    bool dataProcessed = false;
+    QString key = filterInfo.value("key");
+    int offset = filterInfo.value("offset").toInt();
+    QStringList value = results.value(key).split(';', QString::SkipEmptyParts);
+    //qDebug()<<"// RESULT; "<<key<<" = "<<value;
+    if (filterInfo.contains("resultmessage")) {
+        QString mess = filterInfo.value("resultmessage");
+        mess.replace("%count", QString::number(value.count()));
+        emit displayMessage(mess, KMessageWidget::Information);
+    }
+    else emit displayMessage(i18n("Processing data analysis"), KMessageWidget::Information);
+    if (filterInfo.contains("cutscenes")) {
+        // Check if we want to cut scenes from returned data
+        dataProcessed = true;
+        int cutPos = 0;
+        QUndoCommand *command = new QUndoCommand();
+        command->setText(i18n("Auto Split Clip"));
+        foreach (const QString &pos, value) {
+            if (!pos.contains("=")) continue;
+            int newPos = pos.section('=', 0, 0).toInt();
+            // Don't use scenes shorter than 1 second
+            if (newPos - cutPos < 24) continue;
+            new AddBinClipCutCommand(this, id, cutPos + offset, newPos + offset, true, command);
+            cutPos = newPos;
+        }
+        if (command->childCount() == 0)
+            delete command;
+        else m_doc->commandStack()->push(command);
+    }
+    if (markersType >= 0) {
+        // Add markers from returned data
+        dataProcessed = true;
+        int cutPos = 0;
+        QUndoCommand *command = new QUndoCommand();
+        command->setText(i18n("Add Markers"));
+        QList <CommentedTime> markersList;
+        int index = 1;
+        foreach (const QString &pos, value) {
+            if (!pos.contains("=")) continue;
+            int newPos = pos.section('=', 0, 0).toInt();
+            // Don't use scenes shorter than 1 second
+            if (newPos - cutPos < 24) continue;
+            CommentedTime m(GenTime(newPos + offset, m_doc->fps()), QString::number(index), markersType);
+            markersList << m;
+            index++;
+            cutPos = newPos;
+        }
+        slotAddClipMarker(id, markersList);
+    }
+    if (!dataProcessed || filterInfo.contains("storedata")) {
+        // Store returned data as clip extra data
+        //TODO find a way to store analysis data into clip controller
+        //clip->setAnalysisData(filterInfo.contains("displaydataname") ? filterInfo.value("displaydataname") : key, results.value(key), filterInfo.value("offset").toInt());
+        //emit updateAnalysisData(clip->referencedClip());
+    }
+}
+
+void Bin::slotAddClipMarker(const QString &id, QList <CommentedTime> newMarkers, QUndoCommand *groupCommand)
+{
+    ProjectClip *clip = getBinClip(id);
+    if (!clip) return;
+    if (groupCommand == NULL) {
+        groupCommand = new QUndoCommand;
+        groupCommand->setText(i18np("Add marker", "Add markers", newMarkers.count()));
+    }
+    clip->addClipMarker(newMarkers, groupCommand);
+    if (groupCommand->childCount() > 0) m_doc->commandStack()->push(groupCommand);
+    else delete groupCommand;
+}
+
+void Bin::slotLoadClipMarkers(const QString &id)
+{
+    KComboBox *cbox = new KComboBox;
+    for (int i = 0; i < 5; ++i) {
+        cbox->insertItem(i, i18n("Category %1", i));
+        cbox->setItemData(i, CommentedTime::markerColor(i), Qt::DecorationRole);
+    }
+    cbox->setCurrentIndex(KdenliveSettings::default_marker_type());
+    //TODO KF5 how to add custom cbox to Qfiledialog
+    QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Load Clip Markers"), m_doc->projectFolder().path());
+    fd->setMimeTypeFilters(QStringList()<<"text/plain");
+    fd->setFileMode(QFileDialog::ExistingFile);
+    if (fd->exec() != QDialog::Accepted) return;
+    QStringList selection = fd->selectedFiles();
+    QString url;
+    if (!selection.isEmpty()) url = selection.first();
+    delete fd;
+
+    //QUrl url = KFileDialog::getOpenUrl(QUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Load marker file"));
+    if (url.isEmpty()) return;
+    int category = cbox->currentIndex();
+    delete cbox;
+    QFile file(url);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        emit displayMessage(i18n("Cannot open file %1", QUrl(url).fileName()), KMessageWidget::Warning);
+        return;
+    }
+    QString data = QString::fromUtf8(file.readAll());
+    file.close();
+    QStringList lines = data.split('\n', QString::SkipEmptyParts);
+    QStringList values;
+    bool ok;
+    QUndoCommand *command = new QUndoCommand();
+    command->setText("Load markers");
+    QString markerText;
+    QList <CommentedTime> markersList;
+    foreach(const QString &line, lines) {
+        markerText.clear();
+        values = line.split('\t', QString::SkipEmptyParts);
+        double time1 = values.at(0).toDouble(&ok);
+        double time2 = -1;
+        if (!ok) continue;
+        if (values.count() >1) {
+            time2 = values.at(1).toDouble(&ok);
+            if (values.count() == 2) {
+                // Check if second value is a number or text
+                if (!ok) {
+                    time2 = -1;
+                    markerText = values.at(1);
+                }
+                else markerText = i18n("Marker");
+            }
+            else {
+                // We assume 3 values per line: in out name
+                if (!ok) {
+                    // 2nd value is not a number, drop
+                }
+                else {
+                    markerText = values.at(2);
+                }
+            }
+        }
+        if (!markerText.isEmpty()) {
+            // Marker found, add it
+            //TODO: allow user to set a marker category
+            CommentedTime marker1(GenTime(time1), markerText, category);
+            markersList << marker1;
+            if (time2 > 0 && time2 != time1) {
+                CommentedTime marker2(GenTime(time2), markerText, category);
+                markersList << marker2;
+            }
+        }
+    }
+    if (!markersList.isEmpty()) slotAddClipMarker(id, markersList, command);
+    if (command->childCount() > 0) m_doc->commandStack()->push(command);
+    else delete command;
+}
+
+void Bin::deleteClipMarker(const QString &comment, const QString &id, const GenTime &position)
+{
+    ProjectClip *clip = getBinClip(id);
+    if (!clip) return;
+    QUndoCommand *command = new QUndoCommand;
+    command->setText(i18n("Delete marker"));
+    CommentedTime marker(position, comment);
+    marker.setMarkerType(-1);
+    QList <CommentedTime> markers;
+    markers << marker;
+    clip->addClipMarker(markers, command);
+    if (command->childCount() > 0) m_doc->commandStack()->push(command);
+    else delete command;
+}
+
+void Bin::deleteAllClipMarkers(const QString &id)
+{
+    ProjectClip *clip = getBinClip(id);
+    if (!clip) return;
+    QUndoCommand *command = new QUndoCommand;
+    command->setText(i18n("Delete clip markers"));
+    if (!clip->deleteClipMarkers(command)) {
+        emit displayMessage(i18n("Clip has no markers"), KMessageWidget::Warning);
+    }
+    if (command->childCount() > 0) m_doc->commandStack()->push(command);
+    else delete command;
 }

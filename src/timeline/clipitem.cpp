@@ -95,6 +95,7 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
     m_audioThumbReady = m_binClip->audioThumbCreated();
     //setAcceptsHoverEvents(true);
     connect(this , SIGNAL(prepareAudioThumb(double,int,int,int,int)) , this, SLOT(slotPrepareAudioThumb(double,int,int,int,int)));
+    connect(m_binClip, SIGNAL(refreshClipDisplay()), this, SLOT(slotRefreshClip()));
     if (m_clipType == AV || m_clipType == Video || m_clipType == SlideShow || m_clipType == Playlist ) {
         m_baseColor = QColor(141, 166, 215);
 	//TODO:
@@ -105,7 +106,7 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
             m_endThumbTimer.setSingleShot(true);
             connect(&m_endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
             connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
-            connect(m_clip->thumbProducer(), SIGNAL(thumbsCached()), this, SLOT(slotGotThumbsCache()));
+            connect(m_clip->thumbProducer(), SIGNAL(thumbsCached()), this, SLOT(slotRefreshClip()));
             connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
             if (generateThumbs) QTimer::singleShot(200, this, SLOT(slotFetchThumbs()));*/
         }
@@ -2186,7 +2187,7 @@ void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, int w
     param.setAttribute("value", geometry.serialise(cropStart().frames(m_fps), (cropStart() + cropDuration()).frames(m_fps) - 1));
 }
 
-void ClipItem::slotGotThumbsCache()
+void ClipItem::slotRefreshClip()
 {
     update();
 }

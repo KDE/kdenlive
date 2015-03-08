@@ -52,9 +52,9 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     QList<QStringList> transitionsList;
     int max = MainWindow::transitions.effectNames().count();
     QStringList transitionInfo;
-    int ix = 0;
+    int ix = 1;
 
-    for (; ix < max; ++ix) {
+    for (; ix <= max; ++ix) {
         transitionInfo = MainWindow::transitions.effectIdInfo(ix);
         transitionInfo << QString::number(ix);
         transitionsList.append(transitionInfo);

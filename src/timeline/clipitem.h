@@ -254,8 +254,8 @@ private slots:
     void slotSetStartThumb(const QImage &img);
     void slotSetEndThumb(const QImage &img);
     void slotThumbReady(int frame, const QImage &img);
-    /** @brief The thumbnailer has finished to cache all required thumbs. */
-    void slotGotThumbsCache();
+    /** @brief Something changed a detail in clip (thumbs, markers,...), repaint. */
+    void slotRefreshClip();
 
 public slots:
     void slotFetchThumbs();

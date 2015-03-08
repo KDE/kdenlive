@@ -35,7 +35,7 @@ class QDomElement;
 class ClipController;
 class ClipPropertiesController;
 class ProjectSubClip;
-
+class QUndoCommand;
 namespace Mlt {
   class Producer;
   class Properties;
@@ -181,6 +181,10 @@ public:
      *  @param audioCodec set to true if you want to check audio codec. When false, this will check the video codec
      */
     const QString codec(bool audioCodec) const;
+    
+    void addClipMarker(QList <CommentedTime> newMarkers, QUndoCommand *groupCommand);
+    bool deleteClipMarkers(QUndoCommand *groupCommand);
+    void addMarkers(QList <CommentedTime> &markers);
 
 public slots:
     //TODO
@@ -201,6 +205,7 @@ private:
 signals:
     void gotAudioData();
     void refreshPropertiesPanel();
+    void refreshClipDisplay();
 };
 
 #endif

@@ -83,7 +83,7 @@ public:
     GenTime position();
     void checkOverlay();
     void updateTimecodeFormat();
-    void updateMarkers(ClipController *source);
+    void updateMarkers();
     ClipController *currentController() const;
     void setMarkers(const QList <CommentedTime> &markers);
     MonitorEditWidget *getEffectEdit();

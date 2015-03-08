@@ -162,12 +162,12 @@ void ClipPropertiesManager::showClipPropertiesDialog(DocClipBase* clip)
         project->clipManager()->slotRequestThumbs(QString('?' + clip->getId()), QList<int>() << clip->getClipThumbFrame());
     }
     
-    connect(dia, SIGNAL(addMarkers(QString,QList<CommentedTime>)), pCore->projectManager()->currentTrackView()->projectView(), SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
+    connect(dia, SIGNAL(addMarkers(QString,QList<CommentedTime>)), pCore->bin(), SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
     connect(dia, SIGNAL(editAnalysis(QString,QString,QString)), pCore->projectManager()->currentTrackView()->projectView(), SLOT(slotAddClipExtraData(QString,QString,QString)));
     connect(pCore->projectManager()->currentTrackView()->projectView(), SIGNAL(updateClipMarkers(DocClipBase*)), dia, SLOT(slotFillMarkersList(DocClipBase*)));
     connect(pCore->projectManager()->currentTrackView()->projectView(), SIGNAL(updateClipExtraData(DocClipBase*)), dia, SLOT(slotUpdateAnalysisData(DocClipBase*)));
     connect(m_projectList, &ProjectList::updateAnalysisData, dia, &ClipProperties::slotUpdateAnalysisData);
-    connect(dia, SIGNAL(loadMarkers(QString)), pCore->projectManager()->currentTrackView()->projectView(), SLOT(slotLoadClipMarkers(QString)));
+    connect(dia, SIGNAL(loadMarkers(QString)), pCore->bin(), SLOT(slotLoadClipMarkers(QString)));
     connect(dia, SIGNAL(saveMarkers(QString)), pCore->projectManager()->currentTrackView()->projectView(), SLOT(slotSaveClipMarkers(QString)));
     connect(dia, &ClipProperties::deleteProxy, m_projectList, &ProjectList::slotDeleteProxy);
     connect(dia, &ClipProperties::applyNewClipProperties, this, &ClipPropertiesManager::slotApplyNewClipProperties);

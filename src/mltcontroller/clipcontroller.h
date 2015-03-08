@@ -113,6 +113,7 @@ public:
     QColor color_property(const QString &name) const;
 
     double originalFps() const;
+    QString videoCodecProperty(const QString &property) const;
     const QString codec(bool audioCodec) const;
     QSize originalFrameSize() const;
     const QString getClipHash() const;

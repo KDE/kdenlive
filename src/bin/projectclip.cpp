@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectsubclip.h"
 #include "bin.h"
 #include "timecode.h"
+#include "project/projectcommands.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/clippropertiescontroller.h"
 
@@ -486,7 +487,7 @@ void ProjectClip::setJobStatus(AbstractClipJob::JOBTYPE jobType, ClipJobStatus s
 
 ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
 {
-    ClipPropertiesController *panel = new ClipPropertiesController(bin()->projectTimecode(), m_id, clipType(), m_controller->properties(), parent);
+    ClipPropertiesController *panel = new ClipPropertiesController(bin()->projectTimecode(), m_controller, parent);
     connect(this, SIGNAL(refreshPropertiesPanel()), panel, SLOT(slotReloadProperties()));
     return panel;
 }
@@ -521,3 +522,45 @@ bool ProjectClip::rename(const QString &name)
     return true;
 }
 
+void ProjectClip::addClipMarker(QList <CommentedTime> newMarkers, QUndoCommand *groupCommand)
+{
+    if (!m_controller) return;
+    QList <CommentedTime> oldMarkers;
+    for (int i = 0; i < newMarkers.count(); ++i) {
+        CommentedTime oldMarker = m_controller->markerAt(newMarkers.at(i).time());
+        if (oldMarker == CommentedTime()) {
+            oldMarker = newMarkers.at(i);
+            oldMarker.setMarkerType(-1);
+        }
+        oldMarkers << oldMarker;
+    }
+    (void) new AddMarkerCommand(this, oldMarkers, newMarkers, groupCommand);
+}
+
+bool ProjectClip::deleteClipMarkers(QUndoCommand *command)
+{
+    QList <CommentedTime> markers = commentedSnapMarkers();
+    if (markers.isEmpty()) {
+        return false;
+    }
+    QList <CommentedTime> newMarkers;
+    for (int i = 0; i < markers.size(); ++i) {
+        CommentedTime marker = markers.at(i);
+        marker.setMarkerType(-1);
+        newMarkers << marker;
+    }
+    new AddMarkerCommand(this, markers, newMarkers, command);
+}
+
+void ProjectClip::addMarkers(QList <CommentedTime> &markers)
+{
+    if (!m_controller) return;
+    for (int i = 0; i < markers.count(); ++i) {
+      if (markers.at(i).markerType() < 0) m_controller->deleteSnapMarker(markers.at(i).time());
+      else m_controller->addSnapMarker(markers.at(i));
+    }
+    // refresh markers in clip monitor
+    bin()->refreshClipMarkers(m_id);
+    // refresh markers in timeline clips
+    emit refreshClipDisplay();
+}

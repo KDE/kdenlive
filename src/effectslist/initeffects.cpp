@@ -137,8 +137,10 @@ void initEffects::parseEffectFiles(const QString &locale)
     Mlt::Properties *transitions = repository->transitions();
     QStringList transitionsItemList;
     max = transitions->count();
-    for (int i = 0; i < max; ++i)
+    for (int i = 0; i < max; ++i) {
+        //qDebug()<<"TRANSITION "<<i<<" = "<<transitions->get_name(i);
         transitionsItemList << transitions->get_name(i);
+    }
     delete transitions;
 
     // Remove blacklisted transitions from the list.

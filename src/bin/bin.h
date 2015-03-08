@@ -394,6 +394,12 @@ public:
     Timecode projectTimecode() const;
     /** @brief Trigger timecode format refresh where needed. */
     void updateTimecodeFormat();
+    /** @brief If clip monitor is displaying clip with id @param id, refresh markers. */
+    void refreshClipMarkers(const QString &id);
+    /** @brief Delete a clip marker. */
+    void deleteClipMarker(const QString &comment, const QString &id, const GenTime &position);
+    /** @brief Delete all markers from @param id clip. */
+    void deleteAllClipMarkers(const QString &id);
 
 private slots:
     void slotAddClip();
@@ -412,7 +418,6 @@ private slots:
     void autoSelect();
     void closeEditing();
     void refreshEditedClip();
-    void slotMarkersNeedUpdate(const QString &id, const QList <int> &markers);
     void slotSaveHeaders();
     void slotItemDropped(QStringList ids, const QModelIndex &parent);
     void slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent);
@@ -420,6 +425,8 @@ private slots:
     void slotAddUrl(QString url, QString,QString);
     void slotPrepareJobsMenu();
     void slotShowJobLog();
+    /** @brief process clip job result. */
+    void slotGotFilterJobResults(QString ,int , int, stringMap, stringMap);
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img);
@@ -449,6 +456,12 @@ public slots:
     void slotAddClipCut(const QString&id, int in, int out);
     /** @brief Open current clip in an external editing application */
     void slotOpenClip();
+    /** @brief Creates a AddClipCommand to add, edit or delete a marker.
+     * @param id Id of the marker's clip
+     * @param t Position of the marker
+     * @param c Comment of the marker */
+    void slotAddClipMarker(const QString &id, QList <CommentedTime> newMarker, QUndoCommand *groupCommand = 0);
+    void slotLoadClipMarkers(const QString &id);
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);

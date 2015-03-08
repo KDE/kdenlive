@@ -59,19 +59,6 @@ private:
     QString m_id;
 };
 
-class AddMarkerCommand : public QUndoCommand
-{
-public:
-    AddMarkerCommand(CustomTrackView *view, const CommentedTime &oldMarker, const CommentedTime &newMarker, const QString &id, QUndoCommand * parent = 0);
-    void undo();
-    void redo();
-private:
-    CustomTrackView *m_view;
-    CommentedTime m_oldMarker;
-    CommentedTime m_newMarker;
-    QString m_id;
-};
-
 class AddTimelineClipCommand : public QUndoCommand
 {
 public:

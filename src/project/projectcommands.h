@@ -21,11 +21,16 @@
 #ifndef PROJECTCOMMANDS_H
 #define PROJECTCOMMANDS_H
 
+#include "definitions.h"
+
 #include <QUndoCommand>
 #include <QMap>
 #include <QPoint>
+
 class ProjectList;
 class KdenliveDoc;
+class ProjectClip;
+
 
 class AddClipCutCommand : public QUndoCommand
 {
@@ -104,6 +109,18 @@ private:
     QString m_oldname;
     QString m_id;
     bool m_doIt;
+};
+
+class AddMarkerCommand : public QUndoCommand
+{
+public:
+    AddMarkerCommand(ProjectClip *clip, QList <CommentedTime> &oldMarkers, QList <CommentedTime> &newMarkers, QUndoCommand * parent = 0);
+    void undo();
+    void redo();
+private:
+    ProjectClip *m_clip;
+    QList <CommentedTime> m_oldMarkers;
+    QList <CommentedTime> m_newMarkers;
 };
 
 #endif

@@ -1512,7 +1512,6 @@ void MainWindow::connectDocument()
     connect(trackView->projectView(), SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
     connect(project, SIGNAL(saveTimelinePreview(QString)), trackView, SLOT(slotSaveTimelinePreview(QString)));
 
-    connect(trackView->projectView(), SIGNAL(updateClipMarkers(ClipController*)), this, SLOT(slotUpdateClipMarkers(ClipController*)));
     connect(trackView, SIGNAL(showTrackEffects(int,TrackInfo)), this, SLOT(slotTrackSelected(int,TrackInfo)));
 
     connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*,bool)), this, SLOT(slotTimelineClipSelected(ClipItem*,bool)));
@@ -1749,13 +1748,6 @@ void MainWindow::slotDeleteItem()
     }
 }
 
-void MainWindow::slotUpdateClipMarkers(ClipController *clip)
-{
-    if (m_clipMonitor->isActive()) {
-        m_clipMonitor->checkOverlay();
-    }
-    m_clipMonitor->updateMarkers(clip);
-}
 
 void MainWindow::slotAddClipMarker()
 {
@@ -1784,7 +1776,7 @@ void MainWindow::slotAddClipMarker()
     QPointer<MarkerDialog> d = new MarkerDialog(clip, marker,
                                                 project->timecode(), i18n("Add Marker"), this);
     if (d->exec() == QDialog::Accepted) {
-        pCore->projectManager()->currentTrackView()->projectView()->slotAddClipMarker(id, QList <CommentedTime>() << d->newMarker());
+        pCore->bin()->slotAddClipMarker(id, QList <CommentedTime>() << d->newMarker());
         QString hash = clip->getClipHash();
         if (!hash.isEmpty()) project->cacheImage(hash + '#' + QString::number(d->newMarker().time().frames(project->fps())), d->markerImage());
     }
@@ -1818,7 +1810,7 @@ void MainWindow::slotDeleteClipMarker()
         m_messageLabel->setMessage(i18n("No marker found at cursor time"), ErrorMessage);
         return;
     }
-    pCore->projectManager()->currentTrackView()->projectView()->slotDeleteClipMarker(comment, id, pos);
+    pCore->bin()->deleteClipMarker(comment, id, pos);
 }
 
 void MainWindow::slotDeleteAllClipMarkers()
@@ -1838,7 +1830,7 @@ void MainWindow::slotDeleteAllClipMarkers()
         m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), ErrorMessage);
         return;
     }
-    pCore->projectManager()->currentTrackView()->projectView()->slotDeleteAllClipMarkers(clip->clipId());
+    pCore->bin()->deleteAllClipMarkers(clip->clipId());
 }
 
 void MainWindow::slotEditClipMarker()
@@ -1872,13 +1864,13 @@ void MainWindow::slotEditClipMarker()
     QPointer<MarkerDialog> d = new MarkerDialog(clip, oldMarker,
                                                 pCore->projectManager()->current()->timecode(), i18n("Edit Marker"), this);
     if (d->exec() == QDialog::Accepted) {
-        pCore->projectManager()->currentTrackView()->projectView()->slotAddClipMarker(id, QList <CommentedTime>() <<d->newMarker());
+        pCore->bin()->slotAddClipMarker(id, QList <CommentedTime>() <<d->newMarker());
         QString hash = clip->getClipHash();
         if (!hash.isEmpty()) pCore->projectManager()->current()->cacheImage(hash + '#' + QString::number(d->newMarker().time().frames(pCore->projectManager()->current()->fps())), d->markerImage());
         if (d->newMarker().time() != pos) {
             // remove old marker
             oldMarker.setMarkerType(-1);
-            pCore->projectManager()->currentTrackView()->projectView()->slotAddClipMarker(id, QList <CommentedTime>() <<oldMarker);
+            pCore->bin()->slotAddClipMarker(id, QList <CommentedTime>() <<oldMarker);
         }
     }
     delete d;
@@ -1899,7 +1891,7 @@ void MainWindow::slotAddMarkerGuideQuickly()
         }
         //TODO: allow user to set default marker category
         CommentedTime marker(pos, pCore->projectManager()->current()->timecode().getDisplayTimecode(pos, false), KdenliveSettings::default_marker_type());
-        pCore->projectManager()->currentTrackView()->projectView()->slotAddClipMarker(clip->clipId(), QList <CommentedTime>() <<marker);
+        pCore->bin()->slotAddClipMarker(clip->clipId(), QList <CommentedTime>() <<marker);
     } else {
         pCore->projectManager()->currentTrackView()->projectView()->slotAddGuide(false);
     }

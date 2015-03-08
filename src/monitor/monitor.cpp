@@ -359,9 +359,9 @@ double Monitor::fps() const
     return m_monitorManager->timecode().fps();
 }
 
-void Monitor::updateMarkers(ClipController *source)
+void Monitor::updateMarkers()
 {
-    if (source == m_controller && source != NULL) {
+    if (m_controller) {
         m_markerMenu->clear();
         QList <CommentedTime> markers = m_controller->commentedSnapMarkers();
         if (!markers.isEmpty()) {
@@ -887,7 +887,7 @@ void Monitor::openClip(ClipController *controller)
     if (render == NULL) return;
     m_controller = controller;
     if (controller) {
-        updateMarkers(controller);
+        updateMarkers();
         render->setProducer(m_controller->masterProducer(), -1);
     }
     else {

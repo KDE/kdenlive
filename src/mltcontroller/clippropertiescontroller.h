@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QObject>
 #include <QUrl>
 
+class ClipController;
 class QPixmap;
 class BinController;
 
@@ -49,7 +50,7 @@ public:
      * @param properties The clip's properties
      * @param parent The widget where our infos will be displayed
      */
-    explicit ClipPropertiesController(Timecode tc, const QString &id, ClipType type, Mlt::Properties &properties, QWidget *parent);
+    explicit ClipPropertiesController(Timecode tc, ClipController *controller, QWidget *parent);
     virtual ~ClipPropertiesController();
 
 public slots:
@@ -59,6 +60,8 @@ public slots:
 private slots:
     void slotColorModified(QColor newcolor);
     void slotDurationChanged(int duration);
+    void slotEnableForce(int state);
+    void slotValueChanged(double);
 
 private:
     QString m_id;

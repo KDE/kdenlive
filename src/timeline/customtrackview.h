@@ -74,8 +74,6 @@ public:
     void resizeClip(const ItemInfo &start, const ItemInfo &end, bool dontWorry = false);
     void addClip(const QString &clipId, ItemInfo info, EffectsList list = EffectsList(), bool overwrite = false, bool push = false, bool refresh = true);
     void deleteClip(ItemInfo info, bool refresh = true);
-    void slotDeleteClipMarker(const QString &comment, const QString &id, const GenTime &position);
-    void slotDeleteAllClipMarkers(const QString &id);
     void addMarker(const QString &id, const CommentedTime &marker);
     void addData(const QString &id, const QString &key, const QString &data);
     void setScale(double scaleFactor, double verticalScale);
@@ -248,12 +246,6 @@ public slots:
     
     /** @brief Add extra data to a clip. */
     void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString(), QUndoCommand *groupCommand = 0);
-    /** @brief Creates a AddClipCommand to add, edit or delete a marker.
-     * @param id Id of the marker's clip
-     * @param t Position of the marker
-     * @param c Comment of the marker */
-    void slotAddClipMarker(const QString &id, QList <CommentedTime> newMarker, QUndoCommand *groupCommand = 0);
-    void slotLoadClipMarkers(const QString &id);
     void slotSaveClipMarkers(const QString &id);
     bool addGuide(const GenTime &pos, const QString &comment);
 

@@ -22,7 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "clippropertiescontroller.h"
 #include "bincontroller.h"
 #include "timecodedisplay.h"
+#include "clipcontroller.h"
 #include "effectstack/widgets/choosecolorwidget.h"
+#include "dialogs/profilesdialog.h"
 
 #include <KLocalizedString>
 
@@ -30,39 +32,106 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDebug>
 #include <QPixmap>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QDoubleSpinBox>
 #include <QLabel>
+#include <QCheckBox>
+#include <QFontDatabase>
 
-ClipPropertiesController::ClipPropertiesController(Timecode tc, const QString &id, ClipType type, Mlt::Properties &properties, QWidget *parent) : QWidget(parent)
-    , m_id(id)
-    , m_type(type)
-    , m_properties(properties)
+ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *controller, QWidget *parent) : QWidget(parent)
+    , m_id(controller->clipId())
+    , m_type(controller->clipType())
+    , m_properties(controller->properties())
 {
-    if (type == Color || type == Image) {
-        QVBoxLayout *vbox = new QVBoxLayout;
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    QVBoxLayout *vbox = new QVBoxLayout;
+    if (m_type == Color || m_type == Image || m_type == AV || m_type == Video) {
         // Edit duration widget
         m_originalProperties.insert("out", m_properties.get("out"));
         m_originalProperties.insert("length", m_properties.get("length"));
-        QLabel *lab = new QLabel(i18n("Duration"), this);
-        vbox->addWidget(lab);
+        QHBoxLayout *hlay = new QHBoxLayout;
+        QCheckBox *box = new QCheckBox(i18n("Duration"), this);
+        box->setObjectName("force_duration");
+        hlay->addWidget(box);
         TimecodeDisplay *timePos = new TimecodeDisplay(tc, this);
+        timePos->setObjectName("force_duration_value");
         timePos->setValue(m_properties.get_int("out") + 1);
-        vbox->addWidget(timePos);
+        int original_length = m_properties.get_int("kdenlive:original_length");
+        if (original_length > 0) {
+            box->setChecked(true);
+        }
+        else timePos->setEnabled(false);
+        hlay->addWidget(timePos);
+        vbox->addLayout(hlay);
+        connect(box, SIGNAL(toggled(bool)), timePos, SLOT(setEnabled(bool)));
+        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
         connect(timePos, SIGNAL(timeCodeEditingFinished(int)), this, SLOT(slotDurationChanged(int)));
         connect(this, SIGNAL(updateTimeCodeFormat()), timePos, SLOT(slotUpdateTimeCodeFormat()));
         connect(this, SIGNAL(modified(int)), timePos, SLOT(setValue(int)));
-        if (type == Color) {
-            // Edit color widget
-            m_originalProperties.insert("resource", m_properties.get("resource"));
-            mlt_color color = m_properties.get_color("resource");
-            ChooseColorWidget *choosecolor = new ChooseColorWidget(i18n("Color"), QColor::fromRgb(color.r, color.g, color.b).name(), false, this);
-            vbox->addWidget(choosecolor);
-            //connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
-            connect(choosecolor, SIGNAL(modified(QColor)), this, SLOT(slotColorModified(QColor)));
-            connect(this, SIGNAL(modified(QColor)), choosecolor, SLOT(slotColorModified(QColor)));
-        }
-        setLayout(vbox);
-        vbox->addStretch(10);
     }
+    if (m_type == Color) {
+        // Edit color widget
+        m_originalProperties.insert("resource", m_properties.get("resource"));
+        mlt_color color = m_properties.get_color("resource");
+        ChooseColorWidget *choosecolor = new ChooseColorWidget(i18n("Color"), QColor::fromRgb(color.r, color.g, color.b).name(), false, this);
+        vbox->addWidget(choosecolor);
+        //connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
+        connect(choosecolor, SIGNAL(modified(QColor)), this, SLOT(slotColorModified(QColor)));
+        connect(this, SIGNAL(modified(QColor)), choosecolor, SLOT(slotColorModified(QColor)));
+    }
+    if (m_type == AV || m_type == Video) {
+        QLocale locale;
+        QString force_fps = m_properties.get("force_fps");
+        m_originalProperties.insert("force_fps", force_fps.isEmpty() ? "-" : force_fps);
+        QHBoxLayout *hlay = new QHBoxLayout;
+        QCheckBox *box = new QCheckBox(i18n("Frame rate"), this);
+        box->setObjectName("force_fps");
+        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
+        QDoubleSpinBox *spin = new QDoubleSpinBox(this);
+        connect(spin, SIGNAL(valueChanged(double)), this, SLOT(slotValueChanged(double)));
+        spin->setObjectName("force_fps_value");
+        if (force_fps.isEmpty()) {
+            spin->setValue(controller->originalFps());
+        }
+        else {
+            spin->setValue(locale.toDouble(force_fps));
+        }
+        connect(box, SIGNAL(toggled(bool)), spin, SLOT(setEnabled(bool)));
+        box->setChecked(!force_fps.isEmpty());
+        spin->setEnabled(!force_fps.isEmpty());
+        hlay->addWidget(box);
+        hlay->addWidget(spin);
+        vbox->addLayout(hlay);
+
+        hlay = new QHBoxLayout;
+        box = new QCheckBox(i18n("Colorspace"), this);
+        box->setObjectName("force_colorspace");
+        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
+        QComboBox *combo = new QComboBox(this);
+        combo->setObjectName("force_colorspace_value");
+        combo->addItem(ProfilesDialog::getColorspaceDescription(601), 601);
+        combo->addItem(ProfilesDialog::getColorspaceDescription(709), 709);
+        combo->addItem(ProfilesDialog::getColorspaceDescription(240), 240);
+        int force_colorspace = m_properties.get_int("force_colorspace");
+        m_originalProperties.insert("force_colorspace", force_colorspace == 0 ? "-" : QString::number(force_colorspace));
+        int colorspace = controller->videoCodecProperty("colorspace").toInt();
+        if (force_colorspace > 0) {
+            box->setChecked(true);
+            combo->setEnabled(true);
+            combo->setCurrentIndex(combo->findData(force_colorspace));
+        } else if (colorspace > 0) {
+            combo->setEnabled(false);
+            combo->setCurrentIndex(combo->findData(colorspace));
+        }
+        else combo->setEnabled(false);
+        connect(box, SIGNAL(toggled(bool)), combo, SLOT(setEnabled(bool)));
+        hlay->addWidget(box);
+        hlay->addWidget(combo);
+        
+        vbox->addLayout(hlay);
+    }
+    setLayout(vbox);
+    vbox->addStretch(10);
 }
 
 ClipPropertiesController::~ClipPropertiesController()
@@ -97,10 +166,73 @@ void ClipPropertiesController::slotColorModified(QColor newcolor)
 void ClipPropertiesController::slotDurationChanged(int duration)
 {
     QMap <QString, QString> properties;
+    int original_length = m_properties.get_int("kdenlive:original_length");
+    if (original_length == 0) {
+        m_properties.set("kdenlive:original_length", m_properties.get_int("length"));
+    }
     properties.insert("length", QString::number(duration));
     properties.insert("out", QString::number(duration - 1));
     emit updateClipProperties(m_id, m_originalProperties, properties);
     m_originalProperties = properties;
 }
 
+void ClipPropertiesController::slotEnableForce(int state)
+{
+    QCheckBox *box = qobject_cast<QCheckBox *>(sender());
+    if (!box) {
+        return;
+    }
+    QString param = box->objectName();
+    QMap <QString, QString> properties;
+    QLocale locale;
+    if (state == Qt::Unchecked) {
+        // The force property was disable, remove it / reset default if necessary
+        if (param == "force_duration") {
+            // special case, reset original duration
+            TimecodeDisplay *timePos = findChild<TimecodeDisplay *>(param + "_value");
+            timePos->setValue(m_properties.get_int("kdenlive:original_length"));
+            slotDurationChanged(m_properties.get_int("kdenlive:original_length"));
+            m_properties.set("kdenlive:original_length", (char *) NULL);
+            return;
+        }
+        else {
+            properties.insert(param, "-");
+        }
+    } else {
+        // A force property was set
+        if (param == "force_duration") {
+            int original_length = m_properties.get_int("kdenlive:original_length");
+            if (original_length == 0) {
+                m_properties.set("kdenlive:original_length", m_properties.get_int("length"));
+            }
+        }
+        if (param == "force_fps") {
+            QDoubleSpinBox *spin = findChild<QDoubleSpinBox *>(param + "_value");
+            if (!spin) return;
+            properties.insert(param, locale.toString(spin->value()));
+        }
+        if (param == "force_colorspace") {
+            QComboBox *combo = findChild<QComboBox *>(param + "_value");
+            if (!combo) return;
+            properties.insert(param, QString::number(combo->currentData().toInt()));
+        }
+    }
+    if (properties.isEmpty()) return;
+    emit updateClipProperties(m_id, m_originalProperties, properties);
+    m_originalProperties = properties;
+}
+
+void ClipPropertiesController::slotValueChanged(double value)
+{
+    QDoubleSpinBox *box = qobject_cast<QDoubleSpinBox *>(sender());
+    if (!box) {
+        return;
+    }
+    QString param = box->objectName().section("_", 0, -2);
+    QMap <QString, QString> properties;
+    QLocale locale;
+    properties.insert(param, locale.toString(value));
+    emit updateClipProperties(m_id, m_originalProperties, properties);
+    m_originalProperties = properties;
+}
 
