@@ -1,6 +1,7 @@
 [Global]
 IconName=kdenlive
 Comment=Kdenlive
+Comment[ast]=Kdenlive
 Comment[bs]=Kdenlive
 Comment[ca]=Kdenlive
 Comment[cs]=Kdenlive
@@ -209,6 +210,7 @@ Action=Sound
 [Event/ErrorMessage]
 Name=Error
 Name[ar]=خطأ
+Name[ast]=Fallu
 Name[bs]=Greška
 Name[ca]=Error
 Name[cs]=Chyba
@@ -232,6 +234,7 @@ Name[uk]=Помилка
 Name[x-test]=xxErrorxx
 Name[zh_CN]=错误
 Comment=An error occurred in Kdenlive
+Comment[ast]=Asocedió un fallu en Kdenlive
 Comment[bs]=Desila se greška u KDenlive
 Comment[ca]=S'ha produït un error al Kdenlive
 Comment[cs]=V Kdenlive došlo k chybě

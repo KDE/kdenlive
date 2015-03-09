@@ -731,7 +731,7 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
     delete m_dvdauthor;
     m_dvdauthor = NULL;
 
-    // Check if DVD structure has the necessary infos
+    // Check if DVD structure has the necessary info
     if (!QFile::exists(m_status.tmp_folder->url().path() + "/DVD/VIDEO_TS/VIDEO_TS.IFO")) {
         errorMessage(i18n("DVD structure broken"));
         m_status.error_log->append(m_creationLog + "<a name=\"result\" /><br /><strong>" + i18n("DVD structure broken"));

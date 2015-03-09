@@ -88,7 +88,7 @@ void VideoGLWidget::resizeGL(int width, int height)
 {
     double this_aspect = (double) width / height;
 
-    // Special case optimisation to negate odd effect of sample aspect ratio
+    // Special case optimization to negate odd effect of sample aspect ratio
     // not corresponding exactly with image resolution.
     if ((int)(this_aspect * 1000) == (int)(m_display_ratio * 1000)) {
         w = width;

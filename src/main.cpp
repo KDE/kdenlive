@@ -35,6 +35,8 @@
 
 int main(int argc, char *argv[])
 {
+    KLocalizedString::setApplicationDomain("kdenlive");
+
     // Init application
     QApplication app(argc, argv);
 

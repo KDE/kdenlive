@@ -100,7 +100,7 @@ bool MltDeviceCapture::buildConsumer(const QString &profileName)
     if (m_mltProfile) delete m_mltProfile;
 
     char *tmp = qstrdup(m_activeProfile.toUtf8().constData());
-    setenv("MLT_PROFILE", tmp, 1);
+    qputenv("MLT_PROFILE", tmp);
     m_mltProfile = new Mlt::Profile(tmp);
     m_mltProfile->set_explicit(true);
     delete[] tmp;
@@ -108,13 +108,13 @@ bool MltDeviceCapture::buildConsumer(const QString &profileName)
     QString videoDriver = KdenliveSettings::videodrivername();
     if (!videoDriver.isEmpty()) {
         if (videoDriver == "x11_noaccel") {
-            setenv("SDL_VIDEO_YUV_HWACCEL", "0", 1);
+            qputenv("SDL_VIDEO_YUV_HWACCEL", "0");
             videoDriver = "x11";
         } else {
-            unsetenv("SDL_VIDEO_YUV_HWACCEL");
+            qunsetenv("SDL_VIDEO_YUV_HWACCEL");
         }
     }
-    setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
+    qputenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1");
     
   
     if (m_winid == 0) {
@@ -409,13 +409,13 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
         QString videoDriver = KdenliveSettings::videodrivername();
         if (!videoDriver.isEmpty()) {
             if (videoDriver == "x11_noaccel") {
-                setenv("SDL_VIDEO_YUV_HWACCEL", "0", 1);
+                qputenv("SDL_VIDEO_YUV_HWACCEL", "0");
                 videoDriver = "x11";
             } else {
-                unsetenv("SDL_VIDEO_YUV_HWACCEL");
+                qunsetenv("SDL_VIDEO_YUV_HWACCEL");
             }
         }
-        setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
+        qputenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1");
         
         if (m_winid == 0) {
             // OpenGL monitor

@@ -91,7 +91,7 @@ private:
     QList <CollapsibleEffect*> m_effects;
     EffectsList m_currentEffectList;
     
-    /** @brief Contains infos about effect like is it a track effect, which monitor displays it,... */
+    /** @brief Contains info about effect like is it a track effect, which monitor displays it,... */
     EffectMetaInfo m_effectMetaInfo;
     
     /** @brief The last mouse click position, used to detect drag events. */

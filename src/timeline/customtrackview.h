@@ -57,7 +57,7 @@ public:
     virtual void mouseDoubleClickEvent(QMouseEvent *event);
     void addTrack(const TrackInfo &type, int ix = -1);
     void removeTrack(int ix);
-    /** @brief Makes the document use new track infos (name, type, ...). */
+    /** @brief Makes the document use new track info (name, type, ...). */
     void configTracks(const QList<TrackInfo> &trackInfos);
     int cursorPos() const;
     void checkAutoScroll();

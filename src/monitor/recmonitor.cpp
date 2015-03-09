@@ -156,7 +156,7 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
         } else env.insert("SDL_VIDEODRIVER", videoDriver);
     }
     m_displayProcess->setProcessEnvironment(env);
-    setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
+    qputenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1");
 
     //qDebug() << "/////// BUILDING MONITOR, ID: " << videoSurface->winId();
     m_infoMessage = new KMessageWidget;
@@ -1030,10 +1030,10 @@ AbstractRender *RecMonitor::abstractRender()
 }
 
 
-void RecMonitor::analyseFrames(bool analyse)
+void RecMonitor::analyseFrames(bool analyze)
 {
-    m_analyse = analyse;
-    if (m_captureDevice) m_captureDevice->sendFrameForAnalysis = analyse;
+    m_analyse = analyze;
+    if (m_captureDevice) m_captureDevice->sendFrameForAnalysis = analyze;
 }
 
 void RecMonitor::slotDroppedFrames(int dropped)

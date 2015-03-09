@@ -58,7 +58,7 @@ public:
     ~RecMonitor();
 
     AbstractRender *abstractRender();
-    void analyseFrames(bool analyse);
+    void analyseFrames(bool analyze);
     enum CaptureDevice {
         Firewire = 0,
         Video4Linux = 1,
