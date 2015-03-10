@@ -28,9 +28,10 @@ VideoSurface::VideoSurface(QWidget* parent) :
     setAttribute(Qt::WA_OpaquePaintEvent);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     setAttribute(Qt::WA_NoSystemBackground);
-    //setUpdatesEnabled(false);
+    setUpdatesEnabled(false);
 }
 
+/**
 void VideoSurface::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event)
@@ -38,4 +39,5 @@ void VideoSurface::paintEvent(QPaintEvent *event)
     // as soon as monitor is covered by a popup menu or another window, image is corrupted.
     emit refreshMonitor();
 }
+*/
 

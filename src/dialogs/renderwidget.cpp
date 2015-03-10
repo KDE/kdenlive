@@ -541,9 +541,13 @@ void RenderWidget::slotSaveProfile()
 
 void RenderWidget::saveProfile(const QDomElement &newprofile)
 {
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/");
+    if (!dir.exists()) {
+        dir.mkpath(".");
+    }
     QString exportFile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/customprofiles.xml";
     QDomDocument doc;
-    QFile file(exportFile);
+    QFile file(dir.absoluteFilePath("customprofiles.xml"));
     doc.setContent(&file, false);
     file.close();
     QDomElement documentElement;
@@ -588,13 +592,13 @@ void RenderWidget::saveProfile(const QDomElement &newprofile)
     //QCString save = doc.toString().utf8();
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        KMessageBox::sorry(this, i18n("Unable to write to file %1", exportFile));
+        KMessageBox::sorry(this, i18n("Unable to write to file %1", dir.absoluteFilePath("customprofiles.xml")));
         return;
     }
     QTextStream out(&file);
     out << doc.toString();
     if (file.error() != QFile::NoError) {
-        KMessageBox::error(this, i18n("Cannot write to file %1", exportFile));
+        KMessageBox::error(this, i18n("Cannot write to file %1", dir.absoluteFilePath("customprofiles.xml")));
         file.close();
         return;
     }
