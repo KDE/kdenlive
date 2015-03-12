@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="78">
+<kpartgui name="kdenlive" version="78" translationDomain="kdenlive">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -188,5 +187,5 @@
       <Action name="themes_menu" />
     </Menu>
   </MenuBar>
-</gui>
+</kpartgui>
 
