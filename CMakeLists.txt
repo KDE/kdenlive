@@ -22,6 +22,7 @@ include(KDECMakeSettings)
 include(KDECompilerSettings)
 
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
+add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
