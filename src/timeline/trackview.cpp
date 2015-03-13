@@ -113,6 +113,7 @@ TrackView::TrackView(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok
     if (m_doc->setSceneList() == -1) *ok = false;
     else *ok = true;
     
+
     //TODO: loading the timeline clips should be done directly from MLT's track playlist and not by reading xml
     parseDocument(m_doc->toXml());
     connect(m_trackview, SIGNAL(cursorMoved(int,int)), m_ruler, SLOT(slotCursorMoved(int,int)));
@@ -188,6 +189,29 @@ void TrackView::setDuration(int dur)
     m_ruler->setDuration(dur);
 }
 
+int TrackView::getTracks(Mlt::Tractor &tractor) {
+    int duration = 1;
+    for (int i = 0; i < tractor.count(); ++i) {
+        Mlt::Producer* track = tractor.track(i);
+        QString playlist_name = track->get("id");
+        if (playlist_name != "black_track" && playlist_name != "playlistmain") {
+            // check track effects
+            Mlt::Playlist playlist(*track);
+            if (playlist.filter_count()) {
+                qWarning() << "Track effects ignored!!";
+                //TODO slotAddProjectEffects(trackEffects, p, NULL, trackIndex++);//FIXME: use MLT instead of XML
+            }
+            int hide = track->get_int("hide");
+            if (hide & 1) m_doc->switchTrackVideo(i - 1, true);
+            if (hide & 2) m_doc->switchTrackAudio(i - 1, true);
+            int trackduration;
+            trackduration = addTrack(tractor.count() - 1 - i, playlist, m_doc->isTrackLocked(i - 1));
+            if (trackduration > duration) duration = trackduration;
+        }
+    }
+    return duration;
+}
+
 void TrackView::parseDocument(const QDomDocument &doc)
 {
     //int cursorPos = 0;
@@ -206,67 +230,10 @@ void TrackView::parseDocument(const QDomDocument &doc)
     QDomElement p;
 
     int pos = m_projectTracks - 1;
-    m_invalidProducers.clear();
-    QDomNodeList producers = doc.elementsByTagName("producer");
-    /*for (int i = 0; i < producers.count(); ++i) {
-        // Check for invalid producers
-        QDomNode n = producers.item(i);
-        e = n.toElement();
 
-        if (e.hasAttribute("in") == false && e.hasAttribute("out") == false) continue;
-        int in = e.attribute("in").toInt();
-        int out = e.attribute("out").toInt();
-        if (in >= out) {
-            // invalid producer, remove it
-            QString id = e.attribute("id");
-            m_invalidProducers.append(id);
-            m_documentErrors.append(i18n("Invalid clip producer %1\n", id));
-            doc.documentElement().removeChild(producers.at(i));
-            --i;
-        }
-    }*/
-
-    int trackIndex = 0;
-    for (int i = 0; i < m_projectTracks; ++i) {
-        e = tracks.item(i).toElement();
-        QString playlist_name = e.attribute("producer");
-        if (playlist_name != "black_track" && playlist_name != "playlistmain") {
-            // find playlist related to this track
-            p.clear();
-            for (int j = 0; j < playlists.count(); ++j) {
-                p = playlists.item(j).toElement();
-                if (p.attribute("id") == playlist_name) {
-                    // playlist found, check track effects
-                    QDomNodeList trackEffects = p.childNodes();
-                    slotAddProjectEffects(trackEffects, p, NULL, trackIndex++);
-                    break;
-                }
-            }
-            if (p.attribute("id") != playlist_name) { // then it didn't work.
-                qDebug() << "NO PLAYLIST FOUND FOR TRACK " << pos;
-            }
-            if (e.attribute("hide") == "video") {
-                m_doc->switchTrackVideo(i - 1, true);
-            } else if (e.attribute("hide") == "audio") {
-                m_doc->switchTrackAudio(i - 1, true);
-            } else if (e.attribute("hide") == "both") {
-                m_doc->switchTrackVideo(i - 1, true);
-                m_doc->switchTrackAudio(i - 1, true);
-            }
-
-            trackduration = slotAddProjectTrack(pos, p, m_doc->isTrackLocked(i - 1), producers);
-            pos--;
-            ////qDebug() << " PRO DUR: " << trackduration << ", TRACK DUR: " << duration;
-            if (trackduration > duration) duration = trackduration;
-        } else {
-            // background black track
-            for (int j = 0; j < playlists.count(); ++j) {
-                p = playlists.item(j).toElement();
-                if (p.attribute("id") == playlist_name) break;
-            }
-            pos--;
-        }
-    }
+    Mlt::Service svce(m_doc->renderer()->getProducer()->parent().get_service());
+    Mlt::Tractor ttor(svce);
+    m_trackview->setDuration(getTracks(ttor));
 
     // parse transitions
     QDomNodeList transitions = tractor.elementsByTagName("transition");
@@ -421,8 +388,6 @@ void TrackView::parseDocument(const QDomDocument &doc)
     // Rebuild groups
     QDomNodeList groups = infoXml.elementsByTagName("group");
     m_trackview->loadGroups(groups);
-    m_trackview->setDuration(duration);
-    //qDebug() << "///////////  TOTAL PROJECT DURATION: " << duration;
 
     // Remove Kdenlive extra info from xml doc before sending it to MLT
     mlt.removeChild(infoXml);
@@ -586,6 +551,67 @@ void TrackView::adjustTrackHeaders()
     for (int i = 0; i < widgets.count(); ++i) {
         if (widgets.at(i)) widgets.at(i)->adjustSize(height);
     }
+}
+
+int TrackView::addTrack(int ix, Mlt::Playlist &playlist, bool locked) {
+    // parse track
+    int position = 0;
+    for(int i = 0; i < playlist.count(); ++i) {
+        Mlt::Producer *clip = playlist.get_clip(i);
+        if (clip->is_blank()) {
+            position += clip->get_playtime();
+            continue;
+        }
+        // Found a clip
+        int in = clip->get_in();
+        int out = clip->get_out();
+        QString idString = clip->parent().get("id");
+        if (in >= out || m_invalidProducers.contains(idString)) {
+            m_documentErrors.append(i18n("Invalid clip removed from track %1 at %2\n", ix, position));
+            playlist.remove(i);
+            --i;
+            continue;
+        }
+        QString id = idString;
+        double speed = 1.0;
+        int strobe = 1;
+        if (idString.startsWith(QLatin1String("slowmotion"))) {
+            QLocale locale;
+            locale.setNumberOptions(QLocale::OmitGroupSeparator);
+            id = idString.section(':', 1, 1);
+            speed = locale.toDouble(idString.section(':', 2, 2));
+            strobe = idString.section(':', 3, 3).toInt();
+            if (strobe == 0) strobe = 1;
+        }
+        id = id.section('_', 0, 0);
+        ProjectClip *binclip = m_doc->getBinClip(id);
+        if (binclip == NULL) continue;
+        double fps = m_doc->fps();
+        int length = out - in + 1;
+        ItemInfo clipinfo;
+        clipinfo.startPos = GenTime(position, fps);
+        clipinfo.endPos = GenTime(position + length, fps);
+        clipinfo.cropStart = GenTime(in, fps);
+        clipinfo.cropDuration = GenTime(length, fps);
+        clipinfo.track = ix;
+        //qDebug() << "// INSERTING CLIP: " << in << 'x' << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
+        ClipItem *item = new ClipItem(binclip, clipinfo, fps, speed, strobe, m_trackview->getFrameWidth(), false);
+        if (idString.endsWith(QLatin1String("_video"))) item->setVideoOnly(true);
+        else if (idString.endsWith(QLatin1String("_audio"))) item->setAudioOnly(true);
+        m_scene->addItem(item);
+        if (locked) item->setItemLocked(true);
+        position += length;
+        if (speed != 1.0 || strobe > 1) {
+            QDomElement speedeffect = MainWindow::videoEffects.getEffectByTag(QString(), "speed").cloneNode().toElement();
+            EffectsList::setParameter(speedeffect, "speed", QString::number((int)(100 * speed + 0.5)));
+            EffectsList::setParameter(speedeffect, "strobe", QString::number(strobe));
+            item->addEffect(speedeffect, false);
+            item->effectsCounter();
+        }
+        // parse clip effects
+        //TODO slotAddProjectEffects(elem.elementsByTagName("filter"), elem, item, -1);
+    }
+    return position;
 }
 
 int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const QDomNodeList &producers)

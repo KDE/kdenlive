@@ -35,6 +35,7 @@
 #include <QGraphicsLineItem>
 #include <QDomElement>
 
+#include <mlt++/Mlt.h>
 
 class ClipItem;
 class CustomTrackView;
@@ -106,7 +107,9 @@ private:
     QString m_documentErrors;
     QList <QAction *> m_trackActions;
     
+    int getTracks(Mlt::Tractor &tractor);
     void parseDocument(const QDomDocument &doc);
+    int addTrack(int ix, Mlt::Playlist &playlist, bool locked);
     int slotAddProjectTrack(int ix, QDomElement xml, bool locked, const QDomNodeList &producers);
     //DocClipBase *getMissingProducer(const QString &id) const;
     void adjustTrackHeaders();
