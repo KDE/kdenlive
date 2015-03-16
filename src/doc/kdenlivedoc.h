@@ -256,8 +256,6 @@ private slots:
 
 signals:
     void resetProjectList();
-    //void addProjectClip(DocClipBase *, bool getInfo = true);
-    void signalDeleteProjectClip(const QString &);
     void updateClipDisplay(const QString&);
     void progressInfo(const QString &, int);
 

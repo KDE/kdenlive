@@ -254,7 +254,6 @@ signals:
     void addClip();
     void deleteSelectedClips();
     void itemDoubleClicked(const QModelIndex&, const QPoint pos);
-    void showMenu(const QString&);
     //void editItemInTimeline(const QString&, const QString&, ProducerWrapper*);
 };
 

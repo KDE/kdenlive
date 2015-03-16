@@ -230,7 +230,6 @@ Bin::Bin(QWidget* parent) :
     connect(m_jobsMenu, SIGNAL(aboutToShow()), this, SLOT(slotPrepareJobsMenu()));
     m_cancelJobs = new QAction(i18n("Cancel All Jobs"), this);
     m_cancelJobs->setCheckable(false);
-    connect(this, SIGNAL(checkJobProcess()), this, SLOT(slotCheckJobProcess()));
     m_discardCurrentClipJobs = new QAction(i18n("Cancel Current Clip Jobs"), this);
     m_discardCurrentClipJobs->setCheckable(false);
     m_jobsMenu->addAction(m_cancelJobs);
@@ -249,7 +248,6 @@ Bin::Bin(QWidget* parent) :
     connect(m_itemModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(rowsInserted(QModelIndex,int,int)));
     connect(m_itemModel, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(rowsRemoved(QModelIndex,int,int)));
     connect(m_proxyModel, SIGNAL(selectModel(QModelIndex)), this, SLOT(selectProxyModel(QModelIndex)));
-    connect(m_itemModel, SIGNAL(markersNeedUpdate(QString,QList<int>)), this, SLOT(slotMarkersNeedUpdate(QString,QList<int>)));
     connect(m_itemModel, SIGNAL(itemDropped(QStringList, const QModelIndex &)), this, SLOT(slotItemDropped(QStringList, const QModelIndex &)));
     connect(m_itemModel, SIGNAL(itemDropped(const QList<QUrl>&, const QModelIndex &)), this, SLOT(slotItemDropped(const QList<QUrl>&, const QModelIndex &)));
     connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)), this, SLOT(slotItemEdited(QModelIndex,QModelIndex,QVector<int>)));
@@ -302,7 +300,6 @@ Bin::Bin(QWidget* parent) :
     m_headerInfo = QByteArray::fromBase64(KdenliveSettings::treeviewheaders().toLatin1());
 
     connect(m_eventEater, SIGNAL(itemDoubleClicked(QModelIndex,QPoint)), this, SLOT(slotItemDoubleClicked(QModelIndex,QPoint)), Qt::UniqueConnection);
-    connect(m_eventEater, SIGNAL(showMenu(QString)), this, SLOT(showClipMenu(QString)), Qt::UniqueConnection);
 
     layout->addWidget(m_splitter);
     m_propertiesPanel = new QWidget(m_splitter);
@@ -512,7 +509,7 @@ void Bin::setDocument(KdenliveDoc* project)
     connect(m_cancelJobs, SIGNAL(triggered()), m_jobManager, SLOT(slotCancelJobs()));
     connect(m_jobManager, SIGNAL(updateJobStatus(QString,int,int,QString,QString,QString)), this, SLOT(slotUpdateJobStatus(QString,int,int,QString,QString,QString)));
     
-    connect(m_jobManager, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SLOT(gotFilterJobResults(QString,int,int,stringMap,stringMap)));
+    connect(m_jobManager, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SLOT(slotGotFilterJobResults(QString,int,int,stringMap,stringMap)));
     
     //connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_itemView
     //connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));

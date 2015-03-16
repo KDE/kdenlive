@@ -42,7 +42,6 @@ ProjectItemModel::ProjectItemModel(Bin *bin) :
   , m_iconSize(160, 90)
 {
     connect(m_bin, SIGNAL(itemUpdated(AbstractProjectItem*)), this, SLOT(onItemUpdated(AbstractProjectItem*)));
-    //connect(m_bin, SIGNAL(markersNeedUpdate(QString,QList<int>)), this, SIGNAL(markersNeedUpdate(QString,QList<int>)));*/
 }
 
 ProjectItemModel::~ProjectItemModel()

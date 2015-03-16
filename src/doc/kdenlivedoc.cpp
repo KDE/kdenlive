@@ -1281,7 +1281,6 @@ bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, const QString 
 
 void KdenliveDoc::deleteClip(const QString &clipId)
 {
-    //emit signalDeleteProjectClip(clipId);
     ClipController *controller = pCore->binController()->getController(clipId);
     ClipType type = controller->clipType();
     QString url = controller->clipUrl().toLocalFile();
