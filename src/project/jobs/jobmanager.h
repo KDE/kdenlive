@@ -121,7 +121,7 @@ private:
     void createProxy(const QString &id);
 
 signals:
-    void addClip(const QString, const QString &, const QString &);
+    void addClip(const QString);
     void processLog(const QString&, int , int, const QString & = QString());
     void updateJobStatus(const QString&, int, int, const QString &label = QString(), const QString &actionName = QString(), const QString &details = QString());
     void gotFilterJobResults(QString,int,int,stringMap,stringMap);

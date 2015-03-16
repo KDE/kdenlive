@@ -201,7 +201,7 @@ void JobManager::slotProcessJobs()
                 m_bin->gotProxy(job->clipId());
             }
             if (job->addClipToProject()) {
-                emit addClip(destination, QString(), QString());
+                emit addClip(destination);
             }
         } else if (job->status() == JobCrashed || job->status() == JobAborted) {
             emit updateJobStatus(job->clipId(), job->jobType, job->status(), job->errorMessage(), QString(), job->logDetails());

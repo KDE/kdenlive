@@ -4647,7 +4647,7 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
             data.insert("video_index", QString::number(vindex));
             data.insert("audio_index", QString::number(aindex));
             data.insert("bypassDuplicate", "1");
-            emit addClip(QUrl::fromLocalFile(path), data);
+            emit addClip(path, data);
         }
         return;
     }
@@ -4712,7 +4712,7 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
                 data.insert("video_index", QString::number(vindex));
                 data.insert("audio_index", QString::number(aindex));
                 data.insert("bypassDuplicate", "1");
-                emit addClip(QUrl::fromLocalFile(path), data);
+                emit addClip(path, data);
             }
         }
     }

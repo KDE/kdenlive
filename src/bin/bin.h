@@ -421,7 +421,7 @@ private slots:
     void slotItemDropped(QStringList ids, const QModelIndex &parent);
     void slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent);
     void slotItemEdited(QModelIndex,QModelIndex,QVector<int>);
-    void slotAddUrl(QString url, QString,QString);
+    void slotAddUrl(QString url, QMap <QString, QString> data = QMap <QString, QString>());
     void slotPrepareJobsMenu();
     void slotShowJobLog();
     /** @brief process clip job result. */

@@ -395,7 +395,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     updateProjectFolderPlacesEntry();
 
     ////qDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
-    connect(m_render, SIGNAL(addClip(const QUrl&,const QMap<QString,QString>&)), m_clipManager, SLOT(slotAddClipFile(const QUrl&,const QMap<QString,QString>&)));
+    connect(m_render, SIGNAL(addClip(const QString&,const QMap<QString,QString>&)), pCore->bin(), SLOT(slotAddUrl(const QString&,const QMap<QString,QString>&)));
 }
 
 KdenliveDoc::~KdenliveDoc()

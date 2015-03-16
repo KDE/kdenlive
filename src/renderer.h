@@ -468,7 +468,7 @@ signals:
      * Used in Mac OS X. */
     void showImageSignal(QImage);
     void showAudioSignal(const QVector<double> &);
-    void addClip(const QUrl &, const QMap<QString,QString>&);
+    void addClip(const QString &, const QMap<QString,QString>&);
     void checkSeeking();
     /** @brief Activate current monitor. */
     void activateMonitor(Kdenlive::MonitorId);

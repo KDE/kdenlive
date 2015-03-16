@@ -265,7 +265,7 @@ void ClipCreationDialog::addXmlProperties(QDomElement &producer, QMap <QString, 
     }
 }
 
-void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, QStringList groupInfo, Bin *bin)
+void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, QStringList groupInfo, Bin *bin, const QMap <QString, QString> &data)
 {
     QUndoCommand *addClips = new QUndoCommand();
     
@@ -335,6 +335,12 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
         properties.insert("resource", file.path());
         if (!groupInfo.isEmpty()) {
             properties.insert("kdenlive:folderid", groupInfo.at(0));
+        }
+        // Merge data
+        QMapIterator<QString, QString> i(data);
+        while (i.hasNext()) {
+            i.next();
+            properties.insert(i.key(), i.value());
         }
         addXmlProperties(prod, properties);
         //prod.setAttribute("resource", file.path());
