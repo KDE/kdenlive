@@ -113,6 +113,8 @@ private:
     int slotAddProjectTrack(int ix, QDomElement xml, bool locked, const QDomNodeList &producers);
     //DocClipBase *getMissingProducer(const QString &id) const;
     void adjustTrackHeaders();
+    
+    void getEffects(Mlt::Service &service, ClipItem *clip, int track = 0);
     /** @brief Add effects from the xml. Returns true if some effect was upgraded, false if everything went fine.*/
     void slotAddProjectEffects(QDomNodeList effects, QDomElement parentNode, ClipItem *clip, int trackIndex);
     

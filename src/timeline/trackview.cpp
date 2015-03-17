@@ -190,24 +190,22 @@ void TrackView::setDuration(int dur)
 }
 
 int TrackView::getTracks(Mlt::Tractor &tractor) {
+    int trackIndex = 0;
     int duration = 1;
     for (int i = 0; i < tractor.count(); ++i) {
         Mlt::Producer* track = tractor.track(i);
         QString playlist_name = track->get("id");
-        if (playlist_name != "black_track" && playlist_name != "playlistmain") {
-            // check track effects
-            Mlt::Playlist playlist(*track);
-            if (playlist.filter_count()) {
-                qWarning() << "Track effects ignored!!";
-                //TODO slotAddProjectEffects(trackEffects, p, NULL, trackIndex++);//FIXME: use MLT instead of XML
-            }
-            int hide = track->get_int("hide");
-            if (hide & 1) m_doc->switchTrackVideo(i - 1, true);
-            if (hide & 2) m_doc->switchTrackAudio(i - 1, true);
-            int trackduration;
-            trackduration = addTrack(tractor.count() - 1 - i, playlist, m_doc->isTrackLocked(i - 1));
-            if (trackduration > duration) duration = trackduration;
-        }
+        if (playlist_name == "black_track" || playlist_name == "playlistmain") continue;
+        // check track effects
+        Mlt::Playlist playlist(*track);
+        if (playlist.filter_count()) getEffects(playlist, NULL, trackIndex);
+        ++trackIndex;
+        int hide = track->get_int("hide");
+        if (hide & 1) m_doc->switchTrackVideo(i - 1, true);
+        if (hide & 2) m_doc->switchTrackAudio(i - 1, true);
+        int trackduration;
+        trackduration = addTrack(tractor.count() - 1 - i, playlist, m_doc->isTrackLocked(i - 1));
+        if (trackduration > duration) duration = trackduration;
     }
     return duration;
 }
@@ -609,7 +607,7 @@ int TrackView::addTrack(int ix, Mlt::Playlist &playlist, bool locked) {
             item->effectsCounter();
         }
         // parse clip effects
-        //TODO slotAddProjectEffects(elem.elementsByTagName("filter"), elem, item, -1);
+        getEffects(*clip, item);
     }
     return position;
 }
@@ -798,6 +796,80 @@ void TrackView::loadGuides(QMap <double, QString> guidesData)
         i.next();
         const GenTime pos = GenTime(i.key());
         m_trackview->addGuide(pos, i.value());
+    }
+}
+
+void TrackView::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
+    int effectNb = 0;
+    QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    for (int ix = 0; ix < service.filter_count(); ++ix) {
+        Mlt::Filter *effect = service.filter(ix);
+        QDomElement clipeffect = getEffectByTag(effect->get("tag"), effect->get("kdenlive_id"));
+        if (clipeffect.isNull()) {
+            m_documentErrors.append(i18n("Effect %1:%2 not found in MLT, it was removed from this project\n", effect->get("tag"), effect->get("kdenlive_id")));
+            service.detach(*effect);
+            --ix;
+            continue;
+        }
+        effectNb++;
+        QDomElement currenteffect = clipeffect.cloneNode().toElement();
+        currenteffect.setAttribute("kdenlive_ix", QString::number(effectNb));
+        currenteffect.setAttribute("kdenlive_info", effect->get("kdenlive_info"));
+        currenteffect.setAttribute("disable", effect->get("disable"));
+        QDomNodeList clipeffectparams = currenteffect.childNodes();
+
+        // if effect is key-framable, get keyframes from each MLT filter instance
+        if (MainWindow::videoEffects.hasKeyFrames(currenteffect)) {
+            // effect tag names / default values
+            QString starttag, endtag, factor;
+            double offset = 0;
+            QDomNodeList params = currenteffect.elementsByTagName("parameter");
+            for (int i = 0; i < params.count(); ++i) {
+                QDomElement e = params.item(i).toElement();
+                if (e.attribute("type") == "keyframe") {
+                    starttag = e.attribute("starttag", "start");
+                    endtag = e.attribute("endtag", "end");
+                    factor = e.attribute("factor", "1");
+                    offset = e.attribute("offset", "0").toDouble();
+                    break;
+                }
+            }
+            double fact;
+            if (factor.contains('%')) {
+                fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+            } else {
+                fact = factor.toDouble();
+            }
+            // retrieve keyframes
+            QString keyframes = QString::number(effect->get_in()) + '=' + locale.toString(offset + fact * effect->get_double(starttag.toUtf8().constData())) + ';';
+            for (;ix < service.filter_count(); ++ix) {
+                effect = service.filter(ix);
+                if (effect->get_int("kdenlive_ix") != effectNb) break;
+                if (effect->get_in() < effect->get_out()) {
+                    keyframes.append(QString::number(effect->get_out()) + '=' + locale.toString(offset + fact * effect->get_double(endtag.toUtf8().constData())) + ';');
+                }
+            }
+            qDebug() << "keyframes: " << keyframes;
+            params = currenteffect.elementsByTagName("parameter");
+            for (int i = 0; i < params.count(); ++i) {
+                QDomElement e = params.item(i).toElement();
+                if (e.attribute("type") == "keyframe") e.setAttribute("keyframes", keyframes);
+            }
+        } else if (effect->get_out()) { // no keyframes but in/out points
+            EffectsList::setParameter(currenteffect, "in",  effect->get("in"));
+            EffectsList::setParameter(currenteffect, "out",  effect->get("out"));
+            currenteffect.setAttribute("in", effect->get("in"));
+            currenteffect.setAttribute("out", effect->get("out"));
+            currenteffect.setAttribute("_sync_in_out", "1");
+        }
+        // in case of region effect, wrap subfilters
+        //TODO
+        if (clip) {
+            clip->addEffect(currenteffect, false);
+        } else {
+            m_doc->addTrackEffect(track, currenteffect);
+        }
     }
 }
 
