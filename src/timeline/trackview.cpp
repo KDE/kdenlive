@@ -850,7 +850,6 @@ void TrackView::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
                     keyframes.append(QString::number(effect->get_out()) + '=' + locale.toString(offset + fact * effect->get_double(endtag.toUtf8().constData())) + ';');
                 }
             }
-            qDebug() << "keyframes: " << keyframes;
             params = currenteffect.elementsByTagName("parameter");
             for (int i = 0; i < params.count(); ++i) {
                 QDomElement e = params.item(i).toElement();
@@ -863,8 +862,39 @@ void TrackView::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
             currenteffect.setAttribute("out", effect->get("out"));
             currenteffect.setAttribute("_sync_in_out", "1");
         }
-        // in case of region effect, wrap subfilters
-        //TODO
+        // adjust effect parameters
+        bool regionFilter = QString(effect->get("tag")) == "region";
+        int regionix = 0; // search for "filter0"
+        for (int i = 0; i < effect->count(); ++i) {
+            QString pname = effect->get_name(i);
+            // Special case, region filter embeds other effects
+            if (regionFilter && pname == QString("filter%1").arg(regionix)) {
+                QString subfilter = pname;
+                QDomElement subclipeffect = getEffectByTag(
+                    effect->get(QString(subfilter + ".tag").toUtf8().constData()),
+                    effect->get(QString(subfilter + ".kdenlive_id").toUtf8().constData()))
+                    .cloneNode().toElement();
+                if (subclipeffect.isNull()) { qWarning() << "Region sub-effect not found in MLT";}
+                subclipeffect.setAttribute("region_ix", regionix);
+                QDomNodeList subclipeffectparams = subclipeffect.childNodes();
+                for (;;) { // forward read the subfilter parameters
+                    ++i; pname = effect->get_name(i);
+                    if (pname.startsWith(subfilter)) {
+                        adjustparameterValue(subclipeffectparams, pname.section('.', 1, -1),
+                            effect->get(pname.toUtf8().constData()));
+                    } else {
+                        ++regionix; // search for next subfilter
+                        --i; // don't skip this param in for loop
+                        break;
+                    }
+                }
+                if (!subclipeffect.isNull())
+                    currenteffect.appendChild(currenteffect.ownerDocument().importNode(subclipeffect, true));
+            } else {
+                // try to find this parameter in the effect xml and set its value
+                adjustparameterValue(clipeffectparams, pname, effect->get(pname.toUtf8().constData()));
+            }
+        }
         if (clip) {
             clip->addEffect(currenteffect, false);
         } else {
