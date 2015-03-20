@@ -130,6 +130,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     qRegisterMetaType<stringMap> ("stringMap");
     qRegisterMetaType<audioByteArray> ("audioByteArray");
 
+    new RenderingAdaptor(this);
     Core::initialize(this);
 
     KSharedConfigPtr config = KSharedConfig::openConfig(KdenliveSettings::colortheme());
