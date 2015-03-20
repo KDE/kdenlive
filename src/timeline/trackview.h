@@ -106,21 +106,17 @@ private:
     int m_verticalZoom;
     QString m_documentErrors;
     QList <QAction *> m_trackActions;
-    
-    int getTracks(Mlt::Tractor &tractor);
-    void parseDocument(const QDomDocument &doc);
-    int addTrack(int ix, Mlt::Playlist &playlist, bool locked);
-    int slotAddProjectTrack(int ix, QDomElement xml, bool locked, const QDomNodeList &producers);
-    //DocClipBase *getMissingProducer(const QString &id) const;
+
     void adjustTrackHeaders();
-    
+
+    void parseDocument(const QDomDocument &doc);
+    int getTracks(Mlt::Tractor &tractor);
+    int addTrack(int ix, Mlt::Playlist &playlist, bool locked);
     void getEffects(Mlt::Service &service, ClipItem *clip, int track = 0);
-    /** @brief Add effects from the xml. Returns true if some effect was upgraded, false if everything went fine.*/
-    void slotAddProjectEffects(QDomNodeList effects, QDomElement parentNode, ClipItem *clip, int trackIndex);
-    
+    void getTransitions(Mlt::Tractor &tractor);
+
     /** @brief Returns a kdenlive effect xml description from an effect tag / id */
     QDomElement getEffectByTag(const QString &effecttag, const QString &effectid);
-    
     /** @brief Adjust kdenlive effect xml parameters to the MLT value*/
     void adjustparameterValue(QDomNodeList clipeffectparams, const QString &paramname, const QString &paramvalue);
 

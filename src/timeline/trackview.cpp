@@ -210,6 +210,119 @@ int TrackView::getTracks(Mlt::Tractor &tractor) {
     return duration;
 }
 
+void TrackView::getTransitions(Mlt::Tractor &tractor) {
+    for (mlt_service nextservice = mlt_service_get_producer(tractor.get_service()); nextservice; nextservice = mlt_service_producer(nextservice)) {
+        Mlt::Properties prop(MLT_SERVICE_PROPERTIES(nextservice));
+        if (QString(prop.get("mlt_type")) != "transition")
+            break;
+        //skip automatic mix
+        if (QString(prop.get("internal_added")) == "237")
+            continue;
+
+        //check invalid parameters
+        int a_track = QString(prop.get("a_track")).toInt();
+        if (a_track > m_projectTracks - 1) {
+            m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", prop.get("id"), a_track, m_projectTracks - 1) + '\n');
+            prop.set("a_track", QString::number(m_projectTracks - 1).toUtf8().constData());
+            continue;
+        }
+        int b_track = QString(prop.get("b_track")).toInt();
+        if (b_track > m_projectTracks - 1) {
+            m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", prop.get("id"), b_track, m_projectTracks - 1) + '\n');
+            prop.set("b_track", QString::number(m_projectTracks - 1).toUtf8().constData());
+            continue;
+        }
+        if (a_track == b_track || b_track <= 0) {
+            // invalid transition, remove it
+            m_documentErrors.append(i18n("Removed invalid transition: %1", prop.get("id")) + '\n');
+            mlt_field_disconnect_service(tractor.field()->get_field(), nextservice);
+            continue;
+        }
+        if (QString(prop.get("mlt_service")) == "mix")
+            continue;
+        // When adding composite transition, check if it is a wipe transition
+        if (QString(prop.get("mlt_service")) == "composite" && prop.get("kdenlive_id") == NULL) {
+            QString mlt_geometry = prop.get("geometry");
+            if (mlt_geometry.count(';') == 1) {
+                mlt_geometry.remove(QChar('%'), Qt::CaseInsensitive);
+                mlt_geometry.replace(QChar('x'), QChar(':'), Qt::CaseInsensitive);
+                mlt_geometry.replace(QChar(','), QChar(':'), Qt::CaseInsensitive);
+                mlt_geometry.replace(QChar('/'), QChar(':'), Qt::CaseInsensitive);
+
+                QString start = mlt_geometry.section('=', 0, 0).section(':', 0, -2) + ':';
+                start.append(mlt_geometry.section('=', 1, 1).section(':', 0, -2));
+                QStringList numbers = start.split(':', QString::SkipEmptyParts);
+                bool isWipeTransition = true;
+                for (int i = 0; i < numbers.size(); ++i) {
+                    int checkNumber = qAbs(numbers.at(i).toInt());
+                    if (checkNumber != 0 && checkNumber != 100) {
+                        isWipeTransition = false;
+                        break;
+                    }
+                }
+                if (isWipeTransition) prop.set("kdenlive_id", "slide");
+            }
+        }
+
+        QDomElement base = MainWindow::transitions.getEffectByTag(prop.get("mlt_service"), prop.get("kdenlive_id")).cloneNode().toElement();
+        QLocale locale;
+        locale.setNumberOptions(QLocale::OmitGroupSeparator);
+        if (!base.isNull()) for (int k = 0; k < prop.count(); ++k) {
+            QString paramName = prop.get_name(k);
+            QString paramValue = prop.get(k);
+
+            QDomNodeList params = base.elementsByTagName("parameter");
+            if (paramName != "a_track" && paramName != "b_track") {
+                for (int i = 0; i < params.count(); ++i) {
+                    QDomElement e = params.item(i).toElement();
+                    if (!e.isNull() && e.attribute("tag") == paramName) {
+                        if (e.attribute("type") == "double") {
+                            QString factor = e.attribute("factor", "1");
+                            double offset = e.attribute("offset", "0").toDouble();
+                            if (factor != "1" || offset != 0) {
+                                double fact;
+                                if (factor.contains('%')) {
+                                    fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+                                } else {
+                                    fact = factor.toDouble();
+                                }
+                                paramValue = locale.toString(offset + paramValue.toDouble() * fact);
+                            }
+                        }
+                        e.setAttribute("value", paramValue);
+                        break;
+                    }
+                }
+            }
+        }
+
+        ItemInfo transitionInfo;
+        transitionInfo.startPos = GenTime(QString(prop.get("in")).toInt(), m_doc->fps());
+        transitionInfo.endPos = GenTime(QString(prop.get("out")).toInt() + 1, m_doc->fps());
+        transitionInfo.track = m_projectTracks - 1 - b_track;
+
+        if (transitionInfo.startPos >= transitionInfo.endPos || base.isNull()) {
+            // invalid transition, remove it.
+            m_documentErrors.append(i18n("Removed invalid transition: (%1, %2, %3)", prop.get("id"), prop.get("mlt_service"), prop.get("kdenlive_id")) + '\n');
+            mlt_service nextservicetodisconnect = nextservice;
+            nextservice = mlt_service_get_producer(nextservice);
+            mlt_field_disconnect_service(tractor.field()->get_field(), nextservicetodisconnect);
+        } else if (m_trackview->canBePastedTo(transitionInfo, TransitionWidget)) {
+            Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base, QString(prop.get("automatic")) == "1");
+            if (QString(prop.get("force_track")) == "1") tr->setForcedTrack(true, a_track);
+            m_scene->addItem(tr);
+            if (b_track > 0 && m_doc->isTrackLocked(b_track - 1)) {
+                tr->setItemLocked(true);
+            }
+        } else {
+            m_documentErrors.append(i18n("Removed overlapping transition: (%1, %2, %3)", prop.get("id"), prop.get("mlt_service"), prop.get("kdenlive_id")) + '\n');
+            mlt_service nextservicetodisconnect = nextservice;
+            nextservice = mlt_service_get_producer(nextservice);
+            mlt_field_disconnect_service(tractor.field()->get_field(), nextservicetodisconnect);
+        }
+    }
+}
+
 void TrackView::parseDocument(const QDomDocument &doc)
 {
     //int cursorPos = 0;
@@ -232,150 +345,9 @@ void TrackView::parseDocument(const QDomDocument &doc)
     Mlt::Service svce(m_doc->renderer()->getProducer()->parent().get_service());
     Mlt::Tractor ttor(svce);
     m_trackview->setDuration(getTracks(ttor));
+    getTransitions(ttor);
 
-    // parse transitions
-    QDomNodeList transitions = tractor.elementsByTagName("transition");
 
-    ////qDebug() << "//////////// TIMELINE FOUND: " << projectTransitions << " transitions";
-    for (int i = 0; i < transitions.count(); ++i) {
-        e = transitions.item(i).toElement();
-        QDomNodeList transitionparams = e.childNodes();
-        bool transitionAdd = true;
-        int a_track = 0;
-        int b_track = 0;
-        bool isAutomatic = false;
-        bool forceTrack = false;
-        QString mlt_geometry;
-        QString mlt_service;
-        QString transitionId;
-        for (int k = 0; k < transitionparams.count(); ++k) {
-            p = transitionparams.item(k).toElement();
-            if (!p.isNull()) {
-                QString paramName = p.attribute("name");
-                // do not add audio mixing transitions
-                if (paramName == "internal_added" && p.text() == "237") {
-                    transitionAdd = false;
-                    ////qDebug() << "//  TRANSITRION " << i << " IS NOT VALID (INTERN ADDED)";
-                    //break;
-                } else if (paramName == "a_track") {
-                    a_track = qMax(0, p.text().toInt());
-                    a_track = qMin(m_projectTracks - 1, a_track);
-                    if (a_track != p.text().toInt()) {
-                        // the transition track was out of bounds
-                        m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", e.attribute("id"), p.text().toInt(), a_track) + '\n');
-                        EffectsList::setProperty(e, "a_track", QString::number(a_track));
-                    }
-                } else if (paramName == "b_track") {
-                    b_track = qMax(0, p.text().toInt());
-                    b_track = qMin(m_projectTracks - 1, b_track);
-                    if (b_track != p.text().toInt()) {
-                        // the transition track was out of bounds
-                        m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", e.attribute("id"), p.text().toInt(), b_track) + '\n');
-                        EffectsList::setProperty(e, "b_track", QString::number(b_track));
-                    }
-                } else if (paramName == "mlt_service") mlt_service = p.text();
-                else if (paramName == "kdenlive_id") transitionId = p.text();
-                else if (paramName == "geometry") mlt_geometry = p.text();
-                else if (paramName == "automatic" && p.text() == "1") isAutomatic = true;
-                else if (paramName == "force_track" && p.text() == "1") forceTrack = true;
-            }
-        }
-        if (a_track == b_track || b_track == 0) {
-            // invalid transition, remove it
-            m_documentErrors.append(i18n("Removed invalid transition: %1", e.attribute("id")) + '\n');
-            tractor.removeChild(transitions.item(i));
-            --i;
-            continue;
-        }
-        if (transitionAdd || mlt_service != "mix") {
-            // Transition should be added to the scene
-            ItemInfo transitionInfo;
-            if (mlt_service == "composite" && transitionId.isEmpty()) {
-                // When adding composite transition, check if it is a wipe transition
-                if (mlt_geometry.count(';') == 1) {
-                    mlt_geometry.remove(QChar('%'), Qt::CaseInsensitive);
-                    mlt_geometry.replace(QChar('x'), QChar(':'), Qt::CaseInsensitive);
-                    mlt_geometry.replace(QChar(','), QChar(':'), Qt::CaseInsensitive);
-                    mlt_geometry.replace(QChar('/'), QChar(':'), Qt::CaseInsensitive);
-                    
-                    QString start = mlt_geometry.section('=', 0, 0).section(':', 0, -2) + ':';
-                    start.append(mlt_geometry.section('=', 1, 1).section(':', 0, -2));
-                    QStringList numbers = start.split(':', QString::SkipEmptyParts);
-                    bool isWipeTransition = true;
-                    for (int i = 0; i < numbers.size(); ++i) {
-                        int checkNumber = qAbs(numbers.at(i).toInt());
-                        if (checkNumber != 0 && checkNumber != 100) {
-                            isWipeTransition = false;
-                            break;
-                        }
-                    }
-                    if (isWipeTransition) transitionId = "slide";
-                }
-            }
-
-            QDomElement base = MainWindow::transitions.getEffectByTag(mlt_service, transitionId).cloneNode().toElement();
-            QLocale locale;
-            locale.setNumberOptions(QLocale::OmitGroupSeparator);
-            if (!base.isNull()) for (int k = 0; k < transitionparams.count(); ++k) {
-                p = transitionparams.item(k).toElement();
-                if (!p.isNull()) {
-                    QString paramName = p.attribute("name");
-                    QString paramValue = p.text();
-
-                    QDomNodeList params = base.elementsByTagName("parameter");
-                    if (paramName != "a_track" && paramName != "b_track") for (int i = 0; i < params.count(); ++i) {
-                        QDomElement e = params.item(i).toElement();
-                        if (!e.isNull() && e.attribute("tag") == paramName) {
-                            if (e.attribute("type") == "double") {
-                                QString factor = e.attribute("factor", "1");
-                                double offset = e.attribute("offset", "0").toDouble();
-                                if (factor != "1" || offset != 0) {
-                                    double fact;
-                                    if (factor.contains('%')) {
-                                        fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
-                                    } else {
-                                        fact = factor.toDouble();
-                                    }
-                                    paramValue = locale.toString(offset + paramValue.toDouble() * fact);
-                                }
-                            }
-                            e.setAttribute("value", paramValue);
-                            break;
-                        }
-                    }
-                }
-            }
-
-            /*QDomDocument doc;
-            doc.appendChild(doc.importNode(base, true));
-            //qDebug() << "///////  TRANSITION XML: "<< doc.toString();*/
-
-            transitionInfo.startPos = GenTime(e.attribute("in").toInt(), m_doc->fps());
-            transitionInfo.endPos = GenTime(e.attribute("out").toInt() + 1, m_doc->fps());
-            transitionInfo.track = m_projectTracks - 1 - b_track;
-
-            ////qDebug() << "///////////////   +++++++++++  ADDING TRANSITION ON TRACK: " << b_track << ", TOTAL TRKA: " << m_projectTracks;
-            if (transitionInfo.startPos >= transitionInfo.endPos || base.isNull()) {
-                // invalid transition, remove it.
-                m_documentErrors.append(i18n("Removed invalid transition: (%1, %2, %3)", e.attribute("id"), mlt_service, transitionId) + '\n');
-                //qDebug() << "///// REMOVED INVALID TRANSITION: " << e.attribute("id");
-                tractor.removeChild(transitions.item(i));
-                --i;
-            } else if (m_trackview->canBePastedTo(transitionInfo, TransitionWidget)) {
-                Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base, isAutomatic);
-                if (forceTrack) tr->setForcedTrack(true, a_track);
-                m_scene->addItem(tr);
-                if (b_track > 0 && m_doc->isTrackLocked(b_track - 1)) {
-                    tr->setItemLocked(true);
-                }
-            }
-            else {
-                m_documentErrors.append(i18n("Removed overlapping transition: (%1, %2, %3)", e.attribute("id"), mlt_service, transitionId) + '\n');
-                tractor.removeChild(transitions.item(i));
-                --i;
-            }
-        }
-    }
     QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
 
     QDomElement propsXml = infoXml.firstChildElement("documentproperties");
@@ -413,8 +385,6 @@ void TrackView::parseDocument(const QDomDocument &doc)
         else
             KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version, but it was not possible to create the backup copy %1.", backupFile));
     }
-    //m_trackview->setCursorPos(cursorPos);
-    //m_scrollBox->setGeometry(0, 0, 300 * zoomFactor(), m_scrollArea->height());
 }
 
 void TrackView::slotDeleteClip(const QString &clipId, QUndoCommand *deleteCommand)
@@ -612,183 +582,6 @@ int TrackView::addTrack(int ix, Mlt::Playlist &playlist, bool locked) {
     return position;
 }
 
-int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const QDomNodeList &producers)
-{
-    // parse track
-    int position = 0;
-    QMap <QString, QString> producerReplacementIds;
-    int frame_width = m_trackview->getFrameWidth();
-    QDomNodeList children = xml.childNodes();
-    for (int nodeindex = 0; nodeindex < children.count(); ++nodeindex) {
-        QDomNode n = children.item(nodeindex);
-        QDomElement elem = n.toElement();
-        if (elem.tagName() == "blank") {
-            position += elem.attribute("length").toInt();
-        } else if (elem.tagName() == "entry") {
-            // Found a clip
-            int in = elem.attribute("in").toInt();
-            int out = elem.attribute("out").toInt();
-            if (in > out || /*in == out ||*/ m_invalidProducers.contains(elem.attribute("producer"))) {
-                m_documentErrors.append(i18n("Invalid clip removed from track %1 at %2\n", ix, position));
-                xml.removeChild(children.at(nodeindex));
-                nodeindex--;
-                continue;
-            }
-            QString idString = elem.attribute("producer");
-            if (producerReplacementIds.contains(idString)) {
-                // replace id
-                elem.setAttribute("producer", producerReplacementIds.value(idString));
-                idString = elem.attribute("producer");
-            }
-            QString id = idString;
-            double speed = 1.0;
-            int strobe = 1;
-            if (idString.startsWith(QLatin1String("slowmotion"))) {
-                QLocale locale;
-                locale.setNumberOptions(QLocale::OmitGroupSeparator);
-                id = idString.section(':', 1, 1);
-                speed = locale.toDouble(idString.section(':', 2, 2));
-                strobe = idString.section(':', 3, 3).toInt();
-                if (strobe == 0) strobe = 1;
-            }
-            id = id.section('_', 0, 0);
-            ProjectClip *clip = m_doc->getBinClip(id);
-            if (clip == NULL) {
-                qDebug()<<" - - - -ERROR LOADING IT ------------";
-                // The clip in playlist was not listed in the kdenlive producers,
-                // something went wrong, repair required.
-                //TODO or delete?
-                /*
-                qWarning() << "CANNOT INSERT CLIP " << id;
-                QString docRoot = m_doc->toXml().documentElement().attribute("root");
-                if (!docRoot.endsWith('/')) docRoot.append('/');
-                clip = getMissingProducer(idString);
-                if (clip) {
-                    // We found the original producer in Kdenlive's producers
-                    // Found correct producer
-                    m_documentErrors.append(i18n("Replaced wrong clip producer %1 with %2", id, clip->getId()) + '\n');
-                    QString prodId = clip->clipId();
-                    if (clip->clipType() == Playlist | AV | Audio) {
-                        // We need producer for the track
-                        prodId.append('_' + QString::number(ix));
-                    }
-                    elem.setAttribute("producer", prodId);
-                    producerReplacementIds.insert(idString, prodId);
-                    // now adjust the mlt producer
-                    bool found = false;
-                    for (int i = 0; i < producers.count(); ++i) {
-                        QDomElement prod = producers.at(i).toElement();
-                        if (prod.attribute("id") == prodId) {
-                            // ok, producer already exists
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found) {
-                        for (int i = 0; i < producers.count(); ++i) {
-                            QDomElement prod = producers.at(i).toElement();
-                            if (prod.attribute("id") == idString) {
-                                prod.setAttribute("id", prodId);
-                                m_replacementProducerIds.insert(idString, prodId);
-                                found = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (!found) {
-                        // We didn't find the producer for this track, find producer for another track and duplicate
-                        for (int i = 0; i < producers.count(); ++i) {
-                            QDomElement prod = producers.at(i).toElement();
-                            QString mltProdId = prod.attribute("id");
-                            if (mltProdId == prodId || mltProdId.startsWith(prodId + '_')) {
-                                // Found parent producer, clone it
-                                QDomElement clone = prod.cloneNode().toElement();
-                                clone.setAttribute("id", prodId);
-                                m_doc->toXml().documentElement().insertBefore(clone, xml);
-                                break;
-                            }
-                        }
-                    }
-                }
-                else {
-                    // We cannot find the producer, something is really wrong, add
-                    // placeholder color clip
-                    QDomDocument doc;
-                    QDomElement producerXml = doc.createElement("producer");
-                    doc.appendChild(producerXml);
-                    bool foundMltProd = false;
-                    for (int i = 0; i < producers.count(); ++i) {
-                        QDomElement prod = producers.at(i).toElement();
-                        if (prod.attribute("id") == id) {
-                            QString service = EffectsList::property(prod, "mlt_service");
-                            QString type = EffectsList::property(prod, "mlt_type");
-                            QString resource = EffectsList::property(prod, "resource");
-                            if (!resource.startsWith('/') && service != "colour") {
-                                resource.prepend(docRoot);
-                                //qDebug()<<"******************\nADJUSTED 1\n*************************";
-                            }
-                            QString length = EffectsList::property(prod, "length");
-                            producerXml.setAttribute("mlt_service", service);
-                            producerXml.setAttribute("mlt_type", type);
-                            producerXml.setAttribute("resource", resource);
-                            producerXml.setAttribute("duration", length);
-                            if (service == "colour") producerXml.setAttribute("type", Color);
-                            else if (service == "qimage" || service == "pixbuf") producerXml.setAttribute("type", Image);
-                            else if (service == "kdenlivetitle") producerXml.setAttribute("type", Text);
-                            else producerXml.setAttribute("type", AV);
-                            clip = new DocClipBase(m_doc->clipManager(), doc.documentElement(), id);
-                            m_doc->clipManager()->addClip(clip);
-                            m_documentErrors.append(i18n("Broken clip producer %1, recreated base clip: %2", id, resource) + '\n');
-                            foundMltProd = true;
-                            break;
-                        }
-                    }
-                    if (!foundMltProd) {
-                        // Cannot recover, replace with blank
-                        int duration = elem.attribute("out").toInt() - elem.attribute("in").toInt();
-                        elem.setAttribute("length", duration);
-                        elem.setTagName("blank");
-                        m_documentErrors.append(i18n("Broken clip producer %1, removed from project", id) + '\n');
-                    }
-                }
-                m_doc->setModified(true);
-                */
-            }
-
-            if (clip != NULL) {
-                ItemInfo clipinfo;
-                clipinfo.startPos = GenTime(position, m_doc->fps());
-                clipinfo.endPos = clipinfo.startPos + GenTime(out - in + 1, m_doc->fps());
-                clipinfo.cropStart = GenTime(in, m_doc->fps());
-                clipinfo.cropDuration = clipinfo.endPos - clipinfo.startPos;
-
-                clipinfo.track = ix;
-                qDebug() << "// INSERTING CLIP: " << in << 'x' << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
-                ClipItem *item = new ClipItem(clip, clipinfo, m_doc->fps(), speed, strobe, frame_width, false);
-                if (idString.endsWith(QLatin1String("_video"))) item->setVideoOnly(true);
-                else if (idString.endsWith(QLatin1String("_audio"))) item->setAudioOnly(true);
-                m_scene->addItem(item);
-                if (locked) item->setItemLocked(true);
-                //clip->addReference();
-                position += (out - in + 1);
-                if (speed != 1.0 || strobe > 1) {
-                    QDomElement speedeffect = MainWindow::videoEffects.getEffectByTag(QString(), "speed").cloneNode().toElement();
-                    EffectsList::setParameter(speedeffect, "speed", QString::number((int)(100 * speed + 0.5)));
-                    EffectsList::setParameter(speedeffect, "strobe", QString::number(strobe));
-                    item->addEffect(speedeffect, false);
-                    item->effectsCounter();
-                }
-
-                // parse clip effects
-                QDomNodeList effects = elem.elementsByTagName("filter");
-                slotAddProjectEffects(effects, elem, item, -1);
-            }
-        }
-    }
-    //qDebug() << "*************  ADD DOC TRACK " << ix << ", DURATION: " << position;
-    return position;
-}
-
 void TrackView::loadGuides(QMap <double, QString> guidesData)
 {
     QMapIterator<double, QString> i(guidesData);
@@ -818,6 +611,12 @@ void TrackView::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
         currenteffect.setAttribute("kdenlive_info", effect->get("kdenlive_info"));
         currenteffect.setAttribute("disable", effect->get("disable"));
         QDomNodeList clipeffectparams = currenteffect.childNodes();
+
+        //TODO: rewrite other way around:
+        //instead of looping in Mlt::Filter params to fill XML params
+        //loop over XML and use getter functions to directly catch values
+        //+split functions with offset/factor, keyframes...
+        //+do all this in a FilterView wrapper class?
 
         // if effect is key-framable, get keyframes from each MLT filter instance
         if (MainWindow::videoEffects.hasKeyFrames(currenteffect)) {
@@ -903,200 +702,6 @@ void TrackView::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
     }
 }
 
-void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNode, ClipItem *clip, int trackIndex)
-{
-    int effectNb = 0;
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    for (int ix = 0; ix < effects.count(); ++ix) {
-        bool disableeffect = false;
-        QDomElement effect = effects.at(ix).toElement();
-        if (effect.tagName() != "filter") continue;
-        effectNb++;
-        // add effect to clip
-        QString effecttag;
-        QString effectid;
-        QString effectinfo;
-        QString effectindex = QString::number(effectNb);
-        // Get effect tag & index
-        for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
-            // parse effect parameters
-            QDomElement effectparam = n3.toElement();
-            if (effectparam.attribute("name") == "tag") {
-                effecttag = effectparam.text();
-            } else if (effectparam.attribute("name") == "kdenlive_id") {
-                effectid = effectparam.text();
-            } else if (effectparam.attribute("name") == "kdenlive_info") {
-                effectinfo = effectparam.text();
-            } else if (effectparam.attribute("name") == "disable" && effectparam.text().toInt() == 1) {
-                // Fix effects index
-                disableeffect = true;
-            } else if (effectparam.attribute("name") == "kdenlive_ix") {
-                // Fix effects index
-                effectparam.firstChild().setNodeValue(effectindex);
-            }
-        }
-        ////qDebug() << "+ + CLIP EFF FND: " << effecttag << ", " << effectid << ", " << effectindex;
-        // get effect standard tags
-        QDomElement clipeffect = getEffectByTag(effecttag, effectid);
-        if (clipeffect.isNull()) {
-            //qDebug() << "///  WARNING, EFFECT: " << effecttag << ": " << effectid << " not found, removing it from project";
-            m_documentErrors.append(i18n("Effect %1:%2 not found in MLT, it was removed from this project\n", effecttag, effectid));
-            if (parentNode.removeChild(effects.at(ix)).isNull()) {
-                //qDebug() << "///  PROBLEM REMOVING EFFECT: " << effecttag;
-            }
-            ix--;
-        } else {
-            QDomElement currenteffect = clipeffect.cloneNode().toElement();
-            currenteffect.setAttribute("kdenlive_ix", effectindex);
-            currenteffect.setAttribute("kdenlive_info", effectinfo);
-            QDomNodeList clipeffectparams = currenteffect.childNodes();
-
-            if (MainWindow::videoEffects.hasKeyFrames(currenteffect)) {
-                ////qDebug() << " * * * * * * * * * * ** CLIP EFF WITH KFR FND  * * * * * * * * * * *";
-                // effect is key-framable, read all effects to retrieve keyframes
-                QString factor;
-                QString starttag;
-                QString endtag;
-                double offset = 0;
-                QDomNodeList params = currenteffect.elementsByTagName("parameter");
-                for (int i = 0; i < params.count(); ++i) {
-                    QDomElement e = params.item(i).toElement();
-                    if (e.attribute("type") == "keyframe") {
-                        starttag = e.attribute("starttag", "start");
-                        endtag = e.attribute("endtag", "end");
-                        factor = e.attribute("factor", "1");
-                        offset = e.attribute("offset", "0").toDouble();
-                        break;
-                    }
-                }
-                QString keyframes;
-                int effectin = effect.attribute("in").toInt();
-                int effectout = effect.attribute("out").toInt();
-                double startvalue = 0;
-                double endvalue = 0;
-                double fact;
-                if (factor.contains('%')) {
-                    fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
-                } else {
-                    fact = factor.toDouble();
-                }
-                for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
-                    // parse effect parameters
-                    QDomElement effectparam = n3.toElement();
-                    if (effectparam.attribute("name") == starttag)
-                        startvalue = offset + effectparam.text().toDouble() * fact;
-                    if (effectparam.attribute("name") == endtag)
-                        endvalue = offset + effectparam.text().toDouble() * fact;
-                }
-                // add first keyframe
-                if (effectout <= effectin) {
-                    // there is only one keyframe
-                    keyframes.append(QString::number(effectin) + '=' + locale.toString(startvalue) + ';');
-                } else keyframes.append(QString::number(effectin) + '=' + locale.toString(startvalue) + ';' + QString::number(effectout) + '=' + QString::number(endvalue) + ';');
-                QDomNode lastParsedEffect;
-                ix++;
-                QDomNode n2 = effects.at(ix);
-                bool continueParsing = true;
-                for (; !n2.isNull() && continueParsing; n2 = n2.nextSibling()) {
-                    // parse all effects
-                    QDomElement kfreffect = n2.toElement();
-                    int effectout = kfreffect.attribute("out").toInt();
-
-                    for (QDomNode n4 = kfreffect.firstChild(); !n4.isNull(); n4 = n4.nextSibling()) {
-                        // parse effect parameters
-                        QDomElement subeffectparam = n4.toElement();
-                        if (subeffectparam.attribute("name") == "kdenlive_ix" && subeffectparam.text() != effectindex) {
-                            //We are not in the same effect, stop parsing
-                            lastParsedEffect = n2.previousSibling();
-                            ix--;
-                            continueParsing = false;
-                            break;
-                        } else if (subeffectparam.attribute("name") == endtag) {
-                            endvalue = offset + subeffectparam.text().toDouble() * fact;
-                            break;
-                        }
-                    }
-                    if (continueParsing) {
-                        keyframes.append(QString::number(effectout) + '=' + locale.toString(endvalue) + ';');
-                        ix++;
-                    }
-                }
-
-                params = currenteffect.elementsByTagName("parameter");
-                for (int i = 0; i < params.count(); ++i) {
-                    QDomElement e = params.item(i).toElement();
-                    if (e.attribute("type") == "keyframe") e.setAttribute("keyframes", keyframes);
-                }
-                if (!continueParsing) {
-                    n2 = lastParsedEffect;
-                }
-            } else {
-                // Check if effect has in/out points
-                if (effect.hasAttribute("in")) {
-                    EffectsList::setParameter(currenteffect, "in",  effect.attribute("in"));
-                    currenteffect.setAttribute("in", effect.attribute("in"));
-                    currenteffect.setAttribute("_sync_in_out", "1");
-                }
-                if (effect.hasAttribute("out")) {
-                    EffectsList::setParameter(currenteffect, "out",  effect.attribute("out"));
-                    currenteffect.setAttribute("out", effect.attribute("out"));
-                }
-            }
-            
-            // Special case, region filter embeds other effects
-            bool regionFilter = effecttag == "region";
-            QMap <QString, QString> regionEffects;
-
-            // adjust effect parameters
-            for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
-                // parse effect parameters
-                QDomElement effectparam = n3.toElement();
-                QString paramname = effectparam.attribute("name");
-                QString paramvalue = effectparam.text();
-
-                if (regionFilter && paramname.startsWith(QLatin1String("filter"))) {
-                    regionEffects.insert(paramname, paramvalue);
-                    continue;
-                }
-
-                // try to find this parameter in the effect xml and set its value
-                adjustparameterValue(clipeffectparams, paramname, paramvalue);
-                
-            }
-            
-            if (regionFilter && !regionEffects.isEmpty()) {
-                // insert region sub-effects
-                int i = 0;
-                while (regionEffects.contains(QString("filter%1").arg(i))) {
-                    QString filterid = regionEffects.value(QString("filter%1.kdenlive_id").arg(i));
-                    QString filtertag = regionEffects.value(QString("filter%1.tag").arg(i));
-                    QDomElement subclipeffect = getEffectByTag(filtertag, filterid).cloneNode().toElement();
-                    QDomNodeList subclipeffectparams = subclipeffect.childNodes();
-                    subclipeffect.setAttribute("region_ix", i);
-                    QMap<QString, QString>::const_iterator j = regionEffects.constBegin();
-                    while (j != regionEffects.constEnd()) {
-                        if (j.key().startsWith(QString("filter%1.").arg(i))) {
-                            QString pname = j.key().section('.', 1, -1);
-                            adjustparameterValue(subclipeffectparams, pname, j.value());
-                        }
-                        ++j;
-                    }
-                    currenteffect.appendChild(currenteffect.ownerDocument().importNode(subclipeffect, true));
-                    ++i;
-                }
-            }
-            
-            if (disableeffect) currenteffect.setAttribute("disable", "1");
-            if (clip)
-                clip->addEffect(currenteffect, false);
-            else
-                m_doc->addTrackEffect(trackIndex, currenteffect);
-        }
-    }
-}
-
-
 void TrackView::adjustparameterValue(QDomNodeList clipeffectparams, const QString &paramname, const QString &paramvalue)
 {
     QDomElement e;
@@ -1149,68 +754,6 @@ QDomElement TrackView::getEffectByTag(const QString &effecttag, const QString &e
     return clipeffect;
 }
 
-
-/*DocClipBase *TrackView::getMissingProducer(const QString &id) const
-{
-    QDomElement missingXml;
-    QDomDocument doc = m_doc->toXml();
-    QString docRoot = doc.documentElement().attribute("root");
-    if (!docRoot.endsWith('/')) docRoot.append('/');
-    QDomNodeList prods = doc.elementsByTagName("producer");
-    int maxprod = prods.count();
-    bool slowmotionClip = false;
-    for (int i = 0; i < maxprod; ++i) {
-        QDomNode m = prods.at(i);
-        QString prodId = m.toElement().attribute("id");
-        if (prodId.startsWith(QLatin1String("slowmotion"))) {
-            slowmotionClip = true;
-            prodId = prodId.section(':', 1, 1);
-        }
-        prodId = prodId.section('_', 0, 0);
-        if (prodId == id) {
-            missingXml =  m.toElement();
-            break;
-        }
-    }
-    if (missingXml == QDomElement()) {
-        // Check if producer id was replaced in another track
-        if (m_replacementProducerIds.contains(id)) {
-            QString newId = m_replacementProducerIds.value(id);
-            slowmotionClip = false;
-            for (int i = 0; i < maxprod; ++i) {
-                QDomNode m = prods.at(i);
-                QString prodId = m.toElement().attribute("id");
-                if (prodId.startsWith(QLatin1String("slowmotion"))) {
-                    slowmotionClip = true;
-                    prodId = prodId.section(':', 1, 1);
-                }
-                prodId = prodId.section('_', 0, 0);
-                if (prodId == id) {
-                    missingXml =  m.toElement();
-                    break;
-                }
-            }
-        }
-    }
-    if (missingXml == QDomElement()) return NULL;
-    QString resource = EffectsList::property(missingXml, "resource");
-    QString service = EffectsList::property(missingXml, "mlt_service");
-
-    if (slowmotionClip) resource = resource.section('?', 0, 0);
-    // prepend MLT XML document root if no path in clip resource and not a color clip
-    if (!resource.startsWith('/') && service != "colour") {
-        resource.prepend(docRoot);
-        //qDebug()<<"******************\nADJUSTED 2\n*************************";
-    }
-    DocClipBase *missingClip = NULL;
-    //TODO
-    
-    if (!resource.isEmpty()) {
-        QList <DocClipBase *> list = m_doc->clipManager()->getClipByResource(resource);
-        if (!list.isEmpty()) missingClip = list.at(0);
-    }
-    return missingClip;
-}*/
 
 QGraphicsScene *TrackView::projectScene()
 {
