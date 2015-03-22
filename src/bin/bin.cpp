@@ -522,7 +522,7 @@ void Bin::slotAddUrl(QString url, QMap <QString, QString> data)
     QList <QUrl>urls;
     urls << QUrl::fromLocalFile(url);
     QStringList folderInfo = getFolderInfo();
-    ClipCreationDialog::createClipsCommand(m_doc, urls, folderInfo, this);
+    ClipCreationDialog::createClipsCommand(m_doc, urls, folderInfo, this, data);
 }
 
 void Bin::createClip(QDomElement xml)

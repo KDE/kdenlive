@@ -415,6 +415,8 @@ private:
     /** @brief Get a track producer from a clip's id */
     Mlt::Producer *getProducerForTrack(Mlt::Playlist &trackPlaylist, const QString &clipId);
     ClipType getTypeForService(const QString &id) const;
+    /** @brief Pass xml values to an MLT producer at build time */
+    void processProducerProperties(Mlt::Producer *prod, QDomElement xml);
     
 private slots:
 

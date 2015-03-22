@@ -625,6 +625,21 @@ ClipType Render::getTypeForService(const QString &id) const
     return Unknown;
 }
 
+void Render::processProducerProperties(Mlt::Producer *prod, QDomElement xml)
+{
+    QString value;
+    QStringList internalProperties;
+    internalProperties << "bypassDuplicate";
+    QDomNodeList props = xml.elementsByTagName("property");
+    for (int i = 0; i < props.count(); ++i) {
+        QString propertyName = props.at(i).toElement().attribute("name");
+        if (!internalProperties.contains(propertyName)) {
+            value = props.at(i).firstChild().nodeValue();
+            prod->set(propertyName.toUtf8().constData(), value.toUtf8().constData());
+        }
+    }
+}
+
 void Render::processFileProperties()
 {
     requestClipInfo info;
@@ -693,11 +708,8 @@ void Render::processFileProperties()
         } else if (type == Text) {
             path.prepend("kdenlivetitle:");
             producer = new Mlt::Producer(*m_mltProfile, 0, path.toUtf8().constData());
-            QString xmldata = ProjectClip::getXmlProperty(info.xml, "xmldata");
-            if (producer && producer->is_valid() && !xmldata.isEmpty())
-                producer->set("xmldata", xmldata.toUtf8().constData());
         } else if (type == SlideShow) {
-            producer = new Mlt::Producer(*m_mltProfile, "xml-string", info.xml.ownerDocument().toString().toUtf8().constData());
+            producer = new Mlt::Producer(*m_mltProfile, 0, path.toUtf8().constData());
         } else if (!url.isValid()) {
             //WARNING: when is this case used? Not sure it is working.. JBM/
             QDomDocument doc;
@@ -728,6 +740,8 @@ void Render::processFileProperties()
             delete producer;
             continue;
         }
+        // Pass useful properties
+        processProducerProperties(producer, info.xml);
         QString clipName = ProjectClip::getXmlProperty(info.xml, "kdenlive:clipname");
         if (!clipName.isEmpty()) {
             producer->set("kdenlive:clipname", clipName.toUtf8().constData());
@@ -4666,8 +4680,8 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
     QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
     okButton->setDefault(true);
     okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-    dialog->connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    dialog->connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    dialog->connect(buttonBox, SIGNAL(accepted()), dialog, SLOT(accept()));
+    dialog->connect(buttonBox, SIGNAL(rejected()), dialog, SLOT(reject()));
     okButton->setText(i18n("Import selected clips"));
     
     QLabel *lab1 = new QLabel(i18n("Additional streams for clip\n %1", path), mainWidget);
