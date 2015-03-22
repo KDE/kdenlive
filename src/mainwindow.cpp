@@ -2454,8 +2454,8 @@ void MainWindow::slotSaveZone(Render *render, const QPoint &zone, DocClipBase *b
     QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
     okButton->setDefault(true);
     okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-    dialog->connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    dialog->connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    dialog->connect(buttonBox, SIGNAL(accepted()), dialog, SLOT(accept()));
+    dialog->connect(buttonBox, SIGNAL(rejected()), dialog, SLOT(reject()));
 
     QLabel *label1 = new QLabel(i18n("Save clip zone as:"), this);
     if (path.isEmpty()) {
