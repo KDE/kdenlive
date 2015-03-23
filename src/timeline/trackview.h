@@ -114,6 +114,9 @@ private:
     int addTrack(int ix, Mlt::Playlist &playlist, bool locked);
     void getEffects(Mlt::Service &service, ClipItem *clip, int track = 0);
     void getTransitions(Mlt::Tractor &tractor);
+    bool isSlide(QString geometry);
+    void adjustDouble(QDomElement &e, double value);
+
 
     /** @brief Returns a kdenlive effect xml description from an effect tag / id */
     QDomElement getEffectByTag(const QString &effecttag, const QString &effectid);

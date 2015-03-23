@@ -211,116 +211,98 @@ int TrackView::getTracks(Mlt::Tractor &tractor) {
 }
 
 void TrackView::getTransitions(Mlt::Tractor &tractor) {
-    for (mlt_service nextservice = mlt_service_get_producer(tractor.get_service()); nextservice; nextservice = mlt_service_producer(nextservice)) {
-        Mlt::Properties prop(MLT_SERVICE_PROPERTIES(nextservice));
+    mlt_service service = mlt_service_get_producer(tractor.get_service());
+    while (service) {
+        Mlt::Properties prop(MLT_SERVICE_PROPERTIES(service));
         if (QString(prop.get("mlt_type")) != "transition")
             break;
         //skip automatic mix
-        if (QString(prop.get("internal_added")) == "237")
+        if (QString(prop.get("internal_added")) == "237"
+            || QString(prop.get("mlt_service")) == "mix") {
+            service = mlt_service_producer(service);
             continue;
+        }
 
+        int a_track = prop.get_int("a_track");
+        int b_track = prop.get_int("b_track");
+        ItemInfo transitionInfo;
+        transitionInfo.startPos = GenTime(prop.get_int("in"), m_doc->fps());
+        transitionInfo.endPos = GenTime(prop.get_int("out") + 1, m_doc->fps());
+        transitionInfo.track = m_projectTracks - 1 - b_track;
+        // When adding composite transition, check if it is a wipe transition
+        if (prop.get("kdenlive_id") == NULL && QString(prop.get("mlt_service")) == "composite" && isSlide(prop.get("geometry")))
+            prop.set("kdenlive_id", "slide");
+        QDomElement base = MainWindow::transitions.getEffectByTag(prop.get("mlt_service"), prop.get("kdenlive_id")).cloneNode().toElement();
         //check invalid parameters
-        int a_track = QString(prop.get("a_track")).toInt();
         if (a_track > m_projectTracks - 1) {
             m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", prop.get("id"), a_track, m_projectTracks - 1) + '\n');
-            prop.set("a_track", QString::number(m_projectTracks - 1).toUtf8().constData());
-            continue;
+            prop.set("a_track", m_projectTracks - 1);
         }
-        int b_track = QString(prop.get("b_track")).toInt();
         if (b_track > m_projectTracks - 1) {
             m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", prop.get("id"), b_track, m_projectTracks - 1) + '\n');
-            prop.set("b_track", QString::number(m_projectTracks - 1).toUtf8().constData());
-            continue;
+            prop.set("b_track", m_projectTracks - 1);
         }
-        if (a_track == b_track || b_track <= 0) {
+        if (a_track == b_track || b_track <= 0
+            || transitionInfo.startPos >= transitionInfo.endPos
+            || base.isNull()
+            //|| !m_trackview->canBePastedTo(transitionInfo, TransitionWidget)
+           ) {
             // invalid transition, remove it
             m_documentErrors.append(i18n("Removed invalid transition: %1", prop.get("id")) + '\n');
-            mlt_field_disconnect_service(tractor.field()->get_field(), nextservice);
-            continue;
-        }
-        if (QString(prop.get("mlt_service")) == "mix")
-            continue;
-        // When adding composite transition, check if it is a wipe transition
-        if (QString(prop.get("mlt_service")) == "composite" && prop.get("kdenlive_id") == NULL) {
-            QString mlt_geometry = prop.get("geometry");
-            if (mlt_geometry.count(';') == 1) {
-                mlt_geometry.remove(QChar('%'), Qt::CaseInsensitive);
-                mlt_geometry.replace(QChar('x'), QChar(':'), Qt::CaseInsensitive);
-                mlt_geometry.replace(QChar(','), QChar(':'), Qt::CaseInsensitive);
-                mlt_geometry.replace(QChar('/'), QChar(':'), Qt::CaseInsensitive);
-
-                QString start = mlt_geometry.section('=', 0, 0).section(':', 0, -2) + ':';
-                start.append(mlt_geometry.section('=', 1, 1).section(':', 0, -2));
-                QStringList numbers = start.split(':', QString::SkipEmptyParts);
-                bool isWipeTransition = true;
-                for (int i = 0; i < numbers.size(); ++i) {
-                    int checkNumber = qAbs(numbers.at(i).toInt());
-                    if (checkNumber != 0 && checkNumber != 100) {
-                        isWipeTransition = false;
-                        break;
-                    }
-                }
-                if (isWipeTransition) prop.set("kdenlive_id", "slide");
-            }
-        }
-
-        QDomElement base = MainWindow::transitions.getEffectByTag(prop.get("mlt_service"), prop.get("kdenlive_id")).cloneNode().toElement();
-        QLocale locale;
-        locale.setNumberOptions(QLocale::OmitGroupSeparator);
-        if (!base.isNull()) for (int k = 0; k < prop.count(); ++k) {
-            QString paramName = prop.get_name(k);
-            QString paramValue = prop.get(k);
-
+            mlt_service disconnect = service;
+            service = mlt_service_producer(service);
+            mlt_field_disconnect_service(tractor.field()->get_field(), disconnect);
+        } else {
             QDomNodeList params = base.elementsByTagName("parameter");
-            if (paramName != "a_track" && paramName != "b_track") {
-                for (int i = 0; i < params.count(); ++i) {
-                    QDomElement e = params.item(i).toElement();
-                    if (!e.isNull() && e.attribute("tag") == paramName) {
-                        if (e.attribute("type") == "double") {
-                            QString factor = e.attribute("factor", "1");
-                            double offset = e.attribute("offset", "0").toDouble();
-                            if (factor != "1" || offset != 0) {
-                                double fact;
-                                if (factor.contains('%')) {
-                                    fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
-                                } else {
-                                    fact = factor.toDouble();
-                                }
-                                paramValue = locale.toString(offset + paramValue.toDouble() * fact);
-                            }
-                        }
-                        e.setAttribute("value", paramValue);
-                        break;
-                    }
-                }
+            for (int i = 0; i < params.count(); ++i) {
+                QDomElement e = params.item(i).toElement();
+                QString value = prop.get(e.attribute("tag").toUtf8().constData());
+                if (value.isEmpty()) continue;
+                if (e.attribute("type") == "double")
+                    adjustDouble(e, value.toDouble());
+                else
+                    e.setAttribute("value", value);
             }
-        }
-
-        ItemInfo transitionInfo;
-        transitionInfo.startPos = GenTime(QString(prop.get("in")).toInt(), m_doc->fps());
-        transitionInfo.endPos = GenTime(QString(prop.get("out")).toInt() + 1, m_doc->fps());
-        transitionInfo.track = m_projectTracks - 1 - b_track;
-
-        if (transitionInfo.startPos >= transitionInfo.endPos || base.isNull()) {
-            // invalid transition, remove it.
-            m_documentErrors.append(i18n("Removed invalid transition: (%1, %2, %3)", prop.get("id"), prop.get("mlt_service"), prop.get("kdenlive_id")) + '\n');
-            mlt_service nextservicetodisconnect = nextservice;
-            nextservice = mlt_service_get_producer(nextservice);
-            mlt_field_disconnect_service(tractor.field()->get_field(), nextservicetodisconnect);
-        } else if (m_trackview->canBePastedTo(transitionInfo, TransitionWidget)) {
             Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base, QString(prop.get("automatic")) == "1");
             if (QString(prop.get("force_track")) == "1") tr->setForcedTrack(true, a_track);
+            if (m_doc->isTrackLocked(b_track - 1)) tr->setItemLocked(true);
             m_scene->addItem(tr);
-            if (b_track > 0 && m_doc->isTrackLocked(b_track - 1)) {
-                tr->setItemLocked(true);
-            }
-        } else {
-            m_documentErrors.append(i18n("Removed overlapping transition: (%1, %2, %3)", prop.get("id"), prop.get("mlt_service"), prop.get("kdenlive_id")) + '\n');
-            mlt_service nextservicetodisconnect = nextservice;
-            nextservice = mlt_service_get_producer(nextservice);
-            mlt_field_disconnect_service(tractor.field()->get_field(), nextservicetodisconnect);
+            service = mlt_service_producer(service);
         }
     }
+}
+
+bool TrackView::isSlide(QString geometry) {
+    if (!geometry.count(';') == 1) return false;
+
+    geometry.remove(QChar('%'), Qt::CaseInsensitive);
+    geometry.replace(QChar('x'), QChar(':'), Qt::CaseInsensitive);
+    geometry.replace(QChar(','), QChar(':'), Qt::CaseInsensitive);
+    geometry.replace(QChar('/'), QChar(':'), Qt::CaseInsensitive);
+
+    QString start = geometry.section('=', 0, 0).section(':', 0, -2) + ':';
+    start.append(geometry.section('=', 1, 1).section(':', 0, -2));
+    QStringList numbers = start.split(':', QString::SkipEmptyParts);
+    bool isWipeTransition = true;
+    for (int i = 0; i < numbers.size(); ++i) {
+        int checkNumber = qAbs(numbers.at(i).toInt());
+        if (checkNumber != 0 && checkNumber != 100) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void TrackView::adjustDouble(QDomElement &e, double value) {
+    QString factor = e.attribute("factor", "1");
+    double offset = e.attribute("offset", "0").toDouble();
+    double fact = 1;
+    if (factor.contains('%')) fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+    else fact = factor.toDouble();
+
+    QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    e.setAttribute("value", locale.toString(offset + value * fact));
 }
 
 void TrackView::parseDocument(const QDomDocument &doc)
