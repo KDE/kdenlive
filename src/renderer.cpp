@@ -4414,8 +4414,8 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
     QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
     okButton->setDefault(true);
     okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-    dialog->connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    dialog->connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    dialog->connect(buttonBox, SIGNAL(accepted()), dialog, SLOT(accept()));
+    dialog->connect(buttonBox, SIGNAL(rejected()), dialog, SLOT(reject()));
     okButton->setText(i18n("Import selected clips"));
     
     QLabel *lab1 = new QLabel(i18n("Additional streams for clip\n %1", path), mainWidget);

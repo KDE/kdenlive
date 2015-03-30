@@ -279,7 +279,7 @@ void RenderJob::initKdenliveDbusInterface()
     if (kdenliveId.isEmpty()) return;
     m_kdenliveinterface = new QDBusInterface(kdenliveId,
             QLatin1String("/kdenlive/MainWindow_1"),
-            QLatin1String("org.kdenlive.MainWindow"),
+            QLatin1String("org.kde.kdenlive.rendering"),
             connection,
             this);
 

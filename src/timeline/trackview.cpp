@@ -860,7 +860,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 if (effectout <= effectin) {
                     // there is only one keyframe
                     keyframes.append(QString::number(effectin) + '=' + locale.toString(startvalue) + ';');
-                } else keyframes.append(QString::number(effectin) + '=' + locale.toString(startvalue) + ';' + QString::number(effectout) + '=' + QString::number(endvalue) + ';');
+                } else keyframes.append(QString::number(effectin) + '=' + locale.toString(startvalue) + ';' + QString::number(effectout) + '=' + locale.toString(endvalue) + ';');
                 QDomNode lastParsedEffect;
                 ix++;
                 QDomNode n2 = effects.at(ix);

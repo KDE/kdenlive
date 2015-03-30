@@ -62,7 +62,6 @@ class KActionCollection;
 class /*KDENLIVECORE_EXPORT*/ MainWindow : public KXmlGuiWindow
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.kdenlive.MainWindow")
 
 public:
 

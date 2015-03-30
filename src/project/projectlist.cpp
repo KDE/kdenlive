@@ -3422,7 +3422,7 @@ void ProjectList::slotShowJobLog()
     d.setLayout(mainLayout);
     mainLayout->addWidget(mainWidget);
     mainLayout->addWidget(buttonBox);
-    d.connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    d.connect(buttonBox, SIGNAL(accepted()), &d, SLOT(accept()));
     d.exec();
 }
 

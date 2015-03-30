@@ -376,6 +376,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     dir.mkdir("titles");
     dir.mkdir("thumbs");
     dir.mkdir("proxy");
+    dir.mkdir(".backup");
 
     updateProjectFolderPlacesEntry();
 
@@ -813,8 +814,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const
         fileName.append('-' + m_documentProperties.value("documentid"));
         fileName.append(info.lastModified().toString("-yyyy-MM-dd-hh-mm"));
         fileName.append(".kdenlive.png");
-        QDir backupFolder(m_projectFolder.toLocalFile());
-        backupFolder.cd(".backup");
+        QDir backupFolder(m_projectFolder.path() + "/.backup");
         emit saveTimelinePreview(backupFolder.absoluteFilePath(fileName));
     }
     return true;
@@ -842,6 +842,7 @@ void KdenliveDoc::setProjectFolder(QUrl url)
     dir.mkdir("titles");
     dir.mkdir("thumbs");
     dir.mkdir("proxy");
+    dir.mkdir(".backup");
     if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("You have changed the project folder. Do you want to copy the cached data from %1 to the new folder %2?", m_projectFolder.path(), url.path())) == KMessageBox::Yes) moveProjectData(url);
     m_projectFolder = url;
 
@@ -1307,8 +1308,6 @@ void KdenliveDoc::slotCreateSlideshowClipFile(const QMap <QString, QString> &pro
 void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId, const QString &templatePath)
 {
     QString titlesFolder = QDir::cleanPath(projectFolder().path() + QDir::separator() + "titles/");
-    QDir dir(projectFolder().path());
-    dir.mkdir("titles");
     QPointer<TitleWidget> dia_ui = new TitleWidget(QUrl::fromLocalFile(templatePath), m_timecode, titlesFolder, m_render, QApplication::activeWindow());
     if (dia_ui->exec() == QDialog::Accepted) {
         m_clipManager->slotAddTextClipFile(i18n("Title clip"), dia_ui->duration(), dia_ui->xml().toString(), group, groupId);
@@ -1737,8 +1736,7 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
     // Ensure backup folder exists
     if (path.isEmpty()) return;
     QFile file(path);
-    QDir backupFolder(m_projectFolder.path());
-    backupFolder.mkdir(".backup");
+    QDir backupFolder(m_projectFolder.path() + "/.backup");
 
     QString fileName = QUrl::fromLocalFile(path).fileName().section('.', 0, -2);
     QFileInfo info(file);
@@ -1757,8 +1755,7 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
 
 void KdenliveDoc::cleanupBackupFiles()
 {
-    QDir backupFolder(m_projectFolder.toLocalFile());
-    backupFolder.cd(".backup");
+    QDir backupFolder(m_projectFolder.path() + "/.backup");
     QString projectFile = url().fileName().section('.', 0, -2);
     projectFile.append('-' + m_documentProperties.value("documentid"));
     projectFile.append("-??");

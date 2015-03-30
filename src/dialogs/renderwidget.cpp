@@ -1740,7 +1740,9 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
                     if (parentNode.hasAttribute("name")) category = parentNode.attribute("name");
                     extension = parentNode.attribute("extension");
                 }
-                profilelist.at(i).toElement().setAttribute("category", category);
+                if (!profilelist.at(i).toElement().hasAttribute("category")) {
+                  profilelist.at(i).toElement().setAttribute("category", category);
+                }
                 if (!extension.isEmpty()) profilelist.at(i).toElement().setAttribute("extension", extension);
                 QDomNode n = profilelist.at(i).cloneNode();
                 newprofiles.appendChild(newdoc.importNode(n, true));
