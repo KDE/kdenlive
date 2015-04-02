@@ -299,8 +299,6 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     if (!QFile::exists(m_renderer)) {
         m_renderer = QStandardPaths::findExecutable("kdenlive_render");
         if (m_renderer.isEmpty())
-            m_renderer = QStandardPaths::findExecutable("kdenlive_render");
-        if (m_renderer.isEmpty())
             m_renderer = "kdenlive_render";
     }
 
