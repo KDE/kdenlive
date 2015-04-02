@@ -63,11 +63,13 @@ private:
     QDBusInterface* m_kdenliveinterface;
     QList<QVariant> m_dbusargs;
     QTime m_startTime;
+    int m_seconds;
+    int m_frame;
     void initKdenliveDbusInterface();
     bool m_usekuiserver;
     bool m_enablelog;
     /** @brief Used to create a temporary file for logging. */
-    QTemporaryFile m_logfile;
+    QFile m_logfile;
     /** @brief Used to write to the log file. */
     QTextStream m_logstream;
     /** @brief The process id of the Kdenlive instance, used to get the dbus service. */
