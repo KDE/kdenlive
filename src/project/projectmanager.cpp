@@ -395,18 +395,18 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
 
     QProgressDialog progressDialog(pCore->window());
     progressDialog.setWindowTitle(i18n("Loading project"));
-    progressDialog.setLabelText(i18n("Loading project"));
     progressDialog.setCancelButton(0);
     progressDialog.setMaximum(4);
-    progressDialog.show();
     progressDialog.setValue(0);
 
+    progressDialog.setLabelText(i18n("Loading clips"));
+    progressDialog.show();
     bool openBackup;
     KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()), pCore->window()->m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window(), &progressDialog);
 
-    progressDialog.setValue(1);
+    progressDialog.setLabelText(i18n("Loading thumbnails"));
     progressDialog.setMaximum(4);
-    progressDialog.setLabelText(i18n("Loading project"));
+    progressDialog.setValue(1);
     progressDialog.repaint();
 
     if (stale == NULL) {
@@ -424,6 +424,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     }
     connect(doc, SIGNAL(progressInfo(QString,int)), pCore->window(), SLOT(slotGotProgressInfo(QString,int)));
     pCore->bin()->setDocument(doc);
+
+    progressDialog.setLabelText(i18n("Loading timeline"));
     progressDialog.setValue(2);
     progressDialog.repaint();
 
@@ -434,6 +436,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_project = doc;
     pCore->window()->connectDocument();
     emit docOpened(m_project);
+
+    progressDialog.setLabelText(i18n("Setting monitor"));
     progressDialog.setValue(3);
     progressDialog.repaint();
 
