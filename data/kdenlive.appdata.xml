@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component type="desktop">
-  <id>kdenlive.desktop</id>
+  <id>org.kde.kdenlive.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
   <name>Kdenlive</name>
@@ -89,6 +89,7 @@
       <li xml:lang="ca">Interfície multipista intuïtiva</li>
       <li xml:lang="de">Intuitive Benutzerschnittstelle für mehrere Spuren.</li>
       <li xml:lang="ca">Interfície multipista intuïtiva.</li>
+      <li xml:lang="de">Intuitive Benutzerschnittstelle für mehrere Spuren.</li>
       <li xml:lang="en-GB">Intuitive multitrack interface.</li>
       <li xml:lang="it">Interfaccia multitraccia intuitiva.</li>
       <li xml:lang="nl">Intuïtief interface met meerdere tracks.</li>

@@ -27,7 +27,7 @@ install(FILES profiles.xml DESTINATION ${DATA_INSTALL_DIR}/kdenlive/export)
 install(FILES kdenlive.appdata.xml DESTINATION ${SHARE_INSTALL_PREFIX}/appdata)
 install(FILES kdenlive.xpm DESTINATION share/pixmaps)
 install(FILES kdenlive.menu DESTINATION share/menu RENAME kdenlive)
-install(FILES kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+install(FILES org.kde.kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 
 find_package(SharedMimeInfo REQUIRED)
 install(FILES kdenlive.xml westley.xml DESTINATION ${XDG_MIME_INSTALL_DIR})

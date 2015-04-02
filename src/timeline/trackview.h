@@ -113,6 +113,9 @@ private:
     int getTracks(Mlt::Tractor &tractor);
     int addTrack(int ix, Mlt::Playlist &playlist, bool locked);
     void getEffects(Mlt::Service &service, ClipItem *clip, int track = 0);
+    QString getKeyframes(Mlt::Service service, int &ix, QDomElement e);
+    void getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect);
+    void setParam(QDomElement param, QString value);
     void getTransitions(Mlt::Tractor &tractor);
     bool isSlide(QString geometry);
     void adjustDouble(QDomElement &e, double value);

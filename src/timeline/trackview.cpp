@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2015 by Vincent Pinon (vpinon@kde.org)                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -33,8 +34,8 @@
 #include "effectslist/initeffects.h"
 #include "dialogs/profilesdialog.h"
 
-#include <QDebug>
 #include <QScrollBar>
+#include <QLocale>
 
 #include <KMessageBox>
 #include <KIO/FileCopyJob>
@@ -544,7 +545,6 @@ int TrackView::addTrack(int ix, Mlt::Playlist &playlist, bool locked) {
         clipinfo.cropStart = GenTime(in, fps);
         clipinfo.cropDuration = GenTime(length, fps);
         clipinfo.track = ix;
-        //qDebug() << "// INSERTING CLIP: " << in << 'x' << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
         ClipItem *item = new ClipItem(binclip, clipinfo, fps, speed, strobe, m_trackview->getFrameWidth(), false);
         if (idString.endsWith(QLatin1String("_video"))) item->setVideoOnly(true);
         else if (idString.endsWith(QLatin1String("_audio"))) item->setAudioOnly(true);
@@ -594,88 +594,22 @@ void TrackView::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
         currenteffect.setAttribute("disable", effect->get("disable"));
         QDomNodeList clipeffectparams = currenteffect.childNodes();
 
-        //TODO: rewrite other way around:
-        //instead of looping in Mlt::Filter params to fill XML params
-        //loop over XML and use getter functions to directly catch values
-        //+split functions with offset/factor, keyframes...
-        //+do all this in a FilterView wrapper class?
+        QDomNodeList params = currenteffect.elementsByTagName("parameter");
+        for (int i = 0; i < params.count(); ++i) {
+            QDomElement e = params.item(i).toElement();
+            if (e.attribute("type") == "keyframe") e.setAttribute("keyframes", getKeyframes(service, ix, e));
+            else setParam(e, effect->get(e.attribute("name").toUtf8().constData()));
+        }
 
-        // if effect is key-framable, get keyframes from each MLT filter instance
-        if (MainWindow::videoEffects.hasKeyFrames(currenteffect)) {
-            // effect tag names / default values
-            QString starttag, endtag, factor;
-            double offset = 0;
-            QDomNodeList params = currenteffect.elementsByTagName("parameter");
-            for (int i = 0; i < params.count(); ++i) {
-                QDomElement e = params.item(i).toElement();
-                if (e.attribute("type") == "keyframe") {
-                    starttag = e.attribute("starttag", "start");
-                    endtag = e.attribute("endtag", "end");
-                    factor = e.attribute("factor", "1");
-                    offset = e.attribute("offset", "0").toDouble();
-                    break;
-                }
-            }
-            double fact;
-            if (factor.contains('%')) {
-                fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
-            } else {
-                fact = factor.toDouble();
-            }
-            // retrieve keyframes
-            QString keyframes = QString::number(effect->get_in()) + '=' + locale.toString(offset + fact * effect->get_double(starttag.toUtf8().constData())) + ';';
-            for (;ix < service.filter_count(); ++ix) {
-                effect = service.filter(ix);
-                if (effect->get_int("kdenlive_ix") != effectNb) break;
-                if (effect->get_in() < effect->get_out()) {
-                    keyframes.append(QString::number(effect->get_out()) + '=' + locale.toString(offset + fact * effect->get_double(endtag.toUtf8().constData())) + ';');
-                }
-            }
-            params = currenteffect.elementsByTagName("parameter");
-            for (int i = 0; i < params.count(); ++i) {
-                QDomElement e = params.item(i).toElement();
-                if (e.attribute("type") == "keyframe") e.setAttribute("keyframes", keyframes);
-            }
-        } else if (effect->get_out()) { // no keyframes but in/out points
+        if (effect->get_out()) { // no keyframes but in/out points
             EffectsList::setParameter(currenteffect, "in",  effect->get("in"));
             EffectsList::setParameter(currenteffect, "out",  effect->get("out"));
-            currenteffect.setAttribute("in", effect->get("in"));
-            currenteffect.setAttribute("out", effect->get("out"));
+            currenteffect.setAttribute("in", effect->get_in());
+            currenteffect.setAttribute("out", effect->get_out());
             currenteffect.setAttribute("_sync_in_out", "1");
         }
-        // adjust effect parameters
-        bool regionFilter = QString(effect->get("tag")) == "region";
-        int regionix = 0; // search for "filter0"
-        for (int i = 0; i < effect->count(); ++i) {
-            QString pname = effect->get_name(i);
-            // Special case, region filter embeds other effects
-            if (regionFilter && pname == QString("filter%1").arg(regionix)) {
-                QString subfilter = pname;
-                QDomElement subclipeffect = getEffectByTag(
-                    effect->get(QString(subfilter + ".tag").toUtf8().constData()),
-                    effect->get(QString(subfilter + ".kdenlive_id").toUtf8().constData()))
-                    .cloneNode().toElement();
-                if (subclipeffect.isNull()) { qWarning() << "Region sub-effect not found in MLT";}
-                subclipeffect.setAttribute("region_ix", regionix);
-                QDomNodeList subclipeffectparams = subclipeffect.childNodes();
-                for (;;) { // forward read the subfilter parameters
-                    ++i; pname = effect->get_name(i);
-                    if (pname.startsWith(subfilter)) {
-                        adjustparameterValue(subclipeffectparams, pname.section('.', 1, -1),
-                            effect->get(pname.toUtf8().constData()));
-                    } else {
-                        ++regionix; // search for next subfilter
-                        --i; // don't skip this param in for loop
-                        break;
-                    }
-                }
-                if (!subclipeffect.isNull())
-                    currenteffect.appendChild(currenteffect.ownerDocument().importNode(subclipeffect, true));
-            } else {
-                // try to find this parameter in the effect xml and set its value
-                adjustparameterValue(clipeffectparams, pname, effect->get(pname.toUtf8().constData()));
-            }
-        }
+        if (QString(effect->get("tag")) == "region") getSubfilters(effect, currenteffect);
+
         if (clip) {
             clip->addEffect(currenteffect, false);
         } else {
@@ -684,45 +618,83 @@ void TrackView::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
     }
 }
 
-void TrackView::adjustparameterValue(QDomNodeList clipeffectparams, const QString &paramname, const QString &paramvalue)
-{
-    QDomElement e;
+QString TrackView::getKeyframes(Mlt::Service service, int &ix, QDomElement e) {
+    QString starttag = e.attribute("starttag", "start");
+    QString endtag = e.attribute("endtag", "end");
+    double fact, offset = e.attribute("offset", "0").toDouble();
+    QString factor = e.attribute("factor", "1");
+    if (factor.contains('%')) fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+    else fact = factor.toDouble();
+    // retrieve keyframes
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    for (int k = 0; k < clipeffectparams.count(); ++k) {
-        e = clipeffectparams.item(k).toElement();
-        if (!e.isNull() && e.tagName() == "parameter" && e.attribute("name") == paramname) {
-            QString type = e.attribute("type");
-            QString factor = e.attribute("factor", "1");
-            double fact;
-            if (factor.contains('%')) {
-                fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
-            } else {
-                fact = factor.toDouble();
-            }
-            double offset = e.attribute("offset", "0").toDouble();
-            if (type == "simplekeyframe") {
-                QStringList kfrs = paramvalue.split(';');
-                for (int l = 0; l < kfrs.count(); ++l) {
-                    QString fr = kfrs.at(l).section('=', 0, 0);
-                    double val = locale.toDouble(kfrs.at(l).section('=', 1, 1));
-                    //kfrs[l] = fr + ':' + locale.toString((int)(val * fact));
-                    kfrs[l] = fr + '=' + QString::number((int) (offset + val * fact));
-                }
-                e.setAttribute("keyframes", kfrs.join(";"));
-            } else if (type == "double" || type == "constant") {
-                bool ok;
-                e.setAttribute("value", offset + locale.toDouble(paramvalue, &ok) * fact);
-                if (!ok)
-                    e.setAttribute("value", paramvalue);
-            } else {
-                e.setAttribute("value", paramvalue);
-            }
-            break;
+    Mlt::Filter *effect = service.filter(ix);
+    int effectNb = effect->get_int("kdenlive_ix");
+    QString keyframes = QString::number(effect->get_in()) + '=' + locale.toString(offset + fact * effect->get_double(starttag.toUtf8().constData())) + ';';
+    for (;ix < service.filter_count(); ++ix) {
+        effect = service.filter(ix);
+        if (effect->get_int("kdenlive_ix") != effectNb) break;
+        if (effect->get_in() < effect->get_out()) {
+            keyframes.append(QString::number(effect->get_out()) + '=' + locale.toString(offset + fact * effect->get_double(endtag.toUtf8().constData())) + ';');
         }
+    }
+    --ix;
+    return keyframes;
+}
+
+void TrackView::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect) {
+    for (int i = 0; ; ++i) {
+        QString name = "filter" + QString::number(i);
+        if (!effect->get(name.toUtf8().constData())) break;
+        //identify effect
+        QString tag = effect->get(name.append(".tag").toUtf8().constData());
+        QString id = effect->get(name.append(".kdenlive_id").toUtf8().constData());
+        QDomElement subclipeffect = getEffectByTag(tag, id);
+        if (subclipeffect.isNull()) {
+            qWarning() << "Region sub-effect not found";
+            continue;
+        }
+        //load effect
+        subclipeffect = subclipeffect.cloneNode().toElement();
+        subclipeffect.setAttribute("region_ix", i);
+        //get effect parameters (prefixed by subfilter name)
+        QDomNodeList params = subclipeffect.elementsByTagName("parameter");
+        for (int i = 0; i < params.count(); ++i) {
+            QDomElement param = params.item(i).toElement();
+            setParam(param, effect->get((name + "." + param.attribute("name")).toUtf8().constData()));
+        }
+        currenteffect.appendChild(currenteffect.ownerDocument().importNode(subclipeffect, true));
     }
 }
 
+void TrackView::setParam(QDomElement param, QString value) {
+    QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    //get Kdenlive scaling parameters
+    double offset = param.attribute("offset", "0").toDouble();
+    double fact;
+    QString factor = param.attribute("factor", "1");
+    if (factor.contains('%')) {
+        fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+    } else {
+        fact = factor.toDouble();
+    }
+    //adjust parameter if necessary
+    QString type = param.attribute("type");
+    if (type == "simplekeyframe") {
+        QStringList kfrs = value.split(';');
+        for (int l = 0; l < kfrs.count(); ++l) {
+            QString fr = kfrs.at(l).section('=', 0, 0);
+            double val = locale.toDouble(kfrs.at(l).section('=', 1, 1));
+            kfrs[l] = fr + '=' + QString::number((int) (val * fact + offset));
+        }
+        param.setAttribute("keyframes", kfrs.join(";"));
+    } else if (type == "double" || type == "constant") {
+        param.setAttribute("value", locale.toDouble(value) * fact + offset);
+    } else {
+        param.setAttribute("value", value);
+    }
+}
 
 QDomElement TrackView::getEffectByTag(const QString &effecttag, const QString &effectid)
 {
@@ -828,7 +800,7 @@ void TrackView::slotUpdateTrackEffectState(int ix)
 {
     QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
     if (ix < 0 || ix >= widgets.count()) {
-        //qDebug() << "ERROR, Trying to access a non existent track: " << ix;
+        qWarning() << "ERROR, Trying to access a non existent track: " << ix;
         return;
     }
     widgets.at(m_doc->tracksCount() - ix - 1)->updateEffectLabel(m_doc->trackInfoAt(ix).effectsList.effectNames());
