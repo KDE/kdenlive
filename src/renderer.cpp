@@ -31,6 +31,7 @@
 #include "dialogs/profilesdialog.h"
 #include "mltcontroller/bincontroller.h"
 #include "bin/projectclip.h"
+#include "monitor/glwidget.h"
 #include "mltcontroller/clipcontroller.h"
 #include <mlt++/Mlt.h>
 
@@ -98,7 +99,7 @@ void Render::consumer_gl_frame_show(mlt_consumer consumer, Render * self, mlt_fr
     emit self->mltFrameReceived(new Mlt::Frame(frame_ptr));
 }
 
-Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, int winid, QWidget *parent) :
+Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, GLWidget *qmlView, QWidget *parent) :
     AbstractRender(rendererName, parent),
     requestedSeekPosition(SEEK_INACTIVE),
     showFrameSemaphore(1),
@@ -114,16 +115,22 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, i
     m_isLoopMode(false),
     m_isSplitView(false),
     m_blackClip(NULL),
-    m_winid(winid),
-    m_paused(true),
+    m_qmlView(qmlView),
     m_isActive(false)
 {
     qRegisterMetaType<stringMap> ("stringMap");
     analyseAudio = KdenliveSettings::monitor_audio();
-    buildConsumer();
+    //buildConsumer();
+    m_blackClip = new Mlt::Producer(*m_mltProfile, "colour:black");
+    m_blackClip->set("id", "black");
+    m_blackClip->set("mlt_type", "producer");
     m_mltProducer = m_blackClip->cut(0, 1);
-    m_mltConsumer->connect(*m_mltProducer);
-    m_mltProducer->set_speed(0.0);
+    if (m_qmlView) {
+        m_qmlView->setProducer(m_mltProducer);
+        m_mltConsumer = qmlView->consumer();
+    }
+    /*m_mltConsumer->connect(*m_mltProducer);
+    m_mltProducer->set_speed(0.0);*/
     m_refreshTimer.setSingleShot(true);
     m_refreshTimer.setInterval(100);
     connect(&m_refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
@@ -155,7 +162,7 @@ void Render::slotSwitchFullscreen()
         m_mltConsumer->set("full_screen", 1);
 }
 
-void Render::buildConsumer()
+/*void Render::buildConsumer()
 {
     delete m_blackClip;
     m_blackClip = NULL;
@@ -248,18 +255,17 @@ void Render::buildConsumer()
 
     QString audioDriver = KdenliveSettings::audiodrivername();
 
-    /*
     // Disabled because the "auto" detected driver was sometimes wrong
-    if (audioDriver.isEmpty())
-        audioDriver = KdenliveSettings::autoaudiodrivername();
-    */
+    //if (audioDriver.isEmpty())
+    //    audioDriver = KdenliveSettings::autoaudiodrivername();
+    
 
     if (!audioDriver.isEmpty())
         m_mltConsumer->set("audio_driver", audioDriver.toUtf8().constData());
 
     m_mltConsumer->set("frequency", 48000);
     m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
-}
+}*/
 
 Mlt::Producer *Render::invalidProducer(const QString &id)
 {
@@ -286,6 +292,7 @@ bool Render::hasProfile(const QString &profileName) const
 
 int Render::resetProfile(const QString &profileName, bool dropSceneList)
 {
+    return 0;
     m_refreshTimer.stop();
     if (m_mltConsumer) {
         if (externalConsumer == KdenliveSettings::external_display()) {
@@ -370,16 +377,15 @@ void Render::seek(int time)
         requestedSeekPosition = time;
         m_mltConsumer->purge();
         m_mltProducer->seek(time);
-        if (m_paused && !externalConsumer) {
+        if (!externalConsumer) {
             m_mltConsumer->set("refresh", 1);
-            m_paused = false;
         }
-        else if (m_winid != 0 && m_mltProducer->get_speed() == 0) {
+        /*else if (m_winid != 0 && m_mltProducer->get_speed() == 0) {
             // workaround specific bug in MLT's SDL consumer
             m_mltConsumer->stop();
             m_mltConsumer->start();
             m_mltConsumer->set("refresh", 1);
-        }
+        }*/
     }
     else requestedSeekPosition = time;
 }
@@ -645,6 +651,7 @@ void Render::processFileProperties()
     requestClipInfo info;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
+
     while (!m_requestList.isEmpty()) {
         m_infoMutex.lock();
         info = m_requestList.takeFirst();
@@ -999,6 +1006,20 @@ void Render::processFileProperties()
 
                 int variance;
                 QImage img;
+                // Check if we are using GPU accel, then we need to use alternate producer
+                Mlt::Producer *tmpProd;
+                if (KdenliveSettings::gpu_accel()) {
+                    QString service = producer->get("mlt_service");
+                    tmpProd = new Mlt::Producer(*m_mltProfile, service.toUtf8().constData(), producer->get("resource"));
+                    Mlt::Filter scaler(*m_mltProfile, "swscale");
+                    Mlt::Filter converter(*m_mltProfile, "avcolor_space");
+                    tmpProd->attach(scaler);
+                    tmpProd->attach(converter);
+                }
+                else {
+                    tmpProd = producer;
+                }
+                frame = tmpProd->get_frame();
                 do {
                     img = KThumb::getFrame(frame, imageWidth, fullWidth, info.imageHeight);
                     variance = KThumb::imageVariance(img);
@@ -1007,7 +1028,7 @@ void Render::processFileProperties()
                         frameNumber =  duration > 100 ? 100 : duration / 2 ;
                         producer->seek(frameNumber);
                         delete frame;
-                        frame = producer->get_frame();
+                        frame = tmpProd->get_frame();
                         variance = -1;
                     }
                 } while (variance == -1);
@@ -1168,20 +1189,16 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     QMutexLocker locker(&m_mutex);
     QString currentId;
     int consumerPosition = 0;
-    if (m_winid == -1 || !m_mltConsumer) {
-        qDebug()<<" / / / / WARNING, MONITOR NOT READY";
-        if (producer) delete producer;
-        return -1;
-    }
     bool monitorIsActive = false;
-    m_mltConsumer->set("refresh", 0);
-    if (!m_mltConsumer->is_stopped()) {
-        monitorIsActive = true;
-        m_mltConsumer->stop();
+    if (m_mltConsumer) {
+        m_mltConsumer->set("refresh", 0);
+        /*if (!m_mltConsumer->is_stopped()) {
+            monitorIsActive = true;
+            m_mltConsumer->stop();
+        }*/
+        //m_mltConsumer->purge();
+        consumerPosition = m_mltConsumer->position();
     }
-    m_mltConsumer->purge();
-    consumerPosition = m_mltConsumer->position();
-
 
     blockSignals(true);
     if (!producer || !producer->is_valid()) {
@@ -1199,6 +1216,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     if (position != -1) producer->seek(position);
     m_fps = producer->get_fps();
     int volume = KdenliveSettings::volume();
+    /*
     if (producer->get_int("_audioclip") == 1) {
         // This is an audio only clip, create fake multitrack to apply audiowave filter
         Mlt::Tractor *tractor = new Mlt::Tractor();
@@ -1228,18 +1246,25 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     }
     
     producer->set("meta.volume", (double)volume / 100);
-    blockSignals(false);
+    
     if (m_mltProducer) {
         m_mltProducer->set_speed(0);
         delete m_mltProducer;
         m_mltProducer = NULL;
     }
-    
-    m_mltConsumer->connect(*producer);
+    */
+    blockSignals(false);
     m_mltProducer = producer;
     m_mltProducer->set_speed(0);
+    if (m_qmlView) {
+        m_qmlView->setProducer(producer);
+        m_mltConsumer = m_qmlView->consumer();
+        m_mltConsumer->set("refresh", 1);
+    }
+    //m_mltConsumer->connect(*producer);
+
     if (monitorIsActive) {
-        startConsumer();
+        //startConsumer();
     }
     emit durationChanged(m_mltProducer->get_playtime(), m_mltProducer->get_in());
     position = m_mltProducer->position();
@@ -1273,7 +1298,7 @@ int Render::setSceneList(QString playlist, int position)
     requestedSeekPosition = SEEK_INACTIVE;
     m_refreshTimer.stop();
     QMutexLocker locker(&m_mutex);
-    if (m_winid == -1) return -1;
+    //if (m_winid == -1) return -1;
     int error = 0;
 
     //qDebug() << "//////  RENDER, SET SCENE LIST:\n" << playlist <<"\n..........:::.";
@@ -1287,7 +1312,7 @@ int Render::setSceneList(QString playlist, int position)
 
     if (m_mltConsumer) {
         if (!m_mltConsumer->is_stopped()) {
-            m_mltConsumer->stop();
+            //m_mltConsumer->stop();
         }
         m_mltConsumer->set("refresh", 0);
     } else {
@@ -1381,9 +1406,13 @@ int Render::setSceneList(QString playlist, int position)
     QString retain = QString("xml_retain %1").arg(m_binController->binPlaylistId());
     tractor.set(retain.toUtf8().constData(), m_binController->service(), 0);
     //if (!m_binController->hasClip("black")) m_binController->addClipToBin("black", *m_blackClip);
+    if (m_qmlView) {
+        m_qmlView->setProducer(m_mltProducer);
+        m_mltConsumer = m_qmlView->consumer();
+    }
 
     //qDebug() << "// NEW SCENE LIST DURATION SET TO: " << m_mltProducer->get_playtime();
-    m_mltConsumer->connect(*m_mltProducer);
+    //m_mltConsumer->connect(*m_mltProducer);
     m_mltProducer->set_speed(0);
     fillSlowMotionProducers();
     emit durationChanged(m_mltProducer->get_playtime());
@@ -1418,7 +1447,7 @@ int Render::reloadSceneList(QString playlist, int position)
     requestedSeekPosition = SEEK_INACTIVE;
     m_refreshTimer.stop();
     QMutexLocker locker(&m_mutex);
-    if (m_winid == -1) return -1;
+    //if (m_winid == -1) return -1;
     int error = 0;
 
     //qDebug() << "//////  RENDER, SET SCENE LIST:\n" << playlist <<"\n..........:::.";
@@ -1432,7 +1461,7 @@ int Render::reloadSceneList(QString playlist, int position)
 
     if (m_mltConsumer) {
         if (!m_mltConsumer->is_stopped()) {
-            m_mltConsumer->stop();
+            //m_mltConsumer->stop();
         }
         m_mltConsumer->set("refresh", 0);
     } else {
@@ -1645,10 +1674,10 @@ void Render::start()
 {
     m_refreshTimer.stop();
     QMutexLocker locker(&m_mutex);
-    if (m_winid == -1) {
+    /*if (m_winid == -1) {
         //qDebug() << "-----  BROKEN MONITOR: " << m_name << ", RESTART";
         return;
-    }
+    }*/
     if (!m_mltConsumer) {
         //qDebug()<<" / - - - STARTED BEFORE CONSUMER!!!";
         return;
@@ -1704,7 +1733,6 @@ void Render::pause()
     requestedSeekPosition = SEEK_INACTIVE;
     if (!m_mltProducer || !m_mltConsumer || !m_isActive)
         return;
-    m_paused = true;
     m_mltProducer->set_speed(0.0);
     /*m_mltConsumer->set("refresh", 0);
     //if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
@@ -1723,32 +1751,27 @@ void Render::switchPlay(bool play)
     if (!m_mltProducer || !m_mltConsumer || !m_isActive)
         return;
     if (m_isZoneMode) resetZoneMode();
-    if (play && m_paused) {
+    if (play && playSpeed() == 0) {
         if (m_name == Kdenlive::ClipMonitor && m_mltConsumer->position() == m_mltProducer->get_out()) m_mltProducer->seek(0);
-        m_paused = false;
         m_mltProducer->set_speed(1.0);
         if (m_mltConsumer->is_stopped()) {
             m_mltConsumer->start();
         }
         m_mltConsumer->set("refresh", 1);
     } else if (!play) {
-        m_paused = true;
-        if (m_winid == 0) {
-            // OpenGL consumer
-            m_mltProducer->set_speed(0.0);
-	   //m_mltConsumer->set("refresh", 0);
-           //m_mltProducer->set_speed(0.0);
-           //m_mltConsumer->purge();
-           //m_mltProducer->seek(m_mltConsumer->position());
-        }
-        else {
-            // SDL consumer, hack to allow pausing near the end of the playlist
-            m_mltConsumer->set("refresh", 0);
-            m_mltConsumer->stop();
-            m_mltProducer->set_speed(0.0);
-            m_mltProducer->seek(m_mltConsumer->position());
-            m_mltConsumer->start();
-        }
+        // OpenGL consumer
+        m_mltConsumer->set("refresh", 0);
+        m_mltConsumer->purge();
+        m_mltProducer->set_speed(0.0);
+        m_mltProducer->seek(m_mltConsumer->position());
+        //m_mltConsumer->set("refresh", 0);
+        
+        // SDL consumer, hack to allow pausing near the end of the playlist
+        /*m_mltConsumer->set("refresh", 0);
+        m_mltConsumer->stop();
+        m_mltProducer->set_speed(0.0);
+        m_mltProducer->seek(m_mltConsumer->position());
+        m_mltConsumer->start();*/
     }
 }
 
@@ -1764,7 +1787,6 @@ void Render::play(double speed)
     if (m_mltConsumer->is_stopped() && speed != 0) {
         m_mltConsumer->start();
     }
-    m_paused = speed == 0;
     if (current_speed == 0 && speed != 0) m_mltConsumer->set("refresh", 1);
 }
 
@@ -1773,7 +1795,6 @@ void Render::play(const GenTime & startTime)
     requestedSeekPosition = SEEK_INACTIVE;
     if (!m_mltProducer || !m_mltConsumer || !m_isActive)
         return;
-    m_paused = false;
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
     m_mltProducer->set_speed(1.0);
     m_mltConsumer->set("refresh", 1);
@@ -1797,7 +1818,6 @@ bool Render::playZone(const GenTime & startTime, const GenTime & stopTime)
         return false;
     m_mltProducer->set("out", (int)(stopTime.frames(m_fps)));
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
-    m_paused = false;
     m_mltProducer->set_speed(1.0);
     if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
     m_mltConsumer->set("refresh", 1);
@@ -1836,12 +1856,12 @@ void Render::seekToFrameDiff(int diff)
 
 void Render::refreshIfActive()
 {
-    if (!m_mltConsumer->is_stopped() && m_mltProducer && m_paused && m_isActive) m_refreshTimer.start();
+    if (!m_mltConsumer->is_stopped() && m_mltProducer && (playSpeed() == 0) && m_isActive) m_refreshTimer.start();
 }
 
 void Render::doRefresh()
 {
-    if (m_mltProducer && m_paused && m_isActive) m_refreshTimer.start();
+    if (m_mltProducer && (playSpeed() == 0) && m_isActive) m_refreshTimer.start();
 }
 
 void Render::refresh()
@@ -1863,7 +1883,7 @@ void Render::setDropFrames(bool show)
     if (m_mltConsumer) {
         int dropFrames = KdenliveSettings::mltthreads();
         if (show == false) dropFrames = -dropFrames;
-        m_mltConsumer->stop();
+        //m_mltConsumer->stop();
         m_mltConsumer->set("real_time", dropFrames);
         if (m_mltConsumer->start() == -1) {
             qWarning() << "ERROR, Cannot start monitor";
@@ -1876,7 +1896,7 @@ void Render::setConsumerProperty(const QString &name, const QString &value)
 {
     QMutexLocker locker(&m_mutex);
     if (m_mltConsumer) {
-        m_mltConsumer->stop();
+        //m_mltConsumer->stop();
         m_mltConsumer->set(name.toUtf8().constData(), value.toUtf8().constData());
         if (m_isActive && m_mltConsumer->start() == -1) {
             qWarning() << "ERROR, Cannot start monitor";
@@ -1888,7 +1908,7 @@ void Render::setConsumerProperty(const QString &name, const QString &value)
 bool Render::isPlaying() const
 {
     if (!m_mltConsumer || m_mltConsumer->is_stopped()) return false;
-    return !m_paused;
+    return playSpeed() != 0;
 }
 
 double Render::playSpeed() const
@@ -1933,13 +1953,27 @@ void Render::emitFrameNumber()
     int currentPos = m_mltConsumer->position();
     if (currentPos == requestedSeekPosition) {
         requestedSeekPosition = SEEK_INACTIVE;
-        m_paused = true;
     }
     emit rendererPosition(currentPos);
     if (requestedSeekPosition != SEEK_INACTIVE) {
         m_mltConsumer->purge();
         m_mltProducer->seek(requestedSeekPosition);
-        if (m_mltProducer->get_speed() == 0 && !m_paused) {
+        if (playSpeed() == 0) {
+            m_mltConsumer->set("refresh", 1);
+        }
+        requestedSeekPosition = SEEK_INACTIVE;
+    }
+}
+
+void Render::checkFrameNumber(int pos)
+{
+    if (pos == requestedSeekPosition) {
+        requestedSeekPosition = SEEK_INACTIVE;
+    }
+    if (requestedSeekPosition != SEEK_INACTIVE) {
+        m_mltConsumer->purge();
+        m_mltProducer->seek(requestedSeekPosition);
+        if (m_mltProducer->get_speed() == 0) {
             m_mltConsumer->set("refresh", 1);
         }
         requestedSeekPosition = SEEK_INACTIVE;
@@ -1949,9 +1983,8 @@ void Render::emitFrameNumber()
 void Render::emitConsumerStopped(bool forcePause)
 {
     // This is used to know when the playing stopped
-    if (m_mltProducer && (forcePause || (!m_paused && m_mltProducer->get_speed() == 0))) {
+    if (m_mltProducer && (forcePause || (m_mltProducer->get_speed() == 0))) {
         double pos = m_mltConsumer->position();
-        m_paused = true;
         if (m_isLoopMode) play(m_loopStart);
         //else if (m_isZoneMode) resetZoneMode();
         emit rendererStopped((int) pos);
@@ -1985,9 +2018,6 @@ void Render::slotCheckSeeking()
 {
     if (requestedSeekPosition != SEEK_INACTIVE) {
         m_mltProducer->seek(requestedSeekPosition);
-        if (m_paused) {
-            refresh();
-        }
         requestedSeekPosition = SEEK_INACTIVE;
     }
 }

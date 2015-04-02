@@ -26,14 +26,13 @@
 #include "renderer.h"
 #include "definitions.h"
 #include "timecodedisplay.h"
-#ifdef USE_OPENGL
-#include "monitor/videoglwidget.h"
-#endif
+#include "monitor/sharedframe.h"
+
 
 #include <QLabel>
 #include <QDomElement>
 #include <QToolBar>
-
+#include <QWindow>
 #include <QIcon>
 
 class SmallRuler;
@@ -46,7 +45,7 @@ class Monitor;
 class MonitorManager;
 class QSlider;
 class TwostateAction;
-
+class QQuickItem;
 
 class Overlay : public QLabel
 {
@@ -119,6 +118,7 @@ protected:
 
 private:
     ClipController *m_controller;
+    GLWidget *m_glMonitor;
     SmallRuler *m_ruler;
     Overlay *m_overlay;
     int m_length;
@@ -140,11 +140,7 @@ private:
     /** true if selected clip is transition, false = selected clip is clip.
      *  Necessary because sometimes we get two signals, e.g. we get a clip and we get selected transition = NULL. */
     bool m_loopClipTransition;
-
-#ifdef USE_OPENGL
-    VideoGLWidget *m_glWidget;
-    bool createOpenGlWidget(QWidget *parent);
-#endif
+    QWidget *m_glWidget;
 
     GenTime getSnapForPos(bool previous);
     Qt::WindowFlags m_baseFlags;
@@ -152,6 +148,8 @@ private:
     QWidget *m_volumeWidget;
     QSlider *m_audioSlider;
     QAction *m_editMarker;
+    QQuickItem *m_rootItem;
+    void switchFullScreen();
 
 private slots:
     void seekCursor(int pos);
@@ -170,6 +168,9 @@ private slots:
     void slotShowVolume();
     void slotEditMarker();
     void slotExtractCurrentZone();
+    void onFrameDisplayed(const SharedFrame& frame);
+    void slotStartDrag();
+    void slotSwitchGpuAccel(bool enable);
 
 public slots:
     void slotOpenFile(const QString &);

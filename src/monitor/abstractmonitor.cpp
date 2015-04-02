@@ -20,6 +20,7 @@
 
 #include "abstractmonitor.h"
 #include "monitormanager.h"
+#include "glwidget.h"
 
 #include "kdenlivesettings.h"
 
@@ -35,22 +36,22 @@ AbstractMonitor::AbstractMonitor(Kdenlive::MonitorId id, MonitorManager *manager
     m_id(id),
     m_monitorManager(manager)
 {
-    videoBox = new VideoContainer(this);
+    //videoBox = new VideoContainer(this);
 }
 
 
 AbstractMonitor::~AbstractMonitor()
 {
-    delete videoSurface;
+    //delete videoSurface;
 }
 
 void AbstractMonitor::createVideoSurface()
 {
-    QVBoxLayout *lay = new QVBoxLayout;
+    /*QVBoxLayout *lay = new QVBoxLayout;
     lay->setContentsMargins(0, 0, 0, 0);
     videoSurface = new VideoSurface;
     lay->addWidget(videoSurface);
-    videoBox->setLayout(lay);
+    videoBox->setLayout(lay);*/
 }
 
 bool AbstractMonitor::isActive() const

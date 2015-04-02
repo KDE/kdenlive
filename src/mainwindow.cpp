@@ -186,13 +186,14 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     m_projectMonitor = new Monitor(Kdenlive::ProjectMonitor, pCore->monitorManager(), this);
 
-#ifndef Q_WS_MAC
+/*
+    //TODO disabled until ported to qml
     m_recMonitor = new RecMonitor(Kdenlive::RecordMonitor, pCore->monitorManager(), this);
     connect(m_recMonitor, SIGNAL(addProjectClip(QUrl)), this, SLOT(slotAddProjectClip(QUrl)));
     connect(m_recMonitor, SIGNAL(addProjectClipList(QList<QUrl>)), this, SLOT(slotAddProjectClipList(QList<QUrl>)));
     connect(m_recMonitor, SIGNAL(showConfigDialog(int,int)), this, SLOT(slotPreferences(int,int)));
 
-#endif /* ! Q_WS_MAC */
+*/
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
 
     m_effectStack = new EffectStackView2(m_projectMonitor);
@@ -208,9 +209,9 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     // Add monitors here to keep them at the right of the window
     m_clipMonitorDock = addDock(i18n("Clip Monitor"), "clip_monitor", m_clipMonitor);
     m_projectMonitorDock = addDock(i18n("Project Monitor"), "project_monitor", m_projectMonitor);
-#ifndef Q_WS_MAC
-    m_recMonitorDock = addDock(i18n("Record Monitor"), "record_monitor", m_recMonitor);
-#endif
+    if (m_recMonitor) {
+        m_recMonitorDock = addDock(i18n("Record Monitor"), "record_monitor", m_recMonitor);
+    }
 
     m_undoView = new QUndoView();
     m_undoView->setCleanIcon(QIcon::fromTheme("edit-clear"));
@@ -234,9 +235,9 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     tabifyDockWidget(m_effectListDock, m_transitionConfigDock);
 
     tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
-#ifndef Q_WS_MAC
-    tabifyDockWidget(m_clipMonitorDock, m_recMonitorDock);
-#endif
+    if (m_recMonitor) {
+        tabifyDockWidget(m_clipMonitorDock, m_recMonitorDock);
+    }
     setCentralWidget(m_timelineArea);
 
     readOptions();
@@ -342,8 +343,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     m_timelineContextTransitionMenu->addAction(actionCollection()->action("auto_transition"));
 
-    connect(m_projectMonitorDock, SIGNAL(visibilityChanged(bool)), m_projectMonitor, SLOT(refreshMonitor(bool)));
-    connect(m_clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(refreshMonitor(bool)));
+    //connect(m_projectMonitorDock, SIGNAL(visibilityChanged(bool)), m_projectMonitor, SLOT(refreshMonitor(bool)));
+    //connect(m_clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(refreshMonitor(bool)));
     connect(m_effectList, SIGNAL(addEffect(QDomElement)), this, SLOT(slotAddEffect(QDomElement)));
     connect(m_effectList, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
 
@@ -351,8 +352,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     m_projectBinDock->raise();
 
-    actionCollection()->addAssociatedWidget(m_clipMonitor->container());
-    actionCollection()->addAssociatedWidget(m_projectMonitor->container());
+    /*actionCollection()->addAssociatedWidget(m_clipMonitor->container());
+    actionCollection()->addAssociatedWidget(m_projectMonitor->container());*/
 
     QList<QPair<QString, QAction *> > viewActions;
     QPair <QString, QAction *> pair;
@@ -442,7 +443,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
 #endif
-    KMessageBox::information(this, "Warning, development version for testing only. we are currently working on core functionnalities,\ndo not save any project or your project files might be corrupted.");
+    //KMessageBox::information(this, "Warning, development version for testing only. we are currently working on core functionnalities,\ndo not save any project or your project files might be corrupted.");
 }
 
 MainWindow::~MainWindow()
@@ -1285,9 +1286,9 @@ void MainWindow::slotEditProjectSettings()
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
         project->setProjectFolder(w->selectedFolder());
-#ifndef Q_WS_MAC
-        m_recMonitor->slotUpdateCaptureFolder(project->projectFolder().path() + QDir::separator());
-#endif
+        if (m_recMonitor) {
+            m_recMonitor->slotUpdateCaptureFolder(project->projectFolder().path() + QDir::separator());
+        }
         if (m_renderWidget) {
             m_renderWidget->setDocumentPath(project->projectFolder().path() + QDir::separator());
         }
@@ -1571,15 +1572,15 @@ void MainWindow::connectDocument()
     pCore->monitorManager()->setDocument(project);
     trackView->updateProjectFps();
     project->checkProjectClips();
-#ifndef Q_WS_MAC
-    m_recMonitor->slotUpdateCaptureFolder(project->projectFolder().path() + QDir::separator());
-#endif
+    if (m_recMonitor) {
+        m_recMonitor->slotUpdateCaptureFolder(project->projectFolder().path() + QDir::separator());
+    }
     //Update the mouse position display so it will display in DF/NDF format by default based on the project setting.
     slotUpdateMousePosition(0);
 
     // Make sure monitor is visible so that it is painted black on startup
-    show();
-    pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor, true);
+    //show();
+    //pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor, true);
     // set tool to select tool
     m_buttonSelectTool->setChecked(true);
 }
@@ -1636,10 +1637,10 @@ void MainWindow::slotPreferences(int page, int option)
     connect(dialog, SIGNAL(settingsChanged(QString)), this, SLOT(updateConfiguration()));
     connect(dialog, SIGNAL(settingsChanged(QString)), SIGNAL(configurationChanged()));
     connect(dialog, SIGNAL(doResetProfile()), pCore->monitorManager(), SLOT(slotResetProfiles()));
-#ifndef Q_WS_MAC
-    connect(dialog, SIGNAL(updateCaptureFolder()), this, SLOT(slotUpdateCaptureFolder()));
-    connect(dialog, SIGNAL(updateFullScreenGrab()), m_recMonitor, SLOT(slotUpdateFullScreenGrab()));
-#endif
+    if (m_recMonitor) {
+        connect(dialog, SIGNAL(updateCaptureFolder()), this, SLOT(slotUpdateCaptureFolder()));
+        connect(dialog, SIGNAL(updateFullScreenGrab()), m_recMonitor, SLOT(slotUpdateFullScreenGrab()));
+    }
     dialog->show();
     if (page != -1) {
         dialog->showPage(page, option);
@@ -1648,13 +1649,12 @@ void MainWindow::slotPreferences(int page, int option)
 
 void MainWindow::slotUpdateCaptureFolder()
 {
-
-#ifndef Q_WS_MAC
-    if (pCore->projectManager()->current())
-        m_recMonitor->slotUpdateCaptureFolder(pCore->projectManager()->current()->projectFolder().path() + QDir::separator());
-    else
-        m_recMonitor->slotUpdateCaptureFolder(KdenliveSettings::defaultprojectfolder());
-#endif
+    if (m_recMonitor) {
+        if (pCore->projectManager()->current())
+            m_recMonitor->slotUpdateCaptureFolder(pCore->projectManager()->current()->projectFolder().path() + QDir::separator());
+        else
+            m_recMonitor->slotUpdateCaptureFolder(KdenliveSettings::defaultprojectfolder());
+    }
 }
 
 void MainWindow::updateConfiguration()

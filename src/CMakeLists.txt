@@ -244,7 +244,7 @@ target_link_libraries(kdenlive
   kiss_fft
 )
 
-qt5_use_modules( kdenlive Script Widgets Concurrent OpenGL)
+qt5_use_modules( kdenlive Script Widgets Concurrent Qml Quick)
 
 if(Q_WS_X11)
   include_directories(${X11_Xlib_INCLUDE_PATH})

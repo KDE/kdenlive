@@ -206,6 +206,11 @@
       <label>Use OpenGL for video display.</label>
       <default>false</default>
     </entry>
+
+    <entry name="gpu_accel" type="Bool">
+      <label>Use Movit for GPU accelerated display and effects.</label>
+      <default>false</default>
+    </entry>
     
     <entry name="video_driver" type="UInt">
       <label>Video driver used for output.</label>

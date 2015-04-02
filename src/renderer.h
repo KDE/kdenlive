@@ -55,6 +55,7 @@
 class KComboBox;
 class BinController;
 class ClipController;
+class GLWidget;
 
 namespace Mlt
 {
@@ -102,7 +103,7 @@ class Render: public AbstractRender
      *  @param rendererName A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    Render(Kdenlive::MonitorId rendererName, BinController *binController, int winid, QWidget *parent = 0);
+    Render(Kdenlive::MonitorId rendererName, BinController *binController, GLWidget *qmlView, QWidget *parent = 0);
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~Render();
@@ -339,6 +340,9 @@ class Render: public AbstractRender
     /** @brief Ask to set this monitor as active */
     void setActiveMonitor();
     
+    /** @brief Renderer moved to a new frame, check seeking */
+    void checkFrameNumber(int pos);
+    
     QSemaphore showFrameSemaphore;
     bool externalConsumer;
 
@@ -359,6 +363,7 @@ private:
     Mlt::Event *m_showFrameEvent;
     Mlt::Event *m_pauseEvent;
     BinController *m_binController;
+    GLWidget *m_qmlView;
     double m_fps;
 
     /** @brief True if we are playing a zone.
@@ -385,7 +390,6 @@ private:
     QLocale m_locale;
     QFuture <void> m_infoThread;
     QList <requestClipInfo> m_requestList;
-    bool m_paused;
     /** @brief True if this monitor is active. */
     bool m_isActive;
 
@@ -399,7 +403,7 @@ private:
 
     /** @brief Build the MLT Consumer object with initial settings.
      *  @param profileName The MLT profile to use for the consumer */
-    void buildConsumer();
+    //void buildConsumer();
     void resetZoneMode();
     void fillSlowMotionProducers();
     /** @brief Get the track number of the lowest audible (non muted) audio track

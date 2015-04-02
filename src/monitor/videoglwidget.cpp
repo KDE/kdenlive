@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include "videoglwidget.h"
+#include "kdenlivesettings.h"
 
 #include <QApplication>
 #include <QMouseEvent>
@@ -38,7 +39,7 @@ VideoGLWidget::VideoGLWidget(QWidget *parent)
     , m_image_height(0)
     , m_texture(0)
     , m_display_ratio(4.0 / 3.0)
-    , m_backgroundColor(Qt::gray)
+    , m_backgroundColor(KdenliveSettings::window_background())
 {  
     setAttribute(Qt::WA_OpaquePaintEvent);
 }

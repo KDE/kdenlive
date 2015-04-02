@@ -56,7 +56,7 @@ public:
     MonitorManager *monitorManager();
     /** @brief Returns a pointer to the project bin controller. */
     BinController *binController();
-    
+
     Bin *bin();
     
 private:
@@ -72,7 +72,7 @@ private:
     MonitorManager *m_monitorManager;
     BinController *m_binController;
     Bin *m_binWidget;
-    
+
 signals:
     void coreIsReady();
 };

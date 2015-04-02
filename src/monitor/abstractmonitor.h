@@ -33,7 +33,7 @@
 
 class MonitorManager;
 class VideoContainer;
-class VideoSurface;
+class GLWidget;
 
 class AbstractRender: public QObject
 {

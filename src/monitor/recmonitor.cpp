@@ -27,6 +27,7 @@
 #include "capture/managecapturesdialog.h"
 #include "dialogs/profilesdialog.h"
 #include "videosurface.h"
+#include "glwidget.h"
 #include <config-kdenlive.h>
 
 #include <QDebug>
@@ -1045,7 +1046,8 @@ void RecMonitor::buildMltDevice(const QString &path)
 {
     if (m_captureDevice == NULL) {
 	m_monitorManager->updateScopeSource();
-        m_captureDevice = new MltDeviceCapture(path, videoSurface, this);
+        //TODO
+        //m_captureDevice = new MltDeviceCapture(path, videoSurface, this);
         connect(m_captureDevice, &MltDeviceCapture::droppedFrames, this, &RecMonitor::slotDroppedFrames);
         m_captureDevice->sendFrameForAnalysis = m_analyse;
         m_monitorManager->updateScopeSource();

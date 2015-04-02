@@ -307,7 +307,8 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
         profilePath = KdenliveSettings::current_profile();
     }
 
-    m_captureDevice = new MltDeviceCapture(profilePath, m_monitor->videoSurface, this);
+    //TODO:
+    //m_captureDevice = new MltDeviceCapture(profilePath, m_monitor->videoSurface, this);
     m_captureDevice->sendFrameForAnalysis = KdenliveSettings::analyse_stopmotion();
     m_monitor->setRender(m_captureDevice);
     connect(m_captureDevice, SIGNAL(frameSaved(QString)), this, SLOT(slotNewThumb(QString)));
@@ -484,7 +485,8 @@ void StopmotionWidget::slotLive(bool isOn)
         }
 
         if (m_captureDevice == NULL) {
-            m_captureDevice = new MltDeviceCapture(profilePath, m_monitor->videoSurface, this);
+            //TODO:
+            //m_captureDevice = new MltDeviceCapture(profilePath, m_monitor->videoSurface, this);
             m_captureDevice->sendFrameForAnalysis = KdenliveSettings::analyse_stopmotion();
             m_monitor->setRender(m_captureDevice);
             connect(m_captureDevice, SIGNAL(frameSaved(QString)), this, SLOT(slotNewThumb(QString)));

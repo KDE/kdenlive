@@ -19,7 +19,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include <locale>
 #include <QDebug>
 
-
 Core *Core::m_self = NULL;
 
 
@@ -54,6 +53,7 @@ void Core::init()
     m_monitorManager = new MonitorManager(this);
     emit coreIsReady();
 }
+
 
 Core* Core::self()
 {

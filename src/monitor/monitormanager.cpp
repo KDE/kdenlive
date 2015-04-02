@@ -107,7 +107,9 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh
         if (m_monitorsList.at(i)->id() == name) {
             m_activeMonitor = m_monitorsList.at(i);
         }
-        else m_monitorsList.at(i)->stop();
+        else {
+            m_monitorsList.at(i)->stop();
+        }
     }
     if (m_activeMonitor) {
         m_activeMonitor->blockSignals(true);
