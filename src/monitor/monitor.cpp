@@ -236,11 +236,6 @@ Monitor::~Monitor()
     delete render;
 }
 
-QWidget *Monitor::container()
-{
-    return videoBox;
-}
-
 void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu, QAction *loopClip, QWidget* parent)
 {
     m_contextMenu = new QMenu(parent);
@@ -293,15 +288,9 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     dropFrames->setCheckable(true);
     dropFrames->setChecked(true);
     connect(dropFrames, SIGNAL(toggled(bool)), this, SLOT(slotSwitchDropFrames(bool)));
-    
-    QAction *gpuAccel = m_contextMenu->addAction(QIcon(), i18n("GPU acceleration"));
-    gpuAccel->setCheckable(true);
-    gpuAccel->setChecked(KdenliveSettings::gpu_accel());
-    connect(gpuAccel, SIGNAL(toggled(bool)), this, SLOT(slotSwitchGpuAccel(bool)));
 
     m_configMenu->addAction(showTips);
     m_configMenu->addAction(dropFrames);
-    m_configMenu->addAction(gpuAccel);
 }
 
 void Monitor::slotGoToMarker(QAction *action)
@@ -639,10 +628,8 @@ void Monitor::wheelEvent(QWheelEvent * event)
 
 void Monitor::mouseDoubleClickEvent(QMouseEvent * event)
 {
-    if (!KdenliveSettings::openglmonitors()) {
-        switchFullScreen();
-        event->accept();
-    }
+    switchFullScreen();
+    event->accept();
 }
 
 void Monitor::slotMouseSeek(int eventDelta, bool fast)
@@ -1098,12 +1085,6 @@ void Monitor::setClipZone(const QPoint &pos)
 void Monitor::slotSwitchDropFrames(bool show)
 {
     render->setDropFrames(show);
-}
-
-void Monitor::slotSwitchGpuAccel(bool enable)
-{
-    KMessageBox::information(this, i18n("You need to restart Kdenlive to apply the change in GPU acceleration"));
-    KdenliveSettings::setGpu_accel(enable);
 }
 
 void Monitor::slotSwitchMonitorInfo(bool show)

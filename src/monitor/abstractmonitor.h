@@ -32,7 +32,6 @@
 #include <QFrame>
 
 class MonitorManager;
-class VideoContainer;
 class GLWidget;
 
 class AbstractRender: public QObject
@@ -85,7 +84,6 @@ public:
     virtual ~AbstractMonitor();
     virtual AbstractRender *abstractRender() = 0;
     bool isActive() const;
-    VideoContainer *videoBox;
     VideoSurface *videoSurface;
     void createVideoSurface();
     
@@ -101,24 +99,6 @@ public slots:
 protected:
     Kdenlive::MonitorId m_id;
     MonitorManager *m_monitorManager;
-};
-
-class VideoContainer : public QFrame
-{
-    Q_OBJECT
-public:
-    explicit VideoContainer(AbstractMonitor *monitor, QWidget *parent = 0);
-    void switchFullScreen();
-
-protected:
-    virtual void mouseDoubleClickEvent(QMouseEvent * event);
-    virtual void mouseReleaseEvent(QMouseEvent *event);
-    void keyPressEvent(QKeyEvent *event);
-    virtual void wheelEvent(QWheelEvent * event);
-
-private:
-    Qt::WindowFlags m_baseFlags;
-    AbstractMonitor *m_monitor;
 };
 
 #endif

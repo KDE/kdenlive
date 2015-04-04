@@ -87,7 +87,6 @@ public:
     ClipController *currentController() const;
     void setMarkers(const QList <CommentedTime> &markers);
     MonitorEditWidget *getEffectEdit();
-    QWidget *container();
     void reloadProducer(const QString &id);
     QFrame *m_volumePopup;
     /** @brief Reimplemented from QWidget, updates the palette colors. */
@@ -178,7 +177,6 @@ private slots:
     void slotExtractCurrentZone();
     void onFrameDisplayed(const SharedFrame& frame);
     void slotStartDrag();
-    void slotSwitchGpuAccel(bool enable);
     void setZoom();
 
 public slots:

@@ -168,9 +168,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_configSdl.reload_blackmagic->setIcon(QIcon::fromTheme("view-refresh"));
     connect(m_configSdl.reload_blackmagic, SIGNAL(clicked(bool)), this, SLOT(slotReloadBlackMagic()));
 
-#ifndef USE_OPENGL
-    m_configSdl.kcfg_openglmonitors->setHidden(true);
-#endif
+    //m_configSdl.kcfg_openglmonitors->setHidden(true);
+
 
     m_page6 = addPage(p6, i18n("Playback"), "media-playback-start");
 
@@ -263,6 +262,9 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     slotUpdateV4lProfile(-1);
     slotUpdateGrabProfile(-1);
     slotUpdateDecklinkProfile(-1);
+    
+    //TODO: enable GPU accel only if Movit is found
+    //m_configSdl.kcfg_gpu_accel->setEnabled();
 
     Render::getBlackMagicDeviceList(m_configCapture.kcfg_decklink_capturedevice);
     if (!Render::getBlackMagicOutputDeviceList(m_configSdl.kcfg_blackmagic_output_device)) {
@@ -442,20 +444,6 @@ void KdenliveSettingsDialog::initDevices()
                 KdenliveSettings::setAudio_driver((uint) i);
             }
         }
-
-    // Fill video drivers
-    m_configSdl.kcfg_video_driver->addItem(i18n("Automatic"), QString());
-#ifndef Q_WS_MAC
-    m_configSdl.kcfg_video_driver->addItem(i18n("XVideo"), "x11");
-    m_configSdl.kcfg_video_driver->addItem(i18n("X11"), "x11_noaccel");
-    m_configSdl.kcfg_video_driver->addItem(i18n("XFree86 DGA 2.0"), "dga");
-    m_configSdl.kcfg_video_driver->addItem(i18n("Nano X"), "nanox");
-    m_configSdl.kcfg_video_driver->addItem(i18n("Framebuffer console"), "fbcon");
-    m_configSdl.kcfg_video_driver->addItem(i18n("Direct FB"), "directfb");
-    m_configSdl.kcfg_video_driver->addItem(i18n("SVGAlib"), "svgalib");
-    m_configSdl.kcfg_video_driver->addItem(i18n("General graphics interface"), "ggi");
-    m_configSdl.kcfg_video_driver->addItem(i18n("Ascii art library"), "aalib");
-#endif
 
     // Fill the list of audio playback / recording devices
     m_configSdl.kcfg_audio_device->addItem(i18n("Default"), QString());
@@ -759,12 +747,6 @@ void KdenliveSettingsDialog::updateSettings()
         }
     } else if (KdenliveSettings::audiodevicename().isEmpty() == false) {
         KdenliveSettings::setAudiodevicename(QString());
-        resetProfile = true;
-    }
-
-    value = m_configSdl.kcfg_video_driver->itemData(m_configSdl.kcfg_video_driver->currentIndex()).toString();
-    if (value != KdenliveSettings::videodrivername()) {
-        KdenliveSettings::setVideodrivername(value);
         resetProfile = true;
     }
 

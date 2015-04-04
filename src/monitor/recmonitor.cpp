@@ -63,7 +63,6 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
     QVBoxLayout *l = new QVBoxLayout;
     l->setContentsMargins(0, 0, 0, 0);
     l->setSpacing(0);
-    l->addWidget(videoBox, 10);
     video_frame->setLayout(l);
     createVideoSurface();
 
@@ -181,15 +180,15 @@ RecMonitor::~RecMonitor()
 
 void RecMonitor::mouseDoubleClickEvent(QMouseEvent * event)
 {
-    if (!KdenliveSettings::openglmonitors() && videoBox && videoBox->isVisible()) {
+    /*if (videoBox && videoBox->isVisible()) {
         videoBox->switchFullScreen();
         event->accept();
-    }
+    }*/
 }
 
 void RecMonitor::slotSwitchFullScreen()
 {
-    videoBox->switchFullScreen();
+    //videoBox->switchFullScreen();
 }
 
 void RecMonitor::stop()
@@ -256,8 +255,8 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
     }
 
     // The m_videoBox container has to be shown once before the MLT consumer is build, or preview will fail
-    videoBox->setHidden(ix != Video4Linux && ix != BlackMagic);
-    videoBox->setHidden(true);
+    /*videoBox->setHidden(ix != Video4Linux && ix != BlackMagic);
+    videoBox->setHidden(true);*/
     switch (ix) {
     case ScreenBag:
         m_discAction->setEnabled(false);
@@ -413,7 +412,7 @@ void RecMonitor::slotStopCapture()
 {
     // stop capture
     if (!m_isCapturing && !m_isPlaying) return;
-    videoBox->setHidden(true);
+    //videoBox->setHidden(true);
     control_frame->setEnabled(true);
     slotActivateMonitor();
     switch (device_selector->currentIndex()) {
@@ -455,7 +454,6 @@ void RecMonitor::slotStartPreview(bool play)
 {
     if (m_captureProcess->state() != QProcess::NotRunning) {
         if (device_selector->currentIndex() == Firewire) {
-            videoBox->setHidden(false);
             if (m_isPlaying) {
                 m_captureProcess->write("k", 1);
                 //captureProcess->write("\e", 2);
@@ -485,10 +483,7 @@ void RecMonitor::slotStartPreview(bool play)
     bool isXml;
     if (ix != Video4Linux && ix != BlackMagic && ix != Firewire) {
             // no need for sdl preview
-            videoBox->setHidden(true);
     } else {
-            videoBox->setHidden(false);
-            videoBox->show();
     }
     switch (ix) {
     case Firewire:
@@ -543,7 +538,6 @@ void RecMonitor::slotStartPreview(bool play)
         if (!m_captureDevice->slotStartPreview(producer, isXml)) {
             // v4l capture failed to start
             video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));
-            videoBox->setHidden(true);
 
         } else {
             m_playAction->setEnabled(false);
@@ -560,7 +554,6 @@ void RecMonitor::slotStartPreview(bool play)
         if (!m_captureDevice->slotStartPreview(producer)) {
             // v4l capture failed to start
             video_frame->setText(i18n("Failed to start Decklink,\ncheck your parameters..."));
-            videoBox->setHidden(true);
 
         } else {
             m_playAction->setEnabled(false);
@@ -691,7 +684,6 @@ void RecMonitor::slotRecord()
             if (!rec_video->isChecked()) showPreview = false;
 
             if (m_captureDevice->slotStartCapture(v4lparameters, m_captureFile.path(), playlist, showPreview, isXml)) {
-                videoBox->setHidden(false);
                 m_isCapturing = true;
                 m_recAction->setEnabled(false);
                 m_stopAction->setEnabled(true);
@@ -700,7 +692,6 @@ void RecMonitor::slotRecord()
             }
             else {
                 video_frame->setText(i18n("Failed to start ffmpeg capture,\ncheck your parameters..."));
-                videoBox->setHidden(true);
                 m_recAction->blockSignals(true);
                 m_recAction->setChecked(false);
                 m_recAction->blockSignals(false);
@@ -717,7 +708,6 @@ void RecMonitor::slotRecord()
             playlist = QString("<producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">%1</property><property name=\"mlt_service\">decklink</property></producer>").arg(KdenliveSettings::decklink_capturedevice());
 
             if (m_captureDevice->slotStartCapture(KdenliveSettings::decklink_parameters(), m_captureFile.path(), QString("decklink:%1").arg(KdenliveSettings::decklink_capturedevice()), m_previewSettings->isChecked(), false)) {
-                videoBox->setHidden(false);
                 m_isCapturing = true;
                 slotSetInfoMessage(i18n("Capturing to %1", m_captureFile.fileName()));
                 m_recAction->setEnabled(false);
@@ -727,7 +717,6 @@ void RecMonitor::slotRecord()
             else {
                 video_frame->setText(i18n("Failed to start Decklink,\ncheck your parameters..."));
                 slotSetInfoMessage(i18n("Failed to start capture"));
-                videoBox->setHidden(true);
                 m_isCapturing = false;
             }
             break;
