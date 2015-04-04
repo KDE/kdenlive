@@ -113,6 +113,7 @@ swapchannels.xml
 audiobalance.xml
 audiopan.xml
 rotoscoping.xml
+movit_rect.xml
 
 DESTINATION ${DATA_INSTALL_DIR}/kdenlive/effects)
 

@@ -46,6 +46,7 @@ class MonitorManager;
 class QSlider;
 class TwostateAction;
 class QQuickItem;
+class QScrollBar;
 
 class Overlay : public QLabel
 {
@@ -100,6 +101,10 @@ public:
 
     int getZoneStart();
     int getZoneEnd();
+    void setUpEffectGeometry(QRect r);
+    void setUpEffectGeometry(int x, int y, int w, int h);
+    QRect effectRect() const;
+    void setEffectKeyframe(bool enable);
 
 protected:
     void mousePressEvent(QMouseEvent * event);
@@ -119,6 +124,8 @@ protected:
 private:
     ClipController *m_controller;
     GLWidget *m_glMonitor;
+    QScrollBar *m_verticalScroll;
+    QScrollBar *m_horizontalScroll;
     SmallRuler *m_ruler;
     Overlay *m_overlay;
     int m_length;
@@ -150,6 +157,7 @@ private:
     QAction *m_editMarker;
     QQuickItem *m_rootItem;
     void switchFullScreen();
+    void adjustScrollBars(float horizontal, float vertical);
 
 private slots:
     void seekCursor(int pos);
@@ -171,6 +179,7 @@ private slots:
     void onFrameDisplayed(const SharedFrame& frame);
     void slotStartDrag();
     void slotSwitchGpuAccel(bool enable);
+    void setZoom();
 
 public slots:
     void slotOpenFile(const QString &);
@@ -228,6 +237,7 @@ signals:
     void requestFrameForAnalysis(bool);
     /** @brief Request a zone extraction (ffmpeg transcoding). */
     void extractZone(const QString &id);
+    void effectChanged(QRect r);
 };
 
 #endif

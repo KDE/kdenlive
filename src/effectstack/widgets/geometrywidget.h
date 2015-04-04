@@ -82,8 +82,6 @@ private:
     int m_inPoint;
     /** Out point of the clip (crop from end). */
     int m_outPoint;
-    MonitorScene *m_scene;
-    OnMonitorRectItem *m_rect;
     OnMonitorPathItem *m_geomPath;
     QGraphicsRectItem *m_previous;
     KeyframeHelper *m_timeline;
@@ -134,6 +132,7 @@ private slots:
     void slotUpdatePath();
     /** @brief Updates the Mlt::Geometry object. */
     void slotUpdateGeometry();
+    void slotUpdateGeometry(QRect r);
     /** @brief Updates the spinBoxes according to the rect. */
     void slotUpdateProperties();
 

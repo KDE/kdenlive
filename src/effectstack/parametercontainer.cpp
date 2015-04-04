@@ -219,7 +219,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             m_valueItems[paramName+"complex"] = pl;
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
         } else if (type == "geometry") {
-            if (KdenliveSettings::on_monitor_effects()) {
+            if (true /*KdenliveSettings::on_monitor_effects()*/) {
 		m_needsMonitorEffectScene = true;
                 m_geometryWidget = new GeometryWidget(m_metaInfo->monitor, m_metaInfo->timecode, 0, effect.hasAttribute("showrotation"), parent);
                 m_geometryWidget->setFrameSize(m_metaInfo->frameSize);
@@ -631,12 +631,12 @@ void ParameterContainer::slotCollectAllParameters()
             ComplexParameter *complex = static_cast<ComplexParameter*>(m_valueItems.value(paramName));
             namenode.item(i) = complex->getParamDesc();
         } else if (type == "geometry") {
-            if (KdenliveSettings::on_monitor_effects()) {
+            /*if (KdenliveSettings::on_monitor_effects())*/ {
                 if (m_geometryWidget) namenode.item(i).toElement().setAttribute("value", m_geometryWidget->getValue());
-            } else {
+            }/* else {
                 Geometryval *geom = static_cast<Geometryval*>(m_valueItems.value(paramName));
                 namenode.item(i).toElement().setAttribute("value", geom->getValue());
-            }
+            }*/
         } else if (type == "addedgeometry") {
             if (m_geometryWidget) namenode.item(i).toElement().setAttribute("value", m_geometryWidget->getExtraValue(namenode.item(i).toElement().attribute("name")));
         } else if (type == "position") {

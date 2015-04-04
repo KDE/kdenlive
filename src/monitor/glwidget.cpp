@@ -24,6 +24,7 @@
 #include <QUrl>
 #include <QOffscreenSurface>
 #include <QtQml>
+#include <QQuickItem>
 
 #include <mlt++/Mlt.h>
 #include "glwidget.h"
@@ -60,7 +61,7 @@ GLWidget::GLWidget(bool accel, QObject *parent)
     , m_threadCreateEvent(0)
     , m_threadJoinEvent(0)
     , m_frameRenderer(0)
-    , m_zoom(0.0f)
+    , m_zoom(1.0f)
     , m_offset(QPoint(0, 0))
     , m_consumer(0)
     , m_producer(0)
@@ -100,7 +101,6 @@ GLWidget::GLWidget(bool accel, QObject *parent)
 
 GLWidget::~GLWidget()
 {
-    qDebug();
     //stop();
     delete m_glslManager;
     delete m_threadStartEvent;
@@ -154,7 +154,24 @@ void GLWidget::initializeGL()
 
     m_initSem.release();
     m_isInitialized = true;
+    
+    //QObject *frameRect = rootObject()->findChild<QObject*>("framerect");
+    
+
     qDebug() << "end";
+}
+
+void GLWidget::effectRectChanged()
+{
+    QObject *item = rootObject()->findChild<QObject*>("framerect");
+    QObject *base = rootObject()->findChild<QObject*>("frame");
+    double scale = rootObject()->property("scale").toDouble();
+    int x = (int) ((item->property("x").toInt() - base->property("x").toInt()) / scale + 0.5);
+    int y = (int) ((item->property("y").toInt() - base->property("y").toInt()) / scale + 0.5);
+    int w = (int) (item->property("width").toInt() / scale + 0.5);
+    int h = (int) (item->property("height").toInt() / scale + 0.5);
+    QRect r(x, y, w, h);
+    emit effectChanged(r);
 }
 
 void GLWidget::setBlankScene()
@@ -189,6 +206,10 @@ void GLWidget::resizeGL(int width, int height)
     x = (width - w) / 2;
     y = (height - h) / 2;
     m_rect.setRect(x, y, w, h);
+    double scale = (double) m_rect.width() / m_consumer->profile()->width() * m_zoom;
+    QPoint center = m_rect.center();
+    rootObject()->setProperty("center", center);
+    rootObject()->setProperty("scale", scale);
     emit rectChanged();
 }
 
@@ -266,7 +287,7 @@ void GLWidget::paintGL()
     glDepthMask(GL_FALSE);
     glViewport(0, 0, width, height);
     check_error();
-    QColor color = QPalette().color(QPalette::Window);
+    QColor color(KdenliveSettings::window_background()); //= QPalette().color(QPalette::Window);
     glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
     glClear(GL_COLOR_BUFFER_BIT);
     check_error();
@@ -303,7 +324,7 @@ void GLWidget::paintGL()
 
     // Set model view.
     QMatrix4x4 modelView;
-    if (m_zoom > 0.0) {
+    if (m_zoom != 1.0) {
         if (offset().x() || offset().y())
             modelView.translate(-offset().x() * devicePixelRatio(),
                                  offset().y() * devicePixelRatio());
@@ -357,7 +378,32 @@ void GLWidget::paintGL()
 
 void GLWidget::wheelEvent(QWheelEvent * event)
 {
-    emit mouseSeek(event->delta(), event->modifiers() == Qt::ControlModifier);
+    if (event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::ShiftModifier) {
+        if (event->delta() > 0) {
+            if (m_zoom == 1.0f) {
+                setZoom(2.0f);
+            }
+            else if (m_zoom == 2.0f) {
+                setZoom(3.0f);
+            }
+            else if (m_zoom < 1.0f) {
+                setZoom(m_zoom * 2);
+            }
+        }
+        else {
+            if (m_zoom == 3.0f) {
+                setZoom(2.0f);
+            }
+            else if (m_zoom == 2.0f) {
+                setZoom(1.0f);
+            }
+            else {
+                setZoom(m_zoom / 2);
+            }
+        }
+        return;
+    }
+    emit mouseSeek(event->delta(), event->modifiers() & Qt::ControlModifier);
     event->accept();
 }
 
@@ -365,7 +411,7 @@ void GLWidget::wheelEvent(QWheelEvent * event)
 void GLWidget::mousePressEvent(QMouseEvent* event)
 {
     QQuickView::mousePressEvent(event);
-    if (event->isAccepted()) return;
+    if (event->isAccepted() || effectSceneVisible()) return;
     if (event->button() == Qt::LeftButton)
         m_dragStart = event->pos();
 }
@@ -373,7 +419,7 @@ void GLWidget::mousePressEvent(QMouseEvent* event)
 void GLWidget::mouseMoveEvent(QMouseEvent* event)
 {
     QQuickView::mouseMoveEvent(event);
-    if (event->isAccepted()) return;
+    if (event->isAccepted() || effectSceneVisible()) return;
 /*    if (event->modifiers() == Qt::ShiftModifier && m_producer) {
         emit seekTo(m_producer->get_length() *  event->x() / width());
         return;
@@ -468,7 +514,6 @@ static void onThreadStopped(mlt_properties owner, GLWidget* self)
 int GLWidget::setProducer(Mlt::Producer* producer, bool isMulti)
 {
     int error = 0;//Controller::setProducer(producer, isMulti);
-    qDebug()<<"****************\nSET PRODUCER\n-----------------------";
     m_producer = producer;
     if (!error && producer) {
         error = reconfigure(isMulti);
@@ -573,7 +618,35 @@ int GLWidget::reconfigure(bool isMulti)
         //Controller::closeConsumer();
         //Controller::close();
     }
+    rootObject()->setProperty("framebase", QRect(0, 0, m_consumer->profile()->width(), m_consumer->profile()->height()));
+    rootObject()->setProperty("framerect", QRect(0, 0, m_consumer->profile()->width(), m_consumer->profile()->height()));
     return error;
+}
+
+bool GLWidget::effectSceneVisible() const
+{
+    QObject *item = rootObject()->findChild<QObject*>("effectscene");
+    return item->property("visible").toBool();
+}
+
+void GLWidget::slotShowEffectScene(bool show)
+{
+    if (show) {
+        QObject *item = rootObject();
+        QObject::connect(item, SIGNAL(qmlSignal()), this, SLOT(effectRectChanged()), Qt::UniqueConnection);
+    }
+    QObject *item = rootObject()->findChild<QObject*>("effectscene");
+    item->setProperty("visible", show);
+}
+
+float GLWidget::zoom() const 
+{ 
+    return m_zoom;// * m_consumer->profile()->width() / m_rect.width();
+}
+
+QSize GLWidget::profileSize() const
+{
+    return QSize(m_consumer->profile()->width(), m_consumer->profile()->height());
 }
 
 QPoint GLWidget::offset() const
@@ -584,15 +657,19 @@ QPoint GLWidget::offset() const
 
 void GLWidget::setZoom(float zoom)
 {
+    double zoomRatio = zoom / m_zoom;
     m_zoom = zoom;
     emit zoomChanged();
+    double scale = rootObject()->property("scale").toDouble() * zoomRatio;
+    rootObject()->setProperty("scale", scale);
     update();
 }
 
 void GLWidget::mouseReleaseEvent(QMouseEvent * event)
 {
+    QQuickView::mouseReleaseEvent(event);
     m_dragStart = QPoint();
-    if (event->button() != Qt::RightButton) {
+    if (event->button() != Qt::RightButton && !effectSceneVisible()) {
         emit monitorPlay();
     }
 }
@@ -713,7 +790,6 @@ FrameRenderer::FrameRenderer(QOpenGLContext* shareContext)
 
 FrameRenderer::~FrameRenderer()
 {
-    qDebug();
     delete m_context;
     delete m_gl32;
 }
@@ -837,7 +913,6 @@ SharedFrame FrameRenderer::getDisplayFrame()
 
 void FrameRenderer::cleanup()
 {
-    qDebug();
     if (m_renderTexture[0] && m_renderTexture[1] && m_renderTexture[2]) {
         m_context->makeCurrent(m_surface);
         glDeleteTextures(3, m_renderTexture);

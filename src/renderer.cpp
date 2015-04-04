@@ -1173,16 +1173,16 @@ void Render::initSceneList()
 void Render::loadUrl(const QString &url)
 {
     Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile, url.toUtf8().constData());
-    setProducer(producer, 0);
+    setProducer(producer, 0, true);
 }
 
 int Render::setMonitorProducer(const QString &id, int position)
 {
     Mlt::Producer *prod = m_binController->getBinProducer(id);
-    return setProducer(prod, position);
+    return setProducer(prod, position, true);
 }
 
-int Render::setProducer(Mlt::Producer *producer, int position)
+int Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
 {
     m_refreshTimer.stop();
     requestedSeekPosition = SEEK_INACTIVE;
@@ -1259,12 +1259,12 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     if (m_qmlView) {
         m_qmlView->setProducer(producer);
         m_mltConsumer = m_qmlView->consumer();
-        m_mltConsumer->set("refresh", 1);
+        //m_mltConsumer->set("refresh", 1);
     }
     //m_mltConsumer->connect(*producer);
 
-    if (monitorIsActive) {
-        //startConsumer();
+    if (isActive) {
+        startConsumer();
     }
     emit durationChanged(m_mltProducer->get_playtime(), m_mltProducer->get_in());
     position = m_mltProducer->position();

@@ -47,6 +47,7 @@
 #include <QFileDialog>
 #include <QMimeData>
 #include <QQuickItem>
+#include <QScrollBar>
 
 #define SEEK_INACTIVE (-1)
 
@@ -78,19 +79,27 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     glayout->setContentsMargins(0, 0, 0, 0);
 
     // Create QML OpenGL widget
-    /*if (id != Kdenlive::ProjectMonitor)*/ {
-        m_glMonitor = new GLWidget;//(id == Kdenlive::ProjectMonitor);
-        QWidget *videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow*>(m_glMonitor), this);
-        glayout->addWidget(videoWidget, 0, 0);
+    m_glMonitor = new GLWidget;//(id == Kdenlive::ProjectMonitor);
+    QWidget *videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow*>(m_glMonitor), this);
+    glayout->addWidget(videoWidget, 0, 0);
+    m_verticalScroll = new QScrollBar(Qt::Vertical);
+    glayout->addWidget(m_verticalScroll, 0, 1);
+    m_verticalScroll->hide();
+    m_horizontalScroll = new QScrollBar(Qt::Horizontal);
+    glayout->addWidget(m_horizontalScroll, 1, 0);
+    m_horizontalScroll->hide();
+    connect(m_horizontalScroll, SIGNAL(valueChanged(int)), m_glMonitor, SLOT(setOffsetX(int)));
+    connect(m_verticalScroll, SIGNAL(valueChanged(int)), m_glMonitor, SLOT(setOffsetY(int)));
+    connect(m_glMonitor, SIGNAL(frameDisplayed(const SharedFrame&)), this, SLOT(onFrameDisplayed(const SharedFrame&)));
+    connect(m_glMonitor, SIGNAL(mouseSeek(int,bool)), this, SLOT(slotMouseSeek(int,bool)));
+    connect(m_glMonitor, SIGNAL(monitorPlay()), this, SLOT(slotPlay()));
+    connect(m_glMonitor, SIGNAL(startDrag()), this, SLOT(slotStartDrag()));
+    connect(m_glMonitor, SIGNAL(switchFullScreen()), this, SLOT(slotSwitchFullScreen()));
+    connect(m_glMonitor, SIGNAL(zoomChanged()), this, SLOT(setZoom()));
+    connect(m_glMonitor, SIGNAL(effectChanged(QRect)), this, SIGNAL(effectChanged(QRect)));
+    m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitor.qml"))));
+    m_rootItem = m_glMonitor->rootObject();
 
-        connect(m_glMonitor, SIGNAL(frameDisplayed(const SharedFrame&)), this, SLOT(onFrameDisplayed(const SharedFrame&)));
-        connect(m_glMonitor, SIGNAL(mouseSeek(int,bool)), this, SLOT(slotMouseSeek(int,bool)));
-        connect(m_glMonitor, SIGNAL(monitorPlay()), this, SLOT(slotPlay()));
-        connect(m_glMonitor, SIGNAL(startDrag()), this, SLOT(slotStartDrag()));
-        connect(m_glMonitor, SIGNAL(switchFullScreen()), this, SLOT(slotSwitchFullScreen()));
-        m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitor.qml"))));
-        m_rootItem = m_glMonitor->rootObject();
-    }
     m_glWidget->setMinimumSize(QSize(320, 180));
     layout->addWidget(m_glWidget, 10);
     
@@ -194,6 +203,12 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
 
     if (id == Kdenlive::ProjectMonitor) {
+        QAction *visibilityAction = new QAction(QIcon::fromTheme("video-display"), i18n("Show/Hide edit mode"), this);
+        visibilityAction->setCheckable(true);
+        visibilityAction->setChecked(KdenliveSettings::showOnMonitorScene());
+        connect(visibilityAction, SIGNAL(triggered(bool)), m_glMonitor, SLOT(slotShowEffectScene(bool)));
+        //visibilityAction->setVisible(false);
+        m_toolbar->addAction(visibilityAction);
         /*m_effectWidget = new MonitorEditWidget(render, m_glWidget);
 	connect(m_effectWidget, SIGNAL(showEdit(bool,bool)), this, SLOT(slotShowEffectScene(bool,bool)));
         m_toolbar->addAction(m_effectWidget->getVisibilityAction());
@@ -456,8 +471,62 @@ void Monitor::mousePressEvent(QMouseEvent * event)
 
 void Monitor::resizeEvent(QResizeEvent *event)
 {
-    Q_UNUSED(event)
-    if (render && isVisible() && isActive()) render->doRefresh();
+    if (m_glMonitor->zoom() > 0.0f) {
+        float horizontal = float(m_horizontalScroll->value()) / m_horizontalScroll->maximum();
+        float vertical = float(m_verticalScroll->value()) / m_verticalScroll->maximum();
+        adjustScrollBars(horizontal, vertical);
+    } else {
+        m_horizontalScroll->hide();
+        m_verticalScroll->hide();
+    }
+}
+
+void Monitor::adjustScrollBars(float horizontal, float vertical)
+{
+    if (m_glMonitor->zoom() > 1.0f) {
+        m_horizontalScroll->setPageStep(m_glWidget->width());
+        m_horizontalScroll->setMaximum(m_glMonitor->profileSize().width() * m_glMonitor->zoom()
+                                       - m_horizontalScroll->pageStep());
+        m_horizontalScroll->setValue(qRound(horizontal * m_horizontalScroll->maximum()));
+        emit m_horizontalScroll->valueChanged(m_horizontalScroll->value());
+        m_horizontalScroll->show();
+    } else {
+        int max = m_glMonitor->profileSize().width() * m_glMonitor->zoom() - m_glWidget->width();
+        emit m_horizontalScroll->valueChanged(qRound(0.5 * max));
+        m_horizontalScroll->hide();
+    }
+
+    if (m_glMonitor->zoom() > 1.0f) {
+        m_verticalScroll->setPageStep(m_glWidget->height());
+        m_verticalScroll->setMaximum(m_glMonitor->profileSize().height() * m_glMonitor->zoom()
+                                     - m_verticalScroll->pageStep());
+        m_verticalScroll->setValue(qRound(vertical * m_verticalScroll->maximum()));
+        emit m_verticalScroll->valueChanged(m_verticalScroll->value());
+        m_verticalScroll->show();
+    } else {
+        int max = m_glMonitor->profileSize().height() * m_glMonitor->zoom() - m_glWidget->height();
+        emit m_verticalScroll->valueChanged(qRound(0.5 * max));
+        m_verticalScroll->hide();
+    }
+}
+
+void Monitor::setZoom()
+{
+    //emit zoomChanged(factor);
+    //Settings.setPlayerZoom(factor);
+    if (m_glMonitor->zoom() == 1.0f) {
+       /* m_zoomButton->setIcon(icon);
+        m_zoomButton->setChecked(false);*/
+        m_horizontalScroll->hide();
+        m_verticalScroll->hide();
+    } else {
+        adjustScrollBars(0.5f, 0.5f);
+    }
+    QRect r;
+    r.setSize(QSize((int) (m_glMonitor->rect().width() * m_glMonitor->zoom() + 0.5), (int) (m_glMonitor->rect().height() * m_glMonitor->zoom() + 0.5)));
+    QSize s = m_glMonitor->size() / 2 - r.size() / 2;
+    r.moveTopLeft(QPoint(s.width(), s.height()));
+    m_rootItem->setProperty("framesize", r);
 }
 
 void Monitor::slotSwitchFullScreen()
@@ -481,22 +550,26 @@ void Monitor::mouseReleaseEvent(QMouseEvent * event)
 
 void Monitor::slotStartDrag()
 {
-  QDrag *drag = new QDrag(this);
-        QMimeData *mimeData = new QMimeData;
+    if (m_id == Kdenlive::ProjectMonitor) {
+        // dragging is only allowed for clip monitor
+        return;
+    }
+    QDrag *drag = new QDrag(this);
+    QMimeData *mimeData = new QMimeData;
 
-        QStringList list;
-        list.append(m_controller->clipId());
-        QPoint p = m_ruler->zone();
-        list.append(QString::number(p.x()));
-        list.append(QString::number(p.y()));
-        QByteArray data;
-        data.append(list.join(";").toUtf8());
-        mimeData->setData("kdenlive/clip", data);
-        drag->setMimeData(mimeData);
-        /*QPixmap pix = m_currentClip->thumbnail();
-        drag->setPixmap(pix);
-        drag->setHotSpot(QPoint(0, 50));*/
-        drag->start(Qt::MoveAction);
+    QStringList list;
+    list.append(m_controller->clipId());
+    QPoint p = m_ruler->zone();
+    list.append(QString::number(p.x()));
+    list.append(QString::number(p.y()));
+    QByteArray data;
+    data.append(list.join(";").toUtf8());
+    mimeData->setData("kdenlive/clip", data);
+    drag->setMimeData(mimeData);
+    /*QPixmap pix = m_currentClip->thumbnail();
+    drag->setPixmap(pix);
+    drag->setHotSpot(QPoint(0, 50));*/
+    drag->start(Qt::MoveAction);
 }
 
 // virtual
@@ -645,7 +718,6 @@ void Monitor::slotSeek()
 
 void Monitor::slotSeek(int pos)
 {
-    qDebug()<<"+ + + ++ SEEKING TO: "<<pos;
     if (render == NULL) return;
     slotActivateMonitor();
     render->seekToFrame(pos);
@@ -867,7 +939,6 @@ void Monitor::slotPlayZone()
     if (ok) {
         m_playAction->setActive(true);
     }
-    qDebug() << ok;
 }
 
 void Monitor::slotLoopZone()
@@ -891,7 +962,7 @@ void Monitor::slotLoopClip()
 void Monitor::updateClipProducer(Mlt::Producer *prod)
 {
     if (render == NULL) return;
-    render->setProducer(prod, render->seekFramePosition());
+    render->setProducer(prod, render->seekFramePosition(), true);
 }
 
 void Monitor::openClip(ClipController *controller)
@@ -900,10 +971,10 @@ void Monitor::openClip(ClipController *controller)
     m_controller = controller;
     if (controller) {
         updateMarkers();
-        render->setProducer(m_controller->masterProducer(), -1);
+        render->setProducer(m_controller->masterProducer(), -1, isActive());
     }
     else {
-        render->setProducer(NULL, -1);
+        render->setProducer(NULL, -1, isActive());
     }
 }
 
@@ -912,10 +983,10 @@ void Monitor::openClipZone(ClipController *controller, int in, int out)
     if (render == NULL) return;
     m_controller = controller;
     if (controller) {
-        render->setProducer(m_controller->zoneProducer(in, out), -1);
+        render->setProducer(m_controller->zoneProducer(in, out), -1, isActive());
     }
     else {
-        render->setProducer(NULL, -1);
+        render->setProducer(NULL, -1, isActive());
     }
 }
 
@@ -1001,6 +1072,7 @@ void Monitor::resetProfile(const QString &profile)
         slotActivateMonitor();
         render->resetProfile(profile);
     }
+    m_rootItem->setProperty("framesize", QRect(0, 0, m_glMonitor->profileSize().width(), m_glMonitor->profileSize().height()));
     if (m_effectWidget)
         m_effectWidget->resetProfile(render);
 }
@@ -1096,6 +1168,8 @@ void Monitor::slotSetSelectedClip(Transition* item)
 
 void Monitor::slotShowEffectScene(bool show, bool manuallyTriggered)
 {
+  
+    m_glMonitor->slotShowEffectScene(show);
     return;
     if (m_id == Kdenlive::ProjectMonitor) {
         if (!m_effectWidget->getVisibilityAction()->isChecked())
@@ -1144,9 +1218,30 @@ MonitorEditWidget* Monitor::getEffectEdit()
     return m_effectWidget;
 }
 
+void Monitor::setUpEffectGeometry(QRect r)
+{
+    m_glMonitor->rootObject()->setProperty("framesize", r);
+}
+
+void Monitor::setUpEffectGeometry(int x, int y, int w, int h)
+{
+    m_glMonitor->rootObject()->setProperty("framesize", QRect(x, y, w, h));
+    QRect res = m_glMonitor->rootObject()->property("framesize").toRect();
+}
+
+QRect Monitor::effectRect() const
+{
+    return m_glMonitor->rootObject()->property("framesize").toRect();
+}
+
+void Monitor::setEffectKeyframe(bool enable)
+{
+    m_glMonitor->rootObject()->setProperty("iskeyframe", enable);
+}
+
 bool Monitor::effectSceneDisplayed()
 {
-    return m_effectWidget->isVisible();
+    return m_glMonitor->effectSceneVisible();
 }
 
 void Monitor::slotSetVolume(int volume)

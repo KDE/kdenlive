@@ -70,11 +70,14 @@ public:
     QQuickView* videoQuickView() { return this; }
     Mlt::Filter* glslManager() const { return m_glslManager; }
     QRect rect() const { return m_rect; }
-    float zoom() const { return m_zoom /** MLT.profile().width() / m_rect.width()*/; }
+    QRect effectRect() const { return m_effectRect; }
+    float zoom() const;
     QPoint offset() const;
     Mlt::Consumer *consumer();
     Mlt::Producer *producer();
-    
+    QSize profileSize() const;
+    bool effectSceneVisible() const;
+
 protected:
     void mouseReleaseEvent(QMouseEvent * event);
     void mouseDoubleClickEvent(QMouseEvent * event);
@@ -85,6 +88,7 @@ public slots:
     void setOffsetX(int x);
     void setOffsetY(int y);
     void setBlankScene();
+    void slotShowEffectScene(bool show);
     //void setCurrentFilter(QmlFilter* filter, QmlMetadata* meta);
 
 signals:
@@ -103,9 +107,11 @@ signals:
     void switchFullScreen();
     void mouseSeek(int eventDelta, bool fast);
     void startDrag();
+    void effectChanged(QRect r);
 
 private:
     QRect m_rect;
+    QRect m_effectRect;
     GLuint m_texture[3];
     QOpenGLShaderProgram* m_shader;
     QPoint m_dragStart;
@@ -135,6 +141,7 @@ private slots:
     void resizeGL(int width, int height);
     void updateTexture(GLuint yName, GLuint uName, GLuint vName);
     void paintGL();
+    void effectRectChanged();
 
 protected:
     void resizeEvent(QResizeEvent* event);
