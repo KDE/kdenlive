@@ -172,6 +172,17 @@
    <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>profile_name</tabstop>
+  <tabstop>extension</tabstop>
+  <tabstop>parameters</tabstop>
+  <tabstop>vbitrates_list</tabstop>
+  <tabstop>default_vbitrate</tabstop>
+  <tabstop>abitrates_list</tabstop>
+  <tabstop>default_abitrate</tabstop>
+  <tabstop>destination_list</tabstop>
+  <tabstop>group_name</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

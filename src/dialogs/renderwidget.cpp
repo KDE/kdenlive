@@ -456,47 +456,52 @@ void RenderWidget::slotSaveProfile()
     ui.destination_list->setCurrentIndex(m_view.destination_list->currentIndex());
     QString dest = ui.destination_list->itemData(ui.destination_list->currentIndex(), Qt::UserRole).toString();
 
-    QString customGroup = m_view.format_list->currentItem()->text();
-    if (customGroup.isEmpty()) customGroup = i18nc("Group Name", "Custom");
-    ui.group_name->setText(customGroup);
-
+    QString customGroup;
     QStringList arguments = m_view.advanced_params->toPlainText().split(' ', QString::SkipEmptyParts);
-    ui.parameters->setText(arguments.join(" "));
-    ui.extension->setText(m_view.size_list->currentItem()->data(ExtensionRole).toString());
+    if (!arguments.isEmpty()) {
+        ui.parameters->setText(arguments.join(" "));
+    }
     ui.profile_name->setFocus();
     QListWidgetItem *item = m_view.size_list->currentItem();
-    if (ui.parameters->toPlainText().contains("%bitrate") || ui.parameters->toPlainText().contains("%quality")) {
-        if (ui.parameters->toPlainText().contains("%quality")) {
-            ui.vbitrates_label->setText(i18n("Qualities"));
-            ui.default_vbitrate_label->setText(i18n("Default quality"));
-        } else {
-            ui.vbitrates_label->setText(i18n("Bitrates"));
-            ui.default_vbitrate_label->setText(i18n("Default bitrate"));
+    if (item) {
+        // Duplicate current item settings
+        customGroup = item->text();
+        ui.extension->setText(item->data(ExtensionRole).toString());
+        if (ui.parameters->toPlainText().contains("%bitrate") || ui.parameters->toPlainText().contains("%quality")) {
+            if (ui.parameters->toPlainText().contains("%quality")) {
+                ui.vbitrates_label->setText(i18n("Qualities"));
+                ui.default_vbitrate_label->setText(i18n("Default quality"));
+            } else {
+                ui.vbitrates_label->setText(i18n("Bitrates"));
+                ui.default_vbitrate_label->setText(i18n("Default bitrate"));
+            }
+            if ( item && item->data(BitratesRole).canConvert(QVariant::StringList) && item->data(BitratesRole).toStringList().count()) {
+                QStringList bitrates = item->data(BitratesRole).toStringList();
+                ui.vbitrates_list->setText(bitrates.join(","));
+                if (item->data(DefaultBitrateRole).canConvert(QVariant::String))
+                    ui.default_vbitrate->setValue(item->data(DefaultBitrateRole).toInt());
+            }
         }
-        if ( item && item->data(BitratesRole).canConvert(QVariant::StringList) && item->data(BitratesRole).toStringList().count()) {
-            QStringList bitrates = item->data(BitratesRole).toStringList();
-            ui.vbitrates_list->setText(bitrates.join(","));
-            if (item->data(DefaultBitrateRole).canConvert(QVariant::String))
-                ui.default_vbitrate->setValue(item->data(DefaultBitrateRole).toInt());
+        else ui.vbitrates->setHidden(true);
+        if (ui.parameters->toPlainText().contains("%audiobitrate") || ui.parameters->toPlainText().contains("%audioquality")) {
+            if (ui.parameters->toPlainText().contains("%audioquality")) {
+                ui.abitrates_label->setText(i18n("Qualities"));
+                ui.default_abitrate_label->setText(i18n("Default quality"));
+            } else {
+                ui.abitrates_label->setText(i18n("Bitrates"));
+                ui.default_abitrate_label->setText(i18n("Default bitrate"));
+            }
+            if ( item && item->data(AudioBitratesRole).canConvert(QVariant::StringList) && item->data(AudioBitratesRole).toStringList().count()) {
+                QStringList bitrates = item->data(AudioBitratesRole).toStringList();
+                ui.abitrates_list->setText(bitrates.join(","));
+                if (item->data(DefaultAudioBitrateRole).canConvert(QVariant::String))
+                    ui.default_abitrate->setValue(item->data(DefaultAudioBitrateRole).toInt());
+            }
         }
+        else ui.abitrates->setHidden(true);
     }
-    else ui.vbitrates->setHidden(true);
-    if (ui.parameters->toPlainText().contains("%audiobitrate") || ui.parameters->toPlainText().contains("%audioquality")) {
-        if (ui.parameters->toPlainText().contains("%audioquality")) {
-            ui.abitrates_label->setText(i18n("Qualities"));
-            ui.default_abitrate_label->setText(i18n("Default quality"));
-        } else {
-            ui.abitrates_label->setText(i18n("Bitrates"));
-            ui.default_abitrate_label->setText(i18n("Default bitrate"));
-        }
-        if ( item && item->data(AudioBitratesRole).canConvert(QVariant::StringList) && item->data(AudioBitratesRole).toStringList().count()) {
-            QStringList bitrates = item->data(AudioBitratesRole).toStringList();
-            ui.abitrates_list->setText(bitrates.join(","));
-            if (item->data(DefaultAudioBitrateRole).canConvert(QVariant::String))
-                ui.default_abitrate->setValue(item->data(DefaultAudioBitrateRole).toInt());
-        }
-    }
-    else ui.abitrates->setHidden(true);
+    if (customGroup.isEmpty()) customGroup = i18nc("Group Name", "Custom");
+    ui.group_name->setText(customGroup);
 
     if (d->exec() == QDialog::Accepted && !ui.profile_name->text().simplified().isEmpty()) {
         QString newProfileName = ui.profile_name->text().simplified();
