@@ -40,7 +40,6 @@ class ClipController;
 class AbstractClipItem;
 class Transition;
 class ClipItem;
-class MonitorEditWidget;
 class Monitor;
 class MonitorManager;
 class QSlider;
@@ -86,7 +85,6 @@ public:
     void updateMarkers();
     ClipController *currentController() const;
     void setMarkers(const QList <CommentedTime> &markers);
-    MonitorEditWidget *getEffectEdit();
     void reloadProducer(const QString &id);
     QFrame *m_volumePopup;
     /** @brief Reimplemented from QWidget, updates the palette colors. */
@@ -140,13 +138,13 @@ private:
     QMenu *m_playMenu;
     QMenu *m_markerMenu;
     QPoint m_DragStartPosition;
-    MonitorEditWidget *m_effectWidget;
     /** Selected clip/transition in timeline. Used for looping it. */
     AbstractClipItem *m_selectedClip;
     /** true if selected clip is transition, false = selected clip is clip.
      *  Necessary because sometimes we get two signals, e.g. we get a clip and we get selected transition = NULL. */
     bool m_loopClipTransition;
     QWidget *m_glWidget;
+    bool m_showEffectScene;
 
     GenTime getSnapForPos(bool previous);
     Qt::WindowFlags m_baseFlags;
@@ -178,6 +176,7 @@ private slots:
     void onFrameDisplayed(const SharedFrame& frame);
     void slotStartDrag();
     void setZoom();
+    void slotEnableEffectScene(bool enable);
 
 public slots:
     void slotOpenFile(const QString &);

@@ -26,7 +26,6 @@
 #include "capture/mltdevicecapture.h"
 #include "capture/managecapturesdialog.h"
 #include "dialogs/profilesdialog.h"
-#include "videosurface.h"
 #include "glwidget.h"
 #include <config-kdenlive.h>
 
@@ -64,7 +63,6 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
     l->setContentsMargins(0, 0, 0, 0);
     l->setSpacing(0);
     video_frame->setLayout(l);
-    createVideoSurface();
 
     QToolBar *toolbar = new QToolBar(this);
     QHBoxLayout *hlayout = new QHBoxLayout;
@@ -145,20 +143,9 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
 
     connect(m_captureProcess, &QProcess::stateChanged, this, &RecMonitor::slotProcessStatus);
     connect(m_captureProcess, &QProcess::readyReadStandardError, this, &RecMonitor::slotReadProcessInfo);
-    
-    QString videoDriver = KdenliveSettings::videodrivername();
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    env.insert("SDL_WINDOWID", QString::number(videoSurface->winId()));
-    if (!videoDriver.isEmpty()) {
-        if (videoDriver == "x11_noaccel") {
-            env.insert("SDL_VIDEO_YUV_HWACCEL", "0");
-            env.insert("SDL_VIDEODRIVER", "x11");
-        } else env.insert("SDL_VIDEODRIVER", videoDriver);
-    }
-    m_displayProcess->setProcessEnvironment(env);
+
     qputenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1");
 
-    //qDebug() << "/////// BUILDING MONITOR, ID: " << videoSurface->winId();
     m_infoMessage = new KMessageWidget;
     QVBoxLayout *s =  static_cast <QVBoxLayout *> (layout());
     s->insertWidget(1, m_infoMessage);
@@ -1041,7 +1028,6 @@ void RecMonitor::buildMltDevice(const QString &path)
         m_captureDevice->sendFrameForAnalysis = m_analyse;
         m_monitorManager->updateScopeSource();
     }
-    videoSurface->show();
 }
 
 void RecMonitor::slotChangeRecordingPreview(bool enable)

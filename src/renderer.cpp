@@ -1216,10 +1216,9 @@ int Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
     if (position != -1) producer->seek(position);
     m_fps = producer->get_fps();
     int volume = KdenliveSettings::volume();
-    /*
-    if (producer->get_int("_audioclip") == 1) {
-        // This is an audio only clip, create fake multitrack to apply audiowave filter
-        Mlt::Tractor *tractor = new Mlt::Tractor();
+    
+      
+        /*Mlt::Tractor *tractor = new Mlt::Tractor();
         Mlt::Producer *color= new Mlt::Producer(*m_mltProfile, "color:red");
         color->set_in_and_out(0, producer->get_out());
         tractor->set_track(*producer, 0);
@@ -1242,17 +1241,17 @@ int Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
         delete result;
         tractor->track(0)->attach(*filter);
         delete filter;
-        producer = &(tractor->parent());
-    }
+        producer = &(tractor->parent());*/
     
-    producer->set("meta.volume", (double)volume / 100);
     
-    if (m_mltProducer) {
+    //producer->set("meta.volume", (double)volume / 100);
+
+    /*if (m_mltProducer) {
         m_mltProducer->set_speed(0);
         delete m_mltProducer;
         m_mltProducer = NULL;
-    }
-    */
+    }*/
+    
     blockSignals(false);
     m_mltProducer = producer;
     m_mltProducer->set_speed(0);

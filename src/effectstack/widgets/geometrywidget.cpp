@@ -494,7 +494,7 @@ void GeometryWidget::slotAddKeyframe(int pos)
         return;
     Mlt::GeometryItem item;
     if (pos == -1)
-        pos = m_timePos->getValue();
+        pos = m_timeline->value(); // m_timePos->getValue();
     item.frame(pos);
     QRect rect = m_monitor->effectRect().normalized();
     item.x(rect.x());

@@ -21,8 +21,6 @@
 
 #include "monitor.h"
 #include "monitorscene.h"
-#include "monitoreditwidget.h"
-#include "videosurface.h"
 #include "glwidget.h"
 #include "smallruler.h"
 #include "mltcontroller/clipcontroller.h"
@@ -61,12 +59,12 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_dragStarted(false)
     , m_loopClipAction(NULL)
     , m_contextMenu(NULL)
-    , m_effectWidget(NULL)
     , m_selectedClip(NULL)
     , m_loopClipTransition(true)
     , m_editMarker(NULL)
     , m_glMonitor(NULL)
     , m_rootItem(NULL)
+    , m_showEffectScene(false)
 {
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -206,7 +204,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         QAction *visibilityAction = new QAction(QIcon::fromTheme("video-display"), i18n("Show/Hide edit mode"), this);
         visibilityAction->setCheckable(true);
         visibilityAction->setChecked(KdenliveSettings::showOnMonitorScene());
-        connect(visibilityAction, SIGNAL(triggered(bool)), m_glMonitor, SLOT(slotShowEffectScene(bool)));
+        connect(visibilityAction, SIGNAL(triggered(bool)), this, SLOT(slotEnableEffectScene(bool)));
         //visibilityAction->setVisible(false);
         m_toolbar->addAction(visibilityAction);
         /*m_effectWidget = new MonitorEditWidget(render, m_glWidget);
@@ -231,8 +229,6 @@ Monitor::~Monitor()
     delete m_ruler;
     delete m_timePos;
     delete m_overlay;
-    if (m_effectWidget)
-        delete m_effectWidget;
     delete render;
 }
 
@@ -288,9 +284,15 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     dropFrames->setCheckable(true);
     dropFrames->setChecked(true);
     connect(dropFrames, SIGNAL(toggled(bool)), this, SLOT(slotSwitchDropFrames(bool)));
+    
+    QAction *overlayAudio = m_contextMenu->addAction(QIcon(), i18n("Overlay audio waveform"));
+    overlayAudio->setCheckable(true);
+    connect(overlayAudio, SIGNAL(toggled(bool)), m_glMonitor, SLOT(slotSwitchAudioOverlay(bool)));
+    overlayAudio->setChecked(KdenliveSettings::displayAudioOverlay());
 
     m_configMenu->addAction(showTips);
     m_configMenu->addAction(dropFrames);
+    m_configMenu->addAction(overlayAudio);
 }
 
 void Monitor::slotGoToMarker(QAction *action)
@@ -453,7 +455,7 @@ void Monitor::mousePressEvent(QMouseEvent * event)
             m_dragStarted = true;
             m_DragStartPosition = event->pos();
         }
-    } else if (m_contextMenu && (!m_effectWidget || !m_effectWidget->isVisible())) {
+    } else if (m_contextMenu) {
         m_contextMenu->popup(event->globalPos());
     }
 }
@@ -527,7 +529,7 @@ void Monitor::slotSwitchFullScreen()
 void Monitor::mouseReleaseEvent(QMouseEvent * event)
 {
     if (m_dragStarted && event->button() != Qt::RightButton) {
-        if (m_glMonitor->geometry().contains(event->pos()) && (!m_effectWidget || !m_effectWidget->isVisible())) {
+        if (m_glMonitor->geometry().contains(event->pos())) {
             if (isActive()) slotPlay();
             else slotActivateMonitor();
         } //else event->ignore(); //QWidget::mouseReleaseEvent(event);
@@ -1060,8 +1062,6 @@ void Monitor::resetProfile(const QString &profile)
         render->resetProfile(profile);
     }
     m_rootItem->setProperty("framesize", QRect(0, 0, m_glMonitor->profileSize().width(), m_glMonitor->profileSize().height()));
-    if (m_effectWidget)
-        m_effectWidget->resetProfile(render);
 }
 
 void Monitor::saveSceneList(const QString &path, const QDomElement &info)
@@ -1147,56 +1147,18 @@ void Monitor::slotSetSelectedClip(Transition* item)
 }
 
 
-void Monitor::slotShowEffectScene(bool show, bool manuallyTriggered)
+void Monitor::slotEnableEffectScene(bool enable)
 {
-  
-    m_glMonitor->slotShowEffectScene(show);
-    return;
-    if (m_id == Kdenlive::ProjectMonitor) {
-        if (!m_effectWidget->getVisibilityAction()->isChecked())
-            show = false;
-        if (m_effectWidget->isVisible() == show)
-            return;
-        setUpdatesEnabled(false);
-        if (show) {
-            if (videoSurface) {
-                videoSurface->setVisible(false);
-                // Preview is handeled internally through the Render::showFrame method
-                render->disablePreview(true);
-#ifdef USE_OPENGL
-            } else {
-                m_glWidget->setVisible(false);
-#endif
-            }
-            m_effectWidget->setVisible(true);
-            m_effectWidget->getScene()->slotZoomFit();
-            emit requestFrameForAnalysis(true);
-        } else {    
-            m_effectWidget->setVisible(false);
-            emit requestFrameForAnalysis(false);
-            if (videoSurface) {
-                videoSurface->setVisible(true);
-                // Preview is handeled internally through the Render::showFrame method
-                render->disablePreview(false);
-            
-#ifdef USE_OPENGL
-            } else {
-                m_glWidget->setVisible(true);
-#endif
-            }
-        }
-        if (!manuallyTriggered)
-            m_effectWidget->showVisibilityButton(show);
-        setUpdatesEnabled(true);
-        //TODO:
-        //videoBox->setEnabled(show);
-        //render->doRefresh();
+    KdenliveSettings::setShowOnMonitorScene(enable);
+    if (m_showEffectScene) {
+        slotShowEffectScene(true);
     }
 }
 
-MonitorEditWidget* Monitor::getEffectEdit()
+void Monitor::slotShowEffectScene(bool show, bool manuallyTriggered)
 {
-    return m_effectWidget;
+    m_showEffectScene = show;
+    m_glMonitor->slotShowEffectScene(show && KdenliveSettings::showOnMonitorScene());
 }
 
 void Monitor::setUpEffectGeometry(QRect r)

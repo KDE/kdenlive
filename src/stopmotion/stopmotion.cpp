@@ -94,7 +94,6 @@ StopmotionMonitor::StopmotionMonitor(MonitorManager *manager, QWidget *parent) :
     AbstractMonitor(Kdenlive::StopMotionMonitor, manager, parent),
     m_captureDevice(NULL)
 {
-    createVideoSurface();
 }
 
 StopmotionMonitor::~StopmotionMonitor()

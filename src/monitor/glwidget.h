@@ -89,6 +89,7 @@ public slots:
     void setOffsetY(int y);
     void setBlankScene();
     void slotShowEffectScene(bool show);
+    void slotSwitchAudioOverlay(bool enable);
     //void setCurrentFilter(QmlFilter* filter, QmlMetadata* meta);
 
 signals:
@@ -133,8 +134,11 @@ private:
     int m_textureLocation[3];
     float m_zoom;
     QPoint m_offset;
-
+    bool m_audioWaveDisplayed;
     static void on_frame_show(mlt_consumer, void* self, mlt_frame frame);
+    void createAudioOverlay(bool isAudio);
+    void removeAudioOverlay();
+    void adjustAudioOverlay(bool isAudio);
 
 private slots:
     void initializeGL();

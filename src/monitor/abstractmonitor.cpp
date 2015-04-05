@@ -20,38 +20,21 @@
 
 #include "abstractmonitor.h"
 #include "monitormanager.h"
-#include "glwidget.h"
 
 #include "kdenlivesettings.h"
 
-#include <QDebug>
 
-#include <QDesktopWidget>
-#include <QVBoxLayout>
-#include <QMouseEvent>
 
 AbstractMonitor::AbstractMonitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent): 
     QWidget(parent),
-    videoSurface(NULL),
     m_id(id),
     m_monitorManager(manager)
 {
-    //videoBox = new VideoContainer(this);
 }
 
 
 AbstractMonitor::~AbstractMonitor()
 {
-    //delete videoSurface;
-}
-
-void AbstractMonitor::createVideoSurface()
-{
-    /*QVBoxLayout *lay = new QVBoxLayout;
-    lay->setContentsMargins(0, 0, 0, 0);
-    videoSurface = new VideoSurface;
-    lay->addWidget(videoSurface);
-    videoBox->setLayout(lay);*/
 }
 
 bool AbstractMonitor::isActive() const

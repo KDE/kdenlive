@@ -65,6 +65,7 @@ GLWidget::GLWidget(bool accel, QObject *parent)
     , m_offset(QPoint(0, 0))
     , m_consumer(0)
     , m_producer(0)
+    , m_audioWaveDisplayed(false)
 {
     qDebug() << "begin";
     m_texture[0] = m_texture[1] = m_texture[2] = 0;
@@ -511,9 +512,27 @@ static void onThreadStopped(mlt_properties owner, GLWidget* self)
     self->stopGlsl();
 }
 
+void GLWidget::slotSwitchAudioOverlay(bool enable)
+{
+    KdenliveSettings::setDisplayAudioOverlay(enable);
+    if (m_audioWaveDisplayed && enable == false) {
+        if (m_producer && m_producer->get_int("video_index") != -1) {
+            // We have a video producer, disable filter
+            removeAudioOverlay();
+        }
+    }
+    if (enable && !m_audioWaveDisplayed) {
+        createAudioOverlay(m_producer->get_int("video_index") == -1);
+    }
+}
+
 int GLWidget::setProducer(Mlt::Producer* producer, bool isMulti)
 {
     int error = 0;//Controller::setProducer(producer, isMulti);
+    /*if (m_producer) {
+        delete m_producer;
+        m_producer = NULL;
+    }*/
     m_producer = producer;
     if (!error && producer) {
         error = reconfigure(isMulti);
@@ -522,8 +541,85 @@ int GLWidget::setProducer(Mlt::Producer* producer, bool isMulti)
             resizeGL(width(), height());
         }
     }
+    if (m_producer->get_int("video_index") == -1 && !KdenliveSettings::gpu_accel()) {
+        // This is an audio only clip, attach visualization filter. Currently, the filter crashes MLT when Movit accel is used
+        if (!m_audioWaveDisplayed) {
+            createAudioOverlay(true);
+        }
+        else {
+            adjustAudioOverlay(true);
+        }
+    }
+    else if (m_audioWaveDisplayed) {
+        // This is not an audio clip, hide wave
+        if (KdenliveSettings::displayAudioOverlay()) {
+            adjustAudioOverlay(m_producer->get_int("video_index") == -1);
+        }
+        else {
+            removeAudioOverlay();
+        }
+    }
     return error;
 }
+
+void GLWidget::createAudioOverlay(bool isAudio)
+{
+    Mlt::Filter f(*pCore->binController()->profile(), "audiowaveform");
+    if (f.is_valid()) {
+        //f.set("show_channel", 1);
+        f.set("color.1", "0xffff0099");
+        f.set("fill", 1);
+        if (isAudio) {
+            // Fill screen
+            f.set("rect", "0,0,100%,100%");
+        } else {
+            // Overlay on lower part of the screen
+            f.set("rect", "0,80%,100%,20%");
+        }
+        m_consumer->attach(f);
+        m_audioWaveDisplayed = true;
+    }
+}
+
+void GLWidget::removeAudioOverlay()
+{
+    Mlt::Service sourceService(m_consumer->get_service());
+    // move all effects to the correct producer
+    int ct = 0;
+    Mlt::Filter *filter = sourceService.filter(ct);
+    while (filter) {
+        QString srv = filter->get("mlt_service");
+        if (srv == "audiowaveform") {
+            sourceService.detach(*filter);
+            delete filter;
+            break;
+        } else ct++;
+        filter = sourceService.filter(ct);
+    }
+    m_audioWaveDisplayed = false;
+}
+
+void GLWidget::adjustAudioOverlay(bool isAudio)
+{
+    Mlt::Service sourceService(m_consumer->get_service());
+    // move all effects to the correct producer
+    int ct = 0;
+    Mlt::Filter *filter = sourceService.filter(ct);
+    while (filter) {
+        QString srv = filter->get("mlt_service");
+        if (srv == "audiowaveform") {
+            if (isAudio) {
+                filter->set("rect", "0,0,100%,100%");
+            }
+            else {
+                filter->set("rect", "0,80%,100%,20%");
+            }
+            break;
+        } else ct++;
+        filter = sourceService.filter(ct);
+    }
+}
+
 
 int GLWidget::reconfigure(bool isMulti)
 {

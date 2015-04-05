@@ -84,10 +84,7 @@ public:
     virtual ~AbstractMonitor();
     virtual AbstractRender *abstractRender() = 0;
     bool isActive() const;
-    VideoSurface *videoSurface;
-    void createVideoSurface();
-    
-    
+
 public slots:
     virtual void stop() = 0;
     virtual void start() = 0;
