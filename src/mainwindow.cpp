@@ -302,7 +302,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
 
     m_transitionsMenu = new QMenu(i18n("Add Transition"), this);
-    for (int i = 0; i < transitions.count(); ++i)
+    for (int i = 0; i < m_transitions.count(); ++i)
         m_transitionsMenu->addAction(m_transitions[i]);
 
     connect(m, SIGNAL(triggered(QAction*)), this, SLOT(slotAddVideoEffect(QAction*)));
@@ -459,7 +459,7 @@ MainWindow::~MainWindow()
     delete m_projectMonitor;
     delete m_clipMonitor;
     delete m_shortcutRemoveFocus;
-    delete[] m_transitions;
+    qDeleteAll(m_transitions);
     Mlt::Factory::close();
 }
 
@@ -760,7 +760,6 @@ void MainWindow::setupActions()
     toolbar->addAction(m_buttonSpacerTool);
     m_buttonSpacerTool->setCheckable(true);
     m_buttonSpacerTool->setChecked(false);
-
     QActionGroup *toolGroup = new QActionGroup(this);
     toolGroup->addAction(m_buttonSelectTool);
     toolGroup->addAction(m_buttonRazorTool);
@@ -865,7 +864,6 @@ void MainWindow::setupActions()
     m_buttonShowMarkers->setCheckable(true);
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
     connect(m_buttonShowMarkers, SIGNAL(triggered()), this, SLOT(slotSwitchMarkersComments()));
-
     m_buttonSnap = new QAction(QIcon::fromTheme("kdenlive-snap"), i18n("Snap"), this);
     toolbar->addAction(m_buttonSnap);
     m_buttonSnap->setCheckable(true);
@@ -931,13 +929,12 @@ void MainWindow::setupActions()
     addAction("zoom_out", m_zoomOut);
 
     addAction("manage_profiles", i18n("Manage Project Profiles"), this, SLOT(slotEditProfiles()), QIcon::fromTheme("document-new"));
-
     KNS3::standardAction(i18n("Download New Wipes..."),            this, SLOT(slotGetNewLumaStuff()),       actionCollection(), "get_new_lumas");
     KNS3::standardAction(i18n("Download New Render Profiles..."),  this, SLOT(slotGetNewRenderStuff()),     actionCollection(), "get_new_profiles");
     KNS3::standardAction(i18n("Download New Project Profiles..."), this, SLOT(slotGetNewMltProfileStuff()), actionCollection(), "get_new_mlt_profiles");
     KNS3::standardAction(i18n("Download New Title Templates..."),  this, SLOT(slotGetNewTitleStuff()),      actionCollection(), "get_new_titles");
 
-    addAction("run_wizard", i18n("Run Config Wizard"), this, SLOT(slotRunWizard()), QIcon::fromTheme("configure"));
+    addAction("run_wizard", i18n("Run Config Wizard"), this, SLOT(slotRunWizard()), QIcon::fromTheme("tools-wizard"));
     addAction("project_settings", i18n("Project Settings"), this, SLOT(slotEditProjectSettings()), QIcon::fromTheme("configure"));
     addAction("project_render", i18n("Render"), this, SLOT(slotRenderProject()), QIcon::fromTheme("media-record"), Qt::CTRL + Qt::Key_Return);
 
@@ -993,7 +990,6 @@ void MainWindow::setupActions()
     ungroupClip->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_G);
     ungroupClip->setData("ungroup_clip");
     connect(ungroupClip, SIGNAL(triggered(bool)), this, SLOT(slotUnGroupClips()));
-
     addAction("edit_item_duration", i18n("Edit Duration"), this, SLOT(slotEditItemDuration()), QIcon::fromTheme("measure"));
     addAction("save_timeline_clip", i18n("Save clip"), this, SLOT(slotSaveTimelineClip()), QIcon::fromTheme("document-save"));
     addAction("clip_in_project_tree", i18n("Clip in Project Tree"), this, SLOT(slotClipInProjectTree()), QIcon::fromTheme("go-jump-definition"));
@@ -1055,7 +1051,6 @@ void MainWindow::setupActions()
 
     addAction("insert_space", i18n("Insert Space"), this, SLOT(slotInsertSpace()));
     addAction("delete_space", i18n("Remove Space"), this, SLOT(slotRemoveSpace()));
-
     m_tracksActionCollection = new KActionCollection(this, "tracks"); //KGlobal::mainComponent());
     //m_effectsActionCollection->setComponentDisplayName("Trasck");//i18n("Tracks").toUtf8());
     m_tracksActionCollection->addAssociatedWidget(m_timelineArea);
@@ -1105,7 +1100,6 @@ void MainWindow::setupActions()
     QAction *redo = KStandardAction::redo(m_commandStack, SLOT(redo()), actionCollection());
     redo->setEnabled(false);
     connect(m_commandStack, SIGNAL(canRedoChanged(bool)), redo, SLOT(setEnabled(bool)));
-
 
     QMenu *addClips = new QMenu();
 
@@ -1171,15 +1165,17 @@ void MainWindow::setupActions()
     //m_effectsActionCollection->setComponentDisplayName("Effects");//i18n("Effects and transitions").toUtf8());
     //KActionCategory *transitionActions = new KActionCategory(i18n("Transitions"), m_effectsActionCollection);
     KActionCategory *transitionActions = new KActionCategory(i18n("Transitions"), actionCollection());
-    m_transitions = new QAction*[transitions.count()];
+    //m_transitions = new QAction*[transitions.count()];
     for (int i = 0; i < transitions.count(); ++i) {
         QStringList effectInfo = transitions.effectIdInfo(i);
-        m_transitions[i] = new QAction(effectInfo.at(0), this);
-        m_transitions[i]->setData(effectInfo);
-        m_transitions[i]->setIconVisibleInMenu(false);
+        if (effectInfo.isEmpty()) continue;
+        QAction *a = new QAction(effectInfo.at(0), this);
+        a->setData(effectInfo);
+        a->setIconVisibleInMenu(false);
+        m_transitions << a;
         QString id = effectInfo.at(2);
         if (id.isEmpty()) id = effectInfo.at(1);
-        transitionActions->addAction("transition_" + id, m_transitions[i]);
+        transitionActions->addAction("transition_" + id, a);
     }
     //m_effectsActionCollection->readSettings();
 

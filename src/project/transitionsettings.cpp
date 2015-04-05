@@ -56,6 +56,7 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
 
     for (; ix <= max; ++ix) {
         transitionInfo = MainWindow::transitions.effectIdInfo(ix);
+        if (transitionInfo.isEmpty()) continue;
         transitionInfo << QString::number(ix);
         transitionsList.append(transitionInfo);
     }

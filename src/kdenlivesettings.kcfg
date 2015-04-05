@@ -820,7 +820,10 @@
       <label>Name of the chosen interpol method.</label>
       <default>nearest</default>
     </entry>
-
+    <entry name="favorite_effects" type="StringList">
+      <label>List of favorite effects ids.</label>
+      <default></default>
+    </entry>
   </group>
 
 </kcfg>

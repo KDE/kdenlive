@@ -37,4 +37,7 @@
   <group list="frei0r.d90stairsteppingfix,frei0r.hqdn3d,frei0r.sharpness">
     <text>Enhancement</text>
   </group>
+  <group list="movit.blur,movit.sharpen,movit.diffusion,movit.glow,movit.lift_gamma_gain,movit.mirror,movit.opacity,movit.rect,movit.saturation,movit.unsharp_mask,movit.vignette,movit.white_balance">
+    <text>GPU Accelerated</text>
+  </group>
 </data>

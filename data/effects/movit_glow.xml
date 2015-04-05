@@ -1,7 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="movit.glow" id="movit.glow">
-	<name>Movit: Glow</name>
-	<description>Glow</description>
+	<name>Glow (GPU)</name>
 	<author>Steinar H. Gunderson</author>
 	<parameter type="simplekeyframe" name="radius" default="200" min="0" max="1000" factor="10">
 		<name>Radius</name>

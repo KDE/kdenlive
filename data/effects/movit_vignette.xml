@@ -1,7 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="movit.vignette" id="movit.vignette">
-	<name>Movit: Vignette</name>
-	<description>Vignette</description>
+	<name>Vignette (GPU)</name>
 	<author>Steinar H. Gunderson</author>
 	<parameter type="simplekeyframe" name="radius" default="300" min="0" max="1000" factor="1000">
 		<name>Radius</name>

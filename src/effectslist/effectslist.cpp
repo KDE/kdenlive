@@ -17,6 +17,7 @@
 
 
 #include "effectslist.h"
+#include "kdenlivesettings.h"
 
 #include <QDebug>
 #include <klocalizedstring.h>
@@ -115,6 +116,18 @@ QStringList EffectsList::effectIdInfo(const int ix) const
         QString groupName = effect.attribute("name");
         info << groupName << groupName << effect.attribute("id") << QString::number(Kdenlive::groupEffect);
     } else {
+        if (KdenliveSettings::gpu_accel()) {
+            // Using Movit
+            if (effect.attribute("context") == "nomovit") {
+                // This effect has a Movit counterpart, so hide it when using Movit
+                return info;
+            }
+        } else {
+            // Not using Movit, don't display movit effects
+            if (effect.attribute("tag").startsWith("movit.")) {
+                return info;
+            }
+        }
         QDomElement namenode = effect.firstChildElement("name");
         QString name = namenode.text();
         if (name.isEmpty()) {

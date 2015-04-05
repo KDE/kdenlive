@@ -1,6 +1,5 @@
 <!DOCTYPE kpartgui>
 <effect tag="movit.mirror" id="movit.mirror">
-	<name>Movit: Mirror</name>
-	<description>Flips the image horizontally</description>
+	<name>Mirror (GPU)</name>
 	<author>Steinar H. Gunderson</author>
 </effect>

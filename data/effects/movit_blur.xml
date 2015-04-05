@@ -1,7 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="movit.blur" id="movit.blur">
-	<name>Movit: Blur</name>
-	<description>Blur</description>
+	<name>Blur (GPU)</name>
 	<author>Steinar H. Gunderson</author>
 	<parameter type="simplekeyframe" name="radius" default="150" min="0" max="1000" factor="10">
 		<name>Radius</name>

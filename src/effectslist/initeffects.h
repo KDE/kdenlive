@@ -91,7 +91,7 @@ public:
                                 EffectsList *videoEffectList,
                                 const QString &name, QStringList filtersList,
                                 QStringList producersList,
-                                Mlt::Repository *repository);
+                                Mlt::Repository *repository, QMap <QString, QString> effectDescriptions);
 
     /** @brief Reloads information about custom effects. */
     static void parseCustomEffectsFile();

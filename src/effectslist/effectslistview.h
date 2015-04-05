@@ -26,11 +26,49 @@
 #include "gentime.h"
 
 #include <QDomElement>
+#include <QMimeData>
+#include <QDragEnterEvent>
+#include <QDebug>
 
 class EffectsList;
 class EffectsListWidget;
 class QTreeWidget;
 class KActionCategory;
+
+/**
+ * @class MyDropButton
+ * @brief A QToolButton accepting effect drops
+ * @author Jean-Baptiste Mardelle
+ */
+
+class MyDropButton : public QToolButton
+{
+    Q_OBJECT
+
+public:
+    explicit MyDropButton(QWidget *parent = 0) : QToolButton(parent) {
+        setAcceptDrops(true);
+        setAutoExclusive(true);
+        setCheckable(true);
+        setAutoRaise(true);
+    }
+protected:
+    void dragEnterEvent(QDragEnterEvent * event) {
+        if (event->mimeData()->hasFormat("kdenlive/effectslist")) {
+            event->accept();
+        }
+    }
+    void dropEvent(QDropEvent * event) {
+        const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
+        QDomDocument doc;
+        doc.setContent(effects, true);
+        QString id = doc.documentElement().attribute("id");
+        if (id.isEmpty()) id = doc.documentElement().attribute("tag");
+        emit addEffectToFavorites(id);
+    }
+signals:
+    void addEffectToFavorites(QString);
+};
 
 /**
  * @class EffectsListView
@@ -56,11 +94,19 @@ public:
 private:
     EffectsListWidget *m_effectsList;
     const QString customStyleSheet() const;
+    /** @brief Custom button to display favorite effects, accepts drops to add effect to favorites. */
+    MyDropButton *m_effectsFavorites;
+    /** @brief Action triggering remove effect from favorites or delete custom effect, depending on active tab. */
+    QAction *m_removeAction;
+    /** @brief Holds currently active tab index (all, video, audio, gpu, ...). */
+    int m_filterPos;
+    
+    QMenu *m_contextMenu;
 
 private slots:
     /** @brief Applies the type filter to the effect list.
-    * @param pos Index of the combo box; where 0 = All, 1 = Video, 2 = Audio, 3 = Custom */
-    void filterList(int pos);
+    * @param pos Index of the combo box; where 0 = All, 1 = Video, 2 = Audio, 3 = GPU, 4 = Custom */
+    void filterList();
 
     /** @brief Updates the info panel to match the selected effect. */
     void slotUpdateInfo();
@@ -87,6 +133,10 @@ private slots:
     /** @brief Expands folders that match our search.
     * @param text Current search string */
     void slotAutoExpand(const QString &text);
+    /** @brief Add an effect to the favorites
+    * @param id id of the effect we want */
+    void slotAddFavorite(QString id);
+    void slotDisplayMenu(QTreeWidgetItem *item, const QPoint &pos);
 
 signals:
     void addEffect(const QDomElement&);

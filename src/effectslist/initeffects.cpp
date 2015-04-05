@@ -161,6 +161,7 @@ void initEffects::parseEffectFiles(const QString &locale)
 
     // Remove blacklisted effects from the filters list.
     QStringList mltFiltersList = filtersList;
+    QStringList mltBlackList;
     QFile file2(QStandardPaths::locate(QStandardPaths::DataLocation, "blacklisted_effects.txt"));
     if (file2.open(QIODevice::ReadOnly)) {
         QTextStream in(&file2);
@@ -169,6 +170,7 @@ void initEffects::parseEffectFiles(const QString &locale)
             if (!black.isEmpty() && !black.startsWith('#') &&
                     mltFiltersList.contains(black)) {
                 mltFiltersList.removeAll(black);
+                mltBlackList << black;
 	    }
 	    
         }
@@ -198,7 +200,27 @@ void initEffects::parseEffectFiles(const QString &locale)
     MainWindow::transitions.clearList();
     foreach(const QDomElement & effect, effectsMap)
         MainWindow::transitions.append(effect);
-    effectsMap.clear();    
+    effectsMap.clear();
+    
+    // Create structure holding all effects descriptions so that if an XML effect has no description, we take it from MLT
+    QMap <QString, QString> effectDescriptions;
+    foreach(const QString & filtername, mltBlackList) {
+        QDomDocument doc = createDescriptionFromMlt(repository, "filters", filtername);
+        if (!doc.isNull()) {
+            if (doc.elementsByTagName("description").count() > 0) {
+                QString desc = doc.documentElement().firstChildElement("description").text();
+                //WARNING: TEMPORARY FIX for unusable MLT SOX parameters description
+                if (desc.startsWith(QLatin1String("Process audio using a SoX"))) {
+                    // Remove MLT's SOX generated effects since the parameters properties are unusable for us
+                    continue;
+                }
+                if (!desc.isEmpty()) {
+                    effectDescriptions.insert(filtername, desc);
+                }
+            }
+        }
+    }
+    
     // Create effects from MLT
     foreach(const QString & filtername, mltFiltersList) {
         QDomDocument doc = createDescriptionFromMlt(repository, "filters", filtername);
@@ -234,7 +256,7 @@ void initEffects::parseEffectFiles(const QString &locale)
             parseEffectFile(&MainWindow::customEffects,
                             &MainWindow::audioEffects,
                             &MainWindow::videoEffects,
-                            itemName, filtersList, producersList, repository);
+                            itemName, filtersList, producersList, repository, effectDescriptions);
         }
     }
 
@@ -320,7 +342,7 @@ void initEffects::parseCustomEffectsFile()
 }
 
 // static
-void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, const QString &name, QStringList filtersList, QStringList producersList, Mlt::Repository *repository)
+void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, const QString &name, QStringList filtersList, QStringList producersList, Mlt::Repository *repository, QMap <QString, QString> effectDescriptions)
 {
     QDomDocument doc;
     QFile file(name);
@@ -341,6 +363,18 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
         QLocale locale;
         documentElement = effects.item(i).toElement();
         QString tag = documentElement.attribute("tag", QString());
+        
+        //If XML has no description, take it fom MLT's descriptions
+        if (effectDescriptions.contains(tag)) {
+            QDomNodeList desc = documentElement.elementsByTagName("description");
+            if (desc.isEmpty()) {
+                QDomElement d = documentElement.ownerDocument().createElement("description");
+                QDomText value = documentElement.ownerDocument().createTextNode(effectDescriptions.value(tag));
+                d.appendChild(value);
+                documentElement.appendChild(d);
+            }
+        }
+
         if (documentElement.hasAttribute("LC_NUMERIC")) {
             // set a locale for that file
             locale = QLocale(documentElement.attribute("LC_NUMERIC"));

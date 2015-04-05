@@ -1,7 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="movit.lift_gamma_gain" id="movit.lift_gamma_gain">
-	<name>Movit: Lift/gamma/gain</name>
-	<description>Do simple color grading</description>
+	<name>Lift/gamma/gain (GPU)</name>
 	<author>Steinar H. Gunderson</author>
 	<parameter type="simplekeyframe" name="lift_r" default="0" min="0" max="500" factor="100">
 		<name>Lift: Red</name>
