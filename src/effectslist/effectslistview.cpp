@@ -71,6 +71,9 @@ EffectsListView::EffectsListView(QWidget *parent) :
     effectsAudio->setToolTip(i18n("Show audio effects"));
     effectsGPU->setIcon(QIcon::fromTheme("kdenlive-show-gpu-effects"));
     effectsGPU->setToolTip(i18n("Show GPU effects"));
+    if (!KdenliveSettings::gpu_accel()) {
+        effectsGPU->setHidden(true);
+    }
     effectsCustom->setIcon(QIcon::fromTheme("kdenlive-show-custom"));
     effectsCustom->setToolTip(i18n("Show custom effects"));
     m_effectsFavorites = new MyDropButton(this);

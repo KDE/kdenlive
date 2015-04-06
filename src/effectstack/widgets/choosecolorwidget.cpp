@@ -99,7 +99,7 @@ ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, 
     rightSideLayout->setContentsMargins(0, 0, 0, 0);
     rightSideLayout->setSpacing(0);
 
-    m_button = new KColorButton(color, rightSide);
+    m_button = new KColorButton(stringToColor(color), rightSide);
     if (alphaEnabled) m_button->setAlphaChannelEnabled(alphaEnabled);
 //     m_button->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     ColorPickerWidget *picker = new ColorPickerWidget(rightSide);
