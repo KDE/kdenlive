@@ -94,6 +94,18 @@ QDomElement EffectsList::getEffectByTag(const QString & tag, const QString & id)
     return QDomElement();
 }
 
+bool EffectsList::hasTransition(const QString & tag) const
+{
+    QDomNodeList trans = m_baseElement.childNodes();
+    for (int i = 0; i < trans.count(); ++i) {
+        QDomElement effect =  trans.at(i).toElement();
+        if (effect.attribute("tag") == tag) {
+            return true;
+        }
+    }
+    return false;
+}
+
 int EffectsList::hasEffect(const QString & tag, const QString & id) const
 {
     QDomNodeList effects = m_baseElement.childNodes();

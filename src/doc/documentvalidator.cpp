@@ -1373,3 +1373,130 @@ bool DocumentValidator::updateEffectParameters(const QDomNodeList &parameters, c
     return updated;
 }
 
+bool DocumentValidator::checkMovit()
+{
+    QString playlist = m_doc.toString();
+    if (!playlist.contains("movit.")) {
+        // Project does not use Movit GLSL effects, we can load it
+        return true;
+    }
+    if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("The project file uses some GPU effects. GPU acceleration is not currently enabled.\nDo you want to convert the project to a non-GPU version ?\nThis might result in data loss.")) != KMessageBox::Yes) {
+        return false;
+    }
+    // Try to convert Movit filters to their non GPU equivalent
+    
+    QStringList convertedFilters;
+    QStringList discardedFilters;
+    int ix = MainWindow::videoEffects.hasEffect("frei0r.colgate", "frei0r.colgate");
+    bool hasWB = ix > -1;
+    ix = MainWindow::videoEffects.hasEffect("frei0r.IIRblur", "frei0r.IIRblur");
+    bool hasBlur = ix > -1;
+    ix = MainWindow::transitions.hasTransition("frei0r.cairoblend");
+    bool hasCairo = ix > -1;
+    
+    // Parse all effects in document
+    QDomNodeList filters = m_doc.elementsByTagName("filter");
+    int max = filters.count();
+    QLocale locale;
+    for (int i = 0; i < max; ++i) {
+        QDomElement filt = filters.at(i).toElement();
+        QString filterId = filt.attribute("id");
+        if (!filterId.startsWith("movit.")) {
+            continue;
+        }
+        if (filterId == "movit.white_balance" && hasWB) {
+            // Convert to frei0r.colgate
+            filt.setAttribute("id", "frei0r.colgate");
+            EffectsList::setProperty(filt, "kdenlive_id", "frei0r.colgate");
+            EffectsList::setProperty(filt, "tag", "frei0r.colgate");
+            EffectsList::setProperty(filt, "mlt_service", "frei0r.colgate");
+            EffectsList::renameProperty(filt, "neutral_color", "Neutral Color");
+            QString value = EffectsList::property(filt, "color_temperature");
+            value = factorizeGeomValue(value, 15000.0);
+            EffectsList::setProperty(filt, "color_temperature", value);
+            EffectsList::renameProperty(filt, "color_temperature", "Color Temperature");
+            convertedFilters << filterId;
+            continue;
+        }
+        if (filterId == "movit.blur" && hasBlur) {
+            // Convert to frei0r.IIRblur
+            filt.setAttribute("id", "frei0r.IIRblur");
+            EffectsList::setProperty(filt, "kdenlive_id", "frei0r.IIRblur");
+            EffectsList::setProperty(filt, "tag", "frei0r.IIRblur");
+            EffectsList::setProperty(filt, "mlt_service", "frei0r.IIRblur");
+            EffectsList::renameProperty(filt, "radius", "Amount");
+            QString value = EffectsList::property(filt, "Amount");
+            value = factorizeGeomValue(value, 14.0);
+            EffectsList::setProperty(filt, "Amount", value);
+            convertedFilters << filterId;
+            continue;
+        }
+        if (filterId == "movit.mirror") {
+            // Convert to MLT's mirror
+            filt.setAttribute("id", "mirror");
+            EffectsList::setProperty(filt, "kdenlive_id", "mirror");
+            EffectsList::setProperty(filt, "tag", "mirror");
+            EffectsList::setProperty(filt, "mlt_service", "mirror");
+            EffectsList::setProperty(filt, "mirror", "flip");
+            convertedFilters << filterId;
+            continue;
+        }
+        if (filterId.startsWith("movit.")) {
+            //TODO: implement conversion for more filters
+            discardedFilters << filterId;
+        }
+    }
+    
+    // Parse all transitions in document
+    QDomNodeList transitions = m_doc.elementsByTagName("transition");
+    max = transitions.count();
+    for (int i = 0; i < max; ++i) {
+        QDomElement t = transitions.at(i).toElement();
+        QString transId = EffectsList::property(t, "mlt_service");
+        if (!transId.startsWith("movit.")) {
+            continue;
+        }
+        if (transId == "movit.overlay" && hasCairo) {
+            // Convert to frei0r.colgate
+            EffectsList::setProperty(t, "mlt_service", "frei0r.cairoblend");
+            convertedFilters << transId;
+            continue;
+        }
+        if (transId.startsWith("movit.")) {
+            //TODO: implement conversion for more filters
+            discardedFilters << transId;
+        }
+    }
+
+    convertedFilters.removeDuplicates();
+    discardedFilters.removeDuplicates();
+    if (discardedFilters.isEmpty()) {
+        KMessageBox::informationList(QApplication::activeWindow(), i18n("The following filters/transitions were converted to non GPU versions:"), convertedFilters);
+    }
+    else {
+        KMessageBox::informationList(QApplication::activeWindow(), i18n("The following filters/transitions were deleted from the project:"), discardedFilters);
+    }
+    m_modified = true;
+    QString scene = m_doc.toString();
+    scene.replace("movit.", "");
+    m_doc.setContent(scene);
+    return true;
+}
+
+QString DocumentValidator::factorizeGeomValue(QString value, double factor)
+{
+    QStringList vals = value.split(";");
+    QString result;
+    QLocale locale;
+    for (int i = 0; i < vals.count(); i++) {
+        QString s = vals.at(i);
+        QString key = s.section("=", 0, 0);
+        QString val = s.section("=", 1, 1);
+        double v = locale.toDouble(val) / factor;
+        result.append(key + "=" + locale.toString(v));
+        if ( i + 1 < vals.count()) result.append(";");
+    }
+    return result;
+}
+
+

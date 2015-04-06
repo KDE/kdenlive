@@ -150,7 +150,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
             //KMessageBox::error(parent, KIO::NetAccess::lastErrorString());
         }
         else {
-            qDebug()<<" // / processing file oprn";
+            qDebug()<<" // / processing file open";
             QString errorMsg;
             int line;
             int col;
@@ -198,7 +198,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                 }
             }
             if (success) {
-                qDebug()<<" // / processing file oprn: validate";
+                qDebug()<<" // / processing file open: validate";
                 parent->slotGotProgressInfo(i18n("Validating"), 0);
                 qApp->processEvents();
                 DocumentValidator validator(m_document, url);
@@ -216,6 +216,9 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                      */
                     // TODO: backup the document or alert the user?
                     success = validator.validate(DOCUMENTVERSION);
+                    if (success && !KdenliveSettings::gpu_accel()) {
+                        success = validator.checkMovit();
+                    }
                     if (success) { // Let the validator handle error messages
                         qDebug()<<" // / processing file validate ok";
                         parent->slotGotProgressInfo(i18n("Check missing clips"), 0);

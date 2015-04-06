@@ -312,8 +312,7 @@ void GLWidget::paintGL()
         m_shader->setUniformValue(m_textureLocation[0], 0);
         m_shader->setUniformValue(m_textureLocation[1], 1);
         m_shader->setUniformValue(m_textureLocation[2], 2);
-        //TODO:
-        //m_shader->setUniformValue(m_colorspaceLocation, MLT.profile().colorspace());
+        m_shader->setUniformValue(m_colorspaceLocation, pCore->binController()->profile()->colorspace());
     }
     check_error();
 

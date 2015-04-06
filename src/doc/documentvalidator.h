@@ -36,6 +36,8 @@ public:
     bool isProject() const;
     bool validate(const double currentVersion);
     bool isModified() const;
+    /** @brief Check if the project contains references to Movit stuff (GLSL), and try to convert if wanted. */
+    bool checkMovit();
 
 private:
     QDomDocument m_doc;
@@ -49,6 +51,7 @@ private:
     /** @brief Updates the parameters according to the updateRules.
      * @see the related in README in effects/update */
     bool updateEffectParameters(const QDomNodeList &parameters, const QScriptValue *updateRules, const double serviceVersion, const double effectVersion);
+    QString factorizeGeomValue(QString value, double factor);
 };
 
 #endif

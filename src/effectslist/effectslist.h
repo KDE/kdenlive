@@ -52,6 +52,7 @@ public:
      * @param id effect id
      * @return effect index if the effect exists, -1 otherwise */
     int hasEffect(const QString & tag, const QString & id) const;
+    bool hasTransition(const QString & tag) const;
 
     /** @brief Lists the core properties of an effect.
      * @param ix effect index
