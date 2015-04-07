@@ -22,5 +22,7 @@ set(kdenlive_SRCS
   effectstack/widgets/geometrywidget.cpp
   effectstack/widgets/kis_cubic_curve.cpp
   effectstack/widgets/kis_curve_widget.cpp
+  effectstack/widgets/colorwheel.cpp
+  effectstack/widgets/lumaliftgain.cpp
   PARENT_SCOPE)
 

@@ -1933,9 +1933,14 @@ int Render::seekFramePosition() const
 
 void Render::emitFrameUpdated(Mlt::Frame& frame)
 {
+    return;
+    //TODO: fix movit crash
     mlt_image_format format = mlt_image_rgb24;
     int width = 0;
     int height = 0;
+    /*frame.set("rescale.interp", "bilinear");
+    frame.set("deinterlace_method", "onefield");
+    frame.set("top_field_first", -1);*/
     const uchar* image = frame.get_image(format, width, height);
     QImage qimage(width, height, QImage::Format_RGB888);  //Format_ARGB32_Premultiplied);
     memcpy(qimage.scanLine(0), image, width * height * 3);
