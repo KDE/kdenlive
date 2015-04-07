@@ -25,6 +25,7 @@
 #include <QOffscreenSurface>
 #include <QtQml>
 #include <QQuickItem>
+#include <QTimer>
 
 #include <mlt++/Mlt.h>
 #include "glwidget.h"
@@ -66,6 +67,8 @@ GLWidget::GLWidget(bool accel, QObject *parent)
     , m_consumer(0)
     , m_producer(0)
     , m_audioWaveDisplayed(false)
+    , m_fbo(NULL)
+    , sendFrameForAnalysis(false)
 {
     qDebug() << "begin";
     m_texture[0] = m_texture[1] = m_texture[2] = 0;
@@ -76,7 +79,9 @@ GLWidget::GLWidget(bool accel, QObject *parent)
     setPersistentSceneGraph(true);
     setClearBeforeRendering(false);
     setResizeMode(QQuickView::SizeRootObjectToView);
-
+    m_analysisTimer = new QTimer;
+    m_analysisTimer->setInterval(100);
+    m_analysisTimer->setSingleShot(true);
     //rootContext->setContextProperty("settings", &ShotcutSettings::singleton());
     /*rootContext()->setContextProperty("application", &QmlApplication::singleton());
     rootContext()->setContextProperty("profile", &QmlProfile::singleton());
@@ -150,6 +155,7 @@ void GLWidget::initializeGL()
     openglContext()->makeCurrent(this);//openglContext()->surface());
     openglContext()->blockSignals(false);
     connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), this, SIGNAL(frameDisplayed(const SharedFrame&)), Qt::QueuedConnection);
+    connect(m_frameRenderer, SIGNAL(analyseFrame(QImage)), this, SIGNAL(analyseFrame(QImage)), Qt::QueuedConnection);
     connect(m_frameRenderer, SIGNAL(textureReady(GLuint,GLuint,GLuint)), SLOT(updateTexture(GLuint,GLuint,GLuint)), Qt::DirectConnection);
     connect(this, SIGNAL(textureUpdated()), SLOT(update()), Qt::QueuedConnection);
 
@@ -361,6 +367,21 @@ void GLWidget::paintGL()
     glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
     check_error();
 
+    if (sendFrameForAnalysis) {// && !m_analysisTimer->isActive()) {
+        if (!m_fbo || m_fbo->size() != QSize(width, height)) {
+            delete m_fbo;
+            QOpenGLFramebufferObjectFormat f;
+            f.setSamples(0);
+            f.setInternalTextureFormat(GL_RGBA32F);
+            m_fbo = new QOpenGLFramebufferObject(width, height, f); //GL_TEXTURE_2D);
+        }
+        m_fbo->bind();
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
+        check_error();
+        m_fbo->release();
+        emit analyseFrame(m_fbo->toImage());
+        //m_analysisTimer->start();
+    }
     // Cleanup
     m_shader->disableAttributeArray(m_vertexLocation);
     m_shader->disableAttributeArray(m_texCoordLocation);
@@ -989,8 +1010,8 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
                 qSwap(m_renderTexture[i], m_displayTexture[i]);
             emit textureReady(m_displayTexture[0], m_displayTexture[1], m_displayTexture[2]);
         }
-        m_context->doneCurrent();
 
+        m_context->doneCurrent();
         // Save this frame for future use and to keep a reference to the GL Texture.
         m_frame = SharedFrame(frame);
 

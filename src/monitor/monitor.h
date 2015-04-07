@@ -102,6 +102,7 @@ public:
     void setUpEffectGeometry(int x, int y, int w, int h);
     QRect effectRect() const;
     void setEffectKeyframe(bool enable);
+    void sendFrameForAnalysis(bool analyse);
 
 protected:
     void mousePressEvent(QMouseEvent * event);

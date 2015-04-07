@@ -136,7 +136,7 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
     connect(&m_refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
     connect(this, SIGNAL(multiStreamFound(QString,QList<int>,QList<int>,stringMap)), this, SLOT(slotMultiStreamProducerFound(QString,QList<int>,QList<int>,stringMap)));
     connect(this, SIGNAL(checkSeeking()), this, SLOT(slotCheckSeeking()));
-    connect(this, SIGNAL(mltFrameReceived(Mlt::Frame*)), this, SLOT(showFrame(Mlt::Frame*)), Qt::UniqueConnection);
+    //connect(this, SIGNAL(mltFrameReceived(Mlt::Frame*)), this, SLOT(showFrame(Mlt::Frame*)), Qt::UniqueConnection);
 }
 
 Render::~Render()
@@ -1368,6 +1368,7 @@ int Render::setSceneList(QString playlist, int position)
     m_locale = QLocale();
     m_locale.setNumberOptions(QLocale::OmitGroupSeparator);
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
+    //m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-nogl-string", playlist.toUtf8().constData());
     if (!m_mltProducer || !m_mltProducer->is_valid()) {
         qDebug() << " WARNING - - - - -INVALID PLAYLIST: " << playlist.toUtf8().constData();
         m_mltProducer = m_blackClip->cut(0, 1);
@@ -2011,6 +2012,11 @@ void Render::showFrame(Mlt::Frame* frame)
     } else delete frame;
     showFrameSemaphore.release();
     emit checkSeeking();
+}
+
+void Render::emitFrameUpdated(QImage img)
+{
+    emit frameUpdated(img);
 }
 
 void Render::slotCheckSeeking()

@@ -117,7 +117,6 @@ QImage Histogram::renderGfxScope(uint accelFactor, const QImage &qimage)
 {
     QTime start = QTime::currentTime();
     start.start();
-
     const int componentFlags =   (ui->cbY->isChecked() ? 1 : 0) * HistogramGenerator::ComponentY
                                | (ui->cbS->isChecked() ? 1 : 0) * HistogramGenerator::ComponentSum
                                | (ui->cbR->isChecked() ? 1 : 0) * HistogramGenerator::ComponentR

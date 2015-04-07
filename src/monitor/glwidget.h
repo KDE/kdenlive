@@ -77,6 +77,8 @@ public:
     Mlt::Producer *producer();
     QSize profileSize() const;
     bool effectSceneVisible() const;
+    /** @brief set to true if we want to emit a QImage of the frame for analysis */
+    bool sendFrameForAnalysis;
 
 protected:
     void mouseReleaseEvent(QMouseEvent * event);
@@ -109,6 +111,7 @@ signals:
     void mouseSeek(int eventDelta, bool fast);
     void startDrag();
     void effectChanged(QRect r);
+    void analyseFrame(QImage);
 
 private:
     QRect m_rect;
@@ -126,6 +129,7 @@ private:
     Mlt::Event* m_threadCreateEvent;
     Mlt::Event* m_threadJoinEvent;
     FrameRenderer* m_frameRenderer;
+    QTimer *m_analysisTimer;
     int m_projectionLocation;
     int m_modelViewLocation;
     int m_vertexLocation;
@@ -139,6 +143,7 @@ private:
     void createAudioOverlay(bool isAudio);
     void removeAudioOverlay();
     void adjustAudioOverlay(bool isAudio);
+    QOpenGLFramebufferObject *m_fbo;
 
 private slots:
     void initializeGL();
@@ -188,12 +193,14 @@ public slots:
 signals:
     void textureReady(GLuint yName, GLuint uName = 0, GLuint vName = 0);
     void frameDisplayed(const SharedFrame& frame);
+    void analyseFrame(QImage);
 
 private:
     QSemaphore m_semaphore;
     SharedFrame m_frame;
     QOpenGLContext* m_context;
     QOffscreenSurface* m_surface;
+
 public:
     GLuint m_renderTexture[3];
     GLuint m_displayTexture[3];

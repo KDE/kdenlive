@@ -342,7 +342,7 @@ class Render: public AbstractRender
     
     /** @brief Renderer moved to a new frame, check seeking */
     void checkFrameNumber(int pos);
-    
+
     QSemaphore showFrameSemaphore;
     bool externalConsumer;
 
@@ -501,6 +501,7 @@ public slots:
     void doRefresh();
     /** @brief Processing of this clip is over, producer was set on clip, remove from list. */
     void slotProcessingDone(const QString &id);
+        void emitFrameUpdated(QImage img);
 };
 
 #endif

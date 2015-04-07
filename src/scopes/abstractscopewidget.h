@@ -291,7 +291,7 @@ private:
 
 
 protected slots:
-    void customContextMenuRequested(const QPoint &pos);
+    void slotContextMenuRequested(const QPoint &pos);
     /** To be called when a new frame has been received.
         The scope then decides whether and when it wants to recalculate the scope, depending
         on whether it is currently visible and whether a calculation thread is already running. */

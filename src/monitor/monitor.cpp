@@ -27,6 +27,7 @@
 #include "kdenlivesettings.h"
 #include "timeline/abstractclipitem.h"
 #include "twostateaction.h"
+#include "doc/kthumb.h"
 
 #include "klocalizedstring.h"
 #include <KRecentDirs>
@@ -191,7 +192,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(render, SIGNAL(durationChanged(int,int)), this, SLOT(adjustRulerSize(int,int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
-
+    connect(m_glMonitor, SIGNAL(analyseFrame(QImage)), render, SLOT(emitFrameUpdated(QImage)));
     if (id != Kdenlive::ClipMonitor) {
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
         connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SIGNAL(zoneUpdated(QPoint)));
@@ -1207,6 +1208,12 @@ void Monitor::slotShowVolume()
     m_audioSlider->setValue(vol);
     m_audioSlider->blockSignals(false);
     m_volumePopup->show();
+}
+
+
+void Monitor::sendFrameForAnalysis(bool analyse)
+{
+    m_glMonitor->sendFrameForAnalysis = analyse;
 }
 
 

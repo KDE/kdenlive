@@ -289,13 +289,12 @@ void ScopeManager::checkActiveColourScopes()
     // Notify monitors whether frames are still required
     Monitor *monitor;
     monitor = static_cast<Monitor*>( pCore->monitorManager()->monitor(Kdenlive::ProjectMonitor) );
-    if (monitor != NULL) { 
-	if (monitor->effectSceneDisplayed()) monitor->render->sendFrameForAnalysis = true;
-	else monitor->render->sendFrameForAnalysis = imageStillRequested;
+    if (monitor != NULL) {
+	monitor->sendFrameForAnalysis(imageStillRequested);
     }
 
     monitor = static_cast<Monitor*>( pCore->monitorManager()->monitor(Kdenlive::ClipMonitor) );
-    if (monitor != NULL) { monitor->render->sendFrameForAnalysis = imageStillRequested; }
+    if (monitor != NULL) { monitor->sendFrameForAnalysis(imageStillRequested); }
 
     RecMonitor *recMonitor = static_cast<RecMonitor*>( pCore->monitorManager()->monitor(Kdenlive::RecordMonitor) );
     if (recMonitor != NULL) { recMonitor->analyseFrames(imageStillRequested); }

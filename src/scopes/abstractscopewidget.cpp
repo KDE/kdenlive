@@ -78,8 +78,8 @@ AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent) :
     m_scopePalette.setBrush(QPalette::Text, QBrush(light));
     m_scopePalette.setBrush(QPalette::WindowText, QBrush(light));
     m_scopePalette.setBrush(QPalette::ButtonText, QBrush(light));
-    this->setPalette(m_scopePalette);
-    this->setAutoFillBackground(true);
+    setPalette(m_scopePalette);
+    setAutoFillBackground(true);
 
     m_aAutoRefresh = new QAction(i18n("Auto Refresh"), this);
     m_aAutoRefresh->setCheckable(true);
@@ -92,9 +92,9 @@ AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent) :
     m_menu->addAction(m_aAutoRefresh);
     m_menu->addAction(m_aRealtime);
 
-    this->setContextMenuPolicy(Qt::CustomContextMenu);
+    setContextMenuPolicy(Qt::CustomContextMenu);
 
-    connect(this, &AbstractScopeWidget::customContextMenuRequested, this, &AbstractScopeWidget::customContextMenuRequested);
+    connect(this, &AbstractScopeWidget::customContextMenuRequested, this, &AbstractScopeWidget::slotContextMenuRequested);
 
     connect(this, &AbstractScopeWidget::signalHUDRenderingFinished, this, &AbstractScopeWidget::slotHUDRenderingFinished);
     connect(this, &AbstractScopeWidget::signalScopeRenderingFinished, this, &AbstractScopeWidget::slotScopeRenderingFinished);
@@ -386,7 +386,7 @@ void AbstractScopeWidget::leaveEvent(QEvent *)
     emit signalMousePositionChanged();
 }
 
-void AbstractScopeWidget::customContextMenuRequested(const QPoint &pos)
+void AbstractScopeWidget::slotContextMenuRequested(const QPoint &pos)
 {
     m_menu->exec(this->mapToGlobal(pos));
 }
