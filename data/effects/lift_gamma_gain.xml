@@ -1,0 +1,32 @@
+<!DOCTYPE kpartgui>
+<effect tag="lift_gamma_gain" id="lift_gamma_gain">
+        <name>Lift/gamma/gain</name>
+        <author>Brian Matherly</author>
+        <parameter type="double" name="lift_r" default="0" min="0" max="500" factor="100">
+                <name>Lift: Red</name>
+        </parameter>
+        <parameter type="double" name="lift_g" default="0" min="0" max="500" factor="100">
+                <name>Lift: Green</name>
+        </parameter>
+        <parameter type="double" name="lift_b" default="0" min="0" max="500" factor="100">
+                <name>Lift: Blue</name>
+        </parameter>
+        <parameter type="double" name="gamma_r" default="100" min="0" max="500" factor="100">
+                <name>Gamma: Red</name>
+        </parameter>
+        <parameter type="double" name="gamma_g" default="100" min="0" max="500" factor="100">
+                <name>Gamma: Green</name>
+        </parameter>
+        <parameter type="double" name="gamma_b" default="100" min="0" max="500" factor="100">
+                <name>Gamma: Blue</name>
+        </parameter>
+        <parameter type="double" name="gain_r" default="100" min="0" max="500" factor="100">
+                <name>Gain: Red</name>
+        </parameter>
+        <parameter type="double" name="gain_g" default="100" min="0" max="500" factor="100">
+                <name>Gain: Green</name>
+        </parameter>
+        <parameter type="double" name="gain_b" default="100" min="0" max="500" factor="100">
+                <name>Gain: Blue</name>
+        </parameter>
+</effect>

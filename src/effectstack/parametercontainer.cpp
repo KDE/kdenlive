@@ -124,11 +124,11 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
     m_vbox->setContentsMargins(4, 0, 4, 0);
     m_vbox->setSpacing(2);
 
-    if (effect.attribute("id") == "movit.lift_gamma_gain") {
+    if (effect.attribute("id") == "movit.lift_gamma_gain" || effect.attribute("id") == "lift_gamma_gain" ) {
         // We use a special custom widget here
         LumaLiftGain *gainWidget = new LumaLiftGain(namenode, parent);
         m_vbox->addWidget(gainWidget);
-        m_valueItems["movit.lift_gamma_gain"] = gainWidget;
+        m_valueItems[effect.attribute("id")] = gainWidget;
         connect(gainWidget, SIGNAL(valueChanged()), this, SLOT(slotCollectAllParameters()));
     }
     else for (int i = 0; i < namenode.count() ; ++i) {
@@ -602,8 +602,8 @@ void ParameterContainer::slotCollectAllParameters()
     const QDomElement oldparam = m_effect.cloneNode().toElement();
     //QDomElement newparam = oldparam.cloneNode().toElement();
     
-    if (m_effect.attribute("id") == "movit.lift_gamma_gain") {
-        LumaLiftGain *gainWidget = ((LumaLiftGain*)m_valueItems.value("movit.lift_gamma_gain"));
+    if (m_effect.attribute("id") == "movit.lift_gamma_gain" || m_effect.attribute("id") == "lift_gamma_gain" ) {
+        LumaLiftGain *gainWidget = ((LumaLiftGain*)m_valueItems.value(m_effect.attribute("id")));
         gainWidget->updateEffect(m_effect);
         emit parameterChanged(oldparam, m_effect, m_effect.attribute("kdenlive_ix").toInt());        
         return;

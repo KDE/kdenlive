@@ -108,6 +108,7 @@ frei0r_facedetect.xml
 fade_from_black.xml
 fade_to_black.xml
 gain.xml
+lift_gamma_gain.xml
 movit_blur.xml
 movit_deconvolution_sharpen.xml
 movit_diffusion.xml
