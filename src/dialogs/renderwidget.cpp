@@ -1138,6 +1138,9 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             render_process_args <<  (scriptExport ? "$SOURCE_" + QString::number(stemIdx) : playlistPaths.at(stemIdx));
 
         render_process_args << (scriptExport ? "$TARGET_" + QString::number(stemIdx) : QUrl(dest).url());
+        if (KdenliveSettings::gpu_accel()) {
+                render_process_args << "glsl.=1";
+        }
         render_process_args << paramsList;
 
         QString group = m_view.size_list->currentItem()->data(MetaGroupRole).toString();
