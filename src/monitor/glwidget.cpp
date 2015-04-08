@@ -25,7 +25,6 @@
 #include <QOffscreenSurface>
 #include <QtQml>
 #include <QQuickItem>
-#include <QTimer>
 
 #include <mlt++/Mlt.h>
 #include "glwidget.h"
@@ -79,9 +78,6 @@ GLWidget::GLWidget(bool accel, QObject *parent)
     setPersistentSceneGraph(true);
     setClearBeforeRendering(false);
     setResizeMode(QQuickView::SizeRootObjectToView);
-    m_analysisTimer = new QTimer;
-    m_analysisTimer->setInterval(100);
-    m_analysisTimer->setSingleShot(true);
     //rootContext->setContextProperty("settings", &ShotcutSettings::singleton());
     /*rootContext()->setContextProperty("application", &QmlApplication::singleton());
     rootContext()->setContextProperty("profile", &QmlProfile::singleton());
@@ -367,20 +363,23 @@ void GLWidget::paintGL()
     glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
     check_error();
 
-    if (sendFrameForAnalysis) {// && !m_analysisTimer->isActive()) {
+    // Render RGB frame for analysis
+    if (sendFrameForAnalysis) {
         if (!m_fbo || m_fbo->size() != QSize(width, height)) {
             delete m_fbo;
             QOpenGLFramebufferObjectFormat f;
             f.setSamples(0);
-            f.setInternalTextureFormat(GL_RGBA32F);
+            f.setInternalTextureFormat(GL_RGB); //GL_RGBA32F);  // which one is the fastest ?
             m_fbo = new QOpenGLFramebufferObject(width, height, f); //GL_TEXTURE_2D);
         }
         m_fbo->bind();
+        glViewport(0, 0, width, height);
+        projection.scale((double) this->width() / width, (double) this->height() / height);
+        m_shader->setUniformValue(m_projectionLocation, projection);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
         check_error();
         m_fbo->release();
         emit analyseFrame(m_fbo->toImage());
-        //m_analysisTimer->start();
     }
     // Cleanup
     m_shader->disableAttributeArray(m_vertexLocation);

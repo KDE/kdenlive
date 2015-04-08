@@ -129,7 +129,6 @@ private:
     Mlt::Event* m_threadCreateEvent;
     Mlt::Event* m_threadJoinEvent;
     FrameRenderer* m_frameRenderer;
-    QTimer *m_analysisTimer;
     int m_projectionLocation;
     int m_modelViewLocation;
     int m_vertexLocation;
