@@ -94,7 +94,6 @@ GLWidget::GLWidget(bool accel, QObject *parent)
         delete m_glslManager;
         m_glslManager = 0;
     }
-
     connect(this, SIGNAL(sceneGraphInitialized()), SLOT(initializeGL()), Qt::DirectConnection);
     connect(this, SIGNAL(sceneGraphInitialized()), SLOT(setBlankScene()), Qt::QueuedConnection);
     connect(this, SIGNAL(beforeRendering()), SLOT(paintGL()), Qt::DirectConnection);
@@ -560,13 +559,14 @@ int GLWidget::setProducer(Mlt::Producer* producer, bool isMulti)
             resizeGL(width(), height());
         }
     }
-    if (m_producer->get_int("video_index") == -1 && !KdenliveSettings::gpu_accel()) {
+    if (m_producer->get_int("video_index") == -1) {
         // This is an audio only clip, attach visualization filter. Currently, the filter crashes MLT when Movit accel is used
         if (!m_audioWaveDisplayed) {
             createAudioOverlay(true);
         }
         else {
-            adjustAudioOverlay(true);
+            if (KdenliveSettings::gpu_accel()) removeAudioOverlay();
+            else adjustAudioOverlay(true);
         }
     }
     else if (m_audioWaveDisplayed) {
@@ -578,11 +578,18 @@ int GLWidget::setProducer(Mlt::Producer* producer, bool isMulti)
             removeAudioOverlay();
         }
     }
+    else if (KdenliveSettings::displayAudioOverlay()) {
+        createAudioOverlay(false);
+    }
     return error;
 }
 
 void GLWidget::createAudioOverlay(bool isAudio)
 {
+    if (isAudio && KdenliveSettings::gpu_accel()) {
+        // Audiowaveform filter crashes on Movit + audio clips)
+        return;
+    }
     Mlt::Filter f(*pCore->binController()->profile(), "audiowaveform");
     if (f.is_valid()) {
         //f.set("show_channel", 1);
