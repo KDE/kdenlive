@@ -370,9 +370,6 @@ void Render::seek(const GenTime &time)
 void Render::seek(int time)
 {
     resetZoneMode();
-    //TODO can we get rid of this check ?
-    time = qMax(0, time - m_mltProducer->get_in());
-    time = qMin(m_mltProducer->get_playtime(), time);
     if (requestedSeekPosition == SEEK_INACTIVE) {
         requestedSeekPosition = time;
         m_mltConsumer->purge();
@@ -380,12 +377,6 @@ void Render::seek(int time)
         if (!externalConsumer) {
             m_mltConsumer->set("refresh", 1);
         }
-        /*else if (m_winid != 0 && m_mltProducer->get_speed() == 0) {
-            // workaround specific bug in MLT's SDL consumer
-            m_mltConsumer->stop();
-            m_mltConsumer->start();
-            m_mltConsumer->set("refresh", 1);
-        }*/
     }
     else requestedSeekPosition = time;
 }
@@ -1837,6 +1828,8 @@ void Render::seekToFrame(int pos)
 {
     if (!m_mltProducer || !m_isActive)
         return;
+    pos = qMax(0, pos - m_mltProducer->get_in());
+    pos = qMin(m_mltProducer->get_playtime(), pos);
     resetZoneMode();
     seek(pos);
 }

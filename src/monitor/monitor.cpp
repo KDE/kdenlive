@@ -55,7 +55,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     AbstractMonitor(id, manager, parent)
     , render(NULL)
     , m_controller(NULL)
-    , m_overlay(NULL)
     , m_length(2)
     , m_dragStarted(false)
     , m_loopClipAction(NULL)
@@ -191,7 +190,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_audioSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSetVolume(int)));
     connect(render, SIGNAL(durationChanged(int,int)), this, SLOT(adjustRulerSize(int,int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
-    connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
     connect(m_glMonitor, SIGNAL(analyseFrame(QImage)), render, SLOT(emitFrameUpdated(QImage)));
     if (id != Kdenlive::ClipMonitor) {
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
@@ -229,7 +227,6 @@ Monitor::~Monitor()
 {
     delete m_ruler;
     delete m_timePos;
-    delete m_overlay;
     delete render;
 }
 
@@ -452,7 +449,7 @@ void Monitor::mousePressEvent(QMouseEvent * event)
 {
     if (render) render->setActiveMonitor();
     if (event->button() != Qt::RightButton) {
-        if (m_glWidget->geometry().contains(event->pos()) && (!m_overlay || !m_overlay->underMouse())) {
+        if (m_glWidget->geometry().contains(event->pos())) {
             m_dragStarted = true;
             m_DragStartPosition = event->pos();
         }
@@ -724,16 +721,10 @@ void Monitor::checkOverlay()
         overlayText = i18n("In Point");
     else if (pos == zone.y())
         overlayText = i18n("Out Point");
-    else {
-        if (m_controller) {
-            overlayText = m_controller->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
-	    if (!overlayText.isEmpty()) {
-		m_overlay->setOverlayText(overlayText, false);
-		return;
-	    }
-	}
+    else if (m_controller) {
+        overlayText = m_controller->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
     }
-    m_rootItem->setProperty("comment", overlayText);
+    if (overlayText!= m_rootItem->property("comment")) m_rootItem->setProperty("comment", overlayText);
 }
 
 void Monitor::slotStart()
@@ -1223,14 +1214,6 @@ void Monitor::onFrameDisplayed(const SharedFrame& frame)
     render->checkFrameNumber(position);
     if (m_rootItem) m_rootItem->setProperty("framenum", QString::number(position));
     seekCursor(position);
-    /*if (position < m_length) {
-        m_position = position;
-        m_positionSpinner->blockSignals(true);
-        m_positionSpinner->setValue(position);
-        m_positionSpinner->blockSignals(false);
-        m_scrubber->onSeek(position);
-    }
-    */
     if (position >= m_length)
         render->pause();
         //emit endOfStream();
@@ -1270,7 +1253,7 @@ void Monitor::switchFullScreen()
 {
     // TODO: disable screensaver?
     if (!m_glWidget->isFullScreen()) {
-        // Check if we ahave a multiple monitor setup
+        // Check if we have a multiple monitor setup
         int monitors = QApplication::desktop()->screenCount();
         int screen = -1;
         if (monitors > 1) {
@@ -1291,59 +1274,6 @@ void Monitor::switchFullScreen()
         lay->insertWidget(0, m_glWidget, 10);
     }
 }
-
-
-Overlay::Overlay(QWidget* parent) :
-    QLabel(parent)
-{
-    //setAttribute(Qt::WA_TransparentForMouseEvents);
-    setAutoFillBackground(true);
-    setBackgroundRole(QPalette::Base);
-    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    setCursor(Qt::PointingHandCursor);
-
-}
-
-// virtual
-void Overlay::mouseReleaseEvent ( QMouseEvent * event )
-{
-    event->ignore();
-}
-
-// virtual
-void Overlay::mousePressEvent( QMouseEvent * event )
-{
-    event->ignore();
-}
-
-// virtual
-void Overlay::mouseDoubleClickEvent ( QMouseEvent * event )
-{
-    emit editMarker();
-    event->ignore();
-}
-
-void Overlay::setOverlayText(const QString &text, bool isZone)
-{
-    if (text.isEmpty()) {
-	/*QPalette p;
-	p.setColor(QPalette::Base, KdenliveSettings::window_background());
-	setPalette(p);
-	setText(QString());
-	repaint();*/
-	setHidden(true);
-	return;
-    }
-    setHidden(true);
-    QPalette p;
-    p.setColor(QPalette::Text, Qt::white);
-    if (isZone) p.setColor(QPalette::Base, QColor(200, 0, 0));
-    else p.setColor(QPalette::Base, QColor(0, 0, 200));
-    setPalette(p);
-    setText(' ' + text + ' ');
-    setHidden(false);
-}
-
 
 
 

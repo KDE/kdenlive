@@ -98,9 +98,6 @@ private:
     MyDropButton *m_effectsFavorites;
     /** @brief Action triggering remove effect from favorites or delete custom effect, depending on active tab. */
     QAction *m_removeAction;
-    /** @brief Holds currently active tab index (all, video, audio, gpu, ...). */
-    int m_filterPos;
-    
     QMenu *m_contextMenu;
 
 private slots:

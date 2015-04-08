@@ -34,7 +34,6 @@
 
 EffectsListView::EffectsListView(QWidget *parent) :
         QWidget(parent)
-        , m_filterPos(0)
 {
     setupUi(this);
     
@@ -62,7 +61,7 @@ EffectsListView::EffectsListView(QWidget *parent) :
         infopanel->hide();
 
     m_removeAction = m_contextMenu->addAction(QIcon::fromTheme("edit-delete"), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
-    
+
     effectsAll->setIcon(QIcon::fromTheme("kdenlive-show-all-effects"));
     effectsAll->setToolTip(i18n("Show all effects"));
     effectsVideo->setIcon(QIcon::fromTheme("kdenlive-show-video-effects"));
@@ -95,6 +94,25 @@ EffectsListView::EffectsListView(QWidget *parent) :
     connect(search_effect, SIGNAL(hiddenChanged(QTreeWidgetItem*,bool)), this, SLOT(slotUpdateSearch(QTreeWidgetItem*,bool)));
     connect(m_effectsList, &EffectsListWidget::applyEffect, this, &EffectsListView::addEffect);
     connect(search_effect, SIGNAL(textChanged(QString)), this, SLOT(slotAutoExpand(QString)));
+    
+    // Select preferred effect tab
+    switch (KdenliveSettings::selected_effecttab()) {
+      case EffectsListWidget::EFFECT_VIDEO:
+        effectsVideo->setChecked(true);
+        break;
+      case EffectsListWidget::EFFECT_AUDIO:
+        effectsAudio->setChecked(true);
+        break;
+      case EffectsListWidget::EFFECT_GPU:
+        if (KdenliveSettings::gpu_accel()) effectsGPU->setChecked(true);
+        break;
+      case EffectsListWidget::EFFECT_CUSTOM:
+        effectsCustom->setChecked(true);
+        break;
+      case EffectsListWidget::EFFECT_FAVORITES:
+        m_effectsFavorites->setChecked(true);
+        break;
+    }
     //m_effectsList->setCurrentRow(0);
 }
 
@@ -126,11 +144,11 @@ void EffectsListView::filterList()
     else if (effectsGPU->isChecked()) pos = EffectsListWidget::EFFECT_GPU;
     else if (m_effectsFavorites->isChecked()) pos = EffectsListWidget::EFFECT_FAVORITES;
     else if (effectsCustom->isChecked()) pos = EffectsListWidget::EFFECT_CUSTOM;
-    m_filterPos = pos;
-    if (m_filterPos == EffectsListWidget::EFFECT_CUSTOM) {
+    KdenliveSettings::setSelected_effecttab(pos);
+    if (pos == EffectsListWidget::EFFECT_CUSTOM) {
         m_removeAction->setText(i18n("Delete effect"));
     }
-    else if (m_filterPos == EffectsListWidget::EFFECT_FAVORITES) {
+    else if (pos == EffectsListWidget::EFFECT_FAVORITES) {
         m_removeAction->setText(i18n("Remove from favorites"));
     }
     for (int i = 0; i < m_effectsList->topLevelItemCount(); ++i) {
@@ -203,11 +221,12 @@ void EffectsListView::slotUpdateInfo()
 void EffectsListView::reloadEffectList(QMenu *effectsMenu, KActionCategory *effectActions)
 {
     m_effectsList->initList(effectsMenu, effectActions);
+    filterList();
 }
 
 void EffectsListView::slotDisplayMenu(QTreeWidgetItem *item, const QPoint &pos)
 {
-    if (m_filterPos == EffectsListWidget::EFFECT_FAVORITES) {
+    if (KdenliveSettings::selected_effecttab() == EffectsListWidget::EFFECT_FAVORITES) {
         m_contextMenu->popup(pos);
     }
     else if (item->data(0, Qt::UserRole + 1).toInt() == EffectsListWidget::EFFECT_CUSTOM) {
@@ -218,7 +237,7 @@ void EffectsListView::slotDisplayMenu(QTreeWidgetItem *item, const QPoint &pos)
 
 void EffectsListView::slotRemoveEffect()
 {
-    if (m_filterPos == EffectsListWidget::EFFECT_FAVORITES) {
+    if (KdenliveSettings::selected_effecttab() == EffectsListWidget::EFFECT_FAVORITES) {
         QDomElement e = m_effectsList->currentEffect();
         QString id = e.attribute("id");
         if (id.isEmpty()) {
@@ -263,11 +282,11 @@ void EffectsListView::slotRemoveEffect()
 void EffectsListView::slotUpdateSearch(QTreeWidgetItem *item, bool hidden)
 {
     if (!hidden) {
-        if (item->data(0, Qt::UserRole).toInt() == m_filterPos) {
+        if (item->data(0, Qt::UserRole).toInt() == KdenliveSettings::selected_effecttab()) {
             if (item->parent())
                 item->parent()->setHidden(false);
         } else {
-            if (m_filterPos != 0)
+            if (KdenliveSettings::selected_effecttab() != 0)
                 item->setHidden(true);
         }
     }
