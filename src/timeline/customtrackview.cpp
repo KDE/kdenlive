@@ -2832,8 +2832,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             groupSelectedItems(items);
         } else if (items.count() == 1) {
             m_dragItem = static_cast <AbstractClipItem *>(items.at(0));
-	    //TODO:
-            //emit clipItemSelected(static_cast<ClipItem*>(m_dragItem), false);
+            emit clipItemSelected(static_cast<ClipItem*>(m_dragItem), false);
         }
         m_document->renderer()->refreshIfActive();
         event->setDropAction(Qt::MoveAction);
