@@ -2184,7 +2184,12 @@ void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, int w
         }
     }
     Mlt::Geometry geometry(data.toUtf8().data(), oldInfo.cropDuration.frames(m_fps), width, height);
-    param.setAttribute("value", geometry.serialise(cropStart().frames(m_fps), (cropStart() + cropDuration()).frames(m_fps) - 1));
+    QString result = geometry.serialise(cropStart().frames(m_fps), (cropStart() + cropDuration()).frames(m_fps) - 1);
+    // We need to make sure that first keyframe, when at 0 time pos, contains the "0=" keyword, required for new MLT rect property
+    if (result.contains(";") && !result.section(";",0,0).contains("=")) {
+        result.prepend("0=");
+    }
+    param.setAttribute("value", result);
 }
 
 void ClipItem::slotRefreshClip()
