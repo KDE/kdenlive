@@ -300,7 +300,17 @@ void GeometryWidget::updateTimecodeFormat()
 
 QString GeometryWidget::getValue() const
 {
-    return m_geometry->serialise();
+    QString result = m_geometry->serialise();
+    if (result.contains(";")) {
+        Mlt::GeometryItem item;
+        if (!m_geometry->fetch(&item, 0) && item.key()) {
+            // We have a keyframe at position 0, make sure that first keyframe is prefixed with "0=", required for the MLT rect property
+            if (!result.startsWith("0=")) {
+                result.prepend("0=");
+            }
+        }
+    }
+    return result;
 }
 
 QString GeometryWidget::getExtraValue(const QString &name) const
