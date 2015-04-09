@@ -430,6 +430,9 @@ void GLWidget::wheelEvent(QWheelEvent * event)
 void GLWidget::mousePressEvent(QMouseEvent* event)
 {
     QQuickView::mousePressEvent(event);
+    if (rootObject()->objectName() != "root") {
+        return;
+    }
     if (event->isAccepted() || effectSceneVisible()) return;
     if (event->button() == Qt::LeftButton)
         m_dragStart = event->pos();
@@ -438,6 +441,9 @@ void GLWidget::mousePressEvent(QMouseEvent* event)
 void GLWidget::mouseMoveEvent(QMouseEvent* event)
 {
     QQuickView::mouseMoveEvent(event);
+    if (rootObject()->objectName() != "root") {
+        return;
+    }
     if (event->isAccepted() || effectSceneVisible()) return;
 /*    if (event->modifiers() == Qt::ShiftModifier && m_producer) {
         emit seekTo(m_producer->get_length() *  event->x() / width());
@@ -790,6 +796,9 @@ void GLWidget::setZoom(float zoom)
 void GLWidget::mouseReleaseEvent(QMouseEvent * event)
 {
     QQuickView::mouseReleaseEvent(event);
+    if (rootObject()->objectName() != "root") {
+        return;
+    }
     m_dragStart = QPoint();
     if (event->button() != Qt::RightButton && !effectSceneVisible()) {
         emit monitorPlay();

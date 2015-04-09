@@ -65,6 +65,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_glMonitor(NULL)
     , m_rootItem(NULL)
     , m_showEffectScene(false)
+    , m_splitEffect(NULL)
+    , m_splitProducer(NULL)
 {
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -288,8 +290,13 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     connect(overlayAudio, SIGNAL(toggled(bool)), m_glMonitor, SLOT(slotSwitchAudioOverlay(bool)));
     overlayAudio->setChecked(KdenliveSettings::displayAudioOverlay());
 
+    QAction *effectCompare = m_contextMenu->addAction(QIcon(), i18n("Compare effect"));
+    effectCompare->setCheckable(true);
+    connect(effectCompare, SIGNAL(toggled(bool)), this, SLOT(slotSwitchCompare(bool)));
+    
     m_configMenu->addAction(showTips);
     m_configMenu->addAction(dropFrames);
+    m_configMenu->addAction(effectCompare);
     m_configMenu->addAction(overlayAudio);
 }
 
@@ -503,6 +510,10 @@ void Monitor::setZoom()
 {
     //emit zoomChanged(factor);
     //Settings.setPlayerZoom(factor);
+    if (m_rootItem->objectName() != "root") {
+        // we are not in main view, ignore
+        return;
+    }
     if (m_glMonitor->zoom() == 1.0f) {
        /* m_zoomButton->setIcon(icon);
         m_zoomButton->setChecked(false);*/
@@ -713,7 +724,10 @@ void Monitor::slotSeek(int pos)
 
 void Monitor::checkOverlay()
 {
-    if (m_rootItem == NULL) return;
+    if (m_rootItem->objectName() != "root") {
+        // we are not in main view, ignore
+        return;
+    }
     QString overlayText;
     int pos = m_timePos->getValue();//render->seekFramePosition();
     QPoint zone = m_ruler->zone();
@@ -1053,6 +1067,10 @@ void Monitor::resetProfile(const QString &profile)
         slotActivateMonitor();
         render->resetProfile(profile);
     }
+    if (m_rootItem->objectName() != "root") {
+        // we are not in main view, ignore
+        return;
+    }
     m_rootItem->setProperty("framesize", QRect(0, 0, m_glMonitor->profileSize().width(), m_glMonitor->profileSize().height()));
 }
 
@@ -1081,6 +1099,10 @@ void Monitor::slotSwitchDropFrames(bool show)
 
 void Monitor::slotSwitchMonitorInfo(bool show)
 {
+    if (m_rootItem->objectName() != "root") {
+        // we are not in main view, ignore
+        return;
+    }
     KdenliveSettings::setDisplayMonitorInfo(show);
     if (show) {
         m_rootItem = m_glMonitor->rootObject();
@@ -1212,7 +1234,10 @@ void Monitor::onFrameDisplayed(const SharedFrame& frame)
 {
     int position = frame.get_position();
     render->checkFrameNumber(position);
-    if (m_rootItem) m_rootItem->setProperty("framenum", QString::number(position));
+    if (m_rootItem->objectName() == "root") {
+        // we are in main view, show frame
+        m_rootItem->setProperty("framenum", QString::number(position));
+    }
     seekCursor(position);
     if (position >= m_length)
         render->pause();
@@ -1276,4 +1301,45 @@ void Monitor::switchFullScreen()
 }
 
 
+void Monitor::slotSwitchCompare(bool enable)
+{
+    int pos = position().frames(m_monitorManager->timecode().fps());
+    if (enable) {
+        Mlt::Producer *original = m_controller->masterProducer();
+        Mlt::Tractor trac(*original->profile());
+        Mlt::Producer p2(*original->profile(), original->get("resource"));
+        trac.set_track(*original, 0);
+        trac.set_track(p2, 1);
+        m_splitEffect = new Mlt::Filter(*original->profile(), "frei0r.scale0tilt");
+        m_splitEffect->set("Clip left", 0.5);
+        p2.attach(*m_splitEffect);
+        Mlt::Transition t(*original->profile(), "movit.overlay");
+        trac.plant_transition(t, 0, 1);
+        m_splitProducer = new Mlt::Producer(trac.get_producer());
+        //m_splitProducer->seek(pos);
+        render->setProducer(m_splitProducer, pos, isActive());
+        m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitorsplit.qml"))));
+        m_rootItem = m_glMonitor->rootObject();
+        QObject::connect(m_rootItem, SIGNAL(qmlMoveSplit(double)), this, SLOT(slotAdjustEffectCompare(double)), Qt::UniqueConnection);
+    }
+    else {
+        render->setProducer(m_controller->masterProducer(), pos, isActive());
+        loadMasterQml();
+        delete m_splitProducer;
+        delete m_splitEffect;
+    }
+    refreshMonitor();
+}
+
+void Monitor::loadMasterQml()
+{
+    m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitor.qml"))));
+    m_rootItem = m_glMonitor->rootObject();
+}
+
+void Monitor::slotAdjustEffectCompare(double percent)
+{
+    if (m_splitEffect) m_splitEffect->set("Clip left", percent);
+    refreshMonitor();
+}
 

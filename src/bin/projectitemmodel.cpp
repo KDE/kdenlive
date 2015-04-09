@@ -99,7 +99,7 @@ Qt::ItemFlags ProjectItemModel::flags(const QModelIndex& index) const
           return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable;
           break;
       case AbstractProjectItem::ClipItem:
-          return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEditable;
+          return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable;
           break;
       case AbstractProjectItem::SubClipItem:
           return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled;
@@ -127,6 +127,13 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
         QStringList ids = QString(data->data("kdenlive/producerslist")).split(';');
         emit itemDropped(ids, parent);
         return true;
+    }
+    
+    if (data->hasFormat("kdenlive/effectslist")) {
+        // Dropping effect on a Bin item
+        const QString effect = QString::fromUtf8(data->data("kdenlive/effectslist"));
+        emit effectDropped(effect, parent);
+        return true;      
     }
     
     if (data->hasFormat("kdenlive/clip")) {
@@ -228,7 +235,7 @@ Qt::DropActions ProjectItemModel::supportedDropActions() const
 QStringList ProjectItemModel::mimeTypes() const
 {
     QStringList types;
-    types << QLatin1String("kdenlive/producerslist") << QLatin1String("text/uri-list") << QLatin1String("kdenlive/clip");
+    types << QLatin1String("kdenlive/producerslist") << QLatin1String("text/uri-list") << QLatin1String("kdenlive/clip") << QLatin1String("kdenlive/effectslist");
     return types;
 }
 

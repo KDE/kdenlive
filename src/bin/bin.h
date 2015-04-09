@@ -399,6 +399,10 @@ public:
     void deleteClipMarker(const QString &comment, const QString &id, const GenTime &position);
     /** @brief Delete all markers from @param id clip. */
     void deleteAllClipMarkers(const QString &id);
+    /** @brief Remove an effect from a bin clip. */
+    void removeEffect(const QString &id, const QString &effect);
+    /** @brief Add an effect to a bin clip. */
+    void addEffect(const QString &id, const QString &effect);
 
 private slots:
     void slotAddClip();
@@ -420,6 +424,7 @@ private slots:
     void slotSaveHeaders();
     void slotItemDropped(QStringList ids, const QModelIndex &parent);
     void slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent);
+    void slotEffectDropped(QString effect, const QModelIndex &parent);
     void slotItemEdited(QModelIndex,QModelIndex,QVector<int>);
     void slotAddUrl(QString url, QMap <QString, QString> data = QMap <QString, QString>());
     void slotPrepareJobsMenu();

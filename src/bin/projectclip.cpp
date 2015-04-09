@@ -564,3 +564,9 @@ void ProjectClip::addMarkers(QList <CommentedTime> &markers)
     // refresh markers in timeline clips
     emit refreshClipDisplay();
 }
+
+void ProjectClip::addEffect(const QString &effect)
+{
+    m_controller->addEffect(effect);
+}
+

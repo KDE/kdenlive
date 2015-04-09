@@ -1854,7 +1854,7 @@ void Render::refreshIfActive()
 
 void Render::doRefresh()
 {
-    if (m_mltProducer && (playSpeed() == 0) && m_isActive) m_refreshTimer.start();
+    if (m_mltProducer && (playSpeed() == 0) && m_isActive) refresh(); //m_refreshTimer.start();
 }
 
 void Render::refresh()

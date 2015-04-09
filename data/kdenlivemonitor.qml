@@ -62,7 +62,7 @@ Item {
               width: 10; height: 10
               anchors.centerIn: parent
               hoverEnabled: true
-              cursorShape: "PointingHandCursor"
+              cursorShape: Qt.SizeFDiagCursor
               onEntered: { tlhandle.color = '#ffff00'}
               onExited: { tlhandle.color = '#ff0000'}
               onPressed: {
@@ -98,7 +98,7 @@ Item {
               width: 10; height: 10
               anchors.centerIn: parent
               hoverEnabled: true
-              cursorShape: "PointingHandCursor"
+              cursorShape: Qt.SizeBDiagCursor
               onEntered: { trhandle.color = '#ffff00'}
               onExited: { trhandle.color = '#ff0000'}
               onPressed: {
@@ -133,7 +133,7 @@ Item {
               width: 10; height: 10
               anchors.centerIn: parent
               hoverEnabled: true
-              cursorShape: "PointingHandCursor"
+              cursorShape: Qt.SizeBDiagCursor
               onEntered: { blhandle.color = '#ffff00'}
               onExited: { blhandle.color = '#ff0000'}
               onPressed: {
@@ -168,7 +168,7 @@ Item {
               width: 10; height: 10
               anchors.centerIn: parent
               hoverEnabled: true
-              cursorShape: "PointingHandCursor"
+              cursorShape: Qt.SizeFDiagCursor
               onEntered: { brhandle.color = '#ffff00'}
               onExited: { brhandle.color = '#ff0000'}
               onPressed: {
@@ -198,7 +198,7 @@ Item {
               property int oldMouseX
               property int oldMouseY
               hoverEnabled: true
-              cursorShape: "PointingHandCursor"
+              cursorShape: Qt.SizeAllCursor
               onEntered: { framerect.hoverColor = '#ffff00'}
               onExited: { framerect.hoverColor = '#ff0000'}
               onPressed: {

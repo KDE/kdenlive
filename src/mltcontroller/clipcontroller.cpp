@@ -555,3 +555,12 @@ Mlt::Properties &ClipController::properties()
     return *m_properties;
 }
 
+void ClipController::addEffect(const QString &effect)
+{
+    QDomDocument doc;
+    doc.setContent(effect);
+    QString tag = doc.documentElement().attribute("tag");
+    Mlt::Filter *f = new Mlt::Filter(*m_binController->profile(), tag.toUtf8().constData());
+    m_masterProducer->parent().attach(*f);
+}
+

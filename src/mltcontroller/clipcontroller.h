@@ -159,6 +159,7 @@ public:
     QPoint zone() const;
     bool hasLimitedDuration() const;
     Mlt::Properties &properties();
+    void addEffect(const QString &effect);
 
 private:
     Mlt::Producer *m_masterProducer;

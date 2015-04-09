@@ -112,6 +112,25 @@ void RenameBinFolderCommand::redo()
     m_bin->renameFolder(m_clipId, m_newName);
 }
 
+AddBinEffectCommand::AddBinEffectCommand(Bin *bin, const QString &clipId, const QString &effect, QUndoCommand *parent) :
+        QUndoCommand(parent),
+        m_bin(bin),
+        m_clipId(clipId),
+        m_effect(effect)
+{
+    setText(i18n("Add Bin Effect"));
+}
+// virtual
+void AddBinEffectCommand::undo()
+{
+    m_bin->removeEffect(m_clipId, m_effect);
+}
+// virtual
+void AddBinEffectCommand::redo()
+{
+    m_bin->addEffect(m_clipId, m_effect);
+}
+
 RenameBinSubClipCommand::RenameBinSubClipCommand(Bin *bin, const QString &clipId, const QString &newName, const QString &oldName, int in, int out, QUndoCommand *parent) :
         QUndoCommand(parent),
         m_bin(bin),

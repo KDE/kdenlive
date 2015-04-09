@@ -80,6 +80,18 @@ private:
     QString m_newName;
 };
 
+class AddBinEffectCommand : public QUndoCommand
+{
+public:
+    explicit AddBinEffectCommand(Bin *bin, const QString &clipId, const QString &effect, QUndoCommand *parent = 0);
+    void undo();
+    void redo();
+private:
+    Bin *m_bin;
+    QString m_clipId;
+    QString m_effect;
+};
+
 class RenameBinSubClipCommand : public QUndoCommand
 {
 public:

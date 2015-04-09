@@ -117,6 +117,9 @@ private:
     QScrollBar *m_horizontalScroll;
     /** @brief The ruler widget displaying cursor position **/
     SmallRuler *m_ruler;
+    
+    Mlt::Filter *m_splitEffect;
+    Mlt::Producer *m_splitProducer;
     int m_length;
     bool m_dragStarted;
     QIcon m_playIcon;
@@ -148,6 +151,7 @@ private:
     /** @brief Switch the QQuickView monitor between normal and fullscreen mode **/
     void switchFullScreen();
     void adjustScrollBars(float horizontal, float vertical);
+    void loadMasterQml();
 
 private slots:
     void seekCursor(int pos);
@@ -170,6 +174,9 @@ private slots:
     void slotStartDrag();
     void setZoom();
     void slotEnableEffectScene(bool enable);
+    /** @brief split screen to compare clip with and without effect */
+    void slotSwitchCompare(bool enable);
+    void slotAdjustEffectCompare(double percent);
 
 public slots:
     void slotOpenFile(const QString &);

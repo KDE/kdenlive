@@ -7553,7 +7553,7 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type)
         newGeometry.insert(gitem);
     }
     QStringList keyframeList = QString(newGeometry.serialise()).split(';', QString::SkipEmptyParts);
-    
+
     QString result;
     if (ui.import_position->isChecked()) {
         if (ui.import_size->isChecked()) {

@@ -250,6 +250,7 @@ Bin::Bin(QWidget* parent) :
     connect(m_proxyModel, SIGNAL(selectModel(QModelIndex)), this, SLOT(selectProxyModel(QModelIndex)));
     connect(m_itemModel, SIGNAL(itemDropped(QStringList, const QModelIndex &)), this, SLOT(slotItemDropped(QStringList, const QModelIndex &)));
     connect(m_itemModel, SIGNAL(itemDropped(const QList<QUrl>&, const QModelIndex &)), this, SLOT(slotItemDropped(const QList<QUrl>&, const QModelIndex &)));
+    connect(m_itemModel, SIGNAL(effectDropped(QString, const QModelIndex &)), this, SLOT(slotEffectDropped(QString, const QModelIndex &)));
     connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)), this, SLOT(slotItemEdited(QModelIndex,QModelIndex,QVector<int>)));
     connect(m_itemModel, SIGNAL(addClipCut(QString,int,int)), this, SLOT(slotAddClipCut(QString,int,int)));
 
@@ -1465,9 +1466,37 @@ void Bin::slotItemDropped(QStringList ids, const QModelIndex &parent)
     m_doc->commandStack()->push(moveCommand);
 }
 
+
+void Bin::slotEffectDropped(QString effect, const QModelIndex &parent)
+{
+    AbstractProjectItem *parentItem;
+    if (parent.isValid()) {
+        parentItem = static_cast<AbstractProjectItem *>(parent.internalPointer());
+        if (parentItem->itemType() != AbstractProjectItem::ClipItem) {
+            // effect only supported on clip items
+            return;
+        }
+    }
+    AddBinEffectCommand *command = new AddBinEffectCommand(this, parentItem->clipId(), effect);
+    m_doc->commandStack()->push(command);
+}
+
+void Bin::removeEffect(const QString &id, const QString &effect)
+{
+}
+
+void Bin::addEffect(const QString &id, const QString &effect)
+{
+    ProjectClip *currentItem = m_rootFolder->clip(id);
+    if (!currentItem) return;
+    currentItem->addEffect(effect);
+    m_monitor->refreshMonitor();
+}
+
 void Bin::doMoveClip(const QString &id, const QString &newParentId)
 {
     ProjectClip *currentItem = m_rootFolder->clip(id);
+    if (!currentItem) return;
     AbstractProjectItem *currentParent = currentItem->parent();
     ProjectFolder *newParent = m_rootFolder->folder(newParentId);
     currentParent->removeChild(currentItem);
