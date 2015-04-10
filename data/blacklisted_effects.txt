@@ -101,6 +101,8 @@ wave
 vignette
 volume
 lift_gamma_gain
+audiowaveform
+audiowave
 
 #Effects not usable with a simple GUI
 sox

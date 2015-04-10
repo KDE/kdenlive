@@ -128,7 +128,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_renderWidget(NULL),
     m_mainClip(NULL)
 {
-    qRegisterMetaType<QVector<qint16> > ();
+    qRegisterMetaType<audioShortVector> ("audioShortVector");
+    qRegisterMetaType<MessageType> ("MessageType");
     qRegisterMetaType<stringMap> ("stringMap");
     qRegisterMetaType<audioByteArray> ("audioByteArray");
     qRegisterMetaType<requestClipInfo> ("requestClipInfo");

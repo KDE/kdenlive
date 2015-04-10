@@ -1,6 +1,7 @@
 INSTALL (FILES 
 
 audiowave.xml
+audiowaveform.xml
 automask.xml
 audiobalance.xml
 audiopan.xml

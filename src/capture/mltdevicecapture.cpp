@@ -263,7 +263,7 @@ void MltDeviceCapture::showAudio(Mlt::Frame& frame)
 
     // Data format: [ c00 c10 c01 c11 c02 c12 c03 c13 ... c0{samples-1} c1{samples-1} for 2 channels.
     // So the vector is of size samples*channels.
-    QVector<qint16> sampleVector(samples*num_channels);
+    audioShortVector sampleVector(samples*num_channels);
     memcpy(sampleVector.data(), data, samples*num_channels*sizeof(qint16));
     if (samples > 0) {
         emit audioSamplesSignal(sampleVector, freq, num_channels, samples);

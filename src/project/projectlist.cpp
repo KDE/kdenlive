@@ -191,11 +191,9 @@ ProjectList::ProjectList(QWidget *parent) :
   , m_closing(false)
   , m_invalidClipDialog(NULL)
 {
-    qRegisterMetaType<stringMap> ("stringMap");
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
-    qRegisterMetaType<QDomElement>("QDomElement");
     // setup toolbar
     QFrame *frame = new QFrame;
     frame->setFrameStyle(QFrame::NoFrame);

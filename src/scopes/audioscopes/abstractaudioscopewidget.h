@@ -16,8 +16,8 @@
 
 #include <stdint.h>
 
+#include "../../definitions.h"
 #include "../abstractscopewidget.h"
-
 
 class Render;
 
@@ -32,7 +32,7 @@ public:
     virtual ~AbstractAudioScopeWidget();
 
 public slots:
-    void slotReceiveAudio(const QVector<qint16> &sampleData, int freq, int num_channels, int num_samples);
+    void slotReceiveAudio(const audioShortVector &sampleData, int freq, int num_channels, int num_samples);
 
 protected:
     /** @brief This is just a wrapper function, subclasses can use renderAudioScope. */
@@ -43,7 +43,7 @@ protected:
         when calculation has finished, to allow multi-threading.
         accelerationFactor hints how much faster than usual the calculation should be accomplished, if possible. */
     virtual QImage renderAudioScope(uint accelerationFactor,
-                                    const QVector<qint16> &audioFrame, const int freq, const int num_channels, const int num_samples,
+                                    const audioShortVector &audioFrame, const int freq, const int num_channels, const int num_samples,
                                     const int newData) = 0;
 
     int m_freq;
@@ -51,7 +51,7 @@ protected:
     int m_nSamples;
 
 private:
-    QVector<qint16> m_audioFrame;
+    audioShortVector m_audioFrame;
     QAtomicInt m_newData;
 
 };

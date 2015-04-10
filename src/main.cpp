@@ -116,7 +116,6 @@ int main(int argc, char *argv[])
         window = new MainWindow(mltPath, url, clipsToLoad);
         window->show();
     }
-    qRegisterMetaType< QVector<int> >();
     int result = app.exec();
     return result;
 }
