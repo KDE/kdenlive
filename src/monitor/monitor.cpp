@@ -1303,7 +1303,7 @@ void Monitor::slotSwitchCompare(bool enable)
     if (enable) {
         Mlt::Producer *original = m_controller->masterProducer();
         m_splitEffect = new Mlt::Filter(*original->profile(), "frei0r.scale0tilt");
-        if (m_splitEffect && m_splitEffect) {
+        if (m_splitEffect && m_splitEffect->is_valid()) {
             m_splitEffect->set("Clip left", 0.5);
         } else {
             // frei0r.scal0tilt is not available
