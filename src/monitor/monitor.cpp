@@ -285,7 +285,6 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     QAction *effectCompare = m_contextMenu->addAction(QIcon(), i18n("Compare effect"));
     effectCompare->setCheckable(true);
     connect(effectCompare, SIGNAL(toggled(bool)), this, SLOT(slotSwitchCompare(bool)));
-    
     m_configMenu->addAction(showTips);
     m_configMenu->addAction(dropFrames);
     m_configMenu->addAction(effectCompare);
@@ -1303,15 +1302,26 @@ void Monitor::slotSwitchCompare(bool enable)
     int pos = position().frames(m_monitorManager->timecode().fps());
     if (enable) {
         Mlt::Producer *original = m_controller->masterProducer();
+        m_splitEffect = new Mlt::Filter(*original->profile(), "frei0r.scale0tilt");
+        if (m_splitEffect && m_splitEffect) {
+            m_splitEffect->set("Clip left", 0.5);
+        } else {
+            // frei0r.scal0tilt is not available
+            KMessageBox::sorry(this, i18n("The frei0r filter scal0tilt is required for that feature, please install frei0r and restart Kdenlive"));
+            return;
+        }
+        QString splitTransition = KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend";
+        Mlt::Transition t(*original->profile(), splitTransition.toUtf8().constData());
+        if (!t.is_valid()) {
+            delete m_splitEffect;
+            KMessageBox::sorry(this, i18n("The frei0r cairoblend transition is required for that feature, please install frei0r and restart Kdenlive"));
+            return;
+        }
         Mlt::Tractor trac(*original->profile());
         Mlt::Producer p2(*original->profile(), original->get("resource"));
         trac.set_track(*original, 0);
         trac.set_track(p2, 1);
-        m_splitEffect = new Mlt::Filter(*original->profile(), "frei0r.scale0tilt");
-        m_splitEffect->set("Clip left", 0.5);
         p2.attach(*m_splitEffect);
-        QString splitTransition = KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend";
-        Mlt::Transition t(*original->profile(), splitTransition.toUtf8().constData());
         trac.plant_transition(t, 0, 1);
         m_splitProducer = new Mlt::Producer(trac.get_producer());
         //m_splitProducer->seek(pos);
