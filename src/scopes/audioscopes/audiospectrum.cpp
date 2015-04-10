@@ -176,7 +176,7 @@ QImage AudioSpectrum::renderBackground(uint)
     return QImage();
 }
 
-QImage AudioSpectrum::renderAudioScope(uint, const QVector<qint16> &audioFrame, const int freq, const int num_channels,
+QImage AudioSpectrum::renderAudioScope(uint, const audioShortVector &audioFrame, const int freq, const int num_channels,
                                        const int num_samples, const int)
 {
     if (
@@ -190,6 +190,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<qint16> &audioFrame, 
         QTime start = QTime::currentTime();
 
 
+/*******FIXME!!!
 #ifdef DETECT_OVERMODULATION
         bool overmodulated = false;
         int overmodulateCount = 0;
@@ -216,6 +217,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<qint16> &audioFrame, 
             }
         }
 #endif
+*******/
 
 
         // Determine the window size to use. It should be

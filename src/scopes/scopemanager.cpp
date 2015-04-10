@@ -113,7 +113,7 @@ bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *col
 }
 
 
-void ScopeManager::slotDistributeAudio(const QVector<qint16> &sampleData, int freq, int num_channels, int num_samples)
+void ScopeManager::slotDistributeAudio(const audioShortVector &sampleData, int freq, int num_channels, int num_samples)
 {
 #ifdef DEBUG_SM
     qDebug() << "ScopeManager: Starting to distribute audio.";
@@ -209,8 +209,8 @@ void ScopeManager::slotUpdateActiveRenderer()
     if (m_lastConnectedRenderer != NULL) {
         connect(m_lastConnectedRenderer, SIGNAL(frameUpdated(QImage)),
                 this, SLOT(slotDistributeFrame(QImage)), Qt::UniqueConnection);
-        connect(m_lastConnectedRenderer, SIGNAL(audioSamplesSignal(QVector<qint16>,int,int,int)),
-                this, SLOT(slotDistributeAudio(QVector<qint16>,int,int,int)), Qt::UniqueConnection);
+        connect(m_lastConnectedRenderer, &AbstractRender::audioSamplesSignal,
+                this, &ScopeManager::slotDistributeAudio, Qt::UniqueConnection);
 
 #ifdef DEBUG_SM
         qDebug() << "Renderer connected to ScopeManager: " << m_lastConnectedRenderer->name();

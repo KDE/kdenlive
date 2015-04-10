@@ -13,6 +13,7 @@
 
 #include <QVector>
 #include <QHash>
+#include "../../definitions.h"
 #include "../external/kiss_fft/tools/kiss_fftr.h"
 
 class FFTTools
@@ -53,7 +54,7 @@ public:
         * freqSpectrum has to be of size windowSize/2
         For windowType and param see the FFTTools::window() function above.
     */
-    void fftNormalized(const QVector<qint16> audioFrame, const uint channel, const uint numChannels, float *freqSpectrum,
+    void fftNormalized(const audioShortVector audioFrame, const uint channel, const uint numChannels, float *freqSpectrum,
                        const WindowType windowType, const uint windowSize, const float param = 0);
 
 
