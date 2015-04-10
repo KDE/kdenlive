@@ -1310,7 +1310,8 @@ void Monitor::slotSwitchCompare(bool enable)
         m_splitEffect = new Mlt::Filter(*original->profile(), "frei0r.scale0tilt");
         m_splitEffect->set("Clip left", 0.5);
         p2.attach(*m_splitEffect);
-        Mlt::Transition t(*original->profile(), "movit.overlay");
+        QString splitTransition = KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend";
+        Mlt::Transition t(*original->profile(), splitTransition.toUtf8().constData());
         trac.plant_transition(t, 0, 1);
         m_splitProducer = new Mlt::Producer(trac.get_producer());
         //m_splitProducer->seek(pos);
