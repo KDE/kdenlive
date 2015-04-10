@@ -250,7 +250,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, const Timecode &timecode, int c
         Setup of configuration controls
     */
 
-    //connect(m_scene, SIGNAL(addKeyframe()),    this, SLOT(slotAddKeyframe()));
+    connect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
     connect(this, SIGNAL(parameterChanged()), this, SLOT(slotUpdateProperties()));
 }
 
@@ -358,6 +358,8 @@ void GeometryWidget::setupParam(const QDomElement &elem, int minframe, int maxfr
         m_scene->removeItem(m_geomPath);
         delete m_geomPath;
     }*/
+    
+    m_monitor->slotShowEffectScene(true);
     m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()));
     connect(m_monitor, SIGNAL(effectChanged(QRect)), this, SLOT(slotUpdateGeometry(QRect)));
     /*m_geomPath = new OnMonitorPathItem();
@@ -367,7 +369,7 @@ void GeometryWidget::setupParam(const QDomElement &elem, int minframe, int maxfr
     if (KdenliveSettings::onmonitoreffects_geometryshowpath())
         m_scene->addItem(m_geomPath);
     m_scene->centerView();*/
-    slotPositionChanged(0, false);
+    slotPositionChanged(m_monitor->render->seekFramePosition() - m_clipPos, false);
 }
 
 void GeometryWidget::addParameter(const QDomElement &elem)
@@ -397,7 +399,7 @@ int GeometryWidget::currentPosition() const
 void GeometryWidget::slotRequestSeek(int pos)
 {
     if (KdenliveSettings::transitionfollowcursor())
-        emit seekToPos(m_clipPos + pos);
+        emit seekToPos(pos);
 }
 
 
@@ -481,7 +483,7 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
     slotUpdateProperties();
 
     if (seek && KdenliveSettings::transitionfollowcursor())
-        emit seekToPos(m_clipPos + pos);
+        emit seekToPos(pos);
 }
 
 void GeometryWidget::slotKeyframeMoved(int pos)
@@ -801,7 +803,7 @@ void GeometryWidget::slotSetSynchronize(bool sync)
 {
     KdenliveSettings::setTransitionfollowcursor(sync);
     if (sync)
-        emit seekToPos(m_clipPos + m_timePos->getValue());
+        emit seekToPos(m_timePos->getValue());
 }
 
 void GeometryWidget::setFrameSize(const QPoint &size)

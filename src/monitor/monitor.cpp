@@ -20,7 +20,6 @@
 
 
 #include "monitor.h"
-#include "monitorscene.h"
 #include "glwidget.h"
 #include "smallruler.h"
 #include "mltcontroller/clipcontroller.h"
@@ -64,7 +63,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_editMarker(NULL)
     , m_glMonitor(NULL)
     , m_rootItem(NULL)
-    , m_showEffectScene(false)
     , m_splitEffect(NULL)
     , m_splitProducer(NULL)
 {
@@ -94,7 +92,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor, SIGNAL(mouseSeek(int,bool)), this, SLOT(slotMouseSeek(int,bool)));
     connect(m_glMonitor, SIGNAL(monitorPlay()), this, SLOT(slotPlay()));
     connect(m_glMonitor, SIGNAL(startDrag()), this, SLOT(slotStartDrag()));
-    connect(m_glMonitor, SIGNAL(switchFullScreen()), this, SLOT(slotSwitchFullScreen()));
+    connect(m_glMonitor, SIGNAL(switchFullScreen(bool)), this, SLOT(slotSwitchFullScreen(bool)));
     connect(m_glMonitor, SIGNAL(zoomChanged()), this, SLOT(setZoom()));
     connect(m_glMonitor, SIGNAL(effectChanged(QRect)), this, SIGNAL(effectChanged(QRect)));
     m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitor.qml"))));
@@ -206,13 +204,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         visibilityAction->setCheckable(true);
         visibilityAction->setChecked(KdenliveSettings::showOnMonitorScene());
         connect(visibilityAction, SIGNAL(triggered(bool)), this, SLOT(slotEnableEffectScene(bool)));
-        //visibilityAction->setVisible(false);
         m_toolbar->addAction(visibilityAction);
-        /*m_effectWidget = new MonitorEditWidget(render, m_glWidget);
-	connect(m_effectWidget, SIGNAL(showEdit(bool,bool)), this, SLOT(slotShowEffectScene(bool,bool)));
-        m_toolbar->addAction(m_effectWidget->getVisibilityAction());
-        videoBox->layout()->addWidget(m_effectWidget);
-        m_effectWidget->hide();*/
     }
 
     QWidget *spacer = new QWidget(this);
@@ -529,9 +521,30 @@ void Monitor::setZoom()
     m_rootItem->setProperty("framesize", r);
 }
 
-void Monitor::slotSwitchFullScreen()
+void Monitor::slotSwitchFullScreen(bool minimizeOnly)
 {
-    switchFullScreen();
+    // TODO: disable screensaver?
+    if (!m_glWidget->isFullScreen() && !minimizeOnly) {
+        // Check if we have a multiple monitor setup
+        int monitors = QApplication::desktop()->screenCount();
+        int screen = -1;
+        if (monitors > 1) {
+            QRect screenres;
+            // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget
+            //int currentScreen = QApplication::desktop()->screenNumber(this);
+            for (int i = 0; screen == -1 && i < QApplication::desktop()->screenCount(); i++) {
+            if (i != QApplication::desktop()->screenNumber(this))
+                screen = i;
+            }
+        }
+        m_glWidget->setParent(QApplication::desktop()->screen(screen));
+        m_glWidget->move(QApplication::desktop()->screenGeometry(screen).bottomLeft());
+        m_glWidget->showFullScreen();
+    } else {
+        m_glWidget->showNormal();
+        QVBoxLayout *lay = (QVBoxLayout *) layout();
+        lay->insertWidget(0, m_glWidget, 10);
+    }
 }
 
 // virtual
@@ -639,7 +652,7 @@ void Monitor::wheelEvent(QWheelEvent * event)
 
 void Monitor::mouseDoubleClickEvent(QMouseEvent * event)
 {
-    switchFullScreen();
+    slotSwitchFullScreen();
     event->accept();
 }
 
@@ -964,12 +977,17 @@ void Monitor::openClip(ClipController *controller)
 {
     if (render == NULL) return;
     m_controller = controller;
+    if (m_rootItem->objectName() != "root") loadMasterQml();
     if (controller) {
         updateMarkers();
         render->setProducer(m_controller->masterProducer(), -1, isActive());
     }
     else {
         render->setProducer(NULL, -1, isActive());
+    }
+    if (m_splitProducer) {
+        delete m_splitProducer;
+        delete m_splitEffect;
     }
 }
 
@@ -1164,41 +1182,46 @@ void Monitor::slotSetSelectedClip(Transition* item)
 void Monitor::slotEnableEffectScene(bool enable)
 {
     KdenliveSettings::setShowOnMonitorScene(enable);
-    if (m_showEffectScene) {
-        slotShowEffectScene(true);
-    }
+    bool isDisplayed = m_rootItem->objectName() == "rooteffectscene";
+    if (enable == isDisplayed) return;
+    slotShowEffectScene(enable);
 }
 
 void Monitor::slotShowEffectScene(bool show, bool manuallyTriggered)
 {
-    m_showEffectScene = show;
-    m_glMonitor->slotShowEffectScene(show && KdenliveSettings::showOnMonitorScene());
+    if (show) {
+        m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitoreffectscene.qml"))));
+        m_rootItem = m_glMonitor->rootObject();
+        QObject::connect(m_rootItem, SIGNAL(addKeyframe()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
+        m_glMonitor->slotShowEffectScene();
+    }
+    else loadMasterQml();
 }
 
 void Monitor::setUpEffectGeometry(QRect r)
 {
-    m_glMonitor->rootObject()->setProperty("framesize", r);
+    m_rootItem->setProperty("framesize", r);
 }
 
 void Monitor::setUpEffectGeometry(int x, int y, int w, int h)
 {
-    m_glMonitor->rootObject()->setProperty("framesize", QRect(x, y, w, h));
-    QRect res = m_glMonitor->rootObject()->property("framesize").toRect();
+    m_rootItem->setProperty("framesize", QRect(x, y, w, h));
+    QRect res = m_rootItem->property("framesize").toRect();
 }
 
 QRect Monitor::effectRect() const
 {
-    return m_glMonitor->rootObject()->property("framesize").toRect();
+    return m_rootItem->property("framesize").toRect();
 }
 
 void Monitor::setEffectKeyframe(bool enable)
 {
-    m_glMonitor->rootObject()->setProperty("iskeyframe", enable);
+    m_rootItem->setProperty("iskeyframe", enable);
 }
 
 bool Monitor::effectSceneDisplayed()
 {
-    return m_glMonitor->effectSceneVisible();
+    return m_rootItem->objectName() == "rooteffectscene";
 }
 
 void Monitor::slotSetVolume(int volume)
@@ -1274,32 +1297,6 @@ void Monitor::setPalette ( const QPalette & p)
     
 }
 
-void Monitor::switchFullScreen()
-{
-    // TODO: disable screensaver?
-    if (!m_glWidget->isFullScreen()) {
-        // Check if we have a multiple monitor setup
-        int monitors = QApplication::desktop()->screenCount();
-        int screen = -1;
-        if (monitors > 1) {
-            QRect screenres;
-            // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget
-            //int currentScreen = QApplication::desktop()->screenNumber(this);
-            for (int i = 0; screen == -1 && i < QApplication::desktop()->screenCount(); i++) {
-            if (i != QApplication::desktop()->screenNumber(this))
-                screen = i;
-            }
-        }
-        m_glWidget->setParent(QApplication::desktop()->screen(screen));
-        m_glWidget->move(QApplication::desktop()->screenGeometry(screen).bottomLeft());
-        m_glWidget->showFullScreen();
-    } else {
-        m_glWidget->showNormal();
-        QVBoxLayout *lay = (QVBoxLayout *) layout();
-        lay->insertWidget(0, m_glWidget, 10);
-    }
-}
-
 
 void Monitor::slotSwitchCompare(bool enable)
 {
@@ -1333,7 +1330,12 @@ void Monitor::slotSwitchCompare(bool enable)
 
 void Monitor::loadMasterQml()
 {
+    if (m_rootItem->objectName() == "root") {
+        // Root scene is already active
+        return;
+    }
     m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitor.qml"))));
+    m_glMonitor->slotShowRootScene();
     m_rootItem = m_glMonitor->rootObject();
 }
 

@@ -91,7 +91,7 @@ public slots:
     virtual void slotPlay() = 0;
     virtual void slotMouseSeek(int eventDelta, bool fast) = 0;
     bool slotActivateMonitor(bool forceRefresh = false);
-    virtual void slotSwitchFullScreen() = 0;
+    virtual void slotSwitchFullScreen(bool minimizeOnly = false) = 0;
 
 protected:
     Kdenlive::MonitorId m_id;

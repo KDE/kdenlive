@@ -147,7 +147,6 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
     loadEffects(&MainWindow::videoEffects, QIcon::fromTheme("kdenlive-show-video"), misc, &folders, EFFECT_VIDEO, current, &found);
     loadEffects(&MainWindow::audioEffects, QIcon::fromTheme("kdenlive-show-audio"), audio, &folders, EFFECT_AUDIO, current, &found);
     loadEffects(&MainWindow::customEffects, QIcon::fromTheme("kdenlive-custom-effect"), custom, static_cast<QList<QTreeWidgetItem *> *>(0), EFFECT_CUSTOM, current, &found);
-
     if (!found && !currentFolder.isEmpty()) {
         // previously selected effect was removed, focus on its parent folder
         for (int i = 0; i < topLevelItemCount(); ++i) {
@@ -224,7 +223,6 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, QIcon icon, Q
     QTreeWidgetItem *item;
     int ct = effectlist->count();
 
-    
     for (int ix = 0; ix < ct; ++ix) {
         effectInfo = effectlist->effectIdInfo(ix);
         if (effectInfo.isEmpty()) continue;
@@ -245,7 +243,7 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, QIcon icon, Q
         if (!effectInfo.isEmpty()) {
             item = new QTreeWidgetItem(parentItem, QStringList(effectInfo.takeFirst()));
             QString tag = effectInfo.at(0);
-            if (tag.startsWith("movit.")) {
+            if (type != EFFECT_CUSTOM && tag.startsWith("movit.")) {
                 // GPU effect
                 effectInfo.append(QString::number(EFFECT_GPU));
                 item->setData(0, TypeRole, EFFECT_GPU);

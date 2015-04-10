@@ -139,8 +139,6 @@ private:
     /** true if selected clip is transition, false = selected clip is clip.
      *  Necessary because sometimes we get two signals, e.g. we get a clip and we get selected transition = NULL. */
     bool m_loopClipTransition;
-    /** @brief Is the qml overlay displayed in the monitor **/
-    bool m_showEffectScene;
     GenTime getSnapForPos(bool previous);
     QToolBar *m_toolbar;
     QWidget *m_volumeWidget;
@@ -148,8 +146,6 @@ private:
     QAction *m_editMarker;
     /** @brief The base item of the qml view in monitor, used to set properties on the view that affect display **/
     QQuickItem *m_rootItem;
-    /** @brief Switch the QQuickView monitor between normal and fullscreen mode **/
-    void switchFullScreen();
     void adjustScrollBars(float horizontal, float vertical);
     void loadMasterQml();
 
@@ -220,7 +216,7 @@ public slots:
     void slotSetSelectedClip(ClipItem *item);
     void slotSetSelectedClip(Transition *item);
     void slotMouseSeek(int eventDelta, bool fast);
-    void slotSwitchFullScreen();
+    void slotSwitchFullScreen(bool minimizeOnly = false);
 
 signals:
     void renderPosition(int);
@@ -235,6 +231,7 @@ signals:
     /** @brief Request a zone extraction (ffmpeg transcoding). */
     void extractZone(const QString &id);
     void effectChanged(QRect r);
+    void addKeyframe();
 };
 
 #endif

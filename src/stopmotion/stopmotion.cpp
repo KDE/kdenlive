@@ -100,7 +100,7 @@ StopmotionMonitor::~StopmotionMonitor()
 {
 }
 
-void StopmotionMonitor::slotSwitchFullScreen()
+void StopmotionMonitor::slotSwitchFullScreen(bool minimizeOnly)
 {
 }
 

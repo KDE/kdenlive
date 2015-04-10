@@ -76,7 +76,6 @@ public:
     Mlt::Consumer *consumer();
     Mlt::Producer *producer();
     QSize profileSize() const;
-    bool effectSceneVisible() const;
     /** @brief set to true if we want to emit a QImage of the frame for analysis */
     bool sendFrameForAnalysis;
 
@@ -90,7 +89,8 @@ public slots:
     void setOffsetX(int x);
     void setOffsetY(int y);
     void setBlankScene();
-    void slotShowEffectScene(bool show);
+    void slotShowEffectScene();
+    void slotShowRootScene();
     void slotSwitchAudioOverlay(bool enable);
     //void setCurrentFilter(QmlFilter* filter, QmlMetadata* meta);
 
@@ -107,7 +107,7 @@ signals:
     void zoomChanged();
     void offsetChanged();
     void monitorPlay();
-    void switchFullScreen();
+    void switchFullScreen(bool minimizeOnly = false);
     void mouseSeek(int eventDelta, bool fast);
     void startDrag();
     void effectChanged(QRect r);

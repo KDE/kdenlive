@@ -266,7 +266,7 @@ void EffectStackView2::setupListView()
     vbox1->addStretch(10);
     slotUpdateCheckAllButton();
     // show monitor scene if necessary
-    m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
+    if (!m_monitorSceneWanted) m_effectMetaInfo.monitor->slotShowEffectScene(false);
 
     // Wait a little bit for the new layout to be ready, then check if we have a scrollbar
     QTimer::singleShot(200, this, SLOT(slotCheckWheelEventFilter()));

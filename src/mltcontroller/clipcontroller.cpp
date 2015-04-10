@@ -561,6 +561,21 @@ void ClipController::addEffect(const QString &effect)
     doc.setContent(effect);
     QString tag = doc.documentElement().attribute("tag");
     Mlt::Filter *f = new Mlt::Filter(*m_binController->profile(), tag.toUtf8().constData());
+    QDomNodeList params = doc.elementsByTagName("parameter");
+    QLocale locale;
+    qDebug()<<" + ++ ADDING EFFECT: "<<tag<<"\n------";
+    for (int j = 0; j < params.count(); ++j) {
+        QDomElement e = params.at(j).toElement();
+        QString val = e.attribute("value");
+        if (val.isEmpty()) val = e.attribute("default");
+        if (e.hasAttribute("factor")) {
+            double fac = locale.toDouble(e.attribute("factor"));
+            double corrected = locale.toDouble(val) / fac;
+            val = locale.toString(corrected);
+        }
+        qDebug()<<" + ++ PARAM: "<<e.attribute("name")<<"="<<val;
+        f->set(e.attribute("name").toUtf8().constData(), val.toUtf8().constData());
+    }
     m_masterProducer->parent().attach(*f);
 }
 

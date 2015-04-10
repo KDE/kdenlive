@@ -433,7 +433,7 @@ void GLWidget::mousePressEvent(QMouseEvent* event)
     if (rootObject()->objectName() != "root") {
         return;
     }
-    if (event->isAccepted() || effectSceneVisible()) return;
+    if (event->isAccepted()) return;
     if (event->button() == Qt::LeftButton)
         m_dragStart = event->pos();
 }
@@ -444,7 +444,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent* event)
     if (rootObject()->objectName() != "root") {
         return;
     }
-    if (event->isAccepted() || effectSceneVisible()) return;
+    if (event->isAccepted()) return;
 /*    if (event->modifiers() == Qt::ShiftModifier && m_producer) {
         emit seekTo(m_producer->get_length() *  event->x() / width());
         return;
@@ -458,8 +458,14 @@ void GLWidget::mouseMoveEvent(QMouseEvent* event)
 
 void GLWidget::keyPressEvent(QKeyEvent* event)
 {
-    event->ignore();
+    if (event->key()==Qt::Key_Escape) {
+        emit switchFullScreen(true);
+    }
+    else {
+        event->ignore();
+    }
     return;
+
     QQuickView::keyPressEvent(event);
     if (event->isAccepted()) return;
     //MAIN.keyPressEvent(event);
@@ -746,25 +752,24 @@ int GLWidget::reconfigure(bool isMulti)
         //Controller::closeConsumer();
         //Controller::close();
     }
-    rootObject()->setProperty("framebase", QRect(0, 0, m_consumer->profile()->width(), m_consumer->profile()->height()));
-    rootObject()->setProperty("framerect", QRect(0, 0, m_consumer->profile()->width(), m_consumer->profile()->height()));
     return error;
 }
 
-bool GLWidget::effectSceneVisible() const
+void GLWidget::slotShowEffectScene()
 {
-    QObject *item = rootObject()->findChild<QObject*>("effectscene");
-    return item->property("visible").toBool();
+    QObject *item = rootObject();
+    QObject::connect(item, SIGNAL(effectChanged()), this, SLOT(effectRectChanged()), Qt::UniqueConnection);
+    item->setProperty("framebase", QRect(0, 0, m_consumer->profile()->width(), m_consumer->profile()->height()));
+    item->setProperty("framerect", QRect(0, 0, m_consumer->profile()->width(), m_consumer->profile()->height()));
+    item->setProperty("scale", (double) m_rect.width() / m_consumer->profile()->width() * m_zoom);
+    item->setProperty("center", m_rect.center());
 }
 
-void GLWidget::slotShowEffectScene(bool show)
+void GLWidget::slotShowRootScene()
 {
-    if (show) {
-        QObject *item = rootObject();
-        QObject::connect(item, SIGNAL(qmlSignal()), this, SLOT(effectRectChanged()), Qt::UniqueConnection);
-    }
-    QObject *item = rootObject()->findChild<QObject*>("effectscene");
-    item->setProperty("visible", show);
+    QObject *item = rootObject();
+    item->setProperty("scale", (double) m_rect.width() / m_consumer->profile()->width() * m_zoom);
+    item->setProperty("center", m_rect.center());
 }
 
 float GLWidget::zoom() const 
@@ -800,14 +805,17 @@ void GLWidget::mouseReleaseEvent(QMouseEvent * event)
         return;
     }
     m_dragStart = QPoint();
-    if (event->button() != Qt::RightButton && !effectSceneVisible()) {
+    if (event->button() != Qt::RightButton) {
         emit monitorPlay();
     }
 }
 
 void GLWidget::mouseDoubleClickEvent(QMouseEvent * event)
 {
-    emit switchFullScreen();
+    QQuickView::mouseDoubleClickEvent(event);
+    if (rootObject()->objectName() != "rooteffectscene") {
+        emit switchFullScreen();
+    }
     event->accept();
 }
 

@@ -354,7 +354,7 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
     effects = doc.elementsByTagName("effect");
 
     if (effects.count() == 0) {
-        //qDebug() << "Effect broken: " << name;
+        qDebug() << "+++++++++++++\nEffect broken: " << name<<"\n+++++++++++";;
         return;
     }
 
@@ -428,8 +428,9 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
             QString type = documentElement.attribute("type", QString());
             if (type == "audio")
                 audioEffectList->append(documentElement);
-            else if (type == "custom")
+            else if (type == "custom") {
                 customEffectList->append(documentElement);
+            }
             else
                 videoEffectList->append(documentElement);
         }
