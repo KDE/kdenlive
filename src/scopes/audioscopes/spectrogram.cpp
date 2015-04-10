@@ -313,7 +313,7 @@ QImage Spectrogram::renderHUD(uint)
         return QImage();
     }
 }
-QImage Spectrogram::renderAudioScope(uint, const QVector<qint16> &audioFrame, const int freq,
+QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, const int freq,
                                      const int num_channels, const int num_samples, const int newData) {
     if (
             audioFrame.size() > 63
@@ -398,6 +398,7 @@ QImage Spectrogram::renderAudioScope(uint, const QVector<qint16> &audioFrame, co
 
             QVector<float> dbMap;
             uint right;
+            ////////////////FIXME
             for (QList<QVector<float> >::iterator it = m_fftHistory.begin(); it != m_fftHistory.end(); ++it) {
 
                 windowSize = (*it).size();

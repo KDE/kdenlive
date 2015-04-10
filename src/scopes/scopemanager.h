@@ -27,7 +27,7 @@ class AbstractRender;
   or ScopeManager::addScope(AbstractGfxScopeWidget, QDockWidget). It checks whether the renderer really
   needs to send data (it does not, for example, if no scopes are visible).
   */
-class ScopeManager : QObject
+class ScopeManager : public QObject
 {
     Q_OBJECT
 
@@ -123,7 +123,7 @@ private slots:
     
     void slotCheckActiveScopes();
     void slotDistributeFrame(const QImage &image);
-    void slotDistributeAudio(const QVector<qint16> &sampleData, int freq, int num_channels, int num_samples);
+    void slotDistributeAudio(const audioShortVector &sampleData, int freq, int num_channels, int num_samples);
     /**
       Allows a scope to explicitly request a new frame, even if the scope's autoRefresh is disabled.
       */
