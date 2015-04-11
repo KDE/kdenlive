@@ -499,12 +499,6 @@ void Monitor::adjustScrollBars(float horizontal, float vertical)
 
 void Monitor::setZoom()
 {
-    //emit zoomChanged(factor);
-    //Settings.setPlayerZoom(factor);
-    if (m_rootItem->objectName() != "root") {
-        // we are not in main view, ignore
-        return;
-    }
     if (m_glMonitor->zoom() == 1.0f) {
        /* m_zoomButton->setIcon(icon);
         m_zoomButton->setChecked(false);*/
@@ -513,11 +507,6 @@ void Monitor::setZoom()
     } else {
         adjustScrollBars(0.5f, 0.5f);
     }
-    QRect r;
-    r.setSize(QSize((int) (m_glMonitor->rect().width() * m_glMonitor->zoom() + 0.5), (int) (m_glMonitor->rect().height() * m_glMonitor->zoom() + 0.5)));
-    QSize s = m_glMonitor->size() / 2 - r.size() / 2;
-    r.moveTopLeft(QPoint(s.width(), s.height()));
-    m_rootItem->setProperty("framesize", r);
 }
 
 void Monitor::slotSwitchFullScreen(bool minimizeOnly)
@@ -1197,15 +1186,12 @@ void Monitor::slotShowEffectScene(bool show, bool manuallyTriggered)
     else loadMasterQml();
 }
 
-void Monitor::setUpEffectGeometry(QRect r)
+void Monitor::setUpEffectGeometry(QRect r, QVariantList list)
 {
-    m_rootItem->setProperty("framesize", r);
-}
-
-void Monitor::setUpEffectGeometry(int x, int y, int w, int h)
-{
-    m_rootItem->setProperty("framesize", QRect(x, y, w, h));
-    QRect res = m_rootItem->property("framesize").toRect();
+    if (!list.isEmpty()) {
+        m_rootItem->setProperty("centerPoints", list);
+    }
+    if (!r.isEmpty()) m_rootItem->setProperty("framesize", r);
 }
 
 QRect Monitor::effectRect() const

@@ -12,6 +12,7 @@ Item {
     property double scale
 
     Rectangle {
+        id: overlaybg
         anchors {
             right: parent.right
             //left: parent.left

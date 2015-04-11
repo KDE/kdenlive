@@ -349,7 +349,7 @@ void GeometryWidget::setupParam(const QDomElement &elem, int minframe, int maxfr
     }
 
     Mlt::GeometryItem item;
-    m_geometry->fetch(&item, 0);
+    m_geometry->fetch(&item, m_monitor->render->seekFramePosition() - m_clipPos);
     /*if (m_rect) {
         m_scene->removeItem(m_rect);
         delete m_rect;
@@ -360,7 +360,7 @@ void GeometryWidget::setupParam(const QDomElement &elem, int minframe, int maxfr
     }*/
     
     m_monitor->slotShowEffectScene(true);
-    m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()));
+    m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
     connect(m_monitor, SIGNAL(effectChanged(QRect)), this, SLOT(slotUpdateGeometry(QRect)));
     /*m_geomPath = new OnMonitorPathItem();
     connect(m_geomPath, SIGNAL(changed()), this, SLOT(slotUpdatePath()));
@@ -673,7 +673,9 @@ void GeometryWidget::slotUpdateGeometry(QRect r)
         m_geomPath->setPoints(m_geometry);
         m_scene->addItem(m_geomPath);
     }*/
+    m_monitor->setUpEffectGeometry(QRect(), calculateCenters());
     emit parameterChanged();
+    
 }
 
 void GeometryWidget::slotUpdateProperties()
@@ -705,41 +707,54 @@ void GeometryWidget::slotUpdateProperties()
 }
 
 
+QVariantList GeometryWidget::calculateCenters()
+{
+    QVariantList points;
+    Mlt::GeometryItem item;
+    int pos = 0;
+    while (!m_geometry->next_key(&item, pos)) {
+        QRect r(item.x(), item.y(), item.w(), item.h());
+        points.append(QVariant(r.center()));
+        pos = item.frame() + 1;
+    }
+    return points;
+}
+
 void GeometryWidget::slotSetX(double value)
 {
-    m_monitor->setUpEffectGeometry(value, m_spinY->value(), m_spinWidth->value(), m_spinHeight->value());
     slotUpdateGeometry();
+    m_monitor->setUpEffectGeometry(QRect(value, m_spinY->value(), m_spinWidth->value(), m_spinHeight->value()), calculateCenters());
 }
 
 void GeometryWidget::slotSetY(double value)
 {
-    m_monitor->setUpEffectGeometry(m_spinX->value(), value, m_spinWidth->value(), m_spinHeight->value());
     slotUpdateGeometry();
+    m_monitor->setUpEffectGeometry(QRect(m_spinX->value(), value, m_spinWidth->value(), m_spinHeight->value()), calculateCenters());
 }
 
 void GeometryWidget::slotSetWidth(double value)
 {
-    m_monitor->setUpEffectGeometry(m_spinX->value(), m_spinY->value(), value, m_spinHeight->value());
     slotUpdateGeometry();
+    m_monitor->setUpEffectGeometry(QRect(m_spinX->value(), m_spinY->value(), value, m_spinHeight->value()), calculateCenters());
 }
 
 void GeometryWidget::slotSetHeight(double value)
 {
-    m_monitor->setUpEffectGeometry(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), value);
     slotUpdateGeometry();
+    m_monitor->setUpEffectGeometry(QRect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), value), calculateCenters());
 }
 
 void GeometryWidget::updateMonitorGeometry()
 {
-    m_monitor->setUpEffectGeometry(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value());
     slotUpdateGeometry();
+    m_monitor->setUpEffectGeometry(QRect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value()), calculateCenters());
 }
 
 
 void GeometryWidget::slotResize(double value)
 {
-    m_monitor->setUpEffectGeometry(m_spinX->value(), m_spinY->value(), (int)((m_monitor->render->frameRenderWidth() * value / 100.0) + 0.5), (int)((m_monitor->render->renderHeight() * value / 100.0) + 0.5));
     slotUpdateGeometry();
+    m_monitor->setUpEffectGeometry(QRect(m_spinX->value(), m_spinY->value(), (int)((m_monitor->render->frameRenderWidth() * value / 100.0) + 0.5), (int)((m_monitor->render->renderHeight() * value / 100.0) + 0.5)), calculateCenters());
 }
 
 

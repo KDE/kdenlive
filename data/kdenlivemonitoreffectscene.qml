@@ -9,28 +9,61 @@ Item {
     property string comment
     property string framenum
     property rect framesize
-    property rect framebase
+    property point profile
     property point center
     property double scale
+    onScaleChanged: canvas.requestPaint()
     property bool iskeyframe
+    property var centerPoints: []
+    onCenterPointsChanged: canvas.requestPaint()
     signal effectChanged()
     signal addKeyframe()
 
-    Item {
-      id: effectscene
-      objectName: "effectscene"
+    Canvas {
+      id: canvas
+      width: root.width
+      height: root.height
+      anchors.centerIn: root
+      contextType: "2d";
+      renderStrategy: Canvas.Threaded;
+      onPaint:
+      {
+        if (context) {
+            context.clearRect(0,0, width, height);
+            context.beginPath()
+            context.strokeStyle = Qt.rgba(1, 0, 0, 0.5)
+            context.lineWidth = 2
+
+            for(var i = 0; i < root.centerPoints.length; i++)
+            {
+                var p1 = convertPoint(root.centerPoints[i])
+                if(i == 0)
+                {
+                    context.moveTo(p1.x, p1.y)
+                    continue
+                }
+                context.lineTo(p1.x, p1.y)
+            }
+            context.stroke()
+            context.restore()
+        }
+    }
+
+    function convertPoint(p)
+    {
+        var x = frame.x + p.x * root.scale
+        var y = frame.y + p.y * root.scale
+        return Qt.point(x,y);
+    }
+  }
     Rectangle {
         id: frame
-        objectName: "frame"
+        objectName: "referenceframe"
         property color hoverColor: "#ff0000"
-        //anchors.centerIn: root.center
-        //x: root.framebase.x
-        //y: root.framebase.y
-        width: root.framebase.width * root.scale
-        height: root.framebase.height * root.scale
+        width: root.profile.x * root.scale
+        height: root.profile.y * root.scale
         x: root.center.x - width / 2
         y: root.center.y - height / 2
-        //height: root.height * 0.1
         color: "transparent"
         border.color: "#ffffff00"
     }
@@ -48,13 +81,11 @@ Item {
     }
     Rectangle {
         id: framerect
-        objectName: "framerect"
         property color hoverColor: "#ff0000"
         x: frame.x + root.framesize.x * root.scale
         y: frame.y + root.framesize.y * root.scale
         width: root.framesize.width * root.scale
         height: root.framesize.height * root.scale
-        //height: root.height * 0.1
         color: "transparent"
         border.color: "#ffff0000"
         Rectangle {
@@ -64,13 +95,13 @@ Item {
             left: parent.left
             }
             visible: root.iskeyframe
-            width: 10
-            height: 10
+            width: effectsize.height * 0.7
+            height: this.width
             color: "red"
             MouseArea {
               property int oldMouseX
               property int oldMouseY
-              width: effectsize.height; height: effectsize.height
+              width: parent.width; height: parent.height
               anchors.centerIn: parent
               hoverEnabled: true
               cursorShape: Qt.SizeFDiagCursor
@@ -112,14 +143,14 @@ Item {
             top: parent.top
             right: parent.right
             }
-            width: 10
-            height: 10
+            width: effectsize.height * 0.7
+            height: this.width
             color: "red"
             visible: root.iskeyframe
             MouseArea {
               property int oldMouseX
               property int oldMouseY
-              width: effectsize.height; height: effectsize.height
+              width: parent.width; height: parent.height
               anchors.centerIn: parent
               hoverEnabled: true
               cursorShape: Qt.SizeBDiagCursor
@@ -149,14 +180,14 @@ Item {
             bottom: parent.bottom
             left: parent.left
             }
-            width: 10
-            height: 10
+            width: effectsize.height * 0.7
+            height: this.width
             color: "red"
             visible: root.iskeyframe
             MouseArea {
               property int oldMouseX
               property int oldMouseY
-              width: effectsize.height; height: effectsize.height
+              width: parent.width; height: parent.height
               anchors.centerIn: parent
               hoverEnabled: true
               cursorShape: Qt.SizeBDiagCursor
@@ -186,14 +217,14 @@ Item {
             bottom: parent.bottom
             right: parent.right
             }
-            width: 10
-            height: 10
+            width: effectsize.height * 0.7
+            height: this.width
             color: "red"
             visible: root.iskeyframe
             MouseArea {
               property int oldMouseX
               property int oldMouseY
-              width: effectsize.height; height: effectsize.height
+              width: parent.width; height: parent.height
               anchors.centerIn: parent
               hoverEnabled: true
               cursorShape: Qt.SizeFDiagCursor
@@ -230,16 +261,16 @@ Item {
         Rectangle {
             anchors.centerIn: parent
             width: 1
-            height: effectsize.height * 1.5
+            height: root.iskeyframe ? effectsize.height * 1.5 : effectsize.height / 2
             color: framerect.hoverColor
-            visible: root.iskeyframe
             MouseArea {
               width: effectsize.height * 1.5; height: effectsize.height * 1.5
               anchors.centerIn: parent
               property int oldMouseX
               property int oldMouseY
               hoverEnabled: true
-              cursorShape: Qt.SizeAllCursor
+              enabled: root.iskeyframe
+              cursorShape: root.iskeyframe ? Qt.SizeAllCursor : Qt.ArrowCursor
               onEntered: { framerect.hoverColor = '#ffff00'}
               onExited: { framerect.hoverColor = '#ff0000'}
               onPressed: {
@@ -261,11 +292,9 @@ Item {
         }
         Rectangle {
             anchors.centerIn: parent
-            width: effectsize.height * 1.5
+            width: root.iskeyframe ? effectsize.height * 1.5 : effectsize.height / 2
             height: 1
             color: framerect.hoverColor
-            visible: root.iskeyframe
         }
-    }
     }
 }

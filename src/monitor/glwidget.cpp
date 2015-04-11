@@ -165,15 +165,8 @@ void GLWidget::initializeGL()
 
 void GLWidget::effectRectChanged()
 {
-    QObject *item = rootObject()->findChild<QObject*>("framerect");
-    QObject *base = rootObject()->findChild<QObject*>("frame");
-    double scale = rootObject()->property("scale").toDouble();
-    int x = (int) ((item->property("x").toInt() - base->property("x").toInt()) / scale + 0.5);
-    int y = (int) ((item->property("y").toInt() - base->property("y").toInt()) / scale + 0.5);
-    int w = (int) (item->property("width").toInt() / scale + 0.5);
-    int h = (int) (item->property("height").toInt() / scale + 0.5);
-    QRect r(x, y, w, h);
-    emit effectChanged(r);
+    QRect rect = rootObject()->property("framesize").toRect();
+    emit effectChanged(rect);
 }
 
 void GLWidget::setBlankScene()
@@ -759,8 +752,8 @@ void GLWidget::slotShowEffectScene()
 {
     QObject *item = rootObject();
     QObject::connect(item, SIGNAL(effectChanged()), this, SLOT(effectRectChanged()), Qt::UniqueConnection);
-    item->setProperty("framebase", QRect(0, 0, m_consumer->profile()->width(), m_consumer->profile()->height()));
-    item->setProperty("framerect", QRect(0, 0, m_consumer->profile()->width(), m_consumer->profile()->height()));
+    item->setProperty("profile", QPoint(m_consumer->profile()->width(), m_consumer->profile()->height()));
+    item->setProperty("framesize", QRect(0, 0, m_consumer->profile()->width(), m_consumer->profile()->height()));
     item->setProperty("scale", (double) m_rect.width() / m_consumer->profile()->width() * m_zoom);
     item->setProperty("center", m_rect.center());
 }

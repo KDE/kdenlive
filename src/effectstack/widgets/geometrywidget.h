@@ -102,6 +102,8 @@ private:
     QPoint m_frameSize;
     /** @brief Update monitor rect with current width / height values. */
     void updateMonitorGeometry();
+    /** @brief Calculate the path for rectangle center moves. */
+    QVariantList calculateCenters();
 
 private slots:
     /** @brief Updates controls according to position.

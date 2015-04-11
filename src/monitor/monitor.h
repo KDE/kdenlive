@@ -84,8 +84,7 @@ public:
 
     int getZoneStart();
     int getZoneEnd();
-    void setUpEffectGeometry(QRect r);
-    void setUpEffectGeometry(int x, int y, int w, int h);
+    void setUpEffectGeometry(QRect r, QVariantList list = QVariantList());
     QRect effectRect() const;
     void setEffectKeyframe(bool enable);
     void sendFrameForAnalysis(bool analyse);
