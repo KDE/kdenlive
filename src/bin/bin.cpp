@@ -1487,10 +1487,26 @@ void Bin::removeEffect(const QString &id, const QString &effect)
 
 void Bin::addEffect(const QString &id, const QString &effect)
 {
-    ProjectClip *currentItem = m_rootFolder->clip(id);
+    QDomDocument doc;
+    doc.setContent(effect);
+    addEffect(id, doc.documentElement());
+}
+
+void Bin::addEffect(const QString &id, const QDomElement &effect)
+{
+    ProjectClip *currentItem = NULL;
+    if (id.isEmpty()) {
+        currentItem = getFirstSelectedClip();
+    }
+    else currentItem = m_rootFolder->clip(id);
     if (!currentItem) return;
     currentItem->addEffect(effect);
     m_monitor->refreshMonitor();
+}
+
+void Bin::editMasterEffect(ClipController *ctl)
+{
+    emit masterClipSelected(ctl, m_monitor);
 }
 
 void Bin::doMoveClip(const QString &id, const QString &newParentId)

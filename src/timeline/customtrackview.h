@@ -208,7 +208,7 @@ public:
     int getMousePos() const;
     
     /** @brief Get effect parameters ready for MLT*/
-    static void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, MltVideoProfile profile, const QString &prefix = QString());
+    static void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, MltVideoProfile profile = MltVideoProfile(), const QString &prefix = QString());
     
     void completeSpaceOperation(int track, GenTime &timeOffset);
     void spaceToolMoveToSnapPos(double snappedPos);
@@ -221,6 +221,8 @@ public:
     void resetSelectionGroup(bool selectItems = true);
     /** @brief Returns all infos necessary to save guides. */
     QMap <double, QString> guidesData() const;
+    /** @brief Gets the effect parameters that will be passed to Mlt. */
+    static EffectsParameterList getEffectArgs(const QDomElement &effect);
 
 public slots:
     /** @brief Send seek request to MLT. */
@@ -303,7 +305,7 @@ public slots:
 
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
-    
+
     void slotInfoProcessingFinished();
     void slotAlignClip(int, int, int);
 
@@ -453,9 +455,6 @@ private:
     * @param group The group to cut
     * @param cutPos The absolute position of the cut */
     void razorGroup(AbstractGroupItem *group, GenTime cutPos);
-
-    /** @brief Gets the effect parameters that will be passed to Mlt. */
-    EffectsParameterList getEffectArgs(const QDomElement &effect);
 
     /** @brief Update Tracknames to fit again after track was added/deleted.
      * @param track Number of track which was added/deleted

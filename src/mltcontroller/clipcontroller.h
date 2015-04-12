@@ -137,7 +137,8 @@ public:
     
     /** @brief Returns the current profile's display aspect ratio. */
     double dar() const;
-    
+    /** @brief Holds index of currently selected master clip effect. */
+    int selectedEffectIndex;
     /** @brief Get a clone of master producer for a specific track. Retrieve it if it already exists
      *  in our list, otherwise we create it. */
     Mlt::Producer *getTrackProducer(const QString trackName, PlaylistState::ClipState clipState = PlaylistState::Original, double speed = 1.0);
@@ -159,17 +160,24 @@ public:
     QPoint zone() const;
     bool hasLimitedDuration() const;
     Mlt::Properties &properties();
-    void addEffect(const QString &effect);
+    void addEffect(QDomElement effect);
+    EffectsList effectList();
+    /** @brief Enable/disable an effect. */
+    void changeEffectState(const QList <int> indexes, bool disable);
+    void updateEffect(const QDomElement &old, const QDomElement &e, int ix);
+    bool hasEffects() const;
 
 private:
     Mlt::Producer *m_masterProducer;
     Mlt::Properties *m_properties;
+    EffectsList m_effectList;
     QString m_service;
     QUrl m_url;
     int m_audioIndex;
     int m_videoIndex;
     ClipType m_clipType;
     bool m_hasLimitedDuration;
+    int m_effectFreeIndex;
     BinController *m_binController;
     /** @brief A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
     QList < CommentedTime > m_snapMarkers;
@@ -177,6 +185,7 @@ private:
      * this method returns a list of properties that we want to keep when replacing a producer . */
     const char *getPassPropertiesList() const;
     void getInfoForProducer();
+    void rebuildEffectList();
 };
 
 #endif

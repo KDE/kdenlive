@@ -25,12 +25,19 @@
 class GeometryWidget;
 class Monitor;
 
+enum EFFECTMODE {
+        EMPTY = 0,
+        TIMELINE_CLIP,
+        TIMELINE_TRACK,
+        MASTER_CLIP,
+};
+
 struct EffectMetaInfo {
     MltVideoProfile profile;
     Timecode timecode;
     Monitor *monitor;
     QPoint frameSize;
-    bool trackMode;
+    EFFECTMODE status;
 };
 
 enum WIPE_DIRECTON { UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, CENTER = 4 };

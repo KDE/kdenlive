@@ -233,7 +233,7 @@ class Render: public AbstractRender
 
     /** @brief Adds an effect to a clip in MLT's playlist. */
     bool mltAddEffect(int track, GenTime position, EffectsParameterList params, bool doRefresh = true);
-    bool addFilterToService(Mlt::Service service, EffectsParameterList params, int duration);
+    static bool addFilterToService(Mlt::Service service, EffectsParameterList params, int duration);
     bool mltAddEffect(Mlt::Service service, EffectsParameterList params, int duration, bool doRefresh);
     bool mltAddTrackEffect(int track, EffectsParameterList params);
     

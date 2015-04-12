@@ -43,7 +43,6 @@ EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) :
 {
     m_baseWidget = new QWidget(this);
     m_metaInfo.monitor = monitor;
-    m_metaInfo.trackMode = false;
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setFrameStyle(QFrame::NoFrame);

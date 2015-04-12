@@ -79,6 +79,8 @@ public:
     void checkTrackHeight();
     void updateProfile();
     void updatePalette();
+    /** @brief Returns a kdenlive effect xml description from an effect tag / id */
+    static QDomElement getEffectByTag(const QString &effecttag, const QString &effectid);
 
 protected:
     void keyPressEvent(QKeyEvent * event);
@@ -120,9 +122,6 @@ private:
     bool isSlide(QString geometry);
     void adjustDouble(QDomElement &e, double value);
 
-
-    /** @brief Returns a kdenlive effect xml description from an effect tag / id */
-    QDomElement getEffectByTag(const QString &effecttag, const QString &effectid);
     /** @brief Adjust kdenlive effect xml parameters to the MLT value*/
     void adjustparameterValue(QDomNodeList clipeffectparams, const QString &paramname, const QString &paramvalue);
 

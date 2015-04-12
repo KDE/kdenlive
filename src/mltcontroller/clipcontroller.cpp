@@ -22,6 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "clipcontroller.h"
 #include "bincontroller.h"
+#include "timeline/customtrackview.h"
+#include "timeline/trackview.h"
+#include "renderer.h"
 
 #include <QUrl>
 #include <QDebug>
@@ -34,9 +37,15 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer& prod
     , m_snapMarkers(QList < CommentedTime >())
     , m_hasLimitedDuration(true)
     , m_properties(new Mlt::Properties(producer.get_properties()))
+    , selectedEffectIndex(1)
+    , m_effectFreeIndex(1)
 {
     m_masterProducer = &producer;
-    if (!m_masterProducer->is_valid()) qDebug()<<"// WARNING, USING INVALID PRODUCER";
+    m_effectList = EffectsList(true);
+    if (!m_masterProducer->is_valid()) {
+        qDebug()<<"// WARNING, USING INVALID PRODUCER";
+        return;
+    }
     else {
         QString proxy = m_properties->get("kdenlive:proxy");
         if (proxy.length() > 2) {
@@ -46,6 +55,7 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer& prod
         else m_url = QUrl::fromLocalFile(m_properties->get("resource"));
         m_service = m_properties->get("mlt_service");
         getInfoForProducer();
+        rebuildEffectList();
     }
 }
 
@@ -55,6 +65,7 @@ ClipController::ClipController(BinController *bincontroller) : QObject()
     , m_hasLimitedDuration(true)
     , m_clipType(Unknown)
     , m_properties(NULL)
+    , m_effectFreeIndex(1)
 {
     m_masterProducer = NULL;
 }
@@ -82,6 +93,7 @@ void ClipController::addMasterProducer(Mlt::Producer &producer)
         else m_url = QUrl::fromLocalFile(m_properties->get("resource"));
         m_service = m_properties->get("mlt_service");
         getInfoForProducer();
+        rebuildEffectList();
     }
 }
 
@@ -198,6 +210,7 @@ void ClipController::updateProducer(const QString &id, Mlt::Producer* producer)
             m_name = m_url.fileName();
         }
         */
+        rebuildEffectList();
     }
 }
 
@@ -555,27 +568,72 @@ Mlt::Properties &ClipController::properties()
     return *m_properties;
 }
 
-void ClipController::addEffect(const QString &effect)
+void ClipController::addEffect(QDomElement effect)
 {
-    QDomDocument doc;
-    doc.setContent(effect);
-    QString tag = doc.documentElement().attribute("tag");
-    Mlt::Filter *f = new Mlt::Filter(*m_binController->profile(), tag.toUtf8().constData());
-    QDomNodeList params = doc.elementsByTagName("parameter");
-    QLocale locale;
-    qDebug()<<" + ++ ADDING EFFECT: "<<tag<<"\n------";
-    for (int j = 0; j < params.count(); ++j) {
-        QDomElement e = params.at(j).toElement();
-        QString val = e.attribute("value");
-        if (val.isEmpty()) val = e.attribute("default");
-        if (e.hasAttribute("factor")) {
-            double fac = locale.toDouble(e.attribute("factor"));
-            double corrected = locale.toDouble(val) / fac;
-            val = locale.toString(corrected);
-        }
-        qDebug()<<" + ++ PARAM: "<<e.attribute("name")<<"="<<val;
-        f->set(e.attribute("name").toUtf8().constData(), val.toUtf8().constData());
+    Mlt::Service service = m_masterProducer->parent();
+    int ix = m_effectFreeIndex++;
+    effect.setAttribute("kdenlive_ix", QString::number(ix));
+    EffectsParameterList params = CustomTrackView::getEffectArgs(effect);
+    Render::addFilterToService(m_masterProducer->parent(), params, getPlaytime().frames(m_binController->fps()));
+    rebuildEffectList();
+}
+
+EffectsList ClipController::effectList()
+{
+    return m_effectList;
+}
+
+void ClipController::rebuildEffectList()
+{
+    m_effectList.clearList();
+    int ix = 0;
+    Mlt::Service service = m_masterProducer->parent();
+    for (int ix = 0; ix < service.filter_count(); ++ix) {
+        Mlt::Filter *effect = service.filter(ix);
+        QDomElement clipeffect = TrackView::getEffectByTag(effect->get("tag"), effect->get("kdenlive_id"));
+        int curr = effect->get_int("kdenlive_ix");
+        m_effectFreeIndex = qMax(m_effectFreeIndex, curr + 1);
+        QDomElement currenteffect = clipeffect.cloneNode().toElement();
+        //currenteffect.setAttribute("kdenlive_ix", QString::number(ix));
+        m_effectList.append(currenteffect);
     }
-    m_masterProducer->parent().attach(*f);
+}
+
+void ClipController::changeEffectState(const QList <int> indexes, bool disable)
+{
+    Mlt::Service service = m_masterProducer->parent();
+    for (int i = 0; i < service.filter_count(); ++i) {
+        Mlt::Filter *effect = service.filter(i);
+        if (effect && effect->is_valid() && indexes.contains(effect->get_int("kdenlive_ix"))) {
+            effect->set("disable", (int) disable);
+        }
+    }
+    
+}
+
+void ClipController::updateEffect(const QDomElement &old, const QDomElement &e, int ix)
+{
+    EffectsParameterList params = CustomTrackView::getEffectArgs(e);
+    Mlt::Service service = m_masterProducer->parent();
+    qDebug()<<"updateing effect: "<<ix;
+    for (int i = 0; i < service.filter_count(); ++i) {
+        Mlt::Filter *effect = service.filter(i);
+        if (!effect || !effect->is_valid() || effect->get_int("kdenlive_ix") != ix) continue;
+        service.lock();
+        QString prefix;
+        QString ser = effect->get("mlt_service");
+        qDebug()<<"EFFCT: "<<ser;
+        if (ser == "region") prefix = "filter0.";
+        for (int j = 0; j < params.count(); ++j) {
+            effect->set((prefix + params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
+            qDebug()<<params.at(j).name()<<" = "<<params.at(j).value();
+        }
+        service.unlock();
+    }
+}
+
+bool ClipController::hasEffects() const
+{
+    return !m_effectList.isEmpty();
 }
 

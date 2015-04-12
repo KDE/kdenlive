@@ -403,6 +403,8 @@ public:
     void removeEffect(const QString &id, const QString &effect);
     /** @brief Add an effect to a bin clip. */
     void addEffect(const QString &id, const QString &effect);
+    void addEffect(const QString &id, const QDomElement &effect);
+    void editMasterEffect(ClipController *ctl);
 
 private slots:
     void slotAddClip();
@@ -533,6 +535,7 @@ signals:
     void clipNeedsReload(const QString &,bool);
     /** @brief Trigger timecode format refresh where needed. */
     void refreshTimeCode();
+    void masterClipSelected(ClipController *, Monitor *);
 };
 
 #endif

@@ -3008,11 +3008,12 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
     return success;
 }
 
-
+// static
 bool Render::addFilterToService(Mlt::Service service, EffectsParameterList params, int duration)
 {
     // create filter
     QString tag =  params.paramValue("tag");
+    QLocale locale;
     ////qDebug() << " / / INSERTING EFFECT: " << tag << ", REGI: " << region;
     QString kfr = params.paramValue("keyframes");
     if (!kfr.isEmpty()) {
@@ -3034,7 +3035,7 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
         params.removeParam("offset");
         // Special case, only one keyframe, means we want a constant value
         if (keyFrames.count() == 1) {
-            Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, qstrdup(tag.toUtf8().constData()));
+            Mlt::Filter *filter = new Mlt::Filter(*service.profile(), qstrdup(tag.toUtf8().constData()));
             if (filter && filter->is_valid()) {
                 filter->set("kdenlive_id", qstrdup(params.paramValue("id").toUtf8().constData()));
                 int x1 = keyFrames.at(0).section('=', 0, 0).toInt();
@@ -3044,7 +3045,7 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
                 }
                 filter->set("in", x1);
                 ////qDebug() << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
-                filter->set(starttag, m_locale.toString(((min + y1) - paramOffset) / factor).toUtf8().data());
+                filter->set(starttag, locale.toString(((min + y1) - paramOffset) / factor).toUtf8().data());
                 service.attach(*filter);
             } else {
                 delete[] starttag;
@@ -3054,7 +3055,7 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
                 return false;
             }
         } else for (int i = 0; i < keyFrames.size() - 1; ++i) {
-            Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, qstrdup(tag.toUtf8().constData()));
+            Mlt::Filter *filter = new Mlt::Filter(*service.profile(), qstrdup(tag.toUtf8().constData()));
             if (filter && filter->is_valid()) {
                 filter->set("kdenlive_id", qstrdup(params.paramValue("id").toUtf8().constData()));
                 int x1 = keyFrames.at(i).section('=', 0, 0).toInt();
@@ -3070,8 +3071,8 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
                 filter->set("in", x1);
                 filter->set("out", x2);
                 ////qDebug() << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
-                filter->set(starttag, m_locale.toString(((min + y1) - paramOffset) / factor).toUtf8().data());
-                filter->set(endtag, m_locale.toString(((min + y2) - paramOffset) / factor).toUtf8().data());
+                filter->set(starttag, locale.toString(((min + y1) - paramOffset) / factor).toUtf8().data());
+                filter->set(endtag, locale.toString(((min + y2) - paramOffset) / factor).toUtf8().data());
                 service.attach(*filter);
             } else {
                 delete[] starttag;
@@ -3086,7 +3087,7 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
     } else {
         Mlt::Filter *filter;
         QString prefix;
-        filter = new Mlt::Filter(*m_mltProfile, qstrdup(tag.toUtf8().constData()));
+        filter = new Mlt::Filter(*service.profile(), qstrdup(tag.toUtf8().constData()));
         if (filter && filter->is_valid()) {
             filter->set("kdenlive_id", qstrdup(params.paramValue("id").toUtf8().constData()));
         } else {

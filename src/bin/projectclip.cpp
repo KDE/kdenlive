@@ -211,6 +211,7 @@ void ProjectClip::setCurrent(bool current, bool notify)
     AbstractProjectItem::setCurrent(current, notify);
     if (current && m_controller) {
         bin()->openProducer(m_controller);
+        bin()->editMasterEffect(m_controller);
     }
 }
 
@@ -565,8 +566,9 @@ void ProjectClip::addMarkers(QList <CommentedTime> &markers)
     emit refreshClipDisplay();
 }
 
-void ProjectClip::addEffect(const QString &effect)
+void ProjectClip::addEffect(const QDomElement &effect)
 {
     m_controller->addEffect(effect);
+    bin()->editMasterEffect(m_controller);
 }
 

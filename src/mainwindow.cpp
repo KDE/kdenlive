@@ -196,8 +196,9 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 */
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
 
-    m_effectStack = new EffectStackView2(m_projectMonitor);
+    m_effectStack = new EffectStackView2();
     connect(m_effectStack, SIGNAL(startFilterJob(const ItemInfo&,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)), pCore->bin(), SLOT(slotStartFilterJob(const ItemInfo &,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)));
+    connect(pCore->bin(), SIGNAL(masterClipSelected(ClipController *, Monitor *)), m_effectStack, SLOT(slotMasterClipItemSelected(ClipController *, Monitor *)));
     m_effectStackDock = addDock(i18n("Effect Stack"), "effect_stack", m_effectStack);
 
     m_transitionConfig = new TransitionSettings(m_projectMonitor);
@@ -613,10 +614,10 @@ void MainWindow::slotAddEffect(const QDomElement &effect)
         return;
     }
     QDomElement effectToAdd = effect.cloneNode().toElement();
-    bool ok;
-    int ix = m_effectStack->isTrackMode(&ok);
-    if (ok) pCore->projectManager()->currentTrackView()->projectView()->slotAddTrackEffect(effectToAdd, pCore->projectManager()->current()->tracksCount() - ix);
-    else pCore->projectManager()->currentTrackView()->projectView()->slotAddEffect(effectToAdd, GenTime(), -1);
+    EFFECTMODE status = m_effectStack->effectStatus();
+    if (status == TIMELINE_TRACK) pCore->projectManager()->currentTrackView()->projectView()->slotAddTrackEffect(effectToAdd, pCore->projectManager()->current()->tracksCount() - m_effectStack->trackIndex());
+    else if (status == TIMELINE_CLIP) pCore->projectManager()->currentTrackView()->projectView()->slotAddEffect(effectToAdd, GenTime(), -1);
+    else if (status == MASTER_CLIP) pCore->bin()->addEffect(QString(), effectToAdd);
 }
 
 void MainWindow::slotUpdateClip(const QString &id, bool reload)
@@ -2222,7 +2223,7 @@ void MainWindow::slotTimelineClipSelected(ClipItem* item, bool raise)
         m_mainClip = item;
     }
 
-    m_effectStack->slotClipItemSelected(item);
+    m_effectStack->slotClipItemSelected(item, m_projectMonitor);
     m_projectMonitor->slotSetSelectedClip(item);
     if (raise) {
         m_effectStack->raiseWindow(m_effectStackDock);
@@ -2231,7 +2232,7 @@ void MainWindow::slotTimelineClipSelected(ClipItem* item, bool raise)
 
 void MainWindow::slotTrackSelected(int index, const TrackInfo &info, bool raise)
 {
-    m_effectStack->slotTrackItemSelected(index, info);
+    m_effectStack->slotTrackItemSelected(index, info, m_projectMonitor);
     if (raise) {
         m_effectStack->raiseWindow(m_effectStackDock);
     }

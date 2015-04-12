@@ -7281,17 +7281,17 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement &effect)
             parameters.addParam(QString("filter%1.tag").arg(subeffectix), subeffect.attribute("tag"));
             parameters.addParam(QString("filter%1.kdenlive_info").arg(subeffectix), subeffect.attribute("kdenlive_info"));
             QDomNodeList subparams = subeffect.elementsByTagName("parameter");
-            adjustEffectParameters(parameters, subparams, m_document->mltProfile(), QString("filter%1.").arg(subeffectix));
+            adjustEffectParameters(parameters, subparams, MltVideoProfile()/*m_document->mltProfile()*/, QString("filter%1.").arg(subeffectix));
         }
     }
 
     QDomNodeList params = effect.elementsByTagName("parameter");
-    adjustEffectParameters(parameters, params, m_document->mltProfile());
+    adjustEffectParameters(parameters, params/*, m_document->mltProfile()*/);
     
     return parameters;
 }
 
-
+// static
 void CustomTrackView::adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, MltVideoProfile profile, const QString &prefix)
 {
     QLocale locale;
@@ -7343,7 +7343,7 @@ void CustomTrackView::adjustEffectParameters(EffectsParameterList &parameters, Q
         } else {
             if (e.attribute("factor", "1") != "1" || e.attribute("offset", "0") != "0") {
                 double fact;
-                if (e.attribute("factor").contains('%')) {
+                if (e.attribute("factor").contains('%') && profile.width > 0) {
                     fact = ProfilesDialog::getStringEval(profile, e.attribute("factor"));
                 } else {
                     fact = e.attribute("factor", "1").toDouble();
