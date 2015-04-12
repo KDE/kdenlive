@@ -402,3 +402,8 @@ const QStringList BinController::getBinIdsByResource(const QUrl &url) const
     }
     return controllers;
 }
+
+void BinController::updateTrackProducer(const QString &id)
+{
+    emit reloadTrackProducers(id);
+}

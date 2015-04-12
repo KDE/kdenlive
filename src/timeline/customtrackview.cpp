@@ -7287,7 +7287,6 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement &effect)
 
     QDomNodeList params = effect.elementsByTagName("parameter");
     adjustEffectParameters(parameters, params/*, m_document->mltProfile()*/);
-    
     return parameters;
 }
 

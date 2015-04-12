@@ -57,6 +57,12 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer& prod
         getInfoForProducer();
         rebuildEffectList();
     }
+    m_tracksTimer = new QTimer(this);
+    qDebug()<<"--------------\nTIMER BIN READY\n----------------------";
+    m_tracksTimer->setSingleShot(true);
+    m_tracksTimer->setInterval(200);
+    connect(m_tracksTimer, SIGNAL(timeout()), this, SLOT(slotRefreshTracks()));
+    connect(this, SIGNAL(refreshTracks()), m_tracksTimer, SLOT(start()));
 }
 
 ClipController::ClipController(BinController *bincontroller) : QObject()
@@ -65,9 +71,17 @@ ClipController::ClipController(BinController *bincontroller) : QObject()
     , m_hasLimitedDuration(true)
     , m_clipType(Unknown)
     , m_properties(NULL)
+    , selectedEffectIndex(1)
     , m_effectFreeIndex(1)
 {
     m_masterProducer = NULL;
+    m_effectList = EffectsList(true);
+    m_tracksTimer = new QTimer(this);
+    qDebug()<<"--------------\nTIMER BIN READY\n----------------------";
+    m_tracksTimer->setSingleShot(true);
+    m_tracksTimer->setInterval(200);
+    connect(m_tracksTimer, SIGNAL(timeout()), this, SLOT(slotRefreshTracks()));
+    connect(this, SIGNAL(refreshTracks()), m_tracksTimer, SLOT(start()));
 }
 
 ClipController::~ClipController()
@@ -574,8 +588,11 @@ void ClipController::addEffect(QDomElement effect)
     int ix = m_effectFreeIndex++;
     effect.setAttribute("kdenlive_ix", QString::number(ix));
     EffectsParameterList params = CustomTrackView::getEffectArgs(effect);
+    //TODO Effects with keyframes should be initialized like in ClipItem::initEffect, or they will crash
     Render::addFilterToService(m_masterProducer->parent(), params, getPlaytime().frames(m_binController->fps()));
     rebuildEffectList();
+    m_binController->updateTrackProducer(clipId());
+    //slotRefreshTracks();
 }
 
 EffectsList ClipController::effectList()
@@ -608,28 +625,29 @@ void ClipController::changeEffectState(const QList <int> indexes, bool disable)
             effect->set("disable", (int) disable);
         }
     }
-    
+    m_binController->updateTrackProducer(clipId());
+    //slotRefreshTracks();
 }
 
 void ClipController::updateEffect(const QDomElement &old, const QDomElement &e, int ix)
 {
     EffectsParameterList params = CustomTrackView::getEffectArgs(e);
     Mlt::Service service = m_masterProducer->parent();
-    qDebug()<<"updateing effect: "<<ix;
     for (int i = 0; i < service.filter_count(); ++i) {
         Mlt::Filter *effect = service.filter(i);
         if (!effect || !effect->is_valid() || effect->get_int("kdenlive_ix") != ix) continue;
         service.lock();
         QString prefix;
         QString ser = effect->get("mlt_service");
-        qDebug()<<"EFFCT: "<<ser;
         if (ser == "region") prefix = "filter0.";
         for (int j = 0; j < params.count(); ++j) {
             effect->set((prefix + params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
-            qDebug()<<params.at(j).name()<<" = "<<params.at(j).value();
+            //qDebug()<<params.at(j).name()<<" = "<<params.at(j).value();
         }
         service.unlock();
     }
+    m_binController->updateTrackProducer(clipId());
+    //slotRefreshTracks();
 }
 
 bool ClipController::hasEffects() const
