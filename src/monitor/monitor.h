@@ -128,6 +128,7 @@ private:
     TwostateAction *m_playAction;
     /** Has to be available so we can enable and disable it. */
     QAction *m_loopClipAction;
+    QAction *m_effectCompare;
     QMenu *m_contextMenu;
     QMenu *m_configMenu;
     QMenu *m_playMenu;

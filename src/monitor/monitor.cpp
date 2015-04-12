@@ -282,12 +282,12 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     connect(overlayAudio, SIGNAL(toggled(bool)), m_glMonitor, SLOT(slotSwitchAudioOverlay(bool)));
     overlayAudio->setChecked(KdenliveSettings::displayAudioOverlay());
 
-    QAction *effectCompare = m_contextMenu->addAction(QIcon(), i18n("Compare effect"));
-    effectCompare->setCheckable(true);
-    connect(effectCompare, SIGNAL(toggled(bool)), this, SLOT(slotSwitchCompare(bool)));
+    m_effectCompare = m_contextMenu->addAction(QIcon(), i18n("Compare effect"));
+    m_effectCompare->setCheckable(true);
+    connect(m_effectCompare, SIGNAL(toggled(bool)), this, SLOT(slotSwitchCompare(bool)));
     m_configMenu->addAction(showTips);
     m_configMenu->addAction(dropFrames);
-    m_configMenu->addAction(effectCompare);
+    m_configMenu->addAction(m_effectCompare);
     m_configMenu->addAction(overlayAudio);
 }
 
@@ -974,8 +974,11 @@ void Monitor::openClip(ClipController *controller)
         render->setProducer(NULL, -1, isActive());
     }
     if (m_splitProducer) {
+        m_effectCompare->setChecked(false);
         delete m_splitProducer;
         delete m_splitEffect;
+        m_splitProducer = NULL;
+        m_splitEffect = NULL;
     }
 }
 
@@ -1321,6 +1324,8 @@ void Monitor::slotSwitchCompare(bool enable)
         loadMasterQml();
         delete m_splitProducer;
         delete m_splitEffect;
+        m_splitProducer = NULL;
+        m_splitEffect = NULL;
     }
     refreshMonitor();
 }
