@@ -551,7 +551,7 @@ void Monitor::mouseReleaseEvent(QMouseEvent * event)
 
 void Monitor::slotStartDrag()
 {
-    if (m_id == Kdenlive::ProjectMonitor) {
+    if (m_id == Kdenlive::ProjectMonitor || m_controller == NULL) {
         // dragging is only allowed for clip monitor
         return;
     }
