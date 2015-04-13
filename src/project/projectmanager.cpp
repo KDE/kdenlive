@@ -16,7 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "kdenlivesettings.h"
 #include "monitor/monitormanager.h"
 #include "doc/kdenlivedoc.h"
-#include "timeline/trackview.h"
+#include "timeline/timeline.h"
 #include "project/dialogs/projectsettings.h"
 #include "projectlist.h"
 #include "timeline/customtrackview.h"
@@ -148,7 +148,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     bool ok;
     pCore->bin()->setDocument(doc);
-    m_trackView = new TrackView(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
+    m_trackView = new Timeline(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
     pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme("kdenlive"), doc->description());
     m_project = doc;
     if (!ok) {
@@ -430,7 +430,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     progressDialog.repaint();
 
     bool ok;
-    m_trackView = new TrackView(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
+    m_trackView = new Timeline(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
     m_trackView->loadGuides(pCore->binController()->takeGuidesData());
 
     m_project = doc;
@@ -531,7 +531,7 @@ void ProjectManager::slotOpenBackup(const QUrl& url)
     delete dia;
 }
 
-TrackView* ProjectManager::currentTrackView()
+Timeline* ProjectManager::currentTimeline()
 {
     return m_trackView;
 }

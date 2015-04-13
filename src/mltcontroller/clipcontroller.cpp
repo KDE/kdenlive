@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "clipcontroller.h"
 #include "bincontroller.h"
 #include "mltcontroller/effectscontroller.h"
-#include "timeline/trackview.h"
+#include "timeline/timeline.h"
 #include "renderer.h"
 
 #include <QUrl>
@@ -598,7 +598,7 @@ void ClipController::rebuildEffectList()
     Mlt::Service service = m_masterProducer->parent();
     for (int ix = 0; ix < service.filter_count(); ++ix) {
         Mlt::Filter *effect = service.filter(ix);
-        QDomElement clipeffect = TrackView::getEffectByTag(effect->get("tag"), effect->get("kdenlive_id"));
+        QDomElement clipeffect = Timeline::getEffectByTag(effect->get("tag"), effect->get("kdenlive_id"));
         int curr = effect->get_int("kdenlive_ix");
         m_effectFreeIndex = qMax(m_effectFreeIndex, curr + 1);
         QDomElement currenteffect = clipeffect.cloneNode().toElement();

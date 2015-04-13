@@ -18,8 +18,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KRecentFilesAction>
 #include "kdenlivecore_export.h"
 
+#include "timeline/timeline.h"
+
 class Project;
-class TrackView;
 class KdenliveDoc;
 class NotesPlugin;
 class QAction;
@@ -43,7 +44,7 @@ public:
 
     /** @brief Returns a pointer to the currently opened project. A project should always be open. */
     KdenliveDoc *current();
-    TrackView *currentTrackView();
+    Timeline *currentTimeline();
 
     /** @brief Store command line args for later opening. */
     void init(const QUrl &projectUrl, const QString &clipList);
@@ -106,7 +107,7 @@ private:
     bool checkForBackupFile(const QUrl &url);
 
     KdenliveDoc *m_project;
-    TrackView *m_trackView;
+    Timeline *m_trackView;
     
     QTimer m_autoSaveTimer;
     

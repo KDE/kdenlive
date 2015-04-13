@@ -11,7 +11,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "core.h"
 #include "mainwindow.h"
 #include "project/projectmanager.h"
-#include "timeline/trackview.h"
 #include "monitor/monitormanager.h"
 #include "mltcontroller/bincontroller.h"
 #include "bin/bin.h"

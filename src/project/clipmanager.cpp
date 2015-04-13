@@ -26,7 +26,6 @@
 #include "doc/doccommands.h"
 #include "doc/kdenlivedoc.h"
 #include "project/projectmanager.h"
-#include "timeline/trackview.h"
 #include "timeline/abstractclipitem.h"
 #include "timeline/abstractgroupitem.h"
 #include "titler/titledocument.h"
@@ -401,11 +400,11 @@ void ClipManager::deleteProjectItems(QStringList clipIds, QStringList folderIds)
     // Create meta command
     QUndoCommand *deleteCommand = new QUndoCommand();
     deleteCommand->setText(i18n("Delete clips"));
-    if (pCore->projectManager()->currentTrackView()) {
+    if (pCore->projectManager()->currentTimeline()) {
         // Remove clips from timeline
         if (!clipIds.isEmpty()) {
             for (int i = 0; i < clipIds.size(); ++i) {
-                pCore->projectManager()->currentTrackView()->slotDeleteClip(clipIds.at(i), deleteCommand);
+                pCore->projectManager()->currentTimeline()->slotDeleteClip(clipIds.at(i), deleteCommand);
             }
         }
         // remove clips and folders from bin

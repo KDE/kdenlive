@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 /**
-* @class TrackView
+* @class Timeline
 * @brief Manages the timline
 * @author Jean-Baptiste Mardelle
 */
@@ -44,13 +44,13 @@ class CustomRuler;
 //class DocClipBase;
 class QUndoCommand;
 
-class TrackView : public QWidget, public Ui::TimeLine_UI
+class Timeline : public QWidget, public Ui::TimeLine_UI
 {
     Q_OBJECT
 
 public:
-    explicit TrackView(KdenliveDoc *doc, const QList <QAction *>& actions, bool *ok, QWidget *parent = 0);
-    virtual ~ TrackView();
+    explicit Timeline(KdenliveDoc *doc, const QList <QAction *>& actions, bool *ok, QWidget *parent = 0);
+    virtual ~ Timeline();
     void setEditMode(const QString & editMode);
     const QString & editMode() const;
     QGraphicsScene *projectScene();

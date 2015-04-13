@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 
-#include "trackview.h"
+#include "timeline.h"
 #include "headertrack.h"
 #include "clipitem.h"
 #include "transition.h"
@@ -42,7 +42,7 @@
 #include <klocalizedstring.h>
 
 
-TrackView::TrackView(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, QWidget *parent) :
+Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, QWidget *parent) :
     QWidget(parent),
     m_scale(1.0),
     m_projectTracks(0),
@@ -128,7 +128,7 @@ TrackView::TrackView(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok
     slotSetZone(m_doc->zone(), false);
 }
 
-TrackView::~TrackView()
+Timeline::~Timeline()
 {
     delete m_ruler;
     delete m_trackview;
@@ -136,7 +136,7 @@ TrackView::~TrackView()
 }
 
 //virtual
-void TrackView::keyPressEvent(QKeyEvent * event)
+void Timeline::keyPressEvent(QKeyEvent * event)
 {
     if (event->key() == Qt::Key_Up) {
         m_trackview->slotTrackUp();
@@ -147,12 +147,12 @@ void TrackView::keyPressEvent(QKeyEvent * event)
     } else QWidget::keyPressEvent(event);
 }
 
-int TrackView::duration() const
+int Timeline::duration() const
 {
     return m_trackview->duration();
 }
 
-bool TrackView::checkProjectAudio() const
+bool Timeline::checkProjectAudio() const
 {
     bool hasAudio = false;
     const QList <TrackInfo> list = m_doc->tracksList();
@@ -167,29 +167,29 @@ bool TrackView::checkProjectAudio() const
     return hasAudio;
 }
 
-int TrackView::inPoint() const
+int Timeline::inPoint() const
 {
     return m_ruler->inPoint();
 }
 
-int TrackView::outPoint() const
+int Timeline::outPoint() const
 {
     return m_ruler->outPoint();
 }
 
-void TrackView::slotSetZone(const QPoint &p, bool updateDocumentProperties)
+void Timeline::slotSetZone(const QPoint &p, bool updateDocumentProperties)
 {
     m_ruler->setZone(p);
     if (updateDocumentProperties) m_doc->setZone(p.x(), p.y());
 }
 
-void TrackView::setDuration(int dur)
+void Timeline::setDuration(int dur)
 {
     m_trackview->setDuration(dur);
     m_ruler->setDuration(dur);
 }
 
-int TrackView::getTracks(Mlt::Tractor &tractor) {
+int Timeline::getTracks(Mlt::Tractor &tractor) {
     int trackIndex = 0;
     int duration = 1;
     for (int i = 0; i < tractor.count(); ++i) {
@@ -210,7 +210,7 @@ int TrackView::getTracks(Mlt::Tractor &tractor) {
     return duration;
 }
 
-void TrackView::getTransitions(Mlt::Tractor &tractor) {
+void Timeline::getTransitions(Mlt::Tractor &tractor) {
     mlt_service service = mlt_service_get_producer(tractor.get_service());
     while (service) {
         Mlt::Properties prop(MLT_SERVICE_PROPERTIES(service));
@@ -272,7 +272,7 @@ void TrackView::getTransitions(Mlt::Tractor &tractor) {
     }
 }
 
-bool TrackView::isSlide(QString geometry) {
+bool Timeline::isSlide(QString geometry) {
     if (!geometry.count(';') == 1) return false;
 
     geometry.remove(QChar('%'), Qt::CaseInsensitive);
@@ -293,7 +293,7 @@ bool TrackView::isSlide(QString geometry) {
     return true;
 }
 
-void TrackView::adjustDouble(QDomElement &e, double value) {
+void Timeline::adjustDouble(QDomElement &e, double value) {
     QString factor = e.attribute("factor", "1");
     double offset = e.attribute("offset", "0").toDouble();
     double fact = 1;
@@ -305,7 +305,7 @@ void TrackView::adjustDouble(QDomElement &e, double value) {
     e.setAttribute("value", locale.toString(offset + value * fact));
 }
 
-void TrackView::parseDocument(const QDomDocument &doc)
+void Timeline::parseDocument(const QDomDocument &doc)
 {
     //int cursorPos = 0;
     m_documentErrors.clear();
@@ -369,22 +369,22 @@ void TrackView::parseDocument(const QDomDocument &doc)
     }
 }
 
-void TrackView::slotDeleteClip(const QString &clipId, QUndoCommand *deleteCommand)
+void Timeline::slotDeleteClip(const QString &clipId, QUndoCommand *deleteCommand)
 {
     m_trackview->deleteClip(clipId, deleteCommand);
 }
 
-void TrackView::setCursorPos(int pos)
+void Timeline::setCursorPos(int pos)
 {
     m_trackview->setCursorPos(pos);
 }
 
-void TrackView::moveCursorPos(int pos)
+void Timeline::moveCursorPos(int pos)
 {
     m_trackview->setCursorPos(pos);
 }
 
-void TrackView::slotChangeZoom(int horizontal, int vertical)
+void Timeline::slotChangeZoom(int horizontal, int vertical)
 {
     m_ruler->setPixelPerMark(horizontal);
     m_scale = (double) m_trackview->getFrameWidth() / m_ruler->comboScale[horizontal];
@@ -403,7 +403,7 @@ void TrackView::slotChangeZoom(int horizontal, int vertical)
     }
 }
 
-int TrackView::fitZoom() const
+int Timeline::fitZoom() const
 {
     int zoom = (int)((duration() + 20 / m_scale) * m_trackview->getFrameWidth() / m_trackview->width());
     int i;
@@ -412,17 +412,17 @@ int TrackView::fitZoom() const
     return i;
 }
 
-KdenliveDoc *TrackView::document()
+KdenliveDoc *Timeline::document()
 {
     return m_doc;
 }
 
-void TrackView::refresh()
+void Timeline::refresh()
 {
     m_trackview->viewport()->update();
 }
 
-void TrackView::slotRepaintTracks()
+void Timeline::slotRepaintTracks()
 {
     QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
     for (int i = 0; i < widgets.count(); ++i) {
@@ -430,13 +430,13 @@ void TrackView::slotRepaintTracks()
     }
 }
 
-void TrackView::slotReloadTracks()
+void Timeline::slotReloadTracks()
 {
     slotRebuildTrackHeaders();
     emit updateTracksInfo();
 }
 
-void TrackView::slotRebuildTrackHeaders()
+void Timeline::slotRebuildTrackHeaders()
 {
     const QList <TrackInfo> list = m_doc->tracksList();
     QLayoutItem *child;
@@ -478,7 +478,7 @@ void TrackView::slotRebuildTrackHeaders()
 }
 
 
-void TrackView::updatePalette()
+void Timeline::updatePalette()
 {
     headers_container->setStyleSheet("");
     setPalette(qApp->palette());
@@ -494,7 +494,7 @@ void TrackView::updatePalette()
     
 }
 
-void TrackView::adjustTrackHeaders()
+void Timeline::adjustTrackHeaders()
 {
     int height = KdenliveSettings::trackheight() * m_scene->scale().y() - 1;
     QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
@@ -503,7 +503,7 @@ void TrackView::adjustTrackHeaders()
     }
 }
 
-int TrackView::addTrack(int ix, Mlt::Playlist &playlist, bool locked) {
+int Timeline::addTrack(int ix, Mlt::Playlist &playlist, bool locked) {
     // parse track
     int position = 0;
     for(int i = 0; i < playlist.count(); ++i) {
@@ -563,7 +563,7 @@ int TrackView::addTrack(int ix, Mlt::Playlist &playlist, bool locked) {
     return position;
 }
 
-void TrackView::loadGuides(QMap <double, QString> guidesData)
+void Timeline::loadGuides(QMap <double, QString> guidesData)
 {
     QMapIterator<double, QString> i(guidesData);
     while (i.hasNext()) {
@@ -573,7 +573,7 @@ void TrackView::loadGuides(QMap <double, QString> guidesData)
     }
 }
 
-void TrackView::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
+void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
     int effectNb = 0;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
@@ -617,7 +617,7 @@ void TrackView::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
     }
 }
 
-QString TrackView::getKeyframes(Mlt::Service service, int &ix, QDomElement e) {
+QString Timeline::getKeyframes(Mlt::Service service, int &ix, QDomElement e) {
     QString starttag = e.attribute("starttag", "start");
     QString endtag = e.attribute("endtag", "end");
     double fact, offset = e.attribute("offset", "0").toDouble();
@@ -641,7 +641,7 @@ QString TrackView::getKeyframes(Mlt::Service service, int &ix, QDomElement e) {
     return keyframes;
 }
 
-void TrackView::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect) {
+void Timeline::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect) {
     for (int i = 0; ; ++i) {
         QString name = "filter" + QString::number(i);
         if (!effect->get(name.toUtf8().constData())) break;
@@ -666,7 +666,7 @@ void TrackView::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect) {
     }
 }
 
-void TrackView::setParam(QDomElement param, QString value) {
+void Timeline::setParam(QDomElement param, QString value) {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     //get Kdenlive scaling parameters
@@ -695,7 +695,7 @@ void TrackView::setParam(QDomElement param, QString value) {
     }
 }
 
-QDomElement TrackView::getEffectByTag(const QString &effecttag, const QString &effectid)
+QDomElement Timeline::getEffectByTag(const QString &effecttag, const QString &effectid)
 {
     QDomElement clipeffect = MainWindow::customEffects.getEffectByTag(QString(), effectid);
     if (clipeffect.isNull()) {
@@ -708,34 +708,34 @@ QDomElement TrackView::getEffectByTag(const QString &effecttag, const QString &e
 }
 
 
-QGraphicsScene *TrackView::projectScene()
+QGraphicsScene *Timeline::projectScene()
 {
     return m_scene;
 }
 
-CustomTrackView *TrackView::projectView()
+CustomTrackView *Timeline::projectView()
 {
     return m_trackview;
 }
 
-void TrackView::setEditMode(const QString & editMode)
+void Timeline::setEditMode(const QString & editMode)
 {
     m_editMode = editMode;
 }
 
-const QString & TrackView::editMode() const
+const QString & Timeline::editMode() const
 {
     return m_editMode;
 }
 
-void TrackView::slotChangeTrackLock(int ix, bool lock)
+void Timeline::slotChangeTrackLock(int ix, bool lock)
 {
     QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
     widgets.at(ix)->setLock(lock);
 }
 
 
-void TrackView::slotVerticalZoomDown()
+void Timeline::slotVerticalZoomDown()
 {
     if (m_verticalZoom == 0) return;
     m_verticalZoom--;
@@ -748,7 +748,7 @@ void TrackView::slotVerticalZoomDown()
     m_trackview->verticalScrollBar()->setValue(headers_area->verticalScrollBar()->value());
 }
 
-void TrackView::slotVerticalZoomUp()
+void Timeline::slotVerticalZoomUp()
 {
     if (m_verticalZoom == 2) return;
     m_verticalZoom++;
@@ -761,13 +761,13 @@ void TrackView::slotVerticalZoomUp()
     m_trackview->verticalScrollBar()->setValue(headers_area->verticalScrollBar()->value());
 }
 
-void TrackView::updateProjectFps()
+void Timeline::updateProjectFps()
 {
     m_ruler->updateProjectFps(m_doc->timecode());
     m_trackview->updateProjectFps();
 }
 
-void TrackView::slotRenameTrack(int ix, const QString &name)
+void Timeline::slotRenameTrack(int ix, const QString &name)
 {
     int tracknumber = m_doc->tracksCount() - ix;
     QList <TrackInfo> tracks = m_doc->tracksList();
@@ -777,25 +777,25 @@ void TrackView::slotRenameTrack(int ix, const QString &name)
     m_doc->setModified(true);
 }
 
-void TrackView::slotUpdateVerticalScroll(int /*min*/, int max)
+void Timeline::slotUpdateVerticalScroll(int /*min*/, int max)
 {
     int height = 0;
     if (max > 0) height = m_trackview->horizontalScrollBar()->height() - 1;
     headers_container->layout()->setContentsMargins(0, m_trackview->frameWidth(), 0, height);
 }
 
-void TrackView::updateRuler()
+void Timeline::updateRuler()
 {
     m_ruler->update();
 }
 
-void TrackView::slotShowTrackEffects(int ix)
+void Timeline::slotShowTrackEffects(int ix)
 {
     m_trackview->clearSelection();
     emit showTrackEffects(m_doc->tracksCount() - ix, m_doc->trackInfoAt(m_doc->tracksCount() - ix - 1));
 }
 
-void TrackView::slotUpdateTrackEffectState(int ix)
+void Timeline::slotUpdateTrackEffectState(int ix)
 {
     QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
     if (ix < 0 || ix >= widgets.count()) {
@@ -805,7 +805,7 @@ void TrackView::slotUpdateTrackEffectState(int ix)
     widgets.at(m_doc->tracksCount() - ix - 1)->updateEffectLabel(m_doc->trackInfoAt(ix).effectsList.effectNames());
 }
 
-void TrackView::slotSaveTimelinePreview(const QString &path)
+void Timeline::slotSaveTimelinePreview(const QString &path)
 {
     QImage img(width(), height(), QImage::Format_ARGB32_Premultiplied);
     img.fill(palette().base().color().rgb());
@@ -816,7 +816,7 @@ void TrackView::slotSaveTimelinePreview(const QString &path)
     img.save(path);
 }
 
-void TrackView::updateProfile()
+void Timeline::updateProfile()
 {
     m_ruler->updateFrameSize();
     m_trackview->updateSceneFrameWidth();
@@ -824,7 +824,7 @@ void TrackView::updateProfile()
     slotSetZone(m_doc->zone(), false);
 }
 
-void TrackView::checkTrackHeight()
+void Timeline::checkTrackHeight()
 {
     if (m_trackview->checkTrackHeight()) {
         m_doc->clipManager()->clearCache();
