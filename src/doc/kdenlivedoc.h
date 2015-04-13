@@ -55,6 +55,10 @@ class QUndoGroup;
 class QTimer;
 class QUndoStack;
 
+namespace Mlt {
+    class Profile;
+}
+
 class KdenliveDoc: public QObject
 {
     Q_OBJECT
@@ -70,7 +74,6 @@ public:
     KAutoSaveFile *m_autosave;
     Timecode timecode() const;
     QDomDocument toXml();
-    //void setRenderer(Render *render);
     QUndoStack *commandStack();
     Render *renderer();
     ClipManager *clipManager();
@@ -101,6 +104,7 @@ public:
     void setThumbsProgress(const QString &message, int progress);
     const QString &profilePath() const;
     MltVideoProfile mltProfile() const;
+    Mlt::Profile *profile();
     const QString description() const;
     void setUrl(const QUrl &url);
 

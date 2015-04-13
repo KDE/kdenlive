@@ -629,9 +629,8 @@ void EffectStackView2::deleteCurrentEffect()
     }
 }
 
-void EffectStackView2::updateProjectFormat(const MltVideoProfile &profile, const Timecode &t)
+void EffectStackView2::updateProjectFormat(const Timecode &t)
 {
-    m_effectMetaInfo.profile = profile;
     m_effectMetaInfo.timecode = t;
 }
 
@@ -780,7 +779,7 @@ void EffectStackView2::slotResetEffect(int ix)
             }
             emit updateEffect(NULL, m_trackindex, old, dom, ix,false);
         } else if (m_status == TIMELINE_CLIP) {
-            m_clipref->initEffect(dom);
+            m_clipref->initEffect(m_effectMetaInfo.monitor->profile(), dom);
             for (int i = 0; i < m_effects.count(); ++i) {
                 if (m_effects.at(i)->effectIndex() == ix) {
                     m_effects.at(i)->updateWidget(m_clipref->info(), dom, &m_effectMetaInfo);

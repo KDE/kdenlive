@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "clipcontroller.h"
 #include "bincontroller.h"
-#include "timeline/customtrackview.h"
+#include "mltcontroller/effectscontroller.h"
 #include "timeline/trackview.h"
 #include "renderer.h"
 
@@ -57,12 +57,6 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer& prod
         getInfoForProducer();
         rebuildEffectList();
     }
-    m_tracksTimer = new QTimer(this);
-    qDebug()<<"--------------\nTIMER BIN READY\n----------------------";
-    m_tracksTimer->setSingleShot(true);
-    m_tracksTimer->setInterval(200);
-    connect(m_tracksTimer, SIGNAL(timeout()), this, SLOT(slotRefreshTracks()));
-    connect(this, SIGNAL(refreshTracks()), m_tracksTimer, SLOT(start()));
 }
 
 ClipController::ClipController(BinController *bincontroller) : QObject()
@@ -76,12 +70,6 @@ ClipController::ClipController(BinController *bincontroller) : QObject()
 {
     m_masterProducer = NULL;
     m_effectList = EffectsList(true);
-    m_tracksTimer = new QTimer(this);
-    qDebug()<<"--------------\nTIMER BIN READY\n----------------------";
-    m_tracksTimer->setSingleShot(true);
-    m_tracksTimer->setInterval(200);
-    connect(m_tracksTimer, SIGNAL(timeout()), this, SLOT(slotRefreshTracks()));
-    connect(this, SIGNAL(refreshTracks()), m_tracksTimer, SLOT(start()));
 }
 
 ClipController::~ClipController()
@@ -584,15 +572,18 @@ Mlt::Properties &ClipController::properties()
 
 void ClipController::addEffect(QDomElement effect)
 {
+    QDomDocument doc = effect.ownerDocument();
     Mlt::Service service = m_masterProducer->parent();
     int ix = m_effectFreeIndex++;
     effect.setAttribute("kdenlive_ix", QString::number(ix));
-    EffectsParameterList params = CustomTrackView::getEffectArgs(effect);
-    //TODO Effects with keyframes should be initialized like in ClipItem::initEffect, or they will crash
+    ItemInfo info;
+    info.cropStart = GenTime();
+    info.cropDuration = getPlaytime();
+    EffectsController::initEffect(m_masterProducer->profile(), info, m_effectList, property("proxy"), effect);
+    EffectsParameterList params = EffectsController::getEffectArgs(m_masterProducer->profile(), effect);
     Render::addFilterToService(m_masterProducer->parent(), params, getPlaytime().frames(m_binController->fps()));
-    rebuildEffectList();
+    m_effectList.append(effect);
     m_binController->updateTrackProducer(clipId());
-    //slotRefreshTracks();
 }
 
 EffectsList ClipController::effectList()
@@ -631,7 +622,7 @@ void ClipController::changeEffectState(const QList <int> indexes, bool disable)
 
 void ClipController::updateEffect(const QDomElement &old, const QDomElement &e, int ix)
 {
-    EffectsParameterList params = CustomTrackView::getEffectArgs(e);
+    EffectsParameterList params = EffectsController::getEffectArgs(m_masterProducer->profile(), e);
     Mlt::Service service = m_masterProducer->parent();
     for (int i = 0; i < service.filter_count(); ++i) {
         Mlt::Filter *effect = service.filter(i);

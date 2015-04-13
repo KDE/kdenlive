@@ -23,6 +23,7 @@
 #include "glwidget.h"
 #include "smallruler.h"
 #include "mltcontroller/clipcontroller.h"
+#include "mltcontroller/bincontroller.h"
 #include "kdenlivesettings.h"
 #include "timeline/abstractclipitem.h"
 #include "twostateaction.h"
@@ -1345,5 +1346,10 @@ void Monitor::slotAdjustEffectCompare(double percent)
 {
     if (m_splitEffect) m_splitEffect->set("Clip left", percent);
     refreshMonitor();
+}
+
+Mlt::Profile *Monitor::profile()
+{
+    return m_monitorManager->binController()->profile();
 }
 

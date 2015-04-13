@@ -80,6 +80,7 @@ void BinController::destroyBin()
         m_binPlaylist = NULL;
     }
     // Controllers are deleted from the Bin's ProjectClip
+    qDeleteAll(m_clipList.values());
     m_clipList.clear();
 }
 
@@ -124,6 +125,7 @@ void BinController::initializeBin(Mlt::Playlist playlist)
             }
             else {
                 // Controller has not been created yet
+                qDebug()<<" + + + +LOADING NEW CTRL\n"<<id<<"\n-------";
                 ClipController *controller = new ClipController(this, producer->parent());
                 m_clipList.insert(id, controller);
             }

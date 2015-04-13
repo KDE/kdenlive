@@ -25,6 +25,10 @@
 class GeometryWidget;
 class Monitor;
 
+namespace Mlt {
+    class Profile;
+}
+
 enum EFFECTMODE {
         EMPTY = 0,
         TIMELINE_CLIP,
@@ -33,7 +37,6 @@ enum EFFECTMODE {
 };
 
 struct EffectMetaInfo {
-    MltVideoProfile profile;
     Timecode timecode;
     Monitor *monitor;
     QPoint frameSize;

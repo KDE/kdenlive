@@ -38,6 +38,7 @@
 #include "bin/bin.h"
 #include "bin/projectclip.h"
 #include "mltcontroller/bincontroller.h"
+#include "mltcontroller/effectscontroller.h"
 
 #include <KMessageBox>
 #include <KRecentDirs>
@@ -365,7 +366,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     
     // Something went wrong, or a new file was requested: create a new project
     if (!success) {
-        qDebug()<<" // / ERROR ON OPENING";
         m_url.clear();
         setProfilePath(profileName);
         m_document = createEmptyDocument(tracks.x(), tracks.y());
@@ -912,6 +912,11 @@ MltVideoProfile KdenliveDoc::mltProfile() const
     return m_profile;
 }
 
+Mlt::Profile *KdenliveDoc::profile()
+{
+    return pCore->binController()->profile();
+}
+
 bool KdenliveDoc::setProfilePath(QString path)
 {
     if (path.isEmpty())
@@ -989,20 +994,6 @@ QUndoStack *KdenliveDoc::commandStack()
 {
     return m_commandStack;
 }
-
-/*
-void KdenliveDoc::setRenderer(Render *render) {
-    if (m_render) return;
-    m_render = render;
-    emit progressInfo(i18n("Loading playlist..."), 0);
-    //qApp->processEvents();
-    if (m_render) {
-        m_render->setSceneList(m_document.toString(), m_startPos);
-        //qDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
-        checkProjectClips();
-    }
-    emit progressInfo(QString(), -1);
-}*/
 
 void KdenliveDoc::checkProjectClips(bool displayRatioChanged, bool fpsChanged)
 {
@@ -1524,7 +1515,7 @@ void KdenliveDoc::addTrackEffect(int ix, QDomElement effect)
 
         // Check if this effect has a variable parameter
         if (e.attribute("default").contains('%')) {
-            double evaluatedValue = ProfilesDialog::getStringEval(m_profile, e.attribute("default"));
+            double evaluatedValue = EffectsController::getStringEval(profile(), e.attribute("default"));
             e.setAttribute("default", evaluatedValue);
             if (e.hasAttribute("value") && e.attribute("value").startsWith('%')) {
                 e.setAttribute("value", evaluatedValue);

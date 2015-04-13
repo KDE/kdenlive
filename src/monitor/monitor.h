@@ -81,7 +81,8 @@ public:
     double fps() const;
     /** @brief Get url for the clip's thumbnail */
     QString getMarkerThumb(GenTime pos);
-
+    /** @brief Get the project's Mlt profile */
+    Mlt::Profile *profile();
     int getZoneStart();
     int getZoneEnd();
     void setUpEffectGeometry(QRect r, QVariantList list = QVariantList());

@@ -178,7 +178,6 @@ private:
     ClipType m_clipType;
     bool m_hasLimitedDuration;
     int m_effectFreeIndex;
-    QTimer *m_tracksTimer;
     BinController *m_binController;
     /** @brief A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
     QList < CommentedTime > m_snapMarkers;

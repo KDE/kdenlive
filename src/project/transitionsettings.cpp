@@ -77,7 +77,7 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
 void TransitionSettings::updateProjectFormat()
 {
     KdenliveDoc *project = pCore->projectManager()->current();
-    m_effectEdit->updateProjectFormat(project->mltProfile(), project->timecode());
+    m_effectEdit->updateProjectFormat(project->timecode());
     m_tracks = project->tracksList();
     updateTrackList();
 }

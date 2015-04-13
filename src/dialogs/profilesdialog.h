@@ -61,12 +61,6 @@ public:
      *  @return A string list of the matching profiles description */
     static QMap <QString, QString> getProfilesFromProperties(int width, int height, double fps, double par, bool useDisplayWidth = false);
 
-    /** @brief Returns an value from a string by replacing "%width" and "%height" with given profile values:
-     *  @param profile The profile that gives width & height
-     *  @param eval The string to be evaluated, for example: "%width / 2"
-     *  @return the evaluated value */
-    static double getStringEval(const MltVideoProfile &profile, QString eval, const QPoint &frameSize = QPoint());
-
     /** @brief Get the descriptive text for given colorspace code (defined by MLT)
      *  @param colorspace An int as defined in mlt_profile.h
      *  @return The string description */

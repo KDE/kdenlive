@@ -286,18 +286,6 @@ MltVideoProfile ProfilesDialog::getVideoProfile(const QString &name)
 }
 
 // static
-double ProfilesDialog::getStringEval(const MltVideoProfile &profile, QString eval, const QPoint& frameSize)
-{
-    QScriptEngine sEngine;
-    sEngine.globalObject().setProperty("maxWidth", profile.width > frameSize.x() ? profile.width : frameSize.x());
-    sEngine.globalObject().setProperty("maxHeight", profile.height > frameSize.y() ? profile.height : frameSize.y());
-    sEngine.globalObject().setProperty("width", profile.width);
-    sEngine.globalObject().setProperty("height", profile.height);
-    return sEngine.evaluate(eval.remove('%')).toNumber();
-}
-
-
-// static
 bool ProfilesDialog::existingProfileDescription(const QString &desc)
 {
     QStringList profilesFilter;

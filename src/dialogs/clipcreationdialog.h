@@ -30,23 +30,22 @@ class KdenliveDoc;
 class Bin;
 
 /**
- * @class ClipCreationDialog
- * @brief This class contains a list of static methods displaying widgets 
+ * @namespace ClipCreationDialog
+ * @brief This namespace contains a list of static methods displaying widgets 
  *  allowing creation of all clip types.
  */
 
-class ClipCreationDialog
+namespace ClipCreationDialog
 {
 
-public:
-    static QStringList getExtensions();
-    static void createColorClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
-    static void createSlideshowClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
-    static void createTitleClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin);
-    static void createTitleTemplateClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin);
-    static void createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, QStringList groupInfo, Bin *bin, const QMap <QString, QString> &data = QMap <QString, QString>());
-    static void createClipsCommand(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
-    static void addXmlProperties(QDomElement &producer, QMap <QString, QString> &properties);
+    QStringList getExtensions();
+    void createColorClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
+    void createSlideshowClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
+    void createTitleClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin);
+    void createTitleTemplateClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin);
+    void createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, QStringList groupInfo, Bin *bin, const QMap <QString, QString> &data = QMap <QString, QString>());
+    void createClipsCommand(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
+    void addXmlProperties(QDomElement &producer, QMap <QString, QString> &properties);
 };
 
 

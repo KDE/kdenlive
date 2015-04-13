@@ -26,9 +26,8 @@
 #include "renderer.h"
 #include "kdenlivesettings.h"
 #include "doc/kthumb.h"
-//#include "doc/docclipbase.h"
 #include "bin/projectclip.h"
-#include "dialogs/profilesdialog.h"
+#include "mltcontroller/effectscontroller.h"
 #include "onmonitoritems/rotoscoping/rotowidget.h"
 
 #include <QDebug>
@@ -229,127 +228,9 @@ int ClipItem::selectedEffectIndex() const
     return m_selectedEffect;
 }
 
-void ClipItem::initEffect(QDomElement effect, int diff, int offset)
+void ClipItem::initEffect(Mlt::Profile *profile, QDomElement effect, int diff, int offset)
 {
-    // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
-    // not be changed
-
-    if (effect.attribute("id") == "freeze" && diff > 0) {
-        EffectsList::setParameter(effect, "frame", QString::number(diff));
-    }
-
-    // Init parameter value & keyframes if required
-    QDomNodeList params = effect.elementsByTagName("parameter");
-    for (int i = 0; i < params.count(); ++i) {
-        QDomElement e = params.item(i).toElement();
-
-        if (e.isNull())
-            continue;
-
-        // Check if this effect has a variable parameter
-        if (e.attribute("default").contains('%')) {
-            double evaluatedValue = ProfilesDialog::getStringEval(projectScene()->profile(), e.attribute("default"));
-            e.setAttribute("default", evaluatedValue);
-            if (e.hasAttribute("value") && e.attribute("value").startsWith('%')) {
-                e.setAttribute("value", evaluatedValue);
-            }
-        }
-
-        if (effect.attribute("id") == "crop") {
-            // default use_profile to 1 for clips with proxies to avoid problems when rendering
-            if (e.attribute("name") == "use_profile" && !(m_binClip->getProducerProperty("proxy").isEmpty() || m_binClip->getProducerProperty("proxy") == "-"))
-                e.setAttribute("value", "1");
-        }
-
-        if (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") {
-            if (e.attribute("keyframes").isEmpty()) {
-                // Effect has a keyframe type parameter, we need to set the values
-                e.setAttribute("keyframes", QString::number((int) cropStart().frames(m_fps)) + '=' + e.attribute("default"));
-            }
-            else if (offset != 0) {
-                // adjust keyframes to this clip
-                QString adjusted = adjustKeyframes(e.attribute("keyframes"), offset - cropStart().frames(m_fps));
-                e.setAttribute("keyframes", adjusted);
-            }
-        }
-
-        if (e.attribute("type") == "geometry" && !e.hasAttribute("fixed")) {
-            // Effects with a geometry parameter need to sync in / out with parent clip
-            effect.setAttribute("in", QString::number((int) cropStart().frames(m_fps)));
-            effect.setAttribute("out", QString::number((int) (cropStart() + cropDuration()).frames(m_fps) - 1));
-            effect.setAttribute("_sync_in_out", "1");
-        }
-    }
-    if (effect.attribute("tag") == "volume" || effect.attribute("tag") == "brightness") {
-        if (effect.attribute("id") == "fadeout" || effect.attribute("id") == "fade_to_black") {
-            int end = (cropDuration() + cropStart()).frames(m_fps) - 1;
-            int start = end;
-            if (effect.attribute("id") == "fadeout") {
-                if (m_effectList.hasEffect(QString(), "fade_to_black") == -1) {
-                    int effectDuration = EffectsList::parameter(effect, "out").toInt() - EffectsList::parameter(effect, "in").toInt();
-                    if (effectDuration > cropDuration().frames(m_fps)) {
-                        effectDuration = cropDuration().frames(m_fps) / 2;
-                    }
-                    start -= effectDuration;
-                } else {
-                    QDomElement fadeout = m_effectList.getEffectByTag(QString(), "fade_to_black");
-                    start -= EffectsList::parameter(fadeout, "out").toInt() - EffectsList::parameter(fadeout, "in").toInt();
-                }
-            } else if (effect.attribute("id") == "fade_to_black") {
-                if (m_effectList.hasEffect(QString(), "fadeout") == -1) {
-                    int effectDuration = EffectsList::parameter(effect, "out").toInt() - EffectsList::parameter(effect, "in").toInt();
-                    if (effectDuration > cropDuration().frames(m_fps)) {
-                        effectDuration = cropDuration().frames(m_fps) / 2;
-                    }
-                    start -= effectDuration;
-                } else {
-                    QDomElement fadeout = m_effectList.getEffectByTag(QString(), "fadeout");
-                    start -= EffectsList::parameter(fadeout, "out").toInt() - EffectsList::parameter(fadeout, "in").toInt();
-                }
-            }
-            EffectsList::setParameter(effect, "in", QString::number(start));
-            EffectsList::setParameter(effect, "out", QString::number(end));
-        } else if (effect.attribute("id") == "fadein" || effect.attribute("id") == "fade_from_black") {
-            int start = cropStart().frames(m_fps);
-            int end = start;
-            if (effect.attribute("id") == "fadein") {
-                if (m_effectList.hasEffect(QString(), "fade_from_black") == -1) {
-                    int effectDuration = EffectsList::parameter(effect, "out").toInt();
-                    if (offset != 0) effectDuration -= offset;
-                    if (effectDuration > cropDuration().frames(m_fps)) {
-                        effectDuration = cropDuration().frames(m_fps) / 2;
-                    }
-                    end += effectDuration;
-                } else
-                    end += EffectsList::parameter(m_effectList.getEffectByTag(QString(), "fade_from_black"), "out").toInt() - offset;
-            } else if (effect.attribute("id") == "fade_from_black") {
-                if (m_effectList.hasEffect(QString(), "fadein") == -1) {
-                    int effectDuration = EffectsList::parameter(effect, "out").toInt();
-                    if (offset != 0) effectDuration -= offset;
-                    if (effectDuration > cropDuration().frames(m_fps)) {
-                        effectDuration = cropDuration().frames(m_fps) / 2;
-                    }
-                    end += effectDuration;
-                } else
-                    end += EffectsList::parameter(m_effectList.getEffectByTag(QString(), "fadein"), "out").toInt() - offset;
-            }
-            EffectsList::setParameter(effect, "in", QString::number(start));
-            EffectsList::setParameter(effect, "out", QString::number(end));
-        }
-    }
-}
-
-const QString ClipItem::adjustKeyframes(const QString &keyframes, int offset)
-{
-    QStringList result;
-    // Simple keyframes
-    const QStringList list = keyframes.split(QLatin1Char(';'), QString::SkipEmptyParts);
-    foreach(const QString &keyframe, list) {
-        const int pos = keyframe.section('=', 0, 0).toInt() - offset;
-        const QString newKey = QString::number(pos) + '=' + keyframe.section('=', 1);
-        result.append(newKey);
-    }
-    return result.join(";");
+    EffectsController::initEffect(profile, m_info, m_effectList, m_binClip->getProducerProperty("proxy"), effect, diff, offset);
 }
 
 bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int cutPos)
@@ -1556,7 +1437,7 @@ bool ClipItem::moveEffect(QDomElement effect, int ix)
     return true;
 }
 
-EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
+EffectsParameterList ClipItem::addEffect(Mlt::Profile *profile, QDomElement effect, bool /*animate*/)
 {
     bool needRepaint = false;
     QLocale locale;
@@ -1676,7 +1557,7 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
             } else {
                 double fact;
                 if (e.attribute("factor").contains('%')) {
-                    fact = ProfilesDialog::getStringEval(projectScene()->profile(), e.attribute("factor"));
+                    fact = EffectsController::getStringEval(profile, e.attribute("factor"));
                 } else {
                     fact = locale.toDouble(e.attribute("factor", "1"));
                 }

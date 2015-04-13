@@ -489,6 +489,15 @@ void Bin::setDocument(KdenliveDoc* project)
     m_monitor->openClip(NULL);
     closeEditing();
     setEnabled(false);
+
+    // Cleanup previous project
+    if (m_rootFolder) {
+        while (!m_rootFolder->isEmpty()) {
+            AbstractProjectItem *child = m_rootFolder->at(0);
+            m_rootFolder->removeChild(child);
+            delete child;
+        }
+    }
     delete m_rootFolder;
     delete m_itemView;
     m_itemView = NULL;

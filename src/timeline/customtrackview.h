@@ -206,10 +206,7 @@ public:
     
     /** @brief Returns frame number of current mouse position. */
     int getMousePos() const;
-    
-    /** @brief Get effect parameters ready for MLT*/
-    static void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, MltVideoProfile profile = MltVideoProfile(), const QString &prefix = QString());
-    
+
     void completeSpaceOperation(int track, GenTime &timeOffset);
     void spaceToolMoveToSnapPos(double snappedPos);
     void createRectangleSelection(QMouseEvent * event);
@@ -221,8 +218,6 @@ public:
     void resetSelectionGroup(bool selectItems = true);
     /** @brief Returns all infos necessary to save guides. */
     QMap <double, QString> guidesData() const;
-    /** @brief Gets the effect parameters that will be passed to Mlt. */
-    static EffectsParameterList getEffectArgs(const QDomElement &effect);
 
 public slots:
     /** @brief Send seek request to MLT. */

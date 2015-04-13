@@ -53,6 +53,11 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement
 
 AbstractProjectItem::~AbstractProjectItem()
 {
+    while (!isEmpty()) {
+        AbstractProjectItem *child = takeFirst();
+        removeChild(child);
+        delete child;
+    }
 }
 
 bool AbstractProjectItem::operator==(const AbstractProjectItem* projectItem) const
@@ -86,7 +91,7 @@ void AbstractProjectItem::setParent(AbstractProjectItem* parent)
             /*if (bin()) {
                 bin()->setCurrentItem(NULL);
             }*/
-        }        
+        }
         m_parent = parent;
         QObject::setParent(m_parent);
     }

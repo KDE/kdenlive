@@ -38,7 +38,8 @@ class ProjectClip;
 
 namespace Mlt
 {
-class Producer;
+    class Producer;
+    class Profile;
 }
 
 class ClipItem : public AbstractClipItem
@@ -76,7 +77,7 @@ public:
 
     /** @brief Adds an effect to the clip.
     * @return The parameters that will be passed to Mlt */
-    EffectsParameterList addEffect(QDomElement effect, bool animate = true);
+    EffectsParameterList addEffect(Mlt::Profile *profile, QDomElement effect, bool animate = true);
 
     /** @brief Deletes the effect with id @param index. */
     void deleteEffect(const QString &index);
@@ -135,8 +136,7 @@ public:
     void updateKeyframeEffect();
     QDomElement selectedEffect();
     int selectedEffectIndex() const;
-    
-    void initEffect(QDomElement effect, int diff = 0, int offset = 0);
+    void initEffect(Mlt::Profile *profile, QDomElement effect, int diff = 0, int offset = 0);
 
     /** @brief Gets all keyframes.
     * @param index Index of the effect
@@ -161,8 +161,6 @@ public:
     const ItemInfo speedIndependantInfo() const;
     int hasEffect(const QString &tag, const QString &id) const;
 
-    /** @brief Adjust keyframes to the new clip. */
-    const QString adjustKeyframes(const QString &keyframes, int offset);
     /** @brief Makes sure all keyframes are in the clip's cropped duration.
      * @param cutPos the frame number where the new clip starts
     * @return Whether or not changes were made */

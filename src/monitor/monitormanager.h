@@ -29,6 +29,10 @@
 class KdenliveDoc;
 class BinController;
 
+namespace Mlt {
+    class Profile;
+}
+
 class MonitorManager : public QObject
 {
     Q_OBJECT
@@ -55,6 +59,7 @@ public:
     /** @brief Change an MLT consumer property for both monitors. */
     void setConsumerProperty(const QString &name, const QString &value);
     BinController *binController();
+    Mlt::Profile *profile();
 
     Monitor *clipMonitor();
     Monitor *projectMonitor();

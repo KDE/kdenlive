@@ -24,6 +24,7 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "doc/kdenlivedoc.h"
+#include "mltcontroller/bincontroller.h"
 
 #include <mlt++/Mlt.h>
 
@@ -290,6 +291,11 @@ QString MonitorManager::getProjectFolder() const
 BinController *MonitorManager::binController()
 {
     return pCore->binController();
+}
+
+Mlt::Profile *MonitorManager::profile()
+{
+    return pCore->binController()->profile();
 }
 
 void MonitorManager::setupActions()

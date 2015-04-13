@@ -34,12 +34,16 @@ class GraphicsSceneRectMove;
 class QGraphicsRectItem;
 class QGraphicsView;
 
+namespace Mlt {
+    class Profile;
+}
+
 
 class Geometryval : public QWidget, public Ui::Geometryval
 {
     Q_OBJECT
 public:
-    explicit Geometryval(const MltVideoProfile &profile, const Timecode &t, const QPoint &frame_size, int startPoint = 0, QWidget* parent = 0);
+    explicit Geometryval(const Mlt::Profile *profile, const Timecode &t, const QPoint &frame_size, int startPoint = 0, QWidget* parent = 0);
     virtual ~Geometryval();
     QDomElement getParamDesc();
     QString getValue() const;
@@ -49,7 +53,7 @@ public:
     void slotUpdateRange(int inPoint, int outPoint);
 
 private:
-    MltVideoProfile m_profile;
+    const Mlt::Profile *m_profile;
     int m_realWidth;
     GraphicsSceneRectMove *m_scene;
     QGraphicsRectItem *m_paramRect;

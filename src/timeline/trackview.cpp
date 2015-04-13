@@ -32,7 +32,7 @@
 #include "doc/kdenlivedoc.h"
 #include "project/clipmanager.h"
 #include "effectslist/initeffects.h"
-#include "dialogs/profilesdialog.h"
+#include "mltcontroller/effectscontroller.h"
 
 #include <QScrollBar>
 #include <QLocale>
@@ -113,7 +113,6 @@ TrackView::TrackView(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok
 
     if (m_doc->setSceneList() == -1) *ok = false;
     else *ok = true;
-    
 
     //TODO: loading the timeline clips should be done directly from MLT's track playlist and not by reading xml
     parseDocument(m_doc->toXml());
@@ -298,7 +297,7 @@ void TrackView::adjustDouble(QDomElement &e, double value) {
     QString factor = e.attribute("factor", "1");
     double offset = e.attribute("offset", "0").toDouble();
     double fact = 1;
-    if (factor.contains('%')) fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+    if (factor.contains('%')) fact = EffectsController::getStringEval(m_doc->profile(), factor);
     else fact = factor.toDouble();
 
     QLocale locale;
@@ -555,7 +554,7 @@ int TrackView::addTrack(int ix, Mlt::Playlist &playlist, bool locked) {
             QDomElement speedeffect = MainWindow::videoEffects.getEffectByTag(QString(), "speed").cloneNode().toElement();
             EffectsList::setParameter(speedeffect, "speed", QString::number((int)(100 * speed + 0.5)));
             EffectsList::setParameter(speedeffect, "strobe", QString::number(strobe));
-            item->addEffect(speedeffect, false);
+            item->addEffect(m_doc->profile(), speedeffect, false);
             item->effectsCounter();
         }
         // parse clip effects
@@ -611,7 +610,7 @@ void TrackView::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
         if (QString(effect->get("tag")) == "region") getSubfilters(effect, currenteffect);
 
         if (clip) {
-            clip->addEffect(currenteffect, false);
+            clip->addEffect(m_doc->profile(), currenteffect, false);
         } else {
             m_doc->addTrackEffect(track, currenteffect);
         }
@@ -623,7 +622,7 @@ QString TrackView::getKeyframes(Mlt::Service service, int &ix, QDomElement e) {
     QString endtag = e.attribute("endtag", "end");
     double fact, offset = e.attribute("offset", "0").toDouble();
     QString factor = e.attribute("factor", "1");
-    if (factor.contains('%')) fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+    if (factor.contains('%')) fact = EffectsController::getStringEval(m_doc->profile(), factor);
     else fact = factor.toDouble();
     // retrieve keyframes
     QLocale locale;
@@ -675,7 +674,7 @@ void TrackView::setParam(QDomElement param, QString value) {
     double fact;
     QString factor = param.attribute("factor", "1");
     if (factor.contains('%')) {
-        fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+        fact = EffectsController::getStringEval(m_doc->profile(), factor);
     } else {
         fact = factor.toDouble();
     }

@@ -35,9 +35,8 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "colortools.h"
-#include "dialogs/profilesdialog.h"
 #include "dialogs/clipcreationdialog.h"
-#include "timeline/customtrackview.h"
+#include "mltcontroller/effectscontroller.h"
 #include "onmonitoritems/rotoscoping/rotowidget.h"
 
 #include "ui_listval_ui.h"
@@ -152,11 +151,11 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             double min;
             double max;
             if (pa.attribute("min").contains('%'))
-                min = ProfilesDialog::getStringEval(m_metaInfo->profile, pa.attribute("min"), m_metaInfo->frameSize);
+                min = EffectsController::getStringEval(m_metaInfo->monitor->profile(), pa.attribute("min"), m_metaInfo->frameSize);
             else
                 min = pa.attribute("min").toDouble();
             if (pa.attribute("max").contains('%'))
-                max = ProfilesDialog::getStringEval(m_metaInfo->profile, pa.attribute("max"), m_metaInfo->frameSize);
+                max = EffectsController::getStringEval(m_metaInfo->monitor->profile(), pa.attribute("max"), m_metaInfo->frameSize);
             else
                 max = pa.attribute("max").toDouble();
 
@@ -244,7 +243,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
 		connect(m_geometryWidget, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
                 connect(this, SIGNAL(syncEffectsPos(int)), m_geometryWidget, SLOT(slotSyncPosition(int)));
             } else {
-                Geometryval *geo = new Geometryval(m_metaInfo->profile, m_metaInfo->timecode, m_metaInfo->frameSize, 0);
+                Geometryval *geo = new Geometryval(m_metaInfo->monitor->profile(), m_metaInfo->timecode, m_metaInfo->frameSize, 0);
                 if (minFrame == maxFrame) {
                     geo->setupParam(pa, m_in, m_out);
 		    connect(this, SIGNAL(updateRange(int,int)), geo, SLOT(slotUpdateRange(int,int)));
@@ -856,7 +855,7 @@ void ParameterContainer::slotStartFilterJobAction()
 		// Replace with current geometry
 		EffectsParameterList parameters;
 		QDomNodeList params = m_effect.elementsByTagName("parameter");
-		CustomTrackView::adjustEffectParameters(parameters, params, m_metaInfo->profile);
+		EffectsController::adjustEffectParameters(parameters, params, m_metaInfo->monitor->profile());
 		QString paramData;
 		for (int j = 0; j < parameters.count(); ++j) {
 		    filterParams.insert(parameters.at(j).name(), parameters.at(j).value());

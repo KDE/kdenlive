@@ -316,5 +316,3 @@ void ProjectItemModel::onItemUpdated(AbstractProjectItem* item)
     }
     emit dataChanged(parentIndex, parentIndex);
 }
-
-
