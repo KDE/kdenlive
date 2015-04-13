@@ -220,12 +220,9 @@ class Render: public AbstractRender
     /** @brief Returns the duration/length of @param track as reported by the track producer. */
     int mltTrackDuration(int track);
 
-    bool mltResizeClipEnd(ItemInfo info, GenTime clipDuration, bool refresh = true);
-    bool mltResizeClipStart(ItemInfo info, GenTime diff);
     bool mltResizeClipCrop(ItemInfo info, GenTime newCropStart);
     bool mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart, const QString &clipId, bool overwrite = false, bool insert = false);
     bool mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEnd, const QString &clipId, bool overwrite = false, bool insert = false);
-    bool mltRemoveClip(int track, GenTime position);
 
     /** @brief Deletes an effect from a clip in MLT's playlist. */
     bool mltRemoveEffect(int track, GenTime position, int index, bool updateIndex, bool doRefresh = true);

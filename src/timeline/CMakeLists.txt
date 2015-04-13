@@ -11,10 +11,11 @@ set(kdenlive_SRCS
   timeline/headertrack.cpp
   timeline/markerdialog.cpp
   timeline/spacerdialog.cpp
+  timeline/timeline.cpp
   timeline/timelinecommands.cpp
+  timeline/track.cpp
   timeline/trackdialog.cpp
   timeline/tracksconfigdialog.cpp
-  timeline/timeline.cpp
   timeline/transition.cpp
   timeline/timelinesearch.cpp
   PARENT_SCOPE)

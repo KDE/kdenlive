@@ -37,6 +37,7 @@
 
 #include <mlt++/Mlt.h>
 
+class Track;
 class ClipItem;
 class CustomTrackView;
 class KdenliveDoc;
@@ -51,6 +52,7 @@ class Timeline : public QWidget, public Ui::TimeLine_UI
 public:
     explicit Timeline(KdenliveDoc *doc, const QList <QAction *>& actions, bool *ok, QWidget *parent = 0);
     virtual ~ Timeline();
+    Track* track(int i);
     void setEditMode(const QString & editMode);
     const QString & editMode() const;
     QGraphicsScene *projectScene();
@@ -94,11 +96,13 @@ public slots:
     void slotSaveTimelinePreview(const QString &path);
 
 private:
+    Mlt::Tractor *m_tractor;
+    QList<Track*> m_tracks;
+    int m_projectTracks;
     CustomRuler *m_ruler;
     CustomTrackView *m_trackview;
     QList <QString> m_invalidProducers;
     double m_scale;
-    int m_projectTracks;
     QString m_editMode;
     CustomTrackScene *m_scene;
     /** @brief A list of producer ids to be replaced when opening a corrupted document*/
@@ -112,13 +116,13 @@ private:
     void adjustTrackHeaders();
 
     void parseDocument(const QDomDocument &doc);
-    int getTracks(Mlt::Tractor &tractor);
+    int getTracks();
     int addTrack(int ix, Mlt::Playlist &playlist, bool locked);
     void getEffects(Mlt::Service &service, ClipItem *clip, int track = 0);
     QString getKeyframes(Mlt::Service service, int &ix, QDomElement e);
     void getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect);
     void setParam(QDomElement param, QString value);
-    void getTransitions(Mlt::Tractor &tractor);
+    void getTransitions();
     bool isSlide(QString geometry);
     void adjustDouble(QDomElement &e, double value);
 

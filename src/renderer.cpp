@@ -2477,45 +2477,6 @@ bool Render::mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement ele
     return true;
 }
 
-
-bool Render::mltRemoveClip(int track, GenTime position)
-{
-    m_refreshTimer.stop();
-
-    Mlt::Service service(m_mltProducer->parent().get_service());
-    if (service.type() != tractor_type) {
-        qWarning() << "// TRACTOR PROBLEM";
-        return false;
-    }
-    service.lock();
-    Mlt::Tractor tractor(service);
-    Mlt::Producer trackProducer(tractor.track(track));
-    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-    int clipIndex = trackPlaylist.get_clip_index_at((int) position.frames(m_fps));
-
-    if (trackPlaylist.is_blank(clipIndex)) {
-        //qDebug() << "// WARNING, TRYING TO REMOVE A BLANK: " << position.frames(m_fps);
-        service.unlock();
-        return false;
-    }
-    Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
-    if (clip) delete clip;
-    trackPlaylist.consolidate_blanks(0);
-
-    /* // Display playlist info
-    //qDebug()<<"////  AFTER";
-    for (int i = 0; i < trackPlaylist.count(); ++i) {
-    int blankStart = trackPlaylist.clip_start(i);
-    int blankDuration = trackPlaylist.clip_length(i) - 1;
-    QString blk;
-    if (trackPlaylist.is_blank(i)) blk = "(blank)";
-    //qDebug()<<"CLIP "<<i<<": ("<<blankStart<<'x'<<blankStart + blankDuration<<")"<<blk;
-    }*/
-    service.unlock();
-    if (track != 0 && trackPlaylist.count() <= clipIndex) mltCheckLength(&tractor);
-    return true;
-}
-
 int Render::mltGetSpaceLength(const GenTime &pos, int track, bool fromBlankStart)
 {
     if (!m_mltProducer) {
@@ -3582,79 +3543,6 @@ void Render::mltMoveTrackEffect(int track, int oldPos, int newPos)
     refresh();
 }
 
-bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration, bool refresh)
-{
-    Mlt::Service service(m_mltProducer->parent().get_service());
-    Mlt::Tractor tractor(service);
-    Mlt::Producer trackProducer(tractor.track(info.track));
-    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-
-    /* // Display playlist info
-    //qDebug()<<"////////////  BEFORE RESIZE";
-    for (int i = 0; i < trackPlaylist.count(); ++i) {
-    int blankStart = trackPlaylist.clip_start(i);
-    int blankDuration = trackPlaylist.clip_length(i) - 1;
-    QString blk;
-    if (trackPlaylist.is_blank(i)) blk = "(blank)";
-    //qDebug()<<"CLIP "<<i<<": ("<<blankStart<<'x'<<blankStart + blankDuration<<")"<<blk;
-    }*/
-
-    if (trackPlaylist.is_blank_at((int) info.startPos.frames(m_fps))) {
-        //qDebug() << "////////  ERROR RSIZING BLANK CLIP!!!!!!!!!!!";
-        return false;
-    }
-    service.lock();
-    int clipIndex = trackPlaylist.get_clip_index_at((int) info.startPos.frames(m_fps));
-    ////qDebug() << "// SELECTED CLIP START: " << trackPlaylist.clip_start(clipIndex);
-    Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
-
-    int previousStart = clip->get_in();
-    int newDuration = (int) clipDuration.frames(m_fps) - 1;
-    int diff = newDuration - (trackPlaylist.clip_length(clipIndex) - 1);
-
-    int currentOut = newDuration + previousStart;
-    if (currentOut > clip->get_length()) {
-        clip->parent().set("length", currentOut + 1);
-        clip->parent().set("out", currentOut);
-        clip->set("length", currentOut + 1);
-    }
-
-    /*if (newDuration > clip->get_out()) {
-        clip->parent().set_in_and_out(0, newDuration + 1);
-        clip->set_in_and_out(0, newDuration + 1);
-    }*/
-    delete clip;
-    trackPlaylist.resize_clip(clipIndex, previousStart, newDuration + previousStart);
-    trackPlaylist.consolidate_blanks(0);
-    // skip to next clip
-    clipIndex++;
-    ////qDebug() << "////////  RESIZE CLIP: " << clipIndex << "( pos: " << info.startPos.frames(25) << "), DIFF: " << diff << ", CURRENT DUR: " << previousDuration << ", NEW DUR: " << newDuration << ", IX: " << clipIndex << ", MAX: " << trackPlaylist.count();
-    if (diff > 0) {
-        // clip was made longer, trim next blank if there is one.
-        if (clipIndex < trackPlaylist.count()) {
-            // If this is not the last clip in playlist
-            if (trackPlaylist.is_blank(clipIndex)) {
-                int blankStart = trackPlaylist.clip_start(clipIndex);
-                int blankDuration = trackPlaylist.clip_length(clipIndex);
-                if (diff > blankDuration) {
-                    //qDebug() << "// ERROR blank clip is not large enough to get back required space!!!";
-                }
-                if (diff - blankDuration == 0) {
-                    trackPlaylist.remove(clipIndex);
-                } else trackPlaylist.remove_region(blankStart, diff);
-            } else {
-                //qDebug() << "/// RESIZE ERROR, NXT CLIP IS NOT BLK: " << clipIndex;
-            }
-        }
-    } else if (clipIndex != trackPlaylist.count()) trackPlaylist.insert_blank(clipIndex, 0 - diff - 1);
-    trackPlaylist.consolidate_blanks(0);
-    service.unlock();
-
-    if (info.track != 0 && clipIndex == trackPlaylist.count()) mltCheckLength(&tractor);
-    if (refresh) m_mltConsumer->set("refresh", 1);
-    return true;
-}
-
 void Render::mltChangeTrackState(int track, const QString &name, bool mute, bool blind)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
@@ -3770,68 +3658,6 @@ bool Render::mltResizeClipCrop(ItemInfo info, GenTime newCropStart)
     }
     int frameOffset = newCropFrame - previousStart;
     trackPlaylist.resize_clip(clipIndex, newCropFrame, previousOut + frameOffset);
-    service.unlock();
-    m_mltConsumer->set("refresh", 1);
-    return true;
-}
-
-bool Render::mltResizeClipStart(ItemInfo info, GenTime diff)
-{
-    ////qDebug() << "////////  RSIZING CLIP from: "<<info.startPos.frames(25)<<" to "<<diff.frames(25);
-    Mlt::Service service(m_mltProducer->parent().get_service());
-    int moveFrame = (int) diff.frames(m_fps);
-    Mlt::Tractor tractor(service);
-    Mlt::Producer trackProducer(tractor.track(info.track));
-    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-    if (trackPlaylist.is_blank_at(info.startPos.frames(m_fps))) {
-        //qDebug() << "////////  ERROR RSIZING BLANK CLIP!!!!!!!!!!!";
-        return false;
-    }
-    service.lock();
-    int clipIndex = trackPlaylist.get_clip_index_at(info.startPos.frames(m_fps));
-    Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
-    if (clip == NULL || clip->is_blank()) {
-        //qDebug() << "////////  ERROR RSIZING NULL CLIP!!!!!!!!!!!";
-        service.unlock();
-        return false;
-    }
-    int previousStart = clip->get_in();
-    int previousOut = clip->get_out();
-
-    previousStart += moveFrame;
-
-    if (previousStart < 0) {
-        // this is possible for images and color clips
-        previousOut -= previousStart;
-        previousStart = 0;
-    }
-
-    int length = previousOut + 1;
-    if (length > clip->get_length()) {
-        clip->parent().set("length", length + 1);
-        clip->parent().set("out", length);
-        clip->set("length", length + 1);
-    }
-    delete clip;
-
-    // //qDebug() << "RESIZE, new start: " << previousStart << ", " << previousOut;
-    trackPlaylist.resize_clip(clipIndex, previousStart, previousOut);
-    if (moveFrame > 0) {
-        trackPlaylist.insert_blank(clipIndex, moveFrame - 1);
-    } else {
-        //int midpos = info.startPos.frames(m_fps) + moveFrame - 1;
-        int blankIndex = clipIndex - 1;
-        int blankLength = trackPlaylist.clip_length(blankIndex);
-        // //qDebug() << " + resizing blank length " <<  blankLength << ", SIZE DIFF: " << moveFrame;
-        if (! trackPlaylist.is_blank(blankIndex)) {
-            //qDebug() << "WARNING, CLIP TO RESIZE IS NOT BLANK";
-        }
-        if (blankLength + moveFrame == 0)
-            trackPlaylist.remove(blankIndex);
-        else
-            trackPlaylist.resize_clip(blankIndex, 0, blankLength + moveFrame - 1);
-    }
-    trackPlaylist.consolidate_blanks(0);
     service.unlock();
     m_mltConsumer->set("refresh", 1);
     return true;

@@ -37,6 +37,7 @@
 #include "effectslist/effectslist.h"
 #include "timeline/customtrackscene.h"
 
+class Timeline;
 class ClipController;
 class ClipItem;
 class AbstractClipItem;
@@ -49,7 +50,7 @@ class CustomTrackView : public QGraphicsView
     Q_OBJECT
 
 public:
-    CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscene, QWidget *parent = 0);
+    CustomTrackView(KdenliveDoc *doc, Timeline* timeline, CustomTrackScene* projectscene, QWidget *parent = 0);
     virtual ~ CustomTrackView();
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseReleaseEvent(QMouseEvent * event);
@@ -323,6 +324,7 @@ private:
     int m_projectDuration;
     int m_cursorPos;
     KdenliveDoc *m_document;
+    Timeline *m_timeline;
     CustomTrackScene *m_scene;
     QGraphicsLineItem *m_cursorLine;
     ItemInfo m_dragItemInfo;

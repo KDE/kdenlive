@@ -19,6 +19,8 @@
 
 
 #include "customtrackview.h"
+#include "timeline.h"
+#include "track.h"
 #include "clipitem.h"
 #include "timelinecommands.h"
 #include "transition.h"
@@ -70,8 +72,9 @@ bool sortGuidesList(const Guide *g1 , const Guide *g2)
     return (*g1).position() < (*g2).position();
 }
 
-CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscene, QWidget *parent) :
+CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTrackScene* projectscene, QWidget *parent) :
     QGraphicsView(projectscene, parent)
+  , m_timeline(timeline)
   , m_tracksHeight(KdenliveSettings::trackheight())
   , m_projectDuration(0)
   , m_cursorPos(0)
@@ -164,6 +167,10 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
 
     QIcon spacerIcon = QIcon::fromTheme("kdenlive-spacer-tool");
     m_spacerCursor = QCursor(spacerIcon.pixmap(32, 32));
+
+    scale(1, 1);
+    setAlignment(Qt::AlignLeft | Qt::AlignTop);
+
 }
 
 CustomTrackView::~CustomTrackView()
@@ -2478,7 +2485,7 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
             m_blockRefresh = false;
             return NULL;
         }
-        if (m_document->renderer()->mltRemoveClip(m_document->tracksCount() - info.track, cutTime) == false) {
+        if (!m_timeline->track(info.track)->del(cutTime.seconds())) {
             emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(cutTime.frames(m_document->fps())), info.track), ErrorMessage);
             return NULL;
         }
@@ -2501,8 +2508,7 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         dup = NULL;
 
         ItemInfo clipinfo = item->info();
-        clipinfo.track = m_document->tracksCount() - clipinfo.track;
-        bool success = m_document->renderer()->mltResizeClipEnd(clipinfo, info.endPos - info.startPos, false);
+        bool success = m_timeline->track(clipinfo.track)->resize(clipinfo.startPos.seconds(), (info.endPos - info.startPos).seconds(), true);
         if (success) {
             item->resizeEnd((int) info.endPos.frames(m_document->fps()));
             item->setEffectList(oldStack);
@@ -2772,10 +2778,10 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             if (isLocked) item->setItemLocked(true);
             ItemInfo clipInfo = info;
             clipInfo.track = m_document->tracksCount() - item->track();
-	    QString clipBinId = item->getBinId();
+            QString clipBinId = item->getBinId();
             //int worked = m_document->renderer()->mltInsertClip(clipInfo, item->xml(), item->baseClip()->getProducer(item->track()), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
             qDebug()<<" / / /INSERTINV CLP: "<<clipBinId<<" / "<<clipInfo.startPos.frames(25)<<"-"<<clipInfo.cropDuration.frames(25);
-	    int worked = m_document->renderer()->mltInsertClip(clipInfo /*, item->xml()*/, clipBinId, m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
+            int worked = m_document->renderer()->mltInsertClip(clipInfo /*, item->xml()*/, clipBinId, m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
             if (worked == -1) {
                 emit displayMessage(i18n("Cannot insert clip in timeline"), ErrorMessage);
                 brokenClips.append(item);
@@ -3927,8 +3933,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
                     ItemInfo info = item->info();
                     if (item->type() == AVWidget) {
-                        if (m_document->renderer()->mltRemoveClip(m_document->tracksCount() - info.track, info.startPos) == false) {
-                            // error, clip cannot be removed from playlist
+                        if (! m_timeline->track(info.track)->del(info.startPos.seconds())) {
                             emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps())), info.track), ErrorMessage);
                         } else {
                             clipsToMove.append(info);
@@ -4190,10 +4195,8 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
     m_ct++;
     if (!item) qDebug()<<"// PROBLEM FINDING CLIP ITEM TO REMOVVE!!!!!!!!!";
     //m_document->renderer()->saveSceneList(QString("/tmp/error%1.mlt").arg(m_ct), QDomElement());
-    if (!item || m_document->renderer()->mltRemoveClip(m_document->tracksCount() - info.track, info.startPos) == false) {
+    if (!item || !m_timeline->track(info.track)->del(info.startPos.seconds())) {
         emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps())), info.track), ErrorMessage);
-        //qDebug()<<"CANNOT REMOVE: "<<info.startPos.frames(m_document->fps())<<", TK: "<<info.track;
-        //m_document->renderer()->saveSceneList(QString("/tmp/error%1.mlt").arg(m_ct), QDomElement());
         return;
     }
     m_waitingThumbs.removeAll(item);
@@ -4784,7 +4787,7 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
             } else {
                 m_selectionGroup->addItem(clip);
             }
-            m_document->renderer()->mltRemoveClip(m_document->tracksCount() - startClip.at(i).track, startClip.at(i).startPos);
+            m_timeline->track(startClip.at(i).track)->del(startClip.at(i).startPos.seconds());
         } else qDebug() << "//MISSING CLIP AT: " << startClip.at(i).startPos.frames(25);
     }
     for (int i = 0; i < startTransition.count(); ++i) {
@@ -4943,24 +4946,13 @@ void CustomTrackView::resizeClip(const ItemInfo &start, const ItemInfo &end, boo
     bool snap = KdenliveSettings::snaptopoints();
     KdenliveSettings::setSnaptopoints(false);
 
-    if (resizeClipStart) {
-        ItemInfo clipinfo = item->info();
-        clipinfo.track = m_document->tracksCount() - clipinfo.track;
-        bool success = m_document->renderer()->mltResizeClipStart(clipinfo, end.startPos - clipinfo.startPos);
-        if (success) {
+    if (resizeClipStart)
+        if (m_timeline->track(start.track)->resize(start.startPos.seconds(), (end.startPos - start.startPos).seconds(), false))
             item->resizeStart((int) end.startPos.frames(m_document->fps()));
-        }
-        else
-            emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
-    } else {
-        ItemInfo clipinfo = item->info();
-        clipinfo.track = m_document->tracksCount() - clipinfo.track;
-        bool success = m_document->renderer()->mltResizeClipEnd(clipinfo, end.endPos - clipinfo.startPos);
-        if (success)
+    else
+        if (m_timeline->track(start.track)->resize(start.startPos.seconds(), (end.endPos - start.endPos).seconds(), true))
             item->resizeEnd((int) end.endPos.frames(m_document->fps()));
-        else
-            emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
-    }
+
     if (!resizeClipStart && end.cropStart != start.cropStart) {
         //qDebug() << "// RESIZE CROP, DIFF: " << (end.cropStart - start.cropStart).frames(25);
         ItemInfo clipinfo = end;
@@ -5007,9 +4999,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
 
     ItemInfo info = item->info();
     if (item->type() == AVWidget) {
-        ItemInfo resizeinfo = oldInfo;
-        resizeinfo.track = m_document->tracksCount() - resizeinfo.track;
-        bool success = m_document->renderer()->mltResizeClipStart(resizeinfo, item->startPos() - oldInfo.startPos);
+        bool success = m_timeline->track(oldInfo.track)->resize(oldInfo.startPos.seconds(), (item->startPos() - oldInfo.startPos).seconds(), false);
         if (success) {
             // Check if there is an automatic transition on that clip (lower track)
             Transition *transition = getTransitionItemAtStart(oldInfo.startPos, oldInfo.track);
@@ -5100,9 +5090,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
     ItemInfo info = item->info();
     if (item->type() == AVWidget) {
         if (!hasParentCommand) command->setText(i18n("Resize clip end"));
-        ItemInfo resizeinfo = info;
-        resizeinfo.track = m_document->tracksCount() - resizeinfo.track;
-        bool success = m_document->renderer()->mltResizeClipEnd(resizeinfo, resizeinfo.cropDuration);
+        bool success = m_timeline->track(info.track)->resize(oldInfo.startPos.seconds(), (info.endPos - oldInfo.endPos).seconds(), true);
         if (success) {
             // Check if there is an automatic transition on that clip (lower track)
             Transition *tr = getTransitionItemAtEnd(oldInfo.endPos, oldInfo.track);

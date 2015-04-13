@@ -20,6 +20,7 @@
 
 
 #include "timeline.h"
+#include "track.h"
 #include "headertrack.h"
 #include "clipitem.h"
 #include "transition.h"
@@ -54,9 +55,7 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
     //    ruler_frame->setMaximumHeight();
     //    size_frame->setMaximumHeight();
     m_scene = new CustomTrackScene(doc);
-    m_trackview = new CustomTrackView(doc, m_scene, parent);
-    m_trackview->scale(1, 1);
-    m_trackview->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    m_trackview = new CustomTrackView(doc, this, m_scene, parent);
 
     m_ruler = new CustomRuler(doc->timecode(), m_trackview);
     connect(m_ruler, SIGNAL(zoneMoved(int,int)), this, SIGNAL(zoneMoved(int,int)));
@@ -114,8 +113,10 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
     if (m_doc->setSceneList() == -1) *ok = false;
     else *ok = true;
 
-    //TODO: loading the timeline clips should be done directly from MLT's track playlist and not by reading xml
+    Mlt::Service s(m_doc->renderer()->getProducer()->parent().get_service());
+    m_tractor = new Mlt::Tractor(s);
     parseDocument(m_doc->toXml());
+
     connect(m_trackview, SIGNAL(cursorMoved(int,int)), m_ruler, SLOT(slotCursorMoved(int,int)));
     connect(m_trackview, SIGNAL(updateRuler()), m_ruler, SLOT(updateRuler()));
 
@@ -133,6 +134,12 @@ Timeline::~Timeline()
     delete m_ruler;
     delete m_trackview;
     delete m_scene;
+    delete m_tractor;
+    m_tracks.clear();
+}
+
+Track* Timeline::track(int i) {
+    return m_tracks.at(i);
 }
 
 //virtual
@@ -189,11 +196,11 @@ void Timeline::setDuration(int dur)
     m_ruler->setDuration(dur);
 }
 
-int Timeline::getTracks(Mlt::Tractor &tractor) {
+int Timeline::getTracks() {
     int trackIndex = 0;
     int duration = 1;
-    for (int i = 0; i < tractor.count(); ++i) {
-        Mlt::Producer* track = tractor.track(i);
+    for (int i = 0; i < m_tractor->count(); ++i) {
+        Mlt::Producer* track = m_tractor->track(i);
         QString playlist_name = track->get("id");
         if (playlist_name == "black_track" || playlist_name == "playlistmain") continue;
         // check track effects
@@ -204,14 +211,15 @@ int Timeline::getTracks(Mlt::Tractor &tractor) {
         if (hide & 1) m_doc->switchTrackVideo(i - 1, true);
         if (hide & 2) m_doc->switchTrackAudio(i - 1, true);
         int trackduration;
-        trackduration = addTrack(tractor.count() - 1 - i, playlist, m_doc->isTrackLocked(i - 1));
+        trackduration = addTrack(m_tractor->count() - 1 - i, playlist, m_doc->isTrackLocked(i - 1));
+        m_tracks.prepend(new Track(playlist, m_doc->fps()));
         if (trackduration > duration) duration = trackduration;
     }
     return duration;
 }
 
-void Timeline::getTransitions(Mlt::Tractor &tractor) {
-    mlt_service service = mlt_service_get_producer(tractor.get_service());
+void Timeline::getTransitions() {
+    mlt_service service = mlt_service_get_producer(m_tractor->get_service());
     while (service) {
         Mlt::Properties prop(MLT_SERVICE_PROPERTIES(service));
         if (QString(prop.get("mlt_type")) != "transition")
@@ -251,7 +259,7 @@ void Timeline::getTransitions(Mlt::Tractor &tractor) {
             m_documentErrors.append(i18n("Removed invalid transition: %1", prop.get("id")) + '\n');
             mlt_service disconnect = service;
             service = mlt_service_producer(service);
-            mlt_field_disconnect_service(tractor.field()->get_field(), disconnect);
+            mlt_field_disconnect_service(m_tractor->field()->get_field(), disconnect);
         } else {
             QDomNodeList params = base.elementsByTagName("parameter");
             for (int i = 0; i < params.count(); ++i) {
@@ -324,10 +332,8 @@ void Timeline::parseDocument(const QDomDocument &doc)
 
     int pos = m_projectTracks - 1;
 
-    Mlt::Service svce(m_doc->renderer()->getProducer()->parent().get_service());
-    Mlt::Tractor ttor(svce);
-    m_trackview->setDuration(getTracks(ttor));
-    getTransitions(ttor);
+    m_trackview->setDuration(getTracks());
+    getTransitions();
 
 
     QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
