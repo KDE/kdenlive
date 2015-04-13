@@ -259,6 +259,8 @@ Bin::Bin(QWidget* parent) :
     m_slider->setMaximumWidth(100);
     m_slider->setMinimumWidth(40);
     m_slider->setRange(0, 10);
+    // TODO: fix view zoom on startup
+    //m_slider->setValue(KdenliveSettings::bin_zoom());
     m_slider->setValue(4);
     connect(m_slider, SIGNAL(valueChanged(int)), this, SLOT(slotSetIconSize(int)));
     QWidgetAction * widgetslider = new QWidgetAction(this);
@@ -505,7 +507,7 @@ void Bin::setDocument(KdenliveDoc* project)
     m_clipCounter = 1;
     m_folderCounter = 1;
     m_doc = project;
-    int iconHeight = style()->pixelMetric(QStyle::PM_ToolBarIconSize) * 2;
+    int iconHeight = QFontInfo(font()).pixelSize() * 3.5;
     m_iconSize = QSize(iconHeight * m_doc->dar(), iconHeight);
     m_itemModel->setIconSize(m_iconSize);
     m_jobManager = new JobManager(this, project->fps());
@@ -882,6 +884,7 @@ void Bin::slotSetIconSize(int size)
     if (!m_itemView) {
         return;
     }
+    KdenliveSettings::setBin_zoom(size);
     QSize zoom = m_iconSize;
     zoom = zoom * (size / 4.0);
     m_itemView->setIconSize(zoom);

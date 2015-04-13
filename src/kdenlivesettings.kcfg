@@ -12,6 +12,10 @@
       <label>Bin view mode.</label>
       <default>0</default>
     </entry>
+    <entry name="bin_zoom" type="Int">
+      <label>Bin default zoom.</label>
+      <default>4</default>
+    </entry>
   </group>
 
   <group name="misc">
