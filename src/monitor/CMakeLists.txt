@@ -9,6 +9,5 @@ set(kdenlive_SRCS
   monitor/recmonitor.cpp
   monitor/smallruler.cpp
   monitor/twostateaction.cpp
-  monitor/videosurface.cpp
   monitor/sharedframe.cpp
   PARENT_SCOPE)
