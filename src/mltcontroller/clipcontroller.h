@@ -160,11 +160,11 @@ public:
     QPoint zone() const;
     bool hasLimitedDuration() const;
     Mlt::Properties &properties();
-    void addEffect(QDomElement effect);
+    void addEffect(const ProfileInfo pInfo, QDomElement effect);
     EffectsList effectList();
     /** @brief Enable/disable an effect. */
     void changeEffectState(const QList <int> indexes, bool disable);
-    void updateEffect(const QDomElement &old, const QDomElement &e, int ix);
+    void updateEffect(const ProfileInfo pInfo, const QDomElement &old, const QDomElement &e, int ix);
     bool hasEffects() const;
 
 private:

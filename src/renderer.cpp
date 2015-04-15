@@ -3285,7 +3285,7 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
     }
 
     if (!filter) {
-        //qDebug() << "WARINIG, FILTER FOR EDITING NOT FOUND, ADDING IT! " << index << ", " << tag;
+        qDebug() << "WARINIG, FILTER FOR EDITING NOT FOUND, ADDING IT! " << index << ", " << tag;
         // filter was not found, it was probably a disabled filter, so add it to the correct place...
 
         bool success = mltAddEffect(track, position, params);

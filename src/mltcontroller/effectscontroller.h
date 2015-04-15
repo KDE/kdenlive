@@ -30,9 +30,60 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUrl>
 
 
-namespace Mlt {
-    class Profile;
-}
+/**)
+ * @class EffectInfo
+ * @brief A class holding some meta info for effects widgets, like state (collapsed or not, ...)
+ * @author Jean-Baptiste Mardelle
+ */
+
+class EffectInfo
+{
+public:
+    EffectInfo();
+    bool isCollapsed;
+    bool groupIsCollapsed;
+    int groupIndex;
+    QString groupName;
+    QString toString() const;
+    void fromString(QString value);
+};
+
+/**)
+ * @class EffectParameter
+ * @brief Base class holding a parameter name / value. Is this really useful? QMap ?
+ * @author Jean-Baptiste Mardelle
+ */
+
+class EffectParameter
+{
+public:
+    EffectParameter(const QString &name, const QString &value);
+    QString name()   const;
+    QString value() const;
+    void setValue(const QString &value);
+
+private:
+    QString m_name;
+    QString m_value;
+};
+
+
+/**)
+ * @class EffectsParameterList
+ * @brief Use our own list for effect parameters so that they are not sorted in any ways, because
+ *               some effects like sox need a precise order
+ * @author Jean-Baptiste Mardelle
+ */
+
+class EffectsParameterList: public QList < EffectParameter >
+{
+public:
+    EffectsParameterList();
+    bool hasParam(const QString &name) const;
+    QString paramValue(const QString &name, const QString &defaultValue = QString()) const;
+    void addParam(const QString &name, const QString &value);
+    void removeParam(const QString &name);
+};
 
 /**
  * @namespace EffectsController
@@ -42,20 +93,24 @@ namespace Mlt {
 namespace EffectsController
 {
     /** @brief Gets the effect parameters that will be passed to Mlt. */
-    EffectsParameterList getEffectArgs(Mlt::Profile *profile, const QDomElement &effect);
+    EffectsParameterList getEffectArgs(const ProfileInfo info, const QDomElement &effect);
 
     /** @brief Get effect parameters ready for MLT*/
-    void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, Mlt::Profile *profile, const QString &prefix = QString());
+    void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, const ProfileInfo info, const QString &prefix = QString());
 
     /** @brief Returns an value from a string by replacing "%width" and "%height" with given profile values:
-     *  @param profile The profile that gives width & height
+     *  @param info The struct that gives width & height
      *  @param eval The string to be evaluated, for example: "%width / 2"
      *  @return the evaluated value */
-    double getStringEval(Mlt::Profile *profile, QString eval, const QPoint& frameSize = QPoint());
-    void initEffect(Mlt::Profile *profile, ItemInfo info, EffectsList list, const QString proxy, QDomElement effect, int diff = 0, int offset = 0);
+    double getStringEval(const ProfileInfo info, QString eval, const QPoint& frameSize = QPoint());
+    
+     /** @brief Initialize some effects parameters: keyframes, fades, in / out points  */
+    void initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList list, const QString proxy, QDomElement effect, int diff = 0, int offset = 0);
+
         /** @brief Adjust keyframes to the new clip. */
     const QString adjustKeyframes(const QString &keyframes, int offset);
-    EffectsParameterList addEffect(Mlt::Profile *profile, QDomElement effect);
+    
+    EffectsParameterList addEffect(const ProfileInfo info, QDomElement effect);
 };
 
 #endif

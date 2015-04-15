@@ -37,7 +37,7 @@
 #include "gentime.h"
 #include "definitions.h"
 #include "monitor/abstractmonitor.h"
-
+#include "mltcontroller/effectscontroller.h"
 #include <mlt/framework/mlt_types.h>
 
 #include <QUrl>

@@ -1348,6 +1348,14 @@ void Monitor::slotAdjustEffectCompare(double percent)
     refreshMonitor();
 }
 
+ProfileInfo Monitor::profileInfo() const
+{
+    ProfileInfo info;
+    info.profileSize = QSize(render->frameRenderWidth(), render->renderHeight());
+    info.profileFps = render->fps();
+    return info;
+}
+
 Mlt::Profile *Monitor::profile()
 {
     return m_monitorManager->binController()->profile();

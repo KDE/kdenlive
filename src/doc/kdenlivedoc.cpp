@@ -912,10 +912,18 @@ MltVideoProfile KdenliveDoc::mltProfile() const
     return m_profile;
 }
 
-Mlt::Profile *KdenliveDoc::profile()
+ProfileInfo KdenliveDoc::getProfileInfo() const
+{
+        ProfileInfo info;
+        info.profileSize = getRenderSize();
+        info.profileFps = fps();
+        return info;
+}
+
+/*Mlt::Profile *KdenliveDoc::profile()
 {
     return pCore->binController()->profile();
-}
+}*/
 
 bool KdenliveDoc::setProfilePath(QString path)
 {
@@ -1515,7 +1523,7 @@ void KdenliveDoc::addTrackEffect(int ix, QDomElement effect)
 
         // Check if this effect has a variable parameter
         if (e.attribute("default").contains('%')) {
-            double evaluatedValue = EffectsController::getStringEval(profile(), e.attribute("default"));
+            double evaluatedValue = EffectsController::getStringEval(getProfileInfo(), e.attribute("default"));
             e.setAttribute("default", evaluatedValue);
             if (e.hasAttribute("value") && e.attribute("value").startsWith('%')) {
                 e.setAttribute("value", evaluatedValue);
@@ -1703,14 +1711,13 @@ QStringList KdenliveDoc::getExpandedFolders()
     return result;
 }
 
-const QSize KdenliveDoc::getRenderSize()
+const QSize KdenliveDoc::getRenderSize() const
 {
     QSize size;
     if (m_render) {
 	size.setWidth(m_render->frameRenderWidth());
 	size.setHeight(m_render->renderHeight());
     }
-    qDebug()<<"/ / /PROXY SIZE: "<<size;
     return size;
 }
 // static

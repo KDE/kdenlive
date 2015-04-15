@@ -24,7 +24,7 @@
 #include "parametercontainer.h"
 #include "abstractcollapsiblewidget.h"
 #include "timecode.h"
-
+#include "mltcontroller/effectscontroller.h"
 
 #include <QDomElement>
 

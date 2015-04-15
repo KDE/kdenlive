@@ -241,10 +241,10 @@ bool ProjectManager::saveFileAs()
 {
     QString outputFile;
     if (m_project->url().isValid()) {
-        outputFile = QFileDialog::getSaveFileName(0, QString(), m_project->url().path(), getMimeType(false));
+        outputFile = QFileDialog::getSaveFileName(qApp->activeWindow(), QString(), m_project->url().path(), getMimeType(false));
     }
     else {
-        outputFile = QFileDialog::getSaveFileName(0, QString(), m_project->projectFolder().path(), getMimeType(false));
+        outputFile = QFileDialog::getSaveFileName(qApp->activeWindow(), QString(), m_project->projectFolder().path(), getMimeType(false));
     }
     if (outputFile.isEmpty()) {
         return false;

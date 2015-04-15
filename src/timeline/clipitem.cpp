@@ -64,8 +64,8 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
     setZValue(2);
     m_effectList = EffectsList(true);
     FRAME_SIZE = frame_width;
-    setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (double) itemHeight());
-    setPos(info.startPos.frames(fps), (double)(info.track * KdenliveSettings::trackheight()) + 1 + itemOffset());
+    setRect(0, 0, (info.endPos - info.startPos).frames(m_fps) - 0.02, (double) itemHeight());
+    setPos(info.startPos.frames(m_fps), (double)(info.track * KdenliveSettings::trackheight()) + 1 + itemOffset());
     // set speed independent info
     if (m_speed <= 0 && m_speed > -1)
         m_speed = -1.0;
@@ -228,9 +228,9 @@ int ClipItem::selectedEffectIndex() const
     return m_selectedEffect;
 }
 
-void ClipItem::initEffect(Mlt::Profile *profile, QDomElement effect, int diff, int offset)
+void ClipItem::initEffect(ProfileInfo pInfo, QDomElement effect, int diff, int offset)
 {
-    EffectsController::initEffect(profile, m_info, m_effectList, m_binClip->getProducerProperty("proxy"), effect, diff, offset);
+    EffectsController::initEffect(m_info, pInfo, m_effectList, m_binClip->getProducerProperty("proxy"), effect, diff, offset);
 }
 
 bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int cutPos)
@@ -1437,7 +1437,7 @@ bool ClipItem::moveEffect(QDomElement effect, int ix)
     return true;
 }
 
-EffectsParameterList ClipItem::addEffect(Mlt::Profile *profile, QDomElement effect, bool /*animate*/)
+EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, bool /*animate*/)
 {
     bool needRepaint = false;
     QLocale locale;
@@ -1557,7 +1557,7 @@ EffectsParameterList ClipItem::addEffect(Mlt::Profile *profile, QDomElement effe
             } else {
                 double fact;
                 if (e.attribute("factor").contains('%')) {
-                    fact = EffectsController::getStringEval(profile, e.attribute("factor"));
+                    fact = EffectsController::getStringEval(info, e.attribute("factor"));
                 } else {
                     fact = locale.toDouble(e.attribute("factor", "1"));
                 }

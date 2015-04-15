@@ -69,7 +69,7 @@ ClipController::ClipController(BinController *bincontroller) : QObject()
     , m_effectFreeIndex(1)
 {
     m_masterProducer = NULL;
-    m_effectList = EffectsList(true);
+    m_effectList = EffectsList();
 }
 
 ClipController::~ClipController()
@@ -570,7 +570,7 @@ Mlt::Properties &ClipController::properties()
     return *m_properties;
 }
 
-void ClipController::addEffect(QDomElement effect)
+void ClipController::addEffect(const ProfileInfo pInfo, QDomElement effect)
 {
     QDomDocument doc = effect.ownerDocument();
     Mlt::Service service = m_masterProducer->parent();
@@ -579,8 +579,8 @@ void ClipController::addEffect(QDomElement effect)
     ItemInfo info;
     info.cropStart = GenTime();
     info.cropDuration = getPlaytime();
-    EffectsController::initEffect(m_masterProducer->profile(), info, m_effectList, property("proxy"), effect);
-    EffectsParameterList params = EffectsController::getEffectArgs(m_masterProducer->profile(), effect);
+    EffectsController::initEffect(info, pInfo, m_effectList, property("proxy"), effect);
+    EffectsParameterList params = EffectsController::getEffectArgs(pInfo, effect);
     Render::addFilterToService(m_masterProducer->parent(), params, getPlaytime().frames(m_binController->fps()));
     m_effectList.append(effect);
     m_binController->updateTrackProducer(clipId());
@@ -620,9 +620,9 @@ void ClipController::changeEffectState(const QList <int> indexes, bool disable)
     //slotRefreshTracks();
 }
 
-void ClipController::updateEffect(const QDomElement &old, const QDomElement &e, int ix)
+void ClipController::updateEffect(const ProfileInfo pInfo, const QDomElement &old, const QDomElement &e, int ix)
 {
-    EffectsParameterList params = EffectsController::getEffectArgs(m_masterProducer->profile(), e);
+    EffectsParameterList params = EffectsController::getEffectArgs(pInfo, e);
     Mlt::Service service = m_masterProducer->parent();
     for (int i = 0; i < service.filter_count(); ++i) {
         Mlt::Filter *effect = service.filter(i);
