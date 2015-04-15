@@ -28,7 +28,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 SET(CMAKE_CXX_FLAGS "-fPIC")
 # To be switched on when releasing.
-option(RELEASE_BUILD "Remove Git revision from program version (use for stable releases)" OFF)
+option(RELEASE_BUILD "Remove Git revision from program version (use for stable releases)" ON)
 
 # Get current version.
 set(KDENLIVE_VERSION_STRING "${KDENLIVE_VERSION}")

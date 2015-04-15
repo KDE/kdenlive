@@ -1168,10 +1168,10 @@ void ProjectList::slotDeleteClip(const QString &clipId)
     QTreeWidgetItem *newSelectedItem = m_listView->itemAbove(item);
     if (!newSelectedItem)
         newSelectedItem = m_listView->itemBelow(item);
-    delete item;
     // Pause playing to prevent crash while deleting clip
     slotPauseMonitor();
     m_doc->clipManager()->deleteClip(clipId);
+    delete item;
     m_listView->blockSignals(false);
     if (newSelectedItem) {
         m_listView->setCurrentItem(newSelectedItem);
