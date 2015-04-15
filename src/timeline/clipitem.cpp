@@ -130,10 +130,10 @@ ClipItem::~ClipItem()
     m_startThumbTimer.stop();
     if (scene())
         scene()->removeItem(this);
-    if (m_clipType == Video | AV | SlideShow | Playlist) {
+    //if (m_clipType == Video | AV | SlideShow | Playlist) { // WRONG, cannot use | 
         //disconnect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
         //disconnect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
-    }
+    //}
     delete m_timeLine;
 }
 

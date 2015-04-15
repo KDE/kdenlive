@@ -273,7 +273,7 @@ void Timeline::getTransitions(Mlt::Tractor &tractor) {
 }
 
 bool Timeline::isSlide(QString geometry) {
-    if (!geometry.count(';') == 1) return false;
+    if (geometry.count(';') != 1) return false;
 
     geometry.remove(QChar('%'), Qt::CaseInsensitive);
     geometry.replace(QChar('x'), QChar(':'), Qt::CaseInsensitive);
