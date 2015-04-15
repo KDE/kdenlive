@@ -368,17 +368,6 @@ void Wizard::checkMltComponents()
             delete consumer;
         }
 
-        // DV module
-        QTreeWidgetItem *dvItem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("DV module (libdv)"));
-        dvItem->setData(1, Qt::UserRole, i18n("Required to work with dv files if avformat module is not installed"));
-        dvItem->setSizeHint(0, itemSize);
-        if (!producersItemList.contains("libdv")) {
-            dvItem->setIcon(0, m_badIcon);
-        }
-        else {
-            dvItem->setIcon(0, m_okIcon);
-        }
-
         // Image module
         QTreeWidgetItem *imageItem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("QImage module"));
         imageItem->setData(1, Qt::UserRole, i18n("Required to work with images"));
