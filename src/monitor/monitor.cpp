@@ -78,7 +78,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     glayout->setContentsMargins(0, 0, 0, 0);
 
     // Create QML OpenGL widget
-    m_glMonitor = new GLWidget;//(id == Kdenlive::ProjectMonitor);
+    m_glMonitor = new GLWidget();
     QWidget *videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow*>(m_glMonitor), this);
     glayout->addWidget(videoWidget, 0, 0);
     m_verticalScroll = new QScrollBar(Qt::Vertical);
