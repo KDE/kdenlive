@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
                          i18n("Kdenlive"), KDENLIVE_VERSION,
                          i18n("An open source video editor."),
                          KAboutLicense::GPL,
-                         i18n("Copyright © 2007–2014 Kdenlive authors"),
+                         i18n("Copyright © 2007–2015 Kdenlive authors"),
                          i18n("Please report bugs to http://kdenlive.org/mantis"),
                          "http://kdenlive.org",
                          "http://bugs.kdenlive.org");
