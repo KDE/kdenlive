@@ -18,6 +18,10 @@ the Free Software Foundation, either version 3 of the License, or
 #include <locale>
 #include <QDebug>
 
+#ifdef Q_OS_MAC
+#include <xlocale.h>
+#endif
+
 Core *Core::m_self = NULL;
 
 

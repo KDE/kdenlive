@@ -19,7 +19,6 @@
 
 #include "kdenlivesettings.h"
 #include "definitions.h"
-#include "monitor/videosurface.h"
 
 #include <mlt++/Mlt.h>
 
@@ -63,7 +62,7 @@ static void rec_consumer_frame_preview(mlt_consumer, MltDeviceCapture * self, ml
 }
 
 
-MltDeviceCapture::MltDeviceCapture(QString profile, VideoSurface *surface, QWidget *parent) :
+MltDeviceCapture::MltDeviceCapture(QString profile, /*VideoSurface *surface, */QWidget *parent) :
     AbstractRender(Kdenlive::RecordMonitor, parent),
     doCapture(0),
     processingImage(false),
@@ -72,10 +71,8 @@ MltDeviceCapture::MltDeviceCapture(QString profile, VideoSurface *surface, QWidg
     m_mltProfile(NULL),
     m_showFrameEvent(NULL),
     m_droppedFrames(0),
-    m_livePreview(KdenliveSettings::enable_recording_preview()),
-    m_winid((int) surface->winId())
+    m_livePreview(KdenliveSettings::enable_recording_preview())
 {
-    m_captureDisplayWidget = surface;
     analyseAudio = KdenliveSettings::monitor_audio();
     if (profile.isEmpty())
         profile = KdenliveSettings::current_profile();
@@ -115,19 +112,11 @@ bool MltDeviceCapture::buildConsumer(const QString &profileName)
         }
     }
     qputenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1");
-    
-  
-    if (m_winid == 0) {
-        // OpenGL monitor
-        m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_audio");
-        m_mltConsumer->set("preview_off", 1);
-        m_mltConsumer->set("preview_format", mlt_image_rgb24);
-        m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_gl_frame_show);
-    } else {
-        m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_preview");
-        m_mltConsumer->set("window_id", m_winid);
-        m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) rec_consumer_frame_preview);
-    }
+    // OpenGL monitor
+    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_audio");
+    m_mltConsumer->set("preview_off", 1);
+    m_mltConsumer->set("preview_format", mlt_image_rgb24);
+    m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_gl_frame_show);
     //m_mltConsumer->set("resize", 1);
     //m_mltConsumer->set("terminate_on_pause", 1);
     m_mltConsumer->set("window_background", KdenliveSettings::window_background().name().toUtf8().constData());
@@ -377,9 +366,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
         }
         return false;
     }
-    
-    m_winid = (int) m_captureDisplayWidget->winId();
-    
+
     // Create multi consumer setup
     Mlt::Properties *renderProps = new Mlt::Properties;
     renderProps->set("mlt_service", "avformat");
@@ -417,19 +404,13 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
         }
         qputenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1");
         
-        if (m_winid == 0) {
+
             // OpenGL monitor
             previewProps->set("mlt_service", "sdl_audio");
             previewProps->set("preview_off", 1);
             previewProps->set("preview_format", mlt_image_rgb24);
             previewProps->set("terminate_on_pause", 0);
             m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_gl_frame_show);
-        } else {
-            previewProps->set("mlt_service", "sdl_preview");
-            previewProps->set("window_id", m_winid);
-            previewProps->set("terminate_on_pause", 0);
-            //m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) rec_consumer_frame_preview);
-        }
         //m_mltConsumer->set("resize", 1);
         previewProps->set("window_background", KdenliveSettings::window_background().name().toUtf8().constData());
         QString audioDevice = KdenliveSettings::audiodevicename();

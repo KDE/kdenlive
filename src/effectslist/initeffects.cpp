@@ -31,6 +31,10 @@
 
 #include <klocalizedstring.h>
 
+#ifdef Q_OS_MAC
+#include <xlocale.h>
+#endif
+
 // static
 void initEffects::refreshLumas()
 {

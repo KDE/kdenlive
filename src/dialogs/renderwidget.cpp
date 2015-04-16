@@ -45,6 +45,9 @@
 #include <QStandardPaths>
 
 #include "locale.h"
+#ifdef Q_OS_MAC
+#include <xlocale.h>
+#endif
 
 
 // Render profiles roles

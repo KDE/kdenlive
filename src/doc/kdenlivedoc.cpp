@@ -65,7 +65,9 @@
 #include <QStandardPaths>
 
 #include "locale.h"
-
+#ifdef Q_OS_MAC
+#include <xlocale.h>
+#endif
 
 const double DOCUMENTVERSION = 0.90;
 
@@ -1090,7 +1092,6 @@ const QString KdenliveDoc::description() const
 
 bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createClipItem)
 {
-    qDebug()<<"*** KDENLIVE DOC ADD CLIP CMD * * * *";
     const QString producerId = clipId.section('_', 0, 0);
     elem.setAttribute("id", producerId);
     pCore->bin()->createClip(elem);

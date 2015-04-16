@@ -39,6 +39,10 @@
 #include <mlt++/Mlt.h>
 
 #include <locale>
+#ifdef Q_OS_MAC
+#include <xlocale.h>
+#endif
+
 #include <QStandardPaths>
 
 

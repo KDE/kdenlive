@@ -39,7 +39,11 @@
 #include <QFontInfo>
 #include <QFile>
 #include <QTextCursor>
+
 #include <locale.h>
+#ifdef Q_OS_MAC
+#include <xlocale.h>
+#endif
 
 #include <QGraphicsEffect>
 #include <QGraphicsBlurEffect>
