@@ -40,6 +40,7 @@
 #include "timecode.h"
 #include "definitions.h"
 #include "timeline/guide.h"
+#include "mltcontroller/effectscontroller.h"
 
 class Render;
 class ClipManager;
@@ -104,7 +105,8 @@ public:
     void setThumbsProgress(const QString &message, int progress);
     const QString &profilePath() const;
     MltVideoProfile mltProfile() const;
-    Mlt::Profile *profile();
+    ProfileInfo getProfileInfo() const;
+    //Mlt::Profile *profile();
     const QString description() const;
     void setUrl(const QUrl &url);
 
@@ -179,8 +181,8 @@ public:
     /** @brief Set the document metadata (author, copyright, ...) */
     void setMetadata(const QMap <QString, QString>& meta);
     void slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties, bool refreshPropertiesPanel);
-    /** @brief Get frame size of the renderer */
-    const QSize getRenderSize();
+    /** @brief Get frame size of the renderer (profile)*/
+    const QSize getRenderSize() const;
     /** @brief Add url to the file watcher so that we monitor changes */
     void watchFile(const QUrl &url);
     

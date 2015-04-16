@@ -22,10 +22,9 @@
 #define CLIPITEM_H
 
 #include "abstractclipitem.h"
-
-#include "definitions.h"
 #include "gentime.h"
 #include "effectslist/effectslist.h"
+#include "mltcontroller/effectscontroller.h"
 
 #include <QTimeLine>
 #include <QGraphicsRectItem>
@@ -77,7 +76,7 @@ public:
 
     /** @brief Adds an effect to the clip.
     * @return The parameters that will be passed to Mlt */
-    EffectsParameterList addEffect(Mlt::Profile *profile, QDomElement effect, bool animate = true);
+    EffectsParameterList addEffect(ProfileInfo info, QDomElement effect, bool animate = true);
 
     /** @brief Deletes the effect with id @param index. */
     void deleteEffect(const QString &index);
@@ -136,7 +135,7 @@ public:
     void updateKeyframeEffect();
     QDomElement selectedEffect();
     int selectedEffectIndex() const;
-    void initEffect(Mlt::Profile *profile, QDomElement effect, int diff = 0, int offset = 0);
+    void initEffect(ProfileInfo info, QDomElement effect, int diff = 0, int offset = 0);
 
     /** @brief Gets all keyframes.
     * @param index Index of the effect

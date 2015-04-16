@@ -78,7 +78,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     glayout->setContentsMargins(0, 0, 0, 0);
 
     // Create QML OpenGL widget
-    m_glMonitor = new GLWidget;//(id == Kdenlive::ProjectMonitor);
+    m_glMonitor = new GLWidget();
     QWidget *videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow*>(m_glMonitor), this);
     glayout->addWidget(videoWidget, 0, 0);
     m_verticalScroll = new QScrollBar(Qt::Vertical);
@@ -1346,6 +1346,14 @@ void Monitor::slotAdjustEffectCompare(double percent)
 {
     if (m_splitEffect) m_splitEffect->set("Clip left", percent);
     refreshMonitor();
+}
+
+ProfileInfo Monitor::profileInfo() const
+{
+    ProfileInfo info;
+    info.profileSize = QSize(render->frameRenderWidth(), render->renderHeight());
+    info.profileFps = render->fps();
+    return info;
 }
 
 Mlt::Profile *Monitor::profile()

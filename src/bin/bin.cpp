@@ -1512,7 +1512,7 @@ void Bin::addEffect(const QString &id, const QDomElement &effect)
     }
     else currentItem = m_rootFolder->clip(id);
     if (!currentItem) return;
-    currentItem->addEffect(effect);
+    currentItem->addEffect(m_monitor->profileInfo(), effect);
     m_monitor->refreshMonitor();
 }
 

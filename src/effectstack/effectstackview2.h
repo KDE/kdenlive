@@ -220,7 +220,7 @@ private slots:
 
 signals:
     void removeEffect(ClipItem*, int, const QDomElement&);
-    /**  Parameters for an effect changed, update the filter in playlist */
+    /**  Parameters for an effect changed, update the filter in timeline */
     void updateEffect(ClipItem*, int, const QDomElement&, const QDomElement &, int,bool);
     /** An effect in stack was moved, we need to regenerate
         all effects for this clip in the playlist */

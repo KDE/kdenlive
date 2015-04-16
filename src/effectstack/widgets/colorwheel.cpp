@@ -162,15 +162,15 @@ void ColorWheel::resizeEvent(QResizeEvent *event)
 
 QString ColorWheel::getParamValues()
 {
-    if (m_id == "lift") {
-        return QString::number(m_color.redF(), 'g', 2) + "," + QString::number(m_color.greenF(), 'g', 2) + "," + QString::number(m_color.blueF(), 'g', 2);
-    }
     if (m_id == "gamma") {
         return QString::number(m_color.redF() * 2, 'g', 2) + "," + QString::number(m_color.greenF() * 2, 'g', 2) + "," + QString::number(m_color.blueF() * 2, 'g', 2);
     }
-    if (m_id == "gain") {
+    else if (m_id == "gain") {
         return QString::number(m_color.redF() * 4, 'g', 2) + "," + QString::number(m_color.greenF() * 4, 'g', 2) + "," + QString::number(m_color.blueF() * 4, 'g', 2);
     }
+    // default (lift)
+    return QString::number(m_color.redF(), 'g', 2) + "," + QString::number(m_color.greenF(), 'g', 2) + "," + QString::number(m_color.blueF(), 'g', 2);
+    
 }
 
 void ColorWheel::paintEvent(QPaintEvent *event)

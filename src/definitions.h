@@ -162,7 +162,14 @@ public:
         isMute(0),
         isBlind(0),
         isLocked(0),
-        duration(0) {}
+        duration(0),
+        effectsList() {}
+};
+
+
+struct ProfileInfo {
+        QSize profileSize;
+        double profileFps;
 };
 
 struct requestClipInfo {
@@ -232,50 +239,7 @@ public:
     bool operator!=(const MltVideoProfile &other) const;
 };
 
-/**)
- * @class EffectInfo
- * @brief A class holding some meta info for effects widgets, like state (collapsed or not, ...)
- * @author Jean-Baptiste Mardelle
- */
 
-class EffectInfo
-{
-public:
-    EffectInfo();
-    bool isCollapsed;
-    bool groupIsCollapsed;
-    int groupIndex;
-    QString groupName;
-    QString toString() const;
-    void fromString(QString value);
-};
-
-class EffectParameter
-{
-public:
-    EffectParameter(const QString &name, const QString &value);
-    QString name()   const;
-    QString value() const;
-    void setValue(const QString &value);
-
-private:
-    QString m_name;
-    QString m_value;
-};
-
-/** Use our own list for effect parameters so that they are not sorted in any ways, because
-    some effects like sox need a precise order
-*/
-class EffectsParameterList: public QList < EffectParameter >
-{
-public:
-    EffectsParameterList();
-    bool hasParam(const QString &name) const;
-
-    QString paramValue(const QString &name, const QString &defaultValue = QString()) const;
-    void addParam(const QString &name, const QString &value);
-    void removeParam(const QString &name);
-};
 
 class CommentedTime
 {

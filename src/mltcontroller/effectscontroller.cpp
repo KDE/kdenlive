@@ -29,9 +29,72 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QScriptEngine>
 #include <KLocalizedString>
 
+EffectInfo::EffectInfo() {isCollapsed = false; groupIndex = -1; groupIsCollapsed = false;}
+
+QString EffectInfo::toString() const {
+    QStringList data;
+    // effect collapsed state: 0 = effect not collapsed, 1 = effect collapsed,
+    // 2 = group collapsed - effect not, 3 = group and effect collapsed
+    int collapsedState = (int) isCollapsed;
+    if (groupIsCollapsed) collapsedState += 2;
+    data << QString::number(collapsedState) << QString::number(groupIndex) << groupName;
+    return data.join(QLatin1String("/"));
+}
+
+void EffectInfo::fromString(QString value) {
+    if (value.isEmpty()) return;
+    QStringList data = value.split(QLatin1String("/"));
+    isCollapsed = data.at(0).toInt() == 1 || data.at(0).toInt() == 3;
+    groupIsCollapsed = data.at(0).toInt() >= 2;
+    if (data.count() > 1) groupIndex = data.at(1).toInt();
+    if (data.count() > 2) groupName = data.at(2);
+}
 
 
-EffectsParameterList EffectsController::getEffectArgs(Mlt::Profile *profile, const QDomElement &effect)
+EffectParameter::EffectParameter(const QString &name, const QString &value): m_name(name), m_value(value) {}
+
+QString EffectParameter::name() const          {
+    return m_name;
+}
+
+QString EffectParameter::value() const          {
+    return m_value;
+}
+
+void EffectParameter::setValue(const QString &value) {
+    m_value = value;
+}
+
+
+EffectsParameterList::EffectsParameterList(): QList < EffectParameter >() {}
+
+bool EffectsParameterList::hasParam(const QString &name) const {
+    for (int i = 0; i < size(); ++i)
+        if (at(i).name() == name) return true;
+    return false;
+}
+
+QString EffectsParameterList::paramValue(const QString &name, const QString &defaultValue) const {
+    for (int i = 0; i < size(); ++i) {
+        if (at(i).name() == name) return at(i).value();
+    }
+    return defaultValue;
+}
+
+void EffectsParameterList::addParam(const QString &name, const QString &value) {
+    if (name.isEmpty()) return;
+    append(EffectParameter(name, value));
+}
+
+void EffectsParameterList::removeParam(const QString &name) {
+    for (int i = 0; i < size(); ++i)
+        if (at(i).name() == name) {
+            removeAt(i);
+            break;
+        }
+}
+
+EffectsParameterList EffectsController::getEffectArgs(const ProfileInfo info, const QDomElement &effect)
 {
     EffectsParameterList parameters;
     QLocale locale;
@@ -54,17 +117,17 @@ EffectsParameterList EffectsController::getEffectArgs(Mlt::Profile *profile, con
             parameters.addParam(QString("filter%1.tag").arg(subeffectix), subeffect.attribute("tag"));
             parameters.addParam(QString("filter%1.kdenlive_info").arg(subeffectix), subeffect.attribute("kdenlive_info"));
             QDomNodeList subparams = subeffect.elementsByTagName("parameter");
-            adjustEffectParameters(parameters, subparams, profile, QString("filter%1.").arg(subeffectix));
+            adjustEffectParameters(parameters, subparams, info, QString("filter%1.").arg(subeffectix));
         }
     }
 
     QDomNodeList params = effect.elementsByTagName("parameter");
-    adjustEffectParameters(parameters, params, profile);
+    adjustEffectParameters(parameters, params, info);
     return parameters;
 }
 
 
-void EffectsController::adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, Mlt::Profile *profile, const QString &prefix)
+void EffectsController::adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, const ProfileInfo info, const QString &prefix)
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
@@ -116,7 +179,7 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
             if (e.attribute("factor", "1") != "1" || e.attribute("offset", "0") != "0") {
                 double fact;
                 if (e.attribute("factor").contains('%')) {
-                    fact = getStringEval(profile, e.attribute("factor"));
+                    fact = getStringEval(info, e.attribute("factor"));
                 } else {
                     fact = e.attribute("factor", "1").toDouble();
                 }
@@ -130,17 +193,17 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
 }
 
 
-double EffectsController::getStringEval(Mlt::Profile *profile, QString eval, const QPoint& frameSize)
+double EffectsController::getStringEval(const ProfileInfo info, QString eval, const QPoint& frameSize)
 {
     QScriptEngine sEngine;
-    sEngine.globalObject().setProperty("maxWidth", profile->width() > frameSize.x() ? profile->width() : frameSize.x());
-    sEngine.globalObject().setProperty("maxHeight", profile->height() > frameSize.y() ? profile->height() : frameSize.y());
-    sEngine.globalObject().setProperty("width", profile->width());
-    sEngine.globalObject().setProperty("height", profile->height());
+    sEngine.globalObject().setProperty("maxWidth", info.profileSize.width() > frameSize.x() ? info.profileSize.width() : frameSize.x());
+    sEngine.globalObject().setProperty("maxHeight", info.profileSize.height() > frameSize.y() ? info.profileSize.height() : frameSize.y());
+    sEngine.globalObject().setProperty("width", info.profileSize.width());
+    sEngine.globalObject().setProperty("height", info.profileSize.height());
     return sEngine.evaluate(eval.remove('%')).toNumber();
 }
 
-void EffectsController::initEffect(Mlt::Profile *profile, ItemInfo info, EffectsList list, const QString proxy, QDomElement effect, int diff, int offset)
+void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList list, const QString proxy, QDomElement effect, int diff, int offset)
 {
     // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
     // not be changed
@@ -148,7 +211,7 @@ void EffectsController::initEffect(Mlt::Profile *profile, ItemInfo info, Effects
     if (effect.attribute("id") == "freeze" && diff > 0) {
         EffectsList::setParameter(effect, "frame", QString::number(diff));
     }
-    double fps = profile->fps();
+    double fps = pInfo.profileFps;
     // Init parameter value & keyframes if required
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); ++i) {
@@ -159,7 +222,7 @@ void EffectsController::initEffect(Mlt::Profile *profile, ItemInfo info, Effects
 
         // Check if this effect has a variable parameter
         if (e.attribute("default").contains('%')) {
-            double evaluatedValue = EffectsController::getStringEval(profile, e.attribute("default"));
+            double evaluatedValue = EffectsController::getStringEval(pInfo, e.attribute("default"));
             e.setAttribute("default", evaluatedValue);
             if (e.hasAttribute("value") && e.attribute("value").startsWith('%')) {
                 e.setAttribute("value", evaluatedValue);
@@ -263,7 +326,7 @@ const QString EffectsController::adjustKeyframes(const QString &keyframes, int o
     return result.join(";");
 }
 
-EffectsParameterList EffectsController::addEffect(Mlt::Profile *profile, QDomElement effect)
+EffectsParameterList EffectsController::addEffect(const ProfileInfo info, QDomElement effect)
 {
     bool needRepaint = false;
     QLocale locale;
@@ -327,7 +390,7 @@ EffectsParameterList EffectsController::addEffect(Mlt::Profile *profile, QDomEle
             } else {
                 double fact;
                 if (e.attribute("factor").contains('%')) {
-                    fact = EffectsController::getStringEval(profile, e.attribute("factor"));
+                    fact = EffectsController::getStringEval(info, e.attribute("factor"));
                 } else {
                     fact = locale.toDouble(e.attribute("factor", "1"));
                 }

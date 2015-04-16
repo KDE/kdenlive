@@ -151,11 +151,11 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             double min;
             double max;
             if (pa.attribute("min").contains('%'))
-                min = EffectsController::getStringEval(m_metaInfo->monitor->profile(), pa.attribute("min"), m_metaInfo->frameSize);
+                min = EffectsController::getStringEval(m_metaInfo->monitor->profileInfo(), pa.attribute("min"), m_metaInfo->frameSize);
             else
                 min = pa.attribute("min").toDouble();
             if (pa.attribute("max").contains('%'))
-                max = EffectsController::getStringEval(m_metaInfo->monitor->profile(), pa.attribute("max"), m_metaInfo->frameSize);
+                max = EffectsController::getStringEval(m_metaInfo->monitor->profileInfo(), pa.attribute("max"), m_metaInfo->frameSize);
             else
                 max = pa.attribute("max").toDouble();
 
@@ -855,7 +855,7 @@ void ParameterContainer::slotStartFilterJobAction()
 		// Replace with current geometry
 		EffectsParameterList parameters;
 		QDomNodeList params = m_effect.elementsByTagName("parameter");
-		EffectsController::adjustEffectParameters(parameters, params, m_metaInfo->monitor->profile());
+		EffectsController::adjustEffectParameters(parameters, params, m_metaInfo->monitor->profileInfo());
 		QString paramData;
 		for (int j = 0; j < parameters.count(); ++j) {
 		    filterParams.insert(parameters.at(j).name(), parameters.at(j).value());

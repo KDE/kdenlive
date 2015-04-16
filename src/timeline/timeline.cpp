@@ -273,7 +273,7 @@ void Timeline::getTransitions(Mlt::Tractor &tractor) {
 }
 
 bool Timeline::isSlide(QString geometry) {
-    if (!geometry.count(';') == 1) return false;
+    if (geometry.count(';') != 1) return false;
 
     geometry.remove(QChar('%'), Qt::CaseInsensitive);
     geometry.replace(QChar('x'), QChar(':'), Qt::CaseInsensitive);
@@ -297,7 +297,7 @@ void Timeline::adjustDouble(QDomElement &e, double value) {
     QString factor = e.attribute("factor", "1");
     double offset = e.attribute("offset", "0").toDouble();
     double fact = 1;
-    if (factor.contains('%')) fact = EffectsController::getStringEval(m_doc->profile(), factor);
+    if (factor.contains('%')) fact = EffectsController::getStringEval(m_doc->getProfileInfo(), factor);
     else fact = factor.toDouble();
 
     QLocale locale;
@@ -544,7 +544,7 @@ int Timeline::addTrack(int ix, Mlt::Playlist &playlist, bool locked) {
         clipinfo.cropStart = GenTime(in, fps);
         clipinfo.cropDuration = GenTime(length, fps);
         clipinfo.track = ix;
-        ClipItem *item = new ClipItem(binclip, clipinfo, fps, speed, strobe, m_trackview->getFrameWidth(), false);
+        ClipItem *item = new ClipItem(binclip, clipinfo, m_doc->fps(), speed, strobe, m_trackview->getFrameWidth(), false);
         if (idString.endsWith(QLatin1String("_video"))) item->setVideoOnly(true);
         else if (idString.endsWith(QLatin1String("_audio"))) item->setAudioOnly(true);
         m_scene->addItem(item);
@@ -554,7 +554,7 @@ int Timeline::addTrack(int ix, Mlt::Playlist &playlist, bool locked) {
             QDomElement speedeffect = MainWindow::videoEffects.getEffectByTag(QString(), "speed").cloneNode().toElement();
             EffectsList::setParameter(speedeffect, "speed", QString::number((int)(100 * speed + 0.5)));
             EffectsList::setParameter(speedeffect, "strobe", QString::number(strobe));
-            item->addEffect(m_doc->profile(), speedeffect, false);
+            item->addEffect(m_doc->getProfileInfo(), speedeffect, false);
             item->effectsCounter();
         }
         // parse clip effects
@@ -610,7 +610,7 @@ void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
         if (QString(effect->get("tag")) == "region") getSubfilters(effect, currenteffect);
 
         if (clip) {
-            clip->addEffect(m_doc->profile(), currenteffect, false);
+            clip->addEffect(m_doc->getProfileInfo(), currenteffect, false);
         } else {
             m_doc->addTrackEffect(track, currenteffect);
         }
@@ -622,7 +622,7 @@ QString Timeline::getKeyframes(Mlt::Service service, int &ix, QDomElement e) {
     QString endtag = e.attribute("endtag", "end");
     double fact, offset = e.attribute("offset", "0").toDouble();
     QString factor = e.attribute("factor", "1");
-    if (factor.contains('%')) fact = EffectsController::getStringEval(m_doc->profile(), factor);
+    if (factor.contains('%')) fact = EffectsController::getStringEval(m_doc->getProfileInfo(), factor);
     else fact = factor.toDouble();
     // retrieve keyframes
     QLocale locale;
@@ -674,7 +674,7 @@ void Timeline::setParam(QDomElement param, QString value) {
     double fact;
     QString factor = param.attribute("factor", "1");
     if (factor.contains('%')) {
-        fact = EffectsController::getStringEval(m_doc->profile(), factor);
+        fact = EffectsController::getStringEval(m_doc->getProfileInfo(), factor);
     } else {
         fact = factor.toDouble();
     }

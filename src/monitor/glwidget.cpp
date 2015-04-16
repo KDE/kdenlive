@@ -50,8 +50,8 @@ static ClientWaitSync_fp ClientWaitSync = 0;
 
 using namespace Mlt;
 
-GLWidget::GLWidget(bool accel, QObject *parent)
-    : QQuickView((QWindow*) parent)
+GLWidget::GLWidget()
+    : QQuickView(0)
     , m_shader(0)
     , m_glslManager(0)
     , m_initSem(0)

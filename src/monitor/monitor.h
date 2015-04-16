@@ -27,7 +27,7 @@
 #include "definitions.h"
 #include "timecodedisplay.h"
 #include "monitor/sharedframe.h"
-
+#include "effectslist/effectslist.h"
 
 #include <QLabel>
 #include <QDomElement>
@@ -81,6 +81,8 @@ public:
     double fps() const;
     /** @brief Get url for the clip's thumbnail */
     QString getMarkerThumb(GenTime pos);
+    /** @brief Get the project's profile info*/
+    ProfileInfo profileInfo() const;
     /** @brief Get the project's Mlt profile */
     Mlt::Profile *profile();
     int getZoneStart();
