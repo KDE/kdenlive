@@ -44,7 +44,10 @@
 #include <QTimer>
 #include <QStandardPaths>
 
-#include "locale.h"
+#include <locale>
+#ifdef Q_OS_MAC
+#include <xlocale.h>
+#endif
 
 
 // Render profiles roles

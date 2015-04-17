@@ -13,9 +13,12 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/projectmanager.h"
 #include "monitor/monitormanager.h"
 #include <QCoreApplication>
-#include <locale>
 #include <QDebug>
 
+#include <locale>
+#ifdef Q_OS_MAC
+#include <xlocale.h>
+#endif
 
 Core *Core::m_self = NULL;
 

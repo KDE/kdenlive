@@ -59,7 +59,10 @@
 #include <KJobWidgets/KJobWidgets>
 #include <QStandardPaths>
 
-#include "locale.h"
+#include <locale>
+#ifdef Q_OS_MAC
+#include <xlocale.h>
+#endif
 
 
 const double DOCUMENTVERSION = 0.88;

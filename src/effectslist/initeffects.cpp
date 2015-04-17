@@ -30,6 +30,10 @@
 #include <QStandardPaths>
 
 #include <klocalizedstring.h>
+#include <locale>
+#ifdef Q_OS_MAC
+#include <xlocale.h>
+#endif
 
 initEffectsThumbnailer::initEffectsThumbnailer() :
     QThread()
