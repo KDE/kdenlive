@@ -50,6 +50,7 @@ public:
     explicit Track(Mlt::Playlist &playlist, qreal fps);
     ~Track();
 
+    /// Property access function
     Mlt::Playlist & playlist();
     qreal fps();
 

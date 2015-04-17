@@ -40,7 +40,7 @@
 #include <QFile>
 #include <QTextCursor>
 
-#include <locale.h>
+#include <locale>
 #ifdef Q_OS_MAC
 #include <xlocale.h>
 #endif

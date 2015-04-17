@@ -15,9 +15,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mltcontroller/bincontroller.h"
 #include "bin/bin.h"
 #include <QCoreApplication>
-#include <locale>
 #include <QDebug>
 
+#include <locale>
 #ifdef Q_OS_MAC
 #include <xlocale.h>
 #endif
