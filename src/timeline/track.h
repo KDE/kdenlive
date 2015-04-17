@@ -24,7 +24,7 @@
 #ifndef TRACK_H
 #define TRACK_H
 
-#include <qt5/QtCore/QObject>
+#include <QObject>
 
 #include <mlt++/Mlt.h>
 
