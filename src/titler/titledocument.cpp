@@ -131,7 +131,11 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
     main.setAttribute("width", m_width);
     main.setAttribute("height", m_height);
     // Save locale
+#ifndef Q_OS_MAC
     const char *locale = setlocale(LC_NUMERIC, NULL);
+#else
+    const char *locale = setlocale(LC_NUMERIC_MASK, NULL);
+#endif
     main.setAttribute("LC_NUMERIC", locale);
     doc.appendChild(main);
 
