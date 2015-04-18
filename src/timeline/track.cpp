@@ -152,4 +152,4 @@ bool Track::resize(qreal t, qreal dt, bool end)
     return true;
 }
 
-#include "timeline/track.moc"
+
