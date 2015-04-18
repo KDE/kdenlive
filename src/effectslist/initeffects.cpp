@@ -147,7 +147,13 @@ void initEffects::parseEffectFiles(const QString &locale)
     }
 
     // Warning: Mlt::Factory::init() resets the locale to the default system value, make sure we keep correct locale
-    if (!locale.isEmpty()) setlocale(LC_NUMERIC, locale.toUtf8().constData());
+    if (!locale.isEmpty()) {
+#ifndef Q_OS_MAC
+        setlocale(LC_NUMERIC, locale.toUtf8().constData());
+#else
+        setlocale(LC_NUMERIC_MASK, locale.toUtf8().constData());
+#endif
+    }
     
     // Retrieve the list of MLT's available effects.
     Mlt::Properties *filters = repository->filters();

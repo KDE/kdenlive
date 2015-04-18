@@ -1026,8 +1026,12 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         render_process_args << QString("-pid:%1").arg(QCoreApplication::applicationPid());
 
         // Set locale for render process if required
-        if (QLocale().decimalPoint() != QLocale::system().decimalPoint()) {
+        if (QLocale().decimalPoint() != QLocale::system().decimalPoint()) {;
+#ifndef Q_OS_MAC
             const QString currentLocale = setlocale(LC_NUMERIC, NULL);
+#else
+            const QString currentLocale = setlocale(LC_NUMERIC_MASK, NULL);
+#endif
             render_process_args << QString("-locale:%1").arg(currentLocale);
         }
 

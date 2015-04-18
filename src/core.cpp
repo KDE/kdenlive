@@ -71,14 +71,22 @@ MonitorManager* Core::monitorManager()
 void Core::initLocale()
 {
     QLocale systemLocale = QLocale();
+#ifndef Q_OS_MAC
     setlocale(LC_NUMERIC, NULL);
+#else
+    setlocale(LC_NUMERIC_MASK, NULL);
+#endif
     char *separator = localeconv()->decimal_point;
     if (separator != systemLocale.decimalPoint()) {
         //qDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
         // HACK: There is a locale conflict, so set locale to C
         // Make sure to override exported values or it won't work
         qputenv("LANG", "C");
+#ifndef Q_OS_MAC
         setlocale(LC_NUMERIC, "C");
+#else
+        setlocale(LC_NUMERIC_MASK, "C");
+#endif
         systemLocale = QLocale::c();
     }
 
