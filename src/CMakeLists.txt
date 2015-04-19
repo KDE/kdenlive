@@ -5,9 +5,6 @@ set(QT_USE_QTSVG 1)
 set(QT_USE_QTXML 1)
 
 find_package(OpenGL REQUIRED)
-if(APPLE)
-  find_package(SDL REQUIRED)
-endif(APPLE)
 
 option(WITH_JogShuttle "Build Jog/Shuttle support" ON)
 
