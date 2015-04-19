@@ -57,7 +57,7 @@ public:
     /**
      * @brief Constructor; used when loading a project and the producer is already available.
      */
-    ProjectClip(const QString &id, ClipController *controller, ProjectFolder* parent);
+    ProjectClip(const QString &id, QIcon thumb, ClipController *controller, ProjectFolder* parent);
     /**
      * @brief Constructor.
      * @param description element describing the clip; the "id" attribute and "resource" property are used

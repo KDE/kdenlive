@@ -38,14 +38,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
-ProjectClip::ProjectClip(const QString &id, ClipController *controller, ProjectFolder* parent) :
+ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *controller, ProjectFolder* parent) :
     AbstractProjectItem(AbstractProjectItem::ClipItem, id, parent)
     , m_controller(controller)
     , audioFrameCache()
     , m_audioThumbCreated(false)
 {
     m_clipStatus = StatusReady;
-    m_thumbnail = bin()->defaultPixmap();
+    m_thumbnail = thumb;
     m_name = m_controller->clipName();
     m_duration = m_controller->getStringDuration();
     getFileHash();

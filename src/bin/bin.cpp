@@ -1178,7 +1178,7 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
             if (groupId.toInt() >= m_folderCounter) m_folderCounter = groupId.toInt() + 1;
         }
         else parentFolder = m_rootFolder;
-        ProjectClip *newItem = new ProjectClip(info.clipId, controller, parentFolder);
+        ProjectClip *newItem = new ProjectClip(info.clipId, m_blankThumb, controller, parentFolder);
         if (info.clipId.toInt() >= m_clipCounter) m_clipCounter = info.clipId.toInt() + 1;
     }
     emit producerReady(info.clipId);
