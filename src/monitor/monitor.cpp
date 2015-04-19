@@ -98,6 +98,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor, SIGNAL(effectChanged(QRect)), this, SIGNAL(effectChanged(QRect)));
     m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitor.qml"))));
     m_rootItem = m_glMonitor->rootObject();
+    connect(m_glMonitor, SIGNAL(showContextMenu(QPoint)), this, SLOT(slotShowMenu(QPoint)));
 
     m_glWidget->setMinimumSize(QSize(320, 180));
     layout->addWidget(m_glWidget, 10);
@@ -370,6 +371,7 @@ void Monitor::updateMarkers()
         }
 	m_ruler->setMarkers(markers);
         m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
+        checkOverlay();
     }
 }
 
@@ -447,14 +449,21 @@ void Monitor::slotSetZoneEnd()
 void Monitor::mousePressEvent(QMouseEvent * event)
 {
     if (render) render->setActiveMonitor();
-    if (event->button() != Qt::RightButton) {
+    if (!(event->button() & Qt::RightButton)) {
         if (m_glWidget->geometry().contains(event->pos())) {
             m_dragStarted = true;
             m_DragStartPosition = event->pos();
+            event->accept();
         }
     } else if (m_contextMenu) {
         m_contextMenu->popup(event->globalPos());
+        event->accept();
     }
+}
+
+void Monitor::slotShowMenu(const QPoint pos)
+{
+    m_contextMenu->popup(pos);
 }
 
 void Monitor::resizeEvent(QResizeEvent *event)
@@ -607,7 +616,7 @@ void Monitor::mouseMoveEvent(QMouseEvent *event)
         //Qt::DropAction dropAction = drag->exec();
 
     }
-    //event->accept();
+    event->accept();
 }
 
 
@@ -726,7 +735,7 @@ void Monitor::slotSeek(int pos)
 
 void Monitor::checkOverlay()
 {
-    if (m_rootItem->objectName() != "root") {
+    if (!m_rootItem || m_rootItem->objectName() != "root") {
         // we are not in main view, ignore
         return;
     }
@@ -966,7 +975,7 @@ void Monitor::openClip(ClipController *controller)
 {
     if (render == NULL) return;
     m_controller = controller;
-    if (m_rootItem->objectName() != "root") loadMasterQml();
+    if (m_rootItem && m_rootItem->objectName() != "root") loadMasterQml();
     if (controller) {
         updateMarkers();
         render->setProducer(m_controller->masterProducer(), -1, isActive());
@@ -1077,11 +1086,10 @@ void Monitor::resetProfile(const QString &profile)
         slotActivateMonitor();
         render->resetProfile(profile);
     }
-    if (m_rootItem->objectName() != "root") {
+    if (m_rootItem && m_rootItem->objectName() == "rooteffectscene") {
         // we are not in main view, ignore
-        return;
+        m_rootItem->setProperty("framesize", QRect(0, 0, m_glMonitor->profileSize().width(), m_glMonitor->profileSize().height()));
     }
-    m_rootItem->setProperty("framesize", QRect(0, 0, m_glMonitor->profileSize().width(), m_glMonitor->profileSize().height()));
 }
 
 void Monitor::saveSceneList(const QString &path, const QDomElement &info)
@@ -1109,7 +1117,7 @@ void Monitor::slotSwitchDropFrames(bool show)
 
 void Monitor::slotSwitchMonitorInfo(bool show)
 {
-    if (m_rootItem->objectName() != "root") {
+    if (m_rootItem && m_rootItem->objectName() != "root") {
         // we are not in main view, ignore
         return;
     }
@@ -1174,7 +1182,7 @@ void Monitor::slotSetSelectedClip(Transition* item)
 void Monitor::slotEnableEffectScene(bool enable)
 {
     KdenliveSettings::setShowOnMonitorScene(enable);
-    bool isDisplayed = m_rootItem->objectName() == "rooteffectscene";
+    bool isDisplayed = m_rootItem && m_rootItem->objectName() == "rooteffectscene";
     if (enable == isDisplayed) return;
     slotShowEffectScene(enable);
 }
@@ -1246,7 +1254,7 @@ void Monitor::onFrameDisplayed(const SharedFrame& frame)
 {
     int position = frame.get_position();
     render->checkFrameNumber(position);
-    if (m_rootItem->objectName() == "root") {
+    if (m_rootItem && m_rootItem->objectName() == "root") {
         // we are in main view, show frame
         m_rootItem->setProperty("framenum", QString::number(position));
     }

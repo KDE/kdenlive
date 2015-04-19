@@ -1,5 +1,5 @@
 install(FILES
-  visible.png  	
+  visible.png
   novisible.png
   DESTINATION ${DATA_INSTALL_DIR}/kdenlive/pics)
 

@@ -112,6 +112,7 @@ signals:
     void startDrag();
     void effectChanged(const QRect);
     void analyseFrame(QImage);
+    void showContextMenu(const QPoint);
 
 private:
     QRect m_rect;

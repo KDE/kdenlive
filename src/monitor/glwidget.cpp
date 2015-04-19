@@ -424,17 +424,24 @@ void GLWidget::mousePressEvent(QMouseEvent* event)
 {
     QQuickView::mousePressEvent(event);
     if (rootObject()->objectName() != "root") {
+        event->ignore();
         return;
     }
     if (event->isAccepted()) return;
-    if (event->button() == Qt::LeftButton)
+    if (event->button() & Qt::LeftButton) {
         m_dragStart = event->pos();
+    }
+    else if (event->button() & Qt::RightButton) {
+        emit showContextMenu(event->globalPos());
+        event->accept();
+    }
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent* event)
 {
     QQuickView::mouseMoveEvent(event);
     if (rootObject()->objectName() != "root") {
+        event->ignore();
         return;
     }
     if (event->isAccepted()) return;

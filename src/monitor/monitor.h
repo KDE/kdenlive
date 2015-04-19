@@ -176,6 +176,7 @@ private slots:
     /** @brief split screen to compare clip with and without effect */
     void slotSwitchCompare(bool enable);
     void slotAdjustEffectCompare(double percent);
+    void slotShowMenu(const QPoint pos);
 
 public slots:
     void slotOpenFile(const QString &);
