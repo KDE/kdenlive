@@ -165,7 +165,7 @@ void GLWidget::initializeGL()
 
 void GLWidget::effectRectChanged()
 {
-    QRect rect = rootObject()->property("framesize").toRect();
+    const QRect rect = rootObject()->property("framesize").toRect();
     emit effectChanged(rect);
 }
 

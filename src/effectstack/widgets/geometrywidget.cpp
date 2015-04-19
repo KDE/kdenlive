@@ -301,7 +301,7 @@ void GeometryWidget::updateTimecodeFormat()
 QString GeometryWidget::getValue() const
 {
     QString result = m_geometry->serialise();
-    if (result.contains(";") && !result.section(";",0,0).contains("=")) {
+    if (m_ui.widgetTimeWrapper->isVisible() && result.contains(";") && !result.section(";",0,0).contains("=")) {
         result.prepend("0=");
     }
     return result;
@@ -416,7 +416,7 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
 
     Mlt::GeometryItem item;
     Mlt::GeometryItem previousItem;
-    if (m_geometry->fetch(&item, pos) || item.key() == false) {
+    if (m_ui.widgetTimeWrapper->isVisible() && (m_geometry->fetch(&item, pos) || item.key() == false)) {
         // no keyframe
         m_monitor->setEffectKeyframe(false);
         //m_rect->setEnabled(false);
@@ -611,10 +611,14 @@ void GeometryWidget::slotUpdateGeometry()
 {
     Mlt::GeometryItem item;
     int pos = m_timePos->getValue();
-
+    if (!m_ui.widgetTimeWrapper->isVisible()) {
+        // This is a fixed rectangle parameter, use only keyframe 0
+        pos = 0;
+    }
     // get keyframe and make sure it is the correct one
-    if (m_geometry->next_key(&item, pos) || item.frame() != pos)
+    if (m_geometry->next_key(&item, pos) || item.frame() != pos) {
         return;
+    }
 
     QRectF rect = m_monitor->effectRect().normalized();
     item.x(rect.x());
@@ -641,14 +645,18 @@ void GeometryWidget::slotUpdateGeometry()
     emit parameterChanged();
 }
 
-void GeometryWidget::slotUpdateGeometry(QRect r)
+void GeometryWidget::slotUpdateGeometry(const QRect r)
 {
     Mlt::GeometryItem item;
     int pos = m_timePos->getValue();
-
+    if (!m_ui.widgetTimeWrapper->isVisible()) {
+        // This is a fixed rectangle parameter, use only keyframe 0
+        pos = 0;
+    }
     // get keyframe and make sure it is the correct one
-    if (m_geometry->next_key(&item, pos) || item.frame() != pos)
+    if (m_geometry->next_key(&item, pos) || item.frame() != pos) {
         return;
+    }
 
     QRectF rectSize = r.normalized();
     QPointF rectPos = r.topLeft();
@@ -773,44 +781,31 @@ void GeometryWidget::slotSetOpacity(double value)
 void GeometryWidget::slotMoveLeft()
 {
     m_spinX->setValue(0);
-    /*m_monitor->setUpEffectGeometry(0, m_spinY->value(), m_spinHeight->value(), m_spinWidth->value());
-    slotUpdateGeometry();*/
 }
 
 void GeometryWidget::slotCenterH()
 {
     m_spinX->setValue((m_monitor->render->frameRenderWidth() - m_spinWidth->value()) / 2);
-    /*m_monitor->setUpEffectGeometry((m_monitor->render->frameRenderWidth() - m_spinWidth->value()) / 2, m_spinY->value(), m_spinHeight->value(), m_spinWidth->value());
-    slotUpdateGeometry();*/
 }
 
 void GeometryWidget::slotMoveRight()
 {
     m_spinX->setValue(m_monitor->render->frameRenderWidth() - m_spinWidth->value());
-    /*m_monitor->setUpEffectGeometry(m_monitor->render->frameRenderWidth() - m_spinWidth->value(), m_spinY->value(), m_spinHeight->value(), m_spinWidth->value());
-    slotUpdateGeometry();*/
 }
 
 void GeometryWidget::slotMoveTop()
 {
     m_spinY->setValue(0);
-    /*m_monitor->setUpEffectGeometry(m_spinX->value(), 0, m_spinHeight->value(), m_spinWidth->value());
-    m_rect->setPos(m_rect->pos().x(), 0);
-    slotUpdateGeometry();*/
 }
 
 void GeometryWidget::slotCenterV()
 {
     m_spinY->setValue((m_monitor->render->renderHeight() - m_spinHeight->value()) / 2);
-    /*m_rect->setPos(m_rect->pos().x(), (m_monitor->render->renderHeight() - m_rect->rect().height()) / 2);
-    slotUpdateGeometry();*/
 }
 
 void GeometryWidget::slotMoveBottom()
 {
     m_spinY->setValue(m_monitor->render->renderHeight() - m_spinHeight->value());
-    /*m_rect->setPos(m_rect->pos().x(), m_monitor->render->renderHeight() - m_rect->rect().height());
-    slotUpdateGeometry();*/
 }
 
 

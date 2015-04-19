@@ -233,7 +233,7 @@ signals:
     void requestFrameForAnalysis(bool);
     /** @brief Request a zone extraction (ffmpeg transcoding). */
     void extractZone(const QString &id);
-    void effectChanged(QRect r);
+    void effectChanged(const QRect);
     void addKeyframe();
 };
 

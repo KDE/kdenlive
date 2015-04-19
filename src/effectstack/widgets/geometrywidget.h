@@ -134,7 +134,7 @@ private slots:
     void slotUpdatePath();
     /** @brief Updates the Mlt::Geometry object. */
     void slotUpdateGeometry();
-    void slotUpdateGeometry(QRect r);
+    void slotUpdateGeometry(const QRect r);
     /** @brief Updates the spinBoxes according to the rect. */
     void slotUpdateProperties();
 

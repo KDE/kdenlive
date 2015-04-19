@@ -110,7 +110,7 @@ signals:
     void switchFullScreen(bool minimizeOnly = false);
     void mouseSeek(int eventDelta, bool fast);
     void startDrag();
-    void effectChanged(QRect r);
+    void effectChanged(const QRect);
     void analyseFrame(QImage);
 
 private:
