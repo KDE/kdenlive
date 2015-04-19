@@ -118,7 +118,7 @@ public:
             return QSize(hint.width(), qMin(option.fontMetrics.lineSpacing() + 4, hint.height()));
         }
         if (type == AbstractProjectItem::ClipItem) {
-            return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, hint.height()));
+            return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMax(hint.height(), option.decorationSize.height())));
         }
         if (type == AbstractProjectItem::SubClipItem) {
             return QSize(hint.width(), qMin((int) (option.fontMetrics.lineSpacing() * 1.5) + 4, hint.height()));
@@ -503,6 +503,7 @@ private:
     QSlider *m_slider;
     KSplitterCollapserButton *m_collapser;
     Monitor *m_monitor;
+    QIcon m_blankThumb;
     QMenu *m_menu;
     QAction *m_openAction;
     QAction *m_reloadAction;

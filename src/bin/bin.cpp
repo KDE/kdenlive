@@ -203,6 +203,7 @@ Bin::Bin(QWidget* parent) :
   , m_folderUp(NULL)
   , m_doc(NULL)
   , m_iconSize(160, 90)
+  , m_blankThumb()
   , m_propertiesPanel(NULL)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
@@ -260,8 +261,7 @@ Bin::Bin(QWidget* parent) :
     m_slider->setMinimumWidth(40);
     m_slider->setRange(0, 10);
     // TODO: fix view zoom on startup
-    //m_slider->setValue(KdenliveSettings::bin_zoom());
-    m_slider->setValue(4);
+    m_slider->setValue(KdenliveSettings::bin_zoom());
     connect(m_slider, SIGNAL(valueChanged(int)), this, SLOT(slotSetIconSize(int)));
     QWidgetAction * widgetslider = new QWidgetAction(this);
     widgetslider->setDefaultWidget(m_slider);
@@ -509,7 +509,6 @@ void Bin::setDocument(KdenliveDoc* project)
     m_doc = project;
     int iconHeight = QFontInfo(font()).pixelSize() * 3.5;
     m_iconSize = QSize(iconHeight * m_doc->dar(), iconHeight);
-    m_itemModel->setIconSize(m_iconSize);
     m_jobManager = new JobManager(this, project->fps());
     m_rootFolder = new ProjectFolder(this);
     setEnabled(true);
@@ -549,7 +548,7 @@ void Bin::createClip(QDomElement xml)
             parentFolder = m_rootFolder;
         }
     }
-    ProjectClip *newItem = new ProjectClip(xml, parentFolder);
+    ProjectClip *newItem = new ProjectClip(xml, m_blankThumb, parentFolder);
 }
 
 void Bin::slotAddFolder()
@@ -842,9 +841,11 @@ void Bin::slotInitView(QAction *action)
     }
     m_itemView->setMouseTracking(true);
     m_itemView->viewport()->installEventFilter(m_eventEater);
-    QSize zoom = m_iconSize;
-    zoom = zoom * (m_slider->value() / 4.0);
+    QSize zoom = m_iconSize * (m_slider->value() / 4.0);
     m_itemView->setIconSize(zoom);
+    QPixmap pix(zoom);
+    pix.fill(Qt::lightGray);
+    m_blankThumb.addPixmap(pix);
     m_itemView->setModel(m_proxyModel);
     m_itemView->setSelectionModel(m_proxyModel->selectionModel());
     m_splitter->addWidget(m_itemView);
@@ -888,6 +889,9 @@ void Bin::slotSetIconSize(int size)
     QSize zoom = m_iconSize;
     zoom = zoom * (size / 4.0);
     m_itemView->setIconSize(zoom);
+    QPixmap pix(zoom);
+    pix.fill(Qt::lightGray);
+    m_blankThumb.addPixmap(pix);
 }
 
 
@@ -1944,3 +1948,4 @@ void Bin::deleteAllClipMarkers(const QString &id)
     if (command->childCount() > 0) m_doc->commandStack()->push(command);
     else delete command;
 }
+

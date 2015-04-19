@@ -62,7 +62,7 @@ public:
      * @brief Constructor.
      * @param description element describing the clip; the "id" attribute and "resource" property are used
      */
-    ProjectClip(const QDomElement &description, ProjectFolder *parent);
+    ProjectClip(const QDomElement &description, QIcon thumb, ProjectFolder *parent);
     virtual ~ProjectClip();
 
     void reloadProducer(bool thumbnailOnly = false);

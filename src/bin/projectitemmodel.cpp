@@ -39,19 +39,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ProjectItemModel::ProjectItemModel(Bin *bin) :
     QAbstractItemModel(bin)
   , m_bin(bin)
-  , m_iconSize(160, 90)
 {
     connect(m_bin, SIGNAL(itemUpdated(AbstractProjectItem*)), this, SLOT(onItemUpdated(AbstractProjectItem*)));
 }
 
 ProjectItemModel::~ProjectItemModel()
 {
-}
-
-
-void ProjectItemModel::setIconSize(QSize s)
-{
-    m_iconSize = s;
 }
 
 QVariant ProjectItemModel::data(const QModelIndex& index, int role) const

@@ -83,8 +83,6 @@ public slots:
 private:
     /** @brief Reference to the project bin */
     Bin *m_bin;
-    /** @brief The default size for thumbnails */
-    QSize m_iconSize;
 
 signals:
     //TODO

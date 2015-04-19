@@ -45,9 +45,7 @@ ProjectClip::ProjectClip(const QString &id, ClipController *controller, ProjectF
     , m_audioThumbCreated(false)
 {
     m_clipStatus = StatusReady;
-    QPixmap pix(64, 36);
-    pix.fill(Qt::lightGray);
-    m_thumbnail = QIcon(pix);
+    m_thumbnail = bin()->defaultPixmap();
     m_name = m_controller->clipName();
     m_duration = m_controller->getStringDuration();
     getFileHash();
@@ -55,7 +53,7 @@ ProjectClip::ProjectClip(const QString &id, ClipController *controller, ProjectF
     bin()->loadSubClips(id, m_controller->getSubClips());
 }
 
-ProjectClip::ProjectClip(const QDomElement& description, ProjectFolder* parent) :
+ProjectClip::ProjectClip(const QDomElement& description, QIcon thumb, ProjectFolder* parent) :
     AbstractProjectItem(AbstractProjectItem::ClipItem, description, parent)
     , m_controller(NULL)
     , audioFrameCache()
@@ -63,9 +61,7 @@ ProjectClip::ProjectClip(const QDomElement& description, ProjectFolder* parent) 
 {
     Q_ASSERT(description.hasAttribute("id"));
     m_clipStatus = StatusWaiting;
-    QPixmap pix(64, 36);
-    pix.fill(Qt::lightGray);
-    m_thumbnail = QIcon(pix);
+    m_thumbnail = thumb;
     QString resource = getXmlProperty(description, "resource");
     QString clipName = getXmlProperty(description, "kdenlive:clipname");
     if (!clipName.isEmpty()) {
