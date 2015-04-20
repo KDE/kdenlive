@@ -26,7 +26,8 @@
 
 #include <QObject>
 
-#include <mlt++/Mlt.h>
+#include <mlt++/MltPlaylist.h>
+#include <mlt++/MltProducer.h>
 
 /** @brief Kdenlive timeline track, to access MLT playlist operations
  * The track as seen in the video editor is actually a playlist
@@ -58,6 +59,9 @@ public:
      * @param time (in seconds)
      * @return frame number */
     int frame(qreal t);
+    /** @brief get the playlist duration
+     * @return play time in seconds */
+    qreal length();
 
     /** @brief add a clip
      * @param cut is the MLT Producer (resource + in/out timecodes etc)
@@ -80,6 +84,10 @@ public:
      *  or the start of the right clip (\em false)
      * @return true if success */
     bool resize(qreal told, qreal tnew, bool end);
+    /** @brief split the clip at given position
+     * @param t is the cut time in playlist
+     * @return true if success */
+    bool cut(qreal t);
 
 public Q_SLOTS:
     void setPlaylist(Mlt::Playlist &playlist);

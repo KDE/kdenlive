@@ -1,7 +1,8 @@
 /*
  * Kdenlive timeline track handling MLT playlist
- * Copyright 2015  Vincent Pinon <vpinon@kde.org>
- * 
+ * Copyright 2015 Kdenlive team <kdenlive@kde.org>
+ * Author: Vincent Pinon <vpinon@kde.org>
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of
@@ -20,7 +21,8 @@
  * 
  */
 
-#include "timeline/track.h"
+#include "track.h"
+#include "clip.h"
 #include <QtGlobal>
 #include <math.h>
 
@@ -55,6 +57,11 @@ int Track::frame(qreal t)
 {
     return round(t * m_fps);
 }
+
+qreal Track::length() {
+    return m_playlist.get_playtime() / m_fps;
+}
+
 void Track::setFps(qreal fps)
 {
     m_fps = fps;
@@ -152,4 +159,20 @@ bool Track::resize(qreal t, qreal dt, bool end)
     return true;
 }
 
-
+bool Track::cut(qreal t)
+{
+    int pos = frame(t);
+    int index = m_playlist.get_clip_index_at(pos);
+    if (m_playlist.is_blank(index)) {
+        return false;
+    }
+    m_playlist.lock();
+    if (m_playlist.split(index, pos - m_playlist.clip_start(index) - 1)) {
+        qWarning("MLT split failed");
+        m_playlist.unlock();
+        return false;
+    }
+    m_playlist.unlock();
+    Clip(*m_playlist.get_clip(index + 1)).addEffects(*m_playlist.get_clip(index));
+    return true;
+}

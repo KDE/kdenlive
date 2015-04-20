@@ -2410,7 +2410,7 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         }
 
         if (execute) {
-            if (!m_document->renderer()->mltCutClip(m_document->tracksCount() - info.track, cutTime)) {
+            if (!m_timeline->track(info.track)->cut(cutTime.seconds())) {
                 // Error cuting clip in playlist
                 m_blockRefresh = false;
                 return NULL;
@@ -6597,11 +6597,8 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
             return;
 
         for (; freetrack > 0; --freetrack) {
-            ////qDebug() << "// CHK DOC TRK:" << freetrack << ", DUR:" << m_document->renderer()->mltTrackDuration(freetrack);
             if (m_document->trackInfoAt(freetrack - 1).type == AudioTrack && !m_document->trackInfoAt(freetrack - 1).isLocked) {
-                ////qDebug() << "// CHK DOC TRK:" << freetrack << ", DUR:" << m_document->renderer()->mltTrackDuration(freetrack);
                 if (m_document->renderer()->mltTrackDuration(freetrack) < start || m_document->renderer()->mltGetSpaceLength(pos, freetrack, false) >= clip->cropDuration().frames(m_document->fps())) {
-                    ////qDebug() << "FOUND SPACE ON TRK: " << freetrack;
                     break;
                 }
             }

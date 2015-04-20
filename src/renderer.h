@@ -213,7 +213,6 @@ class Render: public AbstractRender
     Mlt::Producer *checkSlowMotionProducer(Mlt::Producer *prod, QDomElement element);
     int mltInsertClip(ItemInfo info, const QString &clipId, bool overwrite = false, bool push = false);
     bool mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement element, Mlt::Producer *prod);
-    bool mltCutClip(int track, const GenTime &position);
     void mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset);
     int mltGetSpaceLength(const GenTime &pos, int track, bool fromBlankStart);
 
