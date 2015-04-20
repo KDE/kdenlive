@@ -1045,7 +1045,7 @@ void Bin::showClipProperties(ProjectClip *clip)
 {
     closeEditing();
     // Special case: text clips open title widget
-    if (clip->clipType() == Text) {
+    if (clip && clip->clipType() == Text) {
         // Cleanup widget for new content
         foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
             delete w;
