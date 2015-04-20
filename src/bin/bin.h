@@ -525,6 +525,7 @@ private:
     /** @brief Get the QModelIndex value for an item in the Bin. */
     QModelIndex getIndexForId(const QString &id, bool folderWanted) const;
     ProjectClip *getFirstSelectedClip();
+    void showTitleWidget(ProjectClip *clip);
 
 signals:
     void itemUpdated(AbstractProjectItem*);

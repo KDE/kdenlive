@@ -330,6 +330,20 @@ void ProjectClip::setProducerProperty(const QString &name, const QString &data)
     }
 }
 
+QMap <QString, QString> ProjectClip::currentProperties(const QMap <QString, QString> &props)
+{
+    QMap <QString, QString> currentProps;
+    if (!m_controller) {
+        return currentProps;
+    }
+    QMap<QString, QString>::const_iterator i = props.constBegin();
+    while (i != props.constEnd()) {
+        currentProps.insert(i.key(), m_controller->property(i.key()));
+        ++i;
+    }
+    return currentProps;
+}
+
 QColor ProjectClip::getProducerColorProperty(const QString &key) const
 {
     if (m_controller) {
@@ -442,8 +456,11 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
             //reloadProducer(true);
         }
         else {
-            reloadProducer(true);
+            reloadProducer();
         }
+        refreshProducer = true;
+    }
+    if (properties.contains("xmldata")) {
         refreshProducer = true;
     }
     if (properties.contains("length")) {
@@ -547,6 +564,7 @@ bool ProjectClip::deleteClipMarkers(QUndoCommand *command)
         newMarkers << marker;
     }
     new AddMarkerCommand(this, markers, newMarkers, command);
+    return true;
 }
 
 void ProjectClip::addMarkers(QList <CommentedTime> &markers)

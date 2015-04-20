@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "monitor/monitor.h"
 #include "doc/kdenlivedoc.h"
 #include "dialogs/clipcreationdialog.h"
+#include "titler/titlewidget.h"
 #include "core.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/clippropertiescontroller.h"
@@ -1043,6 +1044,16 @@ void Bin::slotSwitchClipProperties(const QModelIndex &ix)
 void Bin::showClipProperties(ProjectClip *clip)
 {
     closeEditing();
+    // Special case: text clips open title widget
+    if (clip->clipType() == Text) {
+        // Cleanup widget for new content
+        foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
+            delete w;
+        }
+        showTitleWidget(clip);
+        m_collapser->collapse();
+        return;
+    }
     QString panelId = m_propertiesPanel->property("clipId").toString();
     if (!clip || m_propertiesPanel->width() == 0) {
         m_propertiesPanel->setProperty("clipId", QVariant());
@@ -1061,6 +1072,7 @@ void Bin::showClipProperties(ProjectClip *clip)
             delete w;
     }
     m_propertiesPanel->setProperty("clipId", clip->clipId());
+
     QVBoxLayout *lay = (QVBoxLayout*) m_propertiesPanel->layout();
     if (lay == 0) {
         lay = new QVBoxLayout(m_propertiesPanel);
@@ -1947,5 +1959,43 @@ void Bin::deleteAllClipMarkers(const QString &id)
     }
     if (command->childCount() > 0) m_doc->commandStack()->push(command);
     else delete command;
+}
+
+// TODO: move title editing into a better place...
+void Bin::showTitleWidget(ProjectClip *clip)
+{
+    QString path = clip->getProducerProperty("resource");
+    QString titlepath = m_doc->projectFolder().path() + QDir::separator() + "titles/";
+    QPointer<TitleWidget> dia_ui = new TitleWidget(QUrl(), m_doc->timecode(), titlepath, pCore->monitorManager()->projectMonitor()->render, pCore->window());
+        QDomDocument doc;
+        doc.setContent(clip->getProducerProperty("xmldata"));
+        dia_ui->setXml(doc);
+        if (dia_ui->exec() == QDialog::Accepted) {
+            QMap <QString, QString> newprops;
+            newprops.insert("xmldata", dia_ui->xml().toString());
+            if (dia_ui->duration() != clip->duration().frames(m_doc->fps())) {
+                // duration changed, we need to update duration
+                newprops.insert("out", QString::number(dia_ui->duration() - 1));
+                int currentLength = clip->getProducerIntProperty("length");
+                if (currentLength <= dia_ui->duration()) {
+                    newprops.insert("length", QString::number(dia_ui->duration()));
+                } else {
+                    newprops.insert("length", clip->getProducerProperty("length"));
+                }
+            }
+            // trigger producer reload
+            newprops.insert("force_reload", "2");
+            if (!path.isEmpty()) {
+                // we are editing an external file, asked if we want to detach from that file or save the result to that title file.
+                if (KMessageBox::questionYesNo(pCore->window(), i18n("You are editing an external title clip (%1). Do you want to save your changes to the title file or save the changes for this project only?", path), i18n("Save Title"), KGuiItem(i18n("Save to title file")), KGuiItem(i18n("Save in project only"))) == KMessageBox::Yes) {
+                    // save to external file
+                    dia_ui->saveTitle(QUrl::fromLocalFile(path));
+                } else {
+                    newprops.insert("resource", QString());
+                }
+            }
+            slotEditClipCommand(clip->clipId(), clip->currentProperties(newprops), newprops);
+        }
+        delete dia_ui;
 }
 

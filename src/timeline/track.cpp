@@ -65,7 +65,7 @@ void Track::setFps(qreal fps)
 bool Track::add(Mlt::Producer *cut, qreal t)
 {
     // /!\ getProducerForTrack
-    m_playlist.insert_at(frame(t), cut, 1); //mode?
+   return (m_playlist.insert_at(frame(t), cut, 1) == 0); //mode? // warning, MLT functions return true on error
 }
 
 bool Track::del(qreal t)

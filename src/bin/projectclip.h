@@ -159,6 +159,7 @@ public:
     void resetProducerProperty(const QString &name);
     
     /** @brief Get a property from the MLT producer. */
+    QMap <QString, QString> currentProperties(const QMap <QString, QString> &props);
     QString getProducerProperty(const QString &key) const;
     int getProducerIntProperty(const QString &key) const;
     QColor getProducerColorProperty(const QString &key) const;
