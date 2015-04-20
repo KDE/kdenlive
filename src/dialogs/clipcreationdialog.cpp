@@ -75,6 +75,15 @@ QStringList ClipCreationDialog::getExtensions()
 }
 
 //static
+void ClipCreationDialog::createClipFromXml(KdenliveDoc *doc, QDomElement xml, QStringList groupInfo, Bin *bin)
+{
+    uint id = bin->getFreeClipId();
+    xml.setAttribute("id", QString::number(id));
+    AddClipCommand *command = new AddClipCommand(doc, xml, QString::number(id), true);
+    doc->commandStack()->push(command);
+}
+
+//static
 void ClipCreationDialog::createColorClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
 {
     QPointer<QDialog> dia = new QDialog(bin);

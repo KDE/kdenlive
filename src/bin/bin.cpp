@@ -344,10 +344,15 @@ Monitor *Bin::monitor()
     return m_monitor;
 }
 
-const QStringList Bin::getFolderInfo()
+const QStringList Bin::getFolderInfo(QModelIndex selectedIx)
 {
     QStringList folderInfo;
-    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    QModelIndexList indexes;
+    if (selectedIx.isValid()) {
+        indexes << selectedIx;
+    } else {
+        indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    }
     if (indexes.isEmpty()) {
         return folderInfo;
     }
@@ -371,7 +376,7 @@ void Bin::slotAddClip()
 {
     // Check if we are in a folder
     QStringList folderInfo = getFolderInfo();
-    ClipCreationDialog::createClipsCommand(pCore->projectManager()->current(), folderInfo, this);
+    ClipCreationDialog::createClipsCommand(m_doc, folderInfo, this);
 }
 
 void Bin::deleteClip(const QString &id)
@@ -448,9 +453,27 @@ void Bin::slotReloadClip()
             QDomDocument doc;
             QDomElement xml = currentItem->toXml(doc);
             currentItem->setClipStatus(AbstractProjectItem::StatusWaiting);
-            
+
             // We need to set a temporary id before all outdated producers are replaced;
-            pCore->projectManager()->current()->renderer()->getFileProperties(xml, currentItem->clipId(), 150, true);
+            m_doc->renderer()->getFileProperties(xml, currentItem->clipId(), 150, true);
+        }
+    }
+}
+
+void Bin::slotDuplicateClip()
+{
+    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    foreach (const QModelIndex &ix, indexes) {
+        if (!ix.isValid()) {
+            continue;
+        }
+        AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
+        ProjectClip *currentItem = qobject_cast<ProjectClip*>(item);
+        if (currentItem) {
+            QStringList folderInfo = getFolderInfo(ix);
+            QDomDocument doc;
+            QDomElement xml = currentItem->toXml(doc);
+            ClipCreationDialog::createClipFromXml(m_doc, xml, folderInfo, this);
         }
     }
 }
@@ -745,6 +768,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
             if (currentItem->itemType() != AbstractProjectItem::FolderItem) {
                 m_editAction->setEnabled(true);
                 m_reloadAction->setEnabled(true);
+                m_duplicateAction->setEnabled(true);
                 if (m_propertiesPanel->width() > 0) {
                     // if info panel is displayed, update info
                     showClipProperties((ProjectClip *)currentItem);
@@ -755,12 +779,14 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 // A folder was selected, disable editing clip
                 m_editAction->setEnabled(false);
                 m_reloadAction->setEnabled(false);
+                m_duplicateAction->setEnabled(false);
                 m_deleteAction->setText(i18n("Delete Folder"));
                 m_proxyAction->setText(i18n("Proxy Folder"));
             }
 	    m_deleteAction->setEnabled(true);
         } else {
             m_reloadAction->setEnabled(false);
+            m_duplicateAction->setEnabled(false);
 	    m_editAction->setEnabled(false);
 	    m_deleteAction->setEnabled(false);
 	}
@@ -955,6 +981,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_transcodeAction->setEnabled(enableClipActions);
     m_editAction->setEnabled(enableClipActions);
     m_reloadAction->setEnabled(enableClipActions);
+    m_duplicateAction->setEnabled(enableClipActions);
     m_clipsActionsMenu->setEnabled(enableClipActions);
     m_extractAudioAction->setEnabled(enableClipActions);
     // Show menu
@@ -1097,14 +1124,14 @@ void Bin::reloadClip(const QString &id)
     if (!clip) return;
     QDomDocument doc;
     QDomElement xml = clip->toXml(doc);
-    pCore->projectManager()->current()->renderer()->getFileProperties(xml, id, 150, true);
+    m_doc->renderer()->getFileProperties(xml, id, 150, true);
 }
 
 void Bin::refreshEditedClip()
 {
     const QString id = m_propertiesPanel->property("clipId").toString();
-    /*pCore->projectManager()->current()->bin()->refreshThumnbail(id);
-    pCore->projectManager()->current()->binMonitor()->refresh();*/
+    /*m_doc->bin()->refreshThumnbail(id);
+    m_doc->binMonitor()->refresh();*/
 }
 
 void Bin::slotThumbnailReady(const QString &id, const QImage &img)
@@ -1218,8 +1245,8 @@ void Bin::setupGeneratorMenu(const QHash<QString,QMenu*>& menus)
         //qDebug()<<"Warning, menu was not created, something is wrong";
         return;
     }
-    if (!menus.contains("addMenu") && ! menus.value("addMenu") )
-        return;
+    /*if (!menus.contains("addMenu") && ! menus.value("addMenu") )
+        return;*/
 
     QMenu *menu = m_addButton->menu();
     if (menus.contains("addMenu") && menus.value("addMenu")){
@@ -1250,6 +1277,7 @@ void Bin::setupGeneratorMenu(const QHash<QString,QMenu*>& menus)
 
     }
     if (m_reloadAction) m_menu->addAction(m_reloadAction);
+    if (m_duplicateAction) m_menu->addAction(m_duplicateAction);
     if (m_proxyAction) m_menu->addAction(m_proxyAction);
     if (menus.contains("inTimelineMenu") && menus.value("inTimelineMenu")){
         QMenu* inTimelineMenu=menus.value("inTimelineMenu");
@@ -1273,6 +1301,7 @@ void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, QHash <QString, QAct
 
     m_openAction = actions.value("open");
     m_reloadAction = actions.value("reload");
+    m_duplicateAction = actions.value("duplicate");
     m_proxyAction = actions.value("proxy");
 
     QMenu *m = new QMenu;
@@ -1283,7 +1312,7 @@ void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, QHash <QString, QAct
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_toolbar->addWidget(m_addButton);
     m_menu = new QMenu();
-    m_menu->addActions(addMenu->actions());
+    //m_menu->addActions(addMenu->actions());
 }
 
 const QString Bin::getDocumentProperty(const QString &key)
@@ -1371,13 +1400,13 @@ void Bin::gotProxy(const QString &id)
     if (clip) {
         QDomDocument doc;
         QDomElement xml = clip->toXml(doc);
-        pCore->projectManager()->current()->renderer()->getFileProperties(xml, id, 150, true);
+        m_doc->renderer()->getFileProperties(xml, id, 150, true);
     }
 }
 
 void Bin::reloadProducer(const QString &id, QDomElement xml)
 {
-    pCore->projectManager()->current()->renderer()->getFileProperties(xml, id, 150, true);
+    m_doc->renderer()->getFileProperties(xml, id, 150, true);
 }
 
 void Bin::refreshClip(const QString &id)
@@ -1432,16 +1461,16 @@ void Bin::slotCreateProjectClip()
     QStringList folderInfo = getFolderInfo();
     switch (type) {
       case Color:
-          ClipCreationDialog::createColorClip(pCore->projectManager()->current(), folderInfo, this);
+          ClipCreationDialog::createColorClip(m_doc, folderInfo, this);
           break;
       case SlideShow:
-          ClipCreationDialog::createSlideshowClip(pCore->projectManager()->current(), folderInfo, this);
+          ClipCreationDialog::createSlideshowClip(m_doc, folderInfo, this);
           break;
       case Text:
-          ClipCreationDialog::createTitleClip(pCore->projectManager()->current(), folderInfo, QString(), this);
+          ClipCreationDialog::createTitleClip(m_doc, folderInfo, QString(), this);
           break;
       case TextTemplate:
-          ClipCreationDialog::createTitleTemplateClip(pCore->projectManager()->current(), folderInfo, QString(), this);
+          ClipCreationDialog::createTitleTemplateClip(m_doc, folderInfo, QString(), this);
           break;
       default:
           break;
@@ -1578,7 +1607,7 @@ void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
         }
     }
     //TODO: verify if urls exist, check for folders
-    ClipCreationDialog::createClipsCommand(pCore->projectManager()->current(), urls, folderInfo, this);
+    ClipCreationDialog::createClipsCommand(m_doc, urls, folderInfo, this);
 }
 
 void Bin::slotItemEdited(QModelIndex ix,QModelIndex,QVector<int>)

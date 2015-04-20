@@ -1144,6 +1144,10 @@ void MainWindow::setupActions()
     QAction *reloadClip = addAction("reload_clip", i18n("Reload Clip"), pCore->bin(), SLOT(slotReloadClip()), QIcon::fromTheme("view-refresh"));
     reloadClip->setData("reload_clip");
     reloadClip->setEnabled(false);
+    
+    QAction *duplicateClip = addAction("duplicate_clip", i18n("Duplicate Clip"), pCore->bin(), SLOT(slotDuplicateClip()), QIcon::fromTheme("edit-copy"));
+    duplicateClip->setData("duplicate_clip");
+    duplicateClip->setEnabled(false);
 
     QAction *proxyClip = new QAction(i18n("Proxy Clip"), this);
     addAction("proxy_clip", proxyClip);
@@ -1156,6 +1160,7 @@ void MainWindow::setupActions()
 
     QHash <QString, QAction*> actions;
     actions.insert("reload", reloadClip);
+    actions.insert("duplicate", duplicateClip);
     actions.insert("proxy", proxyClip);
     actions.insert("properties", clipProperties);
     actions.insert("open", openClip);

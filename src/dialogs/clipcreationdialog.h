@@ -40,6 +40,7 @@ namespace ClipCreationDialog
 
     QStringList getExtensions();
     void createColorClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
+    void createClipFromXml(KdenliveDoc *doc, QDomElement xml, QStringList groupInfo, Bin *bin);
     void createSlideshowClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
     void createTitleClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin);
     void createTitleTemplateClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin);

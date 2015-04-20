@@ -468,6 +468,7 @@ public slots:
      * @param c Comment of the marker */
     void slotAddClipMarker(const QString &id, QList <CommentedTime> newMarker, QUndoCommand *groupCommand = 0);
     void slotLoadClipMarkers(const QString &id);
+    void slotDuplicateClip();
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);
@@ -507,6 +508,7 @@ private:
     QMenu *m_menu;
     QAction *m_openAction;
     QAction *m_reloadAction;
+    QAction *m_duplicateAction;
     QAction *m_proxyAction;
     QAction *m_editAction;
     QAction *m_deleteAction;
@@ -521,7 +523,7 @@ private:
     QStringList m_errorLog;
     void showClipProperties(ProjectClip *clip);
     void selectModel(const QModelIndex &id);
-    const QStringList getFolderInfo();
+    const QStringList getFolderInfo(QModelIndex selectedIx = QModelIndex());
     /** @brief Get the QModelIndex value for an item in the Bin. */
     QModelIndex getIndexForId(const QString &id, bool folderWanted) const;
     ProjectClip *getFirstSelectedClip();
