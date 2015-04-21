@@ -22,6 +22,7 @@
 #define BINCOMMANDS_H
 
 #include <QUndoCommand>
+#include <QDomElement>
 
 class Bin;
 
@@ -83,13 +84,13 @@ private:
 class AddBinEffectCommand : public QUndoCommand
 {
 public:
-    explicit AddBinEffectCommand(Bin *bin, const QString &clipId, const QString &effect, QUndoCommand *parent = 0);
+    explicit AddBinEffectCommand(Bin *bin, const QString &clipId, const QDomElement &effect, QUndoCommand *parent = 0);
     void undo();
     void redo();
 private:
     Bin *m_bin;
     QString m_clipId;
-    QString m_effect;
+    QDomElement m_effect;
 };
 
 class RenameBinSubClipCommand : public QUndoCommand

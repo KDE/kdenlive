@@ -112,7 +112,7 @@ void RenameBinFolderCommand::redo()
     m_bin->renameFolder(m_clipId, m_newName);
 }
 
-AddBinEffectCommand::AddBinEffectCommand(Bin *bin, const QString &clipId, const QString &effect, QUndoCommand *parent) :
+AddBinEffectCommand::AddBinEffectCommand(Bin *bin, const QString &clipId, const QDomElement &effect, QUndoCommand *parent) :
         QUndoCommand(parent),
         m_bin(bin),
         m_clipId(clipId),

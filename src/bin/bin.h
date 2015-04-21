@@ -400,9 +400,8 @@ public:
     /** @brief Delete all markers from @param id clip. */
     void deleteAllClipMarkers(const QString &id);
     /** @brief Remove an effect from a bin clip. */
-    void removeEffect(const QString &id, const QString &effect);
+    void removeEffect(const QString &id, const QDomElement &effect);
     /** @brief Add an effect to a bin clip. */
-    void addEffect(const QString &id, const QString &effect);
     void addEffect(const QString &id, const QDomElement &effect);
     void editMasterEffect(ClipController *ctl);
 

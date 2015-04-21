@@ -163,7 +163,8 @@ ProjectClip* ProjectClip::clipAt(int ix)
 
 QUrl ProjectClip::url() const
 {
-    return m_controller->clipUrl();
+    if (m_controller) return m_controller->clipUrl();
+    return QUrl();
 }
 
 bool ProjectClip::hasLimitedDuration() const

@@ -452,10 +452,11 @@ void Bin::slotReloadClip()
             m_monitor->openClip(NULL);
             QDomDocument doc;
             QDomElement xml = currentItem->toXml(doc);
-            currentItem->setClipStatus(AbstractProjectItem::StatusWaiting);
-
-            // We need to set a temporary id before all outdated producers are replaced;
-            m_doc->renderer()->getFileProperties(xml, currentItem->clipId(), 150, true);
+            if (!xml.isNull()) {
+                currentItem->setClipStatus(AbstractProjectItem::StatusWaiting);
+                // We need to set a temporary id before all outdated producers are replaced;
+                m_doc->renderer()->getFileProperties(xml, currentItem->clipId(), 150, true);
+            }
         }
     }
 }
@@ -473,7 +474,7 @@ void Bin::slotDuplicateClip()
             QStringList folderInfo = getFolderInfo(ix);
             QDomDocument doc;
             QDomElement xml = currentItem->toXml(doc);
-            ClipCreationDialog::createClipFromXml(m_doc, xml, folderInfo, this);
+            if (!xml.isNull()) ClipCreationDialog::createClipFromXml(m_doc, xml, folderInfo, this);
         }
     }
 }
@@ -1124,7 +1125,7 @@ void Bin::reloadClip(const QString &id)
     if (!clip) return;
     QDomDocument doc;
     QDomElement xml = clip->toXml(doc);
-    m_doc->renderer()->getFileProperties(xml, id, 150, true);
+    if (!xml.isNull()) m_doc->renderer()->getFileProperties(xml, id, 150, true);
 }
 
 void Bin::refreshEditedClip()
@@ -1400,7 +1401,7 @@ void Bin::gotProxy(const QString &id)
     if (clip) {
         QDomDocument doc;
         QDomElement xml = clip->toXml(doc);
-        m_doc->renderer()->getFileProperties(xml, id, 150, true);
+        if (!xml.isNull()) m_doc->renderer()->getFileProperties(xml, id, 150, true);
     }
 }
 
@@ -1534,19 +1535,14 @@ void Bin::slotEffectDropped(QString effect, const QModelIndex &parent)
             return;
         }
     }
-    AddBinEffectCommand *command = new AddBinEffectCommand(this, parentItem->clipId(), effect);
+    QDomDocument doc;
+    doc.setContent(effect);
+    AddBinEffectCommand *command = new AddBinEffectCommand(this, parentItem->clipId(), doc.documentElement());
     m_doc->commandStack()->push(command);
 }
 
-void Bin::removeEffect(const QString &id, const QString &effect)
+void Bin::removeEffect(const QString &id, const QDomElement &effect)
 {
-}
-
-void Bin::addEffect(const QString &id, const QString &effect)
-{
-    QDomDocument doc;
-    doc.setContent(effect);
-    addEffect(id, doc.documentElement());
 }
 
 void Bin::addEffect(const QString &id, const QDomElement &effect)
