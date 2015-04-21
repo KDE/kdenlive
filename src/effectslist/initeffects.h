@@ -20,6 +20,7 @@
 
 #include <QDomDocument>
 #include <QStringList>
+#include <QMap>
 #include <mlt++/Mlt.h>
 
 
