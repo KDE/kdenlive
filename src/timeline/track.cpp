@@ -69,29 +69,42 @@ void Track::setFps(qreal fps)
 
 // basic clip operations
 
-bool Track::add(Mlt::Producer *cut, qreal t)
+bool Track::add(Mlt::Producer *cut, qreal t, bool overwrite=false)
 {
-    // /!\ getProducerForTrack
-   return (m_playlist.insert_at(frame(t), cut, 1) == 0); //mode? // warning, MLT functions return true on error
+    m_playlist.lock();
+    bool ok;
+    if (!overwrite) {
+        ok = !m_playlist.insert_at(frame(t), cut, 1); //1:overwrite blanks
+    } else {
+        //TODO
+    }
+    if (!ok) qWarning("Error adding clip at %f", t);
+    m_playlist.unlock();
+    return ok;
 }
 
 bool Track::del(qreal t)
 {
+    m_playlist.lock();
     Mlt::Producer *clip = m_playlist.replace_with_blank(m_playlist.get_clip_index_at(frame(t)));
     if (clip)
         delete clip;
     else {
         qWarning("Error deleting clip at %f", t);
+        m_playlist.unlock();
         return false;
     }
     m_playlist.consolidate_blanks();
+    m_playlist.unlock();
     return true;
 }
 
 bool Track::del(qreal t, qreal dt)
 {
+    m_playlist.lock();
     m_playlist.insert_blank(m_playlist.remove_region(frame(t), frame(dt) + 1), frame(dt));
     m_playlist.consolidate_blanks();
+    m_playlist.unlock();
     return true;
 }
 
@@ -175,4 +188,15 @@ bool Track::cut(qreal t)
     m_playlist.unlock();
     Clip(*m_playlist.get_clip(index + 1)).addEffects(*m_playlist.get_clip(index));
     return true;
+}
+
+Mlt::Producer *Track::find(const char *name, const QString &value, int startindex = 0) {
+    for (int i = 0; i < m_playlist.count(); i++) {
+        if (m_playlist.is_blank(i)) continue;
+        Mlt::Producer *p = m_playlist.get_clip(i);
+        QString v = p->parent().get(name);
+        if (v == value) return p;
+        else delete p;
+    }
+    return NULL;
 }
