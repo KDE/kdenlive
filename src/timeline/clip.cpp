@@ -74,3 +74,24 @@ void Clip::addEffects(Mlt::Service& service)
         }
     }
 }
+
+QByteArray Clip::xml()
+{
+    Mlt::Consumer c(*m_producer.profile(), "xml", "string");
+    Mlt::Service s(m_producer.get_service());
+    int ignore = s.get_int("ignore_points");
+    if (ignore) s.set("ignore_points", 0);
+    if (s.get_int("ignore_points")) s.set("ignore_points", 0);
+    c.connect(s);
+    c.set("time_format", "frames");
+    c.set("no_meta", 1);
+    c.set("store", "kdenlive");
+    c.start();
+    if (ignore) s.set("ignore_points", ignore);
+    return c.get("string");
+}
+
+Mlt::Producer *Clip::clone() {
+    Mlt::Profile p(m_producer.get_profile());
+    return new Mlt::Producer(p, "xml-string", xml().constData());
+}

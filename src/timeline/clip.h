@@ -38,6 +38,8 @@ public:
     Clip(Clip& other);
     ~Clip();
     Clip& operator=(Clip& other);
+    QByteArray xml();
+    Mlt::Producer *clone();
     void addEffects(Mlt::Service& service);
     void delEffect(int index);
 

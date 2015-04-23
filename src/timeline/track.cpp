@@ -69,18 +69,30 @@ void Track::setFps(qreal fps)
 
 // basic clip operations
 
-bool Track::add(Mlt::Producer *cut, qreal t, bool overwrite=false)
+bool Track::add(qreal t, Mlt::Producer *cut, int mode)
 {
+    int pos = frame(t);
+    int len = cut->get_out() - cut->get_in() + 1;
     m_playlist.lock();
-    bool ok;
-    if (!overwrite) {
-        ok = !m_playlist.insert_at(frame(t), cut, 1); //1:overwrite blanks
-    } else {
-        //TODO
+    if (pos < m_playlist.get_playtime() && mode > 0) {
+        if (mode == 1) {
+            m_playlist.remove_region(pos, len);
+        } else if (mode == 2) {
+            m_playlist.split_at(pos);
+        }
+        m_playlist.insert_blank(m_playlist.get_clip_index_at(pos), len);
     }
-    if (!ok) qWarning("Error adding clip at %f", t);
+    m_playlist.consolidate_blanks();
+    if (m_playlist.insert_at(frame(t), cut, 1) == m_playlist.count() - 1) {
+        emit newTrackDuration(m_playlist.get_playtime());
+    }
     m_playlist.unlock();
-    return ok;
+    return true;
+}
+
+bool Track::add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, int mode)
+{
+    add(t, clipProducer(parent)->cut(frame(tcut), frame(tcut+dtcut)));
 }
 
 bool Track::del(qreal t)
@@ -190,13 +202,38 @@ bool Track::cut(qreal t)
     return true;
 }
 
-Mlt::Producer *Track::find(const char *name, const QString &value, int startindex = 0) {
+
+//TODO: cut: checkSlowMotionProducer
+bool Track::replace(qreal t, Mlt::Producer *prod) {
+    int index = m_playlist.get_clip_index_at(frame(t));
+    m_playlist.lock();
+    Mlt::Producer *orig = m_playlist.replace_with_blank(index);
+    Clip(*prod).addEffects(*orig);
+    delete orig;
+    bool ok = !m_playlist.insert_at(frame(t), prod, 1);
+    m_playlist.unlock();
+    return ok;
+}
+
+Mlt::Producer *Track::find(const QByteArray &name, const QByteArray &value, int startindex) {
     for (int i = 0; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;
         Mlt::Producer *p = m_playlist.get_clip(i);
-        QString v = p->parent().get(name);
-        if (v == value) return p;
+        if (value == p->parent().get(name.constData())) return p;
         else delete p;
     }
     return NULL;
+}
+
+Mlt::Producer *Track::clipProducer(Mlt::Producer *parent) {
+    //TODO: don't clone producer for track if it has no audio
+    QString idForTrack = parent->get("id") + QLatin1Char('_') + m_playlist.get("id");
+    Mlt::Producer *prod = find("id", idForTrack.toUtf8().constData());
+    if (prod) {
+        *prod = prod->parent();
+        return prod;
+    }
+    prod = Clip(*parent).clone();
+    prod->set("id", idForTrack.toUtf8().constData());
+    return prod;
 }

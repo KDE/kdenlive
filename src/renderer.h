@@ -210,6 +210,7 @@ class Render: public AbstractRender
     /*
      * Playlist manipulation.
      */
+    void mltCheckLength(Mlt::Tractor *tractor);
     Mlt::Producer *checkSlowMotionProducer(Mlt::Producer *prod, QDomElement element);
     int mltInsertClip(ItemInfo info, const QString &clipId, bool overwrite = false, bool push = false);
     bool mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement element, Mlt::Producer *prod);
@@ -390,7 +391,6 @@ private:
     bool m_isActive;
 
     void closeMlt();
-    void mltCheckLength(Mlt::Tractor *tractor);
     void mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest);
     QMap<QString, QString> mltGetTransitionParamsFromXml(const QDomElement &xml);
     QMap<QString, Mlt::Producer *> m_slowmotionProducers;
