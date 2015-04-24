@@ -47,7 +47,8 @@ GeometryWidget::GeometryWidget(Monitor* monitor, const Timecode &timecode, int c
     m_outPoint(1),
     m_geomPath(NULL),
     m_previous(NULL),
-    m_geometry(NULL)
+    m_geometry(NULL),
+    m_fixedGeom(false)
 {
     m_ui.setupUi(this);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
@@ -301,7 +302,7 @@ void GeometryWidget::updateTimecodeFormat()
 QString GeometryWidget::getValue() const
 {
     QString result = m_geometry->serialise();
-    if (m_ui.widgetTimeWrapper->isVisible() && result.contains(";") && !result.section(";",0,0).contains("=")) {
+    if (!m_fixedGeom && result.contains(";") && !result.section(";",0,0).contains("=")) {
         result.prepend("0=");
     }
     return result;
@@ -335,8 +336,10 @@ void GeometryWidget::setupParam(const QDomElement &elem, int minframe, int maxfr
 
     if (elem.attribute("fixed") == "1" || maxframe < minframe) {
         // Keyframes are disabled
+        m_fixedGeom = true;
         m_ui.widgetTimeWrapper->setHidden(true);
     } else {
+        m_fixedGeom = false;
         m_ui.widgetTimeWrapper->setHidden(false);
         m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
     }
@@ -386,8 +389,9 @@ void GeometryWidget::slotSyncPosition(int relTimelinePos)
     // do only sync if this effect is keyframable
     if (m_timePos->maximum() > 0 && KdenliveSettings::transitionfollowcursor()) {
         relTimelinePos = qBound(0, relTimelinePos, m_timePos->maximum());
-        if (relTimelinePos != m_timePos->getValue())
+        if (relTimelinePos != m_timePos->getValue()) {
             slotPositionChanged(relTimelinePos, false);
+        }
     }
 }
 
@@ -416,7 +420,7 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
 
     Mlt::GeometryItem item;
     Mlt::GeometryItem previousItem;
-    if (m_ui.widgetTimeWrapper->isVisible() && (m_geometry->fetch(&item, pos) || item.key() == false)) {
+    if (!m_fixedGeom && (m_geometry->fetch(&item, pos) || item.key() == false)) {
         // no keyframe
         m_monitor->setEffectKeyframe(false);
         //m_rect->setEnabled(false);
@@ -611,7 +615,7 @@ void GeometryWidget::slotUpdateGeometry()
 {
     Mlt::GeometryItem item;
     int pos = m_timePos->getValue();
-    if (!m_ui.widgetTimeWrapper->isVisible()) {
+    if (m_fixedGeom) {
         // This is a fixed rectangle parameter, use only keyframe 0
         pos = 0;
     }
@@ -649,7 +653,7 @@ void GeometryWidget::slotUpdateGeometry(const QRect r)
 {
     Mlt::GeometryItem item;
     int pos = m_timePos->getValue();
-    if (!m_ui.widgetTimeWrapper->isVisible()) {
+    if (m_fixedGeom) {
         // This is a fixed rectangle parameter, use only keyframe 0
         pos = 0;
     }
@@ -730,39 +734,39 @@ QVariantList GeometryWidget::calculateCenters()
 
 void GeometryWidget::slotSetX(double value)
 {
-    slotUpdateGeometry();
     m_monitor->setUpEffectGeometry(QRect(value, m_spinY->value(), m_spinWidth->value(), m_spinHeight->value()), calculateCenters());
+    slotUpdateGeometry();
 }
 
 void GeometryWidget::slotSetY(double value)
 {
-    slotUpdateGeometry();
     m_monitor->setUpEffectGeometry(QRect(m_spinX->value(), value, m_spinWidth->value(), m_spinHeight->value()), calculateCenters());
+    slotUpdateGeometry();
 }
 
 void GeometryWidget::slotSetWidth(double value)
 {
-    slotUpdateGeometry();
     m_monitor->setUpEffectGeometry(QRect(m_spinX->value(), m_spinY->value(), value, m_spinHeight->value()), calculateCenters());
+    slotUpdateGeometry();
 }
 
 void GeometryWidget::slotSetHeight(double value)
 {
-    slotUpdateGeometry();
     m_monitor->setUpEffectGeometry(QRect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), value), calculateCenters());
+    slotUpdateGeometry();
 }
 
 void GeometryWidget::updateMonitorGeometry()
 {
-    slotUpdateGeometry();
     m_monitor->setUpEffectGeometry(QRect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value()), calculateCenters());
+    slotUpdateGeometry();
 }
 
 
 void GeometryWidget::slotResize(double value)
 {
-    slotUpdateGeometry();
     m_monitor->setUpEffectGeometry(QRect(m_spinX->value(), m_spinY->value(), (int)((m_monitor->render->frameRenderWidth() * value / 100.0) + 0.5), (int)((m_monitor->render->renderHeight() * value / 100.0) + 0.5)), calculateCenters());
+    slotUpdateGeometry();
 }
 
 

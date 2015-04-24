@@ -100,6 +100,8 @@ private:
     DragValue *m_rotateY;
     DragValue *m_rotateZ;
     QPoint m_frameSize;
+    /** @brief True if this is a fixed parameter (no kexframes allowed). */
+    bool m_fixedGeom;
     /** @brief Update monitor rect with current width / height values. */
     void updateMonitorGeometry();
     /** @brief Calculate the path for rectangle center moves. */
