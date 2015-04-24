@@ -183,6 +183,7 @@ private:
     int m_stackPos;
     bool m_doIt;
     bool m_refreshEffectStack;
+    bool m_replaceEffect;
 };
 
 class EditGuideCommand : public QUndoCommand

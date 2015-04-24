@@ -247,7 +247,7 @@ class Render: public AbstractRender
     bool mltEnableTrackEffects(int track, const QList<int> &effectIndexes, bool disable);
 
     /** @brief Edits an effect parameters in MLT's playlist. */
-    bool mltEditEffect(int track, const GenTime &position, EffectsParameterList params);
+    bool mltEditEffect(int track, const GenTime &position, EffectsParameterList params, bool replaceEffect);
     bool mltEditTrackEffect(int track, EffectsParameterList params);
 
     /** @brief Updates the "kdenlive_ix" (index) value of an effect. */

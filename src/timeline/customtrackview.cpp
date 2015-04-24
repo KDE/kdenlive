@@ -2158,7 +2158,7 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, int track, QDomElement ef
     setDocumentModified();
 }
 
-void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedEffect, bool updateEffectStack)
+void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedEffect, bool updateEffectStack, bool replaceEffect)
 {
     if (insertedEffect.isNull()) {
         //qDebug()<<"// Trying to add null effect";
@@ -2176,7 +2176,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
             clip->initEffect(m_document->getProfileInfo() , effect);
             effectParams = EffectsController::getEffectArgs(effect);
         }*/
-        if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - track, pos, effectParams)) {
+        if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - track, pos, effectParams, replaceEffect)) {
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
         }
         m_document->setTrackEffect(m_document->tracksCount() - track - 1, ix, effect);
@@ -2227,7 +2227,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
                 clip->setFadeOut(pos);
             }
         }
-        bool success = m_document->renderer()->mltEditEffect(m_document->tracksCount() - clip->track(), clip->startPos(), effectParams);
+        bool success = m_document->renderer()->mltEditEffect(m_document->tracksCount() - clip->track(), clip->startPos(), effectParams, replaceEffect);
 
         if (success) {
             clip->updateEffect(effect);
@@ -5191,7 +5191,7 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, const ItemInfo &info
             EffectsList::setParameter(effect, "in", QString::number(start));
             EffectsList::setParameter(effect, "out", QString::number(end));
             if (standalone) {
-                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect)))
+                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect), false))
                     emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
                 // if fade effect is displayed, update the effect edit widget with new clip duration
                 if (item->isSelected() && effectPos == item->selectedEffectIndex())
@@ -5212,7 +5212,7 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, const ItemInfo &info
             EffectsList::setParameter(effect, "in", QString::number(start));
             EffectsList::setParameter(effect, "out", QString::number(end));
             if (standalone) {
-                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect)))
+                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect), false))
                     emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
                 // if fade effect is displayed, update the effect edit widget with new clip duration
                 if (item->isSelected() && effectPos == item->selectedEffectIndex())
@@ -5238,7 +5238,7 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, const ItemInfo &info
             EffectsList::setParameter(effect, "in", QString::number(start));
             EffectsList::setParameter(effect, "out", QString::number(end));
             if (standalone) {
-                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect)))
+                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect), false))
                     emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
                 // if fade effect is displayed, update the effect edit widget with new clip duration
                 if (item->isSelected() && effectPos == item->selectedEffectIndex())
@@ -5259,7 +5259,7 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, const ItemInfo &info
             EffectsList::setParameter(effect, "in", QString::number(start));
             EffectsList::setParameter(effect, "out", QString::number(end));
             if (standalone) {
-                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect)))
+                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect), false))
                     emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
                 // if fade effect is displayed, update the effect edit widget with new clip duration
                 if (item->isSelected() && effectPos == item->selectedEffectIndex())

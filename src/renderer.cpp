@@ -2273,6 +2273,7 @@ void Render::reloadClipEffects(Mlt::Producer &p, const QString &clipId)
     while (filter) {
         if (filter->get_int("kdenlive_ix") != 0) {
             p.detach(*filter);
+            delete filter;
         } else ct++;
         filter = p.filter(ct);
     }
@@ -2474,6 +2475,7 @@ bool Render::mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement ele
         for (int i = 0; i < filtersList.count(); ++i)
             destService.attach(*(filtersList.at(i)));
     }
+    qDeleteAll(filtersList);
     return true;
 }
 
@@ -2880,7 +2882,10 @@ bool Render::mltRemoveTrackEffect(int track, int index, bool updateIndex)
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
         if ((index == -1 && strcmp(filter->get("kdenlive_id"), ""))  || filter->get_int("kdenlive_ix") == index) {
-            if (clipService.detach(*filter) == 0) success = true;
+            if (clipService.detach(*filter) == 0) {
+                delete filter;
+                success = true;
+            }
         } else if (updateIndex) {
             // Adjust the other effects index
             if (filter->get_int("kdenlive_ix") > index) filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") - 1);
@@ -2926,7 +2931,10 @@ bool Render::mltRemoveEffect(int track, GenTime position, int index, bool update
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
         if ((index == -1 && strcmp(filter->get("kdenlive_id"), ""))  || filter->get_int("kdenlive_ix") == index) {// && filter->get("kdenlive_id") == id) {
-            if (clipService.detach(*filter) == 0) success = true;
+            if (clipService.detach(*filter) == 0) {
+                delete filter;
+                success = true;
+            }
             ////qDebug()<<"Deleted filter id:"<<filter->get("kdenlive_id")<<", ix:"<<filter->get("kdenlive_ix")<<", SERVICE:"<<filter->get("mlt_service");
         } else if (updateIndex) {
             // Adjust the other effects index
@@ -3033,6 +3041,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
             filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") + 1);
         service.attach(*filter);
     }
+    qDeleteAll(filtersList);
     service.unlock();
     if (doRefresh) refresh();
     return success;
@@ -3077,6 +3086,7 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
                 ////qDebug() << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
                 filter->set(starttag, locale.toString(((min + y1) - paramOffset) / factor).toUtf8().data());
                 service.attach(*filter);
+                delete filter;
             } else {
                 delete[] starttag;
                 delete[] endtag;
@@ -3104,6 +3114,7 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
                 filter->set(starttag, locale.toString(((min + y1) - paramOffset) / factor).toUtf8().data());
                 filter->set(endtag, locale.toString(((min + y2) - paramOffset) / factor).toUtf8().data());
                 service.attach(*filter);
+                delete filter;
             } else {
                 delete[] starttag;
                 delete[] endtag;
@@ -3153,6 +3164,7 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
         }
         // attach filter to the clip
         service.attach(*filter);
+        delete filter;
     }
     return true;
 }
@@ -3173,6 +3185,7 @@ bool Render::mltEditTrackEffect(int track, EffectsParameterList params)
         if (filter->get_int("kdenlive_ix") == index.toInt()) {
             break;
         }
+        delete filter;
         ct++;
         filter = clipService.filter(ct);
     }
@@ -3197,12 +3210,12 @@ bool Render::mltEditTrackEffect(int track, EffectsParameterList params)
     return true;
 }
 
-bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterList params)
+bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterList params, bool replaceEffect)
 {
     int index = params.paramValue("kdenlive_ix").toInt();
     QString tag =  params.paramValue("tag");
 
-    if (!params.paramValue("keyframes").isEmpty() || (tag == "affine" && params.hasParam("background")) || tag.startsWith(QLatin1String("ladspa")) || tag == "sox" || tag == "autotrack_rectangle") {
+    if (!params.paramValue("keyframes").isEmpty() || replaceEffect || tag.startsWith(QLatin1String("ladspa")) || tag == "sox" || tag == "autotrack_rectangle") {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
         if (mltRemoveEffect(track, position, index, false)) {
             if (position < GenTime())
@@ -3241,6 +3254,7 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
         if (filter->get_int("kdenlive_ix") == index) {
             break;
         }
+        delete filter;
         ct++;
         filter = clip->filter(ct);
     }
@@ -3259,7 +3273,7 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
     if (ser != tag) {
         // Effect service changes, delete effect and re-add it
         clip->detach(*filter);
-
+        delete filter;
         // Delete all effects after deleted one
         filter = clip->filter(ct);
         while (filter) {
@@ -3293,7 +3307,7 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
     for (int j = 0; j < filtersList.count(); ++j) {
         clip->attach(*(filtersList.at(j)));
     }
-
+    qDeleteAll(filtersList);
     delete clip;
     service.unlock();
 
@@ -3479,7 +3493,7 @@ void Render::mltMoveEffect(int track, const GenTime &position, int oldPos, int n
     for (int i = 0; i < filtersList.count(); ++i) {
         clipService.attach(*(filtersList.at(i)));
     }
-
+    qDeleteAll(filtersList);
     if (doRefresh) refresh();
 }
 
@@ -3540,6 +3554,7 @@ void Render::mltMoveTrackEffect(int track, int oldPos, int newPos)
     for (int i = 0; i < filtersList.count(); ++i) {
         clipService.attach(*(filtersList.at(i)));
     }
+    qDeleteAll(filtersList);
     refresh();
 }
 
