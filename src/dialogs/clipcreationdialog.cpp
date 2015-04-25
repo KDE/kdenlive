@@ -34,9 +34,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <KFileWidget>
+#include <KWindowConfig>
 #include "klocalizedstring.h"
 
 #include <QDir>
+#include <QWindow>
 #include <QUndoStack>
 #include <QUndoCommand>
 #include <QStandardPaths>
@@ -445,7 +447,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupI
     if (clipFolder.isEmpty()) {
         clipFolder = QDir::homePath();
     }
-    QDialog *dlg = new QDialog(QApplication::activeWindow());
+    QDialog *dlg = new QDialog((QWidget *) doc->parent());
     KFileWidget *fileWidget = new KFileWidget(QUrl::fromLocalFile(clipFolder), dlg);
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(fileWidget);
@@ -459,6 +461,9 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupI
     dlg->setLayout(layout);
     fileWidget->setFilter(dialogFilter);
     fileWidget->setMode(KFile::Files | KFile::ExistingOnly);
+    KSharedConfig::Ptr conf = KSharedConfig::openConfig();
+    KWindowConfig::restoreWindowSize(dlg->windowHandle(), conf->group("FileDialogSize"));
+    dlg->resize(dlg->windowHandle()->size());
     if (dlg->exec() == QDialog::Accepted) {
         KdenliveSettings::setAutoimagetransparency(c->isChecked());
         list = fileWidget->selectedUrls();
@@ -510,6 +515,9 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupI
             }
         }
     }
+    KConfigGroup group = conf->group("FileDialogSize");
+    KWindowConfig::saveWindowSize(dlg->windowHandle(), group);
+
     delete fileWidget;
     delete dlg;
     if (!list.isEmpty()) {

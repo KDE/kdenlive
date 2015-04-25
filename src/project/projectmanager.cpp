@@ -241,10 +241,10 @@ bool ProjectManager::saveFileAs()
 {
     QString outputFile;
     if (m_project->url().isValid()) {
-        outputFile = QFileDialog::getSaveFileName(qApp->activeWindow(), QString(), m_project->url().path(), getMimeType(false));
+        outputFile = QFileDialog::getSaveFileName(pCore->window(), QString(), m_project->url().path(), getMimeType(false));
     }
     else {
-        outputFile = QFileDialog::getSaveFileName(qApp->activeWindow(), QString(), m_project->projectFolder().path(), getMimeType(false));
+        outputFile = QFileDialog::getSaveFileName(pCore->window(), QString(), m_project->projectFolder().path(), getMimeType(false));
     }
     if (outputFile.isEmpty()) {
         return false;
@@ -267,7 +267,7 @@ bool ProjectManager::saveFile()
         qDebug()<<"SaveFile called without project";
         return false;
     }
-    KMessageBox::information(QApplication::activeWindow(), "Warning, development version for testing only. we are currently working on core functionnalities,\ndo not save any project or your project files might be corrupted.");
+    KMessageBox::information(pCore->window(), "Warning, development version for testing only. we are currently working on core functionnalities,\ndo not save any project or your project files might be corrupted.");
     if (m_project->url().isEmpty()) {
         return saveFileAs();
     } else {
@@ -285,7 +285,7 @@ void ProjectManager::openFile()
         return;
     }
     //TODO KF5 set default location to project folder
-    QUrl url = QFileDialog::getOpenFileUrl(QApplication::activeWindow(), QString(), QUrl(), getMimeType());
+    QUrl url = QFileDialog::getOpenFileUrl(pCore->window(), QString(), QUrl(), getMimeType());
     if (!url.isValid()) {
         return;
     }
