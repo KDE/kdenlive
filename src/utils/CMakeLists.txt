@@ -6,7 +6,6 @@ set(kdenlive_SRCS
   utils/archiveorg.cpp
   utils/resourcewidget.cpp
   utils/flowlayout.cpp
-  utils/customstyle.cpp
   utils/thememanager.cpp
   PARENT_SCOPE
 )
