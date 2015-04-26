@@ -1096,7 +1096,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QDomNodeList kdenlive_producers = m_doc.elementsByTagName("kdenlive_producer");
         for (int j = 0; j < kdenlive_producers.count(); j++) {
             QDomElement prod = kdenlive_producers.at(j).toElement();
-            if (!prod.hasAttribute("groupid")) continue;
+            QString prodName = prod.attribute("name");
+            if (!prod.hasAttribute("groupid") && prodName.isEmpty()) continue;
             QString id = prod.attribute("id");
             QString folder = prod.attribute("groupid");
             QDomNodeList mlt_producers = frag.childNodes();
@@ -1104,12 +1105,22 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 QDomElement mltprod = mlt_producers.at(k).toElement();
                 if (mltprod.tagName() != "producer") continue;
                 if (mltprod.attribute("id") == id) {
-                    // We have found our producer, set folder info
-                    QDomElement prop = m_doc.createElement("property");
-                    prop.setAttribute("name", "kdenlive:folderid");
-                    QDomText val = m_doc.createTextNode(folder);
-                    prop.appendChild(val);
-                    mltprod.appendChild(prop);
+                    if (!folder.isEmpty()) {
+                        // We have found our producer, set folder info
+                        QDomElement prop = m_doc.createElement("property");
+                        prop.setAttribute("name", "kdenlive:folderid");
+                        QDomText val = m_doc.createTextNode(folder);
+                        prop.appendChild(val);
+                        mltprod.appendChild(prop);
+                    }
+                    if (!prodName.isEmpty()) {
+                        // Set clip name
+                        QDomElement prop = m_doc.createElement("property");
+                        prop.setAttribute("name", "kdenlive:clipname");
+                        QDomText val = m_doc.createTextNode(prodName);
+                        prop.appendChild(val);
+                        mltprod.appendChild(prop);
+                    }
                     break;
                 }
             }
