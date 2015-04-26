@@ -145,8 +145,6 @@ private:
     void setupActions();
     
     KColorSchemeManager *m_colorschemes;
-    
-    KActionMenu *m_themesMenu;
 
     QDockWidget *m_projectListDock;
 
@@ -217,10 +215,12 @@ private:
     QAction *m_loopClip;
     QActionGroup *m_clipTypeGroup;
     KActionCollection *m_effectsActionCollection;
+    QString m_theme;
 
 
     void readOptions();
     void saveOptions();
+    virtual bool event(QEvent *e);
 
     /** @brief Loads static and dynamic plugins.
      *
@@ -409,8 +409,6 @@ private slots:
     void slotShutdown();
     void slotUpdateTrackInfo();
 
-    /** @brief Changes the color scheme. */
-    void slotChangePalette(QAction *action);
     void slotSwitchMonitors();
     void slotCheckRenderStatus();
     void slotInsertZoneToTree();
@@ -446,8 +444,10 @@ private slots:
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
 
-// Ripple Edit 
+    // Ripple Edit 
     void slotRippleDelete();
+    void slotThemeChanged(const QString &);
+
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

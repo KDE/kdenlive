@@ -56,6 +56,7 @@
 #include "project/projectmanager.h"
 #include "timeline/timelinesearch.h"
 #include <config-kdenlive.h>
+#include "utils/thememanager.h"
 #ifdef USE_JOGSHUTTLE
 #include "jogshuttle/jogmanager.h"
 #endif
@@ -133,16 +134,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     new RenderingAdaptor(this);
     Core::initialize(this);
-
-    KSharedConfigPtr config = KSharedConfig::openConfig(KdenliveSettings::colortheme());
-    KConfigGroup g(config, QString("General"));
-    QString name = g.readEntry(QString("Name"), QStringLiteral("Oxygen"));
-
-    m_colorschemes = new KColorSchemeManager(this);
-    m_themesMenu = m_colorschemes->createSchemeSelectionMenu(QIcon(), i18n("Theme"), name, this);
-    // select current theme
-    QModelIndex index = m_colorschemes->indexForScheme(name);
-    m_colorschemes->activateScheme(index);
     MltConnection::locateMeltAndProfilesPath(MltPath);
 
     KdenliveSettings::setCurrent_profile(KdenliveSettings::default_profile());
@@ -163,7 +154,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     m_shortcutRemoveFocus = new QShortcut(QKeySequence("Esc"), this);
     connect(m_shortcutRemoveFocus, SIGNAL(activated()), this, SLOT(slotRemoveFocus()));
-
 
     /// Add Widgets ///
 
@@ -221,6 +211,11 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
 
     setupActions();
+    KActionMenu *themeAction= new KActionMenu(i18n("Theme"), this);
+    addAction("themes_menu", themeAction);
+    ThemeManager::instance()->setThemeMenuAction(themeAction);
+    ThemeManager::instance()->setCurrentTheme(KdenliveSettings::colortheme());
+    connect(ThemeManager::instance(), SIGNAL(signalThemeChanged(const QString &)), this, SLOT(slotThemeChanged(const QString &)));
     connect(m_commandStack, SIGNAL(cleanChanged(bool)), m_saveAction, SLOT(setDisabled(bool)));
 
 
@@ -438,10 +433,55 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     }
     
     pCore->projectManager()->init(Url, clipsToLoad);
-
+    ThemeManager::instance()->slotChangePalette();
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
 #endif
+}
+
+void MainWindow::slotThemeChanged(const QString &theme)
+{
+    KSharedConfigPtr config = KSharedConfig::openConfig(theme);
+    setPalette(KColorScheme::createApplicationPalette(config));
+    qApp->setPalette(palette());
+    KdenliveSettings::setColortheme(ThemeManager::instance()->currentThemeName());
+    QPalette plt = palette();
+    if (m_effectStack) m_effectStack->updatePalette();
+    if (m_effectList) m_effectList->updatePalette();
+    if (m_transitionConfig) m_transitionConfig->updatePalette();
+
+    if (m_clipMonitor) m_clipMonitor->setPalette(plt);
+    if (m_projectMonitor) m_projectMonitor->setPalette(plt);
+
+    setStatusBarStyleSheet(plt);
+    if (pCore->projectManager()->currentTrackView()) {
+        pCore->projectManager()->currentTrackView()->updatePalette();
+    }
+
+    m_timelineArea->setPalette(plt);
+    const QObjectList children = statusBar()->children();
+
+    foreach(QObject * child, children) {
+        if (child->isWidgetType())
+            ((QWidget*)child)->setPalette(plt);
+        const QObjectList subchildren = child->children();
+        foreach(QObject * subchild, subchildren) {
+            if (subchild->isWidgetType())
+                ((QWidget*)subchild)->setPalette(plt);
+        }
+    }
+}
+
+bool MainWindow::event(QEvent *e) {
+    switch (e->type()) {
+        case QEvent::ApplicationPaletteChange:
+            ThemeManager::instance()->slotSettingsChanged();
+            e->accept();
+            break;
+        default:
+            break;
+    }
+    return KXmlGuiWindow::event(e);
 }
 
 MainWindow::~MainWindow()
@@ -1175,9 +1215,6 @@ void MainWindow::setupActions()
         transitionActions->addAction("transition_" + id, m_transitions[i]);
     }
     //m_effectsActionCollection->readSettings();
-
-    addAction("themes_menu", m_themesMenu);
-    connect(m_themesMenu->menu(), SIGNAL(triggered(QAction*)), this, SLOT(slotChangePalette(QAction*)));
 }
 
 void MainWindow::slotDisplayActionMessage(QAction *a)
@@ -2999,44 +3036,6 @@ void MainWindow::slotUpdateTrackInfo()
     m_transitionConfig->updateProjectFormat();
 }
 
-
-void MainWindow::slotChangePalette(QAction *action)
-{
-    // Load the theme file
-    QString theme = action->data().toString();
-    QModelIndex index = m_colorschemes->indexForScheme(theme);
-    m_colorschemes->activateScheme(index);
-    KdenliveSettings::setColortheme(theme);
-    // Make palette for all widgets.
-    KSharedConfigPtr config = KSharedConfig::openConfig(theme);    
-    QPalette plt = qApp->palette();
-    
-    if (m_effectStack) m_effectStack->updatePalette();
-    if (m_projectList) m_projectList->updatePalette();
-    if (m_effectList) m_effectList->updatePalette();
-    if (m_transitionConfig) m_transitionConfig->updatePalette();
-    
-    if (m_clipMonitor) m_clipMonitor->setPalette(plt);
-    if (m_projectMonitor) m_projectMonitor->setPalette(plt);
-    
-    setStatusBarStyleSheet(plt);
-    if (pCore->projectManager()->currentTrackView()) {
-        pCore->projectManager()->currentTrackView()->updatePalette();
-    }
-    m_timelineArea->setPalette(plt);
-    const QObjectList children = statusBar()->children();
-
-    foreach(QObject * child, children) {
-        if (child->isWidgetType())
-            ((QWidget*)child)->setPalette(plt);
-        const QObjectList subchildren = child->children();
-        foreach(QObject * subchild, subchildren) {
-            if (subchild->isWidgetType())
-                ((QWidget*)subchild)->setPalette(plt);
-        }
-    }
-}
-
 void MainWindow::slotSwitchMonitors()
 {
     pCore->monitorManager()->slotSwitchMonitors(!m_clipMonitor->isActive());
@@ -3203,7 +3202,6 @@ QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName
     addDockWidget(area, dockWidget);
     return dockWidget;
 }
-
 
 
 #ifdef DEBUG_MAINW
