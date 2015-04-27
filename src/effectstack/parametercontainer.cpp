@@ -756,7 +756,6 @@ void ParameterContainer::slotCollectAllParameters()
         }
         if (!setValue.isNull())
             pa.setAttribute("value", setValue);
-
     }
     emit parameterChanged(oldparam, m_effect, m_effect.attribute("kdenlive_ix").toInt());
 }

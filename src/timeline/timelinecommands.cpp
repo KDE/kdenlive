@@ -318,7 +318,8 @@ EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, con
     m_pos(pos),
     m_stackPos(stackPos),
     m_doIt(doIt),
-    m_refreshEffectStack(refreshEffectStack)
+    m_refreshEffectStack(refreshEffectStack),
+    m_replaceEffect(false)
 {
     QString effectName;
     QDomElement namenode = effect.firstChildElement(QLatin1String("name"));
@@ -327,6 +328,14 @@ EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, con
     else
         effectName = i18n("effect");
     setText(i18n("Edit effect %1", effectName));
+    if (m_effect.attribute("id") == "pan_zoom") {
+        QString bg = EffectsList::parameter(effect, "background");
+        QString oldBg = EffectsList::parameter(oldeffect, "background");
+        if (bg != oldBg) {
+            // effect needs a full reload
+            m_replaceEffect = true;
+        }
+    }
 }
 // virtual
 int EditEffectCommand::id() const
@@ -350,13 +359,13 @@ bool EditEffectCommand::mergeWith(const QUndoCommand * other)
 // virtual
 void EditEffectCommand::undo()
 {
-    m_view->updateEffect(m_track, m_pos, m_oldeffect, true);
+    m_view->updateEffect(m_track, m_pos, m_oldeffect, true, m_replaceEffect);
 }
 // virtual
 void EditEffectCommand::redo()
 {
     if (m_doIt) {
-        m_view->updateEffect(m_track, m_pos, m_effect, m_refreshEffectStack);
+        m_view->updateEffect(m_track, m_pos, m_effect, m_refreshEffectStack, m_replaceEffect);
     }
     m_doIt = true;
     m_refreshEffectStack = true;

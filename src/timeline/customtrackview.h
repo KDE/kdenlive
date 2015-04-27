@@ -86,7 +86,7 @@ public:
     void slotAddGroupEffect(QDomElement effect, AbstractGroupItem *group, AbstractClipItem *dropTarget = NULL);
     void addEffect(int track, GenTime pos, QDomElement effect);
     void deleteEffect(int track, const GenTime &pos, const QDomElement &effect);
-    void updateEffect(int track, GenTime pos, QDomElement insertedEffect, bool refreshEffectStack = false);
+    void updateEffect(int track, GenTime pos, QDomElement insertedEffect, bool refreshEffectStack = false, bool replaceEffect = false);
     /** @brief Enable / disable a list of effects */
     void updateEffectState(int track, GenTime pos, QList <int> effectIndexes, bool disable, bool updateEffectStack);
     void moveEffect(int track, const GenTime &pos, const QList<int> &oldPos, const QList<int> &newPos);
