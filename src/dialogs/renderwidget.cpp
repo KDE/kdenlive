@@ -211,7 +211,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     m_view.rescale_keep->setChecked(KdenliveSettings::rescalekeepratio());
     connect(m_view.rescale_width, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateRescaleWidth(int)));
     connect(m_view.rescale_height, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateRescaleHeight(int)));
-    m_view.rescale_keep->setIcon(QIcon::fromTheme("insert-link"));
+    m_view.rescale_keep->setIcon(QIcon::fromTheme("edit-link"));
     m_view.rescale_keep->setToolTip(i18n("Preserve aspect ratio"));
     connect(m_view.rescale_keep, SIGNAL(clicked()), this, SLOT(slotSwitchAspectRatio()));
 
