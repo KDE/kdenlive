@@ -1,7 +1,8 @@
 /*
  * Kdenlive timeline track handling MLT playlist
- * Copyright 2015  Vincent Pinon <vpinon@kde.org>
- * 
+ * Copyright 2015 Kdenlive team <kdenlive@kde.org>
+ * Author: Vincent Pinon <vpinon@kde.org>
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of
@@ -20,7 +21,8 @@
  * 
  */
 
-#include "timeline/track.h"
+#include "track.h"
+#include "clip.h"
 #include <QtGlobal>
 #include <math.h>
 
@@ -55,6 +57,11 @@ int Track::frame(qreal t)
 {
     return round(t * m_fps);
 }
+
+qreal Track::length() {
+    return m_playlist.get_playtime() / m_fps;
+}
+
 void Track::setFps(qreal fps)
 {
     m_fps = fps;
@@ -62,29 +69,54 @@ void Track::setFps(qreal fps)
 
 // basic clip operations
 
-bool Track::add(Mlt::Producer *cut, qreal t)
+bool Track::add(qreal t, Mlt::Producer *cut, int mode)
 {
-    // /!\ getProducerForTrack
-   return (m_playlist.insert_at(frame(t), cut, 1) == 0); //mode? // warning, MLT functions return true on error
+    int pos = frame(t);
+    int len = cut->get_out() - cut->get_in() + 1;
+    m_playlist.lock();
+    if (pos < m_playlist.get_playtime() && mode > 0) {
+        if (mode == 1) {
+            m_playlist.remove_region(pos, len);
+        } else if (mode == 2) {
+            m_playlist.split_at(pos);
+        }
+        m_playlist.insert_blank(m_playlist.get_clip_index_at(pos), len);
+    }
+    m_playlist.consolidate_blanks();
+    if (m_playlist.insert_at(frame(t), cut, 1) == m_playlist.count() - 1) {
+        emit newTrackDuration(m_playlist.get_playtime());
+    }
+    m_playlist.unlock();
+    return true;
+}
+
+bool Track::add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, int mode)
+{
+    add(t, clipProducer(parent)->cut(frame(tcut), frame(tcut+dtcut)));
 }
 
 bool Track::del(qreal t)
 {
+    m_playlist.lock();
     Mlt::Producer *clip = m_playlist.replace_with_blank(m_playlist.get_clip_index_at(frame(t)));
     if (clip)
         delete clip;
     else {
         qWarning("Error deleting clip at %f", t);
+        m_playlist.unlock();
         return false;
     }
     m_playlist.consolidate_blanks();
+    m_playlist.unlock();
     return true;
 }
 
 bool Track::del(qreal t, qreal dt)
 {
+    m_playlist.lock();
     m_playlist.insert_blank(m_playlist.remove_region(frame(t), frame(dt) + 1), frame(dt));
     m_playlist.consolidate_blanks();
+    m_playlist.unlock();
     return true;
 }
 
@@ -152,4 +184,56 @@ bool Track::resize(qreal t, qreal dt, bool end)
     return true;
 }
 
+bool Track::cut(qreal t)
+{
+    int pos = frame(t);
+    int index = m_playlist.get_clip_index_at(pos);
+    if (m_playlist.is_blank(index)) {
+        return false;
+    }
+    m_playlist.lock();
+    if (m_playlist.split(index, pos - m_playlist.clip_start(index) - 1)) {
+        qWarning("MLT split failed");
+        m_playlist.unlock();
+        return false;
+    }
+    m_playlist.unlock();
+    Clip(*m_playlist.get_clip(index + 1)).addEffects(*m_playlist.get_clip(index));
+    return true;
+}
 
+
+//TODO: cut: checkSlowMotionProducer
+bool Track::replace(qreal t, Mlt::Producer *prod) {
+    int index = m_playlist.get_clip_index_at(frame(t));
+    m_playlist.lock();
+    Mlt::Producer *orig = m_playlist.replace_with_blank(index);
+    Clip(*prod).addEffects(*orig);
+    delete orig;
+    bool ok = !m_playlist.insert_at(frame(t), prod, 1);
+    m_playlist.unlock();
+    return ok;
+}
+
+Mlt::Producer *Track::find(const QByteArray &name, const QByteArray &value, int startindex) {
+    for (int i = 0; i < m_playlist.count(); i++) {
+        if (m_playlist.is_blank(i)) continue;
+        Mlt::Producer *p = m_playlist.get_clip(i);
+        if (value == p->parent().get(name.constData())) return p;
+        else delete p;
+    }
+    return NULL;
+}
+
+Mlt::Producer *Track::clipProducer(Mlt::Producer *parent) {
+    //TODO: don't clone producer for track if it has no audio
+    QString idForTrack = parent->get("id") + QLatin1Char('_') + m_playlist.get("id");
+    Mlt::Producer *prod = find("id", idForTrack.toUtf8().constData());
+    if (prod) {
+        *prod = prod->parent();
+        return prod;
+    }
+    prod = Clip(*parent).clone();
+    prod->set("id", idForTrack.toUtf8().constData());
+    return prod;
+}

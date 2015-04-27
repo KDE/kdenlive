@@ -214,8 +214,31 @@ int Timeline::getTracks() {
         trackduration = addTrack(m_tractor->count() - 1 - i, playlist, m_doc->isTrackLocked(i - 1));
         m_tracks.prepend(new Track(playlist, m_doc->fps()));
         if (trackduration > duration) duration = trackduration;
+        connect(m_tracks[0], &Track::newTrackDuration, this, &Timeline::checkDuration);
     }
     return duration;
+}
+
+void Timeline::checkDuration(int duration) {
+    m_doc->renderer()->mltCheckLength(m_tractor);
+    return;
+    //FIXME
+    for (int i = 1; i < m_tractor->count(); ++i) {
+        int len = m_tractor->track(i)->get_playtime() - 1;
+        if (len > duration) duration = len;
+    }
+    Mlt::Service s(m_tractor->track(0)->get_service());
+    Mlt::Playlist blackTrack(s);
+    if (blackTrack.get_playtime() - 1 != duration) {
+        Mlt::Producer *blackClip = blackTrack.get_clip(0);
+        if (blackClip->parent().get_length() <= duration) {
+            blackClip->parent().set("length", duration + 1);
+            blackClip->parent().set("out", duration);
+            blackClip->set("length", duration + 1);
+        }
+        blackTrack.resize_clip(0, 0, duration);
+    }
+    //TODO: rewind consumer if beyond duration / emit durationChanged
 }
 
 void Timeline::getTransitions() {

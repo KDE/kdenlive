@@ -26,7 +26,8 @@
 
 #include <QObject>
 
-#include <mlt++/Mlt.h>
+#include <mlt++/MltPlaylist.h>
+#include <mlt++/MltProducer.h>
 
 /** @brief Kdenlive timeline track, to access MLT playlist operations
  * The track as seen in the video editor is actually a playlist
@@ -58,12 +59,17 @@ public:
      * @param time (in seconds)
      * @return frame number */
     int frame(qreal t);
+    /** @brief get the playlist duration
+     * @return play time in seconds */
+    qreal length();
 
     /** @brief add a clip
-     * @param cut is the MLT Producer (resource + in/out timecodes etc)
      * @param t is the time position to start the cut (in seconds)
+     * @param cut is a MLT Producer cut (resource + in/out timecodes)
+     * @param mode allow insert in non-blanks by replacing (mode=1) or pushing (mode=2) content
      * @return true if success */
-    bool add(Mlt::Producer *cut, qreal t);
+    bool add(qreal t, Mlt::Producer *cut, int mode = 0);
+    bool add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, int mode = 0);
     /** @brief delete a clip
      * @param time where clip is present (in seconds);
      * @return true if success */
@@ -80,10 +86,37 @@ public:
      *  or the start of the right clip (\em false)
      * @return true if success */
     bool resize(qreal told, qreal tnew, bool end);
+    /** @brief split the clip at given position
+     * @param t is the cut time in playlist
+     * @return true if success */
+    bool cut(qreal t);
+    /** @brief replace a clip with another resource
+     * @param t is the clip time in playlist
+     * @param prod is the replacement clip
+     * @return true if success */
+    bool replace(qreal t, Mlt::Producer *prod);
+    /** @brief look for a clip having a given property value
+     * @param name is the property name
+     * @param value is the searched value
+     * @param startindex is a playlist index to start the search from
+     * @return pointer to the first matching producer */
+    Mlt::Producer *find(const QByteArray &name, const QByteArray &value, int startindex = 0);
+    /** @brief get a producer clone for the track and pick an extract
+     * MLT (libav*) can't mix audio of a clip with itself, so we duplicate the producer for each track
+     * @param parent is the source media
+     * @param t is the cut offset from source start in seconds
+     * @param dt is the cut duration
+     * @return producer cut for this track */
+    Mlt::Producer *clipProducer(Mlt::Producer *parent);
 
 public Q_SLOTS:
     void setPlaylist(Mlt::Playlist &playlist);
     void setFps(qreal fps);
+
+signals:
+    /** @brief notify track length change to update background
+     * @param duration is the new length */
+    void newTrackDuration(int duration);
 
 private:
     /** MLT playlist behind the scene */

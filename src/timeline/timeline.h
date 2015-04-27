@@ -95,6 +95,9 @@ public slots:
     /** @brief Save a snapshot image of current timeline view */
     void slotSaveTimelinePreview(const QString &path);
 
+    void checkDuration(int duration);
+
+
 private:
     Mlt::Tractor *m_tractor;
     QList<Track*> m_tracks;

@@ -2410,7 +2410,7 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         }
 
         if (execute) {
-            if (!m_document->renderer()->mltCutClip(m_document->tracksCount() - info.track, cutTime)) {
+            if (!m_timeline->track(info.track)->cut(cutTime.seconds())) {
                 // Error cuting clip in playlist
                 m_blockRefresh = false;
                 return NULL;
@@ -2779,10 +2779,10 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             ItemInfo clipInfo = info;
             clipInfo.track = m_document->tracksCount() - item->track();
             QString clipBinId = item->getBinId();
-            //int worked = m_document->renderer()->mltInsertClip(clipInfo, item->xml(), item->baseClip()->getProducer(item->track()), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
-            qDebug()<<" / / /INSERTINV CLP: "<<clipBinId<<" / "<<clipInfo.startPos.frames(25)<<"-"<<clipInfo.cropDuration.frames(25);
-            int worked = m_document->renderer()->mltInsertClip(clipInfo /*, item->xml()*/, clipBinId, m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
-            if (worked == -1) {
+
+            Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clipBinId, info.track, item->isAudioOnly(), item->isVideoOnly());
+            prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
+            if (!m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode())) {
                 emit displayMessage(i18n("Cannot insert clip in timeline"), ErrorMessage);
                 brokenClips.append(item);
                 continue;
@@ -3963,8 +3963,9 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         int trackProducer = info.track;
                         info.track = m_document->tracksCount() - info.track;
                         adjustTimelineClips(m_scene->editMode(), clip, ItemInfo(), moveGroup);
-                        //m_document->renderer()->mltInsertClip(info, clip->xml(), clip->getProducer(trackProducer), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
-			m_document->renderer()->mltInsertClip(info /*, clip->xml()*/, clip->getBinId(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
+                        Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clip->getBinId(), info.track, clip->isAudioOnly(), clip->isVideoOnly());
+                        prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
+                        m_timeline->track(item->info().track)->add(info.startPos.seconds(), prod, m_scene->editMode());
                         for (int i = 0; i < clip->effectsCount(); ++i) {
                             m_document->renderer()->mltAddEffect(info.track, info.startPos, EffectsController::getEffectArgs(m_document->getProfileInfo(), clip->effect(i)), false);
                         }
@@ -4545,9 +4546,13 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
     //TODO: notify bin ?
     //baseclip->addReference();
     //m_document->updateClip(baseclip->getId());
-    info.track = m_document->tracksCount() - info.track;
     //m_document->renderer()->mltInsertClip(info, xml, item->getProducer(producerTrack), overwrite, push);
-    m_document->renderer()->mltInsertClip(info /*, xml*/, clipId, overwrite, push);
+    //m_document->renderer()->mltInsertClip(info /*, xml*/, clipId, overwrite, push);
+    Mlt::Producer *prod = m_document->renderer()->getTrackProducer(item->getBinId(), info.track, item->isAudioOnly(), item->isVideoOnly());
+    prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
+    m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode());
+    info.track = m_document->tracksCount() - info.track;
+
     for (int i = 0; i < item->effectsCount(); ++i) {
         m_document->renderer()->mltAddEffect(info.track, info.startPos, EffectsController::getEffectArgs(m_document->getProfileInfo(), item->effect(i)), false);
     }
@@ -4848,8 +4853,12 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
             if (item->type() == AVWidget) {
                 ClipItem *clip = static_cast <ClipItem*>(item);
                 int trackProducer = info.track;
+                //m_document->renderer()->mltInsertClip(info /*, clip->xml()*/, clip->getBinId());
+                Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clip->getBinId(), info.track, clip->isAudioOnly(), clip->isVideoOnly());
+                prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
+                m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode());
                 info.track = m_document->tracksCount() - info.track;
-                m_document->renderer()->mltInsertClip(info /*, clip->xml()*/, clip->getBinId());
+
                 for (int i = 0; i < clip->effectsCount(); ++i) {
                     m_document->renderer()->mltAddEffect(info.track, info.startPos, EffectsController::getEffectArgs(m_document->getProfileInfo(), clip->effect(i)), false);
                 }
@@ -6597,11 +6606,8 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
             return;
 
         for (; freetrack > 0; --freetrack) {
-            ////qDebug() << "// CHK DOC TRK:" << freetrack << ", DUR:" << m_document->renderer()->mltTrackDuration(freetrack);
             if (m_document->trackInfoAt(freetrack - 1).type == AudioTrack && !m_document->trackInfoAt(freetrack - 1).isLocked) {
-                ////qDebug() << "// CHK DOC TRK:" << freetrack << ", DUR:" << m_document->renderer()->mltTrackDuration(freetrack);
                 if (m_document->renderer()->mltTrackDuration(freetrack) < start || m_document->renderer()->mltGetSpaceLength(pos, freetrack, false) >= clip->cropDuration().frames(m_document->fps())) {
-                    ////qDebug() << "FOUND SPACE ON TRK: " << freetrack;
                     break;
                 }
             }
