@@ -113,6 +113,15 @@ public:
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
     {
         QSize hint = QStyledItemDelegate::sizeHint(option, index);
+        QString text = index.data(AbstractProjectItem::DataName).toString();
+        QRectF r = option.rect;
+        QFont ft = option.font;
+        ft.setBold(true);
+        QFontMetricsF fm(ft);
+        QStyle *style = option.widget ? option.widget->style() : QApplication::style();
+        const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+        int width = fm.boundingRect(r, Qt::AlignLeft | Qt::AlignTop, text).width() + option.decorationSize.width() + 2 * textMargin;
+        hint.setWidth(width);
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
         if (type == AbstractProjectItem::FolderItem || type == AbstractProjectItem::FolderUpItem) {
             return QSize(hint.width(), qMin(option.fontMetrics.lineSpacing() + 4, hint.height()));
@@ -123,7 +132,6 @@ public:
         if (type == AbstractProjectItem::SubClipItem) {
             return QSize(hint.width(), qMin((int) (option.fontMetrics.lineSpacing() * 1.5) + 4, hint.height()));
         }
-
         QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
         QString line1 = index.data(Qt::DisplayRole).toString();
         QString line2 = index.data(Qt::UserRole).toString();

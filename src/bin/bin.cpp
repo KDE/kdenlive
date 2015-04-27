@@ -390,6 +390,9 @@ void Bin::deleteClip(const QString &id)
     AbstractProjectItem *parent = clip->parent();
     parent->removeChild(clip);
     delete clip;
+    if (m_listType == BinTreeView) {
+        ((QTreeView *)m_itemView)->resizeColumnToContents(0);
+    }
 }
 
 ProjectClip *Bin::getFirstSelectedClip()
@@ -574,6 +577,9 @@ void Bin::createClip(QDomElement xml)
         }
     }
     ProjectClip *newItem = new ProjectClip(xml, m_blankThumb, parentFolder);
+    if (m_listType == BinTreeView) {
+        ((QTreeView *)m_itemView)->resizeColumnToContents(0);
+    }
 }
 
 void Bin::slotAddFolder()
@@ -892,6 +898,7 @@ void Bin::slotInitView(QAction *action)
 	} else {
             view->header()->resizeSections(QHeaderView::ResizeToContents);
 	}
+        view->resizeColumnToContents(0);
 	connect(view->header(), SIGNAL(sectionResized(int,int,int)), this, SLOT(slotSaveHeaders()));
     }
     else if (m_listType == BinIconView) {
@@ -1220,6 +1227,9 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
         else parentFolder = m_rootFolder;
         ProjectClip *newItem = new ProjectClip(info.clipId, m_blankThumb, controller, parentFolder);
         if (info.clipId.toInt() >= m_clipCounter) m_clipCounter = info.clipId.toInt() + 1;
+        if (m_listType == BinTreeView) {
+            ((QTreeView *)m_itemView)->resizeColumnToContents(0);
+        }
     }
     emit producerReady(info.clipId);
 }
