@@ -120,8 +120,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
 
     if (id != Kdenlive::DvdMonitor) {
-        m_toolbar->addAction(QIcon::fromTheme("kdenlive-zone-start"), i18n("Set zone start"), this, SLOT(slotSetZoneStart()));
-        m_toolbar->addAction(QIcon::fromTheme("kdenlive-zone-end"), i18n("Set zone end"), this, SLOT(slotSetZoneEnd()));
+        m_toolbar->addAction(QIcon::fromTheme("go-first"), i18n("Set zone start"), this, SLOT(slotSetZoneStart()));
+        m_toolbar->addAction(QIcon::fromTheme("go-last"), i18n("Set zone end"), this, SLOT(slotSetZoneEnd()));
     }
 
     m_toolbar->addAction(QIcon::fromTheme("media-seek-backward"), i18n("Rewind"), this, SLOT(slotRewind()));
@@ -202,7 +202,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
 
     if (id == Kdenlive::ProjectMonitor) {
-        QAction *visibilityAction = new QAction(QIcon::fromTheme("video-display"), i18n("Show/Hide edit mode"), this);
+        QAction *visibilityAction = new QAction(QIcon::fromTheme("transform-crop"), i18n("Show/Hide edit mode"), this);
         visibilityAction->setCheckable(true);
         visibilityAction->setChecked(KdenliveSettings::showOnMonitorScene());
         connect(visibilityAction, SIGNAL(triggered(bool)), this, SLOT(slotEnableEffectScene(bool)));
@@ -284,7 +284,7 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     connect(overlayAudio, SIGNAL(toggled(bool)), m_glMonitor, SLOT(slotSwitchAudioOverlay(bool)));
     overlayAudio->setChecked(KdenliveSettings::displayAudioOverlay());
 
-    m_effectCompare = m_contextMenu->addAction(QIcon(), i18n("Compare effect"));
+    m_effectCompare = m_contextMenu->addAction(QIcon::fromTheme("view-split-left-right"), i18n("Compare effect"));
     m_effectCompare->setCheckable(true);
     connect(m_effectCompare, SIGNAL(toggled(bool)), this, SLOT(slotSwitchCompare(bool)));
     m_configMenu->addAction(showTips);

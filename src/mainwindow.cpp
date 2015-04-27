@@ -479,6 +479,7 @@ bool MainWindow::event(QEvent *e) {
     switch (e->type()) {
         case QEvent::ApplicationPaletteChange:
             ThemeManager::instance()->slotSettingsChanged();
+            
             e->accept();
             break;
         default:
@@ -784,7 +785,7 @@ void MainWindow::setupActions()
     toolbar->addSeparator();
 
     // create tools buttons
-    m_buttonSelectTool = new QAction(QIcon::fromTheme("kdenlive-select-tool"), i18n("Selection tool"), this);
+    m_buttonSelectTool = new QAction(QIcon::fromTheme("cursor-arrow"), i18n("Selection tool"), this);
     m_buttonSelectTool->setShortcut(i18nc("Selection tool shortcut", "s"));
     toolbar->addAction(m_buttonSelectTool);
     m_buttonSelectTool->setCheckable(true);
@@ -796,7 +797,7 @@ void MainWindow::setupActions()
     m_buttonRazorTool->setCheckable(true);
     m_buttonRazorTool->setChecked(false);
 
-    m_buttonSpacerTool = new QAction(QIcon::fromTheme("kdenlive-spacer-tool"), i18n("Spacer tool"), this);
+    m_buttonSpacerTool = new QAction(QIcon::fromTheme("distribute-horizontal-x"), i18n("Spacer tool"), this);
     m_buttonSpacerTool->setShortcut(i18nc("Spacer tool shortcut", "m"));
     toolbar->addAction(m_buttonSpacerTool);
     m_buttonSpacerTool->setCheckable(true);

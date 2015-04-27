@@ -164,9 +164,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
 
     QIcon razorIcon = QIcon::fromTheme("edit-cut");
     m_razorCursor = QCursor(razorIcon.pixmap(32, 32));
-
-    QIcon spacerIcon = QIcon::fromTheme("kdenlive-spacer-tool");
-    m_spacerCursor = QCursor(spacerIcon.pixmap(32, 32));
+    m_spacerCursor = QCursor(Qt::SplitHCursor);
 
     scale(1, 1);
     setAlignment(Qt::AlignLeft | Qt::AlignTop);
