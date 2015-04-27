@@ -685,7 +685,7 @@
       <label>Name of the chosen color theme.</label>
       <default></default>
     </entry>
-    
+
     <entry name="showslideshowthumbs" type="Bool">
       <label>Show thumbnails in slideshow dialog.</label>
       <default>false</default>
@@ -703,7 +703,7 @@
     
     <entry name="rescalekeepratio" type="Bool">
       <label>Keep aspect ratio in render dialog rescale widget.</label>
-      <default>false</default>
+      <default>true</default>
     </entry>
 
     <entry name="defaultrescalewidth" type="Int">

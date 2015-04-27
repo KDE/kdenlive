@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>465</width>
-    <height>809</height>
+    <height>816</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -556,7 +556,10 @@
          <item>
           <widget class="QSpinBox" name="rescale_width">
            <property name="minimum">
-            <number>0</number>
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>10000</number>
            </property>
           </widget>
          </item>
@@ -576,7 +579,10 @@
          <item>
           <widget class="QSpinBox" name="rescale_height">
            <property name="minimum">
-            <number>0</number>
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>10000</number>
            </property>
           </widget>
          </item>
@@ -588,8 +594,11 @@
            <property name="checkable">
             <bool>true</bool>
            </property>
-           <property name="autoRaise">
+           <property name="checked">
             <bool>false</bool>
+           </property>
+           <property name="autoRaise">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
