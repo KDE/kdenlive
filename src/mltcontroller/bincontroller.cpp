@@ -34,7 +34,7 @@ BinController::BinController(QString profileName) :
     // Disable VDPAU that crashes in multithread environment.
     //TODO: make configurable
     setenv("MLT_NO_VDPAU", "1", 1);
-    Mlt::Factory::init();
+    m_repository = Mlt::Factory::init();
     if (profileName.isEmpty()) {
         profileName = KdenliveSettings::current_profile();
     }
@@ -44,6 +44,11 @@ BinController::BinController(QString profileName) :
 BinController::~BinController()
 {
     delete m_mltProfile;
+}
+
+Mlt::Repository *BinController::mltRepository()
+{
+      return m_repository;
 }
 
 void BinController::resetProfile(const QString &newProfile)

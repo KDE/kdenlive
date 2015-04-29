@@ -105,14 +105,13 @@ QDomDocument initEffects::getUsedCustomEffects(const QMap <QString, QString>& ef
 }
 
 //static
-void initEffects::parseEffectFiles(const QString &locale)
+void initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &locale)
 {
     QStringList::Iterator more;
     QStringList::Iterator it;
     QStringList fileList;
     QString itemName;
 
-    Mlt::Repository *repository = Mlt::Factory::init();
     if (!repository) {
         //qDebug() << "Repository didn't finish initialisation" ;
         return;

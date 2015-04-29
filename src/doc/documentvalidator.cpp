@@ -117,9 +117,9 @@ bool DocumentValidator::validate(const double currentVersion)
         QLocale::setDefault(documentLocale);
         // locale conversion might need to be redone
 #ifndef Q_OS_MAC
-        initEffects::parseEffectFiles(setlocale(LC_NUMERIC, NULL));
+        initEffects::parseEffectFiles(pCore->binController()->mltRepository(), setlocale(LC_NUMERIC, NULL));
 #else
-        initEffects::parseEffectFiles(setlocale(LC_NUMERIC_MASK, NULL));
+        initEffects::parseEffectFiles(pCore->binController()->mltRepository(), setlocale(LC_NUMERIC_MASK, NULL));
 #endif
     }
 

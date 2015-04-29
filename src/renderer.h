@@ -342,6 +342,8 @@ class Render: public AbstractRender
 
     QSemaphore showFrameSemaphore;
     bool externalConsumer;
+    /** @brief Returns the current version of an MLT's producer module */
+    double getMltVersionInfo(const QString &tag);
 
 protected:
     static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr);

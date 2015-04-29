@@ -133,8 +133,12 @@ public:
     void replaceProducer(const QString &id, Mlt::Producer &producer);
     void storeMarker(const QString &markerId, const QString &markerHash);
     QMap<double,QString> takeGuidesData();
+
     /** @brief A Bin clip effect was changed, update track producers */
     void updateTrackProducer(const QString &id);
+
+    /** @brief Returns MLT's Repository data */
+    Mlt::Repository *mltRepository();
 
 public slots:
     /** @brief Stored a Bin Folder id / name to MLT's bin playlist. Using an empry folderName deletes the property */
@@ -149,6 +153,9 @@ private:
     
     /** @brief The MLT profile */
     Mlt::Profile *m_mltProfile;
+
+    /** @brief The MLT repository, useful for filter/producer requests */    
+    Mlt::Repository *m_repository;
     
     /** @brief Can be used to copy filters from a clip to another */
     void duplicateFilters(Mlt::Producer original, Mlt::Producer clone);

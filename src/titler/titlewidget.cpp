@@ -149,7 +149,10 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
 
     // Fill effects
     effect_list->addItem(i18n("None"), NOEFFECT);
-    effect_list->addItem(i18n("Typewriter"), TYPEWRITEREFFECT);
+    if (render->getMltVersionInfo("kdenlivetitle") > 1.0) {
+	// there was a bug in MLT's kdenlivetitle module version 1 that crashed on typewriter effect
+	effect_list->addItem(i18n("Typewriter"), TYPEWRITEREFFECT);
+    }
     effect_list->addItem(i18n("Blur"), BLUREFFECT);
 
 

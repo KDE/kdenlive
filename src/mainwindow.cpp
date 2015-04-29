@@ -152,7 +152,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     bar->setHidden(true);
 
     // FIXME: the next call returns a newly allocated object, which leaks
-    initEffects::parseEffectFiles();
+    initEffects::parseEffectFiles(pCore->binController()->mltRepository());
     //initEffects::parseCustomEffectsFile();
 
     m_shortcutRemoveFocus = new QShortcut(QKeySequence("Esc"), this);
