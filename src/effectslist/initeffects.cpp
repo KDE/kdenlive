@@ -45,7 +45,7 @@ void initEffects::refreshLumas()
     QStringList filters;
     filters << "*.pgm" << "*.png";
 
-    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, "lumas");
+    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, "lumas", QStandardPaths::LocateDirectory);
     foreach(const QString & folder, customLumas) {
         QDir directory(folder);
         QStringList filesnames = directory.entryList(filters, QDir::Files);
