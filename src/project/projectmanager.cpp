@@ -234,10 +234,10 @@ bool ProjectManager::saveFileAs()
 {
     QString outputFile;
     if (m_project->url().isValid()) {
-        outputFile = QFileDialog::getSaveFileName(0, QString(), m_project->url().path(), getMimeType(false));
+        outputFile = QFileDialog::getSaveFileName(pCore->window(), QString(), m_project->url().path(), getMimeType(false));
     }
     else {
-        outputFile = QFileDialog::getSaveFileName(0, QString(), m_project->projectFolder().path(), getMimeType(false));
+        outputFile = QFileDialog::getSaveFileName(pCore->window(), QString(), m_project->projectFolder().path(), getMimeType(false));
     }
     if (outputFile.isEmpty()) {
         return false;
@@ -277,7 +277,7 @@ void ProjectManager::openFile()
         return;
     }
     //TODO KF5 set default location to project folder
-    QUrl url = QFileDialog::getOpenFileUrl(QApplication::activeWindow(), QString(), QUrl(), getMimeType());
+    QUrl url = QFileDialog::getOpenFileUrl(pCore->window(), QString(), QUrl(), getMimeType());
     if (!url.isValid()) {
         return;
     }
