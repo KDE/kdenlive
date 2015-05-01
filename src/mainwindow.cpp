@@ -434,6 +434,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     
     pCore->projectManager()->init(Url, clipsToLoad);
     ThemeManager::instance()->slotChangePalette();
+    connect(this, SIGNAL(reloadTheme()), this, SLOT(slotReloadTheme()), Qt::UniqueConnection);
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
 #endif
@@ -441,6 +442,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
 void MainWindow::slotThemeChanged(const QString &theme)
 {
+    disconnect(this, SIGNAL(reloadTheme()), this, SLOT(slotReloadTheme()));
     KSharedConfigPtr config = KSharedConfig::openConfig(theme);
     setPalette(KColorScheme::createApplicationPalette(config));
     qApp->setPalette(palette());
@@ -470,18 +472,24 @@ void MainWindow::slotThemeChanged(const QString &theme)
                 ((QWidget*)subchild)->setPalette(plt);
         }
     }
+    connect(this, SIGNAL(reloadTheme()), this, SLOT(slotReloadTheme()), Qt::UniqueConnection);
 }
 
 bool MainWindow::event(QEvent *e) {
     switch (e->type()) {
         case QEvent::ApplicationPaletteChange:
-            ThemeManager::instance()->slotSettingsChanged();
+            emit reloadTheme();
             e->accept();
             break;
         default:
             break;
     }
     return KXmlGuiWindow::event(e);
+}
+
+void MainWindow::slotReloadTheme()
+{
+    ThemeManager::instance()->slotSettingsChanged();
 }
 
 MainWindow::~MainWindow()
