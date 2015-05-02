@@ -232,16 +232,19 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
 
 bool ProjectManager::saveFileAs()
 {
-    QString outputFile;
-    if (m_project->url().isValid()) {
-        outputFile = QFileDialog::getSaveFileName(pCore->window(), QString(), m_project->url().path(), getMimeType(false));
-    }
-    else {
-        outputFile = QFileDialog::getSaveFileName(pCore->window(), QString(), m_project->projectFolder().path(), getMimeType(false));
-    }
-    if (outputFile.isEmpty()) {
+    QFileDialog fd(pCore->window());
+    fd.setDirectory(m_project->url().isValid() ? m_project->url().path() : m_project->projectFolder().path());
+    fd.setMimeTypeFilters(QStringList()<<"application/x-kdenlive");
+    fd.setAcceptMode(QFileDialog::AcceptSave);
+    fd.setFileMode(QFileDialog::AnyFile);
+    fd.setDefaultSuffix("kdenlive");
+    if (fd.exec() != QDialog::Accepted) {
         return false;
     }
+    if (fd.selectedFiles().isEmpty()) {
+        return false;
+    }
+    QString outputFile = fd.selectedFiles().first();
 
     if (QFile::exists(outputFile)) {
         // Show the file dialog again if the user does not want to overwrite the file

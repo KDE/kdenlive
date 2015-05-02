@@ -447,12 +447,13 @@ private slots:
     // Ripple Edit 
     void slotRippleDelete();
     void slotThemeChanged(const QString &);
-
+    void slotReloadTheme();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
     void configurationChanged();
     void GUISetupDone();
+    void reloadTheme();
 };
 
 
