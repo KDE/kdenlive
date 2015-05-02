@@ -4495,5 +4495,19 @@ bool Render::checkX11Grab()
     return result.contains("x11grab");
 }
 
+void Render::setMltRepository(Mlt::Repository *rep)
+{
+    m_repository = rep;
+}
 
+double Render::getMltVersionInfo(const QString &tag)
+{
+    double version = 0;
+    Mlt::Properties *metadata = m_repository->metadata(producer_type, tag.toUtf8().data());
+    if (metadata && metadata->is_valid()) {
+	version = metadata->get_double("version");
+    }
+    if (metadata) delete metadata;
+    return version;
+}
 

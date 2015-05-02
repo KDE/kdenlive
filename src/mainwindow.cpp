@@ -148,8 +148,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     QTabBar *bar = m_timelineArea->findChild<QTabBar *>();
     bar->setHidden(true);
 
-    // FIXME: the next call returns a newly allocated object, which leaks
-    initEffects::parseEffectFiles();
+    Mlt::Repository *repo = initEffects::parseEffectFiles();
     //initEffects::parseCustomEffectsFile();
 
     m_shortcutRemoveFocus = new QShortcut(QKeySequence("Esc"), this);
@@ -185,6 +184,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
 #endif /* ! Q_WS_MAC */
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
+    m_projectMonitor->render->setMltRepository(repo);
 
     m_effectStack = new EffectStackView2(m_projectMonitor);
     connect(m_effectStack, SIGNAL(startFilterJob(const ItemInfo&,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)), m_projectList, SLOT(slotStartFilterJob(const ItemInfo &,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)));
