@@ -127,7 +127,9 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_projectMonitor(NULL),
     m_recMonitor(NULL),
     m_renderWidget(NULL),
-    m_mainClip(NULL)
+    m_mainClip(NULL),
+    m_transitionConfig(NULL),
+    m_timelineArea(NULL)
 {
     qRegisterMetaType<audioShortVector> ("audioShortVector");
     qRegisterMetaType<MessageType> ("MessageType");
@@ -138,6 +140,20 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     new RenderingAdaptor(this);
     Core::initialize(this);
     MltConnection::locateMeltAndProfilesPath(MltPath);
+
+    KActionMenu *themeAction= new KActionMenu(i18n("Theme"), this);
+    ThemeManager::instance()->setThemeMenuAction(themeAction);
+    ThemeManager::instance()->setCurrentTheme(KdenliveSettings::colortheme());
+    connect(ThemeManager::instance(), SIGNAL(signalThemeChanged(const QString &)), this, SLOT(slotThemeChanged(const QString &)));
+    ThemeManager::instance()->slotChangePalette();
+    /*
+    // TODO: change icon theme accordingly to color theme ? is it even possible ?
+    QColor background = qApp->palette().background().color();
+    bool useDarkIcons = background.value() < 100;
+    QString suffix = useDarkIcons ? QString("-dark") : QString();
+    QString currentTheme = QIcon::themeName() + suffix;
+    //QIcon::setThemeName(currentTheme);
+    qDebug()<<"/ / / // SETTING ICON THEME: "<<currentTheme;*/
 
     KdenliveSettings::setCurrent_profile(KdenliveSettings::default_profile());
     m_commandStack = new QUndoGroup;
@@ -213,13 +229,10 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
 
     setupActions();
-    KActionMenu *themeAction= new KActionMenu(i18n("Theme"), this);
-    addAction("themes_menu", themeAction);
-    ThemeManager::instance()->setThemeMenuAction(themeAction);
-    ThemeManager::instance()->setCurrentTheme(KdenliveSettings::colortheme());
-    connect(ThemeManager::instance(), SIGNAL(signalThemeChanged(const QString &)), this, SLOT(slotThemeChanged(const QString &)));
-    connect(m_commandStack, SIGNAL(cleanChanged(bool)), m_saveAction, SLOT(setDisabled(bool)));
 
+    // Color and icon theme stuff
+    addAction("themes_menu", themeAction);
+    connect(m_commandStack, SIGNAL(cleanChanged(bool)), m_saveAction, SLOT(setDisabled(bool)));
 
     // Close non-general docks for the initial layout
     // only show important ones
@@ -436,7 +449,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     pCore->projectManager()->init(Url, clipsToLoad);
     QTimer::singleShot(0, pCore->projectManager(), SLOT(slotLoadOnOpen()));
-    ThemeManager::instance()->slotChangePalette();
     connect(this, SIGNAL(reloadTheme()), this, SLOT(slotReloadTheme()), Qt::UniqueConnection);
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
@@ -455,24 +467,25 @@ void MainWindow::slotThemeChanged(const QString &theme)
     if (m_effectStack) m_effectStack->updatePalette();
     if (m_effectList) m_effectList->updatePalette();
     if (m_transitionConfig) m_transitionConfig->updatePalette();
-    
     if (m_clipMonitor) m_clipMonitor->setPalette(plt);
     if (m_projectMonitor) m_projectMonitor->setPalette(plt);
-    
     setStatusBarStyleSheet(plt);
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->updatePalette();
     }
-    m_timelineArea->setPalette(plt);
-    const QObjectList children = statusBar()->children();
-
-    foreach(QObject * child, children) {
-        if (child->isWidgetType())
-            ((QWidget*)child)->setPalette(plt);
-        const QObjectList subchildren = child->children();
-        foreach(QObject * subchild, subchildren) {
-            if (subchild->isWidgetType())
-                ((QWidget*)subchild)->setPalette(plt);
+    if (m_timelineArea) {
+        m_timelineArea->setPalette(plt);
+    }
+    if (statusBar()) {
+        const QObjectList children = statusBar()->children();
+        foreach(QObject * child, children) {
+            if (child->isWidgetType())
+                ((QWidget*)child)->setPalette(plt);
+            const QObjectList subchildren = child->children();
+            foreach(QObject * subchild, subchildren) {
+                if (subchild->isWidgetType())
+                    ((QWidget*)subchild)->setPalette(plt);
+            }
         }
     }
     connect(this, SIGNAL(reloadTheme()), this, SLOT(slotReloadTheme()), Qt::UniqueConnection);
