@@ -133,6 +133,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     qRegisterMetaType<MessageType> ("MessageType");
     qRegisterMetaType<stringMap> ("stringMap");
     qRegisterMetaType<audioByteArray> ("audioByteArray");
+    qRegisterMetaType< QVector <int> > ();
     new RenderingAdaptor(this);
     Core::initialize(this);
     MltConnection::locateMeltAndProfilesPath(MltPath);
