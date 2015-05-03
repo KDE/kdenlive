@@ -1,6 +1,7 @@
 [Global]
 IconName=kdenlive
 Comment=Kdenlive
+Comment[ast]=Kdenlive
 Comment[bs]=Kdenlive
 Comment[ca]=Kdenlive
 Comment[ca@valencia]=Kdenlive
@@ -42,6 +43,7 @@ Comment[zh_TW]=Kdenlive
 [Event/RenderFinished]
 Name=Rendering finished
 Name[ar]=انتهى التّصيير
+Name[ast]=Finó'l renderizáu
 Name[bs]=Iscrtavanje završeno
 Name[ca]=Ha acabat la renderització
 Name[ca@valencia]=Ha acabat la renderització
@@ -78,6 +80,7 @@ Name[zh_CN]=渲染结束
 Name[zh_TW]=已完成導出
 Comment=Rendering is over
 Comment[ar]=قد انتهى التّصيير
+Comment[ast]=Acabóse'l renderizáu
 Comment[bs]=Iscrtavanje je gotovo
 Comment[ca]=La renderització ja ha acabat
 Comment[ca@valencia]=La renderització ja ha acabat
@@ -117,6 +120,7 @@ Action=Popup
 [Event/RenderStarted]
 Name=Rendering started
 Name[ar]=بدأ التّصيير
+Name[ast]=Entamó'l renderizáu
 Name[bs]=Iscrtavanje započelo
 Name[ca]=Ha començat la renderització
 Name[ca@valencia]=Ha començat la renderització
@@ -153,6 +157,7 @@ Name[zh_CN]=渲染开始
 Name[zh_TW]=導出已開始
 Comment=Rendering was started
 Comment[ar]=قد بدأ التّصيير
+Comment[ast]=Anicióse'l rederizáu
 Comment[bs]=Iscrtavanje je započelo
 Comment[ca]=La renderització ja ha començat
 Comment[ca@valencia]=La renderització ja ha començat
@@ -308,6 +313,7 @@ Action=Sound
 [Event/ErrorMessage]
 Name=Error
 Name[ar]=خطأ
+Name[ast]=Fallu
 Name[bs]=Greška
 Name[ca]=Error
 Name[ca@valencia]=Error
@@ -346,6 +352,7 @@ Name[x-test]=xxErrorxx
 Name[zh_CN]=错误
 Name[zh_TW]=錯誤
 Comment=An error occurred in Kdenlive
+Comment[ast]=Asocedió un fallu en Kdenlive
 Comment[bs]=Desila se greška u KDenlive
 Comment[ca]=S'ha produït un error al Kdenlive
 Comment[ca@valencia]=S'ha produït un error al Kdenlive
