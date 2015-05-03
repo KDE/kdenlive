@@ -305,18 +305,34 @@ void ProjectManager::openLastFile()
 }
 
 // fix mantis#3160 separate check from openFile() so we can call it from newFile()
-// to find autosaved files (in ~/.kde/data/stalefiles/kdenlive) and recover it
+// to find autosaved files (in ~/.local/share/stalefiles/kdenlive) and recover it
 bool ProjectManager::checkForBackupFile(const QUrl &url)
 {
-    // Check for backup file, saved under a hash filename.
-    // We only recover files that belong to the url we passed in.
+    // Check for autosave file that belong to the url we passed in.
     QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(url);
+    KAutoSaveFile *orphanedFile = NULL;
+    // Check if we can have a lock on one of the file, 
+    // meaning it is not handled by any Kdenlive instancce
     if (!staleFiles.isEmpty()) {
+        foreach(KAutoSaveFile * stale, staleFiles) {
+            if (stale->open(QIODevice::QIODevice::ReadWrite)) {
+                  // Found orphaned autosave file
+                  orphanedFile = stale;
+                  break;
+            } else {
+              // Another Kdenlive instance is probably handling this autosave file
+              delete stale;
+              continue;
+            }
+        }
+    }
+
+    if (orphanedFile) {
         if (KMessageBox::questionYesNo(pCore->window(),
                                        i18n("Auto-saved files exist. Do you want to recover them now?"),
                                        i18n("File Recovery"),
                                        KGuiItem(i18n("Recover")), KGuiItem(i18n("Don't recover"))) == KMessageBox::Yes) {
-            recoverFiles(staleFiles, url);
+            doOpenFile(url, orphanedFile);
             return true;
         } else {
             // remove the stale files
@@ -349,7 +365,7 @@ void ProjectManager::openFile(const QUrl &url)
         return;
     }
 
-    if (!url.fileName().endsWith(".kdenlive")) {
+    /*if (!url.fileName().endsWith(".kdenlive")) {
         // This is not a Kdenlive project file, abort loading
         KMessageBox::sorry(pCore->window(), i18n("File %1 is not a Kdenlive project file", url.path()));
         if (m_startUrl.isValid()) {
@@ -357,7 +373,7 @@ void ProjectManager::openFile(const QUrl &url)
             newFile(false);
         }
         return;
-    }
+    }*/
 
     if (m_project && m_project->url() == url) {
         return;
@@ -409,6 +425,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         doc->m_autosave = stale;
     } else {
         doc->m_autosave = stale;
+        stale->setParent(doc);
         // if loading from an autosave of unnamed file then keep unnamed
         if (url.fileName().contains("_untitled.kdenlive"))
             doc->setUrl(QUrl());
@@ -448,26 +465,6 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     progressDialog.setValue(4);
     if (openBackup) {
         slotOpenBackup(url);
-    }
-}
-
-
-void ProjectManager::recoverFiles(const QList<KAutoSaveFile *> &staleFiles, const QUrl &originUrl)
-{
-    foreach(KAutoSaveFile * stale, staleFiles) {
-        /*if (!stale->open(QIODevice::QIODevice::ReadOnly)) {
-                  // show an error message; we could not steal the lockfile
-                  // maybe another application got to the file before us?
-                  delete stale;
-                  continue;
-        }*/
-        //qDebug() << "// OPENING RECOVERY: " << stale->fileName() << "\nMANAGED: " << stale->managedFile().path();
-        // the stalefiles also contain ".lock" files so we must ignore them... bug in KAutoSaveFile?
-        if (!stale->fileName().endsWith(".lock")) {
-            doOpenFile(originUrl, stale);
-        } else {
-            QFile::remove(stale->fileName());
-        }
     }
 }
 
