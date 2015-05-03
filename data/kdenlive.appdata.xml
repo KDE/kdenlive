@@ -4,6 +4,7 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
   <name>Kdenlive</name>
+  <name xml:lang="ast">Kdenlive</name>
   <name xml:lang="bs">Kdenlive</name>
   <name xml:lang="ca">Kdenlive</name>
   <name xml:lang="cs">Kdenlive</name>
@@ -26,6 +27,7 @@
   <name xml:lang="zh-TW">Kdenlive</name>
   <summary>Video Editor</summary>
   <summary xml:lang="ar">محرّر فيديوهات</summary>
+  <summary xml:lang="ast">Editor de videu</summary>
   <summary xml:lang="bs">Video uređivač</summary>
   <summary xml:lang="ca">Editor de vídeo</summary>
   <summary xml:lang="cs">Editor videí</summary>
@@ -47,6 +49,7 @@
   <summary xml:lang="zh-TW">影像編輯器</summary>
   <description>
     <p>Kdenlive is a non linear video editor. It is based on the MLT framework and accepts many audio and video formats, allows you to add effects, transitions and render into the format of your choice.</p>
+    <p xml:lang="ast">Kdenlive ye un editor de videu non llinial. Básase nel framework MLT y aceuta muchos formatos d'audiu y videu, permítete amestar efeutos, transiciones y renderizar nel formatu de la to escoyeta.</p>
     <p xml:lang="ca">El Kdenlive és un editor no lineal de vídeo. Està basat en l'entorn de treball MLT i accepta molts formats d'àudio i vídeo, permetent afegir efectes, transicions i representacions en el format de la vostra elecció.</p>
     <p xml:lang="en-GB">Kdenlive is a non linear video editor. It is based on the MLT framework and accepts many audio and video formats, allows you to add effects, transitions and render into the format of your choice.</p>
     <p xml:lang="gl">Kdenlive é un editor de vídeo non lineal. Está baseado na infraestrutura MLT e permite moitos formatos de son e vídeo, e permite engadir efectos, engadir transicións, e exportar en calquera formato.</p>
@@ -65,6 +68,7 @@
     <p xml:lang="zh-TW">Kdenlive 是一套非線性的影像編輯器。基於 MLT 框架，可接受許多影音格式，讓您可以加入特效，過場並轉編碼成您選擇的格式。</p>
     <p>Features:</p>
     <p xml:lang="ar">الميزات:</p>
+    <p xml:lang="ast">Carauterístiques:</p>
     <p xml:lang="bs">Svojstva:</p>
     <p xml:lang="ca">Característiques:</p>
     <p xml:lang="cs">Vlastnosti:</p>
@@ -86,6 +90,7 @@
     <p xml:lang="zh-TW">功能：</p>
     <ul>
       <li>Intuitive multitrack interface.</li>
+      <li xml:lang="ast">Interfaz multi-pista intuitiva.</li>
       <li xml:lang="ca">Interfície multipista intuïtiva.</li>
       <li xml:lang="de">Intuitive Benutzerschnittstelle für mehrere Spuren.</li>
       <li xml:lang="en-GB">Intuitive multitrack interface.</li>
@@ -103,6 +108,7 @@
       <li xml:lang="zh-CN">直观的多轨界面。</li>
       <li>Many effects and transitions.</li>
       <li xml:lang="ar">تأثيرات وانتقالات عديدة.</li>
+      <li xml:lang="ast">Munchos efeutos y transiciones.</li>
       <li xml:lang="ca">Molts efectes i transicions.</li>
       <li xml:lang="de">Viele Effekte und Übergänge.</li>
       <li xml:lang="en-GB">Many effects and transitions.</li>
@@ -140,6 +146,7 @@
       <li xml:lang="zh-TW">顏色範圍</li>
       <li>Basic DVD Wizard</li>
       <li xml:lang="ar">مُرشد DVD أساسيّ</li>
+      <li xml:lang="ast">Encontu básicu pa DVD</li>
       <li xml:lang="ca">Assistent bàsic per als DVD</li>
       <li xml:lang="en-GB">Basic DVD Wizard</li>
       <li xml:lang="gl">Asistente básico para DVD</li>
