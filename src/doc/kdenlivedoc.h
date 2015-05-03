@@ -126,7 +126,7 @@ public:
     /** @brief Returns the project file xml. */
     QDomDocument xmlSceneList(const QString &scene, QMap <double, QString> guidesData);
     /** @brief Saves the project file xml to a file. */
-    bool saveSceneList(const QString &path, const QString &scene, QMap <double, QString> guidesData, bool autosave = false);
+    bool saveSceneList(const QString &path, const QString &scene, QMap <double, QString> guidesData);
     int tracksCount() const;
     TrackInfo trackInfoAt(int ix) const;
     void insertTrack(int ix, const TrackInfo &type);
