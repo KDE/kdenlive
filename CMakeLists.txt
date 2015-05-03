@@ -2,7 +2,7 @@ project(Kdenlive)
 
 # An odd patch version number means development version, while an even one means
 # stable release. An additional number can be used for bugfix-only releases.
-set(KDENLIVE_VERSION 15.04.0)
+set(KDENLIVE_VERSION 15.04.1)
 cmake_minimum_required(VERSION 2.8.12)
 # Minimum versions of main dependencies.
 set(MLT_MIN_MAJOR_VERSION 0)
