@@ -616,6 +616,7 @@ void KdenliveDoc::slotAutoSave(QMap <double, QString> guidesData)
         }
         m_autosave->resize(0); 
         m_autosave->write(sceneList.toString().toUtf8());
+        m_autosave->flush();
     }
 }
 
