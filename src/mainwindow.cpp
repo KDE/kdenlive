@@ -125,16 +125,32 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_projectMonitor(NULL),
     m_recMonitor(NULL),
     m_renderWidget(NULL),
-    m_mainClip(NULL)
+    m_mainClip(NULL),
+    m_transitionConfig(NULL),
+    m_timelineArea(NULL)
 {
     qRegisterMetaType<audioShortVector> ("audioShortVector");
     qRegisterMetaType<MessageType> ("MessageType");
     qRegisterMetaType<stringMap> ("stringMap");
     qRegisterMetaType<audioByteArray> ("audioByteArray");
-
+    qRegisterMetaType< QVector <int> > ();
     new RenderingAdaptor(this);
     Core::initialize(this);
     MltConnection::locateMeltAndProfilesPath(MltPath);
+
+    KActionMenu *themeAction= new KActionMenu(i18n("Theme"), this);
+    ThemeManager::instance()->setThemeMenuAction(themeAction);
+    ThemeManager::instance()->setCurrentTheme(KdenliveSettings::colortheme());
+    connect(ThemeManager::instance(), SIGNAL(signalThemeChanged(const QString &)), this, SLOT(slotThemeChanged(const QString &)));
+    ThemeManager::instance()->slotChangePalette();
+    /*
+    // TODO: change icon theme accordingly to color theme ? is it even possible ?
+    QColor background = qApp->palette().background().color();
+    bool useDarkIcons = background.value() < 100;
+    QString suffix = useDarkIcons ? QString("-dark") : QString();
+    QString currentTheme = QIcon::themeName() + suffix;
+    //QIcon::setThemeName(currentTheme);
+    qDebug()<<"/ / / // SETTING ICON THEME: "<<currentTheme;*/
 
     KdenliveSettings::setCurrent_profile(KdenliveSettings::default_profile());
     m_commandStack = new QUndoGroup;
@@ -148,8 +164,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     QTabBar *bar = m_timelineArea->findChild<QTabBar *>();
     bar->setHidden(true);
 
-    // FIXME: the next call returns a newly allocated object, which leaks
-    initEffects::parseEffectFiles();
+    Mlt::Repository *repo = initEffects::parseEffectFiles();
     //initEffects::parseCustomEffectsFile();
 
     m_shortcutRemoveFocus = new QShortcut(QKeySequence("Esc"), this);
@@ -185,6 +200,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
 #endif /* ! Q_WS_MAC */
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
+    m_projectMonitor->render->setMltRepository(repo);
 
     m_effectStack = new EffectStackView2(m_projectMonitor);
     connect(m_effectStack, SIGNAL(startFilterJob(const ItemInfo&,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)), m_projectList, SLOT(slotStartFilterJob(const ItemInfo &,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)));
@@ -211,13 +227,10 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
 
     setupActions();
-    KActionMenu *themeAction= new KActionMenu(i18n("Theme"), this);
-    addAction("themes_menu", themeAction);
-    ThemeManager::instance()->setThemeMenuAction(themeAction);
-    ThemeManager::instance()->setCurrentTheme(KdenliveSettings::colortheme());
-    connect(ThemeManager::instance(), SIGNAL(signalThemeChanged(const QString &)), this, SLOT(slotThemeChanged(const QString &)));
-    connect(m_commandStack, SIGNAL(cleanChanged(bool)), m_saveAction, SLOT(setDisabled(bool)));
 
+    // Color and icon theme stuff
+    addAction("themes_menu", themeAction);
+    connect(m_commandStack, SIGNAL(cleanChanged(bool)), m_saveAction, SLOT(setDisabled(bool)));
 
     // Close non-general docks for the initial layout
     // only show important ones
@@ -433,7 +446,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     }
     
     pCore->projectManager()->init(Url, clipsToLoad);
-    ThemeManager::instance()->slotChangePalette();
+    connect(this, SIGNAL(reloadTheme()), this, SLOT(slotReloadTheme()), Qt::UniqueConnection);
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
 #endif
@@ -441,6 +454,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
 void MainWindow::slotThemeChanged(const QString &theme)
 {
+    disconnect(this, SIGNAL(reloadTheme()), this, SLOT(slotReloadTheme()));
     KSharedConfigPtr config = KSharedConfig::openConfig(theme);
     setPalette(KColorScheme::createApplicationPalette(config));
     qApp->setPalette(palette());
@@ -449,39 +463,46 @@ void MainWindow::slotThemeChanged(const QString &theme)
     if (m_effectStack) m_effectStack->updatePalette();
     if (m_effectList) m_effectList->updatePalette();
     if (m_transitionConfig) m_transitionConfig->updatePalette();
-
     if (m_clipMonitor) m_clipMonitor->setPalette(plt);
     if (m_projectMonitor) m_projectMonitor->setPalette(plt);
-
     setStatusBarStyleSheet(plt);
     if (pCore->projectManager()->currentTrackView()) {
         pCore->projectManager()->currentTrackView()->updatePalette();
     }
 
-    m_timelineArea->setPalette(plt);
-    const QObjectList children = statusBar()->children();
-
-    foreach(QObject * child, children) {
-        if (child->isWidgetType())
-            ((QWidget*)child)->setPalette(plt);
-        const QObjectList subchildren = child->children();
-        foreach(QObject * subchild, subchildren) {
-            if (subchild->isWidgetType())
-                ((QWidget*)subchild)->setPalette(plt);
+    if (m_timelineArea) {
+        m_timelineArea->setPalette(plt);
+    }
+    if (statusBar()) {
+        const QObjectList children = statusBar()->children();
+        foreach(QObject * child, children) {
+            if (child->isWidgetType())
+                ((QWidget*)child)->setPalette(plt);
+            const QObjectList subchildren = child->children();
+            foreach(QObject * subchild, subchildren) {
+                if (subchild->isWidgetType())
+                    ((QWidget*)subchild)->setPalette(plt);
+            }
         }
     }
+    connect(this, SIGNAL(reloadTheme()), this, SLOT(slotReloadTheme()), Qt::UniqueConnection);
 }
 
 bool MainWindow::event(QEvent *e) {
     switch (e->type()) {
         case QEvent::ApplicationPaletteChange:
-            ThemeManager::instance()->slotSettingsChanged();
+            emit reloadTheme();
             e->accept();
             break;
         default:
             break;
     }
     return KXmlGuiWindow::event(e);
+}
+
+void MainWindow::slotReloadTheme()
+{
+    ThemeManager::instance()->slotSettingsChanged();
 }
 
 MainWindow::~MainWindow()

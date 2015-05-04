@@ -611,8 +611,15 @@ void KdenliveDoc::slotAutoSave()
             // show error: could not open the autosave file
             //qDebug() << "ERROR; CANNOT CREATE AUTOSAVE FILE";
         }
-        //qDebug() << "// AUTOSAVE FILE: " << m_autosave->fileName();
-        saveSceneList(m_autosave->fileName(), m_render->sceneList(), QStringList(), true);
+        QDomDocument sceneList = xmlSceneList(m_render->sceneList(), QStringList());
+        if (sceneList.isNull()) {
+            //Make sure we don't save if scenelist is corrupted
+            KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1, scene list is corrupted.", m_autosave->fileName()));
+            return;
+        }
+        m_autosave->resize(0); 
+        m_autosave->write(sceneList.toString().toUtf8());
+        m_autosave->flush();
     }
 }
 
@@ -784,7 +791,8 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList &
     return sceneList;
 }
 
-bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const QStringList &expandedFolders, bool autosave)
+
+bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const QStringList &expandedFolders)
 {
     QDomDocument sceneList = xmlSceneList(scene, expandedFolders);
     if (sceneList.isNull()) {
@@ -794,7 +802,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const
     }
     
     // Backup current version
-    if (!autosave) backupLastSavedVersion(path);
+    backupLastSavedVersion(path);
     QFile file(path);
     
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -810,16 +818,14 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const
         return false;
     }
     file.close();
-    if (!autosave) {
-        cleanupBackupFiles();
-        QFileInfo info(file);
-        QString fileName = QUrl::fromLocalFile(path).fileName().section('.', 0, -2);
-        fileName.append('-' + m_documentProperties.value("documentid"));
-        fileName.append(info.lastModified().toString("-yyyy-MM-dd-hh-mm"));
-        fileName.append(".kdenlive.png");
-        QDir backupFolder(m_projectFolder.path() + "/.backup");
-        emit saveTimelinePreview(backupFolder.absoluteFilePath(fileName));
-    }
+    cleanupBackupFiles();
+    QFileInfo info(file);
+    QString fileName = QUrl::fromLocalFile(path).fileName().section('.', 0, -2);
+    fileName.append('-' + m_documentProperties.value("documentid"));
+    fileName.append(info.lastModified().toString("-yyyy-MM-dd-hh-mm"));
+    fileName.append(".kdenlive.png");
+    QDir backupFolder(m_projectFolder.path() + "/.backup");
+    emit saveTimelinePreview(backupFolder.absoluteFilePath(fileName));
     return true;
 }
 
@@ -1665,7 +1671,7 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
      * http://websvn.kde.org/trunk/KDE/kdelibs/kfile/kfileplacesmodel.cpp?view=markup
      */
 
-    const QString file = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kfileplaces/bookmarks.xml";
+    const QString file = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/user-places.xbel";
     KBookmarkManager *bookmarkManager = KBookmarkManager::managerForFile(file, "kfilePlaces");
     if (!bookmarkManager) return;
     KBookmarkGroup root = bookmarkManager->root();

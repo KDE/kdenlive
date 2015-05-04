@@ -43,7 +43,6 @@ void Core::initialize(MainWindow* mainWindow)
 void Core::init()
 {
     initLocale();
-
     m_projectManager = new ProjectManager(this);
     m_monitorManager = new MonitorManager(this);
 }

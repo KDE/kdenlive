@@ -133,7 +133,7 @@ QDomDocument initEffects::getUsedCustomEffects(const QMap <QString, QString>& ef
 }
 
 //static
-void initEffects::parseEffectFiles(const QString &locale)
+Mlt::Repository *initEffects::parseEffectFiles(const QString &locale)
 {
     QStringList::Iterator more;
     QStringList::Iterator it;
@@ -143,7 +143,7 @@ void initEffects::parseEffectFiles(const QString &locale)
     Mlt::Repository *repository = Mlt::Factory::init();
     if (!repository) {
         //qDebug() << "Repository didn't finish initialisation" ;
-        return;
+        return NULL;
     }
 
     // Warning: Mlt::Factory::init() resets the locale to the default system value, make sure we keep correct locale
@@ -308,6 +308,8 @@ void initEffects::parseEffectFiles(const QString &locale)
     MainWindow::videoEffects.clearList();
     foreach(const QDomElement & effect, videoEffectsMap)
         MainWindow::videoEffects.append(effect);
+    
+    return repository;
 }
 
 // static

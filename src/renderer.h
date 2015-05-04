@@ -64,6 +64,7 @@ class Transition;
 class Frame;
 class Field;
 class Producer;
+class Repository;
 class Filter;
 class Profile;
 class Service;
@@ -343,6 +344,11 @@ class Render: public AbstractRender
     QSemaphore showFrameSemaphore;
     bool externalConsumer;
 
+    /** @brief Store MLT's repository for further filters/producers queries */    
+    void setMltRepository(Mlt::Repository *rep);
+        /** @brief Query an MLT producer's module version */    
+    double getMltVersionInfo(const QString &tag);
+
 protected:
     static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr);
     static void consumer_gl_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr);
@@ -359,6 +365,7 @@ private:
     Mlt::Profile *m_mltProfile;
     Mlt::Event *m_showFrameEvent;
     Mlt::Event *m_pauseEvent;
+    Mlt::Repository *m_repository;
     double m_fps;
 
     /** @brief True if we are playing a zone.
