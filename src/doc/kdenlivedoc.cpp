@@ -1672,7 +1672,7 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
      * http://websvn.kde.org/trunk/KDE/kdelibs/kfile/kfileplacesmodel.cpp?view=markup
      */
 
-    const QString file = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kfileplaces/bookmarks.xml";
+    const QString file = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/user-places.xbel";
     KBookmarkManager *bookmarkManager = KBookmarkManager::managerForFile(file, "kfilePlaces");
     if (!bookmarkManager) return;
     KBookmarkGroup root = bookmarkManager->root();
