@@ -173,7 +173,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
                 cursor.select(QTextCursor::Document);
                 QColor fontcolor = cursor.charFormat().foreground().color();
                 content.setAttribute("font-color", colorToString(fontcolor));
-                if (!t->data(101).isNull()) content.setAttribute("font-outline", t->data(101).toDouble());
+                if (!t->data(101).isNull()) content.setAttribute("font-outline", QString::number(t->data(101).toDouble()));
                 if (!t->data(102).isNull()) {
                     QVariant variant = t->data(102);
                     QColor outlineColor = variant.value<QColor>();
@@ -183,7 +183,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             if (!t->data(100).isNull()) {
                 QStringList effectParams = t->data(100).toStringList();
                 QString effectName = effectParams.takeFirst();
-		content.setAttribute("textwidth", t->sceneBoundingRect().width());
+		content.setAttribute("textwidth", QString::number(t->sceneBoundingRect().width()));
                 content.setAttribute(effectName, effectParams.join(";"));
             }
 
@@ -204,8 +204,8 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
 
         // position
         QDomElement pos = doc.createElement("position");
-        pos.setAttribute("x", item->pos().x());
-        pos.setAttribute("y", item->pos().y());
+        pos.setAttribute("x", QString::number(item->pos().x()));
+        pos.setAttribute("y", QString::number(item->pos().y()));
         QTransform transform = item->transform();
         QDomElement tr = doc.createElement("transform");
         if (!item->data(ZOOMFACTOR).isNull()) {
@@ -230,7 +230,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             QDomElement effect = doc.createElement("effect");
             if (blur) {
                 effect.setAttribute("type", "blur");
-                effect.setAttribute("blurradius", blur->blurRadius());
+                effect.setAttribute("blurradius", QString::number(blur->blurRadius()));
             } /*else {
 		//WARNING:those effects are anyways broken because they use QPixmaps which are not safe for MLT's threaded workflow
                 QGraphicsDropShadowEffect *shadow = static_cast <QGraphicsDropShadowEffect *>(eff);
