@@ -1655,7 +1655,7 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
      * http://websvn.kde.org/trunk/KDE/kdelibs/kfile/kfileplacesmodel.cpp?view=markup
      */
 
-    const QString file = KStandardDirs::locateLocal("data", "kfileplaces/bookmarks.xml");
+    const QString file = KStandardDirs().localxdgdatadir() + "user-places.xbel";
     KBookmarkManager *bookmarkManager = KBookmarkManager::managerForFile(file, "kfilePlaces");
     if (!bookmarkManager) return;
     KBookmarkGroup root = bookmarkManager->root();
