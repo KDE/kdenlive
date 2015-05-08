@@ -1286,12 +1286,11 @@ void Monitor::reloadProducer(const QString &id)
 
 QString Monitor::getMarkerThumb(GenTime pos)
 {
-    //TODO
-    /*if (!m_controller) return QString();
+    if (!m_controller) return QString();
     if (!m_controller->getClipHash().isEmpty()) {
-	QString url = m_monitorManager->getProjectFolder() + "thumbs/" + m_currentClip->getClipHash() + '#' + QString::number((int) pos.frames(m_monitorManager->timecode().fps())) + ".png";
+	QString url = m_monitorManager->getProjectFolder() + "thumbs/" + m_controller->getClipHash() + '#' + QString::number((int) pos.frames(m_monitorManager->timecode().fps())) + ".png";
         if (QFile::exists(url)) return url;
-    }*/
+    }
     return QString();
 }
 

@@ -140,6 +140,9 @@ public:
     /** @brief Returns MLT's Repository data */
     Mlt::Repository *mltRepository();
 
+    /** @brief Load thumbnails for all producers */
+    void checkThumbnails(const QString thumbFolder);
+
 public slots:
     /** @brief Stored a Bin Folder id / name to MLT's bin playlist. Using an empry folderName deletes the property */
     void slotStoreFolder(const QString &folderId, const QString &parentId, const QString &oldParentId, const QString &folderName);
@@ -168,6 +171,8 @@ private:
     
 signals:
     void loadFolders(QMap<QString,QString>);
+    void loadThumb(QString,QImage,bool);
+    void createThumb(const QDomElement&,const QString&,int);
     void reloadTrackProducers(const QString &id);
 };
 

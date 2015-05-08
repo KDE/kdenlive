@@ -21,7 +21,6 @@
 #include <config-kdenlive.h>
 #include "mainwindow.h"
 
-
 #include <KAboutData>
 #include <QDebug>
 

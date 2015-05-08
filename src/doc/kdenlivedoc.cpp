@@ -426,6 +426,7 @@ int KdenliveDoc::setSceneList()
         // INVALID MLT Consumer, something is wrong
         return -1;
     }
+    pCore->binController()->checkThumbnails(projectFolder().path() + "/thumbs/");
     m_documentProperties.remove("position");
     return 0;
 }

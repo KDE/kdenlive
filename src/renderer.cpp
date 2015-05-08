@@ -138,6 +138,7 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
     connect(this, SIGNAL(checkSeeking()), this, SLOT(slotCheckSeeking()));
     if (m_name == Kdenlive::ProjectMonitor) {
         connect(m_binController, SIGNAL(reloadTrackProducers(const QString &)), this, SLOT(slotUpdateTrackProducers(const QString &)));
+        connect(m_binController, SIGNAL(createThumb(QDomElement,QString,int)), this, SLOT(getFileProperties(QDomElement,QString,int)));
     }
     //connect(this, SIGNAL(mltFrameReceived(Mlt::Frame*)), this, SLOT(showFrame(Mlt::Frame*)), Qt::UniqueConnection);
 }
@@ -651,6 +652,7 @@ void Render::processFileProperties()
         info = m_requestList.takeFirst();
 
         if (info.xml.hasAttribute("thumbnailOnly")) {
+            m_infoMutex.unlock();
             // Special case, we just want the thumbnail for existing producer
             Mlt::Producer *prod = new Mlt::Producer(*m_binController->getBinProducer(info.clipId));
             int frameNumber = info.xml.attribute("thumbnail", "-1").toInt();
@@ -664,8 +666,7 @@ void Render::processFileProperties()
             }
             delete frame;
             delete prod;
-            m_infoMutex.unlock();
-            return;
+            continue;
         }
         m_processingClipId.append(info.clipId);
         m_infoMutex.unlock();
@@ -2071,8 +2072,6 @@ void Render::showAudio(Mlt::Frame& frame)
 
 void Render::mltCheckLength(Mlt::Tractor *tractor)
 {
-    ////qDebug()<<"checking track length: "<<track<<"..........";
-
     int trackNb = tractor->count();
     int duration = 0;
     if (m_isZoneMode) resetZoneMode();
@@ -2089,7 +2088,6 @@ void Render::mltCheckLength(Mlt::Tractor *tractor)
         if (trackDuration > duration) duration = trackDuration;
         trackNb--;
     }
-
     Mlt::Producer blackTrackProducer(tractor->track(0));
 
     if (blackTrackProducer.get_playtime() - 1 != duration) {

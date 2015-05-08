@@ -130,7 +130,6 @@ void BinController::initializeBin(Mlt::Playlist playlist)
             }
             else {
                 // Controller has not been created yet
-                qDebug()<<" + + + +LOADING NEW CTRL\n"<<id<<"\n-------";
                 ClipController *controller = new ClipController(this, producer->parent());
                 m_clipList.insert(id, controller);
             }
@@ -413,4 +412,30 @@ const QStringList BinController::getBinIdsByResource(const QUrl &url) const
 void BinController::updateTrackProducer(const QString &id)
 {
     emit reloadTrackProducers(id);
+}
+
+void BinController::checkThumbnails(const QString thumbFolder)
+{
+    // Parse all controllers and load thumbnails
+    QMapIterator<QString, ClipController *> i(m_clipList);
+    while (i.hasNext()) {
+        i.next();
+        ClipController *ctrl = i.value();
+        if (!ctrl->getClipHash().isEmpty()) {
+            QImage img(thumbFolder + ctrl->getClipHash() + ".png");
+            if (!img.isNull()) {
+                emit loadThumb(ctrl->clipId(), img, true);
+            }
+            else {
+                // Add clip id to thumbnail generation thread
+                QDomDocument doc;
+                ctrl->getProducerXML(doc);
+                QDomElement xml = doc.documentElement().firstChildElement("producer");
+                if (!xml.isNull()) {
+                    xml.setAttribute("thumbnailOnly", 1);
+                    emit createThumb(xml, ctrl->clipId(), 150);
+                }
+            }
+        }
+    }
 }

@@ -442,7 +442,7 @@ private slots:
     void slotGotFilterJobResults(QString ,int , int, stringMap, stringMap);
 
 public slots:
-    void slotThumbnailReady(const QString &id, const QImage &img);
+    void slotThumbnailReady(const QString &id, const QImage &img, bool fromFile = false);
     /** @brief The producer for this clip is ready.
      *  @param id the clip id
      *  @param controller The Controller for this clip

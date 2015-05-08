@@ -305,14 +305,6 @@ class Render: public AbstractRender
     void forceProcessing(const QString &id);
     /** @brief Are we currently processing clip with selected id. */
     bool isProcessing(const QString &id);
-
-    /** @brief Requests the file properties for the specified URL (will be put in a queue list)
-        @param xml The xml parameters for the clip
-        @param clipId The clip Id string
-        @param imageHeight The height (in pixels) of the returned thumbnail (height of a treewidgetitem in projectlist)
-        @param replaceProducer If true, the MLT producer will be recreated */
-    void getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
-
     /** @brief Lock the MLT service */
     Mlt::Tractor *lockService();
     /** @brief Unlock the MLT service */
@@ -504,7 +496,14 @@ public slots:
     void doRefresh();
     /** @brief Processing of this clip is over, producer was set on clip, remove from list. */
     void slotProcessingDone(const QString &id);
-        void emitFrameUpdated(QImage img);
+    void emitFrameUpdated(QImage img);
+
+    /** @brief Requests the file properties for the specified URL (will be put in a queue list)
+    @param xml The xml parameters for the clip
+    @param clipId The clip Id string
+    @param imageHeight The height (in pixels) of the returned thumbnail (height of a treewidgetitem in projectlist)
+    @param replaceProducer If true, the MLT producer will be recreated */
+    void getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
 };
 
 #endif

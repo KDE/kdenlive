@@ -1142,10 +1142,14 @@ void Bin::refreshEditedClip()
     m_doc->binMonitor()->refresh();*/
 }
 
-void Bin::slotThumbnailReady(const QString &id, const QImage &img)
+void Bin::slotThumbnailReady(const QString &id, const QImage &img, bool fromFile)
 {
     ProjectClip *clip = m_rootFolder->clip(id);
-    if (clip) clip->setThumbnail(img);
+    if (clip) {
+        clip->setThumbnail(img);
+        // Save thumbnail for later reuse
+        if (!fromFile) img.save(m_doc->projectFolder().path() + "/thumbs/" + clip->controller()->getClipHash() + ".png");
+    }
 }
 
 QStringList Bin::getBinFolderClipIds(const QString &id) const
