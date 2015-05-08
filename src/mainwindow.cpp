@@ -1638,6 +1638,9 @@ void MainWindow::connectDocument()
     //Update the mouse position display so it will display in DF/NDF format by default based on the project setting.
     slotUpdateMousePosition(0);
 
+    // Update guides info in render widget
+    slotGuidesUpdated();
+
     // Make sure monitor is visible so that it is painted black on startup
     //show();
     //pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor, true);

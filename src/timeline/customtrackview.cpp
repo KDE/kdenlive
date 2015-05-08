@@ -5532,7 +5532,6 @@ void CustomTrackView::editGuide(const GenTime &oldPos, const GenTime &pos, const
         }
         if (!found) emit displayMessage(i18n("No guide at cursor time"), ErrorMessage);
     }
-    
     else if (oldPos >= GenTime()) {
         // move guide
         for (int i = 0; i < m_guides.count(); ++i) {
@@ -5545,9 +5544,10 @@ void CustomTrackView::editGuide(const GenTime &oldPos, const GenTime &pos, const
     } else addGuide(pos, comment);
     qSort(m_guides.begin(), m_guides.end(), sortGuidesList);
     emit guidesUpdated();
+    m_document->setModified(true);
 }
 
-bool CustomTrackView::addGuide(const GenTime &pos, const QString &comment)
+bool CustomTrackView::addGuide(const GenTime &pos, const QString &comment, bool loadingProject)
 {
     for (int i = 0; i < m_guides.count(); ++i) {
         if (m_guides.at(i)->position() == pos) {
@@ -5559,7 +5559,10 @@ bool CustomTrackView::addGuide(const GenTime &pos, const QString &comment)
     scene()->addItem(g);
     m_guides.append(g);
     qSort(m_guides.begin(), m_guides.end(), sortGuidesList);
-    emit guidesUpdated();
+    if (!loadingProject) {
+        emit guidesUpdated();
+        m_document->setModified(true);
+    }
     return true;
 }
 

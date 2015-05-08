@@ -598,7 +598,7 @@ void Timeline::loadGuides(QMap <double, QString> guidesData)
     while (i.hasNext()) {
         i.next();
         const GenTime pos = GenTime(i.key());
-        m_trackview->addGuide(pos, i.value());
+        m_trackview->addGuide(pos, i.value(), true);
     }
 }
 

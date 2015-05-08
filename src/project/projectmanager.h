@@ -50,7 +50,6 @@ public:
     void init(const QUrl &projectUrl, const QString &clipList);
 
     void doOpenFile(const QUrl &url, KAutoSaveFile *stale);
-    void recoverFiles(const QList<KAutoSaveFile *> &staleFiles, const QUrl &originUrl);
     KRecentFilesAction *recentFilesAction();
 
 public slots:
