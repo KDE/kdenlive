@@ -187,7 +187,8 @@ public:
     bool deleteClipMarkers(QUndoCommand *groupCommand);
     void addMarkers(QList <CommentedTime> &markers);
     /** @brief Add an effect to bin clip. */
-    void addEffect(const ProfileInfo pInfo, const QDomElement &effect);
+    void addEffect(const ProfileInfo pInfo, QDomElement &effect);
+    void removeEffect(const ProfileInfo pInfo, int ix);
 
 public slots:
     //TODO

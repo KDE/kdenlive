@@ -84,7 +84,19 @@ private:
 class AddBinEffectCommand : public QUndoCommand
 {
 public:
-    explicit AddBinEffectCommand(Bin *bin, const QString &clipId, const QDomElement &effect, QUndoCommand *parent = 0);
+    explicit AddBinEffectCommand(Bin *bin, const QString &clipId, QDomElement &effect, QUndoCommand *parent = 0);
+    void undo();
+    void redo();
+private:
+    Bin *m_bin;
+    QString m_clipId;
+    QDomElement m_effect;
+};
+
+class RemoveBinEffectCommand : public QUndoCommand
+{
+public:
+    explicit RemoveBinEffectCommand(Bin *bin, const QString &clipId, QDomElement &effect, QUndoCommand *parent = 0);
     void undo();
     void redo();
 private:

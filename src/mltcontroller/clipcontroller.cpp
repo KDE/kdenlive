@@ -38,7 +38,6 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer& prod
     , m_hasLimitedDuration(true)
     , m_properties(new Mlt::Properties(producer.get_properties()))
     , selectedEffectIndex(1)
-    , m_effectFreeIndex(1)
 {
     m_masterProducer = &producer;
     m_effectList = EffectsList(true);
@@ -66,10 +65,9 @@ ClipController::ClipController(BinController *bincontroller) : QObject()
     , m_clipType(Unknown)
     , m_properties(NULL)
     , selectedEffectIndex(1)
-    , m_effectFreeIndex(1)
 {
     m_masterProducer = NULL;
-    m_effectList = EffectsList();
+    m_effectList = EffectsList(true);
 }
 
 ClipController::~ClipController()
@@ -570,19 +568,25 @@ Mlt::Properties &ClipController::properties()
     return *m_properties;
 }
 
-void ClipController::addEffect(const ProfileInfo pInfo, QDomElement effect)
+void ClipController::addEffect(const ProfileInfo pInfo, QDomElement &effect)
 {
     QDomDocument doc = effect.ownerDocument();
     Mlt::Service service = m_masterProducer->parent();
-    int ix = m_effectFreeIndex++;
-    effect.setAttribute("kdenlive_ix", QString::number(ix));
     ItemInfo info;
     info.cropStart = GenTime();
     info.cropDuration = getPlaytime();
     EffectsController::initEffect(info, pInfo, m_effectList, property("proxy"), effect);
-    EffectsParameterList params = EffectsController::getEffectArgs(pInfo, effect);
-    Render::addFilterToService(m_masterProducer->parent(), params, getPlaytime().frames(m_binController->fps()));
+    // Add effect to list and setup a kdenlive_ix value
     m_effectList.append(effect);
+    EffectsParameterList params = EffectsController::getEffectArgs(pInfo, effect);
+    Render::addFilterToService(service, params, getPlaytime().frames(m_binController->fps()));
+    m_binController->updateTrackProducer(clipId());
+}
+
+void ClipController::removeEffect(const ProfileInfo pInfo, int effectIndex)
+{
+    Render::removeFilterFromService(m_masterProducer->parent(), effectIndex, true);
+    m_effectList.removeAt(effectIndex);
     m_binController->updateTrackProducer(clipId());
 }
 
@@ -599,10 +603,7 @@ void ClipController::rebuildEffectList()
     for (int ix = 0; ix < service.filter_count(); ++ix) {
         Mlt::Filter *effect = service.filter(ix);
         QDomElement clipeffect = Timeline::getEffectByTag(effect->get("tag"), effect->get("kdenlive_id"));
-        int curr = effect->get_int("kdenlive_ix");
-        m_effectFreeIndex = qMax(m_effectFreeIndex, curr + 1);
         QDomElement currenteffect = clipeffect.cloneNode().toElement();
-        //currenteffect.setAttribute("kdenlive_ix", QString::number(ix));
         m_effectList.append(currenteffect);
     }
 }

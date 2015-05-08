@@ -1111,10 +1111,11 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
     pCore->bin()->createClip(elem);
     m_render->getFileProperties(elem, producerId, 150, true);
 
-    QString str;
+    /*QString str;
     QTextStream stream(&str);
     elem.save(stream, 4);
-    qDebug()<<"ADDING CLIP COMMAND\n-----------\n"<<str;
+    qDebug()<<"ADDING CLIP COMMAND\n-----------\n"<<str;*/
+    setModified(true);
 
     return true;
     /*DocClipBase *clip = m_clipManager->getClipById(producerId);

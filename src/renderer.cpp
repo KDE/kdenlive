@@ -2846,6 +2846,9 @@ bool Render::mltRemoveEffect(int track, GenTime position, int index, bool update
     }
 
     Mlt::Service clipService(clip->get_service());
+    
+    success = removeFilterFromService(clipService, index, updateIndex);
+    
     int duration = clip->get_playtime();
     if (doRefresh) {
         // Check if clip is visible in monitor
@@ -2854,26 +2857,32 @@ bool Render::mltRemoveEffect(int track, GenTime position, int index, bool update
     }
     delete clip;
 
+    
+    if (doRefresh) refresh();
+    return success;
+}
+
+//static
+bool Render::removeFilterFromService(Mlt::Service service, int effectIndex, bool updateIndex)
+{
     service.lock();
+    bool success = false;
     int ct = 0;
-    Mlt::Filter *filter = clipService.filter(ct);
+    Mlt::Filter *filter = service.filter(ct);
     while (filter) {
-        if ((index == -1 && strcmp(filter->get("kdenlive_id"), ""))  || filter->get_int("kdenlive_ix") == index) {// && filter->get("kdenlive_id") == id) {
-            if (clipService.detach(*filter) == 0) {
+        if ((effectIndex == -1 && strcmp(filter->get("kdenlive_id"), ""))  || filter->get_int("kdenlive_ix") == effectIndex) {
+            if (service.detach(*filter) == 0) {
                 delete filter;
                 success = true;
             }
-            ////qDebug()<<"Deleted filter id:"<<filter->get("kdenlive_id")<<", ix:"<<filter->get("kdenlive_ix")<<", SERVICE:"<<filter->get("mlt_service");
         } else if (updateIndex) {
             // Adjust the other effects index
-            if (filter->get_int("kdenlive_ix") > index) filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") - 1);
+            if (filter->get_int("kdenlive_ix") > effectIndex) filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") - 1);
             ct++;
         } else ct++;
-        filter = clipService.filter(ct);
+        filter = service.filter(ct);
     }
     service.unlock();
-    if (doRefresh) refresh();
-    return success;
 }
 
 bool Render::mltAddTrackEffect(int track, EffectsParameterList params)
@@ -3073,6 +3082,7 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
 
         for (int j = 0; j < params.count(); ++j) {
             filter->set((prefix + params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
+            //qDebug()<<" / / SET PARAM: "<<params.at(j).name()<<" = "<<params.at(j).value();
         }
 
         if (tag == "sox") {

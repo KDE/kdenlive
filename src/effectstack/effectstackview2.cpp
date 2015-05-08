@@ -715,7 +715,7 @@ void EffectStackView2::slotDeleteEffect(const QDomElement &effect)
     else if (m_status == TIMELINE_CLIP)
         emit removeEffect(m_clipref, -1, effect);
     if (m_status == MASTER_CLIP) {
-        //TODO
+        emit removeMasterEffect(m_masterclipref->clipId(), effect);
     }
 }
 

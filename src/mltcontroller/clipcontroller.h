@@ -160,7 +160,8 @@ public:
     QPoint zone() const;
     bool hasLimitedDuration() const;
     Mlt::Properties &properties();
-    void addEffect(const ProfileInfo pInfo, QDomElement effect);
+    void addEffect(const ProfileInfo pInfo, QDomElement &effect);
+    void removeEffect(const ProfileInfo pInfo, int effectIndex);
     EffectsList effectList();
     /** @brief Enable/disable an effect. */
     void changeEffectState(const QList <int> indexes, bool disable);
@@ -177,7 +178,6 @@ private:
     int m_videoIndex;
     ClipType m_clipType;
     bool m_hasLimitedDuration;
-    int m_effectFreeIndex;
     BinController *m_binController;
     /** @brief A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
     QList < CommentedTime > m_snapMarkers;

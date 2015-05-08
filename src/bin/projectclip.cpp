@@ -582,9 +582,14 @@ void ProjectClip::addMarkers(QList <CommentedTime> &markers)
     emit refreshClipDisplay();
 }
 
-void ProjectClip::addEffect(const ProfileInfo pInfo, const QDomElement &effect)
+void ProjectClip::addEffect(const ProfileInfo pInfo, QDomElement &effect)
 {
     m_controller->addEffect(pInfo, effect);
     bin()->editMasterEffect(m_controller);
 }
 
+void ProjectClip::removeEffect(const ProfileInfo pInfo, int ix)
+{
+    m_controller->removeEffect(pInfo, ix);
+    bin()->editMasterEffect(m_controller);
+}

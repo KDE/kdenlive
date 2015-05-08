@@ -410,7 +410,7 @@ public:
     /** @brief Remove an effect from a bin clip. */
     void removeEffect(const QString &id, const QDomElement &effect);
     /** @brief Add an effect to a bin clip. */
-    void addEffect(const QString &id, const QDomElement &effect);
+    void addEffect(const QString &id, QDomElement &effect);
     void editMasterEffect(ClipController *ctl);
     void setDocumentModified();
 
@@ -477,6 +477,7 @@ public slots:
     void slotAddClipMarker(const QString &id, QList <CommentedTime> newMarker, QUndoCommand *groupCommand = 0);
     void slotLoadClipMarkers(const QString &id);
     void slotDuplicateClip();
+    void slotDeleteEffect(const QString &id, QDomElement effect);
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);

@@ -226,6 +226,7 @@ class Render: public AbstractRender
 
     /** @brief Deletes an effect from a clip in MLT's playlist. */
     bool mltRemoveEffect(int track, GenTime position, int index, bool updateIndex, bool doRefresh = true);
+    static bool removeFilterFromService(Mlt::Service service, int effectIndex, bool updateIndex);
     bool mltRemoveTrackEffect(int track, int index, bool updateIndex);
 
     /** @brief Adds an effect to a clip in MLT's playlist. */

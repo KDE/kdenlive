@@ -1547,15 +1547,31 @@ void Bin::slotEffectDropped(QString effect, const QModelIndex &parent)
     }
     QDomDocument doc;
     doc.setContent(effect);
-    AddBinEffectCommand *command = new AddBinEffectCommand(this, parentItem->clipId(), doc.documentElement());
+    QDomElement e = doc.documentElement();
+    AddBinEffectCommand *command = new AddBinEffectCommand(this, parentItem->clipId(), e);
+    m_doc->commandStack()->push(command);
+}
+
+void Bin::slotDeleteEffect(const QString &id, QDomElement effect)
+{
+    RemoveBinEffectCommand *command = new RemoveBinEffectCommand(this, id, effect);
     m_doc->commandStack()->push(command);
 }
 
 void Bin::removeEffect(const QString &id, const QDomElement &effect)
 {
+    ProjectClip *currentItem = NULL;
+    if (id.isEmpty()) {
+        currentItem = getFirstSelectedClip();
+    }
+    else currentItem = m_rootFolder->clip(id);
+    if (!currentItem) return;
+    currentItem->removeEffect(m_monitor->profileInfo(), effect.attribute("kdenlive_ix").toInt());
+    setDocumentModified();
+    m_monitor->refreshMonitor();
 }
 
-void Bin::addEffect(const QString &id, const QDomElement &effect)
+void Bin::addEffect(const QString &id, QDomElement &effect)
 {
     ProjectClip *currentItem = NULL;
     if (id.isEmpty()) {
@@ -1564,6 +1580,7 @@ void Bin::addEffect(const QString &id, const QDomElement &effect)
     else currentItem = m_rootFolder->clip(id);
     if (!currentItem) return;
     currentItem->addEffect(m_monitor->profileInfo(), effect);
+    setDocumentModified();
     m_monitor->refreshMonitor();
 }
 
