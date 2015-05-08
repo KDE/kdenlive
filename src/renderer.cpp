@@ -2243,13 +2243,12 @@ void Render::slotUpdateTrackProducers(const QString &clipId)
         Mlt::Producer trackProducer(tractor->track(i));
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
         QString trackName = trackPlaylist.get("id");
-        QString clipIdWithTrack = clipId + "_" + trackName;
         Mlt::Producer *prod = NULL;
         for (int j = 0; j < trackPlaylist.count(); j++) {
             if (trackPlaylist.is_blank(j)) continue;
             Mlt::Producer *p = trackPlaylist.get_clip(j);
             QString id = p->parent().get("id");
-            if (id == clipIdWithTrack) {
+            if (id.section("_", 0, 0) == clipId) {
                 // This producer exists in the track, update it
                 reloadClipEffects(p->parent(), clipId);
                 delete p;
