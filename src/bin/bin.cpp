@@ -1888,6 +1888,7 @@ void Bin::slotAddClipMarker(const QString &id, QList <CommentedTime> newMarkers,
     clip->addClipMarker(newMarkers, groupCommand);
     if (groupCommand->childCount() > 0) m_doc->commandStack()->push(groupCommand);
     else delete groupCommand;
+    
 }
 
 void Bin::slotLoadClipMarkers(const QString &id)
@@ -2034,3 +2035,7 @@ void Bin::showTitleWidget(ProjectClip *clip)
         delete dia_ui;
 }
 
+void Bin::setDocumentModified()
+{
+    m_doc->setModified(true);
+}
