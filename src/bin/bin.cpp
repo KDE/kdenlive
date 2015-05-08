@@ -1148,7 +1148,7 @@ void Bin::slotThumbnailReady(const QString &id, const QImage &img, bool fromFile
     if (clip) {
         clip->setThumbnail(img);
         // Save thumbnail for later reuse
-        if (!fromFile) img.save(m_doc->projectFolder().path() + "/thumbs/" + clip->controller()->getClipHash() + ".png");
+        if (!fromFile) img.save(m_doc->projectFolder().path() + "/thumbs/" + clip->hash() + ".png");
     }
 }
 

@@ -205,6 +205,8 @@ private:
     /** @brief Generate and store file hash if not available. */
     const QString getFileHash() const;
     bool m_audioThumbCreated;
+    /** @brief Store clip url temporarily while the clip controller has not been created. */
+    QUrl m_temporaryUrl;
 
 signals:
     void gotAudioData();

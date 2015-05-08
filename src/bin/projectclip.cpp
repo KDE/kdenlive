@@ -62,13 +62,13 @@ ProjectClip::ProjectClip(const QDomElement& description, QIcon thumb, ProjectFol
     Q_ASSERT(description.hasAttribute("id"));
     m_clipStatus = StatusWaiting;
     m_thumbnail = thumb;
-    QString resource = getXmlProperty(description, "resource");
+    m_temporaryUrl = QUrl::fromLocalFile(getXmlProperty(description, "resource"));
     QString clipName = getXmlProperty(description, "kdenlive:clipname");
     if (!clipName.isEmpty()) {
         m_name = clipName;
     }
-    else if (!resource.isEmpty()) {
-        m_name = QUrl::fromLocalFile(resource).fileName();
+    else if (m_temporaryUrl.isValid()) {
+        m_name = m_temporaryUrl.fileName();
     }
     else m_name = i18n("Untitled");
     setParent(parent);
@@ -164,7 +164,7 @@ ProjectClip* ProjectClip::clipAt(int ix)
 QUrl ProjectClip::url() const
 {
     if (m_controller) return m_controller->clipUrl();
-    return QUrl();
+    return m_temporaryUrl;
 }
 
 bool ProjectClip::hasLimitedDuration() const
@@ -257,6 +257,7 @@ void ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
         m_controller = controller;
         if (m_name.isEmpty()) m_name = m_controller->clipName();
         m_duration = m_controller->getStringDuration();
+        m_temporaryUrl.clear();
     }
     m_clipStatus = StatusReady;
     bin()->emitItemUpdated(this);
@@ -373,18 +374,20 @@ QString ProjectClip::getProducerProperty(const QString &key) const
 
 const QString ProjectClip::hash()
 {
-    if (!m_controller) return QString();
-    QString clipHash = m_controller->property("kdenlive:file_hash");
-    if (clipHash.isEmpty()) {
-        return getFileHash();
+    if (m_controller) {
+        QString clipHash = m_controller->property("kdenlive:file_hash");
+        if (clipHash.isEmpty()) {
+            return getFileHash();
+        }
+        return clipHash;
     }
-    return clipHash;
+    return getFileHash();
 }
 
 const QString ProjectClip::getFileHash() const
 {
     if (clipType() == SlideShow) return QString();
-    QFile file(m_controller->clipUrl().toLocalFile());
+    QFile file(m_controller ? m_controller->clipUrl().toLocalFile() : m_temporaryUrl.toLocalFile());
     if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
         QByteArray fileData;
         QByteArray fileHash;
@@ -403,7 +406,7 @@ const QString ProjectClip::getFileHash() const
         file.close();
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         QString result = fileHash.toHex();
-        m_controller->setProperty("kdenlive:file_hash", result);
+        if (m_controller) m_controller->setProperty("kdenlive:file_hash", result);
         return result;
     }
     return QString();

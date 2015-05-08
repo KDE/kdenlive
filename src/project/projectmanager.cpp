@@ -232,8 +232,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     m_project->setModified(false);
     m_recentFilesAction->addUrl(QUrl::fromLocalFile(outputFileName));
     m_fileRevert->setEnabled(true);
-    m_project->commandStack()->setClean();
-    //pCore->window()->m_undoView->stack()->setClean();
+    pCore->window()->m_undoView->stack()->setClean();
 
     return true;
 }
