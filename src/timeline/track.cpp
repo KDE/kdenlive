@@ -157,6 +157,8 @@ bool Track::resize(qreal t, qreal dt, bool end)
         ++index;
         if (index > m_playlist.count() - 1) {
             m_playlist.unlock();
+            // this is the last clip in track, check tracks length to adjust black track and project duration
+            emit newTrackDuration(m_playlist.get_playtime());
             return true;
         }
         length = -length;
