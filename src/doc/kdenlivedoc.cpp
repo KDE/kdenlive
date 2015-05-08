@@ -96,6 +96,9 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     m_clipManager = new ClipManager(this);
     connect(m_clipManager, SIGNAL(displayMessage(QString,int)), parent, SLOT(slotGotProgressInfo(QString,int)));
     bool success = false;
+    
+    connect(m_commandStack, SIGNAL(indexChanged(int)), this, SLOT(slotModified()));
+    //connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
 
     // Init clip modification tracker
     m_modifiedTimer.setInterval(1500);
@@ -1080,6 +1083,11 @@ void KdenliveDoc::setUrl(const QUrl &url)
     m_url = url;
 }
 
+void KdenliveDoc::slotModified()
+{
+    setModified(m_commandStack->isClean() == false);
+}
+
 void KdenliveDoc::setModified(bool mod)
 {
     // fix mantis#3160: The document may have an empty URL if not saved yet, but should have a m_autosave in any case
@@ -1115,8 +1123,6 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
     QTextStream stream(&str);
     elem.save(stream, 4);
     qDebug()<<"ADDING CLIP COMMAND\n-----------\n"<<str;*/
-    setModified(true);
-
     return true;
     /*DocClipBase *clip = m_clipManager->getClipById(producerId);
 
@@ -1324,7 +1330,6 @@ ClipController *KdenliveDoc::getClipController(const QString &clipId)
 void KdenliveDoc::slotCreateXmlClip(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId)
 {
     m_clipManager->slotAddXmlClipFile(name, xml, group, groupId);
-    setModified(true);
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
 }
 
@@ -1345,7 +1350,6 @@ void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString
 
     //TODO: rewrite with new title system (just set resource)
     m_clipManager->slotAddTextTemplateClip(i18n("Template title clip"), path, group, groupId);
-    setModified(true);
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
 }
 

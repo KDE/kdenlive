@@ -399,7 +399,11 @@ void ClipManager::deleteProjectItems(QStringList clipIds, QStringList folderIds)
 {
     // Create meta command
     QUndoCommand *deleteCommand = new QUndoCommand();
-    deleteCommand->setText(i18n("Delete clips"));
+    if (clipIds.isEmpty()) {
+        // Deleting folder only
+        deleteCommand->setText(i18np("Delete folder", "Delete folders", folderIds.count()));
+    }
+    else deleteCommand->setText(i18np("Delete clip", "Delete clips", clipIds.count()));
     if (pCore->projectManager()->currentTimeline()) {
         // Remove clips from timeline
         if (!clipIds.isEmpty()) {
@@ -409,7 +413,6 @@ void ClipManager::deleteProjectItems(QStringList clipIds, QStringList folderIds)
         }
         // remove clips and folders from bin
         slotDeleteClips(clipIds, folderIds, deleteCommand);
-        m_doc->setModified(true);
     }
 }
 

@@ -1110,7 +1110,6 @@ void ProjectList::editFolder(const QString folderName, const QString oldfolderNa
 {
     EditFolderCommand *command = new EditFolderCommand(this, folderName, oldfolderName, clipId, false);
     m_commandStack->push(command);
-    m_doc->setModified(true);
 }
 
 void ProjectList::slotAddFolder(const QString &name)
@@ -1157,7 +1156,6 @@ void ProjectList::slotAddFolder(const QString &foldername, const QString &clipId
         }
         updateButtons();
     }
-    m_doc->setModified(true);
 }
 
 void ProjectList::deleteProjectFolder(QMap <QString, QString> map)

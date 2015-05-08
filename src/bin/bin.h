@@ -412,7 +412,6 @@ public:
     /** @brief Add an effect to a bin clip. */
     void addEffect(const QString &id, QDomElement &effect);
     void editMasterEffect(ClipController *ctl);
-    void setDocumentModified();
 
 private slots:
     void slotAddClip();

@@ -259,6 +259,7 @@ private slots:
     void slotClipMissing(const QString &path);
     void slotClipAvailable(const QString &path);
     void slotProcessModifiedClips();
+    void slotModified();
 
 signals:
     void resetProjectList();

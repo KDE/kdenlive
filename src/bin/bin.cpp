@@ -1567,7 +1567,6 @@ void Bin::removeEffect(const QString &id, const QDomElement &effect)
     else currentItem = m_rootFolder->clip(id);
     if (!currentItem) return;
     currentItem->removeEffect(m_monitor->profileInfo(), effect.attribute("kdenlive_ix").toInt());
-    setDocumentModified();
     m_monitor->refreshMonitor();
 }
 
@@ -1580,7 +1579,6 @@ void Bin::addEffect(const QString &id, QDomElement &effect)
     else currentItem = m_rootFolder->clip(id);
     if (!currentItem) return;
     currentItem->addEffect(m_monitor->profileInfo(), effect);
-    setDocumentModified();
     m_monitor->refreshMonitor();
 }
 
@@ -2050,9 +2048,4 @@ void Bin::showTitleWidget(ProjectClip *clip)
             slotEditClipCommand(clip->clipId(), clip->currentProperties(newprops), newprops);
         }
         delete dia_ui;
-}
-
-void Bin::setDocumentModified()
-{
-    m_doc->setModified(true);
 }

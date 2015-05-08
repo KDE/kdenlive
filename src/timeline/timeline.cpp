@@ -803,7 +803,6 @@ void Timeline::slotRenameTrack(int ix, const QString &name)
     tracks[tracknumber - 1].trackName = name;
     ConfigTracksCommand *configTracks = new ConfigTracksCommand(m_trackview, m_doc->tracksList(), tracks);
     m_doc->commandStack()->push(configTracks);
-    m_doc->setModified(true);
 }
 
 void Timeline::slotUpdateVerticalScroll(int /*min*/, int max)

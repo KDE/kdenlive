@@ -577,7 +577,6 @@ void ProjectClip::addMarkers(QList <CommentedTime> &markers)
     }
     // refresh markers in clip monitor
     bin()->refreshClipMarkers(m_id);
-    bin()->setDocumentModified();
     // refresh markers in timeline clips
     emit refreshClipDisplay();
 }
