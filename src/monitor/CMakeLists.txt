@@ -8,6 +8,5 @@ set(kdenlive_SRCS
   monitor/monitorscene.cpp
   monitor/recmonitor.cpp
   monitor/smallruler.cpp
-  monitor/twostateaction.cpp
   monitor/sharedframe.cpp
   PARENT_SCOPE)

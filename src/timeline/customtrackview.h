@@ -115,6 +115,9 @@ public:
     void clipStart();
     void clipEnd();
     void doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id);
+    /** @brief Every command added to the undo stack automatically triggers a document change event.
+     *  This function should only be called when changing a document setting or another function that 
+     *  is not integrated in the undo / redo system */
     void setDocumentModified();
     void setInPoint();
     void setOutPoint();

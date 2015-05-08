@@ -26,12 +26,12 @@
 #include "mltcontroller/bincontroller.h"
 #include "kdenlivesettings.h"
 #include "timeline/abstractclipitem.h"
-#include "twostateaction.h"
 #include "doc/kthumb.h"
 
 #include "klocalizedstring.h"
 #include <KRecentDirs>
 #include <KMessageBox>
+#include <KDualAction>
 
 #include <QDebug>
 #include <QMouseEvent>
@@ -129,9 +129,11 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     QToolButton *playButton = new QToolButton(m_toolbar);
     m_playMenu = new QMenu(i18n("Play..."), this);
-    m_playAction = new TwostateAction(m_playIcon, i18n("Play"), m_pauseIcon, i18n("Pause"));
+    m_playAction = new KDualAction(i18n("Play"), i18n("Pause"), this);
+    m_playAction->setInactiveIcon(m_playIcon);
+    m_playAction->setActiveIcon(m_pauseIcon);
     m_playMenu->addAction(m_playAction);
-    connect(m_playAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
+    connect(m_playAction, SIGNAL(activeChanged(bool)), this, SLOT(switchPlay(bool)));
 
     playButton->setMenu(m_playMenu);
     playButton->setPopupMode(QToolButton::MenuButtonPopup);
@@ -921,6 +923,12 @@ void Monitor::pause()
     m_playAction->setActive(false);
 }
 
+void Monitor::switchPlay(bool play)
+{
+    m_playAction->setActive(play);
+    render->switchPlay(play);
+}
+
 void Monitor::slotPlay()
 {
     if (render == NULL) return;
@@ -1259,9 +1267,9 @@ void Monitor::onFrameDisplayed(const SharedFrame& frame)
         m_rootItem->setProperty("framenum", QString::number(position));
     }
     seekCursor(position);
-    if (position >= m_length)
-        render->pause();
-        //emit endOfStream();
+    if (position >= m_length) {
+        m_playAction->setActive(false);
+    }
 }
 
 AbstractRender *Monitor::abstractRender()

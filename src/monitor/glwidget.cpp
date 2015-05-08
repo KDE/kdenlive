@@ -60,6 +60,7 @@ GLWidget::GLWidget()
     , m_threadStopEvent(0)
     , m_threadCreateEvent(0)
     , m_threadJoinEvent(0)
+    , m_displayEvent(0)
     , m_frameRenderer(0)
     , m_zoom(1.0f)
     , m_offset(QPoint(0, 0))
@@ -108,6 +109,7 @@ GLWidget::~GLWidget()
     delete m_threadStopEvent;
     delete m_threadCreateEvent;
     delete m_threadJoinEvent;
+    delete m_displayEvent;
     if (m_frameRenderer && m_frameRenderer->isRunning()) {
         QMetaObject::invokeMethod(m_frameRenderer, "cleanup");
         m_frameRenderer->quit();
@@ -693,12 +695,12 @@ int GLWidget::reconfigure(bool isMulti)
         // Connect the producer to the consumer - tell it to "run" later
         m_consumer->connect(*m_producer);
         // Make an event handler for when a frame's image should be displayed
-        m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_frame_show);
+        delete m_displayEvent;
+        m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_frame_show);
         //m_consumer->set("real_time", MLT.realTime());
         m_consumer->set("mlt_image_format", "yuv422");
         //TODO:
         //m_consumer->set("color_trc", Settings.playerGamma().toLatin1().constData());
-
         if (isMulti) {
             m_consumer->set("terminate_on_pause", 0);
             m_consumer->set("0", serviceName.toLatin1().constData());
@@ -868,7 +870,6 @@ void GLWidget::on_frame_show(mlt_consumer, void* self, mlt_frame frame_ptr)
         }
     }
 }
-
 
 RenderThread::RenderThread(thread_function_t function, void *data, QOpenGLContext *context)
     : QThread(0)

@@ -129,6 +129,7 @@ private:
     Mlt::Event* m_threadStopEvent;
     Mlt::Event* m_threadCreateEvent;
     Mlt::Event* m_threadJoinEvent;
+    Mlt::Event* m_displayEvent;
     FrameRenderer* m_frameRenderer;
     int m_projectionLocation;
     int m_modelViewLocation;

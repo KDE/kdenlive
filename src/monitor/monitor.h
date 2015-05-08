@@ -43,7 +43,7 @@ class ClipItem;
 class Monitor;
 class MonitorManager;
 class QSlider;
-class TwostateAction;
+class KDualAction;
 class QQuickItem;
 class QScrollBar;
 
@@ -128,7 +128,7 @@ private:
     QIcon m_pauseIcon;
     /** @brief The widget showing current time position **/
     TimecodeDisplay *m_timePos;
-    TwostateAction *m_playAction;
+    KDualAction *m_playAction;
     /** Has to be available so we can enable and disable it. */
     QAction *m_loopClipAction;
     QAction *m_effectCompare;
@@ -189,6 +189,7 @@ public slots:
     void slotSeek(int pos);
     void stop();
     void start();
+    void switchPlay(bool play);
     void slotPlay();
     void slotPlayZone();
     void slotLoopZone();
