@@ -62,6 +62,7 @@ public:
     void stopGlsl();
     int setProducer(Mlt::Producer*, bool isMulti = false);
     int reconfigure(bool isMulti);
+    void clearFrameRenderer();
 
     int displayWidth() const { return m_rect.width(); }
     int displayHeight() const { return m_rect.height(); }
@@ -141,6 +142,7 @@ private:
     QPoint m_offset;
     bool m_audioWaveDisplayed;
     static void on_frame_show(mlt_consumer, void* self, mlt_frame frame);
+    static void on_gl_frame_show(mlt_consumer, void* self, mlt_frame frame_ptr);
     void createAudioOverlay(bool isAudio);
     void removeAudioOverlay();
     void adjustAudioOverlay(bool isAudio);
@@ -166,6 +168,7 @@ class RenderThread : public QThread
     Q_OBJECT
 public:
     RenderThread(thread_function_t function, void* data, QOpenGLContext *context);
+    ~RenderThread();
 
 protected:
     void run();
@@ -186,7 +189,9 @@ public:
     QSemaphore* semaphore() { return &m_semaphore; }
     QOpenGLContext* context() const { return m_context; }
     SharedFrame getDisplayFrame();
+    void clearFrame();
     Q_INVOKABLE void showFrame(Mlt::Frame frame);
+    Q_INVOKABLE void showGLFrame(Mlt::Frame frame);
 
 public slots:
     void cleanup();

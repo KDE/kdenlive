@@ -1185,16 +1185,21 @@ int Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
     QString currentId;
     int consumerPosition = 0;
     bool monitorIsActive = false;
+    if (m_mltProducer) {
+        currentId = m_mltProducer->get("id");
+        m_mltProducer->set_speed(0);
+        delete m_mltProducer;
+        m_mltProducer = NULL;
+    }
     if (m_mltConsumer) {
         m_mltConsumer->set("refresh", 0);
-        /*if (!m_mltConsumer->is_stopped()) {
+        if (!m_mltConsumer->is_stopped()) {
             monitorIsActive = true;
             m_mltConsumer->stop();
-        }*/
+        }
         //m_mltConsumer->purge();
         consumerPosition = m_mltConsumer->position();
     }
-
     blockSignals(true);
     if (!producer || !producer->is_valid()) {
         if (producer) delete producer;
@@ -1205,48 +1210,13 @@ int Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
         qDebug() << " WARNING - - - - -INVALID PLAYLIST: ";
         return -1;
     }
-    if (m_mltProducer) currentId = m_mltProducer->get("id");
+
     emit stopped();
     if (position == -1 && producer->get("id") == currentId) position = consumerPosition;
     if (position != -1) producer->seek(position);
     m_fps = producer->get_fps();
     int volume = KdenliveSettings::volume();
-    
-      
-        /*Mlt::Tractor *tractor = new Mlt::Tractor();
-        Mlt::Producer *color= new Mlt::Producer(*m_mltProfile, "color:red");
-        color->set_in_and_out(0, producer->get_out());
-        tractor->set_track(*producer, 0);
-        tractor->set_track(*color, 1);
 
-        Mlt::Consumer xmlConsumer(*m_mltProfile, "xml:audio_hack");
-        if (!xmlConsumer.is_valid()) return -1;
-        xmlConsumer.set("terminate_on_pause", 1);
-        xmlConsumer.connect(tractor->parent());
-        xmlConsumer.run();
-        delete tractor;
-        delete color;
-        delete producer;
-        QString playlist = QString::fromUtf8(xmlConsumer.get("audio_hack"));
-
-        Mlt::Producer *result = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
-        Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, "audiowave");
-        tractor = new Mlt::Tractor();
-        tractor->set_track(*result, 0);
-        delete result;
-        tractor->track(0)->attach(*filter);
-        delete filter;
-        producer = &(tractor->parent());*/
-    
-    
-    //producer->set("meta.volume", (double)volume / 100);
-
-    /*if (m_mltProducer) {
-        m_mltProducer->set_speed(0);
-        delete m_mltProducer;
-        m_mltProducer = NULL;
-    }*/
-    
     blockSignals(false);
     m_mltProducer = producer;
     m_mltProducer->set_speed(0);
@@ -1256,7 +1226,6 @@ int Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
         //m_mltConsumer->set("refresh", 1);
     }
     //m_mltConsumer->connect(*producer);
-
     if (isActive) {
         startConsumer();
     }
