@@ -1891,7 +1891,7 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
         EffectsParameterList params = clip->addEffect(m_document->getProfileInfo(), effect);
         if (!m_document->renderer()->mltAddEffect(track, pos, params)) {
             emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
-            clip->deleteEffect(params.paramValue("kdenlive_ix"));
+            clip->deleteEffect(params.paramValue("kdenlive_ix").toInt());
         }
         else clip->setSelectedEffect(params.paramValue("kdenlive_ix").toInt());
         if (clip->isMainSelectedClip()) emit clipItemSelected(clip);
@@ -1900,10 +1900,10 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
 
 void CustomTrackView::deleteEffect(int track, const GenTime &pos, const QDomElement &effect)
 {
-    QString index = effect.attribute("kdenlive_ix");
+    int index = effect.attribute("kdenlive_ix").toInt();
     if (pos < GenTime()) {
         // Delete track effect
-        if (m_document->renderer()->mltRemoveTrackEffect(track, index.toInt(), true)) {
+        if (m_document->renderer()->mltRemoveTrackEffect(track, index, true)) {
             m_document->removeTrackEffect(track - 1, effect);
         }
         else emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
@@ -1918,11 +1918,12 @@ void CustomTrackView::deleteEffect(int track, const GenTime &pos, const QDomElem
             doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), 1.0, clip->speed(), 1, clip->getBinId());
             clip->deleteEffect(index);
             emit clipItemSelected(clip);
-            m_document->renderer()->mltRemoveEffect(track, pos, index.toInt(), true);
+            m_document->renderer()->mltRemoveEffect(track, pos, index, true);
             return;
         }
     }
-    if (!m_document->renderer()->mltRemoveEffect(track, pos, index.toInt(), true)) {
+    qDebug()<<" * * *REMOVING EFFECT WITH IX: "<<index;
+    if (!m_document->renderer()->mltRemoveEffect(track, pos, index, true)) {
         //qDebug() << "// ERROR REMOV EFFECT: " << index << ", DISABLE: " << effect.attribute("disable");
         emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
         return;
@@ -2418,23 +2419,23 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         int ix = dup->hasEffect(QString(), "fadein");
         if (ix != -1) {
             QDomElement oldeffect = dup->effectAtIndex(ix);
-            dup->deleteEffect(oldeffect.attribute("kdenlive_ix"));
+            dup->deleteEffect(oldeffect.attribute("kdenlive_ix").toInt());
         }
         ix = dup->hasEffect(QString(), "fade_from_black");
         if (ix != -1) {
             QDomElement oldeffect = dup->effectAtIndex(ix);
-            dup->deleteEffect(oldeffect.attribute("kdenlive_ix"));
+            dup->deleteEffect(oldeffect.attribute("kdenlive_ix").toInt());
         }
         // fade out from 1st part of the clip
         ix = item->hasEffect(QString(), "fadeout");
         if (ix != -1) {
             QDomElement oldeffect = item->effectAtIndex(ix);
-            item->deleteEffect(oldeffect.attribute("kdenlive_ix"));
+            item->deleteEffect(oldeffect.attribute("kdenlive_ix").toInt());
         }
         ix = item->hasEffect(QString(), "fade_to_black");
         if (ix != -1) {
             QDomElement oldeffect = item->effectAtIndex(ix);
-            item->deleteEffect(oldeffect.attribute("kdenlive_ix"));
+            item->deleteEffect(oldeffect.attribute("kdenlive_ix").toInt());
         }
 
 

@@ -904,7 +904,7 @@ void Monitor::refreshMonitor(bool visible)
     if (visible && render) {
         if (!slotActivateMonitor()) {
             // the monitor was already active, simply refreshClipThumbnail
-            render->doRefresh();
+            render->refreshIfActive();
         }
     }
 }
@@ -912,7 +912,7 @@ void Monitor::refreshMonitor(bool visible)
 void Monitor::refreshMonitor()
 {
     if (isActive()) {
-        render->doRefresh();
+        render->refreshIfActive();
     }
 }
 

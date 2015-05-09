@@ -98,7 +98,7 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
     /*m_mltConsumer->connect(*m_mltProducer);
     m_mltProducer->set_speed(0.0);*/
     m_refreshTimer.setSingleShot(true);
-    m_refreshTimer.setInterval(100);
+    m_refreshTimer.setInterval(50);
     connect(&m_refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
     connect(this, SIGNAL(multiStreamFound(QString,QList<int>,QList<int>,stringMap)), this, SLOT(slotMultiStreamProducerFound(QString,QList<int>,QList<int>,stringMap)));
     connect(this, SIGNAL(checkSeeking()), this, SLOT(slotCheckSeeking()));
@@ -2744,7 +2744,7 @@ bool Render::mltRemoveEffect(int track, GenTime position, int index, bool update
     int clipIndex = trackPlaylist.get_clip_index_at((int) position.frames(m_fps));
     Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
     if (!clip) {
-        //qDebug() << " / / / CANNOT FIND CLIP TO REMOVE EFFECT";
+        qDebug() << " / / / CANNOT FIND CLIP TO REMOVE EFFECT";
         return false;
     }
 
@@ -2786,6 +2786,7 @@ bool Render::removeFilterFromService(Mlt::Service service, int effectIndex, bool
         filter = service.filter(ct);
     }
     service.unlock();
+    return success;
 }
 
 bool Render::mltAddTrackEffect(int track, EffectsParameterList params)
@@ -3153,7 +3154,7 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
     service.unlock();
 
     if (doRefresh)
-        refresh();
+        refreshIfActive();
     return true;
 }
 

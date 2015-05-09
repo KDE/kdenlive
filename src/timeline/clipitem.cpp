@@ -1590,12 +1590,11 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
     return parameters;
 }
 
-void ClipItem::deleteEffect(const QString &index)
+void ClipItem::deleteEffect(int ix)
 {
     bool needRepaint = false;
-    int ix = index.toInt();
-
-    QDomElement effect = m_effectList.itemFromIndex(ix);
+    //QDomElement effect = m_effectList.itemFromIndex(ix);
+    QDomElement effect = m_effectList.at(ix);
     QString effectId = effect.attribute("id");
     if ((effectId == "fadein" && hasEffect(QString(), "fade_from_black") == -1) ||
             (effectId == "fade_from_black" && hasEffect(QString(), "fadein") == -1)) {

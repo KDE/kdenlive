@@ -78,8 +78,8 @@ public:
     * @return The parameters that will be passed to Mlt */
     EffectsParameterList addEffect(ProfileInfo info, QDomElement effect, bool animate = true);
 
-    /** @brief Deletes the effect with id @param index. */
-    void deleteEffect(const QString &index);
+    /** @brief Deletes the effect with id @param ix. */
+    void deleteEffect(int ix);
 
     /** @brief Gets the number of effects in this clip. */
     int effectsCount();
