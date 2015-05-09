@@ -70,7 +70,8 @@ private:
     double m_factor;
     double m_scale;
     int m_offset;
-    int m_lastSeekPosition;
+    /** @brief the position of the seek point */
+    int m_headPosition;
     RULER_MOVE m_moveCursor;
     QMenu *m_contextMenu;
     QAction *m_editGuide;
@@ -88,7 +89,7 @@ private:
 public slots:
     void slotMoveRuler(int newPos);
     void slotCursorMoved(int oldpos, int newpos);
-    void updateRuler();
+    void updateRuler(int pos);
 
 private slots:
     void slotEditGuide();
@@ -99,6 +100,7 @@ signals:
     void zoneMoved(int, int);
     void adjustZoom(int);
     void mousePosition(int);
+    void seekCursorPos(int);
 };
 
 #endif

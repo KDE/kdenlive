@@ -110,7 +110,6 @@ class Render: public AbstractRender
 
     /** @brief Seeks the renderer clip to the given time. */
     void seek(const GenTime &time);
-    void seek(int time);
     void seekToFrameDiff(int diff);
 
     /** @brief Sets the current MLT producer playlist.
@@ -178,8 +177,6 @@ class Render: public AbstractRender
     int seekFramePosition() const;
 
     void emitFrameUpdated(Mlt::Frame&);
-    void emitFrameNumber();
-    void emitConsumerStopped(bool forcePause = false);
 
     /** @brief Change the Mlt PROFILE
      * @param profileName The MLT profile name
@@ -329,19 +326,12 @@ class Render: public AbstractRender
     
     /** @brief Ask to set this monitor as active */
     void setActiveMonitor();
-    
-    /** @brief Renderer moved to a new frame, check seeking */
-    void checkFrameNumber(int pos);
 
     QSemaphore showFrameSemaphore;
     bool externalConsumer;
     /** @brief Returns the current version of an MLT's producer module */
     double getMltVersionInfo(const QString &tag);
 
-protected:
-    static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr);
-    static void consumer_gl_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr);
-    
 private:
 
     /** @brief The name of this renderer.
@@ -504,6 +494,9 @@ public slots:
     @param imageHeight The height (in pixels) of the returned thumbnail (height of a treewidgetitem in projectlist)
     @param replaceProducer If true, the MLT producer will be recreated */
     void getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
+    /** @brief Renderer moved to a new frame, check seeking */
+    void checkFrameNumber(int pos);
+    void seek(int time);
 };
 
 #endif

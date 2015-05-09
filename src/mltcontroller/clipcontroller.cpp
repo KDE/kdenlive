@@ -585,7 +585,8 @@ void ClipController::addEffect(const ProfileInfo pInfo, QDomElement &effect)
 
 void ClipController::removeEffect(const ProfileInfo pInfo, int effectIndex)
 {
-    Render::removeFilterFromService(m_masterProducer->parent(), effectIndex, true);
+    Mlt::Service service(m_masterProducer->parent());
+    Render::removeFilterFromService(service, effectIndex, true);
     m_effectList.removeAt(effectIndex);
     m_binController->updateTrackProducer(clipId());
 }

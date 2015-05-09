@@ -117,7 +117,6 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh
         m_activeMonitor->parentWidget()->raise();
 	m_activeMonitor->blockSignals(false);
         m_activeMonitor->start();
-        
     }
     emit checkColorScopes();
     return (m_activeMonitor != NULL);

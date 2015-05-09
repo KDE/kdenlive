@@ -1548,12 +1548,12 @@ void Bin::slotEffectDropped(QString effect, const QModelIndex &parent)
             // effect only supported on clip items
             return;
         }
+        QDomDocument doc;
+        doc.setContent(effect);
+        QDomElement e = doc.documentElement();
+        AddBinEffectCommand *command = new AddBinEffectCommand(this, parentItem->clipId(), e);
+        m_doc->commandStack()->push(command);
     }
-    QDomDocument doc;
-    doc.setContent(effect);
-    QDomElement e = doc.documentElement();
-    AddBinEffectCommand *command = new AddBinEffectCommand(this, parentItem->clipId(), e);
-    m_doc->commandStack()->push(command);
 }
 
 void Bin::slotDeleteEffect(const QString &id, QDomElement effect)

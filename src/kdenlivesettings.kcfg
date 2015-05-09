@@ -245,6 +245,16 @@
       <label>Volume used for SDL output.</label>
       <default>100</default>
     </entry>
+    
+    <entry name="monitor_dropframes" type="Bool">
+      <label>Allow framedropping in monitor playback.</label>
+      <default>true</default>
+    </entry>
+    
+    <entry name="monitor_gamma" type="String">
+      <label>Monitor gamma (rbg / rec 709).</label>
+      <default>iec61966_2_1</default>
+    </entry>
 
     <entry name="external_display" type="Bool">
       <label>Use Blackmagic device for video out.</label>

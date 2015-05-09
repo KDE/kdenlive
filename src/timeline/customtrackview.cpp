@@ -168,7 +168,6 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
 
     scale(1, 1);
     setAlignment(Qt::AlignLeft | Qt::AlignTop);
-
 }
 
 CustomTrackView::~CustomTrackView()
@@ -3517,8 +3516,8 @@ void CustomTrackView::deleteClip(const QString &clipId, QUndoCommand *deleteComm
 
 void CustomTrackView::seekCursorPos(int pos)
 {
-    m_document->renderer()->seek(qMax(pos, 0));
-    emit updateRuler();
+    emit updateRuler(pos);
+    m_document->renderer()->seek(pos);
 }
 
 int CustomTrackView::seekPosition() const
@@ -3535,7 +3534,7 @@ void CustomTrackView::setCursorPos(int pos)
         m_cursorLine->setPos(m_cursorPos, 0);
         if (m_autoScroll) checkScrolling();
     }
-    else emit updateRuler();
+    //else emit updateRuler();
 }
 
 void CustomTrackView::updateCursorPos()
@@ -3552,13 +3551,13 @@ void CustomTrackView::moveCursorPos(int delta)
 {
     int currentPos = m_document->renderer()->requestedSeekPosition;
     if (currentPos == SEEK_INACTIVE) {
-        currentPos = m_document->renderer()->seekPosition().frames(m_document->fps()) + delta;
+        currentPos = m_document->renderer()->seekFramePosition() + delta;
     }
     else {
         currentPos += delta;
     }
+    emit updateRuler(currentPos);
     m_document->renderer()->seek(qMax(0, currentPos));
-    emit updateRuler();
 }
 
 void CustomTrackView::initCursorPos(int pos)

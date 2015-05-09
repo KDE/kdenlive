@@ -353,8 +353,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     m_timelineContextTransitionMenu->addAction(actionCollection()->action("auto_transition"));
 
-    //connect(m_projectMonitorDock, SIGNAL(visibilityChanged(bool)), m_projectMonitor, SLOT(refreshMonitor(bool)));
-    //connect(m_clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(refreshMonitor(bool)));
     connect(m_effectList, SIGNAL(addEffect(QDomElement)), this, SLOT(slotAddEffect(QDomElement)));
     connect(m_effectList, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
 
@@ -450,6 +448,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     pCore->projectManager()->init(Url, clipsToLoad);
     QTimer::singleShot(0, pCore->projectManager(), SLOT(slotLoadOnOpen()));
     connect(this, SIGNAL(reloadTheme()), this, SLOT(slotReloadTheme()), Qt::UniqueConnection);
+
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
 #endif
@@ -1647,6 +1646,8 @@ void MainWindow::connectDocument()
     //pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor, true);
     // set tool to select tool
     m_buttonSelectTool->setChecked(true);
+    connect(m_projectMonitorDock, SIGNAL(visibilityChanged(bool)), m_projectMonitor, SLOT(refreshMonitor(bool)), Qt::UniqueConnection);
+    connect(m_clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(refreshMonitor(bool)), Qt::UniqueConnection);
 }
 
 void MainWindow::slotZoneMoved(int start, int end)

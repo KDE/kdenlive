@@ -66,6 +66,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_rootItem(NULL)
     , m_splitEffect(NULL)
     , m_splitProducer(NULL)
+    , m_effectCompare(NULL)
 {
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -79,7 +80,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     // Create QML OpenGL widget
     m_glMonitor = new GLWidget();
-    QWidget *videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow*>(m_glMonitor), this);
+    QWidget *videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow*>(m_glMonitor));
     glayout->addWidget(videoWidget, 0, 0);
     m_verticalScroll = new QScrollBar(Qt::Vertical);
     glayout->addWidget(m_verticalScroll, 0, 1);
@@ -258,6 +259,9 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
         m_contextMenu->addAction(QIcon::fromTheme("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
         QAction *extractZone = m_configMenu->addAction(QIcon::fromTheme("document-new"), i18n("Extract Zone"), this, SLOT(slotExtractCurrentZone()));
         m_contextMenu->addAction(extractZone);
+        m_effectCompare = m_contextMenu->addAction(QIcon::fromTheme("view-split-left-right"), i18n("Compare effect"));
+        m_effectCompare->setCheckable(true);
+        connect(m_effectCompare, SIGNAL(toggled(bool)), this, SLOT(slotSwitchCompare(bool)));
     }
     QAction *extractFrame = m_configMenu->addAction(QIcon::fromTheme("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
     m_contextMenu->addAction(extractFrame);
@@ -278,7 +282,7 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
 
     QAction *dropFrames = m_contextMenu->addAction(QIcon(), i18n("Real time (drop frames)"));
     dropFrames->setCheckable(true);
-    dropFrames->setChecked(true);
+    dropFrames->setChecked(KdenliveSettings::monitor_dropframes());
     connect(dropFrames, SIGNAL(toggled(bool)), this, SLOT(slotSwitchDropFrames(bool)));
     
     QAction *overlayAudio = m_contextMenu->addAction(QIcon(), i18n("Overlay audio waveform"));
@@ -286,12 +290,9 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     connect(overlayAudio, SIGNAL(toggled(bool)), m_glMonitor, SLOT(slotSwitchAudioOverlay(bool)));
     overlayAudio->setChecked(KdenliveSettings::displayAudioOverlay());
 
-    m_effectCompare = m_contextMenu->addAction(QIcon::fromTheme("view-split-left-right"), i18n("Compare effect"));
-    m_effectCompare->setCheckable(true);
-    connect(m_effectCompare, SIGNAL(toggled(bool)), this, SLOT(slotSwitchCompare(bool)));
     m_configMenu->addAction(showTips);
     m_configMenu->addAction(dropFrames);
-    m_configMenu->addAction(m_effectCompare);
+    if (m_effectCompare) m_configMenu->addAction(m_effectCompare);
     m_configMenu->addAction(overlayAudio);
 }
 
@@ -742,7 +743,7 @@ void Monitor::checkOverlay()
         return;
     }
     QString overlayText;
-    int pos = m_timePos->getValue();//render->seekFramePosition();
+    int pos = m_timePos->getValue();
     QPoint zone = m_ruler->zone();
     if (pos == zone.x())
         overlayText = i18n("In Point");
@@ -1118,9 +1119,9 @@ void Monitor::setClipZone(const QPoint &pos)
     m_controller->setZone(pos);
 }
 
-void Monitor::slotSwitchDropFrames(bool show)
+void Monitor::slotSwitchDropFrames(bool drop)
 {
-    render->setDropFrames(show);
+    render->setDropFrames(drop);
 }
 
 void Monitor::slotSwitchMonitorInfo(bool show)
@@ -1261,12 +1262,12 @@ void Monitor::sendFrameForAnalysis(bool analyse)
 void Monitor::onFrameDisplayed(const SharedFrame& frame)
 {
     int position = frame.get_position();
+    seekCursor(position);
     render->checkFrameNumber(position);
     if (m_rootItem && m_rootItem->objectName() == "root") {
         // we are in main view, show frame
         m_rootItem->setProperty("framenum", QString::number(position));
     }
-    seekCursor(position);
     if (position >= m_length) {
         m_playAction->setActive(false);
     }
@@ -1305,9 +1306,10 @@ void Monitor::setPalette ( const QPalette & p)
 void Monitor::slotSwitchCompare(bool enable)
 {
     int pos = position().frames(m_monitorManager->timecode().fps());
+    qDebug()<<"/ / /SWITCH COMPARE";
     if (enable) {
-        Mlt::Producer *original = m_controller->masterProducer();
-        m_splitEffect = new Mlt::Filter(*original->profile(), "frei0r.scale0tilt");
+        qDebug()<<"/ / /SWITCH COMPARE ON";
+        m_splitEffect = new Mlt::Filter(*profile(), "frei0r.scale0tilt");
         if (m_splitEffect && m_splitEffect->is_valid()) {
             m_splitEffect->set("Clip left", 0.5);
         } else {
@@ -1316,20 +1318,20 @@ void Monitor::slotSwitchCompare(bool enable)
             return;
         }
         QString splitTransition = KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend";
-        Mlt::Transition t(*original->profile(), splitTransition.toUtf8().constData());
+        Mlt::Transition t(*profile(), splitTransition.toUtf8().constData());
         if (!t.is_valid()) {
             delete m_splitEffect;
             KMessageBox::sorry(this, i18n("The frei0r cairoblend transition is required for that feature, please install frei0r and restart Kdenlive"));
             return;
         }
-        Mlt::Tractor trac(*original->profile());
-        Mlt::Producer p2(*original->profile(), original->get("resource"));
-        trac.set_track(*original, 0);
-        trac.set_track(p2, 1);
-        p2.attach(*m_splitEffect);
+        Mlt::Producer original = m_controller->originalProducer();
+        Mlt::Tractor trac(*profile());
+        Mlt::Producer clone(*profile(), original.get("resource"));
+        trac.set_track(original, 0);
+        trac.set_track(clone, 1);
+        clone.attach(*m_splitEffect);
         trac.plant_transition(t, 0, 1);
         m_splitProducer = new Mlt::Producer(trac.get_producer());
-        //m_splitProducer->seek(pos);
         render->setProducer(m_splitProducer, pos, isActive());
         m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitorsplit.qml"))));
         m_rootItem = m_glMonitor->rootObject();
@@ -1337,13 +1339,12 @@ void Monitor::slotSwitchCompare(bool enable)
     }
     else {
         render->setProducer(m_controller->masterProducer(), pos, isActive());
-        loadMasterQml();
-        delete m_splitProducer;
         delete m_splitEffect;
         m_splitProducer = NULL;
         m_splitEffect = NULL;
+        loadMasterQml();
     }
-    refreshMonitor();
+    //refreshMonitor();
 }
 
 void Monitor::loadMasterQml()
@@ -1360,7 +1361,7 @@ void Monitor::loadMasterQml()
 void Monitor::slotAdjustEffectCompare(double percent)
 {
     if (m_splitEffect) m_splitEffect->set("Clip left", percent);
-    refreshMonitor();
+    render->refreshIfActive();
 }
 
 ProfileInfo Monitor::profileInfo() const

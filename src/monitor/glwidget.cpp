@@ -126,12 +126,7 @@ void GLWidget::initializeGL()
     if (m_isInitialized) return;
 
     initializeOpenGLFunctions();
-    openglContext()->blockSignals(true);
-    /*openglContext()->doneCurrent();
-    openglContext()->setShareContext(pCore->glShareWidget()->context());
-    openglContext()->setFormat(requestedFormat());
-    openglContext()->create();
-    openglContext()->makeCurrent(this);*/
+    //openglContext()->blockSignals(true);
     createShader();
 
 #if defined(USE_GL_SYNC) && !defined(Q_OS_WIN)
@@ -151,7 +146,7 @@ void GLWidget::initializeGL()
     openglContext()->doneCurrent();
     m_frameRenderer = new FrameRenderer(openglContext());
     openglContext()->makeCurrent(this);
-    openglContext()->blockSignals(false);
+    //openglContext()->blockSignals(false);
     connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), this, SIGNAL(frameDisplayed(const SharedFrame&)), Qt::QueuedConnection);
     connect(m_frameRenderer, SIGNAL(analyseFrame(QImage)), this, SIGNAL(analyseFrame(QImage)), Qt::QueuedConnection);
     connect(m_frameRenderer, SIGNAL(textureReady(GLuint,GLuint,GLuint)), SLOT(updateTexture(GLuint,GLuint,GLuint)), Qt::DirectConnection);
@@ -498,9 +493,9 @@ static void onThreadCreate(mlt_properties owner, GLWidget* self,
 static void onThreadJoin(mlt_properties owner, GLWidget* self, RenderThread* thread)
 {
     Q_UNUSED(owner)
-    //Q_UNUSED(self)
+    Q_UNUSED(self)
     if (thread) {
-        self->clearFrameRenderer();
+        //self->clearFrameRenderer();
         thread->quit();
         thread->wait();
         delete thread;
@@ -533,8 +528,8 @@ static void onThreadStarted(mlt_properties owner, GLWidget* self)
 
 void GLWidget::clearFrameRenderer()
 {
-    if (m_consumer) m_consumer->purge();
-    if (m_frameRenderer) m_frameRenderer->clearFrame();
+    /*if (m_consumer) m_consumer->purge();
+    if (m_frameRenderer) m_frameRenderer->clearFrame();*/
 }
 
 void GLWidget::stopGlsl()
@@ -676,16 +671,19 @@ int GLWidget::reconfigure(bool isMulti)
     if (!m_consumer || !m_consumer->is_valid()) {
         if (serviceName.isEmpty()) {
             //m_consumer = new Mlt::FilteredConsumer(*pCore->binController()->profile(), "sdl_audio");
-          m_consumer = new Mlt::FilteredConsumer(*pCore->binController()->profile(), "rtaudio");
+            m_consumer = new Mlt::FilteredConsumer(*pCore->binController()->profile(), "rtaudio");
             if (m_consumer->is_valid())
                 serviceName = "rtaudio";
-            else
+            else {
                 serviceName = "sdl_audio";
-            delete m_consumer;
+                delete m_consumer;
+                m_consumer = NULL;
+            }
+            setProperty("mlt_service", serviceName);
         }
         if (isMulti)
             m_consumer = new Mlt::FilteredConsumer(*pCore->binController()->profile(), "multi");
-        else
+        else if (!m_consumer)
             m_consumer = new Mlt::FilteredConsumer(*pCore->binController()->profile(), serviceName.toLatin1().constData());
 
         delete m_threadStartEvent;
@@ -694,25 +692,28 @@ int GLWidget::reconfigure(bool isMulti)
         m_threadStopEvent = 0;
 
         delete m_threadCreateEvent;
-        m_threadCreateEvent = m_consumer->listen("consumer-thread-create", this, (mlt_listener) onThreadCreate);
         delete m_threadJoinEvent;
-        m_threadJoinEvent = m_consumer->listen("consumer-thread-join", this, (mlt_listener) onThreadJoin);
+        if (m_consumer) {
+            int dropFrames = KdenliveSettings::mltthreads();
+            if (!KdenliveSettings::monitor_dropframes()) dropFrames = -dropFrames;
+            m_consumer->set("real_time", dropFrames);
+            m_threadCreateEvent = m_consumer->listen("consumer-thread-create", this, (mlt_listener) onThreadCreate);
+            m_threadJoinEvent = m_consumer->listen("consumer-thread-join", this, (mlt_listener) onThreadJoin);
+        }
     }
     if (m_consumer->is_valid()) {
-        m_consumer->stop();
+        //m_consumer->stop();
         // Connect the producer to the consumer - tell it to "run" later
         m_consumer->connect(*m_producer);
-        //m_consumer->set("real_time", MLT.realTime());
         delete m_displayEvent;
         if (!m_glslManager) {
-            m_consumer->set("mlt_image_format", "yuv422"); //"yuv422");
+            m_consumer->set("mlt_image_format", "yuv422");
             // Make an event handler for when a frame's image should be displayed
             m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_frame_show);
         } else {
             m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_gl_frame_show);
         }
-        //TODO:
-        //m_consumer->set("color_trc", Settings.playerGamma().toLatin1().constData());
+        m_consumer->set("color_trc", KdenliveSettings::monitor_gamma().toUtf8().constData());
         if (isMulti) {
             m_consumer->set("terminate_on_pause", 0);
             m_consumer->set("0", serviceName.toLatin1().constData());
@@ -741,8 +742,9 @@ int GLWidget::reconfigure(bool isMulti)
 #endif
             /*if (!m_consumer->profile()->progressive())
                 m_consumer->set("progressive", property("progressive").toBool());*/
-            m_consumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
+            m_consumer->set("progressive", 1);
             m_consumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
+            m_consumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
             m_consumer->set("buffer", 25);
             m_consumer->set("prefill", 1);
             m_consumer->set("scrub_audio", 1);
@@ -886,8 +888,7 @@ void GLWidget::on_frame_show(mlt_consumer, void* self, mlt_frame frame_ptr)
 void GLWidget::on_gl_frame_show(mlt_consumer, void* self, mlt_frame frame_ptr)
 {
     GLWidget* widget = static_cast<GLWidget*>(self);
-    int timeout = (widget->consumer()->get_int("real_time") > 0)? 0: 1000;
-    if (widget->m_frameRenderer && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
+    if (widget->m_frameRenderer && widget->m_frameRenderer->semaphore()->tryAcquire(1, 0)) {
         Mlt::Frame frame(frame_ptr);
         if (frame.get_int("rendered")) {
             QMetaObject::invokeMethod(widget->m_frameRenderer, "showGLFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));

@@ -526,7 +526,7 @@ signals:
     /** @brief Update the track effect button that shows if a track has effects or not.*/
     void updateTrackEffectState(int);
     /** @brief Cursor position changed, repaint ruler.*/
-    void updateRuler();
+    void updateRuler(int pos);
     /** @brief Send data from a clip to be imported as keyframes for effect / transition.*/
     void importKeyframes(GraphicsRectItem type, const QString&, int maximum);
     /** @brief Guides were changed, inform render widget*/
