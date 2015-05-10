@@ -44,6 +44,8 @@ class Monitor;
 class MonitorManager;
 class QSlider;
 class KDualAction;
+class KSelectAction;
+class KMessageWidget;
 class QQuickItem;
 class QScrollBar;
 
@@ -122,7 +124,9 @@ private:
     QScrollBar *m_horizontalScroll;
     /** @brief The ruler widget displaying cursor position **/
     SmallRuler *m_ruler;
-    
+    /** @brief Widget holding the window for the QQuickView **/
+    QWidget *m_videoWidget;
+
     Mlt::Filter *m_splitEffect;
     Mlt::Producer *m_splitProducer;
     int m_length;
@@ -132,6 +136,7 @@ private:
     /** @brief The widget showing current time position **/
     TimecodeDisplay *m_timePos;
     KDualAction *m_playAction;
+    KSelectAction *m_forceSize;
     /** Has to be available so we can enable and disable it. */
     QAction *m_loopClipAction;
     QAction *m_effectCompare;
@@ -150,6 +155,7 @@ private:
     QWidget *m_volumeWidget;
     QSlider *m_audioSlider;
     QAction *m_editMarker;
+    KMessageWidget *m_infoMessage;
     /** @brief The base item of the qml view in monitor, used to set properties on the view that affect display **/
     QQuickItem *m_rootItem;
     void adjustScrollBars(float horizontal, float vertical);
@@ -160,8 +166,6 @@ private slots:
     void rendererStopped(int pos);
     void slotExtractCurrentFrame();
     void slotSetThumbFrame();
-    void slotSetSizeOneToOne();
-    void slotSetSizeOneToTwo();
     void slotSaveZone();
     void slotSeek();
     void setClipZone(const QPoint &pos);
@@ -178,6 +182,7 @@ private slots:
     void slotSwitchCompare(bool enable);
     void slotAdjustEffectCompare(double percent);
     void slotShowMenu(const QPoint pos);
+    void slotForceSize(QAction *a);
 
 public slots:
     void slotOpenFile(const QString &);
@@ -228,7 +233,6 @@ signals:
     void renderPosition(int);
     void durationChanged(int);
     void refreshClipThumbnail(const QString &, bool);
-    void adjustMonitorSize();
     void zoneUpdated(const QPoint&);
     //void saveZone(Render *, const QPoint&, DocClipBase *);
     /** @brief  Editing transitions / effects over the monitor requires the renderer to send frames as QImage.

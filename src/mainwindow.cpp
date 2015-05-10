@@ -711,9 +711,6 @@ void MainWindow::slotConnectMonitors()
     connect(m_projectMonitor->render, SIGNAL(removeInvalidProxy(QString,bool)), pCore->bin(), SLOT(slotRemoveInvalidProxy(QString,bool)));
     connect(m_clipMonitor, SIGNAL(refreshClipThumbnail(QString,bool)), pCore->bin(), SLOT(slotRefreshClipThumbnail(QString,bool)));*/
 
-    connect(m_clipMonitor, SIGNAL(adjustMonitorSize()), this, SLOT(slotAdjustClipMonitor()));
-    connect(m_projectMonitor, SIGNAL(adjustMonitorSize()), this, SLOT(slotAdjustProjectMonitor()));
-
     connect(m_projectMonitor, SIGNAL(requestFrameForAnalysis(bool)), this, SLOT(slotMonitorRequestRenderFrame(bool)));
 
     //TODO
@@ -721,19 +718,6 @@ void MainWindow::slotConnectMonitors()
     connect(m_projectMonitor, SIGNAL(saveZone(Render*,QPoint,DocClipBase*)), this, SLOT(slotSaveZone(Render*,QPoint,DocClipBase*)));*/
 }
 
-void MainWindow::slotAdjustClipMonitor()
-{
-    m_clipMonitorDock->updateGeometry();
-    m_clipMonitorDock->adjustSize();
-    m_clipMonitor->resetSize();
-}
-
-void MainWindow::slotAdjustProjectMonitor()
-{
-    m_projectMonitorDock->updateGeometry();
-    m_projectMonitorDock->adjustSize();
-    m_projectMonitor->resetSize();
-}
 
 void MainWindow::addAction(const QString &name, QAction *action)
 {

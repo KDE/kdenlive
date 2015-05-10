@@ -32,6 +32,8 @@
 #include <KRecentDirs>
 #include <KMessageBox>
 #include <KDualAction>
+#include <KSelectAction>
+#include <KMessageWidget>
 
 #include <QDebug>
 #include <QMouseEvent>
@@ -80,8 +82,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     // Create QML OpenGL widget
     m_glMonitor = new GLWidget();
-    QWidget *videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow*>(m_glMonitor));
-    glayout->addWidget(videoWidget, 0, 0);
+    m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow*>(m_glMonitor));
+    glayout->addWidget(m_videoWidget, 0, 0);
     m_verticalScroll = new QScrollBar(Qt::Vertical);
     glayout->addWidget(m_verticalScroll, 0, 1);
     m_verticalScroll->hide();
@@ -111,10 +113,14 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     // Video widget holder
     //layout->addWidget(videoBox, 10);
     layout->addStretch();
+    
+    // Info message widget
+    m_infoMessage = new KMessageWidget(this);
+    layout->addWidget(m_infoMessage);
+    m_infoMessage->hide();
 
     // Get base size for icons
     int s = style()->pixelMetric(QStyle::PM_SmallIconSize);
-
 
     // Tool bar buttons
     m_toolbar = new QToolBar(this);
@@ -163,8 +169,16 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
             m_configMenu->addMenu(m_markerMenu);
             connect(m_markerMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotGoToMarker(QAction*)));
         }
-        m_configMenu->addAction(QIcon::fromTheme("transform-scale"), i18n("Resize (100%)"), this, SLOT(slotSetSizeOneToOne()));
-        m_configMenu->addAction(QIcon::fromTheme("transform-scale"), i18n("Resize (50%)"), this, SLOT(slotSetSizeOneToTwo()));
+        m_forceSize = new KSelectAction(QIcon::fromTheme("transform-scale"), i18n("Force Monitor Size"), this);
+        QAction *fullAction = m_forceSize->addAction(QIcon(), i18n("Force 100%"));
+        fullAction->setData(100);
+        QAction *halfAction = m_forceSize->addAction(QIcon(), i18n("Force 50%"));
+        halfAction->setData(50);
+        QAction *freeAction = m_forceSize->addAction(QIcon(), i18n("Free Resize"));
+        freeAction->setData(0);
+        m_configMenu->addAction(m_forceSize);
+        m_forceSize->setCurrentAction(freeAction);
+        connect(m_forceSize, SIGNAL(triggered(QAction*)), this, SLOT(slotForceSize(QAction*)));
     }
 
     // Create Volume slider popup
@@ -298,44 +312,56 @@ void Monitor::slotGoToMarker(QAction *action)
     slotSeek(pos);
 }
 
-void Monitor::slotSetSizeOneToOne()
+void Monitor::slotForceSize(QAction *a)
 {
-    QRect r = QApplication::desktop()->screenGeometry();
-    const int maxWidth = r.width() - 20;
-    const int maxHeight = r.height() - 20;
-    int width = render->renderWidth();
-    int height = render->renderHeight();
-    //qDebug() << "// render info: " << width << 'x' << height;
-    while (width >= maxWidth || height >= maxHeight) {
-        width = width * 0.8;
-        height = height * 0.8;
+    int resizeType = a->data().toInt();
+    int profileWidth = 320;
+    int profileHeight = 200;
+    if (resizeType > 0) {
+        // calculate size
+        QRect r = QApplication::desktop()->screenGeometry();
+        profileWidth = m_glMonitor->profileSize().width() * resizeType / 100;
+        profileHeight = m_glMonitor->profileSize().height() * resizeType / 100;
+        if (profileWidth > r.width() * 0.8 || profileHeight > r.height() * 0.7) {
+            // reset action to free resize
+            profileWidth = 320;
+            profileHeight = 200;
+            QList< QAction * > list = m_forceSize->actions ();
+            foreach(QAction *ac, list) {
+                if (ac->data().toInt() == 0) {
+                    m_forceSize->setCurrentAction(ac);
+                    break;
+                }
+            }
+            m_videoWidget->setMinimumSize(profileWidth, profileHeight);
+            setMinimumSize(QSize(profileWidth, profileHeight + m_toolbar->height() + m_ruler->height()));
+            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            m_infoMessage->setMessageType(KMessageWidget::Warning);
+            m_infoMessage->setText(i18n("Your screen resolution is not sufficient for this action"));
+            m_infoMessage->setCloseButtonVisible(true);
+            m_infoMessage->animatedShow();
+            QTimer::singleShot(5000, m_infoMessage, SLOT(animatedHide()));
+            return;
+        }
+        
     }
-    //qDebug() << "// MONITOR; set SIZE: " << width << ", " << height;
-    m_glWidget->setFixedSize(width, height);
-    updateGeometry();
-    adjustSize();
-    //m_ui.video_frame->setMinimumSize(0, 0);
-    emit adjustMonitorSize();
-}
-
-void Monitor::slotSetSizeOneToTwo()
-{
-    QRect r = QApplication::desktop()->screenGeometry();
-    const int maxWidth = r.width() - 20;
-    const int maxHeight = r.height() - 20;
-    int width = render->renderWidth() / 2;
-    int height = render->renderHeight() / 2;
-    //qDebug() << "// render info: " << width << 'x' << height;
-    while (width >= maxWidth || height >= maxHeight) {
-        width = width * 0.8;
-        height = height * 0.8;
+    switch (resizeType) {
+      case 100:
+      case 50:
+          // resize full size
+          setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+          m_videoWidget->setMinimumSize(profileWidth, profileHeight);
+          m_videoWidget->setMaximumSize(profileWidth, profileHeight);
+          setMinimumSize(QSize(profileWidth, profileHeight + m_toolbar->height() + m_ruler->height()));
+          break;
+      default:
+        // Free resize
+        m_videoWidget->setMinimumSize(profileWidth, profileHeight);
+        setMinimumSize(QSize(profileWidth, profileHeight + m_toolbar->height() + m_ruler->height()));
+        setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        break;
     }
-    //qDebug() << "// MONITOR; set SIZE: " << width << ", " << height;
-    m_glWidget->setFixedSize(width, height);
     updateGeometry();
-    adjustSize();
-    //m_ui.video_frame->setMinimumSize(0, 0);
-    emit adjustMonitorSize();
 }
 
 void Monitor::resetSize()
