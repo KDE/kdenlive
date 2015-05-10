@@ -2053,3 +2053,13 @@ void Bin::showTitleWidget(ProjectClip *clip)
         }
         delete dia_ui;
 }
+
+void Bin::slotResetInfoMessage()
+{
+    m_errorLog.clear();
+    QList<QAction *> actions = m_infoMessage->actions();
+    for (int i = 0; i < actions.count(); ++i) {
+        m_infoMessage->removeAction(actions.at(i));
+    }
+}
+

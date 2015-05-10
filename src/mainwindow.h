@@ -408,6 +408,9 @@ private slots:
     void slotUpdateTrackInfo();
 
     void slotSwitchMonitors();
+    void slotSwitchMonitorOverlay(bool show);
+    void slotSwitchDropFrames(bool drop);
+    void slotSetMonitorGamma(int gamma);
     void slotCheckRenderStatus();
     void slotInsertZoneToTree();
     void slotInsertZoneToTimeline();

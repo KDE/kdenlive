@@ -249,7 +249,6 @@ ProjectList::ProjectList(QWidget *parent) :
     m_infoMessage = new MyMessageWidget;
     layout->addWidget(m_infoMessage);
     m_infoMessage->setCloseButtonVisible(true);
-    connect(m_infoMessage, SIGNAL(messageClosing()), this, SLOT(slotResetInfoMessage()));
     //m_infoMessage->setWordWrap(true);
     m_infoMessage->hide();
     m_logAction = new QAction(i18n("Show Log"), this);
@@ -3057,14 +3056,6 @@ void ProjectList::updatePalette()
     m_listView->updateStyleSheet();
 }
 
-void ProjectList::slotResetInfoMessage()
-{
-    m_errorLog.clear();
-    QList<QAction *> actions = m_infoMessage->actions();
-    for (int i = 0; i < actions.count(); ++i) {
-        m_infoMessage->removeAction(actions.at(i));
-    }
-}
 
 void ProjectList::slotClosePopup()
 {

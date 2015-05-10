@@ -353,8 +353,6 @@ private slots:
     void slotDiscardClipJobs();
     /** @brief Make sure current clip is visible in project tree. */
     void slotCheckScrolling();
-    /** @brief Reset all text and log data from info message widget. */
-    void slotResetInfoMessage();
     /** @brief close warning info passive popup. */
     void slotClosePopup();
     /** @brief process clip job result. */

@@ -97,8 +97,12 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor, SIGNAL(switchFullScreen(bool)), this, SLOT(slotSwitchFullScreen(bool)));
     connect(m_glMonitor, SIGNAL(zoomChanged()), this, SLOT(setZoom()));
     connect(m_glMonitor, SIGNAL(effectChanged(QRect)), this, SIGNAL(effectChanged(QRect)));
-    m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitor.qml"))));
-    m_rootItem = m_glMonitor->rootObject();
+
+    if (KdenliveSettings::displayMonitorInfo()) {
+        // Load monitor overlay qml
+        m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitor.qml"))));
+        m_rootItem = m_glMonitor->rootObject();
+    }
     connect(m_glMonitor, SIGNAL(showContextMenu(QPoint)), this, SLOT(slotShowMenu(QPoint)));
 
     m_glWidget->setMinimumSize(QSize(320, 180));
@@ -259,9 +263,6 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
         m_contextMenu->addAction(QIcon::fromTheme("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
         QAction *extractZone = m_configMenu->addAction(QIcon::fromTheme("document-new"), i18n("Extract Zone"), this, SLOT(slotExtractCurrentZone()));
         m_contextMenu->addAction(extractZone);
-        m_effectCompare = m_contextMenu->addAction(QIcon::fromTheme("view-split-left-right"), i18n("Compare effect"));
-        m_effectCompare->setCheckable(true);
-        connect(m_effectCompare, SIGNAL(toggled(bool)), this, SLOT(slotSwitchCompare(bool)));
     }
     QAction *extractFrame = m_configMenu->addAction(QIcon::fromTheme("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
     m_contextMenu->addAction(extractFrame);
@@ -273,26 +274,21 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     } else {
         QAction *setThumbFrame = m_contextMenu->addAction(QIcon::fromTheme("document-new"), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
         m_configMenu->addAction(setThumbFrame);
+        m_contextMenu->addSeparator();
+        m_effectCompare = m_contextMenu->addAction(QIcon::fromTheme("view-split-left-right"), i18n("Compare effect"));
+        m_effectCompare->setCheckable(true);
+        connect(m_effectCompare, SIGNAL(toggled(bool)), this, SLOT(slotSwitchCompare(bool)));
     }
 
-    QAction *showTips = m_contextMenu->addAction(QIcon::fromTheme("help-hint"), i18n("Monitor overlay infos"));
-    showTips->setCheckable(true);
-    connect(showTips, SIGNAL(toggled(bool)), this, SLOT(slotSwitchMonitorInfo(bool)));
-    showTips->setChecked(KdenliveSettings::displayMonitorInfo());
-
-    QAction *dropFrames = m_contextMenu->addAction(QIcon(), i18n("Real time (drop frames)"));
-    dropFrames->setCheckable(true);
-    dropFrames->setChecked(KdenliveSettings::monitor_dropframes());
-    connect(dropFrames, SIGNAL(toggled(bool)), this, SLOT(slotSwitchDropFrames(bool)));
-    
     QAction *overlayAudio = m_contextMenu->addAction(QIcon(), i18n("Overlay audio waveform"));
     overlayAudio->setCheckable(true);
     connect(overlayAudio, SIGNAL(toggled(bool)), m_glMonitor, SLOT(slotSwitchAudioOverlay(bool)));
     overlayAudio->setChecked(KdenliveSettings::displayAudioOverlay());
 
-    m_configMenu->addAction(showTips);
-    m_configMenu->addAction(dropFrames);
-    if (m_effectCompare) m_configMenu->addAction(m_effectCompare);
+    if (m_effectCompare) {
+        m_configMenu->addSeparator();
+        m_configMenu->addAction(m_effectCompare);
+    }
     m_configMenu->addAction(overlayAudio);
 }
 
@@ -1119,12 +1115,12 @@ void Monitor::setClipZone(const QPoint &pos)
     m_controller->setZone(pos);
 }
 
-void Monitor::slotSwitchDropFrames(bool drop)
+void Monitor::switchDropFrames(bool drop)
 {
     render->setDropFrames(drop);
 }
 
-void Monitor::slotSwitchMonitorInfo(bool show)
+void Monitor::switchMonitorInfo(bool show)
 {
     if (m_rootItem && m_rootItem->objectName() != "root") {
         // we are not in main view, ignore
@@ -1138,6 +1134,18 @@ void Monitor::slotSwitchMonitorInfo(bool show)
     else {
         m_rootItem->setProperty("visible", false);
         m_rootItem = NULL;
+    }
+}
+
+void Monitor::updateMonitorGamma()
+{
+    if (isActive()) {
+        stop();
+        m_glMonitor->updateGamma();
+        start();
+    }
+    else {
+        m_glMonitor->updateGamma();
     }
 }
 

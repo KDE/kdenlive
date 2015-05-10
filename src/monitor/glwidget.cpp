@@ -713,7 +713,6 @@ int GLWidget::reconfigure(bool isMulti)
         } else {
             m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_gl_frame_show);
         }
-        m_consumer->set("color_trc", KdenliveSettings::monitor_gamma().toUtf8().constData());
         if (isMulti) {
             m_consumer->set("terminate_on_pause", 0);
             m_consumer->set("0", serviceName.toLatin1().constData());
@@ -752,6 +751,12 @@ int GLWidget::reconfigure(bool isMulti)
                 m_consumer->set("keyer", property("keyer").toInt());*/
         }
         if (m_glslManager) {
+            if (KdenliveSettings::monitor_gamma() == 0) {
+                m_consumer->set("color_trc", "iec61966_2_1");
+            }
+            else {
+                m_consumer->set("color_trc", "bt709");
+            }
             if (!m_threadStartEvent)
                 m_threadStartEvent = m_consumer->listen("consumer-thread-started", this, (mlt_listener) onThreadStarted);
             if (!m_threadStopEvent)
@@ -862,6 +867,11 @@ void GLWidget::setOffsetY(int y)
 Mlt::Consumer *GLWidget::consumer()
 {
     return m_consumer;
+}
+
+void GLWidget::updateGamma()
+{
+    reconfigure(false);
 }
 
 void GLWidget::updateTexture(GLuint yName, GLuint uName, GLuint vName)

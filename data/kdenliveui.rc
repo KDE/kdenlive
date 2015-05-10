@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="79" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="80" translationDomain="kdenlive">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -161,8 +161,12 @@
       <Action name="mark_out" />
       <Separator />
       <Action name="monitor_fullscreen" />
-      <Action name="mlt_interlace" />
-      <Action name="mlt_interpolation" />
+      <Action name="monitor_overlay" />
+      <Menu name="monitor_config" ><text>Monitor config</text>
+          <Action name="mlt_interlace" />
+          <Action name="mlt_interpolation" />
+          <Action name="mlt_gamma" />
+      </Menu>
       <Action name="switch_monitor" />
       <Action name="insert_project_tree" />
       <Action name="insert_timeline" />

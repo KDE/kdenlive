@@ -79,6 +79,7 @@ public:
     QSize profileSize() const;
     /** @brief set to true if we want to emit a QImage of the frame for analysis */
     bool sendFrameForAnalysis;
+    void updateGamma();
 
 protected:
     void mouseReleaseEvent(QMouseEvent * event);

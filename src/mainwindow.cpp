@@ -1014,6 +1014,25 @@ void MainWindow::setupActions()
     addAction("transcode_clip", i18n("Transcode Clips"), this, SLOT(slotTranscodeClip()), QIcon::fromTheme("edit-copy"));
     addAction("archive_project", i18n("Archive Project"), this, SLOT(slotArchiveProject()), QIcon::fromTheme("document-save-all"));
     addAction("switch_monitor", i18n("Switch monitor"), this, SLOT(slotSwitchMonitors()), QIcon(), Qt::Key_T);
+
+    QAction *overlayInfo =  new QAction(QIcon::fromTheme("help-hint"), i18n("Monitor Info Overlay"), this);
+    addAction("monitor_overlay", overlayInfo);
+    overlayInfo->setCheckable(true);
+    overlayInfo->setChecked(KdenliveSettings::displayMonitorInfo());
+    connect(overlayInfo, SIGNAL(triggered(bool)), this, SLOT(slotSwitchMonitorOverlay(bool)));
+
+    QAction *dropFrames = new QAction(QIcon(), i18n("Real time (drop frames)"), this);
+    dropFrames->setCheckable(true);
+    dropFrames->setChecked(KdenliveSettings::monitor_dropframes());
+    connect(dropFrames, SIGNAL(toggled(bool)), this, SLOT(slotSwitchDropFrames(bool)));
+    
+    KSelectAction *monitorGamma = new KSelectAction(i18n("Monitor Gamma"), this);
+    monitorGamma->addAction(i18n("sRGB (computer)"));
+    monitorGamma->addAction(i18n("Rec. 709 (TV)"));
+    addAction("mlt_gamma", monitorGamma);
+    monitorGamma->setCurrentItem(KdenliveSettings::monitor_gamma());
+    connect(monitorGamma, SIGNAL(triggered(int)), this, SLOT(slotSetMonitorGamma(int)));
+
     addAction("insert_project_tree", i18n("Insert zone in project tree"), this, SLOT(slotInsertZoneToTree()), QIcon(), Qt::CTRL + Qt::Key_I);
     addAction("insert_timeline", i18n("Insert zone in timeline"), this, SLOT(slotInsertZoneToTimeline()), QIcon(), Qt::SHIFT + Qt::CTRL + Qt::Key_I);
 
@@ -3048,6 +3067,25 @@ void MainWindow::slotSwitchMonitors()
     pCore->monitorManager()->slotSwitchMonitors(!m_clipMonitor->isActive());
     if (m_projectMonitor->isActive()) pCore->projectManager()->currentTimeline()->projectView()->setFocus();
     else pCore->bin()->focusBinView();
+}
+
+void MainWindow::slotSwitchMonitorOverlay(bool show)
+{
+    m_clipMonitor->switchMonitorInfo(show);
+    m_projectMonitor->switchMonitorInfo(show);
+}
+
+void MainWindow::slotSwitchDropFrames(bool drop)
+{
+    m_clipMonitor->switchDropFrames(drop);
+    m_projectMonitor->switchDropFrames(drop);
+}
+
+void MainWindow::slotSetMonitorGamma(int gamma)
+{
+    KdenliveSettings::setMonitor_gamma(gamma);
+    m_clipMonitor->updateMonitorGamma();
+    m_projectMonitor->updateMonitorGamma();
 }
 
 void MainWindow::slotInsertZoneToTree()

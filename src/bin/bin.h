@@ -440,6 +440,8 @@ private slots:
     void slotShowJobLog();
     /** @brief process clip job result. */
     void slotGotFilterJobResults(QString ,int , int, stringMap, stringMap);
+    /** @brief Reset all text and log data from info message widget. */
+    void slotResetInfoMessage();
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img, bool fromFile = false);

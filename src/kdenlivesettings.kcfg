@@ -251,9 +251,9 @@
       <default>true</default>
     </entry>
     
-    <entry name="monitor_gamma" type="String">
+    <entry name="monitor_gamma" type="Int">
       <label>Monitor gamma (rbg / rec 709).</label>
-      <default>iec61966_2_1</default>
+      <default>0</default>
     </entry>
 
     <entry name="external_display" type="Bool">
