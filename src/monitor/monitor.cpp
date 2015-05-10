@@ -1004,11 +1004,13 @@ void Monitor::openClip(ClipController *controller)
         render->setProducer(NULL, -1, isActive());
     }
     if (m_splitProducer) {
+        m_effectCompare->blockSignals(true);
         m_effectCompare->setChecked(false);
-        delete m_splitProducer;
+        m_effectCompare->blockSignals(false);
         delete m_splitEffect;
         m_splitProducer = NULL;
         m_splitEffect = NULL;
+        loadMasterQml();
     }
 }
 
@@ -1337,6 +1339,13 @@ void Monitor::warningMessage(const QString &text)
 
 void Monitor::slotSwitchCompare(bool enable)
 {
+    if (m_controller == NULL) {
+        m_effectCompare->blockSignals(true);
+        m_effectCompare->setChecked(false);
+        m_effectCompare->blockSignals(false);
+        warningMessage(i18n("Select a clip in project bin to compare effect"));
+        return;
+    }
     int pos = position().frames(m_monitorManager->timecode().fps());
     if (enable) {
         m_splitEffect = new Mlt::Filter(*profile(), "frei0r.scale0tilt");
@@ -1367,7 +1376,7 @@ void Monitor::slotSwitchCompare(bool enable)
         m_rootItem = m_glMonitor->rootObject();
         QObject::connect(m_rootItem, SIGNAL(qmlMoveSplit(double)), this, SLOT(slotAdjustEffectCompare(double)), Qt::UniqueConnection);
     }
-    else {
+    else if (m_splitEffect) {
         render->setProducer(m_controller->masterProducer(), pos, isActive());
         delete m_splitEffect;
         m_splitProducer = NULL;

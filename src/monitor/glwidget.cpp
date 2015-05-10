@@ -747,16 +747,16 @@ int GLWidget::reconfigure(bool isMulti)
             m_consumer->set("buffer", 25);
             m_consumer->set("prefill", 1);
             m_consumer->set("scrub_audio", 1);
-            /*if (property("keyer").isValid())
-                m_consumer->set("keyer", property("keyer").toInt());*/
-        }
-        if (m_glslManager) {
             if (KdenliveSettings::monitor_gamma() == 0) {
                 m_consumer->set("color_trc", "iec61966_2_1");
             }
             else {
                 m_consumer->set("color_trc", "bt709");
             }
+            /*if (property("keyer").isValid())
+                m_consumer->set("keyer", property("keyer").toInt());*/
+        }
+        if (m_glslManager) {
             if (!m_threadStartEvent)
                 m_threadStartEvent = m_consumer->listen("consumer-thread-started", this, (mlt_listener) onThreadStarted);
             if (!m_threadStopEvent)
