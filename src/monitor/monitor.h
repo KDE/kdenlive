@@ -156,10 +156,13 @@ private:
     QSlider *m_audioSlider;
     QAction *m_editMarker;
     KMessageWidget *m_infoMessage;
+    int m_forceSizeFactor;
     /** @brief The base item of the qml view in monitor, used to set properties on the view that affect display **/
     QQuickItem *m_rootItem;
     void adjustScrollBars(float horizontal, float vertical);
     void loadMasterQml();
+    /** @brief Display a non blocking error message to user **/
+    void warningMessage(const QString &text);
 
 private slots:
     void seekCursor(int pos);

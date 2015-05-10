@@ -30,7 +30,6 @@
 
 #include "klocalizedstring.h"
 #include <KRecentDirs>
-#include <KMessageBox>
 #include <KDualAction>
 #include <KSelectAction>
 #include <KMessageWidget>
@@ -69,6 +68,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_splitEffect(NULL)
     , m_splitProducer(NULL)
     , m_effectCompare(NULL)
+    , m_forceSizeFactor(0)
 {
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -109,15 +109,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     m_glWidget->setMinimumSize(QSize(320, 180));
     layout->addWidget(m_glWidget, 10);
-    
-    // Video widget holder
-    //layout->addWidget(videoBox, 10);
     layout->addStretch();
-    
-    // Info message widget
-    m_infoMessage = new KMessageWidget(this);
-    layout->addWidget(m_infoMessage);
-    m_infoMessage->hide();
 
     // Get base size for icons
     int s = style()->pixelMetric(QStyle::PM_SmallIconSize);
@@ -238,6 +230,11 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotSeek()));
     m_toolbar->setMaximumHeight(m_timePos->height());
     layout->addWidget(m_toolbar);
+
+    // Info message widget
+    m_infoMessage = new KMessageWidget(this);
+    layout->addWidget(m_infoMessage);
+    m_infoMessage->hide();
 }
 
 Monitor::~Monitor()
@@ -324,23 +321,14 @@ void Monitor::slotForceSize(QAction *a)
         profileHeight = m_glMonitor->profileSize().height() * resizeType / 100;
         if (profileWidth > r.width() * 0.8 || profileHeight > r.height() * 0.7) {
             // reset action to free resize
-            profileWidth = 320;
-            profileHeight = 200;
             QList< QAction * > list = m_forceSize->actions ();
             foreach(QAction *ac, list) {
-                if (ac->data().toInt() == 0) {
+                if (ac->data().toInt() == m_forceSizeFactor) {
                     m_forceSize->setCurrentAction(ac);
                     break;
                 }
             }
-            m_videoWidget->setMinimumSize(profileWidth, profileHeight);
-            setMinimumSize(QSize(profileWidth, profileHeight + m_toolbar->height() + m_ruler->height()));
-            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-            m_infoMessage->setMessageType(KMessageWidget::Warning);
-            m_infoMessage->setText(i18n("Your screen resolution is not sufficient for this action"));
-            m_infoMessage->setCloseButtonVisible(true);
-            m_infoMessage->animatedShow();
-            QTimer::singleShot(5000, m_infoMessage, SLOT(animatedHide()));
+            warningMessage(i18n("Your screen resolution is not sufficient for this action"));
             return;
         }
         
@@ -361,6 +349,7 @@ void Monitor::slotForceSize(QAction *a)
         setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         break;
     }
+    m_forceSizeFactor = resizeType;
     updateGeometry();
 }
 
@@ -1333,29 +1322,36 @@ void Monitor::setPalette ( const QPalette & p)
 {
     QWidget::setPalette(p);
     if (m_ruler) m_ruler->updatePalette();
-    
 }
 
+
+void Monitor::warningMessage(const QString &text)
+{
+    m_infoMessage->setMessageType(KMessageWidget::Warning);
+    m_infoMessage->setText(text);
+    m_infoMessage->setCloseButtonVisible(true);
+    m_infoMessage->animatedShow();
+    QTimer::singleShot(5000, m_infoMessage, SLOT(animatedHide()));
+ 
+}
 
 void Monitor::slotSwitchCompare(bool enable)
 {
     int pos = position().frames(m_monitorManager->timecode().fps());
-    qDebug()<<"/ / /SWITCH COMPARE";
     if (enable) {
-        qDebug()<<"/ / /SWITCH COMPARE ON";
         m_splitEffect = new Mlt::Filter(*profile(), "frei0r.scale0tilt");
         if (m_splitEffect && m_splitEffect->is_valid()) {
             m_splitEffect->set("Clip left", 0.5);
         } else {
             // frei0r.scal0tilt is not available
-            KMessageBox::sorry(this, i18n("The frei0r filter scal0tilt is required for that feature, please install frei0r and restart Kdenlive"));
+            warningMessage(i18n("The scal0tilt filter is required for that feature, please install frei0r and restart Kdenlive"));
             return;
         }
         QString splitTransition = KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend";
         Mlt::Transition t(*profile(), splitTransition.toUtf8().constData());
         if (!t.is_valid()) {
             delete m_splitEffect;
-            KMessageBox::sorry(this, i18n("The frei0r cairoblend transition is required for that feature, please install frei0r and restart Kdenlive"));
+            warningMessage(i18n("The cairoblend transition is required for that feature, please install frei0r and restart Kdenlive"));
             return;
         }
         Mlt::Producer original = m_controller->originalProducer();
