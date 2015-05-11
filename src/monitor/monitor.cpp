@@ -994,8 +994,11 @@ void Monitor::updateClipProducer(Mlt::Producer *prod)
 void Monitor::openClip(ClipController *controller)
 {
     if (render == NULL) return;
+    bool sameClip = controller == m_controller && controller != NULL;
     m_controller = controller;
-    if (m_rootItem && m_rootItem->objectName() != "root") loadMasterQml();
+    if (m_rootItem && m_rootItem->objectName() != "root" && !sameClip) {
+        loadMasterQml();
+    }
     if (controller) {
         updateMarkers();
         render->setProducer(m_controller->masterProducer(), -1, isActive());
@@ -1216,7 +1219,7 @@ void Monitor::slotSetSelectedClip(Transition* item)
 void Monitor::slotEnableEffectScene(bool enable)
 {
     KdenliveSettings::setShowOnMonitorScene(enable);
-    bool isDisplayed = m_rootItem && m_rootItem->objectName() == "rooteffectscene";
+    bool isDisplayed = enable && m_rootItem && m_rootItem->objectName() == "rooteffectscene";
     if (enable == isDisplayed) return;
     slotShowEffectScene(enable);
 }
@@ -1229,7 +1232,9 @@ void Monitor::slotShowEffectScene(bool show, bool manuallyTriggered)
         QObject::connect(m_rootItem, SIGNAL(addKeyframe()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
         m_glMonitor->slotShowEffectScene();
     }
-    else loadMasterQml();
+    else if (m_rootItem && m_rootItem->objectName() == "rooteffectscene")  {
+        loadMasterQml();
+    }
 }
 
 void Monitor::setUpEffectGeometry(QRect r, QVariantList list)
@@ -1388,8 +1393,16 @@ void Monitor::slotSwitchCompare(bool enable)
 
 void Monitor::loadMasterQml()
 {
-    if (m_rootItem->objectName() == "root") {
+    if ((m_rootItem && m_rootItem->objectName() == "root")) {
         // Root scene is already active
+        return;
+    }
+    if (!KdenliveSettings::displayMonitorInfo()) {
+        // We don't want info overlay
+        if (m_rootItem) {
+            m_glMonitor->setSource(QUrl());
+            m_rootItem = NULL;
+        }
         return;
     }
     m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitor.qml"))));

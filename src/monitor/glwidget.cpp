@@ -160,6 +160,7 @@ void GLWidget::initializeGL()
 
 void GLWidget::effectRectChanged()
 {
+    if (!rootObject()) return;
     const QRect rect = rootObject()->property("framesize").toRect();
     emit effectChanged(rect);
 }
@@ -198,8 +199,10 @@ void GLWidget::resizeGL(int width, int height)
     m_rect.setRect(x, y, w, h);
     double scale = (double) m_rect.width() / m_consumer->profile()->width() * m_zoom;
     QPoint center = m_rect.center();
-    rootObject()->setProperty("center", center);
-    rootObject()->setProperty("scale", scale);
+    if (rootObject()) {
+        rootObject()->setProperty("center", center);
+        rootObject()->setProperty("scale", scale);
+    }
     emit rectChanged();
 }
 
@@ -418,7 +421,7 @@ void GLWidget::wheelEvent(QWheelEvent * event)
 void GLWidget::mousePressEvent(QMouseEvent* event)
 {
     QQuickView::mousePressEvent(event);
-    if (rootObject()->objectName() != "root") {
+    if (!rootObject() || rootObject()->objectName() != "root") {
         event->ignore();
         return;
     }
@@ -435,7 +438,7 @@ void GLWidget::mousePressEvent(QMouseEvent* event)
 void GLWidget::mouseMoveEvent(QMouseEvent* event)
 {
     QQuickView::mouseMoveEvent(event);
-    if (rootObject()->objectName() != "root") {
+    if (!rootObject() || rootObject()->objectName() != "root") {
         event->ignore();
         return;
     }
@@ -779,6 +782,7 @@ int GLWidget::reconfigure(bool isMulti)
 void GLWidget::slotShowEffectScene()
 {
     QObject *item = rootObject();
+    if (!item) return;
     QObject::connect(item, SIGNAL(effectChanged()), this, SLOT(effectRectChanged()), Qt::UniqueConnection);
     item->setProperty("profile", QPoint(m_consumer->profile()->width(), m_consumer->profile()->height()));
     item->setProperty("framesize", QRect(0, 0, m_consumer->profile()->width(), m_consumer->profile()->height()));
@@ -789,6 +793,7 @@ void GLWidget::slotShowEffectScene()
 void GLWidget::slotShowRootScene()
 {
     QObject *item = rootObject();
+    if (!item) return;
     item->setProperty("scale", (double) m_rect.width() / m_consumer->profile()->width() * m_zoom);
     item->setProperty("center", m_rect.center());
 }
@@ -814,8 +819,10 @@ void GLWidget::setZoom(float zoom)
     double zoomRatio = zoom / m_zoom;
     m_zoom = zoom;
     emit zoomChanged();
-    double scale = rootObject()->property("scale").toDouble() * zoomRatio;
-    rootObject()->setProperty("scale", scale);
+    if (rootObject()) {
+        double scale = rootObject()->property("scale").toDouble() * zoomRatio;
+        rootObject()->setProperty("scale", scale);
+    }
     update();
 }
 
