@@ -1379,7 +1379,7 @@ void Monitor::slotSwitchCompare(bool enable)
         render->setProducer(m_splitProducer, pos, isActive());
         m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitorsplit.qml"))));
         m_rootItem = m_glMonitor->rootObject();
-        QObject::connect(m_rootItem, SIGNAL(qmlMoveSplit(double)), this, SLOT(slotAdjustEffectCompare(double)), Qt::UniqueConnection);
+        QObject::connect(m_rootItem, SIGNAL(qmlMoveSplit()), this, SLOT(slotAdjustEffectCompare()), Qt::UniqueConnection);
     }
     else if (m_splitEffect) {
         render->setProducer(m_controller->masterProducer(), pos, isActive());
@@ -1410,8 +1410,16 @@ void Monitor::loadMasterQml()
     m_rootItem = m_glMonitor->rootObject();
 }
 
-void Monitor::slotAdjustEffectCompare(double percent)
+void Monitor::slotAdjustEffectCompare()
 {
+    QRect r = m_glMonitor->rect();
+    double percent = 0.5;
+    if (m_rootItem && m_rootItem->objectName() == "rootsplit") {
+        // Adjust splitter pos
+        percent = (m_rootItem->property("splitterPos").toInt() - r.left()) / (double) r.width();
+        // Store real frame percentage for resize events
+        m_rootItem->setProperty("realpercent", percent);
+    }
     if (m_splitEffect) m_splitEffect->set("Clip left", percent);
     render->refreshIfActive();
 }

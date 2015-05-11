@@ -196,12 +196,19 @@ void GLWidget::resizeGL(int width, int height)
     }
     x = (width - w) / 2;
     y = (height - h) / 2;
+    int oldX = m_rect.left();
+    int oldW = m_rect.width();
     m_rect.setRect(x, y, w, h);
     double scale = (double) m_rect.width() / m_consumer->profile()->width() * m_zoom;
     QPoint center = m_rect.center();
-    if (rootObject()) {
-        rootObject()->setProperty("center", center);
-        rootObject()->setProperty("scale", scale);
+    QQuickItem* rootQml = rootObject();
+    if (rootQml) {
+        rootQml->setProperty("center", center);
+        rootQml->setProperty("scale", scale);
+        if (rootQml->objectName() == "rootsplit") {
+            // Adjust splitter pos
+            rootQml->setProperty("splitterPos", x + (rootQml->property("realpercent").toDouble() * w));
+        }
     }
     emit rectChanged();
 }
@@ -421,7 +428,7 @@ void GLWidget::wheelEvent(QWheelEvent * event)
 void GLWidget::mousePressEvent(QMouseEvent* event)
 {
     QQuickView::mousePressEvent(event);
-    if (!rootObject() || rootObject()->objectName() != "root") {
+    if (rootObject() && rootObject()->objectName() != "root") {
         event->ignore();
         return;
     }
@@ -438,7 +445,7 @@ void GLWidget::mousePressEvent(QMouseEvent* event)
 void GLWidget::mouseMoveEvent(QMouseEvent* event)
 {
     QQuickView::mouseMoveEvent(event);
-    if (!rootObject() || rootObject()->objectName() != "root") {
+    if (rootObject() && rootObject()->objectName() != "root") {
         event->ignore();
         return;
     }
@@ -829,7 +836,7 @@ void GLWidget::setZoom(float zoom)
 void GLWidget::mouseReleaseEvent(QMouseEvent * event)
 {
     QQuickView::mouseReleaseEvent(event);
-    if (rootObject()->objectName() != "root") {
+    if (rootObject() && rootObject()->objectName() != "root") {
         return;
     }
     m_dragStart = QPoint();
@@ -841,7 +848,7 @@ void GLWidget::mouseReleaseEvent(QMouseEvent * event)
 void GLWidget::mouseDoubleClickEvent(QMouseEvent * event)
 {
     QQuickView::mouseDoubleClickEvent(event);
-    if (rootObject()->objectName() != "rooteffectscene") {
+    if (!rootObject() || rootObject()->objectName() != "rooteffectscene") {
         emit switchFullScreen();
     }
     event->accept();

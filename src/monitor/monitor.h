@@ -183,7 +183,7 @@ private slots:
     void slotEnableEffectScene(bool enable);
     /** @brief split screen to compare clip with and without effect */
     void slotSwitchCompare(bool enable);
-    void slotAdjustEffectCompare(double percent);
+    void slotAdjustEffectCompare();
     void slotShowMenu(const QPoint pos);
     void slotForceSize(QAction *a);
 
