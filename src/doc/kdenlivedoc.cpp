@@ -588,7 +588,7 @@ void KdenliveDoc::syncGuides(const QList <Guide *> &guides)
 
     for (int i = 0; i < guides.count(); ++i) {
         e = m_guidesXml.createElement("guide");
-        e.setAttribute("time", guides.at(i)->position().ms() / 1000);
+        e.setAttribute("time", QString::number(guides.at(i)->position().ms() / 1000));
         e.setAttribute("comment", guides.at(i)->label());
         guideNode.appendChild(e);
     }
@@ -769,7 +769,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList &
         QList < CommentedTime > marks = list.at(i)->commentedSnapMarkers();
         for (int j = 0; j < marks.count(); ++j) {
             QDomElement marker = sceneList.createElement("marker");
-            marker.setAttribute("time", marks.at(j).time().ms() / 1000);
+            marker.setAttribute("time", QString::number(marks.at(j).time().ms() / 1000));
             marker.setAttribute("comment", marks.at(j).comment());
             marker.setAttribute("id", e.attribute("id"));
             marker.setAttribute("type", marks.at(j).markerType());
