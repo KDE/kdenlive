@@ -588,10 +588,24 @@ void ProjectClip::addEffect(const ProfileInfo pInfo, QDomElement &effect)
 {
     m_controller->addEffect(pInfo, effect);
     bin()->editMasterEffect(m_controller);
+    bin()->emitItemUpdated(this);
 }
 
 void ProjectClip::removeEffect(const ProfileInfo pInfo, int ix)
 {
     m_controller->removeEffect(pInfo, ix);
     bin()->editMasterEffect(m_controller);
+    bin()->emitItemUpdated(this);
+}
+
+QVariant ProjectClip::data(DataType type) const
+{
+    switch (type) {
+      case AbstractProjectItem::IconOverlay:
+            return m_controller != NULL ? (m_controller->hasEffects() ? QVariant("favorites") : QVariant()) : QVariant();
+            break;
+        default:
+	    break;
+    }
+    return AbstractProjectItem::data(type);
 }

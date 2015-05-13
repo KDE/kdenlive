@@ -162,15 +162,6 @@ public:
             r.setWidth(opt.decorationSize.width());
             // Draw thumbnail
             opt.icon.paint(painter, r);
-            
-            // Overlay icon if necessary
-            /* WIP
-            int clipStatus = index.data(AbstractProjectItem::ClipStatus).toInt();
-            if (clipStatus == (int) AbstractProjectItem::StatusWaiting) {
-                QIcon reload = QIcon::fromTheme("media-playback-pause");
-                reload.paint(painter, r);
-            }
-            */
 
             int decoWidth = r.width() + 2 * textMargin;
             QFont font = painter->font();
@@ -194,6 +185,15 @@ public:
                 subTextColor.setAlphaF(.5);
                 painter->setPen(subTextColor);
                 painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop , subText, &bounding);
+		
+		// Overlay icon if necessary
+		QVariant v = index.data(AbstractProjectItem::IconOverlay);
+		if (!v.isNull()) {
+		    QIcon reload = QIcon::fromTheme(v.toString());
+		    r.setTop(r.bottom() - bounding.height());
+		    r.setWidth(bounding.height());
+		    reload.paint(painter, r);
+		}
 
                 int jobProgress = index.data(AbstractProjectItem::JobProgress).toInt();
                 if (jobProgress != 0 && jobProgress != JobDone && jobProgress != JobAborted) {

@@ -122,6 +122,7 @@ public:
         DataId = Qt::UserRole,
         DataDescription,
         DataDate,
+	IconOverlay,
         ItemTypeRole,
         DataDuration,
 	JobType,

@@ -114,6 +114,8 @@ public:
 
     virtual QDomElement toXml(QDomDocument &document);
     
+    QVariant data(DataType type) const;
+    
     /** @brief Set the Job status on a clip.
      * @param jobType The job type
      * @param status The job status (see definitions.h)

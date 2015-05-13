@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="80" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="81" translationDomain="kdenlive">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -74,6 +74,7 @@
     <Menu name="clip" ><text>Clip</text>
           <Menu name="marker_menu" ><text>Markers</text>
 		<Action name="add_clip_marker" />
+		<Action name="add_marker_guide_quickly" />
 		<Action name="edit_clip_marker" />
 		<Action name="delete_clip_marker" />
 		<Action name="delete_all_clip_markers" />
