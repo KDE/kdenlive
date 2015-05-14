@@ -58,6 +58,8 @@ class Render;
 class Transition;
 class KActionCollection;
 
+#define EXIT_RESTART (42)
+
 class /*KDENLIVECORE_EXPORT*/ MainWindow : public KXmlGuiWindow
 {
     Q_OBJECT
@@ -109,6 +111,9 @@ public:
     TransitionSettings *m_transitionConfig;
     QUndoView *m_undoView;
     StatusBarMessageLabel *m_messageLabel;
+    /** @brief holds info about whether movit is available on this system */
+    bool m_gpuAllowed;
+    int m_exitCode;
 
 protected:
 
@@ -117,6 +122,7 @@ protected:
      *     the operation requested (starting waiting jobs or saving file) fails,
      *     true otherwise */
     virtual bool queryClose();
+    virtual void closeEvent(QCloseEvent*);
 
     /** @brief Reports a message in the status bar when an error occurs. */
     virtual void customEvent(QEvent *e);
@@ -439,6 +445,8 @@ private slots:
     void slotRippleDelete();
     void slotThemeChanged(const QString &);
     void slotReloadTheme();
+    /** @brief Close Kdenlive and try to restart it */
+    void slotRestart();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

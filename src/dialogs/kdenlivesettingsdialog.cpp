@@ -49,7 +49,7 @@
 #endif
 
 
-KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& mappable_actions, QWidget * parent) :
+KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& mappable_actions, bool gpuAllowed, QWidget * parent) :
     KConfigDialog(parent, "settings", KdenliveSettings::self()),
     m_modified(false),
     m_shuttleModified(false),
@@ -264,8 +264,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     slotUpdateGrabProfile(-1);
     slotUpdateDecklinkProfile(-1);
     
-    //TODO: enable GPU accel only if Movit is found
-    //m_configSdl.kcfg_gpu_accel->setEnabled();
+    // enable GPU accel only if Movit is found
+    m_configSdl.kcfg_gpu_accel->setEnabled(gpuAllowed);
 
     Render::getBlackMagicDeviceList(m_configCapture.kcfg_decklink_capturedevice);
     if (!Render::getBlackMagicOutputDeviceList(m_configSdl.kcfg_blackmagic_output_device)) {
@@ -780,10 +780,22 @@ void KdenliveSettingsDialog::updateSettings()
     if (KdenliveSettings::shuttlebuttons() != maps)
         KdenliveSettings::setShuttlebuttons(maps);
 #endif
+    
+    bool restart = false;
+    if (m_configSdl.kcfg_gpu_accel->isChecked() != KdenliveSettings::gpu_accel()) {
+	// GPU setting was changed, we need to restart Kdenlive or everything will be corrupted
+	if (KMessageBox::warningContinueCancel(this, i18n("Kdenlive must be restarted to change this setting")) == KMessageBox::Continue) {
+	    restart = true;
+	}
+	else {
+	    m_configSdl.kcfg_gpu_accel->setChecked(KdenliveSettings::gpu_accel());
+	}
+    }
 
     KConfigDialog::settingsChangedSlot();
     //KConfigDialog::updateSettings();
     if (resetProfile) emit doResetProfile();
+    if (restart) emit restartKdenlive();
 }
 
 void KdenliveSettingsDialog::slotUpdateDisplay()

@@ -129,7 +129,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_renderWidget(NULL),
     m_mainClip(NULL),
     m_transitionConfig(NULL),
-    m_timelineArea(NULL)
+    m_timelineArea(NULL),
+    m_exitCode(EXIT_SUCCESS)
 {
     qRegisterMetaType<audioShortVector> ("audioShortVector");
     qRegisterMetaType<MessageType> ("MessageType");
@@ -167,8 +168,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     QTabBar *bar = m_timelineArea->findChild<QTabBar *>();
     bar->setHidden(true);
 
-    // FIXME: the next call returns a newly allocated object, which leaks
-    initEffects::parseEffectFiles(pCore->binController()->mltRepository());
+    m_gpuAllowed = initEffects::parseEffectFiles(pCore->binController()->mltRepository());
     //initEffects::parseCustomEffectsFile();
 
     m_shortcutRemoveFocus = new QShortcut(QKeySequence("Esc"), this);
@@ -1701,10 +1701,11 @@ void MainWindow::slotPreferences(int page, int option)
         actions[collection->action(action_name)->text()] = action_name;
     }
 
-    KdenliveSettingsDialog* dialog = new KdenliveSettingsDialog(actions, this);
+    KdenliveSettingsDialog* dialog = new KdenliveSettingsDialog(actions, m_gpuAllowed, this);
     connect(dialog, SIGNAL(settingsChanged(QString)), this, SLOT(updateConfiguration()));
     connect(dialog, SIGNAL(settingsChanged(QString)), SIGNAL(configurationChanged()));
     connect(dialog, SIGNAL(doResetProfile()), pCore->monitorManager(), SLOT(slotResetProfiles()));
+    connect(dialog, SIGNAL(restartKdenlive()), this, SLOT(slotRestart()));
     if (m_recMonitor) {
         connect(dialog, SIGNAL(updateCaptureFolder()), this, SLOT(slotUpdateCaptureFolder()));
         connect(dialog, SIGNAL(updateFullScreenGrab()), m_recMonitor, SLOT(slotUpdateFullScreenGrab()));
@@ -1713,6 +1714,25 @@ void MainWindow::slotPreferences(int page, int option)
     if (page != -1) {
         dialog->showPage(page, option);
     }
+}
+
+void MainWindow::slotRestart()
+{
+    m_exitCode = EXIT_RESTART;
+    QApplication::closeAllWindows();
+}
+
+void MainWindow::closeEvent(QCloseEvent* event)
+{
+    /*if (continueJobsRunning() && continueModified()) {
+        if (!m_htmlEditor || m_htmlEditor->close()) {
+            writeSettings();*/
+            event->accept();
+            QApplication::exit(m_exitCode);
+            return;
+        /*}
+    }
+    event->ignore();*/
 }
 
 void MainWindow::slotUpdateCaptureFolder()

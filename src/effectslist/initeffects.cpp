@@ -105,8 +105,9 @@ QDomDocument initEffects::getUsedCustomEffects(const QMap <QString, QString>& ef
 }
 
 //static
-void initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &locale)
+bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &locale)
 {
+    bool movit = false;
     QStringList::Iterator more;
     QStringList::Iterator it;
     QStringList fileList;
@@ -114,7 +115,7 @@ void initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
 
     if (!repository) {
         //qDebug() << "Repository didn't finish initialisation" ;
-        return;
+        return movit;
     }
 
     // Warning: Mlt::Factory::init() resets the locale to the default system value, make sure we keep correct locale
@@ -134,6 +135,11 @@ void initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
         filtersList << filters->get_name(i);
     delete filters;
 
+    if (filtersList.contains("glsl.manager")) {
+	// enable movit GPU effects / display
+	movit = true;
+    }
+    
     // Retrieve the list of available producers.
     Mlt::Properties *producers = repository->producers();
     QStringList producersList;
@@ -303,6 +309,8 @@ void initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     MainWindow::videoEffects.clearList();
     foreach(const QDomElement & effect, videoEffectsMap)
         MainWindow::videoEffects.append(effect);
+    
+    return movit;
 }
 
 // static

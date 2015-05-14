@@ -30,10 +30,14 @@
 #include <KDBusService>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
-
+#include <QProcess>
 
 int main(int argc, char *argv[])
 {
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+    QCoreApplication::setAttribute(Qt::AA_X11InitThreads);
+#endif
+    
     KLocalizedString::setApplicationDomain("kdenlive");
 
     // Init application
@@ -116,5 +120,15 @@ int main(int argc, char *argv[])
         window->show();
     }
     int result = app.exec();
+    
+    if (EXIT_RESTART == result) {
+        qDebug() << "restarting app";
+        QProcess* restart = new QProcess;
+        restart->start(app.applicationFilePath(), QStringList());
+        restart->waitForReadyRead();
+        restart->waitForFinished(1000);
+        result = EXIT_SUCCESS;
+    }
+    
     return result;
 }
