@@ -3132,20 +3132,20 @@ void CustomTrackView::configTracks(const QList < TrackInfo > &trackInfos)
     emit trackHeightChanged();
 }
 
-void CustomTrackView::slotSwitchTrackAudio(int ix)
+void CustomTrackView::slotSwitchTrackAudio(int ix, bool enable)
 {
     /*for (int i = 0; i < m_document->tracksCount(); ++i)
         //qDebug() << "TRK " << i << " STATE: " << m_document->trackInfoAt(i).isMute << m_document->trackInfoAt(i).isBlind;*/
     int tracknumber = m_document->tracksCount() - ix - 1;
-    m_document->switchTrackAudio(tracknumber, !m_document->trackInfoAt(tracknumber).isMute);
+    m_document->switchTrackAudio(tracknumber, enable);
     //qDebug() << "NEXT TRK STATE: " << m_document->trackInfoAt(tracknumber).isMute << m_document->trackInfoAt(tracknumber).isBlind;
     m_document->renderer()->mltChangeTrackState(tracknumber + 1, QString(), m_document->trackInfoAt(tracknumber).isMute, m_document->trackInfoAt(tracknumber).isBlind);
 }
 
-void CustomTrackView::slotSwitchTrackLock(int ix)
+void CustomTrackView::slotSwitchTrackLock(int ix, bool enable)
 {
     int tracknumber = m_document->tracksCount() - ix - 1;
-    LockTrackCommand *command = new LockTrackCommand(this, ix, !m_document->trackInfoAt(tracknumber).isLocked);
+    LockTrackCommand *command = new LockTrackCommand(this, ix, enable);
     m_commandStack->push(command);
 }
 
@@ -3222,10 +3222,10 @@ void CustomTrackView::lockTrack(int ix, bool lock, bool requestUpdate)
     viewport()->update();
 }
 
-void CustomTrackView::slotSwitchTrackVideo(int ix)
+void CustomTrackView::slotSwitchTrackVideo(int ix, bool enable)
 {
     int tracknumber = m_document->tracksCount() - ix;
-    m_document->switchTrackVideo(tracknumber - 1, !m_document->trackInfoAt(tracknumber - 1).isBlind);
+    m_document->switchTrackVideo(tracknumber - 1, enable);
     m_document->renderer()->mltChangeTrackState(tracknumber, QString(), m_document->trackInfoAt(tracknumber - 1).isMute, m_document->trackInfoAt(tracknumber - 1).isBlind);
     //TODO: create undo/redo command for this
     setDocumentModified();

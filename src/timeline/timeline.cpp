@@ -490,9 +490,9 @@ void Timeline::slotRebuildTrackHeaders()
         int currentWidth = header->minimumWidth();
         if (currentWidth > headerWidth) headerWidth = currentWidth;
         header->setSelectedIndex(m_trackview->selectedTrack());
-        connect(header, SIGNAL(switchTrackVideo(int)), m_trackview, SLOT(slotSwitchTrackVideo(int)));
-        connect(header, SIGNAL(switchTrackAudio(int)), m_trackview, SLOT(slotSwitchTrackAudio(int)));
-        connect(header, SIGNAL(switchTrackLock(int)), m_trackview, SLOT(slotSwitchTrackLock(int)));
+        connect(header, SIGNAL(switchTrackVideo(int,bool)), m_trackview, SLOT(slotSwitchTrackVideo(int,bool)));
+        connect(header, SIGNAL(switchTrackAudio(int,bool)), m_trackview, SLOT(slotSwitchTrackAudio(int,bool)));
+        connect(header, SIGNAL(switchTrackLock(int,bool)), m_trackview, SLOT(slotSwitchTrackLock(int,bool)));
         connect(header, SIGNAL(selectTrack(int)), m_trackview, SLOT(slotSelectTrack(int)));
         connect(header, SIGNAL(renameTrack(int,QString)), this, SLOT(slotRenameTrack(int,QString)));
         connect(header, SIGNAL(configTrack(int)), this, SIGNAL(configTrack(int)));

@@ -240,9 +240,9 @@ public slots:
     void slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack, QDomElement transition = QDomElement());
     void slotAddTransitionToSelectedClips(QDomElement transition);
     void slotTransitionUpdated(Transition *, QDomElement);
-    void slotSwitchTrackAudio(int ix);
-    void slotSwitchTrackVideo(int ix);
-    void slotSwitchTrackLock(int ix);
+    void slotSwitchTrackAudio(int ix, bool enable);
+    void slotSwitchTrackVideo(int ix, bool enable);
+    void slotSwitchTrackLock(int ix, bool enable);
     void slotUpdateClip(const QString &clipId, bool reload = true);
     
     /** @brief Add extra data to a clip. */

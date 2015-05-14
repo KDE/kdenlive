@@ -78,7 +78,9 @@ ecm_install_icons(ICONS
   sc-actions-kdenlive-select-tool.svgz
   sc-actions-kdenlive-show-all-effects.svg
   sc-actions-kdenlive-show-video-effects.svg
+  sc-actions-kdenlive-hide-video-effects.svg
   sc-actions-kdenlive-show-audio-effects.svg
+  sc-actions-kdenlive-hide-audio-effects.svg
   sc-actions-kdenlive-show-gpu-effects.svg
   sc-actions-kdenlive-spacer-tool.svgz
   sc-actions-kdenlive-unselect-all.svgz

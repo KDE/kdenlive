@@ -49,17 +49,17 @@
   <g
      transform="translate(-286.28571,-144.36218)"
      id="layer1">
-    <rect
-       y="146.91576"
-       x="286.78571"
-       height="10.870536"
-       width="14.852678"
-       id="rect3378"
-       style="fill:#ffffff;fill-opacity:0.50196081;stroke:none;stroke-opacity:1" />
+    <path
+       id="rect4172-9"
+       d="m 298.87237,144.78413 -5.5789,4.01583 0,0.0147 -3.71355,0 0,7.03876 3.71355,0 0,0.0147 5.5789,4.01583 0,-15.09991 z"
+       style="opacity:1;fill:#ffffff;fill-opacity:0.50196081;fill-rule:nonzero;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
     <path
        id="rect4172"
-       transform="translate(286.28571,144.36218)"
-       d="M 1.0019531 3.0527344 L 1.0019531 12.978516 L 14.927734 12.978516 L 14.927734 3.0527344 L 1.0019531 3.0527344 z M 2.0214844 4.0234375 L 3.7226562 4.0234375 L 3.7226562 5.7226562 L 2.0214844 5.7226562 L 2.0214844 4.0234375 z M 5.4941406 4.0234375 L 7.1933594 4.0234375 L 7.1933594 5.7226562 L 5.4941406 5.7226562 L 5.4941406 4.0234375 z M 8.9648438 4.0234375 L 10.666016 4.0234375 L 10.666016 5.7226562 L 8.9648438 5.7226562 L 8.9648438 4.0234375 z M 12.4375 4.0234375 L 14.136719 4.0234375 L 14.136719 5.7226562 L 12.4375 5.7226562 L 12.4375 4.0234375 z M 2.0351562 10.25 L 3.7363281 10.25 L 3.7363281 11.951172 L 2.0351562 11.951172 L 2.0351562 10.25 z M 5.5078125 10.25 L 7.2070312 10.25 L 7.2070312 11.951172 L 5.5078125 11.951172 L 5.5078125 10.25 z M 8.9785156 10.25 L 10.679688 10.25 L 10.679688 11.951172 L 8.9785156 11.951172 L 8.9785156 10.25 z M 12.451172 10.25 L 14.150391 10.25 L 14.150391 11.951172 L 12.451172 11.951172 L 12.451172 10.25 z "
+       d="m 298.42453,145.6368 -4.96965,3.57727 0,0.0131 -3.308,0 0,6.27008 3.308,0 0,0.0131 4.96965,3.57727 0,-13.45089 z"
        style="opacity:1;fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       id="path4180"
+       d="m 286.96081,157.6142 14.71831,-10.72301"
+       style="fill:none;fill-rule:evenodd;stroke:#b80000;stroke-width:1.60000002;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
   </g>
 </svg>

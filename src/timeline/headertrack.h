@@ -25,6 +25,9 @@
 #include "definitions.h"
 #include "ui_trackheader_ui.h"
 
+class KDualAction;
+class QToolBar;
+
 class HeaderTrack : public QWidget, public Ui::TrackHeader_UI
 {
     Q_OBJECT
@@ -49,17 +52,22 @@ private:
     TrackType m_type;
     bool m_isSelected;
     QString m_name;
+    QToolBar *m_tb;
+    KDualAction *m_switchVideo;
+    KDualAction *m_switchAudio;
+    KDualAction *m_switchLock;
+    
 
 private slots:
-    void switchAudio();
-    void switchVideo();
+    void switchAudio(bool);
+    void switchVideo(bool);
     void slotRenameTrack();
-    void switchLock(bool emitSignal = true);
+    void switchLock(bool);
 
 signals:
-    void switchTrackAudio(int);
-    void switchTrackVideo(int);
-    void switchTrackLock(int);
+    void switchTrackAudio(int,bool);
+    void switchTrackVideo(int,bool);
+    void switchTrackLock(int,bool);
     void renameTrack(int, const QString&);
     void selectTrack(int);
     void configTrack(int);

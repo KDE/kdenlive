@@ -602,7 +602,7 @@ QVariant ProjectClip::data(DataType type) const
 {
     switch (type) {
       case AbstractProjectItem::IconOverlay:
-            return m_controller != NULL ? (m_controller->hasEffects() ? QVariant("favorites") : QVariant()) : QVariant();
+            return m_controller != NULL ? (m_controller->hasEffects() ? QVariant("kdenlive-track_has_effect") : QVariant()) : QVariant();
             break;
         default:
 	    break;
