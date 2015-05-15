@@ -1724,15 +1724,9 @@ void MainWindow::slotRestart()
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
-    /*if (continueJobsRunning() && continueModified()) {
-        if (!m_htmlEditor || m_htmlEditor->close()) {
-            writeSettings();*/
-            event->accept();
-            QApplication::exit(m_exitCode);
-            return;
-        /*}
-    }
-    event->ignore();*/
+    KXmlGuiWindow::closeEvent(event);
+    QApplication::exit(m_exitCode);
+    return;
 }
 
 void MainWindow::slotUpdateCaptureFolder()
