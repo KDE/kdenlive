@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QDomElement>
 #include <QFile>
+#include <QDir>
 #include <QDebug>
 #include <QCryptographicHash>
 
@@ -616,33 +617,37 @@ QVariant ProjectClip::data(DataType type) const
 
 void ProjectClip::slotExtractImage(QList <int> frames)
 {
-	    Mlt::Producer *prod = producer();
-	    if (prod == NULL) return;
-	    // Check if we are using GPU accel, then we need to use alternate producer
-            if (KdenliveSettings::gpu_accel()) {
-		  if (m_gpuProducer == NULL) {
-		      QString service = prod->get("mlt_service");
-		      m_gpuProducer = new Mlt::Producer(*prod->profile(), service.toUtf8().constData(), prod->get("resource"));
-		      Mlt::Filter scaler(*prod->profile(), "swscale");
-		      Mlt::Filter converter(*prod->profile(), "avcolor_space");
-		      m_gpuProducer->attach(scaler);
-		      m_gpuProducer->attach(converter);
-		  }
-		  prod = m_gpuProducer;
-	    }
-	    int imageWidth = (int)((double) 150 * prod->profile()->width() / prod->profile()->height() + 0.5);
-	    int fullWidth = (int)((double) 150 * prod->profile()->dar() + 0.5);
-	    for (int i = 0; i < frames.count(); i++) {
-		int pos = frames.at(i);
-		int max = prod->get_out();
-		if (pos >= max) pos = max - 1;
-		prod->seek(pos);
-		Mlt::Frame *frame = prod->get_frame();
-		if (frame && frame->is_valid()) {
-		    QImage img = KThumb::getFrame(frame, imageWidth, fullWidth, 150);
-		    emit thumbReady(frames.at(i), img);
-		}
-		delete frame;
-            }
-      
+    Mlt::Producer *prod = producer();
+    if (prod == NULL) return;
+    // Check if we are using GPU accel, then we need to use alternate producer
+    if (KdenliveSettings::gpu_accel()) {
+	if (m_gpuProducer == NULL) {
+            QString service = prod->get("mlt_service");
+            m_gpuProducer = new Mlt::Producer(*prod->profile(), service.toUtf8().constData(), prod->get("resource"));
+            Mlt::Filter scaler(*prod->profile(), "swscale");
+	    Mlt::Filter converter(*prod->profile(), "avcolor_space");
+	    m_gpuProducer->attach(scaler);
+	    m_gpuProducer->attach(converter);
+        }
+	prod = m_gpuProducer;
+    }
+    int imageWidth = (int)((double) 150 * prod->profile()->width() / prod->profile()->height() + 0.5);
+    int fullWidth = (int)((double) 150 * prod->profile()->dar() + 0.5);
+    QDir thumbFolder(bin()->projectFolder().path() + "/thumbs/");
+    for (int i = 0; i < frames.count(); i++) {
+        int pos = frames.at(i);
+        if (thumbFolder.exists(hash() + '_' + QString::number(pos) + ".png")) {
+            emit thumbReady(pos, QImage(thumbFolder.absoluteFilePath(hash() + '_' + QString::number(pos) + ".png")));
+            continue;
+        }
+	int max = prod->get_out();
+	if (pos >= max) pos = max - 1;
+	prod->seek(pos);
+	Mlt::Frame *frame = prod->get_frame();
+	if (frame && frame->is_valid()) {
+            QImage img = KThumb::getFrame(frame, imageWidth, fullWidth, 150);
+            emit thumbReady(frames.at(i), img);
+        }
+        delete frame;
+    }
 }

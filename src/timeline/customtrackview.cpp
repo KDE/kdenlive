@@ -4472,7 +4472,6 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
     ProjectClip *binClip = m_document->getBinClip(clipId);
     if (!binClip->isReady()) {
         // If the clip has no producer, we must wait until it is created...
-        
         emit displayMessage(i18n("Waiting for clip..."), InformationMessage);
 	m_document->renderer()->forceProcessing(clipId);
 	if (binClip == NULL) {
@@ -4493,7 +4492,6 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
         }
         emit displayMessage(QString(), InformationMessage);
     }
-    
     // TODO:
     // Get speed and strobe values from effects
     // And find a better way to pass the audio/video only information
@@ -4504,7 +4502,6 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
     ClipItem *item = new ClipItem(binClip, info, m_document->fps(), speed, strobe, getFrameWidth());
     item->setEffectList(effects);
     scene()->addItem(item);
-
     int producerTrack = info.track;
     int tracknumber = m_document->tracksCount() - info.track - 1;
     bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
@@ -4530,7 +4527,7 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
     /*if (!baseclip->isPlaceHolder())
         m_waitingThumbs.append(item);
         */
-    m_thumbsTimer.start();
+    //m_thumbsTimer.start();
 }
 
 void CustomTrackView::slotUpdateClip(const QString &clipId, bool reload)

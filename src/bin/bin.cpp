@@ -492,6 +492,11 @@ double Bin::projectRatio()
     return m_doc->dar();
 }
 
+QUrl Bin::projectFolder() const
+{
+    return m_doc->projectFolder();
+}
+
 void Bin::setMonitor(Monitor *monitor)
 {
     m_monitor = monitor;

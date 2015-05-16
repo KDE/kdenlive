@@ -411,7 +411,10 @@ public:
     void removeEffect(const QString &id, const QDomElement &effect);
     /** @brief Add an effect to a bin clip. */
     void addEffect(const QString &id, QDomElement &effect);
+    /** @brief Edit an effect settings to a bin clip. */
     void editMasterEffect(ClipController *ctl);
+    /** @brief Returns current project's folder for storing items. */
+    QUrl projectFolder() const;
 
 private slots:
     void slotAddClip();

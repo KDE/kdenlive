@@ -624,6 +624,16 @@ void Render::processFileProperties()
             m_infoMutex.unlock();
             // Special case, we just want the thumbnail for existing producer
             Mlt::Producer *prod = new Mlt::Producer(*m_binController->getBinProducer(info.clipId));
+            
+            // Check if we are using GPU accel, then we need to use alternate producer
+            if (KdenliveSettings::gpu_accel()) {
+                QString service = prod->get("mlt_service");
+                prod = new Mlt::Producer(*m_mltProfile, service.toUtf8().constData(), prod->get("resource"));
+                Mlt::Filter scaler(*m_mltProfile, "swscale");
+                Mlt::Filter converter(*m_mltProfile, "avcolor_space");
+                prod->attach(scaler);
+                prod->attach(converter);
+            }
             int frameNumber = info.xml.attribute("thumbnail", "-1").toInt();
             if (frameNumber > 0) prod->seek(frameNumber);
             Mlt::Frame *frame = prod->get_frame();
