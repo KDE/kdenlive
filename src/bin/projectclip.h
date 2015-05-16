@@ -195,6 +195,7 @@ public:
 public slots:
     //TODO
     void updateAudioThumbnail(const audioByteArray& data);
+    void slotExtractImage(QList <int> frames);
 
 protected:
     bool m_hasLimitedDuration;
@@ -204,6 +205,7 @@ private:
     QList <int> m_markers;
     /** @brief The Clip controller for this clip. */
     ClipController *m_controller;
+    Mlt::Producer *m_gpuProducer;
     /** @brief Generate and store file hash if not available. */
     const QString getFileHash() const;
     bool m_audioThumbCreated;
@@ -214,6 +216,7 @@ signals:
     void gotAudioData();
     void refreshPropertiesPanel();
     void refreshClipDisplay();
+    void thumbReady(int, QImage);
 };
 
 #endif

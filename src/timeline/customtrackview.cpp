@@ -1701,7 +1701,6 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         m_selectionGroup->setSelected(true);
     } else if (data->hasFormat("kdenlive/producerslist")) {
         QStringList ids = QString(data->data("kdenlive/producerslist")).split(';');
-
         QList <GenTime> offsetList;
         QList <ItemInfo> infoList;
         GenTime start = GenTime((int)(framePos.x() + 0.5), m_document->fps());
@@ -1773,7 +1772,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
             info.track = 0;
             start += info.cropDuration;
             offsetList.append(start);
-            ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1, getFrameWidth(), false);
+            ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1, getFrameWidth(), true);
             if (ids.size() > 1) m_selectionGroup->addItem(item);
             else m_dragItem = item;
             item->setSelected(true);

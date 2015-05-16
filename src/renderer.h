@@ -418,6 +418,7 @@ private slots:
     /** @brief Update all track producers to master's effect */
     void slotUpdateTrackProducers(const QString &clipId);
 
+
 signals:
 
     /** @brief The renderer received a reply to a getFileProperties request. */
@@ -425,7 +426,7 @@ signals:
 
     /** @brief The renderer received a reply to a getImage request. */
     void replyGetImage(const QString &, const QImage &);
-
+    
     /** @brief The renderer stopped, either playing or rendering. */
     void stopped();
 

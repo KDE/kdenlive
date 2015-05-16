@@ -184,9 +184,14 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     QIcon icon;
     if (KdenliveSettings::volume() == 0) icon = QIcon::fromTheme("audio-volume-muted");
     else icon = QIcon::fromTheme("audio-volume-medium");
-
     m_volumeWidget = m_toolbar->widgetForAction(m_toolbar->addAction(icon, i18n("Audio volume"), this, SLOT(slotShowVolume())));
-
+    
+    if (id == Kdenlive::ClipMonitor) {
+	m_toolbar->addSeparator();
+	m_effectCompare = m_toolbar->addAction(QIcon::fromTheme("view-split-left-right"), i18n("Compare effect"));
+	m_effectCompare->setCheckable(true);
+	connect(m_effectCompare, SIGNAL(toggled(bool)), this, SLOT(slotSwitchCompare(bool)));
+    }
     // we need to show / hide the popup once so that it's geometry can be calculated in slotShowVolume
     m_volumePopup->show();
     m_volumePopup->hide();
@@ -285,10 +290,6 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     } else {
         QAction *setThumbFrame = m_contextMenu->addAction(QIcon::fromTheme("document-new"), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
         m_configMenu->addAction(setThumbFrame);
-        m_contextMenu->addSeparator();
-        m_effectCompare = m_contextMenu->addAction(QIcon::fromTheme("view-split-left-right"), i18n("Compare effect"));
-        m_effectCompare->setCheckable(true);
-        connect(m_effectCompare, SIGNAL(toggled(bool)), this, SLOT(slotSwitchCompare(bool)));
     }
 
     QAction *overlayAudio = m_contextMenu->addAction(QIcon(), i18n("Overlay audio waveform"));
@@ -1350,6 +1351,9 @@ void Monitor::slotSwitchCompare(bool enable)
         m_effectCompare->blockSignals(false);
         warningMessage(i18n("Select a clip in project bin to compare effect"));
         return;
+    }
+    if (!m_controller->hasEffects()) {
+        warningMessage(i18n("Clip has no effects"));
     }
     int pos = position().frames(m_monitorManager->timecode().fps());
     if (enable) {

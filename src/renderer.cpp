@@ -2126,7 +2126,6 @@ int Render::mltInsertClip(ItemInfo info, const QString &clipId, bool overwrite, 
     return 0;
 }
 
-
 Mlt::Producer *Render::getTrackProducer(const QString &id, int track, bool audioOnly, bool videoOnly)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());

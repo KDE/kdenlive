@@ -32,7 +32,7 @@
 
 #include <QDebug>
 #include <QIcon>
-
+#include <QtConcurrent>
 #include <QPainter>
 #include <QTimer>
 #include <QStyleOptionGraphicsItem>
@@ -97,17 +97,17 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
     connect(m_binClip, SIGNAL(refreshClipDisplay()), this, SLOT(slotRefreshClip()));
     if (m_clipType == AV || m_clipType == Video || m_clipType == SlideShow || m_clipType == Playlist ) {
         m_baseColor = QColor(141, 166, 215);
-	//TODO:
-        if (false /*&& !m_clip->isPlaceHolder()*/) {
+        if (m_binClip->isReady()) {
             m_hasThumbs = true;
             m_startThumbTimer.setSingleShot(true);
-            /*connect(&m_startThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetStartThumb()));
+            connect(&m_startThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetStartThumb()));
             m_endThumbTimer.setSingleShot(true);
             connect(&m_endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
-            connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
-            connect(m_clip->thumbProducer(), SIGNAL(thumbsCached()), this, SLOT(slotRefreshClip()));
-            connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
-            if (generateThumbs) QTimer::singleShot(200, this, SLOT(slotFetchThumbs()));*/
+            //connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
+	    connect(m_binClip, SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
+            //connect(m_clip->thumbProducer(), SIGNAL(thumbsCached()), this, SLOT(slotRefreshClip()));
+            //connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
+            if (generateThumbs) QTimer::singleShot(200, this, SLOT(slotFetchThumbs()));
         }
 
     } else if (m_clipType == Color) {
@@ -504,7 +504,9 @@ void ClipItem::slotFetchThumbs()
     }
 
     //TODO
-    //if (!frames.isEmpty()) m_binClip->slotExtractImage(frames);
+    if (!frames.isEmpty()) {
+	QtConcurrent::run(m_binClip, &ProjectClip::slotExtractImage, frames);
+    }
 }
 
 void ClipItem::stopThumbs()
@@ -517,6 +519,7 @@ void ClipItem::stopThumbs()
 void ClipItem::slotGetStartThumb()
 {
     m_startThumbRequested = true;
+    QtConcurrent::run(m_binClip, &ProjectClip::slotExtractImage, QList<int>() << (int)m_speedIndependantInfo.cropStart.frames(m_fps));
     //TODO
     //m_clip->slotExtractImage(QList<int>() << (int)m_speedIndependantInfo.cropStart.frames(m_fps));
 }
@@ -524,6 +527,7 @@ void ClipItem::slotGetStartThumb()
 void ClipItem::slotGetEndThumb()
 {
     m_endThumbRequested = true;
+    QtConcurrent::run(m_binClip, &ProjectClip::slotExtractImage, QList<int>() << (int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
     //TODO
     //m_clip->slotExtractImage(QList<int>() << (int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
 }
@@ -554,10 +558,10 @@ void ClipItem::slotSetEndThumb(const QImage &img)
 void ClipItem::slotThumbReady(int frame, const QImage &img)
 {
     if (scene() == NULL) return;
-    QRectF r = boundingRect();
-    QPixmap pix = QPixmap::fromImage(img);
-    double width = pix.width() / projectScene()->scale().x();
     if (m_startThumbRequested && frame == m_speedIndependantInfo.cropStart.frames(m_fps)) {
+        QRectF r = boundingRect();
+	QPixmap pix = QPixmap::fromImage(img);
+	double width = pix.width() / projectScene()->scale().x();
         m_startPix = pix;
         m_startThumbRequested = false;
         update(r.left(), r.top(), width, pix.height());
@@ -565,6 +569,9 @@ void ClipItem::slotThumbReady(int frame, const QImage &img)
             update(r.right() - width, r.top(), width, pix.height());
         }
     } else if (m_endThumbRequested && frame == (m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1) {
+        QRectF r = boundingRect();
+	QPixmap pix = QPixmap::fromImage(img);
+	double width = pix.width() / projectScene()->scale().x();
         m_endPix = pix;
         m_endThumbRequested = false;
         update(r.right() - width, r.top(), width, pix.height());
@@ -709,6 +716,7 @@ void ClipItem::paint(QPainter *painter,
             thumbRect.moveTopLeft(mapped.topLeft());
             painter->drawPixmap(thumbRect, m_startPix, m_startPix.rect());
         }
+    } else {
 
         // if we are in full zoom, paint thumbnail for every frame
         //TODO
