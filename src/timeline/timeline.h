@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 /**
-* @class TrackView
+* @class Timeline
 * @brief Manages the timline
 * @author Jean-Baptiste Mardelle
 */
@@ -35,20 +35,24 @@
 #include <QGraphicsLineItem>
 #include <QDomElement>
 
+#include <mlt++/Mlt.h>
 
+class Track;
 class ClipItem;
 class CustomTrackView;
 class KdenliveDoc;
 class CustomRuler;
-class DocClipBase;
+//class DocClipBase;
+class QUndoCommand;
 
-class TrackView : public QWidget, public Ui::TimeLine_UI
+class Timeline : public QWidget, public Ui::TimeLine_UI
 {
     Q_OBJECT
 
 public:
-    explicit TrackView(KdenliveDoc *doc, const QList <QAction *>& actions, bool *ok, QWidget *parent = 0);
-    virtual ~ TrackView();
+    explicit Timeline(KdenliveDoc *doc, const QList <QAction *>& actions, bool *ok, QWidget *parent = 0);
+    virtual ~ Timeline();
+    Track* track(int i);
     void setEditMode(const QString & editMode);
     const QString & editMode() const;
     QGraphicsScene *projectScene();
@@ -70,27 +74,38 @@ public:
     *
     * Parses all tracks to check if there is audio data. */
     bool checkProjectAudio() const;
+    
+    /** @brief Load guides from data */
+    void loadGuides(QMap <double, QString> guidesData);
 
     void checkTrackHeight();
     void updateProfile();
     void updatePalette();
+    /** @brief Returns a kdenlive effect xml description from an effect tag / id */
+    static QDomElement getEffectByTag(const QString &effecttag, const QString &effectid);
 
 protected:
     void keyPressEvent(QKeyEvent * event);
 
 public slots:
-    void slotDeleteClip(const QString &clipId);
+    void slotDeleteClip(const QString &clipId, QUndoCommand *deleteCommand);
     void slotChangeZoom(int horizontal, int vertical = -1);
     void setDuration(int dur);
     void slotSetZone(const QPoint &p, bool updateDocumentProperties = true);
     /** @brief Save a snapshot image of current timeline view */
     void slotSaveTimelinePreview(const QString &path);
+
+    void checkDuration(int duration);
+
+
 private:
+    Mlt::Tractor *m_tractor;
+    QList<Track*> m_tracks;
+    int m_projectTracks;
     CustomRuler *m_ruler;
     CustomTrackView *m_trackview;
     QList <QString> m_invalidProducers;
     double m_scale;
-    int m_projectTracks;
     QString m_editMode;
     CustomTrackScene *m_scene;
     /** @brief A list of producer ids to be replaced when opening a corrupted document*/
@@ -100,17 +115,20 @@ private:
     int m_verticalZoom;
     QString m_documentErrors;
     QList <QAction *> m_trackActions;
-    
-    void parseDocument(const QDomDocument &doc);
-    int slotAddProjectTrack(int ix, QDomElement xml, bool locked, const QDomNodeList &producers);
-    DocClipBase *getMissingProducer(const QString &id) const;
+
     void adjustTrackHeaders();
-    /** @brief Add effects from the xml. Returns true if some effect was upgraded, false if everything went fine.*/
-    void slotAddProjectEffects(QDomNodeList effects, QDomElement parentNode, ClipItem *clip, int trackIndex);
-    
-    /** @brief Returns a kdenlive effect xml description from an effect tag / id */
-    QDomElement getEffectByTag(const QString &effecttag, const QString &effectid);
-    
+
+    void parseDocument(const QDomDocument &doc);
+    int getTracks();
+    int addTrack(int ix, Mlt::Playlist &playlist, bool locked);
+    void getEffects(Mlt::Service &service, ClipItem *clip, int track = 0);
+    QString getKeyframes(Mlt::Service service, int &ix, QDomElement e);
+    void getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect);
+    void setParam(QDomElement param, QString value);
+    void getTransitions();
+    bool isSlide(QString geometry);
+    void adjustDouble(QDomElement &e, double value);
+
     /** @brief Adjust kdenlive effect xml parameters to the MLT value*/
     void adjustparameterValue(QDomNodeList clipeffectparams, const QString &paramname, const QString &paramvalue);
 

@@ -64,9 +64,9 @@ public:
     QString getClipHash() const;
     void slotSetToolTip();
     /** \brief Set the status of the clip job. */
-    void setJobStatus(JOBTYPE jobType, ClipJobStatus status, int progress = 0, const QString &statusMessage = QString());
+    void setJobStatus(AbstractClipJob::JOBTYPE jobType, ClipJobStatus status, int progress = 0, const QString &statusMessage = QString());
     /** \brief Set the status of a clip job if it is of the specified job type. */
-    void setConditionalJobStatus(ClipJobStatus status, JOBTYPE requestedJobType);
+    void setConditionalJobStatus(ClipJobStatus status, AbstractClipJob::JOBTYPE requestedJobType);
     /** \brief Returns the proxy status for this clip (true means there is a proxy clip). */
     bool hasProxy() const;
     /** \brief Returns true if the proxy for this clip is ready. */

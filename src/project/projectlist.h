@@ -73,13 +73,14 @@ class Producer;
 }
 
 class ProjectItem;
+class BinController;
 class ProjectListView;
 class Render;
 class KdenliveDoc;
 class DocClipBase;
 class AbstractClipJob;
 class ItemDelegate;
-class ClipPropertiesManager;
+//class ClipPropertiesManager;
 
 class SmallInfoLabel: public QPushButton
 {
@@ -112,20 +113,17 @@ public:
     explicit ProjectList(QWidget *parent = 0);
     virtual ~ProjectList();
 
-    QDomElement producersList();
+    BinController *binController();
     void setRenderer(Render *projectRender);
     void slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties);
     QByteArray headerInfo() const;
     void setHeaderInfo(const QByteArray &state);
     void updateProjectFormat(Timecode t);
-    void setupMenu(QMenu *addMenu, QAction *defaultAction);
-    void setupGeneratorMenu(const QHash<QString,QMenu*>& menus);
     /** @brief Get a list of selected clip Id's and url's that match a condition. */
     QMap <QString, QString> getConditionalIds(const QString &condition) const;
     QDomDocument generateTemplateXml(QString data, const QString &replaceString);
     void cleanup();
     void trashUnusedClips();
-    QList <DocClipBase*> documentClipList() const;
     void addClipCut(const QString &id, int in, int out, const QString desc, bool newItem);
     void removeClipCut(const QString &id, int in, int out);
     void focusTree() const;
@@ -156,8 +154,6 @@ public:
     void clearSelection();
     /** @brief Print required overlays over clip thumb (proxy, stabilized,...). */
     void processThumbOverlays(ProjectItem *item, QPixmap &pix);
-    /** @brief Start an MLT process job. */
-    void startClipFilterJob(const QString &filterName, const QString &condition);
     /** @brief Set current document for the project tree. */
     void setDocument(KdenliveDoc *doc);
     
@@ -168,8 +164,7 @@ public slots:
     void updateAllClips(bool displayRatioChanged, bool fpsChanged, const QStringList &brokenClips);
     void slotReplyGetImage(const QString &clipId, const QImage &img);
     void slotReplyGetImage(const QString &clipId, const QString &name, int width, int height);
-    void slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const stringMap &properties, const stringMap &metadata, bool replace);
-    void slotAddClip(DocClipBase *clip, bool getProperties);
+    void slotReplyGetFileProperties(requestClipInfo &clipInfo, Mlt::Producer &producer, const stringMap &properties, const stringMap &metadata);
     void slotDeleteClip(const QString &clipId);
     void slotUpdateClip(const QString &id);
     void slotRefreshClipThumbnail(const QString &clipId, bool update = true);
@@ -180,8 +175,6 @@ public slots:
 
     /** @brief Prepares removing the selected items. */
     void slotRemoveClip();
-    void slotAddClip(const QString &url, const QString &groupName, const QString &groupId);
-    void slotAddClip(const QList <QUrl> &givenList = QList <QUrl> (), const QString &groupName = QString(), const QString &groupId = QString());
 
     /** @brief Adds, edits or deletes a folder item.
     *
@@ -191,9 +184,6 @@ public slots:
     void slotOpenClip();
     void slotEditClip();
     void slotReloadClip(const QString &id = QString());
-
-    /** @brief Shows dialog for setting up a color clip. */
-    void slotAddColorClip();
     void regenerateTemplate(const QString &id);
     void slotUpdateClipCut(QPoint p);
     void slotAddClipCut(const QString &id, int in, int out);
@@ -202,10 +192,6 @@ public slots:
     void slotDeleteProxy(const QString proxyPath);
     /** @brief Start a hard cut clip job. */
     void slotCutClipJob(const QString &id, QPoint zone);
-    /** @brief Start transcoding selected clips. */
-    void slotTranscodeClipJob(const QString &condition, QString params, QString desc);
-    /** @brief Start an MLT process job. */
-    void slotStartFilterJob(const ItemInfo&, const QString&,QMap <QString, QString>&, QMap <QString, QString>&,QMap <QString, QString>&);
     void slotSetThumbnail(const QString &id, int framePos, QImage img);
     
 
@@ -252,7 +238,9 @@ private:
     SmallInfoLabel *m_infoLabel;
     /** @brief A list of strings containing the last error logs for clip jobs. */
     QStringList m_errorLog;
-    ClipPropertiesManager *m_clipPropertiesManager;
+    
+    //TODO
+    //ClipPropertiesManager *m_clipPropertiesManager;
 
     MyMessageWidget *m_infoMessage;
     /** @brief The action that will trigger the log dialog. */
@@ -284,7 +272,7 @@ private:
      * @param status The job status (see definitions.h)
      * @param progress The job progress (in percents)
      * @param statusMessage The job info message */
-    void setJobStatus(ProjectItem *item, JOBTYPE jobType, ClipJobStatus status, int progress = 0, const QString &statusMessage = QString());
+    void setJobStatus(ProjectItem *item, AbstractClipJob::JOBTYPE jobType, ClipJobStatus status, int progress = 0, const QString &statusMessage = QString());
     void monitorItemEditing(bool enable);
     /** @brief Get cached thumbnail for a project's clip or create it if no cache. */
     void getCachedThumbnail(ProjectItem *item);
@@ -292,15 +280,13 @@ private:
     /** @brief The clip is about to be reloaded, cancel thumbnail requests. */
     void resetThumbsProducer(DocClipBase *clip);
     /** @brief Check if a clip has a running or pending job process. */
-    bool hasPendingJob(ProjectItem *item, JOBTYPE type);
+    bool hasPendingJob(ProjectItem *item, AbstractClipJob::JOBTYPE type);
     /** @brief Delete pending jobs for a clip. */
     void deleteJobsForClip(const QString &clipId);
     /** @brief Discard specific job type for a clip. */
-    void discardJobs(const QString &id, JOBTYPE type = NOJOBTYPE);
+    void discardJobs(const QString &id, AbstractClipJob::JOBTYPE type = AbstractClipJob::NOJOBTYPE);
     /** @brief Get the list of job names for current clip. */
     QStringList getPendingJobs(const QString &id);
-    /** @brief Start an MLT process job. */
-    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QMap <QString, QString> producerParams, QMap <QString, QString> filterParams, QMap <QString, QString> consumerParams, const QString &description, stringMap extraParams = stringMap());
     /** @brief Create rounded shape pixmap for project tree thumb. */
     QPixmap roundedPixmap(const QImage &img);
     QPixmap roundedPixmap(const QPixmap &source);
@@ -311,8 +297,6 @@ private:
 
 private slots:
     void slotClipSelected();
-    void slotAddSlideshowClip();
-    void slotAddTitleClip();
     void slotAddTitleTemplateClip();
 
     /** @brief Shows the context menu after enabling and disabling actions based on the item's type.
@@ -369,8 +353,6 @@ private slots:
     void slotDiscardClipJobs();
     /** @brief Make sure current clip is visible in project tree. */
     void slotCheckScrolling();
-    /** @brief Reset all text and log data from info message widget. */
-    void slotResetInfoMessage();
     /** @brief close warning info passive popup. */
     void slotClosePopup();
     /** @brief process clip job result. */

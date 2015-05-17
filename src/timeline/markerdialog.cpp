@@ -22,17 +22,17 @@
 
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
+#include "mltcontroller/clipcontroller.h"
 
 #include <QWheelEvent>
 #include <QDebug>
+#include <QTimer>
 #include <QFontDatabase>
 
 #include "klocalizedstring.h"
 
-MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget * parent)
+MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget * parent)
     : QDialog(parent)
-    , m_producer(NULL)
-    , m_profile(NULL)
     , m_clip(clip)
     , m_dar(4.0 / 3.0)
 {
@@ -54,26 +54,14 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Time
     m_previewTimer = new QTimer(this);
 
     if (m_clip != NULL) {
-        m_in->setRange(0, m_clip->duration().frames(tc.fps()));
+        m_in->setRange(0, m_clip->getPlaytime().frames(tc.fps()));
         m_previewTimer->setInterval(500);
         connect(m_previewTimer, SIGNAL(timeout()), this, SLOT(slotUpdateThumb()));
-        m_profile = new Mlt::Profile((char*) KdenliveSettings::current_profile().data());
-        m_dar = m_profile->dar();
-        QDomDocument doc;
-        QDomElement mlt = doc.createElement("mlt");
-        QDomElement play = doc.createElement("mlt");
-        doc.appendChild(mlt);
-        mlt.appendChild(play);
-        play.appendChild(doc.importNode(clip->toXML(), true));
-        //char *tmp = doc.toString().toUtf8().data();
-        m_producer = new Mlt::Producer(*m_profile, "xml-string", doc.toString().toUtf8().data());
-        //delete[] tmp;
+        m_dar = m_clip->dar();
         int width = Kdenlive::DefaultThumbHeight * m_dar;
-        if (width % 2 == 1) width++;
-        QPixmap p(width, 100);
+        QPixmap p(width, Kdenlive::DefaultThumbHeight);
         p.fill(Qt::transparent);
-        QString colour = clip->getProperty("colour");
-        int swidth = (int) (Kdenlive::DefaultThumbHeight * m_profile->width() / m_profile->height() + 0.5);
+        QString colour = clip->property("colour");
 
         switch (m_clip->clipType()) {
         case Video:
@@ -85,8 +73,8 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Time
             break;
         case Image:
         case Text:
-            m_image = KThumb::getFrame(m_producer, m_in->getValue(), swidth, width, Kdenlive::DefaultThumbHeight);
-            p = QPixmap::fromImage(m_image);
+            m_previewTimer->start();
+            //p = m_clip->pixmap(m_in->getValue(), width, height);
             break;
         case Color:
             colour = colour.replace(0, 2, "#");
@@ -118,21 +106,16 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Time
 MarkerDialog::~MarkerDialog()
 {
     delete m_previewTimer;
-    delete m_producer;
-    delete m_profile;
 }
 
 void MarkerDialog::slotUpdateThumb()
 {
     m_previewTimer->stop();
     int pos = m_in->getValue();
-    int width = 100.0 * m_dar;
-    int swidth = (int) (100.0 * m_profile->width() / m_profile->height() + 0.5);
-    if (width % 2 == 1)
-        width++;
-
-    m_image = KThumb::getFrame(m_producer, pos, swidth, width, 100);
-    const QPixmap p = QPixmap::fromImage(m_image);
+    int width = Kdenlive::DefaultThumbHeight * m_dar;
+    /*m_image = KThumb::getFrame(m_producer, pos, swidth, width, 100);
+    const QPixmap p = QPixmap::fromImage(m_image);*/
+    const QPixmap p = m_clip->pixmap(pos, width, Kdenlive::DefaultThumbHeight);
     if (!p.isNull())
         clip_thumb->setPixmap(p);
     else
@@ -141,7 +124,7 @@ void MarkerDialog::slotUpdateThumb()
 
 QImage MarkerDialog::markerImage() const
 {
-    return m_image;
+    return clip_thumb->pixmap()->toImage();
 }
 
 CommentedTime MarkerDialog::newMarker()

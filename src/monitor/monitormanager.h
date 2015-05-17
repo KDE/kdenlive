@@ -27,6 +27,11 @@
 #include "timecode.h"
 
 class KdenliveDoc;
+class BinController;
+
+namespace Mlt {
+    class Profile;
+}
 
 class MonitorManager : public QObject
 {
@@ -53,6 +58,8 @@ public:
     void setDocument(KdenliveDoc *doc);
     /** @brief Change an MLT consumer property for both monitors. */
     void setConsumerProperty(const QString &name, const QString &value);
+    BinController *binController();
+    Mlt::Profile *profile();
 
     Monitor *clipMonitor();
     Monitor *projectMonitor();
@@ -101,7 +108,6 @@ private slots:
 private:
     /** @brief Sets up all the actions and attaches them to the collection of MainWindow. */
     void setupActions();
-
     KdenliveDoc *m_document;
     Monitor *m_clipMonitor;
     Monitor *m_projectMonitor;

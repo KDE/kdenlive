@@ -17,11 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-/**
- * @class ClipManager
- * @brief Manages the list of clips in a document.
- * @author Jean-Baptiste Mardelle
- */
 
 #ifndef CLIPMANAGER_H
 #define CLIPMANAGER_H
@@ -43,9 +38,8 @@
 
 
 class KdenliveDoc;
-class DocClipBase;
 class AbstractGroupItem;
-
+class QUndoCommand;
 
 class SolidVolumeInfo
 {
@@ -65,55 +59,40 @@ namespace Mlt
 class Producer;
 }
 
+/**
+ * @class ClipManager
+ * @brief Takes care of clip operations that might affect timeline and bin
+ */
+
 class ClipManager: public QObject
 {
 Q_OBJECT public:
 
     explicit ClipManager(KdenliveDoc *doc);
     virtual ~ ClipManager();
-    void addClip(DocClipBase *clip);
     void deleteClip(const QString &clipId);
+    void deleteProjectClip(const QString &clipId);
 
-    /** @brief Add a file to the project.
-     * @ref slotAddClipList
-     * @param url file to add
-     * @param group name of the group to insert the file in (can be empty)
-     * @param groupId id of the group (if any) */
-    void slotAddClipFile(const QUrl &url, const QMap<QString, QString> &data);
-
-    /** @brief Adds a list of files to the project.
-     * @param urls files to add
-     * @param group name of the group to insert the files in (can be empty)
-     * @param groupId id of the group (if any)
-     * It checks for duplicated items and asks to the user for instructions. */
-    void slotAddClipList(const QList<QUrl> &urls, const QMap<QString, QString> &data);
     void slotAddTextClipFile(const QString &titleName, int out, const QString &xml, const QString &group, const QString &groupId);
     void slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId);
     void slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
-    void slotAddColorClipFile(const QString &name, const QString &color, const QString &duration, const QString &group, const QString &groupId);
-    void slotAddSlideshowClipFile(QMap <QString, QString> properties, const QString &group, const QString &groupId);
-    DocClipBase *getClipById(QString clipId);
-    const QList <DocClipBase *> getClipByResource(const QString &resource);
-    void slotDeleteClips(QStringList ids);
+    //const QList <DocClipBase *> getClipByResource(const QString &resource);
+    void slotDeleteClips(QStringList clipIds, QStringList folderIds, QUndoCommand *deleteCommand);
     void setThumbsProgress(const QString &message, int progress);
     void checkAudioThumbs();
-    QList <DocClipBase*> documentClipList() const;
     QMap <QString, QString> documentFolderList() const;
-    int getFreeClipId();
     int getFreeFolderId();
     int lastClipId() const;
     void askForAudioThumb(const QString &id);
     QString projectFolder() const;
     void clearUnusedProducers();
-    void resetProducersList(const QList <Mlt::Producer *> prods, bool displayRatioChanged, bool fpsChanged);
-    void addFolder(const QString&, const QString&);
-    void deleteFolder(const QString&);
+    /** @brief Prepare deletion of clips and folders from the Bin. */
+    void deleteProjectItems(QStringList clipIds, QStringList folderIds);
     void clear();
     void clearCache();
     AbstractGroupItem *createGroup();
     void removeGroup(AbstractGroupItem *group);
     QDomElement groupsXml() const;
-    int clipsCount() const;
     /** @brief remove a clip id from the queue list. */
     void stopThumbs(const QString &id);
     void projectTreeThumbReady(const QString &id, int frame, const QImage &img, int type);
@@ -133,18 +112,16 @@ private slots:
     void slotGetThumbs();
     void slotGetAudioThumbs();
     /** @brief Clip has been copied, add it now. */
-    void slotAddClip(KIO::Job *job, const QUrl &, const QUrl &dst);
+    void slotAddCopiedClip(KIO::Job *job, const QUrl &, const QUrl &dst);
 
 private:   // Private attributes
     /** the list of clips in the document */
-    QList <DocClipBase*> m_clipList;
     /** the list of groups in the document */
     QList <AbstractGroupItem *> m_groupsList;
     QMap <QString, QString> m_folderList;
     QList <QString> m_audioThumbsQueue;
     /** the document undo stack*/
     KdenliveDoc *m_doc;
-    int m_clipIdCounter;
     int m_folderIdCounter;
     KDirWatch m_fileWatcher;
     /** Timer used to reload clips when they have been externally modified */
@@ -170,7 +147,7 @@ private:   // Private attributes
     QList<SolidVolumeInfo> m_removableVolumes;
 
     QPoint m_projectTreeThumbSize;
-    
+
     /** @brief Get a list of drives, to check if we have files on removable media. */
     void listRemovableVolumes();
     /** @brief Check if added file is on a removable drive. */

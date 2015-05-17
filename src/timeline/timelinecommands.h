@@ -59,23 +59,10 @@ private:
     QString m_id;
 };
 
-class AddMarkerCommand : public QUndoCommand
-{
-public:
-    AddMarkerCommand(CustomTrackView *view, const CommentedTime &oldMarker, const CommentedTime &newMarker, const QString &id, QUndoCommand * parent = 0);
-    void undo();
-    void redo();
-private:
-    CustomTrackView *m_view;
-    CommentedTime m_oldMarker;
-    CommentedTime m_newMarker;
-    QString m_id;
-};
-
 class AddTimelineClipCommand : public QUndoCommand
 {
 public:
-    AddTimelineClipCommand(CustomTrackView *view, const QDomElement &xml, const QString &clipId, const ItemInfo &info, const EffectsList &effects, bool overwrite, bool push, bool doIt, bool doRemove, QUndoCommand * parent = 0);
+    AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, bool overwrite, bool push, bool doIt, bool doRemove, QUndoCommand * parent = 0);
     void undo();
     void redo();
 private:
@@ -83,7 +70,6 @@ private:
     ItemInfo m_clipInfo;
     EffectsList m_effects;
     QString m_clipId;
-    QDomElement m_xml;
     bool m_doIt;
     bool m_remove;
     bool m_overwrite;

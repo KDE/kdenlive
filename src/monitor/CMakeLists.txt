@@ -1,5 +1,6 @@
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
+  monitor/glwidget.cpp
   monitor/abstractmonitor.cpp
   monitor/monitor.cpp
   monitor/monitoreditwidget.cpp
@@ -7,7 +8,5 @@ set(kdenlive_SRCS
   monitor/monitorscene.cpp
   monitor/recmonitor.cpp
   monitor/smallruler.cpp
-  monitor/twostateaction.cpp
-  monitor/videosurface.cpp
+  monitor/sharedframe.cpp
   PARENT_SCOPE)
-

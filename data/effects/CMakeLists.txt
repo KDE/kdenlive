@@ -1,7 +1,10 @@
 INSTALL (FILES 
 
 audiowave.xml
+audiowaveform.xml
 automask.xml
+audiobalance.xml
+audiopan.xml
 boxblur.xml
 brightness.xml
 channelcopy.xml
@@ -103,16 +106,29 @@ frei0r_vertigo.xml
 frei0r_vignette.xml
 frei0r_facebl0r.xml
 frei0r_facedetect.xml
-gain.xml
 fade_from_black.xml
 fade_to_black.xml
+gain.xml
+lift_gamma_gain.xml
+movit_blur.xml
+movit_deconvolution_sharpen.xml
+movit_diffusion.xml
+movit_glow.xml
+movit_lift_gamma_gain.xml
+movit_mirror.xml
+movit_opacity.xml
+movit_rect.xml
+movit_saturation.xml
+movit_unsharp_mask.xml
+movit_vignette.xml
+movit_white_balance.xml
+rotoscoping.xml
 speed.xml
+swapchannels.xml
 tcolor.xml
 vignette.xml
-swapchannels.xml
-audiobalance.xml
-audiopan.xml
-rotoscoping.xml
+
+
 
 DESTINATION ${DATA_INSTALL_DIR}/kdenlive/effects)
 

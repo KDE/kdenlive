@@ -86,7 +86,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     }
 
     QUrl url = QUrl::fromLocalFile(xml.attribute("resource"));
-    if (!m_properties.contains("file_hash") && url.isValid()) getFileHash(url.toLocalFile());
+    if (!m_properties.contains("kdenlive:file_hash") && url.isValid()) getFileHash(url.toLocalFile());
 
     if (xml.hasAttribute("duration")) {
         setDuration(GenTime(xml.attribute("duration").toInt(), KdenliveSettings::project_fps()));
@@ -98,7 +98,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
 
     if (!m_properties.contains("name")) m_properties.insert("name", url.fileName());
 
-    m_thumbProd = new KThumb(clipManager, url, m_id, m_properties.value("file_hash"));
+    m_thumbProd = new KThumb(clipManager, url, m_id, m_properties.value("kdenlive:file_hash"));
     
     // Setup timer to trigger audio thumbs creation
     m_audioTimer.setSingleShot(true);
@@ -524,8 +524,11 @@ void DocClipBase::setValid()
     m_placeHolder = false;
 }
 
-void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readPropertiesFromProducer)
+void DocClipBase::setProducer(Mlt::Producer &producer, bool reset, bool readPropertiesFromProducer)
 {
+    setDuration(GenTime(producer.get_length(), KdenliveSettings::project_fps()));
+    return;
+    /*
     if (producer == NULL) return;
     if (reset) {
         QMutexLocker locker(&m_producerMutex);
@@ -603,6 +606,7 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
     }
     if (updated && readPropertiesFromProducer && (m_clipType != Color && m_clipType != Image && m_clipType != Text))
         setDuration(GenTime(producer->get_length(), KdenliveSettings::project_fps()));
+    */
 }
 
 static double getPixelAspect(QMap<QString, QString>& props) {
@@ -744,6 +748,7 @@ Mlt::Producer *DocClipBase::getCloneProducer()
 Mlt::Producer *DocClipBase::getProducer(int track)
 {
     QMutexLocker locker(&m_producerMutex);
+
     if (track == -1 || (m_clipType != Audio && m_clipType != AV && m_clipType != Playlist)) {
         if (m_baseTrackProducers.count() == 0) {
             return NULL;
@@ -1080,7 +1085,7 @@ void DocClipBase::getFileHash(const QString &url)
             fileData = file.readAll();
         file.close();
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
-        m_properties.insert("file_hash", QString(fileHash.toHex()));
+        m_properties.insert("kdenlive:file_hash", QString(fileHash.toHex()));
     }
 }
 
@@ -1098,7 +1103,7 @@ QString DocClipBase::getClipHash() const
     else if (m_clipType == Color) hash = QCryptographicHash::hash(m_properties.value("colour").toLatin1().data(), QCryptographicHash::Md5).toHex();
     else if (m_clipType == Text) hash = QCryptographicHash::hash(QString("title" + getId() + m_properties.value("xmldata")).toUtf8().data(), QCryptographicHash::Md5).toHex();
     else {
-        if (m_properties.contains("file_hash")) hash = m_properties.value("file_hash");
+        if (m_properties.contains("kdenlive:file_hash")) hash = m_properties.value("kdenlive:file_hash");
         if (hash.isEmpty()) hash = getHash(fileURL().path());
         
     }
@@ -1138,7 +1143,7 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
     m_properties.insert(key, value);
     if (key == "resource") {
         getFileHash(value);
-        if (m_thumbProd) m_thumbProd->updateClipUrl(QUrl::fromLocalFile(value), m_properties.value("file_hash"));
+        if (m_thumbProd) m_thumbProd->updateClipUrl(QUrl::fromLocalFile(value), m_properties.value("kdenlive:file_hash"));
         //else if (key == "transparency") m_clipProducer->set("transparency", value.toInt());
     } else if (key == "out") {
         setDuration(GenTime(value.toInt() + 1, KdenliveSettings::project_fps()));

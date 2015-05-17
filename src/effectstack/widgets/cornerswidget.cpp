@@ -35,12 +35,13 @@ inline int lerp( const int a, const int b, double t )
     return a + (b - a) * t;
 }
 
+//TODO: port to new qml monitor edit
 CornersWidget::CornersWidget(Monitor *monitor, const QDomElement& e, int minFrame, int maxFrame, const Timecode &tc, int activeKeyframe, QWidget* parent) :
         KeyframeEdit(e, minFrame, maxFrame, tc, activeKeyframe, parent),
         m_monitor(monitor),
         m_pos(0)
 {
-    MonitorEditWidget *edit = monitor->getEffectEdit();
+    MonitorEditWidget *edit = NULL; //monitor->getEffectEdit();
     m_scene = edit->getScene();
     m_scene->cleanup();
 
@@ -66,8 +67,8 @@ CornersWidget::~CornersWidget()
     m_scene->removeItem(m_item);
     delete m_item;
     if (m_monitor) {
-        MonitorEditWidget *edit = m_monitor->getEffectEdit();
-        edit->removeCustomControls();
+        /*MonitorEditWidget *edit = m_monitor->getEffectEdit();
+        edit->removeCustomControls();*/
     }
 }
 

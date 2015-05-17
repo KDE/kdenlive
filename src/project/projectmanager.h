@@ -13,17 +13,19 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QObject>
 #include <QUrl>
+#include <QTimer>
+
 #include <KRecentFilesAction>
 #include "kdenlivecore_export.h"
 
+#include "timeline/timeline.h"
+
 class Project;
-class TrackView;
 class KdenliveDoc;
 class NotesPlugin;
 class QAction;
 class QUrl;
 class KAutoSaveFile;
-
 
 /**
  * @class ProjectManager
@@ -42,17 +44,12 @@ public:
 
     /** @brief Returns a pointer to the currently opened project. A project should always be open. */
     KdenliveDoc *current();
-    TrackView *currentTrackView();
+    Timeline *currentTimeline();
 
-    /** @brief Opens or creates a file.
-     * Command line argument passed in Url has
-     * precedence, then "openlastproject", then just a plain empty file.
-     * If opening Url fails, openlastproject will _not_ be used.
-     */
+    /** @brief Store command line args for later opening. */
     void init(const QUrl &projectUrl, const QString &clipList);
 
     void doOpenFile(const QUrl &url, KAutoSaveFile *stale);
-    void recoverFiles(const QList<KAutoSaveFile *> &staleFiles, const QUrl &originUrl);
     KRecentFilesAction *recentFilesAction();
 
 public slots:
@@ -60,6 +57,8 @@ public slots:
     /** @brief Shows file open dialog. */
     void openFile();
     void openLastFile();
+    /** @brief Load files / clips passed on the command line. */
+    void slotLoadOnOpen();
 
     /** @brief Checks whether a URL is available to save to.
     * @return Whether the file was saved. */
@@ -83,11 +82,16 @@ public slots:
     *
     * Checks if already open and whether backup exists */
     void openFile(const QUrl &url);
+    
+    /** @brief Start autosave timer */
+    void slotStartAutoSave();
 
 private slots:
     void slotRevert();
     /** @brief Open the project's backupdialog. */
     void slotOpenBackup(const QUrl &url = QUrl());
+    /** @brief Start autosaving the document. */
+    void slotAutoSave();
 
 signals:
     void docOpened(KdenliveDoc *document);
@@ -102,10 +106,14 @@ private:
     bool checkForBackupFile(const QUrl &url);
 
     KdenliveDoc *m_project;
-    TrackView *m_trackView;
+    Timeline *m_trackView;
+    
+    QTimer m_autoSaveTimer;
+    
+    QUrl m_startUrl;
+    QString m_loadClipsOnOpen;
 
     QAction *m_fileRevert;
-    QUrl m_startUrl;
     KRecentFilesAction *m_recentFilesAction;
     NotesPlugin *m_notesPlugin;
 };

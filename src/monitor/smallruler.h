@@ -33,7 +33,7 @@ class SmallRuler : public QWidget
 
 public:
     explicit SmallRuler(Monitor *manager, Render *render, QWidget *parent = 0);
-    void adjustScale(int maximum);
+    void adjustScale(int maximum, int offset);
     void setZone(int start, int end);
     void setZoneStart();
     void setZoneEnd();
@@ -45,7 +45,6 @@ public:
 protected:
     void paintEvent(QPaintEvent *e);
     void resizeEvent(QResizeEvent *);
-    void leaveEvent(QEvent * event);
     void mousePressEvent(QMouseEvent * event);
     void mouseMoveEvent(QMouseEvent * event);
     void mouseReleaseEvent(QMouseEvent * event);
@@ -56,15 +55,14 @@ private:
     int m_medium;
     int m_small;
     int m_maxval;
+    int m_offset;
     int m_zoneStart;
     int m_zoneEnd;
-    QColor m_zoneColor;
     QList <CommentedTime> m_markers;
     QPixmap m_pixmap;
     Monitor *m_monitor;
     Render *m_render;
     int m_lastSeekPosition;
-    QBrush m_cursorColor;
     void updatePixmap();
 
 public slots:

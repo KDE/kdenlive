@@ -21,7 +21,7 @@
 #include "collapsibleeffect.h"
 #include "effectslist/effectslist.h"
 #include "kdenlivesettings.h"
-#include "project/projectlist.h"
+#include "dialogs/clipcreationdialog.h"
 
 #include <QInputDialog>
 #include <QDialog>
@@ -157,7 +157,7 @@ void CollapsibleEffect::slotCreateGroup()
 
 void CollapsibleEffect::slotCreateRegion()
 {
-    QString allExtensions = ProjectList::getExtensions().join(" ");
+    QString allExtensions = ClipCreationDialog::getExtensions().join(" ");
     const QString dialogFilter = allExtensions + ' ' + QLatin1Char('|') + i18n("All Supported Files") + "\n* " + QLatin1Char('|') + i18n("All Files");
     QString clipFolder = KRecentDirs::dir(":KdenliveClipFolder");
     if (clipFolder.isEmpty()) clipFolder = QDir::homePath();
@@ -292,9 +292,12 @@ void CollapsibleEffect::slotSaveEffect()
 {
     QString name = QInputDialog::getText(this, i18n("Save Effect"), i18n("Name for saved effect: "));
     if (name.isEmpty()) return;
-    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects";
-    path = path + name + ".xml";
-    if (QFile::exists(path)) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path)) == KMessageBox::No) return;
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects/");
+    if (!dir.exists()) {
+        dir.mkpath(".");
+    }
+
+    if (dir.exists(name + ".xml")) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + ".xml")) == KMessageBox::No) return;
 
     QDomDocument doc;
     QDomElement effect = m_effect.cloneNode().toElement();
@@ -313,7 +316,7 @@ void CollapsibleEffect::slotSaveEffect()
     effectprops.setAttribute("id", name);
     effectprops.setAttribute("type", "custom");
 
-    QFile file(path);
+    QFile file(dir.absoluteFilePath(name + ".xml"));
     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
         QTextStream out(&file);
         out << doc.toString();

@@ -19,6 +19,8 @@
 
 
 #include "customtrackview.h"
+#include "timeline.h"
+#include "track.h"
 #include "clipitem.h"
 #include "timelinecommands.h"
 #include "transition.h"
@@ -28,10 +30,12 @@
 #include "spacerdialog.h"
 #include "trackdialog.h"
 #include "tracksconfigdialog.h"
-
+#include "mltcontroller/clipcontroller.h"
+#include "mltcontroller/effectscontroller.h"
 #include "definitions.h"
 #include "kdenlivesettings.h"
 #include "renderer.h"
+#include "bin/projectclip.h"
 #include "mainwindow.h"
 #include "doc/docclipbase.h"
 #include "project/clipmanager.h"
@@ -68,8 +72,9 @@ bool sortGuidesList(const Guide *g1 , const Guide *g2)
     return (*g1).position() < (*g2).position();
 }
 
-CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscene, QWidget *parent) :
+CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTrackScene* projectscene, QWidget *parent) :
     QGraphicsView(projectscene, parent)
+  , m_timeline(timeline)
   , m_tracksHeight(KdenliveSettings::trackheight())
   , m_projectDuration(0)
   , m_cursorPos(0)
@@ -123,8 +128,6 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     setViewportUpdateMode(QGraphicsView::SmartViewportUpdate);
     setContentsMargins(0, 0, 0, 0);
 
-    m_activeTrackBrush = KStatefulBrush(KColorScheme::View, KColorScheme::ActiveBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
-
     m_animationTimer = new QTimeLine(800);
     m_animationTimer->setFrameRange(0, 5);
     m_animationTimer->setUpdateInterval(100);
@@ -159,9 +162,10 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
 
     QIcon razorIcon = QIcon::fromTheme("edit-cut");
     m_razorCursor = QCursor(razorIcon.pixmap(32, 32));
+    m_spacerCursor = QCursor(Qt::SplitHCursor);
 
-    QIcon spacerIcon = QIcon::fromTheme("kdenlive-spacer-tool");
-    m_spacerCursor = QCursor(spacerIcon.pixmap(32, 32));
+    scale(1, 1);
+    setAlignment(Qt::AlignLeft | Qt::AlignTop);
 }
 
 CustomTrackView::~CustomTrackView()
@@ -613,7 +617,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             // razor tool over a clip, display current frame in monitor
             if (false && !m_blockRefresh && item->type() == AVWidget) {
                 //TODO: solve crash when showing frame when moving razor over clip
-                emit showClipFrame(static_cast<ClipItem*>(item)->baseClip(), QPoint(), false, mappedXPos - (clip->startPos() - clip->cropStart()).frames(m_document->fps()));
+                //emit showClipFrame(static_cast<ClipItem*>(item)->baseClip(), QPoint(), false, mappedXPos - (clip->startPos() - clip->cropStart()).frames(m_document->fps()));
             }
             event->accept();
             return;
@@ -950,12 +954,13 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         // A transition is selected
         QPoint p;
         ClipItem *transitionClip = getClipItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track);
-        if (transitionClip && transitionClip->baseClip()) {
-            QString size = transitionClip->baseClip()->getProperty("frame_size");
-            double factor = transitionClip->baseClip()->getProperty("aspect_ratio").toDouble();
+        if (transitionClip && transitionClip->binClip()) {
+            int frameWidth = transitionClip->binClip()->getProducerIntProperty("meta.media.width");
+            int frameHeight = transitionClip->binClip()->getProducerIntProperty("meta.media.height");
+            double factor = transitionClip->binClip()->getProducerProperty("aspect_ratio").toDouble();
             if (factor == 0) factor = 1.0;
-            p.setX((int)(size.section('x', 0, 0).toInt() * factor + 0.5));
-            p.setY(size.section('x', 1, 1).toInt());
+            p.setX((int)(frameWidth * factor + 0.5));
+            p.setY(frameHeight);
         }
         emit transitionItemSelected(static_cast <Transition *>(m_dragItem), getPreviousVideoTrack(m_dragItem->track()), p);
     } else {
@@ -1029,7 +1034,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                 RazorClipCommand* command = new RazorClipCommand(this, clip->info(), clip->effectList(), cutPos);
                 m_commandStack->push(command);
             }
-            setDocumentModified();
         }
         m_dragItem = NULL;
         event->accept();
@@ -1566,8 +1570,9 @@ void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip, Abs
         if (clip->type() == AVWidget) {
             ClipItem *item = static_cast <ClipItem*>(clip);
             //build go to marker menu
-            if (item->baseClip()) {
-                QList <CommentedTime> markers = item->baseClip()->commentedSnapMarkers();
+            ClipController *controller = m_document->getClipController(item->getBinId());
+            if (controller) {
+                QList <CommentedTime> markers = controller->commentedSnapMarkers();
                 int offset = (item->startPos()- item->cropStart()).frames(m_document->fps());
                 if (!markers.isEmpty()) {
                     for (int i = 0; i < markers.count(); ++i) {
@@ -1593,7 +1598,7 @@ void CustomTrackView::activateMonitor()
     emit activateDocumentMonitor();
 }
 
-void CustomTrackView::insertClipCut(DocClipBase *clip, int in, int out)
+void CustomTrackView::insertClipCut(const QString &id, int in, int out)
 {
     resetSelectionGroup();
     ItemInfo info;
@@ -1625,7 +1630,7 @@ void CustomTrackView::insertClipCut(DocClipBase *clip, int in, int out)
     QUndoCommand *addCommand = new QUndoCommand();
     addCommand->setText(i18n("Add timeline clip"));
     new RefreshMonitorCommand(this, false, true, addCommand);
-    new AddTimelineClipCommand(this, clip->toXML(), clip->getId(), pasteInfo, EffectsList(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, true, false, addCommand);
+    new AddTimelineClipCommand(this, id, pasteInfo, EffectsList(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, true, false, addCommand);
     new RefreshMonitorCommand(this, true, false, addCommand);
     updateTrackDuration(pasteInfo.track, addCommand);
     
@@ -1651,12 +1656,12 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
     if (track < 0 || track > m_document->tracksCount() - 1 || m_document->trackInfoAt(m_document->tracksCount() - track - 1).isLocked) return true;
     if (data->hasFormat("kdenlive/clip")) {
         QStringList list = QString(data->data("kdenlive/clip")).split(';');
-        DocClipBase *clip = m_document->getBaseClip(list.at(0));
+        ProjectClip *clip = m_document->getBinClip(list.at(0));
         if (clip == NULL) {
             //qDebug() << " WARNING))))))))) CLIP NOT FOUND : " << list.at(0);
             return false;
         }
-        if (clip->getProducer() == NULL) {
+        if (!clip->isReady()) {
             emit displayMessage(i18n("Clip not ready"), ErrorMessage);
             return false;
         }
@@ -1694,23 +1699,32 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         m_selectionGroup->setSelected(true);
     } else if (data->hasFormat("kdenlive/producerslist")) {
         QStringList ids = QString(data->data("kdenlive/producerslist")).split(';');
-
         QList <GenTime> offsetList;
         QList <ItemInfo> infoList;
         GenTime start = GenTime((int)(framePos.x() + 0.5), m_document->fps());
         int track = (int)(framePos.y() / m_tracksHeight);
         framePos.setX((int)(framePos.x() + 0.5));
         framePos.setY(track * m_tracksHeight);
+        
+        // Check if user dragged a folder
+        for (int i = 0; i < ids.size(); ++i) {
+            if (ids.at(i).startsWith("#")) {
+                QString folderId = ids.at(i);
+                folderId.remove(0, 1);
+                QStringList clipsInFolder = m_document->getBinFolderClipIds(folderId);
+                ids.removeAt(i);
+                for (int j = 0; j < clipsInFolder.count(); j++) {
+                    ids.insert(i + j, clipsInFolder.at(j));
+                }
+            }
+        }
 
         // Check if clips can be inserted at that position
         for (int i = 0; i < ids.size(); ++i) {
             QString clipData = ids.at(i);
-            DocClipBase *clip = m_document->getBaseClip(clipData.section('/', 0, 0));
-            if (clip == NULL) {
-                //qDebug() << " WARNING))))))))) CLIP NOT FOUND : " << ids.at(i);
-                return false;
-            }
-            if (clip->getProducer() == NULL) {
+	    QString clipId = clipData.section('/', 0, 0);
+	    ProjectClip *clip = m_document->getBinClip(clipId);
+            if (!clip || !clip->isReady()) {
                 emit displayMessage(i18n("Clip not ready"), ErrorMessage);
                 return false;
             }
@@ -1738,7 +1752,8 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         start = GenTime();
         for (int i = 0; i < ids.size(); ++i) {
             QString clipData = ids.at(i);
-            DocClipBase *clip = m_document->getBaseClip(clipData.section('/', 0, 0));
+	    QString clipId = clipData.section('/', 0, 0);
+            ProjectClip *clip = m_document->getBinClip(clipId);
             ItemInfo info;
             info.startPos = start;
             if (clipData.contains('/')) {
@@ -1755,11 +1770,12 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
             info.track = 0;
             start += info.cropDuration;
             offsetList.append(start);
-            ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1, getFrameWidth(), false);
+            ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1, getFrameWidth(), true);
             if (ids.size() > 1) m_selectionGroup->addItem(item);
             else m_dragItem = item;
             item->setSelected(true);
-            if (!clip->isPlaceHolder()) m_waitingThumbs.append(item);
+            //TODO:
+	    //if (!clip->isPlaceHolder()) m_waitingThumbs.append(item);
         }
 
         updateSnapPoints(NULL, offsetList);
@@ -1829,7 +1845,7 @@ void CustomTrackView::slotRefreshEffects(ClipItem *clip)
     }
     bool success = true;
     for (int i = 0; i < clip->effectsCount(); ++i) {
-        if (!m_document->renderer()->mltAddEffect(track, pos, getEffectArgs(clip->effect(i)), false)) success = false;
+        if (!m_document->renderer()->mltAddEffect(track, pos, EffectsController::getEffectArgs(m_document->getProfileInfo(), clip->effect(i)), false)) success = false;
     }
     if (!success) emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
     m_document->renderer()->doRefresh();
@@ -1845,7 +1861,7 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
         }
         clearSelection();
         m_document->addTrackEffect(track - 1, effect);
-        m_document->renderer()->mltAddTrackEffect(track, getEffectArgs(effect));
+        m_document->renderer()->mltAddTrackEffect(track, EffectsController::getEffectArgs(m_document->getProfileInfo(), effect));
         emit updateTrackEffectState(track - 1);
         emit showTrackEffects(track, m_document->trackInfoAt(track - 1));
         return;
@@ -1863,16 +1879,16 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
             double speed = locale.toDouble(EffectsList::parameter(effect, "speed")) / 100.0;
             int strobe = EffectsList::parameter(effect, "strobe").toInt();
             if (strobe == 0) strobe = 1;
-            doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), speed, 1.0, strobe, clip->baseClip()->getId());
-            EffectsParameterList params = clip->addEffect(effect);
+            doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), speed, 1.0, strobe, clip->getBinId());
+            EffectsParameterList params = clip->addEffect(m_document->getProfileInfo(), effect);
             m_document->renderer()->mltAddEffect(track, pos, params);
             if (clip->isSelected()) emit clipItemSelected(clip);
             return;
         }
-        EffectsParameterList params = clip->addEffect(effect);
+        EffectsParameterList params = clip->addEffect(m_document->getProfileInfo(), effect);
         if (!m_document->renderer()->mltAddEffect(track, pos, params)) {
             emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
-            clip->deleteEffect(params.paramValue("kdenlive_ix"));
+            clip->deleteEffect(params.paramValue("kdenlive_ix").toInt());
         }
         else clip->setSelectedEffect(params.paramValue("kdenlive_ix").toInt());
         if (clip->isMainSelectedClip()) emit clipItemSelected(clip);
@@ -1881,10 +1897,10 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
 
 void CustomTrackView::deleteEffect(int track, const GenTime &pos, const QDomElement &effect)
 {
-    QString index = effect.attribute("kdenlive_ix");
+    int index = effect.attribute("kdenlive_ix").toInt();
     if (pos < GenTime()) {
         // Delete track effect
-        if (m_document->renderer()->mltRemoveTrackEffect(track, index.toInt(), true)) {
+        if (m_document->renderer()->mltRemoveTrackEffect(track, index, true)) {
             m_document->removeTrackEffect(track - 1, effect);
         }
         else emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
@@ -1896,14 +1912,15 @@ void CustomTrackView::deleteEffect(int track, const GenTime &pos, const QDomElem
     if (effect.attribute("id") == "speed") {
         ClipItem *clip = getClipItemAtStart(pos, m_document->tracksCount() - track);
         if (clip) {
-            doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), 1.0, clip->speed(), 1, clip->baseClip()->getId());
+            doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), 1.0, clip->speed(), 1, clip->getBinId());
             clip->deleteEffect(index);
             emit clipItemSelected(clip);
-            m_document->renderer()->mltRemoveEffect(track, pos, index.toInt(), true);
+            m_document->renderer()->mltRemoveEffect(track, pos, index, true);
             return;
         }
     }
-    if (!m_document->renderer()->mltRemoveEffect(track, pos, index.toInt(), true)) {
+    qDebug()<<" * * *REMOVING EFFECT WITH IX: "<<index;
+    if (!m_document->renderer()->mltRemoveEffect(track, pos, index, true)) {
         //qDebug() << "// ERROR REMOV EFFECT: " << index << ", DISABLE: " << effect.attribute("disable");
         emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
         return;
@@ -1955,7 +1972,6 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
     }
     if (effectCommand->childCount() > 0) {
         m_commandStack->push(effectCommand);
-        setDocumentModified();
     } else delete effectCommand;
     if (dropTarget) {
         clearSelection(false);
@@ -2043,7 +2059,6 @@ void CustomTrackView::slotAddEffect(QDomElement effect, const GenTime &pos, int 
     }
     if (effectCommand->childCount() > 0) {
         m_commandStack->push(effectCommand);
-        setDocumentModified();
     } else delete effectCommand;
 }
 
@@ -2077,9 +2092,9 @@ void CustomTrackView::processEffect(ClipItem *item, QDomElement effect, int offs
     }
 
     if (effect.attribute("id") == "freeze" && m_cursorPos > item->startPos().frames(m_document->fps()) && m_cursorPos < item->endPos().frames(m_document->fps())) {
-        item->initEffect(effect, m_cursorPos - item->startPos().frames(m_document->fps()), offset);
+        item->initEffect(m_document->getProfileInfo() , effect, m_cursorPos - item->startPos().frames(m_document->fps()), offset);
     } else {
-        item->initEffect(effect, 0, offset);
+        item->initEffect(m_document->getProfileInfo() , effect, 0, offset);
     }
     new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), effect, true, effectCommand);
 }
@@ -2090,7 +2105,6 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, int track, QDomElement ef
         // delete track effect
         AddEffectCommand *command = new AddEffectCommand(this, track, GenTime(-1), effect, false);
         m_commandStack->push(command);
-        setDocumentModified();
         return;
     }
     if (affectGroup && clip->parentItem() && clip->parentItem() == m_selectionGroup) {
@@ -2127,12 +2141,10 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, int track, QDomElement ef
             m_commandStack->push(delCommand);
         else
             delete delCommand;
-        setDocumentModified();
         return;
     }
     AddEffectCommand *command = new AddEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effect, false);
     m_commandStack->push(command);
-    setDocumentModified();
 }
 
 void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedEffect, bool updateEffectStack, bool replaceEffect)
@@ -2144,21 +2156,20 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
     }
     int ix = insertedEffect.attribute("kdenlive_ix").toInt();
     QDomElement effect = insertedEffect.cloneNode().toElement();
-    ////qDebug() << "// update effect ix: " << effect.attribute("kdenlive_ix")<<", GAIN: "<<EffectsList::parameter(effect, "gain");
+    //qDebug() << "// update effect ix: " << effect.attribute("kdenlive_ix")<<", TAG: "<< insertedEffect.attribute("tag");
     if (pos < GenTime()) {
         // editing a track effect
-        EffectsParameterList effectParams = getEffectArgs(effect);
+        EffectsParameterList effectParams = EffectsController::getEffectArgs(m_document->getProfileInfo(), effect);
         // check if we are trying to reset a keyframe effect
         /*if (effectParams.hasParam("keyframes") && effectParams.paramValue("keyframes").isEmpty()) {
-            clip->initEffect(effect);
-            effectParams = getEffectArgs(effect);
+            clip->initEffect(m_document->getProfileInfo() , effect);
+            effectParams = EffectsController::getEffectArgs(effect);
         }*/
         if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - track, pos, effectParams, replaceEffect)) {
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
         }
         m_document->setTrackEffect(m_document->tracksCount() - track - 1, ix, effect);
         emit updateTrackEffectState(track);
-        setDocumentModified();
         return;
 
     }
@@ -2167,14 +2178,14 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
         // Special case: speed effect
         if (effect.attribute("id") == "speed") {
             if (effect.attribute("disable") == "1") {
-                doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), 1.0, clip->speed(), 1, clip->baseClip()->getId());
+                doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), 1.0, clip->speed(), 1, clip->getBinId());
             } else {
                 QLocale locale;
                 locale.setNumberOptions(QLocale::OmitGroupSeparator);
                 double speed = locale.toDouble(EffectsList::parameter(effect, "speed")) / 100.0;
                 int strobe = EffectsList::parameter(effect, "strobe").toInt();
                 if (strobe == 0) strobe = 1;
-                doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), speed, clip->speed(), strobe, clip->baseClip()->getId());
+                doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), speed, clip->speed(), strobe, clip->getBinId());
             }
             clip->updateEffect(effect);
             if (updateEffectStack && clip->isSelected())
@@ -2186,11 +2197,11 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
             return;
         }
 
-        EffectsParameterList effectParams = getEffectArgs(effect);
+        EffectsParameterList effectParams = EffectsController::getEffectArgs(m_document->getProfileInfo(), effect);
         // check if we are trying to reset a keyframe effect
         if (effectParams.hasParam("keyframes") && effectParams.paramValue("keyframes").isEmpty()) {
-            clip->initEffect(effect);
-            effectParams = getEffectArgs(effect);
+            clip->initEffect(m_document->getProfileInfo() , effect);
+            effectParams = EffectsController::getEffectArgs(m_document->getProfileInfo(), effect);
         }
 
         if (effect.attribute("tag") == "volume" || effect.attribute("tag") == "brightness") {
@@ -2219,7 +2230,6 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
         else emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
     }
     else emit displayMessage(i18n("Cannot find clip to update effect"), ErrorMessage);
-    setDocumentModified();
 }
 
 void CustomTrackView::updateEffectState(int track, GenTime pos, QList <int> effectIndexes, bool disable, bool updateEffectStack)
@@ -2232,7 +2242,6 @@ void CustomTrackView::updateEffectState(int track, GenTime pos, QList <int> effe
         }
         m_document->enableTrackEffects(m_document->tracksCount() - track - 1, effectIndexes, disable);
         emit updateTrackEffectState(track);
-        setDocumentModified();
         return;
     }
     // editing a clip effect
@@ -2310,7 +2319,6 @@ void CustomTrackView::moveEffect(int track, const GenTime &pos, const QList <int
         }
         clip->setSelectedEffect(newPos.at(0));
         emit clipItemSelected(clip);
-        setDocumentModified();
     } else emit displayMessage(i18n("Cannot move effect"), ErrorMessage);
 }
 
@@ -2340,7 +2348,6 @@ void CustomTrackView::slotChangeEffectState(ClipItem *clip, int track, QList <in
         command = new ChangeEffectStateCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effectIndexes, disable, false, true);
     }
     m_commandStack->push(command);
-    setDocumentModified();
 }
 
 void CustomTrackView::slotChangeEffectPosition(ClipItem *clip, int track, QList <int> currentPos, int newPos)
@@ -2351,7 +2358,6 @@ void CustomTrackView::slotChangeEffectPosition(ClipItem *clip, int track, QList 
         command = new MoveEffectCommand(this, m_document->tracksCount() - track, GenTime(-1), currentPos, newPos);
     } else command = new MoveEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), currentPos, newPos);
     m_commandStack->push(command);
-    setDocumentModified();
 }
 
 void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, int track, QDomElement oldeffect, QDomElement effect, int ix, bool refreshEffectStack)
@@ -2387,7 +2393,7 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         }
 
         if (execute) {
-            if (!m_document->renderer()->mltCutClip(m_document->tracksCount() - info.track, cutTime)) {
+            if (!m_timeline->track(info.track)->cut(cutTime.seconds())) {
                 // Error cuting clip in playlist
                 m_blockRefresh = false;
                 return NULL;
@@ -2410,23 +2416,23 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         int ix = dup->hasEffect(QString(), "fadein");
         if (ix != -1) {
             QDomElement oldeffect = dup->effectAtIndex(ix);
-            dup->deleteEffect(oldeffect.attribute("kdenlive_ix"));
+            dup->deleteEffect(oldeffect.attribute("kdenlive_ix").toInt());
         }
         ix = dup->hasEffect(QString(), "fade_from_black");
         if (ix != -1) {
             QDomElement oldeffect = dup->effectAtIndex(ix);
-            dup->deleteEffect(oldeffect.attribute("kdenlive_ix"));
+            dup->deleteEffect(oldeffect.attribute("kdenlive_ix").toInt());
         }
         // fade out from 1st part of the clip
         ix = item->hasEffect(QString(), "fadeout");
         if (ix != -1) {
             QDomElement oldeffect = item->effectAtIndex(ix);
-            item->deleteEffect(oldeffect.attribute("kdenlive_ix"));
+            item->deleteEffect(oldeffect.attribute("kdenlive_ix").toInt());
         }
         ix = item->hasEffect(QString(), "fade_to_black");
         if (ix != -1) {
             QDomElement oldeffect = item->effectAtIndex(ix);
-            item->deleteEffect(oldeffect.attribute("kdenlive_ix"));
+            item->deleteEffect(oldeffect.attribute("kdenlive_ix").toInt());
         }
 
 
@@ -2439,9 +2445,9 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         if (dup->checkKeyFrames(m_document->width(), m_document->height(), info.cropDuration.frames(m_document->fps()), cutTime.frames(m_document->fps())))
             slotRefreshEffects(dup);
 
-        item->baseClip()->addReference();
-        m_document->updateClip(item->baseClip()->getId());
-        setDocumentModified();
+        //TODO
+        //item->baseClip()->addReference();
+        m_document->updateClip(item->getBinId());
         KdenliveSettings::setSnaptopoints(snap);
         if (execute && item->isSelected()) {
             m_scene->clearSelection();
@@ -2461,7 +2467,7 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
             m_blockRefresh = false;
             return NULL;
         }
-        if (m_document->renderer()->mltRemoveClip(m_document->tracksCount() - info.track, cutTime) == false) {
+        if (!m_timeline->track(info.track)->del(cutTime.seconds())) {
             emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(cutTime.frames(m_document->fps())), info.track), ErrorMessage);
             return NULL;
         }
@@ -2476,19 +2482,18 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
             item->setSelected(true);
             emit clipItemSelected(NULL);
         }
-        dup->baseClip()->removeReference();
-        m_document->updateClip(dup->baseClip()->getId());
+        //TODO
+        //dup->baseClip()->removeReference();
+        m_document->updateClip(dup->getBinId());
         scene()->removeItem(dup);
         delete dup;
         dup = NULL;
 
         ItemInfo clipinfo = item->info();
-        clipinfo.track = m_document->tracksCount() - clipinfo.track;
-        bool success = m_document->renderer()->mltResizeClipEnd(clipinfo, info.endPos - info.startPos, false);
+        bool success = m_timeline->track(clipinfo.track)->resize(clipinfo.startPos.seconds(), (info.endPos - info.startPos).seconds(), true);
         if (success) {
             item->resizeEnd((int) info.endPos.frames(m_document->fps()));
             item->setEffectList(oldStack);
-            setDocumentModified();
         } else {
             emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
         }
@@ -2602,7 +2607,6 @@ void CustomTrackView::slotAddTransition(ClipItem* /*clip*/, ItemInfo transitionI
     }
     AddTransitionCommand* command = new AddTransitionCommand(this, transitionInfo, endTrack, transition, false, true);
     m_commandStack->push(command);
-    setDocumentModified();
 }
 
 void CustomTrackView::addTransition(const ItemInfo &transitionInfo, int endTrack, const QDomElement &params, bool refresh)
@@ -2611,7 +2615,6 @@ void CustomTrackView::addTransition(const ItemInfo &transitionInfo, int endTrack
     ////qDebug() << "---- ADDING transition " << params.attribute("value");
     if (m_document->renderer()->mltAddTransition(tr->transitionTag(), endTrack, m_document->tracksCount() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, tr->toXML(), refresh)) {
         scene()->addItem(tr);
-        setDocumentModified();
     } else {
         emit displayMessage(i18n("Cannot add transition"), ErrorMessage);
         delete tr;
@@ -2631,7 +2634,6 @@ void CustomTrackView::deleteTransition(const ItemInfo &transitionInfo, int endTr
     // animate item deletion
     item->closeAnimation();
     emit transitionItemSelected(NULL);
-    setDocumentModified();
 }
 
 void CustomTrackView::slotTransitionUpdated(Transition *tr, QDomElement old)
@@ -2645,7 +2647,6 @@ void CustomTrackView::slotTransitionUpdated(Transition *tr, QDomElement old)
     EditTransitionCommand *command = new EditTransitionCommand(this, tr->track(), tr->startPos(), old, xml, false);
     updateTrackDuration(tr->track(), command);
     m_commandStack->push(command);
-    setDocumentModified();
 }
 
 void CustomTrackView::updateTransition(int track, const GenTime &pos, const QDomElement &oldTransition, const QDomElement &transition, bool updateTransitionWidget)
@@ -2666,16 +2667,16 @@ void CustomTrackView::updateTransition(int track, const GenTime &pos, const QDom
         ItemInfo info = item->info();
         QPoint p;
         ClipItem *transitionClip = getClipItemAtStart(info.startPos, info.track);
-        if (transitionClip && transitionClip->baseClip()) {
-            QString size = transitionClip->baseClip()->getProperty("frame_size");
-            double factor = transitionClip->baseClip()->getProperty("aspect_ratio").toDouble();
+        if (transitionClip && transitionClip->binClip()) {
+            int frameWidth = transitionClip->binClip()->getProducerIntProperty("meta.media.width");
+            int frameHeight = transitionClip->binClip()->getProducerIntProperty("meta.media.height");
+            double factor = transitionClip->binClip()->getProducerProperty("aspect_ratio").toDouble();
             if (factor == 0) factor = 1.0;
-            p.setX((int)(size.section('x', 0, 0).toInt() * factor + 0.5));
-            p.setY(size.section('x', 1, 1).toInt());
+            p.setX((int)(frameWidth * factor + 0.5));
+            p.setY(frameHeight);
         }
         emit transitionItemSelected(item, getPreviousVideoTrack(info.track), p, true);
     }
-    setDocumentModified();
 }
 
 void CustomTrackView::dragMoveEvent(QDragMoveEvent * event)
@@ -2744,9 +2745,8 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             }
 
             //TODO: take care of edit mode for undo
-            item->baseClip()->addReference();
-            //item->setZValue(item->defaultZValue());
-            m_document->updateClip(item->baseClip()->getId());
+            //item->baseClip()->addReference();
+            //m_document->updateClip(item->baseClip()->getId());
             ItemInfo info = item->info();
 
             int tracknumber = m_document->tracksCount() - info.track - 1;
@@ -2754,25 +2754,28 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             if (isLocked) item->setItemLocked(true);
             ItemInfo clipInfo = info;
             clipInfo.track = m_document->tracksCount() - item->track();
+            QString clipBinId = item->getBinId();
 
-            int worked = m_document->renderer()->mltInsertClip(clipInfo, item->xml(), item->baseClip()->getProducer(item->track()), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
-            if (worked == -1) {
+            Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clipBinId, info.track, item->isAudioOnly(), item->isVideoOnly());
+            prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
+            if (!m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode())) {
                 emit displayMessage(i18n("Cannot insert clip in timeline"), ErrorMessage);
                 brokenClips.append(item);
                 continue;
             }
             adjustTimelineClips(m_scene->editMode(), item, ItemInfo(), addCommand);
 
-            new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, false, false, addCommand);
+            new AddTimelineClipCommand(this, clipBinId, item->info(), item->effectList(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, false, false, addCommand);
             updateTrackDuration(info.track, addCommand);
 
-            if (item->baseClip()->isTransparent() && getTransitionItemAtStart(info.startPos, info.track) == NULL) {
+	    //TODO
+            /*if (false && item->baseClip()->isTransparent() && getTransitionItemAtStart(info.startPos, info.track) == NULL) {
                 // add transparency transition if space is available
                 if (canBePastedTo(info, TransitionWidget)) {
                     QDomElement trans = MainWindow::transitions.getEffectByTag("affine", QString()).cloneNode().toElement();
                     new AddTransitionCommand(this, info, getPreviousVideoTrack(info.track), trans, false, true, addCommand);
                 }
-            }
+            }*/
             item->setSelected(true);
         }
         // Add refresh command for redo
@@ -2786,7 +2789,6 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         // Automatic audio split
         if (KdenliveSettings::splitaudio())
             splitAudio();
-        setDocumentModified();
 
         /*
         // debug info
@@ -2855,7 +2857,7 @@ void CustomTrackView::adjustTimelineClips(EditMode mode, ClipItem *item, ItemInf
                         newdupInfo.cropDuration = clipInfo.endPos - info.endPos;
                         new RazorClipCommand(this, clipInfo, clip->effectList(), info.startPos, false, command);
                         new ResizeClipCommand(this, dupInfo, newdupInfo, false, false, command);
-                        ClipItem *dup = cutClip(clipInfo, info.startPos, true, EffectsList(), false);
+                        ClipItem *dup = cutClip(clipInfo, info.startPos, true, EffectsList(false));
                         if (dup) {
                             dup->resizeStart(info.endPos.frames(m_document->fps()));
                         }
@@ -2866,7 +2868,7 @@ void CustomTrackView::adjustTimelineClips(EditMode mode, ClipItem *item, ItemInf
                         clip->resizeEnd(info.startPos.frames(m_document->fps()));
                     }
                 } else if (clip->endPos() <= info.endPos) {
-                    new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), clip->info(), clip->effectList(), false, false, false, true, command);
+                    new AddTimelineClipCommand(this, clip->getBinId(), clip->info(), clip->effectList(), false, false, false, true, command);
                     m_waitingThumbs.removeAll(clip);
                     scene()->removeItem(clip);
                     delete clip;
@@ -2989,11 +2991,11 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
     QList <TransitionInfo> transitionInfos;
     if (ix == -1 || ix == m_document->tracksCount()) {
         m_document->insertTrack(0, type);
-        transitionInfos = m_document->renderer()->mltInsertTrack(1, type.type == VideoTrack);
+        transitionInfos = m_document->renderer()->mltInsertTrack(1,  type.trackName, type.type == VideoTrack);
     } else {
         m_document->insertTrack(m_document->tracksCount() - ix, type);
         // insert track in MLT playlist
-        transitionInfos = m_document->renderer()->mltInsertTrack(m_document->tracksCount() - ix, type.type == VideoTrack);
+        transitionInfos = m_document->renderer()->mltInsertTrack(m_document->tracksCount() - ix,  type.trackName, type.type == VideoTrack);
 
         double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;
         QRectF r(0, startY, sceneRect().width(), sceneRect().height() - startY);
@@ -3021,20 +3023,6 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
             }
             AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
             item->updateItem();
-            ItemInfo clipinfo = item->info();
-            if (item->type() == AVWidget) {
-                ClipItem *clip = static_cast <ClipItem *>(item);
-                // slowmotion clips are not track dependant, so no need to update them
-                if (clip->speed() != 1.0) continue;
-                // We add a move clip command so that we get the correct producer for new track number
-                if (clip->clipType() == AV || clip->clipType() == Audio) {
-                    Mlt::Producer *prod = clip->getProducer(clipinfo.track);
-                    if (m_document->renderer()->mltUpdateClipProducer(tractor, (int)(m_document->tracksCount() - clipinfo.track), clipinfo.startPos.frames(m_document->fps()), prod) == false) {
-                        // problem updating clip
-                        emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", clipinfo.startPos.frames(m_document->fps()), clipinfo.track), ErrorMessage);
-                    }
-                }
-            }
         }
         // Sync transition tracks with MLT playlist
         TransitionInfo info;
@@ -3101,14 +3089,6 @@ void CustomTrackView::removeTrack(int ix)
         if (children.at(i)->type() == AVWidget) {
             ClipItem *clip = static_cast <ClipItem *>(children.at(i));
             clip->updateItem();
-            ItemInfo clipinfo = clip->info();
-            // We add a move clip command so that we get the correct producer for new track number
-            if (clip->clipType() == AV || clip->clipType() == Audio || clip->clipType() == Playlist) {
-                Mlt::Producer *prod = clip->getProducer(clipinfo.track);
-                if (prod == NULL || !m_document->renderer()->mltUpdateClipProducer(tractor, (int)(m_document->tracksCount() - clipinfo.track), clipinfo.startPos.frames(m_document->fps()), prod)) {
-                    emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", clipinfo.startPos.frames(m_document->fps()), clipinfo.track), ErrorMessage);
-                }
-            }
         } else if (children.at(i)->type() == TransitionWidget) {
             Transition *tr = static_cast <Transition *>(children.at(i));
             tr->updateItem();
@@ -3141,7 +3121,7 @@ void CustomTrackView::configTracks(const QList < TrackInfo > &trackInfos)
 {
     for (int i = 0; i < trackInfos.count(); ++i) {
         m_document->setTrackType(i, trackInfos.at(i));
-        m_document->renderer()->mltChangeTrackState(i + 1, m_document->trackInfoAt(i).isMute, m_document->trackInfoAt(i).isBlind);
+        m_document->renderer()->mltChangeTrackState(i + 1, m_document->trackInfoAt(i).trackName, m_document->trackInfoAt(i).isMute, m_document->trackInfoAt(i).isBlind);
         lockTrack(m_document->tracksCount() - i - 1, m_document->trackInfoAt(i).isLocked, false);
     }
 
@@ -3149,21 +3129,20 @@ void CustomTrackView::configTracks(const QList < TrackInfo > &trackInfos)
     emit trackHeightChanged();
 }
 
-void CustomTrackView::slotSwitchTrackAudio(int ix)
+void CustomTrackView::slotSwitchTrackAudio(int ix, bool enable)
 {
     /*for (int i = 0; i < m_document->tracksCount(); ++i)
         //qDebug() << "TRK " << i << " STATE: " << m_document->trackInfoAt(i).isMute << m_document->trackInfoAt(i).isBlind;*/
     int tracknumber = m_document->tracksCount() - ix - 1;
-    m_document->switchTrackAudio(tracknumber, !m_document->trackInfoAt(tracknumber).isMute);
+    m_document->switchTrackAudio(tracknumber, enable);
     //qDebug() << "NEXT TRK STATE: " << m_document->trackInfoAt(tracknumber).isMute << m_document->trackInfoAt(tracknumber).isBlind;
-    m_document->renderer()->mltChangeTrackState(tracknumber + 1, m_document->trackInfoAt(tracknumber).isMute, m_document->trackInfoAt(tracknumber).isBlind);
-    setDocumentModified();
+    m_document->renderer()->mltChangeTrackState(tracknumber + 1, QString(), m_document->trackInfoAt(tracknumber).isMute, m_document->trackInfoAt(tracknumber).isBlind);
 }
 
-void CustomTrackView::slotSwitchTrackLock(int ix)
+void CustomTrackView::slotSwitchTrackLock(int ix, bool enable)
 {
     int tracknumber = m_document->tracksCount() - ix - 1;
-    LockTrackCommand *command = new LockTrackCommand(this, ix, !m_document->trackInfoAt(tracknumber).isLocked);
+    LockTrackCommand *command = new LockTrackCommand(this, ix, enable);
     m_commandStack->push(command);
 }
 
@@ -3238,14 +3217,14 @@ void CustomTrackView::lockTrack(int ix, bool lock, bool requestUpdate)
     }
     //qDebug() << "NEXT TRK STATE: " << m_document->trackInfoAt(tracknumber).isLocked;
     viewport()->update();
-    setDocumentModified();
 }
 
-void CustomTrackView::slotSwitchTrackVideo(int ix)
+void CustomTrackView::slotSwitchTrackVideo(int ix, bool enable)
 {
     int tracknumber = m_document->tracksCount() - ix;
-    m_document->switchTrackVideo(tracknumber - 1, !m_document->trackInfoAt(tracknumber - 1).isBlind);
-    m_document->renderer()->mltChangeTrackState(tracknumber, m_document->trackInfoAt(tracknumber - 1).isMute, m_document->trackInfoAt(tracknumber - 1).isBlind);
+    m_document->switchTrackVideo(tracknumber - 1, enable);
+    m_document->renderer()->mltChangeTrackState(tracknumber, QString(), m_document->trackInfoAt(tracknumber - 1).isMute, m_document->trackInfoAt(tracknumber - 1).isBlind);
+    //TODO: create undo/redo command for this
     setDocumentModified();
 }
 
@@ -3503,40 +3482,40 @@ void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> t
     m_document->renderer()->mltInsertSpace(trackClipStartList, trackTransitionStartList, track, duration, offset);
 }
 
-void CustomTrackView::deleteClip(const QString &clipId)
+void CustomTrackView::deleteClip(const QString &clipId, QUndoCommand *deleteCommand)
 {
     resetSelectionGroup();
     QList<QGraphicsItem *> itemList = items();
-    QUndoCommand *deleteCommand = new QUndoCommand();
     new RefreshMonitorCommand(this, false, true, deleteCommand);
     int count = 0;
     for (int i = 0; i < itemList.count(); ++i) {
         if (itemList.at(i)->type() == AVWidget) {
             ClipItem *item = static_cast<ClipItem*>(itemList.at(i));
-            if (item->clipProducer() == clipId) {
+            if (item->getBinId() == clipId) {
                 count++;
                 if (item->parentItem()) {
                     // Clip is in a group, destroy the group
                     new GroupClipsCommand(this, QList<ItemInfo>() << item->info(), QList<ItemInfo>(), false, deleteCommand);
                 }
-                new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), false, false, true, true, deleteCommand);
+                new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), false, false, true, true, deleteCommand);
             }
         }
     }
     if (count == 0) {
-        delete deleteCommand;
+        // No clip to delete
+        //delete deleteCommand;
     } else {
         deleteCommand->setText(i18np("Delete timeline clip", "Delete timeline clips", count));
         new RefreshMonitorCommand(this, true, false, deleteCommand);
         updateTrackDuration(-1, deleteCommand);
-        m_commandStack->push(deleteCommand);
+        //m_commandStack->push(deleteCommand);
     }
 }
 
 void CustomTrackView::seekCursorPos(int pos)
 {
-    m_document->renderer()->seek(qMax(pos, 0));
-    emit updateRuler();
+    emit updateRuler(pos);
+    m_document->renderer()->seek(pos);
 }
 
 int CustomTrackView::seekPosition() const
@@ -3553,7 +3532,7 @@ void CustomTrackView::setCursorPos(int pos)
         m_cursorLine->setPos(m_cursorPos, 0);
         if (m_autoScroll) checkScrolling();
     }
-    else emit updateRuler();
+    //else emit updateRuler();
 }
 
 void CustomTrackView::updateCursorPos()
@@ -3570,13 +3549,13 @@ void CustomTrackView::moveCursorPos(int delta)
 {
     int currentPos = m_document->renderer()->requestedSeekPosition;
     if (currentPos == SEEK_INACTIVE) {
-        currentPos = m_document->renderer()->seekPosition().frames(m_document->fps()) + delta;
+        currentPos = m_document->renderer()->seekFramePosition() + delta;
     }
     else {
         currentPos += delta;
     }
+    emit updateRuler(currentPos);
     m_document->renderer()->seek(qMax(0, currentPos));
-    emit updateRuler();
 }
 
 void CustomTrackView::initCursorPos(int pos)
@@ -3653,7 +3632,6 @@ void CustomTrackView::completeSpaceOperation(int track, GenTime &timeOffset)
       m_commandStack->push(command);
       if (track != -1) track = m_document->tracksCount() - track;
       m_document->renderer()->mltInsertSpace(trackClipStartList, trackTransitionStartList, track, timeOffset, GenTime());
-      setDocumentModified();
     }
   }
   
@@ -3703,7 +3681,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             m_commandStack->push(command);
             m_dragGuide->updateGuide(GenTime(m_dragGuide->pos().x(), m_document->fps()));
             qSort(m_guides.begin(), m_guides.end(), sortGuidesList);
-            m_document->syncGuides(m_guides);
+            emit guidesUpdated();
         }
         m_dragGuide = NULL;
         m_dragItem = NULL;
@@ -3740,15 +3718,13 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
     }
     ItemInfo info;
     if (m_dragItem) info = m_dragItem->info();
-
     if (m_operationMode == MoveOperation) {
         setCursor(Qt::OpenHandCursor);
         if (m_dragItem->parentItem() == 0) {
             // we are moving one clip, easy
             if (m_dragItem->type() == AVWidget && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
                 ClipItem *item = static_cast <ClipItem *>(m_dragItem);
-                Mlt::Producer *prod = item->getProducer(info.track);
-                bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - info.track), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(info.startPos.frames(m_document->fps())), prod, m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
+                bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - info.track), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(info.startPos.frames(m_document->fps())), item->getBinId(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
 
                 if (success) {
                     QUndoCommand *moveCommand = new QUndoCommand();
@@ -3770,7 +3746,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         newStartTrInfo = startTrInfo;
                         newStartTrInfo.track = info.track;
                         newStartTrInfo.startPos = info.startPos;
-                        if (m_dragItemInfo.track == info.track && !item->baseClip()->isTransparent() && getClipItemAtEnd(newStartTrInfo.endPos, m_document->tracksCount() - startTransition->transitionEndTrack())) {
+                        //TODO
+                        if (m_dragItemInfo.track == info.track /*&& !item->baseClip()->isTransparent()*/ && getClipItemAtEnd(newStartTrInfo.endPos, m_document->tracksCount() - startTransition->transitionEndTrack())) {
                             // transition end should stay the same
                         } else {
                             // transition end should be adjusted to clip
@@ -3786,7 +3763,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                             ItemInfo newTrInfo = trInfo;
                             newTrInfo.track = info.track;
                             newTrInfo.endPos = m_dragItem->endPos();
-                            if (m_dragItemInfo.track == info.track && !item->baseClip()->isTransparent() && getClipItemAtStart(trInfo.startPos, m_document->tracksCount() - tr->transitionEndTrack())) {
+                            //TODO
+                            if (m_dragItemInfo.track == info.track /*&& !item->baseClip()->isTransparent()*/ && getClipItemAtStart(trInfo.startPos, m_document->tracksCount() - tr->transitionEndTrack())) {
                                 // transition start should stay the same
                             } else {
                                 // transition start should be moved
@@ -3825,7 +3803,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         ItemInfo newTrInfo = trInfo;
                         newTrInfo.startPos = m_dragItem->startPos();
                         ClipItem * upperClip = getClipItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track - 1);
-                        if (!upperClip || !upperClip->baseClip()->isTransparent()) {
+                        //TODO
+                        if (!upperClip /*|| !upperClip->baseClip()->isTransparent()*/) {
                             if (!getClipItemAtEnd(newTrInfo.endPos, tr->track())) {
                                 // transition end should be adjusted to clip on upper track
                                 newTrInfo.endPos = newTrInfo.endPos + (newTrInfo.startPos - trInfo.startPos);
@@ -3846,7 +3825,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                             //qDebug() << "CLIP ENDS AT: " << newTrInfo.endPos.frames(25);
                             //qDebug() << "CLIP STARTS AT: " << newTrInfo.startPos.frames(25);
                             ClipItem * upperClip = getClipItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track - 1);
-                            if (!upperClip || !upperClip->baseClip()->isTransparent()) {
+                            //TODO
+                            if (!upperClip /*|| !upperClip->baseClip()->isTransparent()*/) {
                                 if (!getClipItemAtStart(trInfo.startPos, tr->track())) {
                                     // transition start should be moved
                                     newTrInfo.startPos = newTrInfo.startPos + (newTrInfo.endPos - trInfo.endPos);
@@ -3871,7 +3851,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     KdenliveSettings::setSnaptopoints(snap);
                     emit displayMessage(i18n("Cannot move clip to position %1", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps()))), ErrorMessage);
                 }
-                setDocumentModified();
             } else if (m_dragItem->type() == TransitionWidget && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
                 Transition *transition = static_cast <Transition *>(m_dragItem);
                 transition->updateTransitionEndTrack(getPreviousVideoTrack(m_dragItem->track()));
@@ -3888,7 +3867,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     if (m_dragItemInfo.track != info.track)
                         updateTrackDuration(m_dragItemInfo.track, moveCommand);
                     m_commandStack->push(moveCommand);
-                    setDocumentModified();
                 }
             }
         } else {
@@ -3926,8 +3904,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
                     ItemInfo info = item->info();
                     if (item->type() == AVWidget) {
-                        if (m_document->renderer()->mltRemoveClip(m_document->tracksCount() - info.track, info.startPos) == false) {
-                            // error, clip cannot be removed from playlist
+                        if (! m_timeline->track(info.track)->del(info.startPos.seconds())) {
                             emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps())), info.track), ErrorMessage);
                         } else {
                             clipsToMove.append(info);
@@ -3957,9 +3934,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         int trackProducer = info.track;
                         info.track = m_document->tracksCount() - info.track;
                         adjustTimelineClips(m_scene->editMode(), clip, ItemInfo(), moveGroup);
-                        m_document->renderer()->mltInsertClip(info, clip->xml(), clip->getProducer(trackProducer), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
+                        Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clip->getBinId(), info.track, clip->isAudioOnly(), clip->isVideoOnly());
+                        prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
+                        m_timeline->track(item->info().track)->add(info.startPos.seconds(), prod, m_scene->editMode());
                         for (int i = 0; i < clip->effectsCount(); ++i) {
-                            m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(clip->effect(i)), false);
+                            m_document->renderer()->mltAddEffect(info.track, info.startPos, EffectsController::getEffectArgs(m_document->getProfileInfo(), clip->effect(i)), false);
                         }
                     } else {
                         Transition *tr = static_cast <Transition*>(item);
@@ -4022,7 +4001,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     AbstractGroupItem *grp = static_cast <AbstractGroupItem *>(group);
                     rebuildGroup(grp);
                 }
-                setDocumentModified();
             }
         }
         m_document->renderer()->doRefresh();
@@ -4178,7 +4156,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         emit clipItemSelected(item);
     }
     event->accept();
-    if (m_operationMode != None && m_operationMode != MoveOperation) setDocumentModified();
     m_operationMode = None;
 }
 
@@ -4187,19 +4164,17 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
     ClipItem *item = getClipItemAtStart(info.startPos, info.track);
     m_ct++;
     if (!item) qDebug()<<"// PROBLEM FINDING CLIP ITEM TO REMOVVE!!!!!!!!!";
-    else qDebug()<<"// deleting CLIP: "<<info.startPos.frames(m_document->fps())<<", "<<item->baseClip()->fileURL();
     //m_document->renderer()->saveSceneList(QString("/tmp/error%1.mlt").arg(m_ct), QDomElement());
-    if (!item || m_document->renderer()->mltRemoveClip(m_document->tracksCount() - info.track, info.startPos) == false) {
+    if (!item || !m_timeline->track(info.track)->del(info.startPos.seconds())) {
         emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps())), info.track), ErrorMessage);
-        //qDebug()<<"CANNOT REMOVE: "<<info.startPos.frames(m_document->fps())<<", TK: "<<info.track;
-        //m_document->renderer()->saveSceneList(QString("/tmp/error%1.mlt").arg(m_ct), QDomElement());
         return;
     }
     m_waitingThumbs.removeAll(item);
     item->stopThumbs();
     if (item->isSelected()) emit clipItemSelected(NULL);
-    item->baseClip()->removeReference();
-    m_document->updateClip(item->baseClip()->getId());
+    //TODO: notify bin of clip deletion?
+    //item->baseClip()->removeReference();
+    //m_document->updateClip(item->baseClip()->getId());
 
     /*if (item->baseClip()->isTransparent()) {
         // also remove automatic transition
@@ -4223,7 +4198,6 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
         item = NULL;
     }*/
 
-    setDocumentModified();
     if (refresh) m_document->renderer()->doRefresh();
 }
 
@@ -4276,7 +4250,7 @@ void CustomTrackView::deleteSelectedClips()
             clipCount++;
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             ////qDebug()<<"// DELETE CLP AT: "<<item->info().startPos.frames(25);
-            new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), false, false, true, true, deleteSelected);
+            new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), false, false, true, true, deleteSelected);
         } else if (itemList.at(i)->type() == TransitionWidget) {
             transitionCount++;
             Transition *item = static_cast <Transition *>(itemList.at(i));
@@ -4300,7 +4274,6 @@ void CustomTrackView::deleteSelectedClips()
 void CustomTrackView::doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id)
 {
     Q_UNUSED(id)
-    //DocClipBase *baseclip = m_document->clipManager()->getClipById(id);
 
     ClipItem *item = getClipItemAtStart(info.startPos, info.track);
     if (!item) {
@@ -4309,14 +4282,13 @@ void CustomTrackView::doChangeClipSpeed(ItemInfo info, const ItemInfo &speedInde
         return;
     }
     info.track = m_document->tracksCount() - item->track();
-    int endPos = m_document->renderer()->mltChangeClipSpeed(info, speedIndependantInfo, speed, oldspeed, strobe, item->getProducer(item->track(), false));
+    int endPos = m_document->renderer()->mltChangeClipSpeed(info, speedIndependantInfo, speed, oldspeed, strobe, m_document->renderer()->getTrackProducer(item->getBinId(), item->track()));
     if (endPos >= 0) {
         item->setSpeed(speed, strobe);
         item->updateRectGeometry();
         if (item->cropDuration().frames(m_document->fps()) != endPos)
             item->resizeEnd((int) info.startPos.frames(m_document->fps()) + endPos - 1);
         updatePositionEffects(item, info, false);
-        setDocumentModified();
     } else {
         emit displayMessage(i18n("Invalid clip"), ErrorMessage);
     }
@@ -4468,7 +4440,6 @@ void CustomTrackView::doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> 
             }
             tr->setFlag(QGraphicsItem::ItemIsMovable, true);
         }
-        setDocumentModified();
         return;
     }
     QList <QGraphicsItem *>list;
@@ -4487,7 +4458,6 @@ void CustomTrackView::doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> 
         }
     }
     groupSelectedItems(list, true, true);
-    setDocumentModified();
 }
 
 void CustomTrackView::slotInfoProcessingFinished()
@@ -4495,64 +4465,67 @@ void CustomTrackView::slotInfoProcessingFinished()
     m_producerNotReady.wakeAll();
 }
 
-void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo info, EffectsList effects, bool overwrite, bool push, bool refresh)
+void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList effects, bool overwrite, bool push, bool refresh)
 {
-    DocClipBase *baseclip = m_document->clipManager()->getClipById(clipId);
-    if (baseclip == NULL) {
-        emit displayMessage(i18n("No clip copied"), ErrorMessage);
-        return;
-    }
-
-    if (baseclip->getProducer() == NULL) {
+    ProjectClip *binClip = m_document->getBinClip(clipId);
+    if (!binClip->isReady()) {
         // If the clip has no producer, we must wait until it is created...
-        
         emit displayMessage(i18n("Waiting for clip..."), InformationMessage);
 	m_document->renderer()->forceProcessing(clipId);
-        baseclip = m_document->clipManager()->getClipById(clipId);
-        if (baseclip == NULL) {
+	if (binClip == NULL) {
             emit displayMessage(i18n("Cannot insert clip..."), ErrorMessage);
             return;
         }
         // If the clip is not ready, give it 3x3 seconds to complete the task...
         for (int i = 0; i < 3; ++i) {
-            if (baseclip->getProducer() == NULL) {
+            if (!binClip->isReady()) {
                 m_mutex.lock();
                 m_producerNotReady.wait(&m_mutex, 3000);
                 m_mutex.unlock();
             } else break;
         }
-        if (baseclip->getProducer() == NULL) {
+        if (!binClip->isReady()) {
             emit displayMessage(i18n("Cannot insert clip..."), ErrorMessage);
             return;
         }
         emit displayMessage(QString(), InformationMessage);
     }
-
-    ClipItem *item = new ClipItem(baseclip, info, m_document->fps(), xml.attribute("speed", "1").toDouble(), xml.attribute("strobe", "1").toInt(), getFrameWidth());
+    // TODO:
+    // Get speed and strobe values from effects
+    // And find a better way to pass the audio/video only information
+    double speed = 1.0;
+    int strobe = 1;
+    //if (xml.hasAttribute("audio_only")) item->setAudioOnly(true);
+    //else if (xml.hasAttribute("video_only")) item->setVideoOnly(true);
+    ClipItem *item = new ClipItem(binClip, info, m_document->fps(), speed, strobe, getFrameWidth());
     item->setEffectList(effects);
-    if (xml.hasAttribute("audio_only")) item->setAudioOnly(true);
-    else if (xml.hasAttribute("video_only")) item->setVideoOnly(true);
     scene()->addItem(item);
-
     int producerTrack = info.track;
     int tracknumber = m_document->tracksCount() - info.track - 1;
     bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
     if (isLocked) item->setItemLocked(true);
 
-    baseclip->addReference();
-    m_document->updateClip(baseclip->getId());
+    //TODO: notify bin ?
+    //baseclip->addReference();
+    //m_document->updateClip(baseclip->getId());
+    //m_document->renderer()->mltInsertClip(info, xml, item->getProducer(producerTrack), overwrite, push);
+    //m_document->renderer()->mltInsertClip(info /*, xml*/, clipId, overwrite, push);
+    Mlt::Producer *prod = m_document->renderer()->getTrackProducer(item->getBinId(), info.track, item->isAudioOnly(), item->isVideoOnly());
+    prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
+    m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode());
     info.track = m_document->tracksCount() - info.track;
-    m_document->renderer()->mltInsertClip(info, xml, item->getProducer(producerTrack), overwrite, push);
+
     for (int i = 0; i < item->effectsCount(); ++i) {
-        m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(item->effect(i)), false);
+        m_document->renderer()->mltAddEffect(info.track, info.startPos, EffectsController::getEffectArgs(m_document->getProfileInfo(), item->effect(i)), false);
     }
-    setDocumentModified();
     if (refresh) {
         m_document->renderer()->doRefresh();
     }
-    if (!baseclip->isPlaceHolder())
+    //TODO: manage placeholders
+    /*if (!baseclip->isPlaceHolder())
         m_waitingThumbs.append(item);
-    m_thumbsTimer.start();
+        */
+    //m_thumbsTimer.start();
 }
 
 void CustomTrackView::slotUpdateClip(const QString &clipId, bool reload)
@@ -4561,22 +4534,22 @@ void CustomTrackView::slotUpdateClip(const QString &clipId, bool reload)
     QList<QGraphicsItem *> list = scene()->items();
     QList <ClipItem *>clipList;
     ClipItem *clip = NULL;
-    DocClipBase *baseClip = NULL;
     Mlt::Tractor *tractor = m_document->renderer()->lockService();
     for (int i = 0; i < list.size(); ++i) {
         if (list.at(i)->type() == AVWidget) {
             clip = static_cast <ClipItem *>(list.at(i));
-            if (clip->clipProducer() == clipId) {
-                if (baseClip == NULL) {
-                    baseClip = clip->baseClip();
-                }
+            if (clip->getBinId() == clipId) {
                 ItemInfo info = clip->info();
-                Mlt::Producer *prod = NULL;
-                if (clip->isAudioOnly()) prod = baseClip->audioProducer(info.track);
-                else if (clip->isVideoOnly()) prod = baseClip->videoProducer(info.track);
-                else prod = baseClip->getProducer(info.track);
-                if (reload && !m_document->renderer()->mltUpdateClip(tractor, info, clip->xml(), prod)) {
-                    emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", info.startPos.frames(m_document->fps()), info.track), ErrorMessage);
+                //TODO: get audio / video only producers
+                
+                /*if (clip->isAudioOnly()) prod = baseClip->getTrackProducer(info.track);
+                else if (clip->isVideoOnly()) prod = baseClip->getTrackProducer(info.track);
+                else prod = baseClip->getTrackProducer(info.track);*/
+                if (reload) {
+                    Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clipId, info.track, clip->isAudioOnly(), clip->isVideoOnly());
+                    if (!m_document->renderer()->mltUpdateClip(tractor, info, clip->xml(), prod)) {
+                        emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", info.startPos.frames(m_document->fps()), info.track), ErrorMessage);
+                    }
                 }
                 else clipList.append(clip);
             }
@@ -4704,7 +4677,6 @@ bool CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool 
         //qDebug() << "----------------  ERROR, CANNOT find clip to move at.. ";
         return false;
     }
-    Mlt::Producer *prod = item->getProducer(end.track);
 
 #ifdef DEBUG
     qDebug() << "Moving item " << (long)item << " from .. to:";
@@ -4714,7 +4686,7 @@ bool CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool 
 #endif
     bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - start.track), (int)(m_document->tracksCount() - end.track),
                                                        (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()),
-                                                       prod);
+                                                       item->getBinId());
     if (success) {
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
@@ -4728,6 +4700,8 @@ bool CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool 
             if (item->isItemLocked()) item->setItemLocked(false);
             item->setSelected(true);
         }
+        //TODO
+        /*
         if (item->baseClip()->isTransparent()) {
             // Also move automatic transition
             Transition *tr = getTransitionItemAt(start.startPos, start.track);
@@ -4736,9 +4710,8 @@ bool CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool 
                 m_document->renderer()->mltMoveTransition(tr->transitionTag(), m_document->tracksCount() - start.track, m_document->tracksCount() - end.track, tr->transitionEndTrack(), start.startPos, start.endPos, end.startPos, end.endPos);
                 tr->setPos((int) end.startPos.frames(m_document->fps()), (int)(end.track * m_tracksHeight + 1));
             }
-        }
+        }*/
         KdenliveSettings::setSnaptopoints(snap);
-        setDocumentModified();
     } else {
         // undo last move and emit error message
         emit displayMessage(i18n("Cannot move clip to position %1", m_document->timecode().getTimecodeFromFrames(end.startPos.frames(m_document->fps()))), ErrorMessage);
@@ -4779,7 +4752,7 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
             } else {
                 m_selectionGroup->addItem(clip);
             }
-            m_document->renderer()->mltRemoveClip(m_document->tracksCount() - startClip.at(i).track, startClip.at(i).startPos);
+            m_timeline->track(startClip.at(i).track)->del(startClip.at(i).startPos.seconds());
         } else qDebug() << "//MISSING CLIP AT: " << startClip.at(i).startPos.frames(25);
     }
     for (int i = 0; i < startTransition.count(); ++i) {
@@ -4824,7 +4797,6 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
                 --i;
             }
         }
-
         for (int i = 0; i < children.count(); ++i) {
             // re-add items in correct place
             if (children.at(i)->type() != AVWidget && children.at(i)->type() != TransitionWidget) continue;
@@ -4841,10 +4813,14 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
             if (item->type() == AVWidget) {
                 ClipItem *clip = static_cast <ClipItem*>(item);
                 int trackProducer = info.track;
+                //m_document->renderer()->mltInsertClip(info /*, clip->xml()*/, clip->getBinId());
+                Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clip->getBinId(), info.track, clip->isAudioOnly(), clip->isVideoOnly());
+                prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
+                m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode());
                 info.track = m_document->tracksCount() - info.track;
-                m_document->renderer()->mltInsertClip(info, clip->xml(), clip->getProducer(trackProducer));
+
                 for (int i = 0; i < clip->effectsCount(); ++i) {
-                    m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(clip->effect(i)), false);
+                    m_document->renderer()->mltAddEffect(info.track, info.startPos, EffectsController::getEffectArgs(m_document->getProfileInfo(), clip->effect(i)), false);
                 }
             } else if (item->type() == TransitionWidget) {
                 Transition *tr = static_cast <Transition*>(item);
@@ -4907,17 +4883,17 @@ void CustomTrackView::moveTransition(const ItemInfo &start, const ItemInfo &end,
     if (m_dragItem && m_dragItem == item) {
         QPoint p;
         ClipItem *transitionClip = getClipItemAtStart(item->startPos(), item->track());
-        if (transitionClip && transitionClip->baseClip()) {
-            QString size = transitionClip->baseClip()->getProperty("frame_size");
-            double factor = transitionClip->baseClip()->getProperty("aspect_ratio").toDouble();
+        if (transitionClip && transitionClip->binClip()) {
+            int frameWidth = transitionClip->binClip()->getProducerIntProperty("meta.media.width");
+            int frameHeight = transitionClip->binClip()->getProducerIntProperty("meta.media.height");
+            double factor = transitionClip->binClip()->getProducerProperty("aspect_ratio").toDouble();
             if (factor == 0) factor = 1.0;
-            p.setX((int)(size.section('x', 0, 0).toInt() * factor + 0.5));
-            p.setY(size.section('x', 1, 1).toInt());
+            p.setX((int)(frameWidth * factor + 0.5));
+            p.setY(frameHeight);
         }
         emit transitionItemSelected(item, getPreviousVideoTrack(item->track()), p);
     }
     if (refresh) m_document->renderer()->doRefresh();
-    setDocumentModified();
 }
 
 void CustomTrackView::resizeClip(const ItemInfo &start, const ItemInfo &end, bool dontWorry)
@@ -4939,23 +4915,13 @@ void CustomTrackView::resizeClip(const ItemInfo &start, const ItemInfo &end, boo
     KdenliveSettings::setSnaptopoints(false);
 
     if (resizeClipStart) {
-        ItemInfo clipinfo = item->info();
-        clipinfo.track = m_document->tracksCount() - clipinfo.track;
-        bool success = m_document->renderer()->mltResizeClipStart(clipinfo, end.startPos - clipinfo.startPos);
-        if (success) {
+        if (m_timeline->track(start.track)->resize(start.startPos.seconds(), (end.startPos - start.startPos).seconds(), false))
             item->resizeStart((int) end.startPos.frames(m_document->fps()));
-        }
-        else
-            emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
     } else {
-        ItemInfo clipinfo = item->info();
-        clipinfo.track = m_document->tracksCount() - clipinfo.track;
-        bool success = m_document->renderer()->mltResizeClipEnd(clipinfo, end.endPos - clipinfo.startPos);
-        if (success)
+        if (m_timeline->track(start.track)->resize(start.startPos.seconds(), (end.endPos - start.endPos).seconds(), true))
             item->resizeEnd((int) end.endPos.frames(m_document->fps()));
-        else
-            emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
     }
+
     if (!resizeClipStart && end.cropStart != start.cropStart) {
         //qDebug() << "// RESIZE CROP, DIFF: " << (end.cropStart - start.cropStart).frames(25);
         ItemInfo clipinfo = end;
@@ -4968,7 +4934,6 @@ void CustomTrackView::resizeClip(const ItemInfo &start, const ItemInfo &end, boo
     }
     m_document->renderer()->doRefresh();
     KdenliveSettings::setSnaptopoints(snap);
-    setDocumentModified();
 }
 
 void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo oldInfo, int pos, bool check, QUndoCommand *command)
@@ -5002,9 +4967,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
 
     ItemInfo info = item->info();
     if (item->type() == AVWidget) {
-        ItemInfo resizeinfo = oldInfo;
-        resizeinfo.track = m_document->tracksCount() - resizeinfo.track;
-        bool success = m_document->renderer()->mltResizeClipStart(resizeinfo, item->startPos() - oldInfo.startPos);
+        bool success = m_timeline->track(oldInfo.track)->resize(oldInfo.startPos.seconds(), (item->startPos() - oldInfo.startPos).seconds(), false);
         if (success) {
             // Check if there is an automatic transition on that clip (lower track)
             Transition *transition = getTransitionItemAtStart(oldInfo.startPos, oldInfo.track);
@@ -5022,7 +4985,8 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                 ItemInfo newTrInfo = trInfo;
                 newTrInfo.startPos = item->startPos();
                 ClipItem * upperClip = getClipItemAtStart(oldInfo.startPos, oldInfo.track - 1);
-                if ((!upperClip || !upperClip->baseClip()->isTransparent()) && newTrInfo.startPos < newTrInfo.endPos)
+                //TODO
+                if ((!upperClip /*|| !upperClip->baseClip()->isTransparent()*/) && newTrInfo.startPos < newTrInfo.endPos)
                     new MoveTransitionCommand(this, trInfo, newTrInfo, true, command);
             }
 
@@ -5094,9 +5058,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
     ItemInfo info = item->info();
     if (item->type() == AVWidget) {
         if (!hasParentCommand) command->setText(i18n("Resize clip end"));
-        ItemInfo resizeinfo = info;
-        resizeinfo.track = m_document->tracksCount() - resizeinfo.track;
-        bool success = m_document->renderer()->mltResizeClipEnd(resizeinfo, resizeinfo.cropDuration);
+        bool success = m_timeline->track(info.track)->resize(oldInfo.startPos.seconds(), (info.endPos - oldInfo.endPos).seconds(), true);
         if (success) {
             // Check if there is an automatic transition on that clip (lower track)
             Transition *tr = getTransitionItemAtEnd(oldInfo.endPos, oldInfo.track);
@@ -5115,7 +5077,8 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
                 ItemInfo newTrInfo = trInfo;
                 newTrInfo.endPos = item->endPos();
                 ClipItem * upperClip = getClipItemAtEnd(oldInfo.endPos, oldInfo.track - 1);
-                if ((!upperClip || !upperClip->baseClip()->isTransparent()) && newTrInfo.endPos > newTrInfo.startPos)
+                //TODO
+                if ((!upperClip /*|| !upperClip->baseClip()->isTransparent()*/) && newTrInfo.endPos > newTrInfo.startPos)
                     new MoveTransitionCommand(this, trInfo, newTrInfo, true, command);
 
             }
@@ -5155,12 +5118,13 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
             ItemInfo info = transition->info();
             QPoint p;
             ClipItem *transitionClip = getClipItemAtStart(info.startPos, info.track);
-            if (transitionClip && transitionClip->baseClip()) {
-                QString size = transitionClip->baseClip()->getProperty("frame_size");
-                double factor = transitionClip->baseClip()->getProperty("aspect_ratio").toDouble();
+            if (transitionClip && transitionClip->binClip()) {
+                int frameWidth = transitionClip->binClip()->getProducerIntProperty("meta.media.width");
+                int frameHeight = transitionClip->binClip()->getProducerIntProperty("meta.media.height");
+                double factor = transitionClip->binClip()->getProducerProperty("aspect_ratio").toDouble();
                 if (factor == 0) factor = 1.0;
-                p.setX((int)(size.section('x', 0, 0).toInt() * factor + 0.5));
-                p.setY(size.section('x', 1, 1).toInt());
+                p.setX((int)(frameWidth * factor + 0.5));
+                p.setY(frameHeight);
             }
             emit transitionItemSelected(transition, getPreviousVideoTrack(info.track), p, true);
             new MoveTransitionCommand(this, oldInfo, info, false, command);
@@ -5194,7 +5158,7 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, const ItemInfo &info
             EffectsList::setParameter(effect, "in", QString::number(start));
             EffectsList::setParameter(effect, "out", QString::number(end));
             if (standalone) {
-                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(effect), false))
+                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect), false))
                     emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
                 // if fade effect is displayed, update the effect edit widget with new clip duration
                 if (item->isSelected() && effectPos == item->selectedEffectIndex())
@@ -5215,7 +5179,7 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, const ItemInfo &info
             EffectsList::setParameter(effect, "in", QString::number(start));
             EffectsList::setParameter(effect, "out", QString::number(end));
             if (standalone) {
-                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(effect), false))
+                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect), false))
                     emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
                 // if fade effect is displayed, update the effect edit widget with new clip duration
                 if (item->isSelected() && effectPos == item->selectedEffectIndex())
@@ -5241,7 +5205,7 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, const ItemInfo &info
             EffectsList::setParameter(effect, "in", QString::number(start));
             EffectsList::setParameter(effect, "out", QString::number(end));
             if (standalone) {
-                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(effect), false))
+                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect), false))
                     emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
                 // if fade effect is displayed, update the effect edit widget with new clip duration
                 if (item->isSelected() && effectPos == item->selectedEffectIndex())
@@ -5262,7 +5226,7 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, const ItemInfo &info
             EffectsList::setParameter(effect, "in", QString::number(start));
             EffectsList::setParameter(effect, "out", QString::number(end));
             if (standalone) {
-                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), getEffectArgs(effect), false))
+                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect), false))
                     emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
                 // if fade effect is displayed, update the effect edit widget with new clip duration
                 if (item->isSelected() && effectPos == item->selectedEffectIndex())
@@ -5314,7 +5278,11 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected, QList <GenTim
                 }
             }
             // Add clip markers
-            QList < GenTime > markers = item->snapMarkers();
+            ClipController *controller = m_document->getClipController(item->getBinId());
+            if (!controller) {
+                qDebug()<<" + + ++ WARN, NO CTLRR!!!";
+            }
+            QList < GenTime > markers = item->snapMarkers(controller->snapMarkers());
             for (int j = 0; j < markers.size(); ++j) {
                 GenTime t = markers.at(j);
                 snaps.append(t);
@@ -5405,77 +5373,19 @@ void CustomTrackView::clipEnd()
 
 void CustomTrackView::slotAddClipExtraData(const QString &id, const QString &key, const QString &data, QUndoCommand *groupCommand)
 {
-    DocClipBase *base = m_document->clipManager()->getClipById(id);
+    ClipController *base = m_document->getClipController(id);
     if (!base) return;
-    QMap <QString, QString> extraData = base->analysisData();
+    //TODO
+    /*QMap <QString, QString> extraData = base->analysisData();
     QString oldData = extraData.value(key);
     AddExtraDataCommand *command = new AddExtraDataCommand(this, id, key, oldData, data, groupCommand);
-    if (!groupCommand) m_commandStack->push(command);
+    if (!groupCommand) m_commandStack->push(command);*/
 }
 
-void CustomTrackView::slotAddClipMarker(const QString &id, QList <CommentedTime> newMarkers, QUndoCommand *groupCommand)
-{
-    DocClipBase *base = m_document->clipManager()->getClipById(id);
-    if (!base) return;
-    QUndoCommand *subCommand = NULL;
-    if (newMarkers.count() > 1 && groupCommand == NULL) {
-        subCommand = new QUndoCommand;
-        subCommand->setText("Add markers");
-    }
-    for (int i = 0; i < newMarkers.count(); ++i) {
-        CommentedTime oldMarker = base->markerAt(newMarkers.at(i).time());
-        if (oldMarker == CommentedTime()) {
-            oldMarker = newMarkers.at(i);
-            oldMarker.setMarkerType(-1);
-        }
-        if (newMarkers.count() == 1 && !groupCommand) {
-            AddMarkerCommand *command = new AddMarkerCommand(this, oldMarker, newMarkers.at(i), id, groupCommand);
-            m_commandStack->push(command);
-        }
-        else if (groupCommand) {
-            (void) new AddMarkerCommand(this, oldMarker, newMarkers.at(i), id, groupCommand);
-        }
-        else {
-            (void) new AddMarkerCommand(this, oldMarker, newMarkers.at(i), id, subCommand);
-        }
-    }
-    if (subCommand) m_commandStack->push(subCommand);
-}
-
-void CustomTrackView::slotDeleteClipMarker(const QString &comment, const QString &id, const GenTime &position)
-{
-    CommentedTime oldmarker(position, comment);
-    CommentedTime marker = oldmarker;
-    marker.setMarkerType(-1);
-    AddMarkerCommand *command = new AddMarkerCommand(this, oldmarker, marker, id);
-    m_commandStack->push(command);
-}
-
-void CustomTrackView::slotDeleteAllClipMarkers(const QString &id)
-{
-    DocClipBase *base = m_document->clipManager()->getClipById(id);
-    if (!base) return;
-    QList <CommentedTime> markers = base->commentedSnapMarkers();
-
-    if (markers.isEmpty()) {
-        emit displayMessage(i18n("Clip has no markers"), ErrorMessage);
-        return;
-    }
-    QUndoCommand *deleteMarkers = new QUndoCommand();
-    deleteMarkers->setText("Delete clip markers");
-
-    for (int i = 0; i < markers.size(); ++i) {
-        CommentedTime oldMarker = markers.at(i);
-        CommentedTime marker = oldMarker;
-        marker.setMarkerType(-1);
-        new AddMarkerCommand(this, oldMarker, marker, id, deleteMarkers);
-    }
-    m_commandStack->push(deleteMarkers);
-}
 
 void CustomTrackView::slotSaveClipMarkers(const QString &id)
 {
-    DocClipBase *base = m_document->clipManager()->getClipById(id);
+    ClipController *base = m_document->getClipController(id);
     if (!base) return;
     QList < CommentedTime > markers = base->commentedSnapMarkers();
     if (!markers.isEmpty()) {
@@ -5526,101 +5436,14 @@ void CustomTrackView::slotSaveClipMarkers(const QString &id)
     }
 }
 
-void CustomTrackView::slotLoadClipMarkers(const QString &id)
-{
-    KComboBox *cbox = new KComboBox;
-    for (int i = 0; i < 5; ++i) {
-        cbox->insertItem(i, i18n("Category %1", i));
-        cbox->setItemData(i, CommentedTime::markerColor(i), Qt::DecorationRole);
-    }
-    cbox->setCurrentIndex(KdenliveSettings::default_marker_type());
-    //TODO KF5 how to ass custom cbox to Qfiledialog
-    QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Load Clip Markers"), m_document->projectFolder().path());
-    fd->setMimeTypeFilters(QStringList()<<"text/plain");
-    fd->setFileMode(QFileDialog::ExistingFile);
-    if (fd->exec() != QDialog::Accepted) return;
-    QStringList selection = fd->selectedFiles();
-    QString url;
-    if (!selection.isEmpty()) url = selection.first();
-    delete fd;
-
-    //QUrl url = KFileDialog::getOpenUrl(QUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Load marker file"));
-    if (url.isEmpty()) return;
-    int category = cbox->currentIndex();
-    delete cbox;
-    QFile file(url);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        emit displayMessage(i18n("Cannot open file %1", QUrl(url).fileName()), ErrorMessage);
-        return;
-    }
-    QString data = QString::fromUtf8(file.readAll());
-    file.close();
-    QStringList lines = data.split('\n', QString::SkipEmptyParts);
-    QStringList values;
-    bool ok;
-    QUndoCommand *command = new QUndoCommand();
-    command->setText("Load markers");
-    QString markerText;
-    QList <CommentedTime> markersList;
-    foreach(const QString &line, lines) {
-        markerText.clear();
-        values = line.split('\t', QString::SkipEmptyParts);
-        double time1 = values.at(0).toDouble(&ok);
-        double time2 = -1;
-        if (!ok) continue;
-        if (values.count() >1) {
-            time2 = values.at(1).toDouble(&ok);
-            if (values.count() == 2) {
-                // Check if second value is a number or text
-                if (!ok) {
-                    time2 = -1;
-                    markerText = values.at(1);
-                }
-                else markerText = i18n("Marker");
-            }
-            else {
-                // We assume 3 values per line: in out name
-                if (!ok) {
-                    // 2nd value is not a number, drop
-                }
-                else {
-                    markerText = values.at(2);
-                }
-            }
-        }
-        if (!markerText.isEmpty()) {
-            // Marker found, add it
-            //TODO: allow user to set a marker category
-            CommentedTime marker1(GenTime(time1), markerText, category);
-            markersList << marker1;
-            if (time2 > 0 && time2 != time1) {
-                CommentedTime marker2(GenTime(time2), markerText, category);
-                markersList << marker2;
-            }
-        }
-    }
-    if (!markersList.isEmpty()) slotAddClipMarker(id, markersList, command);
-    if (command->childCount() > 0) m_commandStack->push(command);
-    else delete command;
-}
-
-void CustomTrackView::addMarker(const QString &id, const CommentedTime &marker)
-{
-    DocClipBase *base = m_document->clipManager()->getClipById(id);
-    if (base == NULL) return;
-    if (marker.markerType() < 0) base->deleteSnapMarker(marker.time());
-    else base->addSnapMarker(marker);
-    emit updateClipMarkers(base);
-    setDocumentModified();
-    viewport()->update();
-}
 
 void CustomTrackView::addData(const QString &id, const QString &key, const QString &data)
 {
-    DocClipBase *base = m_document->clipManager()->getClipById(id);
+    ProjectClip *base = m_document->getBinClip(id);
     if (base == NULL) return;
-    base->setAnalysisData(key, data);
-    emit updateClipExtraData(base);
+    //TODO
+    /*base->setAnalysisData(key, data);
+    emit updateClipExtraData(base);*/
     setDocumentModified();
     viewport()->update();
 }
@@ -5646,6 +5469,15 @@ void CustomTrackView::buildGuidesMenu(QMenu *goMenu) const
     goMenu->setEnabled(!m_guides.isEmpty());
 }
 
+QMap <double, QString> CustomTrackView::guidesData() const
+{
+    QMap <double, QString> data;
+    for (int i = 0; i < m_guides.count(); ++i) {
+        data.insert(m_guides.at(i)->position().seconds(), m_guides.at(i)->label());
+    }
+    return data;
+}
+
 void CustomTrackView::editGuide(const GenTime &oldPos, const GenTime &pos, const QString &comment)
 {
     if (comment.isEmpty() && pos < GenTime()) {
@@ -5660,7 +5492,6 @@ void CustomTrackView::editGuide(const GenTime &oldPos, const GenTime &pos, const
         }
         if (!found) emit displayMessage(i18n("No guide at cursor time"), ErrorMessage);
     }
-    
     else if (oldPos >= GenTime()) {
         // move guide
         for (int i = 0; i < m_guides.count(); ++i) {
@@ -5672,10 +5503,10 @@ void CustomTrackView::editGuide(const GenTime &oldPos, const GenTime &pos, const
         }
     } else addGuide(pos, comment);
     qSort(m_guides.begin(), m_guides.end(), sortGuidesList);
-    m_document->syncGuides(m_guides);
+    emit guidesUpdated();
 }
 
-bool CustomTrackView::addGuide(const GenTime &pos, const QString &comment)
+bool CustomTrackView::addGuide(const GenTime &pos, const QString &comment, bool loadingProject)
 {
     for (int i = 0; i < m_guides.count(); ++i) {
         if (m_guides.at(i)->position() == pos) {
@@ -5687,7 +5518,9 @@ bool CustomTrackView::addGuide(const GenTime &pos, const QString &comment)
     scene()->addItem(g);
     m_guides.append(g);
     qSort(m_guides.begin(), m_guides.end(), sortGuidesList);
-    m_document->syncGuides(m_guides);
+    if (!loadingProject) {
+        emit guidesUpdated();
+    }
     return true;
 }
 
@@ -5859,7 +5692,7 @@ void CustomTrackView::drawBackground(QPainter * painter, const QRectF &rect)
         if (info.isLocked || info.type == AudioTrack || i == m_selectedTrack) {
             const QRectF track(min, m_tracksHeight * i + 1, max - min, m_tracksHeight - 1);
             if (i == m_selectedTrack)
-                painter->fillRect(track, m_activeTrackBrush.brush(this));
+                painter->fillRect(track, palette().color(QPalette::Active, QPalette::Mid));
             else
                 painter->fillRect(track, info.isLocked ? lockedColor : audioColor);
         }
@@ -5924,7 +5757,8 @@ void CustomTrackView::initSearchStrings()
             CommentedTime t(start, item->clipName());
             m_searchPoints.append(t);
             // add all clip markers
-            QList < CommentedTime > markers = item->commentedSnapMarkers();
+            ClipController *controller = m_document->getClipController(item->getBinId());
+            QList < CommentedTime > markers = controller->commentedSnapMarkers();
             m_searchPoints += markers;
         }
     }
@@ -5949,7 +5783,7 @@ QList<ItemInfo> CustomTrackView::findId(const QString &clipId)
     for (int i = 0; i < itemList.count(); ++i) {
         if (itemList.at(i)->type() == AVWidget) {
             ClipItem *item = static_cast<ClipItem*>(itemList.at(i));
-            if (item->clipProducer() == clipId)
+            if (item->getBinId() == clipId)
                 matchingInfo << item->info();
         }
     }
@@ -6087,7 +5921,7 @@ void CustomTrackView::pasteClip()
             info.endPos += offset;
             info.track += trackOffset;
             if (canBePastedTo(info, AVWidget)) {
-                new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), info, clip->effectList(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, true, false, pasteClips);
+                new AddTimelineClipCommand(this, clip->getBinId(), info, clip->effectList(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, true, false, pasteClips);
             } else emit displayMessage(i18n("Cannot paste clip to selected place"), ErrorMessage);
         } else if (m_copiedItems.at(i) && m_copiedItems.at(i)->type() == TransitionWidget) {
             Transition *tr = static_cast <Transition *>(m_copiedItems.at(i));
@@ -6323,14 +6157,14 @@ void CustomTrackView::slotUpdateAllThumbs()
             if (item && item->isEnabled() && item->clipType() != Color && item->clipType() != Audio) {
                 // Check if we have a cached thumbnail
                 if (item->clipType() == Image || item->clipType() == Text) {
-                    QString thumb = thumbBase + item->baseClip()->getClipHash() + "_0.png";
+                    QString thumb = thumbBase + item->getBinHash() + "_0.png";
                     if (QFile::exists(thumb)) {
                         QPixmap pix(thumb);
                         if (pix.isNull()) QFile::remove(thumb);
                         item->slotSetStartThumb(pix);
                     }
                 } else {
-                    QString startThumb = thumbBase + item->baseClip()->getClipHash() + '_';
+                    QString startThumb = thumbBase + item->getBinHash() + '_';
                     QString endThumb = startThumb;
                     startThumb.append(QString::number((int) item->speedIndependantCropStart().frames(m_document->fps())) + ".png");
                     endThumb.append(QString::number((int) (item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + ".png");
@@ -6363,13 +6197,13 @@ void CustomTrackView::saveThumbnails()
             if (item->clipType() != Color) {
                 // Check if we have a cached thumbnail
                 if (item->clipType() == Image || item->clipType() == Text || item->clipType() == Audio) {
-                    QString thumb = thumbBase + item->baseClip()->getClipHash() + "_0.png";
+                    QString thumb = thumbBase + item->getBinHash() + "_0.png";
                     if (!QFile::exists(thumb)) {
                         QPixmap pix(item->startThumb());
                         pix.save(thumb);
                     }
                 } else {
-                    QString startThumb = thumbBase + item->baseClip()->getClipHash() + '_';
+                    QString startThumb = thumbBase + item->getBinHash() + '_';
                     QString endThumb = startThumb;
                     startThumb.append(QString::number((int) item->speedIndependantCropStart().frames(m_document->fps())) + ".png");
                     endThumb.append(QString::number((int) (item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + ".png");
@@ -6413,7 +6247,6 @@ void CustomTrackView::slotInsertTrack(int ix)
         }
         AddTrackCommand *addTrack = new AddTrackCommand(this, ix, info, true);
         m_commandStack->push(addTrack);
-        setDocumentModified();
     }
     delete d;
 }
@@ -6432,7 +6265,6 @@ void CustomTrackView::slotDeleteTrack(int ix)
         ix = d->comboTracks->currentIndex();
         TrackInfo info = m_document->trackInfoAt(m_document->tracksCount() - ix - 1);
         deleteTimelineTrack(ix, info);
-        setDocumentModified();
         /*AddTrackCommand* command = new AddTrackCommand(this, ix, info, false);
         m_commandStack->push(command);*/
     }
@@ -6451,7 +6283,6 @@ void CustomTrackView::slotConfigTracks(int ix)
             TrackInfo info = m_document->trackInfoAt(m_document->tracksCount() - toDelete.at(i) + i - 1);
             deleteTimelineTrack(toDelete.at(i) - i, info);
         }
-        setDocumentModified();
     }
     delete d;
 }
@@ -6474,7 +6305,7 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == AVWidget) {
             ClipItem *item =  static_cast <ClipItem *>(selection.at(i));
-            new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), false, false, false, true, deleteTrack);
+            new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), false, false, false, true, deleteTrack);
             m_waitingThumbs.removeAll(item);
             m_scene->removeItem(item);
             delete item;
@@ -6514,7 +6345,7 @@ void CustomTrackView::clipNameChanged(const QString &id, const QString &name)
     for (int i = 0; i < list.size(); ++i) {
         if (list.at(i)->type() == AVWidget) {
             clip = static_cast <ClipItem *>(list.at(i));
-            if (clip->clipProducer() == id) {
+            if (clip->getBinId() == id) {
                 clip->setClipName(name);
             }
         }
@@ -6622,8 +6453,7 @@ void CustomTrackView::setAudioAlignReference()
         ClipItem *clip = static_cast<ClipItem*>(selection.at(0));
         if (clip->clipType() == AV || clip->clipType() == Audio) {
             m_audioAlignmentReference = clip;
-
-            AudioEnvelope *envelope = new AudioEnvelope(clip->baseClip()->fileURL().path(), clip->getProducer(clip->track()));
+            AudioEnvelope *envelope = new AudioEnvelope(clip->binClip()->url().path(), m_document->renderer()->getTrackProducer(clip->getBinId(), clip->track()));
             m_audioCorrelator = new AudioCorrelation(envelope);
             connect(m_audioCorrelator, SIGNAL(gotAudioAlignData(int,int,int)), this, SLOT(slotAlignClip(int,int,int)));
             connect(m_audioCorrelator, SIGNAL(displayMessage(QString,MessageType)), this, SIGNAL(displayMessage(QString,MessageType)));
@@ -6662,7 +6492,7 @@ void CustomTrackView::alignAudio()
 
             if (clip->clipType() == AV || clip->clipType() == Audio) {
                 ItemInfo info = clip->info();
-                AudioEnvelope *envelope = new AudioEnvelope(clip->baseClip()->fileURL().path(), clip->getProducer(clip->track()), info.cropStart.frames(m_document->fps()), info.cropDuration.frames(m_document->fps()), clip->track(), info.startPos.frames(m_document->fps()));
+                AudioEnvelope *envelope = new AudioEnvelope(clip->binClip()->url().path(), m_document->renderer()->getTrackProducer(clip->getBinId(), clip->track()), info.cropStart.frames(m_document->fps()), info.cropDuration.frames(m_document->fps()), clip->track(), info.startPos.frames(m_document->fps()));
                 m_audioCorrelator->addChild(envelope);
             }
         }
@@ -6732,11 +6562,8 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
             return;
 
         for (; freetrack > 0; --freetrack) {
-            ////qDebug() << "// CHK DOC TRK:" << freetrack << ", DUR:" << m_document->renderer()->mltTrackDuration(freetrack);
             if (m_document->trackInfoAt(freetrack - 1).type == AudioTrack && !m_document->trackInfoAt(freetrack - 1).isLocked) {
-                ////qDebug() << "// CHK DOC TRK:" << freetrack << ", DUR:" << m_document->renderer()->mltTrackDuration(freetrack);
                 if (m_document->renderer()->mltTrackDuration(freetrack) < start || m_document->renderer()->mltGetSpaceLength(pos, freetrack, false) >= clip->cropDuration().frames(m_document->fps())) {
-                    ////qDebug() << "FOUND SPACE ON TRK: " << freetrack;
                     break;
                 }
             }
@@ -6746,16 +6573,18 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
         } else {
             ItemInfo info = clip->info();
             info.track = m_document->tracksCount() - freetrack;
-            QDomElement xml = clip->xml();
-            xml.setAttribute("audio_only", 1);
+	    //TODO: pass audio only information in another way
+            //QDomElement xml = clip->xml();
+            //xml.setAttribute("audio_only", 1);
             scene()->clearSelection();
-            addClip(xml, clip->clipProducer(), info, clip->effectList(), false, false, false);
+            addClip(clip->getBinId(), info, clip->effectList(), false, false, false);
             clip->setSelected(true);
             ClipItem *audioClip = getClipItemAtStart(pos, info.track);
             if (audioClip) {
                 clip->setVideoOnly(true);
                 Mlt::Tractor *tractor = m_document->renderer()->lockService();
-                if (m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - track, start, clip->baseClip()->videoProducer(info.track)) == false) {
+                //TODO use VIDEO ONLY producer
+                if (m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - track, start, m_document->renderer()->getTrackProducer(clip->getBinId(), info.track, false, true)) == false) {
                     emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", start, track), ErrorMessage);
                 }
                 m_document->renderer()->unlockService(tractor);
@@ -6799,7 +6628,7 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
                             tractor,
                             m_document->tracksCount() - info.track,
                             info.startPos.frames(m_document->fps()),
-                            clip->baseClip()->getProducer(info.track))) {
+                            m_document->renderer()->getTrackProducer(clip->getBinId(), info.track))) {
 
                     emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)",
                                              info.startPos.frames(m_document->fps()), info.track),
@@ -6871,18 +6700,11 @@ void CustomTrackView::doChangeClipType(const GenTime &pos, int track, bool video
     int start = pos.frames(m_document->fps());
     clip->setAudioOnly(audioOnly);
     clip->setVideoOnly(videoOnly);
-    Mlt::Producer *producer;
-    if (videoOnly)
-        producer = clip->baseClip()->videoProducer(track);
-    else if (audioOnly)
-        producer = clip->baseClip()->audioProducer(track);
-    else
-        producer = clip->baseClip()->getProducer(track);
+    Mlt::Producer *producer = m_document->renderer()->getTrackProducer(clip->getBinId(), track, audioOnly, videoOnly);
     if (m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - track, start, producer) == false)
         emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", start, track), ErrorMessage);
     m_document->renderer()->unlockService(tractor);
     clip->update();
-    setDocumentModified();
 }
 
 void CustomTrackView::updateClipTypeActions(ClipItem *clip)
@@ -7069,7 +6891,7 @@ QStringList CustomTrackView::selectedClips() const
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == AVWidget) {
             ClipItem *item = static_cast<ClipItem*>(selection.at(i));
-            clipIds << item->clipProducer();
+            clipIds << item->getBinId();
         }
     }
     return clipIds;
@@ -7202,7 +7024,6 @@ void CustomTrackView::checkTrackSequence(int track)
 void CustomTrackView::insertZoneOverwrite(QStringList data, int in)
 {
     if (data.isEmpty()) return;
-    DocClipBase *clip = m_document->getBaseClip(data.at(0));
     ItemInfo info;
     info.startPos = GenTime(in, m_document->fps());
     info.cropStart = GenTime(data.at(1).toInt(), m_document->fps());
@@ -7212,7 +7033,7 @@ void CustomTrackView::insertZoneOverwrite(QStringList data, int in)
     QUndoCommand *addCommand = new QUndoCommand();
     addCommand->setText(i18n("Insert clip"));
     adjustTimelineClips(OverwriteEdit, NULL, info, addCommand);
-    new AddTimelineClipCommand(this, clip->toXML(), clip->getId(), info, EffectsList(), true, false, true, false, addCommand);
+    new AddTimelineClipCommand(this, data.at(0), info, EffectsList(), true, false, true, false, addCommand);
     updateTrackDuration(info.track, addCommand);
     m_commandStack->push(addCommand);
 
@@ -7233,7 +7054,6 @@ void CustomTrackView::clearSelection(bool emitInfo)
 
 void CustomTrackView::updatePalette()
 {
-    m_activeTrackBrush = KStatefulBrush(KColorScheme::View, KColorScheme::ActiveBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     if (m_cursorLine) {
         QPen pen1 = QPen();
         pen1.setWidth(1);
@@ -7378,110 +7198,12 @@ void CustomTrackView::slotAddTrackEffect(const QDomElement &effect, int ix)
 
     if (effectCommand->childCount() > 0) {
         m_commandStack->push(effectCommand);
-        setDocumentModified();
     }
     else delete effectCommand;
 }
 
 
-EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement &effect)
-{
-    EffectsParameterList parameters;
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    parameters.addParam("tag", effect.attribute("tag"));
-    //if (effect.hasAttribute("region")) parameters.addParam("region", effect.attribute("region"));
-    parameters.addParam("kdenlive_ix", effect.attribute("kdenlive_ix"));
-    parameters.addParam("kdenlive_info", effect.attribute("kdenlive_info"));
-    parameters.addParam("id", effect.attribute("id"));
-    if (effect.hasAttribute("src")) parameters.addParam("src", effect.attribute("src"));
-    if (effect.hasAttribute("disable")) parameters.addParam("disable", effect.attribute("disable"));
-    if (effect.hasAttribute("in")) parameters.addParam("in", effect.attribute("in"));
-    if (effect.hasAttribute("out")) parameters.addParam("out", effect.attribute("out"));
-    if (effect.attribute("id") == "region") {
-        QDomNodeList subeffects = effect.elementsByTagName("effect");
-        for (int i = 0; i < subeffects.count(); ++i) {
-            QDomElement subeffect = subeffects.at(i).toElement();
-            int subeffectix = subeffect.attribute("region_ix").toInt();
-            parameters.addParam(QString("filter%1").arg(subeffectix), subeffect.attribute("id"));
-            parameters.addParam(QString("filter%1.tag").arg(subeffectix), subeffect.attribute("tag"));
-            parameters.addParam(QString("filter%1.kdenlive_info").arg(subeffectix), subeffect.attribute("kdenlive_info"));
-            QDomNodeList subparams = subeffect.elementsByTagName("parameter");
-            adjustEffectParameters(parameters, subparams, m_document->mltProfile(), QString("filter%1.").arg(subeffectix));
-        }
-    }
 
-    QDomNodeList params = effect.elementsByTagName("parameter");
-    adjustEffectParameters(parameters, params, m_document->mltProfile());
-    
-    return parameters;
-}
-
-
-void CustomTrackView::adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, MltVideoProfile profile, const QString &prefix)
-{
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    for (int i = 0; i < params.count(); ++i) {
-        QDomElement e = params.item(i).toElement();
-        QString paramname = prefix + e.attribute("name");
-        if (e.attribute("type") == "geometry" && !e.hasAttribute("fixed")) {
-            // effects with geometry param need in / out synced with the clip, request it...
-            parameters.addParam("_sync_in_out", "1");
-        }
-        if (e.attribute("type") == "simplekeyframe") {
-            QStringList values = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
-            double factor = e.attribute("factor", "1").toDouble();
-            double offset = e.attribute("offset", "0").toDouble();
-            for (int j = 0; j < values.count(); ++j) {
-                QString pos = values.at(j).section('=', 0, 0);
-                double val = (values.at(j).section('=', 1, 1).toDouble() - offset) / factor;
-                values[j] = pos + '=' + locale.toString(val);
-            }
-            // //qDebug() << "/ / / /SENDING KEYFR:" << values;
-            parameters.addParam(paramname, values.join(";"));
-            /*parameters.addParam(e.attribute("name"), e.attribute("keyframes").replace(":", "="));
-            parameters.addParam("max", e.attribute("max"));
-            parameters.addParam("min", e.attribute("min"));
-            parameters.addParam("factor", e.attribute("factor", "1"));*/
-        } else if (e.attribute("type") == "keyframe") {
-            //qDebug() << "/ / / /SENDING KEYFR EFFECT TYPE";
-            parameters.addParam("keyframes", e.attribute("keyframes"));
-            parameters.addParam("max", e.attribute("max"));
-            parameters.addParam("min", e.attribute("min"));
-            parameters.addParam("factor", e.attribute("factor", "1"));
-            parameters.addParam("offset", e.attribute("offset", "0"));
-            parameters.addParam("starttag", e.attribute("starttag", "start"));
-            parameters.addParam("endtag", e.attribute("endtag", "end"));
-        } else if (e.attribute("namedesc").contains(';')) {
-            QString format = e.attribute("format");
-            QStringList separators = format.split("%d", QString::SkipEmptyParts);
-            QStringList values = e.attribute("value").split(QRegExp("[,:;x]"));
-            QString neu;
-            QTextStream txtNeu(&neu);
-            if (values.size() > 0)
-                txtNeu << (int)values[0].toDouble();
-            for (int i = 0; i < separators.size() && i + 1 < values.size(); ++i) {
-                txtNeu << separators[i];
-                txtNeu << (int)(values[i+1].toDouble());
-            }
-            parameters.addParam("start", neu);
-        } else {
-            if (e.attribute("factor", "1") != "1" || e.attribute("offset", "0") != "0") {
-                double fact;
-                if (e.attribute("factor").contains('%')) {
-                    fact = ProfilesDialog::getStringEval(profile, e.attribute("factor"));
-                } else {
-                    fact = e.attribute("factor", "1").toDouble();
-                }
-                double offset = e.attribute("offset", "0").toDouble();
-                parameters.addParam(paramname, locale.toString((e.attribute("value").toDouble() - offset) / fact));
-            } else {
-                parameters.addParam(paramname, e.attribute("value"));
-            }
-        }
-    }
-}
 
 
 void CustomTrackView::updateTrackNames(int track, bool added)
@@ -7558,7 +7280,7 @@ void CustomTrackView::slotRefreshThumbs(const QString &id, bool resetThumbs)
     for (int i = 0; i < list.size(); ++i) {
         if (list.at(i)->type() == AVWidget) {
             clip = static_cast <ClipItem *>(list.at(i));
-            if (clip->clipProducer() == id) {
+            if (clip->getBinId() == id) {
                 clip->refreshClip(true, resetThumbs);
             }
         }
@@ -7631,7 +7353,8 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type)
         emit displayMessage(i18n("No clip found"), ErrorMessage);
         return;
     }
-    QMap <QString, QString> data = item->baseClip()->analysisData();
+    //TODO
+    QMap <QString, QString> data = QMap <QString, QString>(); //item->binClip()->analysisData();
     if (data.isEmpty()) {
         emit displayMessage(i18n("No keyframe data found in clip"), ErrorMessage);
         return;
@@ -7662,9 +7385,9 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type)
     int offset = item->cropStart().frames(m_document->fps());
    //Geometry( char *data = NULL, int length = 0, int nw = -1, int nh = -1 );
     // This geometry object is created with the keyframe data from our clip in the project tree
-    Mlt::Geometry geometry(keyframeData.toUtf8().data(), item->baseClip()->maxDuration().frames(m_document->fps()), m_document->mltProfile().width, m_document->mltProfile().height);
+    Mlt::Geometry geometry(keyframeData.toUtf8().data(), item->binClip()->duration().frames(m_document->fps()), m_document->mltProfile().width, m_document->mltProfile().height);
    // vvv create another Mlt:Geometery object in newGeometry - create with empty data
-    Mlt::Geometry newGeometry(QString().toUtf8().data(), item->baseClip()->maxDuration().frames(m_document->fps()), m_document->mltProfile().width, m_document->mltProfile().height);
+    Mlt::Geometry newGeometry(QString().toUtf8().data(), item->binClip()->duration().frames(m_document->fps()), m_document->mltProfile().width, m_document->mltProfile().height);
     Mlt::GeometryItem gitem;
     geometry.fetch(&gitem, offset);
     gitem.frame(0);
@@ -7678,7 +7401,7 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type)
         newGeometry.insert(gitem);
     }
     QStringList keyframeList = QString(newGeometry.serialise()).split(';', QString::SkipEmptyParts);
-    
+
     QString result;
     if (ui.import_position->isChecked()) {
         if (ui.import_size->isChecked()) {

@@ -40,13 +40,13 @@
 #include "kdenlivecore_export.h"
 #include "effectslist/effectslist.h"
 #include "gentime.h"
+#include "bin/bin.h"
 #include "definitions.h"
 #include "statusbarmessagelabel.h"
 #include "dvdwizard/dvdwizard.h"
 #include "stopmotion/stopmotion.h"
 
 class KdenliveDoc;
-class ProjectList;
 class EffectsListView;
 class EffectStackView;
 class EffectStackView2;
@@ -54,10 +54,11 @@ class TransitionSettings;
 class Monitor;
 class RecMonitor;
 class RenderWidget;
-class DocClipBase;
 class Render;
 class Transition;
 class KActionCollection;
+
+#define EXIT_RESTART (42)
 
 class /*KDENLIVECORE_EXPORT*/ MainWindow : public KXmlGuiWindow
 {
@@ -103,7 +104,6 @@ public:
 
     // TODO make private again
     QTabWidget* m_timelineArea;
-    ProjectList *m_projectList;
     StopmotionWidget *m_stopmotion;
     QUndoGroup *m_commandStack;
     KActionCollection *m_tracksActionCollection;
@@ -111,6 +111,9 @@ public:
     TransitionSettings *m_transitionConfig;
     QUndoView *m_undoView;
     StatusBarMessageLabel *m_messageLabel;
+    /** @brief holds info about whether movit is available on this system */
+    bool m_gpuAllowed;
+    int m_exitCode;
 
 protected:
 
@@ -119,6 +122,7 @@ protected:
      *     the operation requested (starting waiting jobs or saving file) fails,
      *     true otherwise */
     virtual bool queryClose();
+    virtual void closeEvent(QCloseEvent*);
 
     /** @brief Reports a message in the status bar when an error occurs. */
     virtual void customEvent(QEvent *e);
@@ -146,6 +150,7 @@ private:
     
     KColorSchemeManager *m_colorschemes;
 
+    QDockWidget *m_projectBinDock;
     QDockWidget *m_projectListDock;
 
     QDockWidget *m_effectListDock;
@@ -193,7 +198,7 @@ private:
 
     RenderWidget *m_renderWidget;
 
-    QAction **m_transitions;
+    QList <QAction *>m_transitions;
     QAction *m_buttonAudioThumbs;
     QAction *m_buttonVideoThumbs;
     QAction *m_buttonShowMarkers;
@@ -213,6 +218,7 @@ private:
     QAction *m_loopZone;
     QAction *m_playZone;
     QAction *m_loopClip;
+    QAction *m_proxyClip;
     QActionGroup *m_clipTypeGroup;
     KActionCollection *m_effectsActionCollection;
     QString m_theme;
@@ -268,7 +274,7 @@ private slots:
     /** @brief Reflects setting changes to the GUI. */
     void updateConfiguration();
     void slotConnectMonitors();
-    void slotUpdateClip(const QString &id);
+    void slotUpdateClip(const QString &id, bool reload);
     void slotUpdateMousePosition(int pos);
     void slotUpdateProjectDuration(int pos);
     void slotAddEffect(const QDomElement &effect);
@@ -354,10 +360,7 @@ private slots:
     void slotCopy();
     void slotPaste();
     void slotPasteEffects();
-
-    void slotAdjustClipMonitor();
-    void slotAdjustProjectMonitor();
-    void slotSaveZone(Render *render, const QPoint &zone, DocClipBase *baseClip = NULL, QUrl path = QUrl());
+    //void slotSaveZone(Render *render, const QPoint &zone, DocClipBase *baseClip = NULL, QUrl path = QUrl());
 
     void slotResizeItemStart();
     void slotResizeItemEnd();
@@ -391,7 +394,6 @@ private slots:
     void slotUpdateClipType(QAction *action);
     void slotShowTimeline(bool show);
     void slotTranscode(const QStringList &urls = QStringList());
-    void slotStartClipAction();
     void slotTranscodeClip();
     /** @brief Archive project: creates a copy of the project file with all clips in a new folder. */
     void slotArchiveProject();
@@ -405,24 +407,19 @@ private slots:
     /** @brief Removes the focus of anything. */
     void slotRemoveFocus();
     void slotCleanProject();
-    void slotUpdateClipMarkers(DocClipBase *clip);
     void slotShutdown();
     void slotUpdateTrackInfo();
 
     void slotSwitchMonitors();
+    void slotSwitchMonitorOverlay(bool show);
+    void slotSwitchDropFrames(bool drop);
+    void slotSetMonitorGamma(int gamma);
     void slotCheckRenderStatus();
     void slotInsertZoneToTree();
     void slotInsertZoneToTimeline();
 
-    /** @brief Deletes items from timeline and document.
-    * @param ids The ids of the clips to delete.
-    * @param folderids The names and ids of the folders to delete. */
-    void slotDeleteProjectClips(const QStringList &ids, const QMap<QString, QString> &folderids);
     /** @brief Update the capture folder if user asked a change. */
     void slotUpdateCaptureFolder();
-
-    /** @brief Delete a clip from current project */
-    void slotDeleteClip(const QString &id);
 
     /** @brief The monitor informs that it needs (or not) to have frames sent by the renderer. */
     void slotMonitorRequestRenderFrame(bool request);
@@ -448,6 +445,8 @@ private slots:
     void slotRippleDelete();
     void slotThemeChanged(const QString &);
     void slotReloadTheme();
+    /** @brief Close Kdenlive and try to restart it */
+    void slotRestart();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

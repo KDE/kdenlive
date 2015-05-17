@@ -3,6 +3,20 @@
 <kcfg>
 
   <kcfgfile/>
+  <group name="bin">
+    <entry name="treeviewheaders" type="String">
+      <label>Bin treeview headers state.</label>
+      <default></default>
+    </entry>
+    <entry name="binMode" type="Int">
+      <label>Bin view mode.</label>
+      <default>0</default>
+    </entry>
+    <entry name="bin_zoom" type="Int">
+      <label>Bin default zoom.</label>
+      <default>4</default>
+    </entry>
+  </group>
 
   <group name="misc">
     <entry name="openlastproject" type="Bool">
@@ -192,14 +206,9 @@
     </group>
 
     <group name="sdl">
-    <entry name="openglmonitors" type="Bool">
-      <label>Use OpenGL for video display.</label>
+    <entry name="gpu_accel" type="Bool">
+      <label>Use Movit for GPU accelerated display and effects.</label>
       <default>false</default>
-    </entry>
-    
-    <entry name="video_driver" type="UInt">
-      <label>Video driver used for output.</label>
-      <default>0</default>
     </entry>
 
     <entry name="audio_driver" type="UInt">
@@ -228,13 +237,23 @@
     </entry>
 
     <entry name="window_background" type="Color">
-      <label>Background color for SDL monitor.</label>
+      <label>Background color for OpenGL monitor.</label>
       <default>#999999</default>
     </entry>
 
     <entry name="volume" type="Int">
       <label>Volume used for SDL output.</label>
       <default>100</default>
+    </entry>
+    
+    <entry name="monitor_dropframes" type="Bool">
+      <label>Allow framedropping in monitor playback.</label>
+      <default>true</default>
+    </entry>
+    
+    <entry name="monitor_gamma" type="Int">
+      <label>Monitor gamma (rbg / rec 709).</label>
+      <default>0</default>
     </entry>
 
     <entry name="external_display" type="Bool">
@@ -248,11 +267,6 @@
 </group>
 
   <group name="env">
-    <entry name="activate_nepomuk" type="Bool">
-      <label>Integration with Desktop Search (Nepomuk).</label>
-      <default>false</default>
-    </entry>
-
     <entry name="mltpath" type="Path">
       <label>Mlt framework install path.</label>
       <default></default>
@@ -631,7 +645,12 @@
       <label>Show overlay info on monitor (in / out points, markers,...).</label>
       <default>true</default>
     </entry>
-    
+
+    <entry name="displayAudioOverlay" type="Bool">
+      <label>Show audio overlay info on monitor.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="showOnMonitorScene" type="Bool">
       <label>Show on monitor adjustable effect parameter (geometry, ..).</label>
       <default>true</default>
@@ -810,7 +829,14 @@
       <label>Name of the chosen interpol method.</label>
       <default>nearest</default>
     </entry>
-
+    <entry name="favorite_effects" type="StringList">
+      <label>List of favorite effects ids.</label>
+      <default></default>
+    </entry>
+    <entry name="selected_effecttab" type="Int">
+      <label>Last opened effect list tab.</label>
+      <default>0</default>
+    </entry>
   </group>
 
 </kcfg>

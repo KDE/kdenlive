@@ -29,7 +29,8 @@
 #include "projectlistview.h"
 #include "clipstabilize.h"
 #include "dialogs/slideshowclip.h"
-#include "clippropertiesmanager.h"
+//#include "clippropertiesmanager.h"
+#include "mltcontroller/bincontroller.h"
 #include "kdenlivesettings.h"
 #include "renderer.h"
 #include "doc/kthumb.h"
@@ -248,7 +249,6 @@ ProjectList::ProjectList(QWidget *parent) :
     m_infoMessage = new MyMessageWidget;
     layout->addWidget(m_infoMessage);
     m_infoMessage->setCloseButtonVisible(true);
-    connect(m_infoMessage, SIGNAL(messageClosing()), this, SLOT(slotResetInfoMessage()));
     //m_infoMessage->setWordWrap(true);
     m_infoMessage->hide();
     m_logAction = new QAction(i18n("Show Log"), this);
@@ -285,7 +285,7 @@ ProjectList::ProjectList(QWidget *parent) :
     m_listViewDelegate = new ItemDelegate(m_listView);
     m_listView->setItemDelegate(m_listViewDelegate);
 
-    m_clipPropertiesManager = new ClipPropertiesManager(this);
+    //m_clipPropertiesManager = new ClipPropertiesManager(this);
 }
 
 ProjectList::~ProjectList()
@@ -317,90 +317,6 @@ void ProjectList::selectClip(const QString &id)
 {
     ProjectItem *item = getItemById(id);
     if (item) m_listView->setCurrentItem(item);
-}
-
-void ProjectList::setupMenu(QMenu *addMenu, QAction *defaultAction)
-{
-    QList <QAction *> actions = addMenu->actions();
-    for (int i = 0; i < actions.count(); ++i) {
-        if (actions.at(i)->data().toString() == "clip_properties") {
-            m_editButton->setDefaultAction(actions.at(i));
-            actions.removeAt(i);
-            --i;
-        } else if (actions.at(i)->data().toString() == "delete_clip") {
-            m_deleteButton->setDefaultAction(actions.at(i));
-            actions.removeAt(i);
-            --i;
-        } else if (actions.at(i)->data().toString() == "edit_clip") {
-            m_openAction = actions.at(i);
-            actions.removeAt(i);
-            --i;
-        } else if (actions.at(i)->data().toString() == "reload_clip") {
-            m_reloadAction = actions.at(i);
-            actions.removeAt(i);
-            --i;
-        } else if (actions.at(i)->data().toString() == "proxy_clip") {
-            m_proxyAction = actions.at(i);
-            actions.removeAt(i);
-            --i;
-        }
-    }
-
-    QMenu *m = new QMenu();
-    m->addActions(actions);
-    m_addButton->setMenu(m);
-    m_addButton->setDefaultAction(defaultAction);
-    m_menu = new QMenu();
-    m_menu->addActions(addMenu->actions());
-}
-
-void ProjectList::setupGeneratorMenu(const QHash<QString,QMenu*>& menus)
-{
-    if (!m_menu) {
-        //qDebug()<<"Warning, menu was not created, something is wrong";
-        return;
-    }
-    if (!menus.contains("addMenu") && ! menus.value("addMenu") )
-        return;
-    QMenu *menu = m_addButton->menu();
-    if (menus.contains("addMenu") && menus.value("addMenu")){
-        QMenu* addMenu=menus.value("addMenu");
-        menu->addMenu(addMenu);
-        m_addButton->setMenu(menu);
-        if (addMenu->isEmpty())
-            addMenu->setEnabled(false);
-    }
-    if (menus.contains("extractAudioMenu") && menus.value("extractAudioMenu") ){
-        QMenu* extractAudioMenu = menus.value("extractAudioMenu");
-        m_menu->addMenu(extractAudioMenu);
-        m_extractAudioAction = extractAudioMenu;
-    }
-    if (menus.contains("transcodeMenu") && menus.value("transcodeMenu") ){
-        QMenu* transcodeMenu = menus.value("transcodeMenu");
-        m_menu->addMenu(transcodeMenu);
-        if (transcodeMenu->isEmpty())
-            transcodeMenu->setEnabled(false);
-        m_transcodeAction = transcodeMenu;
-    }
-    if (menus.contains("clipActionsMenu") && menus.value("clipActionsMenu") ){
-        QMenu* stabilizeMenu=menus.value("clipActionsMenu");
-        m_menu->addMenu(stabilizeMenu);
-        if (stabilizeMenu->isEmpty())
-            stabilizeMenu->setEnabled(false);
-        m_clipsActionsMenu = stabilizeMenu;
-
-    }
-    if (m_reloadAction) m_menu->addAction(m_reloadAction);
-    if (m_proxyAction) m_menu->addAction(m_proxyAction);
-    if (menus.contains("inTimelineMenu") && menus.value("inTimelineMenu")){
-        QMenu* inTimelineMenu=menus.value("inTimelineMenu");
-        m_menu->addMenu(inTimelineMenu);
-        inTimelineMenu->setEnabled(false);
-    }
-    m_menu->addAction(m_editButton->defaultAction());
-    m_menu->addAction(m_openAction);
-    m_menu->addAction(m_deleteButton->defaultAction());
-    m_menu->insertSeparator(m_deleteButton->defaultAction());
 }
 
 void ProjectList::clearSelection()
@@ -440,7 +356,7 @@ void ProjectList::slotEditClip()
         item = static_cast <ProjectItem*>(m_listView->currentItem());
     if (item && (item->flags() & Qt::ItemIsDragEnabled)) {
         emit clipSelected(item->referencedClip());
-        m_clipPropertiesManager->showClipPropertiesDialog(item->referencedClip());
+        //m_clipPropertiesManager->showClipPropertiesDialog(item->referencedClip());
     }
 }
 
@@ -546,7 +462,7 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
         emit displayMessage(i18n("No available clip selected"), -2, ErrorMessage);
     }
     else {
-        m_clipPropertiesManager->showClipPropertiesDialog(clipList, commonproperties);
+        //m_clipPropertiesManager->showClipPropertiesDialog(clipList, commonproperties);
     }
 }
 
@@ -653,7 +569,7 @@ void ProjectList::slotReloadClip(const QString &id)
             continue;
         }
         item = static_cast <ProjectItem *>(selected.at(i));
-        if (item && !hasPendingJob(item, PROXYJOB)) {
+        if (item && !hasPendingJob(item, AbstractClipJob::PROXYJOB)) {
             DocClipBase *clip = item->referencedClip();
             if (!clip || !clip->isClean() || m_render->isProcessing(item->clipId())) {
                 //qDebug()<<"//// TRYING TO RELOAD: "<<item->clipId()<<", but it is busy";
@@ -731,7 +647,7 @@ void ProjectList::slotMissingClip(const QString &id)
                 Mlt::Properties src_props(item->referencedClip()->getProducer()->get_properties());
                 props.inherit(src_props);
             }
-            item->referencedClip()->setProducer(newProd, true);
+            item->referencedClip()->setProducer(*newProd, true);
             item->slotSetToolTip();
             emit clipNeedsReload(id);
         }
@@ -786,6 +702,7 @@ void ProjectList::slotClipSelected()
     ProjectItem *clip = NULL;
     if (item) {
         if (item->type() == ProjectFoldeType) {
+	    // User clicked on a folder item
             emit clipSelected(NULL);
             m_editButton->defaultAction()->setEnabled(item->childCount() > 0);
             m_deleteButton->defaultAction()->setEnabled(true);
@@ -803,7 +720,8 @@ void ProjectList::slotClipSelected()
                 return;
             }
             SubProjectItem *sub = static_cast <SubProjectItem*>(item);
-            if (clip->referencedClip()->getProducer() == NULL) m_render->getFileProperties(clip->referencedClip()->toXML(), clip->clipId(), m_listView->iconSize().height(), true);
+            //if (clip->referencedClip()->getProducer() == NULL) m_render->getFileProperties(clip->referencedClip()->toXML(), clip->clipId(), m_listView->iconSize().height(), true);
+	    if (!pCore->binController()->hasClip(clip->clipId())) m_render->getFileProperties(clip->referencedClip()->toXML(), clip->clipId(), m_listView->iconSize().height(), true);
             emit clipSelected(clip->referencedClip(), sub->zone());
             m_extractAudioAction->setEnabled(false);
             m_transcodeAction->setEnabled(false);
@@ -812,6 +730,7 @@ void ProjectList::slotClipSelected()
             adjustProxyActions(clip);
             return;
         } else {
+	    // User selected a clip
             clip = static_cast <ProjectItem*>(item);
             if (clip == NULL) {
                 //qDebug() << "-----------ERROR";
@@ -819,7 +738,8 @@ void ProjectList::slotClipSelected()
             }
             if (clip->referencedClip())
                 emit clipSelected(clip->referencedClip());
-            if (clip->referencedClip()->getProducer() == NULL) m_render->getFileProperties(clip->referencedClip()->toXML(), clip->clipId(), m_listView->iconSize().height(), true);
+            //if (clip->referencedClip()->getProducer() == NULL) m_render->getFileProperties(clip->referencedClip()->toXML(), clip->clipId(), m_listView->iconSize().height(), true);
+	    //if (clip->referencedClip()->binIndex() == -1) m_render->getFileProperties(clip->referencedClip()->toXML(), clip->clipId(), m_listView->iconSize().height(), true);
             m_editButton->defaultAction()->setEnabled(true);
             m_deleteButton->defaultAction()->setEnabled(true);
             m_reloadAction->setEnabled(true);
@@ -936,10 +856,10 @@ void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QSt
     if (!clip)
         return;
     clip->setProperties(properties);
-    if (properties.contains("proxy")) {
-        if (properties.value("proxy") == "-" || properties.value("proxy").isEmpty())
+    if (properties.contains("kdenlive:proxy")) {
+        if (properties.value("kdenlive:proxy") == "-" || properties.value("kdenlive:proxy").isEmpty())
             // this should only apply to proxy jobs
-            clip->setConditionalJobStatus(NoJob, PROXYJOB);
+            clip->setConditionalJobStatus(NoJob, AbstractClipJob::PROXYJOB);
     }
     if (properties.contains("name")) {
         monitorItemEditing(false);
@@ -972,7 +892,7 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
             if (item->text(0) == folder->groupName()) return;
             editFolder(item->text(0), folder->groupName(), folder->clipId());
             folder->setGroupName(item->text(0));
-            m_doc->clipManager()->addFolder(folder->clipId(), item->text(0));
+            //m_doc->clipManager()->addFolder(folder->clipId(), item->text(0));
             const int children = item->childCount();
             for (int i = 0; i < children; ++i) {
                 ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
@@ -998,8 +918,9 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
                 newprops.insert("templatetext", item->text(1));
             }
             slotUpdateClipProperties(clip->clipId(), newprops);
-            EditClipCommand *command = new EditClipCommand(this, clip->clipId(), oldprops, newprops, false);
-            m_commandStack->push(command);
+	    //TODO
+            /*EditClipCommand *command = new EditClipCommand(this, clip->clipId(), oldprops, newprops, false);
+            m_commandStack->push(command);*/
         }
     } else if (column == 0) {
         if (clip->referencedClip()) {
@@ -1010,8 +931,9 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
                 newprops["name"] = item->text(0);
                 slotUpdateClipProperties(clip, newprops);
                 emit projectModified();
-                EditClipCommand *command = new EditClipCommand(this, clip->clipId(), oldprops, newprops, false);
-                m_commandStack->push(command);
+		//TODO
+                /*EditClipCommand *command = new EditClipCommand(this, clip->clipId(), oldprops, newprops, false);
+                m_commandStack->push(command);*/
                 QTimer::singleShot(100, this, SLOT(slotCheckScrolling()));
             }
         }
@@ -1120,6 +1042,7 @@ void ProjectList::slotRemoveClip()
 
 void ProjectList::updateButtons() const
 {
+    return;
     if (m_listView->topLevelItemCount() == 0) {
         m_deleteButton->defaultAction()->setEnabled(false);
         m_editButton->defaultAction()->setEnabled(false);
@@ -1186,7 +1109,6 @@ void ProjectList::editFolder(const QString folderName, const QString oldfolderNa
 {
     EditFolderCommand *command = new EditFolderCommand(this, folderName, oldfolderName, clipId, false);
     m_commandStack->push(command);
-    m_doc->setModified(true);
 }
 
 void ProjectList::slotAddFolder(const QString &name)
@@ -1200,7 +1122,7 @@ void ProjectList::slotAddFolder(const QString &foldername, const QString &clipId
     if (remove) {
         FolderProjectItem *item = getFolderItemById(clipId);
         if (item) {
-            m_doc->clipManager()->deleteFolder(clipId);
+            //m_doc->clipManager()->deleteFolder(clipId);
             QTreeWidgetItem *newSelectedItem = m_listView->itemAbove(item);
             if (!newSelectedItem)
                 newSelectedItem = m_listView->itemBelow(item);
@@ -1217,7 +1139,7 @@ void ProjectList::slotAddFolder(const QString &foldername, const QString &clipId
                 m_listView->blockSignals(true);
                 item->setGroupName(foldername);
                 m_listView->blockSignals(false);
-                m_doc->clipManager()->addFolder(clipId, foldername);
+                //m_doc->clipManager()->addFolder(clipId, foldername);
                 const int children = item->childCount();
                 for (int i = 0; i < children; ++i) {
                     ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
@@ -1227,16 +1149,13 @@ void ProjectList::slotAddFolder(const QString &foldername, const QString &clipId
         } else {
             m_listView->blockSignals(true);
             m_listView->setCurrentItem(new FolderProjectItem(m_listView, QStringList() << foldername, clipId));
-            m_doc->clipManager()->addFolder(clipId, foldername);
+            //m_doc->clipManager()->addFolder(clipId, foldername);
             m_listView->blockSignals(false);
             m_listView->editItem(m_listView->currentItem(), 0);
         }
         updateButtons();
     }
-    m_doc->setModified(true);
 }
-
-
 
 void ProjectList::deleteProjectFolder(QMap <QString, QString> map)
 {
@@ -1251,78 +1170,6 @@ void ProjectList::deleteProjectFolder(QMap <QString, QString> map)
     else delete delCommand;
 }
 
-void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
-{
-    //m_listView->setEnabled(false);
-    const QString parent = clip->getProperty("groupid");
-    QString groupName = clip->getProperty("groupname");
-    QSize pixelSize((int)(m_listView->iconSize().height()  * m_render->dar()), m_listView->iconSize().height());
-    ProjectItem *item = NULL;
-    monitorItemEditing(false);
-    if (!parent.isEmpty()) {
-        FolderProjectItem *parentitem = getFolderItemById(parent);
-        if (!parentitem) {
-            QStringList text;
-            ////qDebug() << "Adding clip to new group: " << groupName;
-            if (groupName.isEmpty()) groupName = i18n("Folder");
-            text << groupName;
-            parentitem = new FolderProjectItem(m_listView, text, parent);
-        }
-
-        if (parentitem)
-            item = new ProjectItem(parentitem, clip, pixelSize);
-    }
-    if (item == NULL) {
-        item = new ProjectItem(m_listView, clip, pixelSize);
-    }
-    if (item->data(0, ItemDelegate::DurationRole).isNull()) item->setData(0, ItemDelegate::DurationRole, i18n("Loading"));
-    connect(clip, SIGNAL(createProxy(QString)), this, SLOT(slotCreateProxy(QString)));
-    connect(clip, SIGNAL(abortProxy(QString,QString)), this, SLOT(slotAbortProxy(QString,QString)));
-
-    if (getProperties) {
-        //item->setFlags(Qt::ItemIsSelectable);
-        //m_listView->processLayout();
-        QDomElement e = clip->toXML().cloneNode().toElement();
-        if (!groupName.isEmpty()) {
-            e.setAttribute("groupId", parent);
-            e.setAttribute("group", groupName);
-        }
-        e.removeAttribute("file_hash");
-        resetThumbsProducer(clip);
-        m_render->getFileProperties(e, clip->getId(), m_listView->iconSize().height(), true);
-    }
-    // WARNING: code below triggers unnecessary reload of all proxy clips on document loading... is it useful in some cases?
-    /*else if (item->hasProxy() && !item->isJobRunning()) {
-        slotCreateProxy(clip->getId());
-    }*/
-    
-    QUrl url = clip->fileURL();
-
-    // Add info to date column
-    QFileInfo fileInfo(url.path());
-    if (fileInfo.exists()) {
-        item->setText(3, fileInfo.lastModified().toString(QString("yyyy/MM/dd hh:mm:ss")));
-    }
-
-    // Add cut zones
-    QList <CutZoneInfo> cuts = clip->cutZones();
-    if (!cuts.isEmpty()) {
-        for (int i = 0; i < cuts.count(); ++i) {
-            SubProjectItem *sub = new SubProjectItem(m_render->dar(), item, cuts.at(i).zone.x(), cuts.at(i).zone.y(), cuts.at(i).description);
-            if (!clip->getClipHash().isEmpty()) {
-                QString cachedPixmap = m_doc->projectFolder().path() + QDir::separator() + "thumbs/" + clip->getClipHash() + '#' + QString::number(cuts.at(i).zone.x()) + ".png";
-                if (QFile::exists(cachedPixmap)) {
-                    QPixmap pix(cachedPixmap);
-                    if (pix.isNull())
-                        QFile::remove(cachedPixmap);
-                    sub->setData(0, Qt::DecorationRole, pix);
-                }
-            }
-        }
-    }
-    monitorItemEditing(true);
-    if (!getProperties) updateButtons();
-}
 
 void ProjectList::slotGotProxy(const QString &proxyPath)
 {
@@ -1480,6 +1327,7 @@ void ProjectList::getCachedThumbnail(SubProjectItem *item)
 
 void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, const QStringList &brokenClips)
 {
+    /*
     if (!m_allClipsProcessed) m_listView->setEnabled(false);
     m_listView->setSortingEnabled(false);
     QTreeWidgetItemIterator it(m_listView);
@@ -1520,16 +1368,17 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, cons
         } else {
             item = static_cast <ProjectItem *>(*it);
             clip = item->referencedClip();
-            if (clip->getProducer() == NULL) {
+            //if (clip->getProducer() == NULL) {
+	    if (!pCore->binController()->hasClip(clip->getId())) {
                 bool replace = false;
                 if (brokenClips.contains(item->clipId())) {
                     // if this is a proxy clip, disable proxy
-                    item->setConditionalJobStatus(NoJob, PROXYJOB);
-                    discardJobs(item->clipId(), PROXYJOB);
+                    item->setConditionalJobStatus(NoJob, AbstractClipJob::PROXYJOB);
+                    discardJobs(item->clipId(), AbstractClipJob::PROXYJOB);
                     clip->setProperty("proxy", "-");
                     replace = true;
                 }
-                if (clip->isPlaceHolder() == false && !hasPendingJob(item, PROXYJOB)) {
+                if (clip->isPlaceHolder() == false && !hasPendingJob(item, AbstractClipJob::PROXYJOB)) {
                     QDomElement xml = clip->toXML();
                     getCachedThumbnail(item);
                     if (fpsChanged) {
@@ -1569,7 +1418,8 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, cons
                     getCachedThumbnail(item);
                 }
                 if (item->data(0, ItemDelegate::DurationRole).toString().isEmpty()) {
-                    item->changeDuration(clip->getProducer()->get_playtime());
+                    //item->changeDuration(clip->getProducer()->get_playtime());
+		    //item->changeDuration(pCore->binController()->getBinClipDuration(clip->getId()));
                 }
                 if (clip->isPlaceHolder()) {
                     QPixmap pixmap = item->data(0, Qt::DecorationRole).value<QPixmap>();
@@ -1598,6 +1448,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, cons
         monitorItemEditing(true);
         slotProcessNextThumbnail();
     }
+    */
 }
 
 // static
@@ -1625,146 +1476,6 @@ QStringList ProjectList::getExtensions()
     }
     allExtensions.removeDuplicates();
     return allExtensions;
-}
-
-void ProjectList::slotAddClip(const QString &url, const QString &groupName, const QString &groupId)
-{
-    //qDebug()<<"// Adding clip: "<<url;
-    QList <QUrl> list;
-    list.append(QUrl::fromLocalFile(url));
-    slotAddClip(list, groupName, groupId);
-}
-
-void ProjectList::slotAddClip(const QList <QUrl> &givenList, const QString &groupName, const QString &groupId)
-{
-    if (!m_commandStack)
-        qDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
-
-    QList <QUrl> list;
-    if (givenList.isEmpty()) {
-        QString allExtensions = getExtensions().join(" ");
-        const QString dialogFilter =  i18n("All Supported Files") + '(' + allExtensions + ");;" + i18n("All Files") + "(*)";
-        QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
-        b->setChecked(KdenliveSettings::autoimagesequence());
-        QCheckBox *c = new QCheckBox(i18n("Transparent background for images"));
-        c->setChecked(KdenliveSettings::autoimagetransparency());
-        QFrame *f = new QFrame();
-        f->setFrameShape(QFrame::NoFrame);
-        QHBoxLayout *l = new QHBoxLayout;
-        l->addWidget(b);
-        l->addWidget(c);
-        l->addStretch(5);
-        f->setLayout(l);
-        QString clipFolder = KRecentDirs::dir(":KdenliveClipFolder");
-        if (clipFolder.isEmpty()) clipFolder = QDir::homePath();
-        QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), i18n("Open Clips"), clipFolder, dialogFilter);
-        //TODO: KF5, how to add a custom widget to file dialog
-        /*QGridLayout *layout = (QGridLayout*)d->layout();
-        layout->addWidget(f, 0, 0);*/
-        d->setFileMode(QFileDialog::ExistingFiles);
-        if (d->exec() == QDialog::Accepted) {
-            KdenliveSettings::setAutoimagetransparency(c->isChecked());
-            list = d->selectedUrls();
-            if (!list.isEmpty()) {
-                KRecentDirs::add(":KdenliveClipFolder", list.first().adjusted(QUrl::RemoveFilename).path());
-            }
-            if (b->isChecked() && list.count() == 1) {
-                // Check for image sequence
-                QUrl url = list.at(0);
-                QString fileName = url.fileName().section('.', 0, -2);
-                if (fileName.at(fileName.size() - 1).isDigit()) {
-                    KFileItem item(url);
-                    if (item.mimetype().startsWith(QLatin1String("image"))) {
-                        // import as sequence if we found more than one image in the sequence
-                        QStringList list;
-                        QString pattern = SlideshowClip::selectedPath(url, false, QString(), &list);
-                        int count = list.count();
-                        if (count > 1) {
-                            delete d;
-                            QStringList groupInfo = getGroup();
-
-                            // get image sequence base name
-                            while (fileName.at(fileName.size() - 1).isDigit()) {
-                                fileName.chop(1);
-                            }
-                            QMap <QString, QString> properties;
-                            properties.insert("name", fileName);
-                            properties.insert("resource", pattern);
-                            properties.insert("in", "0");
-                            QString duration = m_timecode.reformatSeparators(KdenliveSettings::sequence_duration());
-                            properties.insert("out", QString::number(m_doc->getFramePos(duration) * count));
-                            properties.insert("ttl", QString::number(m_doc->getFramePos(duration)));
-                            properties.insert("loop", QString::number(false));
-                            properties.insert("crop", QString::number(false));
-                            properties.insert("fade", QString::number(false));
-                            properties.insert("luma_duration", QString::number(m_doc->getFramePos(m_timecode.getTimecodeFromFrames(int(ceil(m_timecode.fps()))))));
-                            m_doc->slotCreateSlideshowClipFile(properties, groupInfo.at(0), groupInfo.at(1));
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-        delete d;
-    } else {
-        for (int i = 0; i < givenList.count(); ++i)
-            list << givenList.at(i);
-    }
-    QList < QList<QUrl> > foldersList;
-    QMimeDatabase db;
-    foreach(const QUrl & file, list) {
-        // Check there is no folder here
-        QMimeType type = db.mimeTypeForUrl(file);
-        if (type.inherits("inode/directory")) {
-            // user dropped a folder, import its files
-            list.removeAll(file);
-            QDir dir(file.path());
-            QStringList result = dir.entryList(QDir::Files);
-            QList <QUrl> folderFiles;
-            folderFiles << file;
-            foreach(const QString & path, result) {
-                folderFiles.append(QUrl::fromLocalFile(dir.absoluteFilePath(path)));
-            }
-            if (folderFiles.count() > 1) foldersList.append(folderFiles);
-        }
-    }
-
-    if (givenList.isEmpty() && !list.isEmpty()) {
-        QStringList groupInfo = getGroup();
-        QMap <QString, QString> data;
-        data.insert("group", groupInfo.at(0));
-        data.insert("groupId", groupInfo.at(1));
-        m_doc->slotAddClipList(list, data);
-    } else if (!list.isEmpty()) {
-        QMap <QString, QString> data;
-        data.insert("group", groupName);
-        data.insert("groupId", groupId);
-        m_doc->slotAddClipList(list, data);
-    }
-    
-    if (!foldersList.isEmpty()) {
-        // create folders
-        for (int i = 0; i < foldersList.count(); ++i) {
-            QList <QUrl> urls = foldersList.at(i);
-            QUrl folderUrl = urls.takeFirst();
-            QString folderName = folderUrl.fileName();
-            FolderProjectItem *folder = NULL;
-            if (!folderName.isEmpty()) {
-                folder = getFolderItemByName(folderName);
-                if (folder == NULL) {
-                    slotAddFolder(folderName);
-                    folder = getFolderItemByName(folderName);
-                }
-            }
-            if (folder) {
-                QMap <QString, QString> data;
-                data.insert("group", folder->groupName());
-                data.insert("groupId", folder->clipId());
-                m_doc->slotAddClipList(urls, data);
-            }
-            else m_doc->slotAddClipList(urls);
-        }
-    }
 }
 
 void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
@@ -1811,7 +1522,7 @@ void ProjectList::slotRemoveInvalidProxy(const QString &id, bool durationError)
             //qDebug() << "Proxy duration is wrong, try changing transcoding parameters.";
             emit displayMessage(i18n("Proxy clip unusable (duration is different from original)."), -2, ErrorMessage);
         }
-        slotUpdateJobStatus(item, PROXYJOB, JobCrashed, i18n("Failed to create proxy for %1. check parameters", item->text(0)), "project_settings");
+        slotUpdateJobStatus(item, AbstractClipJob::PROXYJOB, JobCrashed, i18n("Failed to create proxy for %1. check parameters", item->text(0)), "project_settings");
         QString path = item->referencedClip()->getProperty("proxy");
         QUrl proxyFolder(m_doc->projectFolder().path() + QDir::separator() + "proxy/");
 
@@ -1819,7 +1530,8 @@ void ProjectList::slotRemoveInvalidProxy(const QString &id, bool durationError)
         if (proxyFolder.isParentOf(QUrl(path))) {
             QFile::remove(path);
         }
-        if (item->referencedClip()->getProducer() == NULL) {
+        //if (item->referencedClip()->getProducer() == NULL) {
+        if (!pCore->binController()->hasClip(item->clipId())) {
             // Clip has no valid producer, request it
             slotProxyCurrentItem(false, item);
         }
@@ -1829,69 +1541,6 @@ void ProjectList::slotRemoveInvalidProxy(const QString &id, bool durationError)
         }
     }
     m_thumbnailQueue.removeAll(id);
-}
-
-void ProjectList::slotAddColorClip()
-{
-    if (!m_commandStack)
-        qDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
-
-    QPointer<QDialog> dia = new QDialog(this);
-    Ui::ColorClip_UI dia_ui;
-    dia_ui.setupUi(dia);
-    dia->setWindowTitle(i18n("Color Clip"));
-    dia_ui.clip_name->setText(i18n("Color Clip"));
-
-    TimecodeDisplay *t = new TimecodeDisplay(m_timecode);
-    t->setValue(KdenliveSettings::color_duration());
-    dia_ui.clip_durationBox->addWidget(t);
-    dia_ui.clip_color->setColor(KdenliveSettings::colorclipcolor());
-
-    if (dia->exec() == QDialog::Accepted) {
-        QString color = dia_ui.clip_color->color().name();
-        KdenliveSettings::setColorclipcolor(color);
-        color = color.replace(0, 1, "0x") + "ff";
-        QStringList groupInfo = getGroup();
-        m_doc->slotCreateColorClip(dia_ui.clip_name->text(), color, m_timecode.getTimecode(t->gentime()), groupInfo.at(0), groupInfo.at(1));
-    }
-    delete t;
-    delete dia;
-}
-
-
-void ProjectList::slotAddSlideshowClip()
-{
-    if (!m_commandStack)
-        qDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
-
-    QPointer<SlideshowClip> dia = new SlideshowClip(m_timecode, this);
-
-    if (dia->exec() == QDialog::Accepted) {
-        QStringList groupInfo = getGroup();
-        KRecentDirs::add(":KdenliveSlideShowFolder", QUrl::fromLocalFile(dia->selectedPath()).adjusted(QUrl::RemoveFilename).path());
-        QMap <QString, QString> properties;
-        properties.insert("name", dia->clipName());
-        properties.insert("resource", dia->selectedPath());
-        properties.insert("in", "0");
-        properties.insert("out", QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount() - 1));
-        properties.insert("ttl", QString::number(m_doc->getFramePos(dia->clipDuration())));
-        properties.insert("loop", QString::number(dia->loop()));
-        properties.insert("crop", QString::number(dia->crop()));
-        properties.insert("fade", QString::number(dia->fade()));
-        properties.insert("luma_duration", dia->lumaDuration());
-        properties.insert("luma_file", dia->lumaFile());
-        properties.insert("softness", QString::number(dia->softness()));
-        properties.insert("animation", dia->animation());
-        
-        m_doc->slotCreateSlideshowClipFile(properties, groupInfo.at(0), groupInfo.at(1));
-    }
-    delete dia;
-}
-
-void ProjectList::slotAddTitleClip()
-{
-    QStringList groupInfo = getGroup();
-    m_doc->slotCreateTextClip(groupInfo.at(0), groupInfo.at(1));
 }
 
 void ProjectList::slotAddTitleTemplateClip()
@@ -1939,9 +1588,9 @@ QStringList ProjectList::getGroup() const
 
     if (item) {
         FolderProjectItem *folder = static_cast <FolderProjectItem *>(item);
-        result << folder->groupName() << folder->clipId();
+        result << folder->clipId();
     } else {
-        result << QString() << QString();
+        result << QString();
     }
     return result;
 }
@@ -1979,14 +1628,14 @@ void ProjectList::setDocument(KdenliveDoc *doc)
         folder->setExpanded(openedFolders.contains(f.key()));
     }
 
-    QList <DocClipBase*> list = doc->clipManager()->documentClipList();
+    /*QList <DocClipBase*> list = doc->clipManager()->documentClipList();
     if (list.isEmpty()) {
         // blank document
         m_refreshed = true;
         m_allClipsProcessed = true;
     }
     for (int i = 0; i < list.count(); ++i)
-        slotAddClip(list.at(i), false);
+        slotAddClip(list.at(i), false);*/
 
     m_listView->blockSignals(false);
     connect(m_doc->clipManager(), SIGNAL(reloadClip(QString)), this, SLOT(slotReloadClip(QString)));
@@ -2014,32 +1663,6 @@ void ProjectList::slotSetThumbnail(const QString &id, int framePos, QImage img)
         QString hash = pItem->getClipHash();
         if (!hash.isEmpty()) m_doc->cacheImage(hash + '#' + QString::number(framePos), img);
     }
-}
-
-QList <DocClipBase*> ProjectList::documentClipList() const
-{
-    if (m_doc == NULL)
-        return QList <DocClipBase*> ();
-
-    return m_doc->clipManager()->documentClipList();
-}
-
-QDomElement ProjectList::producersList()
-{
-    QDomDocument doc;
-    QDomElement prods = doc.createElement("producerlist");
-    doc.appendChild(prods);
-    QTreeWidgetItemIterator it(m_listView);
-    while (*it) {
-        if ((*it)->type() != ProjectClipType) {
-            // subitem
-            ++it;
-            continue;
-        }
-        prods.appendChild(doc.importNode(((ProjectItem *)(*it))->toXml(), true));
-        ++it;
-    }
-    return prods;
 }
 
 void ProjectList::slotCheckForEmptyQueue()
@@ -2082,8 +1705,9 @@ void ProjectList::slotProcessNextThumbnail()
         slotCheckForEmptyQueue();
         return;
     }
-    int max = m_doc->clipManager()->clipsCount();
-    emit displayMessage(i18n("Loading thumbnails"), (int)(100 *(max - m_thumbnailQueue.count()) / max));
+    //TODO
+    /*int max = m_doc->clipManager()->clipsCount();
+    emit displayMessage(i18n("Loading thumbnails"), (int)(100 *(max - m_thumbnailQueue.count()) / max));*/
     slotRefreshClipThumbnail(m_thumbnailQueue.takeFirst(), false);
 }
 
@@ -2223,36 +1847,34 @@ void ProjectList::extractMetadata(DocClipBase *clip)
 }
 
 
-void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const stringMap &properties, const stringMap &metadata, bool replace)
+void ProjectList::slotReplyGetFileProperties(requestClipInfo &clipInfo, Mlt::Producer &producer, const stringMap &properties, const stringMap &metadata)
 {
     QMutexLocker lock(&m_processMutex);
     QString toReload;
-    ProjectItem *item = getItemById(clipId);
-    if (item && producer) {
+    ProjectItem *item = getItemById(clipInfo.clipId);
+    if (item && producer.is_valid()) {
         monitorItemEditing(false);
         DocClipBase *clip = item->referencedClip();
-        if (producer->is_valid()) {
-            if (clip->isPlaceHolder()) {
-                clip->setValid();
-                toReload = clipId;
-            }
-            item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
+	if (clip->isPlaceHolder()) {
+	    clip->setValid();
+            toReload = clipInfo.clipId;
         }
+        item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
         item->setProperties(properties, metadata);
-        clip->setProducer(producer, replace);
+        clip->setProducer(producer, clipInfo.replaceProducer);
         extractMetadata(clip);
-        m_render->processingDone(clipId);
+        m_render->slotProcessingDone(clipInfo.clipId);
         // Proxy stuff
         QString size = properties.value("frame_size");
         if (!useProxy() && clip->getProperty("proxy").isEmpty()) {
-            item->setConditionalJobStatus(NoJob, PROXYJOB);
-            discardJobs(clipId, PROXYJOB);
+            item->setConditionalJobStatus(NoJob, AbstractClipJob::PROXYJOB);
+            discardJobs(clipInfo.clipId, AbstractClipJob::PROXYJOB);
         }
         if (useProxy() && generateProxy() && clip->getProperty("proxy") == "-") {
-            item->setConditionalJobStatus(NoJob, PROXYJOB);
-            discardJobs(clipId, PROXYJOB);
+            item->setConditionalJobStatus(NoJob, AbstractClipJob::PROXYJOB);
+            discardJobs(clipInfo.clipId, AbstractClipJob::PROXYJOB);
         }
-        else if (useProxy() && !item->hasProxy() && !hasPendingJob(item, PROXYJOB)) {
+        else if (useProxy() && !item->hasProxy() && !hasPendingJob(item, AbstractClipJob::PROXYJOB)) {
             // proxy video and image clips
             int maxSize;
             ClipType t = item->clipType();
@@ -2268,27 +1890,28 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
                     newProps.insert("proxy", folder.absoluteFilePath(clip->getClipHash() + '.' + (t == Image ? "png" : m_doc->getDocumentProperty("proxyextension"))));
                     QMap <QString, QString> oldProps = clip->properties();
                     oldProps.insert("proxy", QString());
-                    EditClipCommand *command = new EditClipCommand(this, clipId, oldProps, newProps, true);
-                    m_doc->commandStack()->push(command);
+		    //TODO
+                    /*EditClipCommand *command = new EditClipCommand(this, clipInfo.clipId, oldProps, newProps, true);
+                    m_doc->commandStack()->push(command);*/
                 }
             }
         }
         
-        if (!replace && m_allClipsProcessed && !item->hasPixmap()) {
+        if (!clipInfo.replaceProducer && m_allClipsProcessed && !item->hasPixmap()) {
             getCachedThumbnail(item);
         }
         if (!toReload.isEmpty())
             item->slotSetToolTip();
     } else {
         //qDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
-        m_render->processingDone(clipId);
+        m_render->slotProcessingDone(clipInfo.clipId);
     }
     int queue = m_render->processingItems();
     if (queue == 0) {
         monitorItemEditing(true);
         if (item && m_thumbnailQueue.isEmpty()) {
             if (!item->hasProxy() || m_render->activeClipId() == item->clipId()) {
-                emit requestClipSelect(clipId);
+                emit requestClipSelect(clipInfo.clipId);
             }
             if (item->parent()) {
                 if (item->parent()->type() == ProjectFoldeType)
@@ -2301,9 +1924,12 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
                 emit firstClip(item);
             }
         } else {
+            //TODO
+            /*
             int max = m_doc->clipManager()->clipsCount();
             if (max > 0)
                 emit displayMessage(i18n("Loading clips"), (int)(100 *(max - queue) / max));
+            */
         }
 
         if (m_allClipsProcessed)
@@ -2311,10 +1937,11 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
     }
     if (!item) {
         // no item for producer, delete it
-        delete producer;
+	// TODO: remove from bin's playlist
+        //delete producer;
         return;
     }
-    if (replace) toReload = clipId;
+    if (clipInfo.replaceProducer) toReload = clipInfo.clipId;
     if (!toReload.isEmpty()) {
         emit clipNeedsReload(toReload);
     }
@@ -2704,6 +2331,8 @@ void ProjectList::slotAddOrUpdateSequence(const QString &frameName)
     QString pattern = SlideshowClip::selectedPath(QUrl::fromLocalFile(frameName), false, QString(), &list);
     int count = list.count();
     if (count > 1) {
+        //TODO
+        /*
         const QList <DocClipBase *> existing = m_doc->clipManager()->getClipByResource(pattern);
         if (!existing.isEmpty()) {
             // Sequence already exists, update
@@ -2715,7 +2344,7 @@ void ProjectList::slotAddOrUpdateSequence(const QString &frameName)
             oldprops["out"] = existing.at(0)->getProperty("out");
             newprops["out"] = QString::number(ttl * count - 1);
             slotUpdateClipProperties(id, newprops);
-            EditClipCommand *command = new EditClipCommand(this, id, oldprops, newprops, false);
+            /*EditClipCommand *command = new EditClipCommand(this, id, oldprops, newprops, false);
             m_commandStack->push(command);
         } else {
             // Create sequence
@@ -2734,6 +2363,7 @@ void ProjectList::slotAddOrUpdateSequence(const QString &frameName)
 
             m_doc->slotCreateSlideshowClipFile(properties, groupInfo.at(0), groupInfo.at(1));
         }
+        */
     } else emit displayMessage(i18n("Sequence not found"), -2, ErrorMessage);
 }
 
@@ -2762,16 +2392,16 @@ QMap <QString, QString> ProjectList::getProxies()
 void ProjectList::slotCreateProxy(const QString &id)
 {
     ProjectItem *item = getItemById(id);
-    if (!item || hasPendingJob(item, PROXYJOB) || item->referencedClip()->isPlaceHolder()) return;
+    if (!item || hasPendingJob(item, AbstractClipJob::PROXYJOB) || item->referencedClip()->isPlaceHolder()) return;
     QString path = item->referencedClip()->getProperty("proxy");
     if (path.isEmpty()) {
-        slotUpdateJobStatus(item, PROXYJOB, JobCrashed, i18n("Failed to create proxy, empty path."));
+        slotUpdateJobStatus(item, AbstractClipJob::PROXYJOB, JobCrashed, i18n("Failed to create proxy, empty path."));
         return;
     }
     
     if (QFileInfo(path).size() > 0) {
         // Proxy already created
-        setJobStatus(item, PROXYJOB, JobDone);
+        setJobStatus(item, AbstractClipJob::PROXYJOB, JobDone);
         slotGotProxy(path);
         return;
     }
@@ -2865,79 +2495,6 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
     slotCheckJobProcess();
 }
 
-void ProjectList::slotTranscodeClipJob(const QString &condition, QString params, QString desc)
-{
-    QStringList existingFiles;
-    QMap <QString, QString> ids = getConditionalIds(condition);
-    QMap<QString, QString>::const_iterator i = ids.constBegin();
-    QStringList destinations;
-    while (i != ids.constEnd()) {
-        QString newFile = params.section(' ', -1).replace("%1", i.value());
-        destinations << newFile;
-        if (QFile::exists(newFile)) existingFiles << newFile;
-        ++i;
-    }
-    if (!existingFiles.isEmpty()) {
-        if (KMessageBox::warningContinueCancelList(this, i18n("The transcoding job will overwrite the following files:"), existingFiles) ==  KMessageBox::Cancel) return;
-    }
-    
-    QPointer<QDialog> d = new QDialog(this);
-    Ui::CutJobDialog_UI ui;
-    ui.setupUi(d);
-    d->setWindowTitle(i18n("Transcoding"));
-    ui.extra_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
-    if (ids.count() == 1) {
-        ui.file_url->setUrl(QUrl(destinations.first()));
-    }
-    else {
-        ui.destination_label->setVisible(false);
-        ui.file_url->setVisible(false);
-    }
-    ui.extra_params->setVisible(false);
-    d->adjustSize();
-    ui.button_more->setIcon(QIcon::fromTheme("configure"));
-    ui.add_clip->setChecked(KdenliveSettings::add_new_clip());
-    ui.extra_params->setPlainText(params.simplified().section(' ', 0, -2));
-    QString mess = desc;
-    mess.append(' ' + i18np("(%1 clip)", "(%1 clips)", ids.count()));
-    ui.info_label->setText(mess);
-    if (d->exec() != QDialog::Accepted) {
-        delete d;
-        return;
-    }
-    params = ui.extra_params->toPlainText().simplified();
-    KdenliveSettings::setAdd_new_clip(ui.add_clip->isChecked());
-    int index = 0;
-    i = ids.constBegin();
-    while (i != ids.constEnd()) {
-        ProjectItem *item = getItemById(i.key());
-        if (!item || !item->referencedClip()) continue;
-        QString src = i.value();
-        QString dest;
-        if (ids.count() > 1) {
-            dest = destinations.at(index);
-            index++;
-        }
-        else dest = ui.file_url->url().path();
-        QStringList jobParams;
-        jobParams << dest << src << QString() << QString();
-        jobParams << QString::number(item->clipMaxDuration());
-        jobParams << QString::number(KdenliveSettings::add_new_clip());
-        jobParams << params;
-        CutClipJob *job = new CutClipJob(item->clipType(), i.key(), jobParams);
-        if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
-            delete job;
-            continue;
-        }
-        m_jobList.append(job);
-        setJobStatus(item, job->jobType, JobWaiting, 0, job->statusMessage());
-        ++i;
-    }
-    delete d;
-    slotCheckJobProcess();
-    
-}
-
 void ProjectList::slotCheckJobProcess()
 {        
     if (!m_jobThreads.futures().isEmpty()) {
@@ -2975,12 +2532,13 @@ void ProjectList::slotAbortProxy(const QString &id, const QString &path)
     ProjectItem *item = getItemById(id);
     if (!item) return;
     if (!item->isProxyRunning()) slotGotProxy(item);
-    item->setConditionalJobStatus(NoJob, PROXYJOB);
-    discardJobs(id, PROXYJOB);
+    item->setConditionalJobStatus(NoJob, AbstractClipJob::PROXYJOB);
+    discardJobs(id, AbstractClipJob::PROXYJOB);
 }
 
 void ProjectList::slotProcessJobs()
 {
+  /*
     while (!m_jobList.isEmpty() && !m_abortAllJobs) {
         emit projectModified();
         AbstractClipJob *job = NULL;
@@ -3029,9 +2587,10 @@ void ProjectList::slotProcessJobs()
         connect(job, SIGNAL(jobProgress(QString,int,int)), this, SIGNAL(processLog(QString,int,int)));
         connect(job, SIGNAL(cancelRunningJob(QString,stringMap)), this, SIGNAL(cancelRunningJob(QString,stringMap)));
 
-        if (job->jobType == MLTJOB) {
+        if (job->jobType == AbstractClipJob::MLTJOB) {
             MeltJob *jb = static_cast<MeltJob *> (job);
-            jb->setProducer(currentClip->getProducer(), currentClip->fileURL());
+            //jb->setProducer(currentClip->getProducer(), currentClip->fileURL());
+	    jb->setProducer(pCore->binController()->getBinClip(currentClip->getId(), -1), currentClip->fileURL());
             if (jb->isProjectFilter())
                 connect(job, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SLOT(slotGotFilterJobResults(QString,int,int,stringMap,stringMap)));
             else
@@ -3041,7 +2600,7 @@ void ProjectList::slotProcessJobs()
         if (job->status() == JobDone) {
             emit updateJobStatus(job->clipId(), job->jobType, JobDone);
             //TODO: replace with more generic clip replacement framework
-            if (job->jobType == PROXYJOB) emit gotProxy(job->clipId());
+            if (job->jobType == AbstractClipJob::PROXYJOB) emit gotProxy(job->clipId());
             if (job->addClipToProject()) {
                 emit addClip(destination, QString(), QString());
             }
@@ -3051,6 +2610,7 @@ void ProjectList::slotProcessJobs()
     }
     // Thread finished, cleanup & update count
     QTimer::singleShot(200, this, SIGNAL(checkJobProcess()));
+    */
 }
 
 
@@ -3073,7 +2633,7 @@ void ProjectList::updateProxyConfig()
         }
         ClipType t = item->clipType();
         if ((t == Video || t == AV || t == Unknown) && item->referencedClip() != NULL) {
-            if  (generateProxy() && useProxy() && !hasPendingJob(item, PROXYJOB)) {
+            if  (generateProxy() && useProxy() && !hasPendingJob(item, AbstractClipJob::PROXYJOB)) {
                 DocClipBase *clip = item->referencedClip();
                 if (clip->getProperty("frame_size").section('x', 0, 0).toInt() > m_doc->getDocumentProperty("proxyminsize").toInt()) {
                     if (clip->getProperty("proxy").isEmpty()) {
@@ -3082,7 +2642,8 @@ void ProjectList::updateProxyConfig()
                         oldProps.insert("proxy", QString());
                         QMap <QString, QString> newProps;
                         newProps.insert("proxy", proxydir + item->referencedClip()->getClipHash() + '.' + m_doc->getDocumentProperty("proxyextension"));
-                        new EditClipCommand(this, clip->getId(), oldProps, newProps, true, command);
+                        //TODO
+			//new EditClipCommand(this, clip->getId(), oldProps, newProps, true, command);
                     }
                 }
             }
@@ -3092,7 +2653,8 @@ void ProjectList::updateProxyConfig()
                 newProps.insert("proxy", QString());
                 // insert required duration for proxy
                 newProps.insert("proxy_out", item->referencedClip()->producerProperty("out"));
-                new EditClipCommand(this, item->clipId(), item->referencedClip()->currentProperties(newProps), newProps, true, command);
+                //TODO
+		// new EditClipCommand(this, item->clipId(), item->referencedClip()->currentProperties(newProps), newProps, true, command);
             }
         }
         else if (t == Image && item->referencedClip() != NULL) {
@@ -3106,7 +2668,8 @@ void ProjectList::updateProxyConfig()
                         oldProps.insert("proxy", QString());
                         QMap <QString, QString> newProps;
                         newProps.insert("proxy", proxydir + item->referencedClip()->getClipHash() + ".png");
-                        new EditClipCommand(this, clip->getId(), oldProps, newProps, true, command);
+                        //TODO
+			new EditClipCommand(m_doc, clip->getId(), oldProps, newProps, true, command);
                     }
                 }
             }
@@ -3114,7 +2677,7 @@ void ProjectList::updateProxyConfig()
                 // remove proxy
                 QMap <QString, QString> newProps;
                 newProps.insert("proxy", QString());
-                new EditClipCommand(this, item->clipId(), item->referencedClip()->properties(), newProps, true, command);
+                new EditClipCommand(m_doc, item->clipId(), item->referencedClip()->properties(), newProps, true, command);
             }
         }
         ++it;
@@ -3126,7 +2689,7 @@ void ProjectList::updateProxyConfig()
 void ProjectList::slotProcessLog(const QString &id, int progress, int type, const QString &message)
 {
     ProjectItem *item = getItemById(id);
-    setJobStatus(item, (JOBTYPE) type, JobWorking, progress, message);
+    setJobStatus(item, (AbstractClipJob::JOBTYPE) type, JobWorking, progress, message);
 }
 
 void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
@@ -3176,7 +2739,8 @@ void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
         ProjectItem *item = clipList.at(i);
         ClipType t = item->clipType();
         if ((t == Video || t == AV || t == Unknown || t == Image || t == Playlist) && item->referencedClip()) {
-            if ((doProxy && item->hasProxy()) || (!doProxy && !item->hasProxy() && item->referencedClip()->getProducer() != NULL)) continue;
+            //if ((doProxy && item->hasProxy()) || (!doProxy && !item->hasProxy() && item->referencedClip()->getProducer() != NULL)) continue;
+	    if ((doProxy && item->hasProxy()) || (!doProxy && !item->hasProxy() && pCore->binController()->hasClip(item->clipId()))) continue;
             DocClipBase *clip = item->referencedClip();
             if (!clip || !clip->isClean() || m_render->isProcessing(item->clipId())) {
                 //qDebug()<<"//// TRYING TO PROXY: "<<item->clipId()<<", but it is busy";
@@ -3193,7 +2757,8 @@ void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
                 // We need to insert empty proxy so that undo will work
                 //oldProps.insert("proxy", QString());
             }
-            else if (item->referencedClip()->getProducer() == NULL) {
+            //else if (item->referencedClip()->getProducer() == NULL) {
+            else if (!pCore->binController()->hasClip(item->clipId())) {
                 // Force clip reload
                 //qDebug()<<"// CLIP HAD NULL PROD------------";
                 newProps.insert("resource", item->referencedClip()->getProperty("resource"));
@@ -3201,7 +2766,8 @@ void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
             // We need to insert empty proxy so that undo will work
             oldProps = clip->currentProperties(newProps);
             if (doProxy) oldProps.insert("proxy", "-");
-            new EditClipCommand(this, item->clipId(), oldProps, newProps, true, command);
+            //TODO
+	    //new EditClipCommand(this, item->clipId(), oldProps, newProps, true, command);
         }
     }
     if (command->childCount() > 0) {
@@ -3224,7 +2790,8 @@ void ProjectList::slotDeleteProxy(const QString proxyPath)
             if (item->referencedClip()->getProperty("proxy") == proxyPath) {
                 QMap <QString, QString> props;
                 props.insert("proxy", QString());
-                new EditClipCommand(this, item->clipId(), item->referencedClip()->currentProperties(props), props, true, proxyCommand);
+                //TODO
+		//new EditClipCommand(this, item->clipId(), item->referencedClip()->currentProperties(props), props, true, proxyCommand);
 
             }
         }
@@ -3237,7 +2804,7 @@ void ProjectList::slotDeleteProxy(const QString proxyPath)
     QFile::remove(proxyPath);
 }
 
-void ProjectList::setJobStatus(ProjectItem *item, JOBTYPE jobType, ClipJobStatus status, int progress, const QString &statusMessage)
+void ProjectList::setJobStatus(ProjectItem *item, AbstractClipJob::JOBTYPE jobType, ClipJobStatus status, int progress, const QString &statusMessage)
 {
     if (item == NULL || (m_abortAllJobs && m_closing)) return;
     monitorItemEditing(false);
@@ -3247,7 +2814,8 @@ void ProjectList::setJobStatus(ProjectItem *item, JOBTYPE jobType, ClipJobStatus
         if (!clip) {
             //qDebug()<<"// PROXY CRASHED";
         }
-        else if (clip->getProducer() == NULL && !clip->isPlaceHolder()) {
+        //else if (clip->getProducer() == NULL && !clip->isPlaceHolder()) {
+        else if (!pCore->binController()->hasClip(clip->getId()) && !clip->isPlaceHolder()) {
             // disable proxy and fetch real clip
             clip->setProperty("proxy", "-");
             QDomElement xml = clip->toXML();
@@ -3303,6 +2871,8 @@ void ProjectList::processThumbOverlays(ProjectItem *item, QPixmap &pix)
 
 void ProjectList::slotCancelJobs()
 {
+    //TODO in jobmanager
+  /*
     m_abortAllJobs = true;
     for (int i = 0; i < m_jobList.count(); ++i) {
         m_jobList.at(i)->setStatus(JobAborted);
@@ -3318,7 +2888,8 @@ void ProjectList::slotCancelJobs()
         QMap <QString, QString> newProps = m_jobList.at(i)->cancelProperties();
         if (newProps.isEmpty()) continue;
         QMap <QString, QString> oldProps = currentClip->currentProperties(newProps);
-        new EditClipCommand(this, m_jobList.at(i)->clipId(), oldProps, newProps, true, command);
+        //TODO
+	//new EditClipCommand(this, m_jobList.at(i)->clipId(), oldProps, newProps, true, command);
     }
     m_jobMutex.unlock();
     if (command->childCount() > 0) {
@@ -3329,10 +2900,13 @@ void ProjectList::slotCancelJobs()
     m_jobList.clear();
     m_abortAllJobs = false;
     m_infoLabel->slotSetJobCount(0);
+    */
 }
 
 void ProjectList::slotCancelRunningJob(const QString id, stringMap newProps)
 {
+    //TODO
+    /*
     if (newProps.isEmpty() || m_closing) return;
     DocClipBase *currentClip = m_doc->clipManager()->getClipById(id);
     if (!currentClip) return;
@@ -3341,9 +2915,10 @@ void ProjectList::slotCancelRunningJob(const QString id, stringMap newProps)
     QMapIterator<QString, QString> i(oldProps);
     EditClipCommand *command = new EditClipCommand(this, id, oldProps, newProps, true);
     m_commandStack->push(command);
+    */
 }
 
-bool ProjectList::hasPendingJob(ProjectItem *item, JOBTYPE type)
+bool ProjectList::hasPendingJob(ProjectItem *item, AbstractClipJob::JOBTYPE type)
 {
     if (!item || !item->referencedClip() || m_abortAllJobs) return false;
     QMutexLocker lock(&m_jobMutex);
@@ -3376,7 +2951,7 @@ void ProjectList::slotUpdateJobStatus(const QString id, int type, int status, co
 
 void ProjectList::slotUpdateJobStatus(ProjectItem *item, int type, int status, const QString &label, const QString &actionName, const QString details)
 {
-    item->setJobStatus((JOBTYPE) type, (ClipJobStatus) status);
+    item->setJobStatus((AbstractClipJob::JOBTYPE) type, (ClipJobStatus) status);
     if (status != JobCrashed) return;
     QList<QAction *> actions = m_infoMessage->actions();
     if (m_infoMessage->isHidden()) {
@@ -3437,235 +3012,13 @@ QStringList ProjectList::getPendingJobs(const QString &id)
     return result;
 }
 
-void ProjectList::discardJobs(const QString &id, JOBTYPE type) {
+void ProjectList::discardJobs(const QString &id, AbstractClipJob::JOBTYPE type) {
     QMutexLocker lock(&m_jobMutex);
     for (int i = 0; i < m_jobList.count(); ++i) {
-        if (m_jobList.at(i)->clipId() == id && (m_jobList.at(i)->jobType == type || type == NOJOBTYPE)) {
+        if (m_jobList.at(i)->clipId() == id && (m_jobList.at(i)->jobType == type || type == AbstractClipJob::NOJOBTYPE)) {
             // discard this job
             m_jobList.at(i)->setStatus(JobAborted);
         }
-    }
-}
-
-void ProjectList::slotStartFilterJob(const ItemInfo &info, const QString&id, QMap <QString, QString> &filterParams, QMap <QString, QString> &consumerParams, QMap <QString, QString> &extraParams)
-{
-    ProjectItem *item = getItemById(id);
-    if (!item) return;
-
-    QMap <QString, QString> producerParams = QMap <QString, QString> ();
-    producerParams.insert("in", QString::number((int) info.cropStart.frames(m_fps)));
-    producerParams.insert("out", QString::number((int) (info.cropStart + info.cropDuration).frames(m_fps)));
-    extraParams.insert("clipStartPos", QString::number((int) info.startPos.frames(m_fps)));
-    extraParams.insert("clipTrack", QString::number(info.track));
-
-    MeltJob *job = new MeltJob(item->clipType(), id, producerParams, filterParams, consumerParams, extraParams);
-    if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
-        delete job;
-        return;
-    }
-    job->description = i18n("Filter %1", extraParams.value("finalfilter"));
-    m_jobList.append(job);
-    setJobStatus(item, job->jobType, JobWaiting, 0, job->statusMessage());
-    slotCheckJobProcess();
-}
-
-void ProjectList::startClipFilterJob(const QString &filterName, const QString &condition)
-{
-    QMap <QString, QString> ids = getConditionalIds(condition);
-    QStringList destination;
-    QMap<QString, QString>::const_iterator first = ids.constBegin();
-    if (first == ids.constEnd()) {
-        emit displayMessage(i18n("Cannot find clip to process filter %1", filterName), -2, ErrorMessage);
-        return;
-    }
-    ProjectItem *item = getItemById(first.key());
-    if (!item) {
-        emit displayMessage(i18n("Cannot find clip to process filter %1", filterName), -2, ErrorMessage);
-        return;
-    }
-    if (ids.count() == 1) {
-        destination << item->clipUrl().path();
-    }
-    else {
-        destination = ids.values();
-    }
-    if (filterName == "framebuffer") {
-        Mlt::Profile profile;
-        QStringList keys = ids.keys();
-        int ix = 0;
-        foreach(const QString &url, destination) {
-            QString prodstring = QString("framebuffer:" + url + "?-1");
-            Mlt::Producer *reversed = new Mlt::Producer(profile, prodstring.toUtf8().constData());
-            if (!reversed || !reversed->is_valid()) {
-                emit displayMessage(i18n("Cannot reverse clip"), -2, ErrorMessage);
-                continue;
-            }
-            QString dest = url + ".mlt";
-            if (QFile::exists(dest)) {
-                if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", dest)) == KMessageBox::No) continue;
-            }
-            Mlt::Consumer *cons = new Mlt::Consumer(profile, "xml", dest.toUtf8().constData());
-            if (cons == NULL || !cons->is_valid()) {
-                emit displayMessage(i18n("Cannot render reversed clip"), -2, ErrorMessage);
-                continue;
-            }
-            Mlt::Playlist list;
-            list.insert_at(0, reversed, 0);
-            delete reversed;
-            cons->connect(list);
-            cons->run();
-            delete cons;
-            QString groupId;
-            QString groupName;
-            DocClipBase *base = m_doc->clipManager()->getClipById(keys.at(ix));
-            if (base) {
-                groupId = base->getProperty("groupid");
-                groupName = base->getProperty("groupname");
-            }
-            emit addClip(dest, groupId, groupName);
-            ix++;
-        }
-        return;
-    }
-    
-    if (filterName == "motion_est") {
-        // Show config dialog
-        QPointer<QDialog> d = new QDialog(this);
-        Ui::SceneCutDialog_UI ui;
-        ui.setupUi(d);
-        // Set  up categories
-        for (int i = 0; i < 5; ++i) {
-            ui.marker_type->insertItem(i, i18n("Category %1", i));
-            ui.marker_type->setItemData(i, CommentedTime::markerColor(i), Qt::DecorationRole);
-        }
-        ui.marker_type->setCurrentIndex(KdenliveSettings::default_marker_type());
-        if (d->exec() != QDialog::Accepted) {
-            delete d;
-            return;
-        }
-        // Autosplit filter
-        QMap <QString, QString> producerParams = QMap <QString, QString> ();
-        QMap <QString, QString> filterParams = QMap <QString, QString> ();
-	QMap <QString, QString> consumerParams = QMap <QString, QString> ();
-	
-        // Producer params
-	// None
-
-        // Filter params, use a smaller region of the image to speed up operation
-        // In fact, it's faster to rescale whole image than using part of it (bounding=\"25%x25%:15%x15\")
-	filterParams.insert("filter", filterName);
-	filterParams.insert("shot_change_list", "0");
-	filterParams.insert("denoise", "0");
-	
-	// Consumer
-	consumerParams.insert("consumer", "null");
-	consumerParams.insert("all", "1");
-	consumerParams.insert("terminate_on_pause", "1");
-	consumerParams.insert("real_time", "-1");
-	// We just want to find scene change, set all mathods to the fastests
-	consumerParams.insert("rescale", "nearest");
-	consumerParams.insert("deinterlace_method", "onefield");
-	consumerParams.insert("top_field_first", "-1");
-	
-        // Extra
-        QMap <QString, QString> extraParams;
-        extraParams.insert("key", "shot_change_list");
-        extraParams.insert("projecttreefilter", "1");
-        QString keyword("%count");
-        extraParams.insert("resultmessage", i18n("Found %1 scenes.", keyword));
-        extraParams.insert("resize_profile", "160");
-        if (ui.store_data->isChecked()) {
-            // We want to save result as clip metadata
-            extraParams.insert("storedata", "1");
-        }
-        if (ui.zone_only->isChecked()) {
-            // We want to analyze only clip zone
-            extraParams.insert("zoneonly", "1");
-        }
-        if (ui.add_markers->isChecked()) {
-            // We want to create markers
-            extraParams.insert("addmarkers", QString::number(ui.marker_type->currentIndex()));
-        }
-        if (ui.cut_scenes->isChecked()) {
-            // We want to cut scenes
-            extraParams.insert("cutscenes", "1");
-        }
-        delete d;
-        processClipJob(ids.keys(), QString(), false, producerParams, filterParams, consumerParams, i18n("Auto split"), extraParams);
-    }
-    else {
-        QPointer<ClipStabilize> d = new ClipStabilize(destination, filterName);
-        if (d->exec() == QDialog::Accepted) {
-            QMap <QString, QString> extraParams;
-            extraParams.insert("producer_profile", "1");
-            processClipJob(ids.keys(), d->destination(), d->autoAddClip(), d->producerParams(), d->filterParams(), d->consumerParams(), d->desc(), extraParams);
-        }
-        delete d;
-    }
-}
-
-void ProjectList::processClipJob(QStringList ids, const QString&destination, bool autoAdd, QMap <QString, QString> producerParams, QMap <QString, QString> filterParams, QMap <QString, QString> consumerParams, const QString &description, QMap <QString, QString> extraParams)
-{
-    // in and out
-    int in = 0;
-    int out = -1;
- 
-    // filter name
-    QString filterName = filterParams.value("filter");
-
-    // consumer name
-    QString consumerName = consumerParams.value("consumer");
-
-    foreach(const QString&id, ids) {
-        ProjectItem *item = getItemById(id);
-        if (!item) continue;
-        if (extraParams.contains("zoneonly")) {
-            // Analyze clip zone only, remove in / out and replace with zone
-            QPoint zone = item->referencedClip()->zone();
-	    in = zone.x();
-	    out = zone.y();
-        }
-        producerParams.insert("in", QString::number(in));
-	producerParams.insert("out", QString::number(out));
-
-        if (ids.count() == 1) {
-	    // We only have one clip to process
-	    if (filterName == "vidstab") {
-		// Append a 'filename' parameter for saving vidstab data
-		QUrl trffile = QUrl::fromLocalFile(destination + ".trf");
-		filterParams.insert("filename", trffile.path());
-		consumerParams.insert("consumer", consumerName + ':' + destination);
-           } else {
-		consumerParams.insert("consumer", consumerName + ':' + destination);
-           }
-        }
-        else {
-	    // We have several clips to process
-	    QString mltfile = destination + item->clipUrl().fileName() + ".mlt";
-            if (filterName == "vidstab") {
-		// Append a 'filename' parameter for saving each vidstab data
-		QUrl trffile = QUrl::fromLocalFile(mltfile + ".trf");
-		filterParams.insert("filename", trffile.path());
-		consumerParams.insert("consumer", consumerName + ':' + mltfile);
-            } else {
-		consumerParams.insert("consumer", consumerName + ':' + mltfile);
-            }
-        }
-        MeltJob *job = new MeltJob(item->clipType(), id, producerParams, filterParams, consumerParams, extraParams);
-        if (autoAdd) {
-            job->setAddClipToProject(true);
-            //qDebug()<<"// ADDING TRUE";
-        }
-        else qDebug()<<"// ADDING FALSE!!!";
-
-        if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
-            delete job;
-            return;
-        }
-        job->description = description;
-        m_jobList.append(job);
-        setJobStatus(item, job->jobType, JobWaiting, 0, job->statusMessage());
-        slotCheckJobProcess();
     }
 }
 
@@ -3703,14 +3056,6 @@ void ProjectList::updatePalette()
     m_listView->updateStyleSheet();
 }
 
-void ProjectList::slotResetInfoMessage()
-{
-    m_errorLog.clear();
-    QList<QAction *> actions = m_infoMessage->actions();
-    for (int i = 0; i < actions.count(); ++i) {
-        m_infoMessage->removeAction(actions.at(i));
-    }
-}
 
 void ProjectList::slotClosePopup()
 {
@@ -3787,6 +3132,11 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , stringMap resu
     }
 }
 
+// Should be removed (hack to fix projectsettings)
+BinController *ProjectList::binController()
+{
+    return pCore->binController();
+}
 
 /*
 // Work in progress: apply filter based on clip's camcorder

@@ -31,13 +31,14 @@
 #include <QDir>
 #include <QStandardPaths>
 
+
 EffectsListView::EffectsListView(QWidget *parent) :
         QWidget(parent)
 {
     setupUi(this);
     
-    QMenu *contextMenu = new QMenu(this);
-    m_effectsList = new EffectsListWidget(contextMenu);
+    m_contextMenu = new QMenu(this);
+    m_effectsList = new EffectsListWidget();
     m_effectsList->setStyleSheet(customStyleSheet());
     QVBoxLayout *lyr = new QVBoxLayout(effectlistframe);
     lyr->addWidget(m_effectsList);
@@ -59,15 +60,59 @@ EffectsListView::EffectsListView(QWidget *parent) :
     else
         infopanel->hide();
 
-    contextMenu->addAction(QIcon::fromTheme("edit-delete"), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
+    m_removeAction = m_contextMenu->addAction(QIcon::fromTheme("edit-delete"), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
 
-    connect(type_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(filterList(int)));
+    effectsAll->setIcon(QIcon::fromTheme("kdenlive-show-all-effects"));
+    effectsAll->setToolTip(i18n("Show all effects"));
+    effectsVideo->setIcon(QIcon::fromTheme("kdenlive-show-video-effects"));
+    effectsVideo->setToolTip(i18n("Show video effects"));
+    effectsAudio->setIcon(QIcon::fromTheme("kdenlive-show-audio-effects"));
+    effectsAudio->setToolTip(i18n("Show audio effects"));
+    effectsGPU->setIcon(QIcon::fromTheme("kdenlive-show-gpu-effects"));
+    effectsGPU->setToolTip(i18n("Show GPU effects"));
+    if (!KdenliveSettings::gpu_accel()) {
+        effectsGPU->setHidden(true);
+    }
+    effectsCustom->setIcon(QIcon::fromTheme("kdenlive-show-custom"));
+    effectsCustom->setToolTip(i18n("Show custom effects"));
+    m_effectsFavorites = new MyDropButton(this);
+    horizontalLayout->addWidget(m_effectsFavorites);
+    m_effectsFavorites->setIcon(QIcon::fromTheme("favorites"));
+    m_effectsFavorites->setToolTip(i18n("Show favorite effects"));
+    connect(m_effectsFavorites, SIGNAL(addEffectToFavorites(QString)), this, SLOT(slotAddFavorite(QString)));
+    
+    connect(effectsAll, SIGNAL(clicked()), this, SLOT(filterList()));
+    connect(effectsVideo, SIGNAL(clicked()), this, SLOT(filterList()));
+    connect(effectsAudio, SIGNAL(clicked()), this, SLOT(filterList()));
+    connect(effectsGPU, SIGNAL(clicked()), this, SLOT(filterList()));
+    connect(effectsCustom, SIGNAL(clicked()), this, SLOT(filterList()));
+    connect(m_effectsFavorites, SIGNAL(clicked()), this, SLOT(filterList()));
     connect(buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
-    connect(m_effectsList, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateInfo()));
-    connect(m_effectsList, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(slotEffectSelected()));
+    connect(m_effectsList, &EffectsListWidget::itemSelectionChanged, this, &EffectsListView::slotUpdateInfo);
+    connect(m_effectsList, &EffectsListWidget::itemDoubleClicked, this, &EffectsListView::slotEffectSelected);
+    connect(m_effectsList, SIGNAL(displayMenu(QTreeWidgetItem *, const QPoint &)), this, SLOT(slotDisplayMenu(QTreeWidgetItem *, const QPoint &)));
     connect(search_effect, SIGNAL(hiddenChanged(QTreeWidgetItem*,bool)), this, SLOT(slotUpdateSearch(QTreeWidgetItem*,bool)));
-    connect(m_effectsList, SIGNAL(applyEffect(QDomElement)), this, SIGNAL(addEffect(QDomElement)));
+    connect(m_effectsList, &EffectsListWidget::applyEffect, this, &EffectsListView::addEffect);
     connect(search_effect, SIGNAL(textChanged(QString)), this, SLOT(slotAutoExpand(QString)));
+    
+    // Select preferred effect tab
+    switch (KdenliveSettings::selected_effecttab()) {
+      case EffectsListWidget::EFFECT_VIDEO:
+        effectsVideo->setChecked(true);
+        break;
+      case EffectsListWidget::EFFECT_AUDIO:
+        effectsAudio->setChecked(true);
+        break;
+      case EffectsListWidget::EFFECT_GPU:
+        if (KdenliveSettings::gpu_accel()) effectsGPU->setChecked(true);
+        break;
+      case EffectsListWidget::EFFECT_CUSTOM:
+        effectsCustom->setChecked(true);
+        break;
+      case EffectsListWidget::EFFECT_FAVORITES:
+        m_effectsFavorites->setChecked(true);
+        break;
+    }
     //m_effectsList->setCurrentRow(0);
 }
 
@@ -82,15 +127,48 @@ const QString EffectsListView::customStyleSheet() const
          border-image: none;image: url(:/images/stylesheet-branch-open.png);}");
 }
 
-
-void EffectsListView::filterList(int pos)
+void EffectsListView::slotAddFavorite(QString id)
 {
+    QStringList favs = KdenliveSettings::favorite_effects();
+    if (!favs.contains(id)) {
+        favs << id;
+        KdenliveSettings::setFavorite_effects(favs);
+    }
+}
+
+void EffectsListView::filterList()
+{
+    int pos = 0;
+    if (effectsVideo->isChecked()) pos = EffectsListWidget::EFFECT_VIDEO;
+    else if (effectsAudio->isChecked()) pos = EffectsListWidget::EFFECT_AUDIO;
+    else if (effectsGPU->isChecked()) pos = EffectsListWidget::EFFECT_GPU;
+    else if (m_effectsFavorites->isChecked()) pos = EffectsListWidget::EFFECT_FAVORITES;
+    else if (effectsCustom->isChecked()) pos = EffectsListWidget::EFFECT_CUSTOM;
+    KdenliveSettings::setSelected_effecttab(pos);
+    if (pos == EffectsListWidget::EFFECT_CUSTOM) {
+        m_removeAction->setText(i18n("Delete effect"));
+    }
+    else if (pos == EffectsListWidget::EFFECT_FAVORITES) {
+        m_removeAction->setText(i18n("Remove from favorites"));
+    }
     for (int i = 0; i < m_effectsList->topLevelItemCount(); ++i) {
         QTreeWidgetItem *folder = m_effectsList->topLevelItem(i);
         bool hideFolder = true;
         for (int j = 0; j < folder->childCount(); ++j) {
             QTreeWidgetItem *item = folder->child(j);
-            if (pos == 0 || pos == item->data(0, Qt::UserRole).toInt()) {
+            if (pos == EffectsListWidget::EFFECT_FAVORITES) {
+                QStringList data = item->data(0, Qt::UserRole + 1).toStringList();
+                QString id = data.at(1);
+                if (id.isEmpty()) id = data.at(0);
+                if (KdenliveSettings::favorite_effects().contains(id)) {
+                    item->setHidden(false);
+                    hideFolder = false;
+                }
+                else {
+                    item->setHidden(true);
+                }
+            }
+            else if (pos == 0 || pos == item->data(0, Qt::UserRole).toInt()) {
                 item->setHidden(false);
                 hideFolder = false;
             } else {
@@ -143,10 +221,35 @@ void EffectsListView::slotUpdateInfo()
 void EffectsListView::reloadEffectList(QMenu *effectsMenu, KActionCategory *effectActions)
 {
     m_effectsList->initList(effectsMenu, effectActions);
+    filterList();
+}
+
+void EffectsListView::slotDisplayMenu(QTreeWidgetItem *item, const QPoint &pos)
+{
+    if (KdenliveSettings::selected_effecttab() == EffectsListWidget::EFFECT_FAVORITES) {
+        m_contextMenu->popup(pos);
+    }
+    else if (item->data(0, Qt::UserRole + 1).toInt() == EffectsListWidget::EFFECT_CUSTOM) {
+        m_contextMenu->popup(pos);
+    }
+    
 }
 
 void EffectsListView::slotRemoveEffect()
 {
+    if (KdenliveSettings::selected_effecttab() == EffectsListWidget::EFFECT_FAVORITES) {
+        QDomElement e = m_effectsList->currentEffect();
+        QString id = e.attribute("id");
+        if (id.isEmpty()) {
+            id = e.attribute("tag");
+        }
+        QStringList favs = KdenliveSettings::favorite_effects();
+        favs.removeAll(id);
+        KdenliveSettings::setFavorite_effects(favs);
+        filterList();
+        return;
+    }
+
     QTreeWidgetItem *item = m_effectsList->currentItem();
     QString effectId = item->text(0);
     QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects";
@@ -179,11 +282,11 @@ void EffectsListView::slotRemoveEffect()
 void EffectsListView::slotUpdateSearch(QTreeWidgetItem *item, bool hidden)
 {
     if (!hidden) {
-        if (item->data(0, Qt::UserRole).toInt() == type_combo->currentIndex()) {
+        if (item->data(0, Qt::UserRole).toInt() == KdenliveSettings::selected_effecttab()) {
             if (item->parent())
                 item->parent()->setHidden(false);
         } else {
-            if (type_combo->currentIndex() != 0)
+            if (KdenliveSettings::selected_effecttab() != 0)
                 item->setHidden(true);
         }
     }
@@ -191,14 +294,23 @@ void EffectsListView::slotUpdateSearch(QTreeWidgetItem *item, bool hidden)
 
 void EffectsListView::slotAutoExpand(const QString &text)
 {
+    QTreeWidgetItem *curr = m_effectsList->currentItem();
     search_effect->updateSearch();
     bool selected = false;
+    if (curr && !curr->isHidden()) {
+        selected = true;
+    }
     for (int i = 0; i < m_effectsList->topLevelItemCount(); ++i) {
         QTreeWidgetItem *folder = m_effectsList->topLevelItem(i);
         bool expandFolder = false;
         /*if (folder->isHidden())
             continue;*/
-        if (!text.isEmpty()) {
+        if (text.isEmpty()) {
+            if (curr && curr->parent() == folder) {
+                expandFolder = true;
+            }
+        }
+        else {
             for (int j = 0; j < folder->childCount(); ++j) {
                 QTreeWidgetItem *item = folder->child(j);
                 if (!item->isHidden()) {

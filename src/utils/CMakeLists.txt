@@ -5,6 +5,7 @@ set(kdenlive_SRCS
   utils/openclipart.cpp
   utils/archiveorg.cpp
   utils/resourcewidget.cpp
+  utils/flowlayout.cpp
   utils/thememanager.cpp
   PARENT_SCOPE
 )

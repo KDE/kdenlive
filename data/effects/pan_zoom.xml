@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<effect tag="affine" id="pan_zoom" type="video">
+<effect tag="affine" id="pan_zoom" type="video" context="nomovit">
 	<name>Pan and Zoom</name>
 	<description>Adjust size and position of clip</description>
 	<author>Charles Yates</author>

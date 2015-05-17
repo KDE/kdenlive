@@ -23,6 +23,8 @@
 
 #include "abstractclipjob.h"
 
+class Bin;
+class ProjectClip;
 
 class ProxyJob : public AbstractClipJob
 {
@@ -36,8 +38,9 @@ public:
     stringMap cancelProperties();
     const QString statusMessage();
     void processLogInfo();
+    static QList <ProjectClip *> filterClips(QList <ProjectClip *>clips);
+    static QMap <ProjectClip *, AbstractClipJob *> prepareJob(Bin *bin, QList <ProjectClip *>clips);
 
-    
 private:
     QString m_dest;
     QString m_src;

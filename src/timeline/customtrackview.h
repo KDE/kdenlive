@@ -37,6 +37,8 @@
 #include "effectslist/effectslist.h"
 #include "timeline/customtrackscene.h"
 
+class Timeline;
+class ClipController;
 class ClipItem;
 class AbstractClipItem;
 class AbstractGroupItem;
@@ -48,7 +50,7 @@ class CustomTrackView : public QGraphicsView
     Q_OBJECT
 
 public:
-    CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscene, QWidget *parent = 0);
+    CustomTrackView(KdenliveDoc *doc, Timeline* timeline, CustomTrackScene* projectscene, QWidget *parent = 0);
     virtual ~ CustomTrackView();
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseReleaseEvent(QMouseEvent * event);
@@ -71,14 +73,12 @@ public:
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
     void moveTransition(const ItemInfo &start, const ItemInfo &end, bool refresh);
     void resizeClip(const ItemInfo &start, const ItemInfo &end, bool dontWorry = false);
-    void addClip(QDomElement xml, const QString &clipId, ItemInfo info, EffectsList list = EffectsList(), bool overwrite = false, bool push = false, bool refresh = true);
+    void addClip(const QString &clipId, ItemInfo info, EffectsList list, bool overwrite = false, bool push = false, bool refresh = true);
     void deleteClip(ItemInfo info, bool refresh = true);
-    void slotDeleteClipMarker(const QString &comment, const QString &id, const GenTime &position);
-    void slotDeleteAllClipMarkers(const QString &id);
     void addMarker(const QString &id, const CommentedTime &marker);
     void addData(const QString &id, const QString &key, const QString &data);
     void setScale(double scaleFactor, double verticalScale);
-    void deleteClip(const QString &clipId);
+    void deleteClip(const QString &clipId, QUndoCommand *deleteCommand);
     /** @brief An effect was dropped on @param clip */
     void slotDropEffect(ClipItem *clip, QDomElement effect, GenTime pos, int track);
     /** @brief Add effect to current clip */
@@ -115,6 +115,9 @@ public:
     void clipStart();
     void clipEnd();
     void doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id);
+    /** @brief Every command added to the undo stack automatically triggers a document change event.
+     *  This function should only be called when changing a document setting or another function that 
+     *  is not integrated in the undo / redo system */
     void setDocumentModified();
     void setInPoint();
     void setOutPoint();
@@ -186,7 +189,7 @@ public:
     * @param out The outpoint of the clip (crop from end)
     *
     * Inserts at the position of timeline cursor and selected track. */
-    void insertClipCut(DocClipBase *clip, int in, int out);
+    void insertClipCut(const QString &id, int in, int out);
     void clearSelection(bool emitInfo = true);
     void editItemDuration();
     void buildGuidesMenu(QMenu *goMenu) const;
@@ -207,10 +210,7 @@ public:
     
     /** @brief Returns frame number of current mouse position. */
     int getMousePos() const;
-    
-    /** @brief Get effect parameters ready for MLT*/
-    static void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, MltVideoProfile profile, const QString &prefix = QString());
-    
+
     void completeSpaceOperation(int track, GenTime &timeOffset);
     void spaceToolMoveToSnapPos(double snappedPos);
     void createRectangleSelection(QMouseEvent * event);
@@ -220,6 +220,8 @@ public:
     void createGroupForSelectedItems(QList<QGraphicsItem *> &selection);
     void selectItemsRightOfFrame(int frame);
     void resetSelectionGroup(bool selectItems = true);
+    /** @brief Returns all infos necessary to save guides. */
+    QMap <double, QString> guidesData() const;
 
 public slots:
     /** @brief Send seek request to MLT. */
@@ -238,21 +240,15 @@ public slots:
     void slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack, QDomElement transition = QDomElement());
     void slotAddTransitionToSelectedClips(QDomElement transition);
     void slotTransitionUpdated(Transition *, QDomElement);
-    void slotSwitchTrackAudio(int ix);
-    void slotSwitchTrackVideo(int ix);
-    void slotSwitchTrackLock(int ix);
+    void slotSwitchTrackAudio(int ix, bool enable);
+    void slotSwitchTrackVideo(int ix, bool enable);
+    void slotSwitchTrackLock(int ix, bool enable);
     void slotUpdateClip(const QString &clipId, bool reload = true);
     
     /** @brief Add extra data to a clip. */
     void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString(), QUndoCommand *groupCommand = 0);
-    /** @brief Creates a AddClipCommand to add, edit or delete a marker.
-     * @param id Id of the marker's clip
-     * @param t Position of the marker
-     * @param c Comment of the marker */
-    void slotAddClipMarker(const QString &id, QList <CommentedTime> newMarker, QUndoCommand *groupCommand = 0);
-    void slotLoadClipMarkers(const QString &id);
     void slotSaveClipMarkers(const QString &id);
-    bool addGuide(const GenTime &pos, const QString &comment);
+    bool addGuide(const GenTime &pos, const QString &comment, bool loadingProject = false);
 
     /** @brief Shows a dialog for adding a guide.
      * @param dialog (default = true) false = do not show the dialog but use current position as position and comment */
@@ -308,7 +304,7 @@ public slots:
 
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
-    
+
     void slotInfoProcessingFinished();
     void slotAlignClip(int, int, int);
 
@@ -331,6 +327,7 @@ private:
     int m_projectDuration;
     int m_cursorPos;
     KdenliveDoc *m_document;
+    Timeline *m_timeline;
     CustomTrackScene *m_scene;
     QGraphicsLineItem *m_cursorLine;
     ItemInfo m_dragItemInfo;
@@ -396,7 +393,6 @@ private:
     QMutex m_selectionMutex;
     QMutex m_mutex;
     QWaitCondition m_producerNotReady;
-    KStatefulBrush m_activeTrackBrush;
 
     AudioCorrelation *m_audioCorrelator;
     ClipItem *m_audioAlignmentReference;
@@ -459,9 +455,6 @@ private:
     * @param cutPos The absolute position of the cut */
     void razorGroup(AbstractGroupItem *group, GenTime cutPos);
 
-    /** @brief Gets the effect parameters that will be passed to Mlt. */
-    EffectsParameterList getEffectArgs(const QDomElement &effect);
-
     /** @brief Update Tracknames to fit again after track was added/deleted.
      * @param track Number of track which was added/deleted
      * @param added true = track added, false = track deleted
@@ -522,7 +515,7 @@ signals:
     void displayMessage(const QString &, MessageType);
     void showClipFrame(DocClipBase *, QPoint, bool, const int);
     void doTrackLock(int, bool);
-    void updateClipMarkers(DocClipBase *);
+    void updateClipMarkers(ClipController*);
     void updateClipExtraData(DocClipBase *);
     void updateTrackHeaders();
     void playMonitor();
@@ -532,9 +525,11 @@ signals:
     /** @brief Update the track effect button that shows if a track has effects or not.*/
     void updateTrackEffectState(int);
     /** @brief Cursor position changed, repaint ruler.*/
-    void updateRuler();
+    void updateRuler(int pos);
     /** @brief Send data from a clip to be imported as keyframes for effect / transition.*/
     void importKeyframes(GraphicsRectItem type, const QString&, int maximum);
+    /** @brief Guides were changed, inform render widget*/
+    void guidesUpdated();
 };
 
 #endif

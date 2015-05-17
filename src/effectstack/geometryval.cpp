@@ -28,8 +28,9 @@
 #include <QMenu>
 #include <QTimer>
 
+#include <mlt++/Mlt.h>
 
-Geometryval::Geometryval(const MltVideoProfile &profile, const Timecode &t, const QPoint &frame_size, int startPoint, QWidget* parent) :
+Geometryval::Geometryval(const Mlt::Profile *profile, const Timecode &t, const QPoint &frame_size, int startPoint, QWidget* parent) :
         QWidget(parent),
         m_profile(profile),
         m_paramRect(NULL),
@@ -63,10 +64,10 @@ Geometryval::Geometryval(const MltVideoProfile &profile, const Timecode &t, cons
     m_scene = new GraphicsSceneRectMove(this);
     m_scene->setTool(TITLE_SELECT);
     m_sceneview->setScene(m_scene);
-    m_dar = (m_profile.height * m_profile.display_aspect_num / (double) m_profile.display_aspect_den) / (double) m_profile.width;
+    m_dar = (m_profile->height() * m_profile->dar()) / (double) m_profile->width();
 
-    m_realWidth = (int)(profile.height * profile.display_aspect_num / (double) profile.display_aspect_den + 0.5);
-    QGraphicsRectItem *frameBorder = new QGraphicsRectItem(QRectF(0, 0, m_realWidth, profile.height));
+    m_realWidth = (int)(profile->height() * profile->dar() + 0.5);
+    QGraphicsRectItem *frameBorder = new QGraphicsRectItem(QRectF(0, 0, m_realWidth, profile->height()));
     frameBorder->setZValue(-1100);
     frameBorder->setBrush(QColor(255, 255, 0, 30));
     frameBorder->setPen(QPen(QBrush(QColor(255, 255, 255, 255)), 1.0, Qt::DashLine));
@@ -97,9 +98,9 @@ Geometryval::Geometryval(const MltVideoProfile &profile, const Timecode &t, cons
     m_syncAction->setCheckable(true);
     m_syncAction->setChecked(KdenliveSettings::transitionfollowcursor());
 
-    //scene->setSceneRect(0, 0, profile.width * 2, profile.height * 2);
+    //scene->setSceneRect(0, 0, profile->width * 2, profile->height * 2);
     //view->fitInView(m_frameBorder, Qt::KeepAspectRatio);
-    const double sc = 100.0 / profile.height * 0.8;
+    const double sc = 100.0 / profile->height() * 0.8;
     QRectF srect = m_sceneview->sceneRect();
     m_sceneview->setSceneRect(srect.x(), -srect.height() / 3 + 10, srect.width(), srect.height() + srect.height() / 3 * 2 - 10);
     m_scene->setZoom(sc);
@@ -167,7 +168,7 @@ void Geometryval::slotAlignVCenter()
 {
     if (!keyframeSelected())
         return;
-    m_paramRect->setPos(m_paramRect->pos().x(), (m_profile.height - m_paramRect->rect().height()) / 2);
+    m_paramRect->setPos(m_paramRect->pos().x(), (m_profile->height() - m_paramRect->rect().height()) / 2);
     slotUpdateTransitionProperties();
 }
 
@@ -183,7 +184,7 @@ void Geometryval::slotAlignBottom()
 {
     if (!keyframeSelected())
         return;
-    m_paramRect->setPos(m_paramRect->pos().x(), m_profile.height - m_paramRect->rect().height());
+    m_paramRect->setPos(m_paramRect->pos().x(), m_profile->height() - m_paramRect->rect().height());
     slotUpdateTransitionProperties();
 }
 
@@ -208,7 +209,7 @@ void Geometryval::slotResizeOriginal()
     if (!keyframeSelected())
         return;
     if (m_frameSize.isNull())
-        m_paramRect->setRect(0, 0, m_realWidth, m_profile.height);
+        m_paramRect->setRect(0, 0, m_realWidth, m_profile->height());
     else
         m_paramRect->setRect(0, 0, m_frameSize.x(), m_frameSize.y());
     slotUpdateTransitionProperties();
@@ -219,7 +220,7 @@ void Geometryval::slotResizeCustom()
     if (!keyframeSelected())
         return;
     int value = spinResize->value();
-    m_paramRect->setRect(0, 0, m_realWidth * value / 100, m_profile.height * value / 100);
+    m_paramRect->setRect(0, 0, m_realWidth * value / 100, m_profile->height() * value / 100);
     slotUpdateTransitionProperties();
 }
 
@@ -385,9 +386,9 @@ void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
         spinTransp->setHidden(true);
     }
     if (m_geom)
-        m_geom->parse(val.toUtf8().data(), maxFrame - minFrame, m_profile.width, m_profile.height);
+        m_geom->parse(val.toUtf8().data(), maxFrame - minFrame, m_profile->width(), m_profile->height());
     else
-        m_geom = new Mlt::Geometry(val.toUtf8().data(), maxFrame - minFrame, m_profile.width, m_profile.height);
+        m_geom = new Mlt::Geometry(val.toUtf8().data(), maxFrame - minFrame, m_profile->width(), m_profile->height());
 
     ////qDebug() << " / / UPDATING TRANSITION VALUE: " << m_geom->serialise();
     //read param her and set rect
@@ -482,7 +483,7 @@ void Geometryval::slotResetPosition()
 
     if (m_frameSize.isNull()) {
         spinWidth->setValue(m_realWidth);
-        spinHeight->setValue(m_profile.height);
+        spinHeight->setValue(m_profile->height());
     } else {
         spinWidth->setValue(m_frameSize.x());
         spinHeight->setValue(m_frameSize.y());

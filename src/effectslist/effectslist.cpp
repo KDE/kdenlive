@@ -17,6 +17,7 @@
 
 
 #include "effectslist.h"
+#include "kdenlivesettings.h"
 
 #include <QDebug>
 #include <klocalizedstring.h>
@@ -93,6 +94,18 @@ QDomElement EffectsList::getEffectByTag(const QString & tag, const QString & id)
     return QDomElement();
 }
 
+bool EffectsList::hasTransition(const QString & tag) const
+{
+    QDomNodeList trans = m_baseElement.childNodes();
+    for (int i = 0; i < trans.count(); ++i) {
+        QDomElement effect =  trans.at(i).toElement();
+        if (effect.attribute("tag") == tag) {
+            return true;
+        }
+    }
+    return false;
+}
+
 int EffectsList::hasEffect(const QString & tag, const QString & id) const
 {
     QDomNodeList effects = m_baseElement.childNodes();
@@ -115,6 +128,18 @@ QStringList EffectsList::effectIdInfo(const int ix) const
         QString groupName = effect.attribute("name");
         info << groupName << groupName << effect.attribute("id") << QString::number(Kdenlive::groupEffect);
     } else {
+        if (KdenliveSettings::gpu_accel()) {
+            // Using Movit
+            if (effect.attribute("context") == "nomovit") {
+                // This effect has a Movit counterpart, so hide it when using Movit
+                return info;
+            }
+        } else {
+            // Not using Movit, don't display movit effects
+            if (effect.attribute("tag").startsWith("movit.")) {
+                return info;
+            }
+        }
         QDomElement namenode = effect.firstChildElement("name");
         QString name = namenode.text();
         if (name.isEmpty()) {
@@ -309,7 +334,7 @@ QDomElement EffectsList::append(QDomElement e)
 {
     QDomElement result;
     if (!e.isNull()) {
-        result = m_baseElement.appendChild(importNode(e, true)).toElement();
+        result = m_baseElement.appendChild(e).toElement();//importNode(e, true)).toElement();
         if (m_useIndex) {
             updateIndexes(m_baseElement.childNodes(), m_baseElement.childNodes().count() - 1);
         }

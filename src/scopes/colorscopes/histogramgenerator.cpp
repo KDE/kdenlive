@@ -131,7 +131,7 @@ QImage HistogramGenerator::drawComponent(const int *y, const QSize &size, const 
                                          bool unscaled, uint max) const
 {
     QImage component(max, size.height(), QImage::Format_ARGB32);
-    component.fill(qRgba(0, 0, 0, 0));
+    component.fill(qRgba(0, 0, 0, 255));
     Q_ASSERT(scaling != INFINITY);
 
     const int partH = size.height();

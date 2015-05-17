@@ -36,6 +36,7 @@ KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, con
         // special case: keyframe for tracks, do not allow keyframes
         widgetTable->setHidden(true);
     }
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     keyframe_list->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     buttonSeek->setChecked(KdenliveSettings::keyframeseek());
     connect(buttonSeek, SIGNAL(toggled(bool)), this, SLOT(slotSetSeeking(bool)));
@@ -154,6 +155,8 @@ void KeyframeEdit::addParameter(const QDomElement &e, int activeKeyframe)
     }
     keyframe_list->resizeColumnsToContents();
     keyframe_list->blockSignals(false);
+    keyframe_list->horizontalHeader()->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    keyframe_list->verticalHeader()->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     slotAdjustKeyframeInfo(false);
     button_delete->setEnabled(keyframe_list->rowCount() > 1);
 }

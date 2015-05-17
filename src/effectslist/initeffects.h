@@ -19,8 +19,8 @@
 #define InitEffects_H
 
 #include <QDomDocument>
-#include <QThread>
 #include <QStringList>
+#include <QMap>
 #include <mlt++/Mlt.h>
 
 
@@ -30,18 +30,6 @@
 
 class EffectsList;
 
-class initEffectsThumbnailer : public QThread
-{
-    Q_OBJECT
-public:
-    initEffectsThumbnailer();
-    void prepareThumbnailsCall(const QStringList&);
-    void run();
-private :
-    QStringList m_list;
-
-};
-
 class initEffects
 {
 public:
@@ -49,12 +37,12 @@ public:
     /** @brief Fills the effects and transitions lists.
      * @ref fillTransitionsList
      * @ref parseEffectFile
-     * @return pointer to the MLT repository
+     * @return true if Movit GPU effects are available
      *
      * It checks for all available effects and transitions, removes blacklisted
      * ones, calls fillTransitionsList() and parseEffectFile() to fill the lists
      * (with sorted, unique items) and then fills the global lists. */
-    static Mlt::Repository *parseEffectFiles(const QString &locale = QString());
+    static bool parseEffectFiles(Mlt::Repository* repository, const QString &locale = QString());
     static void refreshLumas();
     static QDomDocument createDescriptionFromMlt(Mlt::Repository* repository, const QString& type, const QString& name);
     static QDomDocument getUsedCustomEffects(const QMap<QString, QString> &effectids);
@@ -104,14 +92,13 @@ public:
                                 EffectsList *videoEffectList,
                                 const QString &name, QStringList filtersList,
                                 QStringList producersList,
-                                Mlt::Repository *repository);
+                                Mlt::Repository *repository, QMap <QString, QString> effectDescriptions);
 
     /** @brief Reloads information about custom effects. */
     static void parseCustomEffectsFile();
 
 private:
     initEffects(); // disable the constructor
-    static initEffectsThumbnailer thumbnailer;
 };
 
 

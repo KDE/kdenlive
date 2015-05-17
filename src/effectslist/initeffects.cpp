@@ -35,34 +35,10 @@
 #include <xlocale.h>
 #endif
 
-initEffectsThumbnailer::initEffectsThumbnailer() :
-    QThread()
-{
-}
-
-void initEffectsThumbnailer::prepareThumbnailsCall(const QStringList& list)
-{
-    m_list = list;
-    start();
-    //qDebug() << "done";
-}
-
-void initEffectsThumbnailer::run()
-{
-    foreach(const QString & entry, m_list) {
-        //qDebug() << entry;
-        if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
-            if (!MainWindow::m_lumacache.contains(entry)) {
-                QImage pix(entry);
-                //if (!pix.isNull())
-		MainWindow::m_lumacache.insert(entry, pix.scaled(30, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-                //qDebug() << "stored";
-            }
-        }
-    }
-}
-
-initEffectsThumbnailer initEffects::thumbnailer;
+#include <locale>
+#ifdef Q_OS_MAC
+#include <xlocale.h>
+#endif
 
 // static
 void initEffects::refreshLumas()
@@ -73,7 +49,7 @@ void initEffects::refreshLumas()
     QStringList filters;
     filters << "*.pgm" << "*.png";
 
-    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, "lumas");
+    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, "lumas", QStandardPaths::LocateDirectory);
     foreach(const QString & folder, customLumas) {
         QDir directory(folder);
         QStringList filesnames = directory.entryList(filters, QDir::Files);
@@ -133,17 +109,17 @@ QDomDocument initEffects::getUsedCustomEffects(const QMap <QString, QString>& ef
 }
 
 //static
-Mlt::Repository *initEffects::parseEffectFiles(const QString &locale)
+bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &locale)
 {
+    bool movit = false;
     QStringList::Iterator more;
     QStringList::Iterator it;
     QStringList fileList;
     QString itemName;
 
-    Mlt::Repository *repository = Mlt::Factory::init();
     if (!repository) {
         //qDebug() << "Repository didn't finish initialisation" ;
-        return NULL;
+        return movit;
     }
 
     // Warning: Mlt::Factory::init() resets the locale to the default system value, make sure we keep correct locale
@@ -172,12 +148,21 @@ Mlt::Repository *initEffects::parseEffectFiles(const QString &locale)
     KdenliveSettings::setProducerslist(producersList);
     delete producers;
 
+    if (filtersList.contains("glsl.manager") && producersList.contains("rtaudio")) {
+        // enable movit GPU effects / display. Currently, Movit crashes with sdl_audio,
+        // So enable only when rtaudio is available
+        movit = true;
+    }
+    else KdenliveSettings::setGpu_accel(false);
+
     // Retrieve the list of available transitions.
     Mlt::Properties *transitions = repository->transitions();
     QStringList transitionsItemList;
     max = transitions->count();
-    for (int i = 0; i < max; ++i)
+    for (int i = 0; i < max; ++i) {
+        //qDebug()<<"TRANSITION "<<i<<" = "<<transitions->get_name(i);
         transitionsItemList << transitions->get_name(i);
+    }
     delete transitions;
 
     // Remove blacklisted transitions from the list.
@@ -198,6 +183,7 @@ Mlt::Repository *initEffects::parseEffectFiles(const QString &locale)
 
     // Remove blacklisted effects from the filters list.
     QStringList mltFiltersList = filtersList;
+    QStringList mltBlackList;
     QFile file2(QStandardPaths::locate(QStandardPaths::DataLocation, "blacklisted_effects.txt"));
     if (file2.open(QIODevice::ReadOnly)) {
         QTextStream in(&file2);
@@ -206,6 +192,7 @@ Mlt::Repository *initEffects::parseEffectFiles(const QString &locale)
             if (!black.isEmpty() && !black.startsWith('#') &&
                     mltFiltersList.contains(black)) {
                 mltFiltersList.removeAll(black);
+                mltBlackList << black;
 	    }
 	    
         }
@@ -235,7 +222,27 @@ Mlt::Repository *initEffects::parseEffectFiles(const QString &locale)
     MainWindow::transitions.clearList();
     foreach(const QDomElement & effect, effectsMap)
         MainWindow::transitions.append(effect);
-    effectsMap.clear();    
+    effectsMap.clear();
+    
+    // Create structure holding all effects descriptions so that if an XML effect has no description, we take it from MLT
+    QMap <QString, QString> effectDescriptions;
+    foreach(const QString & filtername, mltBlackList) {
+        QDomDocument doc = createDescriptionFromMlt(repository, "filters", filtername);
+        if (!doc.isNull()) {
+            if (doc.elementsByTagName("description").count() > 0) {
+                QString desc = doc.documentElement().firstChildElement("description").text();
+                //WARNING: TEMPORARY FIX for unusable MLT SOX parameters description
+                if (desc.startsWith(QLatin1String("Process audio using a SoX"))) {
+                    // Remove MLT's SOX generated effects since the parameters properties are unusable for us
+                    continue;
+                }
+                if (!desc.isEmpty()) {
+                    effectDescriptions.insert(filtername, desc);
+                }
+            }
+        }
+    }
+    
     // Create effects from MLT
     foreach(const QString & filtername, mltFiltersList) {
         QDomDocument doc = createDescriptionFromMlt(repository, "filters", filtername);
@@ -271,7 +278,7 @@ Mlt::Repository *initEffects::parseEffectFiles(const QString &locale)
             parseEffectFile(&MainWindow::customEffects,
                             &MainWindow::audioEffects,
                             &MainWindow::videoEffects,
-                            itemName, filtersList, producersList, repository);
+                            itemName, filtersList, producersList, repository, effectDescriptions);
         }
     }
 
@@ -309,7 +316,7 @@ Mlt::Repository *initEffects::parseEffectFiles(const QString &locale)
     foreach(const QDomElement & effect, videoEffectsMap)
         MainWindow::videoEffects.append(effect);
     
-    return repository;
+    return movit;
 }
 
 // static
@@ -359,7 +366,7 @@ void initEffects::parseCustomEffectsFile()
 }
 
 // static
-void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, const QString &name, QStringList filtersList, QStringList producersList, Mlt::Repository *repository)
+void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, const QString &name, QStringList filtersList, QStringList producersList, Mlt::Repository *repository, QMap <QString, QString> effectDescriptions)
 {
     QDomDocument doc;
     QFile file(name);
@@ -371,7 +378,7 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
     effects = doc.elementsByTagName("effect");
 
     if (effects.count() == 0) {
-        //qDebug() << "Effect broken: " << name;
+        qDebug() << "+++++++++++++\nEffect broken: " << name<<"\n+++++++++++";;
         return;
     }
 
@@ -380,6 +387,18 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
         QLocale locale;
         documentElement = effects.item(i).toElement();
         QString tag = documentElement.attribute("tag", QString());
+        
+        //If XML has no description, take it fom MLT's descriptions
+        if (effectDescriptions.contains(tag)) {
+            QDomNodeList desc = documentElement.elementsByTagName("description");
+            if (desc.isEmpty()) {
+                QDomElement d = documentElement.ownerDocument().createElement("description");
+                QDomText value = documentElement.ownerDocument().createTextNode(effectDescriptions.value(tag));
+                d.appendChild(value);
+                documentElement.appendChild(d);
+            }
+        }
+
         if (documentElement.hasAttribute("LC_NUMERIC")) {
             // set a locale for that file
             locale = QLocale(documentElement.attribute("LC_NUMERIC"));
@@ -433,8 +452,9 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
             QString type = documentElement.attribute("type", QString());
             if (type == "audio")
                 audioEffectList->append(documentElement);
-            else if (type == "custom")
+            else if (type == "custom") {
                 customEffectList->append(documentElement);
+            }
             else
                 videoEffectList->append(documentElement);
         }

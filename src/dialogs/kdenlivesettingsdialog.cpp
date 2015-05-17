@@ -49,7 +49,7 @@
 #endif
 
 
-KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& mappable_actions, QWidget * parent) :
+KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& mappable_actions, bool gpuAllowed, QWidget * parent) :
     KConfigDialog(parent, "settings", KdenliveSettings::self()),
     m_modified(false),
     m_shuttleModified(false),
@@ -169,9 +169,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_configSdl.reload_blackmagic->setIcon(QIcon::fromTheme("view-refresh"));
     connect(m_configSdl.reload_blackmagic, SIGNAL(clicked(bool)), this, SLOT(slotReloadBlackMagic()));
 
-#ifndef USE_OPENGL
-    m_configSdl.kcfg_openglmonitors->setHidden(true);
-#endif
+    //m_configSdl.kcfg_openglmonitors->setHidden(true);
+
 
     m_page6 = addPage(p6, i18n("Playback"), "media-playback-start");
 
@@ -264,6 +263,10 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     slotUpdateV4lProfile(-1);
     slotUpdateGrabProfile(-1);
     slotUpdateDecklinkProfile(-1);
+    
+    // enable GPU accel only if Movit is found
+    m_configSdl.kcfg_gpu_accel->setEnabled(gpuAllowed);
+    m_configSdl.kcfg_gpu_accel->setToolTip(i18n("GPU processing needs MLT compiled with Movit and Rtaudio modules"));
 
     Render::getBlackMagicDeviceList(m_configCapture.kcfg_decklink_capturedevice);
     if (!Render::getBlackMagicOutputDeviceList(m_configSdl.kcfg_blackmagic_output_device)) {
@@ -444,27 +447,13 @@ void KdenliveSettingsDialog::initDevices()
             }
         }
 
-    // Fill video drivers
-    m_configSdl.kcfg_video_driver->addItem(i18n("Automatic"), QString());
-#ifndef Q_WS_MAC
-    m_configSdl.kcfg_video_driver->addItem(i18n("XVideo"), "x11");
-    m_configSdl.kcfg_video_driver->addItem(i18n("X11"), "x11_noaccel");
-    m_configSdl.kcfg_video_driver->addItem(i18n("XFree86 DGA 2.0"), "dga");
-    m_configSdl.kcfg_video_driver->addItem(i18n("Nano X"), "nanox");
-    m_configSdl.kcfg_video_driver->addItem(i18n("Framebuffer console"), "fbcon");
-    m_configSdl.kcfg_video_driver->addItem(i18n("Direct FB"), "directfb");
-    m_configSdl.kcfg_video_driver->addItem(i18n("SVGAlib"), "svgalib");
-    m_configSdl.kcfg_video_driver->addItem(i18n("General graphics interface"), "ggi");
-    m_configSdl.kcfg_video_driver->addItem(i18n("Ascii art library"), "aalib");
-#endif
-
     // Fill the list of audio playback / recording devices
     m_configSdl.kcfg_audio_device->addItem(i18n("Default"), QString());
     m_configCapture.kcfg_v4l_alsadevice->addItem(i18n("Default"), "default");
     if (!QStandardPaths::findExecutable("aplay").isEmpty()) {
         m_readProcess.setOutputChannelMode(KProcess::OnlyStdoutChannel);
         m_readProcess.setProgram("aplay", QStringList() << "-l");
-        connect(&m_readProcess, SIGNAL(readyReadStandardOutput()) , this, SLOT(slotReadAudioDevices()));
+        connect(&m_readProcess, &KProcess::readyReadStandardOutput, this, &KdenliveSettingsDialog::slotReadAudioDevices);
         m_readProcess.execute(5000);
     } else {
         // If aplay is not installed on the system, parse the /proc/asound/pcm file
@@ -763,12 +752,6 @@ void KdenliveSettingsDialog::updateSettings()
         resetProfile = true;
     }
 
-    value = m_configSdl.kcfg_video_driver->itemData(m_configSdl.kcfg_video_driver->currentIndex()).toString();
-    if (value != KdenliveSettings::videodrivername()) {
-        KdenliveSettings::setVideodrivername(value);
-        resetProfile = true;
-    }
-
     if (m_configSdl.kcfg_window_background->color() != KdenliveSettings::window_background()) {
         KdenliveSettings::setWindow_background(m_configSdl.kcfg_window_background->color());
         resetProfile = true;
@@ -798,10 +781,22 @@ void KdenliveSettingsDialog::updateSettings()
     if (KdenliveSettings::shuttlebuttons() != maps)
         KdenliveSettings::setShuttlebuttons(maps);
 #endif
+    
+    bool restart = false;
+    if (m_configSdl.kcfg_gpu_accel->isChecked() != KdenliveSettings::gpu_accel()) {
+	// GPU setting was changed, we need to restart Kdenlive or everything will be corrupted
+	if (KMessageBox::warningContinueCancel(this, i18n("Kdenlive must be restarted to change this setting")) == KMessageBox::Continue) {
+	    restart = true;
+	}
+	else {
+	    m_configSdl.kcfg_gpu_accel->setChecked(KdenliveSettings::gpu_accel());
+	}
+    }
 
     KConfigDialog::settingsChangedSlot();
     //KConfigDialog::updateSettings();
     if (resetProfile) emit doResetProfile();
+    if (restart) emit restartKdenlive();
 }
 
 void KdenliveSettingsDialog::slotUpdateDisplay()

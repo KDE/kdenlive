@@ -44,18 +44,19 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     vbox1->setSpacing(0);
     vbox1->addWidget(m_effectEdit);
     frame->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
-    connect(m_effectEdit, SIGNAL(seekTimeline(int)), this, SLOT(slotSeekTimeline(int)));
-    connect(m_effectEdit, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
+    connect(m_effectEdit, &EffectStackEdit::seekTimeline, this, &TransitionSettings::slotSeekTimeline);
+    connect(m_effectEdit, &EffectStackEdit::importClipKeyframes, this, &TransitionSettings::importClipKeyframes);
     
     setEnabled(false);
 
     QList<QStringList> transitionsList;
     int max = MainWindow::transitions.effectNames().count();
     QStringList transitionInfo;
-    int ix = 0;
+    int ix = 1;
 
-    for (; ix < max; ++ix) {
+    for (; ix <= max; ++ix) {
         transitionInfo = MainWindow::transitions.effectIdInfo(ix);
+        if (transitionInfo.isEmpty()) continue;
         transitionInfo << QString::number(ix);
         transitionsList.append(transitionInfo);
     }
@@ -76,7 +77,7 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
 void TransitionSettings::updateProjectFormat()
 {
     KdenliveDoc *project = pCore->projectManager()->current();
-    m_effectEdit->updateProjectFormat(project->mltProfile(), project->timecode());
+    m_effectEdit->updateProjectFormat(project->timecode());
     m_tracks = project->tracksList();
     updateTrackList();
 }

@@ -26,13 +26,13 @@
 #include "renderer.h"
 #include "kdenlivesettings.h"
 #include "doc/kthumb.h"
-#include "doc/docclipbase.h"
-#include "dialogs/profilesdialog.h"
+#include "bin/projectclip.h"
+#include "mltcontroller/effectscontroller.h"
 #include "onmonitoritems/rotoscoping/rotowidget.h"
 
 #include <QDebug>
 #include <QIcon>
-
+#include <QtConcurrent>
 #include <QPainter>
 #include <QTimer>
 #include <QStyleOptionGraphicsItem>
@@ -41,9 +41,9 @@
 
 static int FRAME_SIZE;
 
-ClipItem::ClipItem(DocClipBase *clip, const ItemInfo& info, double fps, double speed, int strobe, int frame_width, bool generateThumbs) :
+ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double speed, int strobe, int frame_width, bool generateThumbs) :
     AbstractClipItem(info, QRectF(), fps),
-    m_clip(clip),
+    m_binClip(clip),
     m_startFade(0),
     m_endFade(0),
     m_audioOnly(false),
@@ -64,9 +64,8 @@ ClipItem::ClipItem(DocClipBase *clip, const ItemInfo& info, double fps, double s
     setZValue(2);
     m_effectList = EffectsList(true);
     FRAME_SIZE = frame_width;
-    setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (double) itemHeight());
-    setPos(info.startPos.frames(fps), (double)(info.track * KdenliveSettings::trackheight()) + 1 + itemOffset());
-
+    setRect(0, 0, (info.endPos - info.startPos).frames(m_fps) - 0.02, (double) itemHeight());
+    setPos(info.startPos.frames(m_fps), (double)(info.track * KdenliveSettings::trackheight()) + 1 + itemOffset());
     // set speed independent info
     if (m_speed <= 0 && m_speed > -1)
         m_speed = -1.0;
@@ -78,44 +77,44 @@ ClipItem::ClipItem(DocClipBase *clip, const ItemInfo& info, double fps, double s
     m_audioPix = QIcon::fromTheme("kdenlive-show-audio").pixmap(QSize(16, 16));
 
     if (m_speed == 1.0)
-        m_clipName = m_clip->name();
+        m_clipName = m_binClip->name();
     else
-        m_clipName = m_clip->name() + " - " + QString::number(m_speed * 100, 'f', 0) + '%';
+        m_clipName = m_binClip->name() + " - " + QString::number(m_speed * 100, 'f', 0) + '%';
 
-    m_producer = m_clip->getId();
-    m_clipType = m_clip->clipType();
+    m_clipType = m_binClip->clipType();
     //m_cropStart = info.cropStart;
-    m_maxDuration = m_clip->maxDuration();
+    if (m_binClip->hasLimitedDuration()) {
+        m_maxDuration = m_binClip->duration();
+    }
+    else {
+        // For color / image / text clips, we have unlimited duration
+        m_maxDuration = GenTime();
+    }
     setAcceptDrops(true);
-    m_audioThumbReady = m_clip->audioThumbCreated();
+    m_audioThumbReady = m_binClip->audioThumbCreated();
     //setAcceptsHoverEvents(true);
     connect(this , SIGNAL(prepareAudioThumb(double,int,int,int,int)) , this, SLOT(slotPrepareAudioThumb(double,int,int,int,int)));
-
-    if (m_clipType == Video || m_clipType == AV || m_clipType == SlideShow || m_clipType == Playlist) {
+    connect(m_binClip, SIGNAL(refreshClipDisplay()), this, SLOT(slotRefreshClip()));
+    if (m_clipType == AV || m_clipType == Video || m_clipType == SlideShow || m_clipType == Playlist ) {
         m_baseColor = QColor(141, 166, 215);
-        if (!m_clip->isPlaceHolder()) {
+        if (m_binClip->isReady()) {
             m_hasThumbs = true;
             m_startThumbTimer.setSingleShot(true);
             connect(&m_startThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetStartThumb()));
             m_endThumbTimer.setSingleShot(true);
             connect(&m_endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
-            connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
-            connect(m_clip->thumbProducer(), SIGNAL(thumbsCached()), this, SLOT(slotGotThumbsCache()));
-            connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
+	    connect(m_binClip, SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
             if (generateThumbs) QTimer::singleShot(200, this, SLOT(slotFetchThumbs()));
         }
-
     } else if (m_clipType == Color) {
-        QString colour = m_clip->getProperty("colour");
-        colour = colour.replace(0, 2, "#");
-        m_baseColor = QColor(colour.left(7));
+        m_baseColor = m_binClip->getProducerColorProperty("resource");
     } else if (m_clipType == Image || m_clipType == Text) {
         m_baseColor = QColor(141, 166, 215);
-        connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
+        //connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
     } else if (m_clipType == Audio) {
         m_baseColor = QColor(141, 215, 166);
-        connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
     }
+    connect(m_binClip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
     m_paintColor = m_baseColor;
 }
 
@@ -127,16 +126,16 @@ ClipItem::~ClipItem()
     m_startThumbTimer.stop();
     if (scene())
         scene()->removeItem(this);
-    if (m_clipType == Video || m_clipType == AV || m_clipType == SlideShow || m_clipType == Playlist) {
+    //if (m_clipType == Video | AV | SlideShow | Playlist) { // WRONG, cannot use | 
         //disconnect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
         //disconnect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
-    }
+    //}
     delete m_timeLine;
 }
 
 ClipItem *ClipItem::clone(const ItemInfo &info) const
 {
-    ClipItem *duplicate = new ClipItem(m_clip, info, m_fps, m_speed, m_strobe, FRAME_SIZE);
+    ClipItem *duplicate = new ClipItem(m_binClip, info, m_fps, m_speed, m_strobe, FRAME_SIZE);
     if (m_clipType == Image || m_clipType == Text) duplicate->slotSetStartThumb(m_startPix);
     else if (m_clipType != Color) {
         if (info.cropStart == m_info.cropStart) duplicate->slotSetStartThumb(m_startPix);
@@ -225,127 +224,9 @@ int ClipItem::selectedEffectIndex() const
     return m_selectedEffect;
 }
 
-void ClipItem::initEffect(QDomElement effect, int diff, int offset)
+void ClipItem::initEffect(ProfileInfo pInfo, QDomElement effect, int diff, int offset)
 {
-    // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
-    // not be changed
-
-    if (effect.attribute("id") == "freeze" && diff > 0) {
-        EffectsList::setParameter(effect, "frame", QString::number(diff));
-    }
-
-    // Init parameter value & keyframes if required
-    QDomNodeList params = effect.elementsByTagName("parameter");
-    for (int i = 0; i < params.count(); ++i) {
-        QDomElement e = params.item(i).toElement();
-
-        if (e.isNull())
-            continue;
-
-        // Check if this effect has a variable parameter
-        if (e.attribute("default").contains('%')) {
-            double evaluatedValue = ProfilesDialog::getStringEval(projectScene()->profile(), e.attribute("default"));
-            e.setAttribute("default", evaluatedValue);
-            if (e.hasAttribute("value") && e.attribute("value").startsWith('%')) {
-                e.setAttribute("value", evaluatedValue);
-            }
-        }
-
-        if (effect.attribute("id") == "crop") {
-            // default use_profile to 1 for clips with proxies to avoid problems when rendering
-            if (e.attribute("name") == "use_profile" && !(m_clip->getProperty("proxy").isEmpty() || m_clip->getProperty("proxy") == "-"))
-                e.setAttribute("value", "1");
-        }
-
-        if (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") {
-            if (e.attribute("keyframes").isEmpty()) {
-                // Effect has a keyframe type parameter, we need to set the values
-                e.setAttribute("keyframes", QString::number((int) cropStart().frames(m_fps)) + '=' + e.attribute("default"));
-            }
-            else if (offset != 0) {
-                // adjust keyframes to this clip
-                QString adjusted = adjustKeyframes(e.attribute("keyframes"), offset - cropStart().frames(m_fps));
-                e.setAttribute("keyframes", adjusted);
-            }
-        }
-
-        if (e.attribute("type") == "geometry" && !e.hasAttribute("fixed")) {
-            // Effects with a geometry parameter need to sync in / out with parent clip
-            effect.setAttribute("in", QString::number((int) cropStart().frames(m_fps)));
-            effect.setAttribute("out", QString::number((int) (cropStart() + cropDuration()).frames(m_fps) - 1));
-            effect.setAttribute("_sync_in_out", "1");
-        }
-    }
-    if (effect.attribute("tag") == "volume" || effect.attribute("tag") == "brightness") {
-        if (effect.attribute("id") == "fadeout" || effect.attribute("id") == "fade_to_black") {
-            int end = (cropDuration() + cropStart()).frames(m_fps) - 1;
-            int start = end;
-            if (effect.attribute("id") == "fadeout") {
-                if (m_effectList.hasEffect(QString(), "fade_to_black") == -1) {
-                    int effectDuration = EffectsList::parameter(effect, "out").toInt() - EffectsList::parameter(effect, "in").toInt();
-                    if (effectDuration > cropDuration().frames(m_fps)) {
-                        effectDuration = cropDuration().frames(m_fps) / 2;
-                    }
-                    start -= effectDuration;
-                } else {
-                    QDomElement fadeout = m_effectList.getEffectByTag(QString(), "fade_to_black");
-                    start -= EffectsList::parameter(fadeout, "out").toInt() - EffectsList::parameter(fadeout, "in").toInt();
-                }
-            } else if (effect.attribute("id") == "fade_to_black") {
-                if (m_effectList.hasEffect(QString(), "fadeout") == -1) {
-                    int effectDuration = EffectsList::parameter(effect, "out").toInt() - EffectsList::parameter(effect, "in").toInt();
-                    if (effectDuration > cropDuration().frames(m_fps)) {
-                        effectDuration = cropDuration().frames(m_fps) / 2;
-                    }
-                    start -= effectDuration;
-                } else {
-                    QDomElement fadeout = m_effectList.getEffectByTag(QString(), "fadeout");
-                    start -= EffectsList::parameter(fadeout, "out").toInt() - EffectsList::parameter(fadeout, "in").toInt();
-                }
-            }
-            EffectsList::setParameter(effect, "in", QString::number(start));
-            EffectsList::setParameter(effect, "out", QString::number(end));
-        } else if (effect.attribute("id") == "fadein" || effect.attribute("id") == "fade_from_black") {
-            int start = cropStart().frames(m_fps);
-            int end = start;
-            if (effect.attribute("id") == "fadein") {
-                if (m_effectList.hasEffect(QString(), "fade_from_black") == -1) {
-                    int effectDuration = EffectsList::parameter(effect, "out").toInt();
-                    if (offset != 0) effectDuration -= offset;
-                    if (effectDuration > cropDuration().frames(m_fps)) {
-                        effectDuration = cropDuration().frames(m_fps) / 2;
-                    }
-                    end += effectDuration;
-                } else
-                    end += EffectsList::parameter(m_effectList.getEffectByTag(QString(), "fade_from_black"), "out").toInt() - offset;
-            } else if (effect.attribute("id") == "fade_from_black") {
-                if (m_effectList.hasEffect(QString(), "fadein") == -1) {
-                    int effectDuration = EffectsList::parameter(effect, "out").toInt();
-                    if (offset != 0) effectDuration -= offset;
-                    if (effectDuration > cropDuration().frames(m_fps)) {
-                        effectDuration = cropDuration().frames(m_fps) / 2;
-                    }
-                    end += effectDuration;
-                } else
-                    end += EffectsList::parameter(m_effectList.getEffectByTag(QString(), "fadein"), "out").toInt() - offset;
-            }
-            EffectsList::setParameter(effect, "in", QString::number(start));
-            EffectsList::setParameter(effect, "out", QString::number(end));
-        }
-    }
-}
-
-const QString ClipItem::adjustKeyframes(const QString &keyframes, int offset)
-{
-    QStringList result;
-    // Simple keyframes
-    const QStringList list = keyframes.split(QLatin1Char(';'), QString::SkipEmptyParts);
-    foreach(const QString &keyframe, list) {
-        const int pos = keyframe.section('=', 0, 0).toInt() - offset;
-        const QString newKey = QString::number(pos) + '=' + keyframe.section('=', 1);
-        result.append(newKey);
-    }
-    return result.join(";");
+    EffectsController::initEffect(m_info, pInfo, m_effectList, m_binClip->getProducerProperty("proxy"), effect, diff, offset);
 }
 
 bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int cutPos)
@@ -577,8 +458,8 @@ void ClipItem::resetThumbs(bool clearExistingThumbs)
 
 void ClipItem::refreshClip(bool checkDuration, bool forceResetThumbs)
 {
-    if (checkDuration && (m_maxDuration != m_clip->maxDuration())) {
-        m_maxDuration = m_clip->maxDuration();
+    if (checkDuration && (m_maxDuration != m_binClip->duration())) {
+        m_maxDuration = m_binClip->duration();
         if (m_clipType != Image && m_clipType != Text && m_clipType != Color) {
             if (m_maxDuration != GenTime() && m_info.cropStart + m_info.cropDuration > m_maxDuration) {
                 // Clip duration changed, make sure to stay in correct range
@@ -593,9 +474,8 @@ void ClipItem::refreshClip(bool checkDuration, bool forceResetThumbs)
         }
     }
     if (m_clipType == Color) {
-        QString colour = m_clip->getProperty("colour");
-        colour = colour.replace(0, 2, "#");
-        m_baseColor = QColor(colour.left(7));
+        m_baseColor = m_binClip->getProducerColorProperty("resource");
+        m_paintColor = m_baseColor;
         update();
     } else if (KdenliveSettings::videothumbnails()) resetThumbs(forceResetThumbs);
 }
@@ -619,7 +499,9 @@ void ClipItem::slotFetchThumbs()
         frames.append((int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
     }
 
-    if (!frames.isEmpty()) m_clip->slotExtractImage(frames);
+    if (!frames.isEmpty()) {
+	QtConcurrent::run(m_binClip, &ProjectClip::slotExtractImage, frames);
+    }
 }
 
 void ClipItem::stopThumbs()
@@ -632,13 +514,17 @@ void ClipItem::stopThumbs()
 void ClipItem::slotGetStartThumb()
 {
     m_startThumbRequested = true;
-    m_clip->slotExtractImage(QList<int>() << (int)m_speedIndependantInfo.cropStart.frames(m_fps));
+    QtConcurrent::run(m_binClip, &ProjectClip::slotExtractImage, QList<int>() << (int)m_speedIndependantInfo.cropStart.frames(m_fps));
+    //TODO
+    //m_clip->slotExtractImage(QList<int>() << (int)m_speedIndependantInfo.cropStart.frames(m_fps));
 }
 
 void ClipItem::slotGetEndThumb()
 {
     m_endThumbRequested = true;
-    m_clip->slotExtractImage(QList<int>() << (int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
+    QtConcurrent::run(m_binClip, &ProjectClip::slotExtractImage, QList<int>() << (int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
+    //TODO
+    //m_clip->slotExtractImage(QList<int>() << (int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
 }
 
 
@@ -667,10 +553,10 @@ void ClipItem::slotSetEndThumb(const QImage &img)
 void ClipItem::slotThumbReady(int frame, const QImage &img)
 {
     if (scene() == NULL) return;
-    QRectF r = boundingRect();
-    QPixmap pix = QPixmap::fromImage(img);
-    double width = pix.width() / projectScene()->scale().x();
     if (m_startThumbRequested && frame == m_speedIndependantInfo.cropStart.frames(m_fps)) {
+        QRectF r = boundingRect();
+	QPixmap pix = QPixmap::fromImage(img);
+	double width = pix.width() / projectScene()->scale().x();
         m_startPix = pix;
         m_startThumbRequested = false;
         update(r.left(), r.top(), width, pix.height());
@@ -678,6 +564,9 @@ void ClipItem::slotThumbReady(int frame, const QImage &img)
             update(r.right() - width, r.top(), width, pix.height());
         }
     } else if (m_endThumbRequested && frame == (m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1) {
+        QRectF r = boundingRect();
+	QPixmap pix = QPixmap::fromImage(img);
+	double width = pix.width() / projectScene()->scale().x();
         m_endPix = pix;
         m_endThumbRequested = false;
         update(r.right() - width, r.top(), width, pix.height());
@@ -719,11 +608,6 @@ int ClipItem::type() const
     return AVWidget;
 }
 
-DocClipBase *ClipItem::baseClip() const
-{
-    return m_clip;
-}
-
 QDomElement ClipItem::xml() const
 {
     return itemXml();
@@ -731,12 +615,13 @@ QDomElement ClipItem::xml() const
 
 QDomElement ClipItem::itemXml() const
 {
-    QDomElement xml = m_clip->toXML();
+    QDomDocument doc;
+    QDomElement xml = m_binClip->toXml(doc);
     if (m_speed != 1.0) xml.setAttribute("speed", m_speed);
     if (m_strobe > 1) xml.setAttribute("strobe", m_strobe);
     if (m_audioOnly) xml.setAttribute("audio_only", 1);
     else if (m_videoOnly) xml.setAttribute("video_only", 1);
-    return xml;
+    return doc.documentElement();
 }
 
 int ClipItem::clipType() const
@@ -752,11 +637,6 @@ QString ClipItem::clipName() const
 void ClipItem::setClipName(const QString &name)
 {
     m_clipName = name;
-}
-
-const QString ClipItem::clipProducer() const
-{
-    return m_producer;
 }
 
 void ClipItem::flashClip()
@@ -831,9 +711,11 @@ void ClipItem::paint(QPainter *painter,
             thumbRect.moveTopLeft(mapped.topLeft());
             painter->drawPixmap(thumbRect, m_startPix, m_startPix.rect());
         }
+    } else {
 
         // if we are in full zoom, paint thumbnail for every frame
-        if (m_clip->thumbProducer() && clipType() != Color && clipType() != Audio && !m_audioOnly && transformation.m11() == FRAME_SIZE) {
+        //TODO
+        if (false && /*m_clip->thumbProducer() &&*/ clipType() != Color && clipType() != Audio && !m_audioOnly && transformation.m11() == FRAME_SIZE) {
             int offset = (m_info.startPos - m_info.cropStart).frames(m_fps);
             int left = qMax((int) m_info.cropStart.frames(m_fps) + 1, (int) mapToScene(exposed.left(), 0).x() - offset);
             int right = qMin((int)(m_info.cropStart + m_info.cropDuration).frames(m_fps) - 1, (int) mapToScene(exposed.right(), 0).x() - offset);
@@ -845,14 +727,16 @@ void ClipItem::paint(QPainter *painter,
                 }
             }
             else {
-                if (m_clip && m_clip->thumbProducer()) {
+                //TODO
+                if (false /*m_clip->thumbProducer()*/) {
                     QImage img;
                     QPen pen(Qt::white);
                     pen.setStyle(Qt::DotLine);
                     QSet <int> missing;
                     for (int i = left; i <= right; ++i) {
                         QPointF xpos = startPos + QPointF(FRAME_SIZE *(i - startOffset), 0);
-                        img = m_clip->thumbProducer()->findCachedThumb(i);
+                        //TODO
+                        //img = m_clip->thumbProducer()->findCachedThumb(i);
                         if (img.isNull()) missing << i;
                         else {
                             painter->drawImage(xpos, img);
@@ -860,8 +744,8 @@ void ClipItem::paint(QPainter *painter,
                         painter->drawLine(xpos, xpos + QPointF(0, mapped.height()));
                     }
                     if (!missing.isEmpty()) {
-                        //qDebug()<<"QUERYING PIXMAPS: "<<missing;
-                        m_clip->thumbProducer()->queryIntraThumbs(missing);
+                        //TODO
+                        //m_clip->thumbProducer()->queryIntraThumbs(missing);
                     }
                 }
             }
@@ -887,7 +771,8 @@ void ClipItem::paint(QPainter *painter,
 
         double scale = transformation.m11();
         int channels = 0;
-        if (isEnabled() && m_clip) channels = m_clip->getProperty("channels").toInt();
+        //TODO: do not hardcode channel meta name
+        if (isEnabled() && m_binClip) channels = m_binClip->getProducerIntProperty("meta.media.1.codec.channels");
         if (scale != m_framePixelWidth)
             m_audioThumbCachePic.clear();
         double cropLeft = m_info.cropStart.frames(m_fps);
@@ -952,8 +837,9 @@ void ClipItem::paint(QPainter *painter,
 
 
         // draw markers
-        if (isEnabled() && m_clip) {
-            QList < CommentedTime > markers = m_clip->commentedSnapMarkers();
+	//TODO:
+        if (isEnabled()) {
+            QList < CommentedTime > markers = m_binClip->commentedSnapMarkers();
             QList < CommentedTime >::Iterator it = markers.begin();
             GenTime pos;
             double framepos;
@@ -1036,6 +922,21 @@ void ClipItem::paint(QPainter *painter,
     painter->drawRoundedRect(mapped.adjusted(0.5, 0, -0.5, 0), 3, 3);
 }
 
+const QString &ClipItem::getBinId() const
+{
+    return m_binClip->clipId();
+}
+
+const QString ClipItem::getBinHash() const
+{
+    return m_binClip->hash();
+}
+
+ProjectClip *ClipItem::binClip() const
+{
+    return m_binClip;
+}
+
 
 OperationType ClipItem::operationMode(const QPointF &pos)
 {
@@ -1104,11 +1005,9 @@ void ClipItem::resetFrameWidth(int width)
     update();
 }
 
-QList <GenTime> ClipItem::snapMarkers() const
+QList <GenTime> ClipItem::snapMarkers(const QList < GenTime > markers ) const
 {
     QList < GenTime > snaps;
-    if (!m_clip) return snaps;
-    QList < GenTime > markers = m_clip->snapMarkers();
     GenTime pos;
 
     for (int i = 0; i < markers.size(); ++i) {
@@ -1124,8 +1023,8 @@ QList <GenTime> ClipItem::snapMarkers() const
 QList <CommentedTime> ClipItem::commentedSnapMarkers() const
 {
     QList < CommentedTime > snaps;
-    if (!m_clip) return snaps;
-    QList < CommentedTime > markers = m_clip->commentedSnapMarkers();
+    if (!m_binClip) return snaps;
+    QList < CommentedTime > markers = m_binClip->commentedSnapMarkers();
     GenTime pos;
 
     for (int i = 0; i < markers.size(); ++i) {
@@ -1146,9 +1045,10 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
         return;
     }
     int factor = 64;
-    if (KdenliveSettings::normaliseaudiothumbs()) {
-        factor = m_clip->getProperty("audio_max").toInt();
-    }
+    //TODO
+    /*if (KdenliveSettings::normaliseaudiothumbs()) {
+        factor = m_binClip->getProducerIntProperty("audio_max");
+    }*/
 
     ////qDebug() << "// PREP AUDIO THMB FRMO : scale:" << pixelForOneFrame<< ", from: " << startpixel << ", to: " << endpixel;
     //if ( (!audioThumbWasDrawn || framePixelWidth!=pixelForOneFrame ) && !baseClip()->audioFrameChache.isEmpty()){
@@ -1195,7 +1095,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
             int sample = (int)((frame - (int)(frame)) * 20);   // AUDIO_FRAME_SIZE
             if (frame < 0 || sample < 0 || sample > 19)
                 continue;
-            const QMap<int, QByteArray> frame_channel_data = baseClip()->audioFrameCache.value((int)frame);
+            const QMap<int, QByteArray> frame_channel_data = m_binClip->audioFrameCache.value((int)frame);
 
             for (int channel = 0; channel < channels && !frame_channel_data.value(channel).isEmpty(); ++channel) {
                 int y = channelHeight * channel + channelHeight / 2;
@@ -1540,7 +1440,7 @@ bool ClipItem::moveEffect(QDomElement effect, int ix)
     return true;
 }
 
-EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
+EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, bool /*animate*/)
 {
     bool needRepaint = false;
     QLocale locale;
@@ -1660,7 +1560,7 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
             } else {
                 double fact;
                 if (e.attribute("factor").contains('%')) {
-                    fact = ProfilesDialog::getStringEval(projectScene()->profile(), e.attribute("factor"));
+                    fact = EffectsController::getStringEval(info, e.attribute("factor"));
                 } else {
                     fact = locale.toDouble(e.attribute("factor", "1"));
                 }
@@ -1693,12 +1593,11 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
     return parameters;
 }
 
-void ClipItem::deleteEffect(const QString &index)
+void ClipItem::deleteEffect(int ix)
 {
     bool needRepaint = false;
-    int ix = index.toInt();
-
-    QDomElement effect = m_effectList.itemFromIndex(ix);
+    //QDomElement effect = m_effectList.itemFromIndex(ix);
+    QDomElement effect = m_effectList.at(ix);
     QString effectId = effect.attribute("id");
     if ((effectId == "fadein" && hasEffect(QString(), "fade_from_black") == -1) ||
             (effectId == "fade_from_black" && hasEffect(QString(), "fadein") == -1)) {
@@ -1744,8 +1643,8 @@ void ClipItem::setSpeed(const double speed, const int strobe)
     if (m_speed <= 0 && m_speed > -1)
         m_speed = -1.0;
     m_strobe = strobe;
-    if (m_speed == 1.0) m_clipName = m_clip->name();
-    else m_clipName = m_clip->name() + " - " + QString::number(speed * 100, 'f', 0) + '%';
+    m_clipName = m_binClip->name();
+    if (m_speed != 1.0) m_clipName.append(" - " + QString::number(speed * 100, 'f', 0) + '%');
     m_info.cropStart = GenTime((int)(m_speedIndependantInfo.cropStart.frames(m_fps) / qAbs(m_speed) + 0.5), m_fps);
     m_info.cropDuration = GenTime((int)(m_speedIndependantInfo.cropDuration.frames(m_fps) / qAbs(m_speed) + 0.5), m_fps);
     //update();
@@ -1851,7 +1750,7 @@ void ClipItem::setAudioOnly(bool force)
     if (m_audioOnly) m_baseColor = QColor(141, 215, 166);
     else {
         if (m_clipType == Color) {
-            QString colour = m_clip->getProperty("colour");
+            QString colour = m_binClip->getProducerProperty("colour");
             colour = colour.replace(0, 2, "#");
             m_baseColor = QColor(colour.left(7));
         } else if (m_clipType == Audio) m_baseColor = QColor(141, 215, 166);
@@ -1971,15 +1870,17 @@ void ClipItem::updateKeyframes(QDomElement effect)
     if (!m_keyframes.contains(m_selectedKeyframe)) m_selectedKeyframe = -1;
 }
 
+/*
 Mlt::Producer *ClipItem::getProducer(int track, bool trackSpecific)
 {
+    //TODO audio / video only
     if (isAudioOnly())
         return m_clip->audioProducer(track);
     else if (isVideoOnly())
         return m_clip->videoProducer(track);
     else
         return m_clip->getProducer(trackSpecific ? track : -1);
-}
+}*/
 
 QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, const ItemInfo &oldInfo)
 {
@@ -2166,10 +2067,15 @@ void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, int w
         }
     }
     Mlt::Geometry geometry(data.toUtf8().data(), oldInfo.cropDuration.frames(m_fps), width, height);
-    param.setAttribute("value", geometry.serialise(cropStart().frames(m_fps), (cropStart() + cropDuration()).frames(m_fps) - 1));
+    QString result = geometry.serialise(cropStart().frames(m_fps), (cropStart() + cropDuration()).frames(m_fps) - 1);
+    // We need to make sure that first keyframe, when at 0 time pos, contains the "0=" keyword, required for new MLT rect property
+    if (result.contains(";") && !result.section(";",0,0).contains("=")) {
+        result.prepend("0=");
+    }
+    param.setAttribute("value", result);
 }
 
-void ClipItem::slotGotThumbsCache()
+void ClipItem::slotRefreshClip()
 {
     update();
 }

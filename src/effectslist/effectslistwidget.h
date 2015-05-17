@@ -32,8 +32,15 @@ class EffectsListWidget : public QTreeWidget
 {
     Q_OBJECT
 
-public:
-    explicit EffectsListWidget(QMenu *contextMenu, QWidget *parent = 0);
+    public:
+    static const int EFFECT_VIDEO = 1;
+    static const int EFFECT_AUDIO = 2;
+    static const int EFFECT_GPU = 3;
+    static const int EFFECT_CUSTOM = 4;
+    static const int EFFECT_FAVORITES = 5;
+    static const int EFFECT_FOLDER = 6;
+
+    explicit EffectsListWidget(QWidget *parent = 0);
     virtual ~EffectsListWidget();
     const QDomElement currentEffect() const;
     QString currentInfo() const;
@@ -68,6 +75,7 @@ private slots:
     
 signals:
     void applyEffect(const QDomElement);
+    void displayMenu(QTreeWidgetItem *, const QPoint &);
 };
 
 #endif

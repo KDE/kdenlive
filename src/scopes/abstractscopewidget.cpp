@@ -78,8 +78,8 @@ AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent) :
     m_scopePalette.setBrush(QPalette::Text, QBrush(light));
     m_scopePalette.setBrush(QPalette::WindowText, QBrush(light));
     m_scopePalette.setBrush(QPalette::ButtonText, QBrush(light));
-    this->setPalette(m_scopePalette);
-    this->setAutoFillBackground(true);
+    setPalette(m_scopePalette);
+    setAutoFillBackground(true);
 
     m_aAutoRefresh = new QAction(i18n("Auto Refresh"), this);
     m_aAutoRefresh->setCheckable(true);
@@ -92,15 +92,15 @@ AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent) :
     m_menu->addAction(m_aAutoRefresh);
     m_menu->addAction(m_aRealtime);
 
-    this->setContextMenuPolicy(Qt::CustomContextMenu);
+    setContextMenuPolicy(Qt::CustomContextMenu);
 
-    connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
+    connect(this, &AbstractScopeWidget::customContextMenuRequested, this, &AbstractScopeWidget::slotContextMenuRequested);
 
-    connect(this, SIGNAL(signalHUDRenderingFinished(uint,uint)), this, SLOT(slotHUDRenderingFinished(uint,uint)));
-    connect(this, SIGNAL(signalScopeRenderingFinished(uint,uint)), this, SLOT(slotScopeRenderingFinished(uint,uint)));
-    connect(this, SIGNAL(signalBackgroundRenderingFinished(uint,uint)), this, SLOT(slotBackgroundRenderingFinished(uint,uint)));
-    connect(m_aRealtime, SIGNAL(toggled(bool)), this, SLOT(slotResetRealtimeFactor(bool)));
-    connect(m_aAutoRefresh, SIGNAL(toggled(bool)), this, SLOT(slotAutoRefreshToggled(bool)));
+    connect(this, &AbstractScopeWidget::signalHUDRenderingFinished, this, &AbstractScopeWidget::slotHUDRenderingFinished);
+    connect(this, &AbstractScopeWidget::signalScopeRenderingFinished, this, &AbstractScopeWidget::slotScopeRenderingFinished);
+    connect(this, &AbstractScopeWidget::signalBackgroundRenderingFinished, this, &AbstractScopeWidget::slotBackgroundRenderingFinished);
+    connect(m_aRealtime, &QAction::toggled, this, &AbstractScopeWidget::slotResetRealtimeFactor);
+    connect(m_aAutoRefresh, &QAction::toggled, this, &AbstractScopeWidget::slotAutoRefreshToggled);
 
     // Enable mouse tracking if desired.
     // Causes the mouseMoved signal to be emitted when the mouse moves inside the
@@ -386,7 +386,7 @@ void AbstractScopeWidget::leaveEvent(QEvent *)
     emit signalMousePositionChanged();
 }
 
-void AbstractScopeWidget::customContextMenuRequested(const QPoint &pos)
+void AbstractScopeWidget::slotContextMenuRequested(const QPoint &pos)
 {
     m_menu->exec(this->mapToGlobal(pos));
 }

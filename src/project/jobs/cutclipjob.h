@@ -24,12 +24,24 @@
 
 #include "abstractclipjob.h"
 
+class ProjectClip;
+
+/**
+ * @class CutClipJob
+ * @brief This job class will either transcode or render a part of a clip through FFmpeg or LibAV
+ *
+ */
 
 class CutClipJob : public AbstractClipJob
 {
     Q_OBJECT
 
 public:
+    /** @brief Creates the Job.
+     *  @param cType the Clip Type (AV, PLAYLIST, AUDIO, ...) as defined in definitions.h. Some jobs will act differently depending on clip type
+     *  @param id the id of the clip that requested this clip job
+     *  @param parameters StringList that should contain: destination file << source file << in point (optional) << out point (optional)
+     * */
     CutClipJob(ClipType cType, const QString &id, const QStringList &parameters);
     virtual ~ CutClipJob();
     const QString destination() const;
@@ -38,6 +50,9 @@ public:
     void processLogInfo();
     const QString statusMessage();
     bool isExclusive();
+    static QMap <ProjectClip *, AbstractClipJob *> prepareTranscodeJob(double fps, QList <ProjectClip *> ids,  QStringList parameters);
+    static QMap <ProjectClip *, AbstractClipJob *> prepareCutClipJob(double fps, double originalFps, ProjectClip *clip);
+    static QList <ProjectClip *> filterClips(QList <ProjectClip *>clips, const QStringList &params);
     
 private:
     QString m_dest;

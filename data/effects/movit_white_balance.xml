@@ -1,15 +1,12 @@
 <!DOCTYPE kpartgui>
-<group>
-    <effect tag="movit.white_balance" id="movit.white_balance">
-	<name>Movit: White balance</name>
-	<description>Adjust the white balance / color temperature</description>
-	<author>Steinar H. Gunderson</author>
-	<parameter type="color" name="neutral_color" default="0xffffffff">
-		<name>Neutral Color</name>
-	</parameter>
-        <parameter type="simplekeyframe" name="color_temperature" default="6500" min="1500" max="15000" factor="1">
-		<name>Color Temperature</name>
-	</parameter>
-    </effect>
-</group>
+<effect tag="movit.white_balance" id="movit.white_balance">
+    <name>White Balance (GPU)</name>
+    <author>Steinar H. Gunderson</author>
+    <parameter type="color" name="neutral_color" default="0x7f7f7fff">
+	<name>Neutral Color</name>
+    </parameter>
+    <parameter type="simplekeyframe" name="color_temperature" default="6500" min="1000" max="15000" factor="1">
+	<name>Color Temperature</name>
+    </parameter>
+</effect>
 

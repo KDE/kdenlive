@@ -52,6 +52,8 @@ const QString stopmotionMonitor("stopmotionMonitor");
 
 }
 
+
+
 enum OperationType {
     None = 0,
     MoveOperation = 1,
@@ -69,6 +71,16 @@ enum OperationType {
     ScrollTimeline = 13
 };
 
+namespace PlaylistState {
+
+    enum ClipState {
+	Original = 0,
+	VideoOnly = 1,
+	AudioOnly = 2
+    };
+
+};
+
 enum ClipType {
     Unknown = 0,
     Audio = 1,
@@ -79,7 +91,9 @@ enum ClipType {
     Text = 6,
     SlideShow = 7,
     Virtual = 8,
-    Playlist = 9
+    Playlist = 9,
+    WebVfx = 10,
+    TextTemplate = 11,
 };
 
 enum ProjectItemType {
@@ -148,7 +162,27 @@ public:
         isMute(0),
         isBlind(0),
         isLocked(0),
-        duration(0) {}
+        duration(0),
+        effectsList() {}
+};
+
+
+struct ProfileInfo {
+        QSize profileSize;
+        double profileFps;
+};
+
+struct requestClipInfo {
+    QDomElement xml;
+    QString clipId;
+    int binIndex;
+    int imageHeight;
+    bool replaceProducer;
+
+    bool operator==(const requestClipInfo &a)
+    {
+        return clipId == a.clipId;
+    }
 };
 
 typedef QMap<QString, QString> stringMap;
@@ -206,59 +240,19 @@ public:
     bool operator!=(const MltVideoProfile &other) const;
 };
 
-/**)
- * @class EffectInfo
- * @brief A class holding some meta info for effects widgets, like state (collapsed or not, ...)
- * @author Jean-Baptiste Mardelle
- */
 
-class EffectInfo
-{
-public:
-    EffectInfo();
-    bool isCollapsed;
-    bool groupIsCollapsed;
-    int groupIndex;
-    QString groupName;
-    QString toString() const;
-    void fromString(QString value);
-};
-
-class EffectParameter
-{
-public:
-    EffectParameter(const QString &name, const QString &value);
-    QString name()   const;
-    QString value() const;
-    void setValue(const QString &value);
-
-private:
-    QString m_name;
-    QString m_value;
-};
-
-/** Use our own list for effect parameters so that they are not sorted in any ways, because
-    some effects like sox need a precise order
-*/
-class EffectsParameterList: public QList < EffectParameter >
-{
-public:
-    EffectsParameterList();
-    bool hasParam(const QString &name) const;
-
-    QString paramValue(const QString &name, const QString &defaultValue = QString()) const;
-    void addParam(const QString &name, const QString &value);
-    void removeParam(const QString &name);
-};
 
 class CommentedTime
 {
 public:
     CommentedTime();
     CommentedTime(const GenTime &time, const QString& comment, int markerType = 0);
+    CommentedTime(const QString& hash, const GenTime &time);
 
-    QString comment()   const;
+    QString comment() const;
     GenTime time() const;
+    /** @brief Returns a string containing infos needed to store marker info. string equals marker type + ":" + marker comment */
+    QString hash() const;
     void    setComment(const QString &comm);
     void setMarkerType(int t);
     int markerType() const;

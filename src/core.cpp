@@ -12,6 +12,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mainwindow.h"
 #include "project/projectmanager.h"
 #include "monitor/monitormanager.h"
+#include "mltcontroller/bincontroller.h"
+#include "bin/bin.h"
 #include <QCoreApplication>
 #include <QDebug>
 
@@ -31,6 +33,9 @@ Core::Core(MainWindow *mainWindow) :
 
 Core::~Core()
 {
+    delete m_projectManager;
+    delete m_binWidget;
+    delete m_binController;
     m_self = 0;
 }
 
@@ -44,8 +49,15 @@ void Core::init()
 {
     initLocale();
     m_projectManager = new ProjectManager(this);
+    m_binWidget = new Bin();
+    m_binController = new BinController();
+    connect(m_binWidget, SIGNAL(storeFolder(QString,QString,QString,QString)), m_binController, SLOT(slotStoreFolder(QString,QString,QString,QString)));
+    connect(m_binController, SIGNAL(loadFolders(QMap<QString,QString>)), m_binWidget, SLOT(slotLoadFolders(QMap<QString,QString>)));
+    connect(m_binController, SIGNAL(loadThumb(QString,QImage,bool)), m_binWidget, SLOT(slotThumbnailReady(QString,QImage,bool)));
     m_monitorManager = new MonitorManager(this);
+    emit coreIsReady();
 }
+
 
 Core* Core::self()
 {
@@ -65,6 +77,16 @@ ProjectManager *Core::projectManager()
 MonitorManager* Core::monitorManager()
 {
     return m_monitorManager;
+}
+
+BinController *Core::binController()
+{
+    return m_binController;
+}
+
+Bin *Core::bin()
+{
+    return m_binWidget;
 }
 
 void Core::initLocale()

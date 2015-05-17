@@ -82,8 +82,6 @@ private:
     int m_inPoint;
     /** Out point of the clip (crop from end). */
     int m_outPoint;
-    MonitorScene *m_scene;
-    OnMonitorRectItem *m_rect;
     OnMonitorPathItem *m_geomPath;
     QGraphicsRectItem *m_previous;
     KeyframeHelper *m_timeline;
@@ -102,8 +100,12 @@ private:
     DragValue *m_rotateY;
     DragValue *m_rotateZ;
     QPoint m_frameSize;
+    /** @brief True if this is a fixed parameter (no kexframes allowed). */
+    bool m_fixedGeom;
     /** @brief Update monitor rect with current width / height values. */
     void updateMonitorGeometry();
+    /** @brief Calculate the path for rectangle center moves. */
+    QVariantList calculateCenters();
 
 private slots:
     /** @brief Updates controls according to position.
@@ -134,6 +136,7 @@ private slots:
     void slotUpdatePath();
     /** @brief Updates the Mlt::Geometry object. */
     void slotUpdateGeometry();
+    void slotUpdateGeometry(const QRect r);
     /** @brief Updates the spinBoxes according to the rect. */
     void slotUpdateProperties();
 

@@ -24,6 +24,7 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "doc/kdenlivedoc.h"
+#include "mltcontroller/bincontroller.h"
 
 #include <mlt++/Mlt.h>
 
@@ -107,14 +108,15 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh
         if (m_monitorsList.at(i)->id() == name) {
             m_activeMonitor = m_monitorsList.at(i);
         }
-        else m_monitorsList.at(i)->stop();
+        else {
+            m_monitorsList.at(i)->stop();
+        }
     }
     if (m_activeMonitor) {
         m_activeMonitor->blockSignals(true);
         m_activeMonitor->parentWidget()->raise();
 	m_activeMonitor->blockSignals(false);
         m_activeMonitor->start();
-        
     }
     emit checkColorScopes();
     return (m_activeMonitor != NULL);
@@ -285,17 +287,27 @@ QString MonitorManager::getProjectFolder() const
     return m_document->projectFolder().path() + QDir::separator();
 }
 
+BinController *MonitorManager::binController()
+{
+    return pCore->binController();
+}
+
+Mlt::Profile *MonitorManager::profile()
+{
+    return pCore->binController()->profile();
+}
+
 void MonitorManager::setupActions()
 {
     QAction * monitorPlay = new QAction(QIcon::fromTheme("media-playback-start"), i18n("Play"), this);
     monitorPlay->setShortcut(Qt::Key_Space);
     pCore->window()->addAction("monitor_play", monitorPlay);
-    connect(monitorPlay, SIGNAL(triggered(bool)), SLOT(slotPlay()));
+    connect(monitorPlay, &QAction::triggered, this, &MonitorManager::slotPlay);
 
     QAction * monitorPause = new QAction(QIcon::fromTheme("media-playback-stop"), i18n("Pause"), this);
     monitorPause->setShortcut(Qt::Key_K);
     pCore->window()->addAction("monitor_pause", monitorPause);
-    connect(monitorPause, SIGNAL(triggered(bool)), SLOT(slotPause()));
+    connect(monitorPause, &QAction::triggered, this, &MonitorManager::slotPause);
 
     // TODO: port later when we are able to setup the monitor menus from this class
 //     m_playZone = new QAction(QIcon::fromTheme("media-playback-start"), i18n("Play Zone"), this);
@@ -311,7 +323,7 @@ void MonitorManager::setupActions()
     QAction *fullMonitor = new QAction(i18n("Switch monitor fullscreen"), this);
     fullMonitor->setIcon(QIcon::fromTheme("view-fullscreen"));
     pCore->window()->addAction("monitor_fullscreen", fullMonitor);
-    connect(fullMonitor, SIGNAL(triggered(bool)), SLOT(slotSwitchFullscreen()));
+    connect(fullMonitor, &QAction::triggered, this, &MonitorManager::slotSwitchFullscreen);
 
     QAction * monitorSeekBackward = new QAction(QIcon::fromTheme("media-seek-backward"), i18n("Rewind"), this);
     monitorSeekBackward->setShortcut(Qt::Key_J);
@@ -321,12 +333,12 @@ void MonitorManager::setupActions()
     QAction * monitorSeekBackwardOneFrame = new QAction(QIcon::fromTheme("media-skip-backward"), i18n("Rewind 1 Frame"), this);
     monitorSeekBackwardOneFrame->setShortcut(Qt::Key_Left);
     pCore->window()->addAction("monitor_seek_backward-one-frame", monitorSeekBackwardOneFrame);
-    connect(monitorSeekBackwardOneFrame, SIGNAL(triggered(bool)), SLOT(slotRewindOneFrame()));
+    connect(monitorSeekBackwardOneFrame, &QAction::triggered, this, &MonitorManager::slotRewindOneFrame);
 
     QAction * monitorSeekBackwardOneSecond = new QAction(QIcon::fromTheme("media-skip-backward"), i18n("Rewind 1 Second"), this);
     monitorSeekBackwardOneSecond->setShortcut(Qt::SHIFT + Qt::Key_Left);
     pCore->window()->addAction("monitor_seek_backward-one-second", monitorSeekBackwardOneSecond);
-    connect(monitorSeekBackwardOneSecond, SIGNAL(triggered(bool)), SLOT(slotRewindOneSecond()));
+    connect(monitorSeekBackwardOneSecond, &QAction::triggered, this, &MonitorManager::slotRewindOneSecond);
 
     QAction * monitorSeekForward = new QAction(QIcon::fromTheme("media-seek-forward"), i18n("Forward"), this);
     monitorSeekForward->setShortcut(Qt::Key_L);
@@ -336,22 +348,22 @@ void MonitorManager::setupActions()
     QAction * projectStart = new QAction(QIcon::fromTheme("go-first"), i18n("Go to Project Start"), this);
     projectStart->setShortcut(Qt::CTRL + Qt::Key_Home);
     pCore->window()->addAction("seek_start", projectStart);
-    connect(projectStart, SIGNAL(triggered(bool)), SLOT(slotStart()));
+    connect(projectStart, &QAction::triggered, this, &MonitorManager::slotStart);
 
     QAction * projectEnd = new QAction(QIcon::fromTheme("go-last"), i18n("Go to Project End"), this);
     projectEnd->setShortcut(Qt::CTRL + Qt::Key_End);
     pCore->window()->addAction("seek_end", projectEnd);
-    connect(projectEnd, SIGNAL(triggered(bool)), SLOT(slotEnd()));
+    connect(projectEnd, &QAction::triggered, this, &MonitorManager::slotEnd);
 
     QAction * monitorSeekForwardOneFrame = new QAction(QIcon::fromTheme("media-skip-forward"), i18n("Forward 1 Frame"), this);
     monitorSeekForwardOneFrame->setShortcut(Qt::Key_Right);
     pCore->window()->addAction("monitor_seek_forward-one-frame", monitorSeekForwardOneFrame);
-    connect(monitorSeekForwardOneFrame, SIGNAL(triggered(bool)), SLOT(slotForwardOneFrame()));
+    connect(monitorSeekForwardOneFrame, &QAction::triggered, this, &MonitorManager::slotForwardOneFrame);
 
     QAction * monitorSeekForwardOneSecond = new QAction(QIcon::fromTheme("media-skip-forward"), i18n("Forward 1 Second"), this);
     monitorSeekForwardOneSecond->setShortcut(Qt::SHIFT + Qt::Key_Right);
     pCore->window()->addAction("monitor_seek_forward-one-second", monitorSeekForwardOneSecond);
-    connect(monitorSeekForwardOneSecond, SIGNAL(triggered(bool)), SLOT(slotForwardOneSecond()));
+    connect(monitorSeekForwardOneSecond, &QAction::triggered, this, &MonitorManager::slotForwardOneSecond);
 
     KSelectAction *interlace = new KSelectAction(i18n("Deinterlacer"), this);
     interlace->addAction(i18n("One Field (fast)"));
@@ -363,7 +375,7 @@ void MonitorManager::setupActions()
     else if (KdenliveSettings::mltdeinterlacer() == "yadif") interlace->setCurrentItem(3);
     else interlace->setCurrentItem(0);
     pCore->window()->addAction("mlt_interlace", interlace);
-    connect(interlace, SIGNAL(triggered(int)), SLOT(slotSetDeinterlacer(int)));
+    connect(interlace, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MonitorManager::slotSetDeinterlacer);
     
     KSelectAction *interpol = new KSelectAction(i18n("Interpolation"), this);
     interpol->addAction(i18n("Nearest Neighbor (fast)"));
@@ -375,27 +387,27 @@ void MonitorManager::setupActions()
     else if (KdenliveSettings::mltinterpolation() == "hyper") interpol->setCurrentItem(3);
     else interpol->setCurrentItem(0);
     pCore->window()->addAction("mlt_interpolation", interpol);
-    connect(interpol, SIGNAL(triggered(int)), SLOT(slotSetInterpolation(int)));
+    connect(interpol, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MonitorManager::slotSetInterpolation);
 
     QAction * zoneStart = new QAction(QIcon::fromTheme("media-seek-backward"), i18n("Go to Zone Start"), this);
     zoneStart->setShortcut(Qt::SHIFT + Qt::Key_I);
     pCore->window()->addAction("seek_zone_start", zoneStart);
-    connect(zoneStart, SIGNAL(triggered(bool)), SLOT(slotZoneStart()));
+    connect(zoneStart, &QAction::triggered, this, &MonitorManager::slotZoneStart);
 
     QAction * zoneEnd = new QAction(QIcon::fromTheme("media-seek-forward"), i18n("Go to Zone End"), this);
     zoneEnd->setShortcut(Qt::SHIFT + Qt::Key_O);
     pCore->window()->addAction("seek_zone_end", zoneEnd);
-    connect(zoneEnd, SIGNAL(triggered(bool)), SLOT(slotZoneEnd()));
+    connect(zoneEnd, &QAction::triggered, this, &MonitorManager::slotZoneEnd);
 
     QAction *markIn = new QAction(i18n("Set Zone In"), this);
     markIn->setShortcut(Qt::Key_I);
     pCore->window()-> addAction("mark_in", markIn);
-    connect(markIn, SIGNAL(triggered(bool)), SLOT(slotSetInPoint()));
+    connect(markIn, &QAction::triggered, this, &MonitorManager::slotSetInPoint);
 
     QAction *markOut = new QAction(i18n("Set Zone Out"), this);
     markOut->setShortcut(Qt::Key_O);
     pCore->window()-> addAction("mark_out", markOut);
-    connect(markOut, SIGNAL(triggered(bool)), SLOT(slotSetOutPoint()));
+    connect(markOut, &QAction::triggered, this, &MonitorManager::slotSetOutPoint);
 
 }
 

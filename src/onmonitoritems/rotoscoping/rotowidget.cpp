@@ -42,6 +42,7 @@ void tracking_finished(mlt_service *owner, RotoWidget *self, char *data)
         self->setSpline(QByteArray(data));
 }
 
+//TODO: port to new qml monitor edit
 RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo &info, const Timecode &t, QWidget* parent) :
         QWidget(parent),
         m_monitor(monitor),
@@ -53,7 +54,7 @@ RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo 
     m_keyframeWidget = new SimpleKeyframeWidget(t, m_out - m_in, this);
     l->addWidget(m_keyframeWidget);
 
-    MonitorEditWidget *edit = monitor->getEffectEdit();
+    MonitorEditWidget *edit = NULL; //monitor->getEffectEdit();
     m_scene = edit->getScene();
     m_scene->cleanup();
 
@@ -82,8 +83,8 @@ RotoWidget::~RotoWidget()
     delete m_item;
 
     if (m_monitor) {
-        MonitorEditWidget *edit = m_monitor->getEffectEdit();
-        edit->removeCustomControls();
+        /*MonitorEditWidget *edit = m_monitor->getEffectEdit();
+        edit->removeCustomControls();*/
         m_monitor->slotShowEffectScene(false);
     }
 }

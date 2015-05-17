@@ -5,9 +5,6 @@ set(QT_USE_QTSVG 1)
 set(QT_USE_QTXML 1)
 
 find_package(OpenGL REQUIRED)
-if(APPLE)
-  find_package(SDL REQUIRED)
-endif(APPLE)
 
 option(WITH_JogShuttle "Build Jog/Shuttle support" ON)
 
@@ -74,6 +71,8 @@ add_subdirectory(stopmotion)
 add_subdirectory(titler)
 add_subdirectory(utils)
 add_subdirectory(onmonitoritems/rotoscoping)
+add_subdirectory(mltcontroller)
+add_subdirectory(bin)
 
 list(APPEND kdenlive_SRCS
   colortools.cpp
@@ -242,7 +241,7 @@ target_link_libraries(kdenlive
   kiss_fft
 )
 
-qt5_use_modules( kdenlive Script Widgets Concurrent OpenGL)
+qt5_use_modules( kdenlive Script Widgets Concurrent Qml Quick)
 
 if(Q_WS_X11)
   include_directories(${X11_Xlib_INCLUDE_PATH})

@@ -20,17 +20,14 @@
  * @brief List for effects objects.
  * @author Jason Wood
  *
- * This is a list of DocClipBase objects, to be used instead of
- * QList<DocClipBase> to enable sorting lists correctly. It also contains the
- * ability to set a "master clip", which can be used by a number of operations
- * where there is the need of one clip to act as a reference for what happens to
- * all clips.
- */
+*/
 
 #ifndef EFFECTSLIST_H
 #define EFFECTSLIST_H
 
+
 #include <QDomDocument>
+#include <QSize>
 
 namespace Kdenlive {
   enum EFFECTTYPE { simpleEffect, groupEffect };
@@ -41,7 +38,6 @@ class EffectsList: public QDomDocument
 public:
     explicit EffectsList(bool indexRequired = false);
     ~EffectsList();
-
     /** @brief Returns the XML element of an effect.
      * @param name name of the effect to be returned */
     QDomElement getEffectByName(const QString & name) const;
@@ -52,6 +48,7 @@ public:
      * @param id effect id
      * @return effect index if the effect exists, -1 otherwise */
     int hasEffect(const QString & tag, const QString & id) const;
+    bool hasTransition(const QString & tag) const;
 
     /** @brief Lists the core properties of an effect.
      * @param ix effect index

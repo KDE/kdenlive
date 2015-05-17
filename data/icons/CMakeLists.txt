@@ -1,5 +1,5 @@
 install(FILES
-  visible.png  	
+  visible.png
   novisible.png
   DESTINATION ${DATA_INSTALL_DIR}/kdenlive/pics)
 
@@ -76,6 +76,12 @@ ecm_install_icons(ICONS
   sc-actions-kdenlive-select-rects.svgz
   sc-actions-kdenlive-select-texts.svgz
   sc-actions-kdenlive-select-tool.svgz
+  sc-actions-kdenlive-show-all-effects.svg
+  sc-actions-kdenlive-show-video-effects.svg
+  sc-actions-kdenlive-hide-video-effects.svg
+  sc-actions-kdenlive-show-audio-effects.svg
+  sc-actions-kdenlive-hide-audio-effects.svg
+  sc-actions-kdenlive-show-gpu-effects.svg
   sc-actions-kdenlive-spacer-tool.svgz
   sc-actions-kdenlive-unselect-all.svgz
   sc-actions-kdenlive-zindex-bottom.svgz

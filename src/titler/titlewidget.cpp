@@ -906,7 +906,7 @@ void TitleWidget::selectionChanged()
     foreach(QGraphicsItem * item, l) {
         if (item->type() == TEXTITEM && !item->isSelected()) {
             QGraphicsTextItem *i = static_cast<QGraphicsTextItem *>(item);
-            i->ungrabKeyboard();
+            i->clearFocus();
         }
     }
 

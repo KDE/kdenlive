@@ -21,6 +21,7 @@
 #include "effectslistwidget.h"
 #include "effectslist/effectslist.h"
 #include "mainwindow.h"
+#include "kdenlivesettings.h"
 
 #include "klocalizedstring.h"
 #include <QDebug>
@@ -30,18 +31,12 @@
 #include <QStandardPaths>
 
 
-static const int EFFECT_VIDEO = 1;
-static const int EFFECT_AUDIO = 2;
-static const int EFFECT_CUSTOM = 3;
-static const int EFFECT_FOLDER = 4;
-
 const int TypeRole = Qt::UserRole;
 const int IdRole = TypeRole + 1;
 
 
-EffectsListWidget::EffectsListWidget(QMenu *contextMenu, QWidget *parent) :
-    QTreeWidget(parent),
-    m_menu(contextMenu)
+EffectsListWidget::EffectsListWidget(QWidget *parent) :
+    QTreeWidget(parent)
 {
     setColumnCount(1);
     setDragEnabled(true);
@@ -54,7 +49,7 @@ EffectsListWidget::EffectsListWidget(QMenu *contextMenu, QWidget *parent) :
     //setSelectionMode(QAbstractItemView::ExtendedSelection);
     setDragDropMode(QAbstractItemView::DragOnly);
     updatePalette();
-    connect(this, SIGNAL(activated(QModelIndex)), this, SLOT(slotExpandItem(QModelIndex)));
+    connect(this, &EffectsListWidget::activated, this, &EffectsListWidget::slotExpandItem);
 }
 
 EffectsListWidget::~EffectsListWidget()
@@ -152,7 +147,6 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
     loadEffects(&MainWindow::videoEffects, QIcon::fromTheme("kdenlive-show-video"), misc, &folders, EFFECT_VIDEO, current, &found);
     loadEffects(&MainWindow::audioEffects, QIcon::fromTheme("kdenlive-show-audio"), audio, &folders, EFFECT_AUDIO, current, &found);
     loadEffects(&MainWindow::customEffects, QIcon::fromTheme("kdenlive-custom-effect"), custom, static_cast<QList<QTreeWidgetItem *> *>(0), EFFECT_CUSTOM, current, &found);
-
     if (!found && !currentFolder.isEmpty()) {
         // previously selected effect was removed, focus on its parent folder
         for (int i = 0; i < topLevelItemCount(); ++i) {
@@ -229,10 +223,9 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, QIcon icon, Q
     QTreeWidgetItem *item;
     int ct = effectlist->count();
 
-    
     for (int ix = 0; ix < ct; ++ix) {
         effectInfo = effectlist->effectIdInfo(ix);
-        effectInfo.append(QString::number(type));
+        if (effectInfo.isEmpty()) continue;
         QTreeWidgetItem *parentItem = NULL;
 
         if (folders) {
@@ -249,11 +242,19 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, QIcon icon, Q
 
         if (!effectInfo.isEmpty()) {
             item = new QTreeWidgetItem(parentItem, QStringList(effectInfo.takeFirst()));
+            QString tag = effectInfo.at(0);
+            if (type != EFFECT_CUSTOM && tag.startsWith("movit.")) {
+                // GPU effect
+                effectInfo.append(QString::number(EFFECT_GPU));
+                item->setData(0, TypeRole, EFFECT_GPU);
+            } else {
+                effectInfo.append(QString::number(type));
+                item->setData(0, TypeRole, type);
+            }
             if (effectInfo.count() == 4) item->setIcon(0, QIcon::fromTheme("folder"));
             else item->setIcon(0, icon);
-            item->setData(0, TypeRole, type);
             item->setData(0, IdRole, effectInfo);
-            item->setToolTip(0, effectlist->getInfo(effectInfo.at(0), effectInfo.at(1)));
+            item->setToolTip(0, effectlist->getInfo(tag, effectInfo.at(1)));
             if (item->text(0) == current) {
                 setCurrentItem(item);
                 *found = true;
@@ -288,10 +289,11 @@ const QDomElement EffectsListWidget::itemEffect(QTreeWidgetItem *item) const
     if (!item || item->data(0, TypeRole).toInt() == (int)EFFECT_FOLDER) return effect;
     QStringList effectInfo = item->data(0, IdRole).toStringList();
     switch (item->data(0, TypeRole).toInt()) {
-    case 1:
+    case EFFECT_VIDEO:
+    case EFFECT_GPU:
         effect =  MainWindow::videoEffects.getEffectByTag(effectInfo.at(0), effectInfo.at(1)).cloneNode().toElement();
         break;
-    case 2:
+    case EFFECT_AUDIO:
         effect = MainWindow::audioEffects.getEffectByTag(effectInfo.at(0), effectInfo.at(1)).cloneNode().toElement();
         break;
     default:
@@ -309,10 +311,11 @@ QString EffectsListWidget::currentInfo() const
     QString info;
     QStringList effectInfo = item->data(0, IdRole).toStringList();
     switch (item->data(0, TypeRole).toInt()) {
-    case 1:
+    case EFFECT_VIDEO:
+    case EFFECT_GPU:
         info = MainWindow::videoEffects.getInfo(effectInfo.at(0), effectInfo.at(1));
         break;
-    case 2:
+    case EFFECT_AUDIO:
         info = MainWindow::audioEffects.getInfo(effectInfo.at(0), effectInfo.at(1));
         break;
     default:
@@ -366,8 +369,9 @@ void EffectsListWidget::dragMoveEvent(QDragMoveEvent *event)
 void EffectsListWidget::contextMenuEvent(QContextMenuEvent * event)
 {
     QTreeWidgetItem *item = itemAt(event->pos());
-    if (item && item->data(0, TypeRole).toInt() == EFFECT_CUSTOM)
-        m_menu->popup(event->globalPos());
+    if (item && item->data(0, TypeRole) !=  EFFECT_FOLDER) {
+        emit displayMenu(item, event->globalPos());
+    }
 }
 
 

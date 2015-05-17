@@ -27,12 +27,14 @@
 #include "project/projectlist.h"
 #include "ui_projectsettings_ui.h"
 
+class KdenliveDoc;
+
 class ProjectSettings : public QDialog, public Ui::ProjectSettings_UI
 {
     Q_OBJECT
 
 public:
-    ProjectSettings(ProjectList *projectlist, QMap <QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString& projectPath, bool readOnlyTracks, bool unsavedProject, QWidget * parent = 0);
+    ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString& projectPath, bool readOnlyTracks, bool unsavedProject, QWidget * parent = 0);
     QString selectedProfile() const;
     QUrl selectedFolder() const;
     QPoint tracks() const;
@@ -71,7 +73,6 @@ private slots:
 private:
     QPushButton *m_buttonOk;
     bool m_savedProject;
-    ProjectList *m_projectList;
     QStringList m_lumas;
 
 signals:

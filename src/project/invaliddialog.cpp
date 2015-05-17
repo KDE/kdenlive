@@ -50,8 +50,8 @@ InvalidDialog::InvalidDialog(const QString &caption, const QString &message, boo
     setLayout(mainLayout);
     okButton->setDefault(true);
     okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &InvalidDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &InvalidDialog::reject);
 
     QWidget *mainWidget = new QWidget(this);
     QVBoxLayout *boxLayout = new QVBoxLayout;

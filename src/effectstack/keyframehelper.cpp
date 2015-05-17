@@ -316,7 +316,10 @@ void KeyframeHelper::paintEvent(QPaintEvent *e)
 
 int KeyframeHelper::value() const
 {
-    return m_position;
+    if (m_seekPosition == SEEK_INACTIVE) {
+        return m_position;
+    }
+    return m_seekPosition;
 }
 
 void KeyframeHelper::setValue(const int pos)

@@ -58,7 +58,7 @@ public:
      *   done here. If a new clip type is added then it should be possible to combine it with both audio
      *   and video. */
 
-    DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id);
+    Q_DECL_DEPRECATED DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id);
 //    DocClipBase & operator=(const DocClipBase & clip);
     virtual ~ DocClipBase();
 
@@ -112,7 +112,7 @@ public:
     }
 
     /** Sets producers for the current clip (one for each track due to a limitation in MLT's track mixing */
-    void setProducer(Mlt::Producer *producer, bool reset = false, bool readPropertiesFromProducer = false);
+    void setProducer(Mlt::Producer &producer, bool reset = false, bool readPropertiesFromProducer = false);
     /** Retrieve a producer for a track */
     Mlt::Producer *getProducer(int track = -1);
     /** Get a copy of the producer, for use in the clip monitor */
@@ -207,6 +207,9 @@ private:   // Private attributes
     /** The number of times this clip is used in the project - the number of references to this clip
      * that exist. */
     uint m_refcount;
+
+    /** The index of this clip in Bin Playlist, used to retrieve MLT::Producer for this clip */
+    int m_binIndex;
     QList <Mlt::Producer *> m_baseTrackProducers;
     QList <Mlt::Producer *> m_videoTrackProducers;
     QList <Mlt::Producer *> m_audioTrackProducers;

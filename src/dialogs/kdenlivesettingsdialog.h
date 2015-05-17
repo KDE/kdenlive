@@ -39,7 +39,7 @@ class KdenliveSettingsDialog : public KConfigDialog
     Q_OBJECT
 
 public:
-    KdenliveSettingsDialog(const QMap<QString, QString>& mappable_actions, QWidget * parent = 0);
+    KdenliveSettingsDialog(const QMap<QString, QString>& mappable_actions, bool gpuAllowed, QWidget * parent = 0);
     ~KdenliveSettingsDialog();
     void showPage(int page, int option);
     void checkProfile();
@@ -119,6 +119,8 @@ signals:
     void updateCaptureFolder();
     // Screengrab method changed between fullsceen and region, update rec monitor
     void updateFullScreenGrab();
+    /** @brief A settings changed that requires a Kdenlive restart, trigger it */
+    void restartKdenlive();
 };
 
 

@@ -66,78 +66,14 @@ bool MltVideoProfile::operator!=(const MltVideoProfile &other) const {
     return !(*this == other);
 }
 
-
-EffectInfo::EffectInfo() {isCollapsed = false; groupIndex = -1; groupIsCollapsed = false;}
-
-QString EffectInfo::toString() const {
-    QStringList data;
-    // effect collapsed state: 0 = effect not collapsed, 1 = effect collapsed,
-    // 2 = group collapsed - effect not, 3 = group and effect collapsed
-    int collapsedState = (int) isCollapsed;
-    if (groupIsCollapsed) collapsedState += 2;
-    data << QString::number(collapsedState) << QString::number(groupIndex) << groupName;
-    return data.join(QLatin1String("/"));
-}
-
-void EffectInfo::fromString(QString value) {
-    if (value.isEmpty()) return;
-    QStringList data = value.split(QLatin1String("/"));
-    isCollapsed = data.at(0).toInt() == 1 || data.at(0).toInt() == 3;
-    groupIsCollapsed = data.at(0).toInt() >= 2;
-    if (data.count() > 1) groupIndex = data.at(1).toInt();
-    if (data.count() > 2) groupName = data.at(2);
-}
-
-
-EffectParameter::EffectParameter(const QString &name, const QString &value): m_name(name), m_value(value) {}
-
-QString EffectParameter::name() const          {
-    return m_name;
-}
-
-QString EffectParameter::value() const          {
-    return m_value;
-}
-
-void EffectParameter::setValue(const QString &value) {
-    m_value = value;
-}
-
-
-EffectsParameterList::EffectsParameterList(): QList < EffectParameter >() {}
-
-bool EffectsParameterList::hasParam(const QString &name) const {
-    for (int i = 0; i < size(); ++i)
-        if (at(i).name() == name) return true;
-    return false;
-}
-
-QString EffectsParameterList::paramValue(const QString &name, const QString &defaultValue) const {
-    for (int i = 0; i < size(); ++i) {
-        if (at(i).name() == name) return at(i).value();
-    }
-    return defaultValue;
-}
-
-void EffectsParameterList::addParam(const QString &name, const QString &value) {
-    if (name.isEmpty()) return;
-    append(EffectParameter(name, value));
-}
-
-void EffectsParameterList::removeParam(const QString &name) {
-    for (int i = 0; i < size(); ++i)
-        if (at(i).name() == name) {
-            removeAt(i);
-            break;
-        }
-}
-
-
 CommentedTime::CommentedTime(): t(GenTime(0)), type(0) {}
 
 
 CommentedTime::CommentedTime(const GenTime &time, const QString &comment, int markerType)
     : t(time), c(comment), type(markerType) { }
+
+CommentedTime::CommentedTime(const QString &hash, const GenTime &time)
+    : t(time), c(hash.section(":", 1)), type(hash.section(":", 0, 0).toInt()) { }
 
 QString CommentedTime::comment() const          {
     return (c.isEmpty() ? i18n("Marker") : c);
@@ -153,6 +89,11 @@ void CommentedTime::setComment(const QString &comm) {
 
 void CommentedTime::setMarkerType(int t) {
     type = t;
+}
+
+QString CommentedTime::hash() const
+{
+    return QString::number(type) + ":" + (c.isEmpty() ? i18n("Marker") : c);
 }
 
 int CommentedTime::markerType() const {

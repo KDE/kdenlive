@@ -74,6 +74,19 @@ frei0r.vectorscope
 frei0r.vertigo
 frei0r.vignette
 
+#Movit effects with XML UI
+movit.blur
+movit.sharpen
+movit.diffusion
+movit.glow
+movit.lift_gamma_gain
+movit.mirror
+movit.opacity
+movit.rect
+movit.saturation
+movit.unsharp_mask
+movit.vignette
+movit.white_balance
 
 #MLT effects with XML UI
 channelcopy
@@ -87,6 +100,9 @@ rotoscoping
 wave
 vignette
 volume
+lift_gamma_gain
+audiowaveform
+audiowave
 
 #Effects not usable with a simple GUI
 sox

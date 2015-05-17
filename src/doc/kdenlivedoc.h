@@ -30,27 +30,35 @@
 #include <QList>
 #include <QDir>
 #include <QObject>
-
+#include <QTimer>
 #include <QUrl>
+
 #include <kautosavefile.h>
+#include <KDirWatch>
 
 #include "gentime.h"
 #include "timecode.h"
 #include "definitions.h"
 #include "timeline/guide.h"
+#include "mltcontroller/effectscontroller.h"
 
 class Render;
 class ClipManager;
-class DocClipBase;
 class MainWindow;
 class TrackInfo;
 class NotesPlugin;
+class ProjectClip;
+class ClipController;
 
 class QTextEdit;
 class QProgressDialog;
 class QUndoGroup;
 class QTimer;
 class QUndoStack;
+
+namespace Mlt {
+    class Profile;
+}
 
 class KdenliveDoc: public QObject
 {
@@ -67,11 +75,8 @@ public:
     KAutoSaveFile *m_autosave;
     Timecode timecode() const;
     QDomDocument toXml();
-    //void setRenderer(Render *render);
     QUndoStack *commandStack();
     Render *renderer();
-    QDomDocument m_guidesXml;
-    QDomElement guidesXml() const;
     ClipManager *clipManager();
 
     /** @brief Adds a clip to the project tree.
@@ -87,38 +92,41 @@ public:
      *
      * If the clip wasn't added before, it tries to add it to the project. */
     bool addClipInfo(QDomElement elem, QDomElement orig, const QString &clipId);
-    void slotAddClipList(const QList<QUrl> &urls, const stringMap &data = stringMap());
     void deleteClip(const QString &clipId);
     int getFramePos(const QString &duration);
-    DocClipBase *getBaseClip(const QString &clipId);
+    /** @brief Get a bin's clip from its id. */
+    ProjectClip *getBinClip(const QString &clipId);
+    /** @brief Get a list of all clip ids that are inside a folder. */
+    QStringList getBinFolderClipIds(const QString &folderId) const;
+    ClipController *getClipController(const QString &clipId);
     void updateClip(const QString &id);
 
     /** @brief Informs Kdenlive of the audio thumbnails generation progress. */
     void setThumbsProgress(const QString &message, int progress);
     const QString &profilePath() const;
     MltVideoProfile mltProfile() const;
+    ProfileInfo getProfileInfo() const;
+    //Mlt::Profile *profile();
     const QString description() const;
     void setUrl(const QUrl &url);
 
     /** @brief Updates the project profile.
      * @return true if frame rate was changed */
     bool setProfilePath(QString path);
-    const QString getFreeClipId();
 
     /** @brief Defines whether the document needs to be saved. */
     bool isModified() const;
 
     /** @brief Returns the project folder, used to store project files. */
     QUrl projectFolder() const;
-    void syncGuides(const QList <Guide *> &guides);
     void setZoom(int horizontal, int vertical);
     QPoint zoom() const;
     double dar() const;
     double projectDuration() const;
     /** @brief Returns the project file xml. */
-    QDomDocument xmlSceneList(const QString &scene, const QStringList &expandedFolders);
+    QDomDocument xmlSceneList(const QString &scene, QMap <double, QString> guidesData);
     /** @brief Saves the project file xml to a file. */
-    bool saveSceneList(const QString &path, const QString &scene, const QStringList &expandedFolders);
+    bool saveSceneList(const QString &path, const QString &scene, QMap <double, QString> guidesData);
     int tracksCount() const;
     TrackInfo trackInfoAt(int ix) const;
     void insertTrack(int ix, const TrackInfo &type);
@@ -172,10 +180,22 @@ public:
     const QMap <QString, QString> metadata() const;
     /** @brief Set the document metadata (author, copyright, ...) */
     void setMetadata(const QMap <QString, QString>& meta);
+    void slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties, bool refreshPropertiesPanel);
+    /** @brief Get frame size of the renderer (profile)*/
+    const QSize getRenderSize() const;
+    /** @brief Add url to the file watcher so that we monitor changes */
+    void watchFile(const QUrl &url);
+    
+    bool useProxy() const;
     
 private:
     QUrl m_url;
     QDomDocument m_document;
+    KDirWatch m_fileWatcher;
+    /** Timer used to reload clips when they have been externally modified */
+    QTimer m_modifiedTimer;
+    /** List of the clip IDs that need to be reloaded after being externally modified */
+    QMap <QString, QTime> m_modifiedClips;
     double m_fps;
     int m_width;
     int m_height;
@@ -185,7 +205,6 @@ private:
     QUndoStack *m_commandStack;
     ClipManager *m_clipManager;
     MltVideoProfile m_profile;
-    QTimer *m_autoSaveTimer;
     QString m_searchFolder;
 
     /** @brief Tells whether the current document has been changed after being saved. */
@@ -222,16 +241,6 @@ private:
 
 public slots:
     void slotCreateXmlClip(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
-    void slotCreateColorClip(const QString &name, const QString &color, const QString &duration, const QString &group, const QString &groupId);
-    void slotCreateSlideshowClipFile(const QMap<QString, QString> &properties, const QString &group, const QString &groupId);
-    /**
-     * @brief Create a title clip.
-     *  Instansiates TitleWidget objects
-     * @param group
-     * @param groupId
-     * @param templatePath
-     */
-    void slotCreateTextClip(QString group, const QString &groupId, const QString &templatePath = QString());
     void slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path);
 
     /** @brief Sets the document as modified or up to date.
@@ -240,17 +249,20 @@ public slots:
      * @param mod (optional) true if the document has to be saved */
     void setModified(bool mod = true);
     void checkProjectClips(bool displayRatioChanged = false, bool fpsChanged = false);
-    void slotAddClipFile(const QUrl &url, const stringMap &data);
-
-private slots:
+    void slotProxyCurrentItem(bool doProxy);
     /** @brief Saves the current project at the autosave location.
      * @description The autosave files are in ~/.kde/data/stalefiles/kdenlive/ */
-    void slotAutoSave();
+    void slotAutoSave(QMap <double, QString> guidesData);
+
+private slots:
+    void slotClipModified(const QString &path);
+    void slotClipMissing(const QString &path);
+    void slotClipAvailable(const QString &path);
+    void slotProcessModifiedClips();
+    void slotModified();
 
 signals:
     void resetProjectList();
-    void addProjectClip(DocClipBase *, bool getInfo = true);
-    void signalDeleteProjectClip(const QString &);
     void updateClipDisplay(const QString&);
     void progressInfo(const QString &, int);
 
@@ -262,6 +274,8 @@ signals:
     void guidesUpdated();
     /** @brief When creating a backup file, also save a thumbnail of current timeline */
     void saveTimelinePreview(const QString &path);
+    /** @brief Trigger the autosave timer start */
+    void startAutoSave();
 };
 
 #endif

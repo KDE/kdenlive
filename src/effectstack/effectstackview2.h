@@ -30,6 +30,7 @@
 
 class EffectsList;
 class ClipItem;
+class ClipController;
 class MltVideoProfile;
 class Monitor;
 
@@ -39,21 +40,22 @@ class EffectStackView2 : public QWidget
     Q_OBJECT
 
 public:
-    explicit EffectStackView2(Monitor *monitor, QWidget *parent = 0);
+    explicit EffectStackView2(QWidget *parent = 0);
     virtual ~EffectStackView2();
 
     /** @brief Raises @param dock if a clip is loaded. */
     void raiseWindow(QWidget* dock);
 
-    /** @brief return the index of the track displayed in effect stack
-     ** @param ok set to true if we are looking at a track's effects, otherwise false. */
-    int isTrackMode(bool *ok) const;
+    /** @brief return the current status of effect stack (timeline clip, track or master clip). */
+    EFFECTMODE effectStatus() const;
+    /** @brief return the index of the track displayed in effect stack */
+    int trackIndex() const;
 
     /** @brief Clears the list of effects and updates the buttons accordingly. */
     void clear();
 
-    /** @brief Passes updates on @param profile and @param t on to the effect editor. */
-    void updateProjectFormat(const MltVideoProfile &profile, const Timecode &t);
+    /** @brief Passes updates @param t on to the effect editor. */
+    void updateProjectFormat(const Timecode &t);
 
     /** @brief Tells the effect editor to update its timecode format. */
     void updateTimecodeFormat();
@@ -88,9 +90,12 @@ protected:
 private:
     Ui::EffectStack2_UI m_ui;
     ClipItem* m_clipref;
+    ClipController *m_masterclipref;
     QList <CollapsibleEffect*> m_effects;
     EffectsList m_currentEffectList;
-    
+    /** @brief Current status of the effect stack (if it contains a timeline clip, track or master clip effect. */
+    EFFECTMODE m_status;
+
     /** @brief Contains info about effect like is it a track effect, which monitor displays it,... */
     EffectMetaInfo m_effectMetaInfo;
     
@@ -129,13 +134,15 @@ private:
 public slots:
     /** @brief Sets the clip whose effect list should be managed.
     * @param c Clip whose effect list should be managed */
-    void slotClipItemSelected(ClipItem* c);
+    void slotClipItemSelected(ClipItem* c, Monitor *m = NULL);
+    
+    void slotMasterClipItemSelected(ClipController* c, Monitor *m = NULL);
 
     /** @brief Update the clip range (in-out points)
     * @param c Clip whose effect list should be managed */
     void slotClipItemUpdate();
 
-    void slotTrackItemSelected(int ix, const TrackInfo &info);
+    void slotTrackItemSelected(int ix, const TrackInfo &info, Monitor *m = NULL);
    
     /** @brief Check if the mouse wheel events should be used for scrolling the widget view. */
     void slotCheckWheelEventFilter();
@@ -213,7 +220,8 @@ private slots:
 
 signals:
     void removeEffect(ClipItem*, int, const QDomElement&);
-    /**  Parameters for an effect changed, update the filter in playlist */
+    void removeMasterEffect(const QString &id, const QDomElement&);
+    /**  Parameters for an effect changed, update the filter in timeline */
     void updateEffect(ClipItem*, int, const QDomElement&, const QDomElement &, int,bool);
     /** An effect in stack was moved, we need to regenerate
         all effects for this clip in the playlist */

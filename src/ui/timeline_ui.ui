@@ -80,12 +80,15 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>72</width>
+        <width>70</width>
         <height>153</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
        <property name="margin">
+        <number>0</number>
+       </property>
+       <property name="spacing">
         <number>0</number>
        </property>
        <item row="1" column="0">

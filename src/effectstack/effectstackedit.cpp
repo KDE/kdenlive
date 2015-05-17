@@ -43,7 +43,6 @@ EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) :
 {
     m_baseWidget = new QWidget(this);
     m_metaInfo.monitor = monitor;
-    m_metaInfo.trackMode = false;
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setFrameStyle(QFrame::NoFrame);
@@ -74,9 +73,8 @@ Monitor *EffectStackEdit::monitor()
     return m_metaInfo.monitor;
 }
 
-void EffectStackEdit::updateProjectFormat(const MltVideoProfile &profile, const Timecode &t)
+void EffectStackEdit::updateProjectFormat(const Timecode &t)
 {
-    m_metaInfo.profile = profile;
     m_metaInfo.timecode = t;
 }
 

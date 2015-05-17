@@ -56,7 +56,7 @@ Q_OBJECT public:
     /** @brief Build a MLT Renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the capture (default one will be used if empty). */
-    explicit MltDeviceCapture(QString profile, VideoSurface *surface, QWidget *parent = 0);
+    explicit MltDeviceCapture(QString profile, /*VideoSurface *surface,*/ QWidget *parent = 0);
 
     /** @brief Destroy the MLT Renderer. */
     ~MltDeviceCapture();
@@ -108,12 +108,6 @@ private:
     bool m_livePreview;
     /** @brief Count captured frames, used to display only one in ten images while capturing. */
     int m_frameCount;
-
-    /** @brief The surface onto which the captured frames should be painted. */
-    VideoSurface *m_captureDisplayWidget;
-
-    /** @brief A human-readable description of this renderer. */
-    int m_winid;
 
     void uyvy2rgb(unsigned char *yuv_buffer, int width, int height);
 

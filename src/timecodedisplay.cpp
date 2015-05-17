@@ -185,6 +185,6 @@ void TimecodeDisplay::slotEditingFinished()
     lineEdit()->deselect();
     if (m_frametimecode) setValue(lineEdit()->text().toInt());
     else setValue(lineEdit()->text());
-    emit timeCodeEditingFinished();
+    emit timeCodeEditingFinished(m_value);
 }
 

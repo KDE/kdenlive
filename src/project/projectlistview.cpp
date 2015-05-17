@@ -62,10 +62,9 @@ ProjectListView::ProjectListView(QWidget *parent)
     
     QHeaderView* headerView = header();
     headerView->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(headerView, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(configureColumns(QPoint)));
-    connect(this, SIGNAL(itemCollapsed(QTreeWidgetItem*)), this, SLOT(slotCollapsed(QTreeWidgetItem*)));
-    connect(this, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(slotExpanded(QTreeWidgetItem*)));
+    connect(headerView, &QHeaderView::customContextMenuRequested, this, &ProjectListView::configureColumns);
+    connect(this, &ProjectListView::itemCollapsed, this, &ProjectListView::slotCollapsed);
+    connect(this, &ProjectListView::itemExpanded, this, &ProjectListView::slotExpanded);
     headerView->setSectionsClickable(true);
     headerView->setSortIndicatorShown(true);
     headerView->setSectionsMovable(false);

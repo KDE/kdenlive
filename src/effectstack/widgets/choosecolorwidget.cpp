@@ -112,7 +112,7 @@ ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, 
     connect(picker, SIGNAL(colorPicked(QColor)), this, SLOT(setColor(QColor)));
     connect(picker, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
     connect(picker, SIGNAL(disableCurrentFilter(bool)), this, SIGNAL(disableCurrentFilter(bool)));
-    connect(m_button, SIGNAL(changed(QColor)), this, SIGNAL(modified()));
+    connect(m_button, SIGNAL(changed(QColor)), this, SIGNAL(modified(QColor)));
 }
 
 QString ChooseColorWidget::getColor() const
@@ -127,4 +127,9 @@ void ChooseColorWidget::setColor(const QColor& color)
     m_button->setColor(color);
 }
 
-
+void ChooseColorWidget::slotColorModified(const QColor &color)
+{
+    blockSignals(true);
+    m_button->setColor(color);
+    blockSignals(false);
+}

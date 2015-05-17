@@ -36,6 +36,7 @@
 
 class KJob;
 class KArchive;
+class ClipController;
 
 /**
  * @class ArchiveWidget
@@ -50,7 +51,7 @@ class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI
     Q_OBJECT
 
 public:
-    ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList <DocClipBase*> &list, const QStringList &luma_list, QWidget * parent = 0);
+    ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList <ClipController*> &list, const QStringList &luma_list, QWidget * parent = 0);
     // Constructor for extracting widget
     explicit ArchiveWidget(const QUrl &url, QWidget * parent = 0);
     ~ArchiveWidget();

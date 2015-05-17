@@ -45,9 +45,9 @@ Histogram::Histogram(QWidget *parent) :
     connect(ui->cbR, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
     connect(ui->cbG, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
     connect(ui->cbB, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
-    connect(m_aUnscaled, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
-    connect(m_aRec601, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
-    connect(m_aRec709, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
+    connect(m_aUnscaled, &QAction::toggled, this, &Histogram::forceUpdateScope);
+    connect(m_aRec601, &QAction::toggled, this, &Histogram::forceUpdateScope);
+    connect(m_aRec709, &QAction::toggled, this, &Histogram::forceUpdateScope);
 
     init();
     m_histogramGenerator = new HistogramGenerator();
@@ -117,7 +117,6 @@ QImage Histogram::renderGfxScope(uint accelFactor, const QImage &qimage)
 {
     QTime start = QTime::currentTime();
     start.start();
-
     const int componentFlags =   (ui->cbY->isChecked() ? 1 : 0) * HistogramGenerator::ComponentY
                                | (ui->cbS->isChecked() ? 1 : 0) * HistogramGenerator::ComponentSum
                                | (ui->cbR->isChecked() ? 1 : 0) * HistogramGenerator::ComponentR

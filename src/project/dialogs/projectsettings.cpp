@@ -20,11 +20,13 @@
 #include "projectsettings.h"
 
 #include "kdenlivesettings.h"
-#include "doc/docclipbase.h"
+#include "core.h"
+#include "doc/kdenlivedoc.h"
 #include "titler/titlewidget.h"
 #include "effectslist/effectslist.h"
 #include "dialogs/profilesdialog.h"
-
+#include "mltcontroller/clipcontroller.h"
+#include "mltcontroller/bincontroller.h"
 
 #include <KMessageBox>
 #include <QDebug>
@@ -37,8 +39,8 @@
 #include <kmessagebox.h>
 #include <QFileDialog>
 
-ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString &projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
-    QDialog(parent), m_savedProject(savedProject), m_projectList(projectlist), m_lumas(lumas)
+ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString &projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
+    QDialog(parent), m_savedProject(savedProject), m_lumas(lumas)
 {
     setupUi(this);
 
@@ -71,14 +73,14 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QStrin
     connect(generate_imageproxy, SIGNAL(toggled(bool)), proxy_imageminsize, SLOT(setEnabled(bool)));
     QString proxyparameters;
     QString proxyextension;
-    if (projectlist) {
-        enable_proxy->setChecked(projectlist->getDocumentProperty("enableproxy").toInt());
-        generate_proxy->setChecked(projectlist->getDocumentProperty("generateproxy").toInt());
-        proxy_minsize->setValue(projectlist->getDocumentProperty("proxyminsize").toInt());
-        proxyparameters = projectlist->getDocumentProperty("proxyparams");
-        generate_imageproxy->setChecked(projectlist->getDocumentProperty("generateimageproxy").toInt());
-        proxy_imageminsize->setValue(projectlist->getDocumentProperty("proxyimageminsize").toInt());
-        proxyextension = projectlist->getDocumentProperty("proxyextension");
+    if (doc) {
+        enable_proxy->setChecked(doc->getDocumentProperty("enableproxy").toInt());
+        generate_proxy->setChecked(doc->getDocumentProperty("generateproxy").toInt());
+        proxy_minsize->setValue(doc->getDocumentProperty("proxyminsize").toInt());
+        proxyparameters = doc->getDocumentProperty("proxyparams");
+        generate_imageproxy->setChecked(doc->getDocumentProperty("generateimageproxy").toInt());
+        proxy_imageminsize->setValue(doc->getDocumentProperty("proxyimageminsize").toInt());
+        proxyextension = doc->getDocumentProperty("proxyextension");
     }
     else {
         enable_proxy->setChecked(KdenliveSettings::enableproxy());
@@ -191,7 +193,7 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QStrin
     delete_metadata->setIcon(QIcon::fromTheme("list-remove"));
     
     slotUpdateDisplay();
-    if (m_projectList != NULL) {
+    if (doc != NULL) {
         slotUpdateFiles();
         connect(clear_cache, SIGNAL(clicked()), this, SLOT(slotClearCache()));
         connect(delete_unused, SIGNAL(clicked()), this, SLOT(slotDeleteUnused()));
@@ -205,6 +207,8 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QStrin
 void ProjectSettings::slotDeleteUnused()
 {
     QStringList toDelete;
+    //TODO
+    /*
     QList <DocClipBase*> list = m_projectList->documentClipList();
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
@@ -233,6 +237,7 @@ void ProjectSettings::slotDeleteUnused()
     if (KMessageBox::warningYesNoList(this, i18n("This will remove the following files from your hard drive.\nThis action cannot be undone, only use if you know what you are doing.\nAre you sure you want to continue?"), toDelete, i18n("Delete unused clips")) != KMessageBox::Yes) return;
     m_projectList->trashUnusedClips();
     slotUpdateFiles();
+    */
 }
 
 void ProjectSettings::slotClearCache()
@@ -287,7 +292,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     int used = 0;
     KIO::filesize_t usedSize = 0;
     KIO::filesize_t unUsedSize = 0;
-    QList <DocClipBase*> list = m_projectList->documentClipList();
+    QList <ClipController*> list = pCore->binController()->getControllerList();
     files_list->clear();
 
     // List all files that are used in the project. That also means:
@@ -324,59 +329,60 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     }
 
     for (int i = 0; i < list.count(); ++i) {
-        DocClipBase *clip = list.at(i);
+        ClipController *clip = list.at(i);
         if (clip->clipType() == SlideShow) {
-            QStringList subfiles = extractSlideshowUrls(clip->fileURL());
+            QStringList subfiles = extractSlideshowUrls(clip->clipUrl());
             foreach(const QString & file, subfiles) {
                 count++;
                 new QTreeWidgetItem(slideshows, QStringList() << file);
             }
-        } else if (!clip->fileURL().isEmpty()) {
+        } else if (!clip->clipUrl().isEmpty()) {
             //allFiles.append(clip->fileURL().path());
             switch (clip->clipType()) {
             case Text:
-                new QTreeWidgetItem(texts, QStringList() << clip->fileURL().path());
+                new QTreeWidgetItem(texts, QStringList() << clip->clipUrl().path());
                 break;
             case Audio:
-                new QTreeWidgetItem(sounds, QStringList() << clip->fileURL().path());
+                new QTreeWidgetItem(sounds, QStringList() << clip->clipUrl().path());
                 break;
             case Image:
-                new QTreeWidgetItem(images, QStringList() << clip->fileURL().path());
+                new QTreeWidgetItem(images, QStringList() << clip->clipUrl().path());
                 break;
             case Playlist:
-                new QTreeWidgetItem(playlists, QStringList() << clip->fileURL().path());
+                new QTreeWidgetItem(playlists, QStringList() << clip->clipUrl().path());
                 break;
             case Unknown:
-                new QTreeWidgetItem(others, QStringList() << clip->fileURL().path());
+                new QTreeWidgetItem(others, QStringList() << clip->clipUrl().path());
                 break;
             default:
-                new QTreeWidgetItem(videos, QStringList() << clip->fileURL().path());
+                new QTreeWidgetItem(videos, QStringList() << clip->clipUrl().path());
                 break;
             }
             count++;
         }
         if (clip->clipType() == Text) {
-            QStringList imagefiles = TitleWidget::extractImageList(clip->getProperty("xmldata"));
-            QStringList fonts = TitleWidget::extractFontList(clip->getProperty("xmldata"));
+            QStringList imagefiles = TitleWidget::extractImageList(clip->property("xmldata"));
+            QStringList fonts = TitleWidget::extractFontList(clip->property("xmldata"));
             foreach(const QString & file, imagefiles) {
                 count++;
                 new QTreeWidgetItem(images, QStringList() << file);
             }
             allFonts << fonts;
         } else if (clip->clipType() == Playlist) {
-            QStringList files = extractPlaylistUrls(clip->fileURL().path());
+            QStringList files = extractPlaylistUrls(clip->clipUrl().path());
             foreach(const QString & file, files) {
                 count++;
                 new QTreeWidgetItem(others, QStringList() << file);
             }
         }
 
-        if (clip->numReferences() == 0) {
+        //TODO
+        if (false /*clip->numReferences() == 0*/) {
             unused++;
-            unUsedSize += clip->fileSize();
+            //unUsedSize += clip->fileSize();
         } else {
             used++;
-            usedSize += clip->fileSize();
+            //usedSize += clip->fileSize();
         }
     }
     allFonts.removeDuplicates();

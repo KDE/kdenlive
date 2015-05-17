@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="78" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="81" translationDomain="kdenlive">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -45,6 +45,7 @@
       <Action name="stopmotion" />
       <Separator />
       <Action name="reload_clip" />
+      <Action name="duplicate_clip" />
       <Action name="proxy_clip" />
       <Menu name="clip_in_timeline"><text>Clip in Timeline</text>
       </Menu>
@@ -73,6 +74,7 @@
     <Menu name="clip" ><text>Clip</text>
           <Menu name="marker_menu" ><text>Markers</text>
 		<Action name="add_clip_marker" />
+		<Action name="add_marker_guide_quickly" />
 		<Action name="edit_clip_marker" />
 		<Action name="delete_clip_marker" />
 		<Action name="delete_all_clip_markers" />
@@ -160,8 +162,12 @@
       <Action name="mark_out" />
       <Separator />
       <Action name="monitor_fullscreen" />
-      <Action name="mlt_interlace" />
-      <Action name="mlt_interpolation" />
+      <Action name="monitor_overlay" />
+      <Menu name="monitor_config" ><text>Monitor config</text>
+          <Action name="mlt_interlace" />
+          <Action name="mlt_interpolation" />
+          <Action name="mlt_gamma" />
+      </Menu>
       <Action name="switch_monitor" />
       <Action name="insert_project_tree" />
       <Action name="insert_timeline" />

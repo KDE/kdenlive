@@ -21,9 +21,10 @@
 #ifndef VIDEOGLWIDGET_H
 #define VIDEOGLWIDGET_H
 
-#include <QGLWidget>
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
 
-class VideoGLWidget : public QGLWidget
+class VideoGLWidget : public QOpenGLWidget, protected QOpenGLFunctions
 {
     Q_OBJECT
 

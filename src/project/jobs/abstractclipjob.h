@@ -26,14 +26,20 @@
 
 #include "definitions.h"
 
-enum JOBTYPE { NOJOBTYPE = 0, PROXYJOB = 1, CUTJOB = 2, MLTJOB = 3};
+/**
+ * @class AbstractClipJob
+ * @brief This is the base class for all Kdenlive clip jobs.
+ *
+ */
 
 class AbstractClipJob : public QObject
 {
     Q_OBJECT
 
 public:
-    AbstractClipJob(JOBTYPE type, ClipType cType, const QString &id);    virtual ~ AbstractClipJob();
+    enum JOBTYPE { NOJOBTYPE = 0, PROXYJOB = 1, CUTJOB = 2, MLTJOB = 3, TRANSCODEJOB = 4, FILTERCLIPJOB = 5, THUMBJOB = 5 };
+    AbstractClipJob(JOBTYPE type, ClipType cType, const QString &id);
+    virtual ~ AbstractClipJob();
     ClipType clipType;
     JOBTYPE jobType;
     QString description;
@@ -63,7 +69,7 @@ protected:
     
 signals:
     void jobProgress(const QString&, int, int);
-    void cancelRunningJob(const QString &, const stringMap&);
+    void cancelRunningJob(const QString &, const QMap<QString, QString>&);
 };
 
 

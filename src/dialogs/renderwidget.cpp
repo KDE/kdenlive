@@ -379,12 +379,11 @@ void RenderWidget::slotCheckEndGuidePosition()
         m_view.guide_end->setCurrentIndex(m_view.guide_start->currentIndex());
 }
 
-void RenderWidget::setGuides(QDomElement guidesxml, double duration)
+void RenderWidget::setGuides(QMap <double, QString> guidesData, double duration)
 {
     m_view.guide_start->clear();
     m_view.guide_end->clear();
-    QDomNodeList nodes = guidesxml.elementsByTagName("guide");
-    if (!nodes.isEmpty()) {
+    if (!guidesData.isEmpty()) {
         m_view.guide_start->addItem(i18n("Beginning"), "0");
         m_view.render_guide->setEnabled(true);
         m_view.create_chapter->setEnabled(true);
@@ -393,16 +392,15 @@ void RenderWidget::setGuides(QDomElement guidesxml, double duration)
         m_view.create_chapter->setEnabled(false);
     }
     double fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
-    for (int i = 0; i < nodes.count(); ++i) {
-        QDomElement e = nodes.item(i).toElement();
-        if (!e.isNull()) {
-            GenTime pos = GenTime(e.attribute("time").toDouble());
-            const QString guidePos = Timecode::getStringTimecode(pos.frames(fps), fps);
-            m_view.guide_start->addItem(e.attribute("comment") + '/' + guidePos, e.attribute("time").toDouble());
-            m_view.guide_end->addItem(e.attribute("comment") + '/' + guidePos, e.attribute("time").toDouble());
-        }
+    QMapIterator<double, QString> i(guidesData);
+    while (i.hasNext()) {
+        i.next();
+        GenTime pos = GenTime(i.key());
+        const QString guidePos = Timecode::getStringTimecode(pos.frames(fps), fps);
+        m_view.guide_start->addItem(i.value() + '/' + guidePos, i.key());
+        m_view.guide_end->addItem(i.value() + '/' + guidePos, i.key());
     }
-    if (!nodes.isEmpty())
+    if (!guidesData.isEmpty())
         m_view.guide_end->addItem(i18n("End"), QString::number(duration));
 }
 
@@ -1145,6 +1143,9 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             render_process_args <<  (scriptExport ? "$SOURCE_" + QString::number(stemIdx) : playlistPaths.at(stemIdx));
 
         render_process_args << (scriptExport ? "$TARGET_" + QString::number(stemIdx) : QUrl(dest).url());
+        if (KdenliveSettings::gpu_accel()) {
+                render_process_args << "glsl.=1";
+        }
         render_process_args << paramsList;
 
         QString group = m_view.size_list->currentItem()->data(MetaGroupRole).toString();

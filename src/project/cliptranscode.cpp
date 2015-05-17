@@ -94,8 +94,8 @@ ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, con
     connect(button_start, SIGNAL(clicked()), this, SLOT(slotStartTransCode()));
 
     m_transcodeProcess.setProcessChannelMode(QProcess::MergedChannels);
-    connect(&m_transcodeProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(slotShowTranscodeInfo()));
-    connect(&m_transcodeProcess, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotTranscodeFinished(int,QProcess::ExitStatus)));
+    connect(&m_transcodeProcess, &QProcess::readyReadStandardOutput, this, &ClipTranscode::slotShowTranscodeInfo);
+    connect(&m_transcodeProcess, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &ClipTranscode::slotTranscodeFinished);
     
     ffmpeg_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
 

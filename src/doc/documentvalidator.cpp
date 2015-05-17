@@ -23,6 +23,8 @@
 #include "definitions.h"
 #include "effectslist/initeffects.h"
 #include "mainwindow.h"
+#include "core.h"
+#include "mltcontroller/bincontroller.h"
 
 #include <QDebug>
 #include <KMessageBox>
@@ -37,6 +39,10 @@
 #include <mlt++/Mlt.h>
 
 #include <locale>
+#ifdef Q_OS_MAC
+#include <xlocale.h>
+#endif
+
 #include <QStandardPaths>
 
 
@@ -111,9 +117,9 @@ bool DocumentValidator::validate(const double currentVersion)
         QLocale::setDefault(documentLocale);
         // locale conversion might need to be redone
 #ifndef Q_OS_MAC
-        initEffects::parseEffectFiles(setlocale(LC_NUMERIC, NULL));
+        initEffects::parseEffectFiles(pCore->binController()->mltRepository(), setlocale(LC_NUMERIC, NULL));
 #else
-        initEffects::parseEffectFiles(setlocale(LC_NUMERIC_MASK, NULL));
+        initEffects::parseEffectFiles(pCore->binController()->mltRepository(), setlocale(LC_NUMERIC_MASK, NULL));
 #endif
     }
 
@@ -137,6 +143,7 @@ bool DocumentValidator::validate(const double currentVersion)
     if (!upgrade(version, currentVersion))
         return false;
 
+    return true;
     /*
      * Check the syntax (this will be replaced by XSD validation with Qt 4.6)
      * and correct some errors
@@ -158,17 +165,31 @@ bool DocumentValidator::validate(const double currentVersion)
          * Make sure at least one track exists, and they're equal in number to
          * to the maximum between MLT and Kdenlive playlists and tracks
          */
+        // In older Kdenlive project files, one playlist is not a real track (the black track), we have: track count = playlist count- 1
+        // In newer Qt5 Kdenlive, the Bin playlist should not appear as a track. So we should have: track count = playlist count- 2
+        int trackOffset = 1;
         QDomNodeList playlists = m_doc.elementsByTagName("playlist");
-        int tracksMax = playlists.count() - 1; // Remove the black track
+	// Remove "main bin" playlist that simply holds the bin's clips and is not a real playlist
+	for (int i = 0; i < playlists.count(); ++i) {
+	    QString playlistId = playlists.at(i).toElement().attribute("id");
+	    if (playlistId == BinController::binPlaylistId()) {
+		// remove pseudo-playlist
+		//playlists.at(i).parentNode().removeChild(playlists.at(i));
+                trackOffset = 2;
+		break;
+	    }
+	}
+	
+        int tracksMax = playlists.count() - trackOffset; // Remove the black track and bin track
         QDomNodeList tracks = tractor.elementsByTagName("track");
         tracksMax = qMax(tracks.count() - 1, tracksMax);
         QDomNodeList tracksinfo = kdenliveDoc.elementsByTagName("trackinfo");
         tracksMax = qMax(tracksinfo.count(), tracksMax);
         tracksMax = qMax(1, tracksMax); // Force existence of one track
-        if (playlists.count() - 1 < tracksMax ||
-                tracks.count() - 1 < tracksMax ||
+        if (playlists.count() - trackOffset < tracksMax ||
+                tracks.count() < tracksMax ||
                 tracksinfo.count() < tracksMax) {
-            //qDebug() << "//// WARNING, PROJECT IS CORRUPTED, MISSING TRACK";
+            qDebug() << "//// WARNING, PROJECT IS CORRUPTED, MISSING TRACK";
             m_modified = true;
             int difference;
             // use the MLT tracks as reference
@@ -979,6 +1000,176 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             m_doc.firstChildElement("mlt").setAttribute("LC_NUMERIC", "C");
         }
     }
+    
+    if (version <= 0.88) {
+        // convert to new MLT-only format
+        QDomNodeList producers = m_doc.elementsByTagName("producer");
+        QDomDocumentFragment frag = m_doc.createDocumentFragment();
+        
+        // Create Bin Playlist
+        QDomElement main_playlist = m_doc.createElement("playlist");
+        QDomElement prop = m_doc.createElement("property");
+        prop.setAttribute("name", "xml_retain");
+        QDomText val = m_doc.createTextNode("1");
+        prop.appendChild(val);
+        main_playlist.appendChild(prop);
+
+        // Move markers
+        QDomNodeList markers = m_doc.elementsByTagName("marker");
+        for (int i = 0; i < markers.count(); ++i) {
+            QDomElement marker = markers.at(i).toElement();
+            QDomElement prop = m_doc.createElement("property");
+            prop.setAttribute("name", "kdenlive:marker." + marker.attribute("id") + ":" + marker.attribute("time"));
+            QDomText val = m_doc.createTextNode(marker.attribute("type") + ":" + marker.attribute("comment"));
+            prop.appendChild(val);
+            main_playlist.appendChild(prop);
+        }
+
+        // Move guides
+        QDomNodeList guides = m_doc.elementsByTagName("guide");
+        for (int i = 0; i < guides.count(); ++i) {
+            QDomElement guide = guides.at(i).toElement();
+            QDomElement prop = m_doc.createElement("property");
+            prop.setAttribute("name", "kdenlive:guide." + guide.attribute("time"));
+            QDomText val = m_doc.createTextNode(guide.attribute("comment"));
+            prop.appendChild(val);
+            main_playlist.appendChild(prop);
+        }
+        
+        // Move folders
+        QDomNodeList folders = m_doc.elementsByTagName("folder");
+        for (int i = 0; i < folders.count(); ++i) {
+            QDomElement folder = folders.at(i).toElement();
+            QDomElement prop = m_doc.createElement("property");
+            prop.setAttribute("name", "kdenlive:folder.-1." + folder.attribute("id"));
+            QDomText val = m_doc.createTextNode(folder.attribute("name"));
+            prop.appendChild(val);
+            main_playlist.appendChild(prop);
+        }
+
+        QDomNode mlt = m_doc.firstChildElement("mlt");
+        main_playlist.setAttribute("id", pCore->binController()->binPlaylistId());
+        mlt.toElement().setAttribute("producer", pCore->binController()->binPlaylistId());
+        QStringList ids;
+        QStringList slowmotionIds;
+        QDomNode firstProd = m_doc.firstChildElement("producer");
+        for (int i = 0; i < producers.count(); ++i) {
+            QDomElement prod = producers.at(i).toElement();
+            QString id = prod.attribute("id");
+            if (id.startsWith("slowmotion")) {
+                // No need to process slowmotion producers
+                QString slowmo = id.section(":", 1, 1).section("_", 0, 0);
+                if (!slowmotionIds.contains(slowmo)) {
+                    slowmotionIds << slowmo;
+                }
+                continue;
+            }
+            QString prodId = id.section("_", 0, 0);
+            if (ids.contains(prodId)) {
+                // Already processed, continue
+                continue;
+            }
+            if (id == prodId) {
+                // This is an original producer, move it to the main playlist
+                QDomElement entry = m_doc.createElement("entry");
+                entry.setAttribute("in", prod.attribute("in"));
+                entry.setAttribute("out", prod.attribute("out"));
+                entry.setAttribute("producer", id);
+                main_playlist.appendChild(entry);
+                frag.appendChild(prod);
+                i--;
+            }
+            else {
+                QDomElement originalProd = prod.cloneNode().toElement();
+                originalProd.setAttribute("id", prodId);
+                frag.appendChild(originalProd);
+                QDomElement entry = m_doc.createElement("entry");
+                entry.setAttribute("in", prod.attribute("in"));
+                entry.setAttribute("out", prod.attribute("out"));
+                entry.setAttribute("producer", prodId);
+                main_playlist.appendChild(entry);
+            }
+            ids.append(prodId);
+        }
+        
+        // Set clip folders
+        QDomNodeList kdenlive_producers = m_doc.elementsByTagName("kdenlive_producer");
+        for (int j = 0; j < kdenlive_producers.count(); j++) {
+            QDomElement prod = kdenlive_producers.at(j).toElement();
+            QString prodName = prod.attribute("name");
+            if (!prod.hasAttribute("groupid") && prodName.isEmpty()) continue;
+            QString id = prod.attribute("id");
+            QString folder = prod.attribute("groupid");
+            QDomNodeList mlt_producers = frag.childNodes();
+            for (int k = 0; k < mlt_producers.count(); k++) {
+                QDomElement mltprod = mlt_producers.at(k).toElement();
+                if (mltprod.tagName() != "producer") continue;
+                if (mltprod.attribute("id") == id) {
+                    if (!folder.isEmpty()) {
+                        // We have found our producer, set folder info
+                        QDomElement prop = m_doc.createElement("property");
+                        prop.setAttribute("name", "kdenlive:folderid");
+                        QDomText val = m_doc.createTextNode(folder);
+                        prop.appendChild(val);
+                        mltprod.appendChild(prop);
+                    }
+                    if (!prodName.isEmpty()) {
+                        // Set clip name
+                        QDomElement prop = m_doc.createElement("property");
+                        prop.setAttribute("name", "kdenlive:clipname");
+                        QDomText val = m_doc.createTextNode(prodName);
+                        prop.appendChild(val);
+                        mltprod.appendChild(prop);
+                    }
+                    break;
+                }
+            }
+        }
+        
+        // Make sure all slowmotion producers have a master clip
+        for (int i = 0; i < slowmotionIds.count(); i++) {
+            QString slo = slowmotionIds.at(i);
+            if (!ids.contains(slo)) {
+                // rebuild producer from Kdenlive's old xml format
+                for (int j = 0; j < kdenlive_producers.count(); j++) {
+                    QDomElement prod = kdenlive_producers.at(j).toElement();
+                    QString id = prod.attribute("id");
+                    if (id == slo) {
+                        // We found the kdenlive_producer, build MLT producer
+                        QDomElement original = m_doc.createElement("producer");
+                        original.setAttribute("in", 0);
+                        original.setAttribute("out", prod.attribute("duration").toInt() - 1);
+                        original.setAttribute("id", id);
+                        QDomElement prop = m_doc.createElement("property");
+                        prop.setAttribute("name", "resource");
+                        QDomText val = m_doc.createTextNode(prod.attribute("resource"));
+                        prop.appendChild(val);
+                        original.appendChild(prop);
+                        QDomElement prop2 = m_doc.createElement("property");
+                        prop2.setAttribute("name", "mlt_service");
+                        QDomText val2 = m_doc.createTextNode("avformat");
+                        prop2.appendChild(val2);
+                        original.appendChild(prop2);
+                        QDomElement prop3 = m_doc.createElement("property");
+                        prop3.setAttribute("name", "length");
+                        QDomText val3 = m_doc.createTextNode(prod.attribute("duration"));
+                        prop3.appendChild(val3);
+                        original.appendChild(prop3);
+                        QDomElement entry = m_doc.createElement("entry");
+                        entry.setAttribute("in", original.attribute("in"));
+                        entry.setAttribute("out", original.attribute("out"));
+                        entry.setAttribute("producer", id);
+                        main_playlist.appendChild(entry);
+                        frag.appendChild(original);
+                        ids << slo;
+                        break;
+                    }
+                }
+            }
+        }
+        frag.appendChild(main_playlist);
+        mlt.insertBefore(frag, firstProd);
+    }
 
     // The document has been converted: mark it as modified
     infoXml.setAttribute("version", currentVersion);
@@ -1208,4 +1399,131 @@ bool DocumentValidator::updateEffectParameters(const QDomNodeList &parameters, c
     }
     return updated;
 }
+
+bool DocumentValidator::checkMovit()
+{
+    QString playlist = m_doc.toString();
+    if (!playlist.contains("movit.")) {
+        // Project does not use Movit GLSL effects, we can load it
+        return true;
+    }
+    if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("The project file uses some GPU effects. GPU acceleration is not currently enabled.\nDo you want to convert the project to a non-GPU version ?\nThis might result in data loss.")) != KMessageBox::Yes) {
+        return false;
+    }
+    // Try to convert Movit filters to their non GPU equivalent
+    
+    QStringList convertedFilters;
+    QStringList discardedFilters;
+    int ix = MainWindow::videoEffects.hasEffect("frei0r.colgate", "frei0r.colgate");
+    bool hasWB = ix > -1;
+    ix = MainWindow::videoEffects.hasEffect("frei0r.IIRblur", "frei0r.IIRblur");
+    bool hasBlur = ix > -1;
+    ix = MainWindow::transitions.hasTransition("frei0r.cairoblend");
+    bool hasCairo = ix > -1;
+    
+    // Parse all effects in document
+    QDomNodeList filters = m_doc.elementsByTagName("filter");
+    int max = filters.count();
+    QLocale locale;
+    for (int i = 0; i < max; ++i) {
+        QDomElement filt = filters.at(i).toElement();
+        QString filterId = filt.attribute("id");
+        if (!filterId.startsWith("movit.")) {
+            continue;
+        }
+        if (filterId == "movit.white_balance" && hasWB) {
+            // Convert to frei0r.colgate
+            filt.setAttribute("id", "frei0r.colgate");
+            EffectsList::setProperty(filt, "kdenlive_id", "frei0r.colgate");
+            EffectsList::setProperty(filt, "tag", "frei0r.colgate");
+            EffectsList::setProperty(filt, "mlt_service", "frei0r.colgate");
+            EffectsList::renameProperty(filt, "neutral_color", "Neutral Color");
+            QString value = EffectsList::property(filt, "color_temperature");
+            value = factorizeGeomValue(value, 15000.0);
+            EffectsList::setProperty(filt, "color_temperature", value);
+            EffectsList::renameProperty(filt, "color_temperature", "Color Temperature");
+            convertedFilters << filterId;
+            continue;
+        }
+        if (filterId == "movit.blur" && hasBlur) {
+            // Convert to frei0r.IIRblur
+            filt.setAttribute("id", "frei0r.IIRblur");
+            EffectsList::setProperty(filt, "kdenlive_id", "frei0r.IIRblur");
+            EffectsList::setProperty(filt, "tag", "frei0r.IIRblur");
+            EffectsList::setProperty(filt, "mlt_service", "frei0r.IIRblur");
+            EffectsList::renameProperty(filt, "radius", "Amount");
+            QString value = EffectsList::property(filt, "Amount");
+            value = factorizeGeomValue(value, 14.0);
+            EffectsList::setProperty(filt, "Amount", value);
+            convertedFilters << filterId;
+            continue;
+        }
+        if (filterId == "movit.mirror") {
+            // Convert to MLT's mirror
+            filt.setAttribute("id", "mirror");
+            EffectsList::setProperty(filt, "kdenlive_id", "mirror");
+            EffectsList::setProperty(filt, "tag", "mirror");
+            EffectsList::setProperty(filt, "mlt_service", "mirror");
+            EffectsList::setProperty(filt, "mirror", "flip");
+            convertedFilters << filterId;
+            continue;
+        }
+        if (filterId.startsWith("movit.")) {
+            //TODO: implement conversion for more filters
+            discardedFilters << filterId;
+        }
+    }
+    
+    // Parse all transitions in document
+    QDomNodeList transitions = m_doc.elementsByTagName("transition");
+    max = transitions.count();
+    for (int i = 0; i < max; ++i) {
+        QDomElement t = transitions.at(i).toElement();
+        QString transId = EffectsList::property(t, "mlt_service");
+        if (!transId.startsWith("movit.")) {
+            continue;
+        }
+        if (transId == "movit.overlay" && hasCairo) {
+            // Convert to frei0r.colgate
+            EffectsList::setProperty(t, "mlt_service", "frei0r.cairoblend");
+            convertedFilters << transId;
+            continue;
+        }
+        if (transId.startsWith("movit.")) {
+            //TODO: implement conversion for more filters
+            discardedFilters << transId;
+        }
+    }
+
+    convertedFilters.removeDuplicates();
+    discardedFilters.removeDuplicates();
+    if (discardedFilters.isEmpty()) {
+        KMessageBox::informationList(QApplication::activeWindow(), i18n("The following filters/transitions were converted to non GPU versions:"), convertedFilters);
+    }
+    else {
+        KMessageBox::informationList(QApplication::activeWindow(), i18n("The following filters/transitions were deleted from the project:"), discardedFilters);
+    }
+    m_modified = true;
+    QString scene = m_doc.toString();
+    scene.replace("movit.", "");
+    m_doc.setContent(scene);
+    return true;
+}
+
+QString DocumentValidator::factorizeGeomValue(QString value, double factor)
+{
+    QStringList vals = value.split(";");
+    QString result;
+    QLocale locale;
+    for (int i = 0; i < vals.count(); i++) {
+        QString s = vals.at(i);
+        QString key = s.section("=", 0, 0);
+        QString val = s.section("=", 1, 1);
+        double v = locale.toDouble(val) / factor;
+        result.append(key + "=" + locale.toString(v));
+        if ( i + 1 < vals.count()) result.append(";");
+    }
+    return result;
+}
+
 

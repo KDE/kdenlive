@@ -22,7 +22,7 @@ NotesPlugin::NotesPlugin(ProjectManager *projectManager) :
     QObject(projectManager)
 {
     m_widget = new NotesWidget();
-    connect(m_widget, SIGNAL(insertNotesTimecode()), SLOT(slotInsertTimecode()));
+    connect(m_widget, &NotesWidget::insertNotesTimecode, this, &NotesPlugin::slotInsertTimecode);
     m_widget->setTabChangesFocus(true);
     m_widget->setPlaceholderText(i18n("Enter your project notes here ..."));
     pCore->window()->addDock(i18n("Project Notes"), "notes_widget", m_widget);

@@ -13,7 +13,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "core.h"
 #include "mainwindow.h"
 #include "project/projectmanager.h"
-#include "trackview.h"
 #include "customtrackview.h"
 
 #include "klocalizedstring.h"
@@ -35,7 +34,7 @@ void TimelineSearch::slotInitSearch()
 {
     m_findAction->setEnabled(false);
     m_searchTerm.clear();
-    pCore->projectManager()->currentTrackView()->projectView()->initSearchStrings();
+    pCore->projectManager()->currentTimeline()->projectView()->initSearchStrings();
     pCore->window()->statusBar()->showMessage(i18n("Starting -- find text as you type"));
     m_searchTimer.start(5000);
     qApp->installEventFilter(this);
@@ -45,7 +44,7 @@ void TimelineSearch::slotEndSearch()
 {
     m_searchTerm.clear();
     pCore->window()->statusBar()->showMessage(i18n("Find stopped"), 3000);
-    pCore->projectManager()->currentTrackView()->projectView()->clearSearchStrings();
+    pCore->projectManager()->currentTimeline()->projectView()->clearSearchStrings();
     m_findNextAction->setEnabled(false);
     m_findAction->setEnabled(true);
     qApp->removeEventFilter(this);
@@ -53,7 +52,7 @@ void TimelineSearch::slotEndSearch()
 
 void TimelineSearch::slotFindNext()
 {
-    if (pCore->projectManager()->currentTrackView() && pCore->projectManager()->currentTrackView()->projectView()->findNextString(m_searchTerm)) {
+    if (pCore->projectManager()->currentTimeline() && pCore->projectManager()->currentTimeline()->projectView()->findNextString(m_searchTerm)) {
         pCore->window()->statusBar()->showMessage(i18n("Found: %1", m_searchTerm));
     } else {
         pCore->window()->statusBar()->showMessage(i18n("Reached end of project"));
@@ -63,7 +62,7 @@ void TimelineSearch::slotFindNext()
 
 void TimelineSearch::search()
 {
-    if (pCore->projectManager()->currentTrackView() && pCore->projectManager()->currentTrackView()->projectView()->findString(m_searchTerm)) {
+    if (pCore->projectManager()->currentTimeline() && pCore->projectManager()->currentTimeline()->projectView()->findString(m_searchTerm)) {
         m_findNextAction->setEnabled(true);
         pCore->window()->statusBar()->showMessage(i18n("Found: %1", m_searchTerm));
     } else {

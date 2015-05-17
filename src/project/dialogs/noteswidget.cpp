@@ -30,7 +30,7 @@ NotesWidget::NotesWidget(QWidget * parent) :
         QTextEdit(parent)
 {
     setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(this, SIGNAL(customContextMenuRequested(const QPoint &)), SLOT(slotFillNotesMenu(const QPoint &)));
+    connect(this, &NotesWidget::customContextMenuRequested, this, &NotesWidget::slotFillNotesMenu);
     setMouseTracking(true);
 }
 
@@ -38,7 +38,7 @@ void NotesWidget::slotFillNotesMenu(const QPoint &pos)
 {
     QMenu *menu = createStandardContextMenu();
     QAction *a = new QAction(i18n("Insert current timecode"), menu);
-    connect(a, SIGNAL(triggered(bool)), this, SIGNAL(insertNotesTimecode()));
+    connect(a, &QAction::triggered, this, &NotesWidget::insertNotesTimecode);
     menu->insertAction(menu->actions().at(0), a);
     menu->exec(viewport()->mapToGlobal(pos));
 }

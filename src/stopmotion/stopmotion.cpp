@@ -94,14 +94,13 @@ StopmotionMonitor::StopmotionMonitor(MonitorManager *manager, QWidget *parent) :
     AbstractMonitor(Kdenlive::StopMotionMonitor, manager, parent),
     m_captureDevice(NULL)
 {
-    createVideoSurface();
 }
 
 StopmotionMonitor::~StopmotionMonitor()
 {
 }
 
-void StopmotionMonitor::slotSwitchFullScreen()
+void StopmotionMonitor::slotSwitchFullScreen(bool minimizeOnly)
 {
 }
 
@@ -256,8 +255,6 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
-    m_monitor->videoBox->setLineWidth(4);
-    layout->addWidget(m_monitor->videoBox);
 
     if (KdenliveSettings::decklink_device_found()) {
         // Found a BlackMagic device
@@ -307,7 +304,8 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
         profilePath = KdenliveSettings::current_profile();
     }
 
-    m_captureDevice = new MltDeviceCapture(profilePath, m_monitor->videoSurface, this);
+    //TODO:
+    //m_captureDevice = new MltDeviceCapture(profilePath, m_monitor->videoSurface, this);
     m_captureDevice->sendFrameForAnalysis = KdenliveSettings::analyse_stopmotion();
     m_monitor->setRender(m_captureDevice);
     connect(m_captureDevice, SIGNAL(frameSaved(QString)), this, SLOT(slotNewThumb(QString)));
@@ -458,7 +456,6 @@ void StopmotionWidget::slotLive(bool isOn)
     capture_button->setEnabled(false);
     if (isOn) {
         m_frame_preview->setHidden(true);
-        m_monitor->videoBox->setHidden(false);
         QLocale locale;
         locale.setNumberOptions(QLocale::OmitGroupSeparator);
 
@@ -484,7 +481,8 @@ void StopmotionWidget::slotLive(bool isOn)
         }
 
         if (m_captureDevice == NULL) {
-            m_captureDevice = new MltDeviceCapture(profilePath, m_monitor->videoSurface, this);
+            //TODO:
+            //m_captureDevice = new MltDeviceCapture(profilePath, m_monitor->videoSurface, this);
             m_captureDevice->sendFrameForAnalysis = KdenliveSettings::analyse_stopmotion();
             m_monitor->setRender(m_captureDevice);
             connect(m_captureDevice, SIGNAL(frameSaved(QString)), this, SLOT(slotNewThumb(QString)));
@@ -513,7 +511,6 @@ void StopmotionWidget::slotLive(bool isOn)
         live_button->setChecked(false);
         if (m_captureDevice) {
             m_captureDevice->stop();
-            m_monitor->videoBox->setHidden(true);
             log_box->insertItem(-1, i18n("Stopped"));
             log_box->setCurrentIndex(0);
             //delete m_captureDevice;

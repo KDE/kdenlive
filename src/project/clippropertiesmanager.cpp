@@ -21,7 +21,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "doc/docclipbase.h"
 #include "monitor/monitormanager.h"
 #include "titler/titlewidget.h"
-#include "timeline/trackview.h"
 #include "timeline/customtrackview.h"
 #include "ui_templateclip_ui.h"
 #include <KMessageBox>
@@ -94,11 +93,12 @@ void ClipPropertiesManager::showClipPropertiesDialog(DocClipBase* clip)
                 } else {
                     newprops.insert("templatetext", description);
                 }
-
+		//TODO:
+		/*
                 if (!newprops.isEmpty()) {
                     EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->currentProperties(newprops), newprops, true);
                     project->commandStack()->push(command);
-                }
+                }*/
             }
             delete dia;
             return;
@@ -130,9 +130,10 @@ void ClipPropertiesManager::showClipPropertiesDialog(DocClipBase* clip)
                     newprops.insert("resource", QString());
                 }
             }
-            EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->currentProperties(newprops), newprops, true);
-            project->commandStack()->push(command);
-            //pCore->projectManager()->currentTrackView()->projectView()->slotUpdateClip(clip->getId());
+            //TODO
+            /*EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->currentProperties(newprops), newprops, true);
+            project->commandStack()->push(command);*/
+            //pCore->projectManager()->currentTimeline()->projectView()->slotUpdateClip(clip->getId());
             project->setModified(true);
         }
         delete dia_ui;
@@ -160,15 +161,15 @@ void ClipPropertiesManager::showClipPropertiesDialog(DocClipBase* clip)
         project->clipManager()->slotRequestThumbs(QString('?' + clip->getId()), QList<int>() << clip->getClipThumbFrame());
     }
     
-    connect(dia, SIGNAL(addMarkers(QString,QList<CommentedTime>)), pCore->projectManager()->currentTrackView()->projectView(), SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
-    connect(dia, SIGNAL(editAnalysis(QString,QString,QString)), pCore->projectManager()->currentTrackView()->projectView(), SLOT(slotAddClipExtraData(QString,QString,QString)));
-    connect(pCore->projectManager()->currentTrackView()->projectView(), SIGNAL(updateClipMarkers(DocClipBase*)), dia, SLOT(slotFillMarkersList(DocClipBase*)));
-    connect(pCore->projectManager()->currentTrackView()->projectView(), SIGNAL(updateClipExtraData(DocClipBase*)), dia, SLOT(slotUpdateAnalysisData(DocClipBase*)));
-    connect(m_projectList, SIGNAL(updateAnalysisData(DocClipBase*)), dia, SLOT(slotUpdateAnalysisData(DocClipBase*)));
-    connect(dia, SIGNAL(loadMarkers(QString)), pCore->projectManager()->currentTrackView()->projectView(), SLOT(slotLoadClipMarkers(QString)));
-    connect(dia, SIGNAL(saveMarkers(QString)), pCore->projectManager()->currentTrackView()->projectView(), SLOT(slotSaveClipMarkers(QString)));
-    connect(dia, SIGNAL(deleteProxy(QString)), m_projectList, SLOT(slotDeleteProxy(QString)));
-    connect(dia, SIGNAL(applyNewClipProperties(QString,QMap<QString,QString>,QMap<QString,QString>,bool,bool)), SLOT(slotApplyNewClipProperties(QString,QMap<QString,QString>,QMap<QString,QString>,bool,bool)));
+    connect(dia, SIGNAL(addMarkers(QString,QList<CommentedTime>)), pCore->bin(), SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
+    connect(dia, SIGNAL(editAnalysis(QString,QString,QString)), pCore->projectManager()->currentTimeline()->projectView(), SLOT(slotAddClipExtraData(QString,QString,QString)));
+    connect(pCore->projectManager()->currentTimeline()->projectView(), SIGNAL(updateClipMarkers(DocClipBase*)), dia, SLOT(slotFillMarkersList(DocClipBase*)));
+    connect(pCore->projectManager()->currentTimeline()->projectView(), SIGNAL(updateClipExtraData(DocClipBase*)), dia, SLOT(slotUpdateAnalysisData(DocClipBase*)));
+    connect(m_projectList, &ProjectList::updateAnalysisData, dia, &ClipProperties::slotUpdateAnalysisData);
+    connect(dia, SIGNAL(loadMarkers(QString)), pCore->bin(), SLOT(slotLoadClipMarkers(QString)));
+    connect(dia, SIGNAL(saveMarkers(QString)), pCore->projectManager()->currentTimeline()->projectView(), SLOT(slotSaveClipMarkers(QString)));
+    connect(dia, &ClipProperties::deleteProxy, m_projectList, &ProjectList::slotDeleteProxy);
+    connect(dia, &ClipProperties::applyNewClipProperties, this, &ClipPropertiesManager::slotApplyNewClipProperties);
     dia->show();
 }
 
@@ -184,16 +185,17 @@ void ClipPropertiesManager::showClipPropertiesDialog(const QList< DocClipBase* >
         QMap <QString, QString> newProps = newImageProps;
         newProps.remove("transparency");
 
-        for (int i = 0; i < cliplist.count(); ++i) {
+        //TODO
+	/*for (int i = 0; i < cliplist.count(); ++i) {
             DocClipBase *clip = cliplist.at(i);
             if (clip->clipType() == Image)
                 new EditClipCommand(m_projectList, clip->getId(), clip->currentProperties(newImageProps), newImageProps, true, command);
             else
                 new EditClipCommand(m_projectList, clip->getId(), clip->currentProperties(newProps), newProps, true, command);
-        }
+        }*/
         pCore->projectManager()->current()->commandStack()->push(command);
         for (int i = 0; i < cliplist.count(); ++i) {
-            pCore->projectManager()->currentTrackView()->projectView()->slotUpdateClip(cliplist.at(i)->getId(), dia->needsTimelineReload());
+            pCore->projectManager()->currentTimeline()->projectView()->slotUpdateClip(cliplist.at(i)->getId(), dia->needsTimelineReload());
         }
     }
     delete dia;
@@ -204,14 +206,14 @@ void ClipPropertiesManager::slotApplyNewClipProperties(const QString& id, const 
     if (newProperties.isEmpty()) {
         return;
     }
-
-    EditClipCommand *command = new EditClipCommand(m_projectList, id, properties, newProperties, true);
-    pCore->projectManager()->current()->commandStack()->push(command);
+    //TODO
+    /*EditClipCommand *command = new EditClipCommand(m_projectList, id, properties, newProperties, true);
+    pCore->projectManager()->current()->commandStack()->push(command);*/
     pCore->projectManager()->current()->setModified();
 
     if (refresh) {
         // update clip occurrences in timeline
-        pCore->projectManager()->currentTrackView()->projectView()->slotUpdateClip(id, reload);
+        pCore->projectManager()->currentTimeline()->projectView()->slotUpdateClip(id, reload);
     }
 }
 

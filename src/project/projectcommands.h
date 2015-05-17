@@ -21,10 +21,16 @@
 #ifndef PROJECTCOMMANDS_H
 #define PROJECTCOMMANDS_H
 
+#include "definitions.h"
+
 #include <QUndoCommand>
 #include <QMap>
 #include <QPoint>
+
 class ProjectList;
+class KdenliveDoc;
+class ProjectClip;
+
 
 class AddClipCutCommand : public QUndoCommand
 {
@@ -58,18 +64,22 @@ private:
 class EditClipCommand : public QUndoCommand
 {
 public:
-    EditClipCommand(ProjectList *list, const QString &id, const QMap <QString, QString> &oldparams, const QMap <QString, QString> &newparams, bool doIt, QUndoCommand * parent = 0);
+    EditClipCommand(KdenliveDoc *doc, const QString &id, const QMap <QString, QString> &oldparams, const QMap <QString, QString> &newparams, bool doIt, QUndoCommand * parent = 0);
     void undo();
     void redo();
 private:
-    ProjectList *m_list;
+    KdenliveDoc *m_doc;
     QMap <QString, QString> m_oldparams;
     QMap <QString, QString> m_newparams;
     QString m_id;
+    /** @brief Should this command be executed on first redo ? TODO: we should refactor the code to get rid of this and always execute actions through the command system.
+     *. */
     bool m_doIt;
+    /** @brief This value is true is this is the first time we execute the command, false otherwise. This allows us to refresh the properties panel 
+     * only on the later executions of the command, since on the first execution, the properties panel already contains the correct info. */
+    bool m_firstExec;
 };
 
-class ProjectList;
 
 class EditClipCutCommand : public QUndoCommand
 {
@@ -99,6 +109,18 @@ private:
     QString m_oldname;
     QString m_id;
     bool m_doIt;
+};
+
+class AddMarkerCommand : public QUndoCommand
+{
+public:
+    AddMarkerCommand(ProjectClip *clip, QList <CommentedTime> &oldMarkers, QList <CommentedTime> &newMarkers, QUndoCommand * parent = 0);
+    void undo();
+    void redo();
+private:
+    ProjectClip *m_clip;
+    QList <CommentedTime> m_oldMarkers;
+    QList <CommentedTime> m_newMarkers;
 };
 
 #endif

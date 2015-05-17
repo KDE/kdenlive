@@ -80,9 +80,9 @@ Spectrogram::Spectrogram(QWidget *parent) :
     ui->windowSize->setToolTip(i18n("A bigger window improves the accuracy at the cost of computational power."));
     ui->windowFunction->setToolTip(i18n("The rectangular window function is good for signals with equal signal strength (narrow peak), but creates more smearing. See Window function on Wikipedia."));
 
-    connect(m_aResetHz, SIGNAL(triggered()), this, SLOT(slotResetMaxFreq()));
+    connect(m_aResetHz, &QAction::triggered, this, &Spectrogram::slotResetMaxFreq);
     connect(ui->windowFunction, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdate()));
-    connect(this, SIGNAL(signalMousePositionChanged()), this, SLOT(forceUpdateHUD()));
+    connect(this, &Spectrogram::signalMousePositionChanged, this, &Spectrogram::forceUpdateHUD);
 
     AbstractScopeWidget::init();
 

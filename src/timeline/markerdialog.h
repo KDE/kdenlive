@@ -23,9 +23,12 @@
 
 
 #include "ui_markerdialog_ui.h"
-#include "doc/docclipbase.h"
+
+#include "definitions.h"
 #include "timecode.h"
 #include "timecodedisplay.h"
+
+class ClipController;
 
 namespace Mlt
 {
@@ -44,7 +47,7 @@ class MarkerDialog : public QDialog, public Ui::MarkerDialog_UI
     Q_OBJECT
 
 public:
-    explicit MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget * parent = 0);
+    explicit MarkerDialog(ClipController *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget * parent = 0);
     ~MarkerDialog();
 
     CommentedTime newMarker();
@@ -54,10 +57,7 @@ private slots:
     void slotUpdateThumb();
 
 private:
-    Mlt::Producer *m_producer;
-    Mlt::Profile *m_profile;
-    DocClipBase *m_clip;
-    QImage m_image;
+    ClipController *m_clip;
     TimecodeDisplay *m_in;
     double m_dar;
     QTimer *m_previewTimer;

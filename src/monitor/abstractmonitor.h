@@ -21,7 +21,6 @@
 #define ABSTRACTMONITOR_H
 
 #include "definitions.h"
-#include "monitor/videosurface.h"
 
 #include <stdint.h>
 
@@ -32,8 +31,7 @@
 #include <QFrame>
 
 class MonitorManager;
-class VideoContainer;
-class VideoSurface;
+class GLWidget;
 
 class AbstractRender: public QObject
 {
@@ -85,40 +83,18 @@ public:
     virtual ~AbstractMonitor();
     virtual AbstractRender *abstractRender() = 0;
     bool isActive() const;
-    VideoContainer *videoBox;
-    VideoSurface *videoSurface;
-    void createVideoSurface();
-    
-    
+
 public slots:
     virtual void stop() = 0;
     virtual void start() = 0;
     virtual void slotPlay() = 0;
     virtual void slotMouseSeek(int eventDelta, bool fast) = 0;
     bool slotActivateMonitor(bool forceRefresh = false);
-    virtual void slotSwitchFullScreen() = 0;
+    virtual void slotSwitchFullScreen(bool minimizeOnly = false) = 0;
 
 protected:
     Kdenlive::MonitorId m_id;
     MonitorManager *m_monitorManager;
-};
-
-class VideoContainer : public QFrame
-{
-    Q_OBJECT
-public:
-    explicit VideoContainer(AbstractMonitor *monitor, QWidget *parent = 0);
-    void switchFullScreen();
-
-protected:
-    virtual void mouseDoubleClickEvent(QMouseEvent * event);
-    virtual void mouseReleaseEvent(QMouseEvent *event);
-    void keyPressEvent(QKeyEvent *event);
-    virtual void wheelEvent(QWheelEvent * event);
-
-private:
-    Qt::WindowFlags m_baseFlags;
-    AbstractMonitor *m_monitor;
 };
 
 #endif

@@ -30,13 +30,13 @@
 #include "widgets/doubleparameterwidget.h"
 #include "widgets/cornerswidget.h"
 #include "widgets/bezier/beziersplinewidget.h"
+#include "effectstack/widgets/lumaliftgain.h"
 
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "colortools.h"
-#include "dialogs/profilesdialog.h"
-#include "project/projectlist.h"
-#include "timeline/customtrackview.h"
+#include "dialogs/clipcreationdialog.h"
+#include "mltcontroller/effectscontroller.h"
 #include "onmonitoritems/rotoscoping/rotowidget.h"
 
 #include "ui_listval_ui.h"
@@ -123,7 +123,14 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
     m_vbox->setContentsMargins(4, 0, 4, 0);
     m_vbox->setSpacing(2);
 
-    for (int i = 0; i < namenode.count() ; ++i) {
+    if (effect.attribute("id") == "movit.lift_gamma_gain" || effect.attribute("id") == "lift_gamma_gain" ) {
+        // We use a special custom widget here
+        LumaLiftGain *gainWidget = new LumaLiftGain(namenode, parent);
+        m_vbox->addWidget(gainWidget);
+        m_valueItems[effect.attribute("id")] = gainWidget;
+        connect(gainWidget, SIGNAL(valueChanged()), this, SLOT(slotCollectAllParameters()));
+    }
+    else for (int i = 0; i < namenode.count() ; ++i) {
         QDomElement pa = namenode.item(i).toElement();
         if (pa.tagName() != "parameter") continue;
         QDomElement na = pa.firstChildElement("name");
@@ -144,11 +151,11 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             double min;
             double max;
             if (pa.attribute("min").contains('%'))
-                min = ProfilesDialog::getStringEval(m_metaInfo->profile, pa.attribute("min"), m_metaInfo->frameSize);
+                min = EffectsController::getStringEval(m_metaInfo->monitor->profileInfo(), pa.attribute("min"), m_metaInfo->frameSize);
             else
                 min = pa.attribute("min").toDouble();
             if (pa.attribute("max").contains('%'))
-                max = ProfilesDialog::getStringEval(m_metaInfo->profile, pa.attribute("max"), m_metaInfo->frameSize);
+                max = EffectsController::getStringEval(m_metaInfo->monitor->profileInfo(), pa.attribute("max"), m_metaInfo->frameSize);
             else
                 max = pa.attribute("max").toDouble();
 
@@ -219,9 +226,9 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             m_valueItems[paramName+"complex"] = pl;
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
         } else if (type == "geometry") {
-            if (KdenliveSettings::on_monitor_effects()) {
+            if (true /*KdenliveSettings::on_monitor_effects()*/) {
 		m_needsMonitorEffectScene = true;
-                m_geometryWidget = new GeometryWidget(m_metaInfo->monitor, m_metaInfo->timecode, 0, effect.hasAttribute("showrotation"), parent);
+                m_geometryWidget = new GeometryWidget(m_metaInfo->monitor, m_metaInfo->timecode, info.startPos.frames(KdenliveSettings::project_fps()), effect.hasAttribute("showrotation"), parent);
                 m_geometryWidget->setFrameSize(m_metaInfo->frameSize);
                 connect(m_geometryWidget, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
                 if (minFrame == maxFrame) {
@@ -236,7 +243,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
 		connect(m_geometryWidget, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
                 connect(this, SIGNAL(syncEffectsPos(int)), m_geometryWidget, SLOT(slotSyncPosition(int)));
             } else {
-                Geometryval *geo = new Geometryval(m_metaInfo->profile, m_metaInfo->timecode, m_metaInfo->frameSize, 0);
+                Geometryval *geo = new Geometryval(m_metaInfo->monitor->profile(), m_metaInfo->timecode, m_metaInfo->frameSize, 0);
                 if (minFrame == maxFrame) {
                     geo->setupParam(pa, m_in, m_out);
 		    connect(this, SIGNAL(updateRange(int,int)), geo, SLOT(slotUpdateRange(int,int)));
@@ -417,7 +424,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             cval->setupUi(toFillin);
             cval->label->setText(paramName);
 	    cval->setToolTip(comment);
-            cval->urlwidget->setFilter(ProjectList::getExtensions().join(' '));
+            cval->urlwidget->setFilter(ClipCreationDialog::getExtensions().join(' '));
             m_valueItems[paramName] = cval;
             cval->urlwidget->setUrl(QUrl(value));
             connect(cval->urlwidget, SIGNAL(returnPressed()) , this, SLOT(slotCollectAllParameters()));
@@ -593,6 +600,14 @@ void ParameterContainer::slotCollectAllParameters()
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     const QDomElement oldparam = m_effect.cloneNode().toElement();
     //QDomElement newparam = oldparam.cloneNode().toElement();
+    
+    if (m_effect.attribute("id") == "movit.lift_gamma_gain" || m_effect.attribute("id") == "lift_gamma_gain" ) {
+        LumaLiftGain *gainWidget = ((LumaLiftGain*)m_valueItems.value(m_effect.attribute("id")));
+        gainWidget->updateEffect(m_effect);
+        emit parameterChanged(oldparam, m_effect, m_effect.attribute("kdenlive_ix").toInt());
+        return;
+    }
+
     QDomNodeList namenode = m_effect.elementsByTagName("parameter");
 
     for (int i = 0; i < namenode.count() ; ++i) {
@@ -631,12 +646,12 @@ void ParameterContainer::slotCollectAllParameters()
             ComplexParameter *complex = static_cast<ComplexParameter*>(m_valueItems.value(paramName));
             namenode.item(i) = complex->getParamDesc();
         } else if (type == "geometry") {
-            if (KdenliveSettings::on_monitor_effects()) {
+            /*if (KdenliveSettings::on_monitor_effects())*/ {
                 if (m_geometryWidget) namenode.item(i).toElement().setAttribute("value", m_geometryWidget->getValue());
-            } else {
+            }/* else {
                 Geometryval *geom = static_cast<Geometryval*>(m_valueItems.value(paramName));
                 namenode.item(i).toElement().setAttribute("value", geom->getValue());
-            }
+            }*/
         } else if (type == "addedgeometry") {
             if (m_geometryWidget) namenode.item(i).toElement().setAttribute("value", m_geometryWidget->getExtraValue(namenode.item(i).toElement().attribute("name")));
         } else if (type == "position") {
@@ -839,7 +854,7 @@ void ParameterContainer::slotStartFilterJobAction()
 		// Replace with current geometry
 		EffectsParameterList parameters;
 		QDomNodeList params = m_effect.elementsByTagName("parameter");
-		CustomTrackView::adjustEffectParameters(parameters, params, m_metaInfo->profile);
+		EffectsController::adjustEffectParameters(parameters, params, m_metaInfo->monitor->profileInfo());
 		QString paramData;
 		for (int j = 0; j < parameters.count(); ++j) {
 		    filterParams.insert(parameters.at(j).name(), parameters.at(j).value());
