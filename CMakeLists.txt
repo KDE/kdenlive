@@ -2,7 +2,7 @@ project(Kdenlive)
 
 # An odd patch version number means development version, while an even one means
 # stable release. An additional number can be used for bugfix-only releases.
-set(KDENLIVE_VERSION 15.04.1)
+set(KDENLIVE_VERSION 15.04.2)
 cmake_minimum_required(VERSION 2.8.12)
 # Minimum versions of main dependencies.
 set(MLT_MIN_MAJOR_VERSION 0)
@@ -28,7 +28,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 SET(CMAKE_CXX_FLAGS "-fPIC")
 # To be switched on when releasing.
-option(RELEASE_BUILD "Remove Git revision from program version (use for stable releases)" ON)
+option(RELEASE_BUILD "Remove Git revision from program version (use for stable releases)" OFF)
 
 # Get current version.
 set(KDENLIVE_VERSION_STRING "${KDENLIVE_VERSION}")
