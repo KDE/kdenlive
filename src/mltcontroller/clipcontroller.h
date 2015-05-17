@@ -167,9 +167,12 @@ public:
     /** @brief Enable/disable an effect. */
     void changeEffectState(const QList <int> indexes, bool disable);
     void updateEffect(const ProfileInfo pInfo, const QDomElement &old, const QDomElement &e, int ix);
+    /** @brief Returns true if the bin clip has effects */
     bool hasEffects() const;
     /** @brief Returns info about clip audio */
     AudioStreamInfo *audioInfo() const;
+    /** @brief Returns true if audio thumbnails for this clip are cached */
+    bool audioThumbCreated;
 
 private:
     Mlt::Producer *m_masterProducer;

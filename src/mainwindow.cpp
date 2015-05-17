@@ -1749,8 +1749,6 @@ void MainWindow::updateConfiguration()
         pCore->projectManager()->currentTimeline()->refresh();
         pCore->projectManager()->currentTimeline()->projectView()->checkAutoScroll();
         pCore->projectManager()->currentTimeline()->checkTrackHeight();
-        if (pCore->projectManager()->current())
-            pCore->projectManager()->current()->clipManager()->checkAudioThumbs();
     }
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
@@ -1780,12 +1778,10 @@ void MainWindow::slotSwitchVideoThumbs()
 void MainWindow::slotSwitchAudioThumbs()
 {
     KdenliveSettings::setAudiothumbnails(!KdenliveSettings::audiothumbnails());
+    pCore->binController()->checkAudioThumbs();
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->refresh();
         pCore->projectManager()->currentTimeline()->projectView()->checkAutoScroll();
-        if (pCore->projectManager()->current()) {
-            pCore->projectManager()->current()->clipManager()->checkAudioThumbs();
-        }
     }
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
 }

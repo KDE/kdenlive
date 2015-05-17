@@ -143,6 +143,9 @@ public:
     /** @brief Load thumbnails for all producers */
     void checkThumbnails(const QString thumbFolder);
 
+    /** @brief Request audio thumbnails for all producers */
+    void checkAudioThumbs();
+
 public slots:
     /** @brief Stored a Bin Folder id / name to MLT's bin playlist. Using an empry folderName deletes the property */
     void slotStoreFolder(const QString &folderId, const QString &parentId, const QString &oldParentId, const QString &folderName);
@@ -174,6 +177,8 @@ signals:
     void loadThumb(QString,QImage,bool);
     void createThumb(const QDomElement&,const QString&,int);
     void reloadTrackProducers(const QString &id);
+    void requestAudioThumb(const QString&);
+    void abortAudioThumb(const QString&);
 };
 
 #endif

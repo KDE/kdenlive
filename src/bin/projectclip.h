@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QUrl>
 #include <QMutex>
+#include <QFuture>
 
 class ProjectFolder;
 class QDomElement;
@@ -173,7 +174,7 @@ public:
     
     /** Cache for every audio Frame with 10 Bytes */
     /** format is frame -> channel ->bytes */
-    QMap<int, QMap<int, QByteArray> > audioFrameCache;
+    QVariantList *audioFrameCache;
     bool audioThumbCreated() const;
 
     void updateParentInfo(const QString &folderid, const QString &foldername);
@@ -191,9 +192,15 @@ public:
     /** @brief Add an effect to bin clip. */
     void addEffect(const ProfileInfo pInfo, QDomElement &effect);
     void removeEffect(const ProfileInfo pInfo, int ix);
+    /** @brief Create audio thumbnail for this clip. */
+    void createAudioThumbs();
+    /** @brief Abort audio thumbnail for this clip. */
+    void abortAudioThumbs();
+    /** @brief Returns the number of audio channels. */
+    int audioChannels() const;
 
 public slots:
-    void updateAudioThumbnail(const audioByteArray& data);
+    void updateAudioThumbnail(QVariantList* audioLevels);
     void slotExtractImage(QList <int> frames);
     void slotCreateAudioThumbs();
 
@@ -208,10 +215,11 @@ private:
     Mlt::Producer *m_gpuProducer;
     /** @brief Generate and store file hash if not available. */
     const QString getFileHash() const;
-    bool m_audioThumbCreated;
     /** @brief Store clip url temporarily while the clip controller has not been created. */
     QUrl m_temporaryUrl;
     bool m_abortAudioThumb;
+    /** @brief Indicates whether audio thumbnail creation is running. */
+    QFuture<void> m_audioThumbsThread;
 
 signals:
     void gotAudioData();

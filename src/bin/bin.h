@@ -484,6 +484,10 @@ public slots:
     void slotLoadClipMarkers(const QString &id);
     void slotDuplicateClip();
     void slotDeleteEffect(const QString &id, QDomElement effect);
+    /** @brief Request audio thumbnail for clip with id */
+    void slotCreateAudioThumb(const QString &id);
+    /** @brief Abort audio thumbnail for clip with id */
+    void slotAbortAudioThumb(const QString &id);
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);

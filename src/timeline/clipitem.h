@@ -246,7 +246,6 @@ private slots:
     void slotGetStartThumb();
     void slotGetEndThumb();
     void slotGotAudioData();
-    void slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, int endpixel, int channels, int pixelHeight);
     void animate(qreal value);
     void slotSetStartThumb(const QImage &img);
     void slotSetEndThumb(const QImage &img);
@@ -261,7 +260,6 @@ public slots:
     void slotUpdateRange();
 
 signals:
-    void prepareAudioThumb(double, int, int, int, int);
     void updateRange();
 };
 

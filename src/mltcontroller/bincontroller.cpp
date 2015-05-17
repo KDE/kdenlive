@@ -84,7 +84,6 @@ void BinController::destroyBin()
         delete m_binPlaylist;
         m_binPlaylist = NULL;
     }
-    // Controllers are deleted from the Bin's ProjectClip
     qDeleteAll(m_clipList.values());
     m_clipList.clear();
 }
@@ -439,3 +438,22 @@ void BinController::checkThumbnails(const QString thumbFolder)
         }
     }
 }
+
+void BinController::checkAudioThumbs()
+{
+    QMapIterator<QString, ClipController *> i(m_clipList);
+    while (i.hasNext()) {
+        i.next();
+        ClipController *ctrl = i.value();
+        if (!ctrl->audioThumbCreated) {
+            if (KdenliveSettings::audiothumbnails()) {
+                // We want audio thumbnails
+                emit requestAudioThumb(ctrl->clipId());
+            } else {
+                // Abort all pending thumb creation
+                emit abortAudioThumb(ctrl->clipId());
+            }
+        }
+    }
+}
+

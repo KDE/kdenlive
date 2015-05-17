@@ -40,6 +40,7 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer& prod
     , m_properties(new Mlt::Properties(producer.get_properties()))
     , selectedEffectIndex(1)
     , m_audioInfo(NULL)
+    , audioThumbCreated(false)
 {
     m_masterProducer = &producer;
     m_effectList = EffectsList(true);
@@ -68,6 +69,7 @@ ClipController::ClipController(BinController *bincontroller) : QObject()
     , m_properties(NULL)
     , selectedEffectIndex(1)
     , m_audioInfo(NULL)
+    , audioThumbCreated(false)
 {
     m_masterProducer = NULL;
     m_effectList = EffectsList(true);
@@ -656,8 +658,4 @@ bool ClipController::hasEffects() const
 {
     return !m_effectList.isEmpty();
 }
-
-
-
-
 

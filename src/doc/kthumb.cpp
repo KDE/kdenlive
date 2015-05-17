@@ -354,11 +354,6 @@ void KThumb::getThumbs(QUrl url, int startframe, int endframe, int width, int he
 }
 */
 
-void KThumb::slotCreateAudioThumbs()
-{
-    m_clipManager->askForAudioThumb(m_id);
-}
-
 void KThumb::queryIntraThumbs(const QSet <int> &missingFrames)
 {
     m_intraMutex.lock();

@@ -2074,3 +2074,17 @@ void Bin::emitMessage(const QString &text, MessageType type)
     emit displayMessage(text, type);
 }
 
+void Bin::slotCreateAudioThumb(const QString &id)
+{
+    ProjectClip *clip = m_rootFolder->clip(id);
+    if (!clip) return;
+    clip->createAudioThumbs();
+}
+
+void Bin::slotAbortAudioThumb(const QString &id)
+{
+    ProjectClip *clip = m_rootFolder->clip(id);
+    if (!clip) return;
+    clip->abortAudioThumbs();
+}
+

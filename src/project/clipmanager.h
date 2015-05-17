@@ -79,11 +79,9 @@ Q_OBJECT public:
     //const QList <DocClipBase *> getClipByResource(const QString &resource);
     void slotDeleteClips(QStringList clipIds, QStringList folderIds, QUndoCommand *deleteCommand);
     void setThumbsProgress(const QString &message, int progress);
-    void checkAudioThumbs();
     QMap <QString, QString> documentFolderList() const;
     int getFreeFolderId();
     int lastClipId() const;
-    void askForAudioThumb(const QString &id);
     QString projectFolder() const;
     void clearUnusedProducers();
     /** @brief Prepare deletion of clips and folders from the Bin. */
@@ -110,7 +108,6 @@ private slots:
     /** Check the list of externally modified clips, and process them if they were not modified in the last 1500 milliseconds */
     void slotProcessModifiedClips();
     void slotGetThumbs();
-    void slotGetAudioThumbs();
     /** @brief Clip has been copied, add it now. */
     void slotAddCopiedClip(KIO::Job *job, const QUrl &, const QUrl &dst);
 

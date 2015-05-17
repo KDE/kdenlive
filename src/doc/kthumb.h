@@ -68,7 +68,6 @@ public:
 
 public slots:
     void updateClipUrl(const QUrl &url, const QString &hash);
-    void slotCreateAudioThumbs();
 
 public:
     static QPixmap getImage(const QUrl &url, int width, int height);
