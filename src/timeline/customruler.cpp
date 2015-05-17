@@ -63,8 +63,7 @@ CustomRuler::CustomRuler(const Timecode &tc, CustomTrackView *parent) :
         m_headPosition(SEEK_INACTIVE),
         m_clickedGuide(-1),
         m_rate(-1),
-        m_mouseMove(NO_MOVE),
-        m_cursorColor(palette().text())
+        m_mouseMove(NO_MOVE)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QFontMetricsF fontMetrics(font());
@@ -80,8 +79,6 @@ CustomRuler::CustomRuler(const Timecode &tc, CustomTrackView *parent) :
     LITTLE_MARK_X = BIG_MARK_X + mark_length / 3;
     updateFrameSize();
     m_scale = 3;
-    m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::FocusColor, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
-    m_zoneColor.setAlpha(180);
     m_zoneStart = 0;
     m_zoneEnd = 100;
     m_contextMenu = new QMenu(this);
@@ -96,13 +93,6 @@ CustomRuler::CustomRuler(const Timecode &tc, CustomTrackView *parent) :
     m_goMenu = m_contextMenu->addMenu(i18n("Go To"));
     connect(m_goMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotGoToGuide(QAction*)));
     setMouseTracking(true);
-}
-
-void CustomRuler::updatePalette()
-{
-    m_cursorColor = palette().text();
-    m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::FocusColor, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
-    m_zoneColor.setAlpha(180);
 }
 
 void CustomRuler::updateProjectFps(const Timecode &t)
@@ -235,17 +225,9 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
 
     } else {
         int pos = (int)((event->x() + m_offset));
-	if (m_cursorColor == palette().text() && qAbs(pos - m_view->cursorPos() * m_factor) < 7) {
-	    // Mouse is over cursor
-	    m_cursorColor = palette().link();
-	    update(m_view->cursorPos() * m_factor - m_offset - 10, LABEL_SIZE + 2, 20, MAX_HEIGHT - LABEL_SIZE - 2);
-	}
-	else if (m_cursorColor == palette().link() && qAbs(pos - m_view->cursorPos() * m_factor) >= 7) {
-	    m_cursorColor = palette().text();
-	    update(m_view->cursorPos() * m_factor - m_offset - 10, LABEL_SIZE + 2, 20, MAX_HEIGHT - LABEL_SIZE - 2);
-	}
-	
-        if (event->y() <= 10) setCursor(Qt::ArrowCursor);
+        if (event->y() <= 10) {
+            setCursor(Qt::ArrowCursor);
+        }
         else if (qAbs(pos - m_zoneStart * m_factor) < 4) {
             setCursor(QCursor(Qt::SizeHorCursor));
             if (KdenliveSettings::frametimecode()) setToolTip(i18n("Zone start: %1", m_zoneStart));
@@ -267,15 +249,6 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
 }
 
 
-// virtual
-void CustomRuler::leaveEvent(QEvent * event)
-{
-    QWidget::leaveEvent(event);
-    if (m_cursorColor == palette().link()) {
-        m_cursorColor = palette().text();
-        update();
-    }
-}
 
 // virtual
 void CustomRuler::wheelEvent(QWheelEvent * e)
@@ -404,7 +377,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     // Draw zone background
     const int zoneStart = (int)(m_zoneStart * m_factor);
     const int zoneEnd = (int)(m_zoneEnd * m_factor);
-    p.fillRect(zoneStart - m_offset, LABEL_SIZE + 2, zoneEnd - zoneStart, MAX_HEIGHT - LABEL_SIZE - 2, m_zoneColor);
+    p.fillRect(zoneStart - m_offset, LABEL_SIZE + 2, zoneEnd - zoneStart, MAX_HEIGHT - LABEL_SIZE - 2, palette().color(QPalette::Highlight));
     
     double f, fend;
     const int offsetmax = ((paintRect.right() + m_offset) / FRAME_SIZE + 1) * FRAME_SIZE;
@@ -476,7 +449,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     const int value  =  m_view->cursorPos() * m_factor - m_offset;
     QPolygon pa(3);
     pa.setPoints(3, value - FONT_WIDTH, LABEL_SIZE + 3, value + FONT_WIDTH, LABEL_SIZE + 3, value, MAX_HEIGHT);
-    p.setBrush(m_cursorColor);
+    p.setBrush(palette().brush(QPalette::Text));
     p.setPen(Qt::NoPen);
     p.drawPolygon(pa);
     if (m_headPosition == m_view->cursorPos()) {

@@ -393,7 +393,6 @@ private:
     QMutex m_selectionMutex;
     QMutex m_mutex;
     QWaitCondition m_producerNotReady;
-    KStatefulBrush m_activeTrackBrush;
 
     AudioCorrelation *m_audioCorrelator;
     ClipItem *m_audioAlignmentReference;

@@ -45,7 +45,6 @@ public:
 protected:
     void paintEvent(QPaintEvent *e);
     void resizeEvent(QResizeEvent *);
-    void leaveEvent(QEvent * event);
     void mousePressEvent(QMouseEvent * event);
     void mouseMoveEvent(QMouseEvent * event);
     void mouseReleaseEvent(QMouseEvent * event);
@@ -59,13 +58,11 @@ private:
     int m_offset;
     int m_zoneStart;
     int m_zoneEnd;
-    QColor m_zoneColor;
     QList <CommentedTime> m_markers;
     QPixmap m_pixmap;
     Monitor *m_monitor;
     Render *m_render;
     int m_lastSeekPosition;
-    QBrush m_cursorColor;
     void updatePixmap();
 
 public slots:

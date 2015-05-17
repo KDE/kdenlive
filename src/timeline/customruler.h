@@ -49,15 +49,13 @@ public:
     int offset() const;
     void updateProjectFps(const Timecode &t);
     void updateFrameSize();
-    void updatePalette();
-    
+
 protected:
     void paintEvent(QPaintEvent * /*e*/);
     void wheelEvent(QWheelEvent * e);
     void mousePressEvent(QMouseEvent * event);
     void mouseReleaseEvent(QMouseEvent * event);
     void mouseMoveEvent(QMouseEvent * event);
-    void leaveEvent(QEvent * event);
 
 private:
     Timecode m_timecode;
@@ -65,7 +63,6 @@ private:
     int m_zoneStart;
     int m_zoneEnd;
     int m_duration;
-    QColor m_zoneColor;
     double m_textSpacing;
     double m_factor;
     double m_scale;
@@ -83,7 +80,6 @@ private:
     int m_startRate;
     MOUSE_MOVE m_mouseMove;
     QMenu *m_goMenu;
-    QBrush m_cursorColor;
 
 
 public slots:

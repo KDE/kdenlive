@@ -128,8 +128,6 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     setViewportUpdateMode(QGraphicsView::SmartViewportUpdate);
     setContentsMargins(0, 0, 0, 0);
 
-    m_activeTrackBrush = KStatefulBrush(KColorScheme::View, KColorScheme::ActiveBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
-
     m_animationTimer = new QTimeLine(800);
     m_animationTimer->setFrameRange(0, 5);
     m_animationTimer->setUpdateInterval(100);
@@ -5694,7 +5692,7 @@ void CustomTrackView::drawBackground(QPainter * painter, const QRectF &rect)
         if (info.isLocked || info.type == AudioTrack || i == m_selectedTrack) {
             const QRectF track(min, m_tracksHeight * i + 1, max - min, m_tracksHeight - 1);
             if (i == m_selectedTrack)
-                painter->fillRect(track, m_activeTrackBrush.brush(this));
+                painter->fillRect(track, palette().color(QPalette::Active, QPalette::Mid));
             else
                 painter->fillRect(track, info.isLocked ? lockedColor : audioColor);
         }
@@ -7056,7 +7054,6 @@ void CustomTrackView::clearSelection(bool emitInfo)
 
 void CustomTrackView::updatePalette()
 {
-    m_activeTrackBrush = KStatefulBrush(KColorScheme::View, KColorScheme::ActiveBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     if (m_cursorLine) {
         QPen pen1 = QPen();
         pen1.setWidth(1);

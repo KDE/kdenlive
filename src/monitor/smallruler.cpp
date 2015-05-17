@@ -43,17 +43,12 @@ SmallRuler::SmallRuler(Monitor *monitor, Render *render, QWidget *parent) :
         ,m_monitor(monitor)
 	,m_render(render)
 	,m_lastSeekPosition(SEEK_INACTIVE)
-	,m_cursorColor(palette().text())
 {
     QFontMetricsF fontMetrics(font());
     // Define size variables
     FONT_WIDTH = fontMetrics.averageCharWidth();
     m_zoneStart = 10;
     m_zoneEnd = 60;
-    KSharedConfigPtr config = KSharedConfig::openConfig(KdenliveSettings::colortheme());
-    m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::FocusColor, config).brush(this).color();
-    m_zoneColor.setAlpha(180);
-
     setMouseTracking(true);
     setMinimumHeight(QFontInfo(font()).pixelSize());
     adjustScale(m_maxval, m_offset);
@@ -154,17 +149,6 @@ void SmallRuler::mouseReleaseEvent(QMouseEvent * event)
     event->accept();
 }
 
-
-// virtual
-void SmallRuler::leaveEvent(QEvent * event)
-{
-    QWidget::leaveEvent(event);
-    if (m_cursorColor == palette().link()) {
-	m_cursorColor = palette().text();
-	update();
-    }
-}
-
 // virtual
 void SmallRuler::mouseMoveEvent(QMouseEvent * event)
 {
@@ -177,15 +161,6 @@ void SmallRuler::mouseMoveEvent(QMouseEvent * event)
 	}
     }
     else {
-	if (m_cursorColor == palette().text() && qAbs(pos - m_cursorFramePosition) * m_scale < 7) {
-	    // Mouse is over cursor
-	    m_cursorColor = palette().link();
-	    update();
-	}
-	else if (m_cursorColor == palette().link() && qAbs(pos - m_cursorFramePosition) * m_scale >= 7) {
-	    m_cursorColor = palette().text();
-	    update();
-	}
         if (qAbs((pos - m_zoneStart) * m_scale) < 4) {
             setToolTip(i18n("Zone start: %1", m_monitor->getTimecodeFromFrames(m_zoneStart)));
         } else if (qAbs((pos - m_zoneEnd) * m_scale) < 4) {
@@ -245,7 +220,7 @@ void SmallRuler::updatePixmap()
 
     const int zoneStart = (int)((m_zoneStart -m_offset)* m_scale);
     const int zoneEnd = (int)((m_zoneEnd -m_offset) * m_scale);
-    p.fillRect(zoneStart, 0, zoneEnd - zoneStart, height(), QBrush(m_zoneColor));
+    p.fillRect(zoneStart, 0, zoneEnd - zoneStart, height(), palette().brush(QPalette::Highlight));
 
     // draw ruler
     p.setPen(palette().midlight().color());
@@ -291,7 +266,7 @@ void SmallRuler::paintEvent(QPaintEvent *e)
     // draw pointer
     QPolygon pa(3);
     pa.setPoints(3, cursorPos - FONT_WIDTH, height() - 1, cursorPos + FONT_WIDTH, height() - 1, cursorPos/*+0*/, height() / 2);
-    p.setBrush(m_cursorColor);
+    p.setBrush(palette().brush(QPalette::Text));
     p.setPen(Qt::NoPen);
     p.drawPolygon(pa);
 
@@ -303,10 +278,6 @@ void SmallRuler::paintEvent(QPaintEvent *e)
 
 void SmallRuler::updatePalette()
 {
-    KSharedConfigPtr config = KSharedConfig::openConfig(KdenliveSettings::colortheme());
-    m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::FocusColor, config).brush(this).color();
-    m_zoneColor.setAlpha(180);
-    m_cursorColor = palette().text();
     updatePixmap();
 }
 
