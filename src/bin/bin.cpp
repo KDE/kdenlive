@@ -918,6 +918,7 @@ void Bin::slotInitView(QAction *action)
     m_itemView->setDragDropMode(QAbstractItemView::DragDrop);
     m_itemView->setAlternatingRowColors(true);
     m_itemView->setAcceptDrops(true);
+    m_itemView->setFocus();
 }
 
 void Bin::slotSetIconSize(int size)
