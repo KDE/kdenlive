@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>411</width>
-    <height>295</height>
+    <width>491</width>
+    <height>327</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -88,7 +88,7 @@
    <item row="1" column="0" colspan="5">
     <widget class="QCheckBox" name="kcfg_gpu_accel">
      <property name="text">
-      <string>Use GPU acceleration (Movit library) - restart Kdenlive to apply</string>
+      <string>Use GPU processing (Movit library) - restart Kdenlive to apply</string>
      </property>
     </widget>
    </item>
@@ -156,14 +156,14 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KColorButton</class>
-   <extends>QPushButton</extends>
-   <header>kcolorbutton.h</header>
-  </customwidget>
-  <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KColorButton</class>
+   <extends>QPushButton</extends>
+   <header>kcolorbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

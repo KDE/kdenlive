@@ -135,11 +135,6 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
         filtersList << filters->get_name(i);
     delete filters;
 
-    if (filtersList.contains("glsl.manager")) {
-	// enable movit GPU effects / display
-	movit = true;
-    }
-    
     // Retrieve the list of available producers.
     Mlt::Properties *producers = repository->producers();
     QStringList producersList;
@@ -148,6 +143,13 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
         producersList << producers->get_name(i);
     KdenliveSettings::setProducerslist(producersList);
     delete producers;
+
+    if (filtersList.contains("glsl.manager") && producersList.contains("rtaudio")) {
+        // enable movit GPU effects / display. Currently, Movit crashes with sdl_audio,
+        // So enable only when rtaudio is available
+        movit = true;
+    }
+    else KdenliveSettings::setGpu_accel(false);
 
     // Retrieve the list of available transitions.
     Mlt::Properties *transitions = repository->transitions();

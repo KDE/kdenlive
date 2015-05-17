@@ -266,6 +266,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     
     // enable GPU accel only if Movit is found
     m_configSdl.kcfg_gpu_accel->setEnabled(gpuAllowed);
+    m_configSdl.kcfg_gpu_accel->setToolTip(i18n("GPU processing needs MLT compiled with Movit and Rtaudio modules"));
 
     Render::getBlackMagicDeviceList(m_configCapture.kcfg_decklink_capturedevice);
     if (!Render::getBlackMagicOutputDeviceList(m_configSdl.kcfg_blackmagic_output_device)) {
