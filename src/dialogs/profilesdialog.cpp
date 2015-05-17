@@ -312,7 +312,7 @@ bool ProfilesDialog::existingProfileDescription(const QString &desc)
     }
 
     // List custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, "profiles");
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, "/profiles/", QStandardPaths::LocateDirectory);
     for (int i = 0; i < customProfiles.size(); ++i) {
         QDir customDir(customProfiles.at(i));
         profilesFiles = customDir.entryList(profilesFilter, QDir::Files);
@@ -350,7 +350,7 @@ QString ProfilesDialog::existingProfile(const MltVideoProfile &profile)
     }
 
     // Check custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, "profiles");
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, "/profiles/", QStandardPaths::LocateDirectory);
     for (int i = 0; i < customProfiles.size(); ++i) {
         profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
         for (int j = 0; j < profilesFiles.size(); ++j) {
@@ -388,7 +388,7 @@ QMap <QString, QString> ProfilesDialog::getProfilesInfo()
     }
 
     // List custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, "profiles");
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, "/profiles/", QStandardPaths::LocateDirectory);
     for (int i = 0; i < customProfiles.size(); ++i) {
         profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
         for (int j = 0; j < profilesFiles.size(); ++j) {
@@ -457,7 +457,7 @@ QMap <QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int
     }
 
     // List custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, "profiles");
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, "/profiles/", QStandardPaths::LocateDirectory);
     for (int i = 0; i < customProfiles.size(); ++i) {
         QStringList profiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
         for (int j = 0; j < profiles.size(); ++j) {
