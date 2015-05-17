@@ -415,6 +415,8 @@ public:
     void editMasterEffect(ClipController *ctl);
     /** @brief Returns current project's folder for storing items. */
     QUrl projectFolder() const;
+    /** @brief Display a message about an operation in status bar. */
+    void emitMessage(const QString &, MessageType);
 
 private slots:
     void slotAddClip();
@@ -553,6 +555,7 @@ signals:
     /** @brief Trigger timecode format refresh where needed. */
     void refreshTimeCode();
     void masterClipSelected(ClipController *, Monitor *);
+    void displayMessage(const QString &, MessageType);
 };
 
 #endif

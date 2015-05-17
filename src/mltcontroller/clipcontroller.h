@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class QPixmap;
 class BinController;
+class AudioStreamInfo;
 
 /**
  * @class ClipController
@@ -167,10 +168,13 @@ public:
     void changeEffectState(const QList <int> indexes, bool disable);
     void updateEffect(const ProfileInfo pInfo, const QDomElement &old, const QDomElement &e, int ix);
     bool hasEffects() const;
+    /** @brief Returns info about clip audio */
+    AudioStreamInfo *audioInfo() const;
 
 private:
     Mlt::Producer *m_masterProducer;
     Mlt::Properties *m_properties;
+    AudioStreamInfo *m_audioInfo;
     EffectsList m_effectList;
     QString m_service;
     QUrl m_url;

@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kdenlivesettings.h"
 #include "project/projectcommands.h"
 #include "mltcontroller/clipcontroller.h"
+#include "lib/audio/audioStreamInfo.h"
 #include "mltcontroller/clippropertiescontroller.h"
 
 #include <QDomElement>
@@ -36,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDir>
 #include <QDebug>
 #include <QCryptographicHash>
-
+#include <QtConcurrent>
 #include <KLocalizedString>
 
 
@@ -47,6 +48,7 @@ ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *control
     , audioFrameCache()
     , m_audioThumbCreated(false)
     , m_gpuProducer(NULL)
+    , m_abortAudioThumb(false)
 {
     m_clipStatus = StatusReady;
     m_thumbnail = thumb;
@@ -55,6 +57,9 @@ ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *control
     getFileHash();
     setParent(parent);
     bin()->loadSubClips(id, m_controller->getSubClips());
+    if (KdenliveSettings::audiothumbnails()) {
+        QtConcurrent::run(this, &ProjectClip::slotCreateAudioThumbs);
+    }
 }
 
 ProjectClip::ProjectClip(const QDomElement& description, QIcon thumb, ProjectFolder* parent) :
@@ -63,6 +68,7 @@ ProjectClip::ProjectClip(const QDomElement& description, QIcon thumb, ProjectFol
     , audioFrameCache()
     , m_audioThumbCreated(false)
     , m_gpuProducer(NULL)
+    , m_abortAudioThumb(false)
 {
     Q_ASSERT(description.hasAttribute("id"));
     m_clipStatus = StatusWaiting;
@@ -267,6 +273,7 @@ void ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
     m_clipStatus = StatusReady;
     bin()->emitItemUpdated(this);
     getFileHash();
+    if (KdenliveSettings::audiothumbnails()) QtConcurrent::run(this, &ProjectClip::slotCreateAudioThumbs);
 }
 
 Mlt::Producer *ProjectClip::producer()
@@ -502,6 +509,7 @@ void ProjectClip::setJobStatus(AbstractClipJob::JOBTYPE jobType, ClipJobStatus s
 	m_jobProgress = status;
 	if ((status == JobAborted || status == JobCrashed  || status == JobDone) || !statusMessage.isEmpty()) {
 	    m_jobMessage = statusMessage;
+            bin()->emitMessage(statusMessage, OperationCompletedMessage);
 	}
     }
     bin()->emitItemUpdated(this);
@@ -649,5 +657,128 @@ void ProjectClip::slotExtractImage(QList <int> frames)
             emit thumbReady(frames.at(i), img);
         }
         delete frame;
+    }
+}
+
+void ProjectClip::slotCreateAudioThumbs()
+{
+    Mlt::Producer *prod = producer();
+    AudioStreamInfo *audioInfo = m_controller->audioInfo();
+    if (audioInfo == NULL) return;
+    QString clipHash = hash();
+    if (clipHash.isEmpty()) return;
+    QString audioPath = bin()->projectFolder().path() + "/thumbs/" + clipHash + ".thumb";
+    double lengthInFrames = prod->get_playtime();
+    int frequency = audioInfo->samplingRate();
+    if (frequency <= 0) frequency = 48000;
+    int channels = audioInfo->channels();
+    if (channels <= 0) channels = 2;
+    int arrayWidth = 20;
+    double frame = 0.0;
+    int maxVolume = 0;
+    audioByteArray storeIn;
+    QFile f(audioPath);
+    if (QFileInfo(audioPath).size() > 0 && f.open(QIODevice::ReadOnly)) {
+        bool reading = true;
+        const QByteArray channelarray = f.readAll();
+        f.close();
+        if (channelarray.size() != arrayWidth*(frame + lengthInFrames) * channels) {
+            //qDebug() << "--- BROKEN THUMB FOR: " << url.fileName() << " ---------------------- ";
+            f.remove();
+            reading = false;
+        }
+        //qDebug() << "reading audio thumbs from file";
+
+        if (reading) {
+            int h1 = arrayWidth * channels;
+            int h2 = (int) frame * h1;
+            for (int z = (int) frame; z < (int)(frame + lengthInFrames) && !m_abortAudioThumb; ++z) {
+                int h3 = 0;
+                for (int c = 0; c < channels; ++c) {
+                    QByteArray audioArray(arrayWidth, '\x00');
+                    for (int i = 0; i < arrayWidth; ++i) {
+                        audioArray[i] = channelarray.at(h2 + h3 + i);
+                        if (audioArray.at(i) > maxVolume) maxVolume = audioArray.at(i);
+                    }
+                    h3 += arrayWidth;
+                    storeIn[z][c] = audioArray;
+                }
+                h2 += h1;
+            }
+            if (!m_abortAudioThumb) {
+                setProducerProperty("audio_max", QString::number(maxVolume - 64));
+                updateAudioThumbnail(storeIn);
+            }
+            return;
+        }
+    }
+    if (!f.open(QIODevice::WriteOnly)) {
+        //qDebug() << "++++++++  ERROR WRITING TO FILE: " << audioPath;
+        //qDebug() << "++++++++  DISABLING AUDIO THUMBS";
+        KdenliveSettings::setAudiothumbnails(false);
+        return;
+    }
+    QString service = prod->get("mlt_service");
+    Mlt::Producer *audioProducer = new Mlt::Producer(*prod->profile(), service.toUtf8().constData(), prod->get("resource"));
+    if (!audioProducer->is_valid()) {
+        //qDebug() << "++++++++  INVALID CLIP: " << url.path();
+        delete audioProducer;
+        return;
+    }
+    audioProducer->set("video_index", "-1");
+
+    //if (KdenliveSettings::normaliseaudiothumbs()) {
+        //Mlt::Filter m_convert(prof, "volume");
+        //m_convert.set("gain", "normalise");
+        //producer.attach(m_convert);
+    //}
+
+    int last_val = 0;
+    setJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0, i18n("Creating audio thumbnails"));
+    double framesPerSecond = audioProducer->get_fps();
+    mlt_audio_format audioFormat = mlt_audio_s16;
+    for (int z = (int) frame; z < (int)(frame + lengthInFrames) &&  !m_abortAudioThumb; ++z) {
+        int val = (int)((z - frame) / (frame + lengthInFrames) * 100.0);
+        if (last_val != val && val > 1) {
+            setJobStatus(AbstractClipJob::THUMBJOB, JobWorking, val);
+            last_val = val;
+        }
+        audioProducer->seek(z);
+        Mlt::Frame *mlt_frame = audioProducer->get_frame();
+        if (mlt_frame && mlt_frame->is_valid()) {
+            int samples = mlt_sample_calculator(framesPerSecond, frequency, mlt_frame->get_position());
+            qint16* pcm = static_cast<qint16*>(mlt_frame->get_audio(audioFormat, frequency, channels, samples));
+            for (int c = 0; c < channels; ++c) {
+                QByteArray audioArray;
+                audioArray.resize(arrayWidth);
+                for (int i = 0; i < audioArray.size(); ++i) {
+                    double pcmval = *(pcm + c + i * samples / audioArray.size());
+                    if (pcmval >= 0) {
+                        pcmval = sqrt(pcmval) / 2.83 + 64;
+                        audioArray[i] = pcmval;
+                        if (pcmval > maxVolume) maxVolume = pcmval;
+                    }
+                    else {
+                        pcmval = -sqrt(-pcmval) / 2.83 + 64;
+                        audioArray[i] = pcmval;
+                        if (-pcmval > maxVolume) maxVolume = -pcmval;
+                    }
+                }
+                f.write(audioArray);
+                storeIn[z][c] = audioArray;
+            }
+        } else {
+            f.write(QByteArray(arrayWidth, '\x00'));
+        }
+        delete mlt_frame;
+    }
+    f.close();
+    delete audioProducer;
+    setJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0, i18n("Audio thumbnails done"));
+    if (m_abortAudioThumb) {
+        f.remove();
+    } else {
+        updateAudioThumbnail(storeIn);
+        setProducerProperty("audio_max", QString::number(maxVolume - 64));
     }
 }

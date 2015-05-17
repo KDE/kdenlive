@@ -2068,3 +2068,8 @@ void Bin::slotResetInfoMessage()
     }
 }
 
+void Bin::emitMessage(const QString &text, MessageType type)
+{
+    emit displayMessage(text, type);
+}
+

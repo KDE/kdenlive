@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "clipcontroller.h"
 #include "bincontroller.h"
 #include "mltcontroller/effectscontroller.h"
+#include "lib/audio/audioStreamInfo.h"
 #include "timeline/timeline.h"
 #include "renderer.h"
 
@@ -38,6 +39,7 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer& prod
     , m_hasLimitedDuration(true)
     , m_properties(new Mlt::Properties(producer.get_properties()))
     , selectedEffectIndex(1)
+    , m_audioInfo(NULL)
 {
     m_masterProducer = &producer;
     m_effectList = EffectsList(true);
@@ -65,6 +67,7 @@ ClipController::ClipController(BinController *bincontroller) : QObject()
     , m_clipType(Unknown)
     , m_properties(NULL)
     , selectedEffectIndex(1)
+    , m_audioInfo(NULL)
 {
     m_masterProducer = NULL;
     m_effectList = EffectsList(true);
@@ -77,6 +80,11 @@ ClipController::~ClipController()
 double ClipController::dar() const
 {
     return m_binController->dar();
+}
+
+AudioStreamInfo *ClipController::audioInfo() const
+{
+    return m_audioInfo;
 }
 
 void ClipController::addMasterProducer(Mlt::Producer &producer)
@@ -140,6 +148,7 @@ void ClipController::getInfoForProducer()
         m_clipType = WebVfx;
     }
     else m_clipType = Unknown;
+    if (m_audioIndex > -1) m_audioInfo = new AudioStreamInfo(m_masterProducer, m_audioIndex);
 }
 
 bool ClipController::hasLimitedDuration() const
@@ -647,4 +656,8 @@ bool ClipController::hasEffects() const
 {
     return !m_effectList.isEmpty();
 }
+
+
+
+
 

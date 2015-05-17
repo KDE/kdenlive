@@ -193,9 +193,9 @@ public:
     void removeEffect(const ProfileInfo pInfo, int ix);
 
 public slots:
-    //TODO
     void updateAudioThumbnail(const audioByteArray& data);
     void slotExtractImage(QList <int> frames);
+    void slotCreateAudioThumbs();
 
 protected:
     bool m_hasLimitedDuration;
@@ -211,6 +211,7 @@ private:
     bool m_audioThumbCreated;
     /** @brief Store clip url temporarily while the clip controller has not been created. */
     QUrl m_temporaryUrl;
+    bool m_abortAudioThumb;
 
 signals:
     void gotAudioData();

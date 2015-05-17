@@ -103,13 +103,9 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
             connect(&m_startThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetStartThumb()));
             m_endThumbTimer.setSingleShot(true);
             connect(&m_endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
-            //connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
 	    connect(m_binClip, SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
-            //connect(m_clip->thumbProducer(), SIGNAL(thumbsCached()), this, SLOT(slotRefreshClip()));
-            //connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
             if (generateThumbs) QTimer::singleShot(200, this, SLOT(slotFetchThumbs()));
         }
-
     } else if (m_clipType == Color) {
         m_baseColor = m_binClip->getProducerColorProperty("resource");
     } else if (m_clipType == Image || m_clipType == Text) {
@@ -117,8 +113,8 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
         //connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
     } else if (m_clipType == Audio) {
         m_baseColor = QColor(141, 215, 166);
-        connect(m_binClip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
     }
+    connect(m_binClip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
     m_paintColor = m_baseColor;
 }
 
@@ -503,7 +499,6 @@ void ClipItem::slotFetchThumbs()
         frames.append((int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
     }
 
-    //TODO
     if (!frames.isEmpty()) {
 	QtConcurrent::run(m_binClip, &ProjectClip::slotExtractImage, frames);
     }
