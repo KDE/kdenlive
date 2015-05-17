@@ -856,7 +856,6 @@ void Monitor::slotForward(double speed)
 void Monitor::slotRewindOneFrame(int diff)
 {
     slotActivateMonitor();
-    render->play(0);
     render->seekToFrameDiff(-diff);
     m_ruler->update();
 }
@@ -864,7 +863,6 @@ void Monitor::slotRewindOneFrame(int diff)
 void Monitor::slotForwardOneFrame(int diff)
 {
     slotActivateMonitor();
-    render->play(0);
     render->seekToFrameDiff(diff);
     m_ruler->update();
 }

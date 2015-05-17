@@ -1786,7 +1786,6 @@ void Render::seekToFrameDiff(int diff)
 {
     if (!m_mltProducer || !m_isActive)
         return;
-    resetZoneMode();
     if (requestedSeekPosition == SEEK_INACTIVE) {
         seek(m_mltConsumer->position() + diff);
     }
