@@ -2754,16 +2754,11 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             int tracknumber = m_document->tracksCount() - info.track - 1;
             bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
             if (isLocked) item->setItemLocked(true);
-            ItemInfo clipInfo = info;
-            clipInfo.track = m_document->tracksCount() - item->track();
             QString clipBinId = item->getBinId();
-
-	    qDebug()<<"// ASKING TRACK PROD: "<<clipBinId<<" = "<< info.track;
-            Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clipBinId, info.track, item->isAudioOnly(), item->isVideoOnly());
-            //prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
+            /*Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clipBinId, info.track, item->isAudioOnly(), item->isVideoOnly());
 	    prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
-	    qDebug()<<" + + GOT PROD: "<<prod->get("id");
-            if (!m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode())) {
+            if (!m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode())) {*/
+	    if (!m_timeline->track(info.track)->add(info.startPos.seconds(), m_document->renderer()->getBinProducer(clipBinId), info.cropStart.seconds(), (info.cropStart + info.cropDuration).seconds(), item->needsDuplicate(), m_scene->editMode())) {
                 emit displayMessage(i18n("Cannot insert clip in timeline"), ErrorMessage);
                 brokenClips.append(item);
                 continue;
@@ -3936,13 +3931,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 
                     if (item->type() == AVWidget) {
                         ClipItem *clip = static_cast <ClipItem*>(item);
-                        int trackProducer = info.track;
-                        info.track = m_document->tracksCount() - info.track;
                         adjustTimelineClips(m_scene->editMode(), clip, ItemInfo(), moveGroup);
                         Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clip->getBinId(), info.track, clip->isAudioOnly(), clip->isVideoOnly());
                         //prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
 			prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
-                        m_timeline->track(item->info().track)->add(info.startPos.seconds(), prod, m_scene->editMode());
+                        m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode());
                         for (int i = 0; i < clip->effectsCount(); ++i) {
                             m_document->renderer()->mltAddEffect(info.track, info.startPos, EffectsController::getEffectArgs(m_document->getProfileInfo(), clip->effect(i)), false);
                         }
@@ -4287,8 +4280,7 @@ void CustomTrackView::doChangeClipSpeed(ItemInfo info, const ItemInfo &speedInde
         emit displayMessage(i18n("Cannot find clip for speed change"), ErrorMessage);
         return;
     }
-    info.track = m_document->tracksCount() - item->track();
-    int endPos = m_document->renderer()->mltChangeClipSpeed(info, speedIndependantInfo, speed, oldspeed, strobe, m_document->renderer()->getTrackProducer(item->getBinId(), item->track()));
+    int endPos = m_document->renderer()->mltChangeClipSpeed(info, speedIndependantInfo, speed, oldspeed, strobe, m_document->renderer()->getTrackProducer(item->getBinId(), info.track));
     if (endPos >= 0) {
         item->setSpeed(speed, strobe);
         item->updateRectGeometry();
@@ -4820,7 +4812,6 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
 
             if (item->type() == AVWidget) {
                 ClipItem *clip = static_cast <ClipItem*>(item);
-                int trackProducer = info.track;
                 //m_document->renderer()->mltInsertClip(info /*, clip->xml()*/, clip->getBinId());
 			    qDebug()<<"// ASKING TRACK PROD 3: "<<clip->getBinId()<<" = "<< info.track;
                 Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clip->getBinId(), info.track, clip->isAudioOnly(), clip->isVideoOnly());
@@ -6594,7 +6585,7 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
                 clip->setVideoOnly(true);
                 Mlt::Tractor *tractor = m_document->renderer()->lockService();
                 //TODO use VIDEO ONLY producer
-                if (m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - track, start, m_document->renderer()->getTrackProducer(clip->getBinId(), info.track, false, true)) == false) {
+                if (m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - track, start, m_document->renderer()->getTrackProducer(clip->getBinId(), freetrack, false, true)) == false) {
                     emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", start, track), ErrorMessage);
                 }
                 m_document->renderer()->unlockService(tractor);
@@ -7454,4 +7445,3 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type)
     emit importKeyframes(type, result, ui.limit_keyframes->isChecked() ? ui.max_keyframes->value() : -1);
     delete d;
 }
-

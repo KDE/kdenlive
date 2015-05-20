@@ -92,6 +92,5 @@ QByteArray Clip::xml()
 }
 
 Mlt::Producer *Clip::clone() {
-    Mlt::Profile p(m_producer.get_profile());
-    return new Mlt::Producer(p, "xml-string", xml().constData());
+    return new Mlt::Producer(*m_producer.profile(), "xml-string", xml().constData());
 }

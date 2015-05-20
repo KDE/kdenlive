@@ -2143,7 +2143,8 @@ Mlt::Producer *Render::getTrackProducer(const QString &id, int track, bool audio
         return NULL;
     }
     Mlt::Tractor tractor(service);
-    Mlt::Producer destTrackProducer(tractor.track(track + 1));
+    // WARNING: Kdenlive's track numbering is 0 for top track, while in MLT 0 is black track and 1 is the bottom track so we MUST reverse track number
+    Mlt::Producer destTrackProducer(tractor.track(tractor.count() - track - 1));
     Mlt::Playlist destTrackPlaylist((mlt_playlist) destTrackProducer.get_service());
     return getProducerForTrack(destTrackPlaylist, id);
 }
@@ -2227,7 +2228,6 @@ Mlt::Producer *Render::getProducerForTrack(Mlt::Playlist &trackPlaylist, const Q
 	QString id = p->parent().get("id");
 	if (id == clipIdWithTrack) {
 	    // This producer already exists in the track, reuse it
-	    qDebug()<<"// FOUND EXISTING PROD: "<<id;
 	    prod = &p->parent();
 	    break;
 	}
@@ -4551,4 +4551,8 @@ double Render::getMltVersionInfo(const QString &tag)
     return version;
 }
 
+Mlt::Producer *Render::getBinProducer(const QString &id)
+{
+    return m_binController->getBinProducer(id);
+}
 

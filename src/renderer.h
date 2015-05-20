@@ -332,6 +332,8 @@ class Render: public AbstractRender
     bool externalConsumer;
     /** @brief Returns the current version of an MLT's producer module */
     double getMltVersionInfo(const QString &tag);
+    /** @brief Get a clip's master producer */
+    Mlt::Producer *getBinProducer(const QString &id);
 
 private:
 

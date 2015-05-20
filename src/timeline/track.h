@@ -66,10 +66,12 @@ public:
     /** @brief add a clip
      * @param t is the time position to start the cut (in seconds)
      * @param cut is a MLT Producer cut (resource + in/out timecodes)
+     * @param duplicate when true, we will create a copy of the clip if necessary
      * @param mode allow insert in non-blanks by replacing (mode=1) or pushing (mode=2) content
      * @return true if success */
-    bool add(qreal t, Mlt::Producer *cut, int mode = 0);
-    bool add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, int mode = 0);
+    bool doAdd(qreal t, Mlt::Producer *cut, int mode);
+    bool add(qreal t, Mlt::Producer *parent, bool duplicate, int mode = 0);
+    bool add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, bool duplicate, int mode = 0);
     /** @brief delete a clip
      * @param time where clip is present (in seconds);
      * @return true if success */

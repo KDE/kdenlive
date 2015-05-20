@@ -2004,6 +2004,12 @@ void ClipItem::slotRefreshClip()
     update();
 }
 
-
+bool ClipItem::needsDuplicate() const
+{
+      if  (m_clipType != AV && m_clipType != Audio && m_clipType != Playlist) {
+	  return false;
+      }
+      return true;
+}
 
 

@@ -24,6 +24,7 @@
 #include "track.h"
 #include "clip.h"
 #include <QtGlobal>
+#include <QDebug>
 #include <math.h>
 
 Track::Track(Mlt::Playlist &playlist, qreal fps) :
@@ -69,7 +70,21 @@ void Track::setFps(qreal fps)
 
 // basic clip operations
 
-bool Track::add(qreal t, Mlt::Producer *cut, int mode)
+bool Track::add(qreal t, Mlt::Producer *parent, bool duplicate, int mode)
+{
+    Mlt::Producer *cut = duplicate ? clipProducer(parent) :  new Mlt::Producer(parent);
+    doAdd(t, cut, mode);
+    delete cut;
+}
+
+bool Track::add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, bool duplicate, int mode)
+{
+    Mlt::Producer *cut = duplicate ? clipProducer(parent)->cut(frame(tcut), frame(dtcut)) :  new Mlt::Producer(parent);
+    doAdd(t, cut, mode);
+    delete cut;
+}
+
+bool Track::doAdd(qreal t, Mlt::Producer *cut, int mode)
 {
     int pos = frame(t);
     int len = cut->get_out() - cut->get_in() + 1;
@@ -88,11 +103,6 @@ bool Track::add(qreal t, Mlt::Producer *cut, int mode)
     }
     m_playlist.unlock();
     return true;
-}
-
-bool Track::add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, int mode)
-{
-    add(t, clipProducer(parent)->cut(frame(tcut), frame(tcut+dtcut)));
 }
 
 bool Track::del(qreal t)
