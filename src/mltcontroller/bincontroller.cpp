@@ -299,6 +299,7 @@ Mlt::Producer *BinController::getBinProducer(const QString &id, const QString tr
     if (!m_clipList.contains(id)) return NULL;
     // TODO: framebuffer speed clips
     ClipController *controller = m_clipList.value(id);
+    qDebug()<<"ASKING PROD: "<<trackName;
     return controller->getTrackProducer(trackName, clipState, speed);
 }
 

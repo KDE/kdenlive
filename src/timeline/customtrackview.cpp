@@ -1656,6 +1656,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
     if (track < 0 || track > m_document->tracksCount() - 1 || m_document->trackInfoAt(m_document->tracksCount() - track - 1).isLocked) return true;
     if (data->hasFormat("kdenlive/clip")) {
         QStringList list = QString(data->data("kdenlive/clip")).split(';');
+	qDebug()<<" DROP LIST : "<<list;
         ProjectClip *clip = m_document->getBinClip(list.at(0));
         if (clip == NULL) {
             //qDebug() << " WARNING))))))))) CLIP NOT FOUND : " << list.at(0);
@@ -1669,7 +1670,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         info.startPos = GenTime();
         info.cropStart = GenTime(list.at(1).toInt(), m_document->fps());
         info.endPos = GenTime(list.at(2).toInt() - list.at(1).toInt(), m_document->fps());
-        info.cropDuration = info.endPos - info.startPos;
+        info.cropDuration = info.endPos;// - info.startPos;
         info.track = 0;
 
         // Check if clip can be inserted at that position
@@ -1699,6 +1700,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         m_selectionGroup->setSelected(true);
     } else if (data->hasFormat("kdenlive/producerslist")) {
         QStringList ids = QString(data->data("kdenlive/producerslist")).split(';');
+	qDebug()<<"// DROP 2: "<<ids;
         QList <GenTime> offsetList;
         QList <ItemInfo> infoList;
         GenTime start = GenTime((int)(framePos.x() + 0.5), m_document->fps());
@@ -2756,8 +2758,11 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             clipInfo.track = m_document->tracksCount() - item->track();
             QString clipBinId = item->getBinId();
 
+	    qDebug()<<"// ASKING TRACK PROD: "<<clipBinId<<" = "<< info.track;
             Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clipBinId, info.track, item->isAudioOnly(), item->isVideoOnly());
-            prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
+            //prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
+	    prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
+	    qDebug()<<" + + GOT PROD: "<<prod->get("id");
             if (!m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode())) {
                 emit displayMessage(i18n("Cannot insert clip in timeline"), ErrorMessage);
                 brokenClips.append(item);
@@ -3935,7 +3940,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         info.track = m_document->tracksCount() - info.track;
                         adjustTimelineClips(m_scene->editMode(), clip, ItemInfo(), moveGroup);
                         Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clip->getBinId(), info.track, clip->isAudioOnly(), clip->isVideoOnly());
-                        prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
+                        //prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
+			prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
                         m_timeline->track(item->info().track)->add(info.startPos.seconds(), prod, m_scene->editMode());
                         for (int i = 0; i < clip->effectsCount(); ++i) {
                             m_document->renderer()->mltAddEffect(info.track, info.startPos, EffectsController::getEffectArgs(m_document->getProfileInfo(), clip->effect(i)), false);
@@ -4510,8 +4516,10 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
     //m_document->updateClip(baseclip->getId());
     //m_document->renderer()->mltInsertClip(info, xml, item->getProducer(producerTrack), overwrite, push);
     //m_document->renderer()->mltInsertClip(info /*, xml*/, clipId, overwrite, push);
+	    qDebug()<<"// ASKING TRACK PROD 2: "<<item->getBinId()<<" = "<< info.track;    
     Mlt::Producer *prod = m_document->renderer()->getTrackProducer(item->getBinId(), info.track, item->isAudioOnly(), item->isVideoOnly());
-    prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
+    //prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
+    prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
     m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode());
     info.track = m_document->tracksCount() - info.track;
 
@@ -4814,8 +4822,10 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
                 ClipItem *clip = static_cast <ClipItem*>(item);
                 int trackProducer = info.track;
                 //m_document->renderer()->mltInsertClip(info /*, clip->xml()*/, clip->getBinId());
+			    qDebug()<<"// ASKING TRACK PROD 3: "<<clip->getBinId()<<" = "<< info.track;
                 Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clip->getBinId(), info.track, clip->isAudioOnly(), clip->isVideoOnly());
-                prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
+		prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
+                //prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
                 m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode());
                 info.track = m_document->tracksCount() - info.track;
 

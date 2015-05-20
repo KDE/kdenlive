@@ -2143,7 +2143,7 @@ Mlt::Producer *Render::getTrackProducer(const QString &id, int track, bool audio
         return NULL;
     }
     Mlt::Tractor tractor(service);
-    Mlt::Producer destTrackProducer(tractor.track(track));
+    Mlt::Producer destTrackProducer(tractor.track(track + 1));
     Mlt::Playlist destTrackPlaylist((mlt_playlist) destTrackProducer.get_service());
     return getProducerForTrack(destTrackPlaylist, id);
 }
@@ -2227,7 +2227,8 @@ Mlt::Producer *Render::getProducerForTrack(Mlt::Playlist &trackPlaylist, const Q
 	QString id = p->parent().get("id");
 	if (id == clipIdWithTrack) {
 	    // This producer already exists in the track, reuse it
-	    prod = p;
+	    qDebug()<<"// FOUND EXISTING PROD: "<<id;
+	    prod = &p->parent();
 	    break;
 	}
 	else delete p;

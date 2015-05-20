@@ -681,11 +681,11 @@ int GLWidget::reconfigure(bool isMulti)
     if (!m_consumer || !m_consumer->is_valid()) {
         if (serviceName.isEmpty()) {
             //m_consumer = new Mlt::FilteredConsumer(*pCore->binController()->profile(), "sdl_audio");
-            m_consumer = new Mlt::FilteredConsumer(*pCore->binController()->profile(), "rtaudio");
+            m_consumer = new Mlt::FilteredConsumer(*pCore->binController()->profile(), "sdl_audio");
             if (m_consumer->is_valid())
-                serviceName = "rtaudio";
-            else {
                 serviceName = "sdl_audio";
+            else {
+                serviceName = "rtaudio";
                 delete m_consumer;
                 m_consumer = NULL;
             }
