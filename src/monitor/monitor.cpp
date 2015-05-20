@@ -1141,19 +1141,12 @@ void Monitor::switchDropFrames(bool drop)
 
 void Monitor::switchMonitorInfo(bool show)
 {
+    KdenliveSettings::setDisplayMonitorInfo(show);
     if (m_rootItem && m_rootItem->objectName() != "root") {
         // we are not in main view, ignore
         return;
     }
-    KdenliveSettings::setDisplayMonitorInfo(show);
-    if (show) {
-        m_rootItem = m_glMonitor->rootObject();
-        m_rootItem->setProperty("visible", true);
-    }
-    else {
-        m_rootItem->setProperty("visible", false);
-        m_rootItem = NULL;
-    }
+    loadMasterQml();
 }
 
 void Monitor::updateMonitorGamma()

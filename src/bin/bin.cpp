@@ -221,6 +221,7 @@ Bin::Bin(QWidget* parent) :
     QLineEdit *searchLine = new QLineEdit(this);
     searchLine->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
     searchLine->setClearButtonEnabled(true);
+    searchLine->setFocusPolicy(Qt::ClickFocus);
     connect(searchLine, SIGNAL(textChanged(const QString &)), m_proxyModel, SLOT(slotSetSearchString(const QString &)));
     m_toolbar->addWidget(searchLine);
 
