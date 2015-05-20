@@ -1021,7 +1021,10 @@ void Monitor::openClipZone(ClipController *controller, int in, int out)
     if (render == NULL) return;
     m_controller = controller;
     if (controller) {
-        render->setProducer(m_controller->zoneProducer(in, out), -1, isActive());
+        //render->setProducer(m_controller->zoneProducer(in, out), -1, isActive());
+        render->setProducer(m_controller->masterProducer(), in, isActive());
+        m_ruler->setZone(in, out);
+        setClipZone(QPoint(in, out));
     }
     else {
         render->setProducer(NULL, -1, isActive());
