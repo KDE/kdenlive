@@ -432,7 +432,10 @@ const QString ProjectClip::getFileHash() const
         file.close();
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         QString result = fileHash.toHex();
-        if (m_controller) m_controller->setProperty("kdenlive:file_hash", result);
+        if (m_controller) {
+	    m_controller->setProperty("kdenlive:file_hash", result);
+	    m_controller->setProperty("kdenlive:file_size", QString::number(file.size()));
+	}
         return result;
     }
     return QString();

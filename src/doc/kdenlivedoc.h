@@ -225,7 +225,7 @@ private:
      * @param infoproducers
      * @return
      */
-    bool checkDocumentClips(QDomNodeList infoproducers);
+    bool checkDocumentClips();
 
     /** @brief Creates a new project. */
     QDomDocument createEmptyDocument(int videotracks, int audiotracks);

@@ -33,7 +33,7 @@ class DocumentChecker: public QObject
     Q_OBJECT
 
 public:
-    explicit DocumentChecker(const QDomNodeList &infoproducers, const QDomDocument &doc);
+    explicit DocumentChecker(const QDomDocument &doc);
     ~DocumentChecker();
     /**
      * @brief checks for problems with the clips in the project
@@ -56,11 +56,8 @@ private slots:
     /** @brief Check if images and fonts in this clip exists, returns a list of images that do exist so we don't check twice. */
     void checkMissingImagesAndFonts(const QStringList &images, const QStringList &fonts, const QString &id, const QString &baseClip);
     void slotCheckButtons();
-    /** @brief Fix duration mismatch issues. */
-    void slotFixDuration();
 
 private:
-    QDomNodeList m_info;
     QDomDocument m_doc;
     Ui::MissingClips_UI m_ui;
     QDialog *m_dialog;
@@ -73,7 +70,7 @@ private:
     QStringList m_safeImages;
     QStringList m_safeFonts;
     
-    void fixClipItem(QTreeWidgetItem *child, QDomNodeList producers, QDomNodeList infoproducers, QDomNodeList trans);
+    void fixClipItem(QTreeWidgetItem *child, QDomNodeList producers, QDomNodeList trans);
 };
 
 

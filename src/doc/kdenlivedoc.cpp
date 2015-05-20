@@ -229,8 +229,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                         qDebug()<<" // / processing file validate ok";
                         parent->slotGotProgressInfo(i18n("Check missing clips"), 0);
                         qApp->processEvents();
-                        QDomNodeList infoproducers = m_document.elementsByTagName("kdenlive_producer");
-                        success = checkDocumentClips(infoproducers);
+                        success = checkDocumentClips();
                         if (success) {
                             if (m_document.documentElement().attribute("modified") == "1") setModified(true);
                             parent->slotGotProgressInfo(i18n("Loading"), 0);
@@ -286,7 +285,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                             }
                             m_documentProperties["expandedfolders"] = expandedFolders.join(";");
 
-                            const int infomax = infoproducers.count();
                             QDomNodeList producers = m_document.elementsByTagName("producer");
                             const int max = producers.count();
 
@@ -298,7 +296,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                             } else {
                                 progressDialog->setLabelText(i18n("Adding clips"));
                             }
-                            progressDialog->setMaximum(infomax);
+                            progressDialog->setMaximum(max);
                             progressDialog->show();
                             qApp->processEvents();
 
@@ -1464,9 +1462,9 @@ void KdenliveDoc::cacheImage(const QString &fileId, const QImage &img) const
     img.save(QDir::cleanPath(m_projectFolder.path() +QDir::separator() + "thumbs/" + fileId + ".png"));
 }
 
-bool KdenliveDoc::checkDocumentClips(QDomNodeList infoproducers)
+bool KdenliveDoc::checkDocumentClips()
 {
-    DocumentChecker d(infoproducers, m_document);
+    DocumentChecker d(m_document);
     return (d.hasErrorInClips() == false);
 
     /*    int clipType;
