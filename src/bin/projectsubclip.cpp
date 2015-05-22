@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class ClipController;
 
-ProjectSubClip::ProjectSubClip(ProjectClip *parent, int in, int out, const QString &name) :
+ProjectSubClip::ProjectSubClip(ProjectClip *parent, int in, int out, const QString &timecode, const QString &name) :
     AbstractProjectItem(AbstractProjectItem::SubClipItem, parent->clipId(), parent)
     , m_masterClip(parent)
     , m_in(in)
@@ -38,13 +38,14 @@ ProjectSubClip::ProjectSubClip(ProjectClip *parent, int in, int out, const QStri
     pix.fill(Qt::lightGray);
     m_thumbnail = QIcon(pix);
     if (name.isEmpty()) {
-        m_name = i18n("Zone %1-%2", in, out);
+        m_name = i18n("Zone %1", parent->count() + 1);
     }
     else {
         m_name = name;
     }
     m_clipStatus = StatusReady;
     setParent(parent);
+    m_duration = timecode;
     // Save subclip in MLT
     parent->setProducerProperty("kdenlive:clipzone." + m_name, QString::number(in) + ";" +  QString::number(out));
 }
@@ -111,6 +112,13 @@ void ProjectSubClip::setCurrent(bool current, bool notify)
     if (current) {
         m_masterClip->bin()->openProducer(m_masterClip->controller(), m_in, m_out);
     }
+}
+
+void ProjectSubClip::setThumbnail(QImage img)
+{
+    QPixmap thumb = roundedPixmap(QPixmap::fromImage(img));
+    m_thumbnail = QIcon(thumb);
+    bin()->emitItemUpdated(this);
 }
 
 bool ProjectSubClip::rename(const QString &name)

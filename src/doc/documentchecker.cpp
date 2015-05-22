@@ -107,7 +107,7 @@ bool DocumentChecker::hasErrorInClips()
         }
         // Check for slideshows
         if ((service == "qimage" || service == "pixbuf") && QUrl::fromLocalFile(resource).fileName().contains("*")) resource = QUrl::fromLocalFile(resource).adjusted(QUrl::RemoveFilename).path();
-        if (!QFile::exists(resource)) {
+        if (!QFile::exists(resource) && !EffectsList::property(e, "kdenlive:file_size").isEmpty()) {
             // Missing clip found
             m_missingClips.append(e);
         } else {

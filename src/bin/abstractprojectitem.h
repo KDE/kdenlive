@@ -120,6 +120,7 @@ public:
         DataName = Qt::DisplayRole,
         DataThumbnail = Qt::DecorationRole,
         DataId = Qt::UserRole,
+        SortRole,
         DataDescription,
         DataDate,
 	IconOverlay,

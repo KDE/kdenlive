@@ -55,6 +55,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QSlider>
 #include <QMenu>
 #include <QDebug>
+#include <QtConcurrent>
 #include <QUndoCommand>
 
 
@@ -1746,15 +1747,23 @@ void Bin::loadSubClips(const QString&id, const QMap <QString,QString> data)
     ProjectClip *clip = getBinClip(id);
     if (!clip) return;
     QMapIterator<QString, QString> i(data);
+    QDir thumbsFolder(projectFolder().path() + "/thumbs/");
+    QList <int> missingThumbs;
     while (i.hasNext()) {
         i.next();
         if (!i.value().contains(";")) { 
             // Problem, the zone has no in/out points
             continue;
         }
+        QImage img;
         int in = i.value().section(";", 0, 0).toInt();
         int out = i.value().section(";", 1, 1).toInt();
-        new ProjectSubClip(clip, in, out, i.key());
+        missingThumbs << in;
+        new ProjectSubClip(clip, in, out, m_doc->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()), i.key());
+    }
+    if (!missingThumbs.isEmpty()) {
+        // generate missing subclip thumbnails
+        QtConcurrent::run(clip, &ProjectClip::slotExtractSubImage, missingThumbs);
     }
 }
 
@@ -1768,7 +1777,8 @@ void Bin::addClipCut(const QString&id, int in, int out)
         // A subclip with same zone already exists
         return;
     }
-    sub = new ProjectSubClip(clip, in, out);
+    sub = new ProjectSubClip(clip, in, out, m_doc->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()));
+    QtConcurrent::run(clip, &ProjectClip::slotExtractSubImage, QList <int>() << in);
 }
 
 void Bin::removeClipCut(const QString&id, int in, int out)

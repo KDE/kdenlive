@@ -168,6 +168,10 @@ QVariant AbstractProjectItem::data(DataType type) const
 {
     QVariant data;
     switch (type) {
+        case SortRole:
+            if (m_itemType == SubClipItem) data = QVariant(m_duration);
+            else data = QVariant(m_name);
+        break;
         case DataName:
             data = QVariant(m_name);
             break;

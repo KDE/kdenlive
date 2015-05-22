@@ -130,7 +130,7 @@ public:
             return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMax(hint.height(), option.decorationSize.height())));
         }
         if (type == AbstractProjectItem::SubClipItem) {
-            return QSize(hint.width(), qMin((int) (option.fontMetrics.lineSpacing() * 1.5) + 4, hint.height()));
+            return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMin(hint.height(), (int) (option.decorationSize.height() / 1.5))));
         }
         QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
         QString line1 = index.data(Qt::DisplayRole).toString();
@@ -138,7 +138,6 @@ public:
 
         int textW = qMax(option.fontMetrics.width(line1), option.fontMetrics.width(line2));
         QSize iconSize = icon.actualSize(option.decorationSize);
-
         return QSize(qMax(textW, iconSize.width()) + 4, option.fontMetrics.lineSpacing() * 2 + 4);
     }
 
@@ -158,16 +157,20 @@ public:
             if (option.state & QStyle::State_Selected) {
                 painter->setPen(option.palette.highlightedText().color());
             }
+            else painter->setPen(option.palette.text().color());
             QRect r = r1;
-            r.setWidth(opt.decorationSize.width());
-            // Draw thumbnail
-            opt.icon.paint(painter, r);
-
-            int decoWidth = r.width() + 2 * textMargin;
             QFont font = painter->font();
             font.setBold(true);
             painter->setFont(font);
-            if (type == AbstractProjectItem::ClipItem) {
+            if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem) {
+                double factor = (double) opt.decorationSize.height() / r1.height();
+                int decoWidth = 2 * textMargin;
+                if (factor != 0) {
+                    r.setWidth(opt.decorationSize.width() / factor);
+                    // Draw thumbnail
+                    opt.icon.paint(painter, r);
+                    decoWidth += r.width();
+                }
                 int mid = (int)((r1.height() / 2));
                 r1.adjust(decoWidth, 0, 0, -mid);
                 QRect r2 = option.rect;
@@ -186,52 +189,63 @@ public:
                 painter->setPen(subTextColor);
                 painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop , subText, &bounding);
 		
-		// Overlay icon if necessary
-		QVariant v = index.data(AbstractProjectItem::IconOverlay);
-		if (!v.isNull()) {
-		    QIcon reload = QIcon::fromTheme(v.toString());
-		    r.setTop(r.bottom() - bounding.height());
-		    r.setWidth(bounding.height());
-		    reload.paint(painter, r);
-		}
+                if (type == AbstractProjectItem::ClipItem) {
+                    // Overlay icon if necessary
+                    QVariant v = index.data(AbstractProjectItem::IconOverlay);
+                    if (!v.isNull()) {
+                        QIcon reload = QIcon::fromTheme(v.toString());
+                        r.setTop(r.bottom() - bounding.height());
+                        r.setWidth(bounding.height());
+                        reload.paint(painter, r);
+                    }
 
-                int jobProgress = index.data(AbstractProjectItem::JobProgress).toInt();
-                if (jobProgress != 0 && jobProgress != JobDone && jobProgress != JobAborted) {
-                    if (jobProgress != JobCrashed) {
-                        // Draw job progress bar
-                        QColor color = option.palette.alternateBase().color();
-                        painter->setPen(Qt::NoPen);
-                        color.setAlpha(180);
-                        painter->setBrush(QBrush(color));
-                        QRect progress(r1.x() + 1, opt.rect.bottom() - 12, r1.width() / 2, 8);
-                        painter->drawRect(progress);
-                        painter->setBrush(option.palette.text());
-                        if (jobProgress > 0) {
-                            progress.adjust(1, 1, 0, -1);
-                            progress.setWidth((progress.width() - 4) * jobProgress / 100);
-                            painter->drawRect(progress);
-                        } else if (jobProgress == JobWaiting) {
-                            // Draw kind of a pause icon
-                            progress.adjust(1, 1, 0, -1);
-                            progress.setWidth(2);
-                            painter->drawRect(progress);
-                            progress.moveLeft(progress.right() + 2);
-                            painter->drawRect(progress);
-                        }
-                    } else if (jobProgress == JobCrashed) {
-                        QString jobText = index.data(AbstractProjectItem::JobMessage).toString();
-                        if (!jobText.isEmpty()) {
-                            QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + jobText + " ");
+                    int jobProgress = index.data(AbstractProjectItem::JobProgress).toInt();
+                    if (jobProgress != 0 && jobProgress != JobDone && jobProgress != JobAborted) {
+                        if (jobProgress != JobCrashed) {
+                            // Draw job progress bar
+                            QColor color = option.palette.alternateBase().color();
                             painter->setPen(Qt::NoPen);
-                            painter->setBrush(option.palette.highlight());
-                            painter->drawRoundedRect(txtBounding, 2, 2);
-                            painter->setPen(option.palette.highlightedText().color());
-                            painter->drawText(txtBounding, Qt::AlignCenter, jobText);
+                            color.setAlpha(180);
+                            painter->setBrush(QBrush(color));
+                            QRect progress(r1.x() + 1, opt.rect.bottom() - 12, r1.width() / 2, 8);
+                            painter->drawRect(progress);
+                            painter->setBrush(option.palette.text());
+                            if (jobProgress > 0) {
+                                progress.adjust(1, 1, 0, -1);
+                                progress.setWidth((progress.width() - 4) * jobProgress / 100);
+                                painter->drawRect(progress);
+                            } else if (jobProgress == JobWaiting) {
+                                // Draw kind of a pause icon
+                                progress.adjust(1, 1, 0, -1);
+                                progress.setWidth(2);
+                                painter->drawRect(progress);
+                                progress.moveLeft(progress.right() + 2);
+                                painter->drawRect(progress);
+                            }
+                        } else if (jobProgress == JobCrashed) {
+                            QString jobText = index.data(AbstractProjectItem::JobMessage).toString();
+                            if (!jobText.isEmpty()) {
+                                QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + jobText + " ");
+                                painter->setPen(Qt::NoPen);
+                                painter->setBrush(option.palette.highlight());
+                                painter->drawRoundedRect(txtBounding, 2, 2);
+                                painter->setPen(option.palette.highlightedText().color());
+                                painter->drawText(txtBounding, Qt::AlignCenter, jobText);
+                            }
                         }
                     }
                 }
             }
             else {
+                // Folder or Folder Up items
+                double factor = (double) opt.decorationSize.height() / r1.height();
+                int decoWidth = 2 * textMargin;
+                if (factor != 0) {
+                    r.setWidth(opt.decorationSize.width() / factor);
+                    // Draw thumbnail
+                    opt.icon.paint(painter, r);
+                    decoWidth += r.width();
+                }
                 r1.adjust(decoWidth, 0, 0, 0);
                 QRectF bounding;
                 painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(AbstractProjectItem::DataName).toString(), &bounding);
