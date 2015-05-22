@@ -55,6 +55,8 @@ protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
     /** @brief Reimplemented to show folders first  */
     bool lessThan(const QModelIndex & left, const QModelIndex & right) const;
+    bool filterAcceptsRowItself(int source_row, const QModelIndex &source_parent) const;
+    bool hasAcceptedChildren(int source_row, const QModelIndex &source_parent) const;
 
 private:
     QItemSelectionModel*m_selection;

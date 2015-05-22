@@ -30,15 +30,53 @@ ProjectSortProxyModel::ProjectSortProxyModel(QObject *parent)
 {
     m_selection = new QItemSelectionModel(this);
     connect(m_selection, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(onCurrentRowChanged(QItemSelection,QItemSelection)));
-    setSortRole(AbstractProjectItem::SortRole);
     setDynamicSortFilter(true);
+    setSortRole(AbstractProjectItem::SortRole);
 }
 
 bool ProjectSortProxyModel::filterAcceptsRow(int sourceRow,
          const QModelIndex &sourceParent) const
 {
+    if (filterAcceptsRowItself(sourceRow, sourceParent)) {
+        return true;
+    }
+    //accept if any of the children is accepted on it's own merits
+    if (hasAcceptedChildren(sourceRow, sourceParent)) {
+        return true;
+    }
+    return false;
+}
+
+bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow,
+         const QModelIndex &sourceParent) const
+{
     QModelIndex index0 = sourceModel()->index(sourceRow, 0, sourceParent);
+    if (!index0.isValid()) {
+        return false;
+    }
     return (sourceModel()->data(index0).toString().contains(m_searchString));
+}
+
+bool ProjectSortProxyModel::hasAcceptedChildren(int sourceRow, const QModelIndex &source_parent) const
+{
+    QModelIndex item = sourceModel()->index(sourceRow,0,source_parent);
+    if (!item.isValid()) {
+        return false;
+    }
+
+    //check if there are children
+    int childCount = item.model()->rowCount(item);
+    if (childCount == 0)
+        return false;
+
+    for (int i = 0; i < childCount; ++i) {
+        if (filterAcceptsRowItself(i, item))
+            return true;
+        //recursive call -> NOTICE that this is depth-first searching, you're probably better off with breadth first search...
+        if (hasAcceptedChildren(i, item))
+            return true;
+    }
+    return false;
 }
 
 bool ProjectSortProxyModel::lessThan(const QModelIndex & left, const QModelIndex & right) const
