@@ -44,9 +44,9 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
     m_closeButton(0)
 {
     setMinimumHeight(KIconLoader::SizeSmall);
-    QPalette palette;
+    /*QPalette palette);
     palette.setColor(QPalette::Background, Qt::transparent);
-    setPalette(palette);
+    setPalette(palette);*/
 
     m_closeButton = new QPushButton(i18nc("@action:button", "Confirm"), this);
     m_closeButton->hide();
@@ -238,7 +238,7 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent*)
     }
 
     // draw text
-    painter.setPen(palette().windowText().color());
+    painter.setPen(palette().text().color());
     int flags = Qt::AlignVCenter;
     if (height() > m_minTextHeight) {
         flags = flags | Qt::TextWordWrap;
