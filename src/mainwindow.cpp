@@ -458,7 +458,7 @@ void MainWindow::slotThemeChanged(const QString &theme)
     KSharedConfigPtr config = KSharedConfig::openConfig(theme);
     setPalette(KColorScheme::createApplicationPalette(config));
     qApp->setPalette(palette());
-    KdenliveSettings::setColortheme(ThemeManager::instance()->currentThemeName());
+    KdenliveSettings::setColortheme(theme);
     QPalette plt = palette();
     if (m_effectStack) m_effectStack->updatePalette();
     if (m_effectList) m_effectList->updatePalette();

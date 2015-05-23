@@ -111,13 +111,12 @@ QString ThemeManager::currentThemeName() const
                     : action->text().remove('&'));
 }
 
-void ThemeManager::setCurrentTheme(const QString& name)
+void ThemeManager::setCurrentTheme(const QString& filename)
 {
     if (!d->themeMenuAction || !d->themeMenuActionGroup)
         return;
-
+    QString name = d->themeMap.key(filename, d->defaultThemeName);
     QList<QAction*> list = d->themeMenuActionGroup->actions();
-
     foreach(QAction* const action, list)
     {
         if (action->text().remove('&') == name)
