@@ -139,8 +139,14 @@ Timeline::~Timeline()
     m_tracks.clear();
 }
 
-Track* Timeline::track(int i) {
+Track* Timeline::track(int i) 
+{
     return m_tracks.at(i);
+}
+
+int Timeline::tracksCount() const
+{
+    return m_tracks.count();
 }
 
 //virtual

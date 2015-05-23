@@ -179,6 +179,7 @@ signals:
     void reloadTrackProducers(const QString &id);
     void requestAudioThumb(const QString&);
     void abortAudioThumb(const QString&);
+    void replaceTimelineProducer(const QString &id);
 };
 
 #endif

@@ -163,6 +163,8 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     QIcon razorIcon = QIcon::fromTheme("edit-cut");
     m_razorCursor = QCursor(razorIcon.pixmap(32, 32));
     m_spacerCursor = QCursor(Qt::SplitHCursor);
+    
+    connect(m_document->renderer(), SIGNAL(replaceTimelineProducer(QString)), this, SLOT(slotReplaceTimelineProducer(QString)));
 
     scale(1, 1);
     setAlignment(Qt::AlignLeft | Qt::AlignTop);
@@ -7444,4 +7446,12 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type)
     // connected to MainWindow::slotProcessImportKeyframes
     emit importKeyframes(type, result, ui.limit_keyframes->isChecked() ? ui.max_keyframes->value() : -1);
     delete d;
+}
+
+void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
+{
+    Mlt::Producer *prod = m_document->renderer()->getBinProducer(id);
+    for (int i = 0; i < m_timeline->tracksCount(); i++) {
+        m_timeline->track(i)->replace(id,  prod);
+    }
 }

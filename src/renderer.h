@@ -456,6 +456,8 @@ signals:
     void requestProxy(QString);
     /** @brief A multiple stream clip was found. */
     void multiStreamFound(const QString &,QList<int>,QList<int>,stringMap data);
+    /** @brief A clip has changed, we must reload timeline producers. */
+    void replaceTimelineProducer(const QString&);
 
 
     /** @brief A frame's image has to be shown.

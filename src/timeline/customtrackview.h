@@ -497,6 +497,8 @@ private slots:
     void slotRefreshThumbs(const QString &id, bool resetThumbs);
     /** @brief A Filter job producer results. */
     void slotGotFilterJobResults(const QString &id, int startPos, int track, stringMap filterParams, stringMap extra);
+    /** @brief Replace a producer in all tracks (for example when proxying a clip). */
+    void slotReplaceTimelineProducer(const QString &id);
 
 
 signals:

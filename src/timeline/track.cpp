@@ -215,6 +215,35 @@ bool Track::cut(qreal t)
 }
 
 
+bool Track::replace(const QString &id, Mlt::Producer *original)
+{
+    int startindex = 0;
+    bool found = false;
+    QString idForTrack = original->get("id") + QLatin1Char('_') + m_playlist.get("id");
+    Mlt::Producer *trackProducer = Clip(*original).clone();
+
+    for (int i = 0; i < m_playlist.count(); i++) {
+        if (m_playlist.is_blank(i)) continue;
+        Mlt::Producer *p = m_playlist.get_clip(i);
+        if (idForTrack == p->parent().get("id")) {
+            //Mlt::Producer *orig = m_playlist.replace_with_blank(i);
+            Mlt::Producer *cut = trackProducer->cut(p->get_in(), p->get_out());
+            Clip(*cut).addEffects(*p);
+            m_playlist.remove(i);
+            m_playlist.insert(*cut, i);
+            m_playlist.consolidate_blanks();
+            found = true;
+            delete cut;
+        }
+        delete p;
+    }
+    if (found) {
+        trackProducer->set("id", idForTrack.toUtf8().constData());
+    } else {
+        delete trackProducer;
+    }
+}
+
 //TODO: cut: checkSlowMotionProducer
 bool Track::replace(qreal t, Mlt::Producer *prod) {
     int index = m_playlist.get_clip_index_at(frame(t));

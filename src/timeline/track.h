@@ -93,6 +93,11 @@ public:
      * @return true if success */
     bool cut(qreal t);
     /** @brief replace a clip with another resource
+     * @param id is the clip id
+     * @param prod is the replacement clip
+     * @return true if success */
+    bool replace(const QString &id, Mlt::Producer *prod);
+    /** @brief replace a clip with another resource
      * @param t is the clip time in playlist
      * @param prod is the replacement clip
      * @return true if success */

@@ -222,12 +222,13 @@ void BinController::replaceProducer(const QString &id, Mlt::Producer &producer)
 {
     ClipController *ctrl = m_clipList.value(id);
     if (!ctrl) {
-        qDebug()<<" / // errror controller not foound, crashing";
+        qDebug()<<" / // error controller not found, crashing";
         return;
     }
     ctrl->updateProducer(id, &producer);
     replaceBinPlaylistClip(id, producer);
     producer.set("id", id.toUtf8().constData());
+    emit replaceTimelineProducer(id);
 }
 
 void BinController::addClipToBin(const QString &id, ClipController *controller) // Mlt::Producer &producer)

@@ -53,6 +53,7 @@ public:
     explicit Timeline(KdenliveDoc *doc, const QList <QAction *>& actions, bool *ok, QWidget *parent = 0);
     virtual ~ Timeline();
     Track* track(int i);
+    int tracksCount() const;
     void setEditMode(const QString & editMode);
     const QString & editMode() const;
     QGraphicsScene *projectScene();

@@ -104,6 +104,7 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
     connect(this, SIGNAL(checkSeeking()), this, SLOT(slotCheckSeeking()));
     if (m_name == Kdenlive::ProjectMonitor) {
         connect(m_binController, SIGNAL(reloadTrackProducers(const QString &)), this, SLOT(slotUpdateTrackProducers(const QString &)));
+        connect(m_binController, SIGNAL(replaceTimelineProducer(QString)), this, SIGNAL(replaceTimelineProducer(QString)));
         connect(m_binController, SIGNAL(createThumb(QDomElement,QString,int)), this, SLOT(getFileProperties(QDomElement,QString,int)));
     }
     //connect(this, SIGNAL(mltFrameReceived(Mlt::Frame*)), this, SLOT(showFrame(Mlt::Frame*)), Qt::UniqueConnection);
@@ -599,7 +600,7 @@ void Render::processProducerProperties(Mlt::Producer *prod, QDomElement xml)
 {
     QString value;
     QStringList internalProperties;
-    internalProperties << "bypassDuplicate";
+    internalProperties << "bypassDuplicate" << "resource" << "mlt_service";
     QDomNodeList props = xml.elementsByTagName("property");
     for (int i = 0; i < props.count(); ++i) {
         QString propertyName = props.at(i).toElement().attribute("name");
@@ -677,6 +678,7 @@ void Render::processFileProperties()
             //path = info.xml.attribute("resource");
             proxyProducer = false;
         }
+        qDebug()<<" / / /CHECKING PRODUCER PATH: "<<path;
         QUrl url = QUrl::fromLocalFile(path);
         Mlt::Producer *producer = NULL;
         ClipType type = (ClipType)info.xml.attribute("type").toInt();
@@ -984,7 +986,7 @@ void Render::processFileProperties()
                 Mlt::Producer *tmpProd;
                 if (KdenliveSettings::gpu_accel()) {
                     QString service = producer->get("mlt_service");
-                    tmpProd = new Mlt::Producer(*m_mltProfile, service.toUtf8().constData(), producer->get("resource"));
+                    tmpProd = new Mlt::Producer(*m_mltProfile, service.toUtf8().constData(), path.toUtf8().constData());
                     Mlt::Filter scaler(*m_mltProfile, "swscale");
                     Mlt::Filter converter(*m_mltProfile, "avcolor_space");
                     tmpProd->attach(scaler);
