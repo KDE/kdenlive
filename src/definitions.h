@@ -54,19 +54,20 @@ const QString stopmotionMonitor("stopmotionMonitor");
 
 enum OperationType {
     None = 0,
-    MoveOperation = 1,
-    ResizeStart = 2,
-    ResizeEnd = 3,
-    FadeIn = 4,
-    FadeOut = 5,
-    TransitionStart = 6,
-    TransitionEnd = 7,
-    MoveGuide = 8,
-    KeyFrame = 9,
-    Seek = 10,
-    Spacer = 11,
-    RubberSelection = 12,
-    ScrollTimeline = 13
+    MoveOperation,
+    ResizeStart,
+    ResizeEnd,
+    FadeIn,
+    FadeOut,
+    TransitionStart,
+    TransitionEnd,
+    MoveGuide,
+    KeyFrame,
+    Seek,
+    Spacer,
+    RubberSelection,
+    ScrollTimeline,
+    ZoomTimeline
 };
 
 enum ClipType {

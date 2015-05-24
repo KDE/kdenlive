@@ -184,10 +184,20 @@ void AbstractGroupItem::paint(QPainter *p, const QStyleOptionGraphicsItem *optio
 QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == QGraphicsItem::ItemSelectedChange) {
-        if (value.toBool()) setZValue(10);
+        if (value.toBool()) setZValue(3);
         else setZValue(1);
     }
-    if (change == ItemPositionChange && scene() && parentItem() == 0) {
+    CustomTrackScene *scene = NULL;
+    if (change == ItemPositionChange && parentItem() == 0) {
+        scene = projectScene();
+    }
+    if (scene) {
+        // calculate new position.
+        if (scene->isZooming) {
+            // For some reason, mouse wheel on selected itm sometimes triggered
+            // a position change event corrupting timeline, so discard it
+            return pos();
+        }
         // calculate new position.
         const int trackHeight = KdenliveSettings::trackheight();
         QPointF start = sceneBoundingRect().topLeft();
@@ -277,7 +287,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         QPainterPath shape;
         if (projectScene()->editMode() == NormalEdit) {
             shape = clipGroupShape(newPos - pos());
-            collidingItems = scene()->items(shape, Qt::IntersectsItemShape);
+            collidingItems = scene->items(shape, Qt::IntersectsItemShape);
             collidingItems.removeAll(this);
             for (int i = 0; i < children.count(); ++i) {
                 if (children.at(i)->type() == GroupWidget) {
@@ -315,7 +325,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                     newPos.setX(newPos.x() + offset);
                 }
                 // If there is still a collision after our position adjust, restore original pos
-                collidingItems = scene()->items(clipGroupShape(newPos - pos()), Qt::IntersectsItemShape);
+                collidingItems = scene->items(clipGroupShape(newPos - pos()), Qt::IntersectsItemShape);
                 collidingItems.removeAll(this);
                 for (int i = 0; i < children.count(); ++i) {
                     if (children.at(i)->type() == GroupWidget) {
@@ -333,7 +343,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
 
         if (projectScene()->editMode() == NormalEdit) {
             shape = transitionGroupShape(newPos - pos());
-            collidingItems = scene()->items(shape, Qt::IntersectsItemShape);
+            collidingItems = scene->items(shape, Qt::IntersectsItemShape);
             collidingItems.removeAll(this);
             for (int i = 0; i < children.count(); ++i) {
                 if (children.at(i)->type() == GroupWidget) {
@@ -372,7 +382,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                     newPos.setX(newPos.x() + offset);
                 }
                 // If there is still a collision after our position adjust, restore original pos
-                collidingItems = scene()->items(transitionGroupShape(newPos - pos()), Qt::IntersectsItemShape);
+                collidingItems = scene->items(transitionGroupShape(newPos - pos()), Qt::IntersectsItemShape);
                 for (int i = 0; i < children.count(); ++i) {
                     collidingItems.removeAll(children.at(i));
                 }

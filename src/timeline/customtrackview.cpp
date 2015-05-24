@@ -315,12 +315,19 @@ bool CustomTrackView::checkTrackHeight()
 void CustomTrackView::wheelEvent(QWheelEvent * e)
 {
     if (e->modifiers() == Qt::ControlModifier) {
-        if (e->delta() > 0) emit zoomIn();
-        else emit zoomOut();
+        if (m_operationMode == None || m_operationMode == ZoomTimeline) {
+            if (e->delta() > 0) emit zoomIn();
+            else emit zoomOut();
+        }
     } else {
         if (e->delta() <= 0) horizontalScrollBar()->setValue(horizontalScrollBar()->value() + horizontalScrollBar()->singleStep());
         else  horizontalScrollBar()->setValue(horizontalScrollBar()->value() - horizontalScrollBar()->singleStep());
     }
+}
+
+void CustomTrackView::setOperation(OperationType op)
+{
+    m_operationMode = op;
 }
 
 int CustomTrackView::getPreviousVideoTrack(int track)
@@ -501,7 +508,6 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         QGraphicsView::mouseMoveEvent(event);
         return;
     }
-
     if (event->buttons() & Qt::MidButton) return;
     if (dragMode() == QGraphicsView::RubberBandDrag || (event->modifiers() == Qt::ControlModifier && m_tool != SpacerTool && m_operationMode != ResizeStart && m_operationMode != ResizeEnd)) {
         event->setAccepted(true);
@@ -512,7 +518,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 
     if (event->buttons() != Qt::NoButton) {
         bool move = (event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance();
-        if (m_dragItem && move) m_clipDrag = true;
+        if (m_dragItem && move && m_operationMode != ZoomTimeline) m_clipDrag = true;
         if (m_dragItem && m_tool == SelectTool) {
             if (m_operationMode == MoveOperation && m_clipDrag) {
                 QGraphicsView::mouseMoveEvent(event);
@@ -607,7 +613,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         return;
     }
 
-    if (item && event->buttons() == Qt::NoButton) {
+    if (item && event->buttons() == Qt::NoButton && m_operationMode != ZoomTimeline) {
         AbstractClipItem *clip = static_cast <AbstractClipItem*>(item);
         if (m_tool == RazorTool) {
             // razor tool over a clip, display current frame in monitor
@@ -1002,7 +1008,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         }
         QGraphicsView::mousePressEvent(event);
         event->ignore();
-        return;      
+        return;
     }
     
     if (m_tool == SpacerTool) {
@@ -3664,15 +3670,14 @@ void CustomTrackView::completeSpaceOperation(int track, GenTime &timeOffset)
   }
 
   clearSelection();
-  m_operationMode = None;  
-  
+  m_operationMode = None;
   return;
 }
 
 void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 {
     if (m_moveOpMode == Seek) m_moveOpMode = None;
-    if (m_operationMode == ScrollTimeline) {
+    if (m_operationMode == ScrollTimeline || m_operationMode == ZoomTimeline) {
         m_operationMode = None;
         setDragMode(QGraphicsView::NoDrag);
         QGraphicsView::mouseReleaseEvent(event);
@@ -5805,8 +5810,10 @@ void CustomTrackView::setTool(ProjectTool tool)
 
 void CustomTrackView::setScale(double scaleFactor, double verticalScale)
 {
+
     QMatrix newmatrix;
     newmatrix = newmatrix.scale(scaleFactor, verticalScale);
+    m_scene->isZooming = true;
     m_scene->setScale(scaleFactor, verticalScale);
     removeTipAnimation();
     bool adjust = false;
@@ -5830,6 +5837,7 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale)
     }
     double verticalPos = mapToScene(QPoint(0, viewport()->height() / 2)).y();
     centerOn(QPointF(cursorPos(), verticalPos));
+    m_scene->isZooming = false;
 }
 
 void CustomTrackView::slotRefreshGuides()

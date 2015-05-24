@@ -220,6 +220,8 @@ public:
     void createGroupForSelectedItems(QList<QGraphicsItem *> &selection);
     void selectItemsRightOfFrame(int frame);
     void resetSelectionGroup(bool selectItems = true);
+    /** @brief We are performing a timeline operation. */
+    void setOperation(OperationType op);
 
 public slots:
     /** @brief Send seek request to MLT. */

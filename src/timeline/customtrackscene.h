@@ -59,6 +59,7 @@ public:
     MltVideoProfile profile() const;
     void setEditMode(EditMode mode);
     EditMode editMode() const;
+    bool isZooming;
 
 private:
     KdenliveDoc *m_document;

@@ -1368,23 +1368,32 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == QGraphicsItem::ItemSelectedChange) {
         if (value.toBool())
-            setZValue(10);
+            setZValue(3);
         else
             setZValue(2);
     }
-    if (change == ItemPositionChange && scene()) {
+    CustomTrackScene *scene = NULL;
+    if (change == ItemPositionChange) {
+        scene = projectScene();
+    }
+    if (scene) {
         // calculate new position.
         //if (parentItem()) return pos();
+        if (scene->isZooming) {
+            // For some reason, mouse wheel on selected itm sometimes triggered
+            // a position change event corrupting timeline, so discard it
+            return pos();
+        }
         if (property("resizingEnd").isValid()) return pos();
         QPointF newPos = value.toPointF();
         ////qDebug() << "/// MOVING CLIP ITEM.------------\n++++++++++";
-        int xpos = projectScene()->getSnapPointForPos((int) newPos.x(), KdenliveSettings::snaptopoints());
+        int xpos = scene->getSnapPointForPos((int) newPos.x(), KdenliveSettings::snaptopoints());
         xpos = qMax(xpos, 0);
         newPos.setX(xpos);
         // Warning: newPos gives a position relative to the click event, so hack to get absolute pos
         int yOffset = property("y_absolute").toInt() + newPos.y();
         int newTrack = yOffset / KdenliveSettings::trackheight();
-        newTrack = qMin(newTrack, projectScene()->tracksCount() - 1);
+        newTrack = qMin(newTrack, scene->tracksCount() - 1);
         newTrack = qMax(newTrack, 0);
         QStringList lockedTracks = property("locked_tracks").toStringList();
         if (lockedTracks.contains(QString::number(newTrack))) {
@@ -1396,8 +1405,8 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
         QRectF sceneShape = rect();
         sceneShape.translate(newPos);
         QList<QGraphicsItem*> items;
-        if (projectScene()->editMode() == NormalEdit) {
-            items = scene()->items(sceneShape, Qt::IntersectsItemShape);
+        if (scene->editMode() == NormalEdit) {
+            items = scene->items(sceneShape, Qt::IntersectsItemShape);
 	}
         items.removeAll(this);
         bool forwardMove = newPos.x() > pos().x();
@@ -1425,7 +1434,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
                             sceneShape.translate(QPointF(offset, 0));
                             newPos.setX(newPos.x() + offset);
                         }
-                        QList<QGraphicsItem*> subitems = scene()->items(sceneShape, Qt::IntersectsItemShape);
+                        QList<QGraphicsItem*> subitems = scene->items(sceneShape, Qt::IntersectsItemShape);
                         subitems.removeAll(this);
                         for (int j = 0; j < subitems.count(); ++j) {
                             if (!subitems.at(j)->isEnabled()) continue;
