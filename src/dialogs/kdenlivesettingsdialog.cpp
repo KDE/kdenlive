@@ -845,8 +845,9 @@ void KdenliveSettingsDialog::loadTranscodeProfiles()
 
 void KdenliveSettingsDialog::saveTranscodeProfiles()
 {
-    KSharedConfigPtr config = KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::DataLocation, "kdenlivetranscodingrc"), KConfig::CascadeConfig);
-    //KSharedConfigPtr config = KSharedConfig::openConfig();
+  
+    QString transcodeFile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/kdenlivetranscodingrc";
+    KSharedConfigPtr config = KSharedConfig::openConfig(transcodeFile);
     KConfigGroup transConfig(config, "Transcoding");
     // read the entries
     transConfig.deleteGroup();
