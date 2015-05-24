@@ -224,7 +224,7 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent*)
         backgroundColor = KStatefulBrush(KColorScheme::Window, KColorScheme::NegativeBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
     }
     if (m_state == Desaturate && m_illumination > 0) {
-        backgroundColor.setAlpha(m_illumination * 2);
+        backgroundColor.setAlpha(qMax(m_illumination * 2, 255));
     }
     painter.fillRect(0, 0, width(), height(), backgroundColor);
 

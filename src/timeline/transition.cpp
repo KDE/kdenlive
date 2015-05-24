@@ -37,7 +37,7 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, co
     m_automaticTransition(automaticTransition),
     m_transitionTrack(transitiontrack)
 {
-    setZValue(3);
+    setZValue(4);
     m_info.cropDuration = info.endPos - info.startPos;
     setPos(info.startPos.frames(fps), (int)(info.track * KdenliveSettings::trackheight() + itemOffset() + 1));
 
@@ -204,11 +204,20 @@ int Transition::type() const
 QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == QGraphicsItem::ItemSelectedChange) {
-        if (value.toBool()) setZValue(10);
-        else setZValue(3);
+        if (value.toBool()) setZValue(5);
+        else setZValue(4);
     }
-    if (change == ItemPositionChange && scene()) {
+    CustomTrackScene *scene = NULL;
+    if (change == ItemPositionChange) {
+        scene = projectScene();
+    }
+    if (scene) {
         // calculate new position.
+        if (scene->isZooming) {
+            // For some reason, mouse wheel on selected itm sometimes triggered
+            // a position change event corrupting timeline, so discard it
+            return pos();
+        }
         QPointF newPos = value.toPointF();
         int xpos = projectScene()->getSnapPointForPos((int) newPos.x(), KdenliveSettings::snaptopoints());
         xpos = qMax(xpos, 0);
@@ -228,7 +237,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
         QList<QGraphicsItem*> items;
         // TODO: manage transitions in OVERWRITE MODE
         //if (projectScene()->editMode() == NORMALEDIT)
-        items = scene()->items(sceneShape, Qt::IntersectsItemShape);
+        items = scene->items(sceneShape, Qt::IntersectsItemShape);
         items.removeAll(this);
 
         bool forwardMove = newPos.x() > pos().x();
@@ -256,7 +265,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
                             sceneShape.translate(QPointF(offset, 0));
                             newPos.setX(newPos.x() + offset);
                         }
-                        QList<QGraphicsItem*> subitems = scene()->items(sceneShape, Qt::IntersectsItemShape);
+                        QList<QGraphicsItem*> subitems = scene->items(sceneShape, Qt::IntersectsItemShape);
                         subitems.removeAll(this);
                         for (int j = 0; j < subitems.count(); ++j) {
                             if (!subitems.at(j)->isEnabled()) continue;

@@ -222,6 +222,8 @@ public:
     void resetSelectionGroup(bool selectItems = true);
     /** @brief Returns all infos necessary to save guides. */
     QMap <double, QString> guidesData() const;
+    /** @brief We are performing a timeline operation. */
+    void setOperation(OperationType op);
 
 public slots:
     /** @brief Send seek request to MLT. */
