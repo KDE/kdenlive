@@ -320,6 +320,10 @@ void CustomTrackView::wheelEvent(QWheelEvent * e)
             else emit zoomOut();
         }
     } else {
+        if (m_operationMode == ResizeStart || m_operationMode == ResizeEnd) {
+            // Don't allow scrolling + resizing
+            return;
+        }
         if (e->delta() <= 0) horizontalScrollBar()->setValue(horizontalScrollBar()->value() + horizontalScrollBar()->singleStep());
         else  horizontalScrollBar()->setValue(horizontalScrollBar()->value() - horizontalScrollBar()->singleStep());
     }
