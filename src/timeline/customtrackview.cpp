@@ -330,8 +330,15 @@ void CustomTrackView::wheelEvent(QWheelEvent * e)
             // Don't allow scrolling + resizing
             return;
         }
+        if (m_operationMode == None || m_operationMode == ZoomTimeline) {
+            // Prevent unwanted object move
+            m_scene->isZooming = true;
+        }
         if (e->delta() <= 0) horizontalScrollBar()->setValue(horizontalScrollBar()->value() + horizontalScrollBar()->singleStep());
         else  horizontalScrollBar()->setValue(horizontalScrollBar()->value() - horizontalScrollBar()->singleStep());
+        if (m_operationMode == None || m_operationMode == ZoomTimeline) {
+            m_scene->isZooming = false;
+        }
     }
 }
 
