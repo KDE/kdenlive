@@ -71,6 +71,9 @@ public slots:
     void slotResetNextKeyframes();
     void slotResetPreviousKeyframes();
     void slotUpdateRange(int inPoint, int outPoint);
+    /** @brief Send geometry info to the monitor. */
+    void slotInitScene(int pos);
+    void slotSeekToKeyframe(int index);
 
 private:
     Ui::GeometryWidget_UI m_ui;
@@ -82,7 +85,6 @@ private:
     int m_inPoint;
     /** Out point of the clip (crop from end). */
     int m_outPoint;
-    OnMonitorPathItem *m_geomPath;
     QGraphicsRectItem *m_previous;
     KeyframeHelper *m_timeline;
     /** Stores the different settings in the MLT geometry format. */
@@ -132,8 +134,6 @@ private slots:
     /** @brief Adds or deletes a keyframe depending on whether there is already a keyframe at the current position. */
     void slotAddDeleteKeyframe();
 
-    /** @brief Updates the Mlt::Geometry path object. */
-    void slotUpdatePath();
     /** @brief Updates the Mlt::Geometry object. */
     void slotUpdateGeometry();
     void slotUpdateGeometry(const QRect r);

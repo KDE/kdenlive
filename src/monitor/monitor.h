@@ -186,6 +186,7 @@ private slots:
     void slotAdjustEffectCompare();
     void slotShowMenu(const QPoint pos);
     void slotForceSize(QAction *a);
+    void slotSeekToKeyFrame();
 
 public slots:
     void slotOpenFile(const QString &);
@@ -245,6 +246,7 @@ signals:
     void extractZone(const QString &id);
     void effectChanged(const QRect);
     void addKeyframe();
+    void seekToKeyframe(int);
 };
 
 #endif

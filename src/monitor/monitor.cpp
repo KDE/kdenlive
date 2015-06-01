@@ -1221,14 +1221,24 @@ void Monitor::slotEnableEffectScene(bool enable)
 
 void Monitor::slotShowEffectScene(bool show, bool manuallyTriggered)
 {
-    if (show) {
+    if (show && !m_rootItem || m_rootItem->objectName() != "rooteffectscene") {
         m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitoreffectscene.qml"))));
         m_rootItem = m_glMonitor->rootObject();
         QObject::connect(m_rootItem, SIGNAL(addKeyframe()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
+        QObject::connect(m_rootItem, SIGNAL(seekToKeyframe()), this, SLOT(slotSeekToKeyFrame()), Qt::UniqueConnection);
         m_glMonitor->slotShowEffectScene();
     }
     else if (m_rootItem && m_rootItem->objectName() == "rooteffectscene")  {
         loadMasterQml();
+    }
+}
+
+void Monitor::slotSeekToKeyFrame()
+{
+    if (m_rootItem && m_rootItem->objectName() == "rooteffectscene") {
+        // Adjust splitter pos
+        int kfr = m_rootItem->property("requestedKeyFrame").toInt();
+        emit seekToKeyframe(kfr);
     }
 }
 

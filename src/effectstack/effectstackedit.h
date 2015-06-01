@@ -56,6 +56,8 @@ public:
     /** @brief Set keyframes for this transition. */
     void setKeyframes(const QString &data, int maximum);
     void updatePalette();
+    /** @brief Emit geometry settings. */
+    void initEffectScene(int pos);
 
 private:
     EffectMetaInfo m_metaInfo;
@@ -75,6 +77,8 @@ signals:
     void displayMessage(const QString&, int);
     void checkMonitorPosition(int);
     void syncEffectsPos(int pos);
+    /** @brief Request sending geometry info to monitor overlay. */
+    void initScene(int);
     void showComments(bool show);
     void effectStateChanged(bool enabled);
     /** @brief Start an MLT filter job on this clip. */

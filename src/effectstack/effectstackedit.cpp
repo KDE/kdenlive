@@ -158,6 +158,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
     connect(m_paramWidget, SIGNAL(startFilterJob(QMap<QString,QString>&, QMap<QString,QString>&,QMap <QString, QString>&)), this, SIGNAL(startFilterJob(QMap<QString,QString>&, QMap<QString,QString>&,QMap <QString, QString>&)));
     
     connect (this, SIGNAL(syncEffectsPos(int)), m_paramWidget, SIGNAL(syncEffectsPos(int)));
+    connect (this, SIGNAL(initScene(int)), m_paramWidget, SIGNAL(initScene(int)));
     connect (m_paramWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
     connect (m_paramWidget, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
     connect (m_paramWidget, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
@@ -180,6 +181,12 @@ void EffectStackEdit::slotSyncEffectsPos(int pos)
 {
     emit syncEffectsPos(pos);
 }
+
+void EffectStackEdit::initEffectScene(int pos)
+{
+    emit initScene(pos);
+}
+
 
 bool EffectStackEdit::needsMonitorEffectScene() const
 {

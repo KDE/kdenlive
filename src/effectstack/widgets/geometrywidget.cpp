@@ -45,13 +45,13 @@ GeometryWidget::GeometryWidget(Monitor* monitor, const Timecode &timecode, int c
     m_clipPos(clipPos),
     m_inPoint(0),
     m_outPoint(1),
-    m_geomPath(NULL),
     m_previous(NULL),
     m_geometry(NULL),
     m_fixedGeom(false)
 {
     m_ui.setupUi(this);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
+    connect(m_monitor, SIGNAL(effectChanged(QRect)), this, SLOT(slotUpdateGeometry(QRect)));
     /*MonitorEditWidget *edit = monitor->getEffectEdit();
     edit->removeCustomControls();
     edit->addCustomButton(QIcon::fromTheme("draw-path"), i18n("Show path"), this, SLOT(slotShowPath(bool)), true, KdenliveSettings::onmonitoreffects_geometryshowpath());
@@ -252,6 +252,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, const Timecode &timecode, int c
     */
 
     connect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
+    connect(m_monitor, SIGNAL(seekToKeyframe(int)), this, SLOT(slotSeekToKeyframe(int)));
     connect(this, SIGNAL(parameterChanged()), this, SLOT(slotUpdateProperties()));
 }
 
@@ -264,10 +265,6 @@ GeometryWidget::~GeometryWidget()
     delete m_spinWidth;
     delete m_spinHeight;
     delete m_opacity;
-    /*if (m_geomPath) {
-        m_scene->removeItem(m_geomPath);
-        delete m_geomPath;
-    }*/
     delete m_previous;
     delete m_geometry;
     m_extraGeometryNames.clear();
@@ -287,10 +284,6 @@ void GeometryWidget::slotShowPreviousKeyFrame(bool show)
 void GeometryWidget::slotShowPath(bool show)
 {
     KdenliveSettings::setOnmonitoreffects_geometryshowpath(show);
-    if (m_geomPath) {
-        /*if (show) m_scene->addItem(m_geomPath);
-        else m_scene->removeItem(m_geomPath);*/
-    }
     slotPositionChanged(-1, false);
 }
 
@@ -328,7 +321,6 @@ void GeometryWidget::setupParam(const QDomElement &elem, int minframe, int maxfr
 {
     m_inPoint = minframe;
     m_outPoint = maxframe;
-
     if (m_geometry)
         m_geometry->parse(elem.attribute("value").toUtf8().data(), maxframe - minframe, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
     else
@@ -353,25 +345,8 @@ void GeometryWidget::setupParam(const QDomElement &elem, int minframe, int maxfr
 
     Mlt::GeometryItem item;
     m_geometry->fetch(&item, m_monitor->render->seekFramePosition() - m_clipPos);
-    /*if (m_rect) {
-        m_scene->removeItem(m_rect);
-        delete m_rect;
-    }*/
-    /*if (m_geomPath) {
-        m_scene->removeItem(m_geomPath);
-        delete m_geomPath;
-    }*/
-    
     m_monitor->slotShowEffectScene(true);
     m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
-    connect(m_monitor, SIGNAL(effectChanged(QRect)), this, SLOT(slotUpdateGeometry(QRect)));
-    /*m_geomPath = new OnMonitorPathItem();
-    connect(m_geomPath, SIGNAL(changed()), this, SLOT(slotUpdatePath()));
-    m_geomPath->setPen(QPen(Qt::red));
-    m_geomPath->setPoints(m_geometry);
-    if (KdenliveSettings::onmonitoreffects_geometryshowpath())
-        m_scene->addItem(m_geomPath);
-    m_scene->centerView();*/
     slotPositionChanged(m_monitor->render->seekFramePosition() - m_clipPos, false);
 }
 
@@ -437,36 +412,6 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
         m_ui.buttonAddDelete->setIcon(QIcon::fromTheme("list-remove"));
         m_ui.buttonAddDelete->setToolTip(i18n("Delete keyframe"));
     }
-    
-    /*if (KdenliveSettings::onmonitoreffects_geometryshowprevious() == false || m_geometry->prev_key(&previousItem, pos - 1) || previousItem.frame() == item.frame()) {
-        if (m_previous) {
-            //m_scene->removeItem(m_previous);
-        }
-    }
-    else if (m_previous && m_previous->scene() && m_previous->data(Qt::UserRole).toInt() == previousItem.frame()) {
-        // previous frame already here, do nothing
-    }
-    else {
-        if (m_previous == NULL) {
-            m_previous = new QGraphicsRectItem(0, 0, previousItem.w(), previousItem.h());
-            m_previous->setBrush(QColor(200, 200, 0, 20));
-            m_previous->setPen(QPen(Qt::white, 0, Qt::DotLine));
-            m_previous->setPos(previousItem.x(), previousItem.y());
-            m_previous->setZValue(-1);
-            m_previous->setEnabled(false);
-        }
-        else {
-            m_previous->setPos(previousItem.x(), previousItem.y());
-            m_previous->setRect(0, 0, previousItem.w(), previousItem.h());
-        }
-        m_previous->setData(Qt::UserRole, previousItem.frame());
-        if (m_previous->scene() == 0) m_scene->addItem(m_previous);
-    }
-    */
-
-    QRect r((int) item.x(), (int) item.y(), (int) item.w(), (int) item.h());
-    m_monitor->setUpEffectGeometry(r);
-
     m_opacity->blockSignals(true);
     m_opacity->setValue(item.mix());
     m_opacity->blockSignals(false);
@@ -483,11 +428,18 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
             }
         }
     }
-
+    m_geometry->fetch(&item, pos);
+    QRect r((int) item.x(), (int) item.y(), (int) item.w(), (int) item.h());
+    m_monitor->setUpEffectGeometry(r, calculateCenters());
     slotUpdateProperties();
 
     if (seek && KdenliveSettings::transitionfollowcursor())
         emit seekToPos(pos);
+}
+
+void GeometryWidget::slotInitScene(int pos)
+{
+    slotPositionChanged(pos, false);
 }
 
 void GeometryWidget::slotKeyframeMoved(int pos)
@@ -496,6 +448,20 @@ void GeometryWidget::slotKeyframeMoved(int pos)
     slotUpdateGeometry();
     QTimer::singleShot(100, this, SIGNAL(parameterChanged()));
 }
+
+void GeometryWidget::slotSeekToKeyframe(int index)
+{
+    // "fixed" effect: don't allow keyframe (FIXME: find a better way to access this property!)
+    Mlt::GeometryItem item;
+    int pos = 0;
+    int ix = 0;
+    while (!m_geometry->next_key(&item, pos) && ix < index) {
+        ix++;
+        pos = item.frame() + 1;
+    }
+    slotPositionChanged(item.frame(), true);
+}
+
 
 void GeometryWidget::slotAddKeyframe(int pos)
 {
@@ -525,9 +491,10 @@ void GeometryWidget::slotAddKeyframe(int pos)
             geom->insert(item2);
         }
     }
-    
+
     m_timeline->update();
     slotPositionChanged(pos, false);
+    m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
     emit parameterChanged();
 }
 
@@ -549,11 +516,8 @@ void GeometryWidget::slotDeleteKeyframe(int pos)
     }
 
     m_timeline->update();
-    if (m_geomPath && KdenliveSettings::onmonitoreffects_geometryshowpath()) {
-        /*m_scene->removeItem(m_geomPath);
-        m_geomPath->setPoints(m_geometry);
-        m_scene->addItem(m_geomPath);*/
-    }
+    m_geometry->fetch(&item, pos);
+    m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());    
     slotPositionChanged(pos, false);
     emit parameterChanged();
 }
@@ -590,26 +554,6 @@ void GeometryWidget::slotAddDeleteKeyframe()
         slotDeleteKeyframe();
 }
 
-void GeometryWidget::slotUpdatePath()
-{
-    if (!m_geomPath) return;
-    QList <QPointF> points = m_geomPath->points();
-    Mlt::GeometryItem item;
-    int pos = 0;
-    int ix = 0;
-    while (ix < points.count() && !m_geometry->next_key(&item, pos)) {
-        QPointF center = points.at(ix);
-        QSizeF size(item.w(), item.h());
-        item.x(center.x() - size.width()/2);
-        item.y(center.y() - size.height()/2);
-        m_geometry->insert(item);
-        pos = item.frame() + 1;
-        ix++;
-    }
-    slotPositionChanged(-1, false);
-    emit parameterChanged();
-}
-
 
 void GeometryWidget::slotUpdateGeometry()
 {
@@ -640,11 +584,6 @@ void GeometryWidget::slotUpdateGeometry()
             item2.x((double) widget->value() / m_extraFactors.at(i).toInt());
             geom->insert(item2);
         }
-    }
-    if (m_geomPath && KdenliveSettings::onmonitoreffects_geometryshowpath()) {
-        /*m_scene->removeItem(m_geomPath);
-        m_geomPath->setPoints(m_geometry);
-        m_scene->addItem(m_geomPath);*/
     }
     emit parameterChanged();
 }
@@ -680,14 +619,8 @@ void GeometryWidget::slotUpdateGeometry(const QRect r)
             geom->insert(item2);
         }
     }
-    /*if (m_geomPath && KdenliveSettings::onmonitoreffects_geometryshowpath()) {
-        m_scene->removeItem(m_geomPath);
-        m_geomPath->setPoints(m_geometry);
-        m_scene->addItem(m_geomPath);
-    }*/
     m_monitor->setUpEffectGeometry(QRect(), calculateCenters());
     emit parameterChanged();
-    
 }
 
 void GeometryWidget::slotUpdateProperties()
@@ -894,11 +827,7 @@ void GeometryWidget::slotResetKeyframes()
     item.mix(100);
     m_geometry->insert(item);
     m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
-    if (m_geomPath && KdenliveSettings::onmonitoreffects_geometryshowpath()) {
-        /*m_scene->removeItem(m_geomPath);
-        m_geomPath->setPoints(m_geometry);
-        m_scene->addItem(m_geomPath);*/
-    }
+    m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
     slotPositionChanged(-1, false);
     emit parameterChanged();
 }
@@ -931,11 +860,7 @@ void GeometryWidget::slotResetNextKeyframes()
         m_geometry->insert(item);
     }
     m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
-    if (m_geomPath && KdenliveSettings::onmonitoreffects_geometryshowpath()) {
-        /*m_scene->removeItem(m_geomPath);
-        m_geomPath->setPoints(m_geometry);
-        m_scene->addItem(m_geomPath);*/
-    }
+    m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
     slotPositionChanged(-1, false);
     emit parameterChanged();
 }
@@ -980,11 +905,7 @@ void GeometryWidget::slotResetPreviousKeyframes()
         m_geometry->insert(item);
     }
     m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
-    if (m_geomPath && KdenliveSettings::onmonitoreffects_geometryshowpath()) {
-        /*m_scene->removeItem(m_geomPath);
-        m_geomPath->setPoints(m_geometry);
-        m_scene->addItem(m_geomPath);*/
-    }
+    m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
     slotPositionChanged(-1, false);
     emit parameterChanged();
 }
@@ -1036,11 +957,7 @@ void GeometryWidget::importKeyframes(const QString &data, int maximum)
         m_geometry->insert(item);
     }
     m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
-    /*if (m_geomPath && KdenliveSettings::onmonitoreffects_geometryshowpath()) {
-        m_scene->removeItem(m_geomPath);
-        m_geomPath->setPoints(m_geometry);
-        m_scene->addItem(m_geomPath);
-    }*/
+    m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
     slotPositionChanged(-1, false);
     emit parameterChanged();
 }

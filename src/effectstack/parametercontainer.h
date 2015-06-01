@@ -125,6 +125,8 @@ signals:
     void importClipKeyframes();
     /** @brief Master clip was resized, update effect. */
     void updateRange(int inPoint, int outPoint);
+    /** @brief Request sending geometry info to monitor overlay. */
+    void initScene(int);
 };
 
 #endif

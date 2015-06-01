@@ -14,17 +14,27 @@ Item {
     property double scale
     onScaleChanged: canvas.requestPaint()
     property bool iskeyframe
+    property int requestedKeyFrame
     property var centerPoints: []
     onCenterPointsChanged: canvas.requestPaint()
     signal effectChanged()
     signal addKeyframe()
+    signal seekToKeyframe()
+
+    Text {
+        id: fontReference
+        property int fontSize
+        fontSize: font.pointSize
+    }
 
     Canvas {
       id: canvas
+      property double handleSize
       width: root.width
       height: root.height
       anchors.centerIn: root
       contextType: "2d";
+      handleSize: fontReference.fontSize / 2
       renderStrategy: Canvas.Threaded;
       onPaint:
       {
@@ -32,6 +42,7 @@ Item {
             context.clearRect(0,0, width, height);
             context.beginPath()
             context.strokeStyle = Qt.rgba(1, 0, 0, 0.5)
+            context.fillStyle = Qt.rgba(1, 0, 0, 0.5)
             context.lineWidth = 2
 
             for(var i = 0; i < root.centerPoints.length; i++)
@@ -40,9 +51,11 @@ Item {
                 if(i == 0)
                 {
                     context.moveTo(p1.x, p1.y)
+                    context.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
                     continue
                 }
                 context.lineTo(p1.x, p1.y)
+                context.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
             }
             context.stroke()
             context.restore()
@@ -72,7 +85,26 @@ Item {
         objectName: "global"
         width: root.width; height: root.height
         anchors.centerIn: root
+        hoverEnabled: true
+        cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
+
+        readonly property bool containsMouse: {
+              for(var i = 0; i < root.centerPoints.length; i++)
+              {
+                var p1 = canvas.convertPoint(root.centerPoints[i])
+                if (Math.abs(p1.x - mouseX) <= canvas.handleSize && Math.abs(p1.y - mouseY) <= canvas.handleSize) {
+                    root.requestedKeyFrame = i
+                    return true
+                }
+              }
+              root.requestedKeyFrame = -1
+              return false
+        }
+
         onClicked: {
+            if (root.requestedKeyFrame >= 0) {
+                root.seekToKeyframe();
+            }
 
         }
         onDoubleClicked: {
@@ -81,7 +113,7 @@ Item {
     }
     Rectangle {
         id: framerect
-        property color hoverColor: "#ff0000"
+        property color hoverColor: "#ffffff"
         x: frame.x + root.framesize.x * root.scale
         y: frame.y + root.framesize.y * root.scale
         width: root.framesize.width * root.scale
@@ -272,7 +304,7 @@ Item {
               enabled: root.iskeyframe
               cursorShape: root.iskeyframe ? Qt.SizeAllCursor : Qt.ArrowCursor
               onEntered: { framerect.hoverColor = '#ffff00'}
-              onExited: { framerect.hoverColor = '#ff0000'}
+              onExited: { framerect.hoverColor = '#ffffff'}
               onPressed: {
                   oldMouseX = mouseX
                   oldMouseY = mouseY

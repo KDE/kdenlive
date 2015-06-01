@@ -242,6 +242,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 connect(m_geometryWidget, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
 		connect(m_geometryWidget, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
                 connect(this, SIGNAL(syncEffectsPos(int)), m_geometryWidget, SLOT(slotSyncPosition(int)));
+                connect(this, SIGNAL(initScene(int)), m_geometryWidget, SLOT(slotInitScene(int)));
             } else {
                 Geometryval *geo = new Geometryval(m_metaInfo->monitor->profile(), m_metaInfo->timecode, m_metaInfo->frameSize, 0);
                 if (minFrame == maxFrame) {
@@ -600,7 +601,7 @@ void ParameterContainer::slotCollectAllParameters()
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     const QDomElement oldparam = m_effect.cloneNode().toElement();
     //QDomElement newparam = oldparam.cloneNode().toElement();
-    
+
     if (m_effect.attribute("id") == "movit.lift_gamma_gain" || m_effect.attribute("id") == "lift_gamma_gain" ) {
         LumaLiftGain *gainWidget = ((LumaLiftGain*)m_valueItems.value(m_effect.attribute("id")));
         gainWidget->updateEffect(m_effect);
