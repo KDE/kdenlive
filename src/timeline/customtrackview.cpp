@@ -1139,7 +1139,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     //if (!(event->modifiers() | Qt::ControlModifier) && m_operationMode == NONE)
     //QGraphicsView::mousePressEvent(event);
 
-    if (m_dragItem) {
+    if (m_dragItem && event->button() == Qt::LeftButton) {
         m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps())), (int)(event->pos().y() - m_dragItem->pos().y()));
         if (m_selectionGroup && m_dragItem->parentItem() == m_selectionGroup) {
             // all other modes break the selection, so the user probably wants to move it
