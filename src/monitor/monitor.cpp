@@ -1221,7 +1221,7 @@ void Monitor::slotEnableEffectScene(bool enable)
 
 void Monitor::slotShowEffectScene(bool show, bool manuallyTriggered)
 {
-    if (show && !m_rootItem || m_rootItem->objectName() != "rooteffectscene") {
+    if (show && (!m_rootItem || m_rootItem->objectName() != "rooteffectscene")) {
         m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitoreffectscene.qml"))));
         m_rootItem = m_glMonitor->rootObject();
         QObject::connect(m_rootItem, SIGNAL(addKeyframe()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);

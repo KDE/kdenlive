@@ -1833,7 +1833,10 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event)
             event->setDropAction(Qt::MoveAction);
             event->acceptProposedAction();
         }
-    } else QGraphicsView::dragEnterEvent(event);
+    } 
+    else {
+        QGraphicsView::dragEnterEvent(event);
+    }
 }
 
 bool CustomTrackView::itemCollision(AbstractClipItem *item, const ItemInfo &newPos)
@@ -2717,7 +2720,8 @@ void CustomTrackView::dragMoveEvent(QDragMoveEvent * event)
             insertDropClips(event->mimeData(), event->pos());
             event->accept();
         }
-    } else {
+    }
+    else {
         QGraphicsView::dragMoveEvent(event);
     }
 }
@@ -2736,7 +2740,10 @@ void CustomTrackView::dragLeaveEvent(QDragLeaveEvent * event)
         m_selectionGroup = NULL;
         m_dragItem = NULL;
         event->accept();
-    } else QGraphicsView::dragLeaveEvent(event);
+    }
+    else {
+        QGraphicsView::dragLeaveEvent(event);
+    }
 }
 
 void CustomTrackView::dropEvent(QDropEvent * event)
@@ -2799,7 +2806,9 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         }
         // Add refresh command for redo
         new RefreshMonitorCommand(this, false, false, addCommand);
-
+        for (int i = 0; i < brokenClips.count(); i++) {
+            items.removeAll(brokenClips.at(i));
+        }
         qDeleteAll(brokenClips);
         brokenClips.clear();
         if (addCommand->childCount() > 0) m_commandStack->push(addCommand);
@@ -2841,7 +2850,10 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         /// \todo enable when really working
         //        alignAudio();
 
-    } else QGraphicsView::dropEvent(event);
+    }
+    else {
+        QGraphicsView::dropEvent(event);
+    }
     setFocus();
 }
 
