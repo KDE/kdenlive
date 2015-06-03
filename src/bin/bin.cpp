@@ -291,6 +291,16 @@ Bin::Bin(QWidget* parent) :
     sliderMenu->setIcon(QIcon::fromTheme("file-zoom-in"));
     sliderMenu->addAction(widgetslider);
     settingsMenu->addMenu(sliderMenu);
+    
+    // Column show / hide actions
+    m_showDate = new QAction(i18n("Show date"), this);
+    m_showDate->setCheckable(true);
+    connect(m_showDate, SIGNAL(triggered(bool)), this, SLOT(slotShowDateColumn(bool)));
+    m_showDesc = new QAction(i18n("Show description"), this);
+    m_showDesc->setCheckable(true);
+    connect(m_showDesc, SIGNAL(triggered(bool)), this, SLOT(slotShowDescColumn(bool)));
+    settingsMenu->addAction(m_showDate);
+    settingsMenu->addAction(m_showDesc);
     QToolButton *button = new QToolButton;
     button->setIcon(QIcon::fromTheme("configure"));
     button->setMenu(settingsMenu);
@@ -899,13 +909,17 @@ void Bin::slotInitView(QAction *action)
         m_itemView->setItemDelegate(m_binTreeViewDelegate);
         QTreeView *view = static_cast<QTreeView*>(m_itemView);
 	view->setSortingEnabled(true);
-	view->setHeaderHidden(true);
+        connect(m_proxyModel, SIGNAL(layoutAboutToBeChanged()), this, SLOT(slotSetSorting()));
+        m_proxyModel->setDynamicSortFilter(true);
         if (!m_headerInfo.isEmpty()) {
             view->header()->restoreState(m_headerInfo);
 	} else {
             view->header()->resizeSections(QHeaderView::ResizeToContents);
+            view->resizeColumnToContents(0);
+            view->setColumnHidden(2, true);
 	}
-        view->resizeColumnToContents(0);
+        m_showDate->setChecked(!view->isColumnHidden(1));
+        m_showDesc->setChecked(!view->isColumnHidden(2));
 	connect(view->header(), SIGNAL(sectionResized(int,int,int)), this, SLOT(slotSaveHeaders()));
     }
     else if (m_listType == BinIconView) {
@@ -2097,5 +2111,30 @@ void Bin::slotAbortAudioThumb(const QString &id)
     ProjectClip *clip = m_rootFolder->clip(id);
     if (!clip) return;
     clip->abortAudioThumbs();
+}
+
+void Bin::slotSetSorting()
+{
+    QTreeView *view = static_cast<QTreeView*>(m_itemView);
+    if (view) {
+        int ix = view->header()->sortIndicatorSection();
+        m_proxyModel->setFilterKeyColumn(ix);
+    }
+}
+
+void Bin::slotShowDateColumn(bool show)
+{
+    QTreeView *view = static_cast<QTreeView*>(m_itemView);
+    if (view) {
+        view->setColumnHidden(1, !show);
+    }
+}
+
+void Bin::slotShowDescColumn(bool show)
+{
+    QTreeView *view = static_cast<QTreeView*>(m_itemView);
+    if (view) {
+        view->setColumnHidden(2, !show);
+    }
 }
 

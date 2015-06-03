@@ -83,6 +83,8 @@ public slots:
 private:
     /** @brief Reference to the project bin */
     Bin *m_bin;
+    /** @brief Return reference to column specific data */
+    int mapToColumn(int column) const;
 
 signals:
     //TODO

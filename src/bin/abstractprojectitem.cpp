@@ -167,6 +167,7 @@ AbstractProjectItem::PROJECTITEMTYPE AbstractProjectItem::itemType() const
 QVariant AbstractProjectItem::data(DataType type) const
 {
     QVariant data;
+    QLocale locale;
     switch (type) {
         case SortRole:
             if (m_itemType == SubClipItem) data = QVariant(m_duration);
@@ -183,6 +184,9 @@ QVariant AbstractProjectItem::data(DataType type) const
             break;
 	case DataDuration:
 	    data = QVariant(m_duration);
+            break;
+        case DataDate:
+            data = QVariant(m_date);
             break;
         case ItemTypeRole:
             data = QVariant(m_itemType);
@@ -213,7 +217,7 @@ QVariant AbstractProjectItem::data(DataType type) const
 
 int AbstractProjectItem::supportedDataCount() const
 {
-    return 1;
+    return 3;
 }
 
 QString AbstractProjectItem::name() const

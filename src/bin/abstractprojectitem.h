@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QObject>
 #include <QPixmap>
-
+#include <QDateTime>
 
 class ProjectClip;
 class ProjectFolder;
@@ -119,18 +119,18 @@ public:
     enum DataType {
         DataName = Qt::DisplayRole,
         DataThumbnail = Qt::DecorationRole,
+        ClipToolTip = Qt::ToolTipRole,
         DataId = Qt::UserRole,
-        SortRole,
-        DataDescription,
         DataDate,
+        DataDescription,
+        SortRole,
 	IconOverlay,
         ItemTypeRole,
         DataDuration,
 	JobType,
 	JobProgress,
 	JobMessage,
-        ClipStatus,
-        ClipToolTip = Qt::ToolTipRole
+        ClipStatus
     };
     
     enum CLIPSTATUS {
@@ -183,6 +183,7 @@ protected:
     QString m_description;
     QIcon m_thumbnail;
     QString m_duration;
+    QDateTime m_date;
     QString m_id;
     CLIPSTATUS m_clipStatus;
     AbstractClipJob::JOBTYPE m_jobType;

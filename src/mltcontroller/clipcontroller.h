@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QString>
 #include <QObject>
 #include <QUrl>
+#include <QDateTime>
 
 class QPixmap;
 class BinController;
@@ -62,6 +63,9 @@ public:
     /** @brief Returns true if the master producer is valid */
     bool isValid();
     
+    /** @brief Stores the file's creation time */
+    QDateTime date;
+    
     /** @brief Replaces the master producer and (TODO) the track producers with an updated producer, for example a proxy */
     void updateProducer(const QString &id, Mlt::Producer *producer);
     
@@ -85,7 +89,7 @@ public:
     
     /** @brief Returns the clip's type as defined in definitions.h */
     ClipType clipType() const;
-    
+
     /** @brief Returns the clip's duration */
     GenTime getPlaytime() const;
     /**

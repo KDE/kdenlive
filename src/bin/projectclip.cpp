@@ -53,6 +53,7 @@ ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *control
     m_thumbnail = thumb;
     m_name = m_controller->clipName();
     m_duration = m_controller->getStringDuration();
+    m_date = m_controller->date;
     getFileHash();
     setParent(parent);
     bin()->loadSubClips(id, m_controller->getSubClips());
@@ -268,6 +269,7 @@ void ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
         m_controller = controller;
         if (m_name.isEmpty()) m_name = m_controller->clipName();
         m_duration = m_controller->getStringDuration();
+        m_date = m_controller->date;
         m_temporaryUrl.clear();
     }
     m_clipStatus = StatusReady;

@@ -47,6 +47,23 @@ ProjectItemModel::~ProjectItemModel()
 {
 }
 
+int ProjectItemModel::mapToColumn(int column) const
+{
+    switch (column) {
+      case 0:
+          return AbstractProjectItem::DataName;
+          break;
+      case 1:
+          return AbstractProjectItem::DataDate;
+          break;
+      case 2:
+          return AbstractProjectItem::DataDescription;
+          break;
+      default:
+          return AbstractProjectItem::DataName;
+    }
+}
+
 QVariant ProjectItemModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid()) {
@@ -54,9 +71,12 @@ QVariant ProjectItemModel::data(const QModelIndex& index, int role) const
     }
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
-        return item->data(static_cast<AbstractProjectItem::DataType>(index.column()));
+        return item->data(static_cast<AbstractProjectItem::DataType>(mapToColumn(index.column())));
     }
-    if (role == Qt::DecorationRole && index.column() == 0) {
+    if (role == Qt::DecorationRole) {
+        if (index.column() != 0) {
+            return QVariant();
+        }
         // Data has to be returned as icon to allow the view to scale it
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
         QIcon icon = item->data(AbstractProjectItem::DataThumbnail).value<QIcon>();
@@ -141,15 +161,15 @@ QVariant ProjectItemModel::headerData(int section, Qt::Orientation orientation, 
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
         QVariant columnName;
-        switch ((AbstractProjectItem::DataType)section) {
-        case AbstractProjectItem::DataName:
+        switch (section) {
+        case 0:
             columnName = i18n("Name");
             break;
-        case AbstractProjectItem::DataDescription:
-            columnName = i18n("Description");
-            break;
-        case AbstractProjectItem::DataDate:
+        case 1:
             columnName = i18n("Date");
+            break;
+        case 2:
+            columnName = i18n("Description");
             break;
         default:
             columnName = i18n("Unknown");
@@ -157,7 +177,6 @@ QVariant ProjectItemModel::headerData(int section, Qt::Orientation orientation, 
         }
         return columnName;
     }
-
     return QAbstractItemModel::headerData(section, orientation, role);
 }
 
@@ -242,7 +261,7 @@ QMimeData* ProjectItemModel::mimeData(const QModelIndexList& indices) const
     QStringList list;
     for (int i = 0; i < indices.count(); i++) {
         QModelIndex ix = indices.at(i);
-        if (!ix.isValid()) continue;
+        if (!ix.isValid() || !ix.column() == 0) continue;
         AbstractProjectItem *item = static_cast<AbstractProjectItem*>(ix.internalPointer());
         AbstractProjectItem::PROJECTITEMTYPE type = item->itemType();
         if (type == AbstractProjectItem::ClipItem) {

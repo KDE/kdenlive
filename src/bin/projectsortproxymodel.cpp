@@ -86,6 +86,11 @@ bool ProjectSortProxyModel::lessThan(const QModelIndex & left, const QModelIndex
     int rightType = sourceModel()->data(right, AbstractProjectItem::ItemTypeRole).toInt();
     if (leftType == rightType) {
         // Let the normal alphabetical sort happen
+        QVariant leftData = sourceModel()->data(left, Qt::DisplayRole);
+        QVariant rightData = sourceModel()->data(right, Qt::DisplayRole);
+        if (leftData.type() == QVariant::DateTime) {
+            return leftData.toDateTime() < rightData.toDateTime();
+        }
         return QSortFilterProxyModel::lessThan(right, left);
     }
     return leftType > rightType;

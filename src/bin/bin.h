@@ -435,6 +435,11 @@ public:
 private slots:
     void slotAddClip();
     void slotReloadClip();
+    /** @brief Set sorting column */
+    void slotSetSorting();
+    /** @brief Show/hide date column */
+    void slotShowDateColumn(bool show);
+    void slotShowDescColumn(bool show);
 
     /** @brief Setup the bin view type (icon view, tree view, ...).
     * @param action The action whose data defines the view type or NULL to keep default view */
@@ -521,6 +526,8 @@ private:
     QMenu *m_extractAudioAction;
     QMenu *m_transcodeAction;
     QMenu *m_clipsActionsMenu;
+    QAction *m_showDate;
+    QAction *m_showDesc;
     QSplitter *m_splitter;
     /** @brief Holds an available unique id for a clip to be created */
     int m_clipCounter;

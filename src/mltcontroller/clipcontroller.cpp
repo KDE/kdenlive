@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUrl>
 #include <QDebug>
 #include <QPixmap>
+#include <QFileInfo>
 #include <KLocalizedString>
 
 
@@ -118,6 +119,7 @@ void ClipController::getProducerXML(QDomDocument& document)
 
 void ClipController::getInfoForProducer()
 {
+    date = QFileInfo(m_properties->get("resource")).created();
     m_audioIndex = int_property("audio_index");
     m_videoIndex = int_property("video_index");
     if (m_service == "avformat" || m_service == "avformat-novalidate") {
