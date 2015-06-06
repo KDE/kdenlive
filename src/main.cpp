@@ -113,6 +113,10 @@ int main(int argc, char *argv[])
         QUrl url;
         if (parser.positionalArguments().count()) {
             url = QUrl::fromLocalFile(parser.positionalArguments().first());
+            // Make sure we get an absolute URL so that we can autosave correctly
+            QString currentPath = QDir::currentPath();
+            QUrl startup = QUrl::fromLocalFile(currentPath.endsWith(QDir::separator()) ? currentPath : currentPath + QDir::separator());
+            url = startup.resolved(url);
         }
         window = new MainWindow(mltPath, url, clipsToLoad);
         window->show();
