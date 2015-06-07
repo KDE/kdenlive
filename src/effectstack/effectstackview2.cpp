@@ -452,7 +452,7 @@ void EffectStackView2::startDrag()
 	    effect.setAttribute("clipstart", m_clipref->cropStart().frames(KdenliveSettings::project_fps()));
 	}
         doc.appendChild(doc.importNode(effect, true));
-        pixmap = QPixmap::grabWidget(m_draggedEffect->title);
+        pixmap = m_draggedEffect->title->grab();
     }
     else if (m_draggedGroup) {
         doc = m_draggedGroup->effectsData();
@@ -462,7 +462,7 @@ void EffectStackView2::startDrag()
 	else {
 	    doc.documentElement().setAttribute("clipstart", m_clipref->cropStart().frames(KdenliveSettings::project_fps()));
 	}
-        pixmap = QPixmap::grabWidget(m_draggedGroup->title());
+        pixmap = m_draggedGroup->title()->grab();
     }
     else return;
     QDrag *drag = new QDrag(this);
