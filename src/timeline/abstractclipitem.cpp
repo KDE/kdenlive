@@ -253,7 +253,7 @@ GenTime AbstractClipItem::maxDuration() const
     return m_maxDuration;
 }
 
-void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transformation, bool limitedKeyFrames)
+void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transformation)
 {
     if (m_keyframes.count() < 1)
         return;
@@ -263,13 +263,43 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transf
     double start = cropStart().frames(m_fps);
     double x1, y1, x2, y2;
     bool antialiasing = painter->renderHints() & QPainter::Antialiasing;
+    bool active = isSelected() || (parentItem() && parentItem()->isSelected());
+
+    // draw keyframes
+    QMap<int, int>::const_iterator i = m_keyframes.constBegin();
+    QColor color(Qt::blue);
+    QLineF l2;
+    painter->setPen(color);
+    // Special case: Geometry keyframes are just vertical lines
+    if (m_keyframeType == GeometryKeyframe) {
+        while (i != m_keyframes.constEnd()) {
+            if (active) {
+                if (i.key() == m_editedKeyframe)
+                    color = QColor(Qt::red);
+                else
+                    color = QColor(Qt::blue);
+                painter->setPen(color);
+            }
+            x1 = br.x() + maxw * (i.key() - start);
+            QLineF l(x1, br.top(), x1, br.height());
+            l2 = transformation.map(l);
+            
+            painter->drawLine(l2);
+            if (active) {
+                const QRectF frame(l2.x1() - 3, l2.y1() + (l2.y2() - l2.y1()) / 2 - 3, 6, 6);
+                painter->fillRect(frame, color);
+            }
+            ++i;
+        }
+        painter->setRenderHint(QPainter::Antialiasing, antialiasing);
+        return;
+    }
 
     // draw line showing default value
-    bool active = isSelected() || (parentItem() && parentItem()->isSelected());
     if (active) {
         x1 = br.x();
         x2 = br.right();
-        if (limitedKeyFrames) {
+        if (m_keyframeType == NormalKeyframe) {
             QMap<int, int>::const_iterator end = m_keyframes.constEnd();
             --end;
             x2 = x1 + maxw * (end.key() - start);
@@ -286,17 +316,11 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transf
         painter->setRenderHint(QPainter::Antialiasing);
     }
 
-    // draw keyframes
-    QMap<int, int>::const_iterator i = m_keyframes.constBegin();
-    QColor color(Qt::blue);
-    QLineF l2;
     x1 = br.x() + maxw * (i.key() - start);
     y1 = br.bottom() - (i.value() - m_keyframeOffset) * maxh;
 
-
-
     // make sure line begins with clip beginning
-    if (!limitedKeyFrames && i.key() != start) {
+    if (m_keyframeType != NormalKeyframe && i.key() != start) {
         QLineF l(br.x(), y1, x1, y1);
         l2 = transformation.map(l);
         painter->drawLine(l2);
@@ -329,7 +353,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transf
     }
 
     // make sure line ends at clip end
-    if (!limitedKeyFrames && x1 != br.right()) {
+    if (m_keyframeType != NormalKeyframe && x1 != br.right()) {
         QLineF l(x1, y1, br.right(), y1);
         painter->drawLine(transformation.map(l));
     }
@@ -351,7 +375,9 @@ int AbstractClipItem::mouseOverKeyFrames(QPointF pos, double maxOffset)
         QMap<int, int>::const_iterator i = m_keyframes.constBegin();
         while (i != m_keyframes.constEnd()) {
             double x1 = br.x() + maxw * (i.key() - cropStart().frames(m_fps));
-            double y1 = br.bottom() - (i.value() - m_keyframeOffset) * maxh;
+            double y1;
+            if (m_keyframeType == GeometryKeyframe) y1 = br.bottom() - (br.height() /2);
+            else y1 = br.bottom() - (i.value() - m_keyframeOffset) * maxh;
             if (qAbs(pos.x() - x1) < maxOffset && qAbs(pos.y() - y1) < 10) {
                 setToolTip('[' + QString::number((GenTime(i.key(), m_fps) - cropStart()).seconds(), 'f', 2) + i18n("seconds") + ", " + QString::number(i.value(), 'f', 1) + ']');
                 return i.key();

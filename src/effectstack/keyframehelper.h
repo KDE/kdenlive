@@ -47,17 +47,16 @@ protected:
 private:
     Mlt::Geometry *m_geom;
     int m_position;
+    int m_size;
     double m_scale;
     bool m_movingKeyframe;
     Mlt::GeometryItem m_movingItem;
     QList <Mlt::GeometryItem *> m_extraMovingItems;
     QPoint m_dragStart;
     int m_lineHeight;
-    bool m_drag;
     int m_hoverKeyframe;
     QColor m_selected;
     QColor m_keyframe;
-    QColor m_keyframebg;
     QList <Mlt::Geometry *>m_extraGeometries;
     int m_seekPosition;
         

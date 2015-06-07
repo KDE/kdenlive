@@ -163,6 +163,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     pCore->window()->connectDocument();
     emit docOpened(m_project);
     pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
+    m_lastSave.start();
 }
 
 bool ProjectManager::closeCurrentDocument(bool saveChanges)
@@ -284,7 +285,7 @@ void ProjectManager::openFile()
 {
     if (m_startUrl.isValid()) {
         openFile(m_startUrl);
-        m_startUrl = QUrl();
+        m_startUrl.clear();
         return;
     }
     //TODO KF5 set default location to project folder
@@ -427,7 +428,6 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     progressDialog.setMaximum(4);
     progressDialog.setValue(1);
     progressDialog.repaint();
-
     if (stale == NULL) {
         stale = new KAutoSaveFile(url, doc);
         doc->m_autosave = stale;
@@ -478,6 +478,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     if (openBackup) {
         slotOpenBackup(url);
     }
+    m_lastSave.start();
 }
 
 void ProjectManager::slotRevert()
@@ -545,12 +546,20 @@ KRecentFilesAction* ProjectManager::recentFilesAction()
 
 void ProjectManager::slotStartAutoSave()
 {
-    m_autoSaveTimer.start(3000); // will trigger slotAutoSave() in 3 seconds
+    if (m_lastSave.elapsed() > 300000) {
+        // If the project was not saved in the last 5 minute, force save
+        m_autoSaveTimer.stop();
+        slotAutoSave();
+    }
+    else {
+        m_autoSaveTimer.start(3000); // will trigger slotAutoSave() in 3 seconds
+    }
 }
 
 void ProjectManager::slotAutoSave()
 {
     m_project->slotAutoSave(m_trackView->projectView()->guidesData());
+    m_lastSave.start();
 }
 
 

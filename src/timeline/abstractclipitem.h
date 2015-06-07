@@ -40,6 +40,14 @@ class AbstractClipItem : public QObject, public QGraphicsRectItem
     Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity)
 
 public:
+
+    enum KEYFRAMETYPE {
+        NoKeyframe = 0,
+        SimpleKeyframe,
+        NormalKeyframe,
+        GeometryKeyframe
+    };
+
     AbstractClipItem(const ItemInfo &info, const QRectF& rect, double fps);
     virtual ~ AbstractClipItem();
     void updateSelectedKeyFrame();
@@ -107,6 +115,7 @@ protected:
         GenTime m_cropDuration;
         GenTime m_startPos;*/
     GenTime m_maxDuration;
+    KEYFRAMETYPE m_keyframeType;
     QMap <int, int> m_keyframes;
     /** @brief Stretch factor so that keyframes display on the full clip height. */
     double m_keyframeFactor;
@@ -121,11 +130,8 @@ protected:
     bool m_isMainSelectedClip;
     /** @brief Draw the keyframes of a clip
       * @param painter The painter device for the clip
-      * @param limitedKeyFrames The keyframes can be of type "keyframe" or "simplekeyframe". In the
-      *        "simplekeyframe" type, the effect always starts on clip start and ends on clip end. With the
-      *        "keyframe" type, the effect starts on the first keyframe and ends on the last keyframe
       */
-    void drawKeyFrames(QPainter *painter, const QTransform &transformation, bool limitedKeyFrames);
+    void drawKeyFrames(QPainter *painter, const QTransform &transformation);
     int mouseOverKeyFrames(QPointF pos, double maxOffset);
     void mousePressEvent(QGraphicsSceneMouseEvent * event);
 

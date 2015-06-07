@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QObject>
 #include <QUrl>
 #include <QTimer>
+#include <QTime>
 
 #include <KRecentFilesAction>
 #include "kdenlivecore_export.h"
@@ -107,9 +108,8 @@ private:
 
     KdenliveDoc *m_project;
     Timeline *m_trackView;
-    
+    QTime m_lastSave;
     QTimer m_autoSaveTimer;
-    
     QUrl m_startUrl;
     QString m_loadClipsOnOpen;
 

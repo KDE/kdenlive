@@ -58,8 +58,7 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
     //m_hover(false),
     m_speed(speed),
     m_strobe(strobe),
-    m_framePixelWidth(0),
-    m_limitedKeyFrames(false)
+    m_framePixelWidth(0)
 {
     setZValue(2);
     m_effectList = EffectsList(true);
@@ -349,30 +348,14 @@ void ClipItem::setSelectedEffect(const int ix)
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     QDomElement effect = effectAtIndex(m_selectedEffect);
+    m_keyframeType = NoKeyframe;
     if (!effect.isNull() && effect.attribute("disable") != "1") {
         QDomNodeList params = effect.elementsByTagName("parameter");
         for (int i = 0; i < params.count(); ++i) {
             QDomElement e = params.item(i).toElement();
-            if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && (!e.hasAttribute("intimeline") || e.attribute("intimeline") == "1")) {
-                m_keyframes.clear();
-                m_limitedKeyFrames = e.attribute("type") == "keyframe";
+            if (e.isNull()) continue;
+            if (parseKeyframes(locale, e)) {
                 m_visibleParam = i;
-                double max = locale.toDouble(e.attribute("max"));
-                double min = locale.toDouble(e.attribute("min"));
-                m_keyframeFactor = 100.0 / (max - min);
-                m_keyframeOffset = min;
-                m_keyframeDefault = locale.toDouble(e.attribute("default"));
-                m_selectedKeyframe = 0;
-
-                // parse keyframes
-                const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
-                foreach(const QString &str, keyframes) {
-                    int pos = str.section('=', 0, 0).toInt();
-                    double val = locale.toDouble(str.section('=', 1, 1));
-                    m_keyframes[pos] = val;
-                }
-                if (m_keyframes.find(m_editedKeyframe) == m_keyframes.end())
-                    m_editedKeyframe = -1;
                 update();
                 return;
             }
@@ -641,13 +624,13 @@ void ClipItem::setClipName(const QString &name)
 void ClipItem::flashClip()
 {
     if (m_timeLine == 0) {
-        m_timeLine = new QTimeLine(750, this);
+        m_timeLine = new QTimeLine(500, this);
         m_timeLine->setUpdateInterval(80);
         m_timeLine->setCurveShape(QTimeLine::EaseInOutCurve);
         m_timeLine->setFrameRange(0, 100);
         connect(m_timeLine, SIGNAL(valueChanged(qreal)), this, SLOT(animate(qreal)));
     }
-    //m_timeLine->start();
+    m_timeLine->start();
 }
 
 void ClipItem::animate(qreal /*value*/)
@@ -938,7 +921,7 @@ void ClipItem::paint(QPainter *painter,
 
         painter->setPen(QPen(Qt::lightGray));
         // draw effect or transition keyframes
-        drawKeyFrames(painter, transformation, m_limitedKeyFrames);
+        drawKeyFrames(painter, transformation);
     }
     
     // draw clip border
@@ -1373,7 +1356,7 @@ bool ClipItem::moveEffect(QDomElement effect, int ix)
     return true;
 }
 
-EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, bool /*animate*/)
+EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, bool animate)
 {
     bool needRepaint = false;
     QLocale locale;
@@ -1514,14 +1497,16 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
     if (m_selectedEffect == -1) {
         setSelectedEffect(1);
     } else if (m_selectedEffect == ix - 1) setSelectedEffect(m_selectedEffect);
-    if (needRepaint) update(boundingRect());
-    /*if (animate) {
-        flashClip();
-    } */
-    else { /*if (!needRepaint) */
-        QRectF r = boundingRect();
-        r.setHeight(20);
-        update(r);
+    if (needRepaint) {
+        update(boundingRect());
+    }
+    else {
+        if (animate) flashClip();
+        else {
+            QRectF r = boundingRect();
+            r.setHeight(20);
+            update(r);
+        }
     }
     return parameters;
 }
@@ -1557,7 +1542,7 @@ void ClipItem::deleteEffect(int ix)
         r.setHeight(20);
         update(r);
     }
-    //if (!m_effectList.isEmpty()) flashClip();
+    if (!m_effectList.isEmpty()) flashClip();
 }
 
 double ClipItem::speed() const
@@ -1757,7 +1742,8 @@ void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double 
     int end = (cropStart() + cropDuration()).frames(m_fps) - 1;
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
-        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
+        if (e.isNull()) continue;
+        if ((e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
             QString kfr = e.attribute("keyframes");
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
             QStringList newkfr;
@@ -1775,6 +1761,21 @@ void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double 
             }
             e.setAttribute("keyframes", newkfr.join(";"));
         }
+        else if (e.attribute("type") == "geometry") {
+            QString kfr = e.attribute("value");
+            const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
+            QStringList newkfr;
+            foreach(const QString &str, keyframes) {
+                if (str.section('=', 0, 0).toInt() != oldpos) {
+                    newkfr.append(str);
+                } else if (newpos != -1) {
+                    newpos = qMax(newpos, start);
+                    newpos = qMin(newpos, end);
+                    newkfr.append(QString::number(newpos) + '=' + str.section('=', 1, 1));
+                }
+            }
+            e.setAttribute("value", newkfr.join(";"));
+        }
     }
 
     updateKeyframes(effect);
@@ -1789,18 +1790,44 @@ void ClipItem::updateKeyframes(QDomElement effect)
     // parse keyframes
     QDomNodeList params = effect.elementsByTagName("parameter");
     QDomElement e = params.item(m_visibleParam).toElement();
+    if (e.isNull()) return;
     if (e.attribute("intimeline") != "1") {
         setSelectedEffect(m_selectedEffect);
         return;
     }
-    m_limitedKeyFrames = e.attribute("type") == "keyframe";
-    const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
-    foreach(const QString &str, keyframes) {
-        int pos = str.section('=', 0, 0).toInt();
-        double val = locale.toDouble(str.section('=', 1, 1));
-        m_keyframes[pos] = val;
+    parseKeyframes(locale, e);
+}
+
+bool ClipItem::parseKeyframes(const QLocale locale, QDomElement e)
+{
+    QString type = e.attribute("type");
+    if (type == "keyframe") m_keyframeType = NormalKeyframe;
+    else if (type == "simplekeyframe") m_keyframeType = SimpleKeyframe;
+    else if (type == "geometry") m_keyframeType = GeometryKeyframe;
+    if (m_keyframeType != NoKeyframe && (!e.hasAttribute("intimeline") || e.attribute("intimeline") == "1")) {
+        m_keyframes.clear();
+        double max = locale.toDouble(e.attribute("max"));
+        double min = locale.toDouble(e.attribute("min"));
+        m_keyframeFactor = 100.0 / (max - min);
+        m_keyframeOffset = min;
+        m_keyframeDefault = locale.toDouble(e.attribute("default"));
+        m_selectedKeyframe = 0;
+
+        // parse keyframes
+        QStringList keyframes;
+        if (m_keyframeType == GeometryKeyframe) keyframes = e.attribute("value").split(';', QString::SkipEmptyParts);
+        else keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
+        foreach(const QString &str, keyframes) {
+            int pos = str.section('=', 0, 0).toInt();
+            double val = m_keyframeType == GeometryKeyframe ? 0 : locale.toDouble(str.section('=', 1, 1));
+            m_keyframes[pos] = val;
+        }
+        if (m_keyframes.find(m_editedKeyframe) == m_keyframes.end()) {
+            m_editedKeyframe = -1;
+        }
+        return true;
     }
-    if (!m_keyframes.contains(m_selectedKeyframe)) m_selectedKeyframe = -1;
+    return false;
 }
 
 /*

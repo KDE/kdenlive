@@ -607,7 +607,7 @@ void KdenliveDoc::slotAutoSave(QMap <double, QString> guidesData)
     if (m_render && m_autosave) {
         if (!m_autosave->isOpen() && !m_autosave->open(QIODevice::ReadWrite)) {
             // show error: could not open the autosave file
-            //qDebug() << "ERROR; CANNOT CREATE AUTOSAVE FILE";
+            qDebug() << "ERROR; CANNOT CREATE AUTOSAVE FILE";
         }
         //qDebug() << "// AUTOSAVE FILE: " << m_autosave->fileName();
         QDomDocument sceneList = xmlSceneList(m_render->sceneList(), guidesData);

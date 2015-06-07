@@ -32,7 +32,6 @@
 #include <QApplication>
 
 const int margin = 5;
-const int cursorWidth = 6;
 
 #define SEEK_INACTIVE (-1)
 
@@ -44,18 +43,19 @@ KeyframeHelper::KeyframeHelper(QWidget *parent) :
   , m_scale(0)
   , m_movingKeyframe(false)
   , m_movingItem()
-  , m_lineHeight(9)
-  , m_drag(false)
   , m_hoverKeyframe(-1)
   , m_seekPosition(SEEK_INACTIVE)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setMouseTracking(true);
     QPalette p = palette();
+    m_size = QFontInfo(font()).pixelSize() * 1.8;
+    m_lineHeight = m_size / 2;
+    setMinimumHeight(m_size);
+    setMaximumHeight(m_size);
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     m_selected = scheme.decoration(KColorScheme::HoverColor).color();
     m_keyframe = scheme.foreground(KColorScheme::LinkText).color();
-    m_keyframebg = scheme.shade(KColorScheme::MidShade);
 }
 
 // virtual
@@ -67,13 +67,13 @@ void KeyframeHelper::mousePressEvent(QMouseEvent * event)
         return;
     }
     int xPos = event->x() - margin;
-    if (m_geom != NULL && (event->y() < m_lineHeight)) {
+    int headOffset = m_lineHeight / 1.5;
+    if (m_geom != NULL && (event->y() <= headOffset)) {
         // check if we want to move a keyframe
         int mousePos = qMax((int)(xPos / m_scale), 0);
         Mlt::GeometryItem item;
         if (m_geom->next_key(&item, mousePos) == 0) {
-            if (qAbs(item.frame() * m_scale - xPos) < 4) {
-                m_drag = true;
+            if (qAbs(item.frame() * m_scale - xPos) < headOffset) {
                 m_movingItem.x(item.x());
                 m_movingItem.y(item.y());
                 m_movingItem.w(item.w());
@@ -95,21 +95,16 @@ void KeyframeHelper::mousePressEvent(QMouseEvent * event)
                         m_extraMovingItems.append(NULL);
                     }
                 }
-                
                 m_dragStart = event->pos();
-                m_movingKeyframe = true;
                 return;
             }
         }
     }
-    if (event->y() >= m_lineHeight && event->y() < height()) {
-        int seekRequest = xPos / m_scale;
-        m_drag = true;
-        if (seekRequest != m_position) {
-            m_seekPosition = seekRequest;
-            emit requestSeek(m_seekPosition);
-            update();
-        }
+    int seekRequest = xPos / m_scale;
+    if (seekRequest != m_position) {
+        m_seekPosition = seekRequest;
+        emit requestSeek(m_seekPosition);
+        update();
     }
 }
 
@@ -126,9 +121,10 @@ void KeyframeHelper::leaveEvent( QEvent * event )
 void KeyframeHelper::mouseMoveEvent(QMouseEvent * event)
 {
     int xPos = event->x() - margin;
-    if (!m_drag) {
+    int headOffset = m_lineHeight / 1.5;
+    if (event->buttons() == Qt::NoButton) {
         int mousePos = qMax((int)(xPos / m_scale), 0);
-        if (qAbs(m_position * m_scale - xPos) < cursorWidth && event->y() >= m_lineHeight) {
+        if (qAbs(m_position * m_scale - xPos) < m_lineHeight && event->y() >= m_lineHeight) {
             // Mouse over time cursor
             if (m_hoverKeyframe != -2) {
                 m_hoverKeyframe = -2;
@@ -141,7 +137,7 @@ void KeyframeHelper::mouseMoveEvent(QMouseEvent * event)
             // check if we want to move a keyframe
             Mlt::GeometryItem item;
             if (m_geom->next_key(&item, mousePos) == 0) {
-                if (qAbs(item.frame() * m_scale - xPos) < 4) {
+                if (qAbs(item.frame() * m_scale - xPos) < headOffset) {
                     if (m_hoverKeyframe == item.frame()) return;
                     m_hoverKeyframe = item.frame();
                     setCursor(Qt::PointingHandCursor);
@@ -159,16 +155,17 @@ void KeyframeHelper::mouseMoveEvent(QMouseEvent * event)
         event->accept();
         return;
     }
-    if (m_movingKeyframe) {
-        if (!m_dragStart.isNull()) {
+    if (!m_dragStart.isNull() || m_movingKeyframe) {
+        if (!m_movingKeyframe) {
             if ((QPoint(xPos, event->y()) - m_dragStart).manhattanLength() < QApplication::startDragDistance()) return;
+            m_movingKeyframe = true;
             m_dragStart = QPoint();
             m_geom->remove(m_movingItem.frame());
             for (int i = 0; i < m_extraGeometries.count(); ++i)
                 m_extraGeometries[i]->remove(m_movingItem.frame());
         }
         int pos = qBound(0, (int)(xPos / m_scale), frameLength);
-        if (KdenliveSettings::snaptopoints() && qAbs(pos - m_position) < 5)
+        if (KdenliveSettings::snaptopoints() && qAbs(pos - m_position) < headOffset)
             pos = m_position;
         m_movingItem.frame(pos);
         for (int i = 0; i < m_extraMovingItems.count(); ++i) {
@@ -206,7 +203,6 @@ void KeyframeHelper::mouseDoubleClickEvent(QMouseEvent * event)
 // virtual
 void KeyframeHelper::mouseReleaseEvent(QMouseEvent * event)
 {
-    m_drag = false;
     setCursor(Qt::ArrowCursor);
     m_hoverKeyframe = -1;
     if (m_movingKeyframe) {
@@ -217,9 +213,14 @@ void KeyframeHelper::mouseReleaseEvent(QMouseEvent * event)
             if (m_extraMovingItems.at(i))
                 m_extraGeometries[i]->insert(m_extraMovingItems.at(i));
         }
-        
+        m_movingKeyframe = false;
         emit keyframeMoved(m_position);
         return;
+    }
+    else if (!m_dragStart.isNull()) {
+        m_seekPosition = m_movingItem.frame();
+        m_dragStart = QPoint();
+        emit requestSeek(m_seekPosition);
     }
     QWidget::mouseReleaseEvent(event);
 }
@@ -245,72 +246,59 @@ void KeyframeHelper::wheelEvent(QWheelEvent * e)
 // virtual
 void KeyframeHelper::paintEvent(QPaintEvent *e)
 {
-    QStylePainter p(this);
+    QPainter p(this);
+    p.setRenderHints(QPainter::Antialiasing);
     const QRectF clipRect = e->rect();
     p.setClipRect(clipRect);
     m_scale = (double) (width() - 2 * margin) / frameLength;
+    int headOffset = m_lineHeight / 1.5;
     if (m_geom != NULL) {
         int pos = 0;
-        p.setPen(m_keyframe);
-        p.setBrush(m_keyframebg);
         Mlt::GeometryItem item;
         while (true) {
             if (m_geom->next_key(&item, pos) == 1) break;
             pos = item.frame();
-            if (pos == m_hoverKeyframe) {
-                p.setBrush(m_selected);
-            }
             int scaledPos = margin + pos * m_scale;
             // draw keyframes
-            p.drawLine(scaledPos, 9, scaledPos, 15);
-            // draw pointer
-            QPolygon pa(4);
-            pa.setPoints(4,
-                         scaledPos,     0,
-                         scaledPos - 4, 4,
-                         scaledPos,     8,
-                         scaledPos + 4, 4);
-            p.drawPolygon(pa);
-            //p.drawEllipse(scaledPos - 4, 0, 8, 8);
-            if (pos == m_hoverKeyframe) {
-                p.setBrush(m_keyframebg);
+            if (pos == m_position || pos == m_hoverKeyframe) {
+                // active keyframe
+                p.setBrush(m_selected);
+                p.setPen(m_selected);
             }
-            //p.fillRect(QRect(scaledPos - 1, 0, 2, 15), QBrush(QColor(255, 20, 20)));
+            else {
+                p.setPen(palette().text().color());
+                p.setBrush(palette().text());
+            }
+            p.drawLine(scaledPos, headOffset, scaledPos, m_size);
+            p.drawEllipse(scaledPos - headOffset / 2, 0, headOffset, headOffset);
             pos++;
         }
-        
         if (m_movingKeyframe) {
             p.setBrush(m_selected);
             int scaledPos = margin + (int)(m_movingItem.frame() * m_scale);
             // draw keyframes
-            p.drawLine(scaledPos, 9, scaledPos, 15);
-            // draw pointer
-            QPolygon pa(5);
-            pa.setPoints(4,
-                         scaledPos,     0,
-                         scaledPos - 4, 4,
-                         scaledPos,     8,
-                         scaledPos + 4, 4);
-            p.drawPolygon(pa);
+            p.drawLine(scaledPos, headOffset, scaledPos, m_size);
+            p.drawEllipse(scaledPos - headOffset / 2, 0, headOffset, headOffset);
             p.setBrush(m_keyframe);
         }
     }
-    p.setPen(palette().dark().color());
-    p.drawLine(margin, m_lineHeight, width() - margin - 1, m_lineHeight);
-    p.drawLine(margin, m_lineHeight - 3, margin, m_lineHeight + 3);
-    p.drawLine(width() - margin, m_lineHeight - 3, width() - margin, m_lineHeight + 3);
-
+    p.setPen(palette().text().color());
+    p.drawLine(margin, m_lineHeight + (headOffset / 2), width() - margin - 1, m_lineHeight + (headOffset / 2));
+    p.drawLine(margin, m_lineHeight - headOffset, margin, m_lineHeight + headOffset);
+    p.drawLine(width() - margin, m_lineHeight - headOffset, width() - margin, m_lineHeight + headOffset);
+    p.setPen(Qt::NoPen);
     // draw pointer
     if (m_seekPosition != SEEK_INACTIVE) {
         p.fillRect(margin + m_seekPosition * m_scale - 1, 0, 3, height(), palette().dark());
     }
     QPolygon pa(3);
     const int cursor = margin + m_position * m_scale;
-    pa.setPoints(3, cursor - cursorWidth, 16, cursor + cursorWidth, 16, cursor, 10);
+    int cursorwidth = (m_size - (m_lineHeight + headOffset / 2)) / 2 + 1;
+    pa.setPoints(3, cursor - cursorwidth, m_size, cursor + cursorwidth, m_size, cursor, m_lineHeight + (headOffset / 2) + 1);
     if (m_hoverKeyframe == -2)
         p.setBrush(palette().highlight());
     else
-        p.setBrush(palette().dark().color());
+        p.setBrush(palette().text());
     p.drawPolygon(pa);
 }
 
