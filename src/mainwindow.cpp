@@ -1728,8 +1728,10 @@ void MainWindow::slotRestart()
 void MainWindow::closeEvent(QCloseEvent* event)
 {
     KXmlGuiWindow::closeEvent(event);
-    QApplication::exit(m_exitCode);
-    return;
+    if (event->isAccepted()) {
+        QApplication::exit(m_exitCode);
+        return;
+    }
 }
 
 void MainWindow::slotUpdateCaptureFolder()
