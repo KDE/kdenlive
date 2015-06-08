@@ -73,15 +73,17 @@ void Track::setFps(qreal fps)
 bool Track::add(qreal t, Mlt::Producer *parent, bool duplicate, int mode)
 {
     Mlt::Producer *cut = duplicate ? clipProducer(parent) :  new Mlt::Producer(parent);
-    doAdd(t, cut, mode);
+    bool result = doAdd(t, cut, mode);
     delete cut;
+    return result;
 }
 
 bool Track::add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, bool duplicate, int mode)
 {
     Mlt::Producer *cut = duplicate ? clipProducer(parent)->cut(frame(tcut), frame(dtcut)) :  new Mlt::Producer(parent);
-    doAdd(t, cut, mode);
+    bool result = doAdd(t, cut, mode);
     delete cut;
+    return result;
 }
 
 bool Track::doAdd(qreal t, Mlt::Producer *cut, int mode)
@@ -242,6 +244,7 @@ bool Track::replace(const QString &id, Mlt::Producer *original)
     } else {
         delete trackProducer;
     }
+    return found;
 }
 
 //TODO: cut: checkSlowMotionProducer
