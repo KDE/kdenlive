@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPainter>
 #include <QDomElement>
 #include <QPushButton>
+#include <QUrl>
 
 class KdenliveDoc;
 class ClipController;
@@ -460,6 +461,7 @@ private slots:
     void slotEffectDropped(QString effect, const QModelIndex &parent);
     void slotItemEdited(QModelIndex,QModelIndex,QVector<int>);
     void slotAddUrl(QString url, QMap <QString, QString> data = QMap <QString, QString>());
+    void slotAddClipToProject(QUrl url);
     void slotPrepareJobsMenu();
     void slotShowJobLog();
     /** @brief process clip job result. */

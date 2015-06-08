@@ -512,6 +512,7 @@ QUrl Bin::projectFolder() const
 void Bin::setMonitor(Monitor *monitor)
 {
     m_monitor = monitor;
+    connect(m_monitor, SIGNAL(addClipToProject(QUrl)), this, SLOT(slotAddClipToProject(QUrl)));
     connect(m_eventEater, SIGNAL(focusClipMonitor()), m_monitor, SLOT(slotActivateMonitor()), Qt::UniqueConnection);
 }
 
@@ -1636,6 +1637,14 @@ void Bin::doMoveFolder(const QString &id, const QString &newParentId)
 
 void Bin::droppedUrls(QList <QUrl> urls, const QMap<QString,QString> properties)
 {
+    QModelIndex current = m_proxyModel->mapToSource(m_proxyModel->selectionModel()->currentIndex());
+    slotItemDropped(urls, current);
+}
+
+void Bin::slotAddClipToProject(QUrl url)
+{
+    QList <QUrl> urls;
+    urls << url;
     QModelIndex current = m_proxyModel->mapToSource(m_proxyModel->selectionModel()->currentIndex());
     slotItemDropped(urls, current);
 }

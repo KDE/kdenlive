@@ -34,6 +34,7 @@
 #include <QToolBar>
 #include <QWindow>
 #include <QIcon>
+#include <QProcess>
 
 class SmallRuler;
 class ClipController;
@@ -48,6 +49,7 @@ class KSelectAction;
 class KMessageWidget;
 class QQuickItem;
 class QScrollBar;
+class QComboBox;
 
 class Monitor : public AbstractMonitor
 {
@@ -131,6 +133,13 @@ private:
     Mlt::Producer *m_splitProducer;
     int m_length;
     bool m_dragStarted;
+    //TODO: Move capture stuff in own class
+    QAction *m_switchRec;
+    QString m_captureFolder;
+    QUrl m_captureFile;
+    QString m_recError;
+    QProcess *m_captureProcess;
+
     QIcon m_playIcon;
     QIcon m_pauseIcon;
     /** @brief The widget showing current time position **/
@@ -140,10 +149,12 @@ private:
     /** Has to be available so we can enable and disable it. */
     QAction *m_loopClipAction;
     QAction *m_effectCompare;
+    QAction *m_recAction;
     QMenu *m_contextMenu;
     QMenu *m_configMenu;
     QMenu *m_playMenu;
     QMenu *m_markerMenu;
+    QComboBox *m_screenCombo;
     QPoint m_DragStartPosition;
     /** Selected clip/transition in timeline. Used for looping it. */
     AbstractClipItem *m_selectedClip;
@@ -152,6 +163,7 @@ private:
     bool m_loopClipTransition;
     GenTime getSnapForPos(bool previous);
     QToolBar *m_toolbar;
+    QToolBar *m_recToolbar;
     QWidget *m_volumeWidget;
     QSlider *m_audioSlider;
     QAction *m_editMarker;
@@ -187,6 +199,10 @@ private slots:
     void slotShowMenu(const QPoint pos);
     void slotForceSize(QAction *a);
     void slotSeekToKeyFrame();
+    void slotRecord(bool record);
+    void slotProcessStatus(QProcess::ProcessState status);
+    void slotReadProcessInfo();
+    void slotSwitchRec(bool enable);
 
 public slots:
     void slotOpenFile(const QString &);
@@ -247,6 +263,7 @@ signals:
     void effectChanged(const QRect);
     void addKeyframe();
     void seekToKeyframe(int);
+    void addClipToProject(QUrl);
 };
 
 #endif
