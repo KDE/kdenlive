@@ -418,23 +418,26 @@ void BinController::checkThumbnails(const QString thumbFolder)
 {
     // Parse all controllers and load thumbnails
     QMapIterator<QString, ClipController *> i(m_clipList);
+    bool foundFile = false;
     while (i.hasNext()) {
         i.next();
         ClipController *ctrl = i.value();
+        foundFile = false;
         if (!ctrl->getClipHash().isEmpty()) {
             QImage img(thumbFolder + ctrl->getClipHash() + ".png");
             if (!img.isNull()) {
                 emit loadThumb(ctrl->clipId(), img, true);
+                foundFile = true;
             }
-            else {
-                // Add clip id to thumbnail generation thread
-                QDomDocument doc;
-                ctrl->getProducerXML(doc);
-                QDomElement xml = doc.documentElement().firstChildElement("producer");
-                if (!xml.isNull()) {
-                    xml.setAttribute("thumbnailOnly", 1);
-                    emit createThumb(xml, ctrl->clipId(), 150);
-                }
+        }
+        if (!foundFile) {
+            // Add clip id to thumbnail generation thread
+            QDomDocument doc;
+            ctrl->getProducerXML(doc);
+            QDomElement xml = doc.documentElement().firstChildElement("producer");
+            if (!xml.isNull()) {
+                xml.setAttribute("thumbnailOnly", 1);
+                emit createThumb(xml, ctrl->clipId(), 150);
             }
         }
     }
