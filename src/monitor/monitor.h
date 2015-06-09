@@ -49,7 +49,7 @@ class KSelectAction;
 class KMessageWidget;
 class QQuickItem;
 class QScrollBar;
-class QComboBox;
+class RecManager;
 
 class Monitor : public AbstractMonitor
 {
@@ -134,12 +134,7 @@ private:
     int m_length;
     bool m_dragStarted;
     //TODO: Move capture stuff in own class
-    QAction *m_switchRec;
-    QString m_captureFolder;
-    QUrl m_captureFile;
-    QString m_recError;
-    QProcess *m_captureProcess;
-
+    RecManager *m_recManager;
     QIcon m_playIcon;
     QIcon m_pauseIcon;
     /** @brief The widget showing current time position **/
@@ -149,12 +144,10 @@ private:
     /** Has to be available so we can enable and disable it. */
     QAction *m_loopClipAction;
     QAction *m_effectCompare;
-    QAction *m_recAction;
     QMenu *m_contextMenu;
     QMenu *m_configMenu;
     QMenu *m_playMenu;
     QMenu *m_markerMenu;
-    QComboBox *m_screenCombo;
     QPoint m_DragStartPosition;
     /** Selected clip/transition in timeline. Used for looping it. */
     AbstractClipItem *m_selectedClip;
@@ -163,7 +156,6 @@ private:
     bool m_loopClipTransition;
     GenTime getSnapForPos(bool previous);
     QToolBar *m_toolbar;
-    QToolBar *m_recToolbar;
     QWidget *m_volumeWidget;
     QSlider *m_audioSlider;
     QAction *m_editMarker;
@@ -173,8 +165,6 @@ private:
     QQuickItem *m_rootItem;
     void adjustScrollBars(float horizontal, float vertical);
     void loadMasterQml();
-    /** @brief Display a non blocking error message to user **/
-    void warningMessage(const QString &text);
 
 private slots:
     void seekCursor(int pos);
@@ -199,15 +189,14 @@ private slots:
     void slotShowMenu(const QPoint pos);
     void slotForceSize(QAction *a);
     void slotSeekToKeyFrame();
-    void slotRecord(bool record);
-    void slotProcessStatus(QProcess::ProcessState status);
-    void slotReadProcessInfo();
-    void slotSwitchRec(bool enable);
+    /** @brief Display a non blocking error message to user **/
+    void warningMessage(const QString &text);
 
 public slots:
     void slotOpenFile(const QString &);
     //void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
     void updateClipProducer(Mlt::Producer *prod);
+    void updateClipProducer(const QString &playlist);
     void openClip(ClipController *controller);
     void openClipZone(ClipController *controller, int in, int out);
     void refreshMonitor(bool visible);
@@ -248,6 +237,8 @@ public slots:
     void slotSetSelectedClip(Transition *item);
     void slotMouseSeek(int eventDelta, bool fast);
     void slotSwitchFullScreen(bool minimizeOnly = false);
+    /** @brief Display or hide the record toolbar */
+    void slotSwitchRec(bool enable);
 
 signals:
     void renderPosition(int);
@@ -264,6 +255,7 @@ signals:
     void addKeyframe();
     void seekToKeyframe(int);
     void addClipToProject(QUrl);
+    void showConfigDialog(int,int);
 };
 
 #endif

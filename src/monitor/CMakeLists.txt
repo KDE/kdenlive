@@ -6,6 +6,7 @@ set(kdenlive_SRCS
   monitor/monitoreditwidget.cpp
   monitor/monitormanager.cpp
   monitor/monitorscene.cpp
+  monitor/recmanager.cpp
   monitor/recmonitor.cpp
   monitor/smallruler.cpp
   monitor/sharedframe.cpp

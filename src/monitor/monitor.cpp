@@ -21,6 +21,7 @@
 
 #include "monitor.h"
 #include "glwidget.h"
+#include "recmanager.h"
 #include "smallruler.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/bincontroller.h"
@@ -69,11 +70,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_splitProducer(NULL)
     , m_effectCompare(NULL)
     , m_forceSizeFactor(0)
-    , m_recAction(NULL)
-    , m_recToolbar(NULL)
-    , m_screenCombo(NULL)
-    , m_captureProcess(NULL)
-    , m_switchRec(NULL)
+    , m_recManager(NULL)
 {
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -125,8 +122,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     if (id == Kdenlive::ClipMonitor) {
         // Add options for recording
-        m_recToolbar = new QToolBar(this);
-        m_recToolbar->setIconSize(QSize(s, s));
+        m_recManager = new RecManager(s, this);
+        connect(m_recManager, &RecManager::warningMessage, this, &Monitor::warningMessage);
+        connect(m_recManager, &RecManager::addClipToProject, this, &Monitor::addClipToProject);
     }
 
     m_playIcon = QIcon::fromTheme("media-playback-start");
@@ -201,30 +199,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 	m_effectCompare = m_toolbar->addAction(QIcon::fromTheme("view-split-left-right"), i18n("Compare effect"));
 	m_effectCompare->setCheckable(true);
         connect(m_effectCompare, &QAction::toggled, this, &Monitor::slotSwitchCompare);
-
-        // Recording options
-        m_recAction = m_recToolbar->addAction(QIcon::fromTheme("media-record"), i18n("Record"));
-        m_recAction->setCheckable(true);
-        connect(m_recAction, &QAction::toggled, this, &Monitor::slotRecord);
-
-        // Check number of monitors for FFmpeg screen capture
-        int screens = QApplication::desktop()->screenCount();
-        if (screens > 1) {
-            m_screenCombo = new QComboBox(this);
-            for (int ix = 0; ix < screens; ix++) {
-                m_screenCombo->addItem(i18n("Monitor %1", ix));
-            }
-            m_recToolbar->addWidget(m_screenCombo);
-            // Update screen grab monitor choice in case we changed from fullscreen
-            m_screenCombo->setEnabled(KdenliveSettings::grab_capture_type() == 0);
-        }
-        QWidget *spacer = new QWidget(this);
-        spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-        m_recToolbar->addWidget(spacer);
-        m_switchRec = m_recToolbar->addAction(QIcon::fromTheme("list-add"), i18n("Show Record Control"));
-        m_switchRec->setCheckable(true);
-        connect(m_switchRec, &QAction::toggled, this, &Monitor::slotSwitchRec);
-        m_recToolbar->setVisible(false);
     }
     // we need to show / hide the popup once so that it's geometry can be calculated in slotShowVolume
     m_volumePopup->show();
@@ -264,13 +238,13 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     QWidget *spacer = new QWidget(this);
     spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_toolbar->addWidget(spacer);
-    if (m_switchRec) m_toolbar->addAction(m_switchRec);
+    if (m_recManager) m_toolbar->addAction(m_recManager->switchAction());
     m_timePos = new TimecodeDisplay(m_monitorManager->timecode(), this);
     m_toolbar->addWidget(m_timePos);
     connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotSeek()));
     m_toolbar->setMaximumHeight(m_timePos->height());
     layout->addWidget(m_toolbar);
-    if (m_recToolbar) layout->addWidget(m_recToolbar);
+    if (m_recManager) layout->addWidget(m_recManager->toolbar());
 
     // Info message widget
     m_infoMessage = new KMessageWidget(this);
@@ -1026,6 +1000,13 @@ void Monitor::updateClipProducer(Mlt::Producer *prod)
     render->setProducer(prod, render->seekFramePosition(), true);
 }
 
+void Monitor::updateClipProducer(const QString &playlist)
+{
+    if (render == NULL) return;
+    Mlt::Producer *prod = new Mlt::Producer(*profile(), playlist.toUtf8().constData());
+    render->setProducer(prod, render->seekFramePosition(), true);
+}
+
 void Monitor::openClip(ClipController *controller)
 {
     if (render == NULL) return;
@@ -1481,114 +1462,16 @@ Mlt::Profile *Monitor::profile()
     return m_monitorManager->binController()->profile();
 }
 
-
-void Monitor::slotRecord(bool record)
-{
-    if (!record) {
-        if (!m_captureProcess) return;
-        m_captureProcess->terminate();
-        QTimer::singleShot(1500, m_captureProcess, SLOT(kill()));
-        return;
-    }
-    if (m_captureProcess) return;
-    m_recError.clear();
-    m_captureProcess = new QProcess;
-    connect(m_captureProcess, &QProcess::stateChanged, this, &Monitor::slotProcessStatus);
-    connect(m_captureProcess, &QProcess::readyReadStandardError, this, &Monitor::slotReadProcessInfo);
-
-    QString extension = KdenliveSettings::grab_extension();
-    QString capturePath = KdenliveSettings::capturefolder();
-    QString path = QUrl(capturePath).path() + QDir::separator() + "capture0000." + extension;
-    int i = 1;
-    while (QFile::exists(path)) {
-        QString num = QString::number(i).rightJustified(4, '0', false);
-        path = QUrl(capturePath).path() + QDir::separator() + "capture" + num + '.' + extension;
-        ++i;
-    }
-    m_captureFile = QUrl(path);
-    QString args;
-    QString captureSize;
-    int screen = -1;
-    if (m_screenCombo) {
-        // Multi monitor setup, capture monitor selected by user
-        screen = m_screenCombo->currentIndex();
-    }
-    QRect screenSize = QApplication::desktop()->screenGeometry(screen);
-    QStringList captureArgs;
-    captureArgs << "-f" << "x11grab";
-    if (KdenliveSettings::grab_follow_mouse()) captureArgs << "-follow_mouse" << "centered";
-    if (!KdenliveSettings::grab_hide_frame()) captureArgs << "-show_region" << "1";
-    captureSize = ":0.0";
-    if (KdenliveSettings::grab_capture_type() == 0) {
-        // Full screen capture
-        captureArgs << "-s" << QString::number(screenSize.width()) + 'x' + QString::number(screenSize.height());
-        captureSize.append('+' + QString::number(screenSize.left()) + '.' + QString::number(screenSize.top()));
-    } else {
-        // Region capture
-        captureArgs << "-s" << QString::number(KdenliveSettings::grab_width()) + 'x' + QString::number(KdenliveSettings::grab_height());
-        captureSize.append('+' + QString::number(KdenliveSettings::grab_offsetx()) + '.' + QString::number(KdenliveSettings::grab_offsetx()));
-    }
-    // fps
-    captureArgs << "-r" << QString::number(KdenliveSettings::grab_fps());
-    if (KdenliveSettings::grab_hide_mouse()) captureSize.append("+nomouse");
-    captureArgs << "-i" << captureSize;
-    if (!KdenliveSettings::grab_parameters().simplified().isEmpty())
-    captureArgs << KdenliveSettings::grab_parameters().simplified().split(' ');
-    captureArgs << path;
-
-    m_captureProcess->start(KdenliveSettings::ffmpegpath(), captureArgs);
-    if (!m_captureProcess->waitForStarted()) {
-        // Problem launching capture app
-        warningMessage(i18n("Failed to start the capture application:\n%1", KdenliveSettings::ffmpegpath()));
-        //delete m_captureProcess;
-    }
-}
-
-
-void Monitor::slotProcessStatus(QProcess::ProcessState status)
-{
-    if (status == QProcess::NotRunning) {
-        m_recAction->setEnabled(true);
-        m_recAction->setChecked(false);
-        //device_selector->setEnabled(true);
-        if (m_captureProcess) {
-            if (m_captureProcess->exitStatus() == QProcess::CrashExit) {
-                warningMessage(i18n("Capture crashed, please check your parameters"));
-            } else {
-                if (true) {
-                    int code = m_captureProcess->exitCode();
-                    if (code != 0 && code != 255) {
-                        warningMessage(i18n("Capture crashed, please check your parameters"));
-                    }
-                    else {
-                        // Capture successfull, add clip to project
-                        emit addClipToProject(m_captureFile);
-                    }
-                }
-            }
-        }
-        delete m_captureProcess;
-        m_captureProcess = NULL;
-    }
-}
-
-void Monitor::slotReadProcessInfo()
-{
-    QString data = m_captureProcess->readAllStandardError().simplified();
-    m_recError.append(data + '\n');
-}
-
 void Monitor::slotSwitchRec(bool enable)
 {
+    if (!m_recManager) return;
     if (enable) {
         m_toolbar->setVisible(false);
-        m_recToolbar->setVisible(true);
+        m_recManager->toolbar()->setVisible(true);
     }
     else {
-        if (m_captureProcess) {
-            slotRecord(false);
-        }
-        m_recToolbar->setVisible(false);
+        m_recManager->stopCapture();
+        m_recManager->toolbar()->setVisible(false);
         m_toolbar->setVisible(true);
     }
 }

@@ -180,6 +180,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     pCore->bin()->setMonitor(m_clipMonitor);
+    connect(m_clipMonitor, &Monitor::showConfigDialog, this, &MainWindow::slotPreferences);
     connect(pCore->bin(), SIGNAL(clipNeedsReload(QString,bool)),this, SLOT(slotUpdateClip(QString,bool)));
 
     //TODO deprecated, replace with Bin methods if necessary
@@ -199,7 +200,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_recMonitor = new RecMonitor(Kdenlive::RecordMonitor, pCore->monitorManager(), this);
     connect(m_recMonitor, SIGNAL(addProjectClip(QUrl)), this, SLOT(slotAddProjectClip(QUrl)));
     connect(m_recMonitor, SIGNAL(addProjectClipList(QList<QUrl>)), this, SLOT(slotAddProjectClipList(QList<QUrl>)));
-    connect(m_recMonitor, SIGNAL(showConfigDialog(int,int)), this, SLOT(slotPreferences(int,int)));
+    
 
 */
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);

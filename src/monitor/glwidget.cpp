@@ -174,7 +174,7 @@ void GLWidget::resizeGL(int width, int height)
 {
     int x, y, w, h;
     double this_aspect = (double) width / height;
-    double video_aspect = pCore->binController()->profile()->dar();
+    double video_aspect = m_consumer->profile()->dar();
 
     // Special case optimisation to negate odd effect of sample aspect ratio
     // not corresponding exactly with image resolution.
@@ -680,7 +680,6 @@ int GLWidget::reconfigure(bool isMulti)
     QString serviceName = property("mlt_service").toString();
     if (!m_consumer || !m_consumer->is_valid()) {
         if (serviceName.isEmpty()) {
-            //m_consumer = new Mlt::FilteredConsumer(*pCore->binController()->profile(), "sdl_audio");
             m_consumer = new Mlt::FilteredConsumer(*pCore->binController()->profile(), "sdl_audio");
             if (m_consumer->is_valid())
                 serviceName = "sdl_audio";
