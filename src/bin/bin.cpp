@@ -430,7 +430,7 @@ void Bin::slotDeleteClip()
     QStringList subClipIds;
     QStringList foldersIds;
     foreach (const QModelIndex &ix, indexes) {
-        if (!ix.isValid()) continue;
+        if (!ix.isValid() || ix.column() != 0) continue;
         AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
         if (!item) continue;
         AbstractProjectItem::PROJECTITEMTYPE type = item->itemType();
@@ -458,7 +458,7 @@ void Bin::slotReloadClip()
 {
     QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     foreach (const QModelIndex &ix, indexes) {
-        if (!ix.isValid()) {
+        if (!ix.isValid() || ix.column() != 0) {
             continue;
         }
         AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
@@ -480,7 +480,7 @@ void Bin::slotDuplicateClip()
 {
     QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     foreach (const QModelIndex &ix, indexes) {
-        if (!ix.isValid()) {
+        if (!ix.isValid() || ix.column() != 0) {
             continue;
         }
         AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
@@ -845,6 +845,9 @@ QList <ProjectClip *> Bin::selectedClips()
     QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     QList <ProjectClip *> list;
     foreach (const QModelIndex &ix, indexes) {
+	if (!ix.isValid() || ix.column() != 0) {
+	    continue;
+	}
         AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
         ProjectClip *currentItem = qobject_cast<ProjectClip*>(item);
 	if (currentItem) {
@@ -1024,12 +1027,13 @@ void Bin::slotRefreshClipProperties()
 {
     QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     foreach (const QModelIndex &ix, indexes) {
-        if (ix.isValid()) {
-            AbstractProjectItem *clip = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
-            if (clip && clip->itemType() == AbstractProjectItem::ClipItem) {
-                showClipProperties(qobject_cast<ProjectClip *>(clip));
-                break;
-            }
+        if (!ix.isValid() || ix.column() != 0) {
+	    continue;
+	}
+        AbstractProjectItem *clip = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
+        if (clip && clip->itemType() == AbstractProjectItem::ClipItem) {
+            showClipProperties(qobject_cast<ProjectClip *>(clip));
+            break;
         }
     }
 }
@@ -1225,6 +1229,9 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
             //No clip displayed in monitor, check if item is selected
             QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
             foreach (const QModelIndex &ix, indexes) {
+		if (!ix.isValid() || ix.column() != 0) {
+		    continue;
+		}
                 ProjectClip *currentItem = static_cast<ProjectClip *>(m_proxyModel->mapToSource(ix).internalPointer());
                 if (currentItem->clipId() == info.clipId) {
                     // Item was selected, show it in monitor
