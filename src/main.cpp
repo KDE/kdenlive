@@ -22,7 +22,6 @@
 #include "mainwindow.h"
 
 #include <KAboutData>
-#include <KMessageBox>
 #include <QDebug>
 
 #include <QUrl> //new
