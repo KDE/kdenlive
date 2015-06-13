@@ -156,8 +156,8 @@ public:
     bool isMute;
     bool isBlind;
     bool isLocked;
-    EffectsList effectsList;
     int duration;
+    EffectsList effectsList;
     TrackInfo() :
         type(VideoTrack),
         isMute(0),

@@ -81,7 +81,7 @@ public:
 
     /** @brief Adds a clip to the project tree.
      * @return false if the user aborted the operation, true otherwise */
-    bool addClip(QDomElement elem, const QString &clipId, bool createClipItem = true);
+    bool addClip(QDomElement elem, const QString &clipId);
 
     /** @brief Updates information about a clip.
      * @param elem the <kdenlive_producer />
@@ -91,7 +91,7 @@ public:
      *     there yet), true otherwise
      *
      * If the clip wasn't added before, it tries to add it to the project. */
-    bool addClipInfo(QDomElement elem, QDomElement orig, const QString &clipId);
+    //bool addClipInfo(QDomElement elem, QDomElement orig, const QString &clipId);
     void deleteClip(const QString &clipId);
     int getFramePos(const QString &duration);
     /** @brief Get a bin's clip from its id. */

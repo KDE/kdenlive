@@ -122,7 +122,7 @@ protected:
      *     the operation requested (starting waiting jobs or saving file) fails,
      *     true otherwise */
     virtual bool queryClose();
-    virtual void closeEvent(QCloseEvent*);
+    //virtual void closeEvent(QCloseEvent*);
 
     /** @brief Reports a message in the status bar when an error occurs. */
     virtual void customEvent(QEvent *e);
@@ -131,16 +131,10 @@ protected:
     virtual void hideEvent(QHideEvent *e);
 
     /** @brief Saves the file and the window properties when saving the session. */
-    virtual void saveProperties(KConfigGroup &config);
-
-    /** @brief Saves the file and the window properties when saving the session. */
-    virtual void saveGlobalProperties(KConfigGroup &config);    
+    virtual void saveProperties(KConfigGroup &config);   
     
     /** @brief Restores the window and the file when a session is loaded. */
     virtual void readProperties(const KConfigGroup &config);
-
-    /** @brief Restores the window and the file when a session is loaded. */
-    virtual void readGlobalProperties(const KConfigGroup &config);
 
 private:
     QProgressBar *m_statusProgressBar;

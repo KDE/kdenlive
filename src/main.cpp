@@ -22,6 +22,7 @@
 #include "mainwindow.h"
 
 #include <KAboutData>
+#include <KMessageBox>
 #include <QDebug>
 
 #include <QUrl> //new
@@ -97,18 +98,12 @@ int main(int argc, char *argv[])
     MainWindow* window = 0;
 
     // see if we are starting with session management
-    if (app.isSessionRestored()) {
-        int n = 1;
-        while (KMainWindow::canBeRestored(n)) {
-            const QString className = KXmlGuiWindow::classNameOfToplevel(n);
-            if (className == QLatin1String("MainWindow")) {
-                window = new MainWindow();
-                window->restore(n);
-            } else {
-                qWarning() << "Unknown class " << className << " in session saved data!";
-            }
-            ++n;
-        }
+    if (qApp->isSessionRestored()){
+	  int n = 1;
+	  while (KMainWindow::canBeRestored(n)){
+	      (new MainWindow())->restore(n);
+	      n++;
+	  }
     } else {
         QString clipsToLoad = parser.value("i");
         QString mltPath = parser.value("mlt-path");

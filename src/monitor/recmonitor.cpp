@@ -173,7 +173,7 @@ void RecMonitor::mouseDoubleClickEvent(QMouseEvent * event)
     }*/
 }
 
-void RecMonitor::slotSwitchFullScreen()
+void RecMonitor::slotSwitchFullScreen(bool minimizeOnly)
 {
     //videoBox->switchFullScreen();
 }

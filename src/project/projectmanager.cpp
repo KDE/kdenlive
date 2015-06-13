@@ -63,6 +63,9 @@ ProjectManager::ProjectManager(QObject* parent) :
 
 ProjectManager::~ProjectManager()
 {
+    if (m_project) {
+	delete m_project;
+    }
 }
 
 void ProjectManager::slotLoadOnOpen()
@@ -190,19 +193,20 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges)
             break;
         }
     }
-    m_autoSaveTimer.stop();
-    pCore->window()->slotTimelineClipSelected(NULL, false);
-    pCore->monitorManager()->clipMonitor()->openClip(NULL);
+    if (!qApp->isSavingSession()) {
+	m_autoSaveTimer.stop();
+	pCore->window()->slotTimelineClipSelected(NULL, false);
+	pCore->monitorManager()->clipMonitor()->openClip(NULL);
 
-    delete m_project;
-    m_project = NULL;
-    pCore->monitorManager()->setDocument(m_project);
-    pCore->window()->m_effectStack->clear();
-    pCore->window()->m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
+	delete m_project;
+	m_project = NULL;
+	pCore->monitorManager()->setDocument(m_project);
+	pCore->window()->m_effectStack->clear();
+	pCore->window()->m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
 
-    delete m_trackView;
-    m_trackView = NULL;
-
+	delete m_trackView;
+	m_trackView = NULL;
+    }
     return true;
 }
 
@@ -337,7 +341,7 @@ bool ProjectManager::checkForBackupFile(const QUrl &url)
     }
 
     if (orphanedFile) {
-        if (KMessageBox::questionYesNo(pCore->window(),
+        if (KMessageBox::questionYesNo(0,
                                        i18n("Auto-saved files exist. Do you want to recover them now?"),
                                        i18n("File Recovery"),
                                        KGuiItem(i18n("Recover")), KGuiItem(i18n("Don't recover"))) == KMessageBox::Yes) {

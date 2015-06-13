@@ -1112,7 +1112,7 @@ const QString KdenliveDoc::description() const
         return m_url.fileName() + " [*]/ " + m_profile.description;
 }
 
-bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createClipItem)
+bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId)
 {
     const QString producerId = clipId.section('_', 0, 0);
     elem.setAttribute("id", producerId);
@@ -1192,12 +1192,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
         clip = new DocClipBase(m_clipManager, elem, producerId);
         m_clipManager->addClip(clip);
     }
-
-    if (createClipItem) {
-        emit addProjectClip(clip);
-    }
-    */
-    return true;
+    return true; */
 }
 
 void KdenliveDoc::setNewClipResource(const QString &id, const QString &path)
@@ -1259,9 +1254,10 @@ QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &match
     return foundFileName;
 }
 
+/*
 bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, const QString &clipId)
 {
-    /*DocClipBase *clip = m_clipManager->getClipById(clipId);
+    DocClipBase *clip = m_clipManager->getClipById(clipId);
     if (clip == NULL) {
         if (!addClip(elem, clipId, false))
             return false;
@@ -1293,8 +1289,8 @@ bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, const QString 
                 clip->setMetadata(meta);
         }
     }
-    return true;*/
-}
+    return true;
+}*/
 
 
 void KdenliveDoc::deleteClip(const QString &clipId)
@@ -1967,10 +1963,10 @@ void KdenliveDoc::slotClipMissing(const QString &path)
 {
     qDebug() << "// CLIP: " << path << " WAS MISSING";
     QStringList ids = pCore->binController()->getBinIdsByResource(QUrl::fromLocalFile(path));
-    foreach (const QString &id, ids) {
-        //TODO handle missing clips by replacing producer with an invalid producer
-        //emit missingClip(id);
-    }
+    //TODO handle missing clips by replacing producer with an invalid producer
+    /*foreach (const QString &id, ids) {    
+        emit missingClip(id);
+    }*/
 }
 
 void KdenliveDoc::slotClipAvailable(const QString &path)

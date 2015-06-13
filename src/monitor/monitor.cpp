@@ -1005,6 +1005,7 @@ void Monitor::updateClipProducer(const QString &playlist)
     if (render == NULL) return;
     Mlt::Producer *prod = new Mlt::Producer(*profile(), playlist.toUtf8().constData());
     render->setProducer(prod, render->seekFramePosition(), true);
+    render->play(1.0);
 }
 
 void Monitor::openClip(ClipController *controller)

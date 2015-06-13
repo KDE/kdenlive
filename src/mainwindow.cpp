@@ -552,7 +552,7 @@ bool MainWindow::queryClose()
     }
 
     // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
-    return pCore->projectManager()->closeCurrentDocument();
+    return pCore->projectManager()->closeCurrentDocument(true);
 }
 
 void MainWindow::loadPlugins()
@@ -628,29 +628,27 @@ void MainWindow::generateClip()
     }
 }
 
-void MainWindow::saveGlobalProperties(KConfigGroup &config)
-{
-    // save properties here, used by session management
-    pCore->projectManager()->saveFile();
-}
-
 void MainWindow::saveProperties(KConfigGroup &config)
 {
     // save properties here
     KMainWindow::saveProperties(config);
-}
-
-void MainWindow::readGlobalProperties(const KConfigGroup &config)
-{
-    // read properties here,used by session management
-    QString Lastproject = config.group("Recent Files").readPathEntry("File1", QString());
-    pCore->projectManager()->openFile(QUrl(Lastproject));
+    
+    //TODO: fix session management
+    if (qApp->isSavingSession()) {
+	if (pCore->projectManager()->current() && !pCore->projectManager()->current()->url().isEmpty()) {
+	    config.writeEntry("kdenlive_lastUrl", pCore->projectManager()->current()->url().path());
+	}
+    }
 }
 
 void MainWindow::readProperties(const KConfigGroup &config)
 {
     // read properties here
     KMainWindow::readProperties(config);
+    //TODO: fix session management
+    /*if (qApp->isSessionRestored()) {
+	pCore->projectManager()->openFile(QUrl::fromLocalFile(config.readEntry("kdenlive_lastUrl", QString())));
+    }*/
 }
 
 void MainWindow::slotReloadEffects()
@@ -1726,14 +1724,14 @@ void MainWindow::slotRestart()
     QApplication::closeAllWindows();
 }
 
-void MainWindow::closeEvent(QCloseEvent* event)
+/*void MainWindow::closeEvent(QCloseEvent* event)
 {
     KXmlGuiWindow::closeEvent(event);
     if (event->isAccepted()) {
         QApplication::exit(m_exitCode);
         return;
     }
-}
+}*/
 
 void MainWindow::slotUpdateCaptureFolder()
 {
