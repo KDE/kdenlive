@@ -2754,7 +2754,7 @@ void MainWindow::loadTranscoders()
         data << i.value().split(';');
         QAction *a;
         // separate audio transcoding in a separate menu
-        if (data.count() > 2 && data.at(2) == "audio") {
+        if (data.count() > 3 && data.at(3) == "audio") {
             a = extractAudioMenu->addAction(i.key());
         }
         else {
