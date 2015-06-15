@@ -636,7 +636,7 @@ void ClipItem::flashClip()
 void ClipItem::animate(qreal /*value*/)
 {
     QRectF r = boundingRect();
-    r.setHeight(20);
+    //r.setHeight(20);
     update(r);
 }
 
@@ -1371,7 +1371,7 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
         needRepaint = true;
         insertedEffect = m_effectList.insert(effect);
     } else insertedEffect = m_effectList.append(effect);
-    
+
     // Update index to the real one
     effect.setAttribute("kdenlive_ix", insertedEffect.attribute("kdenlive_ix"));
     int effectIn;
@@ -1504,7 +1504,7 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
         if (animate) flashClip();
         else {
             QRectF r = boundingRect();
-            r.setHeight(20);
+            //r.setHeight(20);
             update(r);
         }
     }
@@ -1514,8 +1514,7 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
 void ClipItem::deleteEffect(int ix)
 {
     bool needRepaint = false;
-    //QDomElement effect = m_effectList.itemFromIndex(ix);
-    QDomElement effect = m_effectList.at(ix);
+    QDomElement effect = m_effectList.itemFromIndex(ix);
     QString effectId = effect.attribute("id");
     if ((effectId == "fadein" && hasEffect(QString(), "fade_from_black") == -1) ||
             (effectId == "fade_from_black" && hasEffect(QString(), "fadein") == -1)) {
@@ -1539,7 +1538,7 @@ void ClipItem::deleteEffect(int ix)
         update(boundingRect());
     } else {
         QRectF r = boundingRect();
-        r.setHeight(20);
+        //r.setHeight(20);
         update(r);
     }
     if (!m_effectList.isEmpty()) flashClip();
