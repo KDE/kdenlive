@@ -73,7 +73,7 @@ public:
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
     void moveTransition(const ItemInfo &start, const ItemInfo &end, bool refresh);
     void resizeClip(const ItemInfo &start, const ItemInfo &end, bool dontWorry = false);
-    void addClip(const QString &clipId, ItemInfo info, EffectsList list, bool overwrite = false, bool push = false, bool refresh = true);
+    void addClip(const QString &clipId, ItemInfo info, EffectsList list, QStringList meta, bool overwrite = false, bool push = false, bool refresh = true);
     void deleteClip(ItemInfo info, bool refresh = true);
     void addMarker(const QString &id, const CommentedTime &marker);
     void addData(const QString &id, const QString &key, const QString &data);

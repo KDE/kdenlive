@@ -196,6 +196,9 @@ public:
     /** @brief Returns true of this clip needs a duplicate (MLT requires duplicate for clips with audio or we get clicks. */
     bool needsDuplicate() const;
 
+    /** @brief Returns some info useful for recreating this clip. */
+    QStringList meta() const;
+
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);

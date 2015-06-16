@@ -2052,4 +2052,14 @@ bool ClipItem::needsDuplicate() const
       return true;
 }
 
-
+QStringList ClipItem::meta() const
+{
+    QStringList meta;
+    if (m_audioOnly) {
+        meta << "audio_only";
+    }
+    else if (m_videoOnly) {
+        meta << "video_only";
+    }
+    return meta;
+}

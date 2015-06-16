@@ -62,14 +62,15 @@ private:
 class AddTimelineClipCommand : public QUndoCommand
 {
 public:
-    AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, bool overwrite, bool push, bool doIt, bool doRemove, QUndoCommand * parent = 0);
+    AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, QStringList meta, bool overwrite, bool push, bool doIt, bool doRemove, QUndoCommand * parent = 0);
     void undo();
     void redo();
 private:
     CustomTrackView *m_view;
+    QString m_clipId;
     ItemInfo m_clipInfo;
     EffectsList m_effects;
-    QString m_clipId;
+    QStringList m_meta;
     bool m_doIt;
     bool m_remove;
     bool m_overwrite;

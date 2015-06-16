@@ -1649,7 +1649,7 @@ void CustomTrackView::insertClipCut(const QString &id, int in, int out)
     QUndoCommand *addCommand = new QUndoCommand();
     addCommand->setText(i18n("Add timeline clip"));
     new RefreshMonitorCommand(this, false, true, addCommand);
-    new AddTimelineClipCommand(this, id, pasteInfo, EffectsList(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, true, false, addCommand);
+    new AddTimelineClipCommand(this, id, pasteInfo, EffectsList(), QStringList(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, true, false, addCommand);
     new RefreshMonitorCommand(this, true, false, addCommand);
     updateTrackDuration(pasteInfo.track, addCommand);
     
@@ -2791,7 +2791,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             }
             adjustTimelineClips(m_scene->editMode(), item, ItemInfo(), addCommand);
 
-            new AddTimelineClipCommand(this, clipBinId, item->info(), item->effectList(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, false, false, addCommand);
+            new AddTimelineClipCommand(this, clipBinId, item->info(), item->effectList(), item->meta(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, false, false, addCommand);
             updateTrackDuration(info.track, addCommand);
 
 	    //TODO
@@ -2899,7 +2899,7 @@ void CustomTrackView::adjustTimelineClips(EditMode mode, ClipItem *item, ItemInf
                         clip->resizeEnd(info.startPos.frames(m_document->fps()));
                     }
                 } else if (clip->endPos() <= info.endPos) {
-                    new AddTimelineClipCommand(this, clip->getBinId(), clip->info(), clip->effectList(), false, false, false, true, command);
+                    new AddTimelineClipCommand(this, clip->getBinId(), clip->info(), clip->effectList(), clip->meta(), false, false, false, true, command);
                     m_waitingThumbs.removeAll(clip);
                     scene()->removeItem(clip);
                     delete clip;
@@ -3528,7 +3528,7 @@ void CustomTrackView::deleteClip(const QString &clipId, QUndoCommand *deleteComm
                     // Clip is in a group, destroy the group
                     new GroupClipsCommand(this, QList<ItemInfo>() << item->info(), QList<ItemInfo>(), false, deleteCommand);
                 }
-                new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), false, false, true, true, deleteCommand);
+                new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->meta(), false, false, true, true, deleteCommand);
             }
         }
     }
@@ -4279,7 +4279,7 @@ void CustomTrackView::deleteSelectedClips()
             clipCount++;
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             ////qDebug()<<"// DELETE CLP AT: "<<item->info().startPos.frames(25);
-            new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), false, false, true, true, deleteSelected);
+            new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->meta(), false, false, true, true, deleteSelected);
         } else if (itemList.at(i)->type() == TransitionWidget) {
             transitionCount++;
             Transition *item = static_cast <Transition *>(itemList.at(i));
@@ -4493,7 +4493,7 @@ void CustomTrackView::slotInfoProcessingFinished()
     m_producerNotReady.wakeAll();
 }
 
-void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList effects, bool overwrite, bool push, bool refresh)
+void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList effects, QStringList meta, bool overwrite, bool push, bool refresh)
 {
     ProjectClip *binClip = m_document->getBinClip(clipId);
     if (!binClip->isReady()) {
@@ -4520,12 +4520,11 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
     }
     // TODO:
     // Get speed and strobe values from effects
-    // And find a better way to pass the audio/video only information
     double speed = 1.0;
     int strobe = 1;
-    //if (xml.hasAttribute("audio_only")) item->setAudioOnly(true);
-    //else if (xml.hasAttribute("video_only")) item->setVideoOnly(true);
     ClipItem *item = new ClipItem(binClip, info, m_document->fps(), speed, strobe, getFrameWidth());
+    if (meta.contains("audio_only")) item->setAudioOnly(true);
+    else if (meta.contains("video_only")) item->setVideoOnly(true);
     item->setEffectList(effects);
     scene()->addItem(item);
     int producerTrack = info.track;
@@ -5955,7 +5954,7 @@ void CustomTrackView::pasteClip()
             info.endPos += offset;
             info.track += trackOffset;
             if (canBePastedTo(info, AVWidget)) {
-                new AddTimelineClipCommand(this, clip->getBinId(), info, clip->effectList(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, true, false, pasteClips);
+                new AddTimelineClipCommand(this, clip->getBinId(), info, clip->effectList(), clip->meta(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, true, false, pasteClips);
             } else emit displayMessage(i18n("Cannot paste clip to selected place"), ErrorMessage);
         } else if (m_copiedItems.at(i) && m_copiedItems.at(i)->type() == TransitionWidget) {
             Transition *tr = static_cast <Transition *>(m_copiedItems.at(i));
@@ -6339,7 +6338,7 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == AVWidget) {
             ClipItem *item =  static_cast <ClipItem *>(selection.at(i));
-            new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), false, false, false, true, deleteTrack);
+            new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->meta(), false, false, false, true, deleteTrack);
             m_waitingThumbs.removeAll(item);
             m_scene->removeItem(item);
             delete item;
@@ -6610,8 +6609,10 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
 	    //TODO: pass audio only information in another way
             //QDomElement xml = clip->xml();
             //xml.setAttribute("audio_only", 1);
+            QStringList meta;
+            meta << "audio_only";
             scene()->clearSelection();
-            addClip(clip->getBinId(), info, clip->effectList(), false, false, false);
+            addClip(clip->getBinId(), info, clip->effectList(), meta, false, false, false);
             clip->setSelected(true);
             ClipItem *audioClip = getClipItemAtStart(pos, info.track);
             if (audioClip) {
@@ -7067,7 +7068,7 @@ void CustomTrackView::insertZoneOverwrite(QStringList data, int in)
     QUndoCommand *addCommand = new QUndoCommand();
     addCommand->setText(i18n("Insert clip"));
     adjustTimelineClips(OverwriteEdit, NULL, info, addCommand);
-    new AddTimelineClipCommand(this, data.at(0), info, EffectsList(), true, false, true, false, addCommand);
+    new AddTimelineClipCommand(this, data.at(0), info, EffectsList(), QStringList(), true, false, true, false, addCommand);
     updateTrackDuration(info.track, addCommand);
     m_commandStack->push(addCommand);
 

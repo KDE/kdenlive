@@ -85,12 +85,13 @@ void AddExtraDataCommand::redo()
     m_view->addData(m_id, m_key, m_newData);
 }
 
-AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, bool overwrite, bool push, bool doIt, bool doRemove, QUndoCommand * parent) :
+AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, QStringList meta, bool overwrite, bool push, bool doIt, bool doRemove, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
+        m_clipId(clipId),
         m_clipInfo(info),
         m_effects(effects),
-        m_clipId(clipId),
+        m_meta(meta),
         m_doIt(doIt),
         m_remove(doRemove),
         m_overwrite(overwrite),
@@ -105,14 +106,14 @@ void AddTimelineClipCommand::undo()
     if (!m_remove)
         m_view->deleteClip(m_clipInfo);
     else
-        m_view->addClip(m_clipId, m_clipInfo, m_effects, m_overwrite, m_push);
+        m_view->addClip(m_clipId, m_clipInfo, m_effects, m_meta, m_overwrite, m_push);
 }
 // virtual
 void AddTimelineClipCommand::redo()
 {
     if (m_doIt) {
         if (!m_remove)
-            m_view->addClip(m_clipId, m_clipInfo, m_effects, m_overwrite, m_push);
+            m_view->addClip(m_clipId, m_clipInfo, m_effects, m_meta, m_overwrite, m_push);
         else
             m_view->deleteClip(m_clipInfo);
     }
