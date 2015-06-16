@@ -666,7 +666,7 @@ void ClipItem::paint(QPainter *painter,
     const QTransform transformation = painter->worldTransform();
     const QRectF mappedExposed = transformation.mapRect(exposed);
     const QRectF mapped = transformation.mapRect(rect());
-    painter->setWorldTransform(QTransform());
+    painter->setWorldMatrixEnabled(false);
     QPainterPath p;
     p.addRect(mappedExposed);
     QPainterPath q;
@@ -734,7 +734,7 @@ void ClipItem::paint(QPainter *painter,
         }
     }
     // draw audio thumbnails
-    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && !isVideoOnly() && ((m_clipType == AV && (exposed.bottom() > (rect().height() / 2) || isAudioOnly())) || m_clipType == Audio) && m_audioThumbReady) {
+    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && !m_videoOnly && ((m_clipType == AV && (exposed.bottom() > (rect().height() / 2) || isAudioOnly())) || m_clipType == Audio) && m_audioThumbReady) {
         int startpixel = exposed.left();
         if (startpixel < 0)
             startpixel = 0;
@@ -745,7 +745,7 @@ void ClipItem::paint(QPainter *painter,
 
         /*QPainterPath path = m_clipType == AV ? roundRectPathLower : resultClipPath;*/
         QRectF mappedRect;
-        if (m_clipType == AV && !isAudioOnly()) {
+        if (m_clipType == AV && !m_audioOnly) {
             mappedRect = mapped;
             mappedRect.setTop(mappedRect.bottom() - mapped.height() / 2);
         } else mappedRect = mapped;
@@ -805,6 +805,7 @@ void ClipItem::paint(QPainter *painter,
                 painter->drawPath(negativeChannelPaths.value(i));
             }
         }
+        painter->setPen(QPen());
     }
     if (m_isMainSelectedClip) {
         framePen.setColor(Qt::red);
@@ -812,10 +813,11 @@ void ClipItem::paint(QPainter *painter,
     }
 
     // only paint details if clip is big enough
-    if (mapped.width() > 20) {
+    int fontUnit = QFontInfo(painter->font()).pixelSize();
+    if (mapped.width() > (2 * fontUnit)) {
 
         // Draw effects names
-        if (!m_effectNames.isEmpty() && mapped.width() > 40) {
+        if (!m_effectNames.isEmpty() && mapped.width() > (5 * fontUnit)) {
             QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignLeft | Qt::AlignTop, m_effectNames);
             QColor bColor = palette.window().color();
             QColor tColor = palette.text().color();
@@ -834,7 +836,7 @@ void ClipItem::paint(QPainter *painter,
         }
 
         // Draw clip name
-        const QRectF txtBounding2 = painter->boundingRect(mapped, Qt::AlignRight | Qt::AlignTop, m_clipName + ' ').adjusted(0, -1, 0, -1);
+        const QRectF txtBounding2 = painter->boundingRect(mapped, Qt::AlignRight | Qt::AlignTop, m_clipName);
         painter->setPen(Qt::NoPen);
         painter->fillRect(txtBounding2.adjusted(-3, 0, 0, 0), textBgColor);
         painter->setBrush(QBrush(Qt::NoBrush));
@@ -1496,7 +1498,10 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
 
     if (m_selectedEffect == -1) {
         setSelectedEffect(1);
-    } else if (m_selectedEffect == ix - 1) setSelectedEffect(m_selectedEffect);
+    } else if (m_selectedEffect == ix - 1) {
+        setSelectedEffect(m_selectedEffect);
+    }
+
     if (needRepaint) {
         update(boundingRect());
     }
