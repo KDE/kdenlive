@@ -70,10 +70,17 @@ public:
      * @param cut is a MLT Producer cut (resource + in/out timecodes)
      * @param duplicate when true, we will create a copy of the clip if necessary
      * @param mode allow insert in non-blanks by replacing (mode=1) or pushing (mode=2) content
+     * The playlist must be locked / unlocked before and after calling doAdd
      * @return true if success */
     bool doAdd(qreal t, Mlt::Producer *cut, int mode);
     bool add(qreal t, Mlt::Producer *parent, bool duplicate, int mode = 0);
     bool add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, PlaylistState::ClipState state, bool duplicate, int mode = 0);
+    /** @brief Move a clip in the track
+     * @param start where clip is present (in seconds);
+     * @param end wher the clip should be moved
+     * @param mode allow insert in non-blanks by replacing (mode=1) or pushing (mode=2) content
+     * @return true if success */
+    bool move(qreal start, qreal end, int mode = 0);
     /** @brief delete a clip
      * @param time where clip is present (in seconds);
      * @return true if success */

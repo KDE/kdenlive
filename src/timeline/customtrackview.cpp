@@ -2783,7 +2783,14 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             /*Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clipBinId, info.track, item->isAudioOnly(), item->isVideoOnly());
 	    prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
             if (!m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode())) {*/
-	    if (!m_timeline->track(info.track)->add(info.startPos.seconds(), m_document->renderer()->getBinProducer(clipBinId), info.cropStart.seconds(), (info.cropStart + info.cropDuration).seconds(), PlaylistState::Original, item->needsDuplicate(), m_scene->editMode())) {
+            Mlt::Producer *prod;
+            if (item->clipState() == PlaylistState::VideoOnly) {
+                prod = m_document->renderer()->getBinVideoProducer(clipBinId);
+            }
+            else {
+                prod = m_document->renderer()->getBinProducer(clipBinId);
+            }
+	    if (!m_timeline->track(info.track)->add(info.startPos.seconds(), prod, info.cropStart.seconds(), (info.cropStart + info.cropDuration).seconds(), item->clipState(), item->needsDuplicate(), m_scene->editMode())) {
                 emit displayMessage(i18n("Cannot insert clip in timeline"), ErrorMessage);
                 brokenClips.append(item);
                 continue;
@@ -3753,7 +3760,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             // we are moving one clip, easy
             if (m_dragItem->type() == AVWidget && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
                 ClipItem *item = static_cast <ClipItem *>(m_dragItem);
-                bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - info.track), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(info.startPos.frames(m_document->fps())), item->getBinId(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
+                bool success = m_timeline->moveClip(m_dragItemInfo.track, m_dragItemInfo.startPos.seconds(), info.track, info.startPos.seconds(), item->clipState(), m_scene->editMode());
 
                 if (success) {
                     QUndoCommand *moveCommand = new QUndoCommand();
@@ -3965,7 +3972,14 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         //prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
 			prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
                         m_timeline->track(info.track)info.startPos.seconds(), prod, m_scene->editMode());*/
-                        m_timeline->track(info.track)->add(info.startPos.seconds(), m_document->renderer()->getBinProducer(clip->getBinId()), info.cropStart.seconds(), (info.cropStart + info.cropDuration).seconds(), clip->clipState(), m_scene->editMode());
+                        Mlt::Producer *prod;
+                        if (clip->clipState() == PlaylistState::VideoOnly) {
+                            prod = m_document->renderer()->getBinVideoProducer(clip->getBinId());
+                        }
+                        else {
+                            prod = m_document->renderer()->getBinProducer(clip->getBinId());
+                        }
+                        m_timeline->track(info.track)->add(info.startPos.seconds(), prod, info.cropStart.seconds(), (info.cropStart + info.cropDuration).seconds(), clip->clipState(), m_scene->editMode());
                         
                         for (int i = 0; i < clip->effectsCount(); ++i) {
                             m_document->renderer()->mltAddEffect(info.track, info.startPos, EffectsController::getEffectArgs(m_document->getProfileInfo(), clip->effect(i)), false);
@@ -4540,7 +4554,14 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
     /*Mlt::Producer *prod = m_document->renderer()->getTrackProducer(item->getBinId(), info.track, item->isAudioOnly(), item->isVideoOnly());
     //prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
     prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);*/
-    m_timeline->track(info.track)->add(info.startPos.seconds(), item->binClip()->producer(), info.cropStart.seconds(), (info.cropStart+info.cropDuration).seconds(), state, true, m_scene->editMode());
+    Mlt::Producer *prod;
+    if (item->clipState() == PlaylistState::VideoOnly) {
+        prod = m_document->renderer()->getBinVideoProducer(clipId);
+    }
+    else {
+        prod = m_document->renderer()->getBinProducer(clipId);
+    }
+    m_timeline->track(info.track)->add(info.startPos.seconds(), prod, info.cropStart.seconds(), (info.cropStart+info.cropDuration).seconds(), state, true, m_scene->editMode());
     info.track = m_document->tracksCount() - info.track;
 
     for (int i = 0; i < item->effectsCount(); ++i) {
@@ -4712,9 +4733,8 @@ bool CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool 
     qDebug() << start;
     qDebug() << end;
 #endif
-    bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - start.track), (int)(m_document->tracksCount() - end.track),
-                                                       (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()),
-                                                       item->getBinId());
+    bool success = m_timeline->moveClip(start.track, start.startPos.seconds(), end.track, end.startPos.seconds(), item->clipState(), m_scene->editMode());
+
     if (success) {
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
@@ -4845,7 +4865,14 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
 		prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
                 //prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
                 m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode());*/
-                m_timeline->track(info.track)->add(info.startPos.seconds(), m_document->renderer()->getBinProducer(clip->getBinId()), info.cropStart.seconds(), (info.cropStart + info.cropDuration).seconds(), clip->clipState(), m_scene->editMode());
+                Mlt::Producer *prod;
+                if (clip->clipState() == PlaylistState::VideoOnly) {
+                    prod = m_document->renderer()->getBinVideoProducer(clip->getBinId());
+                }
+                else {
+                    prod = m_document->renderer()->getBinProducer(clip->getBinId());
+                }
+                m_timeline->track(info.track)->add(info.startPos.seconds(), prod, info.cropStart.seconds(), (info.cropStart + info.cropDuration).seconds(), clip->clipState(), m_scene->editMode());
                 info.track = m_document->tracksCount() - info.track;
 
                 for (int i = 0; i < clip->effectsCount(); ++i) {

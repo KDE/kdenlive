@@ -70,11 +70,13 @@ void Track::setFps(qreal fps)
 
 // basic clip operations
 
-// TODO: remove this method
+// TODO: remove this method ?
 bool Track::add(qreal t, Mlt::Producer *parent, bool duplicate, int mode)
 {
     Mlt::Producer *cut = duplicate ? clipProducer(parent, PlaylistState::Original) :  new Mlt::Producer(parent);
+    m_playlist.lock();
     bool result = doAdd(t, cut, mode);
+    m_playlist.unlock();
     delete cut;
     return result;
 }
@@ -82,7 +84,7 @@ bool Track::add(qreal t, Mlt::Producer *parent, bool duplicate, int mode)
 bool Track::add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, PlaylistState::ClipState state, bool duplicate, int mode)
 {
     Mlt::Producer *cut;
-    if (duplicate) {
+    if (duplicate && state != PlaylistState::VideoOnly) {
         Mlt::Producer *newProd = clipProducer(parent, state);
         cut = newProd->cut(frame(tcut), frame(dtcut));
         delete newProd;
@@ -90,7 +92,10 @@ bool Track::add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, Playlis
     else {
         cut = parent->cut(frame(tcut), frame(dtcut));
     }
+    Clip(*cut).addEffects(*parent);
+    m_playlist.lock();
     bool result = doAdd(t, cut, mode);
+    m_playlist.unlock();
     delete cut;
     return result;
 }
@@ -99,7 +104,6 @@ bool Track::doAdd(qreal t, Mlt::Producer *cut, int mode)
 {
     int pos = frame(t);
     int len = cut->get_out() - cut->get_in() + 1;
-    m_playlist.lock();
     if (pos < m_playlist.get_playtime() && mode > 0) {
         if (mode == 1) {
             m_playlist.remove_region(pos, len);
@@ -112,8 +116,25 @@ bool Track::doAdd(qreal t, Mlt::Producer *cut, int mode)
     if (m_playlist.insert_at(frame(t), cut, 1) == m_playlist.count() - 1) {
         emit newTrackDuration(m_playlist.get_playtime());
     }
-    m_playlist.unlock();
     return true;
+}
+
+bool Track::move(qreal start, qreal end, int mode)
+{
+    int pos = frame(start);
+    int clipIndex = m_playlist.get_clip_index_at(pos);
+    m_playlist.lock();
+    Mlt::Producer *clipProducer = m_playlist.replace_with_blank(clipIndex);
+    if (!clipProducer || clipProducer->is_blank()) {
+        qDebug() << "// Cannot get clip at index: "<<clipIndex<<" / "<< start;
+        m_playlist.unlock();
+        return false;
+    }
+    m_playlist.consolidate_blanks();
+    bool result = doAdd(end, clipProducer, mode);
+    m_playlist.unlock();
+    delete clipProducer;
+    return result;
 }
 
 bool Track::del(qreal t)
@@ -202,7 +223,7 @@ bool Track::resize(qreal t, qreal dt, bool end)
             }
         }
     }
-    m_playlist.consolidate_blanks(0);
+    m_playlist.consolidate_blanks();
     m_playlist.unlock();
     return true;
 }
@@ -230,19 +251,15 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
 {
     int startindex = 0;
     bool found = false;
-    QString idForTrack;
     QString idForAudioTrack;
     QString idForVideoTrack;
-    QString service = original->get("mlt_service");
+    QString service = original->parent().get("mlt_service");
+    QString idForTrack = original->parent().get("id");
     if (service.contains("avformat")) {
         // We have to use the track clip duplication functions, because of audio glitches in MLT's multitrack
-        idForTrack = original->get("id") + QLatin1Char('_') + m_playlist.get("id");
-        idForAudioTrack = original->get("id") + QLatin1Char('_') + m_playlist.get("id") + "_audio";
-        idForVideoTrack = original->get("id") + QLatin1Char('_') + m_playlist.get("id") + "_video";
-    }
-    else {
-        // We can reuse the original producer directly
-        idForTrack = original->get("id");
+        idForAudioTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + "_audio";
+        idForVideoTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + "_video";
+        idForTrack.append(QLatin1Char('_') + m_playlist.get("id"));
     }
     Mlt::Producer *trackProducer = NULL;
     Mlt::Producer *audioTrackProducer = NULL;
@@ -322,12 +339,14 @@ Mlt::Producer *Track::find(const QByteArray &name, const QByteArray &value, int 
 }
 
 Mlt::Producer *Track::clipProducer(Mlt::Producer *parent, PlaylistState::ClipState state, bool forceCreation) {
-    QString service = parent->get("mlt_service");
-    if (!service.contains("avformat") || state == PlaylistState::VideoOnly) {
+    QString service = parent->parent().get("mlt_service");
+    QString originalId = parent->parent().get("id");
+    if (!service.contains("avformat") || state == PlaylistState::VideoOnly || originalId.endsWith("_video")) {
         // Don't clone producer for track if it has no audio
         return new Mlt::Producer(*parent);
     }
-    QString idForTrack = parent->get("id") + QLatin1Char('_') + m_playlist.get("id");
+    originalId = originalId.section("_", 0, 0);
+    QString idForTrack = originalId + QLatin1Char('_') + m_playlist.get("id");
     if (state == PlaylistState::AudioOnly) {
         idForTrack.append("_audio");
     } else if (state == PlaylistState::VideoOnly) {
@@ -339,7 +358,7 @@ Mlt::Producer *Track::clipProducer(Mlt::Producer *parent, PlaylistState::ClipSta
         *prod = prod->parent();
         return prod;
     }
-    prod = Clip(*parent).clone();
+    prod = Clip(parent->parent()).clone();
     prod->set("id", idForTrack.toUtf8().constData());
     if (state == PlaylistState::AudioOnly) {
         prod->set("video_index", -1);

@@ -84,8 +84,17 @@ void BinController::destroyBin()
         delete m_binPlaylist;
         m_binPlaylist = NULL;
     }
+    qDeleteAll(m_extraClipList.values());
+    m_extraClipList.clear();
+
     qDeleteAll(m_clipList.values());
     m_clipList.clear();
+}
+
+void BinController::loadExtraProducer(const QString &id, Mlt::Producer *prod)
+{
+    if (m_extraClipList.contains(id)) return;
+    m_extraClipList.insert(id, prod);
 }
 
 void BinController::initializeBin(Mlt::Playlist playlist)
@@ -302,6 +311,22 @@ Mlt::Producer *BinController::getBinProducer(const QString &id, const QString tr
     ClipController *controller = m_clipList.value(id);
     return &controller->originalProducer();
     //return controller->getTrackProducer(trackName, clipState, speed);
+}
+
+Mlt::Producer *BinController::getBinVideoProducer(const QString &id)
+{
+    QString videoId = id + "_video";
+    if (!m_extraClipList.contains(videoId)) {
+        // create clone
+        QString originalId = id.section("_", 0, 0);
+        Mlt::Producer *original = getBinProducer(originalId);
+        Mlt::Producer *videoOnly = cloneProducer(*original);
+        videoOnly->set("audio_index", -1);
+        videoOnly->set("id", videoId.toUtf8().constData());
+        m_extraClipList.insert(videoId, videoOnly);
+        return videoOnly;
+    }
+    return m_extraClipList.value(videoId);
 }
 
 double BinController::fps() const

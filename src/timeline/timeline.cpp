@@ -559,6 +559,10 @@ int Timeline::addTrack(int ix, Mlt::Playlist &playlist, bool locked) {
         QString id = idString;
         double speed = 1.0;
         int strobe = 1;
+        if (idString.endsWith("_video")) {
+            // Video only producer, store it in BinController
+            m_doc->renderer()->loadExtraProducer(idString, &clip->parent());
+        }
         if (idString.startsWith(QLatin1String("slowmotion"))) {
             QLocale locale;
             locale.setNumberOptions(QLocale::OmitGroupSeparator);
@@ -865,6 +869,30 @@ void Timeline::checkTrackHeight()
         slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
         slotSetZone(m_doc->zone(), false);
     }
+}
+
+bool Timeline::moveClip(int startTrack, qreal startPos, int endTrack, qreal endPos, PlaylistState::ClipState state, int mode)
+{
+    if (startTrack == endTrack) {
+        return track(startTrack)->move(startPos, endPos, mode);
+    }
+    Track *sourceTrack = track(startTrack);
+    int pos = sourceTrack->frame(startPos);
+    int clipIndex = sourceTrack->playlist().get_clip_index_at(pos);
+    sourceTrack->playlist().lock();
+    Mlt::Producer *clipProducer = sourceTrack->playlist().replace_with_blank(clipIndex);
+    sourceTrack->playlist().consolidate_blanks();
+    if (!clipProducer || clipProducer->is_blank()) {
+        qDebug() << "// Cannot get clip at index: "<<clipIndex<<" / "<< startPos;
+        sourceTrack->playlist().unlock();
+        return false;
+    }
+    sourceTrack->playlist().unlock();
+    Track *destTrack = track(endTrack);
+    
+    bool success = destTrack->add(endPos, clipProducer, GenTime(clipProducer->get_in(), destTrack->fps()).seconds(), GenTime(clipProducer->get_out(), destTrack->fps()).seconds(), state, true, mode);
+    delete clipProducer;
+    return success;
 }
 
 

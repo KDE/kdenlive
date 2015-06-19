@@ -75,6 +75,12 @@ public:
      * */
     void addClipToBin(const QString &id, ClipController *controller);
     
+    /** @brief Store a timeline producer in clip list for later re-use
+     * @param id The clip's id
+     * @param producer The MLT producer for this clip
+     * */
+    void loadExtraProducer(const QString &id, Mlt::Producer *prod);
+    
     /** @brief Returns the name MLT will use to store our bin's playlist */
     static const QString binPlaylistId();
     
@@ -110,6 +116,9 @@ public:
      @param speed If the clip has a speed effect (framebuffer producer), we indicate the speed here
     */
     Mlt::Producer *getBinProducer(const QString &id, const QString trackName = QString(), PlaylistState::ClipState clipState = PlaylistState::Original, double speed = 1.0);
+    
+    /** @brief returns a video only (no audio) version of this producer  */
+    Mlt::Producer *getBinVideoProducer(const QString &id);
     
     /** @brief Returns the clip data as rendered by MLT's XML consumer, used to duplicate a clip
      * @param producer The clip's original producer
@@ -168,6 +177,9 @@ private:
     
     /** @brief This list holds all producer controllers for the playlist, indexed by id */
     QMap <QString, ClipController *> m_clipList;
+    
+    /** @brief This list holds all extra controllers (slowmotion, video only, ... that are in timeline, indexed by id */
+    QMap <QString, Mlt::Producer *> m_extraClipList;
     
     /** @brief Remove a clip from MLT's special bin playlist */
     void removeBinPlaylistClip(const QString &id);

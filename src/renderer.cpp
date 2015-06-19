@@ -4558,10 +4558,14 @@ Mlt::Producer *Render::getBinProducer(const QString &id)
     return m_binController->getBinProducer(id);
 }
 
-//TODO: return video only producer
 Mlt::Producer *Render::getBinVideoProducer(const QString &id)
 {
-    return m_binController->getBinProducer(id);
+    return m_binController->getBinVideoProducer(id);
+}
+
+void Render::loadExtraProducer(const QString &id, Mlt::Producer *prod)
+{
+    m_binController->loadExtraProducer(id, prod);
 }
 
 

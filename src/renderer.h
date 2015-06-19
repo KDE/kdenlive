@@ -338,7 +338,10 @@ class Render: public AbstractRender
     double getMltVersionInfo(const QString &tag);
     /** @brief Get a clip's master producer */
     Mlt::Producer *getBinProducer(const QString &id);
+    /** @brief Get a clip's video only producer */
     Mlt::Producer *getBinVideoProducer(const QString &id);
+    /** @brief Load extra producers (video only, slowmotion) from timeline */
+    void loadExtraProducer(const QString &id, Mlt::Producer *prod);
 
 private:
 
