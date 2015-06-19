@@ -268,7 +268,9 @@ class Render: public AbstractRender
     void mltUpdateTransitionParams(QString type, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml);
     QList <TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack);
     void mltDeleteTrack(int ix);
-    bool mltUpdateClipProducer(Mlt::Tractor *tractor, int track, int pos, Mlt::Producer *prod);
+    
+    /** @brief Deprecated, use replace function in timeline/track.cpp */
+    Q_DECL_DEPRECATED bool mltUpdateClipProducer(Mlt::Tractor *tractor, int track, int pos, Mlt::Producer *prod);
     void mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track);
     Mlt::Producer *invalidProducer(const QString &id);
 
@@ -322,8 +324,10 @@ class Render: public AbstractRender
     /** @brief Check if the installed FFmpeg / Libav supports x11grab */
     static bool checkX11Grab();
     
-    /** @brief Get a track producer from a clip's id */
-    Mlt::Producer *getTrackProducer(const QString &id, int track, bool audioOnly = false, bool videoOnly = false);
+    /** @brief Get a track producer from a clip's id 
+     *  Deprecated, track producers are now handled in timeline/track.cpp
+     */
+    Q_DECL_DEPRECATED Mlt::Producer *getTrackProducer(const QString &id, int track, bool audioOnly = false, bool videoOnly = false);
     
     /** @brief Ask to set this monitor as active */
     void setActiveMonitor();

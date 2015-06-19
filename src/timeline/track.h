@@ -94,16 +94,17 @@ public:
      * @param t is the cut time in playlist
      * @return true if success */
     bool cut(qreal t);
-    /** @brief replace a clip with another resource
+    /** @brief replace all occurences of a clip in the track with another resource
      * @param id is the clip id
-     * @param prod is the replacement clip
+     * @param original is the original replacement clip
+     * @param videoOnlyProducer is the video only (without sound) replacement clip
      * @return true if success */
-    bool replace(const QString &id, Mlt::Producer *prod);
-    /** @brief replace a clip with another resource
+    bool replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer);
+    /** @brief replace an instance of a clip with another resource
      * @param t is the clip time in playlist
      * @param prod is the replacement clip
      * @return true if success */
-    bool replace(qreal t, Mlt::Producer *prod);
+    bool replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state = PlaylistState::Original);
     /** @brief look for a clip having a given property value
      * @param name is the property name
      * @param value is the searched value
@@ -113,10 +114,10 @@ public:
     /** @brief get a producer clone for the track and pick an extract
      * MLT (libav*) can't mix audio of a clip with itself, so we duplicate the producer for each track
      * @param parent is the source media
-     * @param t is the cut offset from source start in seconds
-     * @param dt is the cut duration
+     * @param state is for Normal, Audio only or Video only
+     * @param forceCreation if true, we do not attempt to re-use existing track producer but recreate it
      * @return producer cut for this track */
-    Mlt::Producer *clipProducer(Mlt::Producer *parent, PlaylistState::ClipState state);
+    Mlt::Producer *clipProducer(Mlt::Producer *parent, PlaylistState::ClipState state, bool forceCreation = false);
 
 public Q_SLOTS:
     void setPlaylist(Mlt::Playlist &playlist);

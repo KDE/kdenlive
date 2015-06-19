@@ -6726,14 +6726,22 @@ void CustomTrackView::doChangeClipType(const GenTime &pos, int track, PlaylistSt
 {
     ClipItem *clip = getClipItemAtStart(pos, track);
     if (clip == NULL) {
-        //qDebug() << "// Cannot find clip to split!!!";
+        emit displayMessage(i18n("Cannot find clip to edit (time: %1, track: %2)", pos.frames(m_document->fps()), track), ErrorMessage);
         return;
     }
+    clip->setState(state);
+    Mlt::Producer *prod;
+    if (state == PlaylistState::VideoOnly) {
+        prod = m_document->renderer()->getBinVideoProducer(clip->getBinId());
+    }
+    else prod = m_document->renderer()->getBinProducer(clip->getBinId());
+    m_timeline->track(track)->replace(pos.seconds(), prod, state);
+    
     //TODO: use clip > track.cpp to update producer
     /*
     Mlt::Tractor *tractor = m_document->renderer()->lockService();
     int start = pos.frames(m_document->fps());
-    clip->setState(state);
+    
     Mlt::Producer *producer = m_document->renderer()->getTrackProducer(clip->getBinId(), track, audioOnly, videoOnly);
     if (m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - track, start, producer) == false)
         emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", start, track), ErrorMessage);
@@ -7482,7 +7490,8 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type)
 void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
 {
     Mlt::Producer *prod = m_document->renderer()->getBinProducer(id);
+    Mlt::Producer *videoProd = m_document->renderer()->getBinVideoProducer(id);
     for (int i = 0; i < m_timeline->tracksCount(); i++) {
-        m_timeline->track(i)->replace(id,  prod);
+        m_timeline->track(i)->replaceAll(id,  prod, videoProd);
     }
 }

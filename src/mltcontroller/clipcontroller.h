@@ -145,8 +145,9 @@ public:
     /** @brief Holds index of currently selected master clip effect. */
     int selectedEffectIndex;
     /** @brief Get a clone of master producer for a specific track. Retrieve it if it already exists
-     *  in our list, otherwise we create it. */
-    Mlt::Producer *getTrackProducer(const QString trackName, PlaylistState::ClipState clipState = PlaylistState::Original, double speed = 1.0);
+     *  in our list, otherwise we create it. 
+     *  Deprecated, track logic should be handled in timeline/track.cpp */
+    Q_DECL_DEPRECATED Mlt::Producer *getTrackProducer(const QString trackName, PlaylistState::ClipState clipState = PlaylistState::Original, double speed = 1.0);
     
     /** @brief Sets the master producer for this clip when we build the controller without master clip. */
     void addMasterProducer(Mlt::Producer &producer);
