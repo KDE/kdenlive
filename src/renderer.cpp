@@ -1698,21 +1698,26 @@ void Render::switchPlay(bool play)
     if (!m_mltProducer || !m_mltConsumer || !m_isActive)
         return;
     if (m_isZoneMode) resetZoneMode();
-    if (play && playSpeed() == 0) {
+    m_mltProducer->set_speed(play ? 1.0 : 0.0);
+    if (play) {
         if (m_name == Kdenlive::ClipMonitor && m_mltConsumer->position() == m_mltProducer->get_out()) m_mltProducer->seek(0);
-        m_mltProducer->set_speed(1.0);
-        m_mltConsumer->set("buffer", 25);
-        m_mltConsumer->set("prefill", 1);
-        if (m_mltConsumer->is_stopped()) {
-            m_mltConsumer->start();
+        if (m_mltConsumer->get_int("real_time") != KdenliveSettings::mltthreads()) {
+            m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
+            m_mltConsumer->set("buffer", 25);
+            m_mltConsumer->set("prefill", 1);
+            // Changes to real_time require a consumer restart if running.
+            if (!m_mltConsumer->is_stopped())
+                m_mltConsumer->stop();
         }
+        m_mltConsumer->start();
         m_mltConsumer->set("refresh", 1);
-    } else if (!play) {
-        m_mltConsumer->purge();
+    } else {
         m_mltConsumer->set("buffer", 0);
         m_mltConsumer->set("prefill", 0);
-        m_mltProducer->set_speed(0.0);
-        m_mltProducer->seek(m_mltConsumer->position());
+        m_mltConsumer->set("real_time", -1);
+        m_mltProducer->seek(m_mltConsumer->position() + 1);
+        m_mltConsumer->purge();
+        m_mltConsumer->start();
     }
 }
 
@@ -1803,7 +1808,9 @@ void Render::refreshIfActive()
 
 void Render::doRefresh()
 {
-    if (m_mltProducer && (playSpeed() == 0) && m_isActive) refresh(); //m_refreshTimer.start();
+    if (m_mltProducer && (playSpeed() == 0) && m_isActive) {
+        refresh(); //m_refreshTimer.start();
+    }
 }
 
 void Render::refresh()
@@ -1814,6 +1821,7 @@ void Render::refresh()
         return;
     if (m_mltConsumer) {
         if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
+        m_mltConsumer->purge();
         m_mltConsumer->set("refresh", 1);
         //m_mltConsumer->purge();
     }

@@ -145,7 +145,7 @@ void ClipController::getInfoForProducer()
         m_clipType = Text;
         m_hasLimitedDuration = false;
     }
-    else if (m_service == "mlt" || m_service == "consumer") {
+    else if (m_service == "xml" || m_service == "consumer") {
         m_clipType = Playlist;
     }
     else if (m_service == "webvfx") {

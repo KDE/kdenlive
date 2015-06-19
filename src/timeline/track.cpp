@@ -246,6 +246,10 @@ bool Track::cut(qreal t)
     return true;
 }
 
+bool Track::needsDuplicate(const QString &service) const
+{
+    return (service.contains("avformat") || service.contains("consumer") || service.contains("xml"));
+}
 
 bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer)
 {
@@ -255,7 +259,7 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
     QString idForVideoTrack;
     QString service = original->parent().get("mlt_service");
     QString idForTrack = original->parent().get("id");
-    if (service.contains("avformat")) {
+    if (needsDuplicate(service)) {
         // We have to use the track clip duplication functions, because of audio glitches in MLT's multitrack
         idForAudioTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + "_audio";
         idForVideoTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + "_video";
@@ -341,7 +345,7 @@ Mlt::Producer *Track::find(const QByteArray &name, const QByteArray &value, int 
 Mlt::Producer *Track::clipProducer(Mlt::Producer *parent, PlaylistState::ClipState state, bool forceCreation) {
     QString service = parent->parent().get("mlt_service");
     QString originalId = parent->parent().get("id");
-    if (!service.contains("avformat") || state == PlaylistState::VideoOnly || originalId.endsWith("_video")) {
+    if (!needsDuplicate(service) || state == PlaylistState::VideoOnly || originalId.endsWith("_video")) {
         // Don't clone producer for track if it has no audio
         return new Mlt::Producer(*parent);
     }
