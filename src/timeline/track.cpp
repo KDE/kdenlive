@@ -70,17 +70,26 @@ void Track::setFps(qreal fps)
 
 // basic clip operations
 
+// TODO: remove this method
 bool Track::add(qreal t, Mlt::Producer *parent, bool duplicate, int mode)
 {
-    Mlt::Producer *cut = duplicate ? clipProducer(parent) :  new Mlt::Producer(parent);
+    Mlt::Producer *cut = duplicate ? clipProducer(parent, PlaylistState::Original) :  new Mlt::Producer(parent);
     bool result = doAdd(t, cut, mode);
     delete cut;
     return result;
 }
 
-bool Track::add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, bool duplicate, int mode)
+bool Track::add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, PlaylistState::ClipState state, bool duplicate, int mode)
 {
-    Mlt::Producer *cut = duplicate ? clipProducer(parent)->cut(frame(tcut), frame(dtcut)) :  new Mlt::Producer(parent);
+    Mlt::Producer *cut;
+    if (duplicate) {
+        Mlt::Producer *newProd = clipProducer(parent, state);
+        cut = newProd->cut(frame(tcut), frame(dtcut));
+        delete newProd;
+    }
+    else {
+        cut = parent->cut(frame(tcut), frame(dtcut));
+    }
     bool result = doAdd(t, cut, mode);
     delete cut;
     return result;
@@ -269,9 +278,18 @@ Mlt::Producer *Track::find(const QByteArray &name, const QByteArray &value, int 
     return NULL;
 }
 
-Mlt::Producer *Track::clipProducer(Mlt::Producer *parent) {
-    //TODO: don't clone producer for track if it has no audio
+Mlt::Producer *Track::clipProducer(Mlt::Producer *parent, PlaylistState::ClipState state) {
+    QString service = parent->get("mlt_service");
+    if (!service.contains("avformat") || state == PlaylistState::VideoOnly) {
+        // Don't clone producer for track if it has no audio
+        return new Mlt::Producer(*parent);
+    }
     QString idForTrack = parent->get("id") + QLatin1Char('_') + m_playlist.get("id");
+    if (state == PlaylistState::AudioOnly) {
+        idForTrack.append("_audio");
+    } else if (state == PlaylistState::VideoOnly) {
+        idForTrack.append("_video");
+    }
     Mlt::Producer *prod = find("id", idForTrack.toUtf8().constData());
     if (prod) {
         *prod = prod->parent();
@@ -279,5 +297,10 @@ Mlt::Producer *Track::clipProducer(Mlt::Producer *parent) {
     }
     prod = Clip(*parent).clone();
     prod->set("id", idForTrack.toUtf8().constData());
+    if (state == PlaylistState::AudioOnly) {
+        prod->set("video_index", -1);
+    } else if (state == PlaylistState::VideoOnly) {
+        prod->set("audio_index", -1);
+    }
     return prod;
 }

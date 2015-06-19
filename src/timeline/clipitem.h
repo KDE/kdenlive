@@ -166,10 +166,8 @@ public:
     bool checkKeyFrames(int width, int height, int previousDuration, int cutPos = -1);
     QPixmap startThumb() const;
     QPixmap endThumb() const;
-    void setVideoOnly(bool force);
-    void setAudioOnly(bool force);
-    bool isVideoOnly() const;
-    bool isAudioOnly() const;
+    void setState(PlaylistState::ClipState state);
+    void updateState(const QString &id);
 
     void insertKeyframe(QDomElement effect, int pos, int val);
     void movedKeyframe(QDomElement effect, int oldpos, int newpos, double value);
@@ -197,7 +195,7 @@ public:
     bool needsDuplicate() const;
 
     /** @brief Returns some info useful for recreating this clip. */
-    QStringList meta() const;
+    PlaylistState::ClipState clipState() const;
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
@@ -216,8 +214,7 @@ private:
     QString m_effectNames;
     int m_startFade;
     int m_endFade;
-    bool m_audioOnly;
-    bool m_videoOnly;
+    PlaylistState::ClipState m_clipState;
     QColor m_baseColor;
     QColor m_paintColor;
 

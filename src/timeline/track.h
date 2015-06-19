@@ -24,6 +24,8 @@
 #ifndef TRACK_H
 #define TRACK_H
 
+#include "definitions.h"
+
 #include <QObject>
 
 #include <mlt++/MltPlaylist.h>
@@ -71,7 +73,7 @@ public:
      * @return true if success */
     bool doAdd(qreal t, Mlt::Producer *cut, int mode);
     bool add(qreal t, Mlt::Producer *parent, bool duplicate, int mode = 0);
-    bool add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, bool duplicate, int mode = 0);
+    bool add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, PlaylistState::ClipState state, bool duplicate, int mode = 0);
     /** @brief delete a clip
      * @param time where clip is present (in seconds);
      * @return true if success */
@@ -114,7 +116,7 @@ public:
      * @param t is the cut offset from source start in seconds
      * @param dt is the cut duration
      * @return producer cut for this track */
-    Mlt::Producer *clipProducer(Mlt::Producer *parent);
+    Mlt::Producer *clipProducer(Mlt::Producer *parent, PlaylistState::ClipState state);
 
 public Q_SLOTS:
     void setPlaylist(Mlt::Playlist &playlist);

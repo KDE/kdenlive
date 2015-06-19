@@ -73,7 +73,7 @@ public:
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
     void moveTransition(const ItemInfo &start, const ItemInfo &end, bool refresh);
     void resizeClip(const ItemInfo &start, const ItemInfo &end, bool dontWorry = false);
-    void addClip(const QString &clipId, ItemInfo info, EffectsList list, QStringList meta, bool overwrite = false, bool push = false, bool refresh = true);
+    void addClip(const QString &clipId, ItemInfo info, EffectsList list, PlaylistState::ClipState state, bool overwrite = false, bool push = false, bool refresh = true);
     void deleteClip(ItemInfo info, bool refresh = true);
     void addMarker(const QString &id, const CommentedTime &marker);
     void addData(const QString &id, const QString &key, const QString &data);
@@ -161,8 +161,8 @@ public:
     * @param split Split or unsplit */
     void doSplitAudio(const GenTime &pos, int track, EffectsList effects, bool split);
     /** @brief Sets the clip type (av, video only, audio only) of the current selection. */
-    void setClipType(bool videoOnly, bool audioOnly);
-    void doChangeClipType(const GenTime &pos, int track, bool videoOnly, bool audioOnly);
+    void setClipType(PlaylistState::ClipState state);
+    void doChangeClipType(const GenTime &pos, int track, PlaylistState::ClipState state);
     int hasGuide(int pos, int offset);
     void reloadTransitionLumas();
     void updateProjectFps();

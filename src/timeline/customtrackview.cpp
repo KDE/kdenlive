@@ -1649,7 +1649,7 @@ void CustomTrackView::insertClipCut(const QString &id, int in, int out)
     QUndoCommand *addCommand = new QUndoCommand();
     addCommand->setText(i18n("Add timeline clip"));
     new RefreshMonitorCommand(this, false, true, addCommand);
-    new AddTimelineClipCommand(this, id, pasteInfo, EffectsList(), QStringList(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, true, false, addCommand);
+    new AddTimelineClipCommand(this, id, pasteInfo, EffectsList(), PlaylistState::Original, m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, true, false, addCommand);
     new RefreshMonitorCommand(this, true, false, addCommand);
     updateTrackDuration(pasteInfo.track, addCommand);
     
@@ -1943,7 +1943,6 @@ void CustomTrackView::deleteEffect(int track, const GenTime &pos, const QDomElem
             return;
         }
     }
-    qDebug()<<" * * *REMOVING EFFECT WITH IX: "<<index;
     if (!m_document->renderer()->mltRemoveEffect(track, pos, index, true)) {
         //qDebug() << "// ERROR REMOV EFFECT: " << index << ", DISABLE: " << effect.attribute("disable");
         emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
@@ -2090,7 +2089,7 @@ void CustomTrackView::processEffect(ClipItem *item, QDomElement effect, int offs
 {
     if (effect.attribute("type") == "audio") {
         // Don't add audio effects on video clips
-        if (item->isVideoOnly() || (item->clipType() != Audio && item->clipType() != AV && item->clipType() != Playlist)) {
+        if (item->clipState() == PlaylistState::VideoOnly || (item->clipType() != Audio && item->clipType() != AV && item->clipType() != Playlist)) {
             /* do not show error message when item is part of a group as the user probably knows what he does then
             * and the message is annoying when working with the split audio feature */
             if (!item->parentItem() || item->parentItem() == m_selectionGroup)
@@ -2099,7 +2098,7 @@ void CustomTrackView::processEffect(ClipItem *item, QDomElement effect, int offs
         }
     } else if (effect.attribute("type") == "video" || !effect.hasAttribute("type")) {
         // Don't add video effect on audio clips
-        if (item->isAudioOnly() || item->clipType() == Audio) {
+        if (item->clipState() == PlaylistState::AudioOnly || item->clipType() == Audio) {
             /* do not show error message when item is part of a group as the user probably knows what he does then
             * and the message is annoying when working with the split audio feature */
             if (!item->parentItem() || item->parentItem() == m_selectionGroup)
@@ -2784,14 +2783,14 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             /*Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clipBinId, info.track, item->isAudioOnly(), item->isVideoOnly());
 	    prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
             if (!m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode())) {*/
-	    if (!m_timeline->track(info.track)->add(info.startPos.seconds(), m_document->renderer()->getBinProducer(clipBinId), info.cropStart.seconds(), (info.cropStart + info.cropDuration).seconds(), item->needsDuplicate(), m_scene->editMode())) {
+	    if (!m_timeline->track(info.track)->add(info.startPos.seconds(), m_document->renderer()->getBinProducer(clipBinId), info.cropStart.seconds(), (info.cropStart + info.cropDuration).seconds(), PlaylistState::Original, item->needsDuplicate(), m_scene->editMode())) {
                 emit displayMessage(i18n("Cannot insert clip in timeline"), ErrorMessage);
                 brokenClips.append(item);
                 continue;
             }
             adjustTimelineClips(m_scene->editMode(), item, ItemInfo(), addCommand);
 
-            new AddTimelineClipCommand(this, clipBinId, item->info(), item->effectList(), item->meta(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, false, false, addCommand);
+            new AddTimelineClipCommand(this, clipBinId, item->info(), item->effectList(), item->clipState(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, false, false, addCommand);
             updateTrackDuration(info.track, addCommand);
 
 	    //TODO
@@ -2899,7 +2898,7 @@ void CustomTrackView::adjustTimelineClips(EditMode mode, ClipItem *item, ItemInf
                         clip->resizeEnd(info.startPos.frames(m_document->fps()));
                     }
                 } else if (clip->endPos() <= info.endPos) {
-                    new AddTimelineClipCommand(this, clip->getBinId(), clip->info(), clip->effectList(), clip->meta(), false, false, false, true, command);
+                    new AddTimelineClipCommand(this, clip->getBinId(), clip->info(), clip->effectList(), clip->clipState(), false, false, false, true, command);
                     m_waitingThumbs.removeAll(clip);
                     scene()->removeItem(clip);
                     delete clip;
@@ -3528,7 +3527,7 @@ void CustomTrackView::deleteClip(const QString &clipId, QUndoCommand *deleteComm
                     // Clip is in a group, destroy the group
                     new GroupClipsCommand(this, QList<ItemInfo>() << item->info(), QList<ItemInfo>(), false, deleteCommand);
                 }
-                new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->meta(), false, false, true, true, deleteCommand);
+                new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->clipState(), false, false, true, true, deleteCommand);
             }
         }
     }
@@ -3962,10 +3961,12 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     if (item->type() == AVWidget) {
                         ClipItem *clip = static_cast <ClipItem*>(item);
                         adjustTimelineClips(m_scene->editMode(), clip, ItemInfo(), moveGroup);
-                        Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clip->getBinId(), info.track, clip->isAudioOnly(), clip->isVideoOnly());
+                        /*Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clip->getBinId(), info.track, clip->isAudioOnly(), clip->isVideoOnly());
                         //prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
 			prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
-                        m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode());
+                        m_timeline->track(info.track)info.startPos.seconds(), prod, m_scene->editMode());*/
+                        m_timeline->track(info.track)->add(info.startPos.seconds(), m_document->renderer()->getBinProducer(clip->getBinId()), info.cropStart.seconds(), (info.cropStart + info.cropDuration).seconds(), clip->clipState(), m_scene->editMode());
+                        
                         for (int i = 0; i < clip->effectsCount(); ++i) {
                             m_document->renderer()->mltAddEffect(info.track, info.startPos, EffectsController::getEffectArgs(m_document->getProfileInfo(), clip->effect(i)), false);
                         }
@@ -4111,7 +4112,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         // new fade in
         } else if (item->fadeIn() != 0) {
             QDomElement effect;
-            if (item->isVideoOnly() || (item->clipType() != Audio && !item->isAudioOnly() && item->clipType() != Playlist)) {
+            if (item->clipState() == PlaylistState::VideoOnly || (item->clipType() != Audio && item->clipState() != PlaylistState::AudioOnly && item->clipType() != Playlist)) {
                 effect = MainWindow::videoEffects.getEffectByTag("", "fade_from_black").cloneNode().toElement();
             } else {
                 effect = MainWindow::audioEffects.getEffectByTag("volume", "fadein").cloneNode().toElement();
@@ -4144,7 +4145,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         // new fade out
         } else if (item->fadeOut() != 0) {
             QDomElement effect;
-            if (item->isVideoOnly() || (item->clipType() != Audio && !item->isAudioOnly() && item->clipType() != Playlist)) {
+            if (item->clipState() == PlaylistState::VideoOnly || (item->clipType() != Audio && item->clipState() != PlaylistState::AudioOnly && item->clipType() != Playlist)) {
                 effect = MainWindow::videoEffects.getEffectByTag("", "fade_to_black").cloneNode().toElement();
             } else {
                 effect = MainWindow::audioEffects.getEffectByTag("volume", "fadeout").cloneNode().toElement();
@@ -4279,7 +4280,7 @@ void CustomTrackView::deleteSelectedClips()
             clipCount++;
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             ////qDebug()<<"// DELETE CLP AT: "<<item->info().startPos.frames(25);
-            new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->meta(), false, false, true, true, deleteSelected);
+            new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->clipState(), false, false, true, true, deleteSelected);
         } else if (itemList.at(i)->type() == TransitionWidget) {
             transitionCount++;
             Transition *item = static_cast <Transition *>(itemList.at(i));
@@ -4493,7 +4494,7 @@ void CustomTrackView::slotInfoProcessingFinished()
     m_producerNotReady.wakeAll();
 }
 
-void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList effects, QStringList meta, bool overwrite, bool push, bool refresh)
+void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList effects, PlaylistState::ClipState state, bool overwrite, bool push, bool refresh)
 {
     ProjectClip *binClip = m_document->getBinClip(clipId);
     if (!binClip->isReady()) {
@@ -4523,8 +4524,7 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
     double speed = 1.0;
     int strobe = 1;
     ClipItem *item = new ClipItem(binClip, info, m_document->fps(), speed, strobe, getFrameWidth());
-    if (meta.contains("audio_only")) item->setAudioOnly(true);
-    else if (meta.contains("video_only")) item->setVideoOnly(true);
+    item->setState(state);
     item->setEffectList(effects);
     scene()->addItem(item);
     int producerTrack = info.track;
@@ -4537,11 +4537,10 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
     //m_document->updateClip(baseclip->getId());
     //m_document->renderer()->mltInsertClip(info, xml, item->getProducer(producerTrack), overwrite, push);
     //m_document->renderer()->mltInsertClip(info /*, xml*/, clipId, overwrite, push);
-	    qDebug()<<"// ASKING TRACK PROD 2: "<<item->getBinId()<<" = "<< info.track;    
-    Mlt::Producer *prod = m_document->renderer()->getTrackProducer(item->getBinId(), info.track, item->isAudioOnly(), item->isVideoOnly());
+    /*Mlt::Producer *prod = m_document->renderer()->getTrackProducer(item->getBinId(), info.track, item->isAudioOnly(), item->isVideoOnly());
     //prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
-    prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
-    m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode());
+    prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);*/
+    m_timeline->track(info.track)->add(info.startPos.seconds(), item->binClip()->producer(), info.cropStart.seconds(), (info.cropStart+info.cropDuration).seconds(), state, true, m_scene->editMode());
     info.track = m_document->tracksCount() - info.track;
 
     for (int i = 0; i < item->effectsCount(); ++i) {
@@ -4563,6 +4562,7 @@ void CustomTrackView::slotUpdateClip(const QString &clipId, bool reload)
     QList<QGraphicsItem *> list = scene()->items();
     QList <ClipItem *>clipList;
     ClipItem *clip = NULL;
+    //TODO: move the track replacement code in track.cpp
     Mlt::Tractor *tractor = m_document->renderer()->lockService();
     for (int i = 0; i < list.size(); ++i) {
         if (list.at(i)->type() == AVWidget) {
@@ -4570,15 +4570,14 @@ void CustomTrackView::slotUpdateClip(const QString &clipId, bool reload)
             if (clip->getBinId() == clipId) {
                 ItemInfo info = clip->info();
                 //TODO: get audio / video only producers
-                
                 /*if (clip->isAudioOnly()) prod = baseClip->getTrackProducer(info.track);
                 else if (clip->isVideoOnly()) prod = baseClip->getTrackProducer(info.track);
                 else prod = baseClip->getTrackProducer(info.track);*/
                 if (reload) {
-                    Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clipId, info.track, clip->isAudioOnly(), clip->isVideoOnly());
+                    /*Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clipId, info.track, clip->isAudioOnly(), clip->isVideoOnly());
                     if (!m_document->renderer()->mltUpdateClip(tractor, info, clip->xml(), prod)) {
                         emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", info.startPos.frames(m_document->fps()), info.track), ErrorMessage);
-                    }
+                    }*/
                 }
                 else clipList.append(clip);
             }
@@ -4842,11 +4841,11 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
             if (item->type() == AVWidget) {
                 ClipItem *clip = static_cast <ClipItem*>(item);
                 //m_document->renderer()->mltInsertClip(info /*, clip->xml()*/, clip->getBinId());
-			    qDebug()<<"// ASKING TRACK PROD 3: "<<clip->getBinId()<<" = "<< info.track;
-                Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clip->getBinId(), info.track, clip->isAudioOnly(), clip->isVideoOnly());
+                /*Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clip->getBinId(), info.track, clip->isAudioOnly(), clip->isVideoOnly());
 		prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
                 //prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
-                m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode());
+                m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode());*/
+                m_timeline->track(info.track)->add(info.startPos.seconds(), m_document->renderer()->getBinProducer(clip->getBinId()), info.cropStart.seconds(), (info.cropStart + info.cropDuration).seconds(), clip->clipState(), m_scene->editMode());
                 info.track = m_document->tracksCount() - info.track;
 
                 for (int i = 0; i < clip->effectsCount(); ++i) {
@@ -5954,7 +5953,7 @@ void CustomTrackView::pasteClip()
             info.endPos += offset;
             info.track += trackOffset;
             if (canBePastedTo(info, AVWidget)) {
-                new AddTimelineClipCommand(this, clip->getBinId(), info, clip->effectList(), clip->meta(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, true, false, pasteClips);
+                new AddTimelineClipCommand(this, clip->getBinId(), info, clip->effectList(), clip->clipState(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, true, false, pasteClips);
             } else emit displayMessage(i18n("Cannot paste clip to selected place"), ErrorMessage);
         } else if (m_copiedItems.at(i) && m_copiedItems.at(i)->type() == TransitionWidget) {
             Transition *tr = static_cast <Transition *>(m_copiedItems.at(i));
@@ -6338,7 +6337,7 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == AVWidget) {
             ClipItem *item =  static_cast <ClipItem *>(selection.at(i));
-            new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->meta(), false, false, false, true, deleteTrack);
+            new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->clipState(), false, false, false, true, deleteTrack);
             m_waitingThumbs.removeAll(item);
             m_scene->removeItem(item);
             delete item;
@@ -6606,23 +6605,22 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
         } else {
             ItemInfo info = clip->info();
             info.track = m_document->tracksCount() - freetrack;
-	    //TODO: pass audio only information in another way
-            //QDomElement xml = clip->xml();
-            //xml.setAttribute("audio_only", 1);
-            QStringList meta;
-            meta << "audio_only";
             scene()->clearSelection();
-            addClip(clip->getBinId(), info, clip->effectList(), meta, false, false, false);
+            addClip(clip->getBinId(), info, clip->effectList(), PlaylistState::AudioOnly, false, false, false);
             clip->setSelected(true);
             ClipItem *audioClip = getClipItemAtStart(pos, info.track);
             if (audioClip) {
-                clip->setVideoOnly(true);
-                Mlt::Tractor *tractor = m_document->renderer()->lockService();
+                clip->setState(PlaylistState::VideoOnly);
+
+                /*Mlt::Tractor *tractor = m_document->renderer()->lockService();
                 //TODO use VIDEO ONLY producer
                 if (m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - track, start, m_document->renderer()->getTrackProducer(clip->getBinId(), freetrack, false, true)) == false) {
                     emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", start, track), ErrorMessage);
-                }
-                m_document->renderer()->unlockService(tractor);
+                }*/
+                
+                m_timeline->track(track)->replace(pos.seconds(), m_document->renderer()->getBinVideoProducer(clip->getBinId()));
+                
+                //m_document->renderer()->unlockService(tractor);
                 audioClip->setSelected(true);
 
                 // keep video effects, move audio effects to audio clip
@@ -6657,7 +6655,7 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
                 ClipItem *clp = static_cast <ClipItem *>(children.at(i));
                 ItemInfo info = clip->info();
                 deleteClip(clp->info());
-                clip->setVideoOnly(false);
+                clip->setState(PlaylistState::VideoOnly);
                 Mlt::Tractor *tractor = m_document->renderer()->lockService();
                 if (!m_document->renderer()->mltUpdateClipProducer(
                             tractor,
@@ -6688,12 +6686,12 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
     }
 }
 
-void CustomTrackView::setClipType(bool videoOnly, bool audioOnly)
+void CustomTrackView::setClipType(PlaylistState::ClipState state)
 {
     QString text = i18n("Audio and Video");
-    if (videoOnly)
+    if (state == PlaylistState::VideoOnly)
         text = i18n("Video only");
-    else if (audioOnly)
+    else if (state == PlaylistState::AudioOnly)
         text = i18n("Audio only");
 
     resetSelectionGroup();
@@ -6711,7 +6709,7 @@ void CustomTrackView::setClipType(bool videoOnly, bool audioOnly)
                 if (clip->parentItem()) {
                     emit displayMessage(i18n("Cannot change grouped clips"), ErrorMessage);
                 } else {
-                    new ChangeClipTypeCommand(this, clip->track(), clip->startPos(), videoOnly, audioOnly, clip->isVideoOnly(), clip->isAudioOnly(), videoCommand);
+                    new ChangeClipTypeCommand(this, clip->track(), clip->startPos(), state, clip->clipState(), videoCommand);
                 }
             }
         }
@@ -6724,21 +6722,22 @@ void CustomTrackView::monitorRefresh()
     m_document->renderer()->doRefresh();
 }
 
-void CustomTrackView::doChangeClipType(const GenTime &pos, int track, bool videoOnly, bool audioOnly)
+void CustomTrackView::doChangeClipType(const GenTime &pos, int track, PlaylistState::ClipState state)
 {
     ClipItem *clip = getClipItemAtStart(pos, track);
     if (clip == NULL) {
         //qDebug() << "// Cannot find clip to split!!!";
         return;
     }
+    //TODO: use clip > track.cpp to update producer
+    /*
     Mlt::Tractor *tractor = m_document->renderer()->lockService();
     int start = pos.frames(m_document->fps());
-    clip->setAudioOnly(audioOnly);
-    clip->setVideoOnly(videoOnly);
+    clip->setState(state);
     Mlt::Producer *producer = m_document->renderer()->getTrackProducer(clip->getBinId(), track, audioOnly, videoOnly);
     if (m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - track, start, producer) == false)
         emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", start, track), ErrorMessage);
-    m_document->renderer()->unlockService(tractor);
+    m_document->renderer()->unlockService(tractor);*/
     clip->update();
 }
 
@@ -6768,8 +6767,8 @@ void CustomTrackView::updateClipTypeActions(ClipItem *clip)
         m_clipTypeGroup->setEnabled(true);
         QList <QAction *> actions = m_clipTypeGroup->actions();
         QString lookup;
-        if (clip->isAudioOnly()) lookup = "clip_audio_only";
-        else if (clip->isVideoOnly()) lookup = "clip_video_only";
+        if (clip->clipState() == PlaylistState::AudioOnly) lookup = "clip_audio_only";
+        else if (clip->clipState() == PlaylistState::VideoOnly) lookup = "clip_video_only";
         else  lookup = "clip_audio_and_video";
         for (int i = 0; i < actions.count(); ++i) {
             if (actions.at(i)->data().toString() == lookup) {
@@ -7068,7 +7067,7 @@ void CustomTrackView::insertZoneOverwrite(QStringList data, int in)
     QUndoCommand *addCommand = new QUndoCommand();
     addCommand->setText(i18n("Insert clip"));
     adjustTimelineClips(OverwriteEdit, NULL, info, addCommand);
-    new AddTimelineClipCommand(this, data.at(0), info, EffectsList(), QStringList(), true, false, true, false, addCommand);
+    new AddTimelineClipCommand(this, data.at(0), info, EffectsList(), PlaylistState::Original, true, false, true, false, addCommand);
     updateTrackDuration(info.track, addCommand);
     m_commandStack->push(addCommand);
 
@@ -7192,7 +7191,7 @@ bool CustomTrackView::hasAudio(int track) const
         if (!item->isEnabled()) continue;
         if (item->type() == AVWidget) {
             ClipItem *clip = static_cast <ClipItem *>(item);
-            if (!clip->isVideoOnly() && (clip->clipType() == Audio || clip->clipType() == AV || clip->clipType() == Playlist)) return true;
+            if (clip->clipState() != PlaylistState::VideoOnly && (clip->clipType() == Audio || clip->clipType() == AV || clip->clipType() == Playlist)) return true;
         }
     }
     return false;

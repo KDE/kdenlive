@@ -2658,13 +2658,12 @@ void MainWindow::slotAlignAudio()
 void MainWindow::slotUpdateClipType(QAction *action)
 {
     if (pCore->projectManager()->currentTimeline()) {
-        bool videoOnly = false;
-        bool audioOnly = false;
+        PlaylistState::ClipState state = PlaylistState::Original;
         if (action->data().toString() == "clip_audio_only") 
-            audioOnly = true;
+            state = PlaylistState::AudioOnly;
         else if (action->data().toString() == "clip_video_only")
-            videoOnly = true;
-        pCore->projectManager()->currentTimeline()->projectView()->setClipType(videoOnly, audioOnly);
+            state = PlaylistState::VideoOnly;
+        pCore->projectManager()->currentTimeline()->projectView()->setClipType(state);
     }
 }
 

@@ -62,7 +62,7 @@ private:
 class AddTimelineClipCommand : public QUndoCommand
 {
 public:
-    AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, QStringList meta, bool overwrite, bool push, bool doIt, bool doRemove, QUndoCommand * parent = 0);
+    AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, PlaylistState::ClipState state, bool overwrite, bool push, bool doIt, bool doRemove, QUndoCommand * parent = 0);
     void undo();
     void redo();
 private:
@@ -70,7 +70,7 @@ private:
     QString m_clipId;
     ItemInfo m_clipInfo;
     EffectsList m_effects;
-    QStringList m_meta;
+    PlaylistState::ClipState m_state;
     bool m_doIt;
     bool m_remove;
     bool m_overwrite;
@@ -109,17 +109,15 @@ private:
 class ChangeClipTypeCommand : public QUndoCommand
 {
 public:
-    ChangeClipTypeCommand(CustomTrackView *view, const int track, const GenTime &pos, bool videoOnly, bool audioOnly, bool originalVideo, bool originalAudio, QUndoCommand * parent = 0);
+    ChangeClipTypeCommand(CustomTrackView *view, const int track, const GenTime &pos, PlaylistState::ClipState state, PlaylistState::ClipState originalState, QUndoCommand * parent = 0);
     void undo();
     void redo();
 private:
     CustomTrackView *m_view;
     const GenTime m_pos;
     const int m_track;
-    bool m_videoOnly;
-    bool m_audioOnly;
-    bool m_originalVideoOnly;
-    bool m_originalAudioOnly;
+    PlaylistState::ClipState m_state;
+    PlaylistState::ClipState m_originalState;
 };
 
 class ChangeEffectStateCommand : public QUndoCommand

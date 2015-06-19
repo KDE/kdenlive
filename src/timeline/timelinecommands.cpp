@@ -85,13 +85,13 @@ void AddExtraDataCommand::redo()
     m_view->addData(m_id, m_key, m_newData);
 }
 
-AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, QStringList meta, bool overwrite, bool push, bool doIt, bool doRemove, QUndoCommand * parent) :
+AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, PlaylistState::ClipState state, bool overwrite, bool push, bool doIt, bool doRemove, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_clipId(clipId),
         m_clipInfo(info),
         m_effects(effects),
-        m_meta(meta),
+        m_state(state),
         m_doIt(doIt),
         m_remove(doRemove),
         m_overwrite(overwrite),
@@ -106,14 +106,14 @@ void AddTimelineClipCommand::undo()
     if (!m_remove)
         m_view->deleteClip(m_clipInfo);
     else
-        m_view->addClip(m_clipId, m_clipInfo, m_effects, m_meta, m_overwrite, m_push);
+        m_view->addClip(m_clipId, m_clipInfo, m_effects, m_state, m_overwrite, m_push);
 }
 // virtual
 void AddTimelineClipCommand::redo()
 {
     if (m_doIt) {
         if (!m_remove)
-            m_view->addClip(m_clipId, m_clipInfo, m_effects, m_meta, m_overwrite, m_push);
+            m_view->addClip(m_clipId, m_clipInfo, m_effects, m_state, m_overwrite, m_push);
         else
             m_view->deleteClip(m_clipInfo);
     }
@@ -189,27 +189,25 @@ void AddTransitionCommand::redo()
     m_doIt = true;
 }
 
-ChangeClipTypeCommand::ChangeClipTypeCommand(CustomTrackView *view, const int track, const GenTime &pos, bool videoOnly, bool audioOnly, bool originalVideo, bool originalAudio, QUndoCommand * parent) :
+ChangeClipTypeCommand::ChangeClipTypeCommand(CustomTrackView *view, const int track, const GenTime &pos, PlaylistState::ClipState state, PlaylistState::ClipState originalState, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_pos(pos),
         m_track(track),
-        m_videoOnly(videoOnly),
-        m_audioOnly(audioOnly),
-        m_originalVideoOnly(originalVideo),
-        m_originalAudioOnly(originalAudio)
+        m_state(state),
+        m_originalState(originalState)
 {
     setText(i18n("Change clip type"));
 }
 // virtual
 void ChangeClipTypeCommand::undo()
 {
-    m_view->doChangeClipType(m_pos, m_track, m_originalVideoOnly, m_originalAudioOnly);
+    m_view->doChangeClipType(m_pos, m_track, m_originalState);
 }
 // virtual
 void ChangeClipTypeCommand::redo()
 {
-    m_view->doChangeClipType(m_pos, m_track, m_videoOnly, m_audioOnly);
+    m_view->doChangeClipType(m_pos, m_track, m_state);
 }
 
 ChangeEffectStateCommand::ChangeEffectStateCommand(CustomTrackView *view, const int track, const GenTime& pos, const QList <int>& effectIndexes, bool disable, bool refreshEffectStack, bool doIt, QUndoCommand *parent) :

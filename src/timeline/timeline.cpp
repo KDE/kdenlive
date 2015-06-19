@@ -579,8 +579,7 @@ int Timeline::addTrack(int ix, Mlt::Playlist &playlist, bool locked) {
         clipinfo.cropDuration = GenTime(length, fps);
         clipinfo.track = ix;
         ClipItem *item = new ClipItem(binclip, clipinfo, m_doc->fps(), speed, strobe, m_trackview->getFrameWidth(), true);
-        if (idString.endsWith(QLatin1String("_video"))) item->setVideoOnly(true);
-        else if (idString.endsWith(QLatin1String("_audio"))) item->setAudioOnly(true);
+        item->updateState(idString);
         m_scene->addItem(item);
         if (locked) item->setItemLocked(true);
         position += length;

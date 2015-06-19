@@ -334,6 +334,7 @@ class Render: public AbstractRender
     double getMltVersionInfo(const QString &tag);
     /** @brief Get a clip's master producer */
     Mlt::Producer *getBinProducer(const QString &id);
+    Mlt::Producer *getBinVideoProducer(const QString &id);
 
 private:
 

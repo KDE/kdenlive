@@ -46,8 +46,7 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
     m_binClip(clip),
     m_startFade(0),
     m_endFade(0),
-    m_audioOnly(false),
-    m_videoOnly(false),
+    m_clipState(PlaylistState::Original),
     m_startPix(QPixmap()),
     m_endPix(QPixmap()),
     m_hasThumbs(false),
@@ -143,8 +142,7 @@ ClipItem *ClipItem::clone(const ItemInfo &info) const
     }
     ////qDebug() << "// CLoning clip: " << (info.cropStart + (info.endPos - info.startPos)).frames(m_fps) << ", CURRENT end: " << (cropStart() + duration()).frames(m_fps);
     duplicate->setEffectList(m_effectList);
-    duplicate->setVideoOnly(m_videoOnly);
-    duplicate->setAudioOnly(m_audioOnly);
+    duplicate->setState(m_clipState);
     duplicate->setFades(fadeIn(), fadeOut());
     //duplicate->setSpeed(m_speed);
     return duplicate;
@@ -578,7 +576,7 @@ QPixmap ClipItem::endThumb() const
 void ClipItem::slotGotAudioData()
 {
     m_audioThumbReady = true;
-    if (m_clipType == AV && !isAudioOnly()) {
+    if (m_clipType == AV && m_clipState != PlaylistState::AudioOnly) {
         QRectF r = boundingRect();
         r.setTop(r.top() + r.height() / 2 - 1);
         update(r);
@@ -601,8 +599,8 @@ QDomElement ClipItem::itemXml() const
     QDomElement xml = m_binClip->toXml(doc);
     if (m_speed != 1.0) xml.setAttribute("speed", m_speed);
     if (m_strobe > 1) xml.setAttribute("strobe", m_strobe);
-    if (m_audioOnly) xml.setAttribute("audio_only", 1);
-    else if (m_videoOnly) xml.setAttribute("video_only", 1);
+    if (m_clipState == PlaylistState::AudioOnly) xml.setAttribute("audio_only", 1);
+    else if (m_clipState == PlaylistState::VideoOnly) xml.setAttribute("video_only", 1);
     return doc.documentElement();
 }
 
@@ -677,7 +675,7 @@ void ClipItem::paint(QPainter *painter,
     painter->fillRect(mappedExposed, paintColor);
     painter->setPen(m_paintColor.darker());
     // draw thumbnails
-    if (KdenliveSettings::videothumbnails() && !isAudioOnly()) {
+    if (KdenliveSettings::videothumbnails() && m_clipState != PlaylistState::AudioOnly) {
         QRectF thumbRect;
         if ((m_clipType == Image || m_clipType == Text) && !m_startPix.isNull()) {
             if (thumbRect.isNull()) thumbRect = QRectF(0, 0, mapped.height() / m_startPix.height() * m_startPix.width(), mapped.height());
@@ -697,7 +695,7 @@ void ClipItem::paint(QPainter *painter,
 
         // if we are in full zoom, paint thumbnail for every frame
         //TODO
-        if (false && /*m_clip->thumbProducer() &&*/ clipType() != Color && clipType() != Audio && !m_audioOnly && transformation.m11() == FRAME_SIZE) {
+        if (false && /*m_clip->thumbProducer() &&*/ clipType() != Color && clipType() != Audio && m_clipState != PlaylistState::AudioOnly && transformation.m11() == FRAME_SIZE) {
             int offset = (m_info.startPos - m_info.cropStart).frames(m_fps);
             int left = qMax((int) m_info.cropStart.frames(m_fps) + 1, (int) mapToScene(exposed.left(), 0).x() - offset);
             int right = qMin((int)(m_info.cropStart + m_info.cropDuration).frames(m_fps) - 1, (int) mapToScene(exposed.right(), 0).x() - offset);
@@ -734,7 +732,7 @@ void ClipItem::paint(QPainter *painter,
         }
     }
     // draw audio thumbnails
-    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && !m_videoOnly && ((m_clipType == AV && (exposed.bottom() > (rect().height() / 2) || isAudioOnly())) || m_clipType == Audio) && m_audioThumbReady) {
+    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && m_clipState != PlaylistState::VideoOnly && ((m_clipType == AV && (exposed.bottom() > (rect().height() / 2) || m_clipState == PlaylistState::AudioOnly)) || m_clipType == Audio) && m_audioThumbReady) {
         int startpixel = exposed.left();
         if (startpixel < 0)
             startpixel = 0;
@@ -745,7 +743,7 @@ void ClipItem::paint(QPainter *painter,
 
         /*QPainterPath path = m_clipType == AV ? roundRectPathLower : resultClipPath;*/
         QRectF mappedRect;
-        if (m_clipType == AV && !m_audioOnly) {
+        if (m_clipType == AV && m_clipState != PlaylistState::AudioOnly) {
             mappedRect = mapped;
             mappedRect.setTop(mappedRect.bottom() - mapped.height() / 2);
         } else mappedRect = mapped;
@@ -841,10 +839,15 @@ void ClipItem::paint(QPainter *painter,
         painter->fillRect(txtBounding2.adjusted(-3, 0, 0, 0), textBgColor);
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->setPen(textColor);
-        if (m_videoOnly) {
+        switch (m_clipState) {
+          case PlaylistState::VideoOnly:
             painter->drawPixmap(txtBounding2.topLeft() - QPointF(17, -1), m_videoPix);
-        } else if (m_audioOnly) {
+            break;
+          case PlaylistState::AudioOnly:
             painter->drawPixmap(txtBounding2.topLeft() - QPointF(17, -1), m_audioPix);
+            break;
+          default:
+            break;
         }
         painter->drawText(txtBounding2, Qt::AlignLeft, m_clipName);
 
@@ -966,7 +969,7 @@ OperationType ClipItem::operationMode(const QPointF &pos)
     QRectF rect = sceneBoundingRect();
     int addtransitionOffset = 10;
     // Don't allow add transition if track height is very small. No transitions for audio only clips
-    if (rect.height() < 30 || isAudioOnly() || m_clipType == Audio) addtransitionOffset = 0;
+    if (rect.height() < 30 || m_clipState == PlaylistState::AudioOnly || m_clipType == Audio) addtransitionOffset = 0;
 
     if (qAbs((int)(pos.x() - (rect.x() + m_startFade))) < maximumOffset  && qAbs((int)(pos.y() - rect.y())) < 6) {
         return FadeIn;
@@ -1661,15 +1664,11 @@ void ClipItem::addTransition(Transition* t)
     //if (view) view->slotAddTransition(this, t->toXML() , t->startPos(), track());
 }
 
-void ClipItem::setVideoOnly(bool force)
+void ClipItem::setState(PlaylistState::ClipState state)
 {
-    m_videoOnly = force;
-}
-
-void ClipItem::setAudioOnly(bool force)
-{
-    m_audioOnly = force;
-    if (m_audioOnly) m_baseColor = QColor(141, 215, 166);
+    if (state == m_clipState) return;
+    m_clipState = state;
+    if (m_clipState == PlaylistState::AudioOnly) m_baseColor = QColor(141, 215, 166);
     else {
         if (m_clipType == Color) {
             QString colour = m_binClip->getProducerProperty("colour");
@@ -1683,16 +1682,6 @@ void ClipItem::setAudioOnly(bool force)
     else
         m_paintColor = m_baseColor;
     m_audioThumbCachePic.clear();
-}
-
-bool ClipItem::isAudioOnly() const
-{
-    return m_audioOnly;
-}
-
-bool ClipItem::isVideoOnly() const
-{
-    return m_videoOnly;
 }
 
 void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
@@ -2052,14 +2041,22 @@ bool ClipItem::needsDuplicate() const
       return true;
 }
 
-QStringList ClipItem::meta() const
+PlaylistState::ClipState ClipItem::clipState() const
 {
-    QStringList meta;
-    if (m_audioOnly) {
-        meta << "audio_only";
-    }
-    else if (m_videoOnly) {
-        meta << "video_only";
-    }
-    return meta;
+    return m_clipState;
 }
+
+void ClipItem::updateState(const QString &id)
+{
+    if (id.endsWith("_audio")) {
+        m_clipState = PlaylistState::AudioOnly;
+    }
+    else if (id.endsWith("_video")) {
+        m_clipState = PlaylistState::VideoOnly;
+    }
+    else {
+        m_clipState = PlaylistState::Original;
+    }
+    
+}
+
