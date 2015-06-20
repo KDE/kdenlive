@@ -120,7 +120,7 @@ void ProjectSubClip::setThumbnail(QImage img)
     bin()->emitItemUpdated(this);
 }
 
-bool ProjectSubClip::rename(const QString &name)
+bool ProjectSubClip::rename(const QString &name, int column)
 {
     if (m_name == name) return false;
     // Rename folder

@@ -75,7 +75,7 @@ public:
     /** @brief Returns an xml description of the folder. */
     QDomElement toXml(QDomDocument &document);
     virtual QString getToolTip() const;
-    virtual bool rename(const QString &name);
+    virtual bool rename(const QString &name, int column);
 
 protected:
 

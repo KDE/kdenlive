@@ -54,6 +54,7 @@ ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *control
     m_name = m_controller->clipName();
     m_duration = m_controller->getStringDuration();
     m_date = m_controller->date;
+    m_description = m_controller->description();
     getFileHash();
     setParent(parent);
     bin()->loadSubClips(id, m_controller->getSubClips());
@@ -270,6 +271,7 @@ void ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
         if (m_name.isEmpty()) m_name = m_controller->clipName();
         m_duration = m_controller->getStringDuration();
         m_date = m_controller->date;
+        m_description = m_controller->description();
         m_temporaryUrl.clear();
     }
     m_clipStatus = StatusReady;
@@ -559,17 +561,33 @@ const QString ProjectClip::codec(bool audioCodec) const
     return m_controller->codec(audioCodec);
 }
 
-bool ProjectClip::rename(const QString &name)
+bool ProjectClip::rename(const QString &name, int column)
 {
-    if (m_name == name) return false;
-    // Rename clip
     QMap <QString, QString> newProperites;
     QMap <QString, QString> oldProperites;
-    oldProperites.insert("kdenlive:clipname", m_name);
-    newProperites.insert("kdenlive:clipname", name);
-    bin()->slotEditClipCommand(m_id, oldProperites, newProperites);
-    m_name = name;
-    return true;
+    bool edited = false;
+    switch (column) {
+      case 0:
+        if (m_name == name) return false;
+        // Rename clip
+        oldProperites.insert("kdenlive:clipname", m_name);
+        newProperites.insert("kdenlive:clipname", name);
+        m_name = name;
+        edited = true;
+        break;
+      case 2:
+        if (m_description == name) return false;
+        // Rename clip
+        oldProperites.insert("kdenlive:description", m_description);
+        newProperites.insert("kdenlive:description", name);
+        m_description = name;
+        edited = true;
+        break;
+    }
+    if (edited) {
+        bin()->slotEditClipCommand(m_id, oldProperites, newProperites);
+    }
+    return edited;
 }
 
 void ProjectClip::addClipMarker(QList <CommentedTime> newMarkers, QUndoCommand *groupCommand)

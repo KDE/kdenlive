@@ -92,7 +92,7 @@ QVariant ProjectItemModel::data(const QModelIndex& index, int role) const
 bool ProjectItemModel::setData(const QModelIndex & index, const QVariant & value, int role)
 {
     AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
-    if (item->rename(value.toString())) {
+    if (item->rename(value.toString(), index.column())) {
         emit dataChanged(index, index, QVector<int> () << role);
         return true;
     }
@@ -289,8 +289,7 @@ void ProjectItemModel::onAboutToAddItem(AbstractProjectItem* item)
     QModelIndex parentIndex;
     if (parentItem != m_bin->rootFolder()) {
         parentIndex = createIndex(parentItem->index(), 0, parentItem);
-    }
-    else 
+    } 
     beginInsertRows(parentIndex, parentItem->count(), parentItem->count());
 }
 

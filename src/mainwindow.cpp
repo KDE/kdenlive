@@ -162,7 +162,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     setDockNestingEnabled(true);
     m_timelineArea = new QTabWidget(this);
     //m_timelineArea->setTabReorderingEnabled(true);
-    //m_timelineArea->setTabBarHidden(true);
     m_timelineArea->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_timelineArea->setMinimumHeight(200);
     // Hide tabbar

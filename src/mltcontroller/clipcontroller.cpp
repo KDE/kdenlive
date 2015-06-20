@@ -334,6 +334,13 @@ QString ClipController::clipName() const
     return m_url.fileName();
 }
 
+QString ClipController::description() const
+{
+    QString name = property("kdenlive:description");
+    if (!name.isEmpty()) return name;
+    return property("meta.attr.comment.markup");
+}
+
 QString ClipController::serviceName() const
 {
     return m_service;

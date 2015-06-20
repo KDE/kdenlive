@@ -65,28 +65,31 @@ public:
     
     /** @brief Stores the file's creation time */
     QDateTime date;
-    
+
     /** @brief Replaces the master producer and (TODO) the track producers with an updated producer, for example a proxy */
     void updateProducer(const QString &id, Mlt::Producer *producer);
-    
+
     void getProducerXML(QDomDocument& document);
-    
+
     /** @brief Append a track producer retrieved from document loading to out list */
     void appendTrackProducer(const QString trackName, Mlt::Producer &producer);
-    
+
     /** @brief Returns a clone of our master producer. Delete after use! */
     Mlt::Producer *masterProducer();
     Mlt::Producer *zoneProducer(int in, int out);
-    
+
     /** @brief Returns the MLT's producer id */
     const QString clipId();
-    
+
     /** @brief Returns the clip name (usually file name) */
     QString clipName() const;
-    
+
+    /** @brief Returns the clip's description or metadata comment */
+    QString description() const;
+
     /** @brief Returns the clip's MLT resource */
     QUrl clipUrl() const;
-    
+
     /** @brief Returns the clip's type as defined in definitions.h */
     ClipType clipType() const;
 

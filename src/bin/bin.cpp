@@ -912,6 +912,7 @@ void Bin::slotInitView(QAction *action)
         m_itemView->setItemDelegate(m_binTreeViewDelegate);
         QTreeView *view = static_cast<QTreeView*>(m_itemView);
 	view->setSortingEnabled(true);
+        view->setWordWrap(true);
         connect(m_proxyModel, SIGNAL(layoutAboutToBeChanged()), this, SLOT(slotSetSorting()));
         m_proxyModel->setDynamicSortFilter(true);
         if (!m_headerInfo.isEmpty()) {
@@ -1069,7 +1070,7 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
     if (ix.isValid()) {
         QRect IconRect = m_itemView->visualRect(ix);
         IconRect.setSize(m_itemView->iconSize());
-        if (!pos.isNull() && !IconRect.contains(pos)) {
+        if (!pos.isNull() && ((ix.column() == 2 && item->itemType() == AbstractProjectItem::ClipItem) || !IconRect.contains(pos))) {
             // User clicked outside icon, trigger rename
             m_itemView->edit(ix);
             return;

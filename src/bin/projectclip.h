@@ -111,7 +111,7 @@ public:
     /** @brief Calls AbstractProjectItem::setCurrent and sets the bin monitor to use the clip's producer. */
     virtual void setCurrent(bool current, bool notify = true);
     
-    virtual bool rename(const QString &name);
+    virtual bool rename(const QString &name, int column);
 
     virtual QDomElement toXml(QDomDocument &document);
     
