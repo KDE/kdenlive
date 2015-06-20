@@ -241,3 +241,8 @@ void AbstractProjectItem::setClipStatus(CLIPSTATUS status)
     m_clipStatus = status;
 }
 
+bool AbstractProjectItem::statusReady() const
+{
+    return m_clipStatus == StatusReady;
+}
+

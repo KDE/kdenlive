@@ -140,6 +140,7 @@ public:
     };
     
     void setClipStatus(AbstractProjectItem::CLIPSTATUS status);
+    bool statusReady() const;
 
     /** @brief Returns the data that describes this item.
      * @param type type of data to return

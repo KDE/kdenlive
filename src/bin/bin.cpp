@@ -616,6 +616,7 @@ void Bin::createClip(QDomElement xml)
         }
     }
     ProjectClip *newItem = new ProjectClip(xml, m_blankThumb, parentFolder);
+    
     if (m_listType == BinTreeView) {
         ((QTreeView *)m_itemView)->resizeColumnToContents(0);
     }
