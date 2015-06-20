@@ -410,7 +410,7 @@ private:
     void cloneProperties(Mlt::Properties &dest, Mlt::Properties &source);
     /** @brief Get a track producer from a clip's id */
     Mlt::Producer *getProducerForTrack(Mlt::Playlist &trackPlaylist, const QString &clipId);
-    ClipType getTypeForService(const QString &id) const;
+    ClipType getTypeForService(const QString &id, const QString &path) const;
     /** @brief Pass xml values to an MLT producer at build time */
     void processProducerProperties(Mlt::Producer *prod, QDomElement xml);
     /** @brief Reload effects from master clip */

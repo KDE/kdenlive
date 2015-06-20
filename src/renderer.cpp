@@ -586,12 +586,16 @@ bool Render::isProcessing(const QString &id)
     return false;
 }
 
-ClipType Render::getTypeForService(const QString &id) const
+ClipType Render::getTypeForService(const QString &id, const QString &path) const
 {
-    if (id.isEmpty()) return Unknown;
+    if (id.isEmpty()) {
+        QString ext = path.section(".", -1);
+        if (ext == "mlt" || ext == "kdenlive") return Playlist;
+        return Unknown;
+    }
     if (id == "color" || id == "colour") return Color;
     if (id == "kdenlivetitle") return Text;
-    if (id == "xml") return Playlist;
+    if (id == "xml" || id == "consumer") return Playlist;
     if (id == "webvfx") return WebVfx;
     return Unknown;
 }
@@ -683,13 +687,16 @@ void Render::processFileProperties()
         Mlt::Producer *producer = NULL;
         ClipType type = (ClipType)info.xml.attribute("type").toInt();
         if (type == Unknown) {
-            type = getTypeForService(ProjectClip::getXmlProperty(info.xml, "mlt_service"));
+            type = getTypeForService(ProjectClip::getXmlProperty(info.xml, "mlt_service"), path);
         }
         if (type == Color) {
             path.prepend("color:");
             producer = new Mlt::Producer(*m_mltProfile, 0, path.toUtf8().constData());
         } else if (type == Text) {
             path.prepend("kdenlivetitle:");
+            producer = new Mlt::Producer(*m_mltProfile, 0, path.toUtf8().constData());
+        } else if (type == Playlist) {
+            path.prepend("xml:");
             producer = new Mlt::Producer(*m_mltProfile, 0, path.toUtf8().constData());
         } else if (type == SlideShow) {
             producer = new Mlt::Producer(*m_mltProfile, 0, path.toUtf8().constData());
