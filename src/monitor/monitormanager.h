@@ -45,6 +45,7 @@ public:
     Timecode timecode() const;
     void resetProfiles(const Timecode &tc);
     void stopActiveMonitor();
+    void pauseActiveMonitor();
     AbstractRender *activeRenderer();
     /** Searches for a monitor with the given name.
 	@return NULL, if no monitor could be found, or the monitor otherwise.

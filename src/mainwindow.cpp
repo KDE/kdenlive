@@ -546,9 +546,6 @@ bool MainWindow::queryClose()
         }
     }
     saveOptions();
-    if (pCore->monitorManager()) {
-        pCore->monitorManager()->stopActiveMonitor();
-    }
 
     // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
     return pCore->projectManager()->closeCurrentDocument(true);
@@ -2508,7 +2505,7 @@ void MainWindow::slotSelectClipInTimeline()
 void MainWindow::hideEvent(QHideEvent */*event*/)
 {
     if (isMinimized() && pCore->monitorManager())
-        pCore->monitorManager()->stopActiveMonitor();
+        pCore->monitorManager()->pauseActiveMonitor();
 }
 
 /*void MainWindow::slotSaveZone(Render *render, const QPoint &zone, DocClipBase *baseClip, QUrl path)

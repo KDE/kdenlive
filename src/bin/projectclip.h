@@ -223,6 +223,7 @@ private:
     bool m_abortAudioThumb;
     /** @brief Indicates whether audio thumbnail creation is running. */
     QFuture<void> m_audioThumbsThread;
+    ClipType m_type;
 
 signals:
     void gotAudioData();

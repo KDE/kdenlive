@@ -63,6 +63,9 @@ ProjectManager::ProjectManager(QObject* parent) :
 
 ProjectManager::~ProjectManager()
 {
+    if (m_trackView) {
+        delete m_trackView;
+    }
     if (m_project) {
 	delete m_project;
     }
@@ -212,7 +215,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges)
 
 bool ProjectManager::saveFileAs(const QString &outputFileName)
 {
-    pCore->monitorManager()->stopActiveMonitor();
+    pCore->monitorManager()->pauseActiveMonitor();
 
     if (m_project->saveSceneList(outputFileName, pCore->monitorManager()->projectMonitor()->sceneList(), m_trackView->projectView()->guidesData()) == false) {
         return false;

@@ -29,6 +29,7 @@
 #include <QTimeLine>
 #include <QGraphicsRectItem>
 #include <QDomElement>
+#include <QFutureSynchronizer>
 #include <QGraphicsSceneMouseEvent>
 #include <QTimer>
 
@@ -238,10 +239,11 @@ private:
     QMap<int, QPixmap> m_audioThumbCachePic;
     bool m_audioThumbReady;
     double m_framePixelWidth;
-
+    QFutureSynchronizer<void> m_thumbThreads;
     QPixmap m_videoPix;
     QPixmap m_audioPix;
     bool parseKeyframes(const QLocale locale, QDomElement e);
+    void clearThumbthreads();
 
 private slots:
     void slotGetStartThumb();

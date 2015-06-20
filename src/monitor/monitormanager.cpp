@@ -137,6 +137,11 @@ void MonitorManager::slotSwitchMonitors(bool activateClip)
 
 void MonitorManager::stopActiveMonitor()
 {
+    if (m_activeMonitor) m_activeMonitor->stop();
+}
+
+void MonitorManager::pauseActiveMonitor()
+{
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->pause();
     else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->pause();
 }
@@ -148,7 +153,7 @@ void MonitorManager::slotPlay()
 
 void MonitorManager::slotPause()
 {
-    stopActiveMonitor();
+    pauseActiveMonitor();
 }
 
 void MonitorManager::slotPlayZone()

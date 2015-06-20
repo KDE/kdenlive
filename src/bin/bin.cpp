@@ -337,6 +337,17 @@ Bin::Bin(QWidget* parent) :
 
 Bin::~Bin()
 {
+    blockSignals(true);
+    setEnabled(false);
+    if (m_rootFolder) {
+        while (!m_rootFolder->isEmpty()) {
+            AbstractProjectItem *child = m_rootFolder->at(0);
+            m_rootFolder->removeChild(child);
+            delete child;
+        }
+    }
+    delete m_rootFolder;
+    delete m_itemView;
     delete m_jobManager;
     delete m_infoMessage;
 }

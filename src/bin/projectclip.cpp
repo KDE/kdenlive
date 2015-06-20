@@ -55,6 +55,7 @@ ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *control
     m_duration = m_controller->getStringDuration();
     m_date = m_controller->date;
     m_description = m_controller->description();
+    m_type = m_controller->clipType();
     getFileHash();
     setParent(parent);
     bin()->loadSubClips(id, m_controller->getSubClips());
@@ -69,10 +70,14 @@ ProjectClip::ProjectClip(const QDomElement& description, QIcon thumb, ProjectFol
     , audioFrameCache()
     , m_gpuProducer(NULL)
     , m_abortAudioThumb(false)
+    , m_type(Unknown)
 {
     Q_ASSERT(description.hasAttribute("id"));
     m_clipStatus = StatusWaiting;
     m_thumbnail = thumb;
+    if (description.hasAttribute("type")) {
+        m_type = (ClipType) description.attribute("type").toInt();
+    }
     m_temporaryUrl = QUrl::fromLocalFile(getXmlProperty(description, "resource"));
     QString clipName = getXmlProperty(description, "kdenlive:clipname");
     if (!clipName.isEmpty()) {
@@ -89,8 +94,7 @@ ProjectClip::ProjectClip(const QDomElement& description, QIcon thumb, ProjectFol
 ProjectClip::~ProjectClip()
 {
     // controller is deleted in bincontroller
-    m_abortAudioThumb = true;
-    m_audioThumbsThread.waitForFinished();
+    abortAudioThumbs();
 }
 
 QString ProjectClip::getToolTip() const
@@ -132,8 +136,7 @@ bool ProjectClip::audioThumbCreated() const
 
 ClipType ProjectClip::clipType() const
 {
-    if (m_controller == NULL) return Unknown;
-    return m_controller->clipType();
+    return m_type;
 }
 
 ProjectClip* ProjectClip::clip(const QString &id)
@@ -273,6 +276,7 @@ void ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
         m_date = m_controller->date;
         m_description = m_controller->description();
         m_temporaryUrl.clear();
+        m_type = m_controller->clipType();
     }
     m_clipStatus = StatusReady;
     bin()->emitItemUpdated(this);
@@ -291,6 +295,7 @@ void ProjectClip::abortAudioThumbs()
 {
     if (m_audioThumbsThread.isRunning()) {
         m_abortAudioThumb = true;
+        m_audioThumbsThread.waitForFinished();
     }
 }
 
@@ -406,43 +411,51 @@ const QString ProjectClip::hash()
 {
     if (m_controller) {
         QString clipHash = m_controller->property("kdenlive:file_hash");
-        if (clipHash.isEmpty()) {
-            return getFileHash();
+        if (!clipHash.isEmpty()) {
+            return clipHash;
         }
-        return clipHash;
     }
     return getFileHash();
 }
 
 const QString ProjectClip::getFileHash() const
 {
-    if (clipType() == SlideShow) return QString();
-    QFile file(m_controller ? m_controller->clipUrl().toLocalFile() : m_temporaryUrl.toLocalFile());
-    if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
-        QByteArray fileData;
-        QByteArray fileHash;
-        ////qDebug() << "SETTING HASH of" << value;
-        //m_properties.insert("file_size", QString::number(file.size()));
-        /*
+    QByteArray fileData;
+    QByteArray fileHash;
+    switch (m_type) {
+      case SlideShow:
+          fileData = m_controller ? m_controller->clipUrl().toLocalFile().toUtf8() : m_temporaryUrl.toLocalFile().toUtf8();
+          fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+          break;
+      case Text:
+      case Color:
+          return QString();
+          break;
+      default:
+          QFile file(m_controller ? m_controller->clipUrl().toLocalFile() : m_temporaryUrl.toLocalFile());
+          if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
+              /*
                * 1 MB = 1 second per 450 files (or faster)
                * 10 MB = 9 seconds per 450 files (or faster)
                */
-        if (file.size() > 2000000) {
-            fileData = file.read(1000000);
-            if (file.seek(file.size() - 1000000))
-                fileData.append(file.readAll());
-        } else
-            fileData = file.readAll();
-        file.close();
-        fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
-        QString result = fileHash.toHex();
-        if (m_controller) {
-	    m_controller->setProperty("kdenlive:file_hash", result);
-	    m_controller->setProperty("kdenlive:file_size", QString::number(file.size()));
-	}
-        return result;
+            if (file.size() > 2000000) {
+                fileData = file.read(1000000);
+                if (file.seek(file.size() - 1000000))
+                    fileData.append(file.readAll());
+            } else
+                fileData = file.readAll();
+            file.close();
+            if (m_controller) m_controller->setProperty("kdenlive:file_size", QString::number(file.size()));
+            fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+          }
+          break;
     }
-    return QString();
+    if (fileHash.isEmpty()) return QString();
+    QString result = fileHash.toHex();
+    if (m_controller) {
+	m_controller->setProperty("kdenlive:file_hash", result);
+    }
+    return result;
 }
 
 double ProjectClip::getOriginalFps() const
@@ -467,7 +480,7 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
     while (i.hasNext()) {
         i.next();
         setProducerProperty(i.key(), i.value());
-        if (clipType() == SlideShow && keys.contains(i.key())) refreshProducer = true;
+        if (m_type == SlideShow && keys.contains(i.key())) refreshProducer = true;
     }
     if (properties.contains("kdenlive:proxy")) {
         QString value = properties.value("kdenlive:proxy");
@@ -489,7 +502,7 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
     }
     else if (properties.contains("resource")) {
         // Clip resource changed, update thumbnail
-        if (clipType() == Color) {
+        if (m_type == Color) {
             //reloadProducer(true);
         }
         else {
@@ -834,6 +847,7 @@ void ProjectClip::slotCreateAudioThumbs()
                 *audioLevels << audioLevels->last();
         }
         delete mlt_frame;
+        if (m_abortAudioThumb) break;
     }
 
     if (!m_abortAudioThumb && audioLevels->size() > 0) {
