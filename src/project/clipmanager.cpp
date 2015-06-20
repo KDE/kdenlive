@@ -216,13 +216,18 @@ QMap <QString, QString> ClipManager::documentFolderList() const
     return m_folderList;
 }
 
-void ClipManager::deleteProjectItems(QStringList clipIds, QStringList folderIds)
+void ClipManager::deleteProjectItems(QStringList clipIds, QStringList folderIds, QStringList subClipIds)
 {
     // Create meta command
     QUndoCommand *deleteCommand = new QUndoCommand();
     if (clipIds.isEmpty()) {
         // Deleting folder only
-        deleteCommand->setText(i18np("Delete folder", "Delete folders", folderIds.count()));
+        if (!subClipIds.isEmpty()) {
+            deleteCommand->setText(i18np("Delete subclip", "Delete subclips", subClipIds.count()));
+        }
+        else {
+            deleteCommand->setText(i18np("Delete folder", "Delete folders", folderIds.count()));
+        }
     }
     else deleteCommand->setText(i18np("Delete clip", "Delete clips", clipIds.count()));
     if (pCore->projectManager()->currentTimeline()) {
@@ -233,7 +238,7 @@ void ClipManager::deleteProjectItems(QStringList clipIds, QStringList folderIds)
             }
         }
         // remove clips and folders from bin
-        slotDeleteClips(clipIds, folderIds, deleteCommand);
+        slotDeleteClips(clipIds, folderIds, subClipIds, deleteCommand);
     }
 }
 
@@ -243,7 +248,7 @@ void ClipManager::deleteProjectClip(const QString &clipId)
     pCore->bin()->deleteClip(clipId);
 }
 
-void ClipManager::slotDeleteClips(QStringList clipIds, QStringList folderIds, QUndoCommand *deleteCommand)
+void ClipManager::slotDeleteClips(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand)
 {
     for (int i = 0; i < clipIds.size(); ++i) {
         QString xml = pCore->binController()->xmlFromId(clipIds.at(i));
@@ -253,9 +258,11 @@ void ClipManager::slotDeleteClips(QStringList clipIds, QStringList folderIds, QU
             new AddClipCommand(m_doc, doc.documentElement(), clipIds.at(i), false, deleteCommand);
         }
     }
-    
     for (int i = 0; i < folderIds.size(); ++i) {
         pCore->bin()->removeFolder(folderIds.at(i), deleteCommand);
+    }
+    for (int i = 0; i < subClipIds.size(); ++i) {
+        pCore->bin()->removeSubClip(subClipIds.at(i), deleteCommand);
     }
 
     m_doc->commandStack()->push(deleteCommand);

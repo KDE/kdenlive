@@ -226,6 +226,11 @@ Bin::Bin(QWidget* parent) :
     connect(searchLine, SIGNAL(textChanged(const QString &)), m_proxyModel, SLOT(slotSetSearchString(const QString &)));
     m_toolbar->addWidget(searchLine);
 
+    // Hack, create toolbar spacer
+    QWidget* spacer = new QWidget();
+    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_toolbar->addWidget(spacer);
+
     // small info button for pending jobs
     m_infoLabel = new SmallJobLabel(this);
     m_infoLabel->setStyleSheet(SmallJobLabel::getStyleSheet(palette()));
@@ -440,6 +445,9 @@ void Bin::slotDeleteClip()
     QStringList clipIds;
     QStringList subClipIds;
     QStringList foldersIds;
+    ProjectSubClip *sub;
+    QString subId;
+    QPoint zone;
     foreach (const QModelIndex &ix, indexes) {
         if (!ix.isValid() || ix.column() != 0) continue;
         AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
@@ -453,8 +461,11 @@ void Bin::slotDeleteClip()
                 foldersIds << item->clipId();
                 break;
             case AbstractProjectItem::SubClipItem:
-                //TODO
-                subClipIds << item->clipId();
+                subId = item->clipId();
+                sub = (ProjectSubClip *) item;
+                zone = sub->zone();
+                subId.append(":" + QString::number(zone.x()) + ":" + QString::number(zone.y()));
+                subClipIds << subId;
                 break;
             default:
                 break;
@@ -462,7 +473,7 @@ void Bin::slotDeleteClip()
     }
     // For some reason, we get duplicates, which is not expected
     //ids.removeDuplicates();
-    m_doc->clipManager()->deleteProjectItems(clipIds, foldersIds);
+    m_doc->clipManager()->deleteProjectItems(clipIds, foldersIds, subClipIds);
 }
 
 void Bin::slotReloadClip()
@@ -729,6 +740,16 @@ void Bin::removeFolder(const QString &id, QUndoCommand *deleteCommand)
     ProjectFolder *folder = m_rootFolder->folder(id);
     AbstractProjectItem *parent = folder->parent();
     new AddBinFolderCommand(this, folder->clipId(), folder->name(), parent->clipId(), true, deleteCommand);
+}
+
+void Bin::removeSubClip(const QString &id, QUndoCommand *deleteCommand)
+{
+    // Check parent item
+    QString clipId = id;
+    int in = clipId.section(":", 1, 1).toInt();
+    int out = clipId.section(":", 2, 2).toInt();
+    clipId = clipId.section(":", 0, 0);
+    new AddBinClipCutCommand(this, clipId, in, out, false, deleteCommand);
 }
 
 void Bin::doRemoveFolder(const QString &id)

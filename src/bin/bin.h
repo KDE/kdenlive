@@ -385,6 +385,7 @@ public:
     /** @brief Add a folder  */
     void doAddFolder(const QString &id, const QString &name, const QString &parentId);
     void removeFolder(const QString &id, QUndoCommand *deleteCommand);
+    void removeSubClip(const QString &id, QUndoCommand *deleteCommand);
     void doMoveClip(const QString &id, const QString &newParentId);
     void doMoveFolder(const QString &id, const QString &newParentId);
     void setupGeneratorMenu(const QHash<QString,QMenu*>& menus);
