@@ -1538,9 +1538,9 @@ void CustomTrackView::editItemDuration()
                     clipInfo.cropStart = d->cropStart();
 
                     resizeClip(startInfo, clipInfo);
+                    // TODO: find a way to apply adjusteffect after the resize command was done / undone
                     new ResizeClipCommand(this, startInfo, clipInfo, false, true, moveCommand);
                     adjustEffects(clip, startInfo, moveCommand);
-                    new ResizeClipCommand(this, startInfo, clipInfo, false, true, moveCommand);
                 }
 
                 if (d->startPos() != clipInfo.startPos) {
@@ -1557,9 +1557,9 @@ void CustomTrackView::editItemDuration()
                     clipInfo.cropStart = d->cropStart();
 
                     resizeClip(startInfo, clipInfo);
+                    // TODO: find a way to apply adjusteffect after the resize command was done / undone
                     new ResizeClipCommand(this, startInfo, clipInfo, false, true, moveCommand);
                     adjustEffects(clip, startInfo, moveCommand);
-                    new ResizeClipCommand(this, startInfo, clipInfo, false, true, moveCommand);
                 }
                 updateTrackDuration(clipInfo.track, moveCommand);
                 m_commandStack->push(moveCommand);
@@ -5052,9 +5052,9 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
             // Since we must always resize clip before updating the keyframes, we
             // put a resize command before & after checking keyframes so that
             // we are sure the resize is performed before whenever we do or undo the action
+            // TODO: find a way to apply adjusteffect after the resize command was done / undone
             new ResizeClipCommand(this, oldInfo, info, false, true, command);
             adjustEffects(clip, oldInfo, command);
-            new ResizeClipCommand(this, oldInfo, info, false, true, command);
         } else {
             KdenliveSettings::setSnaptopoints(false);
             item->resizeStart((int) oldInfo.startPos.frames(m_document->fps()));
@@ -5145,9 +5145,9 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
             // Since we must always resize clip before updating the keyframes, we
             // put a resize command before & after checking keyframes so that
             // we are sure the resize is performed before whenever we do or undo the action
+            // TODO: find a way to apply adjusteffect after the resize command was done / undone
             new ResizeClipCommand(this, oldInfo, info, false, true, command);
             adjustEffects(clip, oldInfo, command);
-            new ResizeClipCommand(this, oldInfo, info, false, true, command);
         } else {
             KdenliveSettings::setSnaptopoints(false);
             item->resizeEnd((int) oldInfo.endPos.frames(m_document->fps()));
