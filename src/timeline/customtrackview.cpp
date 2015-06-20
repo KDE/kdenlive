@@ -5396,16 +5396,14 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected, QList <GenTim
 void CustomTrackView::slotSeekToPreviousSnap()
 {
     updateSnapPoints(NULL);
-    GenTime res = m_scene->previousSnapPoint(GenTime(m_cursorPos, m_document->fps()));
-    seekCursorPos((int) res.frames(m_document->fps()));
+    seekCursorPos((int) m_scene->previousSnapPoint(GenTime(m_cursorPos, m_document->fps())).frames(m_document->fps()));
     checkScrolling();
 }
 
 void CustomTrackView::slotSeekToNextSnap()
 {
     updateSnapPoints(NULL);
-    GenTime res = m_scene->nextSnapPoint(GenTime(m_cursorPos, m_document->fps()));
-    seekCursorPos((int) res.frames(m_document->fps()));
+    seekCursorPos((int) m_scene->nextSnapPoint(GenTime(m_cursorPos, m_document->fps())).frames(m_document->fps()));
     checkScrolling();
 }
 
@@ -6256,13 +6254,13 @@ void CustomTrackView::saveThumbnails()
             if (item->clipType() != Color) {
                 // Check if we have a cached thumbnail
                 if (item->clipType() == Image || item->clipType() == Text || item->clipType() == Audio) {
-                    QString thumb = thumbBase + item->getBinHash() + "_0.png";
+                    QString thumb = thumbBase + item->getBinHash() + "#0.png";
                     if (!QFile::exists(thumb)) {
                         QPixmap pix(item->startThumb());
                         pix.save(thumb);
                     }
                 } else {
-                    QString startThumb = thumbBase + item->getBinHash() + '_';
+                    QString startThumb = thumbBase + item->getBinHash() + '#';
                     QString endThumb = startThumb;
                     startThumb.append(QString::number((int) item->speedIndependantCropStart().frames(m_document->fps())) + ".png");
                     endThumb.append(QString::number((int) (item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + ".png");
