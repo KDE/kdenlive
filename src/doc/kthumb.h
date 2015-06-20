@@ -72,8 +72,8 @@ public slots:
 public:
     static QPixmap getImage(const QUrl &url, int width, int height);
     static QPixmap getImage(const QUrl &url, int frame, int width, int height);
-    static QImage getFrame(Mlt::Producer *producer, int framepos, int frameWidth, int displayWidth, int height);
-    static QImage getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int height);
+    static QImage getFrame(Mlt::Producer *producer, int framepos, int displayWidth, int height);
+    static QImage getFrame(Mlt::Frame *frame, int width, int height);
     /** @brief Calculates image variance, useful to know if a thumbnail is interesting. 
      *  @return an integer between 0 and 100. 0 means no variance, eg. black image while bigger values mean contrasted image
      * */
@@ -96,7 +96,7 @@ private:
     /** @brief List of frame numbers from which we want to extract thumbnails. */
     QList <int> m_intraFramesQueue;
     QMutex m_mutex;
-    QImage getProducerFrame(int framepos, int frameWidth, int displayWidth, int height);
+    QImage getProducerFrame(int framepos, int displayWidth, int height);
 
 signals:
     void thumbReady(int, const QImage&);

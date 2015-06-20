@@ -115,17 +115,15 @@ void KThumb::extractImage(const QList<int> &frames)
 void KThumb::getThumb(int frame)
 {
     const int theight = Kdenlive::DefaultThumbHeight;
-    const int swidth = (int)(theight * m_ratio + 0.5);
     const int dwidth = (int)(theight * m_dar + 0.5);
-    QImage img = getProducerFrame(frame, swidth, dwidth, theight);
+    QImage img = getProducerFrame(frame, dwidth, theight);
     emit thumbReady(frame, img);
 }
 
 void KThumb::getGenericThumb(int frame, int height, int type)
 {
-    const int swidth = (int)(height * m_ratio + 0.5);
     const int dwidth = (int)(height * m_dar + 0.5);
-    QImage img = getProducerFrame(frame, swidth, dwidth, height);
+    QImage img = getProducerFrame(frame, dwidth, height);
     m_clipManager->projectTreeThumbReady(m_id, frame, img, type);
 }
 
@@ -136,7 +134,7 @@ QImage KThumb::extractImage(int frame, int width, int height)
         img.fill(QColor(Qt::black).rgb());
         return img;
     }
-    return getProducerFrame(frame, (int) (height * m_ratio + 0.5), width, height);
+    return getProducerFrame(frame, width, height);
 }
 
 //static
@@ -147,13 +145,13 @@ QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
     if (!url.isValid()) return pix;
     Mlt::Producer *producer = new Mlt::Producer(profile, url.path().toUtf8().constData());
     double swidth = (double) profile.width() / profile.height();
-    pix = QPixmap::fromImage(getFrame(producer, frame, (int) (height * swidth + 0.5), width, height));
+    pix = QPixmap::fromImage(getFrame(producer, frame, width, height));
     delete producer;
     return pix;
 }
 
 
-QImage KThumb::getProducerFrame(int framepos, int frameWidth, int displayWidth, int height)
+QImage KThumb::getProducerFrame(int framepos, int displayWidth, int height)
 {
     if (m_producer == NULL || !m_producer->is_valid()) {
         QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
@@ -171,13 +169,13 @@ QImage KThumb::getProducerFrame(int framepos, int frameWidth, int displayWidth, 
     /*frame->set("rescale.interp", "nearest");
     frame->set("deinterlace_method", "onefield");
     frame->set("top_field_first", -1 );*/
-    QImage p = getFrame(frame, frameWidth, displayWidth, height);
+    QImage p = getFrame(frame, displayWidth, height);
     delete frame;
     return p;
 }
 
 //static
-QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int frameWidth, int displayWidth, int height)
+QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int displayWidth, int height)
 {
   
     QImage p1(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
@@ -201,18 +199,16 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int frameWidth, i
     frame->set("rescale.interp", "nearest");
     frame->set("deinterlace_method", "onefield");
     frame->set("top_field_first", -1 );
-    const QImage p = getFrame(frame, frameWidth, displayWidth, height);
+    const QImage p = getFrame(frame, displayWidth, height);
     delete frame;
     return p;
 }
 
 
 //static
-QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int height)
+QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height)
 {
-    Q_UNUSED(frameWidth)
-
-    QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
+    QImage p(width, height, QImage::Format_ARGB32_Premultiplied);
     /*p.fill(QColor(Qt::red).rgb());
     return p;*/
 
@@ -223,7 +219,7 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
     frame->set("rescale.interp", "bilinear");
     frame->set("deinterlace_method", "onefield");
     frame->set("top_field_first", -1);
-    int ow = displayWidth;//frameWidth;
+    int ow = width;
     int oh = height;
     mlt_image_format format = mlt_image_rgb24a;
     //frame->set("progressive", "1");
@@ -239,11 +235,11 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
     //const uchar* imagedata = frame->get_image(format, ow, oh);
     //QImage image(imagedata, ow, oh, QImage::Format_ARGB32_Premultiplied);
     if (!image.isNull()) {
-        if (ow > (2 * displayWidth)) {
+        if (ow > (2 * width)) {
             // there was a scaling problem, do it manually
-            image = image.scaled(displayWidth, height).rgbSwapped();
+            image = image.scaled(width, height).rgbSwapped();
         } else {
-            image = image.scaled(displayWidth, height, Qt::IgnoreAspectRatio).rgbSwapped();
+            image = image.scaled(width, height, Qt::IgnoreAspectRatio).rgbSwapped();
         }
 	p.fill(QColor(100, 100, 100, 70));
         QPainter painter(&p);
@@ -383,7 +379,6 @@ void KThumb::queryIntraThumbs(const QSet <int> &missingFrames)
 void KThumb::slotGetIntraThumbs()
 {
     const int theight = KdenliveSettings::trackheight();
-    const int frameWidth = (int)(theight * m_ratio + 0.5);
     const int displayWidth = (int)(theight * m_dar + 0.5);
     QString path = m_url.path() + '_';
     bool addedThumbs = false;
@@ -398,7 +393,7 @@ void KThumb::slotGetIntraThumbs()
         m_intraMutex.unlock();
         const QString key = path + QString::number(pos);
         if (!m_clipManager->pixmapCache->contains(key)) {
-            QImage img = getProducerFrame(pos, frameWidth, displayWidth, theight);
+            QImage img = getProducerFrame(pos, displayWidth, theight);
             if (m_clipManager->pixmapCache->insertImage(key, img)) {
                 addedThumbs = true;
             }

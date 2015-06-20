@@ -376,12 +376,11 @@ QImage Render::extractFrame(int frame_position, const QString &path, int width, 
         width = frameRenderWidth();
         height = renderHeight();
     } else if (width % 2 == 1) width++;
-    int dwidth = height * frameRenderWidth() / renderHeight();
     if (!path.isEmpty()) {
         Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile, path.toUtf8().constData());
         if (producer) {
             if (producer->is_valid()) {
-                QImage img = KThumb::getFrame(producer, frame_position, dwidth, width, height);
+                QImage img = KThumb::getFrame(producer, frame_position, width, height);
                 delete producer;
                 return img;
             }
@@ -394,7 +393,27 @@ QImage Render::extractFrame(int frame_position, const QString &path, int width, 
         pix.fill(Qt::black);
         return pix;
     }
-    return KThumb::getFrame(m_mltProducer, frame_position, dwidth, width, height);
+    Mlt::Frame *frame;
+    Mlt::Producer *tmpProd = NULL;
+    if (KdenliveSettings::gpu_accel()) {
+        QString service = m_mltProducer->get("mlt_service");
+        //TODO: create duplicate prod from xml data
+        tmpProd = new Mlt::Producer(*m_mltProfile, service.toUtf8().constData(), path.toUtf8().constData());
+        Mlt::Filter scaler(*m_mltProfile, "swscale");
+        Mlt::Filter converter(*m_mltProfile, "avcolor_space");
+        tmpProd->attach(scaler);
+        tmpProd->attach(converter);
+        tmpProd->seek(m_mltProducer->position());
+        frame = tmpProd->get_frame();
+    }
+    else {
+        frame = m_mltProducer->get_frame();
+    }
+    QImage img = KThumb::getFrame(frame, width, height);
+    if (tmpProd) {
+        delete tmpProd;
+    }
+    return img;
 }
 
 int Render::getLength()
@@ -643,9 +662,8 @@ void Render::processFileProperties()
             if (frameNumber > 0) prod->seek(frameNumber);
             Mlt::Frame *frame = prod->get_frame();
             if (frame && frame->is_valid()) {
-                int imageWidth = (int)((double) info.imageHeight * m_mltProfile->width() / m_mltProfile->height() + 0.5);
                 int fullWidth = (int)((double) info.imageHeight * m_mltProfile->dar() + 0.5);
-                QImage img = KThumb::getFrame(frame, imageWidth, fullWidth, info.imageHeight);
+                QImage img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
                 emit replyGetImage(info.clipId, img);
             }
             delete frame;
@@ -833,7 +851,6 @@ void Render::processFileProperties()
         if (info.xml.hasAttribute("templatetext"))
             producer->set("templatetext", info.xml.attribute("templatetext").toUtf8().constData());
 
-        int imageWidth = (int)((double) info.imageHeight * m_mltProfile->width() / m_mltProfile->height() + 0.5);
         int fullWidth = (int)((double) info.imageHeight * m_mltProfile->dar() + 0.5);
         int frameNumber = info.xml.attribute("thumbnail", "-1").toInt();
 
@@ -846,7 +863,7 @@ void Render::processFileProperties()
                 if (frameNumber > 0) producer->seek(frameNumber);
                 Mlt::Frame *frame = producer->get_frame();
                 if (frame && frame->is_valid()) {
-                    QImage img = KThumb::getFrame(frame, imageWidth, fullWidth, info.imageHeight);
+                    QImage img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
                     emit replyGetImage(info.clipId, img);
                 }
                 if (frame) delete frame;
@@ -1004,7 +1021,7 @@ void Render::processFileProperties()
                 }
                 frame = tmpProd->get_frame();
                 do {
-                    img = KThumb::getFrame(frame, imageWidth, fullWidth, info.imageHeight);
+                    img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
                     variance = KThumb::imageVariance(img);
                     if (frameNumber == -1 && variance< 6) {
                         // Thumbnail is not interesting (for example all black, seek to fetch better thumb
@@ -4477,7 +4494,6 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
     }
     
     int width = 60.0 * m_mltProfile->dar();
-    int swidth = 60.0 * m_mltProfile->width() / m_mltProfile->height();
     if (width % 2 == 1) width++;
 
     QPointer<QDialog> dialog = new QDialog(qApp->activeWindow());
@@ -4502,7 +4518,7 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
     for (int j = 1; j < video_list.count(); ++j) {
         Mlt::Producer multiprod(* m_mltProfile, path.toUtf8().constData());
         multiprod.set("video_index", video_list.at(j));
-        QImage thumb = KThumb::getFrame(&multiprod, 0, swidth, width, 60);
+        QImage thumb = KThumb::getFrame(&multiprod, 0, width, 60);
         QGroupBox *streamFrame = new QGroupBox(i18n("Video stream %1", video_list.at(j)), mainWidget);
         mainLayout->addWidget(streamFrame);
         streamFrame->setProperty("vindex", video_list.at(j));

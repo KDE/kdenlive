@@ -689,7 +689,6 @@ void ProjectClip::slotExtractImage(QList <int> frames)
         }
 	prod = m_gpuProducer;
     }
-    int imageWidth = (int)((double) 150 * prod->profile()->width() / prod->profile()->height() + 0.5);
     int fullWidth = (int)((double) 150 * prod->profile()->dar() + 0.5);
     QDir thumbFolder(bin()->projectFolder().path() + "/thumbs/");
     for (int i = 0; i < frames.count(); i++) {
@@ -703,7 +702,7 @@ void ProjectClip::slotExtractImage(QList <int> frames)
 	prod->seek(pos);
 	Mlt::Frame *frame = prod->get_frame();
 	if (frame && frame->is_valid()) {
-            QImage img = KThumb::getFrame(frame, imageWidth, fullWidth, 150);
+            QImage img = KThumb::getFrame(frame, fullWidth, 150);
             emit thumbReady(frames.at(i), img);
         }
         delete frame;
@@ -726,7 +725,6 @@ void ProjectClip::slotExtractSubImage(QList <int> frames)
         }
         prod = m_gpuProducer;
     }
-    int imageWidth = (int)((double) 150 * prod->profile()->width() / prod->profile()->height() + 0.5);
     int fullWidth = (int)((double) 150 * prod->profile()->dar() + 0.5);
     QDir thumbFolder(bin()->projectFolder().path() + "/thumbs/");
     for (int i = 0; i < frames.count(); i++) {
@@ -747,7 +745,7 @@ void ProjectClip::slotExtractSubImage(QList <int> frames)
         prod->seek(pos);
         Mlt::Frame *frame = prod->get_frame();
         if (frame && frame->is_valid()) {
-            QImage img = KThumb::getFrame(frame, imageWidth, fullWidth, 150);
+            QImage img = KThumb::getFrame(frame, fullWidth, 150);
             if (!img.isNull()) {
                 img.save(thumbFolder.absoluteFilePath(hash() + '#' + QString::number(pos) + ".png"));
                 ProjectSubClip *clip;
