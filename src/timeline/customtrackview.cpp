@@ -2472,12 +2472,6 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         //item->baseClip()->addReference();
         m_document->updateClip(item->getBinId());
         KdenliveSettings::setSnaptopoints(snap);
-        if (execute && item->isSelected()) {
-            m_scene->clearSelection();
-            dup->setSelected(true);
-            m_dragItem = dup;
-            emit clipItemSelected(dup);
-        }
         return dup;
     } else {
         // uncut clip
@@ -2521,8 +2515,6 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
             emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
         }
         KdenliveSettings::setSnaptopoints(snap);
-        if (execute && selected)
-            emit clipItemSelected(item);
         return item;
     }
     //QTimer::singleShot(3000, this, SLOT(slotEnableRefresh()));
@@ -4354,6 +4346,14 @@ void CustomTrackView::cutSelectedClips()
             } else if (currentPos > item->startPos() && currentPos < item->endPos()) {
                 RazorClipCommand *command = new RazorClipCommand(this, item->info(), item->effectList(), currentPos);
                 m_commandStack->push(command);
+                // Select right part of the cut for further cuts
+                ClipItem *dup = getClipItemAtStart(currentPos, item->track());
+                if (item->isSelected() && dup) {
+                    m_scene->clearSelection();
+                    dup->setSelected(true);
+                    m_dragItem = dup;
+                    emit clipItemSelected(dup);
+                }
             }
         } else if (itemList.at(i)->type() == GroupWidget && itemList.at(i) != m_selectionGroup) {
             AbstractGroupItem *group = static_cast<AbstractGroupItem *>(itemList.at(i));
