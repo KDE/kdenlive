@@ -33,7 +33,6 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id
     QObject()
     , m_parent(NULL)
     , m_id(id)
-    , m_isCurrent(false)
     , m_jobProgress(0)
     , m_jobType(AbstractClipJob::NOJOBTYPE)
     , m_itemType(type)
@@ -44,7 +43,6 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement
     QObject()
     , m_parent(NULL)
     , m_id(description.attribute("id"))
-    , m_isCurrent(false)
     , m_jobProgress(0)
     , m_jobType(AbstractClipJob::NOJOBTYPE)
     , m_itemType(type)
@@ -84,13 +82,6 @@ void AbstractProjectItem::setParent(AbstractProjectItem* parent)
     if (m_parent != parent) {
         if (m_parent) {
             m_parent->removeChild(this);
-        }
-        
-        // Check if we are trying to delete the item
-        if (m_isCurrent && parent == NULL) {
-            /*if (bin()) {
-                bin()->setCurrentItem(NULL);
-            }*/
         }
         m_parent = parent;
         QObject::setParent(m_parent);
@@ -238,21 +229,6 @@ QString AbstractProjectItem::description() const
 void AbstractProjectItem::setDescription(const QString& description)
 {
     m_description = description;
-}
-
-void AbstractProjectItem::setCurrent(bool current, bool notify)
-{
-    if (m_isCurrent != current) 
-    {
-        m_isCurrent = current;
-	if (!notify) 
-	    return;
-        /*if (current) {
-            bin()->setCurrentItem(this);
-        } else {
-            bin()->setCurrentItem(NULL);
-        }*/
-    }
 }
 
 QPoint AbstractProjectItem::zone() const

@@ -108,7 +108,6 @@ ProjectSubClip *ProjectSubClip::subClip(int in, int out)
 
 void ProjectSubClip::setCurrent(bool current, bool notify)
 {
-    AbstractProjectItem::setCurrent(current, notify);
     if (current) {
         m_masterClip->bin()->openProducer(m_masterClip->controller(), m_in, m_out);
     }

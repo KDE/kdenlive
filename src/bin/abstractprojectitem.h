@@ -167,7 +167,7 @@ public:
     virtual void setDescription(const QString &description);
 
     /** @brief Flags this item as being current (or not) and notifies the bin model about it. */
-    virtual void setCurrent(bool current, bool notify = true);
+    virtual void setCurrent(bool current, bool notify = true) = 0;
 
     virtual QDomElement toXml(QDomDocument &document) = 0;
     virtual QString getToolTip() const = 0;

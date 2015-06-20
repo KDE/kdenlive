@@ -759,28 +759,27 @@ void Bin::rowsInserted(const QModelIndex &/*parent*/, int /*start*/, int end)
 {
     QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     if (indexes.isEmpty()) {
-      const QModelIndex id = m_itemModel->index(end, 0, QModelIndex());
-      m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
+      for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
+          const QModelIndex id = m_itemModel->index(end, i, QModelIndex());
+          if (id.isValid()) {
+              m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
+          }
+      }
     }
-    //selectModel(id);
 }
 
 void Bin::rowsRemoved(const QModelIndex &/*parent*/, int start, int /*end*/)
 {
-    const QModelIndex id = m_itemModel->index(start, 0, QModelIndex());
-    m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
-    //selectModel(id);
-}
-
-void Bin::selectModel(const QModelIndex &id)
-{
-    m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
-    /*if (id.isValid()) {
-        AbstractProjectItem *currentItem = static_cast<AbstractProjectItem*>(id.internalPointer());
-        if (currentItem) {
-            //m_openedProducer = currentItem->clipId();
+    QModelIndex id = m_itemModel->index(start, 0, QModelIndex());
+    if (!id.isValid() && start > 0) {
+        start--;
+    }
+    for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
+        id = m_itemModel->index(start, i, QModelIndex());
+        if (id.isValid()) {
+            m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
         }
-    }*/
+    }
 }
 
 void Bin::selectProxyModel(const QModelIndex &id)

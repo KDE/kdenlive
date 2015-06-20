@@ -290,7 +290,7 @@ void ProjectItemModel::onAboutToAddItem(AbstractProjectItem* item)
     if (parentItem != m_bin->rootFolder()) {
         parentIndex = createIndex(parentItem->index(), 0, parentItem);
     }
-
+    else 
     beginInsertRows(parentIndex, parentItem->count(), parentItem->count());
 }
 

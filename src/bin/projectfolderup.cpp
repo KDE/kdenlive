@@ -42,7 +42,6 @@ ProjectFolderUp::~ProjectFolderUp()
 
 void ProjectFolderUp::setCurrent(bool current, bool notify)
 {
-    AbstractProjectItem::setCurrent(current, notify);
 }
 
 ProjectClip* ProjectFolderUp::clip(const QString &id)
