@@ -545,7 +545,7 @@ void Render::forceProcessing(const QString &id)
     // Make sure we load the clip producer now so that we can use it in timeline
     QList <requestClipInfo> requestListCopy;
     if (m_processingClipId.contains(id)) {
-	m_infoMutex.lock();
+        m_infoMutex.lock();
 	requestListCopy = m_requestList;
 	m_requestList.clear();
 	m_infoMutex.unlock();
@@ -577,7 +577,6 @@ void Render::forceProcessing(const QString &id)
     if (!m_infoThread.isRunning()) {
         m_infoThread = QtConcurrent::run(this, &Render::processFileProperties);
     }
-    
 }
 
 int Render::processingItems()
@@ -870,6 +869,7 @@ void Render::processFileProperties()
             }
             // replace clip
             qDebug()<<" / / /CREATED PROD: "<<producer->get("resource");
+            m_processingClipId.removeAll(info.clipId);
             m_binController->replaceProducer(info.clipId, *producer);
             emit gotFileProperties(info, NULL);
             continue;
@@ -1128,6 +1128,7 @@ void Render::processFileProperties()
             m_binController->addClipToBin(info.clipId, controller);
             emit gotFileProperties(info, controller);
         }
+        m_processingClipId.removeAll(info.clipId);
     }
 }
 

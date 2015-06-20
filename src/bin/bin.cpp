@@ -47,7 +47,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KColorScheme>
 #include <KMessageBox>
 #include <KSplitterCollapserButton>
-
+#include <KMessageBox>
 
 #include <QDialogButtonBox>
 #include <QVBoxLayout>
@@ -268,7 +268,6 @@ Bin::Bin(QWidget* parent) :
     m_slider->setMaximumWidth(100);
     m_slider->setMinimumWidth(40);
     m_slider->setRange(0, 10);
-    // TODO: fix view zoom on startup
     m_slider->setValue(KdenliveSettings::bin_zoom());
     connect(m_slider, SIGNAL(valueChanged(int)), this, SLOT(slotSetIconSize(int)));
     QWidgetAction * widgetslider = new QWidgetAction(this);
@@ -739,6 +738,32 @@ void Bin::removeFolder(const QString &id, QUndoCommand *deleteCommand)
     // Check parent item
     ProjectFolder *folder = m_rootFolder->folder(id);
     AbstractProjectItem *parent = folder->parent();
+    if (folder->count() > 0) {
+        // Folder has clips inside, warn user
+        if (KMessageBox::warningContinueCancel(this, i18np("Folder contains a clip, delete anyways ?", "Folder contains %1 clips, delete anyways ?", folder->count())) != KMessageBox::Continue) {
+            return;
+        }
+        QStringList clipIds;
+        QStringList folderIds;
+        // TODO: manage subclips
+        for (int i = 0; i < folder->count(); i++) {
+            AbstractProjectItem *child = folder->at(i);
+            switch (child->itemType()) {
+              case AbstractProjectItem::ClipItem:
+                  clipIds << child->clipId();
+                  break;
+              case AbstractProjectItem::FolderItem:
+                  folderIds << child->clipId();
+                  break;
+              default:
+                  break;
+            }
+        }
+        foreach(const QString &folderId, folderIds) {
+            removeFolder(folderId, deleteCommand);
+        }
+        m_doc->clipManager()->deleteProjectItems(clipIds, folderIds, QStringList(), deleteCommand);
+    }
     new AddBinFolderCommand(this, folder->clipId(), folder->name(), parent->clipId(), true, deleteCommand);
 }
 

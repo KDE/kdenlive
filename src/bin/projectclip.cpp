@@ -312,7 +312,7 @@ ClipController *ProjectClip::controller()
 
 bool ProjectClip::isReady() const
 {
-    return m_controller!= NULL;
+    return m_controller != NULL;
 }
 
 /*void ProjectClip::setZone(const QPoint &zone)

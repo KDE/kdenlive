@@ -3531,14 +3531,10 @@ void CustomTrackView::deleteClip(const QString &clipId, QUndoCommand *deleteComm
             }
         }
     }
-    if (count == 0) {
-        // No clip to delete
-        //delete deleteCommand;
-    } else {
-        deleteCommand->setText(i18np("Delete timeline clip", "Delete timeline clips", count));
+    qDebug()<<"+ + +Found timeline clips: "<<count;
+    if (count > 0) {
         new RefreshMonitorCommand(this, true, false, deleteCommand);
         updateTrackDuration(-1, deleteCommand);
-        //m_commandStack->push(deleteCommand);
     }
 }
 
@@ -4227,8 +4223,11 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
 
     if (m_dragItem == item) m_dragItem = NULL;
 
+    delete item;
+    item = NULL;
     // animate item deletion
-    item->closeAnimation();
+    //item->closeAnimation();
+
     /*if (refresh) item->closeAnimation();
     else {
         // no refresh, means we have several operations chained, we need to delete clip immediately

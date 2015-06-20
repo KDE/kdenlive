@@ -77,7 +77,7 @@ Q_OBJECT public:
     void slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId);
     void slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
     //const QList <DocClipBase *> getClipByResource(const QString &resource);
-    void slotDeleteClips(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand);
+    void slotDeleteClips(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand, bool execute);
     void setThumbsProgress(const QString &message, int progress);
     QMap <QString, QString> documentFolderList() const;
     int getFreeFolderId();
@@ -85,7 +85,7 @@ Q_OBJECT public:
     QString projectFolder() const;
     void clearUnusedProducers();
     /** @brief Prepare deletion of clips and folders from the Bin. */
-    void deleteProjectItems(QStringList clipIds, QStringList folderIds, QStringList subClipIds);
+    void deleteProjectItems(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand = NULL);
     void clear();
     void clearCache();
     AbstractGroupItem *createGroup();

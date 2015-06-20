@@ -39,7 +39,6 @@ AddClipCommand::AddClipCommand(KdenliveDoc *doc, const QDomElement &xml, const Q
 // virtual
 void AddClipCommand::undo()
 {
-    qDebug()<<"/ / / /UNDOING COMMAND";
     if (m_doIt)
         m_doc->deleteClip(m_id);
     else
@@ -48,7 +47,6 @@ void AddClipCommand::undo()
 // virtual
 void AddClipCommand::redo()
 {
-    qDebug()<<"/ / / /REDOING COMMAND";
     if (m_doIt)
         m_doc->addClip(m_xml, m_id);
     else

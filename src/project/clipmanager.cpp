@@ -216,10 +216,13 @@ QMap <QString, QString> ClipManager::documentFolderList() const
     return m_folderList;
 }
 
-void ClipManager::deleteProjectItems(QStringList clipIds, QStringList folderIds, QStringList subClipIds)
+void ClipManager::deleteProjectItems(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand)
 {
     // Create meta command
-    QUndoCommand *deleteCommand = new QUndoCommand();
+    bool execute = deleteCommand == NULL;
+    if (execute) {
+        deleteCommand = new QUndoCommand();
+    }
     if (clipIds.isEmpty()) {
         // Deleting folder only
         if (!subClipIds.isEmpty()) {
@@ -238,7 +241,8 @@ void ClipManager::deleteProjectItems(QStringList clipIds, QStringList folderIds,
             }
         }
         // remove clips and folders from bin
-        slotDeleteClips(clipIds, folderIds, subClipIds, deleteCommand);
+        qDebug()<<" + ++ +DELETING CLIPs: "<<clipIds;
+        slotDeleteClips(clipIds, folderIds, subClipIds, deleteCommand, execute);
     }
 }
 
@@ -248,7 +252,7 @@ void ClipManager::deleteProjectClip(const QString &clipId)
     pCore->bin()->deleteClip(clipId);
 }
 
-void ClipManager::slotDeleteClips(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand)
+void ClipManager::slotDeleteClips(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand, bool execute)
 {
     for (int i = 0; i < clipIds.size(); ++i) {
         QString xml = pCore->binController()->xmlFromId(clipIds.at(i));
@@ -265,7 +269,10 @@ void ClipManager::slotDeleteClips(QStringList clipIds, QStringList folderIds, QS
         pCore->bin()->removeSubClip(subClipIds.at(i), deleteCommand);
     }
 
-    m_doc->commandStack()->push(deleteCommand);
+    if (execute) {
+        qDebug()<<" // / /EXECUTE DELETION";
+        m_doc->commandStack()->push(deleteCommand);
+    }
 }
 
 void ClipManager::deleteClip(const QString &clipId)
