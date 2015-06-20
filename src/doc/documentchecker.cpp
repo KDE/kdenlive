@@ -69,6 +69,8 @@ bool DocumentChecker::hasErrorInClips()
     QDomElement e;
     QString resource;
     int max;
+    QString root = m_doc.documentElement().attribute("root");
+    if (!root.isEmpty()) root = QDir::cleanPath(root) + QDir::separator();
     QDomNodeList documentProducers = m_doc.elementsByTagName("producer");
     // List clips whose proxy is missing
     QList <QDomElement> missingProxies;
@@ -80,7 +82,7 @@ bool DocumentChecker::hasErrorInClips()
     for (int i = 0; i < max; ++i) {
         e = documentProducers.item(i).toElement();
 	QString service = EffectsList::property(e, "mlt_service");
-        if (service == "colour" || service == "color") continue;       
+        if (service == "colour" || service == "color") continue;
         if (service == "mlt_service") {
             //TODO: Check is clip template is missing (xmltemplate) or hash changed
 	    QString xml = EffectsList::property(e, "xmldata");
@@ -90,6 +92,10 @@ bool DocumentChecker::hasErrorInClips()
             continue;
         }
         resource = EffectsList::property(e, "resource");
+        if (!resource.startsWith("/")) {
+            resource.prepend(root);
+        }
+        qDebug()<<" / / /Checking resource: "<<resource;
         if (e.hasAttribute("proxy")) {
             QString proxyresource = e.attribute("proxy");
             if (!proxyresource.isEmpty() && proxyresource != "-") {
@@ -124,8 +130,6 @@ bool DocumentChecker::hasErrorInClips()
     QStringList missingLumas;
     QStringList filesToCheck;
     QString filePath;
-    QString root = m_doc.documentElement().attribute("root");
-    if (!root.isEmpty()) root = QDir::cleanPath(root + QDir::separator());
     QDomNodeList trans = m_doc.elementsByTagName("transition");
     max = trans.count();
     for (int i = 0; i < max; ++i) {
@@ -142,8 +146,6 @@ bool DocumentChecker::hasErrorInClips()
             missingLumas.append(lumafile);
         }
     }
-    
-    
 
     if (m_missingClips.isEmpty() && missingLumas.isEmpty() && missingProxies.isEmpty() && missingSources.isEmpty())
         return false;
