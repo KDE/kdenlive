@@ -298,7 +298,8 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
             cut = videoOnlyProducer->cut(p->get_in(), p->get_out());
         }
         if (cut) {
-            Clip(*cut).addEffects(*p);
+            // We do not re-add effects here, since we cutted the effects are taken from original
+            //Clip(*cut).addEffects(*p);
             m_playlist.remove(i);
             m_playlist.insert(*cut, i);
             m_playlist.consolidate_blanks();
