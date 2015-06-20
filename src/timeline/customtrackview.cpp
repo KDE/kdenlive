@@ -125,7 +125,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     setLineWidth(0);
     //setCacheMode(QGraphicsView::CacheBackground);
     setAutoFillBackground(false);
-    setViewportUpdateMode(QGraphicsView::SmartViewportUpdate);
+    setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
     setContentsMargins(0, 0, 0, 0);
 
     m_animationTimer = new QTimeLine(800);
@@ -148,9 +148,10 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     m_cursorLine->setZValue(1000);
     QPen pen1 = QPen();
     pen1.setWidth(1);
-    pen1.setColor(palette().text().color());
+    QColor line(palette().text().color());
+    line.setAlpha(100);
+    pen1.setColor(line);
     m_cursorLine->setPen(pen1);
-    m_cursorLine->setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
 
     connect(&m_scrollTimer, SIGNAL(timeout()), this, SLOT(slotCheckMouseScrolling()));
     m_scrollTimer.setInterval(100);
@@ -3558,7 +3559,7 @@ void CustomTrackView::setCursorPos(int pos)
     if (pos != m_cursorPos) {
         emit cursorMoved((int)(m_cursorPos), (int)(pos));
         m_cursorPos = pos;
-        m_cursorLine->setPos(m_cursorPos, 0);
+        m_cursorLine->setPos(m_cursorPos + 0.5, 0);
         if (m_autoScroll) checkScrolling();
     }
     //else emit updateRuler();
@@ -3566,7 +3567,7 @@ void CustomTrackView::setCursorPos(int pos)
 
 void CustomTrackView::updateCursorPos()
 {
-    m_cursorLine->setPos(m_cursorPos, 0);
+    m_cursorLine->setPos(m_cursorPos + 0.5, 0);
 }
 
 int CustomTrackView::cursorPos() const
@@ -3591,13 +3592,15 @@ void CustomTrackView::initCursorPos(int pos)
 {
     emit cursorMoved(m_cursorPos, pos);
     m_cursorPos = pos;
-    m_cursorLine->setPos(pos, 0);
+    m_cursorLine->setPos(m_cursorPos + 0.5, 0);
     checkScrolling();
 }
 
 void CustomTrackView::checkScrolling()
 {
+    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     ensureVisible(m_cursorPos, verticalScrollBar()->value() + 10, 2, 2, 50, 0);
+    setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
 }
 
 void CustomTrackView::completeSpaceOperation(int track, GenTime &timeOffset)
@@ -5698,6 +5701,22 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale)
     m_scene->isZooming = true;
     m_scene->setScale(scaleFactor, verticalScale);
     removeTipAnimation();
+    if (scaleFactor < 1.5) {
+        m_cursorLine->setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
+        QPen p = m_cursorLine->pen();
+        QColor c = p.color();
+        c.setAlpha(255);
+        p.setColor(c);
+        m_cursorLine->setPen(p);
+    }
+    else {
+        m_cursorLine->setFlag(QGraphicsItem::ItemIgnoresTransformations, false);
+        QPen p = m_cursorLine->pen();
+        QColor c = p.color();
+        c.setAlpha(100);
+        p.setColor(c);
+        m_cursorLine->setPen(p);
+    }
     bool adjust = false;
     if (verticalScale != matrix().m22()) adjust = true;
     setMatrix(newmatrix);
@@ -7122,9 +7141,10 @@ void CustomTrackView::clearSelection(bool emitInfo)
 void CustomTrackView::updatePalette()
 {
     if (m_cursorLine) {
-        QPen pen1 = QPen();
-        pen1.setWidth(1);
-        pen1.setColor(palette().text().color());
+        QPen pen1 = m_cursorLine->pen();
+        QColor line(palette().text().color());
+        line.setAlpha(pen1.color().alpha());
+        pen1.setColor(line);
         m_cursorLine->setPen(pen1);
     }
 }
