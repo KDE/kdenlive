@@ -3970,8 +3970,9 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         else {
                             prod = m_document->renderer()->getBinProducer(clip->getBinId());
                         }
-                        m_timeline->track(info.track)->add(info.startPos.seconds(), prod, info.cropStart.seconds(), (info.cropStart + info.cropDuration).seconds(), clip->clipState(), m_scene->editMode());
-                        
+
+                        m_timeline->track(info.track)->add(info.startPos.seconds(), prod, info.cropStart.seconds(), (info.cropStart + info.cropDuration).seconds(), clip->clipState(), true, m_scene->editMode());
+
                         for (int i = 0; i < clip->effectsCount(); ++i) {
                             m_document->renderer()->mltAddEffect(info.track, info.startPos, EffectsController::getEffectArgs(m_document->getProfileInfo(), clip->effect(i)), false);
                         }
@@ -4874,7 +4875,7 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
                 else {
                     prod = m_document->renderer()->getBinProducer(clip->getBinId());
                 }
-                m_timeline->track(info.track)->add(info.startPos.seconds(), prod, info.cropStart.seconds(), (info.cropStart + info.cropDuration).seconds(), clip->clipState(), m_scene->editMode());
+                m_timeline->track(info.track)->add(info.startPos.seconds(), prod, info.cropStart.seconds(), (info.cropStart + info.cropDuration).seconds(), clip->clipState(), true, m_scene->editMode());
                 info.track = m_document->tracksCount() - info.track;
 
                 for (int i = 0; i < clip->effectsCount(); ++i) {

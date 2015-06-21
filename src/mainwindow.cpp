@@ -2294,15 +2294,14 @@ void MainWindow::customEvent(QEvent* e)
 
 void MainWindow::slotTimelineClipSelected(ClipItem* item, bool raise)
 {
-    if (item != m_mainClip) {
-        if (m_mainClip) {
-            m_mainClip->setMainSelectedClip(false);
-        }
-        if (item) {
-            item->setMainSelectedClip(true);
-        }
-        m_mainClip = item;
+    if (item == m_mainClip) return;
+    if (m_mainClip) {
+        m_mainClip->setMainSelectedClip(false);
     }
+    if (item) {
+        item->setMainSelectedClip(true);
+    }
+    m_mainClip = item;
 
     m_effectStack->slotClipItemSelected(item, m_projectMonitor);
     m_projectMonitor->slotSetSelectedClip(item);
