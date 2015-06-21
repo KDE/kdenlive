@@ -86,11 +86,11 @@ bool Track::add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, Playlis
     Mlt::Producer *cut;
     if (duplicate && state != PlaylistState::VideoOnly) {
         Mlt::Producer *newProd = clipProducer(parent, state);
-        cut = newProd->cut(frame(tcut), frame(dtcut));
+        cut = newProd->cut(frame(tcut), frame(dtcut) - 1);
         delete newProd;
     }
     else {
-        cut = parent->cut(frame(tcut), frame(dtcut));
+        cut = parent->cut(frame(tcut), frame(dtcut) - 1);
     }
     Clip(*cut).addEffects(*parent);
     m_playlist.lock();
@@ -122,8 +122,8 @@ bool Track::doAdd(qreal t, Mlt::Producer *cut, int mode)
 bool Track::move(qreal start, qreal end, int mode)
 {
     int pos = frame(start);
-    int clipIndex = m_playlist.get_clip_index_at(pos);
     m_playlist.lock();
+    int clipIndex = m_playlist.get_clip_index_at(pos);
     Mlt::Producer *clipProducer = m_playlist.replace_with_blank(clipIndex);
     if (!clipProducer || clipProducer->is_blank()) {
         qDebug() << "// Cannot get clip at index: "<<clipIndex<<" / "<< start;
@@ -164,6 +164,7 @@ bool Track::del(qreal t, qreal dt)
 
 bool Track::resize(qreal t, qreal dt, bool end)
 {
+    m_playlist.lock();
     int index = m_playlist.get_clip_index_at(frame(t));
     int length = frame(dt);
 
@@ -187,7 +188,6 @@ bool Track::resize(qreal t, qreal dt, bool end)
 
     delete clip;
 
-    m_playlist.lock();
     if (m_playlist.resize_clip(index, in, out)) {
         qWarning("MLT resize failed : clip %d from %d to %d", index, in, out);
         m_playlist.unlock();
@@ -231,11 +231,11 @@ bool Track::resize(qreal t, qreal dt, bool end)
 bool Track::cut(qreal t)
 {
     int pos = frame(t);
+    m_playlist.lock();
     int index = m_playlist.get_clip_index_at(pos);
     if (m_playlist.is_blank(index)) {
         return false;
     }
-    m_playlist.lock();
     if (m_playlist.split(index, pos - m_playlist.clip_start(index) - 1)) {
         qWarning("MLT split failed");
         m_playlist.unlock();
@@ -313,9 +313,9 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
 
 //TODO: cut: checkSlowMotionProducer
 bool Track::replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state) {
+    m_playlist.lock();
     int index = m_playlist.get_clip_index_at(frame(t));
     Mlt::Producer *cut;
-    m_playlist.lock();
     Mlt::Producer *orig = m_playlist.replace_with_blank(index);
     if (state != PlaylistState::VideoOnly) {
         // Get track duplicate
