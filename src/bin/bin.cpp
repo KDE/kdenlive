@@ -39,6 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/clippropertiescontroller.h"
 #include "project/projectcommands.h"
+#include "project/invaliddialog.h"
 #include "projectsortproxymodel.h"
 #include "bincommands.h"
 #include "mlt++/Mlt.h"
@@ -207,6 +208,7 @@ Bin::Bin(QWidget* parent) :
   , m_iconSize(160, 90)
   , m_blankThumb()
   , m_propertiesPanel(NULL)
+  , m_invalidClipDialog(NULL)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
 
@@ -337,6 +339,7 @@ Bin::Bin(QWidget* parent) :
     m_logAction = new QAction(i18n("Show Log"), this);
     m_logAction->setCheckable(false);
     connect(m_logAction, SIGNAL(triggered()), this, SLOT(slotShowJobLog()));
+    connect(this, SIGNAL(requesteInvalidRemoval(QString,QUrl)), this, SLOT(slotQueryRemoval(QString,QUrl)));
 }
 
 Bin::~Bin()
@@ -1268,6 +1271,13 @@ void Bin::setWaitingStatus(const QString &id)
 {
     ProjectClip *clip = m_rootFolder->clip(id);
     if (clip) clip->setClipStatus(AbstractProjectItem::StatusWaiting);
+}
+
+void Bin::slotRemoveInvalidClip(const QString &id, bool replace)
+{
+    ProjectClip *clip = m_rootFolder->clip(id);
+    if (!clip) return;
+    emit requesteInvalidRemoval(id, clip->url());
 }
 
 void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
@@ -2212,3 +2222,21 @@ void Bin::slotShowDescColumn(bool show)
     }
 }
 
+void Bin::slotQueryRemoval(const QString &id, QUrl url)
+{
+    if (m_invalidClipDialog) {
+        if (!url.isEmpty()) m_invalidClipDialog->addClip(id, url.toLocalFile());
+        return;
+    }
+    m_invalidClipDialog = new InvalidDialog(i18n("Invalid clip"),  i18n("Clip is invalid, will be removed from project."), true, this);
+    m_invalidClipDialog->addClip(id, url.toLocalFile());
+    int result = m_invalidClipDialog->exec();
+    if (result == QDialog::Accepted) {
+        QStringList ids = m_invalidClipDialog->getIds();
+        foreach(const QString &i, ids) {
+            deleteClip(i);
+        }
+    }
+    delete m_invalidClipDialog;
+    m_invalidClipDialog = NULL;
+}

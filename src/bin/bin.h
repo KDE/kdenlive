@@ -54,6 +54,7 @@ class QItemSelectionModel;
 class ProjectSortProxyModel;
 class JobManager;
 class ProjectFolderUp;
+class InvalidDialog;
 
 namespace Mlt {
   class Producer;
@@ -469,6 +470,8 @@ private slots:
     void slotGotFilterJobResults(QString ,int , int, stringMap, stringMap);
     /** @brief Reset all text and log data from info message widget. */
     void slotResetInfoMessage();
+    /** @brief Show dialog prompting for removal of invalid clips. */
+    void slotQueryRemoval(const QString &id, QUrl url);
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img, bool fromFile = false);
@@ -477,6 +480,7 @@ public slots:
      *  @param controller The Controller for this clip
      */
     void slotProducerReady(requestClipInfo info, ClipController *controller);
+    void slotRemoveInvalidClip(const QString &id, bool replace);
     /** @brief Create a folder when opening a document */
     void slotLoadFolders(QMap<QString,QString> foldersData);
     void slotDeleteClip();
@@ -564,6 +568,7 @@ private:
     /** @brief The action that will trigger the log dialog. */
     QAction *m_logAction;
     QStringList m_errorLog;
+    InvalidDialog *m_invalidClipDialog;
     void showClipProperties(ProjectClip *clip);
     const QStringList getFolderInfo(QModelIndex selectedIx = QModelIndex());
     /** @brief Get the QModelIndex value for an item in the Bin. */
@@ -583,6 +588,7 @@ signals:
     void refreshTimeCode();
     void masterClipSelected(ClipController *, Monitor *);
     void displayMessage(const QString &, MessageType);
+    void requesteInvalidRemoval(const QString &, QUrl);
 };
 
 #endif

@@ -699,12 +699,11 @@ void MainWindow::slotConnectMonitors()
     //connect(m_projectList, SIGNAL(deleteProjectClips(QStringList,QMap<QString,QString>)), this, SLOT(slotDeleteProjectClips(QStringList,QMap<QString,QString>)));
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(QString,QImage)), pCore->bin(), SLOT(slotThumbnailReady(QString,QImage)));
     connect(m_projectMonitor->render, SIGNAL(gotFileProperties(requestClipInfo,ClipController *)), pCore->bin(), SLOT(slotProducerReady(requestClipInfo,ClipController *)), Qt::DirectConnection);
+    connect(m_projectMonitor->render, SIGNAL(removeInvalidClip(QString,bool)), pCore->bin(), SLOT(slotRemoveInvalidClip(QString,bool)), Qt::DirectConnection);
 
     //DirectConnection was necessary not to mess the analyze queue, but the monitor thread shouldn't show any UI widget (profile dialog), so adding an AutoConnection in between?
 
-    //TODO react in case of invalid clip added to Bin
-    /*connect(m_projectMonitor->render, SIGNAL(removeInvalidClip(QString,bool)), pCore->bin(), SLOT(slotRemoveInvalidClip(QString,bool)));
-    connect(m_projectMonitor->render, SIGNAL(removeInvalidProxy(QString,bool)), pCore->bin(), SLOT(slotRemoveInvalidProxy(QString,bool)));
+    /*connect(m_projectMonitor->render, SIGNAL(removeInvalidProxy(QString,bool)), pCore->bin(), SLOT(slotRemoveInvalidProxy(QString,bool)));
     connect(m_clipMonitor, SIGNAL(refreshClipThumbnail(QString,bool)), pCore->bin(), SLOT(slotRefreshClipThumbnail(QString,bool)));*/
 
     connect(m_projectMonitor, SIGNAL(requestFrameForAnalysis(bool)), this, SLOT(slotMonitorRequestRenderFrame(bool)));
