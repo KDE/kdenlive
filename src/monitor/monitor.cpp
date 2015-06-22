@@ -57,20 +57,20 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     AbstractMonitor(id, manager, parent)
     , render(NULL)
     , m_controller(NULL)
+    , m_glMonitor(NULL)
+    , m_splitEffect(NULL)
+    , m_splitProducer(NULL)
     , m_length(2)
     , m_dragStarted(false)
+    , m_recManager(NULL)
     , m_loopClipAction(NULL)
+    , m_effectCompare(NULL)
     , m_contextMenu(NULL)
     , m_selectedClip(NULL)
     , m_loopClipTransition(true)
     , m_editMarker(NULL)
-    , m_glMonitor(NULL)
-    , m_rootItem(NULL)
-    , m_splitEffect(NULL)
-    , m_splitProducer(NULL)
-    , m_effectCompare(NULL)
     , m_forceSizeFactor(0)
-    , m_recManager(NULL)
+    , m_rootItem(NULL)
 {
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -493,6 +493,7 @@ void Monitor::slotShowMenu(const QPoint pos)
 
 void Monitor::resizeEvent(QResizeEvent *event)
 {
+    Q_UNUSED(event)
     if (m_glMonitor->zoom() > 0.0f) {
         float horizontal = float(m_horizontalScroll->value()) / m_horizontalScroll->maximum();
         float vertical = float(m_verticalScroll->value()) / m_verticalScroll->maximum();

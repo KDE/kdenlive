@@ -53,8 +53,11 @@ using namespace Mlt;
 
 GLWidget::GLWidget()
     : QQuickView(0)
+    , sendFrameForAnalysis(false)
     , m_shader(0)
     , m_glslManager(0)
+    , m_consumer(0)
+    , m_producer(0)
     , m_initSem(0)
     , m_isInitialized(false)
     , m_threadStartEvent(0)
@@ -65,11 +68,8 @@ GLWidget::GLWidget()
     , m_frameRenderer(0)
     , m_zoom(1.0f)
     , m_offset(QPoint(0, 0))
-    , m_consumer(0)
-    , m_producer(0)
     , m_audioWaveDisplayed(false)
     , m_fbo(NULL)
-    , sendFrameForAnalysis(false)
 {
     qDebug() << "begin";
     m_texture[0] = m_texture[1] = m_texture[2] = 0;
@@ -196,8 +196,6 @@ void GLWidget::resizeGL(int width, int height)
     }
     x = (width - w) / 2;
     y = (height - h) / 2;
-    int oldX = m_rect.left();
-    int oldW = m_rect.width();
     m_rect.setRect(x, y, w, h);
     double scale = (double) m_rect.width() / m_consumer->profile()->width() * m_zoom;
     QPoint center = m_rect.center();

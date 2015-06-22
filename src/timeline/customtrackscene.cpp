@@ -25,8 +25,8 @@ CustomTrackScene::CustomTrackScene(KdenliveDoc *doc, QObject *parent) :
         QGraphicsScene(parent),
         m_document(doc),
         m_scale(1.0, 1.0),
-        m_editMode(NormalEdit),
-        isZooming(false)
+        isZooming(false),
+        m_editMode(NormalEdit)
 {
 }
 

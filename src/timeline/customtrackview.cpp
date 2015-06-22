@@ -74,11 +74,11 @@ bool sortGuidesList(const Guide *g1 , const Guide *g2)
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTrackScene* projectscene, QWidget *parent) :
     QGraphicsView(projectscene, parent)
-  , m_timeline(timeline)
   , m_tracksHeight(KdenliveSettings::trackheight())
   , m_projectDuration(0)
   , m_cursorPos(0)
   , m_document(doc)
+  , m_timeline(timeline)
   , m_scene(projectscene)
   , m_cursorLine(NULL)
   , m_operationMode(None)
@@ -2494,9 +2494,7 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         KdenliveSettings::setSnaptopoints(false);
 
         m_waitingThumbs.removeAll(dup);
-        bool selected = item->isSelected();
         if (dup->isSelected()) {
-            selected = true;
             item->setSelected(true);
             emit clipItemSelected(NULL);
         }
@@ -3171,7 +3169,7 @@ void CustomTrackView::slotSwitchTrackAudio(int ix, bool enable)
 
 void CustomTrackView::slotSwitchTrackLock(int ix, bool enable)
 {
-    int tracknumber = m_document->tracksCount() - ix - 1;
+    //int tracknumber = m_document->tracksCount() - ix - 1;
     LockTrackCommand *command = new LockTrackCommand(this, ix, enable);
     m_commandStack->push(command);
 }
@@ -4544,7 +4542,6 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
     item->setState(state);
     item->setEffectList(effects);
     scene()->addItem(item);
-    int producerTrack = info.track;
     int tracknumber = m_document->tracksCount() - info.track - 1;
     bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
     if (isLocked) item->setItemLocked(true);
@@ -4552,6 +4549,7 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
     //TODO: notify bin ?
     //baseclip->addReference();
     //m_document->updateClip(baseclip->getId());
+    //int producerTrack = info.track;
     //m_document->renderer()->mltInsertClip(info, xml, item->getProducer(producerTrack), overwrite, push);
     //m_document->renderer()->mltInsertClip(info /*, xml*/, clipId, overwrite, push);
     /*Mlt::Producer *prod = m_document->renderer()->getTrackProducer(item->getBinId(), info.track, item->isAudioOnly(), item->isVideoOnly());
@@ -4592,9 +4590,9 @@ void CustomTrackView::slotUpdateClip(const QString &clipId, bool reload)
         if (list.at(i)->type() == AVWidget) {
             clip = static_cast <ClipItem *>(list.at(i));
             if (clip->getBinId() == clipId) {
-                ItemInfo info = clip->info();
                 //TODO: get audio / video only producers
-                /*if (clip->isAudioOnly()) prod = baseClip->getTrackProducer(info.track);
+                /*ItemInfo info = clip->info();
+                if (clip->isAudioOnly()) prod = baseClip->getTrackProducer(info.track);
                 else if (clip->isVideoOnly()) prod = baseClip->getTrackProducer(info.track);
                 else prod = baseClip->getTrackProducer(info.track);*/
                 if (reload) {

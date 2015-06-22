@@ -35,13 +35,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 ClipController::ClipController(BinController *bincontroller, Mlt::Producer& producer) : QObject()
+    , selectedEffectIndex(1)
+    , audioThumbCreated(false)
+    , m_properties(new Mlt::Properties(producer.get_properties()))
+    , m_audioInfo(NULL)
+    , m_hasLimitedDuration(true)
     , m_binController(bincontroller)
     , m_snapMarkers(QList < CommentedTime >())
-    , m_hasLimitedDuration(true)
-    , m_properties(new Mlt::Properties(producer.get_properties()))
-    , selectedEffectIndex(1)
-    , m_audioInfo(NULL)
-    , audioThumbCreated(false)
 {
     m_masterProducer = &producer;
     m_effectList = EffectsList(true);
@@ -63,14 +63,14 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer& prod
 }
 
 ClipController::ClipController(BinController *bincontroller) : QObject()
+    , selectedEffectIndex(1)
+    , audioThumbCreated(false)
+    , m_properties(NULL)
+    , m_audioInfo(NULL)
+    , m_clipType(Unknown)
+    , m_hasLimitedDuration(true)
     , m_binController(bincontroller)
     , m_snapMarkers(QList < CommentedTime >())
-    , m_hasLimitedDuration(true)
-    , m_clipType(Unknown)
-    , m_properties(NULL)
-    , selectedEffectIndex(1)
-    , m_audioInfo(NULL)
-    , audioThumbCreated(false)
 {
     m_masterProducer = NULL;
     m_effectList = EffectsList(true);

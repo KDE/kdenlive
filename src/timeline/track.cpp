@@ -253,7 +253,6 @@ bool Track::needsDuplicate(const QString &service) const
 
 bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer)
 {
-    int startindex = 0;
     bool found = false;
     QString idForAudioTrack;
     QString idForVideoTrack;
@@ -334,7 +333,7 @@ bool Track::replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state
 }
 
 Mlt::Producer *Track::find(const QByteArray &name, const QByteArray &value, int startindex) {
-    for (int i = 0; i < m_playlist.count(); i++) {
+    for (int i = startindex; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;
         Mlt::Producer *p = m_playlist.get_clip(i);
         if (value == p->parent().get(name.constData())) return p;

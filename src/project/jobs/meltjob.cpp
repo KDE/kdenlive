@@ -43,10 +43,10 @@ MeltJob::MeltJob(ClipType cType, const QString id, const QMap <QString, QString>
     m_profile(NULL),
     m_filter(NULL),
     m_showFrameEvent(NULL),
-    m_length(0),
     m_producerParams(producerParams),
     m_filterParams(filterParams),
     m_consumerParams(consumerParams),
+    m_length(0),
     m_extra(extraParams)
 {
     m_jobStatus = JobWaiting;

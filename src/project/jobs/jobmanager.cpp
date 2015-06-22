@@ -44,8 +44,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 JobManager::JobManager(Bin *bin, double fps): QObject()
   , m_bin(bin)
-  , m_fps(fps)
   , m_abortAllJobs(false)
+  , m_fps(fps)
 {
     connect(this, SIGNAL(processLog(QString,int,int,QString)), this, SLOT(slotProcessLog(QString,int,int,QString)));
     connect(this, SIGNAL(checkJobProcess()), this, SLOT(slotCheckJobProcess()));

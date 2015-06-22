@@ -24,12 +24,12 @@
 ColorWheel::ColorWheel(QString id, QString name, QColor color, QWidget *parent)
     : QWidget(parent)
     , m_id(id)
-    , m_name(name)
     , m_isMouseDown(false)
     , m_margin(5)
     , m_color(color)
     , m_isInWheel(false)
     , m_isInSquare(false)
+    , m_name(name)
 {
     QFontInfo info(font());
     m_unitSize = info.pixelSize();
@@ -145,6 +145,7 @@ void ColorWheel::mouseMoveEvent(QMouseEvent *event)
 
 void ColorWheel::mouseReleaseEvent(QMouseEvent *event)
 {
+    Q_UNUSED(event)
     m_isMouseDown = false;
     m_isInWheel = false;
     m_isInSquare = false;
@@ -175,6 +176,7 @@ QString ColorWheel::getParamValues()
 
 void ColorWheel::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event)
     QPainter painter(this);
 //    QStyleOption opt;
 //    opt.init(this);

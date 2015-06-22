@@ -45,8 +45,8 @@
 
 Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, QWidget *parent) :
     QWidget(parent),
-    m_scale(1.0),
     m_projectTracks(0),
+    m_scale(1.0),
     m_doc(doc),
     m_verticalZoom(1)
 {
@@ -321,7 +321,6 @@ bool Timeline::isSlide(QString geometry) {
     QString start = geometry.section('=', 0, 0).section(':', 0, -2) + ':';
     start.append(geometry.section('=', 1, 1).section(':', 0, -2));
     QStringList numbers = start.split(':', QString::SkipEmptyParts);
-    bool isWipeTransition = true;
     for (int i = 0; i < numbers.size(); ++i) {
         int checkNumber = qAbs(numbers.at(i).toInt());
         if (checkNumber != 0 && checkNumber != 100) {
@@ -354,14 +353,9 @@ void Timeline::parseDocument(const QDomDocument &doc)
     QDomElement tractor = mlt.firstChildElement("tractor");
     QDomNodeList tracks = tractor.elementsByTagName("track");
     QDomNodeList playlists = doc.elementsByTagName("playlist");
-    int duration = 1;
     m_projectTracks = tracks.count();
-    int trackduration = 0;
     QDomElement e;
     QDomElement p;
-
-    int pos = m_projectTracks - 1;
-
     m_trackview->setDuration(getTracks());
     getTransitions();
 

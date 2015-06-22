@@ -40,9 +40,9 @@
 RecManager::RecManager(int iconSize, Monitor *parent) :
     QObject(parent)
     , m_monitor(parent)
+    , m_captureProcess(NULL)
     , m_recToolbar(new QToolBar(parent))
     , m_screenCombo(NULL)
-    , m_captureProcess(NULL)
 {
     m_recToolbar->setIconSize(QSize(iconSize, iconSize));
     m_playAction = m_recToolbar->addAction(QIcon::fromTheme("media-playback-start"), i18n("Preview"));

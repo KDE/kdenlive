@@ -798,7 +798,6 @@ void ClipItem::paint(QPainter *painter,
             QMap<int, QPainterPath > negativeChannelPaths;
             for (int channel = 0; channel < channels; channel ++) {
                 int y = channelHeight * channel + channelHeight / 2;
-                double v1 = m_binClip->audioFrameCache->at(qMin((startpixel + cropLeft) * channels + channel, audioLevelCount)).toDouble() / 256;
                 positiveChannelPaths[channel].moveTo(startx, mappedRect.bottom() - y);
                 negativeChannelPaths[channel].moveTo(startx, mappedRect.bottom() - y);
                 for (int i = startpixel + cropLeft; i < endpixel + cropLeft + offset; i += offset) {

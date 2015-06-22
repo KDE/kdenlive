@@ -48,10 +48,10 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, int pid, const QString& rend
     m_kdenliveinterface(NULL),
     m_usekuiserver(usekuiserver),
     m_logfile(dest + ".txt"),
-    m_pid(pid),
     m_erase(erase),
     m_seconds(0),
-    m_frame(0)
+    m_frame(0),
+    m_pid(pid)
 {
     m_renderProcess = new QProcess;
     m_renderProcess->setReadChannel(QProcess::StandardError);

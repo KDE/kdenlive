@@ -42,13 +42,13 @@
 
 DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *parent) :
     QWizard(parent)
-  , m_dvdauthor(NULL)
-  , m_mkiso(NULL)
-  , m_vobitem(NULL)
   , m_authorFile(QLatin1String("XXXXXX.xml"))
   , m_menuFile(QLatin1String("XXXXXX.xml"))
   , m_menuVobFile(QLatin1String("XXXXXX.mpg"))
   , m_letterboxMovie(QLatin1String("XXXXXX.mpg"))
+  , m_dvdauthor(NULL)
+  , m_mkiso(NULL)
+  , m_vobitem(NULL)
   , m_selectedImage(QLatin1String("XXXXXX.png"))
   , m_selectedLetterImage(QLatin1String("XXXXXX.png"))
   , m_highlightedImage(QLatin1String("XXXXXX.png"))
