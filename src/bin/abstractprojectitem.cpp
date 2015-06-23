@@ -31,10 +31,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, AbstractProjectItem* parent) :
     QObject()
-    , m_parent(NULL)
+    , m_parent(parent)
     , m_id(id)
-    , m_jobProgress(0)
     , m_jobType(AbstractClipJob::NOJOBTYPE)
+    , m_jobProgress(0)
     , m_itemType(type)
 {
 }

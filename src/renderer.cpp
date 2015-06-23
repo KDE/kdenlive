@@ -77,11 +77,11 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
     m_showFrameEvent(NULL),
     m_pauseEvent(NULL),
     m_binController(binController),
+    m_qmlView(qmlView),
     m_isZoneMode(false),
     m_isLoopMode(false),
     m_isSplitView(false),
     m_blackClip(NULL),
-    m_qmlView(qmlView),
     m_isActive(false)
 {
     qRegisterMetaType<stringMap> ("stringMap");
@@ -314,10 +314,11 @@ int Render::resetProfile(const QString &profileName, bool dropSceneList)
     m_mltProducer = NULL;
     //TODO: manage changing profile through binController
     buildConsumer();*/
+
+    /*
     double new_fps = m_mltProfile->fps();
     double new_dar = m_mltProfile->dar();
-
-    /*if (!dropSceneList) {
+    if (!dropSceneList) {
         // We need to recover our playlist
         if (current_fps != new_fps) {
             // fps changed, we must update the scenelist positions
@@ -1190,7 +1191,6 @@ int Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
     QMutexLocker locker(&m_mutex);
     QString currentId;
     int consumerPosition = 0;
-    bool monitorIsActive = false;
     if (m_mltProducer) {
         currentId = m_mltProducer->get("id");
         m_mltProducer->set_speed(0);
@@ -1206,7 +1206,7 @@ int Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
     }
     if (m_mltConsumer) {
         if (!m_mltConsumer->is_stopped()) {
-            monitorIsActive = true;
+            isActive = true;
             m_mltConsumer->stop();
         }
         //m_mltConsumer->purge();
@@ -1227,7 +1227,6 @@ int Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
     if (position == -1 && producer->get("id") == currentId) position = consumerPosition;
     if (position != -1) producer->seek(position);
     m_fps = producer->get_fps();
-    int volume = KdenliveSettings::volume();
 
     blockSignals(false);
     m_mltProducer = producer;
@@ -2191,7 +2190,6 @@ void Render::slotUpdateTrackProducers(const QString &clipId)
         Mlt::Producer trackProducer(tractor->track(i));
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
         QString trackName = trackPlaylist.get("id");
-        Mlt::Producer *prod = NULL;
         for (int j = 0; j < trackPlaylist.count(); j++) {
             if (trackPlaylist.is_blank(j)) continue;
             Mlt::Producer *p = trackPlaylist.get_clip(j);

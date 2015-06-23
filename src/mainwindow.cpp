@@ -120,17 +120,17 @@ static bool sortByNames(const QPair<QString, QAction *> &a, const QPair<QString,
 
 MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & clipsToLoad, QWidget *parent) :
     KXmlGuiWindow(parent),
+    m_timelineArea(NULL),
     m_stopmotion(NULL),
     m_effectStack(NULL),
+    m_transitionConfig(NULL),
+    m_exitCode(EXIT_SUCCESS),
     m_effectList(NULL),
     m_clipMonitor(NULL),
     m_projectMonitor(NULL),
     m_recMonitor(NULL),
     m_renderWidget(NULL),
-    m_mainClip(NULL),
-    m_transitionConfig(NULL),
-    m_timelineArea(NULL),
-    m_exitCode(EXIT_SUCCESS)
+    m_mainClip(NULL)
 {
     qRegisterMetaType<audioShortVector> ("audioShortVector");
     qRegisterMetaType<MessageType> ("MessageType");
@@ -2922,7 +2922,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         QDomNodeList producers = doc.elementsByTagName("producer");
         QString producerResource;
         QString suffix;
-        for (uint n = 0; n < producers.length(); ++n) {
+        for (int n = 0; n < producers.length(); ++n) {
             QDomElement e = producers.item(n).toElement();
             producerResource = EffectsList::property(e, "resource");
             if (producerResource.isEmpty()) {

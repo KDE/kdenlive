@@ -328,23 +328,8 @@ const QString EffectsController::adjustKeyframes(const QString &keyframes, int o
 
 EffectsParameterList EffectsController::addEffect(const ProfileInfo info, QDomElement effect)
 {
-    bool needRepaint = false;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    int ix;
-    int effectIn;
-    int effectOut;
-
-    if (effect.attribute("tag") == "affine") {
-        // special case: the affine effect needs in / out points
-        effectIn = effect.attribute("in").toInt();
-        effectOut = effect.attribute("out").toInt();
-    }
-    else {
-        effectIn = EffectsList::parameter(effect, "in").toInt();
-        effectOut = EffectsList::parameter(effect, "out").toInt();
-    }
-    
     EffectsParameterList parameters;
     parameters.addParam("tag", effect.attribute("tag"));
     parameters.addParam("kdenlive_ix", effect.attribute("kdenlive_ix"));
@@ -356,8 +341,6 @@ EffectsParameterList EffectsController::addEffect(const ProfileInfo info, QDomEl
     parameters.addParam("id", effectId);
 
     QDomNodeList params = effect.elementsByTagName("parameter");
-    int fade = 0;
-    bool needInOutSync = false;
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull()) {

@@ -200,14 +200,14 @@ Bin::Bin(QWidget* parent) :
     QWidget(parent)
   , m_itemModel(NULL)
   , m_itemView(NULL)
-  , m_listType((BinViewType) KdenliveSettings::binMode())
-  , m_jobManager(NULL)
   , m_rootFolder(NULL)
   , m_folderUp(NULL)
+  , m_jobManager(NULL)
   , m_doc(NULL)
+  , m_listType((BinViewType) KdenliveSettings::binMode())
   , m_iconSize(160, 90)
-  , m_blankThumb()
   , m_propertiesPanel(NULL)
+  , m_blankThumb()
   , m_invalidClipDialog(NULL)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
@@ -684,6 +684,7 @@ void Bin::doAddFolder(const QString &id, const QString &name, const QString &par
         qDebug()<<"  / / ERROR IN PARENT FOLDER";
         return;
     }
+    //FIXME(style): constructor actually adds the new pointer to parent's children
     ProjectFolder *newItem = new ProjectFolder(id, name, parentFolder);
     emit storeFolder(id, parentId, QString(), name);
 }
@@ -732,6 +733,7 @@ void Bin::slotLoadFolders(QMap<QString,QString> foldersData)
         }
         else {
             // Create new folder
+            //FIXME(style): constructor actually adds the new pointer to parent's children
             ProjectFolder *newItem = new ProjectFolder(folderId, foldersData.value(id), parentFolder);
         }
     }
@@ -1327,6 +1329,7 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
             if (groupId.toInt() >= m_folderCounter) m_folderCounter = groupId.toInt() + 1;
         }
         else parentFolder = m_rootFolder;
+        //FIXME(style): constructor actually adds the new pointer to parent's children
         ProjectClip *newItem = new ProjectClip(info.clipId, m_blankThumb, controller, parentFolder);
         if (info.clipId.toInt() >= m_clipCounter) m_clipCounter = info.clipId.toInt() + 1;
         if (m_listType == BinTreeView) {

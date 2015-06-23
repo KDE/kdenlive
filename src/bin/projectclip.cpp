@@ -44,8 +44,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *controller, ProjectFolder* parent) :
     AbstractProjectItem(AbstractProjectItem::ClipItem, id, parent)
-    , m_controller(controller)
     , audioFrameCache()
+    , m_controller(controller)
     , m_gpuProducer(NULL)
     , m_abortAudioThumb(false)
 {
@@ -66,8 +66,8 @@ ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *control
 
 ProjectClip::ProjectClip(const QDomElement& description, QIcon thumb, ProjectFolder* parent) :
     AbstractProjectItem(AbstractProjectItem::ClipItem, description, parent)
-    , m_controller(NULL)
     , audioFrameCache()
+    , m_controller(NULL)
     , m_gpuProducer(NULL)
     , m_abortAudioThumb(false)
     , m_type(Unknown)
@@ -780,9 +780,7 @@ void ProjectClip::slotCreateAudioThumbs()
     if (frequency <= 0) frequency = 48000;
     int channels = audioInfo->channels();
     if (channels <= 0) channels = 2;
-    int arrayWidth = 20;
     double frame = 0.0;
-    int maxVolume = 0;
     QVariantList* audioLevels = new QVariantList;
     QImage image(audioPath);
     if (!image.isNull()) {
