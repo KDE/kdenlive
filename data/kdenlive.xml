@@ -10,6 +10,7 @@
     <comment xml:lang="de">Kdenlive-Videoprojektdokument</comment>
     <comment xml:lang="el">Έγγραφο έργου βίντεο Kdenlive</comment>
     <comment xml:lang="en_GB">Kdenlive video project document</comment>
+    <comment xml:lang="es">Documento de proyecto de vídeo de Kdenlive</comment>
     <comment xml:lang="fi">Kdenlive-videoprojektitiedosto</comment>
     <comment xml:lang="gl">Documento dun proxecto de vídeo de Kdenlive</comment>
     <comment xml:lang="ko">Kdenlive 동영상 프로젝트 문서</comment>
@@ -38,6 +39,7 @@
     <comment xml:lang="de">Kdenlive-Videotitel</comment>
     <comment xml:lang="el">Τίτλος βίντεο Kdenlive</comment>
     <comment xml:lang="en_GB">Kdenlive video title</comment>
+    <comment xml:lang="es">Título de vídeo de Kdenlive</comment>
     <comment xml:lang="fi">Kdenlive-video-otsikko</comment>
     <comment xml:lang="gl">Título de vídeo de Kdenlive</comment>
     <comment xml:lang="ko">Kdenlive 동영상 타이틀</comment>
