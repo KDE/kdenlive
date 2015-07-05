@@ -24,6 +24,7 @@
 
 #include <KMessageBox>
 #include <klocalizedstring.h>
+#include <KRecentDirs>
 
 #include <QDebug>
 #include <QFontDatabase>
@@ -38,6 +39,7 @@
 #include <QTextCursor>
 #include <QCryptographicHash>
 #include <QKeyEvent>
+#include <QImageReader>
 
 #include <QGraphicsEffect>
 #include <QGraphicsBlurEffect>
@@ -649,10 +651,27 @@ void TitleWidget::slotSelectTool()
 
 void TitleWidget::slotImageTool()
 {
-    // TODO: find a way to get a list of all supported image types...
-    QString allExtensions = "image/gif image/jpeg image/png image/x-tga image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr";
-    QUrl url = QFileDialog::getOpenFileUrl(this, i18n("Load Image"), QUrl(), allExtensions); //"*.svg *.png *.jpg *.jpeg *.gif *.raw"
+    QList<QByteArray> supported = QImageReader::supportedImageFormats();
+    QStringList mimeTypeFilters;
+    QString allExtensions = i18n("All Images") + " (";
+    foreach (const QByteArray &mimeType, supported) {
+        mimeTypeFilters.append(i18n("%1 Image", QString(mimeType)) + "( *." + QString(mimeType) + ")");
+        allExtensions.append("*." + mimeType + " ");
+    }
+    mimeTypeFilters.sort();
+    allExtensions.append(")");
+    mimeTypeFilters.prepend(allExtensions);
+    QString clipFolder = KRecentDirs::dir(":KdenliveImageFolder");
+    if (clipFolder.isEmpty()) {
+        clipFolder = QDir::homePath();
+    }
+    QFileDialog dialog(this, i18n("Add Image"), clipFolder);
+    dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    dialog.setNameFilters(mimeTypeFilters);
+    if (dialog.exec() != QDialog::Accepted) return;
+    QUrl url = QUrl::fromLocalFile(dialog.selectedFiles().first());
     if (url.isValid()) {
+        KRecentDirs::add(":KdenliveImageFolder", url.adjusted(QUrl::RemoveFilename).path());
         if (url.path().endsWith(QLatin1String(".svg"))) {
             QGraphicsSvgItem *svg = new QGraphicsSvgItem(url.toLocalFile());
             svg->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
