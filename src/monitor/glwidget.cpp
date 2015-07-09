@@ -1010,8 +1010,8 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
         check_error();
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         check_error();
-        glTexImage2D   (GL_TEXTURE_2D, 0, GL_RED, width, height, 0,
-                            GL_RED, GL_UNSIGNED_BYTE, image);
+        glTexImage2D   (GL_TEXTURE_2D, 0, GL_LUMINANCE, width, height, 0,
+                            GL_LUMINANCE, GL_UNSIGNED_BYTE, image);
         check_error();
 
         glBindTexture  (GL_TEXTURE_2D, m_renderTexture[1]);
@@ -1024,8 +1024,8 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
         check_error();
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         check_error();
-        glTexImage2D   (GL_TEXTURE_2D, 0, GL_RED, width/2, height/4, 0,
-                            GL_RED, GL_UNSIGNED_BYTE, image + width * height);
+        glTexImage2D   (GL_TEXTURE_2D, 0, GL_LUMINANCE, width/2, height/4, 0,
+                            GL_LUMINANCE, GL_UNSIGNED_BYTE, image + width * height);
         check_error();
 
         glBindTexture  (GL_TEXTURE_2D, m_renderTexture[2]);
@@ -1038,8 +1038,8 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
         check_error();
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         check_error();
-        glTexImage2D   (GL_TEXTURE_2D, 0, GL_RED, width/2, height/4, 0,
-                            GL_RED, GL_UNSIGNED_BYTE, image + width * height + width/2 * height/2);
+        glTexImage2D   (GL_TEXTURE_2D, 0, GL_LUMINANCE, width/2, height/4, 0,
+                            GL_LUMINANCE, GL_UNSIGNED_BYTE, image + width * height + width/2 * height/2);
         check_error();
 
         glBindTexture(GL_TEXTURE_2D, 0);
