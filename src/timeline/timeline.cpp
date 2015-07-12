@@ -27,6 +27,7 @@
 #include "timelinecommands.h"
 #include "customruler.h"
 #include "customtrackview.h"
+#include "dialogs/profilesdialog.h"
 
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
@@ -54,8 +55,11 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
     setupUi(this);
     //    ruler_frame->setMaximumHeight();
     //    size_frame->setMaximumHeight();
-    m_scene = new CustomTrackScene(doc);
+    m_scene = new CustomTrackScene(this);
     m_trackview = new CustomTrackView(doc, this, m_scene, parent);
+
+    if (m_doc->setSceneList() == -1) *ok = false;
+    else *ok = true;
 
     m_ruler = new CustomRuler(doc->timecode(), m_trackview);
     connect(m_ruler, SIGNAL(zoneMoved(int,int)), this, SIGNAL(zoneMoved(int,int)));
@@ -111,9 +115,6 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
     connect(m_trackview, SIGNAL(showTrackEffects(int,TrackInfo)), this, SIGNAL(showTrackEffects(int,TrackInfo)));
     connect(m_trackview, SIGNAL(updateTrackEffectState(int)), this, SLOT(slotUpdateTrackEffectState(int)));
 
-    if (m_doc->setSceneList() == -1) *ok = false;
-    else *ok = true;
-
     Mlt::Service s(m_doc->renderer()->getProducer()->parent().get_service());
     m_tractor = new Mlt::Tractor(s);
     parseDocument(m_doc->toXml());
@@ -166,14 +167,15 @@ int Timeline::duration() const
     return m_trackview->duration();
 }
 
-bool Timeline::checkProjectAudio() const
+bool Timeline::checkProjectAudio()
 {
     bool hasAudio = false;
-    const QList <TrackInfo> list = m_doc->tracksList();
-    int max = list.count();
-    for (int i = 0; i < max; ++i) {
-        TrackInfo info = list.at(max - i - 1);
-        if (!info.isMute && m_trackview->hasAudio(i)) {
+    int max = m_tractor->count();
+    for (int i = 0; i < max; i++) {
+        Track *sourceTrack = track(i);
+        Mlt::Producer* track = m_tractor->track(i);
+        int state = track->get_int("hide");
+        if (sourceTrack->hasAudio() && !(state & 2)) {
             hasAudio = true;
             break;
         }
@@ -206,23 +208,23 @@ void Timeline::setDuration(int dur)
 int Timeline::getTracks() {
     int trackIndex = 0;
     int duration = 1;
-    for (int i = 0; i < m_tractor->count(); ++i) {
+    int max = m_tractor->count();
+    for (int i = 0; i < max; ++i) {
         Mlt::Producer* track = m_tractor->track(i);
         QString playlist_name = track->get("id");
         if (playlist_name == "black_track" || playlist_name == "playlistmain") continue;
         // check track effects
         Mlt::Playlist playlist(*track);
-        if (playlist.filter_count()) getEffects(playlist, NULL, trackIndex);
-        ++trackIndex;
-        int hide = track->get_int("hide");
-        if (hide & 1) m_doc->switchTrackVideo(i - 1, true);
-        if (hide & 2) m_doc->switchTrackAudio(i - 1, true);
         int trackduration;
-        trackduration = addTrack(m_tractor->count() - 1 - i, playlist, m_doc->isTrackLocked(i - 1));
-        m_tracks.prepend(new Track(playlist, m_doc->fps()));
+        int audio = playlist.get_int("kdenlive:audio_track");
+        trackduration = addTrack(m_tractor->count() - 1 - i, playlist);
+        m_tracks.prepend(new Track(playlist, audio == 1 ? AudioTrack : VideoTrack, m_doc->fps()));
         if (trackduration > duration) duration = trackduration;
+        if (playlist.filter_count()) getEffects(playlist, NULL, 0);
+        ++trackIndex;
         connect(m_tracks[0], &Track::newTrackDuration, this, &Timeline::checkDuration);
     }
+    checkTrackHeight();
     return duration;
 }
 
@@ -303,7 +305,7 @@ void Timeline::getTransitions() {
             }
             Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base, QString(prop.get("automatic")) == "1");
             if (QString(prop.get("force_track")) == "1") tr->setForcedTrack(true, a_track);
-            if (m_doc->isTrackLocked(b_track - 1)) tr->setItemLocked(true);
+            if (isTrackLocked(b_track - 1)) tr->setItemLocked(true);
             m_scene->addItem(tr);
             service = mlt_service_producer(service);
         }
@@ -350,10 +352,19 @@ void Timeline::parseDocument(const QDomDocument &doc)
 
     // parse project tracks
     QDomElement mlt = doc.firstChildElement("mlt");
-    QDomElement tractor = mlt.firstChildElement("tractor");
+    /*QDomElement tractor = mlt.firstChildElement("tractor");
     QDomNodeList tracks = tractor.elementsByTagName("track");
-    QDomNodeList playlists = doc.elementsByTagName("playlist");
-    m_projectTracks = tracks.count();
+    QDomNodeList playlists = doc.elementsByTagName("playlist");*/
+    m_projectTracks = m_tractor->count();// tracks.count();
+    for (int i = 0; i < m_projectTracks; i++) {
+        Mlt::Producer *track = m_tractor->multitrack()->track(i);
+        QString trackId = track->get("id");
+        if (trackId == "black_track") {
+            // Background track, do not show
+            continue;
+        }
+    }
+    
     QDomElement e;
     QDomElement p;
     m_trackview->setDuration(getTracks());
@@ -362,19 +373,28 @@ void Timeline::parseDocument(const QDomDocument &doc)
 
     QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
 
-    QDomElement propsXml = infoXml.firstChildElement("documentproperties");
+    /*QDomElement propsXml = infoXml.firstChildElement("documentproperties");
     
     int currentPos = propsXml.attribute("position").toInt();
-    if (currentPos > 0) m_trackview->initCursorPos(currentPos);
+    if (currentPos > 0) m_trackview->initCursorPos(currentPos);*/
 
     // Rebuild groups
-    QDomNodeList groups = infoXml.elementsByTagName("group");
+    QDomDocument groupsDoc;
+    groupsDoc.setContent(m_doc->renderer()->getBinProperty("kdenlive:clipgroups"));
+    QDomNodeList groups = groupsDoc.elementsByTagName("group");
     m_trackview->loadGroups(groups);
+    
+    // Load custom effects
+    QDomDocument effectsDoc;
+    effectsDoc.setContent(m_doc->renderer()->getBinProperty("kdenlive:customeffects"));
+    QDomNodeList effects = effectsDoc.elementsByTagName("effect");
+    if (!effects.isEmpty()) {
+        m_doc->saveCustomEffects(effects);
+    }
 
     // Remove Kdenlive extra info from xml doc before sending it to MLT
     mlt.removeChild(infoXml);
 
-    slotRebuildTrackHeaders();
     if (!m_documentErrors.isNull()) KMessageBox::sorry(this, m_documentErrors);
     if (infoXml.hasAttribute("upgraded") || infoXml.hasAttribute("modified")) {
         // Our document was upgraded, create a backup copy just in case
@@ -466,26 +486,234 @@ void Timeline::slotReloadTracks()
     emit updateTracksInfo();
 }
 
+TrackInfo Timeline::getTrackInfo(int ix)
+{
+    Track *tk = track(ix);
+    return tk->info();
+}
+
+void Timeline::setTrackInfo(int ix, TrackInfo info)
+{
+    if (ix < 0 || ix > m_tracks.count()) {
+        qWarning() << "Set Track effect outisde of range";
+        return;
+    }
+    Track *tk = track(ix);
+    tk->setInfo(info);
+}
+
+
+QList <TrackInfo> Timeline::getTracksInfo()
+{
+    QList <TrackInfo> tracks;
+    for (int i = 0; i < tracksCount(); i++) {
+        tracks << track(i)->info();
+    }
+    return tracks;
+}
+
+void Timeline::lockTrack(int ix, bool lock)
+{
+    if (ix < 0 || ix > m_tracks.count()) {
+        qWarning() << "Set Track effect outisde of range";
+        return;
+    }
+    Track *tk = track(ix);
+    tk->setProperty("kdenlive:locked_track", lock ? 1 : 0);
+}
+
+bool Timeline::isTrackLocked(int ix)
+{
+    if (ix < 0 || ix > m_tracks.count()) {
+        qWarning() << "Set Track effect outisde of range";
+        return false;
+    }
+    Track *tk = track(ix);
+    int locked = tk->getIntProperty("kdenlive:locked_track");
+    return locked == 1;
+}
+
+void Timeline::updateTrackState(int ix, int state)
+{
+    Mlt::Producer* track = m_tractor->track(ix);
+    int currentState = track->get_int("hide");
+    if (state == currentState) return;
+    if (state == 0) {
+        // Show all
+        if (currentState & 1) {
+            switchTrackVideo(ix, false);
+        }
+        if (currentState & 2) {
+            switchTrackAudio(ix, false);
+        }
+    }
+    else if (state == 1) {
+        // Mute video
+        if (currentState & 2) {
+            switchTrackAudio(ix, false);
+        }
+        switchTrackVideo(ix, true);
+    }
+    else if (state == 2) {
+        // Mute audio
+        if (currentState & 1) {
+            switchTrackVideo(ix, false);
+        }
+        switchTrackAudio(ix, true);
+    }
+    else {
+        switchTrackVideo(ix, true);
+        switchTrackAudio(ix, true);
+    }
+}
+
+void Timeline::switchTrackVideo(int ix, bool hide)
+{
+    if (ix < 0 || ix > m_tracks.count()) {
+        qWarning() << "Set Track effect outisde of range";
+        return;
+    }
+    Track* tk = track(ix);
+    int state = tk->state();
+    if (hide && (state & 1)) {
+        // Video is already muted
+        return;
+    }
+    int newstate = 0;
+    if (hide) {
+        if (state & 2) {
+            newstate = 3;
+        }
+        else {
+            newstate = 1;
+        }
+    }
+    else {
+        if (state & 2) {
+            newstate = 2;
+        }
+        else {
+            newstate = 0;
+        }
+    }
+    tk->setState(newstate);
+    m_tractor->multitrack()->refresh();
+    m_tractor->refresh();
+}
+
+void Timeline::switchTrackAudio(int ix, bool mute)
+{
+    if (ix < 0 || ix > m_tracks.count()) {
+        qWarning() << "Set Track effect outisde of range";
+        return;
+    }
+    Track* tk = track(ix);
+    int state = tk->state();
+    bool audioMixingBroken = false;
+    if (mute && (state & 2)) {
+        // audio is already muted
+        return;
+    }
+    if (mute && state < 2 ) {
+        // We mute a track with sound
+        if (ix == getLowestNonMutedAudioTrack()) audioMixingBroken = true;
+    }
+    else if (!mute && state > 1 ) {
+        // We un-mute a previously muted track
+        if (ix < getLowestNonMutedAudioTrack()) audioMixingBroken = true;
+    }
+    int newstate;
+    if (mute) {
+        if (state & 1) newstate = 3;
+        else newstate = 2;
+    } else if (state & 1) {
+        newstate = 1;
+    } else {
+        newstate = 0;
+    }
+    tk->setState(newstate);
+    if (audioMixingBroken) fixAudioMixing();
+    m_tractor->multitrack()->refresh();
+    m_tractor->refresh();
+}
+
+int Timeline::getLowestNonMutedAudioTrack()
+{
+    for (int i = 0; i < m_tracks.count(); ++i) {
+        Track *tk = track(i);
+        if (tk->state() < 2) return i;
+    }
+    return m_tracks.count();
+}
+
+void Timeline::fixAudioMixing()
+{
+    // Make sure the audio mixing transitions are applied to the lowest audible (non muted) track
+    int lowestTrack = getLowestNonMutedAudioTrack();
+    mlt_service service = mlt_service_get_producer(m_tractor->get_service());
+    Mlt::Field *field = m_tractor->field();
+    mlt_service_lock(service);
+    mlt_service nextservice = mlt_service_get_producer(service);
+    mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
+    QString mlt_type = mlt_properties_get(properties, "mlt_type");
+    QString resource = mlt_properties_get(properties, "mlt_service");
+
+    mlt_service nextservicetodisconnect;
+    // Delete all audio mixing transitions
+    while (mlt_type == "transition") {
+        if (resource == "mix") {
+            nextservicetodisconnect = nextservice;
+            nextservice = mlt_service_producer(nextservice);
+            mlt_field_disconnect_service(field->get_field(), nextservicetodisconnect);
+        }
+        else nextservice = mlt_service_producer(nextservice);
+        if (nextservice == NULL) break;
+        properties = MLT_SERVICE_PROPERTIES(nextservice);
+        mlt_type = mlt_properties_get(properties, "mlt_type");
+        resource = mlt_properties_get(properties, "mlt_service");
+    }
+
+    // Re-add correct audio transitions
+    for (int i = lowestTrack + 1; i < m_tractor->count(); ++i) {
+        Mlt::Transition *transition = new Mlt::Transition(*m_tractor->profile(), "mix");
+        transition->set("always_active", 1);
+        transition->set("combine", 1);
+        transition->set("internal_added", 237);
+        field->plant_transition(*transition, lowestTrack, i);
+    }
+    mlt_service_unlock(service);
+}
+
+
 void Timeline::slotRebuildTrackHeaders()
 {
-    const QList <TrackInfo> list = m_doc->tracksList();
+    if (m_tractor == NULL || m_tractor->count() == 0 || m_tracks.isEmpty()) {
+        qDebug()<<"+ + + ++ + + + + ++ \nEMPTY TRACTOR WHEN BUKDING HEADERS\n + + ++ + + + + +";
+        return;
+    }
+    /*for (int i = 0; i < m_tractor->count(); i++)
+    {
+        Mlt::Producer* track = m_tractor->track(i);
+        Mlt::Playlist playlist(*track);
+        qDebug()<<"++ GOT TRACK: "<<i<<" = "<<playlist.get("kdenlive:track_name");
+    }*/
     QLayoutItem *child;
     while ((child = headers_container->layout()->takeAt(0)) != 0) {
         QWidget *wid = child->widget();
         delete child;
         if (wid) wid->deleteLater();
     }
-    int max = list.count();
+    int max = m_tracks.count();
     int height = KdenliveSettings::trackheight() * m_scene->scale().y() - 1;
     QFrame *frame = NULL;
     updatePalette();
     int headerWidth = 70;
-    for (int i = 0; i < max; ++i) {
+    for (int i = 0; i < max; i++) {
         frame = new QFrame(headers_container);
         frame->setFrameStyle(QFrame::HLine);
         frame->setFixedHeight(1);
         headers_container->layout()->addWidget(frame);
-        TrackInfo info = list.at(max - i - 1);
+        TrackInfo info = track(i)->info();
         HeaderTrack *header = new HeaderTrack(i, info, height, m_trackActions, headers_container);
         int currentWidth = header->minimumWidth();
         if (currentWidth > headerWidth) headerWidth = currentWidth;
@@ -531,9 +759,10 @@ void Timeline::adjustTrackHeaders()
     }
 }
 
-int Timeline::addTrack(int ix, Mlt::Playlist &playlist, bool locked) {
+int Timeline::addTrack(int ix, Mlt::Playlist &playlist) {
     // parse track
     int position = 0;
+    bool locked = playlist.get_int("kdenlive:locked_track") == 1;
     for(int i = 0; i < playlist.count(); ++i) {
         Mlt::Producer *clip = playlist.get_clip(i);
         if (clip->is_blank()) {
@@ -576,7 +805,7 @@ int Timeline::addTrack(int ix, Mlt::Playlist &playlist, bool locked) {
         clipinfo.cropStart = GenTime(in, fps);
         clipinfo.cropDuration = GenTime(length, fps);
         clipinfo.track = ix;
-        ClipItem *item = new ClipItem(binclip, clipinfo, m_doc->fps(), speed, strobe, m_trackview->getFrameWidth(), true);
+        ClipItem *item = new ClipItem(binclip, clipinfo, fps, speed, strobe, m_trackview->getFrameWidth(), true);
         item->updateState(idString);
         m_scene->addItem(item);
         if (locked) item->setItemLocked(true);
@@ -643,7 +872,7 @@ void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
         if (clip) {
             clip->addEffect(m_doc->getProfileInfo(), currenteffect, false);
         } else {
-            m_doc->addTrackEffect(track, currenteffect);
+            addTrackEffect(track, currenteffect);
         }
     }
 }
@@ -800,11 +1029,21 @@ void Timeline::updateProjectFps()
 
 void Timeline::slotRenameTrack(int ix, const QString &name)
 {
-    int tracknumber = m_doc->tracksCount() - ix;
-    QList <TrackInfo> tracks = m_doc->tracksList();
-    tracks[tracknumber - 1].trackName = name;
-    ConfigTracksCommand *configTracks = new ConfigTracksCommand(m_trackview, m_doc->tracksList(), tracks);
+    QString currentName = track(ix)->getProperty("kdenlive:track_name");
+    ConfigTracksCommand *configTracks = new ConfigTracksCommand(this, ix, currentName, name);
     m_doc->commandStack()->push(configTracks);
+}
+
+void Timeline::renameTrack(int ix, const QString &name)
+{
+    track(ix)->setProperty("kdenlive:track_name", name);
+    // Make sure header widget displays correct name
+    QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
+    if (ix < 0 || ix >= widgets.count()) {
+        qWarning() << "ERROR, Trying to access a non existent track: " << ix;
+        return;
+    }
+    widgets.at(ix)->renameTrack(name);
 }
 
 void Timeline::slotUpdateVerticalScroll(int /*min*/, int max)
@@ -822,7 +1061,7 @@ void Timeline::updateRuler()
 void Timeline::slotShowTrackEffects(int ix)
 {
     m_trackview->clearSelection();
-    emit showTrackEffects(m_doc->tracksCount() - ix, m_doc->trackInfoAt(m_doc->tracksCount() - ix - 1));
+    emit showTrackEffects(tracksCount() - ix, getTrackInfo(ix));
 }
 
 void Timeline::slotUpdateTrackEffectState(int ix)
@@ -832,7 +1071,7 @@ void Timeline::slotUpdateTrackEffectState(int ix)
         qWarning() << "ERROR, Trying to access a non existent track: " << ix;
         return;
     }
-    widgets.at(m_doc->tracksCount() - ix - 1)->updateEffectLabel(m_doc->trackInfoAt(ix).effectsList.effectNames());
+    widgets.at(ix)->updateEffectLabel(track(ix)->effectsList.effectNames());
 }
 
 void Timeline::slotSaveTimelinePreview(const QString &path)
@@ -889,7 +1128,160 @@ bool Timeline::moveClip(int startTrack, qreal startPos, int endTrack, qreal endP
     return success;
 }
 
+void Timeline::addTrackEffect(int trackIndex, QDomElement effect)
+{
+    if (trackIndex < 0 || trackIndex > m_tracks.count()) {
+        qWarning() << "Set Track effect outisde of range";
+        return;
+    }
+    Track *sourceTrack = track(trackIndex);
+    effect.setAttribute("kdenlive_ix", sourceTrack->effectsList.count() + 1);
+
+    // Init parameter value & keyframes if required
+    QDomNodeList params = effect.elementsByTagName("parameter");
+    for (int i = 0; i < params.count(); ++i) {
+        QDomElement e = params.item(i).toElement();
+
+        // Check if this effect has a variable parameter
+        if (e.attribute("default").contains('%')) {
+            double evaluatedValue = EffectsController::getStringEval(m_doc->getProfileInfo(), e.attribute("default"));
+            e.setAttribute("default", evaluatedValue);
+            if (e.hasAttribute("value") && e.attribute("value").startsWith('%')) {
+                e.setAttribute("value", evaluatedValue);
+            }
+        }
+
+        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
+            QString def = e.attribute("default");
+            // Effect has a keyframe type parameter, we need to set the values
+            if (e.attribute("keyframes").isEmpty()) {
+                e.setAttribute("keyframes", "0:" + def + ';');
+                //qDebug() << "///// EFFECT KEYFRAMES INITED: " << e.attribute("keyframes");
+                //break;
+            }
+        }
+
+        if (effect.attribute("id") == "crop") {
+            // default use_profile to 1 for clips with proxies to avoid problems when rendering
+            if (e.attribute("name") == "use_profile" && m_doc->useProxy())
+                e.setAttribute("value", "1");
+        }
+    }
+    sourceTrack->effectsList.append(effect);
+}
+
+void Timeline::removeTrackEffect(int trackIndex, const QDomElement &effect)
+{
+    if (trackIndex < 0 || trackIndex > m_tracks.count()) {
+        qWarning() << "Set Track effect outisde of range";
+        return;
+    }
+    int toRemove = effect.attribute("kdenlive_ix").toInt();
+    Track *sourceTrack = track(trackIndex);
+    int max = sourceTrack->effectsList.count();
+    for (int i = 0; i < max; ++i) {
+        int index = sourceTrack->effectsList.at(i).attribute("kdenlive_ix").toInt();
+        if (toRemove == index) {
+            sourceTrack->effectsList.removeAt(toRemove);
+            break;
+        }
+    }
+}
+
+void Timeline::setTrackEffect(int trackIndex, int effectIndex, QDomElement effect)
+{
+    if (trackIndex < 0 || trackIndex > m_tracks.count()) {
+        qWarning() << "Set Track effect outisde of range";
+        return;
+    }
+    Track *sourceTrack = track(trackIndex);
+    int max = sourceTrack->effectsList.count();
+    if (effectIndex <= 0 || effectIndex > (max) || effect.isNull()) {
+        //qDebug() << "Invalid effect index: " << effectIndex;
+        return;
+    }
+    sourceTrack->effectsList.removeAt(effect.attribute("kdenlive_ix").toInt());
+    effect.setAttribute("kdenlive_ix", effectIndex);
+    sourceTrack->effectsList.insert(effect);
+}
+
+void Timeline::enableTrackEffects(int trackIndex, const QList <int> &effectIndexes, bool disable)
+{
+    if (trackIndex < 0 || trackIndex > m_tracks.count()) {
+        qWarning() << "Set Track effect outisde of range";
+        return;
+    }
+    Track *sourceTrack = track(trackIndex);
+    EffectsList list = sourceTrack->effectsList;
+    QDomElement effect;
+    for (int i = 0; i < effectIndexes.count(); ++i) {
+        effect = list.itemFromIndex(effectIndexes.at(i));
+        if (!effect.isNull()) effect.setAttribute("disable", (int) disable);
+    }
+}
+
+const EffectsList Timeline::getTrackEffects(int trackIndex)
+{
+    if (trackIndex < 0 || trackIndex > m_tracks.count()) {
+        qWarning() << "Set Track effect outisde of range";
+        return EffectsList();
+    }
+    Track *sourceTrack = track(trackIndex);
+    return sourceTrack->effectsList;
+}
+
+QDomElement Timeline::getTrackEffect(int trackIndex, int effectIndex)
+{
+    if (trackIndex < 0 || trackIndex > m_tracks.count()) {
+        qWarning() << "Set Track effect outisde of range";
+        return QDomElement();
+    }
+    Track *sourceTrack = track(trackIndex);
+    EffectsList list = sourceTrack->effectsList;
+    if (effectIndex > list.count() || effectIndex < 1 || list.itemFromIndex(effectIndex).isNull()) return QDomElement();
+    return list.itemFromIndex(effectIndex).cloneNode().toElement();
+}
+
+int Timeline::hasTrackEffect(int trackIndex, const QString &tag, const QString &id) 
+{
+    if (trackIndex < 0 || trackIndex > m_tracks.count()) {
+        qWarning() << "Set Track effect outisde of range";
+        return -1;
+    }
+    Track *sourceTrack = track(trackIndex);
+    EffectsList list = sourceTrack->effectsList;
+    return list.hasEffect(tag, id);
+}
+
+MltVideoProfile Timeline::mltProfile() const
+{
+    return ProfilesDialog::getVideoProfile(*m_tractor->profile());
+}
+
+double Timeline::fps() const
+{
+    return m_doc->fps();
+}
 
 
+QPoint Timeline::getTracksCount()
+{
+    int audioTracks = 0;
+    int videoTracks = 0;
+    int max = m_tracks.count();
+    for (int i = 0; i < max; i++) {
+        Track *tk = track(i);
+        if (tk->type == AudioTrack) audioTracks++;
+        else videoTracks++;
+    }
+    return QPoint(videoTracks, audioTracks);
+}
 
-
+int Timeline::getTrackSpaceLength(int trackIndex, int pos, bool fromBlankStart)
+{
+    if (trackIndex < 0 || trackIndex > m_tracks.count()) {
+        qWarning() << "Set Track effect outisde of range";
+        return 0;
+    }
+    return track(trackIndex)->getBlankLength(pos, fromBlankStart);
+}

@@ -31,7 +31,7 @@
 
 #include "gentime.h"
 
-class KdenliveDoc;
+class Timeline;
 class MltVideoProfile;
 
 enum EditMode {
@@ -47,7 +47,7 @@ class CustomTrackScene : public QGraphicsScene
     Q_OBJECT
 
 public:
-    explicit CustomTrackScene(KdenliveDoc *doc, QObject *parent = 0);
+    explicit CustomTrackScene(Timeline *timeline, QObject *parent = 0);
     ~CustomTrackScene();
     void setSnapList(const QList <GenTime>& snaps);
     GenTime previousSnapPoint(const GenTime &pos) const;
@@ -62,7 +62,7 @@ public:
     bool isZooming;
 
 private:
-    KdenliveDoc *m_document;
+    Timeline *m_timeline;
     QList <GenTime> m_snapPoints;
     QPointF m_scale;
     EditMode m_editMode;

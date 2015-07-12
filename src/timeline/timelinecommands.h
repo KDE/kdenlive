@@ -30,6 +30,7 @@
 #include "effectslist/effectslist.h"
 class GenTime;
 class CustomTrackView;
+class Timeline;
 
 class AddEffectCommand : public QUndoCommand
 {
@@ -156,13 +157,16 @@ private:
 class ConfigTracksCommand : public QUndoCommand
 {
 public:
-    ConfigTracksCommand(CustomTrackView *view, const QList <TrackInfo> &oldInfos, const QList <TrackInfo> &newInfos, QUndoCommand * parent = 0);
+    ConfigTracksCommand(Timeline *timeline, int track, const QString &oldName, const QString &newName, int oldState = -1, int newState = -1, QUndoCommand* parent = 0);
     void undo();
     void redo();
 private:
-    CustomTrackView *m_view;
-    QList <TrackInfo> m_oldInfos;
-    QList <TrackInfo> m_newInfos;
+    Timeline *m_timeline;
+    int m_ix;
+    QString m_oldName;
+    QString m_newName;
+    int m_oldState;
+    int m_newState;
 };
 
 class EditEffectCommand : public QUndoCommand

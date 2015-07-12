@@ -60,10 +60,6 @@ bool DocumentValidator::validate(const double currentVersion)
         return false;
 
     QDomElement kdenliveDoc = mlt.firstChildElement("kdenlivedoc");
-    // Check if we're validating a Kdenlive project
-    if (kdenliveDoc.isNull())
-        return false;
-    
     QString rootDir = mlt.attribute("root");
     if (rootDir == "$CURRENTPATH") {
         // The document was extracted from a Kdenlive archived project, fix root directory
@@ -122,23 +118,29 @@ bool DocumentValidator::validate(const double currentVersion)
         initEffects::parseEffectFiles(pCore->binController()->mltRepository(), setlocale(LC_NUMERIC_MASK, NULL));
 #endif
     }
-
-    bool ok;
-    double version = documentLocale.toDouble(kdenliveDoc.attribute("version"), &ok);
-    if (!ok) {
-	// Could not parse version number, there is probably a conflict in decimal separator
-	QLocale tempLocale = QLocale(mlt.attribute("LC_NUMERIC"));
-	version = tempLocale.toDouble(kdenliveDoc.attribute("version"), &ok);
-	if (!ok) version = kdenliveDoc.attribute("version").toDouble(&ok);
-	if (!ok) {
-	    // Last try: replace comma with a dot
-	    QString versionString = kdenliveDoc.attribute("version");
-	    if (versionString.contains(',')) versionString.replace(',', '.');
-	    version = versionString.toDouble(&ok);
-	    if (!ok) qDebug()<<"// CANNOT PARSE VERSION NUMBER, ERROR!";
-	}
+    double version = -1;
+    if (kdenliveDoc.isNull() || !kdenliveDoc.hasAttribute("version")) {
+        // Newer Kdenlive document version
+        QDomElement main = mlt.firstChildElement("playlist");
+        version = EffectsList::property(main, "kdenlive:docproperties.version").toDouble();
     }
-    
+    else {
+        bool ok;
+        version = documentLocale.toDouble(kdenliveDoc.attribute("version"), &ok);
+        if (!ok) {
+            // Could not parse version number, there is probably a conflict in decimal separator
+            QLocale tempLocale = QLocale(mlt.attribute("LC_NUMERIC"));
+            version = tempLocale.toDouble(kdenliveDoc.attribute("version"), &ok);
+            if (!ok) version = kdenliveDoc.attribute("version").toDouble(&ok);
+            if (!ok) {
+                // Last try: replace comma with a dot
+                QString versionString = kdenliveDoc.attribute("version");
+                if (versionString.contains(',')) versionString.replace(',', '.');
+                version = versionString.toDouble(&ok);
+                if (!ok) qDebug()<<"// CANNOT PARSE VERSION NUMBER, ERROR!";
+            }
+        }
+    }
     // Upgrade the document to the latest version
     if (!upgrade(version, currentVersion))
         return false;
@@ -251,11 +253,9 @@ bool DocumentValidator::validate(const double currentVersion)
                     tracksinfoElm.appendChild(trackinfo);
                 }
             }
-        }        
-
+        }
         // TODO: check the tracks references
         // TODO: check internal mix transitions
-        
     }
 
     updateEffects();
@@ -265,7 +265,7 @@ bool DocumentValidator::validate(const double currentVersion)
 
 bool DocumentValidator::upgrade(double version, const double currentVersion)
 {
-    //qDebug() << "Opening a document with version " << version;
+    qDebug() << "Opening a document with version " << version << " / "<<currentVersion;
 
     // No conversion needed
     if (version == currentVersion) {
@@ -1008,6 +1008,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         
         // Create Bin Playlist
         QDomElement main_playlist = m_doc.createElement("playlist");
+        main_playlist.setAttribute("id", "main bin");
         QDomElement prop = m_doc.createElement("property");
         prop.setAttribute("name", "xml_retain");
         QDomText val = m_doc.createTextNode("1");
@@ -1091,7 +1092,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
             ids.append(prodId);
         }
-        
+
         // Set clip folders
         QDomNodeList kdenlive_producers = m_doc.elementsByTagName("kdenlive_producer");
         for (int j = 0; j < kdenlive_producers.count(); j++) {
@@ -1170,9 +1171,68 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         frag.appendChild(main_playlist);
         mlt.insertBefore(frag, firstProd);
     }
-
-    // The document has been converted: mark it as modified
-    infoXml.setAttribute("version", currentVersion);
+    
+    if (version < 0.91) {
+        // Migrate track properties
+        QDomNodeList old_tracks = m_doc.elementsByTagName("trackinfo");
+        QDomNodeList tracks = m_doc.elementsByTagName("track");
+        QDomNodeList playlists = m_doc.elementsByTagName("playlist");
+        for (int i = 0; i < old_tracks.count(); i++) {
+            QString playlistName = tracks.at(i + 1).toElement().attribute("producer");
+            // find playlist for track
+            QDomElement trackPlaylist;
+            for (int j = 0; j < playlists.count(); j++) {
+                if (playlists.at(j).toElement().attribute("id") == playlistName) {
+                    trackPlaylist = playlists.at(j).toElement();
+                    break;
+                }
+            }
+            if (!trackPlaylist.isNull()) {
+                QDomElement kdenliveTrack = old_tracks.at(i).toElement();
+                if (kdenliveTrack.attribute("type") == "audio") {
+                    qDebug()<<"Found AUDIO TK";
+                    EffectsList::setProperty(trackPlaylist, "kdenlive:audio_track", "1");
+                }
+                if (kdenliveTrack.attribute("locked") == "1") {
+                    EffectsList::setProperty(trackPlaylist, "kdenlive:locked_track", "1");
+                }
+                EffectsList::setProperty(trackPlaylist, "kdenlive:track_name", kdenliveTrack.attribute("trackname"));
+            }
+        }
+        // Find bin playlist
+        playlists = m_doc.elementsByTagName("playlist");
+        QDomElement playlist;
+        for (int i = 0; i < playlists.count(); i++) {
+            if (playlists.at(i).toElement().attribute("id") == "main bin") {
+                playlist = playlists.at(i).toElement();
+                break;
+            }
+        }
+        // Migrate document notes
+        QDomNodeList notesList = m_doc.elementsByTagName("documentnotes");
+        if (!notesList.isEmpty()) {
+            QDomElement notes_elem = notesList.at(0).toElement();
+            QString notes = notes_elem.firstChild().nodeValue();
+            EffectsList::setProperty(playlist, "kdenlive:documentnotes", notes);
+        }
+        // Migrate clip groups
+        QDomNodeList groupElement = m_doc.elementsByTagName("groups");
+        if (!groupElement.isEmpty()) {
+            QDomElement groups = groupElement.at(0).toElement();
+            QDomDocument d2;
+            d2.importNode(groups, true);
+            EffectsList::setProperty(playlist, "kdenlive:clipgroups", d2.toString());
+        }
+        // Migrate custom effects
+        QDomNodeList effectsElement = m_doc.elementsByTagName("customeffects");
+        if (!effectsElement.isEmpty()) {
+            QDomElement effects = effectsElement.at(0).toElement();
+            QDomDocument d2;
+            d2.importNode(effects, true);
+            EffectsList::setProperty(playlist, "kdenlive:customeffects", d2.toString());
+        }
+        EffectsList::setProperty(playlist, "kdenlive:docproperties.version", QString::number(currentVersion));
+    }
     m_modified = true;
     return true;
 }
@@ -1264,8 +1324,9 @@ QString DocumentValidator::colorToString(const QColor& c)
 
 bool DocumentValidator::isProject() const
 {
-    QDomNode infoXmlNode = m_doc.elementsByTagName("kdenlivedoc").at(0);
-    return !infoXmlNode.isNull();
+    return m_doc.documentElement().tagName() == "mlt";
+    /*QDomNode infoXmlNode = m_doc.elementsByTagName("kdenlivedoc").at(0);
+    return !infoXmlNode.isNull();*/
 }
 
 bool DocumentValidator::isModified() const

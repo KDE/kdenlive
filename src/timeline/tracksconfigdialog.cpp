@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "tracksconfigdialog.h"
-#include "doc/kdenlivedoc.h"
+#include "timeline/timeline.h"
 
 #include <QTableWidget>
 #include <KComboBox>
@@ -64,9 +64,9 @@ void TracksDelegate::emitCommitData()
 }
 
 
-TracksConfigDialog::TracksConfigDialog(KdenliveDoc * doc, int selected, QWidget* parent) :
+TracksConfigDialog::TracksConfigDialog(Timeline *timeline, int selected, QWidget* parent) :
         QDialog(parent),
-        m_doc(doc)
+        m_timeline(timeline)
 {
     setupUi(this);
 
@@ -132,13 +132,14 @@ QList <int> TracksConfigDialog::deletedTracks() const
 
 void TracksConfigDialog::setupOriginal(int selected)
 {
-    table->setRowCount(m_doc->tracksCount());
+    int max = m_timeline->tracksCount();
+    table->setRowCount(max);
 
     QStringList numbers;
     TrackInfo info;
-    for (int i = m_doc->tracksCount() - 1; i >= 0; --i) {
+    for (int i = max - 1; i >= 0; --i) {
         numbers << QString::number(i);
-        info = m_doc->trackInfoAt(m_doc->tracksCount() - i - 1);
+        info = m_timeline->getTrackInfo(i);
         table->setItem(i, 0, new QTableWidgetItem(info.trackName));
 
         QTableWidgetItem *item1 = new QTableWidgetItem(i18n("Video"));

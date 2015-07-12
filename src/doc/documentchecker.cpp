@@ -79,6 +79,7 @@ bool DocumentChecker::hasErrorInClips()
     m_safeImages.clear();
     m_safeFonts.clear();
     max = documentProducers.count();
+    QStringList verifiedPaths;
     for (int i = 0; i < max; ++i) {
         e = documentProducers.item(i).toElement();
 	QString service = EffectsList::property(e, "mlt_service");
@@ -94,6 +95,10 @@ bool DocumentChecker::hasErrorInClips()
         resource = EffectsList::property(e, "resource");
         if (!resource.startsWith("/")) {
             resource.prepend(root);
+        }
+        if (verifiedPaths.contains(resource)) {
+            // Don't check same url twice (for example track producers)
+            continue;
         }
         qDebug()<<" / / /Checking resource: "<<resource;
         if (e.hasAttribute("proxy")) {
@@ -117,6 +122,7 @@ bool DocumentChecker::hasErrorInClips()
             // Missing clip found
             m_missingClips.append(e);
         } else {
+            verifiedPaths.append(resource);
             // Check if the clip has changed
 	  //TODO
             /*if (clipType != SlideShow && e.hasAttribute("file_hash")) {

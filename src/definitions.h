@@ -164,7 +164,7 @@ public:
         isBlind(0),
         isLocked(0),
         duration(0),
-        effectsList() {}
+        effectsList(true) {}
 };
 
 

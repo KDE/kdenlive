@@ -856,6 +856,8 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_editAction->setEnabled(true);
                 m_reloadAction->setEnabled(true);
                 m_duplicateAction->setEnabled(true);
+                ClipType type = ((ProjectClip *)currentItem)->clipType();
+                m_openAction->setEnabled(type == Image || type == Audio);
                 if (m_propertiesPanel->width() > 0) {
                     // if info panel is displayed, update info
                     showClipProperties((ProjectClip *)currentItem);
@@ -865,6 +867,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
             } else {
                 // A folder was selected, disable editing clip
                 m_editAction->setEnabled(false);
+                m_openAction->setEnabled(false);
                 m_reloadAction->setEnabled(false);
                 m_duplicateAction->setEnabled(false);
                 m_deleteAction->setText(i18n("Delete Folder"));
@@ -875,12 +878,14 @@ void Bin::selectProxyModel(const QModelIndex &id)
             m_reloadAction->setEnabled(false);
             m_duplicateAction->setEnabled(false);
 	    m_editAction->setEnabled(false);
+            m_openAction->setEnabled(false);
 	    m_deleteAction->setEnabled(false);
 	}
     }
     else {
         // No item selected in bin
 	m_editAction->setEnabled(false);
+        m_openAction->setEnabled(false);
 	m_deleteAction->setEnabled(false);
         // Hide properties panel
         m_collapser->collapse();
@@ -1029,6 +1034,7 @@ void Bin::closeEditing()
 void Bin::contextMenuEvent(QContextMenuEvent *event)
 {
     bool enableClipActions = false;
+    ClipType type = Unknown;
     if (m_itemView) {
         QModelIndex idx = m_itemView->indexAt(m_itemView->viewport()->mapFromGlobal(event->globalPos()));
         if (idx.isValid()) {
@@ -1045,6 +1051,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
                     QString condition;
                     QString audioCodec = clip->codec(true);
                     QString videoCodec = clip->codec(false);
+                    type = clip->clipType();
                     bool noCodecInfo = false;
                     if (audioCodec.isEmpty() && videoCodec.isEmpty()) {
                         noCodecInfo = true;
@@ -1077,6 +1084,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_proxyAction->setEnabled(enableClipActions);
     m_transcodeAction->setEnabled(enableClipActions);
     m_editAction->setEnabled(enableClipActions);
+    m_openAction->setEnabled(type == Image || type == Audio);
     m_reloadAction->setEnabled(enableClipActions);
     m_duplicateAction->setEnabled(enableClipActions);
     m_clipsActionsMenu->setEnabled(enableClipActions);

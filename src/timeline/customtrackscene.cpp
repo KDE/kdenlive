@@ -18,12 +18,12 @@
  ***************************************************************************/
 
 #include "customtrackscene.h"
-#include "doc/kdenlivedoc.h"
+#include "timeline.h"
 
 
-CustomTrackScene::CustomTrackScene(KdenliveDoc *doc, QObject *parent) :
+CustomTrackScene::CustomTrackScene(Timeline *timeline, QObject *parent) :
         QGraphicsScene(parent),
-        m_document(doc),
+        m_timeline(timeline),
         m_scale(1.0, 1.0),
         isZooming(false),
         m_editMode(NormalEdit)
@@ -41,14 +41,14 @@ double CustomTrackScene::getSnapPointForPos(double pos, bool doSnap)
         if (m_scale.x() > 3) maximumOffset = 10 / m_scale.x();
         else maximumOffset = 6 / m_scale.x();
         for (int i = 0; i < m_snapPoints.size(); ++i) {
-            if (qAbs((int)(pos - m_snapPoints.at(i).frames(m_document->fps()))) < maximumOffset) {
-                return m_snapPoints.at(i).frames(m_document->fps());
+            if (qAbs((int)(pos - m_snapPoints.at(i).frames(m_timeline->fps()))) < maximumOffset) {
+                return m_snapPoints.at(i).frames(m_timeline->fps());
             }
-            if (m_snapPoints.at(i).frames(m_document->fps()) > pos)
+            if (m_snapPoints.at(i).frames(m_timeline->fps()) > pos)
                 break;
         }
     }
-    return GenTime(pos, m_document->fps()).frames(m_document->fps());
+    return GenTime(pos, m_timeline->fps()).frames(m_timeline->fps());
 }
 
 void CustomTrackScene::setSnapList(const QList <GenTime>& snaps)
@@ -90,12 +90,12 @@ QPointF CustomTrackScene::scale() const
 
 int CustomTrackScene::tracksCount() const
 {
-    return m_document->tracksCount();
+    return m_timeline->tracksCount();
 }
 
 MltVideoProfile CustomTrackScene::profile() const
 {
-    return m_document->mltProfile();
+    return m_timeline->mltProfile();
 }
 
 void CustomTrackScene::setEditMode(EditMode mode)

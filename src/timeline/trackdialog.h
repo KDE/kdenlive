@@ -24,14 +24,14 @@
 
 #include "ui_addtrack_ui.h"
 
-class KdenliveDoc;
+class Timeline;
 
 class TrackDialog : public QDialog, public Ui::AddTrack_UI
 {
     Q_OBJECT
 
 public:
-    explicit TrackDialog(KdenliveDoc *doc, QWidget * parent = 0);
+    explicit TrackDialog(Timeline *timeline, QWidget * parent = 0);
 };
 
 

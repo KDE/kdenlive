@@ -69,7 +69,7 @@
 #include <xlocale.h>
 #endif
 
-const double DOCUMENTVERSION = 0.90;
+const double DOCUMENTVERSION = 0.91;
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent, QProgressDialog *progressDialog) :
     QObject(parent),
@@ -96,8 +96,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     m_clipManager = new ClipManager(this);
     connect(m_clipManager, SIGNAL(displayMessage(QString,int)), parent, SLOT(slotGotProgressInfo(QString,int)));
     bool success = false;
-    
     connect(m_commandStack, SIGNAL(indexChanged(int)), this, SLOT(slotModified()));
+    connect(m_render, SIGNAL(setDocumentNotes(QString)), this, SLOT(slotSetDocumentNotes(QString)));
     //connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
 
     // Init clip modification tracker
@@ -231,50 +231,13 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                         qApp->processEvents();
                         success = checkDocumentClips();
                         if (success) {
+                            loadDocumentProperties();
                             if (m_document.documentElement().attribute("modified") == "1") setModified(true);
                             parent->slotGotProgressInfo(i18n("Loading"), 0);
                             QDomElement mlt = m_document.firstChildElement("mlt");
                             QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
 
-                            // Set profile, fps, etc for the document
-                            setProfilePath(infoXml.attribute("profile"));
-
-                            // Check embedded effects
-                            QDomElement customeffects = infoXml.firstChildElement("customeffects");
-                            if (!customeffects.isNull() && customeffects.hasChildNodes()) {
-                                parent->slotGotProgressInfo(i18n("Importing project effects"), 0);
-                                qApp->processEvents();
-                                if (saveCustomEffects(customeffects.childNodes())) parent->slotReloadEffects();
-                            }
-
                             QDomElement e;
-                            // Read notes
-                            QDomElement notesxml = infoXml.firstChildElement("documentnotes");
-                            if (!notesxml.isNull()) m_notesWidget->setText(notesxml.firstChild().nodeValue());
-
-                            // Build tracks
-                            QDomElement tracksinfo = infoXml.firstChildElement("tracksinfo");
-                            if (!tracksinfo.isNull()) {
-                                QDomNodeList trackslist = tracksinfo.childNodes();
-                                int maxchild = trackslist.count();
-                                for (int k = 0; k < maxchild; ++k) {
-                                    e = trackslist.at(k).toElement();
-                                    if (e.tagName() == "trackinfo") {
-                                        TrackInfo projectTrack;
-                                        if (e.attribute("type") == "audio")
-                                            projectTrack.type = AudioTrack;
-                                        else
-                                            projectTrack.type = VideoTrack;
-                                        projectTrack.isMute = e.attribute("mute").toInt();
-                                        projectTrack.isBlind = e.attribute("blind").toInt();
-                                        projectTrack.isLocked = e.attribute("locked").toInt();
-                                        projectTrack.trackName = e.attribute("trackname");
-                                        projectTrack.effectsList = EffectsList(true);
-                                        m_tracksList.append(projectTrack);
-                                    }
-                                }
-                                mlt.removeChild(tracksinfo);
-                            }
                             QStringList expandedFolders;
                             QDomNodeList folders = m_document.elementsByTagName("folder");
                             for (int i = 0; i < folders.count(); ++i) {
@@ -299,39 +262,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                             progressDialog->setMaximum(max);
                             progressDialog->show();
                             qApp->processEvents();
-
-                            /*for (int i = 0; i < infomax; ++i) {
-                                e = infoproducers.item(i).cloneNode().toElement();
-                                QString prodId = e.attribute("id");
-                                if (!e.isNull() && prodId != "black" && !prodId.startsWith(QLatin1String("slowmotion"))) {
-                                    e.setTagName("producer");
-                                    // Get MLT's original producer properties
-                                    QDomElement orig;
-                                    for (int j = 0; j < max; ++j) {
-                                        QDomNode o = producers.item(j);
-                                        QString origId = o.attributes().namedItem("id").nodeValue().section('_', 0, 0);
-                                        if (origId == prodId) {
-                                            orig = o.cloneNode().toElement();
-                                            break;
-                                        }
-                                    }
-
-                                    if (!addClipInfo(e, orig, prodId)) {
-                                        // The user manually aborted the loading.
-                                        qDebug()<<" ***********  ADDCLIPINFO ERROR *************";
-                                        success = false;
-                                        emit resetProjectList();
-                                        m_tracksList.clear();
-                                        m_clipManager->clear();
-                                        break;
-                                    }
-                                }
-                                if (i % 10 == 0)
-                                    progressDialog->setValue(i);
-                            }*/
-
                             if (success) {
-                                QDomElement markers = infoXml.firstChildElement("markers");
+                                /*QDomElement markers = infoXml.firstChildElement("markers");
                                 if (!markers.isNull()) {
                                     QDomNodeList markerslist = markers.childNodes();
                                     int maxchild = markerslist.count();
@@ -347,8 +279,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                                     infoXml.removeChild(markers);
                                 }
 
-                                m_projectFolder = QUrl::fromLocalFile(infoXml.attribute("projectfolder"));
-                                QDomElement docproperties = infoXml.firstChildElement("documentproperties");
+                                m_projectFolder = QUrl::fromLocalFile(infoXml.attribute("projectfolder"));*/
+                                /*QDomElement docproperties = infoXml.firstChildElement("documentproperties");
                                 QDomNamedNodeMap props = docproperties.attributes();
                                 for (int i = 0; i < props.count(); ++i)
                                     m_documentProperties.insert(props.item(i).nodeName(), props.item(i).nodeValue());
@@ -356,6 +288,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                                 props = docproperties.attributes();
                                 for (int i = 0; i < props.count(); ++i)
                                     m_documentMetadata.insert(props.item(i).nodeName(), props.item(i).nodeValue());
+                                */
 
                                 if (validator.isModified()) setModified(true);
                                 //qDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
@@ -405,6 +338,12 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     connect(m_render, SIGNAL(addClip(const QString&,const QMap<QString,QString>&)), pCore->bin(), SLOT(slotAddUrl(const QString&,const QMap<QString,QString>&)));
 }
 
+void KdenliveDoc::slotSetDocumentNotes(const QString &notes)
+{
+    m_notesWidget->setHtml(notes);
+}
+
+
 KdenliveDoc::~KdenliveDoc()
 {
     delete m_commandStack;
@@ -431,8 +370,7 @@ int KdenliveDoc::setSceneList()
 
 QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
 {
-    m_tracksList.clear();
-
+    QList <TrackInfo> tracks;
     // Tracks are added «backwards», so we need to reverse the track numbering
     // mbt 331: http://www.kdenlive.org/mantis/view.php?id=331
     // Better default names for tracks: Audio 1 etc. instead of blank numbers
@@ -445,7 +383,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
         audioTrack.trackName = QString("Audio ") + QString::number(audiotracks - i);
         audioTrack.duration = 0;
         audioTrack.effectsList = EffectsList(true);
-        m_tracksList.append(audioTrack);
+        tracks.append(audioTrack);
 
     }
     for (int i = 0; i < videotracks; ++i) {
@@ -457,9 +395,9 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
         videoTrack.trackName = QString("Video ") + QString::number(videotracks - i);
         videoTrack.duration = 0;
         videoTrack.effectsList = EffectsList(true);
-        m_tracksList.append(videoTrack);
+        tracks.append(videoTrack);
     }
-    return createEmptyDocument(m_tracksList);
+    return createEmptyDocument(tracks);
 }
 
 QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
@@ -537,6 +475,9 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
         QDomElement playlist = doc.createElement("playlist");
         playlist.setAttribute("id", "playlist" + QString::number(i));
         playlist.setAttribute("kdenlive:track_name", tracks.at(i).trackName);
+        if (tracks.at(i).type == AudioTrack) {
+            playlist.setAttribute("kdenlive:audio_track", 1);
+        }
         mlt.appendChild(playlist);
     }
 
@@ -550,9 +491,13 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
         track.setAttribute("producer", "playlist" + QString::number(i));
         if (tracks.at(i).type == AudioTrack) {
             track.setAttribute("hide", "video");
-        } else if (tracks.at(i).isBlind)
-            track.setAttribute("hide", "video");
-        if (tracks.at(i).isMute)
+        } else if (tracks.at(i).isBlind) {
+            if (tracks.at(i).isMute) {
+                track.setAttribute("hide", "all");
+            }
+            else track.setAttribute("hide", "video");
+        }
+        else if (tracks.at(i).isMute)
             track.setAttribute("hide", "audio");
         tractor.appendChild(track);
     }
@@ -602,7 +547,7 @@ bool KdenliveDoc::useProxy() const
 }
 
 
-void KdenliveDoc::slotAutoSave(QMap <double, QString> guidesData)
+void KdenliveDoc::slotAutoSave()
 {
     if (m_render && m_autosave) {
         if (!m_autosave->isOpen() && !m_autosave->open(QIODevice::ReadWrite)) {
@@ -610,7 +555,7 @@ void KdenliveDoc::slotAutoSave(QMap <double, QString> guidesData)
             qDebug() << "ERROR; CANNOT CREATE AUTOSAVE FILE";
         }
         //qDebug() << "// AUTOSAVE FILE: " << m_autosave->fileName();
-        QDomDocument sceneList = xmlSceneList(m_render->sceneList(), guidesData);
+        QDomDocument sceneList = xmlSceneList(m_render->sceneList());
         if (sceneList.isNull()) {
             //Make sure we don't save if scenelist is corrupted
             KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1, scene list is corrupted.", m_autosave->fileName()));
@@ -644,7 +589,7 @@ QPoint KdenliveDoc::zone() const
     return QPoint(m_documentProperties.value("zonein").toInt(), m_documentProperties.value("zoneout").toInt());
 }
 
-QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, QMap <double, QString> guidesData)
+QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
 {
     QDomDocument sceneList;
     sceneList.setContent(scene, true);
@@ -673,26 +618,6 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, QMap <double, QStri
             break;
         }
     }
-    
-    // Append markers
-    
-    
-    // Append guides
-    QMapIterator<double, QString> g(guidesData);
-    QLocale locale;
-    while (g.hasNext()) {
-        g.next();
-        QString propertyName = "kdenlive:guide." + locale.toString(g.key());
-        QDomElement prop = sceneList.createElement("property");
-        prop.setAttribute("name", propertyName);
-        QDomText val = sceneList.createTextNode(g.value());
-        prop.appendChild(val);
-        mainPlaylist.appendChild(prop);
-    }
-
-
-    QDomElement addedXml = sceneList.createElement("kdenlivedoc");
-    mlt.appendChild(addedXml);
 
     // check if project contains custom effects to embed them in project file
     QDomNodeList effects = mlt.elementsByTagName("filter");
@@ -715,107 +640,33 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, QMap <double, QStri
             if (!id.isEmpty() && !tag.isEmpty()) effectIds.insert(id, tag);
         }
     }
+    //TODO: find a way to process this before rendering MLT scenelist to xml
     QDomDocument customeffects = initEffects::getUsedCustomEffects(effectIds);
-    addedXml.appendChild(sceneList.importNode(customeffects.documentElement(), true));
+    mainPlaylist.setAttribute("kdenlive:customeffects", customeffects.toString());
+    //addedXml.appendChild(sceneList.importNode(customeffects.documentElement(), true));
 
-    QDomElement markers = sceneList.createElement("markers");
-    addedXml.setAttribute("version", DOCUMENTVERSION);
-    addedXml.setAttribute("kdenliveversion", KDENLIVE_VERSION);
-    addedXml.setAttribute("profile", profilePath());
-    addedXml.setAttribute("projectfolder", m_projectFolder.path());
-
-    QDomElement docproperties = sceneList.createElement("documentproperties");
-    QMapIterator<QString, QString> i(m_documentProperties);
-    while (i.hasNext()) {
-        i.next();
-        docproperties.setAttribute(i.key(), i.value());
-    }
-    docproperties.setAttribute("position", m_render->seekPosition().frames(m_fps));
-    addedXml.appendChild(docproperties);
-    
+    //TODO: move metadata to previous step in saving process
     QDomElement docmetadata = sceneList.createElement("documentmetadata");
     QMapIterator<QString, QString> j(m_documentMetadata);
     while (j.hasNext()) {
         j.next();
         docmetadata.setAttribute(j.key(), j.value());
     }
-    addedXml.appendChild(docmetadata);
+    //addedXml.appendChild(docmetadata);
 
-    QDomElement docnotes = sceneList.createElement("documentnotes");
-    QDomText value = sceneList.createTextNode(m_notesWidget->toHtml());
-    docnotes.appendChild(value);
-    addedXml.appendChild(docnotes);
-
-    // Add profile info
-    QDomElement profileinfo = sceneList.createElement("profileinfo");
-    profileinfo.setAttribute("description", m_profile.description);
-    profileinfo.setAttribute("frame_rate_num", m_profile.frame_rate_num);
-    profileinfo.setAttribute("frame_rate_den", m_profile.frame_rate_den);
-    profileinfo.setAttribute("width", m_profile.width);
-    profileinfo.setAttribute("height", m_profile.height);
-    profileinfo.setAttribute("progressive", m_profile.progressive);
-    profileinfo.setAttribute("sample_aspect_num", m_profile.sample_aspect_num);
-    profileinfo.setAttribute("sample_aspect_den", m_profile.sample_aspect_den);
-    profileinfo.setAttribute("display_aspect_num", m_profile.display_aspect_num);
-    profileinfo.setAttribute("display_aspect_den", m_profile.display_aspect_den);
-    addedXml.appendChild(profileinfo);
-
-    // tracks info
-    QDomElement tracksinfo = sceneList.createElement("tracksinfo");
-    foreach(const TrackInfo & info, m_tracksList) {
-        QDomElement trackinfo = sceneList.createElement("trackinfo");
-        if (info.type == AudioTrack) trackinfo.setAttribute("type", "audio");
-        trackinfo.setAttribute("mute", info.isMute);
-        trackinfo.setAttribute("blind", info.isBlind);
-        trackinfo.setAttribute("locked", info.isLocked);
-        trackinfo.setAttribute("trackname", info.trackName);
-        tracksinfo.appendChild(trackinfo);
-    }
-    addedXml.appendChild(tracksinfo);
-
-    // save project folders
-    QMap <QString, QString> folderlist = m_clipManager->documentFolderList();
-
-    QMapIterator<QString, QString> f(folderlist);
-    while (f.hasNext()) {
-        f.next();
-        QDomElement folder = sceneList.createElement("folder");
-        folder.setAttribute("id", f.key());
-        folder.setAttribute("name", f.value());
-        addedXml.appendChild(folder);
-    }
-
-    // Save project clips
-    
-    QDomElement e;
-    QList <ClipController*> list = pCore->binController()->getControllerList();
-    for (int i = 0; i < list.count(); ++i) {
-        /*e = list.at(i)->toXML(true);
-        e.setTagName("kdenlive_producer");
-        addedXml.appendChild(sceneList.importNode(e, true));*/
-        QList < CommentedTime > marks = list.at(i)->commentedSnapMarkers();
-        for (int j = 0; j < marks.count(); ++j) {
-            QDomElement marker = sceneList.createElement("marker");
-            marker.setAttribute("time", marks.at(j).time().ms() / 1000);
-            marker.setAttribute("comment", marks.at(j).comment());
-            marker.setAttribute("id", list.at(i)->clipId());
-            marker.setAttribute("type", marks.at(j).markerType());
-            markers.appendChild(marker);
-        }
-    }
-    addedXml.appendChild(markers);
-
-    // Add clip groups
-    addedXml.appendChild(sceneList.importNode(m_clipManager->groupsXml(), true));
-
-    //wes.appendChild(doc.importNode(kdenliveData, true));
     return sceneList;
 }
 
-
-bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, QMap <double, QString> guidesData)
+QString KdenliveDoc::documentNotes() const
 {
-    QDomDocument sceneList = xmlSceneList(scene, guidesData);
+    QString text = m_notesWidget->toPlainText().simplified();
+    if (text.isEmpty()) return QString();
+    return m_notesWidget->toHtml();
+}
+
+bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
+{
+    QDomDocument sceneList = xmlSceneList(scene);
     if (sceneList.isNull()) {
         //Make sure we don't save if scenelist is corrupted
         KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1, scene list is corrupted.", path));
@@ -853,6 +704,11 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, QMap 
 ClipManager *KdenliveDoc::clipManager()
 {
     return m_clipManager;
+}
+
+QString KdenliveDoc::groupsXml() const
+{
+    return m_clipManager->groupsXml();
 }
 
 QUrl KdenliveDoc::projectFolder() const
@@ -943,7 +799,7 @@ bool KdenliveDoc::setProfilePath(QString path)
     if (path.isEmpty())
         path = QLatin1String("dv_pal");
     m_profile = ProfilesDialog::getVideoProfile(path);
-    double current_fps = m_fps;
+    double current_fps = m_render->fps();
     if (m_profile.path.isEmpty()) {
         // Profile not found, use embedded profile
         QDomElement profileInfo = m_document.elementsByTagName("profileinfo").at(0).toElement();
@@ -989,14 +845,14 @@ bool KdenliveDoc::setProfilePath(QString path)
     }
 
     KdenliveSettings::setProject_display_ratio((double) m_profile.display_aspect_num / m_profile.display_aspect_den);
-    m_fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
-    KdenliveSettings::setProject_fps(m_fps);
+    double fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
+    KdenliveSettings::setProject_fps(fps);
     m_width = m_profile.width;
     m_height = m_profile.height;
     //qDebug() << "Kdenlive document, init timecode from path: " << path << ",  " << m_fps;
-    m_timecode.setFormat(m_fps);
+    m_timecode.setFormat(fps);
     KdenliveSettings::setCurrent_profile(m_profile.path);
-    return (current_fps != m_fps);
+    return (current_fps != fps);
 }
 
 double KdenliveDoc::dar() const
@@ -1053,14 +909,14 @@ QDomNodeList KdenliveDoc::producersList()
 double KdenliveDoc::projectDuration() const
 {
     if (m_render)
-        return GenTime(m_render->getLength(), m_fps).ms() / 1000;
+        return GenTime(m_render->getLength(), m_render->fps()).ms() / 1000;
     else
         return 0;
 }
 
 double KdenliveDoc::fps() const
 {
-    return m_fps;
+    return m_render->fps();
 }
 
 int KdenliveDoc::width() const
@@ -1349,110 +1205,6 @@ void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
 }
 
-int KdenliveDoc::tracksCount() const
-{
-    return m_tracksList.count();
-}
-
-TrackInfo KdenliveDoc::trackInfoAt(int ix) const
-{
-    if (ix < 0 || ix >= m_tracksList.count()) {
-        qWarning() << "Track INFO outisde of range";
-        return TrackInfo();
-    }
-    return m_tracksList.at(ix);
-}
-
-void KdenliveDoc::switchTrackAudio(int ix, bool hide)
-{
-    if (ix < 0 || ix >= m_tracksList.count()) {
-        qWarning() << "SWITCH Track outisde of range";
-        return;
-    }
-    m_tracksList[ix].isMute = hide; // !m_tracksList.at(ix).isMute;
-}
-
-void KdenliveDoc::switchTrackLock(int ix, bool lock)
-{
-    if (ix < 0 || ix >= m_tracksList.count()) {
-        qWarning() << "Track Lock outisde of range";
-        return;
-    }
-    m_tracksList[ix].isLocked = lock;
-}
-
-bool KdenliveDoc::isTrackLocked(int ix) const
-{
-    if (ix < 0 || ix >= m_tracksList.count()) {
-        qWarning() << "Track Lock outisde of range";
-        return true;
-    }
-    return m_tracksList.at(ix).isLocked;
-}
-
-void KdenliveDoc::switchTrackVideo(int ix, bool hide)
-{
-    if (ix < 0 || ix >= m_tracksList.count()) {
-        qWarning() << "SWITCH Track outisde of range";
-        return;
-    }
-    m_tracksList[ix].isBlind = hide; // !m_tracksList.at(ix).isBlind;
-}
-
-int KdenliveDoc::trackDuration(int ix)
-{
-    return m_tracksList.at(ix).duration;
-}
-
-void KdenliveDoc::setTrackDuration(int ix, int duration)
-{
-    m_tracksList[ix].duration = duration;
-}
-
-void KdenliveDoc::insertTrack(int ix, const TrackInfo &type)
-{
-    if (ix == -1) m_tracksList << type;
-    else m_tracksList.insert(ix, type);
-}
-
-void KdenliveDoc::deleteTrack(int ix)
-{
-    if (ix < 0 || ix >= m_tracksList.count()) {
-        qWarning() << "Delete Track outisde of range";
-        return;
-    }
-    m_tracksList.removeAt(ix);
-}
-
-void KdenliveDoc::setTrackType(int ix, const TrackInfo &type)
-{
-    if (ix < 0 || ix >= m_tracksList.count()) {
-        qWarning() << "SET Track Type outisde of range";
-        return;
-    }
-    m_tracksList[ix].type = type.type;
-    m_tracksList[ix].isMute = type.isMute;
-    m_tracksList[ix].isBlind = type.isBlind;
-    m_tracksList[ix].isLocked = type.isLocked;
-    m_tracksList[ix].trackName = type.trackName;
-}
-
-const QList <TrackInfo> KdenliveDoc::tracksList() const
-{
-    return m_tracksList;
-}
-
-QPoint KdenliveDoc::getTracksCount() const
-{
-    int audio = 0;
-    int video = 0;
-    foreach(const TrackInfo & info, m_tracksList) {
-        if (info.type == VideoTrack) video++;
-        else audio++;
-    }
-    return QPoint(video, audio);
-}
-
 void KdenliveDoc::cacheImage(const QString &fileId, const QImage &img) const
 {
     img.save(QDir::cleanPath(m_projectFolder.path() +QDir::separator() + "thumbs/" + fileId + ".png"));
@@ -1516,125 +1268,9 @@ QMap <QString, QString> KdenliveDoc::getRenderProperties() const
     return renderProperties;
 }
 
-void KdenliveDoc::addTrackEffect(int ix, QDomElement effect)
-{
-    if (ix < 0 || ix >= m_tracksList.count()) {
-        qWarning() << "Add Track effect outisde of range";
-        return;
-    }
-    effect.setAttribute("kdenlive_ix", m_tracksList.at(ix).effectsList.count() + 1);
 
-    // Init parameter value & keyframes if required
-    QDomNodeList params = effect.elementsByTagName("parameter");
-    for (int i = 0; i < params.count(); ++i) {
-        QDomElement e = params.item(i).toElement();
 
-        // Check if this effect has a variable parameter
-        if (e.attribute("default").contains('%')) {
-            double evaluatedValue = EffectsController::getStringEval(getProfileInfo(), e.attribute("default"));
-            e.setAttribute("default", evaluatedValue);
-            if (e.hasAttribute("value") && e.attribute("value").startsWith('%')) {
-                e.setAttribute("value", evaluatedValue);
-            }
-        }
-
-        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
-            QString def = e.attribute("default");
-            // Effect has a keyframe type parameter, we need to set the values
-            if (e.attribute("keyframes").isEmpty()) {
-                e.setAttribute("keyframes", "0:" + def + ';');
-                //qDebug() << "///// EFFECT KEYFRAMES INITED: " << e.attribute("keyframes");
-                //break;
-            }
-        }
-
-        if (effect.attribute("id") == "crop") {
-            // default use_profile to 1 for clips with proxies to avoid problems when rendering
-            if (e.attribute("name") == "use_profile" && getDocumentProperty("enableproxy") == "1")
-                e.setAttribute("value", "1");
-        }
-    }
-
-    m_tracksList[ix].effectsList.append(effect);
-}
-
-void KdenliveDoc::removeTrackEffect(int ix, const QDomElement &effect)
-{
-    if (ix < 0 || ix >= m_tracksList.count()) {
-        qWarning() << "Remove Track effect outisde of range";
-        return;
-    }
-    int toRemove = effect.attribute("kdenlive_ix").toInt();
-    for (int i = 0; i < m_tracksList.at(ix).effectsList.count(); ++i) {
-        int index = m_tracksList.at(ix).effectsList.at(i).attribute("kdenlive_ix").toInt();
-        if (toRemove == index) {
-            m_tracksList[ix].effectsList.removeAt(toRemove);
-            break;
-        }
-    }
-}
-
-void KdenliveDoc::setTrackEffect(int trackIndex, int effectIndex, QDomElement effect)
-{
-    if (trackIndex < 0 || trackIndex >= m_tracksList.count()) {
-        qWarning() << "Set Track effect outisde of range";
-        return;
-    }
-    if (effectIndex <= 0 || effectIndex > (m_tracksList.at(trackIndex).effectsList.count()) || effect.isNull()) {
-        //qDebug() << "Invalid effect index: " << effectIndex;
-        return;
-    }
-    m_tracksList[trackIndex].effectsList.removeAt(effect.attribute("kdenlive_ix").toInt());
-    effect.setAttribute("kdenlive_ix", effectIndex);
-    m_tracksList[trackIndex].effectsList.insert(effect);
-    //m_tracksList[trackIndex].effectsList.updateEffect(effect);
-}
-
-void KdenliveDoc::enableTrackEffects(int trackIndex, const QList <int> &effectIndexes, bool disable)
-{
-    if (trackIndex < 0 || trackIndex >= m_tracksList.count()) {
-        qWarning() << "Set Track effect outisde of range";
-        return;
-    }
-    EffectsList list = m_tracksList.at(trackIndex).effectsList;
-    QDomElement effect;
-    for (int i = 0; i < effectIndexes.count(); ++i) {
-        effect = list.itemFromIndex(effectIndexes.at(i));
-        if (!effect.isNull()) effect.setAttribute("disable", (int) disable);
-    }
-}
-
-const EffectsList KdenliveDoc::getTrackEffects(int ix)
-{
-    if (ix < 0 || ix >= m_tracksList.count()) {
-        qWarning() << "Get Track effects outisde of range";
-        return EffectsList();
-    }
-    return m_tracksList.at(ix).effectsList;
-}
-
-QDomElement KdenliveDoc::getTrackEffect(int trackIndex, int effectIndex) const
-{
-    if (trackIndex < 0 || trackIndex >= m_tracksList.count()) {
-        qWarning() << "Get Track effect outisde of range";
-        return QDomElement();
-    }
-    EffectsList list = m_tracksList.at(trackIndex).effectsList;
-    if (effectIndex > list.count() || effectIndex < 1 || list.itemFromIndex(effectIndex).isNull()) return QDomElement();
-    return list.itemFromIndex(effectIndex).cloneNode().toElement();
-}
-
-int KdenliveDoc::hasTrackEffect(int trackIndex, const QString &tag, const QString &id) const
-{
-    if (trackIndex < 0 || trackIndex >= m_tracksList.count()) {
-        qWarning() << "Get Track effect outisde of range";
-        return -1;
-    }
-    EffectsList list = m_tracksList.at(trackIndex).effectsList;
-    return list.hasEffect(tag, id);
-}
-
-bool KdenliveDoc::saveCustomEffects(const QDomNodeList &customeffects)
+void KdenliveDoc::saveCustomEffects(const QDomNodeList &customeffects)
 {
     QDomElement e;
     QStringList importedEffects;
@@ -1663,7 +1299,9 @@ bool KdenliveDoc::saveCustomEffects(const QDomNodeList &customeffects)
     }
     if (!importedEffects.isEmpty())
         KMessageBox::informationList(QApplication::activeWindow(), i18n("The following effects were imported from the project:"), importedEffects);
-    return (!importedEffects.isEmpty());
+    if (!importedEffects.isEmpty()) {
+        emit reloadEffects();
+    }
 }
 
 void KdenliveDoc::updateProjectFolderPlacesEntry()
@@ -1996,3 +1634,31 @@ void KdenliveDoc::slotProcessModifiedClips()
     if (m_modifiedClips.isEmpty()) m_modifiedTimer.stop();
 }
 
+const QMap <QString, QString> KdenliveDoc::documentProperties()
+{
+    m_documentProperties.insert("version", QString::number(DOCUMENTVERSION));
+    m_documentProperties.insert("kdenliveversion", QString(KDENLIVE_VERSION));
+    m_documentProperties.insert("projectfolder", m_projectFolder.path());
+    m_documentProperties.insert("profile", profilePath());
+    m_documentProperties.insert("position", QString::number(m_render->seekPosition().frames(m_render->fps())));
+    return m_documentProperties;
+}
+
+void KdenliveDoc::loadDocumentProperties()
+{
+    QDomElement pl = m_document.firstChildElement("playlist");
+    if (pl.isNull()) return;
+    QDomNodeList props = pl.elementsByTagName("property");
+    QString name;
+    QDomElement e;
+    for (int i = 0; i < props.count(); i++) {
+        e = props.at(i).toElement();
+        name = e.attribute("name");
+        if (name.startsWith("kdenlive:docproperties.")) {
+            name = name.section(".", 1);
+            m_documentProperties.insert(name, e.firstChild().nodeValue());
+        }
+    }
+    m_projectFolder = QUrl::fromLocalFile(m_documentProperties.value("projectfolder"));
+    //setProfilePath(m_documentProperties.value("profile"));
+}

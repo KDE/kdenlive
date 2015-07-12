@@ -106,6 +106,7 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
         connect(m_binController, SIGNAL(reloadTrackProducers(const QString &)), this, SLOT(slotUpdateTrackProducers(const QString &)));
         connect(m_binController, SIGNAL(replaceTimelineProducer(QString)), this, SIGNAL(replaceTimelineProducer(QString)));
         connect(m_binController, SIGNAL(createThumb(QDomElement,QString,int)), this, SLOT(getFileProperties(QDomElement,QString,int)));
+        connect(m_binController, SIGNAL(setDocumentNotes(QString)), this, SIGNAL(setDocumentNotes(QString)));
     }
     //connect(this, SIGNAL(mltFrameReceived(Mlt::Frame*)), this, SLOT(showFrame(Mlt::Frame*)), Qt::UniqueConnection);
 }
@@ -1342,6 +1343,7 @@ int Render::setSceneList(QString playlist, int position)
     m_locale = QLocale();
     m_locale.setNumberOptions(QLocale::OmitGroupSeparator);
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
+    //qDebug()<<" + + +PLAYLIST: "<<playlist;
     //m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-nogl-string", playlist.toUtf8().constData());
     if (!m_mltProducer || !m_mltProducer->is_valid()) {
         qDebug() << " WARNING - - - - -INVALID PLAYLIST: " << playlist.toUtf8().constData();
@@ -1513,7 +1515,7 @@ void Render::checkMaxThreads()
     // One thread to create the audio thumbnails
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
-        qWarning() << "// TRACTOR PROBLEM";
+        qWarning() << "// TRACTOR PROBLEM"<<m_mltProducer->parent().get("mlt_service");
         return;
     }
     Mlt::Tractor tractor(service);
@@ -3442,91 +3444,9 @@ void Render::mltMoveTrackEffect(int track, int oldPos, int newPos)
     refresh();
 }
 
-void Render::mltChangeTrackState(int track, const QString &name, bool mute, bool blind)
-{
-    Mlt::Service service(m_mltProducer->parent().get_service());
-    Mlt::Tractor tractor(service);
-    Mlt::Producer trackProducer(tractor.track(track));
 
-    // Make sure muting will not produce problems with our audio mixing transition,
-    // because audio mixing is done between each track and the lowest one
-    bool audioMixingBroken = false;
-    if (mute && trackProducer.get_int("hide") < 2 ) {
-        // We mute a track with sound
-        if (track == getLowestNonMutedAudioTrack(tractor)) audioMixingBroken = true;
-        //qDebug()<<"Muting track: "<<track <<" / "<<getLowestNonMutedAudioTrack(tractor);
-    }
-    else if (!mute && trackProducer.get_int("hide") > 1 ) {
-        // We un-mute a previously muted track
-        if (track < getLowestNonMutedAudioTrack(tractor)) audioMixingBroken = true;
-    }
-    if (!name.isEmpty()) {
-        // Rename track
-        trackProducer.set("kdenlive:track_name", name.toUtf8().constData());
-    }
-    if (mute) {
-        if (blind) trackProducer.set("hide", 3);
-        else trackProducer.set("hide", 2);
-    } else if (blind) {
-        trackProducer.set("hide", 1);
-    } else {
-        trackProducer.set("hide", 0);
-    }
-    if (audioMixingBroken) fixAudioMixing(tractor);
 
-    tractor.multitrack()->refresh();
-    tractor.refresh();
-    refresh();
-}
 
-int Render::getLowestNonMutedAudioTrack(Mlt::Tractor tractor)
-{
-    for (int i = 1; i < tractor.count(); ++i) {
-        Mlt::Producer trackProducer(tractor.track(i));
-        if (trackProducer.get_int("hide") < 2) return i;
-    }
-    return tractor.count() - 1;
-}
-
-void Render::fixAudioMixing(Mlt::Tractor tractor)
-{
-    // Make sure the audio mixing transitions are applied to the lowest audible (non muted) track
-    int lowestTrack = getLowestNonMutedAudioTrack(tractor);
-
-    mlt_service serv = m_mltProducer->parent().get_service();
-    Mlt::Field *field = tractor.field();
-    mlt_service_lock(serv);
-
-    mlt_service nextservice = mlt_service_get_producer(serv);
-    mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
-    QString mlt_type = mlt_properties_get(properties, "mlt_type");
-    QString resource = mlt_properties_get(properties, "mlt_service");
-
-    mlt_service nextservicetodisconnect;
-    // Delete all audio mixing transitions
-    while (mlt_type == "transition") {
-        if (resource == "mix") {
-            nextservicetodisconnect = nextservice;
-            nextservice = mlt_service_producer(nextservice);
-            mlt_field_disconnect_service(field->get_field(), nextservicetodisconnect);
-        }
-        else nextservice = mlt_service_producer(nextservice);
-        if (nextservice == NULL) break;
-        properties = MLT_SERVICE_PROPERTIES(nextservice);
-        mlt_type = mlt_properties_get(properties, "mlt_type");
-        resource = mlt_properties_get(properties, "mlt_service");
-    }
-
-    // Re-add correct audio transitions
-    for (int i = lowestTrack + 1; i < tractor.count(); ++i) {
-        Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, "mix");
-        transition->set("always_active", 1);
-        transition->set("combine", 1);
-        transition->set("internal_added", 237);
-        field->plant_transition(*transition, lowestTrack, i);
-    }
-    mlt_service_unlock(serv);
-}
 
 bool Render::mltResizeClipCrop(ItemInfo info, GenTime newCropStart)
 {
@@ -4596,6 +4516,11 @@ Mlt::Producer *Render::getBinVideoProducer(const QString &id)
 void Render::loadExtraProducer(const QString &id, Mlt::Producer *prod)
 {
     m_binController->loadExtraProducer(id, prod);
+}
+
+const QString Render::getBinProperty(const QString &name)
+{
+    return m_binController->getProperty(name);
 }
 
 

@@ -62,6 +62,7 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
     setZValue(2);
     m_effectList = EffectsList(true);
     FRAME_SIZE = frame_width;
+    qDebug()<<" + + +LOADING CLP on TK: "<<info.track<<" / THEIGHT; "<<KdenliveSettings::trackheight();
     setRect(0, 0, (info.endPos - info.startPos).frames(m_fps) - 0.02, (double) itemHeight());
     setPos(info.startPos.frames(m_fps), (double)(info.track * KdenliveSettings::trackheight()) + 1 + itemOffset());
     // set speed independent info

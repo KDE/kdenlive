@@ -90,7 +90,7 @@ Q_OBJECT public:
     void clearCache();
     AbstractGroupItem *createGroup();
     void removeGroup(AbstractGroupItem *group);
-    QDomElement groupsXml() const;
+    QString groupsXml() const;
     /** @brief remove a clip id from the queue list. */
     void stopThumbs(const QString &id);
     void projectTreeThumbReady(const QString &id, int frame, const QImage &img, int type);

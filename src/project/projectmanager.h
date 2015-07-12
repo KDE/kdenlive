@@ -52,6 +52,7 @@ public:
 
     void doOpenFile(const QUrl &url, KAutoSaveFile *stale);
     KRecentFilesAction *recentFilesAction();
+    void prepareSave();
 
 public slots:
     void newFile(bool showProjectSettings = true, bool force = false);

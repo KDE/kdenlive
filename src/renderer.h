@@ -259,8 +259,6 @@ class Render: public AbstractRender
     void mltMoveEffect(int track, const GenTime &position, int oldPos, int newPos);
     void mltMoveTrackEffect(int track, int oldPos, int newPos);
 
-    /** @brief Enables/disables audio/video in a track. */
-    void mltChangeTrackState(int track, const QString &name, bool mute, bool blind);
     bool mltMoveTransition(QString type, int startTrack,  int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut);
     bool mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);
     void mltDeleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);
@@ -342,6 +340,8 @@ class Render: public AbstractRender
     Mlt::Producer *getBinVideoProducer(const QString &id);
     /** @brief Load extra producers (video only, slowmotion) from timeline */
     void loadExtraProducer(const QString &id, Mlt::Producer *prod);
+    /** @brief Get a property from the bin's playlist */
+    const QString getBinProperty(const QString &name);
 
 private:
 
@@ -398,12 +398,6 @@ private:
     //void buildConsumer();
     void resetZoneMode();
     void fillSlowMotionProducers();
-    /** @brief Get the track number of the lowest audible (non muted) audio track
-     *  @param return The track number */
-    int getLowestNonMutedAudioTrack(Mlt::Tractor tractor);
-
-    /** @brief Make sure our audio mixing transitions are applied to the lowest track */
-    void fixAudioMixing(Mlt::Tractor tractor);
     /** @brief Make sure we inform MLT if we need a lot of threads for avformat producer */
     void checkMaxThreads();
     /** @brief Clone serialisable properties only */
@@ -466,6 +460,9 @@ signals:
     void multiStreamFound(const QString &,QList<int>,QList<int>,stringMap data);
     /** @brief A clip has changed, we must reload timeline producers. */
     void replaceTimelineProducer(const QString&);
+
+    /** @brief Load project notes. */
+    void setDocumentNotes(const QString&);
 
 
     /** @brief A frame's image has to be shown.

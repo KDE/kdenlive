@@ -286,6 +286,24 @@ MltVideoProfile ProfilesDialog::getVideoProfile(const QString &name)
 }
 
 // static
+MltVideoProfile ProfilesDialog::getVideoProfile(Mlt::Profile &profile)
+{
+    MltVideoProfile result;
+    result.description = profile.description();
+    result.frame_rate_num = profile.frame_rate_num();
+    result.frame_rate_den = profile.frame_rate_den();
+    result.width = profile.width();
+    result.height = profile.height();
+    result.progressive = profile.progressive();
+    result.sample_aspect_num = profile.sample_aspect_num();
+    result.sample_aspect_den = profile.sample_aspect_den();
+    result.display_aspect_num = profile.display_aspect_num();
+    result.display_aspect_den = profile.display_aspect_den();
+    result.colorspace = profile.colorspace();
+    return result;
+}
+
+// static
 bool ProfilesDialog::existingProfileDescription(const QString &desc)
 {
     QStringList profilesFilter;

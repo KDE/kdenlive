@@ -21,21 +21,21 @@
 #include "trackdialog.h"
 
 #include "kdenlivesettings.h"
-#include "doc/kdenlivedoc.h"
+#include "timeline.h"
 
 #include <QDebug>
 #include <QIcon>
 
 
-TrackDialog::TrackDialog(KdenliveDoc *doc, QWidget * parent) :
+TrackDialog::TrackDialog(Timeline *timeline, QWidget * parent) :
         QDialog(parent)
 {
     //setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QIcon videoIcon = QIcon::fromTheme("kdenlive-show-video");
     QIcon audioIcon = QIcon::fromTheme("kdenlive-show-audio");
     setupUi(this);
-    for (int i = 0; i < doc->tracksCount(); ++i) {
-        TrackInfo info = doc->trackInfoAt(doc->tracksCount() - i - 1);
+    for (int i = 0; i < timeline->tracksCount(); ++i) {
+        TrackInfo info = timeline->getTrackInfo(timeline->tracksCount() - i - 1);
         comboTracks->addItem(info.type == VideoTrack ? videoIcon : audioIcon,
                              info.trackName.isEmpty() ? QString::number(i) : info.trackName + " (" + QString::number(i) + ')');
     }

@@ -415,7 +415,7 @@ void ClipManager::removeGroup(AbstractGroupItem *group)
     m_groupsList.removeAll(group);
 }
 
-QDomElement ClipManager::groupsXml() const
+QString ClipManager::groupsXml() const
 {
     QDomDocument doc;
     QDomElement groups = doc.createElement("groups");
@@ -442,7 +442,7 @@ QDomElement ClipManager::groupsXml() const
             }
         }
     }
-    return doc.documentElement();
+    return doc.toString();
 }
 
 

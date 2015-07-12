@@ -671,7 +671,7 @@ void MainWindow::slotAddEffect(const QDomElement &effect)
     }
     QDomElement effectToAdd = effect.cloneNode().toElement();
     EFFECTMODE status = m_effectStack->effectStatus();
-    if (status == TIMELINE_TRACK) pCore->projectManager()->currentTimeline()->projectView()->slotAddTrackEffect(effectToAdd, pCore->projectManager()->current()->tracksCount() - m_effectStack->trackIndex());
+    if (status == TIMELINE_TRACK) pCore->projectManager()->currentTimeline()->projectView()->slotAddTrackEffect(effectToAdd, pCore->projectManager()->currentTimeline()->tracksCount() - m_effectStack->trackIndex());
     else if (status == TIMELINE_CLIP) pCore->projectManager()->currentTimeline()->projectView()->slotAddEffect(effectToAdd, GenTime(), -1);
     else if (status == MASTER_CLIP) pCore->bin()->addEffect(QString(), effectToAdd);
 }
@@ -1335,7 +1335,7 @@ void MainWindow::slotEditProfiles()
 void MainWindow::slotEditProjectSettings()
 {
     KdenliveDoc *project = pCore->projectManager()->current();
-    QPoint p = project->getTracksCount();
+    QPoint p = pCore->projectManager()->currentTimeline()->getTracksCount();
     
     QPointer<ProjectSettings> w = new ProjectSettings(project, project->metadata(), pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), p.x(), p.y(), project->projectFolder().path(), true, !project->isModified(), this);
     connect(w, SIGNAL(disableProxies()), this, SLOT(slotDisableProxies()));
@@ -1542,6 +1542,7 @@ void MainWindow::connectDocument()
     Timeline *trackView = pCore->projectManager()->currentTimeline();
     pCore->binController()->resetProfile(project->profilePath());
     connect(project, SIGNAL(startAutoSave()), pCore->projectManager(), SLOT(slotStartAutoSave()));
+    connect(project, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
     // Resetting monitor profiles should now be handled by binController
     //pCore->monitorManager()->resetProfiles(project->timecode());
     KdenliveSettings::setProject_fps(project->fps());
@@ -2293,15 +2294,15 @@ void MainWindow::customEvent(QEvent* e)
 
 void MainWindow::slotTimelineClipSelected(ClipItem* item, bool raise)
 {
-    if (item == m_mainClip) return;
-    if (m_mainClip) {
-        m_mainClip->setMainSelectedClip(false);
+    if (item != m_mainClip) {
+        if (m_mainClip) {
+            m_mainClip->setMainSelectedClip(false);
+        }
+        if (item) {
+            item->setMainSelectedClip(true);
+        }
+        m_mainClip = item;
     }
-    if (item) {
-        item->setMainSelectedClip(true);
-    }
-    m_mainClip = item;
-
     m_effectStack->slotClipItemSelected(item, m_projectMonitor);
     m_projectMonitor->slotSetSelectedClip(item);
     if (raise) {
@@ -2811,7 +2812,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     QString mltSuffix(".mlt");
     QList<QString> playlistPaths;
     QList<QString> trackNames;
-    const QList <TrackInfo> trackInfoList = project->tracksList();
+    const QList <TrackInfo> trackInfoList = pCore->projectManager()->currentTimeline()->getTracksInfo();
     int tracksCount = 1;
     bool stemExport = m_renderWidget->isStemAudioExportEnabled();
 
@@ -3147,7 +3148,8 @@ void MainWindow::slotUpdateProxySettings()
 void MainWindow::slotArchiveProject()
 {
     QList <ClipController*> list = pCore->binController()->getControllerList();
-    QDomDocument doc = pCore->projectManager()->current()->xmlSceneList(m_projectMonitor->sceneList(), pCore->projectManager()->currentTimeline()->projectView()->guidesData());
+    pCore->binController()->saveDocumentProperties(pCore->projectManager()->current()->documentProperties(), pCore->projectManager()->currentTimeline()->projectView()->guidesData());
+    QDomDocument doc = pCore->projectManager()->current()->xmlSceneList(m_projectMonitor->sceneList());
     QPointer<ArchiveWidget> d = new ArchiveWidget(pCore->projectManager()->current()->url().fileName(), doc, list, pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), this);
     if (d->exec()) {
         m_messageLabel->setMessage(i18n("Archiving project"), OperationCompletedMessage);
@@ -3184,7 +3186,7 @@ void MainWindow::slotSaveTimelineClip()
         }
         QUrl url = QFileDialog::getSaveFileUrl(this, i18n("Save clip"), pCore->projectManager()->current()->projectFolder(), i18n("MLT playlist (*.mlt)"));
         if (url.isValid()) {
-            m_projectMonitor->render->saveClip(pCore->projectManager()->current()->tracksCount() - clip->track(), clip->startPos(), url);
+            m_projectMonitor->render->saveClip(pCore->projectManager()->currentTimeline()->tracksCount() - clip->track(), clip->startPos(), url);
         }
     }
 }

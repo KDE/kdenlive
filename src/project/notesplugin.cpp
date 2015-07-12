@@ -48,4 +48,9 @@ NotesWidget* NotesPlugin::widget()
     return m_widget;
 }
 
+void NotesPlugin::clear()
+{
+    m_widget->clear();
+}
+
 

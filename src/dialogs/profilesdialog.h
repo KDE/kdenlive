@@ -24,6 +24,7 @@
 
 #include "definitions.h"
 #include "ui_profiledialog_ui.h"
+#include <mlt++/Mlt.h>
 
 class ProfilesDialog : public QDialog
 {
@@ -37,6 +38,7 @@ public:
     void fillList(const QString &selectedProfile = QString());
     static QMap< QString, QString > getSettingsFromFile(const QString& path);
     static MltVideoProfile getVideoProfile(const QString &name);
+    static MltVideoProfile getVideoProfile(Mlt::Profile &profile);
     static QMap <QString, QString> getProfilesInfo();
     static void saveProfile(MltVideoProfile &profile, QString profilePath = QString());
     static QString existingProfile(const MltVideoProfile &profile);

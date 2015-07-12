@@ -22,6 +22,7 @@
 
 #include "timelinecommands.h"
 #include "customtrackview.h"
+#include "timeline.h"
 
 #include <klocalizedstring.h>
 
@@ -263,23 +264,28 @@ void ChangeSpeedCommand::redo()
     m_view->doChangeClipSpeed(m_clipInfo, m_speedIndependantInfo, m_new_speed, m_old_speed, m_new_strobe, m_clipId);
 }
 
-ConfigTracksCommand::ConfigTracksCommand(CustomTrackView* view, const QList<TrackInfo> &oldInfos, const QList<TrackInfo> &newInfos, QUndoCommand* parent) :
+ConfigTracksCommand::ConfigTracksCommand(Timeline *timeline, int track, const QString &oldName, const QString &newName, int oldState, int newState, QUndoCommand* parent) :
         QUndoCommand(parent),
-        m_view(view),
-        m_oldInfos(oldInfos),
-        m_newInfos(newInfos)
+        m_timeline(timeline),
+        m_ix(track),
+        m_oldName(oldName),
+        m_newName(newName),
+        m_oldState(oldState),
+        m_newState(newState)
 {
     setText(i18n("Configure Tracks"));
 }
 // virtual
 void ConfigTracksCommand::undo()
 {
-    m_view->configTracks(m_oldInfos);
+    if (m_oldName != m_newName) m_timeline->renameTrack(m_ix, m_oldName);
+    if (m_oldState != m_newState) m_timeline->updateTrackState(m_ix, m_oldState);
 }
 // virtual
 void ConfigTracksCommand::redo()
 {
-    m_view->configTracks(m_newInfos);
+    if (m_oldName != m_newName) m_timeline->renameTrack(m_ix, m_newName);
+    if (m_oldState != m_newState) m_timeline->updateTrackState(m_ix, m_newState);
 }
 
 EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, int stackPos, bool refreshEffectStack, bool doIt, QUndoCommand *parent) :

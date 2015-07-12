@@ -50,12 +50,16 @@ public:
     /** @brief Track constructor
      * @param playlist is the MLT object used for monitor/render
      * @param fps is the read speed (frames per seconds) */
-    explicit Track(Mlt::Playlist &playlist, qreal fps);
+    explicit Track(Mlt::Playlist &playlist, TrackType type, qreal fps);
     ~Track();
 
     /// Property access function
     Mlt::Playlist & playlist();
     qreal fps();
+    /** List containing track effects */
+    EffectsList effectsList;
+    /** Track type (audio / video) */
+    TrackType type;
 
     /** @brief convertion utility function
      * @param time (in seconds)
@@ -125,6 +129,19 @@ public:
      * @param forceCreation if true, we do not attempt to re-use existing track producer but recreate it
      * @return producer cut for this track */
     Mlt::Producer *clipProducer(Mlt::Producer *parent, PlaylistState::ClipState state, bool forceCreation = false);
+    /** @brief Returns true if there is a clip with audio on this track */
+    bool hasAudio();
+    void setProperty(const QString &name, const QString &value);
+    void setProperty(const QString &name, int value);
+    const QString getProperty(const QString &name);
+    int getIntProperty(const QString &name);
+    TrackInfo info();
+    void setInfo(TrackInfo info);
+    int state();
+    void setState(int state);
+    /** @brief Check if we have a blank space at pos and its length. 
+     *  Returns -1 if track is shorter, 0 if not blank and > 0 for blank length */
+    int getBlankLength(int pos, bool fromBlankStart);
 
 public Q_SLOTS:
     void setPlaylist(Mlt::Playlist &playlist);

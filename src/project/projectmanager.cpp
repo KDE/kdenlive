@@ -150,6 +150,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     }
     pCore->window()->m_timelineArea->setEnabled(true);
     bool openBackup;
+    m_notesPlugin->clear();
     KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     bool ok;
@@ -216,11 +217,13 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges)
 bool ProjectManager::saveFileAs(const QString &outputFileName)
 {
     pCore->monitorManager()->pauseActiveMonitor();
+    // Sync document properties
+    prepareSave();
 
-    if (m_project->saveSceneList(outputFileName, pCore->monitorManager()->projectMonitor()->sceneList(), m_trackView->projectView()->guidesData()) == false) {
+    if (m_project->saveSceneList(outputFileName, pCore->monitorManager()->projectMonitor()->sceneList()) == false) {
         return false;
     }
-    
+
     // Save timeline thumbnails
     m_trackView->projectView()->saveThumbnails();
     m_project->setUrl(QUrl::fromLocalFile(outputFileName));
@@ -429,6 +432,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     progressDialog.setLabelText(i18n("Loading clips"));
     progressDialog.show();
     bool openBackup;
+    m_notesPlugin->clear();
     KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()), pCore->window()->m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window(), &progressDialog);
 
     progressDialog.setLabelText(i18n("Loading thumbnails"));
@@ -565,8 +569,17 @@ void ProjectManager::slotStartAutoSave()
 
 void ProjectManager::slotAutoSave()
 {
-    m_project->slotAutoSave(m_trackView->projectView()->guidesData());
+    prepareSave();
+    m_project->slotAutoSave();
     m_lastSave.start();
+}
+
+void ProjectManager::prepareSave()
+{
+    pCore->binController()->saveDocumentProperties(m_project->documentProperties(), m_trackView->projectView()->guidesData());
+    QString projectNotes = m_project->documentNotes();
+    pCore->binController()->saveProperty("kdenlive:documentnotes", projectNotes);
+    pCore->binController()->saveProperty("kdenlive:clipgroups", m_project->groupsXml());
 }
 
 

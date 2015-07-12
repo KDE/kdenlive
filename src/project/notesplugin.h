@@ -30,8 +30,8 @@ class NotesPlugin : public QObject
 
 public:
     explicit NotesPlugin(ProjectManager *projectManager);
-
     NotesWidget *widget();
+    void clear();
 
 private slots:
     void setProject(KdenliveDoc *document);

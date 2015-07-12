@@ -109,6 +109,10 @@ void BinController::initializeBin(Mlt::Playlist playlist)
     }
     emit loadFolders(foldersData);
 
+    // Read notes
+    QString notes = playlistProps.get("kdenlive:documentnotes");
+    emit setDocumentNotes(notes);
+
     // Fill Controller's list
     m_binPlaylist = new Mlt::Playlist(playlist);
     m_binPlaylist->set("id", kPlaylistTrackId);
@@ -485,5 +489,33 @@ void BinController::checkAudioThumbs()
             }
         }
     }
+}
+
+void BinController::saveDocumentProperties(const QMap <QString, QString> props, const QMap <double, QString> guidesData)
+{
+    QMapIterator<QString, QString> i(props);
+    while (i.hasNext()) {
+        i.next();
+        m_binPlaylist->set(("kdenlive:docproperties." + i.key()).toUtf8().constData(), i.value().toUtf8().constData());
+    }
+
+    // Append guides
+    QMapIterator<double, QString> g(guidesData);
+    QLocale locale;
+    while (g.hasNext()) {
+        g.next();
+        QString propertyName = "kdenlive:guide." + locale.toString(g.key());
+        m_binPlaylist->set(propertyName.toUtf8().constData(), g.value().toUtf8().constData());
+    }
+}
+
+void BinController::saveProperty(const QString &name, const QString & value)
+{
+    m_binPlaylist->set(name.toUtf8().constData(), value.toUtf8().constData());
+}
+
+const QString BinController::getProperty(const QString &name)
+{
+    return QString(m_binPlaylist->get(name.toUtf8().constData()));
 }
 

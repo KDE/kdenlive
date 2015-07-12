@@ -212,6 +212,7 @@ void HeaderTrack::switchAudio(bool enable)
 
 void HeaderTrack::switchLock(bool enable)
 {
+    qDebug()<<" * * * *TRACK: "<<m_index<<" , LOCKED";
     emit switchTrackLock(m_index, enable);
 }
 
@@ -225,6 +226,12 @@ void HeaderTrack::slotRenameTrack()
     track_number->clearFocus();
     if (m_name != track_number->text())
         emit renameTrack(m_index, track_number->text());
+}
+
+void HeaderTrack::renameTrack(const QString &name)
+{
+    m_name = name;
+    track_number->setText(name);
 }
 
 

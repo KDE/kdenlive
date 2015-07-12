@@ -65,6 +65,16 @@ public:
     int outPoint() const;
     int inPoint() const;
     int fitZoom() const;
+    void lockTrack(int ix, bool lock);
+    bool isTrackLocked(int ix);
+    /** @brief Dis / enable video for a track. */
+    void switchTrackVideo(int ix, bool hide);
+    /** @brief Dis / enable audio for a track. */
+    void switchTrackAudio(int ix, bool mute);
+    /** @brief find lowest track with audio in timeline. */
+    int getLowestNonMutedAudioTrack();
+    /** @brief Adjust audio transitions depending on tracks muted state. */
+    void fixAudioMixing();
 
     /** @brief Updates (redraws) the ruler.
     *
@@ -74,7 +84,7 @@ public:
     /** @brief Parse tracks to see if project has audio in it.
     *
     * Parses all tracks to check if there is audio data. */
-    bool checkProjectAudio() const;
+    bool checkProjectAudio();
     
     /** @brief Load guides from data */
     void loadGuides(QMap <double, QString> guidesData);
@@ -86,6 +96,24 @@ public:
     static QDomElement getEffectByTag(const QString &effecttag, const QString &effectid);
     /** @brief Move a clip between tracks */
     bool moveClip(int startTrack, qreal startPos, int endTrack, qreal endPos, PlaylistState::ClipState state, int mode);
+    void renameTrack(int ix, const QString &name);
+    void updateTrackState(int ix, int state);
+    TrackInfo getTrackInfo(int ix);
+    void setTrackInfo(int trackIndex, TrackInfo info);
+    QList <TrackInfo> getTracksInfo();
+    void addTrackEffect(int trackIndex, QDomElement effect);
+    void removeTrackEffect(int trackIndex, const QDomElement &effect);
+    void setTrackEffect(int trackIndex, int effectIndex, QDomElement effect);
+    void enableTrackEffects(int trackIndex, const QList <int> &effectIndexes, bool disable);
+    const EffectsList getTrackEffects(int trackIndex);
+    QDomElement getTrackEffect(int trackIndex, int effectIndex);
+    int hasTrackEffect(int trackIndex, const QString &tag, const QString &id);
+    MltVideoProfile mltProfile() const;
+    double fps() const;
+    QPoint getTracksCount();
+    /** @brief Check if we have a blank space on selected track. 
+     *  Returns -1 if track is shorter, 0 if not blank and > 0 for blank length */
+    int getTrackSpaceLength(int trackIndex, int pos, bool fromBlankStart);
 
 protected:
     void keyPressEvent(QKeyEvent * event);
@@ -97,9 +125,7 @@ public slots:
     void slotSetZone(const QPoint &p, bool updateDocumentProperties = true);
     /** @brief Save a snapshot image of current timeline view */
     void slotSaveTimelinePreview(const QString &path);
-
     void checkDuration(int duration);
-
 
 private:
     Mlt::Tractor *m_tractor;
@@ -123,7 +149,7 @@ private:
 
     void parseDocument(const QDomDocument &doc);
     int getTracks();
-    int addTrack(int ix, Mlt::Playlist &playlist, bool locked);
+    int addTrack(int ix, Mlt::Playlist &playlist);
     void getEffects(Mlt::Service &service, ClipItem *clip, int track = 0);
     QString getKeyframes(Mlt::Service service, int &ix, QDomElement e);
     void getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect);

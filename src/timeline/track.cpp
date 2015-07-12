@@ -27,9 +27,11 @@
 #include <QDebug>
 #include <math.h>
 
-Track::Track(Mlt::Playlist &playlist, qreal fps) :
+Track::Track(Mlt::Playlist &playlist, TrackType type, qreal fps) :
+    type(type),
     m_playlist(playlist),
-    m_fps(fps)
+    m_fps(fps),
+    effectsList(EffectsList(true))
 {
 }
 
@@ -326,7 +328,7 @@ bool Track::replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state
     }
     Clip(*cut).addEffects(*orig);
     delete orig;
-    bool ok = !m_playlist.insert_at(frame(t), cut, 1);
+    bool ok = m_playlist.insert_at(frame(t), cut, 1);
     delete cut;
     m_playlist.unlock();
     return ok;
@@ -371,3 +373,88 @@ Mlt::Producer *Track::clipProducer(Mlt::Producer *parent, PlaylistState::ClipSta
     }
     return prod;
 }
+
+bool Track::hasAudio() 
+{
+    for (int i = 0; i < m_playlist.count(); i++) {
+        if (m_playlist.is_blank(i)) continue;
+        Mlt::Producer *p = m_playlist.get_clip(i);
+        QString service = p->get("mlt_service");
+        if (service == "xml" || p->get_int("audio_index") > -1) {
+            delete p;
+            return true;
+        }
+        delete p;
+    }
+    return false;
+}
+
+void Track::setProperty(const QString &name, const QString &value)
+{
+    m_playlist.set(name.toUtf8().constData(), value.toUtf8().constData());
+}
+
+void Track::setProperty(const QString &name, int value)
+{
+    m_playlist.set(name.toUtf8().constData(), value);
+}
+
+const QString Track::getProperty(const QString &name)
+{
+    return QString(m_playlist.get(name.toUtf8().constData()));
+}
+
+int Track::getIntProperty(const QString &name)
+{
+    return m_playlist.get_int(name.toUtf8().constData());
+}
+
+TrackInfo Track::info()
+{
+    TrackInfo info;
+    info.trackName = m_playlist.get("kdenlive:track_name");
+    info.isLocked= m_playlist.get_int("kdenlive:locked_track");
+    int currentState = m_playlist.parent().get_int("hide");
+    info.isMute = currentState & 2;
+    info.isBlind = currentState & 1;
+    info.type = type;
+    info.effectsList = effectsList;
+    return info;
+}
+
+void Track::setInfo(TrackInfo info)
+{
+    m_playlist.set("kdenlive:track_name", info.trackName.toUtf8().constData());
+    m_playlist.set("kdenlive:locked_track", info.isLocked ? 1 : 0);
+    int state = 0;
+    if (info.isMute) {
+        if (info.isBlind) state = 3;
+        else state = 2;
+    }
+    else if (info.isBlind) state = 1;
+    m_playlist.parent().set("hide", state);
+    type = info.type;
+}
+
+int Track::state()
+{
+    return m_playlist.parent().get_int("hide");
+}
+
+void Track::setState(int state)
+{
+    m_playlist.parent().set("hide", state);
+}
+
+int Track::getBlankLength(int pos, bool fromBlankStart)
+{
+    int clipIndex = m_playlist.get_clip_index_at(pos);
+    if (clipIndex == m_playlist.count()) {
+        // We are after the end of the playlist
+        return -1;
+    }
+    if (!m_playlist.is_blank(clipIndex)) return 0;
+    if (fromBlankStart) return m_playlist.clip_length(clipIndex);
+    return m_playlist.clip_length(clipIndex) + m_playlist.clip_start(clipIndex) - pos;
+}
+

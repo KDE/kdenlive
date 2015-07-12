@@ -78,6 +78,7 @@ public:
     QUndoStack *commandStack();
     Render *renderer();
     ClipManager *clipManager();
+    QString groupsXml() const;
 
     /** @brief Adds a clip to the project tree.
      * @return false if the user aborted the operation, true otherwise */
@@ -104,7 +105,7 @@ public:
     /** @brief Informs Kdenlive of the audio thumbnails generation progress. */
     void setThumbsProgress(const QString &message, int progress);
     const QString &profilePath() const;
-    MltVideoProfile mltProfile() const;
+    Q_DECL_DEPRECATED MltVideoProfile mltProfile() const;
     ProfileInfo getProfileInfo() const;
     //Mlt::Profile *profile();
     const QString description() const;
@@ -124,33 +125,9 @@ public:
     double dar() const;
     double projectDuration() const;
     /** @brief Returns the project file xml. */
-    QDomDocument xmlSceneList(const QString &scene, QMap <double, QString> guidesData);
+    QDomDocument xmlSceneList(const QString &scene);
     /** @brief Saves the project file xml to a file. */
-    bool saveSceneList(const QString &path, const QString &scene, QMap <double, QString> guidesData);
-    int tracksCount() const;
-    TrackInfo trackInfoAt(int ix) const;
-    void insertTrack(int ix, const TrackInfo &type);
-    void deleteTrack(int ix);
-    void setTrackType(int ix, const TrackInfo &type);
-    const QList <TrackInfo> tracksList() const;
-
-    /** @brief Gets the number of audio and video tracks and returns them as a QPoint with x = video, y = audio. */
-    QPoint getTracksCount() const;
-
-    void switchTrackVideo(int ix, bool hide);
-    void switchTrackAudio(int ix, bool hide);
-    void switchTrackLock(int ix, bool lock);
-    bool isTrackLocked(int ix) const;
-
-    /** @brief Sets the duration of track @param ix to @param duration.
-     * This does not! influence the actual track but only the value in its TrackInfo. */
-    void setTrackDuration(int ix, int duration);
-
-    /** @brief Returns the duration of track @param ix.
-     *
-     * The returned duration might differ from the actual track duration!
-     * It is the one stored in the track's TrackInfo. */
-    int trackDuration(int ix);
+    bool saveSceneList(const QString &path, const QString &scene);
     void cacheImage(const QString &fileId, const QImage &img) const;
     void setProjectFolder(QUrl url);
     void setZone(int start, int end);
@@ -161,15 +138,6 @@ public:
 
     /** @brief Gets the list of renderer properties saved into the document. */
     QMap <QString, QString> getRenderProperties() const;
-    void addTrackEffect(int ix, QDomElement effect);
-    void removeTrackEffect(int ix, const QDomElement &effect);
-    void setTrackEffect(int trackIndex, int effectIndex, QDomElement effect);
-    const EffectsList getTrackEffects(int ix);
-    /** @brief Enable / disable an effect in Kdenlive's xml list. */
-    void enableTrackEffects(int trackIndex, const QList<int> &effectIndexes, bool disable);
-    QDomElement getTrackEffect(int trackIndex, int effectIndex) const;
-    /** @brief Check if a track already contains a specific effect. */
-    int hasTrackEffect(int trackIndex, const QString &tag, const QString &id) const;
     /** @brief Get a list of folder id's that were opened on last save. */
     QStringList getExpandedFolders();
     /** @brief Read the display ratio from an xml project file. */
@@ -185,9 +153,13 @@ public:
     const QSize getRenderSize() const;
     /** @brief Add url to the file watcher so that we monitor changes */
     void watchFile(const QUrl &url);
-    
+    /** @brief Get all document properties that need to be saved */
+    const QMap <QString, QString> documentProperties();
     bool useProxy() const;
-    
+    QString documentNotes() const;
+    /** @brief Saves effects embedded in project file. */
+    void saveCustomEffects(const QDomNodeList &customeffects);
+
 private:
     QUrl m_url;
     QDomDocument m_document;
@@ -196,7 +168,6 @@ private:
     QTimer m_modifiedTimer;
     /** List of the clip IDs that need to be reloaded after being externally modified */
     QMap <QString, QTime> m_modifiedClips;
-    double m_fps;
     int m_width;
     int m_height;
     Timecode m_timecode;
@@ -215,7 +186,6 @@ private:
     QMap <QString, QString> m_documentProperties;
     QMap <QString, QString> m_documentMetadata;
 
-    QList <TrackInfo> m_tracksList;
     void setNewClipResource(const QString &id, const QString &path);
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
     void moveProjectData(const QUrl &url);
@@ -230,14 +200,13 @@ private:
     /** @brief Creates a new project. */
     QDomDocument createEmptyDocument(int videotracks, int audiotracks);
     QDomDocument createEmptyDocument(const QList<TrackInfo> &tracks);
-    /** @brief Saves effects embedded in project file.
-    *   @return True if effects were imported.  */
-    bool saveCustomEffects(const QDomNodeList &customeffects);
 
     /** @brief Updates the project folder location entry in the kdenlive file dialogs to point to the current project folder. */
     void updateProjectFolderPlacesEntry();
     /** @brief Only keep some backup files, delete some */
     void cleanupBackupFiles();
+    /** @brief Load document properties from the xml file */
+    void loadDocumentProperties();
 
 public slots:
     void slotCreateXmlClip(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
@@ -252,7 +221,7 @@ public slots:
     void slotProxyCurrentItem(bool doProxy);
     /** @brief Saves the current project at the autosave location.
      * @description The autosave files are in ~/.kde/data/stalefiles/kdenlive/ */
-    void slotAutoSave(QMap <double, QString> guidesData);
+    void slotAutoSave();
 
 private slots:
     void slotClipModified(const QString &path);
@@ -260,6 +229,7 @@ private slots:
     void slotClipAvailable(const QString &path);
     void slotProcessModifiedClips();
     void slotModified();
+    void slotSetDocumentNotes(const QString &notes);
 
 signals:
     void resetProjectList();
@@ -276,6 +246,8 @@ signals:
     void saveTimelinePreview(const QString &path);
     /** @brief Trigger the autosave timer start */
     void startAutoSave();
+    /** @brief Current doc created effects, reload list */
+    void reloadEffects();
 };
 
 #endif

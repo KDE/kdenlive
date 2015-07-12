@@ -37,7 +37,7 @@ private slots:
 };
 
 class TrackInfo;
-class KdenliveDoc;
+class Timeline;
 class QTableWidgetItem;
 
 /**
@@ -54,7 +54,7 @@ public:
     * @param doc the kdenlive document whose tracks to use
     * @param selected the track which should be selected by default
     * @param parent the parent widget */
-    explicit TracksConfigDialog(KdenliveDoc * doc, int selected = -1, QWidget * parent = 0);
+    explicit TracksConfigDialog(Timeline * timeline, int selected = -1, QWidget * parent = 0);
 
     /** @brief Returns the new list of tracks created from the table. */
     const QList <TrackInfo> tracksList();
@@ -74,7 +74,7 @@ private slots:
     void slotDelete();
 
 private:
-    KdenliveDoc *m_doc;
+    Timeline *m_timeline;
     QList <int> m_deletedRows;
 };
 

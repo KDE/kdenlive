@@ -78,7 +78,7 @@ void TransitionSettings::updateProjectFormat()
 {
     KdenliveDoc *project = pCore->projectManager()->current();
     m_effectEdit->updateProjectFormat(project->timecode());
-    m_tracks = project->tracksList();
+    m_tracks = pCore->projectManager()->currentTimeline()->getTracksInfo();
     updateTrackList();
 }
 

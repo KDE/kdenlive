@@ -40,6 +40,7 @@ public:
     void setSelectedIndex(int ix);
     /** @brief Update the track label to show if current track has effects or not.*/
     void updateEffectLabel(const QStringList &effects);
+    void renameTrack(const QString &name);
 
 protected:
     void mousePressEvent(QMouseEvent * event);

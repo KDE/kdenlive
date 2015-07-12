@@ -155,6 +155,15 @@ public:
     /** @brief Request audio thumbnails for all producers */
     void checkAudioThumbs();
 
+    /** @brief Save document properties in MLT's bin playlist */
+    void saveDocumentProperties(const QMap <QString, QString> props, const QMap <double, QString> guidesData);
+
+    /** @brief Save a property to main bin */
+    void saveProperty(const QString &name, const QString & value);
+
+    /** @brief Save a property from the main bin */
+    const QString getProperty(const QString &name);
+
 public slots:
     /** @brief Stored a Bin Folder id / name to MLT's bin playlist. Using an empry folderName deletes the property */
     void slotStoreFolder(const QString &folderId, const QString &parentId, const QString &oldParentId, const QString &folderName);
@@ -192,6 +201,7 @@ signals:
     void requestAudioThumb(const QString&);
     void abortAudioThumb(const QString&);
     void replaceTimelineProducer(const QString &id);
+    void setDocumentNotes(const QString &);
 };
 
 #endif
