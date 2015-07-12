@@ -28,9 +28,10 @@
 #include <QDropEvent>
 #include <QMutexLocker>
 #include <QMimeData>
-
+#include <QDir>
 #include <QDebug>
 #include <QFontDatabase>
+
 #include <klocalizedstring.h>
 #include <KMessageBox>
 #include <KColorScheme>
@@ -168,9 +169,12 @@ void CollapsibleGroup::slotSaveGroup()
 {
     QString name = QInputDialog::getText(this, i18n("Save Group"), i18n("Name for saved group: "), QLineEdit::Normal, m_title->text());
     if (name.isEmpty()) return;
-    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects";
-    path = path + name + ".xml";
-    if (QFile::exists(path)) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path)) == KMessageBox::No) return;
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects/");
+    if (!dir.exists()) {
+        dir.mkpath(".");
+    }
+
+    if (dir.exists(name + ".xml")) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + ".xml")) == KMessageBox::No) return;
 
     QDomDocument doc = effectsData();
     QDomElement base = doc.documentElement();
@@ -192,7 +196,7 @@ void CollapsibleGroup::slotSaveGroup()
     base.setAttribute("id", name);
     base.setAttribute("type", "custom");  
 
-    QFile file(path);
+    QFile file(dir.absoluteFilePath(name + ".xml"));
     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
         QTextStream out(&file);
         out << doc.toString();
