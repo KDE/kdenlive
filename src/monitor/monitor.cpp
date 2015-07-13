@@ -914,6 +914,17 @@ void Monitor::stop()
     if (render) render->stop();
 }
 
+void Monitor::mute(bool mute, bool updateIconOnly)
+{
+    if (render) {
+        QIcon icon;
+        if (mute || KdenliveSettings::volume() == 0) icon = QIcon::fromTheme("audio-volume-muted");
+        else icon = QIcon::fromTheme("audio-volume-medium");
+        static_cast <QToolButton *>(m_volumeWidget)->setIcon(icon);
+        if (!updateIconOnly) render->setVolume(mute ? 0 : (double)KdenliveSettings::volume() / 100.0 );
+    }
+}
+
 void Monitor::start()
 {
     if (!isVisible() || !isActive()) return;
@@ -1291,7 +1302,7 @@ void Monitor::slotSetVolume(int volume)
     if (volume == 0) icon = QIcon::fromTheme("audio-volume-muted");
     else icon = QIcon::fromTheme("audio-volume-medium");
     static_cast <QToolButton *>(m_volumeWidget)->setIcon(icon);
-    render->slotSetVolume(volume);
+    render->setVolume((double) volume / 100.0);
 }
 
 void Monitor::slotShowVolume()

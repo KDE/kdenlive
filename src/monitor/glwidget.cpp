@@ -71,7 +71,6 @@ GLWidget::GLWidget()
     , m_audioWaveDisplayed(false)
     , m_fbo(NULL)
 {
-    qDebug() << "begin";
     m_texture[0] = m_texture[1] = m_texture[2] = 0;
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");
     qRegisterMetaType<SharedFrame>("SharedFrame");
@@ -122,7 +121,6 @@ GLWidget::~GLWidget()
 
 void GLWidget::initializeGL()
 {
-    qDebug() << "begin";
     if (m_isInitialized) return;
 
     initializeOpenGLFunctions();
@@ -763,6 +761,9 @@ int GLWidget::reconfigure(bool isMulti)
             /*if (property("keyer").isValid())
                 m_consumer->set("keyer", property("keyer").toInt());*/
         }
+        int volume = KdenliveSettings::volume();
+        m_consumer->set("volume", (double)volume / 100);
+    
         if (m_glslManager) {
             if (!m_threadStartEvent)
                 m_threadStartEvent = m_consumer->listen("consumer-thread-started", this, (mlt_listener) onThreadStarted);

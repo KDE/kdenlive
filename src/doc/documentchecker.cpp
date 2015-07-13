@@ -282,8 +282,7 @@ bool DocumentChecker::hasErrorInClips()
     
     if (max > 0) {
         // original doc was modified
-        QDomElement infoXml = m_doc.elementsByTagName("kdenlivedoc").at(0).toElement();
-        infoXml.setAttribute("modified", "1");
+        m_doc.documentElement().setAttribute("modified", "1");
     }
     
     // Check clips with available proxies but missing original source clips
@@ -317,8 +316,7 @@ bool DocumentChecker::hasErrorInClips()
     
     if (max > 0) {
         // original doc was modified
-        QDomElement infoXml = m_doc.elementsByTagName("kdenlivedoc").at(0).toElement();
-        infoXml.setAttribute("modified", "1");
+        m_doc.documentElement().setAttribute("modified", "1");
     }
     
     connect(m_ui.recursiveSearch, SIGNAL(pressed()), this, SLOT(slotSearchClips()));
@@ -424,8 +422,7 @@ void DocumentChecker::slotSearchClips()
     m_ui.recursiveSearch->setEnabled(true);
     if (fixed) {
         // original doc was modified
-        QDomElement infoXml = m_doc.elementsByTagName("kdenlivedoc").at(0).toElement();
-        infoXml.setAttribute("modified", "1");
+        m_doc.documentElement().setAttribute("modified", "1");
     }
     checkStatus();
 }
@@ -768,8 +765,7 @@ void DocumentChecker::slotDeleteSelected()
                 }
             }
         }
-        QDomElement infoXml = m_doc.elementsByTagName("kdenlivedoc").at(0).toElement();
-        infoXml.setAttribute("modified", "1");
+        m_doc.documentElement().setAttribute("modified", "1");
         checkStatus();
     }
 }

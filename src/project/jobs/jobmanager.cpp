@@ -42,10 +42,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KMessageBox>
 #include "ui_scenecutdialog_ui.h"
 
-JobManager::JobManager(Bin *bin, double fps): QObject()
+JobManager::JobManager(Bin *bin): QObject()
   , m_bin(bin)
   , m_abortAllJobs(false)
-  , m_fps(fps)
 {
     connect(this, SIGNAL(processLog(QString,int,int,QString)), this, SLOT(slotProcessLog(QString,int,int,QString)));
     connect(this, SIGNAL(checkJobProcess()), this, SLOT(slotCheckJobProcess()));
@@ -231,7 +230,7 @@ void JobManager::prepareJobFromTimeline(ProjectClip *clip, const QMap<QString,QS
     launchJob(clip, job);
 }
 
-void JobManager::prepareJobs(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList params)
+void JobManager::prepareJobs(QList <ProjectClip *>clips, double fps, AbstractClipJob::JOBTYPE jobType, const QStringList params)
 {
     //TODO filter clips
     QList <ProjectClip *> matching = filterClips(clips, jobType, params);
@@ -241,11 +240,11 @@ void JobManager::prepareJobs(QList <ProjectClip *>clips, AbstractClipJob::JOBTYP
     }
     QMap <ProjectClip *, AbstractClipJob *> jobs;
     if (jobType == AbstractClipJob::TRANSCODEJOB) {
-        jobs = CutClipJob::prepareTranscodeJob(m_fps, matching, params);
+        jobs = CutClipJob::prepareTranscodeJob(fps, matching, params);
     } else if (jobType == AbstractClipJob::CUTJOB) {
         ProjectClip *clip = matching.first();
         double originalFps = clip->getOriginalFps();
-        jobs = CutClipJob::prepareCutClipJob(m_fps, originalFps, clip);
+        jobs = CutClipJob::prepareCutClipJob(fps, originalFps, clip);
     } else if (jobType == AbstractClipJob::FILTERCLIPJOB) {
         jobs = FilterJob::prepareJob(matching, params);
     } else if (jobType == AbstractClipJob::PROXYJOB) {

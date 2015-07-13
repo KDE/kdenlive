@@ -287,9 +287,15 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     }
 
     // <kdenlivedoc />
-    QDomNode infoXmlNode = m_doc.elementsByTagName("kdenlivedoc").at(0);
-    QDomElement infoXml = infoXmlNode.toElement();
-    infoXml.setAttribute("upgraded", "1");
+    QDomNode infoXmlNode;
+    QDomElement infoXml;
+    QDomNodeList docs = m_doc.elementsByTagName("kdenlivedoc");
+    if (!docs.isEmpty()) {
+        infoXmlNode = m_doc.elementsByTagName("kdenlivedoc").at(0);
+        infoXml = infoXmlNode.toElement();
+        infoXml.setAttribute("upgraded", "1");
+    }
+    m_doc.documentElement().setAttribute("upgraded", "1");
 
     if (version <= 0.6) {
         QDomElement infoXml_old = infoXmlNode.cloneNode(true).toElement(); // Needed for folders

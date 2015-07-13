@@ -134,6 +134,10 @@ void StopmotionMonitor::slotPlay()
 {
 }
 
+void StopmotionMonitor::mute(bool,bool)
+{
+}
+
 void StopmotionMonitor::slotMouseSeek(int /*eventDelta*/, bool /*fast*/)
 {
 }
@@ -895,8 +899,5 @@ const QString StopmotionWidget::createProducer(const MltVideoProfile &profile, c
 
     return playlist;
 }
-
-
-
 
 

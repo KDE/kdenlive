@@ -83,6 +83,7 @@ public:
     virtual ~AbstractMonitor();
     virtual AbstractRender *abstractRender() = 0;
     bool isActive() const;
+    virtual void mute(bool mute, bool updateIconOnly = false) = 0;
 
 public slots:
     virtual void stop() = 0;

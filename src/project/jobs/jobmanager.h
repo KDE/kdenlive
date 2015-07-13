@@ -44,7 +44,7 @@ class JobManager : public QObject
     Q_OBJECT
 
 public:
-    JobManager(Bin *bin, double fps);
+    JobManager(Bin *bin);
     virtual ~JobManager();
 
     /** @brief Discard specific job type for a clip. 
@@ -73,7 +73,7 @@ public:
      *  @param jobType the jobtype requested
      *  @param type the parameters for the job
      */
-    void prepareJobs(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList params = QStringList());
+    void prepareJobs(QList <ProjectClip *>clips, double fps, AbstractClipJob::JOBTYPE jobType, const QStringList params = QStringList());
 
     /** @brief Filter a list of selected clips to keep only those that match the job type
      *  @param clips the list of selected clips

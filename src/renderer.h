@@ -342,6 +342,8 @@ class Render: public AbstractRender
     void loadExtraProducer(const QString &id, Mlt::Producer *prod);
     /** @brief Get a property from the bin's playlist */
     const QString getBinProperty(const QString &name);
+    void resetBinProfile(const QString &name);
+    void setVolume(double volume);
 
 private:
 
@@ -491,7 +493,6 @@ public slots:
 
     void slotSplitView(bool doit);
     void slotSwitchFullscreen();
-    void slotSetVolume(int volume);
     void seekToFrame(int pos);
     /** @brief Starts a timer to query for a refresh. */
     void doRefresh();

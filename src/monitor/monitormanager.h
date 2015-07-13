@@ -28,6 +28,7 @@
 
 class KdenliveDoc;
 class BinController;
+class KDualAction;
 
 namespace Mlt {
     class Profile;
@@ -105,6 +106,8 @@ private slots:
     void slotSetDeinterlacer(int ix);
     /** @brief Set MLT's consumer interpolation method */
     void slotSetInterpolation(int ix);
+    /** @brief Switch muting on/off */
+    void slotMuteCurrentMonitor(bool active);
 
 private:
     /** @brief Sets up all the actions and attaches them to the collection of MainWindow. */
@@ -115,6 +118,8 @@ private:
     Timecode m_timecode;
     AbstractMonitor *m_activeMonitor;
     QList <AbstractMonitor *>m_monitorsList;
+    KDualAction *m_muteAction;
+    void updateAudioIcons();
 
 signals:
     /** @brief When the monitor changed, update the visible color scopes */

@@ -73,7 +73,6 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
     m_name(rendererName),
     m_mltConsumer(NULL),
     m_mltProducer(NULL),
-    m_mltProfile(binController->profile()),
     m_showFrameEvent(NULL),
     m_pauseEvent(NULL),
     m_binController(binController),
@@ -84,6 +83,7 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
     m_blackClip(NULL),
     m_isActive(false)
 {
+    m_mltProfile = binController->profile();
     qRegisterMetaType<stringMap> ("stringMap");
     analyseAudio = KdenliveSettings::monitor_audio();
     //buildConsumer();
@@ -264,7 +264,6 @@ bool Render::hasProfile(const QString &profileName) const
 
 int Render::resetProfile(const QString &profileName, bool dropSceneList)
 {
-    return 0;
     m_refreshTimer.stop();
     if (m_mltConsumer) {
         if (externalConsumer == KdenliveSettings::external_display()) {
@@ -649,7 +648,7 @@ void Render::processFileProperties()
             m_infoMutex.unlock();
             // Special case, we just want the thumbnail for existing producer
             Mlt::Producer *prod = new Mlt::Producer(*m_binController->getBinProducer(info.clipId));
-            
+
             // Check if we are using GPU accel, then we need to use alternate producer
             if (KdenliveSettings::gpu_accel()) {
                 QString service = prod->get("mlt_service");
@@ -870,7 +869,7 @@ void Render::processFileProperties()
                 if (frame) delete frame;
             }
             // replace clip
-            qDebug()<<" / / /CREATED PROD: "<<producer->get("resource");
+            //qDebug()<<" / / /CREATED PROD: "<<producer->get("resource");
             m_processingClipId.removeAll(info.clipId);
             m_binController->replaceProducer(info.clipId, *producer);
             emit gotFileProperties(info, NULL);
@@ -1342,7 +1341,9 @@ int Render::setSceneList(QString playlist, int position)
     blockSignals(true);
     m_locale = QLocale();
     m_locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    m_mltProfile->set_explicit(false);
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
+    m_mltProfile->set_explicit(true);
     //qDebug()<<" + + +PLAYLIST: "<<playlist;
     //m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-nogl-string", playlist.toUtf8().constData());
     if (!m_mltProducer || !m_mltProducer->is_valid()) {
@@ -1352,8 +1353,6 @@ int Render::setSceneList(QString playlist, int position)
     }
     m_mltProducer->set("eof", "pause");
     checkMaxThreads();
-    int volume = KdenliveSettings::volume();
-    m_mltProducer->set("meta.volume", (double)volume / 100);
     m_mltProducer->optimise();
 
     m_fps = m_mltProducer->get_fps();
@@ -1464,8 +1463,6 @@ int Render::reloadSceneList(QString playlist, int position)
     }
     m_mltProducer->set("eof", "pause");
     checkMaxThreads();
-    int volume = KdenliveSettings::volume();
-    m_mltProducer->set("meta.volume", (double)volume / 100);
     m_mltProducer->optimise();
 
     m_fps = m_mltProducer->get_fps();
@@ -1636,13 +1633,10 @@ double Render::fps() const
 int Render::volume() const
 {
     if (!m_mltConsumer || !m_mltProducer) return -1;
-    return ((int) 100 * m_mltProducer->get_double("meta.volume"));
-}
-
-void Render::slotSetVolume(int volume)
-{
-    if (!m_mltConsumer || !m_mltProducer) return;
-    m_mltProducer->set("meta.volume", (double)volume / 100.0);
+    if (m_mltConsumer->get("mlt_service") == QString("multi")) {
+        return ((int) 100 * m_mltConsumer->get_double("0.volume"));
+    }
+    return ((int) 100 * m_mltConsumer->get_double("volume"));
 }
 
 void Render::start()
@@ -4523,4 +4517,23 @@ const QString Render::getBinProperty(const QString &name)
     return m_binController->getProperty(name);
 }
 
+void Render::resetBinProfile(const QString &name)
+{
+    m_mltProducer->set_speed(0);
+    if (!m_mltConsumer->is_stopped())
+        m_mltConsumer->stop();
+    m_mltConsumer->purge();
+    m_binController->resetProfile(name);
+    //m_mltConsumer->start();
+}
 
+void Render::setVolume(double volume)
+{
+    if (m_mltConsumer) {
+        if (m_mltConsumer->get("mlt_service") == QString("multi")) {
+            m_mltConsumer->set("0.volume", volume);
+        } else {
+            m_mltConsumer->set("volume", volume);
+        }
+    }
+}

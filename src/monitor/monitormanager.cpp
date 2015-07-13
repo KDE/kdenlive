@@ -29,6 +29,8 @@
 #include <mlt++/Mlt.h>
 
 #include "klocalizedstring.h"
+#include <KDualAction>
+
 #include <QObject>
 #include <QTimer>
 #include <QDebug>
@@ -117,6 +119,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh
         m_activeMonitor->parentWidget()->raise();
 	m_activeMonitor->blockSignals(false);
         m_activeMonitor->start();
+        updateAudioIcons();
     }
     emit checkColorScopes();
     return (m_activeMonitor != NULL);
@@ -398,6 +401,12 @@ void MonitorManager::setupActions()
     zoneStart->setShortcut(Qt::SHIFT + Qt::Key_I);
     pCore->window()->addAction("seek_zone_start", zoneStart);
     connect(zoneStart, &QAction::triggered, this, &MonitorManager::slotZoneStart);
+    
+    m_muteAction = new KDualAction(i18n("Mute monitor"), i18n("Unmute monitor"), this);
+    m_muteAction->setActiveIcon(QIcon::fromTheme("audio-volume-medium"));
+    m_muteAction->setInactiveIcon(QIcon::fromTheme("audio-volume-muted"));
+    pCore->window()->addAction("mlt_mute", m_muteAction);
+    connect(m_muteAction, SIGNAL(activeChanged(bool)), this, SLOT(slotMuteCurrentMonitor(bool)));
 
     QAction * zoneEnd = new QAction(QIcon::fromTheme("media-seek-forward"), i18n("Go to Zone End"), this);
     zoneEnd->setShortcut(Qt::SHIFT + Qt::Key_O);
@@ -458,6 +467,11 @@ void MonitorManager::slotSetInterpolation(int ix)
     setConsumerProperty("rescale", value);
 }
 
+void MonitorManager::slotMuteCurrentMonitor(bool active)
+{
+    m_activeMonitor->mute(active);
+}
+
 Monitor* MonitorManager::clipMonitor()
 {
     return m_clipMonitor;
@@ -502,5 +516,13 @@ void MonitorManager::slotSetOutPoint()
     }
 }
 
-
-
+void MonitorManager::updateAudioIcons()
+{
+    Monitor *m = static_cast<Monitor *> (m_activeMonitor);
+    if (!m) return;
+    int volume = m->render->volume();
+    m_muteAction->blockSignals(true);
+    m_muteAction->setChecked(volume == 0);
+    m_muteAction->blockSignals(false);
+    m->mute(volume == 0, true);
+}

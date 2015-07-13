@@ -1420,12 +1420,11 @@ void MainWindow::slotUpdateProjectProfile(const QString &profile)
     m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
     m_clipMonitor->openClip(NULL);
     bool updateFps = project->setProfilePath(profile);
-    pCore->binController()->resetProfile(profile);
+    project->renderer()->resetBinProfile(profile);
     KdenliveSettings::setProject_fps(project->fps());
 
     setWindowTitle(project->description());
     setWindowModified(project->isModified());
-    project->clipManager()->clearUnusedProducers();
     pCore->monitorManager()->resetProfiles(project->timecode());
     m_transitionConfig->updateProjectFormat();
     m_effectStack->updateProjectFormat(project->timecode());
@@ -1540,6 +1539,7 @@ void MainWindow::connectDocument()
 {
     KdenliveDoc *project = pCore->projectManager()->current();
     Timeline *trackView = pCore->projectManager()->currentTimeline();
+    qDebug()<<"------------------------- CONNECT DOCUMENT\n"<<project->profilePath()<<"\n- - - - -- - - -- -";
     pCore->binController()->resetProfile(project->profilePath());
     connect(project, SIGNAL(startAutoSave()), pCore->projectManager(), SLOT(slotStartAutoSave()));
     connect(project, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));

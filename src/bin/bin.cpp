@@ -579,7 +579,7 @@ void Bin::setDocument(KdenliveDoc* project)
     m_doc = project;
     int iconHeight = QFontInfo(font()).pixelSize() * 3.5;
     m_iconSize = QSize(iconHeight * m_doc->dar(), iconHeight);
-    m_jobManager = new JobManager(this, project->fps());
+    m_jobManager = new JobManager(this);
     m_rootFolder = new ProjectFolder(this);
     setEnabled(true);
     connect(this, SIGNAL(producerReady(QString)), m_doc->renderer(), SLOT(slotProcessingDone(QString)));
@@ -1564,7 +1564,7 @@ void Bin::startJob(const QString &id, AbstractClipJob::JOBTYPE type)
     if (clip && !hasPendingJob(id, type)) {
         // Launch job
         clips << clip;
-        m_jobManager->prepareJobs(clips, type);
+        m_jobManager->prepareJobs(clips, m_doc->fps(), type);
     }
 }
 
@@ -1810,7 +1810,7 @@ void Bin::startClipJob(const QStringList &params)
     }
     AbstractClipJob::JOBTYPE jobType = (AbstractClipJob::JOBTYPE) data.takeFirst().toInt();
     QList <ProjectClip *>clips = selectedClips();
-    m_jobManager->prepareJobs(clips, jobType, data);
+    m_jobManager->prepareJobs(clips, m_doc->fps(), jobType, data);
 }
 
 void Bin::slotCancelRunningJob(const QString &id, const QMap<QString, QString> &newProps)

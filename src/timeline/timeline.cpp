@@ -57,10 +57,8 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
     //    size_frame->setMaximumHeight();
     m_scene = new CustomTrackScene(this);
     m_trackview = new CustomTrackView(doc, this, m_scene, parent);
-
     if (m_doc->setSceneList() == -1) *ok = false;
     else *ok = true;
-
     m_ruler = new CustomRuler(doc->timecode(), m_trackview);
     connect(m_ruler, SIGNAL(zoneMoved(int,int)), this, SIGNAL(zoneMoved(int,int)));
     connect(m_ruler, SIGNAL(adjustZoom(int)), this, SIGNAL(setZoom(int)));
@@ -114,11 +112,9 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
     connect(m_trackview, SIGNAL(updateTrackHeaders()), this, SLOT(slotRepaintTracks()));
     connect(m_trackview, SIGNAL(showTrackEffects(int,TrackInfo)), this, SIGNAL(showTrackEffects(int,TrackInfo)));
     connect(m_trackview, SIGNAL(updateTrackEffectState(int)), this, SLOT(slotUpdateTrackEffectState(int)));
-
     Mlt::Service s(m_doc->renderer()->getProducer()->parent().get_service());
     m_tractor = new Mlt::Tractor(s);
     parseDocument(m_doc->toXml());
-
     connect(m_trackview, SIGNAL(cursorMoved(int,int)), m_ruler, SLOT(slotCursorMoved(int,int)));
     connect(m_trackview, SIGNAL(updateRuler(int)), m_ruler, SLOT(updateRuler(int)), Qt::DirectConnection);
 
@@ -364,7 +360,6 @@ void Timeline::parseDocument(const QDomDocument &doc)
             continue;
         }
     }
-    
     QDomElement e;
     QDomElement p;
     m_trackview->setDuration(getTracks());
@@ -377,7 +372,6 @@ void Timeline::parseDocument(const QDomDocument &doc)
     
     int currentPos = propsXml.attribute("position").toInt();
     if (currentPos > 0) m_trackview->initCursorPos(currentPos);*/
-
     // Rebuild groups
     QDomDocument groupsDoc;
     groupsDoc.setContent(m_doc->renderer()->getBinProperty("kdenlive:clipgroups"));
@@ -391,12 +385,11 @@ void Timeline::parseDocument(const QDomDocument &doc)
     if (!effects.isEmpty()) {
         m_doc->saveCustomEffects(effects);
     }
-
     // Remove Kdenlive extra info from xml doc before sending it to MLT
     mlt.removeChild(infoXml);
 
     if (!m_documentErrors.isNull()) KMessageBox::sorry(this, m_documentErrors);
-    if (infoXml.hasAttribute("upgraded") || infoXml.hasAttribute("modified")) {
+    if (mlt.hasAttribute("upgraded") || mlt.hasAttribute("modified")) {
         // Our document was upgraded, create a backup copy just in case
         QString baseFile = m_doc->url().path().section(".kdenlive", 0, 0);
         int ct = 0;
@@ -406,7 +399,7 @@ void Timeline::parseDocument(const QDomDocument &doc)
             backupFile = baseFile + "_backup" + QString::number(ct) + ".kdenlive";
         }
         QString message;
-        if (infoXml.hasAttribute("upgraded"))
+        if (mlt.hasAttribute("upgraded"))
             message = i18n("Your project file was upgraded to the latest Kdenlive document version.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile);
         else
             message = i18n("Your project file was modified by Kdenlive.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile);

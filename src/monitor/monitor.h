@@ -98,6 +98,7 @@ public:
     void switchMonitorInfo(bool show);
     void switchDropFrames(bool drop);
     void updateMonitorGamma();
+    void mute(bool, bool updateIconOnly = false);
 
 protected:
     void mousePressEvent(QMouseEvent * event);

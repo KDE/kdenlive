@@ -197,8 +197,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                         else {
                             // Document was modified, ask for backup
                             QDomElement mlt = m_document.documentElement();
-                            QDomElement info = mlt.firstChildElement("kdenlivedoc");
-                            if (!info.isNull()) info.setAttribute("modified", 1);
+                            mlt.setAttribute("modified", 1);
                         }
                     }
                 }
