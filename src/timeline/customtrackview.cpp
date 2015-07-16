@@ -2792,14 +2792,13 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             new AddTimelineClipCommand(this, clipBinId, item->info(), item->effectList(), item->clipState(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, false, false, addCommand);
             updateTrackDuration(info.track, addCommand);
 
-	    //TODO
-            /*if (false && item->baseClip()->isTransparent() && getTransitionItemAtStart(info.startPos, info.track) == NULL) {
+            if (item->binClip()->isTransparent() && getTransitionItemAtStart(info.startPos, info.track) == NULL) {
                 // add transparency transition if space is available
                 if (canBePastedTo(info, TransitionWidget)) {
                     QDomElement trans = MainWindow::transitions.getEffectByTag("affine", QString()).cloneNode().toElement();
                     new AddTransitionCommand(this, info, getPreviousVideoTrack(info.track), trans, false, true, addCommand);
                 }
-            }*/
+            }
             item->setSelected(true);
         }
         // Add refresh command for redo

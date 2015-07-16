@@ -353,7 +353,6 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
             i.next();
             properties.insert(i.key(), i.value());
         }
-        addXmlProperties(prod, properties);
         //prod.setAttribute("resource", file.path());
         uint id = bin->getFreeClipId();
         prod.setAttribute("id", QString::number(id));
@@ -363,7 +362,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
             prod.setAttribute("type", (int) Image);
             prod.setAttribute("in", 0);
             prod.setAttribute("out", doc->getFramePos(KdenliveSettings::image_duration()) - 1);
-            if (KdenliveSettings::autoimagetransparency()) prod.setAttribute("transparency", 1);
+            if (KdenliveSettings::autoimagetransparency()) properties.insert("kdenlive:transparency", "1");
                 // Read EXIF metadata for JPEG
                 if (type.inherits("image/jpeg")) {
                     //TODO KF5 how to read metadata?
@@ -399,7 +398,6 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
                         }
                     }
                 }
-                prod.setAttribute("transparency", 1);
                 prod.setAttribute("in", 0);
                 int duration = 0;
                 if (txtdoc.documentElement().hasAttribute("duration")) {
@@ -419,6 +417,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
                 txtfile.close();
             }
         }
+        addXmlProperties(prod, properties);
         new AddClipCommand(doc, xml.documentElement(), QString::number(id), true, addClips);
     }
     if (addClips->childCount() > 0) {

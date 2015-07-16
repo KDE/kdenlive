@@ -874,3 +874,10 @@ void ProjectClip::slotCreateAudioThumbs()
     }
     m_abortAudioThumb = false;
 }
+
+bool ProjectClip::isTransparent() const
+{
+    if (m_type == Text) return true;
+    if (m_type == Image && m_controller->int_property("kdenlive:transparency") == 1) return true;
+    return false;
+}

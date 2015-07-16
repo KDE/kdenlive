@@ -79,6 +79,17 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         connect(choosecolor, SIGNAL(modified(QColor)), this, SLOT(slotColorModified(QColor)));
         connect(this, SIGNAL(modified(QColor)), choosecolor, SLOT(slotColorModified(QColor)));
     }
+    if (m_type == Image) {
+        int transparency = m_properties.get_int("kdenlive:transparency");
+        m_originalProperties.insert("kdenlive:transparency", QString::number(transparency));
+        QHBoxLayout *hlay = new QHBoxLayout;
+        QCheckBox *box = new QCheckBox(i18n("Transparent"), this);
+        box->setObjectName("kdenlive:transparency");
+        box->setChecked(transparency == 1);
+        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
+        hlay->addWidget(box);
+        vbox->addLayout(hlay);
+    }
     if (m_type == AV || m_type == Video) {
         QLocale locale;
         QString force_fps = m_properties.get("force_fps");
@@ -195,6 +206,9 @@ void ClipPropertiesController::slotEnableForce(int state)
             m_properties.set("kdenlive:original_length", (char *) NULL);
             return;
         }
+        else if (param == "kdenlive:transparency") {
+            properties.insert(param, QString());
+        }
         else {
             properties.insert(param, "-");
         }
@@ -206,15 +220,18 @@ void ClipPropertiesController::slotEnableForce(int state)
                 m_properties.set("kdenlive:original_length", m_properties.get_int("length"));
             }
         }
-        if (param == "force_fps") {
+        else if (param == "force_fps") {
             QDoubleSpinBox *spin = findChild<QDoubleSpinBox *>(param + "_value");
             if (!spin) return;
             properties.insert(param, locale.toString(spin->value()));
         }
-        if (param == "force_colorspace") {
+        else if (param == "force_colorspace") {
             QComboBox *combo = findChild<QComboBox *>(param + "_value");
             if (!combo) return;
             properties.insert(param, QString::number(combo->currentData().toInt()));
+        }
+        else if (param == "kdenlive:transparency") {
+            properties.insert(param, "1");
         }
     }
     if (properties.isEmpty()) return;
