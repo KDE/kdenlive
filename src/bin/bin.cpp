@@ -647,7 +647,14 @@ void Bin::slotAddFolder()
     // Edit folder name
     ix = getIndexForId(newId, true);
     if (ix.isValid()) {
-        m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(ix), QItemSelectionModel::ClearAndSelect);
+        m_proxyModel->selectionModel()->clearSelection();
+        int row =ix.row();
+        for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
+            const QModelIndex id = m_itemModel->index(row, i, QModelIndex());
+            if (id.isValid()) {
+                m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
+            }
+        }
         m_itemView->edit(m_proxyModel->mapFromSource(ix));
     }
 }
@@ -670,11 +677,18 @@ QModelIndex Bin::getIndexForId(const QString &id, bool folderWanted) const
     return QModelIndex();
 }
 
-void Bin::selectClipById(const QString &id)
+void Bin::selectClipById(const QString &clipId)
 {
-    QModelIndex ix = getIndexForId(id, false);
+    QModelIndex ix = getIndexForId(clipId, false);
     if (ix.isValid()) {
-        m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(ix), QItemSelectionModel::ClearAndSelect);
+        m_proxyModel->selectionModel()->clearSelection();
+        int row =ix.row();
+        for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
+            const QModelIndex id = m_itemModel->index(row, i, QModelIndex());
+            if (id.isValid()) {
+                m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
+            }
+        }
     }
 }
 
@@ -819,10 +833,9 @@ void Bin::emitItemRemoved(AbstractProjectItem* item)
     m_itemModel->onItemRemoved(item);
 }
 
-void Bin::rowsInserted(const QModelIndex &/*parent*/, int /*start*/, int end)
+void Bin::rowsInserted(const QModelIndex &/*parent*/, int start, int end)
 {
-    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
-    if (indexes.isEmpty()) {
+    if (!m_proxyModel->selectionModel()->hasSelection()) {
       for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
           const QModelIndex id = m_itemModel->index(end, i, QModelIndex());
           if (id.isValid()) {
