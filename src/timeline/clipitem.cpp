@@ -1198,7 +1198,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == QGraphicsItem::ItemSelectedChange) {
         if (value.toBool())
-            setZValue(3);
+            setZValue(6);
         else
             setZValue(2);
     }
