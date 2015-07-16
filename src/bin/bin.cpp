@@ -198,6 +198,7 @@ bool EventEater::eventFilter(QObject *obj, QEvent *event)
 
 Bin::Bin(QWidget* parent) :
     QWidget(parent)
+  , isLoading(false)
   , m_itemModel(NULL)
   , m_itemView(NULL)
   , m_rootFolder(NULL)
@@ -847,6 +848,7 @@ void Bin::rowsRemoved(const QModelIndex &/*parent*/, int start, int /*end*/)
 
 void Bin::selectProxyModel(const QModelIndex &id)
 {
+    if (isLoading) return;
     if (id.isValid()) {
         AbstractProjectItem *currentItem = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(id).internalPointer());
 	if (currentItem) {

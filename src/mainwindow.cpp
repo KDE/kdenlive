@@ -1356,7 +1356,8 @@ void MainWindow::slotEditProjectSettings()
             slotSwitchAudioThumbs();
         }
         if (project->profilePath() != profile) {
-            slotUpdateProjectProfile(profile);
+            KdenliveSettings::setCurrent_profile(profile);
+            pCore->projectManager()->slotResetProfiles();
         }
         if (project->getDocumentProperty("proxyparams") != w->proxyParams()) {
             project->setModified();
@@ -1404,48 +1405,6 @@ void MainWindow::slotDisableProxies()
     pCore->projectManager()->current()->setModified();
     slotUpdateProxySettings();
 }
-
-void MainWindow::slotUpdateProjectProfile(const QString &profile)
-{
-    KdenliveDoc *project = pCore->projectManager()->current();
-
-    // Recreate the stopmotion widget if profile changes
-    if (m_stopmotion) {
-        delete m_stopmotion;
-        m_stopmotion = NULL;
-    }
-
-    // Deselect current effect / transition
-    m_effectStack->slotClipItemSelected(NULL);
-    m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
-    m_clipMonitor->openClip(NULL);
-    bool updateFps = project->setProfilePath(profile);
-    project->renderer()->resetBinProfile(profile);
-    KdenliveSettings::setProject_fps(project->fps());
-
-    setWindowTitle(project->description());
-    setWindowModified(project->isModified());
-    pCore->monitorManager()->resetProfiles(project->timecode());
-    m_transitionConfig->updateProjectFormat();
-    m_effectStack->updateProjectFormat(project->timecode());
-    if (m_renderWidget) {
-        m_renderWidget->setProfile(project->mltProfile());
-    }
-    if (updateFps) {
-        pCore->projectManager()->currentTimeline()->updateProjectFps();
-    }
-    project->clipManager()->clearCache();
-    pCore->projectManager()->currentTimeline()->updateProfile();
-    project->setModified(true);
-    m_commandStack->activeStack()->clear();
-    //Update the mouse position display so it will display in DF/NDF format by default based on the project setting.
-    slotUpdateMousePosition(0);
-    //TODO
-    //m_projectList->slotReloadClip();
-    // We need to desactivate & reactivate monitors to get a refresh
-    //pCore->monitorManager()->switchMonitors();
-}
-
 
 void MainWindow::slotRenderProject()
 {
@@ -1539,12 +1498,8 @@ void MainWindow::connectDocument()
 {
     KdenliveDoc *project = pCore->projectManager()->current();
     Timeline *trackView = pCore->projectManager()->currentTimeline();
-    qDebug()<<"------------------------- CONNECT DOCUMENT\n"<<project->profilePath()<<"\n- - - - -- - - -- -";
-    pCore->binController()->resetProfile(project->profilePath());
     connect(project, SIGNAL(startAutoSave()), pCore->projectManager(), SLOT(slotStartAutoSave()));
     connect(project, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
-    // Resetting monitor profiles should now be handled by binController
-    //pCore->monitorManager()->resetProfiles(project->timecode());
     KdenliveSettings::setProject_fps(project->fps());
     m_clipMonitorDock->raise();
     m_transitionConfig->updateProjectFormat();
@@ -1702,7 +1657,7 @@ void MainWindow::slotPreferences(int page, int option)
     KdenliveSettingsDialog* dialog = new KdenliveSettingsDialog(actions, m_gpuAllowed, this);
     connect(dialog, SIGNAL(settingsChanged(QString)), this, SLOT(updateConfiguration()));
     connect(dialog, SIGNAL(settingsChanged(QString)), SIGNAL(configurationChanged()));
-    connect(dialog, SIGNAL(doResetProfile()), pCore->monitorManager(), SLOT(slotResetProfiles()));
+    connect(dialog, SIGNAL(doResetProfile()), pCore->projectManager(), SLOT(slotResetProfiles()));
     connect(dialog, SIGNAL(restartKdenlive()), this, SLOT(slotRestart()));
     if (m_recMonitor) {
         connect(dialog, SIGNAL(updateCaptureFolder()), this, SLOT(slotUpdateCaptureFolder()));

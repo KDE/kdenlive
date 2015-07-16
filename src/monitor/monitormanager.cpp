@@ -219,26 +219,11 @@ void MonitorManager::slotEnd()
     else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotEnd();
 }
 
-void MonitorManager::resetProfiles(const Timecode &tc)
+void MonitorManager::resetProfiles(MltVideoProfile profile, const Timecode &tc)
 {
     m_timecode = tc;
-    slotResetProfiles();
-    //QTimer::singleShot(300, this, SLOT(slotResetProfiles()));
-}
-
-void MonitorManager::slotResetProfiles()
-{
-    if (m_projectMonitor == NULL || m_clipMonitor == NULL) {
-	return;
-    }
-    blockSignals(true);
-    Kdenlive::MonitorId active = m_activeMonitor ? m_activeMonitor->id() : Kdenlive::NoMonitor;
-    m_clipMonitor->resetProfile(KdenliveSettings::current_profile());
-    m_projectMonitor->resetProfile(KdenliveSettings::current_profile());
-    if (active != Kdenlive::NoMonitor) activateMonitor(active);
-    blockSignals(false);
-    if (m_activeMonitor) m_activeMonitor->parentWidget()->raise();
-    emit checkColorScopes();
+    m_clipMonitor->resetProfile(profile);
+    m_projectMonitor->resetProfile(profile);
 }
 
 void MonitorManager::slotRefreshCurrentMonitor(const QString &id)

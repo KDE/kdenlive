@@ -239,6 +239,25 @@ void ProfilesDialog::slotDeleteProfile()
 }
 
 // static
+MltVideoProfile ProfilesDialog::getVideoProfileFromXml(const QDomElement &element)
+{
+    MltVideoProfile result;
+    result.description = element.attribute("description");
+    result.frame_rate_num = element.attribute("frame_rate_num").toInt();
+    result.frame_rate_den = element.attribute("frame_rate_den").toInt();
+    result.width = element.attribute("width").toInt();
+    result.height = element.attribute("height").toInt();
+    result.progressive = element.attribute("progressive").toInt();
+    result.sample_aspect_num = element.attribute("sample_aspect_num").toInt();
+    result.sample_aspect_den = element.attribute("sample_aspect_den").toInt();
+    result.display_aspect_num = element.attribute("display_aspect_num").toInt();
+    result.display_aspect_den = element.attribute("display_aspect_den").toInt();
+    result.colorspace = element.attribute("colorspace").toInt();
+    result.path = existingProfile(result);
+    return result;
+}
+
+// static
 MltVideoProfile ProfilesDialog::getVideoProfile(const QString &name)
 {
     MltVideoProfile result;

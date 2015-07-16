@@ -27,6 +27,7 @@
 #include "mltcontroller/bincontroller.h"
 #include "kdenlivesettings.h"
 #include "timeline/abstractclipitem.h"
+#include "dialogs/profilesdialog.h"
 #include "doc/kthumb.h"
 
 #include "klocalizedstring.h"
@@ -81,7 +82,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     QGridLayout* glayout = new QGridLayout(m_glWidget);
     glayout->setSpacing(0);
     glayout->setContentsMargins(0, 0, 0, 0);
-
     // Create QML OpenGL widget
     m_glMonitor = new GLWidget();
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow*>(m_glMonitor));
@@ -1015,7 +1015,7 @@ void Monitor::updateClipProducer(Mlt::Producer *prod)
 void Monitor::updateClipProducer(const QString &playlist)
 {
     if (render == NULL) return;
-    Mlt::Producer *prod = new Mlt::Producer(*profile(), playlist.toUtf8().constData());
+    Mlt::Producer *prod = new Mlt::Producer(*m_glMonitor->profile(), playlist.toUtf8().constData());
     render->setProducer(prod, render->seekFramePosition(), true);
     render->play(1.0);
 }
@@ -1129,20 +1129,19 @@ void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
 {
     m_timePos->updateTimeCode(tc);
     if (render == NULL) return;
-    if (!render->hasProfile(profile)) {
-        slotActivateMonitor();
-        render->resetProfile(profile);
-    }
+    slotActivateMonitor();
+    render->prepareProfileReset();
+    m_glMonitor->resetProfile(ProfilesDialog::getVideoProfile(profile));
 }
 
-void Monitor::resetProfile(const QString &profile)
+void Monitor::resetProfile(MltVideoProfile profile)
 {
     m_timePos->updateTimeCode(m_monitorManager->timecode());
     if (render == NULL) return;
-    if (!render->hasProfile(profile)) {
-        slotActivateMonitor();
-        render->resetProfile(profile);
-    }
+
+    render->prepareProfileReset();
+    m_glMonitor->resetProfile(profile);
+
     if (m_rootItem && m_rootItem->objectName() == "rooteffectscene") {
         // we are not in main view, ignore
         m_rootItem->setProperty("framesize", QRect(0, 0, m_glMonitor->profileSize().width(), m_glMonitor->profileSize().height()));
@@ -1472,7 +1471,7 @@ ProfileInfo Monitor::profileInfo() const
 
 Mlt::Profile *Monitor::profile()
 {
-    return m_monitorManager->binController()->profile();
+    return m_glMonitor->profile();
 }
 
 void Monitor::slotSwitchRec(bool enable)

@@ -297,6 +297,8 @@ class Bin : public QWidget
 public:
     explicit Bin(QWidget* parent = 0);
     ~Bin();
+    
+    bool isLoading;
 
     /** @brief Sets the document for the bin and initialize some stuff  */
     void setDocument(KdenliveDoc *project);

@@ -44,7 +44,7 @@ public:
     void appendMonitor(AbstractMonitor *monitor);
     void removeMonitor(AbstractMonitor *monitor);
     Timecode timecode() const;
-    void resetProfiles(const Timecode &tc);
+    void resetProfiles(MltVideoProfile profile, const Timecode &tc);
     void stopActiveMonitor();
     void pauseActiveMonitor();
     AbstractRender *activeRenderer();
@@ -84,7 +84,6 @@ public slots:
     void slotForwardOneSecond();
     void slotStart();
     void slotEnd();
-    void slotResetProfiles();
     void slotZoneStart();
     void slotZoneEnd();
     void slotSetInPoint();

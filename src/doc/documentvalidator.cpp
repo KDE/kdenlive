@@ -1238,6 +1238,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             EffectsList::setProperty(playlist, "kdenlive:customeffects", d2.toString());
         }
         EffectsList::setProperty(playlist, "kdenlive:docproperties.version", QString::number(currentVersion));
+        if (!infoXml.isNull()) EffectsList::setProperty(playlist, "kdenlive:docproperties.projectfolder", infoXml.attribute("projectfolder"));
     }
     m_modified = true;
     return true;

@@ -29,7 +29,6 @@ static const char* kPlaylistTrackId = "main bin";
 BinController::BinController(QString profileName) :
   QObject()
 {
-    m_mltProfile = NULL;
     m_binPlaylist = NULL;
     // Disable VDPAU that crashes in multithread environment.
     //TODO: make configurable
@@ -38,12 +37,11 @@ BinController::BinController(QString profileName) :
     if (profileName.isEmpty()) {
         profileName = KdenliveSettings::current_profile();
     }
-    resetProfile(profileName);
+    //resetProfile(profileName);
 }
 
 BinController::~BinController()
 {
-    delete m_mltProfile;
 }
 
 Mlt::Repository *BinController::mltRepository()
@@ -51,30 +49,9 @@ Mlt::Repository *BinController::mltRepository()
       return m_repository;
 }
 
-void BinController::resetProfile(const QString &newProfile)
-{
-    m_activeProfile = newProfile;
-    if (m_mltProfile) {
-        Mlt::Profile tmpProfile(m_activeProfile.toUtf8().constData());
-        m_mltProfile->set_colorspace(tmpProfile.colorspace());
-        m_mltProfile->set_frame_rate(tmpProfile.frame_rate_num(), tmpProfile.frame_rate_den());
-        m_mltProfile->set_height(tmpProfile.height());
-        m_mltProfile->set_width(tmpProfile.width());
-        m_mltProfile->set_progressive(tmpProfile.progressive());
-        m_mltProfile->set_sample_aspect(tmpProfile.sample_aspect_num(), tmpProfile.sample_aspect_den());
-        m_mltProfile->get_profile()->display_aspect_num = tmpProfile.display_aspect_num();
-        m_mltProfile->get_profile()->display_aspect_den = tmpProfile.display_aspect_den();
-    } else {
-        m_mltProfile = new Mlt::Profile(m_activeProfile.toUtf8().constData());
-    }
-    setenv("MLT_PROFILE", m_activeProfile.toUtf8().constData(), 1);
-    m_mltProfile->set_explicit(true);
-    KdenliveSettings::setCurrent_profile(m_activeProfile);
-}
-
 Mlt::Profile *BinController::profile()
 {
-    return m_mltProfile;
+    return m_binPlaylist->profile();
 }
 
 void BinController::destroyBin()
@@ -180,10 +157,10 @@ QMap<double,QString> BinController::takeGuidesData()
     return guidesData;
 }
 
-void BinController::createIfNeeded()
+void BinController::createIfNeeded(Mlt::Profile *profile)
 {
     if (m_binPlaylist) return;
-    m_binPlaylist = new Mlt::Playlist(*m_mltProfile);
+    m_binPlaylist = new Mlt::Playlist(*profile);
     m_binPlaylist->set("id", kPlaylistTrackId);
 }
 
@@ -304,7 +281,7 @@ bool BinController::removeBinClip(const QString &id)
 Mlt::Producer *BinController::cloneProducer(Mlt::Producer &original)
 {
     QString xml = getProducerXML(original);
-    Mlt::Producer *clone = new Mlt::Producer(*m_mltProfile, "xml-string", xml.toUtf8().constData());
+    Mlt::Producer *clone = new Mlt::Producer(*original.profile(), "xml-string", xml.toUtf8().constData());
     return clone;
 }
 
@@ -335,12 +312,12 @@ Mlt::Producer *BinController::getBinVideoProducer(const QString &id)
 
 double BinController::fps() const
 {
-    return m_mltProfile->fps();
+    return m_binPlaylist->profile()->fps();
 }
 
 double BinController::dar() const
 {
-    return m_mltProfile->dar();
+    return m_binPlaylist->profile()->dar();
 }
 
 void BinController::duplicateFilters(Mlt::Producer original, Mlt::Producer clone)
@@ -357,7 +334,7 @@ void BinController::duplicateFilters(Mlt::Producer original, Mlt::Producer clone
         if (filter->is_valid()/* && strcmp(filter->get("kdenlive_id"), "") && strcmp(filter->get("kdenlive_id"), "fadein") && strcmp(filter->get("kdenlive_id"), "fade_from_black")*/) {
             // looks like there is no easy way to duplicate a filter,
             // so we will create a new one and duplicate its properties
-            Mlt::Filter *dup = new Mlt::Filter(*m_mltProfile, filter->get("mlt_service"));
+            Mlt::Filter *dup = new Mlt::Filter(*original.profile(), filter->get("mlt_service"));
             if (dup && dup->is_valid()) {
                 Mlt::Properties entries(filter->get_properties());
                 for (int i = 0; i < entries.count(); ++i) {
@@ -394,7 +371,7 @@ QString BinController::xmlFromId(const QString & id)
 QString BinController::getProducerXML(Mlt::Producer &producer)
 {
     QString filename = "string";
-    Mlt::Consumer c(*m_mltProfile, "xml", filename.toUtf8().constData());
+    Mlt::Consumer c(*producer.profile(), "xml", filename.toUtf8().constData());
     Mlt::Service s(producer.get_service());
     if (!s.is_valid())
         return "";

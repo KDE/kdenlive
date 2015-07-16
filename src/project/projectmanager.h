@@ -88,6 +88,9 @@ public slots:
     /** @brief Start autosave timer */
     void slotStartAutoSave();
 
+    /** @brief Update project and monitors profiles */
+    void slotResetProfiles();
+
 private slots:
     void slotRevert();
     /** @brief Open the project's backupdialog. */

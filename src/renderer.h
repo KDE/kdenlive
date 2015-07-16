@@ -179,14 +179,6 @@ class Render: public AbstractRender
 
     void emitFrameUpdated(Mlt::Frame&);
 
-    /** @brief Change the Mlt PROFILE
-     * @param profileName The MLT profile name
-     * @param dropSceneList If true, the current playlist will be deleted
-     * @return true if the profile was changed
-     * . */
-    int resetProfile(const QString& profileName, bool dropSceneList = false);
-    /** @brief Returns true if the render uses profileName as current profile. */
-    bool hasProfile(const QString& profileName) const;
     double fps() const;
 
     /** @brief Returns the width of a frame for this profile. */
@@ -342,8 +334,9 @@ class Render: public AbstractRender
     void loadExtraProducer(const QString &id, Mlt::Producer *prod);
     /** @brief Get a property from the bin's playlist */
     const QString getBinProperty(const QString &name);
-    void resetBinProfile(const QString &name);
     void setVolume(double volume);
+    /** @brief Stop all activities in preparation for a change in profile */
+    void prepareProfileReset();
 
 private:
 
@@ -354,7 +347,6 @@ private:
     Kdenlive::MonitorId m_name;
     Mlt::Consumer * m_mltConsumer;
     Mlt::Producer * m_mltProducer;
-    Mlt::Profile *m_mltProfile;
     Mlt::Event *m_showFrameEvent;
     Mlt::Event *m_pauseEvent;
     BinController *m_binController;
@@ -373,7 +365,6 @@ private:
     bool m_isSplitView;
 
     Mlt::Producer *m_blackClip;
-    QString m_activeProfile;
 
     QTimer m_refreshTimer;
     QMutex m_mutex;

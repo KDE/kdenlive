@@ -60,7 +60,7 @@ public:
     ~Monitor();
     Render *render;
     AbstractRender *abstractRender();
-    void resetProfile(const QString &profile);
+    void resetProfile(MltVideoProfile profile);
     void setCustomProfile(const QString &profile, const Timecode &tc);
     void resetSize();
     void pause();

@@ -28,7 +28,9 @@
 #include <QMutex>
 #include <QThread>
 #include <QRect>
+
 #include "sharedframe.h"
+#include "definitions.h"
 
 class QOpenGLFunctions_3_2_Core;
 class QOffscreenSurface;
@@ -80,6 +82,8 @@ public:
     /** @brief set to true if we want to emit a QImage of the frame for analysis */
     bool sendFrameForAnalysis;
     void updateGamma();
+    Mlt::Profile *profile();
+    void resetProfile(MltVideoProfile profile);
 
 protected:
     void mouseReleaseEvent(QMouseEvent * event);
@@ -132,6 +136,7 @@ private:
     Mlt::Event* m_threadCreateEvent;
     Mlt::Event* m_threadJoinEvent;
     Mlt::Event* m_displayEvent;
+    Mlt::Profile *m_monitorProfile;
     FrameRenderer* m_frameRenderer;
     int m_projectionLocation;
     int m_modelViewLocation;

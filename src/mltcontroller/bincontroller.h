@@ -61,11 +61,6 @@ public:
     /** @brief Returns the project's dar. */
     double dar() const;
 
-    /** @brief Reset the profile to a new one, for example when loading a document with another profile.
-     * @param newProfile The file name for the new MLT profile
-     * */
-    void resetProfile(const QString &newProfile);
-    
     /** @brief Returns the service for the Bin's playlist, used to make sure MLT will save it correctly in its XML. */
     mlt_service service();
     
@@ -93,7 +88,7 @@ public:
     void initializeBin(Mlt::Playlist playlist);
     
     /** @brief If our bin's playlist does not exist, create a new one */
-    void createIfNeeded();
+    void createIfNeeded(Mlt::Profile *profile);
 
      /** @brief Returns true if a clip with that id is in our bin's playlist
      * @param id The clip's id as stored in DocClipBase
@@ -174,9 +169,6 @@ private:
     
     /** @brief The current MLT profile's filename */
     QString m_activeProfile;
-    
-    /** @brief The MLT profile */
-    Mlt::Profile *m_mltProfile;
 
     /** @brief The MLT repository, useful for filter/producer requests */    
     Mlt::Repository *m_repository;

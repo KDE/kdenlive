@@ -152,6 +152,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     bool openBackup;
     m_notesPlugin->clear();
     KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window());
+    pCore->monitorManager()->resetProfiles(doc->mltProfile(), doc->timecode());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     bool ok;
     pCore->bin()->setDocument(doc);
@@ -201,7 +202,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges)
 	m_autoSaveTimer.stop();
 	pCore->window()->slotTimelineClipSelected(NULL, false);
 	pCore->monitorManager()->clipMonitor()->openClip(NULL);
-
 	delete m_project;
 	m_project = NULL;
 	pCore->monitorManager()->setDocument(m_project);
@@ -413,7 +413,6 @@ void ProjectManager::openFile(const QUrl &url)
 void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
 {
     Q_ASSERT(m_project == NULL);
-
     if (!pCore->window()->m_timelineArea->isEnabled()) return;
     m_fileRevert->setEnabled(true);
 
@@ -422,7 +421,6 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         delete pCore->window()->m_stopmotion;
         pCore->window()->m_stopmotion = NULL;
     }
-
     QProgressDialog progressDialog(pCore->window());
     progressDialog.setWindowTitle(i18n("Loading project"));
     progressDialog.setCancelButton(0);
@@ -455,7 +453,6 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     }
     connect(doc, SIGNAL(progressInfo(QString,int)), pCore->window(), SLOT(slotGotProgressInfo(QString,int)));
     pCore->bin()->setDocument(doc);
-
     progressDialog.setLabelText(i18n("Loading timeline"));
     progressDialog.setValue(2);
     progressDialog.repaint();
@@ -463,6 +460,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     bool ok;
     m_trackView = new Timeline(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
     m_trackView->loadGuides(pCore->binController()->takeGuidesData());
+    pCore->monitorManager()->resetProfiles(doc->mltProfile(), doc->timecode());
 
     m_project = doc;
     pCore->window()->connectDocument();
@@ -583,3 +581,9 @@ void ProjectManager::prepareSave()
 }
 
 
+void ProjectManager::slotResetProfiles()
+{
+    m_project->resetProfile();
+    pCore->monitorManager()->resetProfiles(m_project->mltProfile(), m_project->timecode());
+    pCore->monitorManager()->updateScopeSource();
+}

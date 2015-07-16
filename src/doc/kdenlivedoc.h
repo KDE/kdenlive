@@ -105,7 +105,8 @@ public:
     /** @brief Informs Kdenlive of the audio thumbnails generation progress. */
     void setThumbsProgress(const QString &message, int progress);
     const QString &profilePath() const;
-    Q_DECL_DEPRECATED MltVideoProfile mltProfile() const;
+    /** @brief Returns current project profile. */
+    MltVideoProfile mltProfile() const;
     ProfileInfo getProfileInfo() const;
     //Mlt::Profile *profile();
     const QString description() const;
@@ -159,6 +160,7 @@ public:
     QString documentNotes() const;
     /** @brief Saves effects embedded in project file. */
     void saveCustomEffects(const QDomNodeList &customeffects);
+    void resetProfile();
 
 private:
     QUrl m_url;
@@ -207,6 +209,8 @@ private:
     void cleanupBackupFiles();
     /** @brief Load document properties from the xml file */
     void loadDocumentProperties();
+    /** @brief update document properties to reflect a change in the current profile */
+    void updateProjectProfile();
 
 public slots:
     void slotCreateXmlClip(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);

@@ -106,7 +106,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     connect(&m_fileWatcher, &KDirWatch::deleted, this, &KdenliveDoc::slotClipMissing);
     connect(&m_modifiedTimer, &QTimer::timeout, this, &KdenliveDoc::slotProcessModifiedClips);
 
-    
     // init default document properties
     m_documentProperties["zoom"] = '7';
     m_documentProperties["verticalzoom"] = '1';
@@ -127,7 +126,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
         i.next();
         m_documentProperties[i.key()] = i.value();
     }
-    
+
     // Load metadata
     QMapIterator<QString, QString> j(metadata);
     while (j.hasNext()) {
@@ -302,8 +301,10 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     // Something went wrong, or a new file was requested: create a new project
     if (!success) {
         m_url.clear();
-        setProfilePath(profileName);
+        //setProfilePath(profileName);
+        m_profile = ProfilesDialog::getVideoProfile(profileName);
         m_document = createEmptyDocument(tracks.x(), tracks.y());
+        updateProjectProfile();
     }
 
     // Ask to create the project directory if it does not exist
@@ -357,11 +358,13 @@ KdenliveDoc::~KdenliveDoc()
 
 int KdenliveDoc::setSceneList()
 {
-    m_render->resetProfile(KdenliveSettings::current_profile(), true);
+    //m_render->resetProfile(m_profile);
+    pCore->bin()->isLoading = true;
     if (m_render->setSceneList(m_document.toString(), m_documentProperties.value("position").toInt()) == -1) {
         // INVALID MLT Consumer, something is wrong
         return -1;
     }
+    pCore->bin()->isLoading = false;
     pCore->binController()->checkThumbnails(projectFolder().path() + "/thumbs/");
     m_documentProperties.remove("position");
     return 0;
@@ -410,6 +413,20 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
     // Create black producer
     // For some unknown reason, we have to build the black producer here and not in renderer.cpp, otherwise
     // the composite transitions with the black track are corrupted.
+    /*QDomElement pro = doc.createElement("profile");
+    pro.setAttribute("frame_rate_den", QString::number(m_profile.frame_rate_den));
+    pro.setAttribute("frame_rate_num", QString::number(m_profile.frame_rate_num));
+    pro.setAttribute("display_aspect_den", QString::number(m_profile.display_aspect_den));
+    pro.setAttribute("display_aspect_num", QString::number(m_profile.display_aspect_num));
+    pro.setAttribute("sample_aspect_den", QString::number(m_profile.sample_aspect_den));
+    pro.setAttribute("sample_aspect_num", QString::number(m_profile.sample_aspect_num));
+    pro.setAttribute("width", QString::number(m_profile.width));
+    pro.setAttribute("height", QString::number(m_profile.height));
+    pro.setAttribute("progressive", QString::number((int) m_profile.progressive));
+    pro.setAttribute("colorspace", QString::number(m_profile.colorspace));
+    pro.setAttribute("description", m_profile.description);
+    mlt.appendChild(pro);*/
+
     QDomElement blk = doc.createElement("producer");
     blk.setAttribute("in", 0);
     blk.setAttribute("out", 500);
@@ -842,16 +859,8 @@ bool KdenliveDoc::setProfilePath(QString path)
             setModified(true);
         }
     }
-
-    KdenliveSettings::setProject_display_ratio((double) m_profile.display_aspect_num / m_profile.display_aspect_den);
-    double fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
-    KdenliveSettings::setProject_fps(fps);
-    m_width = m_profile.width;
-    m_height = m_profile.height;
-    //qDebug() << "Kdenlive document, init timecode from path: " << path << ",  " << m_fps;
-    m_timecode.setFormat(fps);
-    KdenliveSettings::setCurrent_profile(m_profile.path);
-    return (current_fps != fps);
+    updateProjectProfile();
+    return (current_fps != KdenliveSettings::project_fps());
 }
 
 double KdenliveDoc::dar() const
@@ -1645,19 +1654,43 @@ const QMap <QString, QString> KdenliveDoc::documentProperties()
 
 void KdenliveDoc::loadDocumentProperties()
 {
-    QDomElement pl = m_document.firstChildElement("playlist");
-    if (pl.isNull()) return;
-    QDomNodeList props = pl.elementsByTagName("property");
-    QString name;
-    QDomElement e;
-    for (int i = 0; i < props.count(); i++) {
-        e = props.at(i).toElement();
-        name = e.attribute("name");
-        if (name.startsWith("kdenlive:docproperties.")) {
-            name = name.section(".", 1);
-            m_documentProperties.insert(name, e.firstChild().nodeValue());
+    QDomNodeList list = m_document.elementsByTagName("playlist");
+    if (!list.isEmpty()) {
+        QDomElement pl = list.at(0).toElement();
+        if (pl.isNull()) return;
+        QDomNodeList props = pl.elementsByTagName("property");
+        QString name;
+        QDomElement e;
+        for (int i = 0; i < props.count(); i++) {
+            e = props.at(i).toElement();
+            name = e.attribute("name");
+            if (name.startsWith("kdenlive:docproperties.")) {
+                name = name.section(".", 1);
+                m_documentProperties.insert(name, e.firstChild().nodeValue());
+            }
         }
     }
     m_projectFolder = QUrl::fromLocalFile(m_documentProperties.value("projectfolder"));
-    //setProfilePath(m_documentProperties.value("profile"));
+    list = m_document.elementsByTagName("profile");
+    if (!list.isEmpty()) {
+        m_profile = ProfilesDialog::getVideoProfileFromXml(list.at(0).toElement());
+    }
+    updateProjectProfile();
+}
+
+void KdenliveDoc::updateProjectProfile()
+{
+    KdenliveSettings::setProject_display_ratio((double) m_profile.display_aspect_num / m_profile.display_aspect_den);
+    double fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
+    KdenliveSettings::setProject_fps(fps);
+    m_width = m_profile.width;
+    m_height = m_profile.height;
+    m_timecode.setFormat(fps);
+    KdenliveSettings::setCurrent_profile(m_profile.path);
+}
+
+void KdenliveDoc::resetProfile()
+{
+    m_profile = ProfilesDialog::getVideoProfile(KdenliveSettings::current_profile());
+    updateProjectProfile();
 }
