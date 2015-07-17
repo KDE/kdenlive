@@ -1204,7 +1204,7 @@ int Render::setSceneList(const QDomDocument &list, int position)
 
 int Render::setSceneList(QString playlist, int position)
 {
-    qDebug() << "//////  RENDER, SET SCENE LIST:\n" << playlist <<"\n..........:::.";
+    //qDebug() << "//////  RENDER, SET SCENE LIST:\n" << playlist <<"\n..........:::.";
     requestedSeekPosition = SEEK_INACTIVE;
     m_refreshTimer.stop();
     QMutexLocker locker(&m_mutex);

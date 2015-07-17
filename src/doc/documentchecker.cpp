@@ -93,6 +93,9 @@ bool DocumentChecker::hasErrorInClips()
             continue;
         }
         resource = EffectsList::property(e, "resource");
+        
+        if (resource.isEmpty()) continue;
+        
         if (!resource.startsWith("/")) {
             resource.prepend(root);
         }
@@ -117,19 +120,15 @@ bool DocumentChecker::hasErrorInClips()
             }
         }
         // Check for slideshows
-        if ((service == "qimage" || service == "pixbuf") && QUrl::fromLocalFile(resource).fileName().contains("*")) resource = QUrl::fromLocalFile(resource).adjusted(QUrl::RemoveFilename).path();
-        if (!QFile::exists(resource) && !EffectsList::property(e, "kdenlive:file_size").isEmpty()) {
+        if ((service == "qimage" || service == "pixbuf") && QUrl::fromLocalFile(resource).fileName().contains("*")) {
+            resource = QUrl::fromLocalFile(resource).adjusted(QUrl::RemoveFilename).path();
+        }
+        if (!QFile::exists(resource)) {
             // Missing clip found
             m_missingClips.append(e);
-        } else {
-            verifiedPaths.append(resource);
-            // Check if the clip has changed
-	  //TODO
-            /*if (clipType != SlideShow && e.hasAttribute("file_hash")) {
-                if (e.attribute("file_hash") != DocClipBase::getHash(e.attribute("resource")))
-                    e.removeAttribute("file_hash");
-            }*/
         }
+        // Make sure we don't query same path twice
+        verifiedPaths.append(resource);
     }
 
     // Get list of used Luma files
@@ -206,7 +205,11 @@ bool DocumentChecker::hasErrorInClips()
             item->setData(0, statusRole, CLIPPLACEHOLDER);
         } else {*/
             item->setIcon(0, QIcon::fromTheme("dialog-close"));
-            item->setText(1, EffectsList::property(e, "resource"));
+            QString resource = EffectsList::property(e, "resource");
+            if (!resource.startsWith("/")) {
+                resource.prepend(root);
+            }
+            item->setText(1, resource);
             item->setData(0, hashRole, EffectsList::property(e, "kdenlive:file_hash"));
             item->setData(0, sizeRole, EffectsList::property(e, "kdenlive:file_size"));
             item->setData(0, statusRole, CLIPMISSING);
@@ -376,7 +379,7 @@ void DocumentChecker::slotSearchClips()
         if (child->data(0, statusRole).toInt() == SOURCEMISSING) {
             for (int j = 0; j < child->childCount(); ++j) {
                 QTreeWidgetItem *subchild = child->child(j);
-                QString clipPath = searchFileRecursively(searchDir, subchild->data(0, sizeRole).toString(), subchild->data(0, hashRole).toString());
+                QString clipPath = searchFileRecursively(searchDir, subchild->data(0, sizeRole).toString(), subchild->data(0, hashRole).toString(), subchild->text(1));
                 if (!clipPath.isEmpty()) {
                     fixed = true;
                     
@@ -387,7 +390,7 @@ void DocumentChecker::slotSearchClips()
             }
         }
         else if (child->data(0, statusRole).toInt() == CLIPMISSING) {
-            QString clipPath = searchFileRecursively(searchDir, child->data(0, sizeRole).toString(), child->data(0, hashRole).toString());
+            QString clipPath = searchFileRecursively(searchDir, child->data(0, sizeRole).toString(), child->data(0, hashRole).toString(), child->text(1));
             if (!clipPath.isEmpty()) {
                 fixed = true;
                 child->setText(1, clipPath);
@@ -405,7 +408,7 @@ void DocumentChecker::slotSearchClips()
         }
         else if (child->data(0, typeRole).toInt() == TITLE_IMAGE_ELEMENT && child->data(0, statusRole).toInt() == CLIPPLACEHOLDER) {
             // Search missing title images
-            QString missingFileName = QUrl(child->text(1)).fileName();
+            QString missingFileName = QUrl::fromLocalFile(child->text(1)).fileName();
             QString newPath = searchPathRecursively(searchDir, missingFileName);
             if (!newPath.isEmpty()) {
                 // File found
@@ -431,7 +434,7 @@ void DocumentChecker::slotSearchClips()
 QString DocumentChecker::searchLuma(const QDir &dir, const QString &file) const
 {
     QDir searchPath(KdenliveSettings::mltpath());
-    QString fname = QUrl(file).fileName();
+    QString fname = QUrl::fromLocalFile(file).fileName();
     if (file.contains("PAL"))
         searchPath.cd("../lumas/PAL");
     else
@@ -471,8 +474,9 @@ QString DocumentChecker::searchPathRecursively(const QDir &dir, const QString &f
     return foundFileName;
 }
 
-QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const
+QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash, const QString &fileName) const
 {
+    if (matchSize.isEmpty() && matchHash.isEmpty()) return searchPathRecursively(dir, QUrl::fromLocalFile(fileName).fileName());
     QString foundFileName;
     QByteArray fileData;
     QByteArray fileHash;
@@ -493,15 +497,16 @@ QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &m
                     fileData = file.readAll();
                 file.close();
                 fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
-                if (QString(fileHash.toHex()) == matchHash)
+                if (QString(fileHash.toHex()) == matchHash) {
                     return file.fileName();
+                }
             }
         }
         ////qDebug() << filesAndDirs.at(i) << file.size() << fileHash.toHex();
     }
     filesAndDirs = dir.entryList(QDir::Dirs | QDir::Readable | QDir::Executable | QDir::NoDotAndDotDot);
     for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); ++i) {
-        foundFileName = searchFileRecursively(dir.absoluteFilePath(filesAndDirs.at(i)), matchSize, matchHash);
+        foundFileName = searchFileRecursively(dir.absoluteFilePath(filesAndDirs.at(i)), matchSize, matchHash, fileName);
         if (!foundFileName.isEmpty())
             break;
     }

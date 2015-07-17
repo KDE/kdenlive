@@ -1104,7 +1104,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         for (int j = 0; j < kdenlive_producers.count(); j++) {
             QDomElement prod = kdenlive_producers.at(j).toElement();
             QString prodName = prod.attribute("name");
-            if (!prod.hasAttribute("groupid") && prodName.isEmpty()) continue;
+            QString prodHash = prod.attribute("file_hash");
+            QString prodSize = prod.attribute("file_size");
             QString id = prod.attribute("id");
             QString folder = prod.attribute("groupid");
             QDomNodeList mlt_producers = frag.childNodes();
@@ -1125,6 +1126,22 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         QDomElement prop = m_doc.createElement("property");
                         prop.setAttribute("name", "kdenlive:clipname");
                         QDomText val = m_doc.createTextNode(prodName);
+                        prop.appendChild(val);
+                        mltprod.appendChild(prop);
+                    }
+                    if (!prodHash.isEmpty()) {
+                        // Set clip name
+                        QDomElement prop = m_doc.createElement("property");
+                        prop.setAttribute("name", "kdenlive:file_hash");
+                        QDomText val = m_doc.createTextNode(prodHash);
+                        prop.appendChild(val);
+                        mltprod.appendChild(prop);
+                    }
+                    if (!prodSize.isEmpty()) {
+                        // Set clip name
+                        QDomElement prop = m_doc.createElement("property");
+                        prop.setAttribute("name", "kdenlive:file_size");
+                        QDomText val = m_doc.createTextNode(prodSize);
                         prop.appendChild(val);
                         mltprod.appendChild(prop);
                     }
