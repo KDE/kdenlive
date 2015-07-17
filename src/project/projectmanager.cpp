@@ -174,7 +174,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     m_lastSave.start();
 }
 
-bool ProjectManager::closeCurrentDocument(bool saveChanges)
+bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
 {
     if (m_project && m_project->isModified() && saveChanges) {
         QString message;
@@ -198,7 +198,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges)
             break;
         }
     }
-    if (!qApp->isSavingSession()) {
+    if (!quit && !qApp->isSavingSession()) {
 	m_autoSaveTimer.stop();
 	pCore->window()->slotTimelineClipSelected(NULL, false);
 	pCore->monitorManager()->clipMonitor()->openClip(NULL);

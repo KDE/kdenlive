@@ -78,7 +78,7 @@ public slots:
     * @return Whether we had success. */
     bool saveFileAs(const QString &outputFileName);
     /** @brief Close currently opened document. Returns false if something went wrong (cannot save modifications, ...). */
-    bool closeCurrentDocument(bool saveChanges = true);
+    bool closeCurrentDocument(bool saveChanges = true, bool quit = false);
 
     /** @brief Prepares opening @param url.
     *

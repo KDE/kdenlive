@@ -254,6 +254,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
 Monitor::~Monitor()
 {
+    render->stop();
+    delete m_glMonitor;
     delete m_ruler;
     delete m_timePos;
     delete render;

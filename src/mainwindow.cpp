@@ -548,7 +548,7 @@ bool MainWindow::queryClose()
     saveOptions();
 
     // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
-    return pCore->projectManager()->closeCurrentDocument(true);
+    return pCore->projectManager()->closeCurrentDocument(true, true);
 }
 
 void MainWindow::loadPlugins()
@@ -1675,14 +1675,14 @@ void MainWindow::slotRestart()
     QApplication::closeAllWindows();
 }
 
-/*void MainWindow::closeEvent(QCloseEvent* event)
+void MainWindow::closeEvent(QCloseEvent* event)
 {
     KXmlGuiWindow::closeEvent(event);
     if (event->isAccepted()) {
         QApplication::exit(m_exitCode);
         return;
     }
-}*/
+}
 
 void MainWindow::slotUpdateCaptureFolder()
 {

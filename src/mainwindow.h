@@ -122,7 +122,7 @@ protected:
      *     the operation requested (starting waiting jobs or saving file) fails,
      *     true otherwise */
     virtual bool queryClose();
-    //virtual void closeEvent(QCloseEvent*);
+    virtual void closeEvent(QCloseEvent*);
 
     /** @brief Reports a message in the status bar when an error occurs. */
     virtual void customEvent(QEvent *e);
