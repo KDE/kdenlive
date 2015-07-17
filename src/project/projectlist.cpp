@@ -2254,7 +2254,7 @@ void ProjectList::addClipCut(const QString &id, int in, int out, const QString d
             m_listView->scrollToItem(sub);
             m_listView->editItem(sub, 1);
         }
-        m_doc->clipManager()->slotRequestThumbs(QString('#' + id), QList <int>() << in);
+        //m_doc->clipManager()->slotRequestThumbs(QString('#' + id), QList <int>() << in);
         monitorItemEditing(true);
     }
     emit projectModified();

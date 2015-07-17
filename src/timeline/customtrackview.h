@@ -32,7 +32,6 @@
 #include <QWaitCondition>
 
 #include "doc/kdenlivedoc.h"
-#include "doc/docclipbase.h"
 #include "timeline/guide.h"
 #include "effectslist/effectslist.h"
 #include "timeline/customtrackscene.h"
@@ -517,10 +516,8 @@ signals:
     void trackHeightChanged();
     void tracksChanged();
     void displayMessage(const QString &, MessageType);
-    void showClipFrame(DocClipBase *, QPoint, bool, const int);
     void doTrackLock(int, bool);
     void updateClipMarkers(ClipController*);
-    void updateClipExtraData(DocClipBase *);
     void updateTrackHeaders();
     void playMonitor();
     /** @brief Monitor document changes (for example the presence of audio data in timeline for export widget.*/

@@ -213,7 +213,6 @@ private:
     void updateProjectProfile();
 
 public slots:
-    void slotCreateXmlClip(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
     void slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path);
 
     /** @brief Sets the document as modified or up to date.
@@ -221,7 +220,6 @@ public slots:
      * Emits docModified conected to MainWindow::slotUpdateDocumentState \n
      * @param mod (optional) true if the document has to be saved */
     void setModified(bool mod = true);
-    void checkProjectClips(bool displayRatioChanged = false, bool fpsChanged = false);
     void slotProxyCurrentItem(bool doProxy);
     /** @brief Saves the current project at the autosave location.
      * @description The autosave files are in ~/.kde/data/stalefiles/kdenlive/ */

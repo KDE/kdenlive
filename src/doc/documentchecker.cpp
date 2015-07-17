@@ -19,7 +19,6 @@
 
 
 #include "documentchecker.h"
-#include "docclipbase.h"
 #include "kthumb.h"
 
 #include "titler/titlewidget.h"

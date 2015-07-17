@@ -4152,7 +4152,6 @@ void Render::mltDeleteTrack(int ix)
     tractor.removeChild(track);
     ////qDebug() << "/////////// RESULT SCENE: \n" << doc.toString();
     reloadSceneList(doc.toString(), m_mltConsumer->position());
-    emit refreshDocumentProducers(false, false);
 }
 
 QString Render::updateSceneListFps(double current_fps, double new_fps, const QString &scene)

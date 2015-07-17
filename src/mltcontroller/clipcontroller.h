@@ -71,9 +71,6 @@ public:
 
     void getProducerXML(QDomDocument& document);
 
-    /** @brief Append a track producer retrieved from document loading to out list */
-    void appendTrackProducer(const QString trackName, Mlt::Producer &producer);
-
     /** @brief Returns a clone of our master producer. Delete after use! */
     Mlt::Producer *masterProducer();
     Mlt::Producer *zoneProducer(int in, int out);

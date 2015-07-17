@@ -446,7 +446,6 @@ signals:
      *  @param durationError Should be set to true if the proxy failed because it has not same length as original clip
      */
     void removeInvalidProxy(const QString &id, bool durationError);
-    void refreshDocumentProducers(bool displayRatioChanged, bool fpsChanged);
     /** @brief A proxy clip is missing, ask for creation. */
     void requestProxy(QString);
     /** @brief A multiple stream clip was found. */

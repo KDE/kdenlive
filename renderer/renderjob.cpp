@@ -51,7 +51,8 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, int pid, const QString& rend
     m_erase(erase),
     m_seconds(0),
     m_frame(0),
-    m_pid(pid)
+    m_pid(pid),
+    m_dualpass(false)
 {
     m_renderProcess = new QProcess;
     m_renderProcess->setReadChannel(QProcess::StandardError);

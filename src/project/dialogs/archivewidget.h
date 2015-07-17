@@ -23,7 +23,6 @@
 
 
 #include "ui_archivewidget_ui.h"
-#include "doc/docclipbase.h"
 
 #include <kio/global.h>
 #include <KIO/CopyJob>
@@ -32,7 +31,7 @@
 #include <QDialog>
 #include <QFuture>
 #include <QList>
-
+#include <QDomDocument>
 
 class KJob;
 class KArchive;

@@ -44,6 +44,7 @@
 EffectStackView2::EffectStackView2(QWidget *parent) :
         QWidget(parent),
         m_clipref(NULL),
+        m_masterclipref(NULL),
         m_status(EMPTY),
         m_trackindex(-1),
         m_draggedEffect(NULL),

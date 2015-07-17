@@ -42,7 +42,6 @@ class ClipItem;
 class CustomTrackView;
 class KdenliveDoc;
 class CustomRuler;
-//class DocClipBase;
 class QUndoCommand;
 
 class Timeline : public QWidget, public Ui::TimeLine_UI

@@ -73,10 +73,7 @@ Q_OBJECT public:
     void deleteClip(const QString &clipId);
     void deleteProjectClip(const QString &clipId);
 
-    void slotAddTextClipFile(const QString &titleName, int out, const QString &xml, const QString &group, const QString &groupId);
     void slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId);
-    void slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
-    //const QList <DocClipBase *> getClipByResource(const QString &resource);
     void slotDeleteClips(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand, bool execute);
     void setThumbsProgress(const QString &message, int progress);
     QMap <QString, QString> documentFolderList() const;

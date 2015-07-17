@@ -1519,7 +1519,6 @@ void MainWindow::connectDocument()
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), trackView, SLOT(slotSetZone(QPoint)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
-    connect(m_projectMonitor->render, SIGNAL(refreshDocumentProducers(bool,bool)), project, SLOT(checkProjectClips(bool,bool)));
     connect(project, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
     connect(trackView->projectView(), SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
     connect(project, SIGNAL(saveTimelinePreview(QString)), trackView, SLOT(slotSaveTimelinePreview(QString)));
@@ -1587,7 +1586,6 @@ void MainWindow::connectDocument()
     connect(m_projectMonitor, SIGNAL(durationChanged(int)), this, SLOT(slotUpdateProjectDuration(int)));
     pCore->monitorManager()->setDocument(project);
     trackView->updateProjectFps();
-    project->checkProjectClips();
     if (m_recMonitor) {
         m_recMonitor->slotUpdateCaptureFolder(project->projectFolder().path() + QDir::separator());
     }

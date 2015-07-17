@@ -103,12 +103,10 @@ void BinController::initializeBin(Mlt::Playlist playlist)
             QString track = id.section("_", 1, 1);
             if (m_clipList.contains(mainId)) {
                 // The controller for this track producer already exists
-                m_clipList.value(mainId)->appendTrackProducer(track, producer->parent());
             }
             else {
                 // Create empty controller for this track
                 ClipController *controller = new ClipController(this);
-                controller->appendTrackProducer(track, producer->parent());
                 m_clipList.insert(mainId, controller);
             }
         }

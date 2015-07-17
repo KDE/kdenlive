@@ -250,11 +250,6 @@ Mlt::Producer *ClipController::getTrackProducer(const QString trackName, Playlis
     return clone;
 }
 
-void ClipController::appendTrackProducer(const QString trackName, Mlt::Producer &producer)
-{
-    //insert(trackName, &producer);
-}
-
 const QString ClipController::getStringDuration()
 {
     if (m_masterProducer) return m_masterProducer->get_length_time(mlt_time_smpte);

@@ -154,8 +154,6 @@ void ClipManager::stopThumbs(const QString &id)
 void ClipManager::slotGetThumbs()
 {
     QMap<QString, int>::const_iterator i;
-    int max;
-    int done = 0;
     int thumbType = 0; // 0 = timeline thumb, 1 = project clip zone thumb, 2 = clip properties thumb
     
     while (!m_requestedThumbs.isEmpty() && !m_abortThumb) {
@@ -325,29 +323,6 @@ void ClipManager::slotAddCopiedClip(KIO::Job *job, const QUrl &, const QUrl &dst
     pCore->bin()->droppedUrls(QList<QUrl> () << dst, data);
 }
 
-
-void ClipManager::slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId)
-{
-    QDomDocument doc;
-    doc.appendChild(doc.importNode(xml, true));
-    QDomElement prod = doc.documentElement();
-    prod.setAttribute("type", (int) Playlist);
-    uint id = pCore->bin()->getFreeClipId();
-    prod.setAttribute("id", QString::number(id));
-    prod.setAttribute("name", name);
-    if (!group.isEmpty()) {
-        prod.setAttribute("groupname", group);
-        prod.setAttribute("groupid", groupId);
-    }
-    AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);
-    m_doc->commandStack()->push(command);
-}
-
-
-void ClipManager::slotAddTextClipFile(const QString &titleName, int duration, const QString &xml, const QString &group, const QString &groupId)
-{
-
-}
 
 void ClipManager::slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId)
 {

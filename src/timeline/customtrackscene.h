@@ -63,9 +63,9 @@ public:
 
 private:
     Timeline *m_timeline;
-    QList <GenTime> m_snapPoints;
     QPointF m_scale;
     EditMode m_editMode;
+    QList <GenTime> m_snapPoints;
 };
 
 #endif

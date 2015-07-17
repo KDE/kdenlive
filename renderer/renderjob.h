@@ -52,28 +52,28 @@ private:
     QString m_scenelist;
     QString m_dest;
     int m_progress;
-    QProcess* m_renderProcess;
-    QString m_errorMessage;
     QString m_prog;
     QString m_player;
-    QStringList m_args;
-    bool m_erase;
-    bool m_dualpass;
     QDBusInterface* m_jobUiserver;
     QDBusInterface* m_kdenliveinterface;
-    QList<QVariant> m_dbusargs;
-    QTime m_startTime;
-    int m_seconds;
-    int m_frame;
-    void initKdenliveDbusInterface();
     bool m_usekuiserver;
-    bool m_enablelog;
     /** @brief Used to create a temporary file for logging. */
     QFile m_logfile;
-    /** @brief Used to write to the log file. */
-    QTextStream m_logstream;
+    bool m_erase;
+    int m_seconds;
+    int m_frame;
     /** @brief The process id of the Kdenlive instance, used to get the dbus service. */
     int m_pid;
+    bool m_dualpass;
+    QProcess* m_renderProcess;
+    QString m_errorMessage;
+    QList<QVariant> m_dbusargs;
+    QTime m_startTime;
+    QStringList m_args;
+    bool m_enablelog;
+    /** @brief Used to write to the log file. */
+    QTextStream m_logstream;
+    void initKdenliveDbusInterface();
 
 signals:
     void renderingFinished();

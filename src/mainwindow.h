@@ -352,8 +352,6 @@ private slots:
     void slotCopy();
     void slotPaste();
     void slotPasteEffects();
-    //void slotSaveZone(Render *render, const QPoint &zone, DocClipBase *baseClip = NULL, QUrl path = QUrl());
-
     void slotResizeItemStart();
     void slotResizeItemEnd();
     void configureNotifications();

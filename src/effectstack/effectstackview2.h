@@ -88,41 +88,43 @@ protected:
     void dropEvent(QDropEvent *event);
   
 private:
-    Ui::EffectStack2_UI m_ui;
     ClipItem* m_clipref;
     ClipController *m_masterclipref;
-    QList <CollapsibleEffect*> m_effects;
-    EffectsList m_currentEffectList;
     /** @brief Current status of the effect stack (if it contains a timeline clip, track or master clip effect. */
     EFFECTMODE m_status;
-
-    /** @brief Contains info about effect like is it a track effect, which monitor displays it,... */
-    EffectMetaInfo m_effectMetaInfo;
-    
-    /** @brief The last mouse click position, used to detect drag events. */
-    QPoint m_clickPoint;
-
     /** @brief The track index of currently edited track. */
     int m_trackindex;
 
-    /** If in track mode: Info of the edited track to be able to access its duration. */
-    TrackInfo m_trackInfo;
-    
     /** @brief The effect currently being dragged, NULL if no drag happening. */
     CollapsibleEffect *m_draggedEffect;
-    
+
     /** @brief The effect currently being dragged, NULL if no drag happening. */
     CollapsibleGroup *m_draggedGroup;
-    
+
     /** @brief The current number of groups. */
     int m_groupIndex;
-    
+
     /** @brief The current effect may require an on monitor scene. */
     bool m_monitorSceneWanted;
 
+    /** If in track mode: Info of the edited track to be able to access its duration. */
+    TrackInfo m_trackInfo;
+
+    QList <CollapsibleEffect*> m_effects;
+    EffectsList m_currentEffectList;
+
+    Ui::EffectStack2_UI m_ui;
+
+    /** @brief Contains info about effect like is it a track effect, which monitor displays it,... */
+    EffectMetaInfo m_effectMetaInfo;
+
+    /** @brief The last mouse click position, used to detect drag events. */
+    QPoint m_clickPoint;
+
+
     /** @brief Sets the list of effects according to the clip's effect list. */
     void setupListView();
-    
+
     /** @brief Build the drag info and start it. */
     void startDrag();
     

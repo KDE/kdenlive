@@ -878,12 +878,6 @@ QUndoStack *KdenliveDoc::commandStack()
     return m_commandStack;
 }
 
-void KdenliveDoc::checkProjectClips(bool displayRatioChanged, bool fpsChanged)
-{
-    if (m_render == NULL) return;
-    //m_clipManager->resetProducersList(m_render->producersList(), displayRatioChanged, fpsChanged);
-}
-
 Render *KdenliveDoc::renderer()
 {
     return m_render;
@@ -1186,12 +1180,6 @@ ClipController *KdenliveDoc::getClipController(const QString &clipId)
     return pCore->binController()->getController(clipId);
 }
 
-
-void KdenliveDoc::slotCreateXmlClip(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId)
-{
-    m_clipManager->slotAddXmlClipFile(name, xml, group, groupId);
-    emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
-}
 
 void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path)
 {

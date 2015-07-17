@@ -37,7 +37,6 @@
 #include "renderer.h"
 #include "bin/projectclip.h"
 #include "mainwindow.h"
-#include "doc/docclipbase.h"
 #include "project/clipmanager.h"
 #include "effectslist/initeffects.h"
 #include "dialogs/profilesdialog.h"
@@ -3161,7 +3160,6 @@ void CustomTrackView::configTracks(const QList < TrackInfo > &trackInfos)
 
 void CustomTrackView::slotSwitchTrackAudio(int ix, bool enable)
 {
-    int tracknumber = m_timeline->tracksCount() - ix;
     m_timeline->switchTrackAudio(ix, enable);
     m_document->renderer()->doRefresh();
 }
@@ -3247,7 +3245,6 @@ void CustomTrackView::lockTrack(int ix, bool lock, bool requestUpdate)
 
 void CustomTrackView::slotSwitchTrackVideo(int ix, bool enable)
 {
-    int tracknumber = m_timeline->tracksCount() - ix;
     m_timeline->switchTrackVideo(ix, enable);
     m_document->renderer()->doRefresh();
     //TODO: create undo/redo command for this
