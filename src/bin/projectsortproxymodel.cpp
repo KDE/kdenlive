@@ -50,11 +50,15 @@ bool ProjectSortProxyModel::filterAcceptsRow(int sourceRow,
 bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow,
          const QModelIndex &sourceParent) const
 {
-    QModelIndex index0 = sourceModel()->index(sourceRow, 0, sourceParent);
-    if (!index0.isValid()) {
-        return false;
+    int cols = sourceModel()->columnCount();
+    for (int i = 0; i < cols; i++) {
+        QModelIndex index0 = sourceModel()->index(sourceRow, i, sourceParent);
+        if (!index0.isValid()) {
+            return false;
+        }
+        if (sourceModel()->data(index0).toString().contains(m_searchString)) return true;
     }
-    return (sourceModel()->data(index0).toString().contains(m_searchString));
+    return false;
 }
 
 bool ProjectSortProxyModel::hasAcceptedChildren(int sourceRow, const QModelIndex &source_parent) const
