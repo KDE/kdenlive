@@ -2635,57 +2635,29 @@ void MainWindow::loadClipActions()
     if (actionMenu){
         actionMenu->clear();
         Mlt::Profile profile;
-        Mlt::Filter *filter = Mlt::Factory::filter(profile,(char*)"videostab");
-        if (filter) {
-            if (!filter->is_valid()) {
-                delete filter;
-            }
-            else {
-                delete filter;
-                QAction *action=actionMenu->addAction(i18n("Stabilize (vstab)"));
-                action->setData("videostab");
-                connect(action,SIGNAL(triggered()), this, SLOT(slotStartClipAction()));
-            }
-        }
-        filter = Mlt::Factory::filter(profile,(char*)"videostab2");
-        if (filter) {
-            if (!filter->is_valid()) {
-                delete filter;
-            }
-            else {
-                delete filter;
-                QAction *action=actionMenu->addAction(i18n("Stabilize (transcode)"));
-                action->setData("videostab2");
-                connect(action,SIGNAL(triggered()), this, SLOT(slotStartClipAction()));
-            }
-        }
-        filter = Mlt::Factory::filter(profile,(char*)"vidstab");
-        if (filter) {
-            if (!filter->is_valid()) {
-                delete filter;
-            }
-            else {
-                delete filter;
-                QAction *action=actionMenu->addAction(i18n("Stabilize"));
-                QStringList stabJob;
-                stabJob << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << "vidstab";
-                action->setData(stabJob);
+        Mlt::Filter *filter;
+
+        foreach(const QString stab, QStringList() << "vidstab" << "videostab2" << "videostab") {
+            filter = Mlt::Factory::filter(profile, (char*)stab.toUtf8().constData());
+            if (filter && filter->is_valid()) {
+                QAction *action=actionMenu->addAction(i18n("Stabilize") + " (" + stab + ")");
+                action->setData(QStringList() << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << stab);
                 connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
+                delete filter;
+                break;
             }
+            delete filter;
         }
         filter = Mlt::Factory::filter(profile,(char*)"motion_est");
         if (filter) {
-            if (!filter->is_valid()) {
-                delete filter;
-            }
-            else {
-                delete filter;
+            if (filter->is_valid()) {
                 QAction *action=actionMenu->addAction(i18n("Automatic scene split"));
                 QStringList stabJob;
                 stabJob << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << "motion_est";
                 action->setData(stabJob);
                 connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
             }
+            delete filter;
         }
         if (KdenliveSettings::producerslist().contains("framebuffer")) {
             QAction *action=actionMenu->addAction(i18n("Reverse clip"));

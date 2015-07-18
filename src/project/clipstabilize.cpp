@@ -49,102 +49,73 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
     QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
     QColor light_bg = scheme.shade(KColorScheme::LightShade);
 
-    QString stylesheet(QString("QProgressBar:horizontal {border: 1px solid %1;border-radius:0px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right: 0px;background:%4;padding: 0px;text-align:left center}\
-                               QProgressBar:horizontal#dragOnly {background: %1} QProgressBar:horizontal:hover#dragOnly {background: %3} QProgressBar:horizontal:hover {border: 1px solid %3;border-right: 0px;}\
-                               QProgressBar::chunk:horizontal {background: %1;} QProgressBar::chunk:horizontal:hover {background: %3;}\
-                               QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %2;border-right: 0px;background: %4;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %2;}\
-                               QAbstractSpinBox#dragBox {border: 1px solid %1;border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;}\
-                               QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { border: 1px solid %2;} QAbstractSpinBox:hover#dragBox {border: 1px solid %3;} ")
-                               .arg(dark_bg.name()).arg(selected_bg.name()).arg(hover_bg.name()).arg(light_bg.name()));
-                               setStyleSheet(stylesheet);
+    QString stylesheet(QString(
+                "QProgressBar:horizontal {border: 1px solid %1;border-radius:0px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right: 0px;background:%4;padding: 0px;text-align:left center}"
+                "QProgressBar:horizontal#dragOnly {background: %1} QProgressBar:horizontal:hover#dragOnly {background: %3} QProgressBar:horizontal:hover {border: 1px solid %3;border-right: 0px;}"
+                "QProgressBar::chunk:horizontal {background: %1;} QProgressBar::chunk:horizontal:hover {background: %3;}"
+                "QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %2;border-right: 0px;background: %4;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %2;}"
+                "QAbstractSpinBox#dragBox {border: 1px solid %1;border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;}"
+                "QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { border: 1px solid %2;} QAbstractSpinBox:hover#dragBox {border: 1px solid %3;} "
+                ).arg(dark_bg.name()).arg(selected_bg.name()).arg(hover_bg.name()).arg(light_bg.name()));
+    setStyleSheet(stylesheet);
 
-                               if (m_urls.count() == 1) {
-                               QString newFile = m_urls.first();
-                               newFile.append(".mlt");
-                               QUrl dest(newFile);
-                               dest_url->setMode(KFile::File);
-                               dest_url->setUrl(QUrl(newFile));
-} else {
-                               label_dest->setText(i18n("Destination folder"));
-                               dest_url->setMode(KFile::Directory | KFile::ExistingOnly);
-                               dest_url->setUrl(QUrl(m_urls.first()).adjusted(QUrl::RemoveFilename));
-}
+    if (m_urls.count() == 1) {
+        QString newFile = m_urls.first();
+        newFile.append(".mlt");
+        QUrl dest(newFile);
+        dest_url->setMode(KFile::File);
+        dest_url->setUrl(QUrl(newFile));
+    } else {
+        label_dest->setText(i18n("Destination folder"));
+        dest_url->setMode(KFile::Directory | KFile::ExistingOnly);
+        dest_url->setUrl(QUrl(m_urls.first()).adjusted(QUrl::RemoveFilename));
+    }
 
-                               if (m_filtername=="videostab"){
-                               QStringList ls;
-                               ls << "shutterangle,type,int,value,0,min,0,max,180,tooltip,Angle that Images could be maximum rotated";
-                               fillParameters(ls);
-}else if (m_filtername=="videostab2"){
-                               // Some default params have to be set:
-                               m_fixedParams << "algo=1" << "relative=1";
-                               QStringList ls;
-                               ls << "accuracy,type,int,value,8,min,1,max,10,tooltip,Accuracy of Shakiness detection";
-                               ls << "shakiness,type,int,value,4,min,1,max,10,tooltip,How shaky is the Video";
-                               ls << "stepsize,type,int,value,6,min,0,max,100,tooltip,Stepsize of Detection process minimum around";
-                               //ls << "algo,type,bool,value,1,min,0,max,1,tooltip,0 = Bruteforce 1 = small measurement fields";
-                               ls << "mincontrast,type,double,value,0.3,min,0,max,1,factor,1,decimals,2,tooltip,Below this Contrast Field is discarded";
-                               //ls << "show,type,int,value,0,min,0,max,2,tooltip,0 = draw nothing. 1 or 2 show fields and transforms";
-                               ls << "smoothing,type,int,value,10,min,0,max,100,tooltip,number of frames for lowpass filtering";
-                               ls << "maxshift,type,int,value,-1,min,-1,max,1000,tooltip,max number of pixels to shift";
-                               ls << "maxangle,type,double,value,-1,min,-1,max,3.14,decimals,2,tooltip,max angle to rotate (in rad)";
-                               ls << "crop,type,bool,value,0,min,0,max,1,tooltip,0 = keep border  1 = black background";
-                               //ls << "invert,type,bool,value,0,min,0,max,1,tooltip,invert transform";
-                               //ls << "relative,type,bool,value,1,min,0,max,1,tooltip,0 = absolute transform  1= relative";
-                               ls << "zoom,type,int,value,0,min,-500,max,500,tooltip,additional zoom during transform";
-                               ls << "optzoom,type,bool,value,1,min,0,max,1,tooltip,use optimal zoom (calulated from transforms)";
-                               ls << "sharpen,type,double,value,0.8,min,0,max,1,decimals,1,tooltip,sharpen transformed image";
-                               fillParameters(ls);
+    if (m_filtername=="vidstab" || m_filtername=="videostab2") {
+        m_fixedParams.insert("algo", "1");
+        m_fixedParams.insert("relative", "1");
+        fillParameters(QStringList()
+            << "accuracy,type,int,value,8,min,1,max,10,tooltip,Accuracy of Shakiness detection"
+            << "shakiness,type,int,value,4,min,1,max,10,tooltip,How shaky is the Video"
+            << "stepsize,type,int,value,6,min,0,max,100,tooltip,Stepsize of Detection process minimum around"
+            << "mincontrast,type,double,value,0.3,min,0,max,1,factor,1,decimals,2,tooltip,Below this Contrast Field is discarded"
+            << "smoothing,type,int,value,10,min,0,max,100,tooltip,number of frames for lowpass filtering"
+            << "maxshift,type,int,value,-1,min,-1,max,1000,tooltip,max number of pixels to shift"
+            << "maxangle,type,double,value,-1,min,-1,max,3.14,decimals,2,tooltip,max angle to rotate (in rad)"
+            << "crop,type,bool,value,0,min,0,max,1,tooltip,0 = keep border  1 = black background"
+            << "zoom,type,int,value,0,min,-500,max,500,tooltip,additional zoom during transform"
+            << "optzoom,type,bool,value,1,min,0,max,1,tooltip,use optimal zoom (calulated from transforms)"
+            << "sharpen,type,double,value,0.8,min,0,max,1,decimals,1,tooltip,sharpen transformed image");
+    } else if (m_filtername=="videostab") {
+        fillParameters(QStringList("shutterangle,type,int,value,0,min,0,max,180,tooltip,Angle that Images could be maximum rotated"));
+    }
 
-}else if (m_filtername=="vidstab"){
-                               // Some default params have to be set:
-                               m_fixedParams.insert("algo", "1");
-			       m_fixedParams.insert("relative", "1");
-                               QStringList ls;
-                               ls << "accuracy,type,int,value,8,min,1,max,10,tooltip,Accuracy of Shakiness detection";
-                               ls << "shakiness,type,int,value,4,min,1,max,10,tooltip,How shaky is the Video";
-                               ls << "stepsize,type,int,value,6,min,0,max,100,tooltip,Stepsize of Detection process minimum around";
-                               //ls << "algo,type,bool,value,1,min,0,max,1,tooltip,0 = Bruteforce 1 = small measurement fields";
-                               ls << "mincontrast,type,double,value,0.3,min,0,max,1,factor,1,decimals,2,tooltip,Below this Contrast Field is discarded";
-                               //ls << "show,type,int,value,0,min,0,max,2,tooltip,0 = draw nothing. 1 or 2 show fields and transforms";
-                               ls << "smoothing,type,int,value,10,min,0,max,100,tooltip,number of frames for lowpass filtering";
-                               ls << "maxshift,type,int,value,-1,min,-1,max,1000,tooltip,max number of pixels to shift";
-                               ls << "maxangle,type,double,value,-1,min,-1,max,3.14,decimals,2,tooltip,max angle to rotate (in rad)";
-                               ls << "crop,type,bool,value,0,min,0,max,1,tooltip,0 = keep border  1 = black background";
-                               //ls << "invert,type,bool,value,0,min,0,max,1,tooltip,invert transform";
-                               //ls << "relative,type,bool,value,1,min,0,max,1,tooltip,0 = absolute transform  1= relative";
-                               ls << "zoom,type,int,value,0,min,-500,max,500,tooltip,additional zoom during transform";
-                               ls << "optzoom,type,bool,value,1,min,0,max,1,tooltip,use optimal zoom (calulated from transforms)";
-                               ls << "sharpen,type,double,value,0.8,min,0,max,1,decimals,1,tooltip,sharpen transformed image";
-                               fillParameters(ls);
+    connect(buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &ClipStabilize::slotValidate);
 
-}
+    vbox=new QVBoxLayout(optionsbox);
+    QHashIterator<QString,QHash<QString,QString> > hi(m_ui_params);
+    while(hi.hasNext()){
+        hi.next();
+        QHash<QString,QString> val=hi.value();
+        if (val["type"]=="int" || val["type"]=="double"){
+            DoubleParameterWidget *dbl=new DoubleParameterWidget(hi.key(), val["value"].toDouble(),
+                    val["min"].toDouble(),val["max"].toDouble(),val["value"].toDouble(),
+                    "",0/*id*/,""/*suffix*/,val["decimals"]!=""?val["decimals"].toInt():0,this);
+            dbl->setObjectName(hi.key());
+            dbl->setToolTip(val["tooltip"]);
+            connect(dbl, &DoubleParameterWidget::valueChanged, this, &ClipStabilize::slotUpdateParams);
+            vbox->addWidget(dbl);
+        }else if (val["type"]=="bool"){
+            QCheckBox *ch=new QCheckBox(hi.key(),this);
+            ch->setCheckState(val["value"] == "0" ? Qt::Unchecked : Qt::Checked);
+            ch->setObjectName(hi.key());
+            connect(ch, &QCheckBox::stateChanged, this, &ClipStabilize::slotUpdateParams);
+            ch->setToolTip(val["tooltip"]);
+            vbox->addWidget(ch);
 
-                               connect(buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &ClipStabilize::slotValidate);
-
-                               vbox=new QVBoxLayout(optionsbox);
-                               QHashIterator<QString,QHash<QString,QString> > hi(m_ui_params);
-                               while(hi.hasNext()){
-                               hi.next();
-                               QHash<QString,QString> val=hi.value();
-                               if (val["type"]=="int" || val["type"]=="double"){
-        DoubleParameterWidget *dbl=new DoubleParameterWidget(hi.key(), val["value"].toDouble(),
-                val["min"].toDouble(),val["max"].toDouble(),val["value"].toDouble(),
-                "",0/*id*/,""/*suffix*/,val["decimals"]!=""?val["decimals"].toInt():0,this);
-        dbl->setObjectName(hi.key());
-        dbl->setToolTip(val["tooltip"]);
-        connect(dbl, &DoubleParameterWidget::valueChanged, this, &ClipStabilize::slotUpdateParams);
-        vbox->addWidget(dbl);
-    }else if (val["type"]=="bool"){
-                           QCheckBox *ch=new QCheckBox(hi.key(),this);
-                           ch->setCheckState(val["value"] == "0" ? Qt::Unchecked : Qt::Checked);
-                           ch->setObjectName(hi.key());
-                           connect(ch, &QCheckBox::stateChanged, this, &ClipStabilize::slotUpdateParams);
-                           ch->setToolTip(val["tooltip"]);
-                           vbox->addWidget(ch);
-
-                       }
-}
-adjustSize();
+        }
+    }
+    adjustSize();
 }
 
 ClipStabilize::~ClipStabilize()
@@ -201,62 +172,6 @@ QString ClipStabilize::desc() const
 {
     return i18n("Stabilize clip");
 }
-
-void ClipStabilize::slotStartStabilize()
-{
-    /*
-    if (m_consumer && !m_consumer->is_stopped()) {
-        return;
-    }
-    m_duration = 0;
-    QStringList parameters;
-    QString destination;
-    //QString params = ffmpeg_params->toPlainText().simplified();
-    if (urls_list->count() > 0) {
-        source_url->setUrl(m_urls.takeFirst());
-        destination = dest_url->url().path(::AddTrailingSlash)+ source_url->url().fileName()+".mlt";
-        QList<QListWidgetItem *> matching = urls_list->findItems(source_url->url().path(), Qt::MatchExactly);
-        if (matching.count() > 0) {
-            matching.at(0)->setFlags(Qt::ItemIsSelectable);
-            urls_list->setCurrentItem(matching.at(0));
-        }
-    } else {
-        destination = dest_url->url().path();
-    }
-    QString s_url = source_url->url().path();
-
-    if (QFile::exists(destination)) {
-            if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination )) == KMessageBox::No) return;
-    }
-    buttonBox->button(QDialogButtonBox::Abort)->setText(i18n("Abort"));
-
-    if (m_profile){
-        m_playlist= new Mlt::Playlist;
-        Mlt::Filter filter(*m_profile,filtername.toUtf8().data());
-        QHashIterator <QString,QHash<QString,QString> > it(m_ui_params);
-        while (it.hasNext()){
-            it.next();
-            filter.set(
-                    it.key().toLatin1().data(),
-                    QString::number(it.value()["value"].toDouble()).toLatin1().data());
-        }
-        Mlt::Producer p(*m_profile,s_url.toUtf8().data());
-        if (p.is_valid()) {
-            m_playlist->append(p);
-            m_playlist->attach(filter);
-            m_consumer= new Mlt::Consumer(*m_profile,"xml",destination.toUtf8().data());
-            m_consumer->set("all",1);
-            m_consumer->set("real_time",-2);
-            m_consumer->connect(*m_playlist);
-            m_stabilizeRun = QtConcurrent::run(this, &ClipStabilize::slotRunStabilize);
-            m_timer->start(500);
-            button_start->setEnabled(false);
-        }
-    }
-*/
-}
-
-
 
 void ClipStabilize::slotUpdateParams()
 {
