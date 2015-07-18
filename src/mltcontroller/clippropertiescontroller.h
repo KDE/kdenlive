@@ -40,7 +40,7 @@ class BinController;
  */
 
 
-class ClipPropertiesController : public QWidget
+class ClipPropertiesController : public QTabWidget
 {
   Q_OBJECT
 public:
@@ -56,24 +56,35 @@ public:
 public slots:
     void slotReloadProperties();
     void slotRefreshTimeCode();
+    void slotFillMarkers();
 
 private slots:
     void slotColorModified(QColor newcolor);
     void slotDurationChanged(int duration);
     void slotEnableForce(int state);
     void slotValueChanged(double);
+    void slotEditMarker();
 
 private:
+    ClipController *m_controller;
+    Timecode m_tc;
     QString m_id;
     ClipType m_type;
     Mlt::Properties m_properties;
     QMap <QString, QString> m_originalProperties;
+    QWidget *m_forcePage;
+    QWidget *m_propertiesPage;
+    QWidget *m_markersPage;
+    QTreeWidget *m_markerTree;
+    void fillProperties(QTreeWidget *tree);
 
 signals:
     void updateClipProperties(const QString &,QMap <QString, QString>, QMap <QString, QString>);
     void modified(QColor);
     void modified(int);
     void updateTimeCodeFormat();
+    /** @brief Seek clip monitor to a frame. */
+    void seekToFrame(int);
 };
 
 #endif

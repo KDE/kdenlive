@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bincontroller.h"
 #include "timecodedisplay.h"
 #include "clipcontroller.h"
+#include "kdenlivesettings.h"
 #include "effectstack/widgets/choosecolorwidget.h"
 #include "dialogs/profilesdialog.h"
 
@@ -38,12 +39,42 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QCheckBox>
 #include <QFontDatabase>
 
-ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *controller, QWidget *parent) : QWidget(parent)
+ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *controller, QWidget *parent) : QTabWidget(parent)
+    , m_controller(controller)
+    , m_tc(tc)
     , m_id(controller->clipId())
     , m_type(controller->clipType())
     , m_properties(controller->properties())
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    m_forcePage = new QWidget(this);
+    m_propertiesPage = new QWidget(this);
+    m_markersPage = new QWidget(this);
+
+    // Clip properties
+    QVBoxLayout *propsBox = new QVBoxLayout;
+    QTreeWidget *propsTree = new QTreeWidget;
+    propsTree->setRootIsDecorated(false);
+    propsTree->setColumnCount(2);
+    propsTree->setAlternatingRowColors(true);
+    propsTree->setHeaderHidden(true);
+    propsBox->addWidget(propsTree);
+    fillProperties(propsTree);
+    m_propertiesPage->setLayout(propsBox);
+
+    // Clip markers
+    QVBoxLayout *mBox = new QVBoxLayout;
+    m_markerTree = new QTreeWidget;
+    m_markerTree->setRootIsDecorated(false);
+    m_markerTree->setColumnCount(2);
+    m_markerTree->setAlternatingRowColors(true);
+    m_markerTree->setHeaderHidden(true);
+    mBox->addWidget(m_markerTree);
+    slotFillMarkers();
+    m_markersPage->setLayout(mBox);
+    connect(m_markerTree, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotEditMarker()));
+    
+    // Force properties
     QVBoxLayout *vbox = new QVBoxLayout;
     if (m_type == Color || m_type == Image || m_type == AV || m_type == Video) {
         // Edit duration widget
@@ -141,12 +172,18 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         
         vbox->addLayout(hlay);
     }
-    setLayout(vbox);
+    m_forcePage->setLayout(vbox);
     vbox->addStretch(10);
+    addTab(m_propertiesPage, i18n("Properties"));
+    addTab(m_markersPage, i18n("Markers"));
+    addTab(m_forcePage, i18n("Force"));
+    setCurrentIndex(KdenliveSettings::properties_panel_page());
+    if (m_type == Color) setTabEnabled(0, false);
 }
 
 ClipPropertiesController::~ClipPropertiesController()
 {
+    KdenliveSettings::setProperties_panel_page(currentIndex());
 }
 
 void ClipPropertiesController::slotRefreshTimeCode()
@@ -251,5 +288,116 @@ void ClipPropertiesController::slotValueChanged(double value)
     properties.insert(param, locale.toString(value));
     emit updateClipProperties(m_id, m_originalProperties, properties);
     m_originalProperties = properties;
+}
+
+
+void ClipPropertiesController::fillProperties(QTreeWidget *tree)
+{
+    QList <QStringList> propertyMap;
+    char property[200];
+    // Get the video_index
+    if (m_type == AV || m_type == Video) {
+        int vindex = m_controller->int_property("video_index");
+        int video_max = 0;
+        int default_audio = m_controller->int_property("audio_index");
+        int audio_max = 0;
+
+        // Find maximum stream index values
+        for (int ix = 0; ix < m_controller->int_property("meta.media.nb_streams"); ++ix) {
+            snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
+            QString type = m_controller->property(property);
+            if (type == "video")
+                video_max = ix;
+            else if (type == "audio")
+                audio_max = ix;
+        }
+        /*propertyMap["default_video"] = QString::number(vindex);
+        propertyMap["video_max"] = QString::number(video_max);
+        propertyMap["default_audio"] = QString::number(default_audio);
+        propertyMap["audio_max"] = QString::number(audio_max);*/
+
+        if (vindex > -1) {
+            // We have a video stream
+            snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", vindex);
+            QString codec = m_controller->property(property);
+            if (!codec.isEmpty()) {
+                propertyMap.append(QStringList() << i18n("Video codec") << codec);
+            }
+            int width = m_controller->int_property("meta.media.width");
+            int height = m_controller->int_property("meta.media.height");
+            propertyMap.append(QStringList() << i18n("Frame size") << QString::number(width) + "x" + QString::number(height));
+            
+            snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
+            double fps = m_controller->double_property(property);
+            if (fps > 0) {
+                    propertyMap.append(QStringList() << i18n("Frame rate") << QString::number(fps, 'g', 3));
+            } else {
+                int rate_den = m_controller->int_property("meta.media.frame_rate_den");
+                if (rate_den > 0) {
+                    double fps = (double) m_controller->int_property("meta.media.frame_rate_num") / rate_den;
+                    propertyMap.append(QStringList() << i18n("Frame rate") << QString::number(fps, 'g', 3));
+                }
+            }
+
+            int scan = m_controller->int_property("meta.media.progressive");
+            propertyMap.append(QStringList() << i18n("Scanning") << (scan == 1 ? i18n("Progressive") : i18n("Interlaced")));
+            snprintf(property, sizeof(property), "meta.media.%d.codec.sample_aspect_ratio", vindex);
+            double par = m_controller->double_property(property);
+            propertyMap.append(QStringList() << i18n("Pixel aspect ratio") << QString::number(par, 'g', 3));
+            propertyMap.append(QStringList() << i18n("Pixel format") << m_controller->videoCodecProperty("pix_fmt"));
+            int colorspace = m_controller->videoCodecProperty("colorspace").toInt();
+            propertyMap.append(QStringList() << i18n("Colorspace") << ProfilesDialog::getColorspaceDescription(colorspace));
+            
+            snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", default_audio);
+            codec = m_controller->property(property);
+            if (!codec.isEmpty()) {
+                propertyMap.append(QStringList() << i18n("Audio codec") << codec);
+            }
+            snprintf(property, sizeof(property), "meta.media.%d.codec.channels", default_audio);
+            int channels = m_controller->int_property(property);
+            propertyMap.append(QStringList() << i18n("Audio channels") << QString::number(channels));
+
+            snprintf(property, sizeof(property), "meta.media.%d.codec.sample_rate", default_audio);
+            int srate = m_controller->int_property(property);
+            propertyMap.append(QStringList() << i18n("Audio frequency") << QString::number(srate));
+        }
+    }
+    
+    for (int i = 0; i < propertyMap.count(); i++) {
+        new QTreeWidgetItem(tree, propertyMap.at(i));
+    }
+    tree->resizeColumnToContents(0);
+}
+
+void ClipPropertiesController::slotFillMarkers()
+{
+    m_markerTree->clear();
+    QList <CommentedTime> markers = m_controller->commentedSnapMarkers();
+    for (int count = 0; count < markers.count(); ++count) {
+        QString time = m_tc.getTimecode(markers.at(count).time());
+        QStringList itemtext;
+        itemtext << time << markers.at(count).comment();
+        QTreeWidgetItem *item = new QTreeWidgetItem(m_markerTree, itemtext);
+        item->setData(0, Qt::DecorationRole, CommentedTime::markerColor(markers.at(count).markerType()));
+        item->setData(0, Qt::UserRole, QVariant((int) markers.at(count).time().frames(m_tc.fps())));
+    }
+    m_markerTree->resizeColumnToContents(0);
+}
+
+void ClipPropertiesController::slotEditMarker()
+{
+    QTreeWidgetItem *item = m_markerTree->currentItem();
+    int time = item->data(0, Qt::UserRole).toInt();
+    emit seekToFrame(time);
+    /*QList < CommentedTime > marks = m_controller->commentedSnapMarkers();
+    int pos = m_markerTree->currentIndex().row();
+    if (pos < 0 || pos > marks.count() - 1) return;
+    QPointer<MarkerDialog> d = new MarkerDialog(m_clip, marks.at(pos), m_tc, i18n("Edit Marker"), this);
+    if (d->exec() == QDialog::Accepted) {
+        QList <CommentedTime> markers;
+        markers << d->newMarker();
+        emit addMarkers(m_clip->getId(), markers);
+    }
+    delete d;*/
 }
 

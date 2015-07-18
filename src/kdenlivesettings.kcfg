@@ -574,6 +574,10 @@
 
 
   <group name="unmanaged">
+    <entry name="properties_panel_page" type="Int">
+           <label>Currently displayed page in properties panel</label>
+           <default>0</default>
+    </entry>
     <entry name="project_display_ratio" type="Double">
       <label>Current project display ratio.</label>
       <default>1.7777778</default>

@@ -1228,7 +1228,9 @@ void Bin::showClipProperties(ProjectClip *clip)
     }
     ClipPropertiesController *panel = clip->buildProperties(m_propertiesPanel);
     connect(this, SIGNAL(refreshTimeCode()), panel, SLOT(slotRefreshTimeCode()));
+    connect(this, SIGNAL(refreshPanelMarkers()), panel, SLOT(slotFillMarkers()));
     connect(panel, SIGNAL(updateClipProperties(const QString &, QMap<QString, QString>, QMap<QString, QString>)), this, SLOT(slotEditClipCommand(const QString &, QMap<QString, QString>, QMap<QString, QString>)));
+    connect(panel, SIGNAL(seekToFrame(int)), m_monitor, SLOT(slotSeek(int)));
     lay->addWidget(panel);
 }
 
@@ -1559,6 +1561,10 @@ void Bin::refreshClipMarkers(const QString &id)
 {
     if (m_monitor->activeClipId() == id)
         m_monitor->updateMarkers();
+    if (m_propertiesPanel) {
+        QString panelId = m_propertiesPanel->property("clipId").toString();
+        if (panelId == id) emit refreshPanelMarkers();
+    }
 }
 
 void Bin::discardJobs(const QString &id, AbstractClipJob::JOBTYPE type)

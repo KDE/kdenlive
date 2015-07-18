@@ -595,6 +595,8 @@ signals:
     void masterClipSelected(ClipController *, Monitor *);
     void displayMessage(const QString &, MessageType);
     void requesteInvalidRemoval(const QString &, QUrl);
+    /** @brief Markers changed, refresh panel. */
+    void refreshPanelMarkers();
 };
 
 #endif

@@ -818,7 +818,6 @@ void Render::processFileProperties()
 
         if (frameNumber > 0) producer->seek(frameNumber);
         duration = duration > 0 ? duration : producer->get_playtime();
-        filePropertyMap["duration"] = QString::number(duration);
         ////qDebug() << "///////  PRODUCER: " << url.path() << " IS: " << producer->get_playtime();
 
         if (type == SlideShow) {
