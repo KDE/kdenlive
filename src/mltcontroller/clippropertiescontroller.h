@@ -57,6 +57,7 @@ public slots:
     void slotReloadProperties();
     void slotRefreshTimeCode();
     void slotFillMarkers();
+    void slotFillMeta(QTreeWidget *tree);
 
 private slots:
     void slotColorModified(QColor newcolor);
@@ -75,6 +76,7 @@ private:
     QWidget *m_forcePage;
     QWidget *m_propertiesPage;
     QWidget *m_markersPage;
+    QWidget *m_metaPage;
     QTreeWidget *m_markerTree;
     void fillProperties(QTreeWidget *tree);
 
