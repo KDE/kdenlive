@@ -682,30 +682,20 @@ void MainWindow::slotUpdateClip(const QString &id, bool reload)
     if (!clip) {
         return;
     }
-    //TODO
-    //if (clip->numReferences() > 0) {
-        pCore->projectManager()->currentTimeline()->projectView()->slotUpdateClip(id, reload);
-    //}
-    //TODO Should probably be removed
-    if (m_clipMonitor->activeClipId() == id) {
-        m_clipMonitor->openClip(pCore->binController()->getController(id));
-    }
-    //TODO
-    //clip->cleanupProducers();
+    pCore->projectManager()->currentTimeline()->projectView()->slotUpdateClip(id, reload);
 }
 
 void MainWindow::slotConnectMonitors()
 {
     //connect(m_projectList, SIGNAL(deleteProjectClips(QStringList,QMap<QString,QString>)), this, SLOT(slotDeleteProjectClips(QStringList,QMap<QString,QString>)));
-    connect(m_projectMonitor->render, SIGNAL(replyGetImage(QString,QImage)), pCore->bin(), SLOT(slotThumbnailReady(QString,QImage)));
+    connect(m_projectMonitor->render, SIGNAL(replyGetImage(QString,QImage,bool)), pCore->bin(), SLOT(slotThumbnailReady(QString,QImage,bool)));
     connect(m_projectMonitor->render, SIGNAL(gotFileProperties(requestClipInfo,ClipController *)), pCore->bin(), SLOT(slotProducerReady(requestClipInfo,ClipController *)), Qt::DirectConnection);
     connect(m_projectMonitor->render, SIGNAL(removeInvalidClip(QString,bool)), pCore->bin(), SLOT(slotRemoveInvalidClip(QString,bool)), Qt::DirectConnection);
 
     //DirectConnection was necessary not to mess the analyze queue, but the monitor thread shouldn't show any UI widget (profile dialog), so adding an AutoConnection in between?
 
-    /*connect(m_projectMonitor->render, SIGNAL(removeInvalidProxy(QString,bool)), pCore->bin(), SLOT(slotRemoveInvalidProxy(QString,bool)));
-    connect(m_clipMonitor, SIGNAL(refreshClipThumbnail(QString,bool)), pCore->bin(), SLOT(slotRefreshClipThumbnail(QString,bool)));*/
-
+    /*connect(m_projectMonitor->render, SIGNAL(removeInvalidProxy(QString,bool)), pCore->bin(), SLOT(slotRemoveInvalidProxy(QString,bool)));*/
+    connect(m_clipMonitor, SIGNAL(refreshClipThumbnail(QString)), pCore->bin(), SLOT(slotRefreshClipThumbnail(QString)));
     connect(m_projectMonitor, SIGNAL(requestFrameForAnalysis(bool)), this, SLOT(slotMonitorRequestRenderFrame(bool)));
 
     //TODO

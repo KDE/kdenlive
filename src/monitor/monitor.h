@@ -244,7 +244,7 @@ public slots:
 signals:
     void renderPosition(int);
     void durationChanged(int);
-    void refreshClipThumbnail(const QString &, bool);
+    void refreshClipThumbnail(const QString &);
     void zoneUpdated(const QPoint&);
     //void saveZone(Render *, const QPoint&, DocClipBase *);
     /** @brief  Editing transitions / effects over the monitor requires the renderer to send frames as QImage.

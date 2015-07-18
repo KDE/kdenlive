@@ -2266,3 +2266,10 @@ void Bin::slotQueryRemoval(const QString &id, QUrl url)
     delete m_invalidClipDialog;
     m_invalidClipDialog = NULL;
 }
+
+void Bin::slotRefreshClipThumbnail(const QString &id)
+{
+    ProjectClip *clip = m_rootFolder->clip(id);
+    if (!clip) return;
+    clip->reloadProducer(true);
+}

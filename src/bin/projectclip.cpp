@@ -102,9 +102,9 @@ QString ProjectClip::getToolTip() const
     return url().toLocalFile();
 }
 
-QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &propertyName)
+QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &propertyName, const QString &defaultValue)
 {
-    QString value;
+    QString value = defaultValue;
     QDomNodeList props = producer.elementsByTagName("property");
     for (int i = 0; i < props.count(); ++i) {
         if (props.at(i).toElement().attribute("name") == propertyName) {
@@ -428,8 +428,12 @@ const QString ProjectClip::getFileHash() const
           fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
           break;
       case Text:
+          fileData = m_controller ? m_controller->property("xmldata").toUtf8() : name().toUtf8();
+          fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+          break;
       case Color:
-          return QString();
+          fileData = m_controller ? m_controller->property("resource").toUtf8() : name().toUtf8();
+          fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
           break;
       default:
           QFile file(m_controller ? m_controller->clipUrl().toLocalFile() : m_temporaryUrl.toLocalFile());
@@ -502,10 +506,7 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
     }
     else if (properties.contains("resource")) {
         // Clip resource changed, update thumbnail
-        if (m_type == Color) {
-            //reloadProducer(true);
-        }
-        else {
+        if (m_type != Color) {
             reloadProducer();
         }
         refreshProducer = true;
@@ -527,7 +528,8 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
         emit refreshPropertiesPanel();
     }
     if (refreshProducer) {
-        // producer has changed, refresh monitor
+        // producer has changed, refresh monitor and thumbnail
+        reloadProducer(true);
         bin()->refreshClip(m_id);
     }
 }
@@ -729,7 +731,8 @@ void ProjectClip::slotExtractSubImage(QList <int> frames)
     QDir thumbFolder(bin()->projectFolder().path() + "/thumbs/");
     for (int i = 0; i < frames.count(); i++) {
         int pos = frames.at(i);
-        QImage img(thumbFolder.absolutePath() + '#' + QString::number(pos) + ".png");
+        QString path = thumbFolder.absoluteFilePath(hash() + "#" + QString::number(pos) + ".png");
+        QImage img(path);
         if (!img.isNull()) {
             ProjectSubClip *clip;
             for (int i = 0; i < count(); ++i) {
@@ -742,12 +745,13 @@ void ProjectClip::slotExtractSubImage(QList <int> frames)
         }
         int max = prod->get_out();
         if (pos >= max) pos = max - 1;
+        if (pos < 0) pos = 0;
         prod->seek(pos);
         Mlt::Frame *frame = prod->get_frame();
         if (frame && frame->is_valid()) {
             QImage img = KThumb::getFrame(frame, fullWidth, 150);
             if (!img.isNull()) {
-                img.save(thumbFolder.absoluteFilePath(hash() + '#' + QString::number(pos) + ".png"));
+                img.save(path);
                 ProjectSubClip *clip;
                 for (int i = 0; i < count(); ++i) {
                     clip = static_cast<ProjectSubClip *>(at(i));

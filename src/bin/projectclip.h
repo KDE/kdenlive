@@ -146,7 +146,7 @@ public:
     void setProperties(QMap <QString, QString> properties, bool refreshPanel = false);
     
     /** @brief Get an XML property from MLT produced xml. */
-    static QString getXmlProperty(const QDomElement &producer, const QString &propertyName);
+    static QString getXmlProperty(const QDomElement &producer, const QString &propertyName, const QString &defaultValue = QString());
     
     virtual QString getToolTip() const;
 

@@ -593,7 +593,7 @@ void Render::processFileProperties()
                 prod->attach(scaler);
                 prod->attach(converter);
             }
-            int frameNumber = info.xml.attribute("thumbnail", "-1").toInt();
+            int frameNumber = ProjectClip::getXmlProperty(info.xml, "kdenlive:thumbnailFrame", "-1").toInt();
             if (frameNumber > 0) prod->seek(frameNumber);
             Mlt::Frame *frame = prod->get_frame();
             if (frame && frame->is_valid()) {
@@ -787,7 +787,7 @@ void Render::processFileProperties()
             producer->set("templatetext", info.xml.attribute("templatetext").toUtf8().constData());
 
         int fullWidth = (int)((double) info.imageHeight * m_qmlView->profile()->dar() + 0.5);
-        int frameNumber = info.xml.attribute("thumbnail", "-1").toInt();
+        int frameNumber = ProjectClip::getXmlProperty(info.xml, "kdenlive:thumbnailFrame", "-1").toInt();
 
         if ((!info.replaceProducer && info.xml.hasAttribute("kdenlive:file_hash")) || proxyProducer) {
             // Clip  already has all properties
@@ -969,7 +969,7 @@ void Render::processFileProperties()
                     }
                 } while (variance == -1);
                 delete frame;
-                if (frameNumber > -1) filePropertyMap["thumbnail"] = QString::number(frameNumber);
+                if (frameNumber > -1) filePropertyMap["thumbnailFrame"] = QString::number(frameNumber);
                 emit replyGetImage(info.clipId, img);
             } else if (frame->get_int("test_audio") == 0) {
                 QIcon icon = QIcon::fromTheme("audio-x-generic");

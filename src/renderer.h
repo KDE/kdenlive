@@ -423,7 +423,7 @@ signals:
     void gotFileProperties(requestClipInfo,ClipController *);
 
     /** @brief The renderer received a reply to a getImage request. */
-    void replyGetImage(const QString &, const QImage &);
+    void replyGetImage(const QString &, const QImage &,bool fromFile = false);
     
     /** @brief The renderer stopped, either playing or rendering. */
     void stopped();

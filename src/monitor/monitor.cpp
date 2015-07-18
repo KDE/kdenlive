@@ -701,9 +701,8 @@ void Monitor::slotSetThumbFrame()
     if (m_controller == NULL) {
         return;
     }
-    //TODO
-    /*m_controller->setClipThumbFrame((uint) render->seekFramePosition());
-    emit refreshClipThumbnail(m_controller->clipId(), true);*/
+    m_controller->setProperty("kdenlive:thumbnailFrame", (int) render->seekFramePosition());
+    emit refreshClipThumbnail(m_controller->clipId());
 }
 
 void Monitor::slotExtractCurrentZone()

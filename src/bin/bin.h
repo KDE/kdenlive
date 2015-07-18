@@ -485,6 +485,8 @@ public slots:
     void slotRemoveInvalidClip(const QString &id, bool replace);
     /** @brief Create a folder when opening a document */
     void slotLoadFolders(QMap<QString,QString> foldersData);
+    /** @brief Reload clip thumbnail - when frame for thumbnail changed */
+    void slotRefreshClipThumbnail(const QString &id);
     void slotDeleteClip();
     void slotRefreshClipProperties();
     void slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos);
