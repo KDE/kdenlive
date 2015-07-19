@@ -98,6 +98,10 @@ bool DocumentChecker::hasErrorInClips()
         if (!resource.startsWith("/")) {
             resource.prepend(root);
         }
+        if (service == "framebuffer") {
+            //slowmotion clip, trim speed info
+            resource = resource.section("?", 0, 0);
+        }
         if (verifiedPaths.contains(resource)) {
             // Don't check same url twice (for example track producers)
             continue;
