@@ -477,6 +477,8 @@ private:
     
     /** @brief Prepare an add clip command for an effect */
     void processEffect(ClipItem *item, QDomElement effect, int offset, QUndoCommand *effectCommand);
+    /** @brief Reload all clips and transitions from MLT's playlist */
+    void reloadTimeline();
 
 private slots:
     void slotRefreshGuides();

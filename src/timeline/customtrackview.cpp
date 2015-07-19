@@ -3015,70 +3015,36 @@ int CustomTrackView::duration() const
 
 void CustomTrackView::addTrack(const TrackInfo &type, int ix)
 {
+    clearSelection();
+    emit transitionItemSelected(NULL);
     QList <TransitionInfo> transitionInfos;
-    if (ix == -1 || ix == m_timeline->tracksCount()) {
-        //TODO
-        //m_document->insertTrack(0, type);
-        transitionInfos = m_document->renderer()->mltInsertTrack(1,  type.trackName, type.type == VideoTrack);
-    } else {
-        //TODO
-        //m_document->insertTrack(m_timeline->tracksCount() - ix, type);
-        // insert track in MLT playlist
-        transitionInfos = m_document->renderer()->mltInsertTrack(m_timeline->tracksCount() - ix,  type.trackName, type.type == VideoTrack);
-
-        double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;
-        QRectF r(0, startY, sceneRect().width(), sceneRect().height() - startY);
-        QList<QGraphicsItem *> selection = m_scene->items(r);
-        resetSelectionGroup();
-        m_selectionMutex.lock();
-        m_selectionGroup = new AbstractGroupItem(m_document->fps());
-        scene()->addItem(m_selectionGroup);
-        for (int i = 0; i < selection.count(); ++i) {
-            if ((!selection.at(i)->parentItem()) && (selection.at(i)->type() == AVWidget || selection.at(i)->type() == TransitionWidget || selection.at(i)->type() == GroupWidget)) {
-                m_selectionGroup->addItem(selection.at(i));
-            }
-        }
-        // Move graphic items
-        m_selectionGroup->setTransform(QTransform::fromTranslate(0, m_tracksHeight), true);
-
-        // adjust track number
-        Mlt::Tractor *tractor = m_document->renderer()->lockService();
-        QList<QGraphicsItem *> children = m_selectionGroup->childItems();
-        for (int i = 0; i < children.count(); ++i) {
-            if (children.at(i)->type() == GroupWidget) {
-                AbstractGroupItem *grp = static_cast<AbstractGroupItem*>(children.at(i));
-                children << grp->childItems();
-                continue;
-            }
-            AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
-            item->updateItem();
-        }
-        // Sync transition tracks with MLT playlist
-        TransitionInfo info;
-        for (int i = 0; i < transitionInfos.count(); ++i) {
-            info = transitionInfos.at(i);
-            Transition *tr = getTransitionItem(info);
-            if (tr) tr->setForcedTrack(info.forceTrack, info.a_track);
-            else qDebug()<<"// Cannot update TRANSITION AT: "<<info.b_track<<" / "<<info.startPos.frames(m_document->fps());
-        }
-        m_selectionMutex.unlock();
-        resetSelectionGroup(false);
-        m_document->renderer()->unlockService(tractor);
+    if (ix == -1 || ix > m_timeline->tracksCount()) {
+        ix = m_timeline->tracksCount() + 1;
     }
+    transitionInfos = m_document->renderer()->mltInsertTrack(ix,  type.trackName, type.type == VideoTrack);
+    // Update timeline
+    reloadTimeline();
+}
 
+void CustomTrackView::reloadTimeline()
+{
+    QList<QGraphicsItem *> selection = m_scene->items();
+    selection.removeAll(m_cursorLine);
+    for (int i = 0; i < m_guides.count(); ++i) {
+        selection.removeAll(m_guides.at(i));
+    }
+    qDeleteAll<>(selection);
+    m_timeline->getTracks();
+    m_timeline->getTransitions();
     int maxHeight = m_tracksHeight * m_timeline->tracksCount() * matrix().m22();
     for (int i = 0; i < m_guides.count(); ++i) {
         m_guides.at(i)->setLine(0, 0, 0, maxHeight - 1);
     }
 
     m_cursorLine->setLine(0, 0, 0, maxHeight - 1);
-    setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_timeline->tracksCount());
     viewport()->update();
-    //QTimer::singleShot(500, this, SIGNAL(trackHeightChanged()));
-    //setFixedHeight(50 * m_tracksCount);
-
-    updateTrackNames(ix, true);
 }
+
 
 void CustomTrackView::removeTrack(int ix)
 {
@@ -3088,9 +3054,8 @@ void CustomTrackView::removeTrack(int ix)
 
     // Delete track in MLT playlist
     m_document->renderer()->mltDeleteTrack(m_timeline->tracksCount() - ix);
-    //TODO
-    //m_document->deleteTrack(m_timeline->tracksCount() - ix - 1);
-
+    reloadTimeline();
+    return;
     double startY = ix * (m_tracksHeight + 1) + m_tracksHeight / 2;
     QRectF r(0, startY, sceneRect().width(), sceneRect().height() - startY);
     QList<QGraphicsItem *> selection = m_scene->items(r);
@@ -3280,6 +3245,8 @@ void CustomTrackView::slotRemoveSpace()
         QPointer<TrackDialog> d = new TrackDialog(m_timeline, parentWidget());
         d->comboTracks->setCurrentIndex(m_selectedTrack);
         d->label->setText(i18n("Track"));
+        d->track_name->setHidden(true);
+        d->name_label->setHidden(true);
         d->before_select->setHidden(true);
         d->setWindowTitle(i18n("Remove Space"));
         d->video_track->setHidden(true);
@@ -6220,12 +6187,14 @@ void CustomTrackView::slotInsertTrack(int ix)
     QPointer<TrackDialog> d = new TrackDialog(m_timeline, parentWidget());
     d->comboTracks->setCurrentIndex(ix);
     d->label->setText(i18n("Insert track"));
+    d->track_name->setText(i18n("Video %1", ix));
     d->setWindowTitle(i18n("Insert New Track"));
 
     if (d->exec() == QDialog::Accepted) {
         ix = d->comboTracks->currentIndex();
         if (d->before_select->currentIndex() == 1)
             ix++;
+        ix = m_timeline->tracksCount() + 1 - ix; 
         TrackInfo info;
         info.duration = 0;
         info.isMute = false;
@@ -6238,6 +6207,7 @@ void CustomTrackView::slotInsertTrack(int ix)
             info.type = AudioTrack;
             info.isBlind = true;
         }
+        info.trackName = d->track_name->text();
         AddTrackCommand *addTrack = new AddTrackCommand(this, ix, info, true);
         m_commandStack->push(addTrack);
     }
@@ -6250,6 +6220,8 @@ void CustomTrackView::slotDeleteTrack(int ix)
     QPointer<TrackDialog> d = new TrackDialog(m_timeline, parentWidget());
     d->comboTracks->setCurrentIndex(ix);
     d->label->setText(i18n("Delete track"));
+    d->track_name->setHidden(true);
+    d->name_label->setHidden(true);
     d->before_select->setHidden(true);
     d->setWindowTitle(i18n("Delete Track"));
     d->video_track->setHidden(true);

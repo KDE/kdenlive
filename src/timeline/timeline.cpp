@@ -204,8 +204,10 @@ void Timeline::setDuration(int dur)
 int Timeline::getTracks() {
     int trackIndex = 0;
     int duration = 1;
-    int max = m_tractor->count();
-    for (int i = 0; i < max; ++i) {
+    qDeleteAll<>(m_tracks);
+    m_tracks.clear();
+    m_projectTracks = m_tractor->count();
+    for (int i = 0; i < m_projectTracks; ++i) {
         Mlt::Producer* track = m_tractor->track(i);
         QString playlist_name = track->get("id");
         if (playlist_name == "black_track" || playlist_name == "playlistmain") continue;
@@ -699,7 +701,6 @@ void Timeline::slotRebuildTrackHeaders()
     int max = m_tracks.count();
     int height = KdenliveSettings::trackheight() * m_scene->scale().y() - 1;
     QFrame *frame = NULL;
-    updatePalette();
     int headerWidth = 70;
     for (int i = 0; i < max; i++) {
         frame = new QFrame(headers_container);
@@ -721,6 +722,7 @@ void Timeline::slotRebuildTrackHeaders()
         connect(header, SIGNAL(showTrackEffects(int)), this, SLOT(slotShowTrackEffects(int)));
         headers_container->layout()->addWidget(header);
     }
+    updatePalette();
     headers_container->setFixedWidth(headerWidth);
     frame = new QFrame(this);
     frame->setFrameStyle(QFrame::HLine);
@@ -740,7 +742,6 @@ void Timeline::updatePalette()
     QColor col = scheme.background().color();
     QColor col2 = scheme.foreground().color();
     headers_container->setStyleSheet(QString("QLineEdit { background-color: transparent;color: %1;} QLineEdit:hover{ background-color: %2;} QLineEdit:focus { background-color: %2;}").arg(col2.name()).arg(col.name()));
-    m_trackview->updatePalette();
 }
 
 void Timeline::adjustTrackHeaders()

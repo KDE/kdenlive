@@ -35,9 +35,9 @@ TrackDialog::TrackDialog(Timeline *timeline, QWidget * parent) :
     QIcon audioIcon = QIcon::fromTheme("kdenlive-show-audio");
     setupUi(this);
     for (int i = 0; i < timeline->tracksCount(); ++i) {
-        TrackInfo info = timeline->getTrackInfo(timeline->tracksCount() - i - 1);
+        TrackInfo info = timeline->getTrackInfo(i);
         comboTracks->addItem(info.type == VideoTrack ? videoIcon : audioIcon,
-                             info.trackName.isEmpty() ? QString::number(i) : info.trackName + " (" + QString::number(i) + ')');
+                             info.trackName.isEmpty() ? QString::number(i) : info.trackName);
     }
 }
 
