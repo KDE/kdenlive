@@ -2361,3 +2361,8 @@ void Bin::slotUpdateClipProperties(const QString &id, QMap <QString, QString> pr
     }
 }
 
+void Bin::updateTimelineProducers(const QString &id, QMap <QString, QString> passProperties)
+{
+    pCore->projectManager()->currentTimeline()->updateClipProperties(id, passProperties);
+}
+

@@ -113,6 +113,7 @@ public:
     /** @brief Check if we have a blank space on selected track. 
      *  Returns -1 if track is shorter, 0 if not blank and > 0 for blank length */
     int getTrackSpaceLength(int trackIndex, int pos, bool fromBlankStart);
+    void updateClipProperties(const QString &id, QMap <QString, QString> properties);
 
 protected:
     void keyPressEvent(QKeyEvent * event);

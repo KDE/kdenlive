@@ -74,6 +74,9 @@ private slots:
     void slotDeleteAnalysis();
     void slotSaveAnalysis();
     void slotLoadAnalysis();
+    void slotAspectValueChanged(int);
+    void slotComboValueChanged();
+    void slotValueChanged(int value);
 
 private:
     ClipController *m_controller;
@@ -82,6 +85,7 @@ private:
     ClipType m_type;
     Mlt::Properties m_properties;
     QMap <QString, QString> m_originalProperties;
+    QMap <QString, QString> m_clipProperties;
     QWidget *m_forcePage;
     QWidget *m_propertiesPage;
     QWidget *m_markersPage;

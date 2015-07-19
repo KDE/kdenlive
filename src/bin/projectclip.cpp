@@ -478,15 +478,25 @@ bool ProjectClip::hasProxy() const
 void ProjectClip::setProperties(QMap <QString, QString> properties, bool refreshPanel)
 {
     QMapIterator<QString, QString> i(properties);
+    QMap <QString, QString> passProperties;
     bool refreshProducer = false;
     bool refreshAnalysis = false;
+    bool reload = false;
+    // Some properties also need to be passed to track producers
+    QStringList timelineProperties;
+    timelineProperties << "force_aspect_ratio" << "video_index" << "audio_index" << "full_luma" <<"threads" <<"force_colorspace"<<"force_tff"<<"force_progressive"<<"force_fps";
     QStringList keys;
     keys << "luma_duration" << "luma_file" << "fade" << "ttl" << "softness" << "crop" << "animation";
     while (i.hasNext()) {
         i.next();
         setProducerProperty(i.key(), i.value());
-        if (m_type == SlideShow && keys.contains(i.key())) refreshProducer = true;
+        if (m_type == SlideShow && keys.contains(i.key())) {
+            reload = true;
+        }
         if (i.key().startsWith("kdenlive:clipanalysis")) refreshAnalysis = true;
+        if (timelineProperties.contains(i.key())) {
+            passProperties.insert(i.key(), i.value());
+        }
     }
     if (properties.contains("kdenlive:proxy")) {
         QString value = properties.value("kdenlive:proxy");
@@ -511,9 +521,9 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
         if (m_type != Color) {
             reloadProducer();
         }
-        refreshProducer = true;
+        reload = true;
     }
-    if (properties.contains("xmldata")) {
+    if (properties.contains("xmldata") || !passProperties.isEmpty()) {
         refreshProducer = true;
     }
     if (refreshAnalysis) emit refreshAnalysisPanel();
@@ -530,10 +540,13 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
         // Some of the clip properties have changed through a command, update properties panel
         emit refreshPropertiesPanel();
     }
-    if (refreshProducer) {
+    if (refreshProducer || reload) {
         // producer has changed, refresh monitor and thumbnail
-        reloadProducer(true);
+        if (reload) reloadProducer(true);
         bin()->refreshClip(m_id);
+    }
+    if (!passProperties.isEmpty()) {
+        bin()->updateTimelineProducers(m_id, passProperties);
     }
 }
 

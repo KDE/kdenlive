@@ -522,6 +522,8 @@ public slots:
     /** @brief Add extra data to a clip. */
     void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString(), QUndoCommand *groupCommand = 0);
     void slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties, bool refreshPropertiesPanel);
+    /** @brief Pass some important properties to timeline track producers. */
+    void updateTimelineProducers(const QString &id, QMap <QString, QString> passProperties);
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);

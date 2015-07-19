@@ -177,6 +177,7 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         box->setObjectName("force_fps");
         connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
         QDoubleSpinBox *spin = new QDoubleSpinBox(this);
+        spin->setMaximum(1000);
         connect(spin, SIGNAL(valueChanged(double)), this, SLOT(slotValueChanged(double)));
         spin->setObjectName("force_fps_value");
         if (force_fps.isEmpty()) {
@@ -195,20 +196,21 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         // Aspect ratio
         int force_ar_num = m_properties.get_int("force_aspect_num");
         int force_ar_den  = m_properties.get_int("force_aspect_den");
-        m_originalProperties.insert("force_aspect_den", (force_ar_den == 0) ? "-" : QString::number(force_ar_den));
-        m_originalProperties.insert("force_aspect_num", (force_ar_num == 0) ? "-" : QString::number(force_ar_num));
+        m_originalProperties.insert("force_aspect_den", (force_ar_den == 0) ? QString() : QString::number(force_ar_den));
+        m_originalProperties.insert("force_aspect_num", (force_ar_num == 0) ? QString() : QString::number(force_ar_num));
         hlay = new QHBoxLayout;
         box = new QCheckBox(i18n("Aspect Ratio"), this);
         box->setObjectName("force_ar");
         vbox->addWidget(box);
-        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableRatio(int)));
+        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
         QSpinBox *spin1 = new QSpinBox(this);
-        connect(spin1, SIGNAL(valueChanged(int)), this, SLOT(slotValueChanged(int)));
+        spin1->setMaximum(8000);
         spin1->setObjectName("force_aspect_num_value");
         hlay->addWidget(spin1);
         hlay->addWidget(new QLabel(":"));
         QSpinBox *spin2 = new QSpinBox(this);
-        connect(spin2, SIGNAL(valueChanged(int)), this, SLOT(slotValueChanged(int)));
+        spin2->setMinimum(1);
+        spin2->setMaximum(8000);
         spin2->setObjectName("force_aspect_den_value");
         hlay->addWidget(spin2);
         if (force_ar_num == 0) {
@@ -216,14 +218,14 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
             box->setChecked(false);
             spin1->setEnabled(false);
             spin2->setEnabled(false);
-            int width = m_controller->int_property("meta.media.width");
-            int height = m_controller->int_property("meta.media.height");
+            int width = m_controller->profile()->width();
+            int height = m_controller->profile()->height();
             if (width > 0 && height > 0) {
-                if ((width / height * 100) == 133) {
+                if (qAbs(100 * width / height - 133) < 3) {
                     width = 4;
                     height = 3;
                 }
-                else if (int(width / height * 100) == 177) {
+                else if (qAbs(100 * width / height - 177) < 3) {
                     width = 16;
                     height = 9;
                 }
@@ -238,15 +240,110 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
             spin1->setValue(force_ar_num);
             spin2->setValue(force_ar_den);
         }
+        connect(spin2, SIGNAL(valueChanged(int)), this, SLOT(slotAspectValueChanged(int)));
+        connect(spin1, SIGNAL(valueChanged(int)), this, SLOT(slotAspectValueChanged(int)));
         connect(box, SIGNAL(toggled(bool)), spin1, SLOT(setEnabled(bool)));
         connect(box, SIGNAL(toggled(bool)), spin2, SLOT(setEnabled(bool)));
         vbox->addLayout(hlay);
 
+        // Scanning
+        QString force_prog = m_properties.get("force_progressive");
+        m_originalProperties.insert("force_progressive", force_prog.isEmpty() ? "-" : force_prog);
+        hlay = new QHBoxLayout;
+        box = new QCheckBox(i18n("Scanning"), this);
+        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
+        box->setObjectName("force_progressive");
+        QComboBox *combo = new QComboBox(this);
+        combo->addItem(i18n("Interlaced"), 0);
+        combo->addItem(i18n("Progressive"), 1);
+        connect(combo, SIGNAL(currentIndexChanged(int)), this, SLOT(slotComboValueChanged()));
+        combo->setObjectName("force_progressive_value");
+        if (!force_prog.isEmpty()) {
+            combo->setCurrentIndex(force_prog.toInt());
+        }
+        connect(box, SIGNAL(toggled(bool)), combo, SLOT(setEnabled(bool)));
+        box->setChecked(!force_prog.isEmpty());
+        combo->setEnabled(!force_prog.isEmpty());
+        hlay->addWidget(box);
+        hlay->addWidget(combo);
+        vbox->addLayout(hlay);
+        
+        // Field order
+        QString force_tff = m_properties.get("force_tff");
+        m_originalProperties.insert("force_tff", force_tff.isEmpty() ? "-" : force_tff);
+        hlay = new QHBoxLayout;
+        box = new QCheckBox(i18n("Field order"), this);
+        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
+        box->setObjectName("force_tff");
+        combo = new QComboBox(this);
+        combo->addItem(i18n("Bottom first"), 0);
+        combo->addItem(i18n("Top first"), 1);
+        connect(combo, SIGNAL(currentIndexChanged(int)), this, SLOT(slotComboValueChanged()));
+        combo->setObjectName("force_tff_value");
+        if (!force_tff.isEmpty()) {
+            combo->setCurrentIndex(force_tff.toInt());
+        }
+        connect(box, SIGNAL(toggled(bool)), combo, SLOT(setEnabled(bool)));
+        box->setChecked(!force_tff.isEmpty());
+        combo->setEnabled(!force_tff.isEmpty());
+        hlay->addWidget(box);
+        hlay->addWidget(combo);
+        vbox->addLayout(hlay);
+        
+        //Decoding threads
+        QString threads = m_properties.get("threads");
+        m_originalProperties.insert("threads", threads);
+        hlay = new QHBoxLayout;
+        hlay->addWidget(new QLabel(i18n("Threads")));
+        QSpinBox *spinI = new QSpinBox(this);
+        spinI->setMaximum(4);
+        spinI->setObjectName("threads_value");
+        if (!threads.isEmpty()) {
+            spinI->setValue(threads.toInt());
+        }
+        else spinI->setValue(1);
+        connect(spinI, SIGNAL(valueChanged(int)), this, SLOT(slotValueChanged(int)));
+        hlay->addWidget(spinI);
+        vbox->addLayout(hlay);
+
+        //Video index
+        QString vix = m_properties.get("video_index");
+        m_originalProperties.insert("video_index", vix);
+        hlay = new QHBoxLayout;
+        hlay->addWidget(new QLabel(i18n("Video index")));
+        spinI = new QSpinBox(this);
+        spinI->setMaximum(m_clipProperties.value("video_max").toInt());
+        spinI->setObjectName("video_index_value");
+        if (vix.isEmpty()) {
+            spinI->setValue(0);
+        }
+        else spinI->setValue(vix.toInt());
+        connect(spinI, SIGNAL(valueChanged(int)), this, SLOT(slotValueChanged(int)));
+        hlay->addWidget(spinI);
+        vbox->addLayout(hlay);
+        
+        //Audio index
+        QString aix = m_properties.get("audio_index");
+        m_originalProperties.insert("audio_index", aix);
+        hlay = new QHBoxLayout;
+        hlay->addWidget(new QLabel(i18n("Audio index")));
+        spinI = new QSpinBox(this);
+        spinI->setMaximum(m_clipProperties.value("audio_max").toInt());
+        spinI->setObjectName("audio_index_value");
+        if (aix.isEmpty()) {
+            spinI->setValue(0);
+        }
+        else spinI->setValue(aix.toInt());
+        connect(spinI, SIGNAL(valueChanged(int)), this, SLOT(slotValueChanged(int)));
+        hlay->addWidget(spinI);
+        vbox->addLayout(hlay);
+
+        // Colorspace
         hlay = new QHBoxLayout;
         box = new QCheckBox(i18n("Colorspace"), this);
         box->setObjectName("force_colorspace");
         connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
-        QComboBox *combo = new QComboBox(this);
+        combo = new QComboBox(this);
         combo->setObjectName("force_colorspace_value");
         combo->addItem(ProfilesDialog::getColorspaceDescription(601), 601);
         combo->addItem(ProfilesDialog::getColorspaceDescription(709), 709);
@@ -264,9 +361,20 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         }
         else combo->setEnabled(false);
         connect(box, SIGNAL(toggled(bool)), combo, SLOT(setEnabled(bool)));
+        connect(combo, SIGNAL(currentIndexChanged(int)), this, SLOT(slotComboValueChanged()));
         hlay->addWidget(box);
         hlay->addWidget(combo);
+        vbox->addLayout(hlay);
         
+        //Full luma
+        QString force_luma = m_properties.get("full_luma");
+        m_originalProperties.insert("full_luma", force_luma);
+        hlay = new QHBoxLayout;
+        box = new QCheckBox(i18n("Full luma range"), this);
+        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
+        box->setObjectName("full_luma");
+        box->setChecked(!force_luma.isEmpty());
+        hlay->addWidget(box);
         vbox->addLayout(hlay);
     }
     m_forcePage->setLayout(vbox);
@@ -355,8 +463,13 @@ void ClipPropertiesController::slotEnableForce(int state)
         else if (param == "kdenlive:transparency") {
             properties.insert(param, QString());
         }
+        else if (param == "force_ar") {
+            properties.insert("force_aspect_den", QString());
+            properties.insert("force_aspect_num", QString());
+            properties.insert("force_aspect_ratio", QString());
+        }
         else {
-            properties.insert(param, "-");
+            properties.insert(param, QString());
         }
     } else {
         // A force property was set
@@ -371,13 +484,27 @@ void ClipPropertiesController::slotEnableForce(int state)
             if (!spin) return;
             properties.insert(param, locale.toString(spin->value()));
         }
-        else if (param == "force_colorspace") {
+        else if (param == "threads") {
+            QSpinBox *spin = findChild<QSpinBox *>(param + "_value");
+            if (!spin) return;
+            properties.insert(param, QString::number(spin->value()));
+        }
+        else if (param == "force_colorspace"  || param == "force_progressive" || param == "force_tff") {
             QComboBox *combo = findChild<QComboBox *>(param + "_value");
             if (!combo) return;
             properties.insert(param, QString::number(combo->currentData().toInt()));
         }
-        else if (param == "kdenlive:transparency") {
+        else if (param == "kdenlive:transparency" || param == "full_luma") {
             properties.insert(param, "1");
+        }
+        else if (param == "force_ar") {
+            QSpinBox *spin = findChild<QSpinBox *>("force_aspect_num_value");
+            QSpinBox *spin2 = findChild<QSpinBox *>("force_aspect_den_value");
+            if (!spin || !spin2) return;
+            properties.insert("force_aspect_den", QString::number(spin2->value()));
+            properties.insert("force_aspect_num", QString::number(spin->value()));
+            QLocale locale;
+            properties.insert("force_aspect_ratio", locale.toString((double) spin->value() / spin2->value()));
         }
     }
     if (properties.isEmpty()) return;
@@ -399,11 +526,53 @@ void ClipPropertiesController::slotValueChanged(double value)
     m_originalProperties = properties;
 }
 
+void ClipPropertiesController::slotValueChanged(int value)
+{
+    QSpinBox *box = qobject_cast<QSpinBox *>(sender());
+    if (!box) {
+        return;
+    }
+    QString param = box->objectName().section("_", 0, -2);
+    QMap <QString, QString> properties;
+    properties.insert(param, QString::number(value));
+    emit updateClipProperties(m_id, m_originalProperties, properties);
+    m_originalProperties = properties;
+}
+
+void ClipPropertiesController::slotAspectValueChanged(int)
+{
+    QSpinBox *spin = findChild<QSpinBox *>("force_aspect_num_value");
+    QSpinBox *spin2 = findChild<QSpinBox *>("force_aspect_den_value");
+    if (!spin || !spin2) return;
+    QMap <QString, QString> properties;
+    properties.insert("force_aspect_den", QString::number(spin2->value()));
+    properties.insert("force_aspect_num", QString::number(spin->value()));
+    QLocale locale;
+    properties.insert("force_aspect_ratio", locale.toString((double) spin->value() / spin2->value()));
+    emit updateClipProperties(m_id, m_originalProperties, properties);
+    m_originalProperties = properties;
+}
+
+void ClipPropertiesController::slotComboValueChanged()
+{
+    QComboBox *box = qobject_cast<QComboBox *>(sender());
+    if (!box) {
+        return;
+    }
+    QString param = box->objectName().section("_", 0, -2);
+    QMap <QString, QString> properties;
+    QLocale locale;
+    properties.insert(param, QString::number(box->currentData().toInt()));
+    emit updateClipProperties(m_id, m_originalProperties, properties);
+    m_originalProperties = properties;
+    qDebug()<<"/ / PARAM NAME: "<<param;
+}
 
 void ClipPropertiesController::fillProperties(QTreeWidget *tree)
 {
-    QList <QStringList> propertyMap;
     char property[200];
+    m_clipProperties.clear();
+    QList <QStringList> propertyMap;
     // Get the video_index
     if (m_type == AV || m_type == Video) {
         int vindex = m_controller->int_property("video_index");
@@ -420,10 +589,10 @@ void ClipPropertiesController::fillProperties(QTreeWidget *tree)
             else if (type == "audio")
                 audio_max = ix;
         }
-        /*propertyMap["default_video"] = QString::number(vindex);
-        propertyMap["video_max"] = QString::number(video_max);
-        propertyMap["default_audio"] = QString::number(default_audio);
-        propertyMap["audio_max"] = QString::number(audio_max);*/
+        m_clipProperties.insert("default_video", QString::number(vindex));
+        m_clipProperties.insert("video_max", QString::number(video_max));
+        m_clipProperties.insert("default_audio", QString::number(default_audio));
+        m_clipProperties.insert("audio_max", QString::number(audio_max));
 
         if (vindex > -1) {
             // We have a video stream

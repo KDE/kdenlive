@@ -142,6 +142,8 @@ public:
     /** @brief Check if we have a blank space at pos and its length. 
      *  Returns -1 if track is shorter, 0 if not blank and > 0 for blank length */
     int getBlankLength(int pos, bool fromBlankStart);
+    /** @brief Update producer properties on all instances of this clip. */
+    void updateClipProperties(const QString &id, QMap <QString, QString> properties);
 
 public Q_SLOTS:
     void setPlaylist(Mlt::Playlist &playlist);

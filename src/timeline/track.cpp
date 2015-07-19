@@ -458,3 +458,30 @@ int Track::getBlankLength(int pos, bool fromBlankStart)
     return m_playlist.clip_length(clipIndex) + m_playlist.clip_start(clipIndex) - pos;
 }
 
+void Track::updateClipProperties(const QString &id, QMap <QString, QString> properties)
+{
+    QString idForTrack = id + QLatin1Char('_') + m_playlist.get("id");
+    QString idForVideoTrack = idForTrack + "_video";
+    QString idForAudioTrack = idForTrack + "_audio";
+    //TODO: slowmotion?
+
+    Mlt::Producer *trackProducer = NULL;
+    Mlt::Producer *audioTrackProducer = NULL;
+
+    for (int i = 0; i < m_playlist.count(); i++) {
+        if (m_playlist.is_blank(i)) continue;
+        Mlt::Producer *p = m_playlist.get_clip(i);
+        QString current = p->parent().get("id");
+        QStringList processed;
+        Mlt::Producer *cut = NULL;
+        if (!processed.contains(current) && current == idForTrack || current == idForAudioTrack || current == idForVideoTrack) {
+            QMapIterator<QString, QString> i(properties);
+            while (i.hasNext()) {
+                i.next();
+                p->parent().set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
+            }
+            processed << current;
+        }
+    }
+}
+

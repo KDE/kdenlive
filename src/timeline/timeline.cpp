@@ -1278,3 +1278,10 @@ int Timeline::getTrackSpaceLength(int trackIndex, int pos, bool fromBlankStart)
     }
     return track(trackIndex)->getBlankLength(pos, fromBlankStart);
 }
+
+void Timeline::updateClipProperties(const QString &id, QMap <QString, QString> properties)
+{
+    for (int i = 0; i< m_tracks.count(); i++) {
+        track(i)->updateClipProperties(id, properties);
+    }
+}
