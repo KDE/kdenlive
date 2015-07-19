@@ -276,7 +276,7 @@ void ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
         m_date = m_controller->date;
         m_description = m_controller->description();
         m_temporaryUrl.clear();
-        m_type = m_controller->clipType();
+        if (m_type == Unknown) m_type = m_controller->clipType();
     }
     m_clipStatus = StatusReady;
     bin()->emitItemUpdated(this);

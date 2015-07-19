@@ -19,6 +19,7 @@
 
 #include "slideshowclip.h"
 #include "kdenlivesettings.h"
+#include "bin/projectclip.h"
 
 #include <KFileItem>
 #include <klocalizedstring.h>
@@ -30,7 +31,7 @@
 #include <QStandardPaths>
 
 
-SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, QWidget * parent) :
+SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip *clip, QWidget * parent) :
     QDialog(parent),
     m_count(0),
     m_timecode(tc),
@@ -39,7 +40,11 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, QWidget * p
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setWindowTitle(i18n("Add Slideshow Clip"));
     m_view.setupUi(this);
-    m_view.clip_name->setText(i18n("Slideshow Clip"));
+    if (clip) {
+        m_view.clip_name->setText(clip->name());
+        m_view.groupBox->setHidden(true);
+    }
+    else m_view.clip_name->setText(i18n("Slideshow Clip"));
     m_view.folder_url->setMode(KFile::Directory);
     m_view.folder_url->setUrl(QUrl::fromLocalFile(KRecentDirs::dir(":KdenliveSlideShowFolder")));
     m_view.icon_list->setIconSize(QSize(50, 50));
@@ -114,6 +119,29 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, QWidget * p
     foreach(const QString & fname, filesnames) {
         QString filePath = lumafolder.absoluteFilePath(fname);
         m_view.luma_file->addItem(QIcon::fromTheme(filePath), fname, filePath);
+    }
+    
+    if (clip) {
+        m_view.slide_loop->setChecked(clip->getProducerIntProperty("loop"));
+        m_view.slide_crop->setChecked(clip->getProducerIntProperty("crop"));
+        m_view.slide_fade->setChecked(clip->getProducerIntProperty("fade"));
+        m_view.luma_softness->setValue(clip->getProducerIntProperty("softness"));
+        QString anim = clip->getProducerProperty("animation");
+        if (!anim.isEmpty())
+            m_view.animation->setCurrentItem(anim);
+        else
+            m_view.animation->setCurrentIndex(0);
+        int ttl = clip->getProducerIntProperty("ttl");
+        m_view.clip_duration->setText(tc.getTimecodeFromFrames(ttl));
+        m_view.clip_duration_frames->setValue(ttl);
+        m_view.luma_duration->setText(tc.getTimecodeFromFrames(clip->getProducerIntProperty("luma_duration")));
+        QString lumaFile = clip->getProducerProperty("luma_file");
+        if (!lumaFile.isEmpty()) {
+            m_view.luma_fade->setChecked(true);
+            m_view.luma_file->setCurrentIndex(m_view.luma_file->findData(lumaFile));
+        } else m_view.luma_file->setEnabled(false);
+        slotEnableLuma(m_view.slide_fade->checkState());
+        slotEnableLumaFile(m_view.luma_fade->checkState());
     }
 
     //adjustSize();
@@ -448,8 +476,6 @@ QString SlideshowClip::animationToGeometry(const QString &animation, int &ttl)
     }
     return geometry;
 }
-
-
 
 
 

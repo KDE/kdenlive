@@ -119,7 +119,8 @@ bool DocumentChecker::hasErrorInClips()
             }
         }
         // Check for slideshows
-        if ((service == "qimage" || service == "pixbuf") && QUrl::fromLocalFile(resource).fileName().contains("*")) {
+        QString ttl = EffectsList::property(e, "ttl");
+        if ((service == "qimage" || service == "pixbuf") && !ttl.isEmpty()) {
             resource = QUrl::fromLocalFile(resource).adjusted(QUrl::RemoveFilename).path();
         }
         if (!QFile::exists(resource)) {

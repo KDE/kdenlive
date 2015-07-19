@@ -28,12 +28,14 @@
 
 #include <KIO/PreviewJob>
 
+class ProjectClip;
+
 class SlideshowClip : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit SlideshowClip(const Timecode& tc, QString clipFolder, QWidget * parent = 0);
+    explicit SlideshowClip(const Timecode& tc, QString clipFolder, ProjectClip *clip = NULL, QWidget * parent = 0);
     virtual ~ SlideshowClip();
     /** return selected path for slideshow in MLT format */
     QString selectedPath();

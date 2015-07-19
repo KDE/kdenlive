@@ -587,6 +587,7 @@ private:
     AbstractProjectItem *getClipForId(const QString &id) const;
     ProjectClip *getFirstSelectedClip();
     void showTitleWidget(ProjectClip *clip);
+    void showSlideshowWidget(ProjectClip *clip);
 
 signals:
     void itemUpdated(AbstractProjectItem*);

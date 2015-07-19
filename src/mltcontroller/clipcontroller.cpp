@@ -134,7 +134,12 @@ void ClipController::getInfoForProducer()
         }
     }
     else if (m_service == "qimage" || m_service == "pixbuf") {
-        m_clipType = Image;
+        if (int_property("ttl") > 0) {
+            m_clipType = SlideShow;
+        }
+        else {
+            m_clipType = Image;
+        }
         m_hasLimitedDuration = false;
     }
     else if (m_service == "colour" || m_service == "color") {

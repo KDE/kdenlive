@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kdenlivesettings.h"
 #include "project/projectmanager.h"
 #include "project/clipmanager.h"
+#include "project/dialogs/slideshowclip.h"
 #include "project/jobs/jobmanager.h"
 #include "monitor/monitor.h"
 #include "doc/kdenlivedoc.h"
@@ -1205,6 +1206,17 @@ void Bin::showClipProperties(ProjectClip *clip)
         m_collapser->collapse();
         return;
     }
+    if (clip) qDebug()<<"+ + +SHOWING CLP PROPS: "<<clip->clipType();
+    if (clip && clip->clipType() == SlideShow) {
+        // Cleanup widget for new content
+        foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
+            delete w;
+        }
+        showSlideshowWidget(clip);
+        m_collapser->collapse();
+        return;
+    }
+
     QString panelId = m_propertiesPanel->property("clipId").toString();
     if (!clip || m_propertiesPanel->width() == 0) {
         m_propertiesPanel->setProperty("clipId", QVariant());
@@ -2366,3 +2378,37 @@ void Bin::updateTimelineProducers(const QString &id, QMap <QString, QString> pas
     pCore->projectManager()->currentTimeline()->updateClipProperties(id, passProperties);
 }
 
+void Bin::showSlideshowWidget(ProjectClip *clip)
+{
+    QString folder = clip->url().adjusted(QUrl::RemoveFilename).path();
+    SlideshowClip *dia = new SlideshowClip(m_doc->timecode(), folder, clip, this);
+    if (dia->exec() == QDialog::Accepted) {
+        // edit clip properties
+        QMap <QString, QString> properties;
+        properties.insert("out", QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount() - 1));
+        properties.insert("length", QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount()));
+        properties.insert("kdenlive:clipname", dia->clipName());
+        properties.insert("ttl", QString::number(m_doc->getFramePos(dia->clipDuration())));
+        properties.insert("loop", QString::number(dia->loop()));
+        properties.insert("crop", QString::number(dia->crop()));
+        properties.insert("fade", QString::number(dia->fade()));
+        properties.insert("luma_duration", dia->lumaDuration());
+        properties.insert("luma_file", dia->lumaFile());
+        properties.insert("softness", QString::number(dia->softness()));
+        properties.insert("animation", dia->animation());
+
+        QMap <QString, QString> oldProperties;
+        oldProperties.insert("out", clip->getProducerProperty("out"));
+        oldProperties.insert("length", clip->getProducerProperty("length"));
+        oldProperties.insert("kdenlive:clipname", clip->name());
+        oldProperties.insert("ttl", clip->getProducerProperty("ttl"));
+        oldProperties.insert("loop", clip->getProducerProperty("loop"));
+        oldProperties.insert("crop", clip->getProducerProperty("crop"));
+        oldProperties.insert("fade", clip->getProducerProperty("fade"));
+        oldProperties.insert("luma_duration", clip->getProducerProperty("luma_duration"));
+        oldProperties.insert("luma_file", clip->getProducerProperty("luma_file"));
+        oldProperties.insert("softness", clip->getProducerProperty("softness"));
+        oldProperties.insert("animation", clip->getProducerProperty("animation"));
+        slotEditClipCommand(clip->clipId(), oldProperties, properties);
+    }
+}

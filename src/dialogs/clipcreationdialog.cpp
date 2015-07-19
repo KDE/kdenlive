@@ -130,7 +130,7 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, QStringList groupInfo
 //static
 void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
 {
-    QPointer<SlideshowClip> dia = new SlideshowClip(doc->timecode(), KRecentDirs::dir(":KdenliveSlideShowFolder"), bin);
+    QPointer<SlideshowClip> dia = new SlideshowClip(doc->timecode(), KRecentDirs::dir(":KdenliveSlideShowFolder"), NULL, bin);
 
     if (dia->exec() == QDialog::Accepted) {
         // Ready, create xml
