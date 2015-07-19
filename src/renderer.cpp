@@ -4000,10 +4000,11 @@ void Render::fillSlowMotionProducers()
 
 QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool videoTrack)
 {
+    QList <TransitionInfo> transitionInfos;
     // Track add / delete was only added recently in MLT (pre 0.9.8 release).
-#if (LIBMLT_VERSION_INT < 2311)
-        qDebug()<<"Track insertion requires a more recent MLT version";
-        return
+#if (LIBMLT_VERSION_INT < 2312)
+    qDebug()<<"Track insertion requires a more recent MLT version";
+    return transitionInfos;
 #else
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
@@ -4013,7 +4014,6 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
     blockSignals(true);
     service.lock();
     Mlt::Tractor tractor(service);
-    QList <TransitionInfo> transitionInfos;
     Mlt::Playlist playlist;
     playlist.set("kdenlive:track_name", name.toUtf8().constData());
     int ct = tractor.count();
@@ -4123,9 +4123,9 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
 void Render::mltDeleteTrack(int ix)
 {
     // Track add / delete was only added recently in MLT (pre 0.9.8 release).
-#if (LIBMLT_VERSION_INT < 2311)
+#if (LIBMLT_VERSION_INT < 2312)
     qDebug()<<"Track insertion requires a more recent MLT version";
-    return
+    return;
 #else
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
