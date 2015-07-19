@@ -512,6 +512,7 @@ public slots:
      * @param c Comment of the marker */
     void slotAddClipMarker(const QString &id, QList <CommentedTime> newMarker, QUndoCommand *groupCommand = 0);
     void slotLoadClipMarkers(const QString &id);
+    void slotSaveClipMarkers(const QString &id);
     void slotDuplicateClip();
     void slotDeleteEffect(const QString &id, QDomElement effect);
     /** @brief Request audio thumbnail for clip with id */

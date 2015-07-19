@@ -248,7 +248,6 @@ public slots:
     
     /** @brief Add extra data to a clip. */
     void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString(), QUndoCommand *groupCommand = 0);
-    void slotSaveClipMarkers(const QString &id);
     bool addGuide(const GenTime &pos, const QString &comment, bool loadingProject = false);
 
     /** @brief Shows a dialog for adding a guide.

@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "clippropertiescontroller.h"
 #include "bincontroller.h"
+#include "timeline/markerdialog.h"
 #include "timecodedisplay.h"
 #include "clipcontroller.h"
 #include "kdenlivesettings.h"
@@ -40,6 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QProcess>
 #include <QCheckBox>
 #include <QFontDatabase>
+#include <QToolBar>
 
 ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *controller, QWidget *parent) : QTabWidget(parent)
     , m_controller(controller)
@@ -73,9 +75,22 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
     m_markerTree->setAlternatingRowColors(true);
     m_markerTree->setHeaderHidden(true);
     mBox->addWidget(m_markerTree);
+    QToolBar *bar = new QToolBar;
+    bar->addAction(QIcon::fromTheme("document-new"), i18n("Add marker"), this, SLOT(slotAddMarker()));
+    bar->addAction(QIcon::fromTheme("trash-empty"), i18n("Delete marker"), this, SLOT(slotDeleteMarker()));
+    bar->addAction(QIcon::fromTheme("document-properties"), i18n("Edit marker"), this, SLOT(slotEditMarker()));
+    bar->addAction(QIcon::fromTheme("document-save-as"), i18n("Export markers"), this, SLOT(slotSaveMarkers()));
+    bar->addAction(QIcon::fromTheme("document-open"), i18n("Import markers"), this, SLOT(slotLoadMarkers()));
+    mBox->addWidget(bar);
+    /*m_view.analysis_delete->setToolTip(i18n("Delete analysis data"));
+    m_view.analysis_load->setIcon(QIcon::fromTheme("document-open"));
+    m_view.analysis_load->setToolTip(i18n("Load analysis data"));
+    m_view.analysis_save->setIcon(QIcon::fromTheme("document-save-as"));
+    m_view.analysis_save->setToolTip(i18n("Save analysis data"));*/
+    
     slotFillMarkers();
     m_markersPage->setLayout(mBox);
-    connect(m_markerTree, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotEditMarker()));
+    connect(m_markerTree, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotSeekToMarker()));
 
     // metadata
     QVBoxLayout *m2Box = new QVBoxLayout;
@@ -407,21 +422,62 @@ void ClipPropertiesController::slotFillMarkers()
     m_markerTree->resizeColumnToContents(0);
 }
 
-void ClipPropertiesController::slotEditMarker()
+void ClipPropertiesController::slotSeekToMarker()
 {
     QTreeWidgetItem *item = m_markerTree->currentItem();
     int time = item->data(0, Qt::UserRole).toInt();
     emit seekToFrame(time);
-    /*QList < CommentedTime > marks = m_controller->commentedSnapMarkers();
+}
+
+void ClipPropertiesController::slotEditMarker()
+{
+    QList < CommentedTime > marks = m_controller->commentedSnapMarkers();
     int pos = m_markerTree->currentIndex().row();
     if (pos < 0 || pos > marks.count() - 1) return;
-    QPointer<MarkerDialog> d = new MarkerDialog(m_clip, marks.at(pos), m_tc, i18n("Edit Marker"), this);
+    QPointer<MarkerDialog> d = new MarkerDialog(m_controller, marks.at(pos), m_tc, i18n("Edit Marker"), this);
     if (d->exec() == QDialog::Accepted) {
         QList <CommentedTime> markers;
         markers << d->newMarker();
-        emit addMarkers(m_clip->getId(), markers);
+        emit addMarkers(m_id, markers);
     }
-    delete d;*/
+    delete d;
+}
+
+void ClipPropertiesController::slotDeleteMarker()
+{
+    QList < CommentedTime > marks = m_controller->commentedSnapMarkers();
+    QList < CommentedTime > toDelete;
+    for (int i = 0; i < marks.count(); ++i) {
+        if (m_markerTree->topLevelItem(i)->isSelected()) {
+            CommentedTime marker = marks.at(i);
+            marker.setMarkerType(-1);
+            toDelete << marker;
+        }
+    }
+    emit addMarkers(m_id, toDelete);
+}
+
+void ClipPropertiesController::slotAddMarker()
+{
+    CommentedTime marker(GenTime(m_controller->originalProducer().position(), m_tc.fps()), i18n("Marker"));
+    QPointer<MarkerDialog> d = new MarkerDialog(m_controller, marker,
+                                                m_tc, i18n("Add Marker"), this);
+    if (d->exec() == QDialog::Accepted) {
+        QList <CommentedTime> markers;
+        markers << d->newMarker();
+        emit addMarkers(m_id, markers);
+    }
+    delete d;
+}
+
+void ClipPropertiesController::slotSaveMarkers()
+{
+    emit saveMarkers(m_id);
+}
+
+void ClipPropertiesController::slotLoadMarkers()
+{
+    emit loadMarkers(m_id);
 }
 
 void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)

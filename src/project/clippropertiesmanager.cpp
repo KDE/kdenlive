@@ -167,7 +167,7 @@ void ClipPropertiesManager::showClipPropertiesDialog(DocClipBase* clip)
     connect(pCore->projectManager()->currentTimeline()->projectView(), SIGNAL(updateClipExtraData(DocClipBase*)), dia, SLOT(slotUpdateAnalysisData(DocClipBase*)));
     connect(m_projectList, &ProjectList::updateAnalysisData, dia, &ClipProperties::slotUpdateAnalysisData);
     connect(dia, SIGNAL(loadMarkers(QString)), pCore->bin(), SLOT(slotLoadClipMarkers(QString)));
-    connect(dia, SIGNAL(saveMarkers(QString)), pCore->projectManager()->currentTimeline()->projectView(), SLOT(slotSaveClipMarkers(QString)));
+    //connect(dia, SIGNAL(saveMarkers(QString)), pCore->projectManager()->currentTimeline()->projectView(), SLOT(slotSaveClipMarkers(QString)));
     connect(dia, &ClipProperties::deleteProxy, m_projectList, &ProjectList::slotDeleteProxy);
     connect(dia, &ClipProperties::applyNewClipProperties, this, &ClipPropertiesManager::slotApplyNewClipProperties);
     dia->show();

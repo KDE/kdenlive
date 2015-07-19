@@ -64,7 +64,12 @@ private slots:
     void slotDurationChanged(int duration);
     void slotEnableForce(int state);
     void slotValueChanged(double);
+    void slotSeekToMarker();
     void slotEditMarker();
+    void slotDeleteMarker();
+    void slotAddMarker();
+    void slotLoadMarkers();
+    void slotSaveMarkers();
 
 private:
     ClipController *m_controller;
@@ -87,6 +92,10 @@ signals:
     void updateTimeCodeFormat();
     /** @brief Seek clip monitor to a frame. */
     void seekToFrame(int);
+    /** @brief Edit clip markers. */
+    void addMarkers(QString,QList<CommentedTime>);
+    void loadMarkers(const QString &);
+    void saveMarkers(const QString &);
 };
 
 #endif

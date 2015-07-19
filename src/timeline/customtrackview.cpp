@@ -5433,60 +5433,6 @@ void CustomTrackView::slotAddClipExtraData(const QString &id, const QString &key
 }
 
 
-void CustomTrackView::slotSaveClipMarkers(const QString &id)
-{
-    ClipController *base = m_document->getClipController(id);
-    if (!base) return;
-    QList < CommentedTime > markers = base->commentedSnapMarkers();
-    if (!markers.isEmpty()) {
-        // Set  up categories
-        KComboBox *cbox = new KComboBox;
-        cbox->insertItem(0, i18n("All categories"));
-        for (int i = 0; i < 5; ++i) {
-            cbox->insertItem(i + 1, i18n("Category %1", i));
-            cbox->setItemData(i + 1, CommentedTime::markerColor(i), Qt::DecorationRole);
-        }
-        cbox->setCurrentIndex(0);
-        //TODO KF5 how to add custom cbox to Qfiledialog
-        QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Save Clip Markers"), m_document->projectFolder().path());
-        fd->setMimeTypeFilters(QStringList() << "text/plain");
-        fd->setFileMode(QFileDialog::AnyFile);
-        fd->setAcceptMode(QFileDialog::AcceptSave);
-        if (fd->exec() != QDialog::Accepted) return;
-        QStringList selection = fd->selectedFiles();
-        QString url;
-        if (!selection.isEmpty()) url = selection.first();
-        delete fd;
-        //QString url = KFileDialog::getSaveFileName(QUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Save markers"));
-        if (url.isEmpty()) return;
-
-        QString data;
-        int category = cbox->currentIndex() - 1;
-        for (int i = 0; i < markers.count(); ++i) {
-            if (category >= 0) {
-                // Save only the markers in selected category
-                if (markers.at(i).markerType() != category) continue;
-            }
-            data.append(QString::number(markers.at(i).time().seconds()));
-            data.append("\t");
-            data.append(QString::number(markers.at(i).time().seconds()));
-            data.append("\t");
-            data.append(markers.at(i).comment());
-            data.append("\n");
-        }
-        delete cbox;
-
-        QFile file(url);
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            emit displayMessage(i18n("Cannot open file %1", url), ErrorMessage);
-            return;
-        }
-        file.write(data.toUtf8());
-        file.close();
-    }
-}
-
-
 void CustomTrackView::addData(const QString &id, const QString &key, const QString &data)
 {
     ProjectClip *base = m_document->getBinClip(id);
