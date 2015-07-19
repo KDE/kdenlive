@@ -166,40 +166,15 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         hlay->addWidget(box);
         vbox->addLayout(hlay);
     }
-    if (m_type == AV || m_type == Video) {
-        QLocale locale;
-
-        // Fps
-        QString force_fps = m_properties.get("force_fps");
-        m_originalProperties.insert("force_fps", force_fps.isEmpty() ? "-" : force_fps);
-        QHBoxLayout *hlay = new QHBoxLayout;
-        QCheckBox *box = new QCheckBox(i18n("Frame rate"), this);
-        box->setObjectName("force_fps");
-        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
-        QDoubleSpinBox *spin = new QDoubleSpinBox(this);
-        spin->setMaximum(1000);
-        connect(spin, SIGNAL(valueChanged(double)), this, SLOT(slotValueChanged(double)));
-        spin->setObjectName("force_fps_value");
-        if (force_fps.isEmpty()) {
-            spin->setValue(controller->originalFps());
-        }
-        else {
-            spin->setValue(locale.toDouble(force_fps));
-        }
-        connect(box, SIGNAL(toggled(bool)), spin, SLOT(setEnabled(bool)));
-        box->setChecked(!force_fps.isEmpty());
-        spin->setEnabled(!force_fps.isEmpty());
-        hlay->addWidget(box);
-        hlay->addWidget(spin);
-        vbox->addLayout(hlay);
-
+    
+    if (m_type == AV || m_type == Video || m_type == Image) {
         // Aspect ratio
         int force_ar_num = m_properties.get_int("force_aspect_num");
         int force_ar_den  = m_properties.get_int("force_aspect_den");
         m_originalProperties.insert("force_aspect_den", (force_ar_den == 0) ? QString() : QString::number(force_ar_den));
         m_originalProperties.insert("force_aspect_num", (force_ar_num == 0) ? QString() : QString::number(force_ar_num));
-        hlay = new QHBoxLayout;
-        box = new QCheckBox(i18n("Aspect Ratio"), this);
+        QHBoxLayout *hlay = new QHBoxLayout;
+        QCheckBox *box = new QCheckBox(i18n("Aspect Ratio"), this);
         box->setObjectName("force_ar");
         vbox->addWidget(box);
         connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
@@ -245,6 +220,35 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         connect(box, SIGNAL(toggled(bool)), spin1, SLOT(setEnabled(bool)));
         connect(box, SIGNAL(toggled(bool)), spin2, SLOT(setEnabled(bool)));
         vbox->addLayout(hlay);
+        }
+    
+    if (m_type == AV || m_type == Video) {
+        QLocale locale;
+
+        // Fps
+        QString force_fps = m_properties.get("force_fps");
+        m_originalProperties.insert("force_fps", force_fps.isEmpty() ? "-" : force_fps);
+        QHBoxLayout *hlay = new QHBoxLayout;
+        QCheckBox *box = new QCheckBox(i18n("Frame rate"), this);
+        box->setObjectName("force_fps");
+        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
+        QDoubleSpinBox *spin = new QDoubleSpinBox(this);
+        spin->setMaximum(1000);
+        connect(spin, SIGNAL(valueChanged(double)), this, SLOT(slotValueChanged(double)));
+        spin->setObjectName("force_fps_value");
+        if (force_fps.isEmpty()) {
+            spin->setValue(controller->originalFps());
+        }
+        else {
+            spin->setValue(locale.toDouble(force_fps));
+        }
+        connect(box, SIGNAL(toggled(bool)), spin, SLOT(setEnabled(bool)));
+        box->setChecked(!force_fps.isEmpty());
+        spin->setEnabled(!force_fps.isEmpty());
+        hlay->addWidget(box);
+        hlay->addWidget(spin);
+        vbox->addLayout(hlay);
+
 
         // Scanning
         QString force_prog = m_properties.get("force_progressive");
