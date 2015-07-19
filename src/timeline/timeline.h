@@ -114,6 +114,8 @@ public:
      *  Returns -1 if track is shorter, 0 if not blank and > 0 for blank length */
     int getTrackSpaceLength(int trackIndex, int pos, bool fromBlankStart);
     void updateClipProperties(const QString &id, QMap <QString, QString> properties);
+    int getTracks();
+    void getTransitions();
 
 protected:
     void keyPressEvent(QKeyEvent * event);
@@ -148,13 +150,11 @@ private:
     void adjustTrackHeaders();
 
     void parseDocument(const QDomDocument &doc);
-    int getTracks();
     int addTrack(int ix, Mlt::Playlist &playlist);
     void getEffects(Mlt::Service &service, ClipItem *clip, int track = 0);
     QString getKeyframes(Mlt::Service service, int &ix, QDomElement e);
     void getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect);
     void setParam(QDomElement param, QString value);
-    void getTransitions();
     bool isSlide(QString geometry);
     void adjustDouble(QDomElement &e, double value);
 

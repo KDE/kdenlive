@@ -4000,6 +4000,11 @@ void Render::fillSlowMotionProducers()
 
 QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool videoTrack)
 {
+    // Track add / delete was only added recently in MLT (pre 0.9.8 release).
+#if (LIBMLT_VERSION_INT < 2311)
+        qDebug()<<"Track insertion requires a more recent MLT version";
+        return
+#else
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
         qWarning() << "// TRACTOR PROBLEM";
@@ -4019,18 +4024,17 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
 
     int pos = ix;
     if (pos < ct) {
-        Mlt::Producer *prodToMove = new Mlt::Producer(tractor.track(pos));
-        tractor.set_track(playlist, pos);
+        tractor.insert_track(playlist, pos);
         Mlt::Producer newProd(tractor.track(pos));
         if (!videoTrack) newProd.set("hide", 1);
-        pos++;
+        /*pos++;
         for (; pos <= ct; ++pos) {
             Mlt::Producer *prodToMove2 = new Mlt::Producer(tractor.track(pos));
-            tractor.set_track(*prodToMove, pos);
+            tractor.insert_track(*prodToMove, pos);
             prodToMove = prodToMove2;
-        }
+        }*/
     } else {
-        tractor.set_track(playlist, ix);
+        tractor.insert_track(playlist, ix);
         Mlt::Producer newProd(tractor.track(ix));
         if (!videoTrack) newProd.set("hide", 1);
     }
@@ -4112,11 +4116,30 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
     service.unlock();
     blockSignals(false);
     return transitionInfos;
+#endif
 }
 
 
 void Render::mltDeleteTrack(int ix)
 {
+    // Track add / delete was only added recently in MLT (pre 0.9.8 release).
+#if (LIBMLT_VERSION_INT < 2311)
+    qDebug()<<"Track insertion requires a more recent MLT version";
+    return
+#else
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    if (service.type() != tractor_type) {
+        qWarning() << "// TRACTOR PROBLEM";
+        return;
+    }
+    blockSignals(true);
+    service.lock();
+    Mlt::Tractor trac(service);
+    trac.remove_track(ix);
+    service.unlock();
+    blockSignals(false);
+    //TODO: adjust transitions tracks?
+    return;
     QDomDocument doc;
     doc.setContent(sceneList(), false);
     int tracksCount = doc.elementsByTagName("track").count() - 1;
@@ -4157,6 +4180,7 @@ void Render::mltDeleteTrack(int ix)
     tractor.removeChild(track);
     ////qDebug() << "/////////// RESULT SCENE: \n" << doc.toString();
     reloadSceneList(doc.toString(), m_mltConsumer->position());
+#endif
 }
 
 QString Render::updateSceneListFps(double current_fps, double new_fps, const QString &scene)
