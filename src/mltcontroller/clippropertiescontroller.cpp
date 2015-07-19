@@ -565,7 +565,6 @@ void ClipPropertiesController::slotComboValueChanged()
     properties.insert(param, QString::number(box->currentData().toInt()));
     emit updateClipProperties(m_id, m_originalProperties, properties);
     m_originalProperties = properties;
-    qDebug()<<"/ / PARAM NAME: "<<param;
 }
 
 void ClipPropertiesController::fillProperties(QTreeWidget *tree)
