@@ -349,12 +349,11 @@ void CustomTrackView::setOperation(OperationType op)
 
 int CustomTrackView::getPreviousVideoTrack(int track)
 {
-    track = m_timeline->tracksCount() - track - 1;
-    track --;
-    for (int i = track; i > -1; --i) {
-        if (m_timeline->getTrackInfo(i).type == VideoTrack) return i + 1;
+    int i = track + 1;
+    for (; i < m_timeline->tracksCount(); i++) {
+        if (m_timeline->getTrackInfo(i).type == VideoTrack) break;
     }
-    return 0;
+    return m_timeline->tracksCount() - i;
 }
 
 
@@ -1206,6 +1205,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         info.startPos = m_dragItem->startPos();
         info.track = m_dragItem->track();
         int transitiontrack = getPreviousVideoTrack(info.track);
+        qDebug()<<" / / /ADDING TRANS ON TK: "<<transitiontrack;
         ClipItem *transitionClip = NULL;
         if (transitiontrack != 0) transitionClip = getClipItemAtStart(info.startPos, m_timeline->tracksCount() - transitiontrack);
         if (transitionClip && transitionClip->endPos() < m_dragItem->endPos()) {

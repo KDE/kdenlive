@@ -136,9 +136,8 @@ void TransitionSettings::updateTrackList()
     QIcon videoIcon = QIcon::fromTheme("kdenlive-show-video");
     QIcon audioIcon = QIcon::fromTheme("kdenlive-show-audio");
     for (int i = limit; i < m_tracks.count(); ++i) {
-        int ix = m_tracks.count() - i - 1;
-        transitionTrack->addItem(m_tracks.at(ix).type == VideoTrack ? videoIcon : audioIcon,
-                                 m_tracks.at(ix).trackName.isEmpty() ? QString::number(i) : m_tracks.at(ix).trackName + " (" + QString::number(i) + ')',
+        transitionTrack->addItem(m_tracks.at(i).type == VideoTrack ? videoIcon : audioIcon,
+                                 m_tracks.at(i).trackName.isEmpty() ? QString::number(i) : m_tracks.at(i).trackName,
                                  m_tracks.count() - i);
     }
     transitionTrack->addItem(i18n("Black"), 0);
