@@ -347,6 +347,9 @@ Bin::~Bin()
 {
     blockSignals(true);
     setEnabled(false);
+    foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
+            delete w;
+    }
     if (m_rootFolder) {
         while (!m_rootFolder->isEmpty()) {
             AbstractProjectItem *child = m_rootFolder->at(0);
@@ -1232,6 +1235,9 @@ void Bin::showClipProperties(ProjectClip *clip)
     connect(panel, SIGNAL(updateClipProperties(const QString &, QMap<QString, QString>, QMap<QString, QString>)), this, SLOT(slotEditClipCommand(const QString &, QMap<QString, QString>, QMap<QString, QString>)));
     connect(panel, SIGNAL(seekToFrame(int)), m_monitor, SLOT(slotSeek(int)));
     connect(panel, SIGNAL(addMarkers(QString,QList<CommentedTime>)), this, SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
+
+    connect(panel, SIGNAL(editAnalysis(QString,QString,QString)), this, SLOT(slotAddClipExtraData(QString,QString,QString)));
+
     connect(panel, SIGNAL(loadMarkers(QString)), this, SLOT(slotLoadClipMarkers(QString)));
     connect(panel, SIGNAL(saveMarkers(QString)), this, SLOT(slotSaveClipMarkers(QString)));
     lay->addWidget(panel);
@@ -1240,7 +1246,7 @@ void Bin::showClipProperties(ProjectClip *clip)
 
 void Bin::slotEditClipCommand(const QString &id, QMap<QString, QString>oldProps, QMap<QString, QString>newProps)
 {
-    EditClipCommand *command = new EditClipCommand(m_doc, id, oldProps, newProps, true);
+    EditClipCommand *command = new EditClipCommand(this, id, oldProps, newProps, true);
     m_doc->commandStack()->push(command);
 }
 
@@ -1850,7 +1856,7 @@ void Bin::slotCancelRunningJob(const QString &id, const QMap<QString, QString> &
         oldProps.insert(i.key(), value);
     }
     if (newProps == oldProps) return;
-    EditClipCommand *command = new EditClipCommand(m_doc, id, oldProps, newProps, true);
+    EditClipCommand *command = new EditClipCommand(this, id, oldProps, newProps, true);
     m_doc->commandStack()->push(command);
 }
 
@@ -2040,9 +2046,8 @@ void Bin::slotGotFilterJobResults(QString id, int , int , stringMap results, str
     }
     if (!dataProcessed || filterInfo.contains("storedata")) {
         // Store returned data as clip extra data
-        //TODO find a way to store analysis data into clip controller
-        //clip->setAnalysisData(filterInfo.contains("displaydataname") ? filterInfo.value("displaydataname") : key, results.value(key), filterInfo.value("offset").toInt());
-        //emit updateAnalysisData(clip->referencedClip());
+        QStringList newValue = clip->updatedAnalysisData(key, results.value(key), filterInfo.value("offset").toInt());
+        slotAddClipExtraData(id, newValue.at(0), newValue.at(1));
     }
 }
 
@@ -2057,7 +2062,6 @@ void Bin::slotAddClipMarker(const QString &id, QList <CommentedTime> newMarkers,
     clip->addClipMarker(newMarkers, groupCommand);
     if (groupCommand->childCount() > 0) m_doc->commandStack()->push(groupCommand);
     else delete groupCommand;
-    
 }
 
 void Bin::slotLoadClipMarkers(const QString &id)
@@ -2335,3 +2339,25 @@ void Bin::slotRefreshClipThumbnail(const QString &id)
     if (!clip) return;
     clip->reloadProducer(true);
 }
+
+void Bin::slotAddClipExtraData(const QString &id, const QString &key, const QString &data, QUndoCommand *groupCommand)
+{
+    ProjectClip *clip = m_rootFolder->clip(id);
+    if (!clip) return;
+    QString oldValue = clip->getProducerProperty(key);
+    QMap <QString, QString> oldProps;
+    oldProps.insert(key, oldValue);
+    QMap <QString, QString> newProps;
+    newProps.insert(key, data);
+    EditClipCommand *command = new EditClipCommand(this, id, oldProps, newProps, true, groupCommand);
+    if (!groupCommand) m_doc->commandStack()->push(command);
+}
+
+void Bin::slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties, bool refreshPropertiesPanel)
+{
+    ProjectClip *clip = m_rootFolder->clip(id);
+    if (clip) {
+        clip->setProperties(properties, refreshPropertiesPanel);
+    }
+}
+

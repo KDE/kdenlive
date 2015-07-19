@@ -28,6 +28,7 @@
 #include "mainwindow.h"
 #include "project/clipmanager.h"
 #include "project/projectcommands.h"
+#include "bin/bincommands.h"
 #include "project/projectlist.h"
 #include "effectslist/initeffects.h"
 #include "dialogs/profilesdialog.h"
@@ -1555,7 +1556,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy)
             //TODO: how to handle clip properties
             //oldProps = clip->currentProperties(newProps);
             if (doProxy) oldProps.insert("kdenlive:proxy", "-");
-            new EditClipCommand(this, item->clipId(), oldProps, newProps, true, command);
+            new EditClipCommand(pCore->bin(), item->clipId(), oldProps, newProps, true, command);
         }
     }
     if (command->childCount() > 0) {
@@ -1564,13 +1565,6 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy)
     else delete command;
 }
 
-void KdenliveDoc::slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties, bool refreshPropertiesPanel)
-{
-    ProjectClip *item = pCore->bin()->getBinClip(id);
-    if (item) {
-	item->setProperties(properties, refreshPropertiesPanel);
-    }
-}
 
 //TODO put all file watching stuff in own class
 

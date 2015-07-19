@@ -46,20 +46,6 @@ private:
     bool m_doIt;
 };
 
-class AddExtraDataCommand : public QUndoCommand
-{
-public:
-    AddExtraDataCommand(CustomTrackView *view, const QString&id, const QString&key, const QString &oldData, const QString &newData, QUndoCommand * parent = 0);
-    void undo();
-    void redo();
-private:
-    CustomTrackView *m_view;
-    QString m_oldData;
-    QString m_newData;
-    QString m_key;
-    QString m_id;
-};
-
 class AddTimelineClipCommand : public QUndoCommand
 {
 public:

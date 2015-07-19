@@ -187,9 +187,9 @@ void JobManager::slotProcessJobs()
 
         if (job->jobType == AbstractClipJob::MLTJOB) {
             MeltJob *jb = static_cast<MeltJob *> (job);
-            if (jb->isProjectFilter())
+            /*if (jb->isProjectFilter())
                 connect(job, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SLOT(slotGotFilterJobResults(QString,int,int,stringMap,stringMap)));
-            else
+            else*/
                 connect(job, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)));
         }
         job->startJob();

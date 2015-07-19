@@ -83,31 +83,6 @@ void AddFolderCommand::redo()
         m_view->slotAddFolder(m_name, m_id, true);*/
 }
 
-EditClipCommand::EditClipCommand(KdenliveDoc *doc, const QString &id, const QMap <QString, QString> &oldparams, const QMap <QString, QString> &newparams, bool doIt, QUndoCommand * parent) :
-        QUndoCommand(parent),
-        m_doc(doc),
-        m_oldparams(oldparams),
-        m_newparams(newparams),
-        m_id(id),
-        m_doIt(doIt),
-        m_firstExec(true)
-{
-    setText(i18n("Edit clip"));
-}
-// virtual
-void EditClipCommand::undo()
-{
-    m_doc->slotUpdateClipProperties(m_id, m_oldparams, true);
-}
-// virtual
-void EditClipCommand::redo()
-{
-    if (m_doIt)
-        m_doc->slotUpdateClipProperties(m_id, m_newparams, !m_firstExec);
-    m_doIt = true;
-    m_firstExec = false;
-}
-
 EditClipCutCommand::EditClipCutCommand(ProjectList *list, const QString &id, const QPoint &oldZone, const QPoint &newZone, const QString &oldComment, const QString &newComment, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_list(list),

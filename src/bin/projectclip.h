@@ -199,6 +199,9 @@ public:
     void abortAudioThumbs();
     /** @brief Returns the number of audio channels. */
     int audioChannels() const;
+    /** @brief get data analysis value. */
+    QStringList updatedAnalysisData(const QString &name, const QString &data, int offset);
+    QMap <QString, QString> analysisData(bool withPrefix = false);
 
 public slots:
     void updateAudioThumbnail(QVariantList* audioLevels);
@@ -225,10 +228,12 @@ private:
     /** @brief Indicates whether audio thumbnail creation is running. */
     QFuture<void> m_audioThumbsThread;
     ClipType m_type;
+    const QString geometryWithOffset(const QString &data, int offset);
 
 signals:
     void gotAudioData();
     void refreshPropertiesPanel();
+    void refreshAnalysisPanel();
     void refreshClipDisplay();
     void thumbReady(int, QImage);
 };

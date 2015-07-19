@@ -48,6 +48,10 @@ private:
     QList <TrackInfo> m_tracks;
     void updateTrackList();
 
+protected:
+    void dragEnterEvent(QDragEnterEvent * event );
+    void dropEvent(QDropEvent * event );
+    
 public slots:
     void slotTransitionItemSelected(Transition* t, int nextTrack, const QPoint &p, bool update);
     void slotTransitionChanged(bool reinit = true, bool updateCurrent = false);
@@ -64,7 +68,7 @@ private slots:
 signals:
     void transitionUpdated(Transition *, const QDomElement&);
     void seekTimeline(int);
-    void importClipKeyframes(GraphicsRectItem = TransitionWidget);
+    void importClipKeyframes(GraphicsRectItem = TransitionWidget, QMap<QString,QString> data = QMap<QString,QString>());
 };
 
 #endif

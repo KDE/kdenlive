@@ -204,3 +204,28 @@ void AddBinClipCutCommand::redo()
         m_bin->removeClipCut(m_clipId, m_in, m_out);
     }
 }
+
+EditClipCommand::EditClipCommand(Bin *bin, const QString &id, const QMap <QString, QString> &oldparams, const QMap <QString, QString> &newparams, bool doIt, QUndoCommand * parent) :
+        QUndoCommand(parent),
+        m_bin(bin),
+        m_oldparams(oldparams),
+        m_newparams(newparams),
+        m_id(id),
+        m_doIt(doIt),
+        m_firstExec(true)
+{
+    setText(i18n("Edit clip"));
+}
+// virtual
+void EditClipCommand::undo()
+{
+    m_bin->slotUpdateClipProperties(m_id, m_oldparams, true);
+}
+// virtual
+void EditClipCommand::redo()
+{
+    if (m_doIt)
+        m_bin->slotUpdateClipProperties(m_id, m_newparams, !m_firstExec);
+    m_doIt = true;
+    m_firstExec = false;
+}

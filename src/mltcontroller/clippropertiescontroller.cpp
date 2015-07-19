@@ -42,6 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QCheckBox>
 #include <QFontDatabase>
 #include <QToolBar>
+#include <QFileDialog>
 
 ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *controller, QWidget *parent) : QTabWidget(parent)
     , m_controller(controller)
@@ -55,6 +56,7 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
     m_propertiesPage = new QWidget(this);
     m_markersPage = new QWidget(this);
     m_metaPage = new QWidget(this);
+    m_analysisPage = new QWidget(this);
 
     // Clip properties
     QVBoxLayout *propsBox = new QVBoxLayout;
@@ -82,12 +84,7 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
     bar->addAction(QIcon::fromTheme("document-save-as"), i18n("Export markers"), this, SLOT(slotSaveMarkers()));
     bar->addAction(QIcon::fromTheme("document-open"), i18n("Import markers"), this, SLOT(slotLoadMarkers()));
     mBox->addWidget(bar);
-    /*m_view.analysis_delete->setToolTip(i18n("Delete analysis data"));
-    m_view.analysis_load->setIcon(QIcon::fromTheme("document-open"));
-    m_view.analysis_load->setToolTip(i18n("Load analysis data"));
-    m_view.analysis_save->setIcon(QIcon::fromTheme("document-save-as"));
-    m_view.analysis_save->setToolTip(i18n("Save analysis data"));*/
-    
+
     slotFillMarkers();
     m_markersPage->setLayout(mBox);
     connect(m_markerTree, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotSeekToMarker()));
@@ -101,7 +98,26 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
     metaTree->setHeaderHidden(true);
     m2Box->addWidget(metaTree);
     slotFillMeta(metaTree);
-    m_metaPage->setLayout(m2Box);
+    m_metaPage->setLayout(m2Box );
+
+    // Clip analysis
+    QVBoxLayout *aBox = new QVBoxLayout;
+    m_analysisTree = new QTreeWidget;
+    m_analysisTree->setRootIsDecorated(false);
+    m_analysisTree->setColumnCount(2);
+    m_analysisTree->setAlternatingRowColors(true);
+    m_analysisTree->setHeaderHidden(true);
+    m_analysisTree->setDragEnabled(true);
+    aBox ->addWidget(new QLabel(i18n("Analysis data")));
+    aBox ->addWidget(m_analysisTree);
+    QToolBar *bar2 = new QToolBar;
+    bar2->addAction(QIcon::fromTheme("trash-empty"), i18n("Delete analysis"), this, SLOT(slotDeleteAnalysis()));
+    bar2->addAction(QIcon::fromTheme("document-save-as"), i18n("Export analysis"), this, SLOT(slotSaveAnalysis()));
+    bar2->addAction(QIcon::fromTheme("document-open"), i18n("Import analysis"), this, SLOT(slotLoadAnalysis()));
+    aBox->addWidget(bar2);
+
+    slotFillAnalysisData();
+    m_analysisPage->setLayout(aBox );
 
     // Force properties
     QVBoxLayout *vbox = new QVBoxLayout;
@@ -152,6 +168,8 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
     }
     if (m_type == AV || m_type == Video) {
         QLocale locale;
+
+        // Fps
         QString force_fps = m_properties.get("force_fps");
         m_originalProperties.insert("force_fps", force_fps.isEmpty() ? "-" : force_fps);
         QHBoxLayout *hlay = new QHBoxLayout;
@@ -172,6 +190,56 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         spin->setEnabled(!force_fps.isEmpty());
         hlay->addWidget(box);
         hlay->addWidget(spin);
+        vbox->addLayout(hlay);
+
+        // Aspect ratio
+        int force_ar_num = m_properties.get_int("force_aspect_num");
+        int force_ar_den  = m_properties.get_int("force_aspect_den");
+        m_originalProperties.insert("force_aspect_den", (force_ar_den == 0) ? "-" : QString::number(force_ar_den));
+        m_originalProperties.insert("force_aspect_num", (force_ar_num == 0) ? "-" : QString::number(force_ar_num));
+        hlay = new QHBoxLayout;
+        box = new QCheckBox(i18n("Aspect Ratio"), this);
+        box->setObjectName("force_ar");
+        vbox->addWidget(box);
+        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableRatio(int)));
+        QSpinBox *spin1 = new QSpinBox(this);
+        connect(spin1, SIGNAL(valueChanged(int)), this, SLOT(slotValueChanged(int)));
+        spin1->setObjectName("force_aspect_num_value");
+        hlay->addWidget(spin1);
+        hlay->addWidget(new QLabel(":"));
+        QSpinBox *spin2 = new QSpinBox(this);
+        connect(spin2, SIGNAL(valueChanged(int)), this, SLOT(slotValueChanged(int)));
+        spin2->setObjectName("force_aspect_den_value");
+        hlay->addWidget(spin2);
+        if (force_ar_num == 0) {
+            // calculate current ratio
+            box->setChecked(false);
+            spin1->setEnabled(false);
+            spin2->setEnabled(false);
+            int width = m_controller->int_property("meta.media.width");
+            int height = m_controller->int_property("meta.media.height");
+            if (width > 0 && height > 0) {
+                if ((width / height * 100) == 133) {
+                    width = 4;
+                    height = 3;
+                }
+                else if (int(width / height * 100) == 177) {
+                    width = 16;
+                    height = 9;
+                }
+                spin1->setValue(width);
+                spin2->setValue(height);
+            }
+        }
+        else {
+            box->setChecked(true);
+            spin1->setEnabled(true);
+            spin2->setEnabled(true);
+            spin1->setValue(force_ar_num);
+            spin2->setValue(force_ar_den);
+        }
+        connect(box, SIGNAL(toggled(bool)), spin1, SLOT(setEnabled(bool)));
+        connect(box, SIGNAL(toggled(bool)), spin2, SLOT(setEnabled(bool)));
         vbox->addLayout(hlay);
 
         hlay = new QHBoxLayout;
@@ -207,6 +275,7 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
     addTab(m_markersPage, QString());
     addTab(m_forcePage, QString());
     addTab(m_metaPage, QString());
+    addTab(m_analysisPage, QString());
     setTabIcon(0, QIcon::fromTheme("edit-find"));
     setTabToolTip(0, i18n("Properties"));
     setTabIcon(1, QIcon::fromTheme("bookmark-toolbar"));
@@ -215,6 +284,8 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
     setTabToolTip(2, i18n("Force properties"));
     setTabIcon(3, QIcon::fromTheme("view-list-details"));
     setTabToolTip(3, i18n("Metadata"));
+    setTabIcon(4, QIcon::fromTheme("archive-extract"));
+    setTabToolTip(4, i18n("Analysis"));
     setCurrentIndex(KdenliveSettings::properties_panel_page());
     if (m_type == Color) setTabEnabled(0, false);
 }
@@ -603,3 +674,49 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
     tree->resizeColumnToContents(0);
 }
 
+void ClipPropertiesController::slotFillAnalysisData()
+{
+    m_analysisTree->clear();
+    Mlt::Properties subProperties;
+    subProperties.pass_values(m_properties, "kdenlive:clipanalysis.");
+    if (subProperties.count() > 0) {
+        for (int i = 0; i < subProperties.count(); i++) {
+            new QTreeWidgetItem(m_analysisTree, QStringList() << subProperties.get_name(i) << subProperties.get(i));
+        }
+    }
+    m_analysisTree->resizeColumnToContents(0);
+}
+
+void ClipPropertiesController::slotDeleteAnalysis()
+{
+    QTreeWidgetItem *current = m_analysisTree->currentItem();
+    if (!current) return;
+    emit editAnalysis(m_id, "kdenlive:clipanalysis." + current->text(0), QString());
+}
+
+void ClipPropertiesController::slotSaveAnalysis()
+{
+    const QString url = QFileDialog::getSaveFileName(this, i18n("Save Analysis Data"), m_controller->clipUrl().adjusted(QUrl::RemoveFilename).path(), i18n("Text File (*.txt)"));
+    if (url.isEmpty())
+        return;
+    KSharedConfigPtr config = KSharedConfig::openConfig(url, KConfig::SimpleConfig);
+    KConfigGroup analysisConfig(config, "Analysis");
+    QTreeWidgetItem *current = m_analysisTree->currentItem();
+    analysisConfig.writeEntry(current->text(0), current->text(1));
+}
+
+void ClipPropertiesController::slotLoadAnalysis()
+{
+    const QString url = QFileDialog::getOpenFileName(this, i18n("Open Analysis Data"), m_controller->clipUrl().adjusted(QUrl::RemoveFilename).path(), i18n("Text File (*.txt)"));
+    if (url.isEmpty())
+        return;
+    KSharedConfigPtr config = KSharedConfig::openConfig(url, KConfig::SimpleConfig);
+    KConfigGroup transConfig(config, "Analysis");
+    // read the entries
+    QMap< QString, QString > profiles = transConfig.entryMap();
+    QMapIterator<QString, QString> i(profiles);
+    while (i.hasNext()) {
+        i.next();
+        emit editAnalysis(m_id, "kdenlive:clipanalysis." + i.key(), i.value());
+    }
+}

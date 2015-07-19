@@ -62,30 +62,6 @@ void AddEffectCommand::redo()
         m_view->deleteEffect(m_track, m_pos, m_effect);
 }
 
-AddExtraDataCommand::AddExtraDataCommand(CustomTrackView *view, const QString&id, const QString&key, const QString &oldData, const QString &newData, QUndoCommand * parent) :
-        QUndoCommand(parent),
-        m_view(view),
-        m_oldData(oldData),
-        m_newData(newData),
-        m_key(key),
-        m_id(id)
-{
-    if (m_newData.isEmpty())
-        setText(i18n("Delete data"));
-    else
-        setText(i18n("Add data"));
-}
-// virtual
-void AddExtraDataCommand::undo()
-{
-    m_view->addData(m_id, m_key, m_oldData);
-}
-// virtual
-void AddExtraDataCommand::redo()
-{
-    m_view->addData(m_id, m_key, m_newData);
-}
-
 AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, PlaylistState::ClipState state, bool overwrite, bool push, bool doIt, bool doRemove, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),

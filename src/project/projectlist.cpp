@@ -2669,7 +2669,7 @@ void ProjectList::updateProxyConfig()
                         QMap <QString, QString> newProps;
                         newProps.insert("proxy", proxydir + item->referencedClip()->getClipHash() + ".png");
                         //TODO
-			new EditClipCommand(m_doc, clip->getId(), oldProps, newProps, true, command);
+			new EditClipCommand(pCore->bin(), clip->getId(), oldProps, newProps, true, command);
                     }
                 }
             }
@@ -2677,7 +2677,7 @@ void ProjectList::updateProxyConfig()
                 // remove proxy
                 QMap <QString, QString> newProps;
                 newProps.insert("proxy", QString());
-                new EditClipCommand(m_doc, item->clipId(), item->referencedClip()->properties(), newProps, true, command);
+                new EditClipCommand(pCore->bin(), item->clipId(), item->referencedClip()->properties(), newProps, true, command);
             }
         }
         ++it;

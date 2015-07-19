@@ -58,6 +58,7 @@ public slots:
     void slotRefreshTimeCode();
     void slotFillMarkers();
     void slotFillMeta(QTreeWidget *tree);
+    void slotFillAnalysisData();
 
 private slots:
     void slotColorModified(QColor newcolor);
@@ -70,6 +71,9 @@ private slots:
     void slotAddMarker();
     void slotLoadMarkers();
     void slotSaveMarkers();
+    void slotDeleteAnalysis();
+    void slotSaveAnalysis();
+    void slotLoadAnalysis();
 
 private:
     ClipController *m_controller;
@@ -82,7 +86,9 @@ private:
     QWidget *m_propertiesPage;
     QWidget *m_markersPage;
     QWidget *m_metaPage;
+    QWidget *m_analysisPage;
     QTreeWidget *m_markerTree;
+    QTreeWidget *m_analysisTree;
     void fillProperties(QTreeWidget *tree);
 
 signals:
@@ -96,6 +102,7 @@ signals:
     void addMarkers(QString,QList<CommentedTime>);
     void loadMarkers(const QString &);
     void saveMarkers(const QString &);
+    void editAnalysis(const QString &id, const QString &name, const QString &value);
 };
 
 #endif

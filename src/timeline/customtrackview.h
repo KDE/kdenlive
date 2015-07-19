@@ -245,9 +245,7 @@ public slots:
     void slotSwitchTrackVideo(int ix, bool enable);
     void slotSwitchTrackLock(int ix, bool enable);
     void slotUpdateClip(const QString &clipId, bool reload = true);
-    
-    /** @brief Add extra data to a clip. */
-    void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString(), QUndoCommand *groupCommand = 0);
+
     bool addGuide(const GenTime &pos, const QString &comment, bool loadingProject = false);
 
     /** @brief Shows a dialog for adding a guide.
@@ -300,7 +298,7 @@ public slots:
     void updateSnapPoints(AbstractClipItem *selected, QList <GenTime> offsetList = QList <GenTime> (), bool skipSelectedItems = false);
     
     void slotAddEffect(ClipItem *clip, const QDomElement &effect);
-    void slotImportClipKeyframes(GraphicsRectItem type);
+    void slotImportClipKeyframes(GraphicsRectItem type, QMap<QString, QString> data = QMap<QString, QString>());
 
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();

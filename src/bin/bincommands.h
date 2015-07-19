@@ -23,6 +23,7 @@
 
 #include <QUndoCommand>
 #include <QDomElement>
+#include <QMap>
 
 class Bin;
 
@@ -132,6 +133,25 @@ private:
     int m_in;
     int m_out;
     bool m_addCut;
+};
+
+class EditClipCommand : public QUndoCommand
+{
+public:
+    EditClipCommand(Bin *bin, const QString &id, const QMap <QString, QString> &oldparams, const QMap <QString, QString> &newparams, bool doIt, QUndoCommand * parent = 0);
+    void undo();
+    void redo();
+private:
+    Bin *m_bin;
+    QMap <QString, QString> m_oldparams;
+    QMap <QString, QString> m_newparams;
+    QString m_id;
+    /** @brief Should this command be executed on first redo ? TODO: we should refactor the code to get rid of this and always execute actions through the command system.
+     *. */
+    bool m_doIt;
+    /** @brief This value is true is this is the first time we execute the command, false otherwise. This allows us to refresh the properties panel 
+     * only on the later executions of the command, since on the first execution, the properties panel already contains the correct info. */
+    bool m_firstExec;
 };
 
 #endif

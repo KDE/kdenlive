@@ -103,10 +103,10 @@ public:
     void resetProperty(const QString& name);
     
     /**
-     * @brief Returns the list of SubClips defined for this clip. the list is of this type:
+     * @brief Returns the list of all properties starting with prefix. For subclips, the list is of this type:
      * { subclip name , subclip in/out } where the subclip in/ou value is a semi-colon separated in/out value, like "25;220"
      */
-    QMap <QString, QString> getSubClips();
+    QMap <QString, QString> getPropertiesFromPrefix(const QString &prefix, bool withPrefix = false);
     
     /**
      * @brief Returns the value of a property.
@@ -178,6 +178,7 @@ public:
     AudioStreamInfo *audioInfo() const;
     /** @brief Returns true if audio thumbnails for this clip are cached */
     bool audioThumbCreated;
+    Mlt::Profile *profile();
 
 private:
     Mlt::Producer *m_masterProducer;

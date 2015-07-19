@@ -519,6 +519,9 @@ public slots:
     void slotCreateAudioThumb(const QString &id);
     /** @brief Abort audio thumbnail for clip with id */
     void slotAbortAudioThumb(const QString &id);
+    /** @brief Add extra data to a clip. */
+    void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString(), QUndoCommand *groupCommand = 0);
+    void slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties, bool refreshPropertiesPanel);
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);
@@ -598,6 +601,8 @@ signals:
     void requesteInvalidRemoval(const QString &, QUrl);
     /** @brief Markers changed, refresh panel. */
     void refreshPanelMarkers();
+    /** @brief Analysis data changed, refresh panel. */
+    void updateAnalysisData(const QString &);
 };
 
 #endif

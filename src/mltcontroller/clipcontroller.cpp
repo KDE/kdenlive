@@ -192,16 +192,17 @@ const char *ClipController::getPassPropertiesList() const
     return "kdenlive:proxy,kdenlive:originalurl,force_aspect_ratio,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_colorspace,set.force_full_luma,templatetext,file_hash";
 }
 
-QMap <QString, QString> ClipController::getSubClips()
+QMap <QString, QString> ClipController::getPropertiesFromPrefix(const QString &prefix, bool withPrefix)
 {
     Mlt::Properties subProperties;
-    subProperties.pass_values(*m_properties, "kdenlive:clipzone.");
+    subProperties.pass_values(*m_properties, prefix.toUtf8().constData());
     QMap <QString,QString> subclipsData;
     for (int i = 0; i < subProperties.count(); i++) {
-        subclipsData.insert(subProperties.get_name(i), subProperties.get(i));
+        subclipsData.insert(withPrefix ? QString(prefix + subProperties.get_name(i)) : subProperties.get_name(i), subProperties.get(i));
     }
     return subclipsData;
 }
+
 
 void ClipController::updateProducer(const QString &id, Mlt::Producer* producer)
 {
@@ -356,7 +357,10 @@ void ClipController::setProperty(const QString& name, double value)
 void ClipController::setProperty(const QString& name, const QString& value)
 {
     //TODO: also set property on all track producers
-    m_masterProducer->parent().set(name.toUtf8().constData(), value.toUtf8().constData());
+    if (value.isEmpty()) {
+        m_masterProducer->parent().set(name.toUtf8().constData(), (char *)NULL);
+    }
+    else m_masterProducer->parent().set(name.toUtf8().constData(), value.toUtf8().constData());
 }
 
 void ClipController::resetProperty(const QString& name)
@@ -581,6 +585,11 @@ const QString ClipController::getClipHash() const
 Mlt::Properties &ClipController::properties()
 {
     return *m_properties;
+}
+
+Mlt::Profile *ClipController::profile()
+{
+    return m_binController->profile();
 }
 
 void ClipController::addEffect(const ProfileInfo pInfo, QDomElement &effect)

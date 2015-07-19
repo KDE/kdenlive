@@ -30,6 +30,8 @@
 #include "doc/kdenlivedoc.h"
 
 #include <QDebug>
+#include <QMimeData>
+#include <QTreeWidget>
 #include "klocalizedstring.h"
 
 TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
@@ -46,8 +48,9 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     frame->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     connect(m_effectEdit, &EffectStackEdit::seekTimeline, this, &TransitionSettings::slotSeekTimeline);
     connect(m_effectEdit, &EffectStackEdit::importClipKeyframes, this, &TransitionSettings::importClipKeyframes);
-    
+
     setEnabled(false);
+    setAcceptDrops(true);
 
     QList<QStringList> transitionsList;
     int max = MainWindow::transitions.effectNames().count();
@@ -72,6 +75,39 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     connect(transitionList, SIGNAL(activated(int)), this, SLOT(slotTransitionChanged()));
     connect(transitionTrack, SIGNAL(activated(int)), this, SLOT(slotTransitionTrackChanged()));
     connect(m_effectEdit, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this , SLOT(slotUpdateEffectParams(QDomElement,QDomElement)));
+}
+
+void TransitionSettings::dragEnterEvent(QDragEnterEvent * event ) {
+    if (event->mimeData()->hasFormat("application/x-qabstractitemmodeldatalist")) {
+        event->setDropAction(Qt::CopyAction);
+        event->setAccepted(true);
+    }
+    else QWidget::dragEnterEvent(event);
+}
+
+void TransitionSettings::dropEvent( QDropEvent* event ) 
+{
+if (event->mimeData()->hasFormat("application/x-qabstractitemmodeldatalist"))
+        {
+                QTreeWidget *tree = dynamic_cast<QTreeWidget *>(event->source());
+ 
+                QByteArray itemData = event->mimeData()->data("application/x-qabstractitemmodeldatalist");
+                QDataStream stream(&itemData, QIODevice::ReadOnly);
+ 
+                int r, c;
+                QMap<int, QVariant> v;
+                stream >> r >> c >> v;
+ 
+                QTreeWidgetItem *item = tree->topLevelItem(r);
+ 
+                if( item && item->columnCount() == 2)
+                {
+                    QMap <QString, QString> data;
+                    data.insert(item->text(0), item->text(1));
+                    emit importClipKeyframes(TransitionWidget, data);
+                }
+        }
+ 
 }
 
 void TransitionSettings::updateProjectFormat()

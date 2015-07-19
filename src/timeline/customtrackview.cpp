@@ -5421,29 +5421,6 @@ void CustomTrackView::clipEnd()
     }
 }
 
-void CustomTrackView::slotAddClipExtraData(const QString &id, const QString &key, const QString &data, QUndoCommand *groupCommand)
-{
-    ClipController *base = m_document->getClipController(id);
-    if (!base) return;
-    //TODO
-    /*QMap <QString, QString> extraData = base->analysisData();
-    QString oldData = extraData.value(key);
-    AddExtraDataCommand *command = new AddExtraDataCommand(this, id, key, oldData, data, groupCommand);
-    if (!groupCommand) m_commandStack->push(command);*/
-}
-
-
-void CustomTrackView::addData(const QString &id, const QString &key, const QString &data)
-{
-    ProjectClip *base = m_document->getBinClip(id);
-    if (base == NULL) return;
-    //TODO
-    /*base->setAnalysisData(key, data);
-    emit updateClipExtraData(base);*/
-    setDocumentModified();
-    viewport()->update();
-}
-
 int CustomTrackView::hasGuide(int pos, int offset)
 {
     for (int i = 0; i < m_guides.count(); ++i) {
@@ -7350,10 +7327,10 @@ void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPo
 }
 
 
-void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type)
+void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, QMap<QString, QString> data)
 {
     ClipItem *item = NULL;
-    if (type == TransitionWidget) {
+    if (type == TransitionWidget && data.isEmpty()) {
         // We want to import keyframes to a transition
         if (!m_selectionGroup) {
             emit displayMessage(i18n("You need to select one clip and one transition"), ErrorMessage);
@@ -7368,17 +7345,19 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type)
             }
         }
     }
-    else {
+    else if (data.isEmpty()) {
         // Import keyframes from current clip to its effect
         if (m_dragItem) item = static_cast<ClipItem*> (m_dragItem);
     }
-    
-    if (!item) {
+
+    if (!item && data.isEmpty()) {
         emit displayMessage(i18n("No clip found"), ErrorMessage);
         return;
     }
-    //TODO
-    QMap <QString, QString> data = QMap <QString, QString>(); //item->binClip()->analysisData();
+    if (data.isEmpty()) {
+        // Load it from clip
+        data = item->binClip()->analysisData();
+    }
     if (data.isEmpty()) {
         emit displayMessage(i18n("No keyframe data found in clip"), ErrorMessage);
         return;
@@ -7406,12 +7385,20 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type)
     // And we are importing this data into a transition on the timeline
     // And the clip on the timeline might be croped from the start.
 
-    int offset = item->cropStart().frames(m_document->fps());
+    int offset = 0;
+    int duration;
+    if (item) {
+        offset = item->cropStart().frames(m_document->fps());
+        duration = item->binClip()->duration().frames(m_document->renderer()->fps());
+    }
+    else {
+        duration = keyframeData.section(";", -1).section("=", 0, 0).toInt();
+    }
    //Geometry( char *data = NULL, int length = 0, int nw = -1, int nh = -1 );
     // This geometry object is created with the keyframe data from our clip in the project tree
-    Mlt::Geometry geometry(keyframeData.toUtf8().data(), item->binClip()->duration().frames(m_document->renderer()->fps()), m_document->renderer()->frameRenderWidth(), m_document->renderer()->renderHeight());
+    Mlt::Geometry geometry(keyframeData.toUtf8().data(), duration, m_document->renderer()->frameRenderWidth(), m_document->renderer()->renderHeight());
    // vvv create another Mlt:Geometery object in newGeometry - create with empty data
-    Mlt::Geometry newGeometry(QString().toUtf8().data(), item->binClip()->duration().frames(m_document->renderer()->fps()), m_document->renderer()->frameRenderWidth(), m_document->renderer()->renderHeight());
+    Mlt::Geometry newGeometry(QString().toUtf8().data(), duration, m_document->renderer()->frameRenderWidth(), m_document->renderer()->renderHeight());
     Mlt::GeometryItem gitem;
     geometry.fetch(&gitem, offset);
     gitem.frame(0);

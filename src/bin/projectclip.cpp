@@ -39,7 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QCryptographicHash>
 #include <QtConcurrent>
 #include <KLocalizedString>
-
+#include <KMessageBox>
 
 
 ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *controller, ProjectFolder* parent) :
@@ -58,7 +58,7 @@ ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *control
     m_type = m_controller->clipType();
     getFileHash();
     setParent(parent);
-    bin()->loadSubClips(id, m_controller->getSubClips());
+    bin()->loadSubClips(id, m_controller->getPropertiesFromPrefix("kdenlive:clipzone."));
     if (KdenliveSettings::audiothumbnails()) {
         m_audioThumbsThread = QtConcurrent::run(this, &ProjectClip::slotCreateAudioThumbs);
     }
@@ -479,12 +479,14 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
 {
     QMapIterator<QString, QString> i(properties);
     bool refreshProducer = false;
+    bool refreshAnalysis = false;
     QStringList keys;
     keys << "luma_duration" << "luma_file" << "fade" << "ttl" << "softness" << "crop" << "animation";
     while (i.hasNext()) {
         i.next();
         setProducerProperty(i.key(), i.value());
         if (m_type == SlideShow && keys.contains(i.key())) refreshProducer = true;
+        if (i.key().startsWith("kdenlive:clipanalysis")) refreshAnalysis = true;
     }
     if (properties.contains("kdenlive:proxy")) {
         QString value = properties.value("kdenlive:proxy");
@@ -514,6 +516,7 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
     if (properties.contains("xmldata")) {
         refreshProducer = true;
     }
+    if (refreshAnalysis) emit refreshAnalysisPanel();
     if (properties.contains("length")) {
         m_duration = m_controller->getStringDuration();
         bin()->emitItemUpdated(this);
@@ -556,6 +559,7 @@ ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
 {
     ClipPropertiesController *panel = new ClipPropertiesController(bin()->projectTimecode(), m_controller, parent);
     connect(this, SIGNAL(refreshPropertiesPanel()), panel, SLOT(slotReloadProperties()));
+    connect(this, SIGNAL(refreshAnalysisPanel()), panel, SLOT(slotFillAnalysisData()));
     return panel;
 }
 
@@ -884,4 +888,71 @@ bool ProjectClip::isTransparent() const
     if (m_type == Text) return true;
     if (m_type == Image && m_controller->int_property("kdenlive:transparency") == 1) return true;
     return false;
+}
+
+QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString &data, int offset)
+{
+    if (data.isEmpty()) {
+        // Remove data
+        return QStringList() << QString("kdenlive:clipanalysis." + name) << QString();
+        //m_controller->resetProperty("kdenlive:clipanalysis." + name);
+    }
+    else {
+        QString current = m_controller->property("kdenlive:clipanalysis." + name);
+        if (!current.isEmpty()) {
+            if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Clip already contains analysis data %1", name), QString(), KGuiItem(i18n("Merge")), KGuiItem(i18n("Add"))) == KMessageBox::Yes) {
+                // Merge data
+                Mlt::Profile *profile = m_controller->profile();
+                Mlt::Geometry geometry(current.toUtf8().data(), duration().frames(profile->fps()), profile->width(), profile->height());
+                Mlt::Geometry newGeometry(data.toUtf8().data(), duration().frames(profile->fps()), profile->width(), profile->height());
+                Mlt::GeometryItem item;
+                int pos = 0;
+                while (!newGeometry.next_key(&item, pos)) {
+                    pos = item.frame();
+                    item.frame(pos + offset);
+                    pos++;
+                    geometry.insert(item);
+                }
+                return QStringList() << QString("kdenlive:clipanalysis." + name) << geometry.serialise();
+                //m_controller->setProperty("kdenlive:clipanalysis." + name, geometry.serialise());
+            }
+            else {
+                // Add data with another name
+                int i = 1;
+                QString data = m_controller->property("kdenlive:clipanalysis." + name + ' ' + QString::number(i));
+                while (!data.isEmpty()) {
+                    ++i;
+                    data = m_controller->property("kdenlive:clipanalysis." + name + ' ' + QString::number(i));
+                }
+                return QStringList() << QString("kdenlive:clipanalysis." + name + ' ' + QString::number(i)) << geometryWithOffset(data, offset);
+                //m_controller->setProperty("kdenlive:clipanalysis." + name + ' ' + QString::number(i), geometryWithOffset(data, offset));
+            }
+        }
+        else {
+            return QStringList() << QString("kdenlive:clipanalysis." + name) << geometryWithOffset(data, offset);
+            //m_controller->setProperty("kdenlive:clipanalysis." + name, geometryWithOffset(data, offset));
+        }
+    }
+}
+
+QMap <QString, QString> ProjectClip::analysisData(bool withPrefix)
+{
+    return m_controller->getPropertiesFromPrefix("kdenlive:clipanalysis.", withPrefix);
+}
+
+const QString ProjectClip::geometryWithOffset(const QString &data, int offset)
+{
+    if (offset == 0) return data;
+    Mlt::Profile *profile = m_controller->profile();
+    Mlt::Geometry geometry(data.toUtf8().data(), duration().frames(profile->fps()), profile->width(), profile->height());
+    Mlt::Geometry newgeometry(NULL, duration().frames(profile->fps()), profile->width(), profile->height());
+    Mlt::GeometryItem item;
+    int pos = 0;
+    while (!geometry.next_key(&item, pos)) {
+        pos = item.frame();
+        item.frame(pos + offset);
+        pos++;
+        newgeometry.insert(item);
+    }
+    return newgeometry.serialise();
 }

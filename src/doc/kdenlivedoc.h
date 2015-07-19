@@ -149,7 +149,6 @@ public:
     const QMap <QString, QString> metadata() const;
     /** @brief Set the document metadata (author, copyright, ...) */
     void setMetadata(const QMap <QString, QString>& meta);
-    void slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties, bool refreshPropertiesPanel);
     /** @brief Get frame size of the renderer (profile)*/
     const QSize getRenderSize() const;
     /** @brief Add url to the file watcher so that we monitor changes */
