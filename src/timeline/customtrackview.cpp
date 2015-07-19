@@ -4306,7 +4306,7 @@ void CustomTrackView::deleteSelectedClips()
 void CustomTrackView::doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id)
 {
     Q_UNUSED(id)
-
+    qDebug()<<" / / /CHANGING CLIP SPEED: "<<id<<" = "<<speed;
     ClipItem *item = getClipItemAtStart(info.startPos, info.track);
     if (!item) {
         //qDebug() << "ERROR: Cannot find clip for speed change";

@@ -2496,7 +2496,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
 
     ////qDebug() << "Changing clip speed, set in and out: " << info.cropStart.frames(m_fps) << " to " << (info.endPos - info.startPos).frames(m_fps) - 1;
     Mlt::Tractor tractor(service);
-    Mlt::Producer trackProducer(tractor.track(info.track));
+    Mlt::Producer trackProducer(tractor.track(tractor.count() - info.track - 1));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int startPos = info.startPos.frames(m_fps);
     int clipIndex = trackPlaylist.get_clip_index_at(startPos);
@@ -2504,16 +2504,19 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
 
     Mlt::Producer *original = trackPlaylist.get_clip(clipIndex);
     if (original == NULL) {
+        qDebug()<<"// No clip to apply effect";
         return -1;
     }
     if (!original->is_valid() || original->is_blank()) {
         // invalid clip
         delete original;
+        qDebug()<<"// Invalid clip to apply effect";
         return -1;
     }
     Mlt::Producer clipparent = original->parent();
     if (!clipparent.is_valid() || clipparent.is_blank()) {
         // invalid clip
+        qDebug()<<"// Invalid parent to apply effect";
         delete original;
         return -1;
     }
@@ -2522,7 +2525,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
     QString id = clipparent.get("id");
     id = id.section("_", 0,  0);
     if (speed <= 0 && speed > -1) speed = 1.0;
-    ////qDebug() << "CLIP SERVICE: " << serv;
+    //qDebug() << "SLOWMO CLIP SERVICE: " << serv;
     if ((serv == "avformat" || serv == "avformat-novalidate") && (speed != 1.0 || strobe > 1)) {
         service.lock();
         QString url = QString::fromUtf8(clipparent.get("resource"));
@@ -2531,6 +2534,9 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
         Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
         if (!slowprod || slowprod->get_producer() == NULL) {
             slowprod = new Mlt::Producer(*m_qmlView->profile(), 0, ("framebuffer:" + url).toUtf8().constData());
+            if (!slowprod->is_valid()) {
+                qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
+            }
             if (strobe > 1) slowprod->set("strobe", strobe);
             QString producerid = "slowmotion:" + id + ':' + m_locale.toString(speed);
             if (strobe > 1) producerid.append(':' + QString::number(strobe));
@@ -2576,7 +2582,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
         service.unlock();
     } else if (speed == 1.0 && strobe < 2) {
         if (!prod || !prod->is_valid()) {
-            //qDebug()<<"// Something is wrong with producer";
+            qDebug()<<"// Something is wrong with original slowmo producer";
             return -1;
         }
         service.lock();
