@@ -94,7 +94,7 @@ public:
     /** @brief Returns a kdenlive effect xml description from an effect tag / id */
     static QDomElement getEffectByTag(const QString &effecttag, const QString &effectid);
     /** @brief Move a clip between tracks */
-    bool moveClip(int startTrack, qreal startPos, int endTrack, qreal endPos, PlaylistState::ClipState state, int mode);
+    bool moveClip(int startTrack, qreal startPos, int endTrack, qreal endPos, PlaylistState::ClipState state, int mode, bool duplicate);
     void renameTrack(int ix, const QString &name);
     void updateTrackState(int ix, int state);
     TrackInfo getTrackInfo(int ix);

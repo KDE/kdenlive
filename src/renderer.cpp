@@ -4242,3 +4242,21 @@ Mlt::Producer *Render::getSlowmotionProducer(const QString &url)
       }
       return NULL;
 }
+
+void Render::updateSlowMotionProducers(const QString &id, QMap <QString, QString> passProperties)
+{
+    QMapIterator<QString, Mlt::Producer *> i(m_slowmotionProducers);
+    Mlt::Producer *prod;
+    while (i.hasNext()) {
+        i.next();
+	prod = i.value();
+	QString currentId = prod->get("id");
+	if (currentId.startsWith("slowmotion:" + id + ":")) {
+	  QMapIterator<QString, QString> j(passProperties);
+            while (j.hasNext()) {
+                j.next();
+                prod->set(j.key().toUtf8().constData(), j.value().toUtf8().constData());
+            }
+	}
+    }
+}

@@ -463,7 +463,7 @@ void Track::updateClipProperties(const QString &id, QMap <QString, QString> prop
     QString idForTrack = id + QLatin1Char('_') + m_playlist.get("id");
     QString idForVideoTrack = idForTrack + "_video";
     QString idForAudioTrack = idForTrack + "_audio";
-    //TODO: slowmotion?
+    // slowmotion producers are updated in renderer
 
     Mlt::Producer *trackProducer = NULL;
     Mlt::Producer *audioTrackProducer = NULL;

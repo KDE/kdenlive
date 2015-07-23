@@ -3711,7 +3711,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             // we are moving one clip, easy
             if (m_dragItem->type() == AVWidget && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
                 ClipItem *item = static_cast <ClipItem *>(m_dragItem);
-                bool success = m_timeline->moveClip(m_dragItemInfo.track, m_dragItemInfo.startPos.seconds(), info.track, info.startPos.seconds(), item->clipState(), m_scene->editMode());
+                bool success = m_timeline->moveClip(m_dragItemInfo.track, m_dragItemInfo.startPos.seconds(), info.track, info.startPos.seconds(), item->clipState(), m_scene->editMode(), item->needsDuplicate());
 
                 if (success) {
                     QUndoCommand *moveCommand = new QUndoCommand();
@@ -4694,7 +4694,7 @@ bool CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool 
     qDebug() << start;
     qDebug() << end;
 #endif
-    bool success = m_timeline->moveClip(start.track, start.startPos.seconds(), end.track, end.startPos.seconds(), item->clipState(), m_scene->editMode());
+    bool success = m_timeline->moveClip(start.track, start.startPos.seconds(), end.track, end.startPos.seconds(), item->clipState(), m_scene->editMode(), item->needsDuplicate());
 
     if (success) {
         bool snap = KdenliveSettings::snaptopoints();
