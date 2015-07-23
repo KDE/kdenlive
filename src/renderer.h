@@ -326,6 +326,7 @@ class Render: public AbstractRender
     void setVolume(double volume);
     /** @brief Stop all activities in preparation for a change in profile */
     void prepareProfileReset();
+    void updateSlowMotionProducers(const QString &id, QMap <QString, QString> passProperties);
 
 private:
 

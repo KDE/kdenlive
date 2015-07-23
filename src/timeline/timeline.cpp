@@ -1104,7 +1104,7 @@ void Timeline::checkTrackHeight()
     }
 }
 
-bool Timeline::moveClip(int startTrack, qreal startPos, int endTrack, qreal endPos, PlaylistState::ClipState state, int mode)
+bool Timeline::moveClip(int startTrack, qreal startPos, int endTrack, qreal endPos, PlaylistState::ClipState state, int mode, bool duplicate)
 {
     if (startTrack == endTrack) {
         return track(startTrack)->move(startPos, endPos, mode);
@@ -1123,7 +1123,7 @@ bool Timeline::moveClip(int startTrack, qreal startPos, int endTrack, qreal endP
     sourceTrack->playlist().unlock();
     Track *destTrack = track(endTrack);
     
-    bool success = destTrack->add(endPos, clipProducer, GenTime(clipProducer->get_in(), destTrack->fps()).seconds(), GenTime(clipProducer->get_out(), destTrack->fps()).seconds(), state, true, mode);
+    bool success = destTrack->add(endPos, clipProducer, GenTime(clipProducer->get_in(), destTrack->fps()).seconds(), GenTime(clipProducer->get_out(), destTrack->fps()).seconds(), state, duplicate, mode);
     delete clipProducer;
     return success;
 }
