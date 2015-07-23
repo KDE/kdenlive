@@ -1203,7 +1203,6 @@ int Render::setSceneList(const QDomDocument &list, int position)
 
 int Render::setSceneList(QString playlist, int position)
 {
-    //qDebug() << "//////  RENDER, SET SCENE LIST:\n" << playlist <<"\n..........:::.";
     requestedSeekPosition = SEEK_INACTIVE;
     m_refreshTimer.stop();
     QMutexLocker locker(&m_mutex);
@@ -1301,6 +1300,7 @@ int Render::setSceneList(QString playlist, int position)
     }
     blockSignals(false);
     Mlt::Tractor tractor(service);
+    qDebug()<<"******************************  BUILDING PLAYLIST ***********************";
     Mlt::Properties retainList((mlt_properties) tractor.get_data("xml_retain"));
     if (retainList.is_valid() && retainList.get_data(m_binController->binPlaylistId().toUtf8().constData())) {
         Mlt::Playlist playlist((mlt_playlist) retainList.get_data(m_binController->binPlaylistId().toUtf8().constData()));
@@ -2001,30 +2001,6 @@ void Render::mltCheckLength(Mlt::Tractor *tractor)
     }
 }
 
-Mlt::Producer *Render::checkSlowMotionProducer(Mlt::Producer *prod, QDomElement element)
-{
-    if (element.attribute("speed", "1.0").toDouble() == 1.0 && element.attribute("strobe", "1").toInt() == 1) return prod;
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    // We want a slowmotion producer
-    double speed = element.attribute("speed", "1.0").toDouble();
-    int strobe = element.attribute("strobe", "1").toInt();
-    QString url = QString::fromUtf8(prod->get("resource"));
-    url.append('?' + locale.toString(speed));
-    if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
-    Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
-    if (!slowprod || slowprod->get_producer() == NULL) {
-        slowprod = new Mlt::Producer(*m_qmlView->profile(), 0, ("framebuffer:" + url).toUtf8().constData());
-        if (strobe > 1) slowprod->set("strobe", strobe);
-        QString id = prod->parent().get("id");
-        if (id.contains('_')) id = id.section('_', 0, 0);
-        QString producerid = "slowmotion:" + id + ':' + locale.toString(speed);
-        if (strobe > 1) producerid.append(':' + QString::number(strobe));
-        slowprod->set("id", producerid.toUtf8().constData());
-        m_slowmotionProducers.insert(url, slowprod);
-    }
-    return slowprod;
-}
 
 int Render::mltInsertClip(ItemInfo info, const QString &clipId, bool overwrite, bool push)
 {
@@ -2230,55 +2206,6 @@ void Render::unlockService(Mlt::Tractor *tractor)
     service.unlock();
 }
 
-bool Render::mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement element, Mlt::Producer *prod)
-{
-    // TODO: optimize
-    if (prod == NULL || tractor == NULL) {
-        //qDebug() << "Cannot update clip with null producer //////";
-        return false;
-    }
-
-    Mlt::Producer trackProducer(tractor->track(tractor->count() - 1 - info.track));
-    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-    int startPos = info.startPos.frames(m_fps);
-    int clipIndex = trackPlaylist.get_clip_index_at(startPos);
-    if (trackPlaylist.is_blank(clipIndex)) {
-        //qDebug() << "// WARNING, TRYING TO REMOVE A BLANK: " << startPos;
-        return false;
-    }
-    Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
-    // keep effects
-    QList <Mlt::Filter *> filtersList;
-    Mlt::Service sourceService(clip->get_service());
-    int ct = 0;
-    Mlt::Filter *filter = sourceService.filter(ct);
-    while (filter) {
-        if (filter->get_int("kdenlive_ix") != 0) {
-            filtersList.append(filter);
-        }
-        ct++;
-        filter = sourceService.filter(ct);
-    }
-    delete clip;
-    clip = trackPlaylist.replace_with_blank(clipIndex);
-    delete clip;
-    prod = checkSlowMotionProducer(prod, element);
-    if (prod == NULL || !prod->is_valid()) {
-        return false;
-    }
-
-    Mlt::Producer *clip2 = prod->cut(info.cropStart.frames(m_fps), (info.cropDuration + info.cropStart).frames(m_fps) - 1);
-    trackPlaylist.insert_at(info.startPos.frames(m_fps), clip2, 1);
-    Mlt::Service destService(clip2->get_service());
-    delete clip2;
-
-    if (!filtersList.isEmpty()) {
-        for (int i = 0; i < filtersList.count(); ++i)
-            destService.attach(*(filtersList.at(i)));
-    }
-    qDeleteAll(filtersList);
-    return true;
-}
 
 int Render::mltGetSpaceLength(const GenTime &pos, int track, bool fromBlankStart)
 {
@@ -2485,195 +2412,6 @@ void Render::mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest)
     }
 }
 
-int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, double /*oldspeed*/, int strobe, Mlt::Producer *prod)
-{
-    int newLength = 0;
-    Mlt::Service service(m_mltProducer->parent().get_service());
-    if (service.type() != tractor_type) {
-        qWarning() << "// TRACTOR PROBLEM";
-        return -1;
-    }
-
-    ////qDebug() << "Changing clip speed, set in and out: " << info.cropStart.frames(m_fps) << " to " << (info.endPos - info.startPos).frames(m_fps) - 1;
-    Mlt::Tractor tractor(service);
-    Mlt::Producer trackProducer(tractor.track(tractor.count() - info.track - 1));
-    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-    int startPos = info.startPos.frames(m_fps);
-    int clipIndex = trackPlaylist.get_clip_index_at(startPos);
-    int clipLength = trackPlaylist.clip_length(clipIndex);
-
-    Mlt::Producer *original = trackPlaylist.get_clip(clipIndex);
-    if (original == NULL) {
-        qDebug()<<"// No clip to apply effect";
-        return -1;
-    }
-    if (!original->is_valid() || original->is_blank()) {
-        // invalid clip
-        delete original;
-        qDebug()<<"// Invalid clip to apply effect";
-        return -1;
-    }
-    Mlt::Producer clipparent = original->parent();
-    if (!clipparent.is_valid() || clipparent.is_blank()) {
-        // invalid clip
-        qDebug()<<"// Invalid parent to apply effect";
-        delete original;
-        return -1;
-    }
-
-    QString serv = clipparent.get("mlt_service");
-    QString id = clipparent.get("id");
-    id = id.section("_", 0,  0);
-    if (speed <= 0 && speed > -1) speed = 1.0;
-    //qDebug() << "SLOWMO CLIP SERVICE: " << serv;
-    if ((serv == "avformat" || serv == "avformat-novalidate") && (speed != 1.0 || strobe > 1)) {
-        service.lock();
-        QString url = QString::fromUtf8(clipparent.get("resource"));
-        url.append('?' + m_locale.toString(speed));
-        if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
-        Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
-        if (!slowprod || slowprod->get_producer() == NULL) {
-            slowprod = new Mlt::Producer(*m_qmlView->profile(), 0, ("framebuffer:" + url).toUtf8().constData());
-            if (!slowprod->is_valid()) {
-                qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
-            }
-            if (strobe > 1) slowprod->set("strobe", strobe);
-            QString producerid = "slowmotion:" + id + ':' + m_locale.toString(speed);
-            if (strobe > 1) producerid.append(':' + QString::number(strobe));
-            slowprod->set("id", producerid.toUtf8().constData());
-            // copy producer props
-            double ar = original->parent().get_double("force_aspect_ratio");
-            if (ar != 0.0) slowprod->set("force_aspect_ratio", ar);
-            double fps = original->parent().get_double("force_fps");
-            if (fps != 0.0) slowprod->set("force_fps", fps);
-            int threads = original->parent().get_int("threads");
-            if (threads != 0) slowprod->set("threads", threads);
-            if (original->parent().get("force_progressive"))
-                slowprod->set("force_progressive", original->parent().get_int("force_progressive"));
-            if (original->parent().get("force_tff"))
-                slowprod->set("force_tff", original->parent().get_int("force_tff"));
-            int ix = original->parent().get_int("video_index");
-            if (ix != 0) slowprod->set("video_index", ix);
-            int colorspace = original->parent().get_int("force_colorspace");
-            if (colorspace != 0) slowprod->set("force_colorspace", colorspace);
-            int full_luma = original->parent().get_int("set.force_full_luma");
-            if (full_luma != 0) slowprod->set("set.force_full_luma", full_luma);
-            m_slowmotionProducers.insert(url, slowprod);
-        }
-        Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
-        trackPlaylist.consolidate_blanks(0);
-
-        // Check that the blank space is long enough for our new duration
-        clipIndex = trackPlaylist.get_clip_index_at(startPos);
-        int blankEnd = trackPlaylist.clip_start(clipIndex) + trackPlaylist.clip_length(clipIndex);
-        Mlt::Producer *cut;
-        if (clipIndex + 1 < trackPlaylist.count() && (startPos + clipLength / speed > blankEnd)) {
-            GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
-            cut = slowprod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)(info.cropStart.frames(m_fps) / speed + maxLength.frames(m_fps) - 1));
-        } else cut = slowprod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)((info.cropStart.frames(m_fps) + clipLength) / speed - 1));
-
-        // move all effects to the correct producer
-        mltPasteEffects(clip, cut);
-        trackPlaylist.insert_at(startPos, cut, 1);
-        delete cut;
-        delete clip;
-        clipIndex = trackPlaylist.get_clip_index_at(startPos);
-        newLength = trackPlaylist.clip_length(clipIndex);
-        service.unlock();
-    } else if (speed == 1.0 && strobe < 2) {
-        if (!prod || !prod->is_valid()) {
-            qDebug()<<"// Something is wrong with original slowmo producer";
-            return -1;
-        }
-        service.lock();
-
-        Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
-        trackPlaylist.consolidate_blanks(0);
-
-        // Check that the blank space is long enough for our new duration
-        clipIndex = trackPlaylist.get_clip_index_at(startPos);
-        int blankEnd = trackPlaylist.clip_start(clipIndex) + trackPlaylist.clip_length(clipIndex);
-
-        Mlt::Producer *cut;
-        int originalStart = (int)(speedIndependantInfo.cropStart.frames(m_fps));
-        if (clipIndex + 1 < trackPlaylist.count() && (info.startPos + speedIndependantInfo.cropDuration).frames(m_fps) > blankEnd) {
-            GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
-            cut = prod->cut(originalStart, (int)(originalStart + maxLength.frames(m_fps) - 1));
-        } else cut = prod->cut(originalStart, (int)(originalStart + speedIndependantInfo.cropDuration.frames(m_fps)) - 1);
-
-        // move all effects to the correct producer
-        mltPasteEffects(clip, cut);
-
-        trackPlaylist.insert_at(startPos, cut, 1);
-        delete cut;
-        delete clip;
-        clipIndex = trackPlaylist.get_clip_index_at(startPos);
-        newLength = trackPlaylist.clip_length(clipIndex);
-        service.unlock();
-
-    } else if (serv == "framebuffer") {
-        service.lock();
-        QString url = QString::fromUtf8(clipparent.get("resource"));
-        url = url.section('?', 0, 0);
-        url.append('?' + m_locale.toString(speed));
-        if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
-        Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
-        if (!slowprod || slowprod->get_producer() == NULL) {
-            slowprod = new Mlt::Producer(*m_qmlView->profile(), 0, ("framebuffer:" + url).toUtf8().constData());
-            slowprod->set("strobe", strobe);
-            QString producerid = "slowmotion:" + id.section(':', 1, 1) + ':' + m_locale.toString(speed);
-            if (strobe > 1) producerid.append(':' + QString::number(strobe));
-            slowprod->set("id", producerid.toUtf8().constData());
-            // copy producer props
-            double ar = original->parent().get_double("force_aspect_ratio");
-            if (ar != 0.0) slowprod->set("force_aspect_ratio", ar);
-            double fps = original->parent().get_double("force_fps");
-            if (fps != 0.0) slowprod->set("force_fps", fps);
-            if (original->parent().get("force_progressive"))
-                slowprod->set("force_progressive", original->parent().get_int("force_progressive"));
-            if (original->parent().get("force_tff"))
-                slowprod->set("force_tff", original->parent().get_int("force_tff"));
-            int threads = original->parent().get_int("threads");
-            if (threads != 0) slowprod->set("threads", threads);
-            int ix = original->parent().get_int("video_index");
-            if (ix != 0) slowprod->set("video_index", ix);
-            int colorspace = original->parent().get_int("force_colorspace");
-            if (colorspace != 0) slowprod->set("force_colorspace", colorspace);
-            int full_luma = original->parent().get_int("set.force_full_luma");
-            if (full_luma != 0) slowprod->set("set.force_full_luma", full_luma);
-            m_slowmotionProducers.insert(url, slowprod);
-        }
-        Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
-        trackPlaylist.consolidate_blanks(0);
-
-        GenTime duration = speedIndependantInfo.cropDuration / speed;
-        int originalStart = (int)(speedIndependantInfo.cropStart.frames(m_fps) / speed);
-
-        // Check that the blank space is long enough for our new duration
-        clipIndex = trackPlaylist.get_clip_index_at(startPos);
-        int blankEnd = trackPlaylist.clip_start(clipIndex) + trackPlaylist.clip_length(clipIndex);
-
-        Mlt::Producer *cut;
-        if (clipIndex + 1 < trackPlaylist.count() && (info.startPos + duration).frames(m_fps) > blankEnd) {
-            GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
-            cut = slowprod->cut(originalStart, (int)(originalStart + maxLength.frames(m_fps) - 1));
-        } else cut = slowprod->cut(originalStart, (int)(originalStart + duration.frames(m_fps)) - 1);
-
-        // move all effects to the correct producer
-        mltPasteEffects(clip, cut);
-
-        trackPlaylist.insert_at(startPos, cut, 1);
-        delete cut;
-        delete clip;
-        clipIndex = trackPlaylist.get_clip_index_at(startPos);
-        newLength = trackPlaylist.clip_length(clipIndex);
-
-        service.unlock();
-    }
-    delete original;
-    if (clipIndex + 1 == trackPlaylist.count()) mltCheckLength(&tractor);
-    return newLength;
-}
 
 bool Render::mltRemoveTrackEffect(int track, int index, bool updateIndex)
 {
@@ -4488,4 +4226,19 @@ void Render::setVolume(double volume)
             m_mltConsumer->set("volume", volume);
         }
     }
+}
+
+void Render::storeSlowmotionProducer(const QString &url, Mlt::Producer *prod)
+{
+      if (!m_slowmotionProducers.contains(url)) {
+	    m_slowmotionProducers.insert(url, prod);
+      }
+}
+
+Mlt::Producer *Render::getSlowmotionProducer(const QString &url)
+{
+      if (m_slowmotionProducers.contains(url)) {
+	    return m_slowmotionProducers.value(url);
+      }
+      return NULL;
 }

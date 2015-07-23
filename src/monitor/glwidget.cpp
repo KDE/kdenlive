@@ -819,7 +819,7 @@ void GLWidget::resetProfile(MltVideoProfile profile)
         m_consumer->stop();
         m_consumer->purge();
     }
-    //m_monitorProfile->get_profile()->description = profile.description.toUtf8().data();
+    m_monitorProfile->get_profile()->description = qstrdup(profile.description.toUtf8().constData());
     m_monitorProfile->set_colorspace(profile.colorspace);
     m_monitorProfile->set_frame_rate(profile.frame_rate_num, profile.frame_rate_den);
     m_monitorProfile->set_height(profile.height);

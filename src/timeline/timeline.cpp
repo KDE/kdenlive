@@ -28,6 +28,7 @@
 #include "customruler.h"
 #include "customtrackview.h"
 #include "dialogs/profilesdialog.h"
+#include "mltcontroller/clipcontroller.h"
 
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
@@ -221,6 +222,7 @@ int Timeline::getTracks() {
         if (playlist.filter_count()) getEffects(playlist, NULL, 0);
         ++trackIndex;
         connect(m_tracks[0], &Track::newTrackDuration, this, &Timeline::checkDuration);
+	connect(m_tracks[0], SIGNAL(storeSlowMotion(QString,Mlt::Producer *)), m_doc->renderer(), SLOT(storeSlowmotionProducer(QString,Mlt::Producer *)));
     }
     checkTrackHeight();
     return duration;
@@ -767,6 +769,7 @@ int Timeline::addTrack(int ix, Mlt::Playlist &playlist) {
         int in = clip->get_in();
         int out = clip->get_out();
         QString idString = clip->parent().get("id");
+	qDebug()<<"***** LOADING: "<<idString<<"\n"<<clip->get("id")<<"\n**********";
         if (in >= out || m_invalidProducers.contains(idString)) {
             m_documentErrors.append(i18n("Invalid clip removed from track %1 at %2\n", ix, position));
             playlist.remove(i);
@@ -787,6 +790,8 @@ int Timeline::addTrack(int ix, Mlt::Playlist &playlist) {
             speed = locale.toDouble(idString.section(':', 2, 2));
             strobe = idString.section(':', 3, 3).toInt();
             if (strobe == 0) strobe = 1;
+	    // Slowmotion producer, store it for reuse
+            m_doc->renderer()->storeSlowmotionProducer(idString, &clip->parent());
         }
         id = id.section('_', 0, 0);
         ProjectClip *binclip = m_doc->getBinClip(id);
@@ -799,6 +804,7 @@ int Timeline::addTrack(int ix, Mlt::Playlist &playlist) {
         clipinfo.cropStart = GenTime(in, fps);
         clipinfo.cropDuration = GenTime(length, fps);
         clipinfo.track = ix;
+	qDebug()<<"// Loading clip: "<<idString<<" / SPEED: "<<speed<<"\n++++++++++++++++++++++++";
         ClipItem *item = new ClipItem(binclip, clipinfo, fps, speed, strobe, m_trackview->getFrameWidth(), true);
         item->updateState(idString);
         m_scene->addItem(item);
@@ -1285,4 +1291,23 @@ void Timeline::updateClipProperties(const QString &id, QMap <QString, QString> p
     for (int i = 0; i< m_tracks.count(); i++) {
         track(i)->updateClipProperties(id, properties);
     }
+}
+
+int Timeline::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *originalProd)
+{
+    Mlt::Producer *prod;
+    QLocale locale;
+    if (speed == 1) {
+	prod = originalProd;
+    }
+    else {
+	QString url = QString::fromUtf8(originalProd->get("resource"));
+        url.append('?' + locale.toString(speed));
+        if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
+	prod = m_doc->renderer()->getSlowmotionProducer(url);
+    }
+    Mlt::Properties passProperties;
+    Mlt::Properties original(originalProd->get_properties());
+    passProperties.pass_list(original, ClipController::getPassPropertiesList());
+    return track(info.track)->changeClipSpeed(info, speedIndependantInfo, speed, strobe, prod, passProperties);
 }

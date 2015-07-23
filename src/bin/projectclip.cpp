@@ -484,7 +484,7 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
     bool reload = false;
     // Some properties also need to be passed to track producers
     QStringList timelineProperties;
-    timelineProperties << "force_aspect_ratio" << "video_index" << "audio_index" << "full_luma" <<"threads" <<"force_colorspace"<<"force_tff"<<"force_progressive"<<"force_fps";
+    timelineProperties << "force_aspect_ratio" << "video_index" << "audio_index" << "set.force_full_luma"<< "full_luma" <<"threads" <<"force_colorspace"<<"force_tff"<<"force_progressive"<<"force_fps";
     QStringList keys;
     keys << "luma_duration" << "luma_file" << "fade" << "ttl" << "softness" << "crop" << "animation";
     while (i.hasNext()) {

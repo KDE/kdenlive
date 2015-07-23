@@ -192,7 +192,8 @@ const QString ClipController::clipId()
     return property("id");
 }
 
-const char *ClipController::getPassPropertiesList() const
+// static
+const char *ClipController::getPassPropertiesList()
 {
     return "kdenlive:proxy,kdenlive:originalurl,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_colorspace,set.force_full_luma,templatetext,file_hash";
 }

@@ -179,6 +179,9 @@ public:
     /** @brief Returns true if audio thumbnails for this clip are cached */
     bool audioThumbCreated;
     Mlt::Profile *profile();
+    /** @brief When replacing a producer, it is important that we keep some properties, for exemple force_ stuff and url for proxies
+     * this method returns a list of properties that we want to keep when replacing a producer . */
+    static const char *getPassPropertiesList();
 
 private:
     Mlt::Producer *m_masterProducer;
@@ -194,9 +197,6 @@ private:
     BinController *m_binController;
     /** @brief A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
     QList < CommentedTime > m_snapMarkers;
-    /** @brief When replacing a producer, it is important that we keep some properties, for exemple force_ stuff and url for proxies
-     * this method returns a list of properties that we want to keep when replacing a producer . */
-    const char *getPassPropertiesList() const;
     void getInfoForProducer();
     void rebuildEffectList();
 };
