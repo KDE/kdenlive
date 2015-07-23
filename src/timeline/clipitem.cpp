@@ -2053,6 +2053,7 @@ void ClipItem::slotRefreshClip()
 
 bool ClipItem::needsDuplicate() const
 {
+      qDebug()<<"// NEEDS DUP: "<<m_clipType;
       if  (m_clipType != AV && m_clipType != Audio && m_clipType != Playlist) {
 	  return false;
       }
