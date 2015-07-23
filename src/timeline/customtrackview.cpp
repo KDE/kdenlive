@@ -4278,7 +4278,7 @@ void CustomTrackView::doChangeClipSpeed(ItemInfo info, const ItemInfo &speedInde
         emit displayMessage(i18n("Cannot find clip for speed change"), ErrorMessage);
         return;
     }
-    int endPos = m_timeline->changeClipSpeed(info, speedIndependantInfo, speed, strobe, m_document->renderer()->getBinProducer(id));
+    int endPos = m_timeline->changeClipSpeed(info, speedIndependantInfo, speed, strobe, m_document->renderer()->getBinProducer(id), item->needsDuplicate());
     if (endPos >= 0) {
         item->setSpeed(speed, strobe);
         item->updateRectGeometry();

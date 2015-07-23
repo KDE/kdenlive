@@ -485,7 +485,7 @@ void Track::updateClipProperties(const QString &id, QMap <QString, QString> prop
     }
 }
 
-int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *prod, Mlt::Properties passProps)
+int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *prod, Mlt::Properties passProps, bool needsDuplicate)
 {
     int newLength = 0;
     int startPos = info.startPos.frames(m_fps);
@@ -592,7 +592,12 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
         int blankEnd = m_playlist.clip_start(clipIndex) + m_playlist.clip_length(clipIndex);
 
         Mlt::Producer *cut;
-	Mlt::Producer *trackProd = clipProducer(prod, PlaylistState::Original);
+	Mlt::Producer *trackProd;
+	if (needsDuplicate) {
+	    trackProd = clipProducer(prod, PlaylistState::Original);
+	} else {
+	    trackProd = prod;
+	}
         int originalStart = (int)(speedIndependantInfo.cropStart.frames(m_fps));
         if (clipIndex + 1 < m_playlist.count() && (info.startPos + speedIndependantInfo.cropDuration).frames(m_fps) > blankEnd) {
             GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;

@@ -137,7 +137,7 @@ public:
      * will have its "id" property set to "slowmotion:parentid:speed", where
      * "parentid" is the id of the original clip in the ClipManager list and
      * "speed" is the current speed. */
-    int changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *prod, Mlt::Properties passProps);
+    int changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *prod, Mlt::Properties passProps, bool needsDuplicate);
     /** @brief Returns true if there is a clip with audio on this track */
     bool hasAudio();
     void setProperty(const QString &name, const QString &value);
