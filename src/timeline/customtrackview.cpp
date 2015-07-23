@@ -4272,15 +4272,13 @@ void CustomTrackView::deleteSelectedClips()
 
 void CustomTrackView::doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id)
 {
-    Q_UNUSED(id)
-    qDebug()<<" / / /CHANGING CLIP SPEED: "<<id<<" = "<<speed;
     ClipItem *item = getClipItemAtStart(info.startPos, info.track);
     if (!item) {
         //qDebug() << "ERROR: Cannot find clip for speed change";
         emit displayMessage(i18n("Cannot find clip for speed change"), ErrorMessage);
         return;
     }
-    int endPos = m_document->renderer()->mltChangeClipSpeed(info, speedIndependantInfo, speed, oldspeed, strobe, m_document->renderer()->getTrackProducer(item->getBinId(), info.track));
+    int endPos = m_timeline->changeClipSpeed(info, speedIndependantInfo, speed, strobe, m_document->renderer()->getBinProducer(id));
     if (endPos >= 0) {
         item->setSpeed(speed, strobe);
         item->updateRectGeometry();

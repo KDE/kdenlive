@@ -371,12 +371,12 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         vbox->addLayout(hlay);
         
         //Full luma
-        QString force_luma = m_properties.get("full_luma");
-        m_originalProperties.insert("full_luma", force_luma);
+        QString force_luma = m_properties.get("set.force_full_luma");
+        m_originalProperties.insert("set.force_full_luma", force_luma);
         hlay = new QHBoxLayout;
         box = new QCheckBox(i18n("Full luma range"), this);
         connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
-        box->setObjectName("full_luma");
+        box->setObjectName("set.force_full_luma");
         box->setChecked(!force_luma.isEmpty());
         hlay->addWidget(box);
         vbox->addLayout(hlay);
@@ -498,7 +498,7 @@ void ClipPropertiesController::slotEnableForce(int state)
             if (!combo) return;
             properties.insert(param, QString::number(combo->currentData().toInt()));
         }
-        else if (param == "kdenlive:transparency" || param == "full_luma") {
+        else if (param == "kdenlive:transparency" || param == "set.force_full_luma") {
             properties.insert(param, "1");
         }
         else if (param == "force_ar") {

@@ -201,9 +201,8 @@ class Render: public AbstractRender
      * Playlist manipulation.
      */
     void mltCheckLength(Mlt::Tractor *tractor);
-    Mlt::Producer *checkSlowMotionProducer(Mlt::Producer *prod, QDomElement element);
+    Mlt::Producer *getSlowmotionProducer(const QString &url);
     int mltInsertClip(ItemInfo info, const QString &clipId, bool overwrite = false, bool push = false);
-    bool mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement element, Mlt::Producer *prod);
     void mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset);
     int mltGetSpaceLength(const GenTime &pos, int track, bool fromBlankStart);
 
@@ -263,16 +262,6 @@ class Render: public AbstractRender
     Q_DECL_DEPRECATED bool mltUpdateClipProducer(Mlt::Tractor *tractor, int track, int pos, Mlt::Producer *prod);
     void mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track);
     Mlt::Producer *invalidProducer(const QString &id);
-
-    /** @brief Changes the speed of a clip in MLT's playlist.
-     *
-     * It creates a new "framebuffer" producer, which must have its "resource"
-     * property set to "video.mpg?0.6", where "video.mpg" is the path to the
-     * clip and "0.6" is the speed in percentage. The newly created producer
-     * will have its "id" property set to "slowmotion:parentid:speed", where
-     * "parentid" is the id of the original clip in the ClipManager list and
-     * "speed" is the current speed. */
-    int mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, double oldspeed, int strobe, Mlt::Producer *prod);
 
     const QList <Mlt::Producer *> producersList();
     void setDropFrames(bool show);
@@ -498,6 +487,7 @@ public slots:
     void getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
     /** @brief Renderer moved to a new frame, check seeking */
     void checkFrameNumber(int pos);
+    void storeSlowmotionProducer(const QString &url, Mlt::Producer *prod);
     void seek(int time);
 };
 

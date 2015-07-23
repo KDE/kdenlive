@@ -281,7 +281,6 @@ bool ProjectManager::saveFile()
         qDebug()<<"SaveFile called without project";
         return false;
     }
-    KMessageBox::information(pCore->window(), "Warning, development version for testing only. we are currently working on core functionnalities,\ndo not save any project or your project files might be corrupted.");
     if (m_project->url().isEmpty()) {
         return saveFileAs();
     } else {

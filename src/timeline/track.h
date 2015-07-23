@@ -129,6 +129,15 @@ public:
      * @param forceCreation if true, we do not attempt to re-use existing track producer but recreate it
      * @return producer cut for this track */
     Mlt::Producer *clipProducer(Mlt::Producer *parent, PlaylistState::ClipState state, bool forceCreation = false);
+        /** @brief Changes the speed of a clip in MLT's playlist.
+     *
+     * It creates a new "framebuffer" producer, which must have its "resource"
+     * property set to "video.mpg?0.6", where "video.mpg" is the path to the
+     * clip and "0.6" is the speed in percentage. The newly created producer
+     * will have its "id" property set to "slowmotion:parentid:speed", where
+     * "parentid" is the id of the original clip in the ClipManager list and
+     * "speed" is the current speed. */
+    int changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *prod, Mlt::Properties passProps);
     /** @brief Returns true if there is a clip with audio on this track */
     bool hasAudio();
     void setProperty(const QString &name, const QString &value);
@@ -153,6 +162,7 @@ signals:
     /** @brief notify track length change to update background
      * @param duration is the new length */
     void newTrackDuration(int duration);
+    void storeSlowMotion(const QString &url, Mlt::Producer *prod);
 
 private:
     /** MLT playlist behind the scene */

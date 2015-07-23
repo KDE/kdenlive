@@ -1652,7 +1652,12 @@ void KdenliveDoc::loadDocumentProperties()
             }
         }
     }
-    m_projectFolder = QUrl::fromLocalFile(m_documentProperties.value("projectfolder"));
+    QString path = m_documentProperties.value("projectfolder");
+    if (!path.startsWith('/')) {
+	QDir dir = QDir::home();
+	path = dir.absoluteFilePath(path);
+    }
+    m_projectFolder = QUrl::fromLocalFile(path);
     list = m_document.elementsByTagName("profile");
     if (!list.isEmpty()) {
         m_profile = ProfilesDialog::getVideoProfileFromXml(list.at(0).toElement());

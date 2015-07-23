@@ -106,7 +106,6 @@ bool DocumentChecker::hasErrorInClips()
             // Don't check same url twice (for example track producers)
             continue;
         }
-        qDebug()<<" / / /Checking resource: "<<resource;
         if (e.hasAttribute("proxy")) {
             QString proxyresource = e.attribute("proxy");
             if (!proxyresource.isEmpty() && proxyresource != "-") {
@@ -176,7 +175,7 @@ bool DocumentChecker::hasErrorInClips()
         e = m_missingClips.at(i).toElement();
         QString clipType;
 	QString service = EffectsList::property(e, "mlt_service");
-	if (service == "avformat" || service == "avformat-novalidate") {
+	if (service == "avformat" || service == "avformat-novalidate" || service == "framebuffer") {
 	    clipType = i18n("Video clip");
 	} else if (service == "qimage" || service == "pixbuf") {
 	    clipType = i18n("Image clip");
