@@ -334,6 +334,42 @@ bool Track::replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state
     return ok;
 }
 
+void Track::updateEffects(const QString &id, Mlt::Producer *original)
+{
+    QString idForAudioTrack;
+    QString idForVideoTrack;
+    QString service = original->parent().get("mlt_service");
+    QString idForTrack = original->parent().get("id");
+
+    if (needsDuplicate(service)) {
+        // We have to use the track clip duplication functions, because of audio glitches in MLT's multitrack
+        idForAudioTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + "_audio";
+        idForVideoTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + "_video";
+        idForTrack.append(QLatin1Char('_') + m_playlist.get("id"));
+    }
+
+    for (int i = 0; i < m_playlist.count(); i++) {
+        if (m_playlist.is_blank(i)) continue;
+        Mlt::Producer *p = m_playlist.get_clip(i);
+	Mlt::Producer origin = p->parent();
+        QString current = origin.get("id");
+	    if (current.startsWith("slowmotion:")) {
+		if (current.section(":", 1, 1) == id) {
+		    Clip(origin).replaceEffects(*original);
+		}
+	    }
+	    else if (current == id) {
+		  // we are directly using original producer, no need to update effects
+		  continue;
+	    }
+	    else if (current.section("_", 0, 0) == id) {
+		Clip(origin).replaceEffects(*original);
+	    }
+        
+        delete p;
+    }
+}
+
 Mlt::Producer *Track::find(const QByteArray &name, const QByteArray &value, int startindex) {
     for (int i = startindex; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;

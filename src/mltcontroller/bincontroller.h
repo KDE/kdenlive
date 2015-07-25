@@ -189,11 +189,11 @@ signals:
     void loadFolders(QMap<QString,QString>);
     void loadThumb(QString,QImage,bool);
     void createThumb(const QDomElement&,const QString&,int);
-    void reloadTrackProducers(const QString &id);
     void requestAudioThumb(const QString&);
     void abortAudioThumb(const QString&);
     void replaceTimelineProducer(const QString &id);
     void setDocumentNotes(const QString &);
+    void updateTimelineProducer(const QString &);
 };
 
 #endif

@@ -499,6 +499,8 @@ private slots:
     void slotGotFilterJobResults(const QString &id, int startPos, int track, stringMap filterParams, stringMap extra);
     /** @brief Replace a producer in all tracks (for example when proxying a clip). */
     void slotReplaceTimelineProducer(const QString &id);
+    /** @brief Update a producer in all tracks (for example when an effect changed). */
+    void slotUpdateTimelineProducer(const QString &id);
 
 
 signals:

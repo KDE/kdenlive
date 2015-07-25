@@ -416,7 +416,7 @@ const QStringList BinController::getBinIdsByResource(const QUrl &url) const
 
 void BinController::updateTrackProducer(const QString &id)
 {
-    emit reloadTrackProducers(id);
+    emit updateTimelineProducer(id);
 }
 
 void BinController::checkThumbnails(const QString thumbFolder)

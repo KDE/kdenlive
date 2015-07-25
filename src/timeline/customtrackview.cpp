@@ -165,6 +165,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     m_spacerCursor = QCursor(Qt::SplitHCursor);
     
     connect(m_document->renderer(), SIGNAL(replaceTimelineProducer(QString)), this, SLOT(slotReplaceTimelineProducer(QString)));
+    connect(m_document->renderer(), SIGNAL(updateTimelineProducer(QString)), this, SLOT(slotUpdateTimelineProducer(QString)));
 
     scale(1, 1);
     setAlignment(Qt::AlignLeft | Qt::AlignTop);
@@ -7432,5 +7433,13 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
     Mlt::Producer *videoProd = m_document->renderer()->getBinVideoProducer(id);
     for (int i = 0; i < m_timeline->tracksCount(); i++) {
         m_timeline->track(i)->replaceAll(id,  prod, videoProd);
+    }
+}
+
+void CustomTrackView::slotUpdateTimelineProducer(const QString &id)
+{
+    Mlt::Producer *prod = m_document->renderer()->getBinProducer(id);
+    for (int i = 0; i < m_timeline->tracksCount(); i++) {
+        m_timeline->track(i)->updateEffects(id,  prod);
     }
 }

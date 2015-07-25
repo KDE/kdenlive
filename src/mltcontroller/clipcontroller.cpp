@@ -649,7 +649,6 @@ void ClipController::changeEffectState(const QList <int> indexes, bool disable)
         }
     }
     m_binController->updateTrackProducer(clipId());
-    //slotRefreshTracks();
 }
 
 void ClipController::updateEffect(const ProfileInfo pInfo, const QDomElement &old, const QDomElement &e, int ix)

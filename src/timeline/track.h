@@ -111,6 +111,7 @@ public:
      * @param videoOnlyProducer is the video only (without sound) replacement clip
      * @return true if success */
     bool replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer);
+    void updateEffects(const QString &id, Mlt::Producer *original);
     /** @brief replace an instance of a clip with another resource
      * @param t is the clip time in playlist
      * @param prod is the replacement clip
