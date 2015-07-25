@@ -390,8 +390,6 @@ private:
     ClipType getTypeForService(const QString &id, const QString &path) const;
     /** @brief Pass xml values to an MLT producer at build time */
     void processProducerProperties(Mlt::Producer *prod, QDomElement xml);
-    /** @brief Reload effects from master clip */
-    void reloadClipEffects(Mlt::Producer &p, const QString &clipId);
     
 private slots:
 
@@ -403,9 +401,6 @@ private slots:
     void slotMultiStreamProducerFound(const QString &path, QList<int> audio_list, QList<int> video_list, stringMap data);
     void showFrame(Mlt::Frame *);
     void slotCheckSeeking();
-    /** @brief Update all track producers to master's effect */
-    void slotUpdateTrackProducers(const QString &clipId);
-
 
 signals:
 
@@ -442,7 +437,7 @@ signals:
     void multiStreamFound(const QString &,QList<int>,QList<int>,stringMap data);
     /** @brief A clip has changed, we must reload timeline producers. */
     void replaceTimelineProducer(const QString&);
-
+    void updateTimelineProducer(const QString&);
     /** @brief Load project notes. */
     void setDocumentNotes(const QString&);
 

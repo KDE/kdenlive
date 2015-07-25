@@ -41,6 +41,7 @@ public:
     QByteArray xml();
     Mlt::Producer *clone();
     void addEffects(Mlt::Service& service);
+    void replaceEffects(Mlt::Service& service);
     void delEffect(int index);
 
     Mlt::Producer & producer();

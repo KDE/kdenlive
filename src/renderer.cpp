@@ -102,8 +102,8 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
     connect(this, SIGNAL(multiStreamFound(QString,QList<int>,QList<int>,stringMap)), this, SLOT(slotMultiStreamProducerFound(QString,QList<int>,QList<int>,stringMap)));
     connect(this, SIGNAL(checkSeeking()), this, SLOT(slotCheckSeeking()));
     if (m_name == Kdenlive::ProjectMonitor) {
-        connect(m_binController, SIGNAL(reloadTrackProducers(const QString &)), this, SLOT(slotUpdateTrackProducers(const QString &)));
         connect(m_binController, SIGNAL(replaceTimelineProducer(QString)), this, SIGNAL(replaceTimelineProducer(QString)));
+	connect(m_binController, SIGNAL(updateTimelineProducer(QString)), this, SIGNAL(updateTimelineProducer(QString)));
         connect(m_binController, SIGNAL(createThumb(QDomElement,QString,int)), this, SLOT(getFileProperties(QDomElement,QString,int)));
         connect(m_binController, SIGNAL(setDocumentNotes(QString)), this, SIGNAL(setDocumentNotes(QString)));
     }
@@ -2087,71 +2087,6 @@ Mlt::Producer *Render::getTrackProducer(const QString &id, int track, bool audio
     return getProducerForTrack(destTrackPlaylist, id);
 }
 
-void Render::slotUpdateTrackProducers(const QString &clipId)
-{
-    Mlt::Tractor *tractor = lockService();
-    for (int i = 0; i< tractor->count(); i++) {
-        Mlt::Producer trackProducer(tractor->track(i));
-        Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-        QString trackName = trackPlaylist.get("id");
-        for (int j = 0; j < trackPlaylist.count(); j++) {
-            if (trackPlaylist.is_blank(j)) continue;
-            Mlt::Producer *p = trackPlaylist.get_clip(j);
-            QString id = p->parent().get("id");
-            if (id.section("_", 0, 0) == clipId) {
-                // This producer exists in the track, update it
-                reloadClipEffects(p->parent(), clipId);
-                delete p;
-                break;
-            }
-            else delete p;
-        }
-    }
-    unlockService(tractor);
-}
-
-void Render::reloadClipEffects(Mlt::Producer &p, const QString &clipId)
-{
-    // Currently, we delete all clip effects and re-add them, we could do better
-    //Mlt::Service service = p->parent();
-    int ct = 0;
-    //delete p;
-    p.lock();
-    // remove all effects from track producer
-    Mlt::Filter *filter = p.filter(ct);
-    while (filter) {
-        if (filter->get_int("kdenlive_ix") != 0) {
-            p.detach(*filter);
-            delete filter;
-        } else ct++;
-        filter = p.filter(ct);
-    }
-    
-    Mlt::Producer *master = m_binController->getBinProducer(clipId);
-    Mlt::Service sourceService(master->get_service());
-    sourceService.lock();
-    ct = 0;
-    filter = sourceService.filter(ct);
-    while (filter) {
-        // Only duplicate Kdenlive filters
-        if (filter->is_valid() && filter->get_int("kdenlive_ix") > 0) {
-            // looks like there is no easy way to duplicate a filter,
-            // so we will create a new one and duplicate its properties
-            Mlt::Filter *dup = new Mlt::Filter(*m_qmlView->profile(), filter->get("mlt_service"));
-            if (dup && dup->is_valid()) {
-                Mlt::Properties entries(filter->get_properties());
-                for (int i = 0; i < entries.count(); ++i) {
-                    dup->set(entries.get_name(i), entries.get(i));
-                }
-                p.attach(*dup);
-            }
-        }
-        ct++;
-        filter = sourceService.filter(ct);
-    }
-    sourceService.unlock();
-    p.unlock();
-}
 
 Mlt::Producer *Render::getProducerForTrack(Mlt::Playlist &trackPlaylist, const QString &clipId)
 {

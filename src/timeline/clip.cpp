@@ -24,12 +24,12 @@
 #include "clip.h"
 #include <mlt++/Mlt.h>
 
-Clip::Clip(Mlt::Producer &producer) :
+Clip::Clip(Mlt::Producer &producer) : QObject(),
     m_producer(producer)
 {
 }
 
-Clip::Clip(Clip& other)
+Clip::Clip(Clip& other) : QObject()
 {
     m_producer = other.producer();
 }
@@ -66,7 +66,7 @@ void Clip::addEffects(Mlt::Service& service)
             // no easy filter copy: do it by hand!
             Mlt::Filter *copy = new Mlt::Filter(*effect->profile(), effect->get("mlt_service"));
             if (copy && copy->is_valid()) {
-                for (int i = 0; i < effect->count(); ++i) {
+                for (int i = 0; 	i < effect->count(); ++i) {
                     copy->set(effect->get_name(i), effect->get(i));
                 }
                 m_producer.attach(*copy);
@@ -74,6 +74,26 @@ void Clip::addEffects(Mlt::Service& service)
         }
     }
 }
+
+void Clip::replaceEffects(Mlt::Service& service)
+{
+    // remove effects first
+    int ct = 0;
+    Mlt::Filter *filter = m_producer.filter(ct);
+    while (filter) {
+	QString ix = filter->get("kdenlive_ix");
+	if (!ix.isEmpty()) {
+            if (m_producer.detach(*filter) == 0) {
+                delete filter;
+            }
+            else ct++;
+	}
+	else ct++;
+	filter = m_producer.filter(ct);
+    }
+    addEffects(service);
+}
+
 
 QByteArray Clip::xml()
 {
