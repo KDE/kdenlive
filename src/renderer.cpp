@@ -582,7 +582,9 @@ void Render::processFileProperties()
             m_infoMutex.unlock();
             // Special case, we just want the thumbnail for existing producer
             Mlt::Producer *prod = new Mlt::Producer(*m_binController->getBinProducer(info.clipId));
-
+	    if (!prod) {
+		continue;
+	    }
             // Check if we are using GPU accel, then we need to use alternate producer
             if (KdenliveSettings::gpu_accel()) {
                 QString service = prod->get("mlt_service");
@@ -634,7 +636,7 @@ void Render::processFileProperties()
             //path = info.xml.attribute("resource");
             proxyProducer = false;
         }
-        qDebug()<<" / / /CHECKING PRODUCER PATH: "<<path;
+        //qDebug()<<" / / /CHECKING PRODUCER PATH: "<<path;
         QUrl url = QUrl::fromLocalFile(path);
         Mlt::Producer *producer = NULL;
         ClipType type = (ClipType)info.xml.attribute("type").toInt();
@@ -906,16 +908,30 @@ void Render::processFileProperties()
 
             if (vindex > -1) {
                 snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
-                if (producer->get(property))
-                    filePropertyMap["fps"] = producer->get(property);
+		    double fps = producer->get_double(property);
+		    if (fps > 0) {
+			filePropertyMap["fps"] = locale.toString(fps);
+		    }
             }
 
             if (!filePropertyMap.contains("fps")) {
                 if (producer->get_double("meta.media.frame_rate_den") > 0) {
                     filePropertyMap["fps"] = locale.toString(producer->get_double("meta.media.frame_rate_num") / producer->get_double("meta.media.frame_rate_den"));
-                } else filePropertyMap["fps"] = producer->get("source_fps");
+                } else {
+		    double fps = producer->get_double("source_fps");
+		    if (fps > 0) filePropertyMap["fps"] = locale.toString(fps);
+		}
             }
         }
+        if (!filePropertyMap.contains("fps") && type == Unknown) {
+	      // something wrong, maybe audio file with embedded image
+	      QMimeDatabase db;
+	      QString mime = db.mimeTypeForFile(path).name();
+	      if (mime.startsWith("audio")) {
+		  producer->set("video_index", -1);
+		  vindex = -1;
+	      }
+	}
 
         Mlt::Frame *frame = producer->get_frame();
         if (frame && frame->is_valid()) {
@@ -929,7 +945,7 @@ void Render::processFileProperties()
             if (ac > 0) filePropertyMap["channels"] = QString::number(ac);
             if (!filePropertyMap.contains("aspect_ratio")) filePropertyMap["aspect_ratio"] = frame->get("aspect_ratio");
 
-            if (frame->get_int("test_image") == 0) {
+            if (frame->get_int("test_image") == 0 && vindex > 0) {
                 if (mltService == "xml" || mltService == "consumer") {
                     filePropertyMap["type"] = "playlist";
                     metadataPropertyMap["comment"] = QString::fromUtf8(producer->get("title"));
