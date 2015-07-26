@@ -166,6 +166,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     
     connect(m_document->renderer(), SIGNAL(replaceTimelineProducer(QString)), this, SLOT(slotReplaceTimelineProducer(QString)));
     connect(m_document->renderer(), SIGNAL(updateTimelineProducer(QString)), this, SLOT(slotUpdateTimelineProducer(QString)));
+    connect(m_document->renderer(), SIGNAL(rendererPosition(int)), this, SLOT(setCursorPos(int)));
 
     scale(1, 1);
     setAlignment(Qt::AlignLeft | Qt::AlignTop);
@@ -6116,14 +6117,14 @@ void CustomTrackView::slotUpdateAllThumbs()
             if (item && item->isEnabled() && item->clipType() != Color && item->clipType() != Audio) {
                 // Check if we have a cached thumbnail
                 if (item->clipType() == Image || item->clipType() == Text) {
-                    QString thumb = thumbBase + item->getBinHash() + "_0.png";
+                    QString thumb = thumbBase + item->getBinHash() + "#0.png";
                     if (QFile::exists(thumb)) {
                         QPixmap pix(thumb);
                         if (pix.isNull()) QFile::remove(thumb);
                         item->slotSetStartThumb(pix);
                     }
                 } else {
-                    QString startThumb = thumbBase + item->getBinHash() + '_';
+                    QString startThumb = thumbBase + item->getBinHash() + '#';
                     QString endThumb = startThumb;
                     startThumb.append(QString::number((int) item->speedIndependantCropStart().frames(m_document->fps())) + ".png");
                     endThumb.append(QString::number((int) (item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + ".png");

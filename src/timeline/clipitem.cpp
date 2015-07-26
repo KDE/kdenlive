@@ -62,7 +62,7 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
     setZValue(2);
     m_effectList = EffectsList(true);
     FRAME_SIZE = frame_width;
-    qDebug()<<" + + +LOADING CLP on TK: "<<info.track<<" / THEIGHT; "<<KdenliveSettings::trackheight();
+    //qDebug()<<" + + +LOADING CLP on TK: "<<info.track<<" / THEIGHT; "<<KdenliveSettings::trackheight();
     setRect(0, 0, (info.endPos - info.startPos).frames(m_fps) - 0.02, (double) itemHeight());
     setPos(info.startPos.frames(m_fps), (double)(info.track * KdenliveSettings::trackheight()) + 1 + itemOffset());
     // set speed independent info
@@ -108,6 +108,7 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
         m_baseColor = m_binClip->getProducerColorProperty("resource");
     } else if (m_clipType == Image || m_clipType == Text) {
         m_baseColor = QColor(141, 166, 215);
+	m_startPix = m_binClip->thumbnail(rect().height(), frame_width);
         //connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
     } else if (m_clipType == Audio) {
         m_baseColor = QColor(141, 215, 166);
@@ -2053,7 +2054,6 @@ void ClipItem::slotRefreshClip()
 
 bool ClipItem::needsDuplicate() const
 {
-      qDebug()<<"// NEEDS DUP: "<<m_clipType;
       if  (m_clipType != AV && m_clipType != Audio && m_clipType != Playlist) {
 	  return false;
       }
