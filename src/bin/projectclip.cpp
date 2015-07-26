@@ -257,6 +257,11 @@ void ProjectClip::setThumbnail(QImage img)
     bin()->emitItemUpdated(this);
 }
 
+QPixmap ProjectClip::thumbnail(int width, int height)
+{
+    return m_thumbnail.pixmap(width, height);
+}
+
 void ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
 {
     if (!replaceProducer && m_controller) {

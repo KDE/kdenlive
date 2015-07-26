@@ -127,6 +127,7 @@ public:
 
     /** @brief Sets thumbnail for this clip. */
     void setThumbnail(QImage);
+    QPixmap thumbnail(int width, int height);
 
     /** @brief Sets the MLT producer associated with this clip
      *  @param producer The producer

@@ -400,7 +400,6 @@ private slots:
     void processFileProperties();
     /** @brief A clip with multiple video streams was found, ask what to do. */
     void slotMultiStreamProducerFound(const QString &path, QList<int> audio_list, QList<int> video_list, stringMap data);
-    void showFrame(Mlt::Frame *);
     void slotCheckSeeking();
 
 signals:

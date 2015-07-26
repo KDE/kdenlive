@@ -107,7 +107,6 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
         connect(m_binController, SIGNAL(createThumb(QDomElement,QString,int)), this, SLOT(getFileProperties(QDomElement,QString,int)));
         connect(m_binController, SIGNAL(setDocumentNotes(QString)), this, SIGNAL(setDocumentNotes(QString)));
     }
-    //connect(this, SIGNAL(mltFrameReceived(Mlt::Frame*)), this, SLOT(showFrame(Mlt::Frame*)), Qt::UniqueConnection);
 }
 
 Render::~Render()
@@ -1264,39 +1263,6 @@ int Render::setSceneList(QString playlist, int position)
 
     if (m_mltProducer) {
         m_mltProducer->set_speed(0);
-
-        /*Mlt::Service service(m_mltProducer->parent().get_service());
-        service.lock();
-
-        if (service.type() == tractor_type) {
-            Mlt::Tractor tractor(service);
-            Mlt::Field *field = tractor.field();
-            mlt_service nextservice = mlt_service_get_producer(service.get_service());
-            mlt_service nextservicetodisconnect;
-            mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
-            QString mlt_type = mlt_properties_get(properties, "mlt_type");
-            QString resource = mlt_properties_get(properties, "mlt_service");
-            // Delete all transitions
-            while (mlt_type == "transition") {
-                nextservicetodisconnect = nextservice;
-                nextservice = mlt_service_producer(nextservice);
-                mlt_field_disconnect_service(field->get_field(), nextservicetodisconnect);
-                if (nextservice == NULL) break;
-                properties = MLT_SERVICE_PROPERTIES(nextservice);
-                mlt_type = mlt_properties_get(properties, "mlt_type");
-                resource = mlt_properties_get(properties, "mlt_service");
-            }
-
-
-            for (int trackNb = tractor.count() - 1; trackNb >= 0; --trackNb) {
-                Mlt::Producer trackProducer(tractor.track(trackNb));
-                Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-                if (trackPlaylist.type() == playlist_type) trackPlaylist.clear();
-            }
-            delete field;
-        }
-        service.unlock();*/
-
         qDeleteAll(m_slowmotionProducers.values());
         m_slowmotionProducers.clear();
 
@@ -1333,7 +1299,6 @@ int Render::setSceneList(QString playlist, int position)
     }
     blockSignals(false);
     Mlt::Tractor tractor(service);
-    qDebug()<<"******************************  BUILDING PLAYLIST ***********************";
     Mlt::Properties retainList((mlt_properties) tractor.get_data("xml_retain"));
     if (retainList.is_valid() && retainList.get_data(m_binController->binPlaylistId().toUtf8().constData())) {
         Mlt::Playlist playlist((mlt_playlist) retainList.get_data(m_binController->binPlaylistId().toUtf8().constData()));
@@ -1371,15 +1336,14 @@ int Render::setSceneList(QString playlist, int position)
             // pass basic info, the others (folder, etc) will be taken from the producer itself
             info.clipId = id;
             info.replaceProducer = true;
-            qDebug()<<" // / PRODUCER READY FOR: "<<id;
             emit gotFileProperties(info, m_binController->getController(id));
         }
         //delete original;
     }
 
-    return error;
     ////qDebug()<<"// SETSCN LST, POS: "<<position;
-    //if (position != 0) emit rendererPosition(position);
+    if (position != 0) emit rendererPosition(position);
+    return error;
 }
 
 
@@ -1901,29 +1865,6 @@ void Render::checkFrameNumber(int pos)
             m_mltConsumer->set("refresh", 1);
         }
     }
-}
-
-void Render::showFrame(Mlt::Frame* frame)
-{
-    int currentPos = m_mltConsumer->position();
-    if (currentPos == requestedSeekPosition) requestedSeekPosition = SEEK_INACTIVE;
-    emit rendererPosition(currentPos);
-    if (frame->is_valid()) {
-        mlt_image_format format = mlt_image_rgb24;
-        int width = 0;
-        int height = 0;
-        const uchar* image = frame->get_image(format, width, height);
-        QImage qimage(width, height, QImage::Format_RGB888); //Format_ARGB32_Premultiplied);
-        memcpy(qimage.scanLine(0), image, width * height * 3);
-        if (analyseAudio) showAudio(*frame);
-        delete frame;
-        emit showImageSignal(qimage);
-        if (sendFrameForAnalysis) {
-            emit frameUpdated(qimage);
-        }
-    } else delete frame;
-    showFrameSemaphore.release();
-    emit checkSeeking();
 }
 
 void Render::emitFrameUpdated(QImage img)

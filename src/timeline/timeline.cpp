@@ -123,6 +123,8 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
     connect(m_trackview->horizontalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(slotUpdateVerticalScroll(int,int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
     connect(m_trackview, SIGNAL(doTrackLock(int,bool)), this, SLOT(slotChangeTrackLock(int,bool)));
+    
+    m_trackview->slotUpdateAllThumbs();
 
     slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
     slotSetZone(m_doc->zone(), false);
