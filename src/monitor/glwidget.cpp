@@ -566,7 +566,7 @@ void GLWidget::slotSwitchAudioOverlay(bool enable)
     }
 }
 
-int GLWidget::setProducer(Mlt::Producer* producer, bool isMulti)
+int GLWidget::setProducer(Mlt::Producer* producer, bool reconfig)
 {
     int error = 0;//Controller::setProducer(producer, isMulti);
     /*if (m_producer) {
@@ -574,8 +574,9 @@ int GLWidget::setProducer(Mlt::Producer* producer, bool isMulti)
         m_producer = NULL;
     }*/
     m_producer = producer;
+    if (!reconfig) return 0;
     if (!error && producer) {
-        error = reconfigure(isMulti);
+        error = reconfigure();
         if (!error) {
             // The profile display aspect ratio may have changed.
             resizeGL(width(), height());
@@ -668,29 +669,105 @@ void GLWidget::adjustAudioOverlay(bool isAudio)
     }
 }
 
+void GLWidget::stopCapture()
+{
+    if (strcmp(m_consumer->get("mlt_service"), "multi") == 0) {
+	m_consumer->set("refresh", 0);
+        m_consumer->purge();
+        m_consumer->stop();
+    }
+}
 
-int GLWidget::reconfigure(bool isMulti)
+int GLWidget::reconfigureMulti(QString params, QString path, Mlt::Profile *profile)
+{
+    QString serviceName = property("mlt_service").toString();
+    if (!m_consumer || !m_consumer->is_valid() || strcmp(m_consumer->get("mlt_service"), "multi") != 0) {
+	if (m_consumer) {
+	    m_consumer->purge();
+	    m_consumer->stop();
+	    delete m_consumer;
+	}
+	m_consumer = new Mlt::FilteredConsumer(*profile, "multi");
+	        delete m_threadStartEvent;
+        m_threadStartEvent = 0;
+        delete m_threadStopEvent;
+        m_threadStopEvent = 0;
+
+        delete m_threadCreateEvent;
+        delete m_threadJoinEvent;
+        if (m_consumer) {
+            m_threadCreateEvent = m_consumer->listen("consumer-thread-create", this, (mlt_listener) onThreadCreate);
+            m_threadJoinEvent = m_consumer->listen("consumer-thread-join", this, (mlt_listener) onThreadJoin);
+        }
+    }
+    if (m_consumer->is_valid()) {
+	// buid sub consumers
+	//m_consumer->set("mlt_image_format", "yuv422");
+	reloadProfile(*profile);
+	int volume = KdenliveSettings::volume();
+	m_consumer->set("0", serviceName.toUtf8().constData());
+        m_consumer->set("0.mlt_image_format", "yuv422");
+        m_consumer->set("0.terminate_on_pause", 0);
+	//m_consumer->set("0.preview_off", 1);
+	m_consumer->set("0.real_time", 0);
+	m_consumer->set("0.volume", (double)volume / 100);
+	    
+	if (serviceName == "sdl_audio") {
+#ifdef Q_OS_WIN
+	    m_consumer->set("0.audio_buffer", 2048);
+#else
+	    m_consumer->set("0.audio_buffer", 512);
+#endif
+	}
+	    
+	m_consumer->set("1", "avformat");
+	m_consumer->set("1.target", path.toUtf8().constData());
+	//m_consumer->set("1.real_time", -KdenliveSettings::mltthreads());
+	m_consumer->set("terminate_on_pause", 0);
+	m_consumer->set("1.terminate_on_pause", 0);
+	//m_consumer->set("1.terminate_on_pause", 0);// was commented out. restoring it  fixes mantis#3415 - FFmpeg recording freezes
+	QStringList paramList = params.split(' ', QString::SkipEmptyParts);
+	for (int i = 0; i < paramList.count(); ++i) {
+	    QString key = "1." + paramList.at(i).section('=', 0, 0);
+	    QString value = paramList.at(i).section('=', 1, 1);
+	    if (value == "%threads") value = QString::number(QThread::idealThreadCount());
+	    m_consumer->set(key.toUtf8().constData(), value.toUtf8().constData());
+	}	
+	
+        // Connect the producer to the consumer - tell it to "run" later
+	delete m_displayEvent;
+	m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_frame_show);
+        m_consumer->connect(*m_producer);
+	m_consumer->start();
+	return 0;
+    }
+    else return -1;
+}
+
+int GLWidget::reconfigure(Mlt::Profile *profile)
 {
     int error = 0;
     // use SDL for audio, OpenGL for video
     QString serviceName = property("mlt_service").toString();
-    if (!m_consumer || !m_consumer->is_valid()) {
+    if (profile) reloadProfile(*profile);
+    if (!m_consumer || !m_consumer->is_valid() || strcmp(m_consumer->get("mlt_service"),"multi") == 0) {
+	if (m_consumer) {
+	    m_consumer->purge();
+	    m_consumer->stop();
+	    delete m_consumer;
+	}
         if (serviceName.isEmpty()) {
             m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, "sdl_audio");
             if (m_consumer->is_valid())
                 serviceName = "sdl_audio";
             else {
                 serviceName = "rtaudio";
-                delete m_consumer;
-                m_consumer = NULL;
             }
+            delete m_consumer;
+            m_consumer = NULL;
             setProperty("mlt_service", serviceName);
         }
-        if (isMulti)
-            m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, "multi");
-        else if (!m_consumer)
-            m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, serviceName.toLatin1().constData());
-
+        m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, serviceName.toLatin1().constData());
         delete m_threadStartEvent;
         m_threadStartEvent = 0;
         delete m_threadStopEvent;
@@ -707,37 +784,17 @@ int GLWidget::reconfigure(bool isMulti)
         }
     }
     if (m_consumer->is_valid()) {
-        //m_consumer->stop();
         // Connect the producer to the consumer - tell it to "run" later
-        m_consumer->connect(*m_producer);
+        if (m_producer) m_consumer->connect(*m_producer);
         delete m_displayEvent;
         if (!m_glslManager) {
-            m_consumer->set("mlt_image_format", "yuv422");
             // Make an event handler for when a frame's image should be displayed
             m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_frame_show);
+	    m_consumer->set("mlt_image_format", "yuv422");
         } else {
             m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_gl_frame_show);
         }
-        if (isMulti) {
-            m_consumer->set("terminate_on_pause", 0);
-            m_consumer->set("0", serviceName.toLatin1().constData());
-            if (serviceName == "sdl_audio")
-#ifdef Q_OS_WIN
-                m_consumer->set("0.audio_buffer", 2048);
-#else
-                m_consumer->set("0.audio_buffer", 512);
-#endif
-            /*if (!m_monitorProfile->progressive())
-                m_consumer->set("0.progressive", property("progressive").toBool());*/
-            
-            m_consumer->set("0.deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
-            m_consumer->set("0.rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
-            m_consumer->set("0.buffer", 25);
-            m_consumer->set("0.prefill", 1);
-            if (property("keyer").isValid())
-                m_consumer->set("0.keyer", property("keyer").toInt());
-        }
-        else {
+        int volume = KdenliveSettings::volume();
             if (serviceName == "sdl_audio")
 #ifdef Q_OS_WIN
                 m_consumer->set("audio_buffer", 2048);
@@ -746,6 +803,7 @@ int GLWidget::reconfigure(bool isMulti)
 #endif
             /*if (!m_monitorProfile->progressive())
                 m_consumer->set("progressive", property("progressive").toBool());*/
+	    m_consumer->set("volume", (double)volume / 100);
             m_consumer->set("progressive", 1);
             m_consumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
             m_consumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
@@ -760,16 +818,14 @@ int GLWidget::reconfigure(bool isMulti)
             }
             /*if (property("keyer").isValid())
                 m_consumer->set("keyer", property("keyer").toInt());*/
-        }
-        int volume = KdenliveSettings::volume();
-        m_consumer->set("volume", (double)volume / 100);
+        
     
         if (m_glslManager) {
             if (!m_threadStartEvent)
                 m_threadStartEvent = m_consumer->listen("consumer-thread-started", this, (mlt_listener) onThreadStarted);
             if (!m_threadStopEvent)
                 m_threadStopEvent = m_consumer->listen("consumer-thread-stopped", this, (mlt_listener) onThreadStopped);
-            if (!serviceName.startsWith("decklink") && !isMulti)
+            if (!serviceName.startsWith("decklink"))
                 m_consumer->set("mlt_image_format", "glsl");
         } else {
             emit started();
@@ -828,6 +884,21 @@ void GLWidget::resetProfile(MltVideoProfile profile)
     m_monitorProfile->set_sample_aspect(profile.sample_aspect_num, profile.sample_aspect_den);
     m_monitorProfile->set_display_aspect(profile.display_aspect_num, profile.display_aspect_den);
     m_monitorProfile->set_explicit(true);
+}
+
+void GLWidget::reloadProfile(Mlt::Profile &profile)
+{
+    m_monitorProfile->get_profile()->description = qstrdup(profile.description());
+    m_monitorProfile->set_colorspace(profile.colorspace());
+    m_monitorProfile->set_frame_rate(profile.frame_rate_num(), profile.frame_rate_den());
+    m_monitorProfile->set_height(profile.height());
+    m_monitorProfile->set_width(profile.width());
+    m_monitorProfile->set_progressive(profile.progressive());
+    m_monitorProfile->set_sample_aspect(profile.sample_aspect_num(), profile.sample_aspect_den());
+    m_monitorProfile->set_display_aspect(profile.display_aspect_num(), profile.display_aspect_den());
+    m_monitorProfile->set_explicit(true);
+    // The profile display aspect ratio may have changed.
+    resizeGL(width(), height());
 }
 
 QSize GLWidget::profileSize() const
@@ -905,7 +976,7 @@ Mlt::Consumer *GLWidget::consumer()
 
 void GLWidget::updateGamma()
 {
-    reconfigure(false);
+    reconfigure();
 }
 
 void GLWidget::updateTexture(GLuint yName, GLuint uName, GLuint vName)

@@ -1118,6 +1118,39 @@ int Render::setMonitorProducer(const QString &id, int position)
     return setProducer(prod, position, true);
 }
 
+int Render::updateProducer(Mlt::Producer *producer)
+{
+    if (m_mltProducer) {
+        if (strcmp(m_mltProducer->get("resource"), "<tractor>") == 0) {
+            // We need to make some cleanup
+            Mlt::Tractor trac(*m_mltProducer);
+            for (int i = 0; i < trac.count(); i++) {
+                trac.set_track(*m_blackClip, i);
+            }
+        }
+        delete m_mltProducer;
+        m_mltProducer = NULL;
+    }
+    if (m_mltConsumer) {
+        if (!m_mltConsumer->is_stopped()) {
+            m_mltConsumer->stop();
+        }
+    }
+    if (!producer || !producer->is_valid()) {
+        if (producer) delete producer;
+        producer = m_blackClip->cut(0, 1);
+        producer->set("id", "black");
+	return -1;
+    }
+    m_fps = producer->get_fps();
+    m_mltProducer = producer;
+    if (m_qmlView) {
+        m_qmlView->setProducer(producer, false);
+        m_mltConsumer = m_qmlView->consumer();
+    }
+    return 0;
+}
+
 int Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
 {
     m_refreshTimer.stop();

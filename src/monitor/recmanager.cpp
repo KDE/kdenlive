@@ -52,6 +52,13 @@ RecManager::RecManager(int iconSize, Monitor *parent) :
     m_recAction = m_recToolbar->addAction(QIcon::fromTheme("media-record"), i18n("Record"));
     m_recAction->setCheckable(true);
     connect(m_recAction, &QAction::toggled, this, &RecManager::slotRecord);
+    
+    m_recVideo = new QCheckBox(i18n("Video"));
+    m_recAudio = new QCheckBox(i18n("Audio"));
+    m_recToolbar->addWidget(m_recVideo);
+    m_recToolbar->addWidget(m_recAudio);
+    m_recAudio->setChecked(KdenliveSettings::v4l_captureaudio());
+    m_recVideo->setChecked(KdenliveSettings::v4l_capturevideo());
 
     // Check number of monitors for FFmpeg screen capture
     int screens = QApplication::desktop()->screenCount();
@@ -68,8 +75,11 @@ RecManager::RecManager(int iconSize, Monitor *parent) :
     spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_recToolbar->addWidget(spacer);
     m_device_selector = new QComboBox(parent);
-    m_device_selector->addItems(QStringList() << i18n("Firewire") << i18n("Webcam") << i18n("Screen Grab") << i18n("Blackmagic Decklink"));
-    m_device_selector->setCurrentIndex(KdenliveSettings::defaultcapture());
+    //TODO: re-implement firewire / decklink capture
+    //m_device_selector->addItems(QStringList() << i18n("Firewire") << i18n("Webcam") << i18n("Screen Grab") << i18n("Blackmagic Decklink"));
+    m_device_selector->addItem(i18n("Webcam"), Video4Linux); 
+    m_device_selector->addItem(i18n("Screen Grab"), ScreenGrab);
+    m_device_selector->setCurrentIndex(m_device_selector->findData(KdenliveSettings::defaultcapture()));
     connect(m_device_selector, SIGNAL(currentIndexChanged(int)), this, SLOT(slotVideoDeviceChanged(int)));
     m_recToolbar->addWidget(m_device_selector);
     QAction *configureRec = m_recToolbar->addAction(QIcon::fromTheme("configure"), i18n("Configure Recording"));
@@ -79,7 +89,7 @@ RecManager::RecManager(int iconSize, Monitor *parent) :
     m_switchRec->setCheckable(true);
     connect(m_switchRec, &QAction::toggled, m_monitor, &Monitor::slotSwitchRec);
     m_recToolbar->setVisible(false);
-    slotVideoDeviceChanged(m_device_selector->currentIndex());
+    slotVideoDeviceChanged();
 }
 
 RecManager::~RecManager()
@@ -88,8 +98,7 @@ RecManager::~RecManager()
 
 void RecManager::showRecConfig()
 {
-    qDebug()<<"+ + +SHOW CONFIG + + +";
-    m_monitor->showConfigDialog(4, m_device_selector->currentIndex());
+    m_monitor->showConfigDialog(4, m_device_selector->currentData().toInt());
 }
 
 QToolBar *RecManager::toolbar() const
@@ -109,15 +118,83 @@ void RecManager::stopCapture()
     }
 }
 
+void RecManager::stop()
+{
+      stopCapture();
+      toolbar()->setVisible(false); 
+      m_switchRec->setChecked(false);
+}
+
 
 void RecManager::slotRecord(bool record)
 {
-    if (!record) {
+    if (m_device_selector->currentData().toInt() == Video4Linux) {
+	if (record) {
+	    QDir captureFolder;
+	    if (KdenliveSettings::capturetoprojectfolder()) captureFolder = QDir(m_monitor->projectFolder());
+	    else captureFolder = QDir(KdenliveSettings::capturefolder());
+	    QString extension;
+	    if (!m_recVideo->isChecked()) extension = "wav";
+            else extension = KdenliveSettings::v4l_extension();
+	    QString path = captureFolder.absoluteFilePath("capture0000." + extension);
+	    int i = 1;
+	    while (QFile::exists(path)) {
+		QString num = QString::number(i).rightJustified(4, '0', false);
+		path = captureFolder.absoluteFilePath("capture" + num + '.' + extension);
+		++i;
+	    }
+	     
+	    QString v4lparameters = KdenliveSettings::v4l_parameters();
+
+            // TODO: when recording audio only, allow param configuration?
+            if (!m_recVideo->isChecked()) {
+		  v4lparameters.clear();
+		  
+	    }
+
+            // Add alsa audio capture
+            if (!m_recAudio->isChecked()) {
+                // if we do not want audio, make sure that we don't have audio encoding parameters
+                // this is required otherwise the MLT avformat consumer will not close properly
+                if (v4lparameters.contains("acodec")) {
+                    QString endParam = v4lparameters.section("acodec", 1);
+                    int vcodec = endParam.indexOf(" vcodec");
+                    int format = endParam.indexOf(" f=");
+                    int cutPosition = -1;
+                    if (vcodec > -1) {
+                        if (format  > -1) {
+                            cutPosition = qMin(vcodec, format);
+                        }
+                        else cutPosition = vcodec;
+                    }
+                    else if (format  > -1) {
+                        cutPosition = format;
+                    }
+                    else {
+                        // nothing interesting in end params
+                        endParam.clear();
+                    }
+                    if (cutPosition > -1) {
+                        endParam.remove(0, cutPosition);
+                    }
+                    v4lparameters = QString(v4lparameters.section("acodec", 0, 0) + "an=1 " + endParam).simplified();
+                }
+            }
+	    m_monitor->startCapture(v4lparameters, path, createV4lProducer(), true);
+	    m_captureFile = QUrl::fromLocalFile(path);
+	}
+	else {
+	    m_monitor->stopCapture();
+	    emit addClipToProject(m_captureFile);
+	}
+	return;
+    }
+     if (!record) {
         if (!m_captureProcess) return;
         m_captureProcess->terminate();
         QTimer::singleShot(1500, m_captureProcess, SLOT(kill()));
         return;
-    }
+    }   
     if (m_captureProcess) return;
     m_recError.clear();
     m_captureProcess = new QProcess;
@@ -207,9 +284,12 @@ void RecManager::slotReadProcessInfo()
 }
 
 
-void RecManager::slotVideoDeviceChanged(int ix)
+void RecManager::slotVideoDeviceChanged(int)
 {
-    switch (ix) {
+    int currentItem = m_device_selector->currentData().toInt();
+    qDebug()<<"// changed to: "<<currentItem;
+    KdenliveSettings::setDefaultcapture(currentItem);
+    switch (currentItem) {
       case Video4Linux:
         m_playAction->setEnabled(true);
         break;
@@ -245,14 +325,52 @@ void RecManager::slotVideoDeviceChanged(int ix)
     */
 }
 
-void RecManager::slotPreview(bool record)
+Mlt::Producer *RecManager::createV4lProducer()
 {
-    //TODO:
-    if (m_device_selector->currentIndex() == Video4Linux) {
-        QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
-        MltVideoProfile profile = ProfilesDialog::getVideoProfile(path);
-        QString playlist =QString("video4linux2:%1?width:%2&amp;height:%3&amp;frame_rate:%4").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den);
-        m_monitor->updateClipProducer(playlist);
+    QString profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
+    Mlt::Profile *vidProfile = new Mlt::Profile(profilePath.toUtf8().constData());
+    Mlt::Producer *prod = NULL;
+    if (m_recVideo->isChecked()) {
+	prod = new Mlt::Producer(*vidProfile, QString("video4linux2:%1").arg(KdenliveSettings::video4vdevice()).toUtf8().constData());
+	prod->set("width", vidProfile->width());
+	prod->set("height", vidProfile->height());
+	prod->set("framerate", vidProfile->fps());
+	/*p->set("standard", ui->v4lStandardCombo->currentText().toLatin1().constData());
+	p->set("channel", ui->v4lChannelSpinBox->value());
+	p->set("audio_ix", ui->v4lAudioComboBox->currentIndex());*/
+	prod->set("force_seekable", 0);
+    }
+    if (m_recAudio->isChecked()) {
+	// Add audio track
+	Mlt::Producer* audio = new Mlt::Producer(*vidProfile, QString("alsa:%1?channels=%2").arg(KdenliveSettings::v4l_alsadevicename()).arg(KdenliveSettings::alsachannels()).toUtf8().constData());
+	audio->set("mlt_service", "avformat-novalidate");
+	audio->set("audio_index", 0);
+	audio->set("video_index", -1);
+	if (prod) {
+	    Mlt::Tractor* tractor = new Mlt::Tractor(*vidProfile);
+	    tractor->set_track(*prod, 0);
+	    delete prod;
+	    tractor->set_track(*audio, 1);
+	    delete audio;
+	    prod = new Mlt::Producer(tractor->get_producer());
+	    delete tractor;
+	}
+	else prod = audio;
+    }
+    return prod;
+}
+
+
+void RecManager::slotPreview(bool preview)
+{
+    if (m_device_selector->currentData().toInt() == Video4Linux) {
+	if (preview) {
+	    Mlt::Producer *prod = createV4lProducer();
+	    m_monitor->updateClipProducer(prod);
+	}
+	else {
+	    m_monitor->openClip(NULL);
+	}        
     }
       
       
