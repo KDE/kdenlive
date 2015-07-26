@@ -85,6 +85,8 @@ public:
     double fps() const;
     /** @brief Get url for the clip's thumbnail */
     QString getMarkerThumb(GenTime pos);
+    /** @brief Get current project's folder */
+    const QString projectFolder() const;
     /** @brief Get the project's profile info*/
     ProfileInfo profileInfo() const;
     /** @brief Get the project's Mlt profile */
@@ -99,6 +101,8 @@ public:
     void switchDropFrames(bool drop);
     void updateMonitorGamma();
     void mute(bool, bool updateIconOnly = false);
+    bool startCapture(const QString &params, const QString &path, Mlt::Producer *p, bool livePreview);
+    bool stopCapture();
 
 protected:
     void mousePressEvent(QMouseEvent * event);

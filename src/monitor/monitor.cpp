@@ -1010,7 +1010,8 @@ void Monitor::slotLoopClip()
 void Monitor::updateClipProducer(Mlt::Producer *prod)
 {
     if (render == NULL) return;
-    render->setProducer(prod, render->seekFramePosition(), true);
+    render->setProducer(prod, -1, false);
+    prod->set_speed(1.0);
 }
 
 void Monitor::updateClipProducer(const QString &playlist)
@@ -1030,6 +1031,10 @@ void Monitor::openClip(ClipController *controller)
         loadMasterQml();
     }
     if (controller) {
+	if (m_recManager->toolbar()->isVisible()) {
+	      // we are in record mode, don't display clip
+	      return;
+	}
         updateMarkers();
         render->setProducer(m_controller->masterProducer(), -1, isActive());
     }
@@ -1360,6 +1365,11 @@ QString Monitor::getMarkerThumb(GenTime pos)
     return QString();
 }
 
+const QString Monitor::projectFolder() const
+{
+      return m_monitorManager->getProjectFolder();
+}
+
 void Monitor::setPalette ( const QPalette & p)
 {
     QWidget::setPalette(p);
@@ -1482,9 +1492,23 @@ void Monitor::slotSwitchRec(bool enable)
         m_toolbar->setVisible(false);
         m_recManager->toolbar()->setVisible(true);
     }
-    else {
-        m_recManager->stopCapture();
-        m_recManager->toolbar()->setVisible(false);
+    else if (m_recManager->toolbar()->isVisible()) {
+        m_recManager->stop();
         m_toolbar->setVisible(true);
     }
+}
+
+bool Monitor::startCapture(const QString &params, const QString &path, Mlt::Producer *p, bool livePreview)
+{
+    render->updateProducer(p);
+    m_glMonitor->reconfigureMulti(params, path, p->profile());
+    return true;
+}
+
+bool Monitor::stopCapture()
+{
+    m_glMonitor->stopCapture();
+    openClip(NULL);
+    m_glMonitor->reconfigure(m_monitorManager->profile());
+    return true;
 }

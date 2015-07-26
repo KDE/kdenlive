@@ -37,7 +37,11 @@ class Monitor;
 class QAction;
 class QToolBar;
 class QComboBox;
+class QCheckBox;
 
+namespace Mlt {
+    class Producer;
+}
 
 class RecManager : public QObject
 {
@@ -56,6 +60,8 @@ public:
     QToolBar *toolbar() const;
     void stopCapture();
     QAction *switchAction() const;
+    /** @brief: stop capture and hide rec panel **/
+    void stop();
 
 private:
     Monitor *m_monitor;
@@ -69,6 +75,9 @@ private:
     QToolBar *m_recToolbar;
     QComboBox *m_screenCombo;
     QComboBox *m_device_selector;
+    QCheckBox *m_recVideo;
+    QCheckBox *m_recAudio;
+    Mlt::Producer *createV4lProducer();
 
 private slots:
     void slotRecord(bool record);
@@ -76,7 +85,7 @@ private slots:
     void slotProcessStatus(QProcess::ProcessState status);
     void slotReadProcessInfo();
     void showRecConfig();
-    void slotVideoDeviceChanged(int ix);
+    void slotVideoDeviceChanged(int ix = -1);
 
 signals:
     void addClipToProject(QUrl);

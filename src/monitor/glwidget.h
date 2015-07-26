@@ -62,8 +62,11 @@ public:
     void createThread(RenderThread** thread, thread_function_t function, void* data);
     void startGlsl();
     void stopGlsl();
-    int setProducer(Mlt::Producer*, bool isMulti = false);
-    int reconfigure(bool isMulti);
+    /** @brief Update producer, should ONLY be called from renderer.cpp */
+    int setProducer(Mlt::Producer*, bool reconfig = true);
+    int reconfigureMulti(QString params, QString path, Mlt::Profile *profile);
+    void stopCapture();
+    int reconfigure(Mlt::Profile *profile = NULL);
     void clearFrameRenderer();
 
     int displayWidth() const { return m_rect.width(); }
@@ -84,6 +87,7 @@ public:
     void updateGamma();
     Mlt::Profile *profile();
     void resetProfile(MltVideoProfile profile);
+    void reloadProfile(Mlt::Profile &profile);
 
 protected:
     void mouseReleaseEvent(QMouseEvent * event);
