@@ -945,7 +945,7 @@ void Render::processFileProperties()
             if (ac > 0) filePropertyMap["channels"] = QString::number(ac);
             if (!filePropertyMap.contains("aspect_ratio")) filePropertyMap["aspect_ratio"] = frame->get("aspect_ratio");
 
-            if (frame->get_int("test_image") == 0 && vindex > 0) {
+            if (frame->get_int("test_image") == 0 && vindex != -1) {
                 if (mltService == "xml" || mltService == "consumer") {
                     filePropertyMap["type"] = "playlist";
                     metadataPropertyMap["comment"] = QString::fromUtf8(producer->get("title"));
