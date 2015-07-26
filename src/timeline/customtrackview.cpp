@@ -3057,6 +3057,7 @@ void CustomTrackView::removeTrack(int ix)
     m_document->renderer()->mltDeleteTrack(m_timeline->tracksCount() - ix);
     reloadTimeline();
     return;
+    /*
     double startY = ix * (m_tracksHeight + 1) + m_tracksHeight / 2;
     QRectF r(0, startY, sceneRect().width(), sceneRect().height() - startY);
     QList<QGraphicsItem *> selection = m_scene->items(r);
@@ -3111,6 +3112,7 @@ void CustomTrackView::removeTrack(int ix)
 
     updateTrackNames(ix, false);
     //QTimer::singleShot(500, this, SIGNAL(trackHeightChanged()));
+    */
 }
 
 void CustomTrackView::configTracks(const QList < TrackInfo > &trackInfos)

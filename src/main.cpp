@@ -94,8 +94,6 @@ int main(int argc, char *argv[])
     // Register DBus service
     KDBusService programDBusService;
 
-    MainWindow* window = 0;
-
     // see if we are starting with session management
     if (qApp->isSessionRestored()){
 	  int n = 1;
@@ -114,7 +112,7 @@ int main(int argc, char *argv[])
             QUrl startup = QUrl::fromLocalFile(currentPath.endsWith(QDir::separator()) ? currentPath : currentPath + QDir::separator());
             url = startup.resolved(url);
         }
-        window = new MainWindow(mltPath, url, clipsToLoad);
+        MainWindow* window = new MainWindow(mltPath, url, clipsToLoad);
         window->show();
     }
     int result = app.exec();

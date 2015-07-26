@@ -49,7 +49,7 @@ class SharedFrame
 {
 public:
     SharedFrame();
-    SharedFrame(Mlt::Frame& frame);
+    explicit SharedFrame(Mlt::Frame& frame);
     SharedFrame(const SharedFrame& other);
     ~SharedFrame();
     SharedFrame& operator=(const SharedFrame& other);

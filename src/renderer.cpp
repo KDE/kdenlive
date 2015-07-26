@@ -3803,7 +3803,7 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
 void Render::mltDeleteTrack(int ix)
 {
     // Track add / delete was only added recently in MLT (pre 0.9.8 release).
-#if (LIBMLT_VERSION_INT < 2312)
+#if (LIBMLT_VERSION_INT < 0x0908)
     qDebug()<<"Track insertion requires a more recent MLT version";
     return;
 #else
@@ -3818,8 +3818,9 @@ void Render::mltDeleteTrack(int ix)
     trac.remove_track(ix);
     service.unlock();
     blockSignals(false);
-    //TODO: adjust transitions tracks?
     return;
+    //TODO: adjust transitions tracks?
+    /*
     QDomDocument doc;
     doc.setContent(sceneList(), false);
     int tracksCount = doc.elementsByTagName("track").count() - 1;
@@ -3860,6 +3861,7 @@ void Render::mltDeleteTrack(int ix)
     tractor.removeChild(track);
     ////qDebug() << "/////////// RESULT SCENE: \n" << doc.toString();
     reloadSceneList(doc.toString(), m_mltConsumer->position());
+    */
 #endif
 }
 

@@ -64,7 +64,7 @@ class BinMessageWidget: public KMessageWidget
 {
     Q_OBJECT
 public:
-    BinMessageWidget(QWidget *parent = 0);
+    explicit BinMessageWidget(QWidget *parent = 0);
     BinMessageWidget(const QString &text, QWidget *parent = 0);
 
 protected:
@@ -79,7 +79,7 @@ class SmallJobLabel: public QPushButton
 {
     Q_OBJECT
 public:
-    SmallJobLabel(QWidget *parent = 0);
+    explicit SmallJobLabel(QWidget *parent = 0);
     static const QString getStyleSheet(const QPalette &p);
     void setAction(QAction *action);
 private:
@@ -109,7 +109,7 @@ private slots:
 class BinItemDelegate: public QStyledItemDelegate
 {
 public:
-    BinItemDelegate(QObject* parent = 0): QStyledItemDelegate(parent) {
+    explicit BinItemDelegate(QObject* parent = 0): QStyledItemDelegate(parent) {
     }
 
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -268,7 +268,7 @@ class EventEater : public QObject
 {
     Q_OBJECT
 public:
-    EventEater(QObject *parent = 0);
+    explicit EventEater(QObject *parent = 0);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);

@@ -154,7 +154,6 @@ void ClipManager::stopThumbs(const QString &id)
 void ClipManager::slotGetThumbs()
 {
     QMap<QString, int>::const_iterator i;
-    int thumbType = 0; // 0 = timeline thumb, 1 = project clip zone thumb, 2 = clip properties thumb
     
     while (!m_requestedThumbs.isEmpty() && !m_abortThumb) {
         m_thumbsMutex.lock();
@@ -162,6 +161,7 @@ void ClipManager::slotGetThumbs()
         m_processingThumbId = i.key();
         QList<int> values = m_requestedThumbs.values(m_processingThumbId);
         m_requestedThumbs.remove(m_processingThumbId);
+        int thumbType = 0; // 0 = timeline thumb, 1 = project clip zone thumb, 2 = clip properties thumb
         if (m_processingThumbId.startsWith(QLatin1String("?"))) {
             // if id starts with ?, it means the request comes from a clip property widget
             thumbType = 2;

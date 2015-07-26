@@ -1043,6 +1043,7 @@ void ProjectList::slotRemoveClip()
 void ProjectList::updateButtons() const
 {
     return;
+    /* TODO
     if (m_listView->topLevelItemCount() == 0) {
         m_deleteButton->defaultAction()->setEnabled(false);
         m_editButton->defaultAction()->setEnabled(false);
@@ -1069,6 +1070,7 @@ void ProjectList::updateButtons() const
     m_transcodeAction->setEnabled(false);
     m_clipsActionsMenu->setEnabled(false);
     if (m_proxyAction) m_proxyAction->setEnabled(false);
+    */
 }
 
 void ProjectList::selectItemById(const QString &clipId)

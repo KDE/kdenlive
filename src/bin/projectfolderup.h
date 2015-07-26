@@ -43,7 +43,7 @@ public:
      * @param description element describing the folder and its children
      * @param parent parent folder
      */
-    ProjectFolderUp(AbstractProjectItem* parent);
+    explicit ProjectFolderUp(AbstractProjectItem* parent);
 
 
     ~ProjectFolderUp();

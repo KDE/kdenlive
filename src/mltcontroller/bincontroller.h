@@ -49,7 +49,7 @@ class BinController : public QObject
     Q_OBJECT
 
 public:
-    BinController(QString profileName = QString());
+    explicit BinController(QString profileName = QString());
     virtual ~BinController();
     
     /** @brief Returns the MLT profile used everywhere in the project. */

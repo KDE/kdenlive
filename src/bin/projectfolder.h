@@ -47,7 +47,7 @@ public:
     ProjectFolder(const QString &id, const QString &name, ProjectFolder* parent = 0);
 
     /** @brief Creates an empty root folder. */
-    ProjectFolder(Bin *bin);
+    explicit ProjectFolder(Bin *bin);
 
     ~ProjectFolder();
 

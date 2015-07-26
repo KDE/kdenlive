@@ -35,7 +35,7 @@ class KisCurveWidget::Private
 
 
 public:
-    Private(KisCurveWidget *parent);
+    explicit Private(KisCurveWidget *parent);
     virtual ~Private();
 
     /* Dragging variables */

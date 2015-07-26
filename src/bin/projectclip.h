@@ -192,8 +192,8 @@ public:
     bool deleteClipMarkers(QUndoCommand *groupCommand);
     void addMarkers(QList <CommentedTime> &markers);
     /** @brief Add an effect to bin clip. */
-    void addEffect(const ProfileInfo pInfo, QDomElement &effect);
-    void removeEffect(const ProfileInfo pInfo, int ix);
+    void addEffect(const ProfileInfo &pInfo, QDomElement &effect);
+    void removeEffect(const ProfileInfo &pInfo, int ix);
     /** @brief Create audio thumbnail for this clip. */
     void createAudioThumbs();
     /** @brief Abort audio thumbnail for this clip. */
@@ -211,9 +211,6 @@ public slots:
     /** @brief Extract image thumbnails for clip's subclips. */
     void slotExtractSubImage(QList <int> frames);
     void slotCreateAudioThumbs();
-
-protected:
-    bool m_hasLimitedDuration;
 
 private:
     //TODO: clip markers

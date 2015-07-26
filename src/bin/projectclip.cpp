@@ -154,9 +154,8 @@ ProjectFolder* ProjectClip::folder(const QString &id)
 
 ProjectSubClip* ProjectClip::getSubClip(int in, int out)
 {
-    ProjectSubClip *clip;
     for (int i = 0; i < count(); ++i) {
-        clip = static_cast<ProjectSubClip *>(at(i))->subClip(in, out);
+        ProjectSubClip *clip = static_cast<ProjectSubClip *>(at(i))->subClip(in, out);
         if (clip) {
             return clip;
         }
@@ -671,14 +670,14 @@ void ProjectClip::addMarkers(QList <CommentedTime> &markers)
     emit refreshClipDisplay();
 }
 
-void ProjectClip::addEffect(const ProfileInfo pInfo, QDomElement &effect)
+void ProjectClip::addEffect(const ProfileInfo &pInfo, QDomElement &effect)
 {
     m_controller->addEffect(pInfo, effect);
     bin()->editMasterEffect(m_controller);
     bin()->emitItemUpdated(this);
 }
 
-void ProjectClip::removeEffect(const ProfileInfo pInfo, int ix)
+void ProjectClip::removeEffect(const ProfileInfo &pInfo, int ix)
 {
     m_controller->removeEffect(pInfo, ix);
     bin()->editMasterEffect(m_controller);
@@ -756,9 +755,8 @@ void ProjectClip::slotExtractSubImage(QList <int> frames)
         QString path = thumbFolder.absoluteFilePath(hash() + "#" + QString::number(pos) + ".png");
         QImage img(path);
         if (!img.isNull()) {
-            ProjectSubClip *clip;
             for (int i = 0; i < count(); ++i) {
-                clip = static_cast<ProjectSubClip *>(at(i));
+                ProjectSubClip *clip = static_cast<ProjectSubClip *>(at(i));
                 if (clip && clip->zone().x() == pos) {
                     clip->setThumbnail(img);
                 }
@@ -774,9 +772,8 @@ void ProjectClip::slotExtractSubImage(QList <int> frames)
             QImage img = KThumb::getFrame(frame, fullWidth, 150);
             if (!img.isNull()) {
                 img.save(path);
-                ProjectSubClip *clip;
                 for (int i = 0; i < count(); ++i) {
-                    clip = static_cast<ProjectSubClip *>(at(i));
+                    ProjectSubClip *clip = static_cast<ProjectSubClip *>(at(i));
                     if (clip && clip->zone().x() == pos) {
                         clip->setThumbnail(img);
                     }
