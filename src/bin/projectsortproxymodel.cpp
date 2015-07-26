@@ -114,10 +114,17 @@ void ProjectSortProxyModel::slotSetSearchString(const QString &str)
 void ProjectSortProxyModel::onCurrentRowChanged(const QItemSelection& current, const QItemSelection& previous)
 {
     Q_UNUSED(previous)
-    QModelIndex id;
     QModelIndexList indexes = current.indexes();
-    if (!indexes.isEmpty()) id = indexes.first();
-    emit selectModel(id);
+    if (indexes.isEmpty()) {
+	emit selectModel(QModelIndex());
+	return;
+    }
+    for (int ix = 0; ix < indexes.count(); ix++) {
+	if (indexes.at(ix).column() == 0) {
+	    emit selectModel(indexes.at(ix));
+	    break;
+	}
+    }
 }
 
 void ProjectSortProxyModel::slotDataChanged(const QModelIndex &ix1, const QModelIndex &ix2)
