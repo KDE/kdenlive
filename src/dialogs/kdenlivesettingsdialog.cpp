@@ -31,6 +31,9 @@
 #include "klocalizedstring.h"
 #include <KMessageBox>
 #include <KLineEdit>
+#include <KService>
+#include <KRun>
+#include <KOpenWithDialog>
 #include <QDebug>
 #include <QDir>
 #include <QTimer>
@@ -547,37 +550,37 @@ void KdenliveSettingsDialog::showPage(int page, int option)
 
 void KdenliveSettingsDialog::slotEditVideoApplication()
 {
-/*    KService::Ptr service;
+    KService::Ptr service;
     QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default video player"), m_configEnv.kcfg_defaultplayerapp->text(), this);
     if (dlg->exec() == QDialog::Accepted) {
         service = dlg->service();
-        m_configEnv.kcfg_defaultplayerapp->setText(service->exec());
+        m_configEnv.kcfg_defaultplayerapp->setText(KRun::binaryName(service->exec(), false));
     }
 
-    delete dlg;*/
+    delete dlg;
 }
 
 void KdenliveSettingsDialog::slotEditAudioApplication()
 {
-/*    KService::Ptr service;
+    KService::Ptr service;
     QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default audio editor"), m_configEnv.kcfg_defaultaudioapp->text(), this);
     if (dlg->exec() == QDialog::Accepted) {
         service = dlg->service();
-        m_configEnv.kcfg_defaultaudioapp->setText(service->exec());
+        m_configEnv.kcfg_defaultaudioapp->setText(KRun::binaryName(service->exec(), false));
     }
 
-    delete dlg;*/
+    delete dlg;
 }
 
 void KdenliveSettingsDialog::slotEditImageApplication()
 {
-/*    KService::Ptr service;
+    KService::Ptr service;
     QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default image editor"), m_configEnv.kcfg_defaultimageapp->text(), this);
     if (dlg->exec() == QDialog::Accepted) {
         service = dlg->service();
-        m_configEnv.kcfg_defaultimageapp->setText(service->exec());
+        m_configEnv.kcfg_defaultimageapp->setText(KRun::binaryName(service->exec(), false));
     }
-    delete dlg;*/
+    delete dlg;
 }
 
 void KdenliveSettingsDialog::slotCheckShuttle(int state)
