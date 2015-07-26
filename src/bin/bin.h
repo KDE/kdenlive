@@ -474,6 +474,8 @@ private slots:
     void slotResetInfoMessage();
     /** @brief Show dialog prompting for removal of invalid clips. */
     void slotQueryRemoval(const QString &id, QUrl url);
+    /** @brief Request display of current clip in monitor. */
+    void slotOpenCurrent();
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img, bool fromFile = false);

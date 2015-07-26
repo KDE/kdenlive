@@ -542,6 +542,7 @@ void Bin::setMonitor(Monitor *monitor)
 {
     m_monitor = monitor;
     connect(m_monitor, SIGNAL(addClipToProject(QUrl)), this, SLOT(slotAddClipToProject(QUrl)));
+    connect(m_monitor, SIGNAL(refreshCurrentClip()), this, SLOT(slotOpenCurrent()));
     connect(m_eventEater, SIGNAL(focusClipMonitor()), m_monitor, SLOT(slotActivateMonitor()), Qt::UniqueConnection);
 }
 
@@ -909,6 +910,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
         // Hide properties panel
         m_collapser->collapse();
         showClipProperties(NULL);
+	emit masterClipSelected(NULL, m_monitor);
 	// Display black bg in clip monitor
 	m_monitor->openClip(NULL);
     }
@@ -1383,6 +1385,12 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
         }
     }
     emit producerReady(info.clipId);
+}
+
+void Bin::slotOpenCurrent()
+{
+    ProjectClip *currentItem = getFirstSelectedClip();
+    if (currentItem) m_monitor->openClip(currentItem->controller()); 
 }
 
 void Bin::openProducer(ClipController *controller)

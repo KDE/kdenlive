@@ -1010,6 +1010,7 @@ void Monitor::slotLoopClip()
 void Monitor::updateClipProducer(Mlt::Producer *prod)
 {
     if (render == NULL) return;
+    m_controller == NULL;
     render->setProducer(prod, -1, false);
     prod->set_speed(1.0);
 }
@@ -1495,11 +1496,13 @@ void Monitor::slotSwitchRec(bool enable)
     else if (m_recManager->toolbar()->isVisible()) {
         m_recManager->stop();
         m_toolbar->setVisible(true);
+	emit refreshCurrentClip();
     }
 }
 
 bool Monitor::startCapture(const QString &params, const QString &path, Mlt::Producer *p, bool livePreview)
 {
+    m_controller = NULL;
     render->updateProducer(p);
     m_glMonitor->reconfigureMulti(params, path, p->profile());
     return true;

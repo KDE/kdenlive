@@ -150,7 +150,7 @@ void EffectStackView2::slotMasterClipItemSelected(ClipController* c, Monitor *m)
 {
     if (c && c == m_masterclipref) {
     } else {
-        if (!c->hasEffects() && m_status != MASTER_CLIP) {
+        if (c && !c->hasEffects() && m_status != MASTER_CLIP) {
             return;
         }
         m_masterclipref = c;

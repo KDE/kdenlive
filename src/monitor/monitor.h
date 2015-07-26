@@ -261,6 +261,8 @@ signals:
     void seekToKeyframe(int);
     void addClipToProject(QUrl);
     void showConfigDialog(int,int);
+    /** @brief Request display of current bin clip. */
+    void refreshCurrentClip();
 };
 
 #endif
