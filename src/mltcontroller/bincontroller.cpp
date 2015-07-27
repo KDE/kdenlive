@@ -74,7 +74,7 @@ void BinController::loadExtraProducer(const QString &id, Mlt::Producer *prod)
     m_extraClipList.insert(id, prod);
 }
 
-void BinController::initializeBin(Mlt::Playlist playlist)
+void BinController::initializeBin(Mlt::Playlist playlist, ProfileInfo info)
 {
     // Load folders
     Mlt::Properties folderProperties;
@@ -113,11 +113,11 @@ void BinController::initializeBin(Mlt::Playlist playlist)
         else {
             if (m_clipList.contains(id)) {
                 //Controller was already added by a track producer, add master now
-                m_clipList.value(id)->addMasterProducer(producer->parent());
+                m_clipList.value(id)->addMasterProducer(producer->parent(), info);
             }
             else {
                 // Controller has not been created yet
-                ClipController *controller = new ClipController(this, producer->parent());
+                ClipController *controller = new ClipController(this, producer->parent(), info);
 		// fix MLT somehow adding root to color producer's resource (report upstream)
 		if (strcmp(producer->parent().get("mlt_service"), "color") == 0) {
 		    QString color = producer->parent().get("resource");
@@ -214,14 +214,15 @@ int BinController::clipCount() const
     return m_clipList.size();
 }
 
-void BinController::replaceProducer(const QString &id, Mlt::Producer &producer)
+void BinController::replaceProducer(const QString &id, Mlt::Producer &producer, ProfileInfo info)
 {
     ClipController *ctrl = m_clipList.value(id);
     if (!ctrl) {
         qDebug()<<" / // error controller not found, crashing";
         return;
     }
-    ctrl->updateProducer(id, &producer);
+    pasteEffects(id, producer);
+    ctrl->updateProducer(id, &producer, info);
     emit prepareTimelineReplacement(id);
     replaceBinPlaylistClip(id, producer);
     producer.set("id", id.toUtf8().constData());
@@ -254,6 +255,19 @@ void BinController::replaceBinPlaylistClip(const QString &id, Mlt::Producer &pro
 {
     removeBinPlaylistClip(id);
     m_binPlaylist->append(producer);
+}
+
+void BinController::pasteEffects(const QString &id, Mlt::Producer &producer)
+{
+    int size = m_binPlaylist->count();
+    for (int i = 0; i < size; i++) {
+        Mlt::Producer *prod = m_binPlaylist->get_clip(i);
+        QString prodId = prod->parent().get("id");
+        if (prodId == id) {
+	    duplicateFilters(prod->parent(), producer);
+            break;
+        }
+    }
 }
 
 void BinController::removeBinPlaylistClip(const QString &id)
@@ -338,7 +352,7 @@ void BinController::duplicateFilters(Mlt::Producer original, Mlt::Producer clone
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
         // Only duplicate Kdenlive filters, and skip the fade in effects
-	fprintf(stderr, "CHKNG FILTER: %s\n", filter->get("kdenlive_id"));
+	//fprintf(stderr, "CHKNG FILTER: %s\n", filter->get("kdenlive_id"));
         if (filter->is_valid()/* && strcmp(filter->get("kdenlive_id"), "") && strcmp(filter->get("kdenlive_id"), "fadein") && strcmp(filter->get("kdenlive_id"), "fade_from_black")*/) {
             // looks like there is no easy way to duplicate a filter,
             // so we will create a new one and duplicate its properties

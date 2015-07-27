@@ -556,10 +556,11 @@ ClipType Render::getTypeForService(const QString &id, const QString &path) const
 
 void Render::processProducerProperties(Mlt::Producer *prod, QDomElement xml)
 {
+    //TODO: there is some duplication with clipcontroller > updateproducer that alsa copies properties 
     QString value;
     QStringList internalProperties;
     internalProperties << "bypassDuplicate" << "resource" << "mlt_service";
-    QDomNodeList props = xml.elementsByTagName("property");
+    QDomNodeList props = xml.firstChildElement("producer").elementsByTagName("property");
     for (int i = 0; i < props.count(); ++i) {
         QString propertyName = props.at(i).toElement().attribute("name");
         if (!internalProperties.contains(propertyName)) {
@@ -574,6 +575,9 @@ void Render::processFileProperties()
     requestClipInfo info;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    ProfileInfo profileinfo;
+    profileinfo.profileSize = QSize(frameRenderWidth(), renderHeight());
+    profileinfo.profileFps = m_fps;
 
     while (!m_requestList.isEmpty()) {
         m_infoMutex.lock();
@@ -808,7 +812,7 @@ void Render::processFileProperties()
             // replace clip
             //qDebug()<<" / / /CREATED PROD: "<<producer->get("resource");
             m_processingClipId.removeAll(info.clipId);
-            m_binController->replaceProducer(info.clipId, *producer);
+            m_binController->replaceProducer(info.clipId, *producer, profileinfo);
             emit gotFileProperties(info, NULL);
             continue;
         }
@@ -867,7 +871,6 @@ void Render::processFileProperties()
                 }
             }
         }
-
         int vindex = -1;
         const QString mltService = producer->get("mlt_service");
         if (mltService == "xml" || mltService == "consumer") {
@@ -1056,7 +1059,6 @@ void Render::processFileProperties()
             }
             producer->set("mlt_service", "avformat-novalidate");
         }
-
         // metadata
         Mlt::Properties metadata;
         metadata.pass_values(*producer, "meta.attr.");
@@ -1070,12 +1072,12 @@ void Render::processFileProperties()
         producer->seek(0);
         if (m_binController->hasClip(info.clipId)) {
             // If controller already exists, we just want to update the producer
-            m_binController->replaceProducer(info.clipId, *producer);
+            m_binController->replaceProducer(info.clipId, *producer, profileinfo);
             emit gotFileProperties(info, NULL);
         }
         else {
             // Create the controller
-            ClipController *controller = new ClipController(m_binController, *producer);
+            ClipController *controller = new ClipController(m_binController, *producer, profileinfo);
             m_binController->addClipToBin(info.clipId, controller);
             emit gotFileProperties(info, controller);
         }
@@ -1318,10 +1320,13 @@ int Render::setSceneList(QString playlist, int position)
     Mlt::Tractor tractor(service);
     Mlt::Properties retainList((mlt_properties) tractor.get_data("xml_retain"));
     if (retainList.is_valid() && retainList.get_data(m_binController->binPlaylistId().toUtf8().constData())) {
+	ProfileInfo info;
+	info.profileSize = QSize(frameRenderWidth(), renderHeight());
+	info.profileFps = m_fps;
         Mlt::Playlist playlist((mlt_playlist) retainList.get_data(m_binController->binPlaylistId().toUtf8().constData()));
         if (playlist.is_valid() && playlist.type() == playlist_type) {
             // Load bin clips
-	    m_binController->initializeBin(playlist);
+	    m_binController->initializeBin(playlist, info);
         }
     }
     // No Playlist found, create new one
@@ -1349,8 +1354,8 @@ int Render::setSceneList(QString playlist, int position)
             //m_blackClip = &original->parent();
         }
         else {
-            requestClipInfo info;
             // pass basic info, the others (folder, etc) will be taken from the producer itself
+	    requestClipInfo info;
             info.clipId = id;
             info.replaceProducer = true;
             emit gotFileProperties(info, m_binController->getController(id));
@@ -1430,7 +1435,10 @@ int Render::reloadSceneList(QString playlist, int position)
         Mlt::Playlist playlist((mlt_playlist) retainList.get_data(m_binController->binPlaylistId().toUtf8().constData()));
         if (playlist.is_valid() && playlist.type() == playlist_type) {
             // Load bin clips
-            m_binController->initializeBin(playlist);
+	    ProfileInfo info;
+	    info.profileSize = QSize(frameRenderWidth(), renderHeight());
+	    info.profileFps = m_fps;
+            m_binController->initializeBin(playlist, info);
         }
     }
     // No Playlist found, create new one

@@ -866,10 +866,11 @@ void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
         QDomNodeList clipeffectparams = currenteffect.childNodes();
 
         QDomNodeList params = currenteffect.elementsByTagName("parameter");
+	ProfileInfo info = m_doc->getProfileInfo();
         for (int i = 0; i < params.count(); ++i) {
             QDomElement e = params.item(i).toElement();
             if (e.attribute("type") == "keyframe") e.setAttribute("keyframes", getKeyframes(service, ix, e));
-            else setParam(e, effect->get(e.attribute("name").toUtf8().constData()));
+            else setParam(info, e, effect->get(e.attribute("name").toUtf8().constData()));
         }
 
         if (effect->get_out()) { // no keyframes but in/out points
@@ -930,15 +931,17 @@ void Timeline::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect) {
         subclipeffect.setAttribute("region_ix", i);
         //get effect parameters (prefixed by subfilter name)
         QDomNodeList params = subclipeffect.elementsByTagName("parameter");
+	ProfileInfo info = m_doc->getProfileInfo();
         for (int i = 0; i < params.count(); ++i) {
             QDomElement param = params.item(i).toElement();
-            setParam(param, effect->get((name + "." + param.attribute("name")).toUtf8().constData()));
+            setParam(info, param, effect->get((name + "." + param.attribute("name")).toUtf8().constData()));
         }
         currenteffect.appendChild(currenteffect.ownerDocument().importNode(subclipeffect, true));
     }
 }
 
-void Timeline::setParam(QDomElement param, QString value) {
+//static
+void Timeline::setParam(ProfileInfo info, QDomElement param, QString value) {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     //get Kdenlive scaling parameters
@@ -946,7 +949,7 @@ void Timeline::setParam(QDomElement param, QString value) {
     double fact;
     QString factor = param.attribute("factor", "1");
     if (factor.contains('%')) {
-        fact = EffectsController::getStringEval(m_doc->getProfileInfo(), factor);
+        fact = EffectsController::getStringEval(info, factor);
     } else {
         fact = factor.toDouble();
     }
