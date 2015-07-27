@@ -1908,7 +1908,6 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
             if (strobe == 0) strobe = 1;
             doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), speed, 1.0, strobe, clip->getBinId());
             EffectsParameterList params = clip->addEffect(m_document->getProfileInfo(), effect);
-            m_document->renderer()->mltAddEffect(track, pos, params);
             if (clip->isSelected()) emit clipItemSelected(clip);
             return;
         }
