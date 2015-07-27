@@ -126,6 +126,10 @@ bool Track::move(qreal start, qreal end, int mode)
     int pos = frame(start);
     m_playlist.lock();
     int clipIndex = m_playlist.get_clip_index_at(pos);
+    bool durationChanged = false;
+    if (clipIndex == m_playlist.count() - 1) {
+	durationChanged = true;
+    }
     Mlt::Producer *clipProducer = m_playlist.replace_with_blank(clipIndex);
     if (!clipProducer || clipProducer->is_blank()) {
         qDebug() << "// Cannot get clip at index: "<<clipIndex<<" / "<< start;
@@ -133,16 +137,28 @@ bool Track::move(qreal start, qreal end, int mode)
         return false;
     }
     m_playlist.consolidate_blanks();
+    if (end >= m_playlist.get_playtime()) {
+	// Clip is inserted at the end of track, duration change event handled in doAdd()
+	durationChanged = false;
+    }
     bool result = doAdd(end, clipProducer, mode);
     m_playlist.unlock();
     delete clipProducer;
+    if (durationChanged) {
+	  emit newTrackDuration(m_playlist.get_playtime());
+    }
     return result;
 }
 
 bool Track::del(qreal t)
 {
     m_playlist.lock();
-    Mlt::Producer *clip = m_playlist.replace_with_blank(m_playlist.get_clip_index_at(frame(t)));
+    bool durationChanged = false;
+    int ix = m_playlist.get_clip_index_at(frame(t));
+    if (ix == m_playlist.count() - 1) {
+	durationChanged = true;
+    }
+    Mlt::Producer *clip = m_playlist.replace_with_blank(ix);
     if (clip)
         delete clip;
     else {
@@ -152,6 +168,7 @@ bool Track::del(qreal t)
     }
     m_playlist.consolidate_blanks();
     m_playlist.unlock();
+    if (durationChanged) emit newTrackDuration(m_playlist.get_playtime());
     return true;
 }
 
