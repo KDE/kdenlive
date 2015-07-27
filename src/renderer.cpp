@@ -560,7 +560,13 @@ void Render::processProducerProperties(Mlt::Producer *prod, QDomElement xml)
     QString value;
     QStringList internalProperties;
     internalProperties << "bypassDuplicate" << "resource" << "mlt_service";
-    QDomNodeList props = xml.firstChildElement("producer").elementsByTagName("property");
+    QDomNodeList props;
+    if (xml.tagName() == "producer") {
+	props = xml.elementsByTagName("property");
+    }
+    else {
+	props = xml.firstChildElement("producer").elementsByTagName("property");
+    }
     for (int i = 0; i < props.count(); ++i) {
         QString propertyName = props.at(i).toElement().attribute("name");
         if (!internalProperties.contains(propertyName)) {
