@@ -34,7 +34,7 @@ AddClipCommand::AddClipCommand(KdenliveDoc *doc, const QDomElement &xml, const Q
     QString str;
     QTextStream stream(&str);
     m_xml.save(stream, 4);
-    qDebug()<<text()<<"\n-----------\n"<<str;
+    //qDebug()<<text()<<"\n-----------\n"<<str;
 }
 // virtual
 void AddClipCommand::undo()

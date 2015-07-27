@@ -816,7 +816,6 @@ void Render::processFileProperties()
                 if (frame) delete frame;
             }
             // replace clip
-            //qDebug()<<" / / /CREATED PROD: "<<producer->get("resource");
             m_processingClipId.removeAll(info.clipId);
             m_binController->replaceProducer(info.clipId, *producer, profileinfo);
             emit gotFileProperties(info, NULL);
@@ -894,7 +893,6 @@ void Render::processFileProperties()
         else if (mltService == "avformat") {
             // Get frame rate
             vindex = producer->get_int("video_index");
-
             // List streams
             int streams = producer->get_int("meta.media.nb_streams");
             QList <int> audio_list;
@@ -945,69 +943,72 @@ void Render::processFileProperties()
 
         Mlt::Frame *frame = producer->get_frame();
         if (frame && frame->is_valid()) {
-            filePropertyMap["frame_size"] = QString::number(frame->get_int("width")) + 'x' + QString::number(frame->get_int("height"));
-            int af = frame->get_int("audio_frequency");
-            int ac = frame->get_int("audio_channels");
-            // keep for compatibility with MLT <= 0.8.6
-            if (af == 0) af = frame->get_int("frequency");
-            if (ac == 0) ac = frame->get_int("channels");
-            if (af > 0) filePropertyMap["frequency"] = QString::number(af);
-            if (ac > 0) filePropertyMap["channels"] = QString::number(ac);
-            if (!filePropertyMap.contains("aspect_ratio")) filePropertyMap["aspect_ratio"] = frame->get("aspect_ratio");
+	    if (!mltService.contains("avformat")) {
+		// Fetch thumbnail
+		QImage img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
+		emit replyGetImage(info.clipId, img);
+	    }
+	    else {
+		filePropertyMap["frame_size"] = QString::number(frame->get_int("width")) + 'x' + QString::number(frame->get_int("height"));
+		int af = frame->get_int("audio_frequency");
+		int ac = frame->get_int("audio_channels");
+		// keep for compatibility with MLT <= 0.8.6
+		if (af == 0) af = frame->get_int("frequency");
+		if (ac == 0) ac = frame->get_int("channels");
+		if (af > 0) filePropertyMap["frequency"] = QString::number(af);
+		if (ac > 0) filePropertyMap["channels"] = QString::number(ac);
+		if (!filePropertyMap.contains("aspect_ratio")) filePropertyMap["aspect_ratio"] = frame->get("aspect_ratio");
 
-            if (frame->get_int("test_image") == 0 && vindex != -1) {
-                if (mltService == "xml" || mltService == "consumer") {
-                    filePropertyMap["type"] = "playlist";
-                    metadataPropertyMap["comment"] = QString::fromUtf8(producer->get("title"));
-                } else if (!mlt_frame_is_test_audio(frame->get_frame()))
-                    filePropertyMap["type"] = "av";
-                else
-                    filePropertyMap["type"] = "video";
+		if (frame->get_int("test_image") == 0 && vindex != -1) {
+		    if (mltService == "xml" || mltService == "consumer") {
+			filePropertyMap["type"] = "playlist";
+			metadataPropertyMap["comment"] = QString::fromUtf8(producer->get("title"));
+		    } else if (!mlt_frame_is_test_audio(frame->get_frame()))
+			filePropertyMap["type"] = "av";
+		    else
+			filePropertyMap["type"] = "video";
+		    int variance;
+		    QImage img;
+		    // Check if we are using GPU accel, then we need to use alternate producer
+		    Mlt::Producer *tmpProd;
+		    if (KdenliveSettings::gpu_accel()) {
+			QString service = producer->get("mlt_service");
+			tmpProd = new Mlt::Producer(*m_qmlView->profile(), service.toUtf8().constData(), path.toUtf8().constData());
+			Mlt::Filter scaler(*m_qmlView->profile(), "swscale");
+			Mlt::Filter converter(*m_qmlView->profile(), "avcolor_space");
+			tmpProd->attach(scaler);
+			tmpProd->attach(converter);
+		    }
+		    else {
+			tmpProd = producer;
+		    }
+		    frame = tmpProd->get_frame();
+		    do {
+			img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
+			variance = KThumb::imageVariance(img);
+			if (frameNumber == -1 && variance< 6) {
+			    // Thumbnail is not interesting (for example all black, seek to fetch better thumb
+			    frameNumber =  duration > 100 ? 100 : duration / 2 ;
+			    producer->seek(frameNumber);
+			    delete frame;
+			    frame = tmpProd->get_frame();
+			    variance = -1;
+			}
+		    } while (variance == -1);
+		    delete frame;
+		    if (frameNumber > -1) filePropertyMap["thumbnailFrame"] = QString::number(frameNumber);
+		    emit replyGetImage(info.clipId, img);
+		} else if (frame->get_int("test_audio") == 0) {
+		    QIcon icon = QIcon::fromTheme("audio-x-generic");
+		    QImage img(fullWidth, info.imageHeight, QImage::Format_ARGB32_Premultiplied);
+		    img.fill(Qt::transparent);
+		    QPainter painter( &img );
+		    icon.paint(&painter, 0, 0, img.width(), img.height());
+		    emit replyGetImage(info.clipId, img);
+		    filePropertyMap["type"] = "audio";
+		}
+	    }
 
-                int variance;
-                QImage img;
-                // Check if we are using GPU accel, then we need to use alternate producer
-                Mlt::Producer *tmpProd;
-                if (KdenliveSettings::gpu_accel()) {
-                    QString service = producer->get("mlt_service");
-                    tmpProd = new Mlt::Producer(*m_qmlView->profile(), service.toUtf8().constData(), path.toUtf8().constData());
-                    Mlt::Filter scaler(*m_qmlView->profile(), "swscale");
-                    Mlt::Filter converter(*m_qmlView->profile(), "avcolor_space");
-                    tmpProd->attach(scaler);
-                    tmpProd->attach(converter);
-                }
-                else {
-                    tmpProd = producer;
-                }
-                frame = tmpProd->get_frame();
-                do {
-                    img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
-                    variance = KThumb::imageVariance(img);
-                    if (frameNumber == -1 && variance< 6) {
-                        // Thumbnail is not interesting (for example all black, seek to fetch better thumb
-                        frameNumber =  duration > 100 ? 100 : duration / 2 ;
-                        producer->seek(frameNumber);
-                        delete frame;
-                        frame = tmpProd->get_frame();
-                        variance = -1;
-                    }
-                } while (variance == -1);
-                delete frame;
-                if (frameNumber > -1) filePropertyMap["thumbnailFrame"] = QString::number(frameNumber);
-                emit replyGetImage(info.clipId, img);
-            } else if (frame->get_int("test_audio") == 0) {
-                QIcon icon = QIcon::fromTheme("audio-x-generic");
-                QImage img(fullWidth, info.imageHeight, QImage::Format_ARGB32_Premultiplied);
-                img.fill(Qt::transparent);
-                QPainter painter( &img );
-                icon.paint(&painter, 0, 0, img.width(), img.height());
-                emit replyGetImage(info.clipId, img);
-                filePropertyMap["type"] = "audio";
-            }
-        }
-        // Retrieve audio / video codec name
-        // If there is a
-        if (mltService == "avformat") {
             if (vindex > -1) {
                 /*if (context->duration == AV_NOPTS_VALUE) {
         //qDebug() << " / / / / / / / /ERROR / / / CLIP HAS UNKNOWN DURATION";
