@@ -44,11 +44,12 @@ if(NOT RELEASE_BUILD AND EXISTS ${CMAKE_SOURCE_DIR}/.git)
   if(GIT_FOUND)
     exec_program(${GIT_EXECUTABLE}
       ${CMAKE_SOURCE_DIR}
-      ARGS "describe --tags"
+	ARGS "log -n 1 --pretty=format:\"%h\""
       OUTPUT_VARIABLE KDENLIVE_GIT_REVISION
       RETURN_VALUE TAG_RESULT
     )
-    # git describe --tags failed; maybe the repository was checked with depth=1.
+    
+    # git log failed; maybe the repository was checked with depth=1.
     if(NOT ${TAG_RESULT} EQUAL 0)
       exec_program(${GIT_EXECUTABLE}
         ${CMAKE_SOURCE_DIR}
