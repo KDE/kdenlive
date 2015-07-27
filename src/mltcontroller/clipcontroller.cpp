@@ -637,6 +637,9 @@ void ClipController::rebuildEffectList(ProfileInfo info)
         QDomElement currenteffect = clipeffect.cloneNode().toElement();
 	// recover effect parameters
         QDomNodeList params = currenteffect.elementsByTagName("parameter");
+	if (effect->get_int("disable") == 1) {
+	    currenteffect.setAttribute("disable", 1);
+	}
         for (int i = 0; i < params.count(); ++i) {
             QDomElement param = params.item(i).toElement();
             Timeline::setParam(info, param, effect->get(param.attribute("name").toUtf8().constData()));
