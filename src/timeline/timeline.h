@@ -115,6 +115,8 @@ public:
     int getTrackSpaceLength(int trackIndex, int pos, bool fromBlankStart);
     void updateClipProperties(const QString &id, QMap <QString, QString> properties);
     int changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *originalProd, bool needsDuplicate);
+    /** @brief Set an effect's XML accordingly to MLT::filter values. */
+    static void setParam(ProfileInfo info, QDomElement param, QString value);
     int getTracks();
     void getTransitions();
     void refreshTractor();
@@ -156,7 +158,6 @@ private:
     void getEffects(Mlt::Service &service, ClipItem *clip, int track = 0);
     QString getKeyframes(Mlt::Service service, int &ix, QDomElement e);
     void getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect);
-    void setParam(QDomElement param, QString value);
     bool isSlide(QString geometry);
     void adjustDouble(QDomElement &e, double value);
 

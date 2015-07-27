@@ -34,7 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KLocalizedString>
 
 
-ClipController::ClipController(BinController *bincontroller, Mlt::Producer& producer) : QObject()
+ClipController::ClipController(BinController *bincontroller, Mlt::Producer& producer, ProfileInfo info) : QObject()
     , selectedEffectIndex(1)
     , audioThumbCreated(false)
     , m_properties(new Mlt::Properties(producer.get_properties()))
@@ -58,7 +58,7 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer& prod
         else m_url = QUrl::fromLocalFile(m_properties->get("resource"));
         m_service = m_properties->get("mlt_service");
         getInfoForProducer();
-        rebuildEffectList();
+        rebuildEffectList(info);
     }
 }
 
@@ -90,7 +90,7 @@ AudioStreamInfo *ClipController::audioInfo() const
     return m_audioInfo;
 }
 
-void ClipController::addMasterProducer(Mlt::Producer &producer)
+void ClipController::addMasterProducer(Mlt::Producer &producer, ProfileInfo info)
 {
     m_properties = new Mlt::Properties(producer.get_properties());
     m_masterProducer = &producer;
@@ -104,7 +104,7 @@ void ClipController::addMasterProducer(Mlt::Producer &producer)
         else m_url = QUrl::fromLocalFile(m_properties->get("resource"));
         m_service = m_properties->get("mlt_service");
         getInfoForProducer();
-        rebuildEffectList();
+        rebuildEffectList(info);
     }
 }
 
@@ -210,7 +210,7 @@ QMap <QString, QString> ClipController::getPropertiesFromPrefix(const QString &p
 }
 
 
-void ClipController::updateProducer(const QString &id, Mlt::Producer* producer)
+void ClipController::updateProducer(const QString &id, Mlt::Producer* producer, ProfileInfo info)
 {
     //TODO replace all track producers
     Mlt::Properties passProperties;
@@ -230,7 +230,7 @@ void ClipController::updateProducer(const QString &id, Mlt::Producer* producer)
             m_name = m_url.fileName();
         }
         */
-        rebuildEffectList();
+        rebuildEffectList(info);
     }
 }
 
@@ -626,7 +626,7 @@ EffectsList ClipController::effectList()
     return m_effectList;
 }
 
-void ClipController::rebuildEffectList()
+void ClipController::rebuildEffectList(ProfileInfo info)
 {
     m_effectList.clearList();
     int ix = 0;
@@ -635,6 +635,12 @@ void ClipController::rebuildEffectList()
         Mlt::Filter *effect = service.filter(ix);
         QDomElement clipeffect = Timeline::getEffectByTag(effect->get("tag"), effect->get("kdenlive_id"));
         QDomElement currenteffect = clipeffect.cloneNode().toElement();
+	// recover effect parameters
+        QDomNodeList params = currenteffect.elementsByTagName("parameter");
+        for (int i = 0; i < params.count(); ++i) {
+            QDomElement param = params.item(i).toElement();
+            Timeline::setParam(info, param, effect->get(param.attribute("name").toUtf8().constData()));
+        }
         m_effectList.append(currenteffect);
     }
 }
