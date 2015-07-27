@@ -118,6 +118,14 @@ void BinController::initializeBin(Mlt::Playlist playlist)
             else {
                 // Controller has not been created yet
                 ClipController *controller = new ClipController(this, producer->parent());
+		// fix MLT somehow adding root to color producer's resource (report upstream)
+		if (strcmp(producer->parent().get("mlt_service"), "color") == 0) {
+		    QString color = producer->parent().get("resource");
+		    if (color.contains("/")) {
+			color = color.section("/", -1, -1);
+			producer->parent().set("resource", color.toUtf8().constData());
+		    }
+		}
                 m_clipList.insert(id, controller);
             }
         }
@@ -214,8 +222,10 @@ void BinController::replaceProducer(const QString &id, Mlt::Producer &producer)
         return;
     }
     ctrl->updateProducer(id, &producer);
+    emit prepareTimelineReplacement(id);
     replaceBinPlaylistClip(id, producer);
     producer.set("id", id.toUtf8().constData());
+    removeBinPlaylistClip("#" + id);
     emit replaceTimelineProducer(id);
 }
 

@@ -417,7 +417,7 @@ void Bin::slotAddClip()
 void Bin::deleteClip(const QString &id)
 {
     if (m_monitor->activeClipId() == id) {
-        m_monitor->openClip(NULL);
+	emit openClip(NULL);
     }
     ProjectClip *clip = m_rootFolder->clip(id);
     if (!clip) return;
@@ -493,7 +493,7 @@ void Bin::slotReloadClip()
         AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
         ProjectClip *currentItem = qobject_cast<ProjectClip*>(item);
         if (currentItem) {
-            m_monitor->openClip(NULL);
+	    emit openClip(NULL);
             QDomDocument doc;
             QDomElement xml = currentItem->toXml(doc);
             if (!xml.isNull()) {
@@ -543,6 +543,7 @@ void Bin::setMonitor(Monitor *monitor)
     m_monitor = monitor;
     connect(m_monitor, SIGNAL(addClipToProject(QUrl)), this, SLOT(slotAddClipToProject(QUrl)));
     connect(m_monitor, SIGNAL(refreshCurrentClip()), this, SLOT(slotOpenCurrent()));
+    connect(this, SIGNAL(openClip(ClipController*,int,int)), m_monitor, SLOT(slotOpenClip(ClipController*,int,int)));
     connect(m_eventEater, SIGNAL(focusClipMonitor()), m_monitor, SLOT(slotActivateMonitor()), Qt::UniqueConnection);
 }
 
@@ -564,7 +565,7 @@ int Bin::lastClipId() const
 void Bin::setDocument(KdenliveDoc* project)
 {
     // Remove clip from Bin's monitor
-    m_monitor->openClip(NULL);
+    emit openClip(NULL);
     closeEditing();
     setEnabled(false);
 
@@ -912,7 +913,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
         showClipProperties(NULL);
 	emit masterClipSelected(NULL, m_monitor);
 	// Display black bg in clip monitor
-	m_monitor->openClip(NULL);
+	emit openClip(NULL);
     }
 }
 
@@ -1341,7 +1342,7 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
                 m_doc->watchFile(clip->url());
             }
         }
-	if (controller) clip->setProducer(controller, info.replaceProducer);
+	clip->setProducer(controller, info.replaceProducer);
         QString currentClip = m_monitor->activeClipId();
         if (currentClip.isEmpty()) {
             //No clip displayed in monitor, check if item is selected
@@ -1359,9 +1360,8 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
             }
         }
         else if (currentClip == info.clipId) {
-            m_monitor->openClip(NULL);
+	    emit openClip(NULL);
             clip->setCurrent(true);
-            //m_monitor->openClip(controller);
         }
     }
     else {
@@ -1390,17 +1390,19 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
 void Bin::slotOpenCurrent()
 {
     ProjectClip *currentItem = getFirstSelectedClip();
-    if (currentItem) m_monitor->openClip(currentItem->controller()); 
+    if (currentItem) {
+        emit openClip(currentItem->controller());
+    }
 }
 
 void Bin::openProducer(ClipController *controller)
 {
-    m_monitor->openClip(controller);
+    emit openClip(controller);
 }
 
 void Bin::openProducer(ClipController *controller, int in, int out)
 {
-    m_monitor->openClipZone(controller, in, out);
+    emit openClip(controller, in, out);
 }
 
 void Bin::emitItemUpdated(AbstractProjectItem* item)

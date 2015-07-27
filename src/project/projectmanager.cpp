@@ -201,7 +201,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     if (!quit && !qApp->isSavingSession()) {
 	m_autoSaveTimer.stop();
 	pCore->window()->slotTimelineClipSelected(NULL, false);
-	pCore->monitorManager()->clipMonitor()->openClip(NULL);
+	pCore->monitorManager()->clipMonitor()->slotOpenClip(NULL);
 	delete m_project;
 	m_project = NULL;
 	pCore->monitorManager()->setDocument(m_project);

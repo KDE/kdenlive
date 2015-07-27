@@ -253,6 +253,23 @@ bool Track::needsDuplicate(const QString &service) const
     return (service.contains("avformat") || service.contains("consumer") || service.contains("xml"));
 }
 
+void Track::replaceId(const QString &id)
+{
+    QString idForAudioTrack = id + QLatin1Char('_') + m_playlist.get("id") + "_audio";
+    QString idForVideoTrack = id + QLatin1Char('_') + m_playlist.get("id") + "_video";
+    QString idForTrack = id + QLatin1Char('_') + m_playlist.get("id");
+    //TODO: slowmotion
+    for (int i = 0; i < m_playlist.count(); i++) {
+        if (m_playlist.is_blank(i)) continue;
+        Mlt::Producer *p = m_playlist.get_clip(i);
+        QString current = p->parent().get("id");
+	if (current == id || current == idForTrack || current == idForAudioTrack || current == idForVideoTrack) {
+	    current.prepend("#");
+	    p->parent().set("id", current.toUtf8().constData());
+	}
+    }
+}
+
 bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer)
 {
     bool found = false;
@@ -273,14 +290,28 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
         if (m_playlist.is_blank(i)) continue;
         Mlt::Producer *p = m_playlist.get_clip(i);
         QString current = p->parent().get("id");
+	if (!current.startsWith("#")) {
+	    delete p;
+	    continue;
+	}
+	current.remove(0, 1);
         Mlt::Producer *cut = NULL;
         if (idForAudioTrack.isEmpty()) {
             if (current == idForTrack) {
                 // No duplication required
                 cut = original->cut(p->get_in(), p->get_out());
             }
-            else continue;
+            else {
+		delete p;
+		continue;
+	    }
         }
+        qDebug()<<"// CHKG: "<<current<<" = "<<id;
+        if (p->parent().get_int("audio_index") == -1 && current == id) {
+	        // No audio - no duplication required
+	      
+                cut = original->cut(p->get_in(), p->get_out());
+	}
         else if (current == idForTrack) {
             // Use duplicate
             if (trackProducer == NULL) {

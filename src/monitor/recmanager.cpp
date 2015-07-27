@@ -369,7 +369,7 @@ void RecManager::slotPreview(bool preview)
 	    m_monitor->updateClipProducer(prod);
 	}
 	else {
-	    m_monitor->openClip(NULL);
+	    m_monitor->slotOpenClip(NULL);
 	}        
     }
       

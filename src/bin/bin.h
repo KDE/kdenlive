@@ -608,6 +608,8 @@ signals:
     void refreshPanelMarkers();
     /** @brief Analysis data changed, refresh panel. */
     void updateAnalysisData(const QString &);
+    void openClip(ClipController *c, int in = -1, int out = -1);
+  
 };
 
 #endif

@@ -1023,7 +1023,7 @@ void Monitor::updateClipProducer(const QString &playlist)
     render->play(1.0);
 }
 
-void Monitor::openClip(ClipController *controller)
+void Monitor::slotOpenClip(ClipController *controller, int in, int out)
 {
     if (render == NULL) return;
     bool sameClip = controller == m_controller && controller != NULL;
@@ -1037,7 +1037,11 @@ void Monitor::openClip(ClipController *controller)
 	      return;
 	}
         updateMarkers();
-        render->setProducer(m_controller->masterProducer(), -1, isActive());
+        render->setProducer(m_controller->masterProducer(), in, isActive());
+	if (out > -1) {
+	    m_ruler->setZone(in, out);
+	    setClipZone(QPoint(in, out));
+	}
     }
     else {
         render->setProducer(NULL, -1, isActive());
@@ -1050,21 +1054,6 @@ void Monitor::openClip(ClipController *controller)
         m_splitProducer = NULL;
         m_splitEffect = NULL;
         loadMasterQml();
-    }
-}
-
-void Monitor::openClipZone(ClipController *controller, int in, int out)
-{
-    if (render == NULL) return;
-    m_controller = controller;
-    if (controller) {
-        //render->setProducer(m_controller->zoneProducer(in, out), -1, isActive());
-        render->setProducer(m_controller->masterProducer(), in, isActive());
-        m_ruler->setZone(in, out);
-        setClipZone(QPoint(in, out));
-    }
-    else {
-        render->setProducer(NULL, -1, isActive());
     }
 }
 
@@ -1353,7 +1342,7 @@ void Monitor::reloadProducer(const QString &id)
 {
     if (!m_controller) return;
     if (m_controller->clipId() == id)
-        openClip(m_controller);
+        slotOpenClip(m_controller);
 }
 
 QString Monitor::getMarkerThumb(GenTime pos)
@@ -1511,7 +1500,7 @@ bool Monitor::startCapture(const QString &params, const QString &path, Mlt::Prod
 bool Monitor::stopCapture()
 {
     m_glMonitor->stopCapture();
-    openClip(NULL);
+    slotOpenClip(NULL);
     m_glMonitor->reconfigure(m_monitorManager->profile());
     return true;
 }

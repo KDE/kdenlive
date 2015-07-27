@@ -202,8 +202,7 @@ public slots:
     //void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
     void updateClipProducer(Mlt::Producer *prod);
     void updateClipProducer(const QString &playlist);
-    void openClip(ClipController *controller);
-    void openClipZone(ClipController *controller, int in, int out);
+    void slotOpenClip(ClipController *controller, int in = -1, int out = -1);
     void refreshMonitor(bool visible);
     void refreshMonitor();
     void slotSeek(int pos);

@@ -102,6 +102,7 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
     connect(this, SIGNAL(multiStreamFound(QString,QList<int>,QList<int>,stringMap)), this, SLOT(slotMultiStreamProducerFound(QString,QList<int>,QList<int>,stringMap)));
     connect(this, SIGNAL(checkSeeking()), this, SLOT(slotCheckSeeking()));
     if (m_name == Kdenlive::ProjectMonitor) {
+        connect(m_binController, SIGNAL(prepareTimelineReplacement(QString)), this, SIGNAL(prepareTimelineReplacement(QString)), Qt::DirectConnection);
         connect(m_binController, SIGNAL(replaceTimelineProducer(QString)), this, SIGNAL(replaceTimelineProducer(QString)));
 	connect(m_binController, SIGNAL(updateTimelineProducer(QString)), this, SIGNAL(updateTimelineProducer(QString)));
         connect(m_binController, SIGNAL(createThumb(QDomElement,QString,int)), this, SLOT(getFileProperties(QDomElement,QString,int)));

@@ -271,9 +271,9 @@ void ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
     if (m_controller) {
         // Replace clip for this controller
         //m_controller->updateProducer(m_id, &(controller->originalProducer()));
-        delete controller;
+       //delete controller;
     }
-    else {
+    else if (controller) {
         // We did not yet have the controller, update info
         m_controller = controller;
         if (m_name.isEmpty()) m_name = m_controller->clipName();

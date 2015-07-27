@@ -105,6 +105,8 @@ public:
      * @param t is the cut time in playlist
      * @return true if success */
     bool cut(qreal t);
+    /** @brief prepends a dash to the clip's id to prepare for replacement */
+    void replaceId(const QString &id);
     /** @brief replace all occurences of a clip in the track with another resource
      * @param id is the clip id
      * @param original is the original replacement clip

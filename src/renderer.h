@@ -453,6 +453,8 @@ signals:
     void activateMonitor(Kdenlive::MonitorId);
     void mltFrameReceived(Mlt::Frame *);
     void infoProcessingFinished();
+    /** @brief We want to replace a clip with another, but before we need to change clip producer id so that there is no interference*/
+    void prepareTimelineReplacement(const QString &);
 
 public slots:
 
