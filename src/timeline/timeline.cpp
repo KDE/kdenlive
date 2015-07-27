@@ -760,6 +760,7 @@ void Timeline::adjustTrackHeaders()
 int Timeline::addTrack(int ix, Mlt::Playlist &playlist) {
     // parse track
     int position = 0;
+    double fps = m_doc->fps();
     bool locked = playlist.get_int("kdenlive:locked_track") == 1;
     for(int i = 0; i < playlist.count(); ++i) {
         Mlt::Producer *clip = playlist.get_clip(i);
@@ -771,7 +772,6 @@ int Timeline::addTrack(int ix, Mlt::Playlist &playlist) {
         int in = clip->get_in();
         int out = clip->get_out();
         QString idString = clip->parent().get("id");
-	qDebug()<<"***** LOADING: "<<idString<<"\n"<<clip->get("id")<<"\n**********";
         if (in >= out || m_invalidProducers.contains(idString)) {
             m_documentErrors.append(i18n("Invalid clip removed from track %1 at %2\n", ix, position));
             playlist.remove(i);
@@ -796,22 +796,27 @@ int Timeline::addTrack(int ix, Mlt::Playlist &playlist) {
             m_doc->renderer()->storeSlowmotionProducer(idString, &clip->parent());
         }
         id = id.section('_', 0, 0);
+	int length = out - in + 1;
         ProjectClip *binclip = m_doc->getBinClip(id);
-        if (binclip == NULL) continue;
-        double fps = m_doc->fps();
-        int length = out - in + 1;
+        if (binclip == NULL) {
+	    // Warning, unknown clip found, timeline corruption!!
+	    
+	    //TODO: fix this
+	    position += length;
+	    continue;
+	}
         ItemInfo clipinfo;
         clipinfo.startPos = GenTime(position, fps);
         clipinfo.endPos = GenTime(position + length, fps);
         clipinfo.cropStart = GenTime(in, fps);
         clipinfo.cropDuration = GenTime(length, fps);
         clipinfo.track = ix;
+	position += length;
 	qDebug()<<"// Loading clip: "<<idString<<" / SPEED: "<<speed<<"\n++++++++++++++++++++++++";
         ClipItem *item = new ClipItem(binclip, clipinfo, fps, speed, strobe, m_trackview->getFrameWidth(), true);
         item->updateState(idString);
         m_scene->addItem(item);
         if (locked) item->setItemLocked(true);
-        position += length;
         if (speed != 1.0 || strobe > 1) {
             QDomElement speedeffect = MainWindow::videoEffects.getEffectByTag(QString(), "speed").cloneNode().toElement();
             EffectsList::setParameter(speedeffect, "speed", QString::number((int)(100 * speed + 0.5)));

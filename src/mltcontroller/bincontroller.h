@@ -194,6 +194,8 @@ signals:
     void replaceTimelineProducer(const QString &id);
     void setDocumentNotes(const QString &);
     void updateTimelineProducer(const QString &);
+    /** @brief We want to replace a clip with another, but before we need to change clip producer id so that there is no interference*/
+    void prepareTimelineReplacement(const QString &);
 };
 
 #endif
