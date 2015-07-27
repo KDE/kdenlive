@@ -263,14 +263,36 @@ void Track::replaceId(const QString &id)
         if (m_playlist.is_blank(i)) continue;
         Mlt::Producer *p = m_playlist.get_clip(i);
         QString current = p->parent().get("id");
-	if (current == id || current == idForTrack || current == idForAudioTrack || current == idForVideoTrack) {
+	if (current == id || current == idForTrack || current == idForAudioTrack || current == idForVideoTrack || current.startsWith("slowmotion:" + id + ":")) {
 	    current.prepend("#");
 	    p->parent().set("id", current.toUtf8().constData());
 	}
     }
 }
 
-bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer)
+QStringList Track::getSlowmotionIds(const QString &id)
+{
+    QStringList list;
+    for (int i = 0; i < m_playlist.count(); i++) {
+        if (m_playlist.is_blank(i)) continue;
+        Mlt::Producer *p = m_playlist.get_clip(i);
+        QString current = p->parent().get("id");
+	if (!current.startsWith("#")) {
+	    delete p;
+	    continue;
+	}
+	current.remove(0, 1);
+	if (current.startsWith("slowmotion:" + id + ":")) {
+	      QString info = current.section(":", 2);
+	      if (!list.contains(info)) {
+		  list << info;
+	      }
+	}
+    }
+    return list;
+}
+
+bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer, QMap <QString, Mlt::Producer *> newSlowMos)
 {
     bool found = false;
     QString idForAudioTrack;
@@ -296,7 +318,17 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
 	}
 	current.remove(0, 1);
         Mlt::Producer *cut = NULL;
-        if (idForAudioTrack.isEmpty()) {
+	if (current.startsWith("slowmotion:" + id + ":")) {
+	      // Slowmotion producer, just update resource
+	      QString slowMoId = current.section(":", 2);
+	      Mlt::Producer *slowProd = newSlowMos.value(slowMoId);
+	      if (!slowProd || !slowProd->is_valid()) {
+		    qDebug()<<"/// WARNING, couldn't find replacement slowmo for "<<id;
+		    continue;
+	      }
+	      cut = slowProd->cut(p->get_in(), p->get_out());
+	}
+        if (!cut && idForAudioTrack.isEmpty()) {
             if (current == idForTrack) {
                 // No duplication required
                 cut = original->cut(p->get_in(), p->get_out());
@@ -306,13 +338,11 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
 		continue;
 	    }
         }
-        qDebug()<<"// CHKG: "<<current<<" = "<<id;
-        if (p->parent().get_int("audio_index") == -1 && current == id) {
+        if (!cut && p->parent().get_int("audio_index") == -1 && current == id) {
 	        // No audio - no duplication required
-	      
                 cut = original->cut(p->get_in(), p->get_out());
 	}
-        else if (current == idForTrack) {
+        else if (!cut && current == idForTrack) {
             // Use duplicate
             if (trackProducer == NULL) {
                 trackProducer = Clip(*original).clone();
@@ -320,13 +350,13 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
             }
             cut = trackProducer->cut(p->get_in(), p->get_out());
         }
-        else if (current == idForAudioTrack) {
+        else if (!cut && current == idForAudioTrack) {
             if (audioTrackProducer == NULL) {
                 audioTrackProducer = clipProducer(original, PlaylistState::AudioOnly, true);
             }
             cut = audioTrackProducer->cut(p->get_in(), p->get_out());
         }
-        else if (current == idForVideoTrack) {
+        else if (!cut && current == idForVideoTrack) {
             cut = videoOnlyProducer->cut(p->get_in(), p->get_out());
         }
         if (cut) {

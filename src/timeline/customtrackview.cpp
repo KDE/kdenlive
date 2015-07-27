@@ -7432,9 +7432,50 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
 {
     Mlt::Producer *prod = m_document->renderer()->getBinProducer(id);
     Mlt::Producer *videoProd = m_document->renderer()->getBinVideoProducer(id);
+    
+    QStringList allSlows;
     for (int i = 0; i < m_timeline->tracksCount(); i++) {
-        m_timeline->track(i)->replaceAll(id,  prod, videoProd);
+	allSlows << m_timeline->track(i)->getSlowmotionIds(id);
     }
+    QLocale locale;
+    allSlows.removeDuplicates();
+
+    // generate all required slowmo producers
+    QMap <QString, Mlt::Producer *> newSlowMos;
+    for (int i = 0; i < allSlows.count(); i++) {
+	// find out speed and strobe values
+	double speed = locale.toDouble(allSlows.at(i).section(":", 0, 0));
+	int strobe = 0;
+	if (allSlows.at(i).contains(":")) {
+	    strobe = allSlows.at(i).section(":", 1, 1).toInt();
+	}
+	QString url = prod->get("resource");
+	url.append('?' + locale.toString(speed));
+        if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
+	// build slowmo producer
+	Mlt::Producer *slowProd = new Mlt::Producer(*prod->profile(), 0, ("framebuffer:" + url).toUtf8().constData());
+	if (!slowProd->is_valid()) {
+                qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
+		continue;
+        }
+        if (strobe > 1) slowProd->set("strobe", strobe);
+        QString producerid = "slowmotion:" + id + ':' + allSlows.at(i);
+        slowProd->set("id", producerid.toUtf8().constData());
+	newSlowMos.insert(allSlows.at(i), slowProd);    
+    }
+    for (int i = 0; i < m_timeline->tracksCount(); i++) {
+        m_timeline->track(i)->replaceAll(id,  prod, videoProd, newSlowMos);
+    }
+    
+    // update slowmotion storage
+    QMapIterator<QString, Mlt::Producer *> i(newSlowMos);
+    while (i.hasNext()) {
+	i.next();
+	Mlt::Producer *sprod = i.value();
+	m_document->renderer()->storeSlowmotionProducer(sprod->get("resource"), sprod, true);
+    }
+    
+    m_timeline->refreshTractor();
 }
 
 void CustomTrackView::slotPrepareTimelineReplacement(const QString &id)
