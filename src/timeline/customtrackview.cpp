@@ -4283,8 +4283,9 @@ void CustomTrackView::doChangeClipSpeed(ItemInfo info, const ItemInfo &speedInde
     if (endPos >= 0) {
         item->setSpeed(speed, strobe);
         item->updateRectGeometry();
-        if (item->cropDuration().frames(m_document->fps()) != endPos)
-            item->resizeEnd((int) info.startPos.frames(m_document->fps()) + endPos - 1);
+        if (item->cropDuration().frames(m_document->fps()) != endPos - 1) {
+            item->resizeEnd((int) info.startPos.frames(m_document->fps()) + endPos );
+	}
         updatePositionEffects(item, info, false);
     } else {
         emit displayMessage(i18n("Invalid clip"), ErrorMessage);

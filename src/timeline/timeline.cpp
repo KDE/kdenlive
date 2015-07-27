@@ -1310,17 +1310,11 @@ void Timeline::updateClipProperties(const QString &id, QMap <QString, QString> p
 
 int Timeline::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *originalProd, bool needsDuplicate)
 {
-    Mlt::Producer *prod;
     QLocale locale;
-    if (speed == 1) {
-	prod = originalProd;
-    }
-    else {
-	QString url = QString::fromUtf8(originalProd->get("resource"));
-        url.append('?' + locale.toString(speed));
-        if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
-	prod = m_doc->renderer()->getSlowmotionProducer(url);
-    }
+    QString url = QString::fromUtf8(originalProd->get("resource"));
+    url.append('?' + locale.toString(speed));
+    if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
+    Mlt::Producer *prod = m_doc->renderer()->getSlowmotionProducer(url);
     Mlt::Properties passProperties;
     Mlt::Properties original(originalProd->get_properties());
     passProperties.pass_list(original, ClipController::getPassPropertiesList());

@@ -608,117 +608,129 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
         return -1;
     }
 
-    QString serv = clipparent.get("mlt_service");
-    QString id = clipparent.get("id");
     QLocale locale;
-    id = id.section("_", 0,  0);
     if (speed <= 0 && speed > -1) speed = 1.0;
-    //qDebug() << "SLOWMO CLIP SERVICE: " << serv;
+    QString serv = clipparent.get("mlt_service");
+    QString url = QString::fromUtf8(clipparent.get("resource"));
+    if (serv == "framebuffer") {
+	url = url.section("?", 0, 0);
+    }
+    url.append('?' + locale.toString(speed));
+    if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
+    QString id = clipparent.get("id");
+    id = id.section("_", 0,  0);
 
-    if ((serv == "avformat" || serv == "avformat-novalidate") && (speed != 1.0 || strobe > 1)) {
-        m_playlist.lock();
-        QString url = QString::fromUtf8(clipparent.get("resource"));
-        url.append('?' + locale.toString(speed));
-        if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
-        if (!prod || !prod->is_valid()) {
-            prod = new Mlt::Producer(*m_playlist.profile(), 0, ("framebuffer:" + url).toUtf8().constData());
-            if (!prod->is_valid()) {
-                qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
-            }
-            if (strobe > 1) prod->set("strobe", strobe);
-            QString producerid = "slowmotion:" + id + ':' + locale.toString(speed);
-            if (strobe > 1) producerid.append(':' + QString::number(strobe));
-            prod->set("id", producerid.toUtf8().constData());
-            // copy producer props
-	    for (int i = 0; i < passProps.count(); i++) {
-		prod->set(passProps.get_name(i), passProps.get(i)); 
-	    }
+    if (serv.contains("avformat")) {
+	if (speed != 1.0 || strobe > 1) {
+	    m_playlist.lock();
+	    if (!prod || !prod->is_valid()) {
+		prod = new Mlt::Producer(*m_playlist.profile(), 0, ("framebuffer:" + url).toUtf8().constData());
+		if (!prod->is_valid()) {
+		    qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
+		    return -1;
+		}
+		if (strobe > 1) prod->set("strobe", strobe);
+		QString producerid = "slowmotion:" + id + ':' + locale.toString(speed);
+		if (strobe > 1) producerid.append(':' + QString::number(strobe));
+		prod->set("id", producerid.toUtf8().constData());
+		// copy producer props
+		for (int i = 0; i < passProps.count(); i++) {
+		    prod->set(passProps.get_name(i), passProps.get(i)); 
+		}
 	      
-	    /*
-            double ar = original->parent().get_double("force_aspect_ratio");
-            if (ar != 0.0) slowprod->set("force_aspect_ratio", ar);
-            double fps = original->parent().get_double("force_fps");
-            if (fps != 0.0) slowprod->set("force_fps", fps);
-            int threads = original->parent().get_int("threads");
-            if (threads != 0) slowprod->set("threads", threads);
-            if (original->parent().get("force_progressive"))
-                slowprod->set("force_progressive", original->parent().get_int("force_progressive"));
-            if (original->parent().get("force_tff"))
-                slowprod->set("force_tff", original->parent().get_int("force_tff"));
-            int ix = original->parent().get_int("video_index");
-            if (ix != 0) slowprod->set("video_index", ix);
-            int colorspace = original->parent().get_int("force_colorspace");
-            if (colorspace != 0) slowprod->set("force_colorspace", colorspace);
-            int full_luma = original->parent().get_int("set.force_full_luma");
-            if (full_luma != 0) slowprod->set("set.force_full_luma", full_luma);*/
-	    emit storeSlowMotion(url, prod);
-            //m_slowmotionProducers.insert(url, slowprod);
-        }
-        Mlt::Producer *clip = m_playlist.replace_with_blank(clipIndex);
-        m_playlist.consolidate_blanks(0);
+		/*
+		double ar = original->parent().get_double("force_aspect_ratio");
+		if (ar != 0.0) slowprod->set("force_aspect_ratio", ar);
+		double fps = original->parent().get_double("force_fps");
+		if (fps != 0.0) slowprod->set("force_fps", fps);
+		int threads = original->parent().get_int("threads");
+		if (threads != 0) slowprod->set("threads", threads);
+		if (original->parent().get("force_progressive"))
+		    slowprod->set("force_progressive", original->parent().get_int("force_progressive"));
+		if (original->parent().get("force_tff"))
+		    slowprod->set("force_tff", original->parent().get_int("force_tff"));
+		int ix = original->parent().get_int("video_index");
+		if (ix != 0) slowprod->set("video_index", ix);
+		int colorspace = original->parent().get_int("force_colorspace");
+		if (colorspace != 0) slowprod->set("force_colorspace", colorspace);
+		int full_luma = original->parent().get_int("set.force_full_luma");
+		if (full_luma != 0) slowprod->set("set.force_full_luma", full_luma);*/
+		emit storeSlowMotion(url, prod);
+	    }
+	    Mlt::Producer *clip = m_playlist.replace_with_blank(clipIndex);
+	    m_playlist.consolidate_blanks(0);
 
-        // Check that the blank space is long enough for our new duration
-        clipIndex = m_playlist.get_clip_index_at(startPos);
-        int blankEnd = m_playlist.clip_start(clipIndex) + m_playlist.clip_length(clipIndex);
-        Mlt::Producer *cut;
-        if (clipIndex + 1 < m_playlist.count() && (startPos + clipLength / speed > blankEnd)) {
-            GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
-            cut = prod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)(info.cropStart.frames(m_fps) / speed + maxLength.frames(m_fps) - 1));
-        } else cut = prod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)((info.cropStart.frames(m_fps) + clipLength) / speed - 1));
+	    // Check that the blank space is long enough for our new duration
+	    clipIndex = m_playlist.get_clip_index_at(startPos);
+	    int blankEnd = m_playlist.clip_start(clipIndex) + m_playlist.clip_length(clipIndex);
+	    Mlt::Producer *cut;
+	    if (clipIndex + 1 < m_playlist.count() && (startPos + clipLength / speed > blankEnd)) {
+		GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
+		cut = prod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)(info.cropStart.frames(m_fps) / speed + maxLength.frames(m_fps) - 1));
+	    } else cut = prod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)((info.cropStart.frames(m_fps) + clipLength) / speed - 1));
 
-        // move all effects to the correct producer
-	Clip(*cut).addEffects(*clip);
-        m_playlist.insert_at(startPos, cut, 1);
-        delete cut;
-        delete clip;
-        clipIndex = m_playlist.get_clip_index_at(startPos);
-        newLength = m_playlist.clip_length(clipIndex);
-        m_playlist.unlock();
-    } else if (speed == 1.0 && strobe < 2) {
-        if (!prod || !prod->is_valid()) {
-            qDebug()<<"// Something is wrong with original slowmo producer";
-            return -1;
-        }
-        m_playlist.unlock();
+	    // move all effects to the correct producer
+	    Clip(*cut).addEffects(*clip);
+	    m_playlist.insert_at(startPos, cut, 1);
+	    delete cut;
+	    delete clip;
+	    clipIndex = m_playlist.get_clip_index_at(startPos);
+	    newLength = m_playlist.clip_length(clipIndex);
+	    m_playlist.unlock();
+	} else if (speed == 1.0 && strobe < 2) {
+	    m_playlist.lock();
 
-        Mlt::Producer *clip = m_playlist.replace_with_blank(clipIndex);
-        m_playlist.consolidate_blanks(0);
+	    Mlt::Producer *clip = m_playlist.replace_with_blank(clipIndex);
+	    m_playlist.consolidate_blanks(0);
 
-        // Check that the blank space is long enough for our new duration
-        clipIndex = m_playlist.get_clip_index_at(startPos);
-        int blankEnd = m_playlist.clip_start(clipIndex) + m_playlist.clip_length(clipIndex);
+	    // Check that the blank space is long enough for our new duration
+	    clipIndex = m_playlist.get_clip_index_at(startPos);
+	    int blankEnd = m_playlist.clip_start(clipIndex) + m_playlist.clip_length(clipIndex);
 
-        Mlt::Producer *cut;
-	Mlt::Producer *trackProd;
-	if (needsDuplicate) {
-	    trackProd = clipProducer(prod, PlaylistState::Original);
-	} else {
-	    trackProd = prod;
+	    Mlt::Producer *cut;
+	
+	    if (!prod || !prod->is_valid()) {
+		prod = new Mlt::Producer(*m_playlist.profile(), 0, ("framebuffer:" + url).toUtf8().constData());
+		if (!prod->is_valid()) {
+		    qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
+		    return -1;
+		}
+		if (strobe > 1) prod->set("strobe", strobe);
+		QString producerid = "slowmotion:" + id + ':' + locale.toString(speed);
+		if (strobe > 1) producerid.append(':' + QString::number(strobe));
+		prod->set("id", producerid.toUtf8().constData());
+		// copy producer props
+		for (int i = 0; i < passProps.count(); i++) {
+		    prod->set(passProps.get_name(i), passProps.get(i)); 
+		}
+		emit storeSlowMotion(url, prod);
+	    }
+	    
+	    int originalStart = (int)(speedIndependantInfo.cropStart.frames(m_fps));
+	    if (clipIndex + 1 < m_playlist.count() && (info.startPos + speedIndependantInfo.cropDuration).frames(m_fps) > blankEnd) {
+		GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
+		cut = prod->cut(originalStart, (int)(originalStart + maxLength.frames(m_fps) - 1));
+	    } else {
+		cut = prod->cut(originalStart, (int)(originalStart + speedIndependantInfo.cropDuration.frames(m_fps)) - 1);
+	    }
+
+	    // move all effects to the correct producer
+	    Clip(*cut).addEffects(*clip);
+	    m_playlist.insert_at(startPos, cut, 1);
+	    delete cut;
+	    delete clip;
+	    clipIndex = m_playlist.get_clip_index_at(startPos);
+	    newLength = m_playlist.clip_length(clipIndex);
+	    m_playlist.unlock();
 	}
-        int originalStart = (int)(speedIndependantInfo.cropStart.frames(m_fps));
-        if (clipIndex + 1 < m_playlist.count() && (info.startPos + speedIndependantInfo.cropDuration).frames(m_fps) > blankEnd) {
-            GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
-            cut = trackProd->cut(originalStart, (int)(originalStart + maxLength.frames(m_fps) - 1));
-        } else cut = trackProd->cut(originalStart, (int)(originalStart + speedIndependantInfo.cropDuration.frames(m_fps)) - 1);
-
-        // move all effects to the correct producer
-        Clip(*cut).addEffects(*clip);
-
-        m_playlist.insert_at(startPos, cut, 1);
-        delete cut;
-        delete clip;
-        clipIndex = m_playlist.get_clip_index_at(startPos);
-        newLength = m_playlist.clip_length(clipIndex);
-        m_playlist.unlock();
-
     } else if (serv == "framebuffer") {
         m_playlist.lock();
-        QString url = QString::fromUtf8(clipparent.get("resource"));
-        url = url.section('?', 0, 0);
-        url.append('?' + locale.toString(speed));
-        if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
         if (!prod || !prod->is_valid()) {
             prod = new Mlt::Producer(*m_playlist.profile(), 0, ("framebuffer:" + url).toUtf8().constData());
+	    if (!prod->is_valid()) {
+		qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
+		return -1;
+	    }
             prod->set("strobe", strobe);
             QString producerid = "slowmotion:" + id.section(':', 1, 1) + ':' + locale.toString(speed);
             if (strobe > 1) producerid.append(':' + QString::number(strobe));
@@ -727,31 +739,12 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
 	    for (int i = 0; i < passProps.count(); i++) {
 		prod->set(passProps.get_name(i), passProps.get(i)); 
 	    }
-	     
-	     
-            /*double ar = original->parent().get_double("force_aspect_ratio");
-            if (ar != 0.0) slowprod->set("force_aspect_ratio", ar);
-            double fps = original->parent().get_double("force_fps");
-            if (fps != 0.0) slowprod->set("force_fps", fps);
-            if (original->parent().get("force_progressive"))
-                slowprod->set("force_progressive", original->parent().get_int("force_progressive"));
-            if (original->parent().get("force_tff"))
-                slowprod->set("force_tff", original->parent().get_int("force_tff"));
-            int threads = original->parent().get_int("threads");
-            if (threads != 0) slowprod->set("threads", threads);
-            int ix = original->parent().get_int("video_index");
-            if (ix != 0) slowprod->set("video_index", ix);
-            int colorspace = original->parent().get_int("force_colorspace");
-            if (colorspace != 0) slowprod->set("force_colorspace", colorspace);
-            int full_luma = original->parent().get_int("set.force_full_luma");
-            if (full_luma != 0) slowprod->set("set.force_full_luma", full_luma);
-            m_slowmotionProducers.insert(url, slowprod);*/
 	    emit storeSlowMotion(url, prod);
         }
         Mlt::Producer *clip = m_playlist.replace_with_blank(clipIndex);
         m_playlist.consolidate_blanks(0);
 
-        GenTime duration = speedIndependantInfo.cropDuration / speed;
+        int duration = speedIndependantInfo.cropDuration.frames(m_fps) / speed;
         int originalStart = (int)(speedIndependantInfo.cropStart.frames(m_fps) / speed);
 
         // Check that the blank space is long enough for our new duration
@@ -759,14 +752,15 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
         int blankEnd = m_playlist.clip_start(clipIndex) + m_playlist.clip_length(clipIndex);
 
         Mlt::Producer *cut;
-        if (clipIndex + 1 < m_playlist.count() && (info.startPos + duration).frames(m_fps) > blankEnd) {
+        if (clipIndex + 1 < m_playlist.count() && (startPos + duration > blankEnd)) {
             GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
             cut = prod->cut(originalStart, (int)(originalStart + maxLength.frames(m_fps) - 1));
-        } else cut = prod->cut(originalStart, (int)(originalStart + duration.frames(m_fps)) - 1);
+        } else {
+	      cut = prod->cut(originalStart, originalStart + duration - 1);
+	}
 
         // move all effects to the correct producer
         Clip(*cut).addEffects(*clip);
-
         m_playlist.insert_at(startPos, cut, 1);
         delete cut;
         delete clip;
@@ -775,8 +769,6 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
 
         m_playlist.unlock();
     }
-    delete original;
-    //if (clipIndex + 1 == m_playlist.count()) mltCheckLength(&tractor);
     return newLength;
 }
 
