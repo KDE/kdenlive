@@ -111,8 +111,9 @@ public:
      * @param id is the clip id
      * @param original is the original replacement clip
      * @param videoOnlyProducer is the video only (without sound) replacement clip
+     * @param newSlowMos the slowmotion producers required for replacement
      * @return true if success */
-    bool replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer);
+    bool replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer, QMap <QString, Mlt::Producer *> newSlowMos);
     void updateEffects(const QString &id, Mlt::Producer *original);
     /** @brief replace an instance of a clip with another resource
      * @param t is the clip time in playlist
@@ -156,6 +157,8 @@ public:
     int getBlankLength(int pos, bool fromBlankStart);
     /** @brief Update producer properties on all instances of this clip. */
     void updateClipProperties(const QString &id, QMap <QString, QString> properties);
+    /** @brief Returns a list of speed info for all slowmotion producer used on this track for an id. */
+    QStringList getSlowmotionIds(const QString &id);
 
 public Q_SLOTS:
     void setPlaylist(Mlt::Playlist &playlist);

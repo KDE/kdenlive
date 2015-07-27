@@ -117,6 +117,7 @@ public:
     int changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *originalProd, bool needsDuplicate);
     int getTracks();
     void getTransitions();
+    void refreshTractor();
 
 protected:
     void keyPressEvent(QKeyEvent * event);

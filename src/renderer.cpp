@@ -4154,9 +4154,14 @@ void Render::setVolume(double volume)
     }
 }
 
-void Render::storeSlowmotionProducer(const QString &url, Mlt::Producer *prod)
+void Render::storeSlowmotionProducer(const QString &url, Mlt::Producer *prod, bool replace)
 {
       if (!m_slowmotionProducers.contains(url)) {
+	    m_slowmotionProducers.insert(url, prod);
+      }
+      else if (replace) {
+	    Mlt::Producer *old = m_slowmotionProducers.take(url);
+	    delete old;
 	    m_slowmotionProducers.insert(url, prod);
       }
 }
@@ -4186,3 +4191,4 @@ void Render::updateSlowMotionProducers(const QString &id, QMap <QString, QString
 	}
     }
 }
+

@@ -485,7 +485,7 @@ public slots:
     void getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
     /** @brief Renderer moved to a new frame, check seeking */
     void checkFrameNumber(int pos);
-    void storeSlowmotionProducer(const QString &url, Mlt::Producer *prod);
+    void storeSlowmotionProducer(const QString &url, Mlt::Producer *prod, bool replace = false);
     void seek(int time);
 };
 

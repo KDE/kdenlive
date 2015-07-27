@@ -596,6 +596,11 @@ void Timeline::switchTrackVideo(int ix, bool hide)
         }
     }
     tk->setState(newstate);
+    refreshTractor();
+}
+
+void Timeline::refreshTractor()
+{
     m_tractor->multitrack()->refresh();
     m_tractor->refresh();
 }
