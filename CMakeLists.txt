@@ -2,7 +2,13 @@ project(Kdenlive)
 
 # An odd patch version number means development version, while an even one means
 # stable release. An additional number can be used for bugfix-only releases.
-set(KDENLIVE_VERSION 15.07.0)
+
+# KDE Application Version, managed by release script
+set (KDE_APPLICATIONS_VERSION_MAJOR "15")
+set (KDE_APPLICATIONS_VERSION_MINOR "07")
+set (KDE_APPLICATIONS_VERSION_MICRO "0")
+
+set(KDENLIVE_VERSION ${KDE_APPLICATIONS_VERSION_MAJOR}.${KDE_APPLICATIONS_VERSION_MINOR}.${KDE_APPLICATIONS_VERSION_MICRO})
 cmake_minimum_required(VERSION 2.8.12)
 # Minimum versions of main dependencies.
 set(MLT_MIN_MAJOR_VERSION 0)
