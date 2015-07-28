@@ -392,7 +392,7 @@ const QStringList Bin::getFolderInfo(QModelIndex selectedIx)
         return folderInfo;
     }
     QModelIndex ix = indexes.first();
-    if (ix.isValid() && m_proxyModel->selectionModel()->isSelected(ix)) {
+    if (ix.isValid() && (m_proxyModel->selectionModel()->isSelected(ix) || selectedIx.isValid())) {
         AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
         while (currentItem->itemType() != AbstractProjectItem::FolderItem) {
             currentItem = currentItem->parent();
@@ -632,7 +632,7 @@ void Bin::createClip(QDomElement xml)
     }
 }
 
-void Bin::slotAddFolder()
+QString Bin::slotAddFolder(const QString &folderName)
 {
     // Check parent item
     QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
@@ -647,10 +647,14 @@ void Bin::slotAddFolder()
         }
     }
     QString newId = QString::number(getFreeFolderId());
-    AddBinFolderCommand *command = new AddBinFolderCommand(this, newId, i18n("Folder"), parentFolder->clipId());
+    AddBinFolderCommand *command = new AddBinFolderCommand(this, newId, folderName.isEmpty() ? i18n("Folder") : folderName, parentFolder->clipId());
     m_doc->commandStack()->push(command);
 
     // Edit folder name
+    if (!folderName.isEmpty()) {
+	// We already have a name, no need to edit
+	return newId;
+    }
     ix = getIndexForId(newId, true);
     if (ix.isValid()) {
         m_proxyModel->selectionModel()->clearSelection();
@@ -663,6 +667,7 @@ void Bin::slotAddFolder()
         }
         m_itemView->edit(m_proxyModel->mapFromSource(ix));
     }
+    return newId;
 }
 
 QModelIndex Bin::getIndexForId(const QString &id, bool folderWanted) const
@@ -1800,8 +1805,35 @@ void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
             folderInfo << parentItem->clipId();
         }
     }
-    //TODO: verify if urls exist, check for folders
-    ClipCreationDialog::createClipsCommand(m_doc, urls, folderInfo, this);
+    //TODO: verify if urls exist
+    QList <QUrl> clipsToAdd = urls;
+    QMimeDatabase db;
+    foreach(const QUrl & file, clipsToAdd) {
+        // Check there is no folder here
+        QMimeType type = db.mimeTypeForUrl(file);
+        if (type.inherits("inode/directory")) {
+            // user dropped a folder, import its files
+            clipsToAdd.removeAll(file);
+            QDir dir(file.path());
+            QStringList result = dir.entryList(QDir::Files);
+            QList <QUrl> folderFiles;
+            foreach(const QString & path, result) {
+                folderFiles.append(QUrl::fromLocalFile(dir.absoluteFilePath(path)));
+            }
+            if (folderFiles.count() > 0) {
+		QString folderId = slotAddFolder(dir.dirName());
+		QModelIndex ind = getIndexForId(folderId, true);
+		QStringList newFolderInfo;
+		if (ind.isValid()) {
+			newFolderInfo = getFolderInfo(m_proxyModel->mapFromSource(ind));
+		}
+		ClipCreationDialog::createClipsCommand(m_doc, folderFiles, newFolderInfo, this);
+	    }
+        }
+    }
+        
+    if (!clipsToAdd.isEmpty()) 
+	ClipCreationDialog::createClipsCommand(m_doc, clipsToAdd, folderInfo, this);
 }
 
 void Bin::slotItemEdited(QModelIndex ix,QModelIndex,QVector<int>)

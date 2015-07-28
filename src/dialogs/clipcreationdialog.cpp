@@ -459,7 +459,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupI
     QObject::connect(fileWidget->cancelButton(), &QPushButton::clicked, dlg, &QDialog::reject);
     dlg->setLayout(layout);
     fileWidget->setFilter(dialogFilter);
-    fileWidget->setMode(KFile::Files | KFile::ExistingOnly);
+    fileWidget->setMode(KFile::Files | KFile::ExistingOnly | KFile::LocalOnly);
     KSharedConfig::Ptr conf = KSharedConfig::openConfig();
     KWindowConfig::restoreWindowSize(dlg->windowHandle(), conf->group("FileDialogSize"));
     dlg->resize(dlg->windowHandle()->size());

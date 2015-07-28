@@ -494,7 +494,8 @@ public slots:
     void slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos);
     void slotSwitchClipProperties(const QModelIndex &ix);
     void slotSwitchClipProperties();
-    void slotAddFolder();
+    /** @brief Creates a new folder with optional name, and returns new folder's id */
+    QString slotAddFolder(const QString &folderName = QString());
     void slotCreateProjectClip();
     /** @brief Start a Cut Clip job on this clip (extract selected zone using FFmpeg) */
     void slotStartCutJob(const QString &id);
