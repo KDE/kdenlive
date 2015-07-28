@@ -62,7 +62,6 @@ public:
     const QString getBinHash() const;
     ProjectClip *binClip() const;
     QString clipName() const;
-    void setClipName(const QString &name);
     QDomElement xml() const;
     QDomElement itemXml() const;
     ClipItem *clone(const ItemInfo &info) const;
@@ -211,7 +210,6 @@ private:
     ProjectClip *m_binClip;
     ItemInfo m_speedIndependantInfo;
     ClipType m_clipType;
-    QString m_clipName;
     QString m_effectNames;
     int m_startFade;
     int m_endFade;

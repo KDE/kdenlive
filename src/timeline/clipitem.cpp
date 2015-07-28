@@ -75,11 +75,6 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
     m_videoPix = QIcon::fromTheme("kdenlive-show-video").pixmap(QSize(16, 16));
     m_audioPix = QIcon::fromTheme("kdenlive-show-audio").pixmap(QSize(16, 16));
 
-    if (m_speed == 1.0)
-        m_clipName = m_binClip->name();
-    else
-        m_clipName = m_binClip->name() + " - " + QString::number(m_speed * 100, 'f', 0) + '%';
-
     m_clipType = m_binClip->clipType();
     //m_cropStart = info.cropStart;
     if (m_binClip->hasLimitedDuration()) {
@@ -631,12 +626,10 @@ int ClipItem::clipType() const
 
 QString ClipItem::clipName() const
 {
-    return m_clipName;
-}
-
-void ClipItem::setClipName(const QString &name)
-{
-    m_clipName = name;
+    if (m_speed == 1.0)
+	 return m_binClip->name();
+    else
+	return m_binClip->name() + " - " + QString::number(m_speed * 100, 'f', 0) + '%';
 }
 
 void ClipItem::flashClip()
@@ -853,7 +846,8 @@ void ClipItem::paint(QPainter *painter,
         }
 
         // Draw clip name
-        const QRectF txtBounding2 = painter->boundingRect(mapped, Qt::AlignRight | Qt::AlignTop, m_clipName);
+        QString name = clipName();
+        const QRectF txtBounding2 = painter->boundingRect(mapped, Qt::AlignRight | Qt::AlignTop, name);
         painter->setPen(Qt::NoPen);
         painter->fillRect(txtBounding2.adjusted(-3, 0, 0, 0), textBgColor);
         painter->setBrush(QBrush(Qt::NoBrush));
@@ -868,7 +862,7 @@ void ClipItem::paint(QPainter *painter,
           default:
             break;
         }
-        painter->drawText(txtBounding2, Qt::AlignLeft, m_clipName);
+        painter->drawText(txtBounding2, Qt::AlignLeft, name);
 
 
         // draw markers
@@ -1587,8 +1581,6 @@ void ClipItem::setSpeed(const double speed, const int strobe)
     if (m_speed <= 0 && m_speed > -1)
         m_speed = -1.0;
     m_strobe = strobe;
-    m_clipName = m_binClip->name();
-    if (m_speed != 1.0) m_clipName.append(" - " + QString::number(speed * 100, 'f', 0) + '%');
     m_info.cropStart = GenTime((int)(m_speedIndependantInfo.cropStart.frames(m_fps) / qAbs(m_speed) + 0.5), m_fps);
     m_info.cropDuration = GenTime((int)(m_speedIndependantInfo.cropDuration.frames(m_fps) / qAbs(m_speed) + 0.5), m_fps);
     //update();

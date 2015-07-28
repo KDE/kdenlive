@@ -268,7 +268,7 @@ public slots:
     void slotDeleteTrack(int ix);
     /** @brief Shows the configure tracks dialog. */
     void slotConfigTracks(int ix);
-    void clipNameChanged(const QString &id, const QString &name);
+    void clipNameChanged(const QString &id);
     void slotTrackUp();
     void slotTrackDown();
     void slotSelectTrack(int ix);

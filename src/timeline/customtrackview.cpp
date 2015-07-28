@@ -6302,7 +6302,7 @@ void CustomTrackView::autoTransition()
     setDocumentModified();
 }
 
-void CustomTrackView::clipNameChanged(const QString &id, const QString &name)
+void CustomTrackView::clipNameChanged(const QString &id)
 {
     QList<QGraphicsItem *> list = scene()->items();
     ClipItem *clip = NULL;
@@ -6310,11 +6310,11 @@ void CustomTrackView::clipNameChanged(const QString &id, const QString &name)
         if (list.at(i)->type() == AVWidget) {
             clip = static_cast <ClipItem *>(list.at(i));
             if (clip->getBinId() == id) {
-                clip->setClipName(name);
+                clip->update();
             }
         }
     }
-    viewport()->update();
+    //viewport()->update();
 }
 
 void CustomTrackView::getClipAvailableSpace(AbstractClipItem *item, GenTime &minimum, GenTime &maximum)
