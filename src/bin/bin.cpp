@@ -1806,16 +1806,12 @@ void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
 
 void Bin::slotItemEdited(QModelIndex ix,QModelIndex,QVector<int>)
 {
-    // An item name was edited
-/*    if (!ix.isValid()) return;
-    AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(ix.internalPointer());
-    if (currentItem && currentItem->itemType() == AbstractProjectItem::FolderItem) {
-        //TODO: Use undo command for this
-        
-        AbstractProjectItem *parentFolder = currentItem->parent();
-        RenameBinFolderCommand *command = new RenameBinFolderCommand(this, currentItem->clipId(), const QString &newName, const QString &oldName, QUndoCommand *parent) :
-        emit storeFolder(currentItem->clipId(), parentFolder->clipId(), QString(), currentItem->name());
-    }*/
+    if (ix.isValid()) {
+        // User clicked in the icon, open clip properties
+        AbstractProjectItem *item = static_cast<AbstractProjectItem*>(ix.internalPointer());
+        ProjectClip *clip = qobject_cast<ProjectClip*>(item);  
+	if (clip) emit clipNameChanged(clip->clipId());
+    }
 }
 
 void Bin::renameFolderCommand(const QString &id, const QString &newName, const QString &oldName)
