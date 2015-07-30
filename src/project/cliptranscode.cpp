@@ -151,19 +151,21 @@ void ClipTranscode::slotStartTransCode()
     }
 
     bool replaceVfParams = false;
-    foreach(QString s, params.split(' ')) {
+    QStringList splitted = params.split(' ');
+    foreach(QString s, splitted) {
         if (replaceVfParams) {
-            s= m_postParams.at(1);
+            parameters << m_postParams.at(1);
             replaceVfParams = false;
         } else if (s.startsWith(QLatin1String("%1"))) {
             parameters << s.replace(0, 2, destination);
-        } else if (s == "-vf") {
+        } else if (!m_postParams.isEmpty() && s == "-vf") {
             replaceVfParams = true;
+            parameters << s;
+        } else {
+            parameters << s;
         }
     }
-    
     buttonBox->button(QDialogButtonBox::Abort)->setText(i18n("Abort"));
-
     m_destination = destination + extension;
     m_transcodeProcess.start(KdenliveSettings::ffmpegpath(), parameters);
     source_url->setEnabled(false);
