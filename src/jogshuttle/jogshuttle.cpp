@@ -42,12 +42,15 @@ const QEvent::Type MediaCtrlEvent::Jog = (QEvent::Type)QEvent::registerEventType
 const QEvent::Type MediaCtrlEvent::Shuttle = (QEvent::Type)QEvent::registerEventType();
 
 
-
-void ShuttleThread::init(QObject *parent, const QString &device)
+ShuttleThread::ShuttleThread(const QString &device, QObject *parent) :
+        m_device(device),
+        m_parent(parent),
+        m_isRunning(false)
 {
-    m_parent = parent;
-    m_device = device;
-    m_isRunning = true;
+}
+
+ShuttleThread::~ShuttleThread()
+{
 }
 
 QString ShuttleThread::device()
@@ -62,46 +65,32 @@ void ShuttleThread::stop()
 
 void ShuttleThread::run()
 {
-	//qDebug() << "-------  STARTING SHUTTLE: " << m_device;
 	media_ctrl mc;
-
-    // open device
     media_ctrl_open_dev(&mc, m_device.toUtf8().data());
-
-    // on failure return
     if (mc.fd < 0) {
-        //qDebug() << "Can't open Jog Shuttle FILE DESCRIPTOR";
         return;
     }
-
-    // init
 	fd_set readset;
 	struct timeval timeout;
-
 	// enter thread loop
+    m_isRunning = true;
 	while (m_isRunning) {
 		// reset the read set
 		FD_ZERO(&readset);
 		FD_SET(mc.fd, &readset);
-
 		// reinit the timeout structure
 		timeout.tv_sec  = 0;
-		timeout.tv_usec = 400000; /* 400 ms */
-
+		timeout.tv_usec = 400000;
 		// do select in blocked mode and wake up after timeout
 		// for stop_me evaluation
 		int result = select(mc.fd + 1, &readset, NULL, NULL, &timeout);
-
 		// see if there was an error or timeout else process event
 		if (result < 0 && errno == EINTR) {
 			// EINTR event caught. This is not a problem - continue processing
-			//qDebug() << strerror(errno) << '\n';
-			// continue processing
 			continue;
 		} else if (result < 0) {
 			// stop thread
 		    m_isRunning = false;
-			//qDebug() << strerror(errno) << '\n';
 		} else if (result > 0) {
 			// we have input
 			if (FD_ISSET(mc.fd, &readset)) {
@@ -113,11 +102,9 @@ void ShuttleThread::run()
                 handleEvent(mev);
 			}
 		} else if (result == 0) {
-		    // on timeout. let it here for debug
+		    // on timeout
 		}
 	}
-
-    //qDebug() << "-------  STOPPING SHUTTLE: ";
 	// close the handle and return thread
     media_ctrl_close(&mc);
 }
@@ -160,27 +147,15 @@ void ShuttleThread::jog(const media_ctrl_event& ev)
 }
 
 JogShuttle::JogShuttle(const QString &device, QObject *parent) :
-        QObject(parent)
+        QObject(parent),
+        m_shuttleProcess(device, parent)
 {
-    initDevice(device);
+    m_shuttleProcess.start();
 }
 
 JogShuttle::~JogShuttle()
 {
 	stopDevice();
-}
-
-void JogShuttle::initDevice(const QString &device)
-{
-    if (m_shuttleProcess.isRunning()) {
-        if (device == m_shuttleProcess.device())
-            return;
-
-        stopDevice();
-    }
-
-    m_shuttleProcess.init(this, device);
-    m_shuttleProcess.start(QThread::LowestPriority);
 }
 
 void JogShuttle::stopDevice()
@@ -195,7 +170,7 @@ void JogShuttle::stopDevice()
         // if still running - do it in the hardcore way
         if (m_shuttleProcess.isRunning()) {
         	m_shuttleProcess.terminate();
-            //qDebug() << "/// terminate jogshuttle process";
+            qWarning() << "Needed to force jogshuttle process termination";
         }
     }
 }
