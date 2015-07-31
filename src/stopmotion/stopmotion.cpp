@@ -805,38 +805,6 @@ void StopmotionWidget::slotAnimate()
 
 }
 
-QListWidgetItem* StopmotionWidget::getFrameFromIndex(int ix)
-{
-    QListWidgetItem* item = NULL;
-    int pos = ix;
-    if (ix >= frame_list->count()) {
-        pos = frame_list->count() - 1;
-    }
-    if (ix < 0) pos = 0;
-    item = frame_list->item(pos);
-
-    int value = item->data(Qt::UserRole).toInt();
-    if (value == ix) return item;
-    else if (value < ix) {
-        pos++;
-        while (pos < frame_list->count()) {
-            item = frame_list->item(pos);
-            value = item->data(Qt::UserRole).toInt();
-            if (value == ix) return item;
-            pos++;
-        }
-    } else {
-        pos --;
-        while (pos >= 0) {
-            item = frame_list->item(pos);
-            value = item->data(Qt::UserRole).toInt();
-            if (value == ix) return item;
-            pos --;
-        }
-    }
-    return NULL;
-}
-
 void StopmotionWidget::slotSeekFrame(bool forward)
 {
     int ix = frame_list->currentRow();

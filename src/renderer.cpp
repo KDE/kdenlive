@@ -54,17 +54,6 @@
 
 #define SEEK_INACTIVE (-1)
 
-static void kdenlive_callback(void* /*ptr*/, int level, const char* fmt, va_list vl)
-{
-    if (level > MLT_LOG_ERROR) return;
-    ////qDebug() << "log level" << level << QString().vsprintf(fmt, vl).simplified();
-    QString error;
-    QApplication::postEvent(qApp->activeWindow(), new MltErrorEvent(error.vsprintf(fmt, vl).simplified()));
-    va_end(vl);
-}
-
-
-
 Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, GLWidget *qmlView, QWidget *parent) :
     AbstractRender(rendererName, parent),
     requestedSeekPosition(SEEK_INACTIVE),
@@ -132,111 +121,6 @@ void Render::slotSwitchFullscreen()
     if (m_mltConsumer)
         m_mltConsumer->set("full_screen", 1);
 }
-
-/*void Render::buildConsumer()
-{
-    delete m_blackClip;
-    m_blackClip = NULL;
-    m_blackClip = new Mlt::Producer(*m_mltProfile, "colour:black");
-    m_blackClip->set("id", "black");
-    m_blackClip->set("mlt_type", "producer");
-    if (KdenliveSettings::external_display() && m_name != Kdenlive::ClipMonitor && m_winid != 0) {
-        // Use blackmagic card for video output
-        int device = KdenliveSettings::blackmagic_output_device();
-        if (device >= 0) {
-            QString decklink = "decklink:" + QString::number(KdenliveSettings::blackmagic_output_device());
-            if (!m_mltConsumer) {
-                m_mltConsumer = new Mlt::Consumer(*m_mltProfile, decklink.toUtf8().constData());
-                m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
-                mlt_log_set_callback(kdenlive_callback);
-            }
-            if (m_mltConsumer->is_valid()) {
-                externalConsumer = true;
-                m_mltConsumer->set("terminate_on_pause", 0);
-                m_mltConsumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
-                m_mltConsumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
-                m_mltConsumer->set("buffer", "1");
-                m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
-            }
-            if (m_mltConsumer && m_mltConsumer->is_valid()) {
-                return;
-            }
-            KMessageBox::information(qApp->activeWindow(), i18n("Your project's profile %1 is not compatible with the blackmagic output card. Please see supported profiles below. Switching to normal video display.", m_mltProfile->description()));
-        }
-    }
-    externalConsumer = false;
-    QString videoDriver = KdenliveSettings::videodrivername();
-    if (!videoDriver.isEmpty()) {
-        if (videoDriver == "x11_noaccel") {
-            qputenv("SDL_VIDEO_YUV_HWACCEL", "0");
-            videoDriver = "x11";
-        } else {
-            qunsetenv("SDL_VIDEO_YUV_HWACCEL");
-        }
-    }
-    qputenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1");
-
-    //m_mltConsumer->set("fullscreen", 1);
-    if (m_winid == 0) {
-        // OpenGL monitor
-        if (!m_mltConsumer) {
-            if (KdenliveSettings::external_display() && m_name != Kdenlive::ClipMonitor) {
-                int device = KdenliveSettings::blackmagic_output_device();
-                if (device >= 0) {
-                    QString decklink = "decklink:" + QString::number(KdenliveSettings::blackmagic_output_device());
-                    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, decklink.toUtf8().constData());
-                    // Set defaults for decklink consumer
-                    if (m_mltConsumer) {
-                        m_mltConsumer->set("terminate_on_pause", 0);
-                        m_mltConsumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
-                        externalConsumer = true;
-                    }
-                }
-            }
-            if (!m_mltConsumer || !m_mltConsumer->is_valid()) {
-                m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_audio");
-                m_mltConsumer->set("scrub_audio", 1);
-                m_mltConsumer->set("preview_off", 1);
-                m_mltConsumer->set("audio_buffer", 512);
-                m_mltConsumer->set("preview_format", mlt_image_rgb24a);
-            }
-            m_mltConsumer->set("buffer", "1");
-            m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_gl_frame_show);
-        }
-    } else {
-        if (!m_mltConsumer) {
-            m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_preview");
-            m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
-            //m_pauseEvent = m_mltConsumer->listen("consumer-sdl-paused", this, (mlt_listener) consumer_paused);
-            m_mltConsumer->set("progressive", 1);
-        }
-        m_mltConsumer->set("window_id", m_winid);
-    }
-    //m_mltConsumer->set("resize", 1);
-    m_mltConsumer->set("window_background", KdenliveSettings::window_background().name().toUtf8().constData());
-    m_mltConsumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
-    mlt_log_set_callback(kdenlive_callback);
-
-    QString audioDevice = KdenliveSettings::audiodevicename();
-    if (!audioDevice.isEmpty())
-        m_mltConsumer->set("audio_device", audioDevice.toUtf8().constData());
-
-    if (!videoDriver.isEmpty())
-        m_mltConsumer->set("video_driver", videoDriver.toUtf8().constData());
-
-    QString audioDriver = KdenliveSettings::audiodrivername();
-
-    // Disabled because the "auto" detected driver was sometimes wrong
-    //if (audioDriver.isEmpty())
-    //    audioDriver = KdenliveSettings::autoaudiodrivername();
-    
-
-    if (!audioDriver.isEmpty())
-        m_mltConsumer->set("audio_driver", audioDriver.toUtf8().constData());
-
-    m_mltConsumer->set("frequency", 48000);
-    m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
-}*/
 
 Mlt::Producer *Render::invalidProducer(const QString &id)
 {
@@ -1138,12 +1022,6 @@ void Render::loadUrl(const QString &url)
     setProducer(producer, 0, true);
 }
 
-int Render::setMonitorProducer(const QString &id, int position)
-{
-    Mlt::Producer *prod = m_binController->getBinProducer(id);
-    return setProducer(prod, position, true);
-}
-
 int Render::updateProducer(Mlt::Producer *producer)
 {
     if (m_mltProducer) {
@@ -1375,96 +1253,6 @@ int Render::setSceneList(QString playlist, int position)
     ////qDebug()<<"// SETSCN LST, POS: "<<position;
     if (position != 0) emit rendererPosition(position);
     return error;
-}
-
-
-int Render::reloadSceneList(QString playlist, int position)
-{
-    requestedSeekPosition = SEEK_INACTIVE;
-    m_refreshTimer.stop();
-    QMutexLocker locker(&m_mutex);
-    //if (m_winid == -1) return -1;
-    int error = 0;
-
-    //qDebug() << "//////  RENDER, SET SCENE LIST:\n" << playlist <<"\n..........:::.";
-
-    // Remove previous profile info
-    /*QDomDocument doc;
-    doc.setContent(playlist);
-    QDomElement profile = doc.documentElement().firstChildElement("profile");
-    doc.documentElement().removeChild(profile);
-    playlist = doc.toString();*/
-
-    if (m_mltConsumer) {
-        if (!m_mltConsumer->is_stopped()) {
-            m_mltConsumer->stop();
-        }
-    } else {
-        qWarning() << "///////  ERROR, TRYING TO USE NULL MLT CONSUMER";
-        error = -1;
-    }
-    m_requestList.clear();
-    m_infoThread.waitForFinished();
-
-    if (m_mltProducer) {
-        m_mltProducer->set_speed(0);
-        qDeleteAll(m_slowmotionProducers.values());
-        m_slowmotionProducers.clear();
-
-        delete m_mltProducer;
-        m_mltProducer = NULL;
-        emit stopped();
-    }
-    blockSignals(true);
-    m_mltProducer = new Mlt::Producer(*m_qmlView->profile(), "xml-string", playlist.toUtf8().constData());
-    if (!m_mltProducer || !m_mltProducer->is_valid()) {
-        qDebug() << " WARNING - - - - -INVALID PLAYLIST: " << playlist.toUtf8().constData();
-        m_mltProducer = m_blackClip->cut(0, 1);
-        error = -1;
-    }
-    m_mltProducer->set("eof", "pause");
-    checkMaxThreads();
-    m_mltProducer->optimise();
-
-    m_fps = m_mltProducer->get_fps();
-    if (position != 0) {
-        // Seek to correct place after opening project.
-        m_mltProducer->seek(position);
-    }
-
-    // Fill Bin's playlist
-    Mlt::Service service(m_mltProducer->parent().get_service());
-    if (service.type() != tractor_type) {
-        qWarning() << "// TRACTOR PROBLEM";
-    }
-    blockSignals(false);
-    Mlt::Tractor tractor(service);
-    Mlt::Properties retainList((mlt_properties) tractor.get_data("xml_retain"));
-    if (retainList.is_valid() && retainList.get_data(m_binController->binPlaylistId().toUtf8().constData())) {
-        Mlt::Playlist playlist((mlt_playlist) retainList.get_data(m_binController->binPlaylistId().toUtf8().constData()));
-        if (playlist.is_valid() && playlist.type() == playlist_type) {
-            // Load bin clips
-	    ProfileInfo info;
-	    info.profileSize = QSize(frameRenderWidth(), renderHeight());
-	    info.profileFps = m_fps;
-            m_binController->initializeBin(playlist, info);
-        }
-    }
-    // No Playlist found, create new one
-    m_binController->createIfNeeded(m_qmlView->profile());
-    QString retain = QString("xml_retain %1").arg(m_binController->binPlaylistId());
-    tractor.set(retain.toUtf8().constData(), m_binController->service(), 0);
-    //if (!m_binController->hasClip("black")) m_binController->addClipToBin("black", *m_blackClip);
-
-    //qDebug() << "// NEW SCENE LIST DURATION SET TO: " << m_mltProducer->get_playtime();
-    m_mltConsumer->connect(*m_mltProducer);
-    m_mltProducer->set_speed(0);
-    fillSlowMotionProducers();
-    emit durationChanged(m_mltProducer->get_playtime());
-
-    return error;
-    ////qDebug()<<"// SETSCN LST, POS: "<<position;
-    //if (position != 0) emit rendererPosition(position);
 }
 
 void Render::checkMaxThreads()
@@ -1914,16 +1702,6 @@ void Render::slotCheckSeeking()
     }
 }
 
-void Render::disablePreview(bool disable)
-{
-    if (m_mltConsumer) {
-        m_mltConsumer->stop();
-        m_mltConsumer->set("preview_off", (int) disable);
-        m_mltConsumer->set("refresh", 0);
-        m_mltConsumer->start();
-    }
-}
-
 void Render::showAudio(Mlt::Frame& frame)
 {
     if (!frame.is_valid() || frame.get_int("test_audio") != 0) {
@@ -2007,78 +1785,6 @@ void Render::mltCheckLength(Mlt::Tractor *tractor)
         m_mltProducer->set("out", duration);
         emit durationChanged(duration);
     }
-}
-
-
-int Render::mltInsertClip(ItemInfo info, const QString &clipId, bool overwrite, bool push)
-{
-    m_refreshTimer.stop();
-    if (m_mltProducer == NULL) {
-        //qDebug() << "PLAYLIST NOT INITIALISED //////";
-        return -1;
-    }
-
-    Mlt::Producer parentProd(m_mltProducer->parent());
-    if (parentProd.get_producer() == NULL) {
-        //qDebug() << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
-        return -1;
-    }
-
-    Mlt::Service service(parentProd.get_service());
-    if (service.type() != tractor_type) {
-        qWarning() << "// TRACTOR PROBLEM";
-        return -1;
-    }
-    Mlt::Tractor tractor(service);
-    if (info.track > tractor.count() - 1) {
-        //qDebug() << "ERROR TRYING TO INSERT CLIP ON TRACK " << info.track << ", at POS: " << info.startPos.frames(25);
-        return -1;
-    }
-    service.lock();
-    Mlt::Producer trackProducer(tractor.track(info.track));
-    int trackDuration = trackProducer.get_playtime() - 1;
-    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-    Mlt::Producer *prod = getProducerForTrack(trackPlaylist, clipId);
-    if (prod == NULL) {
-        qDebug() << "Cannot insert clip without producer //////";
-	service.unlock();
-        return -1;
-    }
-    
-    //qDebug()<<"/// INSERT cLIP: "<<prod->get("id")<<" : "<< info.cropStart.frames(m_fps)<<", "<<info.startPos.frames(m_fps)<<"-"<<info.endPos.frames(m_fps);
-    //TODO: create new producer if speed effect is applied
-    /*prod = checkSlowMotionProducer(prod, element);
-    if (prod == NULL || !prod->is_valid()) {
-        service.unlock();
-        return -1;
-    }*/
-
-    int cutPos = (int) info.cropStart.frames(m_fps);
-    if (cutPos < 0) cutPos = 0;
-    int insertPos = (int) info.startPos.frames(m_fps);
-    int cutDuration = (int)(info.endPos - info.startPos).frames(m_fps) - 1;
-    Mlt::Producer *clip = prod->cut(cutPos, cutDuration + cutPos);
-    if (overwrite && (insertPos < trackDuration)) {
-        // Replace zone with blanks
-        //trackPlaylist.split_at(insertPos, true);
-        trackPlaylist.remove_region(insertPos, cutDuration + 1);
-        int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
-        trackPlaylist.insert_blank(clipIndex, cutDuration);
-    } else if (push) {
-        trackPlaylist.split_at(insertPos, true);
-        int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
-        trackPlaylist.insert_blank(clipIndex, cutDuration);
-    }
-    trackPlaylist.consolidate_blanks(0);
-    int newIndex = trackPlaylist.insert_at(insertPos, clip, 1);
-    delete clip;
-    delete prod;
-
-    if (info.track != 0 && (newIndex + 1 == trackPlaylist.count())) mltCheckLength(&tractor);
-    service.unlock();
-    /*tractor.multitrack()->refresh();
-    tractor.refresh();*/
-    return 0;
 }
 
 Mlt::Producer *Render::getTrackProducer(const QString &id, int track, bool audioOnly, bool videoOnly)
@@ -3865,104 +3571,6 @@ void Render::mltDeleteTrack(int ix)
     */
 #endif
 }
-
-QString Render::updateSceneListFps(double current_fps, double new_fps, const QString &scene)
-{
-    // Update all frame positions to the new fps value
-    //WARNING: there are probably some effects or other that hold a frame value
-    // as parameter and will also need to be updated here!
-    QDomDocument doc;
-    doc.setContent(scene);
-
-    double factor = new_fps / current_fps;
-    QDomNodeList producers = doc.elementsByTagName("producer");
-    for (int i = 0; i < producers.count(); ++i) {
-        QDomElement prod = producers.at(i).toElement();
-        prod.removeAttribute("in");
-        prod.removeAttribute("out");
-
-        QDomNodeList props = prod.childNodes();
-        for (int j = 0; j < props.count(); ++j) {
-            QDomElement param =  props.at(j).toElement();
-            QString paramName = param.attribute("name");
-            if (paramName.startsWith(QLatin1String("meta.")) || paramName == "length") {
-                prod.removeChild(props.at(j));
-                j--;
-            }
-        }
-    }
-
-    QDomNodeList entries = doc.elementsByTagName("entry");
-    for (int i = 0; i < entries.count(); ++i) {
-        QDomElement entry = entries.at(i).toElement();
-        int in = entry.attribute("in").toInt();
-        int out = entry.attribute("out").toInt();
-        in = factor * in + 0.5;
-        out = factor * out + 0.5;
-        entry.setAttribute("in", in);
-        entry.setAttribute("out", out);
-    }
-
-    QDomNodeList blanks = doc.elementsByTagName("blank");
-    for (int i = 0; i < blanks.count(); ++i) {
-        QDomElement blank = blanks.at(i).toElement();
-        int length = blank.attribute("length").toInt();
-        length = factor * length + 0.5;
-        blank.setAttribute("length", QString::number(length));
-    }
-
-    QDomNodeList filters = doc.elementsByTagName("filter");
-    for (int i = 0; i < filters.count(); ++i) {
-        QDomElement filter = filters.at(i).toElement();
-        int in = filter.attribute("in").toInt();
-        int out = filter.attribute("out").toInt();
-        in = factor * in + 0.5;
-        out = factor * out + 0.5;
-        filter.setAttribute("in", in);
-        filter.setAttribute("out", out);
-    }
-
-    QDomNodeList transitions = doc.elementsByTagName("transition");
-    for (int i = 0; i < transitions.count(); ++i) {
-        QDomElement transition = transitions.at(i).toElement();
-        int in = transition.attribute("in").toInt();
-        int out = transition.attribute("out").toInt();
-        in = factor * in + 0.5;
-        out = factor * out + 0.5;
-        transition.setAttribute("in", in);
-        transition.setAttribute("out", out);
-        QDomNodeList props = transition.childNodes();
-        for (int j = 0; j < props.count(); ++j) {
-            QDomElement param =  props.at(j).toElement();
-            QString paramName = param.attribute("name");
-            if (paramName == "geometry") {
-                QString geom = param.firstChild().nodeValue();
-                QStringList keys = geom.split(';');
-                QStringList newKeys;
-                for (int k = 0; k < keys.size(); ++k) {
-                    if (keys.at(k).contains('=')) {
-                        int pos = keys.at(k).section('=', 0, 0).toInt();
-                        pos = factor * pos + 0.5;
-                        newKeys.append(QString::number(pos) + '=' + keys.at(k).section('=', 1));
-                    } else newKeys.append(keys.at(k));
-                }
-                param.firstChild().setNodeValue(newKeys.join(";"));
-            }
-        }
-    }
-    QDomElement root = doc.documentElement();
-    if (!root.isNull()) {
-        QDomElement tractor = root.firstChildElement("tractor");
-        int out = tractor.attribute("out").toInt();
-        out = factor * out + 0.5;
-        tractor.setAttribute("out", out);
-        emit durationChanged(out);
-    }
-
-    ////qDebug() << "///////////////////////////// " << out << " \n" << doc.toString() << "\n-------------------------";
-    return doc.toString();
-}
-
 
 void Render::sendFrameUpdate()
 {

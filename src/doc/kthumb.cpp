@@ -87,11 +87,6 @@ bool KThumb::hasProducer() const
     return m_producer != NULL;
 }
 
-void KThumb::updateThumbUrl(const QString &hash)
-{
-    m_thumbFile = m_clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
-}
-
 void KThumb::updateClipUrl(const QUrl &url, const QString &hash)
 {
     m_url = url;

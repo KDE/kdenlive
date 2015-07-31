@@ -61,9 +61,7 @@ public:
     bool hasKeyFrames() const;
     int editedKeyFramePos() const;
     int selectedKeyFramePos() const;
-    double selectedKeyFrameValue() const;
     double editedKeyFrameValue() const;
-    double keyFrameFactor() const;
     /** @brief Returns the number of keyframes the selected effect has. */
     int keyFrameNumber() const;
     ItemInfo info() const;
@@ -76,7 +74,6 @@ public:
 
     virtual OperationType operationMode(const QPointF &pos) = 0;
     virtual GenTime startPos() const ;
-    virtual void setTrack(int track);
     virtual GenTime endPos() const ;
     virtual int track() const ;
     virtual GenTime cropStart() const ;

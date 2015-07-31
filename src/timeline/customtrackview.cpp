@@ -344,11 +344,6 @@ void CustomTrackView::wheelEvent(QWheelEvent * e)
     }
 }
 
-void CustomTrackView::setOperation(OperationType op)
-{
-    m_operationMode = op;
-}
-
 int CustomTrackView::getPreviousVideoTrack(int track)
 {
     int i = track + 1;
@@ -1463,7 +1458,6 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
         }
         //QString previous = item->keyframes(item->selectedEffectIndex());
         item->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), keyFramePos.frames(m_document->fps()), val);
-        //item->updateKeyframeEffect();
         //QString next = item->keyframes(item->selectedEffectIndex());
         QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
         EditEffectCommand *command = new EditEffectCommand(this, m_timeline->tracksCount() - item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false);
@@ -2517,12 +2511,6 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         KdenliveSettings::setSnaptopoints(snap);
         return item;
     }
-    //QTimer::singleShot(3000, this, SLOT(slotEnableRefresh()));
-}
-
-void CustomTrackView::slotEnableRefresh()
-{
-    m_blockRefresh = false;
 }
 
 void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition)
@@ -3524,11 +3512,6 @@ void CustomTrackView::setCursorPos(int pos)
     //else emit updateRuler();
 }
 
-void CustomTrackView::updateCursorPos()
-{
-    m_cursorLine->setPos(m_cursorPos + 0.5, 0);
-}
-
 int CustomTrackView::cursorPos() const
 {
     return m_cursorPos;
@@ -4512,13 +4495,6 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
 
     //TODO: notify bin ?
     //baseclip->addReference();
-    //m_document->updateClip(baseclip->getId());
-    //int producerTrack = info.track;
-    //m_document->renderer()->mltInsertClip(info, xml, item->getProducer(producerTrack), overwrite, push);
-    //m_document->renderer()->mltInsertClip(info /*, xml*/, clipId, overwrite, push);
-    /*Mlt::Producer *prod = m_document->renderer()->getTrackProducer(item->getBinId(), info.track, item->isAudioOnly(), item->isVideoOnly());
-    //prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
-    prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);*/
     Mlt::Producer *prod;
     if (item->clipState() == PlaylistState::VideoOnly) {
         prod = m_document->renderer()->getBinVideoProducer(clipId);
@@ -4620,13 +4596,6 @@ ClipItem *CustomTrackView::getClipItemAtMiddlePoint(int pos, int track)
         }
     }
     return clip;
-}
-
-Transition *CustomTrackView::getTransitionItem(TransitionInfo info)
-{
-    int pos = info.startPos.frames(m_document->fps());
-    int track = m_timeline->tracksCount() - info.b_track;
-    return getTransitionItemAt(pos, track);
 }
 
 Transition *CustomTrackView::getTransitionItemAt(int pos, int track)
@@ -4825,11 +4794,6 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
 
             if (item->type() == AVWidget) {
                 ClipItem *clip = static_cast <ClipItem*>(item);
-                //m_document->renderer()->mltInsertClip(info /*, clip->xml()*/, clip->getBinId());
-                /*Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clip->getBinId(), info.track, clip->isAudioOnly(), clip->isVideoOnly());
-		prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
-                //prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
-                m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode());*/
                 Mlt::Producer *prod;
                 if (clip->clipState() == PlaylistState::VideoOnly) {
                     prod = m_document->renderer()->getBinVideoProducer(clip->getBinId());
@@ -6869,18 +6833,6 @@ QStringList CustomTrackView::selectedClips() const
         }
     }
     return clipIds;
-}
-
-QList<ClipItem *> CustomTrackView::selectedClipItems() const
-{
-    QList<ClipItem *> clips;
-    QList<QGraphicsItem *> selection = m_scene->selectedItems();
-    for (int i = 0; i < selection.count(); ++i) {
-        if (selection.at(i)->type() == AVWidget) {
-            clips.append(static_cast<ClipItem*>(selection.at(i)));
-        }
-    }
-    return clips;
 }
 
 void CustomTrackView::slotSelectTrack(int ix)

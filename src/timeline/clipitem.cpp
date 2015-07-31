@@ -396,28 +396,6 @@ QStringList ClipItem::keyframes(const int index)
     return result;
 }
 
-void ClipItem::updateKeyframeEffect()
-{
-    // regenerate xml parameter from the clip keyframes
-    QDomElement effect = getEffectAtIndex(m_selectedEffect);
-    if (effect.attribute("disable") == "1") return;
-    QDomNodeList params = effect.elementsByTagName("parameter");
-    QDomElement e = params.item(m_visibleParam).toElement();
-
-    if (!e.isNull()) {
-        QString keyframes;
-        if (m_keyframes.count() > 0) {
-            QMap<int, int>::const_iterator i = m_keyframes.constBegin();
-            while (i != m_keyframes.constEnd()) {
-                keyframes.append(QString::number(i.key()) + '=' + QString::number(i.value()) + ';');
-                ++i;
-            }
-        }
-        // Effect has a keyframe type parameter, we need to set the values
-        e.setAttribute("keyframes", keyframes);
-    }
-}
-
 QDomElement ClipItem::selectedEffect()
 {
     if (m_selectedEffect == -1 || m_effectList.isEmpty())

@@ -80,12 +80,7 @@ public:
     virtual QString getToolTip() const;
     virtual bool rename(const QString &name, int column);
 
-protected:
-
-
 private:
-    void loadChildren(const QDomElement &description);
-
     Bin *m_bin;
 };
 

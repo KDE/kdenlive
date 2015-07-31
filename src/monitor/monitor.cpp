@@ -367,11 +367,6 @@ void Monitor::slotForceSize(QAction *a)
     updateGeometry();
 }
 
-void Monitor::resetSize()
-{
-    m_glWidget->setMinimumSize(0, 0);
-}
-
 QString Monitor::getTimecodeFromFrames(int pos)
 {
     return m_monitorManager->timecode().getTimecodeFromFrames(pos);
@@ -1075,46 +1070,6 @@ const QString Monitor::activeClipId()
     }
     return QString();
 }
-
-/*
-void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpdate, int position)
-{
-    if (render == NULL) return;
-    if (clip == NULL && m_currentClip != NULL) {
-	m_currentClip->lastSeekPosition = render->seekFramePosition();
-        m_currentClip = NULL;
-        m_length = -1;
-        render->setProducer(NULL, -1);
-        return;
-    }
-
-    if (clip != m_currentClip || forceUpdate) {
-	if (m_currentClip) m_currentClip->lastSeekPosition = render->seekFramePosition();
-        m_currentClip = clip;
-	if (position == -1) position = clip->lastSeekPosition;
-        updateMarkers(clip);
-  	if (render->setMonitorProducer(clip->getId(), position) == -1) {
-            // MLT CONSUMER is broken
-            qWarning() << "ERROR, Cannot start monitor";
-        } else start();
-    } else {
-        if (m_currentClip) {
-            slotActivateMonitor();
-            if (position == -1) position = render->seekFramePosition();
-            render->seek(position);
-	    if (zone.isNull()) {
-		zone = m_currentClip->zone();
-		m_ruler->setZone(zone.x(), zone.y());
-		return;
-	    }
-        }
-    }
-    if (!zone.isNull()) {
-        m_ruler->setZone(zone.x(), zone.y());
-        render->seek(zone.x());
-    }
-}
-*/
 
 void Monitor::slotOpenDvdFile(const QString &file)
 {

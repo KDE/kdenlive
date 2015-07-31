@@ -151,7 +151,6 @@ class DvdWizardMenu : public QWizardPage
 public:
     explicit DvdWizardMenu(DVDFORMAT format, QWidget * parent = 0);
     virtual ~DvdWizardMenu();
-    virtual bool isComplete() const;
     bool createMenu() const;
     void createBackgroundImage(const QString &img1, bool letterbox);
     void createButtonImages(const QString &selected_image, const QString &highlighted_image, bool letterbox);

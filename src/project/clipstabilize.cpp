@@ -177,62 +177,6 @@ QString ClipStabilize::desc() const
     return i18n("Stabilize clip");
 }
 
-void ClipStabilize::slotStartStabilize()
-{
-    /*
-    if (m_consumer && !m_consumer->is_stopped()) {
-        return;
-    }
-    m_duration = 0;
-    QStringList parameters;
-    QString destination;
-    //QString params = ffmpeg_params->toPlainText().simplified();
-    if (urls_list->count() > 0) {
-        source_url->setUrl(m_urls.takeFirst());
-        destination = dest_url->url().path(::AddTrailingSlash)+ source_url->url().fileName()+".mlt";
-        QList<QListWidgetItem *> matching = urls_list->findItems(source_url->url().path(), Qt::MatchExactly);
-        if (matching.count() > 0) {
-            matching.at(0)->setFlags(Qt::ItemIsSelectable);
-            urls_list->setCurrentItem(matching.at(0));
-        }
-    } else {
-        destination = dest_url->url().path();
-    }
-    QString s_url = source_url->url().path();
-
-    if (QFile::exists(destination)) {
-            if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination )) == KMessageBox::No) return;
-    }
-    buttonBox->button(QDialogButtonBox::Abort)->setText(i18n("Abort"));
-
-    if (m_profile){
-        m_playlist= new Mlt::Playlist;
-        Mlt::Filter filter(*m_profile,filtername.toUtf8().data());
-        QHashIterator <QString,QHash<QString,QString> > it(m_ui_params);
-        while (it.hasNext()){
-            it.next();
-            filter.set(
-                    it.key().toLatin1().data(),
-                    QString::number(it.value()["value"].toDouble()).toLatin1().data());
-        }
-        Mlt::Producer p(*m_profile,s_url.toUtf8().data());
-        if (p.is_valid()) {
-            m_playlist->append(p);
-            m_playlist->attach(filter);
-            m_consumer= new Mlt::Consumer(*m_profile,"xml",destination.toUtf8().data());
-            m_consumer->set("all",1);
-            m_consumer->set("real_time",-2);
-            m_consumer->connect(*m_playlist);
-            m_stabilizeRun = QtConcurrent::run(this, &ClipStabilize::slotRunStabilize);
-            m_timer->start(500);
-            button_start->setEnabled(false);
-        }
-    }
-*/
-}
-
-
-
 void ClipStabilize::slotUpdateParams()
 {
     for (int i=0;i<vbox->count();++i){

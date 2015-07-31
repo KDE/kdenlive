@@ -198,15 +198,6 @@ GenTime ProjectClip::duration() const
     return GenTime();
 }
 
-QString ProjectClip::serializeClip()
-{
-    /*Mlt::Consumer *consumer = bin()->project()->xmlConsumer();
-    consumer->connect(*m_baseProducer);
-    consumer->run();
-    return QString::fromUtf8(consumer->get("kdenlive_clip"));*/
-    return QString();
-}
-
 void ProjectClip::reloadProducer(bool thumbnailOnly)
 {
     QDomDocument doc;
@@ -329,18 +320,6 @@ QPoint ProjectClip::zone() const
     int x = getProducerIntProperty("kdenlive:zone_in");
     int y = getProducerIntProperty("kdenlive:zone_out");
     return QPoint(x, y);
-}
-
-void ProjectClip::addMarker(int position)
-{
-    m_markers << position;
-    //bin()->markersUpdated(m_id, m_markers);
-}
-
-void ProjectClip::removeMarker(int position)
-{
-    m_markers.removeAll(position);
-    //bin()->markersUpdated(m_id, m_markers);
 }
 
 void ProjectClip::resetProducerProperty(const QString &name)

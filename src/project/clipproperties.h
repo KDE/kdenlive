@@ -57,7 +57,6 @@ public:
     const QString &clipId() const;
     bool needsTimelineRefresh() const;
     bool needsTimelineReload() const;
-    void disableClipId(const QString &id);
 
 public slots:
     void slotFillMarkersList(DocClipBase *clip);

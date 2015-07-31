@@ -132,7 +132,6 @@ public:
     /** @brief Gets the position of the fade out effect. */
     int fadeOut() const;
     void setSelectedEffect(const int ix);
-    void updateKeyframeEffect();
     QDomElement selectedEffect();
     int selectedEffectIndex() const;
     void initEffect(ProfileInfo info, QDomElement effect, int diff = 0, int offset = 0);

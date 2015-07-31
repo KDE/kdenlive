@@ -738,16 +738,6 @@ void ClipProperties::slotReloadVideoThumb()
     emit requestThumb(QString('?' + m_clip->getId()), QList<int>() << m_clip->getClipThumbFrame());
 }
 
-void ClipProperties::disableClipId(const QString &id)
-{
-    if (m_clip && m_view.buttonBox->button(QDialogButtonBox::Ok)->isEnabled()) {
-        if (m_clip->getId() == id) {
-            // clip was removed from project, close this properties dialog
-            close();
-        }
-    }
-}
-
 void ClipProperties::slotModified()
 {
     m_view.buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);

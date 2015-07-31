@@ -71,7 +71,6 @@ Q_OBJECT public:
     explicit ClipManager(KdenliveDoc *doc);
     virtual ~ ClipManager();
     void deleteClip(const QString &clipId);
-    void deleteProjectClip(const QString &clipId);
 
     void slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId);
     void slotDeleteClips(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand, bool execute);
@@ -80,7 +79,6 @@ Q_OBJECT public:
     int getFreeFolderId();
     int lastClipId() const;
     QString projectFolder() const;
-    void clearUnusedProducers();
     /** @brief Prepare deletion of clips and folders from the Bin. */
     void deleteProjectItems(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand = NULL);
     void clear();

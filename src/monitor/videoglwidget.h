@@ -34,13 +34,9 @@ public:
     void activateMonitor();
     QSize minimumSizeHint() const;
     QSize sizeHint() const;
-    void setImageAspectRatio(double ratio);
     void setBackgroundColor(const QColor &color) {
         m_backgroundColor = color;
     }
-
-public slots:
-    void showImage(const QImage &image);
 
 protected:
     void initializeGL();

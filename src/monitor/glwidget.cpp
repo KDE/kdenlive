@@ -1210,11 +1210,6 @@ void FrameRenderer::clearFrame()
     m_frame = SharedFrame();
 }
 
-SharedFrame FrameRenderer::getDisplayFrame()
-{
-    return m_frame;
-}
-
 void FrameRenderer::cleanup()
 {
     if (m_renderTexture[0] && m_renderTexture[1] && m_renderTexture[2]) {

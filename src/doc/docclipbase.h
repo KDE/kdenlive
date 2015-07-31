@@ -78,8 +78,6 @@ public:
     /** Returns the internal unique id of the clip. */
     const QString &getId() const;
 
-    bool hasAudioThumb() const;
-    //KThumb *thumbCreator;
     bool audioThumbCreated() const;
     /*void getClipMainThumb();*/
 
@@ -115,8 +113,6 @@ public:
     void setProducer(Mlt::Producer &producer, bool reset = false, bool readPropertiesFromProducer = false);
     /** Retrieve a producer for a track */
     Mlt::Producer *getProducer(int track = -1);
-    /** Get a copy of the producer, for use in the clip monitor */
-    Mlt::Producer *getCloneProducer();
     /** Retrieve the producer that shows only video */
     Mlt::Producer *videoProducer(int track);
     /** Retrieve the producer that shows only audio */
@@ -177,7 +173,6 @@ public:
     void addCutZone(int in, int out, const QString &desc = QString());
     bool hasCutZone(const QPoint &p) const;
     void removeCutZone(int in, int out);
-    QList <CutZoneInfo> cutZones() const;
     void updateCutZone(int oldin, int oldout, int in, int out, const QString &desc = QString());
 
     bool hasVideoCodec(const QString &codec) const;
@@ -187,7 +182,6 @@ public:
     QImage extractImage(int frame, int width, int height);
     void clearThumbProducer();
     void reloadThumbProducer();
-    void cleanupProducers();
     bool isClean() const;
     void setAnalysisData(const QString &name, const QString &data, int offset = 0);
     QMap <QString, QString> analysisData() const;
@@ -262,15 +256,11 @@ private:   // Private attributes
 public slots:
     void updateAudioThumbnail(const audioByteArray& data);
     QList < CommentedTime > commentedSnapMarkers() const;
-    GenTime findNextSnapMarker(const GenTime & currTime);
-    GenTime findPreviousSnapMarker(const GenTime & currTime);
     QString deleteSnapMarker(const GenTime & time);
-    void editSnapMarker(const GenTime & time, const QString &comment);
     void addSnapMarker(const CommentedTime &marker);
     QList < GenTime > snapMarkers() const;
     QString markerComment(const GenTime &t) const;
     CommentedTime markerAt(const GenTime &t) const;
-    void setClipThumbFrame(const uint &ix);
     uint getClipThumbFrame() const;
     void setProperties(QMap<QString, QString> properties);
     void setMetadata(const QMap <QString, QString> &properties, const QString &tool = QString());

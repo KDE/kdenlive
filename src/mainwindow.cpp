@@ -1234,11 +1234,6 @@ void MainWindow::setupActions()
     //m_effectsActionCollection->readSettings();
 }
 
-void MainWindow::slotDisplayActionMessage(QAction *a)
-{
-    statusBar()->showMessage(a->data().toString(), 3000);
-}
-
 void MainWindow::setStatusBarStyleSheet(const QPalette &p)
 {
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
@@ -2421,18 +2416,6 @@ void MainWindow::slotClipInProjectTree()
         }
     }
 }
-
-/*void MainWindow::slotClipToProjectTree()
-{
-    if (pCore->projectManager()->currentTimeline()) {
-    const QList<ClipItem *> clips =  pCore->projectManager()->currentTimeline()->projectView()->selectedClipItems();
-        if (clips.isEmpty()) return;
-        for (int i = 0; i < clips.count(); ++i) {
-        m_projectList->slotAddXmlClip(clips.at(i)->itemXml());
-        }
-        //m_projectList->selectItemById(clipIds.at(i));
-    }
-}*/
 
 void MainWindow::slotSelectClipInTimeline()
 {

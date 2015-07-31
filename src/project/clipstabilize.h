@@ -49,7 +49,6 @@ public:
 
 
 private slots:
-    void slotStartStabilize();
     void slotUpdateParams();
     void slotValidate();
 

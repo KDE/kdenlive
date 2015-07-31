@@ -44,11 +44,6 @@ public:
     /** @brief Returns the on-monitor scene. */
     MonitorScene *getScene() const;
 
-    /** @brief Returns the action toggling between the normal monitor and the editor. */
-    QAction *getVisibilityAction();
-    /** @brief Shows/Hides the visibility button/action. */
-    void showVisibilityButton(bool show);
-
     /** @brief Adds a custom widget to the controls. */
     void addCustomControl(QWidget *widget);
     void addCustomButton(const QIcon &icon, const QString &text, const QObject *receiver, const char *member, bool checkable = true, bool checked = true);

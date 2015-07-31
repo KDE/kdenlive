@@ -31,7 +31,6 @@ ProjectFolder::ProjectFolder(const QString &id, const QString &name, ProjectFold
     AbstractProjectItem(AbstractProjectItem::FolderItem, id, parent)
     , m_bin(NULL)
 {
-    //loadChildren(description);
     m_name = name;
     m_clipStatus = StatusReady;
     m_thumbnail = QIcon::fromTheme("folder");
@@ -118,19 +117,6 @@ QDomElement ProjectFolder::toXml(QDomDocument& document)
         folder.appendChild(at(i)->toXml(document));
     }
     return folder;
-}
-
-void ProjectFolder::loadChildren(const QDomElement& description)
-{
-    /*QDomNodeList childen = description.childNodes();
-    for (int i = 0; i < childen.count(); ++i) {
-        QDomElement childElement = childen.at(i).toElement();
-        if (childElement.tagName() == "folder") {
-            new ProjectFolder(childElement, this);
-        } else {
-            childElement.setTagName("producer");
-        }
-    }*/
 }
 
 bool ProjectFolder::rename(const QString &name, int column)

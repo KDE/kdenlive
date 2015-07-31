@@ -162,68 +162,6 @@ void DvdWizardMenu::slotEnableShadows(int enable)
     }
 }
 
-// virtual
-bool DvdWizardMenu::isComplete() const
-{
-    m_view.error_message->setHidden(true);
-    if (!m_view.create_menu->isChecked()) return true;
-    QList <int> targets;
-    QList<QGraphicsItem *> list = m_scene->items();
-    int buttonCount = 0;
-    // check that the menu buttons don't collide
-    for (int i = 0; i < list.count(); ++i) {
-        if (list.at(i)->type() == DvdButtonItem) {
-            buttonCount++;
-            DvdButton *button = static_cast < DvdButton* >(list.at(i));
-            QList<QGraphicsItem *> collisions = button->collidingItems();
-            if (!collisions.isEmpty()) {
-                for (int j = 0; j < collisions.count(); ++j) {
-                    if (collisions.at(j)->type() == button->type()) {
-                        m_menuMessage->setText(i18n("Buttons overlapping"));
-                        m_menuMessage->setMessageType(KMessageWidget::Warning);
-                        m_menuMessage->show();
-                        return false;
-                    }
-                }
-            }
-            targets.append(button->target());
-        }
-    }
-    if (buttonCount == 0) {
-        //We need at least one button
-        m_menuMessage->setText(i18n("No button in menu"));
-        m_menuMessage->setMessageType(KMessageWidget::Warning);
-        m_menuMessage->show();
-        return false;
-    }
-
-    if (!m_view.background_image->isHidden()) {
-        // Make sure user selected a valid image / video file
-        if (!QFile::exists(m_view.background_image->url().path())) {
-            m_menuMessage->setText(i18n("Missing background image"));
-            m_menuMessage->setMessageType(KMessageWidget::Warning);
-            m_menuMessage->show();
-            return false;
-        }
-    }
-    
-    m_menuMessage->hide();
-
-    // check that we have a "Play all" entry
-    if (targets.contains(0)) return true;
-    // ... or that each video file has a button
-    for (int i = m_view.target_list->count() - 1; i > 0; --i) {
-        // If there is a vob file entry and it has no button assigned, don't allow to go further
-        if (m_view.target_list->itemIcon(i).isNull() == false && !targets.contains(i)) {
-            m_menuMessage->setText(i18n("No menu entry for %1", m_view.target_list->itemText(i)));
-            m_menuMessage->setMessageType(KMessageWidget::Warning);
-            m_menuMessage->show();
-            return false;
-        }
-    }
-    return true;
-}
-
 void DvdWizardMenu::setButtonTarget(int ix)
 {
     QList<QGraphicsItem *> list = m_scene->selectedItems();

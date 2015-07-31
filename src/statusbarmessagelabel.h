@@ -81,10 +81,6 @@ public:
     explicit StatusBarMessageLabel(QWidget* parent);
     virtual ~StatusBarMessageLabel();
 
-    // TODO: maybe a better approach is possible with the size hint
-    void setMinimumTextHeight(int min);
-    int minimumTextHeight() const;
-
 protected:
     /** @see QWidget::paintEvent() */
     void paintEvent(QPaintEvent* event);
@@ -145,11 +141,5 @@ private:
     QPixmap m_pixmap;
     QPushButton* m_closeButton;
 };
-
-inline int StatusBarMessageLabel::minimumTextHeight() const
-{
-    return m_minTextHeight;
-}
-
 
 #endif

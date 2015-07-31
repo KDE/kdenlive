@@ -309,9 +309,6 @@ public:
     /** @brief Create a clip item from its xml description  */
     void createClip(QDomElement xml);
 
-    /** @brief Returns current doc's project ratio for thumbnail scaling */
-    double projectRatio();
-
     /** @brief Used to notify the Model View that an item was updated */
     void emitItemUpdated(AbstractProjectItem* item);
 
@@ -364,9 +361,6 @@ public:
 
     /** @brief A proxy clip was just created, pass it to the responsible item  */
     void gotProxy(const QString &id);
-
-    /** @brief Returns the job manager, responsible for handling clip jobs */
-    JobManager *jobManager();
 
     /** @brief Get the document's renderer frame size  */
     const QSize getRenderSize();

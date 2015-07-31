@@ -82,10 +82,6 @@ QDomElement ProjectFolderUp::toXml(QDomDocument& document)
     return document.documentElement();
 }
 
-void ProjectFolderUp::loadChildren(const QDomElement& description)
-{
-}
-
 bool ProjectFolderUp::rename(const QString &, int )
 {
     return false;

@@ -274,7 +274,6 @@ private slots:
     void slotAddEffect(const QDomElement &effect);
     void slotEditProfiles();
     void slotEditProjectSettings();
-    void slotDisplayActionMessage(QAction *a);
 
     /** @brief Turns automatic splitting of audio and video on/off. */
     void slotSwitchSplitAudio();

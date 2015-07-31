@@ -56,7 +56,6 @@ public:
     void setProducer(Mlt::Producer *producer);
     bool hasProducer() const;
     void clearProducer();
-    void updateThumbUrl(const QString &hash);
     void extractImage(const QList<int> &frames);
     QImage extractImage(int frame, int width, int height);
     /** @brief Request thumbnails for the frame range. */

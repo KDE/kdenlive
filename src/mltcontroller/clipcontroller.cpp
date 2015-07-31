@@ -313,16 +313,6 @@ const QString ClipController::codec(bool audioCodec) const
     return m_properties->get(propertyName.toUtf8().constData());
 }
 
-QSize ClipController::originalFrameSize() const
-{
-    if (!m_properties) return QSize();
-    QString propertyName = QString("meta.media.%1.codec.width").arg(m_videoIndex);
-    int x = m_properties->get_int(propertyName.toUtf8().constData());
-    propertyName = QString("meta.media.%1.codec.height").arg(m_videoIndex);
-    int y = m_properties->get_int(propertyName.toUtf8().constData());
-    return QSize(x, y);
-}
-
 QUrl ClipController::clipUrl() const
 {
     return m_url;

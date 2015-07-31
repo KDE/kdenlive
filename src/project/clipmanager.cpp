@@ -244,12 +244,6 @@ void ClipManager::deleteProjectItems(QStringList clipIds, QStringList folderIds,
     }
 }
 
-
-void ClipManager::deleteProjectClip(const QString &clipId)
-{
-    pCore->bin()->deleteClip(clipId);
-}
-
 void ClipManager::slotDeleteClips(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand, bool execute)
 {
     for (int i = 0; i < clipIds.size(); ++i) {
@@ -302,15 +296,6 @@ void ClipManager::deleteClip(const QString &clipId)
     }
     return list;
 }*/
-
-
-void ClipManager::clearUnusedProducers()
-{
-/*    for (int i = 0; i < m_clipList.count(); ++i) {
-        if (m_clipList.at(i)->numReferences() == 0) m_clipList.at(i)->deleteProducers();
-    }*/
-}
-
 
 void ClipManager::slotAddCopiedClip(KIO::Job *job, const QUrl &, const QUrl &dst)
 {

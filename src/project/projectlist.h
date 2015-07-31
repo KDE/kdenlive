@@ -114,24 +114,15 @@ public:
     virtual ~ProjectList();
 
     BinController *binController();
-    void setRenderer(Render *projectRender);
     void slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties);
-    QByteArray headerInfo() const;
-    void setHeaderInfo(const QByteArray &state);
     void updateProjectFormat(Timecode t);
-    /** @brief Get a list of selected clip Id's and url's that match a condition. */
-    QMap <QString, QString> getConditionalIds(const QString &condition) const;
-    QDomDocument generateTemplateXml(QString data, const QString &replaceString);
     void cleanup();
     void trashUnusedClips();
     void addClipCut(const QString &id, int in, int out, const QString desc, bool newItem);
     void removeClipCut(const QString &id, int in, int out);
-    void focusTree() const;
     SubProjectItem *getSubItem(ProjectItem *clip, const QPoint &zone);
     void doUpdateClipCut(const QString &id, const QPoint &oldzone, const QPoint &zone, const QString &comment);
     bool hasMissingClips();
-    void deleteProjectFolder(QMap <QString, QString> map);
-    void selectItemById(const QString &clipId);
 
     /** @brief Returns a string list of all supported mime extensions. */
     static QStringList getExtensions();
@@ -162,16 +153,12 @@ public:
 
 public slots:
     void updateAllClips(bool displayRatioChanged, bool fpsChanged, const QStringList &brokenClips);
-    void slotReplyGetImage(const QString &clipId, const QImage &img);
-    void slotReplyGetImage(const QString &clipId, const QString &name, int width, int height);
-    void slotReplyGetFileProperties(requestClipInfo &clipInfo, Mlt::Producer &producer, const stringMap &properties, const stringMap &metadata);
     void slotDeleteClip(const QString &clipId);
     void slotUpdateClip(const QString &id);
     void slotRefreshClipThumbnail(const QString &clipId, bool update = true);
     void slotRefreshClipThumbnail(QTreeWidgetItem *item, bool update = true);
     void slotRemoveInvalidClip(const QString &id, bool replace);
     void slotRemoveInvalidProxy(const QString &id, bool durationError);
-    void slotSelectClip(const QString &ix);
 
     /** @brief Prepares removing the selected items. */
     void slotRemoveClip();
@@ -180,18 +167,14 @@ public slots:
     *
     * This is triggered by AddFolderCommand and EditFolderCommand. */
     void slotAddFolder(const QString &foldername, const QString &clipId, bool remove, bool edit = false);
-    void slotResetProjectList();
     void slotOpenClip();
     void slotEditClip();
     void slotReloadClip(const QString &id = QString());
     void regenerateTemplate(const QString &id);
     void slotUpdateClipCut(QPoint p);
     void slotAddClipCut(const QString &id, int in, int out);
-    void slotForceProcessing(const QString &id);
     /** @brief Remove all instances of a proxy and delete the file. */
     void slotDeleteProxy(const QString proxyPath);
-    /** @brief Start a hard cut clip job. */
-    void slotCutClipJob(const QString &id, QPoint zone);
     void slotSetThumbnail(const QString &id, int framePos, QImage img);
     
 
@@ -206,7 +189,6 @@ private:
     ProjectItem *getItemById(const QString &id);
     QTreeWidgetItem *getAnyItemById(const QString &id);
     FolderProjectItem *getFolderItemById(const QString &id);
-    FolderProjectItem *getFolderItemByName(const QString &name);
     QAction *m_openAction;
     QAction *m_reloadAction;
     QAction *m_discardCurrentClipJobs;
@@ -297,7 +279,6 @@ private:
 
 private slots:
     void slotClipSelected();
-    void slotAddTitleTemplateClip();
 
     /** @brief Shows the context menu after enabling and disabling actions based on the item's type.
     * @param pos The position where the menu should pop up
@@ -328,8 +309,6 @@ private slots:
     void slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy = NULL);
     /** @brief Put clip in the proxy waiting list. */
     void slotCreateProxy(const QString &id);
-    /** @brief Stop creation of this clip's proxy. */
-    void slotAbortProxy(const QString &id, const QString& path);
     /** @brief Start creation of clip jobs. */
     void slotProcessJobs();
     /** @brief Discard running and pending clip jobs. */
@@ -353,8 +332,6 @@ private slots:
     void slotDiscardClipJobs();
     /** @brief Make sure current clip is visible in project tree. */
     void slotCheckScrolling();
-    /** @brief close warning info passive popup. */
-    void slotClosePopup();
     /** @brief process clip job result. */
     void slotGotFilterJobResults(QString ,int , int, stringMap, stringMap);
     /** @brief Select clip in project list from its id. */

@@ -116,17 +116,6 @@ void KisCurveWidget::setupInOutControls(QSpinBox *in, QSpinBox *out, int min, in
     d->syncIOControls();
 
 }
-void KisCurveWidget::dropInOutControls()
-{
-    if (!d->m_intIn || !d->m_intOut)
-        return;
-
-    disconnect(d->m_intIn, SIGNAL(valueChanged(int)), this, SLOT(inOutChanged(int)));
-    disconnect(d->m_intOut, SIGNAL(valueChanged(int)), this, SLOT(inOutChanged(int)));
-
-    d->m_intIn = d->m_intOut = NULL;
-
-}
 
 void KisCurveWidget::inOutChanged(int)
 {

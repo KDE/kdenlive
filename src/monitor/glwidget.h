@@ -198,7 +198,6 @@ public:
     ~FrameRenderer();
     QSemaphore* semaphore() { return &m_semaphore; }
     QOpenGLContext* context() const { return m_context; }
-    SharedFrame getDisplayFrame();
     void clearFrame();
     Q_INVOKABLE void showFrame(Mlt::Frame frame);
     Q_INVOKABLE void showGLFrame(Mlt::Frame frame);

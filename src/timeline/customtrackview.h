@@ -168,7 +168,6 @@ public:
     double fps() const;
     int selectedTrack() const;
     QStringList selectedClips() const;
-    QList<ClipItem *> selectedClipItems() const;
     /** @brief Checks whether an item can be inserted (make sure it does not overlap another item) */
     bool canBePastedTo(ItemInfo info, int type) const;
 
@@ -221,8 +220,6 @@ public:
     void resetSelectionGroup(bool selectItems = true);
     /** @brief Returns all infos necessary to save guides. */
     QMap <double, QString> guidesData() const;
-    /** @brief We are performing a timeline operation. */
-    void setOperation(OperationType op);
 
 public slots:
     /** @brief Send seek request to MLT. */
@@ -230,7 +227,6 @@ public slots:
     /** @brief Move timeline cursor to new position. */
     void setCursorPos(int pos);
     void moveCursorPos(int delta);
-    void updateCursorPos();
     void slotDeleteEffect(ClipItem *clip, int track, QDomElement effect, bool affectGroup = true);
     void slotChangeEffectState(ClipItem *clip, int track, QList <int> effectIndexes, bool disable);
     void slotChangeEffectPosition(ClipItem *clip, int track, QList <int> currentPos, int newPos);
@@ -348,7 +344,6 @@ private:
     ClipItem *getClipItemAtMiddlePoint(int pos, int track);
     ClipItem *getClipItemAtEnd(GenTime pos, int track);
     ClipItem *getClipItemAtStart(GenTime pos, int track);
-    Transition *getTransitionItem(TransitionInfo info);
     Transition *getTransitionItemAt(int pos, int track);
     Transition *getTransitionItemAt(GenTime pos, int track);
     Transition *getTransitionItemAtEnd(GenTime pos, int track);
@@ -482,7 +477,6 @@ private:
 
 private slots:
     void slotRefreshGuides();
-    void slotEnableRefresh();
     void slotCheckMouseScrolling();
     void slotEditTimeLineGuide();
     void slotDeleteTimeLineGuide();

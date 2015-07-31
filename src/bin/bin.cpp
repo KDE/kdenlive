@@ -528,11 +528,6 @@ ProjectFolder *Bin::rootFolder()
     return m_rootFolder;
 }
 
-double Bin::projectRatio()
-{
-    return m_doc->dar();
-}
-
 QUrl Bin::projectFolder() const
 {
     return m_doc->projectFolder();
@@ -1500,11 +1495,6 @@ const QString Bin::getDocumentProperty(const QString &key)
 const QSize Bin::getRenderSize()
 {
     return m_doc->getRenderSize();
-}
-
-JobManager *Bin::jobManager()
-{
-    return m_jobManager;
 }
 
 void Bin::slotUpdateJobStatus(const QString&id, int jobType, int status, const QString &label, const QString &actionName, const QString &details)

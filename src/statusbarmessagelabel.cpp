@@ -202,17 +202,6 @@ void StatusBarMessageLabel::confirmErrorMessage()
     m_queueTimer.start(0);
 }
 
-void StatusBarMessageLabel::setMinimumTextHeight(int min)
-{
-    if (min != m_minTextHeight) {
-        m_minTextHeight = min;
-        setMinimumHeight(min);
-        if (m_closeButton->height() > min) {
-            m_closeButton->setFixedHeight(min);
-        }
-    }
-}
-
 void StatusBarMessageLabel::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
