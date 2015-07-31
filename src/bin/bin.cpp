@@ -710,7 +710,7 @@ void Bin::doAddFolder(const QString &id, const QString &name, const QString &par
         return;
     }
     //FIXME(style): constructor actually adds the new pointer to parent's children
-    ProjectFolder *newItem = new ProjectFolder(id, name, parentFolder);
+    new ProjectFolder(id, name, parentFolder);
     emit storeFolder(id, parentId, QString(), name);
 }
 
@@ -759,7 +759,7 @@ void Bin::slotLoadFolders(QMap<QString,QString> foldersData)
         else {
             // Create new folder
             //FIXME(style): constructor actually adds the new pointer to parent's children
-            ProjectFolder *newItem = new ProjectFolder(folderId, foldersData.value(id), parentFolder);
+            new ProjectFolder(folderId, foldersData.value(id), parentFolder);
         }
     }
 }
@@ -843,20 +843,26 @@ void Bin::emitItemRemoved(AbstractProjectItem* item)
     m_itemModel->onItemRemoved(item);
 }
 
-void Bin::rowsInserted(const QModelIndex &/*parent*/, int start, int end)
+void Bin::rowsInserted(const QModelIndex &parent, int start, int end)
 {
+    Q_UNUSED(parent)
+    Q_UNUSED(start)
+
     if (!m_proxyModel->selectionModel()->hasSelection()) {
-      for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
-          const QModelIndex id = m_itemModel->index(end, i, QModelIndex());
-          if (id.isValid()) {
-              m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
-          }
-      }
+        for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
+            const QModelIndex id = m_itemModel->index(end, i, QModelIndex());
+            if (id.isValid()) {
+                m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
+            }
+        }
     }
 }
 
-void Bin::rowsRemoved(const QModelIndex &/*parent*/, int start, int /*end*/)
+void Bin::rowsRemoved(const QModelIndex &parent, int start, int end)
 {
+    Q_UNUSED(parent)
+    Q_UNUSED(end)
+
     QModelIndex id = m_itemModel->index(start, 0, QModelIndex());
     if (!id.isValid() && start > 0) {
         start--;
@@ -1330,6 +1336,8 @@ void Bin::setWaitingStatus(const QString &id)
 
 void Bin::slotRemoveInvalidClip(const QString &id, bool replace)
 {
+    Q_UNUSED(replace)
+
     ProjectClip *clip = m_rootFolder->clip(id);
     if (!clip) return;
     emit requesteInvalidRemoval(id, clip->url());
@@ -1382,7 +1390,7 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
         }
         else parentFolder = m_rootFolder;
         //FIXME(style): constructor actually adds the new pointer to parent's children
-        ProjectClip *newItem = new ProjectClip(info.clipId, m_blankThumb, controller, parentFolder);
+        new ProjectClip(info.clipId, m_blankThumb, controller, parentFolder);
         if (info.clipId.toInt() >= m_clipCounter) m_clipCounter = info.clipId.toInt() + 1;
         if (m_listType == BinTreeView) {
             static_cast<QTreeView*>(m_itemView)->resizeColumnToContents(0);
@@ -1777,7 +1785,7 @@ void Bin::doMoveFolder(const QString &id, const QString &newParentId)
     emit storeFolder(id, newParent->clipId(), currentParent->clipId(), currentItem->name());
 }
 
-void Bin::droppedUrls(QList <QUrl> urls, const QMap<QString,QString> properties)
+void Bin::droppedUrls(QList <QUrl> urls)
 {
     QModelIndex current = m_proxyModel->mapToSource(m_proxyModel->selectionModel()->currentIndex());
     slotItemDropped(urls, current);
@@ -1871,6 +1879,8 @@ void Bin::renameSubClip(const QString &id, const QString &newName, const QString
 
 void Bin::slotStartClipJob(bool enable)
 {
+    Q_UNUSED(enable)
+
     QAction* act = qobject_cast<QAction *>(sender());
     if (act == 0) {
         // Cannot access triggering action, something is wrong

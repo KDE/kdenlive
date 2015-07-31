@@ -2113,7 +2113,7 @@ void MainWindow::slotEditItemDuration()
 
 void MainWindow::slotAddProjectClip(const QUrl &url, const QMap<QString,QString> &data)
 {
-    pCore->bin()->droppedUrls(QList<QUrl>() << url, data);
+    pCore->bin()->droppedUrls(QList<QUrl>() << url);
 }
 
 void MainWindow::slotAddProjectClipList(const QList<QUrl> &urls)

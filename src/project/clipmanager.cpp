@@ -314,13 +314,7 @@ void ClipManager::clearUnusedProducers()
 
 void ClipManager::slotAddCopiedClip(KIO::Job *job, const QUrl &, const QUrl &dst)
 {
-    KIO::MetaData meta = job->metaData();
-    QMap <QString, QString> data;
-    data.insert("group", meta.value("group"));
-    data.insert("groupid", meta.value("groupid"));
-    data.insert("comment", meta.value("comment"));
-    //qDebug()<<"Finished copying: "<<dst<<" / "<<meta.value("group")<<" / "<<meta.value("groupid");
-    pCore->bin()->droppedUrls(QList<QUrl> () << dst, data);
+    pCore->bin()->droppedUrls(QList<QUrl>() << dst);
 }
 
 

@@ -3682,7 +3682,7 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
 {
     QList <TransitionInfo> transitionInfos;
     // Track add / delete was only added recently in MLT (pre 0.9.8 release).
-#if (LIBMLT_VERSION_INT < 2312)
+#if (LIBMLT_VERSION_INT < 0x0908)
     qDebug()<<"Track insertion requires a more recent MLT version";
     return transitionInfos;
 #else

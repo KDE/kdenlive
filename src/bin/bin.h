@@ -393,7 +393,7 @@ public:
     void doMoveFolder(const QString &id, const QString &newParentId);
     void setupGeneratorMenu(const QHash<QString,QMenu*>& menus);
     void startClipJob(const QStringList &params);
-    void droppedUrls(QList <QUrl> urls, const QMap<QString,QString> properties = QMap<QString,QString>());
+    void droppedUrls(QList <QUrl> urls);
     void displayMessage(const QString &text, KMessageWidget::MessageType type);
     
     void addClipCut(const QString&id, int in, int out);
