@@ -79,7 +79,6 @@ public:
     AbstractProjectItem *parent() const;
     /** @brief Removes the item from its current parent and adds it as a child to @param parent. */
     virtual void setParent(AbstractProjectItem *parent);
-    void finishInsert(AbstractProjectItem* parent);
 
     /**
      * @brief Adds a new child item and notifies the bin model about it (before and after).

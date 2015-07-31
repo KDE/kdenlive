@@ -458,7 +458,6 @@ private slots:
     void selectProxyModel(const QModelIndex &id);
     void autoSelect();
     void closeEditing();
-    void refreshEditedClip();
     void slotSaveHeaders();
     void slotItemDropped(QStringList ids, const QModelIndex &parent);
     void slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent);

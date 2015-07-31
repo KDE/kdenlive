@@ -71,6 +71,8 @@ ClipController::ClipController(BinController *bincontroller) : QObject()
     , m_properties(NULL)
     , m_audioInfo(NULL)
     , m_effectList(true)
+    , m_audioIndex(0)
+    , m_videoIndex(0)
     , m_clipType(Unknown)
     , m_hasLimitedDuration(true)
     , m_binController(bincontroller)
@@ -175,11 +177,6 @@ Mlt::Producer &ClipController::originalProducer()
 Mlt::Producer *ClipController::masterProducer()
 {
     return new Mlt::Producer(*m_masterProducer);
-}
-
-Mlt::Producer *ClipController::zoneProducer(int in, int out)
-{
-    return m_masterProducer->cut(in, out);
 }
 
 bool ClipController::isValid()

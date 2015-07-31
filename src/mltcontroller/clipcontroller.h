@@ -73,7 +73,6 @@ public:
 
     /** @brief Returns a clone of our master producer. Delete after use! */
     Mlt::Producer *masterProducer();
-    Mlt::Producer *zoneProducer(int in, int out);
 
     /** @brief Returns the MLT's producer id */
     const QString clipId();

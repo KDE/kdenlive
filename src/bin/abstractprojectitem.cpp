@@ -114,14 +114,6 @@ QPixmap AbstractProjectItem::roundedPixmap(const QPixmap &source)
     return pix;
 }
 
-void AbstractProjectItem::finishInsert(AbstractProjectItem* parent)
-{
-    /*if (m_parent && !m_parent->contains(this)) {
-        m_parent->addChild(this);
-    }*/
-    //bin()->emitItemReady(this);
-}
-
 void AbstractProjectItem::addChild(AbstractProjectItem* child)
 {
     if (child && !contains(child)) {

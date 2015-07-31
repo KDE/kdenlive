@@ -1284,13 +1284,6 @@ void Bin::reloadClip(const QString &id)
     if (!xml.isNull()) m_doc->renderer()->getFileProperties(xml, id, 150, true);
 }
 
-void Bin::refreshEditedClip()
-{
-    const QString id = m_propertiesPanel->property("clipId").toString();
-    /*m_doc->bin()->refreshThumnbail(id);
-    m_doc->binMonitor()->refresh();*/
-}
-
 void Bin::slotThumbnailReady(const QString &id, const QImage &img, bool fromFile)
 {
     ProjectClip *clip = m_rootFolder->clip(id);
@@ -1714,8 +1707,8 @@ void Bin::slotItemDropped(QStringList ids, const QModelIndex &parent)
 
 void Bin::slotEffectDropped(QString effect, const QModelIndex &parent)
 {
-    AbstractProjectItem *parentItem;
     if (parent.isValid()) {
+        AbstractProjectItem *parentItem;
         parentItem = static_cast<AbstractProjectItem *>(parent.internalPointer());
         if (parentItem->itemType() != AbstractProjectItem::ClipItem) {
             // effect only supported on clip items

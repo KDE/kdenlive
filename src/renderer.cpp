@@ -1363,7 +1363,8 @@ int Render::setSceneList(QString playlist, int position)
         }
         else {
             // pass basic info, the others (folder, etc) will be taken from the producer itself
-	    requestClipInfo info;
+            requestClipInfo info;
+            info.binIndex = 0; info.imageHeight = 0;
             info.clipId = id;
             info.replaceProducer = true;
             emit gotFileProperties(info, m_binController->getController(id));

@@ -37,10 +37,11 @@ AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF& rect, dou
         , m_info(info)
         , m_editedKeyframe(-1)
         , m_selectedKeyframe(0)
+        , m_keyframeType(KEYFRAMETYPE::NoKeyframe)
         , m_keyframeFactor(1)
         , m_keyframeOffset(0)
         , m_keyframeDefault(0)
-	, m_visibleParam(0)
+        , m_visibleParam(0)
         , m_fps(fps)
         , m_isMainSelectedClip(false)
 {
