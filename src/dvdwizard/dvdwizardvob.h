@@ -139,9 +139,6 @@ private slots:
     void slotItemDown();
     void slotTranscodeFiles();
     void slotTranscodedClip(QUrl, QUrl);
-    
-signals:
-    void prepareMonitor();
 };
 
 #endif

@@ -245,7 +245,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_toolbar->setMaximumHeight(m_timePos->height());
     layout->addWidget(m_toolbar);
     if (m_recManager) layout->addWidget(m_recManager->toolbar());
-
     // Info message widget
     m_infoMessage = new KMessageWidget(this);
     layout->addWidget(m_infoMessage);
@@ -256,6 +255,8 @@ Monitor::~Monitor()
 {
     render->stop();
     delete m_glMonitor;
+    delete m_videoWidget;
+    delete m_glWidget;
     delete m_ruler;
     delete m_timePos;
     delete render;
@@ -295,11 +296,11 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     QAction *extractFrame = m_configMenu->addAction(QIcon::fromTheme("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
     m_contextMenu->addAction(extractFrame);
 
-    if (m_id != Kdenlive::ClipMonitor) {
+    if (m_id == Kdenlive::ProjectMonitor) {
         QAction *splitView = m_contextMenu->addAction(QIcon::fromTheme("view-split-left-right"), i18n("Split view"), render, SLOT(slotSplitView(bool)));
         splitView->setCheckable(true);
         m_configMenu->addAction(splitView);
-    } else {
+    } else if (m_id == Kdenlive::ClipMonitor) {
         QAction *setThumbFrame = m_contextMenu->addAction(QIcon::fromTheme("document-new"), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
         m_configMenu->addAction(setThumbFrame);
     }
@@ -572,6 +573,16 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
         lay->insertWidget(0, m_glWidget, 10);
     }
 }
+
+void Monitor::reparent()
+{
+    m_glWidget->setParent(NULL);
+    m_glWidget->showMinimized();
+    m_glWidget->showNormal();
+    QVBoxLayout *lay = (QVBoxLayout *) layout();
+    lay->insertWidget(0, m_glWidget, 10);
+}
+
 
 // virtual
 void Monitor::mouseReleaseEvent(QMouseEvent * event)
@@ -1012,7 +1023,7 @@ void Monitor::updateClipProducer(Mlt::Producer *prod)
     if (render == NULL) return;
     m_controller == NULL;
     render->setProducer(prod, -1, false);
-    prod->set_speed(1.0);
+    if (prod) prod->set_speed(1.0);
 }
 
 void Monitor::updateClipProducer(const QString &playlist)
@@ -1105,10 +1116,10 @@ void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpda
 }
 */
 
-void Monitor::slotOpenFile(const QString &file)
+void Monitor::slotOpenDvdFile(const QString &file)
 {
     if (render == NULL) return;
-    slotActivateMonitor();
+    m_glMonitor->initializeGL();
     render->loadUrl(file);
 }
 

@@ -176,12 +176,6 @@ QImage KThumb::getProducerFrame(int framepos, int displayWidth, int height)
 //static
 QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int displayWidth, int height)
 {
-  
-    QImage p1(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
-    p1.fill(QColor(Qt::red).rgb());
-    return p1;
-        
-        
     if (producer == NULL || !producer->is_valid()) {
         QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
         p.fill(QColor(Qt::red).rgb());
@@ -195,9 +189,6 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int displayWidth,
 
     producer->seek(framepos);
     Mlt::Frame *frame = producer->get_frame();
-    frame->set("rescale.interp", "nearest");
-    frame->set("deinterlace_method", "onefield");
-    frame->set("top_field_first", -1 );
     const QImage p = getFrame(frame, displayWidth, height);
     delete frame;
     return p;
