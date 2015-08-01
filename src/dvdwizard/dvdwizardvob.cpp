@@ -86,8 +86,8 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
     m_vobList->setHeaderHidden(true);
 
     connect(m_vobList, SIGNAL(addClips(QList<QUrl>)), this, SLOT(slotAddVobList(QList<QUrl>)));
-    connect(m_vobList, SIGNAL(addNewClip()), this, SLOT(slotAddVobFile()));
-    connect(m_view.button_add, SIGNAL(clicked()), this, SLOT(slotAddVobFile()));
+    connect(m_vobList, SIGNAL(addNewClip()), this, SLOT(slotAddVobList()));
+    connect(m_view.button_add, SIGNAL(clicked()), this, SLOT(slotAddVobList()));
     connect(m_view.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteVobFile()));
     connect(m_view.button_up, SIGNAL(clicked()), this, SLOT(slotItemUp()));
     connect(m_view.button_down, SIGNAL(clicked()), this, SLOT(slotItemDown()));
@@ -164,9 +164,15 @@ void DvdWizardVob::slotCheckProfiles()
     }
 }
 
-void DvdWizardVob::slotAddVobList(const QList<QUrl> &list)
+void DvdWizardVob::slotAddVobList(QList<QUrl> list)
 {
-    foreach (const QUrl &url, list) {
+    if (list.isEmpty()) {
+        list = QFileDialog::getOpenFileUrls(this, i18n("Add new video file"), QUrl::fromLocalFile(KRecentDirs::dir(":KdenliveDvdFolder")), i18n("MPEG clip (*.mpeg *.mpg *.vob)"));
+        if (!list.isEmpty()) {
+            KRecentDirs::add(":KdenliveDvdFolder", list.at(0).adjusted(QUrl::RemoveFilename).path());
+        }
+    }
+    foreach(const QUrl &url, list) {
         slotAddVobFile(url, QString(), false);
     }
     slotCheckVobList();
@@ -175,12 +181,6 @@ void DvdWizardVob::slotAddVobList(const QList<QUrl> &list)
 
 void DvdWizardVob::slotAddVobFile(QUrl url, const QString &chapters, bool checkFormats)
 {
-    if (!url.isValid()) {
-        url = QFileDialog::getOpenFileUrl(this, i18n("Add new video file"), QUrl::fromLocalFile(KRecentDirs::dir(":KdenliveDvdFolder")), i18n("MPEG clip (*.mpeg *.mpg *.vob)"));
-        if (url.isValid()) {
-            KRecentDirs::add(":KdenliveDvdFolder", url.adjusted(QUrl::RemoveFilename).path());
-        }
-    }
     if (!url.isValid()) return;
     QFile f(url.path());
     qint64 fileSize = f.size();
@@ -196,8 +196,6 @@ void DvdWizardVob::slotAddVobFile(QUrl url, const QString &chapters, bool checkF
     resource.prepend("avformat:");
     Mlt::Producer *producer = new Mlt::Producer(profile, resource.toUtf8().data());
     if (producer && producer->is_valid() && !producer->is_blank()) {
-        //Mlt::Frame *frame = producer->get_frame();
-        //delete frame;
         profile.from_producer(*producer);
         int width = 45.0 * profile.dar();
         if (width % 2 == 1) width++;
@@ -302,7 +300,7 @@ bool DvdWizardVob::isComplete() const
 
 void DvdWizardVob::setUrl(const QString &url)
 {
-    slotAddVobFile(QUrl(url));
+    slotAddVobFile(QUrl::fromLocalFile(url));
 }
 
 QStringList DvdWizardVob::selectedUrls() const
@@ -560,11 +558,11 @@ void DvdWizardVob::slotTranscodeFiles()
                 if (conv_pad %2 == 1) conv_pad --;
                 postParams << "-vf" << QString("scale=%1:%2,pad=%3:%4:%5:0,setdar=%6").arg(finalSize.width() - 2 * conv_pad).arg(destSize.height()).arg(finalSize.width()).arg(finalSize.height()).arg(conv_pad).arg(input_aspect);
             }
+            //TODO: create only one transcoding dialog with parameters for each file
             ClipTranscode *d = new ClipTranscode(QStringList () << item->text(0), params.section(';', 0, 0), postParams, i18n("Transcoding to DVD format"), true, this);
             connect(d, SIGNAL(transcodedClip(QUrl,QUrl)), this, SLOT(slotTranscodedClip(QUrl,QUrl)));
             d->slotStartTransCode();
             d->show();
-
         }
     }
 }
