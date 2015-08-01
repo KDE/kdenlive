@@ -6661,7 +6661,7 @@ void CustomTrackView::doChangeClipType(const GenTime &pos, int track, PlaylistSt
         prod = m_document->renderer()->getBinVideoProducer(clip->getBinId());
     }
     else prod = m_document->renderer()->getBinProducer(clip->getBinId());
-    if (m_timeline->track(track)->replace(pos.seconds(), prod, state)) {
+    if (prod && prod->is_valid() && m_timeline->track(track)->replace(pos.seconds(), prod, state)) {
         clip->setState(state); 
     } else {
         // Changing clip type failed
