@@ -201,6 +201,7 @@ void DvdWizardVob::slotAddVobFile(QUrl url, const QString &chapters, bool checkF
         profile.from_producer(*producer);
         int width = 45.0 * profile.dar();
         if (width % 2 == 1) width++;
+        producer->set("force_aspect_ratio", profile.dar());
         item->setData(0, Qt::DecorationRole, QPixmap::fromImage(KThumb::getFrame(producer, 0, width, 45)));
         int playTime = producer->get_playtime();
         item->setText(1, Timecode::getStringTimecode(playTime, profile.fps()));

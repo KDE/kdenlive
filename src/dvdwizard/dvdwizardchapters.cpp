@@ -169,7 +169,7 @@ void DvdWizardChapters::setVobFiles(DVDFORMAT format, const QStringList &movies,
     }
 
     createMonitor(format);
-    //m_monitor->setCustomProfile(profile, m_tc);
+    m_monitor->setCustomProfile(profile, m_tc);
     m_view.vob_list->blockSignals(true);
     m_view.vob_list->clear();
     for (int i = 0; i < movies.count(); ++i) {
