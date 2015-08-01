@@ -29,6 +29,7 @@
 #include <KSharedConfig>
 #include <KIO/Global>
 #include "klocalizedstring.h"
+#include <KRecentDirs>
 
 #include <QFileDialog>
 #include <QHBoxLayout>
@@ -174,7 +175,12 @@ void DvdWizardVob::slotAddVobList(const QList<QUrl> &list)
 
 void DvdWizardVob::slotAddVobFile(QUrl url, const QString &chapters, bool checkFormats)
 {
-    if (!url.isValid()) url = QFileDialog::getOpenFileUrl(this, i18n("Add new video file"), QUrl::fromLocalFile(QDir::homePath()), i18n("MPEG clip (*.mpeg *.mpg *.vob)"));
+    if (!url.isValid()) {
+        url = QFileDialog::getOpenFileUrl(this, i18n("Add new video file"), QUrl::fromLocalFile(KRecentDirs::dir(":KdenliveDvdFolder")), i18n("MPEG clip (*.mpeg *.mpg *.vob)"));
+        if (url.isValid()) {
+            KRecentDirs::add(":KdenliveDvdFolder", url.adjusted(QUrl::RemoveFilename).path());
+        }
+    }
     if (!url.isValid()) return;
     QFile f(url.path());
     qint64 fileSize = f.size();
@@ -273,7 +279,6 @@ void DvdWizardVob::slotAddVobFile(QUrl url, const QString &chapters, bool checkF
         slotCheckVobList();
         slotCheckProfiles();
     }
-    emit prepareMonitor();
 }
 
 void DvdWizardVob::slotDeleteVobFile()

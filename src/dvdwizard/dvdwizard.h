@@ -67,6 +67,7 @@ private:
     QTemporaryFile m_menuFinalVideo;
     QTemporaryFile m_menuImageBackground;
     QMenu *m_burnMenu;
+    int m_previousPage;
     void cleanup();
     void errorMessage(const QString &text);
     void infoMessage(const QString &text);
@@ -86,7 +87,6 @@ private slots:
     void slotShowRenderInfo();
     void slotShowIsoInfo();
     void slotProcessMenuStatus(int, QProcess::ExitStatus status);
-    void slotprepareMonitor();
 };
 
 #endif
