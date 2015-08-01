@@ -220,7 +220,7 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height)
         return p;
     }
     memcpy(image.bits(), imagedata, ow * oh * 4);//.byteCount());
-    
+
     //const uchar* imagedata = frame->get_image(format, ow, oh);
     //QImage image(imagedata, ow, oh, QImage::Format_ARGB32_Premultiplied);
     if (!image.isNull()) {
