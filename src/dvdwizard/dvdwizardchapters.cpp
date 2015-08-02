@@ -36,24 +36,26 @@ DvdWizardChapters::DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, 
     connect(m_view.chapters_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotGoToChapter()));
 
     // Build monitor for chapters
+    QVBoxLayout *vbox = new QVBoxLayout;
+    m_view.video_frame->setLayout(vbox);
 
     if (m_format == PAL || m_format == PAL_WIDE) m_tc.setFormat(25);
     else m_tc.setFormat(30000.0 / 1001);
-    //m_view.monitor_frame->setVisible(false);
+    createMonitor(m_format);
 }
 
 DvdWizardChapters::~DvdWizardChapters()
 {
     if (m_monitor) {
-        m_manager->removeMonitor(m_monitor);
         m_monitor->stop();
+        m_manager->removeMonitor(m_monitor);
         delete m_monitor;
     }
 }
 
 void DvdWizardChapters::stopMonitor()
 {
-    if (m_monitor) m_monitor->stop();
+    if (m_monitor) m_monitor->pause();
 }
 
 void DvdWizardChapters::refreshMonitor()
@@ -63,7 +65,8 @@ void DvdWizardChapters::refreshMonitor()
 
 void DvdWizardChapters::slotUpdateChaptersList()
 {
-    m_monitor->slotOpenFile(m_view.vob_list->currentText());
+    m_manager->activateMonitor(Kdenlive::DvdMonitor, true);
+    m_monitor->slotOpenDvdFile(m_view.vob_list->currentText());
     m_monitor->adjustRulerSize(m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole).toInt());
     QStringList currentChaps = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 1).toStringList();
 
@@ -148,14 +151,11 @@ void DvdWizardChapters::createMonitor(DVDFORMAT format)
     if (m_monitor == NULL) {
 	//TODO: allow monitor with different profile for DVD
         m_monitor = new Monitor(Kdenlive::DvdMonitor, m_manager/*, profile*/, this);
-        //m_monitor->start();
-        QVBoxLayout *vbox = new QVBoxLayout;
-        vbox->addWidget(m_monitor);
-        m_view.video_frame->setLayout(vbox);
+        m_view.video_frame->layout()->addWidget(m_monitor);
         m_monitor->setSizePolicy(QSizePolicy ( QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding));
         m_manager->appendMonitor(m_monitor);
-        vbox->insertWidget(0, m_monitor, 10);
     }
+    else m_monitor->reparent();
 }
 
 void DvdWizardChapters::setVobFiles(DVDFORMAT format, const QStringList &movies, const QStringList &durations, const QStringList &chapters)
@@ -168,9 +168,8 @@ void DvdWizardChapters::setVobFiles(DVDFORMAT format, const QStringList &movies,
         m_tc.setFormat(30000.0 / 1001);
     }
 
-    if (m_monitor == NULL) createMonitor(format);
+    createMonitor(format);
     m_monitor->setCustomProfile(profile, m_tc);
-
     m_view.vob_list->blockSignals(true);
     m_view.vob_list->clear();
     for (int i = 0; i < movies.count(); ++i) {
@@ -178,11 +177,10 @@ void DvdWizardChapters::setVobFiles(DVDFORMAT format, const QStringList &movies,
         m_view.vob_list->setItemData(i, chapters.at(i).split(';'), Qt::UserRole + 1);
     }
     m_view.vob_list->blockSignals(false);
-    slotUpdateChaptersList();
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     adjustSize();
     updateGeometry();
-    m_manager->activateMonitor(Kdenlive::DvdMonitor);
+    slotUpdateChaptersList();
     m_monitor->refreshMonitor();
 }
 

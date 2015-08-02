@@ -297,7 +297,7 @@ void EffectStackView2::setupListView()
         else if (m_status == TIMELINE_CLIP) {
             isSelected = currentEffect->effectIndex() == m_clipref->selectedEffectIndex();
         }
-        else if (m_status == TIMELINE_CLIP) {
+        else if (m_status == MASTER_CLIP) {
             isSelected = currentEffect->effectIndex() == m_masterclipref->selectedEffectIndex;
         }
         if (isSelected) {

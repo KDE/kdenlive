@@ -94,7 +94,7 @@ void EffectsParameterList::removeParam(const QString &name) {
         }
 }
 
-EffectsParameterList EffectsController::getEffectArgs(const ProfileInfo info, const QDomElement &effect)
+EffectsParameterList EffectsController::getEffectArgs(const ProfileInfo &info, const QDomElement &effect)
 {
     EffectsParameterList parameters;
     QLocale locale;
@@ -127,7 +127,7 @@ EffectsParameterList EffectsController::getEffectArgs(const ProfileInfo info, co
 }
 
 
-void EffectsController::adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, const ProfileInfo info, const QString &prefix)
+void EffectsController::adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, const ProfileInfo &info, const QString &prefix)
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
@@ -193,7 +193,7 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
 }
 
 
-double EffectsController::getStringEval(const ProfileInfo info, QString eval, const QPoint& frameSize)
+double EffectsController::getStringEval(const ProfileInfo &info, QString eval, const QPoint& frameSize)
 {
     QScriptEngine sEngine;
     sEngine.globalObject().setProperty("maxWidth", info.profileSize.width() > frameSize.x() ? info.profileSize.width() : frameSize.x());
@@ -326,7 +326,7 @@ const QString EffectsController::adjustKeyframes(const QString &keyframes, int o
     return result.join(";");
 }
 
-EffectsParameterList EffectsController::addEffect(const ProfileInfo info, QDomElement effect)
+EffectsParameterList EffectsController::addEffect(const ProfileInfo &info, QDomElement effect)
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);

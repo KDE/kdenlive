@@ -426,7 +426,7 @@ void Bin::deleteClip(const QString &id)
     parent->removeChild(clip);
     delete clip;
     if (m_listType == BinTreeView) {
-        ((QTreeView *)m_itemView)->resizeColumnToContents(0);
+        static_cast<QTreeView*>(m_itemView)->resizeColumnToContents(0);
     }
 }
 
@@ -469,7 +469,7 @@ void Bin::slotDeleteClip()
                 break;
             case AbstractProjectItem::SubClipItem:
                 subId = item->clipId();
-                sub = (ProjectSubClip *) item;
+                sub = static_cast<ProjectSubClip*>(item);
                 zone = sub->zone();
                 subId.append(":" + QString::number(zone.x()) + ":" + QString::number(zone.y()));
                 subClipIds << subId;
@@ -625,10 +625,9 @@ void Bin::createClip(QDomElement xml)
             parentFolder = m_rootFolder;
         }
     }
-    ProjectClip *newItem = new ProjectClip(xml, m_blankThumb, parentFolder);
-    
+    new ProjectClip(xml, m_blankThumb, parentFolder);
     if (m_listType == BinTreeView) {
-        ((QTreeView *)m_itemView)->resizeColumnToContents(0);
+        static_cast<QTreeView*>(m_itemView)->resizeColumnToContents(0);
     }
 }
 
@@ -882,11 +881,11 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_editAction->setEnabled(true);
                 m_reloadAction->setEnabled(true);
                 m_duplicateAction->setEnabled(true);
-                ClipType type = ((ProjectClip *)currentItem)->clipType();
+                ClipType type = static_cast<ProjectClip*>(currentItem)->clipType();
                 m_openAction->setEnabled(type == Image || type == Audio);
                 if (m_propertiesPanel->width() > 0) {
                     // if info panel is displayed, update info
-                    showClipProperties((ProjectClip *)currentItem);
+                    showClipProperties(static_cast<ProjectClip*>(currentItem));
                     m_deleteAction->setText(i18n("Delete Clip"));
                     m_proxyAction->setText(i18n("Proxy Clip"));
                 }
@@ -1244,7 +1243,7 @@ void Bin::showClipProperties(ProjectClip *clip)
     }
     m_propertiesPanel->setProperty("clipId", clip->clipId());
 
-    QVBoxLayout *lay = (QVBoxLayout*) m_propertiesPanel->layout();
+    QVBoxLayout *lay = static_cast<QVBoxLayout*>(m_propertiesPanel->layout());
     if (lay == 0) {
         lay = new QVBoxLayout(m_propertiesPanel);
         m_propertiesPanel->setLayout(lay);
@@ -1386,7 +1385,7 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
         ProjectClip *newItem = new ProjectClip(info.clipId, m_blankThumb, controller, parentFolder);
         if (info.clipId.toInt() >= m_clipCounter) m_clipCounter = info.clipId.toInt() + 1;
         if (m_listType == BinTreeView) {
-            ((QTreeView *)m_itemView)->resizeColumnToContents(0);
+            static_cast<QTreeView*>(m_itemView)->resizeColumnToContents(0);
         }
     }
     emit producerReady(info.clipId);

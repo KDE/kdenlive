@@ -44,7 +44,7 @@ class JobManager : public QObject
     Q_OBJECT
 
 public:
-    JobManager(Bin *bin);
+    explicit JobManager(Bin *bin);
     virtual ~JobManager();
 
     /** @brief Discard specific job type for a clip. 

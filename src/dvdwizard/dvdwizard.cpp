@@ -57,6 +57,7 @@ DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *paren
   , m_menuFinalVideo(QLatin1String("XXXXXX.vob"))
   , m_menuImageBackground(QLatin1String("XXXXXX.png"))
   , m_burnMenu(new QMenu(parent))
+  , m_previousPage(0)
 {
     setWindowTitle(i18n("DVD Wizard"));
     //setPixmap(QWizard::WatermarkPixmap, QPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, "banner.png")));
@@ -69,9 +70,6 @@ DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *paren
     addPage(m_pageChapters);
     
     if (!url.isEmpty()) m_pageVob->setUrl(url);
-    connect(m_pageVob, SIGNAL(prepareMonitor()), this, SLOT(slotprepareMonitor()));
-
-
 
     m_pageMenu = new DvdWizardMenu(m_pageVob->dvdFormat(), this);
     m_pageMenu->setTitle(i18n("Create DVD Menu"));
@@ -156,25 +154,28 @@ DvdWizard::~DvdWizard()
 
 void DvdWizard::slotPageChanged(int page)
 {
-    ////qDebug() << "// PAGE CHGD: " << page << ", ID: " << visitedPages();
     if (page == 0) {
         // Update chapters that were modified in page 1
-        m_pageChapters->stopMonitor();
         m_pageVob->updateChapters(m_pageChapters->chaptersData());
+        m_pageChapters->stopMonitor();
+        m_previousPage = 0;
     } else if (page == 1) {
-        m_pageChapters->setVobFiles(m_pageVob->dvdFormat(), m_pageVob->selectedUrls(), m_pageVob->durations(), m_pageVob->chapters());
+        if (m_previousPage == 0) {
+            m_pageChapters->setVobFiles(m_pageVob->dvdFormat(), m_pageVob->selectedUrls(), m_pageVob->durations(), m_pageVob->chapters());
+        }
+        else {
+            // For some reason, when comming from page 2, we need to trick the monitor or it disappears
+            m_pageChapters->createMonitor(m_pageVob->dvdFormat());
+        }
         setTitleFormat(Qt::PlainText);
+        m_previousPage = 1;
     } else if (page == 2) {
         m_pageChapters->stopMonitor();
         m_pageVob->updateChapters(m_pageChapters->chaptersData());
         m_pageMenu->setTargets(m_pageChapters->selectedTitles(), m_pageChapters->selectedTargets());
         m_pageMenu->changeProfile(m_pageVob->dvdFormat());
+        m_previousPage = 2;
     }
-}
-
-void DvdWizard::slotprepareMonitor()
-{
-    m_pageChapters->createMonitor(m_pageVob->dvdFormat());
 }
 
 void DvdWizard::generateDvd()

@@ -38,7 +38,7 @@
 class KoSliderComboContainer : public QMenu
 {
 public:
-    KoSliderComboContainer(KoSliderCombo *parent) : QMenu(parent), m_parent(parent) {}
+    explicit KoSliderComboContainer(KoSliderCombo *parent) : QMenu(parent), m_parent(parent) {}
 
 protected:
     virtual void mousePressEvent(QMouseEvent *e);

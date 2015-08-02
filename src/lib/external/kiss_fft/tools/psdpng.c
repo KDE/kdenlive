@@ -212,6 +212,7 @@ void make_png(void)
     new_row_pointers = realloc(row_pointers, nrows*sizeof(png_bytep));
     if(new_row_pointers == NULL) {
         free(row_pointers);
+        free(row_data);
         return;
     } else {
         row_pointers=new_row_pointers;
@@ -228,6 +229,8 @@ void make_png(void)
 
     png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY , NULL);
 
+    free(row_pointers);
+    free(row_data);
 }
 
 int main(int argc,char ** argv)

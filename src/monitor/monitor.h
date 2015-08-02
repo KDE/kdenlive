@@ -103,6 +103,7 @@ public:
     void mute(bool, bool updateIconOnly = false);
     bool startCapture(const QString &params, const QString &path, Mlt::Producer *p, bool livePreview);
     bool stopCapture();
+    void reparent();
 
 protected:
     void mousePressEvent(QMouseEvent * event);
@@ -198,7 +199,7 @@ private slots:
     void warningMessage(const QString &text);
 
 public slots:
-    void slotOpenFile(const QString &);
+    void slotOpenDvdFile(const QString &);
     //void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
     void updateClipProducer(Mlt::Producer *prod);
     void updateClipProducer(const QString &playlist);

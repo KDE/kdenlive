@@ -103,7 +103,7 @@ public slots:
     void slotShowRootScene();
     void slotSwitchAudioOverlay(bool enable);
     //void setCurrentFilter(QmlFilter* filter, QmlMetadata* meta);
-
+    void initializeGL();
 signals:
     void frameDisplayed(const SharedFrame& frame);
     void textureUpdated();
@@ -159,11 +159,11 @@ private:
     QOpenGLFramebufferObject *m_fbo;
 
 private slots:
-    void initializeGL();
     void resizeGL(int width, int height);
     void updateTexture(GLuint yName, GLuint uName, GLuint vName);
     void paintGL();
     void effectRectChanged();
+    void slotError(QQuickWindow::SceneGraphError error, const QString &message);
 
 protected:
     void resizeEvent(QResizeEvent* event);
@@ -194,7 +194,7 @@ class FrameRenderer : public QThread
 {
     Q_OBJECT
 public:
-    FrameRenderer(QOpenGLContext* shareContext);
+    explicit FrameRenderer(QOpenGLContext* shareContext);
     ~FrameRenderer();
     QSemaphore* semaphore() { return &m_semaphore; }
     QOpenGLContext* context() const { return m_context; }

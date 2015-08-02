@@ -447,11 +447,10 @@ void BinController::checkThumbnails(const QString thumbFolder)
 {
     // Parse all controllers and load thumbnails
     QMapIterator<QString, ClipController *> i(m_clipList);
-    bool foundFile = false;
     while (i.hasNext()) {
         i.next();
         ClipController *ctrl = i.value();
-        foundFile = false;
+        bool foundFile = false;
         if (!ctrl->getClipHash().isEmpty()) {
             QImage img(thumbFolder + ctrl->getClipHash() + ".png");
             if (!img.isNull()) {

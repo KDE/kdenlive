@@ -573,7 +573,6 @@ void ClipPropertiesController::slotComboValueChanged()
 
 void ClipPropertiesController::fillProperties(QTreeWidget *tree)
 {
-    char property[200];
     m_clipProperties.clear();
     QList <QStringList> propertyMap;
     // Get the video_index
@@ -585,6 +584,7 @@ void ClipPropertiesController::fillProperties(QTreeWidget *tree)
 
         // Find maximum stream index values
         for (int ix = 0; ix < m_controller->int_property("meta.media.nb_streams"); ++ix) {
+            char property[200];
             snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
             QString type = m_controller->property(property);
             if (type == "video")
@@ -599,6 +599,7 @@ void ClipPropertiesController::fillProperties(QTreeWidget *tree)
 
         if (vindex > -1) {
             // We have a video stream
+            char property[200];
             snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", vindex);
             QString codec = m_controller->property(property);
             if (!codec.isEmpty()) {

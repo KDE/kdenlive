@@ -34,7 +34,7 @@ class Clip : public QObject
     Q_PROPERTY(Mlt::Producer producer READ producer WRITE setProducer)
 
 public:
-    Clip(Mlt::Producer &producer);
+    explicit Clip(Mlt::Producer &producer);
     Clip(Clip& other);
     ~Clip();
     Clip& operator=(Clip& other);

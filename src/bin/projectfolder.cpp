@@ -59,9 +59,8 @@ void ProjectFolder::setCurrent(bool current, bool notify)
 
 ProjectClip* ProjectFolder::clip(const QString &id)
 {
-    ProjectClip *clip;
     for (int i = 0; i < count(); ++i) {
-        clip = at(i)->clip(id);
+        ProjectClip *clip = at(i)->clip(id);
         if (clip) {
             return clip;
         }
@@ -78,9 +77,8 @@ QString ProjectFolder::getToolTip() const
 ProjectFolder* ProjectFolder::folder(const QString &id)
 {
     if (m_id == id) return this;
-    ProjectFolder *folderItem;
     for (int i = 0; i < count(); ++i) {
-        folderItem = at(i)->folder(id);
+        ProjectFolder *folderItem = at(i)->folder(id);
         if (folderItem) {
             return folderItem;
         }
@@ -90,10 +88,9 @@ ProjectFolder* ProjectFolder::folder(const QString &id)
 
 ProjectClip* ProjectFolder::clipAt(int index)
 {
-    ProjectClip *clip;
     if (isEmpty()) return NULL;
     for (int i = 0; i < count(); ++i) {
-        clip = at(i)->clipAt(index);
+        ProjectClip *clip = at(i)->clipAt(index);
         if (clip) {
             return clip;
         }
