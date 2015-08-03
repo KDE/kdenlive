@@ -817,7 +817,7 @@ int Timeline::addTrack(int ix, Mlt::Playlist &playlist) {
         clipinfo.cropDuration = GenTime(length, fps);
         clipinfo.track = ix;
 	position += length;
-	qDebug()<<"// Loading clip: "<<idString<<" / SPEED: "<<speed<<"\n++++++++++++++++++++++++";
+	//qDebug()<<"// Loading clip: "<<idString<<" / SPEED: "<<speed<<"\n++++++++++++++++++++++++";
         ClipItem *item = new ClipItem(binclip, clipinfo, fps, speed, strobe, m_trackview->getFrameWidth(), true);
         item->updateState(idString);
         m_scene->addItem(item);

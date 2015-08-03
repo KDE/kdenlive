@@ -262,9 +262,15 @@ Monitor::~Monitor()
     delete render;
 }
 
-void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu, QAction *loopClip, QWidget* parent)
+QAction *Monitor::recAction()
 {
-    m_contextMenu = new QMenu(parent);
+    if (m_recManager) return m_recManager->switchAction();
+    return NULL;
+}
+
+void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu, QAction *loopClip)
+{
+    m_contextMenu = new QMenu(this);
     m_contextMenu->addMenu(m_playMenu);
     if (goMenu)
         m_contextMenu->addMenu(goMenu);
