@@ -494,7 +494,7 @@ bool Track::hasAudio()
         if (m_playlist.is_blank(i)) continue;
         Mlt::Producer *p = m_playlist.get_clip(i);
         QString service = p->get("mlt_service");
-        if (service == "xml" || p->get_int("audio_index") > -1) {
+        if (service == "xml" || service == "consumer" || p->get_int("audio_index") > -1) {
             delete p;
             return true;
         }

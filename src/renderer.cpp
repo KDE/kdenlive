@@ -545,7 +545,7 @@ void Render::processFileProperties()
             path.prepend("kdenlivetitle:");
             producer = new Mlt::Producer(*m_qmlView->profile(), 0, path.toUtf8().constData());
         } else if (type == Playlist) {
-            path.prepend("xml:");
+            path.prepend("consumer:");
             producer = new Mlt::Producer(*m_qmlView->profile(), 0, path.toUtf8().constData());
         } else if (type == SlideShow) {
             producer = new Mlt::Producer(*m_qmlView->profile(), 0, path.toUtf8().constData());
