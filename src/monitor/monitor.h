@@ -64,7 +64,7 @@ public:
     void setCustomProfile(const QString &profile, const Timecode &tc);
     void resetSize();
     void pause();
-    void setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL, QAction *loopClip = NULL, QWidget* parent = NULL);
+    void setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL, QAction *loopClip = NULL);
     const QString sceneList();
     const QString activeClipId();
     GenTime position();
@@ -104,6 +104,8 @@ public:
     bool startCapture(const QString &params, const QString &path, Mlt::Producer *p, bool livePreview);
     bool stopCapture();
     void reparent();
+    /** @brief Returns the action displaying record toolbar */
+    QAction *recAction();
 
 protected:
     void mousePressEvent(QMouseEvent * event);

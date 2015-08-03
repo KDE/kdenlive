@@ -267,6 +267,9 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     action->setChecked(false);
     m_stopmotion_actions->addAction("stopmotion_overlay", action);
 
+    // Monitor Record action
+    addAction("switch_monitor_rec", m_clipMonitor->recAction());
+
     // Build effects menu
     m_effectsMenu = new QMenu(i18n("Add Effect"));
     m_effectActions = new KActionCategory(i18n("Effects"), actionCollection());
@@ -1202,7 +1205,8 @@ void MainWindow::setupActions()
     proxyClip->setCheckable(true);
     proxyClip->setChecked(false);
 
-    addAction("stopmotion", i18n("Stop Motion Capture"), this, SLOT(slotOpenStopmotion()), QIcon::fromTheme("image-x-generic"));
+    //TODO: port stopmotion to new Monitor code
+    //addAction("stopmotion", i18n("Stop Motion Capture"), this, SLOT(slotOpenStopmotion()), QIcon::fromTheme("image-x-generic"));
     addAction("ripple_delete", i18n("Ripple Delete"), this, SLOT(slotRippleDelete()), QIcon(), Qt::CTRL + Qt::Key_X);
 
     QHash <QString, QAction*> actions;
