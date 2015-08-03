@@ -188,7 +188,7 @@ public:
     void addMarkers(QList <CommentedTime> &markers);
     /** @brief Add an effect to bin clip. */
     void addEffect(const ProfileInfo &pInfo, QDomElement &effect);
-    void removeEffect(const ProfileInfo &pInfo, int ix);
+    void removeEffect(int ix);
     /** @brief Create audio thumbnail for this clip. */
     void createAudioThumbs();
     /** @brief Abort audio thumbnail for this clip. */

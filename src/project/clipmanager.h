@@ -104,7 +104,7 @@ private slots:
     void slotProcessModifiedClips();
     void slotGetThumbs();
     /** @brief Clip has been copied, add it now. */
-    void slotAddCopiedClip(KIO::Job *job, const QUrl &, const QUrl &dst);
+    void slotAddCopiedClip(KIO::Job*, const QUrl&, const QUrl &dst);
 
 private:   // Private attributes
     /** the list of clips in the document */

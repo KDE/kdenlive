@@ -23,9 +23,9 @@
 
 CustomTrackScene::CustomTrackScene(Timeline *timeline, QObject *parent) :
         QGraphicsScene(parent),
+        isZooming(false),
         m_timeline(timeline),
         m_scale(1.0, 1.0),
-        isZooming(false),
         m_editMode(NormalEdit)
 {
 }

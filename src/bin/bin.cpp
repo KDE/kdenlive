@@ -1641,7 +1641,7 @@ void Bin::slotCreateProjectClip()
           ClipCreationDialog::createTitleClip(m_doc, folderInfo, QString(), this);
           break;
       case TextTemplate:
-          ClipCreationDialog::createTitleTemplateClip(m_doc, folderInfo, QString(), this);
+          ClipCreationDialog::createTitleTemplateClip(m_doc, folderInfo, this);
           break;
       default:
           break;
@@ -1726,7 +1726,7 @@ void Bin::removeEffect(const QString &id, const QDomElement &effect)
     }
     else currentItem = m_rootFolder->clip(id);
     if (!currentItem) return;
-    currentItem->removeEffect(m_monitor->profileInfo(), effect.attribute("kdenlive_ix").toInt());
+    currentItem->removeEffect(effect.attribute("kdenlive_ix").toInt());
     m_monitor->refreshMonitor();
 }
 

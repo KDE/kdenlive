@@ -163,7 +163,6 @@ private slots:
     void updateTexture(GLuint yName, GLuint uName, GLuint vName);
     void paintGL();
     void effectRectChanged();
-    void slotError(QQuickWindow::SceneGraphError error, const QString &message);
 
 protected:
     void resizeEvent(QResizeEvent* event);

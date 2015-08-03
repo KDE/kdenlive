@@ -43,7 +43,7 @@ namespace ClipCreationDialog
     void createClipFromXml(KdenliveDoc *doc, QDomElement xml, QStringList groupInfo, Bin *bin);
     void createSlideshowClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
     void createTitleClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin);
-    void createTitleTemplateClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin);
+    void createTitleTemplateClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
     void createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, QStringList groupInfo, Bin *bin, const QMap <QString, QString> &data = QMap <QString, QString>());
     void createClipsCommand(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
     void addXmlProperties(QDomElement &producer, QMap <QString, QString> &properties);

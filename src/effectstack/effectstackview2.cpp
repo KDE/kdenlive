@@ -662,7 +662,7 @@ void EffectStackView2::slotUpdateEffectParams(const QDomElement &old, const QDom
         slotSetCurrentEffect(ix);
     }
     else if (m_status == MASTER_CLIP) {
-        m_masterclipref->updateEffect(m_effectMetaInfo.monitor->profileInfo(), old, e, ix);
+        m_masterclipref->updateEffect(m_effectMetaInfo.monitor->profileInfo(), e, ix);
         m_effectMetaInfo.monitor->refreshMonitor();
     }
     QTimer::singleShot(200, this, SLOT(slotCheckWheelEventFilter()));

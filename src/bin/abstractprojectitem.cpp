@@ -41,10 +41,10 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id
 
 AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement& description, AbstractProjectItem* parent) :
     QObject()
-    , m_parent(NULL)
+    , m_parent(parent)
     , m_id(description.attribute("id"))
-    , m_jobProgress(0)
     , m_jobType(AbstractClipJob::NOJOBTYPE)
+    , m_jobProgress(0)
     , m_itemType(type)
 {
 }

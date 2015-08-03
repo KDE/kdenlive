@@ -100,7 +100,7 @@ public:
     void switchDropFrames(bool drop);
     void updateMonitorGamma();
     void mute(bool, bool updateIconOnly = false);
-    bool startCapture(const QString &params, const QString &path, Mlt::Producer *p, bool livePreview);
+    bool startCapture(const QString &params, const QString &path, Mlt::Producer *p);
     bool stopCapture();
     void reparent();
     /** @brief Returns the action displaying record toolbar */
@@ -234,7 +234,7 @@ public slots:
     void setTimePos(const QString &pos);
     QStringList getZoneInfo() const;
     /** @brief Display the on monitor effect scene (to adjust geometry over monitor). */
-    void slotShowEffectScene(bool show = true, bool manuallyTriggered = false);
+    void slotShowEffectScene(bool show = true);
     bool effectSceneDisplayed();
 
     /** @brief Sets m_selectedClip to @param item. Used for looping it. */

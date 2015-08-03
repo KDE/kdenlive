@@ -185,7 +185,7 @@ void RecManager::slotRecord(bool record)
                     v4lparameters = QString(v4lparameters.section("acodec", 0, 0) + "an=1 " + endParam).simplified();
                 }
             }
-	    m_monitor->startCapture(v4lparameters, path, createV4lProducer(), true);
+	    m_monitor->startCapture(v4lparameters, path, createV4lProducer());
 	    m_captureFile = QUrl::fromLocalFile(path);
 	}
 	else {

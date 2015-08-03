@@ -28,10 +28,10 @@
 #include <math.h>
 
 Track::Track(Mlt::Playlist &playlist, TrackType type, qreal fps) :
+    effectsList(EffectsList(true)),
     type(type),
     m_playlist(playlist),
-    m_fps(fps),
-    effectsList(EffectsList(true))
+    m_fps(fps)
 {
 }
 
@@ -584,7 +584,7 @@ void Track::updateClipProperties(const QString &id, QMap <QString, QString> prop
         Mlt::Producer *p = m_playlist.get_clip(i);
         QString current = p->parent().get("id");
         QStringList processed;
-        if (!processed.contains(current) && current == idForTrack || current == idForAudioTrack || current == idForVideoTrack) {
+        if (!processed.contains(current) && (current == idForTrack || current == idForAudioTrack || current == idForVideoTrack)) {
             QMapIterator<QString, QString> i(properties);
             while (i.hasNext()) {
                 i.next();
@@ -595,7 +595,7 @@ void Track::updateClipProperties(const QString &id, QMap <QString, QString> prop
     }
 }
 
-int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *prod, Mlt::Properties passProps, bool needsDuplicate)
+int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *prod, Mlt::Properties passProps)
 {
     int newLength = 0;
     int startPos = info.startPos.frames(m_fps);

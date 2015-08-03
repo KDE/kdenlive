@@ -51,6 +51,7 @@ ProjectFolder::~ProjectFolder()
 
 void ProjectFolder::setCurrent(bool current, bool notify)
 {
+    Q_UNUSED(notify)
     if (current) {
         bin()->openProducer(NULL);
     }
@@ -121,6 +122,7 @@ QDomElement ProjectFolder::toXml(QDomDocument& document)
 
 bool ProjectFolder::rename(const QString &name, int column)
 {
+    Q_UNUSED(column)
     if (m_name == name) return false;
     // Rename folder
     bin()->renameFolderCommand(m_id, name, m_name);

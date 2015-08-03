@@ -129,6 +129,8 @@ Qt::ItemFlags ProjectItemModel::flags(const QModelIndex& index) const
 
 bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
 {
+    Q_UNUSED(row)
+    Q_UNUSED(column)
     if (action == Qt::IgnoreAction)
         return true;
 

@@ -212,6 +212,8 @@ QMap <QString, QString> ClipController::getPropertiesFromPrefix(const QString &p
 void ClipController::updateProducer(const QString &id, Mlt::Producer* producer, ProfileInfo info)
 {
     //TODO replace all track producers
+    Q_UNUSED(id)
+
     Mlt::Properties passProperties;
     // Keep track of necessary properties
     passProperties.pass_list(*m_properties, getPassPropertiesList());
@@ -236,6 +238,9 @@ void ClipController::updateProducer(const QString &id, Mlt::Producer* producer, 
 
 Mlt::Producer *ClipController::getTrackProducer(const QString trackName, PlaylistState::ClipState clipState, double speed)
 {
+    //TODO
+    Q_UNUSED(speed)
+
     if (trackName.isEmpty()) {
         return m_masterProducer;
     }
@@ -602,7 +607,7 @@ void ClipController::addEffect(const ProfileInfo &pInfo, QDomElement &effect)
     m_binController->updateTrackProducer(clipId());
 }
 
-void ClipController::removeEffect(const ProfileInfo &pInfo, int effectIndex)
+void ClipController::removeEffect(int effectIndex)
 {
     Mlt::Service service(m_masterProducer->parent());
     Render::removeFilterFromService(service, effectIndex, true);
@@ -648,7 +653,7 @@ void ClipController::changeEffectState(const QList <int> indexes, bool disable)
     m_binController->updateTrackProducer(clipId());
 }
 
-void ClipController::updateEffect(const ProfileInfo &pInfo, const QDomElement &old, const QDomElement &e, int ix)
+void ClipController::updateEffect(const ProfileInfo &pInfo, const QDomElement &e, int ix)
 {
     EffectsParameterList params = EffectsController::getEffectArgs(pInfo, e);
     Mlt::Service service = m_masterProducer->parent();
