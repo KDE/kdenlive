@@ -929,6 +929,7 @@ void Monitor::stop()
 void Monitor::mute(bool mute, bool updateIconOnly)
 {
     if (render) {
+        // TODO: we should set the "audio_off" property to 1 to mute the consumer instead of changing volume
         QIcon icon;
         if (mute || KdenliveSettings::volume() == 0) icon = QIcon::fromTheme("audio-volume-muted");
         else icon = QIcon::fromTheme("audio-volume-medium");
