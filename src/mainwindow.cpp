@@ -1347,6 +1347,7 @@ void MainWindow::slotEditProjectSettings()
         if (project->profilePath() != profile) {
             KdenliveSettings::setCurrent_profile(profile);
             pCore->projectManager()->slotResetProfiles();
+            slotUpdateDocumentState(true);
         }
         if (project->getDocumentProperty("proxyparams") != w->proxyParams()) {
             project->setModified();
