@@ -99,7 +99,7 @@ void AudioEnvelope::loadEnvelope()
 
         qint64 sum = 0;
         for (int k = 0; k < samples; ++k) {
-            sum += fabs(data[k]);
+            sum += abs(data[k]);
         }
         m_envelope[i] = sum;
 

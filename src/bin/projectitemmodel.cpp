@@ -265,7 +265,7 @@ QMimeData* ProjectItemModel::mimeData(const QModelIndexList& indices) const
     QStringList list;
     for (int i = 0; i < indices.count(); i++) {
         QModelIndex ix = indices.at(i);
-        if (!ix.isValid() || !ix.column() == 0) continue;
+        if (!ix.isValid() || ix.column() != 0) continue;
         AbstractProjectItem *item = static_cast<AbstractProjectItem*>(ix.internalPointer());
         AbstractProjectItem::PROJECTITEMTYPE type = item->itemType();
         if (type == AbstractProjectItem::ClipItem) {

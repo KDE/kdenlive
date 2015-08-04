@@ -34,7 +34,7 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, 
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     
-    m_dragVal = new DragValue(name, defaultValue, decimals, min, max, id, suffix, this);
+    m_dragVal = new DragValue(name, defaultValue, decimals, min, max, id, suffix, true, this);
     layout->addWidget(m_dragVal, 0, 1);
 
     if (!comment.isEmpty()) {

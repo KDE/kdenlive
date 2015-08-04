@@ -362,9 +362,9 @@ void AbstractScopeWidget::mouseMoveEvent(QMouseEvent *event)
             if (movement.manhattanLength() > m_rescaleMinDist) {
                 float diff = ((float) movement.y())/movement.x();
 
-                if (abs(diff) > m_rescaleVerticalThreshold || movement.x() == 0) {
+                if (fabs(diff) > m_rescaleVerticalThreshold || movement.x() == 0) {
                     m_rescaleDirection = North;
-                } else if (abs(diff) < 1/m_rescaleVerticalThreshold) {
+                } else if (fabs(diff) < 1/m_rescaleVerticalThreshold) {
                     m_rescaleDirection = East;
                 } else if (diff < 0) {
                     m_rescaleDirection = Northeast;
