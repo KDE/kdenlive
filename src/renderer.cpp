@@ -1787,7 +1787,7 @@ void Render::mltCheckLength(Mlt::Tractor *tractor)
     }
 }
 
-Mlt::Producer *Render::getTrackProducer(const QString &id, int track, bool audioOnly, bool videoOnly)
+Mlt::Producer *Render::getTrackProducer(const QString &id, int track, bool, bool)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
@@ -1819,9 +1819,8 @@ Mlt::Producer *Render::getProducerForTrack(Mlt::Playlist &trackPlaylist, const Q
 	}
 	else delete p;
     }
-    if (prod == NULL) prod = m_binController->getBinProducer(clipId, trackName);
+    if (prod == NULL) prod = m_binController->getBinProducer(clipId);
     return prod;
-    //return m_binController->getBinProducer(clipId, trackName);
 }
 
 Mlt::Tractor *Render::lockService()
@@ -3390,6 +3389,8 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
     QList <TransitionInfo> transitionInfos;
     // Track add / delete was only added recently in MLT (pre 0.9.8 release).
 #if (LIBMLT_VERSION_INT < 0x0908)
+    Q_UNUSED(name)
+    Q_UNUSED(videoTrack)
     qDebug()<<"Track insertion requires a more recent MLT version";
     return transitionInfos;
 #else

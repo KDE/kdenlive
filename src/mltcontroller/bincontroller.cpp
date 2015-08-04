@@ -307,13 +307,12 @@ Mlt::Producer *BinController::cloneProducer(Mlt::Producer &original)
     return clone;
 }
 
-Mlt::Producer *BinController::getBinProducer(const QString &id, const QString trackName, PlaylistState::ClipState clipState, double speed)
+Mlt::Producer *BinController::getBinProducer(const QString &id)
 {
-    if (!m_clipList.contains(id)) return NULL;
     // TODO: framebuffer speed clips
+    if (!m_clipList.contains(id)) return NULL;
     ClipController *controller = m_clipList.value(id);
     return &controller->originalProducer();
-    //return controller->getTrackProducer(trackName, clipState, speed);
 }
 
 Mlt::Producer *BinController::getBinVideoProducer(const QString &id)

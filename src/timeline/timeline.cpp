@@ -1308,7 +1308,7 @@ void Timeline::updateClipProperties(const QString &id, QMap <QString, QString> p
     }
 }
 
-int Timeline::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *originalProd, bool needsDuplicate)
+int Timeline::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *originalProd)
 {
     QLocale locale;
     QString url = QString::fromUtf8(originalProd->get("resource"));
@@ -1318,5 +1318,5 @@ int Timeline::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, doub
     Mlt::Properties passProperties;
     Mlt::Properties original(originalProd->get_properties());
     passProperties.pass_list(original, ClipController::getPassPropertiesList());
-    return track(info.track)->changeClipSpeed(info, speedIndependantInfo, speed, strobe, prod, passProperties, needsDuplicate);
+    return track(info.track)->changeClipSpeed(info, speedIndependantInfo, speed, strobe, prod, passProperties);
 }

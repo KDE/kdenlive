@@ -42,10 +42,13 @@ ProjectFolderUp::~ProjectFolderUp()
 
 void ProjectFolderUp::setCurrent(bool current, bool notify)
 {
+    Q_UNUSED(current)
+    Q_UNUSED(notify)
 }
 
 ProjectClip* ProjectFolderUp::clip(const QString &id)
 {
+    Q_UNUSED(id)
     return NULL;
 }
 
@@ -57,11 +60,13 @@ QString ProjectFolderUp::getToolTip() const
 
 ProjectFolder* ProjectFolderUp::folder(const QString &id)
 {
+    Q_UNUSED(id)
     return NULL;
 }
 
 ProjectClip* ProjectFolderUp::clipAt(int index)
 {
+    Q_UNUSED(index)
     return NULL;
 }
 

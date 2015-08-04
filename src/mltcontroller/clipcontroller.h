@@ -165,11 +165,11 @@ public:
     bool hasLimitedDuration() const;
     Mlt::Properties &properties();
     void addEffect(const ProfileInfo &pInfo, QDomElement &effect);
-    void removeEffect(const ProfileInfo &pInfo, int effectIndex);
+    void removeEffect(int effectIndex);
     EffectsList effectList();
     /** @brief Enable/disable an effect. */
     void changeEffectState(const QList <int> indexes, bool disable);
-    void updateEffect(const ProfileInfo &pInfo, const QDomElement &old, const QDomElement &e, int ix);
+    void updateEffect(const ProfileInfo &pInfo, const QDomElement &e, int ix);
     /** @brief Returns true if the bin clip has effects */
     bool hasEffects() const;
     /** @brief Returns info about clip audio */

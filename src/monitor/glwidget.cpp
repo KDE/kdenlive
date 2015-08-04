@@ -98,7 +98,6 @@ GLWidget::GLWidget()
     }
     connect(this, SIGNAL(sceneGraphInitialized()), SLOT(initializeGL()), Qt::DirectConnection);
     //connect(this, SIGNAL(sceneGraphInitialized()), SLOT(setBlankScene()), Qt::QueuedConnection);
-    connect(this, SIGNAL(sceneGraphError(QQuickWindow::SceneGraphError, const QString &)), SLOT(slotError(QQuickWindow::SceneGraphError, const QString &)));
     connect(this, SIGNAL(beforeRendering()), SLOT(paintGL()), Qt::DirectConnection);
 }
 
@@ -117,11 +116,6 @@ GLWidget::~GLWidget()
         delete m_frameRenderer;
     }
     delete m_shader;
-}
-
-void GLWidget::slotError(QQuickWindow::SceneGraphError error, const QString &message)
-{
-    qDebug()<<"+ + + ++ + + + +\nSCEN ERROR: "<<message;
 }
 
 void GLWidget::initializeGL()

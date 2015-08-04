@@ -1023,7 +1023,6 @@ void Monitor::slotLoopClip()
 void Monitor::updateClipProducer(Mlt::Producer *prod)
 {
     if (render == NULL) return;
-    m_controller == NULL;
     render->setProducer(prod, -1, false);
     if (prod) prod->set_speed(1.0);
 }
@@ -1217,7 +1216,7 @@ void Monitor::slotEnableEffectScene(bool enable)
     slotShowEffectScene(enable);
 }
 
-void Monitor::slotShowEffectScene(bool show, bool manuallyTriggered)
+void Monitor::slotShowEffectScene(bool show)
 {
     if (show && (!m_rootItem || m_rootItem->objectName() != "rooteffectscene")) {
         m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitoreffectscene.qml"))));
@@ -1462,7 +1461,7 @@ void Monitor::slotSwitchRec(bool enable)
     }
 }
 
-bool Monitor::startCapture(const QString &params, const QString &path, Mlt::Producer *p, bool livePreview)
+bool Monitor::startCapture(const QString &params, const QString &path, Mlt::Producer *p)
 {
     m_controller = NULL;
     render->updateProducer(p);

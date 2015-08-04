@@ -72,7 +72,7 @@ public:
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
     void moveTransition(const ItemInfo &start, const ItemInfo &end, bool refresh);
     void resizeClip(const ItemInfo &start, const ItemInfo &end, bool dontWorry = false);
-    void addClip(const QString &clipId, ItemInfo info, EffectsList list, PlaylistState::ClipState state, bool overwrite = false, bool push = false, bool refresh = true);
+    void addClip(const QString &clipId, ItemInfo info, EffectsList list, PlaylistState::ClipState state, bool refresh = true);
     void deleteClip(ItemInfo info, bool refresh = true);
     void addMarker(const QString &id, const CommentedTime &marker);
     void addData(const QString &id, const QString &key, const QString &data);
@@ -113,7 +113,7 @@ public:
     QList<ItemInfo> findId(const QString &clipId);
     void clipStart();
     void clipEnd();
-    void doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id);
+    void doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, const double speed, int strobe, const QString &id);
     /** @brief Every command added to the undo stack automatically triggers a document change event.
      *  This function should only be called when changing a document setting or another function that 
      *  is not integrated in the undo / redo system */

@@ -2111,7 +2111,7 @@ void MainWindow::slotEditItemDuration()
         pCore->projectManager()->currentTimeline()->projectView()->editItemDuration();
 }
 
-void MainWindow::slotAddProjectClip(const QUrl &url, const QMap<QString,QString> &data)
+void MainWindow::slotAddProjectClip(const QUrl &url)
 {
     pCore->bin()->droppedUrls(QList<QUrl>() << url);
 }
@@ -3101,7 +3101,7 @@ void MainWindow::slotDownloadResources()
     else
         currentFolder = KdenliveSettings::defaultprojectfolder();
     ResourceWidget *d = new ResourceWidget(currentFolder);
-    connect(d, SIGNAL(addClip(QUrl,stringMap)), this, SLOT(slotAddProjectClip(QUrl,stringMap)));
+    connect(d, SIGNAL(addClip(QUrl)), this, SLOT(slotAddProjectClip(QUrl)));
     d->show();
 }
 

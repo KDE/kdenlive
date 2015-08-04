@@ -102,6 +102,7 @@ StopmotionMonitor::~StopmotionMonitor()
 
 void StopmotionMonitor::slotSwitchFullScreen(bool minimizeOnly)
 {
+    Q_UNUSED(minimizeOnly)
 }
 
 void StopmotionMonitor::setRender(MltDeviceCapture *render)

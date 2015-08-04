@@ -161,15 +161,15 @@ void ClipManager::slotGetThumbs()
         m_processingThumbId = i.key();
         QList<int> values = m_requestedThumbs.values(m_processingThumbId);
         m_requestedThumbs.remove(m_processingThumbId);
-        int thumbType = 0; // 0 = timeline thumb, 1 = project clip zone thumb, 2 = clip properties thumb
+        //TODO int thumbType = 0; // 0 = timeline thumb, 1 = project clip zone thumb, 2 = clip properties thumb
         if (m_processingThumbId.startsWith(QLatin1String("?"))) {
             // if id starts with ?, it means the request comes from a clip property widget
-            thumbType = 2;
+            //TODO thumbType = 2;
             m_processingThumbId.remove(0, 1);
         }
         if (m_processingThumbId.startsWith(QLatin1String("#"))) {
             // if id starts with #, it means the request comes from project tree
-            thumbType = 1;
+            //TODO thumbType = 1;
             m_processingThumbId.remove(0, 1);
         }
         m_thumbsMutex.unlock();
@@ -297,7 +297,7 @@ void ClipManager::deleteClip(const QString &clipId)
     return list;
 }*/
 
-void ClipManager::slotAddCopiedClip(KIO::Job *job, const QUrl &, const QUrl &dst)
+void ClipManager::slotAddCopiedClip(KIO::Job*, const QUrl&, const QUrl &dst)
 {
     pCore->bin()->droppedUrls(QList<QUrl>() << dst);
 }

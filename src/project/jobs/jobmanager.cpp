@@ -186,8 +186,7 @@ void JobManager::slotProcessJobs()
         connect(job, SIGNAL(cancelRunningJob(QString,QMap<QString, QString>)), m_bin, SLOT(slotCancelRunningJob(QString,QMap<QString, QString>)));
 
         if (job->jobType == AbstractClipJob::MLTJOB) {
-            MeltJob *jb = static_cast<MeltJob *> (job);
-            /*if (jb->isProjectFilter())
+            /*if (static_cast<MeltJob*>(job)->isProjectFilter())
                 connect(job, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SLOT(slotGotFilterJobResults(QString,int,int,stringMap,stringMap)));
             else*/
                 connect(job, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)));
