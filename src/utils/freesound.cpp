@@ -198,6 +198,8 @@ void FreeSound::slotParseResults(KJob* job)
     }
     emit gotMetaInfo(html);
     emit gotMetaInfo(m_metaInfo);
+#else
+	Q_UNUSED(job)
 #endif    
 }
 

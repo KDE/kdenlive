@@ -44,7 +44,6 @@ const int idRole = Qt::UserRole + 2;
 const int statusRole = Qt::UserRole + 3;
 const int typeRole = Qt::UserRole + 4;
 const int typeOriginalResource = Qt::UserRole + 5;
-const int resetDurationRole = Qt::UserRole + 6;
 
 const int CLIPMISSING = 0;
 const int CLIPOK = 1;

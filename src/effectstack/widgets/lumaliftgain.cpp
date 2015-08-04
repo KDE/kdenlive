@@ -29,7 +29,6 @@
 #include <QDebug>
 #include <KLocalizedString>
 
-static const double LIFT_FACTOR = 1.0;
 static const double GAMMA_FACTOR = 2.0;
 static const double GAIN_FACTOR = 4.0;
 

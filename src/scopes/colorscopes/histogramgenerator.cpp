@@ -46,35 +46,30 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
     const uint ww = paradeSize.width();
     const uint wh = paradeSize.height();
     const uint byteCount = iw*ih;
-    const uint stepsize = image.depth() / 8 *accelFactor;
-
-    const uchar *bits = image.bits();
 
     // Read the stats from the input image
-    for (uint i = 0; i < byteCount; i += stepsize) {
-        QRgb *col = (QRgb *)bits;
-
-        r[qRed(*col)]++;
-        g[qGreen(*col)]++;
-        b[qBlue(*col)]++;
-        if (drawY) {
-            // Use if branch to avoid expensive multiplication if Y disabled
-            if (rec == HistogramGenerator::Rec_601) {
-                y[(int)floor(.299*qRed(*col) + .587*qGreen(*col) + .114*qBlue(*col))]++;
-            } else {
-                y[(int)floor(.2125*qRed(*col) + .7154*qGreen(*col) + .0721*qBlue(*col))]++;
+    for (int Y = 0; Y < image.height(); ++Y) {
+        for (int X = 0; X < image.width(); X += accelFactor) {
+            QRgb col = image.pixel(X, Y);
+            r[qRed(col)]++;
+            g[qGreen(col)]++;
+            b[qBlue(col)]++;
+            if (drawY) {
+                // Use if branch to avoid expensive multiplication if Y disabled
+                if (rec == HistogramGenerator::Rec_601) {
+                    y[(int)floor(.299*qRed(col) + .587*qGreen(col) + .114*qBlue(col))]++;
+                } else {
+                    y[(int)floor(.2125*qRed(col) + .7154*qGreen(col) + .0721*qBlue(col))]++;
+                }
+            }
+            if (drawSum) {
+                // Use an if branch here because the sum takes more operations than rgb
+                s[qRed(col)]++;
+                s[qGreen(col)]++;
+                s[qBlue(col)]++;
             }
         }
-        if (drawSum) {
-            // Use an if branch here because the sum takes more operations than rgb
-            s[qRed(*col)]++;
-            s[qGreen(*col)]++;
-            s[qBlue(*col)]++;
-        }
-
-        bits += stepsize;
     }
-
 
     const int nParts = (drawY ? 1 : 0) + (drawR ? 1 : 0) + (drawG ? 1 : 0) + (drawB ? 1 : 0) + (drawSum ? 1 : 0);
     if (nParts == 0) {
