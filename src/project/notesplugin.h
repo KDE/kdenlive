@@ -16,6 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 class NotesWidget;
 class KdenliveDoc;
 class ProjectManager;
+class QDockWidget;
 
 /**
  * @class NotesPlugin
@@ -32,6 +33,7 @@ public:
     explicit NotesPlugin(ProjectManager *projectManager);
     NotesWidget *widget();
     void clear();
+    ~NotesPlugin();
 
 private slots:
     void setProject(KdenliveDoc *document);
@@ -40,6 +42,7 @@ private slots:
 
 private:
     NotesWidget *m_widget;
+    QDockWidget *m_notesDock;
 };
 
 #endif
