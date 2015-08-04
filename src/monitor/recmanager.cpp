@@ -120,9 +120,14 @@ void RecManager::stopCapture()
 
 void RecManager::stop()
 {
-      stopCapture();
-      toolbar()->setVisible(false); 
-      m_switchRec->setChecked(false);
+    if (m_captureProcess) {
+        // Don't stop screen rec when hiding rec toolbar
+    }
+    else {
+        stopCapture();
+        m_switchRec->setChecked(false);
+    }
+    toolbar()->setVisible(false); 
 }
 
 
