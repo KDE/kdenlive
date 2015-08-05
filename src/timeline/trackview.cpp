@@ -362,15 +362,15 @@ void TrackView::parseDocument(const QDomDocument &doc)
                         if (!e.isNull() && e.attribute("tag") == paramName) {
                             if (e.attribute("type") == "double") {
                                 QString factor = e.attribute("factor", "1");
-                                double offset = e.attribute("offset", "0").toDouble();
+                                double offset = locale.toDouble(e.attribute("offset", "0"));
                                 if (factor != "1" || offset != 0) {
                                     double fact;
                                     if (factor.contains('%')) {
                                         fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
                                     } else {
-                                        fact = factor.toDouble();
+                                        fact = locale.toDouble(factor);
                                     }
-                                    paramValue = locale.toString(offset + paramValue.toDouble() * fact);
+                                    paramValue = locale.toString(offset + locale.toDouble(paramValue) * fact);
                                 }
                             }
                             e.setAttribute("value", paramValue);
@@ -833,7 +833,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                         starttag = e.attribute("starttag", "start");
                         endtag = e.attribute("endtag", "end");
                         factor = e.attribute("factor", "1");
-                        offset = e.attribute("offset", "0").toDouble();
+                        offset = locale.toDouble(e.attribute("offset", "0"));
                         break;
                     }
                 }
@@ -846,15 +846,16 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 if (factor.contains('%')) {
                     fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
                 } else {
-                    fact = factor.toDouble();
+                    fact = locale.toDouble(factor);
                 }
                 for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
                     // parse effect parameters
                     QDomElement effectparam = n3.toElement();
                     if (effectparam.attribute("name") == starttag)
-                        startvalue = offset + effectparam.text().toDouble() * fact;
-                    if (effectparam.attribute("name") == endtag)
-                        endvalue = offset + effectparam.text().toDouble() * fact;
+                        startvalue = offset + locale.toDouble(effectparam.text()) * fact;
+                    if (effectparam.attribute("name") == endtag) {
+                        endvalue = offset + locale.toDouble(effectparam.text()) * fact;
+                    }
                 }
                 // add first keyframe
                 if (effectout <= effectin) {
@@ -880,7 +881,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                             continueParsing = false;
                             break;
                         } else if (subeffectparam.attribute("name") == endtag) {
-                            endvalue = offset + subeffectparam.text().toDouble() * fact;
+                            endvalue = offset + locale.toDouble(subeffectparam.text()) * fact;
                             break;
                         }
                     }
@@ -978,9 +979,9 @@ void TrackView::adjustparameterValue(QDomNodeList clipeffectparams, const QStrin
             if (factor.contains('%')) {
                 fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
             } else {
-                fact = factor.toDouble();
+                fact = locale.toDouble(factor);
             }
-            double offset = e.attribute("offset", "0").toDouble();
+            double offset = locale.toDouble(e.attribute("offset", "0"));
             if (type == "simplekeyframe") {
                 QStringList kfrs = paramvalue.split(';');
                 for (int l = 0; l < kfrs.count(); ++l) {
