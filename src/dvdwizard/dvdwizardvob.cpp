@@ -196,7 +196,16 @@ void DvdWizardVob::slotAddVobFile(QUrl url, const QString &chapters, bool checkF
     resource.prepend("avformat:");
     Mlt::Producer *producer = new Mlt::Producer(profile, resource.toUtf8().data());
     if (producer && producer->is_valid() && !producer->is_blank()) {
+        double fps = profile.fps();
         profile.from_producer(*producer);
+        profile.set_explicit(true);
+        if (profile.fps() != fps) {
+            // fps changed, rebuild producer
+            delete producer;
+            producer = new Mlt::Producer(profile, resource.toUtf8().data());
+        }
+    }
+    if (producer && producer->is_valid() && !producer->is_blank()) {
         int width = 45.0 * profile.dar();
         if (width % 2 == 1) width++;
         producer->set("force_aspect_ratio", profile.dar());
@@ -595,7 +604,16 @@ void DvdWizardVob::slotTranscodedClip(QUrl src, QUrl transcoded)
             resource.prepend("avformat:");
             Mlt::Producer *producer = new Mlt::Producer(profile, resource.toUtf8().data());
             if (producer && producer->is_valid() && !producer->is_blank()) {
+                double fps = profile.fps();
                 profile.from_producer(*producer);
+                profile.set_explicit(true);
+                if (profile.fps() != fps) {
+                    // fps changed, rebuild producer
+                    delete producer;
+                    producer = new Mlt::Producer(profile, resource.toUtf8().data());
+                  }
+            }
+            if (producer && producer->is_valid() && !producer->is_blank()) {
                 int width = 45.0 * profile.dar();
                 if (width % 2 == 1) width++;
                 item->setData(0, Qt::DecorationRole, QPixmap::fromImage(KThumb::getFrame(producer, 0, width, 45)));

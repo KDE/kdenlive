@@ -762,15 +762,30 @@ void Render::processFileProperties()
         }
         int vindex = -1;
         const QString mltService = producer->get("mlt_service");
-        if (mltService == "xml" || mltService == "consumer") {
+        if (mltService == QLatin1String("xml") || mltService == QLatin1String("consumer")) {
             // MLT playlist, create producer with blank profile to get real profile info
-            // TODO: is there an easier way to get this info (original source clip profile) from MLT?
+            if (path.startsWith(QLatin1String("consumer:"))) {
+                path = "xml:" + path.section(":", 1);
+            }
             Mlt::Profile *original_profile = new Mlt::Profile();
-            Mlt::Producer *tmpProd = new Mlt::Producer(*original_profile, path.toUtf8().constData());
+            Mlt::Producer *tmpProd = new Mlt::Producer(*original_profile, 0, path.toUtf8().constData());
+            original_profile->from_producer(*tmpProd);
+            original_profile->set_explicit(true);
             filePropertyMap["progressive"] = QString::number(original_profile->progressive());
             filePropertyMap["colorspace"] = QString::number(original_profile->colorspace());
             filePropertyMap["fps"] = QString::number(original_profile->fps());
             filePropertyMap["aspect_ratio"] = QString::number(original_profile->sar());
+            double originalFps = original_profile->fps();
+            if (originalFps > 0 && originalFps != m_qmlView->profile()->fps()) {
+                // Warning, MLT detects an incorrect length in producer consumer when producer's fps != project's fps
+                //TODO: report bug to MLT
+                delete tmpProd;
+                tmpProd = new Mlt::Producer(*original_profile, 0, path.toUtf8().constData());
+                int originalLength = tmpProd->get_length();
+                int fixedLength = (int) (originalLength * m_qmlView->profile()->fps() / originalFps);
+                producer->set("length", fixedLength);
+                producer->set("out", fixedLength - 1);
+            }
             delete tmpProd;
             delete original_profile;
         }

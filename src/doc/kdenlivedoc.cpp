@@ -473,9 +473,11 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
 
     QDomElement tractor = doc.createElement("tractor");
     tractor.setAttribute("id", "maintractor");
+    tractor.setAttribute("global_feed", 1);
     //QDomElement multitrack = doc.createElement("multitrack");
     QDomElement playlist = doc.createElement("playlist");
     playlist.setAttribute("id", "black_track");
+    
     mlt.appendChild(playlist);
 
     QDomElement blank0 = doc.createElement("entry");
