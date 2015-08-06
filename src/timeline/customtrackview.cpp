@@ -344,11 +344,6 @@ void CustomTrackView::wheelEvent(QWheelEvent * e)
     }
 }
 
-void CustomTrackView::setOperation(OperationType op)
-{
-    m_operationMode = op;
-}
-
 int CustomTrackView::getPreviousVideoTrack(int track)
 {
     int i = track + 1;
@@ -1463,7 +1458,6 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
         }
         //QString previous = item->keyframes(item->selectedEffectIndex());
         item->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), keyFramePos.frames(m_document->fps()), val);
-        //item->updateKeyframeEffect();
         //QString next = item->keyframes(item->selectedEffectIndex());
         QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
         EditEffectCommand *command = new EditEffectCommand(this, m_timeline->tracksCount() - item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false);
@@ -1651,7 +1645,7 @@ void CustomTrackView::insertClipCut(const QString &id, int in, int out)
     QUndoCommand *addCommand = new QUndoCommand();
     addCommand->setText(i18n("Add timeline clip"));
     new RefreshMonitorCommand(this, false, true, addCommand);
-    new AddTimelineClipCommand(this, id, pasteInfo, EffectsList(), PlaylistState::Original, m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, true, false, addCommand);
+    new AddTimelineClipCommand(this, id, pasteInfo, EffectsList(), PlaylistState::Original, true, false, addCommand);
     new RefreshMonitorCommand(this, true, false, addCommand);
     updateTrackDuration(pasteInfo.track, addCommand);
     
@@ -1906,7 +1900,7 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
             double speed = locale.toDouble(EffectsList::parameter(effect, "speed")) / 100.0;
             int strobe = EffectsList::parameter(effect, "strobe").toInt();
             if (strobe == 0) strobe = 1;
-            doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), speed, 1.0, strobe, clip->getBinId());
+            doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), speed, strobe, clip->getBinId());
             EffectsParameterList params = clip->addEffect(m_document->getProfileInfo(), effect);
             if (clip->isSelected()) emit clipItemSelected(clip);
             return;
@@ -1938,7 +1932,7 @@ void CustomTrackView::deleteEffect(int track, const GenTime &pos, const QDomElem
     if (effect.attribute("id") == "speed") {
         ClipItem *clip = getClipItemAtStart(pos, m_timeline->tracksCount() - track);
         if (clip) {
-            doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), 1.0, clip->speed(), 1, clip->getBinId());
+            doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), 1.0, 1, clip->getBinId());
             clip->deleteEffect(index);
             emit clipItemSelected(clip);
             m_document->renderer()->mltRemoveEffect(track, pos, index, true);
@@ -2203,14 +2197,14 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
         // Special case: speed effect
         if (effect.attribute("id") == "speed") {
             if (effect.attribute("disable") == "1") {
-                doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), 1.0, clip->speed(), 1, clip->getBinId());
+                doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), 1.0, 1, clip->getBinId());
             } else {
                 QLocale locale;
                 locale.setNumberOptions(QLocale::OmitGroupSeparator);
                 double speed = locale.toDouble(EffectsList::parameter(effect, "speed")) / 100.0;
                 int strobe = EffectsList::parameter(effect, "strobe").toInt();
                 if (strobe == 0) strobe = 1;
-                doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), speed, clip->speed(), strobe, clip->getBinId());
+                doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), speed, strobe, clip->getBinId());
             }
             clip->updateEffect(effect);
             if (updateEffectStack && clip->isSelected())
@@ -2517,12 +2511,6 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         KdenliveSettings::setSnaptopoints(snap);
         return item;
     }
-    //QTimer::singleShot(3000, this, SLOT(slotEnableRefresh()));
-}
-
-void CustomTrackView::slotEnableRefresh()
-{
-    m_blockRefresh = false;
 }
 
 void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition)
@@ -2789,7 +2777,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             }
             adjustTimelineClips(m_scene->editMode(), item, ItemInfo(), addCommand);
 
-            new AddTimelineClipCommand(this, clipBinId, item->info(), item->effectList(), item->clipState(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, false, false, addCommand);
+            new AddTimelineClipCommand(this, clipBinId, item->info(), item->effectList(), item->clipState(), false, false, addCommand);
             updateTrackDuration(info.track, addCommand);
 
             if (item->binClip()->isTransparent() && getTransitionItemAtStart(info.startPos, info.track) == NULL) {
@@ -2896,7 +2884,7 @@ void CustomTrackView::adjustTimelineClips(EditMode mode, ClipItem *item, ItemInf
                         clip->resizeEnd(info.startPos.frames(m_document->fps()));
                     }
                 } else if (clip->endPos() <= info.endPos) {
-                    new AddTimelineClipCommand(this, clip->getBinId(), clip->info(), clip->effectList(), clip->clipState(), false, false, false, true, command);
+                    new AddTimelineClipCommand(this, clip->getBinId(), clip->info(), clip->effectList(), clip->clipState(), false, true, command);
                     m_waitingThumbs.removeAll(clip);
                     scene()->removeItem(clip);
                     delete clip;
@@ -3057,6 +3045,7 @@ void CustomTrackView::removeTrack(int ix)
     m_document->renderer()->mltDeleteTrack(m_timeline->tracksCount() - ix);
     reloadTimeline();
     return;
+    /*
     double startY = ix * (m_tracksHeight + 1) + m_tracksHeight / 2;
     QRectF r(0, startY, sceneRect().width(), sceneRect().height() - startY);
     QList<QGraphicsItem *> selection = m_scene->items(r);
@@ -3111,6 +3100,7 @@ void CustomTrackView::removeTrack(int ix)
 
     updateTrackNames(ix, false);
     //QTimer::singleShot(500, this, SIGNAL(trackHeightChanged()));
+    */
 }
 
 void CustomTrackView::configTracks(const QList < TrackInfo > &trackInfos)
@@ -3488,7 +3478,7 @@ void CustomTrackView::deleteClip(const QString &clipId, QUndoCommand *deleteComm
                     // Clip is in a group, destroy the group
                     new GroupClipsCommand(this, QList<ItemInfo>() << item->info(), QList<ItemInfo>(), false, deleteCommand);
                 }
-                new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->clipState(), false, false, true, true, deleteCommand);
+                new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->clipState(), true, true, deleteCommand);
             }
         }
     }
@@ -3520,11 +3510,6 @@ void CustomTrackView::setCursorPos(int pos)
         if (m_autoScroll) checkScrolling();
     }
     //else emit updateRuler();
-}
-
-void CustomTrackView::updateCursorPos()
-{
-    m_cursorLine->setPos(m_cursorPos + 0.5, 0);
 }
 
 int CustomTrackView::cursorPos() const
@@ -4250,7 +4235,7 @@ void CustomTrackView::deleteSelectedClips()
             clipCount++;
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             ////qDebug()<<"// DELETE CLP AT: "<<item->info().startPos.frames(25);
-            new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->clipState(), false, false, true, true, deleteSelected);
+            new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->clipState(), true, true, deleteSelected);
         } else if (itemList.at(i)->type() == TransitionWidget) {
             transitionCount++;
             Transition *item = static_cast <Transition *>(itemList.at(i));
@@ -4271,7 +4256,7 @@ void CustomTrackView::deleteSelectedClips()
 }
 
 
-void CustomTrackView::doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id)
+void CustomTrackView::doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, const double speed, int strobe, const QString &id)
 {
     ClipItem *item = getClipItemAtStart(info.startPos, info.track);
     if (!item) {
@@ -4279,7 +4264,7 @@ void CustomTrackView::doChangeClipSpeed(ItemInfo info, const ItemInfo &speedInde
         emit displayMessage(i18n("Cannot find clip for speed change"), ErrorMessage);
         return;
     }
-    int endPos = m_timeline->changeClipSpeed(info, speedIndependantInfo, speed, strobe, m_document->renderer()->getBinProducer(id), item->needsDuplicate());
+    int endPos = m_timeline->changeClipSpeed(info, speedIndependantInfo, speed, strobe, m_document->renderer()->getBinProducer(id));
     if (endPos >= 0) {
         item->setSpeed(speed, strobe);
         item->updateRectGeometry();
@@ -4471,7 +4456,7 @@ void CustomTrackView::slotInfoProcessingFinished()
     m_producerNotReady.wakeAll();
 }
 
-void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList effects, PlaylistState::ClipState state, bool overwrite, bool push, bool refresh)
+void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList effects, PlaylistState::ClipState state, bool refresh)
 {
     ProjectClip *binClip = m_document->getBinClip(clipId);
     if (!binClip->isReady()) {
@@ -4510,13 +4495,6 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
 
     //TODO: notify bin ?
     //baseclip->addReference();
-    //m_document->updateClip(baseclip->getId());
-    //int producerTrack = info.track;
-    //m_document->renderer()->mltInsertClip(info, xml, item->getProducer(producerTrack), overwrite, push);
-    //m_document->renderer()->mltInsertClip(info /*, xml*/, clipId, overwrite, push);
-    /*Mlt::Producer *prod = m_document->renderer()->getTrackProducer(item->getBinId(), info.track, item->isAudioOnly(), item->isVideoOnly());
-    //prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
-    prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);*/
     Mlt::Producer *prod;
     if (item->clipState() == PlaylistState::VideoOnly) {
         prod = m_document->renderer()->getBinVideoProducer(clipId);
@@ -4618,13 +4596,6 @@ ClipItem *CustomTrackView::getClipItemAtMiddlePoint(int pos, int track)
         }
     }
     return clip;
-}
-
-Transition *CustomTrackView::getTransitionItem(TransitionInfo info)
-{
-    int pos = info.startPos.frames(m_document->fps());
-    int track = m_timeline->tracksCount() - info.b_track;
-    return getTransitionItemAt(pos, track);
 }
 
 Transition *CustomTrackView::getTransitionItemAt(int pos, int track)
@@ -4823,11 +4794,6 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
 
             if (item->type() == AVWidget) {
                 ClipItem *clip = static_cast <ClipItem*>(item);
-                //m_document->renderer()->mltInsertClip(info /*, clip->xml()*/, clip->getBinId());
-                /*Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clip->getBinId(), info.track, clip->isAudioOnly(), clip->isVideoOnly());
-		prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
-                //prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
-                m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode());*/
                 Mlt::Producer *prod;
                 if (clip->clipState() == PlaylistState::VideoOnly) {
                     prod = m_document->renderer()->getBinVideoProducer(clip->getBinId());
@@ -5881,7 +5847,7 @@ void CustomTrackView::pasteClip()
             info.endPos += offset;
             info.track += trackOffset;
             if (canBePastedTo(info, AVWidget)) {
-                new AddTimelineClipCommand(this, clip->getBinId(), info, clip->effectList(), clip->clipState(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, true, false, pasteClips);
+                new AddTimelineClipCommand(this, clip->getBinId(), info, clip->effectList(), clip->clipState(), true, false, pasteClips);
             } else emit displayMessage(i18n("Cannot paste clip to selected place"), ErrorMessage);
         } else if (m_copiedItems.at(i) && m_copiedItems.at(i)->type() == TransitionWidget) {
             Transition *tr = static_cast <Transition *>(m_copiedItems.at(i));
@@ -6269,7 +6235,7 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == AVWidget) {
             ClipItem *item =  static_cast <ClipItem *>(selection.at(i));
-            new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->clipState(), false, false, false, true, deleteTrack);
+            new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->clipState(), false, true, deleteTrack);
             m_waitingThumbs.removeAll(item);
             m_scene->removeItem(item);
             delete item;
@@ -6543,7 +6509,7 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
             ItemInfo info = clip->info();
             info.track = /*m_timeline->tracksCount() - */freetrack;
             scene()->clearSelection();
-            addClip(clip->getBinId(), info, clip->effectList(), PlaylistState::AudioOnly, false, false, false);
+            addClip(clip->getBinId(), info, clip->effectList(), PlaylistState::AudioOnly, false);
             clip->setSelected(true);
             ClipItem *audioClip = getClipItemAtStart(pos, info.track);
             if (audioClip) {
@@ -6659,7 +6625,7 @@ void CustomTrackView::doChangeClipType(const GenTime &pos, int track, PlaylistSt
         prod = m_document->renderer()->getBinVideoProducer(clip->getBinId());
     }
     else prod = m_document->renderer()->getBinProducer(clip->getBinId());
-    if (m_timeline->track(track)->replace(pos.seconds(), prod, state)) {
+    if (prod && prod->is_valid() && m_timeline->track(track)->replace(pos.seconds(), prod, state)) {
         clip->setState(state); 
     } else {
         // Changing clip type failed
@@ -6869,18 +6835,6 @@ QStringList CustomTrackView::selectedClips() const
     return clipIds;
 }
 
-QList<ClipItem *> CustomTrackView::selectedClipItems() const
-{
-    QList<ClipItem *> clips;
-    QList<QGraphicsItem *> selection = m_scene->selectedItems();
-    for (int i = 0; i < selection.count(); ++i) {
-        if (selection.at(i)->type() == AVWidget) {
-            clips.append(static_cast<ClipItem*>(selection.at(i)));
-        }
-    }
-    return clips;
-}
-
 void CustomTrackView::slotSelectTrack(int ix)
 {
     m_selectedTrack = qMax(0, ix);
@@ -7005,7 +6959,7 @@ void CustomTrackView::insertZoneOverwrite(QStringList data, int in)
     QUndoCommand *addCommand = new QUndoCommand();
     addCommand->setText(i18n("Insert clip"));
     adjustTimelineClips(OverwriteEdit, NULL, info, addCommand);
-    new AddTimelineClipCommand(this, data.at(0), info, EffectsList(), PlaylistState::Original, true, false, true, false, addCommand);
+    new AddTimelineClipCommand(this, data.at(0), info, EffectsList(), PlaylistState::Original, true, false, addCommand);
     updateTrackDuration(info.track, addCommand);
     m_commandStack->push(addCommand);
 
@@ -7492,3 +7446,4 @@ void CustomTrackView::slotUpdateTimelineProducer(const QString &id)
         m_timeline->track(i)->updateEffects(id,  prod);
     }
 }
+

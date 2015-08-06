@@ -165,17 +165,13 @@ RecMonitor::~RecMonitor()
     delete m_infoMessage;
 }
 
-void RecMonitor::mouseDoubleClickEvent(QMouseEvent * event)
+void RecMonitor::mouseDoubleClickEvent(QMouseEvent*)
 {
-    /*if (videoBox && videoBox->isVisible()) {
-        videoBox->switchFullScreen();
-        event->accept();
-    }*/
 }
 
 void RecMonitor::slotSwitchFullScreen(bool minimizeOnly)
 {
-    //videoBox->switchFullScreen();
+    Q_UNUSED(minimizeOnly)
 }
 
 void RecMonitor::stop()
@@ -1020,6 +1016,8 @@ void RecMonitor::slotDroppedFrames(int dropped)
 
 void RecMonitor::buildMltDevice(const QString &path)
 {
+    //TODO
+    Q_UNUSED(path)
     if (m_captureDevice == NULL) {
 	m_monitorManager->updateScopeSource();
         //TODO

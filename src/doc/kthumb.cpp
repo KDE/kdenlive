@@ -87,11 +87,6 @@ bool KThumb::hasProducer() const
     return m_producer != NULL;
 }
 
-void KThumb::updateThumbUrl(const QString &hash)
-{
-    m_thumbFile = m_clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
-}
-
 void KThumb::updateClipUrl(const QUrl &url, const QString &hash)
 {
     m_url = url;
@@ -371,14 +366,13 @@ void KThumb::slotGetIntraThumbs()
     const int displayWidth = (int)(theight * m_dar + 0.5);
     QString path = m_url.path() + '_';
     bool addedThumbs = false;
-    int pos = 0;
     while (true) {
         m_intraMutex.lock();
         if (m_intraFramesQueue.isEmpty()) {
             m_intraMutex.unlock();
             break;
         }
-        pos = m_intraFramesQueue.takeFirst();
+        int pos = m_intraFramesQueue.takeFirst();
         m_intraMutex.unlock();
         const QString key = path + QString::number(pos);
         if (!m_clipManager->pixmapCache->contains(key)) {

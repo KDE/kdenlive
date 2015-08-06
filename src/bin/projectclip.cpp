@@ -149,14 +149,14 @@ ProjectClip* ProjectClip::clip(const QString &id)
 
 ProjectFolder* ProjectClip::folder(const QString &id)
 {
+    Q_UNUSED(id)
     return NULL;
 }
 
 ProjectSubClip* ProjectClip::getSubClip(int in, int out)
 {
-    ProjectSubClip *clip;
     for (int i = 0; i < count(); ++i) {
-        clip = static_cast<ProjectSubClip *>(at(i))->subClip(in, out);
+        ProjectSubClip *clip = static_cast<ProjectSubClip *>(at(i))->subClip(in, out);
         if (clip) {
             return clip;
         }
@@ -199,15 +199,6 @@ GenTime ProjectClip::duration() const
     return GenTime();
 }
 
-QString ProjectClip::serializeClip()
-{
-    /*Mlt::Consumer *consumer = bin()->project()->xmlConsumer();
-    consumer->connect(*m_baseProducer);
-    consumer->run();
-    return QString::fromUtf8(consumer->get("kdenlive_clip"));*/
-    return QString();
-}
-
 void ProjectClip::reloadProducer(bool thumbnailOnly)
 {
     QDomDocument doc;
@@ -221,6 +212,7 @@ void ProjectClip::reloadProducer(bool thumbnailOnly)
 
 void ProjectClip::setCurrent(bool current, bool notify)
 {
+    Q_UNUSED(notify)
     //AbstractProjectItem::setCurrent(current, notify);
     if (current && m_controller) {
         bin()->openProducer(m_controller);
@@ -330,18 +322,6 @@ QPoint ProjectClip::zone() const
     int x = getProducerIntProperty("kdenlive:zone_in");
     int y = getProducerIntProperty("kdenlive:zone_out");
     return QPoint(x, y);
-}
-
-void ProjectClip::addMarker(int position)
-{
-    m_markers << position;
-    //bin()->markersUpdated(m_id, m_markers);
-}
-
-void ProjectClip::removeMarker(int position)
-{
-    m_markers.removeAll(position);
-    //bin()->markersUpdated(m_id, m_markers);
 }
 
 void ProjectClip::resetProducerProperty(const QString &name)
@@ -583,12 +563,14 @@ ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
 
 void ProjectClip::updateParentInfo(const QString &folderid, const QString &foldername)
 {
+    Q_UNUSED(foldername)
     m_controller->setProperty("kdenlive:folderid", folderid);
 }
 
 bool ProjectClip::matches(QString condition)
 {
     //TODO
+    Q_UNUSED(condition)
     return true;
 }
 
@@ -671,16 +653,16 @@ void ProjectClip::addMarkers(QList <CommentedTime> &markers)
     emit refreshClipDisplay();
 }
 
-void ProjectClip::addEffect(const ProfileInfo pInfo, QDomElement &effect)
+void ProjectClip::addEffect(const ProfileInfo &pInfo, QDomElement &effect)
 {
     m_controller->addEffect(pInfo, effect);
     bin()->editMasterEffect(m_controller);
     bin()->emitItemUpdated(this);
 }
 
-void ProjectClip::removeEffect(const ProfileInfo pInfo, int ix)
+void ProjectClip::removeEffect(int ix)
 {
-    m_controller->removeEffect(pInfo, ix);
+    m_controller->removeEffect(ix);
     bin()->editMasterEffect(m_controller);
     bin()->emitItemUpdated(this);
 }
@@ -756,9 +738,8 @@ void ProjectClip::slotExtractSubImage(QList <int> frames)
         QString path = thumbFolder.absoluteFilePath(hash() + "#" + QString::number(pos) + ".png");
         QImage img(path);
         if (!img.isNull()) {
-            ProjectSubClip *clip;
             for (int i = 0; i < count(); ++i) {
-                clip = static_cast<ProjectSubClip *>(at(i));
+                ProjectSubClip *clip = static_cast<ProjectSubClip *>(at(i));
                 if (clip && clip->zone().x() == pos) {
                     clip->setThumbnail(img);
                 }
@@ -774,9 +755,8 @@ void ProjectClip::slotExtractSubImage(QList <int> frames)
             QImage img = KThumb::getFrame(frame, fullWidth, 150);
             if (!img.isNull()) {
                 img.save(path);
-                ProjectSubClip *clip;
                 for (int i = 0; i < count(); ++i) {
-                    clip = static_cast<ProjectSubClip *>(at(i));
+                    ProjectSubClip *clip = static_cast<ProjectSubClip *>(at(i));
                     if (clip && clip->zone().x() == pos) {
                         clip->setThumbnail(img);
                     }

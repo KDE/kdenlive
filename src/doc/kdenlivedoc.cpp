@@ -302,7 +302,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     // Something went wrong, or a new file was requested: create a new project
     if (!success) {
         m_url.clear();
-        //setProfilePath(profileName);
         m_profile = ProfilesDialog::getVideoProfile(profileName);
         m_document = createEmptyDocument(tracks.x(), tracks.y());
         updateProjectProfile();
@@ -474,9 +473,11 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
 
     QDomElement tractor = doc.createElement("tractor");
     tractor.setAttribute("id", "maintractor");
+    tractor.setAttribute("global_feed", 1);
     //QDomElement multitrack = doc.createElement("multitrack");
     QDomElement playlist = doc.createElement("playlist");
     playlist.setAttribute("id", "black_track");
+    
     mlt.appendChild(playlist);
 
     QDomElement blank0 = doc.createElement("entry");
@@ -802,66 +803,6 @@ ProfileInfo KdenliveDoc::getProfileInfo() const
         info.profileSize = getRenderSize();
         info.profileFps = fps();
         return info;
-}
-
-/*Mlt::Profile *KdenliveDoc::profile()
-{
-    return pCore->binController()->profile();
-}*/
-
-bool KdenliveDoc::setProfilePath(QString path)
-{
-    if (path.isEmpty())
-        path = KdenliveSettings::default_profile();
-    if (path.isEmpty())
-        path = QLatin1String("dv_pal");
-    m_profile = ProfilesDialog::getVideoProfile(path);
-    double current_fps = m_render->fps();
-    if (m_profile.path.isEmpty()) {
-        // Profile not found, use embedded profile
-        QDomElement profileInfo = m_document.elementsByTagName("profileinfo").at(0).toElement();
-        if (profileInfo.isNull()) {
-            KMessageBox::information(QApplication::activeWindow(), i18n("Project profile was not found, using default profile."), i18n("Missing Profile"));
-            m_profile = ProfilesDialog::getVideoProfile(KdenliveSettings::default_profile());
-        } else {
-            m_profile.description = profileInfo.attribute("description");
-            m_profile.frame_rate_num = profileInfo.attribute("frame_rate_num").toInt();
-            m_profile.frame_rate_den = profileInfo.attribute("frame_rate_den").toInt();
-            m_profile.width = profileInfo.attribute("width").toInt();
-            m_profile.height = profileInfo.attribute("height").toInt();
-            m_profile.progressive = profileInfo.attribute("progressive").toInt();
-            m_profile.sample_aspect_num = profileInfo.attribute("sample_aspect_num").toInt();
-            m_profile.sample_aspect_den = profileInfo.attribute("sample_aspect_den").toInt();
-            m_profile.display_aspect_num = profileInfo.attribute("display_aspect_num").toInt();
-            m_profile.display_aspect_den = profileInfo.attribute("display_aspect_den").toInt();
-            QString existing = ProfilesDialog::existingProfile(m_profile);
-            if (!existing.isEmpty()) {
-                m_profile = ProfilesDialog::getVideoProfile(existing);
-                KMessageBox::information(QApplication::activeWindow(), i18n("Project profile not found, replacing with existing one: %1", m_profile.description), i18n("Missing Profile"));
-            } else {
-                QString newDesc = m_profile.description;
-                bool ok = true;
-                while (ok && (newDesc.isEmpty() || ProfilesDialog::existingProfileDescription(newDesc))) {
-                    newDesc = QInputDialog::getText(QApplication::activeWindow(), i18n("Existing Profile"), i18n("Your project uses an unknown profile.\nIt uses an existing profile name: %1.\nPlease choose a new name to save it", newDesc), QLineEdit::Normal, newDesc, &ok);
-                }
-                if (ok == false) {
-                    // User canceled, use default profile
-                    m_profile = ProfilesDialog::getVideoProfile(KdenliveSettings::default_profile());
-                } else {
-                    if (newDesc != m_profile.description) {
-                        // Profile description existed, was replaced by new one
-                        m_profile.description = newDesc;
-                    } else {
-                        KMessageBox::information(QApplication::activeWindow(), i18n("Project profile was not found, it will be added to your system now."), i18n("Missing Profile"));
-                    }
-                    ProfilesDialog::saveProfile(m_profile);
-                }
-            }
-            setModified(true);
-        }
-    }
-    updateProjectProfile();
-    return (current_fps != KdenliveSettings::project_fps());
 }
 
 double KdenliveDoc::dar() const
@@ -1595,17 +1536,6 @@ void KdenliveDoc::slotClipMissing(const QString &path)
     /*foreach (const QString &id, ids) {    
         emit missingClip(id);
     }*/
-}
-
-void KdenliveDoc::slotClipAvailable(const QString &path)
-{
-    qDebug() << "// CLIP: " << path << " WAS ADDED";
-    QStringList ids = pCore->binController()->getBinIdsByResource(QUrl::fromLocalFile(path));
-    
-    foreach (const QString &id, ids) {
-        pCore->bin()->reloadClip(id);
-        //emit availableClip(id);
-    }
 }
 
 void KdenliveDoc::slotProcessModifiedClips()

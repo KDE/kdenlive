@@ -21,7 +21,7 @@ class FrameData : public QSharedData
 {
 public:
     FrameData() : f((mlt_frame)0) {};
-    FrameData(Mlt::Frame& frame) : f(frame) {};
+    explicit FrameData(Mlt::Frame& frame) : f(frame) {};
     ~FrameData() {};
 
     Mlt::Frame f;

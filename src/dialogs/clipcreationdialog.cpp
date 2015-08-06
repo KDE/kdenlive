@@ -79,6 +79,9 @@ QStringList ClipCreationDialog::getExtensions()
 //static
 void ClipCreationDialog::createClipFromXml(KdenliveDoc *doc, QDomElement xml, QStringList groupInfo, Bin *bin)
 {
+    //FIXME?
+    Q_UNUSED(groupInfo)
+
     uint id = bin->getFreeClipId();
     xml.setAttribute("id", QString::number(id));
     AddClipCommand *command = new AddClipCommand(doc, xml, QString::number(id), true);
@@ -197,7 +200,7 @@ void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, QStringList groupInfo
 }
 
 
-void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin)
+void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
 {
     // Get the list of existing templates
     QStringList filter;
@@ -459,7 +462,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupI
     QObject::connect(fileWidget->cancelButton(), &QPushButton::clicked, dlg, &QDialog::reject);
     dlg->setLayout(layout);
     fileWidget->setFilter(dialogFilter);
-    fileWidget->setMode(KFile::Files | KFile::ExistingOnly);
+    fileWidget->setMode(KFile::Files | KFile::ExistingOnly | KFile::LocalOnly);
     KSharedConfig::Ptr conf = KSharedConfig::openConfig();
     KWindowConfig::restoreWindowSize(dlg->windowHandle(), conf->group("FileDialogSize"));
     dlg->resize(dlg->windowHandle()->size());

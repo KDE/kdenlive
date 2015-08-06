@@ -194,11 +194,10 @@ class FrameRenderer : public QThread
 {
     Q_OBJECT
 public:
-    FrameRenderer(QOpenGLContext* shareContext);
+    explicit FrameRenderer(QOpenGLContext* shareContext);
     ~FrameRenderer();
     QSemaphore* semaphore() { return &m_semaphore; }
     QOpenGLContext* context() const { return m_context; }
-    SharedFrame getDisplayFrame();
     void clearFrame();
     Q_INVOKABLE void showFrame(Mlt::Frame frame);
     Q_INVOKABLE void showGLFrame(Mlt::Frame frame);

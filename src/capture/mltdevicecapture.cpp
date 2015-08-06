@@ -41,27 +41,6 @@ static void consumer_gl_frame_show(mlt_consumer, MltDeviceCapture * self, mlt_fr
     self->showFrame(frame);
 }
 
-static void rec_consumer_frame_preview(mlt_consumer, MltDeviceCapture * self, mlt_frame frame_ptr)
-{
-    Mlt::Frame frame(frame_ptr);
-    if (!frame.is_valid()) return;
-    if (self->sendFrameForAnalysis && frame_ptr->convert_image) {
-        self->emitFrameUpdated(frame);
-    }
-    if (self->doCapture > 0) {  
-        self->doCapture --;
-        if (self->doCapture == 0) self->saveFrame(frame);
-    }
-
-    //TODO: connect record monitor to audio scopes
-    
-    if (self->analyseAudio) {
-        self->showAudio(frame);
-    }
-    
-}
-
-
 MltDeviceCapture::MltDeviceCapture(QString profile, /*VideoSurface *surface, */QWidget *parent) :
     AbstractRender(Kdenlive::RecordMonitor, parent),
     doCapture(0),

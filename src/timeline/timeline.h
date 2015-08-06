@@ -114,7 +114,7 @@ public:
      *  Returns -1 if track is shorter, 0 if not blank and > 0 for blank length */
     int getTrackSpaceLength(int trackIndex, int pos, bool fromBlankStart);
     void updateClipProperties(const QString &id, QMap <QString, QString> properties);
-    int changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *originalProd, bool needsDuplicate);
+    int changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *originalProd);
     /** @brief Set an effect's XML accordingly to MLT::filter values. */
     static void setParam(ProfileInfo info, QDomElement param, QString value);
     int getTracks();

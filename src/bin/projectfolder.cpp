@@ -31,7 +31,6 @@ ProjectFolder::ProjectFolder(const QString &id, const QString &name, ProjectFold
     AbstractProjectItem(AbstractProjectItem::FolderItem, id, parent)
     , m_bin(NULL)
 {
-    //loadChildren(description);
     m_name = name;
     m_clipStatus = StatusReady;
     m_thumbnail = QIcon::fromTheme("folder");
@@ -52,6 +51,7 @@ ProjectFolder::~ProjectFolder()
 
 void ProjectFolder::setCurrent(bool current, bool notify)
 {
+    Q_UNUSED(notify)
     if (current) {
         bin()->openProducer(NULL);
     }
@@ -59,9 +59,8 @@ void ProjectFolder::setCurrent(bool current, bool notify)
 
 ProjectClip* ProjectFolder::clip(const QString &id)
 {
-    ProjectClip *clip;
     for (int i = 0; i < count(); ++i) {
-        clip = at(i)->clip(id);
+        ProjectClip *clip = at(i)->clip(id);
         if (clip) {
             return clip;
         }
@@ -78,9 +77,8 @@ QString ProjectFolder::getToolTip() const
 ProjectFolder* ProjectFolder::folder(const QString &id)
 {
     if (m_id == id) return this;
-    ProjectFolder *folderItem;
     for (int i = 0; i < count(); ++i) {
-        folderItem = at(i)->folder(id);
+        ProjectFolder *folderItem = at(i)->folder(id);
         if (folderItem) {
             return folderItem;
         }
@@ -90,10 +88,9 @@ ProjectFolder* ProjectFolder::folder(const QString &id)
 
 ProjectClip* ProjectFolder::clipAt(int index)
 {
-    ProjectClip *clip;
     if (isEmpty()) return NULL;
     for (int i = 0; i < count(); ++i) {
-        clip = at(i)->clipAt(index);
+        ProjectClip *clip = at(i)->clipAt(index);
         if (clip) {
             return clip;
         }
@@ -123,21 +120,9 @@ QDomElement ProjectFolder::toXml(QDomDocument& document)
     return folder;
 }
 
-void ProjectFolder::loadChildren(const QDomElement& description)
-{
-    /*QDomNodeList childen = description.childNodes();
-    for (int i = 0; i < childen.count(); ++i) {
-        QDomElement childElement = childen.at(i).toElement();
-        if (childElement.tagName() == "folder") {
-            new ProjectFolder(childElement, this);
-        } else {
-            childElement.setTagName("producer");
-        }
-    }*/
-}
-
 bool ProjectFolder::rename(const QString &name, int column)
 {
+    Q_UNUSED(column)
     if (m_name == name) return false;
     // Rename folder
     bin()->renameFolderCommand(m_id, name, m_name);

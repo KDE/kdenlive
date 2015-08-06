@@ -129,7 +129,7 @@ private:
 
 public slots:
     void slotAddVobFile(QUrl url = QUrl(), const QString &chapters = QString(), bool checkFormats = true);
-    void slotAddVobList(const QList<QUrl> &list);
+    void slotAddVobList(QList<QUrl> list = QList <QUrl>());
     void slotCheckProfiles();
 
 private slots:

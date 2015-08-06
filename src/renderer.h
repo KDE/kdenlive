@@ -117,11 +117,6 @@ class Render: public AbstractRender
      * @param list The xml describing the playlist
      * @param position (optional) time to seek to */
     int setSceneList(const QDomDocument &list, int position = 0);
-    
-    /** @brief Reloads the current project's scenlist from xml.
-     * @param list The xml describing the playlist
-     * @param position (optional) time to seek to */
-    int reloadSceneList(QString playlist, int position);
 
     /** @brief Sets the current MLT producer playlist.
      * @param list new playlist
@@ -130,7 +125,6 @@ class Render: public AbstractRender
      *
      * Creates the producer from the text playlist. */
     int setSceneList(QString playlist, int position = 0);
-    int setMonitorProducer(const QString &id, int position);
     int updateProducer(Mlt::Producer *producer);
     int setProducer(Mlt::Producer *producer, int position, bool isActive);
 
@@ -203,7 +197,6 @@ class Render: public AbstractRender
      */
     void mltCheckLength(Mlt::Tractor *tractor);
     Mlt::Producer *getSlowmotionProducer(const QString &url);
-    int mltInsertClip(ItemInfo info, const QString &clipId, bool overwrite = false, bool push = false);
     void mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset);
     int mltGetSpaceLength(const GenTime &pos, int track, bool fromBlankStart);
 
@@ -268,7 +261,6 @@ class Render: public AbstractRender
     void setDropFrames(bool show);
     /** @brief Sets an MLT consumer property. */
     void setConsumerProperty(const QString &name, const QString &value);
-    QString updateSceneListFps(double current_fps, double new_fps, const QString &scene);
 
     void showAudio(Mlt::Frame&);
     
@@ -293,8 +285,6 @@ class Render: public AbstractRender
     /** @brief Fill a combobox with the found blackmagic devices */
     static bool getBlackMagicDeviceList(KComboBox *devicelist, bool force = false);
     static bool getBlackMagicOutputDeviceList(KComboBox *devicelist, bool force = false);
-    /** @brief Frame rendering is handeled by Kdenlive, don't show video through SDL display */
-    void disablePreview(bool disable);
     /** @brief Get current seek pos requested of SEEK_INACTIVE if we are not currently seeking */
     int requestedSeekPosition;
     /** @brief Get current seek pos requested of current producer pos if not seeking */

@@ -85,8 +85,6 @@ public:
     ClipType clipType() const;
     ClipPropertiesController *buildProperties(QWidget *parent);
     QPoint zone() const;
-    void addMarker(int position);
-    void removeMarker(int position);
     
     /** @brief Returns true if we want to add an affine transition in timeline when dropping this clip. */
     bool isTransparent() const;
@@ -96,9 +94,6 @@ public:
 
     /** @brief Returns the clip's url. */
     QUrl url() const;
-
-    /** @brief Returns the clip's xml data by using MLT's XML consumer. */
-    QString serializeClip();
 
     /** @brief Returns whether this clip has a limited duration or whether it is resizable ad infinitum. */
     virtual bool hasLimitedDuration() const;
@@ -192,8 +187,8 @@ public:
     bool deleteClipMarkers(QUndoCommand *groupCommand);
     void addMarkers(QList <CommentedTime> &markers);
     /** @brief Add an effect to bin clip. */
-    void addEffect(const ProfileInfo pInfo, QDomElement &effect);
-    void removeEffect(const ProfileInfo pInfo, int ix);
+    void addEffect(const ProfileInfo &pInfo, QDomElement &effect);
+    void removeEffect(int ix);
     /** @brief Create audio thumbnail for this clip. */
     void createAudioThumbs();
     /** @brief Abort audio thumbnail for this clip. */
@@ -211,9 +206,6 @@ public slots:
     /** @brief Extract image thumbnails for clip's subclips. */
     void slotExtractSubImage(QList <int> frames);
     void slotCreateAudioThumbs();
-
-protected:
-    bool m_hasLimitedDuration;
 
 private:
     //TODO: clip markers

@@ -6,7 +6,7 @@ project(Kdenlive)
 # KDE Application Version, managed by release script
 set (KDE_APPLICATIONS_VERSION_MAJOR "15")
 set (KDE_APPLICATIONS_VERSION_MINOR "07")
-set (KDE_APPLICATIONS_VERSION_MICRO "0")
+set (KDE_APPLICATIONS_VERSION_MICRO "90")
 
 set(KDENLIVE_VERSION ${KDE_APPLICATIONS_VERSION_MAJOR}.${KDE_APPLICATIONS_VERSION_MINOR}.${KDE_APPLICATIONS_VERSION_MICRO})
 cmake_minimum_required(VERSION 2.8.12)
@@ -34,7 +34,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 # To be switched on when releasing.
-option(RELEASE_BUILD "Remove Git revision from program version (use for stable releases)" OFF)
+option(RELEASE_BUILD "Remove Git revision from program version (use for stable releases)" ON)
 
 # Get current version.
 set(KDENLIVE_VERSION_STRING "${KDENLIVE_VERSION}")

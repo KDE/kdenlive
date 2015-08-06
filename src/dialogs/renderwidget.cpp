@@ -1779,7 +1779,9 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             QDomElement profile = node.toElement();
             QString profileName = profile.attribute("name");
             QString standard = profile.attribute("standard");
-            QString params = profile.attribute("args");
+	    QTextDocument docConvert;
+	    docConvert.setHtml(profile.attribute("args"));
+            QString params = docConvert.toPlainText().simplified();
 
             if (replaceVorbisCodec && params.contains("acodec=vorbis")) {
                 // replace vorbis with libvorbis
@@ -1909,7 +1911,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             profileElement = n.toElement();
             profileName = profileElement.attribute("name");
             standard = profileElement.attribute("standard");
-            params = profileElement.attribute("args");
+            params = profileElement.attribute("args").simplified();
 
             if (replaceVorbisCodec && params.contains("acodec=vorbis")) {
                 // replace vorbis with libvorbis

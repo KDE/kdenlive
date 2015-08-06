@@ -79,7 +79,8 @@ RecManager::RecManager(int iconSize, Monitor *parent) :
     //m_device_selector->addItems(QStringList() << i18n("Firewire") << i18n("Webcam") << i18n("Screen Grab") << i18n("Blackmagic Decklink"));
     m_device_selector->addItem(i18n("Webcam"), Video4Linux); 
     m_device_selector->addItem(i18n("Screen Grab"), ScreenGrab);
-    m_device_selector->setCurrentIndex(m_device_selector->findData(KdenliveSettings::defaultcapture()));
+    int selectedCapture = m_device_selector->findData(KdenliveSettings::defaultcapture());
+    if (selectedCapture > -1) m_device_selector->setCurrentIndex(selectedCapture);
     connect(m_device_selector, SIGNAL(currentIndexChanged(int)), this, SLOT(slotVideoDeviceChanged(int)));
     m_recToolbar->addWidget(m_device_selector);
     QAction *configureRec = m_recToolbar->addAction(QIcon::fromTheme("configure"), i18n("Configure Recording"));
@@ -120,9 +121,14 @@ void RecManager::stopCapture()
 
 void RecManager::stop()
 {
-      stopCapture();
-      toolbar()->setVisible(false); 
-      m_switchRec->setChecked(false);
+    if (m_captureProcess) {
+        // Don't stop screen rec when hiding rec toolbar
+    }
+    else {
+        stopCapture();
+        m_switchRec->setChecked(false);
+    }
+    toolbar()->setVisible(false); 
 }
 
 
@@ -180,8 +186,17 @@ void RecManager::slotRecord(bool record)
                     v4lparameters = QString(v4lparameters.section("acodec", 0, 0) + "an=1 " + endParam).simplified();
                 }
             }
-	    m_monitor->startCapture(v4lparameters, path, createV4lProducer(), true);
-	    m_captureFile = QUrl::fromLocalFile(path);
+            Mlt::Producer *prod = createV4lProducer();
+            if (prod && prod->is_valid()) {
+                m_monitor->startCapture(v4lparameters, path, prod);
+                m_captureFile = QUrl::fromLocalFile(path);
+            }
+            else {
+                m_recAction->blockSignals(true);
+                m_recAction->setChecked(false);
+                m_recAction->blockSignals(false);
+                emit warningMessage(i18n("Capture crashed, please check your parameters"));
+            }
 	}
 	else {
 	    m_monitor->stopCapture();
@@ -258,7 +273,7 @@ void RecManager::slotProcessStatus(QProcess::ProcessState status)
         m_device_selector->setEnabled(true);
         if (m_captureProcess) {
             if (m_captureProcess->exitStatus() == QProcess::CrashExit) {
-                warningMessage(i18n("Capture crashed, please check your parameters"));
+                emit warningMessage(i18n("Capture crashed, please check your parameters"));
             } else {
                 if (true) {
                     int code = m_captureProcess->exitCode();
@@ -332,6 +347,7 @@ Mlt::Producer *RecManager::createV4lProducer()
     Mlt::Producer *prod = NULL;
     if (m_recVideo->isChecked()) {
 	prod = new Mlt::Producer(*vidProfile, QString("video4linux2:%1").arg(KdenliveSettings::video4vdevice()).toUtf8().constData());
+        if (!prod || !prod->is_valid()) return NULL;
 	prod->set("width", vidProfile->width());
 	prod->set("height", vidProfile->height());
 	prod->set("framerate", vidProfile->fps());
@@ -343,6 +359,7 @@ Mlt::Producer *RecManager::createV4lProducer()
     if (m_recAudio->isChecked()) {
 	// Add audio track
 	Mlt::Producer* audio = new Mlt::Producer(*vidProfile, QString("alsa:%1?channels=%2").arg(KdenliveSettings::v4l_alsadevicename()).arg(KdenliveSettings::alsachannels()).toUtf8().constData());
+        if (!prod || !prod->is_valid()) return NULL;
 	audio->set("mlt_service", "avformat-novalidate");
 	audio->set("audio_index", 0);
 	audio->set("video_index", -1);
@@ -366,15 +383,16 @@ void RecManager::slotPreview(bool preview)
     if (m_device_selector->currentData().toInt() == Video4Linux) {
 	if (preview) {
 	    Mlt::Producer *prod = createV4lProducer();
-	    m_monitor->updateClipProducer(prod);
+            if (prod && prod->is_valid()) {
+                m_monitor->updateClipProducer(prod);
+            }
+            else emit warningMessage(i18n("Capture crashed, please check your parameters"));
 	}
 	else {
 	    m_monitor->slotOpenClip(NULL);
-	}        
+	}
     }
-      
-      
-      
+
      /*   
         buildMltDevice(path);
         

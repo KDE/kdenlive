@@ -61,12 +61,6 @@ QSize VideoGLWidget::sizeHint() const
     return QSize(400, 300);
 }
 
-void VideoGLWidget::setImageAspectRatio(double ratio)
-{
-    m_display_ratio = ratio;
-    resizeGL(width(), height());
-}
-
 void VideoGLWidget::initializeGL()
 {
     initializeOpenGLFunctions();
@@ -136,23 +130,6 @@ void VideoGLWidget::paintGL()
         glEnd();
         glDisable(GL_TEXTURE_RECTANGLE_EXT);
     }
-}
-
-void VideoGLWidget::showImage(const QImage &image)
-{
-    m_image_width = image.width();
-    m_image_height = image.height();
-    makeCurrent();
-    if (m_texture)
-        glDeleteTextures(1, &m_texture);
-
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, m_image_width);
-    glGenTextures(1, &m_texture);
-    glBindTexture(GL_TEXTURE_RECTANGLE_EXT, m_texture);
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, m_image_width, m_image_height, 0, GL_RGB,
-                 GL_UNSIGNED_BYTE, image.bits());
 }
 
 void VideoGLWidget::mouseDoubleClickEvent(QMouseEvent * event)

@@ -81,7 +81,7 @@ class DvdButton : public QGraphicsTextItem
 {
 
 public:
-    DvdButton(const QString & text): QGraphicsTextItem(text), m_target(0), m_command(QString("jump title 1")), m_backToMenu(false) {
+    explicit DvdButton(const QString & text): QGraphicsTextItem(text), m_target(0), m_command(QString("jump title 1")), m_backToMenu(false) {
         setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 #if QT_VERSION >= 0x040600
         setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
@@ -151,7 +151,6 @@ class DvdWizardMenu : public QWizardPage
 public:
     explicit DvdWizardMenu(DVDFORMAT format, QWidget * parent = 0);
     virtual ~DvdWizardMenu();
-    virtual bool isComplete() const;
     bool createMenu() const;
     void createBackgroundImage(const QString &img1, bool letterbox);
     void createButtonImages(const QString &selected_image, const QString &highlighted_image, bool letterbox);

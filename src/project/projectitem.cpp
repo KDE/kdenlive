@@ -262,18 +262,6 @@ bool ProjectItem::hasProxy() const
     return true;
 }
 
-bool ProjectItem::isProxyReady() const
-{
-     return (data(0, JobProgressRole).toInt() == JobDone);
-}
-
-bool ProjectItem::isJobRunning() const
-{
-    int s = data(0, JobProgressRole).toInt();
-    if (s == JobWaiting || s == JobWorking || s > 0) return true;
-    return false;
-}
-
 void ProjectItem::setJobStatus(AbstractClipJob::JOBTYPE jobType, ClipJobStatus status, int progress, const QString &statusMessage)
 {
 }

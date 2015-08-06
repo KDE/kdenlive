@@ -37,10 +37,11 @@ AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF& rect, dou
         , m_info(info)
         , m_editedKeyframe(-1)
         , m_selectedKeyframe(0)
+        , m_keyframeType(KEYFRAMETYPE::NoKeyframe)
         , m_keyframeFactor(1)
         , m_keyframeOffset(0)
         , m_keyframeDefault(0)
-	, m_visibleParam(0)
+        , m_visibleParam(0)
         , m_fps(fps)
         , m_isMainSelectedClip(false)
 {
@@ -231,11 +232,6 @@ GenTime AbstractClipItem::startPos() const
     return m_info.startPos;
 }
 
-void AbstractClipItem::setTrack(int track)
-{
-    m_info.track = track;
-}
-
 double AbstractClipItem::fps() const
 {
     return m_fps;
@@ -418,11 +414,6 @@ int AbstractClipItem::selectedKeyFramePos() const
     return m_selectedKeyframe;
 }
 
-double AbstractClipItem::selectedKeyFrameValue() const
-{
-    return m_keyframes.value(m_selectedKeyframe);
-}
-
 void AbstractClipItem::updateKeyFramePos(const GenTime &pos, const double value)
 {
     if (!m_keyframes.contains(m_editedKeyframe))
@@ -453,11 +444,6 @@ void AbstractClipItem::updateKeyFramePos(const GenTime &pos, const double value)
     m_keyframes[newpos] = (int) newval;
     m_editedKeyframe = newpos;
     update();
-}
-
-double AbstractClipItem::keyFrameFactor() const
-{
-    return m_keyframeFactor;
 }
 
 int AbstractClipItem::keyFrameNumber() const

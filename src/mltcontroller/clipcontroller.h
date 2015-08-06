@@ -57,7 +57,7 @@ public:
      * track producer before the master producer. The masterProducer MUST be set afterwards
      * @param bincontroller reference to the bincontroller
      */
-    ClipController(BinController *bincontroller);
+    explicit ClipController(BinController *bincontroller);
     virtual ~ClipController();
     
     /** @brief Returns true if the master producer is valid */
@@ -73,7 +73,6 @@ public:
 
     /** @brief Returns a clone of our master producer. Delete after use! */
     Mlt::Producer *masterProducer();
-    Mlt::Producer *zoneProducer(int in, int out);
 
     /** @brief Returns the MLT's producer id */
     const QString clipId();
@@ -120,7 +119,6 @@ public:
     double originalFps() const;
     QString videoCodecProperty(const QString &property) const;
     const QString codec(bool audioCodec) const;
-    QSize originalFrameSize() const;
     const QString getClipHash() const;
 
     /** @brief Returns the clip duration as a string like 00:00:02:01. */
@@ -166,12 +164,12 @@ public:
     QPoint zone() const;
     bool hasLimitedDuration() const;
     Mlt::Properties &properties();
-    void addEffect(const ProfileInfo pInfo, QDomElement &effect);
-    void removeEffect(const ProfileInfo pInfo, int effectIndex);
+    void addEffect(const ProfileInfo &pInfo, QDomElement &effect);
+    void removeEffect(int effectIndex);
     EffectsList effectList();
     /** @brief Enable/disable an effect. */
     void changeEffectState(const QList <int> indexes, bool disable);
-    void updateEffect(const ProfileInfo pInfo, const QDomElement &old, const QDomElement &e, int ix);
+    void updateEffect(const ProfileInfo &pInfo, const QDomElement &e, int ix);
     /** @brief Returns true if the bin clip has effects */
     bool hasEffects() const;
     /** @brief Returns info about clip audio */

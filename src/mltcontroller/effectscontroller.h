@@ -93,16 +93,16 @@ public:
 namespace EffectsController
 {
     /** @brief Gets the effect parameters that will be passed to Mlt. */
-    EffectsParameterList getEffectArgs(const ProfileInfo info, const QDomElement &effect);
+    EffectsParameterList getEffectArgs(const ProfileInfo &info, const QDomElement &effect);
 
     /** @brief Get effect parameters ready for MLT*/
-    void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, const ProfileInfo info, const QString &prefix = QString());
+    void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, const ProfileInfo &info, const QString &prefix = QString());
 
     /** @brief Returns an value from a string by replacing "%width" and "%height" with given profile values:
      *  @param info The struct that gives width & height
      *  @param eval The string to be evaluated, for example: "%width / 2"
      *  @return the evaluated value */
-    double getStringEval(const ProfileInfo info, QString eval, const QPoint& frameSize = QPoint());
+    double getStringEval(const ProfileInfo &info, QString eval, const QPoint& frameSize = QPoint());
     
      /** @brief Initialize some effects parameters: keyframes, fades, in / out points  */
     void initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList list, const QString proxy, QDomElement effect, int diff = 0, int offset = 0);
@@ -110,7 +110,7 @@ namespace EffectsController
         /** @brief Adjust keyframes to the new clip. */
     const QString adjustKeyframes(const QString &keyframes, int offset);
     
-    EffectsParameterList addEffect(const ProfileInfo info, QDomElement effect);
+    EffectsParameterList addEffect(const ProfileInfo &info, QDomElement effect);
 };
 
 #endif

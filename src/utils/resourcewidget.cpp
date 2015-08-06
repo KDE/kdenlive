@@ -256,7 +256,7 @@ void ResourceWidget::slotGotFile(KJob *job)
     if (job->error() != 0 ) return;
     KIO::FileCopyJob* copyJob = static_cast<KIO::FileCopyJob*>( job );
     const QUrl filePath = copyJob->destUrl();
-    emit addClip(filePath, stringMap());
+    emit addClip(filePath);
 }
 
 void ResourceWidget::slotOpenUrl(const QString &url)

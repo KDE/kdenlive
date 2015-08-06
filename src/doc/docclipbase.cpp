@@ -134,13 +134,6 @@ QPoint DocClipBase::zone() const
     return zone;
 }
 
-
-bool DocClipBase::hasAudioThumb() const
-{
-    if (m_clipType == Audio || m_clipType == AV || m_clipType == Playlist) return true;
-    return false;
-}
-
 KThumb *DocClipBase::thumbProducer()
 {
     return m_thumbProd;
@@ -178,11 +171,6 @@ QUrl DocClipBase::fileURL() const
     QString res = m_properties.value("resource");
     if (m_clipType != Color && !res.isEmpty()) return QUrl::fromLocalFile(res);
     return QUrl();
-}
-
-void DocClipBase::setClipThumbFrame(const uint &ix)
-{
-    m_properties.insert("thumbnail", QString::number((int) ix));
 }
 
 uint DocClipBase::getClipThumbFrame() const
@@ -374,20 +362,6 @@ void DocClipBase::addSnapMarker(const CommentedTime &marker)
     }
 }
 
-void DocClipBase::editSnapMarker(const GenTime & time, const QString &comment)
-{
-    QList < CommentedTime >::Iterator it;
-    for (it = m_snapMarkers.begin(); it != m_snapMarkers.end(); ++it) {
-        if ((*it).time() == time)
-            break;
-    }
-    if (it != m_snapMarkers.end()) {
-        (*it).setComment(comment);
-    } else {
-        qCritical() << "trying to edit Snap Marker that does not already exists";
-    }
-}
-
 QString DocClipBase::deleteSnapMarker(const GenTime & time)
 {
     QString result = i18n("Marker");
@@ -406,30 +380,6 @@ QString DocClipBase::deleteSnapMarker(const GenTime & time)
     return result;
 }
 
-
-GenTime DocClipBase::findPreviousSnapMarker(const GenTime & currTime)
-{
-    int it;
-    for (it = 0; it < m_snapMarkers.count(); ++it) {
-        if (m_snapMarkers.at(it).time() >= currTime)
-            break;
-    }
-    if (it == 0) return GenTime();
-    else if (it == m_snapMarkers.count() - 1 && m_snapMarkers.at(it).time() < currTime)
-        return m_snapMarkers.at(it).time();
-    else return m_snapMarkers.at(it - 1).time();
-}
-
-GenTime DocClipBase::findNextSnapMarker(const GenTime & currTime)
-{
-    int it;
-    for (it = 0; it < m_snapMarkers.count(); ++it) {
-        if (m_snapMarkers.at(it).time() > currTime)
-            break;
-    }
-    if (it < m_snapMarkers.count() && m_snapMarkers.at(it).time() > currTime) return m_snapMarkers.at(it).time();
-    return duration();
-}
 
 QString DocClipBase::markerComment(const GenTime &t) const
 {
@@ -489,29 +439,6 @@ void DocClipBase::deleteProducers()
     m_baseTrackProducers.clear();
     m_videoTrackProducers.clear();
     m_audioTrackProducers.clear();
-}
-
-void DocClipBase::cleanupProducers()
-{
-    /*
-    int ct = 0;
-    //qDebug()<<"----------------------------------------------------------------------------------";
-    for (int i = 0; i < m_toDeleteProducers.count(); ++i) {
-        if (m_toDeleteProducers.at(i) != NULL) {
-            Mlt::Properties props(m_toDeleteProducers.at(i)->get_properties());
-            if (props.ref_count() > 2) {
-                //qDebug()<<"PRODUCER: "<<i<<", COUNTS: "<<props.ref_count();
-                //exit(1);
-            }
-            ct++;
-        }
-    }*/
-
-    if (!isClean()) {
-        qDeleteAll(m_toDeleteProducers);
-        m_toDeleteProducers.clear();
-        m_replaceMutex.unlock();
-    }
 }
 
 bool DocClipBase::isClean() const
@@ -701,49 +628,6 @@ Mlt::Producer *DocClipBase::videoProducer(int track)
     }
     return m_videoTrackProducers.at(track);
 }
-
-Mlt::Producer *DocClipBase::getCloneProducer()
-{
-    Mlt::Producer *source = NULL;
-    Mlt::Producer *prod = NULL;
-    if (m_clipType != Audio && m_clipType != AV && m_clipType != Playlist) {
-        source = getProducer();
-        if (!source) return NULL;
-    }
-    if (m_clipType == Color) {
-        prod = new Mlt::Producer(*(source->profile()), 0, QString("colour:" + QString(source->get("resource"))).toUtf8().constData());
-    } else if (m_clipType == Text) {
-        prod = new Mlt::Producer(*(source->profile()), 0, QString("kdenlivetitle:" + QString(source->get("resource"))).toUtf8().constData());
-        if (prod && prod->is_valid() && m_properties.contains("xmldata"))
-            prod->set("xmldata", m_properties.value("xmldata").toUtf8().constData());
-    }
-    if (!prod) {
-        if (!source) {
-            QMutexLocker locker(&m_producerMutex);
-            for (int i = 0; i < m_baseTrackProducers.count(); ++i) {
-                if (m_baseTrackProducers.at(i) != NULL) {
-                    source = m_baseTrackProducers.at(i);
-                    break;
-                }
-            }
-            if (!source) return NULL;
-        }
-        prod = cloneProducer(source);
-    }
-    if (prod) {
-        adjustProducerProperties(prod, getId() + '_', false, false);
-        if (!m_properties.contains("proxy_out")) {
-            // Adjust length in case...
-            if (m_properties.contains("duration")) prod->set("length", m_properties.value("duration").toInt());
-            if (m_properties.contains("out"))prod->set("out", m_properties.value("out").toInt());
-        }
-        if (m_clipType == Audio) {
-            prod->set("_audioclip", 1);
-        }
-    }
-    return prod;
-}
-
 
 Mlt::Producer *DocClipBase::getProducer(int track)
 {
@@ -1285,11 +1169,6 @@ void DocClipBase::updateCutZone(int oldin, int oldout, int in, int out, const QS
             break;
         }
     }
-}
-
-QList <CutZoneInfo> DocClipBase::cutZones() const
-{
-    return m_cutZones;
 }
 
 bool DocClipBase::hasVideoCodec(const QString &codec) const

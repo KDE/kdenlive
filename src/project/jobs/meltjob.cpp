@@ -95,29 +95,44 @@ void MeltJob::startJob()
 	m_profile = new Mlt::Profile(KdenliveSettings::current_profile().toUtf8().constData());
     }
     if (m_extra.contains(QLatin1String("resize_profile"))) {
-    m_profile->set_height(m_extra.value(QLatin1String("resize_profile")).toInt());
+        m_profile->set_height(m_extra.value(QLatin1String("resize_profile")).toInt());
 	m_profile->set_width(m_profile->height() * m_profile->sar());
     }
+    double fps = m_profile->fps();
     if (out == -1) {
 	m_producer = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
-	if (m_producer) m_length = m_producer->get_length();
+        if (m_producer && m_extra.contains(QLatin1String("producer_profile"))) {
+            m_profile->from_producer(*m_producer);
+            m_profile->set_explicit(true);
+        }
+        if (m_profile->fps() != fps) {
+            // Reload producer
+            delete m_producer;
+            m_producer = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
+        }
     }
     else {
 	Mlt::Producer *tmp = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
+        if (tmp && m_extra.contains(QLatin1String("producer_profile"))) {
+            m_profile->from_producer(*tmp);
+            m_profile->set_explicit(true);
+        }
+        if (m_profile->fps() != fps) {
+            // Reload producer
+            delete tmp;
+            tmp = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
+        }
         if (tmp) m_producer = tmp->cut(in, out);
 	delete tmp;
-	if (m_producer) m_length = m_producer->get_playtime();
     }
+
     if (!m_producer || !m_producer->is_valid()) {
 	// Clip was removed or something went wrong, Notify user?
 	//m_errorMessage.append(i18n("Invalid clip"));
         setStatus(JobCrashed);
 	return;
     }
-    if (m_extra.contains(QLatin1String("producer_profile"))) {
-	m_profile->from_producer(*m_producer);
-	m_profile->set_explicit(true);
-    }
+    m_length = m_producer->get_length();
 
     // Process producer params
     QMapIterator<QString, QString> i(m_producerParams);
@@ -145,7 +160,6 @@ void MeltJob::startJob()
     }
 
     m_consumer->set("real_time", -KdenliveSettings::mltthreads() );
-
     // Process consumer params
     QMapIterator<QString, QString> j(m_consumerParams);
     ignoredProps.clear();
@@ -179,7 +193,7 @@ void MeltJob::startJob()
             }
         }
     }
-    Mlt::Tractor tractor;
+    Mlt::Tractor tractor(*m_profile);
     Mlt::Playlist playlist;
     playlist.append(*m_producer);
     tractor.set_track(playlist, 0);

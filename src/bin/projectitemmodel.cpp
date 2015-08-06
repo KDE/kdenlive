@@ -129,6 +129,8 @@ Qt::ItemFlags ProjectItemModel::flags(const QModelIndex& index) const
 
 bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
 {
+    Q_UNUSED(row)
+    Q_UNUSED(column)
     if (action == Qt::IgnoreAction)
         return true;
 
@@ -263,7 +265,7 @@ QMimeData* ProjectItemModel::mimeData(const QModelIndexList& indices) const
     QStringList list;
     for (int i = 0; i < indices.count(); i++) {
         QModelIndex ix = indices.at(i);
-        if (!ix.isValid() || !ix.column() == 0) continue;
+        if (!ix.isValid() || ix.column() != 0) continue;
         AbstractProjectItem *item = static_cast<AbstractProjectItem*>(ix.internalPointer());
         AbstractProjectItem::PROJECTITEMTYPE type = item->itemType();
         if (type == AbstractProjectItem::ClipItem) {

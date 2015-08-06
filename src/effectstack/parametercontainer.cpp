@@ -603,7 +603,7 @@ void ParameterContainer::slotCollectAllParameters()
     //QDomElement newparam = oldparam.cloneNode().toElement();
 
     if (m_effect.attribute("id") == "movit.lift_gamma_gain" || m_effect.attribute("id") == "lift_gamma_gain" ) {
-        LumaLiftGain *gainWidget = ((LumaLiftGain*)m_valueItems.value(m_effect.attribute("id")));
+        LumaLiftGain *gainWidget = static_cast<LumaLiftGain*>(m_valueItems.value(m_effect.attribute("id")));
         gainWidget->updateEffect(m_effect);
         emit parameterChanged(oldparam, m_effect, m_effect.attribute("kdenlive_ix").toInt());
         return;

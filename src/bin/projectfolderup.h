@@ -43,7 +43,7 @@ public:
      * @param description element describing the folder and its children
      * @param parent parent folder
      */
-    ProjectFolderUp(AbstractProjectItem* parent);
+    explicit ProjectFolderUp(AbstractProjectItem* parent);
 
 
     ~ProjectFolderUp();
@@ -77,12 +77,7 @@ public:
     virtual QString getToolTip() const;
     virtual bool rename(const QString &name, int column);
 
-protected:
-
-
 private:
-    void loadChildren(const QDomElement &description);
-
     Bin *m_bin;
 };
 

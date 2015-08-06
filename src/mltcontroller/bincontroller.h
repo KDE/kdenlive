@@ -49,7 +49,7 @@ class BinController : public QObject
     Q_OBJECT
 
 public:
-    BinController(QString profileName = QString());
+    explicit BinController(QString profileName = QString());
     virtual ~BinController();
     
     /** @brief Returns the MLT profile used everywhere in the project. */
@@ -103,14 +103,14 @@ public:
      */
     bool removeBinClip(const QString &id);
     
-    /** @brief Get the MLT Producer for a given id. Since MLT requires 1 different producer for each track to correctly handle audio mix, 
-     * we can should specify on which track the clip should be. 
-     @param id The clip id as stored in the DocClipBase class
-     @param track The track on which the producer will be put. Setting a value of -1 will return the master clip contained in the bin playlist
-     @param clipState The state of the clip (if we need an audio only or video only producer).
-     @param speed If the clip has a speed effect (framebuffer producer), we indicate the speed here
-    */
-    Mlt::Producer *getBinProducer(const QString &id, const QString trackName = QString(), PlaylistState::ClipState clipState = PlaylistState::Original, double speed = 1.0);
+    /** @brief Get the MLT Producer for a given id.
+     @param id The clip id as stored in the DocClipBase class */
+    // TODO? Since MLT requires 1 different producer for each track to correctly handle audio mix, 
+    // we should specify on which track the clip should be. 
+    // @param track The track on which the producer will be put. Setting a value of -1 will return the master clip contained in the bin playlist
+    // @param clipState The state of the clip (if we need an audio only or video only producer).
+    // @param speed If the clip has a speed effect (framebuffer producer), we indicate the speed here
+    Mlt::Producer *getBinProducer(const QString &id);
     
     /** @brief returns a video only (no audio) version of this producer  */
     Mlt::Producer *getBinVideoProducer(const QString &id);

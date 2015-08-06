@@ -211,13 +211,12 @@ QMap <ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fps
     // if clip and project have different frame rate, adjust in and out
     int in = zone.x();
     int out = zone.y();
-    in = GenTime(in, fps).frames(originalFps);
-    out = GenTime(out, fps).frames(originalFps);
-    int max = clip->duration().frames(originalFps);
-    int duration = out - in + 1;
-    QString timeIn = Timecode::getStringTimecode(in, originalFps, true);
-    QString timeOut = Timecode::getStringTimecode(duration, originalFps, true);
-    
+    int max = clip->duration().frames(fps);
+    int duration = out - in - 1;
+    // Locale conversion does not seem necessary here...
+    QString timeIn = QString::number(GenTime(in, fps).ms() / 1000);
+    QString timeOut = QString::number(GenTime(duration, fps).ms() / 1000);
+
     QPointer<QDialog> d = new QDialog(QApplication::activeWindow());
     Ui::CutJobDialog_UI ui;
     ui.setupUi(d);
@@ -228,7 +227,7 @@ QMap <ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fps
     ui.file_url->setUrl(QUrl(dest));
     ui.button_more->setIcon(QIcon::fromTheme("configure"));
     ui.extra_params->setPlainText("-acodec copy -vcodec copy");
-    QString mess = i18n("Extracting %1 out of %2", timeOut, Timecode::getStringTimecode(max, originalFps, true));
+    QString mess = i18n("Extracting %1 out of %2", Timecode::getStringTimecode(duration, fps, true), Timecode::getStringTimecode(max, fps, true));
     ui.info_label->setText(mess);
     if (d->exec() != QDialog::Accepted) {
         delete d;
@@ -305,6 +304,7 @@ QMap <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double f
     ui.extra_params->setVisible(false);
     d->adjustSize();
     ui.button_more->setIcon(QIcon::fromTheme("configure"));
+    connect(ui.button_more, SIGNAL(toggled(bool)), ui.extra_params, SLOT(setVisible(bool)));
     ui.add_clip->setChecked(KdenliveSettings::add_new_clip());
     ui.extra_params->setPlainText(params.simplified().section(' ', 0, -2));
     QString mess = desc;

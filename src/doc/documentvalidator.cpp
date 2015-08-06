@@ -147,9 +147,8 @@ bool DocumentValidator::validate(const double currentVersion)
 
     return true;
     /*
-     * Check the syntax (this will be replaced by XSD validation with Qt 4.6)
-     * and correct some errors
-     */
+    // Check the syntax (this will be replaced by XSD validation with Qt 4.6)
+    // and correct some errors
     {
         // Return (or create) the tractor
         QDomElement tractor = mlt.firstChildElement("tractor");
@@ -163,10 +162,9 @@ bool DocumentValidator::validate(const double currentVersion)
             mlt.appendChild(tractor);
         }
 
-        /*
-         * Make sure at least one track exists, and they're equal in number to
-         * to the maximum between MLT and Kdenlive playlists and tracks
-         */
+        // Make sure at least one track exists, and they're equal in number to
+        // to the maximum between MLT and Kdenlive playlists and tracks
+        //
         // In older Kdenlive project files, one playlist is not a real track (the black track), we have: track count = playlist count- 1
         // In newer Qt5 Kdenlive, the Bin playlist should not appear as a track. So we should have: track count = playlist count- 2
         int trackOffset = 1;
@@ -261,6 +259,7 @@ bool DocumentValidator::validate(const double currentVersion)
     updateEffects();
 
     return true;
+    */
 }
 
 bool DocumentValidator::upgrade(double version, const double currentVersion)
@@ -1358,6 +1357,7 @@ bool DocumentValidator::isModified() const
     return m_modified;
 }
 
+/*
 void DocumentValidator::updateEffects()
 {
     // WARNING: order by findDirs will determine which js file to use (in case multiple scripts for the same filter exist)
@@ -1484,6 +1484,7 @@ bool DocumentValidator::updateEffectParameters(const QDomNodeList &parameters, c
     }
     return updated;
 }
+*/
 
 bool DocumentValidator::checkMovit()
 {

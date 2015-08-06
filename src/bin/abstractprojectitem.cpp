@@ -41,10 +41,10 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id
 
 AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement& description, AbstractProjectItem* parent) :
     QObject()
-    , m_parent(NULL)
+    , m_parent(parent)
     , m_id(description.attribute("id"))
-    , m_jobProgress(0)
     , m_jobType(AbstractClipJob::NOJOBTYPE)
+    , m_jobProgress(0)
     , m_itemType(type)
 {
 }
@@ -112,14 +112,6 @@ QPixmap AbstractProjectItem::roundedPixmap(const QPixmap &source)
     p.drawPixmap(0, 0, source);
     p.end();
     return pix;
-}
-
-void AbstractProjectItem::finishInsert(AbstractProjectItem* parent)
-{
-    /*if (m_parent && !m_parent->contains(this)) {
-        m_parent->addChild(this);
-    }*/
-    //bin()->emitItemReady(this);
 }
 
 void AbstractProjectItem::addChild(AbstractProjectItem* child)

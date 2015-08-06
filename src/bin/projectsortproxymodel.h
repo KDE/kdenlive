@@ -37,7 +37,7 @@ class ProjectSortProxyModel : public QSortFilterProxyModel
     Q_OBJECT
 
 public:
-    ProjectSortProxyModel(QObject *parent = 0);
+    explicit ProjectSortProxyModel(QObject *parent = 0);
     QItemSelectionModel* selectionModel();
 
 public slots:

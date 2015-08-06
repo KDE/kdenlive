@@ -1238,11 +1238,6 @@ void MainWindow::setupActions()
     //m_effectsActionCollection->readSettings();
 }
 
-void MainWindow::slotDisplayActionMessage(QAction *a)
-{
-    statusBar()->showMessage(a->data().toString(), 3000);
-}
-
 void MainWindow::setStatusBarStyleSheet(const QPalette &p)
 {
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
@@ -1352,6 +1347,7 @@ void MainWindow::slotEditProjectSettings()
         if (project->profilePath() != profile) {
             KdenliveSettings::setCurrent_profile(profile);
             pCore->projectManager()->slotResetProfiles();
+            slotUpdateDocumentState(true);
         }
         if (project->getDocumentProperty("proxyparams") != w->proxyParams()) {
             project->setModified();
@@ -2115,9 +2111,9 @@ void MainWindow::slotEditItemDuration()
         pCore->projectManager()->currentTimeline()->projectView()->editItemDuration();
 }
 
-void MainWindow::slotAddProjectClip(const QUrl &url, const QMap<QString,QString> &data)
+void MainWindow::slotAddProjectClip(const QUrl &url)
 {
-    pCore->bin()->droppedUrls(QList<QUrl>() << url, data);
+    pCore->bin()->droppedUrls(QList<QUrl>() << url);
 }
 
 void MainWindow::slotAddProjectClipList(const QList<QUrl> &urls)
@@ -2425,18 +2421,6 @@ void MainWindow::slotClipInProjectTree()
         }
     }
 }
-
-/*void MainWindow::slotClipToProjectTree()
-{
-    if (pCore->projectManager()->currentTimeline()) {
-    const QList<ClipItem *> clips =  pCore->projectManager()->currentTimeline()->projectView()->selectedClipItems();
-        if (clips.isEmpty()) return;
-        for (int i = 0; i < clips.count(); ++i) {
-        m_projectList->slotAddXmlClip(clips.at(i)->itemXml());
-        }
-        //m_projectList->selectItemById(clipIds.at(i));
-    }
-}*/
 
 void MainWindow::slotSelectClipInTimeline()
 {
@@ -3113,7 +3097,7 @@ void MainWindow::slotDownloadResources()
     else
         currentFolder = KdenliveSettings::defaultprojectfolder();
     ResourceWidget *d = new ResourceWidget(currentFolder);
-    connect(d, SIGNAL(addClip(QUrl,stringMap)), this, SLOT(slotAddProjectClip(QUrl,stringMap)));
+    connect(d, SIGNAL(addClip(QUrl)), this, SLOT(slotAddProjectClip(QUrl)));
     d->show();
 }
 

@@ -66,7 +66,6 @@ QMap <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectClip
     }
     QString filterName = parameters.first();
     if (filterName == "framebuffer") {
-        Mlt::Profile profile;
         QMap <QString, QString> producerParams = QMap <QString, QString> ();
         QMap <QString, QString> filterParams = QMap <QString, QString> ();
         QMap <QString, QString> consumerParams = QMap <QString, QString> ();
@@ -203,7 +202,7 @@ QMap <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectClip
                 producerParams.insert("in", QString::number(in));
                 producerParams.insert("out", QString::number(out));
                 producerParams.insert("producer", sources.at(i));
-                
+
                 // Consumer
                 QString consumerName = consumerParams.value("consumer");
                 if (clips.count() == 1) {

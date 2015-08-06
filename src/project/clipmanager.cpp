@@ -154,7 +154,6 @@ void ClipManager::stopThumbs(const QString &id)
 void ClipManager::slotGetThumbs()
 {
     QMap<QString, int>::const_iterator i;
-    int thumbType = 0; // 0 = timeline thumb, 1 = project clip zone thumb, 2 = clip properties thumb
     
     while (!m_requestedThumbs.isEmpty() && !m_abortThumb) {
         m_thumbsMutex.lock();
@@ -162,14 +161,15 @@ void ClipManager::slotGetThumbs()
         m_processingThumbId = i.key();
         QList<int> values = m_requestedThumbs.values(m_processingThumbId);
         m_requestedThumbs.remove(m_processingThumbId);
+        //TODO int thumbType = 0; // 0 = timeline thumb, 1 = project clip zone thumb, 2 = clip properties thumb
         if (m_processingThumbId.startsWith(QLatin1String("?"))) {
             // if id starts with ?, it means the request comes from a clip property widget
-            thumbType = 2;
+            //TODO thumbType = 2;
             m_processingThumbId.remove(0, 1);
         }
         if (m_processingThumbId.startsWith(QLatin1String("#"))) {
             // if id starts with #, it means the request comes from project tree
-            thumbType = 1;
+            //TODO thumbType = 1;
             m_processingThumbId.remove(0, 1);
         }
         m_thumbsMutex.unlock();
@@ -244,12 +244,6 @@ void ClipManager::deleteProjectItems(QStringList clipIds, QStringList folderIds,
     }
 }
 
-
-void ClipManager::deleteProjectClip(const QString &clipId)
-{
-    pCore->bin()->deleteClip(clipId);
-}
-
 void ClipManager::slotDeleteClips(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand, bool execute)
 {
     for (int i = 0; i < clipIds.size(); ++i) {
@@ -303,24 +297,9 @@ void ClipManager::deleteClip(const QString &clipId)
     return list;
 }*/
 
-
-void ClipManager::clearUnusedProducers()
+void ClipManager::slotAddCopiedClip(KIO::Job*, const QUrl&, const QUrl &dst)
 {
-/*    for (int i = 0; i < m_clipList.count(); ++i) {
-        if (m_clipList.at(i)->numReferences() == 0) m_clipList.at(i)->deleteProducers();
-    }*/
-}
-
-
-void ClipManager::slotAddCopiedClip(KIO::Job *job, const QUrl &, const QUrl &dst)
-{
-    KIO::MetaData meta = job->metaData();
-    QMap <QString, QString> data;
-    data.insert("group", meta.value("group"));
-    data.insert("groupid", meta.value("groupid"));
-    data.insert("comment", meta.value("comment"));
-    //qDebug()<<"Finished copying: "<<dst<<" / "<<meta.value("group")<<" / "<<meta.value("groupid");
-    pCore->bin()->droppedUrls(QList<QUrl> () << dst, data);
+    pCore->bin()->droppedUrls(QList<QUrl>() << dst);
 }
 
 

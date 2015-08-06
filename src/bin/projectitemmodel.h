@@ -40,7 +40,7 @@ class ProjectItemModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    ProjectItemModel(Bin *bin);
+    explicit ProjectItemModel(Bin *bin);
     ~ProjectItemModel();
 
     /** @brief Returns item data depending on role requested */

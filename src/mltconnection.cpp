@@ -56,13 +56,15 @@ void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
         if (getUrl->exec() == QDialog::Rejected) {
             delete getUrl;
             ::exit(0);
+        } else {
+            QUrl rendererPath = getUrl->selectedUrl();
+            delete getUrl;
+            if (rendererPath.isEmpty()) {
+                ::exit(0);
+            } else {
+                KdenliveSettings::setRendererpath(rendererPath.path());
+            }
         }
-        QUrl rendererPath = getUrl->selectedUrl();
-        delete getUrl;
-        if (rendererPath.isEmpty()) {
-            ::exit(0);
-        }
-        KdenliveSettings::setRendererpath(rendererPath.path());
     }
 
     QStringList profilesFilter;
@@ -87,13 +89,17 @@ void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
             if (getUrl->exec() == QDialog::Rejected) {
                 delete getUrl;
                 ::exit(0);
+            } else {
+                QUrl mltPath = getUrl->selectedUrl();
+                delete getUrl;
+                if (mltPath.isEmpty()) {
+                    ::exit(0);
+                } else {
+                    KdenliveSettings::setMltpath(mltPath.path() + QDir::separator());
+                    mltDir = QDir(KdenliveSettings::mltpath());
+                    profilesList = mltDir.entryList(profilesFilter, QDir::Files);
+                }
             }
-            QUrl mltPath = getUrl->selectedUrl();
-            delete getUrl;
-            if (mltPath.isEmpty()) ::exit(0);
-            KdenliveSettings::setMltpath(mltPath.path() + QDir::separator());
-            mltDir = QDir(KdenliveSettings::mltpath());
-            profilesList = mltDir.entryList(profilesFilter, QDir::Files);
         }
     }
 

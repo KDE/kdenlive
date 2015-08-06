@@ -85,7 +85,7 @@ private:
     void updateLayout();
    
 signals:
-    void addClip(const QUrl &, const stringMap &data);
+    void addClip(const QUrl&);
 };
 
 

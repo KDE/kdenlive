@@ -64,7 +64,7 @@ class BinMessageWidget: public KMessageWidget
 {
     Q_OBJECT
 public:
-    BinMessageWidget(QWidget *parent = 0);
+    explicit BinMessageWidget(QWidget *parent = 0);
     BinMessageWidget(const QString &text, QWidget *parent = 0);
 
 protected:
@@ -79,7 +79,7 @@ class SmallJobLabel: public QPushButton
 {
     Q_OBJECT
 public:
-    SmallJobLabel(QWidget *parent = 0);
+    explicit SmallJobLabel(QWidget *parent = 0);
     static const QString getStyleSheet(const QPalette &p);
     void setAction(QAction *action);
 private:
@@ -109,7 +109,7 @@ private slots:
 class BinItemDelegate: public QStyledItemDelegate
 {
 public:
-    BinItemDelegate(QObject* parent = 0): QStyledItemDelegate(parent) {
+    explicit BinItemDelegate(QObject* parent = 0): QStyledItemDelegate(parent) {
     }
 
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -268,7 +268,7 @@ class EventEater : public QObject
 {
     Q_OBJECT
 public:
-    EventEater(QObject *parent = 0);
+    explicit EventEater(QObject *parent = 0);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
@@ -308,9 +308,6 @@ public:
 
     /** @brief Create a clip item from its xml description  */
     void createClip(QDomElement xml);
-
-    /** @brief Returns current doc's project ratio for thumbnail scaling */
-    double projectRatio();
 
     /** @brief Used to notify the Model View that an item was updated */
     void emitItemUpdated(AbstractProjectItem* item);
@@ -365,9 +362,6 @@ public:
     /** @brief A proxy clip was just created, pass it to the responsible item  */
     void gotProxy(const QString &id);
 
-    /** @brief Returns the job manager, responsible for handling clip jobs */
-    JobManager *jobManager();
-
     /** @brief Get the document's renderer frame size  */
     const QSize getRenderSize();
 
@@ -393,7 +387,7 @@ public:
     void doMoveFolder(const QString &id, const QString &newParentId);
     void setupGeneratorMenu(const QHash<QString,QMenu*>& menus);
     void startClipJob(const QStringList &params);
-    void droppedUrls(QList <QUrl> urls, const QMap<QString,QString> properties = QMap<QString,QString>());
+    void droppedUrls(QList <QUrl> urls);
     void displayMessage(const QString &text, KMessageWidget::MessageType type);
     
     void addClipCut(const QString&id, int in, int out);
@@ -458,7 +452,6 @@ private slots:
     void selectProxyModel(const QModelIndex &id);
     void autoSelect();
     void closeEditing();
-    void refreshEditedClip();
     void slotSaveHeaders();
     void slotItemDropped(QStringList ids, const QModelIndex &parent);
     void slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent);
@@ -494,7 +487,8 @@ public slots:
     void slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos);
     void slotSwitchClipProperties(const QModelIndex &ix);
     void slotSwitchClipProperties();
-    void slotAddFolder();
+    /** @brief Creates a new folder with optional name, and returns new folder's id */
+    QString slotAddFolder(const QString &folderName = QString());
     void slotCreateProjectClip();
     /** @brief Start a Cut Clip job on this clip (extract selected zone using FFmpeg) */
     void slotStartCutJob(const QString &id);

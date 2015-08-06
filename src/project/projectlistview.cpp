@@ -99,11 +99,6 @@ void ProjectListView::updateStyleSheet()
     setStyleSheet(style);
 }
 
-void ProjectListView::processLayout()
-{
-    executeDelayedItemsLayout();
-}
-
 void ProjectListView::configureColumns(const QPoint& pos)
 {
     QMenu popup(this);

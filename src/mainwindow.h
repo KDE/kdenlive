@@ -274,7 +274,6 @@ private slots:
     void slotAddEffect(const QDomElement &effect);
     void slotEditProfiles();
     void slotEditProjectSettings();
-    void slotDisplayActionMessage(QAction *a);
 
     /** @brief Turns automatic splitting of audio and video on/off. */
     void slotSwitchSplitAudio();
@@ -327,7 +326,7 @@ private slots:
     void slotSelectAddTimelineTransition();
     void slotAddVideoEffect(QAction *result);
     void slotAddTransition(QAction *result);
-    void slotAddProjectClip(const QUrl &url, const stringMap &data = stringMap());
+    void slotAddProjectClip(const QUrl &url);
     void slotAddProjectClipList(const QList<QUrl> &urls);
     void slotTrackSelected(int index, const TrackInfo &info, bool raise = true);
     void slotActivateTransitionView(Transition *transition);

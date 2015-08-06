@@ -52,8 +52,9 @@ class ShuttleThread : public QThread
 {
 
 public:
+    ShuttleThread(const QString &device, QObject *parent);
+    ~ShuttleThread();
     virtual void run();
-    void init(QObject *parent, const QString &device);
     QString device();
     void stop();
 

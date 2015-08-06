@@ -67,11 +67,13 @@ QString ProjectSubClip::getToolTip() const
 
 ProjectClip* ProjectSubClip::clip(const QString &id)
 {
+    Q_UNUSED(id)
     return NULL;
 }
 
 ProjectFolder* ProjectSubClip::folder(const QString &id)
 {
+    Q_UNUSED(id)
     return NULL;
 }
 
@@ -88,6 +90,7 @@ QPoint ProjectSubClip::zone() const
 
 ProjectClip* ProjectSubClip::clipAt(int ix)
 {
+    Q_UNUSED(ix)
     return NULL;
 }
 
@@ -108,6 +111,7 @@ ProjectSubClip *ProjectSubClip::subClip(int in, int out)
 
 void ProjectSubClip::setCurrent(bool current, bool notify)
 {
+    Q_UNUSED(notify)
     if (current) {
         m_masterClip->bin()->openProducer(m_masterClip->controller(), m_in, m_out);
     }
@@ -122,6 +126,7 @@ void ProjectSubClip::setThumbnail(QImage img)
 
 bool ProjectSubClip::rename(const QString &name, int column)
 {
+    Q_UNUSED(column)
     if (m_name == name) return false;
     // Rename folder
     bin()->renameSubClipCommand(m_id, name, m_name, m_in, m_out);

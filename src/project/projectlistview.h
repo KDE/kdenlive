@@ -55,7 +55,6 @@ class ProjectListView : public QTreeWidget
 public:
     explicit ProjectListView(QWidget *parent = 0);
     ~ProjectListView();
-    void processLayout();
     void updateStyleSheet();
 
 protected:

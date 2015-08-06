@@ -97,8 +97,6 @@ GLWidget::GLWidget()
         m_glslManager = 0;
     }
     connect(this, SIGNAL(sceneGraphInitialized()), SLOT(initializeGL()), Qt::DirectConnection);
-    //connect(this, SIGNAL(sceneGraphInitialized()), SLOT(setBlankScene()), Qt::QueuedConnection);
-    connect(this, SIGNAL(sceneGraphError(QQuickWindow::SceneGraphError, const QString &)), SLOT(slotError(QQuickWindow::SceneGraphError, const QString &)));
     connect(this, SIGNAL(beforeRendering()), SLOT(paintGL()), Qt::DirectConnection);
 }
 
@@ -1208,11 +1206,6 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
 void FrameRenderer::clearFrame()
 {
     m_frame = SharedFrame();
-}
-
-SharedFrame FrameRenderer::getDisplayFrame()
-{
-    return m_frame;
 }
 
 void FrameRenderer::cleanup()

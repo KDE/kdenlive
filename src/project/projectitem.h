@@ -69,10 +69,6 @@ public:
     void setConditionalJobStatus(ClipJobStatus status, AbstractClipJob::JOBTYPE requestedJobType);
     /** \brief Returns the proxy status for this clip (true means there is a proxy clip). */
     bool hasProxy() const;
-    /** \brief Returns true if the proxy for this clip is ready. */
-    bool isProxyReady() const;
-    /** \brief Returns true if there is a job currently running for this clip. */
-    bool isJobRunning() const;
     /** \brief Returns true if we are currently creating the proxy for this clip. */
     bool isProxyRunning() const;
     /** \brief Returns true if the thumbnail for this clip has been loaded. */

@@ -129,9 +129,6 @@ private:
     /** @brief Holds the state of the threaded thumbnail generation. */
     QFuture<void> m_future;
 
-    /** @brief Get the frame number ix. */
-    QListWidgetItem* getFrameFromIndex(int ix);
-
     /** @brief The action triggering display of last frame over current live video feed. */
     QAction* m_showOverlay;
 

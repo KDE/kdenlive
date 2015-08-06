@@ -47,7 +47,7 @@ public:
     ProjectFolder(const QString &id, const QString &name, ProjectFolder* parent = 0);
 
     /** @brief Creates an empty root folder. */
-    ProjectFolder(Bin *bin);
+    explicit ProjectFolder(Bin *bin);
 
     ~ProjectFolder();
 
@@ -80,12 +80,7 @@ public:
     virtual QString getToolTip() const;
     virtual bool rename(const QString &name, int column);
 
-protected:
-
-
 private:
-    void loadChildren(const QDomElement &description);
-
     Bin *m_bin;
 };
 

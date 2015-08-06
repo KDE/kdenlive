@@ -31,10 +31,10 @@ int main(int argc, char **argv)
     QStringList args = app.arguments();
     QStringList preargs;
     QString locale;
-    int pid = 0;
-    int in = -1;
-    int out = -1;
     if (args.count() >= 7) {
+        int pid = 0;
+        int in = -1;
+        int out = -1;
         // Remove program name
         args.removeFirst();
 

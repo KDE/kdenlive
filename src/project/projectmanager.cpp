@@ -63,6 +63,8 @@ ProjectManager::ProjectManager(QObject* parent) :
 
 ProjectManager::~ProjectManager()
 {
+    delete m_notesPlugin;
+
     if (m_trackView) {
         delete m_trackView;
     }

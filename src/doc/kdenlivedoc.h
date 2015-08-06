@@ -108,13 +108,8 @@ public:
     /** @brief Returns current project profile. */
     MltVideoProfile mltProfile() const;
     ProfileInfo getProfileInfo() const;
-    //Mlt::Profile *profile();
     const QString description() const;
     void setUrl(const QUrl &url);
-
-    /** @brief Updates the project profile.
-     * @return true if frame rate was changed */
-    bool setProfilePath(QString path);
 
     /** @brief Defines whether the document needs to be saved. */
     bool isModified() const;
@@ -227,7 +222,6 @@ public slots:
 private slots:
     void slotClipModified(const QString &path);
     void slotClipMissing(const QString &path);
-    void slotClipAvailable(const QString &path);
     void slotProcessModifiedClips();
     void slotModified();
     void slotSetDocumentNotes(const QString &notes);

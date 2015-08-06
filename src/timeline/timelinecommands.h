@@ -49,7 +49,7 @@ private:
 class AddTimelineClipCommand : public QUndoCommand
 {
 public:
-    AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, PlaylistState::ClipState state, bool overwrite, bool push, bool doIt, bool doRemove, QUndoCommand * parent = 0);
+    AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, PlaylistState::ClipState state, bool doIt, bool doRemove, QUndoCommand * parent = 0);
     void undo();
     void redo();
 private:
@@ -60,8 +60,6 @@ private:
     PlaylistState::ClipState m_state;
     bool m_doIt;
     bool m_remove;
-    bool m_overwrite;
-    bool m_push;
 };
 
 class AddTrackCommand : public QUndoCommand
@@ -126,7 +124,7 @@ private:
 class ChangeSpeedCommand : public QUndoCommand
 {
 public:
-    ChangeSpeedCommand(CustomTrackView *view, const ItemInfo &info, const ItemInfo &speedIndependantInfo, double old_speed, double new_speed, int old_strobe, int new_strobe, const QString &clipId, QUndoCommand * parent = 0);
+    ChangeSpeedCommand(CustomTrackView *view, const ItemInfo &info, const ItemInfo &speedIndependantInfo, double new_speed, int old_strobe, int new_strobe, const QString &clipId, QUndoCommand * parent = 0);
     void undo();
     void redo();
 private:
@@ -134,7 +132,6 @@ private:
     ItemInfo m_clipInfo;
     ItemInfo m_speedIndependantInfo;
     QString m_clipId;
-    double m_old_speed;
     double m_new_speed;
     int m_old_strobe;
     int m_new_strobe;
