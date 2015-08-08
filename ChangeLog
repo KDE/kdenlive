@@ -1,3 +1,32 @@
+15.08
+	Changes (~450 commits):
+	* New file format
+	  - Can load old format but not save to it: no way back
+	    wait a bit for big projects!
+	  - All data are now in MLT structures
+	    should ease exchanges with Shotcut and other editors?
+	* New monitor, using OpenGL & QML
+	  - *brings back Movit* (GPU effects), but not mandatory ;)
+	  - great *split screen* functionality to tune effect parameter
+	* Completely renewed bin manager (previously named project list)
+	  - Allows *adding effects to bin clips*, affecting all timeline instances
+	  - Free directory structure
+	  - Icon / list / tree views
+	  - More clip properties can be changed
+	  - Much work to restore all old functions :\
+	* Effects list improvements
+	  - improve sorting and marking item as favorite
+	* New audio waveform on timeline (à la Shotcut)
+	  making information more visible
+	* New duplicate clip function (cool for titles)
+	* Propose predefined monitor zoom values
+	* Fixed several look issues (sizes, colors, icons...)
+	* Refactoring: replacing XML manipulations by MLT API calls
+	  - reduces data duplication: faster, safer...
+	* Automatic builds (CI) on Linux and OSX
+	* Code checked by several static analyzers
+	* Some bugs fixed from 15.04 port (capture, effects, ...)
+
 15.04
     Changes:
     * Port to KDE Frameworks 5
