@@ -126,6 +126,7 @@ void GLWidget::initializeGL()
 {
     if (m_isInitialized) return;
 
+    openglContext()->makeCurrent(this);
     initializeOpenGLFunctions();
     //openglContext()->blockSignals(true);
     createShader();

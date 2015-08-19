@@ -464,8 +464,11 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupI
     fileWidget->setFilter(dialogFilter);
     fileWidget->setMode(KFile::Files | KFile::ExistingOnly | KFile::LocalOnly);
     KSharedConfig::Ptr conf = KSharedConfig::openConfig();
-    KWindowConfig::restoreWindowSize(dlg->windowHandle(), conf->group("FileDialogSize"));
-    dlg->resize(dlg->windowHandle()->size());
+    QWindow *handle = dlg->windowHandle();
+    if (handle && conf->hasGroup("FileDialogSize")) {
+        KWindowConfig::restoreWindowSize(handle, conf->group("FileDialogSize"));
+        dlg->resize(handle->size());
+    }
     if (dlg->exec() == QDialog::Accepted) {
         KdenliveSettings::setAutoimagetransparency(c->isChecked());
         list = fileWidget->selectedUrls();
@@ -518,7 +521,9 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupI
         }
     }
     KConfigGroup group = conf->group("FileDialogSize");
-    KWindowConfig::saveWindowSize(dlg->windowHandle(), group);
+    if (handle) {
+        KWindowConfig::saveWindowSize(handle, group);
+    }
 
     delete fileWidget;
     delete dlg;
