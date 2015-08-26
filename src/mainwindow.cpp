@@ -993,11 +993,11 @@ void MainWindow::setupActions()
     overlayInfo->setChecked(KdenliveSettings::displayMonitorInfo());
     connect(overlayInfo, SIGNAL(triggered(bool)), this, SLOT(slotSwitchMonitorOverlay(bool)));
 
-    QAction *dropFrames = new QAction(QIcon(), i18n("Real time (drop frames)"), this);
+    QAction *dropFrames = new QAction(QIcon(), i18n("Real Time (drop frames)"), this);
     dropFrames->setCheckable(true);
     dropFrames->setChecked(KdenliveSettings::monitor_dropframes());
     connect(dropFrames, SIGNAL(toggled(bool)), this, SLOT(slotSwitchDropFrames(bool)));
-    
+
     KSelectAction *monitorGamma = new KSelectAction(i18n("Monitor Gamma"), this);
     monitorGamma->addAction(i18n("sRGB (computer)"));
     monitorGamma->addAction(i18n("Rec. 709 (TV)"));
@@ -1005,8 +1005,8 @@ void MainWindow::setupActions()
     monitorGamma->setCurrentItem(KdenliveSettings::monitor_gamma());
     connect(monitorGamma, SIGNAL(triggered(int)), this, SLOT(slotSetMonitorGamma(int)));
 
-    addAction("insert_project_tree", i18n("Insert zone in project tree"), this, SLOT(slotInsertZoneToTree()), QIcon(), Qt::CTRL + Qt::Key_I);
-    addAction("insert_timeline", i18n("Insert zone in timeline"), this, SLOT(slotInsertZoneToTimeline()), QIcon(), Qt::SHIFT + Qt::CTRL + Qt::Key_I);
+    addAction("insert_project_tree", i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()), QIcon(), Qt::CTRL + Qt::Key_I);
+    addAction("insert_timeline", i18n("Insert Zone in Timeline"), this, SLOT(slotInsertZoneToTimeline()), QIcon(), Qt::SHIFT + Qt::CTRL + Qt::Key_I);
 
     QAction *resizeStart =  new QAction(QIcon(), i18n("Resize Item Start"), this);
     addAction("resize_timeline_clip_start", resizeStart);
