@@ -172,7 +172,7 @@ bool Timeline::checkProjectAudio()
     int max = m_tractor->count();
     for (int i = 0; i < max; i++) {
         Track *sourceTrack = track(i);
-        Mlt::Producer* track = m_tractor->track(i);
+        QScopedPointer<Mlt::Producer> track(m_tractor->track(i));
         int state = track->get_int("hide");
         if (sourceTrack->hasAudio() && !(state & 2)) {
             hasAudio = true;
@@ -211,7 +211,7 @@ int Timeline::getTracks() {
     m_tracks.clear();
     m_projectTracks = m_tractor->count();
     for (int i = 0; i < m_projectTracks; ++i) {
-        Mlt::Producer* track = m_tractor->track(i);
+        QScopedPointer<Mlt::Producer> track(m_tractor->track(i));
         QString playlist_name = track->get("id");
         if (playlist_name == "black_track" || playlist_name == "playlistmain") continue;
         // check track effects
@@ -235,13 +235,15 @@ void Timeline::checkDuration(int duration) {
     return;
     //FIXME
     for (int i = 1; i < m_tractor->count(); ++i) {
-        int len = m_tractor->track(i)->get_playtime() - 1;
+        QScopedPointer<Mlt::Producer> tk(m_tractor->track(i));
+        int len = tk->get_playtime() - 1;
         if (len > duration) duration = len;
     }
-    Mlt::Service s(m_tractor->track(0)->get_service());
+    QScopedPointer<Mlt::Producer> tk1(m_tractor->track(0));
+    Mlt::Service s(tk1->get_service());
     Mlt::Playlist blackTrack(s);
     if (blackTrack.get_playtime() - 1 != duration) {
-        Mlt::Producer *blackClip = blackTrack.get_clip(0);
+        QScopedPointer<Mlt::Producer> blackClip(blackTrack.get_clip(0));
         if (blackClip->parent().get_length() <= duration) {
             blackClip->parent().set("length", duration + 1);
             blackClip->parent().set("out", duration);
@@ -359,7 +361,7 @@ void Timeline::parseDocument(const QDomDocument &doc)
     QDomNodeList playlists = doc.elementsByTagName("playlist");*/
     m_projectTracks = m_tractor->count();// tracks.count();
     for (int i = 0; i < m_projectTracks; i++) {
-        Mlt::Producer *track = m_tractor->multitrack()->track(i);
+        QScopedPointer<Mlt::Producer> track(m_tractor->multitrack()->track(i));
         QString trackId = track->get("id");
         if (trackId == "black_track") {
             // Background track, do not show
@@ -534,7 +536,7 @@ bool Timeline::isTrackLocked(int ix)
 
 void Timeline::updateTrackState(int ix, int state)
 {
-    Mlt::Producer* track = m_tractor->track(ix);
+    QScopedPointer<Mlt::Producer> track(m_tractor->track(ix));
     int currentState = track->get_int("hide");
     if (state == currentState) return;
     if (state == 0) {
@@ -768,7 +770,7 @@ int Timeline::addTrack(int ix, Mlt::Playlist &playlist) {
     double fps = m_doc->fps();
     bool locked = playlist.get_int("kdenlive:locked_track") == 1;
     for(int i = 0; i < playlist.count(); ++i) {
-        Mlt::Producer *clip = playlist.get_clip(i);
+        QScopedPointer<Mlt::Producer> clip(playlist.get_clip(i));
         if (clip->is_blank()) {
             position += clip->get_playtime();
             continue;
@@ -850,7 +852,7 @@ void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (int ix = 0; ix < service.filter_count(); ++ix) {
-        Mlt::Filter *effect = service.filter(ix);
+        QScopedPointer<Mlt::Filter> effect(service.filter(ix));
         QDomElement clipeffect = getEffectByTag(effect->get("tag"), effect->get("kdenlive_id"));
         if (clipeffect.isNull()) {
             m_documentErrors.append(i18n("Effect %1:%2 not found in MLT, it was removed from this project\n", effect->get("tag"), effect->get("kdenlive_id")));
@@ -880,7 +882,7 @@ void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
             currenteffect.setAttribute("out", effect->get_out());
             currenteffect.setAttribute("_sync_in_out", "1");
         }
-        if (QString(effect->get("tag")) == "region") getSubfilters(effect, currenteffect);
+        if (QString(effect->get("tag")) == "region") getSubfilters(effect.data(), currenteffect);
 
         if (clip) {
             clip->addEffect(m_doc->getProfileInfo(), currenteffect, false);
@@ -900,14 +902,14 @@ QString Timeline::getKeyframes(Mlt::Service service, int &ix, QDomElement e) {
     // retrieve keyframes
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    Mlt::Filter *effect = service.filter(ix);
+    QScopedPointer<Mlt::Filter> effect(service.filter(ix));
     int effectNb = effect->get_int("kdenlive_ix");
     QString keyframes = QString::number(effect->get_in()) + '=' + locale.toString(offset + fact * effect->get_double(starttag.toUtf8().constData())) + ';';
     for (;ix < service.filter_count(); ++ix) {
-        effect = service.filter(ix);
-        if (effect->get_int("kdenlive_ix") != effectNb) break;
-        if (effect->get_in() < effect->get_out()) {
-            keyframes.append(QString::number(effect->get_out()) + '=' + locale.toString(offset + fact * effect->get_double(endtag.toUtf8().constData())) + ';');
+        QScopedPointer<Mlt::Filter> eff2(service.filter(ix));
+        if (eff2->get_int("kdenlive_ix") != effectNb) break;
+        if (eff2->get_in() < eff2->get_out()) {
+            keyframes.append(QString::number(eff2->get_out()) + '=' + locale.toString(offset + fact * eff2->get_double(endtag.toUtf8().constData())) + ';');
         }
     }
     --ix;

@@ -208,16 +208,16 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height)
     mlt_image_format format = mlt_image_rgb24a;
     //frame->set("progressive", "1");
     if (ow % 2 == 1) ow++;
-    QImage image(ow, oh, QImage::Format_ARGB32_Premultiplied);
     const uchar* imagedata = frame->get_image(format, ow, oh);
     if (imagedata == NULL) {
         p.fill(QColor(Qt::red).rgb());
         return p;
     }
+    QImage image(ow, oh, QImage::Format_ARGB32_Premultiplied);
     memcpy(image.bits(), imagedata, ow * oh * 4);//.byteCount());
-
     //const uchar* imagedata = frame->get_image(format, ow, oh);
     //QImage image(imagedata, ow, oh, QImage::Format_ARGB32_Premultiplied);
+
     if (!image.isNull()) {
         if (ow > (2 * width)) {
             // there was a scaling problem, do it manually

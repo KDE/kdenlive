@@ -94,7 +94,7 @@ void BinController::initializeBin(Mlt::Playlist playlist, ProfileInfo info)
     m_binPlaylist = new Mlt::Playlist(playlist);
     m_binPlaylist->set("id", kPlaylistTrackId);
     for (int i = 0; i < m_binPlaylist->count(); i++) {
-        Mlt::Producer *producer = m_binPlaylist->get_clip(i);
+        QScopedPointer<Mlt::Producer> producer(m_binPlaylist->get_clip(i));
         if (producer->is_blank() || !producer->is_valid()) continue;
         QString id = producer->parent().get("id");
         if (id.contains("_")) {
@@ -261,7 +261,7 @@ void BinController::pasteEffects(const QString &id, Mlt::Producer &producer)
 {
     int size = m_binPlaylist->count();
     for (int i = 0; i < size; i++) {
-        Mlt::Producer *prod = m_binPlaylist->get_clip(i);
+        QScopedPointer<Mlt::Producer> prod(m_binPlaylist->get_clip(i));
         QString prodId = prod->parent().get("id");
         if (prodId == id) {
 	    duplicateFilters(prod->parent(), producer);
@@ -274,11 +274,10 @@ void BinController::removeBinPlaylistClip(const QString &id)
 {
     int size = m_binPlaylist->count();
     for (int i = 0; i < size; i++) {
-        Mlt::Producer *prod = m_binPlaylist->get_clip(i);
+        QScopedPointer<Mlt::Producer>prod(m_binPlaylist->get_clip(i));
         QString prodId = prod->parent().get("id");
         if (prodId == id) {
             m_binPlaylist->remove(i);
-            delete prod;
             break;
         }
     }

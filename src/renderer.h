@@ -204,8 +204,6 @@ class Render: public AbstractRender
     int mltTrackDuration(int track);
 
     bool mltResizeClipCrop(ItemInfo info, GenTime newCropStart);
-    bool mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart, const QString &clipId, bool overwrite = false, bool insert = false);
-    bool mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEnd, const QString &clipId, bool overwrite = false, bool insert = false);
 
     /** @brief Deletes an effect from a clip in MLT's playlist. */
     bool mltRemoveEffect(int track, GenTime position, int index, bool updateIndex, bool doRefresh = true);
@@ -251,13 +249,11 @@ class Render: public AbstractRender
     void mltUpdateTransitionParams(QString type, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml);
     QList <TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack);
     void mltDeleteTrack(int ix);
-    
-    /** @brief Deprecated, use replace function in timeline/track.cpp */
-    Q_DECL_DEPRECATED bool mltUpdateClipProducer(Mlt::Tractor *tractor, int track, int pos, Mlt::Producer *prod);
+
     void mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track);
     Mlt::Producer *invalidProducer(const QString &id);
 
-    const QList <Mlt::Producer *> producersList();
+    //const QList <Mlt::Producer *> producersList();
     void setDropFrames(bool show);
     /** @brief Sets an MLT consumer property. */
     void setConsumerProperty(const QString &name, const QString &value);
