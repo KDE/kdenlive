@@ -125,7 +125,7 @@ public:
      * @param value is the searched value
      * @param startindex is a playlist index to start the search from
      * @return pointer to the first matching producer */
-    Mlt::Producer *find(const QByteArray &name, const QByteArray &value, int startindex = 0);
+    //Mlt::Producer &find(const QByteArray &name, const QByteArray &value, int startindex = 0);
     /** @brief get a producer clone for the track and pick an extract
      * MLT (libav*) can't mix audio of a clip with itself, so we duplicate the producer for each track
      * @param parent is the source media

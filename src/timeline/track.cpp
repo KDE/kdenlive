@@ -130,7 +130,7 @@ bool Track::move(qreal start, qreal end, int mode)
     if (clipIndex == m_playlist.count() - 1) {
 	durationChanged = true;
     }
-    Mlt::Producer *clipProducer = m_playlist.replace_with_blank(clipIndex);
+    QScopedPointer <Mlt::Producer> clipProducer(m_playlist.replace_with_blank(clipIndex));
     if (!clipProducer || clipProducer->is_blank()) {
         qDebug() << "// Cannot get clip at index: "<<clipIndex<<" / "<< start;
         m_playlist.unlock();
@@ -141,9 +141,8 @@ bool Track::move(qreal start, qreal end, int mode)
 	// Clip is inserted at the end of track, duration change event handled in doAdd()
 	durationChanged = false;
     }
-    bool result = doAdd(end, clipProducer, mode);
+    bool result = doAdd(end, clipProducer.data(), mode);
     m_playlist.unlock();
-    delete clipProducer;
     if (durationChanged) {
 	  emit newTrackDuration(m_playlist.get_playtime());
     }
@@ -187,7 +186,7 @@ bool Track::resize(qreal t, qreal dt, bool end)
     int index = m_playlist.get_clip_index_at(frame(t));
     int length = frame(dt);
 
-    Mlt::Producer *clip = m_playlist.get_clip(index);
+    QScopedPointer<Mlt::Producer> clip(m_playlist.get_clip(index));
     if (clip == NULL || clip->is_blank()) {
         qWarning("Can't resize clip at %f", t);
         return false;
@@ -204,8 +203,6 @@ bool Track::resize(qreal t, qreal dt, bool end)
         clip->parent().set("out", out + 1);
         clip->set("length", out + 2);
     }
-
-    delete clip;
 
     if (m_playlist.resize_clip(index, in, out)) {
         qWarning("MLT resize failed : clip %d from %d to %d", index, in, out);
@@ -261,7 +258,9 @@ bool Track::cut(qreal t)
         return false;
     }
     m_playlist.unlock();
-    Clip(*m_playlist.get_clip(index + 1)).addEffects(*m_playlist.get_clip(index));
+    QScopedPointer<Mlt::Producer> clip1(m_playlist.get_clip(index + 1));
+    QScopedPointer<Mlt::Producer> clip2(m_playlist.get_clip(index));
+    Clip(*clip1).addEffects(*clip2);
     return true;
 }
 
@@ -278,7 +277,7 @@ void Track::replaceId(const QString &id)
     //TODO: slowmotion
     for (int i = 0; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;
-        Mlt::Producer *p = m_playlist.get_clip(i);
+        QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
         QString current = p->parent().get("id");
 	if (current == id || current == idForTrack || current == idForAudioTrack || current == idForVideoTrack || current.startsWith("slowmotion:" + id + ":")) {
 	    current.prepend("#");
@@ -292,10 +291,9 @@ QStringList Track::getSlowmotionIds(const QString &id)
     QStringList list;
     for (int i = 0; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;
-        Mlt::Producer *p = m_playlist.get_clip(i);
+        QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
         QString current = p->parent().get("id");
 	if (!current.startsWith("#")) {
-	    delete p;
 	    continue;
 	}
 	current.remove(0, 1);
@@ -327,10 +325,9 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
 
     for (int i = 0; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;
-        Mlt::Producer *p = m_playlist.get_clip(i);
+        QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
         QString current = p->parent().get("id");
 	if (!current.startsWith("#")) {
-	    delete p;
 	    continue;
 	}
 	current.remove(0, 1);
@@ -351,7 +348,6 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
                 cut = original->cut(p->get_in(), p->get_out());
             }
             else {
-		delete p;
 		continue;
 	    }
         }
@@ -385,7 +381,6 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
             found = true;
             delete cut;
         }
-        delete p;
     }
     return found;
 }
@@ -395,7 +390,7 @@ bool Track::replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state
     m_playlist.lock();
     int index = m_playlist.get_clip_index_at(frame(t));
     Mlt::Producer *cut;
-    Mlt::Producer *orig = m_playlist.replace_with_blank(index);
+    QScopedPointer <Mlt::Producer> orig(m_playlist.replace_with_blank(index));
     if (state != PlaylistState::VideoOnly) {
         // Get track duplicate
         Mlt::Producer *copyProd = clipProducer(prod, state);
@@ -405,7 +400,6 @@ bool Track::replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state
         cut = prod->cut(orig->get_in(), orig->get_out());
     }
     Clip(*cut).addEffects(*orig);
-    delete orig;
     bool ok = m_playlist.insert_at(frame(t), cut, 1);
     delete cut;
     m_playlist.unlock();
@@ -428,7 +422,7 @@ void Track::updateEffects(const QString &id, Mlt::Producer *original)
 
     for (int i = 0; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;
-        Mlt::Producer *p = m_playlist.get_clip(i);
+        QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
 	Mlt::Producer origin = p->parent();
         QString current = origin.get("id");
 	    if (current.startsWith("slowmotion:")) {
@@ -443,20 +437,19 @@ void Track::updateEffects(const QString &id, Mlt::Producer *original)
 	    else if (current.section("_", 0, 0) == id) {
 		Clip(origin).replaceEffects(*original);
 	    }
-        
-        delete p;
     }
 }
 
-Mlt::Producer *Track::find(const QByteArray &name, const QByteArray &value, int startindex) {
+/*Mlt::Producer &Track::find(const QByteArray &name, const QByteArray &value, int startindex) {
     for (int i = startindex; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;
-        Mlt::Producer *p = m_playlist.get_clip(i);
-        if (value == p->parent().get(name.constData())) return p;
-        else delete p;
+        QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
+        if (value == p->parent().get(name.constData())) {
+            return p->parent();
+        }
     }
-    return NULL;
-}
+    return Mlt::0;
+}*/
 
 Mlt::Producer *Track::clipProducer(Mlt::Producer *parent, PlaylistState::ClipState state, bool forceCreation) {
     QString service = parent->parent().get("mlt_service");
@@ -472,13 +465,16 @@ Mlt::Producer *Track::clipProducer(Mlt::Producer *parent, PlaylistState::ClipSta
     } else if (state == PlaylistState::VideoOnly) {
         idForTrack.append("_video");
     }
-    Mlt::Producer *prod = NULL;
-    if (!forceCreation) prod = find("id", idForTrack.toUtf8().constData());
-    if (prod) {
-        *prod = prod->parent();
-        return prod;
+    if (!forceCreation) {
+        for (int i = 0; i < m_playlist.count(); i++) {
+            if (m_playlist.is_blank(i)) continue;
+            QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
+            if (QString(p->parent().get("id")) == idForTrack) {
+                return new Mlt::Producer(p->parent());
+            }
+        }
     }
-    prod = Clip(parent->parent()).clone();
+    Mlt::Producer *prod = Clip(parent->parent()).clone();
     prod->set("id", idForTrack.toUtf8().constData());
     if (state == PlaylistState::AudioOnly) {
         prod->set("video_index", -1);
@@ -492,13 +488,11 @@ bool Track::hasAudio()
 {
     for (int i = 0; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;
-        Mlt::Producer *p = m_playlist.get_clip(i);
+        QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
         QString service = p->get("mlt_service");
         if (service == "xml" || service == "consumer" || p->get_int("audio_index") > -1) {
-            delete p;
             return true;
         }
-        delete p;
     }
     return false;
 }
@@ -581,7 +575,7 @@ void Track::updateClipProperties(const QString &id, QMap <QString, QString> prop
 
     for (int i = 0; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;
-        Mlt::Producer *p = m_playlist.get_clip(i);
+        QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
         QString current = p->parent().get("id");
         QStringList processed;
         if (!processed.contains(current) && (current == idForTrack || current == idForAudioTrack || current == idForVideoTrack)) {
@@ -602,14 +596,13 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
     int clipIndex = m_playlist.get_clip_index_at(startPos);
     int clipLength = m_playlist.clip_length(clipIndex);
 
-    Mlt::Producer *original = m_playlist.get_clip(clipIndex);
+    QScopedPointer<Mlt::Producer> original(m_playlist.get_clip(clipIndex));
     if (original == NULL) {
         qDebug()<<"// No clip to apply effect";
         return -1;
     }
     if (!original->is_valid() || original->is_blank()) {
         // invalid clip
-        delete original;
         qDebug()<<"// Invalid clip to apply effect";
         return -1;
     }
@@ -617,7 +610,6 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
     if (!clipparent.is_valid() || clipparent.is_blank()) {
         // invalid clip
         qDebug()<<"// Invalid parent to apply effect";
-        delete original;
         return -1;
     }
 
@@ -670,7 +662,7 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
 		if (full_luma != 0) slowprod->set("set.force_full_luma", full_luma);*/
 		emit storeSlowMotion(url, prod);
 	    }
-	    Mlt::Producer *clip = m_playlist.replace_with_blank(clipIndex);
+	    QScopedPointer <Mlt::Producer> clip(m_playlist.replace_with_blank(clipIndex));
 	    m_playlist.consolidate_blanks(0);
 
 	    // Check that the blank space is long enough for our new duration
@@ -686,14 +678,13 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
 	    Clip(*cut).addEffects(*clip);
 	    m_playlist.insert_at(startPos, cut, 1);
 	    delete cut;
-	    delete clip;
 	    clipIndex = m_playlist.get_clip_index_at(startPos);
 	    newLength = m_playlist.clip_length(clipIndex);
 	    m_playlist.unlock();
 	} else if (speed == 1.0 && strobe < 2) {
 	    m_playlist.lock();
 
-	    Mlt::Producer *clip = m_playlist.replace_with_blank(clipIndex);
+	    QScopedPointer <Mlt::Producer> clip(m_playlist.replace_with_blank(clipIndex));
 	    m_playlist.consolidate_blanks(0);
 
 	    // Check that the blank space is long enough for our new duration
@@ -731,7 +722,6 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
 	    Clip(*cut).addEffects(*clip);
 	    m_playlist.insert_at(startPos, cut, 1);
 	    delete cut;
-	    delete clip;
 	    clipIndex = m_playlist.get_clip_index_at(startPos);
 	    newLength = m_playlist.clip_length(clipIndex);
 	    m_playlist.unlock();
@@ -754,7 +744,7 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
 	    }
 	    emit storeSlowMotion(url, prod);
         }
-        Mlt::Producer *clip = m_playlist.replace_with_blank(clipIndex);
+        QScopedPointer <Mlt::Producer> clip(m_playlist.replace_with_blank(clipIndex));
         m_playlist.consolidate_blanks(0);
 
         int duration = speedIndependantInfo.cropDuration.frames(m_fps) / speed;
@@ -776,7 +766,6 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
         Clip(*cut).addEffects(*clip);
         m_playlist.insert_at(startPos, cut, 1);
         delete cut;
-        delete clip;
         clipIndex = m_playlist.get_clip_index_at(startPos);
         newLength = m_playlist.clip_length(clipIndex);
 

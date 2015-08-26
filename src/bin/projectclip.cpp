@@ -298,8 +298,10 @@ void ProjectClip::abortAudioThumbs()
 
 Mlt::Producer *ProjectClip::producer()
 {
-    if (!m_controller) return NULL;
-    return m_controller->masterProducer();
+    if (!m_controller) {
+        return NULL;
+    }
+    return &m_controller->originalProducer();
 }
 
 ClipController *ProjectClip::controller()
@@ -682,7 +684,7 @@ QVariant ProjectClip::data(DataType type) const
 void ProjectClip::slotExtractImage(QList <int> frames)
 {
     Mlt::Producer *prod = producer();
-    if (prod == NULL) return;
+    if (prod == NULL || !prod->is_valid()) return;
     // Check if we are using GPU accel, then we need to use alternate producer
     if (KdenliveSettings::gpu_accel()) {
 	if (m_gpuProducer == NULL) {
@@ -718,7 +720,7 @@ void ProjectClip::slotExtractImage(QList <int> frames)
 void ProjectClip::slotExtractSubImage(QList <int> frames)
 {
     Mlt::Producer *prod = producer();
-    if (prod == NULL) return;
+    if (prod == NULL || !prod->is_valid()) return;
     // Check if we are using GPU accel, then we need to use alternate producer
     if (KdenliveSettings::gpu_accel()) {
         if (m_gpuProducer == NULL) {
@@ -776,6 +778,7 @@ int ProjectClip::audioChannels() const
 void ProjectClip::slotCreateAudioThumbs()
 {
     Mlt::Producer *prod = producer();
+    if (!prod || !prod->is_valid()) return;
     AudioStreamInfo *audioInfo = m_controller->audioInfo();
     if (audioInfo == NULL) return;
     QString clipHash = hash();
