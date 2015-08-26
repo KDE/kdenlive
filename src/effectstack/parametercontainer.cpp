@@ -104,6 +104,9 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         m_effect(effect),
         m_needsMonitorEffectScene(false)
 {
+    QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
+
     m_in = info.cropStart.frames(KdenliveSettings::project_fps());
     m_out = (info.cropStart + info.cropDuration).frames(KdenliveSettings::project_fps()) - 1;
 
@@ -153,14 +156,14 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             if (pa.attribute("min").contains('%'))
                 min = EffectsController::getStringEval(m_metaInfo->monitor->profileInfo(), pa.attribute("min"), m_metaInfo->frameSize);
             else
-                min = pa.attribute("min").toDouble();
+                min = locale.toDouble(pa.attribute("min"));
             if (pa.attribute("max").contains('%'))
                 max = EffectsController::getStringEval(m_metaInfo->monitor->profileInfo(), pa.attribute("max"), m_metaInfo->frameSize);
             else
-                max = pa.attribute("max").toDouble();
+                max = locale.toDouble(pa.attribute("max"));
 
-            DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, value.toDouble(), min, max,
-                    pa.attribute("default").toDouble(), comment, -1, pa.attribute("suffix"), pa.attribute("decimals").toInt(), parent);
+            DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, locale.toDouble(value), min, max,
+                    locale.toDouble(pa.attribute("default")), comment, -1, pa.attribute("suffix"), pa.attribute("decimals").toInt(), parent);
 	    doubleparam->setFocusPolicy(Qt::StrongFocus);
             m_vbox->addWidget(doubleparam);
             m_valueItems[paramName] = doubleparam;
@@ -315,9 +318,9 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             curve->setMaxPoints(pa.attribute("max").toInt());
             QList<QPointF> points;
             int number;
-	    if (e.attribute("version").toDouble() > 0.2) {
+	    if (locale.toDouble(e.attribute("version")) > 0.2) {
 		// Rounding gives really weird results. (int) (10 * 0.3) gives 2! So for now, add 0.5 to get correct result
-                number = EffectsList::parameter(e, pa.attribute("number")).toDouble() * 10 + 0.5;
+                number = locale.toDouble(EffectsList::parameter(e, pa.attribute("number"))) * 10 + 0.5;
             } else {
                 number = EffectsList::parameter(e, pa.attribute("number")).toInt();
             }
@@ -329,7 +332,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 in.replace("%i", QString::number(j));
                 QString out = outName;
                 out.replace("%i", QString::number(j));
-                points << QPointF(EffectsList::parameter(e, in).toDouble(), EffectsList::parameter(e, out).toDouble());
+                points << QPointF(locale.toDouble(EffectsList::parameter(e, in)), locale.toDouble(EffectsList::parameter(e, out)));
             }
             if (!points.isEmpty())
                 curve->setCurve(KisCubicCurve(points));
@@ -686,7 +689,7 @@ void ParameterContainer::slotCollectAllParameters()
             QString outName = pa.attribute("outpoints");
             int off = pa.attribute("min").toInt();
             int end = pa.attribute("max").toInt();
-            if (oldparam.attribute("version").toDouble() > 0.2) {
+            if (locale.toDouble(oldparam.attribute("version")) > 0.2) {
                 EffectsList::setParameter(m_effect, number, locale.toString(points.count() / 10.));
             } else {
                 EffectsList::setParameter(m_effect, number, QString::number(points.count()));

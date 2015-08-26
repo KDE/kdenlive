@@ -4,9 +4,9 @@
     <profile name="WebM" extension="webm"
       qualities="15,20,25" defaultquality="20"
       audioqualities="7,5,3" defaultaudioquality="5"
-      args="properties=webm crf=%quality qcomp=1 aq=%audioquality" />
+      args="properties=webm crf=%quality vb=0 qcomp=1 aq=%audioquality" />
     <profile name="WebM (CBR)" extension="webm"
-      bitrates="4000,2000,1000" defaultbitrate="2000"
+      bitrates="8000,4000,2000,1000" defaultbitrate="2000"
       audiobitrates="160,128,96" defaultaudiobitrate="128"
       args="properties=webm vb=%bitrate+'k' pass=%passes ab=%audiobitrate+'k'" />
     <profile name="Theora" extension="ogv"
@@ -32,14 +32,18 @@
     <profile name="H.264/AAC Baseline"
       qualities="20,23,26" defaultquality="23"
       audiobitrates="160,128,96" defaultaudiobitrate="128"
-      args="properties=x264-medium coder=0 bf=0 progressive=1 g=120 crf=%quality ab=%audiobitrate+'k'" />
+      args="properties=x264-medium-baseline g=120 crf=%quality ab=%audiobitrate+'k'" />
     <profile name="H.264/AAC Baseline (CBR)"
       bitrates="2000,1000,700" defaultbitrate="1000"
       audiobitrates="160,128,96" defaultaudiobitrate="128"
-      args="properties=x264-medium coder=0 bf=0 progressive=1 g=120 vb=%bitrate+'k' pass=%passes ab=%audiobitrate+'k'" />
+      args="properties=x264-medium-baseline g=120 vb=%bitrate+'k' pass=%passes ab=%audiobitrate+'k'" />
   </group>
 
   <group name="MP4" extension="mp4" renderer="avformat" type="av">
+    <profile name="H.264/AAC fast"
+      qualities="18,20,25" defaultquality="20"
+      audiobitrates="192,160,128" defaultaudiobitrate="160"
+      args="properties=x264-medium preset=veryfast crf=%quality ab=%audiobitrate+'k'" />
     <profile name="H.264/AAC High Profile"
       qualities="18,20,25" defaultquality="20"
       audiobitrates="192,160,128" defaultaudiobitrate="160"
@@ -63,12 +67,20 @@
   </group>
 
   <group name="MPEG-2" renderer="avformat" extension="mpg" type="av">
-    <profile name="MPEG-2"
+    <profile name="MPEG-2 (fast)"
+      qualities="3,5,8" defaultquality="3"
+      audioqualities="3,5,7" defaultaudioquality="3"
+      args="qscale=%quality aq=%audioquality" />
+    <profile name="MPEG-2 (CBR, fast)"
+      bitrates="16000,8000,4000,2000,1000" defaultbitrate="4000"
+      audiobitrates="192,160,128" defaultaudiobitrate="160"
+      args="vb=%bitrate+'k' ab=%audiobitrate+'k'" />
+    <profile name="MPEG-2 (slower, smaller)"
       qualities="3,5,8" defaultquality="3"
       audioqualities="3,5,7" defaultaudioquality="3"
       args="properties=MPEG-2 qscale=%quality aq=%audioquality" />
-    <profile name="MPEG-2 (CBR)"
-      bitrates="8000,4000,2000,1000" defaultbitrate="4000"
+    <profile name="MPEG-2 (CBR, slower, better)"
+      bitrates="16000,8000,4000,2000,1000" defaultbitrate="4000"
       audiobitrates="192,160,128" defaultaudiobitrate="160"
       args="properties=MPEG-2 vb=%bitrate+'k' pass=%passes ab=%audiobitrate+'k'" />
   </group>
