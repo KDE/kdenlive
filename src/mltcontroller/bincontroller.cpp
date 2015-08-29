@@ -94,7 +94,7 @@ void BinController::initializeBin(Mlt::Playlist playlist, ProfileInfo info)
     m_binPlaylist = new Mlt::Playlist(playlist);
     m_binPlaylist->set("id", kPlaylistTrackId);
     for (int i = 0; i < m_binPlaylist->count(); i++) {
-        QScopedPointer<Mlt::Producer> producer(m_binPlaylist->get_clip(i));
+        Mlt::Producer *producer = m_binPlaylist->get_clip(i);
         if (producer->is_blank() || !producer->is_valid()) continue;
         QString id = producer->parent().get("id");
         if (id.contains("_")) {
@@ -109,6 +109,7 @@ void BinController::initializeBin(Mlt::Playlist playlist, ProfileInfo info)
                 ClipController *controller = new ClipController(this);
                 m_clipList.insert(mainId, controller);
             }
+            delete producer;
         }
         else {
             if (m_clipList.contains(id)) {
