@@ -190,7 +190,7 @@ void RenderJob::start()
         }
     }
     initKdenliveDbusInterface();
-    
+
     // Make sure the destination file is writable
     QFile checkDestination(m_dest);
     if (!checkDestination.open(QIODevice::WriteOnly)) {
@@ -262,7 +262,7 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
         qApp->quit();
     }
     if (m_erase) QFile(m_scenelist).remove();
-    if (status == QProcess::CrashExit || m_renderProcess->error() != QProcess::UnknownError) {
+    if (status == QProcess::CrashExit || m_renderProcess->error() != QProcess::UnknownError || m_renderProcess->exitCode() != 0) {
         // rendering crashed
         if (m_kdenliveinterface) {
             m_dbusargs[1] = (int) - 2;
