@@ -202,7 +202,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                     }
                 }
             }
-            if (success) {
+            else {
                 qDebug()<<" // / processing file open: validate";
                 parent->slotGotProgressInfo(i18n("Validating"), 0);
                 qApp->processEvents();
@@ -1604,6 +1604,7 @@ void KdenliveDoc::updateProjectProfile()
     m_height = m_profile.height;
     m_timecode.setFormat(fps);
     KdenliveSettings::setCurrent_profile(m_profile.path);
+    pCore->monitorManager()->resetProfiles(m_profile, m_timecode);
 }
 
 void KdenliveDoc::resetProfile()

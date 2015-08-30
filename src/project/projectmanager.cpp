@@ -154,7 +154,6 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     bool openBackup;
     m_notesPlugin->clear();
     KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window());
-    pCore->monitorManager()->resetProfiles(doc->mltProfile(), doc->timecode());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     bool ok;
     pCore->bin()->setDocument(doc);
@@ -461,7 +460,6 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     bool ok;
     m_trackView = new Timeline(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
     m_trackView->loadGuides(pCore->binController()->takeGuidesData());
-    pCore->monitorManager()->resetProfiles(doc->mltProfile(), doc->timecode());
 
     m_project = doc;
     pCore->window()->connectDocument();
