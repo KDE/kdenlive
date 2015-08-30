@@ -77,7 +77,6 @@ public:
      * The playlist must be locked / unlocked before and after calling doAdd
      * @return true if success */
     bool doAdd(qreal t, Mlt::Producer *cut, int mode);
-    bool add(qreal t, Mlt::Producer *parent, bool duplicate, int mode = 0);
     bool add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, PlaylistState::ClipState state, bool duplicate, int mode);
     /** @brief Move a clip in the track
      * @param start where clip is present (in seconds);

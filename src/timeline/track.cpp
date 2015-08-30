@@ -72,24 +72,15 @@ void Track::setFps(qreal fps)
 
 // basic clip operations
 
-// TODO: remove this method ?
-bool Track::add(qreal t, Mlt::Producer *parent, bool duplicate, int mode)
-{
-    Mlt::Producer *cut = duplicate ? clipProducer(parent, PlaylistState::Original) :  new Mlt::Producer(parent);
-    m_playlist.lock();
-    bool result = doAdd(t, cut, mode);
-    m_playlist.unlock();
-    delete cut;
-    return result;
-}
-
 bool Track::add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, PlaylistState::ClipState state, bool duplicate, int mode)
 {
-    Mlt::Producer *cut;
+    Mlt::Producer *cut = NULL;
+    if (parent == NULL || !parent->is_valid()) {
+        return false;
+    }
     if (duplicate && state != PlaylistState::VideoOnly) {
-        Mlt::Producer *newProd = clipProducer(parent, state);
+        QScopedPointer<Mlt::Producer> newProd(clipProducer(parent, state));
         cut = newProd->cut(frame(tcut), frame(dtcut) - 1);
-        delete newProd;
     }
     else {
         cut = parent->cut(frame(tcut), frame(dtcut) - 1);
