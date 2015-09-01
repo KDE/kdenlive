@@ -384,19 +384,27 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
     QDomElement documentElement;
     QDomNodeList effects;
     QDomElement base = doc.documentElement();
+    QStringList addedTags;
     effects = doc.elementsByTagName("effect");
-
-    if (effects.count() == 0) {
+    int i = effects.count();
+    if (i == 0) {
         qDebug() << "+++++++++++++\nEffect broken: " << name<<"\n+++++++++++";;
         return;
     }
 
     bool needsLocaleConversion = false;
-    for (int i = 0; !effects.item(i).isNull(); ++i) {
+    i--;
+    for (; i >= 0 ; i--) {
         QLocale locale;
-        documentElement = effects.item(i).toElement();
+        QDomNode n = effects.item(i);
+        if (n.isNull()) continue;
+        documentElement = n.toElement();
         QString tag = documentElement.attribute("tag", QString());
-        
+        QString id = documentElement.hasAttribute("id") ? documentElement.attribute("id") : tag;
+        if (addedTags.contains(id)) {
+            // We already processed a version of that filter
+            continue;
+        }
         //If XML has no description, take it fom MLT's descriptions
         if (effectDescriptions.contains(tag)) {
             QDomNodeList desc = documentElement.elementsByTagName("description");
@@ -443,10 +451,11 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
             version = metadata->get_double("version");
         }
         if (metadata) delete metadata;
+
         if (documentElement.hasAttribute("version")) {
             // a specific version of the filter is required
             if (locale.toDouble(documentElement.attribute("version")) > version) {
-                return;
+                continue;
             }
         }
         if (version > -1) {
@@ -455,7 +464,6 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
             versionNode.appendChild(doc.createTextNode(QLocale().toString(version)));
             documentElement.appendChild(versionNode);
         }
-
         // Parse effect information.
         if (base.tagName() != "effectgroup" && (filtersList.contains(tag) || producersList.contains(tag))) {
             QString type = documentElement.attribute("type", QString());
@@ -466,6 +474,7 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
             }
             else
                 videoEffectList->append(documentElement);
+            addedTags << id;
         }
     }
     if (base.tagName() == "effectgroup") {

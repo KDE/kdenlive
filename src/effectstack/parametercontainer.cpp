@@ -111,8 +111,8 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
     m_out = (info.cropStart + info.cropDuration).frames(KdenliveSettings::project_fps()) - 1;
 
     QDomNodeList namenode = effect.childNodes(); //elementsByTagName("parameter");
-    
     QDomElement e = effect.toElement();
+
     int minFrame = e.attribute("start").toInt();
     int maxFrame = e.attribute("end").toInt();
     // In transitions, maxFrame is in fact one frame after the end of transition
@@ -318,7 +318,12 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             curve->setMaxPoints(pa.attribute("max").toInt());
             QList<QPointF> points;
             int number;
-	    if (locale.toDouble(e.attribute("version")) > 0.2) {
+            double version = 0;
+            QDomElement namenode = effect.firstChildElement("version");
+            if (!namenode.isNull()) {
+                version = locale.toDouble(namenode.text());
+            }
+	    if (version > 0.2) {
 		// Rounding gives really weird results. (int) (10 * 0.3) gives 2! So for now, add 0.5 to get correct result
                 number = locale.toDouble(EffectsList::parameter(e, pa.attribute("number"))) * 10 + 0.5;
             } else {
@@ -334,8 +339,9 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 out.replace("%i", QString::number(j));
                 points << QPointF(locale.toDouble(EffectsList::parameter(e, in)), locale.toDouble(EffectsList::parameter(e, out)));
             }
-            if (!points.isEmpty())
+            if (!points.isEmpty()) {
                 curve->setCurve(KisCubicCurve(points));
+            }
             MySpinBox *spinin = new MySpinBox();
             spinin->setRange(0, 1000);
             MySpinBox *spinout = new MySpinBox();
@@ -689,7 +695,12 @@ void ParameterContainer::slotCollectAllParameters()
             QString outName = pa.attribute("outpoints");
             int off = pa.attribute("min").toInt();
             int end = pa.attribute("max").toInt();
-            if (locale.toDouble(oldparam.attribute("version")) > 0.2) {
+            double version = 0;
+            QDomElement namenode = m_effect.firstChildElement("version");
+            if (!namenode.isNull()) {
+                version = locale.toDouble(namenode.text());
+            }
+            if (version > 0.2) {
                 EffectsList::setParameter(m_effect, number, locale.toString(points.count() / 10.));
             } else {
                 EffectsList::setParameter(m_effect, number, QString::number(points.count()));
