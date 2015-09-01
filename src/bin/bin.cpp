@@ -52,6 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KMessageBox>
 
 #include <QDialogButtonBox>
+#include <QDrag>
 #include <QVBoxLayout>
 #include <QTimeLine>
 #include <QSlider>
@@ -60,6 +61,65 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtConcurrent>
 #include <QUndoCommand>
 
+
+MyTreeView::MyTreeView(QWidget * parent) : QTreeView(parent) {}
+
+void MyTreeView::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        m_startPos = event->pos();
+    }
+    QTreeView::mousePressEvent(event);
+}
+
+void MyTreeView::mouseMoveEvent(QMouseEvent * event) 
+{
+    bool dragged = false;
+    if (event->buttons() & Qt::LeftButton) {
+        int distance = (event->pos() - m_startPos).manhattanLength();
+        if (distance >= QApplication::startDragDistance())
+        dragged = performDrag();
+    }
+    if (!dragged) QTreeView::mouseMoveEvent(event);
+}
+
+bool MyTreeView::performDrag()
+{
+    QModelIndexList bases = selectedIndexes();
+    QModelIndexList indexes;
+    for (int i = 0; i < bases.count(); i++) {
+        if (bases.at(i).column() == 0) {
+            indexes << bases.at(i);
+        }
+    }
+    if (indexes.isEmpty()) return false;
+    QDrag *drag = new QDrag(this);
+    drag->setMimeData(model()->mimeData(indexes));
+    QModelIndex ix = indexes.first();
+    if (ix.isValid()) {
+        QIcon icon = ix.data(AbstractProjectItem::DataThumbnail).value<QIcon>();
+        QPixmap pix = icon.pixmap(iconSize());
+        QSize size = pix.size();
+        QImage image(size, QImage::Format_ARGB32_Premultiplied);
+        image.fill(Qt::transparent);
+        QPainter p(&image);
+        p.setOpacity(0.7);
+        p.drawPixmap(0, 0, pix);
+        p.setOpacity(1);
+        if (indexes.count() > 1) {
+            QPalette palette;
+            int radius = size.height() / 3;
+            p.setBrush(palette.highlight());
+            p.setPen(palette.highlightedText().color());
+            p.drawEllipse(QPoint(size.width() / 2, size.height() / 2), radius, radius);
+            p.drawText(size.width() / 2 - radius, size.height() / 2 - radius, 2 * radius, 2 * radius, Qt::AlignCenter, QString::number(indexes.count()));
+        }
+        p.end();
+        drag->setPixmap(QPixmap::fromImage(image));
+    }
+    drag->exec();
+    return true;
+}
 
 BinMessageWidget::BinMessageWidget(QWidget *parent) : KMessageWidget(parent) {}
 BinMessageWidget::BinMessageWidget(const QString &text, QWidget *parent) : KMessageWidget(text, parent) {}
@@ -985,7 +1045,7 @@ void Bin::slotInitView(QAction *action)
         m_folderUp = new ProjectFolderUp(NULL);
         break;
     default:
-        m_itemView = new QTreeView(m_splitter);
+        m_itemView = new MyTreeView(m_splitter);
         break;
     }
     m_itemView->setMouseTracking(true);

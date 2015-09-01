@@ -60,6 +60,21 @@ namespace Mlt {
   class Producer;
 };
 
+class MyTreeView: public QTreeView
+{
+    Q_OBJECT
+public:
+    explicit MyTreeView(QWidget *parent = 0);
+
+protected:
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent * event);
+
+private:
+    QPoint m_startPos;
+    bool performDrag();
+};
+
 class BinMessageWidget: public KMessageWidget
 {
     Q_OBJECT
