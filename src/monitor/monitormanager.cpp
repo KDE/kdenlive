@@ -56,6 +56,11 @@ void MonitorManager::setDocument(KdenliveDoc *doc)
     m_document = doc;
 }
 
+QAction *MonitorManager::getAction(QString name)
+{
+    return pCore->window()->action(name.toLatin1());
+}
+
 void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor, RecMonitor *recMonitor)
 {
     m_clipMonitor = clipMonitor;
@@ -397,12 +402,12 @@ void MonitorManager::setupActions()
     pCore->window()->addAction("seek_zone_end", zoneEnd);
     connect(zoneEnd, &QAction::triggered, this, &MonitorManager::slotZoneEnd);
 
-    QAction *markIn = new QAction(i18n("Set Zone In"), this);
+    QAction *markIn = new QAction(QIcon::fromTheme("go-first"), i18n("Set Zone In"), this);
     markIn->setShortcut(Qt::Key_I);
-    pCore->window()-> addAction("mark_in", markIn);
+    pCore->window()->addAction("mark_in", markIn);
     connect(markIn, &QAction::triggered, this, &MonitorManager::slotSetInPoint);
 
-    QAction *markOut = new QAction(i18n("Set Zone Out"), this);
+    QAction *markOut = new QAction(QIcon::fromTheme("go-last"), i18n("Set Zone Out"), this);
     markOut->setShortcut(Qt::Key_O);
     pCore->window()-> addAction("mark_out", markOut);
     connect(markOut, &QAction::triggered, this, &MonitorManager::slotSetOutPoint);

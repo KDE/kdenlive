@@ -62,7 +62,8 @@ public:
     void setConsumerProperty(const QString &name, const QString &value);
     BinController *binController();
     Mlt::Profile *profile();
-
+    /** @brief Return a mainwindow action from its id name. */
+    QAction *getAction(QString name);
     Monitor *clipMonitor();
     Monitor *projectMonitor();
 

@@ -130,14 +130,11 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_playIcon = QIcon::fromTheme("media-playback-start");
     m_pauseIcon = QIcon::fromTheme("media-playback-pause");
 
-
     if (id != Kdenlive::DvdMonitor) {
-        m_toolbar->addAction(QIcon::fromTheme("go-first"), i18n("Set zone start"), this, SLOT(slotSetZoneStart()));
-        m_toolbar->addAction(QIcon::fromTheme("go-last"), i18n("Set zone end"), this, SLOT(slotSetZoneEnd()));
+        m_toolbar->addAction(manager->getAction("mark_in"));
+        m_toolbar->addAction(manager->getAction("mark_out"));
     }
-
-    m_toolbar->addAction(QIcon::fromTheme("media-seek-backward"), i18n("Rewind"), this, SLOT(slotRewind()));
-    //m_toolbar->addAction(QIcon::fromTheme("media-skip-backward"), i18n("Rewind 1 frame"), this, SLOT(slotRewindOneFrame()));
+    m_toolbar->addAction(manager->getAction("monitor_seek_backward"));
 
     QToolButton *playButton = new QToolButton(m_toolbar);
     m_playMenu = new QMenu(i18n("Play..."), this);
@@ -150,9 +147,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     playButton->setMenu(m_playMenu);
     playButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_toolbar->addWidget(playButton);
-
-    //m_toolbar->addAction(QIcon::fromTheme("media-skip-forward"), i18n("Forward 1 frame"), this, SLOT(slotForwardOneFrame()));
-    m_toolbar->addAction(QIcon::fromTheme("media-seek-forward"), i18n("Forward"), this, SLOT(slotForward()));
+    m_toolbar->addAction(manager->getAction("monitor_seek_forward"));
 
     playButton->setDefaultAction(m_playAction);
 
