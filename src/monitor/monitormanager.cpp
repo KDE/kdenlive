@@ -296,10 +296,12 @@ Mlt::Profile *MonitorManager::profile()
 
 void MonitorManager::setupActions()
 {
-    QAction * monitorPlay = new QAction(QIcon::fromTheme("media-playback-start"), i18n("Play"), this);
-    monitorPlay->setShortcut(Qt::Key_Space);
-    pCore->window()->addAction("monitor_play", monitorPlay);
-    connect(monitorPlay, &QAction::triggered, this, &MonitorManager::slotPlay);
+    KDualAction *playAction = new KDualAction(i18n("Play"), i18n("Pause"), this);
+    playAction->setInactiveIcon(QIcon::fromTheme("media-playback-start"));
+    playAction->setActiveIcon(QIcon::fromTheme("media-playback-pause"));
+    playAction->setShortcut(Qt::Key_Space);
+    pCore->window()->addAction("monitor_play", playAction);
+    connect(playAction, &QAction::triggered, this, &MonitorManager::slotPlay);
 
     QAction * monitorPause = new QAction(QIcon::fromTheme("media-playback-stop"), i18n("Pause"), this);
     monitorPause->setShortcut(Qt::Key_K);
