@@ -377,6 +377,9 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         } else if (type == "wipe") {
             Wipeval *wpval = new Wipeval;
             wpval->setupUi(toFillin);
+            // Make sure button shows its pressed state even if widget loses focus
+            QColor bg = QPalette().highlight().color();
+            toFillin->setStyleSheet(QString("QPushButton:checked {background-color:rgb(%1,%2,%3);}").arg(bg.red()).arg(bg.green()).arg(bg.blue()));
             wipeInfo w = getWipeInfo(value);
             switch (w.start) {
             case UP:
