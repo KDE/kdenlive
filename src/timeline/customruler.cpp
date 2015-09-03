@@ -308,6 +308,11 @@ void CustomRuler::setPixelPerMark(int rate)
     m_factor = 1.0 / (double) scale * FRAME_SIZE;
     m_scale = 1.0 / (double) scale;
     double fend = m_scale * littleMarkDistance;
+    int textFactor = 1;
+    int timeLabelSize = QWidget::fontMetrics().boundingRect("00:00:00:000").width();
+    if (timeLabelSize > littleMarkDistance) {
+        textFactor = timeLabelSize / littleMarkDistance + 1;
+    }
     if (rate > 8) {
         mediumMarkDistance = (double) FRAME_SIZE * m_timecode.fps() * 60;
         bigMarkDistance = (double) FRAME_SIZE * m_timecode.fps() * 300;
@@ -323,38 +328,44 @@ void CustomRuler::setPixelPerMark(int rate)
     }
     switch (rate) {
     case 0:
-        m_textSpacing = fend;
+        m_textSpacing = fend * textFactor;
         break;
     case 1:
-        m_textSpacing = fend * 5;
+        m_textSpacing = fend * textFactor * 2.0;
         break;
     case 2:
+        m_textSpacing = fend * m_timecode.fps() * (textFactor / 5.0);
+        break;
     case 3:
+        m_textSpacing = fend * m_timecode.fps() * (textFactor / 4.0);
+        break;
     case 4:
-        m_textSpacing = fend * m_timecode.fps();
+        m_textSpacing = fend * m_timecode.fps() * textFactor;
         break;
     case 5:
-        m_textSpacing = fend * m_timecode.fps() * 5;
+        m_textSpacing = fend * m_timecode.fps() * textFactor * 2;
         break;
     case 6:
-        m_textSpacing = fend * m_timecode.fps() * 10;
+        m_textSpacing = fend * m_timecode.fps() * textFactor * 5;
         break;
     case 7:
-        m_textSpacing = fend * m_timecode.fps() * 30;
+        m_textSpacing = fend * m_timecode.fps() * textFactor * 10;
         break;
     case 8:
     case 9:
-        m_textSpacing = fend * m_timecode.fps() * 40;
+        m_textSpacing = fend * m_timecode.fps() * textFactor * 20;
         break;
     case 10:
-        m_textSpacing = fend * m_timecode.fps() * 80;
+        m_textSpacing = fend * m_timecode.fps() * textFactor * 60;
         break;
     case 11:
+        m_textSpacing = fend * m_timecode.fps() * textFactor * 120;
+        break;
     case 12:
-        m_textSpacing = fend * m_timecode.fps() * 400;
+        m_textSpacing = fend * m_timecode.fps() * textFactor * 150;
         break;
     case 13:
-        m_textSpacing = fend * m_timecode.fps() * 800;
+        m_textSpacing = fend * m_timecode.fps() * textFactor * 300;
         break;
     }
     update();
@@ -378,7 +389,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     const int zoneStart = (int)(m_zoneStart * m_factor);
     const int zoneEnd = (int)(m_zoneEnd * m_factor);
     p.fillRect(zoneStart - m_offset, LABEL_SIZE + 2, zoneEnd - zoneStart, MAX_HEIGHT - LABEL_SIZE - 2, palette().color(QPalette::Highlight));
-    
+
     double f, fend;
     const int offsetmax = ((paintRect.right() + m_offset) / FRAME_SIZE + 1) * FRAME_SIZE;
     int offsetmin;
@@ -404,8 +415,11 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     // draw the little marks
     fend = m_scale * littleMarkDistance;
     if (fend > 5) {
-        for (f = offsetmin - m_offset; f < offsetmax - m_offset; f += fend)
-            p.drawLine((int)f, LITTLE_MARK_X, (int)f, MAX_HEIGHT);
+        QLineF l(offsetmin - m_offset, LITTLE_MARK_X, offsetmin - m_offset, MAX_HEIGHT);
+        for (f = offsetmin; f < offsetmax; f += fend) {
+            l.translate(fend, 0);
+            p.drawLine(l);
+        }
     }
 
     offsetmin = (paintRect.left() + m_offset) / mediumMarkDistance;
@@ -413,8 +427,11 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     // draw medium marks
     fend = m_scale * mediumMarkDistance;
     if (fend > 5) {
-        for (f = offsetmin - m_offset - fend; f < offsetmax - m_offset + fend; f += fend)
-            p.drawLine((int)f, MIDDLE_MARK_X, (int)f, MAX_HEIGHT);
+        QLineF l(offsetmin - m_offset - fend, MIDDLE_MARK_X, offsetmin - m_offset - fend, MAX_HEIGHT);
+        for (f = offsetmin - fend; f < offsetmax + fend; f += fend) {
+            l.translate(fend, 0);
+            p.drawLine(l);
+        }
     }
 
     offsetmin = (paintRect.left() + m_offset) / bigMarkDistance;
@@ -422,8 +439,11 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     // draw big marks
     fend = m_scale * bigMarkDistance;
     if (fend > 5) {
-        for (f = offsetmin - m_offset; f < offsetmax - m_offset; f += fend)
-            p.drawLine((int)f, BIG_MARK_X, (int)f, MAX_HEIGHT);
+        QLineF l(offsetmin - m_offset, BIG_MARK_X, offsetmin - m_offset, MAX_HEIGHT);
+        for (f = offsetmin; f < offsetmax; f += fend) {
+            l.translate(fend, 0);
+            p.drawLine(l);
+        }
     }
 
     // draw zone cursors

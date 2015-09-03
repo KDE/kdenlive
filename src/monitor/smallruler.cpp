@@ -276,14 +276,14 @@ void SmallRuler::updatePixmap()
     double f;
     m_smallMarkSteps = m_scale * m_small;
     m_mediumMarkSteps = m_scale * m_medium;
-    QLineF line(0, 1, 0, 4);
+    QLineF line(0, 1, 0, m_rulerHeight / 3);
     if (m_smallMarkSteps > 2) {
         for (f = 0; f < width(); f += m_smallMarkSteps) {
             line.translate(m_smallMarkSteps, 0);
             p.drawLine(line);
         }
     }
-    line.setLine(0, 1, 0, 7);
+    line.setLine(0, 1, 0, m_rulerHeight / 2);
     if (m_mediumMarkSteps > 2 && m_mediumMarkSteps < width() / 2.5) {
         for (f = 0; f < width(); f += m_mediumMarkSteps) {
             line.translate(m_mediumMarkSteps, 0);
