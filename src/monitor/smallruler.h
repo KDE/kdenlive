@@ -31,6 +31,13 @@ class SmallRuler : public QWidget
 {
     Q_OBJECT
 
+    enum controls {
+        CONTROL_NONE,
+        CONTROL_HEAD,
+        CONTROL_IN,
+        CONTROL_OUT
+    };
+
 public:
     explicit SmallRuler(Monitor *manager, Render *render, QWidget *parent = 0);
     void adjustScale(int maximum, int offset);
@@ -45,24 +52,32 @@ public:
 protected:
     void paintEvent(QPaintEvent *e);
     void resizeEvent(QResizeEvent *);
+    void enterEvent(QEvent* event);
+    void leaveEvent(QEvent* event);
     void mousePressEvent(QMouseEvent * event);
     void mouseMoveEvent(QMouseEvent * event);
     void mouseReleaseEvent(QMouseEvent * event);
 
 private:
     int m_cursorFramePosition;
-    double m_scale;
-    int m_medium;
-    int m_small;
     int m_maxval;
     int m_offset;
-    int m_zoneStart;
-    int m_zoneEnd;
-    QList <CommentedTime> m_markers;
-    QPixmap m_pixmap;
     Monitor *m_monitor;
     Render *m_render;
     int m_lastSeekPosition;
+    int m_hoverZone;
+    enum controls m_activeControl;
+    double m_scale;
+    int m_zoneStart;
+    int m_zoneEnd;
+    int m_rulerHeight;
+    double m_smallMarkSteps;
+    double m_mediumMarkSteps;
+    int m_medium;
+    int m_small;
+    QList <CommentedTime> m_markers;
+    QPixmap m_pixmap;
+    void prepareZoneUpdate();
     void updatePixmap();
 
 public slots:

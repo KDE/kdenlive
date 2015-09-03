@@ -43,6 +43,9 @@ SmallRuler::SmallRuler(Monitor *monitor, Render *render, QWidget *parent) :
         ,m_monitor(monitor)
 	,m_render(render)
 	,m_lastSeekPosition(SEEK_INACTIVE)
+        ,m_hoverZone(-1)
+        ,m_activeControl(CONTROL_NONE)
+        ,m_scale(1)
 {
     QFontMetricsF fontMetrics(font());
     // Define size variables
@@ -50,7 +53,8 @@ SmallRuler::SmallRuler(Monitor *monitor, Render *render, QWidget *parent) :
     m_zoneStart = 10;
     m_zoneEnd = 60;
     setMouseTracking(true);
-    setMinimumHeight(QFontInfo(font()).pixelSize());
+    m_rulerHeight = QFontInfo(font()).pixelSize();
+    setMinimumHeight(m_rulerHeight * 1.5 + 3);
     adjustScale(m_maxval, m_offset);
 }
 
@@ -124,29 +128,47 @@ QPoint SmallRuler::zone() const
 }
 
 // virtual
-void SmallRuler::mousePressEvent(QMouseEvent * event)
+void SmallRuler::mousePressEvent(QMouseEvent* event)
 {
     m_render->setActiveMonitor();
-    const int pos = event->x() / m_scale + m_offset;
-    if (event->button() == Qt::RightButton) {
-        // Right button clicked, move selection zone
-        if (qAbs(pos - m_zoneStart) < qAbs(pos - m_zoneEnd)) m_zoneStart = pos;
-        else m_zoneEnd = pos;
-        emit zoneChanged(QPoint(m_zoneStart, m_zoneEnd));
-        updatePixmap();
-
-    } else if (pos != m_lastSeekPosition && pos != m_cursorFramePosition) {
-	m_render->seekToFrame(pos);
-	m_lastSeekPosition = pos;
-	update();
+    if (event->y() <= m_rulerHeight) {
+        const int framePosition = event->x() / m_scale + m_offset;
+        if (framePosition != m_lastSeekPosition && framePosition != m_cursorFramePosition) {
+            m_render->seekToFrame(framePosition);
+            m_lastSeekPosition = framePosition;
+            m_activeControl = CONTROL_HEAD;
+        }
     }
+    else if (m_hoverZone != -1) {
+        if (m_hoverZone == m_zoneStart)
+            m_activeControl = CONTROL_IN;
+        else if (m_hoverZone == m_zoneEnd)
+            m_activeControl = CONTROL_OUT;
+    }
+    else m_activeControl = CONTROL_NONE;
     event->accept();
+    update();
 }
+
 
 // virtual
 void SmallRuler::mouseReleaseEvent(QMouseEvent * event)
 {
     event->accept();
+    if (m_activeControl == CONTROL_IN || m_activeControl == CONTROL_OUT) {
+        prepareZoneUpdate();
+    }
+}
+
+void SmallRuler::prepareZoneUpdate()
+{
+    if (m_zoneEnd < m_zoneStart) {
+        int end = m_zoneEnd;
+        m_zoneEnd = m_zoneStart;
+        m_zoneStart = end;
+        update();
+    }
+    emit zoneChanged(QPoint(m_zoneStart, m_zoneEnd));
 }
 
 // virtual
@@ -154,18 +176,48 @@ void SmallRuler::mouseMoveEvent(QMouseEvent * event)
 {
     const int pos = event->x() / m_scale + m_offset;
     if (event->buttons() & Qt::LeftButton) {
-	if (pos != m_lastSeekPosition && pos != m_cursorFramePosition) {
+        if (m_activeControl == CONTROL_NONE) return;
+        if (m_activeControl == CONTROL_IN) {
+            m_zoneStart = pos;
+            m_render->seekToFrame(pos);
+            m_lastSeekPosition = pos;
+        }
+        else if (m_activeControl == CONTROL_OUT) {
+            m_zoneEnd = pos;
+            m_render->seekToFrame(pos);
+            m_lastSeekPosition = pos;
+        }
+	else if (pos != m_lastSeekPosition && pos != m_cursorFramePosition) {
 	    m_render->seekToFrame(pos);
 	    m_lastSeekPosition = pos;
-	    update();
 	}
+	update();
     }
     else {
-        if (qAbs((pos - m_zoneStart) * m_scale) < 4) {
-            setToolTip(i18n("Zone start: %1", m_monitor->getTimecodeFromFrames(m_zoneStart)));
-        } else if (qAbs((pos - m_zoneEnd) * m_scale) < 4) {
-            setToolTip(i18n("Zone end: %1", m_monitor->getTimecodeFromFrames(m_zoneEnd)));
-        } 
+      if (m_zoneStart != m_zoneEnd && event->y() > m_rulerHeight && event->y() < height()) {
+            int hoverZone = -1;
+            if (qAbs((pos - m_zoneStart) * m_scale) < 6) {
+                hoverZone = m_zoneStart;
+                setToolTip(i18n("Zone start: %1", m_monitor->getTimecodeFromFrames(m_zoneStart)));
+            }
+            else if (qAbs((pos - m_zoneEnd) * m_scale) < 6) {
+                hoverZone = m_zoneEnd;
+                setToolTip(i18n("Zone end: %1", m_monitor->getTimecodeFromFrames(m_zoneEnd)));
+            }
+            if (m_hoverZone != hoverZone) {
+                setCursor(hoverZone == -1 ? Qt::ArrowCursor : Qt::PointingHandCursor);
+                m_hoverZone = hoverZone;
+                update();
+            }
+            return;
+        }
+        else {
+            if (m_hoverZone != -1) {
+                setCursor(Qt::ArrowCursor);
+                m_hoverZone = -1;
+                update();
+            }
+        }
 	for (int i = 0; i < m_markers.count(); ++i) {
 	    if (qAbs((pos - m_markers.at(i).time().frames(m_monitor->fps())) * m_scale) < 4) {
 		// We are on a marker
@@ -213,37 +265,29 @@ void SmallRuler::resizeEvent(QResizeEvent *)
 void SmallRuler::updatePixmap()
 {
     m_pixmap = QPixmap(width(), height());
-    m_pixmap.fill(palette().window().color());
     m_lastSeekPosition = SEEK_INACTIVE;
+    m_pixmap.fill(Qt::transparent);//palette().alternateBase().color());
     QPainter p(&m_pixmap);
-    double f, fend;
-
-    const int zoneStart = (int)((m_zoneStart -m_offset)* m_scale);
-    const int zoneEnd = (int)((m_zoneEnd -m_offset) * m_scale);
-    p.fillRect(zoneStart, 0, zoneEnd - zoneStart, height(), palette().brush(QPalette::Highlight));
-
-    // draw ruler
-    p.setPen(palette().midlight().color());
-    //p.drawLine(0, 0, width(), 0);
-    p.drawLine(0, height() - 1, width(), height() - 1);
+    p.fillRect(0, 0, width(), m_rulerHeight, palette().midlight().color());
+    p.setPen(palette().mid().color());
+    p.drawLine(0, m_rulerHeight - 1, width(), m_rulerHeight - 1);
     p.setPen(palette().dark().color());
-    // draw the little marks
-    fend = m_scale * m_small;
-    if (fend > 2) for (f = 0; f < width(); f += fend) {
-        p.drawLine((int)f, 0, (int)f, 3);
+    p.drawLine(0, 0, width(), 0);
+    double f;
+    m_smallMarkSteps = m_scale * m_small;
+    m_mediumMarkSteps = m_scale * m_medium;
+    QLineF line(0, 1, 0, 4);
+    if (m_smallMarkSteps > 2) {
+        for (f = 0; f < width(); f += m_smallMarkSteps) {
+            line.translate(m_smallMarkSteps, 0);
+            p.drawLine(line);
+        }
     }
-
-    // draw medium marks
-    fend = m_scale * m_medium;
-    if (fend > 2) for (f = 0; f < width(); f += fend) {
-	p.drawLine((int)f, 0, (int)f, 6);
-    }
-    // draw markers
-    if (!m_markers.isEmpty()) {
-        for (int i = 0; i < m_markers.count(); ++i) {
-	    int pos = (m_markers.at(i).time().frames(m_monitor->fps()) - m_offset) * m_scale;
-	    p.setPen(CommentedTime::markerColor(m_markers.at(i).markerType()));
-            p.drawLine(pos, 0, pos, height());
+    line.setLine(0, 1, 0, 7);
+    if (m_mediumMarkSteps > 2 && m_mediumMarkSteps < width() / 2.5) {
+        for (f = 0; f < width(); f += m_mediumMarkSteps) {
+            line.translate(m_mediumMarkSteps, 0);
+            p.drawLine(line);
         }
     }
     p.end();
@@ -251,29 +295,80 @@ void SmallRuler::updatePixmap()
 }
 
 // virtual
-void SmallRuler::paintEvent(QPaintEvent *e)
+void SmallRuler::paintEvent(QPaintEvent* event)
 {
-
     QPainter p(this);
-    QRect r = e->rect();
-    p.setClipRect(r);
+    p.setClipRect(event->rect());
     p.drawPixmap(QPointF(), m_pixmap);
-    p.setPen(palette().shadow().color());
-    //p.setRenderHint(QPainter::Antialiasing, true);
-    //p.drawRoundedRect(rect().adjusted(1,1,-2,-2), 3, 3);
-
+    QPolygon pointer(3);
     int cursorPos = (m_cursorFramePosition - m_offset) * m_scale;
-    // draw pointer
-    QPolygon pa(3);
-    pa.setPoints(3, cursorPos - FONT_WIDTH, height() - 1, cursorPos + FONT_WIDTH, height() - 1, cursorPos/*+0*/, height() / 2);
-    p.setBrush(palette().brush(QPalette::Text));
+    pointer.setPoints(3,
+                      cursorPos - FONT_WIDTH, m_rulerHeight,
+                      cursorPos + FONT_WIDTH, m_rulerHeight,
+                      cursorPos , FONT_WIDTH);
+    p.setBrush(palette().text().color());
+    // Draw zone
+    if (m_zoneStart != m_zoneEnd) {
+        QPen pen;
+        pen.setBrush(palette().dark());
+        pen.setWidth(2);
+        QPen activePen;
+        QColor select = palette().highlight().color();
+        select.setAlpha(100);
+        activePen.setBrush(palette().highlight());
+        activePen.setWidth(2);
+        p.setPen(pen);
+        const int zoneStart = (int)((m_zoneStart -m_offset)* m_scale);
+        const int zoneEnd = (int)((m_zoneEnd -m_offset) * m_scale);
+        p.fillRect(zoneStart, 1, zoneEnd - zoneStart, m_rulerHeight, select);
+        if (QWidget::underMouse()) {
+            QRectF rect(0, 0, m_rulerHeight / 2, m_rulerHeight / 2);
+            QLineF line;
+            line.setLine(zoneStart, 1, zoneStart, m_rulerHeight + 1);
+            if (m_hoverZone == m_zoneStart || m_activeControl == CONTROL_IN)
+                p.setPen(activePen);
+            p.drawLine(line);
+            rect.moveTo(zoneStart - m_rulerHeight / 4, m_rulerHeight + 2);
+            p.drawArc(rect, 0, 5760);
+            p.setPen(m_hoverZone == m_zoneEnd || m_activeControl == CONTROL_OUT ? activePen : pen);
+            line.translate(zoneEnd - zoneStart, 0);
+            p.drawLine(line);
+            rect.moveTo(zoneEnd - m_rulerHeight / 4, m_rulerHeight + 2);
+            p.drawArc(rect, 0, 5760);
+        }
+    }
+    p.setRenderHint(QPainter::Antialiasing);
     p.setPen(Qt::NoPen);
-    p.drawPolygon(pa);
+    p.drawPolygon(pointer);
 
     // Draw seeking pointer
     if (m_lastSeekPosition != SEEK_INACTIVE && m_lastSeekPosition != m_cursorFramePosition) {
-	p.fillRect((m_lastSeekPosition - m_offset) * m_scale - 1, 0, 3, height(), palette().linkVisited());
+        p.fillRect((m_lastSeekPosition - m_offset) * m_scale - 1, 0, 3, m_rulerHeight, palette().linkVisited());
     }
+}
+
+void SmallRuler::enterEvent(QEvent* event)
+{
+    event->accept();
+    update();
+}
+
+void SmallRuler::leaveEvent(QEvent* event)
+{
+    event->accept();
+    if (m_activeControl == CONTROL_IN) {
+        m_zoneStart = qMax(0, m_zoneStart);
+    }
+    if (m_activeControl == CONTROL_OUT) {
+        m_zoneStart = qMin(m_maxval, m_zoneStart);
+    }
+    if (m_activeControl == CONTROL_IN || m_activeControl == CONTROL_OUT) {
+        prepareZoneUpdate();
+        setCursor(Qt::ArrowCursor);
+    }
+    m_hoverZone = -1;
+    m_activeControl = CONTROL_NONE;
+    update();
 }
 
 void SmallRuler::updatePalette()
