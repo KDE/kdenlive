@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "dialogs/profilesdialog.h"
 
 #include <KLocalizedString>
+#include <KIO/Global>
 
 #include <QUrl>
 #include <QDebug>
@@ -576,7 +577,7 @@ void ClipPropertiesController::fillProperties(QTreeWidget *tree)
     m_clipProperties.clear();
     QList <QStringList> propertyMap;
     // Get the video_index
-    if (m_type == AV || m_type == Video) {
+    if (m_type == AV || m_type == Video || m_type == Audio) {
         int vindex = m_controller->int_property("video_index");
         int video_max = 0;
         int default_audio = m_controller->int_property("audio_index");
@@ -608,7 +609,7 @@ void ClipPropertiesController::fillProperties(QTreeWidget *tree)
             int width = m_controller->int_property("meta.media.width");
             int height = m_controller->int_property("meta.media.height");
             propertyMap.append(QStringList() << i18n("Frame size") << QString::number(width) + "x" + QString::number(height));
-            
+
             snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
             double fps = m_controller->double_property(property);
             if (fps > 0) {
@@ -621,17 +622,29 @@ void ClipPropertiesController::fillProperties(QTreeWidget *tree)
                 }
             }
 
+            snprintf(property, sizeof(property), "meta.media.%d.codec.bit_rate", vindex);
+            int bitrate = m_controller->int_property(property);
+            if (bitrate > 0) {
+                propertyMap.append(QStringList() << i18n("Video bitrate") << KIO::convertSize(bitrate) + "/" + i18nc("seconds", "s"));
+            }
+
             int scan = m_controller->int_property("meta.media.progressive");
             propertyMap.append(QStringList() << i18n("Scanning") << (scan == 1 ? i18n("Progressive") : i18n("Interlaced")));
             snprintf(property, sizeof(property), "meta.media.%d.codec.sample_aspect_ratio", vindex);
             double par = m_controller->double_property(property);
+            if (par == 0) {
+                // Read media aspect ratio
+                par = m_controller->double_property("aspect_ratio");
+            }
             propertyMap.append(QStringList() << i18n("Pixel aspect ratio") << QString::number(par, 'g', 3));
             propertyMap.append(QStringList() << i18n("Pixel format") << m_controller->videoCodecProperty("pix_fmt"));
             int colorspace = m_controller->videoCodecProperty("colorspace").toInt();
             propertyMap.append(QStringList() << i18n("Colorspace") << ProfilesDialog::getColorspaceDescription(colorspace));
-            
+        }
+        if (default_audio > -1) {
+            char property[200];
             snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", default_audio);
-            codec = m_controller->property(property);
+            QString codec = m_controller->property(property);
             if (!codec.isEmpty()) {
                 propertyMap.append(QStringList() << i18n("Audio codec") << codec);
             }
@@ -642,9 +655,15 @@ void ClipPropertiesController::fillProperties(QTreeWidget *tree)
             snprintf(property, sizeof(property), "meta.media.%d.codec.sample_rate", default_audio);
             int srate = m_controller->int_property(property);
             propertyMap.append(QStringList() << i18n("Audio frequency") << QString::number(srate));
+
+            snprintf(property, sizeof(property), "meta.media.%d.codec.bit_rate", default_audio);
+            int bitrate = m_controller->int_property(property);
+            if (bitrate > 0) {
+                propertyMap.append(QStringList() << i18n("Audio bitrate") << KIO::convertSize(bitrate) + "/" + i18nc("seconds", "s"));
+            }
         }
     }
-    
+
     for (int i = 0; i < propertyMap.count(); i++) {
         new QTreeWidgetItem(tree, propertyMap.at(i));
     }
