@@ -123,7 +123,7 @@ void ClipController::getProducerXML(QDomDocument& document)
 
 void ClipController::getInfoForProducer()
 {
-    date = QFileInfo(m_properties->get("resource")).created();
+    date = QFileInfo(m_url.path()).lastModified();
     m_audioIndex = int_property("audio_index");
     m_videoIndex = int_property("video_index");
     if (m_service == "avformat" || m_service == "avformat-novalidate") {
