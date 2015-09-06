@@ -67,6 +67,7 @@ GLWidget::GLWidget(QObject *parent)
     , m_frameRenderer(0)
     , m_zoom(1.0f)
     , m_offset(QPoint(0, 0))
+    , m_shareContext(0)
     , m_audioWaveDisplayed(false)
     , m_fbo(NULL)
 {
@@ -112,8 +113,9 @@ GLWidget::~GLWidget()
         QMetaObject::invokeMethod(m_frameRenderer, "cleanup");
         m_frameRenderer->quit();
         m_frameRenderer->wait();
-        delete m_frameRenderer;
+        m_frameRenderer->deleteLater();
     }
+    delete m_shareContext;
     delete m_shader;
 }
 
@@ -142,6 +144,16 @@ void GLWidget::initializeGL()
 #endif
 
     openglContext()->doneCurrent();
+    if (m_glslManager) {
+        // Create a context sharing with this context for the RenderThread context.
+        // This is needed because openglContext() is active in another thread
+        // at the time that RenderThread is created.
+        // See this Qt bug for more info: https://bugreports.qt.io/browse/QTBUG-44677
+        m_shareContext = new QOpenGLContext;
+        m_shareContext->setFormat(openglContext()->format());
+        m_shareContext->setShareContext(openglContext());
+        m_shareContext->create();
+    }
     m_frameRenderer = new FrameRenderer(openglContext(), &m_offscreenSurface);
     openglContext()->makeCurrent(this);
     //openglContext()->blockSignals(false);
@@ -481,7 +493,7 @@ void GLWidget::createThread(RenderThread **thread, thread_function_t function, v
         m_initSem.acquire();
     }
 #endif
-    (*thread) = new RenderThread(function, data, m_glslManager? openglContext() : 0, &m_offscreenSurface);
+    (*thread) = new RenderThread(function, data, m_shareContext, &m_offscreenSurface);
     (*thread)->start();
 }
 

@@ -151,6 +151,7 @@ private:
     float m_zoom;
     QPoint m_offset;
     QOffscreenSurface m_offscreenSurface;
+    QOpenGLContext* m_shareContext;
     bool m_audioWaveDisplayed;
     static void on_frame_show(mlt_consumer, void* self, mlt_frame frame);
     static void on_gl_frame_show(mlt_consumer, void* self, mlt_frame frame_ptr);
