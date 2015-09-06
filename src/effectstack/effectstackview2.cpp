@@ -654,8 +654,9 @@ CollapsibleEffect *EffectStackView2::getEffectByIndex(int ix)
 
 void EffectStackView2::slotUpdateEffectParams(const QDomElement &old, const QDomElement &e, int ix)
 {
-    if (m_status == TIMELINE_TRACK)
+    if (m_status == TIMELINE_TRACK) {
         emit updateEffect(NULL, m_trackindex, old, e, ix,false);
+    }
     else if (m_status == TIMELINE_CLIP && m_clipref) {
         emit updateEffect(m_clipref, -1, old, e, ix, false);
         // Make sure the changed effect is currently displayed

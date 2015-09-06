@@ -4,7 +4,22 @@ set(QT_USE_QTSCRIPT 1)
 set(QT_USE_QTSVG 1)
 set(QT_USE_QTXML 1)
 
-find_package(OpenGL REQUIRED)
+add_definitions(${Qt5Gui_DEFINITIONS})
+if(${Qt5Gui_OPENGL_IMPLEMENTATION} STREQUAL "GL")
+  find_package(OpenGL REQUIRED)
+  set_package_properties(OpenGL PROPERTIES
+    DESCRIPTION "the OpenGL library"
+                URL ""
+                TYPE RUNTIME
+                PURPOSE "")
+else()
+  find_package(OpenGLES REQUIRED)
+  set_package_properties(OpenGLES PROPERTIES
+    DESCRIPTION "the OpenGLES library"
+                URL ""
+                TYPE RUNTIME
+                PURPOSE "")
+endif()
 
 option(WITH_JogShuttle "Build Jog/Shuttle support" ON)
 
@@ -230,6 +245,7 @@ target_link_libraries(kdenlive
   ${Qt5_LIBRARIES}
   Qt5::Svg
   ${OPENGL_LIBRARIES}
+  ${OPENGLES_LIBRARIES}
   ${MLT_LIBRARIES}
   ${MLTPP_LIBRARIES}
   ${CMAKE_DL_LIBS}

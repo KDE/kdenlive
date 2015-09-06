@@ -790,7 +790,7 @@ int Timeline::addTrack(int ix, Mlt::Playlist &playlist) {
         int strobe = 1;
         if (idString.endsWith("_video")) {
             // Video only producer, store it in BinController
-            m_doc->renderer()->loadExtraProducer(idString, &clip->parent());
+            m_doc->renderer()->loadExtraProducer(idString, new Mlt::Producer(clip->parent()));
         }
         if (idString.startsWith(QLatin1String("slowmotion"))) {
             QLocale locale;
@@ -800,7 +800,7 @@ int Timeline::addTrack(int ix, Mlt::Playlist &playlist) {
             strobe = idString.section(':', 3, 3).toInt();
             if (strobe == 0) strobe = 1;
 	    // Slowmotion producer, store it for reuse
-            m_doc->renderer()->storeSlowmotionProducer(idString, &clip->parent());
+            m_doc->renderer()->storeSlowmotionProducer(idString, new Mlt::Producer(clip->parent()));
         }
         id = id.section('_', 0, 0);
 	int length = out - in + 1;

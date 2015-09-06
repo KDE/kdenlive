@@ -137,7 +137,7 @@ void RecManager::slotRecord(bool record)
     if (m_device_selector->currentData().toInt() == Video4Linux) {
 	if (record) {
 	    QDir captureFolder;
-	    if (KdenliveSettings::capturetoprojectfolder()) captureFolder = QDir(m_monitor->projectFolder());
+ 	    if (KdenliveSettings::capturetoprojectfolder()) captureFolder = QDir(m_monitor->projectFolder());
 	    else captureFolder = QDir(KdenliveSettings::capturefolder());
 	    QString extension;
 	    if (!m_recVideo->isChecked()) extension = "wav";
@@ -217,12 +217,15 @@ void RecManager::slotRecord(bool record)
     connect(m_captureProcess, &QProcess::readyReadStandardError, this, &RecManager::slotReadProcessInfo);
 
     QString extension = KdenliveSettings::grab_extension();
-    QString capturePath = KdenliveSettings::capturefolder();
-    QString path = QUrl(capturePath).path() + QDir::separator() + "capture0000." + extension;
+    QDir captureFolder;
+    if (KdenliveSettings::capturetoprojectfolder()) captureFolder = QDir(m_monitor->projectFolder());
+    else captureFolder = QDir(KdenliveSettings::capturefolder());
+
+    QString path = captureFolder.absoluteFilePath("capture0000." + extension);
     int i = 1;
     while (QFile::exists(path)) {
         QString num = QString::number(i).rightJustified(4, '0', false);
-        path = QUrl(capturePath).path() + QDir::separator() + "capture" + num + '.' + extension;
+        path = captureFolder.absoluteFilePath("capture" + num + '.' + extension);
         ++i;
     }
     m_captureFile = QUrl(path);

@@ -3134,8 +3134,7 @@ void CustomTrackView::lockTrack(int ix, bool lock, bool requestUpdate)
     if (requestUpdate)
         emit doTrackLock(ix, lock);
     AbstractClipItem *clip = NULL;
-    QList<QGraphicsItem *> selection = m_scene->items(QRectF(0, (m_timeline->tracksCount() - ix) * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), m_tracksHeight / 2 - 2));
-
+    QList<QGraphicsItem *> selection = m_scene->items(QRectF(0, ix * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), m_tracksHeight / 2 - 2));
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == GroupWidget && static_cast<AbstractGroupItem*>(selection.at(i)) != m_selectionGroup) {
             if (selection.at(i)->parentItem() && m_selectionGroup) {
@@ -3612,7 +3611,7 @@ void CustomTrackView::completeSpaceOperation(int track, GenTime &timeOffset)
   resetSelectionGroup();
   for (int i = 0; i < groups.count(); ++i) 
   {
-    rebuildGroup(groups.at(i));
+      rebuildGroup(groups.at(i));
   }
 
   clearSelection();
@@ -4374,11 +4373,15 @@ void CustomTrackView::groupClips(bool group, QList<QGraphicsItem *> itemList, QU
     if (itemList.isEmpty()) itemList = scene()->selectedItems();
     QList <ItemInfo> clipInfos;
     QList <ItemInfo> transitionInfos;
+    QList<QGraphicsItem *> existingGroups;
 
     // Expand groups
     int max = itemList.count();
     for (int i = 0; i < max; ++i) {
         if (itemList.at(i)->type() == GroupWidget) {
+            if (!existingGroups.contains(itemList.at(i))) {
+                existingGroups << itemList.at(i);
+            }
             itemList += itemList.at(i)->childItems();
         }
     }
@@ -4393,11 +4396,47 @@ void CustomTrackView::groupClips(bool group, QList<QGraphicsItem *> itemList, QU
         }
     }
     if (clipInfos.count() > 0) {
+        // break previous groups
+        QUndoCommand *metaCommand = NULL;
+        if (group && !command && !existingGroups.isEmpty()) {
+            metaCommand = new QUndoCommand();
+            metaCommand->setText(i18n("Group clips"));
+        }
+        for (int i = 0; group && i < existingGroups.count(); ++i) {
+            AbstractGroupItem *grp = static_cast <AbstractGroupItem *>(existingGroups.at(i));
+            QList <ItemInfo> clipGrpInfos;
+            QList <ItemInfo> transitionGrpInfos;
+            QList <QGraphicsItem *> items = grp->childItems();
+            for (int j = 0; j < items.count(); ++j) {
+                if (items.at(j)->type() == AVWidget) {
+                    AbstractClipItem *clip = static_cast <AbstractClipItem *>(items.at(j));
+                    if (!clip->isItemLocked()) clipGrpInfos.append(clip->info());
+                } else if (items.at(j)->type() == TransitionWidget) {
+                    AbstractClipItem *clip = static_cast <AbstractClipItem *>(items.at(j));
+                    if (!clip->isItemLocked()) transitionGrpInfos.append(clip->info());
+                }
+            }
+            if (!clipGrpInfos.isEmpty() || !transitionGrpInfos.isEmpty()) {
+                if (command) {
+                    new GroupClipsCommand(this, clipGrpInfos, transitionGrpInfos, false, command);
+                }
+                else {
+                    new GroupClipsCommand(this, clipGrpInfos, transitionGrpInfos, false, metaCommand);
+                }
+            }
+        }
         if (command) {
+            // Create new group
             new GroupClipsCommand(this, clipInfos, transitionInfos, group, command);
         } else {
-            GroupClipsCommand *command = new GroupClipsCommand(this, clipInfos, transitionInfos, group);
-            m_commandStack->push(command);
+            if (metaCommand) {
+                new GroupClipsCommand(this, clipInfos, transitionInfos, group, metaCommand);
+                m_commandStack->push(metaCommand);
+            }
+            else {
+                GroupClipsCommand *command = new GroupClipsCommand(this, clipInfos, transitionInfos, group);
+                m_commandStack->push(command);
+            }
         }
     }
 }
@@ -6223,13 +6262,54 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
     // Clear effect stack
     clearSelection();
     emit transitionItemSelected(NULL);
-    
+
     double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;
     QRectF r(0, startY, sceneRect().width(), m_tracksHeight / 2 - 1);
     QList<QGraphicsItem *> selection = m_scene->items(r);
     QUndoCommand *deleteTrack = new QUndoCommand();
     deleteTrack->setText("Delete track");
     new RefreshMonitorCommand(this, false, true, deleteTrack);
+    
+    // Remove clips on that track from groups
+    QList<QGraphicsItem *> groupsToProceed;
+    for (int i = 0; i < selection.count(); ++i) {
+        if (selection.at(i)->type() == GroupWidget) {
+            if (!groupsToProceed.contains(selection.at(i))) {
+                groupsToProceed << selection.at(i);
+            }
+        }
+    }
+    for (int i = 0; i < groupsToProceed.count(); i++) {
+        AbstractGroupItem *grp = static_cast<AbstractGroupItem *>(groupsToProceed.at(i));
+        QList <QGraphicsItem *> items = grp->childItems();
+        QList <ItemInfo> clipGrpInfos;
+        QList <ItemInfo> transitionGrpInfos;
+        QList <ItemInfo> newClipGrpInfos;
+        QList <ItemInfo> newTransitionGrpInfos;
+        for (int j = 0; j < items.count(); ++j) {
+            if (items.at(j)->type() == AVWidget) {
+                AbstractClipItem *clip = static_cast <AbstractClipItem *>(items.at(j));
+                clipGrpInfos.append(clip->info());
+                if (clip->track() != ix) {
+                    newClipGrpInfos.append(clip->info());
+                }
+            } else if (items.at(j)->type() == TransitionWidget) {
+                AbstractClipItem *clip = static_cast <AbstractClipItem *>(items.at(j));
+                transitionGrpInfos.append(clip->info());
+                if (clip->track() != ix) {
+                    newTransitionGrpInfos.append(clip->info());
+                }
+            }
+        }
+        if (!clipGrpInfos.isEmpty() || !transitionGrpInfos.isEmpty()) {
+            // Break group
+            new GroupClipsCommand(this, clipGrpInfos, transitionGrpInfos, false, deleteTrack);
+            // Rebuild group without clips from track to delete
+            if (!newClipGrpInfos.isEmpty() || !newTransitionGrpInfos.isEmpty()) {
+                new GroupClipsCommand(this, newClipGrpInfos, newTransitionGrpInfos, true, deleteTrack);
+            }
+            }
+    }
 
     // Delete all clips in selected track
     for (int i = 0; i < selection.count(); ++i) {
@@ -7082,7 +7162,6 @@ bool CustomTrackView::hasAudio(int track) const
 
 void CustomTrackView::slotAddTrackEffect(const QDomElement &effect, int ix)
 {
-    
     QUndoCommand *effectCommand = new QUndoCommand();
     QString effectName;
     if (effect.tagName() == "effectgroup") {
@@ -7118,10 +7197,6 @@ void CustomTrackView::slotAddTrackEffect(const QDomElement &effect, int ix)
     }
     else delete effectCommand;
 }
-
-
-
-
 
 void CustomTrackView::updateTrackNames(int track, bool added)
 {

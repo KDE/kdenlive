@@ -252,7 +252,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
 bool ProjectManager::saveFileAs()
 {
     QFileDialog fd(pCore->window());
-    fd.setDirectory(m_project->url().isValid() ? m_project->url().path() : m_project->projectFolder().path());
+    fd.setDirectory(m_project->url().isValid() ? m_project->url().adjusted(QUrl::RemoveFilename).path() : m_project->projectFolder().path());
     fd.setMimeTypeFilters(QStringList()<<"application/x-kdenlive");
     fd.setAcceptMode(QFileDialog::AcceptSave);
     fd.setFileMode(QFileDialog::AnyFile);

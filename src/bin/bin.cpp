@@ -221,6 +221,21 @@ void SmallJobLabel::slotSetJobCount(int jobCount)
     }
 }
 
+LineEventEater::LineEventEater(QObject *parent) : QObject(parent)
+{
+}
+
+bool LineEventEater::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::ShortcutOverride) {
+        if (((QKeyEvent*)event)->key() == Qt::Key_Escape) {
+            emit clearSearchLine();
+        }
+        return QObject::eventFilter(obj, event);
+    }
+    return QObject::eventFilter(obj, event);
+}
+
 EventEater::EventEater(QObject *parent) : QObject(parent)
 {
 }
@@ -288,6 +303,10 @@ Bin::Bin(QWidget* parent) :
     searchLine->setClearButtonEnabled(true);
     searchLine->setFocusPolicy(Qt::ClickFocus);
     connect(searchLine, SIGNAL(textChanged(const QString &)), m_proxyModel, SLOT(slotSetSearchString(const QString &)));
+
+    LineEventEater *leventEater = new LineEventEater(this);
+    searchLine->installEventFilter(leventEater);
+    connect(leventEater, SIGNAL(clearSearchLine()), searchLine, SLOT(clear()));
     m_toolbar->addWidget(searchLine);
 
     // Hack, create toolbar spacer

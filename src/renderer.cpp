@@ -2434,7 +2434,7 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
     if (position < GenTime()) {
         return mltEditTrackEffect(track, params);
     }
-    
+
     // find filter
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
@@ -2509,7 +2509,7 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
     for (int j = 0; j < params.count(); ++j) {
         filter->set(params.at(j).name().toUtf8().constData(), params.at(j).value().toUtf8().constData());
     }
-    
+
     for (int j = 0; j < filtersList.count(); ++j) {
         clip->attach(*(filtersList.at(j)));
     }

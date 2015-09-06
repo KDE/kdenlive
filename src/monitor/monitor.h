@@ -142,8 +142,6 @@ private:
     bool m_dragStarted;
     //TODO: Move capture stuff in own class
     RecManager *m_recManager;
-    QIcon m_playIcon;
-    QIcon m_pauseIcon;
     /** @brief The widget showing current time position **/
     TimecodeDisplay *m_timePos;
     KDualAction *m_playAction;

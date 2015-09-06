@@ -119,7 +119,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     // Tool bar buttons
     m_toolbar = new QToolBar(this);
     m_toolbar->setIconSize(QSize(s, s));
-
+    QWidget *sp1 = new QWidget(this);
+    sp1->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+    m_toolbar->addWidget(sp1);
     if (id == Kdenlive::ClipMonitor) {
         // Add options for recording
         m_recManager = new RecManager(s, this);
@@ -127,43 +129,26 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         connect(m_recManager, &RecManager::addClipToProject, this, &Monitor::addClipToProject);
     }
 
-    m_playIcon = QIcon::fromTheme("media-playback-start");
-    m_pauseIcon = QIcon::fromTheme("media-playback-pause");
-
-
     if (id != Kdenlive::DvdMonitor) {
-        m_toolbar->addAction(QIcon::fromTheme("go-first"), i18n("Set zone start"), this, SLOT(slotSetZoneStart()));
-        m_toolbar->addAction(QIcon::fromTheme("go-last"), i18n("Set zone end"), this, SLOT(slotSetZoneEnd()));
+        m_toolbar->addAction(manager->getAction("mark_in"));
+        m_toolbar->addAction(manager->getAction("mark_out"));
     }
-
-    m_toolbar->addAction(QIcon::fromTheme("media-seek-backward"), i18n("Rewind"), this, SLOT(slotRewind()));
-    //m_toolbar->addAction(QIcon::fromTheme("media-skip-backward"), i18n("Rewind 1 frame"), this, SLOT(slotRewindOneFrame()));
+    m_toolbar->addAction(manager->getAction("monitor_seek_backward"));
 
     QToolButton *playButton = new QToolButton(m_toolbar);
     m_playMenu = new QMenu(i18n("Play..."), this);
-    m_playAction = new KDualAction(i18n("Play"), i18n("Pause"), this);
-    m_playAction->setInactiveIcon(m_playIcon);
-    m_playAction->setActiveIcon(m_pauseIcon);
+    m_playAction = static_cast<KDualAction*> (manager->getAction("monitor_play"));
     m_playMenu->addAction(m_playAction);
-    connect(m_playAction, SIGNAL(activeChanged(bool)), this, SLOT(switchPlay(bool)));
 
     playButton->setMenu(m_playMenu);
     playButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_toolbar->addWidget(playButton);
-
-    //m_toolbar->addAction(QIcon::fromTheme("media-skip-forward"), i18n("Forward 1 frame"), this, SLOT(slotForwardOneFrame()));
-    m_toolbar->addAction(QIcon::fromTheme("media-seek-forward"), i18n("Forward"), this, SLOT(slotForward()));
+    m_toolbar->addAction(manager->getAction("monitor_seek_forward"));
 
     playButton->setDefaultAction(m_playAction);
+    m_configMenu = new QMenu(i18n("Misc..."), this);
 
     if (id != Kdenlive::DvdMonitor) {
-        QToolButton *configButton = new QToolButton(m_toolbar);
-        m_configMenu = new QMenu(i18n("Misc..."), this);
-        configButton->setIcon(QIcon::fromTheme("system-run"));
-        configButton->setMenu(m_configMenu);
-        configButton->setPopupMode(QToolButton::QToolButton::InstantPopup);
-        m_toolbar->addWidget(configButton);
-
         if (id == Kdenlive::ClipMonitor) {
             m_markerMenu = new QMenu(i18n("Go to marker..."), this);
             m_markerMenu->setEnabled(false);
@@ -235,12 +220,19 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_toolbar->addAction(visibilityAction);
     }
 
+    m_toolbar->addSeparator();
+    m_timePos = new TimecodeDisplay(m_monitorManager->timecode(), this);
+    m_toolbar->addWidget(m_timePos);
+
+    QToolButton *configButton = new QToolButton(m_toolbar);
+    configButton->setIcon(QIcon::fromTheme("system-run"));
+    configButton->setMenu(m_configMenu);
+    configButton->setPopupMode(QToolButton::QToolButton::InstantPopup);
+    m_toolbar->addWidget(configButton);
+    if (m_recManager) m_toolbar->addAction(m_recManager->switchAction());
     QWidget *spacer = new QWidget(this);
     spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_toolbar->addWidget(spacer);
-    if (m_recManager) m_toolbar->addAction(m_recManager->switchAction());
-    m_timePos = new TimecodeDisplay(m_monitorManager->timecode(), this);
-    m_toolbar->addWidget(m_timePos);
     connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotSeek()));
     m_toolbar->setMaximumHeight(m_timePos->height());
     layout->addWidget(m_toolbar);

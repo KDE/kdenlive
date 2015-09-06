@@ -212,7 +212,6 @@ void HeaderTrack::switchAudio(bool enable)
 
 void HeaderTrack::switchLock(bool enable)
 {
-    qDebug()<<" * * * *TRACK: "<<m_index<<" , LOCKED";
     emit switchTrackLock(m_index, enable);
 }
 

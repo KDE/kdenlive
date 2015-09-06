@@ -274,6 +274,19 @@ public:
     }
 };
 
+class LineEventEater : public QObject
+{
+    Q_OBJECT
+public:
+    explicit LineEventEater(QObject *parent = 0);
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
+
+signals:
+    void clearSearchLine();
+};
+
 /**
  * @class EventEater
  * @brief Filter mouse clicks in the Item View.

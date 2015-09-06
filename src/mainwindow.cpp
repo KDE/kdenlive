@@ -284,6 +284,21 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     new TimelineSearch(this);
     new ScopeManager(this);
 
+    // Add shortcut to action tooltips
+    QList< KActionCollection * > collections = KActionCollection::allCollections();
+    for (int i = 0; i < collections.count(); ++i) {
+        KActionCollection *coll = collections.at(i);
+        foreach( QAction* tempAction, coll->actions()) {
+            // find the shortcut pattern and delete (note the preceding space in the RegEx)
+            QString strippedTooltip = tempAction->toolTip().remove(QRegExp("\\s\\(.*\\)"));
+            // append shortcut if it exists for action
+            if (tempAction->shortcut() == QKeySequence(0))
+                tempAction->setToolTip( strippedTooltip);
+            else
+                tempAction->setToolTip( strippedTooltip + " (" + tempAction->shortcut().toString() + ")");
+        }
+    }
+
     setupGUI();
 
     emit GUISetupDone();
@@ -1035,7 +1050,6 @@ void MainWindow::setupActions()
     connect(stickTransition, SIGNAL(triggered(bool)), this, SLOT(slotAutoTransition()));
 
     addAction("group_clip", i18n("Group Clips"), this, SLOT(slotGroupClips()), QIcon::fromTheme("object-group"), Qt::CTRL + Qt::Key_G);
-    
 
     QAction * ungroupClip = new QAction(QIcon::fromTheme("object-ungroup"), i18n("Ungroup Clips"), this);
     addAction("ungroup_clip", ungroupClip);

@@ -32,6 +32,21 @@
 #include <QStandardPaths>
 
 
+TreeEventEater::TreeEventEater(QObject *parent) : QObject(parent)
+{
+}
+
+bool TreeEventEater::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::ShortcutOverride) {
+        if (((QKeyEvent*)event)->key() == Qt::Key_Escape) {
+            emit clearSearchLine();
+        }
+        return QObject::eventFilter(obj, event);
+    }
+    return QObject::eventFilter(obj, event);
+}
+
 EffectsListView::EffectsListView(QWidget *parent) :
         QWidget(parent)
 {
@@ -45,7 +60,11 @@ EffectsListView::EffectsListView(QWidget *parent) :
     lyr->setContentsMargins(0, 0, 0, 0);
     search_effect->setTreeWidget(m_effectsList);
     search_effect->setToolTip(i18n("Search in the effect list"));
-    
+
+    TreeEventEater *leventEater = new TreeEventEater(this);
+    search_effect->installEventFilter(leventEater);
+    connect(leventEater, SIGNAL(clearSearchLine()), search_effect, SLOT(clear()));
+
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
     buttonInfo->setIcon(QIcon::fromTheme("help-about"));
