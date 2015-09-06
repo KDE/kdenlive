@@ -3040,9 +3040,6 @@ void CustomTrackView::removeTrack(int ix)
     // Clear effect stack
     clearSelection();
     emit transitionItemSelected(NULL);
-    
-    // Remove clips on that track from groups
-    
 
     // Delete track in MLT playlist
     m_document->renderer()->mltDeleteTrack(m_timeline->tracksCount() - ix);
@@ -3614,7 +3611,7 @@ void CustomTrackView::completeSpaceOperation(int track, GenTime &timeOffset)
   resetSelectionGroup();
   for (int i = 0; i < groups.count(); ++i) 
   {
-    rebuildGroup(groups.at(i));
+      rebuildGroup(groups.at(i));
   }
 
   clearSelection();
@@ -6265,13 +6262,54 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
     // Clear effect stack
     clearSelection();
     emit transitionItemSelected(NULL);
-    
+
     double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;
     QRectF r(0, startY, sceneRect().width(), m_tracksHeight / 2 - 1);
     QList<QGraphicsItem *> selection = m_scene->items(r);
     QUndoCommand *deleteTrack = new QUndoCommand();
     deleteTrack->setText("Delete track");
     new RefreshMonitorCommand(this, false, true, deleteTrack);
+    
+    // Remove clips on that track from groups
+    QList<QGraphicsItem *> groupsToProceed;
+    for (int i = 0; i < selection.count(); ++i) {
+        if (selection.at(i)->type() == GroupWidget) {
+            if (!groupsToProceed.contains(selection.at(i))) {
+                groupsToProceed << selection.at(i);
+            }
+        }
+    }
+    for (int i = 0; i < groupsToProceed.count(); i++) {
+        AbstractGroupItem *grp = static_cast<AbstractGroupItem *>(groupsToProceed.at(i));
+        QList <QGraphicsItem *> items = grp->childItems();
+        QList <ItemInfo> clipGrpInfos;
+        QList <ItemInfo> transitionGrpInfos;
+        QList <ItemInfo> newClipGrpInfos;
+        QList <ItemInfo> newTransitionGrpInfos;
+        for (int j = 0; j < items.count(); ++j) {
+            if (items.at(j)->type() == AVWidget) {
+                AbstractClipItem *clip = static_cast <AbstractClipItem *>(items.at(j));
+                clipGrpInfos.append(clip->info());
+                if (clip->track() != ix) {
+                    newClipGrpInfos.append(clip->info());
+                }
+            } else if (items.at(j)->type() == TransitionWidget) {
+                AbstractClipItem *clip = static_cast <AbstractClipItem *>(items.at(j));
+                transitionGrpInfos.append(clip->info());
+                if (clip->track() != ix) {
+                    newTransitionGrpInfos.append(clip->info());
+                }
+            }
+        }
+        if (!clipGrpInfos.isEmpty() || !transitionGrpInfos.isEmpty()) {
+            // Break group
+            new GroupClipsCommand(this, clipGrpInfos, transitionGrpInfos, false, deleteTrack);
+            // Rebuild group without clips from track to delete
+            if (!newClipGrpInfos.isEmpty() || !newTransitionGrpInfos.isEmpty()) {
+                new GroupClipsCommand(this, newClipGrpInfos, newTransitionGrpInfos, true, deleteTrack);
+            }
+            }
+    }
 
     // Delete all clips in selected track
     for (int i = 0; i < selection.count(); ++i) {
