@@ -572,7 +572,7 @@ QPoint ClipController::zone() const
 {
     int in = int_property("kdenlive:zone_in");
     int out = int_property("kdenlive:zone_out");
-    if (out <= in ) out = in + 50;
+    if (out <= in ) out = getPlaytime().frames(m_binController->fps());
     QPoint zone(in, out);
     return zone;
 }
