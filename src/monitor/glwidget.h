@@ -25,6 +25,7 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFramebufferObject>
 #include <QOpenGLContext>
+#include <QOffscreenSurface>
 #include <QMutex>
 #include <QThread>
 #include <QRect>
@@ -33,7 +34,6 @@
 #include "definitions.h"
 
 class QOpenGLFunctions_3_2_Core;
-class QOffscreenSurface;
 class QOpenGLTexture;
 //class QmlFilter;
 //class QmlMetadata;
@@ -56,7 +56,7 @@ class GLWidget : public QQuickView, protected QOpenGLFunctions
     Q_PROPERTY(QPoint offset READ offset NOTIFY offsetChanged)
 
 public:
-    GLWidget();
+    GLWidget(QObject *parent = 0);
     ~GLWidget();
 
     void createThread(RenderThread** thread, thread_function_t function, void* data);
@@ -150,6 +150,7 @@ private:
     int m_textureLocation[3];
     float m_zoom;
     QPoint m_offset;
+    QOffscreenSurface m_offscreenSurface;
     bool m_audioWaveDisplayed;
     static void on_frame_show(mlt_consumer, void* self, mlt_frame frame);
     static void on_gl_frame_show(mlt_consumer, void* self, mlt_frame frame_ptr);
@@ -176,7 +177,7 @@ class RenderThread : public QThread
 {
     Q_OBJECT
 public:
-    RenderThread(thread_function_t function, void* data, QOpenGLContext *context);
+    RenderThread(thread_function_t function, void* data, QOpenGLContext *context, QSurface *surface);
     ~RenderThread();
 
 protected:
@@ -186,14 +187,14 @@ private:
     thread_function_t m_function;
     void* m_data;
     QOpenGLContext* m_context;
-    QOffscreenSurface* m_surface;
+    QSurface* m_surface;
 };
 
 class FrameRenderer : public QThread
 {
     Q_OBJECT
 public:
-    explicit FrameRenderer(QOpenGLContext* shareContext);
+    explicit FrameRenderer(QOpenGLContext* shareContext, QSurface *surface);
     ~FrameRenderer();
     QSemaphore* semaphore() { return &m_semaphore; }
     QOpenGLContext* context() const { return m_context; }
@@ -213,7 +214,7 @@ private:
     QSemaphore m_semaphore;
     SharedFrame m_frame;
     QOpenGLContext* m_context;
-    QOffscreenSurface* m_surface;
+    QSurface* m_surface;
 
 public:
     GLuint m_renderTexture[3];

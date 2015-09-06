@@ -22,7 +22,6 @@
 #include <QtWidgets>
 #include <QOpenGLFunctions_3_2_Core>
 #include <QUrl>
-#include <QOffscreenSurface>
 #include <QtQml>
 #include <QQuickItem>
 
@@ -51,8 +50,8 @@ static ClientWaitSync_fp ClientWaitSync = 0;
 
 using namespace Mlt;
 
-GLWidget::GLWidget()
-    : QQuickView(0)
+GLWidget::GLWidget(QObject *parent)
+    : QQuickView((QWindow*) parent)
     , sendFrameForAnalysis(false)
     , m_shader(0)
     , m_glslManager(0)
@@ -121,7 +120,8 @@ GLWidget::~GLWidget()
 void GLWidget::initializeGL()
 {
     if (m_isInitialized) return;
-
+    m_offscreenSurface.setFormat(openglContext()->format());
+    m_offscreenSurface.create();
     openglContext()->makeCurrent(this);
     initializeOpenGLFunctions();
     //openglContext()->blockSignals(true);
@@ -142,7 +142,7 @@ void GLWidget::initializeGL()
 #endif
 
     openglContext()->doneCurrent();
-    m_frameRenderer = new FrameRenderer(openglContext());
+    m_frameRenderer = new FrameRenderer(openglContext(), &m_offscreenSurface);
     openglContext()->makeCurrent(this);
     //openglContext()->blockSignals(false);
     connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), this, SIGNAL(frameDisplayed(const SharedFrame&)), Qt::QueuedConnection);
@@ -481,7 +481,7 @@ void GLWidget::createThread(RenderThread **thread, thread_function_t function, v
         m_initSem.acquire();
     }
 #endif
-    (*thread) = new RenderThread(function, data, m_glslManager? openglContext() : 0);
+    (*thread) = new RenderThread(function, data, m_glslManager? openglContext() : 0, &m_offscreenSurface);
     (*thread)->start();
 }
 
@@ -1009,21 +1009,18 @@ void GLWidget::on_gl_frame_show(mlt_consumer, void* self, mlt_frame frame_ptr)
     }
 }
 
-RenderThread::RenderThread(thread_function_t function, void *data, QOpenGLContext *context)
+RenderThread::RenderThread(thread_function_t function, void *data, QOpenGLContext *context, QSurface *surface)
     : QThread(0)
     , m_function(function)
     , m_data(data)
     , m_context(0)
-    , m_surface(0)
+    , m_surface(surface)
 {
     if (context) {
         m_context = new QOpenGLContext;
         m_context->setFormat(context->format());
         m_context->setShareContext(context);
         m_context->create();
-        m_surface = new QOffscreenSurface;
-        m_surface->setFormat(m_context->format());
-        m_surface->create();
         m_context->moveToThread(this);
     }
 }
@@ -1031,7 +1028,6 @@ RenderThread::RenderThread(thread_function_t function, void *data, QOpenGLContex
 RenderThread::~RenderThread()
 {
     //delete m_context;
-    delete m_surface;
 }
 
 void RenderThread::run()
@@ -1046,12 +1042,12 @@ void RenderThread::run()
     }
 }
 
-FrameRenderer::FrameRenderer(QOpenGLContext* shareContext)
+FrameRenderer::FrameRenderer(QOpenGLContext* shareContext, QSurface *surface)
      : QThread(0)
      , m_semaphore(3)
      , m_frame()
      , m_context(0)
-     , m_surface(0)
+     , m_surface(surface)
      , m_gl32(0)
 {
     Q_ASSERT(shareContext);
@@ -1061,9 +1057,6 @@ FrameRenderer::FrameRenderer(QOpenGLContext* shareContext)
     m_context->setFormat(shareContext->format());
     m_context->setShareContext(shareContext);
     m_context->create();
-    m_surface = new QOffscreenSurface;
-    m_surface->setFormat(m_context->format());
-    m_surface->create();
     m_context->moveToThread(this);
     setObjectName("FrameRenderer");
     moveToThread(this);
@@ -1081,10 +1074,9 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
     if (m_context->isValid()) {
         int width = 0;
         int height = 0;
-        m_context->makeCurrent(m_surface);
         mlt_image_format format = mlt_image_yuv420p;
         const uint8_t* image = frame.get_image(format, width, height);
-
+        m_context->makeCurrent(m_surface);
         // Upload each plane of YUV to a texture.
         if (m_renderTexture[0] && m_renderTexture[1] && m_renderTexture[2])
             glDeleteTextures(3, m_renderTexture);
@@ -1158,11 +1150,11 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
         int width = 0;
         int height = 0;
 
-        m_context->makeCurrent(m_surface);
         frame.set("movit.convert.use_texture", 1);
         mlt_image_format format = mlt_image_glsl_texture;
         const GLuint* textureId = (GLuint*) frame.get_image(format, width, height);
 
+        m_context->makeCurrent(m_surface);
 #ifdef USE_GL_SYNC
         GLsync sync = (GLsync) frame.get_data("movit.convert.fence");
         if (sync) {
