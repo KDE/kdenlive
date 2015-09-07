@@ -1296,7 +1296,7 @@ const QString Render::sceneList()
 {
     QString playlist;
     Mlt::Consumer xmlConsumer(*m_qmlView->profile(), "xml:kdenlive_playlist");
-    qDebug()<<" ++ + READY TO SAVE: "<<m_qmlView->profile()->width()<<" / "<<m_qmlView->profile()->description();
+    //qDebug()<<" ++ + READY TO SAVE: "<<m_qmlView->profile()->width()<<" / "<<m_qmlView->profile()->description();
     if (!xmlConsumer.is_valid()) return QString();
     m_mltProducer->optimise();
     xmlConsumer.set("terminate_on_pause", 1);

@@ -689,9 +689,15 @@ void MainWindow::slotAddEffect(const QDomElement &effect)
     }
     QDomElement effectToAdd = effect.cloneNode().toElement();
     EFFECTMODE status = m_effectStack->effectStatus();
-    if (status == TIMELINE_TRACK) pCore->projectManager()->currentTimeline()->projectView()->slotAddTrackEffect(effectToAdd, pCore->projectManager()->currentTimeline()->tracksCount() - m_effectStack->trackIndex());
-    else if (status == TIMELINE_CLIP) pCore->projectManager()->currentTimeline()->projectView()->slotAddEffect(effectToAdd, GenTime(), -1);
-    else if (status == MASTER_CLIP) pCore->bin()->addEffect(QString(), effectToAdd);
+    if (status == TIMELINE_TRACK) {
+        pCore->projectManager()->currentTimeline()->projectView()->slotAddTrackEffect(effectToAdd, pCore->projectManager()->currentTimeline()->tracksCount() - m_effectStack->trackIndex());
+    }
+    else if (status == TIMELINE_CLIP) {
+        pCore->projectManager()->currentTimeline()->projectView()->slotAddEffect(effectToAdd, GenTime(), -1);
+    }
+    else if (status == MASTER_CLIP) {
+        pCore->bin()->addEffect(QString(), effectToAdd);
+    }
 }
 
 void MainWindow::slotUpdateClip(const QString &id, bool reload)
