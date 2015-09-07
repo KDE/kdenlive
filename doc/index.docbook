@@ -287,7 +287,7 @@
 <para>After clicking the <guilabel>keyframe</guilabel> icon (the clock icon framed in the previous image), the Effect Stack widget will re-arrange. By default there will be two keyframes, one at the beginning of the timeline clip and one at the end. Move the timeline cursor to the end of the timeline clip, such that the project monitor actually shows the new colours when changing the parameters of the keyframe at the end.</para>
 <para>Make sure the last keyframe is selected in the Effect Stack’s list. Then you are ready to flood the piano with a deep blue.</para>
 <para>Moving the timeline cursor to the beginning of the project and playing it (with <keycap>Space</keycap>, or the <guilabel>Play</guilabel> button in the <guilabel>Project Monitor</guilabel>), the piano should now change the colour as desired.</para>
-<para>Keyframing was the hardest part of this tutorial. If you managed to do it, you will master <guilabel>Kdenilve</guilabel> easily!</para>
+<para>Keyframing was the hardest part of this tutorial. If you managed to do it, you will master <guilabel>Kdenlive</guilabel> easily!</para>
 </sect1>
 <sect1 id="music"><title>Music</title> 
 <para>
