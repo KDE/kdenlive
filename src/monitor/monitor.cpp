@@ -213,11 +213,11 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
 
     if (id == Kdenlive::ProjectMonitor) {
-        QAction *visibilityAction = new QAction(QIcon::fromTheme("transform-crop"), i18n("Show/Hide edit mode"), this);
-        visibilityAction->setCheckable(true);
-        visibilityAction->setChecked(KdenliveSettings::showOnMonitorScene());
-        connect(visibilityAction, SIGNAL(triggered(bool)), this, SLOT(slotEnableEffectScene(bool)));
-        m_toolbar->addAction(visibilityAction);
+        m_sceneVisibilityAction = new QAction(QIcon::fromTheme("transform-crop"), i18n("Show/Hide edit mode"), this);
+        m_sceneVisibilityAction->setCheckable(true);
+        m_sceneVisibilityAction->setChecked(KdenliveSettings::showOnMonitorScene());
+        connect(m_sceneVisibilityAction, SIGNAL(triggered(bool)), this, SLOT(slotEnableEffectScene(bool)));
+        m_toolbar->addAction(m_sceneVisibilityAction);
     }
 
     m_toolbar->addSeparator();
@@ -1203,7 +1203,7 @@ void Monitor::slotSetSelectedClip(Transition* item)
 void Monitor::slotEnableEffectScene(bool enable)
 {
     KdenliveSettings::setShowOnMonitorScene(enable);
-    bool isDisplayed = enable && m_rootItem && m_rootItem->objectName() == "rooteffectscene";
+    bool isDisplayed = m_rootItem && m_rootItem->objectName() == "rooteffectscene";
     if (enable == isDisplayed) return;
     slotShowEffectScene(enable);
 }
@@ -1220,6 +1220,7 @@ void Monitor::slotShowEffectScene(bool show)
     else if (m_rootItem && m_rootItem->objectName() == "rooteffectscene")  {
         loadMasterQml();
     }
+    m_sceneVisibilityAction->setChecked(show);
 }
 
 void Monitor::slotSeekToKeyFrame()
