@@ -66,6 +66,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_recManager(NULL)
     , m_loopClipAction(NULL)
     , m_effectCompare(NULL)
+    , m_sceneVisibilityAction(NULL)
     , m_contextMenu(NULL)
     , m_selectedClip(NULL)
     , m_loopClipTransition(true)
@@ -1220,7 +1221,7 @@ void Monitor::slotShowEffectScene(bool show)
     else if (m_rootItem && m_rootItem->objectName() == "rooteffectscene")  {
         loadMasterQml();
     }
-    m_sceneVisibilityAction->setChecked(show);
+    if (m_sceneVisibilityAction) m_sceneVisibilityAction->setChecked(show);
 }
 
 void Monitor::slotSeekToKeyFrame()
