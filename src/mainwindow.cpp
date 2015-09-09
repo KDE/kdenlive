@@ -1281,43 +1281,30 @@ void MainWindow::readOptions()
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     pCore->projectManager()->recentFilesAction()->loadEntries(KConfigGroup(config, "Recent Files"));
+
+    if (KdenliveSettings::defaultprojectfolder().isEmpty()) {
+        QDir dir(QDir::homePath());
+        if (!dir.mkdir("kdenlive")) {
+            qDebug() << "/// ERROR CREATING PROJECT FOLDER: ";
+        } else {
+            dir.cd("kdenlive");
+            KdenliveSettings::setDefaultprojectfolder(dir.path());
+        }
+    }
+
     KConfigGroup initialGroup(config, "version");
-    bool upgrade = false;
-    if (initialGroup.exists()) {
-        if (initialGroup.readEntry("version", QString()).section(' ', 0, 0) != QString(version).section(' ', 0, 0)) {
-            upgrade = true;
-        }
-
-        if (initialGroup.readEntry("version") == "0.7") {
-            //Add new settings from 0.7.1
-            if (KdenliveSettings::defaultprojectfolder().isEmpty()) {
-                QDir dir(QDir::homePath());
-                if (!dir.mkdir("kdenlive")) {
-                    qDebug() << "/// ERROR CREATING PROJECT FOLDER: ";
-                } else {
-                    dir.cd("kdenlive");
-                    KdenliveSettings::setDefaultprojectfolder(dir.path());
-                }
-            }
-        }
-    }
-
-    if (KdenliveSettings::ffmpegpath().isEmpty() || KdenliveSettings::ffplaypath().isEmpty()) {
-        upgrade = true;
-    }
-
-    if (!initialGroup.exists() || upgrade) {
+    if (!initialGroup.exists() || KdenliveSettings::ffmpegpath().isEmpty() || KdenliveSettings::ffplaypath().isEmpty()) {
         // this is our first run, show Wizard
-        QPointer<Wizard> w = new Wizard(upgrade, this);
+        QPointer<Wizard> w = new Wizard(false, this);
         if (w->exec() == QDialog::Accepted && w->isOk()) {
             w->adjustSettings();
-            initialGroup.writeEntry("version", version);
             delete w;
         } else {
             delete w;
             ::exit(1);
         }
     }
+    initialGroup.writeEntry("version", version);
 }
 
 void MainWindow::slotRunWizard()
