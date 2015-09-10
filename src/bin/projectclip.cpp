@@ -827,6 +827,7 @@ void ProjectClip::slotCreateAudioThumbs()
     Mlt::Producer *audioProducer = new Mlt::Producer(*prod->profile(), service.toUtf8().constData(), prod->get("resource"));
     if (!audioProducer->is_valid()) {
         delete audioProducer;
+        delete audioLevels;
         return;
     }
     Mlt::Filter chans(*prod->profile(), "audiochannels");
