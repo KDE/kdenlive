@@ -129,8 +129,6 @@ void ScopeManager::slotDistributeAudio(const audioShortVector &sampleData, int f
             }
         }
     }
-
-    checkActiveAudioScopes();
 }
 void ScopeManager::slotDistributeFrame(const QImage &image)
 {
@@ -196,7 +194,7 @@ void ScopeManager::slotUpdateActiveRenderer()
     // Disconnect old connections
     if (m_lastConnectedRenderer != NULL) {
 #ifdef DEBUG_SM
-        qDebug() << "Disconnected previous renderer: " << m_lastConnectedRenderer->name();
+        qDebug() << "Disconnected previous renderer: " << m_lastConnectedRenderer->id();
 #endif
         m_lastConnectedRenderer->disconnect(this);
     }
@@ -213,7 +211,7 @@ void ScopeManager::slotUpdateActiveRenderer()
                 this, &ScopeManager::slotDistributeAudio, Qt::UniqueConnection);
 
 #ifdef DEBUG_SM
-        qDebug() << "Renderer connected to ScopeManager: " << m_lastConnectedRenderer->name();
+        qDebug() << "Renderer connected to ScopeManager: " << m_lastConnectedRenderer->id();
 #endif
 
         if (imagesAcceptedByScopes()) {
@@ -231,8 +229,9 @@ void ScopeManager::slotCheckActiveScopes()
 #ifdef DEBUG_SM
     qDebug() << "Checking active scopes ...";
 #endif
-    checkActiveAudioScopes();
-    checkActiveColourScopes();
+    // Leave a small delay to make sure that scope widget has been shown or hidden
+    QTimer::singleShot(500, this, SLOT(checkActiveAudioScopes()));
+    QTimer::singleShot(500, this, SLOT(checkActiveColourScopes()));
 }
 
 
@@ -240,7 +239,7 @@ bool ScopeManager::audioAcceptedByScopes() const
 {
     bool accepted = false;
     for (int i = 0; i < m_audioScopes.size(); ++i) {
-        if (!m_audioScopes[i].scope->visibleRegion().isEmpty() && m_audioScopes[i].scope->autoRefreshEnabled()) {
+        if (m_audioScopes.at(i).scope->isVisible() && m_audioScopes.at(i).scope->autoRefreshEnabled()) {
             accepted = true;
             break;
         }
@@ -278,6 +277,7 @@ void ScopeManager::checkActiveAudioScopes()
     KdenliveSettings::setMonitor_audio(audioStillRequested);
     pCore->monitorManager()->slotUpdateAudioMonitoring();
 }
+
 void ScopeManager::checkActiveColourScopes()
 {
     bool imageStillRequested = imagesAcceptedByScopes();

@@ -282,7 +282,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     new LayoutManagement(this);
     new HideTitleBars(this);
     new TimelineSearch(this);
-    new ScopeManager(this);
+    ScopeManager *scmanager = new ScopeManager(this);
 
     // Add shortcut to action tooltips
     QList< KActionCollection * > collections = KActionCollection::allCollections();
@@ -471,6 +471,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
 #endif
+    scmanager->slotCheckActiveScopes();
     //KMessageBox::information(this, "Warning, development version for testing only. we are currently working on core functionnalities,\ndo not save any project or your project files might be corrupted.");
 }
 

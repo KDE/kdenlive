@@ -96,6 +96,7 @@ public:
     QRect effectRect() const;
     void setEffectKeyframe(bool enable);
     void sendFrameForAnalysis(bool analyse);
+    void updateAudioForAnalysis();
     void switchMonitorInfo(bool show);
     void switchDropFrames(bool drop);
     void updateMonitorGamma();

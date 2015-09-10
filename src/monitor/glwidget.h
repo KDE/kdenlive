@@ -70,6 +70,8 @@ public:
     void clearFrameRenderer();
 
     int displayWidth() const { return m_rect.width(); }
+    
+    void updateAudioForAnalysis();
     int displayHeight() const { return m_rect.height(); }
 
     QObject* videoWidget() { return this; }
@@ -104,6 +106,7 @@ public slots:
     void slotSwitchAudioOverlay(bool enable);
     //void setCurrentFilter(QmlFilter* filter, QmlMetadata* meta);
     void initializeGL();
+
 signals:
     void frameDisplayed(const SharedFrame& frame);
     void textureUpdated();
@@ -122,6 +125,7 @@ signals:
     void startDrag();
     void effectChanged(const QRect);
     void analyseFrame(QImage);
+    void audioSamplesSignal(const audioShortVector&,int,int,int);
     void showContextMenu(const QPoint);
 
 private:
@@ -209,7 +213,7 @@ public slots:
 signals:
     void textureReady(GLuint yName, GLuint uName = 0, GLuint vName = 0);
     void frameDisplayed(const SharedFrame& frame);
-    void analyseFrame(QImage);
+    void audioSamplesSignal(const audioShortVector&,int,int,int);
 
 private:
     QSemaphore m_semaphore;
@@ -221,6 +225,7 @@ public:
     GLuint m_renderTexture[3];
     GLuint m_displayTexture[3];
     QOpenGLFunctions_3_2_Core* m_gl32;
+    bool sendAudioForAnalysis;
 };
 
 

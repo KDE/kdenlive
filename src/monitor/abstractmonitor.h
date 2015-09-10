@@ -45,7 +45,7 @@ Q_OBJECT public:
         : QObject(parent),
           sendFrameForAnalysis(false),
           analyseAudio(false),
-          m_name(name)
+          m_id(name)
     {
     }
 
@@ -58,13 +58,13 @@ Q_OBJECT public:
     /** @brief This property is used to decide if the renderer should send audio data for monitoring. */
     bool analyseAudio;
     
-    const QString &name() const {return m_name;}
+    Kdenlive::MonitorId id() const {return m_id;}
 
     /** @brief Someone needs us to send again a frame. */
     virtual void sendFrameUpdate() = 0;
 
 private:
-    QString m_name;
+    Kdenlive::MonitorId m_id;
     
 signals:
     /** @brief The renderer refreshed the current frame. */

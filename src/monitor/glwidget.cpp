@@ -123,6 +123,12 @@ GLWidget::~GLWidget()
     delete m_shader;
 }
 
+void GLWidget::updateAudioForAnalysis()
+{
+    if (m_frameRenderer) 
+	m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
+}
+
 void GLWidget::initializeGL()
 {
     if (m_isInitialized) return;
@@ -159,10 +165,11 @@ void GLWidget::initializeGL()
         m_shareContext->create();
     }
     m_frameRenderer = new FrameRenderer(openglContext(), &m_offscreenSurface);
+    m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
     openglContext()->makeCurrent(this);
     //openglContext()->blockSignals(false);
     connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), this, SIGNAL(frameDisplayed(const SharedFrame&)), Qt::QueuedConnection);
-    connect(m_frameRenderer, SIGNAL(analyseFrame(QImage)), this, SIGNAL(analyseFrame(QImage)), Qt::QueuedConnection);
+    connect(m_frameRenderer, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), this, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), Qt::QueuedConnection);
     connect(m_frameRenderer, SIGNAL(textureReady(GLuint,GLuint,GLuint)), SLOT(updateTexture(GLuint,GLuint,GLuint)), Qt::DirectConnection);
     connect(this, SIGNAL(textureUpdated()), SLOT(update()), Qt::QueuedConnection);
 
@@ -1125,6 +1132,7 @@ FrameRenderer::FrameRenderer(QOpenGLContext* shareContext, QSurface *surface)
      , m_context(0)
      , m_surface(surface)
      , m_gl32(0)
+     , sendAudioForAnalysis(false)
 {
     Q_ASSERT(shareContext);
     m_renderTexture[0] = m_renderTexture[1] = m_renderTexture[2] = 0;
@@ -1170,6 +1178,27 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
         // The frame is now done being modified and can be shared with the rest
         // of the application.
         emit frameDisplayed(m_frame);
+	
+	if (sendAudioForAnalysis) {
+	    qDebug()<<" - - -- SEND AUDIO DATA";
+	    mlt_audio_format audio_format = mlt_audio_s16;
+	    //FIXME: should not be hardcoded..
+	    int freq = 48000;
+	    int num_channels = 2;
+	    int samples = 0;
+	    qint16* data = (qint16*)frame.get_audio(audio_format, freq, num_channels, samples);
+
+	    if (data) {
+		// Data format: [ c00 c10 c01 c11 c02 c12 c03 c13 ... c0{samples-1} c1{samples-1} for 2 channels.
+		// So the vector is of size samples*channels.
+		audioShortVector sampleVector(samples*num_channels);
+		memcpy(sampleVector.data(), data, samples*num_channels*sizeof(qint16));
+
+		if (samples > 0) {
+		    emit audioSamplesSignal(sampleVector, freq, num_channels, samples);
+		}
+	    }
+	}
     }
     m_semaphore.release();
 }

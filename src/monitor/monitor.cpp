@@ -206,6 +206,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(render, SIGNAL(durationChanged(int,int)), this, SLOT(adjustRulerSize(int,int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
     connect(m_glMonitor, SIGNAL(analyseFrame(QImage)), render, SLOT(emitFrameUpdated(QImage)));
+    connect(m_glMonitor, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), render, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)));
     if (id != Kdenlive::ClipMonitor) {
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
         connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SIGNAL(zoneUpdated(QPoint)));
@@ -1285,6 +1286,10 @@ void Monitor::sendFrameForAnalysis(bool analyse)
     m_glMonitor->sendFrameForAnalysis = analyse;
 }
 
+void Monitor::updateAudioForAnalysis()
+{
+    m_glMonitor->updateAudioForAnalysis();
+}
 
 void Monitor::onFrameDisplayed(const SharedFrame& frame)
 {
