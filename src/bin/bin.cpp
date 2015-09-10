@@ -2238,8 +2238,6 @@ void Bin::slotLoadClipMarkers(const QString &id)
         }
     }
     if (!markersList.isEmpty()) slotAddClipMarker(id, markersList, command);
-    if (command->childCount() > 0) m_doc->commandStack()->push(command);
-    else delete command;
 }
 
 void Bin::slotSaveClipMarkers(const QString &id)
