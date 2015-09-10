@@ -94,6 +94,24 @@ void Clip::replaceEffects(Mlt::Service& service)
     addEffects(service);
 }
 
+void Clip::deleteEffects()
+{
+    // remove effects
+    int ct = 0;
+    Mlt::Filter *filter = m_producer.filter(ct);
+    while (filter) {
+	QString ix = filter->get("kdenlive_ix");
+	if (!ix.isEmpty()) {
+            if (m_producer.detach(*filter) == 0) {
+                delete filter;
+            }
+            else ct++;
+	}
+	else ct++;
+	filter = m_producer.filter(ct);
+    }
+}
+
 
 QByteArray Clip::xml()
 {

@@ -27,6 +27,7 @@
 #include "mltcontroller/bincontroller.h"
 #include "kdenlivesettings.h"
 #include "timeline/abstractclipitem.h"
+#include "timeline/clip.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kthumb.h"
 
@@ -1372,13 +1373,18 @@ void Monitor::slotSwitchCompare(bool enable)
             warningMessage(i18n("The cairoblend transition is required for that feature, please install frei0r and restart Kdenlive"));
             return;
         }
-        Mlt::Producer original = m_controller->originalProducer();
+        Mlt::Producer *original = m_controller->masterProducer();
         Mlt::Tractor trac(*profile());
-        Mlt::Producer clone(*profile(), original.get("resource"));
-        trac.set_track(original, 0);
-        trac.set_track(clone, 1);
-        clone.attach(*m_splitEffect);
+	Clip clp(*original);
+        Mlt::Producer *clone = clp.clone();
+	Clip clp2(*clone);
+	clp2.deleteEffects();
+        trac.set_track(*original, 0);
+        trac.set_track(*clone, 1);
+        clone->attach(*m_splitEffect);
         trac.plant_transition(t, 0, 1);
+	delete clone;
+	delete original;
         m_splitProducer = new Mlt::Producer(trac.get_producer());
         render->setProducer(m_splitProducer, pos, isActive());
         m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitorsplit.qml"))));
