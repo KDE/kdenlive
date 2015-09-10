@@ -1041,7 +1041,7 @@ void Render::loadUrl(const QString &url)
     setProducer(producer, 0, true);
 }
 
-int Render::updateProducer(Mlt::Producer *producer)
+bool Render::updateProducer(Mlt::Producer *producer)
 {
     if (m_mltProducer) {
         if (strcmp(m_mltProducer->get("resource"), "<tractor>") == 0) {
@@ -1060,10 +1060,7 @@ int Render::updateProducer(Mlt::Producer *producer)
         }
     }
     if (!producer || !producer->is_valid()) {
-        if (producer) delete producer;
-        producer = m_blackClip->cut(0, 1);
-        producer->set("id", "black");
-	return -1;
+        return false;
     }
     m_fps = producer->get_fps();
     m_mltProducer = producer;
@@ -1071,10 +1068,10 @@ int Render::updateProducer(Mlt::Producer *producer)
         m_qmlView->setProducer(producer, false);
         m_mltConsumer = m_qmlView->consumer();
     }
-    return 0;
+    return true;
 }
 
-int Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
+bool Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
 {
     m_refreshTimer.stop();
     requestedSeekPosition = SEEK_INACTIVE;
@@ -1104,13 +1101,8 @@ int Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
     }
     blockSignals(true);
     if (!producer || !producer->is_valid()) {
-        if (producer) delete producer;
-        producer = m_blackClip->cut(0, 1);
-        producer->set("id", "black");
-    }
-    if (!producer || !producer->is_valid()) {
-        qDebug() << " WARNING - - - - -INVALID PLAYLIST: ";
-        return -1;
+        qWarning() << "Invalid playlist";
+        return false;
     }
 
     emit stopped();
@@ -1133,7 +1125,7 @@ int Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
     emit durationChanged(m_mltProducer->get_playtime(), m_mltProducer->get_in());
     position = m_mltProducer->position();
     emit rendererPosition(position);
-    return 0;
+    return true;
 }
 
 void Render::startConsumer() {
