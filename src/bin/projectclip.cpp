@@ -139,6 +139,18 @@ ClipType ProjectClip::clipType() const
     return m_type;
 }
 
+bool ProjectClip::hasParent(const QString &id) const
+{
+    AbstractProjectItem *par = parent();
+    while (par) {
+	if (par->clipId() == id) {
+	    return true;
+	}
+	par = par->parent();
+    }
+    return false;
+}
+
 ProjectClip* ProjectClip::clip(const QString &id)
 {
     if (id == m_id) {

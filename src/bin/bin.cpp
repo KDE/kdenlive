@@ -439,7 +439,10 @@ void Bin::deleteClip(const QString &id)
 	emit openClip(NULL);
     }
     ProjectClip *clip = m_rootFolder->clip(id);
-    if (!clip) return;
+    if (!clip) {
+	qWarning()<<"Cannot bin find clip to delete: "<<id;
+	return;
+    }
     m_jobManager->discardJobs(id);
     AbstractProjectItem *parent = clip->parent();
     parent->removeChild(clip);
@@ -474,31 +477,71 @@ void Bin::slotDeleteClip()
     ProjectSubClip *sub;
     QString subId;
     QPoint zone;
+    // check folders, remove child folders if there is any
+    QList <ProjectFolder*> topFolders;
     foreach (const QModelIndex &ix, indexes) {
         if (!ix.isValid() || ix.column() != 0) continue;
         AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
-        if (!item) continue;
-        AbstractProjectItem::PROJECTITEMTYPE type = item->itemType();
-        switch (type) {
-            case AbstractProjectItem::ClipItem:
-                clipIds << item->clipId();
-                break;
-            case AbstractProjectItem::FolderItem:
-                foldersIds << item->clipId();
-                break;
-            case AbstractProjectItem::SubClipItem:
-                subId = item->clipId();
+	if (!item) continue;
+	if (item->itemType() == AbstractProjectItem::SubClipItem) {
+                QString subId = item->clipId();
                 sub = static_cast<ProjectSubClip*>(item);
                 zone = sub->zone();
                 subId.append(":" + QString::number(zone.x()) + ":" + QString::number(zone.y()));
                 subClipIds << subId;
-                break;
-            default:
-                break;
-        }
+		continue;
+	}
+        if (item->itemType() != AbstractProjectItem::FolderItem) continue;
+	ProjectFolder *current = static_cast<ProjectFolder*>(item);
+	if (topFolders.isEmpty()) {
+	    topFolders << current;
+	    continue;
+	}
+	// parse all folders to check for children
+	bool isChild = false;
+	foreach (ProjectFolder *f, topFolders) {
+	    if (f->folder(current->clipId())) {
+		// Current is a child, no need to take it into account
+		isChild = true;
+		break;
+	    }
+	}
+	if (isChild) continue;
+	QList <ProjectFolder*> childFolders;
+	// parse all folders to check for children
+	foreach (ProjectFolder *f, topFolders) {
+	    if (current->folder(f->clipId())) {
+		childFolders << f;
+	    }
+	}
+	if (!childFolders.isEmpty()) {
+	    // children are in the list, remove from
+	    foreach (ProjectFolder *f, childFolders) {
+		topFolders.removeAll(f);
+	    }
+	}
+	topFolders << current;
     }
-    // For some reason, we get duplicates, which is not expected
-    //ids.removeDuplicates();
+    foreach (const ProjectFolder *f, topFolders) {
+	foldersIds << f->clipId();
+    }
+    
+    QList <ProjectFolder*> topClips;
+    // Check if clips are in already selected folders
+    foreach (const QModelIndex &ix, indexes) {
+        if (!ix.isValid() || ix.column() != 0) continue;
+        AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
+        if (!item || item->itemType() != AbstractProjectItem::ClipItem) continue;
+	ProjectClip *current = static_cast<ProjectClip*>(item);
+	bool isChild = false;
+	foreach (const ProjectFolder *f, topFolders) {
+	    if (current->hasParent(f->clipId())) {
+		  isChild = true;
+		  break;
+	    }
+	}
+	if (!isChild) clipIds << current->clipId();
+    }
     m_doc->clipManager()->deleteProjectItems(clipIds, foldersIds, subClipIds);
 }
 
@@ -803,9 +846,6 @@ void Bin::removeFolder(const QString &id, QUndoCommand *deleteCommand)
               default:
                   break;
             }
-        }
-        foreach(const QString &folderId, folderIds) {
-            removeFolder(folderId, deleteCommand);
         }
         m_doc->clipManager()->deleteProjectItems(clipIds, folderIds, QStringList(), deleteCommand);
     }
@@ -1233,7 +1273,6 @@ void Bin::showClipProperties(ProjectClip *clip)
         m_collapser->collapse();
         return;
     }
-    if (clip) qDebug()<<"+ + +SHOWING CLP PROPS: "<<clip->clipType();
     if (clip && clip->clipType() == SlideShow) {
         // Cleanup widget for new content
         foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {

@@ -83,6 +83,9 @@ public:
 
     /** @brief Returns the clip type as defined in definitions.h */
     ClipType clipType() const;
+
+    /** @brief Check if clip has a parent folder with id id */
+    bool hasParent(const QString &id) const;
     ClipPropertiesController *buildProperties(QWidget *parent);
     QPoint zone() const;
     
