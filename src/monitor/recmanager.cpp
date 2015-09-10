@@ -305,7 +305,6 @@ void RecManager::slotReadProcessInfo()
 void RecManager::slotVideoDeviceChanged(int)
 {
     int currentItem = m_device_selector->currentData().toInt();
-    qDebug()<<"// changed to: "<<currentItem;
     KdenliveSettings::setDefaultcapture(currentItem);
     switch (currentItem) {
       case Video4Linux:

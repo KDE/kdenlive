@@ -55,9 +55,8 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     QList<QStringList> transitionsList;
     int max = MainWindow::transitions.effectNames().count();
     QStringList transitionInfo;
-    int ix = 1;
-
-    for (; ix <= max; ++ix) {
+    int ix = 0;
+    for (; ix < max; ++ix) {
         transitionInfo = MainWindow::transitions.effectIdInfo(ix);
         if (transitionInfo.isEmpty()) continue;
         transitionInfo << QString::number(ix);
@@ -132,7 +131,6 @@ void TransitionSettings::updateTrackList()
     int limit = 1;
     if (m_usedTransition)
         limit = m_usedTransition->track() + 1;
-    ////qDebug() << "/ / TRANS TRK: " << limit;
     QIcon videoIcon = QIcon::fromTheme("kdenlive-show-video");
     QIcon audioIcon = QIcon::fromTheme("kdenlive-show-audio");
     for (int i = limit; i < m_tracks.count(); ++i) {
