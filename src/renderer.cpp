@@ -163,7 +163,6 @@ void Render::seek(int time)
     resetZoneMode();
     if (requestedSeekPosition == SEEK_INACTIVE) {
         requestedSeekPosition = time;
-        m_mltProducer->set_speed(0);
         m_mltProducer->seek(time);
         m_mltConsumer->purge();
         if (!externalConsumer) {
@@ -1695,12 +1694,13 @@ void Render::checkFrameNumber(int pos)
         requestedSeekPosition = SEEK_INACTIVE;
     }
     if (requestedSeekPosition != SEEK_INACTIVE) {
+	double speed = m_mltProducer->get_speed();
         m_mltProducer->set_speed(0);
         m_mltProducer->seek(requestedSeekPosition);
-        m_mltConsumer->purge();
-        if (m_mltProducer->get_speed() == 0) {
+        if (speed == 0) {
             m_mltConsumer->set("refresh", 1);
         }
+        else m_mltProducer->set_speed(speed);
     }
 }
 
