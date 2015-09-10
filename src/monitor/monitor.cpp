@@ -1017,8 +1017,8 @@ void Monitor::slotLoopClip()
 void Monitor::updateClipProducer(Mlt::Producer *prod)
 {
     if (render == NULL) return;
-    render->setProducer(prod, -1, false);
-    if (prod) prod->set_speed(1.0);
+    if (render->setProducer(prod, -1, false))
+        prod->set_speed(1.0);
 }
 
 void Monitor::updateClipProducer(const QString &playlist)
@@ -1464,9 +1464,10 @@ void Monitor::slotSwitchRec(bool enable)
 bool Monitor::startCapture(const QString &params, const QString &path, Mlt::Producer *p)
 {
     m_controller = NULL;
-    render->updateProducer(p);
-    m_glMonitor->reconfigureMulti(params, path, p->profile());
-    return true;
+    if (render->updateProducer(p)) {
+        m_glMonitor->reconfigureMulti(params, path, p->profile());
+        return true;
+    } else return false;
 }
 
 bool Monitor::stopCapture()

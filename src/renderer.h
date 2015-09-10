@@ -125,8 +125,8 @@ class Render: public AbstractRender
      *
      * Creates the producer from the text playlist. */
     int setSceneList(QString playlist, int position = 0);
-    int updateProducer(Mlt::Producer *producer);
-    int setProducer(Mlt::Producer *producer, int position, bool isActive);
+    bool updateProducer(Mlt::Producer *producer);
+    bool setProducer(Mlt::Producer *producer, int position, bool isActive);
 
     /** @brief Get the current MLT producer playlist.
      * @return A string describing the playlist */
