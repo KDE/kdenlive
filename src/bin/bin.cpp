@@ -1083,6 +1083,8 @@ void Bin::slotInitView(QAction *action)
             // save current treeview state (column width)
             QTreeView *view = static_cast<QTreeView*>(m_itemView);
             m_headerInfo = view->header()->saveState();
+	    m_showDate->setEnabled(true);
+	    m_showDesc->setEnabled(true);
         }
         else {
             // remove the current folderUp item if any
@@ -1099,13 +1101,17 @@ void Bin::slotInitView(QAction *action)
     }
 
     switch (m_listType) {
-    case BinIconView:
-        m_itemView = new QListView(m_splitter);
-        m_folderUp = new ProjectFolderUp(NULL);
-        break;
-    default:
-        m_itemView = new MyTreeView(m_splitter);
-        break;
+	case BinIconView:
+	    m_itemView = new QListView(m_splitter);
+	    m_folderUp = new ProjectFolderUp(NULL);
+	    m_showDate->setEnabled(false);
+	    m_showDesc->setEnabled(false);
+	    break;
+	default:
+	    m_itemView = new MyTreeView(m_splitter);
+	    m_showDate->setEnabled(true);
+	    m_showDesc->setEnabled(true);
+	    break;
     }
     m_itemView->setMouseTracking(true);
     m_itemView->viewport()->installEventFilter(m_eventEater);
@@ -1475,8 +1481,9 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
 		if (!ix.isValid() || ix.column() != 0) {
 		    continue;
 		}
-                ProjectClip *currentItem = static_cast<ProjectClip *>(m_proxyModel->mapToSource(ix).internalPointer());
-                if (currentItem->clipId() == info.clipId) {
+		AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
+                ProjectClip *currentItem = qobject_cast<ProjectClip*>(item);
+                if (currentItem && currentItem->clipId() == info.clipId) {
                     // Item was selected, show it in monitor
                     currentItem->setCurrent(true);
                     break;
@@ -2455,7 +2462,7 @@ void Bin::slotAbortAudioThumb(const QString &id)
 
 void Bin::slotSetSorting()
 {
-    QTreeView *view = static_cast<QTreeView*>(m_itemView);
+    QTreeView *view = qobject_cast<QTreeView*>(m_itemView);
     if (view) {
         int ix = view->header()->sortIndicatorSection();
         m_proxyModel->setFilterKeyColumn(ix);
@@ -2464,7 +2471,7 @@ void Bin::slotSetSorting()
 
 void Bin::slotShowDateColumn(bool show)
 {
-    QTreeView *view = static_cast<QTreeView*>(m_itemView);
+    QTreeView *view = qobject_cast<QTreeView*>(m_itemView);
     if (view) {
         view->setColumnHidden(1, !show);
     }
@@ -2472,7 +2479,7 @@ void Bin::slotShowDateColumn(bool show)
 
 void Bin::slotShowDescColumn(bool show)
 {
-    QTreeView *view = static_cast<QTreeView*>(m_itemView);
+    QTreeView *view = qobject_cast<QTreeView*>(m_itemView);
     if (view) {
         view->setColumnHidden(2, !show);
     }
