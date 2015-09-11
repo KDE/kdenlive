@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>317</width>
-    <height>483</height>
+    <width>362</width>
+    <height>633</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,7 +35,7 @@
     <widget class="KUrlRequester" name="dest_url"/>
    </item>
    <item row="5" column="0" colspan="3">
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="ffmpeg_label">
      <property name="text">
       <string>FFmpeg parameters</string>
      </property>
