@@ -22,7 +22,6 @@
 #include <QtWidgets>
 #include <QOpenGLFunctions_3_2_Core>
 #include <QUrl>
-#include <QOffscreenSurface>
 #include <QtQml>
 #include <QQuickItem>
 
@@ -37,7 +36,11 @@
 
 #define USE_GL_SYNC // Use glFinish() if not defined.
 
-#define check_error() { int err = glGetError(); if (err != GL_NO_ERROR) { qCritical() << "GL error"  << hex << err << dec << "at" << __FILE__ << ":" << __LINE__; } }
+#ifdef QT_NO_DEBUG
+#define check_error(fn) {}
+#else
+#define check_error(fn) { int err = fn->glGetError(); if (err != GL_NO_ERROR) { qCritical() << "GL error"  << hex << err << dec << "at" << __FILE__ << ":" << __LINE__; } }
+#endif
 
 #ifndef GL_TIMEOUT_IGNORED
 #define GL_TIMEOUT_IGNORED 0xFFFFFFFFFFFFFFFFull
@@ -51,8 +54,8 @@ static ClientWaitSync_fp ClientWaitSync = 0;
 
 using namespace Mlt;
 
-GLWidget::GLWidget()
-    : QQuickView(0)
+GLWidget::GLWidget(QObject *parent)
+    : QQuickView((QWindow*) parent)
     , sendFrameForAnalysis(false)
     , m_shader(0)
     , m_glslManager(0)
@@ -68,6 +71,7 @@ GLWidget::GLWidget()
     , m_frameRenderer(0)
     , m_zoom(1.0f)
     , m_offset(QPoint(0, 0))
+    , m_shareContext(0)
     , m_audioWaveDisplayed(false)
     , m_fbo(NULL)
 {
@@ -112,20 +116,23 @@ GLWidget::~GLWidget()
         QMetaObject::invokeMethod(m_frameRenderer, "cleanup");
         m_frameRenderer->quit();
         m_frameRenderer->wait();
-        delete m_frameRenderer;
+        m_frameRenderer->deleteLater();
     }
+    delete m_shareContext;
     delete m_shader;
 }
 
-void GLWidget::slotError(QQuickWindow::SceneGraphError error, const QString &message)
+void GLWidget::updateAudioForAnalysis()
 {
-    qDebug()<<"+ + + ++ + + + +\nSCEN ERROR: "<<message;
+    if (m_frameRenderer) 
+	m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
 }
 
 void GLWidget::initializeGL()
 {
     if (m_isInitialized) return;
-
+    m_offscreenSurface.setFormat(openglContext()->format());
+    m_offscreenSurface.create();
     openglContext()->makeCurrent(this);
     initializeOpenGLFunctions();
     //openglContext()->blockSignals(true);
@@ -146,11 +153,22 @@ void GLWidget::initializeGL()
 #endif
 
     openglContext()->doneCurrent();
-    m_frameRenderer = new FrameRenderer(openglContext());
+    if (m_glslManager) {
+        // Create a context sharing with this context for the RenderThread context.
+        // This is needed because openglContext() is active in another thread
+        // at the time that RenderThread is created.
+        // See this Qt bug for more info: https://bugreports.qt.io/browse/QTBUG-44677
+        m_shareContext = new QOpenGLContext;
+        m_shareContext->setFormat(openglContext()->format());
+        m_shareContext->setShareContext(openglContext());
+        m_shareContext->create();
+    }
+    m_frameRenderer = new FrameRenderer(openglContext(), &m_offscreenSurface);
+    m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
     openglContext()->makeCurrent(this);
     //openglContext()->blockSignals(false);
     connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), this, SIGNAL(frameDisplayed(const SharedFrame&)), Qt::QueuedConnection);
-    connect(m_frameRenderer, SIGNAL(analyseFrame(QImage)), this, SIGNAL(analyseFrame(QImage)), Qt::QueuedConnection);
+    connect(m_frameRenderer, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), this, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), Qt::QueuedConnection);
     connect(m_frameRenderer, SIGNAL(textureReady(GLuint,GLuint,GLuint)), SLOT(updateTexture(GLuint,GLuint,GLuint)), Qt::DirectConnection);
     connect(this, SIGNAL(textureUpdated()), SLOT(update()), Qt::QueuedConnection);
 
@@ -221,11 +239,11 @@ void GLWidget::createShader()
 {
     m_shader = new QOpenGLShaderProgram;
     m_shader->addShaderFromSourceCode(QOpenGLShader::Vertex,
-                                     "uniform mat4 projection;"
-                                      "uniform mat4 modelView;"
-                                     "attribute vec4 vertex;"
-                                     "attribute vec2 texCoord;"
-                                     "varying vec2 coordinates;"
+                                     "uniform highp mat4 projection;"
+                                      "uniform highp mat4 modelView;"
+                                     "attribute highp vec4 vertex;"
+                                     "attribute highp vec2 texCoord;"
+                                     "varying highp vec2 coordinates;"
                                      "void main(void) {"
                                      "  gl_Position = projection * modelView * vertex;"
                                      "  coordinates = texCoord;"
@@ -233,7 +251,7 @@ void GLWidget::createShader()
     if (m_glslManager) {
         m_shader->addShaderFromSourceCode(QOpenGLShader::Fragment,
                                           "uniform sampler2D tex;"
-                                          "varying vec2 coordinates;"
+                                          "varying highp vec2 coordinates;"
                                           "void main(void) {"
                                           "  gl_FragColor = texture2D(tex, coordinates);"
                                           "}");
@@ -242,14 +260,14 @@ void GLWidget::createShader()
     } else {
         m_shader->addShaderFromSourceCode(QOpenGLShader::Fragment,
                                           "uniform sampler2D Ytex, Utex, Vtex;"
-                                          "uniform int colorspace;"
-                                          "varying vec2 coordinates;"
+                                          "uniform lowp int colorspace;"
+                                          "varying highp vec2 coordinates;"
                                           "void main(void) {"
-                                          "  vec3 texel;"
+                                          "  mediump vec3 texel;"
                                           "  texel.r = texture2D(Ytex, coordinates).r - 0.0625;" // Y
                                           "  texel.g = texture2D(Utex, coordinates).r - 0.5;"    // U
                                           "  texel.b = texture2D(Vtex, coordinates).r - 0.5;"    // V
-                                          "  mat3 coefficients;"
+                                          "  mediump mat3 coefficients;"
                                           "  if (colorspace == 601) {"
                                           "    coefficients = mat3("
                                           "      1.1643,  1.1643,  1.1643," // column 1
@@ -275,8 +293,68 @@ void GLWidget::createShader()
     m_texCoordLocation = m_shader->attributeLocation("texCoord");
 }
 
+static void uploadTextures(QOpenGLContext* context, SharedFrame& frame, GLuint texture[])
+{
+    int width = frame.get_image_width();
+    int height = frame.get_image_height();
+    const uint8_t* image = frame.get_image();
+    QOpenGLFunctions* f = context->functions();
+
+    // Upload each plane of YUV to a texture.
+    if (texture[0] && texture[1] && texture[2])
+        f->glDeleteTextures(3, texture);
+    check_error(f);
+    f->glGenTextures(3, texture);
+    check_error(f);
+    f->glPixelStorei(GL_UNPACK_ROW_LENGTH, width);
+
+    f->glBindTexture  (GL_TEXTURE_2D, texture[0]);
+    check_error(f);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    check_error(f);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    check_error(f);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    check_error(f);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    check_error(f);
+    f->glTexImage2D   (GL_TEXTURE_2D, 0, GL_RED, width, height, 0,
+                    GL_RED, GL_UNSIGNED_BYTE, image);
+    check_error(f);
+
+    f->glBindTexture  (GL_TEXTURE_2D, texture[1]);
+    check_error(f);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    check_error(f);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    check_error(f);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    check_error(f);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    check_error(f);
+    int y = context->isOpenGLES() ? 2 : 4;
+    f->glTexImage2D   (GL_TEXTURE_2D, 0, GL_RED, width/2, height/y, 0,
+                    GL_RED, GL_UNSIGNED_BYTE, image + width * height);
+    check_error(f);
+
+    f->glBindTexture  (GL_TEXTURE_2D, texture[2]);
+    check_error(f);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    check_error(f);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    check_error(f);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    check_error(f);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    check_error(f);
+    f->glTexImage2D   (GL_TEXTURE_2D, 0, GL_RED, width/2, height/y, 0,
+                    GL_RED, GL_UNSIGNED_BYTE, image + width * height + width/2 * height/2);
+    check_error(f);
+}
+
 void GLWidget::paintGL()
 {
+    QOpenGLFunctions* f = openglContext()->functions();
     int width = this->width() * devicePixelRatio();
     int height = this->height() * devicePixelRatio();
 
@@ -284,11 +362,11 @@ void GLWidget::paintGL()
     glDisable(GL_DEPTH_TEST);
     glDepthMask(GL_FALSE);
     glViewport(0, 0, width, height);
-    check_error();
+    check_error(f);
     QColor color(KdenliveSettings::window_background()); //= QPalette().color(QPalette::Window);
     glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
     glClear(GL_COLOR_BUFFER_BIT);
-    check_error();
+    check_error(f);
 
     if (!m_texture[0]) return;
 
@@ -297,7 +375,7 @@ void GLWidget::paintGL()
         if (m_texture[i]) {
             glActiveTexture(GL_TEXTURE0 + i);
             glBindTexture(GL_TEXTURE_2D, m_texture[i]);
-            check_error();
+            check_error(f);
         }
     }
 
@@ -311,13 +389,13 @@ void GLWidget::paintGL()
         m_shader->setUniformValue(m_textureLocation[2], 2);
         m_shader->setUniformValue(m_colorspaceLocation, m_monitorProfile->colorspace());
     }
-    check_error();
+    check_error(f);
 
     // Setup an orthographic projection.
     QMatrix4x4 projection;
     projection.scale(2.0f / width, 2.0f / height);
     m_shader->setUniformValue(m_projectionLocation, projection);
-    check_error();
+    check_error(f);
 
     // Set model view.
     QMatrix4x4 modelView;
@@ -328,7 +406,7 @@ void GLWidget::paintGL()
         modelView.scale(zoom(), zoom());
     }
     m_shader->setUniformValue(m_modelViewLocation, modelView);
-    check_error();
+    check_error(f);
 
     // Provide vertices of triangle strip.
     QVector<QVector2D> vertices;
@@ -339,9 +417,9 @@ void GLWidget::paintGL()
     vertices << QVector2D(float( width)/2.0f, float(-height)/2.0f);
     vertices << QVector2D(float( width)/2.0f, float( height)/2.0f);
     m_shader->enableAttributeArray(m_vertexLocation);
-    check_error();
+    check_error(f);
     m_shader->setAttributeArray(m_vertexLocation, vertices.constData());
-    check_error();
+    check_error(f);
 
     // Provide texture coordinates.
     QVector<QVector2D> texCoord;
@@ -350,13 +428,13 @@ void GLWidget::paintGL()
     texCoord << QVector2D(1.0f, 1.0f);
     texCoord << QVector2D(1.0f, 0.0f);
     m_shader->enableAttributeArray(m_texCoordLocation);
-    check_error();
+    check_error(f);
     m_shader->setAttributeArray(m_texCoordLocation, texCoord.constData());
-    check_error();
+    check_error(f);
 
     // Render
     glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
-    check_error();
+    check_error(f);
 
     // Render RGB frame for analysis
     if (sendFrameForAnalysis) {
@@ -372,7 +450,7 @@ void GLWidget::paintGL()
         projection.scale((double) this->width() / width, (double) this->height() / height);
         m_shader->setUniformValue(m_projectionLocation, projection);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
-        check_error();
+        check_error(f);
         m_fbo->release();
         emit analyseFrame(m_fbo->toImage());
     }
@@ -384,11 +462,11 @@ void GLWidget::paintGL()
         if (m_texture[i]) {
             glActiveTexture(GL_TEXTURE0 + i);
             glBindTexture(GL_TEXTURE_2D, 0);
-            check_error();
+            check_error(f);
         }
     }
     glActiveTexture(GL_TEXTURE0);
-    check_error();
+    check_error(f);
 }
 
 void GLWidget::wheelEvent(QWheelEvent * event)
@@ -485,7 +563,7 @@ void GLWidget::createThread(RenderThread **thread, thread_function_t function, v
         m_initSem.acquire();
     }
 #endif
-    (*thread) = new RenderThread(function, data, m_glslManager? openglContext() : 0);
+    (*thread) = new RenderThread(function, data, m_shareContext, &m_offscreenSurface);
     (*thread)->start();
 }
 
@@ -1013,21 +1091,18 @@ void GLWidget::on_gl_frame_show(mlt_consumer, void* self, mlt_frame frame_ptr)
     }
 }
 
-RenderThread::RenderThread(thread_function_t function, void *data, QOpenGLContext *context)
+RenderThread::RenderThread(thread_function_t function, void *data, QOpenGLContext *context, QSurface *surface)
     : QThread(0)
     , m_function(function)
     , m_data(data)
     , m_context(0)
-    , m_surface(0)
+    , m_surface(surface)
 {
     if (context) {
         m_context = new QOpenGLContext;
         m_context->setFormat(context->format());
         m_context->setShareContext(context);
         m_context->create();
-        m_surface = new QOffscreenSurface;
-        m_surface->setFormat(m_context->format());
-        m_surface->create();
         m_context->moveToThread(this);
     }
 }
@@ -1035,7 +1110,6 @@ RenderThread::RenderThread(thread_function_t function, void *data, QOpenGLContex
 RenderThread::~RenderThread()
 {
     //delete m_context;
-    delete m_surface;
 }
 
 void RenderThread::run()
@@ -1050,13 +1124,14 @@ void RenderThread::run()
     }
 }
 
-FrameRenderer::FrameRenderer(QOpenGLContext* shareContext)
+FrameRenderer::FrameRenderer(QOpenGLContext* shareContext, QSurface *surface)
      : QThread(0)
      , m_semaphore(3)
      , m_frame()
      , m_context(0)
-     , m_surface(0)
+     , m_surface(surface)
      , m_gl32(0)
+     , sendAudioForAnalysis(false)
 {
     Q_ASSERT(shareContext);
     m_renderTexture[0] = m_renderTexture[1] = m_renderTexture[2] = 0;
@@ -1065,9 +1140,6 @@ FrameRenderer::FrameRenderer(QOpenGLContext* shareContext)
     m_context->setFormat(shareContext->format());
     m_context->setShareContext(shareContext);
     m_context->create();
-    m_surface = new QOffscreenSurface;
-    m_surface->setFormat(m_context->format());
-    m_surface->create();
     m_context->moveToThread(this);
     setObjectName("FrameRenderer");
     moveToThread(this);
@@ -1085,73 +1157,47 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
     if (m_context->isValid()) {
         int width = 0;
         int height = 0;
-        m_context->makeCurrent(m_surface);
         mlt_image_format format = mlt_image_yuv420p;
-        const uint8_t* image = frame.get_image(format, width, height);
-
+        frame.get_image(format, width, height);
+        // Save this frame for future use and to keep a reference to the GL Texture.
+        m_frame = SharedFrame(frame);
+        m_context->makeCurrent(m_surface);
         // Upload each plane of YUV to a texture.
-        if (m_renderTexture[0] && m_renderTexture[1] && m_renderTexture[2])
-            glDeleteTextures(3, m_renderTexture);
-        glGenTextures(3, m_renderTexture);
-        check_error();
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, width);
-
-        glBindTexture  (GL_TEXTURE_2D, m_renderTexture[0]);
-        check_error();
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        check_error();
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        check_error();
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        check_error();
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        check_error();
-        glTexImage2D   (GL_TEXTURE_2D, 0, GL_LUMINANCE, width, height, 0,
-                            GL_LUMINANCE, GL_UNSIGNED_BYTE, image);
-        check_error();
-
-        glBindTexture  (GL_TEXTURE_2D, m_renderTexture[1]);
-        check_error();
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        check_error();
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        check_error();
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        check_error();
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        check_error();
-        glTexImage2D   (GL_TEXTURE_2D, 0, GL_LUMINANCE, width/2, height/4, 0,
-                            GL_LUMINANCE, GL_UNSIGNED_BYTE, image + width * height);
-        check_error();
-
-        glBindTexture  (GL_TEXTURE_2D, m_renderTexture[2]);
-        check_error();
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        check_error();
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        check_error();
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        check_error();
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        check_error();
-        glTexImage2D   (GL_TEXTURE_2D, 0, GL_LUMINANCE, width/2, height/4, 0,
-                            GL_LUMINANCE, GL_UNSIGNED_BYTE, image + width * height + width/2 * height/2);
-        check_error();
-
-        glBindTexture(GL_TEXTURE_2D, 0);
-        check_error();
-        glFinish();
+        QOpenGLFunctions* f = m_context->functions();
+        uploadTextures(m_context, m_frame, m_renderTexture);
+        f->glBindTexture(GL_TEXTURE_2D, 0);
+        check_error(f);
+        f->glFinish();
 
         for (int i = 0; i < 3; ++i)
             qSwap(m_renderTexture[i], m_displayTexture[i]);
         emit textureReady(m_displayTexture[0], m_displayTexture[1], m_displayTexture[2]);
         m_context->doneCurrent();
-        // Save this frame for future use and to keep a reference to the GL Texture.
-        m_frame = SharedFrame(frame);
 
         // The frame is now done being modified and can be shared with the rest
         // of the application.
         emit frameDisplayed(m_frame);
+	
+	if (sendAudioForAnalysis) {
+	    qDebug()<<" - - -- SEND AUDIO DATA";
+	    mlt_audio_format audio_format = mlt_audio_s16;
+	    //FIXME: should not be hardcoded..
+	    int freq = 48000;
+	    int num_channels = 2;
+	    int samples = 0;
+	    qint16* data = (qint16*)frame.get_audio(audio_format, freq, num_channels, samples);
+
+	    if (data) {
+		// Data format: [ c00 c10 c01 c11 c02 c12 c03 c13 ... c0{samples-1} c1{samples-1} for 2 channels.
+		// So the vector is of size samples*channels.
+		audioShortVector sampleVector(samples*num_channels);
+		memcpy(sampleVector.data(), data, samples*num_channels*sizeof(qint16));
+
+		if (samples > 0) {
+		    emit audioSamplesSignal(sampleVector, freq, num_channels, samples);
+		}
+	    }
+	}
     }
     m_semaphore.release();
 }
@@ -1162,11 +1208,11 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
         int width = 0;
         int height = 0;
 
-        m_context->makeCurrent(m_surface);
         frame.set("movit.convert.use_texture", 1);
         mlt_image_format format = mlt_image_glsl_texture;
         const GLuint* textureId = (GLuint*) frame.get_image(format, width, height);
 
+        m_context->makeCurrent(m_surface);
 #ifdef USE_GL_SYNC
         GLsync sync = (GLsync) frame.get_data("movit.convert.fence");
         if (sync) {
@@ -1179,17 +1225,17 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
             }
             if (m_gl32) {
                 m_gl32->glClientWaitSync(sync, 0, GL_TIMEOUT_IGNORED);
-                check_error();
+                check_error(m_context->functions());
             }
 #else
             if (ClientWaitSync) {
                 ClientWaitSync(sync, 0, GL_TIMEOUT_IGNORED);
-                check_error();
+                check_error(m_context->functions());
             }
 #endif // Q_OS_WIN
         }
 #else
-        glFinish();
+        m_context->functions()->glFinish();
 #endif // USE_GL_FENCE
         emit textureReady(*textureId);
 
@@ -1213,9 +1259,9 @@ void FrameRenderer::cleanup()
 {
     if (m_renderTexture[0] && m_renderTexture[1] && m_renderTexture[2]) {
         m_context->makeCurrent(m_surface);
-        glDeleteTextures(3, m_renderTexture);
+        m_context->functions()->glDeleteTextures(3, m_renderTexture);
         if (m_displayTexture[0] && m_displayTexture[1] && m_displayTexture[2])
-            glDeleteTextures(3, m_displayTexture);
+            m_context->functions()->glDeleteTextures(3, m_displayTexture);
         m_context->doneCurrent();
         m_renderTexture[0] = m_renderTexture[1] = m_renderTexture[2] = 0;
         m_displayTexture[0] = m_displayTexture[1] = m_displayTexture[2] = 0;

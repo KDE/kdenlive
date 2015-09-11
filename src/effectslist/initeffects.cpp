@@ -598,10 +598,10 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
     if (pos != -1)
         names.takeAt(pos);
 
-    QStringList imagenamelist = QStringList() << i18n("None");
-    QStringList imagefiles = QStringList() << QString();
+    QStringList imagenamelist;
+    QStringList imagefiles;
     QStringList filters;
-    filters << "*.pgm" << "*.png";
+    filters << "*.png" << "*.pgm";
     QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, "lumas");
     foreach(QString folder, customLumas) {
         if (!folder.endsWith('/'))
@@ -621,7 +621,9 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
         imagenamelist.append(fname);
         imagefiles.append(lumafolder.absoluteFilePath(fname));
     }
-    
+    imagenamelist.append(i18n("None (Dissolve)"));
+    imagefiles.append(QString());
+
     //WARNING: this is a hack to get around temporary invalid metadata in MLT, 2nd of june 2011 JBM
     QStringList customTransitions;
     customTransitions << "composite" << "luma" << "affine" << "mix" << "region";
@@ -697,7 +699,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
 
                 paramList.append(quickParameterFill(ret, i18n("Softness"), "softness", "double", "0", "0", "100", "", "", "100"));
                 paramList.append(quickParameterFill(ret, i18nc("@property: means that the image is inverted", "Invert"), "invert", "bool", "0", "0", "1"));
-                paramList.append(quickParameterFill(ret, i18n("Image File"), "resource", "list", "", "", "", imagefiles.join(";"), imagenamelist.join(",")));
+                paramList.append(quickParameterFill(ret, i18n("Image File"), "resource", "list", imagefiles.first(), "", "", imagefiles.join(";"), imagenamelist.join(",")));
                 paramList.append(quickParameterFill(ret, i18n("Reverse Transition"), "reverse", "bool", "0", "0", "1"));
                 //thumbnailer.prepareThumbnailsCall(imagelist);
             } else if (name == "composite") {

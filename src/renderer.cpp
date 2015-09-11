@@ -163,7 +163,6 @@ void Render::seek(int time)
     resetZoneMode();
     if (requestedSeekPosition == SEEK_INACTIVE) {
         requestedSeekPosition = time;
-        m_mltProducer->set_speed(0);
         m_mltProducer->seek(time);
         m_mltConsumer->purge();
         if (!externalConsumer) {
@@ -716,15 +715,15 @@ void Render::processFileProperties()
         ////qDebug() << "///////  PRODUCER: " << url.path() << " IS: " << producer->get_playtime();
 
         if (type == SlideShow) {
-            int ttl = info.xml.hasAttribute("ttl") ? info.xml.attribute("ttl").toInt() : 0;
-            if (ttl) producer->set("ttl", ttl);
-            if (!info.xml.attribute("animation").isEmpty()) {
+	    int ttl = EffectsList::property(info.xml,"ttl").toInt();
+	    QString anim = EffectsList::property(info.xml,"animation");
+            if (!anim.isEmpty()) {
                 Mlt::Filter *filter = new Mlt::Filter(*m_qmlView->profile(), "affine");
                 if (filter && filter->is_valid()) {
                     int cycle = ttl;
-                    QString geometry = SlideshowClip::animationToGeometry(info.xml.attribute("animation"), cycle);
+                    QString geometry = SlideshowClip::animationToGeometry(anim, cycle);
                     if (!geometry.isEmpty()) {
-                        if (info.xml.attribute("animation").contains("low-pass")) {
+                        if (anim.contains("low-pass")) {
                             Mlt::Filter *blur = new Mlt::Filter(*m_qmlView->profile(), "boxblur");
                             if (blur && blur->is_valid())
                                 producer->attach(*blur);
@@ -735,23 +734,28 @@ void Render::processFileProperties()
                     }
                 }
             }
-            if (info.xml.attribute("fade") == "1") {
+            QString fade = EffectsList::property(info.xml,"fade");
+	    if (fade == "1") {
                 // user wants a fade effect to slideshow
                 Mlt::Filter *filter = new Mlt::Filter(*m_qmlView->profile(), "luma");
                 if (filter && filter->is_valid()) {
                     if (ttl) filter->set("cycle", ttl);
-                    if (info.xml.hasAttribute("luma_duration") && !info.xml.attribute("luma_duration").isEmpty()) filter->set("duration",      info.xml.attribute("luma_duration").toInt());
-                    if (info.xml.hasAttribute("luma_file") && !info.xml.attribute("luma_file").isEmpty()) {
-                        filter->set("luma.resource", info.xml.attribute("luma_file").toUtf8().constData());
-                        if (info.xml.hasAttribute("softness")) {
-                            int soft = info.xml.attribute("softness").toInt();
+		    QString luma_duration = EffectsList::property(info.xml,"luma_duration");
+		    QString luma_file = EffectsList::property(info.xml,"luma_file");
+		    if (!luma_duration.isEmpty()) filter->set("duration", luma_duration.toInt());
+                    if (!luma_file.isEmpty()) {
+                        filter->set("luma.resource", luma_file.toUtf8().constData());
+			QString softness = EffectsList::property(info.xml,"softness");
+                        if (!softness.isEmpty()) {
+                            int soft = softness.toInt();
                             filter->set("luma.softness", (double) soft / 100.0);
                         }
                     }
                     producer->attach(*filter);
                 }
             }
-            if (info.xml.attribute("crop") == "1") {
+            QString crop = EffectsList::property(info.xml,"crop");
+            if (crop == "1") {
                 // user wants to center crop the slides
                 Mlt::Filter *filter = new Mlt::Filter(*m_qmlView->profile(), "crop");
                 if (filter && filter->is_valid()) {
@@ -1037,7 +1041,7 @@ void Render::loadUrl(const QString &url)
     setProducer(producer, 0, true);
 }
 
-int Render::updateProducer(Mlt::Producer *producer)
+bool Render::updateProducer(Mlt::Producer *producer)
 {
     if (m_mltProducer) {
         if (strcmp(m_mltProducer->get("resource"), "<tractor>") == 0) {
@@ -1056,10 +1060,7 @@ int Render::updateProducer(Mlt::Producer *producer)
         }
     }
     if (!producer || !producer->is_valid()) {
-        if (producer) delete producer;
-        producer = m_blackClip->cut(0, 1);
-        producer->set("id", "black");
-	return -1;
+        return false;
     }
     m_fps = producer->get_fps();
     m_mltProducer = producer;
@@ -1067,10 +1068,10 @@ int Render::updateProducer(Mlt::Producer *producer)
         m_qmlView->setProducer(producer, false);
         m_mltConsumer = m_qmlView->consumer();
     }
-    return 0;
+    return true;
 }
 
-int Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
+bool Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
 {
     m_refreshTimer.stop();
     requestedSeekPosition = SEEK_INACTIVE;
@@ -1100,13 +1101,8 @@ int Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
     }
     blockSignals(true);
     if (!producer || !producer->is_valid()) {
-        if (producer) delete producer;
-        producer = m_blackClip->cut(0, 1);
-        producer->set("id", "black");
-    }
-    if (!producer || !producer->is_valid()) {
-        qDebug() << " WARNING - - - - -INVALID PLAYLIST: ";
-        return -1;
+        qWarning() << "Invalid playlist";
+        return false;
     }
 
     emit stopped();
@@ -1129,7 +1125,7 @@ int Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
     emit durationChanged(m_mltProducer->get_playtime(), m_mltProducer->get_in());
     position = m_mltProducer->position();
     emit rendererPosition(position);
-    return 0;
+    return true;
 }
 
 void Render::startConsumer() {
@@ -1296,7 +1292,7 @@ const QString Render::sceneList()
 {
     QString playlist;
     Mlt::Consumer xmlConsumer(*m_qmlView->profile(), "xml:kdenlive_playlist");
-    qDebug()<<" ++ + READY TO SAVE: "<<m_qmlView->profile()->width()<<" / "<<m_qmlView->profile()->description();
+    //qDebug()<<" ++ + READY TO SAVE: "<<m_qmlView->profile()->width()<<" / "<<m_qmlView->profile()->description();
     if (!xmlConsumer.is_valid()) return QString();
     m_mltProducer->optimise();
     xmlConsumer.set("terminate_on_pause", 1);
@@ -1695,12 +1691,13 @@ void Render::checkFrameNumber(int pos)
         requestedSeekPosition = SEEK_INACTIVE;
     }
     if (requestedSeekPosition != SEEK_INACTIVE) {
+	double speed = m_mltProducer->get_speed();
         m_mltProducer->set_speed(0);
         m_mltProducer->seek(requestedSeekPosition);
-        m_mltConsumer->purge();
-        if (m_mltProducer->get_speed() == 0) {
+        if (speed == 0) {
             m_mltConsumer->set("refresh", 1);
         }
+        else m_mltProducer->set_speed(speed);
     }
 }
 

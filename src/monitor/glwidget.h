@@ -25,6 +25,7 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFramebufferObject>
 #include <QOpenGLContext>
+#include <QOffscreenSurface>
 #include <QMutex>
 #include <QThread>
 #include <QRect>
@@ -33,7 +34,6 @@
 #include "definitions.h"
 
 class QOpenGLFunctions_3_2_Core;
-class QOffscreenSurface;
 class QOpenGLTexture;
 //class QmlFilter;
 //class QmlMetadata;
@@ -56,7 +56,7 @@ class GLWidget : public QQuickView, protected QOpenGLFunctions
     Q_PROPERTY(QPoint offset READ offset NOTIFY offsetChanged)
 
 public:
-    GLWidget();
+    GLWidget(QObject *parent = 0);
     ~GLWidget();
 
     void createThread(RenderThread** thread, thread_function_t function, void* data);
@@ -70,6 +70,8 @@ public:
     void clearFrameRenderer();
 
     int displayWidth() const { return m_rect.width(); }
+    
+    void updateAudioForAnalysis();
     int displayHeight() const { return m_rect.height(); }
 
     QObject* videoWidget() { return this; }
@@ -104,6 +106,7 @@ public slots:
     void slotSwitchAudioOverlay(bool enable);
     //void setCurrentFilter(QmlFilter* filter, QmlMetadata* meta);
     void initializeGL();
+
 signals:
     void frameDisplayed(const SharedFrame& frame);
     void textureUpdated();
@@ -122,6 +125,7 @@ signals:
     void startDrag();
     void effectChanged(const QRect);
     void analyseFrame(QImage);
+    void audioSamplesSignal(const audioShortVector&,int,int,int);
     void showContextMenu(const QPoint);
 
 private:
@@ -150,6 +154,8 @@ private:
     int m_textureLocation[3];
     float m_zoom;
     QPoint m_offset;
+    QOffscreenSurface m_offscreenSurface;
+    QOpenGLContext* m_shareContext;
     bool m_audioWaveDisplayed;
     static void on_frame_show(mlt_consumer, void* self, mlt_frame frame);
     static void on_gl_frame_show(mlt_consumer, void* self, mlt_frame frame_ptr);
@@ -177,7 +183,7 @@ class RenderThread : public QThread
 {
     Q_OBJECT
 public:
-    RenderThread(thread_function_t function, void* data, QOpenGLContext *context);
+    RenderThread(thread_function_t function, void* data, QOpenGLContext *context, QSurface *surface);
     ~RenderThread();
 
 protected:
@@ -187,14 +193,14 @@ private:
     thread_function_t m_function;
     void* m_data;
     QOpenGLContext* m_context;
-    QOffscreenSurface* m_surface;
+    QSurface* m_surface;
 };
 
 class FrameRenderer : public QThread
 {
     Q_OBJECT
 public:
-    explicit FrameRenderer(QOpenGLContext* shareContext);
+    explicit FrameRenderer(QOpenGLContext* shareContext, QSurface *surface);
     ~FrameRenderer();
     QSemaphore* semaphore() { return &m_semaphore; }
     QOpenGLContext* context() const { return m_context; }
@@ -208,18 +214,19 @@ public slots:
 signals:
     void textureReady(GLuint yName, GLuint uName = 0, GLuint vName = 0);
     void frameDisplayed(const SharedFrame& frame);
-    void analyseFrame(QImage);
+    void audioSamplesSignal(const audioShortVector&,int,int,int);
 
 private:
     QSemaphore m_semaphore;
     SharedFrame m_frame;
     QOpenGLContext* m_context;
-    QOffscreenSurface* m_surface;
+    QSurface* m_surface;
 
 public:
     GLuint m_renderTexture[3];
     GLuint m_displayTexture[3];
     QOpenGLFunctions_3_2_Core* m_gl32;
+    bool sendAudioForAnalysis;
 };
 
 

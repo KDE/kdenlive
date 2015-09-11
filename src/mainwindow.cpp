@@ -282,7 +282,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     new LayoutManagement(this);
     new HideTitleBars(this);
     new TimelineSearch(this);
-    new ScopeManager(this);
+    ScopeManager *scmanager = new ScopeManager(this);
 
     // Add shortcut to action tooltips
     QList< KActionCollection * > collections = KActionCollection::allCollections();
@@ -471,6 +471,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
 #endif
+    scmanager->slotCheckActiveScopes();
     //KMessageBox::information(this, "Warning, development version for testing only. we are currently working on core functionnalities,\ndo not save any project or your project files might be corrupted.");
 }
 
@@ -689,9 +690,15 @@ void MainWindow::slotAddEffect(const QDomElement &effect)
     }
     QDomElement effectToAdd = effect.cloneNode().toElement();
     EFFECTMODE status = m_effectStack->effectStatus();
-    if (status == TIMELINE_TRACK) pCore->projectManager()->currentTimeline()->projectView()->slotAddTrackEffect(effectToAdd, pCore->projectManager()->currentTimeline()->tracksCount() - m_effectStack->trackIndex());
-    else if (status == TIMELINE_CLIP) pCore->projectManager()->currentTimeline()->projectView()->slotAddEffect(effectToAdd, GenTime(), -1);
-    else if (status == MASTER_CLIP) pCore->bin()->addEffect(QString(), effectToAdd);
+    if (status == TIMELINE_TRACK) {
+        pCore->projectManager()->currentTimeline()->projectView()->slotAddTrackEffect(effectToAdd, pCore->projectManager()->currentTimeline()->tracksCount() - m_effectStack->trackIndex());
+    }
+    else if (status == TIMELINE_CLIP) {
+        pCore->projectManager()->currentTimeline()->projectView()->slotAddEffect(effectToAdd, GenTime(), -1);
+    }
+    else if (status == MASTER_CLIP) {
+        pCore->bin()->addEffect(QString(), effectToAdd);
+    }
 }
 
 void MainWindow::slotUpdateClip(const QString &id, bool reload)

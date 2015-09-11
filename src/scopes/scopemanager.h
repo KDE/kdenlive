@@ -82,18 +82,6 @@ private:
       */
     bool imagesAcceptedByScopes() const;
 
-
-    /**
-      Checks whether audio data is required, and notifies the renderer (enable or disable data sending).
-      \see checkActiveAudioScopes() for image data
-      */
-    void checkActiveAudioScopes();
-    /**
-      Checks whether any scope accepts frames, and notifies the renderer.
-      \see checkActiveAudioScopes() for audio data
-      */
-    void checkActiveColourScopes();
-
     /**
       Creates all the scopes in audioscopes/ and colorscopes/.
       New scopes are not detected automatically but have to be added.
@@ -107,6 +95,9 @@ private:
      */
     template <class T> void createScopeDock(T *scopeWidget, const QString &title);
 
+public slots:
+    void slotCheckActiveScopes();
+    
 private slots:
     /**
       Updates the signal/slot connection since the active renderer has changed.
@@ -121,15 +112,23 @@ private slots:
       \see checkActiveColourScopes()
       */
     
-    void slotCheckActiveScopes();
+        /**
+      Checks whether audio data is required, and notifies the renderer (enable or disable data sending).
+      \see checkActiveAudioScopes() for image data
+      */
+    void checkActiveAudioScopes();
+    /**
+      Checks whether any scope accepts frames, and notifies the renderer.
+      \see checkActiveAudioScopes() for audio data
+      */
+    void checkActiveColourScopes();
+
     void slotDistributeFrame(const QImage &image);
     void slotDistributeAudio(const audioShortVector &sampleData, int freq, int num_channels, int num_samples);
     /**
       Allows a scope to explicitly request a new frame, even if the scope's autoRefresh is disabled.
       */
     void slotRequestFrame(const QString &widgetName);
-
-
 };
 
 #endif // SCOPEMANAGER_H

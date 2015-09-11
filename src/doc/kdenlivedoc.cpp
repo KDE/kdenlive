@@ -1096,6 +1096,11 @@ bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, const QString 
 void KdenliveDoc::deleteClip(const QString &clipId)
 {
     ClipController *controller = pCore->binController()->getController(clipId);
+    if (!controller) {
+	// Clip doesn't exist, something is wrong
+	qWarning()<<"// Document error deleting clip: "<<clipId;
+	return;
+    }
     ClipType type = controller->clipType();
     QString url = controller->clipUrl().toLocalFile();
     if (type != Color && type != SlideShow  && !url.isEmpty()) {

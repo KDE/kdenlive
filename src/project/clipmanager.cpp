@@ -239,7 +239,6 @@ void ClipManager::deleteProjectItems(QStringList clipIds, QStringList folderIds,
             }
         }
         // remove clips and folders from bin
-        qDebug()<<" + ++ +DELETING CLIPs: "<<clipIds;
         slotDeleteClips(clipIds, folderIds, subClipIds, deleteCommand, execute);
     }
 }
@@ -248,10 +247,10 @@ void ClipManager::slotDeleteClips(QStringList clipIds, QStringList folderIds, QS
 {
     for (int i = 0; i < clipIds.size(); ++i) {
         QString xml = pCore->binController()->xmlFromId(clipIds.at(i));
-	QDomDocument doc;
-	doc.setContent(xml);
-        if (!xml.isNull()) {
-            new AddClipCommand(m_doc, doc.documentElement(), clipIds.at(i), false, deleteCommand);
+        if (!xml.isEmpty()) {
+	    QDomDocument doc;
+	    doc.setContent(xml);
+            new AddClipCommand(m_doc, doc.documentElement(), clipIds.at(i), false, deleteCommand);	    
         }
     }
     for (int i = 0; i < folderIds.size(); ++i) {
@@ -262,7 +261,6 @@ void ClipManager::slotDeleteClips(QStringList clipIds, QStringList folderIds, QS
     }
 
     if (execute) {
-        qDebug()<<" // / /EXECUTE DELETION";
         m_doc->commandStack()->push(deleteCommand);
     }
 }

@@ -529,7 +529,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         return;
     }
 
-    if (event->buttons() != Qt::NoButton) {
+    if (m_operationMode != None && event->buttons() != Qt::NoButton) {
         bool move = (event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance();
         if (m_dragItem && move && m_operationMode != ZoomTimeline) m_clipDrag = true;
         if (m_dragItem && m_tool == SelectTool) {
@@ -982,6 +982,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         emit transitionItemSelected(NULL);
         m_autoTransition->setEnabled(false);
     }
+    m_selectionMutex.unlock();
     // context menu requested
     if (event->button() == Qt::RightButton) {
         if (!m_dragItem && !m_dragGuide) {
@@ -1008,10 +1009,9 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         }
         displayContextMenu(event->globalPos(), m_dragItem, dragGroup);
         m_menuPosition = m_clickEvent;
+        event->setAccepted(true);
     }
-    m_selectionMutex.unlock();
     // No item under click
-
     if (m_dragItem == NULL) {
         resetSelectionGroup(false);
         m_scene->clearSelection();
@@ -1024,7 +1024,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         event->ignore();
         return;
     }
-    
+
     if (m_tool == SpacerTool) {
         resetSelectionGroup(false);
         m_scene->clearSelection();
@@ -1033,8 +1033,8 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         QGraphicsView::mousePressEvent(event);
         event->ignore();
         return;
-    }  
-      
+    }
+
     // Razor tool
     if (m_tool == RazorTool && m_dragItem) {
         GenTime cutPos = GenTime((int)(mapToScene(event->pos()).x()), m_document->fps());
@@ -1111,7 +1111,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         else updateClipTypeActions(NULL);
     }
     else {
-        QGraphicsView::mousePressEvent(event);
+        if (event->button() != Qt::RightButton) {
+            // Calling this when right mouse button is clicked causes unwanted clip move
+            QGraphicsView::mousePressEvent(event);
+        }
         m_selectionMutex.lock();
         if (m_selectionGroup) {
             QList<QGraphicsItem *> children = m_selectionGroup->childItems();
@@ -1202,7 +1205,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         info.startPos = m_dragItem->startPos();
         info.track = m_dragItem->track();
         int transitiontrack = getPreviousVideoTrack(info.track);
-        qDebug()<<" / / /ADDING TRANS ON TK: "<<transitiontrack;
         ClipItem *transitionClip = NULL;
         if (transitiontrack != 0) transitionClip = getClipItemAtStart(info.startPos, m_timeline->tracksCount() - transitiontrack);
         if (transitionClip && transitionClip->endPos() < m_dragItem->endPos()) {
@@ -3607,7 +3609,6 @@ void CustomTrackView::completeSpaceOperation(int track, GenTime &timeOffset)
       m_document->renderer()->mltInsertSpace(trackClipStartList, trackTransitionStartList, track, timeOffset, GenTime());
     }
   }
-  
   resetSelectionGroup();
   for (int i = 0; i < groups.count(); ++i) 
   {

@@ -27,6 +27,7 @@
 #include "mltcontroller/bincontroller.h"
 #include "kdenlivesettings.h"
 #include "timeline/abstractclipitem.h"
+#include "timeline/clip.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kthumb.h"
 
@@ -66,6 +67,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_recManager(NULL)
     , m_loopClipAction(NULL)
     , m_effectCompare(NULL)
+    , m_sceneVisibilityAction(NULL)
     , m_contextMenu(NULL)
     , m_selectedClip(NULL)
     , m_loopClipTransition(true)
@@ -204,6 +206,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(render, SIGNAL(durationChanged(int,int)), this, SLOT(adjustRulerSize(int,int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
     connect(m_glMonitor, SIGNAL(analyseFrame(QImage)), render, SLOT(emitFrameUpdated(QImage)));
+    connect(m_glMonitor, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), render, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)));
     if (id != Kdenlive::ClipMonitor) {
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
         connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SIGNAL(zoneUpdated(QPoint)));
@@ -1015,8 +1018,8 @@ void Monitor::slotLoopClip()
 void Monitor::updateClipProducer(Mlt::Producer *prod)
 {
     if (render == NULL) return;
-    render->setProducer(prod, -1, false);
-    if (prod) prod->set_speed(1.0);
+    if (render->setProducer(prod, -1, false))
+        prod->set_speed(1.0);
 }
 
 void Monitor::updateClipProducer(const QString &playlist)
@@ -1220,7 +1223,7 @@ void Monitor::slotShowEffectScene(bool show)
     else if (m_rootItem && m_rootItem->objectName() == "rooteffectscene")  {
         loadMasterQml();
     }
-    m_sceneVisibilityAction->setChecked(show);
+    if (m_sceneVisibilityAction) m_sceneVisibilityAction->setChecked(show);
 }
 
 void Monitor::slotSeekToKeyFrame()
@@ -1283,6 +1286,10 @@ void Monitor::sendFrameForAnalysis(bool analyse)
     m_glMonitor->sendFrameForAnalysis = analyse;
 }
 
+void Monitor::updateAudioForAnalysis()
+{
+    m_glMonitor->updateAudioForAnalysis();
+}
 
 void Monitor::onFrameDisplayed(const SharedFrame& frame)
 {
@@ -1371,13 +1378,18 @@ void Monitor::slotSwitchCompare(bool enable)
             warningMessage(i18n("The cairoblend transition is required for that feature, please install frei0r and restart Kdenlive"));
             return;
         }
-        Mlt::Producer original = m_controller->originalProducer();
+        Mlt::Producer *original = m_controller->masterProducer();
         Mlt::Tractor trac(*profile());
-        Mlt::Producer clone(*profile(), original.get("resource"));
-        trac.set_track(original, 0);
-        trac.set_track(clone, 1);
-        clone.attach(*m_splitEffect);
+	Clip clp(*original);
+        Mlt::Producer *clone = clp.clone();
+	Clip clp2(*clone);
+	clp2.deleteEffects();
+        trac.set_track(*original, 0);
+        trac.set_track(*clone, 1);
+        clone->attach(*m_splitEffect);
         trac.plant_transition(t, 0, 1);
+	delete clone;
+	delete original;
         m_splitProducer = new Mlt::Producer(trac.get_producer());
         render->setProducer(m_splitProducer, pos, isActive());
         m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitorsplit.qml"))));
@@ -1457,9 +1469,10 @@ void Monitor::slotSwitchRec(bool enable)
 bool Monitor::startCapture(const QString &params, const QString &path, Mlt::Producer *p)
 {
     m_controller = NULL;
-    render->updateProducer(p);
-    m_glMonitor->reconfigureMulti(params, path, p->profile());
-    return true;
+    if (render->updateProducer(p)) {
+        m_glMonitor->reconfigureMulti(params, path, p->profile());
+        return true;
+    } else return false;
 }
 
 bool Monitor::stopCapture()
