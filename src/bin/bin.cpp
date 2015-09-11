@@ -1225,6 +1225,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
 		m_proxyAction->blockSignals(false);
             }
         }
+        
     }
     // Enable / disable clip actions
     m_proxyAction->setEnabled(enableClipActions);
@@ -1236,7 +1237,12 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_clipsActionsMenu->setEnabled(enableClipActions);
     m_extractAudioAction->setEnabled(enableClipActions);
     // Show menu
-    m_menu->exec(event->globalPos());
+    if (enableClipActions) {
+	m_menu->exec(event->globalPos());
+    } else {
+	// Clicked in empty area
+	m_addButton->menu()->exec(event->globalPos());
+    }
 }
 
 
