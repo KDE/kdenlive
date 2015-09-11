@@ -122,6 +122,11 @@ GLWidget::~GLWidget()
     delete m_shader;
 }
 
+void GLWidget::slotError(QQuickWindow::SceneGraphError, QString const& message)
+{
+    qDebug()<<"// SCene error: "<<message;
+}
+
 void GLWidget::updateAudioForAnalysis()
 {
     if (m_frameRenderer) 
