@@ -2893,6 +2893,7 @@ void Render::cloneProperties(Mlt::Properties &dest, Mlt::Properties &source)
     }
 }
 
+// adds the transition by keeping the instance order from topmost track down to background
 void Render::mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track)
 {
     mlt_service nextservice = mlt_service_get_producer(field->get_service());
@@ -3200,6 +3201,7 @@ void Render::fillSlowMotionProducers()
     }
 }
 
+//Updates all transitions
 QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool videoTrack)
 {
     QList <TransitionInfo> transitionInfos;
@@ -3227,31 +3229,18 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
         ix = ct;
     }
 
-    int pos = ix;
-    if (pos < ct) {
-        tractor.insert_track(playlist, pos);
-        Mlt::Producer newProd(tractor.track(pos));
-        if (!videoTrack) newProd.set("hide", 1);
-        /*pos++;
-        for (; pos <= ct; ++pos) {
-            Mlt::Producer *prodToMove2 = new Mlt::Producer(tractor.track(pos));
-            tractor.insert_track(*prodToMove, pos);
-            prodToMove = prodToMove2;
-        }*/
-    } else {
-        tractor.insert_track(playlist, ix);
-        Mlt::Producer newProd(tractor.track(ix));
-        if (!videoTrack) newProd.set("hide", 1);
-    }
-    checkMaxThreads();
+    tractor.insert_track(playlist, ix);
+    Mlt::Producer newProd(tractor.track(ix));
+    if (!videoTrack) newProd.set("hide", 1);
+    //checkMaxThreads();
 
+    Mlt::Field *field = tractor.field();
     // Move transitions
-    mlt_service serv = m_mltProducer->parent().get_service();
+    /*mlt_service serv = m_mltProducer->parent().get_service();
     mlt_service nextservice = mlt_service_get_producer(serv);
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
     QString mlt_type = mlt_properties_get(properties, "mlt_type");
     QString resource = mlt_properties_get(properties, "mlt_service");
-    Mlt::Field *field = tractor.field();
     QList <Mlt::Transition *> trList;
 
     while (mlt_type == "transition") {
@@ -3301,22 +3290,33 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
         properties = MLT_SERVICE_PROPERTIES(nextservice);
         mlt_type = mlt_properties_get(properties, "mlt_type");
         resource = mlt_properties_get(properties, "mlt_service");
-    }
+    }*/
 
     // Add audio mix transition to last track
-    Mlt::Transition transition(*m_qmlView->profile(), "mix");
-    transition.set("a_track", 1);
-    transition.set("b_track", ct);
-    transition.set("always_active", 1);
-    transition.set("internal_added", 237);
-    transition.set("combine", 1);
-    mltPlantTransition(field, transition, 1, ct);
-    
+    Mlt::Transition mix(*m_qmlView->profile(), "mix");
+    mix.set("a_track", 1);
+    mix.set("b_track", ix);
+    mix.set("always_active", 1);
+    mix.set("internal_added", 237);
+    mix.set("combine", 1);
+    field->plant_transition(mix, 1, ct);
+
+    if (videoTrack) {
+        Mlt::Transition composite(*m_qmlView->profile(), KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend");
+        composite.set("a_track", ct-2);
+        composite.set("b_track", ct-1);
+        composite.set("internal_added", 237);
+        field->plant_transition(composite, ct-2, ct-1);
+        //mltPlantTransition(field, composite, ct-1, ct);
+    }
+
+    /*
     // re-add transitions
     for (int i = trList.count() - 1; i >= 0; --i) {
         field->plant_transition(*trList.at(i), trList.at(i)->get_a_track(), trList.at(i)->get_b_track());
     }
     qDeleteAll(trList);
+    */
     
     service.unlock();
     blockSignals(false);

@@ -489,11 +489,11 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
     // create playlists
     int total = tracks.count();
 
-    for (int i = 0; i < total; ++i) {
+    for (int i = 1; i <= total; ++i) {
         QDomElement playlist = doc.createElement("playlist");
         playlist.setAttribute("id", "playlist" + QString::number(i));
-        playlist.setAttribute("kdenlive:track_name", tracks.at(i).trackName);
-        if (tracks.at(i).type == AudioTrack) {
+        playlist.setAttribute("kdenlive:track_name", tracks.at(i-1).trackName);
+        if (tracks.at(i-1).type == AudioTrack) {
             playlist.setAttribute("kdenlive:audio_track", 1);
         }
         mlt.appendChild(playlist);
@@ -504,41 +504,41 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
     tractor.appendChild(track0);
 
     // create audio and video tracks
-    for (int i = 0; i < total; ++i) {
+    for (int i = 1; i <= total; ++i) {
         QDomElement track = doc.createElement("track");
         track.setAttribute("producer", "playlist" + QString::number(i));
-        if (tracks.at(i).type == AudioTrack) {
+        if (tracks.at(i-1).type == AudioTrack) {
             track.setAttribute("hide", "video");
-        } else if (tracks.at(i).isBlind) {
-            if (tracks.at(i).isMute) {
+        } else if (tracks.at(i-1).isBlind) {
+            if (tracks.at(i-1).isMute) {
                 track.setAttribute("hide", "all");
             }
             else track.setAttribute("hide", "video");
         }
-        else if (tracks.at(i).isMute)
+        else if (tracks.at(i-1).isMute)
             track.setAttribute("hide", "audio");
         tractor.appendChild(track);
     }
 
-    for (int i = 2; i < total + 1 ; ++i) {
+    for (int i = total; i >= 2; --i) {
         QDomElement transition = doc.createElement("transition");
         transition.setAttribute("always_active", "1");
 
         QDomElement property = doc.createElement("property");
+        property.setAttribute("name", "mlt_service");
+        value = doc.createTextNode("mix");
+        property.appendChild(value);
+        transition.appendChild(property);
+
+        property = doc.createElement("property");
         property.setAttribute("name", "a_track");
-        QDomText value = doc.createTextNode(QString::number(1));
+        QDomText value = doc.createTextNode("1");
         property.appendChild(value);
         transition.appendChild(property);
 
         property = doc.createElement("property");
         property.setAttribute("name", "b_track");
         value = doc.createTextNode(QString::number(i));
-        property.appendChild(value);
-        transition.appendChild(property);
-
-        property = doc.createElement("property");
-        property.setAttribute("name", "mlt_service");
-        value = doc.createTextNode("mix");
         property.appendChild(value);
         transition.appendChild(property);
 
@@ -553,7 +553,34 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
         value = doc.createTextNode("237");
         property.appendChild(value);
         transition.appendChild(property);
+
         tractor.appendChild(transition);
+
+        if (tracks.at(i-1).type == VideoTrack) {
+
+            transition = doc.createElement("transition");
+            property = doc.createElement("property");
+            property.setAttribute("name", "mlt_service");
+            property.appendChild(doc.createTextNode(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend"));
+            transition.appendChild(property);
+
+            property = doc.createElement("property");
+            property.setAttribute("name", "a_track");
+            property.appendChild(doc.createTextNode(QString::number(i-1)));
+            transition.appendChild(property);
+
+            property = doc.createElement("property");
+            property.setAttribute("name", "b_track");
+            property.appendChild(doc.createTextNode(QString::number(i)));
+            transition.appendChild(property);
+
+            property = doc.createElement("property");
+            property.setAttribute("name", "internal_added");
+            property.appendChild(doc.createTextNode("237"));
+            transition.appendChild(property);
+
+            tractor.appendChild(transition);
+        }
     }
     mlt.appendChild(tractor);
     return doc;

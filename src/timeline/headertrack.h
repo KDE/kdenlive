@@ -54,6 +54,7 @@ private:
     bool m_isSelected;
     QString m_name;
     QToolBar *m_tb;
+    KDualAction *m_switchComposite;
     KDualAction *m_switchVideo;
     KDualAction *m_switchAudio;
     KDualAction *m_switchLock;
@@ -62,12 +63,14 @@ private:
 private slots:
     void switchAudio(bool);
     void switchVideo(bool);
+    void switchComposite(bool);
     void slotRenameTrack();
     void switchLock(bool);
 
 signals:
     void switchTrackAudio(int,bool);
     void switchTrackVideo(int,bool);
+    void switchTrackComposite(int,bool);
     void switchTrackLock(int,bool);
     void renameTrack(int, const QString&);
     void selectTrack(int);

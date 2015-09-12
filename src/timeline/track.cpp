@@ -518,6 +518,7 @@ TrackInfo Track::info()
     info.isBlind = currentState & 1;
     info.type = type;
     info.effectsList = effectsList;
+    info.composite = m_playlist.get_int("kdenlive:composite");
     return info;
 }
 
