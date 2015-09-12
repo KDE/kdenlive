@@ -3013,6 +3013,14 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
         ix = m_timeline->tracksCount() + 1;
     }
     transitionInfos = m_document->renderer()->mltInsertTrack(ix,  type.trackName, type.type == VideoTrack);
+    //keep the composite transitions stack continuous (mlt_tractor_insert_track did shift the upper composite to the lower track instead of the new one)
+    if (m_timeline->getTrackInfo(ix).type == VideoTrack) {
+        Mlt::Transition *tr = m_timeline->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", ix+1);
+        if (tr) {
+            tr->set_tracks(ix, ix+1);
+            delete tr;
+        }
+    }
     // Update timeline
     reloadTimeline();
 }
@@ -3043,10 +3051,22 @@ void CustomTrackView::removeTrack(int ix)
     clearSelection();
     emit transitionItemSelected(NULL);
 
+    //Delete composite transition
+    //TODO: fix in MLT?!
+    if (m_timeline->getTrackInfo(ix).type == VideoTrack) {
+        ix = m_timeline->tracksCount() - ix;
+        Mlt::Transition *tr = m_timeline->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", ix+1);
+        if (tr) {
+            Mlt::Tractor *tractor = m_document->renderer()->lockService();
+            mlt_field_disconnect_service(tractor->field()->get_field(), tr->get_service());
+            m_document->renderer()->unlockService(tractor);
+            delete tr;
+        }
+    }
     // Delete track in MLT playlist
-    m_document->renderer()->mltDeleteTrack(m_timeline->tracksCount() - ix);
+    m_document->renderer()->mltDeleteTrack(ix);
+    
     reloadTimeline();
-    return;
     /*
     double startY = ix * (m_tracksHeight + 1) + m_tracksHeight / 2;
     QRectF r(0, startY, sceneRect().width(), sceneRect().height() - startY);

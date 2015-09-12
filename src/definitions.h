@@ -156,6 +156,7 @@ public:
     bool isMute;
     bool isBlind;
     bool isLocked;
+    bool composite;
     int duration;
     EffectsList effectsList;
     TrackInfo() :
@@ -163,6 +164,7 @@ public:
         isMute(0),
         isBlind(0),
         isLocked(0),
+        composite(0),
         duration(0),
         effectsList(true) {}
 };

@@ -123,6 +123,7 @@ public:
     void saveZone(const QUrl url, const QPoint &zone);
     void duplicateClipOnPlaylist(int tk, qreal startPos, int offset, Mlt::Producer *prod);
     void duplicateTransitionOnPlaylist(int in, int out, QString tag, QDomElement xml, int a_track, int b_track, Mlt::Field *field);
+    Mlt::Transition *getTransition(const QString &name, int trackIndex) const;
 
 protected:
     void keyPressEvent(QKeyEvent * event);
@@ -157,7 +158,7 @@ private:
     void adjustTrackHeaders();
 
     void parseDocument(const QDomDocument &doc);
-    int addTrack(int ix, Mlt::Playlist &playlist);
+    int loadTrack(int ix, Mlt::Playlist &playlist);
     void getEffects(Mlt::Service &service, ClipItem *clip, int track = 0);
     QString getKeyframes(Mlt::Service service, int &ix, QDomElement e);
     void getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect);
@@ -168,6 +169,7 @@ private:
     void adjustparameterValue(QDomNodeList clipeffectparams, const QString &paramname, const QString &paramvalue);
 
 private slots:
+    void slotSwitchTrackComposite(int trackIndex, bool enable);
     void setCursorPos(int pos);
     void moveCursorPos(int pos);
     /** @brief Rebuilds the track headers */

@@ -220,7 +220,7 @@ int Timeline::getTracks() {
         Mlt::Playlist playlist(*track);
         int trackduration;
         int audio = playlist.get_int("kdenlive:audio_track");
-        trackduration = addTrack(m_tractor->count() - 1 - i, playlist);
+        trackduration = loadTrack(m_tractor->count() - 1 - i, playlist);
         m_tracks.prepend(new Track(playlist, audio == 1 ? AudioTrack : VideoTrack, m_doc->fps()));
         if (trackduration > duration) duration = trackduration;
         if (playlist.filter_count()) getEffects(playlist, NULL, 0);
@@ -263,8 +263,17 @@ void Timeline::getTransitions() {
         if (QString(prop.get("mlt_type")) != "transition")
             break;
         //skip automatic mix
-        if (QString(prop.get("internal_added")) == "237"
-            || QString(prop.get("mlt_service")) == "mix") {
+        if (QString(prop.get("internal_added")) == "237") {
+            QString trans = prop.get("mlt_service");
+            if (trans == "movit.overlay" || trans == "frei0r.cairoblend") {
+                int ix = m_tracks.count() - prop.get_int("b_track");
+                if (ix > 0 && ix < m_tracks.count()) {
+                    TrackInfo info = track(ix)->info();
+                    info.composite = !prop.get_int("disable");
+                    track(ix)->setInfo(info);
+                } else qWarning() << "Wrong composite track index: " << ix;
+            } else if(trans == "mix") {
+            }
             service = mlt_service_producer(service);
             continue;
         }
@@ -603,6 +612,36 @@ void Timeline::switchTrackVideo(int ix, bool hide)
     refreshTractor();
 }
 
+Mlt::Transition *Timeline::getTransition(const QString &name, int trackIndex) const
+{
+    QScopedPointer<Mlt::Service> service(m_tractor->producer());
+    while (service && service->is_valid()) {
+        if (service->type() == transition_type) {
+            Mlt::Transition t((mlt_transition) service->get_service());
+            if (name == t.get("mlt_service") && t.get_b_track() == trackIndex)
+                return new Mlt::Transition(t);
+        }
+        service.reset(service->producer());
+    }
+    return 0;
+}
+
+void Timeline::slotSwitchTrackComposite(int trackIndex, bool enable)
+{
+    if (trackIndex < 0 || trackIndex > m_tracks.count()) return;
+
+    Mlt::Transition *transition = getTransition(
+        KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend",
+        m_tracks.count() - trackIndex);
+    if (transition) {
+        transition->set("disable", enable);
+        delete transition;
+        m_doc->renderer()->doRefresh();
+        m_doc->setModified();
+        //TODO: create undo/redo command for this
+    } else qWarning() << "Composite transition not found";
+}
+
 void Timeline::refreshTractor()
 {
     m_tractor->multitrack()->refresh();
@@ -725,6 +764,7 @@ void Timeline::slotRebuildTrackHeaders()
         int currentWidth = header->minimumWidth();
         if (currentWidth > headerWidth) headerWidth = currentWidth;
         header->setSelectedIndex(m_trackview->selectedTrack());
+        connect(header, &HeaderTrack::switchTrackComposite, this, &Timeline::slotSwitchTrackComposite);
         connect(header, SIGNAL(switchTrackVideo(int,bool)), m_trackview, SLOT(slotSwitchTrackVideo(int,bool)));
         connect(header, SIGNAL(switchTrackAudio(int,bool)), m_trackview, SLOT(slotSwitchTrackAudio(int,bool)));
         connect(header, SIGNAL(switchTrackLock(int,bool)), m_trackview, SLOT(slotSwitchTrackLock(int,bool)));
@@ -766,7 +806,7 @@ void Timeline::adjustTrackHeaders()
     }
 }
 
-int Timeline::addTrack(int ix, Mlt::Playlist &playlist) {
+int Timeline::loadTrack(int ix, Mlt::Playlist &playlist) {
     // parse track
     int position = 0;
     double fps = m_doc->fps();

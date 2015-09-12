@@ -76,12 +76,20 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, const QList <QAc
     if (m_type == VideoTrack) {
         setBackgroundRole(QPalette::AlternateBase);
         setAutoFillBackground(true);
-	m_switchVideo = new KDualAction(i18n("Disable video"), i18n("Enable video"), this);
-	m_switchVideo->setActiveIcon(QIcon::fromTheme("kdenlive-hide-video-effects"));
-	m_switchVideo->setInactiveIcon(QIcon::fromTheme("kdenlive-show-video-effects"));
-	m_switchVideo->setActive(info.isBlind);
-	connect(m_switchVideo, SIGNAL(activeChanged(bool)), this, SLOT(switchVideo(bool)));
-	m_tb->addAction(m_switchVideo);
+        m_switchVideo = new KDualAction(i18n("Disable video"), i18n("Enable video"), this);
+        m_switchVideo->setActiveIcon(QIcon::fromTheme("kdenlive-hide-video-effects"));
+        m_switchVideo->setInactiveIcon(QIcon::fromTheme("kdenlive-show-video-effects"));
+        m_switchVideo->setActive(info.isBlind);
+        connect(m_switchVideo, SIGNAL(activeChanged(bool)), this, SLOT(switchVideo(bool)));
+        m_tb->addAction(m_switchVideo);
+
+        m_switchComposite = new KDualAction(i18n("Opaque"), i18n("Composite"), this);
+        m_switchComposite->setActiveIcon(QIcon::fromTheme("kdenlive-overwrite-edit")); //FIXME: get proper icons
+        m_switchComposite->setInactiveIcon(QIcon::fromTheme("kdenlive-insert-edit"));
+        m_switchComposite->setActive(info.composite);
+        qDebug() << "Track " << index << "has composite" << info.composite;
+        connect(m_switchComposite, &KDualAction::activeChanged, this, &HeaderTrack::switchComposite);
+        m_tb->addAction(m_switchComposite);
     }
 
     // Don't show track buttons if size is too small
@@ -91,7 +99,7 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, const QList <QAc
     }
 
     //TODO: this resizing stuff should'nt be necessary
-    setMinimumWidth(m_tb->widgetForAction(m_switchLock)->width() * 1.1);
+    setMinimumWidth(m_tb->widgetForAction(m_switchLock)->width() * 1.5);
     setContextMenuPolicy(Qt::ActionsContextMenu);
     addActions(actions);
 }
@@ -198,6 +206,11 @@ void HeaderTrack::adjustSize(int height)
     bool smallTracks = height < 40;
     m_tb->setHidden(smallTracks);
     setFixedHeight(height);
+}
+
+void HeaderTrack::switchComposite(bool enable)
+{
+    emit switchTrackComposite(m_index, enable);
 }
 
 void HeaderTrack::switchVideo(bool enable)
