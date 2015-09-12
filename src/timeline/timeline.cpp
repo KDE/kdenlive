@@ -21,6 +21,8 @@
 
 #include "timeline.h"
 #include "track.h"
+#include "clip.h"
+#include "renderer.h"
 #include "headertrack.h"
 #include "clipitem.h"
 #include "transition.h"
@@ -1323,3 +1325,50 @@ int Timeline::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, doub
     return track(info.track)->changeClipSpeed(info, speedIndependantInfo, speed, strobe, prod, passProperties);
 }
 
+void Timeline::duplicateClipOnPlaylist(int tk, qreal startPos, int offset, Mlt::Producer *prod)
+{
+    Track *sourceTrack = track(tk);
+    int pos = sourceTrack->frame(startPos);
+    int clipIndex = sourceTrack->playlist().get_clip_index_at(pos);
+    if (sourceTrack->playlist().is_blank(clipIndex)) {
+	  qDebug()<<"// ERROR FINDING CLIP on TK: "<<tk<<", FRM: "<<pos;
+    }
+    Mlt::Producer *clipProducer = sourceTrack->playlist().get_clip(clipIndex);
+    Clip clp(*clipProducer);
+    Mlt::Producer *cln = clp.clone();
+    cln->set_in_and_out(clipProducer->get_in(), clipProducer->get_out());
+    Mlt::Playlist trackPlaylist((mlt_playlist) prod->get_service());
+    trackPlaylist.lock();
+    trackPlaylist.insert_at(pos - offset, cln, 1);
+    trackPlaylist.unlock();
+    delete clipProducer;
+    delete cln;
+    delete prod;
+}
+
+void Timeline::duplicateTransitionOnPlaylist(int in, int out, QString tag, QDomElement xml, int a_track, int b_track, Mlt::Field *field)
+{
+    QMap<QString, QString> args = Render::mltGetTransitionParamsFromXml(xml);
+    Mlt::Transition transition(*m_tractor->profile(), tag.toUtf8().constData());
+    if (!transition.is_valid()) return;
+    if (out != 0)
+        transition.set_in_and_out(in, out);
+
+    QMap<QString, QString>::Iterator it;
+    QString key;
+    if (xml.attribute("automatic") == "1") transition.set("automatic", 1);
+    ////qDebug() << " ------  ADDING TRANSITION PARAMs: " << args.count();
+    if (xml.hasAttribute("id"))
+        transition.set("kdenlive_id", xml.attribute("id").toUtf8().constData());
+    if (xml.hasAttribute("force_track"))
+        transition.set("force_track", xml.attribute("force_track").toInt());
+
+    for (it = args.begin(); it != args.end(); ++it) {
+        key = it.key();
+        if (!it.value().isEmpty())
+            transition.set(key.toUtf8().constData(), it.value().toUtf8().constData());
+        ////qDebug() << " ------  ADDING TRANS PARAM: " << key << ": " << it.value();
+    }
+    // attach transition
+    field->plant_transition(transition, a_track, b_track);
+}

@@ -301,6 +301,8 @@ public slots:
 
     void slotInfoProcessingFinished();
     void slotAlignClip(int, int, int);
+    /** @brief Export part of the playlist in an xml file */
+    void exportTimelineSelection();
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);

@@ -722,10 +722,6 @@ void MainWindow::slotConnectMonitors()
     /*connect(m_projectMonitor->render, SIGNAL(removeInvalidProxy(QString,bool)), pCore->bin(), SLOT(slotRemoveInvalidProxy(QString,bool)));*/
     connect(m_clipMonitor, SIGNAL(refreshClipThumbnail(QString)), pCore->bin(), SLOT(slotRefreshClipThumbnail(QString)));
     connect(m_projectMonitor, SIGNAL(requestFrameForAnalysis(bool)), this, SLOT(slotMonitorRequestRenderFrame(bool)));
-
-    //TODO
-    /*connect(m_clipMonitor, SIGNAL(saveZone(Render*,QPoint,DocClipBase*)), this, SLOT(slotSaveZone(Render*,QPoint,DocClipBase*)));
-    connect(m_projectMonitor, SIGNAL(saveZone(Render*,QPoint,DocClipBase*)), this, SLOT(slotSaveZone(Render*,QPoint,DocClipBase*)));*/
 }
 
 
@@ -1157,6 +1153,7 @@ void MainWindow::setupActions()
     pasteEffects->setData("paste_effects");
 
     m_saveAction = KStandardAction::save(pCore->projectManager(), SLOT(saveFile()), actionCollection());
+    QAction *saveSelection = addAction("save_selection", i18n("Save Selection"), pCore->projectManager(), SLOT(slotSaveSelection()), QIcon::fromTheme("document-save"));
     KStandardAction::quit(this,                   SLOT(close()),                  actionCollection());
     // TODO: make the following connection to slotEditKeys work
     //KStandardAction::keyBindings(this,            SLOT(slotEditKeys()),           actionCollection());
@@ -1517,6 +1514,7 @@ void MainWindow::connectDocument()
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), trackView, SLOT(slotSetZone(QPoint)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
+
     connect(project, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
     connect(trackView->projectView(), SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
     connect(project, SIGNAL(saveTimelinePreview(QString)), trackView, SLOT(slotSaveTimelinePreview(QString)));

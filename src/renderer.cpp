@@ -48,6 +48,7 @@
 #include <cstdlib>
 #include <cstdarg>
 #include <KConfigGroup>
+#include <KRecentDirs>
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -544,8 +545,25 @@ void Render::processFileProperties()
             path.prepend("kdenlivetitle:");
             producer = new Mlt::Producer(*m_qmlView->profile(), 0, path.toUtf8().constData());
         } else if (type == Playlist) {
-            path.prepend("consumer:");
-            producer = new Mlt::Producer(*m_qmlView->profile(), 0, path.toUtf8().constData());
+	    //TODO: "xml" seems to corrupt project fps if different, and "consumer" crashed on audio transition
+	    Mlt::Profile *xmlProfile = new Mlt::Profile();
+	    xmlProfile->set_explicit(false);
+	    MltVideoProfile projectProfile = ProfilesDialog::getVideoProfile(*m_qmlView->profile());
+            //path.prepend("consumer:");
+            producer = new Mlt::Producer(*xmlProfile, "xml", path.toUtf8().constData());
+	    xmlProfile->from_producer(*producer);
+	    MltVideoProfile clipProfile = ProfilesDialog::getVideoProfile(*xmlProfile);
+	    delete producer;
+	    delete xmlProfile;
+	    if (clipProfile == projectProfile) {
+		// We can use the "xml" producer since profile is the same (using it with different profiles corrupts the project.
+		// Beware that "consumer" currently crashes on audio mixes!
+		path.prepend("xml:");
+	    }
+	    else {
+		path.prepend("consumer:");
+	    }
+	    producer = new Mlt::Producer(*m_qmlView->profile(), 0, path.toUtf8().constData());
         } else if (type == SlideShow) {
             producer = new Mlt::Producer(*m_qmlView->profile(), 0, path.toUtf8().constData());
         } else if (!url.isValid()) {
@@ -1332,31 +1350,36 @@ bool Render::saveSceneList(QString path, QDomElement kdenliveData)
     return true;
 }
 
-void Render::saveZone(QUrl url, QString desc, QPoint zone)
+void Render::saveZone(QPoint zone)
 {
-    Mlt::Consumer xmlConsumer(*m_qmlView->profile(), ("xml:" + url.toLocalFile()).toUtf8().constData());
-    m_mltProducer->optimise();
-    xmlConsumer.set("terminate_on_pause", 1);
-    if (m_name == Kdenlive::ClipMonitor) {
-        Mlt::Producer *prod = m_mltProducer->cut(zone.x(), zone.y());
-        Mlt::Playlist list;
-        list.insert_at(0, prod, 0);
-        delete prod;
-        list.set("title", desc.toUtf8().constData());
-        xmlConsumer.connect(list);
-
-    } else {
-        //TODO: not working yet, save zone from timeline
-        Mlt::Producer *p1 = new Mlt::Producer(m_mltProducer->get_producer());
-        /* Mlt::Service service(p1->parent().get_service());
-         if (service.type() != tractor_type) qWarning() << "// TRACTOR PROBLEM";*/
-
-        //Mlt::Producer *prod = p1->cut(zone.x(), zone.y());
-        //prod->set("title", desc.toUtf8().constData());
-        xmlConsumer.connect(*p1); //list);
+    QString clipFolder = KRecentDirs::dir(":KdenliveClipFolder");
+    if (clipFolder.isEmpty()) {
+        clipFolder = QDir::homePath();
     }
-
-    xmlConsumer.start();
+    QString url = QFileDialog::getSaveFileName(qApp->activeWindow(), i18n("Save Zone"), clipFolder, i18n("MLT playlist (*.mlt)"));
+    Mlt::Consumer xmlConsumer(*m_qmlView->profile(), ("xml:" + url).toUtf8().constData());
+    xmlConsumer.set("terminate_on_pause", 1);
+    m_mltProducer->optimise();
+    qDebug()<<" - - -- - SAVE ZONE SEVICE: "<<m_mltProducer->get("mlt_type");
+    if (QString(m_mltProducer->get("mlt_type")) != "producer") {
+	// TODO: broken
+	QString scene = sceneList();
+	Mlt::Producer duplicate(*m_mltProducer->profile(), "xml-string", scene.toUtf8().constData());
+	duplicate.set_in_and_out(zone.x(), zone.y());
+	qDebug()<<"/// CUT: "<<zone.x()<<"x"<< zone.y()<<" / "<<duplicate.get_length();
+	xmlConsumer.connect(duplicate);
+	xmlConsumer.run();
+    }
+    else {
+	Mlt::Producer prod(m_mltProducer->get_producer());
+	Mlt::Producer *prod2 = prod.cut(zone.x(), zone.y());
+	Mlt::Playlist list;
+	list.insert_at(0, *prod2, 0);
+	//list.set("title", desc.toUtf8().constData());
+	xmlConsumer.connect(list);
+	xmlConsumer.run();
+	delete prod2;
+    }
 }
 
 
@@ -1365,6 +1388,7 @@ bool Render::saveClip(int track, const GenTime &position, const QUrl &url, const
     // find clip
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
+    //TODO: memleak
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 
@@ -1801,6 +1825,7 @@ Mlt::Producer *Render::getTrackProducer(const QString &id, int track, bool, bool
     }
     Mlt::Tractor tractor(service);
     // WARNING: Kdenlive's track numbering is 0 for top track, while in MLT 0 is black track and 1 is the bottom track so we MUST reverse track number
+    // TODO: memleak
     Mlt::Producer destTrackProducer(tractor.track(tractor.count() - track - 1));
     Mlt::Playlist destTrackPlaylist((mlt_playlist) destTrackProducer.get_service());
     return getProducerForTrack(destTrackPlaylist, id);
@@ -1901,7 +1926,7 @@ int Render::mltTrackDuration(int track)
 
     Mlt::Service service(parentProd.get_service());
     Mlt::Tractor tractor(service);
-
+    //TODO: memleak
     Mlt::Producer trackProducer(tractor.track(track));
     return trackProducer.get_playtime() - 1;
 }
@@ -1929,6 +1954,7 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
 
     if (track != -1) {
         // insert space in one track only
+	//TODO: memleak
         Mlt::Producer trackProducer(tractor.track(track));
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
         insertPos = trackClipStartList.value(track);
@@ -2070,6 +2096,7 @@ bool Render::mltRemoveTrackEffect(int track, int index, bool updateIndex)
     Mlt::Service service(m_mltProducer->parent().get_service());
     bool success = false;
     Mlt::Tractor tractor(service);
+    //TODO: memleak
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     Mlt::Service clipService(trackPlaylist.get_service());
@@ -2104,6 +2131,7 @@ bool Render::mltRemoveEffect(int track, GenTime position, int index, bool update
     Mlt::Service service(m_mltProducer->parent().get_service());
     bool success = false;
     Mlt::Tractor tractor(service);
+    //TODO: memleak
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 
@@ -2156,6 +2184,7 @@ bool Render::mltAddTrackEffect(int track, EffectsParameterList params)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
+    //TODO: memleak
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     Mlt::Service trackService(trackProducer.get_service()); //trackPlaylist
@@ -2169,6 +2198,7 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
     Mlt::Service service(m_mltProducer->parent().get_service());
 
     Mlt::Tractor tractor(service);
+    //TODO: memleak
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 
@@ -2377,6 +2407,7 @@ bool Render::mltEditTrackEffect(int track, EffectsParameterList params)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
+    //TODO: memleak
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     Mlt::Service clipService(trackPlaylist.get_service());
@@ -2435,6 +2466,7 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
     // find filter
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
+    //TODO: memleak
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 
@@ -2526,6 +2558,7 @@ bool Render::mltEnableEffects(int track, const GenTime &position, const QList <i
     // find filter
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
+    //TODO: memleak
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 
@@ -2563,6 +2596,7 @@ bool Render::mltEnableTrackEffects(int track, const QList <int> &effectIndexes, 
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
+    //TODO: memleak
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     Mlt::Service clipService(trackPlaylist.get_service());
@@ -2587,6 +2621,7 @@ void Render::mltUpdateEffectPosition(int track, const GenTime &position, int old
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
+    //TODO: memleak
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 
@@ -2624,6 +2659,7 @@ void Render::mltMoveEffect(int track, const GenTime &position, int oldPos, int n
     }
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
+    //TODO: memleak
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 
@@ -2699,6 +2735,7 @@ void Render::mltMoveTrackEffect(int track, int oldPos, int newPos)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
+    //TODO: memleak
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     Mlt::Service clipService(trackPlaylist.get_service());
@@ -2755,10 +2792,6 @@ void Render::mltMoveTrackEffect(int track, int oldPos, int newPos)
     qDeleteAll(filtersList);
     refresh();
 }
-
-
-
-
 
 bool Render::mltResizeClipCrop(ItemInfo info, GenTime newCropStart)
 {
@@ -3066,7 +3099,7 @@ QMap<QString, QString> Render::mltGetTransitionParamsFromXml(const QDomElement &
             map[name] = e.attribute("value");
         }
         if (e.attribute("type") != "addedgeometry" && (e.attribute("factor", "1") != "1" || e.attribute("offset", "0") != "0")) {
-            map[name] = m_locale.toString((map.value(name).toDouble() - e.attribute("offset", "0").toDouble()) / e.attribute("factor", "1").toDouble());
+            map[name] = QLocale().toString((map.value(name).toDouble() - e.attribute("offset", "0").toDouble()) / e.attribute("factor", "1").toDouble());
             //map[name]=map[name].replace(".",","); //FIXME how to solve locale conversion of . ,
         }
 

@@ -290,7 +290,7 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     //TODO: add save zone to timeline monitor when fixed
     if (m_id == Kdenlive::ClipMonitor) {
         m_contextMenu->addMenu(m_markerMenu);
-        m_contextMenu->addAction(QIcon::fromTheme("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
+	m_contextMenu->addAction(QIcon::fromTheme("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
         QAction *extractZone = m_configMenu->addAction(QIcon::fromTheme("document-new"), i18n("Extract Zone"), this, SLOT(slotExtractCurrentZone()));
         m_contextMenu->addAction(extractZone);
     }
@@ -1081,11 +1081,7 @@ void Monitor::slotOpenDvdFile(const QString &file)
 
 void Monitor::slotSaveZone()
 {
-    if (render == NULL) return;
-    //TODO
-    //emit saveZone(render, m_ruler->zone(), m_currentClip);
-
-    //render->setSceneList(doc, 0);
+    render->saveZone(m_ruler->zone());
 }
 
 void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)

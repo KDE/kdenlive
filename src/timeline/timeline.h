@@ -120,6 +120,9 @@ public:
     int getTracks();
     void getTransitions();
     void refreshTractor();
+    void saveZone(const QUrl url, const QPoint &zone);
+    void duplicateClipOnPlaylist(int tk, qreal startPos, int offset, Mlt::Producer *prod);
+    void duplicateTransitionOnPlaylist(int in, int out, QString tag, QDomElement xml, int a_track, int b_track, Mlt::Field *field);
 
 protected:
     void keyPressEvent(QKeyEvent * event);

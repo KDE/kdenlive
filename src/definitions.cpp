@@ -58,7 +58,6 @@ bool MltVideoProfile::operator==(const MltVideoProfile &point) const
             point.progressive == progressive &&
             point.sample_aspect_num == sample_aspect_num &&
             point.sample_aspect_den == sample_aspect_den &&
-            point.display_aspect_den == display_aspect_den &&
             point.colorspace == colorspace;
 }
 

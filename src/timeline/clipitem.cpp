@@ -1189,7 +1189,6 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
         }
         if (property("resizingEnd").isValid()) return pos();
         QPointF newPos = value.toPointF();
-        ////qDebug() << "/// MOVING CLIP ITEM.------------\n++++++++++";
         int xpos = scene->getSnapPointForPos((int) newPos.x(), KdenliveSettings::snaptopoints());
         xpos = qMax(xpos, 0);
         newPos.setX(xpos);

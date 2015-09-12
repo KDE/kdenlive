@@ -249,6 +249,11 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     return true;
 }
 
+void ProjectManager::slotSaveSelection()
+{
+    m_trackView->projectView()->exportTimelineSelection();
+}
+
 bool ProjectManager::saveFileAs()
 {
     QFileDialog fd(pCore->window());

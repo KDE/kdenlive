@@ -69,6 +69,8 @@ public slots:
     /** @brief Shows a save file dialog for saving the project.
     * @return Whether the file was saved. */
     bool saveFileAs();
+    void slotSaveSelection();
+
 
     /** @brief Set properties to match outputFileName and save the document.
      * Creates an autosave version of the output file too, at

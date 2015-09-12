@@ -880,7 +880,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
             m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_gl_frame_show);
         }
         int volume = KdenliveSettings::volume();
-            if (serviceName == "sdl_audio")
+        if (serviceName == "sdl_audio")
 #ifdef Q_OS_WIN
                 m_consumer->set("audio_buffer", 2048);
 #else
@@ -1184,7 +1184,6 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
         emit frameDisplayed(m_frame);
 	
 	if (sendAudioForAnalysis) {
-	    qDebug()<<" - - -- SEND AUDIO DATA";
 	    mlt_audio_format audio_format = mlt_audio_s16;
 	    //FIXME: should not be hardcoded..
 	    int freq = 48000;
@@ -1251,6 +1250,28 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
         // The frame is now done being modified and can be shared with the rest
         // of the application.
         emit frameDisplayed(m_frame);
+
+	if (sendAudioForAnalysis) {
+	    mlt_audio_format audio_format = mlt_audio_s16;
+	    //FIXME: should not be hardcoded..
+	    int freq = 48000;
+	    int num_channels = 2;
+	    int samples = 0;
+	    qint16* data = (qint16*)frame.get_audio(audio_format, freq, num_channels, samples);
+
+	    if (data) {
+		// Data format: [ c00 c10 c01 c11 c02 c12 c03 c13 ... c0{samples-1} c1{samples-1} for 2 channels.
+		// So the vector is of size samples*channels.
+		audioShortVector sampleVector(samples*num_channels);
+		memcpy(sampleVector.data(), data, samples*num_channels*sizeof(qint16));
+
+		if (samples > 0) {
+		    emit audioSamplesSignal(sampleVector, freq, num_channels, samples);
+		}
+	    }
+	}
+
+	
     }
     m_semaphore.release();
 }

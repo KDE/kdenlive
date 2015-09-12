@@ -51,6 +51,7 @@
 #include <klocalizedstring.h>
 #include <KCursor>
 #include <KMessageBox>
+#include <KRecentDirs>
 
 #include <QUrl>
 #include <QIcon>
@@ -1663,7 +1664,6 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
 {
     QPointF framePos = mapToScene(pos);
     int track = framePos.y() / KdenliveSettings::trackheight();
-    qDebug()<<"+ ++  INSERT DROP: "<<track<<" / "<<framePos;
     m_clipDrag = data->hasFormat("kdenlive/clip") || data->hasFormat("kdenlive/producerslist");
     // This is not a clip drag, maybe effect or other...
     if (!m_clipDrag) return false;
@@ -7512,4 +7512,73 @@ void CustomTrackView::slotUpdateTimelineProducer(const QString &id)
         m_timeline->track(i)->updateEffects(id,  prod);
     }
 }
+
+void CustomTrackView::exportTimelineSelection()
+{
+    if (!m_selectionGroup && !m_dragItem) {
+	qDebug()<<"/// ARGH, NO SELECTION GRP";
+	return;
+    }
+    QString clipFolder = KRecentDirs::dir(":KdenliveClipFolder");
+    if (clipFolder.isEmpty()) {
+        clipFolder = QDir::homePath();
+    }
+    QString url = QFileDialog::getSaveFileName(this, i18n("Save Zone"), clipFolder, i18n("MLT playlist (*.mlt)"));
+    QList<QGraphicsItem *> children;
+    QRectF bounding;
+    if (m_selectionGroup) {
+	children = m_selectionGroup->childItems();
+	bounding = m_selectionGroup->sceneBoundingRect();
+    }
+    else {
+	// only one clip selected
+	children << m_dragItem;
+	bounding = m_dragItem->sceneBoundingRect();
+    }
+    int firstTrack = bounding.top() / m_tracksHeight;
+    int lastTrack = bounding.height() / m_tracksHeight + firstTrack;
+    // Build export playlist
+    Mlt::Tractor *newTractor = new Mlt::Tractor(*(m_document->renderer()->getProducer()->profile()));
+    Mlt::Field *field = newTractor->field();
+    for (int i = firstTrack; i <= lastTrack; i++) {
+	QScopedPointer<Mlt::Playlist> newTrackPlaylist(new Mlt::Playlist(*newTractor->profile()));
+	newTractor->set_track(*newTrackPlaylist, i - firstTrack);
+    }
+    int startOffest = m_projectDuration;
+    // Find first frame of selection
+    for (int i = 0; i < children.count(); ++i) {
+	QGraphicsItem *item = children.at(i);
+	if (item->type() != TransitionWidget && item->type() != AVWidget) {
+	      continue;
+	}
+	AbstractClipItem *it = static_cast<AbstractClipItem *>(item);
+	if (!it) continue;
+	int pos = it->startPos().frames(m_document->fps());
+	if (pos < startOffest) startOffest = pos;
+    }
+    
+    for (int i = 0; i < children.count(); ++i) {
+	QGraphicsItem *item = children.at(i);
+	if (item->type() == AVWidget) {
+            ClipItem *clip = static_cast<ClipItem*>(item);
+	    int track = clip->track() - firstTrack;
+	    m_timeline->duplicateClipOnPlaylist(clip->track(), clip->startPos().seconds(), startOffest, newTractor->track(newTractor->count() - track - 1));
+	}
+	else if (item->type() == TransitionWidget) {
+	      Transition *tr = static_cast<Transition*>(item);
+	      int a_track = tr->track() - firstTrack;
+	      int b_track = m_timeline->tracksCount() - tr->transitionEndTrack() - firstTrack;
+	      qDebug()<<"/// TR TKS: "<<a_track<<" / "<<b_track;
+	      m_timeline->duplicateTransitionOnPlaylist(tr->startPos().frames(m_document->fps()) - startOffest, tr->endPos().frames(m_document->fps()) - startOffest, tr->transitionTag(), tr->toXML(), a_track, b_track, field);
+	}
+    }
+
+    Mlt::Consumer xmlConsumer(*newTractor->profile(),  ("xml:" + url).toUtf8().constData());
+    xmlConsumer.set("terminate_on_pause", 1);
+    xmlConsumer.connect(*newTractor);
+    xmlConsumer.run();
+    delete newTractor;
+}
+
+
 

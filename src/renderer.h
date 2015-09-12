@@ -154,8 +154,6 @@ class Render: public AbstractRender
     void play(const GenTime & startTime);
     bool playZone(const GenTime & startTime, const GenTime & stopTime);
     void loopZone(const GenTime & startTime, const GenTime & stopTime);
-
-    void saveZone(QUrl url, QString desc, QPoint zone);
     
     /** @brief Save a clip in timeline to an xml playlist. */
     bool saveClip(int track, const GenTime &position, const QUrl &url, const QString &desc = QString());
@@ -314,6 +312,7 @@ class Render: public AbstractRender
     /** @brief Stop all activities in preparation for a change in profile */
     void prepareProfileReset();
     void updateSlowMotionProducers(const QString &id, QMap <QString, QString> passProperties);
+    static QMap<QString, QString> mltGetTransitionParamsFromXml(const QDomElement &xml);
 
 private:
 
@@ -358,7 +357,6 @@ private:
 
     void closeMlt();
     void mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest);
-    QMap<QString, QString> mltGetTransitionParamsFromXml(const QDomElement &xml);
     QMap<QString, Mlt::Producer *> m_slowmotionProducers;
     /** @brief The ids of the clips that are currently being loaded for info query */
     QStringList m_processingClipId;
@@ -462,6 +460,9 @@ public slots:
     /** @brief Processing of this clip is over, producer was set on clip, remove from list. */
     void slotProcessingDone(const QString &id);
     void emitFrameUpdated(QImage img);
+    
+    /** @brief Save a part of current timeline to an xml file. */
+     void saveZone(QPoint zone);
 
     /** @brief Requests the file properties for the specified URL (will be put in a queue list)
     @param xml The xml parameters for the clip
