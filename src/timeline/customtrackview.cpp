@@ -2727,6 +2727,12 @@ void CustomTrackView::dragLeaveEvent(QDragLeaveEvent * event)
     }
 }
 
+void CustomTrackView::leaveEvent(QEvent * event)
+{
+      removeTipAnimation();
+      QGraphicsView::leaveEvent(event);
+}
+
 void CustomTrackView::dropEvent(QDropEvent * event)
 {
     if ((m_selectionGroup || m_dragItem) && m_clipDrag) {

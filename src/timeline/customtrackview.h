@@ -310,6 +310,7 @@ protected:
     virtual void dragLeaveEvent(QDragLeaveEvent * event);
     /** @brief Something has been dropped onto the timeline */
     virtual void dropEvent(QDropEvent * event);
+    virtual void leaveEvent(QEvent * event);
     virtual void wheelEvent(QWheelEvent * e);
     virtual void keyPressEvent(QKeyEvent * event);
     virtual QStringList mimeTypes() const;
