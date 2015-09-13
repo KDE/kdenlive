@@ -3577,6 +3577,11 @@ void CustomTrackView::checkScrolling()
     setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
 }
 
+void CustomTrackView::scrollToStart()
+{
+    horizontalScrollBar()->setValue(0);
+}
+
 void CustomTrackView::completeSpaceOperation(int track, GenTime &timeOffset)
 {
   QList <AbstractGroupItem*> groups;

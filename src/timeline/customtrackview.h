@@ -220,6 +220,8 @@ public:
     void resetSelectionGroup(bool selectItems = true);
     /** @brief Returns all infos necessary to save guides. */
     QMap <double, QString> guidesData() const;
+    /** @brief Reset scroll bar to 0. */
+    void scrollToStart();
 
 public slots:
     /** @brief Send seek request to MLT. */

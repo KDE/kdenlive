@@ -1693,7 +1693,7 @@ void MainWindow::updateConfiguration()
     //TODO: we should apply settings to all projects, not only the current one
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->refresh();
-        pCore->projectManager()->currentTimeline()->projectView()->checkAutoScroll();
+	    pCore->projectManager()->currentTimeline()->projectView()->checkAutoScroll();
         pCore->projectManager()->currentTimeline()->checkTrackHeight();
     }
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
@@ -2181,8 +2181,11 @@ void MainWindow::slotZoomOut()
 
 void MainWindow::slotFitZoom()
 {
-    if (pCore->projectManager()->currentTimeline())
+    if (pCore->projectManager()->currentTimeline()) {
         m_zoomSlider->setValue(pCore->projectManager()->currentTimeline()->fitZoom());
+	// Make sure to reset scroll bar to start
+	pCore->projectManager()->currentTimeline()->projectView()->scrollToStart();
+    }
 }
 
 void MainWindow::slotSetZoom(int value)
