@@ -257,6 +257,8 @@ void Timeline::checkDuration(int duration) {
 }
 
 void Timeline::getTransitions() {
+    QList<HeaderTrack *> header = findChildren<HeaderTrack *>();
+
     mlt_service service = mlt_service_get_producer(m_tractor->get_service());
     while (service) {
         Mlt::Properties prop(MLT_SERVICE_PROPERTIES(service));
@@ -267,10 +269,13 @@ void Timeline::getTransitions() {
             QString trans = prop.get("mlt_service");
             if (trans == "movit.overlay" || trans == "frei0r.cairoblend") {
                 int ix = m_tracks.count() - prop.get_int("b_track");
-                if (ix > 0 && ix < m_tracks.count()) {
+                if (ix >= 0 && ix < m_tracks.count()) {
                     TrackInfo info = track(ix)->info();
                     info.composite = !prop.get_int("disable");
                     track(ix)->setInfo(info);
+                    if (ix < header.count()) {
+                        header.at(ix)->setComposite(info.composite);
+                    }
                 } else qWarning() << "Wrong composite track index: " << ix;
             } else if(trans == "mix") {
             }
