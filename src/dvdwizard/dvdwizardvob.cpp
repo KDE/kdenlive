@@ -21,7 +21,7 @@
 #include "doc/kthumb.h"
 #include "timecode.h"
 #include "project/cliptranscode.h"
-
+#include "dialogs/clipcreationdialog.h"
 #include <mlt++/Mlt.h>
 
 #include <QDebug>
@@ -167,7 +167,9 @@ void DvdWizardVob::slotCheckProfiles()
 void DvdWizardVob::slotAddVobList(QList<QUrl> list)
 {
     if (list.isEmpty()) {
-        list = QFileDialog::getOpenFileUrls(this, i18n("Add new video file"), QUrl::fromLocalFile(KRecentDirs::dir(":KdenliveDvdFolder")), i18n("MPEG clip (*.mpeg *.mpg *.vob)"));
+        QString allExtensions = ClipCreationDialog::getExtensions().join(" ");
+        QString dialogFilter = i18n("All Supported Files") + " (" + allExtensions + ");; " + i18n("MPEG Files") + " (*.mpeg *.mpg *.vob);; " + i18n("All Files") + " (*.*)";
+        list = QFileDialog::getOpenFileUrls(this, i18n("Add new video file"), QUrl::fromLocalFile(KRecentDirs::dir(":KdenliveDvdFolder")), dialogFilter);
         if (!list.isEmpty()) {
             KRecentDirs::add(":KdenliveDvdFolder", list.at(0).adjusted(QUrl::RemoveFilename).path());
         }
