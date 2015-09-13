@@ -36,6 +36,7 @@ public:
     HeaderTrack(int index, TrackInfo info, int height, const QList <QAction *>& actions, QWidget *parent = 0);
     //virtual ~HeaderTrack();
     void setLock(bool lock);
+    void setComposite(bool enable);
     void adjustSize(int height);
     void setSelectedIndex(int ix);
     /** @brief Update the track label to show if current track has effects or not.*/

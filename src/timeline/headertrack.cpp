@@ -87,7 +87,6 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, const QList <QAc
         m_switchComposite->setActiveIcon(QIcon::fromTheme("kdenlive-overwrite-edit")); //FIXME: get proper icons
         m_switchComposite->setInactiveIcon(QIcon::fromTheme("kdenlive-insert-edit"));
         m_switchComposite->setActive(info.composite);
-        qDebug() << "Track " << index << "has composite" << info.composite;
         connect(m_switchComposite, &KDualAction::activeChanged, this, &HeaderTrack::switchComposite);
         m_tb->addAction(m_switchComposite);
     }
@@ -231,6 +230,11 @@ void HeaderTrack::switchLock(bool enable)
 void HeaderTrack::setLock(bool lock)
 {
     m_switchLock->setActive(lock);
+}
+
+void HeaderTrack::setComposite(bool enable)
+{
+    m_switchComposite->setActive(enable);
 }
 
 void HeaderTrack::slotRenameTrack()
