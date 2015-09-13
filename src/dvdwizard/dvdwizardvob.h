@@ -33,8 +33,15 @@
 #include <QTreeWidget>
 #include <QDragEnterEvent>
 #include <QDropEvent>
+#include <QProcess>
 
 enum DVDFORMAT { PAL, PAL_WIDE, NTSC, NTSC_WIDE };
+
+struct TranscodeJobInfo {
+    QString filename;
+    QString params;
+    QStringList postParams;
+};
 
 class DvdTreeWidget : public QTreeWidget
 {
@@ -124,8 +131,13 @@ private:
     QAction *m_transcodeAction;
     bool m_installCheck;
     KMessageWidget *m_warnMessage;
+    int m_duration;
+    QProcess m_transcodeProcess;
+    QList <TranscodeJobInfo> m_transcodeQueue;
+    TranscodeJobInfo m_currentTranscoding;
     void showProfileError();
     void showError(const QString &error);
+    void processTranscoding();
 
 public slots:
     void slotAddVobFile(QUrl url = QUrl(), const QString &chapters = QString(), bool checkFormats = true);
@@ -138,7 +150,10 @@ private slots:
     void slotItemUp();
     void slotItemDown();
     void slotTranscodeFiles();
-    void slotTranscodedClip(QUrl, QUrl);
+    void slotTranscodedClip(const QString &, const QString &);
+    void slotShowTranscodeInfo();
+    void slotTranscodeFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void slotAbortTranscode();
 };
 
 #endif
