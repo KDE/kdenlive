@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>351</width>
-    <height>172</height>
+    <width>430</width>
+    <height>208</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,12 +31,12 @@
     <widget class="KComboBox" name="before_select">
      <item>
       <property name="text">
-       <string>before</string>
+       <string>Above</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>after</string>
+       <string>Under</string>
       </property>
      </item>
     </widget>
@@ -54,7 +54,7 @@
    <item row="1" column="0" colspan="2">
     <widget class="QRadioButton" name="video_track">
      <property name="text">
-      <string>Video track</string>
+      <string>Video &amp;track</string>
      </property>
      <property name="checked">
       <bool>true</bool>

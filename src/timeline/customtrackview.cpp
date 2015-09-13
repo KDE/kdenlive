@@ -3012,21 +3012,26 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
     if (ix == -1 || ix > m_timeline->tracksCount()) {
         ix = m_timeline->tracksCount() + 1;
     }
+    
+    // insert track in MLT's playlist
     transitionInfos = m_document->renderer()->mltInsertTrack(ix,  type.trackName, type.type == VideoTrack);
+    
+    // Reload timeline and m_tracks structure from MLT's playlist
+    reloadTimeline();
+    
     //keep the composite transitions stack continuous (mlt_tractor_insert_track did shift the upper composite to the lower track instead of the new one)
-    if (m_timeline->getTrackInfo(ix).type == VideoTrack) {
+    if (ix < m_timeline->tracksCount() && m_timeline->getTrackInfo(ix).type == VideoTrack) {
         Mlt::Transition *tr = m_timeline->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", ix+1);
         if (tr) {
             tr->set_tracks(ix, ix+1);
             delete tr;
         }
     }
-    // Update timeline
-    reloadTimeline();
 }
 
 void CustomTrackView::reloadTimeline()
 {
+    removeTipAnimation();
     QList<QGraphicsItem *> selection = m_scene->items();
     selection.removeAll(m_cursorLine);
     for (int i = 0; i < m_guides.count(); ++i) {
