@@ -50,7 +50,7 @@ ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, con
     if (m_urls.count() == 1) {
         QString fileName = m_urls.first(); //.section('.', 0, -1);
         QString newFile = params.section(' ', -1).replace("%1", fileName);
-        QUrl dest(newFile);
+        QUrl dest = QUrl::fromLocalFile(newFile);
         source_url->setUrl(QUrl::fromLocalFile(m_urls.first()));
         dest_url->setMode(KFile::File);
         dest_url->setUrl(dest);
@@ -224,7 +224,7 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
             if (urls_list->count() > 0) {
                 QString params = ffmpeg_params->toPlainText().simplified();
                 QString extension = params.section("%1", 1, 1).section(' ', 0, 0);
-                url = QUrl(dest_url->url().path() + QDir::separator() + source_url->url().fileName() + extension);
+                url = QUrl::fromLocalFile(dest_url->url().path() + QDir::separator() + source_url->url().fileName() + extension);
             } else url = dest_url->url();
             if (m_automaticMode) emit transcodedClip(source_url->url(), url);
             else emit addClip(url);
@@ -269,7 +269,7 @@ void ClipTranscode::slotUpdateParams(int ix)
     }
     if (urls_list->count() == 0) {
         QString newFile = ffmpeg_params->toPlainText().simplified().section(' ', -1).replace("%1", fileName);
-        dest_url->setUrl(QUrl(newFile));
+        dest_url->setUrl(QUrl::fromLocalFile(newFile));
     }
 
 }

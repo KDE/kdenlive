@@ -19,8 +19,8 @@
 
 #include "dvdwizardvob.h"
 #include "doc/kthumb.h"
+#include "kdenlivesettings.h"
 #include "timecode.h"
-#include "project/cliptranscode.h"
 #include "dialogs/clipcreationdialog.h"
 #include <mlt++/Mlt.h>
 
@@ -30,6 +30,7 @@
 #include <KIO/Global>
 #include "klocalizedstring.h"
 #include <KRecentDirs>
+#include <KMessageBox>
 
 #include <QFileDialog>
 #include <QHBoxLayout>
@@ -39,6 +40,7 @@
 #include <QHeaderView>
 #include <unistd.h>
 #include <QStandardPaths>
+#include <QProgressBar>
 
 DvdTreeWidget::DvdTreeWidget(QWidget *parent) :
     QTreeWidget(parent)
@@ -70,8 +72,9 @@ void DvdTreeWidget::dropEvent(QDropEvent * event ) {
 }
 
 DvdWizardVob::DvdWizardVob(QWidget *parent) :
-    QWizardPage(parent),
-    m_installCheck(true)
+    QWizardPage(parent)
+    , m_installCheck(true)
+    , m_duration(0)
 {
     m_view.setupUi(this);
     m_view.button_add->setIcon(QIcon::fromTheme("list-add"));
@@ -84,6 +87,7 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
     m_view.list_frame->setLayout(lay1);
     m_vobList->setColumnCount(3);
     m_vobList->setHeaderHidden(true);
+    m_view.convert_box->setVisible(false);
 
     connect(m_vobList, SIGNAL(addClips(QList<QUrl>)), this, SLOT(slotAddVobList(QList<QUrl>)));
     connect(m_vobList, SIGNAL(addNewClip()), this, SLOT(slotAddVobList()));
@@ -91,6 +95,7 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
     connect(m_view.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteVobFile()));
     connect(m_view.button_up, SIGNAL(clicked()), this, SLOT(slotItemUp()));
     connect(m_view.button_down, SIGNAL(clicked()), this, SLOT(slotItemDown()));
+    connect(m_view.convert_abort, SIGNAL(clicked()), this, SLOT(slotAbortTranscode()));
     connect(m_vobList, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckVobList()));
     
     m_vobList->setIconSize(QSize(60, 45));
@@ -135,14 +140,85 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
         m_warnMessage->hide();
     }
     m_view.button_transcode->setHidden(true);
-    
     slotCheckVobList();
+
+    m_transcodeProcess.setProcessChannelMode(QProcess::MergedChannels);
+    connect(&m_transcodeProcess, &QProcess::readyReadStandardOutput, this, &DvdWizardVob::slotShowTranscodeInfo);
+    connect(&m_transcodeProcess, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &DvdWizardVob::slotTranscodeFinished);
 }
 
 DvdWizardVob::~DvdWizardVob()
 {
     delete m_capacityBar;
 }
+
+void DvdWizardVob::slotShowTranscodeInfo()
+{
+    QString log = QString(m_transcodeProcess.readAll());
+    if (m_duration == 0) {
+        if (log.contains("Duration:")) {
+            QString data = log.section("Duration:", 1, 1).section(',', 0, 0).simplified();
+            QStringList numbers = data.split(':');
+            if (numbers.size() < 3) return;
+            m_duration = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
+            //log_text->setHidden(true);
+            //job_progress->setHidden(false);
+        }
+        else {
+            //log_text->setHidden(false);
+            //job_progress->setHidden(true);
+        }
+    }
+    else if (log.contains("time=")) {
+        int progress;
+        QString time = log.section("time=", 1, 1).simplified().section(' ', 0, 0);
+        if (time.contains(':')) {
+            QStringList numbers = time.split(':');
+            if (numbers.size() < 3) return;
+            progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
+        }
+        else progress = (int) time.toDouble();
+        m_view.convert_progress->setValue((int) (100.0 * progress / m_duration));
+    }
+    //log_text->setPlainText(log);
+}
+
+void DvdWizardVob::slotAbortTranscode()
+{
+    if (m_transcodeProcess.state() != QProcess::NotRunning) {
+        m_transcodeProcess.close();
+    }
+    m_transcodeQueue.clear();
+    m_view.convert_box->hide();
+    slotCheckProfiles();
+}
+
+void DvdWizardVob::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exitStatus)
+{
+    if (exitCode == 0 && exitStatus == QProcess::NormalExit) {
+        slotTranscodedClip(m_currentTranscoding.filename, m_currentTranscoding.filename + m_currentTranscoding.params.section("%1", 1, 1).section(' ', 0, 0));
+        if (!m_transcodeQueue.isEmpty()) {
+            m_transcodeProcess.close();
+            processTranscoding();
+            return;
+        }
+    }
+    else {
+        // Something failed
+      //TODO show log
+        m_warnMessage->setMessageType(KMessageWidget::Warning);
+        m_warnMessage->setText(i18n("Transcoding failed!"));
+        m_warnMessage->animatedShow();
+        m_transcodeQueue.clear();
+    }
+    m_duration = 0;
+    m_transcodeProcess.close();
+    if (m_transcodeQueue.isEmpty()) {
+        m_view.convert_box->setHidden(true);
+        slotCheckProfiles();
+    }
+}
+
 
 void DvdWizardVob::slotCheckProfiles()
 {
@@ -515,6 +591,7 @@ void DvdWizardVob::clear()
 
 void DvdWizardVob::slotTranscodeFiles()
 {
+    m_warnMessage->animatedHide();
     // Find transcoding info related to selected DVD profile
     KSharedConfigPtr config = KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::DataLocation, "kdenlivetranscodingrc"), KConfig::CascadeConfig);
     KConfigGroup transConfig(config, "Transcoding");
@@ -544,10 +621,13 @@ void DvdWizardVob::slotTranscodeFiles()
         finalSize = QSize(720, 576);
     }
     QString params = transConfig.readEntry(profileEasyName);
-
+    m_transcodeQueue.clear();
+    m_view.convert_progress->setValue(0);
+    m_duration = 0;
     // Transcode files that do not match selected profile
     int max = m_vobList->topLevelItemCount();
     int format = m_view.dvd_profile->currentIndex();
+    m_view.convert_box->setVisible(true);
     for (int i = 0; i < max; ++i) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
         if (item->data(0, Qt::UserRole + 1).toInt() != format) {
@@ -569,16 +649,57 @@ void DvdWizardVob::slotTranscodeFiles()
                 if (conv_pad %2 == 1) conv_pad --;
                 postParams << "-vf" << QString("scale=%1:%2,pad=%3:%4:%5:0,setdar=%6").arg(finalSize.width() - 2 * conv_pad).arg(destSize.height()).arg(finalSize.width()).arg(finalSize.height()).arg(conv_pad).arg(input_aspect);
             }
-            //TODO: create only one transcoding dialog with parameters for each file
-            ClipTranscode *d = new ClipTranscode(QStringList () << item->text(0), params.section(';', 0, 0), postParams, i18n("Transcoding to DVD format"), true, this);
-            connect(d, SIGNAL(transcodedClip(QUrl,QUrl)), this, SLOT(slotTranscodedClip(QUrl,QUrl)));
-            d->slotStartTransCode();
-            d->show();
+            TranscodeJobInfo jobInfo;
+            jobInfo.filename = item->text(0);
+            jobInfo.params = params.section(';', 0, 0);
+            jobInfo.postParams = postParams;
+            m_transcodeQueue << jobInfo;
         }
     }
+    processTranscoding();
 }
 
-void DvdWizardVob::slotTranscodedClip(QUrl src, QUrl transcoded)
+void DvdWizardVob::processTranscoding()
+{
+    if (m_transcodeQueue.isEmpty()) {
+        return;
+    }
+    m_currentTranscoding = m_transcodeQueue.takeFirst();
+    QStringList parameters;
+    QStringList postParams = m_currentTranscoding.postParams;
+    QString params = m_currentTranscoding.params;
+    QString extension = params.section("%1", 1, 1).section(' ', 0, 0);
+    parameters << "-i" << m_currentTranscoding.filename;
+    if (QFile::exists(m_currentTranscoding.filename + extension)) {
+        if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", m_currentTranscoding.filename + extension)) == KMessageBox::No) {
+            // TODO inform about abortion
+            m_transcodeQueue.clear();
+            return;
+        }
+        parameters << "-y";
+    }
+
+    bool replaceVfParams = false;
+    QStringList splitted = params.split(' ');
+    foreach(QString s, splitted) {
+        if (replaceVfParams) {
+            parameters << postParams.at(1);
+            replaceVfParams = false;
+        } else if (s.startsWith(QLatin1String("%1"))) {
+            parameters << s.replace(0, 2, m_currentTranscoding.filename);
+        } else if (!postParams.isEmpty() && s == "-vf") {
+            replaceVfParams = true;
+            parameters << s;
+        } else {
+            parameters << s;
+        }
+    }
+    qDebug()<<" / / /STARTING TCODE JB: \n"<<KdenliveSettings::ffmpegpath()<<" = "<< parameters;
+    m_transcodeProcess.start(KdenliveSettings::ffmpegpath(), parameters);
+    m_view.convert_label->setText(i18n("Transcoding: %1", QUrl::fromLocalFile(m_currentTranscoding.filename).fileName()));
+}
+
+void DvdWizardVob::slotTranscodedClip(const QString &src, const QString &transcoded)
 {
     if (transcoded.isEmpty()) {
         // Transcoding canceled or failed
@@ -588,11 +709,11 @@ void DvdWizardVob::slotTranscodedClip(QUrl src, QUrl transcoded)
     int max = m_vobList->topLevelItemCount();
     for (int i = 0; i < max; ++i) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
-        if (QUrl(item->text(0)).path() == src.path()) {
+        if (QUrl::fromLocalFile(item->text(0)).path() == src) {
             // Replace movie with transcoded version
-            item->setText(0, transcoded.path());
+            item->setText(0, transcoded);
 
-            QFile f(transcoded.path());
+            QFile f(transcoded);
             qint64 fileSize = f.size();
 
             Mlt::Profile profile;
@@ -600,9 +721,9 @@ void DvdWizardVob::slotTranscodedClip(QUrl src, QUrl transcoded)
             item->setText(2, KIO::convertSize(fileSize));
             item->setData(2, Qt::UserRole, fileSize);
             item->setData(0, Qt::DecorationRole, QIcon::fromTheme("video-x-generic").pixmap(60, 45));
-            item->setToolTip(0, transcoded.path());
+            item->setToolTip(0, transcoded);
 
-            QString resource = transcoded.path();
+            QString resource = transcoded;
             resource.prepend("avformat:");
             Mlt::Producer *producer = new Mlt::Producer(profile, resource.toUtf8().data());
             if (producer && producer->is_valid() && !producer->is_blank()) {
@@ -655,11 +776,11 @@ void DvdWizardVob::slotTranscodedClip(QUrl src, QUrl transcoded)
             }
             else {
                 // Cannot load movie, reject
-                showError(i18n("The clip %1 is invalid.", transcoded.fileName()));
+                showError(i18n("The clip %1 is invalid.", transcoded));
             }
             if (producer) delete producer;
             slotCheckVobList();
-            slotCheckProfiles();
+            if (m_transcodeQueue.isEmpty()) slotCheckProfiles();
             break;
         }
     }
