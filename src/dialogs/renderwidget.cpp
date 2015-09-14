@@ -1575,10 +1575,8 @@ void RenderWidget::refreshParams()
 {
     // Format not available (e.g. codec not installed); Disable start button
     QListWidgetItem *item = m_view.size_list->currentItem();
-    QString extension;
-    if (item) {
-        extension = item->data(ExtensionRole).toString();
-    }
+    QString params = item->data(ParamsRole).toString();
+    QString extension = item->data(ExtensionRole).toString();
     if (!item || item->isHidden() || extension.isEmpty()) {
         if (!item)
             errorMessage(i18n("No matching profile"));
@@ -1590,7 +1588,6 @@ void RenderWidget::refreshParams()
         m_view.buttonGenerateScript->setEnabled(false);
         return;
     }
-    QString params = item->data(ParamsRole).toString();
     errorMessage(item->toolTip());
     m_view.advanced_params->setPlainText(params);
     QString destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
