@@ -353,7 +353,7 @@ void RenderWidget::showInfoPanel()
 
 void RenderWidget::setDocumentPath(const QString &path)
 {
-    if (m_view.out_file->url().adjusted(QUrl::RemoveFilename).path() == QUrl(m_projectFolder).adjusted(QUrl::RemoveFilename).path()) {
+    if (m_view.out_file->url().adjusted(QUrl::RemoveFilename).path() == QUrl::fromLocalFile(m_projectFolder).adjusted(QUrl::RemoveFilename).path()) {
         const QString fileName = m_view.out_file->url().fileName();
         m_view.out_file->setUrl(QUrl(path + fileName));
     }
@@ -1549,7 +1549,7 @@ void RenderWidget::refreshView(const QString &profile)
 
 QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
 {
-    if (!url.isValid()) url = QUrl(m_projectFolder);
+    if (!url.isValid()) url = QUrl::fromLocalFile(m_projectFolder);
     QString directory = url.adjusted(QUrl::RemoveFilename).path();
     QString filename = url.fileName();
     QString ext;
@@ -1567,24 +1567,27 @@ QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
         }
     }
 
-    return QUrl(directory + filename);
+    return QUrl::fromLocalFile(directory + filename);
 }
 
 void RenderWidget::refreshParams()
 {
     // Format not available (e.g. codec not installed); Disable start button
     QListWidgetItem *item = m_view.size_list->currentItem();
-    if (!item || item->isHidden()) {
+    QString params = item->data(ParamsRole).toString();
+    QString extension = item->data(ExtensionRole).toString();
+    if (!item || item->isHidden() || extension.isEmpty()) {
         if (!item)
             errorMessage(i18n("No matching profile"));
+        else if (extension.isEmpty()) {
+            errorMessage(i18n("Invalid profile"));
+        }
         m_view.advanced_params->clear();
         m_view.buttonRender->setEnabled(false);
         m_view.buttonGenerateScript->setEnabled(false);
         return;
     }
     errorMessage(item->toolTip());
-    QString params = item->data(ParamsRole).toString();
-    QString extension = item->data(ExtensionRole).toString();
     m_view.advanced_params->setPlainText(params);
     QString destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
     if (params.contains(" s=") || params.startsWith(QLatin1String("s=")) || destination == "audioonly") {
