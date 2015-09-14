@@ -1042,7 +1042,7 @@ void Bin::slotInitView(QAction *action)
 	    m_showDesc->setEnabled(false);
 	    break;
 	default:
-	    m_itemView = new MyTreeView(m_splitter);
+	    m_itemView = new QTreeView(m_splitter);
 	    m_showDate->setEnabled(true);
 	    m_showDesc->setEnabled(true);
 	    break;
