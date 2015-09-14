@@ -292,7 +292,6 @@ Bin::Bin(QWidget* parent) :
     // Create toolbar for buttons
     m_toolbar = new KToolBar(this);
     m_toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    m_toolbar->setIconDimensions(style()->pixelMetric(QStyle::PM_SmallIconSize));
     layout->addWidget(m_toolbar);
 
     // Search line
@@ -953,30 +952,28 @@ void Bin::emitItemRemoved(AbstractProjectItem* item)
 
 void Bin::rowsInserted(const QModelIndex &parent, int start, int end)
 {
-    Q_UNUSED(parent)
-    Q_UNUSED(start)
-
+    Q_UNUSED(end)
     if (!m_proxyModel->selectionModel()->hasSelection()) {
         for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
-            const QModelIndex id = m_itemModel->index(end, i, QModelIndex());
+            const QModelIndex id = m_itemModel->index(start, i, parent);
             if (id.isValid()) {
                 m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
             }
         }
+        selectProxyModel(m_proxyModel->mapFromSource(m_itemModel->index(start, 0, parent)));
     }
 }
 
 void Bin::rowsRemoved(const QModelIndex &parent, int start, int end)
 {
-    Q_UNUSED(parent)
     Q_UNUSED(end)
 
-    QModelIndex id = m_itemModel->index(start, 0, QModelIndex());
+    QModelIndex id = m_itemModel->index(start, 0, parent);
     if (!id.isValid() && start > 0) {
         start--;
     }
     for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
-        id = m_itemModel->index(start, i, QModelIndex());
+        id = m_itemModel->index(start, i, parent);
         if (id.isValid()) {
             m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
         }
@@ -987,6 +984,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
 {
     if (isLoading) return;
     if (id.isValid()) {
+        if (id.column() != 0) return;
         AbstractProjectItem *currentItem = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(id).internalPointer());
 	if (currentItem) {
             // Set item as current so that it displays its content in clip monitor
@@ -1089,7 +1087,7 @@ void Bin::slotInitView(QAction *action)
         }
         m_listType = static_cast<BinViewType>(viewType);
     }
-
+    m_proxyModel->selectionModel()->clearSelection();
     if (m_itemView) {
         delete m_itemView;
     }

@@ -29,7 +29,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <qvarlengtharray.h>
 #include <KLocalizedString>
-#include <QItemSelectionModel>
 #include <QIcon>
 #include <QMimeData>
 #include <QDebug>
@@ -294,7 +293,7 @@ void ProjectItemModel::onAboutToAddItem(AbstractProjectItem* item)
     QModelIndex parentIndex;
     if (parentItem != m_bin->rootFolder()) {
         parentIndex = createIndex(parentItem->index(), 0, parentItem);
-    } 
+    }
     beginInsertRows(parentIndex, parentItem->count(), parentItem->count());
 }
 
@@ -319,7 +318,6 @@ void ProjectItemModel::onAboutToRemoveItem(AbstractProjectItem* item)
 void ProjectItemModel::onItemRemoved(AbstractProjectItem* item)
 {
     Q_UNUSED(item)
-
     endRemoveRows();
 }
 
