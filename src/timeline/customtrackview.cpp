@@ -3019,6 +3019,7 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
 
 void CustomTrackView::reloadTimeline()
 {
+    removeTipAnimation();
     QList<QGraphicsItem *> selection = m_scene->items();
     selection.removeAll(m_cursorLine);
     for (int i = 0; i < m_guides.count(); ++i) {
