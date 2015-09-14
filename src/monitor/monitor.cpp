@@ -120,7 +120,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     // Tool bar buttons
     m_toolbar = new QToolBar(this);
-    m_toolbar->setIconSize(QSize(s, s));
+    //m_toolbar->setIconSize(QSize(s, s));
     QWidget *sp1 = new QWidget(this);
     sp1->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_toolbar->addWidget(sp1);
