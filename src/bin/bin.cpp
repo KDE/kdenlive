@@ -447,9 +447,6 @@ void Bin::deleteClip(const QString &id)
     AbstractProjectItem *parent = clip->parent();
     parent->removeChild(clip);
     delete clip;
-    if (m_listType == BinTreeView) {
-        static_cast<QTreeView*>(m_itemView)->resizeColumnToContents(0);
-    }
 }
 
 ProjectClip *Bin::getFirstSelectedClip()
@@ -683,9 +680,6 @@ void Bin::createClip(QDomElement xml)
         }
     }
     new ProjectClip(xml, m_blankThumb, parentFolder);
-    if (m_listType == BinTreeView) {
-        static_cast<QTreeView*>(m_itemView)->resizeColumnToContents(0);
-    }
 }
 
 QString Bin::slotAddFolder(const QString &folderName)
@@ -1451,9 +1445,6 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
         //FIXME(style): constructor actually adds the new pointer to parent's children
         new ProjectClip(info.clipId, m_blankThumb, controller, parentFolder);
         if (info.clipId.toInt() >= m_clipCounter) m_clipCounter = info.clipId.toInt() + 1;
-        if (m_listType == BinTreeView) {
-            static_cast<QTreeView*>(m_itemView)->resizeColumnToContents(0);
-        }
     }
     emit producerReady(info.clipId);
 }
