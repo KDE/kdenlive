@@ -169,12 +169,12 @@ int Timeline::duration() const
 bool Timeline::checkProjectAudio()
 {
     bool hasAudio = false;
-    int max = m_tractor->count();
+    int max = m_tracks.count();
     for (int i = 0; i < max; i++) {
         Track *sourceTrack = track(i);
-        QScopedPointer<Mlt::Producer> track(m_tractor->track(i));
+        QScopedPointer<Mlt::Producer> track(m_tractor->track(i + 1));
         int state = track->get_int("hide");
-        if (sourceTrack->hasAudio() && !(state & 2)) {
+        if (sourceTrack && sourceTrack->hasAudio() && !(state & 2)) {
             hasAudio = true;
             break;
         }
