@@ -514,7 +514,6 @@ signals:
     void clipItemSelected(ClipItem *clip, bool raise = true);
     void transitionItemSelected(Transition*, int track = 0, QPoint p = QPoint(), bool update = false);
     void activateDocumentMonitor();
-    void trackHeightChanged();
     void tracksChanged();
     void displayMessage(const QString &, MessageType);
     void doTrackLock(int, bool);

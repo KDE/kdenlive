@@ -3264,8 +3264,12 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
 
     tractor.insert_track(playlist, ix);
     Mlt::Producer newProd(tractor.track(ix));
-    if (!videoTrack) newProd.set("hide", 1);
+    if (!videoTrack) {
+        newProd.set("kdenlive:audio_track", 1);
+        newProd.set("hide", 1);
+    }
     //checkMaxThreads();
+    tractor.refresh();
 
     Mlt::Field *field = tractor.field();
     // Move transitions
@@ -3332,14 +3336,14 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
     mix.set("always_active", 1);
     mix.set("internal_added", 237);
     mix.set("combine", 1);
-    field->plant_transition(mix, 1, ct);
+    field->plant_transition(mix, 1, ix);
 
     if (videoTrack) {
         Mlt::Transition composite(*m_qmlView->profile(), KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend");
-        composite.set("a_track", ct-2);
-        composite.set("b_track", ct-1);
+        composite.set("a_track", ix - 1);
+        composite.set("b_track", ix);
         composite.set("internal_added", 237);
-        field->plant_transition(composite, ct-2, ct-1);
+        field->plant_transition(composite, ix - 1, ix);
         //mltPlantTransition(field, composite, ct-1, ct);
     }
 

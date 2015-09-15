@@ -123,7 +123,8 @@ public:
     void saveZone(const QUrl url, const QPoint &zone);
     void duplicateClipOnPlaylist(int tk, qreal startPos, int offset, Mlt::Producer *prod);
     void duplicateTransitionOnPlaylist(int in, int out, QString tag, QDomElement xml, int a_track, int b_track, Mlt::Field *field);
-    Mlt::Transition *getTransition(const QString &name, int trackIndex) const;
+    /** @brief Get a transition with tag name. */
+    Mlt::Transition *getTransition(const QString &name, int b_track, int a_track = -1) const;
 
 protected:
     void keyPressEvent(QKeyEvent * event);
@@ -136,6 +137,8 @@ public slots:
     /** @brief Save a snapshot image of current timeline view */
     void slotSaveTimelinePreview(const QString &path);
     void checkDuration(int duration);
+    /** @brief Rebuilds the track headers */
+    void slotRebuildTrackHeaders();
 
 private:
     Mlt::Tractor *m_tractor;
@@ -172,8 +175,6 @@ private slots:
     void slotSwitchTrackComposite(int trackIndex, bool enable);
     void setCursorPos(int pos);
     void moveCursorPos(int pos);
-    /** @brief Rebuilds the track headers */
-    void slotRebuildTrackHeaders();
     /** @brief The tracks count or a track name changed, rebuild and notify */
     void slotReloadTracks();
     void slotChangeTrackLock(int ix, bool lock);

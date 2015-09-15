@@ -280,7 +280,7 @@ bool CustomTrackView::checkTrackHeight()
 {
     if (m_tracksHeight == KdenliveSettings::trackheight() && sceneRect().height() == m_tracksHeight * m_timeline->tracksCount()) return false;
     m_tracksHeight = KdenliveSettings::trackheight();
-    emit trackHeightChanged();
+    m_timeline->slotRebuildTrackHeaders();
     QList<QGraphicsItem *> itemList = items();
     ClipItem *item;
     Transition *transitionitem;
@@ -3018,20 +3018,21 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
     if (ix == -1 || ix > m_timeline->tracksCount()) {
         ix = m_timeline->tracksCount() + 1;
     }
-    
+
     // insert track in MLT's playlist
     transitionInfos = m_document->renderer()->mltInsertTrack(ix,  type.trackName, type.type == VideoTrack);
-    
     // Reload timeline and m_tracks structure from MLT's playlist
     reloadTimeline();
-    
+
     //keep the composite transitions stack continuous (mlt_tractor_insert_track did shift the upper composite to the lower track instead of the new one)
-    if (ix < m_timeline->tracksCount() && m_timeline->getTrackInfo(ix).type == VideoTrack) {
-        Mlt::Transition *tr = m_timeline->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", ix+1);
+    if (ix < m_timeline->tracksCount()) {
+        Mlt::Tractor *tractor = m_document->renderer()->lockService();
+        Mlt::Transition *tr = m_timeline->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", ix+1, ix - 1);
         if (tr) {
-            tr->set_tracks(ix, ix+1);
+            tr->set_tracks(ix, ix + 1);
             delete tr;
         }
+        m_document->renderer()->unlockService(tractor);
     }
 }
 
@@ -3064,9 +3065,15 @@ void CustomTrackView::removeTrack(int ix)
 
     //Delete composite transition
     //TODO: fix in MLT?!
-    if (m_timeline->getTrackInfo(ix).type == VideoTrack) {
-        ix = m_timeline->tracksCount() - ix;
-        Mlt::Transition *tr = m_timeline->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", ix+1);
+    if (m_timeline->getTrackInfo(m_timeline->tracksCount() - ix).type == VideoTrack) {
+        Mlt::Transition *tr = m_timeline->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", (ix == m_timeline->tracksCount()) ? ix : ix + 1);
+        if (tr) {
+            Mlt::Tractor *tractor = m_document->renderer()->lockService();
+            mlt_field_disconnect_service(tractor->field()->get_field(), tr->get_service());
+            m_document->renderer()->unlockService(tractor);
+            delete tr;
+        }
+        tr = m_timeline->getTransition("mix", ix);
         if (tr) {
             Mlt::Tractor *tractor = m_document->renderer()->lockService();
             mlt_field_disconnect_service(tractor->field()->get_field(), tr->get_service());
@@ -3076,7 +3083,6 @@ void CustomTrackView::removeTrack(int ix)
     }
     // Delete track in MLT playlist
     m_document->renderer()->mltDeleteTrack(ix);
-    
     reloadTimeline();
     /*
     double startY = ix * (m_tracksHeight + 1) + m_tracksHeight / 2;
@@ -3132,7 +3138,7 @@ void CustomTrackView::removeTrack(int ix)
     viewport()->update();
 
     updateTrackNames(ix, false);
-    //QTimer::singleShot(500, this, SIGNAL(trackHeightChanged()));
+    //QTimer::singleShot(500, this, SIGNAL(()));
     */
 }
 
@@ -3144,7 +3150,7 @@ void CustomTrackView::configTracks(const QList < TrackInfo > &trackInfos)
         m_timeline->setTrackInfo(trackPos, trackInfos.at(i));
     }
     viewport()->update();
-    emit trackHeightChanged();
+    m_timeline->slotRebuildTrackHeaders();
 }
 
 void CustomTrackView::slotSwitchTrackAudio(int ix, bool enable)
@@ -6270,8 +6276,8 @@ void CustomTrackView::slotDeleteTrack(int ix)
     d->audio_track->setHidden(true);
     if (d->exec() == QDialog::Accepted) {
         ix = d->comboTracks->currentIndex();
-        TrackInfo info = m_timeline->getTrackInfo(m_timeline->tracksCount() - ix - 1);
-        deleteTimelineTrack(ix, info);
+        TrackInfo info = m_timeline->getTrackInfo(ix);
+        deleteTimelineTrack(m_timeline->tracksCount() - ix, info);
         /*AddTrackCommand* command = new AddTrackCommand(this, ix, info, false);
         m_commandStack->push(command);*/
     }
@@ -6345,7 +6351,7 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
             if (!newClipGrpInfos.isEmpty() || !newTransitionGrpInfos.isEmpty()) {
                 new GroupClipsCommand(this, newClipGrpInfos, newTransitionGrpInfos, true, deleteTrack);
             }
-            }
+        }
     }
 
     // Delete all clips in selected track

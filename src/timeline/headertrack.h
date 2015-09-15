@@ -34,7 +34,7 @@ class HeaderTrack : public QWidget, public Ui::TrackHeader_UI
 
 public:
     HeaderTrack(int index, TrackInfo info, int height, const QList <QAction *>& actions, QWidget *parent = 0);
-    //virtual ~HeaderTrack();
+    virtual ~HeaderTrack();
     void setLock(bool lock);
     void setComposite(bool enable);
     void adjustSize(int height);
@@ -42,6 +42,7 @@ public:
     /** @brief Update the track label to show if current track has effects or not.*/
     void updateEffectLabel(const QStringList &effects);
     void renameTrack(const QString &name);
+    QString name() const;
 
 protected:
     void mousePressEvent(QMouseEvent * event);

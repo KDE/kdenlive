@@ -110,7 +110,6 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
 
     tracksLayout->addWidget(m_trackview);
     connect(m_trackview->verticalScrollBar(), SIGNAL(valueChanged(int)), headers_area->verticalScrollBar(), SLOT(setValue(int)));
-    connect(m_trackview, SIGNAL(trackHeightChanged()), this, SLOT(slotRebuildTrackHeaders()));
     connect(m_trackview, SIGNAL(tracksChanged()), this, SLOT(slotReloadTracks()));
     connect(m_trackview, SIGNAL(updateTrackHeaders()), this, SLOT(slotRepaintTracks()));
     connect(m_trackview, SIGNAL(showTrackEffects(int,TrackInfo)), this, SIGNAL(showTrackEffects(int,TrackInfo)));
@@ -257,8 +256,7 @@ void Timeline::checkDuration(int duration) {
 }
 
 void Timeline::getTransitions() {
-    QList<HeaderTrack *> header = findChildren<HeaderTrack *>();
-
+    QList<HeaderTrack *> header = headers_container->findChildren<HeaderTrack *>();
     mlt_service service = mlt_service_get_producer(m_tractor->get_service());
     while (service) {
         Mlt::Properties prop(MLT_SERVICE_PROPERTIES(service));
@@ -629,14 +627,17 @@ void Timeline::switchTrackVideo(int ix, bool hide)
     refreshTractor();
 }
 
-Mlt::Transition *Timeline::getTransition(const QString &name, int trackIndex) const
+Mlt::Transition *Timeline::getTransition(const QString &name, int b_track, int a_track) const
 {
     QScopedPointer<Mlt::Service> service(m_tractor->producer());
     while (service && service->is_valid()) {
         if (service->type() == transition_type) {
             Mlt::Transition t((mlt_transition) service->get_service());
-            if (name == t.get("mlt_service") && t.get_b_track() == trackIndex)
-                return new Mlt::Transition(t);
+            if (name == t.get("mlt_service") && t.get_b_track() == b_track) {
+                if (a_track == -1 || t.get_a_track() == a_track) {
+                    return new Mlt::Transition(t);
+                }
+            }
         }
         service.reset(service->producer());
     }
@@ -761,11 +762,16 @@ void Timeline::slotRebuildTrackHeaders()
         Mlt::Playlist playlist(*track);
         qDebug()<<"++ GOT TRACK: "<<i<<" = "<<playlist.get("kdenlive:track_name");
     }*/
+
     QLayoutItem *child;
     while ((child = headers_container->layout()->takeAt(0)) != 0) {
         QWidget *wid = child->widget();
         delete child;
-        if (wid) wid->deleteLater();
+        if (wid) {
+            // We need to change parent or the headers are still here when processing getTransitions()
+            wid->setParent(0);
+            wid->deleteLater();
+        }
     }
     int max = m_tracks.count();
     int height = KdenliveSettings::trackheight() * m_scene->scale().y() - 1;
@@ -777,7 +783,7 @@ void Timeline::slotRebuildTrackHeaders()
         frame->setFixedHeight(1);
         headers_container->layout()->addWidget(frame);
         TrackInfo info = track(i)->info();
-        HeaderTrack *header = new HeaderTrack(i, info, height, m_trackActions, headers_container);
+        HeaderTrack *header = new HeaderTrack(i, info, height, m_trackActions, this);
         int currentWidth = header->minimumWidth();
         if (currentWidth > headerWidth) headerWidth = currentWidth;
         header->setSelectedIndex(m_trackview->selectedTrack());

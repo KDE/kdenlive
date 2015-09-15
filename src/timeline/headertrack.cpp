@@ -39,7 +39,8 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, const QList <QAc
         QWidget(parent),
         m_index(index),
         m_type(info.type),
-        m_isSelected(false)
+        m_isSelected(false),
+        m_switchComposite(NULL)
 {
     setFixedHeight(height);
     setupUi(this);
@@ -103,9 +104,10 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, const QList <QAc
     addActions(actions);
 }
 
-/*HeaderTrack::~HeaderTrack()
+HeaderTrack::~HeaderTrack()
 {
-}*/
+    //qDebug()<<" - --DEL: "<<m_name;
+}
 
 void HeaderTrack::updateEffectLabel(const QStringList &effects)
 {
@@ -234,7 +236,9 @@ void HeaderTrack::setLock(bool lock)
 
 void HeaderTrack::setComposite(bool enable)
 {
-    m_switchComposite->setActive(enable);
+    if (m_switchComposite)
+        m_switchComposite->setActive(enable);
+    else qDebug()<<" / / /ERROR; TRYING TO EDIT COMPOSITE ON AUDIO TRACK: "<<m_index;
 }
 
 void HeaderTrack::slotRenameTrack()
@@ -248,6 +252,11 @@ void HeaderTrack::renameTrack(const QString &name)
 {
     m_name = name;
     track_number->setText(name);
+}
+
+QString HeaderTrack::name() const
+{
+    return m_name;
 }
 
 
