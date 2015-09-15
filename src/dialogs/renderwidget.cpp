@@ -444,7 +444,6 @@ void RenderWidget::slotUpdateButtons()
 
 void RenderWidget::slotSaveProfile()
 {
-    //TODO: update to correctly use metagroups
     Ui::SaveProfile_UI ui;
     QPointer<QDialog> d = new QDialog(this);
     ui.setupUi(d);
@@ -464,7 +463,10 @@ void RenderWidget::slotSaveProfile()
     QListWidgetItem *item = m_view.size_list->currentItem();
     if (item) {
         // Duplicate current item settings
-        customGroup = item->text();
+        QListWidgetItem *groupItem = m_view.format_list->currentItem();
+        if (groupItem) {
+            customGroup = groupItem->text();
+        }
         ui.extension->setText(item->data(ExtensionRole).toString());
         if (ui.parameters->toPlainText().contains("%bitrate") || ui.parameters->toPlainText().contains("%quality")) {
             if (ui.parameters->toPlainText().contains("%quality")) {
@@ -710,7 +712,6 @@ void RenderWidget::slotEditProfile()
         }
     }
     else ui.abitrates->setHidden(true);
-    
     d->setWindowTitle(i18n("Edit Profile"));
     if (d->exec() == QDialog::Accepted) {
         slotDeleteProfile(false);
@@ -1574,8 +1575,10 @@ void RenderWidget::refreshParams()
 {
     // Format not available (e.g. codec not installed); Disable start button
     QListWidgetItem *item = m_view.size_list->currentItem();
-    QString params = item->data(ParamsRole).toString();
-    QString extension = item->data(ExtensionRole).toString();
+    QString extension;
+    if (item) {
+        extension = item->data(ExtensionRole).toString();
+    }
     if (!item || item->isHidden() || extension.isEmpty()) {
         if (!item)
             errorMessage(i18n("No matching profile"));
@@ -1587,6 +1590,7 @@ void RenderWidget::refreshParams()
         m_view.buttonGenerateScript->setEnabled(false);
         return;
     }
+    QString params = item->data(ParamsRole).toString();
     errorMessage(item->toolTip());
     m_view.advanced_params->setPlainText(params);
     QString destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
