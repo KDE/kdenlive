@@ -306,6 +306,7 @@ signals:
     void addClip();
     void deleteSelectedClips();
     void itemDoubleClicked(const QModelIndex&, const QPoint pos);
+    void zoomView(bool zoomIn);
     //void editItemInTimeline(const QString&, const QString&, ProducerWrapper*);
 };
 
@@ -497,6 +498,7 @@ private slots:
     void slotQueryRemoval(const QString &id, QUrl url);
     /** @brief Request display of current clip in monitor. */
     void slotOpenCurrent();
+    void slotZoomView(bool zoomIn);
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img, bool fromFile = false);

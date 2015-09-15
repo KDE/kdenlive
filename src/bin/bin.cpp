@@ -256,19 +256,21 @@ bool EventEater::eventFilter(QObject *obj, QEvent *event)
                 emit addClip();
             }
             else {
-                /*AbstractProjectItem *item = static_cast<AbstractProjectItem*>(idx.internalPointer());
-                if (item->itemType() == AbstractProjectItem::FolderItem) qDebug()<<"*****************  FLD CLK ****************";*/
 		emit itemDoubleClicked(idx, mouseEvent->pos());
-                //return QObject::eventFilter(obj, event);
             }
         }
         else {
             qDebug()<<" +++++++ NO VIEW-------!!";
         }
         return true;
-    } else {
-        return QObject::eventFilter(obj, event);
+    } else if (event->type() == QEvent::Wheel) {
+        QWheelEvent * e = static_cast<QWheelEvent*>(event);
+        if (e && e->modifiers() == Qt::ControlModifier) {
+            emit zoomView(e->delta() > 0);
+            return true;
+        }
     }
+    return QObject::eventFilter(obj, event);
 }
 
 
@@ -403,6 +405,8 @@ Bin::Bin(QWidget* parent) :
 
     connect(m_eventEater, SIGNAL(itemDoubleClicked(QModelIndex,QPoint)), this, SLOT(slotItemDoubleClicked(QModelIndex,QPoint)), Qt::UniqueConnection);
 
+    connect(m_eventEater, SIGNAL(zoomView(bool)), this, SLOT(slotZoomView(bool)));
+
     layout->addWidget(m_splitter);
     m_propertiesPanel = new QWidget(m_splitter);
     m_splitter->addWidget(m_propertiesPanel);
@@ -450,6 +454,16 @@ void Bin::slotSaveHeaders()
         m_headerInfo = view->header()->saveState();
         KdenliveSettings::setTreeviewheaders(m_headerInfo.toBase64());
     }
+}
+
+void Bin::slotZoomView(bool zoomIn)
+{
+    if (m_itemModel->rowCount() == 0) {
+        //Don't zoom on empty bin
+        return;
+    }
+    int progress = (zoomIn == true) ? 1 : -1;
+    m_slider->setValue(m_slider->value() + progress);
 }
 
 Monitor *Bin::monitor()
