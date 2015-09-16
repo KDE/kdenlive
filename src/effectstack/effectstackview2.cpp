@@ -723,7 +723,7 @@ void EffectStackView2::slotDeleteEffect(const QDomElement &effect)
 
 void EffectStackView2::slotAddEffect(const QDomElement &effect)
 {
-    emit addEffect(m_clipref, effect);
+    emit addEffect(m_clipref, effect, m_trackindex);
 }
 
 void EffectStackView2::slotMoveEffectUp(const QList<int> &indexes, bool up)

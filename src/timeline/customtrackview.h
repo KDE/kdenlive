@@ -295,7 +295,7 @@ public slots:
     * @param skipSelectedItems if true, the selected item start and end points will not be added to snap list */
     void updateSnapPoints(AbstractClipItem *selected, QList <GenTime> offsetList = QList <GenTime> (), bool skipSelectedItems = false);
     
-    void slotAddEffect(ClipItem *clip, const QDomElement &effect);
+    void slotAddEffect(ClipItem *clip, const QDomElement &effect, int track = -1);
     void slotImportClipKeyframes(GraphicsRectItem type, QMap<QString, QString> data = QMap<QString, QString>());
 
     /** @brief Move playhead to mouse curser position if defined key is pressed */

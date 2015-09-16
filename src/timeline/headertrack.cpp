@@ -66,7 +66,6 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, const QList <QAc
     m_switchLock->setActive(info.isLocked);
     connect(m_switchLock, SIGNAL(activeChanged(bool)), this, SLOT(switchLock(bool)));
     m_tb->addAction(m_switchLock);
-    
     m_switchAudio = new KDualAction(i18n("Disable audio"), i18n("Enable audio"), this);
     m_switchAudio->setActiveIcon(QIcon::fromTheme("kdenlive-hide-audio-effects"));
     m_switchAudio->setInactiveIcon(QIcon::fromTheme("kdenlive-show-audio-effects"));
@@ -128,7 +127,6 @@ void HeaderTrack::mousePressEvent(QMouseEvent * event)
         return;
     }
     if (!m_isSelected) emit selectTrack(m_index);
-    emit showTrackEffects(m_index);
     QWidget::mousePressEvent(event);
 }
 
@@ -189,7 +187,7 @@ void HeaderTrack::setSelectedIndex(int ix)
 {
     if (m_index == ix) {
         m_isSelected = true;
-        setBackgroundRole(QPalette::Button);
+        setBackgroundRole(QPalette::Mid);
         setAutoFillBackground(true);
     } else if (m_type != VideoTrack) {
         m_isSelected = false;

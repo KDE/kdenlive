@@ -78,7 +78,6 @@ signals:
     void selectTrack(int);
     void configTrack(int);
     void addTrackEffect(const QDomElement &, int);
-    void showTrackEffects(int);
 };
 
 #endif

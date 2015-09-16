@@ -2002,9 +2002,15 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
     }
 }
 
-void CustomTrackView::slotAddEffect(ClipItem *clip, const QDomElement &effect)
+void CustomTrackView::slotAddEffect(ClipItem *clip, const QDomElement &effect, int track)
 {
-    if (clip) slotAddEffect(effect, clip->startPos(), clip->track());
+    if (clip == NULL) {
+        // delete track effect
+        AddEffectCommand *command = new AddEffectCommand(this, track, GenTime(-1), effect, true);
+        m_commandStack->push(command);
+        return;
+    }
+    else slotAddEffect(effect, clip->startPos(), clip->track());
 }
 
 void CustomTrackView::slotDropEffect(ClipItem *clip, QDomElement effect, GenTime pos, int track)
@@ -6912,22 +6918,18 @@ void CustomTrackView::updateProjectFps()
 
 void CustomTrackView::slotTrackDown()
 {
-    if (m_selectedTrack > m_timeline->tracksCount() - 2) m_selectedTrack = 0;
-    else m_selectedTrack++;
-    emit updateTrackHeaders();
-    QRectF rect(mapToScene(QPoint(10, 0)).x(), m_selectedTrack * m_tracksHeight, 10, m_tracksHeight);
-    ensureVisible(rect, 0, 0);
-    viewport()->update();
+    int ix;
+    if (m_selectedTrack > m_timeline->tracksCount() - 2) ix = 0;
+    else ix = m_selectedTrack + 1;
+    slotSelectTrack(ix);
 }
 
 void CustomTrackView::slotTrackUp()
 {
-    if (m_selectedTrack > 0) m_selectedTrack--;
-    else m_selectedTrack = m_timeline->tracksCount() - 1;
-    emit updateTrackHeaders();
-    QRectF rect(mapToScene(QPoint(10, 0)).x(), m_selectedTrack * m_tracksHeight, 10, m_tracksHeight);
-    ensureVisible(rect, 0, 0);
-    viewport()->update();
+    int ix;
+    if (m_selectedTrack > 0) ix = m_selectedTrack - 1;
+    else ix = m_timeline->tracksCount() - 1;
+    slotSelectTrack(ix);
 }
 
 int CustomTrackView::selectedTrack() const
@@ -6953,6 +6955,7 @@ void CustomTrackView::slotSelectTrack(int ix)
     m_selectedTrack = qMax(0, ix);
     m_selectedTrack = qMin(ix, m_timeline->tracksCount() - 1);
     emit updateTrackHeaders();
+    m_timeline->slotShowTrackEffects(ix);
     QRectF rect(mapToScene(QPoint(10, 0)).x(), m_selectedTrack * m_tracksHeight, 10, m_tracksHeight);
     ensureVisible(rect, 0, 0);
     viewport()->update();

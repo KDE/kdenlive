@@ -139,6 +139,7 @@ public slots:
     void checkDuration(int duration);
     /** @brief Rebuilds the track headers */
     void slotRebuildTrackHeaders();
+    void slotShowTrackEffects(int);
 
 private:
     Mlt::Tractor *m_tractor;
@@ -193,7 +194,6 @@ private slots:
      * the horizontal scrollbar is visible and the position
      * of the vertical scrollbar is maximal */
     void slotUpdateVerticalScroll(int min, int max);
-    void slotShowTrackEffects(int);
     /** @brief Update the track label showing applied effects.*/
     void slotUpdateTrackEffectState(int);
 

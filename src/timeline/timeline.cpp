@@ -795,7 +795,6 @@ void Timeline::slotRebuildTrackHeaders()
         connect(header, SIGNAL(renameTrack(int,QString)), this, SLOT(slotRenameTrack(int,QString)));
         connect(header, SIGNAL(configTrack(int)), this, SIGNAL(configTrack(int)));
         connect(header, SIGNAL(addTrackEffect(QDomElement,int)), m_trackview, SLOT(slotAddTrackEffect(QDomElement,int)));
-        connect(header, SIGNAL(showTrackEffects(int)), this, SLOT(slotShowTrackEffects(int)));
         headers_container->layout()->addWidget(header);
     }
     updatePalette();

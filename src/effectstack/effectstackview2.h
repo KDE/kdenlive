@@ -241,7 +241,7 @@ signals:
     void displayMessage(const QString&, int);
     void showComments(bool show);
     void startFilterJob(const ItemInfo &info, const QString &clipId, QMap<QString, QString>&, QMap<QString, QString>&, QMap<QString, QString>&);
-    void addEffect(ClipItem*,const QDomElement &);
+    void addEffect(ClipItem*,const QDomElement &,int);
     void importClipKeyframes(GraphicsRectItem = AVWidget, QMap<QString,QString> data = QMap<QString,QString>());
 };
 
