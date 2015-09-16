@@ -51,7 +51,6 @@ EffectsListView::EffectsListView(QWidget *parent) :
         QWidget(parent)
 {
     setupUi(this);
-    
     m_contextMenu = new QMenu(this);
     m_effectsList = new EffectsListWidget();
     m_effectsList->setStyleSheet(customStyleSheet());
@@ -79,6 +78,7 @@ EffectsListView::EffectsListView(QWidget *parent) :
     else
         infopanel->hide();
 
+    m_contextMenu->addAction(QIcon::fromTheme("list-add"), i18n("Add effect to Current Stack"), this, SLOT(slotEffectSelected()));
     m_removeAction = m_contextMenu->addAction(QIcon::fromTheme("edit-delete"), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
 
     effectsAll->setIcon(QIcon::fromTheme("kdenlive-show-all-effects"));
@@ -245,13 +245,15 @@ void EffectsListView::reloadEffectList(QMenu *effectsMenu, KActionCategory *effe
 
 void EffectsListView::slotDisplayMenu(QTreeWidgetItem *item, const QPoint &pos)
 {
-    if (KdenliveSettings::selected_effecttab() == EffectsListWidget::EFFECT_FAVORITES) {
+    int actionRole = item->data(0, Qt::UserRole).toInt();
+    if (KdenliveSettings::selected_effecttab() == EffectsListWidget::EFFECT_FAVORITES || actionRole == EffectsListWidget::EFFECT_CUSTOM) {
+        m_removeAction->setVisible(true);
+    } else {
+        m_removeAction->setVisible(false);
+    }
+    if (actionRole != EffectsListWidget::EFFECT_FOLDER) {
         m_contextMenu->popup(pos);
     }
-    else if (item->data(0, Qt::UserRole + 1).toInt() == EffectsListWidget::EFFECT_CUSTOM) {
-        m_contextMenu->popup(pos);
-    }
-    
 }
 
 void EffectsListView::slotRemoveEffect()
