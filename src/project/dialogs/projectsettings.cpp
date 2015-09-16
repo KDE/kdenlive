@@ -90,7 +90,6 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         generate_imageproxy->setChecked(KdenliveSettings::generateimageproxy());
         proxy_imageminsize->setValue(KdenliveSettings::proxyimageminsize());
         proxyextension = KdenliveSettings::proxyextension();
-      
     }
 
     proxy_minsize->setEnabled(generate_proxy->isChecked());
@@ -98,7 +97,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
 
 
     // load proxy profiles
-    KConfig conf("encodingprofiles.rc", KConfig::CascadeConfig); //, "appdata");
+    KConfig conf("encodingprofiles.rc", KConfig::CascadeConfig, QStandardPaths::DataLocation);
     KConfigGroup group(&conf, "proxy");
     QMap <QString, QString> values = group.entryMap();
     QMapIterator<QString, QString> k(values);
