@@ -1061,7 +1061,7 @@ void MainWindow::setupActions()
     connect(ungroupClip, SIGNAL(triggered(bool)), this, SLOT(slotUnGroupClips()));
     addAction("edit_item_duration", i18n("Edit Duration"), this, SLOT(slotEditItemDuration()), QIcon::fromTheme("measure"));
     addAction("save_timeline_clip", i18n("Save clip"), this, SLOT(slotSaveTimelineClip()), QIcon::fromTheme("document-save"));
-    addAction("clip_in_project_tree", i18n("Clip in Project Tree"), this, SLOT(slotClipInProjectTree()), QIcon::fromTheme("go-jump-definition"));
+    addAction("clip_in_project_tree", i18n("Clip in Project Bin"), this, SLOT(slotClipInProjectTree()), QIcon::fromTheme("go-jump-definition"));
     addAction("overwrite_to_in_point", i18n("Insert Clip Zone in Timeline (Overwrite)"), this, SLOT(slotInsertClipOverwrite()), QIcon(), Qt::Key_V);
     addAction("select_timeline_clip", i18n("Select Clip"), this, SLOT(slotSelectTimelineClip()), QIcon::fromTheme("edit-select"), Qt::Key_Plus);
     addAction("deselect_timeline_clip", i18n("Deselect Clip"), this, SLOT(slotDeselectTimelineClip()), QIcon::fromTheme("edit-select"), Qt::Key_Minus);
