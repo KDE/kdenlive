@@ -859,6 +859,7 @@ void MainWindow::setupActions()
     m_zoomSlider->setMaximum(13);
     m_zoomSlider->setPageStep(1);
     m_zoomSlider->setInvertedAppearance(true);
+    m_zoomSlider->setInvertedControls(true);
 
     m_zoomSlider->setMaximumWidth(150);
     m_zoomSlider->setMinimumWidth(100);
