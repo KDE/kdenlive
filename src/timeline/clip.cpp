@@ -132,3 +132,13 @@ QByteArray Clip::xml()
 Mlt::Producer *Clip::clone() {
     return new Mlt::Producer(*m_producer.profile(), "xml-string", xml().constData());
 }
+
+Mlt::Producer *Clip::softClone(const char*list) {
+    QString service = m_producer.get("mlt_service");
+    QString resource = m_producer.get("resource");
+    Mlt::Producer *clone = new Mlt::Producer(*m_producer.profile(), service.toUtf8().constData(), resource.toUtf8().constData());
+    Mlt::Properties original(m_producer.get_properties());
+    Mlt::Properties cloneProps(clone->get_properties());
+    cloneProps.pass_list(original, list);
+    return clone;
+}

@@ -137,7 +137,8 @@ public:
     bool isReady() const;
     
     /** @brief Returns this clip's producer. */
-    Mlt::Producer *producer();
+    Mlt::Producer *originalProducer();
+    Mlt::Producer *thumbProducer();
     
     ClipController *controller();
 
@@ -215,7 +216,6 @@ private:
     QList <int> m_markers;
     /** @brief The Clip controller for this clip. */
     ClipController *m_controller;
-    Mlt::Producer *m_gpuProducer;
     /** @brief Generate and store file hash if not available. */
     const QString getFileHash() const;
     /** @brief Store clip url temporarily while the clip controller has not been created. */
@@ -224,6 +224,8 @@ private:
     /** @brief Indicates whether audio thumbnail creation is running. */
     QFuture<void> m_audioThumbsThread;
     ClipType m_type;
+    Mlt::Producer *m_thumbsProducer;
+    QMutex m_producerMutex;
     const QString geometryWithOffset(const QString &data, int offset);
 
 signals:

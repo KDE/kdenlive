@@ -1718,7 +1718,6 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         m_selectionGroup->setSelected(true);
     } else if (data->hasFormat("kdenlive/producerslist")) {
         QStringList ids = QString(data->data("kdenlive/producerslist")).split(';');
-	qDebug()<<"// DROP 2: "<<ids;
         QList <GenTime> offsetList;
         QList <ItemInfo> infoList;
         GenTime start = GenTime((int)(framePos.x() + 0.5), m_document->fps());

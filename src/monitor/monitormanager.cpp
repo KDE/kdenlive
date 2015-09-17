@@ -35,7 +35,6 @@
 #include <QTimer>
 #include <QDebug>
 
-
 MonitorManager::MonitorManager(QObject *parent) :
         QObject(parent),
         m_document(NULL),

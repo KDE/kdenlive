@@ -39,7 +39,12 @@ public:
     ~Clip();
     Clip& operator=(Clip& other);
     QByteArray xml();
+    /** @brief: Clone a producer (creates a completely independant copy) */
     Mlt::Producer *clone();
+    /** @brief: Clone a producer without using xml-string producer. 
+     *          When Movit is used, we must use this because xml-string crashes (probably attaches some normalizers) 
+     */
+    Mlt::Producer *softClone(const char*list);
     void deleteEffects();
     void addEffects(Mlt::Service& service);
     void replaceEffects(Mlt::Service& service);

@@ -31,6 +31,7 @@
 #include "dialogs/profilesdialog.h"
 #include "mltcontroller/bincontroller.h"
 #include "bin/projectclip.h"
+#include "timeline/clip.h"
 #include "monitor/glwidget.h"
 #include "mltcontroller/clipcontroller.h"
 #include <mlt++/Mlt.h>
@@ -865,8 +866,22 @@ void Render::processFileProperties()
         if (frame && frame->is_valid()) {
 	    if (!mltService.contains("avformat")) {
 		// Fetch thumbnail
-		QImage img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
-		emit replyGetImage(info.clipId, img);
+                QImage img;
+                if (KdenliveSettings::gpu_accel()) {
+                    delete frame;
+                    Clip clp(*producer);
+                    Mlt::Producer *glProd = clp.softClone(ClipController::getPassPropertiesList());
+                    Mlt::Filter scaler(*m_qmlView->profile(), "swscale");
+                    Mlt::Filter converter(*m_qmlView->profile(), "avcolor_space");
+                    glProd->attach(scaler);
+                    glProd->attach(converter);
+                    frame = glProd->get_frame();
+                    img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
+                    delete glProd;
+                } else {
+                    img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
+                }
+                emit replyGetImage(info.clipId, img);
 	    }
 	    else {
 		filePropertyMap["frame_size"] = QString::number(frame->get_int("width")) + 'x' + QString::number(frame->get_int("height"));
@@ -890,12 +905,13 @@ void Render::processFileProperties()
 		    // Check if we are using GPU accel, then we need to use alternate producer
 		    Mlt::Producer *tmpProd = NULL;
 		    if (KdenliveSettings::gpu_accel()) {
-			QString service = producer->get("mlt_service");
-			tmpProd = new Mlt::Producer(*m_qmlView->profile(), service.toUtf8().constData(), path.toUtf8().constData());
-			Mlt::Filter scaler(*m_qmlView->profile(), "swscale");
-			Mlt::Filter converter(*m_qmlView->profile(), "avcolor_space");
-			tmpProd->attach(scaler);
-			tmpProd->attach(converter);
+                        delete frame;
+                        Clip clp(*producer);
+                        tmpProd = clp.softClone(ClipController::getPassPropertiesList());
+                        Mlt::Filter scaler(*m_qmlView->profile(), "swscale");
+                        Mlt::Filter converter(*m_qmlView->profile(), "avcolor_space");
+                        tmpProd->attach(scaler);
+                        tmpProd->attach(converter);
                         frame = tmpProd->get_frame();
 		    }
 		    else {
@@ -1455,14 +1471,11 @@ void Render::stop()
     QMutexLocker locker(&m_mutex);
     m_isActive = false;
     if (m_mltProducer == NULL) return;
+    if (m_isZoneMode) resetZoneMode();
+    m_mltProducer->set_speed(0.0);
     if (m_mltConsumer) {
         m_mltConsumer->purge();
         if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
-    }
-
-    if (m_mltProducer) {
-        if (m_isZoneMode) resetZoneMode();
-        m_mltProducer->set_speed(0.0);
     }
 }
 

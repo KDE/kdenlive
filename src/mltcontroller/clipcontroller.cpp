@@ -194,7 +194,7 @@ const QString ClipController::clipId()
 // static
 const char *ClipController::getPassPropertiesList()
 {
-    return "kdenlive:proxy,kdenlive:originalurl,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_colorspace,set.force_full_luma,templatetext,file_hash";
+    return "kdenlive:proxy,kdenlive:originalurl,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_colorspace,set.force_full_luma,templatetext,file_hash,xmldata";
 }
 
 QMap <QString, QString> ClipController::getPropertiesFromPrefix(const QString &prefix, bool withPrefix)

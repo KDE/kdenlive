@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "timecode.h"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
+#include "timeline/clip.h"
 #include "project/projectcommands.h"
 #include "mltcontroller/clipcontroller.h"
 #include "lib/audio/audioStreamInfo.h"
@@ -46,8 +47,8 @@ ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *control
     AbstractProjectItem(AbstractProjectItem::ClipItem, id, parent)
     , audioFrameCache()
     , m_controller(controller)
-    , m_gpuProducer(NULL)
     , m_abortAudioThumb(false)
+    , m_thumbsProducer(NULL)
 {
     m_clipStatus = StatusReady;
     m_thumbnail = thumb;
@@ -68,9 +69,9 @@ ProjectClip::ProjectClip(const QDomElement& description, QIcon thumb, ProjectFol
     AbstractProjectItem(AbstractProjectItem::ClipItem, description, parent)
     , audioFrameCache()
     , m_controller(NULL)
-    , m_gpuProducer(NULL)
     , m_abortAudioThumb(false)
     , m_type(Unknown)
+    , m_thumbsProducer(NULL)
 {
     Q_ASSERT(description.hasAttribute("id"));
     m_clipStatus = StatusWaiting;
@@ -95,6 +96,7 @@ ProjectClip::~ProjectClip()
 {
     // controller is deleted in bincontroller
     abortAudioThumbs();
+    delete m_thumbsProducer;
 }
 
 QString ProjectClip::getToolTip() const
@@ -308,12 +310,34 @@ void ProjectClip::abortAudioThumbs()
     }
 }
 
-Mlt::Producer *ProjectClip::producer()
+Mlt::Producer *ProjectClip::originalProducer()
 {
     if (!m_controller) {
         return NULL;
     }
     return &m_controller->originalProducer();
+}
+
+Mlt::Producer *ProjectClip::thumbProducer()
+{
+    QMutexLocker locker(&m_producerMutex);
+    if (m_thumbsProducer) {
+        return m_thumbsProducer;
+    }
+    if (!m_controller) {
+        return NULL;
+    }
+    Mlt::Producer prod = m_controller->originalProducer();
+    Clip clip(prod);
+    m_thumbsProducer = clip.softClone(ClipController::getPassPropertiesList());
+    // Check if we are using GPU accel, then we need to use alternate producer
+    if (KdenliveSettings::gpu_accel()) {
+        Mlt::Filter scaler(*prod.profile(), "swscale");
+        Mlt::Filter converter(*prod.profile(), "avcolor_space");
+        m_thumbsProducer->attach(scaler);
+        m_thumbsProducer->attach(converter);
+    }
+    return m_thumbsProducer;
 }
 
 ClipController *ProjectClip::controller()
@@ -695,20 +719,8 @@ QVariant ProjectClip::data(DataType type) const
 
 void ProjectClip::slotExtractImage(QList <int> frames)
 {
-    Mlt::Producer *prod = producer();
+    Mlt::Producer *prod = thumbProducer();
     if (prod == NULL || !prod->is_valid()) return;
-    // Check if we are using GPU accel, then we need to use alternate producer
-    if (KdenliveSettings::gpu_accel()) {
-	if (m_gpuProducer == NULL) {
-            QString service = prod->get("mlt_service");
-            m_gpuProducer = new Mlt::Producer(*prod->profile(), service.toUtf8().constData(), prod->get("resource"));
-            Mlt::Filter scaler(*prod->profile(), "swscale");
-	    Mlt::Filter converter(*prod->profile(), "avcolor_space");
-	    m_gpuProducer->attach(scaler);
-	    m_gpuProducer->attach(converter);
-        }
-	prod = m_gpuProducer;
-    }
     int fullWidth = (int)((double) 150 * prod->profile()->dar() + 0.5);
     QDir thumbFolder(bin()->projectFolder().path() + "/thumbs/");
     for (int i = 0; i < frames.count(); i++) {
@@ -731,20 +743,8 @@ void ProjectClip::slotExtractImage(QList <int> frames)
 
 void ProjectClip::slotExtractSubImage(QList <int> frames)
 {
-    Mlt::Producer *prod = producer();
+    Mlt::Producer *prod = thumbProducer();
     if (prod == NULL || !prod->is_valid()) return;
-    // Check if we are using GPU accel, then we need to use alternate producer
-    if (KdenliveSettings::gpu_accel()) {
-        if (m_gpuProducer == NULL) {
-            QString service = prod->get("mlt_service");
-            m_gpuProducer = new Mlt::Producer(*prod->profile(), service.toUtf8().constData(), prod->get("resource"));
-            Mlt::Filter scaler(*prod->profile(), "swscale");
-            Mlt::Filter converter(*prod->profile(), "avcolor_space");
-            m_gpuProducer->attach(scaler);
-            m_gpuProducer->attach(converter);
-        }
-        prod = m_gpuProducer;
-    }
     int fullWidth = (int)((double) 150 * prod->profile()->dar() + 0.5);
     QDir thumbFolder(bin()->projectFolder().path() + "/thumbs/");
     for (int i = 0; i < frames.count(); i++) {
@@ -789,7 +789,7 @@ int ProjectClip::audioChannels() const
 
 void ProjectClip::slotCreateAudioThumbs()
 {
-    Mlt::Producer *prod = producer();
+    Mlt::Producer *prod = originalProducer();
     if (!prod || !prod->is_valid()) return;
     AudioStreamInfo *audioInfo = m_controller->audioInfo();
     if (audioInfo == NULL) return;

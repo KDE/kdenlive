@@ -139,8 +139,21 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     QToolButton *playButton = new QToolButton(m_toolbar);
     m_playMenu = new QMenu(i18n("Play..."), this);
-    m_playAction = static_cast<KDualAction*> (manager->getAction("monitor_play"));
+    QAction *originalPlayAction = static_cast<KDualAction*> (manager->getAction("monitor_play"));
+    m_playAction = new KDualAction(i18n("Play"), i18n("Pause"), this);
+    m_playAction->setInactiveIcon(QIcon::fromTheme("media-playback-start"));
+    m_playAction->setActiveIcon(QIcon::fromTheme("media-playback-pause"));
+
+    QString strippedTooltip = m_playAction->toolTip().remove(QRegExp("\\s\\(.*\\)"));
+    // append shortcut if it exists for action
+    if (originalPlayAction->shortcut() == QKeySequence(0)) {
+        m_playAction->setToolTip( strippedTooltip);
+    }
+    else {
+        m_playAction->setToolTip( strippedTooltip + " (" + originalPlayAction->shortcut().toString() + ")");
+    }
     m_playMenu->addAction(m_playAction);
+    connect(m_playAction, &QAction::triggered, this, &Monitor::slotPlay);
 
     playButton->setMenu(m_playMenu);
     playButton->setPopupMode(QToolButton::MenuButtonPopup);
@@ -586,7 +599,9 @@ void Monitor::mouseReleaseEvent(QMouseEvent * event)
     if (m_dragStarted && event->button() != Qt::RightButton) {
         if (m_glMonitor->geometry().contains(event->pos())) {
             if (isActive()) slotPlay();
-            else slotActivateMonitor();
+            else {
+              slotActivateMonitor();
+            }
         } //else event->ignore(); //QWidget::mouseReleaseEvent(event);
     }
     m_dragStarted = false;
@@ -919,6 +934,7 @@ void Monitor::adjustRulerSize(int length, int offset)
 
 void Monitor::stop()
 {
+    m_playAction->setActive(false);
     if (render) render->stop();
 }
 
@@ -1478,4 +1494,5 @@ bool Monitor::stopCapture()
     m_glMonitor->reconfigure(m_monitorManager->profile());
     return true;
 }
+
 
