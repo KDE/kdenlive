@@ -278,11 +278,11 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     // Populate View menu with show / hide actions for dock widgets
     KActionCategory *guiActions = new KActionCategory(i18n("Interface"), actionCollection());
+    ScopeManager *scmanager = new ScopeManager(this);
 
     new LayoutManagement(this);
     new HideTitleBars(this);
     new TimelineSearch(this);
-    ScopeManager *scmanager = new ScopeManager(this);
 
     // Add shortcut to action tooltips
     QList< KActionCollection * > collections = KActionCollection::allCollections();
