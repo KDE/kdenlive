@@ -56,7 +56,7 @@ bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow,
         if (!index0.isValid()) {
             return false;
         }
-        if (sourceModel()->data(index0).toString().contains(m_searchString)) return true;
+        if (sourceModel()->data(index0).toString().contains(m_searchString, Qt::CaseInsensitive)) return true;
     }
     return false;
 }
