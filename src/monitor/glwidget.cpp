@@ -575,6 +575,7 @@ static void onThreadCreate(mlt_properties owner, GLWidget* self,
     Q_UNUSED(priority)
     self->clearFrameRenderer();
     self->createThread(thread, function, data);
+    self->lockMonitor();
 }
 
 static void onThreadJoin(mlt_properties owner, GLWidget* self, RenderThread* thread)
@@ -582,11 +583,12 @@ static void onThreadJoin(mlt_properties owner, GLWidget* self, RenderThread* thr
     Q_UNUSED(owner)
     Q_UNUSED(self)
     if (thread) {
-        //self->clearFrameRenderer();
         thread->quit();
         thread->wait();
         delete thread;
     }
+    self->clearFrameRenderer();
+    self->releaseMonitor();
 }
 
 void GLWidget::startGlsl()
@@ -611,6 +613,16 @@ static void onThreadStarted(mlt_properties owner, GLWidget* self)
 {
     Q_UNUSED(owner)
     self->startGlsl();
+}
+
+void GLWidget::releaseMonitor()
+{
+    emit lockMonitor(false);
+}
+
+void GLWidget::lockMonitor()
+{
+    emit lockMonitor(true);
 }
 
 void GLWidget::clearFrameRenderer()

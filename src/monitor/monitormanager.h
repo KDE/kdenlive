@@ -66,6 +66,7 @@ public:
     QAction *getAction(QString name);
     Monitor *clipMonitor();
     Monitor *projectMonitor();
+    void lockMonitor(Kdenlive::MonitorId name, bool);
 
 public slots:
 
@@ -112,6 +113,7 @@ private slots:
 private:
     /** @brief Make sure 2 monitors cannot be activated simultaneously*/
     QMutex m_refreshMutex;
+    QMutex m_switchMutex;
     /** @brief Sets up all the actions and attaches them to the collection of MainWindow. */
     void setupActions();
     KdenliveDoc *m_document;

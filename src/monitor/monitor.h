@@ -198,6 +198,7 @@ private slots:
     void slotSeekToKeyFrame();
     /** @brief Display a non blocking error message to user **/
     void warningMessage(const QString &text);
+    void slotLockMonitor(bool lock);
 
 public slots:
     void slotOpenDvdFile(const QString &);

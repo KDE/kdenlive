@@ -103,6 +103,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor, SIGNAL(switchFullScreen(bool)), this, SLOT(slotSwitchFullScreen(bool)));
     connect(m_glMonitor, SIGNAL(zoomChanged()), this, SLOT(setZoom()));
     connect(m_glMonitor, SIGNAL(effectChanged(QRect)), this, SIGNAL(effectChanged(QRect)));
+    connect(m_glMonitor, SIGNAL(lockMonitor(bool)), this, SLOT(slotLockMonitor(bool)), Qt::DirectConnection);
 
     if (KdenliveSettings::displayMonitorInfo()) {
         // Load monitor overlay qml
@@ -260,6 +261,11 @@ QAction *Monitor::recAction()
 {
     if (m_recManager) return m_recManager->switchAction();
     return NULL;
+}
+
+void Monitor::slotLockMonitor(bool lock)
+{
+    m_monitorManager->lockMonitor(m_id, lock);
 }
 
 void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu, QAction *loopClip)
