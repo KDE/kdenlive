@@ -205,6 +205,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     slotUpdateDisplay();
 
     connect(m_configSdl.kcfg_audio_driver, SIGNAL(currentIndexChanged(int)), this, SLOT(slotCheckAlsaDriver()));
+    connect(m_configSdl.kcfg_audio_backend, SIGNAL(currentIndexChanged(int)), this, SLOT(slotCheckAudioBackend()));
     initDevices();
     connect(m_configProject.kcfg_profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
     connect(m_configCapture.kcfg_grab_capture_type, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateGrabRegionStatus()));
@@ -479,10 +480,10 @@ void KdenliveSettingsDialog::initDevices()
             file.close();
         } else qDebug()<<" / / / /CANNOT READ PCM";
     }
-    
+
     // Add pulseaudio capture option
     m_configCapture.kcfg_v4l_alsadevice->addItem(i18n("PulseAudio"), "pulse");
-    
+
     if (!KdenliveSettings::audiodevicename().isEmpty()) {
         // Select correct alsa device
         int ix = m_configSdl.kcfg_audio_device->findData(KdenliveSettings::audiodevicename());
@@ -497,9 +498,18 @@ void KdenliveSettingsDialog::initDevices()
         KdenliveSettings::setV4l_alsadevice(ix);
     }
 
+    m_configSdl.kcfg_audio_backend->addItem(i18n("SDL"), "sdl_audio");
+    m_configSdl.kcfg_audio_backend->addItem(i18n("RtAudio"), "rtaudio");
+
+    if (!KdenliveSettings::audiobackend().isEmpty()) {
+        int ix = m_configSdl.kcfg_audio_backend->findData(KdenliveSettings::audiobackend());
+        m_configSdl.kcfg_audio_backend->setCurrentIndex(ix);
+        KdenliveSettings::setAudio_backend(ix);
+    }
+    m_configSdl.group_sdl->setEnabled(KdenliveSettings::audiobackend() == "sdl_audio");
+
     loadCurrentV4lProfileInfo();
 }
-
 
 void KdenliveSettingsDialog::slotReadAudioDevices()
 {
@@ -754,6 +764,12 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setAudiodevicename(QString());
         resetProfile = true;
     }
+    
+    value = m_configSdl.kcfg_audio_backend->itemData(m_configSdl.kcfg_audio_backend->currentIndex()).toString();
+    if (value != KdenliveSettings::audiobackend()) {
+        KdenliveSettings::setAudiobackend(value);
+        resetProfile = true;
+    }
 
     if (m_configSdl.kcfg_window_background->color() != KdenliveSettings::window_background()) {
         KdenliveSettings::setWindow_background(m_configSdl.kcfg_window_background->color());
@@ -822,6 +838,12 @@ void KdenliveSettingsDialog::slotCheckAlsaDriver()
 {
     QString value = m_configSdl.kcfg_audio_driver->itemData(m_configSdl.kcfg_audio_driver->currentIndex()).toString();
     m_configSdl.kcfg_audio_device->setEnabled(value == "alsa");
+}
+
+void KdenliveSettingsDialog::slotCheckAudioBackend()
+{
+    QString value = m_configSdl.kcfg_audio_backend->itemData(m_configSdl.kcfg_audio_backend->currentIndex()).toString();
+    m_configSdl.group_sdl->setEnabled(value == "sdl_audio");
 }
 
 void KdenliveSettingsDialog::loadTranscodeProfiles()

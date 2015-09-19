@@ -853,10 +853,10 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
             m_consumer->stop();
             delete m_consumer;
         }
-        if (serviceName.isEmpty()) {
-            m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, "rtaudio");
+        if (serviceName.isEmpty() || serviceName != KdenliveSettings::audiobackend()) {
+            m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, KdenliveSettings::audiobackend().toUtf8().constData());
             if (m_consumer->is_valid())
-                serviceName = "rtaudio";
+                serviceName = KdenliveSettings::audiobackend();
             else {
                 serviceName = "sdl_audio";
             }

@@ -59,6 +59,7 @@ private slots:
     void slotReadAudioDevices();
     void slotUpdateGrabRegionStatus();
     void slotCheckAlsaDriver();
+    void slotCheckAudioBackend();
     void slotAddTranscode();
     void slotDeleteTranscode();
     /** @brief Update current transcoding profile. */
