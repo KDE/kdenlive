@@ -101,6 +101,7 @@ void MonitorManager::setConsumerProperty(const QString &name, const QString &val
 
 bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh)
 {
+    QMutexLocker locker(&m_refreshMutex);
     if (m_clipMonitor == NULL || m_projectMonitor == NULL)
         return false;
     if (m_activeMonitor && m_activeMonitor->id() == name) {

@@ -110,6 +110,8 @@ private slots:
     void slotMuteCurrentMonitor(bool active);
 
 private:
+    /** @brief Make sure 2 monitors cannot be activated simultaneously*/
+    QMutex m_refreshMutex;
     /** @brief Sets up all the actions and attaches them to the collection of MainWindow. */
     void setupActions();
     KdenliveDoc *m_document;
