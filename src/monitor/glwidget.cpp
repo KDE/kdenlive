@@ -579,6 +579,7 @@ static void onThreadCreate(mlt_properties owner, GLWidget* self,
     Q_UNUSED(priority)
     self->clearFrameRenderer();
     self->createThread(thread, function, data);
+    self->lockMonitor();
 }
 
 static void onThreadJoin(mlt_properties owner, GLWidget* self, RenderThread* thread)
@@ -586,10 +587,11 @@ static void onThreadJoin(mlt_properties owner, GLWidget* self, RenderThread* thr
     Q_UNUSED(owner)
     Q_UNUSED(self)
     if (thread) {
-        //self->clearFrameRenderer();
         thread->quit();
         thread->wait();
         delete thread;
+        self->clearFrameRenderer();
+        self->releaseMonitor();
     }
 }
 
@@ -615,6 +617,16 @@ static void onThreadStarted(mlt_properties owner, GLWidget* self)
 {
     Q_UNUSED(owner)
     self->startGlsl();
+}
+
+void GLWidget::releaseMonitor()
+{
+    emit lockMonitor(false);
+}
+
+void GLWidget::lockMonitor()
+{
+    emit lockMonitor(true);
 }
 
 void GLWidget::clearFrameRenderer()
@@ -842,11 +854,11 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
             delete m_consumer;
         }
         if (serviceName.isEmpty()) {
-            m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, "sdl_audio");
+            m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, "rtaudio");
             if (m_consumer->is_valid())
-                serviceName = "sdl_audio";
-            else {
                 serviceName = "rtaudio";
+            else {
+                serviceName = "sdl_audio";
             }
             delete m_consumer;
             m_consumer = NULL;

@@ -113,10 +113,10 @@ EffectsList MainWindow::transitions;
 
 QMap <QString,QImage> MainWindow::m_lumacache;
 
-static bool sortByNames(const QPair<QString, QAction *> &a, const QPair<QString, QAction*> &b)
+/*static bool sortByNames(const QPair<QString, QAction *> &a, const QPair<QString, QAction*> &b)
 {
     return a.first < b.first;
-}
+}*/
 
 MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & clipsToLoad, QWidget *parent) :
     KXmlGuiWindow(parent),
@@ -274,15 +274,14 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_effectsMenu = new QMenu(i18n("Add Effect"));
     m_effectActions = new KActionCategory(i18n("Effects"), actionCollection());
     m_effectList->reloadEffectList(m_effectsMenu, m_effectActions);
-    m_effectsActionCollection->readSettings();
 
-    // Populate View menu with show / hide actions for dock widgets
-    KActionCategory *guiActions = new KActionCategory(i18n("Interface"), actionCollection());
     ScopeManager *scmanager = new ScopeManager(this);
 
     new LayoutManagement(this);
     new HideTitleBars(this);
     new TimelineSearch(this);
+    m_extraFactory = new KXMLGUIClient(this);
+    buildDynamicActions();
 
     // Add shortcut to action tooltips
     QList< KActionCollection * > collections = KActionCollection::allCollections();
@@ -298,18 +297,14 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
                 tempAction->setToolTip( strippedTooltip + " (" + tempAction->shortcut().toString() + ")");
         }
     }
-
     setupGUI();
-
-    emit GUISetupDone();
 
     /*ScriptingPart* sp = new ScriptingPart(this, QStringList());
     guiFactory()->addClient(sp);*/
-    QMenu *trackMenu = static_cast<QMenu*>(factory()->container("track_menu", this));
-    if (trackMenu) trackMenu->addActions(m_tracksActionCollection->actions());
-
+    
     loadPlugins();
     loadTranscoders();
+    loadDockActions();
     loadClipActions();
 
     m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone, NULL, m_loopClip);
@@ -382,41 +377,9 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     /*actionCollection()->addAssociatedWidget(m_clipMonitor->container());
     actionCollection()->addAssociatedWidget(m_projectMonitor->container());*/
 
-    QList<QPair<QString, QAction *> > viewActions;
-    QPair <QString, QAction *> pair;
-    QAction *showTimeline = new QAction(i18n("Timeline"), this);
-    showTimeline->setCheckable(true);
-    showTimeline->setChecked(true);
-    connect(showTimeline, SIGNAL(triggered(bool)), this, SLOT(slotShowTimeline(bool)));
-    
-    QMenu *viewMenu = static_cast<QMenu*>(factory()->container("dockwindows", this));
-    pair.first = showTimeline->text();
-    pair.second = showTimeline;
-    viewActions.append(pair);
-    
-    QList <QDockWidget *> docks = findChildren<QDockWidget *>();
-    for (int i = 0; i < docks.count(); ++i) {
-        QDockWidget* dock = docks.at(i);
-        QAction * a = dock->toggleViewAction();
-        if (!a) continue;
-        QAction * dockInformations = new QAction(this);
-        dockInformations->setText(a->text());
-        dockInformations->setCheckable(true);
-        dockInformations->setChecked(!dock->isHidden());
-        // HACK: since QActions cannot be used in KActionCategory to allow shortcut, we create a duplicate QAction of the dock QAction and link them
-        connect(a,SIGNAL(toggled(bool)), dockInformations, SLOT(setChecked(bool)));
-        connect(dockInformations,SIGNAL(triggered(bool)), a, SLOT(trigger()));
-        pair.first = dockInformations->text();
-        pair.second = dockInformations;
-        viewActions.append(pair);
-    }
-    
-    // Sort dock view action by name
-    qSort(viewActions.begin(), viewActions.end(), sortByNames);
-    // Populate view menu
-    for (int i = 0; i < viewActions.count(); ++i)
-        viewMenu->addAction(guiActions->addAction(viewActions.at(i).first, viewActions.at(i).second));
-    
+    QAction *insertTrack = new QAction(QIcon(), i18n("Insert Track"), this);
+    connect(insertTrack, &QAction::triggered, this, &MainWindow::slotInsertTrack);
+
     // Populate encoding profiles
     KConfig conf("encodingprofiles.rc", KConfig::CascadeConfig, QStandardPaths::DataLocation);
     if (KdenliveSettings::proxyparams().isEmpty() || KdenliveSettings::proxyextension().isEmpty()) {
@@ -463,7 +426,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
             KdenliveSettings::setDecklink_extension(data.section(';', 1, 1));
         }
     }
-
+    emit GUISetupDone();
     pCore->projectManager()->init(Url, clipsToLoad);
     QTimer::singleShot(0, pCore->projectManager(), SLOT(slotLoadOnOpen()));
     connect(this, SIGNAL(reloadTheme()), this, SLOT(slotReloadTheme()), Qt::UniqueConnection);
@@ -543,6 +506,7 @@ MainWindow::~MainWindow()
     qDeleteAll(m_transitions);
     Mlt::Factory::close();
 }
+
 
 //virtual
 bool MainWindow::queryClose()
@@ -664,6 +628,17 @@ void MainWindow::readProperties(const KConfigGroup &config)
     /*if (qApp->isSessionRestored()) {
 	pCore->projectManager()->openFile(QUrl::fromLocalFile(config.readEntry("kdenlive_lastUrl", QString())));
     }*/
+}
+
+void MainWindow::saveNewToolbarConfig()
+{
+    KXmlGuiWindow::saveNewToolbarConfig();
+    //TODO for some reason all dynamically inserted actions are removed by the save toolbar
+    // So we currently re-add them manually....
+    loadTranscoders();
+    loadDockActions();
+    loadClipActions();
+    pCore->bin()->rebuildMenu();
 }
 
 void MainWindow::slotReloadEffects()
@@ -1121,29 +1096,29 @@ void MainWindow::setupActions()
 
     addAction("insert_space", i18n("Insert Space"), this, SLOT(slotInsertSpace()));
     addAction("delete_space", i18n("Remove Space"), this, SLOT(slotRemoveSpace()));
-    m_tracksActionCollection = new KActionCollection(this, "tracks"); //KGlobal::mainComponent());
-    //m_effectsActionCollection->setComponentDisplayName("Trasck");//i18n("Tracks").toUtf8());
-    m_tracksActionCollection->addAssociatedWidget(m_timelineArea);
 
-    QAction *insertTrack = new QAction(QIcon(), i18n("Insert Track"), m_tracksActionCollection);
-    m_tracksActionCollection->addAction("insert_track", insertTrack);
-    connect(insertTrack, SIGNAL(triggered()), this, SLOT(slotInsertTrack()));
+    KActionCategory *timelineActions = new KActionCategory(i18n("Tracks"), actionCollection());
+    QAction *insertTrack = new QAction(QIcon(), i18n("Insert Track"), this);
+    connect(insertTrack, &QAction::triggered, this, &MainWindow::slotInsertTrack);
+    timelineActions->addAction("insert_track", insertTrack);
 
-    QAction *deleteTrack = new QAction(QIcon(), i18n("Delete Track"), m_tracksActionCollection);
-    m_tracksActionCollection->addAction("delete_track", deleteTrack);
-    connect(deleteTrack, SIGNAL(triggered()), this, SLOT(slotDeleteTrack()));
+    QAction *deleteTrack = new QAction(QIcon(), i18n("Delete Track"), this);
+    connect(insertTrack, &QAction::triggered, this, &MainWindow::slotDeleteTrack);
+    timelineActions->addAction("delete_track", deleteTrack);
 
-    QAction *configTracks = new QAction(QIcon::fromTheme("configure"), i18n("Configure Tracks"), m_tracksActionCollection);
-    m_tracksActionCollection->addAction("config_tracks", configTracks);
-    connect(configTracks, SIGNAL(triggered()), this, SLOT(slotConfigTrack()));
+    QAction *configTracks = new QAction(QIcon::fromTheme("configure"), i18n("Configure Tracks"), this);
+    connect(insertTrack, &QAction::triggered, this, &MainWindow::slotConfigTrack);
+    timelineActions->addAction("config_tracks", configTracks);
 
-    QAction *selectTrack = new QAction(QIcon(), i18n("Select All in Current Track"), m_tracksActionCollection);
-    connect(selectTrack, SIGNAL(triggered()), this, SLOT(slotSelectTrack()));
-    m_tracksActionCollection->addAction("select_track", selectTrack);
+    QAction *selectTrack = new QAction(QIcon(), i18n("Select All in Current Track"), this);
+    connect(insertTrack, &QAction::triggered, this, &MainWindow::slotSelectTrack);
+    timelineActions->addAction("select_track", selectTrack);
 
-    QAction *selectAll = KStandardAction::selectAll(this, SLOT(slotSelectAllTracks()), m_tracksActionCollection);
+    QAction *selectAll = KStandardAction::selectAll(this, SLOT(slotSelectAllTracks()), this);
     selectAll->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-    m_tracksActionCollection->addAction("select_all_tracks", selectAll);
+    timelineActions->addAction("select_all_tracks", selectAll);
+
+    kdenliveCategoryMap.insert("timeline", timelineActions);
 
     addAction("add_guide", i18n("Add Guide"), this, SLOT(slotAddGuide()), QIcon::fromTheme("document-new"));
     addAction("delete_guide", i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), QIcon::fromTheme("edit-delete"));
@@ -1238,9 +1213,6 @@ void MainWindow::setupActions()
     pCore->bin()->setupMenu(addClips, addClip, actions);
 
     // Setup effects and transitions actions.
-    m_effectsActionCollection = new KActionCollection(this, "effects");//KGlobal::mainComponent());
-    //m_effectsActionCollection->setComponentDisplayName("Effects");//i18n("Effects and transitions").toUtf8());
-    //KActionCategory *transitionActions = new KActionCategory(i18n("Transitions"), m_effectsActionCollection);
     KActionCategory *transitionActions = new KActionCategory(i18n("Transitions"), actionCollection());
     //m_transitions = new QAction*[transitions.count()];
     for (int i = 0; i < transitions.count(); ++i) {
@@ -1254,7 +1226,6 @@ void MainWindow::setupActions()
         if (id.isEmpty()) id = effectInfo.at(1);
         transitionActions->addAction("transition_" + id, a);
     }
-    //m_effectsActionCollection->readSettings();
 }
 
 void MainWindow::setStatusBarStyleSheet(const QPalette &p)
@@ -1617,8 +1588,6 @@ void MainWindow::slotEditKeys()
 {
     KShortcutsDialog dialog(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this);
     dialog.addCollection(actionCollection(), i18nc("general keyboard shortcuts", "General"));
-    dialog.addCollection(m_effectsActionCollection, i18nc("effects and transitions keyboard shortcuts", "Effects & Transitions"));
-    dialog.addCollection(m_tracksActionCollection, i18nc("timeline track keyboard shortcuts", "Timeline and Tracks"));
     dialog.configure();
 }
 
@@ -2671,6 +2640,40 @@ void MainWindow::loadTranscoders()
 
     QMenu *extractAudioMenu = static_cast<QMenu*>(factory()->container("extract_audio", this));
     extractAudioMenu->clear();
+    
+    QList <QAction *>list = kdenliveCategoryMap.value("transcoders")->actions();
+    foreach(QAction *a, list) {
+        QStringList data = a->data().toStringList();
+        if (data.count() > 3 && data.at(3) == "audio") {
+            extractAudioMenu->addAction(a);
+        } else {
+            transMenu->addAction(a);
+        }
+    }
+}
+
+void MainWindow::loadDockActions()
+{
+    QMenu *viewMenu = static_cast<QMenu*>(factory()->container("dockwindows", this));
+    QList <QAction *>list = kdenliveCategoryMap.value("interface")->actions();
+
+    // Sort actions
+    QMap <QString, QAction*> sorted;
+    QStringList sortedList;
+    foreach(QAction *a, list) {
+        sorted.insert(a->text(), a);
+        sortedList << a->text();
+    }
+    sortedList.sort(Qt::CaseInsensitive);
+    
+    foreach(const QString &text, sortedList) {
+        viewMenu->addAction(sorted.value(text));
+    }
+}
+
+void MainWindow::buildDynamicActions()
+{
+    KActionCategory *ts = new KActionCategory(i18n("Transcoders"), m_extraFactory->actionCollection());
 
     KSharedConfigPtr config = KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::DataLocation, "kdenlivetranscodingrc"), KConfig::CascadeConfig);
     KConfigGroup transConfig(config, "Transcoding");
@@ -2682,19 +2685,37 @@ void MainWindow::loadTranscoders()
         QStringList data;
         data << QString::number((int) AbstractClipJob::TRANSCODEJOB);
         data << i.value().split(';');
-        QAction *a;
-        // separate audio transcoding in a separate menu
-        if (data.count() > 3 && data.at(3) == "audio") {
-            a = extractAudioMenu->addAction(i.key());
-        }
-        else {
-            a = transMenu->addAction(i.key());
-        }
+        QAction *a = new QAction(i.key(), m_extraFactory->actionCollection());
         a->setData(data);
         if (data.count() > 1) a->setToolTip(data.at(1));
         // slottranscode
         connect(a, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
+        ts->addAction(i.key(), a);
     }
+    kdenliveCategoryMap.insert("transcoders", ts);
+
+    // Populate View menu with show / hide actions for dock widgets
+    KActionCategory *guiActions = new KActionCategory(i18n("Interface"), actionCollection());
+    QAction *showTimeline = new QAction(i18n("Timeline"), this);
+    showTimeline->setCheckable(true);
+    showTimeline->setChecked(true);
+    connect(showTimeline, SIGNAL(triggered(bool)), this, SLOT(slotShowTimeline(bool)));
+    guiActions->addAction(showTimeline->text(), showTimeline);
+
+    QList <QDockWidget *> docks = findChildren<QDockWidget *>();
+    for (int i = 0; i < docks.count(); ++i) {
+        QDockWidget* dock = docks.at(i);
+        QAction * dockInformations = dock->toggleViewAction();
+        if (!dockInformations) continue;
+        dockInformations->setChecked(!dock->isHidden());
+        guiActions->addAction(dockInformations->text(), dockInformations);
+    }
+    kdenliveCategoryMap.insert("interface", guiActions);
+}
+
+QList <QAction *> MainWindow::getExtraActions(const QString &name)
+{
+    return kdenliveCategoryMap.value(name)->actions();
 }
 
 void MainWindow::slotTranscode(const QStringList &urls)

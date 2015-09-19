@@ -56,7 +56,6 @@ class RecMonitor;
 class RenderWidget;
 class Render;
 class Transition;
-class KActionCollection;
 
 #define EXIT_RESTART (42)
 
@@ -106,7 +105,6 @@ public:
     QTabWidget* m_timelineArea;
     StopmotionWidget *m_stopmotion;
     QUndoGroup *m_commandStack;
-    KActionCollection *m_tracksActionCollection;
     EffectStackView2 *m_effectStack;
     TransitionSettings *m_transitionConfig;
     QUndoView *m_undoView;
@@ -114,6 +112,8 @@ public:
     /** @brief holds info about whether movit is available on this system */
     bool m_gpuAllowed;
     int m_exitCode;
+    QMap<QString, KActionCategory*> kdenliveCategoryMap;
+    QList <QAction *> getExtraActions(const QString &name);
 
 protected:
 
@@ -135,6 +135,7 @@ protected:
     
     /** @brief Restores the window and the file when a session is loaded. */
     virtual void readProperties(const KConfigGroup &config);
+    virtual void saveNewToolbarConfig();
 
 private:
     QProgressBar *m_statusProgressBar;
@@ -214,7 +215,6 @@ private:
     QAction *m_loopClip;
     QAction *m_proxyClip;
     QActionGroup *m_clipTypeGroup;
-    KActionCollection *m_effectsActionCollection;
     QString m_theme;
 
 
@@ -239,10 +239,11 @@ private:
     int getNewStuff(const QString &configFile = QString());
     QStringList m_pluginFileNames;
     QByteArray m_timelineState;
-    void loadTranscoders();
+    void buildDynamicActions();
     void loadClipActions();
 
     QTime m_timer;
+    KXMLGUIClient *m_extraFactory;
     /** @brief The last selected clip in timeline. */
     ClipItem *m_mainClip;
     /** @brief Update statusbar stylesheet (in case of color theme change). */
@@ -264,7 +265,8 @@ public slots:
 private slots:
     /** @brief Shows the shortcut dialog. */
     void slotEditKeys();
-
+    void loadTranscoders();
+    void loadDockActions();
     /** @brief Reflects setting changes to the GUI. */
     void updateConfiguration();
     void slotConnectMonitors();

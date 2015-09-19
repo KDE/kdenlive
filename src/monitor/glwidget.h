@@ -90,6 +90,8 @@ public:
     Mlt::Profile *profile();
     void resetProfile(MltVideoProfile profile);
     void reloadProfile(Mlt::Profile &profile);
+    void lockMonitor();
+    void releaseMonitor();
 
 protected:
     void mouseReleaseEvent(QMouseEvent * event);
@@ -127,6 +129,7 @@ signals:
     void analyseFrame(QImage);
     void audioSamplesSignal(const audioShortVector&,int,int,int);
     void showContextMenu(const QPoint);
+    void lockMonitor(bool);
 
 private:
     QRect m_rect;

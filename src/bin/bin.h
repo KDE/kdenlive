@@ -459,6 +459,7 @@ public:
     QUrl projectFolder() const;
     /** @brief Display a message about an operation in status bar. */
     void emitMessage(const QString &, MessageType);
+    void rebuildMenu();
 
 private slots:
     void slotAddClip();

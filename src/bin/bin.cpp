@@ -50,6 +50,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KMessageBox>
 #include <KSplitterCollapserButton>
 #include <KMessageBox>
+#include <KXMLGUIFactory>
 
 #include <QDialogButtonBox>
 #include <QDrag>
@@ -283,6 +284,7 @@ Bin::Bin(QWidget* parent) :
   , m_folderUp(NULL)
   , m_jobManager(NULL)
   , m_doc(NULL)
+  , m_transcodeAction(NULL)
   , m_listType((BinViewType) KdenliveSettings::binMode())
   , m_iconSize(160, 90)
   , m_propertiesPanel(NULL)
@@ -1181,6 +1183,15 @@ void Bin::slotSetIconSize(int size)
     m_blankThumb.addPixmap(pix);
 }
 
+void Bin::rebuildMenu()
+{
+    m_transcodeAction = static_cast<QMenu*>(pCore->window()->factory()->container("transcoders", pCore->window()));
+    m_extractAudioAction = static_cast<QMenu*>(pCore->window()->factory()->container("extract_audio", pCore->window()));
+    m_clipsActionsMenu = static_cast<QMenu*>(pCore->window()->factory()->container("clip_actions", pCore->window()));
+    m_menu->insertMenu(m_reloadAction, m_extractAudioAction);
+    m_menu->insertMenu(m_reloadAction, m_transcodeAction);
+    m_menu->insertMenu(m_reloadAction, m_clipsActionsMenu);
+}
 
 void Bin::closeEditing()
 {
@@ -1204,7 +1215,10 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
                 ProjectClip *clip = qobject_cast<ProjectClip*>(currentItem);
 		if (clip) {
                     m_proxyAction->setChecked(clip->hasProxy());
-                    QList<QAction *> transcodeActions = m_transcodeAction->actions();
+                    QList<QAction *> transcodeActions;
+                    if (m_transcodeAction) {
+                        transcodeActions = m_transcodeAction->actions();
+                    }
                     QStringList data;
                     QString condition;
                     QString audioCodec = clip->codec(true);

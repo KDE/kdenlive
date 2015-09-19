@@ -157,7 +157,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     bool ok;
     pCore->bin()->setDocument(doc);
-    m_trackView = new Timeline(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
+    m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value("timeline")->actions(), &ok, pCore->window());
     pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme("kdenlive"), doc->description());
     m_project = doc;
     if (!ok) {
@@ -463,7 +463,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     progressDialog.repaint();
 
     bool ok;
-    m_trackView = new Timeline(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
+    m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value("timeline")->actions(), &ok, pCore->window());
     m_trackView->loadGuides(pCore->binController()->takeGuidesData());
 
     m_project = doc;

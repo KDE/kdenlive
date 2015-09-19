@@ -1470,9 +1470,10 @@ void Render::stop()
     m_refreshTimer.stop();
     QMutexLocker locker(&m_mutex);
     m_isActive = false;
-    if (m_mltProducer == NULL) return;
-    if (m_isZoneMode) resetZoneMode();
-    m_mltProducer->set_speed(0.0);
+    if (m_mltProducer) {
+        if (m_isZoneMode) resetZoneMode();
+        m_mltProducer->set_speed(0.0);
+    }
     if (m_mltConsumer) {
         m_mltConsumer->purge();
         if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
