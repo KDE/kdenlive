@@ -460,6 +460,7 @@ public:
     /** @brief Display a message about an operation in status bar. */
     void emitMessage(const QString &, MessageType);
     void rebuildMenu();
+    void refreshIcons();
 
 private slots:
     void slotAddClip();

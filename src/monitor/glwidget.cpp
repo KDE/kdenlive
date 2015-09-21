@@ -893,11 +893,11 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
         }
         int volume = KdenliveSettings::volume();
         if (serviceName == "sdl_audio")
-#ifdef Q_OS_WIN
+/*#ifdef Q_OS_WIN
                 m_consumer->set("audio_buffer", 2048);
 #else
                 m_consumer->set("audio_buffer", 512);
-#endif
+#endif*/
             /*if (!m_monitorProfile->progressive())
                 m_consumer->set("progressive", property("progressive").toBool());*/
             m_consumer->set("volume", (double)volume / 100);

@@ -25,6 +25,7 @@
 #include "capture/mltdevicecapture.h"
 #include "capture/managecapturesdialog.h"
 #include "dialogs/profilesdialog.h"
+#include "utils/KoIconUtils.h"
 
 #include <QDebug>
 #include "klocalizedstring.h"
@@ -45,11 +46,11 @@ RecManager::RecManager(int iconSize, Monitor *parent) :
     , m_screenCombo(NULL)
 {
     //m_recToolbar->setIconSize(QSize(iconSize, iconSize));
-    m_playAction = m_recToolbar->addAction(QIcon::fromTheme("media-playback-start"), i18n("Preview"));
+    m_playAction = m_recToolbar->addAction(KoIconUtils::themedIcon("media-playback-start"), i18n("Preview"));
     m_playAction->setCheckable(true);
     connect(m_playAction, &QAction::toggled, this, &RecManager::slotPreview);
 
-    m_recAction = m_recToolbar->addAction(QIcon::fromTheme("media-record"), i18n("Record"));
+    m_recAction = m_recToolbar->addAction(KoIconUtils::themedIcon("media-record"), i18n("Record"));
     m_recAction->setCheckable(true);
     connect(m_recAction, &QAction::toggled, this, &RecManager::slotRecord);
     
@@ -83,10 +84,10 @@ RecManager::RecManager(int iconSize, Monitor *parent) :
     if (selectedCapture > -1) m_device_selector->setCurrentIndex(selectedCapture);
     connect(m_device_selector, SIGNAL(currentIndexChanged(int)), this, SLOT(slotVideoDeviceChanged(int)));
     m_recToolbar->addWidget(m_device_selector);
-    QAction *configureRec = m_recToolbar->addAction(QIcon::fromTheme("configure"), i18n("Configure Recording"));
+    QAction *configureRec = m_recToolbar->addAction(KoIconUtils::themedIcon("configure"), i18n("Configure Recording"));
     connect(configureRec, &QAction::triggered, this, &RecManager::showRecConfig);
     m_recToolbar->addSeparator();
-    m_switchRec = m_recToolbar->addAction(QIcon::fromTheme("list-add"), i18n("Show Record Control"));
+    m_switchRec = m_recToolbar->addAction(KoIconUtils::themedIcon("list-add"), i18n("Show Record Control"));
     m_switchRec->setCheckable(true);
     connect(m_switchRec, &QAction::toggled, m_monitor, &Monitor::slotSwitchRec);
     m_recToolbar->setVisible(false);

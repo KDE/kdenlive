@@ -24,6 +24,7 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "doc/kdenlivedoc.h"
+#include "utils/KoIconUtils.h"
 #include "mltcontroller/bincontroller.h"
 
 #include <mlt++/Mlt.h>
@@ -128,7 +129,8 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh
         m_activeMonitor->parentWidget()->raise();
 	m_activeMonitor->blockSignals(false);
         m_activeMonitor->start();
-        updateAudioIcons();
+        // why?
+        //updateAudioIcons();
     }
     emit checkColorScopes();
     return (m_activeMonitor != NULL);
@@ -298,69 +300,69 @@ Mlt::Profile *MonitorManager::profile()
 void MonitorManager::setupActions()
 {
     KDualAction *playAction = new KDualAction(i18n("Play"), i18n("Pause"), this);
-    playAction->setInactiveIcon(QIcon::fromTheme("media-playback-start"));
-    playAction->setActiveIcon(QIcon::fromTheme("media-playback-pause"));
+    playAction->setInactiveIcon(KoIconUtils::themedIcon("media-playback-start"));
+    playAction->setActiveIcon(KoIconUtils::themedIcon("media-playback-pause"));
     playAction->setShortcut(Qt::Key_Space);
     pCore->window()->addAction("monitor_play", playAction);
     connect(playAction, &QAction::triggered, this, &MonitorManager::slotPlay);
 
-    QAction * monitorPause = new QAction(QIcon::fromTheme("media-playback-stop"), i18n("Pause"), this);
+    QAction * monitorPause = new QAction(KoIconUtils::themedIcon("media-playback-stop"), i18n("Pause"), this);
     monitorPause->setShortcut(Qt::Key_K);
     pCore->window()->addAction("monitor_pause", monitorPause);
     connect(monitorPause, &QAction::triggered, this, &MonitorManager::slotPause);
 
     // TODO: port later when we are able to setup the monitor menus from this class
-//     m_playZone = new QAction(QIcon::fromTheme("media-playback-start"), i18n("Play Zone"), this);
+//     m_playZone = new QAction(KoIconUtils::themedIcon("media-playback-start"), i18n("Play Zone"), this);
 //     m_playZone->setShortcut(Qt::CTRL + Qt::Key_Space);
 //     pCore->window()->addAction("monitor_play_zone", m_playZone);
 //     connect(m_playZone, SIGNAL(triggered(bool)), SLOT(slotPlayZone()));
 // 
-//     m_loopZone = new QAction(QIcon::fromTheme("media-playback-start"), i18n("Loop Zone"), this);
+//     m_loopZone = new QAction(KoIconUtils::themedIcon("media-playback-start"), i18n("Loop Zone"), this);
 //     m_loopZone->setShortcut(Qt::ALT + Qt::Key_Space);
 //     pCore->window()->addAction("monitor_loop_zone", m_loopZone);
 //     connect(m_loopZone, SIGNAL(triggered(bool)), SLOT(slotLoopZone()));
 
     QAction *fullMonitor = new QAction(i18n("Switch monitor fullscreen"), this);
-    fullMonitor->setIcon(QIcon::fromTheme("view-fullscreen"));
+    fullMonitor->setIcon(KoIconUtils::themedIcon("view-fullscreen"));
     pCore->window()->addAction("monitor_fullscreen", fullMonitor);
     connect(fullMonitor, &QAction::triggered, this, &MonitorManager::slotSwitchFullscreen);
 
-    QAction * monitorSeekBackward = new QAction(QIcon::fromTheme("media-seek-backward"), i18n("Rewind"), this);
+    QAction * monitorSeekBackward = new QAction(KoIconUtils::themedIcon("media-seek-backward"), i18n("Rewind"), this);
     monitorSeekBackward->setShortcut(Qt::Key_J);
     pCore->window()->addAction("monitor_seek_backward", monitorSeekBackward);
     connect(monitorSeekBackward, SIGNAL(triggered(bool)), SLOT(slotRewind()));
 
-    QAction * monitorSeekBackwardOneFrame = new QAction(QIcon::fromTheme("media-skip-backward"), i18n("Rewind 1 Frame"), this);
+    QAction * monitorSeekBackwardOneFrame = new QAction(KoIconUtils::themedIcon("media-skip-backward"), i18n("Rewind 1 Frame"), this);
     monitorSeekBackwardOneFrame->setShortcut(Qt::Key_Left);
     pCore->window()->addAction("monitor_seek_backward-one-frame", monitorSeekBackwardOneFrame);
     connect(monitorSeekBackwardOneFrame, &QAction::triggered, this, &MonitorManager::slotRewindOneFrame);
 
-    QAction * monitorSeekBackwardOneSecond = new QAction(QIcon::fromTheme("media-skip-backward"), i18n("Rewind 1 Second"), this);
+    QAction * monitorSeekBackwardOneSecond = new QAction(KoIconUtils::themedIcon("media-skip-backward"), i18n("Rewind 1 Second"), this);
     monitorSeekBackwardOneSecond->setShortcut(Qt::SHIFT + Qt::Key_Left);
     pCore->window()->addAction("monitor_seek_backward-one-second", monitorSeekBackwardOneSecond);
     connect(monitorSeekBackwardOneSecond, &QAction::triggered, this, &MonitorManager::slotRewindOneSecond);
 
-    QAction * monitorSeekForward = new QAction(QIcon::fromTheme("media-seek-forward"), i18n("Forward"), this);
+    QAction * monitorSeekForward = new QAction(KoIconUtils::themedIcon("media-seek-forward"), i18n("Forward"), this);
     monitorSeekForward->setShortcut(Qt::Key_L);
     pCore->window()->addAction("monitor_seek_forward", monitorSeekForward);
     connect(monitorSeekForward, SIGNAL(triggered(bool)), SLOT(slotForward()));
 
-    QAction * projectStart = new QAction(QIcon::fromTheme("go-first"), i18n("Go to Project Start"), this);
+    QAction * projectStart = new QAction(KoIconUtils::themedIcon("go-first"), i18n("Go to Project Start"), this);
     projectStart->setShortcut(Qt::CTRL + Qt::Key_Home);
     pCore->window()->addAction("seek_start", projectStart);
     connect(projectStart, &QAction::triggered, this, &MonitorManager::slotStart);
 
-    QAction * projectEnd = new QAction(QIcon::fromTheme("go-last"), i18n("Go to Project End"), this);
+    QAction * projectEnd = new QAction(KoIconUtils::themedIcon("go-last"), i18n("Go to Project End"), this);
     projectEnd->setShortcut(Qt::CTRL + Qt::Key_End);
     pCore->window()->addAction("seek_end", projectEnd);
     connect(projectEnd, &QAction::triggered, this, &MonitorManager::slotEnd);
 
-    QAction * monitorSeekForwardOneFrame = new QAction(QIcon::fromTheme("media-skip-forward"), i18n("Forward 1 Frame"), this);
+    QAction * monitorSeekForwardOneFrame = new QAction(KoIconUtils::themedIcon("media-skip-forward"), i18n("Forward 1 Frame"), this);
     monitorSeekForwardOneFrame->setShortcut(Qt::Key_Right);
     pCore->window()->addAction("monitor_seek_forward-one-frame", monitorSeekForwardOneFrame);
     connect(monitorSeekForwardOneFrame, &QAction::triggered, this, &MonitorManager::slotForwardOneFrame);
 
-    QAction * monitorSeekForwardOneSecond = new QAction(QIcon::fromTheme("media-skip-forward"), i18n("Forward 1 Second"), this);
+    QAction * monitorSeekForwardOneSecond = new QAction(KoIconUtils::themedIcon("media-skip-forward"), i18n("Forward 1 Second"), this);
     monitorSeekForwardOneSecond->setShortcut(Qt::SHIFT + Qt::Key_Right);
     pCore->window()->addAction("monitor_seek_forward-one-second", monitorSeekForwardOneSecond);
     connect(monitorSeekForwardOneSecond, &QAction::triggered, this, &MonitorManager::slotForwardOneSecond);
@@ -389,32 +391,43 @@ void MonitorManager::setupActions()
     pCore->window()->addAction("mlt_interpolation", interpol);
     connect(interpol, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MonitorManager::slotSetInterpolation);
 
-    QAction * zoneStart = new QAction(QIcon::fromTheme("media-seek-backward"), i18n("Go to Zone Start"), this);
+    QAction * zoneStart = new QAction(KoIconUtils::themedIcon("media-seek-backward"), i18n("Go to Zone Start"), this);
     zoneStart->setShortcut(Qt::SHIFT + Qt::Key_I);
     pCore->window()->addAction("seek_zone_start", zoneStart);
     connect(zoneStart, &QAction::triggered, this, &MonitorManager::slotZoneStart);
     
     m_muteAction = new KDualAction(i18n("Mute monitor"), i18n("Unmute monitor"), this);
-    m_muteAction->setActiveIcon(QIcon::fromTheme("audio-volume-medium"));
-    m_muteAction->setInactiveIcon(QIcon::fromTheme("audio-volume-muted"));
+    m_muteAction->setActiveIcon(KoIconUtils::themedIcon("audio-volume-medium"));
+    m_muteAction->setInactiveIcon(KoIconUtils::themedIcon("audio-volume-muted"));
     pCore->window()->addAction("mlt_mute", m_muteAction);
     connect(m_muteAction, SIGNAL(activeChanged(bool)), this, SLOT(slotMuteCurrentMonitor(bool)));
 
-    QAction * zoneEnd = new QAction(QIcon::fromTheme("media-seek-forward"), i18n("Go to Zone End"), this);
+    QAction * zoneEnd = new QAction(KoIconUtils::themedIcon("media-seek-forward"), i18n("Go to Zone End"), this);
     zoneEnd->setShortcut(Qt::SHIFT + Qt::Key_O);
     pCore->window()->addAction("seek_zone_end", zoneEnd);
     connect(zoneEnd, &QAction::triggered, this, &MonitorManager::slotZoneEnd);
 
-    QAction *markIn = new QAction(QIcon::fromTheme("go-first"), i18n("Set Zone In"), this);
+    QAction *markIn = new QAction(KoIconUtils::themedIcon("go-first"), i18n("Set Zone In"), this);
     markIn->setShortcut(Qt::Key_I);
     pCore->window()->addAction("mark_in", markIn);
     connect(markIn, &QAction::triggered, this, &MonitorManager::slotSetInPoint);
 
-    QAction *markOut = new QAction(QIcon::fromTheme("go-last"), i18n("Set Zone Out"), this);
+    QAction *markOut = new QAction(KoIconUtils::themedIcon("go-last"), i18n("Set Zone Out"), this);
     markOut->setShortcut(Qt::Key_O);
     pCore->window()-> addAction("mark_out", markOut);
     connect(markOut, &QAction::triggered, this, &MonitorManager::slotSetOutPoint);
+}
 
+void MonitorManager::refreshIcons()
+{
+    QList<QAction *> allMenus = this->findChildren<QAction *>();
+    for (int i = 0; i < allMenus.count(); i++) {
+        QAction *m = allMenus.at(i);
+        QIcon ic = m->icon();
+        if (ic.isNull()) continue;
+        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        m->setIcon(newIcon);
+    }
 }
 
 

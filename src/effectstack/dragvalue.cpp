@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "dragvalue.h"
+#include "utils/KoIconUtils.h"
 
 #include "kdenlivesettings.h"
 
@@ -116,12 +117,12 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     m_directUpdate->setChecked(KdenliveSettings::dragvalue_directupdate());
     m_menu->addAction(m_directUpdate);
     
-    QAction *reset = new QAction(QIcon::fromTheme("edit-undo"), i18n("Reset value"), this);
+    QAction *reset = new QAction(KoIconUtils::themedIcon("edit-undo"), i18n("Reset value"), this);
     connect(reset, SIGNAL(triggered()), this, SLOT(slotReset()));
     m_menu->addAction(reset);
     
     if (m_id > -1) {
-        QAction *timeline = new QAction(QIcon::fromTheme("go-jump"), i18n("Show %1 in timeline", label), this);
+        QAction *timeline = new QAction(KoIconUtils::themedIcon("go-jump"), i18n("Show %1 in timeline", label), this);
         connect(timeline, SIGNAL(triggered()), this, SLOT(slotSetInTimeline()));
         connect(m_label, SIGNAL(setInTimeline()), this, SLOT(slotSetInTimeline()));
         m_menu->addAction(timeline);

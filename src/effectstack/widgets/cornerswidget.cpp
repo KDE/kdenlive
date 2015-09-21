@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "cornerswidget.h"
-
+#include "utils/KoIconUtils.h"
 #include "renderer.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
@@ -50,9 +50,9 @@ CornersWidget::CornersWidget(Monitor *monitor, const QDomElement& e, int minFram
 
     // TODO: Better Icons
     edit->removeCustomControls();
-    edit->addCustomButton(QIcon::fromTheme("transform-move"), i18n("Show additional controls"), this, SLOT(slotShowControls(bool)),
+    edit->addCustomButton(KoIconUtils::themedIcon("transform-move"), i18n("Show additional controls"), this, SLOT(slotShowControls(bool)),
                           true, KdenliveSettings::onmonitoreffects_cornersshowcontrols());
-    edit->addCustomButton(QIcon::fromTheme("insert-horizontal-rule"), i18n("Show/Hide the lines connecting the corners"), this, SLOT(slotShowLines(bool)),
+    edit->addCustomButton(KoIconUtils::themedIcon("insert-horizontal-rule"), i18n("Show/Hide the lines connecting the corners"), this, SLOT(slotShowLines(bool)),
                           true, KdenliveSettings::onmonitoreffects_cornersshowlines());
 
     connect(m_item, SIGNAL(changed()), this, SLOT(slotUpdateProperties()));

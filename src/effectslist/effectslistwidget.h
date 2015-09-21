@@ -47,6 +47,10 @@ class EffectsListWidget : public QTreeWidget
     const QDomElement itemEffect(QTreeWidgetItem *item) const;
     void initList(QMenu *effectsMenu, KActionCategory *effectActions);
     void updatePalette();
+    void setRootOnCustomFolder();
+    void resetRoot();
+    void createFavorites(QList <QTreeWidgetItem *>list);
+    void resetFavorites();
 
 protected:
     virtual void dragMoveEvent(QDragMoveEvent *event);
@@ -69,6 +73,7 @@ private:
      * @param found will be set to true if an effect name matches current
      */
     void loadEffects(const EffectsList *effectlist, QIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, int type, const QString &current, bool *found);
+    QIcon generateIcon(int size, const QString &name, const QString &group, QDomElement info);
 
 private slots:
     void slotExpandItem(const QModelIndex & index);

@@ -222,6 +222,8 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, QIcon icon, Q
     QStringList effectInfo, l;
     QTreeWidgetItem *item;
     int ct = effectlist->count();
+    QFontMetrics f(font());
+    int fontSize = f.height();
 
     for (int ix = 0; ix < ct; ++ix) {
         effectInfo = effectlist->effectIdInfo(ix);
@@ -241,6 +243,7 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, QIcon icon, Q
             parentItem = defaultFolder;
 
         if (!effectInfo.isEmpty()) {
+            QIcon icon2 = generateIcon(fontSize, effectInfo.at(0), parentItem->text(0), effectlist->at(ix));
             item = new QTreeWidgetItem(parentItem, QStringList(effectInfo.takeFirst()));
             QString tag = effectInfo.at(0);
             if (type != EFFECT_CUSTOM && tag.startsWith("movit.")) {
@@ -252,7 +255,7 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, QIcon icon, Q
                 item->setData(0, TypeRole, type);
             }
             if (effectInfo.count() == 4) item->setIcon(0, QIcon::fromTheme("folder"));
-            else item->setIcon(0, icon);
+            else item->setIcon(0, icon2);
             item->setData(0, IdRole, effectInfo);
             item->setToolTip(0, effectlist->getInfo(tag, effectInfo.at(1)));
             if (item->text(0) == current) {
@@ -283,6 +286,39 @@ const QDomElement EffectsListWidget::currentEffect() const
     return itemEffect(currentItem());
 }
 
+QIcon EffectsListWidget::generateIcon(int size, const QString &name, const QString &group, QDomElement info)
+{
+    QPixmap pix(size, size);
+    if (name.isEmpty()) {
+        pix.fill(Qt::red);
+        return QIcon(pix);
+    }
+    QFont ft = font();
+    ft.setBold(true);
+    uint hex = qHash(name);
+    QString t = "#" + QString::number(hex, 16).toUpper().left(6);
+    QColor col(t);
+    info.setAttribute("effectcolor", col.name());
+    bool isAudio = info.attribute("type") == "audio";
+    if (isAudio) {
+        pix.fill(Qt::transparent);
+    }
+    else {
+        pix.fill(col);
+    }
+    QPainter p(&pix);
+    if (isAudio) {
+        p.setPen(Qt::NoPen);
+        p.setBrush(col);
+        p.drawEllipse(pix.rect());
+        p.setPen(QPen());
+    }
+    p.setFont(ft);
+    p.drawText(pix.rect(), Qt::AlignCenter, name.at(0));
+    p.end();
+    return QIcon(pix);
+}
+
 const QDomElement EffectsListWidget::itemEffect(QTreeWidgetItem *item) const
 {
     QDomElement effect;
@@ -296,7 +332,14 @@ const QDomElement EffectsListWidget::itemEffect(QTreeWidgetItem *item) const
     case EFFECT_AUDIO:
         effect = MainWindow::audioEffects.getEffectByTag(effectInfo.at(0), effectInfo.at(1)).cloneNode().toElement();
         break;
+    case EFFECT_CUSTOM:
+        effect = MainWindow::customEffects.getEffectByTag(effectInfo.at(0), effectInfo.at(1)).cloneNode().toElement();
+        break;
     default:
+        effect =  MainWindow::videoEffects.getEffectByTag(effectInfo.at(0), effectInfo.at(1)).cloneNode().toElement();
+        if (!effect.isNull()) break;
+        effect = MainWindow::audioEffects.getEffectByTag(effectInfo.at(0), effectInfo.at(1)).cloneNode().toElement();
+        if (!effect.isNull()) break;
         effect = MainWindow::customEffects.getEffectByTag(effectInfo.at(0), effectInfo.at(1)).cloneNode().toElement();
         break;
     }
@@ -374,4 +417,55 @@ void EffectsListWidget::contextMenuEvent(QContextMenuEvent * event)
     }
 }
 
+void EffectsListWidget::setRootOnCustomFolder()
+{
+    // special case, display only items in "custom" folder"
+    QTreeWidgetItem *item = findFolder(i18nc("Folder Name", "Custom"));
+    if (!item) {
+        // No custom effect, show empty list
+        for (int i = 0; i < topLevelItemCount(); ++i) {
+            QTreeWidgetItem *folder = topLevelItem(i);
+            folder->setHidden(true);
+        }
+        return;
+    }
+    setRootIndex(indexFromItem(item));
+    for (int j = 0; j < item->childCount(); ++j) {
+        QTreeWidgetItem *child = item->child(j);
+        child->setHidden(false);
+    }
+}
+
+void EffectsListWidget::resetRoot()
+{
+    setRootIndex(indexFromItem(invisibleRootItem()));
+}
+
+void EffectsListWidget::createFavorites(QList <QTreeWidgetItem *>list)
+{
+    QTreeWidgetItem *misc = findFolder("Favorites");
+    if (misc == NULL) {
+        misc = new QTreeWidgetItem((QTreeWidget*)0, QStringList("Favorites"));
+        misc->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));
+        misc->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+        insertTopLevelItem(0, misc);
+    }
+    else qDeleteAll(misc->takeChildren());
+    setRootIndex(indexFromItem(misc));
+    misc->addChildren(list);
+    for (int j = 0; j < misc->childCount(); ++j) {
+        QTreeWidgetItem *child = misc->child(j);
+        child->setHidden(false);
+        child->setData(0, Qt::UserRole, EFFECT_FAVORITES);
+    }
+}
+
+void EffectsListWidget::resetFavorites()
+{
+    QTreeWidgetItem *misc = findFolder("Favorites");
+    if (misc) {
+        setRootIndex(indexFromItem(invisibleRootItem()));
+        delete misc;
+    }
+}
 

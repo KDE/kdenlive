@@ -93,7 +93,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     m_profile.display_aspect_num = 0;
     m_profile.display_aspect_den = 0;
     m_profile.colorspace = 0;
-
     m_clipManager = new ClipManager(this);
     connect(m_clipManager, SIGNAL(displayMessage(QString,int)), parent, SLOT(slotGotProgressInfo(QString,int)));
     bool success = false;

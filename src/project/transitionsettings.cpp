@@ -28,6 +28,7 @@
 #include "monitor/monitorscene.h"
 #include "project/projectmanager.h"
 #include "doc/kdenlivedoc.h"
+#include "utils/KoIconUtils.h"
 
 #include <QDebug>
 #include <QMimeData>
@@ -74,6 +75,26 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     connect(transitionList, SIGNAL(activated(int)), this, SLOT(slotTransitionChanged()));
     connect(transitionTrack, SIGNAL(activated(int)), this, SLOT(slotTransitionTrackChanged()));
     connect(m_effectEdit, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this , SLOT(slotUpdateEffectParams(QDomElement,QDomElement)));
+}
+
+void TransitionSettings::refreshIcons()
+{
+    QList<QAction *> allMenus = this->findChildren<QAction *>();
+    for (int i = 0; i < allMenus.count(); i++) {
+        QAction *m = allMenus.at(i);
+        QIcon ic = m->icon();
+        if (ic.isNull()) continue;
+        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        m->setIcon(newIcon);
+    }
+    QList<QToolButton *> allButtons = this->findChildren<QToolButton *>();
+    for (int i = 0; i < allButtons.count(); i++) {
+        QToolButton *m = allButtons.at(i);
+        QIcon ic = m->icon();
+        if (ic.isNull()) continue;
+        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        m->setIcon(newIcon);
+    }
 }
 
 void TransitionSettings::dragEnterEvent(QDragEnterEvent * event ) {

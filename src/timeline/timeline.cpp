@@ -35,12 +35,14 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "doc/kdenlivedoc.h"
+#include "utils/KoIconUtils.h"
 #include "project/clipmanager.h"
 #include "effectslist/initeffects.h"
 #include "mltcontroller/effectscontroller.h"
 
 #include <QScrollBar>
 #include <QLocale>
+#include <KDualAction>
 
 #include <KMessageBox>
 #include <KIO/FileCopyJob>
@@ -817,6 +819,30 @@ void Timeline::updatePalette()
     QColor col = scheme.background().color();
     QColor col2 = scheme.foreground().color();
     headers_container->setStyleSheet(QString("QLineEdit { background-color: transparent;color: %1;} QLineEdit:hover{ background-color: %2;} QLineEdit:focus { background-color: %2;}").arg(col2.name()).arg(col.name()));
+}
+
+void Timeline::refreshIcons()
+{
+    QList<QAction *> allMenus = this->findChildren<QAction *>();
+    for (int i = 0; i < allMenus.count(); i++) {
+        QAction *m = allMenus.at(i);
+        QIcon ic = m->icon();
+        if (ic.isNull()) continue;
+        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        m->setIcon(newIcon);
+    }
+    QList<KDualAction *> allButtons = this->findChildren<KDualAction *>();
+    for (int i = 0; i < allButtons.count(); i++) {
+        KDualAction *m = allButtons.at(i);
+        QIcon ic = m->activeIcon();
+        if (ic.isNull()) continue;
+        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        m->setActiveIcon(newIcon);
+        ic = m->inactiveIcon();
+        if (ic.isNull()) continue;
+        newIcon = KoIconUtils::themedIcon(ic.name());
+        m->setInactiveIcon(newIcon);
+    }
 }
 
 void Timeline::adjustTrackHeaders()

@@ -71,6 +71,9 @@ public:
     /** @brief Palette was changed, update style. */
     void updatePalette();
     
+    /** @brief Color theme was changed, update icons. */
+    void refreshIcons();
+    
     /** @brief Process dropped xml effect. */
     void processDroppedEffect(QDomElement e, QDropEvent *event);
     

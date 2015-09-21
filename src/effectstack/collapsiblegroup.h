@@ -30,6 +30,7 @@
 #include <QLineEdit>
 #include <QMutex>
 
+class KDualAction;
 
 class MyEditableLabel : public QLineEdit
 {
@@ -92,6 +93,7 @@ private:
     EffectInfo m_info;
     MyEditableLabel *m_title;
     QMutex m_mutex;
+    KDualAction *m_enabledButton;
     
 protected:
     void mouseDoubleClickEvent ( QMouseEvent * event );

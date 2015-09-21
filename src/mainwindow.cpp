@@ -60,6 +60,7 @@
 #include "timeline/timelinesearch.h"
 #include <config-kdenlive.h>
 #include "utils/thememanager.h"
+#include "utils/KoIconUtils.cpp"
 #ifdef USE_JOGSHUTTLE
 #include "jogshuttle/jogmanager.h"
 #endif
@@ -72,6 +73,7 @@
 #include <KMessageBox>
 #include <KConfigDialog>
 #include <KXMLGUIFactory>
+#include <KIconTheme>
 #include <KColorSchemeManager>
 #include <KRecentDirs>
 #include <KUrlRequesterDialog>
@@ -130,7 +132,9 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_projectMonitor(NULL),
     m_recMonitor(NULL),
     m_renderWidget(NULL),
-    m_mainClip(NULL)
+    m_mainClip(NULL),
+    m_themeInitialized(false),
+    m_isDarkTheme(false)
 {
     qRegisterMetaType<audioShortVector> ("audioShortVector");
     qRegisterMetaType<MessageType> ("MessageType");
@@ -139,23 +143,16 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     qRegisterMetaType< QVector <int> > ();
     qRegisterMetaType<requestClipInfo> ("requestClipInfo");
 
-    new RenderingAdaptor(this);
-    Core::initialize(this);
-    MltConnection::locateMeltAndProfilesPath(MltPath);
-
+    Core::build(this);
     KActionMenu *themeAction= new KActionMenu(i18n("Theme"), this);
     ThemeManager::instance()->setThemeMenuAction(themeAction);
     ThemeManager::instance()->setCurrentTheme(KdenliveSettings::colortheme());
-    connect(ThemeManager::instance(), SIGNAL(signalThemeChanged(const QString &)), this, SLOT(slotThemeChanged(const QString &)));
+    connect(ThemeManager::instance(), SIGNAL(signalThemeChanged(const QString &)), this, SLOT(slotThemeChanged(const QString &)), Qt::DirectConnection);
     ThemeManager::instance()->slotChangePalette();
-    /*
-    // TODO: change icon theme accordingly to color theme ? is it even possible ?
-    QColor background = qApp->palette().background().color();
-    bool useDarkIcons = background.value() < 100;
-    QString suffix = useDarkIcons ? QString("-dark") : QString();
-    QString currentTheme = QIcon::themeName() + suffix;
-    //QIcon::setThemeName(currentTheme);
-    qDebug()<<"/ / / // SETTING ICON THEME: "<<currentTheme;*/
+
+    new RenderingAdaptor(this);
+    pCore->initialize();
+    MltConnection::locateMeltAndProfilesPath(MltPath);
 
     KdenliveSettings::setCurrent_profile(KdenliveSettings::default_profile());
     m_commandStack = new QUndoGroup;
@@ -223,7 +220,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     }
 
     m_undoView = new QUndoView();
-    m_undoView->setCleanIcon(QIcon::fromTheme("edit-clear"));
+    m_undoView->setCleanIcon(KoIconUtils::themedIcon("edit-clear"));
     m_undoView->setEmptyLabel(i18n("Clean"));
     m_undoView->setGroup(m_commandStack);
     m_undoViewDock = addDock(i18n("Undo History"), "undo_history", m_undoView);
@@ -256,13 +253,13 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     QAction *action;
     // Stop motion actions. Beware of the order, we MUST use the same order in stopmotion/stopmotion.cpp
     m_stopmotion_actions = new KActionCategory(i18n("Stop Motion"), actionCollection());
-    action = new QAction(QIcon::fromTheme("media-record"), i18n("Capture frame"), this);
+    action = new QAction(KoIconUtils::themedIcon("media-record"), i18n("Capture frame"), this);
     //action->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     m_stopmotion_actions->addAction("stopmotion_capture", action);
     action = new QAction(i18n("Switch live / captured frame"), this);
     //action->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     m_stopmotion_actions->addAction("stopmotion_switch", action);
-    action = new QAction(QIcon::fromTheme("edit-paste"), i18n("Show last frame over video"), this);
+    action = new QAction(KoIconUtils::themedIcon("edit-paste"), i18n("Show last frame over video"), this);
     action->setCheckable(true);
     action->setChecked(false);
     m_stopmotion_actions->addAction("stopmotion_overlay", action);
@@ -311,7 +308,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone, static_cast<QMenu*>(factory()->container("marker_menu", this)));
 
     QMenu *clipInTimeline = static_cast<QMenu*>(factory()->container("clip_in_timeline", this));
-    clipInTimeline->setIcon(QIcon::fromTheme("go-jump"));
+    clipInTimeline->setIcon(KoIconUtils::themedIcon("go-jump"));
     QHash<QString,QMenu*> menus;
     menus.insert("addMenu",static_cast<QMenu*>(factory()->container("generators", this)));
     menus.insert("extractAudioMenu",static_cast<QMenu*>(factory()->container("extract_audio", this)));
@@ -444,15 +441,16 @@ void MainWindow::slotThemeChanged(const QString &theme)
     KSharedConfigPtr config = KSharedConfig::openConfig(theme);
     setPalette(KColorScheme::createApplicationPalette(config));
     qApp->setPalette(palette());
-    KdenliveSettings::setColortheme(theme);
     QPalette plt = palette();
+
+    KdenliveSettings::setColortheme(theme);
     if (m_effectStack) m_effectStack->updatePalette();
     if (m_effectList) m_effectList->updatePalette();
     if (m_transitionConfig) m_transitionConfig->updatePalette();
     if (m_clipMonitor) m_clipMonitor->setPalette(plt);
     if (m_projectMonitor) m_projectMonitor->setPalette(plt);
     setStatusBarStyleSheet(plt);
-    if (pCore->projectManager()->currentTimeline()) {
+    if (pCore->projectManager() && pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->updatePalette();
     }
     if (m_timelineArea) {
@@ -470,6 +468,34 @@ void MainWindow::slotThemeChanged(const QString &theme)
             }
         }
     }
+
+    QColor background = plt.window().color();
+    bool useDarkIcons = background.value() < 100;
+    if (m_themeInitialized && useDarkIcons != m_isDarkTheme) {
+        if (pCore->bin()) {
+            pCore->bin()->refreshIcons();
+        }
+        if (m_clipMonitor) m_clipMonitor->refreshIcons();
+        if (m_projectMonitor) m_projectMonitor->refreshIcons();
+        if (pCore->monitorManager()) pCore->monitorManager()->refreshIcons();
+        if (m_transitionConfig) m_transitionConfig->refreshIcons();
+        if (m_effectList) m_effectList->refreshIcons();
+        if (m_effectStack) m_effectStack->refreshIcons();
+        if (pCore->projectManager() && pCore->projectManager()->currentTimeline()) {
+            pCore->projectManager()->currentTimeline()->refreshIcons();
+        }
+
+        foreach(QAction* action, actionCollection()->actions()) {
+            QIcon icon = action->icon();
+            if (icon.isNull()) continue;
+            QString iconName = icon.name();
+            QIcon newIcon = KoIconUtils::themedIcon(iconName);
+            if (newIcon.isNull()) continue;
+            action->setIcon(newIcon);
+        }
+    }
+    m_themeInitialized = true;
+    m_isDarkTheme = useDarkIcons;
     connect(this, SIGNAL(reloadTheme()), this, SLOT(slotReloadTheme()), Qt::UniqueConnection);
 }
 
@@ -738,19 +764,19 @@ void MainWindow::setupActions()
     QString styleBorderless = "QToolButton { border-width: 0px;margin: 1px 3px 0px;padding: 0px;}";
     
     //create edit mode buttons
-    m_normalEditTool = new QAction(QIcon::fromTheme("kdenlive-normal-edit"), i18n("Normal mode"), this);
+    m_normalEditTool = new QAction(KoIconUtils::themedIcon("kdenlive-normal-edit"), i18n("Normal mode"), this);
     m_normalEditTool->setShortcut(i18nc("Normal editing", "n"));
     toolbar->addAction(m_normalEditTool);
     m_normalEditTool->setCheckable(true);
     m_normalEditTool->setChecked(true);
 
-    m_overwriteEditTool = new QAction(QIcon::fromTheme("kdenlive-overwrite-edit"), i18n("Overwrite mode"), this);
+    m_overwriteEditTool = new QAction(KoIconUtils::themedIcon("kdenlive-overwrite-edit"), i18n("Overwrite mode"), this);
     //m_overwriteEditTool->setShortcut(i18nc("Overwrite mode shortcut", "o"));
     toolbar->addAction(m_overwriteEditTool);
     m_overwriteEditTool->setCheckable(true);
     m_overwriteEditTool->setChecked(false);
 
-    m_insertEditTool = new QAction(QIcon::fromTheme("kdenlive-insert-edit"), i18n("Insert mode"), this);
+    m_insertEditTool = new QAction(KoIconUtils::themedIcon("kdenlive-insert-edit"), i18n("Insert mode"), this);
     //m_insertEditTool->setShortcut(i18nc("Insert mode shortcut", "i"));
     toolbar->addAction(m_insertEditTool);
     m_insertEditTool->setCheckable(true);
@@ -769,19 +795,19 @@ void MainWindow::setupActions()
     toolbar->addSeparator();
 
     // create tools buttons
-    m_buttonSelectTool = new QAction(QIcon::fromTheme("cursor-arrow"), i18n("Selection tool"), this);
+    m_buttonSelectTool = new QAction(KoIconUtils::themedIcon("cursor-arrow"), i18n("Selection tool"), this);
     m_buttonSelectTool->setShortcut(i18nc("Selection tool shortcut", "s"));
     toolbar->addAction(m_buttonSelectTool);
     m_buttonSelectTool->setCheckable(true);
     m_buttonSelectTool->setChecked(true);
 
-    m_buttonRazorTool = new QAction(QIcon::fromTheme("edit-cut"), i18n("Razor tool"), this);
+    m_buttonRazorTool = new QAction(KoIconUtils::themedIcon("edit-cut"), i18n("Razor tool"), this);
     m_buttonRazorTool->setShortcut(i18nc("Razor tool shortcut", "x"));
     toolbar->addAction(m_buttonRazorTool);
     m_buttonRazorTool->setCheckable(true);
     m_buttonRazorTool->setChecked(false);
 
-    m_buttonSpacerTool = new QAction(QIcon::fromTheme("distribute-horizontal-x"), i18n("Spacer tool"), this);
+    m_buttonSpacerTool = new QAction(KoIconUtils::themedIcon("distribute-horizontal-x"), i18n("Spacer tool"), this);
     m_buttonSpacerTool->setShortcut(i18nc("Spacer tool shortcut", "m"));
     toolbar->addAction(m_buttonSpacerTool);
     m_buttonSpacerTool->setCheckable(true);
@@ -822,11 +848,12 @@ void MainWindow::setupActions()
     connect(toolGroup, SIGNAL(triggered(QAction*)), this, SLOT(slotChangeTool(QAction*)));
 
     toolbar->addSeparator();
-    m_buttonFitZoom = new QAction(QIcon::fromTheme("zoom-fit-best"), i18n("Fit zoom to project"), this);
+    QIcon ic = KoIconUtils::themedIcon("zoom-fit-best");
+    m_buttonFitZoom = new QAction(ic, i18n("Fit zoom to project"), this);
     toolbar->addAction(m_buttonFitZoom);
     m_buttonFitZoom->setCheckable(false);
 
-    m_zoomOut = new QAction(QIcon::fromTheme("zoom-out"), i18n("Zoom Out"), this);
+    m_zoomOut = new QAction(KoIconUtils::themedIcon("zoom-out"), i18n("Zoom Out"), this);
     toolbar->addAction(m_zoomOut);
     m_zoomOut->setShortcut(Qt::CTRL + Qt::Key_Minus);
 
@@ -840,7 +867,7 @@ void MainWindow::setupActions()
     m_zoomSlider->setMinimumWidth(100);
     toolbar->addWidget(m_zoomSlider);
 
-    m_zoomIn = new QAction(QIcon::fromTheme("zoom-in"), i18n("Zoom In"), this);
+    m_zoomIn = new QAction(KoIconUtils::themedIcon("zoom-in"), i18n("Zoom In"), this);
     toolbar->addAction(m_zoomIn);
     m_zoomIn->setShortcut(Qt::CTRL + Qt::Key_Plus);
 
@@ -868,30 +895,30 @@ void MainWindow::setupActions()
     toolbar->addSeparator();
 
     //create automatic audio split button
-    m_buttonAutomaticSplitAudio = new QAction(QIcon::fromTheme("kdenlive-split-audio"), i18n("Split audio and video automatically"), this);
+    m_buttonAutomaticSplitAudio = new QAction(KoIconUtils::themedIcon("kdenlive-split-audio"), i18n("Split audio and video automatically"), this);
     toolbar->addAction(m_buttonAutomaticSplitAudio);
     m_buttonAutomaticSplitAudio->setCheckable(true);
     m_buttonAutomaticSplitAudio->setChecked(KdenliveSettings::splitaudio());
     connect(m_buttonAutomaticSplitAudio, SIGNAL(triggered()), this, SLOT(slotSwitchSplitAudio()));
 
-    m_buttonVideoThumbs = new QAction(QIcon::fromTheme("kdenlive-show-videothumb"), i18n("Show video thumbnails"), this);
+    m_buttonVideoThumbs = new QAction(KoIconUtils::themedIcon("kdenlive-show-videothumb"), i18n("Show video thumbnails"), this);
     toolbar->addAction(m_buttonVideoThumbs);
     m_buttonVideoThumbs->setCheckable(true);
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
     connect(m_buttonVideoThumbs, SIGNAL(triggered()), this, SLOT(slotSwitchVideoThumbs()));
 
-    m_buttonAudioThumbs = new QAction(QIcon::fromTheme("kdenlive-show-audiothumb"), i18n("Show audio thumbnails"), this);
+    m_buttonAudioThumbs = new QAction(KoIconUtils::themedIcon("kdenlive-show-audiothumb"), i18n("Show audio thumbnails"), this);
     toolbar->addAction(m_buttonAudioThumbs);
     m_buttonAudioThumbs->setCheckable(true);
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
     connect(m_buttonAudioThumbs, SIGNAL(triggered()), this, SLOT(slotSwitchAudioThumbs()));
 
-    m_buttonShowMarkers = new QAction(QIcon::fromTheme("kdenlive-show-markers"), i18n("Show markers comments"), this);
+    m_buttonShowMarkers = new QAction(KoIconUtils::themedIcon("kdenlive-show-markers"), i18n("Show markers comments"), this);
     toolbar->addAction(m_buttonShowMarkers);
     m_buttonShowMarkers->setCheckable(true);
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
     connect(m_buttonShowMarkers, SIGNAL(triggered()), this, SLOT(slotSwitchMarkersComments()));
-    m_buttonSnap = new QAction(QIcon::fromTheme("kdenlive-snap"), i18n("Snap"), this);
+    m_buttonSnap = new QAction(KoIconUtils::themedIcon("kdenlive-snap"), i18n("Snap"), this);
     toolbar->addAction(m_buttonSnap);
     m_buttonSnap->setCheckable(true);
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
@@ -955,33 +982,33 @@ void MainWindow::setupActions()
     addAction("zoom_in", m_zoomIn);
     addAction("zoom_out", m_zoomOut);
 
-    addAction("manage_profiles", i18n("Manage Project Profiles"), this, SLOT(slotEditProfiles()), QIcon::fromTheme("document-new"));
+    addAction("manage_profiles", i18n("Manage Project Profiles"), this, SLOT(slotEditProfiles()), KoIconUtils::themedIcon("document-new"));
     KNS3::standardAction(i18n("Download New Wipes..."),            this, SLOT(slotGetNewLumaStuff()),       actionCollection(), "get_new_lumas");
     KNS3::standardAction(i18n("Download New Render Profiles..."),  this, SLOT(slotGetNewRenderStuff()),     actionCollection(), "get_new_profiles");
     KNS3::standardAction(i18n("Download New Project Profiles..."), this, SLOT(slotGetNewMltProfileStuff()), actionCollection(), "get_new_mlt_profiles");
     KNS3::standardAction(i18n("Download New Title Templates..."),  this, SLOT(slotGetNewTitleStuff()),      actionCollection(), "get_new_titles");
 
-    addAction("run_wizard", i18n("Run Config Wizard"), this, SLOT(slotRunWizard()), QIcon::fromTheme("tools-wizard"));
-    addAction("project_settings", i18n("Project Settings"), this, SLOT(slotEditProjectSettings()), QIcon::fromTheme("configure"));
-    addAction("project_render", i18n("Render"), this, SLOT(slotRenderProject()), QIcon::fromTheme("media-record"), Qt::CTRL + Qt::Key_Return);
+    addAction("run_wizard", i18n("Run Config Wizard"), this, SLOT(slotRunWizard()), KoIconUtils::themedIcon("tools-wizard"));
+    addAction("project_settings", i18n("Project Settings"), this, SLOT(slotEditProjectSettings()), KoIconUtils::themedIcon("configure"));
+    addAction("project_render", i18n("Render"), this, SLOT(slotRenderProject()), KoIconUtils::themedIcon("media-record"), Qt::CTRL + Qt::Key_Return);
 
-    addAction("project_clean", i18n("Clean Project"), this, SLOT(slotCleanProject()), QIcon::fromTheme("edit-clear"));
+    addAction("project_clean", i18n("Clean Project"), this, SLOT(slotCleanProject()), KoIconUtils::themedIcon("edit-clear"));
     //TODO
     //addAction("project_adjust_profile", i18n("Adjust Profile to Current Clip"), pCore->bin(), SLOT(adjustProjectProfileToItem()));
 
     m_playZone = addAction("monitor_play_zone", i18n("Play Zone"), pCore->monitorManager(), SLOT(slotPlayZone()),
-                           QIcon::fromTheme("media-playback-start"), Qt::CTRL + Qt::Key_Space);
+                           KoIconUtils::themedIcon("media-playback-start"), Qt::CTRL + Qt::Key_Space);
     m_loopZone = addAction("monitor_loop_zone", i18n("Loop Zone"), pCore->monitorManager(), SLOT(slotLoopZone()),
-                           QIcon::fromTheme("media-playback-start"), Qt::ALT + Qt::Key_Space);
-    m_loopClip = addAction("monitor_loop_clip", i18n("Loop selected clip"), m_projectMonitor, SLOT(slotLoopClip()), QIcon::fromTheme("media-playback-start"));
+                           KoIconUtils::themedIcon("media-playback-start"), Qt::ALT + Qt::Key_Space);
+    m_loopClip = addAction("monitor_loop_clip", i18n("Loop selected clip"), m_projectMonitor, SLOT(slotLoopClip()), KoIconUtils::themedIcon("media-playback-start"));
     m_loopClip->setEnabled(false);
 
-    addAction("dvd_wizard", i18n("DVD Wizard"), this, SLOT(slotDvdWizard()), QIcon::fromTheme("media-optical"));
-    addAction("transcode_clip", i18n("Transcode Clips"), this, SLOT(slotTranscodeClip()), QIcon::fromTheme("edit-copy"));
-    addAction("archive_project", i18n("Archive Project"), this, SLOT(slotArchiveProject()), QIcon::fromTheme("document-save-all"));
+    addAction("dvd_wizard", i18n("DVD Wizard"), this, SLOT(slotDvdWizard()), KoIconUtils::themedIcon("media-optical"));
+    addAction("transcode_clip", i18n("Transcode Clips"), this, SLOT(slotTranscodeClip()), KoIconUtils::themedIcon("edit-copy"));
+    addAction("archive_project", i18n("Archive Project"), this, SLOT(slotArchiveProject()), KoIconUtils::themedIcon("document-save-all"));
     addAction("switch_monitor", i18n("Switch monitor"), this, SLOT(slotSwitchMonitors()), QIcon(), Qt::Key_T);
 
-    QAction *overlayInfo =  new QAction(QIcon::fromTheme("help-hint"), i18n("Monitor Info Overlay"), this);
+    QAction *overlayInfo =  new QAction(KoIconUtils::themedIcon("help-hint"), i18n("Monitor Info Overlay"), this);
     addAction("monitor_overlay", overlayInfo);
     overlayInfo->setCheckable(true);
     overlayInfo->setChecked(KdenliveSettings::displayMonitorInfo());
@@ -1013,12 +1040,12 @@ void MainWindow::setupActions()
     connect(resizeEnd, SIGNAL(triggered(bool)), this, SLOT(slotResizeItemEnd()));
 
     addAction("monitor_seek_snap_backward", i18n("Go to Previous Snap Point"), this, SLOT(slotSnapRewind()),
-              QIcon::fromTheme("media-seek-backward"), Qt::ALT + Qt::Key_Left);
-    addAction("seek_clip_start", i18n("Go to Clip Start"), this, SLOT(slotClipStart()), QIcon::fromTheme("media-seek-backward"), Qt::Key_Home);
-    addAction("seek_clip_end", i18n("Go to Clip End"), this, SLOT(slotClipEnd()), QIcon::fromTheme("media-seek-forward"), Qt::Key_End);
+              KoIconUtils::themedIcon("media-seek-backward"), Qt::ALT + Qt::Key_Left);
+    addAction("seek_clip_start", i18n("Go to Clip Start"), this, SLOT(slotClipStart()), KoIconUtils::themedIcon("media-seek-backward"), Qt::Key_Home);
+    addAction("seek_clip_end", i18n("Go to Clip End"), this, SLOT(slotClipEnd()), KoIconUtils::themedIcon("media-seek-forward"), Qt::Key_End);
     addAction("monitor_seek_snap_forward", i18n("Go to Next Snap Point"), this, SLOT(slotSnapForward()),
-              QIcon::fromTheme("media-seek-forward"), Qt::ALT + Qt::Key_Right);
-    addAction("delete_timeline_clip", i18n("Delete Selected Item"), this, SLOT(slotDeleteItem()), QIcon::fromTheme("edit-delete"), Qt::Key_Delete);
+              KoIconUtils::themedIcon("media-seek-forward"), Qt::ALT + Qt::Key_Right);
+    addAction("delete_timeline_clip", i18n("Delete Selected Item"), this, SLOT(slotDeleteItem()), KoIconUtils::themedIcon("edit-delete"), Qt::Key_Delete);
     addAction("align_playhead", i18n("Align Playhead to Mouse Position"), this, SLOT(slotAlignPlayheadToMousePos()), QIcon(), Qt::Key_P);
 
     QAction *stickTransition = new QAction(i18n("Automatic Transition"), this);
@@ -1028,39 +1055,39 @@ void MainWindow::setupActions()
     addAction("auto_transition", stickTransition);
     connect(stickTransition, SIGNAL(triggered(bool)), this, SLOT(slotAutoTransition()));
 
-    addAction("group_clip", i18n("Group Clips"), this, SLOT(slotGroupClips()), QIcon::fromTheme("object-group"), Qt::CTRL + Qt::Key_G);
+    addAction("group_clip", i18n("Group Clips"), this, SLOT(slotGroupClips()), KoIconUtils::themedIcon("object-group"), Qt::CTRL + Qt::Key_G);
 
-    QAction * ungroupClip = new QAction(QIcon::fromTheme("object-ungroup"), i18n("Ungroup Clips"), this);
+    QAction * ungroupClip = new QAction(KoIconUtils::themedIcon("object-ungroup"), i18n("Ungroup Clips"), this);
     addAction("ungroup_clip", ungroupClip);
     ungroupClip->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_G);
     ungroupClip->setData("ungroup_clip");
     connect(ungroupClip, SIGNAL(triggered(bool)), this, SLOT(slotUnGroupClips()));
-    addAction("edit_item_duration", i18n("Edit Duration"), this, SLOT(slotEditItemDuration()), QIcon::fromTheme("measure"));
-    addAction("save_timeline_clip", i18n("Save clip"), this, SLOT(slotSaveTimelineClip()), QIcon::fromTheme("document-save"));
-    addAction("clip_in_project_tree", i18n("Clip in Project Bin"), this, SLOT(slotClipInProjectTree()), QIcon::fromTheme("go-jump-definition"));
+    addAction("edit_item_duration", i18n("Edit Duration"), this, SLOT(slotEditItemDuration()), KoIconUtils::themedIcon("measure"));
+    addAction("save_timeline_clip", i18n("Save clip"), this, SLOT(slotSaveTimelineClip()), KoIconUtils::themedIcon("document-save"));
+    addAction("clip_in_project_tree", i18n("Clip in Project Bin"), this, SLOT(slotClipInProjectTree()), KoIconUtils::themedIcon("go-jump-definition"));
     addAction("overwrite_to_in_point", i18n("Insert Clip Zone in Timeline (Overwrite)"), this, SLOT(slotInsertClipOverwrite()), QIcon(), Qt::Key_V);
-    addAction("select_timeline_clip", i18n("Select Clip"), this, SLOT(slotSelectTimelineClip()), QIcon::fromTheme("edit-select"), Qt::Key_Plus);
-    addAction("deselect_timeline_clip", i18n("Deselect Clip"), this, SLOT(slotDeselectTimelineClip()), QIcon::fromTheme("edit-select"), Qt::Key_Minus);
+    addAction("select_timeline_clip", i18n("Select Clip"), this, SLOT(slotSelectTimelineClip()), KoIconUtils::themedIcon("edit-select"), Qt::Key_Plus);
+    addAction("deselect_timeline_clip", i18n("Deselect Clip"), this, SLOT(slotDeselectTimelineClip()), KoIconUtils::themedIcon("edit-select"), Qt::Key_Minus);
     addAction("select_add_timeline_clip", i18n("Add Clip To Selection"), this, SLOT(slotSelectAddTimelineClip()),
-              QIcon::fromTheme("edit-select"), Qt::ALT + Qt::Key_Plus);
+              KoIconUtils::themedIcon("edit-select"), Qt::ALT + Qt::Key_Plus);
     addAction("select_timeline_transition", i18n("Select Transition"), this, SLOT(slotSelectTimelineTransition()),
-          QIcon::fromTheme("edit-select"), Qt::SHIFT + Qt::Key_Plus);
+          KoIconUtils::themedIcon("edit-select"), Qt::SHIFT + Qt::Key_Plus);
     addAction("deselect_timeline_transition", i18n("Deselect Transition"), this, SLOT(slotDeselectTimelineTransition()),
-              QIcon::fromTheme("edit-select"), Qt::SHIFT + Qt::Key_Minus);
+              KoIconUtils::themedIcon("edit-select"), Qt::SHIFT + Qt::Key_Minus);
     addAction("select_add_timeline_transition", i18n("Add Transition To Selection"), this, SLOT(slotSelectAddTimelineTransition()),
-          QIcon::fromTheme("edit-select"), Qt::ALT + Qt::SHIFT + Qt::Key_Plus);
-    addAction("cut_timeline_clip", i18n("Cut Clip"), this, SLOT(slotCutTimelineClip()), QIcon::fromTheme("edit-cut"), Qt::SHIFT + Qt::Key_R);
-    addAction("add_clip_marker", i18n("Add Marker"), this, SLOT(slotAddClipMarker()), QIcon::fromTheme("bookmark-new"));
-    addAction("delete_clip_marker", i18n("Delete Marker"), this, SLOT(slotDeleteClipMarker()), QIcon::fromTheme("edit-delete"));
-    addAction("delete_all_clip_markers", i18n("Delete All Markers"), this, SLOT(slotDeleteAllClipMarkers()), QIcon::fromTheme("edit-delete"));
+          KoIconUtils::themedIcon("edit-select"), Qt::ALT + Qt::SHIFT + Qt::Key_Plus);
+    addAction("cut_timeline_clip", i18n("Cut Clip"), this, SLOT(slotCutTimelineClip()), KoIconUtils::themedIcon("edit-cut"), Qt::SHIFT + Qt::Key_R);
+    addAction("add_clip_marker", i18n("Add Marker"), this, SLOT(slotAddClipMarker()), KoIconUtils::themedIcon("bookmark-new"));
+    addAction("delete_clip_marker", i18n("Delete Marker"), this, SLOT(slotDeleteClipMarker()), KoIconUtils::themedIcon("edit-delete"));
+    addAction("delete_all_clip_markers", i18n("Delete All Markers"), this, SLOT(slotDeleteAllClipMarkers()), KoIconUtils::themedIcon("edit-delete"));
 
-    QAction * editClipMarker = addAction("edit_clip_marker", i18n("Edit Marker"), this, SLOT(slotEditClipMarker()), QIcon::fromTheme("document-properties"));
+    QAction * editClipMarker = addAction("edit_clip_marker", i18n("Edit Marker"), this, SLOT(slotEditClipMarker()), KoIconUtils::themedIcon("document-properties"));
     editClipMarker->setData(QString("edit_marker"));
 
     addAction("add_marker_guide_quickly", i18n("Add Marker/Guide quickly"), this, SLOT(slotAddMarkerGuideQuickly()),
-              QIcon::fromTheme("bookmark-new"), Qt::Key_Asterisk);
+              KoIconUtils::themedIcon("bookmark-new"), Qt::Key_Asterisk);
 
-    QAction * splitAudio = addAction("split_audio", i18n("Split Audio"), this, SLOT(slotSplitAudio()), QIcon::fromTheme("document-new"));
+    QAction * splitAudio = addAction("split_audio", i18n("Split Audio"), this, SLOT(slotSplitAudio()), KoIconUtils::themedIcon("document-new"));
     // "A+V" as data means this action should only be available for clips with audio AND video
     splitAudio->setData("A+V");
 
@@ -1072,17 +1099,17 @@ void MainWindow::setupActions()
     // "A" as data means this action should only be available for clips with audio
     alignAudio->setData("A");
 
-    QAction * audioOnly = new QAction(QIcon::fromTheme("document-new"), i18n("Audio Only"), this);
+    QAction * audioOnly = new QAction(KoIconUtils::themedIcon("document-new"), i18n("Audio Only"), this);
     addAction("clip_audio_only", audioOnly);
     audioOnly->setData("clip_audio_only");
     audioOnly->setCheckable(true);
 
-    QAction * videoOnly = new QAction(QIcon::fromTheme("document-new"), i18n("Video Only"), this);
+    QAction * videoOnly = new QAction(KoIconUtils::themedIcon("document-new"), i18n("Video Only"), this);
     addAction("clip_video_only", videoOnly);
     videoOnly->setData("clip_video_only");
     videoOnly->setCheckable(true);
 
-    QAction * audioAndVideo = new QAction(QIcon::fromTheme("document-new"), i18n("Audio and Video"), this);
+    QAction * audioAndVideo = new QAction(KoIconUtils::themedIcon("document-new"), i18n("Audio and Video"), this);
     addAction("clip_audio_and_video", audioAndVideo);
     audioAndVideo->setData("clip_audio_and_video");
     audioAndVideo->setCheckable(true);
@@ -1106,7 +1133,7 @@ void MainWindow::setupActions()
     connect(insertTrack, &QAction::triggered, this, &MainWindow::slotDeleteTrack);
     timelineActions->addAction("delete_track", deleteTrack);
 
-    QAction *configTracks = new QAction(QIcon::fromTheme("configure"), i18n("Configure Tracks"), this);
+    QAction *configTracks = new QAction(KoIconUtils::themedIcon("configure"), i18n("Configure Tracks"), this);
     connect(insertTrack, &QAction::triggered, this, &MainWindow::slotConfigTrack);
     timelineActions->addAction("config_tracks", configTracks);
 
@@ -1115,81 +1142,84 @@ void MainWindow::setupActions()
     timelineActions->addAction("select_track", selectTrack);
 
     QAction *selectAll = KStandardAction::selectAll(this, SLOT(slotSelectAllTracks()), this);
+    selectAll->setIcon(KoIconUtils::themedIcon("kdenlive-select-all"));
     selectAll->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     timelineActions->addAction("select_all_tracks", selectAll);
 
     kdenliveCategoryMap.insert("timeline", timelineActions);
 
-    addAction("add_guide", i18n("Add Guide"), this, SLOT(slotAddGuide()), QIcon::fromTheme("document-new"));
-    addAction("delete_guide", i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), QIcon::fromTheme("edit-delete"));
-    addAction("edit_guide", i18n("Edit Guide"), this, SLOT(slotEditGuide()), QIcon::fromTheme("document-properties"));
-    addAction("delete_all_guides", i18n("Delete All Guides"), this, SLOT(slotDeleteAllGuides()), QIcon::fromTheme("edit-delete"));
+    addAction("add_guide", i18n("Add Guide"), this, SLOT(slotAddGuide()), KoIconUtils::themedIcon("document-new"));
+    addAction("delete_guide", i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), KoIconUtils::themedIcon("edit-delete"));
+    addAction("edit_guide", i18n("Edit Guide"), this, SLOT(slotEditGuide()), KoIconUtils::themedIcon("document-properties"));
+    addAction("delete_all_guides", i18n("Delete All Guides"), this, SLOT(slotDeleteAllGuides()), KoIconUtils::themedIcon("edit-delete"));
 
-    QAction *pasteEffects = addAction("paste_effects", i18n("Paste Effects"), this, SLOT(slotPasteEffects()), QIcon::fromTheme("edit-paste"));
+    QAction *pasteEffects = addAction("paste_effects", i18n("Paste Effects"), this, SLOT(slotPasteEffects()), KoIconUtils::themedIcon("edit-paste"));
     pasteEffects->setData("paste_effects");
 
     m_saveAction = KStandardAction::save(pCore->projectManager(), SLOT(saveFile()), actionCollection());
-    QAction *saveSelection = addAction("save_selection", i18n("Save Selection"), pCore->projectManager(), SLOT(slotSaveSelection()), QIcon::fromTheme("document-save"));
-    KStandardAction::quit(this,                   SLOT(close()),                  actionCollection());
+    m_saveAction->setIcon(KoIconUtils::themedIcon("document-save"));
+    QAction *saveSelection = addAction("save_selection", i18n("Save Selection"), pCore->projectManager(), SLOT(slotSaveSelection()), KoIconUtils::themedIcon("document-save"));
+    QAction *a = KStandardAction::quit(this, SLOT(close()),                  actionCollection());
+    a->setIcon(KoIconUtils::themedIcon("application-exit"));
     // TODO: make the following connection to slotEditKeys work
     //KStandardAction::keyBindings(this,            SLOT(slotEditKeys()),           actionCollection());
-    KStandardAction::preferences(this,            SLOT(slotPreferences()),        actionCollection());
-    KStandardAction::configureNotifications(this, SLOT(configureNotifications()), actionCollection());
-    KStandardAction::copy(this,                   SLOT(slotCopy()),               actionCollection());
-    KStandardAction::paste(this,                  SLOT(slotPaste()),              actionCollection());
-    KStandardAction::fullScreen(this,             SLOT(slotFullScreen()), this,   actionCollection());
+    a = KStandardAction::preferences(this, SLOT(slotPreferences()),        actionCollection());
+    a->setIcon(KoIconUtils::themedIcon("configure"));
+    a = KStandardAction::configureNotifications(this, SLOT(configureNotifications()), actionCollection());
+    a = KStandardAction::copy(this,                   SLOT(slotCopy()),               actionCollection());
+    a->setIcon(KoIconUtils::themedIcon("edit-copy"));
+    a = KStandardAction::paste(this,                  SLOT(slotPaste()),              actionCollection());
+    a->setIcon(KoIconUtils::themedIcon("edit-paste"));
+    a = KStandardAction::fullScreen(this,             SLOT(slotFullScreen()), this,   actionCollection());
+    a->setIcon(KoIconUtils::themedIcon("view-fullscreen"));
 
     QAction *undo = KStandardAction::undo(m_commandStack, SLOT(undo()), actionCollection());
+    undo->setIcon(KoIconUtils::themedIcon("edit-undo"));
     undo->setEnabled(false);
     connect(m_commandStack, SIGNAL(canUndoChanged(bool)), undo, SLOT(setEnabled(bool)));
 
     QAction *redo = KStandardAction::redo(m_commandStack, SLOT(redo()), actionCollection());
+    redo->setIcon(KoIconUtils::themedIcon("edit-redo"));
     redo->setEnabled(false);
     connect(m_commandStack, SIGNAL(canRedoChanged(bool)), redo, SLOT(setEnabled(bool)));
 
     QMenu *addClips = new QMenu();
 
-    QAction *addClip = addAction("add_clip", i18n("Add Clip"), pCore->bin(), SLOT(slotAddClip()), QIcon::fromTheme("kdenlive-add-clip"));
+    QAction *addClip = addAction("add_clip", i18n("Add Clip"), pCore->bin(), SLOT(slotAddClip()), KoIconUtils::themedIcon("kdenlive-add-clip"));
     addClips->addAction(addClip);
-    QAction *action = addAction("add_color_clip", i18n("Add Color Clip"), pCore->bin(), SLOT(slotCreateProjectClip()), 
-                                  QIcon::fromTheme("kdenlive-add-color-clip"));
+    QAction *action = addAction("add_color_clip", i18n("Add Color Clip"), pCore->bin(), SLOT(slotCreateProjectClip()), KoIconUtils::themedIcon("kdenlive-add-color-clip"));
     action->setData((int) Color);
     addClips->addAction(action);
-    action = addAction("add_slide_clip", i18n("Add Slideshow Clip"), pCore->bin(), SLOT(slotCreateProjectClip()),
-                                  QIcon::fromTheme("kdenlive-add-slide-clip"));
+    action = addAction("add_slide_clip", i18n("Add Slideshow Clip"), pCore->bin(), SLOT(slotCreateProjectClip()), KoIconUtils::themedIcon("kdenlive-add-slide-clip"));
     action->setData((int) SlideShow);
     addClips->addAction(action);
-    action = addAction("add_text_clip", i18n("Add Title Clip"), pCore->bin(), SLOT(slotCreateProjectClip()),
-                                  QIcon::fromTheme("kdenlive-add-text-clip"));
+    action = addAction("add_text_clip", i18n("Add Title Clip"), pCore->bin(), SLOT(slotCreateProjectClip()), KoIconUtils::themedIcon("kdenlive-add-text-clip"));
     action->setData((int) Text);
     addClips->addAction(action);
-    action = addAction("add_text_template_clip", i18n("Add Template Title"), pCore->bin(), SLOT(slotCreateProjectClip()),
-                                  QIcon::fromTheme("kdenlive-add-text-clip"));
+    action = addAction("add_text_template_clip", i18n("Add Template Title"), pCore->bin(), SLOT(slotCreateProjectClip()), KoIconUtils::themedIcon("kdenlive-add-text-clip"));
     action->setData((int) TextTemplate);
     addClips->addAction(action);
 
-    addClips->addAction(addAction("add_folder", i18n("Create Folder"), pCore->bin(), SLOT(slotAddFolder()),
-                                  QIcon::fromTheme("folder-new")));
-    addClips->addAction(addAction("download_resource", i18n("Online Resources"), this, SLOT(slotDownloadResources()),
-                                  QIcon::fromTheme("download")));
+    addClips->addAction(addAction("add_folder", i18n("Create Folder"), pCore->bin(), SLOT(slotAddFolder()), KoIconUtils::themedIcon("folder-new")));
+    addClips->addAction(addAction("download_resource", i18n("Online Resources"), this, SLOT(slotDownloadResources()), KoIconUtils::themedIcon("edit-download")));
     
-    QAction *clipProperties = addAction("clip_properties", i18n("Clip Properties"), pCore->bin(), SLOT(slotSwitchClipProperties()), QIcon::fromTheme("document-edit"));
+    QAction *clipProperties = addAction("clip_properties", i18n("Clip Properties"), pCore->bin(), SLOT(slotSwitchClipProperties()), KoIconUtils::themedIcon("document-edit"));
     clipProperties->setData("clip_properties");
     clipProperties->setEnabled(false);
 
-    QAction *openClip = addAction("edit_clip", i18n("Edit Clip"), pCore->bin(), SLOT(slotOpenClip()), QIcon::fromTheme("document-open"));
+    QAction *openClip = addAction("edit_clip", i18n("Edit Clip"), pCore->bin(), SLOT(slotOpenClip()), KoIconUtils::themedIcon("document-open"));
     openClip->setData("edit_clip");
     openClip->setEnabled(false);
 
-    QAction *deleteClip = addAction("delete_clip", i18n("Delete Clip"), pCore->bin(), SLOT(slotDeleteClip()), QIcon::fromTheme("edit-delete"));
+    QAction *deleteClip = addAction("delete_clip", i18n("Delete Clip"), pCore->bin(), SLOT(slotDeleteClip()), KoIconUtils::themedIcon("edit-delete"));
     deleteClip->setData("delete_clip");
     deleteClip->setEnabled(false);
 
-    QAction *reloadClip = addAction("reload_clip", i18n("Reload Clip"), pCore->bin(), SLOT(slotReloadClip()), QIcon::fromTheme("view-refresh"));
+    QAction *reloadClip = addAction("reload_clip", i18n("Reload Clip"), pCore->bin(), SLOT(slotReloadClip()), KoIconUtils::themedIcon("view-refresh"));
     reloadClip->setData("reload_clip");
     reloadClip->setEnabled(false);
     
-    QAction *duplicateClip = addAction("duplicate_clip", i18n("Duplicate Clip"), pCore->bin(), SLOT(slotDuplicateClip()), QIcon::fromTheme("edit-copy"));
+    QAction *duplicateClip = addAction("duplicate_clip", i18n("Duplicate Clip"), pCore->bin(), SLOT(slotDuplicateClip()), KoIconUtils::themedIcon("edit-copy"));
     duplicateClip->setData("duplicate_clip");
     duplicateClip->setEnabled(false);
 
@@ -1200,7 +1230,7 @@ void MainWindow::setupActions()
     proxyClip->setChecked(false);
 
     //TODO: port stopmotion to new Monitor code
-    //addAction("stopmotion", i18n("Stop Motion Capture"), this, SLOT(slotOpenStopmotion()), QIcon::fromTheme("image-x-generic"));
+    //addAction("stopmotion", i18n("Stop Motion Capture"), this, SLOT(slotOpenStopmotion()), KoIconUtils::themedIcon("image-x-generic"));
     addAction("ripple_delete", i18n("Ripple Delete"), this, SLOT(slotRippleDelete()), QIcon(), Qt::CTRL + Qt::Key_X);
 
     QHash <QString, QAction*> actions;
@@ -1309,6 +1339,7 @@ void MainWindow::slotEditProjectSettings()
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
         project->setProjectFolder(w->selectedFolder());
+        bool modified = false;
         if (m_recMonitor) {
             m_recMonitor->slotUpdateCaptureFolder(project->projectFolder().path() + QDir::separator());
         }
@@ -1327,7 +1358,7 @@ void MainWindow::slotEditProjectSettings()
             slotUpdateDocumentState(true);
         }
         if (project->getDocumentProperty("proxyparams") != w->proxyParams()) {
-            project->setModified();
+            modified = true;
             project->setDocumentProperty("proxyparams", w->proxyParams());
             if (pCore->binController()->clipCount() > 0 && KMessageBox::questionYesNo(this, i18n("You have changed the proxy parameters. Do you want to recreate all proxy clips for this project?")) == KMessageBox::Yes) {
                 //TODO: rebuild all proxies
@@ -1335,33 +1366,34 @@ void MainWindow::slotEditProjectSettings()
             }
         }
         if (project->getDocumentProperty("proxyextension") != w->proxyExtension()) {
-            project->setModified();
+            modified = true;
             project->setDocumentProperty("proxyextension", w->proxyExtension());
         }
         if (project->getDocumentProperty("generateproxy") != QString::number((int) w->generateProxy())) {
-            project->setModified();
+            modified = true;
             project->setDocumentProperty("generateproxy", QString::number((int) w->generateProxy()));
         }
         if (project->getDocumentProperty("proxyminsize") != QString::number(w->proxyMinSize())) {
-            project->setModified();
+            modified = true;
             project->setDocumentProperty("proxyminsize", QString::number(w->proxyMinSize()));
         }
         if (project->getDocumentProperty("generateimageproxy") != QString::number((int) w->generateImageProxy())) {
-            project->setModified();
+            modified = true;
             project->setDocumentProperty("generateimageproxy", QString::number((int) w->generateImageProxy()));
         }
         if (project->getDocumentProperty("proxyimageminsize") != QString::number(w->proxyImageMinSize())) {
-            project->setModified();
+            modified = true;
             project->setDocumentProperty("proxyimageminsize", QString::number(w->proxyImageMinSize()));
         }
         if (QString::number((int) w->useProxy()) != project->getDocumentProperty("enableproxy")) {
             project->setDocumentProperty("enableproxy", QString::number((int) w->useProxy()));
-            project->setModified();
+            modified = true;
             slotUpdateProxySettings();
         }
         if (w->metadata() != project->metadata()) {
             project->setMetadata(w->metadata());
         }
+        if (modified) project->setModified();
     }
     delete w;
 }

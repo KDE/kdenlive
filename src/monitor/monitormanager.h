@@ -67,6 +67,7 @@ public:
     Monitor *clipMonitor();
     Monitor *projectMonitor();
     void lockMonitor(Kdenlive::MonitorId name, bool);
+    void refreshIcons();
 
 public slots:
 

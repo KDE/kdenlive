@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "complexparameter.h"
+#include "utils/KoIconUtils.h"
 
 #include <QDebug>
 #include <klocalizedstring.h>
@@ -31,15 +32,15 @@ ComplexParameter::ComplexParameter(QWidget *parent) :
     //m_ui.effectlist->verticalHeader()->setVisible(false);
 
 
-    m_ui.buttonLeftRight->setIcon(QIcon::fromTheme("go-next"));//better icons needed
+    m_ui.buttonLeftRight->setIcon(KoIconUtils::themedIcon("go-next"));//better icons needed
     m_ui.buttonLeftRight->setToolTip(i18n("Allow horizontal moves"));
-    m_ui.buttonUpDown->setIcon(QIcon::fromTheme("go-up"));
+    m_ui.buttonUpDown->setIcon(KoIconUtils::themedIcon("go-up"));
     m_ui.buttonUpDown->setToolTip(i18n("Allow vertical moves"));
-    m_ui.buttonShowInTimeline->setIcon(QIcon::fromTheme("kmplayer"));
+    m_ui.buttonShowInTimeline->setIcon(KoIconUtils::themedIcon("draw-line"));
     m_ui.buttonShowInTimeline->setToolTip(i18n("Show keyframes in timeline"));
-    m_ui.buttonHelp->setIcon(QIcon::fromTheme("help-about"));
+    m_ui.buttonHelp->setIcon(KoIconUtils::themedIcon("help-about"));
     m_ui.buttonHelp->setToolTip(i18n("Parameter info"));
-    m_ui.buttonNewPoints->setIcon(QIcon::fromTheme("document-new"));
+    m_ui.buttonNewPoints->setIcon(KoIconUtils::themedIcon("document-new"));
     m_ui.buttonNewPoints->setToolTip(i18n("Add keyframe"));
 
     connect(m_ui.buttonLeftRight, SIGNAL(clicked()), this , SLOT(slotSetMoveX()));

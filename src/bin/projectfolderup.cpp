@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectfolderup.h"
 #include "projectclip.h"
 #include "bin.h"
+#include "utils/KoIconUtils.h"
 
 #include <QDomElement>
 #include <KLocalizedString>
@@ -30,7 +31,7 @@ ProjectFolderUp::ProjectFolderUp(AbstractProjectItem* parent) :
     AbstractProjectItem(AbstractProjectItem::FolderUpItem, QString(), parent)
     , m_bin(NULL)
 {
-    m_thumbnail = QIcon::fromTheme("go-up");
+    m_thumbnail = KoIconUtils::themedIcon("go-up");
     m_name = i18n("Up");
     setParent(parent);
 }

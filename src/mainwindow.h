@@ -56,6 +56,7 @@ class RecMonitor;
 class RenderWidget;
 class Render;
 class Transition;
+class KIconLoader;
 
 #define EXIT_RESTART (42)
 
@@ -216,7 +217,7 @@ private:
     QAction *m_proxyClip;
     QActionGroup *m_clipTypeGroup;
     QString m_theme;
-
+    KIconLoader *m_iconLoader;
 
     void readOptions();
     void saveOptions();
@@ -246,6 +247,8 @@ private:
     KXMLGUIClient *m_extraFactory;
     /** @brief The last selected clip in timeline. */
     ClipItem *m_mainClip;
+    bool m_themeInitialized;
+    bool m_isDarkTheme;
     /** @brief Update statusbar stylesheet (in case of color theme change). */
     void setStatusBarStyleSheet(const QPalette &p);
 

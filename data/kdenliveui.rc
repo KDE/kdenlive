@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="85" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="86" translationDomain="kdenlive">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -42,6 +42,7 @@
 	<Action name="select_all_tracks" />
       </Menu>
       <Separator />
+      <Action name="bin_view_mode" />
       <Action name="stopmotion" />
       <Separator />
       <Action name="reload_clip" />

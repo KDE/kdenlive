@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="22"
+   height="22"
+   id="svg3815"
+   version="1.1"
+   inkscape:version="0.91+devel r"
+   sodipodi:docname="edit-cut.svg"
+   viewBox="0 0 22 22">
+  <title
+     id="title4252">I hate this icon</title>
+  <defs
+     id="defs3817" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="22.627417"
+     inkscape:cx="16.664648"
+     inkscape:cy="13.913756"
+     inkscape:document-units="px"
+     inkscape:current-layer="svg3815"
+     showgrid="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="2560"
+     inkscape:window-height="957"
+     inkscape:window-x="-4"
+     inkscape:window-y="29"
+     inkscape:window-maximized="1"
+     showguides="true"
+     inkscape:showpageshadow="false">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4174" />
+    <sodipodi:guide
+       position="2.0000044,19.999979"
+       orientation="18,0"
+       id="guide4262" />
+    <sodipodi:guide
+       position="2.0000044,1.9999785"
+       orientation="0,18"
+       id="guide4264" />
+    <sodipodi:guide
+       position="20.000004,1.9999785"
+       orientation="-18,0"
+       id="guide4266" />
+    <sodipodi:guide
+       position="20.000004,19.999979"
+       orientation="0,-18"
+       id="guide4268" />
+    <sodipodi:guide
+       position="3.0000044,18.999979"
+       orientation="16,0"
+       id="guide4270" />
+    <sodipodi:guide
+       position="3.0000044,2.9999785"
+       orientation="0,16"
+       id="guide4272" />
+    <sodipodi:guide
+       position="19.000004,2.9999785"
+       orientation="-16,0"
+       id="guide4274" />
+    <sodipodi:guide
+       position="19.000004,18.999979"
+       orientation="0,-16"
+       id="guide4276" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata3820">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>I hate this icon</dc:title>
+        <dc:date>October 19th 2014</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Uri Herrera</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title />
+          </cc:Agent>
+        </dc:rights>
+        <dc:language>English</dc:language>
+        <dc:description>An icon I absolutely don't like, and that represents exactly the kind of things why I choose CC licenses.</dc:description>
+        <dc:contributor>
+          <cc:Agent>
+            <dc:title>Everyone</dc:title>
+          </cc:Agent>
+        </dc:contributor>
+        <cc:license
+           rdf:resource="" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <path
+     inkscape:connector-curvature="0"
+     id="HATE_THIS"
+     d="M 7.0117188,3 C 6.4343687,4 6.1335875,4 6.7109375,5 l 3.5410155,6.140625 -2.0585936,3.527344 C 7.7481026,14.256516 7.1568615,14 6.5,14 5.115,14 4,15.115 4,16.5 4,17.885 5.115,19 6.5,19 7.885,19 9,17.885 9,16.5 9,16.332897 8.9821496,16.169477 8.9511719,16.011719 l 1.1621091,-2.013672 c 0.780419,-0.01 0.878798,-0.774603 1.333985,-0.785156 l 1.603515,2.78125 C 13.017588,16.157178 13,16.326875 13,16.5 13,17.885 14.115,19 15.5,19 16.885,19 18,17.885 18,16.5 18,15.115 16.885,14 15.5,14 c -0.653333,0 -1.241072,0.254586 -1.685547,0.662109 L 11.759766,11.140625 15.300781,5 C 15.878131,4 15.57735,4 15,3 L 11.005859,9.8476562 7.0117188,3 Z M 11,11 c 0.277,0 0.5,0.223 0.5,0.5 0,0.277 -0.223,0.5 -0.5,0.5 -0.277,0 -0.5,-0.223 -0.5,-0.5 0,-0.277 0.223,-0.5 0.5,-0.5 z M 6.5,15 C 7.331,15 8,15.669 8,16.5 8,17.331 7.331,18 6.5,18 5.669,18 5,17.331 5,16.5 5,15.669 5.669,15 6.5,15 Z m 9,0 C 16.331,15 17,15.669 17,16.5 17,17.331 16.331,18 15.5,18 14.669,18 14,17.331 14,16.5 14,15.669 14.669,15 15.5,15 Z"
+     style="color:#000000;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
+  <rect
+     ry="0"
+     y="2.1484375e-05"
+     x="23.000004"
+     height="19.000021"
+     width="18"
+     id="BG_MESSAGE"
+     style="color:#000000;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
+  <path
+     inkscape:connector-curvature="0"
+     id="MESSAGE"
+     d="m 29.199219,3.1972656 0,2.8535156 0.138672,0 0,-2.8535156 -0.138672,0 z m 3.173828,3.0234375 0,0.125 0.5,0 0,3.375 0.06445,0 0,0.6425779 c 0.005,0.31 0.289219,0.49625 0.574219,0.65625 0.285,0.16 0.566406,0.270547 0.566406,0.560547 l 0,0.244141 c 0,0.32 -0.166094,0.564453 -0.496094,0.564453 -0.0332,0 -0.06385,-0.0028 -0.09375,-0.0078 l -0.03906,-0.113281 -0.138672,0 0,0.04687 c -0.16373,-0.10126 -0.245161,-0.29347 -0.238281,-0.5 l 0,-0.300781 -0.134766,0 0,0.300781 c -0.004,0.31376 0.143357,0.547058 0.373047,0.648438 l 0,3.304687 0.138672,0 0,-3.074219 1.05664,3.074219 0.134766,0 0,-3.5 -0.134766,0 0,3.111328 -0.970703,-2.861328 c 0.0159,0.001 0.03057,0.002 0.04687,0.002 0.43,0 0.63086,-0.320312 0.63086,-0.695312 l 0,-0.265625 c 0,-0.33 -0.34625,-0.489063 -0.65625,-0.664063 -0.245,-0.14 -0.463516,-0.261015 -0.478516,-0.541015 l 0,-0.7148441 c 0,-0.37 0.188984,-0.5488281 0.458984,-0.5488281 0.15442,0 0.262525,0.057661 0.333985,0.1503906 l 0,0.4804687 0.111328,0 0,0.3222659 0.134766,0 0,-0.3222659 0.878906,0 0,-0.1308593 -0.88086,0 c -0.005,-0.1434101 -0.0408,-0.27148 -0.103515,-0.375 l 0,-0.4589844 0.779297,0 0,-0.125 -0.779297,0 0,-2.2851563 0.984375,0 0,-0.125 -1.125,0 0,2.8359375 c -0.0893,-0.0657 -0.201175,-0.1035156 -0.333985,-0.1035156 -0.26702,0 -0.440546,0.1328312 -0.529297,0.3320312 l 0,-2.9394531 0.5,0 0,-0.125 -1.134765,0 z M 29.199219,6.25 l 0,0.4472656 0,2.28125 -0.195313,0 0,0.125 0.195313,0 0,0.6171875 0.138672,0 0,-0.6171875 0.166015,0 0,3.3750004 0.134766,0 0,-3.3750004 0.5,0 0,-0.125 -0.800781,0 0,-0.1835937 0.996093,0 0,0.9257812 0.134766,0 0,-3.4707031 -0.134766,0 0,2.4160156 -0.996093,0 0,-1.96875 0,-0.4472656 -0.138672,0 z m 2.207031,0 -0.537109,3.4707031 0.140625,0 0.144531,-0.9648437 0.714844,0 0.15039,0.9648437 0.140625,0 L 31.609375,6.25 l -0.203125,0 z m 0.103516,0.1757812 0.339843,2.1953126 -0.673828,0 0.333985,-2.1953126 z m -1.001954,2.5527344 0,3.2714844 c -0.0117,-5e-4 -0.02326,-0.002 -0.03516,-0.002 -0.39,0 -0.640625,0.318984 -0.640625,0.708984 l 0,2.140625 c 0,0.39 0.240391,0.705078 0.650391,0.705078 0.43,0 0.625,-0.354218 0.625,-0.699218 l 0,-0.25586 -0.134766,0 0,0.25586 c 0,0.3 -0.155234,0.564453 -0.490234,0.564453 -0.34,0 -0.509766,-0.285313 -0.509766,-0.570313 l 0,-2.140625 c 0,-0.36 0.209766,-0.574219 0.509766,-0.574219 0.009,0 0.01709,0.0015 0.02539,0.002 l 0,0.09375 0.138672,0 0,-0.06836 c 0.21578,0.0752 0.326172,0.298705 0.326172,0.546875 l 0.0039,0.275391 0.13086,0 0,-0.279297 c 0,-0.32706 -0.177118,-0.601621 -0.460938,-0.681641 l 0,-0.71875 0.996094,0 0,0.925782 0.03711,0 c -0.0921,0.12383 -0.138672,0.283218 -0.138672,0.449218 l 0,2.185547 c 0,0.38 0.239531,0.689453 0.644531,0.689453 0.42,0 0.625,-0.340312 0.625,-0.695312 l 0,-2.173828 c 0,-0.27983 -0.128282,-0.530212 -0.357422,-0.638672 l 0,-3.3164064 -0.138672,0 0,3.2714844 c -0.0405,-0.008 -0.08417,-0.01172 -0.128906,-0.01172 -0.16949,0 -0.304873,0.05275 -0.408203,0.138672 l 0,-3.3984374 -0.134766,0 0,2.4453124 -0.996094,0 0,-2.4453124 -0.138672,0 z m -1.308593,3.2890624 0,3.5 0.138672,0 0,-3.5 -0.138672,0 z m 2.986328,0.09961 c 0.0461,0 0.08977,0.006 0.128906,0.01562 l 0,0.0957 0.138672,0 0,-0.0293 c 0.1511,0.10389 0.222656,0.294095 0.222656,0.484375 l 0,2.173828 c 0,0.305 -0.160234,0.560547 -0.490234,0.560547 -0.345,0 -0.503906,-0.259688 -0.503906,-0.554688 l 0,-2.185547 c 0,-0.31 0.158906,-0.560546 0.503906,-0.560546 z"
+     style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:medium;line-height:125%;font-family:Canter;-inkscape-font-specification:'Canter Light';letter-spacing:0px;word-spacing:0px;fill:#52d563;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+</svg>

@@ -19,7 +19,7 @@
 
 
 #include "collapsiblegroup.h"
-
+#include "utils/KoIconUtils.h"
 
 #include <QMenu>
 #include <QVBoxLayout>
@@ -31,11 +31,12 @@
 #include <QDir>
 #include <QDebug>
 #include <QFontDatabase>
+#include <QStandardPaths>
 
 #include <klocalizedstring.h>
 #include <KMessageBox>
 #include <KColorScheme>
-#include <QStandardPaths>
+#include <KDualAction>
 
 MyEditableLabel::MyEditableLabel(QWidget * parent):
     QLineEdit(parent)
@@ -67,33 +68,37 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, cons
     m_title->setText(info.groupName.isEmpty() ? i18n("Effect Group") : info.groupName);
     m_info.groupName = m_title->text();
     connect(m_title, SIGNAL(editingFinished()), this, SLOT(slotRenameGroup()));
-    buttonUp->setIcon(QIcon::fromTheme("kdenlive-up"));
+    buttonUp->setIcon(KoIconUtils::themedIcon("kdenlive-up"));
     buttonUp->setToolTip(i18n("Move effect up"));
-    buttonDown->setIcon(QIcon::fromTheme("kdenlive-down"));
+    buttonDown->setIcon(KoIconUtils::themedIcon("kdenlive-down"));
     buttonDown->setToolTip(i18n("Move effect down"));
 
-    buttonDel->setIcon(QIcon::fromTheme("kdenlive-deleffect"));
+    buttonDel->setIcon(KoIconUtils::themedIcon("kdenlive-deleffect"));
     buttonDel->setToolTip(i18n("Delete effect"));
     if (firstGroup) buttonUp->setVisible(false);
     if (lastGroup) buttonDown->setVisible(false);
     m_menu = new QMenu;
-    m_menu->addAction(QIcon::fromTheme("view-refresh"), i18n("Reset Group"), this, SLOT(slotResetGroup()));
-    m_menu->addAction(QIcon::fromTheme("document-save"), i18n("Save Group"), this, SLOT(slotSaveGroup()));
+    m_menu->addAction(KoIconUtils::themedIcon("view-refresh"), i18n("Reset Group"), this, SLOT(slotResetGroup()));
+    m_menu->addAction(KoIconUtils::themedIcon("document-save"), i18n("Save Group"), this, SLOT(slotSaveGroup()));
     
-    m_menu->addAction(QIcon::fromTheme("list-remove"), i18n("Ungroup"), this, SLOT(slotUnGroup()));
+    m_menu->addAction(KoIconUtils::themedIcon("list-remove"), i18n("Ungroup"), this, SLOT(slotUnGroup()));
     setAcceptDrops(true);
-    menuButton->setIcon(QIcon::fromTheme("kdenlive-menu"));
+    menuButton->setIcon(KoIconUtils::themedIcon("kdenlive-menu"));
     menuButton->setMenu(m_menu);
-    
-    enabledButton->setChecked(false);
-    enabledButton->setIcon(QIcon::fromTheme("layer-visible-on"));
-    
+
+    m_enabledButton = new KDualAction(i18n("Disable Effect"), i18n("Enable Effect"), this);
+    m_enabledButton->setActiveIcon(KoIconUtils::themedIcon("hint"));
+    m_enabledButton->setInactiveIcon(KoIconUtils::themedIcon("visibility"));
+    m_enabledButton->setActive(true);
+    enabledButton->setDefaultAction(m_enabledButton);
+
+
     if (info.groupIsCollapsed) {
 	slotShow(false);
     }
 
     connect(collapseButton, SIGNAL(clicked()), this, SLOT(slotSwitch()));
-    connect(enabledButton, SIGNAL(toggled(bool)), this, SLOT(slotEnable(bool)));
+    connect(m_enabledButton, SIGNAL(activeChangedByUser(bool)), this, SLOT(slotEnable(bool)));
     connect(buttonUp, SIGNAL(clicked()), this, SLOT(slotEffectUp()));
     connect(buttonDown, SIGNAL(clicked()), this, SLOT(slotEffectDown()));
     connect(buttonDel, SIGNAL(clicked()), this, SLOT(slotDeleteGroup()));
@@ -131,10 +136,6 @@ void CollapsibleGroup::mouseDoubleClickEvent ( QMouseEvent * event )
 void CollapsibleGroup::slotEnable(bool disable, bool emitInfo)
 {
     m_title->setEnabled(!disable);
-    enabledButton->blockSignals(true);
-    enabledButton->setChecked(disable);
-    enabledButton->setIcon(disable ? QIcon::fromTheme("layer-visible-off") : QIcon::fromTheme("layer-visible-on"));
-    enabledButton->blockSignals(false);
     for (int i = 0; i < m_subWidgets.count(); ++i)
 	m_subWidgets.at(i)->slotDisable(disable, emitInfo);
 }

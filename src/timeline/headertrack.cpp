@@ -19,8 +19,8 @@
 
 
 #include "headertrack.h"
-
 #include "kdenlivesettings.h"
+#include "utils/KoIconUtils.h"
 #include "effectslist/effectslist.h"
 
 #include <klocalizedstring.h>
@@ -56,19 +56,19 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, const QList <QAc
     //setMinimumWidth(qMax(metrics.boundingRect(m_name).width() + iconSize + contentsMargins().right() * 6, 5 * iconSize));
     track_number->setText(m_name);
     connect(track_number, SIGNAL(editingFinished()), this, SLOT(slotRenameTrack()));
-    effect_label->setPixmap(QIcon::fromTheme("kdenlive-track_has_effect").pixmap(s));
+    effect_label->setPixmap(KoIconUtils::themedIcon("kdenlive-track_has_effect").pixmap(s));
     updateEffectLabel(info.effectsList.effectNames());
     setAcceptDrops(true);
     button_layout->addWidget(m_tb);
     m_switchLock = new KDualAction(i18n("Lock track"), i18n("Unlock track"), this);
-    m_switchLock->setActiveIcon(QIcon::fromTheme("kdenlive-lock"));
-    m_switchLock->setInactiveIcon(QIcon::fromTheme("kdenlive-unlock"));
+    m_switchLock->setActiveIcon(KoIconUtils::themedIcon("kdenlive-lock"));
+    m_switchLock->setInactiveIcon(KoIconUtils::themedIcon("kdenlive-unlock"));
     m_switchLock->setActive(info.isLocked);
     connect(m_switchLock, SIGNAL(activeChanged(bool)), this, SLOT(switchLock(bool)));
     m_tb->addAction(m_switchLock);
     m_switchAudio = new KDualAction(i18n("Disable audio"), i18n("Enable audio"), this);
-    m_switchAudio->setActiveIcon(QIcon::fromTheme("kdenlive-hide-audio-effects"));
-    m_switchAudio->setInactiveIcon(QIcon::fromTheme("kdenlive-show-audio-effects"));
+    m_switchAudio->setActiveIcon(KoIconUtils::themedIcon("kdenlive-hide-audio"));
+    m_switchAudio->setInactiveIcon(KoIconUtils::themedIcon("kdenlive-show-audio"));
     m_switchAudio->setActive(info.isMute);
     connect(m_switchAudio, SIGNAL(activeChanged(bool)), this, SLOT(switchAudio(bool)));
     m_tb->addAction(m_switchAudio);
@@ -77,17 +77,17 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, const QList <QAc
         setBackgroundRole(QPalette::AlternateBase);
         setAutoFillBackground(true);
         m_switchVideo = new KDualAction(i18n("Disable video"), i18n("Enable video"), this);
-        m_switchVideo->setActiveIcon(QIcon::fromTheme("kdenlive-hide-video-effects"));
-        m_switchVideo->setInactiveIcon(QIcon::fromTheme("kdenlive-show-video-effects"));
+        m_switchVideo->setActiveIcon(KoIconUtils::themedIcon("kdenlive-hide-video"));
+        m_switchVideo->setInactiveIcon(KoIconUtils::themedIcon("kdenlive-show-video"));
         m_switchVideo->setActive(info.isBlind);
         connect(m_switchVideo, SIGNAL(activeChanged(bool)), this, SLOT(switchVideo(bool)));
         m_tb->addAction(m_switchVideo);
 
         m_switchComposite = new KDualAction(i18n("Opaque"), i18n("Composite"), this);
-        m_switchComposite->setActiveIcon(QIcon::fromTheme("kdenlive-overwrite-edit")); //FIXME: get proper icons
-        m_switchComposite->setInactiveIcon(QIcon::fromTheme("kdenlive-insert-edit"));
+        m_switchComposite->setActiveIcon(KoIconUtils::themedIcon("kdenlive-overwrite-edit")); //FIXME: get proper icons
+        m_switchComposite->setInactiveIcon(KoIconUtils::themedIcon("kdenlive-insert-edit"));
         m_switchComposite->setActive(info.composite);
-        connect(m_switchComposite, &KDualAction::activeChanged, this, &HeaderTrack::switchComposite);
+        connect(m_switchComposite, &KDualAction::activeChangedByUser, this, &HeaderTrack::switchComposite);
         m_tb->addAction(m_switchComposite);
     }
 
@@ -234,8 +234,9 @@ void HeaderTrack::setLock(bool lock)
 
 void HeaderTrack::setComposite(bool enable)
 {
-    if (m_switchComposite)
+    if (m_switchComposite) {
         m_switchComposite->setActive(enable);
+    }
     else qDebug()<<" / / /ERROR; TRYING TO EDIT COMPOSITE ON AUDIO TRACK: "<<m_index;
 }
 

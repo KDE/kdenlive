@@ -29,7 +29,7 @@
 #include <QDomElement>
 
 class QLabel;
-
+class KDualAction;
 
 /**)
  * @class CollapsibleEffect
@@ -63,6 +63,7 @@ public:
     void removeFromGroup();
     QString infoString() const;
     bool isActive() const;
+    bool isEnabled() const;
     /** @brief Should the wheel event be sent to parent widget for scrolling. */
     bool filterWheelEvent;
     /** @brief Parent group was collapsed, update. */
@@ -110,6 +111,9 @@ private:
     bool m_regionEffect;
     /** @brief The add group action. */
     QAction *m_groupAction;
+    KDualAction *m_enabledButton;
+    QLabel *m_colorIcon;
+    QPixmap m_iconPix;
     /** @brief Check if collapsed state changed and inform MLT. */
     void updateCollapsedState();
     

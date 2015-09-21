@@ -91,6 +91,7 @@ public:
     void checkTrackHeight();
     void updateProfile();
     void updatePalette();
+    void refreshIcons();
     /** @brief Returns a kdenlive effect xml description from an effect tag / id */
     static QDomElement getEffectByTag(const QString &effecttag, const QString &effectid);
     /** @brief Move a clip between tracks */

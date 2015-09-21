@@ -30,6 +30,7 @@
 #include "timeline/clip.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kthumb.h"
+#include "utils/KoIconUtils.h"
 
 #include "klocalizedstring.h"
 #include <KRecentDirs>
@@ -142,8 +143,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_playMenu = new QMenu(i18n("Play..."), this);
     QAction *originalPlayAction = static_cast<KDualAction*> (manager->getAction("monitor_play"));
     m_playAction = new KDualAction(i18n("Play"), i18n("Pause"), this);
-    m_playAction->setInactiveIcon(QIcon::fromTheme("media-playback-start"));
-    m_playAction->setActiveIcon(QIcon::fromTheme("media-playback-pause"));
+    m_playAction->setInactiveIcon(KoIconUtils::themedIcon("media-playback-start"));
+    m_playAction->setActiveIcon(KoIconUtils::themedIcon("media-playback-pause"));
 
     QString strippedTooltip = m_playAction->toolTip().remove(QRegExp("\\s\\(.*\\)"));
     // append shortcut if it exists for action
@@ -171,7 +172,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
             m_configMenu->addMenu(m_markerMenu);
             connect(m_markerMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotGoToMarker(QAction*)));
         }
-        m_forceSize = new KSelectAction(QIcon::fromTheme("transform-scale"), i18n("Force Monitor Size"), this);
+        m_forceSize = new KSelectAction(KoIconUtils::themedIcon("transform-scale"), i18n("Force Monitor Size"), this);
         QAction *fullAction = m_forceSize->addAction(QIcon(), i18n("Force 100%"));
         fullAction->setData(100);
         QAction *halfAction = m_forceSize->addAction(QIcon(), i18n("Force 50%"));
@@ -192,12 +193,12 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     poplayout->addWidget(m_audioSlider);
     m_volumePopup->setLayout(poplayout);
     QIcon icon;
-    if (KdenliveSettings::volume() == 0) icon = QIcon::fromTheme("audio-volume-muted");
-    else icon = QIcon::fromTheme("audio-volume-medium");
+    if (KdenliveSettings::volume() == 0) icon = KoIconUtils::themedIcon("audio-volume-muted");
+    else icon = KoIconUtils::themedIcon("audio-volume-medium");
     m_volumeWidget = m_toolbar->widgetForAction(m_toolbar->addAction(icon, i18n("Audio volume"), this, SLOT(slotShowVolume())));
     if (id == Kdenlive::ClipMonitor) {
 	m_toolbar->addSeparator();
-	m_effectCompare = m_toolbar->addAction(QIcon::fromTheme("view-split-left-right"), i18n("Compare effect"));
+	m_effectCompare = m_toolbar->addAction(KoIconUtils::themedIcon("view-split-left-right"), i18n("Compare effect"));
 	m_effectCompare->setCheckable(true);
         connect(m_effectCompare, &QAction::toggled, this, &Monitor::slotSwitchCompare);
     }
@@ -230,7 +231,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
 
     if (id == Kdenlive::ProjectMonitor) {
-        m_sceneVisibilityAction = new QAction(QIcon::fromTheme("transform-crop"), i18n("Show/Hide edit mode"), this);
+        m_sceneVisibilityAction = new QAction(KoIconUtils::themedIcon("transform-crop"), i18n("Show/Hide edit mode"), this);
         m_sceneVisibilityAction->setCheckable(true);
         m_sceneVisibilityAction->setChecked(KdenliveSettings::showOnMonitorScene());
         connect(m_sceneVisibilityAction, SIGNAL(triggered(bool)), this, SLOT(slotEnableEffectScene(bool)));
@@ -242,7 +243,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_toolbar->addWidget(m_timePos);
 
     QToolButton *configButton = new QToolButton(m_toolbar);
-    configButton->setIcon(QIcon::fromTheme("system-run"));
+    configButton->setIcon(KoIconUtils::themedIcon("system-run"));
     configButton->setMenu(m_configMenu);
     configButton->setPopupMode(QToolButton::QToolButton::InstantPopup);
     m_toolbar->addWidget(configButton);
@@ -269,6 +270,30 @@ Monitor::~Monitor()
     delete m_ruler;
     delete m_timePos;
     delete render;
+}
+
+void Monitor::refreshIcons()
+{
+    QList<QAction *> allMenus = this->findChildren<QAction *>();
+    for (int i = 0; i < allMenus.count(); i++) {
+        QAction *m = allMenus.at(i);
+        QIcon ic = m->icon();
+        if (ic.isNull()) continue;
+        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        m->setIcon(newIcon);
+    }
+    QList<KDualAction *> allButtons = this->findChildren<KDualAction *>();
+    for (int i = 0; i < allButtons.count(); i++) {
+        KDualAction *m = allButtons.at(i);
+        QIcon ic = m->activeIcon();
+        if (ic.isNull()) continue;
+        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        m->setActiveIcon(newIcon);
+        ic = m->inactiveIcon();
+        if (ic.isNull()) continue;
+        newIcon = KoIconUtils::themedIcon(ic.name());
+        m->setInactiveIcon(newIcon);
+    }
 }
 
 QAction *Monitor::recAction()
@@ -309,19 +334,19 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     //TODO: add save zone to timeline monitor when fixed
     if (m_id == Kdenlive::ClipMonitor) {
         m_contextMenu->addMenu(m_markerMenu);
-	m_contextMenu->addAction(QIcon::fromTheme("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
-        QAction *extractZone = m_configMenu->addAction(QIcon::fromTheme("document-new"), i18n("Extract Zone"), this, SLOT(slotExtractCurrentZone()));
+	m_contextMenu->addAction(KoIconUtils::themedIcon("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
+        QAction *extractZone = m_configMenu->addAction(KoIconUtils::themedIcon("document-new"), i18n("Extract Zone"), this, SLOT(slotExtractCurrentZone()));
         m_contextMenu->addAction(extractZone);
     }
-    QAction *extractFrame = m_configMenu->addAction(QIcon::fromTheme("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
+    QAction *extractFrame = m_configMenu->addAction(KoIconUtils::themedIcon("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
     m_contextMenu->addAction(extractFrame);
 
     if (m_id == Kdenlive::ProjectMonitor) {
-        QAction *splitView = m_contextMenu->addAction(QIcon::fromTheme("view-split-left-right"), i18n("Split view"), render, SLOT(slotSplitView(bool)));
+        QAction *splitView = m_contextMenu->addAction(KoIconUtils::themedIcon("view-split-left-right"), i18n("Split view"), render, SLOT(slotSplitView(bool)));
         splitView->setCheckable(true);
         m_configMenu->addAction(splitView);
     } else if (m_id == Kdenlive::ClipMonitor) {
-        QAction *setThumbFrame = m_contextMenu->addAction(QIcon::fromTheme("document-new"), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
+        QAction *setThumbFrame = m_contextMenu->addAction(KoIconUtils::themedIcon("document-new"), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
         m_configMenu->addAction(setThumbFrame);
     }
 
@@ -951,8 +976,8 @@ void Monitor::mute(bool mute, bool updateIconOnly)
     if (render) {
         // TODO: we should set the "audio_off" property to 1 to mute the consumer instead of changing volume
         QIcon icon;
-        if (mute || KdenliveSettings::volume() == 0) icon = QIcon::fromTheme("audio-volume-muted");
-        else icon = QIcon::fromTheme("audio-volume-medium");
+        if (mute || KdenliveSettings::volume() == 0) icon = KoIconUtils::themedIcon("audio-volume-muted");
+        else icon = KoIconUtils::themedIcon("audio-volume-medium");
         static_cast <QToolButton *>(m_volumeWidget)->setIcon(icon);
         if (!updateIconOnly) render->setVolume(mute ? 0 : (double)KdenliveSettings::volume() / 100.0 );
     }
@@ -1284,10 +1309,12 @@ void Monitor::slotSetVolume(int volume)
 {
     KdenliveSettings::setVolume(volume);
     QIcon icon;
-    if (volume == 0) icon = QIcon::fromTheme("audio-volume-muted");
-    else icon = QIcon::fromTheme("audio-volume-medium");
-    static_cast <QToolButton *>(m_volumeWidget)->setIcon(icon);
+    double renderVolume = render->volume();
     render->setVolume((double) volume / 100.0);
+    if (renderVolume > 0 && volume > 0) return;
+    if (volume == 0) icon = KoIconUtils::themedIcon("audio-volume-muted");
+    else icon = KoIconUtils::themedIcon("audio-volume-medium");
+    static_cast <QToolButton *>(m_volumeWidget)->setIcon(icon);
 }
 
 void Monitor::slotShowVolume()

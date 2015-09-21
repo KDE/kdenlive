@@ -19,7 +19,7 @@
 
 #include "profilesdialog.h"
 #include "kdenlivesettings.h"
-
+#include "utils/KoIconUtils.h"
 
 
 #include <KMessageBox>
@@ -46,11 +46,11 @@ ProfilesDialog::ProfilesDialog(QWidget * parent) :
     QStringList profilesFilter;
     profilesFilter << "*";
 
-    m_view.button_delete->setIcon(QIcon::fromTheme("trash-empty"));
+    m_view.button_delete->setIcon(KoIconUtils::themedIcon("trash-empty"));
     m_view.button_delete->setToolTip(i18n("Delete profile"));
-    m_view.button_save->setIcon(QIcon::fromTheme("document-save"));
+    m_view.button_save->setIcon(KoIconUtils::themedIcon("document-save"));
     m_view.button_save->setToolTip(i18n("Save profile"));
-    m_view.button_create->setIcon(QIcon::fromTheme("document-new"));
+    m_view.button_create->setIcon(KoIconUtils::themedIcon("document-new"));
     m_view.button_create->setToolTip(i18n("Create new profile"));
 
     fillList();
@@ -91,7 +91,7 @@ ProfilesDialog::ProfilesDialog(QString profilePath, QWidget * parent) :
     QStringList profilesFilter;
     profilesFilter << "*";
 
-    m_view.button_save->setIcon(QIcon::fromTheme("document-save"));
+    m_view.button_save->setIcon(KoIconUtils::themedIcon("document-save"));
     m_view.button_save->setToolTip(i18n("Save profile"));
     m_view.button_create->setHidden(true);
     m_view.profiles_list->setHidden(true);

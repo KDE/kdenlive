@@ -42,10 +42,13 @@ public:
      * @brief Constructs the singleton object and the managers.
      * @param mainWindow pointer to MainWindow
      */
-    static void initialize(MainWindow *mainWindow);
+    static void build(MainWindow *mainWindow);
 
     /** @brief Returns a pointer to the singleton object. */
     static Core *self();
+    
+    /** @brief Builds all necessary parts. */
+    void initialize();
 
     /** @brief Returns a pointer to the main window. */
     MainWindow *window();
@@ -62,7 +65,6 @@ public:
 private:
     explicit Core(MainWindow *mainWindow);
     static Core *m_self;
-    void init();
 
     /** @brief Makes sure Qt's locale and system locale settings match. */
     void initLocale();

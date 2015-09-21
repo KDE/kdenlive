@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectfolder.h"
 #include "projectclip.h"
 #include "bin.h"
+#include "utils/KoIconUtils.h"
 
 #include <QDomElement>
 #include <KLocalizedString>
@@ -33,7 +34,7 @@ ProjectFolder::ProjectFolder(const QString &id, const QString &name, ProjectFold
 {
     m_name = name;
     m_clipStatus = StatusReady;
-    m_thumbnail = QIcon::fromTheme("folder");
+    m_thumbnail = KoIconUtils::themedIcon("folder");
     setParent(parent);
 }
 

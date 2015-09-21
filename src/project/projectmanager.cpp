@@ -25,6 +25,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "effectstack/effectstackview2.h"
 #include "project/dialogs/backupwidget.h"
 #include "project/notesplugin.h"
+#include "utils/KoIconUtils.h"
+
 #include <KActionCollection>
 #include <QAction>
 #include <KMessageBox>
@@ -44,14 +46,18 @@ ProjectManager::ProjectManager(QObject* parent) :
     m_trackView(0)
 {
     m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
+    m_fileRevert->setIcon(KoIconUtils::themedIcon("document-revert"));
     m_fileRevert->setEnabled(false);
 
-    KStandardAction::open(this,                   SLOT(openFile()),               pCore->window()->actionCollection());
-    KStandardAction::saveAs(this,                 SLOT(saveFileAs()),             pCore->window()->actionCollection());
-    KStandardAction::openNew(this,                SLOT(newFile()),                pCore->window()->actionCollection());
+    QAction *a = KStandardAction::open(this,                   SLOT(openFile()),               pCore->window()->actionCollection());
+    a->setIcon(KoIconUtils::themedIcon("document-open"));
+    a = KStandardAction::saveAs(this,                 SLOT(saveFileAs()),             pCore->window()->actionCollection());
+    a->setIcon(KoIconUtils::themedIcon("document-save-as"));
+    a = KStandardAction::openNew(this,                SLOT(newFile()),                pCore->window()->actionCollection());
+    a->setIcon(KoIconUtils::themedIcon("document-new"));
     m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openFile(QUrl)), pCore->window()->actionCollection());
 
-    QAction * backupAction = new QAction(QIcon::fromTheme("edit-undo"), i18n("Open Backup File"), this);
+    QAction * backupAction = new QAction(KoIconUtils::themedIcon("edit-undo"), i18n("Open Backup File"), this);
     pCore->window()->addAction("open_backup", backupAction);
     connect(backupAction, SIGNAL(triggered(bool)), SLOT(slotOpenBackup()));
 
@@ -171,7 +177,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     connect(m_project, SIGNAL(progressInfo(QString,int)), pCore->window(), SLOT(slotGotProgressInfo(QString,int)));
     pCore->window()->connectDocument();
     emit docOpened(m_project);
-    pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
+    //pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
     m_lastSave.start();
 }
 
@@ -201,16 +207,17 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     }
     if (!quit && !qApp->isSavingSession()) {
 	m_autoSaveTimer.stop();
-	pCore->window()->slotTimelineClipSelected(NULL, false);
-	pCore->monitorManager()->clipMonitor()->slotOpenClip(NULL);
-	delete m_project;
-	m_project = NULL;
+        if (m_project) {
+            pCore->window()->slotTimelineClipSelected(NULL, false);
+            pCore->monitorManager()->clipMonitor()->slotOpenClip(NULL);
+            delete m_project;
+            m_project = NULL;
+            pCore->window()->m_effectStack->clear();
+            pCore->window()->m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
+            delete m_trackView;
+            m_trackView = NULL;
+        }
 	pCore->monitorManager()->setDocument(m_project);
-	pCore->window()->m_effectStack->clear();
-	pCore->window()->m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
-
-	delete m_trackView;
-	m_trackView = NULL;
     }
     return true;
 }

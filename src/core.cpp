@@ -27,6 +27,10 @@ Core *Core::m_self = NULL;
 
 Core::Core(MainWindow *mainWindow) :
     m_mainWindow(mainWindow)
+    , m_projectManager(NULL)
+    , m_monitorManager(NULL)
+    , m_binController(NULL)
+    , m_binWidget(NULL)
 {
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(deleteLater()));
 }
@@ -41,15 +45,14 @@ Core::~Core()
     m_self = 0;
 }
 
-void Core::initialize(MainWindow* mainWindow)
+void Core::build(MainWindow* mainWindow)
 {
     m_self = new Core(mainWindow);
-    m_self->init();
+    m_self->initLocale();
 }
 
-void Core::init()
+void Core::initialize()
 {
-    initLocale();
     m_projectManager = new ProjectManager(this);
     m_binWidget = new Bin();
     m_binController = new BinController();

@@ -37,6 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "dialogs/clipcreationdialog.h"
 #include "titler/titlewidget.h"
 #include "core.h"
+#include "utils/KoIconUtils.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/clippropertiescontroller.h"
 #include "project/projectcommands.h"
@@ -360,17 +361,22 @@ Bin::Bin(QWidget* parent) :
     widgetslider->setDefaultWidget(m_slider);
 
     // View type
-    KSelectAction *listType = new KSelectAction(QIcon::fromTheme("view-list-tree"), i18n("View Mode"), this);
-    QAction *treeViewAction = listType->addAction(QIcon::fromTheme("view-list-tree"), i18n("Tree View"));
+    KSelectAction *listType = new KSelectAction(KoIconUtils::themedIcon("view-list-tree"), i18n("View Mode"), this);
+    pCore->window()->actionCollection()->addAction("bin_view_mode", listType);
+    QAction *treeViewAction = listType->addAction(KoIconUtils::themedIcon("view-list-tree"), i18n("Tree View"));
+    listType->addAction(treeViewAction);
     treeViewAction->setData(BinTreeView);
     if (m_listType == treeViewAction->data().toInt()) {
         listType->setCurrentAction(treeViewAction);
     }
-    QAction *iconViewAction = listType->addAction(QIcon::fromTheme("view-list-icons"), i18n("Icon View"));
+    pCore->window()->actionCollection()->addAction("bin_view_mode_tree", treeViewAction);
+
+    QAction *iconViewAction = listType->addAction(KoIconUtils::themedIcon("view-list-icons"), i18n("Icon View"));
     iconViewAction->setData(BinIconView);
     if (m_listType == iconViewAction->data().toInt()) {
         listType->setCurrentAction(iconViewAction);
     }
+    pCore->window()->actionCollection()->addAction("bin_view_mode_icon", iconViewAction);
     listType->setToolBarMode(KSelectAction::MenuMode);
     connect(listType, SIGNAL(triggered(QAction*)), this, SLOT(slotInitView(QAction*)));
 
@@ -378,7 +384,7 @@ Bin::Bin(QWidget* parent) :
     QMenu *settingsMenu = new QMenu(i18n("Settings"), this);
     settingsMenu->addAction(listType);
     QMenu *sliderMenu = new QMenu(i18n("Zoom"), this);
-    sliderMenu->setIcon(QIcon::fromTheme("file-zoom-in"));
+    sliderMenu->setIcon(KoIconUtils::themedIcon("zoom-in"));
     sliderMenu->addAction(widgetslider);
     settingsMenu->addMenu(sliderMenu);
     
@@ -392,7 +398,7 @@ Bin::Bin(QWidget* parent) :
     settingsMenu->addAction(m_showDate);
     settingsMenu->addAction(m_showDesc);
     QToolButton *button = new QToolButton;
-    button->setIcon(QIcon::fromTheme("configure"));
+    button->setIcon(KoIconUtils::themedIcon("configure"));
     button->setMenu(settingsMenu);
     button->setPopupMode(QToolButton::InstantPopup);
     m_toolbar->addWidget(button);
@@ -446,6 +452,26 @@ Bin::~Bin()
     delete m_itemView;
     delete m_jobManager;
     delete m_infoMessage;
+}
+
+void Bin::refreshIcons()
+{
+    QList<QMenu *> allMenus = this->findChildren<QMenu *>();
+    for (int i = 0; i < allMenus.count(); i++) {
+        QMenu *m = allMenus.at(i);
+        QIcon ic = m->icon();
+        if (ic.isNull()) continue;
+        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        m->setIcon(newIcon);
+    }
+    QList<QToolButton *> allButtons = this->findChildren<QToolButton *>();
+    for (int i = 0; i < allButtons.count(); i++) {
+        QToolButton *m = allButtons.at(i);
+        QIcon ic = m->icon();
+        if (ic.isNull()) continue;
+        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        m->setIcon(newIcon);
+    }
 }
 
 void Bin::slotSaveHeaders()
@@ -694,7 +720,7 @@ int Bin::lastClipId() const
 void Bin::setDocument(KdenliveDoc* project)
 {
     // Remove clip from Bin's monitor
-    emit openClip(NULL);
+    if (m_doc) emit openClip(NULL);
     closeEditing();
     setEnabled(false);
 

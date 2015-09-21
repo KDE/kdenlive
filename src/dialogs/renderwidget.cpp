@@ -23,6 +23,7 @@
 #include "ui_saveprofile_ui.h"
 #include "timecode.h"
 #include "dialogs/profilesdialog.h"
+#include "utils/KoIconUtils.h"
 
 #include "klocalizedstring.h"
 #include <KMessageBox>
@@ -98,22 +99,22 @@ void RenderJobItem::setStatus(int status)
     m_status = status;
     switch (status) {
         case WAITINGJOB:
-            setIcon(0, QIcon::fromTheme("media-playback-pause"));
+            setIcon(0, KoIconUtils::themedIcon("media-playback-pause"));
             setData(1, Qt::UserRole, i18n("Waiting..."));
             break;
         case FINISHEDJOB:
             setData(1, Qt::UserRole, i18n("Rendering finished"));
-            setIcon(0, QIcon::fromTheme("dialog-ok"));
+            setIcon(0, KoIconUtils::themedIcon("dialog-ok"));
             setData(1, ProgressRole, 100);
             break;
         case FAILEDJOB:
             setData(1, Qt::UserRole, i18n("Rendering crashed"));
-            setIcon(0, QIcon::fromTheme("dialog-close"));
+            setIcon(0, KoIconUtils::themedIcon("dialog-close"));
             setData(1, ProgressRole, 100);
             break;
         case ABORTEDJOB:
             setData(1, Qt::UserRole, i18n("Rendering aborted"));
-            setIcon(0, QIcon::fromTheme("dialog-cancel"));
+            setIcon(0, KoIconUtils::themedIcon("dialog-cancel"));
             setData(1, ProgressRole, 100);
         
         default:
@@ -154,21 +155,21 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     m_view.buttonInfo->setIconSize(iconSize);
     m_view.buttonFavorite->setIconSize(iconSize);
     
-    m_view.buttonDelete->setIcon(QIcon::fromTheme("trash-empty"));
+    m_view.buttonDelete->setIcon(KoIconUtils::themedIcon("trash-empty"));
     m_view.buttonDelete->setToolTip(i18n("Delete profile"));
     m_view.buttonDelete->setEnabled(false);
 
-    m_view.buttonEdit->setIcon(QIcon::fromTheme("document-properties"));
+    m_view.buttonEdit->setIcon(KoIconUtils::themedIcon("document-properties"));
     m_view.buttonEdit->setToolTip(i18n("Edit profile"));
     m_view.buttonEdit->setEnabled(false);
 
-    m_view.buttonSave->setIcon(QIcon::fromTheme("document-new"));
+    m_view.buttonSave->setIcon(KoIconUtils::themedIcon("document-new"));
     m_view.buttonSave->setToolTip(i18n("Create new profile"));
 
-    m_view.buttonInfo->setIcon(QIcon::fromTheme("help-about"));
-    m_view.hide_log->setIcon(QIcon::fromTheme("go-down"));
+    m_view.buttonInfo->setIcon(KoIconUtils::themedIcon("help-about"));
+    m_view.hide_log->setIcon(KoIconUtils::themedIcon("go-down"));
 
-    m_view.buttonFavorite->setIcon(QIcon::fromTheme("favorites"));
+    m_view.buttonFavorite->setIcon(KoIconUtils::themedIcon("favorite"));
     m_view.buttonFavorite->setToolTip(i18n("Copy profile to favorites"));
     
     m_view.show_all_profiles->setToolTip(i18n("Show profiles with different framerate"));
@@ -198,7 +199,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     QColor bg = scheme.background(KColorScheme::NegativeBackground).color();
     m_view.errorBox->setStyleSheet(QString("QGroupBox { background-color: rgb(%1, %2, %3); border-radius: 5px;}; ").arg(bg.red()).arg(bg.green()).arg(bg.blue()));
     int height = QFontInfo(font()).pixelSize();
-    m_view.errorIcon->setPixmap(QIcon::fromTheme("dialog-warning").pixmap(height, height));
+    m_view.errorIcon->setPixmap(KoIconUtils::themedIcon("dialog-warning").pixmap(height, height));
     m_view.errorBox->setHidden(true);
 
     m_infoMessage = new KMessageWidget;
@@ -214,7 +215,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     m_view.rescale_keep->setChecked(KdenliveSettings::rescalekeepratio());
     connect(m_view.rescale_width, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateRescaleWidth(int)));
     connect(m_view.rescale_height, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateRescaleHeight(int)));
-    m_view.rescale_keep->setIcon(QIcon::fromTheme("edit-link"));
+    m_view.rescale_keep->setIcon(KoIconUtils::themedIcon("edit-link"));
     m_view.rescale_keep->setToolTip(i18n("Preserve aspect ratio"));
     connect(m_view.rescale_keep, SIGNAL(clicked()), this, SLOT(slotSwitchAspectRatio()));
 
@@ -1226,7 +1227,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             else {
                 renderItem->setData(1, ProgressRole, 0);
                 renderItem->setStatus(WAITINGJOB);
-                renderItem->setIcon(0, QIcon::fromTheme("media-playback-pause"));
+                renderItem->setIcon(0, KoIconUtils::themedIcon("media-playback-pause"));
                 renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
                 renderItem->setData(1, ParametersRole, dest);
             }
@@ -1430,8 +1431,8 @@ void RenderWidget::refreshView(const QString &profile)
     QString destination;
     if (m_view.destination_list->currentIndex() > 0)
         destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
-    QIcon brokenIcon = QIcon::fromTheme("dialog-close");
-    QIcon warningIcon = QIcon::fromTheme("dialog-warning");
+    QIcon brokenIcon = KoIconUtils::themedIcon("dialog-close");
+    QIcon warningIcon = KoIconUtils::themedIcon("dialog-warning");
 
     QStringList formatsList;
     QStringList vcodecsList;
@@ -1854,7 +1855,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             if (profile.hasAttribute("url")) item->setData(ExtraRole, profile.attribute("url"));
             if (editable) {
                 item->setData(EditableRole, exportFile);
-                if (exportFile.endsWith(QLatin1String("customprofiles.xml"))) item->setIcon(QIcon::fromTheme("emblem-favorite"));
+                if (exportFile.endsWith(QLatin1String("customprofiles.xml"))) item->setIcon(KoIconUtils::themedIcon("favorite"));
                 else item->setIcon(QIcon::fromTheme("applications-internet"));
             }
             m_renderItems.append(item);
@@ -1979,7 +1980,7 @@ void RenderWidget::setRenderJob(const QString &dest, int progress)
     item->setData(1, ProgressRole, progress);
     item->setStatus(RUNNINGJOB);
     if (progress == 0) {
-        item->setIcon(0, QIcon::fromTheme("system-run"));
+        item->setIcon(0, KoIconUtils::themedIcon("system-run"));
         item->setData(1, TimeRole, QTime::currentTime());
         slotCheckJob();
     } else {

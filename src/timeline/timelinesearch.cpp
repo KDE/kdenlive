@@ -26,7 +26,7 @@ TimelineSearch::TimelineSearch(QObject* parent) :
 
     m_findAction = pCore->window()->addAction("project_find", i18n("Find"), this, SLOT(slotInitSearch()), QIcon::fromTheme("edit-find"), Qt::Key_Slash);
 
-    m_findNextAction = pCore->window()->addAction("project_find_next", i18n("Find Next"), this, SLOT(slotFindNext()), QIcon::fromTheme("go-down-search"), Qt::Key_F3);
+    m_findNextAction = pCore->window()->addAction("project_find_next", i18n("Find Next"), this, SLOT(slotFindNext()), QIcon::fromTheme("go-next"), Qt::Key_F3);
     m_findNextAction->setEnabled(false);
 }
 

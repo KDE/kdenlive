@@ -18,7 +18,7 @@
 #include "geometryval.h"
 #include "graphicsscenerectmove.h"
 #include "kdenlivesettings.h"
-
+#include "utils/KoIconUtils.h"
 #include "klocalizedstring.h"
 
 #include <QDebug>
@@ -73,26 +73,26 @@ Geometryval::Geometryval(const Mlt::Profile *profile, const Timecode &t, const Q
     frameBorder->setPen(QPen(QBrush(QColor(255, 255, 255, 255)), 1.0, Qt::DashLine));
     m_scene->addItem(frameBorder);
 
-    buttonNext->setIcon(QIcon::fromTheme("media-skip-forward"));
+    buttonNext->setIcon(KoIconUtils::themedIcon("media-skip-forward"));
     buttonNext->setToolTip(i18n("Go to next keyframe"));
-    buttonPrevious->setIcon(QIcon::fromTheme("media-skip-backward"));
+    buttonPrevious->setIcon(KoIconUtils::themedIcon("media-skip-backward"));
     buttonPrevious->setToolTip(i18n("Go to previous keyframe"));
-    buttonAdd->setIcon(QIcon::fromTheme("document-new"));
+    buttonAdd->setIcon(KoIconUtils::themedIcon("document-new"));
     buttonAdd->setToolTip(i18n("Add keyframe"));
-    buttonDelete->setIcon(QIcon::fromTheme("edit-delete"));
+    buttonDelete->setIcon(KoIconUtils::themedIcon("edit-delete"));
     buttonDelete->setToolTip(i18n("Delete keyframe"));
 
     m_configMenu = new QMenu(i18n("Misc..."), this);
     buttonMenu->setMenu(m_configMenu);
     buttonMenu->setPopupMode(QToolButton::MenuButtonPopup);
 
-    m_editOptions = m_configMenu->addAction(QIcon::fromTheme("system-run"), i18n("Show/Hide options"));
+    m_editOptions = m_configMenu->addAction(KoIconUtils::themedIcon("system-run"), i18n("Show/Hide options"));
     m_editOptions->setCheckable(true);
     buttonMenu->setDefaultAction(m_editOptions);
     connect(m_editOptions, SIGNAL(triggered()), this, SLOT(slotSwitchOptions()));
     slotSwitchOptions();
 
-    m_reset = m_configMenu->addAction(QIcon::fromTheme("view-refresh"), i18n("Reset"), this, SLOT(slotResetPosition()));
+    m_reset = m_configMenu->addAction(KoIconUtils::themedIcon("view-refresh"), i18n("Reset"), this, SLOT(slotResetPosition()));
 
     m_syncAction = m_configMenu->addAction(i18n("Sync timeline cursor"), this, SLOT(slotSyncCursor()));
     m_syncAction->setCheckable(true);
@@ -112,17 +112,17 @@ Geometryval::Geometryval(const Mlt::Profile *profile, const Timecode &t, const Q
     connect(buttonAdd , SIGNAL(clicked()) , this , SLOT(slotAddFrame()));
     connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateTransitionProperties()));
 
-    buttonhcenter->setIcon(QIcon::fromTheme("kdenlive-align-hor"));
+    buttonhcenter->setIcon(KoIconUtils::themedIcon("kdenlive-align-hor"));
     buttonhcenter->setToolTip(i18n("Align item horizontally"));
-    buttonvcenter->setIcon(QIcon::fromTheme("kdenlive-align-vert"));
+    buttonvcenter->setIcon(KoIconUtils::themedIcon("kdenlive-align-vert"));
     buttonvcenter->setToolTip(i18n("Align item vertically"));
-    buttontop->setIcon(QIcon::fromTheme("kdenlive-align-top"));
+    buttontop->setIcon(KoIconUtils::themedIcon("kdenlive-align-top"));
     buttontop->setToolTip(i18n("Align item to top"));
-    buttonbottom->setIcon(QIcon::fromTheme("kdenlive-align-bottom"));
+    buttonbottom->setIcon(KoIconUtils::themedIcon("kdenlive-align-bottom"));
     buttonbottom->setToolTip(i18n("Align item to bottom"));
-    buttonright->setIcon(QIcon::fromTheme("kdenlive-align-right"));
+    buttonright->setIcon(KoIconUtils::themedIcon("kdenlive-align-right"));
     buttonright->setToolTip(i18n("Align item to right"));
-    buttonleft->setIcon(QIcon::fromTheme("kdenlive-align-left"));
+    buttonleft->setIcon(KoIconUtils::themedIcon("kdenlive-align-left"));
     buttonleft->setToolTip(i18n("Align item to left"));
 
     connect(buttonhcenter, SIGNAL(clicked()), this, SLOT(slotAlignHCenter()));

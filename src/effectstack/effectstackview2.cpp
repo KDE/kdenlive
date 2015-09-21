@@ -29,6 +29,7 @@
 #include "timeline/clipitem.h"
 #include "monitor/monitoreditwidget.h"
 #include "monitor/monitorscene.h"
+#include "utils/KoIconUtils.h"
 #include "mltcontroller/clipcontroller.h"
 
 #include <QDebug>
@@ -60,7 +61,7 @@ EffectStackView2::EffectStackView2(QWidget *parent) :
     m_ui.setupUi(this);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_ui.checkAll->setToolTip(i18n("Enable/Disable all effects"));
-    m_ui.buttonShowComments->setIcon(QIcon::fromTheme("help-about"));
+    m_ui.buttonShowComments->setIcon(KoIconUtils::themedIcon("help-about"));
     m_ui.buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
 
     connect(m_ui.checkAll, SIGNAL(stateChanged(int)), this, SLOT(slotCheckAll(int)));
@@ -80,6 +81,26 @@ EffectStackView2::~EffectStackView2()
 void EffectStackView2::updatePalette()
 {
     setStyleSheet(getStyleSheet());
+}
+
+void EffectStackView2::refreshIcons()
+{
+    QList<QAction *> allMenus = this->findChildren<QAction *>();
+    for (int i = 0; i < allMenus.count(); i++) {
+        QAction *m = allMenus.at(i);
+        QIcon ic = m->icon();
+        if (ic.isNull()) continue;
+        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        m->setIcon(newIcon);
+    }
+    QList<QToolButton *> allButtons = this->findChildren<QToolButton *>();
+    for (int i = 0; i < allButtons.count(); i++) {
+        QToolButton *m = allButtons.at(i);
+        QIcon ic = m->icon();
+        if (ic.isNull()) continue;
+        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        m->setIcon(newIcon);
+    }
 }
 
 void EffectStackView2::slotRenderPos(int pos)
@@ -288,7 +309,6 @@ void EffectStackView2::setupListView()
             info.cropStart = GenTime(0);
             info.startPos = GenTime(0);
         }
-        
 
         CollapsibleEffect *currentEffect = new CollapsibleEffect(d, m_currentEffectList.at(i), info, &m_effectMetaInfo, i == effectsCount - 1, view);
         if (m_status == TIMELINE_TRACK) {
@@ -301,9 +321,9 @@ void EffectStackView2::setupListView()
             isSelected = currentEffect->effectIndex() == m_masterclipref->selectedEffectIndex;
         }
         if (isSelected) {
-            currentEffect->setActive(true);
             if (currentEffect->needsMonitorEffectScene()) m_monitorSceneWanted = true;
         }
+        currentEffect->setActive(isSelected);
         m_effects.append(currentEffect);
         if (group) {
             group->addGroupEffect(currentEffect);
@@ -607,7 +627,7 @@ void EffectStackView2::slotUpdateCheckAllButton()
     bool hasDisabled = false;
 
     for (int i = 0; i < m_effects.count(); ++i) {
-        if (!m_effects.at(i)->enabledButton->isChecked()) hasEnabled = true;
+        if (!m_effects.at(i)->isEnabled()) hasEnabled = true;
         else hasDisabled = true;
     }
 

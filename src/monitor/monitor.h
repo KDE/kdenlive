@@ -106,6 +106,7 @@ public:
     void reparent();
     /** @brief Returns the action displaying record toolbar */
     QAction *recAction();
+    void refreshIcons();
 
 protected:
     void mousePressEvent(QMouseEvent * event);

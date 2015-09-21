@@ -103,6 +103,7 @@ public:
     
     /** @brief Palette was changed, update styles. */
     void updatePalette();
+    void refreshIcons();
 
 private:
     EffectsListWidget *m_effectsList;

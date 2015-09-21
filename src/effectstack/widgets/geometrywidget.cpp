@@ -30,6 +30,7 @@
 #include "monitor/monitoreditwidget.h"
 #include "onmonitoritems/onmonitorrectitem.h"
 #include "onmonitoritems/onmonitorpathitem.h"
+#include "utils/KoIconUtils.h"
 
 #include "klocalizedstring.h"
 #include <QGraphicsView>
@@ -54,8 +55,8 @@ GeometryWidget::GeometryWidget(Monitor* monitor, const Timecode &timecode, int c
     connect(m_monitor, SIGNAL(effectChanged(QRect)), this, SLOT(slotUpdateGeometry(QRect)));
     /*MonitorEditWidget *edit = monitor->getEffectEdit();
     edit->removeCustomControls();
-    edit->addCustomButton(QIcon::fromTheme("draw-path"), i18n("Show path"), this, SLOT(slotShowPath(bool)), true, KdenliveSettings::onmonitoreffects_geometryshowpath());
-    edit->addCustomButton(QIcon::fromTheme("transform-crop"), i18n("Show previous keyframe"), this, SLOT(slotShowPreviousKeyFrame(bool)), true, KdenliveSettings::onmonitoreffects_geometryshowprevious());
+    edit->addCustomButton(KoIconUtils::themedIcon("draw-path"), i18n("Show path"), this, SLOT(slotShowPath(bool)), true, KdenliveSettings::onmonitoreffects_geometryshowpath());
+    edit->addCustomButton(KoIconUtils::themedIcon("transform-crop"), i18n("Show previous keyframe"), this, SLOT(slotShowPreviousKeyFrame(bool)), true, KdenliveSettings::onmonitoreffects_geometryshowprevious());
     m_scene = edit->getScene();
     m_scene->cleanup();*/
 
@@ -73,13 +74,13 @@ GeometryWidget::GeometryWidget(Monitor* monitor, const Timecode &timecode, int c
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
 
-    m_ui.buttonPrevious->setIcon(QIcon::fromTheme("media-skip-backward"));
+    m_ui.buttonPrevious->setIcon(KoIconUtils::themedIcon("media-skip-backward"));
     m_ui.buttonPrevious->setToolTip(i18n("Go to previous keyframe"));
     m_ui.buttonPrevious->setIconSize(iconSize);
-    m_ui.buttonNext->setIcon(QIcon::fromTheme("media-skip-forward"));
+    m_ui.buttonNext->setIcon(KoIconUtils::themedIcon("media-skip-forward"));
     m_ui.buttonNext->setToolTip(i18n("Go to next keyframe"));
     m_ui.buttonNext->setIconSize(iconSize);
-    m_ui.buttonAddDelete->setIcon(QIcon::fromTheme("list-add"));
+    m_ui.buttonAddDelete->setIcon(KoIconUtils::themedIcon("list-add"));
     m_ui.buttonAddDelete->setToolTip(i18n("Add keyframe"));
     m_ui.buttonAddDelete->setIconSize(iconSize);
 
@@ -107,11 +108,11 @@ GeometryWidget::GeometryWidget(Monitor* monitor, const Timecode &timecode, int c
     m_ui.horizontalLayout->setColumnStretch(4, 10);
 
     QMenu *menu = new QMenu(this);
-    QAction *adjustSize = new QAction(QIcon::fromTheme("zoom-fit-best"), i18n("Adjust to original size"), this);
+    QAction *adjustSize = new QAction(KoIconUtils::themedIcon("zoom-fit-best"), i18n("Adjust to original size"), this);
     connect(adjustSize, SIGNAL(triggered()), this, SLOT(slotAdjustToFrameSize()));
-    QAction *fitToWidth = new QAction(QIcon::fromTheme("zoom-fit-width"), i18n("Fit to width"), this);
+    QAction *fitToWidth = new QAction(KoIconUtils::themedIcon("zoom-fit-width"), i18n("Fit to width"), this);
     connect(fitToWidth, SIGNAL(triggered()), this, SLOT(slotFitToWidth()));
-    QAction *fitToHeight = new QAction(QIcon::fromTheme("zoom-fit-height"), i18n("Fit to height"), this);
+    QAction *fitToHeight = new QAction(KoIconUtils::themedIcon("zoom-fit-height"), i18n("Fit to height"), this);
     connect(fitToHeight, SIGNAL(triggered()), this, SLOT(slotFitToHeight()));
 
     QAction *importKeyframes = new QAction(i18n("Import keyframes from clip"), this);
@@ -129,27 +130,27 @@ GeometryWidget::GeometryWidget(Monitor* monitor, const Timecode &timecode, int c
     menu->addAction(resetPreviousKeyframes);
     menu->addSeparator();
 
-    QAction *syncTimeline = new QAction(QIcon::fromTheme("insert-link"), i18n("Synchronize with timeline cursor"), this);
+    QAction *syncTimeline = new QAction(KoIconUtils::themedIcon("edit-link"), i18n("Synchronize with timeline cursor"), this);
     syncTimeline->setCheckable(true);
     syncTimeline->setChecked(KdenliveSettings::transitionfollowcursor());
     connect(syncTimeline, SIGNAL(toggled(bool)), this, SLOT(slotSetSynchronize(bool)));
     menu->addAction(syncTimeline);
 
-    QAction *alignleft = new QAction(QIcon::fromTheme("kdenlive-align-left"), i18n("Align left"), this);
+    QAction *alignleft = new QAction(KoIconUtils::themedIcon("kdenlive-align-left"), i18n("Align left"), this);
     connect(alignleft, SIGNAL(triggered()), this, SLOT(slotMoveLeft()));
-    QAction *alignhcenter = new QAction(QIcon::fromTheme("kdenlive-align-hor"), i18n("Center horizontally"), this);
+    QAction *alignhcenter = new QAction(KoIconUtils::themedIcon("kdenlive-align-hor"), i18n("Center horizontally"), this);
     connect(alignhcenter, SIGNAL(triggered()), this, SLOT(slotCenterH()));
-    QAction *alignright = new QAction(QIcon::fromTheme("kdenlive-align-right"), i18n("Align right"), this);
+    QAction *alignright = new QAction(KoIconUtils::themedIcon("kdenlive-align-right"), i18n("Align right"), this);
     connect(alignright, SIGNAL(triggered()), this, SLOT(slotMoveRight()));
-    QAction *aligntop = new QAction(QIcon::fromTheme("kdenlive-align-top"), i18n("Align top"), this);
+    QAction *aligntop = new QAction(KoIconUtils::themedIcon("kdenlive-align-top"), i18n("Align top"), this);
     connect(aligntop, SIGNAL(triggered()), this, SLOT(slotMoveTop()));
-    QAction *alignvcenter = new QAction(QIcon::fromTheme("kdenlive-align-vert"), i18n("Center vertically"), this);
+    QAction *alignvcenter = new QAction(KoIconUtils::themedIcon("kdenlive-align-vert"), i18n("Center vertically"), this);
     connect(alignvcenter, SIGNAL(triggered()), this, SLOT(slotCenterV()));
-    QAction *alignbottom = new QAction(QIcon::fromTheme("kdenlive-align-bottom"), i18n("Align bottom"), this);
+    QAction *alignbottom = new QAction(KoIconUtils::themedIcon("kdenlive-align-bottom"), i18n("Align bottom"), this);
     connect(alignbottom, SIGNAL(triggered()), this, SLOT(slotMoveBottom()));
     
     m_ui.buttonOptions->setMenu(menu);
-    m_ui.buttonOptions->setIcon(QIcon::fromTheme("configure"));
+    m_ui.buttonOptions->setIcon(KoIconUtils::themedIcon("configure"));
     m_ui.buttonOptions->setToolTip(i18n("Options"));
     m_ui.buttonOptions->setIconSize(iconSize);
 
@@ -400,7 +401,7 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
         //m_rect->setEnabled(false);
         //m_scene->setEnabled(false);
         m_ui.widgetGeometry->setEnabled(false);
-        m_ui.buttonAddDelete->setIcon(QIcon::fromTheme("list-add"));
+        m_ui.buttonAddDelete->setIcon(KoIconUtils::themedIcon("list-add"));
         m_ui.buttonAddDelete->setToolTip(i18n("Add keyframe"));
     } else {
         // keyframe
@@ -408,7 +409,7 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
         //m_rect->setEnabled(true);
         //m_scene->setEnabled(true);
         m_ui.widgetGeometry->setEnabled(true);
-        m_ui.buttonAddDelete->setIcon(QIcon::fromTheme("list-remove"));
+        m_ui.buttonAddDelete->setIcon(KoIconUtils::themedIcon("list-remove"));
         m_ui.buttonAddDelete->setToolTip(i18n("Delete keyframe"));
     }
     m_opacity->blockSignals(true);
