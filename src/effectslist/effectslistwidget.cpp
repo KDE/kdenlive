@@ -361,7 +361,14 @@ QString EffectsListWidget::currentInfo() const
     case EFFECT_AUDIO:
         info = MainWindow::audioEffects.getInfo(effectInfo.at(0), effectInfo.at(1));
         break;
+    case EFFECT_CUSTOM:
+        info = MainWindow::customEffects.getInfo(effectInfo.at(0), effectInfo.at(1));
+        break;
     default:
+        info = MainWindow::videoEffects.getInfo(effectInfo.at(0), effectInfo.at(1));
+        if (!info.isEmpty()) break;
+        info = MainWindow::audioEffects.getInfo(effectInfo.at(0), effectInfo.at(1));
+        if (!info.isEmpty()) break;
         info = MainWindow::customEffects.getInfo(effectInfo.at(0), effectInfo.at(1));
         break;
     }
