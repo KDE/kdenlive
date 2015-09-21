@@ -52,6 +52,7 @@
 #include <QMimeData>
 #include <QQuickItem>
 #include <QScrollBar>
+#include <QWidgetAction>
 
 #define SEEK_INACTIVE (-1)
 
@@ -185,27 +186,31 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     }
 
     // Create Volume slider popup
-    m_volumePopup = new QFrame(this, Qt::Popup);
-    QVBoxLayout *poplayout = new QVBoxLayout;
-    poplayout->setContentsMargins(0, 0, 0, 0);
     m_audioSlider = new QSlider(Qt::Vertical);
     m_audioSlider->setRange(0, 100);
-    poplayout->addWidget(m_audioSlider);
-    m_volumePopup->setLayout(poplayout);
+    m_audioSlider->setValue(100);
+    connect(m_audioSlider, &QSlider::valueChanged, this, &Monitor::slotSetVolume);
+    QWidgetAction *widgetslider = new QWidgetAction(this);
+    widgetslider->setText(i18n("Audio volume"));
+    widgetslider->setDefaultWidget(m_audioSlider);
+    QMenu *menu = new QMenu(this);
+    menu->addAction(widgetslider);
+
+    m_audioButton = new QToolButton(this);
+    m_audioButton->setMenu(menu);
+    m_audioButton->setPopupMode(QToolButton::InstantPopup);
     QIcon icon;
     if (KdenliveSettings::volume() == 0) icon = KoIconUtils::themedIcon("audio-volume-muted");
     else icon = KoIconUtils::themedIcon("audio-volume-medium");
-    m_volumeWidget = m_toolbar->widgetForAction(m_toolbar->addAction(icon, i18n("Audio volume"), this, SLOT(slotShowVolume())));
+    m_audioButton->setIcon(icon);
+    m_toolbar->addWidget(m_audioButton);
+
     if (id == Kdenlive::ClipMonitor) {
 	m_toolbar->addSeparator();
 	m_effectCompare = m_toolbar->addAction(KoIconUtils::themedIcon("view-split-left-right"), i18n("Compare effect"));
 	m_effectCompare->setCheckable(true);
         connect(m_effectCompare, &QAction::toggled, this, &Monitor::slotSwitchCompare);
     }
-    // we need to show / hide the popup once so that it's geometry can be calculated in slotShowVolume
-    m_volumePopup->show();
-    m_volumePopup->hide();
-
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setLayout(layout);
     setMinimumHeight(200);
@@ -216,8 +221,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_ruler = new SmallRuler(this, render);
     if (id == Kdenlive::DvdMonitor) m_ruler->setZone(-3, -2);
     layout->addWidget(m_ruler);
-    
-    connect(m_audioSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSetVolume(int)));
+
     connect(render, SIGNAL(durationChanged(int,int)), this, SLOT(adjustRulerSize(int,int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
     connect(m_glMonitor, SIGNAL(analyseFrame(QImage)), render, SLOT(emitFrameUpdated(QImage)));
@@ -978,7 +982,7 @@ void Monitor::mute(bool mute, bool updateIconOnly)
         QIcon icon;
         if (mute || KdenliveSettings::volume() == 0) icon = KoIconUtils::themedIcon("audio-volume-muted");
         else icon = KoIconUtils::themedIcon("audio-volume-medium");
-        static_cast <QToolButton *>(m_volumeWidget)->setIcon(icon);
+        m_audioButton->setIcon(icon);
         if (!updateIconOnly) render->setVolume(mute ? 0 : (double)KdenliveSettings::volume() / 100.0 );
     }
 }
@@ -1314,21 +1318,8 @@ void Monitor::slotSetVolume(int volume)
     if (renderVolume > 0 && volume > 0) return;
     if (volume == 0) icon = KoIconUtils::themedIcon("audio-volume-muted");
     else icon = KoIconUtils::themedIcon("audio-volume-medium");
-    static_cast <QToolButton *>(m_volumeWidget)->setIcon(icon);
+    m_audioButton->setIcon(icon);
 }
-
-void Monitor::slotShowVolume()
-{
-    m_volumePopup->move(mapToGlobal(m_toolbar->geometry().topLeft()) + QPoint(mapToParent(m_volumeWidget->geometry().bottomLeft()).x(), -m_volumePopup->height()));
-    int vol = render->volume();
-    // Disable widget if we cannot get the volume
-    m_volumePopup->setEnabled(vol != -1);
-    m_audioSlider->blockSignals(true);
-    m_audioSlider->setValue(vol);
-    m_audioSlider->blockSignals(false);
-    m_volumePopup->show();
-}
-
 
 void Monitor::sendFrameForAnalysis(bool analyse)
 {

@@ -50,6 +50,7 @@ class KMessageWidget;
 class QQuickItem;
 class QScrollBar;
 class RecManager;
+class QToolButton;
 
 class Monitor : public AbstractMonitor
 {
@@ -75,7 +76,6 @@ public:
     ClipController *currentController() const;
     void setMarkers(const QList <CommentedTime> &markers);
     void reloadProducer(const QString &id);
-    QFrame *m_volumePopup;
     /** @brief Reimplemented from QWidget, updates the palette colors. */
     void setPalette ( const QPalette & p);
     /** @brief Returns a hh:mm:ss timecode from a frame number. */
@@ -164,7 +164,7 @@ private:
     bool m_loopClipTransition;
     GenTime getSnapForPos(bool previous);
     QToolBar *m_toolbar;
-    QWidget *m_volumeWidget;
+    QToolButton *m_audioButton;
     QSlider *m_audioSlider;
     QAction *m_editMarker;
     KMessageWidget *m_infoMessage;
@@ -184,7 +184,6 @@ private slots:
     void setClipZone(const QPoint &pos);
     void slotGoToMarker(QAction *action);
     void slotSetVolume(int volume);
-    void slotShowVolume();
     void slotEditMarker();
     void slotExtractCurrentZone();
     void onFrameDisplayed(const SharedFrame& frame);
