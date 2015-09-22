@@ -85,7 +85,9 @@ bool Track::add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, Playlis
     else {
         cut = parent->cut(frame(tcut), frame(dtcut) - 1);
     }
-    Clip(*cut).addEffects(*parent);
+    if (parent->is_cut()) {
+        Clip(*cut).addEffects(*parent);
+    }
     m_playlist.lock();
     bool result = doAdd(t, cut, mode);
     m_playlist.unlock();
@@ -416,18 +418,18 @@ void Track::updateEffects(const QString &id, Mlt::Producer *original)
         QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
 	Mlt::Producer origin = p->parent();
         QString current = origin.get("id");
-	    if (current.startsWith("slowmotion:")) {
-		if (current.section(":", 1, 1) == id) {
-		    Clip(origin).replaceEffects(*original);
-		}
-	    }
-	    else if (current == id) {
-		  // we are directly using original producer, no need to update effects
-		  continue;
-	    }
-	    else if (current.section("_", 0, 0) == id) {
+	if (current.startsWith("slowmotion:")) {
+            if (current.section(":", 1, 1) == id) {
 		Clip(origin).replaceEffects(*original);
-	    }
+            }
+	}
+	else if (current == id) {
+            // we are directly using original producer, no need to update effects
+            continue;
+	}
+	else if (current.section("_", 0, 0) == id) {
+            Clip(origin).replaceEffects(*original);
+	}
     }
 }
 

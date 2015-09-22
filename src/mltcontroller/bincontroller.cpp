@@ -74,7 +74,7 @@ void BinController::loadExtraProducer(const QString &id, Mlt::Producer *prod)
     m_extraClipList.insert(id, prod);
 }
 
-void BinController::initializeBin(Mlt::Playlist playlist, ProfileInfo info)
+void BinController::initializeBin(Mlt::Playlist playlist)
 {
     // Load folders
     Mlt::Properties folderProperties;
@@ -114,11 +114,11 @@ void BinController::initializeBin(Mlt::Playlist playlist, ProfileInfo info)
         else {
             if (m_clipList.contains(id)) {
                 //Controller was already added by a track producer, add master now
-                m_clipList.value(id)->addMasterProducer(producer->parent(), info);
+                m_clipList.value(id)->addMasterProducer(producer->parent());
             }
             else {
                 // Controller has not been created yet
-                ClipController *controller = new ClipController(this, producer->parent(), info);
+                ClipController *controller = new ClipController(this, producer->parent());
 		// fix MLT somehow adding root to color producer's resource (report upstream)
 		if (strcmp(producer->parent().get("mlt_service"), "color") == 0) {
 		    QString color = producer->parent().get("resource");
@@ -215,7 +215,7 @@ int BinController::clipCount() const
     return m_clipList.size();
 }
 
-void BinController::replaceProducer(const QString &id, Mlt::Producer &producer, ProfileInfo info)
+void BinController::replaceProducer(const QString &id, Mlt::Producer &producer)
 {
     ClipController *ctrl = m_clipList.value(id);
     if (!ctrl) {
@@ -223,7 +223,7 @@ void BinController::replaceProducer(const QString &id, Mlt::Producer &producer, 
         return;
     }
     pasteEffects(id, producer);
-    ctrl->updateProducer(id, &producer, info);
+    ctrl->updateProducer(id, &producer);
     emit prepareTimelineReplacement(id);
     replaceBinPlaylistClip(id, producer);
     producer.set("id", id.toUtf8().constData());

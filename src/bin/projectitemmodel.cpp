@@ -149,7 +149,7 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
         // Dropping effect on a Bin item
         const QString effect = QString::fromUtf8(data->data("kdenlive/effectslist"));
         emit effectDropped(effect, parent);
-        return true;      
+        return true;
     }
     
     if (data->hasFormat("kdenlive/clip")) {

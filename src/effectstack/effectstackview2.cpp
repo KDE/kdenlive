@@ -115,6 +115,9 @@ void EffectStackView2::slotRenderPos(int pos)
 
 void EffectStackView2::slotClipItemUpdate()
 {
+    if (m_status != TIMELINE_CLIP || !m_clipref) {
+        return;
+    }
     int inPoint = m_clipref->cropStart().frames(KdenliveSettings::project_fps());
     int outPoint = m_clipref->cropDuration().frames(KdenliveSettings::project_fps()) + inPoint;
     for (int i = 0; i < m_effects.count(); ++i) {

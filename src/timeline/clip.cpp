@@ -24,6 +24,7 @@
 #include "clip.h"
 #include <mlt++/Mlt.h>
 
+
 Clip::Clip(Mlt::Producer &producer) : QObject(),
     m_producer(producer)
 {
@@ -66,8 +67,10 @@ void Clip::addEffects(Mlt::Service& service)
             // no easy filter copy: do it by hand!
             Mlt::Filter *copy = new Mlt::Filter(*effect->profile(), effect->get("mlt_service"));
             if (copy && copy->is_valid()) {
-                for (int i = 0; 	i < effect->count(); ++i) {
-                    copy->set(effect->get_name(i), effect->get(i));
+                for (int i = 0; i < effect->count(); ++i) {
+                    QString paramName = effect->get_name(i);
+                    if (paramName.at(0) != '_')
+                        copy->set(effect->get_name(i), effect->get(i));
                 }
                 m_producer.attach(*copy);
             }

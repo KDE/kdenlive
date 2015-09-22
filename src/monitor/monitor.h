@@ -52,6 +52,19 @@ class QScrollBar;
 class RecManager;
 class QToolButton;
 
+class QuickEventEater : public QObject
+{
+    Q_OBJECT
+public:
+    explicit QuickEventEater(QObject *parent = 0);
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
+
+signals:
+    void addEffect(QDomElement);
+};
+
 class Monitor : public AbstractMonitor
 {
     Q_OBJECT
@@ -199,6 +212,7 @@ private slots:
     /** @brief Display a non blocking error message to user **/
     void warningMessage(const QString &text);
     void slotLockMonitor(bool lock);
+    void slotAddEffect(QDomElement effect);
 
 public slots:
     void slotOpenDvdFile(const QString &);
@@ -264,6 +278,7 @@ signals:
     void showConfigDialog(int,int);
     /** @brief Request display of current bin clip. */
     void refreshCurrentClip();
+    void addEffect(QDomElement);
 };
 
 #endif

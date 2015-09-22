@@ -78,7 +78,7 @@ EffectsListView::EffectsListView(QWidget *parent) :
     else
         infopanel->hide();
 
-    m_contextMenu->addAction(KoIconUtils::themedIcon("list-add"), i18n("Add effect to Current Stack"), this, SLOT(slotEffectSelected()));
+    m_contextMenu->addAction(KoIconUtils::themedIcon("list-add"), i18n("Add effect to selected clip"), this, SLOT(slotEffectSelected()));
     m_removeAction = m_contextMenu->addAction(KoIconUtils::themedIcon("edit-delete"), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
 
     effectsAll->setIcon(KoIconUtils::themedIcon("kdenlive-show-all-effects"));
@@ -268,8 +268,9 @@ void EffectsListView::slotEffectSelected()
     if (item && m_effectsList->indexOfTopLevelItem(item)!=-1){
 	item->setExpanded(!item->isExpanded());		
     }
-    if (!effect.isNull())
+    if (!effect.isNull()) {
         emit addEffect(effect);
+    }
 }
 
 void EffectsListView::slotUpdateInfo()

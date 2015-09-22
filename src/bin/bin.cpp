@@ -1868,6 +1868,14 @@ void Bin::slotItemDropped(QStringList ids, const QModelIndex &parent)
     m_doc->commandStack()->push(moveCommand);
 }
 
+void Bin::slotEffectDropped(QDomElement effect)
+{
+    const QString id = m_monitor->activeClipId();
+    if (id.isEmpty()) return;
+    AddBinEffectCommand *command = new AddBinEffectCommand(this, id, effect);
+    m_doc->commandStack()->push(command);
+}
+
 
 void Bin::slotEffectDropped(QString effect, const QModelIndex &parent)
 {

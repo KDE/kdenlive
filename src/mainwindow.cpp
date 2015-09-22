@@ -200,6 +200,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
 */
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
+    connect(m_projectMonitor, &Monitor::addEffect, this, &MainWindow::slotAddEffect);
+    connect(m_clipMonitor, SIGNAL(addEffect(QDomElement)), pCore->bin(), SLOT(slotEffectDropped(QDomElement)));
 
     m_effectStack = new EffectStackView2();
     connect(m_effectStack, SIGNAL(startFilterJob(const ItemInfo&,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)), pCore->bin(), SLOT(slotStartFilterJob(const ItemInfo &,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)));

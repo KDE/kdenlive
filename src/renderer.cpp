@@ -464,9 +464,6 @@ void Render::processFileProperties()
     requestClipInfo info;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    ProfileInfo profileinfo;
-    profileinfo.profileSize = QSize(frameRenderWidth(), renderHeight());
-    profileinfo.profileFps = m_fps;
 
     while (!m_requestList.isEmpty()) {
         m_infoMutex.lock();
@@ -719,7 +716,7 @@ void Render::processFileProperties()
             }
             // replace clip
             m_processingClipId.removeAll(info.clipId);
-            m_binController->replaceProducer(info.clipId, *producer, profileinfo);
+            m_binController->replaceProducer(info.clipId, *producer);
             emit gotFileProperties(info, NULL);
             continue;
         }
@@ -1017,12 +1014,12 @@ void Render::processFileProperties()
         producer->seek(0);
         if (m_binController->hasClip(info.clipId)) {
             // If controller already exists, we just want to update the producer
-            m_binController->replaceProducer(info.clipId, *producer, profileinfo);
+            m_binController->replaceProducer(info.clipId, *producer);
             emit gotFileProperties(info, NULL);
         }
         else {
             // Create the controller
-            ClipController *controller = new ClipController(m_binController, *producer, profileinfo);
+            ClipController *controller = new ClipController(m_binController, *producer);
             m_binController->addClipToBin(info.clipId, controller);
             emit gotFileProperties(info, controller);
         }
@@ -1251,13 +1248,10 @@ int Render::setSceneList(QString playlist, int position)
     Mlt::Tractor tractor(service);
     Mlt::Properties retainList((mlt_properties) tractor.get_data("xml_retain"));
     if (retainList.is_valid() && retainList.get_data(m_binController->binPlaylistId().toUtf8().constData())) {
-	ProfileInfo info;
-	info.profileSize = QSize(frameRenderWidth(), renderHeight());
-	info.profileFps = m_fps;
         Mlt::Playlist playlist((mlt_playlist) retainList.get_data(m_binController->binPlaylistId().toUtf8().constData()));
         if (playlist.is_valid() && playlist.type() == playlist_type) {
             // Load bin clips
-	    m_binController->initializeBin(playlist, info);
+	    m_binController->initializeBin(playlist);
         }
     }
     // No Playlist found, create new one

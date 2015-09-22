@@ -34,12 +34,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KLocalizedString>
 
 
-ClipController::ClipController(BinController *bincontroller, Mlt::Producer& producer, ProfileInfo info) : QObject()
+ClipController::ClipController(BinController *bincontroller, Mlt::Producer& producer) : QObject()
     , selectedEffectIndex(1)
     , audioThumbCreated(false)
     , m_properties(new Mlt::Properties(producer.get_properties()))
     , m_audioInfo(NULL)
-    , m_effectList(true)
     , m_audioIndex(0)
     , m_videoIndex(0)
     , m_hasLimitedDuration(true)
@@ -60,7 +59,6 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer& prod
         else m_url = QUrl::fromLocalFile(m_properties->get("resource"));
         m_service = m_properties->get("mlt_service");
         getInfoForProducer();
-        rebuildEffectList(info);
     }
 }
 
@@ -70,7 +68,6 @@ ClipController::ClipController(BinController *bincontroller) : QObject()
     , m_masterProducer(NULL)
     , m_properties(NULL)
     , m_audioInfo(NULL)
-    , m_effectList(true)
     , m_audioIndex(0)
     , m_videoIndex(0)
     , m_clipType(Unknown)
@@ -94,7 +91,7 @@ AudioStreamInfo *ClipController::audioInfo() const
     return m_audioInfo;
 }
 
-void ClipController::addMasterProducer(Mlt::Producer &producer, ProfileInfo info)
+void ClipController::addMasterProducer(Mlt::Producer &producer)
 {
     m_properties = new Mlt::Properties(producer.get_properties());
     m_masterProducer = &producer;
@@ -108,7 +105,6 @@ void ClipController::addMasterProducer(Mlt::Producer &producer, ProfileInfo info
         else m_url = QUrl::fromLocalFile(m_properties->get("resource"));
         m_service = m_properties->get("mlt_service");
         getInfoForProducer();
-        rebuildEffectList(info);
     }
 }
 
@@ -209,7 +205,7 @@ QMap <QString, QString> ClipController::getPropertiesFromPrefix(const QString &p
 }
 
 
-void ClipController::updateProducer(const QString &id, Mlt::Producer* producer, ProfileInfo info)
+void ClipController::updateProducer(const QString &id, Mlt::Producer* producer)
 {
     //TODO replace all track producers
     Q_UNUSED(id)
@@ -231,7 +227,6 @@ void ClipController::updateProducer(const QString &id, Mlt::Producer* producer, 
             m_name = m_url.fileName();
         }
         */
-        rebuildEffectList(info);
     }
 }
 
@@ -599,9 +594,17 @@ void ClipController::addEffect(const ProfileInfo &pInfo, QDomElement &effect)
     ItemInfo info;
     info.cropStart = GenTime();
     info.cropDuration = getPlaytime();
-    EffectsController::initEffect(info, pInfo, m_effectList, property("proxy"), effect);
+    EffectsList eff = effectList();
+    EffectsController::initEffect(info, pInfo, eff, property("proxy"), effect);
     // Add effect to list and setup a kdenlive_ix value
-    m_effectList.append(effect);
+    int kdenlive_ix = 0;
+    for (int i = 0; i < service.filter_count(); ++i) {
+        Mlt::Filter *effect = service.filter(i);
+        int ix = effect->get_int("kdenlive_ix");
+        if (ix > kdenlive_ix) kdenlive_ix = ix;
+    }
+    kdenlive_ix++;
+    effect.setAttribute(QLatin1String("kdenlive_ix"), kdenlive_ix);
     EffectsParameterList params = EffectsController::getEffectArgs(pInfo, effect);
     Render::addFilterToService(service, params, getPlaytime().frames(m_binController->fps()));
     m_binController->updateTrackProducer(clipId());
@@ -611,18 +614,21 @@ void ClipController::removeEffect(int effectIndex)
 {
     Mlt::Service service(m_masterProducer->parent());
     Render::removeFilterFromService(service, effectIndex, true);
-    m_effectList.removeAt(effectIndex);
     m_binController->updateTrackProducer(clipId());
 }
 
 EffectsList ClipController::effectList()
 {
-    return m_effectList;
+    return xmlEffectList();
 }
 
-void ClipController::rebuildEffectList(ProfileInfo info)
+EffectsList ClipController::xmlEffectList()
 {
-    m_effectList.clearList();
+    ProfileInfo profileinfo;
+    Mlt::Profile *p = m_masterProducer->profile();
+    profileinfo.profileSize = QSize(p->width(), p->height());
+    profileinfo.profileFps = p->fps();
+    EffectsList effList(true);
     Mlt::Service service = m_masterProducer->parent();
     for (int ix = 0; ix < service.filter_count(); ++ix) {
         Mlt::Filter *effect = service.filter(ix);
@@ -635,10 +641,11 @@ void ClipController::rebuildEffectList(ProfileInfo info)
 	}
         for (int i = 0; i < params.count(); ++i) {
             QDomElement param = params.item(i).toElement();
-            Timeline::setParam(info, param, effect->get(param.attribute("name").toUtf8().constData()));
+            Timeline::setParam(profileinfo, param, effect->get(param.attribute("name").toUtf8().constData()));
         }
-        m_effectList.append(currenteffect);
+        effList.append(currenteffect);
     }
+    return effList;
 }
 
 void ClipController::changeEffectState(const QList <int> indexes, bool disable)
@@ -676,6 +683,12 @@ void ClipController::updateEffect(const ProfileInfo &pInfo, const QDomElement &e
 
 bool ClipController::hasEffects() const
 {
-    return !m_effectList.isEmpty();
+    Mlt::Service service = m_masterProducer->parent();
+    for (int ix = 0; ix < service.filter_count(); ++ix) {
+        Mlt::Filter *effect = service.filter(ix);
+        QString id = effect->get("kdenlive_ix");
+        if (!id.isEmpty()) return true;
+    }
+    return false;
 }
 

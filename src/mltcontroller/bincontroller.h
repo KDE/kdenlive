@@ -85,7 +85,7 @@ public:
     /** @brief Initialize the bin's playlist from MLT's data
      * @param playlist The MLT playlist containing our bin's clips
      */
-    void initializeBin(Mlt::Playlist playlist, ProfileInfo info);
+    void initializeBin(Mlt::Playlist playlist);
     
     /** @brief If our bin's playlist does not exist, create a new one */
     void createIfNeeded(Mlt::Profile *profile);
@@ -134,7 +134,7 @@ public:
 
     /** @brief Get the list of ids whose clip have the resource indicated by @param url */
     const QStringList getBinIdsByResource(const QUrl &url) const;
-    void replaceProducer(const QString &id, Mlt::Producer &producer, ProfileInfo info);
+    void replaceProducer(const QString &id, Mlt::Producer &producer);
     void storeMarker(const QString &markerId, const QString &markerHash);
     QMap<double,QString> takeGuidesData();
 

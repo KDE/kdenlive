@@ -552,6 +552,8 @@ public slots:
     void slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties, bool refreshPropertiesPanel);
     /** @brief Pass some important properties to timeline track producers. */
     void updateTimelineProducers(const QString &id, QMap <QString, QString> passProperties);
+    /** @brief Add effect to active Bin clip. */
+    void slotEffectDropped(QDomElement);
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);

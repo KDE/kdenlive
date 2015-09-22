@@ -56,6 +56,41 @@
 
 #define SEEK_INACTIVE (-1)
 
+QuickEventEater::QuickEventEater(QObject *parent) : QObject(parent)
+{
+}
+
+bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::DragEnter) {
+        QDragEnterEvent *ev = reinterpret_cast< QDragEnterEvent* >(event);
+        if (ev->mimeData()->hasFormat("kdenlive/effectslist")) {
+            ev->acceptProposedAction();
+            return true;
+        }
+    }
+    else if (event->type() == QEvent::DragMove) {
+        QDragEnterEvent *ev = reinterpret_cast< QDragEnterEvent* >(event);
+        if (ev->mimeData()->hasFormat("kdenlive/effectslist")) {
+            ev->acceptProposedAction();
+            return true;
+        }
+    }
+    else if (event->type() == QEvent::Drop) {
+        QDropEvent *ev = static_cast< QDropEvent* >(event);
+        if (ev) {
+          const QString effects = QString::fromUtf8(ev->mimeData()->data("kdenlive/effectslist"));
+          QDomDocument doc;
+          doc.setContent(effects, true);
+          emit addEffect(doc.documentElement());
+          ev->accept();
+          return true;
+        }
+    }
+    return QObject::eventFilter(obj, event);
+}
+
+
 
 Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent) :
     AbstractMonitor(id, manager, parent)
@@ -89,6 +124,11 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     // Create QML OpenGL widget
     m_glMonitor = new GLWidget();
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow*>(m_glMonitor));
+    m_videoWidget->setAcceptDrops(true);
+    QuickEventEater *leventEater = new QuickEventEater(this);
+    m_videoWidget->installEventFilter(leventEater);
+    connect(leventEater, &QuickEventEater::addEffect, this, &Monitor::slotAddEffect);
+
     glayout->addWidget(m_videoWidget, 0, 0);
     m_verticalScroll = new QScrollBar(Qt::Vertical);
     glayout->addWidget(m_verticalScroll, 0, 1);
@@ -226,6 +266,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
     connect(m_glMonitor, SIGNAL(analyseFrame(QImage)), render, SLOT(emitFrameUpdated(QImage)));
     connect(m_glMonitor, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), render, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)));
+
     if (id != Kdenlive::ClipMonitor) {
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
         connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SIGNAL(zoneUpdated(QPoint)));
@@ -274,6 +315,14 @@ Monitor::~Monitor()
     delete m_ruler;
     delete m_timePos;
     delete render;
+}
+
+void Monitor::slotAddEffect(QDomElement effect)
+{
+    if (m_id == Kdenlive::ClipMonitor) {
+        if (m_controller) emit addEffect(effect);
+    }
+    else emit addEffect(effect);
 }
 
 void Monitor::refreshIcons()

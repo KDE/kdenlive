@@ -51,7 +51,7 @@ public:
      * @param bincontroller reference to the bincontroller
      * @param producer producer to create reference to
      */
-    ClipController(BinController *bincontroller, Mlt::Producer &producer, ProfileInfo info);
+    ClipController(BinController *bincontroller, Mlt::Producer &producer);
     /**
      * @brief Constructor used when opening a document and encountering a 
      * track producer before the master producer. The masterProducer MUST be set afterwards
@@ -67,7 +67,7 @@ public:
     QDateTime date;
 
     /** @brief Replaces the master producer and (TODO) the track producers with an updated producer, for example a proxy */
-    void updateProducer(const QString &id, Mlt::Producer *producer, ProfileInfo info);
+    void updateProducer(const QString &id, Mlt::Producer *producer);
 
     void getProducerXML(QDomDocument& document);
 
@@ -148,7 +148,7 @@ public:
     Q_DECL_DEPRECATED Mlt::Producer *getTrackProducer(const QString trackName, PlaylistState::ClipState clipState = PlaylistState::Original, double speed = 1.0);
     
     /** @brief Sets the master producer for this clip when we build the controller without master clip. */
-    void addMasterProducer(Mlt::Producer &producer, ProfileInfo info);
+    void addMasterProducer(Mlt::Producer &producer);
     
     QList < CommentedTime > commentedSnapMarkers() const;
     GenTime findNextSnapMarker(const GenTime & currTime);
@@ -185,7 +185,6 @@ private:
     Mlt::Producer *m_masterProducer;
     Mlt::Properties *m_properties;
     AudioStreamInfo *m_audioInfo;
-    EffectsList m_effectList;
     QString m_service;
     QUrl m_url;
     int m_audioIndex;
@@ -196,7 +195,8 @@ private:
     /** @brief A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
     QList < CommentedTime > m_snapMarkers;
     void getInfoForProducer();
-    void rebuildEffectList(ProfileInfo info);
+    //void rebuildEffectList(ProfileInfo info);
+    EffectsList xmlEffectList();
 };
 
 #endif
