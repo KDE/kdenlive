@@ -47,8 +47,9 @@
 #include <kconfiggroup.h>
 #include <KColorScheme>
 #include <ktoolinvocation.h>
-#include "thememanager.h"
 
+#include "thememanager.h"
+#include "kdenlivesettings.h"
 
 class ThemeManagerCreator
 {
@@ -171,12 +172,38 @@ void ThemeManager::populateThemeMenu()
     filters << "*.colors";
     QStringList schemeFiles;
     //const QStringList schemeFiles = KGlobal::dirs()->findAllResources("data", "color-schemes/*.colors", KStandardDirs::NoDuplicates);
-    const QStringList colors = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "color-schemes", QStandardPaths::LocateDirectory);
+    QStringList colors = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "color-schemes", QStandardPaths::LocateDirectory);
+    bool foundDarkTheme = false;
     foreach(const QString & folder, colors) {
         QDir directory(folder);
         QStringList filesnames = directory.entryList(filters, QDir::Files);
+        if (filesnames.contains("BreezeDark.colors")) {
+            foundDarkTheme = true;
+            if (KdenliveSettings::colortheme().isEmpty()) {
+                // Set dark theme by default
+                KdenliveSettings::setColortheme(directory.absoluteFilePath("BreezeDark.colors"));
+            }
+        }
         foreach(const QString & fname, filesnames) {
             schemeFiles << directory.absoluteFilePath(fname);
+        }
+    }
+
+    // If Breeze Dark is not found on the system, use our private copy
+    if (!foundDarkTheme) {
+        colors = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, "color-schemes", QStandardPaths::LocateDirectory);
+        foreach(const QString & folder, colors) {
+            QDir directory(folder);
+            QStringList filesnames = directory.entryList(filters, QDir::Files);
+            if (filesnames.contains("KdenliveBreezeDark.colors")) {
+                if (KdenliveSettings::colortheme().isEmpty()) {
+                    // Set dark theme by default
+                    KdenliveSettings::setColortheme(directory.absoluteFilePath("KdenliveBreezeDark.colors"));
+                }
+            }
+            foreach(const QString & fname, filesnames) {
+                schemeFiles << directory.absoluteFilePath(fname);
+            }
         }
     }
 
