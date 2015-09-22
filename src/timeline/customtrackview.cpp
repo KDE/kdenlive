@@ -2028,6 +2028,11 @@ void CustomTrackView::slotDropEffect(ClipItem *clip, QDomElement effect, GenTime
     }
 }
 
+void CustomTrackView::slotAddEffectToCurrentItem(QDomElement effect)
+{
+    slotAddEffect(effect, GenTime(), -1);
+}
+
 void CustomTrackView::slotAddEffect(QDomElement effect, const GenTime &pos, int track)
 {
     QList<QGraphicsItem *> itemList;
@@ -2043,12 +2048,14 @@ void CustomTrackView::slotAddEffect(QDomElement effect, const GenTime &pos, int 
     }
     effectCommand->setText(i18n("Add %1", effectName));
 
-    if (track == -1) itemList = scene()->selectedItems();
-    if (itemList.isEmpty()) {
+    if (track == -1) {
+        itemList = scene()->selectedItems();
+    }
+    else if (itemList.isEmpty()) {
         ClipItem *clip = getClipItemAtStart(pos, track);
         if (clip) itemList.append(clip);
-        else emit displayMessage(i18n("Select a clip if you want to apply an effect"), ErrorMessage);
     }
+    if (itemList.isEmpty()) emit displayMessage(i18n("Select a clip if you want to apply an effect"), ErrorMessage);
 
     //expand groups
     for (int i = 0; i < itemList.count(); ++i) {

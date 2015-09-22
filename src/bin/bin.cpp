@@ -1902,11 +1902,7 @@ void Bin::slotDeleteEffect(const QString &id, QDomElement effect)
 
 void Bin::removeEffect(const QString &id, const QDomElement &effect)
 {
-    ProjectClip *currentItem = NULL;
-    if (id.isEmpty()) {
-        currentItem = getFirstSelectedClip();
-    }
-    else currentItem = m_rootFolder->clip(id);
+    ProjectClip *currentItem = m_rootFolder->clip(id);
     if (!currentItem) return;
     currentItem->removeEffect(effect.attribute("kdenlive_ix").toInt());
     m_monitor->refreshMonitor();
@@ -1914,11 +1910,7 @@ void Bin::removeEffect(const QString &id, const QDomElement &effect)
 
 void Bin::addEffect(const QString &id, QDomElement &effect)
 {
-    ProjectClip *currentItem = NULL;
-    if (id.isEmpty()) {
-        currentItem = getFirstSelectedClip();
-    }
-    else currentItem = m_rootFolder->clip(id);
+    ProjectClip *currentItem = m_rootFolder->clip(id);
     if (!currentItem) return;
     currentItem->addEffect(m_monitor->profileInfo(), effect);
     m_monitor->refreshMonitor();

@@ -81,6 +81,8 @@ public:
     /** @brief An effect was dropped on @param clip */
     void slotDropEffect(ClipItem *clip, QDomElement effect, GenTime pos, int track);
     /** @brief Add effect to current clip */
+    void slotAddEffectToCurrentItem(QDomElement effect);
+    /** @brief Add effect to a clip or selection */
     void slotAddEffect(QDomElement effect, const GenTime &pos, int track);
     void slotAddGroupEffect(QDomElement effect, AbstractGroupItem *group, AbstractClipItem *dropTarget = NULL);
     void addEffect(int track, GenTime pos, QDomElement effect);

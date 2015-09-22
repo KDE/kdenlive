@@ -200,7 +200,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
 */
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
-    connect(m_projectMonitor, &Monitor::addEffect, this, &MainWindow::slotAddEffect);
     connect(m_clipMonitor, SIGNAL(addEffect(QDomElement)), pCore->bin(), SLOT(slotEffectDropped(QDomElement)));
 
     m_effectStack = new EffectStackView2();
@@ -697,10 +696,10 @@ void MainWindow::slotAddEffect(const QDomElement &effect)
         pCore->projectManager()->currentTimeline()->projectView()->slotAddTrackEffect(effectToAdd, pCore->projectManager()->currentTimeline()->tracksCount() - m_effectStack->trackIndex());
     }
     else if (status == TIMELINE_CLIP) {
-        pCore->projectManager()->currentTimeline()->projectView()->slotAddEffect(effectToAdd, GenTime(), -1);
+        pCore->projectManager()->currentTimeline()->projectView()->slotAddEffectToCurrentItem(effectToAdd);
     }
     else if (status == MASTER_CLIP) {
-        pCore->bin()->addEffect(QString(), effectToAdd);
+        pCore->bin()->slotEffectDropped(effectToAdd);
     }
 }
 
@@ -1539,6 +1538,7 @@ void MainWindow::connectDocument()
 
     //connect(trackView->projectView(), SIGNAL(showClipFrame(DocClipBase*,QPoint,bool,int)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase*,QPoint,bool,int)));
     connect(trackView->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
+    connect(m_projectMonitor, &Monitor::addEffect, trackView->projectView(), &CustomTrackView::slotAddEffectToCurrentItem);
 
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), m_projectMonitor, SLOT(slotSetSelectedClip(Transition*)));
 
