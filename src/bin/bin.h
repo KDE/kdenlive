@@ -554,6 +554,8 @@ public slots:
     void updateTimelineProducers(const QString &id, QMap <QString, QString> passProperties);
     /** @brief Add effect to active Bin clip. */
     void slotEffectDropped(QDomElement);
+    /** @brief Request current frame from project monitor. */
+    void slotGetCurrentProjectImage();
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);

@@ -181,6 +181,8 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
 
     connect(origin_x_left, SIGNAL(clicked()), this, SLOT(slotOriginXClicked()));
     connect(origin_y_top, SIGNAL(clicked()), this, SLOT(slotOriginYClicked()));
+    
+    connect(render, SIGNAL(frameUpdated(QImage)), this, SLOT(slotGotBackground(QImage)));
 
     // Position and size
     m_signalMapper = new QSignalMapper(this);
@@ -770,9 +772,14 @@ void TitleWidget::displayBackgroundFrame()
         p2.end();
         m_frameImage->setPixmap(bg);
     } else {
-        QImage img = m_render->extractFrame((int) m_render->seekPosition().frames(m_render->fps()), QString(), m_render->frameRenderWidth() / 2, m_render->renderHeight() / 2);
-        m_frameImage->setPixmap(QPixmap::fromImage(img.scaled(r.width() / 2, r.height() / 2)));
+        emit requestBackgroundFrame();
     }
+}
+
+void TitleWidget::slotGotBackground(QImage img)
+{
+    QRectF r = m_frameBorder->sceneBoundingRect();
+    m_frameImage->setPixmap(QPixmap::fromImage(img.scaled(r.width() / 2, r.height() / 2)));
 }
 
 void TitleWidget::initAnimation()

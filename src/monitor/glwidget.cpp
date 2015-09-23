@@ -441,19 +441,24 @@ void GLWidget::paintGL()
     glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
     check_error(f);
 
-    // Render RGB frame for analysis
     if (sendFrameForAnalysis) {
-        if (!m_fbo || m_fbo->size() != QSize(width, height)) {
+        // Render RGB frame for analysis
+        int fullWidth = m_monitorProfile->width();
+        int fullHeight = m_monitorProfile->height();
+        if (!m_fbo || m_fbo->size() != QSize(fullWidth, fullHeight)) {
             delete m_fbo;
             QOpenGLFramebufferObjectFormat f;
             f.setSamples(0);
             f.setInternalTextureFormat(GL_RGB); //GL_RGBA32F);  // which one is the fastest ?
-            m_fbo = new QOpenGLFramebufferObject(width, height, f); //GL_TEXTURE_2D);
+            m_fbo = new QOpenGLFramebufferObject(fullWidth, fullHeight, f); //GL_TEXTURE_2D);
         }
         m_fbo->bind();
-        glViewport(0, 0, width, height);
-        projection.scale((double) this->width() / width, (double) this->height() / height);
-        m_shader->setUniformValue(m_projectionLocation, projection);
+        glViewport(0, 0, fullWidth, fullHeight);
+
+        QMatrix4x4 projection2;
+        projection2.scale(2.0f / width, 2.0f / height);
+        m_shader->setUniformValue(m_projectionLocation, projection2);
+
         glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
         check_error(f);
         m_fbo->release();

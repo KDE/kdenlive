@@ -260,6 +260,8 @@ public slots:
     void slotSwitchFullScreen(bool minimizeOnly = false);
     /** @brief Display or hide the record toolbar */
     void slotSwitchRec(bool enable);
+    /** @brief Request QImage of current frame */
+    void slotGetCurrentImage();
 
 signals:
     void renderPosition(int);

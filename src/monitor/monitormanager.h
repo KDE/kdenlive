@@ -131,6 +131,8 @@ signals:
     void checkColorScopes();
     /** @brief When the active monitor renderer was deleted, reset color scopes */
     void clearScopes();
+    /** @brief Check if we still need to send frame for scopes */
+    void checkScopes();
     void addEffect(QDomElement);
 
 };

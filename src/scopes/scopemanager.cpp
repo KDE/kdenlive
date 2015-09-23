@@ -39,6 +39,7 @@ ScopeManager::ScopeManager(QObject *parent) :
 
     connect(pCore->monitorManager(), SIGNAL(checkColorScopes()), SLOT(slotUpdateActiveRenderer()));
     connect(pCore->monitorManager(), SIGNAL(clearScopes()), SLOT(slotClearColorScopes()));
+    connect(pCore->monitorManager(), SIGNAL(checkScopes()), SLOT(slotCheckActiveScopes()));
     connect(m_signalMapper, SIGNAL(mapped(QString)), SLOT(slotRequestFrame(QString)));
 
     slotUpdateActiveRenderer();

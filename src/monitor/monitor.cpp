@@ -317,6 +317,15 @@ Monitor::~Monitor()
     delete render;
 }
 
+void Monitor::slotGetCurrentImage()
+{
+    m_monitorManager->activateMonitor(m_id, true);
+    m_glMonitor->sendFrameForAnalysis = true;
+    refreshMonitor();
+    // Update analysis state
+    QTimer::singleShot(500, m_monitorManager, SIGNAL(checkScopes()));
+}
+
 void Monitor::slotAddEffect(QDomElement effect)
 {
     if (m_id == Kdenlive::ClipMonitor) {
@@ -569,7 +578,7 @@ void Monitor::slotSetZoneEnd()
 // virtual
 void Monitor::mousePressEvent(QMouseEvent * event)
 {
-    if (render) render->setActiveMonitor();
+    m_monitorManager->activateMonitor(m_id);
     if (!(event->button() & Qt::RightButton)) {
         if (m_glWidget->geometry().contains(event->pos())) {
             m_dragStarted = true;

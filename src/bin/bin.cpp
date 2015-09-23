@@ -2437,12 +2437,18 @@ void Bin::deleteAllClipMarkers(const QString &id)
     else delete command;
 }
 
+void Bin::slotGetCurrentProjectImage()
+{
+    pCore->monitorManager()->projectMonitor()->slotGetCurrentImage();
+}
+
 // TODO: move title editing into a better place...
 void Bin::showTitleWidget(ProjectClip *clip)
 {
     QString path = clip->getProducerProperty("resource");
     QString titlepath = m_doc->projectFolder().path() + QDir::separator() + "titles/";
     QPointer<TitleWidget> dia_ui = new TitleWidget(QUrl(), m_doc->timecode(), titlepath, pCore->monitorManager()->projectMonitor()->render, pCore->window());
+    connect(dia_ui, SIGNAL(requestBackgroundFrame()), pCore->monitorManager()->projectMonitor(), SLOT(slotGetCurrentImage()));
         QDomDocument doc;
         doc.setContent(clip->getProducerProperty("xmldata"));
         dia_ui->setXml(doc);

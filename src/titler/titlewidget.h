@@ -229,6 +229,7 @@ public slots:
     void saveTitle(QUrl url = QUrl());
     /** Load a title from a title file */
     void loadTitle(QUrl url = QUrl());
+    void slotGotBackground(QImage img);
 
 private slots:
 
@@ -345,6 +346,9 @@ private slots:
     void slotZIndexBottom();
     /** Called when the user wants to apply a different template to the title */
     void templateIndexChanged(int);
+    
+signals:
+    void requestBackgroundFrame();
 };
 
 #endif
