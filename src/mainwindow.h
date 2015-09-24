@@ -249,6 +249,7 @@ private:
     ClipItem *m_mainClip;
     bool m_themeInitialized;
     bool m_isDarkTheme;
+    QListWidget *m_effectBasket;
     /** @brief Update statusbar stylesheet (in case of color theme change). */
     void setStatusBarStyleSheet(const QPalette &p);
 

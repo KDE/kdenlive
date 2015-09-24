@@ -30,7 +30,7 @@
 #include <QMenu>
 #include <QDir>
 #include <QStandardPaths>
-
+#include <QListWidget>
 
 TreeEventEater::TreeEventEater(QObject *parent) : QObject(parent)
 {
@@ -78,7 +78,8 @@ EffectsListView::EffectsListView(QWidget *parent) :
     else
         infopanel->hide();
 
-    m_contextMenu->addAction(KoIconUtils::themedIcon("list-add"), i18n("Add effect to selected clip"), this, SLOT(slotEffectSelected()));
+    m_contextMenu->addAction(KoIconUtils::themedIcon("list-add"), i18n("Add Effect to Selected Clip"), this, SLOT(slotEffectSelected()));
+    m_favoriteAction = m_contextMenu->addAction(KoIconUtils::themedIcon("favorite"), i18n("Add Effect to Favorites"), this, SLOT(slotAddToFavorites()));
     m_removeAction = m_contextMenu->addAction(KoIconUtils::themedIcon("edit-delete"), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
 
     effectsAll->setIcon(KoIconUtils::themedIcon("kdenlive-show-all-effects"));
@@ -172,7 +173,31 @@ void EffectsListView::slotAddFavorite(QString id)
     if (!favs.contains(id)) {
         favs << id;
         KdenliveSettings::setFavorite_effects(favs);
+        emit reloadBasket();
     }
+}
+
+void EffectsListView::creatFavoriteBasket(QListWidget *list)
+{
+    // Find favorites;
+    list->clear();
+    for (int i = 0; i < m_effectsList->topLevelItemCount(); ++i) {
+        QTreeWidgetItem *folder = m_effectsList->topLevelItem(i);
+        if (folder->text(0) == "Favorites") continue;
+        for (int j = 0; j < folder->childCount(); ++j) {
+            QTreeWidgetItem *item = folder->child(j);
+            QStringList data = item->data(0, Qt::UserRole + 1).toStringList();
+            QString id = data.at(1);
+            if (id.isEmpty()) id = data.at(0);
+            if (KdenliveSettings::favorite_effects().contains(id)) {
+                QListWidgetItem *it = new QListWidgetItem(item->icon(0), item->text(0));
+                it->setData(EffectsListWidget::TypeRole, item->data(0, EffectsListWidget::TypeRole));
+                it->setData(EffectsListWidget::IdRole, item->data(0, EffectsListWidget::IdRole));
+                list->addItem(it);
+            }
+        }
+    }
+    list->sortItems();
 }
 
 void EffectsListView::filterList()
@@ -184,7 +209,6 @@ void EffectsListView::filterList()
     else if (m_effectsFavorites->isChecked()) pos = EffectsListWidget::EFFECT_FAVORITES;
     else if (effectsCustom->isChecked()) pos = EffectsListWidget::EFFECT_CUSTOM;
     KdenliveSettings::setSelected_effecttab(pos);
-
     m_effectsList->resetFavorites();
     if (pos == EffectsListWidget::EFFECT_CUSTOM) {
         m_removeAction->setText(i18n("Delete effect"));
@@ -292,9 +316,18 @@ void EffectsListView::slotDisplayMenu(QTreeWidgetItem *item, const QPoint &pos)
     } else {
         m_removeAction->setVisible(false);
     }
+    m_favoriteAction->setVisible(actionRole != EffectsListWidget::EFFECT_FAVORITES);
     if (actionRole != EffectsListWidget::EFFECT_FOLDER) {
         m_contextMenu->popup(pos);
     }
+}
+
+void EffectsListView::slotAddToFavorites()
+{
+    QDomElement effect = m_effectsList->currentEffect();
+    QString id = effect.attribute("id");
+    if (id.isEmpty()) id = effect.attribute("tag");
+    slotAddFavorite(id);
 }
 
 void EffectsListView::slotRemoveEffect()
@@ -308,6 +341,7 @@ void EffectsListView::slotRemoveEffect()
         QStringList favs = KdenliveSettings::favorite_effects();
         favs.removeAll(id);
         KdenliveSettings::setFavorite_effects(favs);
+        emit reloadBasket();
         filterList();
         return;
     }

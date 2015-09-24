@@ -4,5 +4,6 @@ set(kdenlive_SRCS
   effectslist/effectslistview.cpp
   effectslist/effectslistwidget.cpp
   effectslist/initeffects.cpp
+  effectslist/effectbasket.cpp
   PARENT_SCOPE)
 

@@ -37,6 +37,7 @@
 #include "timeline/timeline.h"
 #include "timeline/customtrackview.h"
 #include "effectslist/effectslistview.h"
+#include "effectslist/effectbasket.h"
 #include "effectstack/effectstackview2.h"
 #include "project/transitionsettings.h"
 #include "mltcontroller/bincontroller.h"
@@ -295,7 +296,29 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
                 tempAction->setToolTip( strippedTooltip + " (" + tempAction->shortcut().toString() + ")");
         }
     }
+    
+    // Create Effect Basket (dropdown list of favorites)
+    m_effectBasket = new EffectBasket(m_effectList);
+    QWidgetAction *widgetlist = new QWidgetAction(this);
+    widgetlist->setText(i18n("Favorite Effects"));
+    widgetlist->setDefaultWidget(m_effectBasket);
+    QMenu *menu = new QMenu(this);
+    menu->addAction(widgetlist);
+
+    QToolButton *basketButton = new QToolButton(this);
+    basketButton->setMenu(menu);
+    basketButton->setDefaultAction(widgetlist);
+    basketButton->setPopupMode(QToolButton::InstantPopup);
+    basketButton->setIcon(KoIconUtils::themedIcon("favorite"));
+    basketButton->setToolTip(i18n("Favorite Effects"));
+    basketButton->setText(i18n("Favorite Effects"));
+    basketButton->setShortcut(Qt::CTRL + Qt::Key_R);
+    actionCollection()->addAction("fav_aff", basketButton);
+
     setupGUI();
+
+    QToolBar *extraTB = static_cast<QToolBar*>(factory()->container("extraToolBar", this));
+    extraTB->addWidget(basketButton);
 
     /*ScriptingPart* sp = new ScriptingPart(this, QStringList());
     guiFactory()->addClient(sp);*/

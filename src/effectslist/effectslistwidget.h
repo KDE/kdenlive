@@ -40,11 +40,14 @@ class EffectsListWidget : public QTreeWidget
     static const int EFFECT_FAVORITES = 5;
     static const int EFFECT_FOLDER = 6;
 
+    static const int TypeRole = Qt::UserRole;
+    static const int IdRole = TypeRole + 1;
+
     explicit EffectsListWidget(QWidget *parent = 0);
     virtual ~EffectsListWidget();
     const QDomElement currentEffect() const;
     QString currentInfo() const;
-    const QDomElement itemEffect(QTreeWidgetItem *item) const;
+    static const QDomElement itemEffect(int type, QStringList effectInfo);
     void initList(QMenu *effectsMenu, KActionCategory *effectActions);
     void updatePalette();
     void setRootOnCustomFolder();

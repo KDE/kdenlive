@@ -31,10 +31,6 @@
 #include <QStandardPaths>
 
 
-const int TypeRole = Qt::UserRole;
-const int IdRole = TypeRole + 1;
-
-
 EffectsListWidget::EffectsListWidget(QWidget *parent) :
     QTreeWidget(parent)
 {
@@ -74,7 +70,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
     QString currentFolder;
     bool found = false;
     effectsMenu->clear();
-    
+
     if (currentItem()) {
         current = currentItem()->text(0);
         if (currentItem()->parent())
@@ -283,7 +279,11 @@ QTreeWidgetItem *EffectsListWidget::findFolder(const QString &name)
 
 const QDomElement EffectsListWidget::currentEffect() const
 {
-    return itemEffect(currentItem());
+    QTreeWidgetItem *item = currentItem();
+    if (!item) return QDomElement();
+    int type = item->data(0, TypeRole).toInt();
+    QStringList info = item->data(0, IdRole).toStringList();
+    return itemEffect(type, info);
 }
 
 QIcon EffectsListWidget::generateIcon(int size, const QString &name, const QString &group, QDomElement info)
@@ -319,12 +319,11 @@ QIcon EffectsListWidget::generateIcon(int size, const QString &name, const QStri
     return QIcon(pix);
 }
 
-const QDomElement EffectsListWidget::itemEffect(QTreeWidgetItem *item) const
+const QDomElement EffectsListWidget::itemEffect(int type, QStringList effectInfo)
 {
     QDomElement effect;
-    if (!item || item->data(0, TypeRole).toInt() == (int)EFFECT_FOLDER) return effect;
-    QStringList effectInfo = item->data(0, IdRole).toStringList();
-    switch (item->data(0, TypeRole).toInt()) {
+    if (type == (int)EFFECT_FOLDER) return effect;
+    switch (type) {
     case EFFECT_VIDEO:
     case EFFECT_GPU:
         effect =  MainWindow::videoEffects.getEffectByTag(effectInfo.at(0), effectInfo.at(1)).cloneNode().toElement();
@@ -392,7 +391,9 @@ QMimeData * EffectsListWidget::mimeData(const QList<QTreeWidgetItem *> list) con
     QDomDocument doc;
     foreach(QTreeWidgetItem *item, list) {
         if (item->flags() & Qt::ItemIsDragEnabled) {
-            const QDomElement e = itemEffect(item);
+            int type = item->data(0, TypeRole).toInt();
+            QStringList info = item->data(0, IdRole).toStringList();
+            const QDomElement e = itemEffect(type, info);
             if (!e.isNull())
                 doc.appendChild(doc.importNode(e, true));
         }
@@ -447,9 +448,9 @@ void EffectsListWidget::resetRoot()
 {
     setRootIndex(indexFromItem(invisibleRootItem()));
 }
-
 void EffectsListWidget::createFavorites(QList <QTreeWidgetItem *>list)
 {
+    // Favorites is a pseudo-folder used to store items, not visible to end user, so don't i18n its name
     QTreeWidgetItem *misc = findFolder("Favorites");
     if (misc == NULL) {
         misc = new QTreeWidgetItem((QTreeWidget*)0, QStringList("Favorites"));

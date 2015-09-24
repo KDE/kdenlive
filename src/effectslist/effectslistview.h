@@ -34,6 +34,7 @@ class EffectsList;
 class EffectsListWidget;
 class QTreeWidget;
 class KActionCategory;
+class QListWidget;
 
 class TreeEventEater : public QObject
 {
@@ -100,10 +101,11 @@ public:
     void reloadEffectList(QMenu *effectsMenu, KActionCategory *effectActions);
     QMenu* getEffectsMenu();
     //void slotAddEffect(GenTime pos, int track, QString name);
-    
+
     /** @brief Palette was changed, update styles. */
     void updatePalette();
     void refreshIcons();
+    void creatFavoriteBasket(QListWidget *list);
 
 private:
     EffectsListWidget *m_effectsList;
@@ -112,6 +114,7 @@ private:
     MyDropButton *m_effectsFavorites;
     /** @brief Action triggering remove effect from favorites or delete custom effect, depending on active tab. */
     QAction *m_removeAction;
+    QAction *m_favoriteAction;
     QMenu *m_contextMenu;
 
 private slots:
@@ -147,11 +150,14 @@ private slots:
     /** @brief Add an effect to the favorites
     * @param id id of the effect we want */
     void slotAddFavorite(QString id);
+    /** @brief Add currently selected effect to the favorites */
+    void slotAddToFavorites();
     void slotDisplayMenu(QTreeWidgetItem *item, const QPoint &pos);
 
 signals:
     void addEffect(const QDomElement&);
     void reloadEffects();
+    void reloadBasket();
 };
 
 #endif
