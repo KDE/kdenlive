@@ -1013,7 +1013,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         
         // Create Bin Playlist
         QDomElement main_playlist = m_doc.createElement("playlist");
-        main_playlist.setAttribute("id", "main bin");
         QDomElement prop = m_doc.createElement("property");
         prop.setAttribute("name", "xml_retain");
         QDomText val = m_doc.createTextNode("1");
@@ -1083,7 +1082,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 entry.setAttribute("producer", id);
                 main_playlist.appendChild(entry);
                 frag.appendChild(prod);
-                i--;
             }
             else {
                 QDomElement originalProd = prod.cloneNode().toElement();
@@ -1148,7 +1146,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 }
             }
         }
-        
+
         // Make sure all slowmotion producers have a master clip
         for (int i = 0; i < slowmotionIds.count(); i++) {
             QString slo = slowmotionIds.at(i);
@@ -1193,7 +1191,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         frag.appendChild(main_playlist);
         mlt.insertBefore(frag, firstProd);
     }
-    
+
     if (version < 0.91) {
         // Migrate track properties
         QDomNodeList old_tracks = m_doc.elementsByTagName("trackinfo");
