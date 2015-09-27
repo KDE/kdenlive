@@ -134,7 +134,7 @@ void ClipController::getInfoForProducer()
         }
     }
     else if (m_service == "qimage" || m_service == "pixbuf") {
-        if (int_property("ttl") > 0) {
+        if (m_url.path().contains("%") || m_url.path().contains("./.all.")) {
             m_clipType = SlideShow;
         }
         else {

@@ -971,7 +971,17 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         int profileWidth;
         int profileHeight;
         QDomElement profile = m_doc.firstChildElement("profile");
-        if (profile.isNull()) profile = infoXml.firstChildElement("profileinfo");
+        if (profile.isNull()) {
+            profile = infoXml.firstChildElement("profileinfo");
+            if (!profile.isNull()) {
+                // old MLT format, we need to add profile
+                QDomNode mlt = m_doc.firstChildElement("mlt");
+                QDomNode firstProd = m_doc.firstChildElement("producer");
+                QDomElement pr = profile.cloneNode().toElement();
+                pr.setTagName("profile");
+                mlt.insertBefore(pr, firstProd);
+            }
+        }
         if (profile.isNull()) {
             // could not find profile info, set PAL
             profileWidth = 720;
@@ -1042,7 +1052,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             prop.appendChild(val);
             main_playlist.appendChild(prop);
         }
-        
+
         // Move folders
         QDomNodeList folders = m_doc.elementsByTagName("folder");
         for (int i = 0; i < folders.count(); ++i) {
@@ -1060,6 +1070,17 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QStringList ids;
         QStringList slowmotionIds;
         QDomNode firstProd = m_doc.firstChildElement("producer");
+        
+        QDomNodeList kdenlive_producers = m_doc.elementsByTagName("kdenlive_producer");
+
+        // Create easily searchable index of original producers
+        QMap <QString, QDomElement> m_source_producers;
+        for (int j = 0; j < kdenlive_producers.count(); j++) {
+            QDomElement prod = kdenlive_producers.at(j).toElement();
+            QString id = prod.attribute("id");
+            m_source_producers.insert(id, prod);
+        }
+
         for (int i = 0; i < producers.count(); ++i) {
             QDomElement prod = producers.at(i).toElement();
             QString id = prod.attribute("id");
@@ -1083,6 +1104,19 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 entry.setAttribute("out", prod.attribute("out"));
                 entry.setAttribute("producer", id);
                 main_playlist.appendChild(entry);
+                QDomElement source = m_source_producers.value(id);
+                if (!source.isNull()) {
+                    if (source.hasAttribute("proxy")) {
+                        EffectsList::setProperty(prod, "kdenlive:proxy", source.attribute("proxy"));
+                        EffectsList::setProperty(prod, "kdenlive:originalurl", source.attribute("resource"));
+                    }
+                    if (source.hasAttribute("file_hash")) {
+                        EffectsList::setProperty(prod, "kdenlive:file_hash", source.attribute("file_hash"));
+                    }
+                    if (source.hasAttribute("file_size")) {
+                        EffectsList::setProperty(prod, "kdenlive:file_size", source.attribute("file_size"));
+                    }
+                }
                 frag.appendChild(prod);
             }
             else {
@@ -1098,8 +1132,73 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             ids.append(prodId);
         }
 
+        // Make sure to include producers that were not in timeline
+        for (int j = 0; j < kdenlive_producers.count(); j++) {
+            QDomElement prod = kdenlive_producers.at(j).toElement();
+            QString id = prod.attribute("id");
+            if (!ids.contains(id)) {
+                // Clip was not in timeline, create it
+                QDomElement originalProd = prod.cloneNode().toElement();
+                originalProd.setTagName("producer");
+                EffectsList::setProperty(originalProd, "resource", originalProd.attribute("resource"));
+                if (originalProd.hasAttribute("proxy")) {
+                    EffectsList::setProperty(originalProd, "kdenlive:proxy", originalProd.attribute("proxy"));
+                    EffectsList::setProperty(originalProd, "kdenlive:originalurl", originalProd.attribute("resource"));
+                }
+                if (originalProd.hasAttribute("file_hash")) {
+                    EffectsList::setProperty(originalProd, "kdenlive:file_hash", originalProd.attribute("file_hash"));
+                }
+                if (originalProd.hasAttribute("file_size")) {
+                    EffectsList::setProperty(originalProd, "kdenlive:file_size", originalProd.attribute("file_size"));
+                }
+                if (originalProd.hasAttribute("duration")) {
+                    EffectsList::setProperty(originalProd, "length", originalProd.attribute("duration"));
+                }
+                if (originalProd.hasAttribute("name")) {
+                    EffectsList::setProperty(originalProd, "kdenlive:clipname", originalProd.attribute("name"));
+                }
+                EffectsList::removeProperty(originalProd, "proxy");
+                EffectsList::removeProperty(originalProd, "type");
+                EffectsList::removeProperty(originalProd, "file_hash");
+                EffectsList::removeProperty(originalProd, "file_size");
+                EffectsList::removeProperty(originalProd, "frame_size");
+                EffectsList::removeProperty(originalProd, "proxy_out");
+                EffectsList::removeProperty(originalProd, "name");
+
+                int type = originalProd.attribute("type").toInt();
+                QString mlt_service;
+                switch (type) {
+                  case 4:
+                      mlt_service = "colour";
+                      break;
+                  case 5:
+                  case 7:
+                      mlt_service = "qimage";
+                      break;
+                  case 6:
+                      mlt_service = "kdenlivetitle";
+                      break;
+                  case 9:
+                      mlt_service = "xml";
+                      break;
+                  default:
+                      mlt_service = "avformat";
+                      break;
+                }
+                EffectsList::setProperty(originalProd, "mlt_service", mlt_service);
+                EffectsList::setProperty(originalProd, "mlt_type", "producer");
+                QDomElement entry = m_doc.createElement("entry");
+                entry.setAttribute("in", originalProd.attribute("in"));
+                entry.setAttribute("out", originalProd.attribute("out"));
+                entry.setAttribute("producer", id);
+                main_playlist.appendChild(entry);
+                frag.appendChild(originalProd);
+                ids << id;
+            }
+        }
+
+
         // Set clip folders
-        QDomNodeList kdenlive_producers = m_doc.elementsByTagName("kdenlive_producer");
         for (int j = 0; j < kdenlive_producers.count(); j++) {
             QDomElement prod = kdenlive_producers.at(j).toElement();
             QString prodName = prod.attribute("name");
