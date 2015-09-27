@@ -119,6 +119,8 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
     Mlt::Service s(m_doc->renderer()->getProducer()->parent().get_service());
     m_tractor = new Mlt::Tractor(s);
     transitionHandler = new TransitionHandler(m_tractor);
+    connect(transitionHandler, &TransitionHandler::refresh, m_doc->renderer(), &Render::doRefresh);
+    
     parseDocument(m_doc->toXml());
     connect(m_trackview, SIGNAL(cursorMoved(int,int)), m_ruler, SLOT(slotCursorMoved(int,int)));
     connect(m_trackview, SIGNAL(updateRuler(int)), m_ruler, SLOT(updateRuler(int)), Qt::DirectConnection);
@@ -299,6 +301,7 @@ void Timeline::checkDuration(int duration) {
 
 void Timeline::getTransitions() {
     mlt_service service = mlt_service_get_producer(m_tractor->get_service());
+    QScopedPointer<Mlt::Field> field(m_tractor->field());
     while (service) {
         Mlt::Properties prop(MLT_SERVICE_PROPERTIES(service));
         if (QString(prop.get("mlt_type")) != "transition")
@@ -347,7 +350,6 @@ void Timeline::getTransitions() {
             m_documentErrors.append(i18n("Removed invalid transition: %1", prop.get("id")) + '\n');
             mlt_service disconnect = service;
             service = mlt_service_producer(service);
-            QScopedPointer<Mlt::Field> field(m_tractor->field());
             mlt_field_disconnect_service(field->get_field(), disconnect);
         } else {
             QDomNodeList params = base.elementsByTagName("parameter");
@@ -361,6 +363,7 @@ void Timeline::getTransitions() {
                     e.setAttribute("value", value);
             }
             Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base, QString(prop.get("automatic")) == "1");
+            tr->setPos(transitionInfo.startPos.frames(m_doc->fps()), KdenliveSettings::trackheight() * (visibleTracksCount() - transitionInfo.track) + 1 + tr->itemOffset());
             if (QString(prop.get("force_track")) == "1") tr->setForcedTrack(true, a_track);
             if (isTrackLocked(b_track - 1)) tr->setItemLocked(true);
             m_scene->addItem(tr);
@@ -930,7 +933,7 @@ int Timeline::loadTrack(int ix, Mlt::Playlist &playlist) {
 	position += length;
 	//qDebug()<<"// Loading clip: "<<idString<<" / SPEED: "<<speed<<"\n++++++++++++++++++++++++";
         ClipItem *item = new ClipItem(binclip, clipinfo, fps, speed, strobe, m_trackview->getFrameWidth(), true);
-        item->setPos(clipinfo.startPos.frames(fps), KdenliveSettings::trackheight() * ( clipinfo.track) + 1 + item->itemOffset());
+        item->setPos(clipinfo.startPos.frames(fps), KdenliveSettings::trackheight() * (visibleTracksCount() - clipinfo.track) + 1 + item->itemOffset());
         qDebug()<<" * * Loaded clip on tk: "<<clipinfo.track<< ", POS: "<<clipinfo.startPos.frames(fps);
         item->updateState(idString);
         m_scene->addItem(item);

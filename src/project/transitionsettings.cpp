@@ -151,10 +151,10 @@ void TransitionSettings::updateTrackList()
     transitionTrack->addItem(i18n("Auto"), -1);
     int limit = 1;
     if (m_usedTransition)
-        limit = m_usedTransition->track() + 1;
+        limit = m_usedTransition->track() - 1;
     QIcon videoIcon = QIcon::fromTheme("kdenlive-show-video");
     QIcon audioIcon = QIcon::fromTheme("kdenlive-show-audio");
-    for (int i = limit; i < m_tracks.count(); ++i) {
+    for (int i = limit; i > 0; i--) {
         transitionTrack->addItem(m_tracks.at(i).type == VideoTrack ? videoIcon : audioIcon,
                                  m_tracks.at(i).trackName.isEmpty() ? QString::number(i) : m_tracks.at(i).trackName,
                                  m_tracks.count() - i);
