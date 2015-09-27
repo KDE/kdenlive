@@ -27,14 +27,16 @@
 
 class KDualAction;
 class QToolBar;
+class Track;
 
 class HeaderTrack : public QWidget, public Ui::TrackHeader_UI
 {
     Q_OBJECT
 
 public:
-    HeaderTrack(int index, TrackInfo info, int height, const QList <QAction *>& actions, QWidget *parent = 0);
+    HeaderTrack(TrackInfo info, const QList <QAction *>& actions, Track *parent);
     virtual ~HeaderTrack();
+    void setTrackHeight(int height);
     void setLock(bool lock);
     void setComposite(bool enable);
     void adjustSize(int height);
@@ -43,6 +45,8 @@ public:
     void updateEffectLabel(const QStringList &effects);
     void renameTrack(const QString &name);
     QString name() const;
+    /** @brief Update status of mute/blind/lock/composite buttons.*/
+    void updateStatus(TrackInfo info);
 
 protected:
     void mousePressEvent(QMouseEvent * event);
@@ -53,6 +57,7 @@ protected:
 private:
     int m_index;
     TrackType m_type;
+    Track *m_parentTrack;
     bool m_isSelected;
     QString m_name;
     QToolBar *m_tb;
@@ -70,14 +75,14 @@ private slots:
     void switchLock(bool);
 
 signals:
-    void switchTrackAudio(int,bool);
-    void switchTrackVideo(int,bool);
-    void switchTrackComposite(int,bool);
-    void switchTrackLock(int,bool);
-    void renameTrack(int, const QString&);
-    void selectTrack(int);
-    void configTrack(int);
-    void addTrackEffect(const QDomElement &, int);
+    void switchTrackAudio(int index,bool);
+    void switchTrackVideo(int index,bool);
+    void switchTrackComposite(int index,bool);
+    void switchTrackLock(int index,bool);
+    void renameTrack(int index, const QString&name);
+    void selectTrack(int index);
+    void configTrack();
+    void addTrackEffect(const QDomElement &, int index);
 };
 
 #endif

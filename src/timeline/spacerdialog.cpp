@@ -40,7 +40,7 @@ SpacerDialog::SpacerDialog(const GenTime &duration, const Timecode &tc, int trac
 
     QStringList trackItems;
     trackItems << i18n("All tracks");
-    for (int i = tracks.count() - 1; i >= 0; --i) {
+    for (int i = tracks.count() - 1; i > 0; --i) {
         if (!tracks.at(i).trackName.isEmpty())
             trackItems << tracks.at(i).trackName + " (" + QString::number(i) + ')';
         else

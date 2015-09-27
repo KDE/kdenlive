@@ -26,6 +26,7 @@
 #include "headertrack.h"
 #include "clipitem.h"
 #include "transition.h"
+#include "transitionhandler.h"
 #include "timelinecommands.h"
 #include "customruler.h"
 #include "customtrackview.h"
@@ -51,7 +52,6 @@
 
 Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, QWidget *parent) :
     QWidget(parent),
-    m_projectTracks(0),
     m_scale(1.0),
     m_doc(doc),
     m_verticalZoom(1)
@@ -118,6 +118,7 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
     connect(m_trackview, SIGNAL(updateTrackEffectState(int)), this, SLOT(slotUpdateTrackEffectState(int)));
     Mlt::Service s(m_doc->renderer()->getProducer()->parent().get_service());
     m_tractor = new Mlt::Tractor(s);
+    transitionHandler = new TransitionHandler(m_tractor);
     parseDocument(m_doc->toXml());
     connect(m_trackview, SIGNAL(cursorMoved(int,int)), m_ruler, SLOT(slotCursorMoved(int,int)));
     connect(m_trackview, SIGNAL(updateRuler(int)), m_ruler, SLOT(updateRuler(int)), Qt::DirectConnection);
@@ -125,8 +126,6 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
     connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));
     connect(m_trackview->horizontalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(slotUpdateVerticalScroll(int,int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
-    connect(m_trackview, SIGNAL(doTrackLock(int,bool)), this, SLOT(slotChangeTrackLock(int,bool)));
-    
     m_trackview->slotUpdateAllThumbs();
 
     slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
@@ -138,18 +137,26 @@ Timeline::~Timeline()
     delete m_ruler;
     delete m_trackview;
     delete m_scene;
+    delete transitionHandler;
     delete m_tractor;
+    qDeleteAll<>(m_tracks);
     m_tracks.clear();
 }
 
 Track* Timeline::track(int i) 
 {
+    if (i < 0 || i >= m_tracks.count()) return NULL;
     return m_tracks.at(i);
 }
 
 int Timeline::tracksCount() const
 {
     return m_tracks.count();
+}
+
+int Timeline::visibleTracksCount() const
+{
+    return m_tracks.count() - 1;
 }
 
 //virtual
@@ -208,28 +215,61 @@ void Timeline::setDuration(int dur)
 }
 
 int Timeline::getTracks() {
-    int trackIndex = 0;
     int duration = 1;
     qDeleteAll<>(m_tracks);
     m_tracks.clear();
-    m_projectTracks = m_tractor->count();
-    for (int i = 0; i < m_projectTracks; ++i) {
+    QVBoxLayout *headerLayout = qobject_cast< QVBoxLayout* >(headers_container->layout());
+    QLayoutItem *child;
+    while ((child = headerLayout->takeAt(0)) != 0) {
+        QWidget *wid = child->widget();
+        delete child;
+        if (wid) {
+            // We need to change parent or the headers are still here when processing getTransitions()
+            wid->setParent(0);
+            wid->deleteLater();
+        }
+    }
+
+    int height = KdenliveSettings::trackheight() * m_scene->scale().y() - 1;
+    int headerWidth = 0;
+    for (int i = 0; i < m_tractor->count(); ++i) {
         QScopedPointer<Mlt::Producer> track(m_tractor->track(i));
         QString playlist_name = track->get("id");
-        if (playlist_name == "black_track" || playlist_name == "playlistmain") continue;
+        if (playlist_name == "playlistmain") continue;
         // check track effects
         Mlt::Playlist playlist(*track);
         int trackduration;
         int audio = playlist.get_int("kdenlive:audio_track");
-        trackduration = loadTrack(m_tractor->count() - 1 - i, playlist);
-        m_tracks.prepend(new Track(playlist, audio == 1 ? AudioTrack : VideoTrack, m_doc->fps()));
-        if (trackduration > duration) duration = trackduration;
+        trackduration = loadTrack(i, playlist);
+        QFrame *frame = new QFrame(headers_container);
+        frame->setFrameStyle(QFrame::HLine);
+        frame->setFixedHeight(1);
+        headerLayout->insertWidget(0, frame);
+        Track *tk = new Track(i, m_trackActions, playlist, audio == 1 ? AudioTrack : VideoTrack, m_doc->fps());
+        m_tracks.append(tk);
+        if (playlist_name != "black_track") {
+            tk->trackHeader->setTrackHeight(height);
+            int currentWidth = tk->trackHeader->minimumWidth();
+            if (currentWidth > headerWidth) headerWidth = currentWidth;
+            headerLayout->insertWidget(0, tk->trackHeader);
+            if (trackduration > duration) duration = trackduration;
+            tk->trackHeader->setSelectedIndex(m_trackview->selectedTrack());
+            connect(tk->trackHeader, &HeaderTrack::switchTrackComposite, this, &Timeline::slotSwitchTrackComposite);
+            connect(tk->trackHeader, SIGNAL(switchTrackVideo(int,bool)), m_trackview, SLOT(slotSwitchTrackVideo(int,bool)));
+            connect(tk->trackHeader, SIGNAL(switchTrackAudio(int,bool)), m_trackview, SLOT(slotSwitchTrackAudio(int,bool)));
+            connect(tk->trackHeader, SIGNAL(switchTrackLock(int,bool)), m_trackview, SLOT(slotSwitchTrackLock(int,bool)));
+            connect(tk->trackHeader, SIGNAL(selectTrack(int)), m_trackview, SLOT(slotSelectTrack(int)));
+            connect(tk->trackHeader, SIGNAL(renameTrack(int,QString)), this, SLOT(slotRenameTrack(int,QString)));
+            connect(tk->trackHeader, SIGNAL(configTrack()), this, SIGNAL(configTrack()));
+            connect(tk->trackHeader, SIGNAL(addTrackEffect(QDomElement,int)), m_trackview, SLOT(slotAddTrackEffect(QDomElement,int)));
+        }
         if (playlist.filter_count()) getEffects(playlist, NULL, 0);
-        ++trackIndex;
-        connect(m_tracks[0], &Track::newTrackDuration, this, &Timeline::checkDuration);
-	connect(m_tracks[0], SIGNAL(storeSlowMotion(QString,Mlt::Producer *)), m_doc->renderer(), SLOT(storeSlowmotionProducer(QString,Mlt::Producer *)));
+        connect(tk, &Track::newTrackDuration, this, &Timeline::checkDuration);
+	connect(tk, SIGNAL(storeSlowMotion(QString,Mlt::Producer *)), m_doc->renderer(), SLOT(storeSlowmotionProducer(QString,Mlt::Producer *)));
     }
-    checkTrackHeight();
+    headers_container->setFixedWidth(headerWidth);
+    updatePalette();
+    checkTrackHeight(true);
     return duration;
 }
 
@@ -258,7 +298,6 @@ void Timeline::checkDuration(int duration) {
 }
 
 void Timeline::getTransitions() {
-    QList<HeaderTrack *> header = headers_container->findChildren<HeaderTrack *>();
     mlt_service service = mlt_service_get_producer(m_tractor->get_service());
     while (service) {
         Mlt::Properties prop(MLT_SERVICE_PROPERTIES(service));
@@ -268,14 +307,11 @@ void Timeline::getTransitions() {
         if (QString(prop.get("internal_added")) == "237") {
             QString trans = prop.get("mlt_service");
             if (trans == "movit.overlay" || trans == "frei0r.cairoblend") {
-                int ix = m_tracks.count() - prop.get_int("b_track");
+                int ix = prop.get_int("b_track");
                 if (ix >= 0 && ix < m_tracks.count()) {
                     TrackInfo info = track(ix)->info();
                     info.composite = !prop.get_int("disable");
                     track(ix)->setInfo(info);
-                    if (ix < header.count()) {
-                        header.at(ix)->setComposite(info.composite);
-                    }
                 } else qWarning() << "Wrong composite track index: " << ix;
             } else if(trans == "mix") {
             }
@@ -288,19 +324,19 @@ void Timeline::getTransitions() {
         ItemInfo transitionInfo;
         transitionInfo.startPos = GenTime(prop.get_int("in"), m_doc->fps());
         transitionInfo.endPos = GenTime(prop.get_int("out") + 1, m_doc->fps());
-        transitionInfo.track = m_projectTracks - 1 - b_track;
+        transitionInfo.track = b_track;
         // When adding composite transition, check if it is a wipe transition
         if (prop.get("kdenlive_id") == NULL && QString(prop.get("mlt_service")) == "composite" && isSlide(prop.get("geometry")))
             prop.set("kdenlive_id", "slide");
         QDomElement base = MainWindow::transitions.getEffectByTag(prop.get("mlt_service"), prop.get("kdenlive_id")).cloneNode().toElement();
         //check invalid parameters
-        if (a_track > m_projectTracks - 1) {
-            m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", prop.get("id"), a_track, m_projectTracks - 1) + '\n');
-            prop.set("a_track", m_projectTracks - 1);
+        if (a_track > m_tractor->count() - 1) {
+            m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", prop.get("id"), a_track, m_tractor->count() - 1) + '\n');
+            prop.set("a_track", m_tractor->count() - 1);
         }
-        if (b_track > m_projectTracks - 1) {
-            m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", prop.get("id"), b_track, m_projectTracks - 1) + '\n');
-            prop.set("b_track", m_projectTracks - 1);
+        if (b_track > m_tractor->count() - 1) {
+            m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", prop.get("id"), b_track, m_tractor->count() - 1) + '\n');
+            prop.set("b_track", m_tractor->count() - 1);
         }
         if (a_track == b_track || b_track <= 0
             || transitionInfo.startPos >= transitionInfo.endPos
@@ -311,7 +347,8 @@ void Timeline::getTransitions() {
             m_documentErrors.append(i18n("Removed invalid transition: %1", prop.get("id")) + '\n');
             mlt_service disconnect = service;
             service = mlt_service_producer(service);
-            mlt_field_disconnect_service(m_tractor->field()->get_field(), disconnect);
+            QScopedPointer<Mlt::Field> field(m_tractor->field());
+            mlt_field_disconnect_service(field->get_field(), disconnect);
         } else {
             QDomNodeList params = base.elementsByTagName("parameter");
             for (int i = 0; i < params.count(); ++i) {
@@ -372,36 +409,15 @@ void Timeline::parseDocument(const QDomDocument &doc)
 
     // parse project tracks
     QDomElement mlt = doc.firstChildElement("mlt");
-    /*QDomElement tractor = mlt.firstChildElement("tractor");
-    QDomNodeList tracks = tractor.elementsByTagName("track");
-    QDomNodeList playlists = doc.elementsByTagName("playlist");*/
-    m_projectTracks = m_tractor->count();// tracks.count();
-    for (int i = 0; i < m_projectTracks; i++) {
-        QScopedPointer<Mlt::Producer> track(m_tractor->multitrack()->track(i));
-        QString trackId = track->get("id");
-        if (trackId == "black_track") {
-            // Background track, do not show
-            continue;
-        }
-    }
-    QDomElement e;
-    QDomElement p;
     m_trackview->setDuration(getTracks());
     getTransitions();
 
-
-    QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
-
-    /*QDomElement propsXml = infoXml.firstChildElement("documentproperties");
-    
-    int currentPos = propsXml.attribute("position").toInt();
-    if (currentPos > 0) m_trackview->initCursorPos(currentPos);*/
     // Rebuild groups
     QDomDocument groupsDoc;
     groupsDoc.setContent(m_doc->renderer()->getBinProperty("kdenlive:clipgroups"));
     QDomNodeList groups = groupsDoc.elementsByTagName("group");
     m_trackview->loadGroups(groups);
-    
+
     // Load custom effects
     QDomDocument effectsDoc;
     effectsDoc.setContent(m_doc->renderer()->getBinProperty("kdenlive:customeffects"));
@@ -409,8 +425,10 @@ void Timeline::parseDocument(const QDomDocument &doc)
     if (!effects.isEmpty()) {
         m_doc->saveCustomEffects(effects);
     }
-    // Remove Kdenlive extra info from xml doc before sending it to MLT
-    mlt.removeChild(infoXml);
+
+    // Remove deprecated Kdenlive extra info from xml doc before sending it to MLT
+    QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
+    if (!infoXml.isNull()) mlt.removeChild(infoXml);
 
     if (!m_documentErrors.isNull()) KMessageBox::sorry(this, m_documentErrors);
     if (mlt.hasAttribute("upgraded") || mlt.hasAttribute("modified")) {
@@ -427,7 +445,7 @@ void Timeline::parseDocument(const QDomDocument &doc)
             message = i18n("Your project file was upgraded to the latest Kdenlive document version.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile);
         else
             message = i18n("Your project file was modified by Kdenlive.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile);
-        
+
         KIO::FileCopyJob *copyjob = KIO::file_copy(m_doc->url(), QUrl::fromLocalFile(backupFile));
         if (copyjob->exec())
             KMessageBox::information(this, message);
@@ -491,9 +509,15 @@ void Timeline::refresh()
 
 void Timeline::slotRepaintTracks()
 {
-    QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
-    for (int i = 0; i < widgets.count(); ++i) {
-        if (widgets.at(i)) widgets.at(i)->setSelectedIndex(m_trackview->selectedTrack());
+    for (int i = 1; i < m_tracks.count(); i++) {
+        m_tracks.at(i)->trackHeader->setSelectedIndex(m_trackview->selectedTrack());
+    }
+}
+
+void Timeline::blockTrackSignals(bool block)
+{
+    for (int i = 1; i < m_tracks.count(); i++) {
+        m_tracks.at(i)->blockSignals(block);
     }
 }
 
@@ -543,29 +567,43 @@ QList <TrackInfo> Timeline::getTracksInfo()
 
 void Timeline::lockTrack(int ix, bool lock)
 {
-    if (ix < 0 || ix > m_tracks.count()) {
-        qWarning() << "Set Track effect outisde of range";
+    Track *tk = track(ix);
+    if (tk == NULL) {
+        qWarning() << "Set Track effect outisde of range: "<<ix;
         return;
     }
-    Track *tk = track(ix);
-    tk->setProperty("kdenlive:locked_track", lock ? 1 : 0);
+    tk->lockTrack(lock);
 }
 
 bool Timeline::isTrackLocked(int ix)
 {
-    if (ix < 0 || ix > m_tracks.count()) {
-        qWarning() << "Set Track effect outisde of range";
+    Track *tk = track(ix);
+    if (tk == NULL) {
+        qWarning() << "Set Track effect outisde of range: "<<ix;
         return false;
     }
-    Track *tk = track(ix);
     int locked = tk->getIntProperty("kdenlive:locked_track");
     return locked == 1;
 }
 
+int Timeline::getTrackIndex(const QString &id)
+{
+    for (int i = 0; i < m_tractor->count(); i++) {
+        QScopedPointer<Mlt::Producer> track(m_tractor->track(i));
+        QString mltTrackName = track->get("producer");
+        if (mltTrackName == id) {
+            return i;
+        }
+    }
+    return -1;
+
+}
+
 void Timeline::updateTrackState(int ix, int state)
 {
+    int currentState = 0;
     QScopedPointer<Mlt::Producer> track(m_tractor->track(ix));
-    int currentState = track->get_int("hide");
+    currentState = track->get_int("hide");
     if (state == currentState) return;
     if (state == 0) {
         // Show all
@@ -598,11 +636,11 @@ void Timeline::updateTrackState(int ix, int state)
 
 void Timeline::switchTrackVideo(int ix, bool hide)
 {
-    if (ix < 0 || ix > m_tracks.count()) {
-        qWarning() << "Set Track effect outisde of range";
+    Track* tk = track(ix);
+    if (tk == NULL) {
+        qWarning() << "Set Track effect outisde of range: "<<ix;
         return;
     }
-    Track* tk = track(ix);
     int state = tk->state();
     if (hide && (state & 1)) {
         // Video is already muted
@@ -629,30 +667,11 @@ void Timeline::switchTrackVideo(int ix, bool hide)
     refreshTractor();
 }
 
-Mlt::Transition *Timeline::getTransition(const QString &name, int b_track, int a_track) const
-{
-    QScopedPointer<Mlt::Service> service(m_tractor->producer());
-    while (service && service->is_valid()) {
-        if (service->type() == transition_type) {
-            Mlt::Transition t((mlt_transition) service->get_service());
-            if (name == t.get("mlt_service") && t.get_b_track() == b_track) {
-                if (a_track == -1 || t.get_a_track() == a_track) {
-                    return new Mlt::Transition(t);
-                }
-            }
-        }
-        service.reset(service->producer());
-    }
-    return 0;
-}
-
 void Timeline::slotSwitchTrackComposite(int trackIndex, bool enable)
 {
     if (trackIndex < 0 || trackIndex > m_tracks.count()) return;
 
-    Mlt::Transition *transition = getTransition(
-        KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend",
-        m_tracks.count() - trackIndex);
+    Mlt::Transition *transition = transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", trackIndex);
     if (transition) {
         transition->set("disable", enable);
         delete transition;
@@ -670,11 +689,11 @@ void Timeline::refreshTractor()
 
 void Timeline::switchTrackAudio(int ix, bool mute)
 {
-    if (ix < 0 || ix > m_tracks.count()) {
-        qWarning() << "Set Track effect outisde of range";
+    Track* tk = track(ix);
+    if (tk == NULL) {
+        qWarning() << "Set Track effect outisde of range: "<<ix;
         return;
     }
-    Track* tk = track(ix);
     int state = tk->state();
     bool audioMixingBroken = false;
     if (mute && (state & 2)) {
@@ -718,7 +737,7 @@ void Timeline::fixAudioMixing()
     // Make sure the audio mixing transitions are applied to the lowest audible (non muted) track
     int lowestTrack = getLowestNonMutedAudioTrack();
     mlt_service service = mlt_service_get_producer(m_tractor->get_service());
-    Mlt::Field *field = m_tractor->field();
+    QScopedPointer<Mlt::Field> field(m_tractor->field());
     mlt_service_lock(service);
     mlt_service nextservice = mlt_service_get_producer(service);
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
@@ -758,15 +777,10 @@ void Timeline::slotRebuildTrackHeaders()
         qDebug()<<"+ + + ++ + + + + ++ \nEMPTY TRACTOR WHEN BUKDING HEADERS\n + + ++ + + + + +";
         return;
     }
-    /*for (int i = 0; i < m_tractor->count(); i++)
-    {
-        Mlt::Producer* track = m_tractor->track(i);
-        Mlt::Playlist playlist(*track);
-        qDebug()<<"++ GOT TRACK: "<<i<<" = "<<playlist.get("kdenlive:track_name");
-    }*/
-
+    return;
+    QVBoxLayout *headerLayout = qobject_cast< QVBoxLayout* >(headers_container->layout());
     QLayoutItem *child;
-    while ((child = headers_container->layout()->takeAt(0)) != 0) {
+    while ((child = headerLayout->takeAt(0)) != 0) {
         QWidget *wid = child->widget();
         delete child;
         if (wid) {
@@ -779,13 +793,13 @@ void Timeline::slotRebuildTrackHeaders()
     int height = KdenliveSettings::trackheight() * m_scene->scale().y() - 1;
     QFrame *frame = NULL;
     int headerWidth = 70;
-    for (int i = 0; i < max; i++) {
+    for (int i = 1; i < max; i++) {
         frame = new QFrame(headers_container);
         frame->setFrameStyle(QFrame::HLine);
         frame->setFixedHeight(1);
-        headers_container->layout()->addWidget(frame);
+        headerLayout->insertWidget(0, frame);
         TrackInfo info = track(i)->info();
-        HeaderTrack *header = new HeaderTrack(i, info, height, m_trackActions, this);
+        /*HeaderTrack *header = new HeaderTrack(i, info, height, m_trackActions, this);
         int currentWidth = header->minimumWidth();
         if (currentWidth > headerWidth) headerWidth = currentWidth;
         header->setSelectedIndex(m_trackview->selectedTrack());
@@ -797,14 +811,14 @@ void Timeline::slotRebuildTrackHeaders()
         connect(header, SIGNAL(renameTrack(int,QString)), this, SLOT(slotRenameTrack(int,QString)));
         connect(header, SIGNAL(configTrack(int)), this, SIGNAL(configTrack(int)));
         connect(header, SIGNAL(addTrackEffect(QDomElement,int)), m_trackview, SLOT(slotAddTrackEffect(QDomElement,int)));
-        headers_container->layout()->addWidget(header);
+        headerLayout->insertWidget(0, header);*/
     }
     updatePalette();
     headers_container->setFixedWidth(headerWidth);
     frame = new QFrame(this);
     frame->setFrameStyle(QFrame::HLine);
     frame->setFixedHeight(1);
-    headers_container->layout()->addWidget(frame);
+    headerLayout->insertWidget(0, frame);
 }
 
 
@@ -848,9 +862,8 @@ void Timeline::refreshIcons()
 void Timeline::adjustTrackHeaders()
 {
     int height = KdenliveSettings::trackheight() * m_scene->scale().y() - 1;
-    QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
-    for (int i = 0; i < widgets.count(); ++i) {
-        if (widgets.at(i)) widgets.at(i)->adjustSize(height);
+    for (int i = 1; i < m_tracks.count(); i++) {
+        m_tracks.at(i)->trackHeader->adjustSize(height);
     }
 }
 
@@ -911,6 +924,8 @@ int Timeline::loadTrack(int ix, Mlt::Playlist &playlist) {
 	position += length;
 	//qDebug()<<"// Loading clip: "<<idString<<" / SPEED: "<<speed<<"\n++++++++++++++++++++++++";
         ClipItem *item = new ClipItem(binclip, clipinfo, fps, speed, strobe, m_trackview->getFrameWidth(), true);
+        item->setPos(clipinfo.startPos.frames(fps), KdenliveSettings::trackheight() * ( clipinfo.track) + 1 + item->itemOffset());
+        qDebug()<<" * * Loaded clip on tk: "<<clipinfo.track<< ", POS: "<<clipinfo.startPos.frames(fps);
         item->updateState(idString);
         m_scene->addItem(item);
         if (locked) item->setItemLocked(true);
@@ -1095,13 +1110,6 @@ const QString & Timeline::editMode() const
     return m_editMode;
 }
 
-void Timeline::slotChangeTrackLock(int ix, bool lock)
-{
-    QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
-    widgets.at(ix)->setLock(lock);
-}
-
-
 void Timeline::slotVerticalZoomDown()
 {
     if (m_verticalZoom == 0) return;
@@ -1143,14 +1151,10 @@ void Timeline::slotRenameTrack(int ix, const QString &name)
 
 void Timeline::renameTrack(int ix, const QString &name)
 {
-    track(ix)->setProperty("kdenlive:track_name", name);
-    // Make sure header widget displays correct name
-    QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
-    if (ix < 0 || ix >= widgets.count()) {
-        qWarning() << "ERROR, Trying to access a non existent track: " << ix;
-        return;
-    }
-    widgets.at(ix)->renameTrack(name);
+    Track *tk = track(ix);
+    if (!tk) return;
+    tk->setProperty("kdenlive:track_name", name);
+    tk->trackHeader->renameTrack(name);
 }
 
 void Timeline::slotUpdateVerticalScroll(int /*min*/, int max)
@@ -1173,12 +1177,9 @@ void Timeline::slotShowTrackEffects(int ix)
 
 void Timeline::slotUpdateTrackEffectState(int ix)
 {
-    QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
-    if (ix < 0 || ix >= widgets.count()) {
-        qWarning() << "ERROR, Trying to access a non existent track: " << ix;
-        return;
-    }
-    widgets.at(ix)->updateEffectLabel(track(ix)->effectsList.effectNames());
+    Track *tk = track(ix);
+    if (!tk) return;
+    tk->trackHeader->updateEffectLabel(tk->effectsList.effectNames());
 }
 
 void Timeline::slotSaveTimelinePreview(const QString &path)
@@ -1200,9 +1201,9 @@ void Timeline::updateProfile()
     slotSetZone(m_doc->zone(), false);
 }
 
-void Timeline::checkTrackHeight()
+void Timeline::checkTrackHeight(bool force)
 {
-    if (m_trackview->checkTrackHeight()) {
+    if (m_trackview->checkTrackHeight(force)) {
         m_doc->clipManager()->clearCache();
         m_ruler->updateFrameSize();
         m_trackview->updateSceneFrameWidth();
@@ -1434,29 +1435,11 @@ void Timeline::duplicateClipOnPlaylist(int tk, qreal startPos, int offset, Mlt::
     delete prod;
 }
 
-void Timeline::duplicateTransitionOnPlaylist(int in, int out, QString tag, QDomElement xml, int a_track, int b_track, Mlt::Field *field)
+int Timeline::getSpaceLength(const GenTime &pos, int tk, bool fromBlankStart)
 {
-    QMap<QString, QString> args = Render::mltGetTransitionParamsFromXml(xml);
-    Mlt::Transition transition(*m_tractor->profile(), tag.toUtf8().constData());
-    if (!transition.is_valid()) return;
-    if (out != 0)
-        transition.set_in_and_out(in, out);
-
-    QMap<QString, QString>::Iterator it;
-    QString key;
-    if (xml.attribute("automatic") == "1") transition.set("automatic", 1);
-    ////qDebug() << " ------  ADDING TRANSITION PARAMs: " << args.count();
-    if (xml.hasAttribute("id"))
-        transition.set("kdenlive_id", xml.attribute("id").toUtf8().constData());
-    if (xml.hasAttribute("force_track"))
-        transition.set("force_track", xml.attribute("force_track").toInt());
-
-    for (it = args.begin(); it != args.end(); ++it) {
-        key = it.key();
-        if (!it.value().isEmpty())
-            transition.set(key.toUtf8().constData(), it.value().toUtf8().constData());
-        ////qDebug() << " ------  ADDING TRANS PARAM: " << key << ": " << it.value();
-    }
-    // attach transition
-    field->plant_transition(transition, a_track, b_track);
+    Track *sourceTrack = track(tk);
+    if (!sourceTrack) return 0;
+    int insertPos = pos.frames(m_doc->fps());
+    return sourceTrack->spaceLength(insertPos, fromBlankStart);
 }
+

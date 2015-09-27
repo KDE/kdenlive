@@ -43,7 +43,10 @@ private:
     QDomDocument m_doc;
     QUrl m_url;
     bool m_modified;
+    /** @brief Upgrade from a previous Kdenlive document version. */
     bool upgrade(double version, const double currentVersion);
+    /** @brief Make sur we don't have orphaned producers (that are not in Bin). */
+    void checkOrphanedProducers();
     QStringList getInfoFromEffectName(const QString &oldName);
     QString colorToString(const QColor& c);
     /*

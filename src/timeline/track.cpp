@@ -22,17 +22,20 @@
  */
 
 #include "track.h"
+#include "headertrack.h"
 #include "clip.h"
 #include <QtGlobal>
 #include <QDebug>
 #include <math.h>
 
-Track::Track(Mlt::Playlist &playlist, TrackType type, qreal fps) :
+Track::Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType type, qreal fps) :
     effectsList(EffectsList(true)),
     type(type),
+    m_index(index),
     m_playlist(playlist),
     m_fps(fps)
 {
+    trackHeader = new HeaderTrack(info(), actions, this);
 }
 
 Track::~Track()
@@ -260,6 +263,12 @@ bool Track::cut(qreal t)
 bool Track::needsDuplicate(const QString &service) const
 {
     return (service.contains("avformat") || service.contains("consumer") || service.contains("xml"));
+}
+
+void Track::lockTrack(bool locked)
+{
+    setProperty("kdenlive:locked_track", locked ? 1 : 0);
+    trackHeader->setLock(locked);
 }
 
 void Track::replaceId(const QString &id)
@@ -528,6 +537,7 @@ void Track::setInfo(TrackInfo info)
 {
     m_playlist.set("kdenlive:track_name", info.trackName.toUtf8().constData());
     m_playlist.set("kdenlive:locked_track", info.isLocked ? 1 : 0);
+    m_playlist.set("kdenlive:composite", info.composite ? 1 : 0);
     int state = 0;
     if (info.isMute) {
         if (info.isBlind) state = 3;
@@ -536,6 +546,7 @@ void Track::setInfo(TrackInfo info)
     else if (info.isBlind) state = 1;
     m_playlist.parent().set("hide", state);
     type = info.type;
+    trackHeader->updateStatus(info);
 }
 
 int Track::state()
@@ -768,4 +779,21 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
     return newLength;
 }
 
+int Track::index() const
+{
+    return m_index;
+}
+
+
+int Track::spaceLength(int pos, bool fromBlankStart)
+{
+    int clipIndex = m_playlist.get_clip_index_at(pos);
+    if (clipIndex == m_playlist.count()) {
+        // We are after the end of the playlist
+        return -1;
+    }
+    if (!m_playlist.is_blank(clipIndex)) return 0;
+    if (fromBlankStart) return m_playlist.clip_length(clipIndex);
+    return m_playlist.clip_length(clipIndex) + m_playlist.clip_start(clipIndex) - pos;
+}
 

@@ -100,7 +100,7 @@ public:
     /** @brief Cuts all clips that are selected at the timeline cursor position. */
     void cutSelectedClips();
     void setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition, QActionGroup *clipTypeGroup, QMenu *markermenu);
-    bool checkTrackHeight();
+    bool checkTrackHeight(bool force = false);
     void updateSceneFrameWidth();
     void setTool(ProjectTool tool);
     ClipItem *cutClip(const ItemInfo &info, const GenTime &cutTime, bool cut, const EffectsList &oldStack = EffectsList(), bool execute = true);
@@ -224,6 +224,10 @@ public:
     QMap <double, QString> guidesData() const;
     /** @brief Reset scroll bar to 0. */
     void scrollToStart();
+    /** @brief Returns a track index (in MLT values) from an y position in timeline. */
+    int getTrackFromPos(double y) const;
+    /** @brief Returns customtrackview y position from an MLT track number. */
+    int getPositionFromTrack(int track) const;
 
 public slots:
     /** @brief Send seek request to MLT. */
@@ -348,9 +352,21 @@ private:
     QList <CommentedTime> m_searchPoints;
     QList <Guide *> m_guides;
 
+    /** @brief Returns a clip from timeline
+     *  @param pos a time value that is inside the clip
+     *  @param track the track where the clip is in MLT coordinates */
     ClipItem *getClipItemAtMiddlePoint(int pos, int track);
+    /** @brief Returns a clip from timeline
+     *  @param pos the end time position
+     *  @param track the track where the clip is in MLT coordinates */
     ClipItem *getClipItemAtEnd(GenTime pos, int track);
+    /** @brief Returns a clip from timeline 
+     *  @param pos the time position
+     *  @param track the track where the clip is in MLT coordinates */
     ClipItem *getClipItemAtStart(GenTime pos, int track);
+    /** @brief Returns a transition from timeline
+     *  @param pos a time value that is inside the clip
+     *  @param track the track where the clip is in MLT coordinates */
     Transition *getTransitionItemAt(int pos, int track);
     Transition *getTransitionItemAt(GenTime pos, int track);
     Transition *getTransitionItemAtEnd(GenTime pos, int track);

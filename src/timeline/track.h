@@ -31,6 +31,8 @@
 #include <mlt++/MltPlaylist.h>
 #include <mlt++/MltProducer.h>
 
+class HeaderTrack;
+
 /** @brief Kdenlive timeline track, to access MLT playlist operations
  * The track as seen in the video editor is actually a playlist
  * in the MLT framework behind the scene.
@@ -40,6 +42,7 @@
  * correspondance, and builds complex operations on top of basic
  * commands.
  */
+
 class Track : public QObject
 {
     Q_OBJECT
@@ -50,7 +53,7 @@ public:
     /** @brief Track constructor
      * @param playlist is the MLT object used for monitor/render
      * @param fps is the read speed (frames per seconds) */
-    explicit Track(Mlt::Playlist &playlist, TrackType type, qreal fps);
+    explicit Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType type, qreal fps);
     ~Track();
 
     /// Property access function
@@ -61,6 +64,9 @@ public:
     /** Track type (audio / video) */
     TrackType type;
 
+    /** @brief The track header widget */
+    HeaderTrack *trackHeader;
+
     /** @brief convertion utility function
      * @param time (in seconds)
      * @return frame number */
@@ -68,6 +74,9 @@ public:
     /** @brief get the playlist duration
      * @return play time in seconds */
     qreal length();
+
+    /** @brief Returns MLT's track index */
+    int index() const;
 
     /** @brief add a clip
      * @param t is the time position to start the cut (in seconds)
@@ -149,6 +158,7 @@ public:
     int getIntProperty(const QString &name);
     TrackInfo info();
     void setInfo(TrackInfo info);
+    void lockTrack(bool locked);
     int state();
     void setState(int state);
     /** @brief Check if we have a blank space at pos and its length. 
@@ -158,6 +168,8 @@ public:
     void updateClipProperties(const QString &id, QMap <QString, QString> properties);
     /** @brief Returns a list of speed info for all slowmotion producer used on this track for an id. */
     QStringList getSlowmotionIds(const QString &id);
+    /** @brief Returns the length of blank space from a position pos. */
+    int spaceLength(int pos, bool fromBlankStart);
 
 public Q_SLOTS:
     void setPlaylist(Mlt::Playlist &playlist);
@@ -170,6 +182,8 @@ signals:
     void storeSlowMotion(const QString &url, Mlt::Producer *prod);
 
 private:
+    /** Position in MLT's tractor */
+    int m_index;
     /** MLT playlist behind the scene */
     Mlt::Playlist m_playlist;
     /** frames per second (read speed) */

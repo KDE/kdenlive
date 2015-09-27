@@ -41,6 +41,7 @@ class Track;
 class ClipItem;
 class CustomTrackView;
 class KdenliveDoc;
+class TransitionHandler;
 class CustomRuler;
 class QUndoCommand;
 
@@ -52,7 +53,10 @@ public:
     explicit Timeline(KdenliveDoc *doc, const QList <QAction *>& actions, bool *ok, QWidget *parent = 0);
     virtual ~ Timeline();
     Track* track(int i);
+    /** @brief Number of tracks in the MLT playlist. */
     int tracksCount() const;
+    /** @brief Number of visible tracks (= tracksCount() - 1 ) because black trck is not visible to user. */
+    int visibleTracksCount() const;
     void setEditMode(const QString & editMode);
     const QString & editMode() const;
     QGraphicsScene *projectScene();
@@ -64,6 +68,8 @@ public:
     int outPoint() const;
     int inPoint() const;
     int fitZoom() const;
+    /** @brief This object handles all transition operation. */
+    TransitionHandler *transitionHandler;
     void lockTrack(int ix, bool lock);
     bool isTrackLocked(int ix);
     /** @brief Dis / enable video for a track. */
@@ -88,7 +94,7 @@ public:
     /** @brief Load guides from data */
     void loadGuides(QMap <double, QString> guidesData);
 
-    void checkTrackHeight();
+    void checkTrackHeight(bool force = false);
     void updateProfile();
     void updatePalette();
     void refreshIcons();
@@ -98,7 +104,11 @@ public:
     bool moveClip(int startTrack, qreal startPos, int endTrack, qreal endPos, PlaylistState::ClipState state, int mode, bool duplicate);
     void renameTrack(int ix, const QString &name);
     void updateTrackState(int ix, int state);
+    /** @brief Returns info about a track.
+     *  @param ix The track number in MLT's coordinates (0 = black track, 1 = bottom audio, etc) 
+     *  deprecated use string version with track name instead */
     TrackInfo getTrackInfo(int ix);
+    int getTrackIndex(const QString &id);
     void setTrackInfo(int trackIndex, TrackInfo info);
     QList <TrackInfo> getTracksInfo();
     void addTrackEffect(int trackIndex, QDomElement effect);
@@ -123,9 +133,8 @@ public:
     void refreshTractor();
     void saveZone(const QUrl url, const QPoint &zone);
     void duplicateClipOnPlaylist(int tk, qreal startPos, int offset, Mlt::Producer *prod);
-    void duplicateTransitionOnPlaylist(int in, int out, QString tag, QDomElement xml, int a_track, int b_track, Mlt::Field *field);
-    /** @brief Get a transition with tag name. */
-    Mlt::Transition *getTransition(const QString &name, int b_track, int a_track = -1) const;
+    int getSpaceLength(const GenTime &pos, int tk, bool fromBlankStart);
+    void blockTrackSignals(bool block);
 
 protected:
     void keyPressEvent(QKeyEvent * event);
@@ -139,13 +148,12 @@ public slots:
     void slotSaveTimelinePreview(const QString &path);
     void checkDuration(int duration);
     /** @brief Rebuilds the track headers */
-    void slotRebuildTrackHeaders();
+    Q_DECL_DEPRECATED void slotRebuildTrackHeaders();
     void slotShowTrackEffects(int);
 
 private:
     Mlt::Tractor *m_tractor;
-    QList<Track*> m_tracks;
-    int m_projectTracks;
+    QList <Track*> m_tracks;
     CustomRuler *m_ruler;
     CustomTrackView *m_trackview;
     QList <QString> m_invalidProducers;
@@ -179,7 +187,6 @@ private slots:
     void moveCursorPos(int pos);
     /** @brief The tracks count or a track name changed, rebuild and notify */
     void slotReloadTracks();
-    void slotChangeTrackLock(int ix, bool lock);
     void slotVerticalZoomDown();
     void slotVerticalZoomUp();
 
@@ -202,7 +209,7 @@ signals:
     void mousePosition(int);
     void cursorMoved();
     void zoneMoved(int, int);
-    void configTrack(int);
+    void configTrack();
     void updateTracksInfo();
     void setZoom(int);
     void showTrackEffects(int, const TrackInfo&);

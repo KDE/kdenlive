@@ -360,10 +360,10 @@ private slots:
     void slotResizeItemStart();
     void slotResizeItemEnd();
     void configureNotifications();
-    void slotInsertTrack(int ix = -1);
-    void slotDeleteTrack(int ix = -1);
+    void slotInsertTrack();
+    void slotDeleteTrack();
     /** @brief Shows the configure tracks dialog and updates transitions afterwards. */
-    void slotConfigTrack(int ix = -1);
+    void slotConfigTrack();
     /** @brief Select all clips in active track. */
     void slotSelectTrack();
     /** @brief Select all clips in timeline. */

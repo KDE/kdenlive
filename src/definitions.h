@@ -202,7 +202,10 @@ public:
     GenTime cropStart;
     /** cropDuration is the duration of the clip */
     GenTime cropDuration;
+    /** Track number */
     int track;
+    /** Track name */
+    QString trackName;
     ItemInfo() : track(0) {}
 };
 

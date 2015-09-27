@@ -240,11 +240,6 @@ class Render: public AbstractRender
     void mltMoveEffect(int track, const GenTime &position, int oldPos, int newPos);
     void mltMoveTrackEffect(int track, int oldPos, int newPos);
 
-    bool mltMoveTransition(QString type, int startTrack,  int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut);
-    bool mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);
-    void mltDeleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);
-    void mltUpdateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool force = false);
-    void mltUpdateTransitionParams(QString type, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml);
     QList <TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack);
     void mltDeleteTrack(int ix);
 

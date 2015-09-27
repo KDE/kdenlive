@@ -127,11 +127,12 @@ void EffectStackView2::slotClipItemUpdate()
 
 void EffectStackView2::slotClipItemSelected(ClipItem* c, Monitor *m)
 {
+    m_masterclipref = NULL;
+    m_trackindex = -1;
     if (c && !c->isEnabled()) return;
     if (c && c == m_clipref) {
     } else {
         m_effectMetaInfo.monitor = m;
-        m_masterclipref = NULL;
         if (m_clipref) disconnect(m_clipref, SIGNAL(updateRange()), this, SLOT(slotClipItemUpdate()));
         m_clipref = c;
         if (c) {
@@ -172,13 +173,11 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c, Monitor *m)
 
 void EffectStackView2::slotMasterClipItemSelected(ClipController* c, Monitor *m)
 {
+    m_clipref = NULL;
+    m_trackindex = -1;
     if (c && c == m_masterclipref) {
     } else {
-        if (c && !c->hasEffects() && m_status != MASTER_CLIP) {
-            return;
-        }
         m_masterclipref = c;
-        m_clipref = NULL;
         m_effectMetaInfo.monitor = m;
         if (m_masterclipref) {
             QString cname = m_masterclipref->clipName();
@@ -217,6 +216,10 @@ void EffectStackView2::slotMasterClipItemSelected(ClipController* c, Monitor *m)
 
 void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo &info, Monitor *m)
 {
+    if (m_status == TIMELINE_TRACK && ix == m_trackindex) {
+        // Track effects already displayed
+        return;
+    }
     m_clipref = NULL;
     m_status = TIMELINE_TRACK;
     m_effectMetaInfo.monitor = m;

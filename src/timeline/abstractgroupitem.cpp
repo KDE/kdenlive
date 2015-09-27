@@ -270,7 +270,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         int groupOffset = proposedTrack - topTrack;
         if (!lockedTracks.isEmpty()) {
             for (int i = 0; i < groupTracks.count(); ++i) {
-                if (lockedTracks.contains(QString::number(groupTracks.at(i) + groupOffset))) {
+                if (lockedTracks.contains(QString::number(scene->tracksCount() - groupTracks.at(i) + groupOffset))) {
                     return pos();
                 }
             }

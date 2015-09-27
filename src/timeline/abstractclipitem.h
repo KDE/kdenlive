@@ -67,7 +67,7 @@ public:
     ItemInfo info() const;
     CustomTrackScene* projectScene();
     void updateRectGeometry();
-    void updateItem();
+    void updateItem(int track);
     void setItemLocked(bool locked);
     bool isItemLocked() const;
     void closeAnimation();

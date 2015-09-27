@@ -326,6 +326,7 @@ void CustomRuler::setPixelPerMark(int rate)
         mediumMarkDistance = (double) FRAME_SIZE * m_timecode.fps();
         bigMarkDistance = (double) FRAME_SIZE * m_timecode.fps() * 60;
     }
+
     switch (rate) {
     case 0:
         m_textSpacing = fend * textFactor;

@@ -64,7 +64,6 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
     FRAME_SIZE = frame_width;
     //qDebug()<<" + + +LOADING CLP on TK: "<<info.track<<" / THEIGHT; "<<KdenliveSettings::trackheight();
     setRect(0, 0, (info.endPos - info.startPos).frames(m_fps) - 0.02, (double) itemHeight());
-    setPos(info.startPos.frames(m_fps), (double)(info.track * KdenliveSettings::trackheight()) + 1 + itemOffset());
     // set speed independent info
     if (m_speed <= 0 && m_speed > -1)
         m_speed = -1.0;
@@ -133,6 +132,7 @@ ClipItem::~ClipItem()
 ClipItem *ClipItem::clone(const ItemInfo &info) const
 {
     ClipItem *duplicate = new ClipItem(m_binClip, info, m_fps, m_speed, m_strobe, FRAME_SIZE);
+    duplicate->setPos(pos());
     if (m_clipType == Image || m_clipType == Text) duplicate->slotSetStartThumb(m_startPix);
     else if (m_clipType != Color) {
         if (info.cropStart == m_info.cropStart) duplicate->slotSetStartThumb(m_startPix);
@@ -1198,7 +1198,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
         newTrack = qMin(newTrack, scene->tracksCount() - 1);
         newTrack = qMax(newTrack, 0);
         QStringList lockedTracks = property("locked_tracks").toStringList();
-        if (lockedTracks.contains(QString::number(newTrack))) {
+        if (lockedTracks.contains(QString::number(scene->tracksCount() - newTrack))) {
             // Trying to move to a locked track
             return pos();
         }
@@ -1248,14 +1248,14 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
                         }
                     }
 
-                    m_info.track = newTrack;
+                    m_info.track = scene->tracksCount() - newTrack;
                     m_info.startPos = GenTime((int) newPos.x(), m_fps);
 
                     return newPos;
                 }
             }
         }
-        m_info.track = newTrack;
+        m_info.track = scene->tracksCount() - newTrack;
         m_info.startPos = GenTime((int) newPos.x(), m_fps);
         ////qDebug()<<"// ITEM NEW POS: "<<newPos.x()<<", mapped: "<<mapToScene(newPos.x(), 0).x();
         return newPos;

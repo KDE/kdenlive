@@ -72,7 +72,7 @@ bool DocumentValidator::validate(const double currentVersion)
 
     // Previous MLT / Kdenlive versions used C locale by default
     QLocale documentLocale = QLocale::c();
-    
+
     if (mlt.hasAttribute("LC_NUMERIC")) {
         // Set locale for the document
 #ifndef Q_OS_MAC
@@ -144,6 +144,8 @@ bool DocumentValidator::validate(const double currentVersion)
     // Upgrade the document to the latest version
     if (!upgrade(version, currentVersion))
         return false;
+
+    checkOrphanedProducers();
 
     return true;
     /*
@@ -1223,7 +1225,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         playlists = m_doc.elementsByTagName("playlist");
         QDomElement playlist;
         for (int i = 0; i < playlists.count(); i++) {
-            if (playlists.at(i).toElement().attribute("id") == "main bin") {
+            if (playlists.at(i).toElement().attribute("id") == pCore->binController()->binPlaylistId()) {
                 playlist = playlists.at(i).toElement();
                 break;
             }
@@ -1610,4 +1612,86 @@ QString DocumentValidator::factorizeGeomValue(QString value, double factor)
     return result;
 }
 
+void DocumentValidator::checkOrphanedProducers()
+{
+    QDomElement mlt = m_doc.firstChildElement("mlt");
+    QDomElement main = mlt.firstChildElement("playlist");
+    QDomNodeList bin_producers = main.childNodes();
+    QStringList binProducers;
+    for (int k = 0; k < bin_producers.count(); k++) {
+        QDomElement mltprod = bin_producers.at(k).toElement();
+        if (mltprod.tagName() != "entry") continue;
+        binProducers << mltprod.attribute("producer");
+    }
+
+    QDomNodeList producers = m_doc.elementsByTagName("producer");
+    int max = producers.count();
+    QStringList allProducers;
+    for (int i = 0; i < max; ++i) {
+        QDomElement prod = producers.at(i).toElement();
+        if (prod.isNull()) continue;
+        allProducers << prod.attribute("id");
+    }
+
+    QDomDocumentFragment frag = m_doc.createDocumentFragment();
+    QDomDocumentFragment trackProds = m_doc.createDocumentFragment();
+    for (int i = 0; i < max; ++i) {
+        QDomElement prod = producers.at(i).toElement();
+        if (prod.isNull()) continue;
+        QString id = prod.attribute("id").section("_", 0, 0);
+        if (id.startsWith("slowmotion") || id == "black") continue;
+        if (!binProducers.contains(id)) {
+            qWarning()<<" ///////// WARNING, FOUND UNKNOWN PRODUDER: "<<id<<" ----------------";
+            // This producer is unknown to Bin
+            QString resource = EffectsList::property(prod, "resource");
+            QString service = EffectsList::property(prod, "mlt_service");
+            QString distinctiveTag("resource");
+            if (service == "kdenlivetitle") {
+                distinctiveTag = "xmldata";
+            }
+            QString orphanValue = EffectsList::property(prod, distinctiveTag);
+            for (int j = 0; j< max; j++) {
+                // Search for a similar producer
+                QDomElement binProd = producers.at(j).toElement();
+                QString binId = binProd.attribute("id").section("_", 0, 0);
+                if (binId.startsWith("slowmotion") || !binProducers.contains(binId)) continue;
+                QString binService = EffectsList::property(binProd, "mlt_service");
+                qDebug()<<" / /LKNG FOR: "<<service<<" / "<<orphanValue;
+                if (service != binService) continue;
+                QString binValue = EffectsList::property(binProd, distinctiveTag);
+                if (binValue == orphanValue) {
+                    // Found probable source producer, replace
+                    qDebug()<<" / / /FOUND SOURCE: "<< binId;
+                    frag.appendChild(prod);
+                    QDomNodeList entries = m_doc.elementsByTagName("entry");
+                    for (int k = 0; k < entries.count(); k++) {
+                        QDomElement entry = entries.at(k).toElement();
+                        if (entry.attribute("producer") == id) {
+                            QString entryId = binId;
+                            if (service.contains("avformat") || service == "xml" || service == "consumer") {
+                                // We must use track producer, find track for this entry
+                                QString trackPlaylist = entry.parentNode().toElement().attribute("id");
+                                entryId.append("_" + trackPlaylist);
+                            }
+                            if (!allProducers.contains(entryId)) {
+                                // The track producer does not exist, create a clone for it
+                                QDomElement cloned = binProd.cloneNode(true).toElement();
+                                cloned.setAttribute("id", entryId);
+                                trackProds.appendChild(cloned);
+                                allProducers << entryId;
+                            }
+                            entry.setAttribute("producer", entryId);
+                            m_modified = true;
+                        }
+                    }
+                    continue;
+                }
+            }
+        }
+    }
+    if (!trackProds.isNull()) {
+        QDomNode firstProd = m_doc.firstChildElement("producer");
+        mlt.insertBefore(trackProds, firstProd);
+    }
+}
 

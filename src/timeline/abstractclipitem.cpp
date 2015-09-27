@@ -120,9 +120,9 @@ void AbstractClipItem::setCropStart(const GenTime &pos)
     m_info.cropStart = pos;
 }
 
-void AbstractClipItem::updateItem()
+void AbstractClipItem::updateItem(int track)
 {
-    m_info.track = (int)(scenePos().y() / KdenliveSettings::trackheight());
+    m_info.track = track;
     m_info.startPos = GenTime((int) scenePos().x(), m_fps);
 }
 

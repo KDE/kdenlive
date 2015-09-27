@@ -70,15 +70,17 @@ TracksConfigDialog::TracksConfigDialog(Timeline *timeline, int selected, QWidget
 {
     setupUi(this);
 
-    table->setColumnCount(5);
-    table->setHorizontalHeaderLabels(QStringList() << i18n("Name") << i18n("Type") << i18n("Hidden") << i18n("Muted") << i18n("Locked"));
+    table->setColumnCount(6);
+    table->setHorizontalHeaderLabels(QStringList() << i18n("Name") << i18n("Type") << i18n("Hidden") << i18n("Muted") << i18n("Locked") << i18n("Composite"));
     table->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     table->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Fixed);
     table->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Fixed);
     table->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Fixed);
     table->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Fixed);
+    table->horizontalHeader()->setSectionResizeMode(5, QHeaderView::Fixed);
 
     table->setItemDelegateForColumn(1, new TracksDelegate(this));
+    table->verticalHeader()->setHidden(true);
 
     buttonReset->setIcon(QIcon::fromTheme("document-revert"));
     buttonReset->setToolTip(i18n("Reset"));
@@ -101,6 +103,11 @@ TracksConfigDialog::TracksConfigDialog(Timeline *timeline, int selected, QWidget
     buttonDown->setEnabled(false);
 
     setupOriginal(selected);
+    table->resizeColumnToContents(0);
+    /*QRect rect = table->geometry();
+    rect.setWidth(table->horizontalHeader()->length());
+    table->setGeometry(rect);*/
+    table->horizontalHeader()->setStretchLastSection(true);
     connect(table, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(slotUpdateRow(QTableWidgetItem*)));
 }
 
@@ -108,7 +115,7 @@ const QList <TrackInfo> TracksConfigDialog::tracksList()
 {
     QList <TrackInfo> tracks;
     TrackInfo info;
-    for (int i = table->rowCount() - 1; i >= 0; --i) {
+    for (int i = 0; i < table->rowCount(); i++) {
         info.trackName = table->item(i, 0)->text();
         QTableWidgetItem *item = table->item(i, 1);
         if (item->text() == i18n("Audio")) {
@@ -120,6 +127,7 @@ const QList <TrackInfo> TracksConfigDialog::tracksList()
         }
         info.isMute = (table->item(i, 3)->checkState() == Qt::Checked);
         info.isLocked = (table->item(i, 4)->checkState() == Qt::Checked);
+        info.composite = (table->item(i, 5)->checkState() == Qt::Checked);
         tracks << info;
     }
     return tracks;
@@ -132,14 +140,14 @@ QList <int> TracksConfigDialog::deletedTracks() const
 
 void TracksConfigDialog::setupOriginal(int selected)
 {
-    int max = m_timeline->tracksCount();
+    int max = m_timeline->visibleTracksCount();
     table->setRowCount(max);
 
     QStringList numbers;
     TrackInfo info;
-    for (int i = max - 1; i >= 0; --i) {
+    for (int i = 0; i < max; i++) {
         numbers << QString::number(i);
-        info = m_timeline->getTrackInfo(i);
+        info = m_timeline->getTrackInfo(max - i);
         table->setItem(i, 0, new QTableWidgetItem(info.trackName));
 
         QTableWidgetItem *item1 = new QTableWidgetItem(i18n("Video"));
@@ -164,12 +172,17 @@ void TracksConfigDialog::setupOriginal(int selected)
         item4->setFlags(item4->flags() & ~Qt::ItemIsEditable);
         item4->setCheckState(info.isLocked ? Qt::Checked : Qt::Unchecked);
         table->setItem(i, 4, item4);
+        
+        QTableWidgetItem *item5 = new QTableWidgetItem("");
+        item5->setFlags(item5->flags() & ~Qt::ItemIsEditable);
+        item5->setCheckState(info.composite? Qt::Checked : Qt::Unchecked);
+        table->setItem(i, 5, item5);
     }
     table->setVerticalHeaderLabels(numbers);
 
     table->resizeColumnsToContents();
     if (selected != -1)
-        table->selectRow(selected);
+        table->selectRow(max - selected);
 
     m_deletedRows = QList<int>();
 }

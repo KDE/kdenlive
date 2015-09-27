@@ -395,12 +395,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     m_projectBinDock->raise();
 
-    /*actionCollection()->addAssociatedWidget(m_clipMonitor->container());
-    actionCollection()->addAssociatedWidget(m_projectMonitor->container());*/
-
-    QAction *insertTrack = new QAction(QIcon(), i18n("Insert Track"), this);
-    connect(insertTrack, &QAction::triggered, this, &MainWindow::slotInsertTrack);
-
     // Populate encoding profiles
     KConfig conf("encodingprofiles.rc", KConfig::CascadeConfig, QStandardPaths::DataLocation);
     if (KdenliveSettings::proxyparams().isEmpty() || KdenliveSettings::proxyextension().isEmpty()) {
@@ -1154,15 +1148,15 @@ void MainWindow::setupActions()
     timelineActions->addAction("insert_track", insertTrack);
 
     QAction *deleteTrack = new QAction(QIcon(), i18n("Delete Track"), this);
-    connect(insertTrack, &QAction::triggered, this, &MainWindow::slotDeleteTrack);
+    connect(deleteTrack, &QAction::triggered, this, &MainWindow::slotDeleteTrack);
     timelineActions->addAction("delete_track", deleteTrack);
 
     QAction *configTracks = new QAction(KoIconUtils::themedIcon("configure"), i18n("Configure Tracks"), this);
-    connect(insertTrack, &QAction::triggered, this, &MainWindow::slotConfigTrack);
+    connect(configTracks, &QAction::triggered, this, &MainWindow::slotConfigTrack);
     timelineActions->addAction("config_tracks", configTracks);
 
     QAction *selectTrack = new QAction(QIcon(), i18n("Select All in Current Track"), this);
-    connect(insertTrack, &QAction::triggered, this, &MainWindow::slotSelectTrack);
+    connect(selectTrack, &QAction::triggered, this, &MainWindow::slotSelectTrack);
     timelineActions->addAction("select_track", selectTrack);
 
     QAction *selectAll = KStandardAction::selectAll(this, SLOT(slotSelectAllTracks()), this);
@@ -1531,7 +1525,7 @@ void MainWindow::connectDocument()
     //connect(m_projectList, SIGNAL(projectModified()), project, SLOT(setModified()));
     //connect(m_projectList, SIGNAL(clipNameChanged(QString,QString)), trackView->projectView(), SLOT(clipNameChanged(QString,QString)));
 
-    connect(trackView, SIGNAL(configTrack(int)), this, SLOT(slotConfigTrack(int)));
+    connect(trackView, SIGNAL(configTrack()), this, SLOT(slotConfigTrack()));
     connect(trackView, SIGNAL(updateTracksInfo()), this, SLOT(slotUpdateTrackInfo()));
     connect(trackView, SIGNAL(mousePosition(int)), this, SLOT(slotUpdateMousePosition(int)));
     connect(m_projectMonitor->render, SIGNAL(infoProcessingFinished()), trackView->projectView(), SLOT(slotInfoProcessingFinished()), Qt::DirectConnection);
@@ -2006,27 +2000,23 @@ void MainWindow::slotRippleDelete()
   return;
 }
 
-void MainWindow::slotInsertTrack(int ix)
+void MainWindow::slotInsertTrack()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     if (pCore->projectManager()->currentTimeline()) {
-        if (ix == -1) {
-            ix = pCore->projectManager()->currentTimeline()->projectView()->selectedTrack();
-        }
-        pCore->projectManager()->currentTimeline()->projectView()->slotInsertTrack(ix);
+        int ix = pCore->projectManager()->currentTimeline()->projectView()->selectedTrack();
+        pCore->projectManager()->currentTimeline()->projectView()->slotInsertTrack(ix );
     }
     if (pCore->projectManager()->current()) {
         m_transitionConfig->updateProjectFormat();
     }
 }
 
-void MainWindow::slotDeleteTrack(int ix)
+void MainWindow::slotDeleteTrack()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     if (pCore->projectManager()->currentTimeline()) {
-        if (ix == -1) {
-            ix = pCore->projectManager()->currentTimeline()->projectView()->selectedTrack();
-        }
+        int ix = pCore->projectManager()->currentTimeline()->projectView()->selectedTrack();
         pCore->projectManager()->currentTimeline()->projectView()->slotDeleteTrack(ix);
     }
     if (pCore->projectManager()->current()) {
@@ -2034,11 +2024,13 @@ void MainWindow::slotDeleteTrack(int ix)
     }
 }
 
-void MainWindow::slotConfigTrack(int ix)
+void MainWindow::slotConfigTrack()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    if (pCore->projectManager()->currentTimeline())
+    if (pCore->projectManager()->currentTimeline()) {
+        int ix = pCore->projectManager()->currentTimeline()->projectView()->selectedTrack();
         pCore->projectManager()->currentTimeline()->projectView()->slotConfigTracks(ix);
+    }
     if (pCore->projectManager()->current())
         m_transitionConfig->updateProjectFormat();
 }

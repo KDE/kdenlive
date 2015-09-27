@@ -19,6 +19,7 @@
 
 
 #include "headertrack.h"
+#include "track.h"
 #include "kdenlivesettings.h"
 #include "utils/KoIconUtils.h"
 #include "effectslist/effectslist.h"
@@ -35,16 +36,16 @@
 #include <QDomDocument>
 #include <QMimeData>
 
-HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, const QList <QAction *> &actions, QWidget *parent) :
-        QWidget(parent),
-        m_index(index),
+HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track *parent) :
+        QWidget(0),
         m_type(info.type),
+        m_parentTrack(parent),
         m_isSelected(false),
-        m_switchComposite(NULL)
+        m_switchComposite(NULL),
+        m_switchVideo(NULL)
 {
-    setFixedHeight(height);
     setupUi(this);
-    m_name = info.trackName.isEmpty() ? QString::number(m_index) : info.trackName;
+    m_name = info.trackName.isEmpty() ? QString::number(m_parentTrack->index()) : info.trackName;
     QFontMetrics metrics(font());
     m_tb = new QToolBar(this);
     m_tb->setToolButtonStyle(Qt::ToolButtonIconOnly);
@@ -91,21 +92,37 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, const QList <QAc
         m_tb->addAction(m_switchComposite);
     }
 
-    // Don't show track buttons if size is too small
-    if (height < 3 * iconSize) {
-        m_tb->setHidden(true);
-        //horizontalSpacer;
-    }
-
+    updateStatus(info);
     //TODO: this resizing stuff should'nt be necessary
     setMinimumWidth(m_tb->widgetForAction(m_switchLock)->width() * 1.5);
     setContextMenuPolicy(Qt::ActionsContextMenu);
     addActions(actions);
 }
 
+
 HeaderTrack::~HeaderTrack()
 {
     //qDebug()<<" - --DEL: "<<m_name;
+}
+
+
+void HeaderTrack::updateStatus(TrackInfo info)
+{
+    m_switchAudio->setActive(info.isMute);
+    if (m_switchVideo) m_switchVideo->setActive(info.isBlind);
+    if (m_switchComposite) m_switchComposite->setActive(info.composite);
+    m_switchLock->setActive(info.isLocked);
+}
+
+void HeaderTrack::setTrackHeight(int height)
+{
+    setFixedHeight(height);
+    // Don't show track buttons if size is too small
+    int iconSize = m_tb->iconSize().width();
+    if (height < 3 * iconSize) {
+        m_tb->setHidden(true);
+        //horizontalSpacer;
+    }
 }
 
 void HeaderTrack::updateEffectLabel(const QStringList &effects)
@@ -126,7 +143,7 @@ void HeaderTrack::mousePressEvent(QMouseEvent * event)
         track_number->clearFocus();
         return;
     }
-    if (!m_isSelected) emit selectTrack(m_index);
+    emit selectTrack(m_parentTrack->index());
     QWidget::mousePressEvent(event);
 }
 
@@ -136,7 +153,7 @@ void HeaderTrack::mouseDoubleClickEvent(QMouseEvent* event)
         track_number->clearFocus();
         return;
     }
-    emit configTrack(m_index);
+    emit configTrack();
     QWidget::mouseDoubleClickEvent(event);
 }
 
@@ -157,8 +174,8 @@ void HeaderTrack::dropEvent(QDropEvent * event)
         // single effect dropped
         e.removeAttribute("kdenlive_ix");
     }
-    emit selectTrack(m_index);
-    emit addTrackEffect(e, m_index);
+    emit selectTrack(m_parentTrack->index());
+    emit addTrackEffect(e, m_parentTrack->index());
     /*if (scene() && !scene()->views().isEmpty()) {
         event->accept();
         CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
@@ -185,7 +202,7 @@ void HeaderTrack::dragEnterEvent(QDragEnterEvent *event)
 
 void HeaderTrack::setSelectedIndex(int ix)
 {
-    if (m_index == ix) {
+    if (m_parentTrack->index() == ix) {
         m_isSelected = true;
         setBackgroundRole(QPalette::Mid);
         setAutoFillBackground(true);
@@ -209,22 +226,22 @@ void HeaderTrack::adjustSize(int height)
 
 void HeaderTrack::switchComposite(bool enable)
 {
-    emit switchTrackComposite(m_index, enable);
+    emit switchTrackComposite(m_parentTrack->index(), enable);
 }
 
 void HeaderTrack::switchVideo(bool enable)
 {
-    emit switchTrackVideo(m_index, enable);
+    emit switchTrackVideo(m_parentTrack->index(), enable);
 }
 
 void HeaderTrack::switchAudio(bool enable)
 {
-    emit switchTrackAudio(m_index, enable);
+    emit switchTrackAudio(m_parentTrack->index(), enable);
 }
 
 void HeaderTrack::switchLock(bool enable)
 {
-    emit switchTrackLock(m_index, enable);
+    emit switchTrackLock(m_parentTrack->index(), enable);
 }
 
 void HeaderTrack::setLock(bool lock)
@@ -237,14 +254,14 @@ void HeaderTrack::setComposite(bool enable)
     if (m_switchComposite) {
         m_switchComposite->setActive(enable);
     }
-    else qDebug()<<" / / /ERROR; TRYING TO EDIT COMPOSITE ON AUDIO TRACK: "<<m_index;
+    else qDebug()<<" / / /ERROR; TRYING TO EDIT COMPOSITE ON AUDIO TRACK: "<<m_parentTrack->index();
 }
 
 void HeaderTrack::slotRenameTrack()
 {
     track_number->clearFocus();
     if (m_name != track_number->text())
-        emit renameTrack(m_index, track_number->text());
+        emit renameTrack(m_parentTrack->index(), track_number->text());
 }
 
 void HeaderTrack::renameTrack(const QString &name)

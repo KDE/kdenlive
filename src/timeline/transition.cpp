@@ -39,8 +39,6 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, co
 {
     setZValue(4);
     m_info.cropDuration = info.endPos - info.startPos;
-    setPos(info.startPos.frames(fps), (int)(info.track * KdenliveSettings::trackheight() + itemOffset() + 1));
-
     if (QApplication::style()->styleHint(QStyle::SH_Widget_Animate, 0, QApplication::activeWindow())) {
         // animation disabled
         setRect(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal) itemHeight());
@@ -226,7 +224,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
         newTrack = qMin(newTrack, projectScene()->tracksCount() - 1);
         newTrack = qMax(newTrack, 0);
         QStringList lockedTracks = property("locked_tracks").toStringList();
-        if (lockedTracks.contains(QString::number(newTrack))) {
+        if (lockedTracks.contains(QString::number(scene->tracksCount() - newTrack))) {
             // Trying to move to a locked track
             return pos();
         }
@@ -277,7 +275,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
                         }
                     }
 
-                    m_info.track = newTrack;
+                    m_info.track = scene->tracksCount() - newTrack;
                     m_info.startPos = GenTime((int) newPos.x(), m_fps);
 
                     return newPos;
@@ -285,7 +283,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
             }
         }
 
-        m_info.track = newTrack;
+        m_info.track = scene->tracksCount() - newTrack;
         m_info.startPos = GenTime((int) newPos.x(), m_fps);
         ////qDebug()<<"// ITEM NEW POS: "<<newPos.x()<<", mapped: "<<mapToScene(newPos.x(), 0).x();
         return newPos;
