@@ -1846,7 +1846,7 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event)
 
 bool CustomTrackView::itemCollision(AbstractClipItem *item, const ItemInfo &newPos)
 {
-    QRectF shape = QRectF(newPos.startPos.frames(m_document->fps()), newPos.track * m_tracksHeight + 1, (newPos.endPos - newPos.startPos).frames(m_document->fps()) - 0.02, m_tracksHeight - 1);
+    QRectF shape = QRectF(newPos.startPos.frames(m_document->fps()), getPositionFromTrack(newPos.track) + 1, (newPos.endPos - newPos.startPos).frames(m_document->fps()) - 0.02, m_tracksHeight - 1);
     QList<QGraphicsItem*> collindingItems = scene()->items(shape, Qt::IntersectsItemShape);
     collindingItems.removeAll(item);
     if (collindingItems.isEmpty()) {
@@ -3192,7 +3192,7 @@ void CustomTrackView::lockTrack(int ix, bool lock, bool requestUpdate)
     if (requestUpdate)
         emit doTrackLock(ix, lock);
     AbstractClipItem *clip = NULL;
-    QList<QGraphicsItem *> selection = m_scene->items(QRectF(0, ix * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), m_tracksHeight / 2 - 2));
+    QList<QGraphicsItem *> selection = m_scene->items(QRectF(0, getPositionFromTrack(ix) + m_tracksHeight / 2, sceneRect().width(), m_tracksHeight / 2 - 2));
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == GroupWidget && static_cast<AbstractGroupItem*>(selection.at(i)) != m_selectionGroup) {
             if (selection.at(i)->parentItem() && m_selectionGroup) {
@@ -6427,7 +6427,7 @@ void CustomTrackView::getClipAvailableSpace(AbstractClipItem *item, GenTime &min
     minimum = GenTime();
     maximum = GenTime();
     QList<QGraphicsItem *> selection;
-    selection = m_scene->items(QRectF(0, item->track() * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), 2));
+    selection = m_scene->items(QRectF(0, getPositionFromTrack(item->track()) + m_tracksHeight / 2, sceneRect().width(), 2));
     selection.removeAll(item);
     for (int i = 0; i < selection.count(); ++i) {
         AbstractClipItem *clip = static_cast <AbstractClipItem *>(selection.at(i));
@@ -6443,7 +6443,7 @@ void CustomTrackView::getTransitionAvailableSpace(AbstractClipItem *item, GenTim
     minimum = GenTime();
     maximum = GenTime();
     QList<QGraphicsItem *> selection;
-    selection = m_scene->items(QRectF(0, (item->track() + 1) * m_tracksHeight, sceneRect().width(), 2));
+    selection = m_scene->items(QRectF(0, getPositionFromTrack(item->track()) + m_tracksHeight, sceneRect().width(), 2));
     selection.removeAll(item);
     for (int i = 0; i < selection.count(); ++i) {
         AbstractClipItem *clip = static_cast <AbstractClipItem *>(selection.at(i));
@@ -6997,9 +6997,9 @@ void CustomTrackView::selectClip(bool add, bool group, int track, int pos)
 {
     QRectF rect;
     if (track != -1 && pos != -1)
-        rect = QRectF(pos, track * m_tracksHeight + m_tracksHeight / 2, 1, 1);
+        rect = QRectF(pos, getPositionFromTrack(track) + m_tracksHeight / 2, 1, 1);
     else
-        rect = QRectF(m_cursorPos, m_selectedTrack * m_tracksHeight + m_tracksHeight / 2, 1, 1);
+        rect = QRectF(m_cursorPos, getPositionFromTrack(m_selectedTrack) + m_tracksHeight / 2, 1, 1);
     QList<QGraphicsItem *> selection = m_scene->items(rect);
     resetSelectionGroup(group);
     if (!group) m_scene->clearSelection();

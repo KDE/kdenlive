@@ -204,8 +204,6 @@ public:
     GenTime cropDuration;
     /** Track number */
     int track;
-    /** Track name */
-    QString trackName;
     ItemInfo() : track(0) {}
 };
 
