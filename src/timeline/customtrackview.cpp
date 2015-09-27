@@ -3447,7 +3447,6 @@ void CustomTrackView::slotInsertSpace()
                 transitionsToMove.append(info);
         }
     }
-    qDebug()<<" + + +MOVING TRACK: "<<track<<" = "<<clipsToMove.count();
     if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) {
         InsertSpaceCommand *command = new InsertSpaceCommand(this, clipsToMove, transitionsToMove, track, spaceDuration, true);
         updateTrackDuration(track, command);
@@ -5912,7 +5911,7 @@ void CustomTrackView::pasteClip()
     if (pos == GenTime(-1))
         pos = GenTime((int)(mapToScene(position).x()), m_document->fps());
     if (track == -1)
-        track = (int)(mapToScene(position).y() / m_tracksHeight);
+        track = getTrackFromPos(mapToScene(position).y());
 
     GenTime leftPos = m_copiedItems.at(0)->startPos();
     int lowerTrack = m_copiedItems.at(0)->track();
