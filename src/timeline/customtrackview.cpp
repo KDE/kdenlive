@@ -3328,7 +3328,7 @@ void CustomTrackView::slotRemoveSpace()
     }
 
     // Make sure there is no group in the way
-    QRectF rect(pos.frames(m_document->fps()), track * m_tracksHeight + m_tracksHeight / 2, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight / 2 - 2);
+    QRectF rect(pos.frames(m_document->fps()), getPositionFromTrack(track) + m_tracksHeight / 2, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight / 2 - 2);
 
     bool isOk;
     QList<QGraphicsItem *> items = checkForGroups(rect, &isOk);
@@ -3421,7 +3421,7 @@ void CustomTrackView::slotInsertSpace()
         if (item) pos = item->startPos().frames(m_document->fps());
 
         // Make sure there is no group in the way
-        QRectF rect(pos, track * m_tracksHeight + m_tracksHeight / 2, sceneRect().width() - pos, m_tracksHeight / 2 - 2);
+        QRectF rect(pos, getPositionFromTrack(track) + m_tracksHeight / 2, sceneRect().width() - pos, m_tracksHeight / 2 - 2);
         bool isOk;
         items = checkForGroups(rect, &isOk);
         if (!isOk) {
@@ -3447,7 +3447,7 @@ void CustomTrackView::slotInsertSpace()
                 transitionsToMove.append(info);
         }
     }
-
+    qDebug()<<" + + +MOVING TRACK: "<<track<<" = "<<clipsToMove.count();
     if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) {
         InsertSpaceCommand *command = new InsertSpaceCommand(this, clipsToMove, transitionsToMove, track, spaceDuration, true);
         updateTrackDuration(track, command);
