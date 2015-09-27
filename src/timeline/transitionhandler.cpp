@@ -177,10 +177,10 @@ void TransitionHandler::updateTransition(QString oldTag, QString tag, int a_trac
 
 void TransitionHandler::updateTransitionParams(QString type, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml)
 {
-    mlt_service serv = m_tractor->get_service();
-    mlt_service_lock(serv);
+    QScopedPointer<Mlt::Field> field(m_tractor->field());
+    field->lock();
 
-    mlt_service nextservice = mlt_service_get_producer(serv);
+    mlt_service nextservice = mlt_service_get_producer(field->get_service());
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
     QString mlt_type = mlt_properties_get(properties, "mlt_type");
     QString resource = mlt_properties_get(properties, "mlt_service");
@@ -237,7 +237,7 @@ void TransitionHandler::updateTransitionParams(QString type, int a_track, int b_
         mlt_type = mlt_properties_get(properties, "mlt_type");
         resource = mlt_properties_get(properties, "mlt_service");
     }
-    mlt_service_unlock(serv);
+    field->unlock();
     //askForRefresh();
     //if (m_isBlocked == 0) m_mltConsumer->set("refresh", 1);
 }
@@ -245,14 +245,9 @@ void TransitionHandler::updateTransitionParams(QString type, int a_track, int b_
 
 void TransitionHandler::deleteTransition(QString tag, int /*a_track*/, int b_track, GenTime in, GenTime out, QDomElement /*xml*/, bool /*do_refresh*/)
 {
-    mlt_service serv = m_tractor->get_service();
-    mlt_service_lock(serv);
-
-    Mlt::Service service(serv);
-    Mlt::Tractor tractor(service);
-    Mlt::Field *field = tractor.field();
-
-    mlt_service nextservice = mlt_service_get_producer(serv);
+    QScopedPointer<Mlt::Field> field(m_tractor->field());
+    field->lock();
+    mlt_service nextservice = mlt_service_get_producer(field->get_service());
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
     QString mlt_type = mlt_properties_get(properties, "mlt_type");
     QString resource = mlt_properties_get(properties, "mlt_service");
@@ -277,7 +272,7 @@ void TransitionHandler::deleteTransition(QString tag, int /*a_track*/, int b_tra
         mlt_type = mlt_properties_get(properties, "mlt_type");
         resource = mlt_properties_get(properties, "mlt_service");
     }
-    mlt_service_unlock(serv);
+    field->unlock();
     //askForRefresh();
     //if (m_isBlocked == 0) m_mltConsumer->set("refresh", 1);
 }
@@ -290,9 +285,6 @@ bool TransitionHandler::moveTransition(QString type, int startTrack, int newTrac
     int old_in = (int)oldIn.frames(m_fps);
     int old_out = (int)oldOut.frames(m_fps) - 1;
 
-    Mlt::Service service(m_tractor->get_service());
-    QScopedPointer <Mlt::Field> field(m_tractor->field());
-
     bool doRefresh = true;
     // Check if clip is visible in monitor
     int position = mlt_producer_position(m_tractor->get_producer());
@@ -302,9 +294,9 @@ bool TransitionHandler::moveTransition(QString type, int startTrack, int newTrac
         diff = new_out - position;
         if (diff < 0 || diff > new_out - new_in) doRefresh = false;
     }
-    service.lock();
-
-    mlt_service nextservice = mlt_service_get_producer(service.get_service());
+    QScopedPointer<Mlt::Field> field(m_tractor->field());
+    field->lock();
+    mlt_service nextservice = mlt_service_get_producer(field->get_service());
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
     QString mlt_type = mlt_properties_get(properties, "mlt_type");
     QString resource = mlt_properties_get(properties, "mlt_service");
@@ -336,7 +328,7 @@ bool TransitionHandler::moveTransition(QString type, int startTrack, int newTrac
         mlt_type = mlt_properties_get(properties, "mlt_type");
         resource = mlt_properties_get(properties, "mlt_service");
     }
-    service.unlock();
+    field->unlock();
     if (doRefresh) refresh();
     //if (m_isBlocked == 0) m_mltConsumer->set("refresh", 1);
     return found;
@@ -344,7 +336,7 @@ bool TransitionHandler::moveTransition(QString type, int startTrack, int newTrac
 
 Mlt::Transition *TransitionHandler::getTransition(const QString &name, int b_track, int a_track) const
 {
-    QScopedPointer<Mlt::Service> service(m_tractor->producer());
+    QScopedPointer<Mlt::Service> service(m_tractor->field());
     while (service && service->is_valid()) {
         if (service->type() == transition_type) {
             Mlt::Transition t((mlt_transition) service->get_service());

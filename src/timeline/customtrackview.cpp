@@ -1665,7 +1665,7 @@ void CustomTrackView::insertClipCut(const QString &id, int in, int out)
     selectClip(true, false);
     // Automatic audio split
     if (KdenliveSettings::splitaudio())
-        splitAudio();
+        splitAudio(false);
 }
 
 bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
@@ -2830,7 +2830,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
 
         // Automatic audio split
         if (KdenliveSettings::splitaudio())
-            splitAudio();
+            splitAudio(false);
 
         /*
         // debug info
@@ -6476,7 +6476,7 @@ void CustomTrackView::loadGroups(const QDomNodeList &groups)
     }
 }
 
-void CustomTrackView::splitAudio()
+void CustomTrackView::splitAudio(bool warn)
 {
     resetSelectionGroup();
     QList<QGraphicsItem *> selection = scene()->selectedItems();
@@ -6484,6 +6484,7 @@ void CustomTrackView::splitAudio()
         emit displayMessage(i18n("You must select at least one clip for this action"), ErrorMessage);
         return;
     }
+    bool hasVideo = false;
     QUndoCommand *splitCommand = new QUndoCommand();
     splitCommand->setText(i18n("Split audio"));
     for (int i = 0; i < selection.count(); ++i) {
@@ -6505,7 +6506,8 @@ void CustomTrackView::splitAudio()
         m_commandStack->push(splitCommand);
     }
     else {
-        emit displayMessage(i18n("No clip to split"), ErrorMessage);
+        if (warn) emit displayMessage(i18n("No clip to split"), ErrorMessage);
+        delete splitCommand;
     }
 }
 
@@ -6627,13 +6629,13 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
     }
     if (split) {
         int start = pos.frames(m_document->fps());
-        int freetrack = track + 1;
+        int freetrack = track - 1;
 
         // do not split audio when we are on an audio track
         if (m_timeline->getTrackInfo(track).type == AudioTrack)
             return;
 
-        for (; freetrack < m_timeline->tracksCount(); freetrack++) {
+        for (; freetrack > 0; freetrack--) {
             TrackInfo info = m_timeline->getTrackInfo(freetrack);
             if (info.type == AudioTrack && !info.isLocked) {
                 int blength = m_timeline->getTrackSpaceLength(freetrack, start, false);
@@ -6642,7 +6644,7 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
                 }
             }
         }
-        if (freetrack == m_timeline->tracksCount()) {
+        if (freetrack == 0) {
             emit displayMessage(i18n("No empty space to put clip audio"), ErrorMessage);
         } else {
             ItemInfo info = clip->info();

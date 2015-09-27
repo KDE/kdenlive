@@ -148,7 +148,7 @@ public:
     void loadGroups(const QDomNodeList &groups);
 
     /** @brief Creates SplitAudioCommands for selected clips. */
-    void splitAudio();
+    void splitAudio(bool warn = true);
 
     /// Define which clip to take as reference for automatic audio alignment
     void setAudioAlignReference();

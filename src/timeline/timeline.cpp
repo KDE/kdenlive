@@ -702,11 +702,11 @@ void Timeline::switchTrackAudio(int ix, bool mute)
     }
     if (mute && state < 2 ) {
         // We mute a track with sound
-        if (ix == getLowestNonMutedAudioTrack()) audioMixingBroken = true;
+        /*if (ix == getLowestNonMutedAudioTrack())*/ audioMixingBroken = true;
     }
     else if (!mute && state > 1 ) {
         // We un-mute a previously muted track
-        if (ix < getLowestNonMutedAudioTrack()) audioMixingBroken = true;
+        /*if (ix < getLowestNonMutedAudioTrack())*/ audioMixingBroken = true;
     }
     int newstate;
     if (mute) {
@@ -725,7 +725,7 @@ void Timeline::switchTrackAudio(int ix, bool mute)
 
 int Timeline::getLowestNonMutedAudioTrack()
 {
-    for (int i = 0; i < m_tracks.count(); ++i) {
+    for (int i = 1; i < m_tracks.count(); ++i) {
         Track *tk = track(i);
         if (tk->state() < 2) return i;
     }
@@ -736,21 +736,18 @@ void Timeline::fixAudioMixing()
 {
     // Make sure the audio mixing transitions are applied to the lowest audible (non muted) track
     int lowestTrack = getLowestNonMutedAudioTrack();
-    mlt_service service = mlt_service_get_producer(m_tractor->get_service());
     QScopedPointer<Mlt::Field> field(m_tractor->field());
-    mlt_service_lock(service);
-    mlt_service nextservice = mlt_service_get_producer(service);
+    field->lock();
+    mlt_service nextservice = mlt_service_get_producer(field->get_service());
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
     QString mlt_type = mlt_properties_get(properties, "mlt_type");
     QString resource = mlt_properties_get(properties, "mlt_service");
-
-    mlt_service nextservicetodisconnect;
     // Delete all audio mixing transitions
     while (mlt_type == "transition") {
         if (resource == "mix") {
-            nextservicetodisconnect = nextservice;
+            Mlt::Transition transition((mlt_transition) nextservice);
             nextservice = mlt_service_producer(nextservice);
-            mlt_field_disconnect_service(field->get_field(), nextservicetodisconnect);
+            field->disconnect_service(transition);
         }
         else nextservice = mlt_service_producer(nextservice);
         if (nextservice == NULL) break;
@@ -760,14 +757,23 @@ void Timeline::fixAudioMixing()
     }
 
     // Re-add correct audio transitions
-    for (int i = lowestTrack + 1; i < m_tractor->count(); ++i) {
+    for (int i = m_tractor->count() - 1; i > lowestTrack ; i--) {
+        bool muted = getTrackInfo(i).isMute;
+        if (muted) continue;
+        int a_track = qMax(lowestTrack, i - 1);
+        bool a_muted = getTrackInfo(a_track).isMute;
+        while (a_muted && a_track > lowestTrack) {
+            a_track = qMax(lowestTrack, a_track - 1);
+            a_muted = getTrackInfo(a_track).isMute;
+        }
+        if (a_muted) continue;
         Mlt::Transition *transition = new Mlt::Transition(*m_tractor->profile(), "mix");
         transition->set("always_active", 1);
         transition->set("combine", 1);
         transition->set("internal_added", 237);
-        field->plant_transition(*transition, lowestTrack, i);
+        field->plant_transition(*transition, a_track, i);
     }
-    mlt_service_unlock(service);
+    field->unlock();
 }
 
 

@@ -531,7 +531,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
 
         property = doc.createElement("property");
         property.setAttribute("name", "a_track");
-        QDomText value = doc.createTextNode("1");
+        QDomText value = doc.createTextNode(QString::number(i - 1));
         property.appendChild(value);
         transition.appendChild(property);
 
