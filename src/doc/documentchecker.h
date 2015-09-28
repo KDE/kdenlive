@@ -69,8 +69,10 @@ private:
     QList <QDomElement> m_missingClips;
     QStringList m_safeImages;
     QStringList m_safeFonts;
-    
+    QStringList m_missingProxyIds;
+
     void fixClipItem(QTreeWidgetItem *child, QDomNodeList producers, QDomNodeList trans);
+    void fixSourceClipItem(QTreeWidgetItem *child, QDomNodeList producers, QDomNodeList trans);
 };
 
 

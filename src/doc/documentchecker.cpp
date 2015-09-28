@@ -91,9 +91,7 @@ bool DocumentChecker::hasErrorInClips()
             continue;
         }
         resource = EffectsList::property(e, "resource");
-        
         if (resource.isEmpty()) continue;
-        
         if (!resource.startsWith("/")) {
             resource.prepend(root);
         }
@@ -105,24 +103,24 @@ bool DocumentChecker::hasErrorInClips()
             // Don't check same url twice (for example track producers)
             continue;
         }
-        if (e.hasAttribute("proxy")) {
-            QString proxyresource = e.attribute("proxy");
-            if (!proxyresource.isEmpty() && proxyresource != "-") {
-                // clip has a proxy
-                if (!QFile::exists(proxyresource)) {
-                    // Missing clip found
-                    missingProxies.append(e);
-                }
-                else if (!QFile::exists(resource)) {
-                    // clip has proxy but original clip is missing
-                    missingSources.append(e);
-                    continue;
-                }
+
+        QString proxy = EffectsList::property(e, "kdenlive:proxy");
+        if (proxy.length() > 1) {
+            if (!QFile::exists(proxy)) {
+                // Missing clip found
+                missingProxies.append(e);
             }
+            QString original = EffectsList::property(e, "kdenlive:originalurl");
+            if (!QFile::exists(original)) {
+                // clip has proxy but original clip is missing
+                missingSources.append(e);
+            }
+            verifiedPaths.append(resource);
+            continue;
         }
         // Check for slideshows
-        QString ttl = EffectsList::property(e, "ttl");
-        if ((service == "qimage" || service == "pixbuf") && !ttl.isEmpty()) {
+        bool slideshow = resource.contains("/.all.") || resource.contains("?");
+        if ((service == "qimage" || service == "pixbuf") && slideshow) {
             resource = QUrl::fromLocalFile(resource).adjusted(QUrl::RemoveFilename).path();
         }
         if (!QFile::exists(resource)) {
@@ -170,6 +168,7 @@ bool DocumentChecker::hasErrorInClips()
 
     m_ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     max = m_missingClips.count();
+    m_missingProxyIds.clear();
     for (int i = 0; i < max; ++i) {
         e = m_missingClips.at(i).toElement();
         QString clipType;
@@ -230,7 +229,7 @@ bool DocumentChecker::hasErrorInClips()
     }
     if (missingSources.count() > 0) {
         if (!m_ui.infoLabel->text().isEmpty()) m_ui.infoLabel->setText(m_ui.infoLabel->text() + ". ");
-        m_ui.infoLabel->setText(m_ui.infoLabel->text() + i18np("The project file contains a missing clip, you can still work with its proxy.", "The project file contains missing clips, you can still work with their proxies.", missingSources.count()));
+        m_ui.infoLabel->setText(m_ui.infoLabel->text() + i18np("The project file contains a missing clip, you can still work with its proxy.", "The project file contains %1 missing clips, you can still work with their proxies.", missingSources.count()));
     }
 
     m_ui.removeSelected->setEnabled(!m_missingClips.isEmpty());
@@ -242,16 +241,17 @@ bool DocumentChecker::hasErrorInClips()
     if (max > 0) {
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Proxy clip"));
         item->setIcon(0, QIcon::fromTheme("dialog-warning"));
-        item->setText(1, i18n("%1 missing proxy clips, will be recreated on project opening", max));
-        item->setData(0, hashRole, e.attribute("file_hash"));
+        item->setText(1, i18np("%1 missing proxy clip, will be recreated on project opening", "%1 missing proxy clips, will be recreated on project opening", max));
+        //item->setData(0, hashRole, e.attribute("file_hash"));
         item->setData(0, statusRole, PROXYMISSING);
         item->setToolTip(0, i18n("Missing proxy"));
     }
 
     for (int i = 0; i < max; ++i) {
         e = missingProxies.at(i).toElement();
-        QString realPath = e.attribute("resource");
+        QString realPath = EffectsList::property(e, "kdenlive:originalurl");
         QString id = e.attribute("id");
+        m_missingProxyIds << id;
         // Tell Kdenlive to recreate proxy
         e.setAttribute("_replaceproxy", "1");
         // Replace proxy url with real clip in MLT producers
@@ -270,17 +270,11 @@ bool DocumentChecker::hasErrorInClips()
             if (prodId.contains('_')) prodId = prodId.section('_', 0, 0);
             if (prodId == id) {
                 // Hit, we must replace url
-                properties = mltProd.childNodes();
-                for (int k = 0; k < properties.count(); ++k) {
-                    property = properties.item(k).toElement();
-                    if (property.attribute("name") == "resource") {
-                        QString resource = property.firstChild().nodeValue();                    
-                        QString suffix;
-                        if (slowmotion) suffix = '?' + resource.section('?', -1);
-                        property.firstChild().setNodeValue(realPath + suffix);
-                        break;
-                    }
-                }
+                QString suffix;
+                QString resource = EffectsList::property(mltProd, "resource");
+                if (slowmotion) suffix = '?' + resource.section('?', -1);
+                EffectsList::setProperty(mltProd, "resource", realPath + suffix);
+                EffectsList::setProperty(mltProd, "kdenlive:proxy", "-");
             }
         }
     }
@@ -296,13 +290,13 @@ bool DocumentChecker::hasErrorInClips()
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Source clip"));
         item->setIcon(0, QIcon::fromTheme("dialog-warning"));
         item->setText(1, i18n("%1 missing source clips, you can only use the proxies", max));
-        item->setData(0, hashRole, e.attribute("file_hash"));
+        //item->setData(0, hashRole, e.attribute("file_hash"));
         item->setData(0, statusRole, SOURCEMISSING);
         item->setToolTip(0, i18n("Missing source clip"));
         for (int i = 0; i < max; ++i) {
             e = missingSources.at(i).toElement();
             QString clipType;
-            QString realPath = e.attribute("resource");
+            QString realPath = EffectsList::property(e, "kdenlive:originalurl");
             QString id = e.attribute("id");
             // Tell Kdenlive the source is missing
             e.setAttribute("_missingsource", "1");
@@ -310,11 +304,11 @@ bool DocumentChecker::hasErrorInClips()
             //qDebug()<<"// Adding missing source clip: "<<realPath;
             subitem->setIcon(0, QIcon::fromTheme("dialog-close"));
             subitem->setText(1, realPath);
-            subitem->setData(0, hashRole, e.attribute("file_hash"));
-            subitem->setData(0, sizeRole, e.attribute("file_size"));
+            subitem->setData(0, hashRole, EffectsList::property(e, "kdenlive:file_hash"));
+            subitem->setData(0, sizeRole, EffectsList::property(e, "kdenlive:file_size"));
             subitem->setData(0, statusRole, CLIPMISSING);
-            int t = e.attribute("type").toInt();
-            subitem->setData(0, typeRole, t);
+            //int t = e.attribute("type").toInt();
+            subitem->setData(0, typeRole, EffectsList::property(e, "mlt_service"));
             subitem->setData(0, idRole, id);
         }
     }
@@ -384,7 +378,6 @@ void DocumentChecker::slotSearchClips()
                 QString clipPath = searchFileRecursively(searchDir, subchild->data(0, sizeRole).toString(), subchild->data(0, hashRole).toString(), subchild->text(1));
                 if (!clipPath.isEmpty()) {
                     fixed = true;
-                    
                     subchild->setText(1, clipPath);
                     subchild->setIcon(0, QIcon::fromTheme("dialog-ok"));
                     subchild->setData(0, statusRole, CLIPOK);
@@ -555,7 +548,7 @@ void DocumentChecker::acceptDialog()
     while (child) {
         if (child->data(0, statusRole).toInt() == SOURCEMISSING) {
             for (int j = 0; j < child->childCount(); ++j) {
-                fixClipItem(child->child(j), producers, trans);
+                fixSourceClipItem(child->child(j), producers, trans);
             }
         }
         else fixClipItem(child, producers, trans);
@@ -563,6 +556,33 @@ void DocumentChecker::acceptDialog()
         child = m_ui.treeWidget->topLevelItem(ix);
     }
     //QDialog::accept();
+}
+
+void DocumentChecker::fixSourceClipItem(QTreeWidgetItem *child, QDomNodeList producers, QDomNodeList trans)
+{
+    QDomElement e, property;
+    QDomNodeList properties;
+    //int t = child->data(0, typeRole).toInt();
+    if (child->data(0, statusRole).toInt() == CLIPOK) {
+        QString id = child->data(0, idRole).toString();
+        for (int i = 0; i < producers.count(); ++i) {
+            e = producers.item(i).toElement();
+            QString sourceId = e.attribute("id");
+            if (sourceId.section('_', 0, 0) == id || sourceId.section(':', 1, 1) == id) {
+                // Fix clip
+                QString resource = EffectsList::property(e, "kdenlive:originalurl");
+                QString fixedResource = child->text(1);
+                if (resource.contains(QRegExp("\\?[0-9]+\\.[0-9]+(&amp;strobe=[0-9]+)?$"))) {
+                    fixedResource.append('?' + resource.section('?', -1));
+                }
+                EffectsList::setProperty(e, "kdenlive:originalurl", fixedResource);
+                if (m_missingProxyIds.contains(sourceId)) {
+                    // Proxy is also missing, replace resource
+                    EffectsList::setProperty(e, "resource", fixedResource);
+                }
+            }
+        }
+    }
 }
 
 void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers, QDomNodeList trans)
