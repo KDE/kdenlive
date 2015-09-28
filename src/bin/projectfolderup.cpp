@@ -31,8 +31,8 @@ ProjectFolderUp::ProjectFolderUp(AbstractProjectItem* parent) :
     AbstractProjectItem(AbstractProjectItem::FolderUpItem, QString(), parent)
     , m_bin(NULL)
 {
-    m_thumbnail = KoIconUtils::themedIcon("go-up");
-    m_name = i18n("Up");
+    m_thumbnail = KoIconUtils::themedIcon("go-previous");
+    m_name = i18n("Back");
     setParent(parent);
 }
 

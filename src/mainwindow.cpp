@@ -1222,8 +1222,8 @@ void MainWindow::setupActions()
     addClips->addAction(addAction("download_resource", i18n("Online Resources"), this, SLOT(slotDownloadResources()), KoIconUtils::themedIcon("edit-download")));
     
     QAction *clipProperties = addAction("clip_properties", i18n("Clip Properties"), pCore->bin(), SLOT(slotSwitchClipProperties()), KoIconUtils::themedIcon("document-edit"));
+    clipProperties->setCheckable(true);
     clipProperties->setData("clip_properties");
-    clipProperties->setEnabled(false);
 
     QAction *openClip = addAction("edit_clip", i18n("Edit Clip"), pCore->bin(), SLOT(slotOpenClip()), KoIconUtils::themedIcon("document-open"));
     openClip->setData("edit_clip");

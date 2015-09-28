@@ -41,7 +41,6 @@ class ClipController;
 class QSplitter;
 class QTimeLine;
 class KToolBar;
-class KSplitterCollapserButton;
 class QMenu;
 class QToolButton;
 class QUndoCommand;
@@ -482,7 +481,6 @@ private slots:
     void rowsRemoved(const QModelIndex &parent, int start, int end);
     void selectProxyModel(const QModelIndex &id);
     void autoSelect();
-    void closeEditing();
     void slotSaveHeaders();
     void slotItemDropped(QStringList ids, const QModelIndex &parent);
     void slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent);
@@ -501,6 +499,7 @@ private slots:
     /** @brief Request display of current clip in monitor. */
     void slotOpenCurrent();
     void slotZoomView(bool zoomIn);
+    void slotShowClipProperties();
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img, bool fromFile = false);
@@ -591,7 +590,6 @@ private:
     EventEater *m_eventEater;
     QWidget *m_propertiesPanel;
     QSlider *m_slider;
-    KSplitterCollapserButton *m_collapser;
     Monitor *m_monitor;
     QIcon m_blankThumb;
     QMenu *m_menu;

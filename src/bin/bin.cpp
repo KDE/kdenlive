@@ -49,7 +49,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KToolBar>
 #include <KColorScheme>
 #include <KMessageBox>
-#include <KSplitterCollapserButton>
 #include <KMessageBox>
 #include <KXMLGUIFactory>
 
@@ -416,10 +415,8 @@ Bin::Bin(QWidget* parent) :
     connect(m_eventEater, SIGNAL(zoomView(bool)), this, SLOT(slotZoomView(bool)));
 
     layout->addWidget(m_splitter);
-    m_propertiesPanel = new QWidget(m_splitter);
+    m_propertiesPanel = new QWidget(this);
     m_splitter->addWidget(m_propertiesPanel);
-    m_collapser = new KSplitterCollapserButton(m_propertiesPanel, m_splitter);
-    connect(m_collapser, SIGNAL(clicked(bool)), this, SLOT(slotRefreshClipProperties()));
 
     // Info widget for failed jobs, other errors
     m_infoMessage = new BinMessageWidget;
@@ -721,7 +718,6 @@ void Bin::setDocument(KdenliveDoc* project)
 {
     // Remove clip from Bin's monitor
     if (m_doc) emit openClip(NULL);
-    closeEditing();
     setEnabled(false);
 
     // Cleanup previous project
@@ -1032,12 +1028,11 @@ void Bin::selectProxyModel(const QModelIndex &id)
             // Set item as current so that it displays its content in clip monitor
             currentItem->setCurrent(true);
             if (currentItem->itemType() != AbstractProjectItem::FolderItem) {
-                m_editAction->setEnabled(true);
                 m_reloadAction->setEnabled(true);
                 m_duplicateAction->setEnabled(true);
                 ClipType type = static_cast<ProjectClip*>(currentItem)->clipType();
                 m_openAction->setEnabled(type == Image || type == Audio);
-                if (m_propertiesPanel->width() > 0) {
+                if (m_propertiesPanel->isVisible()) {
                     // if info panel is displayed, update info
                     showClipProperties(static_cast<ProjectClip*>(currentItem));
                     m_deleteAction->setText(i18n("Delete Clip"));
@@ -1045,7 +1040,6 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 }
             } else {
                 // A folder was selected, disable editing clip
-                m_editAction->setEnabled(false);
                 m_openAction->setEnabled(false);
                 m_reloadAction->setEnabled(false);
                 m_duplicateAction->setEnabled(false);
@@ -1056,18 +1050,14 @@ void Bin::selectProxyModel(const QModelIndex &id)
         } else {
             m_reloadAction->setEnabled(false);
             m_duplicateAction->setEnabled(false);
-	    m_editAction->setEnabled(false);
             m_openAction->setEnabled(false);
 	    m_deleteAction->setEnabled(false);
 	}
     }
     else {
         // No item selected in bin
-	m_editAction->setEnabled(false);
         m_openAction->setEnabled(false);
 	m_deleteAction->setEnabled(false);
-        // Hide properties panel
-        m_collapser->collapse();
         showClipProperties(NULL);
 	emit masterClipSelected(NULL, m_monitor);
 	// Display black bg in clip monitor
@@ -1106,7 +1096,6 @@ QList <ProjectClip *> Bin::selectedClips()
 
 void Bin::slotInitView(QAction *action)
 {
-    closeEditing();
     if (action) {
         int viewType = action->data().toInt();
         KdenliveSettings::setBinMode(viewType);
@@ -1159,7 +1148,7 @@ void Bin::slotInitView(QAction *action)
     m_splitter->addWidget(m_itemView);
     m_splitter->insertWidget(2, m_propertiesPanel);
     m_splitter->setSizes(QList <int>() << 4 << 2);
-    m_collapser->collapse();
+    m_propertiesPanel->hide();
 
     // setup some default view specific parameters
     if (m_listType == BinTreeView) {
@@ -1219,13 +1208,6 @@ void Bin::rebuildMenu()
     m_menu->insertMenu(m_reloadAction, m_clipsActionsMenu);
 }
 
-void Bin::closeEditing()
-{
-    //delete m_propertiesPanel;
-    //m_propertiesPanel = NULL;
-}
-
-
 void Bin::contextMenuEvent(QContextMenuEvent *event)
 {
     bool enableClipActions = false;
@@ -1282,7 +1264,6 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     // Enable / disable clip actions
     m_proxyAction->setEnabled(enableClipActions);
     m_transcodeAction->setEnabled(enableClipActions);
-    m_editAction->setEnabled(enableClipActions);
     m_openAction->setEnabled(type == Image || type == Audio);
     m_reloadAction->setEnabled(enableClipActions);
     m_duplicateAction->setEnabled(enableClipActions);
@@ -1350,7 +1331,7 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
             m_itemView->edit(ix);
             return;
         }
-        slotSwitchClipProperties(ix);
+        m_editAction->trigger();
     }
 }
 
@@ -1364,31 +1345,46 @@ void Bin::slotSwitchClipProperties(const QModelIndex &ix)
 {
     if (ix.isValid()) {
         // User clicked in the icon, open clip properties
-        if (m_collapser->isWidgetCollapsed()) {
+        if (m_propertiesPanel->isHidden()) {
+            m_propertiesPanel->show();
             AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
             ProjectClip *clip = qobject_cast<ProjectClip*>(item);
-            if (clip) {
-                m_collapser->restore();
-                showClipProperties(clip);
-            }
-            else m_collapser->collapse();
+            showClipProperties(clip);
         }
-        else m_collapser->collapse();
+        else m_propertiesPanel->hide();
     }
-    else m_collapser->collapse();
+    else {
+        if (m_propertiesPanel->isHidden()) {
+            showClipProperties(NULL);
+        }
+        else m_propertiesPanel->hide();
+    }
+}
+
+void Bin::slotShowClipProperties()
+{
+    ProjectClip *currentItem = getFirstSelectedClip();
+    if (currentItem) {
+        showClipProperties(currentItem);
+    }
 }
 
 void Bin::showClipProperties(ProjectClip *clip)
 {
-    closeEditing();
+    if (!m_editAction->isChecked()) return;
+    if (clip && !clip->isReady()) {
+        m_propertiesPanel->setEnabled(false);
+        QTimer::singleShot(200, this, SLOT(slotShowClipProperties()));
+        return;
+    }
     // Special case: text clips open title widget
     if (clip && clip->clipType() == Text) {
         // Cleanup widget for new content
-        foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
+        /*foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
             delete w;
-        }
+        }*/
+        m_propertiesPanel->setEnabled(false);
         showTitleWidget(clip);
-        m_collapser->collapse();
         return;
     }
     if (clip && clip->clipType() == SlideShow) {
@@ -1396,30 +1392,32 @@ void Bin::showClipProperties(ProjectClip *clip)
         foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
             delete w;
         }
+        m_propertiesPanel->setEnabled(false);
         showSlideshowWidget(clip);
-        m_collapser->collapse();
         return;
     }
-
+    m_propertiesPanel->show();
     QString panelId = m_propertiesPanel->property("clipId").toString();
-    if (!clip || m_propertiesPanel->width() == 0) {
-        m_propertiesPanel->setProperty("clipId", QVariant());
+    if (clip == NULL) {
+        m_propertiesPanel->setEnabled(false);
+        /*m_propertiesPanel->setProperty("clipId", QVariant());
         foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
             delete w;
-        }
+        }*/
         return;
     }
     if (panelId == clip->clipId()) {
         // the properties panel is already displaying current clip, do nothing
+        m_propertiesPanel->setEnabled(true);
         return;
     }
-    
+
     // Cleanup widget for new content
     foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
             delete w;
     }
+    m_propertiesPanel->setEnabled(true);
     m_propertiesPanel->setProperty("clipId", clip->clipId());
-
     QVBoxLayout *lay = static_cast<QVBoxLayout*>(m_propertiesPanel->layout());
     if (lay == 0) {
         lay = new QVBoxLayout(m_propertiesPanel);

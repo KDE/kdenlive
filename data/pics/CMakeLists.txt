@@ -104,6 +104,7 @@ breeze-dark/dk_document-save-all.svg
 breeze-dark/dk_edit-clear.svg
 breeze-dark/dk_edit-find.svg
 breeze-dark/dk_go-next.svg
+breeze-dark/dk_go-previous.svg
 breeze-dark/dk_view-list-tree.svg
 breeze-dark/dk_view-list-icons.svg
 breeze-dark/dk_go-up.svg
@@ -241,6 +242,7 @@ breeze-light/lt_document-save-all.svg
 breeze-light/lt_edit-clear.svg
 breeze-light/lt_edit-find.svg
 breeze-light/lt_go-next.svg
+breeze-light/lt_go-previous.svg
 breeze-light/lt_view-list-tree.svg
 breeze-light/lt_view-list-icons.svg
 breeze-light/lt_go-up.svg

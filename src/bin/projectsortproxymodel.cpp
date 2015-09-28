@@ -97,6 +97,7 @@ bool ProjectSortProxyModel::lessThan(const QModelIndex & left, const QModelIndex
         }
         return QSortFilterProxyModel::lessThan(right, left);
     }
+    if (sortOrder() == Qt::AscendingOrder) return leftType < rightType;
     return leftType > rightType;
 }
 
