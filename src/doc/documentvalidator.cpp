@@ -1072,6 +1072,42 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QDomNode firstProd = m_doc.firstChildElement("producer");
         
         QDomNodeList kdenlive_producers = m_doc.elementsByTagName("kdenlive_producer");
+        
+        // Rename all track producers to correct name: "id_playlistName" instead of "id_trackNumber"
+        QMap <QString, QString> trackRenaming;
+        // Create a list of which producers / track on which the producer is
+        QMap <QString, QString> playlistForId;
+        QDomNodeList entries = m_doc.elementsByTagName("entry");
+        for (int i = 0; i < entries.count(); i++) {
+            QDomElement entry = entries.at(i).toElement();
+            QString entryId = entry.attribute("producer");
+            if (!entryId.contains("_")) {
+                // not a track producer
+                playlistForId.insert(entryId, entry.parentNode().toElement().attribute("id"));
+                continue;
+            }
+            if (trackRenaming.contains(entryId)) {
+                // rename
+                entry.setAttribute("producer", trackRenaming.value(entryId));
+                continue;
+            }
+            QString track = entryId.section("_", 1, 1);
+            QString playlistId = entry.parentNode().toElement().attribute("id");
+            if (track == playlistId) continue;
+            QString newId = entryId.section("_", 0, 0) + "_" + playlistId;
+            entry.setAttribute("producer", newId);
+            trackRenaming.insert(entryId, newId);
+        }
+
+        if (!trackRenaming.isEmpty()) {
+            for (int i = 0; i < producers.count(); ++i) {
+                QDomElement prod = producers.at(i).toElement();
+                QString id = prod.attribute("id");
+                if (trackRenaming.contains(id)) {
+                    prod.setAttribute("id", trackRenaming.value(id));
+                }
+            }
+        }
 
         // Create easily searchable index of original producers
         QMap <QString, QDomElement> m_source_producers;
@@ -1094,6 +1130,28 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
             QString prodId = id.section("_", 0, 0);
             if (ids.contains(prodId)) {
+                // Make sure we didn't create a duplicate
+                if (ids.contains(id)) {
+                    // we have a duplicate, check if this needs to ba a track producer
+                    QString service = EffectsList::property(prod, "mlt_service");
+                    int a_ix = EffectsList::property(prod, "audio_index").toInt();
+                    if (service == "xml" || service == "consumer" || (service.contains("avformat") && a_ix != -1)) {
+                        // This should be a track producer, rename
+                        QString newId = id + "_" + playlistForId.value(id);
+                        prod.setAttribute("id", newId);
+                        for (int j = 0; j < entries.count(); j++) {
+                            QDomElement entry = entries.at(j).toElement();
+                            QString entryId = entry.attribute("producer");
+                            if (entryId == id) {
+                                entry.setAttribute("producer", newId);
+                            }
+                        }
+                    } else {
+                        // This is a duplicate, remove
+                        mlt.removeChild(prod);
+                        i--;
+                    }
+                }
                 // Already processed, continue
                 continue;
             }
@@ -1116,6 +1174,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     }
                     if (source.hasAttribute("file_size")) {
                         EffectsList::setProperty(prod, "kdenlive:file_size", source.attribute("file_size"));
+                    }
+                    if (source.hasAttribute("name")) {
+                        EffectsList::setProperty(prod, "kdenlive:clipname", source.attribute("name"));
                     }
                 }
                 frag.appendChild(prod);
@@ -1358,6 +1419,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         EffectsList::setProperty(playlist, "kdenlive:docproperties.version", QString::number(currentVersion));
         if (!infoXml.isNull()) EffectsList::setProperty(playlist, "kdenlive:docproperties.projectfolder", infoXml.attribute("projectfolder"));
     }
+
     m_modified = true;
     return true;
 }
