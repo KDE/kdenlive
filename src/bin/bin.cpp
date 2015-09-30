@@ -1097,6 +1097,7 @@ QList <ProjectClip *> Bin::selectedClips()
 void Bin::slotInitView(QAction *action)
 {
     if (action) {
+        m_proxyModel->selectionModel()->clearSelection();
         int viewType = action->data().toInt();
         KdenliveSettings::setBinMode(viewType);
         if (viewType == m_listType) {
@@ -1112,13 +1113,15 @@ void Bin::slotInitView(QAction *action)
         else {
             // remove the current folderUp item if any
             if (m_folderUp) {
+                if (m_folderUp->parent()) {
+                    m_folderUp->parent()->removeChild(m_folderUp);
+                }
                 delete m_folderUp;
                 m_folderUp = NULL;
             }
         }
         m_listType = static_cast<BinViewType>(viewType);
     }
-    m_proxyModel->selectionModel()->clearSelection();
     if (m_itemView) {
         delete m_itemView;
     }
