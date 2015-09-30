@@ -402,7 +402,7 @@ bool Track::replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state
         cut = prod->cut(orig->get_in(), orig->get_out());
     }
     Clip(*cut).addEffects(*orig);
-    bool ok = m_playlist.insert_at(frame(t), cut, 1);
+    bool ok = m_playlist.insert_at(frame(t), cut, 1) >= 0;
     delete cut;
     m_playlist.unlock();
     return ok;
