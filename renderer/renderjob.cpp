@@ -61,7 +61,7 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, int pid, const QString& rend
     // Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
     qputenv("MLT_NO_VDPAU", "1");
 
-    m_args << "xml:" + scenelist;
+    m_args << scenelist;
     if (in != -1) m_args << QLatin1String("in=") + QString::number(in);
     if (out != -1) m_args << QLatin1String("out=") + QString::number(out);
     m_args << preargs;
