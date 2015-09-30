@@ -1017,12 +1017,12 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             m_doc.firstChildElement("mlt").setAttribute("LC_NUMERIC", "C");
         }
     }
-    
+
     if (version <= 0.88) {
         // convert to new MLT-only format
         QDomNodeList producers = m_doc.elementsByTagName("producer");
         QDomDocumentFragment frag = m_doc.createDocumentFragment();
-        
+
         // Create Bin Playlist
         QDomElement main_playlist = m_doc.createElement("playlist");
         QDomElement prop = m_doc.createElement("property");
@@ -1070,9 +1070,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QStringList ids;
         QStringList slowmotionIds;
         QDomNode firstProd = m_doc.firstChildElement("producer");
-        
+
         QDomNodeList kdenlive_producers = m_doc.elementsByTagName("kdenlive_producer");
-        
+
         // Rename all track producers to correct name: "id_playlistName" instead of "id_trackNumber"
         QMap <QString, QString> trackRenaming;
         // Create a list of which producers / track on which the producer is
@@ -1081,22 +1081,36 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         for (int i = 0; i < entries.count(); i++) {
             QDomElement entry = entries.at(i).toElement();
             QString entryId = entry.attribute("producer");
-            if (!entryId.contains("_")) {
-                // not a track producer
-                playlistForId.insert(entryId, entry.parentNode().toElement().attribute("id"));
-                continue;
-            }
+            bool audioOnlyProducer = false;
             if (trackRenaming.contains(entryId)) {
                 // rename
                 entry.setAttribute("producer", trackRenaming.value(entryId));
+                continue;
+            }
+            if (entryId.endsWith("_video")) {
+                // Video only producers are not track aware
+                continue;
+            }
+            if (entryId.endsWith("_audio")) {
+                // Video only producers are not track aware
+                audioOnlyProducer = true;
+                entryId = entryId.section("_", 0, -2);
+            }
+            if (!entryId.contains("_")) {
+                // not a track producer
+                playlistForId.insert(entryId, entry.parentNode().toElement().attribute("id"));
                 continue;
             }
             QString track = entryId.section("_", 1, 1);
             QString playlistId = entry.parentNode().toElement().attribute("id");
             if (track == playlistId) continue;
             QString newId = entryId.section("_", 0, 0) + "_" + playlistId;
+            if (audioOnlyProducer) {
+                newId.append("_audio");
+                trackRenaming.insert(entryId + "_audio", newId);
+            }
+            else trackRenaming.insert(entryId, newId);
             entry.setAttribute("producer", newId);
-            trackRenaming.insert(entryId, newId);
         }
 
         if (!trackRenaming.isEmpty()) {
@@ -1132,7 +1146,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             if (ids.contains(prodId)) {
                 // Make sure we didn't create a duplicate
                 if (ids.contains(id)) {
-                    // we have a duplicate, check if this needs to ba a track producer
+                    // we have a duplicate, check if this needs to be a track producer
                     QString service = EffectsList::property(prod, "mlt_service");
                     int a_ix = EffectsList::property(prod, "audio_index").toInt();
                     if (service == "xml" || service == "consumer" || (service.contains("avformat") && a_ix != -1)) {
@@ -1185,6 +1199,12 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             else {
                 QDomElement originalProd = prod.cloneNode().toElement();
                 originalProd.setAttribute("id", prodId);
+                if (id.endsWith("_audio")) {
+                    EffectsList::removeProperty(originalProd, "video_index");
+                }
+                else if (id.endsWith("_video")) {
+                    EffectsList::removeProperty(originalProd, "audio_index");
+                }
                 frag.appendChild(originalProd);
                 QDomElement entry = m_doc.createElement("entry");
                 entry.setAttribute("in", prod.attribute("in"));

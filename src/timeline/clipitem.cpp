@@ -2045,6 +2045,5 @@ void ClipItem::updateState(const QString &id)
     else {
         m_clipState = PlaylistState::Original;
     }
-    
 }
 

@@ -6757,7 +6757,7 @@ void CustomTrackView::doChangeClipType(const GenTime &pos, int track, PlaylistSt
 {
     ClipItem *clip = getClipItemAtStart(pos, track);
     if (clip == NULL) {
-        emit displayMessage(i18n("Cannot find clip to edit (time: %1, track: %2)", pos.frames(m_document->fps()), track), ErrorMessage);
+        emit displayMessage(i18n("Cannot find clip to edit (time: %1, track: %2)", pos.frames(m_document->fps()), m_timeline->getTrackInfo(track).trackName), ErrorMessage);
         return;
     }
     Mlt::Producer *prod;
@@ -6769,7 +6769,7 @@ void CustomTrackView::doChangeClipType(const GenTime &pos, int track, PlaylistSt
         clip->setState(state); 
     } else {
         // Changing clip type failed
-        emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", pos.frames(m_document->fps()), track), ErrorMessage);
+        emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", pos.frames(m_document->fps()), m_timeline->getTrackInfo(track).trackName), ErrorMessage);
         return;
     }
     clip->update();
