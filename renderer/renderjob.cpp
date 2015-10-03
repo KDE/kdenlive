@@ -287,6 +287,9 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
         if (m_dualpass) {
             emit renderingFinished();
             deleteLater();
-        } else qApp->quit();
+        } else  {
+          m_logfile.remove();
+          qApp->quit();
+        }
     }
 }
