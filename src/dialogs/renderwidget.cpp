@@ -1234,7 +1234,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         if (!renderItem) {
             renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);
         }
-        renderItem->setData(1, TimeRole, QTime::currentTime());
+        renderItem->setData(1, TimeRole, QDateTime::currentDateTime());
 
         // Set rendering type
         if (group == "dvd") {
@@ -1291,7 +1291,7 @@ void RenderWidget::checkRenderStatus()
     // Find first waiting job
     while (item) {
         if (item->status() == WAITINGJOB) {
-            item->setData(1, TimeRole, QTime::currentTime());
+            item->setData(1, TimeRole, QDateTime::currentDateTime());
             waitingJob = true;
             startRendering(item);
             while (item->status() == WAITINGJOB) {
@@ -1980,13 +1980,20 @@ void RenderWidget::setRenderJob(const QString &dest, int progress)
     item->setStatus(RUNNINGJOB);
     if (progress == 0) {
         item->setIcon(0, QIcon::fromTheme("system-run"));
-        item->setData(1, TimeRole, QTime::currentTime());
+        item->setData(1, TimeRole, QDateTime::currentDateTime());
         slotCheckJob();
     } else {
-        QTime startTime = item->data(1, TimeRole).toTime();
-        int seconds = startTime.secsTo(QTime::currentTime());
-        QTime ti(0, 0, (int) (seconds * (100.0 - progress) / progress));
-        const QString t = i18n("Estimated time %1", ti.toString("hh:mm:ss"));
+        QDateTime startTime = item->data(1, TimeRole).toDateTime();
+        int days = startTime.daysTo (QDateTime::currentDateTime()) ;
+        double elapsedTime = days * 86400 + startTime.addDays(days).secsTo( QDateTime::currentDateTime() );
+        u_int32_t remaining = elapsedTime * (100.0 - progress) / progress;
+        int remainingSecs = remaining % 86400;
+        days = remaining / 86400;
+        QTime when = QTime ( 0, 0, 0, 0 ) ;
+        when = when.addSecs (remainingSecs) ;
+        QString est = (days > 0) ? i18np("%1 day ", "%1 days ", days) : QString();
+        est.append(when.toString("hh:mm:ss"));
+        QString t = i18n("Remaining time %1", est);
         item->setData(1, Qt::UserRole, t);
     }
 }
@@ -2002,8 +2009,8 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
     if (status == -1) {
         // Job finished successfully
         item->setStatus(FINISHEDJOB);
-        QTime startTime = item->data(1, TimeRole).toTime();
-        int seconds = startTime.secsTo(QTime::currentTime());
+        QDateTime startTime = item->data(1, TimeRole).toDateTime();
+        int seconds = startTime.secsTo(QDateTime::currentDateTime());
         QString r = QTime(0, 0, seconds).toString("hh:mm:ss");
         QString t = i18n("Rendering finished in %1", r);
         item->setData(1, Qt::UserRole, t);
@@ -2189,7 +2196,7 @@ void RenderWidget::slotStartScript()
         renderItem->setStatus(WAITINGJOB);
         renderItem->setIcon(0, QIcon::fromTheme("media-playback-pause"));
         renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
-        renderItem->setData(1, TimeRole, QTime::currentTime());
+        renderItem->setData(1, TimeRole, QDateTime::currentDateTime());
         renderItem->setData(1, ParametersRole, path);
         checkRenderStatus();
         m_view.tabWidget->setCurrentIndex(1);
