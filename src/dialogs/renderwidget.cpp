@@ -2011,11 +2011,15 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         // Job finished successfully
         item->setStatus(FINISHEDJOB);
         QDateTime startTime = item->data(1, TimeRole).toDateTime();
-        int seconds = startTime.secsTo(QDateTime::currentDateTime());
-        QString r = QTime(0, 0, seconds).toString("hh:mm:ss");
-        QString t = i18n("Rendering finished in %1", r);
+        int days = startTime.daysTo(QDateTime::currentDateTime()) ;
+        int elapsedTime = startTime.addDays(days).secsTo( QDateTime::currentDateTime() );
+        QTime when = QTime ( 0, 0, 0, 0 ) ;
+        when = when.addSecs (elapsedTime) ;
+        QString est = (days > 0) ? i18np("%1 day ", "%1 days ", days) : QString();
+        est.append(when.toString("hh:mm:ss"));
+        QString t = i18n("Rendering finished in %1", est);
         item->setData(1, Qt::UserRole, t);
-        QString notif = i18n("Rendering of %1 finished in %2", item->text(1), r);
+        QString notif = i18n("Rendering of %1 finished in %2", item->text(1), est);
         //WARNING: notification below does not seem to work 
         KNotification::event("RenderFinished", notif, QPixmap(), this);
         QString itemGroup = item->data(0, Qt::UserRole).toString();
