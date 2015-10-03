@@ -138,14 +138,13 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     m_tipPen.setColor(QColor(255, 255, 255, 100));
     m_tipPen.setWidth(3);
 
-    const int maxHeight = m_tracksHeight * m_timeline->visibleTracksCount();
-    setSceneRect(0, 0, sceneRect().width(), maxHeight);
-    verticalScrollBar()->setMaximum(maxHeight);
+    setSceneRect(0, 0, sceneRect().width(), m_tracksHeight);
+    verticalScrollBar()->setMaximum(m_tracksHeight);
     verticalScrollBar()->setTracking(true);
     // repaint guides when using vertical scroll
     connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(slotRefreshGuides()));
 
-    m_cursorLine = projectscene->addLine(0, 0, 0, maxHeight);
+    m_cursorLine = projectscene->addLine(0, 0, 0, m_tracksHeight);
     m_cursorLine->setZValue(1000);
     QPen pen1 = QPen();
     pen1.setWidth(1);
@@ -280,34 +279,37 @@ void CustomTrackView::updateSceneFrameWidth()
 bool CustomTrackView::checkTrackHeight(bool force)
 {
     if (!force && m_tracksHeight == KdenliveSettings::trackheight() && sceneRect().height() == m_tracksHeight * m_timeline->visibleTracksCount()) return false;
-    m_tracksHeight = KdenliveSettings::trackheight();
-    QList<QGraphicsItem *> itemList = items();
-    ClipItem *item;
-    Transition *transitionitem;
     int frameWidth = getFrameWidth();
-    // Remove all items, and re-add them one by one to avoid collisions
-    for (int i = 0; i < itemList.count(); ++i) {
-        if (itemList.at(i)->type() == AVWidget || itemList.at(i)->type() == TransitionWidget) {
-            m_scene->removeItem(itemList.at(i));
+    if (m_tracksHeight != KdenliveSettings::trackheight()) {
+        QList<QGraphicsItem *> itemList = items();
+        ClipItem *item;
+        Transition *transitionitem;
+        m_tracksHeight = KdenliveSettings::trackheight();
+        // Remove all items, and re-add them one by one to avoid collisions
+        for (int i = 0; i < itemList.count(); ++i) {
+            if (itemList.at(i)->type() == AVWidget || itemList.at(i)->type() == TransitionWidget) {
+                m_scene->removeItem(itemList.at(i));
+            }
         }
-    }
-    
-    bool snap = KdenliveSettings::snaptopoints();
-    KdenliveSettings::setSnaptopoints(false);
-    for (int i = 0; i < itemList.count(); ++i) {
-        if (itemList.at(i)->type() == AVWidget) {
-            item = static_cast<ClipItem*>(itemList.at(i));
-            item->setRect(0, 0, item->rect().width(), m_tracksHeight - 1);
-            item->setPos((qreal) item->startPos().frames(m_document->fps()), getPositionFromTrack(item->track()) + 1);
-            m_scene->addItem(item);
-            item->resetFrameWidth(frameWidth);
-            item->resetThumbs(true);
-        } else if (itemList.at(i)->type() == TransitionWidget) {
-            transitionitem = static_cast<Transition*>(itemList.at(i));
-            transitionitem->setRect(0, 0, transitionitem->rect().width(), m_tracksHeight / 3 * 2 - 1);
-            transitionitem->setPos((qreal) transitionitem->startPos().frames(m_document->fps()), getPositionFromTrack(transitionitem->track()) + transitionitem->itemOffset());
-            m_scene->addItem(transitionitem);
+
+        bool snap = KdenliveSettings::snaptopoints();
+        KdenliveSettings::setSnaptopoints(false);
+        for (int i = 0; i < itemList.count(); ++i) {
+            if (itemList.at(i)->type() == AVWidget) {
+                item = static_cast<ClipItem*>(itemList.at(i));
+                item->setRect(0, 0, item->rect().width(), m_tracksHeight - 1);
+                item->setPos((qreal) item->startPos().frames(m_document->fps()), getPositionFromTrack(item->track()) + 1);
+                m_scene->addItem(item);
+                item->resetFrameWidth(frameWidth);
+                item->resetThumbs(true);
+            } else if (itemList.at(i)->type() == TransitionWidget) {
+                transitionitem = static_cast<Transition*>(itemList.at(i));
+                transitionitem->setRect(0, 0, transitionitem->rect().width(), m_tracksHeight / 3 * 2 - 1);
+                transitionitem->setPos((qreal) transitionitem->startPos().frames(m_document->fps()), getPositionFromTrack(transitionitem->track()) + transitionitem->itemOffset());
+                m_scene->addItem(transitionitem);
+            }
         }
+        KdenliveSettings::setSnaptopoints(snap);
     }
     double newHeight = m_tracksHeight * m_timeline->visibleTracksCount() * matrix().m22();
     m_cursorLine->setLine(0, 0, 0, newHeight - 1);
@@ -316,7 +318,6 @@ bool CustomTrackView::checkTrackHeight(bool force)
     }
 
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_timeline->visibleTracksCount());
-    KdenliveSettings::setSnaptopoints(snap);
     viewport()->update();
     return true;
 }

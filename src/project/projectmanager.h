@@ -26,6 +26,7 @@ class KdenliveDoc;
 class NotesPlugin;
 class QAction;
 class QUrl;
+class QProgressDialog;
 class KAutoSaveFile;
 
 /**
@@ -122,6 +123,7 @@ private:
     QAction *m_fileRevert;
     KRecentFilesAction *m_recentFilesAction;
     NotesPlugin *m_notesPlugin;
+    QProgressDialog *m_progressDialog;
 };
 
 #endif

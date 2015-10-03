@@ -199,6 +199,8 @@ signals:
     void updateTimelineProducer(const QString &);
     /** @brief We want to replace a clip with another, but before we need to change clip producer id so that there is no interference*/
     void prepareTimelineReplacement(const QString &);
+    /** @brief Indicate which clip we are loading */
+    void loadingBin(int);
 };
 
 #endif

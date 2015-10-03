@@ -1466,6 +1466,7 @@ void MainWindow::slotCheckRenderStatus()
 
 void MainWindow::setRenderingProgress(const QString &url, int progress)
 {
+    qDebug()<<" / / /GOT RENDER PROGRESS: "<<progress;
     if (m_renderWidget)
         m_renderWidget->setRenderJob(url, progress);
 }

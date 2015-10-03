@@ -49,7 +49,6 @@
 #include <KBookmarkManager>
 #include <KBookmark>
 
-#include <QProgressDialog>
 #include <QCryptographicHash>
 #include <QFile>
 #include <QDebug>
@@ -72,7 +71,7 @@
 
 const double DOCUMENTVERSION = 0.91;
 
-KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent, QProgressDialog *progressDialog) :
+KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent) :
     QObject(parent),
     m_autosave(NULL),
     m_url(url),
@@ -227,77 +226,19 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                         qDebug()<<" // / processing file validate ok";
                         parent->slotGotProgressInfo(i18n("Check missing clips"), 0);
                         qApp->processEvents();
-                        success = checkDocumentClips();
+                        DocumentChecker d(m_document);
+                        success = !d.hasErrorInClips();
                         if (success) {
                             loadDocumentProperties();
                             if (m_document.documentElement().attribute("modified") == "1") setModified(true);
-                            parent->slotGotProgressInfo(i18n("Loading"), 0);
-                            QDomElement mlt = m_document.firstChildElement("mlt");
-                            QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
-
-                            QDomElement e;
-                            QStringList expandedFolders;
-                            QDomNodeList folders = m_document.elementsByTagName("folder");
-                            for (int i = 0; i < folders.count(); ++i) {
-                                e = folders.item(i).cloneNode().toElement();
-                                if (e.hasAttribute("opened")) expandedFolders.append(e.attribute("id"));
-                                //Deprecated
-                                //m_clipManager->addFolder(e.attribute("id"), e.attribute("name"));
-                            }
-                            m_documentProperties["expandedfolders"] = expandedFolders.join(";");
-
-                            QDomNodeList producers = m_document.elementsByTagName("producer");
-                            const int max = producers.count();
-
-                            if (!progressDialog) {
-                                progressDialog = new QProgressDialog(parent);
-                                progressDialog->setWindowTitle(i18n("Loading project"));
-                                progressDialog->setLabelText(i18n("Adding clips"));
-                                progressDialog->setCancelButton(0);
-                            } else {
-                                progressDialog->setLabelText(i18n("Adding clips"));
-                            }
-                            progressDialog->setMaximum(max);
-                            progressDialog->show();
-                            qApp->processEvents();
-                            if (success) {
-                                /*QDomElement markers = infoXml.firstChildElement("markers");
-                                if (!markers.isNull()) {
-                                    QDomNodeList markerslist = markers.childNodes();
-                                    int maxchild = markerslist.count();
-                                    for (int k = 0; k < maxchild; ++k) {
-                                        e = markerslist.at(k).toElement();
-                                        if (e.tagName() == "marker") {
-                                            CommentedTime marker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"), e.attribute("type").toInt());
-                                            ClipController *controller = getClipController(e.attribute("id"));
-                                            if (controller) controller->addSnapMarker(marker);
-                                            else qDebug()<< " / / Warning, missing clip: "<< e.attribute("id");
-                                        }
-                                    }
-                                    infoXml.removeChild(markers);
-                                }
-
-                                m_projectFolder = QUrl::fromLocalFile(infoXml.attribute("projectfolder"));*/
-                                /*QDomElement docproperties = infoXml.firstChildElement("documentproperties");
-                                QDomNamedNodeMap props = docproperties.attributes();
-                                for (int i = 0; i < props.count(); ++i)
-                                    m_documentProperties.insert(props.item(i).nodeName(), props.item(i).nodeValue());
-                                docproperties = infoXml.firstChildElement("documentmetadata");
-                                props = docproperties.attributes();
-                                for (int i = 0; i < props.count(); ++i)
-                                    m_documentMetadata.insert(props.item(i).nodeName(), props.item(i).nodeValue());
-                                */
-
-                                if (validator.isModified()) setModified(true);
-                                //qDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
-                            }
+                            if (validator.isModified()) setModified(true);
                         }
                     }
                 }
             }
         }
     }
-    
+
     // Something went wrong, or a new file was requested: create a new project
     if (!success) {
         m_url.clear();
@@ -1177,43 +1118,6 @@ void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString
 void KdenliveDoc::cacheImage(const QString &fileId, const QImage &img) const
 {
     img.save(QDir::cleanPath(m_projectFolder.path() +QDir::separator() + "thumbs/" + fileId + ".png"));
-}
-
-bool KdenliveDoc::checkDocumentClips()
-{
-    DocumentChecker d(m_document);
-    return (d.hasErrorInClips() == false);
-
-    /*    int clipType;
-        QDomElement e;
-        QString id;
-        QString resource;
-        QList <QDomElement> missingClips;
-        for (int i = 0; i < infoproducers.count(); ++i) {
-            e = infoproducers.item(i).toElement();
-            clipType = e.attribute("type").toInt();
-            if (clipType == COLOR) continue;
-            if (clipType == TEXT) {
-                //TODO: Check is clip template is missing (xmltemplate) or hash changed
-                continue;
-            }
-            id = e.attribute("id");
-            resource = e.attribute("resource");
-            if (clipType == SLIDESHOW) resource = QUrl(resource).directory();
-            if (!KIO::NetAccess::exists(QUrl(resource), KIO::NetAccess::SourceSide, 0)) {
-                // Missing clip found
-                missingClips.append(e);
-            } else {
-                // Check if the clip has changed
-                if (clipType != SLIDESHOW && e.hasAttribute("file_hash")) {
-                    if (e.attribute("file_hash") != DocClipBase::getHash(e.attribute("resource")))
-                        e.removeAttribute("file_hash");
-                }
-            }
-        }
-        if (missingClips.isEmpty()) return true;
-        DocumentChecker d(missingClips, m_document);
-        return (d.exec() == QDialog::Accepted);*/
 }
 
 void KdenliveDoc::setDocumentProperty(const QString &name, const QString &value)

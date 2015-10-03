@@ -468,7 +468,6 @@ void Render::processFileProperties()
     while (!m_requestList.isEmpty()) {
         m_infoMutex.lock();
         info = m_requestList.takeFirst();
-
         if (info.xml.hasAttribute("thumbnailOnly")) {
             m_infoMutex.unlock();
             // Special case, we just want the thumbnail for existing producer

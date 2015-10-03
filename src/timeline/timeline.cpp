@@ -64,6 +64,8 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
     m_trackview = new CustomTrackView(doc, this, m_scene, parent);
     if (m_doc->setSceneList() == -1) *ok = false;
     else *ok = true;
+    Mlt::Service s(m_doc->renderer()->getProducer()->parent().get_service());
+    m_tractor = new Mlt::Tractor(s);
     m_ruler = new CustomRuler(doc->timecode(), m_trackview);
     connect(m_ruler, SIGNAL(zoneMoved(int,int)), this, SIGNAL(zoneMoved(int,int)));
     connect(m_ruler, SIGNAL(adjustZoom(int)), this, SIGNAL(setZoom(int)));
@@ -116,22 +118,14 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
     connect(m_trackview, SIGNAL(updateTrackHeaders()), this, SLOT(slotRepaintTracks()));
     connect(m_trackview, SIGNAL(showTrackEffects(int,TrackInfo)), this, SIGNAL(showTrackEffects(int,TrackInfo)));
     connect(m_trackview, SIGNAL(updateTrackEffectState(int)), this, SLOT(slotUpdateTrackEffectState(int)));
-    Mlt::Service s(m_doc->renderer()->getProducer()->parent().get_service());
-    m_tractor = new Mlt::Tractor(s);
     transitionHandler = new TransitionHandler(m_tractor);
     connect(transitionHandler, &TransitionHandler::refresh, m_doc->renderer(), &Render::doRefresh);
-    
-    parseDocument(m_doc->toXml());
     connect(m_trackview, SIGNAL(cursorMoved(int,int)), m_ruler, SLOT(slotCursorMoved(int,int)));
     connect(m_trackview, SIGNAL(updateRuler(int)), m_ruler, SLOT(updateRuler(int)), Qt::DirectConnection);
 
     connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));
     connect(m_trackview->horizontalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(slotUpdateVerticalScroll(int,int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
-    m_trackview->slotUpdateAllThumbs();
-
-    slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
-    slotSetZone(m_doc->zone(), false);
 }
 
 Timeline::~Timeline()
@@ -145,6 +139,14 @@ Timeline::~Timeline()
     m_tracks.clear();
 }
 
+void Timeline::loadTimeline()
+{
+    parseDocument(m_doc->toXml());
+    m_trackview->slotUpdateAllThumbs();
+    slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
+    slotSetZone(m_doc->zone(), false);
+}
+
 Track* Timeline::track(int i) 
 {
     if (i < 0 || i >= m_tracks.count()) return NULL;
@@ -153,12 +155,12 @@ Track* Timeline::track(int i)
 
 int Timeline::tracksCount() const
 {
-    return m_tracks.count();
+    return m_tractor->count();
 }
 
 int Timeline::visibleTracksCount() const
 {
-    return m_tracks.count() - 1;
+    return m_tractor->count() - 1;
 }
 
 //virtual
@@ -231,9 +233,19 @@ int Timeline::getTracks() {
             wid->deleteLater();
         }
     }
+    int clipsCount = 0;
+    for (int i = 0; i < m_tractor->count(); ++i) {
+        QScopedPointer<Mlt::Producer> track(m_tractor->track(i));
+        QString playlist_name = track->get("id");
+        if (playlist_name == "black_track") continue;
+        clipsCount += track->count();
+    }
+    emit startLoadingBin(clipsCount);
 
+    checkTrackHeight(false);
     int height = KdenliveSettings::trackheight() * m_scene->scale().y() - 1;
     int headerWidth = 0;
+    int offset = 0;
     for (int i = 0; i < m_tractor->count(); ++i) {
         QScopedPointer<Mlt::Producer> track(m_tractor->track(i));
         QString playlist_name = track->get("id");
@@ -242,7 +254,8 @@ int Timeline::getTracks() {
         Mlt::Playlist playlist(*track);
         int trackduration;
         int audio = playlist.get_int("kdenlive:audio_track");
-        trackduration = loadTrack(i, playlist);
+        trackduration = loadTrack(i, offset, playlist);
+        offset += track->count();
         QFrame *frame = new QFrame(headers_container);
         frame->setFrameStyle(QFrame::HLine);
         frame->setFixedHeight(1);
@@ -271,7 +284,6 @@ int Timeline::getTracks() {
     }
     headers_container->setFixedWidth(headerWidth);
     updatePalette();
-    checkTrackHeight(true);
     return duration;
 }
 
@@ -428,10 +440,6 @@ void Timeline::parseDocument(const QDomDocument &doc)
     if (!effects.isEmpty()) {
         m_doc->saveCustomEffects(effects);
     }
-
-    // Remove deprecated Kdenlive extra info from xml doc before sending it to MLT
-    QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
-    if (!infoXml.isNull()) mlt.removeChild(infoXml);
 
     if (!m_documentErrors.isNull()) KMessageBox::sorry(this, m_documentErrors);
     if (mlt.hasAttribute("upgraded") || mlt.hasAttribute("modified")) {
@@ -876,12 +884,13 @@ void Timeline::adjustTrackHeaders()
     }
 }
 
-int Timeline::loadTrack(int ix, Mlt::Playlist &playlist) {
+int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist) {
     // parse track
     int position = 0;
     double fps = m_doc->fps();
     bool locked = playlist.get_int("kdenlive:locked_track") == 1;
     for(int i = 0; i < playlist.count(); ++i) {
+        emit loadingBin(offset + i + 1);
         QScopedPointer<Mlt::Producer> clip(playlist.get_clip(i));
         if (clip->is_blank()) {
             position += clip->get_playtime();
@@ -919,7 +928,6 @@ int Timeline::loadTrack(int ix, Mlt::Playlist &playlist) {
         ProjectClip *binclip = m_doc->getBinClip(id);
         if (binclip == NULL) {
 	    // Warning, unknown clip found, timeline corruption!!
-	    
 	    //TODO: fix this
 	    position += length;
 	    continue;

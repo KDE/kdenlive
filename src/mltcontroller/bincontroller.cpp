@@ -93,7 +93,8 @@ void BinController::initializeBin(Mlt::Playlist playlist)
     // Fill Controller's list
     m_binPlaylist = new Mlt::Playlist(playlist);
     m_binPlaylist->set("id", kPlaylistTrackId);
-    for (int i = 0; i < m_binPlaylist->count(); i++) {
+    int max = m_binPlaylist->count();
+    for (int i = 0; i < max; i++) {
         Mlt::Producer *producer = m_binPlaylist->get_clip(i);
         if (producer->is_blank() || !producer->is_valid()) continue;
         QString id = producer->parent().get("id");
@@ -130,6 +131,7 @@ void BinController::initializeBin(Mlt::Playlist playlist)
                 m_clipList.insert(id, controller);
             }
         }
+        emit loadingBin(i + 1);
     }
     // Load markers
     Mlt::Properties markerProperties;

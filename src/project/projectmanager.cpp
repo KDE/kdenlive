@@ -43,7 +43,8 @@ the Free Software Foundation, either version 3 of the License, or
 ProjectManager::ProjectManager(QObject* parent) :
     QObject(parent),
     m_project(0),
-    m_trackView(0)
+    m_trackView(0),
+    m_progressDialog(NULL)
 {
     m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
     m_fileRevert->setIcon(KoIconUtils::themedIcon("document-revert"));
@@ -164,6 +165,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     bool ok;
     pCore->bin()->setDocument(doc);
     m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value("timeline")->actions(), &ok, pCore->window());
+    m_trackView->loadTimeline();
     pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme("kdenlive"), doc->description());
     m_project = doc;
     if (!ok) {
@@ -433,22 +435,18 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         delete pCore->window()->m_stopmotion;
         pCore->window()->m_stopmotion = NULL;
     }
-    QProgressDialog progressDialog(pCore->window());
-    progressDialog.setWindowTitle(i18n("Loading project"));
-    progressDialog.setCancelButton(0);
-    progressDialog.setMaximum(4);
-    progressDialog.setValue(0);
-
-    progressDialog.setLabelText(i18n("Loading clips"));
-    progressDialog.show();
+    if (m_progressDialog) {
+        delete m_progressDialog;
+    }
+    m_progressDialog = new QProgressDialog(pCore->window());
+    m_progressDialog->setWindowTitle(i18n("Loading project"));
+    m_progressDialog->setCancelButton(0);
+    m_progressDialog->setLabelText(i18n("Loading playlist"));
+    m_progressDialog->setMaximum(0);
+    m_progressDialog->show();
     bool openBackup;
     m_notesPlugin->clear();
-    KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()), pCore->window()->m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window(), &progressDialog);
-
-    progressDialog.setLabelText(i18n("Loading thumbnails"));
-    progressDialog.setMaximum(4);
-    progressDialog.setValue(1);
-    progressDialog.repaint();
+    KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()), pCore->window()->m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window());
     if (stale == NULL) {
         stale = new KAutoSaveFile(url, doc);
         doc->m_autosave = stale;
@@ -463,23 +461,21 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         doc->setModified(true);
         stale->setParent(doc);
     }
+    m_progressDialog->setLabelText(i18n("Loading clips"));
     connect(doc, SIGNAL(progressInfo(QString,int)), pCore->window(), SLOT(slotGotProgressInfo(QString,int)));
     pCore->bin()->setDocument(doc);
-    progressDialog.setLabelText(i18n("Loading timeline"));
-    progressDialog.setValue(2);
-    progressDialog.repaint();
 
     bool ok;
+    m_progressDialog->setLabelText(i18n("Loading clips"));
     m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value("timeline")->actions(), &ok, pCore->window());
+    connect(m_trackView, &Timeline::startLoadingBin, m_progressDialog, &QProgressDialog::setMaximum, Qt::DirectConnection);
+    connect(m_trackView, &Timeline::loadingBin, m_progressDialog, &QProgressDialog::setValue, Qt::DirectConnection);
+    m_trackView->loadTimeline();
     m_trackView->loadGuides(pCore->binController()->takeGuidesData());
 
     m_project = doc;
     pCore->window()->connectDocument();
     emit docOpened(m_project);
-
-    progressDialog.setLabelText(i18n("Setting monitor"));
-    progressDialog.setValue(3);
-    progressDialog.repaint();
 
     pCore->window()->m_timelineArea->setCurrentIndex(pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme("kdenlive"), m_project->description()));
     if (!ok) {
@@ -494,11 +490,12 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     pCore->window()->slotGotProgressInfo(QString(), -1);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_trackView->duration());
     pCore->monitorManager()->projectMonitor()->slotZoneMoved(m_trackView->inPoint(), m_trackView->outPoint());
-    progressDialog.setValue(4);
     if (openBackup) {
         slotOpenBackup(url);
     }
     m_lastSave.start();
+    delete m_progressDialog;
+    m_progressDialog = NULL;
 }
 
 void ProjectManager::slotRevert()

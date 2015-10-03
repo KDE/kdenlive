@@ -135,6 +135,8 @@ public:
     void duplicateClipOnPlaylist(int tk, qreal startPos, int offset, Mlt::Producer *prod);
     int getSpaceLength(const GenTime &pos, int tk, bool fromBlankStart);
     void blockTrackSignals(bool block);
+    /** @brief Load document */
+    void loadTimeline();
 
 protected:
     void keyPressEvent(QKeyEvent * event);
@@ -171,7 +173,7 @@ private:
     void adjustTrackHeaders();
 
     void parseDocument(const QDomDocument &doc);
-    int loadTrack(int ix, Mlt::Playlist &playlist);
+    int loadTrack(int ix, int offset, Mlt::Playlist &playlist);
     void getEffects(Mlt::Service &service, ClipItem *clip, int track = 0);
     QString getKeyframes(Mlt::Service service, int &ix, QDomElement e);
     void getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect);
@@ -189,7 +191,6 @@ private slots:
     void slotReloadTracks();
     void slotVerticalZoomDown();
     void slotVerticalZoomUp();
-
     /** @brief Changes the name of a track.
     * @param ix Number of the track
     * @param name New name */
@@ -213,6 +214,11 @@ signals:
     void updateTracksInfo();
     void setZoom(int);
     void showTrackEffects(int, const TrackInfo&);
+    /** @brief Indicate how many clips we are going to load */
+    void startLoadingBin(int);
+    /** @brief Indicate which clip we are currently loading */
+    void loadingBin(int);
+
 };
 
 #endif

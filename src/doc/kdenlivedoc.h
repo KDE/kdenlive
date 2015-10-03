@@ -51,7 +51,6 @@ class ProjectClip;
 class ClipController;
 
 class QTextEdit;
-class QProgressDialog;
 class QUndoGroup;
 class QTimer;
 class QUndoStack;
@@ -65,7 +64,7 @@ class KdenliveDoc: public QObject
     Q_OBJECT
 public:
 
-    KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent = 0, QProgressDialog *progressDialog = 0);
+    KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent = 0);
     ~KdenliveDoc();
     QDomNodeList producersList();
     double fps() const;
@@ -185,13 +184,6 @@ private:
     void setNewClipResource(const QString &id, const QString &path);
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
     void moveProjectData(const QUrl &url);
-    /**
-     * @brief check for issues with the clips in the project
-     * Instansiates DocumentChecker objects to do this task.
-     * @param infoproducers
-     * @return
-     */
-    bool checkDocumentClips();
 
     /** @brief Creates a new project. */
     QDomDocument createEmptyDocument(int videotracks, int audiotracks);

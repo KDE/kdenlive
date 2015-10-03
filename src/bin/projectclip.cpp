@@ -57,7 +57,8 @@ ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *control
     m_date = m_controller->date;
     m_description = m_controller->description();
     m_type = m_controller->clipType();
-    getFileHash();
+    // Make sure we have a hash for this clip
+    hash();
     setParent(parent);
     bin()->loadSubClips(id, m_controller->getPropertiesFromPrefix("kdenlive:clipzone."));
     if (KdenliveSettings::audiothumbnails()) {
@@ -291,7 +292,8 @@ void ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
     }
     m_clipStatus = StatusReady;
     bin()->emitItemUpdated(this);
-    getFileHash();
+    // Make sure we have a hash for this clip
+    hash();
     createAudioThumbs();
 }
 

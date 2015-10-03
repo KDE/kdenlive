@@ -740,7 +740,7 @@ void Bin::setDocument(KdenliveDoc* project)
     m_jobManager = new JobManager(this);
     m_rootFolder = new ProjectFolder(this);
     setEnabled(true);
-    connect(this, SIGNAL(producerReady(QString)), m_doc->renderer(), SLOT(slotProcessingDone(QString)));
+    connect(this, SIGNAL(producerReady(QString)), m_doc->renderer(), SLOT(slotProcessingDone(QString)), Qt::UniqueConnection);
     connect(m_jobManager, SIGNAL(addClip(QString)), this, SLOT(slotAddUrl(QString)));
     connect(m_proxyAction, SIGNAL(toggled(bool)), m_doc, SLOT(slotProxyCurrentItem(bool)));
     connect(m_jobManager, SIGNAL(jobCount(int)), m_infoLabel, SLOT(slotSetJobCount(int)));
