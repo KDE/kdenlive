@@ -306,12 +306,11 @@ static void uploadTextures(QOpenGLContext* context, SharedFrame& frame, GLuint t
     QOpenGLFunctions* f = context->functions();
 
     // Upload each plane of YUV to a texture.
-    if (texture[0] && texture[1] && texture[2])
+    if (texture[0])
         f->glDeleteTextures(3, texture);
     check_error(f);
     f->glGenTextures(3, texture);
     check_error(f);
-    f->glPixelStorei(GL_UNPACK_ROW_LENGTH, width);
 
     f->glBindTexture  (GL_TEXTURE_2D, texture[0]);
     check_error(f);
@@ -337,8 +336,7 @@ static void uploadTextures(QOpenGLContext* context, SharedFrame& frame, GLuint t
     check_error(f);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     check_error(f);
-    int y = context->isOpenGLES() ? 2 : 4;
-    f->glTexImage2D   (GL_TEXTURE_2D, 0, GL_LUMINANCE, width/2, height/y, 0,
+    f->glTexImage2D   (GL_TEXTURE_2D, 0, GL_LUMINANCE, width/2, height/2, 0,
                     GL_LUMINANCE, GL_UNSIGNED_BYTE, image + width * height);
     check_error(f);
 
@@ -352,7 +350,7 @@ static void uploadTextures(QOpenGLContext* context, SharedFrame& frame, GLuint t
     check_error(f);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     check_error(f);
-    f->glTexImage2D   (GL_TEXTURE_2D, 0, GL_LUMINANCE, width/2, height/y, 0,
+    f->glTexImage2D   (GL_TEXTURE_2D, 0, GL_LUMINANCE, width/2, height/2, 0,
                     GL_LUMINANCE, GL_UNSIGNED_BYTE, image + width * height + width/2 * height/2);
     check_error(f);
 }
