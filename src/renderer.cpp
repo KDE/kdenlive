@@ -165,8 +165,8 @@ void Render::seek(int time)
     resetZoneMode();
     if (requestedSeekPosition == SEEK_INACTIVE) {
         requestedSeekPosition = time;
-        m_mltProducer->seek(time);
         m_mltConsumer->purge();
+        m_mltProducer->seek(time);
         if (!externalConsumer) {
             m_mltConsumer->set("refresh", 1);
         }
