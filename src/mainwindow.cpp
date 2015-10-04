@@ -296,7 +296,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
                 tempAction->setToolTip( strippedTooltip + " (" + tempAction->shortcut().toString() + ")");
         }
     }
-    
+
     // Create Effect Basket (dropdown list of favorites)
     m_effectBasket = new EffectBasket(m_effectList);
     QWidgetAction *widgetlist = new QWidgetAction(this);
@@ -322,7 +322,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     /*ScriptingPart* sp = new ScriptingPart(this, QStringList());
     guiFactory()->addClient(sp);*/
-    
+
     loadPlugins();
     loadTranscoders();
     loadDockActions();
@@ -333,13 +333,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     QMenu *clipInTimeline = static_cast<QMenu*>(factory()->container("clip_in_timeline", this));
     clipInTimeline->setIcon(KoIconUtils::themedIcon("go-jump"));
-    QHash<QString,QMenu*> menus;
-    menus.insert("addMenu",static_cast<QMenu*>(factory()->container("generators", this)));
-    menus.insert("extractAudioMenu",static_cast<QMenu*>(factory()->container("extract_audio", this)));
-    menus.insert("transcodeMenu",static_cast<QMenu*>(factory()->container("transcoders", this)));
-    menus.insert("clipActionsMenu",static_cast<QMenu*>(factory()->container("clip_actions", this)));
-    menus.insert("inTimelineMenu",clipInTimeline);
-    pCore->bin()->setupGeneratorMenu(menus);
+    pCore->bin()->setupGeneratorMenu();
 
     // Setup and fill effects and transitions menus.
     QMenu *m = static_cast<QMenu*>(factory()->container("video_effects_menu", this));
@@ -1218,7 +1212,7 @@ void MainWindow::setupActions()
     action->setData((int) TextTemplate);
     addClips->addAction(action);
 
-    addClips->addAction(addAction("add_folder", i18n("Create Folder"), pCore->bin(), SLOT(slotAddFolder()), KoIconUtils::themedIcon("folder-new")));
+    QAction *addFolder = addAction("add_folder", i18n("Create Folder"), pCore->bin(), SLOT(slotAddFolder()), KoIconUtils::themedIcon("folder-new"));
     addClips->addAction(addAction("download_resource", i18n("Online Resources"), this, SLOT(slotDownloadResources()), KoIconUtils::themedIcon("edit-download")));
     
     QAction *clipProperties = addAction("clip_properties", i18n("Clip Properties"), pCore->bin(), SLOT(slotSwitchClipProperties()), KoIconUtils::themedIcon("document-edit"));
@@ -1236,7 +1230,7 @@ void MainWindow::setupActions()
     QAction *reloadClip = addAction("reload_clip", i18n("Reload Clip"), pCore->bin(), SLOT(slotReloadClip()), KoIconUtils::themedIcon("view-refresh"));
     reloadClip->setData("reload_clip");
     reloadClip->setEnabled(false);
-    
+
     QAction *duplicateClip = addAction("duplicate_clip", i18n("Duplicate Clip"), pCore->bin(), SLOT(slotDuplicateClip()), KoIconUtils::themedIcon("edit-copy"));
     duplicateClip->setData("duplicate_clip");
     duplicateClip->setEnabled(false);
@@ -1258,6 +1252,7 @@ void MainWindow::setupActions()
     actions.insert("properties", clipProperties);
     actions.insert("open", openClip);
     actions.insert("delete", deleteClip);
+    actions.insert("folder", addFolder);
     pCore->bin()->setupMenu(addClips, addClip, actions);
 
     // Setup effects and transitions actions.

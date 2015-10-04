@@ -304,34 +304,13 @@ Bin::Bin(QWidget* parent) :
     QLineEdit *searchLine = new QLineEdit(this);
     searchLine->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
     searchLine->setClearButtonEnabled(true);
+    searchLine->setPlaceholderText(i18n("Search"));
     searchLine->setFocusPolicy(Qt::ClickFocus);
     connect(searchLine, SIGNAL(textChanged(const QString &)), m_proxyModel, SLOT(slotSetSearchString(const QString &)));
 
     LineEventEater *leventEater = new LineEventEater(this);
     searchLine->installEventFilter(leventEater);
     connect(leventEater, SIGNAL(clearSearchLine()), searchLine, SLOT(clear()));
-    m_toolbar->addWidget(searchLine);
-
-    // Hack, create toolbar spacer
-    QWidget* spacer = new QWidget();
-    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    m_toolbar->addWidget(spacer);
-
-    // small info button for pending jobs
-    m_infoLabel = new SmallJobLabel(this);
-    m_infoLabel->setStyleSheet(SmallJobLabel::getStyleSheet(palette()));
-    QAction *infoAction = m_toolbar->addWidget(m_infoLabel);
-    m_jobsMenu = new QMenu(this);
-    connect(m_jobsMenu, SIGNAL(aboutToShow()), this, SLOT(slotPrepareJobsMenu()));
-    m_cancelJobs = new QAction(i18n("Cancel All Jobs"), this);
-    m_cancelJobs->setCheckable(false);
-    m_discardCurrentClipJobs = new QAction(i18n("Cancel Current Clip Jobs"), this);
-    m_discardCurrentClipJobs->setCheckable(false);
-    m_jobsMenu->addAction(m_cancelJobs);
-    m_jobsMenu->addAction(m_discardCurrentClipJobs);
-    m_infoLabel->setMenu(m_jobsMenu);
-    
-    m_infoLabel->setAction(infoAction);
 
     // Build item view model
     m_itemModel = new ProjectItemModel(this);
@@ -401,6 +380,29 @@ Bin::Bin(QWidget* parent) :
     button->setMenu(settingsMenu);
     button->setPopupMode(QToolButton::InstantPopup);
     m_toolbar->addWidget(button);
+
+    // small info button for pending jobs
+    m_infoLabel = new SmallJobLabel(this);
+    m_infoLabel->setStyleSheet(SmallJobLabel::getStyleSheet(palette()));
+    QAction *infoAction = m_toolbar->addWidget(m_infoLabel);
+    m_jobsMenu = new QMenu(this);
+    connect(m_jobsMenu, SIGNAL(aboutToShow()), this, SLOT(slotPrepareJobsMenu()));
+    m_cancelJobs = new QAction(i18n("Cancel All Jobs"), this);
+    m_cancelJobs->setCheckable(false);
+    m_discardCurrentClipJobs = new QAction(i18n("Cancel Current Clip Jobs"), this);
+    m_discardCurrentClipJobs->setCheckable(false);
+    m_jobsMenu->addAction(m_cancelJobs);
+    m_jobsMenu->addAction(m_discardCurrentClipJobs);
+    m_infoLabel->setMenu(m_jobsMenu);
+    m_infoLabel->setAction(infoAction);
+
+    // Hack, create toolbar spacer
+    QWidget* spacer = new QWidget();
+    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_toolbar->addWidget(spacer);
+
+    // Add search line
+    m_toolbar->addWidget(searchLine);
 
     m_eventEater = new EventEater(this);
     connect(m_eventEater, SIGNAL(addClip()), this, SLOT(slotAddClip()));
@@ -1035,9 +1037,9 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 if (m_propertiesPanel->isVisible()) {
                     // if info panel is displayed, update info
                     showClipProperties(static_cast<ProjectClip*>(currentItem));
-                    m_deleteAction->setText(i18n("Delete Clip"));
-                    m_proxyAction->setText(i18n("Proxy Clip"));
                 }
+                m_deleteAction->setText(i18n("Delete Clip"));
+                m_proxyAction->setText(i18n("Proxy Clip"));
             } else {
                 // A folder was selected, disable editing clip
                 m_openAction->setEnabled(false);
@@ -1215,16 +1217,23 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
 {
     bool enableClipActions = false;
     ClipType type = Unknown;
+    bool isFolder = false;
+    QString clipService;
+    QString audioCodec;
     if (m_itemView) {
         QModelIndex idx = m_itemView->indexAt(m_itemView->viewport()->mapFromGlobal(event->globalPos()));
         if (idx.isValid()) {
 	    // User right clicked on a clip
             AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(idx).internalPointer());
             if (currentItem) {
+                if (currentItem->itemType() == AbstractProjectItem::FolderItem) {
+                    isFolder = true;
+                }
 		enableClipActions = true;
 		m_proxyAction->blockSignals(true);
                 ProjectClip *clip = qobject_cast<ProjectClip*>(currentItem);
 		if (clip) {
+                    clipService = clip->getProducerProperty("mlt_service");
                     m_proxyAction->setChecked(clip->hasProxy());
                     QList<QAction *> transcodeActions;
                     if (m_transcodeAction) {
@@ -1232,7 +1241,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
                     }
                     QStringList data;
                     QString condition;
-                    QString audioCodec = clip->codec(true);
+                    audioCodec = clip->codec(true);
                     QString videoCodec = clip->codec(false);
                     type = clip->clipType();
                     bool noCodecInfo = false;
@@ -1262,7 +1271,6 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
 		m_proxyAction->blockSignals(false);
             }
         }
-        
     }
     // Enable / disable clip actions
     m_proxyAction->setEnabled(enableClipActions);
@@ -1272,6 +1280,15 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_duplicateAction->setEnabled(enableClipActions);
     m_clipsActionsMenu->setEnabled(enableClipActions);
     m_extractAudioAction->setEnabled(enableClipActions);
+    m_openAction->setVisible(!isFolder);
+    m_reloadAction->setVisible(!isFolder);
+    m_duplicateAction->setVisible(!isFolder);
+    m_editAction->setVisible(!isFolder);
+    m_transcodeAction->menuAction()->setVisible(!isFolder && clipService.contains("avformat"));
+    m_clipsActionsMenu->menuAction()->setVisible(!isFolder && (clipService.contains("avformat") || clipService.contains("xml") || clipService.contains("consumer")));
+    m_extractAudioAction->menuAction()->setVisible(!isFolder && !audioCodec.isEmpty());
+    
+
     // Show menu
     if (enableClipActions) {
 	m_menu->exec(event->globalPos());
@@ -1586,50 +1603,50 @@ void Bin::emitItemUpdated(AbstractProjectItem* item)
 }
 
 
-void Bin::setupGeneratorMenu(const QHash<QString,QMenu*>& menus)
+void Bin::setupGeneratorMenu()
 {
     if (!m_menu) {
-        //qDebug()<<"Warning, menu was not created, something is wrong";
+        qDebug()<<"Warning, menu was not created, something is wrong";
         return;
     }
-    /*if (!menus.contains("addMenu") && ! menus.value("addMenu") )
-        return;*/
 
-    QMenu *menu = m_addButton->menu();
-    if (menus.contains("addMenu") && menus.value("addMenu")){
-        QMenu* addMenu=menus.value("addMenu");
+    QMenu *addMenu = qobject_cast<QMenu*>(pCore->window()->factory()->container("generators", pCore->window()));
+    if (addMenu) {
+        QMenu *menu = m_addButton->menu();
         menu->addMenu(addMenu);
+        addMenu->setEnabled(!addMenu->isEmpty());
         m_addButton->setMenu(menu);
-        if (addMenu->isEmpty())
-            addMenu->setEnabled(false);
     }
-    if (menus.contains("extractAudioMenu") && menus.value("extractAudioMenu") ){
-        QMenu* extractAudioMenu = menus.value("extractAudioMenu");
-        m_menu->addMenu(extractAudioMenu);
-        m_extractAudioAction = extractAudioMenu;
-    }
-    if (menus.contains("transcodeMenu") && menus.value("transcodeMenu") ){
-        QMenu* transcodeMenu = menus.value("transcodeMenu");
-        m_menu->addMenu(transcodeMenu);
-        if (transcodeMenu->isEmpty())
-            transcodeMenu->setEnabled(false);
-        m_transcodeAction = transcodeMenu;
-    }
-    if (menus.contains("clipActionsMenu") && menus.value("clipActionsMenu") ){
-        QMenu* stabilizeMenu=menus.value("clipActionsMenu");
-        m_menu->addMenu(stabilizeMenu);
-        if (stabilizeMenu->isEmpty())
-            stabilizeMenu->setEnabled(false);
-        m_clipsActionsMenu = stabilizeMenu;
 
+    addMenu = qobject_cast<QMenu*>(pCore->window()->factory()->container("extract_audio", pCore->window()));
+    if (addMenu) {
+        m_menu->addMenu(addMenu);
+        addMenu->setEnabled(!addMenu->isEmpty());
+        m_extractAudioAction = addMenu;
     }
+
+    addMenu = qobject_cast<QMenu*>(pCore->window()->factory()->container("transcoders", pCore->window()));
+    if (addMenu) {
+        m_menu->addMenu(addMenu);
+        addMenu->setEnabled(!addMenu->isEmpty());
+        m_transcodeAction = addMenu;
+    }
+
+    addMenu = qobject_cast<QMenu*>(pCore->window()->factory()->container("clip_actions", pCore->window()));
+    if (addMenu) {
+        m_menu->addMenu(addMenu);
+        addMenu->setEnabled(!addMenu->isEmpty());
+        m_clipsActionsMenu = addMenu;
+    }
+
     if (m_reloadAction) m_menu->addAction(m_reloadAction);
     if (m_duplicateAction) m_menu->addAction(m_duplicateAction);
     if (m_proxyAction) m_menu->addAction(m_proxyAction);
-    if (menus.contains("inTimelineMenu") && menus.value("inTimelineMenu")){
-        QMenu* inTimelineMenu=menus.value("inTimelineMenu");
-        m_menu->addMenu(inTimelineMenu);
-        inTimelineMenu->setEnabled(false);
+
+    addMenu = qobject_cast<QMenu*>(pCore->window()->factory()->container("clip_timeline", pCore->window()));
+    if (addMenu) {
+        m_menu->addMenu(addMenu);
+        addMenu->setEnabled(false);
     }
     m_menu->addAction(m_editAction);
     m_menu->addAction(m_openAction);
@@ -1640,11 +1657,15 @@ void Bin::setupGeneratorMenu(const QHash<QString,QMenu*>& menus)
 void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, QHash <QString, QAction*> actions)
 {
     // Setup actions
-    m_editAction = actions.value("properties");
-    m_toolbar->addAction(m_editAction);
-
+    QAction *first = m_toolbar->actions().first();
     m_deleteAction = actions.value("delete");
-    m_toolbar->addAction(m_deleteAction);
+    m_toolbar->insertAction(first, m_deleteAction);
+
+    m_editAction = actions.value("properties");
+    m_toolbar->insertAction(m_deleteAction, m_editAction);
+
+    QAction *folder = actions.value("folder");
+    m_toolbar->insertAction(m_editAction, folder);
 
     m_openAction = actions.value("open");
     m_reloadAction = actions.value("reload");
@@ -1657,7 +1678,7 @@ void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, QHash <QString, QAct
     m_addButton->setMenu(m);
     m_addButton->setDefaultAction(defaultAction);
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
-    m_toolbar->addWidget(m_addButton);
+    m_toolbar->insertWidget(folder, m_addButton);
     m_menu = new QMenu();
     //m_menu->addActions(addMenu->actions());
 }

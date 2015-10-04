@@ -413,7 +413,7 @@ public:
     void removeSubClip(const QString &id, QUndoCommand *deleteCommand);
     void doMoveClip(const QString &id, const QString &newParentId);
     void doMoveFolder(const QString &id, const QString &newParentId);
-    void setupGeneratorMenu(const QHash<QString,QMenu*>& menus);
+    void setupGeneratorMenu();
     void startClipJob(const QStringList &params);
     void droppedUrls(QList <QUrl> urls);
     void displayMessage(const QString &text, KMessageWidget::MessageType type);
