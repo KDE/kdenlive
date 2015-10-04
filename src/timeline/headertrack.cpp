@@ -226,7 +226,7 @@ void HeaderTrack::adjustSize(int height)
 
 void HeaderTrack::switchComposite(bool enable)
 {
-    emit switchTrackComposite(m_parentTrack->index(), enable);
+    emit switchTrackComposite(m_parentTrack->index(), !enable);
 }
 
 void HeaderTrack::switchVideo(bool enable)
