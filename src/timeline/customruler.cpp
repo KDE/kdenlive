@@ -385,6 +385,8 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     QStylePainter p(this);
     const QRect &paintRect = e->rect();
     p.setClipRect(paintRect);
+    
+    p.fillRect(paintRect, palette().midlight().color());
 
     // Draw zone background
     const int zoneStart = (int)(m_zoneStart * m_factor);
@@ -396,7 +398,6 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     int offsetmin;
 
     p.setPen(palette().text().color());
-
     // draw time labels
     if (paintRect.y() < LABEL_SIZE) {
         offsetmin = (paintRect.left() + m_offset) / m_textSpacing;

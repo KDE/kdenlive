@@ -29,6 +29,7 @@
 #include <QDomElement>
 
 class QLabel;
+class QTimeLine;
 class KDualAction;
 
 /**)
@@ -81,6 +82,9 @@ public slots:
     void slotSyncEffectsPos(int pos);
     void slotDisable(bool disable, bool emitInfo = true);
     void slotResetEffect();
+    
+private slots:
+    void setWidgetHeight(qreal value);
 
 private slots:
     void slotSwitch();
@@ -107,6 +111,7 @@ private:
     QMenu *m_menu;
     QPoint m_clickPoint;
     EffectInfo m_info;
+    QTimeLine *m_animation;
     /** @brief True if this is a region effect, which behaves in a special way, like a group. */
     bool m_regionEffect;
     /** @brief The add group action. */

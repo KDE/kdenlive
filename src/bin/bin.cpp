@@ -1672,9 +1672,9 @@ void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, QHash <QString, QAct
     m_duplicateAction = actions.value("duplicate");
     m_proxyAction = actions.value("proxy");
 
-    QMenu *m = new QMenu;
+    QMenu *m = new QMenu(this);
     m->addActions(addMenu->actions());
-    m_addButton = new QToolButton;
+    m_addButton = new QToolButton(this);
     m_addButton->setMenu(m);
     m_addButton->setDefaultAction(defaultAction);
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);

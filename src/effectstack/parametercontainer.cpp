@@ -940,6 +940,9 @@ void ParameterContainer::setRange(int inPoint, int outPoint)
     emit updateRange(m_in, m_out);
 }
 
-
+int ParameterContainer::contentHeight() const
+{
+    return m_vbox->sizeHint().height();
+}
 
 

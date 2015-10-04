@@ -269,11 +269,11 @@ void SmallRuler::updatePixmap()
     m_pixmap.fill(Qt::transparent);//palette().alternateBase().color());
     QPainter p(&m_pixmap);
     p.fillRect(0, 0, width(), m_rulerHeight, palette().midlight().color());
-    p.setPen(palette().mid().color());
-    p.drawLine(0, m_rulerHeight - 1, width(), m_rulerHeight - 1);
     p.setPen(palette().dark().color());
+    p.drawLine(0, m_rulerHeight, width(), m_rulerHeight);
     p.drawLine(0, 0, width(), 0);
     double f;
+    p.setPen(palette().dark().color());
     m_smallMarkSteps = m_scale * m_small;
     m_mediumMarkSteps = m_scale * m_medium;
     QLineF line(0, 1, 0, m_rulerHeight / 3);
@@ -290,6 +290,13 @@ void SmallRuler::updatePixmap()
             p.drawLine(line);
         }
     }
+    p.setPen(Qt::red);
+    foreach (const CommentedTime &marker, m_markers) {
+        double pos = (marker.time().frames(m_monitor->fps()) - m_offset) * m_scale;
+        line.setLine(pos, 1, pos, m_rulerHeight - 1);
+        p.drawLine(line);
+    }
+
     p.end();
     update();
 }
@@ -305,22 +312,23 @@ void SmallRuler::paintEvent(QPaintEvent* event)
     pointer.setPoints(3,
                       cursorPos - FONT_WIDTH, m_rulerHeight,
                       cursorPos + FONT_WIDTH, m_rulerHeight,
-                      cursorPos , FONT_WIDTH);
+                      cursorPos , FONT_WIDTH );
     p.setBrush(palette().text().color());
     // Draw zone
     if (m_zoneStart != m_zoneEnd) {
         QPen pen;
-        pen.setBrush(palette().dark());
-        pen.setWidth(2);
+        pen.setBrush(palette().text());
+        //pen.setWidth(2);
         QPen activePen;
         QColor select = palette().highlight().color();
         select.setAlpha(100);
         activePen.setBrush(palette().highlight());
-        activePen.setWidth(2);
+        //activePen.setWidth(2);
         p.setPen(pen);
         const int zoneStart = (int)((m_zoneStart -m_offset)* m_scale);
         const int zoneEnd = (int)((m_zoneEnd -m_offset) * m_scale);
-        p.fillRect(zoneStart, 1, zoneEnd - zoneStart, m_rulerHeight, select);
+        if (zoneStart > 0 || zoneEnd < width())
+            p.fillRect(zoneStart, 1, zoneEnd - zoneStart, m_rulerHeight - 1, select);
         if (QWidget::underMouse()) {
             QRectF rect(0, 0, m_rulerHeight / 2, m_rulerHeight / 2);
             QLineF line;

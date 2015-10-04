@@ -37,6 +37,7 @@
 #include <QDebug>
 #include <QStandardPaths>
 #include <QPainter>
+#include <QTimeLine>
 
 #include <KRecentDirs>
 #include <KComboBox>
@@ -165,12 +166,27 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
         cb->installEventFilter( this );
         cb->setFocusPolicy( Qt::StrongFocus );
     }
+    m_animation = new QTimeLine(200, this); //duration matches to match kmessagewidget
+    connect(m_animation, &QTimeLine::valueChanged, this, &CollapsibleEffect::setWidgetHeight);
+    connect(m_animation, &QTimeLine::stateChanged, this, [this](QTimeLine::State state) {
+        if (state == QTimeLine::NotRunning) {
+            //when collapsed hide contents to save resources and more importantly get it out the focus chain
+            //slotShow(widgetFrame->height() > 0);
+            widgetFrame->setVisible(widgetFrame->height() > 0);
+        }
+    });
 }
 
 CollapsibleEffect::~CollapsibleEffect()
 {
+    delete m_animation;
     delete m_paramWidget;
     delete m_menu;
+}
+
+void CollapsibleEffect::setWidgetHeight(qreal value)
+{
+    widgetFrame->setFixedHeight(m_paramWidget->contentHeight() * value);
 }
 
 void CollapsibleEffect::slotCreateGroup()
@@ -368,13 +384,15 @@ void CollapsibleEffect::slotResetEffect()
 
 void CollapsibleEffect::slotSwitch()
 {
-    bool enable = !widgetFrame->isVisible();
-    slotShow(enable);
+    bool expand = !widgetFrame->isVisible();
+    widgetFrame->setVisible(true);
+    slotShow(expand);
+    m_animation->setDirection(expand ? QTimeLine::Forward : QTimeLine::Backward);
+    m_animation->start();
 }
 
 void CollapsibleEffect::slotShow(bool show)
 {
-    widgetFrame->setVisible(show);
     if (show) {
         collapseButton->setArrowType(Qt::DownArrow);
         m_info.isCollapsed = false;

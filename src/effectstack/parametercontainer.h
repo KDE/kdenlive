@@ -79,6 +79,7 @@ public:
     void setKeyframes(const QString &data, int maximum);
     /** @brief Update the in / out for the clip. */
     void setRange(int inPoint, int outPoint);
+    int contentHeight() const;
 
 private slots:
     void slotCollectAllParameters();

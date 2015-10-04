@@ -187,7 +187,7 @@ QString EffectsList::getEffectInfo(const QDomElement &effect) const
 
     namenode = effect.firstChildElement("version");
     if (!namenode.isNull())
-        info.append(QString(" (%1)").arg(namenode.text()));
+        info.append(QString(" (v.%1)").arg(namenode.text()));
 
     return info;
 }
