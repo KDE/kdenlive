@@ -2673,6 +2673,10 @@ void MainWindow::loadClipActions()
             action->setData(stabJob);
             connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
         }
+        QAction *action=actionMenu->addAction(i18n("Analyse keyframes"));
+        QStringList stabJob(QString::number((int) AbstractClipJob::ANALYSECLIPJOB));
+        action->setData(stabJob);
+        connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
     }
 
 }

@@ -2234,6 +2234,7 @@ void Bin::slotGotFilterJobResults(QString id, int , int , stringMap results, str
         return;
     }
     bool dataProcessed = false;
+    QString label = filterInfo.value("label");
     QString key = filterInfo.value("key");
     int offset = filterInfo.value("offset").toInt();
     QStringList value = results.value(key).split(';', QString::SkipEmptyParts);
@@ -2270,12 +2271,27 @@ void Bin::slotGotFilterJobResults(QString id, int , int , stringMap results, str
         command->setText(i18n("Add Markers"));
         QList <CommentedTime> markersList;
         int index = 1;
+        bool simpleList = false;
+        double sourceFps = clip->getOriginalFps();
+        if (sourceFps == 0) {
+            sourceFps = m_doc->fps();
+        }
+        if (filterInfo.contains("simplelist")) {
+            // simple list
+            simpleList = true;
+        }
         foreach (const QString &pos, value) {
+            if (simpleList) {
+                CommentedTime m(GenTime((int) (pos.toInt() * m_doc->fps() / sourceFps), m_doc->fps()), label + pos, markersType);
+                markersList << m;
+                index++;
+                continue;
+            }
             if (!pos.contains("=")) continue;
             int newPos = pos.section('=', 0, 0).toInt();
             // Don't use scenes shorter than 1 second
             if (newPos - cutPos < 24) continue;
-            CommentedTime m(GenTime(newPos + offset, m_doc->fps()), QString::number(index), markersType);
+            CommentedTime m(GenTime(newPos + offset, m_doc->fps()), label + QString::number(index), markersType);
             markersList << m;
             index++;
             cutPos = newPos;

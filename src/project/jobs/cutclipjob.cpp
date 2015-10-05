@@ -26,31 +26,44 @@
 #include "ui_cutjobdialog_ui.h"
 
 #include <KMessageBox>
+#include <klocalizedstring.h>
+
 #include <QApplication>
 #include <QDebug>
 #include <QDialog>
 #include <QPointer>
-#include <klocalizedstring.h>
+#include <QJsonObject>
+#include <QJsonArray>
 
 CutClipJob::CutClipJob(ClipType cType, const QString &id, const QStringList &parameters) : AbstractClipJob(CUTJOB, cType, id)
 {
     m_jobStatus = JobWaiting;
-    m_dest = parameters.at(0);
-    m_src = parameters.at(1);
-    m_start = parameters.at(2);
-    m_end = parameters.at(3);
-    if (m_start.isEmpty()) {
-        // this is a transcoding job
-        jobType = AbstractClipJob::TRANSCODEJOB;
-        description = i18n("Transcode clip");
-    } else {
-        jobType = AbstractClipJob::CUTJOB;
-        description = i18n("Cut clip");
+    jobType = (AbstractClipJob::JOBTYPE) parameters.at(0).toInt();
+    m_dest = parameters.at(1);
+    m_src = parameters.at(2);
+    switch (jobType) {
+        case AbstractClipJob::TRANSCODEJOB:
+            description = i18n("Transcode clip");
+            break;
+        case AbstractClipJob::CUTJOB:
+            description = i18n("Cut clip");
+            break;
+        case AbstractClipJob::ANALYSECLIPJOB:
+        default:
+            description = i18n("Analyse clip");
+            break;
     }
-    m_jobDuration = parameters.at(4).toInt();
-    m_addClipToProject = parameters.at(5).toInt();
     replaceClip = false;
-    if (parameters.count() == 7) m_cutExtraParams = parameters.at(6).simplified();
+    if (jobType != AbstractClipJob::ANALYSECLIPJOB) {
+        m_start = parameters.at(3);
+        m_end = parameters.at(4);
+        m_jobDuration = parameters.at(5).toInt();
+        m_addClipToProject = parameters.at(6).toInt();
+        if (parameters.count() == 8) m_cutExtraParams = parameters.at(7).simplified();
+    }
+    else {
+        m_jobDuration = parameters.at(3).toInt();
+    }
 }
 
 void CutClipJob::startJob()
@@ -58,46 +71,66 @@ void CutClipJob::startJob()
     // Special case: playlist clips (.mlt or .kdenlive project files)
     if (clipType == AV || clipType == Audio || clipType == Video) {
         QStringList parameters;
-        parameters << QLatin1String("-i") << m_src;
-        if (!m_start.isEmpty())
-            parameters << QLatin1String("-ss") << m_start <<QLatin1String("-t") << m_end;
-        if (!m_cutExtraParams.isEmpty()) {
-            foreach(const QString &s, m_cutExtraParams.split(QLatin1Char(' ')))
-                parameters << s;
-        }
+        QString exec;
+        if (jobType == AbstractClipJob::ANALYSECLIPJOB) {
+            // TODO: don't hardcode params
+            parameters << QLatin1String("-select_streams") << "v" << "-show_frames"<<"-hide_banner"<<"-of"<<"json=c=1"<< m_src;
+            exec = KdenliveSettings::ffprobepath();
+        } else {
+            parameters << QLatin1String("-i") << m_src;
+            if (!m_start.isEmpty())
+                parameters << QLatin1String("-ss") << m_start <<QLatin1String("-t") << m_end;
+            if (!m_cutExtraParams.isEmpty()) {
+                foreach(const QString &s, m_cutExtraParams.split(QLatin1Char(' ')))
+                    parameters << s;
+            }
 
-        // Make sure we don't block when proxy file already exists
-        parameters << QLatin1String("-y");
-        parameters << m_dest;
-        qDebug()<<"/ / / STARTING CUT JOB: "<<parameters;
+            // Make sure we don't block when proxy file already exists
+            parameters << QLatin1String("-y");
+            parameters << m_dest;
+            exec = KdenliveSettings::ffmpegpath();
+        }
         m_jobProcess = new QProcess;
-        m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
-        m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters);
+        if (jobType != AbstractClipJob::ANALYSECLIPJOB) {
+            m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
+        }
+        m_jobProcess->start(exec, parameters);
         m_jobProcess->waitForStarted();
         while (m_jobProcess->state() != QProcess::NotRunning) {
-            processLogInfo();
+            if (jobType == AbstractClipJob::ANALYSECLIPJOB) {
+                analyseLogInfo();
+            }
+            else {
+                processLogInfo();
+            }
             if (m_jobStatus == JobAborted) {
                 m_jobProcess->close();
                 m_jobProcess->waitForFinished();
-                QFile::remove(m_dest);
+                if (!m_dest.isEmpty()) QFile::remove(m_dest);
             }
             m_jobProcess->waitForFinished(400);
         }
-        
+
         if (m_jobStatus != JobAborted) {
             int result = m_jobProcess->exitStatus();
             if (result == QProcess::NormalExit) {
-                if (QFileInfo(m_dest).size() == 0) {
-                    // File was not created
-                    processLogInfo();
-                    m_errorMessage.append(i18n("Failed to create file."));
-                    setStatus(JobCrashed);
-                } else {
+                if (jobType == AbstractClipJob::ANALYSECLIPJOB) {
+                    analyseLogInfo();
+                    processAnalyseLog();
                     setStatus(JobDone);
+                } else {
+                    if (QFileInfo(m_dest).size() == 0) {
+                        // File was not created
+                        processLogInfo();
+                        m_errorMessage.append(i18n("Failed to create file."));
+                        setStatus(JobCrashed);
+                    } else {
+                        setStatus(JobDone);
+                    }
                 }
             } else if (result == QProcess::CrashExit) {
                 // Proxy process crashed
-                QFile::remove(m_dest);
+                if (!m_dest.isEmpty()) QFile::remove(m_dest);
                 setStatus(JobCrashed);
             }
         }
@@ -133,6 +166,19 @@ void CutClipJob::processLogInfo()
     }
 }
 
+void CutClipJob::analyseLogInfo()
+{
+    if (!m_jobProcess || m_jobStatus == JobAborted) return;
+    QString log = QString::fromUtf8(m_jobProcess->readAll());
+    m_logDetails.append(log);
+    int pos = log.indexOf("coded_picture_number", 0);
+    if (pos > -1) {
+        log.remove(0, pos);
+        int frame = log.section(",", 0, 0).section(":", 1).toInt();
+        if (frame > 0 && m_jobDuration > 0) emit jobProgress(m_clipId, (int) (100.0 * frame / m_jobDuration), jobType);
+    }
+}
+
 CutClipJob::~CutClipJob()
 {
 }
@@ -153,12 +199,14 @@ const QString CutClipJob::statusMessage()
     QString statusInfo;
     switch (m_jobStatus) {
         case JobWorking:
-            if (m_start.isEmpty()) statusInfo = i18n("Transcoding clip");
-            else statusInfo = i18n("Extracting clip cut");
+            if (jobType == AbstractClipJob::TRANSCODEJOB) statusInfo = i18n("Transcoding clip");
+            else if (jobType == AbstractClipJob::CUTJOB) statusInfo = i18n("Extracting clip cut");
+            else statusInfo = i18n("Analysing clip");
             break;
         case JobWaiting:
-            if (m_start.isEmpty()) statusInfo = i18n("Waiting - transcode clip");
-            else statusInfo = i18n("Waiting - cut clip");
+            if (jobType == AbstractClipJob::TRANSCODEJOB) statusInfo = i18n("Waiting - transcode clip");
+            else if (jobType == AbstractClipJob::CUTJOB) statusInfo = i18n("Waiting - cut clip");
+            else statusInfo = i18n("Waiting - analyse clip");
             break;
         default:
             break;
@@ -258,6 +306,7 @@ QMap <ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fps
     delete d;
 
     QStringList jobParams;
+    jobParams << QString::number((int) AbstractClipJob::CUTJOB);
     jobParams << dest << source << timeIn << timeOut << QString::number(duration) << QString::number(KdenliveSettings::add_new_clip());
     if (!extraParams.isEmpty()) jobParams << extraParams;
     CutClipJob *job = new CutClipJob(clip->clipType(), clip->clipId(), jobParams);
@@ -325,6 +374,7 @@ QMap <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double f
         }
         else dest = ui.file_url->url().path();
         QStringList jobParams;
+        jobParams << QString::number((int) AbstractClipJob::TRANSCODEJOB);
         jobParams << dest << src << QString() << QString();
         jobParams << QString::number((int) item->duration().frames(fps));
         jobParams << QString::number(KdenliveSettings::add_new_clip());
@@ -334,4 +384,52 @@ QMap <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double f
     }
     delete d;
     return jobs;
+}
+
+// static 
+QMap <ProjectClip *, AbstractClipJob *> CutClipJob::prepareAnalyseJob(double fps, QList <ProjectClip*> clips, QStringList parameters)
+{
+    // Might be useful some day
+    Q_UNUSED(parameters);
+
+    QMap <ProjectClip *, AbstractClipJob *> jobs;
+    foreach (ProjectClip *clip, clips) {
+        QString source = clip->url().toLocalFile();
+        QStringList jobParams;
+        int duration = clip->duration().frames(fps) * clip->getOriginalFps() / fps;
+        jobParams << QString::number((int) AbstractClipJob::ANALYSECLIPJOB) << QString() << source << QString::number(duration);
+        CutClipJob *job = new CutClipJob(clip->clipType(), clip->clipId(), jobParams);
+        jobs.insert(clip, job);
+    }
+    return jobs;
+}
+
+void CutClipJob::processAnalyseLog()
+{
+    QJsonDocument doc = QJsonDocument::fromJson(m_logDetails.toUtf8());
+    if (doc.isEmpty()) {
+        qDebug()<<"+ + + + +CORRUPTED JSON DOC";
+    }
+    QJsonObject jsonObject = doc.object();
+    QJsonArray jsonArray = jsonObject["frames"].toArray();
+    QList <int> frames;
+    foreach (const QJsonValue & value, jsonArray) {
+        QJsonObject obj = value.toObject();
+        if (obj["pict_type"].toString() != "I") continue;
+        frames << obj["coded_picture_number"].toInt();
+    }
+    qSort(frames);
+    QMap <QString, QString> jobResults;
+    QStringList sortedFrames;
+    foreach(int frm, frames) {
+        sortedFrames << QString::number(frm);
+    }
+    jobResults.insert("i-frame", sortedFrames.join(";"));
+    QMap <QString, QString> extraInfo;
+    extraInfo.insert("addmarkers", "3");
+    extraInfo.insert("key", "i-frame");
+    extraInfo.insert("simplelist", "1");
+    extraInfo.insert("label", i18n("I-Frame "));
+    extraInfo.insert("resultmessage", i18n("Found %count I-Frames"));
+    emit gotFilterJobResults(m_clipId, 0, 0, jobResults, extraInfo);
 }

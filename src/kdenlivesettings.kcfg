@@ -291,7 +291,12 @@
       <label>FFplay / avplay binary path.</label>
       <default></default>
     </entry>
-    
+
+    <entry name="ffprobepath" type="Path">
+      <label>FFprobe / avprobe binary path.</label>
+      <default></default>
+    </entry>
+
     <entry name="mltthreads" type="Int">
       <label>Mlt processing thread count.</label>
       <default>1</default>

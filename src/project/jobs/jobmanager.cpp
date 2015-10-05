@@ -185,11 +185,8 @@ void JobManager::slotProcessJobs()
         connect(job, SIGNAL(jobProgress(QString,int,int)), this, SIGNAL(processLog(QString,int,int)));
         connect(job, SIGNAL(cancelRunningJob(QString,QMap<QString, QString>)), m_bin, SLOT(slotCancelRunningJob(QString,QMap<QString, QString>)));
 
-        if (job->jobType == AbstractClipJob::MLTJOB) {
-            /*if (static_cast<MeltJob*>(job)->isProjectFilter())
-                connect(job, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SLOT(slotGotFilterJobResults(QString,int,int,stringMap,stringMap)));
-            else*/
-                connect(job, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)));
+        if (job->jobType == AbstractClipJob::MLTJOB || job->jobType == AbstractClipJob::ANALYSECLIPJOB) {
+            connect(job, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)));
         }
         job->startJob();
         if (job->status() == JobDone) {
@@ -244,6 +241,8 @@ void JobManager::prepareJobs(QList <ProjectClip *>clips, double fps, AbstractCli
         ProjectClip *clip = matching.first();
         double originalFps = clip->getOriginalFps();
         jobs = CutClipJob::prepareCutClipJob(fps, originalFps, clip);
+    } else if (jobType == AbstractClipJob::ANALYSECLIPJOB) {
+        jobs = CutClipJob::prepareAnalyseJob(fps, matching, params);
     } else if (jobType == AbstractClipJob::FILTERCLIPJOB) {
         jobs = FilterJob::prepareJob(matching, params);
     } else if (jobType == AbstractClipJob::PROXYJOB) {

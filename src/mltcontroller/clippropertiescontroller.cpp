@@ -78,11 +78,12 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
     m_markerTree->setColumnCount(2);
     m_markerTree->setAlternatingRowColors(true);
     m_markerTree->setHeaderHidden(true);
+    m_markerTree->setSelectionMode(QAbstractItemView::ExtendedSelection);
     mBox->addWidget(m_markerTree);
     QToolBar *bar = new QToolBar;
     bar->addAction(KoIconUtils::themedIcon("document-new"), i18n("Add marker"), this, SLOT(slotAddMarker()));
     bar->addAction(KoIconUtils::themedIcon("trash-empty"), i18n("Delete marker"), this, SLOT(slotDeleteMarker()));
-    bar->addAction(KoIconUtils::themedIcon("document-properties"), i18n("Edit marker"), this, SLOT(slotEditMarker()));
+    bar->addAction(KoIconUtils::themedIcon("document-edit"), i18n("Edit marker"), this, SLOT(slotEditMarker()));
     bar->addAction(KoIconUtils::themedIcon("document-save-as"), i18n("Export markers"), this, SLOT(slotSaveMarkers()));
     bar->addAction(KoIconUtils::themedIcon("document-open"), i18n("Import markers"), this, SLOT(slotLoadMarkers()));
     mBox->addWidget(bar);
@@ -251,7 +252,6 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         hlay->addWidget(spin);
         vbox->addLayout(hlay);
 
-
         // Scanning
         QString force_prog = m_properties.get("force_progressive");
         m_originalProperties.insert("force_progressive", force_prog.isEmpty() ? "-" : force_prog);
@@ -273,7 +273,7 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         hlay->addWidget(box);
         hlay->addWidget(combo);
         vbox->addLayout(hlay);
-        
+
         // Field order
         QString force_tff = m_properties.get("force_tff");
         m_originalProperties.insert("force_tff", force_tff.isEmpty() ? "-" : force_tff);
@@ -392,13 +392,13 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
     addTab(m_analysisPage, QString());
     setTabIcon(0, KoIconUtils::themedIcon("edit-find"));
     setTabToolTip(0, i18n("Properties"));
-    setTabIcon(1, KoIconUtils::themedIcon("bookmark-toolbar"));
+    setTabIcon(1, KoIconUtils::themedIcon("bookmark-new"));
     setTabToolTip(1, i18n("Markers"));
     setTabIcon(2, KoIconUtils::themedIcon("document-edit"));
     setTabToolTip(2, i18n("Force properties"));
-    setTabIcon(3, KoIconUtils::themedIcon("view-list-details"));
+    setTabIcon(3, KoIconUtils::themedIcon("view-grid"));
     setTabToolTip(3, i18n("Metadata"));
-    setTabIcon(4, KoIconUtils::themedIcon("archive-extract"));
+    setTabIcon(4, KoIconUtils::themedIcon("visibility"));
     setTabToolTip(4, i18n("Analysis"));
     setCurrentIndex(KdenliveSettings::properties_panel_page());
     if (m_type == Color) setTabEnabled(0, false);

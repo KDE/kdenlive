@@ -24,6 +24,8 @@
 
 #include "abstractclipjob.h"
 
+#include <QJsonDocument>
+
 class ProjectClip;
 
 /**
@@ -47,20 +49,28 @@ public:
     const QString destination() const;
     void startJob();
     stringMap cancelProperties();
-    void processLogInfo();
     const QString statusMessage();
     bool isExclusive();
     static QMap <ProjectClip *, AbstractClipJob *> prepareTranscodeJob(double fps, QList <ProjectClip *> ids,  QStringList parameters);
     static QMap <ProjectClip *, AbstractClipJob *> prepareCutClipJob(double fps, double originalFps, ProjectClip *clip);
+    static QMap <ProjectClip *, AbstractClipJob *> prepareAnalyseJob(double fps, QList <ProjectClip*> clips, QStringList parameters);
     static QList <ProjectClip *> filterClips(QList <ProjectClip *>clips, const QStringList &params);
-    
+
 private:
     QString m_dest;
     QString m_src;
     QString m_start;
     QString m_end;
     QString m_cutExtraParams;
-    int m_jobDuration;   
+    int m_jobDuration;
+
+    void processLogInfo();
+    void analyseLogInfo();
+    void processAnalyseLog();
+
+signals:
+    /** @brief When user requested a to process an Mlt::Filter, this will send back all necessary infos. */
+    void gotFilterJobResults(const QString &id, int startPos, int track, const stringMap &result, const stringMap &extra);
 };
 
 #endif

@@ -479,6 +479,7 @@ void Wizard::slotCheckPrograms()
     item->setSizeHint(0, itemSize);
     QString exepath = QStandardPaths::findExecutable(QString("ffmpeg%1").arg(FFMPEG_SUFFIX));
     QString playpath = QStandardPaths::findExecutable(QString("ffplay%1").arg(FFMPEG_SUFFIX));
+    QString probepath = QStandardPaths::findExecutable(QString("ffprobe%1").arg(FFMPEG_SUFFIX));
     item->setIcon(0, m_okIcon);
     if (exepath.isEmpty()) {
         // Check for libav version
@@ -490,8 +491,14 @@ void Wizard::slotCheckPrograms()
         playpath = QStandardPaths::findExecutable("avplay");
         if (playpath.isEmpty()) item->setIcon(0, m_badIcon);
     }
+    if (probepath.isEmpty()) {
+        // Check for libav version
+        probepath = QStandardPaths::findExecutable("avprobe");
+        if (probepath.isEmpty()) item->setIcon(0, m_badIcon);
+    }
     if (!exepath.isEmpty()) KdenliveSettings::setFfmpegpath(exepath);
     if (!playpath.isEmpty()) KdenliveSettings::setFfplaypath(playpath);
+    if (!probepath.isEmpty()) KdenliveSettings::setFfprobepath(probepath);
 
 #ifndef Q_WS_MAC
     item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("dvgrab"));

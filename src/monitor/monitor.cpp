@@ -891,7 +891,7 @@ void Monitor::checkOverlay()
     else if (m_controller) {
         overlayText = m_controller->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
     }
-    if (overlayText!= m_rootItem->property("comment")) m_rootItem->setProperty("comment", overlayText);
+    if (overlayText != m_rootItem->property("comment")) m_rootItem->setProperty("comment", overlayText);
 }
 
 void Monitor::slotStart()

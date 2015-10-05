@@ -143,6 +143,7 @@ QMap <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectClip
         if (ui.add_markers->isChecked()) {
             // We want to create markers
             extraParams.insert("addmarkers", QString::number(ui.marker_type->currentIndex()));
+            extraParams.insert("label", i18n("Scene "));
         }
         if (ui.cut_scenes->isChecked()) {
             // We want to cut scenes
