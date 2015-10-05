@@ -290,9 +290,9 @@ void SmallRuler::updatePixmap()
             p.drawLine(line);
         }
     }
-    p.setPen(Qt::red);
     foreach (const CommentedTime &marker, m_markers) {
         double pos = (marker.time().frames(m_monitor->fps()) - m_offset) * m_scale;
+        p.setPen(CommentedTime::markerColor(marker.markerType()));
         line.setLine(pos, 1, pos, m_rulerHeight - 1);
         p.drawLine(line);
     }
