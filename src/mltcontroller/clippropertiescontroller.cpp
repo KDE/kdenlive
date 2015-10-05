@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kdenlivesettings.h"
 #include "effectstack/widgets/choosecolorwidget.h"
 #include "dialogs/profilesdialog.h"
+#include "utils/KoIconUtils.h"
 
 #include <KLocalizedString>
 #include <KIO/Global>
@@ -79,11 +80,11 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
     m_markerTree->setHeaderHidden(true);
     mBox->addWidget(m_markerTree);
     QToolBar *bar = new QToolBar;
-    bar->addAction(QIcon::fromTheme("document-new"), i18n("Add marker"), this, SLOT(slotAddMarker()));
-    bar->addAction(QIcon::fromTheme("trash-empty"), i18n("Delete marker"), this, SLOT(slotDeleteMarker()));
-    bar->addAction(QIcon::fromTheme("document-properties"), i18n("Edit marker"), this, SLOT(slotEditMarker()));
-    bar->addAction(QIcon::fromTheme("document-save-as"), i18n("Export markers"), this, SLOT(slotSaveMarkers()));
-    bar->addAction(QIcon::fromTheme("document-open"), i18n("Import markers"), this, SLOT(slotLoadMarkers()));
+    bar->addAction(KoIconUtils::themedIcon("document-new"), i18n("Add marker"), this, SLOT(slotAddMarker()));
+    bar->addAction(KoIconUtils::themedIcon("trash-empty"), i18n("Delete marker"), this, SLOT(slotDeleteMarker()));
+    bar->addAction(KoIconUtils::themedIcon("document-properties"), i18n("Edit marker"), this, SLOT(slotEditMarker()));
+    bar->addAction(KoIconUtils::themedIcon("document-save-as"), i18n("Export markers"), this, SLOT(slotSaveMarkers()));
+    bar->addAction(KoIconUtils::themedIcon("document-open"), i18n("Import markers"), this, SLOT(slotLoadMarkers()));
     mBox->addWidget(bar);
 
     slotFillMarkers();
@@ -112,9 +113,9 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
     aBox ->addWidget(new QLabel(i18n("Analysis data")));
     aBox ->addWidget(m_analysisTree);
     QToolBar *bar2 = new QToolBar;
-    bar2->addAction(QIcon::fromTheme("trash-empty"), i18n("Delete analysis"), this, SLOT(slotDeleteAnalysis()));
-    bar2->addAction(QIcon::fromTheme("document-save-as"), i18n("Export analysis"), this, SLOT(slotSaveAnalysis()));
-    bar2->addAction(QIcon::fromTheme("document-open"), i18n("Import analysis"), this, SLOT(slotLoadAnalysis()));
+    bar2->addAction(KoIconUtils::themedIcon("trash-empty"), i18n("Delete analysis"), this, SLOT(slotDeleteAnalysis()));
+    bar2->addAction(KoIconUtils::themedIcon("document-save-as"), i18n("Export analysis"), this, SLOT(slotSaveAnalysis()));
+    bar2->addAction(KoIconUtils::themedIcon("document-open"), i18n("Import analysis"), this, SLOT(slotLoadAnalysis()));
     aBox->addWidget(bar2);
 
     slotFillAnalysisData();
@@ -389,15 +390,15 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
     addTab(m_forcePage, QString());
     addTab(m_metaPage, QString());
     addTab(m_analysisPage, QString());
-    setTabIcon(0, QIcon::fromTheme("edit-find"));
+    setTabIcon(0, KoIconUtils::themedIcon("edit-find"));
     setTabToolTip(0, i18n("Properties"));
-    setTabIcon(1, QIcon::fromTheme("bookmark-toolbar"));
+    setTabIcon(1, KoIconUtils::themedIcon("bookmark-toolbar"));
     setTabToolTip(1, i18n("Markers"));
-    setTabIcon(2, QIcon::fromTheme("document-edit"));
+    setTabIcon(2, KoIconUtils::themedIcon("document-edit"));
     setTabToolTip(2, i18n("Force properties"));
-    setTabIcon(3, QIcon::fromTheme("view-list-details"));
+    setTabIcon(3, KoIconUtils::themedIcon("view-list-details"));
     setTabToolTip(3, i18n("Metadata"));
-    setTabIcon(4, QIcon::fromTheme("archive-extract"));
+    setTabIcon(4, KoIconUtils::themedIcon("archive-extract"));
     setTabToolTip(4, i18n("Analysis"));
     setCurrentIndex(KdenliveSettings::properties_panel_page());
     if (m_type == Color) setTabEnabled(0, false);
