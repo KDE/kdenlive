@@ -135,7 +135,6 @@ void ShuttleThread::shuttle(const media_ctrl_event& ev)
         //qDebug() << "Jog shuttle value is out of range: " << MaxShuttleRange;
         return;
     }
-
     QApplication::postEvent(m_parent,
         new MediaCtrlEvent(MediaCtrlEvent::Shuttle, value));
 }
@@ -148,7 +147,7 @@ void ShuttleThread::jog(const media_ctrl_event& ev)
 
 JogShuttle::JogShuttle(const QString &device, QObject *parent) :
         QObject(parent),
-        m_shuttleProcess(device, parent)
+        m_shuttleProcess(device, this)
 {
     m_shuttleProcess.start();
 }
