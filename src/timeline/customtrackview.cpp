@@ -7508,7 +7508,7 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
 {
     Mlt::Producer *prod = m_document->renderer()->getBinProducer(id);
     Mlt::Producer *videoProd = m_document->renderer()->getBinVideoProducer(id);
-    
+
     QStringList allSlows;
     for (int i = 0; i < m_timeline->tracksCount(); i++) {
 	allSlows << m_timeline->track(i)->getSlowmotionIds(id);
@@ -7542,7 +7542,7 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
     for (int i = 0; i < m_timeline->tracksCount(); i++) {
         m_timeline->track(i)->replaceAll(id,  prod, videoProd, newSlowMos);
     }
-    
+
     // update slowmotion storage
     QMapIterator<QString, Mlt::Producer *> i(newSlowMos);
     while (i.hasNext()) {
@@ -7550,7 +7550,6 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
 	Mlt::Producer *sprod = i.value();
 	m_document->renderer()->storeSlowmotionProducer(sprod->get("resource"), sprod, true);
     }
-    
     m_timeline->refreshTractor();
 }
 

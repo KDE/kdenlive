@@ -603,7 +603,7 @@ void Render::processFileProperties()
         if (!groupId.isEmpty()) {
             producer->set("kdenlive:folderid", groupId.toUtf8().constData());
         }
-        
+
         if (proxyProducer && info.xml.hasAttribute("proxy_out")) {
             producer->set("length", info.xml.attribute("proxy_out").toInt() + 1);
             producer->set("out", info.xml.attribute("proxy_out").toInt());

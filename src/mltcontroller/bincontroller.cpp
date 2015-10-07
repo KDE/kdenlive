@@ -226,9 +226,14 @@ void BinController::replaceProducer(const QString &id, Mlt::Producer &producer)
     }
     pasteEffects(id, producer);
     ctrl->updateProducer(id, &producer);
-    emit prepareTimelineReplacement(id);
     replaceBinPlaylistClip(id, producer);
+    emit prepareTimelineReplacement(id);
     producer.set("id", id.toUtf8().constData());
+    // Remove video only producer
+    QString videoId = id + "_video";
+    if (m_extraClipList.contains(videoId)) {
+        m_extraClipList.remove(videoId);
+    }
     removeBinPlaylistClip("#" + id);
     emit replaceTimelineProducer(id);
 }

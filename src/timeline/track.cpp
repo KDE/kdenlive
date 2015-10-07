@@ -274,7 +274,7 @@ void Track::lockTrack(bool locked)
 void Track::replaceId(const QString &id)
 {
     QString idForAudioTrack = id + QLatin1Char('_') + m_playlist.get("id") + "_audio";
-    QString idForVideoTrack = id + QLatin1Char('_') + m_playlist.get("id") + "_video";
+    QString idForVideoTrack = id + "_video";
     QString idForTrack = id + QLatin1Char('_') + m_playlist.get("id");
     //TODO: slowmotion
     for (int i = 0; i < m_playlist.count(); i++) {
@@ -319,7 +319,7 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
     if (needsDuplicate(service)) {
         // We have to use the track clip duplication functions, because of audio glitches in MLT's multitrack
         idForAudioTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + "_audio";
-        idForVideoTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + "_video";
+        idForVideoTrack = idForTrack + "_video";
         idForTrack.append(QLatin1Char('_') + m_playlist.get("id"));
     }
     Mlt::Producer *trackProducer = NULL;
@@ -418,7 +418,7 @@ void Track::updateEffects(const QString &id, Mlt::Producer *original)
     if (needsDuplicate(service)) {
         // We have to use the track clip duplication functions, because of audio glitches in MLT's multitrack
         idForAudioTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + "_audio";
-        idForVideoTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + "_video";
+        idForVideoTrack = idForTrack + "_video";
         idForTrack.append(QLatin1Char('_') + m_playlist.get("id"));
     }
 
@@ -465,7 +465,7 @@ Mlt::Producer *Track::clipProducer(Mlt::Producer *parent, PlaylistState::ClipSta
     if (state == PlaylistState::AudioOnly) {
         idForTrack.append("_audio");
     } else if (state == PlaylistState::VideoOnly) {
-        idForTrack.append("_video");
+        idForTrack = originalId + QLatin1String("_video");
     }
     if (!forceCreation) {
         for (int i = 0; i < m_playlist.count(); i++) {
@@ -574,7 +574,7 @@ int Track::getBlankLength(int pos, bool fromBlankStart)
 void Track::updateClipProperties(const QString &id, QMap <QString, QString> properties)
 {
     QString idForTrack = id + QLatin1Char('_') + m_playlist.get("id");
-    QString idForVideoTrack = idForTrack + "_video";
+    QString idForVideoTrack = id + "_video";
     QString idForAudioTrack = idForTrack + "_audio";
     // slowmotion producers are updated in renderer
 
