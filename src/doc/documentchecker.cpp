@@ -262,28 +262,32 @@ bool DocumentChecker::hasErrorInClips()
         for (int j = 0; j < prodsCount; ++j) {
             mltProd = documentProducers.at(j).toElement();
             QString prodId = mltProd.attribute("id");
+            QString parentId = prodId;
             bool slowmotion = false;
-            if (prodId.startsWith(QLatin1String("slowmotion"))) {
+            if (parentId.startsWith(QLatin1String("slowmotion"))) {
                 slowmotion = true;
-                prodId = prodId.section(':', 1, 1);
+                parentId = parentId.section(':', 1, 1);
             }
-            if (prodId.contains('_')) prodId = prodId.section('_', 0, 0);
-            if (prodId == id) {
+            if (parentId.contains('_')) parentId = parentId.section('_', 0, 0);
+            if (parentId == id) {
                 // Hit, we must replace url
                 QString suffix;
                 QString resource = EffectsList::property(mltProd, "resource");
                 if (slowmotion) suffix = '?' + resource.section('?', -1);
                 EffectsList::setProperty(mltProd, "resource", realPath + suffix);
-                EffectsList::setProperty(mltProd, "kdenlive:proxy", "-");
+                if (prodId == id) {
+                    // Only set proxy property on master producer
+                    EffectsList::setProperty(mltProd, "kdenlive:proxy", "-");
+                }
             }
         }
     }
-    
+
     if (max > 0) {
         // original doc was modified
         m_doc.documentElement().setAttribute("modified", "1");
     }
-    
+
     // Check clips with available proxies but missing original source clips
     max = missingSources.count();
     if (max > 0) {
@@ -568,15 +572,22 @@ void DocumentChecker::fixSourceClipItem(QTreeWidgetItem *child, QDomNodeList pro
         for (int i = 0; i < producers.count(); ++i) {
             e = producers.item(i).toElement();
             QString sourceId = e.attribute("id");
-            if (sourceId.section('_', 0, 0) == id || sourceId.section(':', 1, 1) == id) {
+            QString parentId = sourceId.section('_', 0, 0);
+            if (parentId.startsWith("slowmotion")) {
+                parentId = parentId.section(':', 1, 1);
+            }
+            if (parentId == id) {
                 // Fix clip
-                QString resource = EffectsList::property(e, "kdenlive:originalurl");
+                QString resource = EffectsList::property(e, "resource");
                 QString fixedResource = child->text(1);
                 if (resource.contains(QRegExp("\\?[0-9]+\\.[0-9]+(&amp;strobe=[0-9]+)?$"))) {
                     fixedResource.append('?' + resource.section('?', -1));
                 }
-                EffectsList::setProperty(e, "kdenlive:originalurl", fixedResource);
-                if (m_missingProxyIds.contains(sourceId)) {
+                if (sourceId == id) {
+                    // Only set originalurl on master producer
+                    EffectsList::setProperty(e, "kdenlive:originalurl", fixedResource);
+                }
+                if (m_missingProxyIds.contains(parentId)) {
                     // Proxy is also missing, replace resource
                     EffectsList::setProperty(e, "resource", fixedResource);
                 }

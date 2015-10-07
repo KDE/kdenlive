@@ -178,7 +178,6 @@ struct ProfileInfo {
 struct requestClipInfo {
     QDomElement xml;
     QString clipId;
-    int binIndex;
     int imageHeight;
     bool replaceProducer;
 

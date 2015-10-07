@@ -94,7 +94,7 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
     connect(this, SIGNAL(checkSeeking()), this, SLOT(slotCheckSeeking()));
     if (m_name == Kdenlive::ProjectMonitor) {
         connect(m_binController, SIGNAL(prepareTimelineReplacement(QString)), this, SIGNAL(prepareTimelineReplacement(QString)), Qt::DirectConnection);
-        connect(m_binController, SIGNAL(replaceTimelineProducer(QString)), this, SIGNAL(replaceTimelineProducer(QString)));
+        connect(m_binController, SIGNAL(replaceTimelineProducer(QString)), this, SIGNAL(replaceTimelineProducer(QString)), Qt::DirectConnection);
 	connect(m_binController, SIGNAL(updateTimelineProducer(QString)), this, SIGNAL(updateTimelineProducer(QString)));
         connect(m_binController, SIGNAL(createThumb(QDomElement,QString,int)), this, SLOT(getFileProperties(QDomElement,QString,int)));
         connect(m_binController, SIGNAL(setDocumentNotes(QString)), this, SIGNAL(setDocumentNotes(QString)));
@@ -699,7 +699,7 @@ void Render::processFileProperties()
         int fullWidth = (int)((double) info.imageHeight * m_qmlView->profile()->dar() + 0.5);
         int frameNumber = ProjectClip::getXmlProperty(info.xml, "kdenlive:thumbnailFrame", "-1").toInt();
 
-        if ((!info.replaceProducer && info.xml.hasAttribute("kdenlive:file_hash")) || proxyProducer) {
+        if ((!info.replaceProducer && !EffectsList::property(info.xml, "kdenlive:file_hash").isEmpty()) || proxyProducer) {
             // Clip  already has all properties
             // We want to replace an existing producer. We MUST NOT set the producer's id property until 
             // the old one has been removed.
@@ -1280,7 +1280,7 @@ int Render::setSceneList(QString playlist, int position)
         else {
             // pass basic info, the others (folder, etc) will be taken from the producer itself
             requestClipInfo info;
-            info.binIndex = 0; info.imageHeight = 0;
+            info.imageHeight = 0;
             info.clipId = id;
             info.replaceProducer = true;
             emit gotFileProperties(info, m_binController->getController(id));
@@ -3281,7 +3281,7 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
         }
         return;
     }
-    
+
     int width = 60.0 * m_qmlView->profile()->dar();
     if (width % 2 == 1) width++;
 
