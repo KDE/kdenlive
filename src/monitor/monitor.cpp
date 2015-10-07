@@ -158,18 +158,14 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     layout->addWidget(m_glWidget, 10);
     layout->addStretch();
 
-    // Get base size for icons
-    int s = style()->pixelMetric(QStyle::PM_SmallIconSize);
-
     // Tool bar buttons
     m_toolbar = new QToolBar(this);
-    //m_toolbar->setIconSize(QSize(s, s));
     QWidget *sp1 = new QWidget(this);
     sp1->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_toolbar->addWidget(sp1);
     if (id == Kdenlive::ClipMonitor) {
         // Add options for recording
-        m_recManager = new RecManager(s, this);
+        m_recManager = new RecManager(this);
         connect(m_recManager, &RecManager::warningMessage, this, &Monitor::warningMessage);
         connect(m_recManager, &RecManager::addClipToProject, this, &Monitor::addClipToProject);
     }

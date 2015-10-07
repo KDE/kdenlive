@@ -38,14 +38,13 @@
 #include <QDir>
 #include <QFile>
 
-RecManager::RecManager(int iconSize, Monitor *parent) :
+RecManager::RecManager(Monitor *parent) :
     QObject(parent)
     , m_monitor(parent)
     , m_captureProcess(NULL)
     , m_recToolbar(new QToolBar(parent))
     , m_screenCombo(NULL)
 {
-    //m_recToolbar->setIconSize(QSize(iconSize, iconSize));
     m_playAction = m_recToolbar->addAction(KoIconUtils::themedIcon("media-playback-start"), i18n("Preview"));
     m_playAction->setCheckable(true);
     connect(m_playAction, &QAction::toggled, this, &RecManager::slotPreview);

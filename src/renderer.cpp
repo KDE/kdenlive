@@ -439,10 +439,10 @@ ClipType Render::getTypeForService(const QString &id, const QString &path) const
 
 void Render::processProducerProperties(Mlt::Producer *prod, QDomElement xml)
 {
-    //TODO: there is some duplication with clipcontroller > updateproducer that alsa copies properties 
+    //TODO: there is some duplication with clipcontroller > updateproducer that also copies properties 
     QString value;
     QStringList internalProperties;
-    internalProperties << "bypassDuplicate" << "resource" << "mlt_service";
+    internalProperties << "bypassDuplicate" << "resource" << "mlt_service" << "audio_index" << "video_index" << "mlt_type";
     QDomNodeList props;
     if (xml.tagName() == "producer") {
 	props = xml.elementsByTagName("property");
@@ -452,7 +452,7 @@ void Render::processProducerProperties(Mlt::Producer *prod, QDomElement xml)
     }
     for (int i = 0; i < props.count(); ++i) {
         QString propertyName = props.at(i).toElement().attribute("name");
-        if (!internalProperties.contains(propertyName)) {
+        if (!internalProperties.contains(propertyName) && !propertyName.startsWith("_")) {
             value = props.at(i).firstChild().nodeValue();
             prod->set(propertyName.toUtf8().constData(), value.toUtf8().constData());
         }

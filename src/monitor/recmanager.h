@@ -55,7 +55,7 @@ enum CaptureDevice {
 };
 
 public:
-    explicit RecManager(int iconSize, Monitor *parent = 0);
+    explicit RecManager(Monitor *parent = 0);
     ~RecManager();
     QToolBar *toolbar() const;
     void stopCapture();
