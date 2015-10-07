@@ -440,7 +440,7 @@ void Render::processProducerProperties(Mlt::Producer *prod, QDomElement xml)
     //TODO: there is some duplication with clipcontroller > updateproducer that alsa copies properties 
     QString value;
     QStringList internalProperties;
-    internalProperties << "bypassDuplicate" << "resource" << "mlt_service";
+    internalProperties << "bypassDuplicate" << "resource" << "mlt_service"<<"audio_index"<<"video_index";
     QDomNodeList props;
     if (xml.tagName() == "producer") {
 	props = xml.elementsByTagName("property");
