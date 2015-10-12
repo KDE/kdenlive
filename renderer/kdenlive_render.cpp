@@ -68,14 +68,8 @@ int main(int argc, char **argv)
         QString profile = args.takeFirst();
         QString rendermodule = args.takeFirst();
         QString player = args.takeFirst();
-        QByteArray srcString = args.takeFirst().toUtf8();
-        QUrl srcurl = QUrl::fromEncoded(srcString);
-        QString src = srcurl.path();
-        // The QUrl path() strips the consumer: protocol, so re-add it if necessary
-        if (srcString.startsWith("consumer:"))
-            src.prepend(QLatin1String("consumer:"));
-        QUrl desturl = QUrl::fromEncoded(args.takeFirst().toUtf8());
-        QString dest = desturl.path();
+        QString src = args.takeFirst();
+        QString dest = args.takeFirst();
         bool dualpass = false;
         bool doerase;
         QString vpre;
