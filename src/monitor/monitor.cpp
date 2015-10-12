@@ -293,7 +293,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_toolbar->addWidget(spacer);
     connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotSeek()));
-    m_toolbar->setMaximumHeight(m_timePos->height());
     layout->addWidget(m_toolbar);
     if (m_recManager) layout->addWidget(m_recManager->toolbar());
     // Info message widget
