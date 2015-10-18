@@ -1660,8 +1660,11 @@ void MainWindow::slotPreferences(int page, int option)
     // Get the mappable actions in localized form
     QMap<QString, QString> actions;
     KActionCollection* collection = actionCollection();
+    QRegExp ampEx("&{1,1}");
     foreach (const QString& action_name, m_actionNames) {
-        actions[collection->action(action_name)->text()] = action_name;
+	QString action_text = collection->action(action_name)->text();
+	action_text.remove(ampEx);
+        actions[action_text] = action_name;
     }
 
     KdenliveSettingsDialog* dialog = new KdenliveSettingsDialog(actions, m_gpuAllowed, this);

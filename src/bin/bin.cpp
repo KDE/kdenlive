@@ -1271,6 +1271,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
 		m_proxyAction->blockSignals(false);
             }
         }
+        
     }
     // Enable / disable clip actions
     m_proxyAction->setEnabled(enableClipActions);
