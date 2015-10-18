@@ -1573,7 +1573,7 @@ bool Monitor::stopCapture()
 {
     m_glMonitor->stopCapture();
     slotOpenClip(NULL);
-    m_glMonitor->reconfigure(m_monitorManager->profile());
+    m_glMonitor->reconfigure(profile());
     return true;
 }
 
