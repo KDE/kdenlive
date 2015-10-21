@@ -1124,10 +1124,10 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         sEngine.globalObject().setProperty("passes", static_cast<int>(m_view.checkTwoPass->isChecked()) + 1);
 
         for (int i = 0; i < paramsList.count(); ++i) {
-            QString paramName = paramsList.at(i).section('=', 0, 0);
-            QString paramValue = paramsList.at(i).section('=', 1, 1);
+            QString paramName = paramsList.at(i).section('=', 0, -2);
+            QString paramValue = paramsList.at(i).section('=', -1);
             // If the profiles do not match we need to use the consumer tag
-            if (paramName == "mlt_profile=" && paramValue != m_profile.path) {
+            if (paramName == "mlt_profile" && paramValue != m_profile.path) {
                 resizeProfile = true;
             }
             // evaluate expression
