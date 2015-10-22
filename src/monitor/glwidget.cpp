@@ -319,8 +319,8 @@ static void uploadTextures(QOpenGLContext* context, SharedFrame& frame, GLuint t
     check_error(f);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     check_error(f);
-    f->glTexImage2D   (GL_TEXTURE_2D, 0, GL_RED, width, height, 0,
-                    GL_RED, GL_UNSIGNED_BYTE, image);
+    f->glTexImage2D   (GL_TEXTURE_2D, 0, GL_LUMINANCE, width, height, 0,
+                    GL_LUMINANCE, GL_UNSIGNED_BYTE, image);
     check_error(f);
 
     f->glBindTexture  (GL_TEXTURE_2D, texture[1]);
@@ -334,8 +334,8 @@ static void uploadTextures(QOpenGLContext* context, SharedFrame& frame, GLuint t
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     check_error(f);
     int y = context->isOpenGLES() ? 2 : 4;
-    f->glTexImage2D   (GL_TEXTURE_2D, 0, GL_RED, width/2, height/y, 0,
-                    GL_RED, GL_UNSIGNED_BYTE, image + width * height);
+    f->glTexImage2D   (GL_TEXTURE_2D, 0, GL_LUMINANCE, width/2, height/y, 0,
+                    GL_LUMINANCE, GL_UNSIGNED_BYTE, image + width * height);
     check_error(f);
 
     f->glBindTexture  (GL_TEXTURE_2D, texture[2]);
@@ -348,8 +348,8 @@ static void uploadTextures(QOpenGLContext* context, SharedFrame& frame, GLuint t
     check_error(f);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     check_error(f);
-    f->glTexImage2D   (GL_TEXTURE_2D, 0, GL_RED, width/2, height/y, 0,
-                    GL_RED, GL_UNSIGNED_BYTE, image + width * height + width/2 * height/2);
+    f->glTexImage2D   (GL_TEXTURE_2D, 0, GL_LUMINANCE, width/2, height/y, 0,
+                    GL_LUMINANCE, GL_UNSIGNED_BYTE, image + width * height + width/2 * height/2);
     check_error(f);
 }
 
