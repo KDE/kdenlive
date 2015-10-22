@@ -515,8 +515,8 @@ QList <TrackInfo> Timeline::getTracksInfo()
 
 void Timeline::lockTrack(int ix, bool lock)
 {
-    if (ix < 0 || ix > m_tracks.count()) {
-        qWarning() << "Set Track effect outisde of range";
+    if (ix < 0 || ix >= m_tracks.count()) {
+        qWarning() << "Set Track effect outside of range";
         return;
     }
     Track *tk = track(ix);
@@ -525,8 +525,8 @@ void Timeline::lockTrack(int ix, bool lock)
 
 bool Timeline::isTrackLocked(int ix)
 {
-    if (ix < 0 || ix > m_tracks.count()) {
-        qWarning() << "Set Track effect outisde of range";
+    if (ix < 0 || ix >= m_tracks.count()) {
+        qWarning() << "Set Track effect outside of range";
         return false;
     }
     Track *tk = track(ix);
