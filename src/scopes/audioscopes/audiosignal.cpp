@@ -80,6 +80,10 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame,
     int numchan = channels.size();
     bool horiz=width() > height();
     int dbsize=20;
+    if (!horiz) {
+      // calculate actual width of lowest=longest db scale mark based on drawing font
+      dbsize = p.fontMetrics().width(QString().sprintf("%d", dbscale.at(dbscale.size()-1)));
+    }
     bool showdb=width()>(dbsize+40);
     //valpixel=1.0 for 127, 1.0+(1/40) for 1 short oversample, 1.0+(2/40) for longer oversample
     for (int i = 0; i < numchan; ++i) {
@@ -130,7 +134,7 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame,
         for (int l=0;l<dbscale.size();l++){
             if (!horiz){
                 double xf=pow(10.0,(double)dbscale.at(l) / 20.0 )*(double)height();
-                p.drawText(width()-20,height()-xf*40.0/42.0+20, QString().sprintf("%d",dbscale.at(l)));
+                p.drawText(width()-dbsize,height()-xf*40.0/42.0+20, QString().sprintf("%d",dbscale.at(l)));
             }else{
                 double xf=pow(10.0,(double)dbscale.at(l) / 20.0 )*(double)width();
                 p.drawText(xf*40/42-10,height()-2, QString().sprintf("%d",dbscale.at(l)));

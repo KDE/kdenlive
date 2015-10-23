@@ -588,7 +588,6 @@ static void onThreadCreate(mlt_properties owner, GLWidget* self,
 static void onThreadJoin(mlt_properties owner, GLWidget* self, RenderThread* thread)
 {
     Q_UNUSED(owner)
-    Q_UNUSED(self)
     if (thread) {
         thread->quit();
         thread->wait();
