@@ -581,14 +581,13 @@ static void onThreadCreate(mlt_properties owner, GLWidget* self,
 static void onThreadJoin(mlt_properties owner, GLWidget* self, RenderThread* thread)
 {
     Q_UNUSED(owner)
-    Q_UNUSED(self)
     if (thread) {
         thread->quit();
         thread->wait();
         delete thread;
+        self->clearFrameRenderer();
+        self->releaseMonitor();
     }
-    self->clearFrameRenderer();
-    self->releaseMonitor();
 }
 
 void GLWidget::startGlsl()
