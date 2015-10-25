@@ -690,9 +690,7 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
 		    qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
 		    return -1;
 		}
-		if (strobe > 1) prod->set("strobe", strobe);
 		QString producerid = "slowmotion:" + id + ':' + locale.toString(speed);
-		if (strobe > 1) producerid.append(':' + QString::number(strobe));
 		prod->set("id", producerid.toUtf8().constData());
 		// copy producer props
 		for (int i = 0; i < passProps.count(); i++) {
