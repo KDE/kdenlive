@@ -70,7 +70,6 @@ private:
     QList<QVariant> m_dbusargs;
     QTime m_startTime;
     QStringList m_args;
-    bool m_enablelog;
     /** @brief Used to write to the log file. */
     QTextStream m_logstream;
     void initKdenliveDbusInterface();
