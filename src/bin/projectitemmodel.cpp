@@ -86,7 +86,6 @@ QVariant ProjectItemModel::data(const QModelIndex& index, int role) const
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
         return item->data((AbstractProjectItem::DataType) role);
     }
-    return QVariant();
 }
 
 bool ProjectItemModel::setData(const QModelIndex & index, const QVariant & value, int role)
