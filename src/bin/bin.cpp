@@ -71,6 +71,7 @@ bool BinMessageWidget::event(QEvent* ev) {
 }
 
 SmallJobLabel::SmallJobLabel(QWidget *parent) : QPushButton(parent)
+    , m_action(NULL)
 {
     setFixedWidth(0);
     setFlat(true);
