@@ -53,7 +53,7 @@ const QVector<float> FFTTools::window(const WindowType windowType, const int siz
 
     // Deliberately avoid converting size to a float
     // to keep mid an integer.
-    float mid = (size-1)/2;
+    float mid = (int) (size-1)/2;
     float max = size-1;
     QVector<float> window;
 
