@@ -450,7 +450,7 @@ bool ProfilesDialog::matchProfile(int width, int height, double fps, double par,
     int profileWidth;
     if (isImage) {
         // when using image, compare with display width
-        profileWidth = profile.height * profile.display_aspect_num / profile.display_aspect_den + 0.5;
+        profileWidth = profile.height * profile.display_aspect_num / profile.display_aspect_den;
     } else profileWidth = profile.width;
     if (width != profileWidth || height != profile.height || (fps > 0 && qAbs((double) profile.frame_rate_num / profile.frame_rate_den - fps) > 0.4) || (!isImage && par > 0 && qAbs((double) profile.sample_aspect_num / profile.sample_aspect_den - par) > 0.1)) return false;
     return true;
@@ -471,7 +471,7 @@ QMap <QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int
         KConfig confFile(mltDir.absoluteFilePath(profilesFiles.at(i)), KConfig::SimpleConfig);
         QMap< QString, QString > values = confFile.entryMap();
         int profileWidth;
-        if (useDisplayWidth) profileWidth = values.value("height").toInt() * values.value("display_aspect_num").toInt() / values.value("display_aspect_den").toInt() + 0.5;
+        if (useDisplayWidth) profileWidth = values.value("height").toInt() * values.value("display_aspect_num").toInt() / values.value("display_aspect_den").toInt();
         else profileWidth = values.value("width").toInt();
         if (profileWidth == width && values.value("height").toInt() == height) {
             double profile_fps = values.value("frame_rate_num").toDouble() / values.value("frame_rate_den").toDouble();
@@ -489,7 +489,7 @@ QMap <QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int
             KConfig confFile(customProfiles.at(i) + profiles.at(j), KConfig::SimpleConfig);
             QMap< QString, QString > values = confFile.entryMap();
             int profileWidth;
-            if (useDisplayWidth) profileWidth = values.value("height").toInt() * values.value("display_aspect_num").toInt() / values.value("display_aspect_den").toInt() + 0.5;
+            if (useDisplayWidth) profileWidth = values.value("height").toInt() * values.value("display_aspect_num").toInt() / values.value("display_aspect_den").toInt();
             else profileWidth = values.value("width").toInt();
             if (profileWidth == width && values.value("height").toInt() == height) {
                 double profile_fps = values.value("frame_rate_num").toDouble() / values.value("frame_rate_den").toDouble();
