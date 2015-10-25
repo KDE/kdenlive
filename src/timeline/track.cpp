@@ -453,8 +453,6 @@ Mlt::Producer *Track::clipProducer(Mlt::Producer *parent, PlaylistState::ClipSta
     QString idForTrack = originalId + QLatin1Char('_') + m_playlist.get("id");
     if (state == PlaylistState::AudioOnly) {
         idForTrack.append("_audio");
-    } else if (state == PlaylistState::VideoOnly) {
-        idForTrack.append("_video");
     }
     if (!forceCreation) {
         for (int i = 0; i < m_playlist.count(); i++) {
@@ -469,8 +467,6 @@ Mlt::Producer *Track::clipProducer(Mlt::Producer *parent, PlaylistState::ClipSta
     prod->set("id", idForTrack.toUtf8().constData());
     if (state == PlaylistState::AudioOnly) {
         prod->set("video_index", -1);
-    } else if (state == PlaylistState::VideoOnly) {
-        prod->set("audio_index", -1);
     }
     return prod;
 }
