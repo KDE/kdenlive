@@ -644,20 +644,26 @@ void ParameterContainer::slotCollectAllParameters()
         QString setValue;
         if (type == "double" || type == "constant") {
             DoubleParameterWidget *doubleparam = static_cast<DoubleParameterWidget*>(m_valueItems.value(paramName));
-            setValue = locale.toString(doubleparam->getValue());
+            if (doubleparam) setValue = locale.toString(doubleparam->getValue());
         } else if (type == "list") {
-            KComboBox *box = static_cast<Listval*>(m_valueItems.value(paramName))->list;
-            setValue = box->itemData(box->currentIndex()).toString();
+	    Listval* val = static_cast<Listval*>(m_valueItems.value(paramName));
+            if (val) {
+	        KComboBox *box = val->list;
+		setValue = box->itemData(box->currentIndex()).toString();
+	    }
         } else if (type == "bool") {
-            QCheckBox *box = static_cast<Boolval*>(m_valueItems.value(paramName))->checkBox;
-            setValue = box->checkState() == Qt::Checked ? "1" : "0" ;
+	    Boolval* val = static_cast<Boolval*>(m_valueItems.value(paramName));
+            if (val) {
+		QCheckBox *box = val->checkBox;
+		setValue = box->checkState() == Qt::Checked ? "1" : "0" ;
+	    }
         } else if (type == "color") {
             ChooseColorWidget *choosecolor = static_cast<ChooseColorWidget*>(m_valueItems.value(paramName));
-            setValue = choosecolor->getColor();
+            if (choosecolor) setValue = choosecolor->getColor();
 	    if (pa.hasAttribute("paramprefix")) setValue.prepend(pa.attribute("paramprefix"));
         } else if (type == "complex") {
             ComplexParameter *complex = static_cast<ComplexParameter*>(m_valueItems.value(paramName));
-            namenode.item(i) = complex->getParamDesc();
+            if (complex) namenode.item(i) = complex->getParamDesc();
         } else if (type == "geometry") {
             /*if (KdenliveSettings::on_monitor_effects())*/ {
                 if (m_geometryWidget) namenode.item(i).toElement().setAttribute("value", m_geometryWidget->getValue());
@@ -669,7 +675,7 @@ void ParameterContainer::slotCollectAllParameters()
             if (m_geometryWidget) namenode.item(i).toElement().setAttribute("value", m_geometryWidget->getExtraValue(namenode.item(i).toElement().attribute("name")));
         } else if (type == "position") {
             PositionEdit *pedit = static_cast<PositionEdit*>(m_valueItems.value(paramName));
-            int pos = pedit->getPosition();
+            int pos = 0; if (pedit) pos = pedit->getPosition();
             setValue = QString::number(pos);
             if (m_effect.attribute("id") == "fadein" || m_effect.attribute("id") == "fade_from_black") {
                 // Make sure duration is not longer than clip
@@ -692,74 +698,78 @@ void ParameterContainer::slotCollectAllParameters()
             }
         } else if (type == "curve") {
             KisCurveWidget *curve = static_cast<KisCurveWidget*>(m_valueItems.value(paramName));
-            QList<QPointF> points = curve->curve().points();
-            QString number = pa.attribute("number");
-            QString inName = pa.attribute("inpoints");
-            QString outName = pa.attribute("outpoints");
-            int off = pa.attribute("min").toInt();
-            int end = pa.attribute("max").toInt();
-            double version = 0;
-            QDomElement namenode = m_effect.firstChildElement("version");
-            if (!namenode.isNull()) {
-                version = locale.toDouble(namenode.text());
-            }
-            if (version > 0.2) {
-                EffectsList::setParameter(m_effect, number, locale.toString(points.count() / 10.));
-            } else {
-                EffectsList::setParameter(m_effect, number, QString::number(points.count()));
-            }
-            for (int j = 0; (j < points.count() && j + off <= end); ++j) {
-                QString in = inName;
-                in.replace("%i", QString::number(j + off));
-                QString out = outName;
-                out.replace("%i", QString::number(j + off));
-                EffectsList::setParameter(m_effect, in, locale.toString(points.at(j).x()));
-                EffectsList::setParameter(m_effect, out, locale.toString(points.at(j).y()));
+            if (curve) {
+                QList<QPointF> points = curve->curve().points();
+                QString number = pa.attribute("number");
+                QString inName = pa.attribute("inpoints");
+                QString outName = pa.attribute("outpoints");
+                int off = pa.attribute("min").toInt();
+                int end = pa.attribute("max").toInt();
+                double version = 0;
+                QDomElement namenode = m_effect.firstChildElement("version");
+                if (!namenode.isNull()) {
+                    version = locale.toDouble(namenode.text());
+                }
+                if (version > 0.2) {
+                    EffectsList::setParameter(m_effect, number, locale.toString(points.count() / 10.));
+                } else {
+                    EffectsList::setParameter(m_effect, number, QString::number(points.count()));
+                }
+                for (int j = 0; (j < points.count() && j + off <= end); ++j) {
+                    QString in = inName;
+                    in.replace("%i", QString::number(j + off));
+                    QString out = outName;
+                    out.replace("%i", QString::number(j + off));
+                    EffectsList::setParameter(m_effect, in, locale.toString(points.at(j).x()));
+                    EffectsList::setParameter(m_effect, out, locale.toString(points.at(j).y()));
+                }
             }
             QString depends = pa.attribute("depends");
             if (!depends.isEmpty())
                 meetDependency(paramName, type, EffectsList::parameter(m_effect, depends));
         } else if (type == "bezier_spline") {
             BezierSplineWidget *widget = static_cast<BezierSplineWidget*>(m_valueItems.value(paramName));
-            setValue = widget->spline();
+            if (widget) setValue = widget->spline();
             QString depends = pa.attribute("depends");
             if (!depends.isEmpty())
                 meetDependency(paramName, type, EffectsList::parameter(m_effect, depends));
         } else if (type == "roto-spline") {
             RotoWidget *widget = static_cast<RotoWidget *>(m_valueItems.value(paramName));
-            setValue = widget->getSpline();
+            if (widget) setValue = widget->getSpline();
         } else if (type == "wipe") {
             Wipeval *wp = static_cast<Wipeval*>(m_valueItems.value(paramName));
-            wipeInfo info;
-            if (wp->start_left->isChecked())
-                info.start = LEFT;
-            else if (wp->start_right->isChecked())
-                info.start = RIGHT;
-            else if (wp->start_up->isChecked())
-                info.start = UP;
-            else if (wp->start_down->isChecked())
-                info.start = DOWN;
-            else if (wp->start_center->isChecked())
-                info.start = CENTER;
-            else
-                info.start = LEFT;
-            info.startTransparency = wp->start_transp->value();
+            if (wp) {
+                wipeInfo info;
+                if (wp->start_left->isChecked())
+                    info.start = LEFT;
+                else if (wp->start_right->isChecked())
+                    info.start = RIGHT;
+                else if (wp->start_up->isChecked())
+                    info.start = UP;
+                else if (wp->start_down->isChecked())
+                    info.start = DOWN;
+                else if (wp->start_center->isChecked())
+                    info.start = CENTER;
+                else
+                    info.start = LEFT;
+                info.startTransparency = wp->start_transp->value();
 
-            if (wp->end_left->isChecked())
-                info.end = LEFT;
-            else if (wp->end_right->isChecked())
-                info.end = RIGHT;
-            else if (wp->end_up->isChecked())
-                info.end = UP;
-            else if (wp->end_down->isChecked())
-                info.end = DOWN;
-            else if (wp->end_center->isChecked())
-                info.end = CENTER;
-            else
-                info.end = RIGHT;
-            info.endTransparency = wp->end_transp->value();
+                if (wp->end_left->isChecked())
+                    info.end = LEFT;
+                else if (wp->end_right->isChecked())
+                    info.end = RIGHT;
+                else if (wp->end_up->isChecked())
+                    info.end = UP;
+                else if (wp->end_down->isChecked())
+                    info.end = DOWN;
+                else if (wp->end_center->isChecked())
+                    info.end = CENTER;
+                else
+                    info.end = RIGHT;
+                info.endTransparency = wp->end_transp->value();
 
-            setValue = getWipeString(info);
+                setValue = getWipeString(info);
+            }
         } else if ((type == "simplekeyframe" || type == "keyframe") && m_keyframeEditor) {
             QString realName = i18n(na.toElement().text().toUtf8().data());
             QString val = m_keyframeEditor->getValue(realName);
@@ -772,20 +782,25 @@ void ParameterContainer::slotCollectAllParameters()
                 pa.setAttribute("intimeline", "0");
         } else if (type == "url") {
             KUrlRequester *req = static_cast<Urlval*>(m_valueItems.value(paramName))->urlwidget;
-            setValue = req->url().path();
-	} else if (type == "keywords"){
-            QLineEdit *line = static_cast<Keywordval*>(m_valueItems.value(paramName))->lineeditwidget;
-            KComboBox *combo = static_cast<Keywordval*>(m_valueItems.value(paramName))->comboboxwidget;
-            if(combo->currentIndex())
-            {
-                QString comboval = combo->itemData(combo->currentIndex()).toString();
-                line->insert(comboval);
-                combo->setCurrentIndex(0);
+            if (req) setValue = req->url().path();
+        } else if (type == "keywords") {
+            Keywordval* val = static_cast<Keywordval*>(m_valueItems.value(paramName));
+            if (val) {
+                QLineEdit *line = val->lineeditwidget;
+                KComboBox *combo = val->comboboxwidget;
+                if(combo->currentIndex()) {
+                    QString comboval = combo->itemData(combo->currentIndex()).toString();
+                    line->insert(comboval);
+                    combo->setCurrentIndex(0);
+                }
+                setValue = line->text();
             }
-            setValue = line->text();
         } else if (type == "fontfamily") {
-            QFontComboBox* fontfamily = static_cast<Fontval*>(m_valueItems.value(paramName))->fontfamilywidget;
-            setValue = fontfamily->currentFont().family();
+            Fontval* val = static_cast<Fontval*>(m_valueItems.value(paramName));
+            if (val) {
+                QFontComboBox* fontfamily = val->fontfamilywidget;
+                setValue = fontfamily->currentFont().family();
+            }
         }
         if (!setValue.isNull())
             pa.setAttribute("value", setValue);
