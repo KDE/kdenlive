@@ -2382,7 +2382,7 @@ void RenderWidget::slotUpdateRescaleWidth(int val)
     KdenliveSettings::setDefaultrescalewidth(val);
     if (!m_view.rescale_keep->isChecked()) return;
     m_view.rescale_height->blockSignals(true);
-    m_view.rescale_height->setValue(val * m_profile.height / m_profile.width  + 0.5);
+    m_view.rescale_height->setValue(val * m_profile.height / m_profile.width);
     KdenliveSettings::setDefaultrescaleheight(m_view.rescale_height->value());
     m_view.rescale_height->blockSignals(false);
 }
@@ -2392,7 +2392,7 @@ void RenderWidget::slotUpdateRescaleHeight(int val)
     KdenliveSettings::setDefaultrescaleheight(val);
     if (!m_view.rescale_keep->isChecked()) return;
     m_view.rescale_width->blockSignals(true);
-    m_view.rescale_width->setValue(val * m_profile.width / m_profile.height + 0.5);
+    m_view.rescale_width->setValue(val * m_profile.width / m_profile.height);
     KdenliveSettings::setDefaultrescaleheight(m_view.rescale_width->value());
     m_view.rescale_width->blockSignals(false);
 }
