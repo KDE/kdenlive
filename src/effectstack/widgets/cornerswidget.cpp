@@ -41,12 +41,12 @@ CornersWidget::CornersWidget(Monitor *monitor, const QDomElement& e, int minFram
         m_monitor(monitor),
         m_pos(0)
 {
-    MonitorEditWidget *edit = NULL; //monitor->getEffectEdit();
-    m_scene = edit->getScene();
-    m_scene->cleanup();
+    //MonitorEditWidget *edit = NULL; //monitor->getEffectEdit();
+    m_scene = NULL; //edit->getScene();
+    //m_scene->cleanup();
 
-    m_item = new OnMonitorCornersItem();
-    m_scene->addItem(m_item);
+    m_item = NULL; //new OnMonitorCornersItem();
+    /*m_scene->addItem(m_item);
 
     // TODO: Better Icons
     edit->removeCustomControls();
@@ -60,12 +60,13 @@ CornersWidget::CornersWidget(Monitor *monitor, const QDomElement& e, int minFram
 
     connect(keyframe_list, SIGNAL(cellChanged(int,int)), this, SLOT(slotUpdateItem()));
     m_scene->centerView();
+    */
 }
 
 CornersWidget::~CornersWidget()
 {
-    m_scene->removeItem(m_item);
-    delete m_item;
+    if (m_scene) m_scene->removeItem(m_item);
+    if (m_item) delete m_item;
     if (m_monitor) {
         /*MonitorEditWidget *edit = m_monitor->getEffectEdit();
         edit->removeCustomControls();*/
