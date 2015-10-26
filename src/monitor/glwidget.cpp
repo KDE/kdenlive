@@ -69,6 +69,11 @@ GLWidget::GLWidget(QObject *parent)
     , m_threadJoinEvent(0)
     , m_displayEvent(0)
     , m_frameRenderer(0)
+    , m_projectionLocation(0)
+    , m_modelViewLocation(0)
+    , m_vertexLocation(0)
+    , m_texCoordLocation(0)
+    , m_colorspaceLocation(0)
     , m_zoom(1.0f)
     , m_offset(QPoint(0, 0))
     , m_shareContext(0)
@@ -547,9 +552,8 @@ void GLWidget::keyPressEvent(QKeyEvent* event)
         event->ignore();
     }
     return;
-
-    QQuickView::keyPressEvent(event);
-    if (event->isAccepted()) return;
+    //QQuickView::keyPressEvent(event);
+    //if (event->isAccepted()) return;
     //MAIN.keyPressEvent(event);
 }
 
@@ -679,12 +683,12 @@ int GLWidget::setProducer(Mlt::Producer* producer, bool reconfig)
         if (!m_audioWaveDisplayed) {
             createAudioOverlay(true);
         }
-        else {
+        else if (m_consumer) {
             if (KdenliveSettings::gpu_accel()) removeAudioOverlay();
             else adjustAudioOverlay(true);
         }
     }
-    else if (m_audioWaveDisplayed) {
+    else if (m_audioWaveDisplayed && m_consumer) {
         // This is not an audio clip, hide wave
         if (KdenliveSettings::displayAudioOverlay()) {
             adjustAudioOverlay(m_producer->get_int("video_index") == -1);
