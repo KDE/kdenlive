@@ -112,7 +112,7 @@ void BinController::initializeBin(Mlt::Playlist playlist, ProfileInfo info)
             delete producer;
         }
         else {
-            if (m_clipList.contains(id)) {
+            if (m_clipList.contains(id) && m_clipList.value(id)) {
                 //Controller was already added by a track producer, add master now
                 m_clipList.value(id)->addMasterProducer(producer->parent(), info);
             }
@@ -312,7 +312,10 @@ Mlt::Producer *BinController::getBinProducer(const QString &id)
     // TODO: framebuffer speed clips
     if (!m_clipList.contains(id)) return NULL;
     ClipController *controller = m_clipList.value(id);
-    return &controller->originalProducer();
+    if (controller) 
+        return &controller->originalProducer();
+    else
+        return NULL;
 }
 
 Mlt::Producer *BinController::getBinVideoProducer(const QString &id)
