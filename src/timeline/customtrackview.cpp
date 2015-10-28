@@ -5299,6 +5299,7 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected, QList <GenTim
         if (skipSelectedItems && itemList.at(i)->isSelected()) continue;
         if (itemList.at(i)->type() == AVWidget) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
+            if (!item) continue;
             GenTime start = item->startPos();
             GenTime end = item->endPos();
             snaps.append(start);
@@ -5326,6 +5327,7 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected, QList <GenTim
             }
         } else if (itemList.at(i)->type() == TransitionWidget) {
             Transition *transition = static_cast <Transition*>(itemList.at(i));
+            if (!transition) continue;
             GenTime start = transition->startPos();
             GenTime end = transition->endPos();
             snaps.append(start);
