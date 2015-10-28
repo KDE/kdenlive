@@ -233,7 +233,7 @@ int Timeline::getTracks() {
 void Timeline::checkDuration(int duration) {
     m_doc->renderer()->mltCheckLength(m_tractor);
     return;
-    //FIXME
+    /*FIXME
     for (int i = 1; i < m_tractor->count(); ++i) {
         QScopedPointer<Mlt::Producer> tk(m_tractor->track(i));
         int len = tk->get_playtime() - 1;
@@ -252,6 +252,7 @@ void Timeline::checkDuration(int duration) {
         blackTrack.resize_clip(0, 0, duration);
     }
     //TODO: rewind consumer if beyond duration / emit durationChanged
+    */
 }
 
 void Timeline::getTransitions() {
