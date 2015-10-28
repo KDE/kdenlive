@@ -1774,7 +1774,9 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         if (!canBePastedTo(infoList, AVWidget)) {
             return true;
         }
-        if (ids.size() > 1) m_selectionGroup = new AbstractGroupItem(m_document->fps());
+        if (ids.size() > 1) {
+            m_selectionGroup = new AbstractGroupItem(m_document->fps());
+        }
         start = GenTime();
         for (int i = 0; i < ids.size(); ++i) {
             QString clipData = ids.at(i);
@@ -1797,7 +1799,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
             start += info.cropDuration;
             offsetList.append(start);
             ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1, getFrameWidth(), true);
-            item->setPos(info.startPos.frames(m_document->fps()), getPositionFromTrack(info.track) + 1 + item->itemOffset());
+            item->setPos(info.startPos.frames(m_document->fps()), item->itemOffset());
             if (ids.size() > 1) m_selectionGroup->addItem(item);
             else m_dragItem = item;
             item->setSelected(true);
@@ -1813,13 +1815,13 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
 
         if (m_selectionGroup) {
             m_selectionGroup->setProperty("locked_tracks", lockedTracks);
-            m_selectionGroup->setPos(framePos);
             scene()->addItem(m_selectionGroup);
+            m_selectionGroup->setPos(framePos);
         }
         else if (m_dragItem) {
             m_dragItem->setProperty("locked_tracks", lockedTracks);
-            m_dragItem->setPos(framePos);
             scene()->addItem(m_dragItem);
+            m_dragItem->setPos(framePos);
         }
         //m_selectionGroup->setZValue(10);
         m_thumbsTimer.start();
