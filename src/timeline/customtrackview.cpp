@@ -6476,7 +6476,12 @@ void CustomTrackView::setAudioAlignReference()
         ClipItem *clip = static_cast<ClipItem*>(selection.at(0));
         if (clip->clipType() == AV || clip->clipType() == Audio) {
             m_audioAlignmentReference = clip;
-            AudioEnvelope *envelope = new AudioEnvelope(clip->binClip()->url().path(), m_document->renderer()->getTrackProducer(clip->getBinId(), clip->track()));
+            Mlt::Producer *prod = m_timeline->track(clip->track())->clipProducer(m_document->renderer()->getBinProducer(clip->getBinId()), clip->clipState());
+            if (!prod) {
+                qWarning() << "couldn't load producer for clip " << clip->getBinId() << " on track " << clip->track();
+                return;
+            }
+            AudioEnvelope *envelope = new AudioEnvelope(clip->binClip()->url().path(), prod);
             m_audioCorrelator = new AudioCorrelation(envelope);
             connect(m_audioCorrelator, SIGNAL(gotAudioAlignData(int,int,int)), this, SLOT(slotAlignClip(int,int,int)));
             connect(m_audioCorrelator, SIGNAL(displayMessage(QString,MessageType)), this, SIGNAL(displayMessage(QString,MessageType)));
@@ -6515,7 +6520,16 @@ void CustomTrackView::alignAudio()
 
             if (clip->clipType() == AV || clip->clipType() == Audio) {
                 ItemInfo info = clip->info();
-                AudioEnvelope *envelope = new AudioEnvelope(clip->binClip()->url().path(), m_document->renderer()->getTrackProducer(clip->getBinId(), clip->track()), info.cropStart.frames(m_document->fps()), info.cropDuration.frames(m_document->fps()), clip->track(), info.startPos.frames(m_document->fps()));
+                Mlt::Producer *prod = m_timeline->track(clip->track())->clipProducer(m_document->renderer()->getBinProducer(clip->getBinId()), clip->clipState());
+                if (!prod) {
+                    qWarning() << "couldn't load producer for clip " << clip->getBinId() << " on track " << clip->track();
+                    return;
+                }
+                AudioEnvelope *envelope = new AudioEnvelope(clip->binClip()->url().path(), prod,
+                        info.cropStart.frames(m_document->fps()),
+                        info.cropDuration.frames(m_document->fps()),
+                        clip->track(),
+                        info.startPos.frames(m_document->fps()));
                 m_audioCorrelator->addChild(envelope);
             }
         }
