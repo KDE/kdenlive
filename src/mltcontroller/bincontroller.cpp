@@ -497,10 +497,26 @@ void BinController::checkAudioThumbs()
 
 void BinController::saveDocumentProperties(const QMap <QString, QString> props, const QMap <double, QString> guidesData)
 {
+    // Clear previous properites
+    Mlt::Properties playlistProps(m_binPlaylist->get_properties());
+    Mlt::Properties docProperties;
+    docProperties.pass_values(playlistProps, "kdenlive:docproperties.");
+    for (int i = 0; i < docProperties.count(); i++) {
+        QString propName = QString("kdenlive:docproperties.") + docProperties.get_name(i);
+        playlistProps.set(propName.toUtf8().constData(), (char *)NULL);
+    }
+    // Clear previous guides
+    Mlt::Properties guideProperties;
+    guideProperties.pass_values(playlistProps, "kdenlive:guide.");
+    for (int i = 0; i < guideProperties.count(); i++) {
+        QString propName = QString("kdenlive:guide.") + guideProperties.get_name(i);
+        playlistProps.set(propName.toUtf8().constData(), (char *)NULL);
+    }
+
     QMapIterator<QString, QString> i(props);
     while (i.hasNext()) {
         i.next();
-        m_binPlaylist->set(("kdenlive:docproperties." + i.key()).toUtf8().constData(), i.value().toUtf8().constData());
+        playlistProps.set(("kdenlive:docproperties." + i.key()).toUtf8().constData(), i.value().toUtf8().constData());
     }
 
     // Append guides
@@ -509,7 +525,7 @@ void BinController::saveDocumentProperties(const QMap <QString, QString> props, 
     while (g.hasNext()) {
         g.next();
         QString propertyName = "kdenlive:guide." + locale.toString(g.key());
-        m_binPlaylist->set(propertyName.toUtf8().constData(), g.value().toUtf8().constData());
+        playlistProps.set(propertyName.toUtf8().constData(), g.value().toUtf8().constData());
     }
 }
 
