@@ -47,8 +47,10 @@ bool TreeEventEater::eventFilter(QObject *obj, QEvent *event)
     return QObject::eventFilter(obj, event);
 }
 
-EffectsListView::EffectsListView(QWidget *parent) :
-        QWidget(parent)
+
+EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
+    QWidget(parent)
+    , m_mode(mode)
 {
     setupUi(this);
     m_contextMenu = new QMenu(this);
@@ -82,23 +84,36 @@ EffectsListView::EffectsListView(QWidget *parent) :
     m_favoriteAction = m_contextMenu->addAction(KoIconUtils::themedIcon("favorite"), i18n("Add Effect to Favorites"), this, SLOT(slotAddToFavorites()));
     m_removeAction = m_contextMenu->addAction(KoIconUtils::themedIcon("edit-delete"), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
 
+    m_effectsFavorites = new MyDropButton(this);
+    m_effectsFavorites->setIcon(KoIconUtils::themedIcon("favorite"));
+    horizontalLayout->addWidget(m_effectsFavorites);
     effectsAll->setIcon(KoIconUtils::themedIcon("kdenlive-show-all-effects"));
-    effectsAll->setToolTip(i18n("Show all effects"));
-    effectsVideo->setIcon(KoIconUtils::themedIcon("kdenlive-show-video"));
-    effectsVideo->setToolTip(i18n("Show video effects"));
-    effectsAudio->setIcon(KoIconUtils::themedIcon("kdenlive-show-audio"));
-    effectsAudio->setToolTip(i18n("Show audio effects"));
-    effectsGPU->setIcon(KoIconUtils::themedIcon("kdenlive-show-gpu"));
-    effectsGPU->setToolTip(i18n("Show GPU effects"));
+    switch (m_mode) {
+      case TransitionMode:
+          effectsAll->setToolTip(i18n("Show all transitions"));
+          effectsGPU->setToolTip(i18n("Show GPU transitions"));
+          effectsVideo->setHidden(true);
+          effectsAudio->setHidden(true);
+          effectsCustom->setHidden(true);
+          m_effectsFavorites->setHidden(true);
+          break;
+      default:
+          effectsAll->setToolTip(i18n("Show all effects"));
+          effectsVideo->setIcon(KoIconUtils::themedIcon("kdenlive-show-video"));
+          effectsVideo->setToolTip(i18n("Show video effects"));
+          effectsAudio->setIcon(KoIconUtils::themedIcon("kdenlive-show-audio"));
+          effectsAudio->setToolTip(i18n("Show audio effects"));
+          effectsGPU->setIcon(KoIconUtils::themedIcon("kdenlive-show-gpu"));
+          effectsGPU->setToolTip(i18n("Show GPU effects"));
+          effectsCustom->setIcon(KoIconUtils::themedIcon("kdenlive-custom-effect"));
+          effectsCustom->setToolTip(i18n("Show custom effects"));
+          m_effectsFavorites->setToolTip(i18n("Show favorite effects"));
+          break;
+    }
     if (!KdenliveSettings::gpu_accel()) {
         effectsGPU->setHidden(true);
     }
-    effectsCustom->setIcon(KoIconUtils::themedIcon("kdenlive-custom-effect"));
-    effectsCustom->setToolTip(i18n("Show custom effects"));
-    m_effectsFavorites = new MyDropButton(this);
-    horizontalLayout->addWidget(m_effectsFavorites);
-    m_effectsFavorites->setIcon(KoIconUtils::themedIcon("favorite"));
-    m_effectsFavorites->setToolTip(i18n("Show favorite effects"));
+
     connect(m_effectsFavorites, SIGNAL(addEffectToFavorites(QString)), this, SLOT(slotAddFavorite(QString)));
 
     connect(effectsAll, SIGNAL(clicked()), this, SLOT(filterList()));
@@ -114,7 +129,7 @@ EffectsListView::EffectsListView(QWidget *parent) :
     connect(search_effect, SIGNAL(hiddenChanged(QTreeWidgetItem*,bool)), this, SLOT(slotUpdateSearch(QTreeWidgetItem*,bool)));
     connect(m_effectsList, &EffectsListWidget::applyEffect, this, &EffectsListView::addEffect);
     connect(search_effect, SIGNAL(textChanged(QString)), this, SLOT(slotAutoExpand(QString)));
-    
+
     // Select preferred effect tab
     switch (KdenliveSettings::selected_effecttab()) {
       case EffectsListWidget::EFFECT_VIDEO:
@@ -304,7 +319,8 @@ void EffectsListView::slotUpdateInfo()
 
 void EffectsListView::reloadEffectList(QMenu *effectsMenu, KActionCategory *effectActions)
 {
-    m_effectsList->initList(effectsMenu, effectActions);
+    QString effectCategory = m_mode == EffectMode ? QStandardPaths::locate(QStandardPaths::DataLocation, "kdenliveeffectscategory.rc") : QString();
+    m_effectsList->initList(effectsMenu, effectActions, effectCategory, m_mode == TransitionMode);
     filterList();
 }
 

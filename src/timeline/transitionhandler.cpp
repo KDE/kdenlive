@@ -121,7 +121,8 @@ void TransitionHandler::plantTransition(Mlt::Field *field, Mlt::Transition &tr, 
         nextservice = mlt_service_producer(nextservice);
         int aTrack = transition.get_a_track();
         int bTrack = transition.get_b_track();
-        if ((isMixTransition || resource != "mix") && (aTrack < a_track || (aTrack == a_track && bTrack > b_track))) {
+        int internal = transition.get_int("internal_added");
+        if ((isMixTransition || resource != "mix") && (internal > 0 || aTrack < a_track || (aTrack == a_track && bTrack > b_track))) {
             Mlt::Properties trans_props(transition.get_properties());
             Mlt::Transition *cp = new Mlt::Transition(*m_tractor->profile(), transition.get("mlt_service"));
             Mlt::Properties new_trans_props(cp->get_properties());

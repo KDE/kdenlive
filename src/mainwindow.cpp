@@ -214,6 +214,9 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_effectList = new EffectsListView();
     m_effectListDock = addDock(i18n("Effect List"), "effect_list", m_effectList);
 
+    m_transitionList = new EffectsListView(EffectsListView::TransitionMode);
+    m_transitionListDock = addDock(i18n("Transition List"), "transition_list", m_transitionList);
+
     // Add monitors here to keep them at the right of the window
     m_clipMonitorDock = addDock(i18n("Clip Monitor"), "clip_monitor", m_clipMonitor);
     m_projectMonitorDock = addDock(i18n("Project Monitor"), "project_monitor", m_projectMonitor);
@@ -270,9 +273,13 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     addAction("switch_monitor_rec", m_clipMonitor->recAction());
 
     // Build effects menu
-    m_effectsMenu = new QMenu(i18n("Add Effect"));
+    m_effectsMenu = new QMenu(i18n("Add Effect"), this);
     m_effectActions = new KActionCategory(i18n("Effects"), actionCollection());
     m_effectList->reloadEffectList(m_effectsMenu, m_effectActions);
+
+    m_transitionsMenu = new QMenu(i18n("Add Transition"), this);
+    m_transitionActions = new KActionCategory(i18n("Transitions"), actionCollection());
+    m_transitionList->reloadEffectList(m_transitionsMenu, m_transitionActions);
 
     ScopeManager *scmanager = new ScopeManager(this);
 
@@ -338,11 +345,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     // Setup and fill effects and transitions menus.
     QMenu *m = static_cast<QMenu*>(factory()->container("video_effects_menu", this));
     m->addActions(m_effectsMenu->actions());
-
-
-    m_transitionsMenu = new QMenu(i18n("Add Transition"), this);
-    for (int i = 0; i < m_transitions.count(); ++i)
-        m_transitionsMenu->addAction(m_transitions[i]);
 
     connect(m, SIGNAL(triggered(QAction*)), this, SLOT(slotAddVideoEffect(QAction*)));
     connect(m_effectsMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotAddVideoEffect(QAction*)));

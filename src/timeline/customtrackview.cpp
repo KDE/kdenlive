@@ -1216,7 +1216,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         info.track = m_dragItem->track();
         int transitiontrack = getPreviousVideoTrack(info.track);
         ClipItem *transitionClip = NULL;
-        if (transitiontrack != 0) transitionClip = getClipItemAtStart(info.startPos, transitiontrack);
+        if (transitiontrack != 0) transitionClip = getClipItemAtMiddlePoint(info.startPos.frames(m_document->fps()), transitiontrack);
         if (transitionClip && transitionClip->endPos() < m_dragItem->endPos()) {
             info.endPos = transitionClip->endPos();
         } else {
@@ -1248,7 +1248,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         info.track = m_dragItem->track();
         int transitiontrack = getPreviousVideoTrack(info.track);
         ClipItem *transitionClip = NULL;
-        if (transitiontrack != 0) transitionClip = getClipItemAtEnd(info.endPos, transitiontrack);
+        if (transitiontrack != 0) transitionClip = getClipItemAtMiddlePoint(info.endPos.frames(m_document->fps()), transitiontrack);
         if (transitionClip && transitionClip->startPos() > m_dragItem->startPos()) {
             info.startPos = transitionClip->startPos();
         } else {
@@ -2039,6 +2039,14 @@ void CustomTrackView::slotDropEffect(ClipItem *clip, QDomElement effect, GenTime
     }
 }
 
+void CustomTrackView::slotDropTransition(ClipItem *clip, QDomElement transition, QPointF scenePos)
+{
+    if (clip == NULL) return;
+    m_menuPosition = mapFromScene(scenePos);
+    slotAddTransitionToSelectedClips(transition, QList<QGraphicsItem *>() << clip);
+    m_menuPosition = QPoint();
+}
+
 void CustomTrackView::slotAddEffectToCurrentItem(QDomElement effect)
 {
     slotAddEffect(effect, GenTime(), -1);
@@ -2539,9 +2547,9 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
     }
 }
 
-void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition)
+void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition, QList<QGraphicsItem *> itemList)
 {
-    QList<QGraphicsItem *> itemList = scene()->selectedItems();
+    if (itemList.isEmpty()) itemList = scene()->selectedItems();
     if (itemList.count() == 1) {
         if (itemList.at(0)->type() == AVWidget) {
             ClipItem *item = static_cast<ClipItem*>(itemList.at(0));
@@ -2553,7 +2561,7 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition)
             if (pos < item->startPos() + item->cropDuration() / 2) {
                 // add transition to clip start
                 info.startPos = item->startPos();
-                if (transitiontrack != 0) transitionClip = getClipItemAtStart(info.startPos, transitiontrack);
+                if (transitiontrack != 0) transitionClip = getClipItemAtMiddlePoint(info.startPos.frames(m_document->fps()), transitiontrack);
                 if (transitionClip && transitionClip->endPos() < item->endPos()) {
                     info.endPos = transitionClip->endPos();
                 } else info.endPos = info.startPos + GenTime(65, m_document->fps());
@@ -2576,7 +2584,7 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition)
             } else {
                 // add transition to clip  end
                 info.endPos = item->endPos();
-                if (transitiontrack != 0) transitionClip = getClipItemAtEnd(info.endPos, transitiontrack);
+                if (transitiontrack != 0) transitionClip = getClipItemAtMiddlePoint(info.endPos.frames(m_document->fps()), transitiontrack);
                 if (transitionClip && transitionClip->startPos() > item->startPos()) {
                     info.startPos = transitionClip->startPos();
                 } else info.startPos = info.endPos - GenTime(65, m_document->fps());

@@ -164,13 +164,11 @@ QStringList EffectsList::effectNames()
 
 QString EffectsList::getInfo(const QString & tag, const QString & id) const
 {
-    QString info;
     return getEffectInfo(getEffectByTag(tag, id));
 }
 
 QString EffectsList::getInfoFromIndex(const int ix) const
 {
-    QString info;
     return getEffectInfo(m_baseElement.childNodes().at(ix).toElement());
 }
 

@@ -1602,7 +1602,16 @@ int ClipItem::nextFreeEffectGroupIndex() const
 void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event)
 {
     if (event->proposedAction() == Qt::CopyAction && scene() && !scene()->views().isEmpty()) {
-        const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
+        QString effects;
+        bool transitionDrop = false;
+        if (event->mimeData()->hasFormat("kdenlive/transitionslist")) {
+            // Transition drop
+            effects = QString::fromUtf8(event->mimeData()->data("kdenlive/transitionslist"));
+            transitionDrop = true;
+        } else {
+            // Effect drop
+            effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
+        }
         event->acceptProposedAction();
         QDomDocument doc;
         doc.setContent(effects, true);
@@ -1624,7 +1633,13 @@ void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event)
             e.removeAttribute("kdenlive_ix");
         }
         CustomTrackView *view = static_cast<CustomTrackView*>(scene()->views().first());
-        if (view) view->slotDropEffect(this, e, m_info.startPos, track());
+        if (view) {
+            if (transitionDrop) {
+                view->slotDropTransition(this, e, event->scenePos());
+            } else {
+                view->slotDropEffect(this, e, m_info.startPos, track());
+            }
+        }
     }
     else return;
 }
@@ -1633,7 +1648,7 @@ void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event)
 void ClipItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
     if (isItemLocked()) event->setAccepted(false);
-    else if (event->mimeData()->hasFormat("kdenlive/effectslist")) {
+    else if (event->mimeData()->hasFormat("kdenlive/effectslist") || event->mimeData()->hasFormat("kdenlive/transitionslist")) {
         event->acceptProposedAction();
     } else event->setAccepted(false);
 }

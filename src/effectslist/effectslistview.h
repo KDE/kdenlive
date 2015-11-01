@@ -25,9 +25,10 @@
 #include "ui_effectlist_ui.h"
 #include "gentime.h"
 
-#include <QDomElement>
-#include <QMimeData>
+#include <QToolButton>
 #include <QDragEnterEvent>
+#include <QMimeData>
+#include <QDomDocument>
 #include <QDebug>
 
 class EffectsList;
@@ -84,6 +85,9 @@ signals:
     void addEffectToFavorites(QString);
 };
 
+
+
+
 /**
  * @class EffectsListView
  * @brief Manages the controls for the treewidget containing the effects.
@@ -95,7 +99,12 @@ class EffectsListView : public QWidget, public Ui::EffectList_UI
     Q_OBJECT
 
 public:
-    explicit EffectsListView(QWidget *parent = 0);
+    enum LISTMODE {
+        EffectMode = 0,
+        TransitionMode = 1
+    };
+
+    explicit EffectsListView(LISTMODE mode = EffectMode, QWidget *parent = 0);
 
     /** @brief Re-initializes the list of effects. */
     void reloadEffectList(QMenu *effectsMenu, KActionCategory *effectActions);
@@ -108,11 +117,16 @@ public:
     void creatFavoriteBasket(QListWidget *list);
 
 private:
+    /** @brief tells us if this is an effect or transition list
+    */
+    LISTMODE m_mode;
     EffectsListWidget *m_effectsList;
     const QString customStyleSheet() const;
-    /** @brief Custom button to display favorite effects, accepts drops to add effect to favorites. */
+    /** @brief Custom button to display favorite effects, accepts drops to add effect to favorites.
+    */
     MyDropButton *m_effectsFavorites;
-    /** @brief Action triggering remove effect from favorites or delete custom effect, depending on active tab. */
+    /** @brief Action triggering remove effect from favorites or delete custom effect, depending on active tab.
+    */
     QAction *m_removeAction;
     QAction *m_favoriteAction;
     QMenu *m_contextMenu;

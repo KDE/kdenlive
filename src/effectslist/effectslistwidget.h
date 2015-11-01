@@ -39,6 +39,7 @@ class EffectsListWidget : public QTreeWidget
     static const int EFFECT_CUSTOM = 4;
     static const int EFFECT_FAVORITES = 5;
     static const int EFFECT_FOLDER = 6;
+    static const int TRANSITION_TYPE= 7;
 
     static const int TypeRole = Qt::UserRole;
     static const int IdRole = TypeRole + 1;
@@ -48,7 +49,7 @@ class EffectsListWidget : public QTreeWidget
     const QDomElement currentEffect() const;
     QString currentInfo() const;
     static const QDomElement itemEffect(int type, QStringList effectInfo);
-    void initList(QMenu *effectsMenu, KActionCategory *effectActions);
+    void initList(QMenu *effectsMenu, KActionCategory *effectActions, QString categoryFile, bool transitionMode);
     void updatePalette();
     void setRootOnCustomFolder();
     void resetRoot();

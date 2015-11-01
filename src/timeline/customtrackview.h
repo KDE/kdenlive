@@ -80,6 +80,8 @@ public:
     void deleteClip(const QString &clipId, QUndoCommand *deleteCommand);
     /** @brief An effect was dropped on @param clip */
     void slotDropEffect(ClipItem *clip, QDomElement effect, GenTime pos, int track);
+    /** @brief A transition was dropped on @param clip */
+    void slotDropTransition(ClipItem *clip, QDomElement transition, QPointF scenePos);
     /** @brief Add effect to current clip */
     void slotAddEffectToCurrentItem(QDomElement effect);
     /** @brief Add effect to a clip or selection */
@@ -243,7 +245,7 @@ public slots:
     void slotRefreshEffects(ClipItem *clip);
     void setDuration(int duration);
     void slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack, QDomElement transition = QDomElement());
-    void slotAddTransitionToSelectedClips(QDomElement transition);
+    void slotAddTransitionToSelectedClips(QDomElement transition, QList<QGraphicsItem *> itemList = QList<QGraphicsItem *>());
     void slotTransitionUpdated(Transition *, QDomElement);
     void slotSwitchTrackAudio(int ix, bool enable);
     void slotSwitchTrackVideo(int ix, bool enable);

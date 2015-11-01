@@ -143,7 +143,7 @@ private:
 
     /** @brief Sets up all the actions and attaches them to the collection. */
     void setupActions();
-    
+
     KColorSchemeManager *m_colorschemes;
 
     QDockWidget *m_projectBinDock;
@@ -151,6 +151,8 @@ private:
 
     QDockWidget *m_effectListDock;
     EffectsListView *m_effectList;
+    QDockWidget *m_transitionListDock;
+    EffectsListView *m_transitionList;
 
     QDockWidget *m_effectStackDock;
 
@@ -173,6 +175,7 @@ private:
     QList <QDockWidget *> m_gfxScopesList;
 
     KActionCategory *m_effectActions;
+    KActionCategory *m_transitionActions;
     QMenu *m_effectsMenu;
     QMenu *m_transitionsMenu;
     QMenu *m_timelineContextMenu;
