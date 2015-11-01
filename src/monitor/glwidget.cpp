@@ -175,7 +175,7 @@ void GLWidget::initializeGL()
     connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), this, SIGNAL(frameDisplayed(const SharedFrame&)), Qt::QueuedConnection);
     connect(m_frameRenderer, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), this, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), Qt::QueuedConnection);
     connect(m_frameRenderer, SIGNAL(textureReady(GLuint,GLuint,GLuint)), SLOT(updateTexture(GLuint,GLuint,GLuint)), Qt::DirectConnection);
-    connect(this, SIGNAL(textureUpdated()), SLOT(update()), Qt::QueuedConnection);
+    connect(this, SIGNAL(textureUpdated()), this, SLOT(update()), Qt::QueuedConnection);
 
     m_initSem.release();
     m_isInitialized = true;

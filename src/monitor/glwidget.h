@@ -75,7 +75,6 @@ public:
     int displayHeight() const { return m_rect.height(); }
 
     QObject* videoWidget() { return this; }
-    QQuickView* videoQuickView() { return this; }
     Mlt::Filter* glslManager() const { return m_glslManager; }
     QRect rect() const { return m_rect; }
     QRect effectRect() const { return m_effectRect; }
