@@ -141,7 +141,6 @@ void HeaderTrack::mousePressEvent(QMouseEvent * event)
 {
     if (track_number->hasFocus()) {
         track_number->clearFocus();
-        return;
     }
     emit selectTrack(m_parentTrack->index());
     QWidget::mousePressEvent(event);
@@ -151,7 +150,6 @@ void HeaderTrack::mouseDoubleClickEvent(QMouseEvent* event)
 {
     if (track_number->hasFocus()) {
         track_number->clearFocus();
-        return;
     }
     emit configTrack();
     QWidget::mouseDoubleClickEvent(event);

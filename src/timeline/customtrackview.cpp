@@ -3173,7 +3173,6 @@ void CustomTrackView::configTracks(const QList < TrackInfo > &trackInfos)
         m_timeline->setTrackInfo(m_timeline->visibleTracksCount() - i, trackInfos.at(i));
     }
     viewport()->update();
-    m_timeline->slotRebuildTrackHeaders();
 }
 
 void CustomTrackView::slotSwitchTrackAudio(int ix, bool enable)
@@ -5713,7 +5712,7 @@ void CustomTrackView::drawBackground(QPainter * painter, const QRectF &rect)
     int maxTrack = m_timeline->visibleTracksCount();
     QColor lockedColor = palette().button().color();
     QColor audioColor = palette().alternateBase().color();
-    for (int i = 1; i < maxTrack; ++i) {
+    for (int i = 1; i <= maxTrack; ++i) {
         TrackInfo info = m_timeline->getTrackInfo(i);
         if (info.isLocked || info.type == AudioTrack || i == m_selectedTrack) {
             const QRectF track(min, m_tracksHeight * (maxTrack - i), max - min, m_tracksHeight - 1);

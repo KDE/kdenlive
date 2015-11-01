@@ -534,7 +534,6 @@ void Timeline::blockTrackSignals(bool block)
 
 void Timeline::slotReloadTracks()
 {
-    slotRebuildTrackHeaders();
     emit updateTracksInfo();
 }
 
@@ -786,58 +785,6 @@ void Timeline::fixAudioMixing()
     }
     field->unlock();
 }
-
-
-void Timeline::slotRebuildTrackHeaders()
-{
-    if (m_tractor == NULL || m_tractor->count() == 0 || m_tracks.isEmpty()) {
-        qDebug()<<"+ + + ++ + + + + ++ \nEMPTY TRACTOR WHEN BUKDING HEADERS\n + + ++ + + + + +";
-        return;
-    }
-    return;
-    QVBoxLayout *headerLayout = qobject_cast< QVBoxLayout* >(headers_container->layout());
-    QLayoutItem *child;
-    while ((child = headerLayout->takeAt(0)) != 0) {
-        QWidget *wid = child->widget();
-        delete child;
-        if (wid) {
-            // We need to change parent or the headers are still here when processing getTransitions()
-            wid->setParent(0);
-            wid->deleteLater();
-        }
-    }
-    int max = m_tracks.count();
-    int height = KdenliveSettings::trackheight() * m_scene->scale().y() - 1;
-    QFrame *frame = NULL;
-    int headerWidth = 70;
-    for (int i = 1; i < max; i++) {
-        frame = new QFrame(headers_container);
-        frame->setFrameStyle(QFrame::HLine);
-        frame->setFixedHeight(1);
-        headerLayout->insertWidget(0, frame);
-        TrackInfo info = track(i)->info();
-        /*HeaderTrack *header = new HeaderTrack(i, info, height, m_trackActions, this);
-        int currentWidth = header->minimumWidth();
-        if (currentWidth > headerWidth) headerWidth = currentWidth;
-        header->setSelectedIndex(m_trackview->selectedTrack());
-        connect(header, &HeaderTrack::switchTrackComposite, this, &Timeline::slotSwitchTrackComposite);
-        connect(header, SIGNAL(switchTrackVideo(int,bool)), m_trackview, SLOT(slotSwitchTrackVideo(int,bool)));
-        connect(header, SIGNAL(switchTrackAudio(int,bool)), m_trackview, SLOT(slotSwitchTrackAudio(int,bool)));
-        connect(header, SIGNAL(switchTrackLock(int,bool)), m_trackview, SLOT(slotSwitchTrackLock(int,bool)));
-        connect(header, SIGNAL(selectTrack(int)), m_trackview, SLOT(slotSelectTrack(int)));
-        connect(header, SIGNAL(renameTrack(int,QString)), this, SLOT(slotRenameTrack(int,QString)));
-        connect(header, SIGNAL(configTrack(int)), this, SIGNAL(configTrack(int)));
-        connect(header, SIGNAL(addTrackEffect(QDomElement,int)), m_trackview, SLOT(slotAddTrackEffect(QDomElement,int)));
-        headerLayout->insertWidget(0, header);*/
-    }
-    updatePalette();
-    headers_container->setFixedWidth(headerWidth);
-    frame = new QFrame(this);
-    frame->setFrameStyle(QFrame::HLine);
-    frame->setFixedHeight(1);
-    headerLayout->insertWidget(0, frame);
-}
-
 
 void Timeline::updatePalette()
 {

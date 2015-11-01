@@ -149,8 +149,6 @@ public slots:
     /** @brief Save a snapshot image of current timeline view */
     void slotSaveTimelinePreview(const QString &path);
     void checkDuration(int duration);
-    /** @brief Rebuilds the track headers */
-    Q_DECL_DEPRECATED void slotRebuildTrackHeaders();
     void slotShowTrackEffects(int);
 
 private:
