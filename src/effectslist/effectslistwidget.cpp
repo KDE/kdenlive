@@ -170,6 +170,18 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
     QMenu *sub3 = NULL;
     QMenu *sub4 = NULL;
     for (int i = 0; i < topLevelItemCount(); ++i) {
+        if (topLevelItem(i)->data(0, TypeRole) == TRANSITION_TYPE) {
+            QTreeWidgetItem *item = topLevelItem(i);
+            QAction *a = new QAction(item->icon(0), item->text(0), effectsMenu);
+            QStringList data = item->data(0, IdRole).toStringList();
+            QString id = data.at(1);
+            if (id.isEmpty()) id = data.at(0);
+            a->setData(data);
+            a->setIconVisibleInMenu(false);
+            effectsMenu->addAction(a);
+            effectActions->addAction("transition_" + id, a);
+            continue;
+        }
         if (!topLevelItem(i)->childCount())
             continue;
         QMenu *sub = new QMenu(topLevelItem(i)->text(0), effectsMenu);
@@ -279,7 +291,7 @@ QTreeWidgetItem *EffectsListWidget::findFolder(const QString &name)
     QList<QTreeWidgetItem *> result = findItems(name, Qt::MatchExactly);
     if (!result.isEmpty()) {
         for (int j = 0; j < result.count(); ++j) {
-            if (result.at(j)->data(0, TypeRole) ==  EFFECT_FOLDER) {
+            if (result.at(j)->data(0, TypeRole) == EFFECT_FOLDER) {
                 item = result.at(j);
                 break;
             }
