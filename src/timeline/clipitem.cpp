@@ -765,7 +765,7 @@ void ClipItem::paint(QPainter *painter,
             painter->setPen(Qt::NoPen);
             painter->setBrush(QBrush(QColor(80, 80, 150, 200)));
             painter->drawPath(positiveChannelPath);
-        } else {
+        } else if (channels >= 0) {
             int channelHeight = (int) (mappedRect.height() + 0.5) / channels;
             QMap<int, QPainterPath > positiveChannelPaths;
             QMap<int, QPainterPath > negativeChannelPaths;
