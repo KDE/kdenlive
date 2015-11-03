@@ -75,6 +75,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     QObject(parent),
     m_autosave(NULL),
     m_url(url),
+    m_width(0),
+    m_height(0),
     m_render(render),
     m_notesWidget(notes->widget()),
     m_commandStack(new QUndoStack(undoGroup)),

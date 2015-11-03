@@ -1429,14 +1429,12 @@ void MainWindow::slotRenderProject()
         MltVideoProfile profile;
         if (project) {
             profile = project->mltProfile();
-        }
-        m_renderWidget = new RenderWidget(projectfolder, project->useProxy(), profile, this);
-        connect(m_renderWidget, SIGNAL(shutdown()), this, SLOT(slotShutdown()));
-        connect(m_renderWidget, SIGNAL(selectedRenderProfile(QMap<QString,QString>)), this, SLOT(slotSetDocumentRenderProfile(QMap<QString,QString>)));
-        connect(m_renderWidget, SIGNAL(prepareRenderingData(bool,bool,QString)), this, SLOT(slotPrepareRendering(bool,bool,QString)));
-        connect(m_renderWidget, SIGNAL(abortProcess(QString)), this, SIGNAL(abortRenderJob(QString)));
-        connect(m_renderWidget, SIGNAL(openDvdWizard(QString)), this, SLOT(slotDvdWizard(QString)));
-        if (project) {
+            m_renderWidget = new RenderWidget(projectfolder, project->useProxy(), profile, this);
+            connect(m_renderWidget, SIGNAL(shutdown()), this, SLOT(slotShutdown()));
+            connect(m_renderWidget, SIGNAL(selectedRenderProfile(QMap<QString,QString>)), this, SLOT(slotSetDocumentRenderProfile(QMap<QString,QString>)));
+            connect(m_renderWidget, SIGNAL(prepareRenderingData(bool,bool,QString)), this, SLOT(slotPrepareRendering(bool,bool,QString)));
+            connect(m_renderWidget, SIGNAL(abortProcess(QString)), this, SIGNAL(abortRenderJob(QString)));
+            connect(m_renderWidget, SIGNAL(openDvdWizard(QString)), this, SLOT(slotDvdWizard(QString)));
             m_renderWidget->setProfile(project->mltProfile());
             m_renderWidget->setGuides(pCore->projectManager()->currentTimeline()->projectView()->guidesData(), project->projectDuration());
             m_renderWidget->setDocumentPath(project->projectFolder().path() + QDir::separator());

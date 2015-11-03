@@ -41,6 +41,7 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer& prod
     , m_audioInfo(NULL)
     , m_audioIndex(0)
     , m_videoIndex(0)
+    , m_clipType(Unknown)
     , m_hasLimitedDuration(true)
     , m_binController(bincontroller)
     , m_snapMarkers(QList < CommentedTime >())

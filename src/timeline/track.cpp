@@ -464,8 +464,6 @@ Mlt::Producer *Track::clipProducer(Mlt::Producer *parent, PlaylistState::ClipSta
     QString idForTrack = originalId + QLatin1Char('_') + m_playlist.get("id");
     if (state == PlaylistState::AudioOnly) {
         idForTrack.append("_audio");
-    } else if (state == PlaylistState::VideoOnly) {
-        idForTrack = originalId + QLatin1String("_video");
     }
     if (!forceCreation) {
         for (int i = 0; i < m_playlist.count(); i++) {
@@ -480,8 +478,6 @@ Mlt::Producer *Track::clipProducer(Mlt::Producer *parent, PlaylistState::ClipSta
     prod->set("id", idForTrack.toUtf8().constData());
     if (state == PlaylistState::AudioOnly) {
         prod->set("video_index", -1);
-    } else if (state == PlaylistState::VideoOnly) {
-        prod->set("audio_index", -1);
     }
     return prod;
 }
@@ -704,9 +700,7 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
 		    qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
 		    return -1;
 		}
-		if (strobe > 1) prod->set("strobe", strobe);
 		QString producerid = "slowmotion:" + id + ':' + locale.toString(speed);
-		if (strobe > 1) producerid.append(':' + QString::number(strobe));
 		prod->set("id", producerid.toUtf8().constData());
 		// copy producer props
 		for (int i = 0; i < passProps.count(); i++) {

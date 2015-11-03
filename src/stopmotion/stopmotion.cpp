@@ -309,11 +309,12 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
         profilePath = KdenliveSettings::current_profile();
     }
 
-    //TODO:
+    /*TODO:
     //m_captureDevice = new MltDeviceCapture(profilePath, m_monitor->videoSurface, this);
     m_captureDevice->sendFrameForAnalysis = KdenliveSettings::analyse_stopmotion();
     m_monitor->setRender(m_captureDevice);
     connect(m_captureDevice, SIGNAL(frameSaved(QString)), this, SLOT(slotNewThumb(QString)));
+    */
 
     live_button->setChecked(false);
     button_addsequence->setEnabled(false);
@@ -403,7 +404,6 @@ void StopmotionWidget::slotUpdateDeviceHandler()
 {
     slotLive(false);
     delete m_captureDevice;
-    m_captureDevice = NULL;
     /*QString data = capture_device->itemData(capture_device->currentIndex()).toString();
     slotLive(false);
     if (m_bmCapture) {
@@ -486,7 +486,7 @@ void StopmotionWidget::slotLive(bool isOn)
         }
 
         if (m_captureDevice == NULL) {
-            //TODO:
+            /*TODO:
             //m_captureDevice = new MltDeviceCapture(profilePath, m_monitor->videoSurface, this);
             m_captureDevice->sendFrameForAnalysis = KdenliveSettings::analyse_stopmotion();
             m_monitor->setRender(m_captureDevice);
@@ -509,6 +509,7 @@ void StopmotionWidget::slotLive(bool isOn)
             //qDebug()<<"// problem starting stopmo";
             log_box->insertItem(-1, i18n("Failed to start device"));
             log_box->setCurrentIndex(0);
+            */
         }
     }
     else {
@@ -548,7 +549,7 @@ void StopmotionWidget::slotShowOverlay(bool isOn)
     }
     else {
         // Remove overlay
-        m_captureDevice->setOverlay(QString());
+        if (m_captureDevice) m_captureDevice->setOverlay(QString());
     }
 }
 
@@ -560,7 +561,7 @@ void StopmotionWidget::reloadOverlay()
         log_box->setCurrentIndex(0);
         return;
     }
-    m_captureDevice->setOverlay(path);
+    if (m_captureDevice) m_captureDevice->setOverlay(path);
 }
 
 void StopmotionWidget::slotUpdateOverlay()

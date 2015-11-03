@@ -33,9 +33,11 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id
     QObject()
     , m_parent(parent)
     , m_id(id)
+    , m_clipStatus(StatusReady)
     , m_jobType(AbstractClipJob::NOJOBTYPE)
     , m_jobProgress(0)
     , m_itemType(type)
+    , m_isCurrent(false)
 {
 }
 
@@ -43,9 +45,11 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement
     QObject()
     , m_parent(parent)
     , m_id(description.attribute("id"))
+    , m_clipStatus(StatusReady)
     , m_jobType(AbstractClipJob::NOJOBTYPE)
     , m_jobProgress(0)
     , m_itemType(type)
+    , m_isCurrent(false)
 {
 }
 

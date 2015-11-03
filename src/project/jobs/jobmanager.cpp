@@ -209,7 +209,7 @@ void JobManager::slotProcessJobs()
 QList <ProjectClip *> JobManager::filterClips(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList &params)
 {
      //TODO: filter depending on clip type
-    if (jobType == AbstractClipJob::TRANSCODEJOB || AbstractClipJob::CUTJOB) {
+    if (jobType == AbstractClipJob::TRANSCODEJOB || jobType == AbstractClipJob::CUTJOB) {
         return CutClipJob::filterClips(clips, params);
     } else if (jobType == AbstractClipJob::FILTERCLIPJOB) {
         return FilterJob::filterClips(clips, params);

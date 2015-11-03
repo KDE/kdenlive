@@ -50,15 +50,17 @@ RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo 
         m_out((info.cropStart + info.cropDuration).frames(KdenliveSettings::project_fps()) - 1),
         m_filter(NULL)
 {
+    Q_UNUSED(data)
+
     QVBoxLayout *l = new QVBoxLayout(this);
     m_keyframeWidget = new SimpleKeyframeWidget(t, m_out - m_in, this);
     l->addWidget(m_keyframeWidget);
 
-    MonitorEditWidget *edit = NULL; //monitor->getEffectEdit();
-    m_scene = edit->getScene();
-    m_scene->cleanup();
+    //MonitorEditWidget *edit = NULL; //monitor->getEffectEdit();
+    m_scene = NULL;//edit->getScene();
+    //m_scene->cleanup();
 
-    m_item = new SplineItem(QList <BPoint>(), NULL, m_scene);
+    m_item = NULL;/*new SplineItem(QList <BPoint>(), NULL, m_scene);
 
     connect(m_item, SIGNAL(changed(bool)), this, SLOT(slotUpdateData(bool)));
     connect(m_keyframeWidget, SIGNAL(positionChanged(int)), this, SLOT(slotPositionChanged(int)));
@@ -70,6 +72,7 @@ RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo 
     setSpline(data, false);
     setupTrackingListen(info);
     m_scene->centerView();
+    */
 }
 
 RotoWidget::~RotoWidget()
@@ -79,7 +82,7 @@ RotoWidget::~RotoWidget()
 
     delete m_keyframeWidget;
 
-    m_scene->removeItem(m_item);
+    if (m_scene) m_scene->removeItem(m_item);
     delete m_item;
 
     if (m_monitor) {
