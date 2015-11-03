@@ -44,6 +44,7 @@ RecManager::RecManager(int iconSize, Monitor *parent) :
     , m_recToolbar(new QToolBar(parent))
     , m_screenCombo(NULL)
 {
+    Q_UNUSED(iconSize)
     //m_recToolbar->setIconSize(QSize(iconSize, iconSize));
     m_playAction = m_recToolbar->addAction(QIcon::fromTheme("media-playback-start"), i18n("Preview"));
     m_playAction->setCheckable(true);

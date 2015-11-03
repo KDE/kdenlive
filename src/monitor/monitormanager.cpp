@@ -103,6 +103,7 @@ void MonitorManager::setConsumerProperty(const QString &name, const QString &val
 
 void MonitorManager::lockMonitor(Kdenlive::MonitorId name, bool lock)
 {
+    Q_UNUSED(name)
     if (lock) m_refreshMutex.lock();
     else m_refreshMutex.unlock();
 }

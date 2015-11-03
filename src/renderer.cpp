@@ -1665,6 +1665,7 @@ int Render::seekFramePosition() const
 
 void Render::emitFrameUpdated(Mlt::Frame& frame)
 {
+    Q_UNUSED(frame)
     return;
     /*TODO: fix movit crash
     mlt_image_format format = mlt_image_rgb24;

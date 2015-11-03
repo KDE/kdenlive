@@ -231,6 +231,7 @@ int Timeline::getTracks() {
 }
 
 void Timeline::checkDuration(int duration) {
+    Q_UNUSED(duration)
     m_doc->renderer()->mltCheckLength(m_tractor);
     return;
     /*FIXME

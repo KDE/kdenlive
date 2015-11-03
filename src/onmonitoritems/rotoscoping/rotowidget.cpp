@@ -50,6 +50,8 @@ RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo 
         m_out((info.cropStart + info.cropDuration).frames(KdenliveSettings::project_fps()) - 1),
         m_filter(NULL)
 {
+    Q_UNUSED(data)
+
     QVBoxLayout *l = new QVBoxLayout(this);
     m_keyframeWidget = new SimpleKeyframeWidget(t, m_out - m_in, this);
     l->addWidget(m_keyframeWidget);
