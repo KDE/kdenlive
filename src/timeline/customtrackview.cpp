@@ -4506,16 +4506,16 @@ void CustomTrackView::slotInfoProcessingFinished()
 void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList effects, PlaylistState::ClipState state, bool refresh)
 {
     ProjectClip *binClip = m_document->getBinClip(clipId);
+    if (!binClip) {
+        emit displayMessage(i18n("Cannot insert clip..."), ErrorMessage);
+        return;
+    }
     if (!binClip->isReady()) {
         // If the clip has no producer, we must wait until it is created...
         emit displayMessage(i18n("Waiting for clip..."), InformationMessage);
 	m_document->renderer()->forceProcessing(clipId);
-	if (binClip == NULL) {
-            emit displayMessage(i18n("Cannot insert clip..."), ErrorMessage);
-            return;
-        }
-        // If the clip is not ready, give it 3x3 seconds to complete the task...
-        for (int i = 0; i < 3; ++i) {
+        // If the clip is not ready, give it 10x3 seconds to complete the task...
+        for (int i = 0; i < 10; ++i) {
             if (!binClip->isReady()) {
                 m_mutex.lock();
                 m_producerNotReady.wait(&m_mutex, 3000);
