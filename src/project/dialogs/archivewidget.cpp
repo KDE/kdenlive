@@ -205,8 +205,15 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
 // Constructor for extract widget
 ArchiveWidget::ArchiveWidget(const QUrl &url, QWidget * parent):
     QDialog(parent),
+    m_requestedSize(0),
+    m_copyJob(NULL),
+    m_temp(NULL),
+    m_abortArchive(false),
     m_extractMode(true),
-    m_extractUrl(url)
+    m_extractUrl(url),
+    m_extractArchive(NULL),
+    m_missingClips(0),
+    m_infoMessage(NULL)
 {
     //setAttribute(Qt::WA_DeleteOnClose);
 
