@@ -82,7 +82,7 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, const QList <QAc
 	m_switchVideo->setActive(info.isBlind);
 	connect(m_switchVideo, SIGNAL(activeChanged(bool)), this, SLOT(switchVideo(bool)));
 	m_tb->addAction(m_switchVideo);
-    }
+    } else m_switchVideo = NULL;
 
     // Don't show track buttons if size is too small
     if (height < 3 * iconSize) {
