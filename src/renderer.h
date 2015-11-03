@@ -347,9 +347,6 @@ private:
     QMutex m_mutex;
     QMutex m_infoMutex;
 
-    /** @brief A human-readable description of this renderer. */
-    int m_winid;
-
     QLocale m_locale;
     QFuture <void> m_infoThread;
     QList <requestClipInfo> m_requestList;
