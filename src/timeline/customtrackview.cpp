@@ -1206,7 +1206,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         info.track = m_dragItem->track();
         int transitiontrack = getPreviousVideoTrack(info.track);
         ClipItem *transitionClip = NULL;
-        if (transitiontrack != 0) transitionClip = getClipItemAtStart(info.startPos, m_timeline->tracksCount() - transitiontrack);
+        if (transitiontrack != 0) transitionClip = getClipItemAtMiddlePoint(info.startPos.frames(m_document->fps()), m_timeline->tracksCount() - transitiontrack);
         if (transitionClip && transitionClip->endPos() < m_dragItem->endPos()) {
             info.endPos = transitionClip->endPos();
         } else {
@@ -1238,7 +1238,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         info.track = m_dragItem->track();
         int transitiontrack = getPreviousVideoTrack(info.track);
         ClipItem *transitionClip = NULL;
-        if (transitiontrack != 0) transitionClip = getClipItemAtEnd(info.endPos, m_timeline->tracksCount() - transitiontrack);
+        if (transitiontrack != 0) transitionClip = getClipItemAtMiddlePoint(info.endPos.frames(m_document->fps()), m_timeline->tracksCount() - transitiontrack);
         if (transitionClip && transitionClip->startPos() > m_dragItem->startPos()) {
             info.startPos = transitionClip->startPos();
         } else {
@@ -2529,7 +2529,7 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition)
             if (pos < item->startPos() + item->cropDuration() / 2) {
                 // add transition to clip start
                 info.startPos = item->startPos();
-                if (transitiontrack != 0) transitionClip = getClipItemAtStart(info.startPos, m_timeline->tracksCount() - transitiontrack);
+                if (transitiontrack != 0) transitionClip = getClipItemAtMiddlePoint(info.startPos.frames(m_document->fps()), m_timeline->tracksCount() - transitiontrack);
                 if (transitionClip && transitionClip->endPos() < item->endPos()) {
                     info.endPos = transitionClip->endPos();
                 } else info.endPos = info.startPos + GenTime(65, m_document->fps());
@@ -2552,7 +2552,7 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition)
             } else {
                 // add transition to clip  end
                 info.endPos = item->endPos();
-                if (transitiontrack != 0) transitionClip = getClipItemAtEnd(info.endPos, m_timeline->tracksCount() - transitiontrack);
+                if (transitiontrack != 0) transitionClip = getClipItemAtMiddlePoint(info.endPos.frames(m_document->fps()), m_timeline->tracksCount() - transitiontrack);
                 if (transitionClip && transitionClip->startPos() > item->startPos()) {
                     info.startPos = transitionClip->startPos();
                 } else info.startPos = info.endPos - GenTime(65, m_document->fps());
