@@ -37,11 +37,11 @@ void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
     if (basePath.isEmpty()){
         basePath = QString(MLT_PREFIX);
     }
-    KdenliveSettings::setMltpath(basePath + "/share/mlt/profiles/");
-    KdenliveSettings::setRendererpath(basePath + "/bin/melt");
+    KdenliveSettings::setMltpath(QString(MLT_DATADIR) + "/profiles/");
+    KdenliveSettings::setRendererpath(QString(MLT_MELTBIN));
 
     if (KdenliveSettings::rendererpath().isEmpty() || KdenliveSettings::rendererpath().endsWith(QLatin1String("inigo"))) {
-        QString meltPath = QString(MLT_PREFIX) + QString("/bin/melt");
+        QString meltPath = QString(MLT_MELTBIN);
         if (!QFile::exists(meltPath)) {
             meltPath = QStandardPaths::findExecutable("melt");
         }

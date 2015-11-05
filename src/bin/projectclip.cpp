@@ -269,7 +269,7 @@ QPixmap ProjectClip::thumbnail(int width, int height)
 void ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
 {
     if (!replaceProducer && m_controller) {
-        qDebug()<<"// RECIEVED PRODUCER BUT WE ALREADY HAVE ONE\n----------";
+        qDebug()<<"// RECEIVED PRODUCER BUT WE ALREADY HAVE ONE\n----------";
         return;
     }
     if (m_controller) {
