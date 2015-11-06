@@ -1310,9 +1310,6 @@ void MainWindow::readOptions()
     KConfigGroup initialGroup(config, "version");
     if (!initialGroup.exists() || KdenliveSettings::ffmpegpath().isEmpty() || KdenliveSettings::ffplaypath().isEmpty()) {
         // this is our first run, show Wizard
-        // initialize some stuff
-        int maxThreads = QThread::idealThreadCount();
-        KdenliveSettings::setMltthreads(maxThreads > 2 ? qMin(maxThreads - 1, 4) : 1);
         QPointer<Wizard> w = new Wizard(false, this);
         if (w->exec() == QDialog::Accepted && w->isOk()) {
             w->adjustSettings();
