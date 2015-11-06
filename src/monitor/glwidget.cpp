@@ -875,7 +875,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
         delete m_threadCreateEvent;
         delete m_threadJoinEvent;
         if (m_consumer) {
-            int dropFrames = KdenliveSettings::mltthreads();
+            int dropFrames = realTime();
             if (!KdenliveSettings::monitor_dropframes()) dropFrames = -dropFrames;
             m_consumer->set("real_time", dropFrames);
             m_threadCreateEvent = m_consumer->listen("consumer-thread-create", this, (mlt_listener) onThreadCreate);
@@ -1057,6 +1057,13 @@ void GLWidget::setOffsetY(int y)
     emit offsetChanged();
     update();
 }
+
+int GLWidget::realTime() const
+{
+    if (m_glslManager) return 1;
+    return KdenliveSettings::mltthreads();
+}
+
 
 /*void GLWidget::setCurrentFilter(QmlFilter* filter, QmlMetadata* meta)
 {

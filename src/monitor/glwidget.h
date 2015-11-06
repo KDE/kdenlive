@@ -91,6 +91,7 @@ public:
     void reloadProfile(Mlt::Profile &profile);
     void lockMonitor();
     void releaseMonitor();
+    int realTime() const;
 
 protected:
     void mouseReleaseEvent(QMouseEvent * event);

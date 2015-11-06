@@ -1514,8 +1514,8 @@ void Render::switchPlay(bool play)
     m_mltProducer->set_speed(play ? 1.0 : 0.0);
     if (play) {
         if (m_name == Kdenlive::ClipMonitor && m_mltConsumer->position() == m_mltProducer->get_out()) m_mltProducer->seek(0);
-        if (m_mltConsumer->get_int("real_time") != KdenliveSettings::mltthreads()) {
-            m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
+        if (m_mltConsumer->get_int("real_time") != m_qmlView->realTime()) {
+            m_mltConsumer->set("real_time", m_qmlView->realTime());
             m_mltConsumer->set("buffer", 25);
             m_mltConsumer->set("prefill", 1);
             // Changes to real_time require a consumer restart if running.
@@ -1644,7 +1644,7 @@ void Render::setDropFrames(bool drop)
 {
     QMutexLocker locker(&m_mutex);
     if (m_mltConsumer) {
-        int dropFrames = KdenliveSettings::mltthreads();
+        int dropFrames = m_qmlView->realTime();
         if (drop == false) dropFrames = -dropFrames;
         //m_mltConsumer->stop();
         m_mltConsumer->set("real_time", dropFrames);
