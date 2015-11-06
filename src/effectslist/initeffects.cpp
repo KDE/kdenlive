@@ -621,8 +621,8 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
         imagenamelist.append(fname);
         imagefiles.append(lumafolder.absoluteFilePath(fname));
     }
-    imagenamelist.append(i18n("None (Dissolve)"));
-    imagefiles.append(QString());
+    imagenamelist.prepend(i18n("None (Dissolve)"));
+    imagefiles.prepend(QString());
 
     //WARNING: this is a hack to get around temporary invalid metadata in MLT, 2nd of june 2011 JBM
     QStringList customTransitions;
