@@ -7,6 +7,7 @@
   <name xml:lang="ast">Kdenlive</name>
   <name xml:lang="bs">Kdenlive</name>
   <name xml:lang="ca">Kdenlive</name>
+  <name xml:lang="ca-valencia">Kdenlive</name>
   <name xml:lang="cs">Kdenlive</name>
   <name xml:lang="de">Kdenlive</name>
   <name xml:lang="en-GB">Kdenlive</name>
@@ -32,6 +33,7 @@
   <summary xml:lang="ast">Editor de videu</summary>
   <summary xml:lang="bs">Video uređivač</summary>
   <summary xml:lang="ca">Editor de vídeo</summary>
+  <summary xml:lang="ca-valencia">Editor de vídeo</summary>
   <summary xml:lang="cs">Editor videí</summary>
   <summary xml:lang="de">Video-Editor</summary>
   <summary xml:lang="en-GB">Video Editor</summary>
@@ -56,6 +58,7 @@
     <p>Kdenlive is a non linear video editor. It is based on the MLT framework and accepts many audio and video formats, allows you to add effects, transitions and render into the format of your choice.</p>
     <p xml:lang="ast">Kdenlive ye un editor de videu non llinial. Básase nel framework MLT y aceuta muchos formatos d'audiu y videu, permítete amestar efeutos, transiciones y renderizar nel formatu de la to escoyeta.</p>
     <p xml:lang="ca">El Kdenlive és un editor no lineal de vídeo. Està basat en l'entorn de treball MLT i accepta molts formats d'àudio i vídeo, permetent afegir efectes, transicions i representacions en el format de la vostra elecció.</p>
+    <p xml:lang="ca-valencia">El Kdenlive és un editor no lineal de vídeo. Està basat en l'entorn de treball MLT i accepta molts formats d'àudio i vídeo, permetent afegir efectes, transicions i representacions en el format de la vostra elecció.</p>
     <p xml:lang="de">Kdenlive ist ein Video-Editor für nichtlinearen Schnitt. Es basiert auf MLT und verarbeitet viele Audio- und Video-Formate. Sie können Effekte und Übergänge benutzen und in Formate Ihrer Wahl umwandeln.</p>
     <p xml:lang="en-GB">Kdenlive is a non linear video editor. It is based on the MLT framework and accepts many audio and video formats, allows you to add effects, transitions and render into the format of your choice.</p>
     <p xml:lang="es">Kdenlive es un editor no lineal de video. Está basado en la infraestructura MLT y acepta numerosos formatos de audio y video, permitiendo agregar efectos, transiciones y procesar el video final en el formato deseado.</p>
@@ -80,6 +83,7 @@
     <p xml:lang="ast">Carauterístiques:</p>
     <p xml:lang="bs">Svojstva:</p>
     <p xml:lang="ca">Característiques:</p>
+    <p xml:lang="ca-valencia">Característiques:</p>
     <p xml:lang="cs">Vlastnosti:</p>
     <p xml:lang="de">Funktionen:</p>
     <p xml:lang="en-GB">Features:</p>
@@ -104,6 +108,7 @@
       <li>Intuitive multitrack interface.</li>
       <li xml:lang="ast">Interfaz multi-pista intuitiva.</li>
       <li xml:lang="ca">Interfície multipista intuïtiva.</li>
+      <li xml:lang="ca-valencia">Interfície multipista intuïtiva.</li>
       <li xml:lang="de">Intuitive Mehrspur-Benutzeroberfläche.</li>
       <li xml:lang="en-GB">Intuitive multitrack interface.</li>
       <li xml:lang="es">Interfaz multipista intuitiva.</li>
@@ -127,6 +132,7 @@
       <li xml:lang="ar">تأثيرات وانتقالات عديدة.</li>
       <li xml:lang="ast">Munchos efeutos y transiciones.</li>
       <li xml:lang="ca">Molts efectes i transicions.</li>
+      <li xml:lang="ca-valencia">Molts efectes i transicions.</li>
       <li xml:lang="de">Viele Effekte und Übergänge.</li>
       <li xml:lang="en-GB">Many effects and transitions.</li>
       <li xml:lang="es">Muchos efectos y transiciones.</li>
@@ -149,6 +155,7 @@
       <li>Color scopes</li>
       <li xml:lang="ar">نطاقات الألوان</li>
       <li xml:lang="ca">Àmbits de color</li>
+      <li xml:lang="ca-valencia">Àmbits de color</li>
       <li xml:lang="de">Farbbereiche</li>
       <li xml:lang="en-GB">Colour scopes</li>
       <li xml:lang="es">Indicadores de color</li>
@@ -172,6 +179,7 @@
       <li xml:lang="ar">مُرشد DVD أساسيّ</li>
       <li xml:lang="ast">Encontu básicu pa DVD</li>
       <li xml:lang="ca">Assistent bàsic per als DVD</li>
+      <li xml:lang="ca-valencia">Assistent bàsic per als DVD</li>
       <li xml:lang="de">Einfacher DVD-Assistent</li>
       <li xml:lang="en-GB">Basic DVD Wizard</li>
       <li xml:lang="es">Asistente básico de DVD</li>

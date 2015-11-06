@@ -288,9 +288,10 @@ int Timeline::getTracks() {
 }
 
 void Timeline::checkDuration(int duration) {
+    Q_UNUSED(duration)
     m_doc->renderer()->mltCheckLength(m_tractor);
     return;
-    //FIXME
+    /*FIXME
     for (int i = 1; i < m_tractor->count(); ++i) {
         QScopedPointer<Mlt::Producer> tk(m_tractor->track(i));
         int len = tk->get_playtime() - 1;
@@ -309,9 +310,12 @@ void Timeline::checkDuration(int duration) {
         blackTrack.resize_clip(0, 0, duration);
     }
     //TODO: rewind consumer if beyond duration / emit durationChanged
+    */
 }
 
 void Timeline::getTransitions() {
+    QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     mlt_service service = mlt_service_get_producer(m_tractor->get_service());
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     while (service) {
@@ -370,7 +374,7 @@ void Timeline::getTransitions() {
                 QString value = prop.get(e.attribute("tag").toUtf8().constData());
                 if (value.isEmpty()) continue;
                 if (e.attribute("type") == "double")
-                    adjustDouble(e, value.toDouble());
+                    adjustDouble(e, locale.toDouble(value));
                 else
                     e.setAttribute("value", value);
             }
@@ -405,14 +409,14 @@ bool Timeline::isSlide(QString geometry) {
 }
 
 void Timeline::adjustDouble(QDomElement &e, double value) {
-    QString factor = e.attribute("factor", "1");
-    double offset = e.attribute("offset", "0").toDouble();
-    double fact = 1;
-    if (factor.contains('%')) fact = EffectsController::getStringEval(m_doc->getProfileInfo(), factor);
-    else fact = factor.toDouble();
-
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    QString factor = e.attribute("factor", "1");
+    double offset = locale.toDouble(e.attribute("offset", "0"));
+    double fact = 1;
+    if (factor.contains('%')) fact = EffectsController::getStringEval(m_doc->getProfileInfo(), factor);
+    else fact = locale.toDouble(factor);
+
     e.setAttribute("value", locale.toString(offset + value * fact));
 }
 
@@ -962,15 +966,15 @@ void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
 }
 
 QString Timeline::getKeyframes(Mlt::Service service, int &ix, QDomElement e) {
-    QString starttag = e.attribute("starttag", "start");
-    QString endtag = e.attribute("endtag", "end");
-    double fact, offset = e.attribute("offset", "0").toDouble();
-    QString factor = e.attribute("factor", "1");
-    if (factor.contains('%')) fact = EffectsController::getStringEval(m_doc->getProfileInfo(), factor);
-    else fact = factor.toDouble();
-    // retrieve keyframes
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    QString starttag = e.attribute("starttag", "start");
+    QString endtag = e.attribute("endtag", "end");
+    double fact, offset = locale.toDouble(e.attribute("offset", "0"));
+    QString factor = e.attribute("factor", "1");
+    if (factor.contains('%')) fact = EffectsController::getStringEval(m_doc->getProfileInfo(), factor);
+    else fact = locale.toDouble(factor);
+    // retrieve keyframes
     QScopedPointer<Mlt::Filter> effect(service.filter(ix));
     int effectNb = effect->get_int("kdenlive_ix");
     QString keyframes = QString::number(effect->get_in()) + '=' + locale.toString(offset + fact * effect->get_double(starttag.toUtf8().constData())) + ';';
@@ -1016,13 +1020,13 @@ void Timeline::setParam(ProfileInfo info, QDomElement param, QString value) {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     //get Kdenlive scaling parameters
-    double offset = param.attribute("offset", "0").toDouble();
+    double offset = locale.toDouble(param.attribute("offset", "0"));
     double fact;
     QString factor = param.attribute("factor", "1");
     if (factor.contains('%')) {
         fact = EffectsController::getStringEval(info, factor);
     } else {
-        fact = factor.toDouble();
+        fact = locale.toDouble(factor);
     }
     //adjust parameter if necessary
     QString type = param.attribute("type");

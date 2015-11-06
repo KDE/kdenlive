@@ -235,7 +235,7 @@ QImage Vectorscope::renderHUD(uint)
             davinci.setPen(penLight);
             break;
         default:
-            if (r > cw/2) {
+            if (r > cw/2.0) {
                 davinci.setPen(penLight);
             } else {
                 davinci.setPen(penDark);

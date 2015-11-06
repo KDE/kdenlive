@@ -1190,7 +1190,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     entry.setAttribute("out", QString::number(source.attribute("duration").toInt() - 1));
                 }
                 frag.appendChild(prod);
-                i--;
             }
             else {
                 QDomElement originalProd = prod.cloneNode().toElement();

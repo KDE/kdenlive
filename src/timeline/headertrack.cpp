@@ -90,6 +90,9 @@ HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track
         m_switchComposite->setActive(info.composite);
         connect(m_switchComposite, &KDualAction::activeChangedByUser, this, &HeaderTrack::switchComposite);
         m_tb->addAction(m_switchComposite);
+    } else {
+        m_switchVideo = NULL;
+        m_switchComposite = NULL;
     }
 
     updateStatus(info);

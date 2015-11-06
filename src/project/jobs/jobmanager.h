@@ -115,8 +115,6 @@ private:
     QFutureSynchronizer<void> m_jobThreads;
     /** @brief Set to true to trigger abortion of all jobs. */
     bool m_abortAllJobs;
-    /** @brief Stores the project's fps, useful for some jobs. */
-    double m_fps;
     /** @brief Create a proxy for a clip. */
     void createProxy(const QString &id);
 

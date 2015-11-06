@@ -77,11 +77,11 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
     qRegisterMetaType<stringMap> ("stringMap");
     analyseAudio = KdenliveSettings::monitor_audio();
     //buildConsumer();
-    m_blackClip = new Mlt::Producer(*m_qmlView->profile(), "colour:black");
-    m_blackClip->set("id", "black");
-    m_blackClip->set("mlt_type", "producer");
-    m_mltProducer = m_blackClip->cut(0, 1);
     if (m_qmlView) {
+        m_blackClip = new Mlt::Producer(*m_qmlView->profile(), "colour:black");
+        m_blackClip->set("id", "black");
+        m_blackClip->set("mlt_type", "producer");
+        m_mltProducer = m_blackClip->cut(0, 1);
         m_qmlView->setProducer(m_mltProducer);
         m_mltConsumer = qmlView->consumer();
     }
@@ -1254,11 +1254,11 @@ int Render::setSceneList(QString playlist, int position)
         }
     }
     // No Playlist found, create new one
-    m_binController->createIfNeeded(m_qmlView->profile());
-    QString retain = QString("xml_retain %1").arg(m_binController->binPlaylistId());
-    tractor.set(retain.toUtf8().constData(), m_binController->service(), 0);
-    //if (!m_binController->hasClip("black")) m_binController->addClipToBin("black", *m_blackClip);
     if (m_qmlView) {
+        m_binController->createIfNeeded(m_qmlView->profile());
+        QString retain = QString("xml_retain %1").arg(m_binController->binPlaylistId());
+        tractor.set(retain.toUtf8().constData(), m_binController->service(), 0);
+        //if (!m_binController->hasClip("black")) m_binController->addClipToBin("black", *m_blackClip);
         m_qmlView->setProducer(m_mltProducer);
         m_mltConsumer = m_qmlView->consumer();
     }
@@ -1696,18 +1696,20 @@ int Render::seekFramePosition() const
 
 void Render::emitFrameUpdated(Mlt::Frame& frame)
 {
+    Q_UNUSED(frame)
     return;
-    //TODO: fix movit crash
+    /*TODO: fix movit crash
     mlt_image_format format = mlt_image_rgb24;
     int width = 0;
     int height = 0;
-    /*frame.set("rescale.interp", "bilinear");
-    frame.set("deinterlace_method", "onefield");
-    frame.set("top_field_first", -1);*/
+    //frame.set("rescale.interp", "bilinear");
+    //frame.set("deinterlace_method", "onefield");
+    //frame.set("top_field_first", -1);
     const uchar* image = frame.get_image(format, width, height);
     QImage qimage(width, height, QImage::Format_RGB888);  //Format_ARGB32_Premultiplied);
     memcpy(qimage.scanLine(0), image, width * height * 3);
     emit frameUpdated(qimage);
+    */
 }
 
 int Render::getCurrentSeekPosition() const
