@@ -21,6 +21,24 @@ else()
                 PURPOSE "")
 endif()
 
+execute_process(
+  COMMAND pkg-config --variable=mltdatadir mlt-framework
+  OUTPUT_VARIABLE MLT_DATADIR
+  RESULT_VARIABLE MLT_DATADIR_failed)
+if (NOT MLT_DATADIR_failed)
+  string(REGEX REPLACE "[\r\n]" "" MLT_DATADIR "${MLT_DATADIR}")
+  add_definitions(-DMLT_DATADIR=\"${MLT_DATADIR}\")
+endif(NOT MLT_DATADIR_failed)
+
+execute_process(
+  COMMAND pkg-config --variable=meltbin mlt-framework
+  OUTPUT_VARIABLE MLT_MELTBIN
+  RESULT_VARIABLE MLT_MELTBIN_failed)
+if (NOT MLT_MELTBIN_failed)
+  string(REGEX REPLACE "[\r\n]" "" MLT_MELTBIN "${MLT_MELTBIN}")
+  add_definitions(-DMLT_MELTBIN=\"${MLT_MELTBIN}\")
+endif(NOT MLT_MELTBIN_failed)
+
 option(WITH_JogShuttle "Build Jog/Shuttle support" ON)
 
 set(FFMPEG_SUFFIX "" CACHE STRING "FFmpeg custom suffix")
