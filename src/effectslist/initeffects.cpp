@@ -642,6 +642,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
         if (!customTransitions.contains(name)) metadata = repository->metadata(transition_type, name.toUtf8().data());
         if (metadata && metadata->is_valid()) {
             // If possible, set name and description.
+            qDebug()<<" / / FOUND TRANS: "<<metadata->get("title");
             if (metadata->get("title") && metadata->get("identifier"))
                 tname.appendChild(ret.createTextNode(metadata->get("title")));
             desc.appendChild(ret.createTextNode(metadata->get("description")));
@@ -655,9 +656,11 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                 params.setAttribute("name", paramdesc.get("identifier"));
 
                 if (paramdesc.get("maximum"))
-                    params.setAttribute("max", paramdesc.get("maximum"));
+                    params.setAttribute("max", paramdesc.get_double("maximum"));
                 if (paramdesc.get("minimum"))
-                    params.setAttribute("min", paramdesc.get("minimum"));
+                    params.setAttribute("min", paramdesc.get_double("minimum"));
+                if (paramdesc.get("default"))
+                    params.setAttribute("default", paramdesc.get("default"));
                 if (QString(paramdesc.get("type")) == "integer") {
                     if (params.attribute("min") == "0" && params.attribute("max") == "1")
                         params.setAttribute("type", "bool");
@@ -666,18 +669,24 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                         params.setAttribute("factor", "100");
                     }
                 }
-                if (QString(paramdesc.get("type")) == "boolean")
+                else if (QString(paramdesc.get("type")) == "float") {
+                    params.setAttribute("type", "double");
+                    if (paramdesc.get_int("maximum") == 1) {
+                        params.setAttribute("factor", 100);
+                        params.setAttribute("max", 100);
+                        params.setAttribute("default", paramdesc.get_double("default") * 100);
+                    }
+                }
+                else if (QString(paramdesc.get("type")) == "boolean")
                     params.setAttribute("type", "bool");
                 if (!QString(paramdesc.get("format")).isEmpty()) {
                     params.setAttribute("type", "complex");
                     params.setAttribute("format", paramdesc.get("format"));
                 }
-                if (paramdesc.get("default"))
-                    params.setAttribute("default", paramdesc.get("default"));
                 if (paramdesc.get("value"))
                     params.setAttribute("value", paramdesc.get("value"));
                 else
-                    params.setAttribute("value", paramdesc.get("default"));
+                    params.setAttribute("value", params.attribute("default"));
 
                 QDomElement pname = ret.createElement("name");
                 pname.appendChild(ret.createTextNode(paramdesc.get("title")));
@@ -768,8 +777,8 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
         delete metadata;
         metadata = 0;
         // Add the transition to the global list.
-        transitions->append(ret.documentElement());
         ////qDebug() << ret.toString();
+        transitions->append(ret.documentElement());
     }
 
     // Add some virtual transitions.

@@ -371,7 +371,9 @@ void Timeline::getTransitions() {
             QDomNodeList params = base.elementsByTagName("parameter");
             for (int i = 0; i < params.count(); ++i) {
                 QDomElement e = params.item(i).toElement();
-                QString value = prop.get(e.attribute("tag").toUtf8().constData());
+                QString paramName = e.hasAttribute("tag") ? e.attribute("tag") : e.attribute("name");
+                QString value = prop.get(paramName.toUtf8().constData());
+                int factor = e.attribute("factor").toInt();
                 if (value.isEmpty()) continue;
                 if (e.attribute("type") == "double")
                     adjustDouble(e, locale.toDouble(value));
