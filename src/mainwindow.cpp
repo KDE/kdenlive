@@ -126,7 +126,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_timelineArea(NULL),
     m_stopmotion(NULL),
     m_effectStack(NULL),
-    m_transitionConfig(NULL),
     m_exitCode(EXIT_SUCCESS),
     m_effectList(NULL),
     m_clipMonitor(NULL),
@@ -203,13 +202,10 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
     connect(m_clipMonitor, SIGNAL(addEffect(QDomElement)), pCore->bin(), SLOT(slotEffectDropped(QDomElement)));
 
-    m_effectStack = new EffectStackView2();
+    m_effectStack = new EffectStackView2(m_projectMonitor, this);
     connect(m_effectStack, SIGNAL(startFilterJob(const ItemInfo&,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)), pCore->bin(), SLOT(slotStartFilterJob(const ItemInfo &,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)));
     connect(pCore->bin(), SIGNAL(masterClipSelected(ClipController *, Monitor *)), m_effectStack, SLOT(slotMasterClipItemSelected(ClipController *, Monitor *)));
-    m_effectStackDock = addDock(i18n("Effect Stack"), "effect_stack", m_effectStack);
-
-    m_transitionConfig = new TransitionSettings(m_projectMonitor);
-    m_transitionConfigDock = addDock(i18n("Transition"), "transition", m_transitionConfig);
+    m_effectStackDock = addDock(i18n("Selection Parameters"), "effect_stack", m_effectStack);
 
     m_effectList = new EffectsListView();
     m_effectListDock = addDock(i18n("Effect List"), "effect_list", m_effectList);
@@ -245,7 +241,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     /// Tabify Widgets ///
     tabifyDockWidget(m_effectListDock, m_effectStackDock);
-    tabifyDockWidget(m_effectListDock, m_transitionConfigDock);
 
     tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
     if (m_recMonitor) {
@@ -458,9 +453,11 @@ void MainWindow::slotThemeChanged(const QString &theme)
     QPalette plt = palette();
 
     KdenliveSettings::setColortheme(theme);
-    if (m_effectStack) m_effectStack->updatePalette();
+    if (m_effectStack) {
+        m_effectStack->updatePalette();
+        m_effectStack->transitionConfig()->updatePalette();
+    }
     if (m_effectList) m_effectList->updatePalette();
-    if (m_transitionConfig) m_transitionConfig->updatePalette();
     if (m_clipMonitor) m_clipMonitor->setPalette(plt);
     if (m_projectMonitor) m_projectMonitor->setPalette(plt);
     setStatusBarStyleSheet(plt);
@@ -492,7 +489,7 @@ void MainWindow::slotThemeChanged(const QString &theme)
         if (m_clipMonitor) m_clipMonitor->refreshIcons();
         if (m_projectMonitor) m_projectMonitor->refreshIcons();
         if (pCore->monitorManager()) pCore->monitorManager()->refreshIcons();
-        if (m_transitionConfig) m_transitionConfig->refreshIcons();
+        if (m_effectStack->transitionConfig()) m_effectStack->transitionConfig()->refreshIcons();
         if (m_effectList) m_effectList->refreshIcons();
         if (m_effectStack) m_effectStack->refreshIcons();
         if (pCore->projectManager() && pCore->projectManager()->currentTimeline()) {
@@ -534,12 +531,11 @@ MainWindow::~MainWindow()
 {
     delete m_stopmotion;
     m_effectStack->slotClipItemSelected(NULL);
-    m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
+    m_effectStack->slotTransitionItemSelected(NULL, 0, QPoint(), false);
     if (m_projectMonitor) m_projectMonitor->stop();
     if (m_clipMonitor) m_clipMonitor->stop();
     delete pCore;
     delete m_effectStack;
-    delete m_transitionConfig;
     delete m_projectMonitor;
     delete m_clipMonitor;
     delete m_shortcutRemoveFocus;
@@ -1514,7 +1510,7 @@ void MainWindow::connectDocument()
     connect(project, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
     KdenliveSettings::setProject_fps(project->fps());
     m_clipMonitorDock->raise();
-    m_transitionConfig->updateProjectFormat();
+    m_effectStack->transitionConfig()->updateProjectFormat();
     m_effectStack->updateProjectFormat(project->timecode());
     //connect(m_projectList, SIGNAL(refreshClip(QString,bool)), trackView->projectView(), SLOT(slotRefreshThumbs(QString,bool)));
     //connect(m_projectList, SIGNAL(projectModified()), project, SLOT(setModified()));
@@ -1539,7 +1535,8 @@ void MainWindow::connectDocument()
     connect(trackView, SIGNAL(showTrackEffects(int,TrackInfo)), this, SLOT(slotTrackSelected(int,TrackInfo)));
 
     connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*,bool)), this, SLOT(slotTimelineClipSelected(ClipItem*,bool)));
-    connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), m_transitionConfig, SLOT(slotTransitionItemSelected(Transition*,int,QPoint,bool)));
+    connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), m_effectStack, SLOT(slotTransitionItemSelected(Transition*,int,QPoint,bool)));
+
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), this, SLOT(slotActivateTransitionView(Transition*)));
     connect(trackView->projectView(), SIGNAL(zoomIn()), this, SLOT(slotZoomIn()));
     connect(trackView->projectView(), SIGNAL(zoomOut()), this, SLOT(slotZoomOut()));
@@ -1575,9 +1572,9 @@ void MainWindow::connectDocument()
     connect(m_effectStack, SIGNAL(displayMessage(QString,int)), this, SLOT(slotGotProgressInfo(QString,int)));
     
     // Transition config signals
-    connect(m_transitionConfig, SIGNAL(transitionUpdated(Transition*,QDomElement)), trackView->projectView() , SLOT(slotTransitionUpdated(Transition*,QDomElement)));
-    connect(m_transitionConfig, SIGNAL(importClipKeyframes(GraphicsRectItem, QMap<QString,QString>)), trackView->projectView() , SLOT(slotImportClipKeyframes(GraphicsRectItem, QMap<QString,QString>)));
-    connect(m_transitionConfig, SIGNAL(seekTimeline(int)), trackView->projectView() , SLOT(seekCursorPos(int)));
+    connect(m_effectStack->transitionConfig(), SIGNAL(transitionUpdated(Transition*,QDomElement)), trackView->projectView() , SLOT(slotTransitionUpdated(Transition*,QDomElement)));
+    connect(m_effectStack->transitionConfig(), SIGNAL(importClipKeyframes(GraphicsRectItem, QMap<QString,QString>)), trackView->projectView() , SLOT(slotImportClipKeyframes(GraphicsRectItem, QMap<QString,QString>)));
+    connect(m_effectStack->transitionConfig(), SIGNAL(seekTimeline(int)), trackView->projectView() , SLOT(seekCursorPos(int)));
 
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()));
     connect(trackView, SIGNAL(zoneMoved(int,int)), this, SLOT(slotZoneMoved(int,int)));
@@ -2006,7 +2003,7 @@ void MainWindow::slotInsertTrack()
         pCore->projectManager()->currentTimeline()->projectView()->slotInsertTrack(ix );
     }
     if (pCore->projectManager()->current()) {
-        m_transitionConfig->updateProjectFormat();
+        m_effectStack->transitionConfig()->updateProjectFormat();
     }
 }
 
@@ -2018,7 +2015,7 @@ void MainWindow::slotDeleteTrack()
         pCore->projectManager()->currentTimeline()->projectView()->slotDeleteTrack(ix);
     }
     if (pCore->projectManager()->current()) {
-        m_transitionConfig->updateProjectFormat();
+        m_effectStack->transitionConfig()->updateProjectFormat();
     }
 }
 
@@ -2030,7 +2027,7 @@ void MainWindow::slotConfigTrack()
         pCore->projectManager()->currentTimeline()->projectView()->slotConfigTracks(ix);
     }
     if (pCore->projectManager()->current())
-        m_transitionConfig->updateProjectFormat();
+        m_effectStack->transitionConfig()->updateProjectFormat();
 }
 
 void MainWindow::slotSelectTrack()
@@ -2290,7 +2287,7 @@ void MainWindow::slotTrackSelected(int index, const TrackInfo &info, bool raise)
 void MainWindow::slotActivateTransitionView(Transition *transition)
 {
     if (transition)
-        m_transitionConfig->raiseWindow(m_transitionConfigDock);
+        m_effectStack->raiseWindow(m_effectStackDock);
 }
 
 void MainWindow::slotSnapRewind()
@@ -3029,7 +3026,7 @@ void MainWindow::slotUpdateTimecodeFormat(int ix)
     KdenliveSettings::setFrametimecode(ix == 1);
     m_clipMonitor->updateTimecodeFormat();
     m_projectMonitor->updateTimecodeFormat();
-    m_transitionConfig->updateTimecodeFormat();
+    m_effectStack->transitionConfig()->updateTimecodeFormat();
     m_effectStack->updateTimecodeFormat();
     pCore->bin()->updateTimecodeFormat();
     //pCore->projectManager()->currentTimeline()->projectView()->clearSelection();
@@ -3059,7 +3056,7 @@ void MainWindow::slotShutdown()
 
 void MainWindow::slotUpdateTrackInfo()
 {
-    m_transitionConfig->updateProjectFormat();
+    m_effectStack->transitionConfig()->updateProjectFormat();
 }
 
 void MainWindow::slotSwitchMonitors()
@@ -3207,7 +3204,7 @@ void MainWindow::slotProcessImportKeyframes(GraphicsRectItem type, const QString
     }
     else if (type == TransitionWidget) {
         // This data should be sent to the transition stack
-        m_transitionConfig->setKeyframes(data, maximum);
+        m_effectStack->transitionConfig()->setKeyframes(data, maximum);
     }
     else {
         // Error

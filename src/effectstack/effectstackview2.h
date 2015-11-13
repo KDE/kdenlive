@@ -30,6 +30,8 @@
 
 class EffectsList;
 class ClipItem;
+class Transition;
+class TransitionSettings;
 class ClipController;
 class MltVideoProfile;
 class Monitor;
@@ -40,7 +42,7 @@ class EffectStackView2 : public QWidget
     Q_OBJECT
 
 public:
-    explicit EffectStackView2(QWidget *parent = 0);
+    explicit EffectStackView2(Monitor *projectMonitor, QWidget *parent = 0);
     virtual ~EffectStackView2();
 
     /** @brief Raises @param dock if a clip is loaded. */
@@ -59,29 +61,32 @@ public:
 
     /** @brief Tells the effect editor to update its timecode format. */
     void updateTimecodeFormat();
-    
+
     /** @brief Used to trigger drag effects. */
     virtual bool eventFilter( QObject * o, QEvent * e );
-    
+
     CollapsibleEffect *getEffectByIndex(int ix);
-    
+
     /** @brief Delete currently selected effect. */
     void deleteCurrentEffect();
-    
+
     /** @brief Palette was changed, update style. */
     void updatePalette();
-    
+
     /** @brief Color theme was changed, update icons. */
     void refreshIcons();
-    
+
     /** @brief Process dropped xml effect. */
     void processDroppedEffect(QDomElement e, QDropEvent *event);
-    
+
     /** @brief Return the stylesheet required for effect parameters. */
     static const QString getStyleSheet();
 
     /** @brief Import keyframes from the clip metadata */
     void setKeyframes(const QString &data, int maximum);
+
+    /** @brief Returns the transition setting widget for signal/slot connections */
+    TransitionSettings *transitionConfig();
 
 protected:
     void mouseMoveEvent(QMouseEvent * event);
@@ -116,6 +121,9 @@ private:
     QList <CollapsibleEffect*> m_effects;
     EffectsList m_currentEffectList;
 
+    QVBoxLayout m_layout;
+    QWidget *m_effect;
+    TransitionSettings *m_transition;
     Ui::EffectStack2_UI m_ui;
 
     /** @brief Contains info about effect like is it a track effect, which monitor displays it,... */
@@ -151,6 +159,8 @@ public slots:
    
     /** @brief Check if the mouse wheel events should be used for scrolling the widget view. */
     void slotCheckWheelEventFilter();
+    
+    void slotTransitionItemSelected(Transition* t, int nextTrack, const QPoint &p, bool update);
 
 private slots:
 

@@ -27,10 +27,12 @@
 #include "project/projectlist.h"
 #include "effectslist/effectslist.h"
 #include "timeline/clipitem.h"
+#include "project/transitionsettings.h"
 #include "monitor/monitoreditwidget.h"
 #include "monitor/monitorscene.h"
 #include "utils/KoIconUtils.h"
 #include "mltcontroller/clipcontroller.h"
+#include "timeline/transition.h"
 
 #include <QDebug>
 #include <klocalizedstring.h>
@@ -42,7 +44,7 @@
 #include <QDrag>
 #include <QMimeData>
 
-EffectStackView2::EffectStackView2(QWidget *parent) :
+EffectStackView2::EffectStackView2(Monitor *projectMonitor, QWidget *parent) :
         QWidget(parent),
         m_clipref(NULL),
         m_masterclipref(NULL),
@@ -52,13 +54,20 @@ EffectStackView2::EffectStackView2(QWidget *parent) :
         m_draggedGroup(NULL),
         m_groupIndex(0),
         m_monitorSceneWanted(false),
-        m_trackInfo()
+        m_trackInfo(),
+        m_transition(NULL)
 {
     m_effectMetaInfo.monitor = NULL;
     m_effects = QList <CollapsibleEffect*>();
     setAcceptDrops(true);
+    setLayout(&m_layout);
 
-    m_ui.setupUi(this);
+    m_effect = new QWidget(this);
+    m_transition = new TransitionSettings(projectMonitor, this);
+    m_ui.setupUi(m_effect);
+    m_layout.addWidget(m_effect);
+    m_layout.addWidget(m_transition);
+    m_transition->setHidden(true);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_ui.checkAll->setToolTip(i18n("Enable/Disable all effects"));
     m_ui.buttonShowComments->setIcon(KoIconUtils::themedIcon("help-about"));
@@ -76,6 +85,13 @@ EffectStackView2::EffectStackView2(QWidget *parent) :
 
 EffectStackView2::~EffectStackView2()
 {
+    delete m_effect;
+    delete m_transition;
+}
+
+TransitionSettings *EffectStackView2::transitionConfig()
+{
+    return m_transition;
 }
 
 void EffectStackView2::updatePalette()
@@ -103,6 +119,17 @@ void EffectStackView2::refreshIcons()
     }
 }
 
+void EffectStackView2::slotTransitionItemSelected(Transition* t, int nextTrack, const QPoint &p, bool update)
+{
+    if (t) {
+        m_effect->setHidden(true);
+        m_transition->setHidden(false);
+        setEnabled(true);
+        m_status = TIMELINE_TRANSITION;
+    }
+    m_transition->slotTransitionItemSelected(t, nextTrack, p, update);
+}
+
 void EffectStackView2::slotRenderPos(int pos)
 {
     if (m_effects.isEmpty()) return;
@@ -127,6 +154,11 @@ void EffectStackView2::slotClipItemUpdate()
 
 void EffectStackView2::slotClipItemSelected(ClipItem* c, Monitor *m)
 {
+    if (c) {
+        m_effect->setHidden(false);
+        m_transition->setHidden(true);
+    }
+    else if (m_status == TIMELINE_TRANSITION) return;
     m_masterclipref = NULL;
     m_trackindex = -1;
     if (c && !c->isEnabled()) return;
@@ -594,7 +626,7 @@ void EffectStackView2::clear()
     m_ui.checkAll->setText(QString());
     m_ui.checkAll->setEnabled(false);
     m_ui.labelComment->setText(QString());
-    setEnabled(false);
+    if (m_status != TIMELINE_TRANSITION) setEnabled(false);
 }
 
 void EffectStackView2::slotCheckAll(int state)

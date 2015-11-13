@@ -107,7 +107,6 @@ public:
     StopmotionWidget *m_stopmotion;
     QUndoGroup *m_commandStack;
     EffectStackView2 *m_effectStack;
-    TransitionSettings *m_transitionConfig;
     QUndoView *m_undoView;
     StatusBarMessageLabel *m_messageLabel;
     /** @brief holds info about whether movit is available on this system */
@@ -155,8 +154,6 @@ private:
     EffectsListView *m_transitionList;
 
     QDockWidget *m_effectStackDock;
-
-    QDockWidget *m_transitionConfigDock;
 
     QDockWidget *m_clipMonitorDock;
     Monitor *m_clipMonitor;

@@ -34,6 +34,7 @@ enum EFFECTMODE {
         TIMELINE_CLIP,
         TIMELINE_TRACK,
         MASTER_CLIP,
+        TIMELINE_TRANSITION
 };
 
 struct EffectMetaInfo {

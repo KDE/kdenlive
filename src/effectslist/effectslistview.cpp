@@ -131,6 +131,9 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
     connect(search_effect, SIGNAL(textChanged(QString)), this, SLOT(slotAutoExpand(QString)));
 
     // Select preferred effect tab
+    if (m_mode == TransitionMode) {
+        return;
+    }
     switch (KdenliveSettings::selected_effecttab()) {
       case EffectsListWidget::EFFECT_VIDEO:
         effectsVideo->setChecked(true);
@@ -148,7 +151,6 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
         m_effectsFavorites->setChecked(true);
         break;
     }
-    //m_effectsList->setCurrentRow(0);
 }
 
 const QString EffectsListView::customStyleSheet() const
@@ -223,7 +225,7 @@ void EffectsListView::filterList()
     else if (effectsGPU->isChecked()) pos = EffectsListWidget::EFFECT_GPU;
     else if (m_effectsFavorites->isChecked()) pos = EffectsListWidget::EFFECT_FAVORITES;
     else if (effectsCustom->isChecked()) pos = EffectsListWidget::EFFECT_CUSTOM;
-    KdenliveSettings::setSelected_effecttab(pos);
+    if (m_mode == EffectMode) KdenliveSettings::setSelected_effecttab(pos);
     m_effectsList->resetFavorites();
     if (pos == EffectsListWidget::EFFECT_CUSTOM) {
         m_removeAction->setText(i18n("Delete effect"));
@@ -326,6 +328,10 @@ void EffectsListView::reloadEffectList(QMenu *effectsMenu, KActionCategory *effe
 
 void EffectsListView::slotDisplayMenu(QTreeWidgetItem *item, const QPoint &pos)
 {
+    if (m_mode == TransitionMode) {
+        // Currently no context menu on transitions
+        return;
+    }
     int actionRole = item->data(0, Qt::UserRole).toInt();
     if (KdenliveSettings::selected_effecttab() == EffectsListWidget::EFFECT_FAVORITES || actionRole == EffectsListWidget::EFFECT_CUSTOM) {
         m_removeAction->setVisible(true);

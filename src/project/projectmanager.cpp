@@ -215,7 +215,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             delete m_project;
             m_project = NULL;
             pCore->window()->m_effectStack->clear();
-            pCore->window()->m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
+            pCore->window()->m_effectStack->transitionConfig()->slotTransitionItemSelected(NULL, 0, QPoint(), false);
             delete m_trackView;
             m_trackView = NULL;
         }

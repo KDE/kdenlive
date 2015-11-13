@@ -390,7 +390,6 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     QStylePainter p(this);
     const QRect &paintRect = e->rect();
     p.setClipRect(paintRect);
-    
     p.fillRect(paintRect, palette().midlight().color());
 
     // Draw zone background
