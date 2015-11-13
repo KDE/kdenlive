@@ -1307,7 +1307,7 @@ void Render::checkMaxThreads()
     }
     Mlt::Tractor tractor(service);
     int mltMaxThreads = mlt_service_cache_get_size(service.get_service(), "producer_avformat");
-    int requestedThreads = tractor.count() + 4;
+    int requestedThreads = tractor.count() + m_qmlView->realTime() + 2;
     if (requestedThreads > mltMaxThreads) {
         mlt_service_cache_set_size(service.get_service(), "producer_avformat", requestedThreads);
         //qDebug()<<"// MLT threads updated to: "<<mlt_service_cache_get_size(service.get_service(), "producer_avformat");
@@ -3038,7 +3038,7 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
         newProd.set("kdenlive:audio_track", 1);
         newProd.set("hide", 1);
     }
-    //checkMaxThreads();
+    checkMaxThreads();
     tractor.refresh();
 
     Mlt::Field *field = tractor.field();

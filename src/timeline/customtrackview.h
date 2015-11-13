@@ -402,7 +402,6 @@ private:
     QList<AbstractClipItem *> m_copiedItems;
     /** Used to get the point in timeline where a context menu was opened */
     QPoint m_menuPosition;
-    bool m_blockRefresh;
     AbstractGroupItem *m_selectionGroup;
     QList <ClipItem *> m_waitingThumbs;
     int m_selectedTrack;

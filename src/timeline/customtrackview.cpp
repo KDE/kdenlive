@@ -106,7 +106,6 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
   , m_tool(SelectTool)
   , m_copiedItems()
   , m_menuPosition()
-  , m_blockRefresh(false)
   , m_selectionGroup(NULL)
   , m_selectedTrack(0)
   , m_spacerOffset(0)
@@ -640,7 +639,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         AbstractClipItem *clip = static_cast <AbstractClipItem*>(item);
         if (m_tool == RazorTool) {
             // razor tool over a clip, display current frame in monitor
-            if (false && !m_blockRefresh && item->type() == AVWidget) {
+            if (false && item->type() == AVWidget) {
                 //TODO: solve crash when showing frame when moving razor over clip
                 //emit showClipFrame(static_cast<ClipItem*>(item)->baseClip(), QPoint(), false, mappedXPos - (clip->startPos() - clip->cropStart()).frames(m_document->fps()));
             }
@@ -758,7 +757,6 @@ void CustomTrackView::createRectangleSelection(QMouseEvent * event)
         }
         scene()->clearSelection();
     }
-    m_blockRefresh = false;
     m_operationMode = RubberSelection;
     QGraphicsView::mousePressEvent(event);
 }
@@ -860,37 +858,40 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 {
     setFocus(Qt::MouseFocusReason);
     m_menuPosition = QPoint();
+    if (m_operationMode == MoveOperation) {
+        // click while dragging, ignore
+        event->ignore();
+        return;
+    }
     m_clipDrag = false;
 
     // special cases (middle click button or ctrl / shift click
     if (event->button() == Qt::MidButton) {
         emit playMonitor();
-        m_blockRefresh = false;
         m_operationMode = None;
         return;
     }
 
-    if (event->modifiers() & Qt::ShiftModifier) {
-        createRectangleSelection(event);
-        return;
+    if (event->button() == Qt::LeftButton) {
+        if (event->modifiers() & Qt::ShiftModifier) {
+            createRectangleSelection(event);
+            return;
+        }
+        if (m_tool != RazorTool) activateMonitor();
+        else if (m_document->renderer()->isPlaying()) {
+            m_document->renderer()->pause();
+            return;
+        }
     }
 
-    m_blockRefresh = true;
     m_dragGuide = NULL;
-
-    if (m_tool != RazorTool) activateMonitor();
-    else if (m_document->renderer()->isPlaying()) {
-        m_document->renderer()->pause();
-        return;
-    }
     m_clickEvent = event->pos();
 
     // check item under mouse
     QList<QGraphicsItem *> collisionList = items(m_clickEvent);
-    if (event->modifiers() == Qt::ControlModifier && m_tool != SpacerTool && collisionList.count() == 0) {
+    if (event->button() == Qt::LeftButton && event->modifiers() == Qt::ControlModifier && m_tool != SpacerTool && collisionList.count() == 0) {
         // Pressing Ctrl + left mouse button in an empty area scrolls the timeline
         setDragMode(QGraphicsView::ScrollHandDrag);
-        m_blockRefresh = false;
         m_operationMode = ScrollTimeline;
         QGraphicsView::mousePressEvent(event);
         return;
@@ -993,6 +994,20 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         m_autoTransition->setEnabled(false);
     }
     m_selectionMutex.unlock();
+
+    // No item under click
+    if (m_dragItem == NULL) {
+        resetSelectionGroup(false);
+        m_scene->clearSelection();
+        updateClipTypeActions(NULL);
+        if (event->button() == Qt::LeftButton) {
+            setCursor(Qt::ArrowCursor);
+            seekCursorPos((int)(mapToScene(event->x(), 0).x()));
+            event->setAccepted(true);
+            return;
+        }
+    }
+
     // context menu requested
     if (event->button() == Qt::RightButton) {
         if (!m_dragItem && !m_dragGuide) {
@@ -1020,51 +1035,40 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         displayContextMenu(event->globalPos(), m_dragItem, dragGroup);
         m_menuPosition = m_clickEvent;
         event->setAccepted(true);
+        if (m_dragItem == NULL) return;
     }
-    // No item under click
-    if (m_dragItem == NULL) {
-        resetSelectionGroup(false);
-        m_scene->clearSelection();
-        updateClipTypeActions(NULL);
-        if (event->button() != Qt::RightButton) {
-            setCursor(Qt::ArrowCursor);
-            seekCursorPos((int)(mapToScene(event->x(), 0).x()));
+
+    if (event->button() == Qt::LeftButton) {
+        if (m_tool == SpacerTool) {
+            resetSelectionGroup(false);
+            m_scene->clearSelection();
+            updateClipTypeActions(NULL);
+            spaceToolSelect(event);
+            QGraphicsView::mousePressEvent(event);
+            event->ignore();
+            return;
         }
-        QGraphicsView::mousePressEvent(event);
-        event->ignore();
-        return;
-    }
 
-    if (m_tool == SpacerTool) {
-        resetSelectionGroup(false);
-        m_scene->clearSelection();
-        updateClipTypeActions(NULL);
-        spaceToolSelect(event);
-        QGraphicsView::mousePressEvent(event);
-        event->ignore();
-        return;
-    }
-
-    // Razor tool
-    if (m_tool == RazorTool && m_dragItem) {
-        GenTime cutPos = GenTime((int)(mapToScene(event->pos()).x()), m_document->fps());
-        if (m_dragItem->type() == TransitionWidget) {
-            emit displayMessage(i18n("Cannot cut a transition"), ErrorMessage);
-        } else {
-            m_document->renderer()->pause();
-            if (m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
-                razorGroup(static_cast<AbstractGroupItem*>(m_dragItem->parentItem()), cutPos);
+        // Razor tool
+        if (m_tool == RazorTool && m_dragItem) {
+            GenTime cutPos = GenTime((int)(mapToScene(event->pos()).x()), m_document->fps());
+            if (m_dragItem->type() == TransitionWidget) {
+                emit displayMessage(i18n("Cannot cut a transition"), ErrorMessage);
             } else {
-                ClipItem *clip = static_cast <ClipItem *>(m_dragItem);
-                RazorClipCommand* command = new RazorClipCommand(this, clip->info(), clip->effectList(), cutPos);
-                m_commandStack->push(command);
+                m_document->renderer()->pause();
+                if (m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
+                    razorGroup(static_cast<AbstractGroupItem*>(m_dragItem->parentItem()), cutPos);
+                } else {
+                    ClipItem *clip = static_cast <ClipItem *>(m_dragItem);
+                    RazorClipCommand* command = new RazorClipCommand(this, clip->info(), clip->effectList(), cutPos);
+                    m_commandStack->push(command);
+                }
             }
+            m_dragItem = NULL;
+            event->accept();
+            return;
         }
-        m_dragItem = NULL;
-        event->accept();
-        return;
     }
-
     bool itemSelected = false;
     if (m_dragItem->isSelected()) {
         itemSelected = true;
@@ -1206,7 +1210,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     if (m_operationMode == KeyFrame) {
         m_dragItem->updateSelectedKeyFrame();
-        m_blockRefresh = false;
         return;
     } else if (m_operationMode == MoveOperation) {
         setCursor(Qt::ClosedHandCursor);
@@ -1282,7 +1285,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         resetSelectionGroup(false);
         m_dragItem->setSelected(true);
     }
-    m_blockRefresh = false;
 }
 
 void CustomTrackView::rebuildGroup(int childTrack, const GenTime &childPos)
@@ -2440,14 +2442,12 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
                 qDebug() << "/////////  ERROR CUTTING CLIP : (" << item->startPos().frames(25) << '-' << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << '-' << info.endPos.frames(25) << ')' << ", CUT: " << cutTime.frames(25);
             else
                 qDebug() << "/// ERROR NO CLIP at: " << info.startPos.frames(m_document->fps()) << ", track: " << info.track;
-            m_blockRefresh = false;
             return NULL;
         }
 
         if (execute) {
             if (!m_timeline->track(info.track)->cut(cutTime.seconds())) {
                 // Error cuting clip in playlist
-                m_blockRefresh = false;
                 return NULL;
             }
         }
@@ -2511,7 +2511,6 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
 
         if (!item || !dup || item == dup) {
             emit displayMessage(i18n("Cannot find clip to uncut"), ErrorMessage);
-            m_blockRefresh = false;
             return NULL;
         }
         if (!m_timeline->track(info.track)->del(cutTime.seconds())) {
@@ -3694,6 +3693,10 @@ void CustomTrackView::completeSpaceOperation(int track, GenTime &timeOffset)
 
 void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 {
+    if (event->button() != Qt::LeftButton) {
+        event->ignore();
+        return;
+    }
     if (m_moveOpMode == Seek) m_moveOpMode = None;
     if (m_operationMode == ScrollTimeline || m_operationMode == ZoomTimeline) {
         m_operationMode = None;
