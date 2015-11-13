@@ -303,6 +303,7 @@ void CustomRuler::updateRuler(int pos)
 
 void CustomRuler::setPixelPerMark(int rate)
 {
+    if (rate == m_rate) return;
     int scale = comboScale[rate];
     m_rate = rate;
     m_factor = 1.0 / (double) scale * FRAME_SIZE;
@@ -327,47 +328,51 @@ void CustomRuler::setPixelPerMark(int rate)
         bigMarkDistance = (double) FRAME_SIZE * m_timecode.fps() * 60;
     }
 
-    switch (rate) {
-    case 0:
-        m_textSpacing = fend * textFactor;
-        break;
-    case 1:
-        m_textSpacing = fend * textFactor * 2.0;
-        break;
-    case 2:
-        m_textSpacing = fend * m_timecode.fps() * (textFactor / 5.0);
-        break;
-    case 3:
-        m_textSpacing = fend * m_timecode.fps() * (textFactor / 4.0);
-        break;
-    case 4:
-        m_textSpacing = fend * m_timecode.fps() * textFactor;
-        break;
-    case 5:
-        m_textSpacing = fend * m_timecode.fps() * textFactor * 2;
-        break;
-    case 6:
-        m_textSpacing = fend * m_timecode.fps() * textFactor * 5;
-        break;
-    case 7:
-        m_textSpacing = fend * m_timecode.fps() * textFactor * 10;
-        break;
-    case 8:
-    case 9:
-        m_textSpacing = fend * m_timecode.fps() * textFactor * 20;
-        break;
-    case 10:
-        m_textSpacing = fend * m_timecode.fps() * textFactor * 60;
-        break;
-    case 11:
-        m_textSpacing = fend * m_timecode.fps() * textFactor * 120;
-        break;
-    case 12:
-        m_textSpacing = fend * m_timecode.fps() * textFactor * 150;
-        break;
-    case 13:
-        m_textSpacing = fend * m_timecode.fps() * textFactor * 300;
-        break;
+    m_textSpacing = fend * textFactor;
+    
+    if (m_textSpacing < timeLabelSize) {
+        int roundedFps = (int) (m_timecode.fps() + 0.5);
+        int factor = timeLabelSize / m_textSpacing;
+        if (factor < 2) {
+            m_textSpacing *= 2;
+        }
+        else if (factor < 5) {
+            m_textSpacing *= 5;
+        }
+        else if (factor < 10) {
+            m_textSpacing *= 10;
+        }
+        else if (factor < roundedFps) {
+            m_textSpacing *= roundedFps;
+        }
+        else if (factor < 2 * roundedFps) {
+            m_textSpacing *= 2 * roundedFps;
+        }
+        else if (factor < 5 * roundedFps) {
+            m_textSpacing *= 5 * roundedFps;
+        }
+        else if (factor < 10 * roundedFps) {
+            m_textSpacing *= 10 * roundedFps;
+        }
+        else if (factor < 20 * roundedFps) {
+            m_textSpacing *= 20 * roundedFps;
+        }
+        else if (factor < 60 * roundedFps) {
+            m_textSpacing *= 60 * roundedFps;
+        }
+        else if (factor < 120 * roundedFps) {
+            m_textSpacing *= 120 * roundedFps;
+        }
+        else if (factor < 150 * roundedFps) {
+            m_textSpacing *= 150 * roundedFps;
+        }
+        else if (factor < 300 * roundedFps) {
+            m_textSpacing *= 300 * roundedFps;
+        }
+        else {
+            factor /= (300 * roundedFps);
+            m_textSpacing *= (factor + 1) * (300 * roundedFps);
+        }
     }
     update();
 }
