@@ -1145,14 +1145,14 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         m_selectionMutex.unlock();
     }
 
-    if (collisionClip != NULL || m_dragItem == NULL) {
-        if (m_dragItem && m_dragItem->type() == AVWidget && !m_dragItem->isItemLocked()) {
-            ClipItem *selected = static_cast <ClipItem*>(m_dragItem);
-            emit clipItemSelected(selected);
-        } else {
-            emit clipItemSelected(NULL);
-        }
+    //if (collisionClip != NULL || m_dragItem == NULL) {
+    if (m_dragItem && m_dragItem->type() == AVWidget && !m_dragItem->isItemLocked()) {
+        ClipItem *selected = static_cast <ClipItem*>(m_dragItem);
+        emit clipItemSelected(selected);
+    } else {
+        emit clipItemSelected(NULL);
     }
+    //}
 
     // If clicked item is selected, allow move
     //if (!(event->modifiers() | Qt::ControlModifier) && m_operationMode == NONE)

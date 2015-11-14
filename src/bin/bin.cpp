@@ -73,6 +73,12 @@ void MyTreeView::mousePressEvent(QMouseEvent *event)
     QTreeView::mousePressEvent(event);
 }
 
+void MyTreeView::focusInEvent(QFocusEvent *event)
+{
+    emit focusView();
+    QTreeView::focusInEvent(event);
+}
+
 void MyTreeView::mouseMoveEvent(QMouseEvent * event) 
 {
     bool dragged = false;
@@ -238,42 +244,6 @@ bool LineEventEater::eventFilter(QObject *obj, QEvent *event)
     return QObject::eventFilter(obj, event);
 }
 
-EventEater::EventEater(QObject *parent) : QObject(parent)
-{
-}
-
-bool EventEater::eventFilter(QObject *obj, QEvent *event)
-{
-    if (event->type() == QEvent::MouseButtonPress) {
-        emit focusClipMonitor();
-        return QObject::eventFilter(obj, event);
-    }
-    if (event->type() == QEvent::MouseButtonDblClick) {
-        QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
-        QAbstractItemView *view = qobject_cast<QAbstractItemView*>(obj->parent());
-        if (view) {
-            QModelIndex idx = view->indexAt(mouseEvent->pos());
-            if (!idx.isValid()) {
-                // User double clicked on empty area
-                emit addClip();
-            }
-            else {
-		emit itemDoubleClicked(idx, mouseEvent->pos());
-            }
-        }
-        else {
-            qDebug()<<" +++++++ NO VIEW-------!!";
-        }
-        return true;
-    } else if (event->type() == QEvent::Wheel) {
-        QWheelEvent * e = static_cast<QWheelEvent*>(event);
-        if (e && e->modifiers() == Qt::ControlModifier) {
-            emit zoomView(e->delta() > 0);
-            return true;
-        }
-    }
-    return QObject::eventFilter(obj, event);
-}
 
 
 Bin::Bin(QWidget* parent) :
@@ -313,6 +283,7 @@ Bin::Bin(QWidget* parent) :
     searchLine->installEventFilter(leventEater);
     connect(leventEater, SIGNAL(clearSearchLine()), searchLine, SLOT(clear()));
 
+    setFocusPolicy(Qt::ClickFocus);
     // Build item view model
     m_itemModel = new ProjectItemModel(this);
 
@@ -405,18 +376,10 @@ Bin::Bin(QWidget* parent) :
     // Add search line
     m_toolbar->addWidget(searchLine);
 
-    m_eventEater = new EventEater(this);
-    connect(m_eventEater, SIGNAL(addClip()), this, SLOT(slotAddClip()));
-    connect(m_eventEater, SIGNAL(deleteSelectedClips()), this, SLOT(slotDeleteClip()));
     m_binTreeViewDelegate = new BinItemDelegate(this);
     //connect(pCore->projectManager(), SIGNAL(projectOpened(Project*)), this, SLOT(setProject(Project*)));
     m_splitter = new QSplitter(this);
     m_headerInfo = QByteArray::fromBase64(KdenliveSettings::treeviewheaders().toLatin1());
-
-    connect(m_eventEater, SIGNAL(itemDoubleClicked(QModelIndex,QPoint)), this, SLOT(slotItemDoubleClicked(QModelIndex,QPoint)), Qt::UniqueConnection);
-
-    connect(m_eventEater, SIGNAL(zoomView(bool)), this, SLOT(slotZoomView(bool)));
-
     layout->addWidget(m_splitter);
     m_propertiesPanel = new QWidget(this);
     m_splitter->addWidget(m_propertiesPanel);
@@ -453,6 +416,41 @@ Bin::~Bin()
     delete m_jobManager;
     delete m_infoMessage;
 }
+
+bool Bin::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::MouseButtonPress) {
+        m_monitor->slotActivateMonitor();
+        return QObject::eventFilter(obj, event);
+    }
+    if (event->type() == QEvent::MouseButtonDblClick) {
+        QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
+        QAbstractItemView *view = qobject_cast<QAbstractItemView*>(obj->parent());
+        if (view) {
+            QModelIndex idx = view->indexAt(mouseEvent->pos());
+            if (!idx.isValid()) {
+                // User double clicked on empty area
+                slotAddClip();
+            }
+            else {
+                slotItemDoubleClicked(idx, mouseEvent->pos());
+            }
+        }
+        else {
+            qDebug()<<" +++++++ NO VIEW-------!!";
+        }
+        return true;
+    } else if (event->type() == QEvent::Wheel) {
+        QWheelEvent * e = static_cast<QWheelEvent*>(event);
+        if (e && e->modifiers() == Qt::ControlModifier) {
+            slotZoomView(e->delta() > 0);
+            //emit zoomView(e->delta() > 0);
+            return true;
+        }
+    }
+    return QObject::eventFilter(obj, event);
+}
+
 
 void Bin::refreshIcons()
 {
@@ -699,7 +697,6 @@ void Bin::setMonitor(Monitor *monitor)
     connect(m_monitor, SIGNAL(addClipToProject(QUrl)), this, SLOT(slotAddClipToProject(QUrl)));
     connect(m_monitor, SIGNAL(refreshCurrentClip()), this, SLOT(slotOpenCurrent()));
     connect(this, SIGNAL(openClip(ClipController*,int,int)), m_monitor, SLOT(slotOpenClip(ClipController*,int,int)));
-    connect(m_eventEater, SIGNAL(focusClipMonitor()), m_monitor, SLOT(slotActivateMonitor()), Qt::UniqueConnection);
 }
 
 int Bin::getFreeFolderId()
@@ -1143,7 +1140,7 @@ void Bin::slotInitView(QAction *action)
 	    break;
     }
     m_itemView->setMouseTracking(true);
-    m_itemView->viewport()->installEventFilter(m_eventEater);
+    m_itemView->viewport()->installEventFilter(this);
     QSize zoom = m_iconSize * (m_slider->value() / 4.0);
     m_itemView->setIconSize(zoom);
     QPixmap pix(zoom);
@@ -1159,7 +1156,7 @@ void Bin::slotInitView(QAction *action)
     // setup some default view specific parameters
     if (m_listType == BinTreeView) {
         m_itemView->setItemDelegate(m_binTreeViewDelegate);
-        QTreeView *view = static_cast<QTreeView*>(m_itemView);
+        MyTreeView *view = static_cast<MyTreeView*>(m_itemView);
 	view->setSortingEnabled(true);
         view->setWordWrap(true);
         connect(m_proxyModel, SIGNAL(layoutAboutToBeChanged()), this, SLOT(slotSetSorting()));
@@ -1174,6 +1171,7 @@ void Bin::slotInitView(QAction *action)
         m_showDate->setChecked(!view->isColumnHidden(1));
         m_showDesc->setChecked(!view->isColumnHidden(2));
 	connect(view->header(), SIGNAL(sectionResized(int,int,int)), this, SLOT(slotSaveHeaders()));
+        connect(view, SIGNAL(focusView()), this, SLOT(slotSwitchEffectStack()));
     }
     else if (m_listType == BinIconView) {
 	QListView *view = static_cast<QListView*>(m_itemView);
@@ -1943,6 +1941,16 @@ void Bin::addEffect(const QString &id, QDomElement &effect)
 void Bin::editMasterEffect(ClipController *ctl)
 {
     emit masterClipSelected(ctl, m_monitor);
+}
+
+void Bin::slotSwitchEffectStack()
+{
+    ProjectClip *currentItem = getFirstSelectedClip();
+    ClipController *ctl = NULL;
+    if (currentItem) {
+        ctl = currentItem->controller();
+    }
+    editMasterEffect(ctl);
 }
 
 void Bin::doMoveClip(const QString &id, const QString &newParentId)

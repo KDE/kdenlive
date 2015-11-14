@@ -68,10 +68,14 @@ public:
 protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent * event);
+    void focusInEvent(QFocusEvent *event);
 
 private:
     QPoint m_startPos;
     bool performDrag();
+
+signals:
+    void focusView();
 };
 
 class BinMessageWidget: public KMessageWidget
@@ -286,29 +290,6 @@ signals:
     void clearSearchLine();
 };
 
-/**
- * @class EventEater
- * @brief Filter mouse clicks in the Item View.
- */
-
-class EventEater : public QObject
-{
-    Q_OBJECT
-public:
-    explicit EventEater(QObject *parent = 0);
-
-protected:
-    bool eventFilter(QObject *obj, QEvent *event);
-
-signals:
-    void focusClipMonitor();
-    void addClip();
-    void deleteSelectedClips();
-    void itemDoubleClicked(const QModelIndex&, const QPoint pos);
-    void zoomView(bool zoomIn);
-    //void editItemInTimeline(const QString&, const QString&, ProducerWrapper*);
-};
-
 
 /**
  * @class Bin
@@ -500,6 +481,8 @@ private slots:
     void slotOpenCurrent();
     void slotZoomView(bool zoomIn);
     void slotShowClipProperties();
+    /** @brief Widget gained focus, make sure we display effects for master clip. */
+    void slotSwitchEffectStack();
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img, bool fromFile = false);
@@ -558,6 +541,7 @@ public slots:
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event);
 
 private:
     ProjectItemModel *m_itemModel;
@@ -587,7 +571,6 @@ private:
     QSize m_iconSize;
     /** @brief Keeps the column width info of the tree view. */
     QByteArray m_headerInfo;
-    EventEater *m_eventEater;
     QWidget *m_propertiesPanel;
     QSlider *m_slider;
     Monitor *m_monitor;

@@ -128,6 +128,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_effectStack(NULL),
     m_exitCode(EXIT_SUCCESS),
     m_effectList(NULL),
+    m_transitionList(NULL),
     m_clipMonitor(NULL),
     m_projectMonitor(NULL),
     m_recMonitor(NULL),
@@ -458,6 +459,7 @@ void MainWindow::slotThemeChanged(const QString &theme)
         m_effectStack->transitionConfig()->updatePalette();
     }
     if (m_effectList) m_effectList->updatePalette();
+    if (m_transitionList) m_transitionList->updatePalette();
     if (m_clipMonitor) m_clipMonitor->setPalette(plt);
     if (m_projectMonitor) m_projectMonitor->setPalette(plt);
     setStatusBarStyleSheet(plt);
