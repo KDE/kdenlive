@@ -120,12 +120,6 @@ void HeaderTrack::updateStatus(TrackInfo info)
 void HeaderTrack::setTrackHeight(int height)
 {
     setFixedHeight(height);
-    // Don't show track buttons if size is too small
-    int iconSize = m_tb->iconSize().width();
-    if (height < 3 * iconSize) {
-        m_tb->setHidden(true);
-        //horizontalSpacer;
-    }
 }
 
 void HeaderTrack::updateEffectLabel(const QStringList &effects)
