@@ -157,7 +157,7 @@ void TransitionSettings::updateTrackList()
     for (int i = limit; i > 0; i--) {
         transitionTrack->addItem(m_tracks.at(i).type == VideoTrack ? videoIcon : audioIcon,
                                  m_tracks.at(i).trackName.isEmpty() ? QString::number(i) : m_tracks.at(i).trackName,
-                                 m_tracks.count() - i);
+                                 i);
     }
     transitionTrack->addItem(i18n("Black"), 0);
     transitionTrack->setCurrentIndex(transitionTrack->findData(current));
