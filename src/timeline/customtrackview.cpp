@@ -107,7 +107,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
   , m_copiedItems()
   , m_menuPosition()
   , m_selectionGroup(NULL)
-  , m_selectedTrack(0)
+  , m_selectedTrack(1)
   , m_spacerOffset(0)
   , m_audioCorrelator(NULL)
   , m_audioAlignmentReference(NULL)
@@ -5913,7 +5913,7 @@ void CustomTrackView::pasteClip()
     GenTime pos = GenTime(-1);
     if (m_menuPosition.isNull()) {
         position = mapFromGlobal(QCursor::pos());
-        if (!contentsRect().contains(position) || mapToScene(position).y() / m_tracksHeight > m_timeline->visibleTracksCount()) {
+        if (!contentsRect().contains(position)) {
             track = m_selectedTrack;
             pos = GenTime(m_cursorPos, m_document->fps());
             /*emit displayMessage(i18n("Cannot paste selected clips"), ErrorMessage);
@@ -5939,10 +5939,8 @@ void CustomTrackView::pasteClip()
 
     GenTime offset = pos - leftPos;
     int trackOffset = track - lowerTrack;
-
-    if (lowerTrack + trackOffset < 0) trackOffset = 0 - lowerTrack;
-    if (upperTrack + trackOffset > m_timeline->tracksCount() - 1) trackOffset = upperTrack + 1;
-    if (!canBePasted(m_copiedItems, offset, trackOffset)) {
+    if (upperTrack + trackOffset > m_timeline->tracksCount() - 1) trackOffset = m_timeline->tracksCount() - 1 -upperTrack;
+    if (lowerTrack + trackOffset < 0 || !canBePasted(m_copiedItems, offset, trackOffset)) {
         emit displayMessage(i18n("Cannot paste selected clips"), ErrorMessage);
         return;
     }
@@ -6959,16 +6957,16 @@ void CustomTrackView::updateProjectFps()
 void CustomTrackView::slotTrackDown()
 {
     int ix;
-    if (m_selectedTrack > m_timeline->tracksCount() - 2) ix = 0;
-    else ix = m_selectedTrack + 1;
+    if (m_selectedTrack > 1) ix = m_selectedTrack - 1;
+    else ix = m_timeline->tracksCount() - 1;
     slotSelectTrack(ix);
 }
 
 void CustomTrackView::slotTrackUp()
 {
     int ix;
-    if (m_selectedTrack > 0) ix = m_selectedTrack - 1;
-    else ix = m_timeline->tracksCount() - 1;
+    if (m_selectedTrack < m_timeline->tracksCount() - 1) ix = m_selectedTrack + 1;
+    else ix = 1;
     slotSelectTrack(ix);
 }
 
@@ -7666,7 +7664,7 @@ void CustomTrackView::exportTimelineSelection()
 int CustomTrackView::getTrackFromPos(double y) const
 {
     int totalTracks = m_timeline->tracksCount() - 1;
-    return totalTracks - ((int)(y / m_tracksHeight));
+    return qMax(1, totalTracks - ((int)(y / m_tracksHeight)));
 }
 
 int CustomTrackView::getPositionFromTrack(int track) const
