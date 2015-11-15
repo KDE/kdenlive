@@ -1125,6 +1125,7 @@ void Timeline::renameTrack(int ix, const QString &name)
     if (!tk) return;
     tk->setProperty("kdenlive:track_name", name);
     tk->trackHeader->renameTrack(name);
+    slotReloadTracks();
 }
 
 void Timeline::slotUpdateVerticalScroll(int /*min*/, int max)
