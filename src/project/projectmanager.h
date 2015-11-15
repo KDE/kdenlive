@@ -54,6 +54,8 @@ public:
     void doOpenFile(const QUrl &url, KAutoSaveFile *stale);
     KRecentFilesAction *recentFilesAction();
     void prepareSave();
+    /** @brief Disable all bin effects in current project */
+    void disableBinEffects(bool disable);
 
 public slots:
     void newFile(bool showProjectSettings = true, bool force = false);
@@ -93,9 +95,6 @@ public slots:
 
     /** @brief Update project and monitors profiles */
     void slotResetProfiles();
-
-    /** @brief Disable all effects in current project */
-    void slotDisableEffects(bool disable);
 
 private slots:
     void slotRevert();

@@ -2730,6 +2730,17 @@ void Bin::showSlideshowWidget(ProjectClip *clip)
 void Bin::slotDisableEffects(bool disable)
 {
     m_rootFolder->disableEffects(disable);
-    pCore->projectManager()->slotDisableEffects(disable);
+    pCore->projectManager()->disableBinEffects(disable);
     m_monitor->refreshMonitor();
+}
+
+void Bin::setBinEffectsDisabledStatus(bool disabled)
+{
+    QAction *disableEffects = pCore->window()->actionCollection()->action("disable_bin_effects");
+    if (disableEffects) {
+        disableEffects->blockSignals(true);
+        disableEffects->setChecked(disabled);
+        disableEffects->blockSignals(false);
+    }
+    pCore->projectManager()->disableBinEffects(disabled);
 }

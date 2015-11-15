@@ -455,6 +455,8 @@ public:
     void emitMessage(const QString &, MessageType);
     void rebuildMenu();
     void refreshIcons();
+    /** @brief Update status of disable effects action (when loading a document). */
+    void setBinEffectsDisabledStatus(bool disabled);
 
 private slots:
     void slotAddClip();

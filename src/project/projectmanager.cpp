@@ -596,8 +596,13 @@ void ProjectManager::slotResetProfiles()
     pCore->monitorManager()->updateScopeSource();
 }
 
-void ProjectManager::slotDisableEffects(bool disable)
+void ProjectManager::disableBinEffects(bool disable)
 {
-    pCore->window()->m_effectStack->disableEffects(disable);
+    if (disable) {
+        m_project->setDocumentProperty("disablebineffects", QString::number((int) true));
+    } else {
+        m_project->setDocumentProperty("disablebineffects", QString());
+    }
+    pCore->window()->m_effectStack->disableBinEffects(disable);
 }
 

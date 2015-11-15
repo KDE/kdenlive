@@ -1124,6 +1124,10 @@ void KdenliveDoc::cacheImage(const QString &fileId, const QImage &img) const
 
 void KdenliveDoc::setDocumentProperty(const QString &name, const QString &value)
 {
+    if (value.isEmpty()) {
+        m_documentProperties.remove(name);
+        return;
+    }
     m_documentProperties[name] = value;
 }
 
@@ -1142,8 +1146,6 @@ QMap <QString, QString> KdenliveDoc::getRenderProperties() const
     }
     return renderProperties;
 }
-
-
 
 void KdenliveDoc::saveCustomEffects(const QDomNodeList &customeffects)
 {
@@ -1529,6 +1531,8 @@ void KdenliveDoc::loadDocumentProperties()
     if (!list.isEmpty()) {
         m_profile = ProfilesDialog::getVideoProfileFromXml(list.at(0).toElement());
     }
+    bool binEffectsDisabled = m_documentProperties.contains("disablebineffects");
+    pCore->bin()->setBinEffectsDisabledStatus(binEffectsDisabled);
     updateProjectProfile();
 }
 
