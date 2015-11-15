@@ -63,6 +63,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUndoCommand>
 
 
+MyListView::MyListView(QWidget * parent) : QListView(parent) 
+{
+    setViewMode(QListView::IconMode);
+    setMovement(QListView::Static);
+    setResizeMode(QListView::Adjust);
+    setUniformItemSizes(true);
+    setDragDropMode(QAbstractItemView::DragDrop);
+    setAcceptDrops(true);
+    setDragEnabled(true);
+    viewport()->setAcceptDrops(true);
+}
+
+void MyListView::focusInEvent(QFocusEvent *event)
+{
+    emit focusView();
+    QListView::focusInEvent(event);
+}
+
 MyTreeView::MyTreeView(QWidget * parent) : QTreeView(parent) {}
 
 void MyTreeView::mousePressEvent(QMouseEvent *event)
@@ -261,6 +279,7 @@ Bin::Bin(QWidget* parent) :
   , m_propertiesPanel(NULL)
   , m_blankThumb()
   , m_invalidClipDialog(NULL)
+  , m_gainedFocus(false)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
 
@@ -421,7 +440,29 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::MouseButtonPress) {
         m_monitor->slotActivateMonitor();
-        return QObject::eventFilter(obj, event);
+        bool success = QWidget::eventFilter(obj, event);
+        if (m_gainedFocus) {
+            QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
+            QAbstractItemView *view = qobject_cast<QAbstractItemView*>(obj->parent());
+            if (view) {
+                QModelIndex idx = view->indexAt(mouseEvent->pos());
+                ClipController *ctl = NULL;
+                if (idx.isValid()) {
+                    AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(idx).internalPointer());
+                    if (item) {
+                        ProjectClip *clip = qobject_cast<ProjectClip*>(item);
+                        if (clip) {
+                            ctl = clip->controller();
+                        }
+                    }
+                }
+                m_gainedFocus = false;
+                editMasterEffect(ctl);
+            }
+            // make sure we discard the focus indicator
+            m_gainedFocus = false;
+        }
+        return success;
     }
     if (event->type() == QEvent::MouseButtonDblClick) {
         QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
@@ -448,7 +489,7 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
             return true;
         }
     }
-    return QObject::eventFilter(obj, event);
+    return QWidget::eventFilter(obj, event);
 }
 
 
@@ -1128,7 +1169,7 @@ void Bin::slotInitView(QAction *action)
 
     switch (m_listType) {
 	case BinIconView:
-	    m_itemView = new QListView(m_splitter);
+	    m_itemView = new MyListView(m_splitter);
 	    m_folderUp = new ProjectFolderUp(NULL);
 	    m_showDate->setEnabled(false);
 	    m_showDesc->setEnabled(false);
@@ -1171,14 +1212,11 @@ void Bin::slotInitView(QAction *action)
         m_showDate->setChecked(!view->isColumnHidden(1));
         m_showDesc->setChecked(!view->isColumnHidden(2));
 	connect(view->header(), SIGNAL(sectionResized(int,int,int)), this, SLOT(slotSaveHeaders()));
-        connect(view, SIGNAL(focusView()), this, SLOT(slotSwitchEffectStack()));
+        connect(view, SIGNAL(focusView()), this, SLOT(slotGotFocus()));
     }
     else if (m_listType == BinIconView) {
-	QListView *view = static_cast<QListView*>(m_itemView);
-	view->setViewMode(QListView::IconMode);
-	view->setMovement(QListView::Static);
-	view->setResizeMode(QListView::Adjust);
-	view->setUniformItemSizes(true);
+	MyListView *view = static_cast<MyListView*>(m_itemView);
+        connect(view, SIGNAL(focusView()), this, SLOT(slotGotFocus()));
     }
     m_itemView->setEditTriggers(QAbstractItemView::NoEditTriggers); //DoubleClicked);
     m_itemView->setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -1908,6 +1946,15 @@ void Bin::slotEffectDropped(QString effect, const QModelIndex &parent)
             // effect only supported on clip items
             return;
         }
+        m_proxyModel->selectionModel()->clearSelection();
+        int row =parent.row();
+        for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
+            const QModelIndex id = m_itemModel->index(row, i, QModelIndex());
+            if (id.isValid()) {
+                m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
+            }
+        }
+        parentItem->setCurrent(true);
         QDomDocument doc;
         doc.setContent(effect);
         QDomElement e = doc.documentElement();
@@ -1940,17 +1987,16 @@ void Bin::addEffect(const QString &id, QDomElement &effect)
 
 void Bin::editMasterEffect(ClipController *ctl)
 {
+    if (m_gainedFocus) {
+        // Widget just gained focus, updating stack is managed in the eventfilter event, not from item
+        return;
+    }
     emit masterClipSelected(ctl, m_monitor);
 }
 
-void Bin::slotSwitchEffectStack()
+void Bin::slotGotFocus()
 {
-    ProjectClip *currentItem = getFirstSelectedClip();
-    ClipController *ctl = NULL;
-    if (currentItem) {
-        ctl = currentItem->controller();
-    }
-    editMasterEffect(ctl);
+    m_gainedFocus = true;
 }
 
 void Bin::doMoveClip(const QString &id, const QString &newParentId)

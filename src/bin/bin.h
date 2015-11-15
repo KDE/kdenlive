@@ -35,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDomElement>
 #include <QPushButton>
 #include <QUrl>
+#include <QListView>
 
 class KdenliveDoc;
 class ClipController;
@@ -57,6 +58,19 @@ class InvalidDialog;
 
 namespace Mlt {
   class Producer;
+};
+
+
+class MyListView: public QListView
+{
+    Q_OBJECT
+public:
+    explicit MyListView(QWidget *parent = 0);
+
+protected:
+    void focusInEvent(QFocusEvent *event);
+signals:
+    void focusView();
 };
 
 class MyTreeView: public QTreeView
@@ -482,7 +496,7 @@ private slots:
     void slotZoomView(bool zoomIn);
     void slotShowClipProperties();
     /** @brief Widget gained focus, make sure we display effects for master clip. */
-    void slotSwitchEffectStack();
+    void slotGotFocus();
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img, bool fromFile = false);
@@ -534,7 +548,7 @@ public slots:
     void slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties, bool refreshPropertiesPanel);
     /** @brief Pass some important properties to timeline track producers. */
     void updateTimelineProducers(const QString &id, QMap <QString, QString> passProperties);
-    /** @brief Add effect to active Bin clip. */
+    /** @brief Add effect to active Bin clip (used when double clicking an effect in list). */
     void slotEffectDropped(QDomElement);
     /** @brief Request current frame from project monitor. */
     void slotGetCurrentProjectImage();
@@ -592,6 +606,8 @@ private:
     QAction *m_logAction;
     QStringList m_errorLog;
     InvalidDialog *m_invalidClipDialog;
+    /** @brief Set to true if widget just gained focus (means we have to update effect stack . */
+    bool m_gainedFocus;
     void showClipProperties(ProjectClip *clip);
     const QStringList getFolderInfo(QModelIndex selectedIx = QModelIndex());
     /** @brief Get the QModelIndex value for an item in the Bin. */

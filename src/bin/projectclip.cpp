@@ -228,7 +228,6 @@ void ProjectClip::reloadProducer(bool thumbnailOnly)
 void ProjectClip::setCurrent(bool current, bool notify)
 {
     Q_UNUSED(notify)
-    //AbstractProjectItem::setCurrent(current, notify);
     if (current && m_controller) {
         bin()->openProducer(m_controller);
         bin()->editMasterEffect(m_controller);
