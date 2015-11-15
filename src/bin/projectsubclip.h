@@ -60,6 +60,8 @@ public:
     ProjectFolder* folder(const QString &id);
     ProjectSubClip* subClip(int in, int out);
     ProjectClip *clipAt(int ix);
+    /** @brief Recursively disable/enable bin effects. */
+    void disableEffects(bool disable);
     QDomElement toXml(QDomDocument &document);
 
     /** @brief Returns the clip's duration. */

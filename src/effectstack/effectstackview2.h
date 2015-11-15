@@ -88,6 +88,9 @@ public:
     /** @brief Returns the transition setting widget for signal/slot connections */
     TransitionSettings *transitionConfig();
 
+    /** @brief Dis/Enable the effect stack */
+    void disableEffects(bool disable);
+
 protected:
     void mouseMoveEvent(QMouseEvent * event);
     void mouseReleaseEvent(QMouseEvent * event);

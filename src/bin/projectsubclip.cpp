@@ -77,6 +77,10 @@ ProjectFolder* ProjectSubClip::folder(const QString &id)
     return NULL;
 }
 
+void ProjectSubClip::disableEffects(bool)
+{
+}
+
 GenTime ProjectSubClip::duration() const
 {
     //TODO

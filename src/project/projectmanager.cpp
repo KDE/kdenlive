@@ -595,3 +595,9 @@ void ProjectManager::slotResetProfiles()
     pCore->monitorManager()->resetProfiles(m_project->mltProfile(), m_project->timecode());
     pCore->monitorManager()->updateScopeSource();
 }
+
+void ProjectManager::slotDisableEffects(bool disable)
+{
+    pCore->window()->m_effectStack->disableEffects(disable);
+}
+

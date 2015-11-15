@@ -98,6 +98,14 @@ ProjectClip* ProjectFolder::clipAt(int index)
     return NULL;
 }
 
+void ProjectFolder::disableEffects(bool disable)
+{
+    for (int i = 0; i < count(); ++i) {
+        AbstractProjectItem *item = at(i);
+        item->disableEffects(disable);
+    }
+}
+
 Bin* ProjectFolder::bin()
 {
     if (m_bin) {

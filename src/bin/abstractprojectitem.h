@@ -110,6 +110,8 @@ public:
     /** @brief Used to search for a folder with a specific id. */
     virtual ProjectFolder* folder(const QString &id) = 0;
     virtual ProjectClip *clipAt(int ix) = 0;
+    /** @brief Recursively disable/enable bin effects. */
+    virtual void disableEffects(bool disable) = 0;
 
     /** @brief Returns the clip's id. */
     const QString &clipId() const;

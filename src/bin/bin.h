@@ -497,6 +497,8 @@ private slots:
     void slotShowClipProperties();
     /** @brief Widget gained focus, make sure we display effects for master clip. */
     void slotGotFocus();
+    /** @brief Dis/Enable all bin effects. */
+    void slotDisableEffects(bool disable);
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img, bool fromFile = false);

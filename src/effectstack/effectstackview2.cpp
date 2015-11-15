@@ -1170,5 +1170,8 @@ const QString EffectStackView2::getStyleSheet()
     return stylesheet;
 }
 
-
+void EffectStackView2::disableEffects(bool disable)
+{
+    m_effect->setEnabled(!disable);
+}
 

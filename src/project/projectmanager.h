@@ -94,6 +94,9 @@ public slots:
     /** @brief Update project and monitors profiles */
     void slotResetProfiles();
 
+    /** @brief Disable all effects in current project */
+    void slotDisableEffects(bool disable);
+
 private slots:
     void slotRevert();
     /** @brief Open the project's backupdialog. */

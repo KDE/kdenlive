@@ -346,6 +346,15 @@ Bin::Bin(QWidget* parent) :
         listType->setCurrentAction(iconViewAction);
     }
     pCore->window()->actionCollection()->addAction("bin_view_mode_icon", iconViewAction);
+
+    QAction *disableEffects = new QAction(i18n("Disable Bin Effects"), this);
+    connect(disableEffects, SIGNAL(triggered(bool)), this, SLOT(slotDisableEffects(bool)));
+    disableEffects->setIcon(KoIconUtils::themedIcon("favorite"));
+    disableEffects->setData("disable_bin_effects");
+    disableEffects->setCheckable(true);
+    disableEffects->setChecked(false);
+    pCore->window()->actionCollection()->addAction("disable_bin_effects", disableEffects);
+
     listType->setToolBarMode(KSelectAction::MenuMode);
     connect(listType, SIGNAL(triggered(QAction*)), this, SLOT(slotInitView(QAction*)));
 
@@ -356,7 +365,7 @@ Bin::Bin(QWidget* parent) :
     sliderMenu->setIcon(KoIconUtils::themedIcon("zoom-in"));
     sliderMenu->addAction(widgetslider);
     settingsMenu->addMenu(sliderMenu);
-    
+
     // Column show / hide actions
     m_showDate = new QAction(i18n("Show date"), this);
     m_showDate->setCheckable(true);
@@ -366,6 +375,7 @@ Bin::Bin(QWidget* parent) :
     connect(m_showDesc, SIGNAL(triggered(bool)), this, SLOT(slotShowDescColumn(bool)));
     settingsMenu->addAction(m_showDate);
     settingsMenu->addAction(m_showDesc);
+    settingsMenu->addAction(disableEffects);
     QToolButton *button = new QToolButton;
     button->setIcon(KoIconUtils::themedIcon("configure"));
     button->setMenu(settingsMenu);
@@ -1960,6 +1970,7 @@ void Bin::slotEffectDropped(QString effect, const QModelIndex &parent)
         QDomElement e = doc.documentElement();
         AddBinEffectCommand *command = new AddBinEffectCommand(this, parentItem->clipId(), e);
         m_doc->commandStack()->push(command);
+        m_monitor->refreshMonitor();
     }
 }
 
@@ -2714,4 +2725,11 @@ void Bin::showSlideshowWidget(ProjectClip *clip)
         oldProperties.insert("animation", clip->getProducerProperty("animation"));
         slotEditClipCommand(clip->clipId(), oldProperties, properties);
     }
+}
+
+void Bin::slotDisableEffects(bool disable)
+{
+    m_rootFolder->disableEffects(disable);
+    pCore->projectManager()->slotDisableEffects(disable);
+    m_monitor->refreshMonitor();
 }

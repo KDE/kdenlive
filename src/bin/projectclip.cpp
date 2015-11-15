@@ -168,6 +168,11 @@ ProjectFolder* ProjectClip::folder(const QString &id)
     return NULL;
 }
 
+void ProjectClip::disableEffects(bool disable)
+{
+    if (m_controller) m_controller->disableEffects(disable);
+}
+
 ProjectSubClip* ProjectClip::getSubClip(int in, int out)
 {
     for (int i = 0; i < count(); ++i) {
