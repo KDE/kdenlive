@@ -1501,16 +1501,16 @@ void Monitor::slotSwitchCompare(bool enable)
 
 void Monitor::loadMasterQml()
 {
-    if ((m_rootItem && m_rootItem->objectName() == "root")) {
-        // Root scene is already active
-        return;
-    }
     if (!KdenliveSettings::displayMonitorInfo()) {
         // We don't want info overlay
         if (m_rootItem) {
             m_glMonitor->setSource(QUrl());
             m_rootItem = NULL;
         }
+        return;
+    }
+    if ((m_rootItem && m_rootItem->objectName() == "root")) {
+        // Root scene is already active
         return;
     }
     m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitor.qml"))));
