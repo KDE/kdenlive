@@ -96,6 +96,9 @@ public slots:
     /** @brief Update project and monitors profiles */
     void slotResetProfiles();
 
+    /** @brief Dis/enable all timeline effects */
+    void slotDisableTimelineEffects(bool disable);
+
 private slots:
     void slotRevert();
     /** @brief Open the project's backupdialog. */

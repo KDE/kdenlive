@@ -178,6 +178,15 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
 
     connect(m_project, SIGNAL(progressInfo(QString,int)), pCore->window(), SLOT(slotGotProgressInfo(QString,int)));
     pCore->window()->connectDocument();
+    bool disabled = m_project->getDocumentProperty("disabletimelineeffects") == "1";
+    QAction *disableEffects = pCore->window()->actionCollection()->action("disable_timeline_effects");
+    if (disableEffects) {
+        if (disabled != disableEffects->isChecked()) {
+            disableEffects->blockSignals(true);
+            disableEffects->setChecked(disabled);
+            disableEffects->blockSignals(false);
+        }
+    }
     emit docOpened(m_project);
     //pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
     m_lastSave.start();
@@ -475,6 +484,15 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
 
     m_project = doc;
     pCore->window()->connectDocument();
+    bool disabled = m_project->getDocumentProperty("disabletimelineeffects") == "1";
+    QAction *disableEffects = pCore->window()->actionCollection()->action("disable_timeline_effects");
+    if (disableEffects) {
+        if (disabled != disableEffects->isChecked()) {
+            disableEffects->blockSignals(true);
+            disableEffects->setChecked(disabled);
+            disableEffects->blockSignals(false);
+        }
+    }
     emit docOpened(m_project);
 
     pCore->window()->m_timelineArea->setCurrentIndex(pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme("kdenlive"), m_project->description()));
@@ -598,11 +616,24 @@ void ProjectManager::slotResetProfiles()
 
 void ProjectManager::disableBinEffects(bool disable)
 {
-    if (disable) {
-        m_project->setDocumentProperty("disablebineffects", QString::number((int) true));
-    } else {
-        m_project->setDocumentProperty("disablebineffects", QString());
+    if (m_project) {
+        if (disable) {
+            m_project->setDocumentProperty("disablebineffects", QString::number((int) true));
+        } else {
+            m_project->setDocumentProperty("disablebineffects", QString());
+        }
     }
     pCore->window()->m_effectStack->disableBinEffects(disable);
 }
 
+void ProjectManager::slotDisableTimelineEffects(bool disable)
+{
+    if (disable) {
+        m_project->setDocumentProperty("disabletimelineeffects", QString::number((int) true));
+    } else {
+        m_project->setDocumentProperty("disabletimelineeffects", QString());
+    }
+    m_trackView->disableTimelineEffects(disable);
+    pCore->window()->m_effectStack->disableTimelineEffects(disable);
+    pCore->monitorManager()->projectMonitor()->refreshMonitor();
+}

@@ -115,6 +115,26 @@ void Clip::deleteEffects()
     }
 }
 
+void Clip::disableEffects(bool disable)
+{
+    int ct = 0;
+    Mlt::Filter *filter = m_producer.filter(ct);
+    while (filter) {
+        QString ix = filter->get("kdenlive_ix");
+        if (!ix.isEmpty()) {
+            if (disable && filter->get_int("disable") == 0) {
+                filter->set("disable", 1);
+                filter->set("auto_disable", 1);
+            }
+            else if (!disable && filter->get_int("auto_disable") == 1) {
+                filter->set("disable", (char*) NULL);
+                filter->set("auto_disable", (char*) NULL);
+            }
+        }
+        ct++;
+        filter = m_producer.filter(ct);
+    }
+}
 
 QByteArray Clip::xml()
 {

@@ -137,6 +137,8 @@ public:
     void blockTrackSignals(bool block);
     /** @brief Load document */
     void loadTimeline();
+    /** @brief Dis/enable all effects in timeline*/
+    void disableTimelineEffects(bool disable);
 
 protected:
     void keyPressEvent(QKeyEvent * event);

@@ -804,6 +804,8 @@ void Bin::setDocument(KdenliveDoc* project)
     //connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_itemView
     //connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
     slotInitView(NULL);
+    bool binEffectsDisabled = getDocumentProperty("disablebineffects").toInt() == 1;
+    setBinEffectsDisabledStatus(binEffectsDisabled);
     autoSelect();
 }
 
@@ -2738,6 +2740,7 @@ void Bin::setBinEffectsDisabledStatus(bool disabled)
 {
     QAction *disableEffects = pCore->window()->actionCollection()->action("disable_bin_effects");
     if (disableEffects) {
+        if (disabled == disableEffects->isChecked()) return;
         disableEffects->blockSignals(true);
         disableEffects->setChecked(disabled);
         disableEffects->blockSignals(false);

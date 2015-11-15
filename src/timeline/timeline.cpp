@@ -1413,3 +1413,11 @@ int Timeline::getSpaceLength(const GenTime &pos, int tk, bool fromBlankStart)
     return sourceTrack->spaceLength(insertPos, fromBlankStart);
 }
 
+void Timeline::disableTimelineEffects(bool disable)
+{
+    for (int i = 0; i< m_tracks.count(); i++) {
+        track(i)->disableEffects(disable);
+    }
+}
+
+

@@ -1231,6 +1231,11 @@ void MainWindow::setupActions()
     reloadClip->setData("reload_clip");
     reloadClip->setEnabled(false);
 
+    QAction *disableEffects = addAction("disable_timeline_effects", i18n("Disable Timeline Effects"), pCore->projectManager(), SLOT(slotDisableTimelineEffects(bool)), KoIconUtils::themedIcon("favorite"));
+    disableEffects->setData("disable_timeline_effects");
+    disableEffects->setCheckable(true);
+    disableEffects->setChecked(false);
+
     QAction *duplicateClip = addAction("duplicate_clip", i18n("Duplicate Clip"), pCore->bin(), SLOT(slotDuplicateClip()), KoIconUtils::themedIcon("edit-copy"));
     duplicateClip->setData("duplicate_clip");
     duplicateClip->setEnabled(false);

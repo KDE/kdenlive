@@ -90,6 +90,7 @@ public:
 
     /** @brief Dis/Enable the effect stack */
     void disableBinEffects(bool disable);
+    void disableTimelineEffects(bool disable);
     
     enum STACKSTATUS {
         NORMALSTATUS = 0,

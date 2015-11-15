@@ -1531,8 +1531,6 @@ void KdenliveDoc::loadDocumentProperties()
     if (!list.isEmpty()) {
         m_profile = ProfilesDialog::getVideoProfileFromXml(list.at(0).toElement());
     }
-    bool binEffectsDisabled = m_documentProperties.contains("disablebineffects");
-    pCore->bin()->setBinEffectsDisabledStatus(binEffectsDisabled);
     updateProjectProfile();
 }
 

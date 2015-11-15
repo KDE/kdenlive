@@ -170,6 +170,8 @@ public:
     QStringList getSlowmotionIds(const QString &id);
     /** @brief Returns the length of blank space from a position pos. */
     int spaceLength(int pos, bool fromBlankStart);
+    /** @brief Dis/enable all effects on this track. */
+    void disableEffects(bool disable);
 
 public Q_SLOTS:
     void setPlaylist(Mlt::Playlist &playlist);

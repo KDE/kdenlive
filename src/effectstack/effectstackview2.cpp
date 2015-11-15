@@ -1191,10 +1191,31 @@ void EffectStackView2::disableBinEffects(bool disable)
         if (m_stateStatus == DISABLEBIN) {
             m_stateStatus = NORMALSTATUS;
         }
-        else if (m_stateStatus = DISABLEALL) {
+        else if (m_stateStatus == DISABLEALL) {
             m_stateStatus = DISABLETIMELINE;
         }
     }
     if (m_status == MASTER_CLIP) m_effect->setEnabled(!disable);
+}
+
+void EffectStackView2::disableTimelineEffects(bool disable)
+{
+    if (disable) {
+        if (m_stateStatus == NORMALSTATUS) {
+            m_stateStatus = DISABLETIMELINE;
+        }
+        else if (m_stateStatus == DISABLEBIN) {
+            m_stateStatus = DISABLEALL;
+        }
+    }
+    else {
+        if (m_stateStatus == DISABLETIMELINE) {
+            m_stateStatus = NORMALSTATUS;
+        }
+        else if (m_stateStatus == DISABLEALL) {
+            m_stateStatus = DISABLEBIN;
+        }
+    }
+    if (m_status == TIMELINE_CLIP) m_effect->setEnabled(!disable);
 }
 
