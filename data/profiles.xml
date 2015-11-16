@@ -53,9 +53,9 @@
       audiobitrates="192,160,128" defaultaudiobitrate="160"
       args="properties=x264-medium vb=%bitrate+'k' pass=%passes ab=%audiobitrate+'k'" />
     <profile name="H.265/AAC HEVC"
-      qualities="24,26,29" defaultquality="26"
+      qualities="20,24,26,29" defaultquality="26"
       audiobitrates="192,160,128" defaultaudiobitrate="160"
-      args="properties=x265-medium -x265-params=crf=%quality ab=%audiobitrate+'k'" />
+      args="properties=x265-medium crf=%quality ab=%audiobitrate+'k'" />
     <profile name="MPEG-4/MP3 Advanced Simple Profile"
       qualities="3,5,8" defaultquality="5"
       audioqualities="3,5,7" defaultaudioquality="5"
