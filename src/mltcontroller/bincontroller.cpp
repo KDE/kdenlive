@@ -542,3 +542,18 @@ const QString BinController::getProperty(const QString &name)
     return QString(m_binPlaylist->get(name.toUtf8().constData()));
 }
 
+QMap <QString, QString> BinController::getProxies()
+{
+    QMap <QString, QString> proxies;
+    int size = m_binPlaylist->count();
+    for (int i = 0; i < size; i++) {
+        QScopedPointer<Mlt::Producer> prod(m_binPlaylist->get_clip(i));
+	if (!prod->is_valid() || prod->is_blank()) continue;
+        QString proxy = prod->parent().get("kdenlive:proxy");
+	if (proxy.length() > 2) {
+	    proxies.insert(proxy, prod->parent().get("kdenlive:originalurl"));
+	}
+    }
+    return proxies;
+}
+

@@ -2941,7 +2941,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
         // replace proxy clips with originals
         //TODO
-        QMap <QString, QString> proxies; // = m_projectList->getProxies();
+        QMap <QString, QString> proxies = pCore->binController()->getProxies();
 
         QDomNodeList producers = doc.elementsByTagName("producer");
         QString producerResource;
