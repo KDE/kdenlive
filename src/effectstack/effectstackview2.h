@@ -33,7 +33,6 @@ class ClipItem;
 class Transition;
 class TransitionSettings;
 class ClipController;
-class MltVideoProfile;
 class Monitor;
 
 

@@ -24,7 +24,6 @@
 
 #include "abstractclipjob.h"
 
-class QUrl;
 
 namespace Mlt{
 class Profile;

@@ -31,7 +31,6 @@
 #include <QFrame>
 
 class MonitorManager;
-class GLWidget;
 
 class AbstractRender: public QObject
 {

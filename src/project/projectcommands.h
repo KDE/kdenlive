@@ -28,7 +28,6 @@
 #include <QPoint>
 
 class ProjectList;
-class KdenliveDoc;
 class ProjectClip;
 
 

@@ -50,7 +50,6 @@ class KdenliveDoc;
 class EffectsListView;
 class EffectStackView;
 class EffectStackView2;
-class TransitionSettings;
 class Monitor;
 class RecMonitor;
 class RenderWidget;

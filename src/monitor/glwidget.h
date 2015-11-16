@@ -34,7 +34,6 @@
 #include "definitions.h"
 
 class QOpenGLFunctions_3_2_Core;
-class QOpenGLTexture;
 //class QmlFilter;
 //class QmlMetadata;
 

@@ -67,7 +67,6 @@ class Transition;
 class Frame;
 class Field;
 class Producer;
-class Repository;
 class Filter;
 class Profile;
 class Service;

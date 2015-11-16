@@ -49,7 +49,6 @@ class ProjectClip;
 class ProjectFolder;
 class AbstractProjectItem;
 class Monitor;
-class QItemSelectionModel;
 class ProjectSortProxyModel;
 class JobManager;
 class ProjectFolderUp;
