@@ -44,6 +44,7 @@
 #include <QKeyEvent>
 #include <QTimer>
 #include <QStandardPaths>
+#include <QDir>
 
 #include <locale>
 #ifdef Q_OS_MAC
@@ -63,7 +64,8 @@ enum {GroupRole = Qt::UserRole,
       BitratesRole,
       DefaultBitrateRole,
       AudioBitratesRole,
-      DefaultAudioBitrateRole
+      DefaultAudioBitrateRole,
+      ErrorRole
      };
 
 // Render job roles
@@ -879,8 +881,8 @@ void RenderWidget::updateButtons()
         m_view.buttonGenerateScript->setEnabled(false);
     } else {
         m_view.buttonSave->setEnabled(true);
-        m_view.buttonRender->setEnabled(m_view.size_list->currentItem()->toolTip().isEmpty());
-        m_view.buttonGenerateScript->setEnabled(m_view.size_list->currentItem()->toolTip().isEmpty());
+        m_view.buttonRender->setEnabled(m_view.size_list->currentItem()->data(ErrorRole).isNull());
+        m_view.buttonGenerateScript->setEnabled(m_view.size_list->currentItem()->data(ErrorRole).isNull());
         QString edit = m_view.size_list->currentItem()->data(EditableRole).toString();
         if (edit.isEmpty() || !edit.endsWith(QLatin1String("customprofiles.xml"))) {
             m_view.buttonDelete->setEnabled(false);
@@ -971,7 +973,9 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             }
         }
         // Checks for image sequence
-        if (extension == "jpg" || extension == "png") {
+        QStringList imageSequences;
+        imageSequences << "jpg" << "png" << "bmp" << "dpx" << "ppm" << "tga" << "tif";
+        if (imageSequences.contains(extension)) {
             // format string for counter?
             if(!QRegExp(".*%[0-9]*d.*").exactMatch(dest)) {
                 dest = dest.section('.',0,-2) + "_%05d." + extension;
@@ -1144,7 +1148,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         else
             render_process_args <<  (scriptExport ? "$SOURCE_" + QString::number(stemIdx) : playlistPaths.at(stemIdx));
 
-        render_process_args << (scriptExport ? "$TARGET_" + QString::number(stemIdx) : QUrl(dest).url());
+        render_process_args << (scriptExport ? "$TARGET_" + QString::number(stemIdx) : QUrl::fromLocalFile(dest).url());
         if (KdenliveSettings::gpu_accel()) {
                 render_process_args << "glsl.=1";
         }
@@ -1157,7 +1161,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             QString stemIdxStr(QString::number(stemIdx));
 
             outStream << "SOURCE_" << stemIdxStr << "=" << '\"' + QUrl(playlistPaths.at(stemIdx)).toEncoded() + '\"' << '\n';
-            outStream << "TARGET_" << stemIdxStr << "=" << '\"' + QUrl(dest).toEncoded() + '\"' << '\n';
+            outStream << "TARGET_" << stemIdxStr << "=" << '\"' + QUrl::fromLocalFile(dest).toEncoded() + '\"' << '\n';
             outStream << "PARAMETERS_" << stemIdxStr << "=" << '\"' + render_process_args.join(" ") + '\"' << '\n';
             outStream << "$RENDERER $PARAMETERS_" << stemIdxStr << "\n\n";
 
@@ -1471,7 +1475,7 @@ void RenderWidget::refreshView(const QString &profile)
                     if (p.frame_rate_den > 0) {
                         double profile_rate = (double) p.frame_rate_num / p.frame_rate_den;
                         if ((int) (1000.0 * profile_rate) != (int) (1000.0 * project_framerate)) {
-                            dupItem->setToolTip(i18n("Frame rate (%1) not compatible with project profile (%2)", profile_rate, project_framerate));
+                            dupItem->setData(ErrorRole, i18n("Frame rate (%1) not compatible with project profile (%2)", profile_rate, project_framerate));
                             dupItem->setIcon(brokenIcon);
                             dupItem->setForeground(disabled);
                         }
@@ -1489,7 +1493,7 @@ void RenderWidget::refreshView(const QString &profile)
                             //qDebug() << "***** UNSUPPORTED F: " << format;
                             //sizeItem->setHidden(true);
                             //sizeItem-item>setFlags(Qt::ItemIsSelectable);
-                            dupItem->setToolTip(i18n("Unsupported video format: %1", format));
+                            dupItem->setData(ErrorRole, i18n("Unsupported video format: %1", format));
                             dupItem->setIcon(brokenIcon);
                             dupItem->setForeground(disabled);
                         }
@@ -1505,7 +1509,7 @@ void RenderWidget::refreshView(const QString &profile)
                             //qDebug() << "*****  UNSUPPORTED ACODEC: " << format;
                             //sizeItem->setHidden(true);
                             //sizeItem->setFlags(Qt::ItemIsSelectable);
-                            dupItem->setToolTip(i18n("Unsupported audio codec: %1", format));
+                            dupItem->setData(ErrorRole, i18n("Unsupported audio codec: %1", format));
                             dupItem->setIcon(brokenIcon);
                             dupItem->setForeground(disabled);
                             dupItem->setBackground(disabledbg);
@@ -1522,7 +1526,7 @@ void RenderWidget::refreshView(const QString &profile)
                             //qDebug() << "*****  UNSUPPORTED VCODEC: " << format;
                             //sizeItem->setHidden(true);
                             //sizeItem->setFlags(Qt::ItemIsSelectable);
-                            dupItem->setToolTip(i18n("Unsupported video codec: %1", format));
+                            dupItem->setData(ErrorRole, i18n("Unsupported video codec: %1", format));
                             dupItem->setIcon(brokenIcon);
                             dupItem->setForeground(disabled);
                         }
@@ -1531,7 +1535,7 @@ void RenderWidget::refreshView(const QString &profile)
                 if (std.contains(" profile=") || std.startsWith(QLatin1String("profile="))) {
                     // changed in MLT commit d8a3a5c9190646aae72048f71a39ee7446a3bd45
                     // (http://www.mltframework.org/gitweb/mlt.git?p=mltframework.org/mlt.git;a=commit;h=d8a3a5c9190646aae72048f71a39ee7446a3bd45)
-                    dupItem->setToolTip(i18n("This render profile uses a 'profile' parameter.<br />Unless you know what you are doing you will probably have to change it to 'mlt_profile'."));
+                    dupItem->setData(ErrorRole, i18n("This render profile uses a 'profile' parameter.<br />Unless you know what you are doing you will probably have to change it to 'mlt_profile'."));
                     dupItem->setIcon(warningIcon);
                 }
             }
@@ -1592,7 +1596,7 @@ void RenderWidget::refreshParams()
         return;
     }
     QString params = item->data(ParamsRole).toString();
-    errorMessage(item->toolTip());
+    errorMessage(item->data(ErrorRole).toString());
     m_view.advanced_params->setPlainText(params);
     QString destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
     if (params.contains(" s=") || params.startsWith(QLatin1String("s=")) || destination == "audioonly") {
@@ -1672,8 +1676,8 @@ void RenderWidget::refreshParams()
 
     m_view.encoder_threads->setEnabled(!params.contains("threads="));
 
-    m_view.buttonRender->setEnabled(m_view.size_list->currentItem()->toolTip().isEmpty());
-    m_view.buttonGenerateScript->setEnabled(m_view.size_list->currentItem()->toolTip().isEmpty());
+    m_view.buttonRender->setEnabled(m_view.size_list->currentItem()->data(ErrorRole).isNull());
+    m_view.buttonGenerateScript->setEnabled(m_view.size_list->currentItem()->data(ErrorRole).isNull());
 }
 
 void RenderWidget::reloadProfiles()
@@ -1697,13 +1701,16 @@ void RenderWidget::parseProfiles(const QString &meta, const QString &group, cons
     m_view.destination_list->addItem(QIcon::fromTheme("applications-multimedia"), i18n("Media players"), "mediaplayers");
     m_view.destination_list->addItem(QIcon::fromTheme("drive-harddisk"), i18n("Lossless / HQ"), "lossless");
     m_view.destination_list->addItem(QIcon::fromTheme("pda"), i18n("Mobile devices"), "mobile");
-
+    
+    // Parse some of MLT's profiles first
+    parseMltPresets();
+    // Parse our xml profile 
     QString exportFile = QStandardPaths::locate(QStandardPaths::DataLocation, "export/profiles.xml");
     parseFile(exportFile, false);
 
 
     QString exportFolder = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/";
-    QDir directory = QDir(exportFolder);
+    QDir directory(exportFolder);
     QStringList filter;
     filter << "*.xml";
     QStringList fileList = directory.entryList(filter, QDir::Files);
@@ -1711,7 +1718,7 @@ void RenderWidget::parseProfiles(const QString &meta, const QString &group, cons
     // can also override profiles installed by KNewStuff
     fileList.removeAll("customprofiles.xml");
     foreach(const QString &filename, fileList)
-        parseFile(exportFolder + filename, true);
+        parseFile(directory.absoluteFilePath(filename), true);
     if (QFile::exists(exportFolder + "customprofiles.xml")) parseFile(exportFolder + "customprofiles.xml", true);
 
     int categoryIndex = m_view.destination_list->findData(meta);
@@ -1719,6 +1726,63 @@ void RenderWidget::parseProfiles(const QString &meta, const QString &group, cons
     m_view.destination_list->setCurrentIndex(categoryIndex);
     m_view.destination_list->blockSignals(false);
     refreshCategory(group, profile);
+}
+
+void RenderWidget::parseMltPresets()
+{
+    QDir root(KdenliveSettings::mltpath());
+    if (!root.cd("../presets/consumer/avformat")) {
+        //Cannot find MLT's presets directory
+        qWarning()<<" / / / WARNING, cannot find MLT's preset folder";
+        return;
+    }
+    if (root.cd("lossless")) {
+        QStringList profiles = root.entryList(QDir::Files, QDir::Name);
+        foreach(const QString &prof, profiles) {
+            KConfig config(root.absoluteFilePath(prof), KConfig::SimpleConfig );
+            KConfigGroup group = config.group(QByteArray());
+            QString vcodec = group.readEntry("vcodec");
+            QString acodec = group.readEntry("acodec");
+            QString extension = group.readEntry("meta.preset.extension");
+            QString note = group.readEntry("meta.preset.note");
+            QString profileName = prof;
+            if (!vcodec.isEmpty() || !acodec.isEmpty()) {
+                profileName.append(" (");
+                if (!vcodec.isEmpty()) {
+                    profileName.append(vcodec);
+                    if (!acodec.isEmpty()) {
+                        profileName.append("+" + acodec);
+                    }
+                }
+                else if (!acodec.isEmpty()) profileName.append(acodec);
+                profileName.append(")");
+            }
+            QListWidgetItem *item = new QListWidgetItem(profileName);
+            item->setData(GroupRole, i18nc("Category Name", "Lossless/HQ"));
+            item->setData(MetaGroupRole, "lossless");
+            item->setData(ExtensionRole, extension);
+            item->setData(RenderRole, "avformat");
+            item->setData(ParamsRole, QString("properties=lossless/" + prof));
+            m_renderItems.append(item);
+            if (!note.isEmpty()) item->setToolTip(note);
+        }
+    }
+    if (root.cd("../stills")) {
+        QStringList profiles = root.entryList(QDir::Files, QDir::Name);
+        foreach(const QString &prof, profiles) {
+            KConfig config(root.absoluteFilePath(prof), KConfig::SimpleConfig );
+            KConfigGroup group = config.group(QByteArray());
+            QString extension = group.readEntry("meta.preset.extension");
+            QString note = group.readEntry("meta.preset.note");
+            QListWidgetItem *item = new QListWidgetItem(prof);
+            item->setData(GroupRole, i18nc("Category Name", "Images sequence"));
+            item->setData(ExtensionRole, extension);
+            item->setData(RenderRole, "avformat");
+            item->setData(ParamsRole, QString("properties=stills/" + prof));
+            m_renderItems.append(item);
+            if (!note.isEmpty()) item->setToolTip(note);
+        }
+    }
 }
 
 void RenderWidget::parseFile(const QString &exportFile, bool editable)
@@ -2111,9 +2175,11 @@ void RenderWidget::parseScriptFiles()
 
     QTreeWidgetItem *item;
     // List the project scripts
-    QStringList scriptFiles = QDir(m_projectFolder + "scripts").entryList(scriptsFilter, QDir::Files);
+    QDir directory(m_projectFolder);
+    directory.cd("scripts");
+    QStringList scriptFiles = directory.entryList(scriptsFilter, QDir::Files);
     for (int i = 0; i < scriptFiles.size(); ++i) {
-        QUrl scriptpath(m_projectFolder + "scripts/" + scriptFiles.at(i));
+        QUrl scriptpath = QUrl::fromLocalFile(directory.absoluteFilePath(scriptFiles.at(i)));
         QString target;
         QString renderer;
         QString melt;

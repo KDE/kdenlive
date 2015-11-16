@@ -167,18 +167,4 @@
       audiobitrates="192,160,128" defaultaudiobitrate="160"
       args="ab=%audiobitrate+'k'" />
   </group>
-
-  <group name="Lossless/HQ" renderer="avformat" type="av">
-    <groupname id="lossless">Lossless / HQ</groupname>
-    <profile name="Lossless H.264 + AAC"    extension="mp4" args="properties=lossless/H.264" />
-    <profile name="Lossless MPEG-2 + AC3"   extension="mpg" args="properties=lossless/MPEG-2" />
-    <profile name="Lossless FFV1 + FLAC"    extension="mkv" args="properties=lossless/FFV1" />
-    <profile name="Lossless HuffYUV + FLAC" extension="mkv" args="properties=lossless/HuffYUV" />
-    <profile name="Lossless MPEG-4 + PCM"   extension="avi" args="properties=lossless/MPEG-4" />
-  </group>
-
-  <group name="Images sequence" renderer="avformat" type="video">
-    <profile name="PNG"  extension="png" args="progressive=1 vcodec=png"/>
-    <profile name="JPEG" extension="jpg" args="progressive=1 vcodec=mjpeg"/>
-  </group>
 </profiles>
