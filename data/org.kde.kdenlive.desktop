@@ -128,6 +128,7 @@ MimeType=application/x-kdenlive;
 Categories=Qt;KDE;AudioVideo;AudioVideoEditing;
 Keywords=editing;video;audio;mlt;kde;
 Keywords[ca]=edició;vídeo;àudio;mlt;kde;
+Keywords[en_GB]=editing;video;audio;mlt;kde;
 Keywords[gl]=editing;edición;video;vídeo;audio;son;mlt;kde;
 Keywords[nl]=bewerken;video;audio;mlt;kde;
 Keywords[pl]=edytowanie;video;wideo;filmy;audio;dźwięk;mlt;kde;
