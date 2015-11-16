@@ -1725,6 +1725,7 @@ void MainWindow::updateConfiguration()
     m_buttonAutomaticSplitAudio->setChecked(KdenliveSettings::splitaudio());
 
     // Update list of transcoding profiles
+    buildDynamicActions();
     loadTranscoders();
     loadClipActions();
 }
@@ -2728,7 +2729,12 @@ void MainWindow::loadDockActions()
 
 void MainWindow::buildDynamicActions()
 {
-    KActionCategory *ts = new KActionCategory(i18n("Transcoders"), m_extraFactory->actionCollection());
+    KActionCategory *ts = NULL;
+    if (kdenliveCategoryMap.contains("transcoders")) {
+	ts = kdenliveCategoryMap.take("transcoders");
+	delete ts;
+    }
+    ts = new KActionCategory(i18n("Transcoders"), m_extraFactory->actionCollection());
 
     KSharedConfigPtr config = KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::DataLocation, "kdenlivetranscodingrc"), KConfig::CascadeConfig);
     KConfigGroup transConfig(config, "Transcoding");
@@ -2750,7 +2756,12 @@ void MainWindow::buildDynamicActions()
     kdenliveCategoryMap.insert("transcoders", ts);
 
     // Populate View menu with show / hide actions for dock widgets
-    KActionCategory *guiActions = new KActionCategory(i18n("Interface"), actionCollection());
+    KActionCategory *guiActions = NULL;
+    if (kdenliveCategoryMap.contains("interface")) {
+	guiActions = kdenliveCategoryMap.take("interface");
+	delete guiActions;
+    }
+    guiActions = new KActionCategory(i18n("Interface"), actionCollection());
     QAction *showTimeline = new QAction(i18n("Timeline"), this);
     showTimeline->setCheckable(true);
     showTimeline->setChecked(true);
