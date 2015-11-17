@@ -108,18 +108,18 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     connect(&m_modifiedTimer, &QTimer::timeout, this, &KdenliveDoc::slotProcessModifiedClips);
 
     // init default document properties
-    m_documentProperties["zoom"] = '7';
-    m_documentProperties["verticalzoom"] = '1';
-    m_documentProperties["zonein"] = '0';
-    m_documentProperties["zoneout"] = "100";
-    m_documentProperties["enableproxy"] = QString::number((int) KdenliveSettings::enableproxy());
-    m_documentProperties["proxyparams"] = KdenliveSettings::proxyparams();
-    m_documentProperties["proxyextension"] = KdenliveSettings::proxyextension();
-    m_documentProperties["generateproxy"] = QString::number((int) KdenliveSettings::generateproxy());
-    m_documentProperties["proxyminsize"] = QString::number(KdenliveSettings::proxyminsize());
-    m_documentProperties["generateimageproxy"] = QString::number((int) KdenliveSettings::generateimageproxy());
-    m_documentProperties["proxyimageminsize"] = QString::number(KdenliveSettings::proxyimageminsize());
-    m_documentProperties["documentid"] = QString::number(QDateTime::currentMSecsSinceEpoch());
+    m_documentProperties[QStringLiteral("zoom")] = '7';
+    m_documentProperties[QStringLiteral("verticalzoom")] = '1';
+    m_documentProperties[QStringLiteral("zonein")] = '0';
+    m_documentProperties[QStringLiteral("zoneout")] = QStringLiteral("100");
+    m_documentProperties[QStringLiteral("enableproxy")] = QString::number((int) KdenliveSettings::enableproxy());
+    m_documentProperties[QStringLiteral("proxyparams")] = KdenliveSettings::proxyparams();
+    m_documentProperties[QStringLiteral("proxyextension")] = KdenliveSettings::proxyextension();
+    m_documentProperties[QStringLiteral("generateproxy")] = QString::number((int) KdenliveSettings::generateproxy());
+    m_documentProperties[QStringLiteral("proxyminsize")] = QString::number(KdenliveSettings::proxyminsize());
+    m_documentProperties[QStringLiteral("generateimageproxy")] = QString::number((int) KdenliveSettings::generateimageproxy());
+    m_documentProperties[QStringLiteral("proxyimageminsize")] = QString::number(KdenliveSettings::proxyimageminsize());
+    m_documentProperties[QStringLiteral("documentid")] = QString::number(QDateTime::currentMSecsSinceEpoch());
 
     // Load properties
     QMapIterator<QString, QString> i(properties);
@@ -180,7 +180,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                             line--;
                             col = col - 2;
                             for (int j = 0; j < line && errorPos < playlist.length(); ++j) {
-                                errorPos = playlist.indexOf("\n", errorPos);
+                                errorPos = playlist.indexOf(QStringLiteral("\n"), errorPos);
                                 errorPos++;
                             }
                             errorPos += col;
@@ -197,7 +197,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                         else {
                             // Document was modified, ask for backup
                             QDomElement mlt = m_document.documentElement();
-                            mlt.setAttribute("modified", 1);
+                            mlt.setAttribute(QStringLiteral("modified"), 1);
                         }
                     }
                 }
@@ -232,7 +232,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                         success = !d.hasErrorInClips();
                         if (success) {
                             loadDocumentProperties();
-                            if (m_document.documentElement().attribute("modified") == "1") setModified(true);
+                            if (m_document.documentElement().attribute(QStringLiteral("modified")) == QLatin1String("1")) setModified(true);
                             if (validator.isModified()) setModified(true);
                         }
                     }
@@ -269,10 +269,10 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
 
     // Make sure that the necessary folders exist
     QDir dir(m_projectFolder.path());
-    dir.mkdir("titles");
-    dir.mkdir("thumbs");
-    dir.mkdir("proxy");
-    dir.mkdir(".backup");
+    dir.mkdir(QStringLiteral("titles"));
+    dir.mkdir(QStringLiteral("thumbs"));
+    dir.mkdir(QStringLiteral("proxy"));
+    dir.mkdir(QStringLiteral(".backup"));
 
     updateProjectFolderPlacesEntry();
 
@@ -302,13 +302,13 @@ int KdenliveDoc::setSceneList()
 {
     //m_render->resetProfile(m_profile);
     pCore->bin()->isLoading = true;
-    if (m_render->setSceneList(m_document.toString(), m_documentProperties.value("position").toInt()) == -1) {
+    if (m_render->setSceneList(m_document.toString(), m_documentProperties.value(QStringLiteral("position")).toInt()) == -1) {
         // INVALID MLT Consumer, something is wrong
         return -1;
     }
     pCore->bin()->isLoading = false;
     pCore->binController()->checkThumbnails(projectFolder().path() + "/thumbs/");
-    m_documentProperties.remove("position");
+    m_documentProperties.remove(QStringLiteral("position"));
     return 0;
 }
 
@@ -324,7 +324,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
         audioTrack.isMute = false;
         audioTrack.isBlind = true;
         audioTrack.isLocked = false;
-        audioTrack.trackName = QString("Audio ") + QString::number(audiotracks - i);
+        audioTrack.trackName = QStringLiteral("Audio ") + QString::number(audiotracks - i);
         audioTrack.duration = 0;
         audioTrack.effectsList = EffectsList(true);
         tracks.append(audioTrack);
@@ -336,7 +336,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
         videoTrack.isMute = false;
         videoTrack.isBlind = false;
         videoTrack.isLocked = false;
-        videoTrack.trackName = QString("Video ") + QString::number(videotracks - i);
+        videoTrack.trackName = QStringLiteral("Video ") + QString::number(videotracks - i);
         videoTrack.duration = 0;
         videoTrack.effectsList = EffectsList(true);
         tracks.append(videoTrack);
@@ -348,8 +348,8 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
 {
     // Creating new document
     QDomDocument doc;
-    QDomElement mlt = doc.createElement("mlt");
-    mlt.setAttribute("LC_NUMERIC", "");
+    QDomElement mlt = doc.createElement(QStringLiteral("mlt"));
+    mlt.setAttribute(QStringLiteral("LC_NUMERIC"), QLatin1String(""));
     doc.appendChild(mlt);
     
     // Create black producer
@@ -369,130 +369,130 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
     pro.setAttribute("description", m_profile.description);
     mlt.appendChild(pro);*/
 
-    QDomElement blk = doc.createElement("producer");
-    blk.setAttribute("in", 0);
-    blk.setAttribute("out", 500);
-    blk.setAttribute("id", "black");
+    QDomElement blk = doc.createElement(QStringLiteral("producer"));
+    blk.setAttribute(QStringLiteral("in"), 0);
+    blk.setAttribute(QStringLiteral("out"), 500);
+    blk.setAttribute(QStringLiteral("id"), QStringLiteral("black"));
 
-    QDomElement property = doc.createElement("property");
-    property.setAttribute("name", "mlt_type");
-    QDomText value = doc.createTextNode("producer");
+    QDomElement property = doc.createElement(QStringLiteral("property"));
+    property.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_type"));
+    QDomText value = doc.createTextNode(QStringLiteral("producer"));
     property.appendChild(value);
     blk.appendChild(property);
 
-    property = doc.createElement("property");
-    property.setAttribute("name", "aspect_ratio");
+    property = doc.createElement(QStringLiteral("property"));
+    property.setAttribute(QStringLiteral("name"), QStringLiteral("aspect_ratio"));
     value = doc.createTextNode(QString::number(0));
     property.appendChild(value);
     blk.appendChild(property);
 
-    property = doc.createElement("property");
-    property.setAttribute("name", "length");
+    property = doc.createElement(QStringLiteral("property"));
+    property.setAttribute(QStringLiteral("name"), QStringLiteral("length"));
     value = doc.createTextNode(QString::number(15000));
     property.appendChild(value);
     blk.appendChild(property);
 
-    property = doc.createElement("property");
-    property.setAttribute("name", "eof");
-    value = doc.createTextNode("pause");
+    property = doc.createElement(QStringLiteral("property"));
+    property.setAttribute(QStringLiteral("name"), QStringLiteral("eof"));
+    value = doc.createTextNode(QStringLiteral("pause"));
     property.appendChild(value);
     blk.appendChild(property);
 
-    property = doc.createElement("property");
-    property.setAttribute("name", "resource");
-    value = doc.createTextNode("black");
+    property = doc.createElement(QStringLiteral("property"));
+    property.setAttribute(QStringLiteral("name"), QStringLiteral("resource"));
+    value = doc.createTextNode(QStringLiteral("black"));
     property.appendChild(value);
     blk.appendChild(property);
 
-    property = doc.createElement("property");
-    property.setAttribute("name", "mlt_service");
-    value = doc.createTextNode("colour");
+    property = doc.createElement(QStringLiteral("property"));
+    property.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_service"));
+    value = doc.createTextNode(QStringLiteral("colour"));
     property.appendChild(value);
     blk.appendChild(property);
 
     mlt.appendChild(blk);
 
 
-    QDomElement tractor = doc.createElement("tractor");
-    tractor.setAttribute("id", "maintractor");
-    tractor.setAttribute("global_feed", 1);
+    QDomElement tractor = doc.createElement(QStringLiteral("tractor"));
+    tractor.setAttribute(QStringLiteral("id"), QStringLiteral("maintractor"));
+    tractor.setAttribute(QStringLiteral("global_feed"), 1);
     //QDomElement multitrack = doc.createElement("multitrack");
-    QDomElement playlist = doc.createElement("playlist");
-    playlist.setAttribute("id", "black_track");
+    QDomElement playlist = doc.createElement(QStringLiteral("playlist"));
+    playlist.setAttribute(QStringLiteral("id"), QStringLiteral("black_track"));
     
     mlt.appendChild(playlist);
 
-    QDomElement blank0 = doc.createElement("entry");
-    blank0.setAttribute("in", "0");
-    blank0.setAttribute("out", "1");
-    blank0.setAttribute("producer", "black");
+    QDomElement blank0 = doc.createElement(QStringLiteral("entry"));
+    blank0.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
+    blank0.setAttribute(QStringLiteral("out"), QStringLiteral("1"));
+    blank0.setAttribute(QStringLiteral("producer"), QStringLiteral("black"));
     playlist.appendChild(blank0);
 
     // create playlists
     int total = tracks.count();
 
     for (int i = 1; i <= total; ++i) {
-        QDomElement playlist = doc.createElement("playlist");
-        playlist.setAttribute("id", "playlist" + QString::number(i));
-        playlist.setAttribute("kdenlive:track_name", tracks.at(i-1).trackName);
+        QDomElement playlist = doc.createElement(QStringLiteral("playlist"));
+        playlist.setAttribute(QStringLiteral("id"), "playlist" + QString::number(i));
+        playlist.setAttribute(QStringLiteral("kdenlive:track_name"), tracks.at(i-1).trackName);
         if (tracks.at(i-1).type == AudioTrack) {
-            playlist.setAttribute("kdenlive:audio_track", 1);
+            playlist.setAttribute(QStringLiteral("kdenlive:audio_track"), 1);
         }
         mlt.appendChild(playlist);
     }
 
-    QDomElement track0 = doc.createElement("track");
-    track0.setAttribute("producer", "black_track");
+    QDomElement track0 = doc.createElement(QStringLiteral("track"));
+    track0.setAttribute(QStringLiteral("producer"), QStringLiteral("black_track"));
     tractor.appendChild(track0);
 
     // create audio and video tracks
     for (int i = 1; i <= total; ++i) {
-        QDomElement track = doc.createElement("track");
-        track.setAttribute("producer", "playlist" + QString::number(i));
+        QDomElement track = doc.createElement(QStringLiteral("track"));
+        track.setAttribute(QStringLiteral("producer"), "playlist" + QString::number(i));
         if (tracks.at(i-1).type == AudioTrack) {
-            track.setAttribute("hide", "video");
+            track.setAttribute(QStringLiteral("hide"), QStringLiteral("video"));
         } else if (tracks.at(i-1).isBlind) {
             if (tracks.at(i-1).isMute) {
-                track.setAttribute("hide", "all");
+                track.setAttribute(QStringLiteral("hide"), QStringLiteral("all"));
             }
-            else track.setAttribute("hide", "video");
+            else track.setAttribute(QStringLiteral("hide"), QStringLiteral("video"));
         }
         else if (tracks.at(i-1).isMute)
-            track.setAttribute("hide", "audio");
+            track.setAttribute(QStringLiteral("hide"), QStringLiteral("audio"));
         tractor.appendChild(track);
     }
 
     for (int i = total; i >= 2; --i) {
-        QDomElement transition = doc.createElement("transition");
-        transition.setAttribute("always_active", "1");
+        QDomElement transition = doc.createElement(QStringLiteral("transition"));
+        transition.setAttribute(QStringLiteral("always_active"), QStringLiteral("1"));
 
-        QDomElement property = doc.createElement("property");
-        property.setAttribute("name", "mlt_service");
-        value = doc.createTextNode("mix");
+        QDomElement property = doc.createElement(QStringLiteral("property"));
+        property.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_service"));
+        value = doc.createTextNode(QStringLiteral("mix"));
         property.appendChild(value);
         transition.appendChild(property);
 
-        property = doc.createElement("property");
-        property.setAttribute("name", "a_track");
+        property = doc.createElement(QStringLiteral("property"));
+        property.setAttribute(QStringLiteral("name"), QStringLiteral("a_track"));
         QDomText value = doc.createTextNode(QString::number(i - 1));
         property.appendChild(value);
         transition.appendChild(property);
 
-        property = doc.createElement("property");
-        property.setAttribute("name", "b_track");
+        property = doc.createElement(QStringLiteral("property"));
+        property.setAttribute(QStringLiteral("name"), QStringLiteral("b_track"));
         value = doc.createTextNode(QString::number(i));
         property.appendChild(value);
         transition.appendChild(property);
 
-        property = doc.createElement("property");
-        property.setAttribute("name", "combine");
-        value = doc.createTextNode("1");
+        property = doc.createElement(QStringLiteral("property"));
+        property.setAttribute(QStringLiteral("name"), QStringLiteral("combine"));
+        value = doc.createTextNode(QStringLiteral("1"));
         property.appendChild(value);
         transition.appendChild(property);
 
-        property = doc.createElement("property");
-        property.setAttribute("name", "internal_added");
-        value = doc.createTextNode("237");
+        property = doc.createElement(QStringLiteral("property"));
+        property.setAttribute(QStringLiteral("name"), QStringLiteral("internal_added"));
+        value = doc.createTextNode(QStringLiteral("237"));
         property.appendChild(value);
         transition.appendChild(property);
 
@@ -500,25 +500,25 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
 
         if (tracks.at(i-1).type == VideoTrack) {
 
-            transition = doc.createElement("transition");
-            property = doc.createElement("property");
-            property.setAttribute("name", "mlt_service");
+            transition = doc.createElement(QStringLiteral("transition"));
+            property = doc.createElement(QStringLiteral("property"));
+            property.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_service"));
             property.appendChild(doc.createTextNode(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend"));
             transition.appendChild(property);
 
-            property = doc.createElement("property");
-            property.setAttribute("name", "a_track");
+            property = doc.createElement(QStringLiteral("property"));
+            property.setAttribute(QStringLiteral("name"), QStringLiteral("a_track"));
             property.appendChild(doc.createTextNode(QString::number(i-1)));
             transition.appendChild(property);
 
-            property = doc.createElement("property");
-            property.setAttribute("name", "b_track");
+            property = doc.createElement(QStringLiteral("property"));
+            property.setAttribute(QStringLiteral("name"), QStringLiteral("b_track"));
             property.appendChild(doc.createTextNode(QString::number(i)));
             transition.appendChild(property);
 
-            property = doc.createElement("property");
-            property.setAttribute("name", "internal_added");
-            property.appendChild(doc.createTextNode("237"));
+            property = doc.createElement(QStringLiteral("property"));
+            property.setAttribute(QStringLiteral("name"), QStringLiteral("internal_added"));
+            property.appendChild(doc.createTextNode(QStringLiteral("237")));
             transition.appendChild(property);
 
             tractor.appendChild(transition);
@@ -530,7 +530,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
 
 bool KdenliveDoc::useProxy() const
 {
-    return m_documentProperties.value("enableproxy").toInt();
+    return m_documentProperties.value(QStringLiteral("enableproxy")).toInt();
 }
 
 
@@ -556,58 +556,58 @@ void KdenliveDoc::slotAutoSave()
 
 void KdenliveDoc::setZoom(int horizontal, int vertical)
 {
-    m_documentProperties["zoom"] = QString::number(horizontal);
-    m_documentProperties["verticalzoom"] = QString::number(vertical);
+    m_documentProperties[QStringLiteral("zoom")] = QString::number(horizontal);
+    m_documentProperties[QStringLiteral("verticalzoom")] = QString::number(vertical);
 }
 
 QPoint KdenliveDoc::zoom() const
 {
-    return QPoint(m_documentProperties.value("zoom").toInt(), m_documentProperties.value("verticalzoom").toInt());
+    return QPoint(m_documentProperties.value(QStringLiteral("zoom")).toInt(), m_documentProperties.value(QStringLiteral("verticalzoom")).toInt());
 }
 
 void KdenliveDoc::setZone(int start, int end)
 {
-    m_documentProperties["zonein"] = QString::number(start);
-    m_documentProperties["zoneout"] = QString::number(end);
+    m_documentProperties[QStringLiteral("zonein")] = QString::number(start);
+    m_documentProperties[QStringLiteral("zoneout")] = QString::number(end);
 }
 
 QPoint KdenliveDoc::zone() const
 {
-    return QPoint(m_documentProperties.value("zonein").toInt(), m_documentProperties.value("zoneout").toInt());
+    return QPoint(m_documentProperties.value(QStringLiteral("zonein")).toInt(), m_documentProperties.value(QStringLiteral("zoneout")).toInt());
 }
 
 QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
 {
     QDomDocument sceneList;
     sceneList.setContent(scene, true);
-    QDomElement mlt = sceneList.firstChildElement("mlt");
+    QDomElement mlt = sceneList.firstChildElement(QStringLiteral("mlt"));
     if (mlt.isNull() || !mlt.hasChildNodes()) {
         //scenelist is corrupted
         return sceneList;
     }
 
     // Set playlist audio volume to 100%
-    QDomElement tractor = mlt.firstChildElement("tractor");
+    QDomElement tractor = mlt.firstChildElement(QStringLiteral("tractor"));
     if (!tractor.isNull()) {
-        QDomNodeList props = tractor.elementsByTagName("property");
+        QDomNodeList props = tractor.elementsByTagName(QStringLiteral("property"));
         for (int i = 0; i < props.count(); ++i) {
-            if (props.at(i).toElement().attribute("name") == "meta.volume") {
-                props.at(i).firstChild().setNodeValue("1");
+            if (props.at(i).toElement().attribute(QStringLiteral("name")) == QLatin1String("meta.volume")) {
+                props.at(i).firstChild().setNodeValue(QStringLiteral("1"));
                 break;
             }
         }
     }
-    QDomNodeList pls = mlt.elementsByTagName("playlist");
+    QDomNodeList pls = mlt.elementsByTagName(QStringLiteral("playlist"));
     QDomElement mainPlaylist;
     for (int i = 0; i < pls.count(); ++i) {
-        if (pls.at(i).toElement().attribute("id") == pCore->binController()->binPlaylistId()) {
+        if (pls.at(i).toElement().attribute(QStringLiteral("id")) == pCore->binController()->binPlaylistId()) {
             mainPlaylist = pls.at(i).toElement();
             break;
         }
     }
 
     // check if project contains custom effects to embed them in project file
-    QDomNodeList effects = mlt.elementsByTagName("filter");
+    QDomNodeList effects = mlt.elementsByTagName(QStringLiteral("filter"));
     int maxEffects = effects.count();
     //qDebug() << "// FOUD " << maxEffects << " EFFECTS+++++++++++++++++++++";
     QMap <QString, QString> effectIds;
@@ -618,10 +618,10 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
         QString tag;
         for (int j = 0; j < params.count(); ++j) {
             QDomElement e = params.item(j).toElement();
-            if (e.attribute("name") == "kdenlive_id") {
+            if (e.attribute(QStringLiteral("name")) == QLatin1String("kdenlive_id")) {
                 id = e.firstChild().nodeValue();
             }
-            if (e.attribute("name") == "tag") {
+            if (e.attribute(QStringLiteral("name")) == QLatin1String("tag")) {
                 tag = e.firstChild().nodeValue();
             }
             if (!id.isEmpty() && !tag.isEmpty()) effectIds.insert(id, tag);
@@ -629,11 +629,11 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
     }
     //TODO: find a way to process this before rendering MLT scenelist to xml
     QDomDocument customeffects = initEffects::getUsedCustomEffects(effectIds);
-    mainPlaylist.setAttribute("kdenlive:customeffects", customeffects.toString());
+    mainPlaylist.setAttribute(QStringLiteral("kdenlive:customeffects"), customeffects.toString());
     //addedXml.appendChild(sceneList.importNode(customeffects.documentElement(), true));
 
     //TODO: move metadata to previous step in saving process
-    QDomElement docmetadata = sceneList.createElement("documentmetadata");
+    QDomElement docmetadata = sceneList.createElement(QStringLiteral("documentmetadata"));
     QMapIterator<QString, QString> j(m_documentMetadata);
     while (j.hasNext()) {
         j.next();
@@ -680,8 +680,8 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
     cleanupBackupFiles();
     QFileInfo info(file);
     QString fileName = QUrl::fromLocalFile(path).fileName().section('.', 0, -2);
-    fileName.append('-' + m_documentProperties.value("documentid"));
-    fileName.append(info.lastModified().toString("-yyyy-MM-dd-hh-mm"));
+    fileName.append('-' + m_documentProperties.value(QStringLiteral("documentid")));
+    fileName.append(info.lastModified().toString(QStringLiteral("-yyyy-MM-dd-hh-mm")));
     fileName.append(".kdenlive.png");
     QDir backupFolder(m_projectFolder.path() + "/.backup");
     emit saveTimelinePreview(backupFolder.absoluteFilePath(fileName));
@@ -712,10 +712,10 @@ void KdenliveDoc::setProjectFolder(QUrl url)
     if (!dir.exists()) {
         dir.mkpath(dir.absolutePath());
     }
-    dir.mkdir("titles");
-    dir.mkdir("thumbs");
-    dir.mkdir("proxy");
-    dir.mkdir(".backup");
+    dir.mkdir(QStringLiteral("titles"));
+    dir.mkdir(QStringLiteral("thumbs"));
+    dir.mkdir(QStringLiteral("proxy"));
+    dir.mkdir(QStringLiteral(".backup"));
     if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("You have changed the project folder. Do you want to copy the cached data from %1 to the new folder %2?", m_projectFolder.path(), url.path())) == KMessageBox::Yes) moveProjectData(url);
     m_projectFolder = url;
 
@@ -733,7 +733,7 @@ void KdenliveDoc::moveProjectData(const QUrl &url)
             QUrl oldUrl = clip->clipUrl();
             QUrl newUrl = QUrl::fromLocalFile(url.toLocalFile() + QDir::separator() + "titles/" + oldUrl.fileName());
             KIO::Job *job = KIO::copy(oldUrl, newUrl);
-            if (job->exec()) clip->setProperty("resource", newUrl.path());
+            if (job->exec()) clip->setProperty(QStringLiteral("resource"), newUrl.path());
         }
         QString hash = clip->getClipHash();
         QUrl oldVideoThumbUrl = QUrl::fromLocalFile(m_projectFolder.path() + QDir::separator() + "thumbs/" + hash + ".png");
@@ -816,7 +816,7 @@ Timecode KdenliveDoc::timecode() const
 
 QDomNodeList KdenliveDoc::producersList()
 {
-    return m_document.elementsByTagName("producer");
+    return m_document.elementsByTagName(QStringLiteral("producer"));
 }
 
 double KdenliveDoc::projectDuration() const
@@ -884,7 +884,7 @@ const QString KdenliveDoc::description() const
 bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId)
 {
     const QString producerId = clipId.section('_', 0, 0);
-    elem.setAttribute("id", producerId);
+    elem.setAttribute(QStringLiteral("id"), producerId);
     pCore->bin()->createClip(elem);
     m_render->getFileProperties(elem, producerId, 150, true);
 
@@ -966,16 +966,16 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId)
 
 void KdenliveDoc::setNewClipResource(const QString &id, const QString &path)
 {
-    QDomNodeList prods = m_document.elementsByTagName("producer");
+    QDomNodeList prods = m_document.elementsByTagName(QStringLiteral("producer"));
     int maxprod = prods.count();
     for (int i = 0; i < maxprod; ++i) {
         QDomNode m = prods.at(i);
-        QString prodId = m.toElement().attribute("id");
+        QString prodId = m.toElement().attribute(QStringLiteral("id"));
         if (prodId == id || prodId.startsWith(id + '_')) {
             QDomNodeList params = m.childNodes();
             for (int j = 0; j < params.count(); ++j) {
                 QDomElement e = params.item(j).toElement();
-                if (e.attribute("name") == "resource") {
+                if (e.attribute(QStringLiteral("name")) == QLatin1String("resource")) {
                     e.firstChild().setNodeValue(path);
                     break;
                 }
@@ -1102,7 +1102,7 @@ void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString
     QString titlesFolder = QDir::cleanPath(projectFolder().path() + QDir::separator() + "titles/");
     if (path.isEmpty()) {
         QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(),  i18n("Enter Template Path"), titlesFolder);
-        d->setMimeTypeFilters(QStringList() << "application/x-kdenlivetitle");
+        d->setMimeTypeFilters(QStringList() << QStringLiteral("application/x-kdenlivetitle"));
         d->setFileMode(QFileDialog::ExistingFile);
         if (d->exec() == QDialog::Accepted && !d->selectedUrls().isEmpty()) {
             path = d->selectedUrls().first();
@@ -1154,8 +1154,8 @@ void KdenliveDoc::saveCustomEffects(const QDomNodeList &customeffects)
     int maxchild = customeffects.count();
     for (int i = 0; i < maxchild; ++i) {
         e = customeffects.at(i).toElement();
-        const QString id = e.attribute("id");
-        const QString tag = e.attribute("tag");
+        const QString id = e.attribute(QStringLiteral("id"));
+        const QString tag = e.attribute(QStringLiteral("tag"));
         if (!id.isEmpty()) {
             // Check if effect exists or save it
             if (MainWindow::customEffects.hasEffect(tag, id) == -1) {
@@ -1202,8 +1202,8 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
 
     while (!bookmark.isNull()) {
         // UDI not empty indicates a device
-        QString udi = bookmark.metaDataItem("UDI");
-        QString appName = bookmark.metaDataItem("OnlyInApp");
+        QString udi = bookmark.metaDataItem(QStringLiteral("UDI"));
+        QString appName = bookmark.metaDataItem(QStringLiteral("OnlyInApp"));
 
         if (udi.isEmpty() && appName == kdenliveName && bookmark.text() == i18n("Project Folder")) {
             if (bookmark.url() != documentLocation) {
@@ -1219,18 +1219,18 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
 
     // if entry does not exist yet (was not found), well, create it then
     if (!exists) {
-        bookmark = root.addBookmark(i18n("Project Folder"), documentLocation, "folder-favorites");
+        bookmark = root.addBookmark(i18n("Project Folder"), documentLocation, QStringLiteral("folder-favorites"));
         // Make this user selectable ?
-        bookmark.setMetaDataItem("OnlyInApp", kdenliveName);
+        bookmark.setMetaDataItem(QStringLiteral("OnlyInApp"), kdenliveName);
         bookmarkManager->emitChanged(root);
     }
 }
 
 QStringList KdenliveDoc::getExpandedFolders()
 {
-    QStringList result = m_documentProperties.value("expandedfolders").split(';');
+    QStringList result = m_documentProperties.value(QStringLiteral("expandedfolders")).split(';');
     // this property is only needed once when opening project, so clear it now
-    m_documentProperties.remove("expandedfolders");
+    m_documentProperties.remove(QStringLiteral("expandedfolders"));
     return result;
 }
 
@@ -1258,11 +1258,11 @@ double KdenliveDoc::getDisplayRatio(const QString &path)
         return 0;
     }
     file.close();
-    QDomNodeList list = doc.elementsByTagName("profile");
+    QDomNodeList list = doc.elementsByTagName(QStringLiteral("profile"));
     if (list.isEmpty()) return 0;
     QDomElement profile = list.at(0).toElement();
-    double den = profile.attribute("display_aspect_den").toDouble();
-    if (den > 0) return profile.attribute("display_aspect_num").toDouble() / den;
+    double den = profile.attribute(QStringLiteral("display_aspect_den")).toDouble();
+    if (den > 0) return profile.attribute(QStringLiteral("display_aspect_num")).toDouble() / den;
     return 0;
 }
 
@@ -1275,8 +1275,8 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
 
     QString fileName = QUrl::fromLocalFile(path).fileName().section('.', 0, -2);
     QFileInfo info(file);
-    fileName.append('-' + m_documentProperties.value("documentid"));
-    fileName.append(info.lastModified().toString("-yyyy-MM-dd-hh-mm"));
+    fileName.append('-' + m_documentProperties.value(QStringLiteral("documentid")));
+    fileName.append(info.lastModified().toString(QStringLiteral("-yyyy-MM-dd-hh-mm")));
     fileName.append(".kdenlive");
     QString backupFile = backupFolder.absoluteFilePath(fileName);
     if (file.exists()) {
@@ -1292,7 +1292,7 @@ void KdenliveDoc::cleanupBackupFiles()
 {
     QDir backupFolder(m_projectFolder.path() + "/.backup");
     QString projectFile = url().fileName().section('.', 0, -2);
-    projectFile.append('-' + m_documentProperties.value("documentid"));
+    projectFile.append('-' + m_documentProperties.value(QStringLiteral("documentid")));
     projectFile.append("-??");
     projectFile.append("??");
     projectFile.append("-??");
@@ -1402,12 +1402,12 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy)
     // Make sure the proxy folder exists
     QString proxydir = projectFolder().path() + QDir::separator() + "proxy/";
     QDir dir(projectFolder().path());
-    dir.mkdir("proxy");
+    dir.mkdir(QStringLiteral("proxy"));
 
     // Prepare updated properties
     QMap <QString, QString> newProps;
     QMap <QString, QString> oldProps;
-    if (!doProxy) newProps.insert("kdenlive:proxy", "-");
+    if (!doProxy) newProps.insert(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
 
     // Parse clips
     for (int i = 0; i < clipList.count(); ++i) {
@@ -1423,19 +1423,19 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy)
 
             if (doProxy) {
                 newProps.clear();
-                QString path = proxydir + item->hash() + '.' + (t == Image ? "png" : getDocumentProperty("proxyextension"));
+                QString path = proxydir + item->hash() + '.' + (t == Image ? QStringLiteral("png") : getDocumentProperty(QStringLiteral("proxyextension")));
                 // insert required duration for proxy
-                newProps.insert("proxy_out", item->getProducerProperty("out"));
-                newProps.insert("kdenlive:proxy", path);
+                newProps.insert(QStringLiteral("proxy_out"), item->getProducerProperty(QStringLiteral("out")));
+                newProps.insert(QStringLiteral("kdenlive:proxy"), path);
             }
             else if (!pCore->binController()->hasClip(item->clipId())) {
                 // Force clip reload
-                newProps.insert("resource", item->url().toLocalFile());
+                newProps.insert(QStringLiteral("resource"), item->url().toLocalFile());
             }
             // We need to insert empty proxy so that undo will work
             //TODO: how to handle clip properties
             //oldProps = clip->currentProperties(newProps);
-            if (doProxy) oldProps.insert("kdenlive:proxy", "-");
+            if (doProxy) oldProps.insert(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
             new EditClipCommand(pCore->bin(), item->clipId(), oldProps, newProps, true, command);
         }
     }
@@ -1495,39 +1495,39 @@ void KdenliveDoc::slotProcessModifiedClips()
 
 const QMap <QString, QString> KdenliveDoc::documentProperties()
 {
-    m_documentProperties.insert("version", QString::number(DOCUMENTVERSION));
-    m_documentProperties.insert("kdenliveversion", QString(KDENLIVE_VERSION));
-    m_documentProperties.insert("projectfolder", m_projectFolder.path());
-    m_documentProperties.insert("profile", profilePath());
-    m_documentProperties.insert("position", QString::number(m_render->seekPosition().frames(m_render->fps())));
+    m_documentProperties.insert(QStringLiteral("version"), QString::number(DOCUMENTVERSION));
+    m_documentProperties.insert(QStringLiteral("kdenliveversion"), QStringLiteral(KDENLIVE_VERSION));
+    m_documentProperties.insert(QStringLiteral("projectfolder"), m_projectFolder.path());
+    m_documentProperties.insert(QStringLiteral("profile"), profilePath());
+    m_documentProperties.insert(QStringLiteral("position"), QString::number(m_render->seekPosition().frames(m_render->fps())));
     return m_documentProperties;
 }
 
 void KdenliveDoc::loadDocumentProperties()
 {
-    QDomNodeList list = m_document.elementsByTagName("playlist");
+    QDomNodeList list = m_document.elementsByTagName(QStringLiteral("playlist"));
     if (!list.isEmpty()) {
         QDomElement pl = list.at(0).toElement();
         if (pl.isNull()) return;
-        QDomNodeList props = pl.elementsByTagName("property");
+        QDomNodeList props = pl.elementsByTagName(QStringLiteral("property"));
         QString name;
         QDomElement e;
         for (int i = 0; i < props.count(); i++) {
             e = props.at(i).toElement();
-            name = e.attribute("name");
-            if (name.startsWith("kdenlive:docproperties.")) {
-                name = name.section(".", 1);
+            name = e.attribute(QStringLiteral("name"));
+            if (name.startsWith(QLatin1String("kdenlive:docproperties."))) {
+                name = name.section(QStringLiteral("."), 1);
                 m_documentProperties.insert(name, e.firstChild().nodeValue());
             }
         }
     }
-    QString path = m_documentProperties.value("projectfolder");
+    QString path = m_documentProperties.value(QStringLiteral("projectfolder"));
     if (!path.startsWith('/')) {
 	QDir dir = QDir::home();
 	path = dir.absoluteFilePath(path);
     }
     m_projectFolder = QUrl::fromLocalFile(path);
-    list = m_document.elementsByTagName("profile");
+    list = m_document.elementsByTagName(QStringLiteral("profile"));
     if (!list.isEmpty()) {
         m_profile = ProfilesDialog::getVideoProfileFromXml(list.at(0).toElement());
     }

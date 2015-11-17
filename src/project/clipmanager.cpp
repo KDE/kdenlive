@@ -72,8 +72,8 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
     connect(&m_fileWatcher, &KDirWatch::deleted, this, &ClipManager::slotClipMissing);
     connect(&m_modifiedTimer, &QTimer::timeout, this, &ClipManager::slotProcessModifiedClips);
 
-    KImageCache::deleteCache("kdenlive-thumbs");
-    pixmapCache = new KImageCache("kdenlive-thumbs", 10000000);
+    KImageCache::deleteCache(QStringLiteral("kdenlive-thumbs"));
+    pixmapCache = new KImageCache(QStringLiteral("kdenlive-thumbs"), 10000000);
     pixmapCache->setEvictionPolicy(KSharedDataCache::EvictOldest);
 }
 
@@ -304,36 +304,36 @@ void ClipManager::slotAddCopiedClip(KIO::Job*, const QUrl&, const QUrl &dst)
 void ClipManager::slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId)
 {
     QDomDocument doc;
-    QDomElement prod = doc.createElement("producer");
+    QDomElement prod = doc.createElement(QStringLiteral("producer"));
     doc.appendChild(prod);
-    prod.setAttribute("name", titleName);
-    prod.setAttribute("resource", path.path());
+    prod.setAttribute(QStringLiteral("name"), titleName);
+    prod.setAttribute(QStringLiteral("resource"), path.path());
     uint id = pCore->bin()->getFreeClipId();
-    prod.setAttribute("id", QString::number(id));
+    prod.setAttribute(QStringLiteral("id"), QString::number(id));
     if (!group.isEmpty()) {
-        prod.setAttribute("groupname", group);
-        prod.setAttribute("groupid", groupId);
+        prod.setAttribute(QStringLiteral("groupname"), group);
+        prod.setAttribute(QStringLiteral("groupid"), groupId);
     }
-    prod.setAttribute("type", (int) Text);
-    prod.setAttribute("transparency", "1");
-    prod.setAttribute("in", "0");
+    prod.setAttribute(QStringLiteral("type"), (int) Text);
+    prod.setAttribute(QStringLiteral("transparency"), QStringLiteral("1"));
+    prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
 
     int duration = 0;
     QDomDocument titledoc;
     QFile txtfile(path.path());
     if (txtfile.open(QIODevice::ReadOnly) && titledoc.setContent(&txtfile)) {
-        if (titledoc.documentElement().hasAttribute("duration")) {
-            duration = titledoc.documentElement().attribute("duration").toInt();
+        if (titledoc.documentElement().hasAttribute(QStringLiteral("duration"))) {
+            duration = titledoc.documentElement().attribute(QStringLiteral("duration")).toInt();
         } else {
             // keep some time for backwards compatibility - 26/12/12
-            duration = titledoc.documentElement().attribute("out").toInt();
+            duration = titledoc.documentElement().attribute(QStringLiteral("out")).toInt();
         }
     }
     txtfile.close();
 
     if (duration == 0) duration = m_doc->getFramePos(KdenliveSettings::title_duration());
-    prod.setAttribute("duration", duration - 1);
-    prod.setAttribute("out", duration - 1);
+    prod.setAttribute(QStringLiteral("duration"), duration - 1);
+    prod.setAttribute(QStringLiteral("out"), duration - 1);
 
     AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);
     m_doc->commandStack()->push(command);
@@ -370,10 +370,10 @@ void ClipManager::removeGroup(AbstractGroupItem *group)
 QString ClipManager::groupsXml() const
 {
     QDomDocument doc;
-    QDomElement groups = doc.createElement("groups");
+    QDomElement groups = doc.createElement(QStringLiteral("groups"));
     doc.appendChild(groups);
     for (int i = 0; i < m_groupsList.count(); ++i) {
-        QDomElement group = doc.createElement("group");
+        QDomElement group = doc.createElement(QStringLiteral("group"));
         groups.appendChild(group);
         QList <QGraphicsItem *> children = m_groupsList.at(i)->childItems();
         for (int j = 0; j < children.count(); ++j) {
@@ -381,14 +381,14 @@ QString ClipManager::groupsXml() const
                 AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(j));
                 ItemInfo info = item->info();
                 if (item->type() == AVWidget) {
-                    QDomElement clip = doc.createElement("clipitem");
-                    clip.setAttribute("track", info.track);
-                    clip.setAttribute("position", info.startPos.frames(m_doc->fps()));
+                    QDomElement clip = doc.createElement(QStringLiteral("clipitem"));
+                    clip.setAttribute(QStringLiteral("track"), info.track);
+                    clip.setAttribute(QStringLiteral("position"), info.startPos.frames(m_doc->fps()));
                     group.appendChild(clip);
                 } else if (item->type() == TransitionWidget) {
-                    QDomElement clip = doc.createElement("transitionitem");
-                    clip.setAttribute("track", info.track);
-                    clip.setAttribute("position", info.startPos.frames(m_doc->fps()));
+                    QDomElement clip = doc.createElement(QStringLiteral("transitionitem"));
+                    clip.setAttribute(QStringLiteral("track"), info.track);
+                    clip.setAttribute(QStringLiteral("position"), info.startPos.frames(m_doc->fps()));
                     group.appendChild(clip);
                 }
             }

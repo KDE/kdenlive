@@ -35,7 +35,7 @@ using std::stringstream;
 
 static const QChar DELIMITER = ';';
 static const QChar KEY_VALUE_SEP = '=';
-static const QString BUTTON_PREFIX("button");
+static const QString BUTTON_PREFIX(QStringLiteral("button"));
 
 QStringList JogShuttleConfig::actionMap(const QString& actionsConfig)
 {
@@ -49,7 +49,7 @@ QStringList JogShuttleConfig::actionMap(const QString& actionsConfig)
       continue;
     }
     // skip the 'button' prefix
-    int button_id = parts[0].mid(BUTTON_PREFIX.length()).toInt();
+    int button_id = parts[0].midRef(BUTTON_PREFIX.length()).toInt();
     //fprintf(stderr, " - Handling map key='%s' (ID=%d), value='%s'\n", parts[0].data().toLatin1(), button_id, parts[1].data().toLatin1()); // DBG
     while (actionMap.size() <= button_id)
         actionMap << QString();
@@ -66,7 +66,7 @@ QString JogShuttleConfig::actionMap(const QStringList& actionMap)
   for (int i=0; i < actionMap.size(); ++i) {
       if (actionMap[i].isEmpty())
           continue;
-      mappings << QString::fromLatin1("%1%2%3%4").arg(BUTTON_PREFIX).arg(i).arg(KEY_VALUE_SEP).arg(actionMap[i]);
+      mappings << QStringLiteral("%1%2%3%4").arg(BUTTON_PREFIX).arg(i).arg(KEY_VALUE_SEP).arg(actionMap[i]);
   }
 
   return mappings.join(DELIMITER);

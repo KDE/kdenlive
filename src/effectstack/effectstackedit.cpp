@@ -63,7 +63,7 @@ EffectStackEdit::~EffectStackEdit()
 
 void EffectStackEdit::updatePalette()
 {
-    setStyleSheet("");
+    setStyleSheet(QLatin1String(""));
     setPalette(qApp->palette());
     setStyleSheet(EffectStackView2::getStyleSheet());
 }
@@ -92,7 +92,7 @@ void EffectStackEdit::updateParameter(const QString &name, const QString &value)
 {
     m_paramWidget->updateParameter(name, value);
 
-    if (name == "disable") {
+    if (name == QLatin1String("disable")) {
         // if effect is disabled, disable parameters widget
         bool enabled = value.toInt() == 0 || !KdenliveSettings::disable_effect_parameters();
         setEnabled(enabled);

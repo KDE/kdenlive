@@ -73,26 +73,26 @@ Geometryval::Geometryval(const Mlt::Profile *profile, const Timecode &t, const Q
     frameBorder->setPen(QPen(QBrush(QColor(255, 255, 255, 255)), 1.0, Qt::DashLine));
     m_scene->addItem(frameBorder);
 
-    buttonNext->setIcon(KoIconUtils::themedIcon("media-skip-forward"));
+    buttonNext->setIcon(KoIconUtils::themedIcon(QStringLiteral("media-skip-forward")));
     buttonNext->setToolTip(i18n("Go to next keyframe"));
-    buttonPrevious->setIcon(KoIconUtils::themedIcon("media-skip-backward"));
+    buttonPrevious->setIcon(KoIconUtils::themedIcon(QStringLiteral("media-skip-backward")));
     buttonPrevious->setToolTip(i18n("Go to previous keyframe"));
-    buttonAdd->setIcon(KoIconUtils::themedIcon("document-new"));
+    buttonAdd->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-new")));
     buttonAdd->setToolTip(i18n("Add keyframe"));
-    buttonDelete->setIcon(KoIconUtils::themedIcon("edit-delete"));
+    buttonDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-delete")));
     buttonDelete->setToolTip(i18n("Delete keyframe"));
 
     m_configMenu = new QMenu(i18n("Misc..."), this);
     buttonMenu->setMenu(m_configMenu);
     buttonMenu->setPopupMode(QToolButton::MenuButtonPopup);
 
-    m_editOptions = m_configMenu->addAction(KoIconUtils::themedIcon("system-run"), i18n("Show/Hide options"));
+    m_editOptions = m_configMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("system-run")), i18n("Show/Hide options"));
     m_editOptions->setCheckable(true);
     buttonMenu->setDefaultAction(m_editOptions);
     connect(m_editOptions, SIGNAL(triggered()), this, SLOT(slotSwitchOptions()));
     slotSwitchOptions();
 
-    m_reset = m_configMenu->addAction(KoIconUtils::themedIcon("view-refresh"), i18n("Reset"), this, SLOT(slotResetPosition()));
+    m_reset = m_configMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("view-refresh")), i18n("Reset"), this, SLOT(slotResetPosition()));
 
     m_syncAction = m_configMenu->addAction(i18n("Sync timeline cursor"), this, SLOT(slotSyncCursor()));
     m_syncAction->setCheckable(true);
@@ -112,17 +112,17 @@ Geometryval::Geometryval(const Mlt::Profile *profile, const Timecode &t, const Q
     connect(buttonAdd , SIGNAL(clicked()) , this , SLOT(slotAddFrame()));
     connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateTransitionProperties()));
 
-    buttonhcenter->setIcon(KoIconUtils::themedIcon("kdenlive-align-hor"));
+    buttonhcenter->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-hor")));
     buttonhcenter->setToolTip(i18n("Align item horizontally"));
-    buttonvcenter->setIcon(KoIconUtils::themedIcon("kdenlive-align-vert"));
+    buttonvcenter->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-vert")));
     buttonvcenter->setToolTip(i18n("Align item vertically"));
-    buttontop->setIcon(KoIconUtils::themedIcon("kdenlive-align-top"));
+    buttontop->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-top")));
     buttontop->setToolTip(i18n("Align item to top"));
-    buttonbottom->setIcon(KoIconUtils::themedIcon("kdenlive-align-bottom"));
+    buttonbottom->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-bottom")));
     buttonbottom->setToolTip(i18n("Align item to bottom"));
-    buttonright->setIcon(KoIconUtils::themedIcon("kdenlive-align-right"));
+    buttonright->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-right")));
     buttonright->setToolTip(i18n("Align item to right"));
-    buttonleft->setIcon(KoIconUtils::themedIcon("kdenlive-align-left"));
+    buttonleft->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-left")));
     buttonleft->setToolTip(i18n("Align item to left"));
 
     connect(buttonhcenter, SIGNAL(clicked()), this, SLOT(slotAlignHCenter()));
@@ -369,8 +369,8 @@ QString Geometryval::getValue() const
 
 void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
 {
-    QString val = par.attribute("value");
-    if (par.attribute("fixed") == "1") {
+    QString val = par.attribute(QStringLiteral("value"));
+    if (par.attribute(QStringLiteral("fixed")) == QLatin1String("1")) {
         m_fixedMode = true;
         buttonPrevious->setHidden(true);
         buttonNext->setHidden(true);
@@ -381,7 +381,7 @@ void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
         m_helper->setHidden(true);
         m_timePos.setHidden(true);
     }
-    if (par.attribute("opacity") == "false") {
+    if (par.attribute(QStringLiteral("opacity")) == QLatin1String("false")) {
         label_opacity->setHidden(true);
         spinTransp->setHidden(true);
     }

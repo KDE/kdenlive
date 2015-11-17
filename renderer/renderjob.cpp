@@ -62,19 +62,19 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, int pid, const QString& rend
     qputenv("MLT_NO_VDPAU", "1");
 
     m_args << scenelist;
-    if (in != -1) m_args << QLatin1String("in=") + QString::number(in);
-    if (out != -1) m_args << QLatin1String("out=") + QString::number(out);
+    if (in != -1) m_args << QStringLiteral("in=") + QString::number(in);
+    if (out != -1) m_args << QStringLiteral("out=") + QString::number(out);
     m_args << preargs;
     if (scenelist.startsWith(QLatin1String("consumer:"))) {
         // Use MLT's producer_consumer, needs a different syntax for profile:
-        m_args << QLatin1String("profile=") + profile;
+        m_args << QStringLiteral("profile=") + profile;
     } else {
-        m_args << QLatin1String("-profile") << profile;
+        m_args << QStringLiteral("-profile") << profile;
     }
-    m_args << QLatin1String("-consumer") << rendermodule + QLatin1Char(':') + m_dest
-           << QLatin1String("progress=1") << args;
+    m_args << QStringLiteral("-consumer") << rendermodule + QLatin1Char(':') + m_dest
+           << QStringLiteral("progress=1") << args;
 
-    m_dualpass = args.contains(QLatin1String("pass=1"));
+    m_dualpass = args.contains(QStringLiteral("pass=1"));
 
     // Create a log of every render process.
     if (!m_logfile.open(QIODevice::WriteOnly|QIODevice::Text)) qWarning() << "Unable to log to " << m_logfile.fileName();
@@ -106,9 +106,9 @@ void RenderJob::slotAbort()
     if (m_kdenliveinterface) {
         m_dbusargs[1] = -3;
         m_dbusargs.append(QString());
-        m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QLatin1String("setRenderingFinished"), m_dbusargs);
+        m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingFinished"), m_dbusargs);
     }
-    if (m_jobUiserver) m_jobUiserver->call(QLatin1String("terminate"), QString());
+    if (m_jobUiserver) m_jobUiserver->call(QStringLiteral("terminate"), QString());
     if (m_erase) QFile(m_scenelist).remove();
     QFile(m_dest).remove();
     m_logstream << "Job aborted by user" << endl;
@@ -121,30 +121,30 @@ void RenderJob::receivedStderr()
 {
     QString result = QString::fromLocal8Bit(m_renderProcess->readAllStandardError()).simplified();
     if (!result.startsWith(QLatin1String("Current Frame"))) {
-        m_errorMessage.append(result + QLatin1String("<br>"));
+        m_errorMessage.append(result + QStringLiteral("<br>"));
     } else {
         m_logstream << "melt: " << result << endl;
         int pro = result.section(QLatin1Char(' '), -1).toInt();
         if (pro <= m_progress || pro <= 0 || pro > 100) return;
         m_progress = pro;
-        if (m_args.contains(QLatin1String("pass=1"))) {
+        if (m_args.contains(QStringLiteral("pass=1"))) {
             m_progress /= 2.0;
-        } else if (m_args.contains(QLatin1String("pass=2"))) {
+        } else if (m_args.contains(QStringLiteral("pass=2"))) {
             m_progress = 50 + m_progress / 2.0;
         }
         int frame = result.section(QLatin1Char(','), 1).section(QLatin1Char(' '), -1).toInt();
         if (m_kdenliveinterface && m_kdenliveinterface->isValid()) {
             m_dbusargs[1] = m_progress;
-            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QLatin1String("setRenderingProgress"), m_dbusargs);
+            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingProgress"), m_dbusargs);
         }
         if (m_jobUiserver) {
-            m_jobUiserver->call(QLatin1String("setPercent"), (uint) m_progress);
+            m_jobUiserver->call(QStringLiteral("setPercent"), (uint) m_progress);
             int seconds = m_startTime.secsTo(QTime::currentTime());
             if (seconds == m_seconds) return;
             if (seconds < 0) seconds += 24*60*60;
-            m_jobUiserver->call("setDescriptionField", (uint) 1,
+            m_jobUiserver->call(QStringLiteral("setDescriptionField"), (uint) 1,
                                 tr("Remaining time"),
-                                QTime().addSecs(seconds * (100 - m_progress) / m_progress).toString("hh:mm:ss"));
+                                QTime().addSecs(seconds * (100 - m_progress) / m_progress).toString(QStringLiteral("hh:mm:ss")));
             //m_jobUiserver->call("setSpeed", (frame - m_frame) / (seconds - m_seconds));
             m_frame = frame;
             m_seconds = seconds;
@@ -156,13 +156,13 @@ void RenderJob::start()
 {
     QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
     if (interface && m_usekuiserver) {
-        if (!interface->isServiceRegistered(QLatin1String("org.kde.JobViewServer"))) {
+        if (!interface->isServiceRegistered(QStringLiteral("org.kde.JobViewServer"))) {
             qWarning() << "No org.kde.JobViewServer registered, trying to start kuiserver";
-            if (QProcess::startDetached(QLatin1String("kuiserver"))) {
+            if (QProcess::startDetached(QStringLiteral("kuiserver"))) {
                 // Give it a couple of seconds to start
                 QTime t;
                 t.start();
-                while (!interface->isServiceRegistered(QLatin1String("org.kde.JobViewServer")) && t.elapsed() < 3000) {
+                while (!interface->isServiceRegistered(QStringLiteral("org.kde.JobViewServer")) && t.elapsed() < 3000) {
                     SleepThread::msleep(100);   //Sleep 100 ms
                 }
             } else {
@@ -170,22 +170,22 @@ void RenderJob::start()
             }
         }
 
-        if (interface->isServiceRegistered(QLatin1String("org.kde.JobViewServer"))) {
-            QDBusInterface kuiserver(QLatin1String("org.kde.JobViewServer"), QLatin1String("/JobViewServer"), QLatin1String("org.kde.JobViewServer"));
-            QDBusReply<QDBusObjectPath> objectPath = kuiserver.call(QLatin1String("requestView"),QLatin1String("Kdenlive"), QLatin1String("kdenlive"), 0x0001);
+        if (interface->isServiceRegistered(QStringLiteral("org.kde.JobViewServer"))) {
+            QDBusInterface kuiserver(QStringLiteral("org.kde.JobViewServer"), QStringLiteral("/JobViewServer"), QStringLiteral("org.kde.JobViewServer"));
+            QDBusReply<QDBusObjectPath> objectPath = kuiserver.call(QStringLiteral("requestView"),QLatin1String("Kdenlive"), QLatin1String("kdenlive"), 0x0001);
             QString reply = ((QDBusObjectPath) objectPath).path();
 
             // Use of the KDE JobViewServer is an ugly hack, it is not reliable
-            QString dbusView = QLatin1String("org.kde.JobViewV2");
-            m_jobUiserver = new QDBusInterface(QLatin1String("org.kde.JobViewServer"), reply, dbusView);
+            QString dbusView = QStringLiteral("org.kde.JobViewV2");
+            m_jobUiserver = new QDBusInterface(QStringLiteral("org.kde.JobViewServer"), reply, dbusView);
                 
             if (m_jobUiserver && m_jobUiserver->isValid()) {
                 m_startTime = QTime::currentTime();
-                if (!m_args.contains(QLatin1String("pass=2")))
-                    m_jobUiserver->call(QLatin1String("setPercent"), (uint) 0);
+                if (!m_args.contains(QStringLiteral("pass=2")))
+                    m_jobUiserver->call(QStringLiteral("setPercent"), (uint) 0);
                 //m_jobUiserver->call("setInfoMessage", tr("Rendering %1").arg(QFileInfo(m_dest).fileName()));
-                m_jobUiserver->call(QLatin1String("setDescriptionField"), (uint) 0, tr("Rendering"), m_dest);
-                QDBusConnection::sessionBus().connect(QLatin1String("org.kde.JobViewServer"), reply, dbusView, QLatin1String("cancelRequested"), this, SLOT(slotAbort()));
+                m_jobUiserver->call(QStringLiteral("setDescriptionField"), (uint) 0, tr("Rendering"), m_dest);
+                QDBusConnection::sessionBus().connect(QStringLiteral("org.kde.JobViewServer"), reply, dbusView, QStringLiteral("cancelRequested"), this, SLOT(slotAbort()));
             }
         }
     }
@@ -201,7 +201,7 @@ void RenderJob::start()
     // Because of the logging, we connect to stderr in all cases.
     connect(m_renderProcess, SIGNAL(readyReadStandardError()), this, SLOT(receivedStderr()));
     m_renderProcess->start(m_prog, m_args);
-    m_logstream << "Started render process: " << m_prog << ' ' << m_args.join(QLatin1String(" ")) << endl;
+    m_logstream << "Started render process: " << m_prog << ' ' << m_args.join(QStringLiteral(" ")) << endl;
 }
 
 
@@ -210,7 +210,7 @@ void RenderJob::initKdenliveDbusInterface()
     QString kdenliveId;
     QDBusConnection connection = QDBusConnection::sessionBus();
     QDBusConnectionInterface* ibus = connection.interface();
-    kdenliveId = QString("org.kde.kdenlive-%1").arg(m_pid);
+    kdenliveId = QStringLiteral("org.kde.kdenlive-%1").arg(m_pid);
     if (!ibus->isServiceRegistered(kdenliveId)) {
         kdenliveId.clear();
         const QStringList services = ibus->registeredServiceNames();
@@ -224,16 +224,16 @@ void RenderJob::initKdenliveDbusInterface()
     m_dbusargs.clear();
     if (kdenliveId.isEmpty()) return;
     m_kdenliveinterface = new QDBusInterface(kdenliveId,
-            QLatin1String("/kdenlive/MainWindow_1"),
-            QLatin1String("org.kde.kdenlive.rendering"),
+            QStringLiteral("/kdenlive/MainWindow_1"),
+            QStringLiteral("org.kde.kdenlive.rendering"),
             connection,
             this);
 
     if (m_kdenliveinterface) {
         m_dbusargs.append(m_dest);
         m_dbusargs.append((int) 0);
-        if (!m_args.contains(QLatin1String("pass=2")))
-            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QLatin1String("setRenderingProgress"), m_dbusargs);
+        if (!m_args.contains(QStringLiteral("pass=2")))
+            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingProgress"), m_dbusargs);
         connect(m_kdenliveinterface, SIGNAL(abortRenderJob(QString)),
                 this, SLOT(slotAbort(QString)));
     }
@@ -249,15 +249,15 @@ void RenderJob::slotCheckProcess(QProcess::ProcessState state)
 
 void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
 {
-    if (m_jobUiserver) m_jobUiserver->call(QLatin1String("terminate"), QString());
+    if (m_jobUiserver) m_jobUiserver->call(QStringLiteral("terminate"), QString());
     if (!isWritable) {
         QString error = tr("Cannot write to %1, check permissions.").arg(m_dest);
         if (m_kdenliveinterface) {
             m_dbusargs[1] = (int) - 2;
             m_dbusargs.append(error);
-            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QLatin1String("setRenderingFinished"), m_dbusargs);
+            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingFinished"), m_dbusargs);
         }
-        QProcess::startDetached("kdialog", QStringList() << "--error" << error);
+        QProcess::startDetached(QStringLiteral("kdialog"), QStringList() << QStringLiteral("--error") << error);
         m_logstream << error << endl;
         qApp->quit();
     }
@@ -267,19 +267,19 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
         if (m_kdenliveinterface) {
             m_dbusargs[1] = (int) - 2;
             m_dbusargs.append(m_errorMessage);
-            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QLatin1String("setRenderingFinished"), m_dbusargs);
+            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingFinished"), m_dbusargs);
         }
         QStringList args;
         QString error = tr("Rendering of %1 aborted, resulting video will probably be corrupted.").arg(m_dest);
-        args << QLatin1String("--error") << error;
+        args << QStringLiteral("--error") << error;
         m_logstream << error << endl;
-        QProcess::startDetached(QLatin1String("kdialog"), args);
+        QProcess::startDetached(QStringLiteral("kdialog"), args);
         qApp->quit();
     } else {
         if (!m_dualpass && m_kdenliveinterface) {
             m_dbusargs[1] = (int) - 1;
             m_dbusargs.append(QString());
-            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QLatin1String("setRenderingFinished"), m_dbusargs);
+            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingFinished"), m_dbusargs);
         }
         m_logstream << "Rendering of " << m_dest << " finished" << endl;
         if (!m_dualpass && m_player != QLatin1String("-"))

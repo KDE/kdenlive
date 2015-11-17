@@ -44,7 +44,7 @@ public:
     QImage renderBackground(uint accelerationFactor);
     QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int, const int num_channels, const int samples, const int);
 
-    QString widgetName() const { return "audioSignal"; }
+    QString widgetName() const { return QStringLiteral("audioSignal"); }
     bool isHUDDependingOnInput() const { return false; }
     bool isScopeDependingOnInput() const { return true; }
     bool isBackgroundDependingOnInput() const { return false; }

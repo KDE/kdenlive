@@ -66,10 +66,10 @@ Spectrogram::Spectrogram(QWidget *parent) :
     m_menu->removeAction(m_aRealtime);
 
 
-    ui->windowSize->addItem("256", QVariant(256));
-    ui->windowSize->addItem("512", QVariant(512));
-    ui->windowSize->addItem("1024", QVariant(1024));
-    ui->windowSize->addItem("2048", QVariant(2048));
+    ui->windowSize->addItem(QStringLiteral("256"), QVariant(256));
+    ui->windowSize->addItem(QStringLiteral("512"), QVariant(512));
+    ui->windowSize->addItem(QStringLiteral("1024"), QVariant(1024));
+    ui->windowSize->addItem(QStringLiteral("2048"), QVariant(2048));
 
     ui->windowFunction->addItem(i18n("Rectangular window"), FFTTools::Window_Rect);
     ui->windowFunction->addItem(i18n("Triangular window"), FFTTools::Window_Triangle);
@@ -152,7 +152,7 @@ void Spectrogram::writeConfig()
 
 QString Spectrogram::widgetName() const
 {
-    return QLatin1String("Spectrogram");
+    return QStringLiteral("Spectrogram");
 }
 
 QRect Spectrogram::scopeRect()

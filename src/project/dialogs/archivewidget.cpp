@@ -61,40 +61,40 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
 
     // Setup categories
     QTreeWidgetItem *videos = new QTreeWidgetItem(files_list, QStringList() << i18n("Video clips"));
-    videos->setIcon(0, QIcon::fromTheme("video-x-generic"));
+    videos->setIcon(0, QIcon::fromTheme(QStringLiteral("video-x-generic")));
     videos->setData(0, Qt::UserRole, "videos");
     videos->setExpanded(false);
     QTreeWidgetItem *sounds = new QTreeWidgetItem(files_list, QStringList() << i18n("Audio clips"));
-    sounds->setIcon(0, QIcon::fromTheme("audio-x-generic"));
+    sounds->setIcon(0, QIcon::fromTheme(QStringLiteral("audio-x-generic")));
     sounds->setData(0, Qt::UserRole, "sounds");
     sounds->setExpanded(false);
     QTreeWidgetItem *images = new QTreeWidgetItem(files_list, QStringList() << i18n("Image clips"));
-    images->setIcon(0, QIcon::fromTheme("image-x-generic"));
+    images->setIcon(0, QIcon::fromTheme(QStringLiteral("image-x-generic")));
     images->setData(0, Qt::UserRole, "images");
     images->setExpanded(false);
     QTreeWidgetItem *slideshows = new QTreeWidgetItem(files_list, QStringList() << i18n("Slideshow clips"));
-    slideshows->setIcon(0, QIcon::fromTheme("image-x-generic"));
+    slideshows->setIcon(0, QIcon::fromTheme(QStringLiteral("image-x-generic")));
     slideshows->setData(0, Qt::UserRole, "slideshows");
     slideshows->setExpanded(false);
     QTreeWidgetItem *texts = new QTreeWidgetItem(files_list, QStringList() << i18n("Text clips"));
-    texts->setIcon(0, QIcon::fromTheme("text-plain"));
+    texts->setIcon(0, QIcon::fromTheme(QStringLiteral("text-plain")));
     texts->setData(0, Qt::UserRole, "texts");
     texts->setExpanded(false);
     QTreeWidgetItem *playlists = new QTreeWidgetItem(files_list, QStringList() << i18n("Playlist clips"));
-    playlists->setIcon(0, QIcon::fromTheme("video-mlt-playlist"));
+    playlists->setIcon(0, QIcon::fromTheme(QStringLiteral("video-mlt-playlist")));
     playlists->setData(0, Qt::UserRole, "playlist");
     playlists->setExpanded(false);
     QTreeWidgetItem *others = new QTreeWidgetItem(files_list, QStringList() << i18n("Other clips"));
-    others->setIcon(0, QIcon::fromTheme("unknown"));
+    others->setIcon(0, QIcon::fromTheme(QStringLiteral("unknown")));
     others->setData(0, Qt::UserRole, "others");
     others->setExpanded(false);
     QTreeWidgetItem *lumas = new QTreeWidgetItem(files_list, QStringList() << i18n("Luma files"));
-    lumas->setIcon(0, QIcon::fromTheme("image-x-generic"));
+    lumas->setIcon(0, QIcon::fromTheme(QStringLiteral("image-x-generic")));
     lumas->setData(0, Qt::UserRole, "lumas");
     lumas->setExpanded(false);
     
     QTreeWidgetItem *proxies = new QTreeWidgetItem(files_list, QStringList() << i18n("Proxy clips"));
-    proxies->setIcon(0, QIcon::fromTheme("video-x-generic"));
+    proxies->setIcon(0, QIcon::fromTheme(QStringLiteral("video-x-generic")));
     proxies->setData(0, Qt::UserRole, "proxy");
     proxies->setExpanded(false);
     
@@ -124,8 +124,8 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
         }
         else if (t == Image) imageUrls.insert(id, clip->clipUrl().path());
         else if (t == Text) {
-            QStringList imagefiles = TitleWidget::extractImageList(clip->property("xmldata"));
-            QStringList fonts = TitleWidget::extractFontList(clip->property("xmldata"));
+            QStringList imagefiles = TitleWidget::extractImageList(clip->property(QStringLiteral("xmldata")));
+            QStringList fonts = TitleWidget::extractFontList(clip->property(QStringLiteral("xmldata")));
             extraImageUrls << imagefiles;
             allFonts << fonts;
         } else if (t == Playlist) {
@@ -138,8 +138,8 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
             else {
                 videoUrls.insert(id, clip->clipUrl().path());
                 // Check if we have a proxy
-                QString proxy = clip->property("kdenlive:proxy");
-                if (!proxy.isEmpty() && proxy != "-" && QFile::exists(proxy)) proxyUrls.insert(id, proxy);
+                QString proxy = clip->property(QStringLiteral("kdenlive:proxy"));
+                if (!proxy.isEmpty() && proxy != QLatin1String("-") && QFile::exists(proxy)) proxyUrls.insert(id, proxy);
             }
         }
     }
@@ -181,7 +181,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
             files_list->topLevelItem(i)->setHidden(true);
         }
         else {
-            if (parentItem->data(0, Qt::UserRole).toString() == "slideshows")
+            if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows"))
             {
                 // Special case: slideshows contain several files
                 for (int j = 0; j < items; ++j) {
@@ -261,10 +261,10 @@ void ArchiveWidget::slotJobResult(bool success, const QString &text)
 
 void ArchiveWidget::openArchiveForExtraction()
 {
-    emit showMessage("system-run", i18n("Opening archive..."));
+    emit showMessage(QStringLiteral("system-run"), i18n("Opening archive..."));
     m_extractArchive = new KTar(m_extractUrl.path());
     if (!m_extractArchive->isOpen() && !m_extractArchive->open( QIODevice::ReadOnly )) {
-        emit showMessage("dialog-close", i18n("Cannot open archive file:\n %1", m_extractUrl.path()));
+        emit showMessage(QStringLiteral("dialog-close"), i18n("Cannot open archive file:\n %1", m_extractUrl.path()));
         groupBox->setEnabled(false);
         return;
     }
@@ -281,13 +281,13 @@ void ArchiveWidget::openArchiveForExtraction()
     }
 
     if (!isProjectArchive) {
-        emit showMessage("dialog-close", i18n("File %1\n is not an archived Kdenlive project", m_extractUrl.path()));
+        emit showMessage(QStringLiteral("dialog-close"), i18n("File %1\n is not an archived Kdenlive project", m_extractUrl.path()));
         groupBox->setEnabled(false);
 	buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
         return;
     }
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
-    emit showMessage("dialog-ok", i18n("Ready"));
+    emit showMessage(QStringLiteral("dialog-ok"), i18n("Ready"));
 }
 
 void ArchiveWidget::done ( int r )
@@ -321,7 +321,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
     QStringList filesList;
     QString fileName;
     int ix = 0;
-    bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == "slideshows";
+    bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
     foreach(const QString & file, items) {
         QTreeWidgetItem *item = new QTreeWidgetItem(parentItem, QStringList() << file);
         fileName = QUrl(file).fileName();
@@ -385,7 +385,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
         if (!isSlideshow) {
             qint64 fileSize = QFileInfo(file).size();
             if (fileSize <= 0) {
-                item->setIcon(0, QIcon::fromTheme("edit-delete"));
+                item->setIcon(0, QIcon::fromTheme(QStringLiteral("edit-delete")));
                 m_missingClips++;
             }
             else {
@@ -402,7 +402,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap <QStri
     QStringList filesList;
     QString fileName;
     int ix = 0;
-    bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == "slideshows";
+    bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
     QMap<QString, QString>::const_iterator it = items.constBegin();
     while (it != items.constEnd()) {
         QString file = it.value();
@@ -470,7 +470,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap <QStri
         if (!isSlideshow) {
             qint64 fileSize = QFileInfo(file).size();
             if (fileSize <= 0) {
-                item->setIcon(0, QIcon::fromTheme("edit-delete"));
+                item->setIcon(0, QIcon::fromTheme(QStringLiteral("edit-delete")));
                 m_missingClips++;
             }
             else {
@@ -490,11 +490,11 @@ void ArchiveWidget::slotCheckSpace()
     if (freeSize > m_requestedSize) {
         // everything is ok
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
-        slotDisplayMessage("dialog-ok", i18n("Available space on drive: %1", KIO::convertSize(freeSize)));
+        slotDisplayMessage(QStringLiteral("dialog-ok"), i18n("Available space on drive: %1", KIO::convertSize(freeSize)));
     }
     else {
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-        slotDisplayMessage("dialog-close", i18n("Not enough space on drive, free space: %1", KIO::convertSize(freeSize)));
+        slotDisplayMessage(QStringLiteral("dialog-close"), i18n("Not enough space on drive, free space: %1", KIO::convertSize(freeSize)));
     }
 }
 
@@ -515,7 +515,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         m_replacementList.clear();
         m_foldersList.clear();
         m_filesList.clear();
-        slotDisplayMessage("system-run", i18n("Archiving..."));
+        slotDisplayMessage(QStringLiteral("system-run"), i18n("Archiving..."));
         repaint();
         archive_url->setEnabled(false);
         proxy_only->setEnabled(false);
@@ -536,9 +536,9 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             continue;
         }
         if (parentItem->childCount() > 0) {
-            if (parentItem->data(0, Qt::UserRole).toString() == "slideshows") {
+            if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows")) {
                 QUrl slideFolder(archive_url->url().path() + QDir::separator() + "slideshows");
-                if (isArchive) m_foldersList.append("slideshows");
+                if (isArchive) m_foldersList.append(QStringLiteral("slideshows"));
                 else {
                     KIO::MkdirJob *job = KIO::mkdir(slideFolder);
                     KJobWidgets::setWindow(job, QApplication::activeWindow());
@@ -689,7 +689,7 @@ bool ArchiveWidget::processProjectFile()
         QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
         if (parentItem->childCount() > 0) {
             destUrl = QUrl(archive_url->url().path() + QDir::separator() + parentItem->data(0, Qt::UserRole).toString());
-            bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == "slideshows";
+            bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
             for (int j = 0; j < parentItem->childCount(); ++j) {
                 item = parentItem->child(j);
                 QUrl src(item->text(0));
@@ -709,56 +709,56 @@ bool ArchiveWidget::processProjectFile()
     }
     
     QDomElement mlt = m_doc.documentElement();
-    QString root = mlt.attribute("root") + '/';
+    QString root = mlt.attribute(QStringLiteral("root")) + '/';
 
     // Adjust global settings
     QString basePath;
-    if (isArchive) basePath = "$CURRENTPATH";
+    if (isArchive) basePath = QStringLiteral("$CURRENTPATH");
     else basePath = archive_url->url().adjusted(QUrl::StripTrailingSlash).path();
-    mlt.setAttribute("root", basePath);
-    QDomElement project = mlt.firstChildElement("kdenlivedoc");
-    project.setAttribute("projectfolder", basePath);
+    mlt.setAttribute(QStringLiteral("root"), basePath);
+    QDomElement project = mlt.firstChildElement(QStringLiteral("kdenlivedoc"));
+    project.setAttribute(QStringLiteral("projectfolder"), basePath);
 
     // process kdenlive producers
-    QDomNodeList prods = mlt.elementsByTagName("kdenlive_producer");
+    QDomNodeList prods = mlt.elementsByTagName(QStringLiteral("kdenlive_producer"));
     for (int i = 0; i < prods.count(); ++i) {
         QDomElement e = prods.item(i).toElement();
         if (e.isNull()) continue;
-        if (e.hasAttribute("resource")) {
-            QUrl src(e.attribute("resource"));
+        if (e.hasAttribute(QStringLiteral("resource"))) {
+            QUrl src(e.attribute(QStringLiteral("resource")));
             QUrl dest = m_replacementList.value(src);
-            if (!dest.isEmpty()) e.setAttribute("resource", dest.path());
+            if (!dest.isEmpty()) e.setAttribute(QStringLiteral("resource"), dest.path());
         }
-        if (e.hasAttribute("kdenlive:proxy") && e.attribute("kdenlive:proxy") != "-") {
-            QUrl src(e.attribute("kdenlive:proxy"));
+        if (e.hasAttribute(QStringLiteral("kdenlive:proxy")) && e.attribute(QStringLiteral("kdenlive:proxy")) != QLatin1String("-")) {
+            QUrl src(e.attribute(QStringLiteral("kdenlive:proxy")));
             QUrl dest = m_replacementList.value(src);
-            if (!dest.isEmpty()) e.setAttribute("kdenlive:proxy", dest.path());
+            if (!dest.isEmpty()) e.setAttribute(QStringLiteral("kdenlive:proxy"), dest.path());
         }
     }
 
     // process mlt producers
-    prods = mlt.elementsByTagName("producer");
+    prods = mlt.elementsByTagName(QStringLiteral("producer"));
     for (int i = 0; i < prods.count(); ++i) {
         QDomElement e = prods.item(i).toElement();
         if (e.isNull()) continue;
-        QString src = EffectsList::property(e, "resource");
+        QString src = EffectsList::property(e, QStringLiteral("resource"));
         if (!src.isEmpty()) {
             if (!src.startsWith('/')) src.prepend(root);
             QUrl srcUrl = QUrl::fromLocalFile(src);
             QUrl dest = m_replacementList.value(srcUrl);
-            if (!dest.isEmpty()) EffectsList::setProperty(e, "resource", dest.path());
+            if (!dest.isEmpty()) EffectsList::setProperty(e, QStringLiteral("resource"), dest.path());
         }
     }
 
     // process mlt transitions (for luma files)
-    prods = mlt.elementsByTagName("transition");
+    prods = mlt.elementsByTagName(QStringLiteral("transition"));
     QString attribute;
     for (int i = 0; i < prods.count(); ++i) {
         QDomElement e = prods.item(i).toElement();
         if (e.isNull()) continue;
-        attribute = "resource";
+        attribute = QStringLiteral("resource");
         QString src = EffectsList::property(e, attribute);
-        if (src.isEmpty()) attribute = "luma";
+        if (src.isEmpty()) attribute = QStringLiteral("luma");
         src = EffectsList::property(e, attribute);
         if (!src.isEmpty()) {
             if (!src.startsWith('/')) src.prepend(root);
@@ -770,9 +770,9 @@ bool ArchiveWidget::processProjectFile()
 
     QString playList = m_doc.toString();
     if (isArchive) {
-        QString startString("\"");
+        QString startString(QStringLiteral("\""));
         startString.append(archive_url->url().adjusted(QUrl::StripTrailingSlash).path());
-        QString endString("\"");
+        QString endString(QStringLiteral("\""));
         endString.append(basePath);
         playList.replace(startString, endString);
         startString = '>' + archive_url->url().adjusted(QUrl::StripTrailingSlash).path();
@@ -812,7 +812,7 @@ void ArchiveWidget::createArchive()
     QFileInfo dirInfo(archive_url->url().path());
     QString user = dirInfo.owner();
     QString group = dirInfo.group();
-    KTar archive(archive_url->url().path() + QDir::separator() + m_name + ".tar.gz", "application/x-gzip");
+    KTar archive(archive_url->url().path() + QDir::separator() + m_name + ".tar.gz", QStringLiteral("application/x-gzip"));
     archive.open( QIODevice::WriteOnly );
 
     // Create folders
@@ -880,7 +880,7 @@ void ArchiveWidget::slotStartExtracting()
     if (!job->exec()) {
         KMessageBox::sorry(this, i18n("Cannot create directory %1", archive_url->url().path()));
     }
-    slotDisplayMessage("system-run", i18n("Extracting..."));
+    slotDisplayMessage(QStringLiteral("system-run"), i18n("Extracting..."));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Abort"));
     m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::doExtracting);
     m_progressTimer->start();
@@ -929,7 +929,7 @@ void ArchiveWidget::slotExtractingFinished()
             error = true;
         }
         else {
-            playList.replace("$CURRENTPATH", archive_url->url().adjusted(QUrl::StripTrailingSlash).path());
+            playList.replace(QLatin1String("$CURRENTPATH"), archive_url->url().adjusted(QUrl::StripTrailingSlash).path());
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
                 qWarning() << "//////  ERROR writing to file: ";
                 error = true;
@@ -961,7 +961,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
         // Build list of existing proxy ids
         for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
             parentItem = files_list->topLevelItem(i);
-            if (parentItem->data(0, Qt::UserRole).toString() == "proxy") break;
+            if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("proxy")) break;
         }
         if (!parentItem) return;
         int items = parentItem->childCount();
@@ -975,7 +975,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
             if (id.isEmpty()) continue;
             for (int j = 0; j < files_list->topLevelItemCount(); ++j) {
                 parentItem = files_list->topLevelItem(j);
-                if (parentItem->data(0, Qt::UserRole).toString() == "proxy") continue;
+                if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("proxy")) continue;
                 items = parentItem->childCount();
                 for (int k = 0; k < items; ++k) {
                     if (parentItem->child(k)->data(0, Qt::UserRole + 2).toString() == id) {
@@ -1004,7 +1004,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
         QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
         int items = parentItem->childCount();
         int itemsCount = 0;
-        bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == "slideshows";
+        bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
         
         for (int j = 0; j < items; ++j) {
             if (!parentItem->child(j)->isDisabled()) {

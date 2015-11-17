@@ -62,13 +62,13 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, co
 
     //m_referenceClip = clipa;
     if (params.isNull()) {
-        m_parameters = MainWindow::transitions.getEffectByTag("luma", "dissolve").cloneNode().toElement();
+        m_parameters = MainWindow::transitions.getEffectByTag(QStringLiteral("luma"), QStringLiteral("dissolve")).cloneNode().toElement();
     } else {
         m_parameters = params;
     }
-    if (m_automaticTransition) m_parameters.setAttribute("automatic", 1);
-    else if (m_parameters.attribute("automatic") == "1") m_automaticTransition = true;
-    if (m_parameters.attribute("force_track") == "1") m_forceTransitionTrack = true;
+    if (m_automaticTransition) m_parameters.setAttribute(QStringLiteral("automatic"), 1);
+    else if (m_parameters.attribute(QStringLiteral("automatic")) == QLatin1String("1")) m_automaticTransition = true;
+    if (m_parameters.attribute(QStringLiteral("force_track")) == QLatin1String("1")) m_forceTransitionTrack = true;
     m_name = i18n(m_parameters.firstChildElement("name").text().toUtf8().data());
 }
 
@@ -87,13 +87,13 @@ Transition *Transition::clone()
 
 QString Transition::transitionTag() const
 {
-    return m_parameters.attribute("tag");
+    return m_parameters.attribute(QStringLiteral("tag"));
 }
 
 QStringList Transition::transitionInfo() const
 {
     QStringList info;
-    info << m_name << m_parameters.attribute("tag") << m_parameters.attribute("id");
+    info << m_name << m_parameters.attribute(QStringLiteral("tag")) << m_parameters.attribute(QStringLiteral("id"));
     return info;
 }
 
@@ -106,10 +106,10 @@ void Transition::setAutomatic(bool automatic)
 {
     m_automaticTransition = automatic;
     if (automatic) {
-        m_parameters.setAttribute("automatic", 1);
+        m_parameters.setAttribute(QStringLiteral("automatic"), 1);
         setBrush(QColor(200, 200, 50, 180));
     } else {
-        m_parameters.removeAttribute("automatic");
+        m_parameters.removeAttribute(QStringLiteral("automatic"));
         setBrush(QColor(200, 100, 50, 180));
     }
     update();
@@ -119,8 +119,8 @@ void Transition::setTransitionParameters(const QDomElement &params)
 {
     if (m_parameters != params) {
         m_parameters = params;
-        if (m_parameters.attribute("force_track") == "1") setForcedTrack(true, m_parameters.attribute("transition_btrack").toInt());
-        else if (m_parameters.attribute("force_track") == "0") setForcedTrack(false, m_parameters.attribute("transition_btrack").toInt());
+        if (m_parameters.attribute(QStringLiteral("force_track")) == QLatin1String("1")) setForcedTrack(true, m_parameters.attribute(QStringLiteral("transition_btrack")).toInt());
+        else if (m_parameters.attribute(QStringLiteral("force_track")) == QLatin1String("0")) setForcedTrack(false, m_parameters.attribute(QStringLiteral("transition_btrack")).toInt());
         m_name = i18n(m_parameters.firstChildElement("name").text().toUtf8().data());
         update();
     }
@@ -166,7 +166,7 @@ void Transition::paint(QPainter *painter,
     q.addRoundedRect(mapped, 3, 3);
     painter->setClipPath(p.intersected(q));
     painter->fillRect(exposed, brush());
-    const QString text = m_name + (m_forceTransitionTrack ? "|>" : QString());
+    const QString text = m_name + (m_forceTransitionTrack ? QStringLiteral("|>") : QString());
 
     // Draw clip name
     if (isSelected() || (parentItem() && parentItem()->isSelected())) {
@@ -320,23 +320,23 @@ int Transition::itemOffset()
 
 QDomElement Transition::toXML()
 {
-    m_parameters.setAttribute("type", transitionTag());
+    m_parameters.setAttribute(QStringLiteral("type"), transitionTag());
     //m_transitionParameters.setAttribute("inverted", invertTransition());
-    m_parameters.setAttribute("transition_atrack", track());
-    m_parameters.setAttribute("transition_btrack", m_transitionTrack);
-    m_parameters.setAttribute("start", startPos().frames(m_fps));
-    m_parameters.setAttribute("end", endPos().frames(m_fps));
-    m_parameters.setAttribute("force_track", m_forceTransitionTrack);
-    m_parameters.setAttribute("automatic", m_automaticTransition);
+    m_parameters.setAttribute(QStringLiteral("transition_atrack"), track());
+    m_parameters.setAttribute(QStringLiteral("transition_btrack"), m_transitionTrack);
+    m_parameters.setAttribute(QStringLiteral("start"), startPos().frames(m_fps));
+    m_parameters.setAttribute(QStringLiteral("end"), endPos().frames(m_fps));
+    m_parameters.setAttribute(QStringLiteral("force_track"), m_forceTransitionTrack);
+    m_parameters.setAttribute(QStringLiteral("automatic"), m_automaticTransition);
     return m_parameters.cloneNode().toElement();
 }
 
 bool Transition::hasGeometry()
 {
-    QDomNodeList namenode = m_parameters.elementsByTagName("parameter");
+    QDomNodeList namenode = m_parameters.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < namenode.count() ; ++i) {
         QDomElement pa = namenode.item(i).toElement();
-        if (pa.attribute("type") == "geometry") return true;
+        if (pa.attribute(QStringLiteral("type")) == QLatin1String("geometry")) return true;
     }
     return false;
 }
@@ -351,11 +351,11 @@ bool Transition::updateKeyframes(int oldEnd)
     QString keyframes;
     QDomElement pa;
     bool modified = false;
-    QDomNodeList namenode = m_parameters.elementsByTagName("parameter");
+    QDomNodeList namenode = m_parameters.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < namenode.count() ; ++i) {
         pa = namenode.item(i).toElement();
-        if (pa.attribute("type") == "geometry") {
-            keyframes = pa.attribute("value");
+        if (pa.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
+            keyframes = pa.attribute(QStringLiteral("value"));
             break;
         }
     }
@@ -375,7 +375,7 @@ bool Transition::updateKeyframes(int oldEnd)
             if (frame == oldEnd) {
                 // Move that keyframe to new end
                 values[i] = QString::number(duration) + '=' + pos.section('=', 1);
-                pa.setAttribute("value", values.join(";"));
+                pa.setAttribute(QStringLiteral("value"), values.join(QStringLiteral(";")));
                 return true;
             }
             ++i;
@@ -422,7 +422,7 @@ bool Transition::updateKeyframes(int oldEnd)
                 }
             }
         }
-        pa.setAttribute("value", values.join(";"));
+        pa.setAttribute(QStringLiteral("value"), values.join(QStringLiteral(";")));
     }
     
     return true;

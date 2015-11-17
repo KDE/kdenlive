@@ -35,7 +35,7 @@ AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, const
         m_doIt(doIt)
 {
     QString effectName;
-    QDomElement namenode = m_effect.firstChildElement(QLatin1String("name"));
+    QDomElement namenode = m_effect.firstChildElement(QStringLiteral("name"));
     if (!namenode.isNull())
         effectName = i18n(namenode.text().toUtf8().data());
     else
@@ -274,15 +274,15 @@ EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, con
     m_replaceEffect(false)
 {
     QString effectName;
-    QDomElement namenode = effect.firstChildElement(QLatin1String("name"));
+    QDomElement namenode = effect.firstChildElement(QStringLiteral("name"));
     if (!namenode.isNull())
         effectName = i18n(namenode.text().toUtf8().data());
     else
         effectName = i18n("effect");
     setText(i18n("Edit effect %1", effectName));
-    if (m_effect.attribute("id") == "pan_zoom") {
-        QString bg = EffectsList::parameter(effect, "background");
-        QString oldBg = EffectsList::parameter(oldeffect, "background");
+    if (m_effect.attribute(QStringLiteral("id")) == QLatin1String("pan_zoom")) {
+        QString bg = EffectsList::parameter(effect, QStringLiteral("background"));
+        QString oldBg = EffectsList::parameter(oldeffect, QStringLiteral("background"));
         if (bg != oldBg) {
             // effect needs a full reload
             m_replaceEffect = true;
@@ -368,7 +368,7 @@ EditTransitionCommand::EditTransitionCommand(CustomTrackView *view, const int tr
 {
     m_effect = effect.cloneNode().toElement();
     QString effectName;
-    QDomElement namenode = effect.firstChildElement(QLatin1String("name"));
+    QDomElement namenode = effect.firstChildElement(QStringLiteral("name"));
     if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
     else effectName = i18n("effect");
     setText(i18n("Edit transition %1", effectName));

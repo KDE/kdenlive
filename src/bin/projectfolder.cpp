@@ -34,7 +34,7 @@ ProjectFolder::ProjectFolder(const QString &id, const QString &name, ProjectFold
 {
     m_name = name;
     m_clipStatus = StatusReady;
-    m_thumbnail = KoIconUtils::themedIcon("folder");
+    m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("folder"));
     setParent(parent);
 }
 
@@ -42,7 +42,7 @@ ProjectFolder::ProjectFolder(Bin *bin) :
     AbstractProjectItem(AbstractProjectItem::FolderItem, QString::number(-1))
     , m_bin(bin)
 {
-    m_name = "root";
+    m_name = QStringLiteral("root");
     setParent(NULL);
 }
 
@@ -120,8 +120,8 @@ Bin* ProjectFolder::bin()
 
 QDomElement ProjectFolder::toXml(QDomDocument& document)
 {
-    QDomElement folder = document.createElement("folder");
-    folder.setAttribute("name", name());
+    QDomElement folder = document.createElement(QStringLiteral("folder"));
+    folder.setAttribute(QStringLiteral("name"), name());
     for (int i = 0; i < count(); ++i) {
         folder.appendChild(at(i)->toXml(document));
     }

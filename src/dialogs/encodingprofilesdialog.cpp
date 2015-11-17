@@ -40,12 +40,12 @@ EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget * parent
     profile_type->addItem(i18n("Screen capture"), 2);
     profile_type->addItem(i18n("Decklink capture"), 3);
     
-    button_add->setIcon(KoIconUtils::themedIcon("list-add"));
-    button_edit->setIcon(KoIconUtils::themedIcon("document-edit"));
-    button_delete->setIcon(KoIconUtils::themedIcon("list-remove"));
-    button_download->setIcon(KoIconUtils::themedIcon("download"));
+    button_add->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
+    button_edit->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-edit")));
+    button_delete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
+    button_download->setIcon(KoIconUtils::themedIcon(QStringLiteral("download")));
     
-    m_configFile = new KConfig("encodingprofiles.rc", KConfig::CascadeConfig, QStandardPaths::DataLocation);
+    m_configFile = new KConfig(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);
     profile_type->setCurrentIndex(profileType);
     connect(profile_type, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLoadProfiles()));
     connect(profile_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotShowParams()));
@@ -69,17 +69,17 @@ void EncodingProfilesDialog::slotLoadProfiles()
     QString group;
     switch (profile_type->currentIndex()) {
     case 0:
-        group = "proxy";
+        group = QStringLiteral("proxy");
         break;
     case 1:
-        group = "video4linux";
+        group = QStringLiteral("video4linux");
         break;
     case 2:
-        group = "screengrab";
+        group = QStringLiteral("screengrab");
         break;
     default:
     case 3:
-        group = "decklink";
+        group = QStringLiteral("decklink");
         break;
     }
 

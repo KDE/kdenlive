@@ -121,9 +121,9 @@ void ClipController::getProducerXML(QDomDocument& document)
 void ClipController::getInfoForProducer()
 {
     date = QFileInfo(m_url.path()).lastModified();
-    m_audioIndex = int_property("audio_index");
-    m_videoIndex = int_property("video_index");
-    if (m_service == "avformat" || m_service == "avformat-novalidate") {
+    m_audioIndex = int_property(QStringLiteral("audio_index"));
+    m_videoIndex = int_property(QStringLiteral("video_index"));
+    if (m_service == QLatin1String("avformat") || m_service == QLatin1String("avformat-novalidate")) {
         if (m_audioIndex == -1) {
             m_clipType = Video;
         }
@@ -134,8 +134,8 @@ void ClipController::getInfoForProducer()
             m_clipType = AV;
         }
     }
-    else if (m_service == "qimage" || m_service == "pixbuf") {
-        if (m_url.path().contains("%") || m_url.path().contains("./.all.")) {
+    else if (m_service == QLatin1String("qimage") || m_service == QLatin1String("pixbuf")) {
+        if (m_url.path().contains(QStringLiteral("%")) || m_url.path().contains(QStringLiteral("./.all."))) {
             m_clipType = SlideShow;
         }
         else {
@@ -143,18 +143,18 @@ void ClipController::getInfoForProducer()
         }
         m_hasLimitedDuration = false;
     }
-    else if (m_service == "colour" || m_service == "color") {
+    else if (m_service == QLatin1String("colour") || m_service == QLatin1String("color")) {
         m_clipType = Color;
         m_hasLimitedDuration = false;
     }
-    else if (m_service == "kdenlivetitle") {
+    else if (m_service == QLatin1String("kdenlivetitle")) {
         m_clipType = Text;
         m_hasLimitedDuration = false;
     }
-    else if (m_service == "xml" || m_service == "consumer") {
+    else if (m_service == QLatin1String("xml") || m_service == QLatin1String("consumer")) {
         m_clipType = Playlist;
     }
-    else if (m_service == "webvfx") {
+    else if (m_service == QLatin1String("webvfx")) {
         m_clipType = WebVfx;
     }
     else m_clipType = Unknown;
@@ -185,7 +185,7 @@ bool ClipController::isValid()
 const QString ClipController::clipId()
 {
     if (m_masterProducer == NULL) return QString();
-    return property("id");
+    return property(QStringLiteral("id"));
 }
 
 // static
@@ -296,21 +296,21 @@ QColor ClipController::color_property(const QString &name) const
 double ClipController::originalFps() const
 {
     if (!m_properties) return 0;
-    QString propertyName = QString("meta.media.%1.stream.frame_rate").arg(m_videoIndex);
+    QString propertyName = QStringLiteral("meta.media.%1.stream.frame_rate").arg(m_videoIndex);
     return m_properties->get_double(propertyName.toUtf8().constData());
 }
 
 QString ClipController::videoCodecProperty(const QString &property) const
 {
     if (!m_properties) return QString();
-    QString propertyName = QString("meta.media.%1.codec.%2").arg(m_videoIndex).arg(property);
+    QString propertyName = QStringLiteral("meta.media.%1.codec.%2").arg(m_videoIndex).arg(property);
     return m_properties->get(propertyName.toUtf8().constData());
 }
 
 const QString ClipController::codec(bool audioCodec) const
 {
     if (!m_properties || (m_clipType!= AV && m_clipType != Video && m_clipType != Audio)) return QString();
-    QString propertyName = QString("meta.media.%1.codec.name").arg(audioCodec ? m_audioIndex : m_videoIndex);
+    QString propertyName = QStringLiteral("meta.media.%1.codec.name").arg(audioCodec ? m_audioIndex : m_videoIndex);
     return m_properties->get(propertyName.toUtf8().constData());
 }
 
@@ -321,16 +321,16 @@ QUrl ClipController::clipUrl() const
 
 QString ClipController::clipName() const
 {
-    QString name = property("kdenlive:clipname");
+    QString name = property(QStringLiteral("kdenlive:clipname"));
     if (!name.isEmpty()) return name;
     return m_url.fileName();
 }
 
 QString ClipController::description() const
 {
-    QString name = property("kdenlive:description");
+    QString name = property(QStringLiteral("kdenlive:description"));
     if (!name.isEmpty()) return name;
-    return property("meta.attr.comment.markup");
+    return property(QStringLiteral("meta.attr.comment.markup"));
 }
 
 QString ClipController::serviceName() const
@@ -523,14 +523,14 @@ CommentedTime ClipController::markerAt(const GenTime &t) const
 
 void ClipController::setZone(const QPoint &zone)
 {
-    setProperty("kdenlive:zone_in", zone.x());
-    setProperty("kdenlive:zone_out", zone.y());
+    setProperty(QStringLiteral("kdenlive:zone_in"), zone.x());
+    setProperty(QStringLiteral("kdenlive:zone_out"), zone.y());
 }
 
 QPoint ClipController::zone() const
 {
-    int in = int_property("kdenlive:zone_in");
-    int out = int_property("kdenlive:zone_out");
+    int in = int_property(QStringLiteral("kdenlive:zone_in"));
+    int out = int_property(QStringLiteral("kdenlive:zone_out"));
     if (out <= in ) out = getPlaytime().frames(m_binController->fps());
     QPoint zone(in, out);
     return zone;
@@ -538,7 +538,7 @@ QPoint ClipController::zone() const
 
 const QString ClipController::getClipHash() const
 {
-    return property("kdenlive:file_hash");
+    return property(QStringLiteral("kdenlive:file_hash"));
 }
 
 Mlt::Properties &ClipController::properties()
@@ -559,7 +559,7 @@ void ClipController::addEffect(const ProfileInfo &pInfo, QDomElement &effect)
     info.cropStart = GenTime();
     info.cropDuration = getPlaytime();
     EffectsList eff = effectList();
-    EffectsController::initEffect(info, pInfo, eff, property("proxy"), effect);
+    EffectsController::initEffect(info, pInfo, eff, property(QStringLiteral("proxy")), effect);
     // Add effect to list and setup a kdenlive_ix value
     int kdenlive_ix = 0;
     for (int i = 0; i < service.filter_count(); ++i) {
@@ -568,7 +568,7 @@ void ClipController::addEffect(const ProfileInfo &pInfo, QDomElement &effect)
         if (ix > kdenlive_ix) kdenlive_ix = ix;
     }
     kdenlive_ix++;
-    effect.setAttribute(QLatin1String("kdenlive_ix"), kdenlive_ix);
+    effect.setAttribute(QStringLiteral("kdenlive_ix"), kdenlive_ix);
     EffectsParameterList params = EffectsController::getEffectArgs(pInfo, effect);
     Render::addFilterToService(service, params, getPlaytime().frames(m_binController->fps()));
     m_binController->updateTrackProducer(clipId());
@@ -599,13 +599,13 @@ EffectsList ClipController::xmlEffectList()
         QDomElement clipeffect = Timeline::getEffectByTag(effect->get("tag"), effect->get("kdenlive_id"));
         QDomElement currenteffect = clipeffect.cloneNode().toElement();
 	// recover effect parameters
-        QDomNodeList params = currenteffect.elementsByTagName("parameter");
+        QDomNodeList params = currenteffect.elementsByTagName(QStringLiteral("parameter"));
 	if (effect->get_int("disable") == 1) {
-	    currenteffect.setAttribute("disable", 1);
+	    currenteffect.setAttribute(QStringLiteral("disable"), 1);
 	}
         for (int i = 0; i < params.count(); ++i) {
             QDomElement param = params.item(i).toElement();
-            Timeline::setParam(profileinfo, param, effect->get(param.attribute("name").toUtf8().constData()));
+            Timeline::setParam(profileinfo, param, effect->get(param.attribute(QStringLiteral("name")).toUtf8().constData()));
         }
         effList.append(currenteffect);
     }
@@ -634,7 +634,7 @@ void ClipController::updateEffect(const ProfileInfo &pInfo, const QDomElement &e
         service.lock();
         QString prefix;
         QString ser = effect->get("mlt_service");
-        if (ser == "region") prefix = "filter0.";
+        if (ser == QLatin1String("region")) prefix = QStringLiteral("filter0.");
         for (int j = 0; j < params.count(); ++j) {
             effect->set((prefix + params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
             //qDebug()<<params.at(j).name()<<" = "<<params.at(j).value();

@@ -99,7 +99,7 @@ QRect Waveform::scopeRect()
 
 ///// Implemented methods /////
 
-QString Waveform::widgetName() const { return QString("Waveform"); }
+QString Waveform::widgetName() const { return QStringLiteral("Waveform"); }
 bool Waveform::isHUDDependingOnInput() const { return false; }
 bool Waveform::isScopeDependingOnInput() const { return true; }
 bool Waveform::isBackgroundDependingOnInput() const { return false; }
@@ -142,7 +142,7 @@ QImage Waveform::renderHUD(uint)
         if (scopeRect().width() > 0) {
             // Draw a vertical line and the x position of the source clip
             bool ok;
-            const int profileWidth = values.value("width").toInt(&ok);
+            const int profileWidth = values.value(QStringLiteral("width")).toInt(&ok);
 
             if (ok) {
                 const int clipX = (float)x/(scopeRect().width()-m_textWidth.width()-1)*(profileWidth-1);
@@ -159,8 +159,8 @@ QImage Waveform::renderHUD(uint)
         }
 
     }
-    davinci.drawText(rightX, scopeRect().height()-m_paddingBottom, "0");
-    davinci.drawText(rightX, 10, "255");
+    davinci.drawText(rightX, scopeRect().height()-m_paddingBottom, QStringLiteral("0"));
+    davinci.drawText(rightX, 10, QStringLiteral("255"));
 
     emit signalHUDRenderingFinished(0, 1);
     return hud;

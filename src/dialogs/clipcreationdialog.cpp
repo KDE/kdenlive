@@ -53,16 +53,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 QStringList ClipCreationDialog::getExtensions()
 {
     // Build list of mime types
-    QStringList mimeTypes = QStringList() << "application/x-kdenlive" << "application/x-kdenlivetitle" << "video/mlt-playlist" << "text/plain";
+    QStringList mimeTypes = QStringList() << QStringLiteral("application/x-kdenlive") << QStringLiteral("application/x-kdenlivetitle") << QStringLiteral("video/mlt-playlist") << QStringLiteral("text/plain");
 
     // Video mimes
-    mimeTypes <<  "video/x-flv" << "application/vnd.rn-realmedia" << "video/x-dv" << "video/dv" << "video/x-msvideo" << "video/x-matroska" << "video/mpeg" << "video/ogg" << "video/x-ms-wmv" << "video/mp4" << "video/quicktime" << "video/webm" << "video/3gpp" << "video/mp2t";
+    mimeTypes <<  QStringLiteral("video/x-flv") << QStringLiteral("application/vnd.rn-realmedia") << QStringLiteral("video/x-dv") << QStringLiteral("video/dv") << QStringLiteral("video/x-msvideo") << QStringLiteral("video/x-matroska") << QStringLiteral("video/mpeg") << QStringLiteral("video/ogg") << QStringLiteral("video/x-ms-wmv") << QStringLiteral("video/mp4") << QStringLiteral("video/quicktime") << QStringLiteral("video/webm") << QStringLiteral("video/3gpp") << QStringLiteral("video/mp2t");
 
     // Audio mimes
-    mimeTypes << "audio/x-flac" << "audio/x-matroska" << "audio/mp4" << "audio/mpeg" << "audio/x-mp3" << "audio/ogg" << "audio/x-wav" << "audio/x-aiff" << "audio/aiff" << "application/ogg" << "application/mxf" << "application/x-shockwave-flash" << "audio/ac3";
+    mimeTypes << QStringLiteral("audio/x-flac") << QStringLiteral("audio/x-matroska") << QStringLiteral("audio/mp4") << QStringLiteral("audio/mpeg") << QStringLiteral("audio/x-mp3") << QStringLiteral("audio/ogg") << QStringLiteral("audio/x-wav") << QStringLiteral("audio/x-aiff") << QStringLiteral("audio/aiff") << QStringLiteral("application/ogg") << QStringLiteral("application/mxf") << QStringLiteral("application/x-shockwave-flash") << QStringLiteral("audio/ac3");
 
     // Image mimes
-    mimeTypes << "image/gif" << "image/jpeg" << "image/png" << "image/x-tga" << "image/x-bmp" << "image/svg+xml" << "image/tiff" << "image/x-xcf" << "image/x-xcf-gimp" << "image/x-vnd.adobe.photoshop" << "image/x-pcx" << "image/x-exr" << "image/x-portable-pixmap";
+    mimeTypes << QStringLiteral("image/gif") << QStringLiteral("image/jpeg") << QStringLiteral("image/png") << QStringLiteral("image/x-tga") << QStringLiteral("image/x-bmp") << QStringLiteral("image/svg+xml") << QStringLiteral("image/tiff") << QStringLiteral("image/x-xcf") << QStringLiteral("image/x-xcf-gimp") << QStringLiteral("image/x-vnd.adobe.photoshop") << QStringLiteral("image/x-pcx") << QStringLiteral("image/x-exr") << QStringLiteral("image/x-portable-pixmap");
 
     QMimeDatabase db;
     QStringList allExtensions;
@@ -83,7 +83,7 @@ void ClipCreationDialog::createClipFromXml(KdenliveDoc *doc, QDomElement xml, QS
     Q_UNUSED(groupInfo)
 
     uint id = bin->getFreeClipId();
-    xml.setAttribute("id", QString::number(id));
+    xml.setAttribute(QStringLiteral("id"), QString::number(id));
     AddClipCommand *command = new AddClipCommand(doc, xml, QString::number(id), true);
     doc->commandStack()->push(command);
 }
@@ -105,22 +105,22 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, QStringList groupInfo
     if (dia->exec() == QDialog::Accepted) {
         QString color = dia_ui.clip_color->color().name();
         KdenliveSettings::setColorclipcolor(color);
-        color = color.replace(0, 1, "0x") + "ff";
+        color = color.replace(0, 1, QStringLiteral("0x")) + "ff";
         // Everything is ready. create clip xml
         QDomDocument xml;
-        QDomElement prod = xml.createElement("producer");
+        QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
-        prod.setAttribute("type", (int) Color);
+        prod.setAttribute(QStringLiteral("type"), (int) Color);
         uint id = bin->getFreeClipId();
-        prod.setAttribute("id", QString::number(id));
-        prod.setAttribute("in", "0");
-        prod.setAttribute("out", doc->getFramePos(doc->timecode().getTimecode(t->gentime())) - 1);
+        prod.setAttribute(QStringLiteral("id"), QString::number(id));
+        prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
+        prod.setAttribute(QStringLiteral("out"), doc->getFramePos(doc->timecode().getTimecode(t->gentime())) - 1);
         QMap <QString, QString> properties;
-        properties.insert("resource", color);
-        properties.insert("kdenlive:clipname", dia_ui.clip_name->text());
-        properties.insert("mlt_service", "color");
+        properties.insert(QStringLiteral("resource"), color);
+        properties.insert(QStringLiteral("kdenlive:clipname"), dia_ui.clip_name->text());
+        properties.insert(QStringLiteral("mlt_service"), QStringLiteral("color"));
         if (!groupInfo.isEmpty()) {
-            properties.insert("kdenlive:folderid", groupInfo.at(0));
+            properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
         }
         addXmlProperties(prod, properties);
         AddClipCommand *command = new AddClipCommand(doc, xml.documentElement(), QString::number(id), true);
@@ -133,30 +133,30 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, QStringList groupInfo
 //static
 void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
 {
-    QPointer<SlideshowClip> dia = new SlideshowClip(doc->timecode(), KRecentDirs::dir(":KdenliveSlideShowFolder"), NULL, bin);
+    QPointer<SlideshowClip> dia = new SlideshowClip(doc->timecode(), KRecentDirs::dir(QStringLiteral(":KdenliveSlideShowFolder")), NULL, bin);
 
     if (dia->exec() == QDialog::Accepted) {
         // Ready, create xml
-        KRecentDirs::add(":KdenliveSlideShowFolder", QUrl::fromLocalFile(dia->selectedPath()).adjusted(QUrl::RemoveFilename).path());
+        KRecentDirs::add(QStringLiteral(":KdenliveSlideShowFolder"), QUrl::fromLocalFile(dia->selectedPath()).adjusted(QUrl::RemoveFilename).path());
         QDomDocument xml;
-        QDomElement prod = xml.createElement("producer");
+        QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
-        prod.setAttribute("in", "0");
-        prod.setAttribute("out", QString::number(doc->getFramePos(dia->clipDuration()) * dia->imageCount() - 1));
-        prod.setAttribute("type", (int) SlideShow);
+        prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
+        prod.setAttribute(QStringLiteral("out"), QString::number(doc->getFramePos(dia->clipDuration()) * dia->imageCount() - 1));
+        prod.setAttribute(QStringLiteral("type"), (int) SlideShow);
         QMap <QString, QString> properties;
-        properties.insert("kdenlive:clipname", dia->clipName());
-        properties.insert("resource", dia->selectedPath());
-        properties.insert("ttl", QString::number(doc->getFramePos(dia->clipDuration())));
-        properties.insert("loop", QString::number(dia->loop()));
-        properties.insert("crop", QString::number(dia->crop()));
-        properties.insert("fade", QString::number(dia->fade()));
-        properties.insert("luma_duration", dia->lumaDuration());
-        properties.insert("luma_file", dia->lumaFile());
-        properties.insert("softness", QString::number(dia->softness()));
-        properties.insert("animation", dia->animation());
+        properties.insert(QStringLiteral("kdenlive:clipname"), dia->clipName());
+        properties.insert(QStringLiteral("resource"), dia->selectedPath());
+        properties.insert(QStringLiteral("ttl"), QString::number(doc->getFramePos(dia->clipDuration())));
+        properties.insert(QStringLiteral("loop"), QString::number(dia->loop()));
+        properties.insert(QStringLiteral("crop"), QString::number(dia->crop()));
+        properties.insert(QStringLiteral("fade"), QString::number(dia->fade()));
+        properties.insert(QStringLiteral("luma_duration"), dia->lumaDuration());
+        properties.insert(QStringLiteral("luma_file"), dia->lumaFile());
+        properties.insert(QStringLiteral("softness"), QString::number(dia->softness()));
+        properties.insert(QStringLiteral("animation"), dia->animation());
         if (!groupInfo.isEmpty()) {
-            properties.insert("kdenlive:folderid", groupInfo.at(0));
+            properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
         }
         addXmlProperties(prod, properties);
         uint id = bin->getFreeClipId();
@@ -170,30 +170,30 @@ void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, QStringList groupInfo
 {
     // Make sure the titles folder exists
     QDir dir(doc->projectFolder().path());
-    dir.mkdir("titles");
-    dir.cd("titles");
+    dir.mkdir(QStringLiteral("titles"));
+    dir.cd(QStringLiteral("titles"));
     QPointer<TitleWidget> dia_ui = new TitleWidget(QUrl::fromLocalFile(templatePath), doc->timecode(), dir.path(), doc->renderer(), bin);
     QObject::connect(dia_ui, SIGNAL(requestBackgroundFrame()), bin, SLOT(slotGetCurrentProjectImage()));
     if (dia_ui->exec() == QDialog::Accepted) {
         // Ready, create clip xml
         QDomDocument xml;
-        QDomElement prod = xml.createElement("producer");
+        QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
         //prod.setAttribute("resource", imagePath);
         uint id = bin->getFreeClipId();
-        prod.setAttribute("id", QString::number(id));
+        prod.setAttribute(QStringLiteral("id"), QString::number(id));
 
         QMap <QString, QString> properties;
-        properties.insert("xmldata", dia_ui->xml().toString());
-        properties.insert("kdenlive:clipname", i18n("Title clip"));
+        properties.insert(QStringLiteral("xmldata"), dia_ui->xml().toString());
+        properties.insert(QStringLiteral("kdenlive:clipname"), i18n("Title clip"));
         if (!groupInfo.isEmpty()) {
-            properties.insert("kdenlive:folderid", groupInfo.at(0));
+            properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
         }
         addXmlProperties(prod, properties);
-        prod.setAttribute("type", (int) Text);
-        prod.setAttribute("transparency", "1");
-        prod.setAttribute("in", "0");
-        prod.setAttribute("out", dia_ui->duration() - 1);
+        prod.setAttribute(QStringLiteral("type"), (int) Text);
+        prod.setAttribute(QStringLiteral("transparency"), QStringLiteral("1"));
+        prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
+        prod.setAttribute(QStringLiteral("out"), dia_ui->duration() - 1);
         AddClipCommand *command = new AddClipCommand(doc, xml.documentElement(), QString::number(id), true);
         doc->commandStack()->push(command);
     }
@@ -205,7 +205,7 @@ void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, QStringList g
 {
     // Get the list of existing templates
     QStringList filter;
-    filter << "*.kdenlivetitle";
+    filter << QStringLiteral("*.kdenlivetitle");
     const QString path = doc->projectFolder().path() + QDir::separator() + "titles/";
     QStringList templateFiles = QDir(path).entryList(filter, QDir::Files);
 
@@ -218,7 +218,7 @@ void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, QStringList g
     if (!templateFiles.isEmpty())
         dia_ui.buttonBox->button(QDialogButtonBox::Ok)->setFocus();
     QStringList mimeTypeFilters;
-    mimeTypeFilters <<"application/x-kdenlivetitle";
+    mimeTypeFilters <<QStringLiteral("application/x-kdenlivetitle");
     dia_ui.template_list->setFilter(mimeTypeFilters.join(' '));
     //warning: setting base directory doesn't work??
     dia_ui.template_list->setUrl(QUrl::fromLocalFile(path));
@@ -228,38 +228,38 @@ void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, QStringList g
         if (textTemplate.isEmpty()) textTemplate = dia_ui.template_list->comboBox()->currentText();
         // Create a cloned template clip
         QDomDocument xml;
-        QDomElement prod = xml.createElement("producer");
+        QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
         
         QMap <QString, QString> properties;
-        properties.insert("resource", textTemplate);
-        properties.insert("kdenlive:clipname", i18n("Template title clip"));
+        properties.insert(QStringLiteral("resource"), textTemplate);
+        properties.insert(QStringLiteral("kdenlive:clipname"), i18n("Template title clip"));
         if (!groupInfo.isEmpty()) {
-            properties.insert("kdenlive:folderid", groupInfo.at(0));
+            properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
         }
         addXmlProperties(prod, properties);
         uint id = bin->getFreeClipId();
-        prod.setAttribute("id", QString::number(id));
-        prod.setAttribute("type", (int) Text);
-        prod.setAttribute("transparency", "1");
-        prod.setAttribute("in", "0");
+        prod.setAttribute(QStringLiteral("id"), QString::number(id));
+        prod.setAttribute(QStringLiteral("type"), (int) Text);
+        prod.setAttribute(QStringLiteral("transparency"), QStringLiteral("1"));
+        prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
 
         int duration = 0;
         QDomDocument titledoc;
         QFile txtfile(textTemplate);
         if (txtfile.open(QIODevice::ReadOnly) && titledoc.setContent(&txtfile)) {
-            if (titledoc.documentElement().hasAttribute("duration")) {
-                duration = titledoc.documentElement().attribute("duration").toInt();
+            if (titledoc.documentElement().hasAttribute(QStringLiteral("duration"))) {
+                duration = titledoc.documentElement().attribute(QStringLiteral("duration")).toInt();
             } else {
                 // keep some time for backwards compatibility - 26/12/12
-                duration = titledoc.documentElement().attribute("out").toInt();
+                duration = titledoc.documentElement().attribute(QStringLiteral("out")).toInt();
             }
         }
         txtfile.close();
 
         if (duration == 0) duration = doc->getFramePos(KdenliveSettings::title_duration());
-        prod.setAttribute("duration", duration - 1);
-        prod.setAttribute("out", duration - 1);
+        prod.setAttribute(QStringLiteral("duration"), duration - 1);
+        prod.setAttribute(QStringLiteral("out"), duration - 1);
 
         AddClipCommand *command = new AddClipCommand(doc, xml.documentElement(), QString::number(id), true);
         doc->commandStack()->push(command);
@@ -272,8 +272,8 @@ void ClipCreationDialog::addXmlProperties(QDomElement &producer, QMap <QString, 
     QMapIterator<QString, QString> i(properties);
     while (i.hasNext()) {
         i.next();
-        QDomElement prop = producer.ownerDocument().createElement("property");
-        prop.setAttribute("name", i.key());
+        QDomElement prop = producer.ownerDocument().createElement(QStringLiteral("property"));
+        prop.setAttribute(QStringLiteral("name"), i.key());
         QDomText value = producer.ownerDocument().createTextNode(i.value());
         prop.appendChild(value);
         producer.appendChild(prop);
@@ -344,12 +344,12 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
     
     foreach(const QUrl &file, urls) {
         QDomDocument xml;
-        QDomElement prod = xml.createElement("producer");
+        QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
         QMap <QString, QString> properties;
-        properties.insert("resource", file.path());
+        properties.insert(QStringLiteral("resource"), file.path());
         if (!groupInfo.isEmpty()) {
-            properties.insert("kdenlive:folderid", groupInfo.at(0));
+            properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
         }
         // Merge data
         QMapIterator<QString, QString> i(data);
@@ -359,16 +359,16 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
         }
         //prod.setAttribute("resource", file.path());
         uint id = bin->getFreeClipId();
-        prod.setAttribute("id", QString::number(id));
+        prod.setAttribute(QStringLiteral("id"), QString::number(id));
         QMimeDatabase db;
         QMimeType type = db.mimeTypeForUrl(file);
         if (type.name().startsWith(QLatin1String("image/"))) {
-            prod.setAttribute("type", (int) Image);
-            prod.setAttribute("in", 0);
-            prod.setAttribute("out", doc->getFramePos(KdenliveSettings::image_duration()) - 1);
-            if (KdenliveSettings::autoimagetransparency()) properties.insert("kdenlive:transparency", "1");
+            prod.setAttribute(QStringLiteral("type"), (int) Image);
+            prod.setAttribute(QStringLiteral("in"), 0);
+            prod.setAttribute(QStringLiteral("out"), doc->getFramePos(KdenliveSettings::image_duration()) - 1);
+            if (KdenliveSettings::autoimagetransparency()) properties.insert(QStringLiteral("kdenlive:transparency"), QStringLiteral("1"));
                 // Read EXIF metadata for JPEG
-                if (type.inherits("image/jpeg")) {
+                if (type.inherits(QStringLiteral("image/jpeg"))) {
                     //TODO KF5 how to read metadata?
                     /*
                     KFileMetaInfo metaInfo(file.path(), QString("image/jpeg"), KFileMetaInfo::TechnicalInfo);
@@ -382,41 +382,41 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
                         prod.appendChild(meta);
                     }*/
                 }
-        } else if (type.inherits("application/x-kdenlivetitle")) {
+        } else if (type.inherits(QStringLiteral("application/x-kdenlivetitle"))) {
             // opening a title file
-            QDomDocument txtdoc("titledocument");
+            QDomDocument txtdoc(QStringLiteral("titledocument"));
             QFile txtfile(file.path());
             if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
                 txtfile.close();
-                prod.setAttribute("type", (int) Text);
+                prod.setAttribute(QStringLiteral("type"), (int) Text);
                 // extract embeded images
-                QDomNodeList items = txtdoc.elementsByTagName("content");
+                QDomNodeList items = txtdoc.elementsByTagName(QStringLiteral("content"));
                 for (int i = 0; i < items.count() ; ++i) {
                     QDomElement content = items.item(i).toElement();
-                    if (content.hasAttribute("base64")) {
+                    if (content.hasAttribute(QStringLiteral("base64"))) {
                         QString titlesFolder = doc->projectFolder().path() + QDir::separator() + "titles/";
-                        QString path = TitleDocument::extractBase64Image(titlesFolder, content.attribute("base64"));
+                        QString path = TitleDocument::extractBase64Image(titlesFolder, content.attribute(QStringLiteral("base64")));
                         if (!path.isEmpty()) {
-                            content.setAttribute("url", path);
-                            content.removeAttribute("base64");
+                            content.setAttribute(QStringLiteral("url"), path);
+                            content.removeAttribute(QStringLiteral("base64"));
                         }
                     }
                 }
-                prod.setAttribute("in", 0);
+                prod.setAttribute(QStringLiteral("in"), 0);
                 int duration = 0;
-                if (txtdoc.documentElement().hasAttribute("duration")) {
-                    duration = txtdoc.documentElement().attribute("duration").toInt();
-                } else if (txtdoc.documentElement().hasAttribute("out")) {
-                    duration = txtdoc.documentElement().attribute("out").toInt();
+                if (txtdoc.documentElement().hasAttribute(QStringLiteral("duration"))) {
+                    duration = txtdoc.documentElement().attribute(QStringLiteral("duration")).toInt();
+                } else if (txtdoc.documentElement().hasAttribute(QStringLiteral("out"))) {
+                    duration = txtdoc.documentElement().attribute(QStringLiteral("out")).toInt();
                 }
                 if (duration <= 0)
                     duration = doc->getFramePos(KdenliveSettings::title_duration()) - 1;
-                prod.setAttribute("duration", duration);
-                prod.setAttribute("out", duration);
-                txtdoc.documentElement().setAttribute("duration", duration);
-                txtdoc.documentElement().setAttribute("out", duration);
+                prod.setAttribute(QStringLiteral("duration"), duration);
+                prod.setAttribute(QStringLiteral("out"), duration);
+                txtdoc.documentElement().setAttribute(QStringLiteral("duration"), duration);
+                txtdoc.documentElement().setAttribute(QStringLiteral("out"), duration);
                 QString titleData = txtdoc.toString();
-                prod.setAttribute("xmldata", titleData);
+                prod.setAttribute(QStringLiteral("xmldata"), titleData);
             } else {
                 txtfile.close();
             }
@@ -433,7 +433,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
 void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
 {
     QList <QUrl> list;
-    QString allExtensions = getExtensions().join(" ");
+    QString allExtensions = getExtensions().join(QStringLiteral(" "));
     QString dialogFilter = allExtensions + "|" + i18n("All Supported Files") + "\n*|" + i18n("All Files");
     QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
     b->setChecked(KdenliveSettings::autoimagesequence());
@@ -446,7 +446,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupI
     l->addWidget(c);
     l->addStretch(5);
     f->setLayout(l);
-    QString clipFolder = KRecentDirs::dir(":KdenliveClipFolder");
+    QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
     if (clipFolder.isEmpty()) {
         clipFolder = QDir::homePath();
     }
@@ -474,7 +474,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupI
         KdenliveSettings::setAutoimagetransparency(c->isChecked());
         list = fileWidget->selectedUrls();
         if (!list.isEmpty()) {
-            KRecentDirs::add(":KdenliveClipFolder", list.first().adjusted(QUrl::RemoveFilename).path());
+            KRecentDirs::add(QStringLiteral(":KdenliveClipFolder"), list.first().adjusted(QUrl::RemoveFilename).path());
         }
         if (b->isChecked() && list.count() == 1) {
             // Check for image sequence
@@ -495,21 +495,21 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupI
                             fileName.chop(1);
                         }
                         QDomDocument xml;
-                        QDomElement prod = xml.createElement("producer");
+                        QDomElement prod = xml.createElement(QStringLiteral("producer"));
                         xml.appendChild(prod);
-                        prod.setAttribute("in", "0");
+                        prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
                         QString duration = doc->timecode().reformatSeparators(KdenliveSettings::sequence_duration());
-                        prod.setAttribute("out", QString::number(doc->getFramePos(duration) * count));
+                        prod.setAttribute(QStringLiteral("out"), QString::number(doc->getFramePos(duration) * count));
                         QMap <QString, QString> properties;
-                        properties.insert("resource", pattern);
-                        properties.insert("kdenlive:clipname", fileName);
-                        properties.insert("ttl", QString::number(doc->getFramePos(duration)));
-                        properties.insert("loop", QString::number(false));
-                        properties.insert("crop", QString::number(false));
-                        properties.insert("fade", QString::number(false));
-                        properties.insert("luma_duration", QString::number(doc->getFramePos(doc->timecode().getTimecodeFromFrames(int(ceil(doc->timecode().fps()))))));
+                        properties.insert(QStringLiteral("resource"), pattern);
+                        properties.insert(QStringLiteral("kdenlive:clipname"), fileName);
+                        properties.insert(QStringLiteral("ttl"), QString::number(doc->getFramePos(duration)));
+                        properties.insert(QStringLiteral("loop"), QString::number(false));
+                        properties.insert(QStringLiteral("crop"), QString::number(false));
+                        properties.insert(QStringLiteral("fade"), QString::number(false));
+                        properties.insert(QStringLiteral("luma_duration"), QString::number(doc->getFramePos(doc->timecode().getTimecodeFromFrames(int(ceil(doc->timecode().fps()))))));
                         if (!groupInfo.isEmpty()) {
-                            properties.insert("kdenlive:folderid", groupInfo.at(0));
+                            properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
                         }
                         addXmlProperties(prod, properties);
                         uint id = bin->getFreeClipId();

@@ -50,19 +50,19 @@ int main(int argc, char *argv[])
                          KAboutLicense::GPL,
                          i18n("Copyright © 2007–2015 Kdenlive authors"),
                          i18n("Please report bugs to http://bugs.kde.org"),
-                         "https://kdenlive.org");
-    aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 / KF5 port, main developer and maintainer"), "jb@kdenlive.org");
-    aboutData.addAuthor(i18n("Vincent Pinon"), i18n("Interim maintainer, KF5 port, bugs fixing, minor functions, profiles updates, etc."), "vpinon@april.org");
-    aboutData.addAuthor(i18n("Laurent Montel"), i18n("Bugs fixing, clean up code, optimization etc."), "montel@kde.org");
-    aboutData.addAuthor(i18n("Marco Gittler"), i18n("MLT transitions and effects, timeline, audio thumbs"), "g.marco@freenet.de");
-    aboutData.addAuthor(i18n("Dan Dennedy"), i18n("Bug fixing, etc."), "dan@dennedy.org");
-    aboutData.addAuthor(i18n("Simon A. Eugster"), i18n("Color scopes, bug fixing, etc."), "simon.eu@gmail.com");
-    aboutData.addAuthor(i18n("Till Theato"), i18n("Bug fixing, etc."), "root@ttill.de");
-    aboutData.addAuthor(i18n("Alberto Villa"), i18n("Bug fixing, logo, etc."), "avilla@FreeBSD.org");
-    aboutData.addAuthor(i18n("Jean-Michel Poure"), i18n("Rendering profiles customization"), "jm@poure.com");
-    aboutData.addAuthor(i18n("Ray Lehtiniemi"), i18n("Bug fixing, etc."), "rayl@mail.com");
-    aboutData.addAuthor(i18n("Steve Guilford"), i18n("Bug fixing, etc."), "s.guilford@dbplugins.com");
-    aboutData.addAuthor(i18n("Jason Wood"), i18n("Original KDE 3 version author (not active anymore)"), "jasonwood@blueyonder.co.uk");
+                         QStringLiteral("https://kdenlive.org"));
+    aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 / KF5 port, main developer and maintainer"), QStringLiteral("jb@kdenlive.org"));
+    aboutData.addAuthor(i18n("Vincent Pinon"), i18n("Interim maintainer, KF5 port, bugs fixing, minor functions, profiles updates, etc."), QStringLiteral("vpinon@april.org"));
+    aboutData.addAuthor(i18n("Laurent Montel"), i18n("Bugs fixing, clean up code, optimization etc."), QStringLiteral("montel@kde.org"));
+    aboutData.addAuthor(i18n("Marco Gittler"), i18n("MLT transitions and effects, timeline, audio thumbs"), QStringLiteral("g.marco@freenet.de"));
+    aboutData.addAuthor(i18n("Dan Dennedy"), i18n("Bug fixing, etc."), QStringLiteral("dan@dennedy.org"));
+    aboutData.addAuthor(i18n("Simon A. Eugster"), i18n("Color scopes, bug fixing, etc."), QStringLiteral("simon.eu@gmail.com"));
+    aboutData.addAuthor(i18n("Till Theato"), i18n("Bug fixing, etc."), QStringLiteral("root@ttill.de"));
+    aboutData.addAuthor(i18n("Alberto Villa"), i18n("Bug fixing, logo, etc."), QStringLiteral("avilla@FreeBSD.org"));
+    aboutData.addAuthor(i18n("Jean-Michel Poure"), i18n("Rendering profiles customization"), QStringLiteral("jm@poure.com"));
+    aboutData.addAuthor(i18n("Ray Lehtiniemi"), i18n("Bug fixing, etc."), QStringLiteral("rayl@mail.com"));
+    aboutData.addAuthor(i18n("Steve Guilford"), i18n("Bug fixing, etc."), QStringLiteral("s.guilford@dbplugins.com"));
+    aboutData.addAuthor(i18n("Jason Wood"), i18n("Original KDE 3 version author (not active anymore)"), QStringLiteral("jasonwood@blueyonder.co.uk"));
     aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
 
@@ -83,9 +83,9 @@ int main(int argc, char *argv[])
     parser.addVersionOption();
     parser.addHelpOption();
 
-    parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("mlt-path"), i18n("Set the path for MLT environment"), QLatin1String("mlt-path")));
-    parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("i"), i18n("Comma separated list of clips to add"), QLatin1String("clips")));
-    parser.addPositionalArgument(QLatin1String("file"), i18n("Document to open"));
+    parser.addOption(QCommandLineOption(QStringList() <<  QStringLiteral("mlt-path"), i18n("Set the path for MLT environment"), QStringLiteral("mlt-path")));
+    parser.addOption(QCommandLineOption(QStringList() <<  QStringLiteral("i"), i18n("Comma separated list of clips to add"), QStringLiteral("clips")));
+    parser.addPositionalArgument(QStringLiteral("file"), i18n("Document to open"));
 
     // Parse command line
     parser.process(app);
@@ -102,8 +102,8 @@ int main(int argc, char *argv[])
 	      n++;
 	  }
     } else {
-        QString clipsToLoad = parser.value("i");
-        QString mltPath = parser.value("mlt-path");
+        QString clipsToLoad = parser.value(QStringLiteral("i"));
+        QString mltPath = parser.value(QStringLiteral("mlt-path"));
         QUrl url;
         if (parser.positionalArguments().count()) {
             url = QUrl::fromLocalFile(parser.positionalArguments().first());

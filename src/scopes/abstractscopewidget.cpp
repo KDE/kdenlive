@@ -48,7 +48,7 @@ const QPen AbstractScopeWidget::penDark(QBrush(QColor(0, 0, 20, 250)),          
 const QPen AbstractScopeWidget::penDarkDots(QBrush(QColor(0, 0, 20, 250)),                          1, Qt::DotLine);
 const QPen AbstractScopeWidget::penBackground(QBrush(dark2),                                        1, Qt::SolidLine);
 
-const QString AbstractScopeWidget::directions[] =  {"North", "Northeast", "East", "Southeast"};
+const QString AbstractScopeWidget::directions[] =  {QStringLiteral("North"), QStringLiteral("Northeast"), QStringLiteral("East"), QStringLiteral("Southeast")};
 
 AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent) :
         QWidget(parent)

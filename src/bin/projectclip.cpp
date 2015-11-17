@@ -60,7 +60,7 @@ ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *control
     // Make sure we have a hash for this clip
     hash();
     setParent(parent);
-    bin()->loadSubClips(id, m_controller->getPropertiesFromPrefix("kdenlive:clipzone."));
+    bin()->loadSubClips(id, m_controller->getPropertiesFromPrefix(QStringLiteral("kdenlive:clipzone.")));
     if (KdenliveSettings::audiothumbnails()) {
         m_audioThumbsThread = QtConcurrent::run(this, &ProjectClip::slotCreateAudioThumbs);
     }
@@ -77,11 +77,11 @@ ProjectClip::ProjectClip(const QDomElement& description, QIcon thumb, ProjectFol
     Q_ASSERT(description.hasAttribute("id"));
     m_clipStatus = StatusWaiting;
     m_thumbnail = thumb;
-    if (description.hasAttribute("type")) {
-        m_type = (ClipType) description.attribute("type").toInt();
+    if (description.hasAttribute(QStringLiteral("type"))) {
+        m_type = (ClipType) description.attribute(QStringLiteral("type")).toInt();
     }
-    m_temporaryUrl = QUrl::fromLocalFile(getXmlProperty(description, "resource"));
-    QString clipName = getXmlProperty(description, "kdenlive:clipname");
+    m_temporaryUrl = QUrl::fromLocalFile(getXmlProperty(description, QStringLiteral("resource")));
+    QString clipName = getXmlProperty(description, QStringLiteral("kdenlive:clipname"));
     if (!clipName.isEmpty()) {
         m_name = clipName;
     }
@@ -108,9 +108,9 @@ QString ProjectClip::getToolTip() const
 QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &propertyName, const QString &defaultValue)
 {
     QString value = defaultValue;
-    QDomNodeList props = producer.elementsByTagName("property");
+    QDomNodeList props = producer.elementsByTagName(QStringLiteral("property"));
     for (int i = 0; i < props.count(); ++i) {
-        if (props.at(i).toElement().attribute("name") == propertyName) {
+        if (props.at(i).toElement().attribute(QStringLiteral("name")) == propertyName) {
             value = props.at(i).firstChild().nodeValue();
             break;
         }
@@ -225,7 +225,7 @@ void ProjectClip::reloadProducer(bool thumbnailOnly)
     QDomElement xml = toXml(doc);
     if (thumbnailOnly) {
         // set a special flag to request thumbnail only
-        xml.setAttribute("thumbnailOnly", "1");
+        xml.setAttribute(QStringLiteral("thumbnailOnly"), QStringLiteral("1"));
     }
     bin()->reloadProducer(m_id, xml);
 }
@@ -243,7 +243,7 @@ QDomElement ProjectClip::toXml(QDomDocument& document)
 {
     if (m_controller) {
         m_controller->getProducerXML(document);
-        return document.documentElement().firstChildElement("producer");
+        return document.documentElement().firstChildElement(QStringLiteral("producer"));
     }
     return QDomElement();
 }
@@ -363,8 +363,8 @@ bool ProjectClip::isReady() const
 
 QPoint ProjectClip::zone() const
 {
-    int x = getProducerIntProperty("kdenlive:zone_in");
-    int y = getProducerIntProperty("kdenlive:zone_out");
+    int x = getProducerIntProperty(QStringLiteral("kdenlive:zone_in"));
+    int y = getProducerIntProperty(QStringLiteral("kdenlive:zone_out"));
     return QPoint(x, y);
 }
 
@@ -439,7 +439,7 @@ QString ProjectClip::getProducerProperty(const QString &key) const
 const QString ProjectClip::hash()
 {
     if (m_controller) {
-        QString clipHash = m_controller->property("kdenlive:file_hash");
+        QString clipHash = m_controller->property(QStringLiteral("kdenlive:file_hash"));
         if (!clipHash.isEmpty()) {
             return clipHash;
         }
@@ -457,11 +457,11 @@ const QString ProjectClip::getFileHash() const
           fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
           break;
       case Text:
-          fileData = m_controller ? m_controller->property("xmldata").toUtf8() : name().toUtf8();
+          fileData = m_controller ? m_controller->property(QStringLiteral("xmldata")).toUtf8() : name().toUtf8();
           fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
           break;
       case Color:
-          fileData = m_controller ? m_controller->property("resource").toUtf8() : name().toUtf8();
+          fileData = m_controller ? m_controller->property(QStringLiteral("resource")).toUtf8() : name().toUtf8();
           fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
           break;
       default:
@@ -478,7 +478,7 @@ const QString ProjectClip::getFileHash() const
             } else
                 fileData = file.readAll();
             file.close();
-            if (m_controller) m_controller->setProperty("kdenlive:file_size", QString::number(file.size()));
+            if (m_controller) m_controller->setProperty(QStringLiteral("kdenlive:file_size"), QString::number(file.size()));
             fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
           }
           break;
@@ -486,7 +486,7 @@ const QString ProjectClip::getFileHash() const
     if (fileHash.isEmpty()) return QString();
     QString result = fileHash.toHex();
     if (m_controller) {
-	m_controller->setProperty("kdenlive:file_hash", result);
+	m_controller->setProperty(QStringLiteral("kdenlive:file_hash"), result);
     }
     return result;
 }
@@ -499,8 +499,8 @@ double ProjectClip::getOriginalFps() const
 
 bool ProjectClip::hasProxy() const
 {
-    QString proxy = getProducerProperty("kdenlive:proxy");
-    if (proxy.isEmpty() || proxy == "-") return false;
+    QString proxy = getProducerProperty(QStringLiteral("kdenlive:proxy"));
+    if (proxy.isEmpty() || proxy == QLatin1String("-")) return false;
     return true;
 }
 
@@ -513,24 +513,24 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
     bool reload = false;
     // Some properties also need to be passed to track producers
     QStringList timelineProperties;
-    timelineProperties << "force_aspect_ratio" << "video_index" << "audio_index" << "set.force_full_luma"<< "full_luma" <<"threads" <<"force_colorspace"<<"force_tff"<<"force_progressive"<<"force_fps";
+    timelineProperties << QStringLiteral("force_aspect_ratio") << QStringLiteral("video_index") << QStringLiteral("audio_index") << QStringLiteral("set.force_full_luma")<< QStringLiteral("full_luma") <<QStringLiteral("threads") <<QStringLiteral("force_colorspace")<<QStringLiteral("force_tff")<<QStringLiteral("force_progressive")<<QStringLiteral("force_fps");
     QStringList keys;
-    keys << "luma_duration" << "luma_file" << "fade" << "ttl" << "softness" << "crop" << "animation";
+    keys << QStringLiteral("luma_duration") << QStringLiteral("luma_file") << QStringLiteral("fade") << QStringLiteral("ttl") << QStringLiteral("softness") << QStringLiteral("crop") << QStringLiteral("animation");
     while (i.hasNext()) {
         i.next();
         setProducerProperty(i.key(), i.value());
         if (m_type == SlideShow && keys.contains(i.key())) {
             reload = true;
         }
-        if (i.key().startsWith("kdenlive:clipanalysis")) refreshAnalysis = true;
+        if (i.key().startsWith(QLatin1String("kdenlive:clipanalysis"))) refreshAnalysis = true;
         if (timelineProperties.contains(i.key())) {
             passProperties.insert(i.key(), i.value());
         }
     }
-    if (properties.contains("kdenlive:proxy")) {
-        QString value = properties.value("kdenlive:proxy");
+    if (properties.contains(QStringLiteral("kdenlive:proxy"))) {
+        QString value = properties.value(QStringLiteral("kdenlive:proxy"));
         // If value is "-", that means user manually disabled proxy on this clip
-        if (value.isEmpty() || value == "-") {
+        if (value.isEmpty() || value == QLatin1String("-")) {
             // reset proxy
             if (bin()->hasPendingJob(m_id, AbstractClipJob::PROXYJOB)) {
                 bin()->discardJobs(m_id, AbstractClipJob::PROXYJOB);
@@ -541,28 +541,28 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
         }
         else {
             // A proxy was requested, make sure to keep original url
-            setProducerProperty("kdenlive:originalurl", url().toLocalFile());
+            setProducerProperty(QStringLiteral("kdenlive:originalurl"), url().toLocalFile());
             bin()->startJob(m_id, AbstractClipJob::PROXYJOB);
         }
     }
-    else if (properties.contains("resource")) {
+    else if (properties.contains(QStringLiteral("resource"))) {
         // Clip resource changed, update thumbnail
         if (m_type != Color) {
             reloadProducer();
         }
         reload = true;
     }
-    if (properties.contains("xmldata") || !passProperties.isEmpty()) {
+    if (properties.contains(QStringLiteral("xmldata")) || !passProperties.isEmpty()) {
         refreshProducer = true;
     }
     if (refreshAnalysis) emit refreshAnalysisPanel();
-    if (properties.contains("length")) {
+    if (properties.contains(QStringLiteral("length"))) {
         m_duration = m_controller->getStringDuration();
         bin()->emitItemUpdated(this);
     }
 
-    if (properties.contains("kdenlive:clipname")) {
-        m_name = properties.value("kdenlive:clipname");
+    if (properties.contains(QStringLiteral("kdenlive:clipname"))) {
+        m_name = properties.value(QStringLiteral("kdenlive:clipname"));
         bin()->emitItemUpdated(this);
     }
     if (refreshPanel) {
@@ -608,7 +608,7 @@ ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
 void ProjectClip::updateParentInfo(const QString &folderid, const QString &foldername)
 {
     Q_UNUSED(foldername)
-    m_controller->setProperty("kdenlive:folderid", folderid);
+    m_controller->setProperty(QStringLiteral("kdenlive:folderid"), folderid);
 }
 
 bool ProjectClip::matches(QString condition)
@@ -633,16 +633,16 @@ bool ProjectClip::rename(const QString &name, int column)
       case 0:
         if (m_name == name) return false;
         // Rename clip
-        oldProperites.insert("kdenlive:clipname", m_name);
-        newProperites.insert("kdenlive:clipname", name);
+        oldProperites.insert(QStringLiteral("kdenlive:clipname"), m_name);
+        newProperites.insert(QStringLiteral("kdenlive:clipname"), name);
         m_name = name;
         edited = true;
         break;
       case 2:
         if (m_description == name) return false;
         // Rename clip
-        oldProperites.insert("kdenlive:description", m_description);
-        newProperites.insert("kdenlive:description", name);
+        oldProperites.insert(QStringLiteral("kdenlive:description"), m_description);
+        newProperites.insert(QStringLiteral("kdenlive:description"), name);
         m_description = name;
         edited = true;
         break;
@@ -826,10 +826,10 @@ void ProjectClip::slotCreateAudioThumbs()
         return;
     }
     QString service = prod->get("mlt_service");
-    if (service == "avformat-novalidate")
-        service = "avformat";
-    else if (service.startsWith("xml"))
-        service = "xml-nogl";
+    if (service == QLatin1String("avformat-novalidate"))
+        service = QStringLiteral("avformat");
+    else if (service.startsWith(QLatin1String("xml")))
+        service = QStringLiteral("xml-nogl");
     Mlt::Producer *audioProducer = new Mlt::Producer(*prod->profile(), service.toUtf8().constData(), prod->get("resource"));
     if (!audioProducer->is_valid()) {
         delete audioProducer;
@@ -906,7 +906,7 @@ void ProjectClip::slotCreateAudioThumbs()
 bool ProjectClip::isTransparent() const
 {
     if (m_type == Text) return true;
-    if (m_type == Image && m_controller->int_property("kdenlive:transparency") == 1) return true;
+    if (m_type == Image && m_controller->int_property(QStringLiteral("kdenlive:transparency")) == 1) return true;
     return false;
 }
 
@@ -957,7 +957,7 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
 
 QMap <QString, QString> ProjectClip::analysisData(bool withPrefix)
 {
-    return m_controller->getPropertiesFromPrefix("kdenlive:clipanalysis.", withPrefix);
+    return m_controller->getPropertiesFromPrefix(QStringLiteral("kdenlive:clipanalysis."), withPrefix);
 }
 
 const QString ProjectClip::geometryWithOffset(const QString &data, int offset)

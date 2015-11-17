@@ -134,7 +134,7 @@ Vectorscope::~Vectorscope()
 
 QString Vectorscope::widgetName() const
 {
-    return QLatin1String("Vectorscope");
+    return QStringLiteral("Vectorscope");
 }
 
 void Vectorscope::readConfig()
@@ -338,7 +338,7 @@ QImage Vectorscope::renderBackground(uint)
 
         davinci.drawLine(vinciPoint, vinciPoint2);
         davinci.setPen(penThick);
-        davinci.drawText(vinciPoint - QPoint(11, 5), "I");
+        davinci.drawText(vinciPoint - QPoint(11, 5), QStringLiteral("I"));
 
 
         switch (ui->backgroundMode->itemData(ui->backgroundMode->currentIndex()).toInt()) {
@@ -360,7 +360,7 @@ QImage Vectorscope::renderBackground(uint)
 
         davinci.drawLine(vinciPoint, vinciPoint2);
         davinci.setPen(penThick);
-        davinci.drawText(vinciPoint - QPoint(-7, 2), "Q");
+        davinci.drawText(vinciPoint - QPoint(-7, 2), QStringLiteral("Q"));
 
 
 
@@ -374,51 +374,51 @@ QImage Vectorscope::renderBackground(uint)
     if (m_aColorSpace_YUV->isChecked()) {
         vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YUV_R);
         davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint-QPoint(20, -10), "R");
+        davinci.drawText(vinciPoint-QPoint(20, -10), QStringLiteral("R"));
 
         vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YUV_G);
         davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint-QPoint(20, 0), "G");
+        davinci.drawText(vinciPoint-QPoint(20, 0), QStringLiteral("G"));
 
         vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YUV_B);
         davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint+QPoint(15, 10), "B");
+        davinci.drawText(vinciPoint+QPoint(15, 10), QStringLiteral("B"));
 
         vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YUV_Cy);
         davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint+QPoint(15, -5), "Cy");
+        davinci.drawText(vinciPoint+QPoint(15, -5), QStringLiteral("Cy"));
 
         vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YUV_Mg);
         davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint+QPoint(15, 10), "Mg");
+        davinci.drawText(vinciPoint+QPoint(15, 10), QStringLiteral("Mg"));
 
         vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YUV_Yl);
         davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint-QPoint(25, 0), "Yl");
+        davinci.drawText(vinciPoint-QPoint(25, 0), QStringLiteral("Yl"));
     } else {
         vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YPbPr_R);
         davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint-QPoint(20, -10), "R");
+        davinci.drawText(vinciPoint-QPoint(20, -10), QStringLiteral("R"));
 
         vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YPbPr_G);
         davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint-QPoint(20, 0), "G");
+        davinci.drawText(vinciPoint-QPoint(20, 0), QStringLiteral("G"));
 
         vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YPbPr_B);
         davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint+QPoint(15, 10), "B");
+        davinci.drawText(vinciPoint+QPoint(15, 10), QStringLiteral("B"));
 
         vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YPbPr_Cy);
         davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint+QPoint(15, -5), "Cy");
+        davinci.drawText(vinciPoint+QPoint(15, -5), QStringLiteral("Cy"));
 
         vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YPbPr_Mg);
         davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint+QPoint(15, 10), "Mg");
+        davinci.drawText(vinciPoint+QPoint(15, 10), QStringLiteral("Mg"));
 
         vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YPbPr_Yl);
         davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint-QPoint(25, 0), "Yl");
+        davinci.drawText(vinciPoint-QPoint(25, 0), QStringLiteral("Yl"));
     }
 
     switch (ui->backgroundMode->itemData(ui->backgroundMode->currentIndex()).toInt()) {

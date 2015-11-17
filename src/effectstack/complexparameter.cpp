@@ -32,15 +32,15 @@ ComplexParameter::ComplexParameter(QWidget *parent) :
     //m_ui.effectlist->verticalHeader()->setVisible(false);
 
 
-    m_ui.buttonLeftRight->setIcon(KoIconUtils::themedIcon("go-next"));//better icons needed
+    m_ui.buttonLeftRight->setIcon(KoIconUtils::themedIcon(QStringLiteral("go-next")));//better icons needed
     m_ui.buttonLeftRight->setToolTip(i18n("Allow horizontal moves"));
-    m_ui.buttonUpDown->setIcon(KoIconUtils::themedIcon("go-up"));
+    m_ui.buttonUpDown->setIcon(KoIconUtils::themedIcon(QStringLiteral("go-up")));
     m_ui.buttonUpDown->setToolTip(i18n("Allow vertical moves"));
-    m_ui.buttonShowInTimeline->setIcon(KoIconUtils::themedIcon("draw-line"));
+    m_ui.buttonShowInTimeline->setIcon(KoIconUtils::themedIcon(QStringLiteral("draw-line")));
     m_ui.buttonShowInTimeline->setToolTip(i18n("Show keyframes in timeline"));
-    m_ui.buttonHelp->setIcon(KoIconUtils::themedIcon("help-about"));
+    m_ui.buttonHelp->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
     m_ui.buttonHelp->setToolTip(i18n("Parameter info"));
-    m_ui.buttonNewPoints->setIcon(KoIconUtils::themedIcon("document-new"));
+    m_ui.buttonNewPoints->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-new")));
     m_ui.buttonNewPoints->setToolTip(i18n("Add keyframe"));
 
     connect(m_ui.buttonLeftRight, SIGNAL(clicked()), this , SLOT(slotSetMoveX()));
@@ -98,7 +98,7 @@ void ComplexParameter::updateButtonStatus()
     m_ui.buttonShowInTimeline->setEnabled(m_ui.kplotwidget->isMoveX() || m_ui.kplotwidget->isMoveY());
     m_ui.buttonShowInTimeline->setDown(m_ui.kplotwidget->isMoveTimeline());
 
-    m_ui.buttonNewPoints->setEnabled(m_ui.parameterList->currentText() != "all");
+    m_ui.buttonNewPoints->setEnabled(m_ui.parameterList->currentText() != QLatin1String("all"));
     m_ui.buttonNewPoints->setDown(m_ui.kplotwidget->isNewPoints());
 }
 
@@ -135,7 +135,7 @@ void ComplexParameter::slotUpdateParameterList(const QStringList &l)
 {
     //qDebug() << l ;
     m_ui.parameterList->clear();
-    m_ui.parameterList->addItem("all");
+    m_ui.parameterList->addItem(QStringLiteral("all"));
     m_ui.parameterList->addItems(l);
 }
 

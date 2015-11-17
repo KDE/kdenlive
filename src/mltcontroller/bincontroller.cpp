@@ -98,10 +98,10 @@ void BinController::initializeBin(Mlt::Playlist playlist)
         Mlt::Producer *producer = m_binPlaylist->get_clip(i);
         if (producer->is_blank() || !producer->is_valid()) continue;
         QString id = producer->parent().get("id");
-        if (id.contains("_")) {
+        if (id.contains(QStringLiteral("_"))) {
             // This is a track producer
-            QString mainId = id.section("_", 0, 0);
-            QString track = id.section("_", 1, 1);
+            QString mainId = id.section(QStringLiteral("_"), 0, 0);
+            QString track = id.section(QStringLiteral("_"), 1, 1);
             if (m_clipList.contains(mainId)) {
                 // The controller for this track producer already exists
             }
@@ -123,8 +123,8 @@ void BinController::initializeBin(Mlt::Playlist playlist)
 		// fix MLT somehow adding root to color producer's resource (report upstream)
 		if (strcmp(producer->parent().get("mlt_service"), "color") == 0) {
 		    QString color = producer->parent().get("resource");
-		    if (color.contains("/")) {
-			color = color.section("/", -1, -1);
+		    if (color.contains(QStringLiteral("/"))) {
+			color = color.section(QStringLiteral("/"), -1, -1);
 			producer->parent().set("resource", color.toUtf8().constData());
 		    }
 		}
@@ -139,10 +139,10 @@ void BinController::initializeBin(Mlt::Playlist playlist)
     QMap <QString,QString> markersData;
     for (int i = 0; i < markerProperties.count(); i++) {
         QString markerId = markerProperties.get_name(i);
-        QString controllerId = markerId.section(":", 0, 0);
+        QString controllerId = markerId.section(QStringLiteral(":"), 0, 0);
         ClipController *ctrl = m_clipList.value(controllerId);
         if (!ctrl) continue;
-        ctrl->loadSnapMarker(markerId.section(":", 1), markerProperties.get(i));
+        ctrl->loadSnapMarker(markerId.section(QStringLiteral(":"), 1), markerProperties.get(i));
     }
 }
 
@@ -330,7 +330,7 @@ Mlt::Producer *BinController::getBinVideoProducer(const QString &id)
     QString videoId = id + "_video";
     if (!m_extraClipList.contains(videoId)) {
         // create clone
-        QString originalId = id.section("_", 0, 0);
+        QString originalId = id.section(QStringLiteral("_"), 0, 0);
         Mlt::Producer *original = getBinProducer(originalId);
         Mlt::Producer *videoOnly = cloneProducer(*original);
         videoOnly->set("audio_index", -1);
@@ -392,7 +392,7 @@ QString BinController::xmlFromId(const QString & id)
     QString xml = getProducerXML(original);
     QDomDocument mltData;
     mltData.setContent(xml);
-    QDomElement producer = mltData.documentElement().firstChildElement("producer");
+    QDomElement producer = mltData.documentElement().firstChildElement(QStringLiteral("producer"));
     QString str;
     QTextStream stream(&str);
     producer.save(stream, 4);
@@ -401,18 +401,18 @@ QString BinController::xmlFromId(const QString & id)
 
 QString BinController::getProducerXML(Mlt::Producer &producer)
 {
-    QString filename = "string";
+    QString filename = QStringLiteral("string");
     Mlt::Consumer c(*producer.profile(), "xml", filename.toUtf8().constData());
     Mlt::Service s(producer.get_service());
     if (!s.is_valid())
-        return "";
+        return QLatin1String("");
     int ignore = s.get_int("ignore_points");
     if (ignore)
         s.set("ignore_points", 0);
     c.set("time_format", "frames");
     c.set("no_meta", 1);
     c.set("store", "kdenlive");
-    if (filename != "string") {
+    if (filename != QLatin1String("string")) {
         c.set("no_root", 1);
         c.set("root", QFileInfo(filename).absolutePath().toUtf8().constData());
     }
@@ -471,9 +471,9 @@ void BinController::checkThumbnails(const QString thumbFolder)
             // Add clip id to thumbnail generation thread
             QDomDocument doc;
             ctrl->getProducerXML(doc);
-            QDomElement xml = doc.documentElement().firstChildElement("producer");
+            QDomElement xml = doc.documentElement().firstChildElement(QStringLiteral("producer"));
             if (!xml.isNull()) {
-                xml.setAttribute("thumbnailOnly", 1);
+                xml.setAttribute(QStringLiteral("thumbnailOnly"), 1);
                 emit createThumb(xml, ctrl->clipId(), 150);
             }
         }
@@ -505,14 +505,14 @@ void BinController::saveDocumentProperties(const QMap <QString, QString> props, 
     Mlt::Properties docProperties;
     docProperties.pass_values(playlistProps, "kdenlive:docproperties.");
     for (int i = 0; i < docProperties.count(); i++) {
-        QString propName = QString("kdenlive:docproperties.") + docProperties.get_name(i);
+        QString propName = QStringLiteral("kdenlive:docproperties.") + docProperties.get_name(i);
         playlistProps.set(propName.toUtf8().constData(), (char *)NULL);
     }
     // Clear previous guides
     Mlt::Properties guideProperties;
     guideProperties.pass_values(playlistProps, "kdenlive:guide.");
     for (int i = 0; i < guideProperties.count(); i++) {
-        QString propName = QString("kdenlive:guide.") + guideProperties.get_name(i);
+        QString propName = QStringLiteral("kdenlive:guide.") + guideProperties.get_name(i);
         playlistProps.set(propName.toUtf8().constData(), (char *)NULL);
     }
 

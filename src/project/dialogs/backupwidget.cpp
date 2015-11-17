@@ -65,7 +65,7 @@ void BackupWidget::slotParseBackupFiles()
 {
     QStringList filter;
     QDir dir(project_url->url().path());
-    dir.cd(".backup");
+    dir.cd(QStringLiteral(".backup"));
 
     filter << m_projectWildcard;
     dir.setNameFilters(filter);

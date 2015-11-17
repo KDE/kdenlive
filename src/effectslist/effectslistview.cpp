@@ -68,7 +68,7 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
 
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
-    buttonInfo->setIcon(KoIconUtils::themedIcon("help-about"));
+    buttonInfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
     buttonInfo->setToolTip(i18n("Show/Hide the effect description"));
     buttonInfo->setIconSize(iconSize);
     setFocusPolicy(Qt::StrongFocus);
@@ -80,14 +80,14 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
     else
         infopanel->hide();
 
-    m_contextMenu->addAction(KoIconUtils::themedIcon("list-add"), i18n("Add Effect to Selected Clip"), this, SLOT(slotEffectSelected()));
-    m_favoriteAction = m_contextMenu->addAction(KoIconUtils::themedIcon("favorite"), i18n("Add Effect to Favorites"), this, SLOT(slotAddToFavorites()));
-    m_removeAction = m_contextMenu->addAction(KoIconUtils::themedIcon("edit-delete"), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
+    m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("list-add")), i18n("Add Effect to Selected Clip"), this, SLOT(slotEffectSelected()));
+    m_favoriteAction = m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("favorite")), i18n("Add Effect to Favorites"), this, SLOT(slotAddToFavorites()));
+    m_removeAction = m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("edit-delete")), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
 
     m_effectsFavorites = new MyDropButton(this);
-    m_effectsFavorites->setIcon(KoIconUtils::themedIcon("favorite"));
+    m_effectsFavorites->setIcon(KoIconUtils::themedIcon(QStringLiteral("favorite")));
     horizontalLayout->addWidget(m_effectsFavorites);
-    effectsAll->setIcon(KoIconUtils::themedIcon("kdenlive-show-all-effects"));
+    effectsAll->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-all-effects")));
     switch (m_mode) {
       case TransitionMode:
           effectsAll->setToolTip(i18n("Show all transitions"));
@@ -99,13 +99,13 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
           break;
       default:
           effectsAll->setToolTip(i18n("Show all effects"));
-          effectsVideo->setIcon(KoIconUtils::themedIcon("kdenlive-show-video"));
+          effectsVideo->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-video")));
           effectsVideo->setToolTip(i18n("Show video effects"));
-          effectsAudio->setIcon(KoIconUtils::themedIcon("kdenlive-show-audio"));
+          effectsAudio->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-audio")));
           effectsAudio->setToolTip(i18n("Show audio effects"));
-          effectsGPU->setIcon(KoIconUtils::themedIcon("kdenlive-show-gpu"));
+          effectsGPU->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-gpu")));
           effectsGPU->setToolTip(i18n("Show GPU effects"));
-          effectsCustom->setIcon(KoIconUtils::themedIcon("kdenlive-custom-effect"));
+          effectsCustom->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-custom-effect")));
           effectsCustom->setToolTip(i18n("Show custom effects"));
           m_effectsFavorites->setToolTip(i18n("Show favorite effects"));
           break;
@@ -155,7 +155,7 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
 
 const QString EffectsListView::customStyleSheet() const
 {
-    return QString("QTreeView::branch:has-siblings:!adjoins-item{border-image:none;border:0px} \
+    return QStringLiteral("QTreeView::branch:has-siblings:!adjoins-item{border-image:none;border:0px} \
     QTreeView::branch:has-siblings:adjoins-item {border-image: none;border:0px}      \
     QTreeView::branch:!has-children:!has-siblings:adjoins-item {border-image: none;border:0px} \
     QTreeView::branch:has-children:!has-siblings:closed,QTreeView::branch:closed:has-children:has-siblings {   \
@@ -200,7 +200,7 @@ void EffectsListView::creatFavoriteBasket(QListWidget *list)
     list->clear();
     for (int i = 0; i < m_effectsList->topLevelItemCount(); ++i) {
         QTreeWidgetItem *folder = m_effectsList->topLevelItem(i);
-        if (folder->text(0) == "Favorites") continue;
+        if (folder->text(0) == QLatin1String("Favorites")) continue;
         for (int j = 0; j < folder->childCount(); ++j) {
             QTreeWidgetItem *item = folder->child(j);
             QStringList data = item->data(0, Qt::UserRole + 1).toStringList();
@@ -321,7 +321,7 @@ void EffectsListView::slotUpdateInfo()
 
 void EffectsListView::reloadEffectList(QMenu *effectsMenu, KActionCategory *effectActions)
 {
-    QString effectCategory = m_mode == EffectMode ? QStandardPaths::locate(QStandardPaths::DataLocation, "kdenliveeffectscategory.rc") : QString();
+    QString effectCategory = m_mode == EffectMode ? QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenliveeffectscategory.rc")) : QString();
     m_effectsList->initList(effectsMenu, effectActions, effectCategory, m_mode == TransitionMode);
     filterList();
 }
@@ -347,8 +347,8 @@ void EffectsListView::slotDisplayMenu(QTreeWidgetItem *item, const QPoint &pos)
 void EffectsListView::slotAddToFavorites()
 {
     QDomElement effect = m_effectsList->currentEffect();
-    QString id = effect.attribute("id");
-    if (id.isEmpty()) id = effect.attribute("tag");
+    QString id = effect.attribute(QStringLiteral("id"));
+    if (id.isEmpty()) id = effect.attribute(QStringLiteral("tag"));
     slotAddFavorite(id);
 }
 
@@ -356,9 +356,9 @@ void EffectsListView::slotRemoveEffect()
 {
     if (KdenliveSettings::selected_effecttab() == EffectsListWidget::EFFECT_FAVORITES) {
         QDomElement e = m_effectsList->currentEffect();
-        QString id = e.attribute("id");
+        QString id = e.attribute(QStringLiteral("id"));
         if (id.isEmpty()) {
-            id = e.attribute("tag");
+            id = e.attribute(QStringLiteral("tag"));
         }
         QStringList favs = KdenliveSettings::favorite_effects();
         favs.removeAll(id);
@@ -374,7 +374,7 @@ void EffectsListView::slotRemoveEffect()
 
     QDir directory = QDir(path);
     QStringList filter;
-    filter << "*.xml";
+    filter << QStringLiteral("*.xml");
     const QStringList fileList = directory.entryList(filter, QDir::Files);
     QString itemName;
     foreach(const QString &filename, fileList) {
@@ -383,12 +383,12 @@ void EffectsListView::slotRemoveEffect()
         QFile file(itemName);
         doc.setContent(&file, false);
         file.close();
-        QDomNodeList effects = doc.elementsByTagName("effect");
+        QDomNodeList effects = doc.elementsByTagName(QStringLiteral("effect"));
         if (effects.count() != 1) {
             //qDebug() << "More than one effect in file " << itemName << ", NOT SUPPORTED YET";
         } else {
             QDomElement e = effects.item(0).toElement();
-            if (e.attribute("id") == effectId) {
+            if (e.attribute(QStringLiteral("id")) == effectId) {
                 QFile::remove(itemName);
                 break;
             }
@@ -448,7 +448,7 @@ void EffectsListView::slotAutoExpand(const QString &text)
 void EffectsListView::updatePalette()
 {
     // We need to reset current stylesheet if we want to change the palette!
-    m_effectsList->setStyleSheet("");
+    m_effectsList->setStyleSheet(QLatin1String(""));
     m_effectsList->updatePalette();
     m_effectsList->setStyleSheet(customStyleSheet());
 }

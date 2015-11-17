@@ -53,7 +53,7 @@ ArchiveOrg::~ArchiveOrg()
 void ArchiveOrg::slotStartSearch(const QString &searchText, int page)
 {
     m_listWidget->clear();
-    QString uri = "http://www.archive.org/advancedsearch.php?q=";
+    QString uri = QStringLiteral("http://www.archive.org/advancedsearch.php?q=");
     uri.append(searchText);
     uri.append("%20AND%20mediatype:movies");//MovingImage");
     uri.append("&fl%5B%5D=creator&fl%5B%5D=description&fl%5B%5D=identifier&fl%5B%5D=licenseurl&fl%5B%5D=title");
@@ -84,29 +84,29 @@ void ArchiveOrg::slotShowResults(KJob* job)
         QMap <QString, QVariant> map = data.toMap();
         QMap<QString, QVariant>::const_iterator i = map.constBegin();
         while (i != map.constEnd()) {
-            if (i.key() == "response") {
+            if (i.key() == QLatin1String("response")) {
                 sounds = i.value();
                 if (sounds.canConvert(QVariant::Map)) {
                     QMap <QString, QVariant> soundsList = sounds.toMap();
-                    if (soundsList.contains("numFound")) emit searchInfo(i18np("Found %1 result", "Found %1 results", soundsList.value("numFound").toInt()));
+                    if (soundsList.contains(QStringLiteral("numFound"))) emit searchInfo(i18np("Found %1 result", "Found %1 results", soundsList.value("numFound").toInt()));
                     QList <QVariant> resultsList;
-                    if (soundsList.contains("docs")) {
-                        resultsList = soundsList.value("docs").toList();
+                    if (soundsList.contains(QStringLiteral("docs"))) {
+                        resultsList = soundsList.value(QStringLiteral("docs")).toList();
                     }
                     
                     for (int j = 0; j < resultsList.count(); ++j) {
                         if (resultsList.at(j).canConvert(QVariant::Map)) {
                             QMap <QString, QVariant> soundmap = resultsList.at(j).toMap();
-                            if (soundmap.contains("title")) {
-                                QListWidgetItem *item = new   QListWidgetItem(soundmap.value("title").toString(), m_listWidget);
-                                item->setData(descriptionRole, soundmap.value("description").toString());
-                                item->setData(idRole, soundmap.value("identifier").toString());
-                                QString author = soundmap.value("creator").toString();
+                            if (soundmap.contains(QStringLiteral("title"))) {
+                                QListWidgetItem *item = new   QListWidgetItem(soundmap.value(QStringLiteral("title")).toString(), m_listWidget);
+                                item->setData(descriptionRole, soundmap.value(QStringLiteral("description")).toString());
+                                item->setData(idRole, soundmap.value(QStringLiteral("identifier")).toString());
+                                QString author = soundmap.value(QStringLiteral("creator")).toString();
                                 item->setData(authorRole, author);
                                 if (author.startsWith(QLatin1String("http"))) item->setData(authorUrl, author);
-                                item->setData(infoUrl, "http://archive.org/details/" + soundmap.value("identifier").toString());
-                                item->setData(downloadRole, "http://archive.org/download/" + soundmap.value("identifier").toString());
-                                item->setData(licenseRole, soundmap.value("licenseurl").toString());                        
+                                item->setData(infoUrl, "http://archive.org/details/" + soundmap.value(QStringLiteral("identifier")).toString());
+                                item->setData(downloadRole, "http://archive.org/download/" + soundmap.value(QStringLiteral("identifier")).toString());
+                                item->setData(licenseRole, soundmap.value(QStringLiteral("licenseurl")).toString());                        
                             }
                         }
                     }
@@ -138,8 +138,8 @@ OnlineItemInfo ArchiveOrg::displayItemDetails(QListWidgetItem *item)
     info.license = item->data(licenseRole).toString();
     info.description = item->data(descriptionRole).toString();
     
-    m_metaInfo.insert("url", info.itemDownload);
-    m_metaInfo.insert("id", info.itemId);
+    m_metaInfo.insert(QStringLiteral("url"), info.itemDownload);
+    m_metaInfo.insert(QStringLiteral("id"), info.itemId);
     
     QString extraInfoUrl = item->data(downloadRole).toString();
     if (!extraInfoUrl.isEmpty()) {
@@ -156,33 +156,33 @@ void ArchiveOrg::slotParseResults(KJob* job)
     KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
     QDomDocument doc;
     doc.setContent(QString::fromUtf8(storedQueryJob->data()));
-    QDomNodeList links = doc.elementsByTagName("a");
-    QString html = QString("<style type=\"text/css\">tr.cellone {background-color: %1;}").arg(qApp->palette().alternateBase().color().name());
-    html += "</style><table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\">";
+    QDomNodeList links = doc.elementsByTagName(QStringLiteral("a"));
+    QString html = QStringLiteral("<style type=\"text/css\">tr.cellone {background-color: %1;}").arg(qApp->palette().alternateBase().color().name());
+    html += QLatin1String("</style><table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\">");
     QString link;
     int ct = 0;
     m_thumbsPath.clear();
     for (int i = 0; i < links.count(); ++i) {
-        QString href = links.at(i).toElement().attribute("href");
+        QString href = links.at(i).toElement().attribute(QStringLiteral("href"));
         if (href.endsWith(QLatin1String(".thumbs/"))) {
             // sub folder contains image thumbs, display one.
-            m_thumbsPath = m_metaInfo.value("url") + '/' + href;
+            m_thumbsPath = m_metaInfo.value(QStringLiteral("url")) + '/' + href;
             KJob* thumbJob = KIO::storedGet( QUrl(m_thumbsPath), KIO::NoReload, KIO::HideProgressInfo );
-            thumbJob->setProperty("id", m_metaInfo.value("id"));
+            thumbJob->setProperty("id", m_metaInfo.value(QStringLiteral("id")));
             connect(thumbJob, &KJob::result, this, &ArchiveOrg::slotParseThumbs);
         }
         else if (!href.contains('/') && !href.endsWith(QLatin1String(".xml"))) {
-            link = m_metaInfo.value("url") + '/' + href;
+            link = m_metaInfo.value(QStringLiteral("url")) + '/' + href;
             ct++;
             if (ct %2 == 0) {
-                html += "<tr class=\"cellone\">";
+                html += QLatin1String("<tr class=\"cellone\">");
             }
-            else html += "<tr>";
-            html += "<td>" + QUrl(link).fileName() + QString("</td><td><a href=\"%1\">%2</a></td><td><a href=\"%3\">%4</a></td></tr>").arg(link).arg(i18n("Preview")).arg(link + "_import").arg(i18n("Import"));
+            else html += QLatin1String("<tr>");
+            html += "<td>" + QUrl(link).fileName() + QStringLiteral("</td><td><a href=\"%1\">%2</a></td><td><a href=\"%3\">%4</a></td></tr>").arg(link).arg(i18n("Preview")).arg(link + "_import").arg(i18n("Import"));
         }
     }
-    html += "</table>";
-    if (m_metaInfo.value("id") == job->property("id").toString()) emit gotMetaInfo(html);
+    html += QLatin1String("</table>");
+    if (m_metaInfo.value(QStringLiteral("id")) == job->property("id").toString()) emit gotMetaInfo(html);
 }
 
 
@@ -195,7 +195,7 @@ bool ArchiveOrg::startItemPreview(QListWidgetItem *item)
 	    if (m_previewProcess->state() != QProcess::NotRunning) {
 		    m_previewProcess->close();
 		}
-		m_previewProcess->start(KdenliveSettings::ffplaypath(), QStringList() << url << "-nodisp");
+		m_previewProcess->start(KdenliveSettings::ffplaypath(), QStringList() << url << QStringLiteral("-nodisp"));
 	}
     return true;
 }
@@ -211,7 +211,7 @@ void ArchiveOrg::stopItemPreview(QListWidgetItem */*item*/)
 QString ArchiveOrg::getExtension(QListWidgetItem *item)
 {
     if (!item) return QString();
-    return QString("*.") + item->text().section('.', -1);
+    return QStringLiteral("*.") + item->text().section('.', -1);
 }
 
 
@@ -226,13 +226,13 @@ void ArchiveOrg::slotParseThumbs(KJob* job)
     KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
     QDomDocument doc;
     doc.setContent(QString::fromUtf8(storedQueryJob->data()));
-    QDomNodeList links = doc.elementsByTagName("a");
+    QDomNodeList links = doc.elementsByTagName(QStringLiteral("a"));
     if (links.isEmpty()) return;
     for (int i = 0; i < links.count(); ++i) {
-        QString href = links.at(i).toElement().attribute("href");
+        QString href = links.at(i).toElement().attribute(QStringLiteral("href"));
         if (!href.contains('/') && i >= links.count() / 2) {
             QString thumbUrl = m_thumbsPath + href;
-            if (m_metaInfo.value("id") == job->property("id").toString())
+            if (m_metaInfo.value(QStringLiteral("id")) == job->property("id").toString())
                 emit gotThumb(thumbUrl);
             break;
         }

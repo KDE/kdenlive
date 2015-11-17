@@ -74,13 +74,13 @@ GeometryWidget::GeometryWidget(Monitor* monitor, const Timecode &timecode, int c
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
 
-    m_ui.buttonPrevious->setIcon(KoIconUtils::themedIcon("media-skip-backward"));
+    m_ui.buttonPrevious->setIcon(KoIconUtils::themedIcon(QStringLiteral("media-skip-backward")));
     m_ui.buttonPrevious->setToolTip(i18n("Go to previous keyframe"));
     m_ui.buttonPrevious->setIconSize(iconSize);
-    m_ui.buttonNext->setIcon(KoIconUtils::themedIcon("media-skip-forward"));
+    m_ui.buttonNext->setIcon(KoIconUtils::themedIcon(QStringLiteral("media-skip-forward")));
     m_ui.buttonNext->setToolTip(i18n("Go to next keyframe"));
     m_ui.buttonNext->setIconSize(iconSize);
-    m_ui.buttonAddDelete->setIcon(KoIconUtils::themedIcon("list-add"));
+    m_ui.buttonAddDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
     m_ui.buttonAddDelete->setToolTip(i18n("Add keyframe"));
     m_ui.buttonAddDelete->setIconSize(iconSize);
 
@@ -108,11 +108,11 @@ GeometryWidget::GeometryWidget(Monitor* monitor, const Timecode &timecode, int c
     m_ui.horizontalLayout->setColumnStretch(4, 10);
 
     QMenu *menu = new QMenu(this);
-    QAction *adjustSize = new QAction(KoIconUtils::themedIcon("zoom-fit-best"), i18n("Adjust to original size"), this);
+    QAction *adjustSize = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-best")), i18n("Adjust to original size"), this);
     connect(adjustSize, SIGNAL(triggered()), this, SLOT(slotAdjustToFrameSize()));
-    QAction *fitToWidth = new QAction(KoIconUtils::themedIcon("zoom-fit-width"), i18n("Fit to width"), this);
+    QAction *fitToWidth = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-width")), i18n("Fit to width"), this);
     connect(fitToWidth, SIGNAL(triggered()), this, SLOT(slotFitToWidth()));
-    QAction *fitToHeight = new QAction(KoIconUtils::themedIcon("zoom-fit-height"), i18n("Fit to height"), this);
+    QAction *fitToHeight = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-height")), i18n("Fit to height"), this);
     connect(fitToHeight, SIGNAL(triggered()), this, SLOT(slotFitToHeight()));
 
     QAction *importKeyframes = new QAction(i18n("Import keyframes from clip"), this);
@@ -130,27 +130,27 @@ GeometryWidget::GeometryWidget(Monitor* monitor, const Timecode &timecode, int c
     menu->addAction(resetPreviousKeyframes);
     menu->addSeparator();
 
-    QAction *syncTimeline = new QAction(KoIconUtils::themedIcon("edit-link"), i18n("Synchronize with timeline cursor"), this);
+    QAction *syncTimeline = new QAction(KoIconUtils::themedIcon(QStringLiteral("edit-link")), i18n("Synchronize with timeline cursor"), this);
     syncTimeline->setCheckable(true);
     syncTimeline->setChecked(KdenliveSettings::transitionfollowcursor());
     connect(syncTimeline, SIGNAL(toggled(bool)), this, SLOT(slotSetSynchronize(bool)));
     menu->addAction(syncTimeline);
 
-    QAction *alignleft = new QAction(KoIconUtils::themedIcon("kdenlive-align-left"), i18n("Align left"), this);
+    QAction *alignleft = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-left")), i18n("Align left"), this);
     connect(alignleft, SIGNAL(triggered()), this, SLOT(slotMoveLeft()));
-    QAction *alignhcenter = new QAction(KoIconUtils::themedIcon("kdenlive-align-hor"), i18n("Center horizontally"), this);
+    QAction *alignhcenter = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-hor")), i18n("Center horizontally"), this);
     connect(alignhcenter, SIGNAL(triggered()), this, SLOT(slotCenterH()));
-    QAction *alignright = new QAction(KoIconUtils::themedIcon("kdenlive-align-right"), i18n("Align right"), this);
+    QAction *alignright = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-right")), i18n("Align right"), this);
     connect(alignright, SIGNAL(triggered()), this, SLOT(slotMoveRight()));
-    QAction *aligntop = new QAction(KoIconUtils::themedIcon("kdenlive-align-top"), i18n("Align top"), this);
+    QAction *aligntop = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-top")), i18n("Align top"), this);
     connect(aligntop, SIGNAL(triggered()), this, SLOT(slotMoveTop()));
-    QAction *alignvcenter = new QAction(KoIconUtils::themedIcon("kdenlive-align-vert"), i18n("Center vertically"), this);
+    QAction *alignvcenter = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-vert")), i18n("Center vertically"), this);
     connect(alignvcenter, SIGNAL(triggered()), this, SLOT(slotCenterV()));
-    QAction *alignbottom = new QAction(KoIconUtils::themedIcon("kdenlive-align-bottom"), i18n("Align bottom"), this);
+    QAction *alignbottom = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-bottom")), i18n("Align bottom"), this);
     connect(alignbottom, SIGNAL(triggered()), this, SLOT(slotMoveBottom()));
     
     m_ui.buttonOptions->setMenu(menu);
-    m_ui.buttonOptions->setIcon(KoIconUtils::themedIcon("configure"));
+    m_ui.buttonOptions->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
     m_ui.buttonOptions->setToolTip(i18n("Options"));
     m_ui.buttonOptions->setIconSize(iconSize);
 
@@ -214,13 +214,13 @@ GeometryWidget::GeometryWidget(Monitor* monitor, const Timecode &timecode, int c
 
     if (showRotation) {
         m_rotateX = new DragValue(i18n("Rotate X"), 0, 0, -1800, 1800, -1, QString(), true, this);
-        m_rotateX->setObjectName("rotate_x");
+        m_rotateX->setObjectName(QStringLiteral("rotate_x"));
         m_ui.horizontalLayout3->addWidget(m_rotateX);
         m_rotateY = new DragValue(i18n("Rotate Y"), 0, 0, -1800, 1800,  -1, QString(), true, this);
-        m_rotateY->setObjectName("rotate_y");
+        m_rotateY->setObjectName(QStringLiteral("rotate_y"));
         m_ui.horizontalLayout3->addWidget(m_rotateY);
         m_rotateZ = new DragValue(i18n("Rotate Z"), 0, 0, -1800, 1800,  -1, QString(), true, this);
-        m_rotateZ->setObjectName("rotate_z");
+        m_rotateZ->setObjectName(QStringLiteral("rotate_z"));
         m_ui.horizontalLayout3->addWidget(m_rotateZ);
         connect(m_rotateX,            SIGNAL(valueChanged(double)), this, SLOT(slotUpdateGeometry()));
         connect(m_rotateY,            SIGNAL(valueChanged(double)), this, SLOT(slotUpdateGeometry()));
@@ -296,7 +296,7 @@ void GeometryWidget::updateTimecodeFormat()
 QString GeometryWidget::getValue() const
 {
     QString result = m_geometry->serialise();
-    if (!m_fixedGeom && result.contains(";") && !result.section(";",0,0).contains("=")) {
+    if (!m_fixedGeom && result.contains(QStringLiteral(";")) && !result.section(QStringLiteral(";"),0,0).contains(QStringLiteral("="))) {
         result.prepend("0=");
     }
     return result;
@@ -306,7 +306,7 @@ QString GeometryWidget::getExtraValue(const QString &name) const
 {
     int ix = m_extraGeometryNames.indexOf(name);
     QString val = m_extraGeometries.at(ix)->serialise();
-    if (!val.contains("=")) val = val.section('/', 0, 0);
+    if (!val.contains(QStringLiteral("="))) val = val.section('/', 0, 0);
     else {
         QStringList list = val.split(';', QString::SkipEmptyParts);
         val.clear();
@@ -323,11 +323,11 @@ void GeometryWidget::setupParam(const QDomElement &elem, int minframe, int maxfr
     m_inPoint = minframe;
     m_outPoint = maxframe;
     if (m_geometry)
-        m_geometry->parse(elem.attribute("value").toUtf8().data(), maxframe - minframe, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+        m_geometry->parse(elem.attribute(QStringLiteral("value")).toUtf8().data(), maxframe - minframe, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
     else
-        m_geometry = new Mlt::Geometry(elem.attribute("value").toUtf8().data(), maxframe - minframe, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+        m_geometry = new Mlt::Geometry(elem.attribute(QStringLiteral("value")).toUtf8().data(), maxframe - minframe, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
 
-    if (elem.attribute("fixed") == "1" || maxframe < minframe) {
+    if (elem.attribute(QStringLiteral("fixed")) == QLatin1String("1") || maxframe < minframe) {
         // Keyframes are disabled
         m_fixedGeom = true;
         m_ui.widgetTimeWrapper->setHidden(true);
@@ -339,7 +339,7 @@ void GeometryWidget::setupParam(const QDomElement &elem, int minframe, int maxfr
     m_timePos->setRange(0, m_outPoint - m_inPoint);
 
     // no opacity
-    if (elem.attribute("opacity") == "false") {
+    if (elem.attribute(QStringLiteral("opacity")) == QLatin1String("false")) {
         m_opacity->setHidden(true);
         m_ui.horizontalLayout2->addStretch(2);
     }
@@ -353,11 +353,11 @@ void GeometryWidget::setupParam(const QDomElement &elem, int minframe, int maxfr
 
 void GeometryWidget::addParameter(const QDomElement &elem)
 {
-    Mlt::Geometry *geometry = new Mlt::Geometry(elem.attribute("value").toUtf8().data(), m_outPoint - m_inPoint, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+    Mlt::Geometry *geometry = new Mlt::Geometry(elem.attribute(QStringLiteral("value")).toUtf8().data(), m_outPoint - m_inPoint, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
     m_extraGeometries.append(geometry);
     m_timeline->addGeometry(geometry);
-    m_extraFactors.append(elem.attribute("factor", "1"));
-    m_extraGeometryNames.append(elem.attribute("name"));
+    m_extraFactors.append(elem.attribute(QStringLiteral("factor"), QStringLiteral("1")));
+    m_extraGeometryNames.append(elem.attribute(QStringLiteral("name")));
 }
 
 void GeometryWidget::slotSyncPosition(int relTimelinePos)
@@ -401,7 +401,7 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
         //m_rect->setEnabled(false);
         //m_scene->setEnabled(false);
         m_ui.widgetGeometry->setEnabled(false);
-        m_ui.buttonAddDelete->setIcon(KoIconUtils::themedIcon("list-add"));
+        m_ui.buttonAddDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
         m_ui.buttonAddDelete->setToolTip(i18n("Add keyframe"));
     } else {
         // keyframe
@@ -409,7 +409,7 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
         //m_rect->setEnabled(true);
         //m_scene->setEnabled(true);
         m_ui.widgetGeometry->setEnabled(true);
-        m_ui.buttonAddDelete->setIcon(KoIconUtils::themedIcon("list-remove"));
+        m_ui.buttonAddDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
         m_ui.buttonAddDelete->setToolTip(i18n("Delete keyframe"));
     }
     m_opacity->blockSignals(true);

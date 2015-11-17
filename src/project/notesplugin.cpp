@@ -25,7 +25,7 @@ NotesPlugin::NotesPlugin(ProjectManager *projectManager) :
     connect(m_widget, &NotesWidget::insertNotesTimecode, this, &NotesPlugin::slotInsertTimecode);
     m_widget->setTabChangesFocus(true);
     m_widget->setPlaceholderText(i18n("Enter your project notes here ..."));
-    m_notesDock = pCore->window()->addDock(i18n("Project Notes"), "notes_widget", m_widget);
+    m_notesDock = pCore->window()->addDock(i18n("Project Notes"), QStringLiteral("notes_widget"), m_widget);
     m_notesDock->close();
     connect(projectManager, SIGNAL(docOpened(KdenliveDoc*)), SLOT(setProject(KdenliveDoc*)));
 }

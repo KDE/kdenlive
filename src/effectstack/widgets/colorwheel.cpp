@@ -115,10 +115,10 @@ void ColorWheel::mousePressEvent(QMouseEvent *event)
         }
         else {
             QColor c;
-            if (m_id == "lift") {
+            if (m_id == QLatin1String("lift")) {
                 c = QColor::fromRgbF(0, 0, 0);
             }
-            else if (m_id == "gamma") {
+            else if (m_id == QLatin1String("gamma")) {
                 c = QColor::fromRgbF(0.5, 0.5, 0.5);
             }
             else {
@@ -163,10 +163,10 @@ void ColorWheel::resizeEvent(QResizeEvent *event)
 
 QString ColorWheel::getParamValues()
 {
-    if (m_id == "gamma") {
+    if (m_id == QLatin1String("gamma")) {
         return QString::number(m_color.redF() * 2, 'g', 2) + "," + QString::number(m_color.greenF() * 2, 'g', 2) + "," + QString::number(m_color.blueF() * 2, 'g', 2);
     }
-    else if (m_id == "gain") {
+    else if (m_id == QLatin1String("gain")) {
         return QString::number(m_color.redF() * 4, 'g', 2) + "," + QString::number(m_color.greenF() * 4, 'g', 2) + "," + QString::number(m_color.blueF() * 4, 'g', 2);
     }
     // default (lift)

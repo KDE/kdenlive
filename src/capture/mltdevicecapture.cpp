@@ -83,9 +83,9 @@ bool MltDeviceCapture::buildConsumer(const QString &profileName)
 
     QString videoDriver = KdenliveSettings::videodrivername();
     if (!videoDriver.isEmpty()) {
-        if (videoDriver == "x11_noaccel") {
+        if (videoDriver == QLatin1String("x11_noaccel")) {
             qputenv("SDL_VIDEO_YUV_HWACCEL", "0");
-            videoDriver = "x11";
+            videoDriver = QStringLiteral("x11");
         } else {
             qunsetenv("SDL_VIDEO_YUV_HWACCEL");
         }
@@ -164,7 +164,7 @@ void MltDeviceCapture::stop()
             QString mlt_type = mlt_properties_get(properties, "mlt_type");
             QString resource = mlt_properties_get(properties, "mlt_service");
             // Delete all transitions
-            while (mlt_type == "transition") {
+            while (mlt_type == QLatin1String("transition")) {
                 nextservicetodisconnect = nextservice;
                 nextservice = mlt_service_producer(nextservice);
                 mlt_field_disconnect_service(field->get_field(), nextservicetodisconnect);
@@ -359,7 +359,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     for (int i = 0; i < paramList.count(); ++i) {
         tmp = qstrdup(paramList.at(i).section('=', 0, 0).toUtf8().constData());
         QString value = paramList.at(i).section('=', 1, 1);
-        if (value == "%threads") value = QString::number(QThread::idealThreadCount());
+        if (value == QLatin1String("%threads")) value = QString::number(QThread::idealThreadCount());
         char *tmp2 = qstrdup(value.toUtf8().constData());
         renderProps->set(tmp, tmp2);
         delete[] tmp;
@@ -374,9 +374,9 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
         Mlt::Properties *previewProps = new Mlt::Properties;
         QString videoDriver = KdenliveSettings::videodrivername();
         if (!videoDriver.isEmpty()) {
-            if (videoDriver == "x11_noaccel") {
+            if (videoDriver == QLatin1String("x11_noaccel")) {
                 qputenv("SDL_VIDEO_YUV_HWACCEL", "0");
-                videoDriver = "x11";
+                videoDriver = QStringLiteral("x11");
             } else {
                 qunsetenv("SDL_VIDEO_YUV_HWACCEL");
             }
@@ -489,7 +489,7 @@ void MltDeviceCapture::setOverlay(const QString &path)
     mlt_service nextservice = mlt_service_get_producer(serv);
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
     QString mlt_type = mlt_properties_get(properties, "mlt_type");
-    if (mlt_type != "transition") {
+    if (mlt_type != QLatin1String("transition")) {
         // transition does not exist, add it
         Mlt::Field *field = tractor.field();
         Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, "composite");

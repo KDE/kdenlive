@@ -90,7 +90,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
         doc.setContent(&file, false);
         file.close();
         QStringList folderNames;
-        QDomNodeList groups = doc.documentElement().elementsByTagName("group");
+        QDomNodeList groups = doc.documentElement().elementsByTagName(QStringLiteral("group"));
         for (int i = 0; i < groups.count(); ++i) {
             folderNames << i18n(groups.at(i).firstChild().firstChild().nodeValue().toUtf8().constData());
         }
@@ -106,11 +106,11 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
         for (int i = 0; i < groups.count(); ++i) {
             QTreeWidgetItem *item = findFolder(folderNames.at(i));
             if (item) {
-                item->setData(0, IdRole, groups.at(i).toElement().attribute("list"));
+                item->setData(0, IdRole, groups.at(i).toElement().attribute(QStringLiteral("list")));
             } else {
                 item = new QTreeWidgetItem((QTreeWidget*)0, QStringList(folderNames.at(i)));
                 item->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));
-                item->setData(0, IdRole, groups.at(i).toElement().attribute("list"));
+                item->setData(0, IdRole, groups.at(i).toElement().attribute(QStringLiteral("list")));
                 item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
                 item->setChildIndicatorPolicy(QTreeWidgetItem::DontShowIndicatorWhenChildless);
                 insertTopLevelItem(0, item);
@@ -145,12 +145,12 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
 
     //insertTopLevelItems(0, folders);
     if (transitionMode) {
-        loadEffects(&MainWindow::transitions, QIcon::fromTheme("kdenlive-show-video"), misc, &folders, TRANSITION_TYPE, current, &found);
+        loadEffects(&MainWindow::transitions, QIcon::fromTheme(QStringLiteral("kdenlive-show-video")), misc, &folders, TRANSITION_TYPE, current, &found);
     }
     else {
-        loadEffects(&MainWindow::videoEffects, QIcon::fromTheme("kdenlive-show-video"), misc, &folders, EFFECT_VIDEO, current, &found);
-        loadEffects(&MainWindow::audioEffects, QIcon::fromTheme("kdenlive-show-audio"), audio, &folders, EFFECT_AUDIO, current, &found);
-        loadEffects(&MainWindow::customEffects, QIcon::fromTheme("kdenlive-custom-effect"), custom, static_cast<QList<QTreeWidgetItem *> *>(0), EFFECT_CUSTOM, current, &found);
+        loadEffects(&MainWindow::videoEffects, QIcon::fromTheme(QStringLiteral("kdenlive-show-video")), misc, &folders, EFFECT_VIDEO, current, &found);
+        loadEffects(&MainWindow::audioEffects, QIcon::fromTheme(QStringLiteral("kdenlive-show-audio")), audio, &folders, EFFECT_AUDIO, current, &found);
+        loadEffects(&MainWindow::customEffects, QIcon::fromTheme(QStringLiteral("kdenlive-custom-effect")), custom, static_cast<QList<QTreeWidgetItem *> *>(0), EFFECT_CUSTOM, current, &found);
         if (!found && !currentFolder.isEmpty()) {
             // previously selected effect was removed, focus on its parent folder
             for (int i = 0; i < topLevelItemCount(); ++i) {
@@ -214,12 +214,12 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
                 if (rx.exactMatch(item->text(0).toLower())) {
                     sub4->addAction(a);
                 } else {
-                    rx.setPattern("^[m-r].+");
+                    rx.setPattern(QStringLiteral("^[m-r].+"));
                     if (rx.exactMatch(item->text(0).toLower())) {
                         sub3->addAction(a);
                     }
                     else {
-                        rx.setPattern("^[g-l].+");
+                        rx.setPattern(QStringLiteral("^[g-l].+"));
                         if (rx.exactMatch(item->text(0).toLower())) {
                             sub2->addAction(a);
                         }
@@ -262,7 +262,7 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, QIcon icon, Q
             QIcon icon2 = generateIcon(fontSize, effectInfo.at(0), parentItem ? parentItem->text(0) : QString(), effectlist->at(ix));
             item = new QTreeWidgetItem(parentItem, QStringList(effectInfo.takeFirst()));
             QString tag = effectInfo.at(0);
-            if (type != EFFECT_CUSTOM && tag.startsWith("movit.")) {
+            if (type != EFFECT_CUSTOM && tag.startsWith(QLatin1String("movit."))) {
                 // GPU effect
                 effectInfo.append(QString::number(EFFECT_GPU));
                 item->setData(0, TypeRole, EFFECT_GPU);
@@ -270,7 +270,7 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, QIcon icon, Q
                 effectInfo.append(QString::number(type));
                 item->setData(0, TypeRole, type);
             }
-            if (effectInfo.count() == 4) item->setIcon(0, QIcon::fromTheme("folder"));
+            if (effectInfo.count() == 4) item->setIcon(0, QIcon::fromTheme(QStringLiteral("folder")));
             else item->setIcon(0, icon2);
             item->setData(0, IdRole, effectInfo);
             item->setToolTip(0, effectlist->getInfo(tag, effectInfo.at(1)));
@@ -321,8 +321,8 @@ QIcon EffectsListWidget::generateIcon(int size, const QString &name, const QStri
     uint hex = qHash(name);
     QString t = "#" + QString::number(hex, 16).toUpper().left(6);
     QColor col(t);
-    info.setAttribute("effectcolor", col.name());
-    bool isAudio = info.attribute("type") == "audio";
+    info.setAttribute(QStringLiteral("effectcolor"), col.name());
+    bool isAudio = info.attribute(QStringLiteral("type")) == QLatin1String("audio");
     if (isAudio) {
         pix.fill(Qt::transparent);
     }
@@ -441,7 +441,7 @@ QMimeData * EffectsListWidget::mimeData(const QList<QTreeWidgetItem *> list) con
 //virtual
 void EffectsListWidget::dragMoveEvent(QDragMoveEvent *event)
 {
-    if (event->mimeData()->hasFormat("kdenlive/effectslist")) {
+    if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
         event->acceptProposedAction();
     } else {
         event->ignore();
@@ -484,9 +484,9 @@ void EffectsListWidget::resetRoot()
 void EffectsListWidget::createFavorites(QList <QTreeWidgetItem *>list)
 {
     // Favorites is a pseudo-folder used to store items, not visible to end user, so don't i18n its name
-    QTreeWidgetItem *misc = findFolder("Favorites");
+    QTreeWidgetItem *misc = findFolder(QStringLiteral("Favorites"));
     if (misc == NULL) {
-        misc = new QTreeWidgetItem((QTreeWidget*)0, QStringList("Favorites"));
+        misc = new QTreeWidgetItem((QTreeWidget*)0, QStringList(QStringLiteral("Favorites")));
         misc->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));
         misc->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         insertTopLevelItem(0, misc);
@@ -503,7 +503,7 @@ void EffectsListWidget::createFavorites(QList <QTreeWidgetItem *>list)
 
 void EffectsListWidget::resetFavorites()
 {
-    QTreeWidgetItem *misc = findFolder("Favorites");
+    QTreeWidgetItem *misc = findFolder(QStringLiteral("Favorites"));
     if (misc) {
         setRootIndex(indexFromItem(invisibleRootItem()));
         delete misc;

@@ -60,35 +60,35 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, cons
     m_info.groupIndex = ix;
     m_subWidgets = QList <CollapsibleEffect *> ();
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    frame->setObjectName("framegroup");
-    decoframe->setObjectName("decoframegroup");
+    frame->setObjectName(QStringLiteral("framegroup"));
+    decoframe->setObjectName(QStringLiteral("decoframegroup"));
     QHBoxLayout *l = static_cast <QHBoxLayout *>(frame->layout());
     m_title = new MyEditableLabel(this);
     l->insertWidget(2, m_title);
     m_title->setText(info.groupName.isEmpty() ? i18n("Effect Group") : info.groupName);
     m_info.groupName = m_title->text();
     connect(m_title, SIGNAL(editingFinished()), this, SLOT(slotRenameGroup()));
-    buttonUp->setIcon(KoIconUtils::themedIcon("kdenlive-up"));
+    buttonUp->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-up")));
     buttonUp->setToolTip(i18n("Move effect up"));
-    buttonDown->setIcon(KoIconUtils::themedIcon("kdenlive-down"));
+    buttonDown->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-down")));
     buttonDown->setToolTip(i18n("Move effect down"));
 
-    buttonDel->setIcon(KoIconUtils::themedIcon("kdenlive-deleffect"));
+    buttonDel->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-deleffect")));
     buttonDel->setToolTip(i18n("Delete effect"));
     if (firstGroup) buttonUp->setVisible(false);
     if (lastGroup) buttonDown->setVisible(false);
     m_menu = new QMenu;
-    m_menu->addAction(KoIconUtils::themedIcon("view-refresh"), i18n("Reset Group"), this, SLOT(slotResetGroup()));
-    m_menu->addAction(KoIconUtils::themedIcon("document-save"), i18n("Save Group"), this, SLOT(slotSaveGroup()));
+    m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("view-refresh")), i18n("Reset Group"), this, SLOT(slotResetGroup()));
+    m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-save")), i18n("Save Group"), this, SLOT(slotSaveGroup()));
     
-    m_menu->addAction(KoIconUtils::themedIcon("list-remove"), i18n("Ungroup"), this, SLOT(slotUnGroup()));
+    m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("list-remove")), i18n("Ungroup"), this, SLOT(slotUnGroup()));
     setAcceptDrops(true);
-    menuButton->setIcon(KoIconUtils::themedIcon("kdenlive-menu"));
+    menuButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-menu")));
     menuButton->setMenu(m_menu);
 
     m_enabledButton = new KDualAction(i18n("Disable Effect"), i18n("Enable Effect"), this);
-    m_enabledButton->setActiveIcon(KoIconUtils::themedIcon("hint"));
-    m_enabledButton->setInactiveIcon(KoIconUtils::themedIcon("visibility"));
+    m_enabledButton->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("hint")));
+    m_enabledButton->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("visibility")));
     m_enabledButton->setActive(true);
     enabledButton->setDefaultAction(m_enabledButton);
 
@@ -172,30 +172,30 @@ void CollapsibleGroup::slotSaveGroup()
     if (name.isEmpty()) return;
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects/");
     if (!dir.exists()) {
-        dir.mkpath(".");
+        dir.mkpath(QStringLiteral("."));
     }
 
     if (dir.exists(name + ".xml")) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + ".xml")) == KMessageBox::No) return;
 
     QDomDocument doc = effectsData();
     QDomElement base = doc.documentElement();
-    QDomNodeList effects = base.elementsByTagName("effect");
+    QDomNodeList effects = base.elementsByTagName(QStringLiteral("effect"));
     for (int i = 0; i < effects.count(); ++i) {
 	QDomElement eff = effects.at(i).toElement();
-        eff.removeAttribute("kdenlive_ix");
+        eff.removeAttribute(QStringLiteral("kdenlive_ix"));
 	EffectInfo info;
-	info.fromString(eff.attribute("kdenlive_info"));
+	info.fromString(eff.attribute(QStringLiteral("kdenlive_info")));
 	// Make sure all effects have the correct new group name
 	info.groupName = name;
 	// Saved effect group should have a group index of -1
 	info.groupIndex = -1;
-	eff.setAttribute("kdenlive_info", info.toString());
+	eff.setAttribute(QStringLiteral("kdenlive_info"), info.toString());
 
     }
     
-    base.setAttribute("name", name);
-    base.setAttribute("id", name);
-    base.setAttribute("type", "custom");  
+    base.setAttribute(QStringLiteral("name"), name);
+    base.setAttribute(QStringLiteral("id"), name);
+    base.setAttribute(QStringLiteral("type"), QStringLiteral("custom"));  
 
     QFile file(dir.absoluteFilePath(name + ".xml"));
     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
@@ -250,7 +250,7 @@ void CollapsibleGroup::addGroupEffect(CollapsibleEffect *effect)
     }
     effect->setGroupIndex(groupIndex());
     effect->setGroupName(m_title->text());
-    effect->decoframe->setObjectName("decoframesub");
+    effect->decoframe->setObjectName(QStringLiteral("decoframesub"));
     m_subWidgets.append(effect);
     vbox->addWidget(effect);
 }
@@ -268,7 +268,7 @@ void CollapsibleGroup::removeGroup(int ix, QVBoxLayout *layout)
     for (int i = m_subWidgets.count() - 1; i >= 0 ; --i) {
 	vbox->removeWidget(m_subWidgets.at(i));
 	layout->insertWidget(ix, m_subWidgets.at(i));
-	m_subWidgets.at(i)->decoframe->setObjectName("decoframe");
+	m_subWidgets.at(i)->decoframe->setObjectName(QStringLiteral("decoframe"));
         m_subWidgets.at(i)->removeFromGroup();
     }
     m_subWidgets.clear();
@@ -296,7 +296,7 @@ void CollapsibleGroup::updateTimecodeFormat()
 
 void CollapsibleGroup::dragEnterEvent(QDragEnterEvent *event)
 {
-    if (event->mimeData()->hasFormat("kdenlive/effectslist")) {
+    if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
 	frame->setProperty("target", true);
 	frame->setStyleSheet(frame->styleSheet());
 	event->acceptProposedAction();
@@ -313,16 +313,16 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
 {
     frame->setProperty("target", false);
     frame->setStyleSheet(frame->styleSheet());
-    const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
+    const QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
     //event->acceptProposedAction();
     QDomDocument doc;
     doc.setContent(effects, true);
     QDomElement e = doc.documentElement();
-    int ix = e.attribute("kdenlive_ix").toInt();
-    if (ix == 0 || e.tagName() == "effectgroup") {
-	if (e.tagName() == "effectgroup") {
+    int ix = e.attribute(QStringLiteral("kdenlive_ix")).toInt();
+    if (ix == 0 || e.tagName() == QLatin1String("effectgroup")) {
+	if (e.tagName() == QLatin1String("effectgroup")) {
 	    // dropped a group on another group
-	    QDomNodeList pastedEffects = e.elementsByTagName("effect");
+	    QDomNodeList pastedEffects = e.elementsByTagName(QStringLiteral("effect"));
 	    if (pastedEffects.isEmpty() || m_subWidgets.isEmpty()) {
 		// Buggy groups, should not happen
 		event->ignore();
@@ -331,10 +331,10 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
 	    QList <int> pastedEffectIndexes;
 	    QList <int> currentEffectIndexes;
 	    EffectInfo pasteInfo;
-	    pasteInfo.fromString(pastedEffects.at(0).toElement().attribute("kdenlive_info"));
+	    pasteInfo.fromString(pastedEffects.at(0).toElement().attribute(QStringLiteral("kdenlive_info")));
 	    if (pasteInfo.groupIndex == -1) {
 		// Group dropped from effects list, add effect
-		e.setAttribute("kdenlive_ix", m_subWidgets.last()->effectIndex());
+		e.setAttribute(QStringLiteral("kdenlive_ix"), m_subWidgets.last()->effectIndex());
 		emit addEffect(e);
 		event->setDropAction(Qt::CopyAction);
 		event->accept();
@@ -342,7 +342,7 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
 	    }
 	    // Moving group
 	    for (int i = 0; i < pastedEffects.count(); ++i) {
-		pastedEffectIndexes << pastedEffects.at(i).toElement().attribute("kdenlive_ix").toInt();
+		pastedEffectIndexes << pastedEffects.at(i).toElement().attribute(QStringLiteral("kdenlive_ix")).toInt();
 	    }
 	    for (int i = 0; i < m_subWidgets.count(); ++i) {
 		currentEffectIndexes << m_subWidgets.at(i)->effectIndex();
@@ -361,9 +361,9 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
 	    return;
 	}
 	// effect dropped from effects list, add it
-	e.setAttribute("kdenlive_info", m_info.toString());
+	e.setAttribute(QStringLiteral("kdenlive_info"), m_info.toString());
 	if (!m_subWidgets.isEmpty()) {
-	    e.setAttribute("kdenlive_ix", m_subWidgets.at(0)->effectIndex());
+	    e.setAttribute(QStringLiteral("kdenlive_ix"), m_subWidgets.at(0)->effectIndex());
 	}
 	emit addEffect(e);
 	event->setDropAction(Qt::CopyAction);
@@ -398,8 +398,8 @@ QDomDocument CollapsibleGroup::effectsData()
 {
     QMutexLocker lock(&m_mutex);
     QDomDocument doc;
-    QDomElement list = doc.createElement("effectgroup");
-    list.setAttribute("name", m_title->text());
+    QDomElement list = doc.createElement(QStringLiteral("effectgroup"));
+    list.setAttribute(QStringLiteral("name"), m_title->text());
     doc.appendChild(list);
     for (int j = 0; j < m_subWidgets.count(); ++j) {
 	list.appendChild(doc.importNode(m_subWidgets.at(j)->effect(), true));

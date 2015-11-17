@@ -64,14 +64,14 @@ bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::DragEnter) {
         QDragEnterEvent *ev = reinterpret_cast< QDragEnterEvent* >(event);
-        if (ev->mimeData()->hasFormat("kdenlive/effectslist")) {
+        if (ev->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
             ev->acceptProposedAction();
             return true;
         }
     }
     else if (event->type() == QEvent::DragMove) {
         QDragEnterEvent *ev = reinterpret_cast< QDragEnterEvent* >(event);
-        if (ev->mimeData()->hasFormat("kdenlive/effectslist")) {
+        if (ev->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
             ev->acceptProposedAction();
             return true;
         }
@@ -79,7 +79,7 @@ bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
     else if (event->type() == QEvent::Drop) {
         QDropEvent *ev = static_cast< QDropEvent* >(event);
         if (ev) {
-          const QString effects = QString::fromUtf8(ev->mimeData()->data("kdenlive/effectslist"));
+          const QString effects = QString::fromUtf8(ev->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
           QDomDocument doc;
           doc.setContent(effects, true);
           emit addEffect(doc.documentElement());
@@ -171,17 +171,17 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     }
 
     if (id != Kdenlive::DvdMonitor) {
-        m_toolbar->addAction(manager->getAction("mark_in"));
-        m_toolbar->addAction(manager->getAction("mark_out"));
+        m_toolbar->addAction(manager->getAction(QStringLiteral("mark_in")));
+        m_toolbar->addAction(manager->getAction(QStringLiteral("mark_out")));
     }
-    m_toolbar->addAction(manager->getAction("monitor_seek_backward"));
+    m_toolbar->addAction(manager->getAction(QStringLiteral("monitor_seek_backward")));
 
     QToolButton *playButton = new QToolButton(m_toolbar);
     m_playMenu = new QMenu(i18n("Play..."), this);
-    QAction *originalPlayAction = static_cast<KDualAction*> (manager->getAction("monitor_play"));
+    QAction *originalPlayAction = static_cast<KDualAction*> (manager->getAction(QStringLiteral("monitor_play")));
     m_playAction = new KDualAction(i18n("Play"), i18n("Pause"), this);
-    m_playAction->setInactiveIcon(KoIconUtils::themedIcon("media-playback-start"));
-    m_playAction->setActiveIcon(KoIconUtils::themedIcon("media-playback-pause"));
+    m_playAction->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("media-playback-start")));
+    m_playAction->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("media-playback-pause")));
 
     QString strippedTooltip = m_playAction->toolTip().remove(QRegExp("\\s\\(.*\\)"));
     // append shortcut if it exists for action
@@ -197,7 +197,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     playButton->setMenu(m_playMenu);
     playButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_toolbar->addWidget(playButton);
-    m_toolbar->addAction(manager->getAction("monitor_seek_forward"));
+    m_toolbar->addAction(manager->getAction(QStringLiteral("monitor_seek_forward")));
 
     playButton->setDefaultAction(m_playAction);
     m_configMenu = new QMenu(i18n("Misc..."), this);
@@ -209,7 +209,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
             m_configMenu->addMenu(m_markerMenu);
             connect(m_markerMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotGoToMarker(QAction*)));
         }
-        m_forceSize = new KSelectAction(KoIconUtils::themedIcon("transform-scale"), i18n("Force Monitor Size"), this);
+        m_forceSize = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("transform-scale")), i18n("Force Monitor Size"), this);
         QAction *fullAction = m_forceSize->addAction(QIcon(), i18n("Force 100%"));
         fullAction->setData(100);
         QAction *halfAction = m_forceSize->addAction(QIcon(), i18n("Force 50%"));
@@ -236,14 +236,14 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_audioButton->setMenu(menu);
     m_audioButton->setPopupMode(QToolButton::InstantPopup);
     QIcon icon;
-    if (KdenliveSettings::volume() == 0) icon = KoIconUtils::themedIcon("audio-volume-muted");
-    else icon = KoIconUtils::themedIcon("audio-volume-medium");
+    if (KdenliveSettings::volume() == 0) icon = KoIconUtils::themedIcon(QStringLiteral("audio-volume-muted"));
+    else icon = KoIconUtils::themedIcon(QStringLiteral("audio-volume-medium"));
     m_audioButton->setIcon(icon);
     m_toolbar->addWidget(m_audioButton);
 
     if (id == Kdenlive::ClipMonitor) {
 	m_toolbar->addSeparator();
-	m_effectCompare = m_toolbar->addAction(KoIconUtils::themedIcon("view-split-left-right"), i18n("Compare effect"));
+	m_effectCompare = m_toolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("view-split-left-right")), i18n("Compare effect"));
 	m_effectCompare->setCheckable(true);
         connect(m_effectCompare, &QAction::toggled, this, &Monitor::slotSwitchCompare);
     }
@@ -272,7 +272,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
 
     if (id == Kdenlive::ProjectMonitor) {
-        m_sceneVisibilityAction = new QAction(KoIconUtils::themedIcon("transform-crop"), i18n("Show/Hide edit mode"), this);
+        m_sceneVisibilityAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("transform-crop")), i18n("Show/Hide edit mode"), this);
         m_sceneVisibilityAction->setCheckable(true);
         m_sceneVisibilityAction->setChecked(KdenliveSettings::showOnMonitorScene());
         connect(m_sceneVisibilityAction, SIGNAL(triggered(bool)), this, SLOT(slotEnableEffectScene(bool)));
@@ -284,7 +284,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_toolbar->addWidget(m_timePos);
 
     QToolButton *configButton = new QToolButton(m_toolbar);
-    configButton->setIcon(KoIconUtils::themedIcon("system-run"));
+    configButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("system-run")));
     configButton->setMenu(m_configMenu);
     configButton->setPopupMode(QToolButton::QToolButton::InstantPopup);
     m_toolbar->addWidget(configButton);
@@ -374,7 +374,7 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
         m_contextMenu->addMenu(markerMenu);
         QList <QAction *>list = markerMenu->actions();
         for (int i = 0; i < list.count(); ++i) {
-            if (list.at(i)->data().toString() == "edit_marker") {
+            if (list.at(i)->data().toString() == QLatin1String("edit_marker")) {
                 m_editMarker = list.at(i);
                 break;
             }
@@ -391,19 +391,19 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     //TODO: add save zone to timeline monitor when fixed
     if (m_id == Kdenlive::ClipMonitor) {
         m_contextMenu->addMenu(m_markerMenu);
-	m_contextMenu->addAction(KoIconUtils::themedIcon("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
-        QAction *extractZone = m_configMenu->addAction(KoIconUtils::themedIcon("document-new"), i18n("Extract Zone"), this, SLOT(slotExtractCurrentZone()));
+	m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-save")), i18n("Save zone"), this, SLOT(slotSaveZone()));
+        QAction *extractZone = m_configMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Extract Zone"), this, SLOT(slotExtractCurrentZone()));
         m_contextMenu->addAction(extractZone);
     }
-    QAction *extractFrame = m_configMenu->addAction(KoIconUtils::themedIcon("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
+    QAction *extractFrame = m_configMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
     m_contextMenu->addAction(extractFrame);
 
     if (m_id == Kdenlive::ProjectMonitor) {
-        QAction *splitView = m_contextMenu->addAction(KoIconUtils::themedIcon("view-split-left-right"), i18n("Split view"), render, SLOT(slotSplitView(bool)));
+        QAction *splitView = m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("view-split-left-right")), i18n("Split view"), render, SLOT(slotSplitView(bool)));
         splitView->setCheckable(true);
         m_configMenu->addAction(splitView);
     } else if (m_id == Kdenlive::ClipMonitor) {
-        QAction *setThumbFrame = m_contextMenu->addAction(KoIconUtils::themedIcon("document-new"), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
+        QAction *setThumbFrame = m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
         m_configMenu->addAction(setThumbFrame);
     }
 
@@ -712,8 +712,8 @@ void Monitor::slotStartDrag()
     list.append(QString::number(p.x()));
     list.append(QString::number(p.y()));
     QByteArray data;
-    data.append(list.join(";").toUtf8());
-    mimeData->setData("kdenlive/clip", data);
+    data.append(list.join(QStringLiteral(";")).toUtf8());
+    mimeData->setData(QStringLiteral("kdenlive/clip"), data);
     drag->setMimeData(mimeData);
     /*QPixmap pix = m_currentClip->thumbnail();
     drag->setPixmap(pix);
@@ -740,8 +740,8 @@ void Monitor::mouseMoveEvent(QMouseEvent *event)
         list.append(QString::number(p.x()));
         list.append(QString::number(p.y()));
         QByteArray data;
-        data.append(list.join(";").toUtf8());
-        mimeData->setData("kdenlive/clip", data);
+        data.append(list.join(QStringLiteral(";")).toUtf8());
+        mimeData->setData(QStringLiteral("kdenlive/clip"), data);
         drag->setMimeData(mimeData);
         /*QPixmap pix = m_currentClip->thumbnail();
         drag->setPixmap(pix);
@@ -775,7 +775,7 @@ QStringList Monitor::mimeTypes() const
 {
     QStringList qstrList;
     // list of accepted mime types for drop
-    qstrList.append("kdenlive/clip");
+    qstrList.append(QStringLiteral("kdenlive/clip"));
     return qstrList;
 }
 
@@ -811,7 +811,7 @@ void Monitor::slotSetThumbFrame()
     if (m_controller == NULL) {
         return;
     }
-    m_controller->setProperty("kdenlive:thumbnailFrame", (int) render->seekFramePosition());
+    m_controller->setProperty(QStringLiteral("kdenlive:thumbnailFrame"), (int) render->seekFramePosition());
     emit refreshClipThumbnail(m_controller->clipId());
 }
 
@@ -830,21 +830,21 @@ void Monitor::slotExtractCurrentFrame()
 {
     QImage frame;
     // check if we are using a proxy
-    if (m_controller && !m_controller->property("kdenlive:proxy").isEmpty() && m_controller->property("kdenlive:proxy") != "-") {
+    if (m_controller && !m_controller->property(QStringLiteral("kdenlive:proxy")).isEmpty() && m_controller->property(QStringLiteral("kdenlive:proxy")) != QLatin1String("-")) {
         // using proxy, use original clip url to get frame
-        frame = render->extractFrame(render->seekFramePosition(), m_controller->property("resource"));
+        frame = render->extractFrame(render->seekFramePosition(), m_controller->property(QStringLiteral("resource")));
     }
     else frame = render->extractFrame(render->seekFramePosition());
-    QString framesFolder = KRecentDirs::dir(":KdenliveFramesFolder");
+    QString framesFolder = KRecentDirs::dir(QStringLiteral(":KdenliveFramesFolder"));
     if (framesFolder.isEmpty()) framesFolder = QDir::homePath();
     
     QPointer<QFileDialog> fs = new QFileDialog(this, i18n("Save Image"), framesFolder);
-    fs->setMimeTypeFilters(QStringList() << "image/png");
+    fs->setMimeTypeFilters(QStringList() << QStringLiteral("image/png"));
     fs->setAcceptMode(QFileDialog::AcceptSave);
     if (fs->exec()) {
         QStringList path = fs->selectedFiles();
         if (!path.isEmpty()) {
-            KRecentDirs::add(":KdenliveFramesFolder", fs->selectedUrls().first().adjusted(QUrl::RemoveFilename).path());
+            KRecentDirs::add(QStringLiteral(":KdenliveFramesFolder"), fs->selectedUrls().first().adjusted(QUrl::RemoveFilename).path());
             frame.save(path.first());
         }
     }
@@ -872,7 +872,7 @@ void Monitor::slotSeek(int pos)
 
 void Monitor::checkOverlay()
 {
-    if (!m_rootItem || m_rootItem->objectName() != "root") {
+    if (!m_rootItem || m_rootItem->objectName() != QLatin1String("root")) {
         // we are not in main view, ignore
         return;
     }
@@ -1033,8 +1033,8 @@ void Monitor::mute(bool mute, bool updateIconOnly)
     if (render) {
         // TODO: we should set the "audio_off" property to 1 to mute the consumer instead of changing volume
         QIcon icon;
-        if (mute || KdenliveSettings::volume() == 0) icon = KoIconUtils::themedIcon("audio-volume-muted");
-        else icon = KoIconUtils::themedIcon("audio-volume-medium");
+        if (mute || KdenliveSettings::volume() == 0) icon = KoIconUtils::themedIcon(QStringLiteral("audio-volume-muted"));
+        else icon = KoIconUtils::themedIcon(QStringLiteral("audio-volume-medium"));
         m_audioButton->setIcon(icon);
         if (!updateIconOnly) render->setVolume(mute ? 0 : (double)KdenliveSettings::volume() / 100.0 );
     }
@@ -1143,7 +1143,7 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
     if (render == NULL) return;
     bool sameClip = controller == m_controller && controller != NULL;
     m_controller = controller;
-    if (m_rootItem && m_rootItem->objectName() != "root" && !sameClip) {
+    if (m_rootItem && m_rootItem->objectName() != QLatin1String("root") && !sameClip) {
         loadMasterQml();
     }
     if (controller) {
@@ -1209,7 +1209,7 @@ void Monitor::resetProfile(MltVideoProfile profile)
     render->prepareProfileReset();
     m_glMonitor->resetProfile(profile);
 
-    if (m_rootItem && m_rootItem->objectName() == "rooteffectscene") {
+    if (m_rootItem && m_rootItem->objectName() == QLatin1String("rooteffectscene")) {
         // we are not in main view, ignore
         m_rootItem->setProperty("framesize", QRect(0, 0, m_glMonitor->profileSize().width(), m_glMonitor->profileSize().height()));
     }
@@ -1241,7 +1241,7 @@ void Monitor::switchDropFrames(bool drop)
 void Monitor::switchMonitorInfo(bool show)
 {
     KdenliveSettings::setDisplayMonitorInfo(show);
-    if (m_rootItem && m_rootItem->objectName() != "root") {
+    if (m_rootItem && m_rootItem->objectName() != QLatin1String("root")) {
         // we are not in main view, ignore
         return;
     }
@@ -1310,21 +1310,21 @@ void Monitor::slotSetSelectedClip(Transition* item)
 void Monitor::slotEnableEffectScene(bool enable)
 {
     KdenliveSettings::setShowOnMonitorScene(enable);
-    bool isDisplayed = m_rootItem && m_rootItem->objectName() == "rooteffectscene";
+    bool isDisplayed = m_rootItem && m_rootItem->objectName() == QLatin1String("rooteffectscene");
     if (enable == isDisplayed) return;
     slotShowEffectScene(enable);
 }
 
 void Monitor::slotShowEffectScene(bool show)
 {
-    if (show && (!m_rootItem || m_rootItem->objectName() != "rooteffectscene")) {
+    if (show && (!m_rootItem || m_rootItem->objectName() != QLatin1String("rooteffectscene"))) {
         m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitoreffectscene.qml"))));
         m_rootItem = m_glMonitor->rootObject();
         QObject::connect(m_rootItem, SIGNAL(addKeyframe()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
         QObject::connect(m_rootItem, SIGNAL(seekToKeyframe()), this, SLOT(slotSeekToKeyFrame()), Qt::UniqueConnection);
         m_glMonitor->slotShowEffectScene();
     }
-    else if (m_rootItem && m_rootItem->objectName() == "rooteffectscene")  {
+    else if (m_rootItem && m_rootItem->objectName() == QLatin1String("rooteffectscene"))  {
         loadMasterQml();
     }
     if (m_sceneVisibilityAction) m_sceneVisibilityAction->setChecked(show);
@@ -1332,7 +1332,7 @@ void Monitor::slotShowEffectScene(bool show)
 
 void Monitor::slotSeekToKeyFrame()
 {
-    if (m_rootItem && m_rootItem->objectName() == "rooteffectscene") {
+    if (m_rootItem && m_rootItem->objectName() == QLatin1String("rooteffectscene")) {
         // Adjust splitter pos
         int kfr = m_rootItem->property("requestedKeyFrame").toInt();
         emit seekToKeyframe(kfr);
@@ -1359,7 +1359,7 @@ void Monitor::setEffectKeyframe(bool enable)
 
 bool Monitor::effectSceneDisplayed()
 {
-    return m_rootItem->objectName() == "rooteffectscene";
+    return m_rootItem->objectName() == QLatin1String("rooteffectscene");
 }
 
 void Monitor::slotSetVolume(int volume)
@@ -1369,8 +1369,8 @@ void Monitor::slotSetVolume(int volume)
     double renderVolume = render->volume();
     render->setVolume((double) volume / 100.0);
     if (renderVolume > 0 && volume > 0) return;
-    if (volume == 0) icon = KoIconUtils::themedIcon("audio-volume-muted");
-    else icon = KoIconUtils::themedIcon("audio-volume-medium");
+    if (volume == 0) icon = KoIconUtils::themedIcon(QStringLiteral("audio-volume-muted"));
+    else icon = KoIconUtils::themedIcon(QStringLiteral("audio-volume-medium"));
     m_audioButton->setIcon(icon);
 }
 
@@ -1389,7 +1389,7 @@ void Monitor::onFrameDisplayed(const SharedFrame& frame)
     int position = frame.get_position();
     seekCursor(position);
     render->checkFrameNumber(position);
-    if (m_rootItem && m_rootItem->objectName() == "root") {
+    if (m_rootItem && m_rootItem->objectName() == QLatin1String("root")) {
         // we are in main view, show frame
         m_rootItem->setProperty("framenum", QString::number(position));
     }
@@ -1509,7 +1509,7 @@ void Monitor::loadMasterQml()
         }
         return;
     }
-    if ((m_rootItem && m_rootItem->objectName() == "root")) {
+    if ((m_rootItem && m_rootItem->objectName() == QLatin1String("root"))) {
         // Root scene is already active
         return;
     }
@@ -1522,7 +1522,7 @@ void Monitor::slotAdjustEffectCompare()
 {
     QRect r = m_glMonitor->rect();
     double percent = 0.5;
-    if (m_rootItem && m_rootItem->objectName() == "rootsplit") {
+    if (m_rootItem && m_rootItem->objectName() == QLatin1String("rootsplit")) {
         // Adjust splitter pos
         percent = (m_rootItem->property("splitterPos").toInt() - r.left()) / (double) r.width();
         // Store real frame percentage for resize events

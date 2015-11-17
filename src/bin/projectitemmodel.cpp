@@ -138,22 +138,22 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
         return true;
     }
 
-    if (data->hasFormat("kdenlive/producerslist")) {
+    if (data->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
         // Dropping an Bin item
-        QStringList ids = QString(data->data("kdenlive/producerslist")).split(';');
+        QStringList ids = QString(data->data(QStringLiteral("kdenlive/producerslist"))).split(';');
         emit itemDropped(ids, parent);
         return true;
     }
 
-    if (data->hasFormat("kdenlive/effectslist")) {
+    if (data->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
         // Dropping effect on a Bin item
-        const QString effect = QString::fromUtf8(data->data("kdenlive/effectslist"));
+        const QString effect = QString::fromUtf8(data->data(QStringLiteral("kdenlive/effectslist")));
         emit effectDropped(effect, parent);
         return true;
     }
 
-    if (data->hasFormat("kdenlive/clip")) {
-        QStringList list = QString(data->data("kdenlive/clip")).split(';');
+    if (data->hasFormat(QStringLiteral("kdenlive/clip"))) {
+        QStringList list = QString(data->data(QStringLiteral("kdenlive/clip"))).split(';');
         emit addClipCut(list.at(0), list.at(1).toInt(), list.at(2).toInt());
     }
 
@@ -250,7 +250,7 @@ Qt::DropActions ProjectItemModel::supportedDropActions() const
 QStringList ProjectItemModel::mimeTypes() const
 {
     QStringList types;
-    types << QLatin1String("kdenlive/producerslist") << QLatin1String("text/uri-list") << QLatin1String("kdenlive/clip") << QLatin1String("kdenlive/effectslist");
+    types << QStringLiteral("kdenlive/producerslist") << QStringLiteral("text/uri-list") << QStringLiteral("kdenlive/clip") << QStringLiteral("kdenlive/effectslist");
     return types;
 }
 
@@ -279,8 +279,8 @@ QMimeData* ProjectItemModel::mimeData(const QModelIndexList& indices) const
     }
     if (!list.isEmpty()) {
         QByteArray data;
-        data.append(list.join(QLatin1String(";")).toUtf8());
-        mimeData->setData(QLatin1String("kdenlive/producerslist"),  data);
+        data.append(list.join(QStringLiteral(";")).toUtf8());
+        mimeData->setData(QStringLiteral("kdenlive/producerslist"),  data);
     }
     return mimeData;
 }

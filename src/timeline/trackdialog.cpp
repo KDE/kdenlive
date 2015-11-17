@@ -31,8 +31,8 @@ TrackDialog::TrackDialog(Timeline *timeline, QWidget * parent) :
         QDialog(parent)
 {
     //setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    QIcon videoIcon = QIcon::fromTheme("kdenlive-show-video");
-    QIcon audioIcon = QIcon::fromTheme("kdenlive-show-audio");
+    QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
+    QIcon audioIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-audio"));
     setupUi(this);
     for (int i = timeline->tracksCount() - 1; i > 0 ; i--) {
         TrackInfo info = timeline->getTrackInfo(i);

@@ -74,19 +74,19 @@ void CutClipJob::startJob()
         QString exec;
         if (jobType == AbstractClipJob::ANALYSECLIPJOB) {
             // TODO: don't hardcode params
-            parameters << QLatin1String("-select_streams") << "v" << "-show_frames"<<"-hide_banner"<<"-of"<<"json=c=1"<< m_src;
+            parameters << QStringLiteral("-select_streams") << QStringLiteral("v") << QStringLiteral("-show_frames")<<QStringLiteral("-hide_banner")<<QStringLiteral("-of")<<QStringLiteral("json=c=1")<< m_src;
             exec = KdenliveSettings::ffprobepath();
         } else {
-            parameters << QLatin1String("-i") << m_src;
+            parameters << QStringLiteral("-i") << m_src;
             if (!m_start.isEmpty())
-                parameters << QLatin1String("-ss") << m_start <<QLatin1String("-t") << m_end;
+                parameters << QStringLiteral("-ss") << m_start <<QStringLiteral("-t") << m_end;
             if (!m_cutExtraParams.isEmpty()) {
                 foreach(const QString &s, m_cutExtraParams.split(QLatin1Char(' ')))
                     parameters << s;
             }
 
             // Make sure we don't block when proxy file already exists
-            parameters << QLatin1String("-y");
+            parameters << QStringLiteral("-y");
             parameters << m_dest;
             exec = KdenliveSettings::ffmpegpath();
         }
@@ -152,11 +152,11 @@ void CutClipJob::processLogInfo()
     // Parse FFmpeg output
     //TODO: parsing progress info works with FFmpeg but not with libav
     if (log.contains(QLatin1String("frame="))) {
-        progress = log.section(QLatin1String("frame="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
+        progress = log.section(QStringLiteral("frame="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
         emit jobProgress(m_clipId, (int) (100.0 * progress / m_jobDuration), jobType);
     }
     else if (log.contains(QLatin1String("time="))) {
-        QString time = log.section(QLatin1String("time="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0);
+        QString time = log.section(QStringLiteral("time="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0);
         if (time.contains(QLatin1Char(':'))) {
             QStringList numbers = time.split(QLatin1Char(':'));
             progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
@@ -171,10 +171,10 @@ void CutClipJob::analyseLogInfo()
     if (!m_jobProcess || m_jobStatus == JobAborted) return;
     QString log = QString::fromUtf8(m_jobProcess->readAll());
     m_logDetails.append(log);
-    int pos = log.indexOf("coded_picture_number", 0);
+    int pos = log.indexOf(QStringLiteral("coded_picture_number"), 0);
     if (pos > -1) {
         log.remove(0, pos);
-        int frame = log.section(",", 0, 0).section(":", 1).toInt();
+        int frame = log.section(QStringLiteral(","), 0, 0).section(QStringLiteral(":"), 1).toInt();
         if (frame > 0 && m_jobDuration > 0) emit jobProgress(m_clipId, (int) (100.0 * frame / m_jobDuration), jobType);
     }
 }
@@ -273,8 +273,8 @@ QMap <ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fps
     ui.file_url->setMode(KFile::File);
     ui.extra_params->setMaximumHeight(QFontMetrics(QApplication::font()).lineSpacing() * 5);
     ui.file_url->setUrl(QUrl(dest));
-    ui.button_more->setIcon(QIcon::fromTheme("configure"));
-    ui.extra_params->setPlainText("-acodec copy -vcodec copy");
+    ui.button_more->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
+    ui.extra_params->setPlainText(QStringLiteral("-acodec copy -vcodec copy"));
     QString mess = i18n("Extracting %1 out of %2", Timecode::getStringTimecode(duration, fps, true), Timecode::getStringTimecode(max, fps, true));
     ui.info_label->setText(mess);
     if (d->exec() != QDialog::Accepted) {
@@ -330,7 +330,7 @@ QMap <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double f
     for (int i = 0; i < clips.count(); i++) {
         QString source = clips.at(i)->url().toLocalFile();
         sources << source;
-        QString newFile = params.section(' ', -1).replace("%1", source);
+        QString newFile = params.section(' ', -1).replace(QLatin1String("%1"), source);
         destinations << newFile;
         if (QFile::exists(newFile)) existingFiles << newFile;
     }
@@ -352,7 +352,7 @@ QMap <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double f
     }
     ui.extra_params->setVisible(false);
     d->adjustSize();
-    ui.button_more->setIcon(QIcon::fromTheme("configure"));
+    ui.button_more->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     connect(ui.button_more, SIGNAL(toggled(bool)), ui.extra_params, SLOT(setVisible(bool)));
     ui.add_clip->setChecked(KdenliveSettings::add_new_clip());
     ui.extra_params->setPlainText(params.simplified().section(' ', 0, -2));
@@ -411,12 +411,12 @@ void CutClipJob::processAnalyseLog()
         qDebug()<<"+ + + + +CORRUPTED JSON DOC";
     }
     QJsonObject jsonObject = doc.object();
-    QJsonArray jsonArray = jsonObject["frames"].toArray();
+    QJsonArray jsonArray = jsonObject[QStringLiteral("frames")].toArray();
     QList <int> frames;
     foreach (const QJsonValue & value, jsonArray) {
         QJsonObject obj = value.toObject();
-        if (obj["pict_type"].toString() != "I") continue;
-        frames << obj["coded_picture_number"].toInt();
+        if (obj[QStringLiteral("pict_type")].toString() != QLatin1String("I")) continue;
+        frames << obj[QStringLiteral("coded_picture_number")].toInt();
     }
     qSort(frames);
     QMap <QString, QString> jobResults;
@@ -424,12 +424,12 @@ void CutClipJob::processAnalyseLog()
     foreach(int frm, frames) {
         sortedFrames << QString::number(frm);
     }
-    jobResults.insert("i-frame", sortedFrames.join(";"));
+    jobResults.insert(QStringLiteral("i-frame"), sortedFrames.join(QStringLiteral(";")));
     QMap <QString, QString> extraInfo;
-    extraInfo.insert("addmarkers", "3");
-    extraInfo.insert("key", "i-frame");
-    extraInfo.insert("simplelist", "1");
-    extraInfo.insert("label", i18n("I-Frame "));
-    extraInfo.insert("resultmessage", i18n("Found %count I-Frames"));
+    extraInfo.insert(QStringLiteral("addmarkers"), QStringLiteral("3"));
+    extraInfo.insert(QStringLiteral("key"), QStringLiteral("i-frame"));
+    extraInfo.insert(QStringLiteral("simplelist"), QStringLiteral("1"));
+    extraInfo.insert(QStringLiteral("label"), i18n("I-Frame "));
+    extraInfo.insert(QStringLiteral("resultmessage"), i18n("Found %count I-Frames"));
     emit gotFilterJobResults(m_clipId, 0, 0, jobResults, extraInfo);
 }

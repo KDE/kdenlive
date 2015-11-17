@@ -49,7 +49,7 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
     QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
     QColor light_bg = scheme.shade(KColorScheme::LightShade);
 
-    QString stylesheet(QString(
+    QString stylesheet(QStringLiteral(
                 "QProgressBar:horizontal {border: 1px solid %1;border-radius:0px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right: 0px;background:%4;padding: 0px;text-align:left center}"
                 "QProgressBar:horizontal#dragOnly {background: %1} QProgressBar:horizontal:hover#dragOnly {background: %3} QProgressBar:horizontal:hover {border: 1px solid %3;border-right: 0px;}"
                 "QProgressBar::chunk:horizontal {background: %1;} QProgressBar::chunk:horizontal:hover {background: %3;}"
@@ -71,23 +71,23 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
         dest_url->setUrl(QUrl(m_urls.first()).adjusted(QUrl::RemoveFilename));
     }
 
-    if (m_filtername=="vidstab" || m_filtername=="videostab2") {
-        m_fixedParams.insert("algo", "1");
-        m_fixedParams.insert("relative", "1");
+    if (m_filtername==QLatin1String("vidstab") || m_filtername==QLatin1String("videostab2")) {
+        m_fixedParams.insert(QStringLiteral("algo"), QStringLiteral("1"));
+        m_fixedParams.insert(QStringLiteral("relative"), QStringLiteral("1"));
         fillParameters(QStringList()
-            << "accuracy,type,int,value,8,min,1,max,10,tooltip,Accuracy of Shakiness detection"
-            << "shakiness,type,int,value,4,min,1,max,10,tooltip,How shaky is the Video"
-            << "stepsize,type,int,value,6,min,0,max,100,tooltip,Stepsize of Detection process minimum around"
-            << "mincontrast,type,double,value,0.3,min,0,max,1,factor,1,decimals,2,tooltip,Below this Contrast Field is discarded"
-            << "smoothing,type,int,value,10,min,0,max,100,tooltip,number of frames for lowpass filtering"
-            << "maxshift,type,int,value,-1,min,-1,max,1000,tooltip,max number of pixels to shift"
-            << "maxangle,type,double,value,-1,min,-1,max,3.14,decimals,2,tooltip,max angle to rotate (in rad)"
-            << "crop,type,bool,value,0,min,0,max,1,tooltip,0 = keep border  1 = black background"
-            << "zoom,type,int,value,0,min,-500,max,500,tooltip,additional zoom during transform"
-            << "optzoom,type,bool,value,1,min,0,max,1,tooltip,use optimal zoom (calulated from transforms)"
-            << "sharpen,type,double,value,0.8,min,0,max,1,decimals,1,tooltip,sharpen transformed image");
-    } else if (m_filtername=="videostab") {
-        fillParameters(QStringList("shutterangle,type,int,value,0,min,0,max,180,tooltip,Angle that Images could be maximum rotated"));
+            << QStringLiteral("accuracy,type,int,value,8,min,1,max,10,tooltip,Accuracy of Shakiness detection")
+            << QStringLiteral("shakiness,type,int,value,4,min,1,max,10,tooltip,How shaky is the Video")
+            << QStringLiteral("stepsize,type,int,value,6,min,0,max,100,tooltip,Stepsize of Detection process minimum around")
+            << QStringLiteral("mincontrast,type,double,value,0.3,min,0,max,1,factor,1,decimals,2,tooltip,Below this Contrast Field is discarded")
+            << QStringLiteral("smoothing,type,int,value,10,min,0,max,100,tooltip,number of frames for lowpass filtering")
+            << QStringLiteral("maxshift,type,int,value,-1,min,-1,max,1000,tooltip,max number of pixels to shift")
+            << QStringLiteral("maxangle,type,double,value,-1,min,-1,max,3.14,decimals,2,tooltip,max angle to rotate (in rad)")
+            << QStringLiteral("crop,type,bool,value,0,min,0,max,1,tooltip,0 = keep border  1 = black background")
+            << QStringLiteral("zoom,type,int,value,0,min,-500,max,500,tooltip,additional zoom during transform")
+            << QStringLiteral("optzoom,type,bool,value,1,min,0,max,1,tooltip,use optimal zoom (calulated from transforms)")
+            << QStringLiteral("sharpen,type,double,value,0.8,min,0,max,1,decimals,1,tooltip,sharpen transformed image"));
+    } else if (m_filtername==QLatin1String("videostab")) {
+        fillParameters(QStringList(QStringLiteral("shutterangle,type,int,value,0,min,0,max,180,tooltip,Angle that Images could be maximum rotated")));
     }
 
     connect(buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &ClipStabilize::slotValidate);
@@ -97,20 +97,20 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
     while(hi.hasNext()){
         hi.next();
         QHash<QString,QString> val=hi.value();
-        if (val["type"]=="int" || val["type"]=="double"){
-            DoubleParameterWidget *dbl=new DoubleParameterWidget(hi.key(), val["value"].toDouble(),
-                    val["min"].toDouble(),val["max"].toDouble(),val["value"].toDouble(),
-                    "",0/*id*/,""/*suffix*/,val["decimals"]!=""?val["decimals"].toInt():0,this);
+        if (val[QStringLiteral("type")]==QLatin1String("int") || val[QStringLiteral("type")]==QLatin1String("double")){
+            DoubleParameterWidget *dbl=new DoubleParameterWidget(hi.key(), val[QStringLiteral("value")].toDouble(),
+                    val[QStringLiteral("min")].toDouble(),val[QStringLiteral("max")].toDouble(),val[QStringLiteral("value")].toDouble(),
+                    QLatin1String(""),0/*id*/,QLatin1String("")/*suffix*/,val[QStringLiteral("decimals")]!=QLatin1String("")?val[QStringLiteral("decimals")].toInt():0,this);
             dbl->setObjectName(hi.key());
-            dbl->setToolTip(val["tooltip"]);
+            dbl->setToolTip(val[QStringLiteral("tooltip")]);
             connect(dbl, &DoubleParameterWidget::valueChanged, this, &ClipStabilize::slotUpdateParams);
             vbox->addWidget(dbl);
-        }else if (val["type"]=="bool"){
+        }else if (val[QStringLiteral("type")]==QLatin1String("bool")){
             QCheckBox *ch=new QCheckBox(hi.key(),this);
-            ch->setCheckState(val["value"] == "0" ? Qt::Unchecked : Qt::Checked);
+            ch->setCheckState(val[QStringLiteral("value")] == QLatin1String("0") ? Qt::Unchecked : Qt::Checked);
             ch->setObjectName(hi.key());
             connect(ch, &QCheckBox::stateChanged, this, &ClipStabilize::slotUpdateParams);
-            ch->setToolTip(val["tooltip"]);
+            ch->setToolTip(val[QStringLiteral("tooltip")]);
             vbox->addWidget(ch);
 
         }
@@ -134,7 +134,7 @@ QMap <QString, QString> ClipStabilize::producerParams()
 QMap <QString, QString> ClipStabilize::filterParams()
 {
     QMap <QString, QString> params;
-    params.insert("filter", m_filtername);
+    params.insert(QStringLiteral("filter"), m_filtername);
     
     QMapIterator<QString, QString> i(m_fixedParams);
     while (i.hasNext()) {
@@ -145,7 +145,7 @@ QMap <QString, QString> ClipStabilize::filterParams()
     QHashIterator <QString,QHash<QString,QString> > it(m_ui_params);
     while (it.hasNext()) {
         it.next();
-	params.insert(it.key(), it.value().value("value"));
+	params.insert(it.key(), it.value().value(QStringLiteral("value")));
     }
     return params;
 }
@@ -154,9 +154,9 @@ QMap <QString, QString> ClipStabilize::consumerParams()
 {
     // consumer params
     QMap <QString, QString> params;
-    params.insert("consumer", "xml");
-    params.insert("all", "1");
-    params.insert("title", i18n("Stabilised"));
+    params.insert(QStringLiteral("consumer"), QStringLiteral("xml"));
+    params.insert(QStringLiteral("all"), QStringLiteral("1"));
+    params.insert(QStringLiteral("title"), i18n("Stabilised"));
     return params;
 }
 
@@ -179,12 +179,12 @@ void ClipStabilize::slotUpdateParams()
         QWidget* w=vbox->itemAt(i)->widget();
         QString name=w->objectName();
         if (!name.isEmpty() && m_ui_params.contains(name)){
-            if (m_ui_params[name]["type"]=="int" || m_ui_params[name]["type"]=="double"){
+            if (m_ui_params[name][QStringLiteral("type")]==QLatin1String("int") || m_ui_params[name][QStringLiteral("type")]==QLatin1String("double")){
                 DoubleParameterWidget *dbl=static_cast<DoubleParameterWidget*>(w);
-                m_ui_params[name]["value"]=QString::number((double)(dbl->getValue()));
-            }else if (m_ui_params[name]["type"]=="bool"){
+                m_ui_params[name][QStringLiteral("value")]=QString::number((double)(dbl->getValue()));
+            }else if (m_ui_params[name][QStringLiteral("type")]==QLatin1String("bool")){
                 QCheckBox *ch=(QCheckBox*)w;
-                m_ui_params[name]["value"]= ch->checkState() == Qt::Checked ? "1" : "0" ;
+                m_ui_params[name][QStringLiteral("value")]= ch->checkState() == Qt::Checked ? "1" : "0" ;
             }
         }
     }

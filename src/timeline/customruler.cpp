@@ -82,13 +82,13 @@ CustomRuler::CustomRuler(const Timecode &tc, CustomTrackView *parent) :
     m_zoneStart = 0;
     m_zoneEnd = 100;
     m_contextMenu = new QMenu(this);
-    QAction *addGuide = m_contextMenu->addAction(QIcon::fromTheme("document-new"), i18n("Add Guide"));
+    QAction *addGuide = m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Add Guide"));
     connect(addGuide, SIGNAL(triggered()), m_view, SLOT(slotAddGuide()));
-    m_editGuide = m_contextMenu->addAction(QIcon::fromTheme("document-properties"), i18n("Edit Guide"));
+    m_editGuide = m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("document-properties")), i18n("Edit Guide"));
     connect(m_editGuide, SIGNAL(triggered()), this, SLOT(slotEditGuide()));
-    m_deleteGuide = m_contextMenu->addAction(QIcon::fromTheme("edit-delete"), i18n("Delete Guide"));
+    m_deleteGuide = m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete Guide"));
     connect(m_deleteGuide , SIGNAL(triggered()), this, SLOT(slotDeleteGuide()));
-    QAction *delAllGuides = m_contextMenu->addAction(QIcon::fromTheme("edit-delete"), i18n("Delete All Guides"));
+    QAction *delAllGuides = m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete All Guides"));
     connect(delAllGuides, SIGNAL(triggered()), m_view, SLOT(slotDeleteAllGuides()));
     m_goMenu = m_contextMenu->addMenu(i18n("Go To"));
     connect(m_goMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotGoToGuide(QAction*)));
@@ -310,7 +310,7 @@ void CustomRuler::setPixelPerMark(int rate)
     m_scale = 1.0 / (double) scale;
     double fend = m_scale * littleMarkDistance;
     int textFactor = 1;
-    int timeLabelSize = QWidget::fontMetrics().boundingRect("00:00:00:000").width();
+    int timeLabelSize = QWidget::fontMetrics().boundingRect(QStringLiteral("00:00:00:000")).width();
     if (timeLabelSize > littleMarkDistance) {
         textFactor = timeLabelSize / littleMarkDistance + 1;
     }

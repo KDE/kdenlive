@@ -262,12 +262,12 @@ bool Track::cut(qreal t)
 
 bool Track::needsDuplicate(const QString &service) const
 {
-    return (service.contains("avformat") || service.contains("consumer") || service.contains("xml"));
+    return (service.contains(QStringLiteral("avformat")) || service.contains(QStringLiteral("consumer")) || service.contains(QStringLiteral("xml")));
 }
 
 void Track::lockTrack(bool locked)
 {
-    setProperty("kdenlive:locked_track", locked ? 1 : 0);
+    setProperty(QStringLiteral("kdenlive:locked_track"), locked ? 1 : 0);
     trackHeader->setLock(locked);
 }
 
@@ -295,12 +295,12 @@ QStringList Track::getSlowmotionIds(const QString &id)
         if (m_playlist.is_blank(i)) continue;
         QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
         QString current = p->parent().get("id");
-	if (!current.startsWith("#")) {
+	if (!current.startsWith(QLatin1String("#"))) {
 	    continue;
 	}
 	current.remove(0, 1);
 	if (current.startsWith("slowmotion:" + id + ":")) {
-	      QString info = current.section(":", 2);
+	      QString info = current.section(QStringLiteral(":"), 2);
 	      if (!list.contains(info)) {
 		  list << info;
 	      }
@@ -329,14 +329,14 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
         if (m_playlist.is_blank(i)) continue;
         QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
         QString current = p->parent().get("id");
-	if (!current.startsWith("#")) {
+	if (!current.startsWith(QLatin1String("#"))) {
 	    continue;
 	}
 	current.remove(0, 1);
         Mlt::Producer *cut = NULL;
 	if (current.startsWith("slowmotion:" + id + ":")) {
 	      // Slowmotion producer, just update resource
-	      QString slowMoId = current.section(":", 2);
+	      QString slowMoId = current.section(QStringLiteral(":"), 2);
 	      Mlt::Producer *slowProd = newSlowMos.value(slowMoId);
 	      if (!slowProd || !slowProd->is_valid()) {
 		    qDebug()<<"/// WARNING, couldn't find replacement slowmo for "<<id;
@@ -427,8 +427,8 @@ void Track::updateEffects(const QString &id, Mlt::Producer *original)
         QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
 	Mlt::Producer origin = p->parent();
         QString current = origin.get("id");
-	if (current.startsWith("slowmotion:")) {
-            if (current.section(":", 1, 1) == id) {
+	if (current.startsWith(QLatin1String("slowmotion:"))) {
+            if (current.section(QStringLiteral(":"), 1, 1) == id) {
 		Clip(origin).replaceEffects(*original);
             }
 	}
@@ -436,7 +436,7 @@ void Track::updateEffects(const QString &id, Mlt::Producer *original)
             // we are directly using original producer, no need to update effects
             continue;
 	}
-	else if (current.section("_", 0, 0) == id) {
+	else if (current.section(QStringLiteral("_"), 0, 0) == id) {
             Clip(origin).replaceEffects(*original);
 	}
     }
@@ -456,11 +456,11 @@ void Track::updateEffects(const QString &id, Mlt::Producer *original)
 Mlt::Producer *Track::clipProducer(Mlt::Producer *parent, PlaylistState::ClipState state, bool forceCreation) {
     QString service = parent->parent().get("mlt_service");
     QString originalId = parent->parent().get("id");
-    if (!needsDuplicate(service) || state == PlaylistState::VideoOnly || originalId.endsWith("_video")) {
+    if (!needsDuplicate(service) || state == PlaylistState::VideoOnly || originalId.endsWith(QLatin1String("_video"))) {
         // Don't clone producer for track if it has no audio
         return new Mlt::Producer(*parent);
     }
-    originalId = originalId.section("_", 0, 0);
+    originalId = originalId.section(QStringLiteral("_"), 0, 0);
     QString idForTrack = originalId + QLatin1Char('_') + m_playlist.get("id");
     if (state == PlaylistState::AudioOnly) {
         idForTrack.append("_audio");
@@ -488,7 +488,7 @@ bool Track::hasAudio()
         if (m_playlist.is_blank(i)) continue;
         QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
         QString service = p->get("mlt_service");
-        if (service == "xml" || service == "consumer" || p->get_int("audio_index") > -1) {
+        if (service == QLatin1String("xml") || service == QLatin1String("consumer") || p->get_int("audio_index") > -1) {
             return true;
         }
     }
@@ -618,15 +618,15 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
     if (speed <= 0 && speed > -1) speed = 1.0;
     QString serv = clipparent.get("mlt_service");
     QString url = QString::fromUtf8(clipparent.get("resource"));
-    if (serv == "framebuffer") {
-	url = url.section("?", 0, 0);
+    if (serv == QLatin1String("framebuffer")) {
+	url = url.section(QStringLiteral("?"), 0, 0);
     }
     url.append('?' + locale.toString(speed));
     if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
     QString id = clipparent.get("id");
-    id = id.section("_", 0,  0);
+    id = id.section(QStringLiteral("_"), 0,  0);
 
-    if (serv.contains("avformat")) {
+    if (serv.contains(QStringLiteral("avformat"))) {
 	if (speed != 1.0 || strobe > 1) {
 	    m_playlist.lock();
 	    if (!prod || !prod->is_valid()) {
@@ -725,7 +725,7 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
 	    newLength = m_playlist.clip_length(clipIndex);
 	    m_playlist.unlock();
 	}
-    } else if (serv == "framebuffer") {
+    } else if (serv == QLatin1String("framebuffer")) {
         m_playlist.lock();
         if (!prod || !prod->is_valid()) {
             prod = new Mlt::Producer(*m_playlist.profile(), 0, ("framebuffer:" + url).toUtf8().constData());

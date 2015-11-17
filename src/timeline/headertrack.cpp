@@ -57,19 +57,19 @@ HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track
     //setMinimumWidth(qMax(metrics.boundingRect(m_name).width() + iconSize + contentsMargins().right() * 6, 5 * iconSize));
     track_number->setText(m_name);
     connect(track_number, SIGNAL(editingFinished()), this, SLOT(slotRenameTrack()));
-    effect_label->setPixmap(KoIconUtils::themedIcon("kdenlive-track_has_effect").pixmap(s));
+    effect_label->setPixmap(KoIconUtils::themedIcon(QStringLiteral("kdenlive-track_has_effect")).pixmap(s));
     updateEffectLabel(info.effectsList.effectNames());
     setAcceptDrops(true);
     button_layout->addWidget(m_tb);
     m_switchLock = new KDualAction(i18n("Lock track"), i18n("Unlock track"), this);
-    m_switchLock->setActiveIcon(KoIconUtils::themedIcon("kdenlive-lock"));
-    m_switchLock->setInactiveIcon(KoIconUtils::themedIcon("kdenlive-unlock"));
+    m_switchLock->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-lock")));
+    m_switchLock->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-unlock")));
     m_switchLock->setActive(info.isLocked);
     connect(m_switchLock, SIGNAL(activeChanged(bool)), this, SLOT(switchLock(bool)));
     m_tb->addAction(m_switchLock);
     m_switchAudio = new KDualAction(i18n("Disable audio"), i18n("Enable audio"), this);
-    m_switchAudio->setActiveIcon(KoIconUtils::themedIcon("kdenlive-hide-audio"));
-    m_switchAudio->setInactiveIcon(KoIconUtils::themedIcon("kdenlive-show-audio"));
+    m_switchAudio->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-hide-audio")));
+    m_switchAudio->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-audio")));
     m_switchAudio->setActive(info.isMute);
     connect(m_switchAudio, SIGNAL(activeChanged(bool)), this, SLOT(switchAudio(bool)));
     m_tb->addAction(m_switchAudio);
@@ -78,15 +78,15 @@ HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track
         setBackgroundRole(QPalette::AlternateBase);
         setAutoFillBackground(true);
         m_switchVideo = new KDualAction(i18n("Disable video"), i18n("Enable video"), this);
-        m_switchVideo->setActiveIcon(KoIconUtils::themedIcon("kdenlive-hide-video"));
-        m_switchVideo->setInactiveIcon(KoIconUtils::themedIcon("kdenlive-show-video"));
+        m_switchVideo->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-hide-video")));
+        m_switchVideo->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-video")));
         m_switchVideo->setActive(info.isBlind);
         connect(m_switchVideo, SIGNAL(activeChanged(bool)), this, SLOT(switchVideo(bool)));
         m_tb->addAction(m_switchVideo);
 
         m_switchComposite = new KDualAction(i18n("Opaque"), i18n("Composite"), this);
-        m_switchComposite->setActiveIcon(KoIconUtils::themedIcon("kdenlive-overwrite-edit")); //FIXME: get proper icons
-        m_switchComposite->setInactiveIcon(KoIconUtils::themedIcon("kdenlive-insert-edit"));
+        m_switchComposite->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-overwrite-edit"))); //FIXME: get proper icons
+        m_switchComposite->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-insert-edit")));
         m_switchComposite->setActive(info.composite);
         connect(m_switchComposite, &KDualAction::activeChangedByUser, this, &HeaderTrack::switchComposite);
         m_tb->addAction(m_switchComposite);
@@ -126,7 +126,7 @@ void HeaderTrack::updateEffectLabel(const QStringList &effects)
 {
     if (!effects.isEmpty()) {
         effect_label->setHidden(false);
-        effect_label->setToolTip(effects.join("/"));
+        effect_label->setToolTip(effects.join(QStringLiteral("/")));
     } else {
         effect_label->setHidden(true);
         effect_label->setToolTip(QString());
@@ -155,19 +155,19 @@ void HeaderTrack::mouseDoubleClickEvent(QMouseEvent* event)
 //virtual
 void HeaderTrack::dropEvent(QDropEvent * event)
 {
-    const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
+    const QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
     QDomDocument doc;
     doc.setContent(effects, true);
     QDomElement e = doc.documentElement();
-    if (e.tagName() == "effectgroup") {
+    if (e.tagName() == QLatin1String("effectgroup")) {
         // dropped an effect group
-        QDomNodeList effectlist = e.elementsByTagName("effect");
+        QDomNodeList effectlist = e.elementsByTagName(QStringLiteral("effect"));
         for (int i = 0; i < effectlist.count(); ++i) {
-            effectlist.at(i).toElement().removeAttribute("kdenlive_ix");
+            effectlist.at(i).toElement().removeAttribute(QStringLiteral("kdenlive_ix"));
         }
     } else {
         // single effect dropped
-        e.removeAttribute("kdenlive_ix");
+        e.removeAttribute(QStringLiteral("kdenlive_ix"));
     }
     emit selectTrack(m_parentTrack->index());
     emit addTrackEffect(e, m_parentTrack->index());
@@ -184,11 +184,11 @@ void HeaderTrack::dragEnterEvent(QDragEnterEvent *event)
     if (m_switchLock->isActive()) {
         event->setAccepted(false);
     } else {
-        if (event->mimeData()->hasFormat("kdenlive/effectslist")) {
-            const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
+        if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
+            const QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
             QDomDocument doc;
             doc.setContent(effects, true);
-            if (doc.documentElement().attribute("id") != "speed") {
+            if (doc.documentElement().attribute(QStringLiteral("id")) != QLatin1String("speed")) {
                 event->setAccepted(true);
             }
         }

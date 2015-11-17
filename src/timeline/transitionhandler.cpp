@@ -43,12 +43,12 @@ bool TransitionHandler::addTransition(QString tag, int a_track, int b_track, Gen
     if (do_refresh && ((position < in.frames(m_fps)) || (position > out.frames(m_fps)))) do_refresh = false;
     QMap<QString, QString>::Iterator it;
     QString key;
-    if (xml.attribute("automatic") == "1") transition.set("automatic", 1);
+    if (xml.attribute(QStringLiteral("automatic")) == QLatin1String("1")) transition.set("automatic", 1);
     ////qDebug() << " ------  ADDING TRANSITION PARAMs: " << args.count();
-    if (xml.hasAttribute("id"))
-        transition.set("kdenlive_id", xml.attribute("id").toUtf8().constData());
-    if (xml.hasAttribute("force_track"))
-        transition.set("force_track", xml.attribute("force_track").toInt());
+    if (xml.hasAttribute(QStringLiteral("id")))
+        transition.set("kdenlive_id", xml.attribute(QStringLiteral("id")).toUtf8().constData());
+    if (xml.hasAttribute(QStringLiteral("force_track")))
+        transition.set("force_track", xml.attribute(QStringLiteral("force_track")).toInt());
 
     for (it = args.begin(); it != args.end(); ++it) {
         key = it.key();
@@ -67,25 +67,25 @@ bool TransitionHandler::addTransition(QString tag, int a_track, int b_track, Gen
 
 QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomElement &xml)
 {
-    QDomNodeList attribs = xml.elementsByTagName("parameter");
+    QDomNodeList attribs = xml.elementsByTagName(QStringLiteral("parameter"));
     QMap<QString, QString> map;
     for (int i = 0; i < attribs.count(); ++i) {
         QDomElement e = attribs.item(i).toElement();
-        QString name = e.attribute("name");
+        QString name = e.attribute(QStringLiteral("name"));
         ////qDebug()<<"-- TRANSITION PARAM: "<<name<<" = "<< e.attribute("name")<<" / " << e.attribute("value");
-        map[name] = e.attribute("default");
-        if (!e.attribute("value").isEmpty()) {
-            map[name] = e.attribute("value");
+        map[name] = e.attribute(QStringLiteral("default"));
+        if (!e.attribute(QStringLiteral("value")).isEmpty()) {
+            map[name] = e.attribute(QStringLiteral("value"));
         }
-        if (e.attribute("type") != "addedgeometry" && (e.attribute("factor", "1") != "1" || e.attribute("offset", "0") != "0")) {
-            map[name] = QLocale().toString((map.value(name).toDouble() - e.attribute("offset", "0").toDouble()) / e.attribute("factor", "1").toDouble());
+        if (e.attribute(QStringLiteral("type")) != QLatin1String("addedgeometry") && (e.attribute(QStringLiteral("factor"), QStringLiteral("1")) != QLatin1String("1") || e.attribute(QStringLiteral("offset"), QStringLiteral("0")) != QLatin1String("0"))) {
+            map[name] = QLocale().toString((map.value(name).toDouble() - e.attribute(QStringLiteral("offset"), QStringLiteral("0")).toDouble()) / e.attribute(QStringLiteral("factor"), QStringLiteral("1")).toDouble());
             //map[name]=map[name].replace(".",","); //FIXME how to solve locale conversion of . ,
         }
 
-        if (e.attribute("namedesc").contains(';')) {
-            QString format = e.attribute("format");
-            QStringList separators = format.split("%d", QString::SkipEmptyParts);
-            QStringList values = e.attribute("value").split(QRegExp("[,:;x]"));
+        if (e.attribute(QStringLiteral("namedesc")).contains(';')) {
+            QString format = e.attribute(QStringLiteral("format"));
+            QStringList separators = format.split(QStringLiteral("%d"), QString::SkipEmptyParts);
+            QStringList values = e.attribute(QStringLiteral("value")).split(QRegExp("[,:;x]"));
             QString neu;
             QTextStream txtNeu(&neu);
             if (values.size() > 0)
@@ -97,7 +97,7 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
             }
             if (i < separators.size())
                 txtNeu << separators[i];
-            map[e.attribute("name")] = neu;
+            map[e.attribute(QStringLiteral("name"))] = neu;
         }
 
     }
@@ -114,15 +114,15 @@ void TransitionHandler::plantTransition(Mlt::Field *field, Mlt::Transition &tr, 
     QList <Mlt::Transition *> trList;
     mlt_properties insertproperties = tr.get_properties();
     QString insertresource = mlt_properties_get(insertproperties, "mlt_service");
-    bool isMixTransition = insertresource == "mix";
+    bool isMixTransition = insertresource == QLatin1String("mix");
 
-    while (mlt_type == "transition") {
+    while (mlt_type == QLatin1String("transition")) {
         Mlt::Transition transition((mlt_transition) nextservice);
         nextservice = mlt_service_producer(nextservice);
         int aTrack = transition.get_a_track();
         int bTrack = transition.get_b_track();
         int internal = transition.get_int("internal_added");
-        if ((isMixTransition || resource != "mix") && (internal > 0 || aTrack < a_track || (aTrack == a_track && bTrack > b_track))) {
+        if ((isMixTransition || resource != QLatin1String("mix")) && (internal > 0 || aTrack < a_track || (aTrack == a_track && bTrack > b_track))) {
             Mlt::Properties trans_props(transition.get_properties());
             Mlt::Transition *cp = new Mlt::Transition(*m_tractor->profile(), transition.get("mlt_service"));
             Mlt::Properties new_trans_props(cp->get_properties());
@@ -188,7 +188,7 @@ void TransitionHandler::updateTransitionParams(QString type, int a_track, int b_
     int in_pos = (int) in.frames(m_fps);
     int out_pos = (int) out.frames(m_fps) - 1;
 
-    while (mlt_type == "transition") {
+    while (mlt_type == QLatin1String("transition")) {
         mlt_transition tr = (mlt_transition) nextservice;
         int currentTrack = mlt_transition_get_b_track(tr);
         int currentBTrack = mlt_transition_get_a_track(tr);
@@ -203,13 +203,13 @@ void TransitionHandler::updateTransitionParams(QString type, int a_track, int b_
             mlt_properties transproperties = MLT_TRANSITION_PROPERTIES(tr);
 
             QString currentId = mlt_properties_get(transproperties, "kdenlive_id");
-            if (currentId != xml.attribute("id")) {
+            if (currentId != xml.attribute(QStringLiteral("id"))) {
                 // The transition ID is not the same, so reset all properties
-                mlt_properties_set(transproperties, "kdenlive_id", xml.attribute("id").toUtf8().constData());
+                mlt_properties_set(transproperties, "kdenlive_id", xml.attribute(QStringLiteral("id")).toUtf8().constData());
                 // Cleanup previous properties
                 QStringList permanentProps;
-                permanentProps << "factory" << "kdenlive_id" << "mlt_service" << "mlt_type" << "in";
-                permanentProps << "out" << "a_track" << "b_track";
+                permanentProps << QStringLiteral("factory") << QStringLiteral("kdenlive_id") << QStringLiteral("mlt_service") << QStringLiteral("mlt_type") << QStringLiteral("in");
+                permanentProps << QStringLiteral("out") << QStringLiteral("a_track") << QStringLiteral("b_track");
                 for (int i = 0; i < mlt_properties_count(transproperties); ++i) {
                     QString propName = mlt_properties_get_name(transproperties, i);
                     if (!propName.startsWith('_') && ! permanentProps.contains(propName)) {
@@ -218,8 +218,8 @@ void TransitionHandler::updateTransitionParams(QString type, int a_track, int b_
                 }
             }
 
-            mlt_properties_set_int(transproperties, "force_track", xml.attribute("force_track").toInt());
-            mlt_properties_set_int(transproperties, "automatic", xml.attribute("automatic", "0").toInt());
+            mlt_properties_set_int(transproperties, "force_track", xml.attribute(QStringLiteral("force_track")).toInt());
+            mlt_properties_set_int(transproperties, "automatic", xml.attribute(QStringLiteral("automatic"), QStringLiteral("0")).toInt());
 
             if (currentBTrack != a_track) {
                 mlt_properties_set_int(transproperties, "a_track", a_track);
@@ -256,7 +256,7 @@ void TransitionHandler::deleteTransition(QString tag, int /*a_track*/, int b_tra
     const int old_pos = (int)((in + out).frames(m_fps) / 2);
     ////qDebug() << " del trans pos: " << in.frames(25) << '-' << out.frames(25);
 
-    while (mlt_type == "transition") {
+    while (mlt_type == QLatin1String("transition")) {
         mlt_transition tr = (mlt_transition) nextservice;
         int currentTrack = mlt_transition_get_b_track(tr);
         int currentIn = (int) mlt_transition_get_in(tr);
@@ -303,7 +303,7 @@ bool TransitionHandler::moveTransition(QString type, int startTrack, int newTrac
     QString resource = mlt_properties_get(properties, "mlt_service");
     int old_pos = (int)(old_in + old_out) / 2;
     bool found = false;
-    while (mlt_type == "transition") {
+    while (mlt_type == QLatin1String("transition")) {
         Mlt::Transition transition((mlt_transition) nextservice);
         nextservice = mlt_service_producer(nextservice);
         int currentTrack = transition.get_b_track();
@@ -362,12 +362,12 @@ void TransitionHandler::duplicateTransitionOnPlaylist(int in, int out, QString t
 
     QMap<QString, QString>::Iterator it;
     QString key;
-    if (xml.attribute("automatic") == "1") transition.set("automatic", 1);
+    if (xml.attribute(QStringLiteral("automatic")) == QLatin1String("1")) transition.set("automatic", 1);
     ////qDebug() << " ------  ADDING TRANSITION PARAMs: " << args.count();
-    if (xml.hasAttribute("id"))
-        transition.set("kdenlive_id", xml.attribute("id").toUtf8().constData());
-    if (xml.hasAttribute("force_track"))
-        transition.set("force_track", xml.attribute("force_track").toInt());
+    if (xml.hasAttribute(QStringLiteral("id")))
+        transition.set("kdenlive_id", xml.attribute(QStringLiteral("id")).toUtf8().constData());
+    if (xml.hasAttribute(QStringLiteral("force_track")))
+        transition.set("force_track", xml.attribute(QStringLiteral("force_track")).toInt());
 
     for (it = args.begin(); it != args.end(); ++it) {
         key = it.key();

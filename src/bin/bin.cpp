@@ -171,11 +171,11 @@ const QString SmallJobLabel::getStyleSheet(const QPalette &p)
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     QColor bg = scheme.background(KColorScheme::LinkBackground).color();
     QColor fg = scheme.foreground(KColorScheme::LinkText).color();
-    QString style = QString("QPushButton {margin:3px;padding:2px;background-color: rgb(%1, %2, %3);border-radius: 4px;border: none;color: rgb(%4, %5, %6)}").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(fg.red()).arg(fg.green()).arg(fg.blue());
+    QString style = QStringLiteral("QPushButton {margin:3px;padding:2px;background-color: rgb(%1, %2, %3);border-radius: 4px;border: none;color: rgb(%4, %5, %6)}").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(fg.red()).arg(fg.green()).arg(fg.blue());
     
     bg = scheme.background(KColorScheme::ActiveBackground).color();
     fg = scheme.foreground(KColorScheme::ActiveText).color();
-    style.append(QString("\nQPushButton:hover {margin:3px;padding:2px;background-color: rgb(%1, %2, %3);border-radius: 4px;border: none;color: rgb(%4, %5, %6)}").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(fg.red()).arg(fg.green()).arg(fg.blue()));
+    style.append(QStringLiteral("\nQPushButton:hover {margin:3px;padding:2px;background-color: rgb(%1, %2, %3);border-radius: 4px;border: none;color: rgb(%4, %5, %6)}").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(fg.red()).arg(fg.green()).arg(fg.blue()));
     
     return style;
 }
@@ -330,30 +330,30 @@ Bin::Bin(QWidget* parent) :
     widgetslider->setDefaultWidget(m_slider);
 
     // View type
-    KSelectAction *listType = new KSelectAction(KoIconUtils::themedIcon("view-list-tree"), i18n("View Mode"), this);
-    pCore->window()->actionCollection()->addAction("bin_view_mode", listType);
-    QAction *treeViewAction = listType->addAction(KoIconUtils::themedIcon("view-list-tree"), i18n("Tree View"));
+    KSelectAction *listType = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("view-list-tree")), i18n("View Mode"), this);
+    pCore->window()->actionCollection()->addAction(QStringLiteral("bin_view_mode"), listType);
+    QAction *treeViewAction = listType->addAction(KoIconUtils::themedIcon(QStringLiteral("view-list-tree")), i18n("Tree View"));
     listType->addAction(treeViewAction);
     treeViewAction->setData(BinTreeView);
     if (m_listType == treeViewAction->data().toInt()) {
         listType->setCurrentAction(treeViewAction);
     }
-    pCore->window()->actionCollection()->addAction("bin_view_mode_tree", treeViewAction);
+    pCore->window()->actionCollection()->addAction(QStringLiteral("bin_view_mode_tree"), treeViewAction);
 
-    QAction *iconViewAction = listType->addAction(KoIconUtils::themedIcon("view-list-icons"), i18n("Icon View"));
+    QAction *iconViewAction = listType->addAction(KoIconUtils::themedIcon(QStringLiteral("view-list-icons")), i18n("Icon View"));
     iconViewAction->setData(BinIconView);
     if (m_listType == iconViewAction->data().toInt()) {
         listType->setCurrentAction(iconViewAction);
     }
-    pCore->window()->actionCollection()->addAction("bin_view_mode_icon", iconViewAction);
+    pCore->window()->actionCollection()->addAction(QStringLiteral("bin_view_mode_icon"), iconViewAction);
 
     QAction *disableEffects = new QAction(i18n("Disable Bin Effects"), this);
     connect(disableEffects, SIGNAL(triggered(bool)), this, SLOT(slotDisableEffects(bool)));
-    disableEffects->setIcon(KoIconUtils::themedIcon("favorite"));
+    disableEffects->setIcon(KoIconUtils::themedIcon(QStringLiteral("favorite")));
     disableEffects->setData("disable_bin_effects");
     disableEffects->setCheckable(true);
     disableEffects->setChecked(false);
-    pCore->window()->actionCollection()->addAction("disable_bin_effects", disableEffects);
+    pCore->window()->actionCollection()->addAction(QStringLiteral("disable_bin_effects"), disableEffects);
 
     listType->setToolBarMode(KSelectAction::MenuMode);
     connect(listType, SIGNAL(triggered(QAction*)), this, SLOT(slotInitView(QAction*)));
@@ -362,7 +362,7 @@ Bin::Bin(QWidget* parent) :
     QMenu *settingsMenu = new QMenu(i18n("Settings"), this);
     settingsMenu->addAction(listType);
     QMenu *sliderMenu = new QMenu(i18n("Zoom"), this);
-    sliderMenu->setIcon(KoIconUtils::themedIcon("zoom-in"));
+    sliderMenu->setIcon(KoIconUtils::themedIcon(QStringLiteral("zoom-in")));
     sliderMenu->addAction(widgetslider);
     settingsMenu->addMenu(sliderMenu);
 
@@ -377,7 +377,7 @@ Bin::Bin(QWidget* parent) :
     settingsMenu->addAction(m_showDesc);
     settingsMenu->addAction(disableEffects);
     QToolButton *button = new QToolButton;
-    button->setIcon(KoIconUtils::themedIcon("configure"));
+    button->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
     button->setMenu(settingsMenu);
     button->setPopupMode(QToolButton::InstantPopup);
     m_toolbar->addWidget(button);
@@ -804,7 +804,7 @@ void Bin::setDocument(KdenliveDoc* project)
     //connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_itemView
     //connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
     slotInitView(NULL);
-    bool binEffectsDisabled = getDocumentProperty("disablebineffects").toInt() == 1;
+    bool binEffectsDisabled = getDocumentProperty(QStringLiteral("disablebineffects")).toInt() == 1;
     setBinEffectsDisabledStatus(binEffectsDisabled);
     autoSelect();
 }
@@ -820,7 +820,7 @@ void Bin::slotAddUrl(QString url, QMap <QString, QString> data)
 void Bin::createClip(QDomElement xml)
 {
     // Check if clip should be in a folder
-    QString groupId = ProjectClip::getXmlProperty(xml, "kdenlive:folderid");
+    QString groupId = ProjectClip::getXmlProperty(xml, QStringLiteral("kdenlive:folderid"));
     ProjectFolder *parentFolder = m_rootFolder;
     if (!groupId.isEmpty()) {
         parentFolder = m_rootFolder->folder(groupId);
@@ -935,8 +935,8 @@ void Bin::slotLoadFolders(QMap<QString,QString> foldersData)
     QStringList folderIds = foldersData.keys();
     for (int i = 0; i < folderIds.count(); i++) {
         QString id = folderIds.at(i);
-        QString parentId = id.section(".", 0, 0);
-        if (parentId == "-1") {
+        QString parentId = id.section(QStringLiteral("."), 0, 0);
+        if (parentId == QLatin1String("-1")) {
             parentFolder = m_rootFolder;
         }
         else {
@@ -948,7 +948,7 @@ void Bin::slotLoadFolders(QMap<QString,QString> foldersData)
             }
         }
         // parent was found, create our folder
-        QString folderId = id.section(".", 1, 1);
+        QString folderId = id.section(QStringLiteral("."), 1, 1);
         int numericId = folderId.toInt();
         if (numericId >= m_folderCounter) m_folderCounter = numericId + 1;
         // Check if placeholder folder was created
@@ -1000,9 +1000,9 @@ void Bin::removeSubClip(const QString &id, QUndoCommand *deleteCommand)
 {
     // Check parent item
     QString clipId = id;
-    int in = clipId.section(":", 1, 1).toInt();
-    int out = clipId.section(":", 2, 2).toInt();
-    clipId = clipId.section(":", 0, 0);
+    int in = clipId.section(QStringLiteral(":"), 1, 1).toInt();
+    int out = clipId.section(QStringLiteral(":"), 2, 2).toInt();
+    clipId = clipId.section(QStringLiteral(":"), 0, 0);
     new AddBinClipCutCommand(this, clipId, in, out, false, deleteCommand);
 }
 
@@ -1254,9 +1254,9 @@ void Bin::slotSetIconSize(int size)
 
 void Bin::rebuildMenu()
 {
-    m_transcodeAction = static_cast<QMenu*>(pCore->window()->factory()->container("transcoders", pCore->window()));
-    m_extractAudioAction = static_cast<QMenu*>(pCore->window()->factory()->container("extract_audio", pCore->window()));
-    m_clipsActionsMenu = static_cast<QMenu*>(pCore->window()->factory()->container("clip_actions", pCore->window()));
+    m_transcodeAction = static_cast<QMenu*>(pCore->window()->factory()->container(QStringLiteral("transcoders"), pCore->window()));
+    m_extractAudioAction = static_cast<QMenu*>(pCore->window()->factory()->container(QStringLiteral("extract_audio"), pCore->window()));
+    m_clipsActionsMenu = static_cast<QMenu*>(pCore->window()->factory()->container(QStringLiteral("clip_actions"), pCore->window()));
     m_menu->insertMenu(m_reloadAction, m_extractAudioAction);
     m_menu->insertMenu(m_reloadAction, m_transcodeAction);
     m_menu->insertMenu(m_reloadAction, m_clipsActionsMenu);
@@ -1282,7 +1282,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
 		m_proxyAction->blockSignals(true);
                 ProjectClip *clip = qobject_cast<ProjectClip*>(currentItem);
 		if (clip) {
-                    clipService = clip->getProducerProperty("mlt_service");
+                    clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
                     m_proxyAction->setChecked(clip->hasProxy());
                     QList<QAction *> transcodeActions;
                     if (m_transcodeAction) {
@@ -1310,9 +1310,9 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
                                 transcodeActions.at(i)->setEnabled(false);
                                 continue;
                             }
-                            if (condition.startsWith("vcodec"))
+                            if (condition.startsWith(QLatin1String("vcodec")))
                                 transcodeActions.at(i)->setEnabled(condition.section('=', 1, 1) == videoCodec);
-                            else if (condition.startsWith("acodec"))
+                            else if (condition.startsWith(QLatin1String("acodec")))
                                 transcodeActions.at(i)->setEnabled(condition.section('=', 1, 1) == audioCodec);
                         }
                     }
@@ -1334,8 +1334,8 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_reloadAction->setVisible(!isFolder);
     m_duplicateAction->setVisible(!isFolder);
     m_editAction->setVisible(!isFolder);
-    m_transcodeAction->menuAction()->setVisible(!isFolder && clipService.contains("avformat"));
-    m_clipsActionsMenu->menuAction()->setVisible(!isFolder && (clipService.contains("avformat") || clipService.contains("xml") || clipService.contains("consumer")));
+    m_transcodeAction->menuAction()->setVisible(!isFolder && clipService.contains(QStringLiteral("avformat")));
+    m_clipsActionsMenu->menuAction()->setVisible(!isFolder && (clipService.contains(QStringLiteral("avformat")) || clipService.contains(QStringLiteral("xml")) || clipService.contains(QStringLiteral("consumer"))));
     m_extractAudioAction->menuAction()->setVisible(!isFolder && !audioCodec.isEmpty());
     
 
@@ -1551,8 +1551,8 @@ QStringList Bin::getBinFolderClipIds(const QString &id) const
 ProjectClip *Bin::getBinClip(const QString &id)
 {
     ProjectClip *clip = NULL;
-    if (id.contains("_")) {
-        clip = m_rootFolder->clip(id.section("_", 0, 0));
+    if (id.contains(QStringLiteral("_"))) {
+        clip = m_rootFolder->clip(id.section(QStringLiteral("_"), 0, 0));
     }
     else {
         clip = m_rootFolder->clip(id);
@@ -1611,7 +1611,7 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
     }
     else {
 	// Clip not found, create it
-        QString groupId = controller->property("kdenlive:folderid");
+        QString groupId = controller->property(QStringLiteral("kdenlive:folderid"));
         ProjectFolder *parentFolder;
         if (!groupId.isEmpty()) {
             parentFolder = m_rootFolder->folder(groupId);
@@ -1660,7 +1660,7 @@ void Bin::setupGeneratorMenu()
         return;
     }
 
-    QMenu *addMenu = qobject_cast<QMenu*>(pCore->window()->factory()->container("generators", pCore->window()));
+    QMenu *addMenu = qobject_cast<QMenu*>(pCore->window()->factory()->container(QStringLiteral("generators"), pCore->window()));
     if (addMenu) {
         QMenu *menu = m_addButton->menu();
         menu->addMenu(addMenu);
@@ -1668,21 +1668,21 @@ void Bin::setupGeneratorMenu()
         m_addButton->setMenu(menu);
     }
 
-    addMenu = qobject_cast<QMenu*>(pCore->window()->factory()->container("extract_audio", pCore->window()));
+    addMenu = qobject_cast<QMenu*>(pCore->window()->factory()->container(QStringLiteral("extract_audio"), pCore->window()));
     if (addMenu) {
         m_menu->addMenu(addMenu);
         addMenu->setEnabled(!addMenu->isEmpty());
         m_extractAudioAction = addMenu;
     }
 
-    addMenu = qobject_cast<QMenu*>(pCore->window()->factory()->container("transcoders", pCore->window()));
+    addMenu = qobject_cast<QMenu*>(pCore->window()->factory()->container(QStringLiteral("transcoders"), pCore->window()));
     if (addMenu) {
         m_menu->addMenu(addMenu);
         addMenu->setEnabled(!addMenu->isEmpty());
         m_transcodeAction = addMenu;
     }
 
-    addMenu = qobject_cast<QMenu*>(pCore->window()->factory()->container("clip_actions", pCore->window()));
+    addMenu = qobject_cast<QMenu*>(pCore->window()->factory()->container(QStringLiteral("clip_actions"), pCore->window()));
     if (addMenu) {
         m_menu->addMenu(addMenu);
         addMenu->setEnabled(!addMenu->isEmpty());
@@ -1693,7 +1693,7 @@ void Bin::setupGeneratorMenu()
     if (m_duplicateAction) m_menu->addAction(m_duplicateAction);
     if (m_proxyAction) m_menu->addAction(m_proxyAction);
 
-    addMenu = qobject_cast<QMenu*>(pCore->window()->factory()->container("clip_timeline", pCore->window()));
+    addMenu = qobject_cast<QMenu*>(pCore->window()->factory()->container(QStringLiteral("clip_timeline"), pCore->window()));
     if (addMenu) {
         m_menu->addMenu(addMenu);
         addMenu->setEnabled(false);
@@ -1708,19 +1708,19 @@ void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, QHash <QString, QAct
 {
     // Setup actions
     QAction *first = m_toolbar->actions().first();
-    m_deleteAction = actions.value("delete");
+    m_deleteAction = actions.value(QStringLiteral("delete"));
     m_toolbar->insertAction(first, m_deleteAction);
 
-    m_editAction = actions.value("properties");
+    m_editAction = actions.value(QStringLiteral("properties"));
     m_toolbar->insertAction(m_deleteAction, m_editAction);
 
-    QAction *folder = actions.value("folder");
+    QAction *folder = actions.value(QStringLiteral("folder"));
     m_toolbar->insertAction(m_editAction, folder);
 
-    m_openAction = actions.value("open");
-    m_reloadAction = actions.value("reload");
-    m_duplicateAction = actions.value("duplicate");
-    m_proxyAction = actions.value("proxy");
+    m_openAction = actions.value(QStringLiteral("open"));
+    m_reloadAction = actions.value(QStringLiteral("reload"));
+    m_duplicateAction = actions.value(QStringLiteral("duplicate"));
+    m_proxyAction = actions.value(QStringLiteral("proxy"));
 
     QMenu *m = new QMenu(this);
     m->addActions(addMenu->actions());
@@ -1793,7 +1793,7 @@ void Bin::slotShowJobLog()
     QVBoxLayout *l = new QVBoxLayout;
     QTextEdit t(&d);
     for (int i = 0; i < m_errorLog.count(); ++i) {
-        if (i > 0) t.insertHtml("<br><hr /><br>");
+        if (i > 0) t.insertHtml(QStringLiteral("<br><hr /><br>"));
         t.insertPlainText(m_errorLog.at(i));
     }
     t.setReadOnly(true);
@@ -1910,11 +1910,11 @@ void Bin::slotItemDropped(QStringList ids, const QModelIndex &parent)
     moveCommand->setText(i18np("Move Clip", "Move Clips", ids.count()));
     QStringList folderIds;
     foreach(const QString &id, ids) {
-        if (id.contains("/")) {
+        if (id.contains(QStringLiteral("/"))) {
             // trying to move clip zone, not allowed. Ignore
             continue;
         }
-        if (id.startsWith("#")) {
+        if (id.startsWith(QLatin1String("#"))) {
             // moving a folder, keep it for later
             folderIds << id;
             continue;
@@ -1986,7 +1986,7 @@ void Bin::removeEffect(const QString &id, const QDomElement &effect)
 {
     ProjectClip *currentItem = m_rootFolder->clip(id);
     if (!currentItem) return;
-    currentItem->removeEffect(effect.attribute("kdenlive_ix").toInt());
+    currentItem->removeEffect(effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
     m_monitor->refreshMonitor();
 }
 
@@ -2066,7 +2066,7 @@ void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
     foreach(const QUrl & file, clipsToAdd) {
         // Check there is no folder here
         QMimeType type = db.mimeTypeForUrl(file);
-        if (type.inherits("inode/directory")) {
+        if (type.inherits(QStringLiteral("inode/directory"))) {
             // user dropped a folder, import its files
             clipsToAdd.removeAll(file);
             QDir dir(file.path());
@@ -2197,13 +2197,13 @@ void Bin::loadSubClips(const QString&id, const QMap <QString,QString> data)
     QList <int> missingThumbs;
     while (i.hasNext()) {
         i.next();
-        if (!i.value().contains(";")) { 
+        if (!i.value().contains(QStringLiteral(";"))) { 
             // Problem, the zone has no in/out points
             continue;
         }
         QImage img;
-        int in = i.value().section(";", 0, 0).toInt();
-        int out = i.value().section(";", 1, 1).toInt();
+        int in = i.value().section(QStringLiteral(";"), 0, 0).toInt();
+        int out = i.value().section(QStringLiteral(";"), 1, 1).toInt();
         missingThumbs << in;
         new ProjectSubClip(clip, in, out, m_doc->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()), i.key());
     }
@@ -2250,11 +2250,11 @@ void Bin::slotStartFilterJob(const ItemInfo &info, const QString&id, QMap <QStri
     if (!clip) return;
 
     QMap <QString, QString> producerParams = QMap <QString, QString> ();
-    producerParams.insert("producer", clip->url().path());
-    producerParams.insert("in", QString::number((int) info.cropStart.frames(m_doc->fps())));
-    producerParams.insert("out", QString::number((int) (info.cropStart + info.cropDuration).frames(m_doc->fps())));
-    extraParams.insert("clipStartPos", QString::number((int) info.startPos.frames(m_doc->fps())));
-    extraParams.insert("clipTrack", QString::number(info.track));
+    producerParams.insert(QStringLiteral("producer"), clip->url().path());
+    producerParams.insert(QStringLiteral("in"), QString::number((int) info.cropStart.frames(m_doc->fps())));
+    producerParams.insert(QStringLiteral("out"), QString::number((int) (info.cropStart + info.cropDuration).frames(m_doc->fps())));
+    extraParams.insert(QStringLiteral("clipStartPos"), QString::number((int) info.startPos.frames(m_doc->fps())));
+    extraParams.insert(QStringLiteral("clipTrack"), QString::number(info.track));
 
     m_jobManager->prepareJobFromTimeline(clip, producerParams, filterParams, consumerParams, extraParams);
 }
@@ -2297,31 +2297,31 @@ void Bin::slotGotFilterJobResults(QString id, int , int , stringMap results, str
 
     // Check for return value
     int markersType = -1;
-    if (filterInfo.contains("addmarkers")) markersType = filterInfo.value("addmarkers").toInt();
+    if (filterInfo.contains(QStringLiteral("addmarkers"))) markersType = filterInfo.value(QStringLiteral("addmarkers")).toInt();
     if (results.isEmpty()) {
         emit displayMessage(i18n("No data returned from clip analysis"), KMessageWidget::Warning);
         return;
     }
     bool dataProcessed = false;
-    QString label = filterInfo.value("label");
-    QString key = filterInfo.value("key");
-    int offset = filterInfo.value("offset").toInt();
+    QString label = filterInfo.value(QStringLiteral("label"));
+    QString key = filterInfo.value(QStringLiteral("key"));
+    int offset = filterInfo.value(QStringLiteral("offset")).toInt();
     QStringList value = results.value(key).split(';', QString::SkipEmptyParts);
     //qDebug()<<"// RESULT; "<<key<<" = "<<value;
-    if (filterInfo.contains("resultmessage")) {
-        QString mess = filterInfo.value("resultmessage");
-        mess.replace("%count", QString::number(value.count()));
+    if (filterInfo.contains(QStringLiteral("resultmessage"))) {
+        QString mess = filterInfo.value(QStringLiteral("resultmessage"));
+        mess.replace(QLatin1String("%count"), QString::number(value.count()));
         emit displayMessage(mess, KMessageWidget::Information);
     }
     else emit displayMessage(i18n("Processing data analysis"), KMessageWidget::Information);
-    if (filterInfo.contains("cutscenes")) {
+    if (filterInfo.contains(QStringLiteral("cutscenes"))) {
         // Check if we want to cut scenes from returned data
         dataProcessed = true;
         int cutPos = 0;
         QUndoCommand *command = new QUndoCommand();
         command->setText(i18n("Auto Split Clip"));
         foreach (const QString &pos, value) {
-            if (!pos.contains("=")) continue;
+            if (!pos.contains(QStringLiteral("="))) continue;
             int newPos = pos.section('=', 0, 0).toInt();
             // Don't use scenes shorter than 1 second
             if (newPos - cutPos < 24) continue;
@@ -2345,7 +2345,7 @@ void Bin::slotGotFilterJobResults(QString id, int , int , stringMap results, str
         if (sourceFps == 0) {
             sourceFps = m_doc->fps();
         }
-        if (filterInfo.contains("simplelist")) {
+        if (filterInfo.contains(QStringLiteral("simplelist"))) {
             // simple list
             simpleList = true;
         }
@@ -2356,7 +2356,7 @@ void Bin::slotGotFilterJobResults(QString id, int , int , stringMap results, str
                 index++;
                 continue;
             }
-            if (!pos.contains("=")) continue;
+            if (!pos.contains(QStringLiteral("="))) continue;
             int newPos = pos.section('=', 0, 0).toInt();
             // Don't use scenes shorter than 1 second
             if (newPos - cutPos < 24) continue;
@@ -2367,9 +2367,9 @@ void Bin::slotGotFilterJobResults(QString id, int , int , stringMap results, str
         }
         slotAddClipMarker(id, markersList);
     }
-    if (!dataProcessed || filterInfo.contains("storedata")) {
+    if (!dataProcessed || filterInfo.contains(QStringLiteral("storedata"))) {
         // Store returned data as clip extra data
-        QStringList newValue = clip->updatedAnalysisData(key, results.value(key), filterInfo.value("offset").toInt());
+        QStringList newValue = clip->updatedAnalysisData(key, results.value(key), filterInfo.value(QStringLiteral("offset")).toInt());
         slotAddClipExtraData(id, newValue.at(0), newValue.at(1));
     }
 }
@@ -2397,7 +2397,7 @@ void Bin::slotLoadClipMarkers(const QString &id)
     cbox->setCurrentIndex(KdenliveSettings::default_marker_type());
     //TODO KF5 how to add custom cbox to Qfiledialog
     QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Load Clip Markers"), m_doc->projectFolder().path());
-    fd->setMimeTypeFilters(QStringList()<<"text/plain");
+    fd->setMimeTypeFilters(QStringList()<<QStringLiteral("text/plain"));
     fd->setFileMode(QFileDialog::ExistingFile);
     if (fd->exec() != QDialog::Accepted) return;
     QStringList selection = fd->selectedFiles();
@@ -2420,7 +2420,7 @@ void Bin::slotLoadClipMarkers(const QString &id)
     QStringList values;
     bool ok;
     QUndoCommand *command = new QUndoCommand();
-    command->setText("Load markers");
+    command->setText(QStringLiteral("Load markers"));
     QString markerText;
     QList <CommentedTime> markersList;
     foreach(const QString &line, lines) {
@@ -2479,7 +2479,7 @@ void Bin::slotSaveClipMarkers(const QString &id)
         cbox->setCurrentIndex(0);
         //TODO KF5 how to add custom cbox to Qfiledialog
         QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Save Clip Markers"), m_doc->projectFolder().path());
-        fd->setMimeTypeFilters(QStringList() << "text/plain");
+        fd->setMimeTypeFilters(QStringList() << QStringLiteral("text/plain"));
         fd->setFileMode(QFileDialog::AnyFile);
         fd->setAcceptMode(QFileDialog::AcceptSave);
         if (fd->exec() != QDialog::Accepted) return;
@@ -2552,35 +2552,35 @@ void Bin::slotGetCurrentProjectImage()
 // TODO: move title editing into a better place...
 void Bin::showTitleWidget(ProjectClip *clip)
 {
-    QString path = clip->getProducerProperty("resource");
+    QString path = clip->getProducerProperty(QStringLiteral("resource"));
     QString titlepath = m_doc->projectFolder().path() + QDir::separator() + "titles/";
     QPointer<TitleWidget> dia_ui = new TitleWidget(QUrl(), m_doc->timecode(), titlepath, pCore->monitorManager()->projectMonitor()->render, pCore->window());
     connect(dia_ui, SIGNAL(requestBackgroundFrame()), pCore->monitorManager()->projectMonitor(), SLOT(slotGetCurrentImage()));
         QDomDocument doc;
-        doc.setContent(clip->getProducerProperty("xmldata"));
+        doc.setContent(clip->getProducerProperty(QStringLiteral("xmldata")));
         dia_ui->setXml(doc);
         if (dia_ui->exec() == QDialog::Accepted) {
             QMap <QString, QString> newprops;
-            newprops.insert("xmldata", dia_ui->xml().toString());
+            newprops.insert(QStringLiteral("xmldata"), dia_ui->xml().toString());
             if (dia_ui->duration() != clip->duration().frames(m_doc->fps())) {
                 // duration changed, we need to update duration
-                newprops.insert("out", QString::number(dia_ui->duration() - 1));
-                int currentLength = clip->getProducerIntProperty("length");
+                newprops.insert(QStringLiteral("out"), QString::number(dia_ui->duration() - 1));
+                int currentLength = clip->getProducerIntProperty(QStringLiteral("length"));
                 if (currentLength <= dia_ui->duration()) {
-                    newprops.insert("length", QString::number(dia_ui->duration()));
+                    newprops.insert(QStringLiteral("length"), QString::number(dia_ui->duration()));
                 } else {
-                    newprops.insert("length", clip->getProducerProperty("length"));
+                    newprops.insert(QStringLiteral("length"), clip->getProducerProperty(QStringLiteral("length")));
                 }
             }
             // trigger producer reload
-            newprops.insert("force_reload", "2");
+            newprops.insert(QStringLiteral("force_reload"), QStringLiteral("2"));
             if (!path.isEmpty()) {
                 // we are editing an external file, asked if we want to detach from that file or save the result to that title file.
                 if (KMessageBox::questionYesNo(pCore->window(), i18n("You are editing an external title clip (%1). Do you want to save your changes to the title file or save the changes for this project only?", path), i18n("Save Title"), KGuiItem(i18n("Save to title file")), KGuiItem(i18n("Save in project only"))) == KMessageBox::Yes) {
                     // save to external file
                     dia_ui->saveTitle(QUrl::fromLocalFile(path));
                 } else {
-                    newprops.insert("resource", QString());
+                    newprops.insert(QStringLiteral("resource"), QString());
                 }
             }
             slotEditClipCommand(clip->clipId(), clip->currentProperties(newprops), newprops);
@@ -2701,30 +2701,30 @@ void Bin::showSlideshowWidget(ProjectClip *clip)
     if (dia->exec() == QDialog::Accepted) {
         // edit clip properties
         QMap <QString, QString> properties;
-        properties.insert("out", QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount() - 1));
-        properties.insert("length", QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount()));
-        properties.insert("kdenlive:clipname", dia->clipName());
-        properties.insert("ttl", QString::number(m_doc->getFramePos(dia->clipDuration())));
-        properties.insert("loop", QString::number(dia->loop()));
-        properties.insert("crop", QString::number(dia->crop()));
-        properties.insert("fade", QString::number(dia->fade()));
-        properties.insert("luma_duration", dia->lumaDuration());
-        properties.insert("luma_file", dia->lumaFile());
-        properties.insert("softness", QString::number(dia->softness()));
-        properties.insert("animation", dia->animation());
+        properties.insert(QStringLiteral("out"), QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount() - 1));
+        properties.insert(QStringLiteral("length"), QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount()));
+        properties.insert(QStringLiteral("kdenlive:clipname"), dia->clipName());
+        properties.insert(QStringLiteral("ttl"), QString::number(m_doc->getFramePos(dia->clipDuration())));
+        properties.insert(QStringLiteral("loop"), QString::number(dia->loop()));
+        properties.insert(QStringLiteral("crop"), QString::number(dia->crop()));
+        properties.insert(QStringLiteral("fade"), QString::number(dia->fade()));
+        properties.insert(QStringLiteral("luma_duration"), dia->lumaDuration());
+        properties.insert(QStringLiteral("luma_file"), dia->lumaFile());
+        properties.insert(QStringLiteral("softness"), QString::number(dia->softness()));
+        properties.insert(QStringLiteral("animation"), dia->animation());
 
         QMap <QString, QString> oldProperties;
-        oldProperties.insert("out", clip->getProducerProperty("out"));
-        oldProperties.insert("length", clip->getProducerProperty("length"));
-        oldProperties.insert("kdenlive:clipname", clip->name());
-        oldProperties.insert("ttl", clip->getProducerProperty("ttl"));
-        oldProperties.insert("loop", clip->getProducerProperty("loop"));
-        oldProperties.insert("crop", clip->getProducerProperty("crop"));
-        oldProperties.insert("fade", clip->getProducerProperty("fade"));
-        oldProperties.insert("luma_duration", clip->getProducerProperty("luma_duration"));
-        oldProperties.insert("luma_file", clip->getProducerProperty("luma_file"));
-        oldProperties.insert("softness", clip->getProducerProperty("softness"));
-        oldProperties.insert("animation", clip->getProducerProperty("animation"));
+        oldProperties.insert(QStringLiteral("out"), clip->getProducerProperty(QStringLiteral("out")));
+        oldProperties.insert(QStringLiteral("length"), clip->getProducerProperty(QStringLiteral("length")));
+        oldProperties.insert(QStringLiteral("kdenlive:clipname"), clip->name());
+        oldProperties.insert(QStringLiteral("ttl"), clip->getProducerProperty(QStringLiteral("ttl")));
+        oldProperties.insert(QStringLiteral("loop"), clip->getProducerProperty(QStringLiteral("loop")));
+        oldProperties.insert(QStringLiteral("crop"), clip->getProducerProperty(QStringLiteral("crop")));
+        oldProperties.insert(QStringLiteral("fade"), clip->getProducerProperty(QStringLiteral("fade")));
+        oldProperties.insert(QStringLiteral("luma_duration"), clip->getProducerProperty(QStringLiteral("luma_duration")));
+        oldProperties.insert(QStringLiteral("luma_file"), clip->getProducerProperty(QStringLiteral("luma_file")));
+        oldProperties.insert(QStringLiteral("softness"), clip->getProducerProperty(QStringLiteral("softness")));
+        oldProperties.insert(QStringLiteral("animation"), clip->getProducerProperty(QStringLiteral("animation")));
         slotEditClipCommand(clip->clipId(), oldProperties, properties);
     }
 }
@@ -2738,7 +2738,7 @@ void Bin::slotDisableEffects(bool disable)
 
 void Bin::setBinEffectsDisabledStatus(bool disabled)
 {
-    QAction *disableEffects = pCore->window()->actionCollection()->action("disable_bin_effects");
+    QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_bin_effects"));
     if (disableEffects) {
         if (disabled == disableEffects->isChecked()) return;
         disableEffects->blockSignals(true);

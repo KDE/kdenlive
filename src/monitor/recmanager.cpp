@@ -45,11 +45,11 @@ RecManager::RecManager(Monitor *parent) :
     , m_recToolbar(new QToolBar(parent))
     , m_screenCombo(NULL)
 {
-    m_playAction = m_recToolbar->addAction(KoIconUtils::themedIcon("media-playback-start"), i18n("Preview"));
+    m_playAction = m_recToolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("media-playback-start")), i18n("Preview"));
     m_playAction->setCheckable(true);
     connect(m_playAction, &QAction::toggled, this, &RecManager::slotPreview);
 
-    m_recAction = m_recToolbar->addAction(KoIconUtils::themedIcon("media-record"), i18n("Record"));
+    m_recAction = m_recToolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("media-record")), i18n("Record"));
     m_recAction->setCheckable(true);
     connect(m_recAction, &QAction::toggled, this, &RecManager::slotRecord);
     
@@ -83,10 +83,10 @@ RecManager::RecManager(Monitor *parent) :
     if (selectedCapture > -1) m_device_selector->setCurrentIndex(selectedCapture);
     connect(m_device_selector, SIGNAL(currentIndexChanged(int)), this, SLOT(slotVideoDeviceChanged(int)));
     m_recToolbar->addWidget(m_device_selector);
-    QAction *configureRec = m_recToolbar->addAction(KoIconUtils::themedIcon("configure"), i18n("Configure Recording"));
+    QAction *configureRec = m_recToolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("configure")), i18n("Configure Recording"));
     connect(configureRec, &QAction::triggered, this, &RecManager::showRecConfig);
     m_recToolbar->addSeparator();
-    m_switchRec = m_recToolbar->addAction(KoIconUtils::themedIcon("list-add"), i18n("Show Record Control"));
+    m_switchRec = m_recToolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("list-add")), i18n("Show Record Control"));
     m_switchRec->setCheckable(true);
     connect(m_switchRec, &QAction::toggled, m_monitor, &Monitor::slotSwitchRec);
     m_recToolbar->setVisible(false);
@@ -140,7 +140,7 @@ void RecManager::slotRecord(bool record)
  	    if (KdenliveSettings::capturetoprojectfolder()) captureFolder = QDir(m_monitor->projectFolder());
 	    else captureFolder = QDir(KdenliveSettings::capturefolder());
 	    QString extension;
-	    if (!m_recVideo->isChecked()) extension = "wav";
+	    if (!m_recVideo->isChecked()) extension = QStringLiteral("wav");
             else extension = KdenliveSettings::v4l_extension();
 	    QString path = captureFolder.absoluteFilePath("capture0000." + extension);
 	    int i = 1;
@@ -162,10 +162,10 @@ void RecManager::slotRecord(bool record)
             if (!m_recAudio->isChecked()) {
                 // if we do not want audio, make sure that we don't have audio encoding parameters
                 // this is required otherwise the MLT avformat consumer will not close properly
-                if (v4lparameters.contains("acodec")) {
-                    QString endParam = v4lparameters.section("acodec", 1);
-                    int vcodec = endParam.indexOf(" vcodec");
-                    int format = endParam.indexOf(" f=");
+                if (v4lparameters.contains(QStringLiteral("acodec"))) {
+                    QString endParam = v4lparameters.section(QStringLiteral("acodec"), 1);
+                    int vcodec = endParam.indexOf(QStringLiteral(" vcodec"));
+                    int format = endParam.indexOf(QStringLiteral(" f="));
                     int cutPosition = -1;
                     if (vcodec > -1) {
                         if (format  > -1) {
@@ -183,7 +183,7 @@ void RecManager::slotRecord(bool record)
                     if (cutPosition > -1) {
                         endParam.remove(0, cutPosition);
                     }
-                    v4lparameters = QString(v4lparameters.section("acodec", 0, 0) + "an=1 " + endParam).simplified();
+                    v4lparameters = QString(v4lparameters.section(QStringLiteral("acodec"), 0, 0) + "an=1 " + endParam).simplified();
                 }
             }
             Mlt::Producer *prod = createV4lProducer();
@@ -238,23 +238,23 @@ void RecManager::slotRecord(bool record)
     }
     QRect screenSize = QApplication::desktop()->screenGeometry(screen);
     QStringList captureArgs;
-    captureArgs << "-f" << "x11grab";
-    if (KdenliveSettings::grab_follow_mouse()) captureArgs << "-follow_mouse" << "centered";
-    if (!KdenliveSettings::grab_hide_frame()) captureArgs << "-show_region" << "1";
-    captureSize = ":0.0";
+    captureArgs << QStringLiteral("-f") << QStringLiteral("x11grab");
+    if (KdenliveSettings::grab_follow_mouse()) captureArgs << QStringLiteral("-follow_mouse") << QStringLiteral("centered");
+    if (!KdenliveSettings::grab_hide_frame()) captureArgs << QStringLiteral("-show_region") << QStringLiteral("1");
+    captureSize = QStringLiteral(":0.0");
     if (KdenliveSettings::grab_capture_type() == 0) {
         // Full screen capture
-        captureArgs << "-s" << QString::number(screenSize.width()) + 'x' + QString::number(screenSize.height());
+        captureArgs << QStringLiteral("-s") << QString::number(screenSize.width()) + 'x' + QString::number(screenSize.height());
         captureSize.append('+' + QString::number(screenSize.left()) + '.' + QString::number(screenSize.top()));
     } else {
         // Region capture
-        captureArgs << "-s" << QString::number(KdenliveSettings::grab_width()) + 'x' + QString::number(KdenliveSettings::grab_height());
+        captureArgs << QStringLiteral("-s") << QString::number(KdenliveSettings::grab_width()) + 'x' + QString::number(KdenliveSettings::grab_height());
         captureSize.append('+' + QString::number(KdenliveSettings::grab_offsetx()) + '.' + QString::number(KdenliveSettings::grab_offsetx()));
     }
     // fps
-    captureArgs << "-r" << QString::number(KdenliveSettings::grab_fps());
+    captureArgs << QStringLiteral("-r") << QString::number(KdenliveSettings::grab_fps());
     if (KdenliveSettings::grab_hide_mouse()) captureSize.append("+nomouse");
-    captureArgs << "-i" << captureSize;
+    captureArgs << QStringLiteral("-i") << captureSize;
     if (!KdenliveSettings::grab_parameters().simplified().isEmpty())
     captureArgs << KdenliveSettings::grab_parameters().simplified().split(' ');
     captureArgs << path;
@@ -348,7 +348,7 @@ Mlt::Producer *RecManager::createV4lProducer()
     Mlt::Profile *vidProfile = new Mlt::Profile(profilePath.toUtf8().constData());
     Mlt::Producer *prod = NULL;
     if (m_recVideo->isChecked()) {
-	prod = new Mlt::Producer(*vidProfile, QString("video4linux2:%1").arg(KdenliveSettings::video4vdevice()).toUtf8().constData());
+	prod = new Mlt::Producer(*vidProfile, QStringLiteral("video4linux2:%1").arg(KdenliveSettings::video4vdevice()).toUtf8().constData());
         if (!prod || !prod->is_valid()) return NULL;
 	prod->set("width", vidProfile->width());
 	prod->set("height", vidProfile->height());
@@ -360,7 +360,7 @@ Mlt::Producer *RecManager::createV4lProducer()
     }
     if (m_recAudio->isChecked()) {
 	// Add audio track
-	Mlt::Producer* audio = new Mlt::Producer(*vidProfile, QString("alsa:%1?channels=%2").arg(KdenliveSettings::v4l_alsadevicename()).arg(KdenliveSettings::alsachannels()).toUtf8().constData());
+	Mlt::Producer* audio = new Mlt::Producer(*vidProfile, QStringLiteral("alsa:%1?channels=%2").arg(KdenliveSettings::v4l_alsadevicename()).arg(KdenliveSettings::alsachannels()).toUtf8().constData());
         if (!prod || !prod->is_valid()) return NULL;
 	audio->set("mlt_service", "avformat-novalidate");
 	audio->set("audio_index", 0);

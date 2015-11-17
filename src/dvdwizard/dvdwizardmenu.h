@@ -81,7 +81,7 @@ class DvdButton : public QGraphicsTextItem
 {
 
 public:
-    explicit DvdButton(const QString & text): QGraphicsTextItem(text), m_target(0), m_command(QString("jump title 1")), m_backToMenu(false) {
+    explicit DvdButton(const QString & text): QGraphicsTextItem(text), m_target(0), m_command(QStringLiteral("jump title 1")), m_backToMenu(false) {
         setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 #if QT_VERSION >= 0x040600
         setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);

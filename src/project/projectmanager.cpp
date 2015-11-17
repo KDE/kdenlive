@@ -47,19 +47,19 @@ ProjectManager::ProjectManager(QObject* parent) :
     m_progressDialog(NULL)
 {
     m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
-    m_fileRevert->setIcon(KoIconUtils::themedIcon("document-revert"));
+    m_fileRevert->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-revert")));
     m_fileRevert->setEnabled(false);
 
     QAction *a = KStandardAction::open(this,                   SLOT(openFile()),               pCore->window()->actionCollection());
-    a->setIcon(KoIconUtils::themedIcon("document-open"));
+    a->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-open")));
     a = KStandardAction::saveAs(this,                 SLOT(saveFileAs()),             pCore->window()->actionCollection());
-    a->setIcon(KoIconUtils::themedIcon("document-save-as"));
+    a->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-save-as")));
     a = KStandardAction::openNew(this,                SLOT(newFile()),                pCore->window()->actionCollection());
-    a->setIcon(KoIconUtils::themedIcon("document-new"));
+    a->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-new")));
     m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openFile(QUrl)), pCore->window()->actionCollection());
 
-    QAction * backupAction = new QAction(KoIconUtils::themedIcon("edit-undo"), i18n("Open Backup File"), this);
-    pCore->window()->addAction("open_backup", backupAction);
+    QAction * backupAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("edit-undo")), i18n("Open Backup File"), this);
+    pCore->window()->addAction(QStringLiteral("open_backup"), backupAction);
     connect(backupAction, SIGNAL(triggered(bool)), SLOT(slotOpenBackup()));
 
     m_notesPlugin = new NotesPlugin(this);
@@ -147,13 +147,13 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         profileName = w->selectedProfile();
         projectFolder = w->selectedFolder();
         projectTracks = w->tracks();
-        documentProperties.insert("enableproxy", QString::number((int) w->useProxy()));
-        documentProperties.insert("generateproxy", QString::number((int) w->generateProxy()));
-        documentProperties.insert("proxyminsize", QString::number(w->proxyMinSize()));
-        documentProperties.insert("proxyparams", w->proxyParams());
-        documentProperties.insert("proxyextension", w->proxyExtension());
-        documentProperties.insert("generateimageproxy", QString::number((int) w->generateImageProxy()));
-        documentProperties.insert("proxyimageminsize", QString::number(w->proxyImageMinSize()));
+        documentProperties.insert(QStringLiteral("enableproxy"), QString::number((int) w->useProxy()));
+        documentProperties.insert(QStringLiteral("generateproxy"), QString::number((int) w->generateProxy()));
+        documentProperties.insert(QStringLiteral("proxyminsize"), QString::number(w->proxyMinSize()));
+        documentProperties.insert(QStringLiteral("proxyparams"), w->proxyParams());
+        documentProperties.insert(QStringLiteral("proxyextension"), w->proxyExtension());
+        documentProperties.insert(QStringLiteral("generateimageproxy"), QString::number((int) w->generateImageProxy()));
+        documentProperties.insert(QStringLiteral("proxyimageminsize"), QString::number(w->proxyImageMinSize()));
         documentMetadata = w->metadata();
         delete w;
     }
@@ -164,9 +164,9 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     bool ok;
     pCore->bin()->setDocument(doc);
-    m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value("timeline")->actions(), &ok, pCore->window());
+    m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value(QStringLiteral("timeline"))->actions(), &ok, pCore->window());
     m_trackView->loadTimeline();
-    pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme("kdenlive"), doc->description());
+    pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme(QStringLiteral("kdenlive")), doc->description());
     m_project = doc;
     if (!ok) {
         // MLT is broken
@@ -178,8 +178,8 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
 
     connect(m_project, SIGNAL(progressInfo(QString,int)), pCore->window(), SLOT(slotGotProgressInfo(QString,int)));
     pCore->window()->connectDocument();
-    bool disabled = m_project->getDocumentProperty("disabletimelineeffects") == "1";
-    QAction *disableEffects = pCore->window()->actionCollection()->action("disable_timeline_effects");
+    bool disabled = m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")) == QLatin1String("1");
+    QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_timeline_effects"));
     if (disableEffects) {
         if (disabled != disableEffects->isChecked()) {
             disableEffects->blockSignals(true);
@@ -276,10 +276,10 @@ bool ProjectManager::saveFileAs()
 {
     QFileDialog fd(pCore->window());
     fd.setDirectory(m_project->url().isValid() ? m_project->url().adjusted(QUrl::RemoveFilename).path() : m_project->projectFolder().path());
-    fd.setMimeTypeFilters(QStringList()<<"application/x-kdenlive");
+    fd.setMimeTypeFilters(QStringList()<<QStringLiteral("application/x-kdenlive"));
     fd.setAcceptMode(QFileDialog::AcceptSave);
     fd.setFileMode(QFileDialog::AnyFile);
-    fd.setDefaultSuffix("kdenlive");
+    fd.setDefaultSuffix(QStringLiteral("kdenlive"));
     if (fd.exec() != QDialog::Accepted) {
         return false;
     }
@@ -393,7 +393,7 @@ void ProjectManager::openFile(const QUrl &url)
     QMimeDatabase db;
     // Make sure the url is a Kdenlive project file
     QMimeType mime = db.mimeTypeForUrl(url);
-    if (mime.inherits("application/x-compressed-tar")) {
+    if (mime.inherits(QStringLiteral("application/x-compressed-tar"))) {
         // Opening a compressed project file, we need to process it
         //qDebug()<<"Opening archive, processing";
         QPointer<ArchiveWidget> ar = new ArchiveWidget(url);
@@ -463,7 +463,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         doc->m_autosave = stale;
         stale->setParent(doc);
         // if loading from an autosave of unnamed file then keep unnamed
-        if (url.fileName().contains("_untitled.kdenlive"))
+        if (url.fileName().contains(QStringLiteral("_untitled.kdenlive")))
             doc->setUrl(QUrl());
         else
             doc->setUrl(url);
@@ -476,7 +476,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
 
     bool ok;
     m_progressDialog->setLabelText(i18n("Loading clips"));
-    m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value("timeline")->actions(), &ok, pCore->window());
+    m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value(QStringLiteral("timeline"))->actions(), &ok, pCore->window());
     connect(m_trackView, &Timeline::startLoadingBin, m_progressDialog, &QProgressDialog::setMaximum, Qt::DirectConnection);
     connect(m_trackView, &Timeline::loadingBin, m_progressDialog, &QProgressDialog::setValue, Qt::DirectConnection);
     m_trackView->loadTimeline();
@@ -484,8 +484,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
 
     m_project = doc;
     pCore->window()->connectDocument();
-    bool disabled = m_project->getDocumentProperty("disabletimelineeffects") == "1";
-    QAction *disableEffects = pCore->window()->actionCollection()->action("disable_timeline_effects");
+    bool disabled = m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")) == QLatin1String("1");
+    QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_timeline_effects"));
     if (disableEffects) {
         if (disabled != disableEffects->isChecked()) {
             disableEffects->blockSignals(true);
@@ -495,7 +495,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     }
     emit docOpened(m_project);
 
-    pCore->window()->m_timelineArea->setCurrentIndex(pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme("kdenlive"), m_project->description()));
+    pCore->window()->m_timelineArea->setCurrentIndex(pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme(QStringLiteral("kdenlive")), m_project->description()));
     if (!ok) {
         pCore->window()->m_timelineArea->setEnabled(false);
         KMessageBox::sorry(pCore->window(), i18n("Cannot open file %1.\nProject is corrupted.", url.path()));
@@ -551,7 +551,7 @@ void ProjectManager::slotOpenBackup(const QUrl& url)
     } else {
         projectFolder = m_project->projectFolder();
         projectFile = m_project->url();
-        projectId = m_project->getDocumentProperty("documentid");
+        projectId = m_project->getDocumentProperty(QStringLiteral("documentid"));
     }
 
     QPointer<BackupWidget> dia = new BackupWidget(projectFile, projectFolder, projectId, pCore->window());
@@ -602,8 +602,8 @@ void ProjectManager::prepareSave()
 {
     pCore->binController()->saveDocumentProperties(m_project->documentProperties(), m_trackView->projectView()->guidesData());
     QString projectNotes = m_project->documentNotes();
-    pCore->binController()->saveProperty("kdenlive:documentnotes", projectNotes);
-    pCore->binController()->saveProperty("kdenlive:clipgroups", m_project->groupsXml());
+    pCore->binController()->saveProperty(QStringLiteral("kdenlive:documentnotes"), projectNotes);
+    pCore->binController()->saveProperty(QStringLiteral("kdenlive:clipgroups"), m_project->groupsXml());
 }
 
 
@@ -618,9 +618,9 @@ void ProjectManager::disableBinEffects(bool disable)
 {
     if (m_project) {
         if (disable) {
-            m_project->setDocumentProperty("disablebineffects", QString::number((int) true));
+            m_project->setDocumentProperty(QStringLiteral("disablebineffects"), QString::number((int) true));
         } else {
-            m_project->setDocumentProperty("disablebineffects", QString());
+            m_project->setDocumentProperty(QStringLiteral("disablebineffects"), QString());
         }
     }
     pCore->window()->m_effectStack->disableBinEffects(disable);
@@ -629,9 +629,9 @@ void ProjectManager::disableBinEffects(bool disable)
 void ProjectManager::slotDisableTimelineEffects(bool disable)
 {
     if (disable) {
-        m_project->setDocumentProperty("disabletimelineeffects", QString::number((int) true));
+        m_project->setDocumentProperty(QStringLiteral("disabletimelineeffects"), QString::number((int) true));
     } else {
-        m_project->setDocumentProperty("disabletimelineeffects", QString());
+        m_project->setDocumentProperty(QStringLiteral("disabletimelineeffects"), QString());
     }
     m_trackView->disableTimelineEffects(disable);
     pCore->window()->m_effectStack->disableTimelineEffects(disable);

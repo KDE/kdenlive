@@ -94,7 +94,7 @@ void Histogram::writeConfig()
 
 QString Histogram::widgetName() const
 {
-    return QString::fromLatin1("Histogram");
+    return QStringLiteral("Histogram");
 }
 
 bool Histogram::isHUDDependingOnInput() const { return false; }
