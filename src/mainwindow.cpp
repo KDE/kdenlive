@@ -1231,6 +1231,11 @@ void MainWindow::setupActions()
     reloadClip->setData("reload_clip");
     reloadClip->setEnabled(false);
 
+    QAction *disableEffects = addAction("disable_timeline_effects", i18n("Disable Timeline Effects"), pCore->projectManager(), SLOT(slotDisableTimelineEffects(bool)), KoIconUtils::themedIcon("favorite"));
+    disableEffects->setData("disable_timeline_effects");
+    disableEffects->setCheckable(true);
+    disableEffects->setChecked(false);
+
     QAction *duplicateClip = addAction("duplicate_clip", i18n("Duplicate Clip"), pCore->bin(), SLOT(slotDuplicateClip()), KoIconUtils::themedIcon("edit-copy"));
     duplicateClip->setData("duplicate_clip");
     duplicateClip->setEnabled(false);
@@ -1720,6 +1725,7 @@ void MainWindow::updateConfiguration()
     m_buttonAutomaticSplitAudio->setChecked(KdenliveSettings::splitaudio());
 
     // Update list of transcoding profiles
+    buildDynamicActions();
     loadTranscoders();
     loadClipActions();
 }
@@ -2723,7 +2729,12 @@ void MainWindow::loadDockActions()
 
 void MainWindow::buildDynamicActions()
 {
-    KActionCategory *ts = new KActionCategory(i18n("Transcoders"), m_extraFactory->actionCollection());
+    KActionCategory *ts = NULL;
+    if (kdenliveCategoryMap.contains("transcoders")) {
+	ts = kdenliveCategoryMap.take("transcoders");
+	delete ts;
+    }
+    ts = new KActionCategory(i18n("Transcoders"), m_extraFactory->actionCollection());
 
     KSharedConfigPtr config = KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::DataLocation, "kdenlivetranscodingrc"), KConfig::CascadeConfig);
     KConfigGroup transConfig(config, "Transcoding");
@@ -2745,7 +2756,12 @@ void MainWindow::buildDynamicActions()
     kdenliveCategoryMap.insert("transcoders", ts);
 
     // Populate View menu with show / hide actions for dock widgets
-    KActionCategory *guiActions = new KActionCategory(i18n("Interface"), actionCollection());
+    KActionCategory *guiActions = NULL;
+    if (kdenliveCategoryMap.contains("interface")) {
+	guiActions = kdenliveCategoryMap.take("interface");
+	delete guiActions;
+    }
+    guiActions = new KActionCategory(i18n("Interface"), actionCollection());
     QAction *showTimeline = new QAction(i18n("Timeline"), this);
     showTimeline->setCheckable(true);
     showTimeline->setChecked(true);
@@ -2925,7 +2941,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
         // replace proxy clips with originals
         //TODO
-        QMap <QString, QString> proxies; // = m_projectList->getProxies();
+        QMap <QString, QString> proxies = pCore->binController()->getProxies();
 
         QDomNodeList producers = doc.elementsByTagName("producer");
         QString producerResource;

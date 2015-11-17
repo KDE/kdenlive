@@ -642,7 +642,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
         if (!customTransitions.contains(name)) metadata = repository->metadata(transition_type, name.toUtf8().data());
         if (metadata && metadata->is_valid()) {
             // If possible, set name and description.
-            qDebug()<<" / / FOUND TRANS: "<<metadata->get("title");
+            //qDebug()<<" / / FOUND TRANS: "<<metadata->get("title");
             if (metadata->get("title") && metadata->get("identifier"))
                 tname.appendChild(ret.createTextNode(metadata->get("title")));
             desc.appendChild(ret.createTextNode(metadata->get("description")));

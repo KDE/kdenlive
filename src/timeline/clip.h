@@ -49,7 +49,8 @@ public:
     void addEffects(Mlt::Service& service);
     void replaceEffects(Mlt::Service& service);
     void delEffect(int index);
-
+    /** @brief: Dis/enable all kdenlive effects on a clip. */
+    void disableEffects(bool disable);
     Mlt::Producer & producer();
 
 public Q_SLOTS:

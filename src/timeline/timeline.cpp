@@ -1125,6 +1125,7 @@ void Timeline::renameTrack(int ix, const QString &name)
     if (!tk) return;
     tk->setProperty("kdenlive:track_name", name);
     tk->trackHeader->renameTrack(name);
+    slotReloadTracks();
 }
 
 void Timeline::slotUpdateVerticalScroll(int /*min*/, int max)
@@ -1412,4 +1413,12 @@ int Timeline::getSpaceLength(const GenTime &pos, int tk, bool fromBlankStart)
     int insertPos = pos.frames(m_doc->fps());
     return sourceTrack->spaceLength(insertPos, fromBlankStart);
 }
+
+void Timeline::disableTimelineEffects(bool disable)
+{
+    for (int i = 0; i< m_tracks.count(); i++) {
+        track(i)->disableEffects(disable);
+    }
+}
+
 

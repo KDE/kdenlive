@@ -138,9 +138,16 @@ void GLWidget::updateAudioForAnalysis()
 	m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
 }
 
+void GLWidget::showEvent(QShowEvent * event)
+{
+    QQuickView::showEvent(event);
+    initializeGL();
+}
+
 void GLWidget::initializeGL()
 {
-    if (m_isInitialized) return;
+    if (m_isInitialized || !isVisible() || !openglContext()) return;
+    m_isInitialized = true;
     m_offscreenSurface.setFormat(openglContext()->format());
     m_offscreenSurface.create();
     openglContext()->makeCurrent(this);
@@ -183,7 +190,6 @@ void GLWidget::initializeGL()
     connect(this, SIGNAL(textureUpdated()), this, SLOT(update()), Qt::QueuedConnection);
 
     m_initSem.release();
-    m_isInitialized = true;
 }
 
 void GLWidget::effectRectChanged()
@@ -366,14 +372,14 @@ void GLWidget::paintGL()
     int width = this->width() * devicePixelRatio();
     int height = this->height() * devicePixelRatio();
 
-    glDisable(GL_BLEND);
-    glDisable(GL_DEPTH_TEST);
-    glDepthMask(GL_FALSE);
-    glViewport(0, 0, width, height);
+    f->glDisable(GL_BLEND);
+    f->glDisable(GL_DEPTH_TEST);
+    f->glDepthMask(GL_FALSE);
+    f->glViewport(0, 0, width, height);
     check_error(f);
     QColor color(KdenliveSettings::window_background()); //= QPalette().color(QPalette::Window);
-    glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
-    glClear(GL_COLOR_BUFFER_BIT);
+    f->glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
+    f->glClear(GL_COLOR_BUFFER_BIT);
     check_error(f);
 
     if (!m_texture[0]) return;
@@ -381,8 +387,8 @@ void GLWidget::paintGL()
     // Bind textures.
     for (int i = 0; i < 3; ++i) {
         if (m_texture[i]) {
-            glActiveTexture(GL_TEXTURE0 + i);
-            glBindTexture(GL_TEXTURE_2D, m_texture[i]);
+            f->glActiveTexture(GL_TEXTURE0 + i);
+            f->glBindTexture(GL_TEXTURE_2D, m_texture[i]);
             check_error(f);
         }
     }
@@ -441,7 +447,7 @@ void GLWidget::paintGL()
     check_error(f);
 
     // Render
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
+    f->glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
     check_error(f);
 
     if (sendFrameForAnalysis) {
@@ -450,19 +456,19 @@ void GLWidget::paintGL()
         int fullHeight = m_monitorProfile->height();
         if (!m_fbo || m_fbo->size() != QSize(fullWidth, fullHeight)) {
             delete m_fbo;
-            QOpenGLFramebufferObjectFormat f;
-            f.setSamples(0);
-            f.setInternalTextureFormat(GL_RGB); //GL_RGBA32F);  // which one is the fastest ?
-            m_fbo = new QOpenGLFramebufferObject(fullWidth, fullHeight, f); //GL_TEXTURE_2D);
+            QOpenGLFramebufferObjectFormat fmt;
+            fmt.setSamples(0);
+            fmt.setInternalTextureFormat(GL_RGB); //GL_RGBA32F);  // which one is the fastest ?
+            m_fbo = new QOpenGLFramebufferObject(fullWidth, fullHeight, fmt); //GL_TEXTURE_2D);
         }
         m_fbo->bind();
-        glViewport(0, 0, fullWidth, fullHeight);
+        f->glViewport(0, 0, fullWidth, fullHeight);
 
         QMatrix4x4 projection2;
         projection2.scale(2.0f / width, 2.0f / height);
         m_shader->setUniformValue(m_projectionLocation, projection2);
 
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
+        f->glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
         check_error(f);
         m_fbo->release();
         emit analyseFrame(m_fbo->toImage());
@@ -473,12 +479,12 @@ void GLWidget::paintGL()
     m_shader->release();
     for (int i = 0; i < 3; ++i) {
         if (m_texture[i]) {
-            glActiveTexture(GL_TEXTURE0 + i);
-            glBindTexture(GL_TEXTURE_2D, 0);
+            f->glActiveTexture(GL_TEXTURE0 + i);
+            f->glBindTexture(GL_TEXTURE_2D, 0);
             check_error(f);
         }
     }
-    glActiveTexture(GL_TEXTURE0);
+    f->glActiveTexture(GL_TEXTURE0);
     check_error(f);
 }
 

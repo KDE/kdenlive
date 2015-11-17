@@ -656,3 +656,33 @@ bool ClipController::hasEffects() const
     return false;
 }
 
+void ClipController::disableEffects(bool disable)
+{
+    Mlt::Service service = m_masterProducer->parent();
+    bool changed = false;
+    for (int ix = 0; ix < service.filter_count(); ++ix) {
+        Mlt::Filter *effect = service.filter(ix);
+        QString id = effect->get("kdenlive_ix");
+        if (id.isEmpty()) continue;
+        int disabled = effect->get_int("disable");
+        if (disable) {
+            // we want to disable all kdenlive effects
+            if (disabled == 1) {
+                continue;
+            }
+            effect->set("disable", 1);
+            effect->set("auto_disable", 1);
+            changed = true;
+        } else {
+            // We want to re-enable effects
+            int auto_disable = effect->get_int("auto_disable");
+            if (auto_disable == 1) {
+                effect->set("disable", (char*) NULL);
+                effect->set("auto_disable", (char*) NULL);
+                changed = true;
+            }
+        }
+    }
+    if (changed) m_binController->updateTrackProducer(clipId());
+}
+

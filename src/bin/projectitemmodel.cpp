@@ -100,6 +100,7 @@ bool ProjectItemModel::setData(const QModelIndex & index, const QVariant & value
 
 Qt::ItemFlags ProjectItemModel::flags(const QModelIndex& index) const
 {
+    /*return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable;*/
     if (!index.isValid()) {
         return Qt::ItemIsDropEnabled;
     }
@@ -143,14 +144,14 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
         emit itemDropped(ids, parent);
         return true;
     }
-    
+
     if (data->hasFormat("kdenlive/effectslist")) {
         // Dropping effect on a Bin item
         const QString effect = QString::fromUtf8(data->data("kdenlive/effectslist"));
         emit effectDropped(effect, parent);
         return true;
     }
-    
+
     if (data->hasFormat("kdenlive/clip")) {
         QStringList list = QString(data->data("kdenlive/clip")).split(';');
         emit addClipCut(list.at(0), list.at(1).toInt(), list.at(2).toInt());
@@ -218,9 +219,9 @@ QModelIndex ProjectItemModel::parent(const QModelIndex& index) const
 int ProjectItemModel::rowCount(const QModelIndex& parent) const
 {
     // ?
-    if (parent.column() > 0) {
+    /*if (parent.column() > 0) {
         return 0;
-    }
+    }*/
 
     AbstractProjectItem *parentItem;
     if (parent.isValid()) {

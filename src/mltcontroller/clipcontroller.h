@@ -180,6 +180,8 @@ public:
     /** @brief When replacing a producer, it is important that we keep some properties, for exemple force_ stuff and url for proxies
      * this method returns a list of properties that we want to keep when replacing a producer . */
     static const char *getPassPropertiesList();
+    /** @brief Disable all Kdenlive effects on this clip */
+    void disableEffects(bool disable);
 
 private:
     Mlt::Producer *m_masterProducer;

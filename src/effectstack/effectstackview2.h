@@ -87,6 +87,17 @@ public:
     /** @brief Returns the transition setting widget for signal/slot connections */
     TransitionSettings *transitionConfig();
 
+    /** @brief Dis/Enable the effect stack */
+    void disableBinEffects(bool disable);
+    void disableTimelineEffects(bool disable);
+    
+    enum STACKSTATUS {
+        NORMALSTATUS = 0,
+        DISABLEBIN = 1,
+        DISABLETIMELINE = 2,
+        DISABLEALL = 3
+    };
+
 protected:
     void mouseMoveEvent(QMouseEvent * event);
     void mouseReleaseEvent(QMouseEvent * event);
@@ -99,6 +110,8 @@ private:
     ClipController *m_masterclipref;
     /** @brief Current status of the effect stack (if it contains a timeline clip, track or master clip effect. */
     EFFECTMODE m_status;
+    STACKSTATUS m_stateStatus;
+
     /** @brief The track index of currently edited track. */
     int m_trackindex;
 

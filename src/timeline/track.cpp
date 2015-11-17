@@ -791,3 +791,14 @@ int Track::spaceLength(int pos, bool fromBlankStart)
     return m_playlist.clip_length(clipIndex) + m_playlist.clip_start(clipIndex) - pos;
 }
 
+void Track::disableEffects(bool disable)
+{
+    for (int i = 0; i < m_playlist.count(); i++) {
+        QScopedPointer<Mlt::Producer> original(m_playlist.get_clip(i));
+        if (original == NULL || !original->is_valid() || original->is_blank()) {
+            // invalid clip
+            continue;
+        }
+        Clip(*original).disableEffects(disable);
+    }
+}

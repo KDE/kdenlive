@@ -49,6 +49,7 @@ EffectStackView2::EffectStackView2(Monitor *projectMonitor, QWidget *parent) :
         m_clipref(NULL),
         m_masterclipref(NULL),
         m_status(EMPTY),
+        m_stateStatus(NORMALSTATUS),
         m_trackindex(-1),
         m_draggedEffect(NULL),
         m_draggedGroup(NULL),
@@ -157,6 +158,7 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c, Monitor *m)
     if (c) {
         m_effect->setHidden(false);
         m_transition->setHidden(true);
+        m_effect->setEnabled(m_stateStatus != DISABLETIMELINE && m_stateStatus != DISABLEALL);
     }
     else if (m_status == TIMELINE_TRANSITION) return;
     m_masterclipref = NULL;
@@ -207,6 +209,11 @@ void EffectStackView2::slotMasterClipItemSelected(ClipController* c, Monitor *m)
 {
     m_clipref = NULL;
     m_trackindex = -1;
+    if (c) {
+        m_effect->setHidden(false);
+        m_transition->setHidden(true);
+        m_effect->setEnabled(m_stateStatus != DISABLEBIN && m_stateStatus != DISABLEALL);
+    }
     if (c && c == m_masterclipref) {
     } else {
         m_masterclipref = c;
@@ -1170,5 +1177,45 @@ const QString EffectStackView2::getStyleSheet()
     return stylesheet;
 }
 
+void EffectStackView2::disableBinEffects(bool disable)
+{
+    if (disable) {
+        if (m_stateStatus == NORMALSTATUS) {
+            m_stateStatus = DISABLEBIN;
+        }
+        else if (m_stateStatus == DISABLETIMELINE) {
+            m_stateStatus = DISABLEALL;
+        }
+    }
+    else {
+        if (m_stateStatus == DISABLEBIN) {
+            m_stateStatus = NORMALSTATUS;
+        }
+        else if (m_stateStatus == DISABLEALL) {
+            m_stateStatus = DISABLETIMELINE;
+        }
+    }
+    if (m_status == MASTER_CLIP) m_effect->setEnabled(!disable);
+}
 
+void EffectStackView2::disableTimelineEffects(bool disable)
+{
+    if (disable) {
+        if (m_stateStatus == NORMALSTATUS) {
+            m_stateStatus = DISABLETIMELINE;
+        }
+        else if (m_stateStatus == DISABLEBIN) {
+            m_stateStatus = DISABLEALL;
+        }
+    }
+    else {
+        if (m_stateStatus == DISABLETIMELINE) {
+            m_stateStatus = NORMALSTATUS;
+        }
+        else if (m_stateStatus == DISABLEALL) {
+            m_stateStatus = DISABLEBIN;
+        }
+    }
+    if (m_status == TIMELINE_CLIP) m_effect->setEnabled(!disable);
+}
 

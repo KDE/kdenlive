@@ -63,6 +63,9 @@ public:
      */
     ProjectFolder* folder(const QString &id);
 
+    /** @brief Recursively disable/enable bin effects. */
+    void disableEffects(bool disable);
+
     /** @brief Calls AbstractProjectItem::setCurrent and blank the bin monitor. */
     virtual void setCurrent(bool current, bool notify = true);
 

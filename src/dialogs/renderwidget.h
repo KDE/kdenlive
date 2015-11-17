@@ -194,6 +194,7 @@ private:
     QString m_renderer;
     KMessageWidget *m_infoMessage;
 
+    void parseMltPresets();
     void parseProfiles(const QString &meta = QString(), const QString &group = QString(), const QString &profile = QString());
     void parseFile(const QString &exportFile, bool editable);
     void updateButtons();

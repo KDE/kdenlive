@@ -158,6 +158,9 @@ public:
 
     /** @brief Save a property from the main bin */
     const QString getProperty(const QString &name);
+    
+    /** @brief Return a list of proxy / original url */
+    QMap <QString, QString> getProxies();
 
 public slots:
     /** @brief Stored a Bin Folder id / name to MLT's bin playlist. Using an empry folderName deletes the property */

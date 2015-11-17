@@ -71,6 +71,10 @@ ProjectClip* ProjectFolderUp::clipAt(int index)
     return NULL;
 }
 
+void ProjectFolderUp::disableEffects(bool)
+{
+}
+
 Bin* ProjectFolderUp::bin()
 {
     if (m_bin) {

@@ -53,9 +53,9 @@
       audiobitrates="192,160,128" defaultaudiobitrate="160"
       args="properties=x264-medium vb=%bitrate+'k' pass=%passes ab=%audiobitrate+'k'" />
     <profile name="H.265/AAC HEVC"
-      qualities="24,26,29" defaultquality="26"
+      qualities="20,24,26,29" defaultquality="26"
       audiobitrates="192,160,128" defaultaudiobitrate="160"
-      args="properties=x265-medium -x265-params=crf=%quality ab=%audiobitrate+'k'" />
+      args="properties=x265-medium crf=%quality ab=%audiobitrate+'k'" />
     <profile name="MPEG-4/MP3 Advanced Simple Profile"
       qualities="3,5,8" defaultquality="5"
       audioqualities="3,5,7" defaultaudioquality="5"
@@ -166,19 +166,5 @@
     <profile name="AC3" extension="ac3"
       audiobitrates="192,160,128" defaultaudiobitrate="160"
       args="ab=%audiobitrate+'k'" />
-  </group>
-
-  <group name="Lossless/HQ" renderer="avformat" type="av">
-    <groupname id="lossless">Lossless / HQ</groupname>
-    <profile name="Lossless H.264 + AAC"    extension="mp4" args="properties=lossless/H.264" />
-    <profile name="Lossless MPEG-2 + AC3"   extension="mpg" args="properties=lossless/MPEG-2" />
-    <profile name="Lossless FFV1 + FLAC"    extension="mkv" args="properties=lossless/FFV1" />
-    <profile name="Lossless HuffYUV + FLAC" extension="mkv" args="properties=lossless/HuffYUV" />
-    <profile name="Lossless MPEG-4 + PCM"   extension="avi" args="properties=lossless/MPEG-4" />
-  </group>
-
-  <group name="Images sequence" renderer="avformat" type="video">
-    <profile name="PNG"  extension="png" args="progressive=1 vcodec=png"/>
-    <profile name="JPEG" extension="jpg" args="progressive=1 vcodec=mjpeg"/>
   </group>
 </profiles>

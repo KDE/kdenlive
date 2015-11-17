@@ -107,7 +107,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
   , m_copiedItems()
   , m_menuPosition()
   , m_selectionGroup(NULL)
-  , m_selectedTrack(0)
+  , m_selectedTrack(1)
   , m_spacerOffset(0)
   , m_audioCorrelator(NULL)
   , m_audioAlignmentReference(NULL)
@@ -5913,7 +5913,7 @@ void CustomTrackView::pasteClip()
     GenTime pos = GenTime(-1);
     if (m_menuPosition.isNull()) {
         position = mapFromGlobal(QCursor::pos());
-        if (!contentsRect().contains(position) || mapToScene(position).y() / m_tracksHeight > m_timeline->visibleTracksCount()) {
+        if (!contentsRect().contains(position)) {
             track = m_selectedTrack;
             pos = GenTime(m_cursorPos, m_document->fps());
             /*emit displayMessage(i18n("Cannot paste selected clips"), ErrorMessage);
@@ -5939,10 +5939,8 @@ void CustomTrackView::pasteClip()
 
     GenTime offset = pos - leftPos;
     int trackOffset = track - lowerTrack;
-
-    if (lowerTrack + trackOffset < 0) trackOffset = 0 - lowerTrack;
-    if (upperTrack + trackOffset > m_timeline->tracksCount() - 1) trackOffset = upperTrack + 1;
-    if (!canBePasted(m_copiedItems, offset, trackOffset)) {
+    if (upperTrack + trackOffset > m_timeline->tracksCount() - 1) trackOffset = m_timeline->tracksCount() - 1 -upperTrack;
+    if (lowerTrack + trackOffset < 0 || !canBePasted(m_copiedItems, offset, trackOffset)) {
         emit displayMessage(i18n("Cannot paste selected clips"), ErrorMessage);
         return;
     }
@@ -6959,16 +6957,16 @@ void CustomTrackView::updateProjectFps()
 void CustomTrackView::slotTrackDown()
 {
     int ix;
-    if (m_selectedTrack > m_timeline->tracksCount() - 2) ix = 0;
-    else ix = m_selectedTrack + 1;
+    if (m_selectedTrack > 1) ix = m_selectedTrack - 1;
+    else ix = m_timeline->tracksCount() - 1;
     slotSelectTrack(ix);
 }
 
 void CustomTrackView::slotTrackUp()
 {
     int ix;
-    if (m_selectedTrack > 0) ix = m_selectedTrack - 1;
-    else ix = m_timeline->tracksCount() - 1;
+    if (m_selectedTrack < m_timeline->tracksCount() - 1) ix = m_selectedTrack + 1;
+    else ix = 1;
     slotSelectTrack(ix);
 }
 
@@ -7607,6 +7605,7 @@ void CustomTrackView::exportTimelineSelection()
         clipFolder = QDir::homePath();
     }
     QString url = QFileDialog::getSaveFileName(this, i18n("Save Zone"), clipFolder, i18n("MLT playlist (*.mlt)"));
+    if (url.isEmpty()) return;
     QList<QGraphicsItem *> children;
     QRectF bounding;
     if (m_selectionGroup) {
@@ -7618,8 +7617,8 @@ void CustomTrackView::exportTimelineSelection()
 	children << m_dragItem;
 	bounding = m_dragItem->sceneBoundingRect();
     }
-    int firstTrack = bounding.top() / m_tracksHeight;
-    int lastTrack = bounding.height() / m_tracksHeight + firstTrack;
+    int firstTrack = getTrackFromPos(bounding.bottom());
+    int lastTrack = getTrackFromPos(bounding.top());
     // Build export playlist
     Mlt::Tractor *newTractor = new Mlt::Tractor(*(m_document->renderer()->getProducer()->profile()));
     Mlt::Field *field = newTractor->field();
@@ -7639,23 +7638,20 @@ void CustomTrackView::exportTimelineSelection()
 	int pos = it->startPos().frames(m_document->fps());
 	if (pos < startOffest) startOffest = pos;
     }
-    
     for (int i = 0; i < children.count(); ++i) {
 	QGraphicsItem *item = children.at(i);
 	if (item->type() == AVWidget) {
             ClipItem *clip = static_cast<ClipItem*>(item);
 	    int track = clip->track() - firstTrack;
-	    m_timeline->duplicateClipOnPlaylist(clip->track(), clip->startPos().seconds(), startOffest, newTractor->track(newTractor->count() - track - 1));
+	    m_timeline->duplicateClipOnPlaylist(clip->track(), clip->startPos().seconds(), startOffest, newTractor->track(track));
 	}
 	else if (item->type() == TransitionWidget) {
 	      Transition *tr = static_cast<Transition*>(item);
-	      int a_track = tr->track() - firstTrack;
-	      int b_track = tr->transitionEndTrack() - firstTrack;
-	      qDebug()<<"/// TR TKS: "<<a_track<<" / "<<b_track;
+	      int a_track = tr->transitionEndTrack() - firstTrack;
+	      int b_track = tr->track() - firstTrack;
 	      m_timeline->transitionHandler->duplicateTransitionOnPlaylist(tr->startPos().frames(m_document->fps()) - startOffest, tr->endPos().frames(m_document->fps()) - startOffest, tr->transitionTag(), tr->toXML(), a_track, b_track, field);
 	}
     }
-
     Mlt::Consumer xmlConsumer(*newTractor->profile(),  ("xml:" + url).toUtf8().constData());
     xmlConsumer.set("terminate_on_pause", 1);
     xmlConsumer.connect(*newTractor);
@@ -7666,7 +7662,7 @@ void CustomTrackView::exportTimelineSelection()
 int CustomTrackView::getTrackFromPos(double y) const
 {
     int totalTracks = m_timeline->tracksCount() - 1;
-    return totalTracks - ((int)(y / m_tracksHeight));
+    return qMax(1, totalTracks - ((int)(y / m_tracksHeight)));
 }
 
 int CustomTrackView::getPositionFromTrack(int track) const

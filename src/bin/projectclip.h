@@ -81,6 +81,9 @@ public:
     /** @brief Returns this if @param ix matches the clip's index or NULL otherwise. */
     ProjectClip* clipAt(int ix);
 
+    /** @brief Recursively disable/enable bin effects. */
+    void disableEffects(bool disable);
+
     /** @brief Returns the clip type as defined in definitions.h */
     ClipType clipType() const;
 
