@@ -1450,12 +1450,11 @@ void RenderWidget::refreshView(const QString &profile)
     KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
     const QColor disabled = scheme.foreground(KColorScheme::InactiveText).color();
     const QColor disabledbg = scheme.background(KColorScheme::NegativeBackground).color();
-
     double project_framerate = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
     for (int i = 0; i < m_renderItems.count(); ++i) {
         sizeItem = m_renderItems.at(i);
         QListWidgetItem *dupItem = NULL;
-        if ((sizeItem->data(GroupRole).toString() == group || sizeItem->data(GroupRole).toString().isEmpty()) && sizeItem->data(MetaGroupRole).toString() == destination) {
+        if (sizeItem->data(GroupRole).toString() == group || (sizeItem->data(GroupRole).toString().isEmpty() && sizeItem->data(MetaGroupRole).toString() == destination)) {
             std = sizeItem->data(StandardRole).toString();
             if (!m_view.show_all_profiles->isChecked() && !std.isEmpty()) {
                 if ((std.contains("PAL", Qt::CaseInsensitive) && m_profile.frame_rate_num == 25 && m_profile.frame_rate_den == 1) ||
@@ -1699,7 +1698,7 @@ void RenderWidget::parseProfiles(const QString &meta, const QString &group, cons
     m_view.destination_list->addItem(QIcon::fromTheme("audio-x-generic"), i18n("Audio only"), "audioonly");
     m_view.destination_list->addItem(QIcon::fromTheme("applications-internet"), i18n("Web sites"), "websites");
     m_view.destination_list->addItem(QIcon::fromTheme("applications-multimedia"), i18n("Media players"), "mediaplayers");
-    m_view.destination_list->addItem(QIcon::fromTheme("drive-harddisk"), i18n("Lossless / HQ"), "lossless");
+    m_view.destination_list->addItem(QIcon::fromTheme("drive-harddisk"), i18n("Lossless/HQ"), "lossless");
     m_view.destination_list->addItem(QIcon::fromTheme("pda"), i18n("Mobile devices"), "mobile");
     
     // Parse some of MLT's profiles first
@@ -1737,6 +1736,21 @@ void RenderWidget::parseMltPresets()
         return;
     }
     if (root.cd("lossless")) {
+	bool exists = false;
+	QString groupName = i18n("Lossless/HQ");
+	QString metagroupId = "lossless";
+        for (int j = 0; j < m_renderCategory.count(); ++j) {
+            if (m_renderCategory.at(j)->text() == groupName && m_renderCategory.at(j)->data(MetaGroupRole) == metagroupId) {
+                exists = true;
+                break;
+            }
+        }
+        if (!exists) {
+            QListWidgetItem *itemcat = new QListWidgetItem(groupName);
+            itemcat->setData(MetaGroupRole, metagroupId);
+            m_renderCategory.append(itemcat);
+        }
+        
         QStringList profiles = root.entryList(QDir::Files, QDir::Name);
         foreach(const QString &prof, profiles) {
             KConfig config(root.absoluteFilePath(prof), KConfig::SimpleConfig );
@@ -1758,7 +1772,6 @@ void RenderWidget::parseMltPresets()
                 profileName.append(")");
             }
             QListWidgetItem *item = new QListWidgetItem(profileName);
-            item->setData(GroupRole, i18nc("Category Name", "Lossless/HQ"));
             item->setData(MetaGroupRole, "lossless");
             item->setData(ExtensionRole, extension);
             item->setData(RenderRole, "avformat");
@@ -1768,6 +1781,20 @@ void RenderWidget::parseMltPresets()
         }
     }
     if (root.cd("../stills")) {
+      	bool exists = false;
+	QString groupName =i18nc("Category Name", "Images sequence");
+	QString metagroupId = QString();
+        for (int j = 0; j < m_renderCategory.count(); ++j) {
+            if (m_renderCategory.at(j)->text() == groupName && m_renderCategory.at(j)->data(MetaGroupRole) == metagroupId) {
+                exists = true;
+                break;
+            }
+        }
+        if (!exists) {
+            QListWidgetItem *itemcat = new QListWidgetItem(groupName); //, m_view.format_list);
+            itemcat->setData(MetaGroupRole, metagroupId);
+            m_renderCategory.append(itemcat);
+        }
         QStringList profiles = root.entryList(QDir::Files, QDir::Name);
         foreach(const QString &prof, profiles) {
             KConfig config(root.absoluteFilePath(prof), KConfig::SimpleConfig );
@@ -1775,7 +1802,7 @@ void RenderWidget::parseMltPresets()
             QString extension = group.readEntry("meta.preset.extension");
             QString note = group.readEntry("meta.preset.note");
             QListWidgetItem *item = new QListWidgetItem(prof);
-            item->setData(GroupRole, i18nc("Category Name", "Images sequence"));
+            item->setData(GroupRole, groupName);
             item->setData(ExtensionRole, extension);
             item->setData(RenderRole, "avformat");
             item->setData(ParamsRole, QString("properties=stills/" + prof));
