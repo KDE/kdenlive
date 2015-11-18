@@ -233,7 +233,7 @@ public:
     /** @brief Expand current timeline clip (recover clips and tracks from an MLT playlist) */
     void expandActiveClip();
     /** @brief Import amultitrack MLT playlist in timeline */
-    void importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QDomDocument doc, QUndoCommand *command);
+    void importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QMap <QString, QString> idMaps, QDomDocument doc, QUndoCommand *command);
 
 public slots:
     /** @brief Send seek request to MLT. */

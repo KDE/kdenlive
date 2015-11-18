@@ -7692,7 +7692,7 @@ int CustomTrackView::getPositionFromTrack(int track) const
 }
 
 
-void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QDomDocument doc, QUndoCommand *command)
+void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QMap <QString, QString> idMaps, QDomDocument doc, QUndoCommand *command)
 {
     Mlt::Producer *import = new Mlt::Producer(*m_document->renderer()->getProducer()->profile(), "xml-string", doc.toString().toUtf8().constData());
     if (!import || !import->is_valid()) {
@@ -7739,8 +7739,9 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> proc
             if (service == "framebuffer") {
                 resource = resource.section(QStringLiteral("?"), 0, -2);
             }
-            // WARNING: title clips cannot be identified by resource, we should use a map of previous / current ids instead of an url / id map
             QString originalId = processedUrl.value(resource);
+	    // Title clips cannot be identified by resource, so use a map of previous / current ids instead of an url / id map
+	    if (originalId.isEmpty()) originalId = idMaps.value(original->parent().get("id"));
             if (originalId.isEmpty()) {
                 qDebug()<<" / /WARNING, MISSING PRODUCER FOR: "<<resource;
                 startPos += original->get_playtime();

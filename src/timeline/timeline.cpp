@@ -1422,7 +1422,7 @@ void Timeline::disableTimelineEffects(bool disable)
     }
 }
 
-void Timeline::importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QDomDocument doc, QUndoCommand *command)
+void Timeline::importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QMap <QString, QString> idMaps, QDomDocument doc, QUndoCommand *command)
 {
-    projectView()->importPlaylist(info, processedUrl, doc, command);
+    projectView()->importPlaylist(info, processedUrl, idMaps, doc, command);
 }

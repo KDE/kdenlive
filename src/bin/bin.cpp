@@ -2121,6 +2121,7 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
     }
     QDomNodeList producers = doc.documentElement().elementsByTagName("producer");
     QMap <QString, QString> processedUrl;
+    QMap <QString, QString> idMaps;
     for (int i = 0; i < producers.count(); i++) {
         QDomElement prod = producers.at(i).toElement();
         QString resource = EffectsList::property(prod, "resource");
@@ -2128,7 +2129,7 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
         if (service == "framebuffer") {
             resource = resource.section(QStringLiteral("?"), 0, -2);
         }
-        if (processedUrl.contains(resource)) {
+        if (!resource.isEmpty() && processedUrl.contains(resource)) {
             // This is a sub-clip (track producer or slowmotion, ignore
             continue;
         }
@@ -2136,10 +2137,11 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
         QDomElement clone = prod.cloneNode(true).toElement();
         EffectsList::setProperty(clone, "kdenlive:folderid", newId);
         QString id = QString::number(getFreeClipId());
+	idMaps.insert(prod.attribute("id"), id);
         processedUrl.insert(resource, id);
         ClipCreationDialog::createClipsCommand(m_doc, clone, id, command);
     }
-    pCore->projectManager()->currentTimeline()->importPlaylist(info, processedUrl, doc, command);
+    pCore->projectManager()->currentTimeline()->importPlaylist(info, processedUrl, idMaps, doc, command);
 }
 
 void Bin::slotItemEdited(QModelIndex ix,QModelIndex,QVector<int>)
