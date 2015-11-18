@@ -676,7 +676,7 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
 	    } else cut = prod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)((info.cropStart.frames(m_fps) + clipLength) / speed - 1));
 
 	    // move all effects to the correct producer
-	    Clip(*cut).addEffects(*clip);
+	    Clip(*cut).addEffects(*clip, false);
 	    m_playlist.insert_at(startPos, cut, 1);
 	    delete cut;
 	    clipIndex = m_playlist.get_clip_index_at(startPos);
@@ -718,7 +718,7 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
 	    }
 
 	    // move all effects to the correct producer
-	    Clip(*cut).addEffects(*clip);
+	    Clip(*cut).addEffects(*clip, false);
 	    m_playlist.insert_at(startPos, cut, 1);
 	    delete cut;
 	    clipIndex = m_playlist.get_clip_index_at(startPos);
@@ -762,7 +762,7 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
 	}
 
         // move all effects to the correct producer
-        Clip(*cut).addEffects(*clip);
+        Clip(*cut).addEffects(*clip, false);
         m_playlist.insert_at(startPos, cut, 1);
         delete cut;
         clipIndex = m_playlist.get_clip_index_at(startPos);

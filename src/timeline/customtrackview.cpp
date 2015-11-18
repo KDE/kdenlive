@@ -5251,11 +5251,10 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, const ItemInfo &info
             end += start;
             EffectsList::setParameter(effect, "in", QString::number(start));
             EffectsList::setParameter(effect, "out", QString::number(end));
-            if (standalone) {
-                if (!m_document->renderer()->mltEditEffect(item->track(), item->startPos(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect), false))
+            if (!m_document->renderer()->mltEditEffect(item->track(), item->startPos(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect), false))
                     emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
-                // if fade effect is displayed, update the effect edit widget with new clip duration
-                if (item->isSelected() && effectPos == item->selectedEffectIndex())
+            // if fade effect is displayed, update the effect edit widget with new clip duration
+            if (standalone && item->isSelected() && effectPos == item->selectedEffectIndex()) {
                     emit clipItemSelected(item);
             }
         }
@@ -5272,11 +5271,10 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, const ItemInfo &info
             end += start;
             EffectsList::setParameter(effect, "in", QString::number(start));
             EffectsList::setParameter(effect, "out", QString::number(end));
-            if (standalone) {
-                if (!m_document->renderer()->mltEditEffect(item->track(), item->startPos(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect), false))
+            if (!m_document->renderer()->mltEditEffect(item->track(), item->startPos(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect), false))
                     emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
-                // if fade effect is displayed, update the effect edit widget with new clip duration
-                if (item->isSelected() && effectPos == item->selectedEffectIndex())
+            // if fade effect is displayed, update the effect edit widget with new clip duration
+            if (standalone && item->isSelected() && effectPos == item->selectedEffectIndex()) {
                     emit clipItemSelected(item);
             }
         }
@@ -5298,11 +5296,10 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, const ItemInfo &info
             start = end - start;
             EffectsList::setParameter(effect, "in", QString::number(start));
             EffectsList::setParameter(effect, "out", QString::number(end));
-            if (standalone) {
-                if (!m_document->renderer()->mltEditEffect(item->track(), item->startPos(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect), false))
-                    emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
-                // if fade effect is displayed, update the effect edit widget with new clip duration
-                if (item->isSelected() && effectPos == item->selectedEffectIndex())
+            if (!m_document->renderer()->mltEditEffect(item->track(), item->startPos(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect), false))
+		emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+            // if fade effect is displayed, update the effect edit widget with new clip duration
+            if (standalone && item->isSelected() && effectPos == item->selectedEffectIndex()) {
                     emit clipItemSelected(item);
             }
         }
@@ -5319,11 +5316,10 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, const ItemInfo &info
             start = end - start;
             EffectsList::setParameter(effect, "in", QString::number(start));
             EffectsList::setParameter(effect, "out", QString::number(end));
-            if (standalone) {
-                if (!m_document->renderer()->mltEditEffect(item->track(), item->startPos(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect), false))
-                    emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
-                // if fade effect is displayed, update the effect edit widget with new clip duration
-                if (item->isSelected() && effectPos == item->selectedEffectIndex())
+            if (!m_document->renderer()->mltEditEffect(item->track(), item->startPos(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect), false))
+                emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+            // if fade effect is displayed, update the effect edit widget with new clip duration
+            if (standalone && item->isSelected() && effectPos == item->selectedEffectIndex()) {
                     emit clipItemSelected(item);
             }
         }
@@ -5337,10 +5333,8 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, const ItemInfo &info
         if (!eff.isNull() && diff != 0) {
             int freeze_pos = EffectsList::parameter(eff, "frame").toInt() + diff;
             EffectsList::setParameter(eff, "frame", QString::number(freeze_pos));
-            if (standalone) {
-                if (item->isSelected() && item->selectedEffect().attribute("id") == "freeze") {
+            if (standalone && item->isSelected() && item->selectedEffect().attribute("id") == "freeze") {
                     emit clipItemSelected(item);
-                }
             }
         }
     }

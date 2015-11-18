@@ -46,7 +46,7 @@ public:
      */
     Mlt::Producer *softClone(const char*list);
     void deleteEffects();
-    void addEffects(Mlt::Service& service);
+    void addEffects(Mlt::Service& service, bool skipFades = true);
     void replaceEffects(Mlt::Service& service);
     void delEffect(int index);
     /** @brief: Dis/enable all kdenlive effects on a clip. */
