@@ -1397,11 +1397,18 @@ void Timeline::duplicateClipOnPlaylist(int tk, qreal startPos, int offset, Mlt::
     Mlt::Producer *clipProducer = sourceTrack->playlist().get_clip(clipIndex);
     Clip clp(*clipProducer);
     Mlt::Producer *cln = clp.clone();
+    
+    // Clip effects must be moved from clip to the playlist entry, so first delete them from parent clip
+    Clip(*cln).deleteEffects();
     cln->set_in_and_out(clipProducer->get_in(), clipProducer->get_out());
     Mlt::Playlist trackPlaylist((mlt_playlist) prod->get_service());
     trackPlaylist.lock();
-    trackPlaylist.insert_at(pos - offset, cln, 1);
+    int newIdx = trackPlaylist.insert_at(pos - offset, cln, 1);
+    // Re-add source effects in playlist
+    Mlt::Producer *newProducer = trackPlaylist.get_clip(newIdx);
+    Clip(*newProducer).addEffects(*clipProducer);
     trackPlaylist.unlock();
+    delete newProducer;
     delete clipProducer;
     delete cln;
     delete prod;
