@@ -390,6 +390,7 @@ void Timeline::getTransitions() {
     }
 }
 
+// static
 bool Timeline::isSlide(QString geometry) {
     if (geometry.count(';') != 1) return false;
 
@@ -1421,4 +1422,7 @@ void Timeline::disableTimelineEffects(bool disable)
     }
 }
 
-
+void Timeline::importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QDomDocument doc, QUndoCommand *command)
+{
+    projectView()->importPlaylist(info, processedUrl, doc, command);
+}

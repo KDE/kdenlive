@@ -556,6 +556,7 @@ public slots:
     void slotEffectDropped(QDomElement);
     /** @brief Request current frame from project monitor. */
     void slotGetCurrentProjectImage();
+    void slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command);
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);

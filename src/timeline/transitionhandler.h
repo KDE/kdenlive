@@ -38,6 +38,7 @@ public:
     explicit TransitionHandler(Mlt::Tractor *tractor);
     bool addTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool do_refresh = true);
     QMap<QString, QString> getTransitionParamsFromXml(const QDomElement &xml);
+    void plantTransition(Mlt::Transition &tr, int a_track, int b_track);
     void plantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track);
     void cloneProperties(Mlt::Properties &dest, Mlt::Properties &source);
     void updateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool force = false);

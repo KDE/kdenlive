@@ -167,7 +167,6 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     connect(m_document->renderer(), SIGNAL(replaceTimelineProducer(QString)), this, SLOT(slotReplaceTimelineProducer(QString)), Qt::DirectConnection);
     connect(m_document->renderer(), SIGNAL(updateTimelineProducer(QString)), this, SLOT(slotUpdateTimelineProducer(QString)));
     connect(m_document->renderer(), SIGNAL(rendererPosition(int)), this, SLOT(setCursorPos(int)));
-
     scale(1, 1);
     setAlignment(Qt::AlignLeft | Qt::AlignTop);
 }
@@ -6115,6 +6114,27 @@ ClipItem *CustomTrackView::getActiveClipUnderCursor(bool allowOutsideCursor) con
     return NULL;
 }
 
+void CustomTrackView::expandActiveClip()
+{
+    AbstractClipItem *item = getActiveClipUnderCursor(true);
+    if (item == NULL || item->type() != AVWidget) {
+        emit displayMessage(i18n("You must select one clip for this action"), ErrorMessage);
+        return;
+    }
+    ClipItem *clip = static_cast < ClipItem *>(item);
+    QUrl url = clip->binClip()->url();
+    if (clip->clipType() != Playlist || !url.isValid()) {
+        emit displayMessage(i18n("You must select a playlist clip for this action"), ErrorMessage);
+        return;
+    }
+    // Step 1: remove playlist clip
+    QUndoCommand *expandCommand = new QUndoCommand();
+    expandCommand->setText(i18n("Expland Clip"));
+    ItemInfo info = clip->info();
+    new AddTimelineClipCommand(this, clip->getBinId(), info, clip->effectList(), clip->clipState(), true, true, expandCommand);
+    emit importPlaylistClips(info, url, expandCommand);
+}
+
 void CustomTrackView::setInPoint()
 {
     AbstractClipItem *clip = getActiveClipUnderCursor(true);
@@ -7669,5 +7689,116 @@ int CustomTrackView::getPositionFromTrack(int track) const
 {
     int totalTracks = m_timeline->tracksCount() - 1;
     return m_tracksHeight * (totalTracks - track);
+}
+
+
+void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QDomDocument doc, QUndoCommand *command)
+{
+    Mlt::Producer *import = new Mlt::Producer(*m_document->renderer()->getProducer()->profile(), "xml-string", doc.toString().toUtf8().constData());
+    if (!import || !import->is_valid()) {
+        delete command;
+        qDebug()<<" / / /CANNOT open playlist to import ";
+        return;
+    }
+    Mlt::Service service(import->parent().get_service());
+    if (service.type() != tractor_type) {
+        delete command;
+        qDebug()<<" / / /CANNOT playlist file: "<<service.type();
+        return;
+    }
+
+    // Parse imported file
+    Mlt::Tractor tractor(service);
+    int playlistTracks = tractor.count();
+    int lowerTrack = info.track;
+    if (lowerTrack + playlistTracks > m_timeline->visibleTracksCount()) {
+        lowerTrack = m_timeline->visibleTracksCount() - playlistTracks;
+    }
+    if (lowerTrack <1) {
+        qWarning()<<" / / / TOO many tracks in playlist for our timeline ";
+        delete command;
+        return;
+    }
+    for (int i = 0;  i < playlistTracks; i++) {
+        int startPos = info.startPos.frames(m_document->fps());
+        Mlt::Producer trackProducer(tractor.track(i));
+        Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+        for (int j = 0; j < trackPlaylist.count(); j++) {
+            QScopedPointer<Mlt::Producer> original(trackPlaylist.get_clip(j));
+            if (original == NULL || !original->is_valid()) {
+                // invalid clip
+                continue;
+            }
+            if (original->is_blank()) {
+                startPos += original->get_playtime();
+                continue;
+            }
+            // Found a producer, import it
+            QString resource = original->parent().get("resource");
+            QString service = original->parent().get("mlt_service");
+            if (service == "framebuffer") {
+                resource = resource.section(QStringLiteral("?"), 0, -2);
+            }
+            // WARNING: title clips cannot be identified by resource, we should use a map of previous / current ids instead of an url / id map
+            QString originalId = processedUrl.value(resource);
+            if (originalId.isEmpty()) {
+                qDebug()<<" / /WARNING, MISSING PRODUCER FOR: "<<resource;
+                startPos += original->get_playtime();
+                continue;
+            }
+            // Ready, insert clip
+            ItemInfo insertInfo;
+            insertInfo.startPos = GenTime(startPos, m_document->fps());
+            int in = original->get_in();
+            int out = original->get_out();
+            insertInfo.cropStart = GenTime(in, m_document->fps());
+            insertInfo.cropDuration = GenTime(out - in, m_document->fps());
+            insertInfo.endPos = insertInfo.startPos + insertInfo.cropDuration;
+            insertInfo.track = lowerTrack + i;
+            new AddTimelineClipCommand(this, originalId, insertInfo, EffectsList(), PlaylistState::Original, true, false, command);
+            startPos += original->get_playtime();
+        }
+        updateTrackDuration(lowerTrack + i, command);
+    }
+
+    // Paste transitions
+    QScopedPointer<Mlt::Service> serv(tractor.field());
+    while (serv && serv->is_valid()) {
+        if (serv->type() == transition_type) {
+            Mlt::Transition t((mlt_transition) serv->get_service());
+            if (t.get_int("internal_added") > 0) {
+                // This is an auto transition, skip
+            }
+            else {
+                Mlt::Properties prop(t.get_properties());
+                ItemInfo transitionInfo;
+                transitionInfo.startPos = info.startPos + GenTime(t.get_in(), m_document->fps());
+                transitionInfo.endPos = info.startPos + GenTime(t.get_out(), m_document->fps());
+                transitionInfo.track = t.get_b_track() + lowerTrack;
+                int endTrack = t.get_a_track() + lowerTrack;
+                
+                if (prop.get("kdenlive_id") == NULL && QString(prop.get("mlt_service")) == "composite" && Timeline::isSlide(prop.get("geometry")))
+                    prop.set("kdenlive_id", "slide");
+                QDomElement base = MainWindow::transitions.getEffectByTag(prop.get("mlt_service"), prop.get("kdenlive_id")).cloneNode().toElement();
+                
+                QDomNodeList params = base.elementsByTagName("parameter");
+                for (int i = 0; i < params.count(); ++i) {
+                    QDomElement e = params.item(i).toElement();
+                    QString paramName = e.hasAttribute("tag") ? e.attribute("tag") : e.attribute("name");
+                    QString value = prop.get(paramName.toUtf8().constData());
+                    int factor = e.attribute("factor").toInt();
+                    if (value.isEmpty()) continue;
+                    e.setAttribute("value", value);
+                }
+                new AddTransitionCommand(this, transitionInfo, endTrack, base, false, true, command);
+            }
+        }
+        serv.reset(serv->producer());
+    }
+
+    if (command->childCount() > 0) {
+        m_commandStack->push(command);
+    }
+    else delete command;
 }
 

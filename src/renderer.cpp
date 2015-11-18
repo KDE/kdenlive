@@ -445,12 +445,13 @@ void Render::processProducerProperties(Mlt::Producer *prod, QDomElement xml)
     internalProperties << "bypassDuplicate" << "resource" << "mlt_service" << "audio_index" << "video_index" << "mlt_type";
     QDomNodeList props;
     if (xml.tagName() == "producer") {
-	props = xml.elementsByTagName("property");
+	props = xml.childNodes();
     }
     else {
-	props = xml.firstChildElement("producer").elementsByTagName("property");
+	props = xml.firstChildElement("producer").childNodes();
     }
     for (int i = 0; i < props.count(); ++i) {
+        if (props.at(i).toElement().tagName() != "property") continue;
         QString propertyName = props.at(i).toElement().attribute("name");
         if (!internalProperties.contains(propertyName) && !propertyName.startsWith("_")) {
             value = props.at(i).firstChild().nodeValue();
@@ -3444,4 +3445,3 @@ void Render::updateSlowMotionProducers(const QString &id, QMap <QString, QString
 	}
     }
 }
-

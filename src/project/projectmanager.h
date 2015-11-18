@@ -99,6 +99,9 @@ public slots:
     /** @brief Dis/enable all timeline effects */
     void slotDisableTimelineEffects(bool disable);
 
+    /** @brief Expand current timeline clip (recover clips and tracks from an MLT playlist) */
+    void slotExpandClip();
+
 private slots:
     void slotRevert();
     /** @brief Open the project's backupdialog. */

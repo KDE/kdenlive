@@ -1019,6 +1019,8 @@ void MainWindow::setupActions()
     addAction("transcode_clip", i18n("Transcode Clips"), this, SLOT(slotTranscodeClip()), KoIconUtils::themedIcon("edit-copy"));
     addAction("archive_project", i18n("Archive Project"), this, SLOT(slotArchiveProject()), KoIconUtils::themedIcon("document-save-all"));
     addAction("switch_monitor", i18n("Switch monitor"), this, SLOT(slotSwitchMonitors()), QIcon(), Qt::Key_T);
+    addAction("expand_timeline_clip", i18n("Expand Clip"), pCore->projectManager(), SLOT(slotExpandClip()), KoIconUtils::themedIcon("document-open"));
+
 
     QAction *overlayInfo =  new QAction(KoIconUtils::themedIcon("help-hint"), i18n("Monitor Info Overlay"), this);
     addAction("monitor_overlay", overlayInfo);
@@ -1170,6 +1172,7 @@ void MainWindow::setupActions()
 
     m_saveAction = KStandardAction::save(pCore->projectManager(), SLOT(saveFile()), actionCollection());
     m_saveAction->setIcon(KoIconUtils::themedIcon("document-save"));
+
     QAction *saveSelection = addAction("save_selection", i18n("Save Selection"), pCore->projectManager(), SLOT(slotSaveSelection()), KoIconUtils::themedIcon("document-save"));
     QAction *a = KStandardAction::quit(this, SLOT(close()),                  actionCollection());
     a->setIcon(KoIconUtils::themedIcon("application-exit"));

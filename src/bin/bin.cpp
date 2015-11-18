@@ -2086,9 +2086,47 @@ void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
 	    }
         }
     }
-        
     if (!clipsToAdd.isEmpty()) 
 	ClipCreationDialog::createClipsCommand(m_doc, clipsToAdd, folderInfo, this);
+}
+
+void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
+{
+    QStringList folderInfo;
+    // Create folder to hold imported clips
+    QString folderName = url.fileName().section(QStringLiteral("."), 0, 0);
+    QString newId = QString::number(getFreeFolderId());
+    new AddBinFolderCommand(this, newId, folderName.isEmpty() ? i18n("Folder") : folderName, m_rootFolder->clipId(), false, command);
+
+    // Parse playlist clips
+    QDomDocument doc;
+    QFile file(url.path());
+    doc.setContent(&file, false);
+    file.close();
+    if (doc.documentElement().isNull()) {
+        return;
+    }
+    QDomNodeList producers = doc.documentElement().elementsByTagName("producer");
+    QMap <QString, QString> processedUrl;
+    for (int i = 0; i < producers.count(); i++) {
+        QDomElement prod = producers.at(i).toElement();
+        QString resource = EffectsList::property(prod, "resource");
+        QString service = EffectsList::property(prod, "mlt_service");
+        if (service == "framebuffer") {
+            resource = resource.section(QStringLiteral("?"), 0, -2);
+        }
+        if (processedUrl.contains(resource)) {
+            // This is a sub-clip (track producer or slowmotion, ignore
+            continue;
+        }
+        // Add clip
+        QDomElement clone = prod.cloneNode(true).toElement();
+        EffectsList::setProperty(clone, "kdenlive:folderid", newId);
+        QString id = QString::number(getFreeClipId());
+        processedUrl.insert(resource, id);
+        ClipCreationDialog::createClipsCommand(m_doc, clone, id, command);
+    }
+    pCore->projectManager()->currentTimeline()->importPlaylist(info, processedUrl, doc, command);
 }
 
 void Bin::slotItemEdited(QModelIndex ix,QModelIndex,QVector<int>)

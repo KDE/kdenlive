@@ -533,5 +533,8 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupI
     }
 }
 
-
+void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QDomElement producer, const QString &id, QUndoCommand *command)
+{
+    new AddClipCommand(doc, producer, id, true, command);
+}
 
