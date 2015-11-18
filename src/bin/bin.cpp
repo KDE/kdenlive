@@ -2103,10 +2103,22 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
     QFile file(url.path());
     doc.setContent(&file, false);
     file.close();
+    bool invalid = false;
     if (doc.documentElement().isNull()) {
-        return;
+        invalid = true;
     }
     QDomNodeList producers = doc.documentElement().elementsByTagName("producer");
+    QDomNodeList tracks = doc.documentElement().elementsByTagName("track");
+    if (invalid || producers.isEmpty()) {
+        emit displayMessage(i18n("Playlist clip %1 is invalid.", url.fileName()), KMessageWidget::Warning);
+        delete command;
+        return;
+    }
+    if (tracks.count() > pCore->projectManager()->currentTimeline()->visibleTracksCount() + 1) {
+        emit displayMessage(i18n("Playlist clip %1 has too many tracks (%2) to be imported. Add new tracks to your project.", url.fileName(), tracks.count()), KMessageWidget::Warning);
+        delete command;
+        return;
+    }
     QMap <QString, QString> processedUrl;
     for (int i = 0; i < producers.count(); i++) {
         QDomElement prod = producers.at(i).toElement();

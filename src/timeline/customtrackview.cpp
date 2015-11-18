@@ -7696,29 +7696,36 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> proc
 {
     Mlt::Producer *import = new Mlt::Producer(*m_document->renderer()->getProducer()->profile(), "xml-string", doc.toString().toUtf8().constData());
     if (!import || !import->is_valid()) {
+        emit displayMessage(i18n("Cannot open playlist producer."), ErrorMessage);
         delete command;
         qDebug()<<" / / /CANNOT open playlist to import ";
         return;
     }
     Mlt::Service service(import->parent().get_service());
     if (service.type() != tractor_type) {
+        emit displayMessage(i18n("Cannot find proper playlist."), ErrorMessage);
         delete command;
         qDebug()<<" / / /CANNOT playlist file: "<<service.type();
         return;
     }
+    QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
 
     // Parse imported file
     Mlt::Tractor tractor(service);
+    //TODO: discard black track from Kdenlive project file
     int playlistTracks = tractor.count();
     int lowerTrack = info.track;
     if (lowerTrack + playlistTracks > m_timeline->visibleTracksCount()) {
         lowerTrack = m_timeline->visibleTracksCount() - playlistTracks;
     }
     if (lowerTrack <1) {
+        // This case should already have been detected in bin
         qWarning()<<" / / / TOO many tracks in playlist for our timeline ";
         delete command;
         return;
     }
+    QString documentErrors;
     for (int i = 0;  i < playlistTracks; i++) {
         int startPos = info.startPos.frames(m_document->fps());
         Mlt::Producer trackProducer(tractor.track(i));
@@ -7756,6 +7763,40 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> proc
             insertInfo.endPos = insertInfo.startPos + insertInfo.cropDuration;
             insertInfo.track = lowerTrack + i;
             new AddTimelineClipCommand(this, originalId, insertInfo, EffectsList(), PlaylistState::Original, true, false, command);
+
+
+            // Effects
+            for (int ix = 0; ix < original->filter_count(); ++ix) {
+                QScopedPointer<Mlt::Filter> effect(original->filter(ix));
+                QDomElement clipeffect = m_timeline->getEffectByTag(effect->get("tag"), effect->get("kdenlive_id"));
+                if (clipeffect.isNull()) {
+                    documentErrors.append(i18n("Effect %1:%2 not found in MLT, it was removed from this project\n", effect->get("tag"), effect->get("kdenlive_id")));
+                    continue;
+                }
+                QDomElement currenteffect = clipeffect.cloneNode().toElement();
+                currenteffect.setAttribute(QStringLiteral("kdenlive_ix"), effect->get("kdenlive_ix"));
+                currenteffect.setAttribute(QStringLiteral("kdenlive_info"), effect->get("kdenlive_info"));
+                currenteffect.setAttribute(QStringLiteral("disable"), effect->get("disable"));
+                QDomNodeList clipeffectparams = currenteffect.childNodes();
+
+                QDomNodeList params = currenteffect.elementsByTagName(QStringLiteral("parameter"));
+                ProfileInfo info = m_document->getProfileInfo();
+                for (int i = 0; i < params.count(); ++i) {
+                    QDomElement e = params.item(i).toElement();
+                    if (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe")) e.setAttribute(QStringLiteral("keyframes"), m_timeline->getKeyframes(*original, ix, e));
+                    else m_timeline->setParam(info, e, effect->get(e.attribute(QStringLiteral("name")).toUtf8().constData()));
+                }
+
+                if (effect->get_out()) { // no keyframes but in/out points
+                    EffectsList::setParameter(currenteffect, QStringLiteral("in"),  effect->get("in"));
+                    EffectsList::setParameter(currenteffect, QStringLiteral("out"),  effect->get("out"));
+                    currenteffect.setAttribute(QStringLiteral("in"), effect->get_in());
+                    currenteffect.setAttribute(QStringLiteral("out"), effect->get_out());
+                    currenteffect.setAttribute(QStringLiteral("_sync_in_out"), QStringLiteral("1"));
+                }
+                if (QString(effect->get("tag")) == QLatin1String("region")) m_timeline->getSubfilters(effect.data(), currenteffect);
+                new AddEffectCommand(this, insertInfo.track, insertInfo.startPos, currenteffect, true, command);
+            }
             startPos += original->get_playtime();
         }
         updateTrackDuration(lowerTrack + i, command);

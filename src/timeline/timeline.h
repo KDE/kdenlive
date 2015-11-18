@@ -142,6 +142,8 @@ public:
     void importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QDomDocument doc, QUndoCommand *command);
     /** @brief Dis/enable all effects in timeline*/
     void disableTimelineEffects(bool disable);
+    QString getKeyframes(Mlt::Service service, int &ix, QDomElement e);
+    void getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect);
 
 protected:
     void keyPressEvent(QKeyEvent * event);
@@ -178,8 +180,6 @@ private:
     void parseDocument(const QDomDocument &doc);
     int loadTrack(int ix, int offset, Mlt::Playlist &playlist);
     void getEffects(Mlt::Service &service, ClipItem *clip, int track = 0);
-    QString getKeyframes(Mlt::Service service, int &ix, QDomElement e);
-    void getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect);
     void adjustDouble(QDomElement &e, double value);
 
     /** @brief Adjust kdenlive effect xml parameters to the MLT value*/
