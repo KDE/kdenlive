@@ -241,6 +241,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
 
     /// Tabify Widgets ///
+    tabifyDockWidget(m_transitionListDock, m_effectListDock);
     tabifyDockWidget(m_effectListDock, m_effectStackDock);
 
     tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
