@@ -31,8 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUrl>
 
 class ClipController;
-class QPixmap;
-class BinController;
 
 /**
  * @class ClipPropertiesController

@@ -35,15 +35,15 @@ void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
         basePath = qgetenv("MLT_PREFIX");
     }
     if (basePath.isEmpty()){
-        basePath = QString(MLT_PREFIX);
+        basePath = QStringLiteral(MLT_PREFIX);
     }
-    KdenliveSettings::setMltpath(QString(MLT_DATADIR) + "/profiles/");
-    KdenliveSettings::setRendererpath(QString(MLT_MELTBIN));
+    KdenliveSettings::setMltpath(QStringLiteral(MLT_DATADIR) + "/profiles/");
+    KdenliveSettings::setRendererpath(QStringLiteral(MLT_MELTBIN));
 
     if (KdenliveSettings::rendererpath().isEmpty() || KdenliveSettings::rendererpath().endsWith(QLatin1String("inigo"))) {
-        QString meltPath = QString(MLT_MELTBIN);
+        QString meltPath = QStringLiteral(MLT_MELTBIN);
         if (!QFile::exists(meltPath)) {
-            meltPath = QStandardPaths::findExecutable("melt");
+            meltPath = QStandardPaths::findExecutable(QStringLiteral("melt"));
         }
         KdenliveSettings::setRendererpath(meltPath);
     }
@@ -68,7 +68,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
     }
 
     QStringList profilesFilter;
-    profilesFilter << "*";
+    profilesFilter << QStringLiteral("*");
     QDir mltDir(KdenliveSettings::mltpath());
     QStringList profilesList = mltDir.entryList(profilesFilter, QDir::Files);
     if (profilesList.isEmpty()) {

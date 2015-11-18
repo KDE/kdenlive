@@ -51,5 +51,5 @@ double GenTime::frames(double framesPerSecond) const
 
 QString GenTime::toString() const
 {
-    return QString("%1 s").arg(m_time, 0, 'f', 2);
+    return QStringLiteral("%1 s").arg(m_time, 0, 'f', 2);
 }

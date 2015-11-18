@@ -36,7 +36,7 @@ LayoutManagement::LayoutManagement(QObject* parent) :
         layoutActions->addAction("save_layout" + QString::number(i), save);
     }
     // Required to enable user to add the load layout action to toolbar
-    layoutActions->addAction("load_layouts", m_loadLayout);
+    layoutActions->addAction(QStringLiteral("load_layouts"), m_loadLayout);
     connect(m_loadLayout, SIGNAL(triggered(QAction*)), SLOT(slotLoadLayout(QAction*)));
 
     connect(pCore->window(), SIGNAL(GUISetupDone()), SLOT(slotOnGUISetupDone()));
@@ -44,7 +44,7 @@ LayoutManagement::LayoutManagement(QObject* parent) :
 
 void LayoutManagement::initializeLayouts()
 {
-    QMenu *saveLayout = static_cast<QMenu*>(pCore->window()->factory()->container("layout_save_as", pCore->window()));
+    QMenu *saveLayout = static_cast<QMenu*>(pCore->window()->factory()->container(QStringLiteral("layout_save_as"), pCore->window()));
     if (m_loadLayout == NULL || saveLayout == NULL) return;
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup layoutGroup(config, "Layouts");
@@ -54,7 +54,7 @@ void LayoutManagement::initializeLayouts()
     for (int i = 1; i < 5; ++i) {
         // Rename the layouts actions
         foreach(const QString & key, entries) {
-            if (key.endsWith(QString("_%1").arg(i))) {
+            if (key.endsWith(QStringLiteral("_%1").arg(i))) {
                 // Found previously saved layout
                 QString layoutName = key.section('_', 0, -2);
                 for (int j = 0; j < loadActions.count(); ++j) {
@@ -115,7 +115,7 @@ void LayoutManagement::slotSaveLayout(QAction *action)
 
 void LayoutManagement::slotOnGUISetupDone()
 {
-    QMenu *saveLayout = static_cast<QMenu*>(pCore->window()->factory()->container("layout_save_as", pCore->window()));
+    QMenu *saveLayout = static_cast<QMenu*>(pCore->window()->factory()->container(QStringLiteral("layout_save_as"), pCore->window()));
     if (saveLayout) {
         connect(saveLayout, SIGNAL(triggered(QAction*)), SLOT(slotSaveLayout(QAction*)));
     }

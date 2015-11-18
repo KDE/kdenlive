@@ -151,7 +151,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
 
     // Fill effects
     effect_list->addItem(i18n("None"), NOEFFECT);
-    if (render->getMltVersionInfo("kdenlivetitle") > 1.0) {
+    if (render->getMltVersionInfo(QStringLiteral("kdenlivetitle")) > 1.0) {
 	// there was a bug in MLT's kdenlivetitle module version 1 that crashed on typewriter effect
 	effect_list->addItem(i18n("Typewriter"), TYPEWRITEREFFECT);
     }
@@ -230,39 +230,39 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     buttonAlignRight->setIconSize(iconSize);
     buttonAlignNone->setIconSize(iconSize);
     
-    buttonFitZoom->setIcon(QIcon::fromTheme("zoom-fit-best"));
-    buttonRealSize->setIcon(QIcon::fromTheme("zoom-original"));
-    buttonItalic->setIcon(QIcon::fromTheme("format-text-italic"));
-    buttonUnder->setIcon(QIcon::fromTheme("format-text-underline"));
-    buttonAlignCenter->setIcon(QIcon::fromTheme("format-justify-center"));
-    buttonAlignLeft->setIcon(QIcon::fromTheme("format-justify-left"));
-    buttonAlignRight->setIcon(QIcon::fromTheme("format-justify-right"));
-    buttonAlignNone->setIcon(QIcon::fromTheme("kdenlive-align-none"));
+    buttonFitZoom->setIcon(QIcon::fromTheme(QStringLiteral("zoom-fit-best")));
+    buttonRealSize->setIcon(QIcon::fromTheme(QStringLiteral("zoom-original")));
+    buttonItalic->setIcon(QIcon::fromTheme(QStringLiteral("format-text-italic")));
+    buttonUnder->setIcon(QIcon::fromTheme(QStringLiteral("format-text-underline")));
+    buttonAlignCenter->setIcon(QIcon::fromTheme(QStringLiteral("format-justify-center")));
+    buttonAlignLeft->setIcon(QIcon::fromTheme(QStringLiteral("format-justify-left")));
+    buttonAlignRight->setIcon(QIcon::fromTheme(QStringLiteral("format-justify-right")));
+    buttonAlignNone->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-align-none")));
 
     buttonAlignNone->setToolTip(i18n("No alignment"));
     buttonAlignRight->setToolTip(i18n("Align right"));
     buttonAlignLeft->setToolTip(i18n("Align left"));
     buttonAlignCenter->setToolTip(i18n("Align center"));
 
-    m_unicodeAction = new QAction(QIcon::fromTheme("kdenlive-insert-unicode"), QString(), this);
+    m_unicodeAction = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-insert-unicode")), QString(), this);
     m_unicodeAction->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_U);
     m_unicodeAction->setToolTip(getTooltipWithShortcut(i18n("Insert Unicode character"), m_unicodeAction));
     connect(m_unicodeAction, SIGNAL(triggered()), this, SLOT(slotInsertUnicode()));
     buttonInsertUnicode->setDefaultAction(m_unicodeAction);
 
-    m_zUp = new QAction(QIcon::fromTheme("kdenlive-zindex-up"), QString(), this);
+    m_zUp = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-zindex-up")), QString(), this);
     m_zUp->setShortcut(Qt::Key_PageUp);
     m_zUp->setToolTip(i18n("Raise object"));
     connect(m_zUp, SIGNAL(triggered()), this, SLOT(slotZIndexUp()));
     zUp->setDefaultAction(m_zUp);
 
-    m_zDown = new QAction(QIcon::fromTheme("kdenlive-zindex-down"), QString(), this);
+    m_zDown = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-zindex-down")), QString(), this);
     m_zDown->setShortcut(Qt::Key_PageDown);
     m_zDown->setToolTip(i18n("Lower object"));
     connect(m_zDown, SIGNAL(triggered()), this, SLOT(slotZIndexDown()));
     zDown->setDefaultAction(m_zDown);
 
-    m_zTop = new QAction(QIcon::fromTheme("kdenlive-zindex-top"), QString(), this);
+    m_zTop = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-zindex-top")), QString(), this);
     // TODO mbt 1414: Shortcut should change z index only if
     // cursor is NOT in a text field ...
     //m_zTop->setShortcut(Qt::Key_Home);
@@ -270,37 +270,37 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(m_zTop, SIGNAL(triggered()), this, SLOT(slotZIndexTop()));
     zTop->setDefaultAction(m_zTop);
 
-    m_zBottom = new QAction(QIcon::fromTheme("kdenlive-zindex-bottom"), QString(), this);
+    m_zBottom = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-zindex-bottom")), QString(), this);
     // TODO mbt 1414
     //m_zBottom->setShortcut(Qt::Key_End);
     m_zBottom->setToolTip(i18n("Lower object to bottom"));
     connect(m_zBottom, SIGNAL(triggered()), this, SLOT(slotZIndexBottom()));
     zBottom->setDefaultAction(m_zBottom);
 
-    m_selectAll = new QAction(QIcon::fromTheme("kdenlive-select-all"), QString(), this);
+    m_selectAll = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-select-all")), QString(), this);
     m_selectAll->setShortcut(Qt::CTRL + Qt::Key_A);
     connect(m_selectAll, SIGNAL(triggered()), this, SLOT(slotSelectAll()));
     buttonSelectAll->setDefaultAction(m_selectAll);
 
-    m_selectText = new QAction(QIcon::fromTheme("kdenlive-select-texts"), QString(), this);
+    m_selectText = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-select-texts")), QString(), this);
     m_selectText->setShortcut(Qt::CTRL + Qt::Key_T);
     connect(m_selectText, SIGNAL(triggered()), this, SLOT(slotSelectText()));
     buttonSelectText->setDefaultAction(m_selectText);
     buttonSelectText->setEnabled(false);
 
-    m_selectRects = new QAction(QIcon::fromTheme("kdenlive-select-rects"), QString(), this);
+    m_selectRects = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-select-rects")), QString(), this);
     m_selectRects->setShortcut(Qt::CTRL + Qt::Key_R);
     connect(m_selectRects, SIGNAL(triggered()), this, SLOT(slotSelectRects()));
     buttonSelectRects->setDefaultAction(m_selectRects);
     buttonSelectRects->setEnabled(false);
 
-    m_selectImages = new QAction(QIcon::fromTheme("kdenlive-select-images"), QString(), this);
+    m_selectImages = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-select-images")), QString(), this);
     m_selectImages->setShortcut(Qt::CTRL + Qt::Key_I);
     connect(m_selectImages, SIGNAL(triggered()), this, SLOT(slotSelectImages()));
     buttonSelectImages->setDefaultAction(m_selectImages);
     buttonSelectImages->setEnabled(false);
 
-    m_unselectAll = new QAction(QIcon::fromTheme("kdenlive-unselect-all"), QString(), this);
+    m_unselectAll = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-unselect-all")), QString(), this);
     m_unselectAll->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_A);
     connect(m_unselectAll, SIGNAL(triggered()), this, SLOT(slotSelectNone()));
     buttonUnselectAll->setDefaultAction(m_unselectAll);
@@ -310,9 +310,9 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     zTop->setIconSize(iconSize);
     zBottom->setIconSize(iconSize);
     
-    zDown->setIcon(QIcon::fromTheme("kdenlive-zindex-down"));
-    zTop->setIcon(QIcon::fromTheme("kdenlive-zindex-top"));
-    zBottom->setIcon(QIcon::fromTheme("kdenlive-zindex-bottom"));
+    zDown->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-zindex-down")));
+    zTop->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-zindex-top")));
+    zBottom->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-zindex-bottom")));
     connect(zDown, SIGNAL(clicked()), this, SLOT(slotZIndexDown()));
     connect(zTop, SIGNAL(clicked()), this, SLOT(slotZIndexTop()));
     connect(zBottom, SIGNAL(clicked()), this, SLOT(slotZIndexBottom()));
@@ -339,45 +339,45 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     itemright->setIconSize(iconSize);
     itemleft->setIconSize(iconSize);
     
-    itemhcenter->setIcon(QIcon::fromTheme("kdenlive-align-hor"));
+    itemhcenter->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-align-hor")));
     itemhcenter->setToolTip(i18n("Align item horizontally"));
-    itemvcenter->setIcon(QIcon::fromTheme("kdenlive-align-vert"));
+    itemvcenter->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-align-vert")));
     itemvcenter->setToolTip(i18n("Align item vertically"));
-    itemtop->setIcon(QIcon::fromTheme("kdenlive-align-top"));
+    itemtop->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-align-top")));
     itemtop->setToolTip(i18n("Align item to top"));
-    itembottom->setIcon(QIcon::fromTheme("kdenlive-align-bottom"));
+    itembottom->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-align-bottom")));
     itembottom->setToolTip(i18n("Align item to bottom"));
-    itemright->setIcon(QIcon::fromTheme("kdenlive-align-right"));
+    itemright->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-align-right")));
     itemright->setToolTip(i18n("Align item to right"));
-    itemleft->setIcon(QIcon::fromTheme("kdenlive-align-left"));
+    itemleft->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-align-left")));
     itemleft->setToolTip(i18n("Align item to left"));
 
 
     QHBoxLayout *layout = new QHBoxLayout;
     frame_toolbar->setLayout(layout);
     layout->setContentsMargins(0, 0, 0, 0);
-    QToolBar *m_toolbar = new QToolBar("titleToolBar", this);
+    QToolBar *m_toolbar = new QToolBar(QStringLiteral("titleToolBar"), this);
     m_toolbar->setIconSize(iconSize);
 
-    m_buttonCursor = m_toolbar->addAction(QIcon::fromTheme("transform-move"), i18n("Selection Tool"));
+    m_buttonCursor = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("transform-move")), i18n("Selection Tool"));
     m_buttonCursor->setCheckable(true);
     m_buttonCursor->setShortcut(Qt::ALT + Qt::Key_S);
     m_buttonCursor->setToolTip(i18n("Selection Tool") + ' ' + m_buttonCursor->shortcut().toString());
     connect(m_buttonCursor, SIGNAL(triggered()), this, SLOT(slotSelectTool()));
 
-    m_buttonText = m_toolbar->addAction(QIcon::fromTheme("insert-text"), i18n("Add Text"));
+    m_buttonText = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("insert-text")), i18n("Add Text"));
     m_buttonText->setCheckable(true);
     m_buttonText->setShortcut(Qt::ALT + Qt::Key_T);
     m_buttonText->setToolTip(i18n("Add Text") + ' ' + m_buttonText->shortcut().toString());
     connect(m_buttonText, SIGNAL(triggered()), this, SLOT(slotTextTool()));
 
-    m_buttonRect = m_toolbar->addAction(QIcon::fromTheme("kdenlive-insert-rect"), i18n("Add Rectangle"));
+    m_buttonRect = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("kdenlive-insert-rect")), i18n("Add Rectangle"));
     m_buttonRect->setCheckable(true);
     m_buttonRect->setShortcut(Qt::ALT + Qt::Key_R);
     m_buttonRect->setToolTip(i18n("Add Rectangle") + ' ' + m_buttonRect->shortcut().toString());
     connect(m_buttonRect, SIGNAL(triggered()), this, SLOT(slotRectTool()));
 
-    m_buttonImage = m_toolbar->addAction(QIcon::fromTheme("insert-image"), i18n("Add Image"));
+    m_buttonImage = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("insert-image")), i18n("Add Image"));
     m_buttonImage->setCheckable(false);
     m_buttonImage->setShortcut(Qt::ALT + Qt::Key_I);
     m_buttonImage->setToolTip(i18n("Add Image") + ' ' + m_buttonImage->shortcut().toString());
@@ -385,13 +385,13 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
 
     m_toolbar->addSeparator();
 
-    m_buttonLoad = m_toolbar->addAction(QIcon::fromTheme("document-open"), i18n("Open Document"));
+    m_buttonLoad = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open Document"));
     m_buttonLoad->setCheckable(false);
     m_buttonLoad->setShortcut(Qt::CTRL + Qt::Key_O);
     m_buttonLoad->setToolTip(i18n("Open Document") + ' ' + m_buttonLoad->shortcut().toString());
     connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));
 
-    m_buttonSave = m_toolbar->addAction(QIcon::fromTheme("document-save-as"), i18n("Save As"));
+    m_buttonSave = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Save As"));
     m_buttonSave->setCheckable(false);
     m_buttonSave->setShortcut(Qt::CTRL + Qt::Key_S);
     m_buttonSave->setToolTip(i18n("Save As") + ' ' + m_buttonSave->shortcut().toString());
@@ -471,7 +471,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     refreshTitleTemplates();
     //templateBox->setIconSize(QSize(60,60));
     templateBox->clear();
-    templateBox->addItem("");
+    templateBox->addItem(QLatin1String(""));
     foreach(const TitleTemplate &t, titletemplates) {
         templateBox->addItem(t.icon, t.name, t.file);
     }
@@ -513,10 +513,10 @@ QStringList TitleWidget::extractImageList(const QString& xml)
     if (xml.isEmpty()) return result;
     QDomDocument doc;
     doc.setContent(xml);
-    QDomNodeList images = doc.elementsByTagName("content");
+    QDomNodeList images = doc.elementsByTagName(QStringLiteral("content"));
     for (int i = 0; i < images.count(); ++i) {
-        if (images.at(i).toElement().hasAttribute("url"))
-            result.append(images.at(i).toElement().attribute("url"));
+        if (images.at(i).toElement().hasAttribute(QStringLiteral("url")))
+            result.append(images.at(i).toElement().attribute(QStringLiteral("url")));
     }
     return result;
 }
@@ -528,10 +528,10 @@ QStringList TitleWidget::extractFontList(const QString& xml)
     if (xml.isEmpty()) return result;
     QDomDocument doc;
     doc.setContent(xml);
-    QDomNodeList images = doc.elementsByTagName("content");
+    QDomNodeList images = doc.elementsByTagName(QStringLiteral("content"));
     for (int i = 0; i < images.count(); ++i) {
-        if (images.at(i).toElement().hasAttribute("font"))
-            result.append(images.at(i).toElement().attribute("font"));
+        if (images.at(i).toElement().hasAttribute(QStringLiteral("font")))
+            result.append(images.at(i).toElement().attribute(QStringLiteral("font")));
     }
     return result;
 }
@@ -541,9 +541,9 @@ void TitleWidget::refreshTitleTemplates()
     QStringList titlenamelist = QStringList() << i18n("None");
     QStringList titlefiles = QStringList() << QString();
     QStringList filters;
-    filters << "*.kdenlivetitle" ;
+    filters << QStringLiteral("*.kdenlivetitle") ;
     titletemplates.clear();
-    QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::DataLocation, "titles");
+    QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("titles"));
     foreach(const QString & folderpath, titleTemplates) {
          QDir folder(folderpath);
         QStringList filesnames = folder.entryList(filters, QDir::Files);
@@ -663,7 +663,7 @@ void TitleWidget::slotImageTool()
     mimeTypeFilters.sort();
     allExtensions.append(")");
     mimeTypeFilters.prepend(allExtensions);
-    QString clipFolder = KRecentDirs::dir(":KdenliveImageFolder");
+    QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveImageFolder"));
     if (clipFolder.isEmpty()) {
         clipFolder = QDir::homePath();
     }
@@ -673,7 +673,7 @@ void TitleWidget::slotImageTool()
     if (dialog.exec() != QDialog::Accepted) return;
     QUrl url = QUrl::fromLocalFile(dialog.selectedFiles().first());
     if (url.isValid()) {
-        KRecentDirs::add(":KdenliveImageFolder", url.adjusted(QUrl::RemoveFilename).path());
+        KRecentDirs::add(QStringLiteral(":KdenliveImageFolder"), url.adjusted(QUrl::RemoveFilename).path());
         if (url.path().endsWith(QLatin1String(".svg"))) {
             QGraphicsSvgItem *svg = new QGraphicsSvgItem(url.toLocalFile());
             svg->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
@@ -1764,7 +1764,7 @@ void TitleWidget::saveTitle(QUrl url)
     }
     if (!url.isValid()) {
         QPointer<QFileDialog> fs = new QFileDialog(this, i18n("Save Title"), m_projectTitlePath);
-        fs->setMimeTypeFilters(QStringList() << "application/x-kdenlivetitle");
+        fs->setMimeTypeFilters(QStringList() << QStringLiteral("application/x-kdenlivetitle"));
         fs->setFileMode(QFileDialog::AnyFile);
         fs->setAcceptMode(QFileDialog::AcceptSave);
         //TODO: KF5 porting?
@@ -1784,8 +1784,8 @@ void TitleWidget::saveTitle(QUrl url)
 QDomDocument TitleWidget::xml()
 {
     QDomDocument doc = m_titledocument.xml(m_startViewport, m_endViewport);
-    doc.documentElement().setAttribute("duration", m_tc.getFrameCount(title_duration->text()));
-    doc.documentElement().setAttribute("out", m_tc.getFrameCount(title_duration->text()));
+    doc.documentElement().setAttribute(QStringLiteral("duration"), m_tc.getFrameCount(title_duration->text()));
+    doc.documentElement().setAttribute(QStringLiteral("out"), m_tc.getFrameCount(title_duration->text()));
     return doc;
 }
 
@@ -2144,7 +2144,7 @@ void TitleWidget::slotAddEffect(int ix)
              * element, but do not add it to non-text elements.
              */
             if (item->type() == TEXTITEM) {
-                QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value()) + ';' + QString::number(typewriter_start->value());
+                QStringList effdata = QStringList() << QStringLiteral("typewriter") << QString::number(typewriter_delay->value()) + ';' + QString::number(typewriter_start->value());
                 item->setData(100, effdata);
             }
             break;
@@ -2175,7 +2175,7 @@ void TitleWidget::slotEditTypewriter(int /*ix*/)
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
-        QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value()) + ';' + QString::number(typewriter_start->value());
+        QStringList effdata = QStringList() << QStringLiteral("typewriter") << QString::number(typewriter_delay->value()) + ';' + QString::number(typewriter_start->value());
         l[0]->setData(100, effdata);
     }
 }
@@ -2437,7 +2437,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                     // Item has an effect
                     QStringList effdata = i->data(100).toStringList();
                     QString effectName = effdata.takeFirst();
-                    if (effectName == "typewriter") {
+                    if (effectName == QLatin1String("typewriter")) {
                         QStringList params = effdata.at(0).split(';');
                         typewriter_delay->setValue(params.at(0).toInt());
                         typewriter_start->setValue(params.at(1).toInt());

@@ -78,7 +78,7 @@ void RGBParade::writeConfig()
 }
 
 
-QString RGBParade::widgetName() const { return "RGB Parade"; }
+QString RGBParade::widgetName() const { return QStringLiteral("RGB Parade"); }
 
 QRect RGBParade::scopeRect()
 {
@@ -96,8 +96,8 @@ QImage RGBParade::renderHUD(uint)
 
     int x = scopeRect().width()-30;
 
-    davinci.drawText(x, scopeRect().height()-RGBParadeGenerator::distBottom, "0");
-    davinci.drawText(x, 10, "255");
+    davinci.drawText(x, scopeRect().height()-RGBParadeGenerator::distBottom, QStringLiteral("0"));
+    davinci.drawText(x, 10, QStringLiteral("255"));
 
     if (scopeRect().height() > 0 && m_mouseWithinWidget) {
 

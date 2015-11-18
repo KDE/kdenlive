@@ -168,10 +168,10 @@ void ThemeManager::populateThemeMenu()
     d->themeMenuAction->addAction(action);
 
     QStringList filters;
-    filters << "*.colors";
+    filters << QStringLiteral("*.colors");
     QStringList schemeFiles;
     //const QStringList schemeFiles = KGlobal::dirs()->findAllResources("data", "color-schemes/*.colors", KStandardDirs::NoDuplicates);
-    const QStringList colors = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "color-schemes", QStandardPaths::LocateDirectory);
+    const QStringList colors = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("color-schemes"), QStandardPaths::LocateDirectory);
     foreach(const QString & folder, colors) {
         QDir directory(folder);
         QStringList filesnames = directory.entryList(filters, QDir::Files);
@@ -211,7 +211,7 @@ void ThemeManager::populateThemeMenu()
 
     d->themeMenuAction->addSeparator();
     QAction* config = new QAction(i18n("Configuration..."), d->themeMenuAction);
-    config->setIcon(QIcon::fromTheme("preferences-desktop-theme"));
+    config->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-theme")));
     d->themeMenuAction->addAction(config);
 
     connect(config, SIGNAL(triggered()),
@@ -220,7 +220,7 @@ void ThemeManager::populateThemeMenu()
 
 void ThemeManager::slotConfigColors()
 {
-    int ret = KToolInvocation::kdeinitExec("kcmshell5", QStringList() << "colors");
+    int ret = KToolInvocation::kdeinitExec(QStringLiteral("kcmshell5"), QStringList() << QStringLiteral("colors"));
 
     if (ret > 0)
     {
@@ -286,7 +286,7 @@ QPixmap ThemeManager::createSchemePreviewIcon(const KSharedConfigPtr& config) co
 
 QString ThemeManager::currentKDEdefaultTheme() const
 {
-    KSharedConfigPtr config = KSharedConfig::openConfig("kdeglobals");
+    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdeglobals"));
     KConfigGroup group(config, "General");
     return group.readEntry("ColorScheme");
 }

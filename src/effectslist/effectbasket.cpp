@@ -61,7 +61,7 @@ QMimeData *EffectBasket::mimeData(const QList<QListWidgetItem *> list) const
     QMimeData *mime = new QMimeData;
     QByteArray data;
     data.append(doc.toString().toUtf8());
-    mime->setData("kdenlive/effectslist", data);
+    mime->setData(QStringLiteral("kdenlive/effectslist"), data);
     return mime;
 }
 

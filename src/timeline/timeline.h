@@ -140,6 +140,8 @@ public:
     static bool isSlide(QString geometry);
     /** @brief Import amultitrack MLT playlist in timeline */
     void importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QDomDocument doc, QUndoCommand *command);
+    /** @brief Dis/enable all effects in timeline*/
+    void disableTimelineEffects(bool disable);
 
 protected:
     void keyPressEvent(QKeyEvent * event);

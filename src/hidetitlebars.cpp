@@ -21,7 +21,7 @@ HideTitleBars::HideTitleBars(QObject* parent) :
     QAction *showTitleBar = new QAction(i18n("Show Title Bars"), this);
     showTitleBar->setCheckable(true);
     showTitleBar->setChecked(KdenliveSettings::showtitlebars());
-    pCore->window()->addAction("show_titlebars", showTitleBar);
+    pCore->window()->addAction(QStringLiteral("show_titlebars"), showTitleBar);
     connect(showTitleBar, SIGNAL(triggered(bool)), SLOT(slotShowTitleBars(bool)));
 
     slotShowTitleBars(KdenliveSettings::showtitlebars());

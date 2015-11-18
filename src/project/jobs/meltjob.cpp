@@ -51,10 +51,10 @@ MeltJob::MeltJob(ClipType cType, const QString id, const QMap <QString, QString>
 {
     m_jobStatus = JobWaiting;
     description = i18n("Processing clip");
-    QString consum = m_consumerParams.value("consumer");
+    QString consum = m_consumerParams.value(QStringLiteral("consumer"));
     if (consum.contains(QLatin1Char(':')))
         m_dest = consum.section(QLatin1Char(':'), 1);
-    m_url = producerParams.value("producer");
+    m_url = producerParams.value(QStringLiteral("producer"));
 }
 
 void MeltJob::startJob()
@@ -64,11 +64,11 @@ void MeltJob::startJob()
         setStatus(JobCrashed);
         return;
     }
-    int in = m_producerParams.value("in").toInt();
-    if (in > 0 && !m_extra.contains(QLatin1String("offset"))) m_extra.insert(QLatin1String("offset"), QString::number(in));
-    int out = m_producerParams.value("out").toInt();
-    QString filterName = m_filterParams.value("filter");
-    QString consumerName = m_consumerParams.value("consumer");
+    int in = m_producerParams.value(QStringLiteral("in")).toInt();
+    if (in > 0 && !m_extra.contains(QStringLiteral("offset"))) m_extra.insert(QStringLiteral("offset"), QString::number(in));
+    int out = m_producerParams.value(QStringLiteral("out")).toInt();
+    QString filterName = m_filterParams.value(QStringLiteral("filter"));
+    QString consumerName = m_consumerParams.value(QStringLiteral("consumer"));
     if (consumerName.contains(QLatin1Char(':'))) m_dest = consumerName.section(QLatin1Char(':'), 1);
 
     // optional params
@@ -76,32 +76,32 @@ void MeltJob::startJob()
     int track = -1;
 
     // used when triggering a job from an effect
-    if (m_extra.contains("clipStartPos")) startPos = m_extra.value("clipStartPos").toInt();
-    if (m_extra.contains("clipTrack")) track = m_extra.value("clipTrack").toInt();
+    if (m_extra.contains(QStringLiteral("clipStartPos"))) startPos = m_extra.value(QStringLiteral("clipStartPos")).toInt();
+    if (m_extra.contains(QStringLiteral("clipTrack"))) track = m_extra.value(QStringLiteral("clipTrack")).toInt();
 
-    if (!m_extra.contains(QLatin1String("finalfilter")))
-        m_extra.insert(QLatin1String("finalfilter"), filterName);
+    if (!m_extra.contains(QStringLiteral("finalfilter")))
+        m_extra.insert(QStringLiteral("finalfilter"), filterName);
 
     if (out != -1 && out <= in) {
         m_errorMessage.append(i18n("Clip zone undefined (%1 - %2).", in, out));
         setStatus(JobCrashed);
         return;
     }
-    if (m_extra.contains(QLatin1String("producer_profile"))) {
+    if (m_extra.contains(QStringLiteral("producer_profile"))) {
 	m_profile = new Mlt::Profile;
 	m_profile->set_explicit(false);
     }
     else {
 	m_profile = new Mlt::Profile(KdenliveSettings::current_profile().toUtf8().constData());
     }
-    if (m_extra.contains(QLatin1String("resize_profile"))) {
-        m_profile->set_height(m_extra.value(QLatin1String("resize_profile")).toInt());
+    if (m_extra.contains(QStringLiteral("resize_profile"))) {
+        m_profile->set_height(m_extra.value(QStringLiteral("resize_profile")).toInt());
 	m_profile->set_width(m_profile->height() * m_profile->sar());
     }
     double fps = m_profile->fps();
     if (out == -1) {
 	m_producer = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
-        if (m_producer && m_extra.contains(QLatin1String("producer_profile"))) {
+        if (m_producer && m_extra.contains(QStringLiteral("producer_profile"))) {
             m_profile->from_producer(*m_producer);
             m_profile->set_explicit(true);
         }
@@ -113,7 +113,7 @@ void MeltJob::startJob()
     }
     else {
 	Mlt::Producer *tmp = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
-        if (tmp && m_extra.contains(QLatin1String("producer_profile"))) {
+        if (tmp && m_extra.contains(QStringLiteral("producer_profile"))) {
             m_profile->from_producer(*tmp);
             m_profile->set_explicit(true);
         }
@@ -137,7 +137,7 @@ void MeltJob::startJob()
     // Process producer params
     QMapIterator<QString, QString> i(m_producerParams);
     QStringList ignoredProps;
-    ignoredProps << "producer" << "in" << "out";
+    ignoredProps << QStringLiteral("producer") << QStringLiteral("in") << QStringLiteral("out");
     while (i.hasNext()) {
 	i.next();
 	QString key = i.key();
@@ -163,7 +163,7 @@ void MeltJob::startJob()
     // Process consumer params
     QMapIterator<QString, QString> j(m_consumerParams);
     ignoredProps.clear();
-    ignoredProps << "consumer";
+    ignoredProps << QStringLiteral("consumer");
     while (j.hasNext()) {
 	j.next();
 	QString key = j.key();
@@ -184,7 +184,7 @@ void MeltJob::startJob()
         // Process filter params
         QMapIterator<QString, QString> k(m_filterParams);
         ignoredProps.clear();
-        ignoredProps << "filter";
+        ignoredProps << QStringLiteral("filter");
         while (k.hasNext()) {
             k.next();
             QString key = k.key();
@@ -206,9 +206,9 @@ void MeltJob::startJob()
     m_consumer->run();
 
     QMap <QString, QString> jobResults;
-    if (m_jobStatus != JobAborted && m_extra.contains(QLatin1String("key"))) {
-	QString result = QString::fromLatin1(m_filter->get(m_extra.value(QLatin1String("key")).toUtf8().constData()));
-	jobResults.insert(m_extra.value(QLatin1String("key")), result);
+    if (m_jobStatus != JobAborted && m_extra.contains(QStringLiteral("key"))) {
+	QString result = QString::fromLatin1(m_filter->get(m_extra.value(QStringLiteral("key")).toUtf8().constData()));
+	jobResults.insert(m_extra.value(QStringLiteral("key")), result);
     }
     if (!jobResults.isEmpty() && m_jobStatus != JobAborted) {
 	emit gotFilterJobResults(m_clipId, startPos, track, jobResults, m_extra);
@@ -262,7 +262,7 @@ void MeltJob::emitFrameNumber(int pos)
 
 bool MeltJob::isProjectFilter() const
 {
-    return m_extra.contains(QLatin1String("projecttreefilter"));
+    return m_extra.contains(QStringLiteral("projecttreefilter"));
 }
 
 void MeltJob::setStatus(ClipJobStatus status)

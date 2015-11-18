@@ -54,6 +54,8 @@ public:
     void doOpenFile(const QUrl &url, KAutoSaveFile *stale);
     KRecentFilesAction *recentFilesAction();
     void prepareSave();
+    /** @brief Disable all bin effects in current project */
+    void disableBinEffects(bool disable);
 
 public slots:
     void newFile(bool showProjectSettings = true, bool force = false);
@@ -96,6 +98,10 @@ public slots:
 
     /** @brief Expand current timeline clip (recover clips and tracks from an MLT playlist) */
     void slotExpandClip();
+
+    /** @brief Dis/enable all timeline effects */
+    void slotDisableTimelineEffects(bool disable);
+
 
 private slots:
     void slotRevert();

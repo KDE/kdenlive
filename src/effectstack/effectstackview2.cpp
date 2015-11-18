@@ -49,6 +49,7 @@ EffectStackView2::EffectStackView2(Monitor *projectMonitor, QWidget *parent) :
         m_clipref(NULL),
         m_masterclipref(NULL),
         m_status(EMPTY),
+        m_stateStatus(NORMALSTATUS),
         m_trackindex(-1),
         m_draggedEffect(NULL),
         m_draggedGroup(NULL),
@@ -70,7 +71,7 @@ EffectStackView2::EffectStackView2(Monitor *projectMonitor, QWidget *parent) :
     m_transition->setHidden(true);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_ui.checkAll->setToolTip(i18n("Enable/Disable all effects"));
-    m_ui.buttonShowComments->setIcon(KoIconUtils::themedIcon("help-about"));
+    m_ui.buttonShowComments->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
     m_ui.buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
 
     connect(m_ui.checkAll, SIGNAL(stateChanged(int)), this, SLOT(slotCheckAll(int)));
@@ -157,6 +158,7 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c, Monitor *m)
     if (c) {
         m_effect->setHidden(false);
         m_transition->setHidden(true);
+        m_effect->setEnabled(m_stateStatus != DISABLETIMELINE && m_stateStatus != DISABLEALL);
     }
     else if (m_status == TIMELINE_TRANSITION) return;
     m_masterclipref = NULL;
@@ -180,9 +182,9 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c, Monitor *m)
             }
             m_ui.checkAll->setEnabled(true);
             //TODO
-            int frameWidth = c->binClip()->getProducerIntProperty("meta.media.width");
-            int frameHeight = c->binClip()->getProducerIntProperty("meta.media.height");
-            double factor = c->binClip()->getProducerProperty("aspect_ratio").toDouble();
+            int frameWidth = c->binClip()->getProducerIntProperty(QStringLiteral("meta.media.width"));
+            int frameHeight = c->binClip()->getProducerIntProperty(QStringLiteral("meta.media.height"));
+            double factor = c->binClip()->getProducerProperty(QStringLiteral("aspect_ratio")).toDouble();
             m_effectMetaInfo.frameSize = QPoint((int)(frameWidth * factor + 0.5), frameHeight);
         }
     }
@@ -207,6 +209,11 @@ void EffectStackView2::slotMasterClipItemSelected(ClipController* c, Monitor *m)
 {
     m_clipref = NULL;
     m_trackindex = -1;
+    if (c) {
+        m_effect->setHidden(false);
+        m_transition->setHidden(true);
+        m_effect->setEnabled(m_stateStatus != DISABLEBIN && m_stateStatus != DISABLEALL);
+    }
     if (c && c == m_masterclipref) {
     } else {
         m_masterclipref = c;
@@ -223,9 +230,9 @@ void EffectStackView2::slotMasterClipItemSelected(ClipController* c, Monitor *m)
             }
             m_ui.checkAll->setEnabled(true);
             //TODO
-            int frameWidth = m_masterclipref->int_property("meta.media.width");
-            int frameHeight = m_masterclipref->int_property("meta.media.height");
-            double factor = m_masterclipref->double_property("aspect_ratio");
+            int frameWidth = m_masterclipref->int_property(QStringLiteral("meta.media.width"));
+            int frameHeight = m_masterclipref->int_property(QStringLiteral("meta.media.height"));
+            double factor = m_masterclipref->double_property(QStringLiteral("aspect_ratio"));
             m_effectMetaInfo.frameSize = QPoint((int)(frameWidth * factor + 0.5), frameHeight);
         }
     }
@@ -307,7 +314,7 @@ void EffectStackView2::setupListView()
 
         CollapsibleGroup *group = NULL;
         EffectInfo effectInfo;
-        effectInfo.fromString(d.attribute("kdenlive_info"));
+        effectInfo.fromString(d.attribute(QStringLiteral("kdenlive_info")));
         if (effectInfo.groupIndex >= 0) {
             // effect is in a group
             for (int j = 0; j < vbox1->count(); ++j) {
@@ -504,11 +511,11 @@ void EffectStackView2::startDrag()
         QDomElement effect = m_draggedEffect->effect().cloneNode().toElement();
 	if (m_status == TIMELINE_TRACK || m_status == MASTER_CLIP) {
 	    // Keep clip crop start in case we want to paste effect 
-	    effect.setAttribute("clipstart", 0);
+	    effect.setAttribute(QStringLiteral("clipstart"), 0);
 	}
 	else {
 	    // Keep clip crop start in case we want to paste effect
-	    effect.setAttribute("clipstart", m_clipref->cropStart().frames(KdenliveSettings::project_fps()));
+	    effect.setAttribute(QStringLiteral("clipstart"), m_clipref->cropStart().frames(KdenliveSettings::project_fps()));
 	}
         doc.appendChild(doc.importNode(effect, true));
         pixmap = m_draggedEffect->title->grab();
@@ -516,10 +523,10 @@ void EffectStackView2::startDrag()
     else if (m_draggedGroup) {
         doc = m_draggedGroup->effectsData();
 	if (m_status == TIMELINE_TRACK || m_status == MASTER_CLIP) {
-	    doc.documentElement().setAttribute("clipstart", 0);
+	    doc.documentElement().setAttribute(QStringLiteral("clipstart"), 0);
 	}
 	else {
-	    doc.documentElement().setAttribute("clipstart", m_clipref->cropStart().frames(KdenliveSettings::project_fps()));
+	    doc.documentElement().setAttribute(QStringLiteral("clipstart"), m_clipref->cropStart().frames(KdenliveSettings::project_fps()));
 	}
         pixmap = m_draggedGroup->title()->grab();
     }
@@ -529,7 +536,7 @@ void EffectStackView2::startDrag()
     QMimeData *mime = new QMimeData;
     QByteArray data;
     data.append(doc.toString().toUtf8());
-    mime->setData("kdenlive/effectslist", data);
+    mime->setData(QStringLiteral("kdenlive/effectslist"), data);
 
     // Assign ownership of the QMimeData object to the QDrag object.
     drag->setMimeData(mime);
@@ -749,7 +756,7 @@ void EffectStackView2::slotSetCurrentEffect(int ix)
 
 void EffectStackView2::slotDeleteGroup(QDomDocument doc)
 {
-    QDomNodeList effects = doc.elementsByTagName("effect");
+    QDomNodeList effects = doc.elementsByTagName(QStringLiteral("effect"));
     ClipItem * clip = NULL;
     int ix;
     if (m_status == MASTER_CLIP) {
@@ -812,20 +819,20 @@ void EffectStackView2::slotResetEffect(int ix)
 {
     QDomElement old = m_currentEffectList.itemFromIndex(ix);
     QDomElement dom;
-    QString effectId = old.attribute("id");
+    QString effectId = old.attribute(QStringLiteral("id"));
     QMap<QString, EffectsList*> effectLists;
-    effectLists["audio"] = &MainWindow::audioEffects;
-    effectLists["video"] = &MainWindow::videoEffects;
-    effectLists["custom"] = &MainWindow::customEffects;
+    effectLists[QStringLiteral("audio")] = &MainWindow::audioEffects;
+    effectLists[QStringLiteral("video")] = &MainWindow::videoEffects;
+    effectLists[QStringLiteral("custom")] = &MainWindow::customEffects;
     foreach(const EffectsList* list, effectLists) {
         dom = list->getEffectByTag(QString(), effectId).cloneNode().toElement();
         if (!dom.isNull()) break;
     }
     if (!dom.isNull()) {
-        dom.setAttribute("kdenlive_ix", old.attribute("kdenlive_ix"));
+        dom.setAttribute(QStringLiteral("kdenlive_ix"), old.attribute(QStringLiteral("kdenlive_ix")));
         if (m_status == TIMELINE_TRACK) {
-            EffectsList::setParameter(dom, "in", QString::number(0));
-            EffectsList::setParameter(dom, "out", QString::number(m_trackInfo.duration));
+            EffectsList::setParameter(dom, QStringLiteral("in"), QString::number(0));
+            EffectsList::setParameter(dom, QStringLiteral("out"), QString::number(m_trackInfo.duration));
             ItemInfo info;
             info.track = m_trackInfo.type;
             info.cropDuration = GenTime(m_trackInfo.duration, KdenliveSettings::project_fps());
@@ -868,10 +875,10 @@ void EffectStackView2::slotCreateRegion(int ix, QUrl url)
 {
     QDomElement oldeffect = m_currentEffectList.itemFromIndex(ix);
     QDomElement neweffect = oldeffect.cloneNode().toElement();
-    QDomElement region = MainWindow::videoEffects.getEffectByTag("region", "region").cloneNode().toElement();
+    QDomElement region = MainWindow::videoEffects.getEffectByTag(QStringLiteral("region"), QStringLiteral("region")).cloneNode().toElement();
     region.appendChild(region.ownerDocument().importNode(neweffect, true));
-    region.setAttribute("kdenlive_ix", ix);
-    EffectsList::setParameter(region, "resource", url.path());
+    region.setAttribute(QStringLiteral("kdenlive_ix"), ix);
+    EffectsList::setParameter(region, QStringLiteral("resource"), url.path());
     if (m_status == TIMELINE_TRACK) {
         emit updateEffect(NULL, m_trackindex, oldeffect, region, ix,false);
     }
@@ -939,9 +946,9 @@ void EffectStackView2::slotCreateGroup(int ix)
     QDomElement oldeffect = m_currentEffectList.itemFromIndex(ix);
     QDomElement neweffect = oldeffect.cloneNode().toElement();
     EffectInfo effectinfo;
-    effectinfo.fromString(oldeffect.attribute("kdenlive_info"));
+    effectinfo.fromString(oldeffect.attribute(QStringLiteral("kdenlive_info")));
     effectinfo.groupIndex = m_groupIndex;
-    neweffect.setAttribute("kdenlive_info", effectinfo.toString());
+    neweffect.setAttribute(QStringLiteral("kdenlive_info"), effectinfo.toString());
 
     ItemInfo info;
     if (m_status == TIMELINE_TRACK) {
@@ -999,12 +1006,12 @@ void EffectStackView2::slotMoveEffect(QList <int> currentIndexes, int newIndex, 
         QDomElement neweffect = oldeffect.cloneNode().toElement();
 
         EffectInfo effectinfo;
-        effectinfo.fromString(oldeffect.attribute("kdenlive_info"));
+        effectinfo.fromString(oldeffect.attribute(QStringLiteral("kdenlive_info")));
         effectinfo.groupIndex = groupIndex;
         effectinfo.groupName = groupName;
-        neweffect.setAttribute("kdenlive_info", effectinfo.toString());
+        neweffect.setAttribute(QStringLiteral("kdenlive_info"), effectinfo.toString());
 
-        if (oldeffect.attribute("kdenlive_info") != effectinfo.toString()) {
+        if (oldeffect.attribute(QStringLiteral("kdenlive_info")) != effectinfo.toString()) {
             // effect's group info or collapsed state changed
             ItemInfo info;
             if (m_status == TIMELINE_TRACK) {
@@ -1046,7 +1053,7 @@ void EffectStackView2::slotRenameGroup(CollapsibleGroup *group)
     for (int i = 0; i < effects.count(); ++i) {
         QDomElement origin = effects.at(i)->effect();
         QDomElement changed = origin.cloneNode().toElement();
-        changed.setAttribute("kdenlive_info", effects.at(i)->infoString());
+        changed.setAttribute(QStringLiteral("kdenlive_info"), effects.at(i)->infoString());
         if (m_status == TIMELINE_TRACK) {
             emit updateEffect(NULL, m_trackindex, origin, changed, effects.at(i)->effectIndex(),false);
         } else if (m_status == TIMELINE_CLIP) {
@@ -1059,23 +1066,23 @@ void EffectStackView2::slotRenameGroup(CollapsibleGroup *group)
 
 void EffectStackView2::dragEnterEvent(QDragEnterEvent *event)
 {
-    if (event->mimeData()->hasFormat("kdenlive/effectslist")) {
+    if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
         event->acceptProposedAction();
     }
 }
 
 void EffectStackView2::processDroppedEffect(QDomElement e, QDropEvent *event)
 {
-    int ix = e.attribute("kdenlive_ix").toInt();
-    if (e.tagName() == "effectgroup") {
+    int ix = e.attribute(QStringLiteral("kdenlive_ix")).toInt();
+    if (e.tagName() == QLatin1String("effectgroup")) {
         // We are dropping a group, all effects in group should be moved
-        QDomNodeList effects = e.elementsByTagName("effect");
+        QDomNodeList effects = e.elementsByTagName(QStringLiteral("effect"));
         if (effects.count() == 0) {
             event->ignore();
             return;
         }
         EffectInfo info;
-        info.fromString(effects.at(0).toElement().attribute("kdenlive_info"));
+        info.fromString(effects.at(0).toElement().attribute(QStringLiteral("kdenlive_info")));
         if (info.groupIndex < 0) {
             //qDebug()<<"// ADDING EFFECT!!!";
             // Adding a new group effect to the stack
@@ -1088,14 +1095,14 @@ void EffectStackView2::processDroppedEffect(QDomElement e, QDropEvent *event)
         QList <int> indexes;
         for (int i = 0; i < effects.count(); ++i) {
             QDomElement effect = effects.at(i).cloneNode().toElement();
-            indexes << effect.attribute("kdenlive_ix").toInt();
+            indexes << effect.attribute(QStringLiteral("kdenlive_ix")).toInt();
         }
         //qDebug()<<"// Moving: "<<indexes<<" TO "<<m_currentEffectList.count();
         slotMoveEffect(indexes, m_currentEffectList.count(), info.groupIndex, info.groupName);
     }
     else if (ix == 0) {
         // effect dropped from effects list, add it
-        e.setAttribute("kdenlive_ix", m_currentEffectList.count() + 1);
+        e.setAttribute(QStringLiteral("kdenlive_ix"), m_currentEffectList.count() + 1);
         event->setDropAction(Qt::CopyAction);
         event->accept();
         slotAddEffect(e);
@@ -1111,7 +1118,7 @@ void EffectStackView2::processDroppedEffect(QDomElement e, QDropEvent *event)
 
 void EffectStackView2::dropEvent(QDropEvent *event)
 {
-    const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
+    const QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
     //event->acceptProposedAction();
     QDomDocument doc;
     doc.setContent(effects, true);
@@ -1141,34 +1148,74 @@ const QString EffectStackView2::getStyleSheet()
     QString stylesheet;
 
     // effect background
-    stylesheet.append(QString("QFrame#decoframe {border-top-left-radius:5px;border-top-right-radius:5px;border-bottom:2px solid palette(mid);border-top:1px solid palette(light);} QFrame#decoframe[active=\"true\"] {background: %1;}").arg(hgh.name()));
+    stylesheet.append(QStringLiteral("QFrame#decoframe {border-top-left-radius:5px;border-top-right-radius:5px;border-bottom:2px solid palette(mid);border-top:1px solid palette(light);} QFrame#decoframe[active=\"true\"] {background: %1;}").arg(hgh.name()));
 
     // effect in group background
-    stylesheet.append(QString("QFrame#decoframesub {border-top:1px solid palette(light);}  QFrame#decoframesub[active=\"true\"] {background: %1;}").arg(hgh.name()));
+    stylesheet.append(QStringLiteral("QFrame#decoframesub {border-top:1px solid palette(light);}  QFrame#decoframesub[active=\"true\"] {background: %1;}").arg(hgh.name()));
 
     // group background
-    stylesheet.append(QString("QFrame#decoframegroup {border-top-left-radius:5px;border-top-right-radius:5px;border:2px solid palette(dark);margin:0px;margin-top:2px;} "));
+    stylesheet.append(QStringLiteral("QFrame#decoframegroup {border-top-left-radius:5px;border-top-right-radius:5px;border:2px solid palette(dark);margin:0px;margin-top:2px;} "));
 
     // effect title bar
-    stylesheet.append(QString("QFrame#frame {margin-bottom:2px;border-top-left-radius:5px;border-top-right-radius:5px;}  QFrame#frame[target=\"true\"] {background: palette(highlight);}"));
+    stylesheet.append(QStringLiteral("QFrame#frame {margin-bottom:2px;border-top-left-radius:5px;border-top-right-radius:5px;}  QFrame#frame[target=\"true\"] {background: palette(highlight);}"));
 
     // group effect title bar
-    stylesheet.append(QString("QFrame#framegroup {border-top-left-radius:2px;border-top-right-radius:2px;background: palette(dark);}  QFrame#framegroup[target=\"true\"] {background: palette(highlight);} "));
+    stylesheet.append(QStringLiteral("QFrame#framegroup {border-top-left-radius:2px;border-top-right-radius:2px;background: palette(dark);}  QFrame#framegroup[target=\"true\"] {background: palette(highlight);} "));
 
     // draggable effect bar content
-    stylesheet.append(QString("QProgressBar::chunk:horizontal {background: palette(button);border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal#dragOnly {background: %1;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal:hover {background: %2;}").arg(alt_bg.name()).arg(selected_bg.name()));
+    stylesheet.append(QStringLiteral("QProgressBar::chunk:horizontal {background: palette(button);border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal#dragOnly {background: %1;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal:hover {background: %2;}").arg(alt_bg.name()).arg(selected_bg.name()));
 
     // draggable effect bar
-    stylesheet.append(QString("QProgressBar:horizontal {border: 1px solid palette(dark);border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right:0px;background:%3;padding: 0px;text-align:left center} QProgressBar:horizontal:disabled {border: 1px solid palette(button)} QProgressBar:horizontal#dragOnly {background: %3} QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %1;border-right: 0px;background: %2;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %1;}").arg(hover_bg.name()).arg(light_bg.name()).arg(alt_bg.name()));
+    stylesheet.append(QStringLiteral("QProgressBar:horizontal {border: 1px solid palette(dark);border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right:0px;background:%3;padding: 0px;text-align:left center} QProgressBar:horizontal:disabled {border: 1px solid palette(button)} QProgressBar:horizontal#dragOnly {background: %3} QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %1;border-right: 0px;background: %2;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %1;}").arg(hover_bg.name()).arg(light_bg.name()).arg(alt_bg.name()));
 
     // spin box for draggable widget
-    stylesheet.append(QString("QAbstractSpinBox#dragBox {border: 1px solid palette(dark);border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox:disabled#dragBox {border: 1px solid palette(button);} QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { border: 1px solid %1;} QAbstractSpinBox:hover#dragBox {border: 1px solid %2;} ").arg(hover_bg.name()).arg(selected_bg.name()));
+    stylesheet.append(QStringLiteral("QAbstractSpinBox#dragBox {border: 1px solid palette(dark);border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox:disabled#dragBox {border: 1px solid palette(button);} QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { border: 1px solid %1;} QAbstractSpinBox:hover#dragBox {border: 1px solid %2;} ").arg(hover_bg.name()).arg(selected_bg.name()));
 
     // group editable labels
-    stylesheet.append(QString("MyEditableLabel { background-color: transparent; color: palette(bright-text); border-radius: 2px;border: 1px solid transparent;} MyEditableLabel:hover {border: 1px solid palette(highlight);} "));
+    stylesheet.append(QStringLiteral("MyEditableLabel { background-color: transparent; color: palette(bright-text); border-radius: 2px;border: 1px solid transparent;} MyEditableLabel:hover {border: 1px solid palette(highlight);} "));
 
     return stylesheet;
 }
 
+void EffectStackView2::disableBinEffects(bool disable)
+{
+    if (disable) {
+        if (m_stateStatus == NORMALSTATUS) {
+            m_stateStatus = DISABLEBIN;
+        }
+        else if (m_stateStatus == DISABLETIMELINE) {
+            m_stateStatus = DISABLEALL;
+        }
+    }
+    else {
+        if (m_stateStatus == DISABLEBIN) {
+            m_stateStatus = NORMALSTATUS;
+        }
+        else if (m_stateStatus == DISABLEALL) {
+            m_stateStatus = DISABLETIMELINE;
+        }
+    }
+    if (m_status == MASTER_CLIP) m_effect->setEnabled(!disable);
+}
 
+void EffectStackView2::disableTimelineEffects(bool disable)
+{
+    if (disable) {
+        if (m_stateStatus == NORMALSTATUS) {
+            m_stateStatus = DISABLETIMELINE;
+        }
+        else if (m_stateStatus == DISABLEBIN) {
+            m_stateStatus = DISABLEALL;
+        }
+    }
+    else {
+        if (m_stateStatus == DISABLETIMELINE) {
+            m_stateStatus = NORMALSTATUS;
+        }
+        else if (m_stateStatus == DISABLEALL) {
+            m_stateStatus = DISABLEBIN;
+        }
+    }
+    if (m_status == TIMELINE_CLIP) m_effect->setEnabled(!disable);
+}
 

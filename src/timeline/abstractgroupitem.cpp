@@ -398,11 +398,11 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
 //virtual
 void AbstractGroupItem::dropEvent(QGraphicsSceneDragDropEvent * event)
 {
-    QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
+    QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
     QDomDocument doc;
     doc.setContent(effects, true);
     QDomElement e = doc.documentElement();
-    e.setAttribute("kdenlive_ix", 0);
+    e.setAttribute(QStringLiteral("kdenlive_ix"), 0);
     CustomTrackView *view = static_cast<CustomTrackView*>(scene()->views()[0]);
     QPointF dropPos = event->scenePos();
     QList<QGraphicsItem *> selection = scene()->items(dropPos);
@@ -419,7 +419,7 @@ void AbstractGroupItem::dropEvent(QGraphicsSceneDragDropEvent * event)
 //virtual
 void AbstractGroupItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
-    event->setAccepted(event->mimeData()->hasFormat("kdenlive/effectslist"));
+    event->setAccepted(event->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist")));
 }
 
 void AbstractGroupItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)

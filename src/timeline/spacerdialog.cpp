@@ -47,8 +47,8 @@ SpacerDialog::SpacerDialog(const GenTime &duration, const Timecode &tc, int trac
             trackItems << QString::number(i);
     }
     track_number->addItems(trackItems);*/
-    QIcon videoIcon = QIcon::fromTheme("kdenlive-show-video");
-    QIcon audioIcon = QIcon::fromTheme("kdenlive-show-audio");
+    QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
+    QIcon audioIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-audio"));
     track_number->addItem(i18n("All tracks"));
     for (int i = tracks.count() - 1; i > 0 ; i--) {
         TrackInfo info = tracks.at(i);

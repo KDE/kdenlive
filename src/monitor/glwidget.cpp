@@ -138,9 +138,16 @@ void GLWidget::updateAudioForAnalysis()
 	m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
 }
 
+void GLWidget::showEvent(QShowEvent * event)
+{
+    QQuickView::showEvent(event);
+    initializeGL();
+}
+
 void GLWidget::initializeGL()
 {
-    if (m_isInitialized) return;
+    if (m_isInitialized || !isVisible() || !openglContext()) return;
+    m_isInitialized = true;
     m_offscreenSurface.setFormat(openglContext()->format());
     m_offscreenSurface.create();
     openglContext()->makeCurrent(this);
@@ -183,7 +190,6 @@ void GLWidget::initializeGL()
     connect(this, SIGNAL(textureUpdated()), this, SLOT(update()), Qt::QueuedConnection);
 
     m_initSem.release();
-    m_isInitialized = true;
 }
 
 void GLWidget::effectRectChanged()
@@ -231,7 +237,7 @@ void GLWidget::resizeGL(int width, int height)
     if (rootQml) {
         rootQml->setProperty("center", center);
         rootQml->setProperty("scale", scale);
-        if (rootQml->objectName() == "rootsplit") {
+        if (rootQml->objectName() == QLatin1String("rootsplit")) {
             // Adjust splitter pos
             rootQml->setProperty("splitterPos", x + (rootQml->property("realpercent").toDouble() * w));
         }
@@ -366,14 +372,14 @@ void GLWidget::paintGL()
     int width = this->width() * devicePixelRatio();
     int height = this->height() * devicePixelRatio();
 
-    glDisable(GL_BLEND);
-    glDisable(GL_DEPTH_TEST);
-    glDepthMask(GL_FALSE);
-    glViewport(0, 0, width, height);
+    f->glDisable(GL_BLEND);
+    f->glDisable(GL_DEPTH_TEST);
+    f->glDepthMask(GL_FALSE);
+    f->glViewport(0, 0, width, height);
     check_error(f);
     QColor color(KdenliveSettings::window_background()); //= QPalette().color(QPalette::Window);
-    glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
-    glClear(GL_COLOR_BUFFER_BIT);
+    f->glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
+    f->glClear(GL_COLOR_BUFFER_BIT);
     check_error(f);
 
     if (!m_texture[0]) return;
@@ -381,8 +387,8 @@ void GLWidget::paintGL()
     // Bind textures.
     for (int i = 0; i < 3; ++i) {
         if (m_texture[i]) {
-            glActiveTexture(GL_TEXTURE0 + i);
-            glBindTexture(GL_TEXTURE_2D, m_texture[i]);
+            f->glActiveTexture(GL_TEXTURE0 + i);
+            f->glBindTexture(GL_TEXTURE_2D, m_texture[i]);
             check_error(f);
         }
     }
@@ -441,7 +447,7 @@ void GLWidget::paintGL()
     check_error(f);
 
     // Render
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
+    f->glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
     check_error(f);
 
     if (sendFrameForAnalysis) {
@@ -450,19 +456,19 @@ void GLWidget::paintGL()
         int fullHeight = m_monitorProfile->height();
         if (!m_fbo || m_fbo->size() != QSize(fullWidth, fullHeight)) {
             delete m_fbo;
-            QOpenGLFramebufferObjectFormat f;
-            f.setSamples(0);
-            f.setInternalTextureFormat(GL_RGB); //GL_RGBA32F);  // which one is the fastest ?
-            m_fbo = new QOpenGLFramebufferObject(fullWidth, fullHeight, f); //GL_TEXTURE_2D);
+            QOpenGLFramebufferObjectFormat fmt;
+            fmt.setSamples(0);
+            fmt.setInternalTextureFormat(GL_RGB); //GL_RGBA32F);  // which one is the fastest ?
+            m_fbo = new QOpenGLFramebufferObject(fullWidth, fullHeight, fmt); //GL_TEXTURE_2D);
         }
         m_fbo->bind();
-        glViewport(0, 0, fullWidth, fullHeight);
+        f->glViewport(0, 0, fullWidth, fullHeight);
 
         QMatrix4x4 projection2;
         projection2.scale(2.0f / width, 2.0f / height);
         m_shader->setUniformValue(m_projectionLocation, projection2);
 
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
+        f->glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
         check_error(f);
         m_fbo->release();
         emit analyseFrame(m_fbo->toImage());
@@ -473,12 +479,12 @@ void GLWidget::paintGL()
     m_shader->release();
     for (int i = 0; i < 3; ++i) {
         if (m_texture[i]) {
-            glActiveTexture(GL_TEXTURE0 + i);
-            glBindTexture(GL_TEXTURE_2D, 0);
+            f->glActiveTexture(GL_TEXTURE0 + i);
+            f->glBindTexture(GL_TEXTURE_2D, 0);
             check_error(f);
         }
     }
-    glActiveTexture(GL_TEXTURE0);
+    f->glActiveTexture(GL_TEXTURE0);
     check_error(f);
 }
 
@@ -517,7 +523,7 @@ void GLWidget::wheelEvent(QWheelEvent * event)
 void GLWidget::mousePressEvent(QMouseEvent* event)
 {
     QQuickView::mousePressEvent(event);
-    if (rootObject() && rootObject()->objectName() != "root") {
+    if (rootObject() && rootObject()->objectName() != QLatin1String("root")) {
         event->ignore();
         return;
     }
@@ -534,7 +540,7 @@ void GLWidget::mousePressEvent(QMouseEvent* event)
 void GLWidget::mouseMoveEvent(QMouseEvent* event)
 {
     QQuickView::mouseMoveEvent(event);
-    if (rootObject() && rootObject()->objectName() != "root") {
+    if (rootObject() && rootObject()->objectName() != QLatin1String("root")) {
         event->ignore();
         return;
     }
@@ -741,7 +747,7 @@ void GLWidget::removeAudioOverlay()
     Mlt::Filter *filter = sourceService.filter(ct);
     while (filter) {
         QString srv = filter->get("mlt_service");
-        if (srv == "audiowaveform") {
+        if (srv == QLatin1String("audiowaveform")) {
             sourceService.detach(*filter);
             delete filter;
             break;
@@ -759,7 +765,7 @@ void GLWidget::adjustAudioOverlay(bool isAudio)
     Mlt::Filter *filter = sourceService.filter(ct);
     while (filter) {
         QString srv = filter->get("mlt_service");
-        if (srv == "audiowaveform") {
+        if (srv == QLatin1String("audiowaveform")) {
             if (isAudio) {
                 filter->set("rect", "0,0,100%,100%");
             }
@@ -815,7 +821,7 @@ int GLWidget::reconfigureMulti(QString params, QString path, Mlt::Profile *profi
         m_consumer->set("0.real_time", 0);
         m_consumer->set("0.volume", (double)volume / 100);
             
-        if (serviceName == "sdl_audio") {
+        if (serviceName == QLatin1String("sdl_audio")) {
 #ifdef Q_OS_WIN
             m_consumer->set("0.audio_buffer", 2048);
 #else
@@ -833,7 +839,7 @@ int GLWidget::reconfigureMulti(QString params, QString path, Mlt::Profile *profi
         for (int i = 0; i < paramList.count(); ++i) {
             QString key = "1." + paramList.at(i).section('=', 0, 0);
             QString value = paramList.at(i).section('=', 1, 1);
-            if (value == "%threads") value = QString::number(QThread::idealThreadCount());
+            if (value == QLatin1String("%threads")) value = QString::number(QThread::idealThreadCount());
             m_consumer->set(key.toUtf8().constData(), value.toUtf8().constData());
         }       
         
@@ -864,7 +870,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
             if (m_consumer->is_valid())
                 serviceName = KdenliveSettings::audiobackend();
             else {
-                serviceName = "sdl_audio";
+                serviceName = QStringLiteral("sdl_audio");
             }
             delete m_consumer;
             m_consumer = NULL;
@@ -898,7 +904,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
             m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_gl_frame_show);
         }
         int volume = KdenliveSettings::volume();
-        if (serviceName == "sdl_audio")
+        if (serviceName == QLatin1String("sdl_audio"))
 /*#ifdef Q_OS_WIN
                 m_consumer->set("audio_buffer", 2048);
 #else
@@ -928,7 +934,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
                 m_threadStartEvent = m_consumer->listen("consumer-thread-started", this, (mlt_listener) onThreadStarted);
             if (!m_threadStopEvent)
                 m_threadStopEvent = m_consumer->listen("consumer-thread-stopped", this, (mlt_listener) onThreadStopped);
-            if (!serviceName.startsWith("decklink"))
+            if (!serviceName.startsWith(QLatin1String("decklink")))
                 m_consumer->set("mlt_image_format", "glsl");
         } else {
             emit started();
@@ -1030,7 +1036,7 @@ void GLWidget::setZoom(float zoom)
 void GLWidget::mouseReleaseEvent(QMouseEvent * event)
 {
     QQuickView::mouseReleaseEvent(event);
-    if (rootObject() && rootObject()->objectName() != "root") {
+    if (rootObject() && rootObject()->objectName() != QLatin1String("root")) {
         return;
     }
     m_dragStart = QPoint();
@@ -1042,7 +1048,7 @@ void GLWidget::mouseReleaseEvent(QMouseEvent * event)
 void GLWidget::mouseDoubleClickEvent(QMouseEvent * event)
 {
     QQuickView::mouseDoubleClickEvent(event);
-    if (!rootObject() || rootObject()->objectName() != "rooteffectscene") {
+    if (!rootObject() || rootObject()->objectName() != QLatin1String("rooteffectscene")) {
         emit switchFullScreen();
     }
     event->accept();
@@ -1171,7 +1177,7 @@ FrameRenderer::FrameRenderer(QOpenGLContext* shareContext, QSurface *surface)
     m_context->setShareContext(shareContext);
     m_context->create();
     m_context->moveToThread(this);
-    setObjectName("FrameRenderer");
+    setObjectName(QStringLiteral("FrameRenderer"));
     moveToThread(this);
     start();
 }

@@ -71,8 +71,8 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
     m_speedIndependantInfo.cropStart = GenTime((int)(m_info.cropStart.frames(m_fps) * qAbs(m_speed)), m_fps);
     m_speedIndependantInfo.cropDuration = GenTime((int)(m_info.cropDuration.frames(m_fps) * qAbs(m_speed)), m_fps);
 
-    m_videoPix = QIcon::fromTheme("kdenlive-show-video").pixmap(QSize(16, 16));
-    m_audioPix = QIcon::fromTheme("kdenlive-show-audio").pixmap(QSize(16, 16));
+    m_videoPix = QIcon::fromTheme(QStringLiteral("kdenlive-show-video")).pixmap(QSize(16, 16));
+    m_audioPix = QIcon::fromTheme(QStringLiteral("kdenlive-show-audio")).pixmap(QSize(16, 16));
 
     m_clipType = m_binClip->clipType();
     //m_cropStart = info.cropStart;
@@ -99,7 +99,7 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
             if (generateThumbs && KdenliveSettings::videothumbnails()) QTimer::singleShot(200, this, SLOT(slotFetchThumbs()));
         }
     } else if (m_clipType == Color) {
-        m_baseColor = m_binClip->getProducerColorProperty("resource");
+        m_baseColor = m_binClip->getProducerColorProperty(QStringLiteral("resource"));
     } else if (m_clipType == Image || m_clipType == Text) {
         m_baseColor = QColor(141, 166, 215);
 	m_startPix = m_binClip->thumbnail(rect().height(), frame_width);
@@ -151,52 +151,52 @@ ClipItem *ClipItem::clone(const ItemInfo &info) const
 void ClipItem::setEffectList(const EffectsList &effectList)
 {
     m_effectList.clone(effectList);
-    m_effectNames = m_effectList.effectNames().join(" / ");
+    m_effectNames = m_effectList.effectNames().join(QStringLiteral(" / "));
     if (!m_effectList.isEmpty()) {
         for (int i = 0; i < m_effectList.count(); ++i) {
             QDomElement effect = m_effectList.at(i);
-            QString effectId = effect.attribute("id");
+            QString effectId = effect.attribute(QStringLiteral("id"));
             // check if it is a fade effect
-            QDomNodeList params = effect.elementsByTagName("parameter");
+            QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
             int fade = 0;
             for (int j = 0; j < params.count(); ++j) {
                 QDomElement e = params.item(j).toElement();
                 if (!e.isNull()) {
-                    if (effectId == "fadein") {
-                        if (m_effectList.hasEffect(QString(), "fade_from_black") == -1) {
-                            if (e.attribute("name") == "out") fade += e.attribute("value").toInt();
-                            else if (e.attribute("name") == "in") fade -= e.attribute("value").toInt();
+                    if (effectId == QLatin1String("fadein")) {
+                        if (m_effectList.hasEffect(QString(), QStringLiteral("fade_from_black")) == -1) {
+                            if (e.attribute(QStringLiteral("name")) == QLatin1String("out")) fade += e.attribute(QStringLiteral("value")).toInt();
+                            else if (e.attribute(QStringLiteral("name")) == QLatin1String("in")) fade -= e.attribute(QStringLiteral("value")).toInt();
                         } else {
-                            QDomElement fadein = m_effectList.getEffectByTag(QString(), "fade_from_black");
-                            if (fadein.attribute("name") == "out") fade += fadein.attribute("value").toInt();
-                            else if (fadein.attribute("name") == "in") fade -= fadein.attribute("value").toInt();
+                            QDomElement fadein = m_effectList.getEffectByTag(QString(), QStringLiteral("fade_from_black"));
+                            if (fadein.attribute(QStringLiteral("name")) == QLatin1String("out")) fade += fadein.attribute(QStringLiteral("value")).toInt();
+                            else if (fadein.attribute(QStringLiteral("name")) == QLatin1String("in")) fade -= fadein.attribute(QStringLiteral("value")).toInt();
                         }
-                    } else if (effectId == "fade_from_black") {
-                        if (m_effectList.hasEffect(QString(), "fadein") == -1) {
-                            if (e.attribute("name") == "out") fade += e.attribute("value").toInt();
-                            else if (e.attribute("name") == "in") fade -= e.attribute("value").toInt();
+                    } else if (effectId == QLatin1String("fade_from_black")) {
+                        if (m_effectList.hasEffect(QString(), QStringLiteral("fadein")) == -1) {
+                            if (e.attribute(QStringLiteral("name")) == QLatin1String("out")) fade += e.attribute(QStringLiteral("value")).toInt();
+                            else if (e.attribute(QStringLiteral("name")) == QLatin1String("in")) fade -= e.attribute(QStringLiteral("value")).toInt();
                         } else {
-                            QDomElement fadein = m_effectList.getEffectByTag(QString(), "fadein");
-                            if (fadein.attribute("name") == "out") fade += fadein.attribute("value").toInt();
-                            else if (fadein.attribute("name") == "in") fade -= fadein.attribute("value").toInt();
+                            QDomElement fadein = m_effectList.getEffectByTag(QString(), QStringLiteral("fadein"));
+                            if (fadein.attribute(QStringLiteral("name")) == QLatin1String("out")) fade += fadein.attribute(QStringLiteral("value")).toInt();
+                            else if (fadein.attribute(QStringLiteral("name")) == QLatin1String("in")) fade -= fadein.attribute(QStringLiteral("value")).toInt();
                         }
-                    } else if (effectId == "fadeout") {
-                        if (m_effectList.hasEffect(QString(), "fade_to_black") == -1) {
-                            if (e.attribute("name") == "out") fade += e.attribute("value").toInt();
-                            else if (e.attribute("name") == "in") fade -= e.attribute("value").toInt();
+                    } else if (effectId == QLatin1String("fadeout")) {
+                        if (m_effectList.hasEffect(QString(), QStringLiteral("fade_to_black")) == -1) {
+                            if (e.attribute(QStringLiteral("name")) == QLatin1String("out")) fade += e.attribute(QStringLiteral("value")).toInt();
+                            else if (e.attribute(QStringLiteral("name")) == QLatin1String("in")) fade -= e.attribute(QStringLiteral("value")).toInt();
                         } else {
-                            QDomElement fadeout = m_effectList.getEffectByTag(QString(), "fade_to_black");
-                            if (fadeout.attribute("name") == "out") fade += fadeout.attribute("value").toInt();
-                            else if (fadeout.attribute("name") == "in") fade -= fadeout.attribute("value").toInt();
+                            QDomElement fadeout = m_effectList.getEffectByTag(QString(), QStringLiteral("fade_to_black"));
+                            if (fadeout.attribute(QStringLiteral("name")) == QLatin1String("out")) fade += fadeout.attribute(QStringLiteral("value")).toInt();
+                            else if (fadeout.attribute(QStringLiteral("name")) == QLatin1String("in")) fade -= fadeout.attribute(QStringLiteral("value")).toInt();
                         }
-                    } else if (effectId == "fade_to_black") {
-                        if (m_effectList.hasEffect(QString(), "fadeout") == -1) {
-                            if (e.attribute("name") == "out") fade += e.attribute("value").toInt();
-                            else if (e.attribute("name") == "in") fade -= e.attribute("value").toInt();
+                    } else if (effectId == QLatin1String("fade_to_black")) {
+                        if (m_effectList.hasEffect(QString(), QStringLiteral("fadeout")) == -1) {
+                            if (e.attribute(QStringLiteral("name")) == QLatin1String("out")) fade += e.attribute(QStringLiteral("value")).toInt();
+                            else if (e.attribute(QStringLiteral("name")) == QLatin1String("in")) fade -= e.attribute(QStringLiteral("value")).toInt();
                         } else {
-                            QDomElement fadeout = m_effectList.getEffectByTag(QString(), "fadeout");
-                            if (fadeout.attribute("name") == "out") fade += fadeout.attribute("value").toInt();
-                            else if (fadeout.attribute("name") == "in") fade -= fadeout.attribute("value").toInt();
+                            QDomElement fadeout = m_effectList.getEffectByTag(QString(), QStringLiteral("fadeout"));
+                            if (fadeout.attribute(QStringLiteral("name")) == QLatin1String("out")) fade += fadeout.attribute(QStringLiteral("value")).toInt();
+                            else if (fadeout.attribute(QStringLiteral("name")) == QLatin1String("in")) fade -= fadeout.attribute(QStringLiteral("value")).toInt();
                         }
                     }
                 }
@@ -222,7 +222,7 @@ int ClipItem::selectedEffectIndex() const
 
 void ClipItem::initEffect(ProfileInfo pInfo, QDomElement effect, int diff, int offset)
 {
-    EffectsController::initEffect(m_info, pInfo, m_effectList, m_binClip->getProducerProperty("proxy"), effect, diff, offset);
+    EffectsController::initEffect(m_info, pInfo, m_effectList, m_binClip->getProducerProperty(QStringLiteral("proxy")), effect, diff, offset);
 }
 
 bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int cutPos)
@@ -288,7 +288,7 @@ bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int c
                 lastValue = val;
             }
 
-            newKeyFrameParams.append(newKeyFrames.join(";"));
+            newKeyFrameParams.append(newKeyFrames.join(QStringLiteral(";")));
             if (modified)
                 effModified = true;
         }
@@ -305,26 +305,26 @@ bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int c
 void ClipItem::setKeyframes(const int ix, const QStringList &keyframes)
 {
     QDomElement effect = m_effectList.at(ix);
-    if (effect.attribute("disable") == "1") return;
+    if (effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) return;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    QDomNodeList params = effect.elementsByTagName("parameter");
+    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     int keyframeParams = 0;
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
-        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && (!e.hasAttribute("intimeline") || e.attribute("intimeline") == "1")) {
-            e.setAttribute("keyframes", keyframes.at(keyframeParams));
+        if (!e.isNull() && (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) && (!e.hasAttribute(QStringLiteral("intimeline")) || e.attribute(QStringLiteral("intimeline")) == QLatin1String("1"))) {
+            e.setAttribute(QStringLiteral("keyframes"), keyframes.at(keyframeParams));
             if (ix + 1 == m_selectedEffect && keyframeParams == 0) {
                 m_keyframes.clear();
                 m_visibleParam = i;
-                double max = locale.toDouble(e.attribute("max"));
-                double min = locale.toDouble(e.attribute("min"));
+                double max = locale.toDouble(e.attribute(QStringLiteral("max")));
+                double min = locale.toDouble(e.attribute(QStringLiteral("min")));
                 m_keyframeFactor = 100.0 / (max - min);
                 m_keyframeOffset = min;
-                m_keyframeDefault = locale.toDouble(e.attribute("default"));
+                m_keyframeDefault = locale.toDouble(e.attribute(QStringLiteral("default")));
                 m_selectedKeyframe = 0;
                 // parse keyframes
-                const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
+                const QStringList keyframes = e.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
                 foreach(const QString &str, keyframes) {
                     int pos = str.section('=', 0, 0).toInt();
                     double val = locale.toDouble(str.section('=', 1, 1));
@@ -347,8 +347,8 @@ void ClipItem::setSelectedEffect(const int ix)
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     QDomElement effect = effectAtIndex(m_selectedEffect);
     m_keyframeType = NoKeyframe;
-    if (!effect.isNull() && effect.attribute("disable") != "1") {
-        QDomNodeList params = effect.elementsByTagName("parameter");
+    if (!effect.isNull() && effect.attribute(QStringLiteral("disable")) != QLatin1String("1")) {
+        QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
         for (int i = 0; i < params.count(); ++i) {
             QDomElement e = params.item(i).toElement();
             if (e.isNull()) continue;
@@ -370,14 +370,14 @@ void ClipItem::resizeGeometries(const int index, int width, int height, int prev
 {
     QString geom;
     QDomElement effect = m_effectList.at(index);
-    QDomNodeList params = effect.elementsByTagName("parameter");
+    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
 
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
-        if (!e.isNull() && e.attribute("type") == "geometry") {
-            geom = e.attribute("value");
+        if (!e.isNull() && e.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
+            geom = e.attribute(QStringLiteral("value"));
             Mlt::Geometry geometry(geom.toUtf8().data(), previousDuration, width, height);
-            e.setAttribute("value", geometry.serialise(start, start + duration));
+            e.setAttribute(QStringLiteral("value"), geometry.serialise(start, start + duration));
         }
     }
 }
@@ -386,12 +386,12 @@ QStringList ClipItem::keyframes(const int index)
 {
     QStringList result;
     QDomElement effect = m_effectList.at(index);
-    QDomNodeList params = effect.elementsByTagName("parameter");
+    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
 
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
-        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe"))
-            result.append(e.attribute("keyframes"));
+        if (!e.isNull() && (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")))
+            result.append(e.attribute(QStringLiteral("keyframes")));
     }
     return result;
 }
@@ -432,7 +432,7 @@ void ClipItem::refreshClip(bool checkDuration, bool forceResetThumbs)
         }
     }
     if (m_clipType == Color) {
-        m_baseColor = m_binClip->getProducerColorProperty("resource");
+        m_baseColor = m_binClip->getProducerColorProperty(QStringLiteral("resource"));
         m_paintColor = m_baseColor;
         update();
     } else if (KdenliveSettings::videothumbnails()) resetThumbs(forceResetThumbs);
@@ -590,10 +590,10 @@ QDomElement ClipItem::itemXml() const
 {
     QDomDocument doc;
     QDomElement xml = m_binClip->toXml(doc);
-    if (m_speed != 1.0) xml.setAttribute("speed", m_speed);
-    if (m_strobe > 1) xml.setAttribute("strobe", m_strobe);
-    if (m_clipState == PlaylistState::AudioOnly) xml.setAttribute("audio_only", 1);
-    else if (m_clipState == PlaylistState::VideoOnly) xml.setAttribute("video_only", 1);
+    if (m_speed != 1.0) xml.setAttribute(QStringLiteral("speed"), m_speed);
+    if (m_strobe > 1) xml.setAttribute(QStringLiteral("strobe"), m_strobe);
+    if (m_clipState == PlaylistState::AudioOnly) xml.setAttribute(QStringLiteral("audio_only"), 1);
+    else if (m_clipState == PlaylistState::VideoOnly) xml.setAttribute(QStringLiteral("video_only"), 1);
     return doc.documentElement();
 }
 
@@ -1314,9 +1314,9 @@ void ClipItem::updateEffect(QDomElement effect)
 {
     ////qDebug() << "CHange EFFECT AT: " << ix << ", CURR: " << m_effectList.at(ix).attribute("tag") << ", NEW: " << effect.attribute("tag");
     m_effectList.updateEffect(effect);
-    m_effectNames = m_effectList.effectNames().join(" / ");
-    QString id = effect.attribute("id");
-    if (id == "fadein" || id == "fadeout" || id == "fade_from_black" || id == "fade_to_black")
+    m_effectNames = m_effectList.effectNames().join(QStringLiteral(" / "));
+    QString id = effect.attribute(QStringLiteral("id"));
+    if (id == QLatin1String("fadein") || id == QLatin1String("fadeout") || id == QLatin1String("fade_from_black") || id == QLatin1String("fade_to_black"))
         update();
     else {
         QRectF r = boundingRect();
@@ -1336,12 +1336,12 @@ bool ClipItem::moveEffect(QDomElement effect, int ix)
         //qDebug() << "Invalid effect index: " << ix;
         return false;
     }
-    m_effectList.removeAt(effect.attribute("kdenlive_ix").toInt());
-    effect.setAttribute("kdenlive_ix", ix);
+    m_effectList.removeAt(effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
+    effect.setAttribute(QStringLiteral("kdenlive_ix"), ix);
     m_effectList.insert(effect);
-    m_effectNames = m_effectList.effectNames().join(" / ");
-    QString id = effect.attribute("id");
-    if (id == "fadein" || id == "fadeout" || id == "fade_from_black" || id == "fade_to_black")
+    m_effectNames = m_effectList.effectNames().join(QStringLiteral(" / "));
+    QString id = effect.attribute(QStringLiteral("id"));
+    if (id == QLatin1String("fadein") || id == QLatin1String("fadeout") || id == QLatin1String("fade_from_black") || id == QLatin1String("fade_to_black"))
         update();
     else {
         QRectF r = boundingRect();
@@ -1358,75 +1358,75 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     int ix;
     QDomElement insertedEffect;
-    if (!effect.hasAttribute("kdenlive_ix")) {
+    if (!effect.hasAttribute(QStringLiteral("kdenlive_ix"))) {
         // effect dropped from effect list
         ix = effectsCounter();
-    } else ix = effect.attribute("kdenlive_ix").toInt();
+    } else ix = effect.attribute(QStringLiteral("kdenlive_ix")).toInt();
     if (!m_effectList.isEmpty() && ix <= m_effectList.count()) {
         needRepaint = true;
         insertedEffect = m_effectList.insert(effect);
     } else insertedEffect = m_effectList.append(effect);
 
     // Update index to the real one
-    effect.setAttribute("kdenlive_ix", insertedEffect.attribute("kdenlive_ix"));
+    effect.setAttribute(QStringLiteral("kdenlive_ix"), insertedEffect.attribute(QStringLiteral("kdenlive_ix")));
     int effectIn;
     int effectOut;
 
-    if (effect.attribute("tag") == "affine") {
+    if (effect.attribute(QStringLiteral("tag")) == QLatin1String("affine")) {
         // special case: the affine effect needs in / out points
-        effectIn = effect.attribute("in").toInt();
-        effectOut = effect.attribute("out").toInt();
+        effectIn = effect.attribute(QStringLiteral("in")).toInt();
+        effectOut = effect.attribute(QStringLiteral("out")).toInt();
     }
     else {
-        effectIn = EffectsList::parameter(effect, "in").toInt();
-        effectOut = EffectsList::parameter(effect, "out").toInt();
+        effectIn = EffectsList::parameter(effect, QStringLiteral("in")).toInt();
+        effectOut = EffectsList::parameter(effect, QStringLiteral("out")).toInt();
     }
     
     EffectsParameterList parameters;
-    parameters.addParam("tag", insertedEffect.attribute("tag"));
-    parameters.addParam("kdenlive_ix", insertedEffect.attribute("kdenlive_ix"));
-    if (insertedEffect.hasAttribute("src")) parameters.addParam("src", insertedEffect.attribute("src"));
-    if (insertedEffect.hasAttribute("disable")) parameters.addParam("disable", insertedEffect.attribute("disable"));
+    parameters.addParam(QStringLiteral("tag"), insertedEffect.attribute(QStringLiteral("tag")));
+    parameters.addParam(QStringLiteral("kdenlive_ix"), insertedEffect.attribute(QStringLiteral("kdenlive_ix")));
+    if (insertedEffect.hasAttribute(QStringLiteral("src"))) parameters.addParam(QStringLiteral("src"), insertedEffect.attribute(QStringLiteral("src")));
+    if (insertedEffect.hasAttribute(QStringLiteral("disable"))) parameters.addParam(QStringLiteral("disable"), insertedEffect.attribute(QStringLiteral("disable")));
 
-    QString effectId = insertedEffect.attribute("id");
-    if (effectId.isEmpty()) effectId = insertedEffect.attribute("tag");
-    parameters.addParam("id", effectId);
+    QString effectId = insertedEffect.attribute(QStringLiteral("id"));
+    if (effectId.isEmpty()) effectId = insertedEffect.attribute(QStringLiteral("tag"));
+    parameters.addParam(QStringLiteral("id"), effectId);
 
-    QDomNodeList params = insertedEffect.elementsByTagName("parameter");
+    QDomNodeList params = insertedEffect.elementsByTagName(QStringLiteral("parameter"));
     int fade = 0;
     bool needInOutSync = false;
 
     // check if it is a fade effect
-    if (effectId == "fadein") {
+    if (effectId == QLatin1String("fadein")) {
         needRepaint = true;
-        if (m_effectList.hasEffect(QString(), "fade_from_black") == -1) {
+        if (m_effectList.hasEffect(QString(), QStringLiteral("fade_from_black")) == -1) {
             fade = effectOut - effectIn;
         }/* else {
         QDomElement fadein = m_effectList.getEffectByTag(QString(), "fade_from_black");
             if (fadein.attribute("name") == "out") fade += fadein.attribute("value").toInt();
             else if (fadein.attribute("name") == "in") fade -= fadein.attribute("value").toInt();
         }*/
-    } else if (effectId == "fade_from_black") {
+    } else if (effectId == QLatin1String("fade_from_black")) {
         needRepaint = true;
-        if (m_effectList.hasEffect(QString(), "fadein") == -1) {
+        if (m_effectList.hasEffect(QString(), QStringLiteral("fadein")) == -1) {
             fade = effectOut - effectIn;
         }/* else {
         QDomElement fadein = m_effectList.getEffectByTag(QString(), "fadein");
             if (fadein.attribute("name") == "out") fade += fadein.attribute("value").toInt();
             else if (fadein.attribute("name") == "in") fade -= fadein.attribute("value").toInt();
         }*/
-    } else if (effectId == "fadeout") {
+    } else if (effectId == QLatin1String("fadeout")) {
         needRepaint = true;
-        if (m_effectList.hasEffect(QString(), "fade_to_black") == -1) {
+        if (m_effectList.hasEffect(QString(), QStringLiteral("fade_to_black")) == -1) {
             fade = effectIn - effectOut;
         } /*else {
         QDomElement fadeout = m_effectList.getEffectByTag(QString(), "fade_to_black");
             if (fadeout.attribute("name") == "out") fade -= fadeout.attribute("value").toInt();
             else if (fadeout.attribute("name") == "in") fade += fadeout.attribute("value").toInt();
         }*/
-    } else if (effectId == "fade_to_black") {
+    } else if (effectId == QLatin1String("fade_to_black")) {
         needRepaint = true;
-        if (m_effectList.hasEffect(QString(), "fadeout") == -1) {
+        if (m_effectList.hasEffect(QString(), QStringLiteral("fadeout")) == -1) {
             fade = effectIn - effectOut;
         }/* else {
         QDomElement fadeout = m_effectList.getEffectByTag(QString(), "fadeout");
@@ -1438,14 +1438,14 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull()) {
-            if (e.attribute("type") == "geometry" && !e.hasAttribute("fixed")) {
+            if (e.attribute(QStringLiteral("type")) == QLatin1String("geometry") && !e.hasAttribute(QStringLiteral("fixed"))) {
                 // Effects with a geometry parameter need to sync in / out with parent clip
                 needInOutSync = true;
             }
-            if (e.attribute("type") == "simplekeyframe") {
-                QStringList values = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
-                double factor = locale.toDouble(e.attribute("factor", "1"));
-                double offset = e.attribute("offset", "0").toDouble();
+            if (e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
+                QStringList values = e.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
+                double factor = locale.toDouble(e.attribute(QStringLiteral("factor"), QStringLiteral("1")));
+                double offset = e.attribute(QStringLiteral("offset"), QStringLiteral("0")).toDouble();
                 if (factor != 1 || offset != 0) {
                     for (int j = 0; j < values.count(); ++j) {
                         QString pos = values.at(j).section('=', 0, 0);
@@ -1453,39 +1453,39 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
                         values[j] = pos + '=' + locale.toString(val);
                     }
                 }
-                parameters.addParam(e.attribute("name"), values.join(";"));
+                parameters.addParam(e.attribute(QStringLiteral("name")), values.join(QStringLiteral(";")));
                 /*parameters.addParam("max", e.attribute("max"));
                 parameters.addParam("min", e.attribute("min"));
                 parameters.addParam("factor", );*/
-            } else if (e.attribute("type") == "keyframe") {
-                parameters.addParam("keyframes", e.attribute("keyframes"));
-                parameters.addParam("max", e.attribute("max"));
-                parameters.addParam("min", e.attribute("min"));
-                parameters.addParam("factor", e.attribute("factor", "1"));
-                parameters.addParam("offset", e.attribute("offset", "0"));
-                parameters.addParam("starttag", e.attribute("starttag", "start"));
-                parameters.addParam("endtag", e.attribute("endtag", "end"));
-            } else if (e.attribute("factor", "1") == "1" && e.attribute("offset", "0") == "0") {
-                parameters.addParam(e.attribute("name"), e.attribute("value"));
+            } else if (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe")) {
+                parameters.addParam(QStringLiteral("keyframes"), e.attribute(QStringLiteral("keyframes")));
+                parameters.addParam(QStringLiteral("max"), e.attribute(QStringLiteral("max")));
+                parameters.addParam(QStringLiteral("min"), e.attribute(QStringLiteral("min")));
+                parameters.addParam(QStringLiteral("factor"), e.attribute(QStringLiteral("factor"), QStringLiteral("1")));
+                parameters.addParam(QStringLiteral("offset"), e.attribute(QStringLiteral("offset"), QStringLiteral("0")));
+                parameters.addParam(QStringLiteral("starttag"), e.attribute(QStringLiteral("starttag"), QStringLiteral("start")));
+                parameters.addParam(QStringLiteral("endtag"), e.attribute(QStringLiteral("endtag"), QStringLiteral("end")));
+            } else if (e.attribute(QStringLiteral("factor"), QStringLiteral("1")) == QLatin1String("1") && e.attribute(QStringLiteral("offset"), QStringLiteral("0")) == QLatin1String("0")) {
+                parameters.addParam(e.attribute(QStringLiteral("name")), e.attribute(QStringLiteral("value")));
 
             } else {
                 double fact;
-                if (e.attribute("factor").contains('%')) {
-                    fact = EffectsController::getStringEval(info, e.attribute("factor"));
+                if (e.attribute(QStringLiteral("factor")).contains('%')) {
+                    fact = EffectsController::getStringEval(info, e.attribute(QStringLiteral("factor")));
                 } else {
-                    fact = locale.toDouble(e.attribute("factor", "1"));
+                    fact = locale.toDouble(e.attribute(QStringLiteral("factor"), QStringLiteral("1")));
                 }
-                double offset = e.attribute("offset", "0").toDouble();
-                parameters.addParam(e.attribute("name"), locale.toString((locale.toDouble(e.attribute("value")) - offset) / fact));
+                double offset = e.attribute(QStringLiteral("offset"), QStringLiteral("0")).toDouble();
+                parameters.addParam(e.attribute(QStringLiteral("name")), locale.toString((locale.toDouble(e.attribute(QStringLiteral("value"))) - offset) / fact));
             }
         }
     }
     if (needInOutSync) {
-        parameters.addParam("in", QString::number((int) cropStart().frames(m_fps)));
-        parameters.addParam("out", QString::number((int) (cropStart() + cropDuration()).frames(m_fps) - 1));
-        parameters.addParam("_sync_in_out", "1");
+        parameters.addParam(QStringLiteral("in"), QString::number((int) cropStart().frames(m_fps)));
+        parameters.addParam(QStringLiteral("out"), QString::number((int) (cropStart() + cropDuration()).frames(m_fps) - 1));
+        parameters.addParam(QStringLiteral("_sync_in_out"), QStringLiteral("1"));
     }
-    m_effectNames = m_effectList.effectNames().join(" / ");
+    m_effectNames = m_effectList.effectNames().join(QStringLiteral(" / "));
     if (fade > 0) m_startFade = fade;
     else if (fade < 0) m_endFade = -fade;
 
@@ -1513,18 +1513,18 @@ void ClipItem::deleteEffect(int ix)
 {
     bool needRepaint = false;
     QDomElement effect = m_effectList.itemFromIndex(ix);
-    QString effectId = effect.attribute("id");
-    if ((effectId == "fadein" && hasEffect(QString(), "fade_from_black") == -1) ||
-            (effectId == "fade_from_black" && hasEffect(QString(), "fadein") == -1)) {
+    QString effectId = effect.attribute(QStringLiteral("id"));
+    if ((effectId == QLatin1String("fadein") && hasEffect(QString(), QStringLiteral("fade_from_black")) == -1) ||
+            (effectId == QLatin1String("fade_from_black") && hasEffect(QString(), QStringLiteral("fadein")) == -1)) {
         m_startFade = 0;
         needRepaint = true;
-    } else if ((effectId == "fadeout" && hasEffect(QString(), "fade_to_black") == -1) ||
-               (effectId == "fade_to_black" && hasEffect(QString(), "fadeout") == -1)) {
+    } else if ((effectId == QLatin1String("fadeout") && hasEffect(QString(), QStringLiteral("fade_to_black")) == -1) ||
+               (effectId == QLatin1String("fade_to_black") && hasEffect(QString(), QStringLiteral("fadeout")) == -1)) {
         m_endFade = 0;
         needRepaint = true;
     } else if (EffectsList::hasKeyFrames(effect)) needRepaint = true;
     m_effectList.removeAt(ix);
-    m_effectNames = m_effectList.effectNames().join(" / ");
+    m_effectNames = m_effectList.effectNames().join(QStringLiteral(" / "));
 
     if (m_effectList.isEmpty() || m_selectedEffect == ix) {
         // Current effect was removed
@@ -1590,7 +1590,7 @@ int ClipItem::nextFreeEffectGroupIndex() const
     for (int i = 0; i < m_effectList.count(); ++i) {
         QDomElement effect = m_effectList.at(i);
         EffectInfo effectInfo;
-        effectInfo.fromString(effect.attribute("kdenlive_info"));
+        effectInfo.fromString(effect.attribute(QStringLiteral("kdenlive_info")));
         if (effectInfo.groupIndex >= freeGroupIndex) {
             freeGroupIndex = effectInfo.groupIndex + 1;
         }
@@ -1604,33 +1604,33 @@ void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event)
     if (event->proposedAction() == Qt::CopyAction && scene() && !scene()->views().isEmpty()) {
         QString effects;
         bool transitionDrop = false;
-        if (event->mimeData()->hasFormat("kdenlive/transitionslist")) {
+        if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/transitionslist"))) {
             // Transition drop
-            effects = QString::fromUtf8(event->mimeData()->data("kdenlive/transitionslist"));
+            effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/transitionslist")));
             transitionDrop = true;
         } else {
             // Effect drop
-            effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
+            effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
         }
         event->acceptProposedAction();
         QDomDocument doc;
         doc.setContent(effects, true);
         QDomElement e = doc.documentElement();
-        if (e.tagName() == "effectgroup") {
+        if (e.tagName() == QLatin1String("effectgroup")) {
             // dropped an effect group
-            QDomNodeList effectlist = e.elementsByTagName("effect");
+            QDomNodeList effectlist = e.elementsByTagName(QStringLiteral("effect"));
             int freeGroupIndex = nextFreeEffectGroupIndex();
             EffectInfo effectInfo;
             for (int i = 0; i < effectlist.count(); ++i) {
                 QDomElement effect = effectlist.at(i).toElement();
-                effectInfo.fromString(effect.attribute("kdenlive_info"));
+                effectInfo.fromString(effect.attribute(QStringLiteral("kdenlive_info")));
                 effectInfo.groupIndex = freeGroupIndex;
-                effect.setAttribute("kdenlive_info", effectInfo.toString());
-                effect.removeAttribute("kdenlive_ix");
+                effect.setAttribute(QStringLiteral("kdenlive_info"), effectInfo.toString());
+                effect.removeAttribute(QStringLiteral("kdenlive_ix"));
             }
         } else {
             // single effect dropped
-            e.removeAttribute("kdenlive_ix");
+            e.removeAttribute(QStringLiteral("kdenlive_ix"));
         }
         CustomTrackView *view = static_cast<CustomTrackView*>(scene()->views().first());
         if (view) {
@@ -1648,7 +1648,7 @@ void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event)
 void ClipItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
     if (isItemLocked()) event->setAccepted(false);
-    else if (event->mimeData()->hasFormat("kdenlive/effectslist") || event->mimeData()->hasFormat("kdenlive/transitionslist")) {
+    else if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist")) || event->mimeData()->hasFormat(QStringLiteral("kdenlive/transitionslist"))) {
         event->acceptProposedAction();
     } else event->setAccepted(false);
 }
@@ -1674,8 +1674,8 @@ void ClipItem::setState(PlaylistState::ClipState state)
     if (m_clipState == PlaylistState::AudioOnly) m_baseColor = QColor(141, 215, 166);
     else {
         if (m_clipType == Color) {
-            QString colour = m_binClip->getProducerProperty("colour");
-            colour = colour.replace(0, 2, "#");
+            QString colour = m_binClip->getProducerProperty(QStringLiteral("colour"));
+            colour = colour.replace(0, 2, QStringLiteral("#"));
             m_baseColor = QColor(colour.left(7));
         } else if (m_clipType == Audio) m_baseColor = QColor(141, 215, 166);
         else m_baseColor = QColor(141, 166, 215);
@@ -1689,16 +1689,16 @@ void ClipItem::setState(PlaylistState::ClipState state)
 
 void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
 {
-    if (effect.attribute("disable") == "1") return;
+    if (effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) return;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    effect.setAttribute("active_keyframe", pos);
+    effect.setAttribute(QStringLiteral("active_keyframe"), pos);
     m_editedKeyframe = pos;
-    QDomNodeList params = effect.elementsByTagName("parameter");
+    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
-        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
-            QString kfr = e.attribute("keyframes");
+        if (!e.isNull() && (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe"))) {
+            QString kfr = e.attribute(QStringLiteral("keyframes"));
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
             QStringList newkfr;
             bool added = false;
@@ -1720,27 +1720,27 @@ void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
                 if (i == m_visibleParam)
                     newkfr.append(QString::number(pos) + '=' + QString::number(val));
                 else
-                    newkfr.append(QString::number(pos) + '=' + e.attribute("default"));
+                    newkfr.append(QString::number(pos) + '=' + e.attribute(QStringLiteral("default")));
             }
-            e.setAttribute("keyframes", newkfr.join(";"));
+            e.setAttribute(QStringLiteral("keyframes"), newkfr.join(QStringLiteral(";")));
         }
     }
 }
 
 void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double value)
 {
-    if (effect.attribute("disable") == "1") return;
+    if (effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) return;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    effect.setAttribute("active_keyframe", newpos);
-    QDomNodeList params = effect.elementsByTagName("parameter");
+    effect.setAttribute(QStringLiteral("active_keyframe"), newpos);
+    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     int start = cropStart().frames(m_fps);
     int end = (cropStart() + cropDuration()).frames(m_fps) - 1;
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.isNull()) continue;
-        if ((e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
-            QString kfr = e.attribute("keyframes");
+        if ((e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe"))) {
+            QString kfr = e.attribute(QStringLiteral("keyframes"));
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
             QStringList newkfr;
             foreach(const QString &str, keyframes) {
@@ -1755,10 +1755,10 @@ void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double 
                         newkfr.append(QString::number(newpos) + '=' + str.section('=', 1, 1));
                 }
             }
-            e.setAttribute("keyframes", newkfr.join(";"));
+            e.setAttribute(QStringLiteral("keyframes"), newkfr.join(QStringLiteral(";")));
         }
-        else if (e.attribute("type") == "geometry") {
-            QString kfr = e.attribute("value");
+        else if (e.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
+            QString kfr = e.attribute(QStringLiteral("value"));
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
             QStringList newkfr;
             foreach(const QString &str, keyframes) {
@@ -1770,7 +1770,7 @@ void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double 
                     newkfr.append(QString::number(newpos) + '=' + str.section('=', 1, 1));
                 }
             }
-            e.setAttribute("value", newkfr.join(";"));
+            e.setAttribute(QStringLiteral("value"), newkfr.join(QStringLiteral(";")));
         }
     }
 
@@ -1784,10 +1784,10 @@ void ClipItem::updateKeyframes(QDomElement effect)
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     // parse keyframes
-    QDomNodeList params = effect.elementsByTagName("parameter");
+    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     QDomElement e = params.item(m_visibleParam).toElement();
     if (e.isNull()) return;
-    if (e.attribute("intimeline") != "1") {
+    if (e.attribute(QStringLiteral("intimeline")) != QLatin1String("1")) {
         setSelectedEffect(m_selectedEffect);
         return;
     }
@@ -1796,23 +1796,23 @@ void ClipItem::updateKeyframes(QDomElement effect)
 
 bool ClipItem::parseKeyframes(const QLocale locale, QDomElement e)
 {
-    QString type = e.attribute("type");
-    if (type == "keyframe") m_keyframeType = NormalKeyframe;
-    else if (type == "simplekeyframe") m_keyframeType = SimpleKeyframe;
-    else if (type == "geometry") m_keyframeType = GeometryKeyframe;
-    if (m_keyframeType != NoKeyframe && (!e.hasAttribute("intimeline") || e.attribute("intimeline") == "1")) {
+    QString type = e.attribute(QStringLiteral("type"));
+    if (type == QLatin1String("keyframe")) m_keyframeType = NormalKeyframe;
+    else if (type == QLatin1String("simplekeyframe")) m_keyframeType = SimpleKeyframe;
+    else if (type == QLatin1String("geometry")) m_keyframeType = GeometryKeyframe;
+    if (m_keyframeType != NoKeyframe && (!e.hasAttribute(QStringLiteral("intimeline")) || e.attribute(QStringLiteral("intimeline")) == QLatin1String("1"))) {
         m_keyframes.clear();
-        double max = locale.toDouble(e.attribute("max"));
-        double min = locale.toDouble(e.attribute("min"));
+        double max = locale.toDouble(e.attribute(QStringLiteral("max")));
+        double min = locale.toDouble(e.attribute(QStringLiteral("min")));
         m_keyframeFactor = 100.0 / (max - min);
         m_keyframeOffset = min;
-        m_keyframeDefault = locale.toDouble(e.attribute("default"));
+        m_keyframeDefault = locale.toDouble(e.attribute(QStringLiteral("default")));
         m_selectedKeyframe = 0;
 
         // parse keyframes
         QStringList keyframes;
-        if (m_keyframeType == GeometryKeyframe) keyframes = e.attribute("value").split(';', QString::SkipEmptyParts);
-        else keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
+        if (m_keyframeType == GeometryKeyframe) keyframes = e.attribute(QStringLiteral("value")).split(';', QString::SkipEmptyParts);
+        else keyframes = e.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
         foreach(const QString &str, keyframes) {
             int pos = str.section('=', 0, 0).toInt();
             double val = m_keyframeType == GeometryKeyframe ? 0 : locale.toDouble(str.section('=', 1, 1));
@@ -1844,24 +1844,24 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
     for (int i = 0; i < m_effectList.count(); ++i) {
         QDomElement effect = m_effectList.at(i);
 
-        if (effect.attribute("id").startsWith(QLatin1String("fade"))) {
-            QString id = effect.attribute("id");
-            int in = EffectsList::parameter(effect, "in").toInt();
-            int out = EffectsList::parameter(effect, "out").toInt();
+        if (effect.attribute(QStringLiteral("id")).startsWith(QLatin1String("fade"))) {
+            QString id = effect.attribute(QStringLiteral("id"));
+            int in = EffectsList::parameter(effect, QStringLiteral("in")).toInt();
+            int out = EffectsList::parameter(effect, QStringLiteral("out")).toInt();
             int clipEnd = (cropStart() + cropDuration()).frames(m_fps) - 1;
-            if (id == "fade_from_black" || id == "fadein") {
+            if (id == QLatin1String("fade_from_black") || id == QLatin1String("fadein")) {
                 if (in != cropStart().frames(m_fps)) {
                     effects[i] = effect.cloneNode().toElement();
                     int duration = out - in;
                     in = cropStart().frames(m_fps);
                     out = in + duration;
-                    EffectsList::setParameter(effect, "in", QString::number(in));
-                    EffectsList::setParameter(effect, "out", QString::number(out));
+                    EffectsList::setParameter(effect, QStringLiteral("in"), QString::number(in));
+                    EffectsList::setParameter(effect, QStringLiteral("out"), QString::number(out));
                 }
                 if (out > clipEnd) {
                     if (!effects.contains(i))
                         effects[i] = effect.cloneNode().toElement();
-                    EffectsList::setParameter(effect, "out", QString::number(clipEnd));
+                    EffectsList::setParameter(effect, QStringLiteral("out"), QString::number(clipEnd));
                 }
                 if (effects.contains(i)) {
                     setFadeIn(out - in);
@@ -1872,48 +1872,48 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
                     int diff = out - clipEnd;
                     in = qMax(in - diff, (int) cropStart().frames(m_fps));
                     out -= diff;
-                    EffectsList::setParameter(effect, "in", QString::number(in));
-                    EffectsList::setParameter(effect, "out", QString::number(out));
+                    EffectsList::setParameter(effect, QStringLiteral("in"), QString::number(in));
+                    EffectsList::setParameter(effect, QStringLiteral("out"), QString::number(out));
                 }
                 if (in < cropStart().frames(m_fps)) {
                     if (!effects.contains(i))
                         effects[i] = effect.cloneNode().toElement();
-                    EffectsList::setParameter(effect, "in", QString::number((int) cropStart().frames(m_fps)));
+                    EffectsList::setParameter(effect, QStringLiteral("in"), QString::number((int) cropStart().frames(m_fps)));
                 }
                 if (effects.contains(i))
                     setFadeOut(out - in);
             }
             continue;
-        } else if (effect.attribute("id") == "freeze" && cropStart() != oldInfo.cropStart) {
+        } else if (effect.attribute(QStringLiteral("id")) == QLatin1String("freeze") && cropStart() != oldInfo.cropStart) {
             effects[i] = effect.cloneNode().toElement();
             int diff = (oldInfo.cropStart - cropStart()).frames(m_fps);
-            int frame = EffectsList::parameter(effect, "frame").toInt();
-            EffectsList::setParameter(effect, "frame", QString::number(frame - diff));
+            int frame = EffectsList::parameter(effect, QStringLiteral("frame")).toInt();
+            EffectsList::setParameter(effect, QStringLiteral("frame"), QString::number(frame - diff));
             continue;
-        } else if (effect.attribute("id") == "pan_zoom") {
-            effect.setAttribute("in", cropStart().frames(m_fps));
-            effect.setAttribute("out", (cropStart() + cropDuration()).frames(m_fps) - 1);
+        } else if (effect.attribute(QStringLiteral("id")) == QLatin1String("pan_zoom")) {
+            effect.setAttribute(QStringLiteral("in"), cropStart().frames(m_fps));
+            effect.setAttribute(QStringLiteral("out"), (cropStart() + cropDuration()).frames(m_fps) - 1);
         }
 
-        QDomNodeList params = effect.elementsByTagName("parameter");
+        QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
         for (int j = 0; j < params.count(); ++j) {
             QDomElement param = params.item(j).toElement();
 
-            QString type = param.attribute("type");
-            if (type == "geometry" && !param.hasAttribute("fixed")) {
+            QString type = param.attribute(QStringLiteral("type"));
+            if (type == QLatin1String("geometry") && !param.hasAttribute(QStringLiteral("fixed"))) {
                 if (!effects.contains(i))
                     effects[i] = effect.cloneNode().toElement();
                 updateGeometryKeyframes(effect, j, width, height, oldInfo);
-            } else if (type == "simplekeyframe" || type == "keyframe") {
+            } else if (type == QLatin1String("simplekeyframe") || type == QLatin1String("keyframe")) {
                 if (!effects.contains(i))
                     effects[i] = effect.cloneNode().toElement();
                 updateNormalKeyframes(param, oldInfo);
-            } else if (type == "roto-spline") {
+            } else if (type == QLatin1String("roto-spline")) {
                 if (!effects.contains(i))
                     effects[i] = effect.cloneNode().toElement();
-                QByteArray value = param.attribute("value").toLatin1();
+                QByteArray value = param.attribute(QStringLiteral("value")).toLatin1();
                 if (adjustRotoDuration(&value, cropStart().frames(m_fps), (cropStart() + cropDuration()).frames(m_fps) - 1))
-                    param.setAttribute("value", QString(value));
+                    param.setAttribute(QStringLiteral("value"), QString(value));
             }
         }
     }
@@ -1929,7 +1929,7 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo)
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     bool keyFrameUpdated = false;
 
-    const QStringList data = parameter.attribute("keyframes").split(';', QString::SkipEmptyParts);
+    const QStringList data = parameter.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
     QMap <int, double> keyframes;
     foreach (const QString &keyframe, data) {
         int keyframepos = keyframe.section('=', 0, 0).toInt();
@@ -1998,7 +1998,7 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo)
             newkfr.append(QString::number(k.key()) + '=' + QString::number(qRound(k.value())) + ';');
             ++k;
         }
-        parameter.setAttribute("keyframes", newkfr);
+        parameter.setAttribute(QStringLiteral("keyframes"), newkfr);
         return true;
     }
 
@@ -2007,9 +2007,9 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo)
 
 void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, int width, int height, ItemInfo oldInfo)
 {
-    QDomElement param = effect.elementsByTagName("parameter").item(paramIndex).toElement();
+    QDomElement param = effect.elementsByTagName(QStringLiteral("parameter")).item(paramIndex).toElement();
     int offset = oldInfo.cropStart.frames(m_fps);
-    QString data = param.attribute("value");
+    QString data = param.attribute(QStringLiteral("value"));
     if (offset > 0) {
         QStringList kfrs = data.split(';');
         data.clear();
@@ -2025,10 +2025,10 @@ void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, int w
     Mlt::Geometry geometry(data.toUtf8().data(), oldInfo.cropDuration.frames(m_fps), width, height);
     QString result = geometry.serialise(cropStart().frames(m_fps), (cropStart() + cropDuration()).frames(m_fps) - 1);
     // We need to make sure that first keyframe, when at 0 time pos, contains the "0=" keyword, required for new MLT rect property
-    if (result.contains(";") && !result.section(";",0,0).contains("=")) {
+    if (result.contains(QStringLiteral(";")) && !result.section(QStringLiteral(";"),0,0).contains(QStringLiteral("="))) {
         result.prepend("0=");
     }
-    param.setAttribute("value", result);
+    param.setAttribute(QStringLiteral("value"), result);
 }
 
 void ClipItem::slotRefreshClip()
@@ -2051,10 +2051,10 @@ PlaylistState::ClipState ClipItem::clipState() const
 
 void ClipItem::updateState(const QString &id)
 {
-    if (id.endsWith("_audio")) {
+    if (id.endsWith(QLatin1String("_audio"))) {
         m_clipState = PlaylistState::AudioOnly;
     }
-    else if (id.endsWith("_video")) {
+    else if (id.endsWith(QLatin1String("_video"))) {
         m_clipState = PlaylistState::VideoOnly;
     }
     else {

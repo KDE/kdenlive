@@ -84,19 +84,19 @@ int main(int argc, char **argv)
         if (vprepos >= 0) {
             vpre=args.at(vprepos);
         }
-        QStringList vprelist = vpre.remove(QLatin1String("vpre=")).split(QLatin1Char(','));
+        QStringList vprelist = vpre.remove(QStringLiteral("vpre=")).split(QLatin1Char(','));
         if (vprelist.size() > 0) {
-            args.replaceInStrings(QRegExp(QLatin1String("^vpre=.*")), QString::fromLatin1("vpre=%1").arg(vprelist.at(0)));
+            args.replaceInStrings(QRegExp(QLatin1String("^vpre=.*")), QStringLiteral("vpre=%1").arg(vprelist.at(0)));
         }
 
-        if (args.contains(QLatin1String("pass=2"))) {
+        if (args.contains(QStringLiteral("pass=2"))) {
             // dual pass encoding
             dualpass = true;
             doerase = false;
-            args.replace(args.indexOf(QLatin1String("pass=2")), QLatin1String("pass=1"));
-            if (args.contains(QLatin1String("vcodec=libx264"))) args << QString::fromLatin1("passlogfile=%1").arg(dest + QLatin1String(".log"));
+            args.replace(args.indexOf(QStringLiteral("pass=2")), QStringLiteral("pass=1"));
+            if (args.contains(QStringLiteral("vcodec=libx264"))) args << QStringLiteral("passlogfile=%1").arg(dest + QStringLiteral(".log"));
         } else {
-            args.removeAll(QLatin1String("pass=1"));
+            args.removeAll(QStringLiteral("pass=1"));
             doerase = erase;
         }
         
@@ -104,7 +104,7 @@ int main(int argc, char **argv)
         for (int i = 0; i < args.count(); ++i) {
             if (args.at(i).startsWith(QLatin1String("meta.attr"))) {
                 QString data = args.at(i);
-                args.replace(i, data.section(QLatin1Char('='), 0, 0) + QLatin1String("=\"") + QUrl::fromPercentEncoding(data.section(QLatin1Char('='), 1).toUtf8()) + QLatin1Char('\"'));
+                args.replace(i, data.section(QLatin1Char('='), 0, 0) + QStringLiteral("=\"") + QUrl::fromPercentEncoding(data.section(QLatin1Char('='), 1).toUtf8()) + QLatin1Char('\"'));
             }
         }
 
@@ -114,8 +114,8 @@ int main(int argc, char **argv)
         job->start();
         if (dualpass) {
             if (vprelist.size()>1)
-                args.replaceInStrings(QRegExp(QLatin1String("^vpre=.*")),QString::fromLatin1("vpre=%1").arg(vprelist.at(1)));
-            args.replace(args.indexOf(QLatin1String("pass=1")), QLatin1String("pass=2"));
+                args.replaceInStrings(QRegExp(QLatin1String("^vpre=.*")),QStringLiteral("vpre=%1").arg(vprelist.at(1)));
+            args.replace(args.indexOf(QStringLiteral("pass=1")), QStringLiteral("pass=2"));
             RenderJob *dualjob = new RenderJob(erase, usekuiserver, pid, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
             QObject::connect(job, SIGNAL(renderingFinished()), dualjob, SLOT(start()));
         }

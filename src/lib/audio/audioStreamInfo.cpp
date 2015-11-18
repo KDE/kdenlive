@@ -19,16 +19,16 @@ AudioStreamInfo::AudioStreamInfo(Mlt::Producer *producer, int audioStreamIndex) 
 {
     QByteArray key;
 
-    key = QString::fromLatin1("meta.media.%1.codec.sample_fmt").arg(audioStreamIndex).toLocal8Bit();
+    key = QStringLiteral("meta.media.%1.codec.sample_fmt").arg(audioStreamIndex).toLocal8Bit();
     m_samplingFormat = QString::fromLatin1(producer->get(key.data()));
 
-    key = QString::fromLatin1("meta.media.%1.codec.sample_rate").arg(audioStreamIndex).toLocal8Bit();
+    key = QStringLiteral("meta.media.%1.codec.sample_rate").arg(audioStreamIndex).toLocal8Bit();
     m_samplingRate = producer->get_int(key.data());
 
-    key = QString::fromLatin1("meta.media.%1.codec.bit_rate").arg(audioStreamIndex).toLocal8Bit();
+    key = QStringLiteral("meta.media.%1.codec.bit_rate").arg(audioStreamIndex).toLocal8Bit();
     m_bitRate = producer->get_int(key.data());
 
-    key = QString::fromLatin1("meta.media.%1.codec.channels").arg(audioStreamIndex).toLocal8Bit();
+    key = QStringLiteral("meta.media.%1.codec.channels").arg(audioStreamIndex).toLocal8Bit();
     m_channels = producer->get_int(key.data());
 }
 

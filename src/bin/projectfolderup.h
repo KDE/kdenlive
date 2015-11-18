@@ -69,6 +69,9 @@ public:
      */    
     ProjectClip* clipAt(int index);
 
+    /** @brief Recursively disable/enable bin effects. */
+    void disableEffects(bool disable);
+
     /** @brief Returns a pointer to the bin model this folder belongs to. */
     Bin *bin();
 

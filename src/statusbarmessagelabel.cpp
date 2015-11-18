@@ -68,7 +68,7 @@ void StatusBarMessageLabel::setMessage(const QString& text,
     StatusBarMessageItem item(text, type, timeoutMS);
 
     if (item.type == ErrorMessage || item.type == MltError) {
-        KNotification::event("ErrorMessage", item.text);
+        KNotification::event(QStringLiteral("ErrorMessage"), item.text);
     }
 
     m_queueSemaphore.acquire();

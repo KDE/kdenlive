@@ -287,17 +287,17 @@ void Render::slotSplitView(bool doit)
                 QString geometry;
                 switch (screen) {
                 case 0:
-                    geometry = "0/0:50%x50%";
+                    geometry = QStringLiteral("0/0:50%x50%");
                     break;
                 case 1:
-                    geometry = "50%/0:50%x50%";
+                    geometry = QStringLiteral("50%/0:50%x50%");
                     break;
                 case 2:
-                    geometry = "0/50%:50%x50%";
+                    geometry = QStringLiteral("0/50%:50%x50%");
                     break;
                 case 3:
                 default:
-                    geometry = "50%/50%:50%x50%";
+                    geometry = QStringLiteral("50%/50%:50%x50%");
                     break;
                 }
                 transition->set("geometry", geometry.toUtf8().constData());
@@ -315,9 +315,9 @@ void Render::slotSplitView(bool doit)
         QString resource = mlt_properties_get(properties, "mlt_service");
         mlt_service nextservicetodisconnect;
 
-        while (mlt_type == "transition") {
+        while (mlt_type == QLatin1String("transition")) {
             QString added = mlt_properties_get(MLT_SERVICE_PROPERTIES(nextservice), "internal_added");
-            if (added == "200") {
+            if (added == QLatin1String("200")) {
                 nextservicetodisconnect = nextservice;
                 nextservice = mlt_service_producer(nextservice);
                 mlt_field_disconnect_service(field->get_field(), nextservicetodisconnect);
@@ -426,14 +426,14 @@ bool Render::isProcessing(const QString &id)
 ClipType Render::getTypeForService(const QString &id, const QString &path) const
 {
     if (id.isEmpty()) {
-        QString ext = path.section(".", -1);
-        if (ext == "mlt" || ext == "kdenlive") return Playlist;
+        QString ext = path.section(QStringLiteral("."), -1);
+        if (ext == QLatin1String("mlt") || ext == QLatin1String("kdenlive")) return Playlist;
         return Unknown;
     }
-    if (id == "color" || id == "colour") return Color;
-    if (id == "kdenlivetitle") return Text;
-    if (id == "xml" || id == "consumer") return Playlist;
-    if (id == "webvfx") return WebVfx;
+    if (id == QLatin1String("color") || id == QLatin1String("colour")) return Color;
+    if (id == QLatin1String("kdenlivetitle")) return Text;
+    if (id == QLatin1String("xml") || id == QLatin1String("consumer")) return Playlist;
+    if (id == QLatin1String("webvfx")) return WebVfx;
     return Unknown;
 }
 
@@ -442,16 +442,17 @@ void Render::processProducerProperties(Mlt::Producer *prod, QDomElement xml)
     //TODO: there is some duplication with clipcontroller > updateproducer that also copies properties 
     QString value;
     QStringList internalProperties;
-    internalProperties << "bypassDuplicate" << "resource" << "mlt_service" << "audio_index" << "video_index" << "mlt_type";
+    internalProperties << QStringLiteral("bypassDuplicate") << QStringLiteral("resource") << QStringLiteral("mlt_service") << QStringLiteral("audio_index") << QStringLiteral("video_index") << QStringLiteral("mlt_type");
     QDomNodeList props;
-    if (xml.tagName() == "producer") {
+
+    if (xml.tagName() == QLatin1String("producer")) {
 	props = xml.childNodes();
     }
     else {
-	props = xml.firstChildElement("producer").childNodes();
+	props = xml.firstChildElement(QStringLiteral("producer")).childNodes();
     }
     for (int i = 0; i < props.count(); ++i) {
-        if (props.at(i).toElement().tagName() != "property") continue;
+        if (props.at(i).toElement().tagName() != QStringLiteral("property")) continue;
         QString propertyName = props.at(i).toElement().attribute("name");
         if (!internalProperties.contains(propertyName) && !propertyName.startsWith("_")) {
             value = props.at(i).firstChild().nodeValue();
@@ -469,7 +470,7 @@ void Render::processFileProperties()
     while (!m_requestList.isEmpty()) {
         m_infoMutex.lock();
         info = m_requestList.takeFirst();
-        if (info.xml.hasAttribute("thumbnailOnly")) {
+        if (info.xml.hasAttribute(QStringLiteral("thumbnailOnly"))) {
             m_infoMutex.unlock();
             // Special case, we just want the thumbnail for existing producer
             Mlt::Producer *prod = new Mlt::Producer(*m_binController->getBinProducer(info.clipId));
@@ -487,7 +488,7 @@ void Render::processFileProperties()
                 prod->attach(scaler);
                 prod->attach(converter);
             }
-            int frameNumber = ProjectClip::getXmlProperty(info.xml, "kdenlive:thumbnailFrame", "-1").toInt();
+            int frameNumber = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:thumbnailFrame"), QStringLiteral("-1")).toInt();
             if (frameNumber > 0) prod->seek(frameNumber);
             Mlt::Frame *frame = prod->get_frame();
             if (frame && frame->is_valid()) {
@@ -505,10 +506,10 @@ void Render::processFileProperties()
 
         QString path;
         bool proxyProducer;
-        QString proxy = ProjectClip::getXmlProperty(info.xml, "kdenlive:proxy");
+        QString proxy = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:proxy"));
         if (!proxy.isEmpty()) {
-            if (proxy == "-") {
-                path = ProjectClip::getXmlProperty(info.xml, "kdenlive:originalurl");
+            if (proxy == QLatin1String("-")) {
+                path = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:originalurl"));
                 proxyProducer = false;
             }
             else {
@@ -519,22 +520,22 @@ void Render::processFileProperties()
                     emit requestProxy(info.clipId);
                     proxyProducer = false;
                     //path = info.xml.attribute("resource");
-                    path = ProjectClip::getXmlProperty(info.xml, "resource");
+                    path = ProjectClip::getXmlProperty(info.xml, QStringLiteral("resource"));
                 }
                 else proxyProducer = true;
             }
         }
         else {
-	    path = ProjectClip::getXmlProperty(info.xml, "resource");
+	    path = ProjectClip::getXmlProperty(info.xml, QStringLiteral("resource"));
             //path = info.xml.attribute("resource");
             proxyProducer = false;
         }
         //qDebug()<<" / / /CHECKING PRODUCER PATH: "<<path;
         QUrl url = QUrl::fromLocalFile(path);
         Mlt::Producer *producer = NULL;
-        ClipType type = (ClipType)info.xml.attribute("type").toInt();
+        ClipType type = (ClipType)info.xml.attribute(QStringLiteral("type")).toInt();
         if (type == Unknown) {
-            type = getTypeForService(ProjectClip::getXmlProperty(info.xml, "mlt_service"), path);
+            type = getTypeForService(ProjectClip::getXmlProperty(info.xml, QStringLiteral("mlt_service")), path);
         }
         if (type == Color) {
             path.prepend("color:");
@@ -567,16 +568,16 @@ void Render::processFileProperties()
         } else if (!url.isValid()) {
             //WARNING: when is this case used? Not sure it is working.. JBM/
             QDomDocument doc;
-            QDomElement mlt = doc.createElement("mlt");
-            QDomElement play = doc.createElement("playlist");
-            play.setAttribute("id", "playlist0");
+            QDomElement mlt = doc.createElement(QStringLiteral("mlt"));
+            QDomElement play = doc.createElement(QStringLiteral("playlist"));
+            play.setAttribute(QStringLiteral("id"), QStringLiteral("playlist0"));
             doc.appendChild(mlt);
             mlt.appendChild(play);
             play.appendChild(doc.importNode(info.xml, true));
-            QDomElement tractor = doc.createElement("tractor");
-            tractor.setAttribute("id", "tractor0");
-            QDomElement track = doc.createElement("track");
-            track.setAttribute("producer", "playlist0");
+            QDomElement tractor = doc.createElement(QStringLiteral("tractor"));
+            tractor.setAttribute(QStringLiteral("id"), QStringLiteral("tractor0"));
+            QDomElement track = doc.createElement(QStringLiteral("track"));
+            track.setAttribute(QStringLiteral("producer"), QStringLiteral("playlist0"));
             tractor.appendChild(track);
             mlt.appendChild(tractor);
             producer = new Mlt::Producer(*m_qmlView->profile(), "xml-string", doc.toString().toUtf8().constData());
@@ -596,19 +597,19 @@ void Render::processFileProperties()
         }
         // Pass useful properties
         processProducerProperties(producer, info.xml);
-        QString clipName = ProjectClip::getXmlProperty(info.xml, "kdenlive:clipname");
+        QString clipName = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:clipname"));
         if (!clipName.isEmpty()) {
             producer->set("kdenlive:clipname", clipName.toUtf8().constData());
         }
-        QString groupId = ProjectClip::getXmlProperty(info.xml, "kdenlive:folderid");
+        QString groupId = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:folderid"));
         if (!groupId.isEmpty()) {
             producer->set("kdenlive:folderid", groupId.toUtf8().constData());
         }
 
-        if (proxyProducer && info.xml.hasAttribute("proxy_out")) {
-            producer->set("length", info.xml.attribute("proxy_out").toInt() + 1);
-            producer->set("out", info.xml.attribute("proxy_out").toInt());
-            if (producer->get_out() != info.xml.attribute("proxy_out").toInt()) {
+        if (proxyProducer && info.xml.hasAttribute(QStringLiteral("proxy_out"))) {
+            producer->set("length", info.xml.attribute(QStringLiteral("proxy_out")).toInt() + 1);
+            producer->set("out", info.xml.attribute(QStringLiteral("proxy_out")).toInt());
+            if (producer->get_out() != info.xml.attribute(QStringLiteral("proxy_out")).toInt()) {
                 // Proxy file length is different than original clip length, this will corrupt project so disable this proxy clip
                 qDebug()<<"/ // PROXY LENGTH MISMATCH, DELETE PRODUCER";
                 m_processingClipId.removeAll(info.clipId);
@@ -670,19 +671,19 @@ void Render::processFileProperties()
 
         int clipOut = 0;
         int duration = 0;
-        if (info.xml.hasAttribute("out")) clipOut = info.xml.attribute("out").toInt();
+        if (info.xml.hasAttribute(QStringLiteral("out"))) clipOut = info.xml.attribute(QStringLiteral("out")).toInt();
 
         // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken even if outpoint is larger
         if (type == Color || type == Text || type == Image || type == SlideShow) {
             int length;
-            if (info.xml.hasAttribute("length")) {
-                length = info.xml.attribute("length").toInt();
+            if (info.xml.hasAttribute(QStringLiteral("length"))) {
+                length = info.xml.attribute(QStringLiteral("length")).toInt();
                 clipOut = length - 1;
             }
-            else length = info.xml.attribute("out").toInt() - info.xml.attribute("in").toInt() + 1;
+            else length = info.xml.attribute(QStringLiteral("out")).toInt() - info.xml.attribute(QStringLiteral("in")).toInt() + 1;
             // Pass duration if it was forced
-            if (info.xml.hasAttribute("duration")) {
-                duration = info.xml.attribute("duration").toInt();
+            if (info.xml.hasAttribute(QStringLiteral("duration"))) {
+                duration = info.xml.attribute(QStringLiteral("duration")).toInt();
                 if (length < duration) {
                     length = duration;
                     if (clipOut > 0) clipOut = length - 1;
@@ -692,15 +693,15 @@ void Render::processFileProperties()
             producer->set("length", length);
         }
 
-        if (clipOut > 0) producer->set_in_and_out(info.xml.attribute("in").toInt(), clipOut);
+        if (clipOut > 0) producer->set_in_and_out(info.xml.attribute(QStringLiteral("in")).toInt(), clipOut);
 
-        if (info.xml.hasAttribute("templatetext"))
-            producer->set("templatetext", info.xml.attribute("templatetext").toUtf8().constData());
+        if (info.xml.hasAttribute(QStringLiteral("templatetext")))
+            producer->set("templatetext", info.xml.attribute(QStringLiteral("templatetext")).toUtf8().constData());
 
         int fullWidth = (int)((double) info.imageHeight * m_qmlView->profile()->dar() + 0.5);
-        int frameNumber = ProjectClip::getXmlProperty(info.xml, "kdenlive:thumbnailFrame", "-1").toInt();
+        int frameNumber = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:thumbnailFrame"), QStringLiteral("-1")).toInt();
 
-        if ((!info.replaceProducer && !EffectsList::property(info.xml, "kdenlive:file_hash").isEmpty()) || proxyProducer) {
+        if ((!info.replaceProducer && !EffectsList::property(info.xml, QStringLiteral("kdenlive:file_hash")).isEmpty()) || proxyProducer) {
             // Clip  already has all properties
             // We want to replace an existing producer. We MUST NOT set the producer's id property until 
             // the old one has been removed.
@@ -731,15 +732,15 @@ void Render::processFileProperties()
         ////qDebug() << "///////  PRODUCER: " << url.path() << " IS: " << producer->get_playtime();
 
         if (type == SlideShow) {
-	    int ttl = EffectsList::property(info.xml,"ttl").toInt();
-	    QString anim = EffectsList::property(info.xml,"animation");
+	    int ttl = EffectsList::property(info.xml,QStringLiteral("ttl")).toInt();
+	    QString anim = EffectsList::property(info.xml,QStringLiteral("animation"));
             if (!anim.isEmpty()) {
                 Mlt::Filter *filter = new Mlt::Filter(*m_qmlView->profile(), "affine");
                 if (filter && filter->is_valid()) {
                     int cycle = ttl;
                     QString geometry = SlideshowClip::animationToGeometry(anim, cycle);
                     if (!geometry.isEmpty()) {
-                        if (anim.contains("low-pass")) {
+                        if (anim.contains(QStringLiteral("low-pass"))) {
                             Mlt::Filter *blur = new Mlt::Filter(*m_qmlView->profile(), "boxblur");
                             if (blur && blur->is_valid())
                                 producer->attach(*blur);
@@ -750,18 +751,18 @@ void Render::processFileProperties()
                     }
                 }
             }
-            QString fade = EffectsList::property(info.xml,"fade");
-	    if (fade == "1") {
+            QString fade = EffectsList::property(info.xml,QStringLiteral("fade"));
+	    if (fade == QLatin1String("1")) {
                 // user wants a fade effect to slideshow
                 Mlt::Filter *filter = new Mlt::Filter(*m_qmlView->profile(), "luma");
                 if (filter && filter->is_valid()) {
                     if (ttl) filter->set("cycle", ttl);
-		    QString luma_duration = EffectsList::property(info.xml,"luma_duration");
-		    QString luma_file = EffectsList::property(info.xml,"luma_file");
+		    QString luma_duration = EffectsList::property(info.xml,QStringLiteral("luma_duration"));
+		    QString luma_file = EffectsList::property(info.xml,QStringLiteral("luma_file"));
 		    if (!luma_duration.isEmpty()) filter->set("duration", luma_duration.toInt());
                     if (!luma_file.isEmpty()) {
                         filter->set("luma.resource", luma_file.toUtf8().constData());
-			QString softness = EffectsList::property(info.xml,"softness");
+			QString softness = EffectsList::property(info.xml,QStringLiteral("softness"));
                         if (!softness.isEmpty()) {
                             int soft = softness.toInt();
                             filter->set("luma.softness", (double) soft / 100.0);
@@ -770,8 +771,8 @@ void Render::processFileProperties()
                     producer->attach(*filter);
                 }
             }
-            QString crop = EffectsList::property(info.xml,"crop");
-            if (crop == "1") {
+            QString crop = EffectsList::property(info.xml,QStringLiteral("crop"));
+            if (crop == QLatin1String("1")) {
                 // user wants to center crop the slides
                 Mlt::Filter *filter = new Mlt::Filter(*m_qmlView->profile(), "crop");
                 if (filter && filter->is_valid()) {
@@ -785,16 +786,16 @@ void Render::processFileProperties()
         if (mltService == QLatin1String("xml") || mltService == QLatin1String("consumer")) {
             // MLT playlist, create producer with blank profile to get real profile info
             if (path.startsWith(QLatin1String("consumer:"))) {
-                path = "xml:" + path.section(":", 1);
+                path = "xml:" + path.section(QStringLiteral(":"), 1);
             }
             Mlt::Profile *original_profile = new Mlt::Profile();
             Mlt::Producer *tmpProd = new Mlt::Producer(*original_profile, 0, path.toUtf8().constData());
             original_profile->from_producer(*tmpProd);
             original_profile->set_explicit(true);
-            filePropertyMap["progressive"] = QString::number(original_profile->progressive());
-            filePropertyMap["colorspace"] = QString::number(original_profile->colorspace());
-            filePropertyMap["fps"] = QString::number(original_profile->fps());
-            filePropertyMap["aspect_ratio"] = QString::number(original_profile->sar());
+            filePropertyMap[QStringLiteral("progressive")] = QString::number(original_profile->progressive());
+            filePropertyMap[QStringLiteral("colorspace")] = QString::number(original_profile->colorspace());
+            filePropertyMap[QStringLiteral("fps")] = QString::number(original_profile->fps());
+            filePropertyMap[QStringLiteral("aspect_ratio")] = QString::number(original_profile->sar());
             double originalFps = original_profile->fps();
             if (originalFps > 0 && originalFps != m_qmlView->profile()->fps()) {
                 // Warning, MLT detects an incorrect length in producer consumer when producer's fps != project's fps
@@ -809,7 +810,7 @@ void Render::processFileProperties()
             delete tmpProd;
             delete original_profile;
         }
-        else if (mltService == "avformat") {
+        else if (mltService == QLatin1String("avformat")) {
             // Get frame rate
             vindex = producer->get_int("video_index");
             // List streams
@@ -817,51 +818,51 @@ void Render::processFileProperties()
             QList <int> audio_list;
             QList <int> video_list;
             for (int i = 0; i < streams; ++i) {
-                QByteArray propertyName = QString("meta.media.%1.stream.type").arg(i).toLocal8Bit();
+                QByteArray propertyName = QStringLiteral("meta.media.%1.stream.type").arg(i).toLocal8Bit();
                 QString type = producer->get(propertyName.data());
-                if (type == "audio") audio_list.append(i);
-                else if (type == "video") video_list.append(i);
+                if (type == QLatin1String("audio")) audio_list.append(i);
+                else if (type == QLatin1String("video")) video_list.append(i);
             }
 
-            if (!info.xml.hasAttribute("video_index") && video_list.count() > 1) {
+            if (!info.xml.hasAttribute(QStringLiteral("video_index")) && video_list.count() > 1) {
                 // Clip has more than one video stream, ask which one should be used
                 QMap <QString, QString> data;
-                if (info.xml.hasAttribute("group")) data.insert("group", info.xml.attribute("group"));
-                if (info.xml.hasAttribute("groupId")) data.insert("groupId", info.xml.attribute("groupId"));
+                if (info.xml.hasAttribute(QStringLiteral("group"))) data.insert(QStringLiteral("group"), info.xml.attribute(QStringLiteral("group")));
+                if (info.xml.hasAttribute(QStringLiteral("groupId"))) data.insert(QStringLiteral("groupId"), info.xml.attribute(QStringLiteral("groupId")));
                 emit multiStreamFound(path, audio_list, video_list, data);
                 // Force video index so that when reloading the clip we don't ask again for other streams
-                filePropertyMap["video_index"] = QString::number(vindex);
+                filePropertyMap[QStringLiteral("video_index")] = QString::number(vindex);
             }
 
             if (vindex > -1) {
                 snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
 		    double fps = producer->get_double(property);
 		    if (fps > 0) {
-			filePropertyMap["fps"] = locale.toString(fps);
+			filePropertyMap[QStringLiteral("fps")] = locale.toString(fps);
 		    }
             }
 
-            if (!filePropertyMap.contains("fps")) {
+            if (!filePropertyMap.contains(QStringLiteral("fps"))) {
                 if (producer->get_double("meta.media.frame_rate_den") > 0) {
-                    filePropertyMap["fps"] = locale.toString(producer->get_double("meta.media.frame_rate_num") / producer->get_double("meta.media.frame_rate_den"));
+                    filePropertyMap[QStringLiteral("fps")] = locale.toString(producer->get_double("meta.media.frame_rate_num") / producer->get_double("meta.media.frame_rate_den"));
                 } else {
 		    double fps = producer->get_double("source_fps");
-		    if (fps > 0) filePropertyMap["fps"] = locale.toString(fps);
+		    if (fps > 0) filePropertyMap[QStringLiteral("fps")] = locale.toString(fps);
 		}
             }
         }
-        if (!filePropertyMap.contains("fps") && type == Unknown) {
+        if (!filePropertyMap.contains(QStringLiteral("fps")) && type == Unknown) {
 	      // something wrong, maybe audio file with embedded image
 	      QMimeDatabase db;
 	      QString mime = db.mimeTypeForFile(path).name();
-	      if (mime.startsWith("audio")) {
+	      if (mime.startsWith(QLatin1String("audio"))) {
 		  producer->set("video_index", -1);
 		  vindex = -1;
 	      }
 	}
 	Mlt::Frame *frame = producer->get_frame();
         if (frame && frame->is_valid()) {
-	    if (!mltService.contains("avformat")) {
+	    if (!mltService.contains(QStringLiteral("avformat"))) {
 		// Fetch thumbnail
                 QImage img;
                 if (KdenliveSettings::gpu_accel()) {
@@ -881,24 +882,24 @@ void Render::processFileProperties()
                 emit replyGetImage(info.clipId, img);
 	    }
 	    else {
-		filePropertyMap["frame_size"] = QString::number(frame->get_int("width")) + 'x' + QString::number(frame->get_int("height"));
+		filePropertyMap[QStringLiteral("frame_size")] = QString::number(frame->get_int("width")) + 'x' + QString::number(frame->get_int("height"));
 		int af = frame->get_int("audio_frequency");
 		int ac = frame->get_int("audio_channels");
 		// keep for compatibility with MLT <= 0.8.6
 		if (af == 0) af = frame->get_int("frequency");
 		if (ac == 0) ac = frame->get_int("channels");
-		if (af > 0) filePropertyMap["frequency"] = QString::number(af);
-		if (ac > 0) filePropertyMap["channels"] = QString::number(ac);
-		if (!filePropertyMap.contains("aspect_ratio")) filePropertyMap["aspect_ratio"] = frame->get("aspect_ratio");
+		if (af > 0) filePropertyMap[QStringLiteral("frequency")] = QString::number(af);
+		if (ac > 0) filePropertyMap[QStringLiteral("channels")] = QString::number(ac);
+		if (!filePropertyMap.contains(QStringLiteral("aspect_ratio"))) filePropertyMap[QStringLiteral("aspect_ratio")] = frame->get("aspect_ratio");
 
 		if (frame->get_int("test_image") == 0 && vindex != -1) {
-		    if (mltService == "xml" || mltService == "consumer") {
-			filePropertyMap["type"] = "playlist";
-			metadataPropertyMap["comment"] = QString::fromUtf8(producer->get("title"));
+		    if (mltService == QLatin1String("xml") || mltService == QLatin1String("consumer")) {
+			filePropertyMap[QStringLiteral("type")] = QStringLiteral("playlist");
+			metadataPropertyMap[QStringLiteral("comment")] = QString::fromUtf8(producer->get("title"));
 		    } else if (!mlt_frame_is_test_audio(frame->get_frame()))
-			filePropertyMap["type"] = "av";
+			filePropertyMap[QStringLiteral("type")] = QStringLiteral("av");
 		    else
-			filePropertyMap["type"] = "video";
+			filePropertyMap[QStringLiteral("type")] = QStringLiteral("video");
 		    // Check if we are using GPU accel, then we need to use alternate producer
 		    Mlt::Producer *tmpProd = NULL;
 		    if (KdenliveSettings::gpu_accel()) {
@@ -930,16 +931,16 @@ void Render::processFileProperties()
                     if (KdenliveSettings::gpu_accel()) {
                         delete tmpProd;
                     }
-		    if (frameNumber > -1) filePropertyMap["thumbnailFrame"] = QString::number(frameNumber);
+		    if (frameNumber > -1) filePropertyMap[QStringLiteral("thumbnailFrame")] = QString::number(frameNumber);
 		    emit replyGetImage(info.clipId, img);
 		} else if (frame->get_int("test_audio") == 0) {
-		    QIcon icon = QIcon::fromTheme("audio-x-generic");
+		    QIcon icon = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
 		    QImage img(fullWidth, info.imageHeight, QImage::Format_ARGB32_Premultiplied);
 		    img.fill(Qt::transparent);
 		    QPainter painter( &img );
 		    icon.paint(&painter, 0, 0, img.width(), img.height());
 		    emit replyGetImage(info.clipId, img);
-		    filePropertyMap["type"] = "audio";
+		    filePropertyMap[QStringLiteral("type")] = QStringLiteral("audio");
 		}
                 delete frame;
 
@@ -956,34 +957,34 @@ void Render::processFileProperties()
 		    int audio_max = 0;
 
 		    int scan = producer->get_int("meta.media.progressive");
-		    filePropertyMap["progressive"] = QString::number(scan);
+		    filePropertyMap[QStringLiteral("progressive")] = QString::number(scan);
 
 		    // Find maximum stream index values
 		    for (int ix = 0; ix < producer->get_int("meta.media.nb_streams"); ++ix) {
 			snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
 			QString type = producer->get(property);
-			if (type == "video")
+			if (type == QLatin1String("video"))
 			    video_max = ix;
-			else if (type == "audio")
+			else if (type == QLatin1String("audio"))
 			    audio_max = ix;
 		    }
-		    filePropertyMap["default_video"] = QString::number(vindex);
-		    filePropertyMap["video_max"] = QString::number(video_max);
-		    filePropertyMap["default_audio"] = QString::number(default_audio);
-		    filePropertyMap["audio_max"] = QString::number(audio_max);
+		    filePropertyMap[QStringLiteral("default_video")] = QString::number(vindex);
+		    filePropertyMap[QStringLiteral("video_max")] = QString::number(video_max);
+		    filePropertyMap[QStringLiteral("default_audio")] = QString::number(default_audio);
+		    filePropertyMap[QStringLiteral("audio_max")] = QString::number(audio_max);
 
 		    snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", vindex);
 		    if (producer->get(property)) {
-			filePropertyMap["videocodec"] = producer->get(property);
+			filePropertyMap[QStringLiteral("videocodec")] = producer->get(property);
 		    }
 		    snprintf(property, sizeof(property), "meta.media.%d.codec.name", vindex);
 		    if (producer->get(property)) {
-			filePropertyMap["videocodecid"] = producer->get(property);
+			filePropertyMap[QStringLiteral("videocodecid")] = producer->get(property);
 		    }
 		    QString query;
-		    query = QString("meta.media.%1.codec.pix_fmt").arg(vindex);
-		    filePropertyMap["pix_fmt"] = producer->get(query.toUtf8().constData());
-		    filePropertyMap["colorspace"] = producer->get("meta.media.colorspace");
+		    query = QStringLiteral("meta.media.%1.codec.pix_fmt").arg(vindex);
+		    filePropertyMap[QStringLiteral("pix_fmt")] = producer->get(query.toUtf8().constData());
+		    filePropertyMap[QStringLiteral("colorspace")] = producer->get("meta.media.colorspace");
 
 		} else qDebug() << " / / / / /WARNING, VIDEO CONTEXT IS NULL!!!!!!!!!!!!!!";
 		if (producer->get_int("audio_index") > -1) {
@@ -991,11 +992,11 @@ void Render::processFileProperties()
 		    int index = producer->get_int("audio_index");
 		    snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", index);
 		    if (producer->get(property)) {
-			filePropertyMap["audiocodec"] = producer->get(property);
+			filePropertyMap[QStringLiteral("audiocodec")] = producer->get(property);
 		    } else {
 			snprintf(property, sizeof(property), "meta.media.%d.codec.name", index);
 			if (producer->get(property))
-			    filePropertyMap["audiocodec"] = producer->get(property);
+			    filePropertyMap[QStringLiteral("audiocodec")] = producer->get(property);
 		    }
 		}
 		producer->set("mlt_service", "avformat-novalidate");
@@ -1112,7 +1113,7 @@ bool Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
     if (m_mltProducer) {
         currentId = m_mltProducer->get("id");
         m_mltProducer->set_speed(0);
-        if (QString(m_mltProducer->get("resource")) == "<tractor>") {
+        if (QString(m_mltProducer->get("resource")) == QLatin1String("<tractor>")) {
             // We need to make some cleanup
             Mlt::Tractor trac(*m_mltProducer);
             for (int i = 0; i < trac.count(); i++) {
@@ -1193,7 +1194,7 @@ int Render::setSceneList(QString playlist, int position)
     // Remove previous profile info
     QDomDocument doc;
     doc.setContent(playlist);
-    QDomElement profile = doc.documentElement().firstChildElement("profile");
+    QDomElement profile = doc.documentElement().firstChildElement(QStringLiteral("profile"));
     doc.documentElement().removeChild(profile);
     playlist = doc.toString();
 
@@ -1257,7 +1258,7 @@ int Render::setSceneList(QString playlist, int position)
     // No Playlist found, create new one
     if (m_qmlView) {
         m_binController->createIfNeeded(m_qmlView->profile());
-        QString retain = QString("xml_retain %1").arg(m_binController->binPlaylistId());
+        QString retain = QStringLiteral("xml_retain %1").arg(m_binController->binPlaylistId());
         tractor.set(retain.toUtf8().constData(), m_binController->service(), 0);
         //if (!m_binController->hasClip("black")) m_binController->addClipToBin("black", *m_blackClip);
         m_qmlView->setProducer(m_mltProducer);
@@ -1273,7 +1274,7 @@ int Render::setSceneList(QString playlist, int position)
     // Fill bin
     QStringList ids = m_binController->getClipIds();
     foreach(const QString &id, ids) {
-        if (id == "black") {
+        if (id == QLatin1String("black")) {
             //TODO: delegate handling of black clip to bincontroller
             //delete m_blackClip;
             //m_blackClip = &original->parent();
@@ -1362,7 +1363,7 @@ bool Render::saveSceneList(QString path, QDomElement kdenliveData)
 
 void Render::saveZone(QPoint zone)
 {
-    QString clipFolder = KRecentDirs::dir(":KdenliveClipFolder");
+    QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
     if (clipFolder.isEmpty()) {
         clipFolder = QDir::homePath();
     }
@@ -1371,7 +1372,7 @@ void Render::saveZone(QPoint zone)
     xmlConsumer.set("terminate_on_pause", 1);
     m_mltProducer->optimise();
     qDebug()<<" - - -- - SAVE ZONE SEVICE: "<<m_mltProducer->get("mlt_type");
-    if (QString(m_mltProducer->get("mlt_type")) != "producer") {
+    if (QString(m_mltProducer->get("mlt_type")) != QLatin1String("producer")) {
 	// TODO: broken
 	QString scene = sceneList();
 	Mlt::Producer duplicate(*m_mltProducer->profile(), "xml-string", scene.toUtf8().constData());
@@ -1429,7 +1430,7 @@ double Render::fps() const
 int Render::volume() const
 {
     if (!m_mltConsumer || !m_mltProducer) return -1;
-    if (m_mltConsumer->get("mlt_service") == QString("multi")) {
+    if (m_mltConsumer->get("mlt_service") == QStringLiteral("multi")) {
         return ((int) 100 * m_mltConsumer->get_double("0.volume"));
     }
     return ((int) 100 * m_mltConsumer->get_double("volume"));
@@ -1967,7 +1968,7 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
         QString mlt_type = mlt_properties_get(properties, "mlt_type");
         QString resource = mlt_properties_get(properties, "mlt_service");
 
-        while (mlt_type == "transition") {
+        while (mlt_type == QLatin1String("transition")) {
             mlt_transition tr = (mlt_transition) nextservice;
             int currentTrack = mlt_transition_get_b_track(tr);
             int currentIn = (int) mlt_transition_get_in(tr);
@@ -1975,7 +1976,7 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
             insertPos = trackTransitionStartList.value(track);
             if (insertPos != -1) {
                 insertPos += offset;
-                if (track == currentTrack && currentOut > insertPos && resource != "mix") {
+                if (track == currentTrack && currentOut > insertPos && resource != QLatin1String("mix")) {
                     mlt_transition_set_in_and_out(tr, currentIn + diff, currentOut + diff);
                 }
             }
@@ -2031,7 +2032,7 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
         QString mlt_type = mlt_properties_get(properties, "mlt_type");
         QString resource = mlt_properties_get(properties, "mlt_service");
 
-        while (mlt_type == "transition") {
+        while (mlt_type == QLatin1String("transition")) {
             mlt_transition tr = (mlt_transition) nextservice;
             int currentIn = (int) mlt_transition_get_in(tr);
             int currentOut = (int) mlt_transition_get_out(tr);
@@ -2039,7 +2040,7 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
             insertPos = trackTransitionStartList.value(currentTrack);
             if (insertPos != -1) {
                 insertPos += offset;
-                if (currentOut > insertPos && resource != "mix") {
+                if (currentOut > insertPos && resource != QLatin1String("mix")) {
                     mlt_transition_set_in_and_out(tr, currentIn + diff, currentOut + diff);
                 }
             }
@@ -2205,7 +2206,7 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
 bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int duration, bool doRefresh)
 {
     bool updateIndex = false;
-    const int filter_ix = params.paramValue("kdenlive_ix").toInt();
+    const int filter_ix = params.paramValue(QStringLiteral("kdenlive_ix")).toInt();
     int ct = 0;
     service.lock();
 
@@ -2220,7 +2221,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
         filter = service.filter(ct);
     }
 
-    if (params.paramValue("id") == "speed") {
+    if (params.paramValue(QStringLiteral("id")) == QLatin1String("speed")) {
         // special case, speed effect is not really inserted, we just update the other effects index (kdenlive_ix)
         ct = 0;
         filter = service.filter(ct);
@@ -2268,32 +2269,32 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
 bool Render::addFilterToService(Mlt::Service service, EffectsParameterList params, int duration)
 {
     // create filter
-    QString tag =  params.paramValue("tag");
+    QString tag =  params.paramValue(QStringLiteral("tag"));
     QLocale locale;
     ////qDebug() << " / / INSERTING EFFECT: " << tag << ", REGI: " << region;
-    QString kfr = params.paramValue("keyframes");
+    QString kfr = params.paramValue(QStringLiteral("keyframes"));
     if (!kfr.isEmpty()) {
         QStringList keyFrames = kfr.split(';', QString::SkipEmptyParts);
         ////qDebug() << "// ADDING KEYFRAME EFFECT: " << params.paramValue("keyframes");
-        char *starttag = qstrdup(params.paramValue("starttag", "start").toUtf8().constData());
-        char *endtag = qstrdup(params.paramValue("endtag", "end").toUtf8().constData());
+        char *starttag = qstrdup(params.paramValue(QStringLiteral("starttag"), QStringLiteral("start")).toUtf8().constData());
+        char *endtag = qstrdup(params.paramValue(QStringLiteral("endtag"), QStringLiteral("end")).toUtf8().constData());
         ////qDebug() << "// ADDING KEYFRAME TAGS: " << starttag << ", " << endtag;
         //double max = params.paramValue("max").toDouble();
-        double min = params.paramValue("min").toDouble();
-        double factor = params.paramValue("factor", "1").toDouble();
-        double paramOffset = params.paramValue("offset", "0").toDouble();
-        params.removeParam("starttag");
-        params.removeParam("endtag");
-        params.removeParam("keyframes");
-        params.removeParam("min");
-        params.removeParam("max");
-        params.removeParam("factor");
-        params.removeParam("offset");
+        double min = params.paramValue(QStringLiteral("min")).toDouble();
+        double factor = params.paramValue(QStringLiteral("factor"), QStringLiteral("1")).toDouble();
+        double paramOffset = params.paramValue(QStringLiteral("offset"), QStringLiteral("0")).toDouble();
+        params.removeParam(QStringLiteral("starttag"));
+        params.removeParam(QStringLiteral("endtag"));
+        params.removeParam(QStringLiteral("keyframes"));
+        params.removeParam(QStringLiteral("min"));
+        params.removeParam(QStringLiteral("max"));
+        params.removeParam(QStringLiteral("factor"));
+        params.removeParam(QStringLiteral("offset"));
         // Special case, only one keyframe, means we want a constant value
         if (keyFrames.count() == 1) {
             Mlt::Filter *filter = new Mlt::Filter(*service.profile(), qstrdup(tag.toUtf8().constData()));
             if (filter && filter->is_valid()) {
-                filter->set("kdenlive_id", qstrdup(params.paramValue("id").toUtf8().constData()));
+                filter->set("kdenlive_id", qstrdup(params.paramValue(QStringLiteral("id")).toUtf8().constData()));
                 int x1 = keyFrames.at(0).section('=', 0, 0).toInt();
                 double y1 = keyFrames.at(0).section('=', 1, 1).toDouble();
                 for (int j = 0; j < params.count(); ++j) {
@@ -2314,7 +2315,7 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
         } else for (int i = 0; i < keyFrames.size() - 1; ++i) {
             Mlt::Filter *filter = new Mlt::Filter(*service.profile(), qstrdup(tag.toUtf8().constData()));
             if (filter && filter->is_valid()) {
-                filter->set("kdenlive_id", qstrdup(params.paramValue("id").toUtf8().constData()));
+                filter->set("kdenlive_id", qstrdup(params.paramValue(QStringLiteral("id")).toUtf8().constData()));
                 int x1 = keyFrames.at(i).section('=', 0, 0).toInt();
                 double y1 = keyFrames.at(i).section('=', 1, 1).toDouble();
                 int x2 = keyFrames.at(i + 1).section('=', 0, 0).toInt();
@@ -2347,16 +2348,16 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
         QString prefix;
         filter = new Mlt::Filter(*service.profile(), qstrdup(tag.toUtf8().constData()));
         if (filter && filter->is_valid()) {
-            filter->set("kdenlive_id", qstrdup(params.paramValue("id").toUtf8().constData()));
+            filter->set("kdenlive_id", qstrdup(params.paramValue(QStringLiteral("id")).toUtf8().constData()));
         } else {
             //qDebug() << "filter is NULL";
             service.unlock();
             return false;
         }
-        params.removeParam("kdenlive_id");
-        if (params.hasParam("_sync_in_out")) {
+        params.removeParam(QStringLiteral("kdenlive_id"));
+        if (params.hasParam(QStringLiteral("_sync_in_out"))) {
             // This effect must sync in / out with parent clip
-            params.removeParam("_sync_in_out");
+            params.removeParam(QStringLiteral("_sync_in_out"));
             filter->set_in_and_out(service.get_int("in"), service.get_int("out"));
         }
 
@@ -2365,14 +2366,14 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
             //qDebug()<<" / / SET PARAM: "<<params.at(j).name()<<" = "<<params.at(j).value();
         }
 
-        if (tag == "sox") {
-            QString effectArgs = params.paramValue("id").section('_', 1);
+        if (tag == QLatin1String("sox")) {
+            QString effectArgs = params.paramValue(QStringLiteral("id")).section('_', 1);
 
-            params.removeParam("id");
-            params.removeParam("kdenlive_ix");
-            params.removeParam("tag");
-            params.removeParam("disable");
-            params.removeParam("region");
+            params.removeParam(QStringLiteral("id"));
+            params.removeParam(QStringLiteral("kdenlive_ix"));
+            params.removeParam(QStringLiteral("tag"));
+            params.removeParam(QStringLiteral("disable"));
+            params.removeParam(QStringLiteral("region"));
 
             for (int j = 0; j < params.count(); ++j) {
                 effectArgs.append(' ' + params.at(j).value());
@@ -2396,8 +2397,8 @@ bool Render::mltEditTrackEffect(int track, EffectsParameterList params)
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     Mlt::Service clipService(trackPlaylist.get_service());
     int ct = 0;
-    QString index = params.paramValue("kdenlive_ix");
-    QString tag =  params.paramValue("tag");
+    QString index = params.paramValue(QStringLiteral("kdenlive_ix"));
+    QString tag =  params.paramValue(QStringLiteral("tag"));
 
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
@@ -2418,7 +2419,7 @@ bool Render::mltEditTrackEffect(int track, EffectsParameterList params)
     }
     QString prefix;
     QString ser = filter->get("mlt_service");
-    if (ser == "region") prefix = "filter0.";
+    if (ser == QLatin1String("region")) prefix = QStringLiteral("filter0.");
     service.lock();
     for (int j = 0; j < params.count(); ++j) {
         filter->set((prefix + params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
@@ -2431,10 +2432,10 @@ bool Render::mltEditTrackEffect(int track, EffectsParameterList params)
 
 bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterList params, bool replaceEffect)
 {
-    int index = params.paramValue("kdenlive_ix").toInt();
-    QString tag =  params.paramValue("tag");
+    int index = params.paramValue(QStringLiteral("kdenlive_ix")).toInt();
+    QString tag =  params.paramValue(QStringLiteral("tag"));
 
-    if (!params.paramValue("keyframes").isEmpty() || replaceEffect || tag.startsWith(QLatin1String("ladspa")) || tag == "sox" || tag == "autotrack_rectangle") {
+    if (!params.paramValue(QStringLiteral("keyframes")).isEmpty() || replaceEffect || tag.startsWith(QLatin1String("ladspa")) || tag == QLatin1String("sox") || tag == QLatin1String("autotrack_rectangle")) {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
         if (mltRemoveEffect(track, position, index, false)) {
             if (position < GenTime())
@@ -2513,9 +2514,9 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
             refresh();
         return true;
     }
-    if (params.hasParam("_sync_in_out")) {
+    if (params.hasParam(QStringLiteral("_sync_in_out"))) {
         // This effect must sync in / out with parent clip
-        params.removeParam("_sync_in_out");
+        params.removeParam(QStringLiteral("_sync_in_out"));
         filter->set_in_and_out(clip->get_in(), clip->get_out());
     }
 
@@ -2861,14 +2862,14 @@ void Render::mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_tr
     QList <Mlt::Transition *> trList;
     mlt_properties insertproperties = tr.get_properties();
     QString insertresource = mlt_properties_get(insertproperties, "mlt_service");
-    bool isMixTransition = insertresource == "mix";
+    bool isMixTransition = insertresource == QLatin1String("mix");
 
-    while (mlt_type == "transition") {
+    while (mlt_type == QLatin1String("transition")) {
         Mlt::Transition transition((mlt_transition) nextservice);
         nextservice = mlt_service_producer(nextservice);
         int aTrack = transition.get_a_track();
         int bTrack = transition.get_b_track();
-        if ((isMixTransition || resource != "mix") && (aTrack < a_track || (aTrack == a_track && bTrack > b_track))) {
+        if ((isMixTransition || resource != QLatin1String("mix")) && (aTrack < a_track || (aTrack == a_track && bTrack > b_track))) {
             Mlt::Properties trans_props(transition.get_properties());
             Mlt::Transition *cp = new Mlt::Transition(*m_qmlView->profile(), transition.get("mlt_service"));
             Mlt::Properties new_trans_props(cp->get_properties());
@@ -2898,25 +2899,25 @@ void Render::mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_tr
 
 QMap<QString, QString> Render::mltGetTransitionParamsFromXml(const QDomElement &xml)
 {
-    QDomNodeList attribs = xml.elementsByTagName("parameter");
+    QDomNodeList attribs = xml.elementsByTagName(QStringLiteral("parameter"));
     QMap<QString, QString> map;
     for (int i = 0; i < attribs.count(); ++i) {
         QDomElement e = attribs.item(i).toElement();
-        QString name = e.attribute("name");
+        QString name = e.attribute(QStringLiteral("name"));
         ////qDebug()<<"-- TRANSITION PARAM: "<<name<<" = "<< e.attribute("name")<<" / " << e.attribute("value");
-        map[name] = e.attribute("default");
-        if (!e.attribute("value").isEmpty()) {
-            map[name] = e.attribute("value");
+        map[name] = e.attribute(QStringLiteral("default"));
+        if (!e.attribute(QStringLiteral("value")).isEmpty()) {
+            map[name] = e.attribute(QStringLiteral("value"));
         }
-        if (e.attribute("type") != "addedgeometry" && (e.attribute("factor", "1") != "1" || e.attribute("offset", "0") != "0")) {
-            map[name] = QLocale().toString((map.value(name).toDouble() - e.attribute("offset", "0").toDouble()) / e.attribute("factor", "1").toDouble());
+        if (e.attribute(QStringLiteral("type")) != QLatin1String("addedgeometry") && (e.attribute(QStringLiteral("factor"), QStringLiteral("1")) != QLatin1String("1") || e.attribute(QStringLiteral("offset"), QStringLiteral("0")) != QLatin1String("0"))) {
+            map[name] = QLocale().toString((map.value(name).toDouble() - e.attribute(QStringLiteral("offset"), QStringLiteral("0")).toDouble()) / e.attribute(QStringLiteral("factor"), QStringLiteral("1")).toDouble());
             //map[name]=map[name].replace(".",","); //FIXME how to solve locale conversion of . ,
         }
 
-        if (e.attribute("namedesc").contains(';')) {
-            QString format = e.attribute("format");
-            QStringList separators = format.split("%d", QString::SkipEmptyParts);
-            QStringList values = e.attribute("value").split(QRegExp("[,:;x]"));
+        if (e.attribute(QStringLiteral("namedesc")).contains(';')) {
+            QString format = e.attribute(QStringLiteral("format"));
+            QStringList separators = format.split(QStringLiteral("%d"), QString::SkipEmptyParts);
+            QStringList values = e.attribute(QStringLiteral("value")).split(QRegExp("[,:;x]"));
             QString neu;
             QTextStream txtNeu(&neu);
             if (values.size() > 0)
@@ -2928,7 +2929,7 @@ QMap<QString, QString> Render::mltGetTransitionParamsFromXml(const QDomElement &
             }
             if (i < separators.size())
                 txtNeu << separators[i];
-            map[e.attribute("name")] = neu;
+            map[e.attribute(QStringLiteral("name"))] = neu;
         }
 
     }
@@ -3237,7 +3238,7 @@ bool Render::getBlackMagicDeviceList(KComboBox *devicelist, bool force)
     }
     KdenliveSettings::setDecklink_device_found(true);
     for (int i = 0; i < found_devices; ++i) {
-        char *tmp = qstrdup(QString("device.%1").arg(i).toUtf8().constData());
+        char *tmp = qstrdup(QStringLiteral("device.%1").arg(i).toUtf8().constData());
         devicelist->addItem(bm.get(tmp));
         delete[] tmp;
     }
@@ -3261,7 +3262,7 @@ bool Render::getBlackMagicOutputDeviceList(KComboBox *devicelist, bool force)
     }
     KdenliveSettings::setDecklink_device_found(true);
     for (int i = 0; i < found_devices; ++i) {
-        char *tmp = qstrdup(QString("device.%1").arg(i).toUtf8().constData());
+        char *tmp = qstrdup(QStringLiteral("device.%1").arg(i).toUtf8().constData());
         devicelist->addItem(bm.get(tmp));
         delete[] tmp;
     }
@@ -3277,9 +3278,9 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
             if (i <= audio_list.count() -1) {
                 aindex = audio_list.at(i);
             }
-            data.insert("video_index", QString::number(vindex));
-            data.insert("audio_index", QString::number(aindex));
-            data.insert("bypassDuplicate", "1");
+            data.insert(QStringLiteral("video_index"), QString::number(vindex));
+            data.insert(QStringLiteral("audio_index"), QString::number(aindex));
+            data.insert(QStringLiteral("bypassDuplicate"), QStringLiteral("1"));
             emit addClip(path, data);
         }
         return;
@@ -3289,7 +3290,7 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
     if (width % 2 == 1) width++;
 
     QPointer<QDialog> dialog = new QDialog(qApp->activeWindow());
-    dialog->setWindowTitle("Multi Stream Clip");
+    dialog->setWindowTitle(QStringLiteral("Multi Stream Clip"));
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
     QWidget *mainWidget = new QWidget(dialog);
     QVBoxLayout *mainLayout = new QVBoxLayout;
@@ -3341,9 +3342,9 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
             if (groupList.at(i)->isChecked()) {
                 int vindex = groupList.at(i)->property("vindex").toInt();
                 int aindex = comboList.at(i)->itemData(comboList.at(i)->currentIndex()).toInt();
-                data.insert("video_index", QString::number(vindex));
-                data.insert("audio_index", QString::number(aindex));
-                data.insert("bypassDuplicate", "1");
+                data.insert(QStringLiteral("video_index"), QString::number(vindex));
+                data.insert(QStringLiteral("audio_index"), QString::number(aindex));
+                data.insert(QStringLiteral("bypassDuplicate"), QStringLiteral("1"));
                 emit addClip(path, data);
             }
         }
@@ -3357,7 +3358,7 @@ bool Render::checkX11Grab()
     if (KdenliveSettings::rendererpath().isEmpty() || KdenliveSettings::ffmpegpath().isEmpty()) return false;
     QProcess p;
     QStringList args;
-    args << "avformat:f-list";
+    args << QStringLiteral("avformat:f-list");
     p.start(KdenliveSettings::rendererpath(), args);
     if (!p.waitForStarted()) return false;
     if (!p.waitForFinished()) return false;
@@ -3400,7 +3401,7 @@ const QString Render::getBinProperty(const QString &name)
 void Render::setVolume(double volume)
 {
     if (m_mltConsumer) {
-        if (m_mltConsumer->get("mlt_service") == QString("multi")) {
+        if (m_mltConsumer->get("mlt_service") == QStringLiteral("multi")) {
             m_mltConsumer->set("0.volume", volume);
         } else {
             m_mltConsumer->set("volume", volume);

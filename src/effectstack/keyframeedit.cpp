@@ -42,13 +42,13 @@ KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, con
     buttonSeek->setChecked(KdenliveSettings::keyframeseek());
     connect(buttonSeek, SIGNAL(toggled(bool)), this, SLOT(slotSetSeeking(bool)));
 
-    buttonKeyframes->setIcon(KoIconUtils::themedIcon("chronometer"));
-    button_add->setIcon(KoIconUtils::themedIcon("list-add"));
+    buttonKeyframes->setIcon(KoIconUtils::themedIcon(QStringLiteral("chronometer")));
+    button_add->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
     button_add->setToolTip(i18n("Add keyframe"));
-    button_delete->setIcon(KoIconUtils::themedIcon("list-remove"));
+    button_delete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
     button_delete->setToolTip(i18n("Delete keyframe"));
-    buttonResetKeyframe->setIcon(KoIconUtils::themedIcon("edit-undo"));
-    buttonSeek->setIcon(KoIconUtils::themedIcon("edit-link"));
+    buttonResetKeyframe->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-undo")));
+    buttonSeek->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-link")));
     connect(keyframe_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotAdjustKeyframeInfo()));
     connect(keyframe_list, SIGNAL(cellChanged(int,int)), this, SLOT(slotGenerateParams(int,int)));
 
@@ -106,9 +106,9 @@ void KeyframeEdit::addParameter(const QDomElement &e, int activeKeyframe)
     keyframe_list->blockSignals(true);
     m_params.append(e.cloneNode().toElement());
 
-    QDomElement na = e.firstChildElement("name");
+    QDomElement na = e.firstChildElement(QStringLiteral("name"));
     QString paramName = i18n(na.text().toUtf8().data());
-    QDomElement commentElem = e.firstChildElement("comment");
+    QDomElement commentElem = e.firstChildElement(QStringLiteral("comment"));
     QString comment;
     if (!commentElem.isNull())
         comment = i18n(commentElem.text().toUtf8().data());
@@ -118,17 +118,17 @@ void KeyframeEdit::addParameter(const QDomElement &e, int activeKeyframe)
     keyframe_list->setHorizontalHeaderItem(columnId, new QTableWidgetItem(paramName));
 
     DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, 0,
-                                                                   m_params.at(columnId).attribute("min").toDouble(), m_params.at(columnId).attribute("max").toDouble(),
-                                                                   m_params.at(columnId).attribute("default").toDouble(), comment, columnId, m_params.at(columnId).attribute("suffix"), m_params.at(columnId).attribute("decimals").toInt(), this);
+                                                                   m_params.at(columnId).attribute(QStringLiteral("min")).toDouble(), m_params.at(columnId).attribute(QStringLiteral("max")).toDouble(),
+                                                                   m_params.at(columnId).attribute(QStringLiteral("default")).toDouble(), comment, columnId, m_params.at(columnId).attribute(QStringLiteral("suffix")), m_params.at(columnId).attribute(QStringLiteral("decimals")).toInt(), this);
     connect(doubleparam, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustKeyframeValue(double)));
     connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
     connect(doubleparam, SIGNAL(setInTimeline(int)), this, SLOT(slotUpdateVisibleParameter(int)));
     m_slidersLayout->addWidget(doubleparam, columnId, 0);
-    if (e.attribute("intimeline") == "1") {
+    if (e.attribute(QStringLiteral("intimeline")) == QLatin1String("1")) {
         doubleparam->setInTimelineProperty(true);
     }
 
-    QStringList frames = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
+    QStringList frames = e.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
     for (int i = 0; i < frames.count(); ++i) {
         int frame = frames.at(i).section('=', 0, 0).toInt();
         bool found = false;
@@ -248,16 +248,16 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
             item = keyframe_list->item(row, col);
             if (!item) continue;
             int v = item->text().toInt();
-            if (v >= m_params.at(col).attribute("max").toInt())
-                item->setText(m_params.at(col).attribute("max"));
-            if (v <= m_params.at(col).attribute("min").toInt())
-                item->setText(m_params.at(col).attribute("min"));
+            if (v >= m_params.at(col).attribute(QStringLiteral("max")).toInt())
+                item->setText(m_params.at(col).attribute(QStringLiteral("max")));
+            if (v <= m_params.at(col).attribute(QStringLiteral("min")).toInt())
+                item->setText(m_params.at(col).attribute(QStringLiteral("min")));
             QString keyframes;
             for (int i = 0; i < keyframe_list->rowCount(); ++i) {
                 if (keyframe_list->item(i, col))
                     keyframes.append(QString::number(getPos(i)) + '=' + keyframe_list->item(i, col)->text() + ';');
             }
-            m_params[col].setAttribute("keyframes", keyframes);
+            m_params[col].setAttribute(QStringLiteral("keyframes"), keyframes);
         }
 
         emit parameterChanged();
@@ -284,10 +284,10 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
         keyframe_list->verticalHeaderItem(row)->setText(val);
 
     int v = item->text().toInt();
-    if (v >= m_params.at(column).attribute("max").toInt())
-        item->setText(m_params.at(column).attribute("max"));
-    if (v <= m_params.at(column).attribute("min").toInt())
-        item->setText(m_params.at(column).attribute("min"));
+    if (v >= m_params.at(column).attribute(QStringLiteral("max")).toInt())
+        item->setText(m_params.at(column).attribute(QStringLiteral("max")));
+    if (v <= m_params.at(column).attribute(QStringLiteral("min")).toInt())
+        item->setText(m_params.at(column).attribute(QStringLiteral("min")));
     slotAdjustKeyframeInfo(false);
 
     QString keyframes;
@@ -295,7 +295,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
         if (keyframe_list->item(i, column))
             keyframes.append(QString::number(getPos(i)) + '=' + keyframe_list->item(i, column)->text() + ';');
     }
-    m_params[column].setAttribute("keyframes", keyframes);
+    m_params[column].setAttribute(QStringLiteral("keyframes"), keyframes);
     emit parameterChanged();
 }
 
@@ -307,7 +307,7 @@ void KeyframeEdit::generateAllParams()
             if (keyframe_list->item(i, col))
                 keyframes.append(QString::number(getPos(i)) + '=' + keyframe_list->item(i, col)->text() + ';');
         }
-        m_params[col].setAttribute("keyframes", keyframes);
+        m_params[col].setAttribute(QStringLiteral("keyframes"), keyframes);
     }
     emit parameterChanged();
 }
@@ -315,10 +315,10 @@ void KeyframeEdit::generateAllParams()
 const QString KeyframeEdit::getValue(const QString &name)
 {
     for (int col = 0; col < keyframe_list->columnCount(); ++col) {
-        QDomNode na = m_params.at(col).firstChildElement("name");
+        QDomNode na = m_params.at(col).firstChildElement(QStringLiteral("name"));
         QString paramName = i18n(na.toElement().text().toUtf8().data());
         if (paramName == name)
-            return m_params.at(col).attribute("keyframes");
+            return m_params.at(col).attribute(QStringLiteral("keyframes"));
     }
     return QString();
 }
@@ -440,7 +440,7 @@ void KeyframeEdit::slotResetKeyframe()
 void KeyframeEdit::slotUpdateVisibleParameter(int id, bool update)
 {
     for (int i = 0; i < m_params.count(); ++i) {
-        m_params[i].setAttribute("intimeline", (i == id ? "1" : "0"));
+        m_params[i].setAttribute(QStringLiteral("intimeline"), (i == id ? "1" : "0"));
     }
     for (int col = 0; col < keyframe_list->columnCount(); ++col) {
         DoubleParameterWidget *doubleparam = static_cast <DoubleParameterWidget*>(m_slidersLayout->itemAtPosition(col, 0)->widget());
@@ -456,10 +456,10 @@ void KeyframeEdit::slotUpdateVisibleParameter(int id, bool update)
 bool KeyframeEdit::isVisibleParam(const QString& name)
 {
     for (int col = 0; col < keyframe_list->columnCount(); ++col) {
-        QDomNode na = m_params.at(col).firstChildElement("name");
+        QDomNode na = m_params.at(col).firstChildElement(QStringLiteral("name"));
         QString paramName = i18n(na.toElement().text().toUtf8().data());
         if (paramName == name)
-            return m_params.at(col).attribute("intimeline") == "1";
+            return m_params.at(col).attribute(QStringLiteral("intimeline")) == QLatin1String("1");
     }
     return false;
 }
@@ -470,7 +470,7 @@ void KeyframeEdit::checkVisibleParam()
         return;
     
     foreach(const QDomElement &elem, m_params) {
-        if (elem.attribute("intimeline") == "1")
+        if (elem.attribute(QStringLiteral("intimeline")) == QLatin1String("1"))
             return;
     }
 

@@ -21,8 +21,9 @@ else()
                 PURPOSE "")
 endif()
 
+find_package(PkgConfig QUIET)
 execute_process(
-  COMMAND pkg-config --variable=mltdatadir mlt-framework
+  COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=mltdatadir mlt-framework
   OUTPUT_VARIABLE MLT_DATADIR
   RESULT_VARIABLE MLT_DATADIR_failed)
 if (NOT MLT_DATADIR_failed)
@@ -31,7 +32,7 @@ if (NOT MLT_DATADIR_failed)
 endif(NOT MLT_DATADIR_failed)
 
 execute_process(
-  COMMAND pkg-config --variable=meltbin mlt-framework
+  COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=meltbin mlt-framework
   OUTPUT_VARIABLE MLT_MELTBIN
   RESULT_VARIABLE MLT_MELTBIN_failed)
 if (NOT MLT_MELTBIN_failed)

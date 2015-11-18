@@ -62,7 +62,7 @@ void ProjectSubClip::discard()
 
 QString ProjectSubClip::getToolTip() const
 {
-    return "test";
+    return QStringLiteral("test");
 }
 
 ProjectClip* ProjectSubClip::clip(const QString &id)
@@ -75,6 +75,10 @@ ProjectFolder* ProjectSubClip::folder(const QString &id)
 {
     Q_UNUSED(id)
     return NULL;
+}
+
+void ProjectSubClip::disableEffects(bool)
+{
 }
 
 GenTime ProjectSubClip::duration() const
@@ -96,10 +100,10 @@ ProjectClip* ProjectSubClip::clipAt(int ix)
 
 QDomElement ProjectSubClip::toXml(QDomDocument& document)
 {
-    QDomElement sub = document.createElement("subclip");
-    sub.setAttribute("id", m_masterClip->clipId());
-    sub.setAttribute("in", m_in);
-    sub.setAttribute("out", m_out);
+    QDomElement sub = document.createElement(QStringLiteral("subclip"));
+    sub.setAttribute(QStringLiteral("id"), m_masterClip->clipId());
+    sub.setAttribute(QStringLiteral("in"), m_in);
+    sub.setAttribute(QStringLiteral("out"), m_out);
     return sub;
 }
 

@@ -100,6 +100,7 @@ bool ProjectItemModel::setData(const QModelIndex & index, const QVariant & value
 
 Qt::ItemFlags ProjectItemModel::flags(const QModelIndex& index) const
 {
+    /*return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable;*/
     if (!index.isValid()) {
         return Qt::ItemIsDropEnabled;
     }
@@ -137,22 +138,22 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
         return true;
     }
 
-    if (data->hasFormat("kdenlive/producerslist")) {
+    if (data->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
         // Dropping an Bin item
-        QStringList ids = QString(data->data("kdenlive/producerslist")).split(';');
+        QStringList ids = QString(data->data(QStringLiteral("kdenlive/producerslist"))).split(';');
         emit itemDropped(ids, parent);
         return true;
     }
-    
-    if (data->hasFormat("kdenlive/effectslist")) {
+
+    if (data->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
         // Dropping effect on a Bin item
-        const QString effect = QString::fromUtf8(data->data("kdenlive/effectslist"));
+        const QString effect = QString::fromUtf8(data->data(QStringLiteral("kdenlive/effectslist")));
         emit effectDropped(effect, parent);
         return true;
     }
-    
-    if (data->hasFormat("kdenlive/clip")) {
-        QStringList list = QString(data->data("kdenlive/clip")).split(';');
+
+    if (data->hasFormat(QStringLiteral("kdenlive/clip"))) {
+        QStringList list = QString(data->data(QStringLiteral("kdenlive/clip"))).split(';');
         emit addClipCut(list.at(0), list.at(1).toInt(), list.at(2).toInt());
     }
 
@@ -218,9 +219,9 @@ QModelIndex ProjectItemModel::parent(const QModelIndex& index) const
 int ProjectItemModel::rowCount(const QModelIndex& parent) const
 {
     // ?
-    if (parent.column() > 0) {
+    /*if (parent.column() > 0) {
         return 0;
-    }
+    }*/
 
     AbstractProjectItem *parentItem;
     if (parent.isValid()) {
@@ -249,7 +250,7 @@ Qt::DropActions ProjectItemModel::supportedDropActions() const
 QStringList ProjectItemModel::mimeTypes() const
 {
     QStringList types;
-    types << QLatin1String("kdenlive/producerslist") << QLatin1String("text/uri-list") << QLatin1String("kdenlive/clip") << QLatin1String("kdenlive/effectslist");
+    types << QStringLiteral("kdenlive/producerslist") << QStringLiteral("text/uri-list") << QStringLiteral("kdenlive/clip") << QStringLiteral("kdenlive/effectslist");
     return types;
 }
 
@@ -278,8 +279,8 @@ QMimeData* ProjectItemModel::mimeData(const QModelIndexList& indices) const
     }
     if (!list.isEmpty()) {
         QByteArray data;
-        data.append(list.join(QLatin1String(";")).toUtf8());
-        mimeData->setData(QLatin1String("kdenlive/producerslist"),  data);
+        data.append(list.join(QStringLiteral(";")).toUtf8());
+        mimeData->setData(QStringLiteral("kdenlive/producerslist"),  data);
     }
     return mimeData;
 }

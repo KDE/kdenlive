@@ -50,7 +50,7 @@ FreeSound::~FreeSound()
 void FreeSound::slotStartSearch(const QString &searchText, int page)
 {
     m_listWidget->clear();
-    QString uri = "http://www.freesound.org/api/sounds/search/?q=";
+    QString uri = QStringLiteral("http://www.freesound.org/api/sounds/search/?q=");
     uri.append(searchText);
     if (page > 1)
         uri.append("&p=" + QString::number(page));
@@ -81,32 +81,32 @@ void FreeSound::slotShowResults(KJob* job)
         QMap <QString, QVariant> map = data.toMap();
         QMap<QString, QVariant>::const_iterator i = map.constBegin();
         while (i != map.constEnd()) {
-            if (i.key() == "num_results") emit searchInfo(i18np("Found %1 result", "Found %1 results", i.value().toInt()));
-            else if (i.key() == "num_pages") {
+            if (i.key() == QLatin1String("num_results")) emit searchInfo(i18np("Found %1 result", "Found %1 results", i.value().toInt()));
+            else if (i.key() == QLatin1String("num_pages")) {
                 emit maxPages(i.value().toInt());
             }
-            else if (i.key() == "sounds") {
+            else if (i.key() == QLatin1String("sounds")) {
                 sounds = i.value();
                 if (sounds.canConvert(QVariant::List)) {
                     QList <QVariant> soundsList = sounds.toList();
                     for (int j = 0; j < soundsList.count(); ++j) {
                         if (soundsList.at(j).canConvert(QVariant::Map)) {
                             QMap <QString, QVariant> soundmap = soundsList.at(j).toMap();
-                            if (soundmap.contains("original_filename")) {
-                                QListWidgetItem *item = new   QListWidgetItem(soundmap.value("original_filename").toString(), m_listWidget);
-                                item->setData(imageRole, soundmap.value("waveform_m").toString());
-                                item->setData(infoUrl, soundmap.value("url").toString());
-                                item->setData(infoData, soundmap.value("ref").toString() + "?api_key=a1772c8236e945a4bee30a64058dabf8");
-                                item->setData(durationRole, soundmap.value("duration").toDouble());
-                                item->setData(idRole, soundmap.value("id").toInt());
-                                item->setData(previewRole, soundmap.value("preview-hq-mp3").toString());
-                                item->setData(downloadRole, soundmap.value("serve").toString() + "?api_key=a1772c8236e945a4bee30a64058dabf8");
-                                QVariant authorInfo = soundmap.value("user");
+                            if (soundmap.contains(QStringLiteral("original_filename"))) {
+                                QListWidgetItem *item = new   QListWidgetItem(soundmap.value(QStringLiteral("original_filename")).toString(), m_listWidget);
+                                item->setData(imageRole, soundmap.value(QStringLiteral("waveform_m")).toString());
+                                item->setData(infoUrl, soundmap.value(QStringLiteral("url")).toString());
+                                item->setData(infoData, soundmap.value(QStringLiteral("ref")).toString() + "?api_key=a1772c8236e945a4bee30a64058dabf8");
+                                item->setData(durationRole, soundmap.value(QStringLiteral("duration")).toDouble());
+                                item->setData(idRole, soundmap.value(QStringLiteral("id")).toInt());
+                                item->setData(previewRole, soundmap.value(QStringLiteral("preview-hq-mp3")).toString());
+                                item->setData(downloadRole, soundmap.value(QStringLiteral("serve")).toString() + "?api_key=a1772c8236e945a4bee30a64058dabf8");
+                                QVariant authorInfo = soundmap.value(QStringLiteral("user"));
                                 if (authorInfo.canConvert(QVariant::Map)) {
                                     QMap <QString, QVariant> authorMap = authorInfo.toMap();
-                                    if (authorMap.contains("username")) {
-                                        item->setData(authorRole, authorMap.value("username").toString());
-                                        item->setData(authorUrl, authorMap.value("url").toString());
+                                    if (authorMap.contains(QStringLiteral("username"))) {
+                                        item->setData(authorRole, authorMap.value(QStringLiteral("username")).toString());
+                                        item->setData(authorUrl, authorMap.value(QStringLiteral("url")).toString());
                                     }
                                 }
                             }
@@ -215,7 +215,7 @@ bool FreeSound::startItemPreview(QListWidgetItem *item)
 	    if (m_previewProcess->state() != QProcess::NotRunning) {
 		    m_previewProcess->close();
 		}
-		m_previewProcess->start(KdenliveSettings::ffplaypath(), QStringList() << url << "-nodisp");
+		m_previewProcess->start(KdenliveSettings::ffplaypath(), QStringList() << url << QStringLiteral("-nodisp"));
 	}
     return true;
 }
@@ -232,7 +232,7 @@ QString FreeSound::getExtension(QListWidgetItem *item)
 {
     if (!item)
         return QString();
-    return QString("*.") + item->text().section('.', -1);
+    return QStringLiteral("*.") + item->text().section('.', -1);
 }
 
 

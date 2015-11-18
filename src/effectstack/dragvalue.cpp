@@ -64,7 +64,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_label->setMaximum(max - min);
         m_label->setStep(1);
         m_intEdit = new QSpinBox(this);
-        m_intEdit->setObjectName("dragBox");
+        m_intEdit->setObjectName(QStringLiteral("dragBox"));
         m_intEdit->setFocusPolicy(Qt::StrongFocus);
         if (!suffix.isEmpty()) m_intEdit->setSuffix(suffix);
         m_intEdit->setKeyboardTracking(false);
@@ -79,7 +79,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_doubleEdit = new QDoubleSpinBox(this);
         m_doubleEdit->setDecimals(decimals);
         m_doubleEdit->setFocusPolicy(Qt::StrongFocus);
-        m_doubleEdit->setObjectName("dragBox");
+        m_doubleEdit->setObjectName(QStringLiteral("dragBox"));
         if (!suffix.isEmpty()) m_doubleEdit->setSuffix(suffix);
         m_doubleEdit->setKeyboardTracking(false);
         m_doubleEdit->setButtonSymbols(QAbstractSpinBox::NoButtons);
@@ -117,12 +117,12 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     m_directUpdate->setChecked(KdenliveSettings::dragvalue_directupdate());
     m_menu->addAction(m_directUpdate);
     
-    QAction *reset = new QAction(KoIconUtils::themedIcon("edit-undo"), i18n("Reset value"), this);
+    QAction *reset = new QAction(KoIconUtils::themedIcon(QStringLiteral("edit-undo")), i18n("Reset value"), this);
     connect(reset, SIGNAL(triggered()), this, SLOT(slotReset()));
     m_menu->addAction(reset);
     
     if (m_id > -1) {
-        QAction *timeline = new QAction(KoIconUtils::themedIcon("go-jump"), i18n("Show %1 in timeline", label), this);
+        QAction *timeline = new QAction(KoIconUtils::themedIcon(QStringLiteral("go-jump")), i18n("Show %1 in timeline", label), this);
         connect(timeline, SIGNAL(triggered()), this, SLOT(slotSetInTimeline()));
         connect(m_label, SIGNAL(setInTimeline()), this, SLOT(slotSetInTimeline()));
         m_menu->addAction(timeline);
@@ -378,7 +378,7 @@ CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidg
         const QFontMetrics &fm = fontMetrics();
         sh.setWidth(fm.width(' ' + label + ' '));
         setMaximumWidth(sh.width());
-        setObjectName("dragOnly");
+        setObjectName(QStringLiteral("dragOnly"));
     }
     setValue(0);
 }

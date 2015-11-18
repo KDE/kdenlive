@@ -34,7 +34,6 @@
 #include "definitions.h"
 
 class QOpenGLFunctions_3_2_Core;
-class QOpenGLTexture;
 //class QmlFilter;
 //class QmlMetadata;
 
@@ -97,6 +96,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent * event);
     void mouseDoubleClickEvent(QMouseEvent * event);
     void wheelEvent(QWheelEvent * event);
+    void showEvent(QShowEvent * event);
 
 public slots:
     void setZoom(float zoom);

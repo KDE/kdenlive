@@ -16,7 +16,7 @@
 #include <QDebug>
 #endif
 
-const QString EXTENSION_PNG = ".png";
+const QString EXTENSION_PNG = QStringLiteral(".png");
 
 ColorPlaneExport::ColorPlaneExport(QWidget *parent) :
     QDialog(parent)
@@ -25,8 +25,8 @@ ColorPlaneExport::ColorPlaneExport(QWidget *parent) :
 
     m_colorTools = new ColorTools();
 
-    tResX->setText("800");
-    tResY->setText("800");
+    tResX->setText(QStringLiteral("800"));
+    tResY->setText(QStringLiteral("800"));
 
     cbColorspace->addItem(i18n("YUV UV plane"), QVariant(ColorPlaneExport::CPE_YUV));
     cbColorspace->addItem(i18n("YUV Y plane"), QVariant(ColorPlaneExport::CPE_YUV_Y));
@@ -53,7 +53,7 @@ ColorPlaneExport::ColorPlaneExport(QWidget *parent) :
     connect(sliderScaling, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateDisplays()));
     connect(cbColorspace, SIGNAL(currentIndexChanged(int)), this, SLOT(slotColormodeChanged()));
 
-    kurlrequester->setUrl(QUrl("/tmp/yuv-plane.png"));
+    kurlrequester->setUrl(QUrl(QStringLiteral("/tmp/yuv-plane.png")));
 
     slotColormodeChanged();
     slotValidate();

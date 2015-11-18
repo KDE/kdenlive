@@ -61,7 +61,7 @@ void ParameterPlotter::setPointLists(const QDomElement& d, const QString& paramN
     //QListIterator <QPair <QString, QMap< int , QVariant > > > nameit(params);
     m_paramName = paramName;
     m_itemParameter = d;
-    QDomNodeList namenode = d.elementsByTagName("parameter");
+    QDomNodeList namenode = d.elementsByTagName(QStringLiteral("parameter"));
 
     m_max_y = 0;
     m_min_y = 0;
@@ -75,27 +75,27 @@ void ParameterPlotter::setPointLists(const QDomElement& d, const QString& paramN
     d.save(stre, 2);
     //qDebug() << dat;
     int i = 0;
-    while (!namenode.item(i).isNull() && namenode.item(i).toElement().attribute("name") != m_paramName)
+    while (!namenode.item(i).isNull() && namenode.item(i).toElement().attribute(QStringLiteral("name")) != m_paramName)
         ++i;
 
     if (namenode.count()) {
         QDomElement pa = namenode.item(i).toElement();
         //QDomNode na = pa.firstChildElement("name");
 
-        m_parameterNameList << pa.attribute("namedesc").split(';');
+        m_parameterNameList << pa.attribute(QStringLiteral("namedesc")).split(';');
         emit parameterList(m_parameterNameList);
 
         //max_y=pa.attributes().namedItem("max").nodeValue().toInt();
         //int val=pa.attributes().namedItem("value").nodeValue().toInt();
         QStringList defaults;
-        if (pa.attribute("start").contains(';'))
-            defaults = pa.attribute("start").split(';');
-        else if (pa.attribute("value").contains(';'))
-            defaults = pa.attribute("value").split(';');
-        else if (pa.attribute("default").contains(';'))
-            defaults = pa.attribute("default").split(';');
-        QStringList maxv = pa.attribute("max").split(';');
-        QStringList minv = pa.attribute("min").split(';');
+        if (pa.attribute(QStringLiteral("start")).contains(';'))
+            defaults = pa.attribute(QStringLiteral("start")).split(';');
+        else if (pa.attribute(QStringLiteral("value")).contains(';'))
+            defaults = pa.attribute(QStringLiteral("value")).split(';');
+        else if (pa.attribute(QStringLiteral("default")).contains(';'))
+            defaults = pa.attribute(QStringLiteral("default")).split(';');
+        QStringList maxv = pa.attribute(QStringLiteral("max")).split(';');
+        QStringList minv = pa.attribute(QStringLiteral("min")).split(';');
         for (int i = 0; i < maxv.size() && i < minv.size(); ++i) {
             if (m_max_y < maxv[i].toInt()) m_max_y = maxv[i].toInt();
             if (m_min_y > minv[i].toInt()) m_min_y = minv[i].toInt();
@@ -114,7 +114,7 @@ void ParameterPlotter::setPointLists(const QDomElement& d, const QString& paramN
             int def = 0;
             if (i < defaults.size())
                 def = (int)(defaults[i].toInt() * m_stretchFactors[i]);
-            QString name = "";
+            QString name = QLatin1String("");
             if (i < m_parameterNameList.size())
                 name = m_parameterNameList[i];
             plot->addPoint(startframe, def, name);
@@ -145,7 +145,7 @@ void ParameterPlotter::createParametersNew()
     if (plotobjs.size() != m_parameterNameList.size()) {
         //qDebug() << "ERROR size not equal";
     }
-    QDomNodeList namenode = m_itemParameter.elementsByTagName("parameter");
+    QDomNodeList namenode = m_itemParameter.elementsByTagName(QStringLiteral("parameter"));
     QString paramlist;
     QTextStream txtstr(&paramlist);
     QDomNode pa = namenode.item(0);
@@ -160,8 +160,8 @@ void ParameterPlotter::createParametersNew()
                 txtstr << ';';
         }
     }
-    pa.attributes().namedItem("value").setNodeValue(paramlist);
-    pa.attributes().namedItem("start").setNodeValue(paramlist);
+    pa.attributes().namedItem(QStringLiteral("value")).setNodeValue(paramlist);
+    pa.attributes().namedItem(QStringLiteral("start")).setNodeValue(paramlist);
     emit parameterChanged(m_itemParameter);
 
 }
@@ -203,12 +203,12 @@ void ParameterPlotter::replot(const QString & name)
 
     //removeAllPlotObjects();
     int i = 0;
-    bool drawAll = name.isEmpty() || name == "all";
+    bool drawAll = name.isEmpty() || name == QLatin1String("all");
     m_activeIndexPlot = -1;
 
 
     foreach(KPlotObject* p, plotObjects()) {
-        QString selectedName = "none";
+        QString selectedName = QStringLiteral("none");
         if (i < m_parameterNameList.size())
             selectedName = m_parameterNameList[i];
         p->setShowPoints(drawAll || selectedName == name);

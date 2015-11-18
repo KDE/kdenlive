@@ -46,7 +46,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     }
     else m_view.clip_name->setText(i18n("Slideshow Clip"));
     m_view.folder_url->setMode(KFile::Directory);
-    m_view.folder_url->setUrl(QUrl::fromLocalFile(KRecentDirs::dir(":KdenliveSlideShowFolder")));
+    m_view.folder_url->setUrl(QUrl::fromLocalFile(KRecentDirs::dir(QStringLiteral(":KdenliveSlideShowFolder"))));
     m_view.icon_list->setIconSize(QSize(50, 50));
     m_view.show_thumbs->setChecked(KdenliveSettings::showslideshowthumbs());
 
@@ -59,16 +59,16 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     connect(m_view.luma_fade, SIGNAL(stateChanged(int)), this, SLOT(slotEnableLumaFile(int)));
 
     //WARNING: keep in sync with project/clipproperties.cpp
-    m_view.image_type->addItem("JPG (*.jpg)", "jpg");
-    m_view.image_type->addItem("JPEG (*.jpeg)", "jpeg");
-    m_view.image_type->addItem("PNG (*.png)", "png");
-    m_view.image_type->addItem("SVG (*.svg)", "svg");
-    m_view.image_type->addItem("BMP (*.bmp)", "bmp");
-    m_view.image_type->addItem("GIF (*.gif)", "gif");
-    m_view.image_type->addItem("TGA (*.tga)", "tga");
-    m_view.image_type->addItem("TIF (*.tif)", "tif");
-    m_view.image_type->addItem("TIFF (*.tiff)", "tiff");
-    m_view.image_type->addItem("Open EXR (*.exr)", "exr");
+    m_view.image_type->addItem(QStringLiteral("JPG (*.jpg)"), "jpg");
+    m_view.image_type->addItem(QStringLiteral("JPEG (*.jpeg)"), "jpeg");
+    m_view.image_type->addItem(QStringLiteral("PNG (*.png)"), "png");
+    m_view.image_type->addItem(QStringLiteral("SVG (*.svg)"), "svg");
+    m_view.image_type->addItem(QStringLiteral("BMP (*.bmp)"), "bmp");
+    m_view.image_type->addItem(QStringLiteral("GIF (*.gif)"), "gif");
+    m_view.image_type->addItem(QStringLiteral("TGA (*.tga)"), "tga");
+    m_view.image_type->addItem(QStringLiteral("TIF (*.tif)"), "tif");
+    m_view.image_type->addItem(QStringLiteral("TIFF (*.tiff)"), "tiff");
+    m_view.image_type->addItem(QStringLiteral("Open EXR (*.exr)"), "exr");
     m_view.animation->addItem(i18n("None"), QString());
     m_view.animation->addItem(i18n("Pan"), "Pan");
     m_view.animation->addItem(i18n("Pan, low-pass"), "Pan, low-pass");
@@ -98,9 +98,9 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
 
     // Check for Kdenlive installed luma files
     QStringList filters;
-    filters << "*.pgm" << "*.png";
+    filters << QStringLiteral("*.pgm") << QStringLiteral("*.png");
 
-    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, "lumas");
+    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("lumas"));
     foreach(const QString & folder, customLumas) {
         QDir directory(folder);
         QStringList filesnames = directory.entryList(filters, QDir::Files);
@@ -122,20 +122,20 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     }
     
     if (clip) {
-        m_view.slide_loop->setChecked(clip->getProducerIntProperty("loop"));
-        m_view.slide_crop->setChecked(clip->getProducerIntProperty("crop"));
-        m_view.slide_fade->setChecked(clip->getProducerIntProperty("fade"));
-        m_view.luma_softness->setValue(clip->getProducerIntProperty("softness"));
-        QString anim = clip->getProducerProperty("animation");
+        m_view.slide_loop->setChecked(clip->getProducerIntProperty(QStringLiteral("loop")));
+        m_view.slide_crop->setChecked(clip->getProducerIntProperty(QStringLiteral("crop")));
+        m_view.slide_fade->setChecked(clip->getProducerIntProperty(QStringLiteral("fade")));
+        m_view.luma_softness->setValue(clip->getProducerIntProperty(QStringLiteral("softness")));
+        QString anim = clip->getProducerProperty(QStringLiteral("animation"));
         if (!anim.isEmpty())
             m_view.animation->setCurrentItem(anim);
         else
             m_view.animation->setCurrentIndex(0);
-        int ttl = clip->getProducerIntProperty("ttl");
+        int ttl = clip->getProducerIntProperty(QStringLiteral("ttl"));
         m_view.clip_duration->setText(tc.getTimecodeFromFrames(ttl));
         m_view.clip_duration_frames->setValue(ttl);
-        m_view.luma_duration->setText(tc.getTimecodeFromFrames(clip->getProducerIntProperty("luma_duration")));
-        QString lumaFile = clip->getProducerProperty("luma_file");
+        m_view.luma_duration->setText(tc.getTimecodeFromFrames(clip->getProducerIntProperty(QStringLiteral("luma_duration"))));
+        QString lumaFile = clip->getProducerProperty(QStringLiteral("luma_file"));
         if (!lumaFile.isEmpty()) {
             m_view.luma_fade->setChecked(true);
             m_view.luma_file->setCurrentIndex(m_view.luma_file->findData(lumaFile));
@@ -204,7 +204,7 @@ void SlideshowClip::parseFolder()
 	return;
     }
 
-    QIcon unknownicon("unknown");
+    QIcon unknownicon(QStringLiteral("unknown"));
     QStringList result;
     QStringList filters;
     QString filter;
@@ -224,7 +224,7 @@ void SlideshowClip::parseFolder()
             filter.chop(1);
         }
         int precision = fullSize - filter.size();
-        int firstFrame = m_view.pattern_url->url().fileName().section('.', 0, -2).right(precision).toInt();
+        int firstFrame = m_view.pattern_url->url().fileName().section('.', 0, -2).rightRef(precision).toInt();
         QString path;
         int gap = 0;
         for (int i = firstFrame; gap < 100; ++i) {
@@ -342,7 +342,7 @@ QString SlideshowClip::selectedPath(const QUrl &url, bool isMime, QString extens
 
         // Find number of digits in sequence
         int precision = fullSize - filter.size();
-	int firstFrame = firstFrameData.right(precision).toInt();
+	int firstFrame = firstFrameData.rightRef(precision).toInt();
 
         // Check how many files we have
         QDir dir(folder);
@@ -358,7 +358,7 @@ QString SlideshowClip::selectedPath(const QUrl &url, bool isMime, QString extens
             }
         }
         extension = filter + "%0" + QString::number(precision) + 'd' + ext;
-	if (firstFrame > 0) extension.append(QString("?begin:%1").arg(firstFrame));
+	if (firstFrame > 0) extension.append(QStringLiteral("?begin:%1").arg(firstFrame));
     }
     //qDebug() << "// FOUND " << (*list).count() << " items for " << url.path();
     return  folder + extension;

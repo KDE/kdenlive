@@ -25,7 +25,6 @@
 #include <QMap>
 #include <QStringList>
 
-class QUrl;
 class ProjectClip;
 class AbstractClipJob;
 

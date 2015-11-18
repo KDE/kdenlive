@@ -16,7 +16,7 @@
       <Action name="project_find" />
       <Action name="project_find_next" />
     </Menu>
-    
+
     <Menu name="project" ><text>Project</text>
       <Action name="add_clip" />
       <Action name="add_color_clip" />
@@ -128,6 +128,7 @@
       <Separator />
       <Menu name="video_effects_menu" ><text>Add Effect</text>
       </Menu>
+      <Action name="disable_timeline_effects" />
 	  <Separator />
 		<Action name="show_video_thumbs" />
 		<Action name="show_audio_thumbs" />

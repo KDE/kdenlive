@@ -44,13 +44,13 @@ ProfilesDialog::ProfilesDialog(QWidget * parent) :
     m_view.colorspace->addItem(getColorspaceDescription(0), 0);
 
     QStringList profilesFilter;
-    profilesFilter << "*";
+    profilesFilter << QStringLiteral("*");
 
-    m_view.button_delete->setIcon(KoIconUtils::themedIcon("trash-empty"));
+    m_view.button_delete->setIcon(KoIconUtils::themedIcon(QStringLiteral("trash-empty")));
     m_view.button_delete->setToolTip(i18n("Delete profile"));
-    m_view.button_save->setIcon(KoIconUtils::themedIcon("document-save"));
+    m_view.button_save->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-save")));
     m_view.button_save->setToolTip(i18n("Save profile"));
-    m_view.button_create->setIcon(KoIconUtils::themedIcon("document-new"));
+    m_view.button_create->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-new")));
     m_view.button_create->setToolTip(i18n("Create new profile"));
 
     fillList();
@@ -89,9 +89,9 @@ ProfilesDialog::ProfilesDialog(QString profilePath, QWidget * parent) :
     m_view.colorspace->addItem(getColorspaceDescription(0), 0);
 
     QStringList profilesFilter;
-    profilesFilter << "*";
+    profilesFilter << QStringLiteral("*");
 
-    m_view.button_save->setIcon(KoIconUtils::themedIcon("document-save"));
+    m_view.button_save->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-save")));
     m_view.button_save->setToolTip(i18n("Save profile"));
     m_view.button_create->setHidden(true);
     m_view.profiles_list->setHidden(true);
@@ -197,7 +197,7 @@ bool ProfilesDialog::slotSaveProfile()
         saveProfile(path);
     } else {
         int i = 0;
-        QString customName = "profiles/customprofile";
+        QString customName = QStringLiteral("profiles/customprofile");
         QString profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + customName + QString::number(i);
         //qDebug() << " TYING PROFILE FILE: " << profilePath;
         while (QFile::exists(profilePath)) {
@@ -242,17 +242,17 @@ void ProfilesDialog::slotDeleteProfile()
 MltVideoProfile ProfilesDialog::getVideoProfileFromXml(const QDomElement &element)
 {
     MltVideoProfile result;
-    result.description = element.attribute("description");
-    result.frame_rate_num = element.attribute("frame_rate_num").toInt();
-    result.frame_rate_den = element.attribute("frame_rate_den").toInt();
-    result.width = element.attribute("width").toInt();
-    result.height = element.attribute("height").toInt();
-    result.progressive = element.attribute("progressive").toInt();
-    result.sample_aspect_num = element.attribute("sample_aspect_num").toInt();
-    result.sample_aspect_den = element.attribute("sample_aspect_den").toInt();
-    result.display_aspect_num = element.attribute("display_aspect_num").toInt();
-    result.display_aspect_den = element.attribute("display_aspect_den").toInt();
-    result.colorspace = element.attribute("colorspace").toInt();
+    result.description = element.attribute(QStringLiteral("description"));
+    result.frame_rate_num = element.attribute(QStringLiteral("frame_rate_num")).toInt();
+    result.frame_rate_den = element.attribute(QStringLiteral("frame_rate_den")).toInt();
+    result.width = element.attribute(QStringLiteral("width")).toInt();
+    result.height = element.attribute(QStringLiteral("height")).toInt();
+    result.progressive = element.attribute(QStringLiteral("progressive")).toInt();
+    result.sample_aspect_num = element.attribute(QStringLiteral("sample_aspect_num")).toInt();
+    result.sample_aspect_den = element.attribute(QStringLiteral("sample_aspect_den")).toInt();
+    result.display_aspect_num = element.attribute(QStringLiteral("display_aspect_num")).toInt();
+    result.display_aspect_den = element.attribute(QStringLiteral("display_aspect_den")).toInt();
+    result.colorspace = element.attribute(QStringLiteral("colorspace")).toInt();
     result.path = existingProfile(result);
     return result;
 }
@@ -264,7 +264,7 @@ MltVideoProfile ProfilesDialog::getVideoProfile(const QString &name)
     QStringList profilesNames;
     QStringList profilesFiles;
     QStringList profilesFilter;
-    profilesFilter << "*";
+    profilesFilter << QStringLiteral("*");
     QString path;
     bool isCustom = false;
     if (name.contains('/')) isCustom = true;
@@ -280,27 +280,27 @@ MltVideoProfile ProfilesDialog::getVideoProfile(const QString &name)
     }
 
     if (path.isEmpty() || !QFile::exists(path)) {
-        if (name == "dv_pal") {
+        if (name == QLatin1String("dv_pal")) {
             //qDebug() << "!!! WARNING, COULD NOT FIND DEFAULT MLT PROFILE";
             return result;
         }
-        if (name == KdenliveSettings::default_profile()) KdenliveSettings::setDefault_profile("dv_pal");
+        if (name == KdenliveSettings::default_profile()) KdenliveSettings::setDefault_profile(QStringLiteral("dv_pal"));
         //qDebug() << "// WARNING, COULD NOT FIND PROFILE " << name;
         return result;
     }
     KConfig confFile(path, KConfig::SimpleConfig);
     result.path = name;
-    result.description = confFile.entryMap().value("description");
-    result.frame_rate_num = confFile.entryMap().value("frame_rate_num").toInt();
-    result.frame_rate_den = confFile.entryMap().value("frame_rate_den").toInt();
-    result.width = confFile.entryMap().value("width").toInt();
-    result.height = confFile.entryMap().value("height").toInt();
-    result.progressive = confFile.entryMap().value("progressive").toInt();
-    result.sample_aspect_num = confFile.entryMap().value("sample_aspect_num").toInt();
-    result.sample_aspect_den = confFile.entryMap().value("sample_aspect_den").toInt();
-    result.display_aspect_num = confFile.entryMap().value("display_aspect_num").toInt();
-    result.display_aspect_den = confFile.entryMap().value("display_aspect_den").toInt();
-    result.colorspace = confFile.entryMap().value("colorspace").toInt();
+    result.description = confFile.entryMap().value(QStringLiteral("description"));
+    result.frame_rate_num = confFile.entryMap().value(QStringLiteral("frame_rate_num")).toInt();
+    result.frame_rate_den = confFile.entryMap().value(QStringLiteral("frame_rate_den")).toInt();
+    result.width = confFile.entryMap().value(QStringLiteral("width")).toInt();
+    result.height = confFile.entryMap().value(QStringLiteral("height")).toInt();
+    result.progressive = confFile.entryMap().value(QStringLiteral("progressive")).toInt();
+    result.sample_aspect_num = confFile.entryMap().value(QStringLiteral("sample_aspect_num")).toInt();
+    result.sample_aspect_den = confFile.entryMap().value(QStringLiteral("sample_aspect_den")).toInt();
+    result.display_aspect_num = confFile.entryMap().value(QStringLiteral("display_aspect_num")).toInt();
+    result.display_aspect_den = confFile.entryMap().value(QStringLiteral("display_aspect_den")).toInt();
+    result.colorspace = confFile.entryMap().value(QStringLiteral("colorspace")).toInt();
     return result;
 }
 
@@ -326,24 +326,24 @@ MltVideoProfile ProfilesDialog::getVideoProfile(Mlt::Profile &profile)
 bool ProfilesDialog::existingProfileDescription(const QString &desc)
 {
     QStringList profilesFilter;
-    profilesFilter << "*";
+    profilesFilter << QStringLiteral("*");
 
     // List the Mlt profiles
     QDir mltDir(KdenliveSettings::mltpath());
     QStringList profilesFiles = mltDir.entryList(profilesFilter, QDir::Files);
     for (int i = 0; i < profilesFiles.size(); ++i) {
         KConfig confFile(mltDir.absoluteFilePath(profilesFiles.at(i)), KConfig::SimpleConfig);
-        if (desc == confFile.entryMap().value("description")) return true;
+        if (desc == confFile.entryMap().value(QStringLiteral("description"))) return true;
     }
 
     // List custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, "/profiles/", QStandardPaths::LocateDirectory);
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("/profiles/"), QStandardPaths::LocateDirectory);
     for (int i = 0; i < customProfiles.size(); ++i) {
         QDir customDir(customProfiles.at(i));
         profilesFiles = customDir.entryList(profilesFilter, QDir::Files);
         for (int j = 0; j < profilesFiles.size(); ++j) {
             KConfig confFile(customDir.absoluteFilePath(profilesFiles.at(j)), KConfig::SimpleConfig);
-            if (desc == confFile.entryMap().value("description")) return true;
+            if (desc == confFile.entryMap().value(QStringLiteral("description"))) return true;
         }
     }
     return false;
@@ -354,42 +354,42 @@ QString ProfilesDialog::existingProfile(const MltVideoProfile &profile)
 {
     // Check if the profile has a matching entry in existing ones
     QStringList profilesFilter;
-    profilesFilter << "*";
+    profilesFilter << QStringLiteral("*");
 
     // Check the Mlt profiles
     QDir mltDir(KdenliveSettings::mltpath());
     QStringList profilesFiles = mltDir.entryList(profilesFilter, QDir::Files);
     for (int i = 0; i < profilesFiles.size(); ++i) {
         KConfig confFile(mltDir.absoluteFilePath(profilesFiles.at(i)), KConfig::SimpleConfig);
-        if (profile.display_aspect_den != confFile.entryMap().value("display_aspect_den").toInt()) continue;
-        if (profile.display_aspect_num != confFile.entryMap().value("display_aspect_num").toInt()) continue;
-        if (profile.sample_aspect_den != confFile.entryMap().value("sample_aspect_den").toInt()) continue;
-        if (profile.sample_aspect_num != confFile.entryMap().value("sample_aspect_num").toInt()) continue;
-        if (profile.width != confFile.entryMap().value("width").toInt()) continue;
-        if (profile.height != confFile.entryMap().value("height").toInt()) continue;
-        if (profile.frame_rate_den != confFile.entryMap().value("frame_rate_den").toInt()) continue;
-        if (profile.frame_rate_num != confFile.entryMap().value("frame_rate_num").toInt()) continue;
-        if (profile.progressive != confFile.entryMap().value("progressive").toInt()) continue;
-        if (profile.colorspace != confFile.entryMap().value("colorspace").toInt()) continue;
+        if (profile.display_aspect_den != confFile.entryMap().value(QStringLiteral("display_aspect_den")).toInt()) continue;
+        if (profile.display_aspect_num != confFile.entryMap().value(QStringLiteral("display_aspect_num")).toInt()) continue;
+        if (profile.sample_aspect_den != confFile.entryMap().value(QStringLiteral("sample_aspect_den")).toInt()) continue;
+        if (profile.sample_aspect_num != confFile.entryMap().value(QStringLiteral("sample_aspect_num")).toInt()) continue;
+        if (profile.width != confFile.entryMap().value(QStringLiteral("width")).toInt()) continue;
+        if (profile.height != confFile.entryMap().value(QStringLiteral("height")).toInt()) continue;
+        if (profile.frame_rate_den != confFile.entryMap().value(QStringLiteral("frame_rate_den")).toInt()) continue;
+        if (profile.frame_rate_num != confFile.entryMap().value(QStringLiteral("frame_rate_num")).toInt()) continue;
+        if (profile.progressive != confFile.entryMap().value(QStringLiteral("progressive")).toInt()) continue;
+        if (profile.colorspace != confFile.entryMap().value(QStringLiteral("colorspace")).toInt()) continue;
         return profilesFiles.at(i);
     }
 
     // Check custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, "/profiles/", QStandardPaths::LocateDirectory);
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("/profiles/"), QStandardPaths::LocateDirectory);
     for (int i = 0; i < customProfiles.size(); ++i) {
         profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
         for (int j = 0; j < profilesFiles.size(); ++j) {
             KConfig confFile(customProfiles.at(i) + profilesFiles.at(j), KConfig::SimpleConfig);
-            if (profile.display_aspect_den != confFile.entryMap().value("display_aspect_den").toInt()) continue;
-            if (profile.display_aspect_num != confFile.entryMap().value("display_aspect_num").toInt()) continue;
-            if (profile.sample_aspect_den != confFile.entryMap().value("sample_aspect_den").toInt()) continue;
-            if (profile.sample_aspect_num != confFile.entryMap().value("sample_aspect_num").toInt()) continue;
-            if (profile.width != confFile.entryMap().value("width").toInt()) continue;
-            if (profile.height != confFile.entryMap().value("height").toInt()) continue;
-            if (profile.frame_rate_den != confFile.entryMap().value("frame_rate_den").toInt()) continue;
-            if (profile.frame_rate_num != confFile.entryMap().value("frame_rate_num").toInt()) continue;
-            if (profile.progressive != confFile.entryMap().value("progressive").toInt()) continue;
-            if (profile.colorspace != confFile.entryMap().value("colorspace").toInt()) continue;
+            if (profile.display_aspect_den != confFile.entryMap().value(QStringLiteral("display_aspect_den")).toInt()) continue;
+            if (profile.display_aspect_num != confFile.entryMap().value(QStringLiteral("display_aspect_num")).toInt()) continue;
+            if (profile.sample_aspect_den != confFile.entryMap().value(QStringLiteral("sample_aspect_den")).toInt()) continue;
+            if (profile.sample_aspect_num != confFile.entryMap().value(QStringLiteral("sample_aspect_num")).toInt()) continue;
+            if (profile.width != confFile.entryMap().value(QStringLiteral("width")).toInt()) continue;
+            if (profile.height != confFile.entryMap().value(QStringLiteral("height")).toInt()) continue;
+            if (profile.frame_rate_den != confFile.entryMap().value(QStringLiteral("frame_rate_den")).toInt()) continue;
+            if (profile.frame_rate_num != confFile.entryMap().value(QStringLiteral("frame_rate_num")).toInt()) continue;
+            if (profile.progressive != confFile.entryMap().value(QStringLiteral("progressive")).toInt()) continue;
+            if (profile.colorspace != confFile.entryMap().value(QStringLiteral("colorspace")).toInt()) continue;
             return customProfiles.at(i) + profilesFiles.at(j);
         }
     }
@@ -401,24 +401,24 @@ QMap <QString, QString> ProfilesDialog::getProfilesInfo()
 {
     QMap <QString, QString> result;
     QStringList profilesFilter;
-    profilesFilter << "*";
+    profilesFilter << QStringLiteral("*");
 
     // List the Mlt profiles
     QDir mltDir(KdenliveSettings::mltpath());
     QStringList profilesFiles = mltDir.entryList(profilesFilter, QDir::Files);
     for (int i = 0; i < profilesFiles.size(); ++i) {
         KConfig confFile(mltDir.absoluteFilePath(profilesFiles.at(i)), KConfig::SimpleConfig);
-        QString desc = confFile.entryMap().value("description");
+        QString desc = confFile.entryMap().value(QStringLiteral("description"));
         if (!desc.isEmpty()) result.insert(desc, profilesFiles.at(i));
     }
 
     // List custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, "/profiles/", QStandardPaths::LocateDirectory);
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("/profiles/"), QStandardPaths::LocateDirectory);
     for (int i = 0; i < customProfiles.size(); ++i) {
         profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
         for (int j = 0; j < profilesFiles.size(); ++j) {
             KConfig confFile(customProfiles.at(i) + profilesFiles.at(j), KConfig::SimpleConfig);
-            QString desc = confFile.entryMap().value("description");
+            QString desc = confFile.entryMap().value(QStringLiteral("description"));
             if (!desc.isEmpty()) result.insert(desc, customProfiles.at(i) + profilesFiles.at(j));
         }
     }
@@ -431,7 +431,7 @@ QMap< QString, QString > ProfilesDialog::getSettingsFromFile(const QString& path
     QStringList profilesNames;
     QStringList profilesFiles;
     QStringList profilesFilter;
-    profilesFilter << "*";
+    profilesFilter << QStringLiteral("*");
     QDir mltDir(KdenliveSettings::mltpath());
     if (!path.contains('/')) {
         // This is an MLT profile
@@ -463,7 +463,7 @@ QMap <QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int
     QStringList profilesFiles;
     QStringList profilesFilter;
     QMap <QString, QString> result;
-    profilesFilter << "*";
+    profilesFilter << QStringLiteral("*");
     // List the Mlt profiles
     QDir mltDir(KdenliveSettings::mltpath());
     profilesFiles = mltDir.entryList(profilesFilter, QDir::Files);
@@ -471,31 +471,31 @@ QMap <QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int
         KConfig confFile(mltDir.absoluteFilePath(profilesFiles.at(i)), KConfig::SimpleConfig);
         QMap< QString, QString > values = confFile.entryMap();
         int profileWidth;
-        if (useDisplayWidth) profileWidth = values.value("height").toInt() * values.value("display_aspect_num").toInt() / values.value("display_aspect_den").toInt();
-        else profileWidth = values.value("width").toInt();
-        if (profileWidth == width && values.value("height").toInt() == height) {
-            double profile_fps = values.value("frame_rate_num").toDouble() / values.value("frame_rate_den").toDouble();
-            double profile_par = values.value("sample_aspect_num").toDouble() / values.value("sample_aspect_den").toDouble();
+        if (useDisplayWidth) profileWidth = values.value(QStringLiteral("height")).toInt() * values.value(QStringLiteral("display_aspect_num")).toInt() / values.value(QStringLiteral("display_aspect_den")).toInt();
+        else profileWidth = values.value(QStringLiteral("width")).toInt();
+        if (profileWidth == width && values.value(QStringLiteral("height")).toInt() == height) {
+            double profile_fps = values.value(QStringLiteral("frame_rate_num")).toDouble() / values.value(QStringLiteral("frame_rate_den")).toDouble();
+            double profile_par = values.value(QStringLiteral("sample_aspect_num")).toDouble() / values.value(QStringLiteral("sample_aspect_den")).toDouble();
             if ((fps <= 0 || qAbs(profile_fps - fps) < 0.5) && (par <= 0 || qAbs(profile_par - par) < 0.1))
-                result.insert(profilesFiles.at(i), values.value("description"));
+                result.insert(profilesFiles.at(i), values.value(QStringLiteral("description")));
         }
     }
 
     // List custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, "/profiles/", QStandardPaths::LocateDirectory);
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("/profiles/"), QStandardPaths::LocateDirectory);
     for (int i = 0; i < customProfiles.size(); ++i) {
         QStringList profiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
         for (int j = 0; j < profiles.size(); ++j) {
             KConfig confFile(customProfiles.at(i) + profiles.at(j), KConfig::SimpleConfig);
             QMap< QString, QString > values = confFile.entryMap();
             int profileWidth;
-            if (useDisplayWidth) profileWidth = values.value("height").toInt() * values.value("display_aspect_num").toInt() / values.value("display_aspect_den").toInt();
-            else profileWidth = values.value("width").toInt();
-            if (profileWidth == width && values.value("height").toInt() == height) {
-                double profile_fps = values.value("frame_rate_num").toDouble() / values.value("frame_rate_den").toDouble();
-                double profile_par = values.value("sample_aspect_num").toDouble() / values.value("sample_aspect_den").toDouble();
+            if (useDisplayWidth) profileWidth = values.value(QStringLiteral("height")).toInt() * values.value(QStringLiteral("display_aspect_num")).toInt() / values.value(QStringLiteral("display_aspect_den")).toInt();
+            else profileWidth = values.value(QStringLiteral("width")).toInt();
+            if (profileWidth == width && values.value(QStringLiteral("height")).toInt() == height) {
+                double profile_fps = values.value(QStringLiteral("frame_rate_num")).toDouble() / values.value(QStringLiteral("frame_rate_den")).toDouble();
+                double profile_par = values.value(QStringLiteral("sample_aspect_num")).toDouble() / values.value(QStringLiteral("sample_aspect_den")).toDouble();
                 if ((fps <= 0 || qAbs(profile_fps - fps) < 0.5) && (par <= 0 || qAbs(profile_par - par) < 0.1))
-                    result.insert(customProfiles.at(i) + profiles.at(j), values.value("description"));
+                    result.insert(customProfiles.at(i) + profiles.at(j), values.value(QStringLiteral("description")));
             }
         }
     }
@@ -507,7 +507,7 @@ void ProfilesDialog::saveProfile(MltVideoProfile &profile, QString profilePath)
 {
     if (profilePath.isEmpty()) {
         int i = 0;
-        QString customName = "profiles/customprofile";
+        QString customName = QStringLiteral("profiles/customprofile");
         profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + customName + QString::number(i);
         //qDebug() << " TYING PROFILE FILE: " << profilePath;
         while (QFile::exists(profilePath)) {
@@ -549,23 +549,23 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfile)
     m_view.properties->setEnabled(m_isCustomProfile);
     m_view.button_save->setEnabled(m_isCustomProfile);
     QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(currentProfile);
-    m_view.description->setText(values.value("description"));
-    m_view.size_w->setValue(values.value("width").toInt());
-    m_view.size_h->setValue(values.value("height").toInt());
-    m_view.aspect_num->setValue(values.value("sample_aspect_num").toInt());
-    m_view.aspect_den->setValue(values.value("sample_aspect_den").toInt());
-    m_view.display_num->setValue(values.value("display_aspect_num").toInt());
-    m_view.display_den->setValue(values.value("display_aspect_den").toInt());
-    m_view.frame_num->setValue(values.value("frame_rate_num").toInt());
-    m_view.frame_den->setValue(values.value("frame_rate_den").toInt());
-    m_view.progressive->setChecked(values.value("progressive").toInt());
-    if (values.value("progressive").toInt()) {
-        m_view.fields->setText(locale.toString((double) values.value("frame_rate_num").toInt() / values.value("frame_rate_den").toInt(), 'f', 2));
+    m_view.description->setText(values.value(QStringLiteral("description")));
+    m_view.size_w->setValue(values.value(QStringLiteral("width")).toInt());
+    m_view.size_h->setValue(values.value(QStringLiteral("height")).toInt());
+    m_view.aspect_num->setValue(values.value(QStringLiteral("sample_aspect_num")).toInt());
+    m_view.aspect_den->setValue(values.value(QStringLiteral("sample_aspect_den")).toInt());
+    m_view.display_num->setValue(values.value(QStringLiteral("display_aspect_num")).toInt());
+    m_view.display_den->setValue(values.value(QStringLiteral("display_aspect_den")).toInt());
+    m_view.frame_num->setValue(values.value(QStringLiteral("frame_rate_num")).toInt());
+    m_view.frame_den->setValue(values.value(QStringLiteral("frame_rate_den")).toInt());
+    m_view.progressive->setChecked(values.value(QStringLiteral("progressive")).toInt());
+    if (values.value(QStringLiteral("progressive")).toInt()) {
+        m_view.fields->setText(locale.toString((double) values.value(QStringLiteral("frame_rate_num")).toInt() / values.value(QStringLiteral("frame_rate_den")).toInt(), 'f', 2));
     } else {
-        m_view.fields->setText(locale.toString((double) 2 * values.value("frame_rate_num").toInt() / values.value("frame_rate_den").toInt(), 'f', 2));
+        m_view.fields->setText(locale.toString((double) 2 * values.value(QStringLiteral("frame_rate_num")).toInt() / values.value(QStringLiteral("frame_rate_den")).toInt(), 'f', 2));
     }
 
-    int colorix = m_view.colorspace->findData(values.value("colorspace").toInt());
+    int colorix = m_view.colorspace->findData(values.value(QStringLiteral("colorspace")).toInt());
     if (colorix > -1) m_view.colorspace->setCurrentIndex(colorix);
     m_profileIsModified = false;
 }
@@ -576,11 +576,11 @@ QString ProfilesDialog::getColorspaceDescription(int colorspace)
     //TODO: should the descriptions be translated?
     switch (colorspace) {
     case 601:
-        return QString("ITU-R 601");
+        return QStringLiteral("ITU-R 601");
     case 709:
-        return QString("ITU-R 709");
+        return QStringLiteral("ITU-R 709");
     case 240:
-        return QString("SMPTE240M");
+        return QStringLiteral("SMPTE240M");
     default:
         return i18n("Unknown");
     }
@@ -590,8 +590,8 @@ QString ProfilesDialog::getColorspaceDescription(int colorspace)
 int ProfilesDialog::getColorspaceFromDescription(const QString &description)
 {
     //TODO: should the descriptions be translated?
-    if (description == "SMPTE240M") return 240;
-    if (description == "ITU-R 709") return 709;
+    if (description == QLatin1String("SMPTE240M")) return 240;
+    if (description == QLatin1String("ITU-R 709")) return 709;
     return 601;
 }
 

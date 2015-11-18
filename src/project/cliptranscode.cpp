@@ -49,7 +49,7 @@ ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, con
 
     if (m_urls.count() == 1) {
         QString fileName = m_urls.first(); //.section('.', 0, -1);
-        QString newFile = params.section(' ', -1).replace("%1", fileName);
+        QString newFile = params.section(' ', -1).replace(QLatin1String("%1"), fileName);
         QUrl dest = QUrl::fromLocalFile(newFile);
         source_url->setUrl(QUrl::fromLocalFile(m_urls.first()));
         dest_url->setMode(KFile::File);
@@ -76,7 +76,7 @@ ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, con
         } else transcode_info->setHidden(true);
     } else {
         // load Profiles
-        KSharedConfigPtr config = KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::DataLocation, "kdenlivetranscodingrc"), KConfig::CascadeConfig);
+        KSharedConfigPtr config = KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivetranscodingrc")), KConfig::CascadeConfig);
         KConfigGroup transConfig(config, "Transcoding");
         // read the entries
         QMap< QString, QString > profiles = transConfig.entryMap();
@@ -134,9 +134,9 @@ void ClipTranscode::slotStartTransCode()
     } else {
         destination = dest_url->url().path().section('.', 0, -2);
     }
-    QString extension = params.section("%1", 1, 1).section(' ', 0, 0);
+    QString extension = params.section(QStringLiteral("%1"), 1, 1).section(' ', 0, 0);
     QString s_url = source_url->url().path();
-    parameters << "-i" << s_url;
+    parameters << QStringLiteral("-i") << s_url;
     if (QFile::exists(destination + extension)) {
         if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination + extension)) == KMessageBox::No) {
             // Abort operation
@@ -147,7 +147,7 @@ void ClipTranscode::slotStartTransCode()
             }
             return;
         }
-        parameters << "-y";
+        parameters << QStringLiteral("-y");
     }
 
     bool replaceVfParams = false;
@@ -158,7 +158,7 @@ void ClipTranscode::slotStartTransCode()
             replaceVfParams = false;
         } else if (s.startsWith(QLatin1String("%1"))) {
             parameters << s.replace(0, 2, destination);
-        } else if (!m_postParams.isEmpty() && s == "-vf") {
+        } else if (!m_postParams.isEmpty() && s == QLatin1String("-vf")) {
             replaceVfParams = true;
             parameters << s;
         } else {
@@ -178,8 +178,8 @@ void ClipTranscode::slotShowTranscodeInfo()
 {
     QString log = QString(m_transcodeProcess.readAll());
     if (m_duration == 0) {
-        if (log.contains("Duration:")) {
-            QString data = log.section("Duration:", 1, 1).section(',', 0, 0).simplified();
+        if (log.contains(QStringLiteral("Duration:"))) {
+            QString data = log.section(QStringLiteral("Duration:"), 1, 1).section(',', 0, 0).simplified();
             QStringList numbers = data.split(':');
             if (numbers.size() < 3) return;
             m_duration = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
@@ -191,9 +191,9 @@ void ClipTranscode::slotShowTranscodeInfo()
             job_progress->setHidden(true);
         }
     }
-    else if (log.contains("time=")) {
+    else if (log.contains(QStringLiteral("time="))) {
         int progress;
-        QString time = log.section("time=", 1, 1).simplified().section(' ', 0, 0);
+        QString time = log.section(QStringLiteral("time="), 1, 1).simplified().section(' ', 0, 0);
         if (time.contains(':')) {
             QStringList numbers = time.split(':');
             if (numbers.size() < 3) return;
@@ -223,7 +223,7 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
             QUrl url;
             if (urls_list->count() > 0) {
                 QString params = ffmpeg_params->toPlainText().simplified();
-                QString extension = params.section("%1", 1, 1).section(' ', 0, 0);
+                QString extension = params.section(QStringLiteral("%1"), 1, 1).section(' ', 0, 0);
                 url = QUrl::fromLocalFile(dest_url->url().path() + QDir::separator() + source_url->url().fileName() + extension);
             } else url = dest_url->url();
             if (m_automaticMode) emit transcodedClip(source_url->url(), url);
@@ -268,7 +268,7 @@ void ClipTranscode::slotUpdateParams(int ix)
         } else transcode_info->setHidden(true);
     }
     if (urls_list->count() == 0) {
-        QString newFile = ffmpeg_params->toPlainText().simplified().section(' ', -1).replace("%1", fileName);
+        QString newFile = ffmpeg_params->toPlainText().simplified().section(' ', -1).replace(QLatin1String("%1"), fileName);
         dest_url->setUrl(QUrl::fromLocalFile(newFile));
     }
 

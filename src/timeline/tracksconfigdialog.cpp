@@ -82,23 +82,23 @@ TracksConfigDialog::TracksConfigDialog(Timeline *timeline, int selected, QWidget
     table->setItemDelegateForColumn(1, new TracksDelegate(this));
     table->verticalHeader()->setHidden(true);
 
-    buttonReset->setIcon(QIcon::fromTheme("document-revert"));
+    buttonReset->setIcon(QIcon::fromTheme(QStringLiteral("document-revert")));
     buttonReset->setToolTip(i18n("Reset"));
     connect(buttonReset, SIGNAL(clicked()), this, SLOT(setupOriginal()));
 
-    buttonAdd->setIcon(QIcon::fromTheme("list-add"));
+    buttonAdd->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
     buttonAdd->setToolTip(i18n("Add Track"));
     buttonAdd->setEnabled(false);
 
-    buttonDelete->setIcon(QIcon::fromTheme("list-remove"));
+    buttonDelete->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
     buttonDelete->setToolTip(i18n("Delete Track"));
     connect(buttonDelete, SIGNAL(clicked()), this, SLOT(slotDelete()));
 
-    buttonUp->setIcon(QIcon::fromTheme("arrow-up"));
+    buttonUp->setIcon(QIcon::fromTheme(QStringLiteral("arrow-up")));
     buttonUp->setToolTip(i18n("Move Track upwards"));
     buttonUp->setEnabled(false);
 
-    buttonDown->setIcon(QIcon::fromTheme("arrow-down"));
+    buttonDown->setIcon(QIcon::fromTheme(QStringLiteral("arrow-down")));
     buttonDown->setToolTip(i18n("Move Track downwards"));
     buttonDown->setEnabled(false);
 
@@ -156,24 +156,24 @@ void TracksConfigDialog::setupOriginal(int selected)
         table->setItem(i, 1, item1);
         table->openPersistentEditor(item1);
 
-        QTableWidgetItem *item2 = new QTableWidgetItem("");
+        QTableWidgetItem *item2 = new QTableWidgetItem(QLatin1String(""));
         item2->setFlags(item2->flags() & ~Qt::ItemIsEditable);
         item2->setCheckState(info.isBlind ? Qt::Checked : Qt::Unchecked);
         if (info.type == AudioTrack)
             item2->setFlags(item2->flags() & ~Qt::ItemIsEnabled);
         table->setItem(i, 2, item2);
 
-        QTableWidgetItem *item3 = new QTableWidgetItem("");
+        QTableWidgetItem *item3 = new QTableWidgetItem(QLatin1String(""));
         item3->setFlags(item3->flags() & ~Qt::ItemIsEditable);
         item3->setCheckState(info.isMute ? Qt::Checked : Qt::Unchecked);
         table->setItem(i, 3, item3);
 
-        QTableWidgetItem *item4 = new QTableWidgetItem("");
+        QTableWidgetItem *item4 = new QTableWidgetItem(QLatin1String(""));
         item4->setFlags(item4->flags() & ~Qt::ItemIsEditable);
         item4->setCheckState(info.isLocked ? Qt::Checked : Qt::Unchecked);
         table->setItem(i, 4, item4);
         
-        QTableWidgetItem *item5 = new QTableWidgetItem("");
+        QTableWidgetItem *item5 = new QTableWidgetItem(QLatin1String(""));
         item5->setFlags(item5->flags() & ~Qt::ItemIsEditable);
         item5->setCheckState(info.composite? Qt::Checked : Qt::Unchecked);
         table->setItem(i, 5, item5);

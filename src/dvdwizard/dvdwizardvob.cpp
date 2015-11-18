@@ -77,10 +77,10 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
     , m_duration(0)
 {
     m_view.setupUi(this);
-    m_view.button_add->setIcon(QIcon::fromTheme("list-add"));
-    m_view.button_delete->setIcon(QIcon::fromTheme("list-remove"));
-    m_view.button_up->setIcon(QIcon::fromTheme("go-up"));
-    m_view.button_down->setIcon(QIcon::fromTheme("go-down"));
+    m_view.button_add->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
+    m_view.button_delete->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
+    m_view.button_up->setIcon(QIcon::fromTheme(QStringLiteral("go-up")));
+    m_view.button_down->setIcon(QIcon::fromTheme(QStringLiteral("go-down")));
     m_vobList = new DvdTreeWidget(this);
     QVBoxLayout *lay1 = new QVBoxLayout;
     lay1->addWidget(m_vobList);
@@ -101,8 +101,8 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
     m_vobList->setIconSize(QSize(60, 45));
 
     QString errorMessage;
-    if (QStandardPaths::findExecutable("dvdauthor").isEmpty()) errorMessage.append(i18n("<strong>Program %1 is required for the DVD wizard.</strong>", i18n("dvdauthor")));
-    if (QStandardPaths::findExecutable("mkisofs").isEmpty() && QStandardPaths::findExecutable("genisoimage").isEmpty()) errorMessage.append(i18n("<strong>Program %1 or %2 is required for the DVD wizard.</strong>", i18n("mkisofs"), i18n("genisoimage")));
+    if (QStandardPaths::findExecutable(QStringLiteral("dvdauthor")).isEmpty()) errorMessage.append(i18n("<strong>Program %1 is required for the DVD wizard.</strong>", i18n("dvdauthor")));
+    if (QStandardPaths::findExecutable(QStringLiteral("mkisofs")).isEmpty() && QStandardPaths::findExecutable(QStringLiteral("genisoimage")).isEmpty()) errorMessage.append(i18n("<strong>Program %1 or %2 is required for the DVD wizard.</strong>", i18n("mkisofs"), i18n("genisoimage")));
     if (!errorMessage.isEmpty()) {
         m_view.button_add->setEnabled(false);
         m_view.dvd_profile->setEnabled(false);
@@ -156,8 +156,8 @@ void DvdWizardVob::slotShowTranscodeInfo()
 {
     QString log = QString(m_transcodeProcess.readAll());
     if (m_duration == 0) {
-        if (log.contains("Duration:")) {
-            QString data = log.section("Duration:", 1, 1).section(',', 0, 0).simplified();
+        if (log.contains(QStringLiteral("Duration:"))) {
+            QString data = log.section(QStringLiteral("Duration:"), 1, 1).section(',', 0, 0).simplified();
             QStringList numbers = data.split(':');
             if (numbers.size() < 3) return;
             m_duration = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
@@ -169,9 +169,9 @@ void DvdWizardVob::slotShowTranscodeInfo()
             //job_progress->setHidden(true);
         }
     }
-    else if (log.contains("time=")) {
+    else if (log.contains(QStringLiteral("time="))) {
         int progress;
-        QString time = log.section("time=", 1, 1).simplified().section(' ', 0, 0);
+        QString time = log.section(QStringLiteral("time="), 1, 1).simplified().section(' ', 0, 0);
         if (time.contains(':')) {
             QStringList numbers = time.split(':');
             if (numbers.size() < 3) return;
@@ -196,7 +196,7 @@ void DvdWizardVob::slotAbortTranscode()
 void DvdWizardVob::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
     if (exitCode == 0 && exitStatus == QProcess::NormalExit) {
-        slotTranscodedClip(m_currentTranscoding.filename, m_currentTranscoding.filename + m_currentTranscoding.params.section("%1", 1, 1).section(' ', 0, 0));
+        slotTranscodedClip(m_currentTranscoding.filename, m_currentTranscoding.filename + m_currentTranscoding.params.section(QStringLiteral("%1"), 1, 1).section(' ', 0, 0));
         if (!m_transcodeQueue.isEmpty()) {
             m_transcodeProcess.close();
             processTranscoding();
@@ -243,11 +243,11 @@ void DvdWizardVob::slotCheckProfiles()
 void DvdWizardVob::slotAddVobList(QList<QUrl> list)
 {
     if (list.isEmpty()) {
-        QString allExtensions = ClipCreationDialog::getExtensions().join(" ");
+        QString allExtensions = ClipCreationDialog::getExtensions().join(QStringLiteral(" "));
         QString dialogFilter = i18n("All Supported Files") + " (" + allExtensions + ");; " + i18n("MPEG Files") + " (*.mpeg *.mpg *.vob);; " + i18n("All Files") + " (*.*)";
-        list = QFileDialog::getOpenFileUrls(this, i18n("Add new video file"), QUrl::fromLocalFile(KRecentDirs::dir(":KdenliveDvdFolder")), dialogFilter);
+        list = QFileDialog::getOpenFileUrls(this, i18n("Add new video file"), QUrl::fromLocalFile(KRecentDirs::dir(QStringLiteral(":KdenliveDvdFolder"))), dialogFilter);
         if (!list.isEmpty()) {
-            KRecentDirs::add(":KdenliveDvdFolder", list.at(0).adjusted(QUrl::RemoveFilename).path());
+            KRecentDirs::add(QStringLiteral(":KdenliveDvdFolder"), list.at(0).adjusted(QUrl::RemoveFilename).path());
         }
     }
     foreach(const QUrl &url, list) {
@@ -267,7 +267,7 @@ void DvdWizardVob::slotAddVobFile(QUrl url, const QString &chapters, bool checkF
     profile.set_explicit(false);
     QTreeWidgetItem *item = new QTreeWidgetItem(m_vobList, QStringList() << url.path() << QString() << KIO::convertSize(fileSize));
     item->setData(2, Qt::UserRole, fileSize);
-    item->setData(0, Qt::DecorationRole, QIcon::fromTheme("video-x-generic").pixmap(60, 45));
+    item->setData(0, Qt::DecorationRole, QIcon::fromTheme(QStringLiteral("video-x-generic")).pixmap(60, 45));
     item->setToolTip(0, url.path());
 
     QString resource = url.path();
@@ -318,7 +318,7 @@ void DvdWizardVob::slotAddVobFile(QUrl url, const QString &chapters, bool checkF
         default:
             standardName = i18n("Unknown");
         }
-        standardName.append(QString(" | %1x%2, %3fps").arg(profile.width()).arg(profile.height()).arg(profile.fps()));
+        standardName.append(QStringLiteral(" | %1x%2, %3fps").arg(profile.width()).arg(profile.height()).arg(profile.fps()));
         item->setData(0, Qt::UserRole, standardName);
         item->setData(0, Qt::UserRole + 1, standard);
         item->setData(0, Qt::UserRole + 2, QSize(profile.dar() * profile.height(), profile.height()));
@@ -351,12 +351,12 @@ void DvdWizardVob::slotAddVobFile(QUrl url, const QString &chapters, bool checkF
                 return;
             }
             file.close();
-            QDomNodeList chapters = doc.elementsByTagName("chapter");
+            QDomNodeList chapters = doc.elementsByTagName(QStringLiteral("chapter"));
             QStringList chaptersList;
             for (int j = 0; j < chapters.count(); ++j) {
-                chaptersList.append(QString::number(chapters.at(j).toElement().attribute("time").toInt()));
+                chaptersList.append(QString::number(chapters.at(j).toElement().attribute(QStringLiteral("time")).toInt()));
             }
-            item->setData(1, Qt::UserRole + 1, chaptersList.join(";"));
+            item->setData(1, Qt::UserRole + 1, chaptersList.join(QStringLiteral(";")));
         }
     } else // Explicitly add a chapter at 00:00:00:00
         item->setData(1, Qt::UserRole + 1, "0");
@@ -538,16 +538,16 @@ const QString DvdWizardVob::dvdProfile() const
     QString profile;
     switch (m_view.dvd_profile->currentIndex()) {
     case PAL_WIDE:
-        profile = "dv_pal_wide";
+        profile = QStringLiteral("dv_pal_wide");
         break;
     case NTSC:
-        profile = "dv_ntsc";
+        profile = QStringLiteral("dv_ntsc");
         break;
     case NTSC_WIDE:
-        profile = "dv_ntsc_wide";
+        profile = QStringLiteral("dv_ntsc_wide");
         break;
     default:
-        profile = "dv_pal";
+        profile = QStringLiteral("dv_pal");
     }
     return profile;
 }
@@ -558,27 +558,27 @@ QString DvdWizardVob::getDvdProfile(DVDFORMAT format)
     QString profile;
     switch (format) {
     case PAL_WIDE:
-        profile = "dv_pal_wide";
+        profile = QStringLiteral("dv_pal_wide");
         break;
     case NTSC:
-        profile = "dv_ntsc";
+        profile = QStringLiteral("dv_ntsc");
         break;
     case NTSC_WIDE:
-        profile = "dv_ntsc_wide";
+        profile = QStringLiteral("dv_ntsc_wide");
         break;
     default:
-        profile = "dv_pal";
+        profile = QStringLiteral("dv_pal");
     }
     return profile;
 }
 
 void DvdWizardVob::setProfile(const QString& profile)
 {
-    if (profile == "dv_pal_wide")
+    if (profile == QLatin1String("dv_pal_wide"))
         m_view.dvd_profile->setCurrentIndex(PAL_WIDE);
-    else if (profile == "dv_ntsc")
+    else if (profile == QLatin1String("dv_ntsc"))
         m_view.dvd_profile->setCurrentIndex(NTSC);
-    else if (profile == "dv_ntsc_wide")
+    else if (profile == QLatin1String("dv_ntsc_wide"))
         m_view.dvd_profile->setCurrentIndex(NTSC_WIDE);
     else
         m_view.dvd_profile->setCurrentIndex(PAL);
@@ -593,7 +593,7 @@ void DvdWizardVob::slotTranscodeFiles()
 {
     m_warnMessage->animatedHide();
     // Find transcoding info related to selected DVD profile
-    KSharedConfigPtr config = KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::DataLocation, "kdenlivetranscodingrc"), KConfig::CascadeConfig);
+    KSharedConfigPtr config = KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivetranscodingrc")), KConfig::CascadeConfig);
     KConfigGroup transConfig(config, "Transcoding");
     // read the entries
     QString profileEasyName;
@@ -601,22 +601,22 @@ void DvdWizardVob::slotTranscodeFiles()
     QSize finalSize;
     switch (m_view.dvd_profile->currentIndex()) {
     case PAL_WIDE:
-        profileEasyName = "DVD PAL 16:9";
+        profileEasyName = QStringLiteral("DVD PAL 16:9");
         destSize = QSize(1024, 576);
         finalSize = QSize(720, 576);
         break;
     case NTSC:
-        profileEasyName = "DVD NTSC 4:3";
+        profileEasyName = QStringLiteral("DVD NTSC 4:3");
         destSize = QSize(640, 480);
         finalSize = QSize(720, 480);
         break;
     case NTSC_WIDE:
-        profileEasyName = "DVD NTSC 16:9";
+        profileEasyName = QStringLiteral("DVD NTSC 16:9");
         destSize = QSize(853, 480);
         finalSize = QSize(720, 480);
         break;
     default:
-        profileEasyName = "DVD PAL 4:3";
+        profileEasyName = QStringLiteral("DVD PAL 4:3");
         destSize = QSize(768, 576);
         finalSize = QSize(720, 576);
     }
@@ -641,13 +641,13 @@ void DvdWizardVob::slotTranscodeFiles()
                 int conv_height = (int) (destSize.width() / input_aspect);
                 int conv_pad = (int) (((double) (destSize.height() - conv_height)) / 2.0);
                 if (conv_pad %2 == 1) conv_pad --;
-                postParams << "-vf" << QString("scale=%1:%2,pad=%3:%4:0:%5,setdar=%6").arg(finalSize.width()).arg(destSize.height() - 2 * conv_pad).arg(finalSize.width()).arg(finalSize.height()).arg(conv_pad).arg(input_aspect);
+                postParams << QStringLiteral("-vf") << QStringLiteral("scale=%1:%2,pad=%3:%4:0:%5,setdar=%6").arg(finalSize.width()).arg(destSize.height() - 2 * conv_pad).arg(finalSize.width()).arg(finalSize.height()).arg(conv_pad).arg(input_aspect);
             } else {
                 // pillarboxing
                 int conv_width = (int) (destSize.height() * input_aspect);
                 int conv_pad = (int) (((double) (destSize.width() - conv_width)) / destSize.width() * finalSize.width() / 2.0);
                 if (conv_pad %2 == 1) conv_pad --;
-                postParams << "-vf" << QString("scale=%1:%2,pad=%3:%4:%5:0,setdar=%6").arg(finalSize.width() - 2 * conv_pad).arg(destSize.height()).arg(finalSize.width()).arg(finalSize.height()).arg(conv_pad).arg(input_aspect);
+                postParams << QStringLiteral("-vf") << QStringLiteral("scale=%1:%2,pad=%3:%4:%5:0,setdar=%6").arg(finalSize.width() - 2 * conv_pad).arg(destSize.height()).arg(finalSize.width()).arg(finalSize.height()).arg(conv_pad).arg(input_aspect);
             }
             TranscodeJobInfo jobInfo;
             jobInfo.filename = item->text(0);
@@ -668,15 +668,15 @@ void DvdWizardVob::processTranscoding()
     QStringList parameters;
     QStringList postParams = m_currentTranscoding.postParams;
     QString params = m_currentTranscoding.params;
-    QString extension = params.section("%1", 1, 1).section(' ', 0, 0);
-    parameters << "-i" << m_currentTranscoding.filename;
+    QString extension = params.section(QStringLiteral("%1"), 1, 1).section(' ', 0, 0);
+    parameters << QStringLiteral("-i") << m_currentTranscoding.filename;
     if (QFile::exists(m_currentTranscoding.filename + extension)) {
         if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", m_currentTranscoding.filename + extension)) == KMessageBox::No) {
             // TODO inform about abortion
             m_transcodeQueue.clear();
             return;
         }
-        parameters << "-y";
+        parameters << QStringLiteral("-y");
     }
 
     bool replaceVfParams = false;
@@ -687,7 +687,7 @@ void DvdWizardVob::processTranscoding()
             replaceVfParams = false;
         } else if (s.startsWith(QLatin1String("%1"))) {
             parameters << s.replace(0, 2, m_currentTranscoding.filename);
-        } else if (!postParams.isEmpty() && s == "-vf") {
+        } else if (!postParams.isEmpty() && s == QLatin1String("-vf")) {
             replaceVfParams = true;
             parameters << s;
         } else {
@@ -720,7 +720,7 @@ void DvdWizardVob::slotTranscodedClip(const QString &src, const QString &transco
             profile.set_explicit(false);
             item->setText(2, KIO::convertSize(fileSize));
             item->setData(2, Qt::UserRole, fileSize);
-            item->setData(0, Qt::DecorationRole, QIcon::fromTheme("video-x-generic").pixmap(60, 45));
+            item->setData(0, Qt::DecorationRole, QIcon::fromTheme(QStringLiteral("video-x-generic")).pixmap(60, 45));
             item->setToolTip(0, transcoded);
 
             QString resource = transcoded;

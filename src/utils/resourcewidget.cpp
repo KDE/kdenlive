@@ -83,7 +83,7 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     QMenu *resourceMenu = new QMenu;
     resourceMenu->addAction(m_autoPlay);
     config_button->setMenu(resourceMenu);
-    config_button->setIcon(QIcon::fromTheme("configure"));
+    config_button->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
 
     m_busyWidget = new KPixmapSequenceOverlayPainter(this);
     m_busyWidget->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -115,7 +115,7 @@ void ResourceWidget::saveConfig()
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup resourceConfig(config, "ResourceWidget");
-    resourceConfig.writeEntry(QLatin1String("mainsplitter"), splitter->size());
+    resourceConfig.writeEntry(QStringLiteral("mainsplitter"), splitter->size());
     config->sync();
 }
 
@@ -149,11 +149,11 @@ void ResourceWidget::slotUpdateCurrentSound()
     sound_box->setEnabled(true);
     QString title = "<h3>" + m_currentInfo.itemName;
     if (!m_currentInfo.infoUrl.isEmpty())
-        title += QString(" (<a href=\"%1\">%2</a>)").arg(m_currentInfo.infoUrl).arg(i18nc("the url link pointing to a web page", "link"));
+        title += QStringLiteral(" (<a href=\"%1\">%2</a>)").arg(m_currentInfo.infoUrl).arg(i18nc("the url link pointing to a web page", "link"));
     title.append("</h3>");
     
     if (!m_currentInfo.authorUrl.isEmpty()) {
-        title += QString("<a href=\"%1\">").arg(m_currentInfo.authorUrl);
+        title += QStringLiteral("<a href=\"%1\">").arg(m_currentInfo.authorUrl);
         if (!m_currentInfo.author.isEmpty())
             title.append(m_currentInfo.author);
         else title.append(i18n("Author"));
@@ -198,11 +198,11 @@ void ResourceWidget::slotLoadThumb(const QString &url)
 
 void ResourceWidget::slotDisplayMetaInfo(const QMap<QString, QString> &metaInfo)
 {
-    if (metaInfo.contains(QLatin1String("license"))) {
-        parseLicense(metaInfo.value(QLatin1String("license")));
+    if (metaInfo.contains(QStringLiteral("license"))) {
+        parseLicense(metaInfo.value(QStringLiteral("license")));
     }
-    if (metaInfo.contains(QLatin1String("description"))) {
-        slotSetDescription(metaInfo.value(QLatin1String("description")));
+    if (metaInfo.contains(QStringLiteral("description"))) {
+        slotSetDescription(metaInfo.value(QStringLiteral("description")));
     }
 }
 
@@ -320,24 +320,24 @@ void ResourceWidget::slotPreviousPage()
 void ResourceWidget::parseLicense(const QString &licenseUrl)
 {
     QString licenseName;
-    if (licenseUrl.contains("/sampling+/"))
-        licenseName = "Sampling+";
-    else if (licenseUrl.contains("/by/"))
-        licenseName = "Attribution";
-    else if (licenseUrl.contains("/by-nd/"))
-        licenseName = "Attribution-NoDerivs";
-    else if (licenseUrl.contains("/by-nc-sa/"))
-        licenseName = "Attribution-NonCommercial-ShareAlike";
-    else if (licenseUrl.contains("/by-sa/"))
-        licenseName = "Attribution-ShareAlike";
-    else if (licenseUrl.contains("/by-nc/"))
-        licenseName = "Attribution-NonCommercial";
-    else if (licenseUrl.contains("/by-nc-nd/"))
-        licenseName = "Attribution-NonCommercial-NoDerivs";
-    else if (licenseUrl.contains("/publicdomain/zero/"))
-        licenseName = "Creative Commons 0";
+    if (licenseUrl.contains(QStringLiteral("/sampling+/")))
+        licenseName = QStringLiteral("Sampling+");
+    else if (licenseUrl.contains(QStringLiteral("/by/")))
+        licenseName = QStringLiteral("Attribution");
+    else if (licenseUrl.contains(QStringLiteral("/by-nd/")))
+        licenseName = QStringLiteral("Attribution-NoDerivs");
+    else if (licenseUrl.contains(QStringLiteral("/by-nc-sa/")))
+        licenseName = QStringLiteral("Attribution-NonCommercial-ShareAlike");
+    else if (licenseUrl.contains(QStringLiteral("/by-sa/")))
+        licenseName = QStringLiteral("Attribution-ShareAlike");
+    else if (licenseUrl.contains(QStringLiteral("/by-nc/")))
+        licenseName = QStringLiteral("Attribution-NonCommercial");
+    else if (licenseUrl.contains(QStringLiteral("/by-nc-nd/")))
+        licenseName = QStringLiteral("Attribution-NonCommercial-NoDerivs");
+    else if (licenseUrl.contains(QStringLiteral("/publicdomain/zero/")))
+        licenseName = QStringLiteral("Creative Commons 0");
     else if (licenseUrl.endsWith(QLatin1String("/publicdomain")))
-        licenseName = "Public Domain";
+        licenseName = QStringLiteral("Public Domain");
     else licenseName = i18n("Unknown");
     item_license->setText(licenseName);
     item_license->setUrl(licenseUrl);
@@ -375,7 +375,7 @@ void ResourceWidget::slotSetMetadata(const QString &desc)
 
 void ResourceWidget::slotSetImage(const QString &desc)
 {
-    m_image = QString::fromLatin1("<img src=\"%1\" style=\"max-height:150px\" max-width=\"%2px\" />").arg(desc).arg((int) (info_browser->width() * 0.9));
+    m_image = QStringLiteral("<img src=\"%1\" style=\"max-height:150px\" max-width=\"%2px\" />").arg(desc).arg((int) (info_browser->width() * 0.9));
     updateLayout();
 }
 

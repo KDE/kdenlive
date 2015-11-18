@@ -43,26 +43,26 @@ LumaLiftGain::LumaLiftGain(const QDomNodeList &nodes, QWidget* parent) :
     QMap <QString, double> values;
     for (int i = 0; i < nodes.count() ; ++i) {
         QDomElement pa = nodes.item(i).toElement();
-        if (pa.tagName() != "parameter") continue;
-        double val = m_locale.toDouble(pa.attribute("value")) / m_locale.toDouble(pa.attribute("factor"));
-        values.insert(pa.attribute("name"), val);
+        if (pa.tagName() != QLatin1String("parameter")) continue;
+        double val = m_locale.toDouble(pa.attribute(QStringLiteral("value"))) / m_locale.toDouble(pa.attribute(QStringLiteral("factor")));
+        values.insert(pa.attribute(QStringLiteral("name")), val);
     }
           
-    QColor lift = QColor::fromRgbF(values.value("lift_r"),
-                                     values.value("lift_g"),
-                                     values.value("lift_b"));
-    QColor gamma = QColor::fromRgbF(values.value("gamma_r") / GAMMA_FACTOR,
-                                      values.value("gamma_g") / GAMMA_FACTOR,
-                                      values.value("gamma_b") / GAMMA_FACTOR);
-    QColor gain = QColor::fromRgbF(values.value("gain_r") / GAIN_FACTOR,
-                                     values.value("gain_g") / GAIN_FACTOR,
-                                     values.value("gain_b") / GAIN_FACTOR);
+    QColor lift = QColor::fromRgbF(values.value(QStringLiteral("lift_r")),
+                                     values.value(QStringLiteral("lift_g")),
+                                     values.value(QStringLiteral("lift_b")));
+    QColor gamma = QColor::fromRgbF(values.value(QStringLiteral("gamma_r")) / GAMMA_FACTOR,
+                                      values.value(QStringLiteral("gamma_g")) / GAMMA_FACTOR,
+                                      values.value(QStringLiteral("gamma_b")) / GAMMA_FACTOR);
+    QColor gain = QColor::fromRgbF(values.value(QStringLiteral("gain_r")) / GAIN_FACTOR,
+                                     values.value(QStringLiteral("gain_g")) / GAIN_FACTOR,
+                                     values.value(QStringLiteral("gain_b")) / GAIN_FACTOR);
 
-    m_lift = new ColorWheel("lift", i18n("Lift"), lift, this);
+    m_lift = new ColorWheel(QStringLiteral("lift"), i18n("Lift"), lift, this);
     connect(m_lift, SIGNAL(colorChange(const QColor &)), this, SIGNAL(valueChanged()));
-    m_gamma = new ColorWheel("gamma", i18n("Gamma"), gamma, this);
+    m_gamma = new ColorWheel(QStringLiteral("gamma"), i18n("Gamma"), gamma, this);
     connect(m_gamma, SIGNAL(colorChange(const QColor &)), this, SIGNAL(valueChanged()));
-    m_gain = new ColorWheel("gain", i18n("Gain"), gain, this);
+    m_gain = new ColorWheel(QStringLiteral("gain"), i18n("Gain"), gain, this);
     connect(m_gain, SIGNAL(colorChange(const QColor &)), this, SIGNAL(valueChanged()));
 
     flowLayout->addWidget(m_lift);
@@ -85,24 +85,24 @@ void LumaLiftGain::updateEffect(QDomElement &effect)
     QColor gamma = m_gamma->color();
     QColor gain = m_gain->color();
     QMap <QString, double> values;
-    values.insert("lift_r", lift.redF());
-    values.insert("lift_g", lift.greenF());
-    values.insert("lift_b", lift.blueF());
+    values.insert(QStringLiteral("lift_r"), lift.redF());
+    values.insert(QStringLiteral("lift_g"), lift.greenF());
+    values.insert(QStringLiteral("lift_b"), lift.blueF());
     
-    values.insert("gamma_r", gamma.redF() * GAMMA_FACTOR);
-    values.insert("gamma_g", gamma.greenF() * GAMMA_FACTOR);
-    values.insert("gamma_b", gamma.blueF() * GAMMA_FACTOR);
+    values.insert(QStringLiteral("gamma_r"), gamma.redF() * GAMMA_FACTOR);
+    values.insert(QStringLiteral("gamma_g"), gamma.greenF() * GAMMA_FACTOR);
+    values.insert(QStringLiteral("gamma_b"), gamma.blueF() * GAMMA_FACTOR);
     
-    values.insert("gain_r", gain.redF() * GAIN_FACTOR);
-    values.insert("gain_g", gain.greenF() * GAIN_FACTOR);
-    values.insert("gain_b", gain.blueF() * GAIN_FACTOR);
+    values.insert(QStringLiteral("gain_r"), gain.redF() * GAIN_FACTOR);
+    values.insert(QStringLiteral("gain_g"), gain.greenF() * GAIN_FACTOR);
+    values.insert(QStringLiteral("gain_b"), gain.blueF() * GAIN_FACTOR);
     
     QDomNodeList namenode = effect.childNodes();
     for (int i = 0; i < namenode.count() ; ++i) {
         QDomElement pa = namenode.item(i).toElement();
-        if (pa.tagName() != "parameter") continue;
-        if (values.contains(pa.attribute("name"))) {
-            pa.setAttribute("value", (int) (values.value(pa.attribute("name")) * m_locale.toDouble(pa.attribute("factor", "1"))));
+        if (pa.tagName() != QLatin1String("parameter")) continue;
+        if (values.contains(pa.attribute(QStringLiteral("name")))) {
+            pa.setAttribute(QStringLiteral("value"), (int) (values.value(pa.attribute(QStringLiteral("name"))) * m_locale.toDouble(pa.attribute(QStringLiteral("factor"), QStringLiteral("1")))));
         }
     }    
 }

@@ -98,7 +98,7 @@ void TransitionSettings::refreshIcons()
 }
 
 void TransitionSettings::dragEnterEvent(QDragEnterEvent * event ) {
-    if (event->mimeData()->hasFormat("application/x-qabstractitemmodeldatalist")) {
+    if (event->mimeData()->hasFormat(QStringLiteral("application/x-qabstractitemmodeldatalist"))) {
         event->setDropAction(Qt::CopyAction);
         event->setAccepted(true);
     }
@@ -107,11 +107,11 @@ void TransitionSettings::dragEnterEvent(QDragEnterEvent * event ) {
 
 void TransitionSettings::dropEvent( QDropEvent* event ) 
 {
-if (event->mimeData()->hasFormat("application/x-qabstractitemmodeldatalist"))
+if (event->mimeData()->hasFormat(QStringLiteral("application/x-qabstractitemmodeldatalist")))
         {
                 QTreeWidget *tree = dynamic_cast<QTreeWidget *>(event->source());
  
-                QByteArray itemData = event->mimeData()->data("application/x-qabstractitemmodeldatalist");
+                QByteArray itemData = event->mimeData()->data(QStringLiteral("application/x-qabstractitemmodeldatalist"));
                 QDataStream stream(&itemData, QIODevice::ReadOnly);
  
                 int r, c;
@@ -152,12 +152,12 @@ void TransitionSettings::updateTrackList()
     int limit = 1;
     if (m_usedTransition)
         limit = m_usedTransition->track() - 1;
-    QIcon videoIcon = QIcon::fromTheme("kdenlive-show-video");
-    QIcon audioIcon = QIcon::fromTheme("kdenlive-show-audio");
+    QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
+    QIcon audioIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-audio"));
     for (int i = limit; i > 0; i--) {
         transitionTrack->addItem(m_tracks.at(i).type == VideoTrack ? videoIcon : audioIcon,
                                  m_tracks.at(i).trackName.isEmpty() ? QString::number(i) : m_tracks.at(i).trackName,
-                                 m_tracks.count() - i);
+                                 i);
     }
     transitionTrack->addItem(i18n("Black"), 0);
     transitionTrack->setCurrentIndex(transitionTrack->findData(current));
@@ -208,14 +208,14 @@ void TransitionSettings::slotTransitionTrackChanged()
     if (transitionTrack->currentIndex() > 0) {
         ix = transitionTrack->itemData(transitionTrack->currentIndex()).toInt();
         m_usedTransition->setForcedTrack(true, ix);
-        m_effectEdit->updateParameter("force_track", "1");
+        m_effectEdit->updateParameter(QStringLiteral("force_track"), QStringLiteral("1"));
     } else {
         ix = m_autoTrackTransition;
         m_usedTransition->setForcedTrack(false, ix);
-        m_effectEdit->updateParameter("force_track", "0");
+        m_effectEdit->updateParameter(QStringLiteral("force_track"), QStringLiteral("0"));
     }
     emit transitionUpdated(m_usedTransition, oldxml);
-    m_effectEdit->updateParameter("transition_btrack", QString::number(ix));
+    m_effectEdit->updateParameter(QStringLiteral("transition_btrack"), QString::number(ix));
 }
 
 void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack, const QPoint &p, bool update)

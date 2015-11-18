@@ -59,7 +59,7 @@
 KisCurveWidget::KisCurveWidget(QWidget *parent, Qt::WindowFlags f)
         : QWidget(parent, f), d(new KisCurveWidget::Private(this))
 {
-    setObjectName("KisCurveWidget");
+    setObjectName(QStringLiteral("KisCurveWidget"));
     d->m_grab_point_index = -1;
     d->m_readOnlyMode   = false;
     d->m_guideVisible   = false;

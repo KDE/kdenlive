@@ -69,16 +69,16 @@ public:
     }
 protected:
     void dragEnterEvent(QDragEnterEvent * event) {
-        if (event->mimeData()->hasFormat("kdenlive/effectslist")) {
+        if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
             event->accept();
         }
     }
     void dropEvent(QDropEvent * event) {
-        const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
+        const QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
         QDomDocument doc;
         doc.setContent(effects, true);
-        QString id = doc.documentElement().attribute("id");
-        if (id.isEmpty()) id = doc.documentElement().attribute("tag");
+        QString id = doc.documentElement().attribute(QStringLiteral("id"));
+        if (id.isEmpty()) id = doc.documentElement().attribute(QStringLiteral("tag"));
         emit addEffectToFavorites(id);
     }
 signals:

@@ -29,11 +29,8 @@
 
 class QDomElement;
 class Monitor;
-class MonitorScene;
 class KeyframeHelper;
 class TimecodeDisplay;
-class OnMonitorRectItem;
-class OnMonitorPathItem;
 class QGraphicsRectItem;
 class DragValue;
 

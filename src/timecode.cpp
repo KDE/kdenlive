@@ -115,11 +115,11 @@ double Timecode::fps() const
 const QString Timecode::mask(const GenTime& t) const
 {
     if (t < GenTime()) {
-        if (m_dropFrameTimecode) return "#99:99:99,99";
-        else return "#99:99:99:99";
+        if (m_dropFrameTimecode) return QStringLiteral("#99:99:99,99");
+        else return QStringLiteral("#99:99:99:99");
     }
-    if (m_dropFrameTimecode) return "99:99:99,99";
-    else return "99:99:99:99";
+    if (m_dropFrameTimecode) return QStringLiteral("99:99:99,99");
+    else return QStringLiteral("99:99:99:99");
 }
 
 QString Timecode::reformatSeparators(QString duration) const
@@ -138,13 +138,13 @@ int Timecode::getFrameCount(const QString &duration) const
     int offset = 0;
     if (duration.at(0) == '-') {
         offset = 1;
-        hours = duration.mid(1, 2).toInt();
+        hours = duration.midRef(1, 2).toInt();
     } else {
-        hours = duration.left(2).toInt();
+        hours = duration.leftRef(2).toInt();
     }
-    minutes = duration.mid(3 + offset, 2).toInt();
-    seconds = duration.mid(6 + offset, 2).toInt();
-    frames = duration.right(2).toInt();
+    minutes = duration.midRef(3 + offset, 2).toInt();
+    seconds = duration.midRef(6 + offset, 2).toInt();
+    frames = duration.rightRef(2).toInt();
     if (m_dropFrameTimecode) {
         //CONVERT DROP FRAME TIMECODE TO A FRAME NUMBER
         //Code by David Heidelberger, adapted from Andrew Duncan
