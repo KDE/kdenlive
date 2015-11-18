@@ -863,11 +863,13 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist) {
         QString id = idString;
         double speed = 1.0;
         int strobe = 1;
+	bool hasSpeedEffect = false;
         if (idString.endsWith("_video")) {
             // Video only producer, store it in BinController
             m_doc->renderer()->loadExtraProducer(idString, new Mlt::Producer(clip->parent()));
         }
         if (idString.startsWith(QLatin1String("slowmotion"))) {
+	    hasSpeedEffect = true;
             QLocale locale;
             locale.setNumberOptions(QLocale::OmitGroupSeparator);
             id = idString.section(':', 1, 1);
@@ -900,7 +902,7 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist) {
         item->updateState(idString);
         m_scene->addItem(item);
         if (locked) item->setItemLocked(true);
-        if (speed != 1.0 || strobe > 1) {
+        if (hasSpeedEffect) {
             QDomElement speedeffect = MainWindow::videoEffects.getEffectByTag(QString(), "speed").cloneNode().toElement();
             EffectsList::setParameter(speedeffect, "speed", QString::number((int)(100 * speed + 0.5)));
             EffectsList::setParameter(speedeffect, "strobe", QString::number(strobe));
