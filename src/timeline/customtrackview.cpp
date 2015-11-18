@@ -6129,7 +6129,7 @@ void CustomTrackView::expandActiveClip()
     }
     // Step 1: remove playlist clip
     QUndoCommand *expandCommand = new QUndoCommand();
-    expandCommand->setText(i18n("Expland Clip"));
+    expandCommand->setText(i18n("Expand Clip"));
     ItemInfo info = clip->info();
     new AddTimelineClipCommand(this, clip->getBinId(), info, clip->effectList(), clip->clipState(), true, true, expandCommand);
     emit importPlaylistClips(info, url, expandCommand);
