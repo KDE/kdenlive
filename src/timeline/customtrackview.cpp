@@ -1265,7 +1265,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         EffectsList::setParameter(transition, "reverse", "1");
 
         // Check there is no other transition at that place
-        double startY = info.track * m_tracksHeight + 1 + m_tracksHeight / 2;
+	double startY = getPositionFromTrack(info.track) + 1 + m_tracksHeight / 2;
         QRectF r(info.startPos.frames(m_document->fps()), startY, (info.endPos - info.startPos).frames(m_document->fps()), m_tracksHeight / 2);
         QList<QGraphicsItem *> selection = m_scene->items(r);
         bool transitionAccepted = true;
@@ -2564,7 +2564,7 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition, Q
                     info.endPos = transitionClip->endPos();
                 } else info.endPos = info.startPos + GenTime(65, m_document->fps());
                 // Check there is no other transition at that place
-                double startY = info.track * m_tracksHeight + 1 + m_tracksHeight / 2;
+		double startY = getPositionFromTrack(info.track) + 1 + m_tracksHeight / 2;
                 QRectF r(info.startPos.frames(m_document->fps()), startY, (info.endPos - info.startPos).frames(m_document->fps()), m_tracksHeight / 2);
                 QList<QGraphicsItem *> selection = m_scene->items(r);
                 bool transitionAccepted = true;
@@ -2590,7 +2590,7 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition, Q
                 else if (transition.attribute("id") == "slide") EffectsList::setParameter(transition, "invert", "1");
 
                 // Check there is no other transition at that place
-                double startY = info.track * m_tracksHeight + 1 + m_tracksHeight / 2;
+                double startY = getPositionFromTrack(info.track) + 1 + m_tracksHeight / 2;
                 QRectF r(info.startPos.frames(m_document->fps()), startY, (info.endPos - info.startPos).frames(m_document->fps()), m_tracksHeight / 2);
                 QList<QGraphicsItem *> selection = m_scene->items(r);
                 bool transitionAccepted = true;
@@ -2615,7 +2615,7 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition, Q
             info.track = item->track();
 
             // Check there is no other transition at that place
-            double startY = info.track * m_tracksHeight + 1 + m_tracksHeight / 2;
+            double startY = getPositionFromTrack(info.track) + 1 + m_tracksHeight / 2;
             QRectF r(info.startPos.frames(m_document->fps()), startY, (info.endPos - info.startPos).frames(m_document->fps()), m_tracksHeight / 2);
             QList<QGraphicsItem *> selection = m_scene->items(r);
             bool transitionAccepted = true;
