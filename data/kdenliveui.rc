@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="86" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="90" translationDomain="kdenlive">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -107,6 +107,7 @@
 	  <Action name="delete_timeline_clip" />
 	  <Action name="edit_item_duration" />
 	  <Action name="save_timeline_clip" />
+          <Action name="expand_timeline_clip" />
       </Menu>
       <Menu name="all_clips" ><text>All clips</text>
           <Action name="ripple_delete" />

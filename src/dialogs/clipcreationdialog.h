@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "definitions.h"
 
 class KdenliveDoc;
+class QUndoCommand;
 class Bin;
 
 /**
@@ -45,6 +46,7 @@ namespace ClipCreationDialog
     void createTitleClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin);
     void createTitleTemplateClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
     void createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, QStringList groupInfo, Bin *bin, const QMap <QString, QString> &data = QMap <QString, QString>());
+    void createClipsCommand(KdenliveDoc *doc, QDomElement producer, const QString &id, QUndoCommand *command);
     void createClipsCommand(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
     void addXmlProperties(QDomElement &producer, QMap <QString, QString> &properties);
 };

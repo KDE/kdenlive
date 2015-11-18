@@ -390,6 +390,7 @@ void Timeline::getTransitions() {
     }
 }
 
+// static
 bool Timeline::isSlide(QString geometry) {
     if (geometry.count(';') != 1) return false;
 
@@ -1413,3 +1414,7 @@ int Timeline::getSpaceLength(const GenTime &pos, int tk, bool fromBlankStart)
     return sourceTrack->spaceLength(insertPos, fromBlankStart);
 }
 
+void Timeline::importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QDomDocument doc, QUndoCommand *command)
+{
+    projectView()->importPlaylist(info, processedUrl, doc, command);
+}

@@ -31,10 +31,10 @@ AddClipCommand::AddClipCommand(KdenliveDoc *doc, const QDomElement &xml, const Q
 {
     if (doIt) setText(i18n("Add clip"));
     else setText(i18n("Delete clip"));
-    QString str;
+    /*QString str;
     QTextStream stream(&str);
     m_xml.save(stream, 4);
-    //qDebug()<<text()<<"\n-----------\n"<<str;
+    qDebug()<<text()<<"\n-----------\n"<<str;*/
 }
 // virtual
 void AddClipCommand::undo()

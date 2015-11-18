@@ -94,6 +94,9 @@ public slots:
     /** @brief Update project and monitors profiles */
     void slotResetProfiles();
 
+    /** @brief Expand current timeline clip (recover clips and tracks from an MLT playlist) */
+    void slotExpandClip();
+
 private slots:
     void slotRevert();
     /** @brief Open the project's backupdialog. */

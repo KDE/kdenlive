@@ -137,6 +137,9 @@ public:
     void blockTrackSignals(bool block);
     /** @brief Load document */
     void loadTimeline();
+    static bool isSlide(QString geometry);
+    /** @brief Import amultitrack MLT playlist in timeline */
+    void importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QDomDocument doc, QUndoCommand *command);
 
 protected:
     void keyPressEvent(QKeyEvent * event);
@@ -175,7 +178,6 @@ private:
     void getEffects(Mlt::Service &service, ClipItem *clip, int track = 0);
     QString getKeyframes(Mlt::Service service, int &ix, QDomElement e);
     void getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect);
-    bool isSlide(QString geometry);
     void adjustDouble(QDomElement &e, double value);
 
     /** @brief Adjust kdenlive effect xml parameters to the MLT value*/

@@ -542,3 +542,5 @@ const QString BinController::getProperty(const QString &name)
     return QString(m_binPlaylist->get(name.toUtf8().constData()));
 }
 
+
+

@@ -230,6 +230,10 @@ public:
     int getTrackFromPos(double y) const;
     /** @brief Returns customtrackview y position from an MLT track number. */
     int getPositionFromTrack(int track) const;
+    /** @brief Expand current timeline clip (recover clips and tracks from an MLT playlist) */
+    void expandActiveClip();
+    /** @brief Import amultitrack MLT playlist in timeline */
+    void importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QDomDocument doc, QUndoCommand *command);
 
 public slots:
     /** @brief Send seek request to MLT. */
@@ -521,7 +525,6 @@ private slots:
     /** @brief Update a producer in all tracks (for example when an effect changed). */
     void slotUpdateTimelineProducer(const QString &id);
 
-
 signals:
     void cursorMoved(int, int);
     void zoomIn();
@@ -550,6 +553,8 @@ signals:
     void importKeyframes(GraphicsRectItem type, const QString&, int maximum);
     /** @brief Guides were changed, inform render widget*/
     void guidesUpdated();
+    /** @brief Prepare importing and expand of a playlist clip */
+    void importPlaylistClips(ItemInfo info, QUrl url, QUndoCommand *expandCommand);
 };
 
 #endif

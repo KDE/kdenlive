@@ -105,6 +105,13 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
 }
 
 // adds the transition by keeping the instance order from topmost track down to background
+void TransitionHandler::plantTransition(Mlt::Transition &tr, int a_track, int b_track)
+{
+    QScopedPointer<Mlt::Field> field(m_tractor->field());
+    plantTransition(field.data(), tr, a_track, b_track);
+}
+
+// adds the transition by keeping the instance order from topmost track down to background
 void TransitionHandler::plantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track)
 {
     mlt_service nextservice = mlt_service_get_producer(field->get_service());

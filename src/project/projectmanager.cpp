@@ -165,6 +165,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     bool ok;
     pCore->bin()->setDocument(doc);
     m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value("timeline")->actions(), &ok, pCore->window());
+    connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo, QUrl, QUndoCommand*)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo, QUrl, QUndoCommand*)), Qt::DirectConnection);
     m_trackView->loadTimeline();
     pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme("kdenlive"), doc->description());
     m_project = doc;
@@ -595,3 +596,9 @@ void ProjectManager::slotResetProfiles()
     pCore->monitorManager()->resetProfiles(m_project->mltProfile(), m_project->timecode());
     pCore->monitorManager()->updateScopeSource();
 }
+
+void ProjectManager::slotExpandClip()
+{
+    m_trackView->projectView()->expandActiveClip();
+}
+
