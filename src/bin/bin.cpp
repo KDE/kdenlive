@@ -727,7 +727,20 @@ void Bin::slotDuplicateClip()
             QStringList folderInfo = getFolderInfo(ix);
             QDomDocument doc;
             QDomElement xml = currentItem->toXml(doc);
-            if (!xml.isNull()) ClipCreationDialog::createClipFromXml(m_doc, xml, folderInfo, this);
+            if (!xml.isNull()) {
+		QString currentName = EffectsList::property(xml, "kdenlive:clipname");
+		if (currentName.isEmpty()) {
+		    QUrl url = QUrl::fromLocalFile(EffectsList::property(xml, "resource"));
+		    if (url.isValid()) {
+			QString currentName = url.fileName();
+		    }
+		}
+		if (!currentName.isEmpty()) {
+		     currentName.append(i18nc("append to clip name to indicate a copied idem", " (copy)"));
+		     EffectsList::setProperty(xml, "kdenlive:clipname", currentName);
+		}
+		ClipCreationDialog::createClipFromXml(m_doc, xml, folderInfo, this);
+	    }
         }
     }
 }
