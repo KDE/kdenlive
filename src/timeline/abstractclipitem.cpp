@@ -21,6 +21,7 @@
 #include "abstractclipitem.h"
 #include "customtrackscene.h"
 #include "kdenlivesettings.h"
+#include "customtrackview.h"
 
 #include <QDebug>
 #include <klocalizedstring.h>
@@ -549,5 +550,25 @@ bool AbstractClipItem::isMainSelectedClip()
     return m_isMainSelectedClip;
 }
 
+int AbstractClipItem::trackForPos(int position)
+{
+    int track = 1;
+    if (!scene() || scene()->views().isEmpty()) return track;
+    CustomTrackView *view = static_cast<CustomTrackView*>(scene()->views()[0]);
+    if (view) {
+	track = view->getTrackFromPos(position);
+    }
+    return track;
+}
 
+int AbstractClipItem::posForTrack(int track)
+{
+    int pos = 0;
+    if (!scene() || scene()->views().isEmpty()) return pos;
+    CustomTrackView *view = static_cast<CustomTrackView*>(scene()->views()[0]);
+    if (view) {
+	pos = view->getPositionFromTrack(track);
+    }
+    return pos;
+}
 

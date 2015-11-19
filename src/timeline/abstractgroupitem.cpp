@@ -180,6 +180,28 @@ void AbstractGroupItem::paint(QPainter *p, const QStyleOptionGraphicsItem *optio
     p->drawRoundedRect(boundingRect().adjusted(0, 0, -1, 0), 3, 3);
 }
 
+int AbstractGroupItem::trackForPos(int position)
+{
+    int track = 1;
+    if (!scene() || scene()->views().isEmpty()) return track;
+    CustomTrackView *view = static_cast<CustomTrackView*>(scene()->views()[0]);
+    if (view) {
+	track = view->getTrackFromPos(position);
+    }
+    return track;
+}
+
+int AbstractGroupItem::posForTrack(int track)
+{
+    int pos = 0;
+    if (!scene() || scene()->views().isEmpty()) return pos;
+    CustomTrackView *view = static_cast<CustomTrackView*>(scene()->views()[0]);
+    if (view) {
+	pos = view->getPositionFromTrack(track);
+    }
+    return pos;
+}
+
 //virtual
 QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
@@ -208,7 +230,8 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         ////qDebug()<<"GRP XPOS:"<<xpos<<", START:"<<start.x()<<",NEW:"<<newPos.x()<<"; SCENE:"<<scenePos().x()<<",POS:"<<pos().x();
         newPos.setX((int)(pos().x() + xpos - (int) start.x()));
         QStringList lockedTracks = property("locked_tracks").toStringList();
-        int proposedTrack = (property("y_absolute").toInt() + newPos.y()) / trackHeight;
+	
+        int proposedTrack = trackForPos(property("y_absolute").toInt() + newPos.y());
         // Check if top item is a clip or a transition
         int offset = 0;
         int topTrack = -1;
@@ -225,12 +248,12 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
             }
             else continue;
             if (children.at(i)->type() == AVWidget) {
-                if (topTrack == -1 || currentTrack <= topTrack) {
+                if (topTrack == -1 || currentTrack >= topTrack) {
                     offset = 0;
                     topTrack = currentTrack;
                 }
             } else if (children.at(i)->type() == TransitionWidget) {
-                if (topTrack == -1 || currentTrack < topTrack) {
+                if (topTrack == -1 || currentTrack > topTrack) {
                     offset = (int)(trackHeight / 3 * 2 - 1);
                     topTrack = currentTrack;
                 }
@@ -245,12 +268,12 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                     }
                 }
                 if (clipGroup) {
-                    if (topTrack == -1 || currentTrack <= topTrack) {
+                    if (topTrack == -1 || currentTrack >= topTrack) {
                         offset = 0;
                         topTrack = currentTrack;
                     }
                 } else {
-                    if (topTrack == -1 || currentTrack < topTrack) {
+                    if (topTrack == -1 || currentTrack > topTrack) {
                         offset = (int)(trackHeight / 3 * 2 - 1);
                         topTrack = currentTrack;
                     }
@@ -258,24 +281,26 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
             }
         }
         // Check no clip in the group goes outside of existing tracks
-        int maximumTrack = projectScene()->tracksCount() - 1;
+        int maximumTrack = projectScene()->tracksCount();
         int groupHeight = 0;
         for (int i = 0; i < groupTracks.count(); ++i) {
             int offset = groupTracks.at(i) - topTrack;
             if (offset > groupHeight) groupHeight = offset;
         }
+        
         maximumTrack -= groupHeight;
         proposedTrack = qMin(proposedTrack, maximumTrack);
-        proposedTrack = qMax(proposedTrack, 0);
+        proposedTrack = qMax(proposedTrack, groupTracks.count());
         int groupOffset = proposedTrack - topTrack;
         if (!lockedTracks.isEmpty()) {
             for (int i = 0; i < groupTracks.count(); ++i) {
-                if (lockedTracks.contains(QString::number(scene->tracksCount() - groupTracks.at(i) + groupOffset))) {
+                if (lockedTracks.contains(QString::number(groupTracks.at(i) + groupOffset))) {
                     return pos();
                 }
             }
         }
-        newPos.setY((int)((proposedTrack) * trackHeight) + offset);
+        newPos.setY(posForTrack(proposedTrack) + offset);
+	qDebug()<<" - -- - MOVING GROUP - - -- ";
         //if (newPos == start) return start;
 
         /*if (newPos.x() < 0) {
