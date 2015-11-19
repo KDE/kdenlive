@@ -220,15 +220,17 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
         int xpos = projectScene()->getSnapPointForPos((int) newPos.x(), KdenliveSettings::snaptopoints());
         xpos = qMax(xpos, 0);
         newPos.setX(xpos);
-        int newTrack = newPos.y() / KdenliveSettings::trackheight();
-        newTrack = qMin(newTrack, projectScene()->tracksCount() - 1);
-        newTrack = qMax(newTrack, 0);
+        int newTrack = trackForPos(newPos.y());
         QStringList lockedTracks = property("locked_tracks").toStringList();
-        if (lockedTracks.contains(QString::number(scene->tracksCount() - newTrack))) {
+        if (lockedTracks.contains(QString::number(newTrack))) {
             // Trying to move to a locked track
             return pos();
         }
-        newPos.setY((int)(newTrack * KdenliveSettings::trackheight() + itemOffset() + 1));
+        int maximumTrack = projectScene()->tracksCount();
+        newTrack = qMin(newTrack, maximumTrack);
+        newTrack = qMax(newTrack, 0);
+        newPos.setY(posForTrack(newTrack) + itemOffset() + 1);
+
         // Only one clip is moving
         QRectF sceneShape = rect();
         sceneShape.translate(newPos);
@@ -275,7 +277,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
                         }
                     }
 
-                    m_info.track = scene->tracksCount() - newTrack;
+                    m_info.track = newTrack;
                     m_info.startPos = GenTime((int) newPos.x(), m_fps);
 
                     return newPos;
@@ -283,7 +285,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
             }
         }
 
-        m_info.track = scene->tracksCount() - newTrack;
+        m_info.track = newTrack;
         m_info.startPos = GenTime((int) newPos.x(), m_fps);
         ////qDebug()<<"// ITEM NEW POS: "<<newPos.x()<<", mapped: "<<mapToScene(newPos.x(), 0).x();
         return newPos;
