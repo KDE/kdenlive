@@ -731,7 +731,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
     } else {
         removeTipAnimation();
         setCursor(Qt::ArrowCursor);
-        if (event->buttons() != Qt::NoButton && event->modifiers() == Qt::NoModifier) {
+        if (event->buttons() != Qt::NoButton && event->modifiers() == Qt::NoModifier && !m_controlModifier) {
             QGraphicsView::mouseMoveEvent(event);
             m_moveOpMode = Seek;
             if (mappedXPos != m_document->renderer()->getCurrentSeekPosition() && mappedXPos != cursorPos()) {
@@ -1031,10 +1031,13 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             if (m_dragItem && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup)
                 dragGroup = static_cast<AbstractGroupItem*> (m_dragItem->parentItem());
         }
+        event->setAccepted(true);
         displayContextMenu(event->globalPos(), m_dragItem, dragGroup);
         m_menuPosition = m_clickEvent;
-        event->setAccepted(true);
-        if (m_dragItem == NULL) return;
+        //QGraphicsView::mousePressEvent(event);
+        if (m_dragItem == NULL) {
+            return;
+        }
     }
 
     if (event->button() == Qt::LeftButton) {
@@ -1080,19 +1083,28 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     }
 
     if ((event->modifiers() == Qt::ControlModifier) || itemSelected == false) {
+        // User clicked with ctrl or clicked a non selected item
         if (event->modifiers() != Qt::ControlModifier) {
+            // item was not selected, select it
             resetSelectionGroup(false);
             m_scene->clearSelection();
             // A refresh seems necessary otherwise in zoomed mode, some clips disappear
             viewport()->update();
         } else {
+            // Ctrl click, we need to rebuild the selection group
             resetSelectionGroup();
         }
 
         bool selected = !m_dragItem->isSelected();
         m_dragItem->setZValue(99);
         if (m_dragItem->parentItem()) m_dragItem->parentItem()->setZValue(99);
-        QGraphicsView::mousePressEvent(event);
+        if (!itemSelected) {
+            // Item was not selected, select it
+            QGraphicsView::mousePressEvent(event);
+        } else {
+            // Item was selected and we ctrl+clicked on it. Deselect it but don't allow moving it
+            event->ignore();
+        }
 
         if (dragGroup) {
             dragGroup->setSelected(selected);
@@ -3703,7 +3715,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         QGraphicsView::mouseReleaseEvent(event);
         return;
     }
-    if (!m_controlModifier && m_operationMode != RubberSelection) {
+    if (m_operationMode != RubberSelection) {
         //event->accept();
         setDragMode(QGraphicsView::NoDrag);
         if (m_clipDrag) QGraphicsView::mouseReleaseEvent(event);
