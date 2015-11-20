@@ -331,6 +331,7 @@ protected:
     virtual void keyPressEvent(QKeyEvent * event);
     virtual QStringList mimeTypes() const;
     virtual Qt::DropActions supportedDropActions() const;
+    virtual void contextMenuEvent(QContextMenuEvent * event);
 
 private:
     int m_ct;
@@ -380,7 +381,7 @@ private:
     void checkScrolling();
     /** Should we auto scroll while playing (keep in sync with KdenliveSettings::autoscroll() */
     bool m_autoScroll;
-    void displayContextMenu(QPoint pos, AbstractClipItem *clip, AbstractGroupItem *group);
+    void displayContextMenu(QPoint pos, AbstractClipItem *clip);
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
@@ -511,7 +512,10 @@ private slots:
     void slotFetchNextThumbs();
     void checkTrackSequence(int track);
     void slotGoToMarker(QAction *action);
+    /** @brief Context menu is finished, prepare resetting las known menu pos. */
     void slotResetMenuPosition();
+    /** @brief Context menu is finished, restore normal operation mode. */
+    void slotContextMenuActivated();
     void slotDoResetMenuPosition();
     /** @brief Re-create the clip thumbnails.
      *  @param id The clip's Id string.

@@ -198,10 +198,16 @@ void CustomTrackView::setDocumentModified()
 
 void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition, QActionGroup *clipTypeGroup, QMenu *markermenu)
 {
+    m_clipTypeGroup = clipTypeGroup;
     m_timelineContextMenu = timeline;
     m_timelineContextClipMenu = clip;
-    m_clipTypeGroup = clipTypeGroup;
+    m_timelineContextTransitionMenu = transition;
+    connect(m_timelineContextTransitionMenu, SIGNAL(aboutToHide()), this, SLOT(slotResetMenuPosition()));
     connect(m_timelineContextMenu, SIGNAL(aboutToHide()), this, SLOT(slotResetMenuPosition()));
+    connect(m_timelineContextClipMenu, SIGNAL(aboutToHide()), this, SLOT(slotResetMenuPosition()));
+    connect(m_timelineContextTransitionMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotContextMenuActivated()));
+    connect(m_timelineContextMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotContextMenuActivated()));
+    connect(m_timelineContextClipMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotContextMenuActivated()));
 
     m_markerMenu = new QMenu(i18n("Go to marker..."), this);
     m_markerMenu->setEnabled(false);
@@ -214,8 +220,7 @@ void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transi
         else if (list.at(i)->data().toString() == "A") m_audioActions.append(list.at(i));
         else if (list.at(i)->data().toString() == "A+V") m_avActions.append(list.at(i));
     }
-
-    m_timelineContextTransitionMenu = transition;
+    
     list = m_timelineContextTransitionMenu->actions();
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->data().toString() == "auto") {
@@ -245,15 +250,16 @@ void CustomTrackView::slotResetMenuPosition()
     QTimer::singleShot(300, this, SLOT(slotDoResetMenuPosition()));
 }
 
+void CustomTrackView::slotContextMenuActivated()
+{
+    // Menu disappeared, restore default operation mode
+    m_operationMode = None;
+}
+
 void CustomTrackView::checkAutoScroll()
 {
     m_autoScroll = KdenliveSettings::autoscroll();
 }
-
-/*sQList <TrackInfo> CustomTrackView::tracksList() const {
-    return m_scene->m_tracksList;
-}*/
-
 
 int CustomTrackView::getFrameWidth() const
 {
@@ -525,6 +531,10 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
     double snappedPos = getSnapPointForPos(mappedXPos);
     emit mousePosition(mappedXPos);
 
+    if (m_operationMode == ContextMenu) {
+        event->ignore();
+        return;
+    }
     if (m_operationMode == ScrollTimeline) {
         QGraphicsView::mouseMoveEvent(event);
         return;
@@ -857,6 +867,12 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 {
     setFocus(Qt::MouseFocusReason);
     m_menuPosition = QPoint();
+    if (m_operationMode == ContextMenu) {
+        // Context menu was displayed, hide it and ignore event
+        m_operationMode = None;
+        event->ignore();
+        return;
+    }
     if (m_operationMode == MoveOperation) {
         // click while dragging, ignore
         event->ignore();
@@ -1025,14 +1041,12 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             if (!guidesCollisionList.isEmpty())
             m_dragGuide = static_cast <Guide *>(guidesCollisionList.at(0));*/
         }
-
-        m_operationMode = None;
         if (dragGroup == NULL) {
             if (m_dragItem && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup)
                 dragGroup = static_cast<AbstractGroupItem*> (m_dragItem->parentItem());
         }
         event->setAccepted(true);
-        displayContextMenu(event->globalPos(), m_dragItem, dragGroup);
+        //displayContextMenu(event->globalPos(), m_dragItem, dragGroup);
         m_menuPosition = m_clickEvent;
         //QGraphicsView::mousePressEvent(event);
         if (m_dragItem == NULL) {
@@ -1099,8 +1113,8 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         m_dragItem->setZValue(99);
         if (m_dragItem->parentItem()) m_dragItem->parentItem()->setZValue(99);
         if (!itemSelected) {
-            // Item was not selected, select it
-            QGraphicsView::mousePressEvent(event);
+            // Item was not selected, trigger click
+            if (event->button() == Qt::LeftButton) QGraphicsView::mousePressEvent(event);
         } else {
             // Item was selected and we ctrl+clicked on it. Deselect it but don't allow moving it
             event->ignore();
@@ -1169,22 +1183,26 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     //if (!(event->modifiers() | Qt::ControlModifier) && m_operationMode == NONE)
     //QGraphicsView::mousePressEvent(event);
 
-    if (m_dragItem && event->button() == Qt::LeftButton) {
-        m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps())), (int)(event->pos().y() - m_dragItem->pos().y()));
-        if (m_selectionGroup && m_dragItem->parentItem() == m_selectionGroup) {
-            // all other modes break the selection, so the user probably wants to move it
-            m_operationMode = MoveOperation;
-        } else {
-            if (m_dragItem->rect().width() * transform().m11() < 15) {
-                // If the item is very small, only allow move
+    if (event->button() == Qt::LeftButton) {
+        if (m_dragItem) {
+            m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps())), (int)(event->pos().y() - m_dragItem->pos().y()));
+            if (m_selectionGroup && m_dragItem->parentItem() == m_selectionGroup) {
+                // all other modes break the selection, so the user probably wants to move it
                 m_operationMode = MoveOperation;
+            } else {
+                if (m_dragItem->rect().width() * transform().m11() < 15) {
+                    // If the item is very small, only allow move
+                    m_operationMode = MoveOperation;
+                }
+                else m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()));
+                if (m_operationMode == ResizeEnd) {
+                    // FIXME: find a better way to avoid move in ClipItem::itemChange?
+                    m_dragItem->setProperty("resizingEnd", true);
+                }
             }
-            else m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()));
-            if (m_operationMode == ResizeEnd)
-                // FIXME: find a better way to avoid move in ClipItem::itemChange?
-                m_dragItem->setProperty("resizingEnd", true);
         }
-    } else m_operationMode = None;
+        else m_operationMode = None;
+    }
     m_controlModifier = (event->modifiers() == Qt::ControlModifier);
 
     // Update snap points
@@ -1592,15 +1610,23 @@ void CustomTrackView::editItemDuration()
     }
 }
 
-void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip, AbstractGroupItem *group)
+
+void CustomTrackView::contextMenuEvent(QContextMenuEvent * event)
 {
+    m_operationMode = ContextMenu;
+    displayContextMenu(event->globalPos(), m_dragItem);
+}
+
+void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip)
+{
+    bool isGroup = clip != NULL && clip->parentItem() && clip->parentItem()->type() == GroupWidget && clip->parentItem() != m_selectionGroup;
     m_deleteGuide->setEnabled(m_dragGuide != NULL);
     m_editGuide->setEnabled(m_dragGuide != NULL);
     m_markerMenu->clear();
     m_markerMenu->setEnabled(false);
     if (clip == NULL) {
         m_timelineContextMenu->popup(pos);
-    } else if (group != NULL) {
+    } else if (isGroup) {
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
         m_ungroupAction->setEnabled(true);
         updateClipTypeActions(NULL);
