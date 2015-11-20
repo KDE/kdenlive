@@ -65,7 +65,6 @@
 #include <QGraphicsDropShadowEffect>
 
 #define SEEK_INACTIVE (-1)
-
 //#define DEBUG
 
 bool sortGuidesList(const Guide *g1 , const Guide *g2)
@@ -3600,7 +3599,10 @@ void CustomTrackView::seekCursorPos(int pos)
 
 int CustomTrackView::seekPosition() const
 {
-    return m_document->renderer()->requestedSeekPosition;
+    int seek = m_document->renderer()->requestedSeekPosition;
+    if (seek == SEEK_INACTIVE)
+        return m_cursorPos;
+    return seek;
 }
 
 
@@ -6093,7 +6095,7 @@ void CustomTrackView::adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime
 
 ClipItem *CustomTrackView::getClipUnderCursor() const
 {
-    QRectF rect((double) m_cursorPos, 0.0, 1.0, (double)(m_tracksHeight * m_timeline->visibleTracksCount()));
+    QRectF rect((double) seekPosition(), 0.0, 1.0, (double)(m_tracksHeight * m_timeline->visibleTracksCount()));
     QList<QGraphicsItem *> collisions = scene()->items(rect, Qt::IntersectsItemBoundingRect);
     for (int i = 0; i < collisions.count(); ++i) {
         if (collisions.at(i)->type() == AVWidget) {
@@ -6114,7 +6116,7 @@ AbstractClipItem *CustomTrackView::getMainActiveClip() const
         for (int i = 0; i < clips.count(); ++i) {
             if (clips.at(i)->type() == AVWidget) {
                 item = static_cast < AbstractClipItem *>(clips.at(i));
-                if (clips.count() > 1 && item->startPos().frames(m_document->fps()) <= m_cursorPos && item->endPos().frames(m_document->fps()) >= m_cursorPos) break;
+                if (clips.count() > 1 && item->startPos().frames(m_document->fps()) <= seekPosition() && item->endPos().frames(m_document->fps()) >= seekPosition()) break;
             }
         }
         if (item) return item;
@@ -6138,7 +6140,7 @@ ClipItem *CustomTrackView::getActiveClipUnderCursor(bool allowOutsideCursor) con
         for (int i = 0; i < clips.count(); ++i) {
             if (clips.at(i)->type() == AVWidget) {
                 item = static_cast < ClipItem *>(clips.at(i));
-                if (item->startPos().frames(m_document->fps()) <= m_cursorPos && item->endPos().frames(m_document->fps()) >= m_cursorPos)
+                if (item->startPos().frames(m_document->fps()) <= seekPosition() && item->endPos().frames(m_document->fps()) >= seekPosition())
                     return item;
             }
         }
@@ -6188,7 +6190,7 @@ void CustomTrackView::setInPoint()
         for (int i = 0; i < items.count(); ++i) {
             AbstractClipItem *item = static_cast<AbstractClipItem *>(items.at(i));
             if (item && item->type() == AVWidget) {
-                prepareResizeClipStart(item, item->info(), m_cursorPos, true, resizeCommand);
+                prepareResizeClipStart(item, item->info(), seekPosition(), true, resizeCommand);
             }
         }
         if (resizeCommand->childCount() > 0) m_commandStack->push(resizeCommand);
@@ -6197,7 +6199,7 @@ void CustomTrackView::setInPoint()
             delete resizeCommand;
         }
     }
-    else prepareResizeClipStart(clip, clip->info(), m_cursorPos, true);
+    else prepareResizeClipStart(clip, clip->info(), seekPosition(), true);
 }
 
 void CustomTrackView::setOutPoint()
@@ -6220,7 +6222,7 @@ void CustomTrackView::setOutPoint()
         for (int i = 0; i < items.count(); ++i) {
             AbstractClipItem *item = static_cast<AbstractClipItem *>(items.at(i));
             if (item && item->type() == AVWidget) {
-                prepareResizeClipEnd(item, item->info(), m_cursorPos, true, resizeCommand);
+                prepareResizeClipEnd(item, item->info(), seekPosition(), true, resizeCommand);
             }
         }
         if (resizeCommand->childCount() > 0) m_commandStack->push(resizeCommand);
@@ -6229,7 +6231,7 @@ void CustomTrackView::setOutPoint()
             delete resizeCommand;
         }
     }
-    else prepareResizeClipEnd(clip, clip->info(), m_cursorPos, true);
+    else prepareResizeClipEnd(clip, clip->info(), seekPosition(), true);
 }
 
 void CustomTrackView::slotUpdateAllThumbs()

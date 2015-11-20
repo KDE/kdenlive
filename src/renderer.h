@@ -274,7 +274,7 @@ class Render: public AbstractRender
     /** @brief Fill a combobox with the found blackmagic devices */
     static bool getBlackMagicDeviceList(KComboBox *devicelist, bool force = false);
     static bool getBlackMagicOutputDeviceList(KComboBox *devicelist, bool force = false);
-    /** @brief Get current seek pos requested of SEEK_INACTIVE if we are not currently seeking */
+    /** @brief Get current seek pos requested or SEEK_INACTIVE if we are not currently seeking */
     int requestedSeekPosition;
     /** @brief Get current seek pos requested of current producer pos if not seeking */
     int getCurrentSeekPosition() const;
