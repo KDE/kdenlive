@@ -87,8 +87,8 @@ HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track
         m_tb->addAction(m_switchVideo);
 
         m_switchComposite = new KDualAction(i18n("Opaque"), i18n("Composite"), this);
-        m_switchComposite->setActiveIcon(KoIconUtils::themedIcon("kdenlive-overwrite-edit")); //FIXME: get proper icons
-        m_switchComposite->setInactiveIcon(KoIconUtils::themedIcon("kdenlive-insert-edit"));
+        m_switchComposite->setActiveIcon(KoIconUtils::themedIcon("kdenlive-composite"));
+        m_switchComposite->setInactiveIcon(KoIconUtils::themedIcon("kdenlive-no-composite"));
         m_switchComposite->setActive(info.composite);
         connect(m_switchComposite, &KDualAction::activeChangedByUser, this, &HeaderTrack::switchComposite);
         m_tb->addAction(m_switchComposite);

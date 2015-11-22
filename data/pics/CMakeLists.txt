@@ -20,6 +20,8 @@ breeze-dark/dk_kdenlive-align-right.svg
 breeze-dark/dk_kdenlive-align-top.svg
 breeze-dark/dk_kdenlive-align-vert.svg
 breeze-dark/dk_kdenlive-custom-effect.svg
+breeze-dark/dk_kdenlive-composite.svg
+breeze-dark/dk_kdenlive-no-composite.svg
 breeze-dark/dk_kdenlive-deleffect.svg
 breeze-dark/dk_kdenlive-down.svg
 breeze-dark/dk_kdenlive-hide-audio.svg
@@ -158,6 +160,8 @@ breeze-light/lt_kdenlive-align-right.svg
 breeze-light/lt_kdenlive-align-top.svg
 breeze-light/lt_kdenlive-align-vert.svg
 breeze-light/lt_kdenlive-custom-effect.svg
+breeze-light/lt_kdenlive-composite.svg
+breeze-light/lt_kdenlive-no-composite.svg
 breeze-light/lt_kdenlive-deleffect.svg
 breeze-light/lt_kdenlive-down.svg
 breeze-light/lt_kdenlive-hide-audio.svg
