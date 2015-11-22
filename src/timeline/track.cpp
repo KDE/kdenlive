@@ -708,7 +708,7 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
 		}
 		emit storeSlowMotion(url, prod);
 	    }
-	    
+
 	    int originalStart = (int)(speedIndependantInfo.cropStart.frames(m_fps));
 	    if (clipIndex + 1 < m_playlist.count() && (info.startPos + speedIndependantInfo.cropDuration).frames(m_fps) > blankEnd) {
 		GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
@@ -767,8 +767,11 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
         delete cut;
         clipIndex = m_playlist.get_clip_index_at(startPos);
         newLength = m_playlist.clip_length(clipIndex);
-
         m_playlist.unlock();
+    }
+    if (clipIndex + 1 == m_playlist.count()) {
+        // We changed the speed of last clip in playlist, check track length
+        emit newTrackDuration(m_playlist.get_playtime());
     }
     return newLength;
 }
