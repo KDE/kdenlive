@@ -56,6 +56,8 @@ HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track
     QSize s(iconSize, iconSize);
     //setMinimumWidth(qMax(metrics.boundingRect(m_name).width() + iconSize + contentsMargins().right() * 6, 5 * iconSize));
     track_number->setText(m_name);
+    track_number->setContextMenuPolicy(Qt::NoContextMenu);
+    track_number->installEventFilter(this);
     connect(track_number, SIGNAL(editingFinished()), this, SLOT(slotRenameTrack()));
     effect_label->setPixmap(KoIconUtils::themedIcon("kdenlive-track_has_effect").pixmap(s));
     updateEffectLabel(info.effectsList.effectNames());
@@ -106,6 +108,15 @@ HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track
 HeaderTrack::~HeaderTrack()
 {
     //qDebug()<<" - --DEL: "<<m_name;
+}
+
+bool HeaderTrack::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::MouseButtonPress) {
+        // Make sure to select current track when clicking in track name widget
+        emit selectTrack(m_parentTrack->index());
+    }
+    return QWidget::eventFilter(obj, event);
 }
 
 

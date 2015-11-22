@@ -53,6 +53,7 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent * event);
     void dropEvent(QDropEvent * event);
     void dragEnterEvent(QDragEnterEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event);
 
 private:
     int m_index;
