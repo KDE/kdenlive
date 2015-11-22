@@ -1376,17 +1376,24 @@ void Timeline::updateClipProperties(const QString &id, QMap <QString, QString> p
     }
 }
 
-int Timeline::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *originalProd)
+int Timeline::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *originalProd, bool removeEffect)
 {
     QLocale locale;
     QString url = QString::fromUtf8(originalProd->get("resource"));
     url.append('?' + locale.toString(speed));
     if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
-    Mlt::Producer *prod = m_doc->renderer()->getSlowmotionProducer(url);
+    Mlt::Producer *prod;
+    if (removeEffect) {
+        // We want to remove framebuffer producer, so pass original
+        prod = originalProd;
+    } else {
+        // Pass slowmotion producer
+        prod = m_doc->renderer()->getSlowmotionProducer(url);
+    }
     Mlt::Properties passProperties;
     Mlt::Properties original(originalProd->get_properties());
     passProperties.pass_list(original, ClipController::getPassPropertiesList());
-    return track(info.track)->changeClipSpeed(info, speedIndependantInfo, speed, strobe, prod, passProperties);
+    return track(info.track)->changeClipSpeed(info, speedIndependantInfo, state, speed, strobe, prod, passProperties);
 }
 
 void Timeline::duplicateClipOnPlaylist(int tk, qreal startPos, int offset, Mlt::Producer *prod)

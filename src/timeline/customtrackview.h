@@ -117,7 +117,7 @@ public:
     QList<ItemInfo> findId(const QString &clipId);
     void clipStart();
     void clipEnd();
-    void doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, const double speed, int strobe, const QString &id);
+    void doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, const double speed, int strobe, const QString &id, bool removeEffect = false);
     /** @brief Every command added to the undo stack automatically triggers a document change event.
      *  This function should only be called when changing a document setting or another function that 
      *  is not integrated in the undo / redo system */

@@ -590,7 +590,7 @@ void Track::updateClipProperties(const QString &id, QMap <QString, QString> prop
     }
 }
 
-int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *prod, Mlt::Properties passProps)
+int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *prod, Mlt::Properties passProps, bool removeEffect)
 {
     int newLength = 0;
     int startPos = info.startPos.frames(m_fps);
@@ -742,6 +742,9 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
 		prod->set(passProps.get_name(i), passProps.get(i)); 
 	    }
 	    emit storeSlowMotion(url, prod);
+        }
+        if (removeEffect) {
+            prod = clipProducer(prod, state);
         }
         QScopedPointer <Mlt::Producer> clip(m_playlist.replace_with_blank(clipIndex));
         m_playlist.consolidate_blanks(0);

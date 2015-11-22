@@ -214,11 +214,12 @@ void ChangeEffectStateCommand::redo()
     m_refreshEffectStack = true;
 }
 
-ChangeSpeedCommand::ChangeSpeedCommand(CustomTrackView *view, const ItemInfo &info, const ItemInfo &speedIndependantInfo, double new_speed, int old_strobe, int new_strobe, const QString &clipId, QUndoCommand * parent) :
+ChangeSpeedCommand::ChangeSpeedCommand(CustomTrackView *view, const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double new_speed, int old_strobe, int new_strobe, const QString &clipId, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_clipInfo(info),
         m_speedIndependantInfo(speedIndependantInfo),
+        m_state(state),
         m_clipId(clipId),
         m_new_speed(new_speed),
         m_old_strobe(old_strobe),
@@ -229,12 +230,12 @@ ChangeSpeedCommand::ChangeSpeedCommand(CustomTrackView *view, const ItemInfo &in
 // virtual
 void ChangeSpeedCommand::undo()
 {
-    m_view->doChangeClipSpeed(m_clipInfo, m_speedIndependantInfo, m_new_speed, m_old_strobe, m_clipId);
+    m_view->doChangeClipSpeed(m_clipInfo, m_speedIndependantInfo, m_state, m_new_speed, m_old_strobe, m_clipId);
 }
 // virtual
 void ChangeSpeedCommand::redo()
 {
-    m_view->doChangeClipSpeed(m_clipInfo, m_speedIndependantInfo, m_new_speed, m_new_strobe, m_clipId);
+    m_view->doChangeClipSpeed(m_clipInfo, m_speedIndependantInfo, m_state, m_new_speed, m_new_strobe, m_clipId);
 }
 
 ConfigTracksCommand::ConfigTracksCommand(Timeline *timeline, int track, const QString &oldName, const QString &newName, int oldState, int newState, QUndoCommand* parent) :

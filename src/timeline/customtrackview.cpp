@@ -1950,7 +1950,7 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
             double speed = locale.toDouble(EffectsList::parameter(effect, "speed")) / 100.0;
             int strobe = EffectsList::parameter(effect, "strobe").toInt();
             if (strobe == 0) strobe = 1;
-            doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), speed, strobe, clip->getBinId());
+            doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), clip->clipState(), speed, strobe, clip->getBinId());
             EffectsParameterList params = clip->addEffect(m_document->getProfileInfo(), effect);
             if (clip->isSelected()) emit clipItemSelected(clip);
             return;
@@ -1982,10 +1982,9 @@ void CustomTrackView::deleteEffect(int track, const GenTime &pos, const QDomElem
     if (effect.attribute("id") == "speed") {
         ClipItem *clip = getClipItemAtStart(pos, track);
         if (clip) {
-            doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), 1.0, 1, clip->getBinId());
+            doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), clip->clipState(), 1.0, 1, clip->getBinId(), true);
             clip->deleteEffect(index);
             emit clipItemSelected(clip);
-            m_document->renderer()->mltRemoveEffect(track, pos, index, true);
             return;
         }
     }
@@ -2268,14 +2267,14 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
         // Special case: speed effect
         if (effect.attribute("id") == "speed") {
             if (effect.attribute("disable") == "1") {
-                doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), 1.0, 1, clip->getBinId());
+                doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), clip->clipState(), 1.0, 1, clip->getBinId());
             } else {
                 QLocale locale;
                 locale.setNumberOptions(QLocale::OmitGroupSeparator);
                 double speed = locale.toDouble(EffectsList::parameter(effect, "speed")) / 100.0;
                 int strobe = EffectsList::parameter(effect, "strobe").toInt();
                 if (strobe == 0) strobe = 1;
-                doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), speed, strobe, clip->getBinId());
+                doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), clip->clipState(), speed, strobe, clip->getBinId());
             }
             clip->updateEffect(effect);
             if (updateEffectStack && clip->isSelected())
@@ -4368,7 +4367,7 @@ void CustomTrackView::deleteSelectedClips()
 }
 
 
-void CustomTrackView::doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, const double speed, int strobe, const QString &id)
+void CustomTrackView::doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, const double speed, int strobe, const QString &id, bool removeEffect)
 {
     ClipItem *item = getClipItemAtStart(info.startPos, info.track);
     if (!item) {
@@ -4376,7 +4375,7 @@ void CustomTrackView::doChangeClipSpeed(ItemInfo info, const ItemInfo &speedInde
         emit displayMessage(i18n("Cannot find clip for speed change"), ErrorMessage);
         return;
     }
-    int endPos = m_timeline->changeClipSpeed(info, speedIndependantInfo, speed, strobe, m_document->renderer()->getBinProducer(id));
+    int endPos = m_timeline->changeClipSpeed(info, speedIndependantInfo, state, speed, strobe, m_document->renderer()->getBinProducer(id), removeEffect);
     if (endPos >= 0) {
         item->setSpeed(speed, strobe);
         item->updateRectGeometry();

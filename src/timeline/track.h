@@ -148,8 +148,10 @@ public:
      * clip and "0.6" is the speed in percentage. The newly created producer
      * will have its "id" property set to "slowmotion:parentid:speed", where
      * "parentid" is the id of the original clip in the ClipManager list and
-     * "speed" is the current speed. */
-    int changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *prod, Mlt::Properties passProps);
+     * "speed" is the current speed. 
+     * If removeEffect is true, we revert to original avformat producer
+     */
+    int changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *prod, Mlt::Properties passProps, bool removeEffect = false);
     /** @brief Returns true if there is a clip with audio on this track */
     bool hasAudio();
     void setProperty(const QString &name, const QString &value);
