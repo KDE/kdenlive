@@ -448,7 +448,7 @@ Bin::~Bin()
 
 bool Bin::eventFilter(QObject *obj, QEvent *event)
 {
-    if (event->type() == QEvent::MouseButtonPress) {
+    if (event->type() == QEvent::MouseButtonRelease) {
         m_monitor->slotActivateMonitor();
         bool success = QWidget::eventFilter(obj, event);
         if (m_gainedFocus) {

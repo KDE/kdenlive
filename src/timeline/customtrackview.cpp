@@ -5483,6 +5483,9 @@ void CustomTrackView::slotSeekToNextSnap()
 void CustomTrackView::clipStart()
 {
     AbstractClipItem *item = getMainActiveClip();
+    if (item == NULL) {
+        item = m_dragItem;
+    }
     if (item != NULL) {
         seekCursorPos((int) item->startPos().frames(m_document->fps()));
         checkScrolling();
@@ -5492,6 +5495,9 @@ void CustomTrackView::clipStart()
 void CustomTrackView::clipEnd()
 {
     AbstractClipItem *item = getMainActiveClip();
+    if (item == NULL) {
+        item = m_dragItem;
+    }
     if (item != NULL) {
         seekCursorPos((int) item->endPos().frames(m_document->fps()) - 1);
         checkScrolling();
