@@ -178,7 +178,7 @@ void RenderJob::start()
             // Use of the KDE JobViewServer is an ugly hack, it is not reliable
             QString dbusView = QLatin1String("org.kde.JobViewV2");
             m_jobUiserver = new QDBusInterface(QLatin1String("org.kde.JobViewServer"), reply, dbusView);
-                
+
             if (m_jobUiserver && m_jobUiserver->isValid()) {
                 m_startTime = QTime::currentTime();
                 if (!m_args.contains(QLatin1String("pass=2")))
@@ -191,12 +191,12 @@ void RenderJob::start()
     }
     initKdenliveDbusInterface();
 
-    // Make sure the destination file is writable
-    QFile checkDestination(m_dest);
-    if (!checkDestination.open(QIODevice::WriteOnly)) {
+    // Make sure the destination directory is writable
+    QString path = QUrl::fromLocalFile(m_dest).toString(QUrl::RemoveFilename | QUrl::RemoveScheme);
+    QFileInfo checkDestination(path);
+    if (!checkDestination.isWritable()) {
         slotIsOver(QProcess::NormalExit, false);
     }
-    checkDestination.close();
 
     // Because of the logging, we connect to stderr in all cases.
     connect(m_renderProcess, SIGNAL(readyReadStandardError()), this, SLOT(receivedStderr()));

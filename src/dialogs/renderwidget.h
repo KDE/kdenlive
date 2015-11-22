@@ -103,7 +103,7 @@ public:
 
 private:
     int m_status;
-    QString m_data;    
+    QString m_data;
 };
 
 class RenderWidget : public QDialog

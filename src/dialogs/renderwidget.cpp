@@ -79,11 +79,14 @@ const int ScriptRenderType = QTreeWidgetItem::UserType;
 
 
 // Running job status
-const int WAITINGJOB = 0;
-const int RUNNINGJOB = 1;
-const int FINISHEDJOB = 2;
-const int FAILEDJOB = 3;
-const int ABORTEDJOB = 4;
+enum JOBSTATUS {
+    WAITINGJOB = 0,
+    STARTINGJOB,
+    RUNNINGJOB,
+    FINISHEDJOB,
+    FAILEDJOB,
+    ABORTEDJOB
+};
 
 
 RenderJobItem::RenderJobItem(QTreeWidget * parent, const QStringList & strings, int type)
@@ -118,7 +121,6 @@ void RenderJobItem::setStatus(int status)
             setData(1, Qt::UserRole, i18n("Rendering aborted"));
             setIcon(0, KoIconUtils::themedIcon("dialog-cancel"));
             setData(1, ProgressRole, 100);
-        
         default:
             break;
     }
@@ -982,15 +984,11 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             }
         }
 
-        QFile f(dest);
-        if (f.exists()) {
+        if (QFile::exists(dest)) {
             if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
                 foreach (const QString& playlistFilePath, playlistPaths) {
                     QFile playlistFile(playlistFilePath);
                     if (playlistFile.exists()) {
-                        if (playlistFile.isOpen()) {
-                            playlistFile.close();
-                        }
                         playlistFile.remove();
                     }
                 }
@@ -1220,7 +1218,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
         if (!existing.isEmpty()) {
             renderItem = static_cast<RenderJobItem*> (existing.at(0));
-            if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB) {
+            if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB || renderItem->status() == STARTINGJOB) {
                 KMessageBox::information(this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it...", dest), i18n("Already running"));
                 return;
             }
@@ -1283,7 +1281,7 @@ void RenderWidget::checkRenderStatus()
         return;
 
     RenderJobItem* item = static_cast<RenderJobItem*> (m_view.running_jobs->topLevelItem(0));
-    
+
     // Make sure no other rendering is running
     while (item) {
         if (item->status() == RUNNINGJOB)
@@ -1292,16 +1290,14 @@ void RenderWidget::checkRenderStatus()
     }
     item = static_cast<RenderJobItem*> (m_view.running_jobs->topLevelItem(0));
     bool waitingJob = false;
-    
+
     // Find first waiting job
     while (item) {
         if (item->status() == WAITINGJOB) {
             item->setData(1, TimeRole, QDateTime::currentDateTime());
             waitingJob = true;
             startRendering(item);
-            while (item->status() == WAITINGJOB) {
-                QCoreApplication::processEvents();
-            }
+            item->setStatus(STARTINGJOB);
             break;
         }
         item = static_cast<RenderJobItem*> (m_view.running_jobs->itemBelow(item));
@@ -1335,7 +1331,7 @@ int RenderWidget::waitingJobsCount() const
     int count = 0;
     RenderJobItem* item = static_cast<RenderJobItem*> (m_view.running_jobs->topLevelItem(0));
     while (item) {
-        if (item->status() == WAITINGJOB) count++;
+        if (item->status() == WAITINGJOB || item->status() == STARTINGJOB) count++;
         item = static_cast<RenderJobItem*>(m_view.running_jobs->itemBelow(item));
     }
     return count;
@@ -2162,7 +2158,7 @@ void RenderWidget::slotCheckJob()
     bool activate = false;
     RenderJobItem *current = static_cast<RenderJobItem*> (m_view.running_jobs->currentItem());
     if (current) {
-        if (current->status() == RUNNINGJOB) {
+        if (current->status() == RUNNINGJOB || current->status() == STARTINGJOB) {
             m_view.abort_job->setText(i18n("Abort Job"));
             m_view.start_job->setEnabled(false);
         } else {
@@ -2280,7 +2276,7 @@ void RenderWidget::slotStartScript()
         //qDebug() << "------  START SCRIPT";
         if (!existing.isEmpty()) {
             renderItem = static_cast<RenderJobItem*> (existing.at(0));
-            if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB) {
+            if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB || renderItem->status() == STARTINGJOB) {
                 KMessageBox::information(this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it...", destination), i18n("Already running"));
                 return;
             }
