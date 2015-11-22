@@ -241,7 +241,6 @@ class Render: public AbstractRender
     void mltMoveTrackEffect(int track, int oldPos, int newPos);
 
     QList <TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack);
-    void mltDeleteTrack(int ix);
 
     void mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track);
     Mlt::Producer *invalidProducer(const QString &id);

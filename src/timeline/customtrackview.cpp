@@ -3087,18 +3087,54 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
 
     // insert track in MLT's playlist
     transitionInfos = m_document->renderer()->mltInsertTrack(ix,  type.trackName, type.type == VideoTrack);
-    // Reload timeline and m_tracks structure from MLT's playlist
-    reloadTimeline();
-
-    //keep the composite transitions stack continuous (mlt_tractor_insert_track did shift the upper composite to the lower track instead of the new one)
+    Mlt::Tractor *tractor = m_document->renderer()->lockService();
+    // When adding a track, MLT sometimes incorrectly updates transition's tracks
     if (ix < m_timeline->tracksCount()) {
-        Mlt::Tractor *tractor = m_document->renderer()->lockService();
-        Mlt::Transition *tr = m_timeline->transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", ix+1, ix - 1);
+        Mlt::Transition *tr = m_timeline->transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", ix+1, ix - 1, true);
         if (tr) {
             tr->set_tracks(ix, ix + 1);
             delete tr;
         }
-        m_document->renderer()->unlockService(tractor);
+    }
+    // Check we have composite transitions where necessary
+    checkCompositeTransitions(tractor);
+    m_document->renderer()->unlockService(tractor);
+    // Reload timeline and m_tracks structure from MLT's playlist
+    reloadTimeline();
+}
+
+void CustomTrackView::checkCompositeTransitions(Mlt::Tractor *tractor)
+{
+    //keep the composite transitions stack continuous 
+    QScopedPointer<Mlt::Field> field(tractor->field());
+    for (int i = 2; i < tractor->count(); i++) {
+        QScopedPointer<Mlt::Producer> topTrack(tractor->track(i));
+        QScopedPointer<Mlt::Producer> lowerTrack(tractor->track(i - 1));
+        QScopedPointer<Mlt::Transition> tr(m_timeline->transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", i, -1, true));
+        if (topTrack->get_int("kdenlive:audio_track") == 0 && lowerTrack->get_int("kdenlive:audio_track") == 0) {
+            // both tracks have video, we must have a composite transition
+            bool brokenTransition = false;
+            if (tr) {
+                // Check that the transition tracks are correct
+                int aTrack = tr->get_a_track();
+                int bTrack = tr->get_b_track();
+                if (bTrack != i || aTrack != i - 1) {
+                    field->disconnect_service(*tr.data());
+                    brokenTransition = true;
+                }
+            }
+            if (!tr || brokenTransition) {
+                // Create transition
+                Mlt::Transition composite(*tractor->profile(), KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend");
+                composite.set("a_track", i - 1);
+                composite.set("b_track", i);
+                composite.set("internal_added", 237);
+                field->plant_transition(composite, i - 1, i);
+            }
+        } else if (tr) {
+            // Both tracks are not video, don't leave composite transition
+            field->disconnect_service(*tr.data());
+        }
     }
 }
 
@@ -3130,25 +3166,22 @@ void CustomTrackView::removeTrack(int ix)
     emit transitionItemSelected(NULL);
 
     //Delete composite transition
-    //TODO: fix in MLT?!
+    Mlt::Tractor *tractor = m_document->renderer()->lockService();
+    QScopedPointer<Mlt::Field> field(tractor->field());
     if (m_timeline->getTrackInfo(ix).type == VideoTrack) {
-        Mlt::Transition *tr = m_timeline->transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", (ix == m_timeline->tracksCount()) ? ix : ix + 1);
+        QScopedPointer<Mlt::Transition> tr(m_timeline->transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", (ix == m_timeline->tracksCount()) ? ix : ix + 1, -1, true));
         if (tr) {
-            Mlt::Tractor *tractor = m_document->renderer()->lockService();
-            mlt_field_disconnect_service(tractor->field()->get_field(), tr->get_service());
-            m_document->renderer()->unlockService(tractor);
-            delete tr;
+            field->disconnect_service(*tr.data());
         }
-        tr = m_timeline->transitionHandler->getTransition("mix", ix);
-        if (tr) {
-            Mlt::Tractor *tractor = m_document->renderer()->lockService();
-            mlt_field_disconnect_service(tractor->field()->get_field(), tr->get_service());
-            m_document->renderer()->unlockService(tractor);
-            delete tr;
+        QScopedPointer<Mlt::Transition> mixTr(m_timeline->transitionHandler->getTransition("mix", ix, -1, true));
+        if (mixTr) {
+            field->disconnect_service(*mixTr.data());
         }
     }
     // Delete track in MLT playlist
-    m_document->renderer()->mltDeleteTrack(ix);
+    tractor->remove_track(ix);
+    checkCompositeTransitions(tractor);
+    m_document->renderer()->unlockService(tractor);
     reloadTimeline();
     /*
     double startY = ix * (m_tracksHeight + 1) + m_tracksHeight / 2;

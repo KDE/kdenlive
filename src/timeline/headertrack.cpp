@@ -255,6 +255,13 @@ void HeaderTrack::setLock(bool lock)
     m_switchLock->setActive(lock);
 }
 
+void HeaderTrack::disableComposite()
+{
+    if (m_switchComposite) {
+        m_switchComposite->setVisible(false);
+    }
+}
+
 void HeaderTrack::setComposite(bool enable)
 {
     if (m_switchComposite) {

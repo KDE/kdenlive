@@ -262,6 +262,13 @@ int Timeline::getTracks() {
         headerLayout->insertWidget(0, frame);
         Track *tk = new Track(i, m_trackActions, playlist, audio == 1 ? AudioTrack : VideoTrack, m_doc->fps());
         m_tracks.append(tk);
+        if (audio == 0) {
+            // Check if we have a composite transition for this track
+            QScopedPointer<Mlt::Transition> transition(transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", i, -1, true));
+            if (!transition) {
+                tk->trackHeader->disableComposite();
+            }
+        }
         if (playlist_name != "black_track") {
             tk->trackHeader->setTrackHeight(height);
             int currentWidth = tk->trackHeader->minimumWidth();
@@ -323,7 +330,7 @@ void Timeline::getTransitions() {
         if (QString(prop.get("mlt_type")) != "transition")
             break;
         //skip automatic mix
-        if (QString(prop.get("internal_added")) == "237") {
+        if (prop.get_int("internal_added") == 237) {
             QString trans = prop.get("mlt_service");
             if (trans == "movit.overlay" || trans == "frei0r.cairoblend") {
                 int ix = prop.get_int("b_track");
@@ -687,15 +694,17 @@ void Timeline::switchTrackVideo(int ix, bool hide)
 void Timeline::slotSwitchTrackComposite(int trackIndex, bool enable)
 {
     if (trackIndex < 0 || trackIndex > m_tracks.count()) return;
-
-    Mlt::Transition *transition = transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", trackIndex);
+    QScopedPointer<Mlt::Transition> transition(transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", trackIndex, -1, true));
     if (transition) {
         transition->set("disable", enable);
-        delete transition;
         m_doc->renderer()->doRefresh();
         m_doc->setModified();
         //TODO: create undo/redo command for this
-    } else qWarning() << "Composite transition not found";
+    } else {
+        Track* tk = track(trackIndex);
+        tk->trackHeader->setComposite(false);
+        qWarning() << "Composite transition not found";
+    }
 }
 
 void Timeline::refreshTractor()
