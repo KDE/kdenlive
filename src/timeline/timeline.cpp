@@ -854,7 +854,7 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist) {
         int in = clip->get_in();
         int out = clip->get_out();
         QString idString = clip->parent().get("id");
-        if (in >= out || m_invalidProducers.contains(idString)) {
+        if (in > out || m_invalidProducers.contains(idString)) {
             QString trackName = playlist.get("kdenlive:track_name");
             m_documentErrors.append(i18n("Invalid clip removed from track %1 at %2\n", trackName.isEmpty() ? QString::number(ix) : trackName, position));
             playlist.remove(i);
