@@ -1132,8 +1132,7 @@ bool Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
     }
     blockSignals(true);
     if (!producer || !producer->is_valid()) {
-        qWarning() << "Invalid playlist";
-        return false;
+        producer = m_blackClip->cut(0,1);
     }
 
     emit stopped();
