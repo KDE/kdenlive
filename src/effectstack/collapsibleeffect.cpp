@@ -322,7 +322,7 @@ void CollapsibleEffect::slotDisable(bool disable, bool emitInfo)
     if (!disable || KdenliveSettings::disable_effect_parameters()) {
         widgetFrame->setEnabled(!disable);
     }
-    if (emitInfo) emit effectStateChanged(disable, effectIndex(), isActive() && needsMonitorEffectScene());
+    if (emitInfo) emit effectStateChanged(disable, effectIndex(), needsMonitorEffectScene());
 }
 
 void CollapsibleEffect::slotDeleteEffect()
@@ -521,8 +521,6 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
     connect (m_paramWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
     connect (m_paramWidget, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
     connect(m_paramWidget, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
-    
-    
 }
 
 void CollapsibleEffect::slotDisableEffect(bool disable)
@@ -530,7 +528,7 @@ void CollapsibleEffect::slotDisableEffect(bool disable)
     title->setEnabled(!disable);
     m_enabledButton->setActive(disable);
     m_effect.setAttribute("disable", disable ? 1 : 0);
-    emit effectStateChanged(disable, effectIndex(), isActive() && needsMonitorEffectScene());
+    emit effectStateChanged(disable, effectIndex(), needsMonitorEffectScene());
 }
 
 bool CollapsibleEffect::isGroup() const
@@ -645,12 +643,12 @@ void CollapsibleEffect::adjustButtons(int ix, int max)
     buttonDown->setVisible(ix < max - 1);
 }
 
-bool CollapsibleEffect::needsMonitorEffectScene() const
+MonitorSceneType CollapsibleEffect::needsMonitorEffectScene() const
 {
     if (m_paramWidget)
         return m_paramWidget->needsMonitorEffectScene();
     else
-        return false;
+        return MonitorSceneNone;
 }
 
 void CollapsibleEffect::setRange(int inPoint , int outPoint)

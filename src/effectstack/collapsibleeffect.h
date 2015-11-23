@@ -71,8 +71,8 @@ public:
     void groupStateChanged(bool collapsed);
     /** @brief Show / hide up / down buttons. */
     void adjustButtons(int ix, int max);
-    /** @brief Returns true of this effect requires an on monitor adjustable effect scene. */
-    bool needsMonitorEffectScene() const;
+    /** @brief Returns this effect's monitor scene type if any is needed. */
+    MonitorSceneType needsMonitorEffectScene() const;
     /** @brief Set clip in / out points. */
     void setRange(int inPoint , int outPoint);
     /** @brief Import keyframes from a clip's data. */
@@ -132,7 +132,7 @@ protected:
 signals:
     void parameterChanged(const QDomElement &, const QDomElement&, int);
     void syncEffectsPos(int);
-    void effectStateChanged(bool, int ix, bool effectNeedsMonitorScene);
+    void effectStateChanged(bool, int ix, MonitorSceneType effectNeedsMonitorScene);
     void deleteEffect(const QDomElement &);
     void activateEffect(int);
     void checkMonitorPosition(int);

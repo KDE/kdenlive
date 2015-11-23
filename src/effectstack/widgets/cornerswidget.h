@@ -51,19 +51,17 @@ public slots:
 
 private:
     Monitor *m_monitor;
-    MonitorScene *m_scene;
-    OnMonitorCornersItem *m_item;
     int m_pos;
 
     /** @brief Returns the corner positions set in the row of @param keyframe. */
-    QList <QPointF> getPoints(QTableWidgetItem *keyframe);
+    QVariantList getPoints(QTableWidgetItem *keyframe);
 
 private slots:
 
     /** @brief Updates the on-monitor item according to the current timeline position. */
     void slotUpdateItem();
     /** @brief Updates the keyframe editor according to the on-monitor item. */
-    void slotUpdateProperties();
+    void slotUpdateGeometry(QVariantList points);
 
     /** @brief Inserts a keyframe at the current (playback) position (m_pos). */
     void slotInsertKeyframe();

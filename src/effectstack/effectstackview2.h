@@ -126,7 +126,7 @@ private:
     int m_groupIndex;
 
     /** @brief The current effect may require an on monitor scene. */
-    bool m_monitorSceneWanted;
+    MonitorSceneType m_monitorSceneWanted;
 
     /** If in track mode: Info of the edited track to be able to access its duration. */
     TrackInfo m_trackInfo;
@@ -204,7 +204,7 @@ private slots:
     void slotRenderPos(int pos);
 
     /** @brief Called whenever an effect is enabled / disabled by user. */
-    void slotUpdateEffectState(bool disable, int index, bool needsMonitorEffectScene);
+    void slotUpdateEffectState(bool disable, int index, MonitorSceneType needsMonitorEffectScene);
 
     void slotSetCurrentEffect(int ix);
     

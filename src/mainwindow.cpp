@@ -533,7 +533,7 @@ void MainWindow::slotReloadTheme()
 MainWindow::~MainWindow()
 {
     delete m_stopmotion;
-    m_effectStack->slotClipItemSelected(NULL);
+    m_effectStack->slotClipItemSelected(NULL, m_projectMonitor);
     m_effectStack->slotTransitionItemSelected(NULL, 0, QPoint(), false);
     if (m_projectMonitor) m_projectMonitor->stop();
     if (m_clipMonitor) m_clipMonitor->stop();

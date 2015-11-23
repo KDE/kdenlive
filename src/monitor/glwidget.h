@@ -103,11 +103,8 @@ public slots:
     void setZoom(float zoom);
     void setOffsetX(int x);
     void setOffsetY(int y);
-    void setBlankScene();
-    void slotShowEffectScene();
-    void slotShowRootScene();
+    void slotShowEffectScene(MonitorSceneType sceneType);
     void slotSwitchAudioOverlay(bool enable);
-    //void setCurrentFilter(QmlFilter* filter, QmlMetadata* meta);
     void initializeGL();
 
 signals:
@@ -127,6 +124,7 @@ signals:
     void mouseSeek(int eventDelta, bool fast);
     void startDrag();
     void effectChanged(const QRect);
+    void effectChanged(const QVariantList);
     void analyseFrame(QImage);
     void audioSamplesSignal(const audioShortVector&,int,int,int);
     void showContextMenu(const QPoint);
@@ -173,6 +171,7 @@ private slots:
     void updateTexture(GLuint yName, GLuint uName, GLuint vName);
     void paintGL();
     void effectRectChanged();
+    void effectPolygonChanged();
     void slotError(QQuickWindow::SceneGraphError error, const QString &message);
 
 protected:

@@ -188,9 +188,9 @@ void EffectStackEdit::initEffectScene(int pos)
 }
 
 
-bool EffectStackEdit::needsMonitorEffectScene() const
+MonitorSceneType EffectStackEdit::needsMonitorEffectScene() const
 {
-    if (!m_paramWidget) return false;
+    if (!m_paramWidget) return MonitorSceneNone;
     return m_paramWidget->needsMonitorEffectScene();
 }
 

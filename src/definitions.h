@@ -117,6 +117,13 @@ enum ProjectTool {
     SpacerTool = 2
 };
 
+enum MonitorSceneType {
+    MonitorSceneNone = 0,
+    MonitorSceneGeometry,
+    MonitorSceneCorners,
+    MonitorSceneRoto
+};
+
 enum TransitionType {
     /** TRANSITIONTYPE: between 0-99: video trans, 100-199: video+audio trans, 200-299: audio trans */
     LumaTransition = 0,

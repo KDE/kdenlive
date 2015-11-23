@@ -199,9 +199,11 @@ void GLWidget::effectRectChanged()
     emit effectChanged(rect);
 }
 
-void GLWidget::setBlankScene()
+void GLWidget::effectPolygonChanged()
 {
-    //setSource(QmlUtilities::blankVui());
+    if (!rootObject()) return;
+    QVariantList points = rootObject()->property("centerPoints").toList();
+    emit effectChanged(points);
 }
 
 void GLWidget::resizeGL(int width, int height)
@@ -949,24 +951,35 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
     return error;
 }
 
-void GLWidget::slotShowEffectScene()
+void GLWidget::slotShowEffectScene(MonitorSceneType sceneType)
 {
     QObject *item = rootObject();
     if (!item) return;
-    QObject::connect(item, SIGNAL(effectChanged()), this, SLOT(effectRectChanged()), Qt::UniqueConnection);
-    item->setProperty("profile", QPoint(m_monitorProfile->width(), m_monitorProfile->height()));
-    item->setProperty("framesize", QRect(0, 0, m_monitorProfile->width(), m_monitorProfile->height()));
-    item->setProperty("scale", (double) m_rect.width() / m_monitorProfile->width() * m_zoom);
-    item->setProperty("center", m_rect.center());
+    switch (sceneType) {
+        case MonitorSceneGeometry:
+            QObject::connect(item, SIGNAL(effectChanged()), this, SLOT(effectRectChanged()), Qt::UniqueConnection);
+            item->setProperty("profile", QPoint(m_monitorProfile->width(), m_monitorProfile->height()));
+            item->setProperty("framesize", QRect(0, 0, m_monitorProfile->width(), m_monitorProfile->height()));
+            item->setProperty("scale", (double) m_rect.width() / m_monitorProfile->width() * m_zoom);
+            item->setProperty("center", m_rect.center());
+            break;
+        case MonitorSceneCorners:
+            QObject::connect(item, SIGNAL(effectPolygonChanged()), this, SLOT(effectPolygonChanged()), Qt::UniqueConnection);
+            item->setProperty("profile", QPoint(m_monitorProfile->width(), m_monitorProfile->height()));
+            item->setProperty("framesize", QRect(0, 0, m_monitorProfile->width(), m_monitorProfile->height()));
+            item->setProperty("scale", (double) m_rect.width() / m_monitorProfile->width() * m_zoom);
+            item->setProperty("center", m_rect.center());
+            break;
+        case MonitorSceneRoto:
+            //TODO
+            break;
+        default:
+          item->setProperty("scale", (double) m_rect.width() / m_monitorProfile->width() * m_zoom);
+          item->setProperty("center", m_rect.center());
+          break;
+    }
 }
 
-void GLWidget::slotShowRootScene()
-{
-    QObject *item = rootObject();
-    if (!item) return;
-    item->setProperty("scale", (double) m_rect.width() / m_monitorProfile->width() * m_zoom);
-    item->setProperty("center", m_rect.center());
-}
 
 float GLWidget::zoom() const 
 { 
@@ -1073,17 +1086,6 @@ int GLWidget::realTime() const
     if (m_glslManager) return 1;
     return KdenliveSettings::mltthreads();
 }
-
-
-/*void GLWidget::setCurrentFilter(QmlFilter* filter, QmlMetadata* meta)
-{
-    rootContext()->setContextProperty("filter", filter);
-    if (meta && QFile::exists(meta->vuiFilePath().toLocalFile())) {
-        setSource(meta->vuiFilePath());
-    } else {
-        setBlankScene();
-    }
-}*/
 
 Mlt::Consumer *GLWidget::consumer()
 {

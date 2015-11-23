@@ -3,9 +3,7 @@ set(kdenlive_SRCS
   monitor/glwidget.cpp
   monitor/abstractmonitor.cpp
   monitor/monitor.cpp
-  monitor/monitoreditwidget.cpp
   monitor/monitormanager.cpp
-  monitor/monitorscene.cpp
   monitor/recmanager.cpp
   monitor/recmonitor.cpp
   monitor/smallruler.cpp

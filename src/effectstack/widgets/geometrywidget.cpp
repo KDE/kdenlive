@@ -26,7 +26,6 @@
 #include "renderer.h"
 #include "timecodedisplay.h"
 #include "monitor/monitor.h"
-#include "monitor/monitorscene.h"
 #include "monitor/monitoreditwidget.h"
 #include "onmonitoritems/onmonitorrectitem.h"
 #include "onmonitoritems/onmonitorpathitem.h"
@@ -346,7 +345,7 @@ void GeometryWidget::setupParam(const QDomElement &elem, int minframe, int maxfr
 
     Mlt::GeometryItem item;
     m_geometry->fetch(&item, m_monitor->render->seekFramePosition() - m_clipPos);
-    m_monitor->slotShowEffectScene(true);
+    m_monitor->slotShowEffectScene(MonitorSceneGeometry);
     m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
     slotPositionChanged(m_monitor->render->seekFramePosition() - m_clipPos, false);
 }
@@ -365,9 +364,10 @@ void GeometryWidget::slotSyncPosition(int relTimelinePos)
     // do only sync if this effect is keyframable
     if (m_timePos->maximum() > 0 && KdenliveSettings::transitionfollowcursor()) {
         relTimelinePos = qBound(0, relTimelinePos, m_timePos->maximum());
-        if (relTimelinePos != m_timePos->getValue()) {
+        slotPositionChanged(relTimelinePos, false);
+        /*if (relTimelinePos != m_timePos->getValue()) {
             slotPositionChanged(relTimelinePos, false);
-        }
+        }*/
     }
 }
 
@@ -517,7 +517,7 @@ void GeometryWidget::slotDeleteKeyframe(int pos)
 
     m_timeline->update();
     m_geometry->fetch(&item, pos);
-    m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());    
+    m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
     slotPositionChanged(pos, false);
     emit parameterChanged();
 }

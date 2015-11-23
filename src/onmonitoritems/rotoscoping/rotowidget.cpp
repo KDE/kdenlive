@@ -22,8 +22,6 @@
 
 #include "renderer.h"
 #include "monitor/monitor.h"
-#include "monitor/monitorscene.h"
-#include "monitor/monitoreditwidget.h"
 #include "simplekeyframes/simplekeyframewidget.h"
 #include "kdenlivesettings.h"
 
@@ -57,7 +55,7 @@ RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo 
     l->addWidget(m_keyframeWidget);
 
     //MonitorEditWidget *edit = NULL; //monitor->getEffectEdit();
-    m_scene = NULL;//edit->getScene();
+    //m_scene = NULL;//edit->getScene();
     //m_scene->cleanup();
 
     m_item = NULL;/*new SplineItem(QList <BPoint>(), NULL, m_scene);
@@ -82,13 +80,13 @@ RotoWidget::~RotoWidget()
 
     delete m_keyframeWidget;
 
-    if (m_scene) m_scene->removeItem(m_item);
+    //if (m_scene) m_scene->removeItem(m_item);
     delete m_item;
 
     if (m_monitor) {
         /*MonitorEditWidget *edit = m_monitor->getEffectEdit();
         edit->removeCustomControls();*/
-        m_monitor->slotShowEffectScene(false);
+        m_monitor->slotShowEffectScene(MonitorSceneNone);
     }
 }
 
@@ -194,14 +192,14 @@ void RotoWidget::slotPositionChanged(int pos, bool seek)
 
             m_item->setPoints(p);
             m_item->setEnabled(false);
-            m_scene->setEnabled(false);
+            //m_scene->setEnabled(false);
         } else {
             p = getPoints(keyframe2);
             // only update if necessary to preserve the current point selection
             if (p != m_item->getPoints())
                 m_item->setPoints(p);
             m_item->setEnabled(pos == keyframe2);
-            m_scene->setEnabled(pos == keyframe2);
+            //m_scene->setEnabled(pos == keyframe2);
         }
     } else {
         p = getPoints(-1);
@@ -209,7 +207,7 @@ void RotoWidget::slotPositionChanged(int pos, bool seek)
         if (p != m_item->getPoints())
             m_item->setPoints(p);
         m_item->setEnabled(true);
-        m_scene->setEnabled(true);
+        //m_scene->setEnabled(true);
     }
 
     if (seek)
@@ -255,7 +253,7 @@ void RotoWidget::slotAddKeyframe(int pos)
 
     slotUpdateData(pos);
     m_item->setEnabled(true);
-    m_scene->setEnabled(true);
+    //m_scene->setEnabled(true);
 }
 
 void RotoWidget::slotRemoveKeyframe(int pos)
