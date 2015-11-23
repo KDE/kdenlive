@@ -284,6 +284,7 @@ signals:
     /** @brief Request display of current bin clip. */
     void refreshCurrentClip();
     void addEffect(QDomElement);
+    void addMasterEffect(QString,QDomElement);
 };
 
 #endif

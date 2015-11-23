@@ -553,7 +553,7 @@ public slots:
     /** @brief Pass some important properties to timeline track producers. */
     void updateTimelineProducers(const QString &id, QMap <QString, QString> passProperties);
     /** @brief Add effect to active Bin clip (used when double clicking an effect in list). */
-    void slotEffectDropped(QDomElement);
+    void slotEffectDropped(QString id, QDomElement);
     /** @brief Request current frame from project monitor. */
     void slotGetCurrentProjectImage();
     void slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command);

@@ -249,6 +249,7 @@ private slots:
 signals:
     void removeEffect(ClipItem*, int, const QDomElement&);
     void removeMasterEffect(const QString &id, const QDomElement&);
+    void addMasterEffect(const QString &id, const QDomElement&);
     /**  Parameters for an effect changed, update the filter in timeline */
     void updateEffect(ClipItem*, int, const QDomElement&, const QDomElement &, int,bool);
     /** An effect in stack was moved, we need to regenerate

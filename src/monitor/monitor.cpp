@@ -326,7 +326,7 @@ void Monitor::slotGetCurrentImage()
 void Monitor::slotAddEffect(QDomElement effect)
 {
     if (m_id == Kdenlive::ClipMonitor) {
-        if (m_controller) emit addEffect(effect);
+        if (m_controller) emit addMasterEffect(m_controller->clipId(), effect);
     }
     else emit addEffect(effect);
 }
