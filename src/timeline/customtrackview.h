@@ -117,7 +117,7 @@ public:
     QList<ItemInfo> findId(const QString &clipId);
     void clipStart();
     void clipEnd();
-    void doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, const double speed, int strobe, const QString &id);
+    void doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, const double speed, int strobe, const QString &id, bool removeEffect = false);
     /** @brief Every command added to the undo stack automatically triggers a document change event.
      *  This function should only be called when changing a document setting or another function that 
      *  is not integrated in the undo / redo system */
@@ -233,7 +233,7 @@ public:
     /** @brief Expand current timeline clip (recover clips and tracks from an MLT playlist) */
     void expandActiveClip();
     /** @brief Import amultitrack MLT playlist in timeline */
-    void importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QDomDocument doc, QUndoCommand *command);
+    void importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QMap <QString, QString> idMaps, QDomDocument doc, QUndoCommand *command);
 
 public slots:
     /** @brief Send seek request to MLT. */
@@ -331,6 +331,7 @@ protected:
     virtual void keyPressEvent(QKeyEvent * event);
     virtual QStringList mimeTypes() const;
     virtual Qt::DropActions supportedDropActions() const;
+    virtual void contextMenuEvent(QContextMenuEvent * event);
 
 private:
     int m_ct;
@@ -380,7 +381,7 @@ private:
     void checkScrolling();
     /** Should we auto scroll while playing (keep in sync with KdenliveSettings::autoscroll() */
     bool m_autoScroll;
-    void displayContextMenu(QPoint pos, AbstractClipItem *clip, AbstractGroupItem *group);
+    void displayContextMenu(QPoint pos, AbstractClipItem *clip);
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
@@ -502,6 +503,8 @@ private:
     void processEffect(ClipItem *item, QDomElement effect, int offset, QUndoCommand *effectCommand);
     /** @brief Reload all clips and transitions from MLT's playlist */
     void reloadTimeline();
+    /** @brief Make sure our automatic composite transitions are correctly setup. */
+    void checkCompositeTransitions(Mlt::Tractor *tractor);
 
 private slots:
     void slotRefreshGuides();
@@ -511,7 +514,10 @@ private slots:
     void slotFetchNextThumbs();
     void checkTrackSequence(int track);
     void slotGoToMarker(QAction *action);
+    /** @brief Context menu is finished, prepare resetting las known menu pos. */
     void slotResetMenuPosition();
+    /** @brief Context menu is finished, restore normal operation mode. */
+    void slotContextMenuActivated();
     void slotDoResetMenuPosition();
     /** @brief Re-create the clip thumbnails.
      *  @param id The clip's Id string.

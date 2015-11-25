@@ -590,7 +590,7 @@ void Track::updateClipProperties(const QString &id, QMap <QString, QString> prop
     }
 }
 
-int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *prod, Mlt::Properties passProps)
+int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *prod, Mlt::Properties passProps, bool removeEffect)
 {
     int newLength = 0;
     int startPos = info.startPos.frames(m_fps);
@@ -676,7 +676,7 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
 	    } else cut = prod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)((info.cropStart.frames(m_fps) + clipLength) / speed - 1));
 
 	    // move all effects to the correct producer
-	    Clip(*cut).addEffects(*clip);
+	    Clip(*cut).addEffects(*clip, false);
 	    m_playlist.insert_at(startPos, cut, 1);
 	    delete cut;
 	    clipIndex = m_playlist.get_clip_index_at(startPos);
@@ -708,7 +708,7 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
 		}
 		emit storeSlowMotion(url, prod);
 	    }
-	    
+
 	    int originalStart = (int)(speedIndependantInfo.cropStart.frames(m_fps));
 	    if (clipIndex + 1 < m_playlist.count() && (info.startPos + speedIndependantInfo.cropDuration).frames(m_fps) > blankEnd) {
 		GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
@@ -718,7 +718,7 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
 	    }
 
 	    // move all effects to the correct producer
-	    Clip(*cut).addEffects(*clip);
+	    Clip(*cut).addEffects(*clip, false);
 	    m_playlist.insert_at(startPos, cut, 1);
 	    delete cut;
 	    clipIndex = m_playlist.get_clip_index_at(startPos);
@@ -743,6 +743,9 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
 	    }
 	    emit storeSlowMotion(url, prod);
         }
+        if (removeEffect) {
+            prod = clipProducer(prod, state);
+        }
         QScopedPointer <Mlt::Producer> clip(m_playlist.replace_with_blank(clipIndex));
         m_playlist.consolidate_blanks(0);
 
@@ -762,13 +765,16 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double 
 	}
 
         // move all effects to the correct producer
-        Clip(*cut).addEffects(*clip);
+        Clip(*cut).addEffects(*clip, false);
         m_playlist.insert_at(startPos, cut, 1);
         delete cut;
         clipIndex = m_playlist.get_clip_index_at(startPos);
         newLength = m_playlist.clip_length(clipIndex);
-
         m_playlist.unlock();
+    }
+    if (clipIndex + 1 == m_playlist.count()) {
+        // We changed the speed of last clip in playlist, check track length
+        emit newTrackDuration(m_playlist.get_playtime());
     }
     return newLength;
 }

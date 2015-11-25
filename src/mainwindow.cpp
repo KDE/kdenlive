@@ -201,11 +201,12 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
 */
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
-    connect(m_clipMonitor, SIGNAL(addEffect(QDomElement)), pCore->bin(), SLOT(slotEffectDropped(QDomElement)));
+    connect(m_clipMonitor, SIGNAL(addMasterEffect(QString,QDomElement)), pCore->bin(), SLOT(slotEffectDropped(QString,QDomElement)));
 
     m_effectStack = new EffectStackView2(m_projectMonitor, this);
     connect(m_effectStack, SIGNAL(startFilterJob(const ItemInfo&,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)), pCore->bin(), SLOT(slotStartFilterJob(const ItemInfo &,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)));
     connect(pCore->bin(), SIGNAL(masterClipSelected(ClipController *, Monitor *)), m_effectStack, SLOT(slotMasterClipItemSelected(ClipController *, Monitor *)));
+    connect(pCore->bin(), SIGNAL(masterClipUpdated(ClipController *, Monitor *)), m_effectStack, SLOT(slotRefreshMasterClipEffects(ClipController *, Monitor *)));
     m_effectStackDock = addDock(i18n("Selection Parameters"), QStringLiteral("effect_stack"), m_effectStack);
 
     m_effectList = new EffectsListView();
@@ -241,6 +242,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
 
     /// Tabify Widgets ///
+    tabifyDockWidget(m_transitionListDock, m_effectListDock);
     tabifyDockWidget(m_effectListDock, m_effectStackDock);
 
     tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
@@ -532,7 +534,7 @@ void MainWindow::slotReloadTheme()
 MainWindow::~MainWindow()
 {
     delete m_stopmotion;
-    m_effectStack->slotClipItemSelected(NULL);
+    m_effectStack->slotClipItemSelected(NULL, m_projectMonitor);
     m_effectStack->slotTransitionItemSelected(NULL, 0, QPoint(), false);
     if (m_projectMonitor) m_projectMonitor->stop();
     if (m_clipMonitor) m_clipMonitor->stop();
@@ -710,7 +712,7 @@ void MainWindow::slotAddEffect(const QDomElement &effect)
         pCore->projectManager()->currentTimeline()->projectView()->slotAddEffectToCurrentItem(effectToAdd);
     }
     else if (status == MASTER_CLIP) {
-        pCore->bin()->slotEffectDropped(effectToAdd);
+        pCore->bin()->slotEffectDropped(QString(), effectToAdd);
     }
 }
 
@@ -1569,6 +1571,7 @@ void MainWindow::connectDocument()
     connect(m_effectStack, SIGNAL(updateEffect(ClipItem*,int,QDomElement,QDomElement,int,bool)), trackView->projectView(), SLOT(slotUpdateClipEffect(ClipItem*,int,QDomElement,QDomElement,int,bool)));
     connect(m_effectStack, SIGNAL(updateClipRegion(ClipItem*,int,QString)), trackView->projectView(), SLOT(slotUpdateClipRegion(ClipItem*,int,QString)));
     connect(m_effectStack, SIGNAL(removeEffect(ClipItem*,int,QDomElement)), trackView->projectView(), SLOT(slotDeleteEffect(ClipItem*,int,QDomElement)));
+    connect(m_effectStack, SIGNAL(addMasterEffect(QString,QDomElement)), pCore->bin(), SLOT(slotEffectDropped(QString,QDomElement)));
     connect(m_effectStack, SIGNAL(removeMasterEffect(QString,QDomElement)), pCore->bin(), SLOT(slotDeleteEffect(QString,QDomElement)));
     connect(m_effectStack, SIGNAL(addEffect(ClipItem*,QDomElement,int)), trackView->projectView(), SLOT(slotAddEffect(ClipItem*,QDomElement,int)));
     connect(m_effectStack, SIGNAL(changeEffectState(ClipItem*,int,QList<int>,bool)), trackView->projectView(), SLOT(slotChangeEffectState(ClipItem*,int,QList<int>,bool)));

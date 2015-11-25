@@ -79,11 +79,14 @@ const int ScriptRenderType = QTreeWidgetItem::UserType;
 
 
 // Running job status
-const int WAITINGJOB = 0;
-const int RUNNINGJOB = 1;
-const int FINISHEDJOB = 2;
-const int FAILEDJOB = 3;
-const int ABORTEDJOB = 4;
+enum JOBSTATUS {
+    WAITINGJOB = 0,
+    STARTINGJOB,
+    RUNNINGJOB,
+    FINISHEDJOB,
+    FAILEDJOB,
+    ABORTEDJOB
+};
 
 
 RenderJobItem::RenderJobItem(QTreeWidget * parent, const QStringList & strings, int type)
@@ -118,7 +121,6 @@ void RenderJobItem::setStatus(int status)
             setData(1, Qt::UserRole, i18n("Rendering aborted"));
             setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-cancel")));
             setData(1, ProgressRole, 100);
-        
         default:
             break;
     }
@@ -982,15 +984,11 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             }
         }
 
-        QFile f(dest);
-        if (f.exists()) {
+        if (QFile::exists(dest)) {
             if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
                 foreach (const QString& playlistFilePath, playlistPaths) {
                     QFile playlistFile(playlistFilePath);
                     if (playlistFile.exists()) {
-                        if (playlistFile.isOpen()) {
-                            playlistFile.close();
-                        }
                         playlistFile.remove();
                     }
                 }
@@ -1220,7 +1218,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
         if (!existing.isEmpty()) {
             renderItem = static_cast<RenderJobItem*> (existing.at(0));
-            if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB) {
+            if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB || renderItem->status() == STARTINGJOB) {
                 KMessageBox::information(this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it...", dest), i18n("Already running"));
                 return;
             }
@@ -1283,7 +1281,7 @@ void RenderWidget::checkRenderStatus()
         return;
 
     RenderJobItem* item = static_cast<RenderJobItem*> (m_view.running_jobs->topLevelItem(0));
-    
+
     // Make sure no other rendering is running
     while (item) {
         if (item->status() == RUNNINGJOB)
@@ -1292,16 +1290,14 @@ void RenderWidget::checkRenderStatus()
     }
     item = static_cast<RenderJobItem*> (m_view.running_jobs->topLevelItem(0));
     bool waitingJob = false;
-    
+
     // Find first waiting job
     while (item) {
         if (item->status() == WAITINGJOB) {
             item->setData(1, TimeRole, QDateTime::currentDateTime());
             waitingJob = true;
             startRendering(item);
-            while (item->status() == WAITINGJOB) {
-                QCoreApplication::processEvents();
-            }
+            item->setStatus(STARTINGJOB);
             break;
         }
         item = static_cast<RenderJobItem*> (m_view.running_jobs->itemBelow(item));
@@ -1335,7 +1331,7 @@ int RenderWidget::waitingJobsCount() const
     int count = 0;
     RenderJobItem* item = static_cast<RenderJobItem*> (m_view.running_jobs->topLevelItem(0));
     while (item) {
-        if (item->status() == WAITINGJOB) count++;
+        if (item->status() == WAITINGJOB || item->status() == STARTINGJOB) count++;
         item = static_cast<RenderJobItem*>(m_view.running_jobs->itemBelow(item));
     }
     return count;
@@ -1450,12 +1446,11 @@ void RenderWidget::refreshView(const QString &profile)
     KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
     const QColor disabled = scheme.foreground(KColorScheme::InactiveText).color();
     const QColor disabledbg = scheme.background(KColorScheme::NegativeBackground).color();
-
     double project_framerate = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
     for (int i = 0; i < m_renderItems.count(); ++i) {
         sizeItem = m_renderItems.at(i);
         QListWidgetItem *dupItem = NULL;
-        if ((sizeItem->data(GroupRole).toString() == group || sizeItem->data(GroupRole).toString().isEmpty()) && sizeItem->data(MetaGroupRole).toString() == destination) {
+        if (sizeItem->data(GroupRole).toString() == group || (sizeItem->data(GroupRole).toString().isEmpty() && sizeItem->data(MetaGroupRole).toString() == destination)) {
             std = sizeItem->data(StandardRole).toString();
             if (!m_view.show_all_profiles->isChecked() && !std.isEmpty()) {
                 if ((std.contains(QStringLiteral("PAL"), Qt::CaseInsensitive) && m_profile.frame_rate_num == 25 && m_profile.frame_rate_den == 1) ||
@@ -1699,7 +1694,7 @@ void RenderWidget::parseProfiles(const QString &meta, const QString &group, cons
     m_view.destination_list->addItem(QIcon::fromTheme(QStringLiteral("audio-x-generic")), i18n("Audio only"), "audioonly");
     m_view.destination_list->addItem(QIcon::fromTheme(QStringLiteral("applications-internet")), i18n("Web sites"), "websites");
     m_view.destination_list->addItem(QIcon::fromTheme(QStringLiteral("applications-multimedia")), i18n("Media players"), "mediaplayers");
-    m_view.destination_list->addItem(QIcon::fromTheme(QStringLiteral("drive-harddisk")), i18n("Lossless / HQ"), "lossless");
+    m_view.destination_list->addItem(QIcon::fromTheme(QStringLiteral("drive-harddisk")), i18n("Lossless/HQ"), "lossless");
     m_view.destination_list->addItem(QIcon::fromTheme(QStringLiteral("pda")), i18n("Mobile devices"), "mobile");
     
     // Parse some of MLT's profiles first
@@ -1737,6 +1732,21 @@ void RenderWidget::parseMltPresets()
         return;
     }
     if (root.cd(QStringLiteral("lossless"))) {
+	bool exists = false;
+	QString groupName = i18n("Lossless/HQ");
+	QString metagroupId = "lossless";
+        for (int j = 0; j < m_renderCategory.count(); ++j) {
+            if (m_renderCategory.at(j)->text() == groupName && m_renderCategory.at(j)->data(MetaGroupRole) == metagroupId) {
+                exists = true;
+                break;
+            }
+        }
+        if (!exists) {
+            QListWidgetItem *itemcat = new QListWidgetItem(groupName);
+            itemcat->setData(MetaGroupRole, metagroupId);
+            m_renderCategory.append(itemcat);
+        }
+        
         QStringList profiles = root.entryList(QDir::Files, QDir::Name);
         foreach(const QString &prof, profiles) {
             KConfig config(root.absoluteFilePath(prof), KConfig::SimpleConfig );
@@ -1758,7 +1768,6 @@ void RenderWidget::parseMltPresets()
                 profileName.append(")");
             }
             QListWidgetItem *item = new QListWidgetItem(profileName);
-            item->setData(GroupRole, i18nc("Category Name", "Lossless/HQ"));
             item->setData(MetaGroupRole, "lossless");
             item->setData(ExtensionRole, extension);
             item->setData(RenderRole, "avformat");
@@ -1768,6 +1777,20 @@ void RenderWidget::parseMltPresets()
         }
     }
     if (root.cd(QStringLiteral("../stills"))) {
+        bool exists = false;
+        QString groupName =i18nc("Category Name", "Images sequence");
+        QString metagroupId = QString();
+        for (int j = 0; j < m_renderCategory.count(); ++j) {
+            if (m_renderCategory.at(j)->text() == groupName && m_renderCategory.at(j)->data(MetaGroupRole) == metagroupId) {
+                exists = true;
+                break;
+            }
+        }
+        if (!exists) {
+            QListWidgetItem *itemcat = new QListWidgetItem(groupName); //, m_view.format_list);
+            itemcat->setData(MetaGroupRole, metagroupId);
+            m_renderCategory.append(itemcat);
+        }
         QStringList profiles = root.entryList(QDir::Files, QDir::Name);
         foreach(const QString &prof, profiles) {
             KConfig config(root.absoluteFilePath(prof), KConfig::SimpleConfig );
@@ -1775,7 +1798,7 @@ void RenderWidget::parseMltPresets()
             QString extension = group.readEntry("meta.preset.extension");
             QString note = group.readEntry("meta.preset.note");
             QListWidgetItem *item = new QListWidgetItem(prof);
-            item->setData(GroupRole, i18nc("Category Name", "Images sequence"));
+            item->setData(GroupRole, groupName);
             item->setData(ExtensionRole, extension);
             item->setData(RenderRole, "avformat");
             item->setData(ParamsRole, QString("properties=stills/" + prof));
@@ -2135,7 +2158,7 @@ void RenderWidget::slotCheckJob()
     bool activate = false;
     RenderJobItem *current = static_cast<RenderJobItem*> (m_view.running_jobs->currentItem());
     if (current) {
-        if (current->status() == RUNNINGJOB) {
+        if (current->status() == RUNNINGJOB || current->status() == STARTINGJOB) {
             m_view.abort_job->setText(i18n("Abort Job"));
             m_view.start_job->setEnabled(false);
         } else {
@@ -2253,7 +2276,7 @@ void RenderWidget::slotStartScript()
         //qDebug() << "------  START SCRIPT";
         if (!existing.isEmpty()) {
             renderItem = static_cast<RenderJobItem*> (existing.at(0));
-            if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB) {
+            if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB || renderItem->status() == STARTINGJOB) {
                 KMessageBox::information(this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it...", destination), i18n("Already running"));
                 return;
             }

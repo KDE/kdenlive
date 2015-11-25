@@ -448,7 +448,7 @@ Bin::~Bin()
 
 bool Bin::eventFilter(QObject *obj, QEvent *event)
 {
-    if (event->type() == QEvent::MouseButtonPress) {
+    if (event->type() == QEvent::MouseButtonRelease) {
         m_monitor->slotActivateMonitor();
         bool success = QWidget::eventFilter(obj, event);
         if (m_gainedFocus) {
@@ -727,7 +727,20 @@ void Bin::slotDuplicateClip()
             QStringList folderInfo = getFolderInfo(ix);
             QDomDocument doc;
             QDomElement xml = currentItem->toXml(doc);
-            if (!xml.isNull()) ClipCreationDialog::createClipFromXml(m_doc, xml, folderInfo, this);
+            if (!xml.isNull()) {
+		QString currentName = EffectsList::property(xml, "kdenlive:clipname");
+		if (currentName.isEmpty()) {
+		    QUrl url = QUrl::fromLocalFile(EffectsList::property(xml, "resource"));
+		    if (url.isValid()) {
+			QString currentName = url.fileName();
+		    }
+		}
+		if (!currentName.isEmpty()) {
+		     currentName.append(i18nc("append to clip name to indicate a copied idem", " (copy)"));
+		     EffectsList::setProperty(xml, "kdenlive:clipname", currentName);
+		}
+		ClipCreationDialog::createClipFromXml(m_doc, xml, folderInfo, this);
+	    }
         }
     }
 }
@@ -1940,9 +1953,9 @@ void Bin::slotItemDropped(QStringList ids, const QModelIndex &parent)
     m_doc->commandStack()->push(moveCommand);
 }
 
-void Bin::slotEffectDropped(QDomElement effect)
+void Bin::slotEffectDropped(QString id, QDomElement effect)
 {
-    const QString id = m_monitor->activeClipId();
+    if (id.isEmpty()) id = m_monitor->activeClipId();
     if (id.isEmpty()) return;
     AddBinEffectCommand *command = new AddBinEffectCommand(this, id, effect);
     m_doc->commandStack()->push(command);
@@ -1972,7 +1985,6 @@ void Bin::slotEffectDropped(QString effect, const QModelIndex &parent)
         QDomElement e = doc.documentElement();
         AddBinEffectCommand *command = new AddBinEffectCommand(this, parentItem->clipId(), e);
         m_doc->commandStack()->push(command);
-        m_monitor->refreshMonitor();
     }
 }
 
@@ -1995,6 +2007,7 @@ void Bin::addEffect(const QString &id, QDomElement &effect)
     ProjectClip *currentItem = m_rootFolder->clip(id);
     if (!currentItem) return;
     currentItem->addEffect(m_monitor->profileInfo(), effect);
+    emit masterClipUpdated(currentItem->controller(), m_monitor);
     m_monitor->refreshMonitor();
 }
 
@@ -2005,6 +2018,15 @@ void Bin::editMasterEffect(ClipController *ctl)
         return;
     }
     emit masterClipSelected(ctl, m_monitor);
+}
+
+void Bin::updateMasterEffect(ClipController *ctl)
+{
+    if (m_gainedFocus) {
+        // Widget just gained focus, updating stack is managed in the eventfilter event, not from item
+        return;
+    }
+    emit masterClipUpdated(ctl, m_monitor);
 }
 
 void Bin::slotGotFocus()
@@ -2120,6 +2142,7 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
         return;
     }
     QMap <QString, QString> processedUrl;
+    QMap <QString, QString> idMaps;
     for (int i = 0; i < producers.count(); i++) {
         QDomElement prod = producers.at(i).toElement();
         QString resource = EffectsList::property(prod, "resource");
@@ -2127,7 +2150,7 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
         if (service == "framebuffer") {
             resource = resource.section(QStringLiteral("?"), 0, -2);
         }
-        if (processedUrl.contains(resource)) {
+        if (!resource.isEmpty() && processedUrl.contains(resource)) {
             // This is a sub-clip (track producer or slowmotion, ignore
             continue;
         }
@@ -2135,10 +2158,11 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
         QDomElement clone = prod.cloneNode(true).toElement();
         EffectsList::setProperty(clone, "kdenlive:folderid", newId);
         QString id = QString::number(getFreeClipId());
+        idMaps.insert(prod.attribute("id"), id);
         processedUrl.insert(resource, id);
         ClipCreationDialog::createClipsCommand(m_doc, clone, id, command);
     }
-    pCore->projectManager()->currentTimeline()->importPlaylist(info, processedUrl, doc, command);
+    pCore->projectManager()->currentTimeline()->importPlaylist(info, processedUrl, idMaps, doc, command);
 }
 
 void Bin::slotItemEdited(QModelIndex ix,QModelIndex,QVector<int>)
@@ -2301,11 +2325,16 @@ void Bin::slotStartFilterJob(const ItemInfo &info, const QString&id, QMap <QStri
 
     QMap <QString, QString> producerParams = QMap <QString, QString> ();
     producerParams.insert(QStringLiteral("producer"), clip->url().path());
-    producerParams.insert(QStringLiteral("in"), QString::number((int) info.cropStart.frames(m_doc->fps())));
-    producerParams.insert(QStringLiteral("out"), QString::number((int) (info.cropStart + info.cropDuration).frames(m_doc->fps())));
-    extraParams.insert(QStringLiteral("clipStartPos"), QString::number((int) info.startPos.frames(m_doc->fps())));
-    extraParams.insert(QStringLiteral("clipTrack"), QString::number(info.track));
-
+    if (info.cropDuration != GenTime()) {
+        producerParams.insert(QStringLiteral("in"), QString::number((int) info.cropStart.frames(m_doc->fps())));
+        producerParams.insert(QStringLiteral("out"), QString::number((int) (info.cropStart + info.cropDuration).frames(m_doc->fps())));
+        extraParams.insert(QStringLiteral("clipStartPos"), QString::number((int) info.startPos.frames(m_doc->fps())));
+        extraParams.insert(QStringLiteral("clipTrack"), QString::number(info.track));
+    } else {
+        // We want to process whole clip
+        producerParams.insert(QStringLiteral("in"), QString::number(0));
+        producerParams.insert(QStringLiteral("out"), QString::number(-1));
+    }
     m_jobManager->prepareJobFromTimeline(clip, producerParams, filterParams, consumerParams, extraParams);
 }
 
@@ -2339,12 +2368,46 @@ void Bin::updateTimecodeFormat()
 }
 
 
-void Bin::slotGotFilterJobResults(QString id, int , int , stringMap results, stringMap filterInfo)
+void Bin::slotGotFilterJobResults(QString id, int startPos, int track, stringMap results, stringMap filterInfo)
 {
+    if (filterInfo.contains("finalfilter")) {
+        if (startPos == -1) {
+            // Processing bin clip
+            ProjectClip *currentItem = m_rootFolder->clip(id);
+            if (!currentItem) return;
+            ClipController *ctl = currentItem->controller();
+            EffectsList list = ctl->effectList();
+            QDomElement effect = list.effectById(filterInfo.value("finalfilter"));
+            QDomDocument doc;
+            QDomElement e = doc.createElement("test");
+            doc.appendChild(e);
+            e.appendChild(doc.importNode(effect, true));
+            if (!effect.isNull()) {
+                QDomElement newEffect = effect.cloneNode().toElement();
+                QMap<QString, QString>::const_iterator i = results.constBegin();
+                while (i != results.constEnd()) {
+                    EffectsList::setParameter(newEffect, i.key(), i.value());
+                    ++i;
+                }
+                ctl->updateEffect(pCore->monitorManager()->projectMonitor()->profileInfo(), newEffect, effect.attribute("kdenlive_ix").toInt());
+                emit masterClipUpdated(ctl, m_monitor);
+                // TODO use undo / redo for bin clip edit effect
+                /*EditEffectCommand *command = new EditEffectCommand(this, clip->track(), clip->startPos(), effect, newEffect, clip->selectedEffectIndex(), true, true);
+                m_commandStack->push(command);
+                emit clipItemSelected(clip);*/
+            }
+            
+            //emit gotFilterJobResults(id, startPos, track, results, filterInfo);*/
+            return;
+        } else {
+            // This is a timeline filter, forward results
+            emit gotFilterJobResults(id, startPos, track, results, filterInfo);
+            return;
+        }
+    }
     // Currently, only the first value of results is used
     ProjectClip *clip = getBinClip(id);
     if (!clip) return;
-
     // Check for return value
     int markersType = -1;
     if (filterInfo.contains(QStringLiteral("addmarkers"))) markersType = filterInfo.value(QStringLiteral("addmarkers")).toInt();

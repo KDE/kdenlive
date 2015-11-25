@@ -91,7 +91,7 @@ QPointF CustomTrackScene::scale() const
 int CustomTrackScene::tracksCount() const
 {
     // Ignore black track
-    return m_timeline->tracksCount() - 1;
+    return m_timeline->visibleTracksCount();
 }
 
 MltVideoProfile CustomTrackScene::profile() const

@@ -22,7 +22,6 @@
 #include "renderer.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
-#include "monitor/monitorscene.h"
 #include "monitor/monitoreditwidget.h"
 #include "onmonitoritems/onmonitorcornersitem.h"
 
@@ -35,49 +34,24 @@ inline int lerp( const int a, const int b, double t )
     return a + (b - a) * t;
 }
 
-//TODO: port to new qml monitor edit
 CornersWidget::CornersWidget(Monitor *monitor, const QDomElement& e, int minFrame, int maxFrame, const Timecode &tc, int activeKeyframe, QWidget* parent) :
         KeyframeEdit(e, minFrame, maxFrame, tc, activeKeyframe, parent),
         m_monitor(monitor),
         m_pos(0)
 {
-    //MonitorEditWidget *edit = NULL; //monitor->getEffectEdit();
-    m_scene = NULL; //edit->getScene();
-    //m_scene->cleanup();
-
-    m_item = NULL; //new OnMonitorCornersItem();
-    /*m_scene->addItem(m_item);
-
-    // TODO: Better Icons
-    edit->removeCustomControls();
-    edit->addCustomButton(KoIconUtils::themedIcon("transform-move"), i18n("Show additional controls"), this, SLOT(slotShowControls(bool)),
-                          true, KdenliveSettings::onmonitoreffects_cornersshowcontrols());
-    edit->addCustomButton(KoIconUtils::themedIcon("insert-horizontal-rule"), i18n("Show/Hide the lines connecting the corners"), this, SLOT(slotShowLines(bool)),
-                          true, KdenliveSettings::onmonitoreffects_cornersshowlines());
-
-    connect(m_item, SIGNAL(changed()), this, SLOT(slotUpdateProperties()));
-    connect(m_scene, SIGNAL(addKeyframe()), this, SLOT(slotInsertKeyframe()));
-
-    connect(keyframe_list, SIGNAL(cellChanged(int,int)), this, SLOT(slotUpdateItem()));
-    m_scene->centerView();
-    */
+    m_monitor->slotShowEffectScene(MonitorSceneCorners);
+    connect(m_monitor, SIGNAL(effectChanged(QVariantList)), this, SLOT(slotUpdateGeometry(QVariantList)));
+    connect(this, SIGNAL(parameterChanged()), this, SLOT(slotUpdateItem()));
 }
 
 CornersWidget::~CornersWidget()
 {
-    if (m_scene) m_scene->removeItem(m_item);
-    if (m_item) delete m_item;
-    if (m_monitor) {
-        /*MonitorEditWidget *edit = m_monitor->getEffectEdit();
-        edit->removeCustomControls();*/
-    }
 }
 
 void CornersWidget::addParameter(const QDomElement &e, int activeKeyframe)
 {
     KeyframeEdit::addParameter(e, activeKeyframe);
-
-    if (!m_item->polygon().count())
+    //if (!m_item->polygon().count())
         slotUpdateItem();
 }
 
@@ -95,7 +69,7 @@ void CornersWidget::slotUpdateItem()
             break;
     }
 
-    QList<QPointF> points, pointsPrev, pointsNext;
+    QVariantList points, pointsPrev, pointsNext;
     pointsPrev = getPoints(keyframeOld);
     pointsNext = getPoints(keyframe);
     if (pointsPrev.count() != 4 || pointsNext.count() != 4)
@@ -107,57 +81,56 @@ void CornersWidget::slotUpdateItem()
         points = pointsNext;
     } else {
         for (int i = 0; i < 4; ++i)
-            points.append(QLineF(pointsPrev.at(i), pointsNext.at(i)).pointAt(position));
+            points.append(QVariant(QLineF(pointsPrev.at(i).toPointF(), pointsNext.at(i).toPointF()).pointAt(position)));
     }
 
-    m_scene->blockSignals(true);
-    m_item->setPolygon(QPolygonF() << points.at(0) << points.at(1) << points.at(2) << points.at(3));
-    m_scene->blockSignals(false);
-
+    //m_item->setPolygon(QPolygonF() << points.at(0) << points.at(1) << points.at(2) << points.at(3));
+    //m_monitor->setUpEffectGeometry(QPolygonF() << points.at(0) << points.at(1) << points.at(2) << points.at(3));
+    m_monitor->setUpEffectGeometry(QRect(), points);
     bool enable = getPos(keyframe->row()) == m_pos || keyframe_list->rowCount() == 1;
-    m_item->setEnabled(enable);
-    m_scene->setEnabled(enable);
+    m_monitor->setEffectKeyframe(enable);
 }
 
-void CornersWidget::slotUpdateProperties()
+void CornersWidget::slotUpdateGeometry(QVariantList points)
 {
     if (keyframe_list->columnCount() < 8)
         return;
 
-    QPolygonF pol = m_item->polygon();
-
     QTableWidgetItem *item = keyframe_list->currentItem();
-    double val;
-    for (int col = 0; col < 8; ++col) {
-        if (col % 2 == 0)
+    for (int col = 0; col < 4; ++col) {
+        QPointF value = points.at(col).toPointF();
+        /*if (col % 2 == 0)
             val = pol.at(col / 2).x() / (double)m_monitor->render->frameRenderWidth();
         else
             val = pol.at(col / 2).y() / (double)m_monitor->render->renderHeight();
         val *= 2000;
-        val += 2000;
-        QTableWidgetItem *nitem = keyframe_list->item(item->row(), col);
-        if (nitem->text().toInt() != (int)val)
-            nitem->setText(QString::number((int)val));
+        val += 2000;*/
+        int valX = 2000 * value.x() / m_monitor->render->frameRenderWidth() + 2000;
+        int valY = 2000 * value.y() / m_monitor->render->renderHeight() + 2000;
+        QTableWidgetItem *nitem = keyframe_list->item(item->row(), col * 2);
+        if (nitem->text().toInt() != valX)
+            nitem->setText(QString::number(valX));
+        nitem = keyframe_list->item(item->row(), col * 2 + 1);
+        if (nitem->text().toInt() != valY)
+            nitem->setText(QString::number(valY));
     }
 
     slotAdjustKeyframeInfo(false);
 }
 
-QList<QPointF> CornersWidget::getPoints(QTableWidgetItem* keyframe)
+QVariantList CornersWidget::getPoints(QTableWidgetItem* keyframe)
 {
-    QList<QPointF> points;
+    QVariantList points;
 
     if (!keyframe)
         return points;
 
-    for (int col = 0; col < 8; ++col) {
+    for (int col = 0; col < 4; ++col) {
         if (!keyframe_list->item(keyframe->row(), col))
-            return QList<QPointF>();
-        double val = (keyframe_list->item(keyframe->row(), col)->text().toInt() - 2000) / 2000.;
-        if (col % 2 == 0)
-            points << QPointF(val * m_monitor->render->frameRenderWidth(), 0);
-        else
-            points[col / 2].setY(val * m_monitor->render->renderHeight());
+            return QVariantList();
+        double xVal = (keyframe_list->item(keyframe->row(), col * 2)->text().toInt() - 2000) / 2000.;
+        double yVal = (keyframe_list->item(keyframe->row(), col * 2 + 1)->text().toInt() - 2000) / 2000.;
+        points << QPointF(xVal * m_monitor->render->frameRenderWidth(), yVal * m_monitor->render->renderHeight());
     }
     return points;
 }
@@ -166,23 +139,24 @@ QList<QPointF> CornersWidget::getPoints(QTableWidgetItem* keyframe)
 void CornersWidget::slotShowLines(bool show)
 {
     KdenliveSettings::setOnmonitoreffects_cornersshowlines(show);
-    m_item->update();
+    //m_item->update();
 }
 
 void CornersWidget::slotShowControls(bool show)
 {
     KdenliveSettings::setOnmonitoreffects_cornersshowcontrols(show);
-    m_item->update();
+    //m_item->update();
 }
 
 void CornersWidget::slotSyncPosition(int relTimelinePos)
 {
     if (keyframe_list->rowCount()) {
         relTimelinePos = qBound(0, relTimelinePos, m_max);
-        if (relTimelinePos != m_pos - m_min) {
+        slotUpdateItem();
+        /*if (relTimelinePos != m_pos - m_min) {
             m_pos = relTimelinePos + m_min;
             slotUpdateItem();
-        }
+        }*/
     }
 }
 
@@ -220,14 +194,14 @@ void CornersWidget::slotInsertKeyframe()
     keyframe_list->insertRow(row);
     keyframe_list->setVerticalHeaderItem(row, new QTableWidgetItem(getPosString(m_pos)));
 
-    QPolygonF pol = m_item->polygon();
+    QVariantList points = m_monitor->effectPolygon();
     double val;
     for (int i = 0; i < keyframe_list->columnCount(); ++i) {
         if (i < 8) {
             if (i % 2 == 0)
-                val = pol.at(i / 2).x() / (double)m_monitor->render->frameRenderWidth();
+                val = points.at(i / 2).toPointF().x() / (double)m_monitor->render->frameRenderWidth();
             else
-                val = pol.at(i / 2).y() / (double)m_monitor->render->renderHeight();
+                val = points.at(i / 2).toPointF().y() / (double)m_monitor->render->renderHeight();
             val *= 2000;
             val += 2000;
             keyframe_list->setItem(row, i, new QTableWidgetItem(QString::number((int)val)));

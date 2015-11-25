@@ -59,7 +59,7 @@ class MySpinBox : public QSpinBox
 
 public:
     explicit MySpinBox(QWidget * parent = 0);
-    
+
 protected:
     void focusInEvent(QFocusEvent*);
     void focusOutEvent(QFocusEvent*);
@@ -75,7 +75,7 @@ public:
     void updateTimecodeFormat();
     void updateParameter(const QString &key, const QString &value);
     /** @brief Returns true of this effect requires an on monitor adjustable effect scene. */
-    bool needsMonitorEffectScene() const;
+    MonitorSceneType needsMonitorEffectScene() const;
     /** @brief Set keyframes for this param. */
     void setKeyframes(const QString &data, int maximum);
     /** @brief Update the in / out for the clip. */
@@ -107,7 +107,7 @@ private:
     EffectMetaInfo *m_metaInfo;
     QDomElement m_effect;
     QVBoxLayout *m_vbox;
-    bool m_needsMonitorEffectScene;
+    MonitorSceneType m_monitorEffectScene;
 
 signals:
     void parameterChanged(const QDomElement &, const QDomElement&, int);
@@ -116,7 +116,7 @@ signals:
     void disableCurrentFilter(bool);
     void checkMonitorPosition(int);
     void seekTimeline(int);
-    void showComments(bool);    
+    void showComments(bool);
     /** @brief Start an MLT filter job on this clip. 
      * @param filterParams a QMap containing filter name under the "filter" key, and all filter properties
      * @param consumerParams a QMap containing consumer name under the "consumer" key, and all consumer properties

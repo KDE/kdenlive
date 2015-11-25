@@ -124,13 +124,14 @@ private:
 class ChangeSpeedCommand : public QUndoCommand
 {
 public:
-    ChangeSpeedCommand(CustomTrackView *view, const ItemInfo &info, const ItemInfo &speedIndependantInfo, double new_speed, int old_strobe, int new_strobe, const QString &clipId, QUndoCommand * parent = 0);
+    ChangeSpeedCommand(CustomTrackView *view, const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double new_speed, int old_strobe, int new_strobe, const QString &clipId, QUndoCommand * parent = 0);
     void undo();
     void redo();
 private:
     CustomTrackView *m_view;
     ItemInfo m_clipInfo;
     ItemInfo m_speedIndependantInfo;
+    PlaylistState::ClipState m_state;
     QString m_clipId;
     double m_new_speed;
     int m_old_strobe;

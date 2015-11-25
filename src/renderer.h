@@ -240,7 +240,6 @@ class Render: public AbstractRender
     void mltMoveTrackEffect(int track, int oldPos, int newPos);
 
     QList <TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack);
-    void mltDeleteTrack(int ix);
 
     void mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track);
     Mlt::Producer *invalidProducer(const QString &id);
@@ -273,7 +272,7 @@ class Render: public AbstractRender
     /** @brief Fill a combobox with the found blackmagic devices */
     static bool getBlackMagicDeviceList(KComboBox *devicelist, bool force = false);
     static bool getBlackMagicOutputDeviceList(KComboBox *devicelist, bool force = false);
-    /** @brief Get current seek pos requested of SEEK_INACTIVE if we are not currently seeking */
+    /** @brief Get current seek pos requested or SEEK_INACTIVE if we are not currently seeking */
     int requestedSeekPosition;
     /** @brief Get current seek pos requested of current producer pos if not seeking */
     int getCurrentSeekPosition() const;
@@ -345,6 +344,8 @@ private:
     QList <requestClipInfo> m_requestList;
     /** @brief True if this monitor is active. */
     bool m_isActive;
+    /** @brief True if the consumer is currently refreshing itself. */
+    bool m_isRefreshing;
 
     void closeMlt();
     void mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest);

@@ -262,6 +262,13 @@ int Timeline::getTracks() {
         headerLayout->insertWidget(0, frame);
         Track *tk = new Track(i, m_trackActions, playlist, audio == 1 ? AudioTrack : VideoTrack, m_doc->fps());
         m_tracks.append(tk);
+        if (audio == 0) {
+            // Check if we have a composite transition for this track
+            QScopedPointer<Mlt::Transition> transition(transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", i, -1, true));
+            if (!transition) {
+                tk->trackHeader->disableComposite();
+            }
+        }
         if (playlist_name != QLatin1String("black_track")) {
             tk->trackHeader->setTrackHeight(height);
             int currentWidth = tk->trackHeader->minimumWidth();
@@ -323,7 +330,7 @@ void Timeline::getTransitions() {
         if (QString(prop.get("mlt_type")) != QLatin1String("transition"))
             break;
         //skip automatic mix
-        if (QString(prop.get("internal_added")) == QLatin1String("237")) {
+        if (prop.get_int("internal_added") == 237) {
             QString trans = prop.get("mlt_service");
             if (trans == QLatin1String("movit.overlay") || trans == QLatin1String("frei0r.cairoblend")) {
                 int ix = prop.get_int("b_track");
@@ -687,15 +694,17 @@ void Timeline::switchTrackVideo(int ix, bool hide)
 void Timeline::slotSwitchTrackComposite(int trackIndex, bool enable)
 {
     if (trackIndex < 0 || trackIndex > m_tracks.count()) return;
-
-    Mlt::Transition *transition = transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", trackIndex);
+    QScopedPointer<Mlt::Transition> transition(transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", trackIndex, -1, true));
     if (transition) {
         transition->set("disable", enable);
-        delete transition;
         m_doc->renderer()->doRefresh();
         m_doc->setModified();
         //TODO: create undo/redo command for this
-    } else qWarning() << "Composite transition not found";
+    } else {
+        Track* tk = track(trackIndex);
+        tk->trackHeader->setComposite(false);
+        qWarning() << "Composite transition not found";
+    }
 }
 
 void Timeline::refreshTractor()
@@ -854,8 +863,9 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist) {
         int in = clip->get_in();
         int out = clip->get_out();
         QString idString = clip->parent().get("id");
-        if (in >= out || m_invalidProducers.contains(idString)) {
-            m_documentErrors.append(i18n("Invalid clip removed from track %1 at %2\n", ix, position));
+        if (in > out || m_invalidProducers.contains(idString)) {
+            QString trackName = playlist.get("kdenlive:track_name");
+            m_documentErrors.append(i18n("Invalid clip removed from track %1 at %2\n", trackName.isEmpty() ? QString::number(ix) : trackName, position));
             playlist.remove(i);
             --i;
             continue;
@@ -863,11 +873,13 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist) {
         QString id = idString;
         double speed = 1.0;
         int strobe = 1;
+        bool hasSpeedEffect = false;
         if (idString.endsWith(QLatin1String("_video"))) {
             // Video only producer, store it in BinController
             m_doc->renderer()->loadExtraProducer(idString, new Mlt::Producer(clip->parent()));
         }
         if (idString.startsWith(QLatin1String("slowmotion"))) {
+	    hasSpeedEffect = true;
             QLocale locale;
             locale.setNumberOptions(QLocale::OmitGroupSeparator);
             id = idString.section(':', 1, 1);
@@ -900,7 +912,7 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist) {
         item->updateState(idString);
         m_scene->addItem(item);
         if (locked) item->setItemLocked(true);
-        if (speed != 1.0 || strobe > 1) {
+        if (hasSpeedEffect) {
             QDomElement speedeffect = MainWindow::videoEffects.getEffectByTag(QString(), QStringLiteral("speed")).cloneNode().toElement();
             EffectsList::setParameter(speedeffect, QStringLiteral("speed"), QString::number((int)(100 * speed + 0.5)));
             EffectsList::setParameter(speedeffect, QStringLiteral("strobe"), QString::number(strobe));
@@ -1373,17 +1385,24 @@ void Timeline::updateClipProperties(const QString &id, QMap <QString, QString> p
     }
 }
 
-int Timeline::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *originalProd)
+int Timeline::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *originalProd, bool removeEffect)
 {
     QLocale locale;
     QString url = QString::fromUtf8(originalProd->get("resource"));
     url.append('?' + locale.toString(speed));
     if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
-    Mlt::Producer *prod = m_doc->renderer()->getSlowmotionProducer(url);
+    Mlt::Producer *prod;
+    if (removeEffect) {
+        // We want to remove framebuffer producer, so pass original
+        prod = originalProd;
+    } else {
+        // Pass slowmotion producer
+        prod = m_doc->renderer()->getSlowmotionProducer(url);
+    }
     Mlt::Properties passProperties;
     Mlt::Properties original(originalProd->get_properties());
     passProperties.pass_list(original, ClipController::getPassPropertiesList());
-    return track(info.track)->changeClipSpeed(info, speedIndependantInfo, speed, strobe, prod, passProperties);
+    return track(info.track)->changeClipSpeed(info, speedIndependantInfo, state, speed, strobe, prod, passProperties);
 }
 
 void Timeline::duplicateClipOnPlaylist(int tk, qreal startPos, int offset, Mlt::Producer *prod)
@@ -1422,11 +1441,6 @@ int Timeline::getSpaceLength(const GenTime &pos, int tk, bool fromBlankStart)
     return sourceTrack->spaceLength(insertPos, fromBlankStart);
 }
 
-void Timeline::importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QDomDocument doc, QUndoCommand *command)
-{
-    projectView()->importPlaylist(info, processedUrl, doc, command);
-}
-
 void Timeline::disableTimelineEffects(bool disable)
 {
     for (int i = 0; i< m_tracks.count(); i++) {
@@ -1434,3 +1448,7 @@ void Timeline::disableTimelineEffects(bool disable)
     }
 }
 
+void Timeline::importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QMap <QString, QString> idMaps, QDomDocument doc, QUndoCommand *command)
+{
+    projectView()->importPlaylist(info, processedUrl, idMaps, doc, command);
+}

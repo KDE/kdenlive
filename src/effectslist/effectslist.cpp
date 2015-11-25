@@ -69,6 +69,7 @@ void EffectsList::initEffect(const QDomElement &effect) const
 QDomElement EffectsList::getEffectByTag(const QString & tag, const QString & id) const
 {
     QDomNodeList effects = m_baseElement.childNodes();
+    if (effects.isEmpty()) return QDomElement();
     for (int i = 0; i < effects.count(); ++i) {
         QDomElement effect =  effects.at(i).toElement();
         if (!id.isEmpty()) {
@@ -89,6 +90,18 @@ QDomElement EffectsList::getEffectByTag(const QString & tag, const QString & id)
                 initEffect(effect);
                 return effect;
             }
+        }
+    }
+    return QDomElement();
+}
+
+QDomElement EffectsList::effectById(const QString & id) const
+{
+    QDomNodeList effects = m_baseElement.childNodes();
+    for (int i = 0; i < effects.count(); ++i) {
+        QDomElement effect =  effects.at(i).toElement();
+        if (!id.isEmpty() && effect.attribute("id") == id) {
+            return effect;
         }
     }
     return QDomElement();

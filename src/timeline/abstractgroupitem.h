@@ -68,6 +68,8 @@ protected:
     virtual void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
     virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
+    int trackForPos(int position);
+    int posForTrack(int track);
 
 private:
     QPainterPath groupShape(GraphicsRectItem type, const QPointF &offset) const;

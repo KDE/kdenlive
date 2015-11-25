@@ -21,6 +21,7 @@ install(FILES
   kdenlivetranscodingrc
   kdenlivemonitor.qml
   kdenlivemonitoreffectscene.qml
+  kdenlivemonitorcornerscene.qml
   kdenlivemonitorsplit.qml
   DESTINATION ${DATA_INSTALL_DIR}/kdenlive)
 install(FILES  kdenlive.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})

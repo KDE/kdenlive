@@ -69,7 +69,8 @@ enum OperationType {
     Spacer,
     RubberSelection,
     ScrollTimeline,
-    ZoomTimeline
+    ZoomTimeline,
+    ContextMenu
 };
 
 namespace PlaylistState {
@@ -114,6 +115,13 @@ enum ProjectTool {
     SelectTool = 0,
     RazorTool = 1,
     SpacerTool = 2
+};
+
+enum MonitorSceneType {
+    MonitorSceneNone = 0,
+    MonitorSceneGeometry,
+    MonitorSceneCorners,
+    MonitorSceneRoto
 };
 
 enum TransitionType {

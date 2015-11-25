@@ -125,7 +125,7 @@ public:
      *  Returns -1 if track is shorter, 0 if not blank and > 0 for blank length */
     int getTrackSpaceLength(int trackIndex, int pos, bool fromBlankStart);
     void updateClipProperties(const QString &id, QMap <QString, QString> properties);
-    int changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, int strobe, Mlt::Producer *originalProd);
+    int changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *originalProd, bool removeEffect = false);
     /** @brief Set an effect's XML accordingly to MLT::filter values. */
     static void setParam(ProfileInfo info, QDomElement param, QString value);
     int getTracks();
@@ -137,13 +137,13 @@ public:
     void blockTrackSignals(bool block);
     /** @brief Load document */
     void loadTimeline();
-    static bool isSlide(QString geometry);
-    /** @brief Import amultitrack MLT playlist in timeline */
-    void importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QDomDocument doc, QUndoCommand *command);
     /** @brief Dis/enable all effects in timeline*/
     void disableTimelineEffects(bool disable);
     QString getKeyframes(Mlt::Service service, int &ix, QDomElement e);
     void getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect);
+    static bool isSlide(QString geometry);
+    /** @brief Import amultitrack MLT playlist in timeline */
+    void importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QMap <QString, QString> idMaps, QDomDocument doc, QUndoCommand *command);
 
 protected:
     void keyPressEvent(QKeyEvent * event);

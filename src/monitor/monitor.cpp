@@ -111,6 +111,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_editMarker(NULL)
     , m_forceSizeFactor(0)
     , m_rootItem(NULL)
+    , m_lastMonitorSceneType(MonitorSceneNone)
 {
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -145,6 +146,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor, SIGNAL(switchFullScreen(bool)), this, SLOT(slotSwitchFullScreen(bool)));
     connect(m_glMonitor, SIGNAL(zoomChanged()), this, SLOT(setZoom()));
     connect(m_glMonitor, SIGNAL(effectChanged(QRect)), this, SIGNAL(effectChanged(QRect)));
+    connect(m_glMonitor, SIGNAL(effectChanged(QVariantList)), this, SIGNAL(effectChanged(QVariantList)));
     connect(m_glMonitor, SIGNAL(lockMonitor(bool)), this, SLOT(slotLockMonitor(bool)), Qt::DirectConnection);
 
     if (KdenliveSettings::displayMonitorInfo()) {
@@ -324,7 +326,7 @@ void Monitor::slotGetCurrentImage()
 void Monitor::slotAddEffect(QDomElement effect)
 {
     if (m_id == Kdenlive::ClipMonitor) {
-        if (m_controller) emit addEffect(effect);
+        if (m_controller) emit addMasterEffect(m_controller->clipId(), effect);
     }
     else emit addEffect(effect);
 }
@@ -1310,25 +1312,50 @@ void Monitor::slotSetSelectedClip(Transition* item)
 void Monitor::slotEnableEffectScene(bool enable)
 {
     KdenliveSettings::setShowOnMonitorScene(enable);
-    bool isDisplayed = m_rootItem && m_rootItem->objectName() == QLatin1String("rooteffectscene");
-    if (enable == isDisplayed) return;
-    slotShowEffectScene(enable);
+    MonitorSceneType sceneType = enable ? m_lastMonitorSceneType : MonitorSceneNone;
+    slotShowEffectScene(sceneType, true);
+    if (enable) {
+        emit renderPosition(render->seekFramePosition());
+    }
 }
 
-void Monitor::slotShowEffectScene(bool show)
+void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary)
 {
-    if (show && (!m_rootItem || m_rootItem->objectName() != QLatin1String("rooteffectscene"))) {
-        m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitoreffectscene.qml"))));
-        m_rootItem = m_glMonitor->rootObject();
-        QObject::connect(m_rootItem, SIGNAL(addKeyframe()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
-        QObject::connect(m_rootItem, SIGNAL(seekToKeyframe()), this, SLOT(slotSeekToKeyFrame()), Qt::UniqueConnection);
-        m_glMonitor->slotShowEffectScene();
+    if (!temporary) m_lastMonitorSceneType = sceneType;
+    if (sceneType == MonitorSceneGeometry) {
+        if (!m_rootItem || m_rootItem->objectName() != "rooteffectscene") {
+            m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitoreffectscene.qml"))));
+            m_rootItem = m_glMonitor->rootObject();
+            QObject::connect(m_rootItem, SIGNAL(addKeyframe()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
+            QObject::connect(m_rootItem, SIGNAL(seekToKeyframe()), this, SLOT(slotSeekToKeyFrame()), Qt::UniqueConnection);
+            m_glMonitor->slotShowEffectScene(sceneType);
+        }
     }
-    else if (m_rootItem && m_rootItem->objectName() == QLatin1String("rooteffectscene"))  {
+    else if (sceneType == MonitorSceneCorners) {
+        if (!m_rootItem || m_rootItem->objectName() != "rootcornerscene") {
+            m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitorcornerscene.qml"))));
+            m_rootItem = m_glMonitor->rootObject();
+            QObject::connect(m_rootItem, SIGNAL(addKeyframe()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
+            QObject::connect(m_rootItem, SIGNAL(seekToKeyframe()), this, SLOT(slotSeekToKeyFrame()), Qt::UniqueConnection);
+            m_glMonitor->slotShowEffectScene(sceneType);
+        }
+    }
+    else if (sceneType == MonitorSceneRoto) {
+        // TODO
+        if (!m_rootItem || m_rootItem->objectName() != "rootcornerscene") {
+            m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitorcornerscene.qml"))));
+            m_rootItem = m_glMonitor->rootObject();
+            QObject::connect(m_rootItem, SIGNAL(addKeyframe()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
+            QObject::connect(m_rootItem, SIGNAL(seekToKeyframe()), this, SLOT(slotSeekToKeyFrame()), Qt::UniqueConnection);
+            m_glMonitor->slotShowEffectScene(sceneType);
+        }
+    }
+    else if (m_rootItem && m_rootItem->objectName() != "root")  {
         loadMasterQml();
     }
-    if (m_sceneVisibilityAction) m_sceneVisibilityAction->setChecked(show);
+    if (m_sceneVisibilityAction) m_sceneVisibilityAction->setChecked(sceneType != MonitorSceneNone);
 }
+
 
 void Monitor::slotSeekToKeyFrame()
 {
@@ -1352,14 +1379,32 @@ QRect Monitor::effectRect() const
     return m_rootItem->property("framesize").toRect();
 }
 
+QVariantList Monitor::effectPolygon() const
+{
+    return m_rootItem->property("centerPoints").toList();
+}
+
 void Monitor::setEffectKeyframe(bool enable)
 {
     m_rootItem->setProperty("iskeyframe", enable);
 }
 
-bool Monitor::effectSceneDisplayed()
+bool Monitor::effectSceneDisplayed(MonitorSceneType effectType)
 {
-    return m_rootItem->objectName() == QLatin1String("rooteffectscene");
+    switch (effectType) {
+      case MonitorSceneGeometry:
+          return m_rootItem->objectName() == "rooteffectscene";
+          break;
+      case MonitorSceneCorners:
+          return m_rootItem->objectName() == "rootcornerscene";
+          break;
+      case MonitorSceneRoto:
+          return m_rootItem->objectName() == "rootrotoscene";
+          break;
+      default:
+          return m_rootItem->objectName() == "root";
+          break;
+    }
 }
 
 void Monitor::slotSetVolume(int volume)
@@ -1514,7 +1559,7 @@ void Monitor::loadMasterQml()
         return;
     }
     m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitor.qml"))));
-    m_glMonitor->slotShowRootScene();
+    m_glMonitor->slotShowEffectScene(MonitorSceneNone);
     m_rootItem = m_glMonitor->rootObject();
 }
 

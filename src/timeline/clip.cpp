@@ -55,15 +55,16 @@ void Clip::setProducer(Mlt::Producer& producer)
     m_producer = producer;
 }
 
-void Clip::addEffects(Mlt::Service& service)
+void Clip::addEffects(Mlt::Service& service, bool skipFades)
 {
     for (int ix = 0; ix < service.filter_count(); ++ix) {
         Mlt::Filter *effect = service.filter(ix);
         // Only duplicate Kdenlive filters, and skip the fade in effects
-        if (effect->is_valid()
-                && effect->get("kdenlive_id")
-                && strcmp(effect->get("kdenlive_id"), "fadein")
-                && strcmp(effect->get("kdenlive_id"), "fade_from_black")) {
+        if (effect->is_valid()) {
+	    QString effectId = effect->get("kdenlive_id");
+	    if (effectId.isEmpty() || (skipFades && (effectId == "fadein" || effectId == "fade_from_black"))) {
+		continue;
+	    }
             // no easy filter copy: do it by hand!
             Mlt::Filter *copy = new Mlt::Filter(*effect->profile(), effect->get("mlt_service"));
             if (copy && copy->is_valid()) {

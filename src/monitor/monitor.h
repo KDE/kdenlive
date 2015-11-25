@@ -107,6 +107,7 @@ public:
     int getZoneEnd();
     void setUpEffectGeometry(QRect r, QVariantList list = QVariantList());
     QRect effectRect() const;
+    QVariantList effectPolygon() const;
     void setEffectKeyframe(bool enable);
     void sendFrameForAnalysis(bool analyse);
     void updateAudioForAnalysis();
@@ -184,6 +185,7 @@ private:
     int m_forceSizeFactor;
     /** @brief The base item of the qml view in monitor, used to set properties on the view that affect display **/
     QQuickItem *m_rootItem;
+    MonitorSceneType m_lastMonitorSceneType;
     void adjustScrollBars(float horizontal, float vertical);
     void loadMasterQml();
 
@@ -249,8 +251,8 @@ public slots:
     void setTimePos(const QString &pos);
     QStringList getZoneInfo() const;
     /** @brief Display the on monitor effect scene (to adjust geometry over monitor). */
-    void slotShowEffectScene(bool show = true);
-    bool effectSceneDisplayed();
+    void slotShowEffectScene(MonitorSceneType sceneType, bool temporary = false);
+    bool effectSceneDisplayed(MonitorSceneType effectType);
 
     /** @brief Sets m_selectedClip to @param item. Used for looping it. */
     void slotSetSelectedClip(AbstractClipItem *item);
@@ -274,6 +276,7 @@ signals:
     /** @brief Request a zone extraction (ffmpeg transcoding). */
     void extractZone(const QString &id);
     void effectChanged(const QRect);
+    void effectChanged(QVariantList);
     void addKeyframe();
     void seekToKeyframe(int);
     void addClipToProject(QUrl);
@@ -281,6 +284,7 @@ signals:
     /** @brief Request display of current bin clip. */
     void refreshCurrentClip();
     void addEffect(QDomElement);
+    void addMasterEffect(QString,QDomElement);
 };
 
 #endif

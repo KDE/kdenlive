@@ -47,12 +47,15 @@ public:
     QString name() const;
     /** @brief Update status of mute/blind/lock/composite buttons.*/
     void updateStatus(TrackInfo info);
+    /** @brief Track has no composite transition, disable switch button.*/
+    void disableComposite();
 
 protected:
     void mousePressEvent(QMouseEvent * event);
     void mouseDoubleClickEvent(QMouseEvent * event);
     void dropEvent(QDropEvent * event);
     void dragEnterEvent(QDragEnterEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event);
 
 private:
     int m_index;

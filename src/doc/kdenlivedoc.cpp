@@ -498,8 +498,8 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
 
         tractor.appendChild(transition);
 
-        if (tracks.at(i-1).type == VideoTrack) {
-
+        if (tracks.at(i-1).type == VideoTrack && tracks.at(i-2).type == VideoTrack) {
+            // Only add composite transition if both tracks are video
             transition = doc.createElement(QStringLiteral("transition"));
             property = doc.createElement(QStringLiteral("property"));
             property.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_service"));

@@ -342,7 +342,7 @@ bool TransitionHandler::moveTransition(QString type, int startTrack, int newTrac
     return found;
 }
 
-Mlt::Transition *TransitionHandler::getTransition(const QString &name, int b_track, int a_track) const
+Mlt::Transition *TransitionHandler::getTransition(const QString &name, int b_track, int a_track, bool internalTransition) const
 {
     QScopedPointer<Mlt::Service> service(m_tractor->field());
     while (service && service->is_valid()) {
@@ -350,7 +350,15 @@ Mlt::Transition *TransitionHandler::getTransition(const QString &name, int b_tra
             Mlt::Transition t((mlt_transition) service->get_service());
             if (name == t.get("mlt_service") && t.get_b_track() == b_track) {
                 if (a_track == -1 || t.get_a_track() == a_track) {
-                    return new Mlt::Transition(t);
+                    int internal = t.get_int("internal_added");
+                    if (internal == 0) {
+                      if (!internalTransition) {
+                          return new Mlt::Transition(t);
+                      }
+                    }
+                    else if (internalTransition) {
+                        return new Mlt::Transition(t);
+                    }
                 }
             }
         }

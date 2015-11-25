@@ -102,7 +102,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         m_geometryWidget(NULL),
         m_metaInfo(metaInfo),
         m_effect(effect),
-        m_needsMonitorEffectScene(false)
+        m_monitorEffectScene(MonitorSceneNone)
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
@@ -230,20 +230,20 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
         } else if (type == QLatin1String("geometry")) {
             if (true /*KdenliveSettings::on_monitor_effects()*/) {
-		m_needsMonitorEffectScene = true;
+                m_monitorEffectScene = MonitorSceneGeometry;
                 m_geometryWidget = new GeometryWidget(m_metaInfo->monitor, m_metaInfo->timecode, info.startPos.frames(KdenliveSettings::project_fps()), effect.hasAttribute(QStringLiteral("showrotation")), parent);
                 m_geometryWidget->setFrameSize(m_metaInfo->frameSize);
                 connect(m_geometryWidget, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
                 if (minFrame == maxFrame) {
                     m_geometryWidget->setupParam(pa, m_in, m_out);
-		    connect(this, SIGNAL(updateRange(int,int)), m_geometryWidget, SLOT(slotUpdateRange(int,int)));
-		}
+                    connect(this, SIGNAL(updateRange(int,int)), m_geometryWidget, SLOT(slotUpdateRange(int,int)));
+                }
                 else
                     m_geometryWidget->setupParam(pa, minFrame, maxFrame);
                 m_vbox->addWidget(m_geometryWidget);
                 m_valueItems[paramName+"geometry"] = m_geometryWidget;
                 connect(m_geometryWidget, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
-		connect(m_geometryWidget, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
+                connect(m_geometryWidget, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
                 connect(this, SIGNAL(syncEffectsPos(int)), m_geometryWidget, SLOT(slotSyncPosition(int)));
                 connect(this, SIGNAL(initScene(int)), m_geometryWidget, SLOT(slotInitScene(int)));
             } else {
@@ -271,7 +271,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                     // we want a corners-keyframe-widget
                     CornersWidget *corners = new CornersWidget(m_metaInfo->monitor, pa, m_in, m_out, m_metaInfo->timecode, e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt(), parent);
 		    connect(this, SIGNAL(updateRange(int,int)), corners, SLOT(slotUpdateRange(int,int)));
-		    m_needsMonitorEffectScene = true;
+		    m_monitorEffectScene = MonitorSceneCorners;
                     connect(this, SIGNAL(syncEffectsPos(int)), corners, SLOT(slotSyncPosition(int)));
                     geo = static_cast<KeyframeEdit *>(corners);
                 } else {
@@ -367,7 +367,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             if (!depends.isEmpty())
                 meetDependency(paramName, type, EffectsList::parameter(e, depends));
         } else if (type == QLatin1String("roto-spline")) {
-	    m_needsMonitorEffectScene = true;
+            m_monitorEffectScene = MonitorSceneRoto;
             RotoWidget *roto = new RotoWidget(value.toLatin1(), m_metaInfo->monitor, info, m_metaInfo->timecode, parent);
             connect(roto, SIGNAL(valueChanged()), this, SLOT(slotCollectAllParameters()));
             connect(roto, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
@@ -933,9 +933,9 @@ void ParameterContainer::clearLayout(QLayout *layout)
     }
 }
 
-bool ParameterContainer::needsMonitorEffectScene() const
+MonitorSceneType ParameterContainer::needsMonitorEffectScene() const
 {
-    return m_needsMonitorEffectScene;
+    return m_monitorEffectScene;
 }
 
 void ParameterContainer::setKeyframes(const QString &data, int maximum)

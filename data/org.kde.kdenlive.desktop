@@ -140,4 +140,5 @@ Keywords[sk]=editovanie;video;audio;mlt;kde;
 Keywords[sv]=redigering;video;ljud;mlt;kde;
 Keywords[uk]=editing;video;audio;mlt;kde;редагування;відео;звук;аудіо;млт;кдє;
 Keywords[x-test]=xxeditingxx;xxvideoxx;xxaudioxx;xxmltxx;xxkdexx;
+Keywords[zh_TW]=editing;video;audio;mlt;kde;
 X-DBUS-ServiceName=org.kde.kdenlive

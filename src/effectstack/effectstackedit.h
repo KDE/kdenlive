@@ -51,8 +51,8 @@ public:
     Monitor *monitor();
     /** @brief Install event filter so that scrolling with mouse wheel does not change parameter value. */
     virtual bool eventFilter( QObject * o, QEvent * e );
-    /** @brief Returns true if this transition requires an on monitor scene. */
-    bool needsMonitorEffectScene() const;
+    /** @brief Returns type of monitor scene requested by this transition. */
+    MonitorSceneType needsMonitorEffectScene() const;
     /** @brief Set keyframes for this transition. */
     void setKeyframes(const QString &data, int maximum);
     void updatePalette();

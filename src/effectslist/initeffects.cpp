@@ -602,7 +602,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
     QStringList imagefiles;
     QStringList filters;
     filters << QStringLiteral("*.png") << QStringLiteral("*.pgm");
-    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("lumas"));
+    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
     foreach(QString folder, customLumas) {
         if (!folder.endsWith('/'))
             folder.append('/');

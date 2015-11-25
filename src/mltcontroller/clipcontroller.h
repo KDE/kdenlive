@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QString>
 #include <QObject>
 #include <QUrl>
+#include <QMutex>
 #include <QDateTime>
 
 class QPixmap;
@@ -196,6 +197,7 @@ private:
     BinController *m_binController;
     /** @brief A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
     QList < CommentedTime > m_snapMarkers;
+    QMutex m_effectMutex;
     void getInfoForProducer();
     //void rebuildEffectList(ProfileInfo info);
     EffectsList xmlEffectList();

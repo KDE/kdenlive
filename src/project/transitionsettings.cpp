@@ -266,7 +266,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack
         m_usedTransition = NULL;
         ItemInfo info;
         m_effectEdit->transferParamDesc(QDomElement(), info, false);
-        m_effectEdit->monitor()->slotShowEffectScene(false);
+        m_effectEdit->monitor()->slotShowEffectScene(MonitorSceneNone);
     }
 }
 
@@ -304,18 +304,19 @@ void TransitionSettings::slotSeekTimeline(int pos)
 void TransitionSettings::slotCheckMonitorPosition(int renderPos)
 {
     if (!isEnabled()) return;
-    if (m_effectEdit->needsMonitorEffectScene()) {
+    MonitorSceneType sceneType = m_effectEdit->needsMonitorEffectScene();
+    if (sceneType != MonitorSceneNone) {
         if (renderPos >= m_usedTransition->startPos().frames(KdenliveSettings::project_fps()) && renderPos < m_usedTransition->endPos().frames(KdenliveSettings::project_fps())) {
-            if (!m_effectEdit->monitor()->effectSceneDisplayed()) {
-                m_effectEdit->monitor()->slotShowEffectScene(true);
+            if (!m_effectEdit->monitor()->effectSceneDisplayed(sceneType)) {
+                m_effectEdit->monitor()->slotShowEffectScene(sceneType);
                 m_effectEdit->initEffectScene(renderPos - m_usedTransition->startPos().frames(KdenliveSettings::project_fps()));
             }
         } else {
-            m_effectEdit->monitor()->slotShowEffectScene(false);
+            m_effectEdit->monitor()->slotShowEffectScene(MonitorSceneNone);
         }
     }
     else {
-        m_effectEdit->monitor()->slotShowEffectScene(false);
+        m_effectEdit->monitor()->slotShowEffectScene(MonitorSceneNone);
     }
 }
 

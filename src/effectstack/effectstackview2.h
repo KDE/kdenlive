@@ -125,7 +125,7 @@ private:
     int m_groupIndex;
 
     /** @brief The current effect may require an on monitor scene. */
-    bool m_monitorSceneWanted;
+    MonitorSceneType m_monitorSceneWanted;
 
     /** If in track mode: Info of the edited track to be able to access its duration. */
     TrackInfo m_trackInfo;
@@ -160,7 +160,11 @@ public slots:
     /** @brief Sets the clip whose effect list should be managed.
     * @param c Clip whose effect list should be managed */
     void slotClipItemSelected(ClipItem* c, Monitor *m = NULL);
-    
+    /** @brief An effect parameter was changed, refresh effect stack if it was displaying it.
+    * @param c Clip controller whose effect list should be managed */
+    void slotRefreshMasterClipEffects(ClipController* c, Monitor *m);
+    /** @brief Display effects for the selected Bin clip.
+    * @param c Clip controller whose effect list should be managed */
     void slotMasterClipItemSelected(ClipController* c, Monitor *m = NULL);
 
     /** @brief Update the clip range (in-out points)
@@ -203,7 +207,7 @@ private slots:
     void slotRenderPos(int pos);
 
     /** @brief Called whenever an effect is enabled / disabled by user. */
-    void slotUpdateEffectState(bool disable, int index, bool needsMonitorEffectScene);
+    void slotUpdateEffectState(bool disable, int index, MonitorSceneType needsMonitorEffectScene);
 
     void slotSetCurrentEffect(int ix);
     
@@ -248,6 +252,7 @@ private slots:
 signals:
     void removeEffect(ClipItem*, int, const QDomElement&);
     void removeMasterEffect(const QString &id, const QDomElement&);
+    void addMasterEffect(const QString &id, const QDomElement&);
     /**  Parameters for an effect changed, update the filter in timeline */
     void updateEffect(ClipItem*, int, const QDomElement&, const QDomElement &, int,bool);
     /** An effect in stack was moved, we need to regenerate

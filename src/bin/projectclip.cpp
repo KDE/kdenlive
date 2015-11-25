@@ -700,14 +700,14 @@ void ProjectClip::addMarkers(QList <CommentedTime> &markers)
 void ProjectClip::addEffect(const ProfileInfo &pInfo, QDomElement &effect)
 {
     m_controller->addEffect(pInfo, effect);
-    bin()->editMasterEffect(m_controller);
+    bin()->updateMasterEffect(m_controller);
     bin()->emitItemUpdated(this);
 }
 
 void ProjectClip::removeEffect(int ix)
 {
     m_controller->removeEffect(ix);
-    bin()->editMasterEffect(m_controller);
+    bin()->updateMasterEffect(m_controller);
     bin()->emitItemUpdated(this);
 }
 

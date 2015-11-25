@@ -72,7 +72,8 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
     m_isLoopMode(false),
     m_isSplitView(false),
     m_blackClip(NULL),
-    m_isActive(false)
+    m_isActive(false),
+    m_isRefreshing(false)
 {
     qRegisterMetaType<stringMap> ("stringMap");
     analyseAudio = KdenliveSettings::monitor_audio();
@@ -168,6 +169,7 @@ void Render::seek(int time)
         m_mltConsumer->purge();
         m_mltProducer->seek(time);
         if (!externalConsumer) {
+            m_isRefreshing = true;
             m_mltConsumer->set("refresh", 1);
         }
     }
@@ -306,6 +308,7 @@ void Render::slotSplitView(bool doit)
                 screen++;
             }
         }
+        m_isRefreshing = true;
         m_mltConsumer->set("refresh", 1);
     } else {
         mlt_service serv = m_mltProducer->parent().get_service();
@@ -327,6 +330,7 @@ void Render::slotSplitView(bool doit)
             properties = MLT_SERVICE_PROPERTIES(nextservice);
             mlt_type = mlt_properties_get(properties, "mlt_type");
             resource = mlt_properties_get(properties, "mlt_service");
+            m_isRefreshing = true;
             m_mltConsumer->set("refresh", 1);
         }
     }
@@ -1133,8 +1137,7 @@ bool Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
     }
     blockSignals(true);
     if (!producer || !producer->is_valid()) {
-        qWarning() << "Invalid playlist";
-        return false;
+        producer = m_blackClip->cut(0,1);
     }
 
     emit stopped();
@@ -1172,6 +1175,7 @@ void Render::startConsumer() {
         m_mltConsumer = NULL;
         return;
     }
+    m_isRefreshing = true;
     m_mltConsumer->set("refresh", 1);
     m_isActive = true;
 }
@@ -1454,6 +1458,7 @@ void Render::start()
             qWarning() << "/ / / / CANNOT START MONITOR";
         } else {
             m_mltConsumer->purge();
+            m_isRefreshing = true;
             m_mltConsumer->set("refresh", 1);
         }
     }
@@ -1473,6 +1478,7 @@ void Render::stop()
         m_mltConsumer->purge();
         if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     }
+    m_isRefreshing = false;
 }
 
 void Render::stop(const GenTime & startTime)
@@ -1489,6 +1495,7 @@ void Render::stop(const GenTime & startTime)
     if (m_mltConsumer) {
         m_mltConsumer->purge();
     }
+    m_isRefreshing = false;
 }
 
 void Render::pause()
@@ -1525,6 +1532,7 @@ void Render::switchPlay(bool play)
                 m_mltConsumer->stop();
         }
         m_mltConsumer->start();
+        m_isRefreshing = true;
         m_mltConsumer->set("refresh", 1);
     } else {
         m_mltConsumer->set("buffer", 0);
@@ -1548,7 +1556,10 @@ void Render::play(double speed)
     if (m_mltConsumer->is_stopped() && speed != 0) {
         m_mltConsumer->start();
     }
-    if (current_speed == 0 && speed != 0) m_mltConsumer->set("refresh", 1);
+    if (current_speed == 0 && speed != 0) {
+        m_isRefreshing = true;
+        m_mltConsumer->set("refresh", 1);
+    }
 }
 
 void Render::play(const GenTime & startTime)
@@ -1558,6 +1569,7 @@ void Render::play(const GenTime & startTime)
         return;
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
     m_mltProducer->set_speed(1.0);
+    m_isRefreshing = true;
     m_mltConsumer->set("refresh", 1);
 }
 
@@ -1581,6 +1593,7 @@ bool Render::playZone(const GenTime & startTime, const GenTime & stopTime)
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
     m_mltProducer->set_speed(1.0);
     if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
+    m_isRefreshing = true;
     m_mltConsumer->set("refresh", 1);
     m_isZoneMode = true;
     return true;
@@ -1624,7 +1637,8 @@ void Render::refreshIfActive()
 void Render::doRefresh()
 {
     if (m_mltProducer && (playSpeed() == 0) && m_isActive) {
-        refresh(); //m_refreshTimer.start();
+        if (m_isRefreshing) m_refreshTimer.start();
+        else refresh();
     }
 }
 
@@ -1635,8 +1649,10 @@ void Render::refresh()
     if (!m_mltProducer || !m_isActive)
         return;
     if (m_mltConsumer) {
+        m_isRefreshing = true;
         if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
         m_mltConsumer->purge();
+        m_isRefreshing = true;
         m_mltConsumer->set("refresh", 1);
         //m_mltConsumer->purge();
     }
@@ -1733,6 +1749,8 @@ void Render::checkFrameNumber(int pos)
             m_mltConsumer->set("refresh", 1);
         }
         else m_mltProducer->set_speed(speed);
+    } else {
+        m_isRefreshing = false;
     }
 }
 
@@ -2053,6 +2071,7 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
     }
     service.unlock();
     mltCheckLength(&tractor);
+    m_isRefreshing = true;
     m_mltConsumer->set("refresh", 1);
 }
 
@@ -2807,6 +2826,7 @@ bool Render::mltResizeClipCrop(ItemInfo info, GenTime newCropStart)
     int frameOffset = newCropFrame - previousStart;
     trackPlaylist.resize_clip(clipIndex, newCropFrame, previousOut + frameOffset);
     service.unlock();
+    m_isRefreshing = true;
     m_mltConsumer->set("refresh", 1);
     return true;
 }
@@ -3130,73 +3150,6 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
     service.unlock();
     blockSignals(false);
     return transitionInfos;
-#endif
-}
-
-
-void Render::mltDeleteTrack(int ix)
-{
-    // Track add / delete was only added recently in MLT (pre 0.9.8 release).
-#if (LIBMLT_VERSION_INT < 0x0908)
-    Q_UNUSED(ix)
-    qDebug()<<"Track insertion requires a more recent MLT version";
-    return;
-#else
-    Mlt::Service service(m_mltProducer->parent().get_service());
-    if (service.type() != tractor_type) {
-        qWarning() << "// TRACTOR PROBLEM";
-        return;
-    }
-    blockSignals(true);
-    service.lock();
-    Mlt::Tractor trac(service);
-    trac.remove_track(ix);
-    service.unlock();
-    blockSignals(false);
-    return;
-    //TODO: adjust transitions tracks?
-    /*
-    QDomDocument doc;
-    doc.setContent(sceneList(), false);
-    int tracksCount = doc.elementsByTagName("track").count() - 1;
-    QDomNode track = doc.elementsByTagName("track").at(ix);
-    QDomNode tractor = doc.elementsByTagName("tractor").at(0);
-    QDomNodeList transitions = doc.elementsByTagName("transition");
-    for (int i = 0; i < transitions.count(); ++i) {
-        QDomElement e = transitions.at(i).toElement();
-        QDomNodeList props = e.elementsByTagName("property");
-        QMap <QString, QString> mappedProps;
-        for (int j = 0; j < props.count(); ++j) {
-            QDomElement f = props.at(j).toElement();
-            mappedProps.insert(f.attribute("name"), f.firstChild().nodeValue());
-        }
-        if (mappedProps.value("mlt_service") == "mix" && mappedProps.value("b_track").toInt() == tracksCount) {
-            tractor.removeChild(transitions.at(i));
-            --i;
-        } else if (mappedProps.value("mlt_service") != "mix" && (mappedProps.value("b_track").toInt() >= ix || mappedProps.value("a_track").toInt() >= ix)) {
-            // Transition needs to be moved
-            int a_track = mappedProps.value("a_track").toInt();
-            int b_track = mappedProps.value("b_track").toInt();
-            if (a_track > 0 && a_track >= ix) a_track --;
-            if (b_track == ix) {
-                // transition was on the deleted track, so remove it
-                tractor.removeChild(transitions.at(i));
-                --i;
-                continue;
-            }
-            if (b_track > 0 && b_track > ix) b_track --;
-            for (int j = 0; j < props.count(); ++j) {
-                QDomElement f = props.at(j).toElement();
-                if (f.attribute("name") == "a_track") f.firstChild().setNodeValue(QString::number(a_track));
-                else if (f.attribute("name") == "b_track") f.firstChild().setNodeValue(QString::number(b_track));
-            }
-
-        }
-    }
-    tractor.removeChild(track);
-    ////qDebug() << "/////////// RESULT SCENE: \n" << doc.toString();
-    reloadSceneList(doc.toString(), m_mltConsumer->position());
-    */
 #endif
 }
 

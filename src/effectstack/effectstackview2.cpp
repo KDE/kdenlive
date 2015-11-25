@@ -28,8 +28,6 @@
 #include "effectslist/effectslist.h"
 #include "timeline/clipitem.h"
 #include "project/transitionsettings.h"
-#include "monitor/monitoreditwidget.h"
-#include "monitor/monitorscene.h"
 #include "utils/KoIconUtils.h"
 #include "mltcontroller/clipcontroller.h"
 #include "timeline/transition.h"
@@ -54,11 +52,11 @@ EffectStackView2::EffectStackView2(Monitor *projectMonitor, QWidget *parent) :
         m_draggedEffect(NULL),
         m_draggedGroup(NULL),
         m_groupIndex(0),
-        m_monitorSceneWanted(false),
+        m_monitorSceneWanted(MonitorSceneNone),
         m_trackInfo(),
         m_transition(NULL)
 {
-    m_effectMetaInfo.monitor = NULL;
+    m_effectMetaInfo.monitor = projectMonitor;
     m_effects = QList <CollapsibleEffect*>();
     setAcceptDrops(true);
     setLayout(&m_layout);
@@ -134,7 +132,7 @@ void EffectStackView2::slotTransitionItemSelected(Transition* t, int nextTrack, 
 void EffectStackView2::slotRenderPos(int pos)
 {
     if (m_effects.isEmpty()) return;
-    if (m_monitorSceneWanted) slotCheckMonitorPosition(pos);
+    if (m_monitorSceneWanted != MonitorSceneNone) slotCheckMonitorPosition(pos);
     if (m_status == TIMELINE_CLIP && m_clipref) pos = pos - m_clipref->startPos().frames(KdenliveSettings::project_fps());
 
     for (int i = 0; i< m_effects.count(); ++i)
@@ -191,9 +189,9 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c, Monitor *m)
     if (m_clipref == NULL) {
         //TODO: clear list, reset paramdesc and info
         // If monitor scene is displayed, hide it
-        if (m_monitorSceneWanted) {
-            m_effectMetaInfo.monitor->slotShowEffectScene(false);
-            m_monitorSceneWanted = false;
+        if (m_monitorSceneWanted != MonitorSceneNone) {
+            m_monitorSceneWanted = MonitorSceneNone;
+            m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
         }
         m_status = EMPTY;
         clear();
@@ -203,6 +201,13 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c, Monitor *m)
     m_status = TIMELINE_CLIP;
     m_currentEffectList = m_clipref->effectList();
     setupListView();
+}
+
+void EffectStackView2::slotRefreshMasterClipEffects(ClipController* c, Monitor *m)
+{
+    if (c && m_status == MASTER_CLIP && m_masterclipref && m_masterclipref->clipId() == c->clipId()) {
+        slotMasterClipItemSelected(c, m);
+    }
 }
 
 void EffectStackView2::slotMasterClipItemSelected(ClipController* c, Monitor *m)
@@ -239,9 +244,9 @@ void EffectStackView2::slotMasterClipItemSelected(ClipController* c, Monitor *m)
     if (m_masterclipref == NULL) {
         //TODO: clear list, reset paramdesc and info
         // If monitor scene is displayed, hide it
-        if (m_monitorSceneWanted) {
-            m_effectMetaInfo.monitor->slotShowEffectScene(false);
-            m_monitorSceneWanted = false;
+        if (m_monitorSceneWanted != MonitorSceneNone) {
+            m_monitorSceneWanted = MonitorSceneNone;
+            m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
         }
         m_status = EMPTY;
         clear();
@@ -278,7 +283,7 @@ void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo &info, Moni
 void EffectStackView2::setupListView()
 {
     blockSignals(true);
-    m_monitorSceneWanted = false;
+    m_monitorSceneWanted = MonitorSceneNone;
     m_draggedEffect = NULL;
     m_draggedGroup = NULL;
     disconnect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
@@ -366,7 +371,7 @@ void EffectStackView2::setupListView()
             isSelected = currentEffect->effectIndex() == m_masterclipref->selectedEffectIndex;
         }
         if (isSelected) {
-            if (currentEffect->needsMonitorEffectScene()) m_monitorSceneWanted = true;
+            m_monitorSceneWanted = currentEffect->needsMonitorEffectScene();
         }
         currentEffect->setActive(isSelected);
         m_effects.append(currentEffect);
@@ -393,7 +398,7 @@ void EffectStackView2::setupListView()
     vbox1->addStretch(10);
     slotUpdateCheckAllButton();
     // show monitor scene if necessary
-    if (!m_monitorSceneWanted) m_effectMetaInfo.monitor->slotShowEffectScene(false);
+    m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
 
     // Wait a little bit for the new layout to be ready, then check if we have a scrollbar
     QTimer::singleShot(200, this, SLOT(slotCheckWheelEventFilter()));
@@ -409,7 +414,7 @@ void EffectStackView2::connectEffect(CollapsibleEffect *currentEffect)
     connect(currentEffect, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
     connect(currentEffect, SIGNAL(resetEffect(int)), this , SLOT(slotResetEffect(int)));
     connect(currentEffect, SIGNAL(changeEffectPosition(QList<int>,bool)), this , SLOT(slotMoveEffectUp(QList<int>,bool)));
-    connect(currentEffect, SIGNAL(effectStateChanged(bool,int,bool)), this, SLOT(slotUpdateEffectState(bool,int,bool)));
+    connect(currentEffect, SIGNAL(effectStateChanged(bool,int,MonitorSceneType)), this, SLOT(slotUpdateEffectState(bool,int,MonitorSceneType)));
     connect(currentEffect, SIGNAL(activateEffect(int)), this, SLOT(slotSetCurrentEffect(int)));
     connect(currentEffect, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
     connect(currentEffect, SIGNAL(createGroup(int)), this , SLOT(slotCreateGroup(int)));
@@ -545,15 +550,15 @@ void EffectStackView2::startDrag()
 }
 
 
-void EffectStackView2::slotUpdateEffectState(bool disable, int index, bool needsMonitorEffectScene)
+void EffectStackView2::slotUpdateEffectState(bool disable, int index, MonitorSceneType needsMonitorEffectScene)
 {
-    if (m_monitorSceneWanted && disable) {
-        m_effectMetaInfo.monitor->slotShowEffectScene(false);
-        m_monitorSceneWanted = false;
+    if (m_monitorSceneWanted != MonitorSceneNone && disable) {
+        m_monitorSceneWanted = MonitorSceneNone;
+        m_effectMetaInfo.monitor->slotShowEffectScene(MonitorSceneNone);
     }
-    else if (!disable && !m_monitorSceneWanted && needsMonitorEffectScene) {
-        m_effectMetaInfo.monitor->slotShowEffectScene(true);
-        m_monitorSceneWanted = true;
+    else if (!disable && m_monitorSceneWanted == needsMonitorEffectScene) {
+        m_monitorSceneWanted = needsMonitorEffectScene;
+        m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
     }
     switch (m_status) {
         case TIMELINE_TRACK:
@@ -597,17 +602,17 @@ void EffectStackView2::slotSeekTimeline(int pos)
 
 void EffectStackView2::slotCheckMonitorPosition(int renderPos)
 {
-    if (m_monitorSceneWanted) {
+    if (m_monitorSceneWanted != MonitorSceneNone) {
         if (m_status == TIMELINE_TRACK || m_status == MASTER_CLIP || (m_clipref && renderPos >= m_clipref->startPos().frames(KdenliveSettings::project_fps()) && renderPos <= m_clipref->endPos().frames(KdenliveSettings::project_fps()))) {
-            if (!m_effectMetaInfo.monitor->effectSceneDisplayed()) {
-                m_effectMetaInfo.monitor->slotShowEffectScene(true);
+            if (!m_effectMetaInfo.monitor->effectSceneDisplayed(m_monitorSceneWanted)) {
+                m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
             }
         } else {
-            m_effectMetaInfo.monitor->slotShowEffectScene(false);
+            m_effectMetaInfo.monitor->slotShowEffectScene(MonitorSceneNone);
         }
     }
     else {
-        m_effectMetaInfo.monitor->slotShowEffectScene(false);
+        m_effectMetaInfo.monitor->slotShowEffectScene(MonitorSceneNone);
     }
 }
 
@@ -624,7 +629,7 @@ int EffectStackView2::trackIndex() const
 void EffectStackView2::clear()
 {
     m_effects.clear();
-    m_monitorSceneWanted = false;
+    m_monitorSceneWanted = MonitorSceneNone;
     QWidget *view = m_ui.container->takeWidget();
     if (view) {
         delete view;
@@ -788,7 +793,11 @@ void EffectStackView2::slotDeleteEffect(const QDomElement &effect)
 
 void EffectStackView2::slotAddEffect(const QDomElement &effect)
 {
-    emit addEffect(m_clipref, effect, m_trackindex);
+    if (m_status == MASTER_CLIP) {
+	emit addMasterEffect(m_masterclipref->clipId(), effect);
+    } else {
+      emit addEffect(m_clipref, effect, m_trackindex);
+    }
 }
 
 void EffectStackView2::slotMoveEffectUp(const QList<int> &indexes, bool up)
@@ -811,8 +820,13 @@ void EffectStackView2::slotMoveEffectUp(const QList<int> &indexes, bool up)
 
 void EffectStackView2::slotStartFilterJob(QMap <QString, QString> &filterParams, QMap <QString, QString> &consumerParams, QMap <QString, QString> &extraParams)
 {
-    if (!m_clipref) return;
-    emit startFilterJob(m_clipref->info(), m_clipref->getBinId(), filterParams, consumerParams, extraParams);
+    if (m_status == TIMELINE_CLIP && m_clipref) {
+        emit startFilterJob(m_clipref->info(), m_clipref->getBinId(), filterParams, consumerParams, extraParams);
+    }
+    else if (m_status == MASTER_CLIP && m_masterclipref) {
+        ItemInfo info;
+        emit startFilterJob(info, m_masterclipref->clipId(), filterParams, consumerParams, extraParams);
+    }
 }
 
 void EffectStackView2::slotResetEffect(int ix)

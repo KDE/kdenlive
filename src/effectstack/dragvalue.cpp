@@ -139,6 +139,7 @@ DragValue::~DragValue()
     delete m_intEdit;
     delete m_doubleEdit;
     delete m_menu;
+    delete m_label;
     //delete m_scale;
     //delete m_directUpdate;
 }
@@ -264,6 +265,7 @@ void DragValue::setValueFromProgress(double value, bool final)
 void DragValue::setValue(double value, bool final)
 {
     value = qBound(m_minimum, value, m_maximum);
+    m_label->setProgressValue((value - m_minimum) / (m_maximum - m_minimum) * m_label->maximum());
     if (m_intEdit) {
         m_intEdit->blockSignals(true);
         m_intEdit->setValue((int) value);
@@ -276,8 +278,6 @@ void DragValue::setValue(double value, bool final)
         m_doubleEdit->blockSignals(false);
         emit valueChanged(value, final);
     }
-
-    m_label->setProgressValue((value - m_minimum) / (m_maximum - m_minimum) * m_label->maximum());
 }
 
 void DragValue::focusOutEvent(QFocusEvent*)
