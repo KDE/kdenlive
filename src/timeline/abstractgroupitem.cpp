@@ -300,7 +300,6 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
             }
         }
         newPos.setY(posForTrack(proposedTrack) + offset);
-	qDebug()<<" - -- - MOVING GROUP - - -- ";
         //if (newPos == start) return start;
 
         /*if (newPos.x() < 0) {

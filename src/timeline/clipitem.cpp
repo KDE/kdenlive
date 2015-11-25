@@ -1128,7 +1128,6 @@ void ClipItem::resizeStart(int posx, bool /*size*/, bool emitChange)
     m_speedIndependantInfo = m_info;
     m_speedIndependantInfo.cropStart = GenTime((int)(m_info.cropStart.frames(m_fps) * qAbs(m_speed)), m_fps);
     m_speedIndependantInfo.cropDuration = GenTime((int)(m_info.cropDuration.frames(m_fps) * qAbs(m_speed)), m_fps);
-
     if ((int) cropStart().frames(m_fps) != previous) {
         if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
             m_startThumbTimer.start(150);
@@ -1227,7 +1226,6 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
                     } else {
                         offset = qMax(offset, (int)((static_cast < AbstractClipItem* >(items.at(i))->endPos().frames(m_fps)) - newPos.x()));
                     }
-
                     if (offset > 0) {
                         if (forwardMove) {
                             sceneShape.translate(QPointF(-offset, 0));

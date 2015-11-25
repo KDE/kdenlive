@@ -229,7 +229,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
         int maximumTrack = projectScene()->tracksCount();
         newTrack = qMin(newTrack, maximumTrack);
         newTrack = qMax(newTrack, 0);
-        newPos.setY(posForTrack(newTrack) + itemOffset() + 1);
+        newPos.setY(posForTrack(newTrack) + itemOffset());
 
         // Only one clip is moving
         QRectF sceneShape = rect();
