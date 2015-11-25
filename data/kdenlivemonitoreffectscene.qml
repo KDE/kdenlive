@@ -150,10 +150,10 @@ Item {
                   framesize.width = (framerect.width - (mouseX - oldMouseX)) / root.scale;
                   framesize.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scale;
                   framesize.height = (framerect.height - (mouseY - oldMouseY)) / root.scale;
+                  root.effectChanged()
                 }
               }
               onReleased: {
-                  root.effectChanged()
                   effectsize.visible = false
               }
             }
@@ -198,10 +198,10 @@ Item {
                   framesize.width = (framerect.width + (mouseX - oldMouseX)) / root.scale;
                   framesize.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scale;
                   framesize.height = (framerect.height - (mouseY - oldMouseY)) / root.scale;
+                  root.effectChanged()
                 }
               }
               onReleased: {
-                  root.effectChanged()
                   effectsize.visible = false
               }
             }
@@ -235,10 +235,10 @@ Item {
                   framesize.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scale;
                   framesize.width = (framerect.width - (mouseX - oldMouseX)) / root.scale;
                   framesize.height = (framerect.height + (mouseY - oldMouseY)) / root.scale;
+                  root.effectChanged()
                 }
               }
               onReleased: {
-                  root.effectChanged()
                   effectsize.visible = false
               }
             }
@@ -271,10 +271,10 @@ Item {
                 if (pressed) {
                   framesize.width = (framerect.width + (mouseX - oldMouseX)) / root.scale;
                   framesize.height = (framerect.height + (mouseY - oldMouseY)) / root.scale;
+                  root.effectChanged()
                 }
               }
               onReleased: {
-                  root.effectChanged()
                   effectsize.visible = false
               }
             }
@@ -314,10 +314,10 @@ Item {
                   if (pressed) {
                       framesize.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scale;
                       framesize.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scale;
+                      root.effectChanged()
                   }
               }
               onReleased: {
-                  root.effectChanged()
                   effectpos.visible = false
               }
             }

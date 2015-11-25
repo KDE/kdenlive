@@ -2728,7 +2728,7 @@ void CustomTrackView::updateTransition(int track, const GenTime &pos, const QDom
         qWarning() << "Unable to find transition at pos :" << pos.frames(m_document->fps()) << ", ON track: " << track;
         return;
     }
-    
+
     bool force = false;
     if (oldTransition.attribute("transition_atrack") != transition.attribute("transition_atrack") || oldTransition.attribute("transition_btrack") != transition.attribute("transition_btrack"))
         force = true;

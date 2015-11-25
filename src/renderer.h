@@ -345,6 +345,8 @@ private:
     QList <requestClipInfo> m_requestList;
     /** @brief True if this monitor is active. */
     bool m_isActive;
+    /** @brief True if the consumer is currently refreshing itself. */
+    bool m_isRefreshing;
 
     void closeMlt();
     void mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest);
