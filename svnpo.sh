@@ -1,7 +1,7 @@
 #!/bin/bash
 getlocale() {
     local locale=$1
-	wget -O $locale.po "http://websvn.kde.org/*checkout*/trunk/l10n-kde4/$locale/messages/extragear-multimedia/kdenlive.po"
+	wget -O $locale.po "http://websvn.kde.org/*checkout*/trunk/l10n-kf5/$locale/messages/kdemultimedia/kdenlive.po"
     if [ $? -eq 0 ] ; then
         mkdir $locale
         mv $locale.po $locale/kdenlive.po
