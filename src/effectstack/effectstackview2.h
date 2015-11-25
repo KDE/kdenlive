@@ -161,7 +161,11 @@ public slots:
     /** @brief Sets the clip whose effect list should be managed.
     * @param c Clip whose effect list should be managed */
     void slotClipItemSelected(ClipItem* c, Monitor *m = NULL);
-    
+    /** @brief An effect parameter was changed, refresh effect stack if it was displaying it.
+    * @param c Clip controller whose effect list should be managed */
+    void slotRefreshMasterClipEffects(ClipController* c, Monitor *m);
+    /** @brief Display effects for the selected Bin clip.
+    * @param c Clip controller whose effect list should be managed */
     void slotMasterClipItemSelected(ClipController* c, Monitor *m = NULL);
 
     /** @brief Update the clip range (in-out points)

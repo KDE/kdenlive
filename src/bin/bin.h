@@ -449,6 +449,8 @@ public:
     void addEffect(const QString &id, QDomElement &effect);
     /** @brief Edit an effect settings to a bin clip. */
     void editMasterEffect(ClipController *ctl);
+    /** @brief An effect setting was changed, update stack if displayed. */
+    void updateMasterEffect(ClipController *ctl);
     /** @brief Returns current project's folder for storing items. */
     QUrl projectFolder() const;
     /** @brief Display a message about an operation in status bar. */
@@ -633,7 +635,10 @@ signals:
     void clipNeedsReload(const QString &,bool);
     /** @brief Trigger timecode format refresh where needed. */
     void refreshTimeCode();
+    /** @brief Request display of effect stack for a Bin clip. */
     void masterClipSelected(ClipController *, Monitor *);
+    /** @brief Request updating of the effect stack if currently displayed. */
+    void masterClipUpdated(ClipController *, Monitor *);
     void displayMessage(const QString &, MessageType);
     void requesteInvalidRemoval(const QString &, QUrl);
     /** @brief Markers changed, refresh panel. */

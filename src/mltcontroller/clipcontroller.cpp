@@ -553,7 +553,7 @@ Mlt::Profile *ClipController::profile()
 
 void ClipController::addEffect(const ProfileInfo &pInfo, QDomElement &effect)
 {
-    QDomDocument doc = effect.ownerDocument();
+    QMutexLocker lock(&m_effectMutex);
     Mlt::Service service = m_masterProducer->parent();
     ItemInfo info;
     info.cropStart = GenTime();
@@ -576,6 +576,7 @@ void ClipController::addEffect(const ProfileInfo &pInfo, QDomElement &effect)
 
 void ClipController::removeEffect(int effectIndex)
 {
+    QMutexLocker lock(&m_effectMutex);
     Mlt::Service service(m_masterProducer->parent());
     Render::removeFilterFromService(service, effectIndex, true);
     m_binController->updateTrackProducer(clipId());

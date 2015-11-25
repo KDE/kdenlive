@@ -203,6 +203,13 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c, Monitor *m)
     setupListView();
 }
 
+void EffectStackView2::slotRefreshMasterClipEffects(ClipController* c, Monitor *m)
+{
+    if (c && m_status == MASTER_CLIP && m_masterclipref && m_masterclipref->clipId() == c->clipId()) {
+        slotMasterClipItemSelected(c, m);
+    }
+}
+
 void EffectStackView2::slotMasterClipItemSelected(ClipController* c, Monitor *m)
 {
     m_clipref = NULL;
@@ -813,8 +820,13 @@ void EffectStackView2::slotMoveEffectUp(const QList<int> &indexes, bool up)
 
 void EffectStackView2::slotStartFilterJob(QMap <QString, QString> &filterParams, QMap <QString, QString> &consumerParams, QMap <QString, QString> &extraParams)
 {
-    if (!m_clipref) return;
-    emit startFilterJob(m_clipref->info(), m_clipref->getBinId(), filterParams, consumerParams, extraParams);
+    if (m_status == TIMELINE_CLIP && m_clipref) {
+        emit startFilterJob(m_clipref->info(), m_clipref->getBinId(), filterParams, consumerParams, extraParams);
+    }
+    else if (m_status == MASTER_CLIP && m_masterclipref) {
+        ItemInfo info;
+        emit startFilterJob(info, m_masterclipref->clipId(), filterParams, consumerParams, extraParams);
+    }
 }
 
 void EffectStackView2::slotResetEffect(int ix)

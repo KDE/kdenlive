@@ -1985,7 +1985,6 @@ void Bin::slotEffectDropped(QString effect, const QModelIndex &parent)
         QDomElement e = doc.documentElement();
         AddBinEffectCommand *command = new AddBinEffectCommand(this, parentItem->clipId(), e);
         m_doc->commandStack()->push(command);
-        m_monitor->refreshMonitor();
     }
 }
 
@@ -2008,6 +2007,7 @@ void Bin::addEffect(const QString &id, QDomElement &effect)
     ProjectClip *currentItem = m_rootFolder->clip(id);
     if (!currentItem) return;
     currentItem->addEffect(m_monitor->profileInfo(), effect);
+    emit masterClipUpdated(currentItem->controller(), m_monitor);
     m_monitor->refreshMonitor();
 }
 
@@ -2018,6 +2018,15 @@ void Bin::editMasterEffect(ClipController *ctl)
         return;
     }
     emit masterClipSelected(ctl, m_monitor);
+}
+
+void Bin::updateMasterEffect(ClipController *ctl)
+{
+    if (m_gainedFocus) {
+        // Widget just gained focus, updating stack is managed in the eventfilter event, not from item
+        return;
+    }
+    emit masterClipUpdated(ctl, m_monitor);
 }
 
 void Bin::slotGotFocus()
@@ -2304,11 +2313,16 @@ void Bin::slotStartFilterJob(const ItemInfo &info, const QString&id, QMap <QStri
 
     QMap <QString, QString> producerParams = QMap <QString, QString> ();
     producerParams.insert("producer", clip->url().path());
-    producerParams.insert("in", QString::number((int) info.cropStart.frames(m_doc->fps())));
-    producerParams.insert("out", QString::number((int) (info.cropStart + info.cropDuration).frames(m_doc->fps())));
-    extraParams.insert("clipStartPos", QString::number((int) info.startPos.frames(m_doc->fps())));
-    extraParams.insert("clipTrack", QString::number(info.track));
-
+    if (info.cropDuration != GenTime()) {
+        producerParams.insert("in", QString::number((int) info.cropStart.frames(m_doc->fps())));
+        producerParams.insert("out", QString::number((int) (info.cropStart + info.cropDuration).frames(m_doc->fps())));
+        extraParams.insert("clipStartPos", QString::number((int) info.startPos.frames(m_doc->fps())));
+        extraParams.insert("clipTrack", QString::number(info.track));
+    } else {
+        // We want to process whole clip
+        producerParams.insert("in", QString::number(0));
+        producerParams.insert("out", QString::number(-1));
+    }
     m_jobManager->prepareJobFromTimeline(clip, producerParams, filterParams, consumerParams, extraParams);
 }
 
@@ -2342,12 +2356,46 @@ void Bin::updateTimecodeFormat()
 }
 
 
-void Bin::slotGotFilterJobResults(QString id, int , int , stringMap results, stringMap filterInfo)
+void Bin::slotGotFilterJobResults(QString id, int startPos, int track, stringMap results, stringMap filterInfo)
 {
+    if (filterInfo.contains("finalfilter")) {
+        if (startPos == -1) {
+            // Processing bin clip
+            ProjectClip *currentItem = m_rootFolder->clip(id);
+            if (!currentItem) return;
+            ClipController *ctl = currentItem->controller();
+            EffectsList list = ctl->effectList();
+            QDomElement effect = list.effectById(filterInfo.value("finalfilter"));
+            QDomDocument doc;
+            QDomElement e = doc.createElement("test");
+            doc.appendChild(e);
+            e.appendChild(doc.importNode(effect, true));
+            if (!effect.isNull()) {
+                QDomElement newEffect = effect.cloneNode().toElement();
+                QMap<QString, QString>::const_iterator i = results.constBegin();
+                while (i != results.constEnd()) {
+                    EffectsList::setParameter(newEffect, i.key(), i.value());
+                    ++i;
+                }
+                ctl->updateEffect(pCore->monitorManager()->projectMonitor()->profileInfo(), newEffect, effect.attribute("kdenlive_ix").toInt());
+                emit masterClipUpdated(ctl, m_monitor);
+                // TODO use undo / redo for bin clip edit effect
+                /*EditEffectCommand *command = new EditEffectCommand(this, clip->track(), clip->startPos(), effect, newEffect, clip->selectedEffectIndex(), true, true);
+                m_commandStack->push(command);
+                emit clipItemSelected(clip);*/
+            }
+            
+            //emit gotFilterJobResults(id, startPos, track, results, filterInfo);*/
+            return;
+        } else {
+            // This is a timeline filter, forward results
+            emit gotFilterJobResults(id, startPos, track, results, filterInfo);
+            return;
+        }
+    }
     // Currently, only the first value of results is used
     ProjectClip *clip = getBinClip(id);
     if (!clip) return;
-
     // Check for return value
     int markersType = -1;
     if (filterInfo.contains("addmarkers")) markersType = filterInfo.value("addmarkers").toInt();

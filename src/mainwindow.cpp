@@ -206,6 +206,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_effectStack = new EffectStackView2(m_projectMonitor, this);
     connect(m_effectStack, SIGNAL(startFilterJob(const ItemInfo&,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)), pCore->bin(), SLOT(slotStartFilterJob(const ItemInfo &,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)));
     connect(pCore->bin(), SIGNAL(masterClipSelected(ClipController *, Monitor *)), m_effectStack, SLOT(slotMasterClipItemSelected(ClipController *, Monitor *)));
+    connect(pCore->bin(), SIGNAL(masterClipUpdated(ClipController *, Monitor *)), m_effectStack, SLOT(slotRefreshMasterClipEffects(ClipController *, Monitor *)));
     m_effectStackDock = addDock(i18n("Selection Parameters"), "effect_stack", m_effectStack);
 
     m_effectList = new EffectsListView();
