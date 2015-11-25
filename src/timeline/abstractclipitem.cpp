@@ -567,7 +567,7 @@ int AbstractClipItem::posForTrack(int track)
     if (!scene() || scene()->views().isEmpty()) return pos;
     CustomTrackView *view = static_cast<CustomTrackView*>(scene()->views()[0]);
     if (view) {
-	pos = view->getPositionFromTrack(track);
+	pos = view->getPositionFromTrack(track) + 1;
     }
     return pos;
 }
