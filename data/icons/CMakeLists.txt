@@ -10,13 +10,6 @@ ecm_install_icons(ICONS
   16-actions-kdenlive-add-color-clip.png
   16-actions-kdenlive-add-slide-clip.png
   16-actions-kdenlive-add-text-clip.png
-  16-actions-kdenlive-align-bottom.png
-  16-actions-kdenlive-align-hor.png
-  16-actions-kdenlive-align-left.png
-  16-actions-kdenlive-align-none.png
-  16-actions-kdenlive-align-right.png
-  16-actions-kdenlive-align-top.png
-  16-actions-kdenlive-align-vert.png
   16-actions-kdenlive-custom-effect.png
   16-actions-kdenlive-deleffect.png
   16-actions-kdenlive-down.png
@@ -48,14 +41,9 @@ ecm_install_icons(ICONS
   16-actions-kdenlive-unlock.png
   16-actions-kdenlive-unselect-all.png
   16-actions-kdenlive-up.png
-  16-actions-kdenlive-zindex-bottom.png
-  16-actions-kdenlive-zindex-down.png
-  16-actions-kdenlive-zindex-top.png
   16-actions-kdenlive-zindex-up.png
   16-actions-kdenlive-zone-end.png
   16-actions-kdenlive-zone-start.png
-  16-actions-kdenlive-zoom-large.png
-  16-actions-kdenlive-zoom-small.png
   22-actions-kdenlive-select-all.png
   22-actions-kdenlive-spacer-tool.png
   32-actions-kdenlive-select-all.png
@@ -66,7 +54,15 @@ ecm_install_icons(ICONS
   64-actions-kdenlive-select-all.png
   64-apps-kdenlive.png
   64-mimetypes-application-x-kdenlivetitle.png
+  sc-actions-kdenlive-align-bottom.svgz
+  sc-actions-kdenlive-align-hor.svgz
+  sc-actions-kdenlive-align-left.svgz
   sc-actions-kdenlive-align-none.svgz
+  sc-actions-kdenlive-align-right.svgz
+  sc-actions-kdenlive-align-top.svgz
+  sc-actions-kdenlive-align-vert.svgz
+  sc-actions-kdenlive-hide-audio-effects.svg
+  sc-actions-kdenlive-hide-video-effects.svg
   sc-actions-kdenlive-insert-rect.svgz
   sc-actions-kdenlive-insert-unicode.svgz
   sc-actions-kdenlive-object-height.svgz
@@ -77,11 +73,9 @@ ecm_install_icons(ICONS
   sc-actions-kdenlive-select-texts.svgz
   sc-actions-kdenlive-select-tool.svgz
   sc-actions-kdenlive-show-all-effects.svg
-  sc-actions-kdenlive-show-video-effects.svg
-  sc-actions-kdenlive-hide-video-effects.svg
   sc-actions-kdenlive-show-audio-effects.svg
-  sc-actions-kdenlive-hide-audio-effects.svg
   sc-actions-kdenlive-show-gpu-effects.svg
+  sc-actions-kdenlive-show-video-effects.svg
   sc-actions-kdenlive-spacer-tool.svgz
   sc-actions-kdenlive-unselect-all.svgz
   sc-actions-kdenlive-zindex-bottom.svgz
@@ -90,6 +84,8 @@ ecm_install_icons(ICONS
   sc-actions-kdenlive-zindex-up.svgz
   sc-actions-kdenlive-zone-end.svgz
   sc-actions-kdenlive-zone-start.svgz
+  sc-actions-kdenlive-zoom-large.svgz
+  sc-actions-kdenlive-zoom-small.svgz
   sc-mimetypes-application-x-kdenlive.svgz
   sc-mimetypes-application-x-kdenlivetitle.svgz
   sc-mimetypes-video-mlt-playlist.svgz
