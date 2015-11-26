@@ -29,7 +29,7 @@ install(FILES kdenlive_projectprofiles.knsrc kdenlive_renderprofiles.knsrc kdenl
 install(FILES kdenliveui.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kdenlive)
 install(FILES profiles.xml DESTINATION ${DATA_INSTALL_DIR}/kdenlive/export)
 install(FILES kdenlive.appdata.xml DESTINATION ${SHARE_INSTALL_PREFIX}/appdata)
-install(FILES kdenlive.xpm DESTINATION ${DATA_INSTALL_DIR}/pixmaps)
+install(FILES kdenlive.png DESTINATION ${DATA_INSTALL_DIR}/pixmaps)
 install(FILES kdenlive.menu DESTINATION ${DATA_INSTALL_DIR}/menu RENAME kdenlive)
 install(FILES org.kde.kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 
