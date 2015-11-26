@@ -24,6 +24,7 @@
 #include "titler/titlewidget.h"
 #include "definitions.h"
 #include "kdenlivesettings.h"
+#include "utils/KoIconUtils.h"
 
 #include <KUrlRequesterDialog>
 #include <KMessageBox>
@@ -161,7 +162,7 @@ bool DocumentChecker::hasErrorInClips()
 
     foreach(const QString &l, missingLumas) {
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Luma file") << l);
-        item->setIcon(0, QIcon::fromTheme("dialog-close"));
+        item->setIcon(0, KoIconUtils::themedIcon("dialog-close"));
         item->setData(0, idRole, l);
         item->setData(0, statusRole, LUMAMISSING);
     }
@@ -192,20 +193,20 @@ bool DocumentChecker::hasErrorInClips()
 
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
         /*if (t == TITLE_IMAGE_ELEMENT) {
-            item->setIcon(0, QIcon::fromTheme("dialog-warning"));
+            item->setIcon(0, KoIconUtils::themedIcon("dialog-warning"));
             item->setToolTip(1, e.attribute("name"));
             item->setText(1, e.attribute("resource"));
             item->setData(0, statusRole, CLIPPLACEHOLDER);
             item->setData(0, typeOriginalResource, e.attribute("resource"));
         } else if (t == TITLE_FONT_ELEMENT) {
-            item->setIcon(0, QIcon::fromTheme("dialog-warning"));
+            item->setIcon(0, KoIconUtils::themedIcon("dialog-warning"));
             item->setToolTip(1, e.attribute("name"));
             QString ft = e.attribute("resource");
             QString newft = QFontInfo(QFont(ft)).family();
             item->setText(1, i18n("%1 will be replaced by %2", ft, newft));
             item->setData(0, statusRole, CLIPPLACEHOLDER);
         } else {*/
-            item->setIcon(0, QIcon::fromTheme("dialog-close"));
+            item->setIcon(0, KoIconUtils::themedIcon("dialog-close"));
             QString resource = EffectsList::property(e, "resource");
             if (!resource.startsWith("/")) {
                 resource.prepend(root);
@@ -240,7 +241,7 @@ bool DocumentChecker::hasErrorInClips()
     max = missingProxies.count();
     if (max > 0) {
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Proxy clip"));
-        item->setIcon(0, QIcon::fromTheme("dialog-warning"));
+        item->setIcon(0, KoIconUtils::themedIcon("dialog-warning"));
         item->setText(1, i18np("%1 missing proxy clip, will be recreated on project opening", "%1 missing proxy clips, will be recreated on project opening", max));
         //item->setData(0, hashRole, e.attribute("file_hash"));
         item->setData(0, statusRole, PROXYMISSING);
@@ -292,7 +293,7 @@ bool DocumentChecker::hasErrorInClips()
     max = missingSources.count();
     if (max > 0) {
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Source clip"));
-        item->setIcon(0, QIcon::fromTheme("dialog-warning"));
+        item->setIcon(0, KoIconUtils::themedIcon("dialog-warning"));
         item->setText(1, i18n("%1 missing source clips, you can only use the proxies", max));
         //item->setData(0, hashRole, e.attribute("file_hash"));
         item->setData(0, statusRole, SOURCEMISSING);
@@ -306,7 +307,7 @@ bool DocumentChecker::hasErrorInClips()
             e.setAttribute("_missingsource", "1");
             QTreeWidgetItem *subitem = new QTreeWidgetItem(item, QStringList() << i18n("Source clip"));
             //qDebug()<<"// Adding missing source clip: "<<realPath;
-            subitem->setIcon(0, QIcon::fromTheme("dialog-close"));
+            subitem->setIcon(0, KoIconUtils::themedIcon("dialog-close"));
             subitem->setText(1, realPath);
             subitem->setData(0, hashRole, EffectsList::property(e, "kdenlive:file_hash"));
             subitem->setData(0, sizeRole, EffectsList::property(e, "kdenlive:file_size"));
@@ -383,17 +384,22 @@ void DocumentChecker::slotSearchClips()
                 if (!clipPath.isEmpty()) {
                     fixed = true;
                     subchild->setText(1, clipPath);
-                    subchild->setIcon(0, QIcon::fromTheme("dialog-ok"));
+                    subchild->setIcon(0, KoIconUtils::themedIcon("dialog-ok"));
                     subchild->setData(0, statusRole, CLIPOK);
                 }
             }
         }
         else if (child->data(0, statusRole).toInt() == CLIPMISSING) {
+            bool perfectMatch = true;
             QString clipPath = searchFileRecursively(searchDir, child->data(0, sizeRole).toString(), child->data(0, hashRole).toString(), child->text(1));
+            if (clipPath.isEmpty()) {
+                clipPath = searchPathRecursively(searchDir, QUrl::fromLocalFile(child->text(1)).fileName());
+                perfectMatch = false;
+            }
             if (!clipPath.isEmpty()) {
                 fixed = true;
                 child->setText(1, clipPath);
-                child->setIcon(0, QIcon::fromTheme("dialog-ok"));
+                child->setIcon(0, perfectMatch ? KoIconUtils::themedIcon("dialog-ok") : KoIconUtils::themedIcon("dialog-warning"));
                 child->setData(0, statusRole, CLIPOK);
             }
         } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
@@ -401,7 +407,7 @@ void DocumentChecker::slotSearchClips()
             if (!fileName.isEmpty()) {
                 fixed = true;
                 child->setText(1, fileName);
-                child->setIcon(0, QIcon::fromTheme("dialog-ok"));
+                child->setIcon(0, KoIconUtils::themedIcon("dialog-ok"));
                 child->setData(0, statusRole, LUMAOK);
             }
         }
@@ -413,7 +419,7 @@ void DocumentChecker::slotSearchClips()
                 // File found
                 fixed = true;
                 child->setText(1, newPath);
-                child->setIcon(0, QIcon::fromTheme("dialog-ok"));
+                child->setIcon(0, KoIconUtils::themedIcon("dialog-ok"));
                 child->setData(0, statusRole, CLIPOK);
             }
         }
@@ -522,13 +528,13 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
     if (!url.isValid()) return;
     item->setText(1, url.path());
     if (QFile::exists(url.path())) {
-        item->setIcon(0, QIcon::fromTheme("dialog-ok"));
+        item->setIcon(0, KoIconUtils::themedIcon("dialog-ok"));
         int id = item->data(0, statusRole).toInt();
         if (id < 10) item->setData(0, statusRole, CLIPOK);
         else item->setData(0, statusRole, LUMAOK);
         checkStatus();
     } else {
-        item->setIcon(0, QIcon::fromTheme("dialog-close"));
+        item->setIcon(0, KoIconUtils::themedIcon("dialog-close"));
         int id = item->data(0, statusRole).toInt();
         if (id < 10) item->setData(0, statusRole, CLIPMISSING);
         else item->setData(0, statusRole, LUMAMISSING);
@@ -698,10 +704,10 @@ void DocumentChecker::slotPlaceholders()
     while (child) {
         if (child->data(0, statusRole).toInt() == CLIPMISSING) {
             child->setData(0, statusRole, CLIPPLACEHOLDER);
-            child->setIcon(0, QIcon::fromTheme("dialog-ok"));
+            child->setIcon(0, KoIconUtils::themedIcon("dialog-ok"));
         } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
             child->setData(0, statusRole, LUMAPLACEHOLDER);
-            child->setIcon(0, QIcon::fromTheme("dialog-ok"));
+            child->setIcon(0, KoIconUtils::themedIcon("dialog-ok"));
         }
         ix++;
         child = m_ui.treeWidget->topLevelItem(ix);

@@ -61,7 +61,7 @@
 #include "timeline/timelinesearch.h"
 #include <config-kdenlive.h>
 #include "utils/thememanager.h"
-#include "utils/KoIconUtils.cpp"
+#include "utils/KoIconUtils.h"
 #ifdef USE_JOGSHUTTLE
 #include "jogshuttle/jogmanager.h"
 #endif
