@@ -1714,7 +1714,8 @@ void RenderWidget::parseProfiles(const QString &meta, const QString &group, cons
     fileList.removeAll("customprofiles.xml");
     foreach(const QString &filename, fileList)
         parseFile(directory.absoluteFilePath(filename), true);
-    if (QFile::exists(exportFolder + "customprofiles.xml")) parseFile(exportFolder + "customprofiles.xml", true);
+    if (QFile::exists(exportFolder + "customprofiles.xml"))
+        parseFile(exportFolder + "customprofiles.xml", true);
 
     int categoryIndex = m_view.destination_list->findData(meta);
     if (categoryIndex == -1) categoryIndex = 0;
@@ -1942,7 +1943,8 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             if (profile.hasAttribute("url")) item->setData(ExtraRole, profile.attribute("url"));
             if (editable) {
                 item->setData(EditableRole, exportFile);
-                if (exportFile.endsWith(QLatin1String("customprofiles.xml"))) item->setIcon(KoIconUtils::themedIcon("favorite"));
+                if (exportFile.endsWith(QLatin1String("customprofiles.xml")))
+                    item->setIcon(KoIconUtils::themedIcon("favorite"));
                 else item->setIcon(QIcon::fromTheme("applications-internet"));
             }
             m_renderItems.append(item);
