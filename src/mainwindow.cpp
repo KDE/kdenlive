@@ -1311,7 +1311,7 @@ void MainWindow::readOptions()
             qDebug() << "/// ERROR CREATING PROJECT FOLDER: ";
         } else {
             dir.cd("kdenlive");
-            KdenliveSettings::setDefaultprojectfolder(dir.path());
+            KdenliveSettings::setDefaultprojectfolder(dir.absolutePath());
         }
     }
 
