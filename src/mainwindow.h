@@ -269,7 +269,6 @@ public slots:
 private slots:
     /** @brief Shows the shortcut dialog. */
     void slotEditKeys();
-    void loadTranscoders();
     void loadDockActions();
     /** @brief Reflects setting changes to the GUI. */
     void updateConfiguration();

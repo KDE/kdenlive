@@ -179,6 +179,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     pCore->bin()->setMonitor(m_clipMonitor);
     connect(m_clipMonitor, &Monitor::showConfigDialog, this, &MainWindow::slotPreferences);
     connect(pCore->bin(), SIGNAL(clipNeedsReload(QString,bool)),this, SLOT(slotUpdateClip(QString,bool)));
+    connect(pCore->bin(), SIGNAL(findInTimeline(QString)), this, SLOT(slotClipInTimeline(QString)));
 
     //TODO deprecated, replace with Bin methods if necessary
     /*connect(m_projectList, SIGNAL(loadingIsOver()), this, SLOT(slotElapsedTime()));
@@ -186,7 +187,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(m_projectList, SIGNAL(updateRenderStatus()), this, SLOT(slotCheckRenderStatus()));
     connect(m_projectList, SIGNAL(updateProfile(QString)), this, SLOT(slotUpdateProjectProfile(QString)));
     connect(m_projectList, SIGNAL(refreshClip(QString,bool)), pCore->monitorManager(), SLOT(slotRefreshCurrentMonitor(QString)));
-    connect(m_projectList, SIGNAL(findInTimeline(QString)), this, SLOT(slotClipInTimeline(QString)));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), m_projectList, SLOT(slotUpdateClipCut(QPoint)));*/
     connect(m_clipMonitor, SIGNAL(extractZone(QString)), pCore->bin(), SLOT(slotStartCutJob(QString)));
 
@@ -319,7 +319,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     basketButton->setText(i18n("Favorite Effects"));
     basketButton->setShortcut(Qt::CTRL + Qt::Key_R);
     actionCollection()->addAction("fav_aff", basketButton);
-
     setupGUI();
 
     QToolBar *extraTB = static_cast<QToolBar*>(factory()->container("extraToolBar", this));
@@ -329,8 +328,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     guiFactory()->addClient(sp);*/
 
     loadPlugins();
-    loadTranscoders();
-    loadDockActions();
+    loadDockActions();    
     loadClipActions();
 
     m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone, NULL, m_loopClip);
@@ -342,8 +340,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     // Setup and fill effects and transitions menus.
     QMenu *m = static_cast<QMenu*>(factory()->container("video_effects_menu", this));
-    m->addActions(m_effectsMenu->actions());
-
     connect(m, SIGNAL(triggered(QAction*)), this, SLOT(slotAddVideoEffect(QAction*)));
     connect(m_effectsMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotAddVideoEffect(QAction*)));
     connect(m_transitionsMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotAddTransition(QAction*)));
@@ -675,7 +671,6 @@ void MainWindow::saveNewToolbarConfig()
     KXmlGuiWindow::saveNewToolbarConfig();
     //TODO for some reason all dynamically inserted actions are removed by the save toolbar
     // So we currently re-add them manually....
-    loadTranscoders();
     loadDockActions();
     loadClipActions();
     pCore->bin()->rebuildMenu();
@@ -1731,8 +1726,8 @@ void MainWindow::updateConfiguration()
     m_buttonAutomaticSplitAudio->setChecked(KdenliveSettings::splitaudio());
 
     // Update list of transcoding profiles
+    qDebug()<<"+ + + 1UPDATE CONFIG + + + ";
     buildDynamicActions();
-    loadTranscoders();
     loadClipActions();
 }
 
@@ -2412,15 +2407,13 @@ void MainWindow::slotClipInTimeline(const QString &clipId)
         QList<ItemInfo> matching = pCore->projectManager()->currentTimeline()->projectView()->findId(clipId);
 
         QMenu *inTimelineMenu = static_cast<QMenu*>(factory()->container("clip_in_timeline", this));
-        inTimelineMenu->clear();
 
         QList <QAction *> actionList;
-
         for (int i = 0; i < matching.count(); ++i) {
-            QString track = QString::number(matching.at(i).track);
+            QString track = pCore->projectManager()->currentTimeline()->getTrackInfo(matching.at(i).track).trackName;
             QString start = pCore->projectManager()->current()->timecode().getTimecode(matching.at(i).startPos);
             int j = 0;
-            QAction *a = new QAction(track + ": " + start, this);
+            QAction *a = new QAction(track + ": " + start, inTimelineMenu);
             a->setData(QStringList() << track << start);
             connect(a, SIGNAL(triggered()), this, SLOT(slotSelectClipInTimeline()));
             while (j < actionList.count()) {
@@ -2429,9 +2422,12 @@ void MainWindow::slotClipInTimeline(const QString &clipId)
             }
             actionList.insert(j, a);
         }
-        inTimelineMenu->addActions(actionList);
+	QList <QAction*> list = inTimelineMenu->actions();
+	unplugActionList("timeline_occurences");
+	qDeleteAll(list);
+	plugActionList("timeline_occurences", actionList);
 
-        if (matching.empty()) {
+        if (actionList.isEmpty()) {
             inTimelineMenu->setEnabled(false);
         } else {
             inTimelineMenu->setEnabled(true);
@@ -2652,73 +2648,26 @@ void MainWindow::slotShowTimeline(bool show)
 
 void MainWindow::loadClipActions()
 {
-    QMenu* actionMenu= static_cast<QMenu*>(factory()->container("clip_actions", this));
-    if (actionMenu){
-        actionMenu->clear();
-        Mlt::Profile profile;
-        Mlt::Filter *filter;
+    unplugActionList("add_effect");
+    plugActionList("add_effect", m_effectsMenu->actions());
 
-        foreach(const QString stab, QStringList() << "vidstab" << "videostab2" << "videostab") {
-            filter = Mlt::Factory::filter(profile, (char*)stab.toUtf8().constData());
-            if (filter && filter->is_valid()) {
-                QAction *action=actionMenu->addAction(i18n("Stabilize") + " (" + stab + ")");
-                action->setData(QStringList() << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << stab);
-                connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
-                delete filter;
-                break;
-            }
-            delete filter;
-        }
-        filter = Mlt::Factory::filter(profile,(char*)"motion_est");
-        if (filter) {
-            if (filter->is_valid()) {
-                QAction *action=actionMenu->addAction(i18n("Automatic scene split"));
-                QStringList stabJob;
-                stabJob << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << "motion_est";
-                action->setData(stabJob);
-                connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
-            }
-            delete filter;
-        }
-        if (KdenliveSettings::producerslist().contains("framebuffer")) {
-            QAction *action=actionMenu->addAction(i18n("Reverse clip"));
-            QStringList stabJob;
-            stabJob << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << "framebuffer";
-            action->setData(stabJob);
-            connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
-        }
-        QAction *action=actionMenu->addAction(i18n("Analyse keyframes"));
-        QStringList stabJob(QString::number((int) AbstractClipJob::ANALYSECLIPJOB));
-        action->setData(stabJob);
-        connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
-    }
+    QList <QAction *>clipJobActions = getExtraActions("clipjobs");
+    unplugActionList("clip_jobs");
+    plugActionList("clip_jobs", clipJobActions);
 
-}
-
-void MainWindow::loadTranscoders()
-{
-    QMenu *transMenu = static_cast<QMenu*>(factory()->container("transcoders", this));
-    transMenu->clear();
-
-    QMenu *extractAudioMenu = static_cast<QMenu*>(factory()->container("extract_audio", this));
-    extractAudioMenu->clear();
+    QList <QAction *>atcActions = getExtraActions("audiotranscoderslist");
+    unplugActionList("audio_transcoders_list");
+    plugActionList("audio_transcoders_list", atcActions);
     
-    QList <QAction *>list = kdenliveCategoryMap.value("transcoders")->actions();
-    foreach(QAction *a, list) {
-        QStringList data = a->data().toStringList();
-        if (data.count() > 3 && data.at(3) == "audio") {
-            extractAudioMenu->addAction(a);
-        } else {
-            transMenu->addAction(a);
-        }
-    }
+    QList <QAction *>tcActions = getExtraActions("transcoderslist");
+    unplugActionList("transcoders_list");
+    plugActionList("transcoders_list", tcActions);
+    
 }
 
 void MainWindow::loadDockActions()
 {
-    QMenu *viewMenu = static_cast<QMenu*>(factory()->container("dockwindows", this));
     QList <QAction *>list = kdenliveCategoryMap.value("interface")->actions();
-
     // Sort actions
     QMap <QString, QAction*> sorted;
     QStringList sortedList;
@@ -2726,22 +2675,76 @@ void MainWindow::loadDockActions()
         sorted.insert(a->text(), a);
         sortedList << a->text();
     }
+    QList <QAction *>orderedList;
     sortedList.sort(Qt::CaseInsensitive);
-    
     foreach(const QString &text, sortedList) {
-        viewMenu->addAction(sorted.value(text));
-    }
+        orderedList << sorted.value(text);
+    }    
+    unplugActionList( "dock_actions" );
+    plugActionList( "dock_actions", orderedList);
 }
 
 void MainWindow::buildDynamicActions()
 {
     KActionCategory *ts = NULL;
-    if (kdenliveCategoryMap.contains("transcoders")) {
-	ts = kdenliveCategoryMap.take("transcoders");
+    if (kdenliveCategoryMap.contains("clipjobs")) {
+	ts = kdenliveCategoryMap.take("clipjobs");
 	delete ts;
     }
-    ts = new KActionCategory(i18n("Transcoders"), m_extraFactory->actionCollection());
+    ts = new KActionCategory(i18n("Clip Jobs"), m_extraFactory->actionCollection());
 
+    Mlt::Profile profile;
+    Mlt::Filter *filter;
+
+    foreach(const QString stab, QStringList() << "vidstab" << "videostab2" << "videostab") {
+	filter = Mlt::Factory::filter(profile, (char*)stab.toUtf8().constData());
+        if (filter && filter->is_valid()) {
+	    QAction *action = new QAction(i18n("Stabilize") + " (" + stab + ")", m_extraFactory->actionCollection());
+            action->setData(QStringList() << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << stab);
+	    ts->addAction(action->text(), action);
+            connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
+            delete filter;
+            break;
+        }
+        delete filter;
+    }
+    filter = Mlt::Factory::filter(profile,(char*)"motion_est");
+    if (filter) {
+	if (filter->is_valid()) {
+	    QAction *action = new QAction(i18n("Automatic scene split"), m_extraFactory->actionCollection());
+            QStringList stabJob;
+            stabJob << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << "motion_est";
+            action->setData(stabJob);
+	    ts->addAction(action->text(), action);
+            connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
+        }
+        delete filter;
+    }
+    if (KdenliveSettings::producerslist().contains("framebuffer")) {
+	QAction *action = new QAction(i18n("Reverse clip"), m_extraFactory->actionCollection());
+        QStringList stabJob;
+        stabJob << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << "framebuffer";
+        action->setData(stabJob);
+	ts->addAction(action->text(), action);
+        connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
+    }
+    QAction *action = new QAction(i18n("Analyse keyframes"), m_extraFactory->actionCollection());
+    QStringList stabJob(QString::number((int) AbstractClipJob::ANALYSECLIPJOB));
+    action->setData(stabJob);
+    ts->addAction(action->text(), action);
+    connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
+    kdenliveCategoryMap.insert("clipjobs", ts);
+    
+    if (kdenliveCategoryMap.contains("transcoderslist")) {
+	ts = kdenliveCategoryMap.take("transcoderslist");
+	delete ts;
+    }
+    if (kdenliveCategoryMap.contains("audiotranscoderslist")) {
+	ts = kdenliveCategoryMap.take("audiotranscoderslist");
+	delete ts;
+    }    
+    ts = new KActionCategory(i18n("Transcoders"), m_extraFactory->actionCollection());
+    KActionCategory *ats = new KActionCategory(i18n("Extract Audio"), m_extraFactory->actionCollection());
     KSharedConfigPtr config = KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::DataLocation, "kdenlivetranscodingrc"), KConfig::CascadeConfig);
     KConfigGroup transConfig(config, "Transcoding");
     // read the entries
@@ -2757,9 +2760,15 @@ void MainWindow::buildDynamicActions()
         if (data.count() > 1) a->setToolTip(data.at(1));
         // slottranscode
         connect(a, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
-        ts->addAction(i.key(), a);
+	if (data.count() > 3 && data.at(3) == "audio") {
+	    // This is an audio transcoding action
+	    ats->addAction(i.key(), a);
+	} else {
+	    ts->addAction(i.key(), a);
+	}
     }
-    kdenliveCategoryMap.insert("transcoders", ts);
+    kdenliveCategoryMap.insert("transcoderslist", ts);
+    kdenliveCategoryMap.insert("audiotranscoderslist", ats);
 
     // Populate View menu with show / hide actions for dock widgets
     KActionCategory *guiActions = NULL;
@@ -2773,7 +2782,8 @@ void MainWindow::buildDynamicActions()
     showTimeline->setChecked(true);
     connect(showTimeline, SIGNAL(triggered(bool)), this, SLOT(slotShowTimeline(bool)));
     guiActions->addAction(showTimeline->text(), showTimeline);
-
+    actionCollection()->addAction(showTimeline->text(), showTimeline);
+    
     QList <QDockWidget *> docks = findChildren<QDockWidget *>();
     for (int i = 0; i < docks.count(); ++i) {
         QDockWidget* dock = docks.at(i);
@@ -2787,6 +2797,7 @@ void MainWindow::buildDynamicActions()
 
 QList <QAction *> MainWindow::getExtraActions(const QString &name)
 {
+    if (!kdenliveCategoryMap.contains(name)) return QList <QAction *> ();
     return kdenliveCategoryMap.value(name)->actions();
 }
 
