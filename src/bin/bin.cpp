@@ -876,7 +876,7 @@ QString Bin::slotAddFolder(const QString &folderName)
         m_proxyModel->selectionModel()->clearSelection();
         int row =ix.row();
         for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
-            const QModelIndex id = m_itemModel->index(row, i, QModelIndex());
+            const QModelIndex id = m_itemModel->index(row, i, ix.parent());
             if (id.isValid()) {
                 m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
             }
@@ -908,14 +908,16 @@ void Bin::selectClipById(const QString &clipId)
 {
     QModelIndex ix = getIndexForId(clipId, false);
     if (ix.isValid()) {
-        m_proxyModel->selectionModel()->clearSelection();
+	m_proxyModel->selectionModel()->clearSelection();
         int row =ix.row();
         for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
-            const QModelIndex id = m_itemModel->index(row, i, QModelIndex());
+            const QModelIndex id = m_itemModel->index(row, i, ix.parent());
             if (id.isValid()) {
                 m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
             }
         }
+	selectProxyModel(m_proxyModel->mapFromSource(ix));
+	m_itemView->scrollTo(m_proxyModel->mapFromSource(ix));
     }
 }
 
@@ -1991,7 +1993,7 @@ void Bin::slotEffectDropped(QString effect, const QModelIndex &parent)
         m_proxyModel->selectionModel()->clearSelection();
         int row =parent.row();
         for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
-            const QModelIndex id = m_itemModel->index(row, i, QModelIndex());
+            const QModelIndex id = m_itemModel->index(row, i, parent.parent());
             if (id.isValid()) {
                 m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
             }
