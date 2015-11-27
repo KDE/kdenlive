@@ -449,7 +449,6 @@ void Monitor::slotForceSize(QAction *a)
             warningMessage(i18n("Your screen resolution is not sufficient for this action"));
             return;
         }
-        
     }
     switch (resizeType) {
       case 100:

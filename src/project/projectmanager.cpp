@@ -507,7 +507,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_trackView->setDuration(m_trackView->duration());
 
     pCore->window()->slotGotProgressInfo(QString(), -1);
-    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_trackView->duration());
+    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_trackView->duration() - 1);
     pCore->monitorManager()->projectMonitor()->slotZoneMoved(m_trackView->inPoint(), m_trackView->outPoint());
     if (openBackup) {
         slotOpenBackup(url);
