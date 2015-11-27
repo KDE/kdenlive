@@ -2834,9 +2834,6 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             bool isLocked = m_timeline->getTrackInfo(info.track).isLocked;
             if (isLocked) item->setItemLocked(true);
             QString clipBinId = item->getBinId();
-            /*Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clipBinId, info.track, item->isAudioOnly(), item->isVideoOnly());
-	    prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
-            if (!m_timeline->track(info.track)->add(info.startPos.seconds(), prod, m_scene->editMode())) {*/
             Mlt::Producer *prod;
             if (item->clipState() == PlaylistState::VideoOnly) {
                 prod = m_document->renderer()->getBinVideoProducer(clipBinId);

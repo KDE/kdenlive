@@ -256,7 +256,7 @@ bool Track::cut(qreal t)
     m_playlist.unlock();
     QScopedPointer<Mlt::Producer> clip1(m_playlist.get_clip(index + 1));
     QScopedPointer<Mlt::Producer> clip2(m_playlist.get_clip(index));
-    Clip(*clip1).addEffects(*clip2);
+    Clip(*clip1).addEffects(*clip2, true);
     return true;
 }
 
@@ -676,7 +676,7 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
 	    } else cut = prod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)((info.cropStart.frames(m_fps) + clipLength) / speed - 1));
 
 	    // move all effects to the correct producer
-	    Clip(*cut).addEffects(*clip, false);
+	    Clip(*cut).addEffects(*clip);
 	    m_playlist.insert_at(startPos, cut, 1);
 	    delete cut;
 	    clipIndex = m_playlist.get_clip_index_at(startPos);
@@ -718,7 +718,7 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
 	    }
 
 	    // move all effects to the correct producer
-	    Clip(*cut).addEffects(*clip, false);
+	    Clip(*cut).addEffects(*clip);
 	    m_playlist.insert_at(startPos, cut, 1);
 	    delete cut;
 	    clipIndex = m_playlist.get_clip_index_at(startPos);
@@ -765,7 +765,7 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
 	}
 
         // move all effects to the correct producer
-        Clip(*cut).addEffects(*clip, false);
+        Clip(*cut).addEffects(*clip);
         m_playlist.insert_at(startPos, cut, 1);
         delete cut;
         clipIndex = m_playlist.get_clip_index_at(startPos);
