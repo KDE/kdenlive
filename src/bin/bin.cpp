@@ -1278,7 +1278,6 @@ void Bin::rebuildMenu()
     m_transcodeAction = static_cast<QMenu*>(pCore->window()->factory()->container("transcoders", pCore->window()));
     m_extractAudioAction = static_cast<QMenu*>(pCore->window()->factory()->container("extract_audio", pCore->window()));
     m_clipsActionsMenu = static_cast<QMenu*>(pCore->window()->factory()->container("clip_actions", pCore->window()));
-    if (m_inTimelineAction) delete m_inTimelineAction;
     m_menu->insertMenu(m_reloadAction, m_extractAudioAction);
     m_menu->insertMenu(m_reloadAction, m_transcodeAction);
     m_menu->insertMenu(m_reloadAction, m_clipsActionsMenu);
