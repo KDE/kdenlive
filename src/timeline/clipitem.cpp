@@ -117,9 +117,6 @@ ClipItem::~ClipItem()
     blockSignals(true);
     m_endThumbTimer.stop();
     m_startThumbTimer.stop();
-    m_thumbThreads.setCancelOnWait(true);
-    m_thumbThreads.waitForFinished();
-    m_thumbThreads.clearFutures();
     if (scene())
         scene()->removeItem(this);
     //if (m_clipType == Video | AV | SlideShow | Playlist) { // WRONG, cannot use | 
@@ -458,7 +455,7 @@ void ClipItem::slotFetchThumbs()
     }
 
     if (!frames.isEmpty()) {
-	m_thumbThreads.addFuture(QtConcurrent::run(m_binClip, &ProjectClip::slotExtractImage, frames));
+	m_binClip->slotExtractImage(frames);
     }
 }
 
@@ -472,17 +469,13 @@ void ClipItem::stopThumbs()
 void ClipItem::slotGetStartThumb()
 {
     m_startThumbRequested = true;
-    m_thumbThreads.addFuture(QtConcurrent::run(m_binClip, &ProjectClip::slotExtractImage, QList<int>() << (int)m_speedIndependantInfo.cropStart.frames(m_fps)));
-    //TODO
-    //m_clip->slotExtractImage(QList<int>() << (int)m_speedIndependantInfo.cropStart.frames(m_fps));
+    m_binClip->slotExtractImage(QList<int>() << (int)m_speedIndependantInfo.cropStart.frames(m_fps));
 }
 
 void ClipItem::slotGetEndThumb()
 {
     m_endThumbRequested = true;
-    m_thumbThreads.addFuture(QtConcurrent::run(m_binClip, &ProjectClip::slotExtractImage, QList<int>() << (int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1));
-    //TODO
-    //m_clip->slotExtractImage(QList<int>() << (int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
+    m_binClip->slotExtractImage(QList<int>() << (int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
 }
 
 
@@ -521,7 +514,6 @@ void ClipItem::slotThumbReady(int frame, const QImage &img)
         if (m_clipType == Image || m_clipType == Text) {
             update(r.right() - width, r.top(), width, pix.height());
         }
-        clearThumbthreads();
     } else if (m_endThumbRequested && frame == (m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1) {
         QRectF r = boundingRect();
 	QPixmap pix = QPixmap::fromImage(img);
@@ -529,20 +521,6 @@ void ClipItem::slotThumbReady(int frame, const QImage &img)
         m_endPix = pix;
         m_endThumbRequested = false;
         update(r.right() - width, r.top(), width, pix.height());
-        clearThumbthreads();
-    }
-}
-
-void ClipItem::clearThumbthreads()
-{
-    if (!m_thumbThreads.futures().isEmpty()) {
-        // Remove inactive threads
-        QList <QFuture<void> > futures = m_thumbThreads.futures();
-        m_thumbThreads.clearFutures();
-        for (int i = 0; i < futures.count(); ++i)
-            if (!futures.at(i).isFinished()) {
-                m_thumbThreads.addFuture(futures.at(i));
-            }
     }
 }
 

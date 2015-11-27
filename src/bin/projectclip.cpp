@@ -97,6 +97,8 @@ ProjectClip::~ProjectClip()
 {
     // controller is deleted in bincontroller
     abortAudioThumbs();
+    m_requestedThumbs.clear();
+    m_thumbThread.waitForFinished();
     delete m_thumbsProducer;
 }
 
@@ -725,23 +727,40 @@ QVariant ProjectClip::data(DataType type) const
 
 void ProjectClip::slotExtractImage(QList <int> frames)
 {
+    QMutexLocker lock(&m_thumbMutex);
+    for (int i = 0; i < frames.count(); i++) {
+        if (!m_requestedThumbs.contains(frames.at(i))) {
+            m_requestedThumbs << frames.at(i);
+        }
+    }
+    qSort(m_requestedThumbs);
+    if (!m_thumbThread.isRunning()) {
+        m_thumbThread = QtConcurrent::run(this, &ProjectClip::doExtractImage);
+    }
+}
+
+void ProjectClip::doExtractImage()
+{
     Mlt::Producer *prod = thumbProducer();
     if (prod == NULL || !prod->is_valid()) return;
     int fullWidth = (int)((double) 150 * prod->profile()->dar() + 0.5);
     QDir thumbFolder(bin()->projectFolder().path() + "/thumbs/");
-    for (int i = 0; i < frames.count(); i++) {
-        int pos = frames.at(i);
+    int max = prod->get_length();
+    int pos;
+    while (!m_requestedThumbs.isEmpty()) {
+        m_thumbMutex.lock();
+        pos = m_requestedThumbs.takeFirst();
+        m_thumbMutex.unlock();
         if (thumbFolder.exists(hash() + '#' + QString::number(pos) + ".png")) {
             emit thumbReady(pos, QImage(thumbFolder.absoluteFilePath(hash() + '#' + QString::number(pos) + ".png")));
             continue;
         }
-	int max = prod->get_out();
 	if (pos >= max) pos = max - 1;
 	prod->seek(pos);
 	Mlt::Frame *frame = prod->get_frame();
 	if (frame && frame->is_valid()) {
             QImage img = KThumb::getFrame(frame, fullWidth, 150);
-            emit thumbReady(frames.at(i), img);
+            emit thumbReady(pos, img);
         }
         delete frame;
     }

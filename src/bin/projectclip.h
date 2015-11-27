@@ -229,7 +229,11 @@ private:
     ClipType m_type;
     Mlt::Producer *m_thumbsProducer;
     QMutex m_producerMutex;
+    QMutex m_thumbMutex;
+    QFuture <void> m_thumbThread;
+    QList <int> m_requestedThumbs;
     const QString geometryWithOffset(const QString &data, int offset);
+    void doExtractImage();
 
 signals:
     void gotAudioData();

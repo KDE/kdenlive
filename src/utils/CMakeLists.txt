@@ -7,6 +7,7 @@ set(kdenlive_SRCS
   utils/resourcewidget.cpp
   utils/flowlayout.cpp
   utils/thememanager.cpp
+  utils/KoIconUtils.cpp
   PARENT_SCOPE
 )
 

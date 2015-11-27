@@ -250,7 +250,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     }
 
     // Ask to create the project directory if it does not exist
-    if (!QFile::exists(m_projectFolder.path())) {
+    QFileInfo checkProjectFolder(m_projectFolder.toString(QUrl::RemoveFilename | QUrl::RemoveScheme));
+    if (!QFile::exists(m_projectFolder.path()) && checkProjectFolder.isWritable()) {
         int create = KMessageBox::questionYesNo(parent, i18n("Project directory %1 does not exist. Create it?", m_projectFolder.path()));
         if (create == KMessageBox::Yes) {
             QDir projectDir(m_projectFolder.path());

@@ -61,7 +61,7 @@
 #include "timeline/timelinesearch.h"
 #include <config-kdenlive.h>
 #include "utils/thememanager.h"
-#include "utils/KoIconUtils.cpp"
+#include "utils/KoIconUtils.h"
 #ifdef USE_JOGSHUTTLE
 #include "jogshuttle/jogmanager.h"
 #endif
@@ -1309,8 +1309,8 @@ void MainWindow::readOptions()
         if (!dir.mkdir(QStringLiteral("kdenlive"))) {
             qDebug() << "/// ERROR CREATING PROJECT FOLDER: ";
         } else {
-            dir.cd(QStringLiteral("kdenlive"));
-            KdenliveSettings::setDefaultprojectfolder(dir.path());
+            dir.cd("kdenlive");
+            KdenliveSettings::setDefaultprojectfolder(dir.absolutePath());
         }
     }
 
