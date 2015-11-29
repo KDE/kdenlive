@@ -7783,13 +7783,26 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> proc
     Mlt::Tractor tractor(service);
     int playlistTracks = tractor.count();
     int lowerTrack = info.track;
-    if (lowerTrack + playlistTracks > m_timeline->visibleTracksCount()) {
-        lowerTrack = m_timeline->visibleTracksCount() - playlistTracks;
+    if (lowerTrack + playlistTracks > m_timeline->tracksCount()) {
+        lowerTrack = m_timeline->tracksCount() - playlistTracks;
     }
     if (lowerTrack <1) {
         qWarning()<<" / / / TOO many tracks in playlist for our timeline ";
         delete command;
         return;
+    }
+    // Check if there are no objects on the way
+    double startY = getPositionFromTrack(lowerTrack + playlistTracks) + 1;
+    QRectF r(info.startPos.frames(m_document->fps()), startY, (info.endPos - info.startPos).frames(m_document->fps()), m_tracksHeight * playlistTracks);
+    QList<QGraphicsItem *> selection = m_scene->items(r);
+    ClipItem *playlistToExpand = getClipItemAtStart(info.startPos, info.track);
+    if (playlistToExpand) selection.removeAll(playlistToExpand);
+    for (int i = 0; i < selection.count(); ++i) {
+        if (selection.at(i)->type() == TransitionWidget || selection.at(i)->type() == AVWidget) {
+            qWarning()<<" / / /There are clips in timeline preventing expand actions";
+            delete command;
+            return;
+        }
     }
     for (int i = 0;  i < playlistTracks; i++) {
         int startPos = info.startPos.frames(m_document->fps());
@@ -7849,20 +7862,28 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> proc
                 transitionInfo.endPos = info.startPos + GenTime(t.get_out(), m_document->fps());
                 transitionInfo.track = t.get_b_track() + lowerTrack;
                 int endTrack = t.get_a_track() + lowerTrack;
-                
                 if (prop.get("kdenlive_id") == NULL && QString(prop.get("mlt_service")) == "composite" && Timeline::isSlide(prop.get("geometry")))
                     prop.set("kdenlive_id", "slide");
                 QDomElement base = MainWindow::transitions.getEffectByTag(prop.get("mlt_service"), prop.get("kdenlive_id")).cloneNode().toElement();
-                
+
                 QDomNodeList params = base.elementsByTagName("parameter");
                 for (int i = 0; i < params.count(); ++i) {
                     QDomElement e = params.item(i).toElement();
                     QString paramName = e.hasAttribute("tag") ? e.attribute("tag") : e.attribute("name");
-                    QString value = prop.get(paramName.toUtf8().constData());
-                    int factor = e.attribute("factor").toInt();
+                    QString value;
+                    if (paramName == "a_track") {
+                        value = QString::number(transitionInfo.track);
+                    }
+                    else if (paramName == "b_track") {
+                        value = QString::number(endTrack);
+                    }
+                    else value = prop.get(paramName.toUtf8().constData());
+                    //int factor = e.attribute("factor").toInt();
                     if (value.isEmpty()) continue;
                     e.setAttribute("value", value);
                 }
+                base.setAttribute("force_track", prop.get_int("force_track"));
+                base.setAttribute("automatic", prop.get_int("automatic"));
                 new AddTransitionCommand(this, transitionInfo, endTrack, base, false, true, command);
             }
         }
