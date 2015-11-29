@@ -1317,7 +1317,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
 void CustomTrackView::rebuildGroup(int childTrack, const GenTime &childPos)
 {
-    const QPointF p((int)childPos.frames(m_document->fps()), childTrack * m_tracksHeight + m_tracksHeight / 2);
+    const QPointF p((int)childPos.frames(m_document->fps()), getPositionFromTrack(childTrack) + m_tracksHeight / 2);
     QList<QGraphicsItem *> list = scene()->items(p);
     AbstractGroupItem *group = NULL;
     for (int i = 0; i < list.size(); ++i) {
@@ -3435,7 +3435,7 @@ void CustomTrackView::slotRemoveSpace()
             if (transitionsToMove.at(i).startPos < info.startPos) info = transitionsToMove.at(i);
 
         // make sure there are no transitions on the way
-        QRectF rect(info.startPos.frames(m_document->fps()) - length, track * m_tracksHeight + m_tracksHeight / 2, length - 1, m_tracksHeight / 2 - 2);
+        QRectF rect(info.startPos.frames(m_document->fps()) - length, getPositionFromTrack(track) + m_tracksHeight / 2, length - 1, m_tracksHeight / 2 - 2);
         items = scene()->items(rect);
         int transitionCorrection = -1;
         for (int i = 0; i < items.count(); ++i) {
@@ -7083,14 +7083,14 @@ void CustomTrackView::slotSelectTrack(int ix)
     m_selectedTrack = qMin(ix, m_timeline->tracksCount() - 1);
     emit updateTrackHeaders();
     m_timeline->slotShowTrackEffects(ix);
-    QRectF rect(mapToScene(QPoint(10, 0)).x(), m_selectedTrack * m_tracksHeight, 10, m_tracksHeight);
+    QRectF rect(mapToScene(QPoint(10, 0)).x(), getPositionFromTrack(ix) , 10, m_tracksHeight);
     ensureVisible(rect, 0, 0);
     viewport()->update();
 }
 
 void CustomTrackView::slotSelectClipsInTrack()
 {
-    QRectF rect(0, m_selectedTrack * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), m_tracksHeight / 2 - 1);
+    QRectF rect(0, getPositionFromTrack(m_selectedTrack) + m_tracksHeight / 2, sceneRect().width(), m_tracksHeight / 2 - 1);
     resetSelectionGroup();
     QList<QGraphicsItem *> selection = m_scene->items(rect);
     m_scene->clearSelection();
@@ -7131,7 +7131,7 @@ void CustomTrackView::selectClip(bool add, bool group, int track, int pos)
 
 void CustomTrackView::selectTransition(bool add, bool group)
 {
-    QRectF rect(m_cursorPos, m_selectedTrack * m_tracksHeight + m_tracksHeight, 1, 1);
+    QRectF rect(m_cursorPos, getPositionFromTrack(m_selectedTrack) + m_tracksHeight, 1, 1);
     QList<QGraphicsItem *> selection = m_scene->items(rect);
     resetSelectionGroup(group);
     if (!group) m_scene->clearSelection();
@@ -7171,7 +7171,7 @@ void CustomTrackView::setEditMode(EditMode mode)
 void CustomTrackView::checkTrackSequence(int track)
 {
     QList <int> times = m_document->renderer()->checkTrackSequence(track);
-    QRectF rect(0, track * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), 2);
+    QRectF rect(0, getPositionFromTrack(track) + m_tracksHeight / 2, sceneRect().width(), 2);
     QList<QGraphicsItem *> selection = m_scene->items(rect);
     QList <int> timelineList;
     timelineList.append(0);
@@ -7319,7 +7319,7 @@ void CustomTrackView::setTipAnimation(AbstractClipItem *clip, OperationType mode
 
 bool CustomTrackView::hasAudio(int track) const
 {
-    QRectF rect(0, (double)(track * m_tracksHeight + 1), (double) sceneRect().width(), (double)(m_tracksHeight - 1));
+    QRectF rect(0, (double)(getPositionFromTrack(track) + 1), (double) sceneRect().width(), (double)(m_tracksHeight - 1));
     QList<QGraphicsItem *> collisions = scene()->items(rect, Qt::IntersectsItemBoundingRect);
     for (int i = 0; i < collisions.count(); ++i) {
         QGraphicsItem *item = collisions.at(i);
