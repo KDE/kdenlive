@@ -285,7 +285,10 @@ int Timeline::getTracks() {
             connect(tk->trackHeader, SIGNAL(configTrack()), this, SIGNAL(configTrack()));
             connect(tk->trackHeader, SIGNAL(addTrackEffect(QDomElement,int)), m_trackview, SLOT(slotAddTrackEffect(QDomElement,int)));
         }
-        if (playlist.filter_count()) getEffects(playlist, NULL, 0);
+        if (playlist.filter_count()) {
+            getEffects(playlist, NULL, i);
+            slotUpdateTrackEffectState(i);
+        }
         connect(tk, &Track::newTrackDuration, this, &Timeline::checkDuration);
 	connect(tk, SIGNAL(storeSlowMotion(QString,Mlt::Producer *)), m_doc->renderer(), SLOT(storeSlowmotionProducer(QString,Mlt::Producer *)));
     }
