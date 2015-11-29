@@ -37,6 +37,7 @@
 #include <KDualAction>
 #include <KSelectAction>
 #include <KMessageWidget>
+#include <KMessageBox>
 
 #include <QDebug>
 #include <QMouseEvent>
@@ -827,26 +828,32 @@ ClipController *Monitor::currentController() const
     return m_controller;
 }
 
-void Monitor::slotExtractCurrentFrame()
+void Monitor::slotExtractCurrentFrame(QString path)
 {
-    QImage frame;
-    // check if we are using a proxy
-    if (m_controller && !m_controller->property("kdenlive:proxy").isEmpty() && m_controller->property("kdenlive:proxy") != "-") {
-        // using proxy, use original clip url to get frame
-        frame = render->extractFrame(render->seekFramePosition(), m_controller->property("resource"));
-    }
-    else frame = render->extractFrame(render->seekFramePosition());
     QString framesFolder = KRecentDirs::dir(":KdenliveFramesFolder");
     if (framesFolder.isEmpty()) framesFolder = QDir::homePath();
-    
     QPointer<QFileDialog> fs = new QFileDialog(this, i18n("Save Image"), framesFolder);
     fs->setMimeTypeFilters(QStringList() << "image/png");
     fs->setAcceptMode(QFileDialog::AcceptSave);
+    fs->selectFile(path);
     if (fs->exec()) {
-        QStringList path = fs->selectedFiles();
-        if (!path.isEmpty()) {
-            KRecentDirs::add(":KdenliveFramesFolder", fs->selectedUrls().first().adjusted(QUrl::RemoveFilename).path());
-            frame.save(path.first());
+        if (!fs->selectedFiles().isEmpty()) {
+            QUrl savePath = fs->selectedUrls().first();
+            if (QFile::exists(savePath.toLocalFile()) && KMessageBox::warningYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", savePath.toLocalFile())) == KMessageBox::No) {
+                delete fs;
+                slotExtractCurrentFrame(savePath.fileName());
+                return;
+            }
+            // Create Qimage with frame
+            QImage frame;
+            // check if we are using a proxy
+            if (m_controller && !m_controller->property("kdenlive:proxy").isEmpty() && m_controller->property("kdenlive:proxy") != "-") {
+                // using proxy, use original clip url to get frame
+                frame = render->extractFrame(render->seekFramePosition(), m_controller->property("resource"));
+            }
+            else frame = render->extractFrame(render->seekFramePosition());
+            frame.save(savePath.toLocalFile());
+            KRecentDirs::add(":KdenliveFramesFolder", savePath.adjusted(QUrl::RemoveFilename).path());
         }
     }
     delete fs;
