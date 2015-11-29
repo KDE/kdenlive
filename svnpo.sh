@@ -1,21 +1,27 @@
 #!/bin/bash
-getlocale() {
-    local locale=$1
-	wget -O $locale.po "http://websvn.kde.org/*checkout*/trunk/l10n-kf5/$locale/messages/kdemultimedia/kdenlive.po"
-    if [ $? -eq 0 ] ; then
-        mkdir $locale
-        mv $locale.po $locale/kdenlive.po
-        echo "GETTEXT_PROCESS_PO_FILES($locale ALL INSTALL_DESTINATION \${LOCALE_INSTALL_DIR} kdenlive.po)" >> $locale/CMakeLists.txt
-        echo "ADD_SUBDIRECTORY($locale)" >> CMakeLists.txt
-    else
-        rm $locale.po
-    fi
-}
-[ -d po ] || mkdir po
+[ -d po ] || mkdir po || exit
 cd po
+echo 'FIND_PACKAGE(Gettext)
+FIND_PROGRAM(GETTEXT_MSGFMT_EXECUTABLE msgfmt)
+IF(GETTEXT_MSGFMT_EXECUTABLE)
+  FILE(GLOB PO_FILES *.po)
+  SET(GMO_FILES)
+  FOREACH(_po ${PO_FILES})
+    GET_FILENAME_COMPONENT(_lang ${_po} NAME_WE)
+    SET(_gmo ${CMAKE_CURRENT_BINARY_DIR}/${_lang}.gmo)
+    ADD_CUSTOM_COMMAND(OUTPUT ${_gmo}
+        COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} --check -o ${_gmo} ${_po}
+        DEPENDS ${_po})
+    INSTALL(FILES ${_gmo}
+        DESTINATION ${LOCALE_INSTALL_DIR}/${_lang}/LC_MESSAGES/
+        RENAME kdenlive.mo)
+    LIST(APPEND GMO_FILES ${_gmo})
+    #GETTEXT_PROCESS_PO_FILES(${_lang} ALL INSTALL_DESTINATION \${LOCALEDIR} PO_FILES {_lang}.po)
+  ENDFOREACH(_po ${PO_FILES})
+  ADD_CUSTOM_TARGET(translations ALL DEPENDS ${GMO_FILES})
+ENDIF(GETTEXT_MSGFMT_EXECUTABLE)' > CMakeLists.txt
 locales=$(wget -O - http://websvn.kde.org/*checkout*/trunk/l10n-kde4/subdirs | grep -v x-test)
-echo "find_package(Gettext REQUIRED)" > CMakeLists.txt
-for l in $locales; do
-    getlocale $l &
+for locale in $locales; do
+	wget -O $locale.po "http://websvn.kde.org/*checkout*/trunk/l10n-kf5/$locale/messages/kdemultimedia/kdenlive.po" || rm $locale.po
 done
 
