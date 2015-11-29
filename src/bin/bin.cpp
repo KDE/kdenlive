@@ -2017,6 +2017,10 @@ void Bin::slotDeleteEffect(const QString &id, QDomElement effect)
 
 void Bin::removeEffect(const QString &id, const QDomElement &effect)
 {
+    if (effect.isNull()) {
+        qWarning()<<" / /ERROR, trying to remove empty effect";
+        return;
+    }
     ProjectClip *currentItem = m_rootFolder->clip(id);
     if (!currentItem) return;
     currentItem->removeEffect(effect.attribute("kdenlive_ix").toInt());

@@ -2167,7 +2167,7 @@ bool Render::removeFilterFromService(Mlt::Service service, int effectIndex, bool
     int ct = 0;
     Mlt::Filter *filter = service.filter(ct);
     while (filter) {
-        if ((effectIndex == -1 && strcmp(filter->get("kdenlive_id"), ""))  || filter->get_int("kdenlive_ix") == effectIndex) {
+        if ((effectIndex == -1 && strcmp(filter->get("kdenlive_id"), "")) || filter->get_int("kdenlive_ix") == effectIndex) {
             if (service.detach(*filter) == 0) {
                 delete filter;
                 success = true;
