@@ -1604,14 +1604,13 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
 {
     ProjectClip *clip = m_rootFolder->clip(info.clipId);
     if (clip) {
-        if (!clip->hasProxy()) {
+        if (clip->setProducer(controller, info.replaceProducer) && !clip->hasProxy()) {
             // Check for file modifications
             ClipType t = clip->clipType();
             if (t == AV || t == Audio || t == Image || t == Video || t == Playlist) {
                 m_doc->watchFile(clip->url());
             }
         }
-	clip->setProducer(controller, info.replaceProducer);
         QString currentClip = m_monitor->activeClipId();
         if (currentClip.isEmpty()) {
             //No clip displayed in monitor, check if item is selected
@@ -1648,7 +1647,11 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
         }
         else parentFolder = m_rootFolder;
         //FIXME(style): constructor actually adds the new pointer to parent's children
-        new ProjectClip(info.clipId, m_blankThumb, controller, parentFolder);
+        ProjectClip *clip = new ProjectClip(info.clipId, m_blankThumb, controller, parentFolder);
+        ClipType t = clip->clipType();
+        if (t == AV || t == Audio || t == Image || t == Video || t == Playlist) {
+            m_doc->watchFile(clip->url());
+        }
         if (info.clipId.toInt() >= m_clipCounter) m_clipCounter = info.clipId.toInt() + 1;
     }
     emit producerReady(info.clipId);

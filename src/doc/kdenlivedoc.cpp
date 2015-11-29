@@ -1073,13 +1073,14 @@ void KdenliveDoc::deleteClip(const QString &clipId)
     }
     ClipType type = controller->clipType();
     QString url = controller->clipUrl().toLocalFile();
-    if (type != Color && type != SlideShow  && !url.isEmpty()) {
-        m_fileWatcher.removeFile(url);
-    }
     // Delete clip in bin
     pCore->bin()->deleteClip(clipId);
     // Delete controller and Mlt::Producer
     pCore->binController()->removeBinClip(clipId);
+    // Remove from file watch
+    if (type != Color && type != SlideShow  && !url.isEmpty()) {
+        m_fileWatcher.removeFile(url);
+    }
 }
 
 ProjectClip *KdenliveDoc::getBinClip(const QString &clipId)
@@ -1448,7 +1449,6 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy)
 
 
 //TODO put all file watching stuff in own class
-
 void KdenliveDoc::watchFile(const QUrl &url)
 {
     m_fileWatcher.addFile(url.toLocalFile());
@@ -1456,7 +1456,6 @@ void KdenliveDoc::watchFile(const QUrl &url)
 
 void KdenliveDoc::slotClipModified(const QString &path)
 {
-    qDebug() << "// CLIP: " << path << " WAS MODIFIED";
     QStringList ids = pCore->binController()->getBinIdsByResource(QUrl::fromLocalFile(path));
     foreach (const QString &id, ids) {
         if (!m_modifiedClips.contains(id)) {
@@ -1473,7 +1472,7 @@ void KdenliveDoc::slotClipMissing(const QString &path)
     qDebug() << "// CLIP: " << path << " WAS MISSING";
     QStringList ids = pCore->binController()->getBinIdsByResource(QUrl::fromLocalFile(path));
     //TODO handle missing clips by replacing producer with an invalid producer
-    /*foreach (const QString &id, ids) {    
+    /*foreach (const QString &id, ids) {
         emit missingClip(id);
     }*/
 }
@@ -1490,6 +1489,7 @@ void KdenliveDoc::slotProcessModifiedClips()
                 break;
             }
         }
+        setModified(true);
     }
     if (m_modifiedClips.isEmpty()) m_modifiedTimer.stop();
 }
