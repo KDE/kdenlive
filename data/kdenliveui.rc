@@ -1,8 +1,9 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="95" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="100" translationDomain="kdenlive">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
+        <Action name="favorite_effects" />
   </ToolBar>
 
   <MenuBar>

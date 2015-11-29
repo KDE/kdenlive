@@ -22,6 +22,7 @@
 #define EFFECTBASKET_H
 
 #include <QListWidget>
+#include <QDomElement>
 
 class EffectsListView;
 
@@ -40,12 +41,17 @@ public:
 
 protected:
     QMimeData *mimeData(const QList<QListWidgetItem *> list) const;
+    void showEvent(QShowEvent * event);
 
 private:
     EffectsListView *m_effectList;
 
 private slots:
     void slotReloadBasket();
+    void slotAddEffect(QListWidgetItem *item);
+
+signals:
+    void addEffect(QDomElement);
 
 };
 

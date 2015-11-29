@@ -304,9 +304,12 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     // Create Effect Basket (dropdown list of favorites)
     m_effectBasket = new EffectBasket(m_effectList);
+    connect(m_effectBasket, SIGNAL(addEffect(QDomElement)), this, SLOT(slotAddEffect(QDomElement)));
     QWidgetAction *widgetlist = new QWidgetAction(this);
-    widgetlist->setText(i18n("Favorite Effects"));
     widgetlist->setDefaultWidget(m_effectBasket);
+    widgetlist->setText(i18n("Favorite Effects"));
+    widgetlist->setToolTip(i18n("Favorite Effects"));
+    widgetlist->setIcon(KoIconUtils::themedIcon("favorite"));
     QMenu *menu = new QMenu(this);
     menu->addAction(widgetlist);
 
@@ -314,21 +317,25 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     basketButton->setMenu(menu);
     basketButton->setDefaultAction(widgetlist);
     basketButton->setPopupMode(QToolButton::InstantPopup);
-    basketButton->setIcon(KoIconUtils::themedIcon("favorite"));
-    basketButton->setToolTip(i18n("Favorite Effects"));
-    basketButton->setText(i18n("Favorite Effects"));
-    basketButton->setShortcut(Qt::CTRL + Qt::Key_R);
-    actionCollection()->addAction("fav_aff", basketButton);
-    setupGUI();
 
-    QToolBar *extraTB = static_cast<QToolBar*>(factory()->container("extraToolBar", this));
-    extraTB->addWidget(basketButton);
+    basketButton->setText(i18n("Favorite Effects"));
+    basketButton->setToolTip(i18n("Favorite Effects"));
+    basketButton->setIcon(KoIconUtils::themedIcon("favorite"));
+
+    QWidgetAction* toolButtonAction = new QWidgetAction(this);
+    toolButtonAction->setText(i18n("Favorite Effects"));
+    toolButtonAction->setIcon(KoIconUtils::themedIcon("favorite"));
+    toolButtonAction->setDefaultWidget(basketButton);
+
+    addAction("favorite_effects", toolButtonAction);
+    connect(toolButtonAction, SIGNAL(triggered(bool)), basketButton, SLOT(showMenu()));
+    setupGUI();
 
     /*ScriptingPart* sp = new ScriptingPart(this, QStringList());
     guiFactory()->addClient(sp);*/
 
     loadPlugins();
-    loadDockActions();    
+    loadDockActions();
     loadClipActions();
 
     m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone, NULL, m_loopClip);
@@ -2658,11 +2665,10 @@ void MainWindow::loadClipActions()
     QList <QAction *>atcActions = getExtraActions("audiotranscoderslist");
     unplugActionList("audio_transcoders_list");
     plugActionList("audio_transcoders_list", atcActions);
-    
+
     QList <QAction *>tcActions = getExtraActions("transcoderslist");
     unplugActionList("transcoders_list");
     plugActionList("transcoders_list", tcActions);
-    
 }
 
 void MainWindow::loadDockActions()
