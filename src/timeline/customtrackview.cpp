@@ -3111,10 +3111,12 @@ void CustomTrackView::checkCompositeTransitions(Mlt::Tractor *tractor)
         if (topTrack->get_int("kdenlive:audio_track") == 0 && lowerTrack->get_int("kdenlive:audio_track") == 0) {
             // both tracks have video, we must have a composite transition
             bool brokenTransition = false;
+            bool disabledTransition = false;
             if (tr) {
                 // Check that the transition tracks are correct
                 int aTrack = tr->get_a_track();
                 int bTrack = tr->get_b_track();
+                disabledTransition = tr->get_int("disable") == 1;
                 if (bTrack != i || aTrack != i - 1) {
                     field->disconnect_service(*tr.data());
                     brokenTransition = true;
@@ -3126,6 +3128,7 @@ void CustomTrackView::checkCompositeTransitions(Mlt::Tractor *tractor)
                 composite.set("a_track", i - 1);
                 composite.set("b_track", i);
                 composite.set("internal_added", 237);
+                if (disabledTransition) composite.set("disable", 1);
                 field->plant_transition(composite, i - 1, i);
             }
         } else if (tr) {
@@ -3166,7 +3169,7 @@ void CustomTrackView::removeTrack(int ix)
     Mlt::Tractor *tractor = m_document->renderer()->lockService();
     QScopedPointer<Mlt::Field> field(tractor->field());
     if (m_timeline->getTrackInfo(ix).type == VideoTrack) {
-        QScopedPointer<Mlt::Transition> tr(m_timeline->transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", (ix == m_timeline->tracksCount()) ? ix : ix + 1, -1, true));
+        QScopedPointer<Mlt::Transition> tr(m_timeline->transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", ix, -1, true));
         if (tr) {
             field->disconnect_service(*tr.data());
         }
@@ -6429,7 +6432,7 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
     QUndoCommand *deleteTrack = new QUndoCommand();
     deleteTrack->setText("Delete track");
     new RefreshMonitorCommand(this, false, true, deleteTrack);
-    
+
     // Remove clips on that track from groups
     QList<QGraphicsItem *> groupsToProceed;
     for (int i = 0; i < selection.count(); ++i) {
