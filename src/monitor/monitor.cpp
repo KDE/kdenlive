@@ -1374,6 +1374,7 @@ void Monitor::slotSeekToKeyFrame()
 
 void Monitor::setUpEffectGeometry(QRect r, QVariantList list)
 {
+    if (!m_rootItem) return;
     if (!list.isEmpty()) {
         m_rootItem->setProperty("centerPoints", list);
     }
@@ -1382,21 +1383,30 @@ void Monitor::setUpEffectGeometry(QRect r, QVariantList list)
 
 QRect Monitor::effectRect() const
 {
+    if (!m_rootItem) {
+	return QRect();
+    }
     return m_rootItem->property("framesize").toRect();
 }
 
 QVariantList Monitor::effectPolygon() const
 {
+    if (!m_rootItem) {
+	return QVariantList();
+    }
     return m_rootItem->property("centerPoints").toList();
 }
 
 void Monitor::setEffectKeyframe(bool enable)
 {
-    m_rootItem->setProperty("iskeyframe", enable);
+    if (m_rootItem) {
+	m_rootItem->setProperty("iskeyframe", enable);
+    }
 }
 
 bool Monitor::effectSceneDisplayed(MonitorSceneType effectType)
 {
+    if (!m_rootItem) return false;
     switch (effectType) {
       case MonitorSceneGeometry:
           return m_rootItem->objectName() == "rooteffectscene";
