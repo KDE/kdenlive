@@ -1218,7 +1218,7 @@ bool Timeline::moveClip(int startTrack, qreal startPos, int endTrack, qreal endP
     sourceTrack->playlist().unlock();
     Track *destTrack = track(endTrack);
     
-    bool success = destTrack->add(endPos, clipProducer, GenTime(clipProducer->get_in(), destTrack->fps()).seconds(), GenTime(clipProducer->get_out(), destTrack->fps()).seconds(), state, duplicate, mode);
+    bool success = destTrack->add(endPos, clipProducer, GenTime(clipProducer->get_in(), destTrack->fps()).seconds(), GenTime(clipProducer->get_out() + 1, destTrack->fps()).seconds(), state, duplicate, mode);
     delete clipProducer;
     return success;
 }
