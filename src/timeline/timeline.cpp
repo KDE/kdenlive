@@ -85,14 +85,14 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
     size_frame->setMaximumHeight(m_ruler->height());
 
     QToolButton *butSmall = new QToolButton(this);
-    butSmall->setIcon(QIcon::fromTheme("kdenlive-zoom-small"));
+    butSmall->setIcon(KoIconUtils::themedIcon("kdenlive-zoom-small"));
     butSmall->setToolTip(i18n("Smaller tracks"));
     butSmall->setAutoRaise(true);
     connect(butSmall, SIGNAL(clicked()), this, SLOT(slotVerticalZoomDown()));
     sizeLayout->addWidget(butSmall);
 
     QToolButton *butLarge = new QToolButton(this);
-    butLarge->setIcon(QIcon::fromTheme("kdenlive-zoom-large"));
+    butLarge->setIcon(KoIconUtils::themedIcon("kdenlive-zoom-large"));
     butLarge->setToolTip(i18n("Bigger tracks"));
     butLarge->setAutoRaise(true);
     connect(butLarge, SIGNAL(clicked()), this, SLOT(slotVerticalZoomUp()));
