@@ -1105,7 +1105,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_openAction->setEnabled(type == Image || type == Audio);
                 if (m_propertiesPanel->isVisible()) {
                     // if info panel is displayed, update info
-                    showClipProperties(static_cast<ProjectClip*>(currentItem));
+                    showClipProperties(static_cast<ProjectClip*>(currentItem), false);
                 }
                 m_deleteAction->setText(i18n("Delete Clip"));
                 m_proxyAction->setText(i18n("Proxy Clip"));
@@ -1441,9 +1441,15 @@ void Bin::slotSwitchClipProperties(const QModelIndex &ix)
     if (ix.isValid()) {
         // User clicked in the icon, open clip properties
         if (m_propertiesPanel->isHidden()) {
-            m_propertiesPanel->show();
-            AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
+	    AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
             ProjectClip *clip = qobject_cast<ProjectClip*>(item);
+            if (clip && clip->clipType() == Text) {
+		m_propertiesPanel->hide();
+	    } else {
+		m_propertiesPanel->setEnabled(true);
+		m_propertiesPanel->show();
+		
+	    }
             showClipProperties(clip);
         }
         else m_propertiesPanel->hide();
@@ -1464,7 +1470,7 @@ void Bin::slotShowClipProperties()
     }
 }
 
-void Bin::showClipProperties(ProjectClip *clip)
+void Bin::showClipProperties(ProjectClip *clip, bool openExternalDialog )
 {
     if (!m_editAction->isChecked()) return;
     if (clip && !clip->isReady()) {
@@ -1479,7 +1485,7 @@ void Bin::showClipProperties(ProjectClip *clip)
             delete w;
         }*/
         m_propertiesPanel->setEnabled(false);
-        showTitleWidget(clip);
+        if (openExternalDialog) showTitleWidget(clip);
         return;
     }
     if (clip && clip->clipType() == SlideShow) {

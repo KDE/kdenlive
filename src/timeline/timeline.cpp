@@ -1404,7 +1404,7 @@ int Timeline::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Play
     }
     Mlt::Properties passProperties;
     Mlt::Properties original(originalProd->get_properties());
-    passProperties.pass_list(original, ClipController::getPassPropertiesList());
+    passProperties.pass_list(original, ClipController::getPassPropertiesList(false));
     return track(info.track)->changeClipSpeed(info, speedIndependantInfo, state, speed, strobe, prod, passProperties);
 }
 
