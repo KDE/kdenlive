@@ -31,11 +31,21 @@
 #include <kio/jobclasses.h>
 
 
+
 class KPixmapSequenceOverlayPainter;
 class QAction;
 class QNetworkConfigurationManager;
 class QTemporaryFile;
 
+/**
+  \brief This is the window that appears from Project>Online Resources
+
+ * In the Online Resources window the user can choose from different online resouces such as Freesound Audio Library, Archive.org Video
+ * Library and Open clip Art Graphic Library.
+ * Depending on which of these is selected  the resourcewidget will instansiate a FreeSound, ArchiveOrg or OpenClipArt
+ * class that will deal with the searching and parsing of the results for the different on line resource libraries
+
+  */
 class ResourceWidget : public QDialog, public Ui::FreeSound_UI
 {
     Q_OBJECT
@@ -47,6 +57,11 @@ public:
 
 private slots:
     void slotStartSearch(int page = 0);
+    /**
+     * @brief Fires when user selects a different item in the list of found items
+     *
+     * This is not just for sounds. It fires for clip art and videos too.
+     */
     void slotUpdateCurrentSound();
     void slotPlaySound();
     void slotDisplayMetaInfo(const QMap <QString, QString>& metaInfo);
@@ -65,6 +80,7 @@ private slots:
     void slotSetImage(const QString &desc);
     void slotSetTitle(const QString &desc);
     void slotSetMaximum(int max);
+    void slotPreviewFinished();
 
 private:
     QNetworkConfigurationManager *m_networkManager;
