@@ -354,7 +354,6 @@ private:
     QTimeLine *m_animationTimer;
     QColor m_tipColor;
     QPen m_tipPen;
-    QPoint m_clickPoint;
     QPoint m_clickEvent;
     QList <CommentedTime> m_searchPoints;
     QList <Guide *> m_guides;

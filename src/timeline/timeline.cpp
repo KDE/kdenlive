@@ -559,15 +559,15 @@ TrackInfo Timeline::getTrackInfo(int ix)
     if (ix < 0 || ix > m_tracks.count()) {
 	qWarning()<<"/// ARGH, requested info for track: "<<ix<<" - MAX is: "<<m_tracks.count();
 	// Let it crash to find wrong calls
-	//TrackInfo info;
-	//return info;
+	TrackInfo info;
+	return info;
     }
     Track *tk = track(ix);
     if (tk == NULL) {
 	qWarning()<<"/// ARGH, requesting NULL track: "<<ix<<" - MAX is: "<<m_tracks.count();
 	// Let it crash to find wrong calls
-	//TrackInfo info;
-	//return info;
+	TrackInfo info;
+	return info;
     }
     return tk->info();
 }

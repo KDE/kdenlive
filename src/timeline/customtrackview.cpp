@@ -87,7 +87,6 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
   , m_dragGuide(NULL)
   , m_visualTip(NULL)
   , m_animation(NULL)
-  , m_clickPoint()
   , m_autoScroll(KdenliveSettings::autoscroll())
   , m_timelineContextMenu(NULL)
   , m_timelineContextClipMenu(NULL)
@@ -1184,7 +1183,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     if (event->button() == Qt::LeftButton) {
         if (m_dragItem) {
-            m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps())), (int)(event->pos().y() - m_dragItem->pos().y()));
             if (m_selectionGroup && m_dragItem->parentItem() == m_selectionGroup) {
                 // all other modes break the selection, so the user probably wants to move it
                 m_operationMode = MoveOperation;
@@ -2549,7 +2547,7 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
             return NULL;
         }
         if (!m_timeline->track(info.track)->del(cutTime.seconds())) {
-            emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(cutTime.frames(m_document->fps())), info.track), ErrorMessage);
+            emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(cutTime.frames(m_document->fps())), m_timeline->getTrackInfo(info.track).trackName), ErrorMessage);
             return NULL;
         }
 
@@ -4023,7 +4021,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     ItemInfo info = item->info();
                     if (item->type() == AVWidget) {
                         if (!m_timeline->track(info.track)->del(info.startPos.seconds())) {
-                            emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps())), info.track), ErrorMessage);
+                            emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps())), m_timeline->getTrackInfo(info.track).trackName), ErrorMessage);
                         } else {
                             clipsToMove.append(info);
                         }
@@ -4292,7 +4290,7 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
     if (!item) qDebug()<<"// PROBLEM FINDING CLIP ITEM TO REMOVVE!!!!!!!!!";
     //m_document->renderer()->saveSceneList(QString("/tmp/error%1.mlt").arg(m_ct), QDomElement());
     if (!item || !m_timeline->track(info.track)->del(info.startPos.seconds())) {
-        emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps())), info.track), ErrorMessage);
+        emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps())), m_timeline->getTrackInfo(info.track).trackName), ErrorMessage);
         return;
     }
     m_waitingThumbs.removeAll(item);
