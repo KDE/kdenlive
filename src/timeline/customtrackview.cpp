@@ -746,7 +746,8 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         event->accept();
         return;
     } else if (opMode == MoveGuide) {
-        m_moveOpMode = opMode;
+        setCursor(QCursor(Qt::SizeHorCursor));
+        m_operationMode = opMode;
     } else {
         removeTipAnimation();
         if (event->buttons() == Qt::NoButton && (m_moveOpMode == None || m_moveOpMode == WaitingForConfirm)) {
