@@ -483,6 +483,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     connect(m_trackView, &Timeline::loadingBin, m_progressDialog, &QProgressDialog::setValue, Qt::DirectConnection);
     m_trackView->loadTimeline();
     m_trackView->loadGuides(pCore->binController()->takeGuidesData());
+    connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo, QUrl, QUndoCommand*)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo, QUrl, QUndoCommand*)), Qt::DirectConnection);
 
     m_project = doc;
     pCore->window()->connectDocument();
