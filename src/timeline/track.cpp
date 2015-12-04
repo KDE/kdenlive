@@ -748,9 +748,16 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
         }
         QScopedPointer <Mlt::Producer> clip(m_playlist.replace_with_blank(clipIndex));
         m_playlist.consolidate_blanks(0);
-
-        int duration = speedIndependantInfo.cropDuration.frames(m_fps) / speed;
-        int originalStart = (int)(speedIndependantInfo.cropStart.frames(m_fps) / speed);
+        int duration;
+        int originalStart;
+        if (speed == 1.0) {
+          duration = speedIndependantInfo.cropDuration.frames(m_fps);
+          originalStart = speedIndependantInfo.cropStart.frames(m_fps);
+        } else {
+          duration = (int) (speedIndependantInfo.cropDuration.frames(m_fps) / speed + 0.5);
+          originalStart = (int)(speedIndependantInfo.cropStart.frames(m_fps) / speed + 0.5);
+        }
+        qDebug()<<"/ / /UPDATE SPEED: "<<speed<<", "<<speedIndependantInfo.cropStart.frames(m_fps)<<":"<<originalStart;
         // Check that the blank space is long enough for our new duration
         clipIndex = m_playlist.get_clip_index_at(startPos);
         int blankEnd = m_playlist.clip_start(clipIndex) + m_playlist.clip_length(clipIndex);

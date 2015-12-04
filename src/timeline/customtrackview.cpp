@@ -533,7 +533,16 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         event->ignore();
         return;
     }
-    if (m_operationMode == ScrollTimeline) {
+    if (m_moveOpMode == Seek && event->buttons() != Qt::NoButton) {
+        QGraphicsView::mouseMoveEvent(event);
+        if (mappedXPos != m_document->renderer()->getCurrentSeekPosition() && mappedXPos != cursorPos()) {
+                seekCursorPos(mappedXPos);
+                slotCheckPositionScrolling();
+        }
+        return;
+    }
+
+    if (m_moveOpMode == ScrollTimeline) {
         QGraphicsView::mouseMoveEvent(event);
         return;
     }
@@ -542,14 +551,14 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 	QGraphicsView::mouseMoveEvent(event);
         return;
     }
-    
+
     if (m_moveOpMode == WaitingForConfirm && event->buttons() != Qt::NoButton) {
 	bool move = (event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance();
 	if (move) {
 	    m_moveOpMode = m_operationMode;
 	}
     }
-    
+
     if (m_moveOpMode != None && m_moveOpMode != WaitingForConfirm && event->buttons() != Qt::NoButton) {
         if (m_dragItem && m_operationMode != ZoomTimeline) m_clipDrag = true;
         if (m_dragItem && m_tool == SelectTool) {
@@ -585,7 +594,6 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                     if (parent) {
                         parent->resizeEnd((int)(snappedPos - m_dragItemInfo.endPos.frames(m_document->fps())));
                     }
-                    
                 } else {
                     m_dragItem->resizeEnd((int)(snappedPos), false);
                 }
@@ -744,12 +752,6 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         if (event->buttons() == Qt::NoButton && (m_moveOpMode == None || m_moveOpMode == WaitingForConfirm)) {
 	    setCursor(Qt::ArrowCursor);
 	}
-        if (m_moveOpMode == Seek && event->buttons() != Qt::NoButton && event->modifiers() == Qt::NoModifier && !m_controlModifier) {
-            if (mappedXPos != m_document->renderer()->getCurrentSeekPosition() && mappedXPos != cursorPos()) {
-                seekCursorPos(mappedXPos);
-                slotCheckPositionScrolling();
-            }
-        }
     }
 }
 
@@ -905,7 +907,6 @@ void CustomTrackView::updateTimelineSelection()
 // virtual
 void CustomTrackView::mousePressEvent(QMouseEvent * event)
 {
-    m_moveOpMode = WaitingForConfirm;
     setFocus(Qt::MouseFocusReason);
     m_menuPosition = QPoint();
     if (m_operationMode == ContextMenu && event->buttons() != Qt::RightButton) {
@@ -914,12 +915,12 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         event->ignore();
         return;
     }
-    
     if (m_moveOpMode == MoveOperation) {
         // click while dragging, ignore
         event->ignore();
         return;
     }
+    m_moveOpMode = WaitingForConfirm;
     m_clipDrag = false;
 
     // special cases (middle click button or ctrl / shift click)
@@ -949,7 +950,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     if (event->button() == Qt::LeftButton && event->modifiers() == Qt::ControlModifier && m_tool != SpacerTool && collisionList.count() == 0) {
         // Pressing Ctrl + left mouse button in an empty area scrolls the timeline
         setDragMode(QGraphicsView::ScrollHandDrag);
-        m_operationMode = ScrollTimeline;
+        m_moveOpMode = ScrollTimeline;
         QGraphicsView::mousePressEvent(event);
         return;
     }
@@ -3823,7 +3824,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         //event->ignore();
 	//m_moveOpMode = None;
 	QGraphicsView::mouseReleaseEvent(event);
-	qDebug()<<"+++++++++++FALSE RELEASE";
         return;
     }
 
@@ -3832,7 +3832,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
     }
     QGraphicsView::mouseReleaseEvent(event);
     setDragMode(QGraphicsView::NoDrag);
-    
+
     if (m_moveOpMode == Seek) m_moveOpMode = None;
     if (m_moveOpMode == ScrollTimeline || m_moveOpMode == ZoomTimeline) {
         m_moveOpMode = None;
@@ -3842,12 +3842,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
     }
     m_clipDrag = false;
     //setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
-    if (m_dragItem) {
+    /*if (m_dragItem) {
         m_dragItem->setGraphicsEffect(NULL);
-    }
+    }*/
     if (m_scrollTimer.isActive()) m_scrollTimer.stop();
-    qDebug()<<" RELASE OP MODE : "<<m_moveOpMode;
-    if (m_moveOpMode == MoveGuide) {
+    if (m_moveOpMode == MoveGuide && m_dragGuide) {
         setCursor(Qt::ArrowCursor);
         m_dragGuide->setFlag(QGraphicsItem::ItemIsMovable, false);
         GenTime newPos = GenTime(m_dragGuide->pos().x(), m_document->fps());
@@ -3872,7 +3871,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         GenTime timeOffset = GenTime((int)(m_selectionGroup->scenePos().x()), m_document->fps()) - m_selectionGroupInfo.startPos;
 	completeSpaceOperation(track, timeOffset);
     } else if (m_moveOpMode == RubberSelection) {
-	qDebug()<<"// RUBBER RLSD";
         //setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
         if (event->modifiers() != Qt::ControlModifier) m_dragItem = NULL;
 	//event->accept();
@@ -3893,7 +3891,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
     ItemInfo info;
     if (m_dragItem) info = m_dragItem->info();
     if (m_moveOpMode == MoveOperation) {
-	qDebug()<<"/// PROCESING MOVEOP ++++++++++++++++++++";
         setCursor(Qt::OpenHandCursor);
         if (m_dragItem->parentItem() == 0) {
             // we are moving one clip, easy
@@ -3920,6 +3917,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         newStartTrInfo = startTrInfo;
                         newStartTrInfo.track = info.track;
                         newStartTrInfo.startPos = info.startPos;
+                        newStartTrInfo.cropDuration = newStartTrInfo.endPos - info.startPos;
                         //TODO
                         if (m_dragItemInfo.track == info.track /*&& !item->baseClip()->isTransparent()*/ && getClipItemAtEnd(newStartTrInfo.endPos, startTransition->transitionEndTrack())) {
                             // transition end should stay the same
@@ -3937,6 +3935,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                             ItemInfo newTrInfo = trInfo;
                             newTrInfo.track = info.track;
                             newTrInfo.endPos = m_dragItem->endPos();
+                            newTrInfo.cropDuration = newTrInfo.endPos - newTrInfo.startPos;
                             //TODO
                             if (m_dragItemInfo.track == info.track /*&& !item->baseClip()->isTransparent()*/ && getClipItemAtStart(trInfo.startPos, tr->transitionEndTrack())) {
                                 // transition start should stay the same
@@ -3951,6 +3950,12 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                                     new AddTransitionCommand(this, startTrInfo, startTransition->transitionEndTrack(), startTransition->toXML(), true, true, moveCommand);
                                 }
                                 adjustTimelineTransitions(m_scene->editMode(), tr, moveCommand);
+                                if (tr->updateKeyframes(trInfo, newTrInfo)) {
+                                    QDomElement old = tr->toXML();
+                                    QDomElement xml = tr->toXML();
+                                    m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
+                                    new EditTransitionCommand(this, tr->track(), tr->startPos(), old, xml, false, moveCommand);
+                                }
                                 new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
                                 if (moveStartTrans) {
                                     // re-add transition in correct place
@@ -3967,6 +3972,12 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 
                     if (moveStartTrans && !moveEndTrans) {
                         adjustTimelineTransitions(m_scene->editMode(), startTransition, moveCommand);
+                        if (startTransition->updateKeyframes(startTrInfo, newStartTrInfo)) {
+                            QDomElement old = startTransition->toXML();
+                            QDomElement xml = startTransition->toXML();
+                            m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newStartTrInfo.startPos, newStartTrInfo.endPos, xml);
+                            new EditTransitionCommand(this, startTransition->track(), startTransition->startPos(), old, xml, false, moveCommand);
+                        }
                         new MoveTransitionCommand(this, startTrInfo, newStartTrInfo, true, moveCommand);
                     }
 
@@ -3976,7 +3987,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         ItemInfo trInfo = tr->info();
                         ItemInfo newTrInfo = trInfo;
                         newTrInfo.startPos = m_dragItem->startPos();
-                        ClipItem * upperClip = getClipItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track + 1);
+                        newTrInfo.cropDuration = newTrInfo.endPos - m_dragItem->startPos();
+                        ClipItem * upperClip = getClipItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track - 1);
                         //TODO
                         if (!upperClip /*|| !upperClip->baseClip()->isTransparent()*/) {
                             if (!getClipItemAtEnd(newTrInfo.endPos, tr->track())) {
@@ -3985,17 +3997,24 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                             }
                             if (newTrInfo.startPos < newTrInfo.endPos) {
                                 adjustTimelineTransitions(m_scene->editMode(), tr, moveCommand);
+                                if (tr->updateKeyframes(trInfo, newTrInfo)) {
+                                    QDomElement old = tr->toXML();
+                                    QDomElement xml = tr->toXML();
+                                    m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
+                                    new EditTransitionCommand(this, tr->track(), tr->startPos(), old, xml, false, moveCommand);
+                                }
                                 new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
                             }
                         }
                     }
                     if (m_dragItemInfo.track == info.track && (tr == NULL || tr->endPos() < m_dragItemInfo.endPos)) {
                         // Check if there is a transition at clip end
-                        tr = getTransitionItemAtEnd(m_dragItemInfo.endPos, m_dragItemInfo.track + 1);
+                        tr = getTransitionItemAtEnd(m_dragItemInfo.endPos, m_dragItemInfo.track - 1);
                         if (tr && tr->isAutomatic() && tr->transitionEndTrack() == m_dragItemInfo.track) {
                             ItemInfo trInfo = tr->info();
                             ItemInfo newTrInfo = trInfo;
                             newTrInfo.endPos = m_dragItem->endPos();
+                            newTrInfo.cropDuration = m_dragItem->endPos() - newTrInfo.startPos;
                             //qDebug() << "CLIP ENDS AT: " << newTrInfo.endPos.frames(25);
                             //qDebug() << "CLIP STARTS AT: " << newTrInfo.startPos.frames(25);
                             ClipItem * upperClip = getClipItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track + 1);
@@ -4007,6 +4026,12 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                                 }
                                 if (newTrInfo.startPos < newTrInfo.endPos) {
                                     adjustTimelineTransitions(m_scene->editMode(), tr, moveCommand);
+                                    if (tr->updateKeyframes(trInfo, newTrInfo)) {
+                                        QDomElement old = tr->toXML();
+                                        QDomElement xml = tr->toXML();
+                                        m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
+                                        new EditTransitionCommand(this, tr->track(), tr->startPos(), old, xml, false, moveCommand);
+                                    }
                                     new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
                                 }
                             }
@@ -4043,7 +4068,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     m_commandStack->push(moveCommand);
                 }
             }
-            qDebug()<<" +++++ Ending 1 clip move + + + ";
         } else {
             // Moving several clips. We need to delete them and readd them to new position,
             // or they might overlap each other during the move
@@ -4185,10 +4209,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     rebuildGroup(grp);
                 }
             }
-            qDebug()<<"++++ Ending group move";
         }
         m_moveOpMode = None;
-	qDebug()<<"---ENDING MOVE PROCESS: "<<m_moveOpMode;
         m_document->renderer()->doRefresh();
     } else if (m_moveOpMode == ResizeStart && m_dragItem && m_dragItem->startPos() != m_dragItemInfo.startPos) {
         // resize start
@@ -5200,8 +5222,16 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                 ItemInfo trInfo = transition->info();
                 ItemInfo newTrInfo = trInfo;
                 newTrInfo.startPos = item->startPos();
-                if (newTrInfo.startPos < newTrInfo.endPos)
+                newTrInfo.cropDuration = trInfo.endPos - newTrInfo.startPos;
+                if (newTrInfo.startPos < newTrInfo.endPos) {
+                    QDomElement old = transition->toXML();
+                    if (transition->updateKeyframes(trInfo, newTrInfo)) {
+                        QDomElement xml = transition->toXML();
+                        m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
+                        new EditTransitionCommand(this, transition->track(), transition->startPos(), old, xml, false, command);
+                    }
                     new MoveTransitionCommand(this, trInfo, newTrInfo, true, command);
+                }
             }
             // Check if there is an automatic transition on that clip (upper track)
             transition = getTransitionItemAtStart(oldInfo.startPos, oldInfo.track + 1);
@@ -5209,10 +5239,18 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                 ItemInfo trInfo = transition->info();
                 ItemInfo newTrInfo = trInfo;
                 newTrInfo.startPos = item->startPos();
+                newTrInfo.cropDuration = trInfo.endPos - newTrInfo.startPos;
                 ClipItem * upperClip = getClipItemAtStart(oldInfo.startPos, oldInfo.track + 1);
                 //TODO
-                if ((!upperClip /*|| !upperClip->baseClip()->isTransparent()*/) && newTrInfo.startPos < newTrInfo.endPos)
+                if ((!upperClip /*|| !upperClip->baseClip()->isTransparent()*/) && newTrInfo.startPos < newTrInfo.endPos) {
+                    QDomElement old = transition->toXML();
+                    if (transition->updateKeyframes(trInfo, newTrInfo)) {
+                        QDomElement xml = transition->toXML();
+                        m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
+                        new EditTransitionCommand(this, transition->track(), transition->startPos(), old, xml, false, command);
+                    }
                     new MoveTransitionCommand(this, trInfo, newTrInfo, true, command);
+                }
             }
 
             ClipItem *clip = static_cast < ClipItem * >(item);
@@ -5239,9 +5277,18 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
             KdenliveSettings::setSnaptopoints(snap);
             emit displayMessage(i18n("Cannot resize transition"), ErrorMessage);
         } else {
+            EditTransitionCommand *kfrCommand = NULL;
+            QDomElement old = transition->toXML();
+            if (transition->updateKeyframes(oldInfo, info)) {
+                QDomElement xml = transition->toXML();
+                m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(), xml.attribute("transition_atrack").toInt(), info.startPos, info.endPos, xml);
+                kfrCommand = new EditTransitionCommand(this, transition->track(), transition->startPos(), old, xml, false, command);
+            }
             MoveTransitionCommand *moveCommand = new MoveTransitionCommand(this, oldInfo, info, false, command);
-            if (command == NULL)
+            if (command == NULL) {
+                if (kfrCommand) m_commandStack->push(kfrCommand);
                 m_commandStack->push(moveCommand);
+            }
         }
 
     }
@@ -5291,20 +5338,36 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
                 ItemInfo trInfo = tr->info();
                 ItemInfo newTrInfo = trInfo;
                 newTrInfo.endPos = item->endPos();
-                if (newTrInfo.endPos > newTrInfo.startPos)
-                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, command);
+                newTrInfo.cropDuration = newTrInfo.endPos - trInfo.startPos;
+                if (newTrInfo.endPos > newTrInfo.startPos) {
+                  QDomElement old = tr->toXML();
+                  if (tr->updateKeyframes(trInfo, newTrInfo)) {
+                      QDomElement xml = tr->toXML();
+                      m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(), xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
+                      new EditTransitionCommand(this, tr->track(), tr->startPos(), old, xml, false, command);
+                  }
+                  new MoveTransitionCommand(this, trInfo, newTrInfo, true, command);
+                }
             }
 
             // Check if there is an automatic transition on that clip (upper track)
-            tr = getTransitionItemAtEnd(oldInfo.endPos, oldInfo.track + 1);
+            tr = getTransitionItemAtEnd(oldInfo.endPos, oldInfo.track - 1);
             if (tr && tr->isAutomatic() && tr->transitionEndTrack() == oldInfo.track) {
                 ItemInfo trInfo = tr->info();
                 ItemInfo newTrInfo = trInfo;
                 newTrInfo.endPos = item->endPos();
+                newTrInfo.cropDuration = newTrInfo.endPos - trInfo.startPos;
                 ClipItem * upperClip = getClipItemAtEnd(oldInfo.endPos, oldInfo.track + 1);
                 //TODO
-                if ((!upperClip /*|| !upperClip->baseClip()->isTransparent()*/) && newTrInfo.endPos > newTrInfo.startPos)
+                if ((!upperClip /*|| !upperClip->baseClip()->isTransparent()*/) && newTrInfo.endPos > newTrInfo.startPos) {
+                    QDomElement old = tr->toXML();
+                    if (tr->updateKeyframes(trInfo, newTrInfo)) {
+                        QDomElement xml = tr->toXML();
+                        m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(), xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
+                        new EditTransitionCommand(this, tr->track(), tr->startPos(), old, xml, false, command);
+                    }
                     new MoveTransitionCommand(this, trInfo, newTrInfo, true, command);
+                }
 
             }
 
@@ -5335,12 +5398,12 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
         } else {
             // Check transition keyframes
             QDomElement old = transition->toXML();
-            if (transition->updateKeyframes(oldInfo.cropDuration.frames(m_document->fps()) - 1)) {
+            ItemInfo info = transition->info();
+            if (transition->updateKeyframes(oldInfo, info)) {
                 QDomElement xml = transition->toXML();
                 m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(), xml.attribute("transition_atrack").toInt(), transition->startPos(), transition->endPos(), xml);
                 new EditTransitionCommand(this, transition->track(), transition->startPos(), old, xml, false, command);
             }
-            ItemInfo info = transition->info();
             QPoint p;
             ClipItem *transitionClip = getClipItemAtStart(info.startPos, info.track);
             if (transitionClip && transitionClip->binClip()) {
