@@ -29,6 +29,11 @@
 #include <kio/jobclasses.h>
 
 
+/**
+  \brief search and download videos from archive.org
+
+  This class is used to search the archive.org libraries and download videos. Is used by ResourceWidget
+*/
 class ArchiveOrg : public AbstractService
 {
     Q_OBJECT
