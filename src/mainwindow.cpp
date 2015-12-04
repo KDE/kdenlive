@@ -214,13 +214,13 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(m_effectStack, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
     connect(m_effectStack, SIGNAL(displayMessage(QString,int)), this, SLOT(slotGotProgressInfo(QString,int)));
     
-    m_effectStackDock = addDock(i18n("Selection Parameters"), "effect_stack", m_effectStack);
+    m_effectStackDock = addDock(i18n("Properties"), "effect_stack", m_effectStack);
 
     m_effectList = new EffectsListView();
-    m_effectListDock = addDock(i18n("Effect List"), "effect_list", m_effectList);
+    m_effectListDock = addDock(i18n("Effects"), "effect_list", m_effectList);
 
     m_transitionList = new EffectsListView(EffectsListView::TransitionMode);
-    m_transitionListDock = addDock(i18n("Transition List"), "transition_list", m_transitionList);
+    m_transitionListDock = addDock(i18n("Transitions"), "transition_list", m_transitionList);
 
     // Add monitors here to keep them at the right of the window
     m_clipMonitorDock = addDock(i18n("Clip Monitor"), "clip_monitor", m_clipMonitor);
