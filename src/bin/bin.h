@@ -616,7 +616,7 @@ private:
     InvalidDialog *m_invalidClipDialog;
     /** @brief Set to true if widget just gained focus (means we have to update effect stack . */
     bool m_gainedFocus;
-    void showClipProperties(ProjectClip *clip);
+    void showClipProperties(ProjectClip *clip, bool openExternalDialog = true);
     const QStringList getFolderInfo(QModelIndex selectedIx = QModelIndex());
     /** @brief Get the QModelIndex value for an item in the Bin. */
     QModelIndex getIndexForId(const QString &id, bool folderWanted) const;

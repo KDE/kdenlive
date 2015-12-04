@@ -751,7 +751,6 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
 
         int duration = speedIndependantInfo.cropDuration.frames(m_fps) / speed;
         int originalStart = (int)(speedIndependantInfo.cropStart.frames(m_fps) / speed);
-
         // Check that the blank space is long enough for our new duration
         clipIndex = m_playlist.get_clip_index_at(startPos);
         int blankEnd = m_playlist.clip_start(clipIndex) + m_playlist.clip_length(clipIndex);

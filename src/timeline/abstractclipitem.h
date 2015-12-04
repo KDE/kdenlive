@@ -131,6 +131,8 @@ protected:
     void drawKeyFrames(QPainter *painter, const QTransform &transformation);
     int mouseOverKeyFrames(QPointF pos, double maxOffset);
     void mousePressEvent(QGraphicsSceneMouseEvent * event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
       int trackForPos(int position);
       int posForTrack(int track);
 };

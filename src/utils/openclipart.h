@@ -27,7 +27,10 @@
 
 #include <kio/jobclasses.h>
 
-
+/**
+  \brief search and download clip art from openclipart.org
+  This class is used to search the openclipart.org libraries and download clipart. Is used by ResourceWidget
+*/
 class OpenClipArt : public AbstractService
 {
     Q_OBJECT

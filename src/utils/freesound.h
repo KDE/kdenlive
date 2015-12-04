@@ -28,7 +28,10 @@
 #include <QProcess>
 #include <kio/jobclasses.h>
 
-
+/**
+  \brief search and download sounds from freesound
+  This class is used to search the freesound.org libraries and download sounds. Is used by ResourceWidget
+*/
 class FreeSound : public AbstractService
 {
     Q_OBJECT
@@ -46,9 +49,11 @@ public slots:
     bool startItemPreview(QListWidgetItem *item);
     void stopItemPreview(QListWidgetItem *item);
 
+
 private slots:
     void slotShowResults(KJob* job);
     void slotParseResults(KJob* job);
+    void slotPreviewFinished(int exitCode, QProcess::ExitStatus exitStatus);
     
 private:
     QMap <QString, QString> m_metaInfo;
@@ -56,6 +61,7 @@ private:
 
 signals:
     void addClip(const QUrl &, const QString &);
+    void previewFinished();
 };
 
 
