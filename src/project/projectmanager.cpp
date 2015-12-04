@@ -364,6 +364,7 @@ bool ProjectManager::checkForBackupFile(const QUrl &url)
                   break;
             } else {
               // Another Kdenlive instance is probably handling this autosave file
+              staleFiles.removeAll(stale);
               delete stale;
               continue;
             }
