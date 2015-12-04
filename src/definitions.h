@@ -56,6 +56,7 @@ const QString stopmotionMonitor("stopmotionMonitor");
 
 enum OperationType {
     None = 0,
+    WaitingForConfirm,
     MoveOperation,
     ResizeStart,
     ResizeEnd,
