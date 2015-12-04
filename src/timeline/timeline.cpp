@@ -1417,12 +1417,17 @@ void Timeline::duplicateClipOnPlaylist(int tk, qreal startPos, int offset, Mlt::
 	  qDebug()<<"// ERROR FINDING CLIP on TK: "<<tk<<", FRM: "<<pos;
     }
     Mlt::Producer *clipProducer = sourceTrack->playlist().get_clip(clipIndex);
-    Clip clp(*clipProducer);
+    Clip clp(clipProducer->parent());
     Mlt::Producer *cln = clp.clone();
     cln->set_in_and_out(clipProducer->get_in(), clipProducer->get_out());
     Mlt::Playlist trackPlaylist((mlt_playlist) prod->get_service());
     trackPlaylist.lock();
     trackPlaylist.insert_at(pos - offset, cln, 1);
+    Mlt::Producer *inPlaylist = trackPlaylist.get_clip_at(pos - offset);
+    if (inPlaylist) {
+        Clip(*inPlaylist).addEffects(*clipProducer);
+        delete inPlaylist;
+    }
     trackPlaylist.unlock();
     delete clipProducer;
     delete cln;

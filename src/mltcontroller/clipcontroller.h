@@ -183,6 +183,8 @@ public:
     static const char *getPassPropertiesList(bool passLength = true);
     /** @brief Disable all Kdenlive effects on this clip */
     void disableEffects(bool disable);
+    /** @brief Create a Kdenlive EffectList xml data from an MLT service */
+    static EffectsList xmlEffectList(Mlt::Profile *profile, Mlt::Service &service);
 
 private:
     Mlt::Producer *m_masterProducer;
@@ -200,7 +202,6 @@ private:
     QMutex m_effectMutex;
     void getInfoForProducer();
     //void rebuildEffectList(ProfileInfo info);
-    EffectsList xmlEffectList();
 };
 
 #endif

@@ -7964,7 +7964,8 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> proc
             insertInfo.cropDuration = GenTime(out - in, m_document->fps());
             insertInfo.endPos = insertInfo.startPos + insertInfo.cropDuration;
             insertInfo.track = lowerTrack + i;
-            new AddTimelineClipCommand(this, originalId, insertInfo, EffectsList(), PlaylistState::Original, true, false, command);
+            EffectsList effects = ClipController::xmlEffectList(original->profile(), *original);
+            new AddTimelineClipCommand(this, originalId, insertInfo, effects, PlaylistState::Original, true, false, command);
             startPos += original->get_playtime();
         }
         updateTrackDuration(lowerTrack + i, command);
