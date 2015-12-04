@@ -54,6 +54,7 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
     , m_properties(controller->properties())
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    setDocumentMode(true);
     m_forcePage = new QWidget(this);
     m_propertiesPage = new QWidget(this);
     m_markersPage = new QWidget(this);
