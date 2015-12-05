@@ -1078,9 +1078,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
         }
         if (m_dragItem) {
-	    resetSelectionGroup();
-	    m_scene->clearSelection();
-	    m_dragItem->setSelected(true);
+            if (!m_dragItem->isSelected()) {
+                resetSelectionGroup();
+                m_scene->clearSelection();
+                m_dragItem->setSelected(true);
+            }
 	    m_dragItem->setZValue(99);
 	    if (m_dragItem->parentItem()) m_dragItem->parentItem()->setZValue(99);
 	}
