@@ -1557,7 +1557,7 @@ void Monitor::slotSwitchCompare(bool enable)
         m_splitEffect = NULL;
         loadMasterQml();
     }
-    //refreshMonitor();
+    slotActivateMonitor();
 }
 
 void Monitor::loadMasterQml()
