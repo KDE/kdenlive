@@ -253,7 +253,7 @@ void FreeSound::slotParseResults(KJob* job)
  * @return
  */
 bool FreeSound::startItemPreview(QListWidgetItem *item)
-{    
+{
     if (!item)
         return false;
     const QString url = m_metaInfo.value("itemPreview");
@@ -263,7 +263,7 @@ bool FreeSound::startItemPreview(QListWidgetItem *item)
 	    if (m_previewProcess->state() != QProcess::NotRunning) {
 		    m_previewProcess->close();
 		}
-        m_previewProcess->start(KdenliveSettings::ffplaypath() + " " +  url  + " -nodisp -autoexit");
+        m_previewProcess->start(KdenliveSettings::ffplaypath(), QStringList() <<url<<"-nodisp"<<"-autoexit");
 	}
     return true;
 }
