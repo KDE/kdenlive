@@ -294,6 +294,7 @@ int Timeline::getTracks() {
     }
     headers_container->setFixedWidth(headerWidth);
     updatePalette();
+    refreshTrackActions();
     return duration;
 }
 
@@ -1452,4 +1453,17 @@ void Timeline::disableTimelineEffects(bool disable)
 void Timeline::importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QMap <QString, QString> idMaps, QDomDocument doc, QUndoCommand *command)
 {
     projectView()->importPlaylist(info, processedUrl, idMaps, doc, command);
+}
+
+void Timeline::refreshTrackActions()
+{
+    int tracks = tracksCount();
+    if (tracks > 3) {
+        return;
+    }
+    foreach(QAction *action, m_trackActions) {
+        if (action->data().toString() == "delete_track") {
+            action->setEnabled(tracks > 2);
+        }
+    }
 }

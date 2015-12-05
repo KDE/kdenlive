@@ -184,6 +184,8 @@ private:
 
     /** @brief Adjust kdenlive effect xml parameters to the MLT value*/
     void adjustparameterValue(QDomNodeList clipeffectparams, const QString &paramname, const QString &paramvalue);
+    /** @brief Enable/disable track actions depending on number of tracks */
+    void refreshTrackActions();
 
 private slots:
     void slotSwitchTrackComposite(int trackIndex, bool enable);
