@@ -1150,6 +1150,7 @@ void MainWindow::setupActions()
     QAction *deleteTrack = new QAction(QIcon(), i18n("Delete Track"), this);
     connect(deleteTrack, &QAction::triggered, this, &MainWindow::slotDeleteTrack);
     timelineActions->addAction(QStringLiteral("delete_track"), deleteTrack);
+    deleteTrack->setData("delete_track");
 
     QAction *configTracks = new QAction(KoIconUtils::themedIcon(QStringLiteral("configure")), i18n("Configure Tracks"), this);
     connect(configTracks, &QAction::triggered, this, &MainWindow::slotConfigTrack);

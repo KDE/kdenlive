@@ -250,7 +250,7 @@ void FreeSound::slotParseResults(KJob* job)
  * @return
  */
 bool FreeSound::startItemPreview(QListWidgetItem *item)
-{    
+{
     if (!item)
         return false;
     const QString url = m_metaInfo.value("itemPreview");

@@ -100,6 +100,7 @@ ProjectClip::~ProjectClip()
     m_requestedThumbs.clear();
     m_thumbThread.waitForFinished();
     delete m_thumbsProducer;
+    delete audioFrameCache;
 }
 
 QString ProjectClip::getToolTip() const
@@ -120,10 +121,10 @@ QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &
     return value;
 }
 
-void ProjectClip::updateAudioThumbnail(QVariantList* audioLevels)
+void ProjectClip::updateAudioThumbnail(QVariantList audioLevels)
 {
     ////qDebug() << "CLIPBASE RECIEDVED AUDIO DATA*********************************************";
-    audioFrameCache = audioLevels;
+    audioFrameCache = new QVariantList(audioLevels);
     m_controller->audioThumbCreated = true;
     emit gotAudioData();
 }
@@ -831,20 +832,20 @@ void ProjectClip::slotCreateAudioThumbs()
     int channels = audioInfo->channels();
     if (channels <= 0) channels = 2;
     double frame = 0.0;
-    QVariantList* audioLevels = new QVariantList;
+    QVariantList audioLevels;
     QImage image(audioPath);
     if (!image.isNull()) {
         // convert cached image
         int n = image.width() * image.height();
         for (int i = 0; i < n; i++) {
             QRgb p = image.pixel(i / 2, i % channels);
-            *audioLevels << qRed(p);
-            *audioLevels << qGreen(p);
-            *audioLevels << qBlue(p);
-            *audioLevels << qAlpha(p);
+            audioLevels << qRed(p);
+            audioLevels << qGreen(p);
+            audioLevels << qBlue(p);
+            audioLevels << qAlpha(p);
         }
     }
-    if (audioLevels->size() > 0) {
+    if (audioLevels.size() > 0) {
         updateAudioThumbnail(audioLevels);
         return;
     }
@@ -853,10 +854,8 @@ void ProjectClip::slotCreateAudioThumbs()
         service = QStringLiteral("avformat");
     else if (service.startsWith(QLatin1String("xml")))
         service = QStringLiteral("xml-nogl");
-    Mlt::Producer *audioProducer = new Mlt::Producer(*prod->profile(), service.toUtf8().constData(), prod->get("resource"));
+    QScopedPointer <Mlt::Producer> audioProducer(new Mlt::Producer(*prod->profile(), service.toUtf8().constData(), prod->get("resource")));
     if (!audioProducer->is_valid()) {
-        delete audioProducer;
-        delete audioLevels;
         return;
     }
     Mlt::Filter chans(*prod->profile(), "audiochannels");
@@ -887,30 +886,30 @@ void ProjectClip::slotCreateAudioThumbs()
             mlt_frame->get_audio(audioFormat, frequency, channels, samples);
             for (int channel = 0; channel < channels; ++channel) {
                 double level = 256 * qMin(mlt_frame->get_double(keys.at(channel).toUtf8().constData()) * 0.9, 1.0);
-                *audioLevels << level;
+                audioLevels << level;
             }
-        } else if (!audioLevels->isEmpty()) {
+        } else if (!audioLevels.isEmpty()) {
             for (int channel = 0; channel < channels; channel++)
-                *audioLevels << audioLevels->last();
+                audioLevels << audioLevels.last();
         }
         delete mlt_frame;
         if (m_abortAudioThumb) break;
     }
 
-    if (!m_abortAudioThumb && audioLevels->size() > 0) {
+    if (!m_abortAudioThumb && audioLevels.size() > 0) {
         // Put into an image for caching.
-        int count = audioLevels->size();
+        int count = audioLevels.size();
         QImage image((count + 3) / 4, channels, QImage::Format_ARGB32);
         int n = image.width() * image.height();
         for (int i = 0; i < n; i ++) {
             QRgb p; 
             if ((4*i + 3) < count) {
-                p = qRgba(audioLevels->at(4*i).toInt(), audioLevels->at(4*i+1).toInt(), audioLevels->at(4*i+2).toInt(), audioLevels->at(4*i+3).toInt());
+                p = qRgba(audioLevels.at(4*i).toInt(), audioLevels.at(4*i+1).toInt(), audioLevels.at(4*i+2).toInt(), audioLevels.at(4*i+3).toInt());
             } else {
-                int last = audioLevels->last().toInt();
-                int r = (4*i+0) < count? audioLevels->at(4*i+0).toInt() : last;
-                int g = (4*i+1) < count? audioLevels->at(4*i+1).toInt() : last;
-                int b = (4*i+2) < count? audioLevels->at(4*i+2).toInt() : last;
+                int last = audioLevels.last().toInt();
+                int r = (4*i+0) < count? audioLevels.at(4*i+0).toInt() : last;
+                int g = (4*i+1) < count? audioLevels.at(4*i+1).toInt() : last;
+                int b = (4*i+2) < count? audioLevels.at(4*i+2).toInt() : last;
                 int a = last;
                 p = qRgba(r, g, b, a);
             }
@@ -918,7 +917,6 @@ void ProjectClip::slotCreateAudioThumbs()
         }
         image.save(audioPath);
     }
-    delete audioProducer;
     setJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0, i18n("Audio thumbnails done"));
     if (!m_abortAudioThumb) {
         updateAudioThumbnail(audioLevels);

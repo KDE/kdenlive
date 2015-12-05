@@ -208,7 +208,7 @@ public:
     QMap <QString, QString> analysisData(bool withPrefix = false);
 
 public slots:
-    void updateAudioThumbnail(QVariantList* audioLevels);
+    void updateAudioThumbnail(QVariantList audioLevels);
     /** @brief Extract image thumbnails for timeline. */
     void slotExtractImage(QList <int> frames);
     /** @brief Extract image thumbnails for clip's subclips. */

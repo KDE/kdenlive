@@ -1034,7 +1034,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     }*/
 
     // No item under click
-    if (m_dragItem == NULL) {
+    if (m_dragItem == NULL && m_tool != SpacerTool) {
         resetSelectionGroup(false);
         m_scene->clearSelection();
         updateClipTypeActions(NULL);
@@ -3209,7 +3209,6 @@ void CustomTrackView::reloadTimeline()
     for (int i = 0; i < m_guides.count(); ++i) {
         m_guides.at(i)->setLine(0, 0, 0, maxHeight - 1);
     }
-
     m_cursorLine->setLine(0, 0, 0, maxHeight - 1);
     viewport()->update();
 }
@@ -6506,7 +6505,10 @@ void CustomTrackView::slotInsertTrack(int ix)
 
 void CustomTrackView::slotDeleteTrack(int ix)
 {
-    if (m_timeline->tracksCount() < 2) return;
+    if (m_timeline->tracksCount() <= 2) {
+        // TODO: warn user that at least one track is necessary
+        return;
+    }
     QPointer<TrackDialog> d = new TrackDialog(m_timeline, parentWidget());
     d->comboTracks->setCurrentIndex(m_timeline->visibleTracksCount() - ix);
     d->label->setText(i18n("Delete track"));
