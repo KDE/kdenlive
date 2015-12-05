@@ -646,7 +646,7 @@
     </entry>
 
     <entry name="showeffectinfo" type="Bool">
-      <label>Show small effect description in effect list.</label>
+      <label>Show small effect description in effects list.</label>
       <default>false</default>
     </entry>
 
@@ -848,7 +848,7 @@
       <default></default>
     </entry>
     <entry name="selected_effecttab" type="Int">
-      <label>Last opened effect list tab.</label>
+      <label>Last opened tab in effects list.</label>
       <default>0</default>
     </entry>
   </group>

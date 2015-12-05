@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="chroma" id="chroma">
-	<name>Blue Screen</name>
+	<name>Chroma Key</name>
 	<description>Make selected color transparent</description>
 	<author>Charles Yates</author>
 	<parameter type="color" name="key" default="0x0000ffff">
