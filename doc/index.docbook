@@ -226,14 +226,14 @@
       <imagedata fileref="Kdenlive_Quickstart-Add-Effect.png" format="PNG"/>
     </imageobject>
     <textobject>
-      <phrase>Effect List</phrase>
+      <phrase>Effects</phrase>
     </textobject>
     <caption>
-      <para>Effect List</para>
+      <para>Effects</para>
     </caption>
   </mediaobject>
 </screenshot></para>
-<para>The Piano can be colourized by adding an <emphasis>effect</emphasis> to it.  Select the piano clip, then double-click the <guilabel>RGB Adjustment</guilabel> effect in the <guilabel>Effect List</guilabel>. If it is not visible, you can get it via <menuchoice><guimenu>View</guimenu><guimenuitem>Effect List</guimenuitem></menuchoice>.</para>
+<para>The Piano can be colourized by adding an <emphasis>effect</emphasis> to it.  Select the piano clip, then double-click the <guilabel>RGB Adjustment</guilabel> effect in the <guilabel>Effects</guilabel>. If it is not visible, you can get it via <menuchoice><guimenu>View</guimenu><guimenuitem>Effects</guimenuitem></menuchoice>.</para>
 <para>
 <screenshot>
 <screeninfo></screeninfo>

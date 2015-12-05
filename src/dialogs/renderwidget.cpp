@@ -1688,6 +1688,7 @@ void RenderWidget::parseProfiles(const QString &meta, const QString &group, cons
     qDeleteAll(m_renderCategory);
     m_renderItems.clear();
     m_renderCategory.clear();
+
     m_view.destination_list->addItem(QIcon::fromTheme(QStringLiteral("video-x-generic")), i18n("File rendering"));
     m_view.destination_list->addItem(QIcon::fromTheme(QStringLiteral("favorites")), i18n("Favorites"), "favorites");
     m_view.destination_list->addItem(QIcon::fromTheme(QStringLiteral("media-optical")), i18n("DVD"), "dvd");
@@ -1696,13 +1697,13 @@ void RenderWidget::parseProfiles(const QString &meta, const QString &group, cons
     m_view.destination_list->addItem(QIcon::fromTheme(QStringLiteral("applications-multimedia")), i18n("Media players"), "mediaplayers");
     m_view.destination_list->addItem(QIcon::fromTheme(QStringLiteral("drive-harddisk")), i18n("Lossless/HQ"), "lossless");
     m_view.destination_list->addItem(QIcon::fromTheme(QStringLiteral("pda")), i18n("Mobile devices"), "mobile");
-    
-    // Parse some of MLT's profiles first
-    parseMltPresets();
+
     // Parse our xml profile 
     QString exportFile = QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("export/profiles.xml"));
     parseFile(exportFile, false);
 
+    // Parse some MLT's profiles
+    parseMltPresets();
 
     QString exportFolder = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/";
     QDir directory(exportFolder);
@@ -1747,7 +1748,7 @@ void RenderWidget::parseMltPresets()
             itemcat->setData(MetaGroupRole, metagroupId);
             m_renderCategory.append(itemcat);
         }
-        
+
         QStringList profiles = root.entryList(QDir::Files, QDir::Name);
         foreach(const QString &prof, profiles) {
             KConfig config(root.absoluteFilePath(prof), KConfig::SimpleConfig );

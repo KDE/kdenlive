@@ -85,14 +85,14 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
     size_frame->setMaximumHeight(m_ruler->height());
 
     QToolButton *butSmall = new QToolButton(this);
-    butSmall->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-zoom-small")));
+    butSmall->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zoom-small")));
     butSmall->setToolTip(i18n("Smaller tracks"));
     butSmall->setAutoRaise(true);
     connect(butSmall, SIGNAL(clicked()), this, SLOT(slotVerticalZoomDown()));
     sizeLayout->addWidget(butSmall);
 
     QToolButton *butLarge = new QToolButton(this);
-    butLarge->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-zoom-large")));
+    butLarge->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zoom-large")));
     butLarge->setToolTip(i18n("Bigger tracks"));
     butLarge->setAutoRaise(true);
     connect(butLarge, SIGNAL(clicked()), this, SLOT(slotVerticalZoomUp()));
@@ -285,7 +285,10 @@ int Timeline::getTracks() {
             connect(tk->trackHeader, SIGNAL(configTrack()), this, SIGNAL(configTrack()));
             connect(tk->trackHeader, SIGNAL(addTrackEffect(QDomElement,int)), m_trackview, SLOT(slotAddTrackEffect(QDomElement,int)));
         }
-        if (playlist.filter_count()) getEffects(playlist, NULL, 0);
+        if (playlist.filter_count()) {
+            getEffects(playlist, NULL, i);
+            slotUpdateTrackEffectState(i);
+        }
         connect(tk, &Track::newTrackDuration, this, &Timeline::checkDuration);
 	connect(tk, SIGNAL(storeSlowMotion(QString,Mlt::Producer *)), m_doc->renderer(), SLOT(storeSlowmotionProducer(QString,Mlt::Producer *)));
     }
@@ -556,15 +559,15 @@ TrackInfo Timeline::getTrackInfo(int ix)
     if (ix < 0 || ix > m_tracks.count()) {
 	qWarning()<<"/// ARGH, requested info for track: "<<ix<<" - MAX is: "<<m_tracks.count();
 	// Let it crash to find wrong calls
-	//TrackInfo info;
-	//return info;
+	TrackInfo info;
+	return info;
     }
     Track *tk = track(ix);
     if (tk == NULL) {
 	qWarning()<<"/// ARGH, requesting NULL track: "<<ix<<" - MAX is: "<<m_tracks.count();
 	// Let it crash to find wrong calls
-	//TrackInfo info;
-	//return info;
+	TrackInfo info;
+	return info;
     }
     return tk->info();
 }
@@ -1215,7 +1218,7 @@ bool Timeline::moveClip(int startTrack, qreal startPos, int endTrack, qreal endP
     sourceTrack->playlist().unlock();
     Track *destTrack = track(endTrack);
     
-    bool success = destTrack->add(endPos, clipProducer, GenTime(clipProducer->get_in(), destTrack->fps()).seconds(), GenTime(clipProducer->get_out(), destTrack->fps()).seconds(), state, duplicate, mode);
+    bool success = destTrack->add(endPos, clipProducer, GenTime(clipProducer->get_in(), destTrack->fps()).seconds(), GenTime(clipProducer->get_out() + 1, destTrack->fps()).seconds(), state, duplicate, mode);
     delete clipProducer;
     return success;
 }
@@ -1401,7 +1404,7 @@ int Timeline::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Play
     }
     Mlt::Properties passProperties;
     Mlt::Properties original(originalProd->get_properties());
-    passProperties.pass_list(original, ClipController::getPassPropertiesList());
+    passProperties.pass_list(original, ClipController::getPassPropertiesList(false));
     return track(info.track)->changeClipSpeed(info, speedIndependantInfo, state, speed, strobe, prod, passProperties);
 }
 
@@ -1414,7 +1417,7 @@ void Timeline::duplicateClipOnPlaylist(int tk, qreal startPos, int offset, Mlt::
 	  qDebug()<<"// ERROR FINDING CLIP on TK: "<<tk<<", FRM: "<<pos;
     }
     Mlt::Producer *clipProducer = sourceTrack->playlist().get_clip(clipIndex);
-    Clip clp(*clipProducer);
+    Clip clp(clipProducer->parent());
     Mlt::Producer *cln = clp.clone();
     
     // Clip effects must be moved from clip to the playlist entry, so first delete them from parent clip
@@ -1422,12 +1425,16 @@ void Timeline::duplicateClipOnPlaylist(int tk, qreal startPos, int offset, Mlt::
     cln->set_in_and_out(clipProducer->get_in(), clipProducer->get_out());
     Mlt::Playlist trackPlaylist((mlt_playlist) prod->get_service());
     trackPlaylist.lock();
+
     int newIdx = trackPlaylist.insert_at(pos - offset, cln, 1);
     // Re-add source effects in playlist
-    Mlt::Producer *newProducer = trackPlaylist.get_clip(newIdx);
-    Clip(*newProducer).addEffects(*clipProducer);
+    Mlt::Producer *inPlaylist = trackPlaylist.get_clip(newIdx);
+    if (inPlaylist) {
+        Clip(*inPlaylist).addEffects(*clipProducer);
+        delete inPlaylist;
+    }
+
     trackPlaylist.unlock();
-    delete newProducer;
     delete clipProducer;
     delete cln;
     delete prod;

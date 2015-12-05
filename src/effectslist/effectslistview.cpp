@@ -60,7 +60,7 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
     lyr->addWidget(m_effectsList);
     lyr->setContentsMargins(0, 0, 0, 0);
     search_effect->setTreeWidget(m_effectsList);
-    search_effect->setToolTip(i18n("Search in the effect list"));
+    search_effect->setToolTip(i18n("Search in effects list"));
 
     TreeEventEater *leventEater = new TreeEventEater(this);
     search_effect->installEventFilter(leventEater);
@@ -69,7 +69,7 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
     buttonInfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
-    buttonInfo->setToolTip(i18n("Show/Hide the effect description"));
+    buttonInfo->setToolTip(i18n("Show/Hide effect description"));
     buttonInfo->setIconSize(iconSize);
     setFocusPolicy(Qt::StrongFocus);
     setFocusProxy(search_effect);

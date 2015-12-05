@@ -1,8 +1,9 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="90" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="100" translationDomain="kdenlive">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
+        <Action name="favorite_effects" />
   </ToolBar>
 
   <MenuBar>
@@ -26,10 +27,13 @@
       <Action name="add_folder" /> 
       <Action name="download_resource" /> 
       <Menu name="extract_audio" ><text>Extract Audio</text>
+	  <ActionList name="audio_transcoders_list" />
       </Menu>
       <Menu name="clip_actions" ><text>Clip Jobs</text>
+	<ActionList name="clip_jobs" />
       </Menu>
       <Menu name="transcoders" ><text>Transcode</text>
+	  <ActionList name="transcoders_list" />
       </Menu>
       <Menu name="generators" ><text>Generators</text>
       </Menu>
@@ -49,6 +53,7 @@
       <Action name="duplicate_clip" />
       <Action name="proxy_clip" />
       <Menu name="clip_in_timeline"><text>Clip in Timeline</text>
+	<ActionList name="timeline_occurences" />
       </Menu>
       <Action name="clip_properties" />
       <Action name="edit_clip" />
@@ -127,6 +132,7 @@
       <Action name="save_selection" />
       <Separator />
       <Menu name="video_effects_menu" ><text>Add Effect</text>
+	  <ActionList name="add_effect" />
       </Menu>
       <Action name="disable_timeline_effects" />
 	  <Separator />
@@ -188,6 +194,7 @@
       <Action name="load_layouts" />
       <Action name="show_titlebars" />
       <Separator />
+      <ActionList name="dock_actions" />
     </Menu>
     <Menu name="settings" >
       <Action name="manage_profiles" />

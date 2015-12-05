@@ -578,6 +578,7 @@ private:
     QMenu *m_extractAudioAction;
     QMenu *m_transcodeAction;
     QMenu *m_clipsActionsMenu;
+    QAction *m_inTimelineAction;
     QAction *m_showDate;
     QAction *m_showDesc;
     QSplitter *m_splitter;
@@ -614,7 +615,7 @@ private:
     InvalidDialog *m_invalidClipDialog;
     /** @brief Set to true if widget just gained focus (means we have to update effect stack . */
     bool m_gainedFocus;
-    void showClipProperties(ProjectClip *clip);
+    void showClipProperties(ProjectClip *clip, bool openExternalDialog = true);
     const QStringList getFolderInfo(QModelIndex selectedIx = QModelIndex());
     /** @brief Get the QModelIndex value for an item in the Bin. */
     QModelIndex getIndexForId(const QString &id, bool folderWanted) const;
@@ -645,6 +646,8 @@ signals:
     /** @brief Analysis data changed, refresh panel. */
     void updateAnalysisData(const QString &);
     void openClip(ClipController *c, int in = -1, int out = -1);
+    /** @brief Fill context menu with occurences of this clip in timeline. */
+    void findInTimeline(const QString &);
     void clipNameChanged(const QString &);
   
 };

@@ -365,6 +365,7 @@ bool ProjectManager::checkForBackupFile(const QUrl &url)
                   break;
             } else {
               // Another Kdenlive instance is probably handling this autosave file
+              staleFiles.removeAll(stale);
               delete stale;
               continue;
             }
@@ -483,6 +484,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     connect(m_trackView, &Timeline::loadingBin, m_progressDialog, &QProgressDialog::setValue, Qt::DirectConnection);
     m_trackView->loadTimeline();
     m_trackView->loadGuides(pCore->binController()->takeGuidesData());
+    connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo, QUrl, QUndoCommand*)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo, QUrl, QUndoCommand*)), Qt::DirectConnection);
 
     m_project = doc;
     pCore->window()->connectDocument();
@@ -508,7 +510,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_trackView->setDuration(m_trackView->duration());
 
     pCore->window()->slotGotProgressInfo(QString(), -1);
-    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_trackView->duration());
+    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_trackView->duration() - 1);
     pCore->monitorManager()->projectMonitor()->slotZoneMoved(m_trackView->inPoint(), m_trackView->outPoint());
     if (openBackup) {
         slotOpenBackup(url);

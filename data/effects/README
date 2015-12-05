@@ -39,7 +39,7 @@ Line 2:
 Line 3:
     - name of the effect that will appear to the user
 Line 4:
-    - Short description of the effect to be shown in the effect list
+    - Short description of the effect to be shown in the effects list
     - Additionally a <full> part can be added inside. It's content will be available in the effect stack (see frei0r_lightgraffiti.xml for an example):
         - supports HTML formatting (requires the use of CDATA)
 Line 5:

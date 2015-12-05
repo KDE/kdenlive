@@ -470,6 +470,27 @@ void AbstractGroupItem::mousePressEvent(QGraphicsSceneMouseEvent * event)
     }
 }
 
+// virtual
+void AbstractGroupItem::mouseReleaseEvent(QGraphicsSceneMouseEvent * event)
+{
+    if (event->modifiers() & Qt::ControlModifier) {
+        // User want to do a rectangle selection, so ignore the event to pass it to the view
+        event->ignore();
+    } else {
+        QGraphicsItem::mouseReleaseEvent(event);
+    }
+}
+
+void AbstractGroupItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
+{
+    if (event->buttons() !=  Qt::LeftButton || event->modifiers() & Qt::ControlModifier) {
+        // User want to do a rectangle selection, so ignore the event to pass it to the view
+        event->ignore();
+    } else {
+        QGraphicsItem::mouseMoveEvent(event);
+    }
+}
+
 void AbstractGroupItem::resizeStart(int diff)
 {
     bool info = false;

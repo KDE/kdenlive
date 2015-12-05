@@ -40,6 +40,7 @@ EffectBasket::EffectBasket(EffectsListView *effectList) :
     setDragEnabled(true);
     m_effectList->creatFavoriteBasket(this);
     connect(m_effectList, &EffectsListView::reloadBasket, this, &EffectBasket::slotReloadBasket);
+    connect(this, SIGNAL(itemActivated(QListWidgetItem *)), this, SLOT(slotAddEffect(QListWidgetItem *)));
 }
 
 void EffectBasket::slotReloadBasket()
@@ -65,6 +66,20 @@ QMimeData *EffectBasket::mimeData(const QList<QListWidgetItem *> list) const
     return mime;
 }
 
+void EffectBasket::showEvent(QShowEvent * event)
+{
+    QListWidget::showEvent(event);
+    if (!currentItem()) {
+        setCurrentRow(0);
+    }
+}
 
+void EffectBasket::slotAddEffect(QListWidgetItem *item)
+{
+    int type = item->data(EffectsListWidget::TypeRole).toInt();
+    QStringList info = item->data(EffectsListWidget::IdRole).toStringList();
+    QDomElement effect = EffectsListWidget::itemEffect(type, info);
+    emit addEffect(effect);
+}
 
 

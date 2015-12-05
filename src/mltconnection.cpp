@@ -31,28 +31,25 @@ MltConnection::MltConnection(QObject* parent) :
 void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
 {
     QString basePath = mltPath;
-    if (basePath.isEmpty()) {
-        basePath = qgetenv("MLT_PREFIX");
-    }
-    if (basePath.isEmpty()){
-        basePath = QStringLiteral(MLT_PREFIX);
-    }
-    KdenliveSettings::setMltpath(QStringLiteral(MLT_DATADIR) + "/profiles/");
-    KdenliveSettings::setRendererpath(QStringLiteral(MLT_MELTBIN));
+    if (basePath.isEmpty() || !QFile::exists(basePath)) basePath = qgetenv("MLT_PROFILES_PATH");
+    if (basePath.isEmpty() || !QFile::exists(basePath)) basePath = qgetenv("MLT_DATA") + "/profiles/";
+    if (basePath.isEmpty() || !QFile::exists(basePath)) basePath = qgetenv("MLT_PREFIX") + "/share/mlt/profiles/";
+    if (basePath.isEmpty() || !QFile::exists(basePath)) basePath = KdenliveSettings::mltpath();
+    if (basePath.isEmpty() || !QFile::exists(basePath)) basePath = QStringLiteral(MLT_DATADIR) + "/profiles/"; // build-time definition
+    KdenliveSettings::setMltpath(basePath);
 
-    if (KdenliveSettings::rendererpath().isEmpty() || KdenliveSettings::rendererpath().endsWith(QLatin1String("inigo"))) {
-        QString meltPath = QStringLiteral(MLT_MELTBIN);
-        if (!QFile::exists(meltPath)) {
-            meltPath = QStandardPaths::findExecutable(QStringLiteral("melt"));
-        }
-        KdenliveSettings::setRendererpath(meltPath);
-    }
+    QString meltPath = basePath.section('/', 0, -3) + "/bin/melt";
+    if (!QFile::exists(meltPath)) meltPath = qgetenv("MLT_PREFIX") + "/bin/melt";
+    if (!QFile::exists(meltPath)) meltPath = KdenliveSettings::rendererpath();
+    if (!QFile::exists(meltPath)) meltPath = QStringLiteral(MLT_MELTBIN);
+    if (!QFile::exists(meltPath)) meltPath = QStandardPaths::findExecutable("melt");
+    KdenliveSettings::setRendererpath(meltPath);
 
     if (KdenliveSettings::rendererpath().isEmpty()) {
         // Cannot find the MLT melt renderer, ask for location
         QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(QUrl(),
-                                                                       i18n("Cannot find the melt program required for rendering (part of MLT)"),
-                                                                       pCore->window());
+                i18n("Cannot find the melt program required for rendering (part of MLT)"),
+                pCore->window());
         if (getUrl->exec() == QDialog::Rejected) {
             delete getUrl;
             ::exit(0);

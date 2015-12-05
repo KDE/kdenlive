@@ -344,7 +344,9 @@ private:
     QGraphicsLineItem *m_cursorLine;
     ItemInfo m_dragItemInfo;
     ItemInfo m_selectionGroupInfo;
+    /** @brief Possible timeline action */
     OperationType m_operationMode;
+    /** @brief Currently running operation */
     OperationType m_moveOpMode;
     AbstractClipItem *m_dragItem;
     Guide *m_dragGuide;
@@ -354,7 +356,6 @@ private:
     QTimeLine *m_animationTimer;
     QColor m_tipColor;
     QPen m_tipPen;
-    QPoint m_clickPoint;
     QPoint m_clickEvent;
     QList <CommentedTime> m_searchPoints;
     QList <Guide *> m_guides;
@@ -505,6 +506,8 @@ private:
     void reloadTimeline();
     /** @brief Make sure our automatic composite transitions are correctly setup. */
     void checkCompositeTransitions(Mlt::Tractor *tractor);
+    /** @brief Timeline selection changed, update effect stack. */    
+    void updateTimelineSelection();
 
 private slots:
     void slotRefreshGuides();

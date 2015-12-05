@@ -90,6 +90,7 @@ KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, con
 
 KeyframeEdit::~KeyframeEdit()
 {
+    setEnabled(false);
     keyframe_list->blockSignals(true);
     keyframe_list->clear();
     QLayoutItem *child;

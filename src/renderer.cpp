@@ -1157,7 +1157,7 @@ bool Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
     if (isActive) {
         startConsumer();
     }
-    emit durationChanged(m_mltProducer->get_playtime(), m_mltProducer->get_in());
+    emit durationChanged(m_mltProducer->get_playtime() - 1, m_mltProducer->get_in());
     position = m_mltProducer->position();
     emit rendererPosition(position);
     return true;
@@ -1273,7 +1273,7 @@ int Render::setSceneList(QString playlist, int position)
     //m_mltConsumer->connect(*m_mltProducer);
     m_mltProducer->set_speed(0);
     fillSlowMotionProducers();
-    emit durationChanged(m_mltProducer->get_playtime());
+    emit durationChanged(m_mltProducer->get_playtime() - 1);
 
     // Fill bin
     QStringList ids = m_binController->getClipIds();
@@ -2168,7 +2168,7 @@ bool Render::removeFilterFromService(Mlt::Service service, int effectIndex, bool
     int ct = 0;
     Mlt::Filter *filter = service.filter(ct);
     while (filter) {
-        if ((effectIndex == -1 && strcmp(filter->get("kdenlive_id"), ""))  || filter->get_int("kdenlive_ix") == effectIndex) {
+        if ((effectIndex == -1 && strcmp(filter->get("kdenlive_id"), "")) || filter->get_int("kdenlive_ix") == effectIndex) {
             if (service.detach(*filter) == 0) {
                 delete filter;
                 success = true;

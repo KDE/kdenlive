@@ -180,9 +180,11 @@ public:
     Mlt::Profile *profile();
     /** @brief When replacing a producer, it is important that we keep some properties, for exemple force_ stuff and url for proxies
      * this method returns a list of properties that we want to keep when replacing a producer . */
-    static const char *getPassPropertiesList();
+    static const char *getPassPropertiesList(bool passLength = true);
     /** @brief Disable all Kdenlive effects on this clip */
     void disableEffects(bool disable);
+    /** @brief Create a Kdenlive EffectList xml data from an MLT service */
+    static EffectsList xmlEffectList(Mlt::Profile *profile, Mlt::Service &service);
 
 private:
     Mlt::Producer *m_masterProducer;
@@ -200,7 +202,6 @@ private:
     QMutex m_effectMutex;
     void getInfoForProducer();
     //void rebuildEffectList(ProfileInfo info);
-    EffectsList xmlEffectList();
 };
 
 #endif

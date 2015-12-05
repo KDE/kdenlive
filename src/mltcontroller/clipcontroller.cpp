@@ -189,8 +189,11 @@ const QString ClipController::clipId()
 }
 
 // static
-const char *ClipController::getPassPropertiesList()
+const char *ClipController::getPassPropertiesList(bool passLength)
 {
+    if (!passLength) {
+	return "kdenlive:proxy,kdenlive:originalurl,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_colorspace,set.force_full_luma,file_hash";
+    }
     return "kdenlive:proxy,kdenlive:originalurl,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_colorspace,set.force_full_luma,templatetext,file_hash,xmldata,length";
 }
 
@@ -584,17 +587,16 @@ void ClipController::removeEffect(int effectIndex)
 
 EffectsList ClipController::effectList()
 {
-    return xmlEffectList();
+    return xmlEffectList(m_masterProducer->profile(), m_masterProducer->parent());
 }
 
-EffectsList ClipController::xmlEffectList()
+// static
+EffectsList ClipController::xmlEffectList(Mlt::Profile *profile, Mlt::Service &service)
 {
     ProfileInfo profileinfo;
-    Mlt::Profile *p = m_masterProducer->profile();
-    profileinfo.profileSize = QSize(p->width(), p->height());
-    profileinfo.profileFps = p->fps();
+    profileinfo.profileSize = QSize(profile->width(), profile->height());
+    profileinfo.profileFps = profile->fps();
     EffectsList effList(true);
-    Mlt::Service service = m_masterProducer->parent();
     for (int ix = 0; ix < service.filter_count(); ++ix) {
         Mlt::Filter *effect = service.filter(ix);
         QDomElement clipeffect = Timeline::getEffectByTag(effect->get("tag"), effect->get("kdenlive_id"));

@@ -75,7 +75,7 @@ public:
     /** @brief When a transition is resized, check if keyframes are out of the transition and fix if necessary. 
      * @param oldEnd the previous transition end, so that when we expand the transition, if there is a keyframe at end we move it
      */
-    bool updateKeyframes(int oldEnd);
+    bool updateKeyframes(ItemInfo oldInfo, ItemInfo newInfo);
 
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);

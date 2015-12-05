@@ -275,16 +275,19 @@ QPixmap ProjectClip::thumbnail(int width, int height)
     return m_thumbnail.pixmap(width, height);
 }
 
-void ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
+bool ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
 {
     if (!replaceProducer && m_controller) {
         qDebug()<<"// RECEIVED PRODUCER BUT WE ALREADY HAVE ONE\n----------";
-        return;
+        return false;
     }
+    bool isNewProducer = true;
     if (m_controller) {
         // Replace clip for this controller
         //m_controller->updateProducer(m_id, &(controller->originalProducer()));
        //delete controller;
+        resetProducerProperty("kdenlive:file_hash");
+        isNewProducer = false;
     }
     else if (controller) {
         // We did not yet have the controller, update info
@@ -301,6 +304,7 @@ void ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
     // Make sure we have a hash for this clip
     hash();
     createAudioThumbs();
+    return isNewProducer;
 }
 
 void ProjectClip::createAudioThumbs()

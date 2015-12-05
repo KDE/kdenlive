@@ -37,6 +37,7 @@
 #include <KDualAction>
 #include <KSelectAction>
 #include <KMessageWidget>
+#include <KMessageBox>
 
 #include <QDebug>
 #include <QMouseEvent>
@@ -449,7 +450,6 @@ void Monitor::slotForceSize(QAction *a)
             warningMessage(i18n("Your screen resolution is not sufficient for this action"));
             return;
         }
-        
     }
     switch (resizeType) {
       case 100:
@@ -828,26 +828,32 @@ ClipController *Monitor::currentController() const
     return m_controller;
 }
 
-void Monitor::slotExtractCurrentFrame()
+void Monitor::slotExtractCurrentFrame(QString path)
 {
-    QImage frame;
-    // check if we are using a proxy
-    if (m_controller && !m_controller->property(QStringLiteral("kdenlive:proxy")).isEmpty() && m_controller->property(QStringLiteral("kdenlive:proxy")) != QLatin1String("-")) {
-        // using proxy, use original clip url to get frame
-        frame = render->extractFrame(render->seekFramePosition(), m_controller->property(QStringLiteral("resource")));
-    }
-    else frame = render->extractFrame(render->seekFramePosition());
-    QString framesFolder = KRecentDirs::dir(QStringLiteral(":KdenliveFramesFolder"));
+    QString framesFolder = KRecentDirs::dir(":KdenliveFramesFolder");
     if (framesFolder.isEmpty()) framesFolder = QDir::homePath();
-    
     QPointer<QFileDialog> fs = new QFileDialog(this, i18n("Save Image"), framesFolder);
     fs->setMimeTypeFilters(QStringList() << QStringLiteral("image/png"));
     fs->setAcceptMode(QFileDialog::AcceptSave);
+    fs->selectFile(path);
     if (fs->exec()) {
-        QStringList path = fs->selectedFiles();
-        if (!path.isEmpty()) {
-            KRecentDirs::add(QStringLiteral(":KdenliveFramesFolder"), fs->selectedUrls().first().adjusted(QUrl::RemoveFilename).path());
-            frame.save(path.first());
+        if (!fs->selectedFiles().isEmpty()) {
+            QUrl savePath = fs->selectedUrls().first();
+            if (QFile::exists(savePath.toLocalFile()) && KMessageBox::warningYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", savePath.toLocalFile())) == KMessageBox::No) {
+                delete fs;
+                slotExtractCurrentFrame(savePath.fileName());
+                return;
+            }
+            // Create Qimage with frame
+            QImage frame;
+            // check if we are using a proxy
+            if (m_controller && !m_controller->property(QStringLiteral("kdenlive:proxy")).isEmpty() && m_controller->property(QStringLiteral("kdenlive:proxy")) != QLatin1String("-")) {
+                // using proxy, use original clip url to get frame
+                frame = render->extractFrame(render->seekFramePosition(), m_controller->property(QStringLiteral("resource")));
+            }
+            else frame = render->extractFrame(render->seekFramePosition());
+            frame.save(savePath.toLocalFile());
+            KRecentDirs::add(QStringLiteral(":KdenliveFramesFolder"), savePath.adjusted(QUrl::RemoveFilename).path());
         }
     }
     delete fs;
@@ -1368,6 +1374,7 @@ void Monitor::slotSeekToKeyFrame()
 
 void Monitor::setUpEffectGeometry(QRect r, QVariantList list)
 {
+    if (!m_rootItem) return;
     if (!list.isEmpty()) {
         m_rootItem->setProperty("centerPoints", list);
     }
@@ -1376,21 +1383,30 @@ void Monitor::setUpEffectGeometry(QRect r, QVariantList list)
 
 QRect Monitor::effectRect() const
 {
+    if (!m_rootItem) {
+	return QRect();
+    }
     return m_rootItem->property("framesize").toRect();
 }
 
 QVariantList Monitor::effectPolygon() const
 {
+    if (!m_rootItem) {
+	return QVariantList();
+    }
     return m_rootItem->property("centerPoints").toList();
 }
 
 void Monitor::setEffectKeyframe(bool enable)
 {
-    m_rootItem->setProperty("iskeyframe", enable);
+    if (m_rootItem) {
+	m_rootItem->setProperty("iskeyframe", enable);
+    }
 }
 
 bool Monitor::effectSceneDisplayed(MonitorSceneType effectType)
 {
+    if (!m_rootItem) return false;
     switch (effectType) {
       case MonitorSceneGeometry:
           return m_rootItem->objectName() == "rooteffectscene";

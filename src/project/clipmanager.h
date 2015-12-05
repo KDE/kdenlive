@@ -28,7 +28,6 @@
 #include <QFuture>
 
 #include <QUrl>
-#include <KDirWatch>
 #include <KIO/CopyJob>
 #include <kimagecache.h>
 
@@ -70,13 +69,11 @@ Q_OBJECT public:
 
     explicit ClipManager(KdenliveDoc *doc);
     virtual ~ ClipManager();
-    void deleteClip(const QString &clipId);
 
     void slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId);
     void slotDeleteClips(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand, bool execute);
     void setThumbsProgress(const QString &message, int progress);
     QMap <QString, QString> documentFolderList() const;
-    int getFreeFolderId();
     int lastClipId() const;
     QString projectFolder() const;
     /** @brief Prepare deletion of clips and folders from the Bin. */
@@ -96,12 +93,6 @@ public slots:
     void slotRequestThumbs(const QString &id, const QList<int> &frames);
     
 private slots:
-    /** A clip was externally modified, monitor for more changes and prepare for reload */
-    void slotClipModified(const QString &path);
-    void slotClipMissing(const QString &path);
-    void slotClipAvailable(const QString &path);
-    /** Check the list of externally modified clips, and process them if they were not modified in the last 1500 milliseconds */
-    void slotProcessModifiedClips();
     void slotGetThumbs();
     /** @brief Clip has been copied, add it now. */
     void slotAddCopiedClip(KIO::Job*, const QUrl&, const QUrl &dst);
@@ -115,9 +106,6 @@ private:   // Private attributes
     /** the document undo stack*/
     KdenliveDoc *m_doc;
     int m_folderIdCounter;
-    KDirWatch m_fileWatcher;
-    /** Timer used to reload clips when they have been externally modified */
-    QTimer m_modifiedTimer;
     /** List of the clip IDs that need to be reloaded after being externally modified */
     QMap <QString, QTime> m_modifiedClips;
     /** Struct containing the list of clip thumbnails to request (clip id and frames) */

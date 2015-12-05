@@ -133,8 +133,9 @@ public:
     /** @brief Sets the MLT producer associated with this clip
      *  @param producer The producer
      *  @param replaceProducer If true, we replace existing producer with this one
+     *  @returns true if producer was changed
      * . */
-    void setProducer(ClipController *controller, bool replaceProducer);
+    bool setProducer(ClipController *controller, bool replaceProducer);
     
     /** @brief Returns true if this clip already has a producer. */
     bool isReady() const;

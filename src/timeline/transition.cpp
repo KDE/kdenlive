@@ -348,7 +348,7 @@ int Transition::defaultZValue() const
     return 3;
 }
 
-bool Transition::updateKeyframes(int oldEnd)
+bool Transition::updateKeyframes(ItemInfo oldInfo, ItemInfo newInfo)
 {
     QString keyframes;
     QDomElement pa;
@@ -362,7 +362,8 @@ bool Transition::updateKeyframes(int oldEnd)
         }
     }
     if (keyframes.isEmpty()) return false;
-    int duration = cropDuration().frames(m_fps) - 1;
+    int duration = newInfo.cropDuration.frames(m_fps) - 1;
+    int oldEnd = oldInfo.cropDuration.frames(m_fps) - 1;
     QStringList values = keyframes.split(';');
     int frame;
     int i = 0;
@@ -384,7 +385,7 @@ bool Transition::updateKeyframes(int oldEnd)
         }
         return false;
     }
-    else {
+    else if (oldEnd > duration) {
         // Transition was shortened, check for out of bounds keyframes
         foreach(const QString &pos, values) {
             if (!pos.contains('=')) {
@@ -426,7 +427,6 @@ bool Transition::updateKeyframes(int oldEnd)
         }
         pa.setAttribute(QStringLiteral("value"), values.join(QStringLiteral(";")));
     }
-    
     return true;
 }
 

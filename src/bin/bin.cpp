@@ -273,7 +273,10 @@ Bin::Bin(QWidget* parent) :
   , m_folderUp(NULL)
   , m_jobManager(NULL)
   , m_doc(NULL)
+  , m_extractAudioAction(NULL)
   , m_transcodeAction(NULL)
+  , m_clipsActionsMenu(NULL)
+  , m_inTimelineAction(NULL)
   , m_listType((BinViewType) KdenliveSettings::binMode())
   , m_iconSize(160, 90)
   , m_propertiesPanel(NULL)
@@ -873,7 +876,7 @@ QString Bin::slotAddFolder(const QString &folderName)
         m_proxyModel->selectionModel()->clearSelection();
         int row =ix.row();
         for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
-            const QModelIndex id = m_itemModel->index(row, i, QModelIndex());
+            const QModelIndex id = m_itemModel->index(row, i, ix.parent());
             if (id.isValid()) {
                 m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
             }
@@ -905,14 +908,16 @@ void Bin::selectClipById(const QString &clipId)
 {
     QModelIndex ix = getIndexForId(clipId, false);
     if (ix.isValid()) {
-        m_proxyModel->selectionModel()->clearSelection();
+	m_proxyModel->selectionModel()->clearSelection();
         int row =ix.row();
         for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
-            const QModelIndex id = m_itemModel->index(row, i, QModelIndex());
+            const QModelIndex id = m_itemModel->index(row, i, ix.parent());
             if (id.isValid()) {
                 m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
             }
         }
+	selectProxyModel(m_proxyModel->mapFromSource(ix));
+	m_itemView->scrollTo(m_proxyModel->mapFromSource(ix));
     }
 }
 
@@ -1100,10 +1105,11 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_openAction->setEnabled(type == Image || type == Audio);
                 if (m_propertiesPanel->isVisible()) {
                     // if info panel is displayed, update info
-                    showClipProperties(static_cast<ProjectClip*>(currentItem));
+                    showClipProperties(static_cast<ProjectClip*>(currentItem), false);
                 }
                 m_deleteAction->setText(i18n("Delete Clip"));
                 m_proxyAction->setText(i18n("Proxy Clip"));
+		emit findInTimeline(currentItem->clipId());
             } else {
                 // A folder was selected, disable editing clip
                 m_openAction->setEnabled(false);
@@ -1114,6 +1120,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
             }
 	    m_deleteAction->setEnabled(true);
         } else {
+	    emit findInTimeline(QString());
             m_reloadAction->setEnabled(false);
             m_duplicateAction->setEnabled(false);
             m_openAction->setEnabled(false);
@@ -1125,6 +1132,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
         m_openAction->setEnabled(false);
 	m_deleteAction->setEnabled(false);
         showClipProperties(NULL);
+	emit findInTimeline(QString());
 	emit masterClipSelected(NULL, m_monitor);
 	// Display black bg in clip monitor
 	emit openClip(NULL);
@@ -1273,6 +1281,8 @@ void Bin::rebuildMenu()
     m_menu->insertMenu(m_reloadAction, m_extractAudioAction);
     m_menu->insertMenu(m_reloadAction, m_transcodeAction);
     m_menu->insertMenu(m_reloadAction, m_clipsActionsMenu);
+    m_inTimelineAction = m_menu->insertMenu(m_reloadAction, static_cast<QMenu*>(pCore->window()->factory()->container("clip_in_timeline", pCore->window())));
+  
 }
 
 void Bin::contextMenuEvent(QContextMenuEvent *event)
@@ -1288,52 +1298,53 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
 	    // User right clicked on a clip
             AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(idx).internalPointer());
             if (currentItem) {
+	      	enableClipActions = true;
                 if (currentItem->itemType() == AbstractProjectItem::FolderItem) {
                     isFolder = true;
-                }
-		enableClipActions = true;
-		m_proxyAction->blockSignals(true);
-                ProjectClip *clip = qobject_cast<ProjectClip*>(currentItem);
-		if (clip) {
-                    clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
-                    m_proxyAction->setChecked(clip->hasProxy());
-                    QList<QAction *> transcodeActions;
-                    if (m_transcodeAction) {
-                        transcodeActions = m_transcodeAction->actions();
-                    }
-                    QStringList data;
-                    QString condition;
-                    audioCodec = clip->codec(true);
-                    QString videoCodec = clip->codec(false);
-                    type = clip->clipType();
-                    bool noCodecInfo = false;
-                    if (audioCodec.isEmpty() && videoCodec.isEmpty()) {
-                        noCodecInfo = true;
-                    }
-                    for (int i = 0; i < transcodeActions.count(); ++i) {
-                        data = transcodeActions.at(i)->data().toStringList();
-                        if (data.count() > 4) {
-                            condition = data.at(4);
-                            if (condition.isEmpty()) {
-                                transcodeActions.at(i)->setEnabled(true);
-                                continue;
-                            }
-                            if (noCodecInfo) {
-                                // No audio / video codec, this is an MLT clip, disable conditionnal transcoding
-                                transcodeActions.at(i)->setEnabled(false);
-                                continue;
-                            }
-                            if (condition.startsWith(QLatin1String("vcodec")))
-                                transcodeActions.at(i)->setEnabled(condition.section('=', 1, 1) == videoCodec);
-                            else if (condition.startsWith(QLatin1String("acodec")))
-                                transcodeActions.at(i)->setEnabled(condition.section('=', 1, 1) == audioCodec);
-                        }
-                    }
-                }
-		m_proxyAction->blockSignals(false);
+                } else {
+		    ProjectClip *clip = qobject_cast<ProjectClip*>(currentItem);
+		    if (clip) {
+			m_proxyAction->blockSignals(true);
+			emit findInTimeline(clip->clipId());
+			clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
+			m_proxyAction->setChecked(clip->hasProxy());
+			QList<QAction *> transcodeActions;
+			if (m_transcodeAction) {
+			    transcodeActions = m_transcodeAction->actions();
+			}
+			QStringList data;
+			QString condition;
+			audioCodec = clip->codec(true);
+			QString videoCodec = clip->codec(false);
+			type = clip->clipType();
+			bool noCodecInfo = false;
+			if (audioCodec.isEmpty() && videoCodec.isEmpty()) {
+			    noCodecInfo = true;
+			}
+			for (int i = 0; i < transcodeActions.count(); ++i) {
+			    data = transcodeActions.at(i)->data().toStringList();
+			    if (data.count() > 4) {
+				condition = data.at(4);
+				if (condition.isEmpty()) {
+				    transcodeActions.at(i)->setEnabled(true);
+				    continue;
+				}
+				if (noCodecInfo) {
+				    // No audio / video codec, this is an MLT clip, disable conditionnal transcoding
+				    transcodeActions.at(i)->setEnabled(false);
+				    continue;
+				}
+				if (condition.startsWith(QLatin1String("vcodec")))
+				    transcodeActions.at(i)->setEnabled(condition.section('=', 1, 1) == videoCodec);
+				else if (condition.startsWith(QLatin1String("acodec")))
+				    transcodeActions.at(i)->setEnabled(condition.section('=', 1, 1) == audioCodec);
+			    }
+			}
+		    }
+		    m_proxyAction->blockSignals(false);
+		}
             }
         }
-        
     }
     // Enable / disable clip actions
     m_proxyAction->setEnabled(enableClipActions);
@@ -1347,10 +1358,11 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_reloadAction->setVisible(!isFolder);
     m_duplicateAction->setVisible(!isFolder);
     m_editAction->setVisible(!isFolder);
+    m_inTimelineAction->setVisible(!isFolder);
     m_transcodeAction->menuAction()->setVisible(!isFolder && clipService.contains(QStringLiteral("avformat")));
     m_clipsActionsMenu->menuAction()->setVisible(!isFolder && (clipService.contains(QStringLiteral("avformat")) || clipService.contains(QStringLiteral("xml")) || clipService.contains(QStringLiteral("consumer"))));
     m_extractAudioAction->menuAction()->setVisible(!isFolder && !audioCodec.isEmpty());
-    
+
 
     // Show menu
     if (enableClipActions) {
@@ -1429,9 +1441,15 @@ void Bin::slotSwitchClipProperties(const QModelIndex &ix)
     if (ix.isValid()) {
         // User clicked in the icon, open clip properties
         if (m_propertiesPanel->isHidden()) {
-            m_propertiesPanel->show();
-            AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
+	    AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
             ProjectClip *clip = qobject_cast<ProjectClip*>(item);
+            if (clip && clip->clipType() == Text) {
+		m_propertiesPanel->hide();
+	    } else {
+		m_propertiesPanel->setEnabled(true);
+		m_propertiesPanel->show();
+		
+	    }
             showClipProperties(clip);
         }
         else m_propertiesPanel->hide();
@@ -1452,7 +1470,7 @@ void Bin::slotShowClipProperties()
     }
 }
 
-void Bin::showClipProperties(ProjectClip *clip)
+void Bin::showClipProperties(ProjectClip *clip, bool openExternalDialog )
 {
     if (!m_editAction->isChecked()) return;
     if (clip && !clip->isReady()) {
@@ -1467,7 +1485,7 @@ void Bin::showClipProperties(ProjectClip *clip)
             delete w;
         }*/
         m_propertiesPanel->setEnabled(false);
-        showTitleWidget(clip);
+        if (openExternalDialog) showTitleWidget(clip);
         return;
     }
     if (clip && clip->clipType() == SlideShow) {
@@ -1592,14 +1610,13 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
 {
     ProjectClip *clip = m_rootFolder->clip(info.clipId);
     if (clip) {
-        if (!clip->hasProxy()) {
+        if (clip->setProducer(controller, info.replaceProducer) && !clip->hasProxy()) {
             // Check for file modifications
             ClipType t = clip->clipType();
             if (t == AV || t == Audio || t == Image || t == Video || t == Playlist) {
                 m_doc->watchFile(clip->url());
             }
         }
-	clip->setProducer(controller, info.replaceProducer);
         QString currentClip = m_monitor->activeClipId();
         if (currentClip.isEmpty()) {
             //No clip displayed in monitor, check if item is selected
@@ -1636,7 +1653,11 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
         }
         else parentFolder = m_rootFolder;
         //FIXME(style): constructor actually adds the new pointer to parent's children
-        new ProjectClip(info.clipId, m_blankThumb, controller, parentFolder);
+        ProjectClip *clip = new ProjectClip(info.clipId, m_blankThumb, controller, parentFolder);
+        ClipType t = clip->clipType();
+        if (t == AV || t == Audio || t == Image || t == Video || t == Playlist) {
+            m_doc->watchFile(clip->url());
+        }
         if (info.clipId.toInt() >= m_clipCounter) m_clipCounter = info.clipId.toInt() + 1;
     }
     emit producerReady(info.clipId);
@@ -1702,6 +1723,12 @@ void Bin::setupGeneratorMenu()
         m_clipsActionsMenu = addMenu;
     }
 
+    addMenu = qobject_cast<QMenu*>(pCore->window()->factory()->container("clip_in_timeline", pCore->window()));
+    if (addMenu) {
+        m_inTimelineAction = m_menu->addMenu(addMenu);
+        m_inTimelineAction->setEnabled(!addMenu->isEmpty());
+    }
+    
     if (m_reloadAction) m_menu->addAction(m_reloadAction);
     if (m_duplicateAction) m_menu->addAction(m_duplicateAction);
     if (m_proxyAction) m_menu->addAction(m_proxyAction);
@@ -1974,7 +2001,7 @@ void Bin::slotEffectDropped(QString effect, const QModelIndex &parent)
         m_proxyModel->selectionModel()->clearSelection();
         int row =parent.row();
         for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
-            const QModelIndex id = m_itemModel->index(row, i, QModelIndex());
+            const QModelIndex id = m_itemModel->index(row, i, parent.parent());
             if (id.isValid()) {
                 m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
             }
@@ -1996,6 +2023,10 @@ void Bin::slotDeleteEffect(const QString &id, QDomElement effect)
 
 void Bin::removeEffect(const QString &id, const QDomElement &effect)
 {
+    if (effect.isNull()) {
+        qWarning()<<" / /ERROR, trying to remove empty effect";
+        return;
+    }
     ProjectClip *currentItem = m_rootFolder->clip(id);
     if (!currentItem) return;
     currentItem->removeEffect(effect.attribute(QStringLiteral("kdenlive_ix")).toInt());

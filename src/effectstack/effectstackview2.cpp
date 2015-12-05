@@ -287,12 +287,12 @@ void EffectStackView2::setupListView()
     m_draggedEffect = NULL;
     m_draggedGroup = NULL;
     disconnect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
-    m_effects.clear();
-    m_groupIndex = 0;
     QWidget *view = m_ui.container->takeWidget();
     if (view) {
         delete view;
     }
+    m_effects.clear();
+    m_groupIndex = 0;
     blockSignals(false);
     view = new QWidget(m_ui.container);
     m_ui.container->setWidget(view);
@@ -331,7 +331,7 @@ void EffectStackView2::setupListView()
             }
 
             if (group == NULL) {
-                group = new CollapsibleGroup(effectInfo.groupIndex, i == 0, i == effectsCount - 1, effectInfo, m_ui.container->widget());
+                group = new CollapsibleGroup(effectInfo.groupIndex, i == 0, i == effectsCount - 1, effectInfo, view);
                 connectGroup(group);
                 vbox1->addWidget(group);
                 group->installEventFilter( this );

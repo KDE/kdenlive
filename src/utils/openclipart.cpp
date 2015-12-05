@@ -97,7 +97,7 @@ OnlineItemInfo OpenClipArt::displayItemDetails(QListWidgetItem *item)
     info.infoUrl = item->data(infoUrl).toString();
     info.author = item->data(authorRole).toString();
     info.authorUrl = item->data(authorUrl).toString();
-    info.license = item->data(licenseRole).toString();
+    info.license = "https://openclipart.org/share"; // all openclipartfiles are public domain
     info.description = item->data(descriptionRole).toString();
     emit gotThumb(item->data(imageRole).toString());
     return info;

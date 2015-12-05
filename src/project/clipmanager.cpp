@@ -66,12 +66,6 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
     m_closing(false),
     m_abortAudioThumb(false)
 {
-    m_folderIdCounter = 1;
-    m_modifiedTimer.setInterval(1500);
-    connect(&m_fileWatcher, &KDirWatch::dirty, this, &ClipManager::slotClipModified);
-    connect(&m_fileWatcher, &KDirWatch::deleted, this, &ClipManager::slotClipMissing);
-    connect(&m_modifiedTimer, &QTimer::timeout, this, &ClipManager::slotProcessModifiedClips);
-
     KImageCache::deleteCache(QStringLiteral("kdenlive-thumbs"));
     pixmapCache = new KImageCache(QStringLiteral("kdenlive-thumbs"), 10000000);
     pixmapCache->setEvictionPolicy(KSharedDataCache::EvictOldest);
@@ -106,7 +100,6 @@ void ClipManager::clear()
     m_abortAudioThumb = false;
     m_folderList.clear();
     m_modifiedClips.clear();
-    m_folderIdCounter = 1;
     pixmapCache->clear();
 }
 
@@ -265,19 +258,6 @@ void ClipManager::slotDeleteClips(QStringList clipIds, QStringList folderIds, QS
     }
 }
 
-void ClipManager::deleteClip(const QString &clipId)
-{
-    ClipController *controller = pCore->binController()->getController(clipId);
-    ClipType type = controller->clipType();
-    QString url = controller->clipUrl().toLocalFile();
-    if (type != Color && type != SlideShow  && !url.isEmpty()) {
-        m_fileWatcher.removeFile(url);
-    }
-    // Delete clip in bin
-    pCore->bin()->deleteClip(clipId);
-    // Delete controller and Mlt::Producer
-    pCore->binController()->removeBinClip(clipId);
-}
 
 /*const QList <DocClipBase *> ClipManager::getClipByResource(const QString &resource)
 {
@@ -339,10 +319,6 @@ void ClipManager::slotAddTextTemplateClip(QString titleName, const QUrl &path, c
     m_doc->commandStack()->push(command);
 }
 
-int ClipManager::getFreeFolderId()
-{
-    return m_folderIdCounter++;
-}
 
 QString ClipManager::projectFolder() const
 {
@@ -397,61 +373,29 @@ QString ClipManager::groupsXml() const
     return doc.toString();
 }
 
-
-void ClipManager::slotClipModified(const QString &path)
-{
-    qDebug() << "// CLIP: " << path << " WAS MODIFIED";
-    //TODO
-    /*const QList <DocClipBase *> list = getClipByResource(path);
-    for (int i = 0; i < list.count(); ++i) {
-        DocClipBase *clip = list.at(i);
-        if (clip != NULL) {
-            QString id = clip->getId();
-            if (!m_modifiedClips.contains(id))
-                emit modifiedClip(id);
-            m_modifiedClips[id] = QTime::currentTime();
-        }
-    }
-    if (!m_modifiedTimer.isActive()) m_modifiedTimer.start();*/
-}
-
-void ClipManager::slotProcessModifiedClips()
-{
-    if (!m_modifiedClips.isEmpty()) {
-        QMapIterator<QString, QTime> i(m_modifiedClips);
-        while (i.hasNext()) {
-            i.next();
-            if (QTime::currentTime().msecsTo(i.value()) <= -1500) {
-                emit reloadClip(i.key());
-                m_modifiedClips.remove(i.key());
-                break;
-            }
-        }
-    }
-    if (m_modifiedClips.isEmpty()) m_modifiedTimer.stop();
-}
-
+/*
 void ClipManager::slotClipMissing(const QString &path)
 {
     qDebug() << "// CLIP: " << path << " WAS MISSING";
     //TODO
-    /*const QList <DocClipBase *> list = getClipByResource(path);
+    const QList <DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         if (clip != NULL) emit missingClip(clip->getId());
-    }*/
+    }
 }
 
 void ClipManager::slotClipAvailable(const QString &path)
 {
     qDebug() << "// CLIP: " << path << " WAS ADDED";
     //TODO
-    /*const QList <DocClipBase *> list = getClipByResource(path);
+    const QList <DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         if (clip != NULL) emit availableClip(clip->getId());
-    }*/
+    }
 }
+*/
 
 
 void ClipManager::listRemovableVolumes()
