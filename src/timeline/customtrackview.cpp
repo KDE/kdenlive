@@ -3140,6 +3140,30 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
         ix = m_timeline->tracksCount() + 1;
     }
 
+    // Prepare groups for reload
+    QDomDocument doc;
+    doc.setContent(m_document->groupsXml());
+    QDomNodeList groups;
+    if (!doc.isNull()) {
+        groups = doc.documentElement().elementsByTagName("group");
+        for (int nodeindex = 0; nodeindex < groups.count(); ++nodeindex) {
+            QDomNode grp = groups.item(nodeindex);
+            QDomNodeList nodes = grp.childNodes();
+            for (int itemindex = 0; itemindex < nodes.count(); ++itemindex) {
+                QDomElement elem = nodes.item(itemindex).toElement();
+                if (!elem.hasAttribute("track")) continue;
+                int track = elem.attribute("track").toInt();
+                if (track <= ix) {
+                    // No change
+                    continue;
+                }
+                else {
+                    elem.setAttribute("track", track + 1);
+                }
+            }
+        }
+    }
+
     // insert track in MLT's playlist
     transitionInfos = m_document->renderer()->mltInsertTrack(ix,  type.trackName, type.type == VideoTrack);
     Mlt::Tractor *tractor = m_document->renderer()->lockService();
@@ -3156,6 +3180,7 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
     m_document->renderer()->unlockService(tractor);
     // Reload timeline and m_tracks structure from MLT's playlist
     reloadTimeline();
+    loadGroups(groups);
 }
 
 void CustomTrackView::checkCompositeTransitions(Mlt::Tractor *tractor)
@@ -3235,67 +3260,41 @@ void CustomTrackView::removeTrack(int ix)
             field->disconnect_service(*mixTr.data());
         }
     }
+    // Prepare groups for reload
+    QDomDocument doc;
+    doc.setContent(m_document->groupsXml());
+    QDomNodeList groups;
+    if (!doc.isNull()) {
+        groups = doc.documentElement().elementsByTagName("group");
+        for (int nodeindex = 0; nodeindex < groups.count(); ++nodeindex) {
+            QDomNode grp = groups.item(nodeindex);
+            QDomNodeList nodes = grp.childNodes();
+            for (int itemindex = 0; itemindex < nodes.count(); ++itemindex) {
+                QDomElement elem = nodes.item(itemindex).toElement();
+                if (!elem.hasAttribute("track")) continue;
+                int track = elem.attribute("track").toInt();
+                if (track < ix) {
+                    // No change
+                    continue;
+                }
+                else if (track > ix) {
+                    elem.setAttribute("track", track - 1);
+                }
+                else {
+                    // track == ix
+                    // A grouped item was on deleted track, remove it from group
+                    elem.setAttribute("track", -1);
+                }
+            }
+        }
+    }
+
     // Delete track in MLT playlist
     tractor->remove_track(ix);
     checkCompositeTransitions(tractor);
     m_document->renderer()->unlockService(tractor);
     reloadTimeline();
-    /*
-    double startY = ix * (m_tracksHeight + 1) + m_tracksHeight / 2;
-    QRectF r(0, startY, sceneRect().width(), sceneRect().height() - startY);
-    QList<QGraphicsItem *> selection = m_scene->items(r);
-    m_selectionMutex.lock();
-    m_selectionGroup = new AbstractGroupItem(m_document->fps());
-    scene()->addItem(m_selectionGroup);
-    for (int i = 0; i < selection.count(); ++i) {
-        if ((selection.at(i) && !selection.at(i)->parentItem() && selection.at(i)->isEnabled()) && (selection.at(i)->type() == AVWidget || selection.at(i)->type() == TransitionWidget || selection.at(i)->type() == GroupWidget)) {
-            m_selectionGroup->addItem(selection.at(i));
-        }
-    }
-    // Move graphic items
-    qreal ydiff = 0 - (int) m_tracksHeight;
-    m_selectionGroup->setTransform(QTransform::fromTranslate(0, ydiff), true);
-    Mlt::Tractor *tractor = m_document->renderer()->lockService();
-
-    // adjust track number
-    QList<QGraphicsItem *> children = m_selectionGroup->childItems();
-    ////qDebug() << "// FOUND CLIPS TO MOVE: " << children.count();
-    for (int i = 0; i < children.count(); ++i) {
-        if (children.at(i)->type() == GroupWidget) {
-            AbstractGroupItem *grp = static_cast<AbstractGroupItem*>(children.at(i));
-            children << grp->childItems();
-            continue;
-        }
-        if (children.at(i)->type() == AVWidget) {
-            ClipItem *clip = static_cast <ClipItem *>(children.at(i));
-            clip->updateItem();
-        } else if (children.at(i)->type() == TransitionWidget) {
-            Transition *tr = static_cast <Transition *>(children.at(i));
-            tr->updateItem();
-            int track = tr->transitionEndTrack();
-            if (track >= ix) {
-                ItemInfo clipinfo = tr->info();
-                tr->updateTransitionEndTrack(getPreviousVideoTrack(clipinfo.track));
-            }
-        }
-    }
-    m_selectionMutex.unlock();
-    resetSelectionGroup(false);
-    m_document->renderer()->unlockService(tractor);
-
-    int maxHeight = m_tracksHeight * m_timeline->tracksCount() * matrix().m22();
-    for (int i = 0; i < m_guides.count(); ++i) {
-        m_guides.at(i)->setLine(0, 0, 0, maxHeight - 1);
-    }
-    m_cursorLine->setLine(0, 0, 0, maxHeight - 1);
-    setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_timeline->tracksCount());
-
-    m_selectedTrack = qMin(m_selectedTrack, m_timeline->tracksCount() - 1);
-    viewport()->update();
-
-    updateTrackNames(ix, false);
-    //QTimer::singleShot(500, this, SIGNAL(()));
-    */
+    loadGroups(groups);
 }
 
 void CustomTrackView::configTracks(const QList < TrackInfo > &trackInfos)
@@ -6687,6 +6686,7 @@ void CustomTrackView::getTransitionAvailableSpace(AbstractClipItem *item, GenTim
 
 void CustomTrackView::loadGroups(const QDomNodeList &groups)
 {
+    m_document->clipManager()->resetGroups();
     for (int i = 0; i < groups.count(); ++i) {
         QDomNodeList children = groups.at(i).childNodes();
         scene()->clearSelection();
@@ -6695,6 +6695,8 @@ void CustomTrackView::loadGroups(const QDomNodeList &groups)
             QDomElement elem = children.item(nodeindex).toElement();
             int pos = elem.attribute("position").toInt();
             int track = elem.attribute("track").toInt();
+            // Ignore items removed after track deletion
+            if (track == -1) continue;
             if (elem.tagName() == "clipitem") {
                 ClipItem *clip = getClipItemAtStart(GenTime(pos, m_document->fps()), track);
                 if (clip) list.append(clip);//clip->setSelected(true);

@@ -34,7 +34,7 @@ class HeaderTrack : public QWidget, public Ui::TrackHeader_UI
     Q_OBJECT
 
 public:
-    HeaderTrack(TrackInfo info, const QList <QAction *>& actions, Track *parent);
+    HeaderTrack(TrackInfo info, const QList <QAction *>& actions, Track *parent, QWidget *parentWidget);
     virtual ~HeaderTrack();
     void setTrackHeight(int height);
     void setLock(bool lock);

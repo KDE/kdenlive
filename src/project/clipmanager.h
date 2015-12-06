@@ -82,6 +82,8 @@ Q_OBJECT public:
     void clearCache();
     AbstractGroupItem *createGroup();
     void removeGroup(AbstractGroupItem *group);
+    /** @brief Delete groups list, prepare for a reload. */
+    void resetGroups();
     QString groupsXml() const;
     /** @brief remove a clip id from the queue list. */
     void stopThumbs(const QString &id);
@@ -98,8 +100,7 @@ private slots:
     void slotAddCopiedClip(KIO::Job*, const QUrl&, const QUrl &dst);
 
 private:   // Private attributes
-    /** the list of clips in the document */
-    /** the list of groups in the document */
+    /** @brief the list of groups in the document */
     QList <AbstractGroupItem *> m_groupsList;
     QMap <QString, QString> m_folderList;
     QList <QString> m_audioThumbsQueue;
