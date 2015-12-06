@@ -488,6 +488,7 @@ void GeometryWidget::slotAddKeyframe(int pos)
             Mlt::GeometryItem item2;
             item2.frame(pos);
             item2.x((double) widget->value() / m_extraFactors.at(i).toInt());
+            item2.y(0);
             geom->insert(item2);
         }
     }
