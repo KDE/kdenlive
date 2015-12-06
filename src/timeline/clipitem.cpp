@@ -149,59 +149,37 @@ void ClipItem::setEffectList(const EffectsList &effectList)
 {
     m_effectList.clone(effectList);
     m_effectNames = m_effectList.effectNames().join(" / ");
+    m_startFade = 0;
+    m_endFade = 0;
+    bool startFade = false;
+    bool endFade = false;
     if (!m_effectList.isEmpty()) {
+        // If we only have one fade in /ou effect, always display it in timeline
         for (int i = 0; i < m_effectList.count(); ++i) {
             QDomElement effect = m_effectList.at(i);
             QString effectId = effect.attribute("id");
             // check if it is a fade effect
-            QDomNodeList params = effect.elementsByTagName("parameter");
             int fade = 0;
-            for (int j = 0; j < params.count(); ++j) {
-                QDomElement e = params.item(j).toElement();
-                if (!e.isNull()) {
-                    if (effectId == "fadein") {
-                        if (m_effectList.hasEffect(QString(), "fade_from_black") == -1) {
-                            if (e.attribute("name") == "out") fade += e.attribute("value").toInt();
-                            else if (e.attribute("name") == "in") fade -= e.attribute("value").toInt();
-                        } else {
-                            QDomElement fadein = m_effectList.getEffectByTag(QString(), "fade_from_black");
-                            if (fadein.attribute("name") == "out") fade += fadein.attribute("value").toInt();
-                            else if (fadein.attribute("name") == "in") fade -= fadein.attribute("value").toInt();
-                        }
-                    } else if (effectId == "fade_from_black") {
-                        if (m_effectList.hasEffect(QString(), "fadein") == -1) {
-                            if (e.attribute("name") == "out") fade += e.attribute("value").toInt();
-                            else if (e.attribute("name") == "in") fade -= e.attribute("value").toInt();
-                        } else {
-                            QDomElement fadein = m_effectList.getEffectByTag(QString(), "fadein");
-                            if (fadein.attribute("name") == "out") fade += fadein.attribute("value").toInt();
-                            else if (fadein.attribute("name") == "in") fade -= fadein.attribute("value").toInt();
-                        }
-                    } else if (effectId == "fadeout") {
-                        if (m_effectList.hasEffect(QString(), "fade_to_black") == -1) {
-                            if (e.attribute("name") == "out") fade += e.attribute("value").toInt();
-                            else if (e.attribute("name") == "in") fade -= e.attribute("value").toInt();
-                        } else {
-                            QDomElement fadeout = m_effectList.getEffectByTag(QString(), "fade_to_black");
-                            if (fadeout.attribute("name") == "out") fade += fadeout.attribute("value").toInt();
-                            else if (fadeout.attribute("name") == "in") fade -= fadeout.attribute("value").toInt();
-                        }
-                    } else if (effectId == "fade_to_black") {
-                        if (m_effectList.hasEffect(QString(), "fadeout") == -1) {
-                            if (e.attribute("name") == "out") fade += e.attribute("value").toInt();
-                            else if (e.attribute("name") == "in") fade -= e.attribute("value").toInt();
-                        } else {
-                            QDomElement fadeout = m_effectList.getEffectByTag(QString(), "fadeout");
-                            if (fadeout.attribute("name") == "out") fade += fadeout.attribute("value").toInt();
-                            else if (fadeout.attribute("name") == "in") fade -= fadeout.attribute("value").toInt();
-                        }
-                    }
-                }
+            if (effectId == "fadein" || effectId == "fade_from_black") {
+                fade = EffectsList::parameter(effect, "out").toInt() - EffectsList::parameter(effect, "in").toInt();
+                startFade = true;
             }
-            if (fade > 0)
-                m_startFade = fade;
-            else if (fade < 0)
-                m_endFade = -fade;
+            else if (effectId == "fadeout" || effectId == "fade_to_black") {
+                fade = EffectsList::parameter(effect, "in").toInt() - EffectsList::parameter(effect, "out").toInt();
+                endFade = true;
+            }
+            if (fade > 0) {
+                if (!startFade) {
+                    m_startFade = fade;
+                }
+                else m_startFade = 0;
+            }
+            else if (fade < 0) {
+                if (!endFade) {
+                    m_endFade = -fade;
+                }
+                else m_endFade = 0;
+            }
         }
         setSelectedEffect(1);
     }
@@ -343,8 +321,53 @@ void ClipItem::setSelectedEffect(const int ix)
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     QDomElement effect = effectAtIndex(m_selectedEffect);
+    bool refreshClip = false;
     m_keyframeType = NoKeyframe;
     if (!effect.isNull() && effect.attribute("disable") != "1") {
+        QString effectId = effect.attribute("id");
+
+        // Check for fades to display in timeline
+        int startFade1 = m_effectList.hasEffect(QString(), "fadein");
+        int startFade2 = m_effectList.hasEffect(QString(), "fade_from_black");
+
+        if (startFade1 >= 0 && startFade2 >= 0) {
+            // We have 2 fade ins, only display if effect is selected
+            if (ix == startFade1 || ix == startFade2) {
+                m_startFade = EffectsList::parameter(effect, "out").toInt() - EffectsList::parameter(effect, "in").toInt();
+                refreshClip = true;
+            }
+            else {
+                m_startFade = 0;
+                refreshClip = true;
+            }
+        } else if (startFade1 >= 0 || startFade2 >= 0) {
+            int current = qMax(startFade1, startFade2);
+            QDomElement fade = effectAtIndex(current);
+            m_startFade = EffectsList::parameter(fade, "out").toInt() - EffectsList::parameter(fade, "in").toInt();
+            refreshClip = true;
+        }
+
+        // Check for fades out to display in timeline
+        int endFade1 = m_effectList.hasEffect(QString(), "fadeout");
+        int endFade2 = m_effectList.hasEffect(QString(), "fade_to_black");
+
+        if (endFade1 >= 0 && endFade2 >= 0) {
+            // We have 2 fade ins, only display if effect is selected
+            if (ix == endFade1 || ix == endFade2) {
+                m_endFade = EffectsList::parameter(effect, "out").toInt() - EffectsList::parameter(effect, "in").toInt();
+                refreshClip = true;
+            }
+            else {
+                m_endFade = 0;
+                refreshClip = true;
+            }
+        } else if (endFade1 >= 0 || endFade2 >= 0) {
+            int current = qMax(endFade1, endFade2);
+            QDomElement fade = effectAtIndex(current);
+            m_endFade = EffectsList::parameter(fade, "out").toInt() - EffectsList::parameter(fade, "in").toInt();
+            refreshClip = true;
+        }
+
         QDomNodeList params = effect.elementsByTagName("parameter");
         for (int i = 0; i < params.count(); ++i) {
             QDomElement e = params.item(i).toElement();
@@ -359,6 +382,9 @@ void ClipItem::setSelectedEffect(const int ix)
 
     if (!m_keyframes.isEmpty()) {
         m_keyframes.clear();
+        refreshClip = true;
+    }
+    if (refreshClip) {
         update();
     }
 }
