@@ -36,8 +36,8 @@
 #include <QDomDocument>
 #include <QMimeData>
 
-HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track *parent) :
-        QWidget(0),
+HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track *parent, QWidget *parentWidget) :
+        QWidget(parentWidget),
         m_type(info.type),
         m_parentTrack(parent),
         m_isSelected(false),
@@ -107,7 +107,7 @@ HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track
 
 HeaderTrack::~HeaderTrack()
 {
-    //qDebug()<<" - --DEL: "<<m_name;
+    //qDebug()<<" - --DEL TK HEAD: "<<m_name;
 }
 
 bool HeaderTrack::eventFilter(QObject *obj, QEvent *event)

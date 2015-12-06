@@ -28,18 +28,24 @@
 #include <QDebug>
 #include <math.h>
 
-Track::Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType type, qreal fps) :
+Track::Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType type, qreal fps, QWidget *parent) :
     effectsList(EffectsList(true)),
     type(type),
+    trackHeader(NULL),
     m_index(index),
     m_playlist(playlist),
     m_fps(fps)
 {
-    trackHeader = new HeaderTrack(info(), actions, this);
+    QString playlist_name = playlist.get("id");
+    if (playlist_name != "black_track") {
+        trackHeader = new HeaderTrack(info(), actions, this, parent);
+    }
 }
 
 Track::~Track()
 {
+    //qDebug()<<"// DELETING TRAK: "<<m_playlist.get("id");
+    trackHeader->deleteLater();
 }
 
 // members access
@@ -267,6 +273,7 @@ bool Track::needsDuplicate(const QString &service) const
 
 void Track::lockTrack(bool locked)
 {
+    if (!trackHeader) return;
     setProperty(QStringLiteral("kdenlive:locked_track"), locked ? 1 : 0);
     trackHeader->setLock(locked);
 }
@@ -531,6 +538,7 @@ TrackInfo Track::info()
 
 void Track::setInfo(TrackInfo info)
 {
+    if (!trackHeader) return;
     m_playlist.set("kdenlive:track_name", info.trackName.toUtf8().constData());
     m_playlist.set("kdenlive:locked_track", info.isLocked ? 1 : 0);
     m_playlist.set("kdenlive:composite", info.composite ? 1 : 0);

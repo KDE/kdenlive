@@ -343,6 +343,11 @@ void ClipManager::removeGroup(AbstractGroupItem *group)
     m_groupsList.removeAll(group);
 }
 
+void ClipManager::resetGroups()
+{
+    m_groupsList.clear();
+}
+
 QString ClipManager::groupsXml() const
 {
     QDomDocument doc;

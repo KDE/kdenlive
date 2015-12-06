@@ -47,7 +47,8 @@ GeometryWidget::GeometryWidget(Monitor* monitor, const Timecode &timecode, int c
     m_outPoint(1),
     m_previous(NULL),
     m_geometry(NULL),
-    m_fixedGeom(false)
+    m_fixedGeom(false),
+    m_singleKeyframe(false)
 {
     m_ui.setupUi(this);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
@@ -345,6 +346,7 @@ void GeometryWidget::setupParam(const QDomElement &elem, int minframe, int maxfr
 
     Mlt::GeometryItem item;
     m_geometry->fetch(&item, m_monitor->render->seekFramePosition() - m_clipPos);
+    checkSingleKeyframe();
     m_monitor->slotShowEffectScene(MonitorSceneGeometry);
     m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
     slotPositionChanged(m_monitor->render->seekFramePosition() - m_clipPos, false);
@@ -382,6 +384,12 @@ void GeometryWidget::slotRequestSeek(int pos)
         emit seekToPos(pos);
 }
 
+void GeometryWidget::checkSingleKeyframe()
+{
+    if (!m_geometry) return;
+    QString serial = m_geometry->serialise();
+    m_singleKeyframe = !serial.contains(";");
+}
 
 void GeometryWidget::slotPositionChanged(int pos, bool seek)
 {
@@ -397,17 +405,19 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
     Mlt::GeometryItem item;
     if (!m_fixedGeom && (m_geometry->fetch(&item, pos) || item.key() == false)) {
         // no keyframe
-        m_monitor->setEffectKeyframe(false);
-        //m_rect->setEnabled(false);
-        //m_scene->setEnabled(false);
-        m_ui.widgetGeometry->setEnabled(false);
+        if (m_singleKeyframe) {
+            // Special case: only one keyframe, allow adjusting whatever the position is
+            m_monitor->setEffectKeyframe(true);
+            m_ui.widgetGeometry->setEnabled(true);
+        } else {
+            m_monitor->setEffectKeyframe(false);
+            m_ui.widgetGeometry->setEnabled(false);
+        }
         m_ui.buttonAddDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
         m_ui.buttonAddDelete->setToolTip(i18n("Add keyframe"));
     } else {
         // keyframe
         m_monitor->setEffectKeyframe(true);
-        //m_rect->setEnabled(true);
-        //m_scene->setEnabled(true);
         m_ui.widgetGeometry->setEnabled(true);
         m_ui.buttonAddDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
         m_ui.buttonAddDelete->setToolTip(i18n("Delete keyframe"));
@@ -488,10 +498,11 @@ void GeometryWidget::slotAddKeyframe(int pos)
             Mlt::GeometryItem item2;
             item2.frame(pos);
             item2.x((double) widget->value() / m_extraFactors.at(i).toInt());
+            item2.y(0);
             geom->insert(item2);
         }
     }
-
+    checkSingleKeyframe();
     m_timeline->update();
     slotPositionChanged(pos, false);
     m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
@@ -518,6 +529,7 @@ void GeometryWidget::slotDeleteKeyframe(int pos)
     m_timeline->update();
     m_geometry->fetch(&item, pos);
     m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
+    checkSingleKeyframe();
     slotPositionChanged(pos, false);
     emit parameterChanged();
 }
@@ -558,14 +570,21 @@ void GeometryWidget::slotAddDeleteKeyframe()
 void GeometryWidget::slotUpdateGeometry()
 {
     Mlt::GeometryItem item;
-    int pos = m_timePos->getValue();
-    if (m_fixedGeom) {
-        // This is a fixed rectangle parameter, use only keyframe 0
-        pos = 0;
-    }
-    // get keyframe and make sure it is the correct one
-    if (m_geometry->next_key(&item, pos) || item.frame() != pos) {
-        return;
+    int pos = 0;
+    if (m_singleKeyframe) {
+        if (m_geometry->next_key(&item, pos)) {
+            // No keyframe found, abort
+            return;
+        }
+        pos = item.frame();
+    } else {
+        if (!m_fixedGeom) {
+            pos = m_timePos->getValue();
+        }
+        // get keyframe and make sure it is the correct one
+        if (m_geometry->next_key(&item, pos) || item.frame() != pos) {
+            return;
+        }
     }
 
     QRectF rect = m_monitor->effectRect().normalized();
@@ -591,14 +610,21 @@ void GeometryWidget::slotUpdateGeometry()
 void GeometryWidget::slotUpdateGeometry(const QRect r)
 {
     Mlt::GeometryItem item;
-    int pos = m_timePos->getValue();
-    if (m_fixedGeom) {
-        // This is a fixed rectangle parameter, use only keyframe 0
-        pos = 0;
-    }
-    // get keyframe and make sure it is the correct one
-    if (m_geometry->next_key(&item, pos) || item.frame() != pos) {
-        return;
+    int pos = 0;
+    if (m_singleKeyframe) {
+        if (m_geometry->next_key(&item, pos)) {
+            // No keyframe found, abort
+            return;
+        }
+        pos = item.frame();
+    } else {
+        if (!m_fixedGeom) {
+            pos = m_timePos->getValue();
+        }
+        // get keyframe and make sure it is the correct one
+        if (m_geometry->next_key(&item, pos) || item.frame() != pos) {
+            return;
+        }
     }
 
     QRectF rectSize = r.normalized();

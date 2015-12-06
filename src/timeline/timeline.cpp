@@ -225,13 +225,7 @@ int Timeline::getTracks() {
     QVBoxLayout *headerLayout = qobject_cast< QVBoxLayout* >(headers_container->layout());
     QLayoutItem *child;
     while ((child = headerLayout->takeAt(0)) != 0) {
-        QWidget *wid = child->widget();
         delete child;
-        if (wid) {
-            // We need to change parent or the headers are still here when processing getTransitions()
-            wid->setParent(0);
-            wid->deleteLater();
-        }
     }
     int clipsCount = 0;
     for (int i = 0; i < m_tractor->count(); ++i) {
@@ -250,6 +244,7 @@ int Timeline::getTracks() {
         QScopedPointer<Mlt::Producer> track(m_tractor->track(i));
         QString playlist_name = track->get("id");
         if (playlist_name == QLatin1String("playlistmain")) continue;
+        bool isBackgroundBlackTrack = playlist_name == QLatin1String("black_track");
         // check track effects
         Mlt::Playlist playlist(*track);
         int trackduration;
@@ -260,16 +255,16 @@ int Timeline::getTracks() {
         frame->setFrameStyle(QFrame::HLine);
         frame->setFixedHeight(1);
         headerLayout->insertWidget(0, frame);
-        Track *tk = new Track(i, m_trackActions, playlist, audio == 1 ? AudioTrack : VideoTrack, m_doc->fps());
+        Track *tk = new Track(i, m_trackActions, playlist, audio == 1 ? AudioTrack : VideoTrack, m_doc->fps(), this);
         m_tracks.append(tk);
-        if (audio == 0) {
+        if (audio == 0 && !isBackgroundBlackTrack) {
             // Check if we have a composite transition for this track
             QScopedPointer<Mlt::Transition> transition(transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", i, -1, true));
             if (!transition) {
                 tk->trackHeader->disableComposite();
             }
         }
-        if (playlist_name != QLatin1String("black_track")) {
+        if (!isBackgroundBlackTrack) {
             tk->trackHeader->setTrackHeight(height);
             int currentWidth = tk->trackHeader->minimumWidth();
             if (currentWidth > headerWidth) headerWidth = currentWidth;
@@ -284,13 +279,13 @@ int Timeline::getTracks() {
             connect(tk->trackHeader, SIGNAL(renameTrack(int,QString)), this, SLOT(slotRenameTrack(int,QString)));
             connect(tk->trackHeader, SIGNAL(configTrack()), this, SIGNAL(configTrack()));
             connect(tk->trackHeader, SIGNAL(addTrackEffect(QDomElement,int)), m_trackview, SLOT(slotAddTrackEffect(QDomElement,int)));
+            if (playlist.filter_count()) {
+                getEffects(playlist, NULL, i);
+                slotUpdateTrackEffectState(i);
+            }
+            connect(tk, &Track::newTrackDuration, this, &Timeline::checkDuration);
+            connect(tk, SIGNAL(storeSlowMotion(QString,Mlt::Producer *)), m_doc->renderer(), SLOT(storeSlowmotionProducer(QString,Mlt::Producer *)));
         }
-        if (playlist.filter_count()) {
-            getEffects(playlist, NULL, i);
-            slotUpdateTrackEffectState(i);
-        }
-        connect(tk, &Track::newTrackDuration, this, &Timeline::checkDuration);
-	connect(tk, SIGNAL(storeSlowMotion(QString,Mlt::Producer *)), m_doc->renderer(), SLOT(storeSlowmotionProducer(QString,Mlt::Producer *)));
     }
     headers_container->setFixedWidth(headerWidth);
     updatePalette();
@@ -697,7 +692,7 @@ void Timeline::switchTrackVideo(int ix, bool hide)
 
 void Timeline::slotSwitchTrackComposite(int trackIndex, bool enable)
 {
-    if (trackIndex < 0 || trackIndex > m_tracks.count()) return;
+    if (trackIndex < 1 || trackIndex > m_tracks.count()) return;
     QScopedPointer<Mlt::Transition> transition(transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", trackIndex, -1, true));
     if (transition) {
         transition->set("disable", enable);
@@ -1138,6 +1133,7 @@ void Timeline::slotRenameTrack(int ix, const QString &name)
 
 void Timeline::renameTrack(int ix, const QString &name)
 {
+    if (ix < 1) return;
     Track *tk = track(ix);
     if (!tk) return;
     tk->setProperty(QStringLiteral("kdenlive:track_name"), name);
@@ -1165,6 +1161,7 @@ void Timeline::slotShowTrackEffects(int ix)
 
 void Timeline::slotUpdateTrackEffectState(int ix)
 {
+    if (ix < 1) return;
     Track *tk = track(ix);
     if (!tk) return;
     tk->trackHeader->updateEffectLabel(tk->effectsList.effectNames());

@@ -358,6 +358,11 @@ Bin::Bin(QWidget* parent) :
     disableEffects->setChecked(false);
     pCore->window()->actionCollection()->addAction(QStringLiteral("disable_bin_effects"), disableEffects);
 
+    m_renameFolderAction = new QAction(i18n("Rename Folder"), this);
+    connect(m_renameFolderAction, SIGNAL(triggered(bool)), this, SLOT(slotRenameFolder()));
+    m_renameFolderAction->setData("rename_folder");
+    pCore->window()->actionCollection()->addAction("rename_folder", m_renameFolderAction);
+
     listType->setToolBarMode(KSelectAction::MenuMode);
     connect(listType, SIGNAL(triggered(QAction*)), this, SLOT(slotInitView(QAction*)));
 
@@ -1354,6 +1359,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_duplicateAction->setEnabled(enableClipActions);
     m_clipsActionsMenu->setEnabled(enableClipActions);
     m_extractAudioAction->setEnabled(enableClipActions);
+    m_renameFolderAction->setVisible(isFolder);
     m_openAction->setVisible(!isFolder);
     m_reloadAction->setVisible(!isFolder);
     m_duplicateAction->setVisible(!isFolder);
@@ -1740,6 +1746,7 @@ void Bin::setupGeneratorMenu()
     }
     m_menu->addAction(m_editAction);
     m_menu->addAction(m_openAction);
+    m_menu->addAction(m_renameFolderAction);
     m_menu->addAction(m_deleteAction);
     m_menu->insertSeparator(m_deleteAction);
 }
@@ -2890,4 +2897,20 @@ void Bin::setBinEffectsDisabledStatus(bool disabled)
         disableEffects->blockSignals(false);
     }
     pCore->projectManager()->disableBinEffects(disabled);
+}
+
+void Bin::slotRenameFolder()
+{
+    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    foreach (const QModelIndex &ix, indexes) {
+        if (!ix.isValid() || ix.column() != 0) {
+            continue;
+        }
+        AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
+        ProjectFolder *currentItem = qobject_cast<ProjectFolder*>(item);
+        if (currentItem) {
+            m_itemView->edit(ix);
+            return;
+        }
+    }
 }
