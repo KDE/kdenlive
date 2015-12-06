@@ -1036,7 +1036,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
 
     // No item under click
-    if (m_dragItem == NULL) {
+    if (m_dragItem == NULL && m_tool != SpacerTool) {
         resetSelectionGroup(false);
         m_scene->clearSelection();
         updateClipTypeActions(NULL);
