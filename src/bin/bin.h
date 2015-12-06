@@ -503,6 +503,8 @@ private slots:
     void slotGotFocus();
     /** @brief Dis/Enable all bin effects. */
     void slotDisableEffects(bool disable);
+    /** @brief Rename a Bin Folder. */
+    void slotRenameFolder();
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img, bool fromFile = false);
@@ -604,6 +606,7 @@ private:
     QAction *m_proxyAction;
     QAction *m_editAction;
     QAction *m_deleteAction;
+    QAction *m_renameFolderAction;
     QMenu *m_jobsMenu;
     QAction *m_cancelJobs;
     QAction *m_discardCurrentClipJobs;
