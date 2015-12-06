@@ -195,7 +195,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_playAction->setToolTip( strippedTooltip + " (" + originalPlayAction->shortcut().toString() + ")");
     }
     m_playMenu->addAction(m_playAction);
-    connect(m_playAction, &QAction::triggered, this, &Monitor::slotPlay);
+    connect(m_playAction, &QAction::triggered, this, &Monitor::slotSwitchPlay);
 
     playButton->setMenu(m_playMenu);
     playButton->setPopupMode(QToolButton::MenuButtonPopup);
@@ -1087,18 +1087,19 @@ void Monitor::switchPlay(bool play)
     render->switchPlay(play);
 }
 
+void Monitor::slotSwitchPlay(bool triggered)
+{
+    if (render == NULL) return;
+    slotActivateMonitor();
+    render->switchPlay(m_playAction->isActive());
+}
+
 void Monitor::slotPlay()
 {
     if (render == NULL) return;
     slotActivateMonitor();
-    if (render->isPlaying()) {
-        m_playAction->setActive(false);
-        render->switchPlay(false);
-    }
-    else {
-        m_playAction->setActive(true);
-        render->switchPlay(true);
-    }
+    m_playAction->setActive(!m_playAction->isActive());
+    render->switchPlay(m_playAction->isActive());
     m_ruler->refreshRuler();
 }
 
@@ -1449,8 +1450,10 @@ void Monitor::onFrameDisplayed(const SharedFrame& frame)
 {
     int position = frame.get_position();
     seekCursor(position);
-    render->checkFrameNumber(position);
-    if (m_rootItem && m_rootItem->objectName() == QLatin1String("root")) {
+    if (!render->checkFrameNumber(position)) {
+        m_playAction->setActive(false);
+    }
+    if (m_rootItem && m_rootItem->objectName() == "root") {
         // we are in main view, show frame
         m_rootItem->setProperty("framenum", QString::number(position));
     }

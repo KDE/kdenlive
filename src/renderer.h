@@ -356,6 +356,7 @@ private:
     /** @brief Build the MLT Consumer object with initial settings.
      *  @param profileName The MLT profile to use for the consumer */
     //void buildConsumer();
+    /** @brief Restore normal mode */
     void resetZoneMode();
     void fillSlowMotionProducers();
     /** @brief Make sure we inform MLT if we need a lot of threads for avformat producer */
@@ -463,7 +464,7 @@ public slots:
     @param replaceProducer If true, the MLT producer will be recreated */
     void getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
     /** @brief Renderer moved to a new frame, check seeking */
-    void checkFrameNumber(int pos);
+    bool checkFrameNumber(int pos);
     void storeSlowmotionProducer(const QString &url, Mlt::Producer *prod, bool replace = false);
     void seek(int time);
 };

@@ -1589,8 +1589,10 @@ bool Render::playZone(const GenTime & startTime, const GenTime & stopTime)
     requestedSeekPosition = SEEK_INACTIVE;
     if (!m_mltProducer || !m_mltConsumer || !m_isActive)
         return false;
-    m_mltProducer->set("out", (int)(stopTime.frames(m_fps)));
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
+    m_mltProducer->set_speed(0);
+    m_mltConsumer->purge();
+    m_mltProducer->set("out", (int)(stopTime.frames(m_fps)));
     m_mltProducer->set_speed(1.0);
     if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
     m_isRefreshing = true;
@@ -1612,8 +1614,7 @@ void Render::seekToFrame(int pos)
     if (!m_mltProducer || !m_isActive)
         return;
     pos = qMax(0, pos - m_mltProducer->get_in());
-    pos = qMin(m_mltProducer->get_playtime(), pos);
-    resetZoneMode();
+    pos = qMin(m_mltProducer->get_length(), pos);
     seek(pos);
 }
 
@@ -1736,13 +1737,13 @@ int Render::getCurrentSeekPosition() const
     return (int) m_mltProducer->position();
 }
 
-void Render::checkFrameNumber(int pos)
+bool Render::checkFrameNumber(int pos)
 {
     if (pos == requestedSeekPosition) {
         requestedSeekPosition = SEEK_INACTIVE;
     }
     if (requestedSeekPosition != SEEK_INACTIVE) {
-	double speed = m_mltProducer->get_speed();
+        double speed = m_mltProducer->get_speed();
         m_mltProducer->set_speed(0);
         m_mltProducer->seek(requestedSeekPosition);
         if (speed == 0) {
@@ -1751,7 +1752,20 @@ void Render::checkFrameNumber(int pos)
         else m_mltProducer->set_speed(speed);
     } else {
         m_isRefreshing = false;
+        if (m_isZoneMode) {
+            if (pos >= m_mltProducer->get_int("out") - 1) {
+                if (m_isLoopMode) {
+                    m_mltConsumer->purge();
+                    m_mltProducer->seek((int)(m_loopStart.frames(m_fps)));
+                    m_mltProducer->set_speed(1.0);
+                    m_mltConsumer->set("refresh", 1);
+                } else {
+                    if (m_mltProducer->get_speed() == 0) return false;
+                }
+            }
+        }
     }
+    return true;
 }
 
 void Render::emitFrameUpdated(QImage img)

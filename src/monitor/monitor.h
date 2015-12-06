@@ -215,6 +215,7 @@ private slots:
     void warningMessage(const QString &text);
     void slotLockMonitor(bool lock);
     void slotAddEffect(QDomElement effect);
+    void slotSwitchPlay(bool triggered);
 
 public slots:
     void slotOpenDvdFile(const QString &);
