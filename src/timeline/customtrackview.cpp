@@ -4768,10 +4768,27 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
         }
         emit displayMessage(QString(), InformationMessage);
     }
-    // TODO:
+    QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     // Get speed and strobe values from effects
     double speed = 1.0;
     int strobe = 1;
+    QDomElement speedEffect = effects.effectById("speed");
+    if (!speedEffect.isNull()) {
+        QDomNodeList nodes = speedEffect.elementsByTagName("parameter");
+        for (int i = 0; i < nodes.count(); ++i) {
+            QDomElement e = nodes.item(i).toElement();
+            if (e.attribute("name") == "speed") {
+                speed = locale.toDouble(e.attribute("value", "1"));
+                int factor = e.attribute("factor", "1").toInt();
+                speed /= factor;
+                if (speed == 0) speed = 1;
+            }
+            else if (e.attribute("name") == "strobe") {
+                strobe = e.attribute("value", "1").toInt();
+            }
+        }
+    }
     ClipItem *item = new ClipItem(binClip, info, m_document->fps(), speed, strobe, getFrameWidth());
     item->setPos(info.startPos.frames(m_document->fps()), getPositionFromTrack(info.track) + 1 + item->itemOffset());
     item->setState(state);
@@ -4783,7 +4800,14 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
     //TODO: notify bin ?
     //baseclip->addReference();
     Mlt::Producer *prod;
-    if (item->clipState() == PlaylistState::VideoOnly) {
+    if (speed != 1.0) {
+        prod = m_document->renderer()->getBinProducer(clipId);
+        QString url = QString::fromUtf8(prod->get("resource"));
+        url.append('?' + locale.toString(speed));
+        if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
+        prod = m_document->renderer()->getSlowmotionProducer(url);
+    }
+    else if (item->clipState() == PlaylistState::VideoOnly) {
         prod = m_document->renderer()->getBinVideoProducer(clipId);
     }
     else {
