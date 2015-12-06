@@ -104,10 +104,14 @@ private:
     QPoint m_frameSize;
     /** @brief True if this is a fixed parameter (no kexframes allowed). */
     bool m_fixedGeom;
+    /** @brief True if there is only one keyframe in this geometry. */
+    bool m_singleKeyframe;
     /** @brief Update monitor rect with current width / height values. */
     void updateMonitorGeometry();
     /** @brief Calculate the path for rectangle center moves. */
     QVariantList calculateCenters();
+    /** @brief check if we have only one keyframe for this geometry. */
+    void checkSingleKeyframe();
 
 private slots:
     /** @brief Updates controls according to position.
