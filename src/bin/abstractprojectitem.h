@@ -137,10 +137,12 @@ public:
     enum CLIPSTATUS {
         StatusReady = 0,
         StatusMissing,
-        StatusWaiting
+        StatusWaiting,
+        StatusDeleting
     };
     
     void setClipStatus(AbstractProjectItem::CLIPSTATUS status);
+    AbstractProjectItem::CLIPSTATUS clipStatus() const;
     bool statusReady() const;
 
     /** @brief Returns the data that describes this item.

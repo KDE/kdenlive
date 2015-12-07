@@ -107,10 +107,20 @@ Render::~Render()
     closeMlt();
 }
 
+void Render::abortOperations()
+{
+    m_infoMutex.lock();
+    m_requestList.clear();
+    m_infoMutex.unlock();
+    m_infoThread.waitForFinished();
+}
+
 
 void Render::closeMlt()
 {
+    m_infoMutex.lock();
     m_requestList.clear();
+    m_infoMutex.unlock();
     m_infoThread.waitForFinished();
     delete m_showFrameEvent;
     delete m_pauseEvent;
@@ -148,7 +158,9 @@ void Render::prepareProfileReset()
     m_refreshTimer.stop();
     if (m_isSplitView)
             slotSplitView(false);
+    m_infoMutex.lock();
     m_requestList.clear();
+    m_infoMutex.unlock();
     m_infoThread.waitForFinished();
 }
 

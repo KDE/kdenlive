@@ -141,7 +141,6 @@ int AbstractProjectItem::index() const
     if (m_parent) {
         return m_parent->indexOf(const_cast<AbstractProjectItem*>(this));
     }
-
     return 0;
 }
 
@@ -241,4 +240,10 @@ bool AbstractProjectItem::statusReady() const
 {
     return m_clipStatus == StatusReady;
 }
+
+AbstractProjectItem::CLIPSTATUS AbstractProjectItem::clipStatus() const
+{
+    return m_clipStatus;
+}
+
 

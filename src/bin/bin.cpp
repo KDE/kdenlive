@@ -438,6 +438,7 @@ Bin::~Bin()
 {
     blockSignals(true);
     setEnabled(false);
+    abortAudioThumbs();
     foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
             delete w;
     }
@@ -452,6 +453,62 @@ Bin::~Bin()
     delete m_itemView;
     delete m_jobManager;
     delete m_infoMessage;
+}
+
+void Bin::slotAbortAudioThumb(const QString &id)
+{
+    if (!m_audioThumbsThread.isRunning()) return;
+    QMutexLocker aMutex(&m_audioThumbMutex);
+    m_audioThumbsList.removeAll(id);
+}
+
+void Bin::requestAudioThumbs(const QString &id)
+{
+    if (!m_audioThumbsList.contains(id) && m_processingAudioThumb != id) {
+        m_audioThumbMutex.lock();
+        m_audioThumbsList.append(id);
+        m_audioThumbMutex.unlock();
+        processAudioThumbs();
+    }
+}
+
+void Bin::processAudioThumbs()
+{
+    if (m_audioThumbsThread.isRunning()) return;
+    m_audioThumbsThread = QtConcurrent::run(this, &Bin::slotCreateAudioThumbs);
+}
+
+void Bin::abortAudioThumbs()
+{
+    if (!m_audioThumbsThread.isRunning()) return;
+    if (!m_processingAudioThumb.isEmpty()) {
+        ProjectClip *clip = m_rootFolder->clip(m_processingAudioThumb);
+        if (clip) clip->abortAudioThumb = true;
+    }
+    m_audioThumbMutex.lock();
+    m_audioThumbsList.clear();
+    m_audioThumbMutex.unlock();
+    m_audioThumbsThread.waitForFinished();
+}
+
+void Bin::slotCreateAudioThumbs()
+{
+    int max = m_audioThumbsList.count();
+    int count = 0;
+    while (!m_audioThumbsList.isEmpty()) {
+        m_audioThumbMutex.lock();
+        max = qMax(max, m_audioThumbsList.count());
+        m_processingAudioThumb = m_audioThumbsList.takeFirst();
+        count++;
+        m_audioThumbMutex.unlock();
+        emitMessage(i18n("Creating audio thumbnails") + QString(" (%1/%2)").arg(count).arg(max), ProcessingJobMessage);
+        ProjectClip *clip = m_rootFolder->clip(m_processingAudioThumb);
+        if (clip) clip->slotCreateAudioThumbs();
+    }
+    m_audioThumbMutex.lock();
+    m_processingAudioThumb.clear();
+    m_audioThumbMutex.unlock();
+    emitMessage(i18n("Audio thumbnails done"), OperationCompletedMessage);
 }
 
 bool Bin::eventFilter(QObject *obj, QEvent *event)
@@ -602,6 +659,7 @@ void Bin::deleteClip(const QString &id)
 	return;
     }
     m_jobManager->discardJobs(id);
+    clip->setClipStatus(AbstractProjectItem::StatusDeleting);
     AbstractProjectItem *parent = clip->parent();
     parent->removeChild(clip);
     delete clip;
@@ -2746,13 +2804,6 @@ void Bin::slotCreateAudioThumb(const QString &id)
     ProjectClip *clip = m_rootFolder->clip(id);
     if (!clip) return;
     clip->createAudioThumbs();
-}
-
-void Bin::slotAbortAudioThumb(const QString &id)
-{
-    ProjectClip *clip = m_rootFolder->clip(id);
-    if (!clip) return;
-    clip->abortAudioThumbs();
 }
 
 void Bin::slotSetSorting()

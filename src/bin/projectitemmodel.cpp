@@ -324,6 +324,7 @@ void ProjectItemModel::onItemRemoved(AbstractProjectItem* item)
 
 void ProjectItemModel::onItemUpdated(AbstractProjectItem* item)
 {
+    if (!item || item->clipStatus() == AbstractProjectItem::StatusDeleting) return;
     AbstractProjectItem *parentItem = item->parent();
     if (parentItem == NULL) return;
     QModelIndex parentIndex;

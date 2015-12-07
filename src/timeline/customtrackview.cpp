@@ -3673,7 +3673,6 @@ void CustomTrackView::deleteClip(const QString &clipId, QUndoCommand *deleteComm
             }
         }
     }
-    qDebug()<<"+ + +Found timeline clips: "<<count;
     if (count > 0) {
         new RefreshMonitorCommand(this, true, false, deleteCommand);
         updateTrackDuration(-1, deleteCommand);

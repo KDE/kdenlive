@@ -752,16 +752,16 @@ void ClipItem::paint(QPainter *painter,
         if (scale < 1) {
             offset = (int) (1.0 / scale);
         }
-        int audioLevelCount = m_binClip->audioFrameCache->count() - 1;
+        int audioLevelCount = m_binClip->audioFrameCache.count() - 1;
         if (!KdenliveSettings::displayallchannels()) {
             // simplified audio
             int channelHeight = mappedRect.height();
             QPainterPath positiveChannelPath;
             positiveChannelPath.moveTo(startx, mappedRect.bottom());
             for (int i = startpixel + cropLeft; i < endpixel + cropLeft + offset; i += offset) {
-                double value = m_binClip->audioFrameCache->at(qMin(i * channels, audioLevelCount)).toDouble() / 256;
+                double value = m_binClip->audioFrameCache.at(qMin(i * channels, audioLevelCount)).toDouble() / 256;
                 for (int channel = 1; channel < channels; channel ++) {
-                    value = qMax(value, m_binClip->audioFrameCache->at(qMin(i * channels + channel, audioLevelCount)).toDouble() / 256);
+                    value = qMax(value, m_binClip->audioFrameCache.at(qMin(i * channels + channel, audioLevelCount)).toDouble() / 256);
                 }
                 positiveChannelPath.lineTo(startx + (i - (startpixel + cropLeft)) * scale, mappedRect.bottom() - (value * channelHeight));
             }
@@ -778,7 +778,7 @@ void ClipItem::paint(QPainter *painter,
                 positiveChannelPaths[channel].moveTo(startx, mappedRect.bottom() - y);
                 negativeChannelPaths[channel].moveTo(startx, mappedRect.bottom() - y);
                 for (int i = startpixel + cropLeft; i < endpixel + cropLeft + offset; i += offset) {
-                    double value = m_binClip->audioFrameCache->at(qMin(i * channels + channel, audioLevelCount)).toDouble() / 256;
+                    double value = m_binClip->audioFrameCache.at(qMin(i * channels + channel, audioLevelCount)).toDouble() / 256;
                     positiveChannelPaths[channel].lineTo(startx + (i - (startpixel + cropLeft)) * scale, mappedRect.bottom() - (y + (value * channelHeight / 2)));
                     negativeChannelPaths[channel].lineTo(startx + (i - (startpixel + cropLeft)) * scale, mappedRect.bottom() - (y - (value * channelHeight / 2)));
                 }

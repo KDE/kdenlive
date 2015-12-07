@@ -45,9 +45,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *controller, ProjectFolder* parent) :
     AbstractProjectItem(AbstractProjectItem::ClipItem, id, parent)
-    , audioFrameCache()
+    , abortAudioThumb(false)
     , m_controller(controller)
-    , m_abortAudioThumb(false)
     , m_thumbsProducer(NULL)
 {
     m_clipStatus = StatusReady;
@@ -60,17 +59,17 @@ ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *control
     // Make sure we have a hash for this clip
     hash();
     setParent(parent);
+    connect(this, &ProjectClip::updateJobStatus, this, &ProjectClip::setJobStatus);
     bin()->loadSubClips(id, m_controller->getPropertiesFromPrefix("kdenlive:clipzone."));
     if (KdenliveSettings::audiothumbnails()) {
-        m_audioThumbsThread = QtConcurrent::run(this, &ProjectClip::slotCreateAudioThumbs);
+        bin()->requestAudioThumbs(id);
     }
 }
 
 ProjectClip::ProjectClip(const QDomElement& description, QIcon thumb, ProjectFolder* parent) :
     AbstractProjectItem(AbstractProjectItem::ClipItem, description, parent)
-    , audioFrameCache()
+    , abortAudioThumb(false)
     , m_controller(NULL)
-    , m_abortAudioThumb(false)
     , m_type(Unknown)
     , m_thumbsProducer(NULL)
 {
@@ -89,6 +88,7 @@ ProjectClip::ProjectClip(const QDomElement& description, QIcon thumb, ProjectFol
         m_name = m_temporaryUrl.fileName();
     }
     else m_name = i18n("Untitled");
+    connect(this, &ProjectClip::updateJobStatus, this, &ProjectClip::setJobStatus);
     setParent(parent);
 }
 
@@ -96,11 +96,15 @@ ProjectClip::ProjectClip(const QDomElement& description, QIcon thumb, ProjectFol
 ProjectClip::~ProjectClip()
 {
     // controller is deleted in bincontroller
-    abortAudioThumbs();
+    abortAudioThumb = true;
+    bin()->slotAbortAudioThumb(m_id);
+    QMutexLocker audioLock(&m_audioMutex);
+    m_thumbMutex.lock();
     m_requestedThumbs.clear();
+    m_thumbMutex.unlock();
     m_thumbThread.waitForFinished();
     delete m_thumbsProducer;
-    delete audioFrameCache;
+    audioFrameCache.clear();
 }
 
 QString ProjectClip::getToolTip() const
@@ -124,7 +128,7 @@ QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &
 void ProjectClip::updateAudioThumbnail(QVariantList audioLevels)
 {
     ////qDebug() << "CLIPBASE RECIEDVED AUDIO DATA*********************************************";
-    audioFrameCache = new QVariantList(audioLevels);
+    audioFrameCache = audioLevels;
     m_controller->audioThumbCreated = true;
     emit gotAudioData();
 }
@@ -310,16 +314,8 @@ bool ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
 
 void ProjectClip::createAudioThumbs()
 {
-    if (KdenliveSettings::audiothumbnails() && !m_audioThumbsThread.isRunning()) {
-        m_audioThumbsThread = QtConcurrent::run(this, &ProjectClip::slotCreateAudioThumbs);
-    }
-}
-
-void ProjectClip::abortAudioThumbs()
-{
-    if (m_audioThumbsThread.isRunning()) {
-        m_abortAudioThumb = true;
-        m_audioThumbsThread.waitForFinished();
+    if (KdenliveSettings::audiothumbnails()) {
+        bin()->requestAudioThumbs(m_id);
     }
 }
 
@@ -586,16 +582,16 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
     }
 }
 
-void ProjectClip::setJobStatus(AbstractClipJob::JOBTYPE jobType, ClipJobStatus status, int progress, const QString &statusMessage)
+void ProjectClip::setJobStatus(int jobType, int status, int progress, const QString &statusMessage)
 {
-    m_jobType = jobType;
+    m_jobType = (AbstractClipJob::JOBTYPE) jobType;
     if (progress > 0) {
         if (m_jobProgress == progress) return;
 	m_jobProgress = progress;
     }
     else {
-	m_jobProgress = status;
-	if ((status == JobAborted || status == JobCrashed  || status == JobDone) || !statusMessage.isEmpty()) {
+	m_jobProgress = (ClipJobStatus) status;
+	if ((status == JobAborted || status == JobCrashed  || status == JobDone) && !statusMessage.isEmpty()) {
 	    m_jobMessage = statusMessage;
             bin()->emitMessage(statusMessage, OperationCompletedMessage);
 	}
@@ -819,6 +815,7 @@ int ProjectClip::audioChannels() const
 
 void ProjectClip::slotCreateAudioThumbs()
 {
+    QMutexLocker lock(&m_audioMutex);
     Mlt::Producer *prod = originalProducer();
     if (!prod || !prod->is_valid()) return;
     AudioStreamInfo *audioInfo = m_controller->audioInfo();
@@ -867,20 +864,20 @@ void ProjectClip::slotCreateAudioThumbs()
 
     audioProducer->set("video_index", "-1");
     int last_val = 0;
-    setJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0, i18n("Creating audio thumbnails"));
+    emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0);//, i18n("Creating audio thumbnails"));
     double framesPerSecond = audioProducer->get_fps();
     mlt_audio_format audioFormat = mlt_audio_s16;
     QStringList keys;
     for (int i = 0; i < channels; i++) {
         keys << "meta.media.audio_level." + QString::number(i);
     }
-    for (int z = (int) frame; z < (int)(frame + lengthInFrames) && !m_abortAudioThumb; ++z) {
+    for (int z = (int) frame; z < (int)(frame + lengthInFrames) && !abortAudioThumb; ++z) {
         int val = (int)((z - frame) / (frame + lengthInFrames) * 100.0);
         if (last_val != val && val > 1) {
-            setJobStatus(AbstractClipJob::THUMBJOB, JobWorking, val);
+            emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWorking, val);
             last_val = val;
         }
-        Mlt::Frame *mlt_frame = audioProducer->get_frame();
+        QScopedPointer<Mlt::Frame> mlt_frame(audioProducer->get_frame());
         if (mlt_frame && mlt_frame->is_valid() && !mlt_frame->get_int("test_audio")) {
             int samples = mlt_sample_calculator(framesPerSecond, frequency, z);
             mlt_frame->get_audio(audioFormat, frequency, channels, samples);
@@ -892,11 +889,10 @@ void ProjectClip::slotCreateAudioThumbs()
             for (int channel = 0; channel < channels; channel++)
                 audioLevels << audioLevels.last();
         }
-        delete mlt_frame;
-        if (m_abortAudioThumb) break;
+        if (abortAudioThumb) break;
     }
 
-    if (!m_abortAudioThumb && audioLevels.size() > 0) {
+    if (!abortAudioThumb && audioLevels.size() > 0) {
         // Put into an image for caching.
         int count = audioLevels.size();
         QImage image((count + 3) / 4, channels, QImage::Format_ARGB32);
@@ -917,11 +913,11 @@ void ProjectClip::slotCreateAudioThumbs()
         }
         image.save(audioPath);
     }
-    setJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0, i18n("Audio thumbnails done"));
-    if (!m_abortAudioThumb) {
+    emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);//, i18n("Audio thumbnails done"));
+    if (!abortAudioThumb) {
         updateAudioThumbnail(audioLevels);
     }
-    m_abortAudioThumb = false;
+    abortAudioThumb = false;
 }
 
 bool ProjectClip::isTransparent() const
