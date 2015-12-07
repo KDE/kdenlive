@@ -1156,7 +1156,7 @@ void Timeline::updateRuler()
 void Timeline::slotShowTrackEffects(int ix)
 {
     m_trackview->clearSelection();
-    emit showTrackEffects(tracksCount() - ix, getTrackInfo(ix));
+    emit showTrackEffects(ix, getTrackInfo(ix));
 }
 
 void Timeline::slotUpdateTrackEffectState(int ix)
