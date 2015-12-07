@@ -7,29 +7,8 @@ Item {
     // default size, but scalable by user
     height: 300; width: 400
     property string comment
-    property string framenum
     property point center
     property double scale
-
-    Rectangle {
-        id: overlaybg
-        anchors {
-            right: parent.right
-            //left: parent.left
-            bottom: parent.bottom
-        }
-        width: label.width + 10
-        height: label.height + 10
-        //height: root.height * 0.1
-        color: "#99ff0000"
-
-    Text {
-        id: label
-        objectName: "overlaytext"
-        anchors.centerIn: parent
-        text: root.framenum
-    }
-    }
 
     Rectangle {
         objectName: "marker"

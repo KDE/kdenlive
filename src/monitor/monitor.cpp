@@ -1453,10 +1453,12 @@ void Monitor::onFrameDisplayed(const SharedFrame& frame)
     if (!render->checkFrameNumber(position)) {
         m_playAction->setActive(false);
     }
+    /*
+    // display frame number in monitor overlay, currently disabled
     if (m_rootItem && m_rootItem->objectName() == "root") {
         // we are in main view, show frame
         m_rootItem->setProperty("framenum", QString::number(position));
-    }
+    }*/
     if (position >= m_length) {
         m_playAction->setActive(false);
     }
