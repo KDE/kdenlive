@@ -462,7 +462,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
         tractor.appendChild(track);
     }
 
-    for (int i = total; i >= 2; --i) {
+    for (int i = 1; i <= total; i++) {
         QDomElement transition = doc.createElement("transition");
         transition.setAttribute("always_active", "1");
 
@@ -474,7 +474,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
 
         property = doc.createElement("property");
         property.setAttribute("name", "a_track");
-        QDomText value = doc.createTextNode(QString::number(i - 1));
+        QDomText value = doc.createTextNode("0");
         property.appendChild(value);
         transition.appendChild(property);
 

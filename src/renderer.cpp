@@ -3148,12 +3148,12 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
 
     // Add audio mix transition to last track
     Mlt::Transition mix(*m_qmlView->profile(), "mix");
-    mix.set("a_track", 1);
+    mix.set("a_track", 0);
     mix.set("b_track", ix);
     mix.set("always_active", 1);
     mix.set("internal_added", 237);
     mix.set("combine", 1);
-    field->plant_transition(mix, 1, ix);
+    field->plant_transition(mix, 0, ix);
 
     if (videoTrack) {
         Mlt::Transition composite(*m_qmlView->profile(), KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend");
