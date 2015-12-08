@@ -294,8 +294,10 @@ void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList
                         effectDuration = info.cropDuration.frames(fps) / 2;
                     }
                     end += effectDuration;
-                } else
-                    end += EffectsList::parameter(list.getEffectByTag(QString(), "fade_from_black"), "out").toInt() - offset;
+                } else {
+		    QDomElement fadein = list.getEffectByTag(QString(), "fade_from_black");
+                    end = EffectsList::parameter(fadein, "out").toInt() - offset;
+		}
             } else if (effect.attribute("id") == "fade_from_black") {
                 if (list.hasEffect(QString(), "fadein") == -1) {
                     int effectDuration = EffectsList::parameter(effect, "out").toInt();
@@ -304,8 +306,10 @@ void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList
                         effectDuration = info.cropDuration.frames(fps) / 2;
                     }
                     end += effectDuration;
-                } else
-                    end += EffectsList::parameter(list.getEffectByTag(QString(), "fadein"), "out").toInt() - offset;
+                } else {
+		    QDomElement fadein = list.getEffectByTag(QString(), "fadein");
+                    end = EffectsList::parameter(fadein, "out").toInt() - offset;
+		}
             }
             EffectsList::setParameter(effect, "in", QString::number(start));
             EffectsList::setParameter(effect, "out", QString::number(end));
