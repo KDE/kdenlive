@@ -83,7 +83,7 @@ bool DocumentChecker::hasErrorInClips()
         e = documentProducers.item(i).toElement();
 	QString service = EffectsList::property(e, "mlt_service");
         if (service == "colour" || service == "color") continue;
-        if (service == "mlt_service") {
+        if (service == "kdenlivetitle") {
             //TODO: Check is clip template is missing (xmltemplate) or hash changed
 	    QString xml = EffectsList::property(e, "xmldata");
             QStringList images = TitleWidget::extractImageList(xml);
@@ -208,6 +208,7 @@ bool DocumentChecker::hasErrorInClips()
     for (int i = 0; i < max; ++i) {
         e = m_missingClips.at(i).toElement();
         QString clipType;
+        int status = CLIPMISSING;
 	QString service = EffectsList::property(e, "mlt_service");
 	if (service == "avformat" || service == "avformat-novalidate" || service == "framebuffer") {
 	    clipType = i18n("Video clip");
@@ -215,32 +216,37 @@ bool DocumentChecker::hasErrorInClips()
 	    clipType = i18n("Image clip");
 	} else if (service == "mlt") {
 	    clipType = i18n("Playlist clip");
-	}
+	} else if (e.tagName() == "missingtitle") {
+            status = e.attribute("type").toInt();
+            switch(status) {
+              case TITLE_IMAGE_ELEMENT:
+                clipType = i18n("Title Image");
+                break;
+              case TITLE_FONT_ELEMENT:
+                clipType = i18n("Title Font");
+                break;
+            }
+        }
 	else {
 	    clipType = i18n("Unknown");
 	}
-/*        case TITLE_IMAGE_ELEMENT:
-            clipType = i18n("Title Image");
-            break;
-        case TITLE_FONT_ELEMENT:
-            clipType = i18n("Title Font");
-            break;*/
 
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
-        /*if (t == TITLE_IMAGE_ELEMENT) {
+        item->setData(0, statusRole, CLIPMISSING);
+        if (status == TITLE_IMAGE_ELEMENT) {
             item->setIcon(0, KoIconUtils::themedIcon("dialog-warning"));
             item->setToolTip(1, e.attribute("name"));
             item->setText(1, e.attribute("resource"));
-            item->setData(0, statusRole, CLIPPLACEHOLDER);
+            item->setData(0, typeRole, status);
             item->setData(0, typeOriginalResource, e.attribute("resource"));
-        } else if (t == TITLE_FONT_ELEMENT) {
+        } else if (status == TITLE_FONT_ELEMENT) {
             item->setIcon(0, KoIconUtils::themedIcon("dialog-warning"));
             item->setToolTip(1, e.attribute("name"));
             QString ft = e.attribute("resource");
             QString newft = QFontInfo(QFont(ft)).family();
             item->setText(1, i18n("%1 will be replaced by %2", ft, newft));
-            item->setData(0, statusRole, CLIPPLACEHOLDER);
-        } else {*/
+            item->setData(0, typeRole, status);
+        } else {
             item->setIcon(0, KoIconUtils::themedIcon("dialog-close"));
             QString resource = EffectsList::property(e, "resource");
             if (!resource.startsWith("/")) {
@@ -249,8 +255,7 @@ bool DocumentChecker::hasErrorInClips()
             item->setText(1, resource);
             item->setData(0, hashRole, EffectsList::property(e, "kdenlive:file_hash"));
             item->setData(0, sizeRole, EffectsList::property(e, "kdenlive:file_size"));
-            item->setData(0, statusRole, CLIPMISSING);
-        //}
+        }
         //item->setData(0, typeRole, t);
         item->setData(0, idRole, e.attribute("id"));
         item->setToolTip(0, i18n("Missing item"));
@@ -556,7 +561,7 @@ QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &m
 void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
 {
     int t = item->data(0, typeRole).toInt();
-    if (t == TITLE_FONT_ELEMENT || t == Unknown) return;
+    if (t == TITLE_FONT_ELEMENT) return;
     //|| t == TITLE_IMAGE_ELEMENT) {
 
     QUrl url = KUrlRequesterDialog::getUrl(QUrl::fromLocalFile(item->text(1)), m_dialog, i18n("Enter new location for file"));
@@ -646,16 +651,6 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers
         QString id = child->data(0, idRole).toString();
         if (t == TITLE_IMAGE_ELEMENT) {
             // edit images embedded in titles
-            /*for (int i = 0; i < infoproducers.count(); ++i) {
-                e = infoproducers.item(i).toElement();
-                if (e.attribute("id") == id) {
-                    // Fix clip
-                    QString xml = e.attribute("xmldata");
-                    xml.replace(child->data(0, typeOriginalResource).toString(), child->text(1));
-                    e.setAttribute("xmldata", xml);
-                    break;
-                }
-            }*/
             for (int i = 0; i < producers.count(); ++i) {
                 e = producers.item(i).toElement();
                 if (e.attribute("id").section('_', 0, 0) == id) {
@@ -872,7 +867,7 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
     foreach(const QString &img, images) {
         if (m_safeImages.contains(img)) continue;
         if (!QFile::exists(img)) {
-            QDomElement e = doc.createElement("missingclip");
+            QDomElement e = doc.createElement("missingtitle");
             e.setAttribute("type", TITLE_IMAGE_ELEMENT);
             e.setAttribute("resource", img);
             e.setAttribute("id", id);
@@ -886,7 +881,7 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
         QFont f(fontelement);
         ////qDebug() << "/ / / CHK FONTS: " << fontelement << " = " << QFontInfo(f).family();
         if (fontelement != QFontInfo(f).family()) {
-            QDomElement e = doc.createElement("missingclip");
+            QDomElement e = doc.createElement("missingtitle");
             e.setAttribute("type", TITLE_FONT_ELEMENT);
             e.setAttribute("resource", fontelement);
             e.setAttribute("id", id);
