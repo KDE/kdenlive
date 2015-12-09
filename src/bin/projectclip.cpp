@@ -511,7 +511,6 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
 {
     QMapIterator<QString, QString> i(properties);
     QMap <QString, QString> passProperties;
-    bool refreshProducer = false;
     bool refreshAnalysis = false;
     bool reload = false;
     // Some properties also need to be passed to track producers
@@ -553,10 +552,10 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
         if (m_type != Color) {
             reloadProducer();
         }
-        reload = true;
+        else reload = true;
     }
     if (properties.contains("xmldata") || !passProperties.isEmpty()) {
-        refreshProducer = true;
+        reload = true;
     }
     if (refreshAnalysis) emit refreshAnalysisPanel();
     if (properties.contains("length")) {
@@ -572,7 +571,7 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
         // Some of the clip properties have changed through a command, update properties panel
         emit refreshPropertiesPanel();
     }
-    if (refreshProducer || reload) {
+    if (reload) {
         // producer has changed, refresh monitor and thumbnail
         if (reload) reloadProducer(true);
         bin()->refreshClip(m_id);
