@@ -139,17 +139,52 @@ bool DocumentChecker::hasErrorInClips()
     QDomNodeList trans = m_doc.elementsByTagName("transition");
     max = trans.count();
     for (int i = 0; i < max; ++i) {
-        QString service = getProperty(trans.at(i).toElement(), "mlt_service");
-        QString luma = getProperty(trans.at(i).toElement(), "resource");
-        if (service == "luma" && !luma.isEmpty() && !filesToCheck.contains(luma))
+        QDomElement transition = trans.at(i).toElement();
+        QString service = getProperty(transition, "mlt_service");
+        QString luma;
+        if (service == "luma") {
+            luma = getProperty(transition, "resource");
+        } else if (service == "composite") {
+            luma = getProperty(transition, "luma");
+        }
+        if (!luma.isEmpty() && !filesToCheck.contains(luma)) {
             filesToCheck.append(luma);
+        }
     }
+
+    QMap <QString, QString> autoFixLuma;
     // Check existence of luma files
     foreach (const QString &lumafile, filesToCheck) {
         filePath = lumafile;
         if (!filePath.startsWith('/')) filePath.prepend(root);
         if (!QFile::exists(filePath)) {
-            missingLumas.append(lumafile);
+            QString fixedLuma;
+            if (filePath.endsWith(".pgm")) {
+                fixedLuma = filePath.section(".", 0, -2) + ".png";
+            }
+            else if (filePath.endsWith(".png")) {
+                fixedLuma = filePath.section(".", 0, -2) + ".pgm";
+            }
+            if (!fixedLuma.isEmpty() && QFile::exists(fixedLuma)) {
+                // Auto replace pgm with png for lumas
+                autoFixLuma.insert(filePath, fixedLuma);
+            }
+            else missingLumas.append(lumafile);
+        }
+    }
+    if (!autoFixLuma.isEmpty()) {
+        for (int i = 0; i < max; ++i) {
+            QDomElement transition = trans.at(i).toElement();
+            QString service = getProperty(transition, "mlt_service");
+            QString luma;
+            if (service == "luma") {
+                luma = getProperty(transition, "resource");
+            } else if (service == "composite") {
+                luma = getProperty(transition, "luma");
+            }
+            if (!luma.isEmpty() && autoFixLuma.contains(luma)) {
+                setProperty(transition, service == "luma" ? "resource" : "luma", autoFixLuma.value(luma));
+            }
         }
     }
 
@@ -167,7 +202,7 @@ bool DocumentChecker::hasErrorInClips()
         item->setData(0, statusRole, LUMAMISSING);
     }
 
-    m_ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+    m_ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_missingClips.isEmpty() && missingProxies.isEmpty() && missingSources.isEmpty());
     max = m_missingClips.count();
     m_missingProxyIds.clear();
     for (int i = 0; i < max; ++i) {
@@ -681,17 +716,28 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers
     } else if (child->data(0, statusRole).toInt() == LUMAOK) {
         for (int i = 0; i < trans.count(); ++i) {
             QString service = getProperty(trans.at(i).toElement(), "mlt_service");
-            QString luma = getProperty(trans.at(i).toElement(), "resource");
-            if (service == "luma" && !luma.isEmpty() && luma == child->data(0, idRole).toString()) {
-                setProperty(trans.at(i).toElement(), "resource", child->text(1));
+            QString luma;
+            if (service == "luma") {
+                luma = getProperty(trans.at(i).toElement(), "resource");
+            } else if (service == "composite") {
+                luma = getProperty(trans.at(i).toElement(), "luma");
+            }
+            if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
+                setProperty(trans.at(i).toElement(), service == "luma" ? "resource" : "luma", child->text(1));
                 //qDebug() << "replace with; " << child->text(1);
             }
         }
     } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
         for (int i = 0; i < trans.count(); ++i) {
-            QString luma = getProperty(trans.at(i).toElement(), "resource");
+            QString service = getProperty(trans.at(i).toElement(), "mlt_service");
+            QString luma;
+            if (service == "luma") {
+                luma = getProperty(trans.at(i).toElement(), "resource");
+            } else if (service == "composite") {
+                luma = getProperty(trans.at(i).toElement(), "luma");
+            }
             if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
-                setProperty(trans.at(i).toElement(), "resource", QString());
+                setProperty(trans.at(i).toElement(), service == "luma" ? "resource" : "luma", QString());
             }
         }
     }
@@ -723,7 +769,7 @@ void DocumentChecker::checkStatus()
     QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
     while (child) {
         int childStatus = child->data(0, statusRole).toInt();
-        if (childStatus == CLIPMISSING || childStatus == LUMAMISSING) {
+        if (childStatus == CLIPMISSING) {
             status = false;
             break;
         }
@@ -760,8 +806,14 @@ void DocumentChecker::slotDeleteSelected()
         foreach (const QString &lumaPath, deletedLumas) {
             for (int i = 0; i < transitions.count(); ++i) {
                 e = transitions.item(i).toElement();
-                QString resource = EffectsList::property(e, "resource");
-                if (resource == lumaPath) EffectsList::removeProperty(e, "resource");
+                QString service = EffectsList::property(e, "mlt_service");
+                QString resource;
+                if (service == "luma") {
+                    resource = EffectsList::property(e, "resource");
+                } else if (service == "composite") {
+                    resource = EffectsList::property(e, "luma");
+                }
+                if (resource == lumaPath) EffectsList::removeProperty(e, service == "luma" ? "resource" : "luma");
             }
         }
     }
