@@ -36,6 +36,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPushButton>
 #include <QUrl>
 #include <QListView>
+#include <QFuture>
+#include <QMutex>
 
 class KdenliveDoc;
 class ClipController;
@@ -319,7 +321,7 @@ class Bin : public QWidget
 public:
     explicit Bin(QWidget* parent = 0);
     ~Bin();
-    
+
     bool isLoading;
 
     /** @brief Sets the document for the bin and initialize some stuff  */
@@ -459,6 +461,8 @@ public:
     /** @brief Update status of disable effects action (when loading a document). */
     void setBinEffectsDisabledStatus(bool disabled);
 
+    void requestAudioThumbs(const QString &id);
+
 private slots:
     void slotAddClip();
     void slotReloadClip();
@@ -504,6 +508,7 @@ private slots:
     void slotDisableEffects(bool disable);
     /** @brief Rename a Bin Folder. */
     void slotRenameFolder();
+    void slotCreateAudioThumbs();
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img, bool fromFile = false);
@@ -560,6 +565,7 @@ public slots:
     /** @brief Request current frame from project monitor. */
     void slotGetCurrentProjectImage();
     void slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command);
+    void abortAudioThumbs();
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);
@@ -618,6 +624,12 @@ private:
     InvalidDialog *m_invalidClipDialog;
     /** @brief Set to true if widget just gained focus (means we have to update effect stack . */
     bool m_gainedFocus;
+    /** @brief List of Clip Ids that want an audio thumb. */
+    QStringList m_audioThumbsList;
+    QString m_processingAudioThumb;
+    QMutex m_audioThumbMutex;
+    /** @brief Indicates whether audio thumbnail creation is running. */
+    QFuture<void> m_audioThumbsThread;
     void showClipProperties(ProjectClip *clip, bool openExternalDialog = true);
     const QStringList getFolderInfo(QModelIndex selectedIx = QModelIndex());
     /** @brief Get the QModelIndex value for an item in the Bin. */
@@ -627,6 +639,7 @@ private:
     ProjectClip *getFirstSelectedClip();
     void showTitleWidget(ProjectClip *clip);
     void showSlideshowWidget(ProjectClip *clip);
+    void processAudioThumbs();
 
 signals:
     void itemUpdated(AbstractProjectItem*);
@@ -652,7 +665,7 @@ signals:
     /** @brief Fill context menu with occurences of this clip in timeline. */
     void findInTimeline(const QString &);
     void clipNameChanged(const QString &);
-  
+
 };
 
 #endif

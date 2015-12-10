@@ -294,9 +294,11 @@ void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList
                         effectDuration = info.cropDuration.frames(fps) / 2;
                     }
                     end += effectDuration;
-                } else
-                    end += EffectsList::parameter(list.getEffectByTag(QString(), QStringLiteral("fade_from_black")), QStringLiteral("out")).toInt() - offset;
-            } else if (effect.attribute(QStringLiteral("id")) == QLatin1String("fade_from_black")) {
+                } else {
+		    QDomElement fadein = list.getEffectByTag(QString(), QStringLiteral("fade_from_black"));
+                    end = EffectsList::parameter(fadein, QStringLiteral("out")).toInt() - offset;
+		}
+            } else if (effect.attribute(QStringLiteral("id")) == QStringLiteral("fade_from_black")) {
                 if (list.hasEffect(QString(), QStringLiteral("fadein")) == -1) {
                     int effectDuration = EffectsList::parameter(effect, QStringLiteral("out")).toInt();
                     if (offset != 0) effectDuration -= offset;
@@ -304,8 +306,10 @@ void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList
                         effectDuration = info.cropDuration.frames(fps) / 2;
                     }
                     end += effectDuration;
-                } else
-                    end += EffectsList::parameter(list.getEffectByTag(QString(), QStringLiteral("fadein")), QStringLiteral("out")).toInt() - offset;
+                } else {
+		    QDomElement fadein = list.getEffectByTag(QString(), QStringLiteral("fadein"));
+                    end = EffectsList::parameter(fadein, QStringLiteral("out")).toInt() - offset;
+		}
             }
             EffectsList::setParameter(effect, QStringLiteral("in"), QString::number(start));
             EffectsList::setParameter(effect, QStringLiteral("out"), QString::number(end));

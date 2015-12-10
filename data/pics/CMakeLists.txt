@@ -137,7 +137,9 @@ breeze-light/lt_view-grid.svgz
 breeze-light/lt_view-list-icons.svgz
 breeze-light/lt_view-list-tree.svgz
 breeze-light/lt_view-refresh.svgz
+breeze-light/lt_view-split-effect.svgz
 breeze-light/lt_view-split-left-right.svgz
+breeze-light/lt_view-unsplit-effect.svgz
 breeze-light/lt_visibility.svgz
 breeze-light/lt_zoom-fit-best.svgz
 breeze-light/lt_zoom-fit-height.svgz
@@ -282,7 +284,9 @@ breeze-dark/dk_view-grid.svgz
 breeze-dark/dk_view-list-icons.svgz
 breeze-dark/dk_view-list-tree.svgz
 breeze-dark/dk_view-refresh.svgz
+breeze-dark/dk_view-split-effect.svgz
 breeze-dark/dk_view-split-left-right.svgz
+breeze-dark/dk_view-unsplit-effect.svgz
 breeze-dark/dk_visibility.svgz
 breeze-dark/dk_zoom-fit-best.svgz
 breeze-dark/dk_zoom-fit-height.svgz

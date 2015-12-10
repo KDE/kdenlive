@@ -66,6 +66,8 @@ public:
     ProjectClip(const QDomElement &description, QIcon thumb, ProjectFolder *parent);
     virtual ~ProjectClip();
 
+    bool abortAudioThumb;
+
     void reloadProducer(bool thumbnailOnly = false);
 
     /** @brief Returns a unique hash identifier used to store clip thumbnails. */
@@ -118,13 +120,6 @@ public:
     virtual QDomElement toXml(QDomDocument &document);
     
     QVariant data(DataType type) const;
-    
-    /** @brief Set the Job status on a clip.
-     * @param jobType The job type
-     * @param status The job status (see definitions.h)
-     * @param progress The job progress (in percents)
-     * @param statusMessage The job info message */
-    void setJobStatus(AbstractClipJob::JOBTYPE jobType, ClipJobStatus status, int progress = 0, const QString &statusMessage = QString());
 
     /** @brief Sets thumbnail for this clip. */
     void setThumbnail(QImage);
@@ -179,7 +174,7 @@ public:
     
     /** Cache for every audio Frame with 10 Bytes */
     /** format is frame -> channel ->bytes */
-    QVariantList *audioFrameCache;
+    QVariantList audioFrameCache;
     bool audioThumbCreated() const;
 
     void updateParentInfo(const QString &folderid, const QString &foldername);
@@ -199,8 +194,6 @@ public:
     void removeEffect(int ix);
     /** @brief Create audio thumbnail for this clip. */
     void createAudioThumbs();
-    /** @brief Abort audio thumbnail for this clip. */
-    void abortAudioThumbs();
     /** @brief Returns the number of audio channels. */
     int audioChannels() const;
     /** @brief get data analysis value. */
@@ -214,6 +207,12 @@ public slots:
     /** @brief Extract image thumbnails for clip's subclips. */
     void slotExtractSubImage(QList <int> frames);
     void slotCreateAudioThumbs();
+    /** @brief Set the Job status on a clip.
+     * @param jobType The job type
+     * @param status The job status (see definitions.h)
+     * @param progress The job progress (in percents)
+     * @param statusMessage The job info message */
+    void setJobStatus(int jobType, int status, int progress = 0, const QString &statusMessage = QString());
 
 private:
     //TODO: clip markers
@@ -224,13 +223,11 @@ private:
     const QString getFileHash() const;
     /** @brief Store clip url temporarily while the clip controller has not been created. */
     QUrl m_temporaryUrl;
-    bool m_abortAudioThumb;
-    /** @brief Indicates whether audio thumbnail creation is running. */
-    QFuture<void> m_audioThumbsThread;
     ClipType m_type;
     Mlt::Producer *m_thumbsProducer;
     QMutex m_producerMutex;
     QMutex m_thumbMutex;
+    QMutex m_audioMutex;
     QFuture <void> m_thumbThread;
     QList <int> m_requestedThumbs;
     const QString geometryWithOffset(const QString &data, int offset);
@@ -242,6 +239,7 @@ signals:
     void refreshAnalysisPanel();
     void refreshClipDisplay();
     void thumbReady(int, QImage);
+    void updateJobStatus(int jobType, int status, int progress = 0, const QString &statusMessage = QString());
 };
 
 #endif

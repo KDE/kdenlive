@@ -1157,6 +1157,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         // User clicked a non selected item, select it
         resetSelectionGroup(false);
         m_scene->clearSelection();
+	m_dragItem->setSelected(true);
 	m_dragItem->setZValue(99);
         if (m_dragItem->parentItem()) m_dragItem->parentItem()->setZValue(99);
         // A refresh seems necessary otherwise in zoomed mode, some clips disappear
@@ -3665,7 +3666,6 @@ void CustomTrackView::deleteClip(const QString &clipId, QUndoCommand *deleteComm
             }
         }
     }
-    qDebug()<<"+ + +Found timeline clips: "<<count;
     if (count > 0) {
         new RefreshMonitorCommand(this, true, false, deleteCommand);
         updateTrackDuration(-1, deleteCommand);
@@ -3727,8 +3727,8 @@ void CustomTrackView::initCursorPos(int pos)
 void CustomTrackView::checkScrolling()
 {
     QGraphicsView::ViewportUpdateMode mode = viewportUpdateMode();
-    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
-    ensureVisible(m_cursorPos, verticalScrollBar()->value() + 10, 2, 2, 50, 0);
+    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);    
+    ensureVisible(seekPosition(), verticalScrollBar()->value() + 10, 2, 2, 50, 0);
     setViewportUpdateMode(mode);
 }
 

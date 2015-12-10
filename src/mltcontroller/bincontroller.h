@@ -196,7 +196,7 @@ signals:
     void loadThumb(QString,QImage,bool);
     void createThumb(const QDomElement&,const QString&,int);
     void requestAudioThumb(const QString&);
-    void abortAudioThumb(const QString&);
+    void abortAudioThumbs();
     void replaceTimelineProducer(const QString &id);
     void setDocumentNotes(const QString &);
     void updateTimelineProducer(const QString &);

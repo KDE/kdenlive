@@ -245,10 +245,13 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_toolbar->addWidget(m_audioButton);
 
     if (id == Kdenlive::ClipMonitor) {
-	m_toolbar->addSeparator();
-	m_effectCompare = m_toolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("view-split-left-right")), i18n("Compare effect"));
-	m_effectCompare->setCheckable(true);
-        connect(m_effectCompare, &QAction::toggled, this, &Monitor::slotSwitchCompare);
+        m_effectCompare = new KDualAction(i18n("Split"), i18n("Unsplit"), this);
+        m_effectCompare->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("view-split-effect")));
+        m_effectCompare->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("view-unsplit-effect")));
+        m_effectCompare->setActive(false);
+        m_toolbar->addSeparator();
+        m_toolbar->addAction(m_effectCompare);
+        connect(m_effectCompare, &KDualAction::activeChanged, this, &Monitor::slotSwitchCompare);
     }
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setLayout(layout);
@@ -1453,10 +1456,12 @@ void Monitor::onFrameDisplayed(const SharedFrame& frame)
     if (!render->checkFrameNumber(position)) {
         m_playAction->setActive(false);
     }
+    /*
+    // display frame number in monitor overlay, currently disabled
     if (m_rootItem && m_rootItem->objectName() == "root") {
         // we are in main view, show frame
         m_rootItem->setProperty("framenum", QString::number(position));
-    }
+    }*/
     if (position >= m_length) {
         m_playAction->setActive(false);
     }

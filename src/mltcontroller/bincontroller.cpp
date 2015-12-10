@@ -492,7 +492,8 @@ void BinController::checkAudioThumbs()
                 emit requestAudioThumb(ctrl->clipId());
             } else {
                 // Abort all pending thumb creation
-                emit abortAudioThumb(ctrl->clipId());
+                emit abortAudioThumbs();
+                break;
             }
         }
     }

@@ -80,11 +80,24 @@ void StatusBarMessageLabel::setMessage(const QString& text,
             if (item.timeoutMillis < 2000) {
                 item.timeoutMillis = 2000;
             }
+            
+            if (item.type == ProcessingJobMessage) {
+                // This is a job progress info, discard previous ones
+                QList <StatusBarMessageItem> cleanList;
+                foreach (const StatusBarMessageItem msg, m_messageQueue) {
+                    if (msg.type != ProcessingJobMessage) {
+                        cleanList << msg;
+                    }
+                }
+                m_messageQueue = cleanList;
+            }
+
             m_messageQueue.push_front(item);
 
             // In case we are already displaying an error message, add a little delay
             int delay = 800 * (m_currentMessage.type == ErrorMessage || m_currentMessage.type == MltError);
             m_queueTimer.start(delay);
+
 
         } else {
 
@@ -113,7 +126,7 @@ bool StatusBarMessageLabel::slotMessageTimeout()
         while (!m_messageQueue.isEmpty()) {
             item = m_messageQueue.at(0);
             m_messageQueue.removeFirst();
-            if (item.type == OperationCompletedMessage || item.type == ErrorMessage || item.type == MltError) {
+            if (item.type == OperationCompletedMessage || item.type == ErrorMessage || item.type == MltError || item.type == ProcessingJobMessage) {
                 m_currentMessage = item;
                 newMessage = true;
                 break;
@@ -138,14 +151,12 @@ bool StatusBarMessageLabel::slotMessageTimeout()
     if (!m_messageQueue.isEmpty()) {
 
         if (!m_currentMessage.needsConfirmation()) {
-
             // If we only have the default message left to show in the queue,
             // keep the current one for a little longer.
             m_queueTimer.start(m_currentMessage.timeoutMillis + 4000*(m_messageQueue.at(0).type == DefaultMessage));
 
         }
     }
-
 
     m_illumination = -64;
     m_state = Default;
