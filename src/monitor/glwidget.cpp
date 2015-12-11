@@ -36,6 +36,14 @@
 
 #define USE_GL_SYNC // Use glFinish() if not defined.
 
+#ifndef GL_UNPACK_ROW_LENGTH
+# ifdef GL_UNPACK_ROW_LENGTH_EXT
+#  define GL_UNPACK_ROW_LENGTH GL_UNPACK_ROW_LENGTH_EXT
+# else
+#  error GL_UNPACK_ROW_LENGTH undefined
+# endif
+#endif
+
 #ifdef QT_NO_DEBUG
 #define check_error(fn) {}
 #else
@@ -1187,7 +1195,10 @@ FrameRenderer::FrameRenderer(QOpenGLContext* shareContext, QSurface *surface)
 FrameRenderer::~FrameRenderer()
 {
     delete m_context;
+#ifdef Q_OS_WIN
+	// It's only ever initialised on Windows, thus this is safe.
     delete m_gl32;
+#endif
 }
 
 void FrameRenderer::showFrame(Mlt::Frame frame)
