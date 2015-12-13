@@ -1642,11 +1642,6 @@ void Render::seekToFrameDiff(int diff)
     }
 }
 
-void Render::refreshIfActive()
-{
-    if (!m_mltConsumer->is_stopped() && m_mltProducer && (playSpeed() == 0) && m_isActive) m_refreshTimer.start();
-}
-
 void Render::doRefresh()
 {
     if (m_mltProducer && (playSpeed() == 0) && m_isActive) {
@@ -2508,11 +2503,11 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
     }
 
     int duration = clip->get_playtime();
-    bool doRefresh = true;
+    bool needRefresh = true;
     // Check if clip is visible in monitor
     int diff = trackPlaylist.clip_start(clipIndex) + duration - m_mltProducer->position();
     if (diff < 0 || diff > duration)
-        doRefresh = false;
+        needRefresh = false;
     int ct = 0;
 
     Mlt::Filter *filter = clip->filter(ct);
@@ -2555,7 +2550,7 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
         addFilterToService(*clip, params, clip->get_playtime());
         service.unlock();
 
-        if (doRefresh)
+        if (needRefresh)
             refresh();
         return true;
     }
@@ -2575,8 +2570,9 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
     qDeleteAll(filtersList);
     service.unlock();
 
-    if (doRefresh)
-        refreshIfActive();
+    if (needRefresh)
+        doRefresh();
+
     return true;
 }
 

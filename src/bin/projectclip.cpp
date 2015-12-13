@@ -289,8 +289,6 @@ bool ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
     bool isNewProducer = true;
     if (m_controller) {
         // Replace clip for this controller
-        //m_controller->updateProducer(m_id, &(controller->originalProducer()));
-       //delete controller;
         resetProducerProperty("kdenlive:file_hash");
         isNewProducer = false;
     }

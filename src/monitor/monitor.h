@@ -121,6 +121,8 @@ public:
     /** @brief Returns the action displaying record toolbar */
     QAction *recAction();
     void refreshIcons();
+    /** @brief Enable or disable the effect compare feature depending on effects presence */
+    void enableCompare(int effectsCount);
 
 protected:
     void mousePressEvent(QMouseEvent * event);
@@ -223,8 +225,7 @@ public slots:
     void updateClipProducer(Mlt::Producer *prod);
     void updateClipProducer(const QString &playlist);
     void slotOpenClip(ClipController *controller, int in = -1, int out = -1);
-    void refreshMonitor(bool visible);
-    void refreshMonitor();
+    void refreshMonitor(bool visible = true);
     void slotSeek(int pos);
     void stop();
     void start();

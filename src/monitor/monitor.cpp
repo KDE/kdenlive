@@ -249,6 +249,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_effectCompare->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("view-split-effect")));
         m_effectCompare->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("view-unsplit-effect")));
         m_effectCompare->setActive(false);
+        m_effectCompare->setEnabled(false);
         m_toolbar->addSeparator();
         m_toolbar->addAction(m_effectCompare);
         connect(m_effectCompare, &KDualAction::activeChanged, this, &Monitor::slotSwitchCompare);
@@ -1061,18 +1062,8 @@ void Monitor::start()
 
 void Monitor::refreshMonitor(bool visible)
 {
-    if (visible && render) {
-        if (!slotActivateMonitor()) {
-            // the monitor was already active, simply refreshClipThumbnail
-            render->refreshIfActive();
-        }
-    }
-}
-
-void Monitor::refreshMonitor()
-{
-    if (isActive()) {
-        render->refreshIfActive();
+    if (visible && isActive()) {
+        render->doRefresh();
     }
 }
 
@@ -1156,8 +1147,18 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
     bool sameClip = controller == m_controller && controller != NULL;
     m_controller = controller;
     if (m_rootItem && m_rootItem->objectName() != QLatin1String("root") && !sameClip) {
+        // changed clip, disable split effect
+        if (m_splitProducer) {
+            m_effectCompare->blockSignals(true);
+            m_effectCompare->setActive(false);
+            m_effectCompare->blockSignals(false);
+            delete m_splitEffect;
+            m_splitProducer = NULL;
+            m_splitEffect = NULL;
+        }
         loadMasterQml();
     }
+    //bool hasEffects;
     if (controller) {
 	if (m_recManager->toolbar()->isVisible()) {
 	      // we are in record mode, don't display clip
@@ -1169,13 +1170,22 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
 	    m_ruler->setZone(in, out);
 	    setClipZone(QPoint(in, out));
 	}
+	//hasEffects =  controller->hasEffects();
     }
     else {
         render->setProducer(NULL, -1, isActive());
+        //hasEffects = false;
     }
-    if (m_splitProducer) {
+}
+
+void Monitor::enableCompare(int effectsCount)
+{
+    if (!m_effectCompare) return;
+    m_effectCompare->setEnabled(effectsCount > 0);
+    if (m_splitProducer && effectsCount == 0) {
         m_effectCompare->blockSignals(true);
         m_effectCompare->setChecked(false);
+        m_effectCompare->setActive(false);
         m_effectCompare->blockSignals(false);
         delete m_splitEffect;
         m_splitProducer = NULL;
@@ -1333,7 +1343,7 @@ void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary)
 {
     if (!temporary) m_lastMonitorSceneType = sceneType;
     if (sceneType == MonitorSceneGeometry) {
-        if (!m_rootItem || m_rootItem->objectName() != "rooteffectscene") {
+        if (!m_rootItem || m_rootItem->objectName() != QLatin1String("rooteffectscene")) {
             m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitoreffectscene.qml"))));
             m_rootItem = m_glMonitor->rootObject();
             QObject::connect(m_rootItem, SIGNAL(addKeyframe()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
@@ -1342,7 +1352,7 @@ void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary)
         }
     }
     else if (sceneType == MonitorSceneCorners) {
-        if (!m_rootItem || m_rootItem->objectName() != "rootcornerscene") {
+        if (!m_rootItem || m_rootItem->objectName() != QLatin1String("rootcornerscene")) {
             m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitorcornerscene.qml"))));
             m_rootItem = m_glMonitor->rootObject();
             QObject::connect(m_rootItem, SIGNAL(addKeyframe()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
@@ -1352,7 +1362,7 @@ void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary)
     }
     else if (sceneType == MonitorSceneRoto) {
         // TODO
-        if (!m_rootItem || m_rootItem->objectName() != "rootcornerscene") {
+        if (!m_rootItem || m_rootItem->objectName() != QLatin1String("rootcornerscene")) {
             m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitorcornerscene.qml"))));
             m_rootItem = m_glMonitor->rootObject();
             QObject::connect(m_rootItem, SIGNAL(addKeyframe()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
@@ -1360,8 +1370,13 @@ void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary)
             m_glMonitor->slotShowEffectScene(sceneType);
         }
     }
-    else if (m_rootItem && m_rootItem->objectName() != "root")  {
-        loadMasterQml();
+    else if (m_rootItem && m_rootItem->objectName() != QLatin1String("root") && m_rootItem->objectName() != QLatin1String("rootsplit"))  {
+        if (m_effectCompare && m_effectCompare->isEnabled() && m_effectCompare->isActive()) {
+            if (m_rootItem->objectName() != QLatin1String("rootsplit")) {
+                slotSwitchCompare(true);
+            }
+        } 
+        else loadMasterQml();
     }
     if (m_sceneVisibilityAction) m_sceneVisibilityAction->setChecked(sceneType != MonitorSceneNone);
 }
@@ -1513,18 +1528,25 @@ void Monitor::warningMessage(const QString &text)
 
 void Monitor::slotSwitchCompare(bool enable)
 {
-    if (m_controller == NULL) {
+    if (m_controller == NULL || !m_controller->hasEffects()) {
         m_effectCompare->blockSignals(true);
-        m_effectCompare->setChecked(false);
+        m_effectCompare->setActive(false);
+        m_effectCompare->setEnabled(false);
         m_effectCompare->blockSignals(false);
-        warningMessage(i18n("Select a clip in project bin to compare effect"));
+        if (m_controller) {
+            warningMessage(i18n("Clip has no effects"));
+        }
+        else {
+            warningMessage(i18n("Select a clip in project bin to compare effect"));
+        }
         return;
-    }
-    if (!m_controller->hasEffects()) {
-        warningMessage(i18n("Clip has no effects"));
     }
     int pos = position().frames(m_monitorManager->timecode().fps());
     if (enable) {
+        if ((m_rootItem && m_rootItem->objectName() == QLatin1String("rootsplit"))) {
+            // Split scene is already active
+            return;
+        }
         m_splitEffect = new Mlt::Filter(*profile(), "frei0r.scale0tilt");
         if (m_splitEffect && m_splitEffect->is_valid()) {
             m_splitEffect->set("Clip left", 0.5);
@@ -1598,7 +1620,7 @@ void Monitor::slotAdjustEffectCompare()
         m_rootItem->setProperty("realpercent", percent);
     }
     if (m_splitEffect) m_splitEffect->set("Clip left", percent);
-    render->refreshIfActive();
+    render->doRefresh();
 }
 
 ProfileInfo Monitor::profileInfo() const
