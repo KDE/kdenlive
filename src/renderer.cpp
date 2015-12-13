@@ -1532,7 +1532,6 @@ void Render::switchPlay(bool play)
     if (!m_mltProducer || !m_mltConsumer || !m_isActive)
         return;
     if (m_isZoneMode) resetZoneMode();
-    m_mltProducer->set_speed(play ? 1.0 : 0.0);
     if (play) {
         if (m_name == Kdenlive::ClipMonitor && m_mltConsumer->position() == m_mltProducer->get_out()) m_mltProducer->seek(0);
         if (m_mltConsumer->get_int("real_time") != m_qmlView->realTime()) {
@@ -1546,7 +1545,9 @@ void Render::switchPlay(bool play)
         m_mltConsumer->start();
         m_isRefreshing = true;
         m_mltConsumer->set("refresh", 1);
+        m_mltProducer->set_speed(1.0);
     } else {
+        m_mltProducer->set_speed(0.0);
         m_mltConsumer->set("buffer", 0);
         m_mltConsumer->set("prefill", 0);
         m_mltConsumer->set("real_time", -1);
