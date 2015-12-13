@@ -355,27 +355,24 @@ void BinController::duplicateFilters(Mlt::Producer original, Mlt::Producer clone
 {
     Mlt::Service clipService(original.get_service());
     Mlt::Service dupService(clone.get_service());
-    //delete original;
-    //delete clone;
-    int ct = 0;
-    Mlt::Filter *filter = clipService.filter(ct);
-    while (filter) {
-        // Only duplicate Kdenlive filters, and skip the fade in effects
-	//fprintf(stderr, "CHKNG FILTER: %s\n", filter->get("kdenlive_id"));
-        if (filter->is_valid()/* && strcmp(filter->get("kdenlive_id"), "") && strcmp(filter->get("kdenlive_id"), "fadein") && strcmp(filter->get("kdenlive_id"), "fade_from_black")*/) {
+    for (int ix = 0; ix < clipService.filter_count(); ++ix) {
+        Mlt::Filter *filter = clipService.filter(ix);
+        // Only duplicate Kdenlive filters
+        if (filter->is_valid()) {
+            QString effectId = filter->get("kdenlive_id");
+            if (effectId.isEmpty()) continue;
             // looks like there is no easy way to duplicate a filter,
             // so we will create a new one and duplicate its properties
             Mlt::Filter *dup = new Mlt::Filter(*original.profile(), filter->get("mlt_service"));
             if (dup && dup->is_valid()) {
-                Mlt::Properties entries(filter->get_properties());
-                for (int i = 0; i < entries.count(); ++i) {
-                    dup->set(entries.get_name(i), entries.get(i));
+                for (int i = 0; i < filter->count(); ++i) {
+                    QString paramName = filter->get_name(i);
+                    if (paramName.at(0) != '_')
+                        dup->set(filter->get_name(i), filter->get(i));
                 }
                 dupService.attach(*dup);
             }
         }
-        ct++;
-        filter = clipService.filter(ct);
     }
 }
 
