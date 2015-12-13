@@ -694,7 +694,7 @@ int GLWidget::setProducer(Mlt::Producer* producer, bool reconfig)
     }*/
     m_producer = producer;
     if (!reconfig && m_consumer) return 0;
-    if (!error && producer) {
+    if (producer) {
         error = reconfigure();
         if (!error) {
             // The profile display aspect ratio may have changed.
@@ -830,15 +830,22 @@ int GLWidget::reconfigureMulti(QString params, QString path, Mlt::Profile *profi
         //m_consumer->set("0.preview_off", 1);
         m_consumer->set("0.real_time", 0);
         m_consumer->set("0.volume", (double)volume / 100);
-            
+
         if (serviceName == QLatin1String("sdl_audio")) {
 #ifdef Q_OS_WIN
             m_consumer->set("0.audio_buffer", 2048);
 #else
             m_consumer->set("0.audio_buffer", 512);
 #endif
+            QString audioDevice = KdenliveSettings::audiodevicename();
+            if (!audioDevice.isEmpty())
+                m_consumer->set("audio_device", audioDevice.toUtf8().constData());
+
+            QString audioDriver = KdenliveSettings::audiodrivername();
+            if (!audioDriver.isEmpty())
+                m_consumer->set("audio_driver", audioDriver.toUtf8().constData());
         }
-            
+
         m_consumer->set("1", "avformat");
         m_consumer->set("1.target", path.toUtf8().constData());
         //m_consumer->set("1.real_time", -KdenliveSettings::mltthreads());
@@ -851,8 +858,7 @@ int GLWidget::reconfigureMulti(QString params, QString path, Mlt::Profile *profi
             QString value = paramList.at(i).section('=', 1, 1);
             if (value == QLatin1String("%threads")) value = QString::number(QThread::idealThreadCount());
             m_consumer->set(key.toUtf8().constData(), value.toUtf8().constData());
-        }       
-        
+        }
         // Connect the producer to the consumer - tell it to "run" later
         delete m_displayEvent;
         m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_frame_show);
@@ -900,54 +906,55 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
             m_consumer->set("real_time", dropFrames);
             m_threadCreateEvent = m_consumer->listen("consumer-thread-create", this, (mlt_listener) onThreadCreate);
             m_threadJoinEvent = m_consumer->listen("consumer-thread-join", this, (mlt_listener) onThreadJoin);
+            
+            delete m_displayEvent;
+            if (!m_glslManager) {
+                // Make an event handler for when a frame's image should be displayed
+                m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_frame_show);
+                m_consumer->set("mlt_image_format", "yuv422");
+            } else {
+                m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_gl_frame_show);
+                if (!m_threadStartEvent)
+                    m_threadStartEvent = m_consumer->listen("consumer-thread-started", this, (mlt_listener) onThreadStarted);
+                if (!m_threadStopEvent)
+                    m_threadStopEvent = m_consumer->listen("consumer-thread-stopped", this, (mlt_listener) onThreadStopped);
+                if (!serviceName.startsWith(QLatin1String("decklink")))
+                    m_consumer->set("mlt_image_format", "glsl");
+            }
         }
     }
     if (m_consumer->is_valid()) {
         // Connect the producer to the consumer - tell it to "run" later
         if (m_producer) m_consumer->connect(*m_producer);
-        delete m_displayEvent;
-        if (!m_glslManager) {
-            // Make an event handler for when a frame's image should be displayed
-            m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_frame_show);
-            m_consumer->set("mlt_image_format", "yuv422");
-        } else {
-            m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_gl_frame_show);
-        }
         int volume = KdenliveSettings::volume();
-        if (serviceName == QLatin1String("sdl_audio"))
+        if (serviceName == QLatin1String("sdl_audio")) {
 /*#ifdef Q_OS_WIN
                 m_consumer->set("audio_buffer", 2048);
 #else
                 m_consumer->set("audio_buffer", 512);
 #endif*/
+            QString audioDevice = KdenliveSettings::audiodevicename();
+            if (!audioDevice.isEmpty())
+                m_consumer->set("audio_device", audioDevice.toUtf8().constData());
+
+            QString audioDriver = KdenliveSettings::audiodrivername();
+            if (!audioDriver.isEmpty())
+                m_consumer->set("audio_driver", audioDriver.toUtf8().constData());
+        }
             /*if (!m_monitorProfile->progressive())
                 m_consumer->set("progressive", property("progressive").toBool());*/
-            m_consumer->set("volume", (double)volume / 100);
-            m_consumer->set("progressive", 1);
-            m_consumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
-            m_consumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
-            m_consumer->set("buffer", 25);
-            m_consumer->set("prefill", 1);
-            m_consumer->set("scrub_audio", 1);
-            if (KdenliveSettings::monitor_gamma() == 0) {
-                m_consumer->set("color_trc", "iec61966_2_1");
-            }
-            else {
-                m_consumer->set("color_trc", "bt709");
-            }
-            /*if (property("keyer").isValid())
-                m_consumer->set("keyer", property("keyer").toInt());*/
-        
-    
-        if (m_glslManager) {
-            if (!m_threadStartEvent)
-                m_threadStartEvent = m_consumer->listen("consumer-thread-started", this, (mlt_listener) onThreadStarted);
-            if (!m_threadStopEvent)
-                m_threadStopEvent = m_consumer->listen("consumer-thread-stopped", this, (mlt_listener) onThreadStopped);
-            if (!serviceName.startsWith(QLatin1String("decklink")))
-                m_consumer->set("mlt_image_format", "glsl");
-        } else {
-            emit started();
+        m_consumer->set("volume", (double)volume / 100);
+        m_consumer->set("progressive", 1);
+        m_consumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
+        m_consumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
+        m_consumer->set("buffer", 25);
+        m_consumer->set("prefill", 1);
+        m_consumer->set("scrub_audio", 1);
+        if (KdenliveSettings::monitor_gamma() == 0) {
+            m_consumer->set("color_trc", "iec61966_2_1");
+        }
+        else {
+            m_consumer->set("color_trc", "bt709");
         }
     }
     else {
@@ -1014,6 +1021,7 @@ void GLWidget::resetProfile(MltVideoProfile profile)
     m_monitorProfile->set_sample_aspect(profile.sample_aspect_num, profile.sample_aspect_den);
     m_monitorProfile->set_display_aspect(profile.display_aspect_num, profile.display_aspect_den);
     m_monitorProfile->set_explicit(true);
+    reconfigure();
 }
 
 void GLWidget::reloadProfile(Mlt::Profile &profile)
