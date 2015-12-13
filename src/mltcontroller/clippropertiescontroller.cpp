@@ -193,24 +193,17 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         spin2->setObjectName(QStringLiteral("force_aspect_den_value"));
         hlay->addWidget(spin2);
         if (force_ar_num == 0) {
-            // calculate current ratio
-            box->setChecked(false);
+            // use current ratio
+            int num = m_properties.get_int("meta.media.sample_aspect_num");
+            int den = m_properties.get_int("meta.media.sample_aspect_den");
+            if (den == 0) {
+                num = 1;
+                den = 1;
+            }
             spin1->setEnabled(false);
             spin2->setEnabled(false);
-            int width = m_controller->profile()->width();
-            int height = m_controller->profile()->height();
-            if (width > 0 && height > 0) {
-                if (qAbs(100 * width / height - 133) < 3) {
-                    width = 4;
-                    height = 3;
-                }
-                else if (qAbs(100 * width / height - 177) < 3) {
-                    width = 16;
-                    height = 9;
-                }
-                spin1->setValue(width);
-                spin2->setValue(height);
-            }
+            spin1->setValue(num);
+            spin2->setValue(den);
         }
         else {
             box->setChecked(true);
