@@ -231,10 +231,14 @@ void EffectsListView::filterList()
         m_removeAction->setText(i18n("Delete effect"));
         m_effectsList->setIndentation(0);
         m_effectsList->setRootOnCustomFolder();
-        search_effect->updateSearch();
+        QString currentSearch = search_effect->text();
+        if (!currentSearch.isEmpty()) {
+            // There seems to be a problem with KTreeWidgetSearchLine when inserting items, so reset the search
+            search_effect->updateSearch(" ");
+            search_effect->updateSearch(currentSearch);
+        }
         return;
     }
-    m_effectsList->resetRoot();
     if (pos == EffectsListWidget::EFFECT_FAVORITES) {
         m_removeAction->setText(i18n("Remove from favorites"));
 
@@ -253,11 +257,15 @@ void EffectsListView::filterList()
             }
         }
         m_effectsList->createFavorites(favorites);
-        m_effectsList->setIndentation(0);
-        search_effect->updateSearch();
+        QString currentSearch = search_effect->text();
+        if (!currentSearch.isEmpty()) {
+            // There seems to be a problem with KTreeWidgetSearchLine when inserting items, so reset the search
+            search_effect->updateSearch(" ");
+            search_effect->updateSearch(currentSearch);
+        }
         return;
     }
-
+    m_effectsList->resetRoot();
     // Normal tree view
     if (m_effectsList->indentation() == 0) {
         m_effectsList->setIndentation(10);
