@@ -65,7 +65,7 @@ void ProxyJob::startJob()
             else t.replace(QLatin1Char(' '), QLatin1String("="));
             mltParameters << t;
         }
-        
+
         mltParameters.append(QStringLiteral("real_time=-%1").arg(KdenliveSettings::mltthreads()));
 
         //TODO: currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manualy

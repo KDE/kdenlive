@@ -558,7 +558,6 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 	    m_moveOpMode = m_operationMode;
 	}
     }
-
     if (m_moveOpMode != None && m_moveOpMode != WaitingForConfirm && event->buttons() != Qt::NoButton) {
         if (m_dragItem && m_operationMode != ZoomTimeline) m_clipDrag = true;
         if (m_dragItem && m_tool == SelectTool) {
@@ -741,6 +740,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 
         if (!message.isEmpty())
             emit displayMessage(message, InformationMessage);
+        m_operationMode = opMode;
     } // no clip under mouse
     else if (m_tool == RazorTool) {
         event->accept();
@@ -1068,8 +1068,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             m_dragGuide = static_cast <Guide *>(guidesCollisionList.at(0));*/
         }
         m_menuPosition = m_clickEvent;
-	event->accept();
-        QGraphicsView::mousePressEvent(event);
         if (dragGroup == NULL) {
             if (m_dragItem && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup)
                 dragGroup = static_cast<AbstractGroupItem*> (m_dragItem->parentItem());
@@ -1084,6 +1082,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 	    m_dragItem->setZValue(99);
 	    if (m_dragItem->parentItem()) m_dragItem->parentItem()->setZValue(99);
 	}
+	event->ignore();
         updateTimelineSelection();
 	return;
     }
@@ -1129,9 +1128,9 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         itemSelected = true;
     }
     bool selected = !m_dragItem->isSelected();
-    
+
     QGraphicsView::mousePressEvent(event);
-    
+
     if (event->modifiers() & Qt::ControlModifier)  {
 	// Handle ctrl click events
         resetSelectionGroup();
@@ -1150,8 +1149,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 	}
 	updateTimelineSelection();
 	return;
-	
-      
     }
     if (itemSelected == false) {
         // User clicked a non selected item, select it
@@ -1225,12 +1222,12 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         m_selectionMutex.unlock();
     }
     
-	    m_selectionMutex.lock();
-	    if (m_selectionGroup) {
-		m_selectionGroup->setProperty("y_absolute", yOffset);
-		m_selectionGroup->setProperty("locked_tracks", lockedTracks);
-	    }
-	    m_selectionMutex.unlock();
+    m_selectionMutex.lock();
+    if (m_selectionGroup) {
+	m_selectionGroup->setProperty("y_absolute", yOffset);
+	m_selectionGroup->setProperty("locked_tracks", lockedTracks);
+    }
+    m_selectionMutex.unlock();
 
     //if (collisionClip != NULL || m_dragItem == NULL) {
     updateTimelineSelection();
