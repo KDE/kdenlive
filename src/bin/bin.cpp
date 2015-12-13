@@ -77,8 +77,8 @@ MyListView::MyListView(QWidget * parent) : QListView(parent)
 
 void MyListView::focusInEvent(QFocusEvent *event)
 {
-    emit focusView();
     QListView::focusInEvent(event);
+    if (event->reason() == Qt::MouseFocusReason) emit focusView();
 }
 
 MyTreeView::MyTreeView(QWidget * parent) : QTreeView(parent) {}
@@ -93,8 +93,8 @@ void MyTreeView::mousePressEvent(QMouseEvent *event)
 
 void MyTreeView::focusInEvent(QFocusEvent *event)
 {
-    emit focusView();
     QTreeView::focusInEvent(event);
+    if (event->reason() == Qt::MouseFocusReason) emit focusView();
 }
 
 void MyTreeView::mouseMoveEvent(QMouseEvent * event) 

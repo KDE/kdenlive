@@ -185,8 +185,6 @@ class Render: public AbstractRender
     double dar() const;
     /** @brief Returns sample aspect ratio. */
     double sar() const;
-    /** @brief If monitor is active, refresh it. */
-    void refreshIfActive();
     /** @brief Start the MLT monitor consumer. */
     void startConsumer();
 

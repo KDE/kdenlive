@@ -217,7 +217,11 @@ void EffectStackView2::slotMasterClipItemSelected(ClipController* c, Monitor *m)
     if (c) {
         m_effect->setHidden(false);
         m_transition->setHidden(true);
-        m_effect->setEnabled(m_stateStatus != DISABLEBIN && m_stateStatus != DISABLEALL);
+        if (!c->isValid()) {
+            m_effect->setEnabled(false);
+            c = NULL;
+        }
+        else m_effect->setEnabled(m_stateStatus != DISABLEBIN && m_stateStatus != DISABLEALL);
     }
     if (c && c == m_masterclipref) {
     } else {
@@ -255,6 +259,7 @@ void EffectStackView2::slotMasterClipItemSelected(ClipController* c, Monitor *m)
     setEnabled(true);
     m_status = MASTER_CLIP;
     m_currentEffectList = m_masterclipref->effectList();
+    m_effectMetaInfo.monitor->enableCompare(m_currentEffectList.count());
     setupListView();
 }
 
