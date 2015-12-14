@@ -595,7 +595,7 @@ void EffectStackView2::slotSeekTimeline(int pos)
     } else if (m_status == TIMELINE_CLIP) {
         emit seekTimeline(m_clipref->startPos().frames(KdenliveSettings::project_fps()) + pos);
     } else if (m_status == MASTER_CLIP) {
-        
+        m_effectMetaInfo.monitor->slotSeek(pos);
     }
 }
 
