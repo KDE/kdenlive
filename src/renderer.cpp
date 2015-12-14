@@ -1653,16 +1653,15 @@ void Render::doRefresh()
 void Render::refresh()
 {
     m_refreshTimer.stop();
-    QMutexLocker locker(&m_mutex);
     if (!m_mltProducer || !m_isActive)
         return;
+    QMutexLocker locker(&m_mutex);
     if (m_mltConsumer) {
         m_isRefreshing = true;
         if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
         m_mltConsumer->purge();
         m_isRefreshing = true;
         m_mltConsumer->set("refresh", 1);
-        //m_mltConsumer->purge();
     }
 }
 
