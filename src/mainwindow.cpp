@@ -969,6 +969,8 @@ void MainWindow::setupActions()
     statusBar()->addPermanentWidget(toolbar);
 
     m_timeFormatButton = new KSelectAction(QStringLiteral("00:00:00:00 / 00:00:00:00"), this);
+    QFont fixedFont = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+    m_timeFormatButton->setFont(fixedFont);
     m_timeFormatButton->addAction(i18n("hh:mm:ss:ff"));
     m_timeFormatButton->addAction(i18n("Frames"));
     if (KdenliveSettings::frametimecode()) m_timeFormatButton->setCurrentItem(1);
@@ -977,7 +979,7 @@ void MainWindow::setupActions()
     m_timeFormatButton->setToolBarMode(KSelectAction::MenuMode);
     toolbar->addAction(m_timeFormatButton);
 
-    const QFontMetrics metric(statusBar()->font());
+    const QFontMetrics metric(fixedFont);
     int requiredWidth = metric.boundingRect(QStringLiteral("00:00:00:00 / 00:00:00:00")).width() + 20;
     actionWidget = toolbar->widgetForAction(m_timeFormatButton);
     actionWidget->setObjectName(QStringLiteral("timecode"));
