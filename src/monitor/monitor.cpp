@@ -1146,9 +1146,6 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
     if (render == NULL) return;
     bool sameClip = controller == m_controller && controller != NULL;
     m_controller = controller;
-<<<<<<< HEAD
-    if (m_rootItem && m_rootItem->objectName() != "root" && !sameClip) {
-=======
     if (m_rootItem && m_rootItem->objectName() != QLatin1String("root") && !sameClip) {
         // changed clip, disable split effect
         if (m_splitProducer) {
@@ -1159,7 +1156,6 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
             m_splitProducer = NULL;
             m_splitEffect = NULL;
         }
->>>>>>> eba0087... Improve split effect behavior, fix bin clip effects not displayed when adding a new clip
         loadMasterQml();
     }
     //bool hasEffects;
