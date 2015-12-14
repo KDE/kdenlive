@@ -486,11 +486,7 @@ void EffectsListWidget::createFavorites(QList <QTreeWidgetItem *>list)
     // Favorites is a pseudo-folder used to store items, not visible to end user, so don't i18n its name
     QTreeWidgetItem *misc = findFolder("Favorites");
     if (misc == NULL) {
-<<<<<<< HEAD
-        misc = new QTreeWidgetItem((QTreeWidget*)0, QStringList("Favorites"));
-=======
         misc = new QTreeWidgetItem(this, QStringList(QStringLiteral("Favorites")));
->>>>>>> 298c656... Fix effects not draggable when switching category and search is not empty
         misc->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));
         misc->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     }
