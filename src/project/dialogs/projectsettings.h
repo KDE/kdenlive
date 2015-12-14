@@ -71,12 +71,18 @@ private slots:
     void slotDeleteMetadataField();
     /** @brief Open project profile management dialog. */
     void slotEditProfiles();
+    /** @brief Display proxy profiles management dialog. */
+    void slotManageEncodingProfile();
 
 private:
     QPushButton *m_buttonOk;
     bool m_savedProject;
     QStringList m_lumas;
     void loadProfiles();
+    QString m_proxyparameters;
+    QString m_proxyextension;
+    /** @brief Fill the proxy profiles combobox. */
+    void loadProxyProfiles();
 
 signals:
     /** @brief User deleted proxies, so disable them in project. */

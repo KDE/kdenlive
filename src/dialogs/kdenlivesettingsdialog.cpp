@@ -271,8 +271,11 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     connect(m_configProject.manage_profiles, SIGNAL(clicked(bool)), this, SLOT(slotEditProfiles()));
 
     // proxy profile stuff
-    m_configProject.proxy_showprofileinfo->setIcon(KoIconUtils::themedIcon("help-about"));
-    m_configProject.proxy_manageprofile->setIcon(KoIconUtils::themedIcon("configure"));
+    m_configProject.proxy_showprofileinfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
+    m_configProject.proxy_showprofileinfo->setToolTip(i18n("Show default profile parameters"));
+    m_configProject.proxy_manageprofile->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
+    m_configProject.proxy_manageprofile->setToolTip(i18n("Manage proxy profiles"));
+    m_configProject.kcfg_proxy_profile->setToolTip(i18n("Select default proxy profile"));
     m_configProject.proxyparams->setVisible(false);
     m_configProject.proxyparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
     m_configProject.proxyparams->setPlainText(KdenliveSettings::proxyparams());
