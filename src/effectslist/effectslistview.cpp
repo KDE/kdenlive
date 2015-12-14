@@ -234,7 +234,7 @@ void EffectsListView::filterList()
         QString currentSearch = search_effect->text();
         if (!currentSearch.isEmpty()) {
             // There seems to be a problem with KTreeWidgetSearchLine when inserting items, so reset the search
-            search_effect->updateSearch(" ");
+            search_effect->updateSearch("###");
             search_effect->updateSearch(currentSearch);
         }
         return;
@@ -260,7 +260,7 @@ void EffectsListView::filterList()
         QString currentSearch = search_effect->text();
         if (!currentSearch.isEmpty()) {
             // There seems to be a problem with KTreeWidgetSearchLine when inserting items, so reset the search
-            search_effect->updateSearch(" ");
+            search_effect->updateSearch("###");
             search_effect->updateSearch(currentSearch);
         }
         return;
