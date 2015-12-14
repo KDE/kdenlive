@@ -56,6 +56,7 @@ breeze-light/lt_help-about.svgz
 breeze-light/lt_help-hint.svgz
 breeze-light/lt_hint.svgz
 breeze-light/lt_insert-horizontal-rule.svgz
+breeze-light/lt_jog-dial.svgz
 breeze-light/lt_kdenlive-add-clip.svgz
 breeze-light/lt_kdenlive-add-color-clip.svgz
 breeze-light/lt_kdenlive-add-slide-clip.svgz
@@ -203,6 +204,7 @@ breeze-dark/dk_help-about.svgz
 breeze-dark/dk_help-hint.svgz
 breeze-dark/dk_hint.svgz
 breeze-dark/dk_insert-horizontal-rule.svgz
+breeze-dark/dk_jog-dial.svgz
 breeze-dark/dk_kdenlive-add-clip.svgz
 breeze-dark/dk_kdenlive-add-color-clip.svgz
 breeze-dark/dk_kdenlive-add-slide-clip.svgz
