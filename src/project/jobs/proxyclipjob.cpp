@@ -65,13 +65,8 @@ void ProxyJob::startJob()
             else t.replace(QLatin1Char(' '), QLatin1String("="));
             mltParameters << t;
         }
-<<<<<<< HEAD
-        
-        mltParameters.append(QString::fromLatin1("real_time=-%1").arg(KdenliveSettings::mltthreads()));
-=======
 
         mltParameters.append(QStringLiteral("real_time=-%1").arg(KdenliveSettings::mltthreads()));
->>>>>>> ce04757... Fix broken move in timeline after using context menu
 
         //TODO: currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manualy
         double display_ratio;
