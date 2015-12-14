@@ -23,8 +23,10 @@
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "titler/titlewidget.h"
+#include "utils/KoIconUtils.h"
 #include "effectslist/effectslist.h"
 #include "dialogs/profilesdialog.h"
+#include "dialogs/encodingprofilesdialog.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/bincontroller.h"
 
@@ -71,70 +73,51 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     video_tracks->setValue(videotracks);
     connect(generate_proxy, SIGNAL(toggled(bool)), proxy_minsize, SLOT(setEnabled(bool)));
     connect(generate_imageproxy, SIGNAL(toggled(bool)), proxy_imageminsize, SLOT(setEnabled(bool)));
-    QString proxyparameters;
-    QString proxyextension;
+
     if (doc) {
         enable_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("enableproxy")).toInt());
         generate_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateproxy")).toInt());
         proxy_minsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyminsize")).toInt());
-        proxyparameters = doc->getDocumentProperty(QStringLiteral("proxyparams"));
+        m_proxyparameters = doc->getDocumentProperty(QStringLiteral("proxyparams"));
         generate_imageproxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateimageproxy")).toInt());
         proxy_imageminsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyimageminsize")).toInt());
-        proxyextension = doc->getDocumentProperty(QStringLiteral("proxyextension"));
+        m_proxyextension = doc->getDocumentProperty(QStringLiteral("proxyextension"));
     }
     else {
         enable_proxy->setChecked(KdenliveSettings::enableproxy());
         generate_proxy->setChecked(KdenliveSettings::generateproxy());
         proxy_minsize->setValue(KdenliveSettings::proxyminsize());
-        proxyparameters = KdenliveSettings::proxyparams();
+        m_proxyparameters = KdenliveSettings::proxyparams();
         generate_imageproxy->setChecked(KdenliveSettings::generateimageproxy());
         proxy_imageminsize->setValue(KdenliveSettings::proxyimageminsize());
-        proxyextension = KdenliveSettings::proxyextension();
+        m_proxyextension = KdenliveSettings::proxyextension();
     }
 
     proxy_minsize->setEnabled(generate_proxy->isChecked());
     proxy_imageminsize->setEnabled(generate_imageproxy->isChecked());
 
 
-    // load proxy profiles
-    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);
-    KConfigGroup group(&conf, "proxy");
-    QMap <QString, QString> values = group.entryMap();
-    QMapIterator<QString, QString> k(values);
-    int ix = -1;
-    while (k.hasNext()) {
-        k.next();
-        if (!k.key().isEmpty()) {
-            QString params = k.value().section(';', 0, 0);
-            QString extension = k.value().section(';', 1, 1);
-            if (ix == -1 && ((params == proxyparameters && extension == proxyextension) || (proxyparameters.isEmpty() || proxyextension.isEmpty()))) {
-                // this is the current profile
-                ix = proxy_profile->count();
-            }
-            proxy_profile->addItem(k.key(), k.value());
-        }
-    }
-    if (ix == -1) {
-        // Current project proxy settings not found
-        ix = proxy_profile->count();
-        proxy_profile->addItem(i18n("Current Settings"), QString(proxyparameters + ';' + proxyextension));
-    }
-    proxy_profile->setCurrentIndex(ix);
-    slotUpdateProxyParams();
+    loadProxyProfiles();
 
     // Proxy GUI stuff
-    proxy_showprofileinfo->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
+    proxy_showprofileinfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
+    proxy_showprofileinfo->setToolTip(i18n("Show default profile parameters"));
+    proxy_manageprofile->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
+    proxy_manageprofile->setToolTip(i18n("Manage proxy profiles"));
+
+    connect(proxy_manageprofile, SIGNAL(clicked(bool)), this, SLOT(slotManageEncodingProfile()));
+    proxy_profile->setToolTip(i18n("Select default proxy profile"));
+
     connect(proxy_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateProxyParams()));
     proxyparams->setVisible(false);
     proxyparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
     connect(proxy_showprofileinfo, SIGNAL(clicked(bool)), proxyparams, SLOT(setVisible(bool)));
-    
+
     if (readOnlyTracks) {
         video_tracks->setEnabled(false);
         audio_tracks->setEnabled(false);
     }
-    
-    
+
     // Metadata list
     QTreeWidgetItem *item = new QTreeWidgetItem(metadata_list, QStringList() << i18n("Title"));
     item->setData(0, Qt::UserRole, QStringLiteral("meta.attr.title.markup"));
@@ -188,8 +171,8 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     
     connect(add_metadata, SIGNAL(clicked()), this, SLOT(slotAddMetadataField()));
     connect(delete_metadata, SIGNAL(clicked()), this, SLOT(slotDeleteMetadataField()));
-    add_metadata->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
-    delete_metadata->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
+    add_metadata->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
+    delete_metadata->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
     
     slotUpdateDisplay();
     if (doc != NULL) {
@@ -300,25 +283,25 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
 
     // Setup categories
     QTreeWidgetItem *videos = new QTreeWidgetItem(files_list, QStringList() << i18n("Video clips"));
-    videos->setIcon(0, QIcon::fromTheme(QStringLiteral("video-x-generic")));
+    videos->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("video-x-generic")));
     videos->setExpanded(true);
     QTreeWidgetItem *sounds = new QTreeWidgetItem(files_list, QStringList() << i18n("Audio clips"));
-    sounds->setIcon(0, QIcon::fromTheme(QStringLiteral("audio-x-generic")));
+    sounds->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("audio-x-generic")));
     sounds->setExpanded(true);
     QTreeWidgetItem *images = new QTreeWidgetItem(files_list, QStringList() << i18n("Image clips"));
-    images->setIcon(0, QIcon::fromTheme(QStringLiteral("image-x-generic")));
+    images->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("image-x-generic")));
     images->setExpanded(true);
     QTreeWidgetItem *slideshows = new QTreeWidgetItem(files_list, QStringList() << i18n("Slideshow clips"));
-    slideshows->setIcon(0, QIcon::fromTheme(QStringLiteral("image-x-generic")));
+    slideshows->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("image-x-generic")));
     slideshows->setExpanded(true);
     QTreeWidgetItem *texts = new QTreeWidgetItem(files_list, QStringList() << i18n("Text clips"));
-    texts->setIcon(0, QIcon::fromTheme(QStringLiteral("text-plain")));
+    texts->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("text-plain")));
     texts->setExpanded(true);
     QTreeWidgetItem *playlists = new QTreeWidgetItem(files_list, QStringList() << i18n("Playlist clips"));
-    playlists->setIcon(0, QIcon::fromTheme(QStringLiteral("video-mlt-playlist")));
+    playlists->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("video-mlt-playlist")));
     playlists->setExpanded(true);
     QTreeWidgetItem *others = new QTreeWidgetItem(files_list, QStringList() << i18n("Other clips"));
-    others->setIcon(0, QIcon::fromTheme(QStringLiteral("unknown")));
+    others->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("unknown")));
     others->setExpanded(true);
     int count = 0;
     QStringList allFonts;
@@ -657,6 +640,41 @@ void ProjectSettings::slotDeleteMetadataField()
     if (item) delete item;
 }
 
+void ProjectSettings::slotManageEncodingProfile()
+{
+    QPointer<EncodingProfilesDialog> d = new EncodingProfilesDialog(0);
+    d->exec();
+    delete d;
+    loadProxyProfiles();
+}
 
-
+void ProjectSettings::loadProxyProfiles()
+{
+   // load proxy profiles
+    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);
+    KConfigGroup group(&conf, "proxy");
+    QMap <QString, QString> values = group.entryMap();
+    QMapIterator<QString, QString> k(values);
+    int ix = -1;
+    proxy_profile->clear();
+    while (k.hasNext()) {
+        k.next();
+        if (!k.key().isEmpty()) {
+            QString params = k.value().section(';', 0, 0);
+            QString extension = k.value().section(';', 1, 1);
+            if (ix == -1 && ((params == m_proxyparameters && extension == m_proxyextension) || (m_proxyparameters.isEmpty() || m_proxyextension.isEmpty()))) {
+                // this is the current profile
+                ix = proxy_profile->count();
+            }
+            proxy_profile->addItem(k.key(), k.value());
+        }
+    }
+    if (ix == -1) {
+        // Current project proxy settings not found
+        ix = proxy_profile->count();
+        proxy_profile->addItem(i18n("Current Settings"), QString(m_proxyparameters + ';' + m_proxyextension));
+    }
+    proxy_profile->setCurrentIndex(ix);
+    slotUpdateProxyParams();
+}
 
