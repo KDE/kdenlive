@@ -61,7 +61,12 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     KdenliveSettings::setV4l_format(0);
     QWidget *p1 = new QWidget;
     m_configMisc.setupUi(p1);
+<<<<<<< HEAD
     m_page1 = addPage(p1, i18n("Misc"), "configure");
+=======
+    m_page1 = addPage(p1, i18n("Misc"));
+    m_page1->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
+>>>>>>> e0f2ea3... Use themed icons in settings dialog, new jogshuttle icon from wegwerf
 
     // Hide avformat-novalidate trick, causes crash (bug #2205 and #2206)
     m_configMisc.kcfg_projectloading_avformatnovalidate->setVisible(false);
@@ -70,7 +75,12 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
 
     QWidget *p8 = new QWidget;
     m_configProject.setupUi(p8);
+<<<<<<< HEAD
     m_page8 = addPage(p8, i18n("Project Defaults"), "document-new");
+=======
+    m_page8 = addPage(p8, i18n("Project Defaults"));
+    m_page8->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-new")));
+>>>>>>> e0f2ea3... Use themed icons in settings dialog, new jogshuttle icon from wegwerf
     connect(m_configProject.kcfg_generateproxy, SIGNAL(toggled(bool)), m_configProject.kcfg_proxyminsize, SLOT(setEnabled(bool)));
     m_configProject.kcfg_proxyminsize->setEnabled(KdenliveSettings::generateproxy());
     connect(m_configProject.kcfg_generateimageproxy, SIGNAL(toggled(bool)), m_configProject.kcfg_proxyimageminsize, SLOT(setEnabled(bool)));
@@ -78,7 +88,12 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
 
     QWidget *p3 = new QWidget;
     m_configTimeline.setupUi(p3);
+<<<<<<< HEAD
     m_page3 = addPage(p3, i18n("Timeline"), "video-display");
+=======
+    m_page3 = addPage(p3, i18n("Timeline"));
+    m_page3->setIcon(KoIconUtils::themedIcon(QStringLiteral("video-display")));
+>>>>>>> e0f2ea3... Use themed icons in settings dialog, new jogshuttle icon from wegwerf
 
     QWidget *p2 = new QWidget;
     m_configEnv.setupUi(p2);
@@ -98,7 +113,12 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_configEnv.capturefolderurl->lineEdit()->setObjectName("kcfg_capturefolder");
     m_configEnv.capturefolderurl->setEnabled(!KdenliveSettings::capturetoprojectfolder());
     connect(m_configEnv.kcfg_capturetoprojectfolder, SIGNAL(clicked()), this, SLOT(slotEnableCaptureFolder()));
+<<<<<<< HEAD
     m_page2 = addPage(p2, i18n("Environment"), "application-x-executable-script");
+=======
+    m_page2 = addPage(p2, i18n("Environment"));
+    m_page2->setIcon(KoIconUtils::themedIcon(QStringLiteral("application-x-executable-script")));
+>>>>>>> e0f2ea3... Use themed icons in settings dialog, new jogshuttle icon from wegwerf
 
     QWidget *p4 = new QWidget;
     m_configCapture.setupUi(p4);
@@ -123,7 +143,12 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     slotUpdatev4lDevice();
 #endif
 
+<<<<<<< HEAD
     m_page4 = addPage(p4, i18n("Capture"), "media-record");
+=======
+    m_page4 = addPage(p4, i18n("Capture"));
+    m_page4->setIcon(KoIconUtils::themedIcon(QStringLiteral("media-record")));
+>>>>>>> e0f2ea3... Use themed icons in settings dialog, new jogshuttle icon from wegwerf
     m_configCapture.tabWidget->setCurrentIndex(KdenliveSettings::defaultcapture());
 #ifdef Q_WS_MAC
     m_configCapture.tabWidget->setEnabled(false);
@@ -167,7 +192,12 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_configShuttle.kcfg_enableshuttle->hide();
     m_configShuttle.kcfg_enableshuttle->setDisabled(true);
 #endif /* USE_JOGSHUTTLE */
+<<<<<<< HEAD
     m_page5 = addPage(p5, i18n("JogShuttle"), "input-mouse");
+=======
+    m_page5 = addPage(p5, i18n("JogShuttle"));
+    m_page5->setIcon(KoIconUtils::themedIcon(QStringLiteral("jog-dial")));
+>>>>>>> e0f2ea3... Use themed icons in settings dialog, new jogshuttle icon from wegwerf
 
     QWidget *p6 = new QWidget;
     m_configSdl.setupUi(p6);
@@ -177,11 +207,22 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     //m_configSdl.kcfg_openglmonitors->setHidden(true);
 
 
+<<<<<<< HEAD
     m_page6 = addPage(p6, i18n("Playback"), "media-playback-start");
 
     QWidget *p7 = new QWidget;
     m_configTranscode.setupUi(p7);
     m_page7 = addPage(p7, i18n("Transcode"), "edit-copy");
+=======
+    m_page6 = addPage(p6, i18n("Playback"));
+    m_page6->setIcon(KoIconUtils::themedIcon(QStringLiteral("media-playback-start")));
+
+    QWidget *p7 = new QWidget;
+    m_configTranscode.setupUi(p7);
+    m_page7 = addPage(p7, i18n("Transcode"));
+    m_page7->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-copy")));
+
+>>>>>>> e0f2ea3... Use themed icons in settings dialog, new jogshuttle icon from wegwerf
     connect(m_configTranscode.button_add, SIGNAL(clicked()), this, SLOT(slotAddTranscode()));
     connect(m_configTranscode.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteTranscode()));
     connect(m_configTranscode.profiles_list, SIGNAL(itemChanged(QListWidgetItem*)), this, SLOT(slotDialogModified()));
