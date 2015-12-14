@@ -970,7 +970,13 @@ void MainWindow::setupActions()
     statusBar()->addWidget(m_statusProgressBar, 0);
     statusBar()->addPermanentWidget(toolbar);
 
+<<<<<<< HEAD
     m_timeFormatButton = new KSelectAction("00:00:00:00 / 00:00:00:00", this);
+=======
+    m_timeFormatButton = new KSelectAction(QStringLiteral("00:00:00:00 / 00:00:00:00"), this);
+    QFont fixedFont = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+    m_timeFormatButton->setFont(fixedFont);
+>>>>>>> 93db1be... Use mono spaced font for status bar timecode to avoid jitter
     m_timeFormatButton->addAction(i18n("hh:mm:ss:ff"));
     m_timeFormatButton->addAction(i18n("Frames"));
     if (KdenliveSettings::frametimecode()) m_timeFormatButton->setCurrentItem(1);
@@ -979,8 +985,13 @@ void MainWindow::setupActions()
     m_timeFormatButton->setToolBarMode(KSelectAction::MenuMode);
     toolbar->addAction(m_timeFormatButton);
 
+<<<<<<< HEAD
     const QFontMetrics metric(statusBar()->font());
     int requiredWidth = metric.boundingRect("00:00:00:00 / 00:00:00:00").width() + 20;
+=======
+    const QFontMetrics metric(fixedFont);
+    int requiredWidth = metric.boundingRect(QStringLiteral("00:00:00:00 / 00:00:00:00")).width() + 20;
+>>>>>>> 93db1be... Use mono spaced font for status bar timecode to avoid jitter
     actionWidget = toolbar->widgetForAction(m_timeFormatButton);
     actionWidget->setObjectName("timecode");
     actionWidget->setMinimumWidth(requiredWidth);
