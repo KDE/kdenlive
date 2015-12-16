@@ -62,17 +62,13 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     buttonUp->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-up")));
     buttonUp->setToolTip(i18n("Move effect up"));
-    if (!lastEffect) {
-        buttonDown->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-down")));
-        buttonDown->setToolTip(i18n("Move effect down"));
-    }
+    buttonDown->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-down")));
+    buttonDown->setToolTip(i18n("Move effect down"));
     buttonDel->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-deleffect")));
     buttonDel->setToolTip(i18n("Delete effect"));
-    if (effectIndex() == 1) buttonUp->setVisible(false);
-    if (m_lastEffect) buttonDown->setVisible(false);
-    //buttonUp->setVisible(false);
-    //buttonDown->setVisible(false);
-    
+    if (effectIndex() == 1) buttonUp->setEnabled(false);
+    if (m_lastEffect) buttonDown->setEnabled(false);
+
     /*buttonReset->setIcon(KoIconUtils::themedIcon("view-refresh"));
     buttonReset->setToolTip(i18n("Reset effect"));*/
     //checkAll->setToolTip(i18n("Enable/Disable all effects"));
@@ -639,8 +635,8 @@ void CollapsibleEffect::dropEvent(QDropEvent *event)
 
 void CollapsibleEffect::adjustButtons(int ix, int max)
 {
-    buttonUp->setVisible(ix > 0);
-    buttonDown->setVisible(ix < max - 1);
+    buttonUp->setEnabled(ix > 0);
+    buttonDown->setEnabled(ix < max - 1);
 }
 
 MonitorSceneType CollapsibleEffect::needsMonitorEffectScene() const
