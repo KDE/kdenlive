@@ -66,11 +66,10 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, int pid, const QString& rend
     if (out != -1) m_args << QLatin1String("out=") + QString::number(out);
     m_args << preargs;
     if (scenelist.startsWith(QLatin1String("consumer:"))) {
-        // Use MLT's producer_consumer, needs a different syntax for profile:
+        // Use MLT's producer_consumer, safer to pass profile in an explicit way
         m_args << QLatin1String("profile=") + profile;
-    } else {
-        m_args << QLatin1String("-profile") << profile;
     }
+    m_args << QLatin1String("-profile") << profile;
     m_args << QLatin1String("-consumer") << rendermodule + QLatin1Char(':') + m_dest
            << QLatin1String("progress=1") << args;
 
