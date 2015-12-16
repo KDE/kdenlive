@@ -249,6 +249,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_effectCompare->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("view-split-effect")));
         m_effectCompare->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("view-unsplit-effect")));
         m_effectCompare->setActive(false);
+        m_effectCompare->setCheckable(true);
+        m_effectCompare->setChecked(false);
         m_effectCompare->setEnabled(false);
         m_toolbar->addSeparator();
         m_toolbar->addAction(m_effectCompare);
@@ -1151,6 +1153,7 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
         if (m_splitProducer) {
             m_effectCompare->blockSignals(true);
             m_effectCompare->setActive(false);
+            m_effectCompare->setChecked(false);
             m_effectCompare->blockSignals(false);
             delete m_splitEffect;
             m_splitProducer = NULL;
@@ -1181,16 +1184,18 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
 void Monitor::enableCompare(int effectsCount)
 {
     if (!m_effectCompare) return;
-    m_effectCompare->setEnabled(effectsCount > 0);
-    if (m_splitProducer && effectsCount == 0) {
-        m_effectCompare->blockSignals(true);
+    if (effectsCount == 0) {
+        m_effectCompare->setEnabled(false);
         m_effectCompare->setChecked(false);
         m_effectCompare->setActive(false);
-        m_effectCompare->blockSignals(false);
-        delete m_splitEffect;
-        m_splitProducer = NULL;
-        m_splitEffect = NULL;
-        loadMasterQml();
+        if (m_splitProducer) {
+            delete m_splitEffect;
+            m_splitProducer = NULL;
+            m_splitEffect = NULL;
+            loadMasterQml();
+        }
+    } else {
+        m_effectCompare->setEnabled(true);
     }
 }
 
@@ -1529,10 +1534,8 @@ void Monitor::warningMessage(const QString &text)
 void Monitor::slotSwitchCompare(bool enable)
 {
     if (m_controller == NULL || !m_controller->hasEffects()) {
-        m_effectCompare->blockSignals(true);
-        m_effectCompare->setActive(false);
-        m_effectCompare->setEnabled(false);
-        m_effectCompare->blockSignals(false);
+        // disable split effect
+        enableCompare(0);
         if (m_controller) {
             warningMessage(i18n("Clip has no effects"));
         }
