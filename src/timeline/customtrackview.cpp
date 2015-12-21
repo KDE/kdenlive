@@ -273,7 +273,6 @@ void CustomTrackView::updateSceneFrameWidth()
         if (itemList.at(i)->type() == AVWidget) {
             item = static_cast<ClipItem*>(itemList.at(i));
             item->resetFrameWidth(frameWidth);
-            item->resetThumbs(true);
         }
     }
 }
@@ -303,7 +302,6 @@ bool CustomTrackView::checkTrackHeight(bool force)
                 item->setPos((qreal) item->startPos().frames(m_document->fps()), getPositionFromTrack(item->track()) + 1);
                 m_scene->addItem(item);
                 item->resetFrameWidth(frameWidth);
-                item->resetThumbs(true);
             } else if (itemList.at(i)->type() == TransitionWidget) {
                 transitionitem = static_cast<Transition*>(itemList.at(i));
                 transitionitem->setRect(0, 0, transitionitem->rect().width(), m_tracksHeight / 3 * 2 - 1);

@@ -248,6 +248,8 @@ private slots:
     void slotSetStartThumb(const QImage &img);
     void slotSetEndThumb(const QImage &img);
     void slotThumbReady(int frame, const QImage &img);
+    /** @brief For fixed thumbnail clip (image / titles), update thumb to reflect bin thumbnail. */
+    void slotUpdateThumb(QImage);
     /** @brief Something changed a detail in clip (thumbs, markers,...), repaint. */
     void slotRefreshClip();
 
