@@ -734,7 +734,7 @@ void ClipItem::paint(QPainter *painter,
         }
     }
     // draw audio thumbnails
-    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && m_clipState != PlaylistState::VideoOnly && ((m_clipType == AV && (exposed.bottom() > (rect().height() / 2) || m_clipState == PlaylistState::AudioOnly)) || m_clipType == Audio) && m_audioThumbReady) {
+    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && m_clipState != PlaylistState::VideoOnly && ((m_clipType == AV && (exposed.bottom() > (rect().height() / 2) || m_clipState == PlaylistState::AudioOnly)) || m_clipType == Audio) && m_audioThumbReady && !m_binClip->audioFrameCache.isEmpty()) {
         int startpixel = exposed.left();
         if (startpixel < 0)
             startpixel = 0;
