@@ -102,7 +102,8 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
         m_baseColor = m_binClip->getProducerColorProperty(QStringLiteral("resource"));
     } else if (m_clipType == Image || m_clipType == Text) {
         m_baseColor = QColor(141, 166, 215);
-	m_startPix = m_binClip->thumbnail(rect().height(), frame_width);
+	m_startPix = m_binClip->thumbnail(frame_width, rect().height());
+        connect(m_binClip, SIGNAL(thumbUpdated(QImage)), this, SLOT(slotUpdateThumb(QImage)));
         //connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
     } else if (m_clipType == Audio) {
         m_baseColor = QColor(141, 215, 166);
@@ -428,6 +429,10 @@ QDomElement ClipItem::selectedEffect()
 
 void ClipItem::resetThumbs(bool clearExistingThumbs)
 {
+    if (m_clipType == Image || m_clipType || Text || m_clipType == Color || m_clipType == Audio) {
+        // These clip thumbnails are linked to bin thumbnail, not dynamic, nothing to do
+        return;
+    }
     if (clearExistingThumbs) {
         m_startPix = QPixmap();
         m_endPix = QPixmap();
@@ -458,7 +463,9 @@ void ClipItem::refreshClip(bool checkDuration, bool forceResetThumbs)
         m_baseColor = m_binClip->getProducerColorProperty(QStringLiteral("resource"));
         m_paintColor = m_baseColor;
         update();
-    } else if (KdenliveSettings::videothumbnails()) resetThumbs(forceResetThumbs);
+    } else if (KdenliveSettings::videothumbnails()) {
+        resetThumbs(forceResetThumbs);
+    }
 }
 
 void ClipItem::slotFetchThumbs()
@@ -2062,5 +2069,11 @@ void ClipItem::updateState(const QString &id)
     else {
         m_clipState = PlaylistState::Original;
     }
+}
+
+void ClipItem::slotUpdateThumb(QImage img)
+{
+    m_startPix = QPixmap::fromImage(img);
+    update();
 }
 

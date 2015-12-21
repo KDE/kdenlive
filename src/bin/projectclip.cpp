@@ -272,6 +272,7 @@ void ProjectClip::setThumbnail(QImage img)
         p.drawText(r, Qt::AlignCenter, i18nc("The first letter of Proxy, used as abbreviation", "P"));
     }
     m_thumbnail = QIcon(thumb);
+    emit thumbUpdated(img);
     bin()->emitItemUpdated(this);
 }
 
