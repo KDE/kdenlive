@@ -44,6 +44,11 @@ breeze-light/lt_favorites.svgz
 breeze-light/lt_favorite.svgz
 breeze-light/lt_folder-new.svgz
 breeze-light/lt_folder.svgz
+breeze-light/lt_format-justify-center.svgz
+breeze-light/lt_format-justify-left.svgz
+breeze-light/lt_format-justify-right.svgz
+breeze-light/lt_format-text-italic.svgz
+breeze-light/lt_format-text-underline.svgz
 breeze-light/lt_go-down.svgz
 breeze-light/lt_go-first.svgz
 breeze-light/lt_go-jump-definition.svgz
@@ -56,6 +61,8 @@ breeze-light/lt_help-about.svgz
 breeze-light/lt_help-hint.svgz
 breeze-light/lt_hint.svgz
 breeze-light/lt_insert-horizontal-rule.svgz
+breeze-light/lt_insert-text.svgz
+breeze-light/lt_insert-image.svgz
 breeze-light/lt_jog-dial.svgz
 breeze-light/lt_kdenlive-add-clip.svgz
 breeze-light/lt_kdenlive-add-color-clip.svgz
@@ -192,6 +199,11 @@ breeze-dark/dk_favorites.svgz
 breeze-dark/dk_favorite.svgz
 breeze-dark/dk_folder-new.svgz
 breeze-dark/dk_folder.svgz
+breeze-dark/dk_format-justify-center.svgz
+breeze-dark/dk_format-justify-left.svgz
+breeze-dark/dk_format-justify-right.svgz
+breeze-dark/dk_format-text-italic.svgz
+breeze-dark/dk_format-text-underline.svgz
 breeze-dark/dk_go-down.svgz
 breeze-dark/dk_go-first.svgz
 breeze-dark/dk_go-jump-definition.svgz
@@ -204,6 +216,8 @@ breeze-dark/dk_help-about.svgz
 breeze-dark/dk_help-hint.svgz
 breeze-dark/dk_hint.svgz
 breeze-dark/dk_insert-horizontal-rule.svgz
+breeze-dark/dk_insert-text.svgz
+breeze-dark/dk_insert-image.svgz
 breeze-dark/dk_jog-dial.svgz
 breeze-dark/dk_kdenlive-add-clip.svgz
 breeze-dark/dk_kdenlive-add-color-clip.svgz

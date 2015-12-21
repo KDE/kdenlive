@@ -19,6 +19,7 @@
 #include "kdenlivesettings.h"
 #include "doc/kthumb.h"
 #include "KoSliderCombo.h"
+#include "utils/KoIconUtils.h"
 
 #include <cmath>
 
@@ -229,40 +230,39 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     buttonAlignLeft->setIconSize(iconSize);
     buttonAlignRight->setIconSize(iconSize);
     buttonAlignNone->setIconSize(iconSize);
-    
-    buttonFitZoom->setIcon(QIcon::fromTheme("zoom-fit-best"));
-    buttonRealSize->setIcon(QIcon::fromTheme("zoom-original"));
-    buttonItalic->setIcon(QIcon::fromTheme("format-text-italic"));
-    buttonUnder->setIcon(QIcon::fromTheme("format-text-underline"));
-    buttonAlignCenter->setIcon(QIcon::fromTheme("format-justify-center"));
-    buttonAlignLeft->setIcon(QIcon::fromTheme("format-justify-left"));
-    buttonAlignRight->setIcon(QIcon::fromTheme("format-justify-right"));
-    buttonAlignNone->setIcon(QIcon::fromTheme("kdenlive-align-none"));
+    buttonFitZoom->setIcon(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-best")));
+    buttonRealSize->setIcon(KoIconUtils::themedIcon(QStringLiteral("zoom-original")));
+    buttonItalic->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-text-italic")));
+    buttonUnder->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-text-underline")));
+    buttonAlignCenter->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-justify-center")));
+    buttonAlignLeft->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-justify-left")));
+    buttonAlignRight->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-justify-right")));
+    buttonAlignNone->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-none")));
 
     buttonAlignNone->setToolTip(i18n("No alignment"));
     buttonAlignRight->setToolTip(i18n("Align right"));
     buttonAlignLeft->setToolTip(i18n("Align left"));
     buttonAlignCenter->setToolTip(i18n("Align center"));
 
-    m_unicodeAction = new QAction(QIcon::fromTheme("kdenlive-insert-unicode"), QString(), this);
+    m_unicodeAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-insert-unicode")), QString(), this);
     m_unicodeAction->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_U);
     m_unicodeAction->setToolTip(getTooltipWithShortcut(i18n("Insert Unicode character"), m_unicodeAction));
     connect(m_unicodeAction, SIGNAL(triggered()), this, SLOT(slotInsertUnicode()));
     buttonInsertUnicode->setDefaultAction(m_unicodeAction);
 
-    m_zUp = new QAction(QIcon::fromTheme("kdenlive-zindex-up"), QString(), this);
+    m_zUp = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zindex-up")), QString(), this);
     m_zUp->setShortcut(Qt::Key_PageUp);
     m_zUp->setToolTip(i18n("Raise object"));
     connect(m_zUp, SIGNAL(triggered()), this, SLOT(slotZIndexUp()));
     zUp->setDefaultAction(m_zUp);
 
-    m_zDown = new QAction(QIcon::fromTheme("kdenlive-zindex-down"), QString(), this);
+    m_zDown = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zindex-down")), QString(), this);
     m_zDown->setShortcut(Qt::Key_PageDown);
     m_zDown->setToolTip(i18n("Lower object"));
     connect(m_zDown, SIGNAL(triggered()), this, SLOT(slotZIndexDown()));
     zDown->setDefaultAction(m_zDown);
 
-    m_zTop = new QAction(QIcon::fromTheme("kdenlive-zindex-top"), QString(), this);
+    m_zTop = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zindex-top")), QString(), this);
     // TODO mbt 1414: Shortcut should change z index only if
     // cursor is NOT in a text field ...
     //m_zTop->setShortcut(Qt::Key_Home);
@@ -270,37 +270,37 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(m_zTop, SIGNAL(triggered()), this, SLOT(slotZIndexTop()));
     zTop->setDefaultAction(m_zTop);
 
-    m_zBottom = new QAction(QIcon::fromTheme("kdenlive-zindex-bottom"), QString(), this);
+    m_zBottom = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zindex-bottom")), QString(), this);
     // TODO mbt 1414
     //m_zBottom->setShortcut(Qt::Key_End);
     m_zBottom->setToolTip(i18n("Lower object to bottom"));
     connect(m_zBottom, SIGNAL(triggered()), this, SLOT(slotZIndexBottom()));
     zBottom->setDefaultAction(m_zBottom);
 
-    m_selectAll = new QAction(QIcon::fromTheme("kdenlive-select-all"), QString(), this);
+    m_selectAll = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-select-all")), QString(), this);
     m_selectAll->setShortcut(Qt::CTRL + Qt::Key_A);
     connect(m_selectAll, SIGNAL(triggered()), this, SLOT(slotSelectAll()));
     buttonSelectAll->setDefaultAction(m_selectAll);
 
-    m_selectText = new QAction(QIcon::fromTheme("kdenlive-select-texts"), QString(), this);
+    m_selectText = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-select-texts")), QString(), this);
     m_selectText->setShortcut(Qt::CTRL + Qt::Key_T);
     connect(m_selectText, SIGNAL(triggered()), this, SLOT(slotSelectText()));
     buttonSelectText->setDefaultAction(m_selectText);
     buttonSelectText->setEnabled(false);
 
-    m_selectRects = new QAction(QIcon::fromTheme("kdenlive-select-rects"), QString(), this);
+    m_selectRects = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-select-rects")), QString(), this);
     m_selectRects->setShortcut(Qt::CTRL + Qt::Key_R);
     connect(m_selectRects, SIGNAL(triggered()), this, SLOT(slotSelectRects()));
     buttonSelectRects->setDefaultAction(m_selectRects);
     buttonSelectRects->setEnabled(false);
 
-    m_selectImages = new QAction(QIcon::fromTheme("kdenlive-select-images"), QString(), this);
+    m_selectImages = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-select-images")), QString(), this);
     m_selectImages->setShortcut(Qt::CTRL + Qt::Key_I);
     connect(m_selectImages, SIGNAL(triggered()), this, SLOT(slotSelectImages()));
     buttonSelectImages->setDefaultAction(m_selectImages);
     buttonSelectImages->setEnabled(false);
 
-    m_unselectAll = new QAction(QIcon::fromTheme("kdenlive-unselect-all"), QString(), this);
+    m_unselectAll = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-unselect-all")), QString(), this);
     m_unselectAll->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_A);
     connect(m_unselectAll, SIGNAL(triggered()), this, SLOT(slotSelectNone()));
     buttonUnselectAll->setDefaultAction(m_unselectAll);
@@ -309,10 +309,10 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     zDown->setIconSize(iconSize);
     zTop->setIconSize(iconSize);
     zBottom->setIconSize(iconSize);
-    
-    zDown->setIcon(QIcon::fromTheme("kdenlive-zindex-down"));
-    zTop->setIcon(QIcon::fromTheme("kdenlive-zindex-top"));
-    zBottom->setIcon(QIcon::fromTheme("kdenlive-zindex-bottom"));
+
+    zDown->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zindex-down")));
+    zTop->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zindex-top")));
+    zBottom->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zindex-bottom")));
     connect(zDown, SIGNAL(clicked()), this, SLOT(slotZIndexDown()));
     connect(zTop, SIGNAL(clicked()), this, SLOT(slotZIndexTop()));
     connect(zBottom, SIGNAL(clicked()), this, SLOT(slotZIndexBottom()));
@@ -359,25 +359,25 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     QToolBar *m_toolbar = new QToolBar("titleToolBar", this);
     m_toolbar->setIconSize(iconSize);
 
-    m_buttonCursor = m_toolbar->addAction(QIcon::fromTheme("transform-move"), i18n("Selection Tool"));
+    m_buttonCursor = m_toolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("transform-move")), i18n("Selection Tool"));
     m_buttonCursor->setCheckable(true);
     m_buttonCursor->setShortcut(Qt::ALT + Qt::Key_S);
     m_buttonCursor->setToolTip(i18n("Selection Tool") + ' ' + m_buttonCursor->shortcut().toString());
     connect(m_buttonCursor, SIGNAL(triggered()), this, SLOT(slotSelectTool()));
 
-    m_buttonText = m_toolbar->addAction(QIcon::fromTheme("insert-text"), i18n("Add Text"));
+    m_buttonText = m_toolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("insert-text")), i18n("Add Text"));
     m_buttonText->setCheckable(true);
     m_buttonText->setShortcut(Qt::ALT + Qt::Key_T);
     m_buttonText->setToolTip(i18n("Add Text") + ' ' + m_buttonText->shortcut().toString());
     connect(m_buttonText, SIGNAL(triggered()), this, SLOT(slotTextTool()));
 
-    m_buttonRect = m_toolbar->addAction(QIcon::fromTheme("kdenlive-insert-rect"), i18n("Add Rectangle"));
+    m_buttonRect = m_toolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-insert-rect")), i18n("Add Rectangle"));
     m_buttonRect->setCheckable(true);
     m_buttonRect->setShortcut(Qt::ALT + Qt::Key_R);
     m_buttonRect->setToolTip(i18n("Add Rectangle") + ' ' + m_buttonRect->shortcut().toString());
     connect(m_buttonRect, SIGNAL(triggered()), this, SLOT(slotRectTool()));
 
-    m_buttonImage = m_toolbar->addAction(QIcon::fromTheme("insert-image"), i18n("Add Image"));
+    m_buttonImage = m_toolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("insert-image")), i18n("Add Image"));
     m_buttonImage->setCheckable(false);
     m_buttonImage->setShortcut(Qt::ALT + Qt::Key_I);
     m_buttonImage->setToolTip(i18n("Add Image") + ' ' + m_buttonImage->shortcut().toString());
@@ -385,13 +385,13 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
 
     m_toolbar->addSeparator();
 
-    m_buttonLoad = m_toolbar->addAction(QIcon::fromTheme("document-open"), i18n("Open Document"));
+    m_buttonLoad = m_toolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("document-open")), i18n("Open Document"));
     m_buttonLoad->setCheckable(false);
     m_buttonLoad->setShortcut(Qt::CTRL + Qt::Key_O);
     m_buttonLoad->setToolTip(i18n("Open Document") + ' ' + m_buttonLoad->shortcut().toString());
     connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));
 
-    m_buttonSave = m_toolbar->addAction(QIcon::fromTheme("document-save-as"), i18n("Save As"));
+    m_buttonSave = m_toolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("document-save-as")), i18n("Save As"));
     m_buttonSave->setCheckable(false);
     m_buttonSave->setShortcut(Qt::CTRL + Qt::Key_S);
     m_buttonSave->setToolTip(i18n("Save As") + ' ' + m_buttonSave->shortcut().toString());
