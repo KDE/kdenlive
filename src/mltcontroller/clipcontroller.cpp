@@ -80,6 +80,8 @@ ClipController::ClipController(BinController *bincontroller) : QObject()
 
 ClipController::~ClipController()
 {
+  delete m_properties;
+  delete m_masterProducer;
 }
 
 double ClipController::dar() const

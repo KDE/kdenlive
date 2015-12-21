@@ -194,15 +194,10 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int displayWidth,
 QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height)
 {
     QImage p(width, height, QImage::Format_ARGB32_Premultiplied);
-    /*p.fill(QColor(Qt::red).rgb());
-    return p;*/
     if (frame == NULL || !frame->is_valid()) {
         p.fill(QColor(Qt::red).rgb());
         return p;
     }
-    frame->set("rescale.interp", "bilinear");
-    frame->set("deinterlace_method", "onefield");
-    frame->set("top_field_first", -1);
     int ow = width;
     int oh = height;
     mlt_image_format format = mlt_image_rgb24a;
@@ -214,9 +209,7 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height)
         return p;
     }
     QImage image(ow, oh, QImage::Format_ARGB32_Premultiplied);
-    memcpy(image.bits(), imagedata, ow * oh * 4);//.byteCount());
-    //const uchar* imagedata = frame->get_image(format, ow, oh);
-    //QImage image(imagedata, ow, oh, QImage::Format_ARGB32_Premultiplied);
+    memcpy(image.bits(), imagedata, ow * oh * 4);
 
     if (!image.isNull()) {
         if (ow > (2 * width)) {
