@@ -389,7 +389,7 @@ void Timeline::getTransitions() {
             Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base, QString(prop.get("automatic")) == QLatin1String("1"));
             tr->setPos(transitionInfo.startPos.frames(m_doc->fps()), KdenliveSettings::trackheight() * (visibleTracksCount() - transitionInfo.track) + 1 + tr->itemOffset());
             if (QString(prop.get("force_track")) == QLatin1String("1")) tr->setForcedTrack(true, a_track);
-            if (isTrackLocked(b_track - 1)) tr->setItemLocked(true);
+            if (isTrackLocked(b_track)) tr->setItemLocked(true);
             m_scene->addItem(tr);
             service = mlt_service_producer(service);
         }
