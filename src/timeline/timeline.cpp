@@ -283,7 +283,7 @@ int Timeline::getTracks() {
                 getEffects(playlist, NULL, i);
                 slotUpdateTrackEffectState(i);
             }
-            connect(tk, &Track::newTrackDuration, this, &Timeline::checkDuration);
+            connect(tk, &Track::newTrackDuration, this, &Timeline::checkDuration, Qt::DirectConnection);
             connect(tk, SIGNAL(storeSlowMotion(QString,Mlt::Producer *)), m_doc->renderer(), SLOT(storeSlowmotionProducer(QString,Mlt::Producer *)));
         }
     }
