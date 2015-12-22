@@ -285,6 +285,23 @@ void TransitionHandler::deleteTransition(QString tag, int /*a_track*/, int b_tra
     //if (m_isBlocked == 0) m_mltConsumer->set("refresh", 1);
 }
 
+void TransitionHandler::deleteTrackTransitions(int ix)
+{
+    QScopedPointer<Mlt::Field> field(m_tractor->field());
+    mlt_service nextservice = mlt_service_get_producer(field->get_service());
+    mlt_service_type type = mlt_service_identify( nextservice );
+    while (type == transition_type) {
+	Mlt::Transition transition((mlt_transition) nextservice);
+        nextservice = mlt_service_producer(nextservice);
+        int currentTrack = transition.get_b_track();
+        if (ix == currentTrack) {
+            field->disconnect_service(transition);
+        }
+        if (nextservice == NULL) break;
+        type = mlt_service_identify(nextservice );
+    }
+}
+
 bool TransitionHandler::moveTransition(QString type, int startTrack, int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut)
 {
     int new_in = (int)newIn.frames(m_fps);

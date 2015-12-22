@@ -3285,6 +3285,9 @@ void CustomTrackView::removeTrack(int ix)
             }
         }
     }
+    
+    //Manually remove all transitions issued from track ix, otherwise  MLT will relocate it to another track
+    m_timeline->transitionHandler->deleteTrackTransitions(ix);
 
     // Delete track in MLT playlist
     tractor->remove_track(ix);
