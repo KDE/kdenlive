@@ -665,7 +665,7 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
             // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget
             //int currentScreen = QApplication::desktop()->screenNumber(this);
             for (int i = 0; screen == -1 && i < QApplication::desktop()->screenCount(); i++) {
-            if (i != QApplication::desktop()->screenNumber(this))
+            if (i != QApplication::desktop()->screenNumber(this->parentWidget()->parentWidget()))
                 screen = i;
             }
         }
