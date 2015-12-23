@@ -297,3 +297,4 @@ if(BUILD_JogShuttle)
 endif()
 
 install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})
+install(FILES kdenliveui.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kdenlive)
