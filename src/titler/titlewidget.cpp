@@ -230,7 +230,6 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     buttonAlignLeft->setIconSize(iconSize);
     buttonAlignRight->setIconSize(iconSize);
     buttonAlignNone->setIconSize(iconSize);
-    
     buttonFitZoom->setIcon(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-best")));
     buttonRealSize->setIcon(KoIconUtils::themedIcon(QStringLiteral("zoom-original")));
     buttonItalic->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-text-italic")));
@@ -310,7 +309,6 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     zDown->setIconSize(iconSize);
     zTop->setIconSize(iconSize);
     zBottom->setIconSize(iconSize);
-    
     zDown->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zindex-down")));
     zTop->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zindex-top")));
     zBottom->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zindex-bottom")));

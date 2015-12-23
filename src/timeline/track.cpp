@@ -191,6 +191,7 @@ bool Track::resize(qreal t, qreal dt, bool end)
     QScopedPointer<Mlt::Producer> clip(m_playlist.get_clip(index));
     if (clip == NULL || clip->is_blank()) {
         qWarning("Can't resize clip at %f", t);
+	m_playlist.unlock();
         return false;
     }
 
@@ -241,6 +242,7 @@ bool Track::resize(qreal t, qreal dt, bool end)
             }
         }
     }
+    
     m_playlist.consolidate_blanks();
     m_playlist.unlock();
     return true;
