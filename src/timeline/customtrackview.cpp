@@ -1098,7 +1098,12 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         }
 
         // Razor tool
-        if (m_tool == RazorTool && m_dragItem) {
+        if (m_tool == RazorTool) {
+            if (!m_dragItem) {
+                // clicked in empty area, ignore
+                event->accept();
+                return;
+            }
             GenTime cutPos = GenTime((int)(mapToScene(event->pos()).x()), m_document->fps());
             if (m_dragItem->type() == TransitionWidget) {
                 emit displayMessage(i18n("Cannot cut a transition"), ErrorMessage);
@@ -1108,8 +1113,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                     razorGroup(static_cast<AbstractGroupItem*>(m_dragItem->parentItem()), cutPos);
                 } else {
                     ClipItem *clip = static_cast <ClipItem *>(m_dragItem);
-                    RazorClipCommand* command = new RazorClipCommand(this, clip->info(), clip->effectList(), cutPos);
-                    m_commandStack->push(command);
+                    if (cutPos > clip->startPos() && cutPos < clip->endPos()) {
+                        RazorClipCommand* command = new RazorClipCommand(this, clip->info(), clip->effectList(), cutPos);
+                        m_commandStack->push(command);
+                    }
                 }
             }
             m_dragItem = NULL;
