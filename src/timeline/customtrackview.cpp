@@ -2602,7 +2602,6 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         return dup;
     } else {
         // uncut clip
-
         ClipItem *item = getClipItemAtStart(info.startPos, info.track);
         ClipItem *dup = getClipItemAtStart(cutTime, info.track);
 
@@ -2610,6 +2609,7 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
             emit displayMessage(i18n("Cannot find clip to uncut"), ErrorMessage);
             return NULL;
         }
+        
         if (!m_timeline->track(info.track)->del(cutTime.seconds())) {
             emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(cutTime.frames(m_document->fps())), m_timeline->getTrackInfo(info.track).trackName), ErrorMessage);
             return NULL;
@@ -2631,7 +2631,7 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         dup = NULL;
 
         ItemInfo clipinfo = item->info();
-        bool success = m_timeline->track(clipinfo.track)->resize(clipinfo.startPos.seconds(), (info.endPos - info.startPos).seconds(), true);
+        bool success = m_timeline->track(clipinfo.track)->resize(clipinfo.startPos.seconds(), (info.endPos - cutTime).seconds(), true);
         if (success) {
             item->resizeEnd((int) info.endPos.frames(m_document->fps()));
             item->setEffectList(oldStack);
@@ -3292,6 +3292,9 @@ void CustomTrackView::removeTrack(int ix)
             }
         }
     }
+    
+    //Manually remove all transitions issued from track ix, otherwise  MLT will relocate it to another track
+    m_timeline->transitionHandler->deleteTrackTransitions(ix);
 
     // Delete track in MLT playlist
     tractor->remove_track(ix);
