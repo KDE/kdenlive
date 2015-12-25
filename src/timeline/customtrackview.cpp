@@ -3204,6 +3204,10 @@ void CustomTrackView::checkCompositeTransitions(Mlt::Tractor *tractor)
             if (!tr || brokenTransition) {
                 // Create transition
                 Mlt::Transition composite(*tractor->profile(), KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend");
+                if (!composite.is_valid()) {
+                  // missing frei0r transition
+                  break;
+                }
                 composite.set("a_track", i - 1);
                 composite.set("b_track", i);
                 composite.set("internal_added", 237);

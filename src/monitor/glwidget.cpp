@@ -661,7 +661,11 @@ void GLWidget::stopGlsl()
 {
     m_consumer->purge();
     m_frameRenderer->clearFrame();
-    m_glslManager->fire_event("close glsl");
+    //TODO This is commented out for now because it is causing crashes.
+    //Technically, this should be the correct thing to do, but it appears
+    //some changes have created regression (see shotcut)
+    //with respect to restarting the consumer in GPU mode.
+    //m_glslManager->fire_event("close glsl");
     m_texture[0] = 0;
 }
 

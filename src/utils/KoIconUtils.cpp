@@ -30,11 +30,11 @@ namespace KoIconUtils
 {
 
 QIcon themedIcon(const QString &name) {
-    QString realName;
-
     // try load themed icon
+    if (name.isEmpty()) return QIcon();
     QColor background = qApp->palette().window().color();
     bool useDarkIcons = background.value() < 100;
+    QString realName;
     const char * const prefix = useDarkIcons ? "dk_" : "lt_";
     if (name.at(2) == '_') {
         realName = name.mid(3);

@@ -821,7 +821,7 @@ void Timeline::refreshIcons()
     for (int i = 0; i < allMenus.count(); i++) {
         QAction *m = allMenus.at(i);
         QIcon ic = m->icon();
-        if (ic.isNull()) continue;
+        if (ic.isNull() || ic.name().isEmpty()) continue;
         QIcon newIcon = KoIconUtils::themedIcon(ic.name());
         m->setIcon(newIcon);
     }
@@ -829,11 +829,11 @@ void Timeline::refreshIcons()
     for (int i = 0; i < allButtons.count(); i++) {
         KDualAction *m = allButtons.at(i);
         QIcon ic = m->activeIcon();
-        if (ic.isNull()) continue;
+        if (ic.isNull() || ic.name().isEmpty()) continue;
         QIcon newIcon = KoIconUtils::themedIcon(ic.name());
         m->setActiveIcon(newIcon);
         ic = m->inactiveIcon();
-        if (ic.isNull()) continue;
+        if (ic.isNull() || ic.name().isEmpty()) continue;
         newIcon = KoIconUtils::themedIcon(ic.name());
         m->setInactiveIcon(newIcon);
     }

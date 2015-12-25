@@ -170,7 +170,7 @@ void EffectsListView::refreshIcons()
     for (int i = 0; i < allMenus.count(); i++) {
         QAction *m = allMenus.at(i);
         QIcon ic = m->icon();
-        if (ic.isNull()) continue;
+        if (ic.isNull() || ic.name().isEmpty()) continue;
         QIcon newIcon = KoIconUtils::themedIcon(ic.name());
         m->setIcon(newIcon);
     }
@@ -178,7 +178,7 @@ void EffectsListView::refreshIcons()
     for (int i = 0; i < allButtons.count(); i++) {
         QToolButton *m = allButtons.at(i);
         QIcon ic = m->icon();
-        if (ic.isNull()) continue;
+        if (ic.isNull() || ic.name().isEmpty()) continue;
         QIcon newIcon = KoIconUtils::themedIcon(ic.name());
         m->setIcon(newIcon);
     }
