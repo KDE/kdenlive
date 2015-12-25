@@ -1128,7 +1128,7 @@ bool Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
     if (m_mltProducer) {
         currentId = m_mltProducer->get("id");
         m_mltProducer->set_speed(0);
-        if (QString(m_mltProducer->get("resource")) == "<tractor>") {
+        if (m_mltProducer->type() == tractor_type) {
             // We need to make some cleanup
             Mlt::Tractor trac(*m_mltProducer);
             for (int i = 0; i < trac.count(); i++) {
@@ -1143,7 +1143,6 @@ bool Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
             isActive = true;
             m_mltConsumer->stop();
         }
-        //m_mltConsumer->purge();
         consumerPosition = m_mltConsumer->position();
     }
     blockSignals(true);
@@ -1487,7 +1486,9 @@ void Render::stop()
     }
     if (m_mltConsumer) {
         m_mltConsumer->purge();
-        if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
+        if (!m_mltConsumer->is_stopped()) {
+            m_mltConsumer->stop();
+        }
     }
     m_isRefreshing = false;
 }
@@ -1538,8 +1539,9 @@ void Render::switchPlay(bool play)
             m_mltConsumer->set("buffer", 25);
             m_mltConsumer->set("prefill", 1);
             // Changes to real_time require a consumer restart if running.
-            if (!m_mltConsumer->is_stopped())
+            if (!m_mltConsumer->is_stopped()) {
                 m_mltConsumer->stop();
+            }
         }
         m_mltConsumer->start();
         m_isRefreshing = true;

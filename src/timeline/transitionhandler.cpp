@@ -116,14 +116,14 @@ void TransitionHandler::plantTransition(Mlt::Field *field, Mlt::Transition &tr, 
 {
     mlt_service nextservice = mlt_service_get_producer(field->get_service());
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
-    QString mlt_type = mlt_properties_get(properties, "mlt_type");
     QString resource = mlt_properties_get(properties, "mlt_service");
     QList <Mlt::Transition *> trList;
     mlt_properties insertproperties = tr.get_properties();
     QString insertresource = mlt_properties_get(insertproperties, "mlt_service");
     bool isMixTransition = insertresource == "mix";
 
-    while (mlt_type == "transition") {
+    mlt_service_type mlt_type = mlt_service_identify( nextservice );
+    while (mlt_type == transition_type) {
         Mlt::Transition transition((mlt_transition) nextservice);
         nextservice = mlt_service_producer(nextservice);
         int aTrack = transition.get_a_track();
@@ -142,7 +142,7 @@ void TransitionHandler::plantTransition(Mlt::Field *field, Mlt::Transition &tr, 
 
         if (nextservice == NULL) break;
         properties = MLT_SERVICE_PROPERTIES(nextservice);
-        mlt_type = mlt_properties_get(properties, "mlt_type");
+        mlt_type = mlt_service_identify( nextservice );
         resource = mlt_properties_get(properties, "mlt_service");
     }
     field->plant_transition(tr, a_track, b_track);
@@ -190,12 +190,12 @@ void TransitionHandler::updateTransitionParams(QString type, int a_track, int b_
 
     mlt_service nextservice = mlt_service_get_producer(field->get_service());
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
-    QString mlt_type = mlt_properties_get(properties, "mlt_type");
     QString resource = mlt_properties_get(properties, "mlt_service");
     int in_pos = (int) in.frames(m_fps);
     int out_pos = (int) out.frames(m_fps) - 1;
 
-    while (mlt_type == "transition") {
+    mlt_service_type mlt_type = mlt_service_identify( nextservice );
+    while (mlt_type == transition_type) {
         mlt_transition tr = (mlt_transition) nextservice;
         int currentTrack = mlt_transition_get_b_track(tr);
         int currentBTrack = mlt_transition_get_a_track(tr);
@@ -242,7 +242,7 @@ void TransitionHandler::updateTransitionParams(QString type, int a_track, int b_
         nextservice = mlt_service_producer(nextservice);
         if (nextservice == NULL) break;
         properties = MLT_SERVICE_PROPERTIES(nextservice);
-        mlt_type = mlt_properties_get(properties, "mlt_type");
+        mlt_type = mlt_service_identify( nextservice );
         resource = mlt_properties_get(properties, "mlt_service");
     }
     field->unlock();
@@ -257,13 +257,13 @@ void TransitionHandler::deleteTransition(QString tag, int /*a_track*/, int b_tra
     field->lock();
     mlt_service nextservice = mlt_service_get_producer(field->get_service());
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
-    QString mlt_type = mlt_properties_get(properties, "mlt_type");
     QString resource = mlt_properties_get(properties, "mlt_service");
 
     const int old_pos = (int)((in + out).frames(m_fps) / 2);
     ////qDebug() << " del trans pos: " << in.frames(25) << '-' << out.frames(25);
 
-    while (mlt_type == "transition") {
+    mlt_service_type mlt_type = mlt_service_identify( nextservice );
+    while (mlt_type == transition_type) {
         mlt_transition tr = (mlt_transition) nextservice;
         int currentTrack = mlt_transition_get_b_track(tr);
         int currentIn = (int) mlt_transition_get_in(tr);
@@ -277,7 +277,7 @@ void TransitionHandler::deleteTransition(QString tag, int /*a_track*/, int b_tra
         nextservice = mlt_service_producer(nextservice);
         if (nextservice == NULL) break;
         properties = MLT_SERVICE_PROPERTIES(nextservice);
-        mlt_type = mlt_properties_get(properties, "mlt_type");
+        mlt_type = mlt_service_identify( nextservice );
         resource = mlt_properties_get(properties, "mlt_service");
     }
     field->unlock();
@@ -323,11 +323,11 @@ bool TransitionHandler::moveTransition(QString type, int startTrack, int newTrac
     field->lock();
     mlt_service nextservice = mlt_service_get_producer(field->get_service());
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
-    QString mlt_type = mlt_properties_get(properties, "mlt_type");
     QString resource = mlt_properties_get(properties, "mlt_service");
     int old_pos = (int)(old_in + old_out) / 2;
     bool found = false;
-    while (mlt_type == "transition") {
+    mlt_service_type mlt_type = mlt_service_identify( nextservice );
+    while (mlt_type == transition_type) {
         Mlt::Transition transition((mlt_transition) nextservice);
         nextservice = mlt_service_producer(nextservice);
         int currentTrack = transition.get_b_track();
@@ -350,7 +350,7 @@ bool TransitionHandler::moveTransition(QString type, int startTrack, int newTrac
         }
         if (nextservice == NULL) break;
         properties = MLT_SERVICE_PROPERTIES(nextservice);
-        mlt_type = mlt_properties_get(properties, "mlt_type");
+        mlt_type = mlt_service_identify( nextservice );
         resource = mlt_properties_get(properties, "mlt_service");
     }
     field->unlock();
