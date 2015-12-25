@@ -3153,10 +3153,12 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
 
     if (videoTrack) {
         Mlt::Transition composite(*m_qmlView->profile(), KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend");
-        composite.set("a_track", ix - 1);
-        composite.set("b_track", ix);
-        composite.set("internal_added", 237);
-        field->plant_transition(composite, ix - 1, ix);
+        if (composite.is_valid()) {
+            composite.set("a_track", ix - 1);
+            composite.set("b_track", ix);
+            composite.set("internal_added", 237);
+            field->plant_transition(composite, ix - 1, ix);
+        }
         //mltPlantTransition(field, composite, ct-1, ct);
     }
 
