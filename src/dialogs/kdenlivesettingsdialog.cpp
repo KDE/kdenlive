@@ -74,7 +74,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_configProject.setupUi(p8);
 
     m_page8 = addPage(p8, i18n("Project Defaults"));
-    m_page8->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-new")));
+    m_page8->setIcon(KoIconUtils::themedIcon(QStringLiteral("project-defaults")));
     connect(m_configProject.kcfg_generateproxy, SIGNAL(toggled(bool)), m_configProject.kcfg_proxyminsize, SLOT(setEnabled(bool)));
     m_configProject.kcfg_proxyminsize->setEnabled(KdenliveSettings::generateproxy());
     connect(m_configProject.kcfg_generateimageproxy, SIGNAL(toggled(bool)), m_configProject.kcfg_proxyimageminsize, SLOT(setEnabled(bool)));
