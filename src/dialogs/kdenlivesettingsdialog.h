@@ -81,6 +81,7 @@ private slots:
     void slotEditVideo4LinuxProfile();
     void slotReloadBlackMagic();
     void slotReloadShuttleDevices();
+    void slotEditProfiles();
 
 private:
     KPageWidgetItem *m_page1;

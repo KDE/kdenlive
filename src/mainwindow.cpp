@@ -1003,7 +1003,6 @@ void MainWindow::setupActions()
     addAction("zoom_in", m_zoomIn);
     addAction("zoom_out", m_zoomOut);
 
-    addAction("manage_profiles", i18n("Manage Project Profiles"), this, SLOT(slotEditProfiles()), KoIconUtils::themedIcon("document-new"));
     KNS3::standardAction(i18n("Download New Wipes..."),            this, SLOT(slotGetNewLumaStuff()),       actionCollection(), "get_new_lumas");
     KNS3::standardAction(i18n("Download New Render Profiles..."),  this, SLOT(slotGetNewRenderStuff()),     actionCollection(), "get_new_profiles");
     KNS3::standardAction(i18n("Download New Project Profiles..."), this, SLOT(slotGetNewMltProfileStuff()), actionCollection(), "get_new_mlt_profiles");
@@ -1347,25 +1346,22 @@ void MainWindow::slotRunWizard()
     delete w;
 }
 
-void MainWindow::slotEditProfiles()
+void MainWindow::slotRefreshProfiles()
 {
-    ProfilesDialog *w = new ProfilesDialog;
-    if (w->exec() == QDialog::Accepted) {
-        KdenliveSettingsDialog* d = static_cast <KdenliveSettingsDialog*>(KConfigDialog::exists("settings"));
-        if (d) {
-            d->checkProfile();
-        }
+    KdenliveSettingsDialog* d = static_cast <KdenliveSettingsDialog*>(KConfigDialog::exists("settings"));
+    if (d) {
+        d->checkProfile();
     }
-    delete w;
 }
 
 void MainWindow::slotEditProjectSettings()
 {
     KdenliveDoc *project = pCore->projectManager()->current();
     QPoint p = pCore->projectManager()->currentTimeline()->getTracksCount();
-    
+
     QPointer<ProjectSettings> w = new ProjectSettings(project, project->metadata(), pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), p.x(), p.y(), project->projectFolder().path(), true, !project->isModified(), this);
     connect(w, SIGNAL(disableProxies()), this, SLOT(slotDisableProxies()));
+    connect(w, SIGNAL(refreshProfiles()), this, SLOT(slotRefreshProfiles()));
 
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();

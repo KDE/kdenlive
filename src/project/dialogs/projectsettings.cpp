@@ -22,6 +22,7 @@
 #include "kdenlivesettings.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
+#include "utils/KoIconUtils.h"
 #include "titler/titlewidget.h"
 #include "effectslist/effectslist.h"
 #include "dialogs/profilesdialog.h"
@@ -45,23 +46,9 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     setupUi(this);
 
     list_search->setTreeWidget(files_list);
-
-    QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
-    QMapIterator<QString, QString> i(profilesInfo);
-    while (i.hasNext()) {
-        i.next();
-        profiles_list->addItem(i.key(), i.value());
-    }
     project_folder->setMode(KFile::Directory);
     project_folder->setUrl(QUrl(projectPath));
-    QString currentProf = KdenliveSettings::current_profile();
-
-    for (int i = 0; i < profiles_list->count(); ++i) {
-        if (profiles_list->itemData(i).toString() == currentProf) {
-            profiles_list->setCurrentIndex(i);
-            break;
-        }
-    }
+    loadProfiles();
 
     m_buttonOk = buttonBox->button(QDialogButtonBox::Ok);
     //buttonOk->setEnabled(false);
@@ -121,9 +108,14 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     }
     proxy_profile->setCurrentIndex(ix);
     slotUpdateProxyParams();
+    
+    // Project profiles
+    manage_profiles->setIcon(KoIconUtils::themedIcon("configure"));
+    manage_profiles->setToolTip(i18n("Manage Project Profiles"));
+    connect(manage_profiles, SIGNAL(clicked(bool)), this, SLOT(slotEditProfiles()));
 
     // Proxy GUI stuff
-    proxy_showprofileinfo->setIcon(QIcon::fromTheme("help-about"));
+    proxy_showprofileinfo->setIcon(KoIconUtils::themedIcon("help-about"));
     connect(proxy_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateProxyParams()));
     proxyparams->setVisible(false);
     proxyparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
@@ -188,8 +180,8 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     
     connect(add_metadata, SIGNAL(clicked()), this, SLOT(slotAddMetadataField()));
     connect(delete_metadata, SIGNAL(clicked()), this, SLOT(slotDeleteMetadataField()));
-    add_metadata->setIcon(QIcon::fromTheme("list-add"));
-    delete_metadata->setIcon(QIcon::fromTheme("list-remove"));
+    add_metadata->setIcon(KoIconUtils::themedIcon("list-add"));
+    delete_metadata->setIcon(KoIconUtils::themedIcon("list-remove"));
     
     slotUpdateDisplay();
     if (doc != NULL) {
@@ -300,25 +292,25 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
 
     // Setup categories
     QTreeWidgetItem *videos = new QTreeWidgetItem(files_list, QStringList() << i18n("Video clips"));
-    videos->setIcon(0, QIcon::fromTheme("video-x-generic"));
+    videos->setIcon(0, KoIconUtils::themedIcon("video-x-generic"));
     videos->setExpanded(true);
     QTreeWidgetItem *sounds = new QTreeWidgetItem(files_list, QStringList() << i18n("Audio clips"));
-    sounds->setIcon(0, QIcon::fromTheme("audio-x-generic"));
+    sounds->setIcon(0, KoIconUtils::themedIcon("audio-x-generic"));
     sounds->setExpanded(true);
     QTreeWidgetItem *images = new QTreeWidgetItem(files_list, QStringList() << i18n("Image clips"));
-    images->setIcon(0, QIcon::fromTheme("image-x-generic"));
+    images->setIcon(0, KoIconUtils::themedIcon("image-x-generic"));
     images->setExpanded(true);
     QTreeWidgetItem *slideshows = new QTreeWidgetItem(files_list, QStringList() << i18n("Slideshow clips"));
-    slideshows->setIcon(0, QIcon::fromTheme("image-x-generic"));
+    slideshows->setIcon(0, KoIconUtils::themedIcon("image-x-generic"));
     slideshows->setExpanded(true);
     QTreeWidgetItem *texts = new QTreeWidgetItem(files_list, QStringList() << i18n("Text clips"));
-    texts->setIcon(0, QIcon::fromTheme("text-plain"));
+    texts->setIcon(0, KoIconUtils::themedIcon("text-plain"));
     texts->setExpanded(true);
     QTreeWidgetItem *playlists = new QTreeWidgetItem(files_list, QStringList() << i18n("Playlist clips"));
-    playlists->setIcon(0, QIcon::fromTheme("video-mlt-playlist"));
+    playlists->setIcon(0, KoIconUtils::themedIcon("video-mlt-playlist"));
     playlists->setExpanded(true);
     QTreeWidgetItem *others = new QTreeWidgetItem(files_list, QStringList() << i18n("Other clips"));
-    others->setIcon(0, QIcon::fromTheme("unknown"));
+    others->setIcon(0, KoIconUtils::themedIcon("unknown"));
     others->setExpanded(true);
     int count = 0;
     QStringList allFonts;
@@ -657,6 +649,33 @@ void ProjectSettings::slotDeleteMetadataField()
     if (item) delete item;
 }
 
+void ProjectSettings::loadProfiles()
+{
+    profiles_list->clear();
+    QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
+    QMapIterator<QString, QString> i(profilesInfo);
+    while (i.hasNext()) {
+        i.next();
+        profiles_list->addItem(i.key(), i.value());
+    }
 
+    QString currentProf = KdenliveSettings::current_profile();
+
+    for (int i = 0; i < profiles_list->count(); ++i) {
+        if (profiles_list->itemData(i).toString() == currentProf) {
+            profiles_list->setCurrentIndex(i);
+            break;
+        }
+    }
+}
+
+void ProjectSettings::slotEditProfiles()
+{
+    ProfilesDialog *w = new ProfilesDialog;
+    w->exec();
+    loadProfiles();
+    emit refreshProfiles();
+    delete w;
+}
 
 

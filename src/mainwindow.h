@@ -265,6 +265,8 @@ public slots:
     void slotPreferences(int page = -1, int option = -1);
     void connectDocument();
     void slotTimelineClipSelected(ClipItem* item, bool raise = true);
+    /** @brief Reload project profile in config dialog if changed. */
+    void slotRefreshProfiles();
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -277,7 +279,6 @@ private slots:
     void slotUpdateMousePosition(int pos);
     void slotUpdateProjectDuration(int pos);
     void slotAddEffect(const QDomElement &effect);
-    void slotEditProfiles();
     void slotEditProjectSettings();
 
     /** @brief Turns automatic splitting of audio and video on/off. */

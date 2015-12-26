@@ -87,6 +87,7 @@ private slots:
     void slotSetDefaultProfile();
     void slotProfileEdited();
     virtual void accept();
+    virtual void reject();
 
 private:
     Ui::ProfilesDialog_UI m_view;

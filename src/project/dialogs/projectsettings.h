@@ -69,15 +69,19 @@ private slots:
     void slotAddMetadataField();
     /** @brief Delete current metadata field. */
     void slotDeleteMetadataField();
+    /** @brief Open project profile management dialog. */
+    void slotEditProfiles();
 
 private:
     QPushButton *m_buttonOk;
     bool m_savedProject;
     QStringList m_lumas;
+    void loadProfiles();
 
 signals:
     /** @brief User deleted proxies, so disable them in project. */
     void disableProxies();
+    void refreshProfiles();
 };
 
 

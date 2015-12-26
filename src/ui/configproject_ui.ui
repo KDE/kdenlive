@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>329</width>
-    <height>332</height>
+    <width>478</width>
+    <height>516</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_4">
@@ -23,6 +23,9 @@
       <string>Default Profile</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="1">
+       <widget class="KComboBox" name="kcfg_profiles_list"/>
+      </item>
       <item row="0" column="0">
        <widget class="QLabel" name="label_3">
         <property name="text">
@@ -30,10 +33,14 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="KComboBox" name="kcfg_profiles_list"/>
+      <item row="0" column="2">
+       <widget class="QToolButton" name="manage_profiles">
+        <property name="text">
+         <string>...</string>
+        </property>
+       </widget>
       </item>
-      <item row="1" column="0" colspan="2">
+      <item row="1" column="0" colspan="3">
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="0">
          <widget class="QLabel" name="label_5">
@@ -93,7 +100,7 @@
         </item>
        </layout>
       </item>
-      <item row="2" column="0" colspan="2">
+      <item row="2" column="0" colspan="3">
        <widget class="QLabel" name="p_progressive">
         <property name="text">
          <string>Interlaced</string>
@@ -139,7 +146,7 @@
    <item row="2" column="0" colspan="5">
     <widget class="QGroupBox" name="kcfg_enableproxy">
      <property name="title">
-      <string>Proxy clips</string>
+      <string>Pro&amp;xy clips</string>
      </property>
      <property name="checkable">
       <bool>true</bool>
