@@ -1143,6 +1143,14 @@ void Monitor::updateClipProducer(const QString &playlist)
     render->play(1.0);
 }
 
+void Monitor::slotSeekController(ClipController *controller, int pos)
+{
+    if (controller != m_controller) {
+        slotOpenClip(controller, pos, -1);
+    }
+    else slotSeek(pos);
+}
+
 void Monitor::slotOpenClip(ClipController *controller, int in, int out)
 {
     if (render == NULL) return;

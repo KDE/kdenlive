@@ -225,6 +225,8 @@ public slots:
     void updateClipProducer(Mlt::Producer *prod);
     void updateClipProducer(const QString &playlist);
     void slotOpenClip(ClipController *controller, int in = -1, int out = -1);
+    /** @brief Seek clip monitor to a requested position. */
+    void slotSeekController(ClipController *controller, int pos);
     void refreshMonitor(bool visible = true);
     void slotSeek(int pos);
     void stop();

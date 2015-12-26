@@ -564,6 +564,8 @@ signals:
     void guidesUpdated();
     /** @brief Prepare importing and expand of a playlist clip */
     void importPlaylistClips(ItemInfo info, QUrl url, QUndoCommand *expandCommand);
+    /** @brief Show a specific frame in clip monitor */
+    void showClipFrame(ClipController *, int);
 };
 
 #endif

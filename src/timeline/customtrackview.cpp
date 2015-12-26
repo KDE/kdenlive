@@ -655,9 +655,9 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         AbstractClipItem *clip = static_cast <AbstractClipItem*>(item);
         if (m_tool == RazorTool) {
             // razor tool over a clip, display current frame in monitor
-            if (false && item->type() == AVWidget) {
+            if (event->modifiers() == Qt::ShiftModifier && item->type() == AVWidget) {
                 //TODO: solve crash when showing frame when moving razor over clip
-                //emit showClipFrame(static_cast<ClipItem*>(item)->baseClip(), QPoint(), false, mappedXPos - (clip->startPos() - clip->cropStart()).frames(m_document->fps()));
+                emit showClipFrame(static_cast<ClipItem*>(item)->binClip()->controller(), mappedXPos - (clip->startPos() - clip->cropStart()).frames(m_document->fps()));
             }
             event->accept();
             return;
@@ -930,7 +930,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     }
 
     if (event->button() == Qt::LeftButton) {
-        if (event->modifiers() & Qt::ShiftModifier) {
+        if (event->modifiers() & Qt::ShiftModifier && m_tool == SelectTool) {
             createRectangleSelection(event);
             return;
         }
