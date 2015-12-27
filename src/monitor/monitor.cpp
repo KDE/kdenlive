@@ -1101,6 +1101,7 @@ void Monitor::start()
 void Monitor::refreshMonitor(bool visible)
 {
     if (visible && isActive()) {
+        m_glMonitor->raise();
         render->doRefresh();
     }
 }
