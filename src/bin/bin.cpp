@@ -1930,7 +1930,7 @@ void Bin::gotProxy(const QString &id)
     ProjectClip *clip = m_rootFolder->clip(id);
     if (clip) {
         QDomDocument doc;
-        QDomElement xml = clip->toXml(doc);
+        QDomElement xml = clip->toXml(doc, true);
         if (!xml.isNull()) m_doc->renderer()->getFileProperties(xml, id, 150, true);
     }
 }

@@ -87,7 +87,7 @@ Bin* ProjectFolderUp::bin()
     }
 }
 
-QDomElement ProjectFolderUp::toXml(QDomDocument& document)
+QDomElement ProjectFolderUp::toXml(QDomDocument& document, bool)
 {
     return document.documentElement();
 }

@@ -98,7 +98,7 @@ ProjectClip* ProjectSubClip::clipAt(int ix)
     return NULL;
 }
 
-QDomElement ProjectSubClip::toXml(QDomDocument& document)
+QDomElement ProjectSubClip::toXml(QDomDocument& document, bool)
 {
     QDomElement sub = document.createElement("subclip");
     sub.setAttribute("id", m_masterClip->clipId());

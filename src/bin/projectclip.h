@@ -117,7 +117,7 @@ public:
     
     virtual bool rename(const QString &name, int column);
 
-    virtual QDomElement toXml(QDomDocument &document);
+    virtual QDomElement toXml(QDomDocument &document, bool includeMeta = false);
     
     QVariant data(DataType type) const;
 

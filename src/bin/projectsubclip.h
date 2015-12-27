@@ -62,7 +62,7 @@ public:
     ProjectClip *clipAt(int ix);
     /** @brief Recursively disable/enable bin effects. */
     void disableEffects(bool disable);
-    QDomElement toXml(QDomDocument &document);
+    QDomElement toXml(QDomDocument &document, bool includeMeta = false);
 
     /** @brief Returns the clip's duration. */
     GenTime duration() const;
