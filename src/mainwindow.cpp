@@ -193,6 +193,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(m_clipMonitor, SIGNAL(passKeyPress(QKeyEvent*)), this, SLOT(triggerKey(QKeyEvent*)));
 
     m_projectMonitor = new Monitor(Kdenlive::ProjectMonitor, pCore->monitorManager(), this);
+    connect(m_projectMonitor, SIGNAL(passKeyPress(QKeyEvent*)), this, SLOT(triggerKey(QKeyEvent*)));
 
 /*
     //TODO disabled until ported to qml
@@ -3263,7 +3264,13 @@ void MainWindow::triggerKey(QKeyEvent* ev)
 {
     // Hack: The QQuickWindow that displays fullscreen monitor does not integrate quith QActions.
     // so on keypress events we parse keys and check for shortcuts in all existing actions
-    QKeySequence seq(ev->key() + ev->modifiers());
+    QKeySequence seq;
+    // Remove the Num modifier or some shortcuts like "*" will not work
+    if (ev->modifiers() != Qt::KeypadModifier) {
+        seq = QKeySequence(ev->key() + ev->modifiers());
+    } else {
+        seq = QKeySequence(ev->key());
+    }
     QList< KActionCollection * > collections = KActionCollection::allCollections();
     for (int i = 0; i < collections.count(); ++i) {
         KActionCollection *coll = collections.at(i);
