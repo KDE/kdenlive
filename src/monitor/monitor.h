@@ -65,6 +65,19 @@ signals:
     void addEffect(QDomElement);
 };
 
+class QuickMonitorEventEater : public QObject
+{
+    Q_OBJECT
+public:
+    explicit QuickMonitorEventEater(QWidget *parent);
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
+
+signals:
+    void doKeyPressEvent(QKeyEvent*);
+};
+
 class Monitor : public AbstractMonitor
 {
     Q_OBJECT
@@ -187,6 +200,7 @@ private:
     int m_forceSizeFactor;
     /** @brief The base item of the qml view in monitor, used to set properties on the view that affect display **/
     QQuickItem *m_rootItem;
+    QQuickItem *m_markerItem;
     MonitorSceneType m_lastMonitorSceneType;
     void adjustScrollBars(float horizontal, float vertical);
     void loadMasterQml();
@@ -218,6 +232,8 @@ private slots:
     void slotLockMonitor(bool lock);
     void slotAddEffect(QDomElement effect);
     void slotSwitchPlay(bool triggered);
+    void slotEditInlineMarker();
+    void doKeyPressEvent(QKeyEvent*);
 
 public slots:
     void slotOpenDvdFile(const QString &);
@@ -287,6 +303,8 @@ signals:
     void refreshCurrentClip();
     void addEffect(QDomElement);
     void addMasterEffect(QString,QDomElement);
+    void passKeyPress(QKeyEvent*);
+    void updateClipMarker(QString, QList<CommentedTime>);
 };
 
 #endif

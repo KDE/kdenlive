@@ -128,6 +128,7 @@ signals:
     void audioSamplesSignal(const audioShortVector&,int,int,int);
     void showContextMenu(const QPoint);
     void lockMonitor(bool);
+    void passKeyEvent(QKeyEvent *);
 
 private:
     QRect m_rect;

@@ -96,6 +96,7 @@ GLWidget::GLWidget(QObject *parent)
     setPersistentSceneGraph(true);
     setClearBeforeRendering(false);
     setResizeMode(QQuickView::SizeRootObjectToView);
+
     //rootContext->setContextProperty("settings", &ShotcutSettings::singleton());
     /*rootContext()->setContextProperty("application", &QmlApplication::singleton());
     rootContext()->setContextProperty("profile", &QmlProfile::singleton());
@@ -134,6 +135,7 @@ GLWidget::~GLWidget()
     delete m_shareContext;
     delete m_shader;
 }
+
 
 void GLWidget::slotError(QQuickWindow::SceneGraphError, QString const& message)
 {
@@ -533,6 +535,7 @@ void GLWidget::wheelEvent(QWheelEvent * event)
 void GLWidget::mousePressEvent(QMouseEvent* event)
 {
     QQuickView::mousePressEvent(event);
+    if (event->isAccepted()) return;
     if (rootObject() && rootObject()->objectName() != QLatin1String("root")) {
         event->ignore();
         return;
@@ -550,6 +553,7 @@ void GLWidget::mousePressEvent(QMouseEvent* event)
 void GLWidget::mouseMoveEvent(QMouseEvent* event)
 {
     QQuickView::mouseMoveEvent(event);
+    if (event->isAccepted()) return;
     if (rootObject() && rootObject()->objectName() != QLatin1String("root")) {
         event->ignore();
         return;
@@ -568,16 +572,9 @@ void GLWidget::mouseMoveEvent(QMouseEvent* event)
 
 void GLWidget::keyPressEvent(QKeyEvent* event)
 {
-    if (event->key()==Qt::Key_Escape) {
-        emit switchFullScreen(true);
-    }
-    else {
-        event->ignore();
-    }
-    return;
-    //QQuickView::keyPressEvent(event);
-    //if (event->isAccepted()) return;
-    //MAIN.keyPressEvent(event);
+    QQuickView::keyPressEvent(event);
+    if (event->isAccepted()) return;
+    emit passKeyEvent(event);
 }
 
 void GLWidget::createThread(RenderThread **thread, thread_function_t function, void *data)
@@ -1069,6 +1066,7 @@ void GLWidget::setZoom(float zoom)
 void GLWidget::mouseReleaseEvent(QMouseEvent * event)
 {
     QQuickView::mouseReleaseEvent(event);
+    if (event->isAccepted()) return;
     if (rootObject() && rootObject()->objectName() != QLatin1String("root")) {
         return;
     }
@@ -1349,5 +1347,4 @@ void FrameRenderer::cleanup()
         m_displayTexture[0] = m_displayTexture[1] = m_displayTexture[2] = 0;
     }
 }
-
 

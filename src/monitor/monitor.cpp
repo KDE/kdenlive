@@ -91,6 +91,21 @@ bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
     return QObject::eventFilter(obj, event);
 }
 
+QuickMonitorEventEater::QuickMonitorEventEater(QWidget *parent) : QObject(parent)
+{
+}
+
+bool QuickMonitorEventEater::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *ev = static_cast< QKeyEvent* >(event);
+        if (ev) {
+            emit doKeyPressEvent(ev);
+            return true;
+        }
+    }
+    return QObject::eventFilter(obj, event);
+}
 
 
 Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent) :
@@ -112,6 +127,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_editMarker(NULL)
     , m_forceSizeFactor(0)
     , m_rootItem(NULL)
+    , m_markerItem(NULL)
     , m_lastMonitorSceneType(MonitorSceneNone)
 {
     QVBoxLayout *layout = new QVBoxLayout;
@@ -130,6 +146,10 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     QuickEventEater *leventEater = new QuickEventEater(this);
     m_videoWidget->installEventFilter(leventEater);
     connect(leventEater, &QuickEventEater::addEffect, this, &Monitor::slotAddEffect);
+
+    QuickMonitorEventEater *monitorEventEater = new QuickMonitorEventEater(m_glWidget);
+    m_glWidget->installEventFilter(monitorEventEater);
+    connect(monitorEventEater, SIGNAL(doKeyPressEvent(QKeyEvent*)), this, SLOT(doKeyPressEvent(QKeyEvent*)));
 
     glayout->addWidget(m_videoWidget, 0, 0);
     m_verticalScroll = new QScrollBar(Qt::Vertical);
@@ -154,6 +174,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         // Load monitor overlay qml
         m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitor.qml"))));
         m_rootItem = m_glMonitor->rootObject();
+        m_markerItem = m_rootItem->childItems().first();
+        QObject::connect(m_rootItem, SIGNAL(editCurrentMarker()), this, SLOT(slotEditInlineMarker()), Qt::UniqueConnection);
     }
     connect(m_glMonitor, SIGNAL(showContextMenu(QPoint)), this, SLOT(slotShowMenu(QPoint)));
 
@@ -592,6 +614,7 @@ void Monitor::mousePressEvent(QMouseEvent * event)
         m_contextMenu->popup(event->globalPos());
         event->accept();
     }
+    QWidget::mousePressEvent(event);
 }
 
 void Monitor::slotShowMenu(const QPoint pos)
@@ -702,6 +725,7 @@ void Monitor::mouseReleaseEvent(QMouseEvent * event)
     }
     m_dragStarted = false;
     event->accept();
+    QWidget::mouseReleaseEvent(event);
 }
 
 
@@ -900,7 +924,10 @@ void Monitor::checkOverlay()
     else if (m_controller) {
         overlayText = m_controller->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
     }
-    if (overlayText != m_rootItem->property("comment")) m_rootItem->setProperty("comment", overlayText);
+    if (overlayText != m_markerItem->property("text")) {
+        m_markerItem->setProperty("text", overlayText);
+        m_rootItem->setVisible(!overlayText.isEmpty());
+    }
 }
 
 void Monitor::slotStart()
@@ -1065,6 +1092,7 @@ void Monitor::start()
 void Monitor::refreshMonitor(bool visible)
 {
     if (visible && isActive()) {
+        m_glMonitor->raise();
         render->doRefresh();
     }
 }
@@ -1581,6 +1609,7 @@ void Monitor::slotSwitchCompare(bool enable)
         render->setProducer(m_splitProducer, pos, isActive());
         m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitorsplit.qml"))));
         m_rootItem = m_glMonitor->rootObject();
+        m_markerItem = NULL;
         QObject::connect(m_rootItem, SIGNAL(qmlMoveSplit()), this, SLOT(slotAdjustEffectCompare()), Qt::UniqueConnection);
     }
     else if (m_splitEffect) {
@@ -1610,6 +1639,8 @@ void Monitor::loadMasterQml()
     m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitor.qml"))));
     m_glMonitor->slotShowEffectScene(MonitorSceneNone);
     m_rootItem = m_glMonitor->rootObject();
+    m_markerItem = m_rootItem->childItems().first();
+    QObject::connect(m_rootItem, SIGNAL(editCurrentMarker()), this, SLOT(slotEditInlineMarker()), Qt::UniqueConnection);
 }
 
 void Monitor::slotAdjustEffectCompare()
@@ -1670,4 +1701,22 @@ bool Monitor::stopCapture()
     return true;
 }
 
+void Monitor::doKeyPressEvent(QKeyEvent *ev)
+{
+    keyPressEvent(ev);
+}
+
+void Monitor::slotEditInlineMarker()
+{
+    if (m_markerItem) {
+        QString newComment = m_markerItem->property("text").toString();
+        CommentedTime oldMarker = m_controller->markerAt(render->seekPosition());
+        if (newComment == oldMarker.comment()) {
+            // No change
+            return;
+        }
+        oldMarker.setComment(newComment);
+        emit updateClipMarker(m_controller->clipId(), QList<CommentedTime> () << oldMarker);
+    }
+}
 

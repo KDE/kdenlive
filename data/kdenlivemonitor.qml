@@ -1,3 +1,5 @@
+import QtQuick.Controls 1.3
+import QtQuick.Controls.Styles 1.3
 import QtQuick 2.0
 
 Item {
@@ -9,26 +11,33 @@ Item {
     property string comment
     property point center
     property double scale
+    signal editCurrentMarker()
+    
+      TextField {
+          id: marker
+          objectName: "markertext"
+          activeFocusOnPress: true
+          onEditingFinished: {
+            root.comment = marker.displayText
+            marker.focus = false
+            root.editCurrentMarker()
+          }
 
-    Rectangle {
-        objectName: "marker"
-        anchors {
+          anchors {
             right: parent.right
-            top: parent.top
+            bottom: parent.bottom
+            rightMargin: 4
+            bottomMargin: 4
+          }
+
+          textColor: "white"
+          visible: text != ""
+          style: TextFieldStyle {
+            background: Rectangle {
+                color: "#ffff0000"
+                radius: 5
+            }
+          }
+          font.pointSize: root.height / 35
         }
-        width: marker.width + 10
-        height: marker.height + 5
-        color: "#99ff0000"
-        border.color: "#33ff0000"
-        border.width: 3
-        radius: 5
-        visible: root.comment != ""
-         Text {
-        id: marker
-        objectName: "markertext"
-        anchors.centerIn: parent
-        color: "white"
-        text: root.comment
-    }
-    }
 }
