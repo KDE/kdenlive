@@ -130,6 +130,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         }
     } else {
         QPointer<ProjectSettings> w = new ProjectSettings(NULL, QMap <QString, QString> (), QStringList(), projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, pCore->window());
+        connect(w, SIGNAL(refreshProfiles()), pCore->window(), SLOT(slotRefreshProfiles()));
         if (w->exec() != QDialog::Accepted) {
             delete w;
             return;

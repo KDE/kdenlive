@@ -257,7 +257,6 @@ bool LineEventEater::eventFilter(QObject *obj, QEvent *event)
         if (((QKeyEvent*)event)->key() == Qt::Key_Escape) {
             emit clearSearchLine();
         }
-        return QObject::eventFilter(obj, event);
     }
     return QObject::eventFilter(obj, event);
 }
@@ -1411,7 +1410,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
         }
     }
     // Enable / disable clip actions
-    m_proxyAction->setEnabled(enableClipActions);
+    m_proxyAction->setEnabled(m_doc->getDocumentProperty("enableproxy").toInt() && enableClipActions);
     m_transcodeAction->setEnabled(enableClipActions);
     m_openAction->setEnabled(type == Image || type == Audio);
     m_reloadAction->setEnabled(enableClipActions);

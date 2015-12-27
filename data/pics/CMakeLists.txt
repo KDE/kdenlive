@@ -133,6 +133,7 @@ breeze-light/lt_media-skip-backward.svgz
 breeze-light/lt_media-skip-forward.svgz
 breeze-light/lt_object-group.svgz
 breeze-light/lt_object-ungroup.svgz
+breeze-light/lt_project-defaults.svgz
 breeze-light/lt_settings-configure.svgz
 breeze-light/lt_system-run.svgz
 breeze-light/lt_tools-wizard.svgz
@@ -288,6 +289,7 @@ breeze-dark/dk_media-skip-backward.svgz
 breeze-dark/dk_media-skip-forward.svgz
 breeze-dark/dk_object-group.svgz
 breeze-dark/dk_object-ungroup.svgz
+breeze-dark/dk_project-defaults.svgz
 breeze-dark/dk_settings-configure.svgz
 breeze-dark/dk_system-run.svgz
 breeze-dark/dk_tools-wizard.svgz

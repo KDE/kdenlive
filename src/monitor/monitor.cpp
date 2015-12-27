@@ -91,6 +91,7 @@ bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
     return QObject::eventFilter(obj, event);
 }
 
+
 QuickMonitorEventEater::QuickMonitorEventEater(QWidget *parent) : QObject(parent)
 {
 }
@@ -141,6 +142,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     glayout->setContentsMargins(0, 0, 0, 0);
     // Create QML OpenGL widget
     m_glMonitor = new GLWidget();
+    connect(m_glMonitor, SIGNAL(passKeyEvent(QKeyEvent*)), this, SLOT(doKeyPressEvent(QKeyEvent*)));
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow*>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);
     QuickEventEater *leventEater = new QuickEventEater(this);
@@ -824,6 +826,22 @@ void Monitor::mouseDoubleClickEvent(QMouseEvent * event)
     event->accept();
 }
 
+void Monitor::keyPressEvent(QKeyEvent* event)
+{
+    if (event->key()==Qt::Key_Escape) {
+        slotSwitchFullScreen();
+        event->accept();
+        return;
+    }
+    if (m_glWidget->isFullScreen()) {
+        event->ignore();
+        emit passKeyPress(event);
+        return;
+    }
+    QWidget::keyPressEvent(event);
+}
+
+
 void Monitor::slotMouseSeek(int eventDelta, bool fast)
 {
     if (fast) {
@@ -1169,6 +1187,14 @@ void Monitor::updateClipProducer(const QString &playlist)
     Mlt::Producer *prod = new Mlt::Producer(*m_glMonitor->profile(), playlist.toUtf8().constData());
     render->setProducer(prod, render->seekFramePosition(), true);
     render->play(1.0);
+}
+
+void Monitor::slotSeekController(ClipController *controller, int pos)
+{
+    if (controller != m_controller) {
+        slotOpenClip(controller, pos, -1);
+    }
+    else slotSeek(pos);
 }
 
 void Monitor::slotOpenClip(ClipController *controller, int in, int out)

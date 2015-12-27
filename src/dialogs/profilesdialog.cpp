@@ -148,6 +148,11 @@ void ProfilesDialog::accept()
     if (askForSave()) QDialog::accept();
 }
 
+void ProfilesDialog::reject()
+{
+    if (askForSave()) QDialog::reject();
+}
+
 void ProfilesDialog::closeEvent(QCloseEvent *event)
 {
     if (askForSave()) {

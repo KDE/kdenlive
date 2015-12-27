@@ -21,6 +21,7 @@
 #include "profilesdialog.h"
 #include "encodingprofilesdialog.h"
 #include "utils/KoIconUtils.h"
+#include "dialogs/profilesdialog.h"
 #include "kdenlivesettings.h"
 #include "renderer.h"
 
@@ -72,7 +73,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     QWidget *p8 = new QWidget;
     m_configProject.setupUi(p8);
     m_page8 = addPage(p8, i18n("Project Defaults"));
-    m_page8->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-new")));
+    m_page8->setIcon(KoIconUtils::themedIcon(QStringLiteral("project-defaults")));
     connect(m_configProject.kcfg_generateproxy, SIGNAL(toggled(bool)), m_configProject.kcfg_proxyminsize, SLOT(setEnabled(bool)));
     m_configProject.kcfg_proxyminsize->setEnabled(KdenliveSettings::generateproxy());
     connect(m_configProject.kcfg_generateimageproxy, SIGNAL(toggled(bool)), m_configProject.kcfg_proxyimageminsize, SLOT(setEnabled(bool)));
@@ -262,6 +263,11 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     connect(m_configCapture.grab_manageprofile, SIGNAL(clicked(bool)), this, SLOT(slotManageEncodingProfile()));
     connect(m_configCapture.kcfg_grab_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateGrabProfile()));
     connect(m_configCapture.grab_showprofileinfo, SIGNAL(clicked(bool)), m_configCapture.grab_parameters, SLOT(setVisible(bool)));
+
+    // Project profile management
+    m_configProject.manage_profiles->setIcon(KoIconUtils::themedIcon("configure"));
+    m_configProject.manage_profiles->setToolTip(i18n("Manage Project Profiles"));
+    connect(m_configProject.manage_profiles, SIGNAL(clicked(bool)), this, SLOT(slotEditProfiles()));
 
     // proxy profile stuff
     m_configProject.proxy_showprofileinfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
@@ -1238,6 +1244,14 @@ void KdenliveSettingsDialog::slotReloadBlackMagic()
         m_configSdl.kcfg_external_display->setEnabled(false);
     }
     m_configSdl.kcfg_external_display->setEnabled(KdenliveSettings::decklink_device_found());
+}
+
+void KdenliveSettingsDialog::slotEditProfiles()
+{
+    ProfilesDialog *w = new ProfilesDialog;
+    w->exec();
+    checkProfile();
+    delete w;
 }
 
 void KdenliveSettingsDialog::slotReloadShuttleDevices()

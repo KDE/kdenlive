@@ -190,8 +190,10 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(m_projectList, SIGNAL(refreshClip(QString,bool)), pCore->monitorManager(), SLOT(slotRefreshCurrentMonitor(QString)));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), m_projectList, SLOT(slotUpdateClipCut(QPoint)));*/
     connect(m_clipMonitor, SIGNAL(extractZone(QString)), pCore->bin(), SLOT(slotStartCutJob(QString)));
+    connect(m_clipMonitor, SIGNAL(passKeyPress(QKeyEvent*)), this, SLOT(triggerKey(QKeyEvent*)));
 
     m_projectMonitor = new Monitor(Kdenlive::ProjectMonitor, pCore->monitorManager(), this);
+    connect(m_projectMonitor, SIGNAL(passKeyPress(QKeyEvent*)), this, SLOT(triggerKey(QKeyEvent*)));
 
 /*
     //TODO disabled until ported to qml
@@ -1001,7 +1003,6 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("zoom_in"), m_zoomIn);
     addAction(QStringLiteral("zoom_out"), m_zoomOut);
 
-    addAction(QStringLiteral("manage_profiles"), i18n("Manage Project Profiles"), this, SLOT(slotEditProfiles()), KoIconUtils::themedIcon(QStringLiteral("document-new")));
     KNS3::standardAction(i18n("Download New Wipes..."),            this, SLOT(slotGetNewLumaStuff()),       actionCollection(), "get_new_lumas");
     KNS3::standardAction(i18n("Download New Render Profiles..."),  this, SLOT(slotGetNewRenderStuff()),     actionCollection(), "get_new_profiles");
     KNS3::standardAction(i18n("Download New Project Profiles..."), this, SLOT(slotGetNewMltProfileStuff()), actionCollection(), "get_new_mlt_profiles");
@@ -1344,25 +1345,22 @@ void MainWindow::slotRunWizard()
     delete w;
 }
 
-void MainWindow::slotEditProfiles()
+void MainWindow::slotRefreshProfiles()
 {
-    ProfilesDialog *w = new ProfilesDialog;
-    if (w->exec() == QDialog::Accepted) {
-        KdenliveSettingsDialog* d = static_cast <KdenliveSettingsDialog*>(KConfigDialog::exists(QStringLiteral("settings")));
-        if (d) {
-            d->checkProfile();
-        }
+    KdenliveSettingsDialog* d = static_cast <KdenliveSettingsDialog*>(KConfigDialog::exists("settings"));
+    if (d) {
+        d->checkProfile();
     }
-    delete w;
 }
 
 void MainWindow::slotEditProjectSettings()
 {
     KdenliveDoc *project = pCore->projectManager()->current();
     QPoint p = pCore->projectManager()->currentTimeline()->getTracksCount();
-    
+
     QPointer<ProjectSettings> w = new ProjectSettings(project, project->metadata(), pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), p.x(), p.y(), project->projectFolder().path(), true, !project->isModified(), this);
     connect(w, SIGNAL(disableProxies()), this, SLOT(slotDisableProxies()));
+    connect(w, SIGNAL(refreshProfiles()), this, SLOT(slotRefreshProfiles()));
 
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
@@ -1562,7 +1560,7 @@ void MainWindow::connectDocument()
     connect(pCore->bin(), SIGNAL(clipNameChanged(QString)), trackView->projectView(), SLOT(clipNameChanged(QString)));    
     connect(pCore->bin(), SIGNAL(displayMessage(QString,MessageType)), m_messageLabel, SLOT(setMessage(QString,MessageType)));
 
-    //connect(trackView->projectView(), SIGNAL(showClipFrame(DocClipBase*,QPoint,bool,int)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase*,QPoint,bool,int)));
+    connect(trackView->projectView(), SIGNAL(showClipFrame(ClipController*,int)), m_clipMonitor, SLOT(slotSeekController(ClipController*,int)));
     connect(trackView->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
     connect(m_projectMonitor, &Monitor::addEffect, trackView->projectView(), &CustomTrackView::slotAddEffectToCurrentItem);
 
@@ -3257,6 +3255,31 @@ void MainWindow::slotAlignPlayheadToMousePos()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     pCore->projectManager()->currentTimeline()->projectView()->slotAlignPlayheadToMousePos();
+}
+
+void MainWindow::triggerKey(QKeyEvent* ev)
+{
+    // Hack: The QQuickWindow that displays fullscreen monitor does not integrate quith QActions.
+    // so on keypress events we parse keys and check for shortcuts in all existing actions
+    QKeySequence seq;
+    // Remove the Num modifier or some shortcuts like "*" will not work
+    if (ev->modifiers() != Qt::KeypadModifier) {
+        seq = QKeySequence(ev->key() + ev->modifiers());
+    } else {
+        seq = QKeySequence(ev->key());
+    }
+    QList< KActionCollection * > collections = KActionCollection::allCollections();
+    for (int i = 0; i < collections.count(); ++i) {
+        KActionCollection *coll = collections.at(i);
+        foreach( QAction* tempAction, coll->actions()) {
+            if (tempAction->shortcuts().contains(seq)) {
+                // Trigger action
+                tempAction->trigger();
+                ev->accept();
+                return;
+            }
+        }
+    }
 }
 
 QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName, QWidget* widget, Qt::DockWidgetArea area)

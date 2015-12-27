@@ -22,6 +22,7 @@
 #include "kdenlivesettings.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
+#include "utils/KoIconUtils.h"
 #include "titler/titlewidget.h"
 #include "utils/KoIconUtils.h"
 #include "effectslist/effectslist.h"
@@ -47,23 +48,9 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     setupUi(this);
 
     list_search->setTreeWidget(files_list);
-
-    QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
-    QMapIterator<QString, QString> i(profilesInfo);
-    while (i.hasNext()) {
-        i.next();
-        profiles_list->addItem(i.key(), i.value());
-    }
     project_folder->setMode(KFile::Directory);
     project_folder->setUrl(QUrl(projectPath));
-    QString currentProf = KdenliveSettings::current_profile();
-
-    for (int i = 0; i < profiles_list->count(); ++i) {
-        if (profiles_list->itemData(i).toString() == currentProf) {
-            profiles_list->setCurrentIndex(i);
-            break;
-        }
-    }
+    loadProfiles();
 
     m_buttonOk = buttonBox->button(QDialogButtonBox::Ok);
     //buttonOk->setEnabled(false);
@@ -638,6 +625,35 @@ void ProjectSettings::slotDeleteMetadataField()
 {
     QTreeWidgetItem *item = metadata_list->currentItem();
     if (item) delete item;
+}
+
+void ProjectSettings::loadProfiles()
+{
+    profiles_list->clear();
+    QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
+    QMapIterator<QString, QString> i(profilesInfo);
+    while (i.hasNext()) {
+        i.next();
+        profiles_list->addItem(i.key(), i.value());
+    }
+
+    QString currentProf = KdenliveSettings::current_profile();
+
+    for (int i = 0; i < profiles_list->count(); ++i) {
+        if (profiles_list->itemData(i).toString() == currentProf) {
+            profiles_list->setCurrentIndex(i);
+            break;
+        }
+    }
+}
+
+void ProjectSettings::slotEditProfiles()
+{
+    ProfilesDialog *w = new ProfilesDialog;
+    w->exec();
+    loadProfiles();
+    emit refreshProfiles();
+    delete w;
 }
 
 void ProjectSettings::slotManageEncodingProfile()
