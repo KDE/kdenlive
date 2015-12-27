@@ -65,6 +65,20 @@ signals:
     void addEffect(QDomElement);
 };
 
+class QuickMonitorEventEater : public QObject
+{
+    Q_OBJECT
+public:
+    explicit QuickMonitorEventEater(Monitor *parent);
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
+    
+private:
+    Monitor *m_monitor;
+
+};
+
 class Monitor : public AbstractMonitor
 {
     Q_OBJECT
@@ -129,6 +143,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent * event);
     void mouseDoubleClickEvent(QMouseEvent * event);
     void resizeEvent(QResizeEvent *event);
+    void keyPressEvent(QKeyEvent* event);
 
     /** @brief Move to another position on mouse wheel event.
      *
@@ -268,6 +283,8 @@ public slots:
     void slotSwitchRec(bool enable);
     /** @brief Request QImage of current frame */
     void slotGetCurrentImage();
+    /** @brief Pass keypress event to mainwindow */
+    void doKeyPressEvent(QKeyEvent *ev);
 
 signals:
     void renderPosition(int);
@@ -289,6 +306,7 @@ signals:
     void refreshCurrentClip();
     void addEffect(QDomElement);
     void addMasterEffect(QString,QDomElement);
+    void passKeyPress(QKeyEvent*);
 };
 
 #endif

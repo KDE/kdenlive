@@ -442,6 +442,7 @@ private slots:
     void slotReloadTheme();
     /** @brief Close Kdenlive and try to restart it */
     void slotRestart();
+    void triggerKey(QKeyEvent* ev);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

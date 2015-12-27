@@ -568,16 +568,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent* event)
 
 void GLWidget::keyPressEvent(QKeyEvent* event)
 {
-    if (event->key()==Qt::Key_Escape) {
-        emit switchFullScreen(true);
-    }
-    else {
-        event->ignore();
-    }
-    return;
-    //QQuickView::keyPressEvent(event);
-    //if (event->isAccepted()) return;
-    //MAIN.keyPressEvent(event);
+    emit passKeyEvent(event);
 }
 
 void GLWidget::createThread(RenderThread **thread, thread_function_t function, void *data)

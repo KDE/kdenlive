@@ -190,6 +190,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(m_projectList, SIGNAL(refreshClip(QString,bool)), pCore->monitorManager(), SLOT(slotRefreshCurrentMonitor(QString)));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), m_projectList, SLOT(slotUpdateClipCut(QPoint)));*/
     connect(m_clipMonitor, SIGNAL(extractZone(QString)), pCore->bin(), SLOT(slotStartCutJob(QString)));
+    connect(m_clipMonitor, SIGNAL(passKeyPress(QKeyEvent*)), this, SLOT(triggerKey(QKeyEvent*)));
 
     m_projectMonitor = new Monitor(Kdenlive::ProjectMonitor, pCore->monitorManager(), this);
 
@@ -3256,6 +3257,25 @@ void MainWindow::slotAlignPlayheadToMousePos()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     pCore->projectManager()->currentTimeline()->projectView()->slotAlignPlayheadToMousePos();
+}
+
+void MainWindow::triggerKey(QKeyEvent* ev)
+{
+    // Hack: The QQuickWindow that displays fullscreen monitor does not integrate quith QActions.
+    // so on keypress events we parse keys and check for shortcuts in all existing actions
+    QKeySequence seq(ev->key() + ev->modifiers());
+    QList< KActionCollection * > collections = KActionCollection::allCollections();
+    for (int i = 0; i < collections.count(); ++i) {
+        KActionCollection *coll = collections.at(i);
+        foreach( QAction* tempAction, coll->actions()) {
+            if (tempAction->shortcuts().contains(seq)) {
+                // Trigger action
+                tempAction->trigger();
+                ev->accept();
+                return;
+            }
+        }
+    }
 }
 
 QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName, QWidget* widget, Qt::DockWidgetArea area)

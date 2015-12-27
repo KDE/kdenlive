@@ -91,6 +91,22 @@ bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
     return QObject::eventFilter(obj, event);
 }
 
+QuickMonitorEventEater::QuickMonitorEventEater(Monitor *parent) : QObject(parent)
+  , m_monitor(parent)
+{
+}
+
+bool QuickMonitorEventEater::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *ev = static_cast< QKeyEvent* >(event);
+        if (ev) {
+            m_monitor->doKeyPressEvent(ev);
+            return true;
+        }
+    }
+    return QObject::eventFilter(obj, event);
+}
 
 
 Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent) :
@@ -125,11 +141,15 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     glayout->setContentsMargins(0, 0, 0, 0);
     // Create QML OpenGL widget
     m_glMonitor = new GLWidget();
+    connect(m_glMonitor, SIGNAL(passKeyEvent(QKeyEvent*)), this, SLOT(doKeyPressEvent(QKeyEvent*)));
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow*>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);
     QuickEventEater *leventEater = new QuickEventEater(this);
     m_videoWidget->installEventFilter(leventEater);
     connect(leventEater, &QuickEventEater::addEffect, this, &Monitor::slotAddEffect);
+
+    QuickMonitorEventEater *monitorEventEater = new QuickMonitorEventEater(this);
+    m_glWidget->installEventFilter(monitorEventEater);
 
     glayout->addWidget(m_videoWidget, 0, 0);
     m_verticalScroll = new QScrollBar(Qt::Vertical);
@@ -799,6 +819,22 @@ void Monitor::mouseDoubleClickEvent(QMouseEvent * event)
     slotSwitchFullScreen();
     event->accept();
 }
+
+void Monitor::keyPressEvent(QKeyEvent* event)
+{
+    if (event->key()==Qt::Key_Escape) {
+        slotSwitchFullScreen();
+        event->accept();
+        return;
+    }
+    if (m_glWidget->isFullScreen()) {
+        event->ignore();
+        emit passKeyPress(event);
+        return;
+    }
+    QWidget::keyPressEvent(event);
+}
+
 
 void Monitor::slotMouseSeek(int eventDelta, bool fast)
 {
@@ -1678,4 +1714,7 @@ bool Monitor::stopCapture()
     return true;
 }
 
-
+void Monitor::doKeyPressEvent(QKeyEvent *ev)
+{
+    keyPressEvent(ev);
+}
