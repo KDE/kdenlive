@@ -3189,8 +3189,7 @@ void MainWindow::slotUpdateProxySettings()
         QDir dir(pCore->projectManager()->current()->projectFolder().path());
         dir.mkdir(QStringLiteral("proxy"));
     }
-    //TODO
-    //m_projectList->updateProxyConfig();
+    pCore->bin()->refreshProxySettings();
 }
 
 void MainWindow::slotArchiveProject()

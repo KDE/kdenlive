@@ -82,6 +82,8 @@ public:
     QDomElement toXml(QDomDocument &document);
     virtual QString getToolTip() const;
     virtual bool rename(const QString &name, int column);
+    /** @brief Returns a list of all children and sub-children clips. */
+    QList <ProjectClip *> childClips();
 
 private:
     Bin *m_bin;

@@ -870,7 +870,7 @@ void Bin::setDocument(KdenliveDoc* project)
     m_jobManager = new JobManager(this);
     m_rootFolder = new ProjectFolder(this);
     setEnabled(true);
-    connect(this, SIGNAL(producerReady(QString)), m_doc->renderer(), SLOT(slotProcessingDone(QString)), Qt::UniqueConnection);
+    connect(this, SIGNAL(producerReady(QString)), m_doc->renderer(), SLOT(slotProcessingDone(QString)), Qt::DirectConnection);
     connect(m_jobManager, SIGNAL(addClip(QString)), this, SLOT(slotAddUrl(QString)));
     connect(m_proxyAction, SIGNAL(toggled(bool)), m_doc, SLOT(slotProxyCurrentItem(bool)));
     connect(m_jobManager, SIGNAL(jobCount(int)), m_infoLabel, SLOT(slotSetJobCount(int)));
@@ -1675,12 +1675,26 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
     ProjectClip *clip = m_rootFolder->clip(info.clipId);
     if (clip) {
         if (clip->setProducer(controller, info.replaceProducer) && !clip->hasProxy()) {
+            emit producerReady(info.clipId);
             // Check for file modifications
             ClipType t = clip->clipType();
             if (t == AV || t == Audio || t == Image || t == Video || t == Playlist) {
                 m_doc->watchFile(clip->url());
             }
-        }
+            if (m_doc->useProxy()) {
+                if (t == AV || t == Video || t == Playlist) {
+                    int width = clip->getProducerIntProperty(QStringLiteral("meta.media.width"));
+                    if (m_doc->autoGenerateProxy(width)) {
+                        // Start proxy
+                        m_doc->slotProxyCurrentItem(true, QList <ProjectClip *>() << clip);
+                    }
+                }
+                else if (t == Image && m_doc->autoGenerateImageProxy(clip->getProducerIntProperty(QStringLiteral("meta.media.width")))) {
+                    // Start proxy
+                    m_doc->slotProxyCurrentItem(true, QList <ProjectClip *>() << clip);
+                }
+            }
+        } else emit producerReady(info.clipId);
         QString currentClip = m_monitor->activeClipId();
         if (currentClip.isEmpty()) {
             //No clip displayed in monitor, check if item is selected
@@ -1718,13 +1732,13 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
         else parentFolder = m_rootFolder;
         //FIXME(style): constructor actually adds the new pointer to parent's children
         ProjectClip *clip = new ProjectClip(info.clipId, m_blankThumb, controller, parentFolder);
+        emit producerReady(info.clipId);
         ClipType t = clip->clipType();
         if (t == AV || t == Audio || t == Image || t == Video || t == Playlist) {
             m_doc->watchFile(clip->url());
         }
         if (info.clipId.toInt() >= m_clipCounter) m_clipCounter = info.clipId.toInt() + 1;
     }
-    emit producerReady(info.clipId);
 }
 
 void Bin::slotOpenCurrent()
@@ -2963,5 +2977,33 @@ void Bin::slotRenameFolder()
             m_itemView->edit(ix);
             return;
         }
+    }
+}
+
+void Bin::refreshProxySettings()
+{
+    QList <ProjectClip*> clipList = m_rootFolder->childClips();
+    if (!m_doc->useProxy()) {
+        // Disable all proxies
+        m_doc->slotProxyCurrentItem(false, clipList);
+    } else {
+        QList <ProjectClip*> toProxy;
+        foreach (ProjectClip *clp, clipList) {
+            ClipType t = clp->clipType();
+            if (t == AV || t == Video || t == Playlist) {
+                int width = clp->getProducerIntProperty(QStringLiteral("meta.media.width"));
+                if (m_doc->autoGenerateProxy(width)) {
+                    // Start proxy
+                    toProxy << clp;
+                    continue;
+                }
+                else if (t == Image && m_doc->autoGenerateImageProxy(clp->getProducerIntProperty(QStringLiteral("meta.media.width")))) {
+                    // Start proxy
+                    toProxy << clp;
+                    continue;
+                }
+            }
+        }
+        if (!toProxy.isEmpty()) m_doc->slotProxyCurrentItem(true, toProxy);
     }
 }
