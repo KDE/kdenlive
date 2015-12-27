@@ -69,6 +69,21 @@ ProjectClip* ProjectFolder::clip(const QString &id)
     return NULL;
 }
 
+QList <ProjectClip *> ProjectFolder::childClips()
+{
+    QList <ProjectClip *> allChildren;
+    for (int i = 0; i < count(); ++i) {
+        AbstractProjectItem *child = at(i);
+        if (child->itemType() == ClipItem) {
+            allChildren << (ProjectClip *) child;
+        }
+        else if (child->itemType() == FolderItem) {
+            allChildren << ((ProjectFolder *) child)->childClips();
+        }
+    }
+    return allChildren;
+}
+
 QString ProjectFolder::getToolTip() const
 {
     return QString(i18np("%1 clip", "%1 clips", size()));

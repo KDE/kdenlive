@@ -463,6 +463,8 @@ public:
     void setBinEffectsDisabledStatus(bool disabled);
 
     void requestAudioThumbs(const QString &id);
+    /** @brief Proxy status for the project changed, update. */
+    void refreshProxySettings();
 
 private slots:
     void slotAddClip();

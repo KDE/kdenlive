@@ -533,6 +533,15 @@ bool KdenliveDoc::useProxy() const
     return m_documentProperties.value("enableproxy").toInt();
 }
 
+bool KdenliveDoc::autoGenerateProxy(int width) const
+{
+    return m_documentProperties.value(QStringLiteral("generateproxy")).toInt() && width > m_documentProperties.value(QStringLiteral("proxyminsize")).toInt();
+}
+
+bool KdenliveDoc::autoGenerateImageProxy(int width) const
+{
+    return m_documentProperties.value(QStringLiteral("generateimageproxy")).toInt() && width > m_documentProperties.value(QStringLiteral("proxyimageminsize")).toInt();
+}
 
 void KdenliveDoc::slotAutoSave()
 {
@@ -1393,9 +1402,9 @@ void KdenliveDoc::setMetadata(const QMap<QString, QString> &meta)
     m_documentMetadata = meta;
 }
 
-void KdenliveDoc::slotProxyCurrentItem(bool doProxy)
+void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipList)
 {
-    QList<ProjectClip *> clipList = pCore->bin()->selectedClips();
+    if (clipList.isEmpty()) clipList = pCore->bin()->selectedClips();
     QUndoCommand *command = new QUndoCommand();
     if (doProxy) command->setText(i18np("Add proxy clip", "Add proxy clips", clipList.count()));
     else command->setText(i18np("Remove proxy clip", "Remove proxy clips", clipList.count()));
@@ -1414,7 +1423,6 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy)
     for (int i = 0; i < clipList.count(); ++i) {
         ProjectClip *item = clipList.at(i);
         ClipType t = item->clipType();
-        
         // Only allow proxy on some clip types
         if ((t == Video || t == AV || t == Unknown || t == Image || t == Playlist) && item->isReady()) {
 	    if ((doProxy && item->hasProxy()) || (!doProxy && !item->hasProxy() && pCore->binController()->hasClip(item->clipId()))) continue;
