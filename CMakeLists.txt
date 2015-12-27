@@ -74,9 +74,8 @@ check_include_files(pthread.h HAVE_PTHREAD_H)
 
 find_package(Qt5 CONFIG REQUIRED Core DBus Test Widgets Script Svg)
 
-find_package(KF5 REQUIRED Archive Bookmarks CoreAddons Config ConfigWidgets 
-                            DBusAddons KIO WidgetsAddons Plotting NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes DocTools)
-
+find_package(KF5 5.15 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets 
+                            DBusAddons KIO WidgetsAddons Plotting NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes DocTools Crash)
 
 # Search MLT package.
 find_package(MLT ${MLT_MIN_VERSION} REQUIRED)

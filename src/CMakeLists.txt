@@ -261,6 +261,7 @@ target_link_libraries(kdenlive
    KF5::Notifications
    KF5::TextWidgets
    KF5::IconThemes
+   KF5::Crash
   ${Qt5_LIBRARIES}
   Qt5::Svg
   ${OPENGL_LIBRARIES}

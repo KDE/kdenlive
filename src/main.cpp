@@ -22,6 +22,7 @@
 #include "mainwindow.h"
 
 #include <KAboutData>
+#include <KCrash>
 #include <QDebug>
 
 #include <QUrl> //new
@@ -37,7 +38,7 @@ int main(int argc, char *argv[])
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
     QCoreApplication::setAttribute(Qt::AA_X11InitThreads);
 #endif
-    
+
     KLocalizedString::setApplicationDomain("kdenlive");
 
     // Init application
@@ -93,6 +94,7 @@ int main(int argc, char *argv[])
 
     // Register DBus service
     KDBusService programDBusService;
+    KCrash::initialize();
 
     // see if we are starting with session management
     if (qApp->isSessionRestored()){
