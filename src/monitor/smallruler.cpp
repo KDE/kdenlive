@@ -122,6 +122,14 @@ void SmallRuler::setMarkers(const QList<CommentedTime> &list)
     updatePixmap();
 }
 
+QString SmallRuler::markerAt(GenTime pos)
+{
+    CommentedTime marker(pos, QString());
+    int ix = m_markers.indexOf(marker);
+    if (ix == -1) return QString();
+    return m_markers.at(ix).comment();
+}
+
 QPoint SmallRuler::zone() const
 {
     return QPoint(m_zoneStart, m_zoneEnd);

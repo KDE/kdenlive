@@ -5803,7 +5803,7 @@ void CustomTrackView::slotAddGuide(bool dialog)
     }
 }
 
-void CustomTrackView::slotEditGuide(int guidePos)
+void CustomTrackView::slotEditGuide(int guidePos, const QString newText)
 {
     GenTime pos;
     if (guidePos == -1) pos = GenTime(m_cursorPos, m_document->fps());
@@ -5811,7 +5811,13 @@ void CustomTrackView::slotEditGuide(int guidePos)
     bool found = false;
     for (int i = 0; i < m_guides.count(); ++i) {
         if (m_guides.at(i)->position() == pos) {
-            slotEditGuide(m_guides.at(i)->info());
+            CommentedTime guide = m_guides.at(i)->info();
+            if (!newText.isEmpty()) {
+                EditGuideCommand *command = new EditGuideCommand(this, guide.time(), guide.comment(), guide.time(), newText, true);
+                m_commandStack->push(command);
+            } else {
+                slotEditGuide(guide);
+            }
             found = true;
             break;
         }

@@ -262,7 +262,7 @@ public slots:
      * @param dialog (default = true) false = do not show the dialog but use current position as position and comment */
     void slotAddGuide(bool dialog = true);
     void slotEditGuide(const CommentedTime &guide);
-    void slotEditGuide(int guidePos = -1);
+    void slotEditGuide(int guidePos = -1, const QString newText = QString());
     void slotDeleteGuide(int guidePos = -1);
     void slotDeleteAllGuides();
     void editGuide(const GenTime &oldPos, const GenTime &pos, const QString &comment);

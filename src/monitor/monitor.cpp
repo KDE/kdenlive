@@ -232,10 +232,12 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     if (id != Kdenlive::DvdMonitor) {
         if (id == Kdenlive::ClipMonitor) {
             m_markerMenu = new QMenu(i18n("Go to marker..."), this);
-            m_markerMenu->setEnabled(false);
-            m_configMenu->addMenu(m_markerMenu);
-            connect(m_markerMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotGoToMarker(QAction*)));
+        } else {
+            m_markerMenu = new QMenu(i18n("Go to guide..."), this);
         }
+        m_markerMenu->setEnabled(false);
+        m_configMenu->addMenu(m_markerMenu);
+        connect(m_markerMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotGoToMarker(QAction*)));
         m_forceSize = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("transform-scale")), i18n("Force Monitor Size"), this);
         QAction *fullAction = m_forceSize->addAction(QIcon(), i18n("Force 100%"));
         fullAction->setData(100);
@@ -422,8 +424,8 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     }
 
     //TODO: add save zone to timeline monitor when fixed
+    m_contextMenu->addMenu(m_markerMenu);
     if (m_id == Kdenlive::ClipMonitor) {
-        m_contextMenu->addMenu(m_markerMenu);
 	m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-save")), i18n("Save zone"), this, SLOT(slotSaveZone()));
         QAction *extractZone = m_configMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Extract Zone"), this, SLOT(slotExtractCurrentZone()));
         m_contextMenu->addAction(extractZone);
@@ -517,10 +519,8 @@ void Monitor::updateMarkers()
         m_markerMenu->clear();
         QList <CommentedTime> markers = m_controller->commentedSnapMarkers();
         if (!markers.isEmpty()) {
-            QList <int> marks;
             for (int i = 0; i < markers.count(); ++i) {
                 int pos = (int) markers.at(i).time().frames(m_monitorManager->timecode().fps());
-                marks.append(pos);
                 QString position = m_monitorManager->timecode().getTimecode(markers.at(i).time()) + ' ' + markers.at(i).comment();
                 QAction *go = m_markerMenu->addAction(position);
                 go->setData(pos);
@@ -530,6 +530,25 @@ void Monitor::updateMarkers()
         m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
         checkOverlay();
     }
+}
+
+void Monitor::setGuides(QMap <double, QString> guides)
+{
+    m_markerMenu->clear();
+    QMapIterator<double, QString> i(guides);
+    QList <CommentedTime> guidesList;
+    while (i.hasNext()) {
+        i.next();
+        CommentedTime timeGuide(GenTime(i.key()), i.value());
+        guidesList << timeGuide;
+        int pos = (int) timeGuide.time().frames(m_monitorManager->timecode().fps());
+        QString position = m_monitorManager->timecode().getTimecode(timeGuide.time()) + ' ' + timeGuide.comment();
+        QAction *go = m_markerMenu->addAction(position);
+        go->setData(pos);
+    }
+    m_ruler->setMarkers(guidesList);
+    m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
+    checkOverlay();
 }
 
 void Monitor::setMarkers(const QList<CommentedTime> &markers)
@@ -941,6 +960,10 @@ void Monitor::checkOverlay()
         overlayText = i18n("Out Point");
     else if (m_controller) {
         overlayText = m_controller->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
+    }
+    else {
+        // Check for timeline guides
+        overlayText = m_ruler->markerAt(GenTime(pos, m_monitorManager->timecode().fps()));
     }
     if (overlayText != m_markerItem->property("text")) {
         m_markerItem->setProperty("text", overlayText);
@@ -1735,14 +1758,26 @@ void Monitor::doKeyPressEvent(QKeyEvent *ev)
 void Monitor::slotEditInlineMarker()
 {
     if (m_markerItem) {
-        QString newComment = m_markerItem->property("text").toString();
-        CommentedTime oldMarker = m_controller->markerAt(render->seekPosition());
-        if (newComment == oldMarker.comment()) {
-            // No change
-            return;
+        if (m_controller) {
+            // We are editing a clip marker
+            QString newComment = m_markerItem->property("text").toString();
+            CommentedTime oldMarker = m_controller->markerAt(render->seekPosition());
+            if (newComment == oldMarker.comment()) {
+                // No change
+                return;
+            }
+            oldMarker.setComment(newComment);
+            emit updateClipMarker(m_controller->clipId(), QList<CommentedTime> () << oldMarker);
+        } else {
+            // We are editing a timeline guide
+            QString currentComment = m_ruler->markerAt(render->seekPosition());
+            QString newComment = m_markerItem->property("text").toString();
+            if (newComment == currentComment) {
+                // No change
+                return;
+            }
+            emit updateGuide(render->seekFramePosition(), newComment);
         }
-        oldMarker.setComment(newComment);
-        emit updateClipMarker(m_controller->clipId(), QList<CommentedTime> () << oldMarker);
     }
 }
 

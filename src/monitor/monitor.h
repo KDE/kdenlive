@@ -100,7 +100,10 @@ public:
     void updateMarkers();
     /** @brief Controller for the clip currently displayed (only valid for clip monitor). */
     ClipController *currentController() const;
+    /** @brief Add clip markers to the ruler and context menu */
     void setMarkers(const QList <CommentedTime> &markers);
+    /** @brief Add timeline guides to the ruler and context menu */
+    void setGuides(QMap <double, QString> guides);
     void reloadProducer(const QString &id);
     /** @brief Reimplemented from QWidget, updates the palette colors. */
     void setPalette ( const QPalette & p);
@@ -308,7 +311,10 @@ signals:
     void addEffect(QDomElement);
     void addMasterEffect(QString,QDomElement);
     void passKeyPress(QKeyEvent*);
+    /** @brief Update the text of a clip marker. */
     void updateClipMarker(QString, QList<CommentedTime>);
+    /** @brief Update the text of a timeline guide. */
+    void updateGuide(int, QString);
 };
 
 #endif

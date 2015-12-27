@@ -194,6 +194,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     m_projectMonitor = new Monitor(Kdenlive::ProjectMonitor, pCore->monitorManager(), this);
     connect(m_projectMonitor, SIGNAL(passKeyPress(QKeyEvent*)), this, SLOT(triggerKey(QKeyEvent*)));
+    connect(m_projectMonitor, SIGNAL(updateGuide(int, QString)), this, SLOT(slotEditGuide(int, QString)));
 
 /*
     //TODO disabled until ported to qml
@@ -1637,8 +1638,10 @@ void MainWindow::slotZoneMoved(int start, int end)
 
 void MainWindow::slotGuidesUpdated()
 {
+    QMap <double, QString> guidesData = pCore->projectManager()->currentTimeline()->projectView()->guidesData();
     if (m_renderWidget)
-        m_renderWidget->setGuides(pCore->projectManager()->currentTimeline()->projectView()->guidesData(), pCore->projectManager()->current()->projectDuration());
+        m_renderWidget->setGuides(guidesData, pCore->projectManager()->current()->projectDuration());
+    m_projectMonitor->setGuides(guidesData);
 }
 
 void MainWindow::slotEditKeys()
@@ -2060,10 +2063,10 @@ void MainWindow::slotSelectAllTracks()
         pCore->projectManager()->currentTimeline()->projectView()->slotSelectAllClips();
 }
 
-void MainWindow::slotEditGuide()
+void MainWindow::slotEditGuide(int pos, QString text)
 {
     if (pCore->projectManager()->currentTimeline())
-        pCore->projectManager()->currentTimeline()->projectView()->slotEditGuide();
+        pCore->projectManager()->currentTimeline()->projectView()->slotEditGuide(pos, text);
 }
 
 void MainWindow::slotDeleteGuide()

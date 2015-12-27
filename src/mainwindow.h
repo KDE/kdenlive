@@ -348,7 +348,7 @@ private slots:
     void slotInsertSpace();
     void slotRemoveSpace();
     void slotAddGuide();
-    void slotEditGuide();
+    void slotEditGuide(int pos = -1, QString text = QString());
     void slotDeleteGuide();
     void slotDeleteAllGuides();
     void slotGuidesUpdated();
