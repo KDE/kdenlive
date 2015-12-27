@@ -246,10 +246,10 @@ void ProjectClip::setCurrent(bool current, bool notify)
     }
 }
 
-QDomElement ProjectClip::toXml(QDomDocument& document)
+QDomElement ProjectClip::toXml(QDomDocument& document, bool includeMeta)
 {
     if (m_controller) {
-        m_controller->getProducerXML(document);
+        m_controller->getProducerXML(document, includeMeta);
         return document.documentElement().firstChildElement(QStringLiteral("producer"));
     }
     return QDomElement();

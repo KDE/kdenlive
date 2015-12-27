@@ -396,7 +396,7 @@ QString BinController::xmlFromId(const QString & id)
     return str;
 }
 
-QString BinController::getProducerXML(Mlt::Producer &producer)
+QString BinController::getProducerXML(Mlt::Producer &producer, bool includeMeta)
 {
     QString filename = QStringLiteral("string");
     Mlt::Consumer c(*producer.profile(), "xml", filename.toUtf8().constData());
@@ -407,7 +407,7 @@ QString BinController::getProducerXML(Mlt::Producer &producer)
     if (ignore)
         s.set("ignore_points", 0);
     c.set("time_format", "frames");
-    c.set("no_meta", 1);
+    if (!includeMeta) c.set("no_meta", 1);
     c.set("store", "kdenlive");
     if (filename != QLatin1String("string")) {
         c.set("no_root", 1);

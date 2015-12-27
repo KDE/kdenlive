@@ -173,7 +173,7 @@ public:
     /** @brief Flags this item as being current (or not) and notifies the bin model about it. */
     virtual void setCurrent(bool current, bool notify = true) = 0;
 
-    virtual QDomElement toXml(QDomDocument &document) = 0;
+    virtual QDomElement toXml(QDomDocument &document, bool includeMeta = false) = 0;
     virtual QString getToolTip() const = 0;
     virtual bool rename(const QString &name, int column) = 0;
 

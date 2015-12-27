@@ -733,6 +733,17 @@ void Render::processFileProperties()
             }
             // replace clip
             m_processingClipId.removeAll(info.clipId);
+
+            // Store original properties in a kdenlive: prefixed format
+            QDomNodeList props = info.xml.elementsByTagName("property");
+            for (int i = 0; i < props.count(); ++i) {
+                QDomElement e = props.at(i).toElement();
+                QString name = e.attribute("name");
+                if (name.startsWith("meta.")) {
+                    name.prepend("kdenlive:");
+                    producer->set(name.toUtf8().constData(), e.firstChild().nodeValue().toUtf8().constData());
+                }
+            }
             m_binController->replaceProducer(info.clipId, *producer);
             emit gotFileProperties(info, NULL);
             continue;

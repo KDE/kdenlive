@@ -133,7 +133,7 @@ Bin* ProjectFolder::bin()
     }
 }
 
-QDomElement ProjectFolder::toXml(QDomDocument& document)
+QDomElement ProjectFolder::toXml(QDomDocument& document, bool)
 {
     QDomElement folder = document.createElement(QStringLiteral("folder"));
     folder.setAttribute(QStringLiteral("name"), name());

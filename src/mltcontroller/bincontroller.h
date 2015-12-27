@@ -118,7 +118,7 @@ public:
     /** @brief Returns the clip data as rendered by MLT's XML consumer, used to duplicate a clip
      * @param producer The clip's original producer
      */
-    QString getProducerXML(Mlt::Producer &producer);
+    QString getProducerXML(Mlt::Producer &producer, bool includeMeta = false);
     
     /** @brief Returns the clip data as rendered by MLT's XML consumer
      * @param id The clip's original id

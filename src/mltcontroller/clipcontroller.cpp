@@ -38,6 +38,7 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer& prod
     , selectedEffectIndex(1)
     , audioThumbCreated(false)
     , m_properties(new Mlt::Properties(producer.get_properties()))
+    , m_usesProxy(false)
     , m_audioInfo(NULL)
     , m_audioIndex(0)
     , m_videoIndex(0)
@@ -56,6 +57,7 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer& prod
         if (proxy.length() > 2) {
             // This is a proxy producer, read original url from kdenlive property
             m_url = QUrl::fromLocalFile(m_properties->get("kdenlive:originalurl"));
+            m_usesProxy = true;
         }
         else m_url = QUrl::fromLocalFile(m_properties->get("resource"));
         m_service = m_properties->get("mlt_service");
@@ -104,17 +106,21 @@ void ClipController::addMasterProducer(Mlt::Producer &producer)
         if (proxy.length() > 2) {
             // This is a proxy producer, read original url from kdenlive property
             m_url = QUrl::fromLocalFile(m_properties->get("kdenlive:originalurl"));
+            m_usesProxy = true;
         }
-        else m_url = QUrl::fromLocalFile(m_properties->get("resource"));
+        else {
+            m_url = QUrl::fromLocalFile(m_properties->get("resource"));
+            m_usesProxy = false;
+        }
         m_service = m_properties->get("mlt_service");
         getInfoForProducer();
     }
 }
 
-void ClipController::getProducerXML(QDomDocument& document)
+void ClipController::getProducerXML(QDomDocument& document, bool includeMeta)
 {
     if (m_masterProducer) {
-        QString xml = m_binController->getProducerXML(*m_masterProducer);
+        QString xml = m_binController->getProducerXML(*m_masterProducer, includeMeta);
         document.setContent(xml);
     }
     else qDebug()<<" + + ++ NO MASTER PROD";
@@ -223,6 +229,12 @@ void ClipController::updateProducer(const QString &id, Mlt::Producer* producer)
     delete m_masterProducer;
     m_masterProducer = producer;
     m_properties = new Mlt::Properties(producer->get_properties());
+    QString proxy = m_properties->get("kdenlive:proxy");
+    if (proxy.length() > 2) {
+        // This is a proxy producer, read original url from kdenlive property
+        m_usesProxy = true;
+    }
+    else m_usesProxy = false;
     // Pass properties from previous producer
     m_properties->pass_list(passProperties, getPassPropertiesList());
     if (!m_masterProducer->is_valid()) qDebug()<<"// WARNING, USING INVALID PRODUCER";
@@ -276,12 +288,20 @@ GenTime ClipController::getPlaytime() const
 QString ClipController::property(const QString &name) const
 {
     if (!m_properties) return QString();
+    if (m_usesProxy && name.startsWith("meta.")) {
+        QString correctedName = QStringLiteral("kdenlive:") + name;
+        return m_properties->get(correctedName.toUtf8().constData());
+    }
     return QString(m_properties->get(name.toUtf8().constData()));
 }
 
 int ClipController::int_property(const QString &name) const
 {
     if (!m_properties) return 0;
+    if (m_usesProxy && name.startsWith("meta.")) {
+        QString correctedName = QStringLiteral("kdenlive:") + name;
+        return m_properties->get_int(correctedName.toUtf8().constData());
+    }
     return m_properties->get_int(name.toUtf8().constData());
 }
 
@@ -564,7 +584,7 @@ void ClipController::addEffect(const ProfileInfo &pInfo, QDomElement &effect)
     info.cropStart = GenTime();
     info.cropDuration = getPlaytime();
     EffectsList eff = effectList();
-    EffectsController::initEffect(info, pInfo, eff, property(QStringLiteral("proxy")), effect);
+    EffectsController::initEffect(info, pInfo, eff, property(QStringLiteral("kdenlive:proxy")), effect);
     // Add effect to list and setup a kdenlive_ix value
     int kdenlive_ix = 0;
     for (int i = 0; i < service.filter_count(); ++i) {

@@ -70,7 +70,7 @@ public:
     /** @brief Replaces the master producer and (TODO) the track producers with an updated producer, for example a proxy */
     void updateProducer(const QString &id, Mlt::Producer *producer);
 
-    void getProducerXML(QDomDocument& document);
+    void getProducerXML(QDomDocument& document, bool includeMeta = false);
 
     /** @brief Returns a clone of our master producer. Delete after use! */
     Mlt::Producer *masterProducer();
@@ -189,6 +189,7 @@ public:
 private:
     Mlt::Producer *m_masterProducer;
     Mlt::Properties *m_properties;
+    bool m_usesProxy;
     AudioStreamInfo *m_audioInfo;
     QString m_service;
     QUrl m_url;
