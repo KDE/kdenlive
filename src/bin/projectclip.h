@@ -241,6 +241,8 @@ signals:
     void thumbReady(int, QImage);
     void thumbUpdated(QImage);
     void updateJobStatus(int jobType, int status, int progress = 0, const QString &statusMessage = QString());
+    /** @brief Clip is ready, load properties. */
+    void loadPropertiesPanel();
 };
 
 #endif

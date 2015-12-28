@@ -74,8 +74,10 @@ class ExtractionResult : public KFileMetaData::ExtractionResult
            case KFileMetaData::Property::TrackNumber:
            case KFileMetaData::Property::ReleaseYear:
            case KFileMetaData::Property::Composer:
+           case KFileMetaData::Property::Genre:
            case KFileMetaData::Property::Artist:
            case KFileMetaData::Property::Album:
+           case KFileMetaData::Property::Title:
            case KFileMetaData::Property::Comment:
            case KFileMetaData::Property::Copyright:
            case KFileMetaData::Property::PhotoFocalLength:
@@ -124,13 +126,14 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
 
     // Clip properties
     QVBoxLayout *propsBox = new QVBoxLayout;
-    QTreeWidget *propsTree = new QTreeWidget;
-    propsTree->setRootIsDecorated(false);
-    propsTree->setColumnCount(2);
-    propsTree->setAlternatingRowColors(true);
-    propsTree->setHeaderHidden(true);
-    propsBox->addWidget(propsTree);
-    fillProperties(propsTree);
+    m_propertiesTree = new QTreeWidget(this);
+    m_propertiesTree->setRootIsDecorated(false);
+    m_propertiesTree->setColumnCount(2);
+    m_propertiesTree->setAlternatingRowColors(true);
+    m_propertiesTree->sortByColumn(0, Qt::AscendingOrder);
+    m_propertiesTree->setHeaderHidden(true);
+    propsBox->addWidget(m_propertiesTree);
+    fillProperties();
     m_propertiesPage->setLayout(propsBox);
 
     // Clip markers
@@ -628,11 +631,12 @@ void ClipPropertiesController::slotComboValueChanged()
     m_originalProperties = properties;
 }
 
-void ClipPropertiesController::fillProperties(QTreeWidget *tree)
+void ClipPropertiesController::fillProperties()
 {
     m_clipProperties.clear();
     QList <QStringList> propertyMap;
-    
+
+    m_propertiesTree->setSortingEnabled(false);
     // Read File Metadata through KDE's metadata system
     KFileMetaData::ExtractorCollection metaDataCollection;
     QMimeDatabase mimeDatabase;
@@ -641,7 +645,7 @@ void ClipPropertiesController::fillProperties(QTreeWidget *tree)
     mimeType = mimeDatabase.mimeTypeForFile( m_controller->clipUrl().toLocalFile() );
     for( KFileMetaData::Extractor* plugin : metaDataCollection.fetchExtractors( mimeType.name() ) )
     {
-        ExtractionResult extractionResult(m_controller->clipUrl().toLocalFile(), mimeType.name(), tree);
+        ExtractionResult extractionResult(m_controller->clipUrl().toLocalFile(), mimeType.name(), m_propertiesTree);
         plugin->extract(&extractionResult);
     }
 
@@ -739,9 +743,10 @@ void ClipPropertiesController::fillProperties(QTreeWidget *tree)
     }
 
     for (int i = 0; i < propertyMap.count(); i++) {
-        new QTreeWidgetItem(tree, propertyMap.at(i));
+        new QTreeWidgetItem(m_propertiesTree, propertyMap.at(i));
     }
-    tree->resizeColumnToContents(0);
+    m_propertiesTree->setSortingEnabled(true);
+    m_propertiesTree->resizeColumnToContents(0);
 }
 
 void ClipPropertiesController::slotFillMarkers()

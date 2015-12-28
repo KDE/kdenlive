@@ -320,6 +320,8 @@ Bin::Bin(QWidget* parent) :
     connect(m_itemModel, SIGNAL(effectDropped(QString, const QModelIndex &)), this, SLOT(slotEffectDropped(QString, const QModelIndex &)));
     connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)), this, SLOT(slotItemEdited(QModelIndex,QModelIndex,QVector<int>)));
     connect(m_itemModel, SIGNAL(addClipCut(QString,int,int)), this, SLOT(slotAddClipCut(QString,int,int)));
+    
+    connect(this, &Bin::refreshPanel, this, &Bin::doRefreshPanel);
 
     // Zoom slider
     m_slider = new QSlider(Qt::Horizontal, this);
@@ -1526,11 +1528,12 @@ void Bin::slotSwitchClipProperties(const QModelIndex &ix)
     }
 }
 
-void Bin::slotShowClipProperties()
-{
-    ProjectClip *currentItem = getFirstSelectedClip();
-    if (currentItem) {
-        showClipProperties(currentItem);
+void Bin::doRefreshPanel(const QString &id) {
+    if (m_editAction->isChecked()) {
+        ProjectClip *currentItem = getFirstSelectedClip();
+        if (currentItem && currentItem->clipId() == id) {
+            showClipProperties(currentItem);
+        }
     }
 }
 
@@ -1539,7 +1542,6 @@ void Bin::showClipProperties(ProjectClip *clip, bool openExternalDialog )
     if (!m_editAction->isChecked()) return;
     if (clip && !clip->isReady()) {
         m_propertiesPanel->setEnabled(false);
-        QTimer::singleShot(200, this, SLOT(slotShowClipProperties()));
         return;
     }
     // Special case: text clips open title widget
@@ -1576,7 +1578,6 @@ void Bin::showClipProperties(ProjectClip *clip, bool openExternalDialog )
         m_propertiesPanel->setEnabled(true);
         return;
     }
-
     // Cleanup widget for new content
     foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
             delete w;
@@ -1764,6 +1765,10 @@ void Bin::emitItemUpdated(AbstractProjectItem* item)
     emit itemUpdated(item);
 }
 
+void Bin::emitRefreshPanel(const QString &id)
+{
+    emit refreshPanel(id);
+}
 
 void Bin::setupGeneratorMenu()
 {

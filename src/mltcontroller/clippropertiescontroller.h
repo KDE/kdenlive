@@ -84,6 +84,7 @@ private:
     Mlt::Properties m_properties;
     QMap <QString, QString> m_originalProperties;
     QMap <QString, QString> m_clipProperties;
+    QTreeWidget *m_propertiesTree;
     QWidget *m_forcePage;
     QWidget *m_propertiesPage;
     QWidget *m_markersPage;
@@ -91,7 +92,7 @@ private:
     QWidget *m_analysisPage;
     QTreeWidget *m_markerTree;
     QTreeWidget *m_analysisTree;
-    void fillProperties(QTreeWidget *tree);
+    void fillProperties();
 
 signals:
     void updateClipProperties(const QString &,QMap <QString, QString>, QMap <QString, QString>);

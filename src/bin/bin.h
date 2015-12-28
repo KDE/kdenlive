@@ -464,6 +464,8 @@ public:
     void requestAudioThumbs(const QString &id);
     /** @brief Proxy status for the project changed, update. */
     void refreshProxySettings();
+    /** @brief A clip is ready, update its info panel if displayed. */
+    void emitRefreshPanel(const QString &id);
 
 private slots:
     void slotAddClip();
@@ -503,7 +505,6 @@ private slots:
     /** @brief Request display of current clip in monitor. */
     void slotOpenCurrent();
     void slotZoomView(bool zoomIn);
-    void slotShowClipProperties();
     /** @brief Widget gained focus, make sure we display effects for master clip. */
     void slotGotFocus();
     /** @brief Dis/Enable all bin effects. */
@@ -511,6 +512,7 @@ private slots:
     /** @brief Rename a Bin Folder. */
     void slotRenameFolder();
     void slotCreateAudioThumbs();
+    void doRefreshPanel(const QString &id);
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img, bool fromFile = false);
@@ -667,6 +669,8 @@ signals:
     /** @brief Fill context menu with occurences of this clip in timeline. */
     void findInTimeline(const QString &);
     void clipNameChanged(const QString &);
+    /** @brief A clip was updated, request panel update. */
+    void refreshPanel(const QString &id);
 
 };
 
