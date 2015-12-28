@@ -877,7 +877,7 @@ void ProjectClip::slotCreateAudioThumbs()
     }
     int val = 0;
     for (int z = 0;z < lengthInFrames && !abortAudioThumb; ++z) {
-        val = (int)(z / lengthInFrames * 100.0);
+        val = (int)(100.0 * z / lengthInFrames);
         if (last_val != val) {
             emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWorking, val);
             last_val = val;
