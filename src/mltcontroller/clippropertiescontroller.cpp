@@ -30,8 +30,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utils/KoIconUtils.h"
 
 #include <KLocalizedString>
+#include <KFileMetaData/Extractor>
+#include <KFileMetaData/ExtractionResult>
+#include <KFileMetaData/PropertyInfo>
+#include <KFileMetaData/ExtractorCollection>
 #include <KIO/Global>
 
+#include <QMimeDatabase>
 #include <QUrl>
 #include <QDebug>
 #include <QPixmap>
@@ -45,6 +50,62 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFontDatabase>
 #include <QToolBar>
 #include <QFileDialog>
+
+class ExtractionResult : public KFileMetaData::ExtractionResult
+{
+   public:
+     ExtractionResult( const QString& filename, const QString& mimetype, QTreeWidget *tree)
+         : KFileMetaData::ExtractionResult( filename, mimetype, KFileMetaData::ExtractionResult::ExtractMetaData ),
+           m_tree( tree ) {}
+
+     void append(const QString& text) override {}
+
+     void addType(KFileMetaData::Type::Type type) override {}
+
+     void add(KFileMetaData::Property::Property property, const QVariant& value) override
+     {
+         bool decode = false;
+         switch(property)
+         {
+           case KFileMetaData::Property::ImageMake:
+           case KFileMetaData::Property::ImageModel:
+           case KFileMetaData::Property::ImageDateTime:
+           case KFileMetaData::Property::BitRate:
+           case KFileMetaData::Property::TrackNumber:
+           case KFileMetaData::Property::ReleaseYear:
+           case KFileMetaData::Property::Composer:
+           case KFileMetaData::Property::Artist:
+           case KFileMetaData::Property::Album:
+           case KFileMetaData::Property::Comment:
+           case KFileMetaData::Property::Copyright:
+           case KFileMetaData::Property::PhotoFocalLength:
+           case KFileMetaData::Property::PhotoExposureTime:
+           case KFileMetaData::Property::PhotoFNumber:
+           case KFileMetaData::Property::PhotoApertureValue:
+           case KFileMetaData::Property::PhotoWhiteBalance:
+           case KFileMetaData::Property::PhotoGpsLatitude:
+           case KFileMetaData::Property::PhotoGpsLongitude:
+              decode = true;
+              break;
+           default:
+              break;
+         }
+         if (decode) {
+            KFileMetaData::PropertyInfo info(property);
+            if (info.valueType() == QVariant::DateTime) {
+                new QTreeWidgetItem(m_tree, QStringList() << info.displayName() << value.toDateTime().toString(Qt::DefaultLocaleShortDate));
+            } else if (info.valueType() == QVariant::Int) {
+                new QTreeWidgetItem(m_tree, QStringList() << info.displayName() << QString::number(value.toInt()));
+            } else if (info.valueType() == QVariant::Double) {
+              new QTreeWidgetItem(m_tree, QStringList() << info.displayName() << QString::number(value.toDouble()));
+            }
+            else new QTreeWidgetItem(m_tree, QStringList() << info.displayName() << value.toString());
+         }
+     }
+private:
+    QTreeWidget *m_tree;
+};
+
 
 ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *controller, QWidget *parent) : QTabWidget(parent)
     , m_controller(controller)
@@ -571,7 +632,25 @@ void ClipPropertiesController::fillProperties(QTreeWidget *tree)
 {
     m_clipProperties.clear();
     QList <QStringList> propertyMap;
-    // Get the video_index
+    
+    // Read File Metadata through KDE's metadata system
+    KFileMetaData::ExtractorCollection metaDataCollection;
+    QMimeDatabase mimeDatabase;
+    QMimeType mimeType;
+
+    mimeType = mimeDatabase.mimeTypeForFile( m_controller->clipUrl().toLocalFile() );
+    for( KFileMetaData::Extractor* plugin : metaDataCollection.fetchExtractors( mimeType.name() ) )
+    {
+        ExtractionResult extractionResult(m_controller->clipUrl().toLocalFile(), mimeType.name(), tree);
+        plugin->extract(&extractionResult);
+    }
+
+    // Get MLT's metadata
+    if (m_type == Image) {
+        int width = m_controller->int_property(QStringLiteral("meta.media.width"));
+        int height = m_controller->int_property(QStringLiteral("meta.media.height"));
+        propertyMap.append(QStringList() << i18n("Image size") << QString::number(width) + "x" + QString::number(height));
+    }
     if (m_type == AV || m_type == Video || m_type == Audio) {
         int vindex = m_controller->int_property(QStringLiteral("video_index"));
         int video_max = 0;

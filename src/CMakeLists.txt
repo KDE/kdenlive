@@ -259,6 +259,7 @@ target_link_libraries(kdenlive
    KF5::XmlGui
    KF5::GuiAddons
    KF5::Notifications
+   KF5::FileMetaData
    KF5::TextWidgets
    KF5::IconThemes
    KF5::Crash
