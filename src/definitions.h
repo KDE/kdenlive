@@ -43,12 +43,6 @@ enum MonitorId {
 };
 
 const int DefaultThumbHeight = 100;
-/*
-const QString clipMonitor("clipMonitor");
-const QString recordMonitor("recordMonitor");
-const QString projectMonitor("projectMonitor");
-const QString stopmotionMonitor("stopmotionMonitor");
-*/
 
 }
 

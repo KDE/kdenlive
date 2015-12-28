@@ -91,6 +91,7 @@ public:
     void lockMonitor();
     void releaseMonitor();
     int realTime() const;
+    void setAudioThumb(int channels = 0, QVariantList audioCache = QList<QVariant>());
 
 protected:
     void mouseReleaseEvent(QMouseEvent * event);

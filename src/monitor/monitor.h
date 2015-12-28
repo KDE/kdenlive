@@ -139,6 +139,9 @@ public:
     void refreshIcons();
     /** @brief Enable or disable the effect compare feature depending on effects presence */
     void enableCompare(int effectsCount);
+    /** @brief Send audio thumb data to qml for on monitor display */
+    void prepareAudioThumb(int channels, QVariantList &audioCache);
+    void refreshMonitorIfActive();
 
 protected:
     void mousePressEvent(QMouseEvent * event);
@@ -154,6 +157,8 @@ protected:
      * Ctrl + wheel moves by a second, without Ctrl it moves by a single frame. */
     void wheelEvent(QWheelEvent * event);
     void mouseMoveEvent(QMouseEvent *event);
+    void enterEvent(QEvent * event);
+    void leaveEvent(QEvent * event);
     virtual QStringList mimeTypes() const;
 
 private:
@@ -248,7 +253,7 @@ public slots:
     void slotOpenClip(ClipController *controller, int in = -1, int out = -1);
     /** @brief Seek clip monitor to a requested position. */
     void slotSeekController(ClipController *controller, int pos);
-    void refreshMonitor(bool visible = true);
+    void slotRefreshMonitor(bool visible);
     void slotSeek(int pos);
     void stop();
     void start();
@@ -315,6 +320,7 @@ signals:
     void updateClipMarker(QString, QList<CommentedTime>);
     /** @brief Update the text of a timeline guide. */
     void updateGuide(int, QString);
+    void requestAudioThumb(QString);
 };
 
 #endif

@@ -571,7 +571,7 @@ void EffectStackView2::slotUpdateEffectState(bool disable, int index, MonitorSce
             break;
         case MASTER_CLIP:
             m_masterclipref->changeEffectState(QList <int>() << index, disable);
-            m_effectMetaInfo.monitor->refreshMonitor();
+            m_effectMetaInfo.monitor->refreshMonitorIfActive();
             break;
         default:
             // timeline clip effect
@@ -739,7 +739,7 @@ void EffectStackView2::slotUpdateEffectParams(const QDomElement &old, const QDom
     }
     else if (m_status == MASTER_CLIP) {
         m_masterclipref->updateEffect(m_effectMetaInfo.monitor->profileInfo(), e, ix);
-        m_effectMetaInfo.monitor->refreshMonitor();
+        m_effectMetaInfo.monitor->refreshMonitorIfActive();
     }
     QTimer::singleShot(200, this, SLOT(slotCheckWheelEventFilter()));
 }

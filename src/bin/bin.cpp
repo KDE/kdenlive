@@ -434,6 +434,7 @@ Bin::Bin(QWidget* parent) :
     m_logAction->setCheckable(false);
     connect(m_logAction, SIGNAL(triggered()), this, SLOT(slotShowJobLog()));
     connect(this, SIGNAL(requesteInvalidRemoval(QString,QUrl)), this, SLOT(slotQueryRemoval(QString,QUrl)));
+    connect(this, &Bin::refreshAudioThumbs, this, &Bin::doRefreshAudioThumbs);
 }
 
 Bin::~Bin()
@@ -827,6 +828,7 @@ void Bin::setMonitor(Monitor *monitor)
 {
     m_monitor = monitor;
     connect(m_monitor, SIGNAL(addClipToProject(QUrl)), this, SLOT(slotAddClipToProject(QUrl)));
+    connect(m_monitor, SIGNAL(requestAudioThumb(QString)), this, SLOT(slotSendAudioThumb(QString)));
     connect(m_monitor, SIGNAL(refreshCurrentClip()), this, SLOT(slotOpenCurrent()));
     connect(m_monitor, SIGNAL(updateClipMarker(QString, QList<CommentedTime>)), this, SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
     connect(this, SIGNAL(openClip(ClipController*,int,int)), m_monitor, SLOT(slotOpenClip(ClipController*,int,int)));
@@ -1952,7 +1954,19 @@ void Bin::refreshClip(const QString &id)
 {
     emit clipNeedsReload(id, false);
     if (m_monitor->activeClipId() == id)
-        m_monitor->refreshMonitor();
+        m_monitor->refreshMonitorIfActive();
+}
+
+void Bin::emitRefreshAudioThumbs(const QString &id)
+{
+    emit refreshAudioThumbs(id);
+}
+
+void Bin::doRefreshAudioThumbs(const QString &id)
+{
+    if (m_monitor->activeClipId() == id) {
+        slotSendAudioThumb(id);
+    }
 }
 
 void Bin::refreshClipMarkers(const QString &id)
@@ -2119,7 +2133,7 @@ void Bin::removeEffect(const QString &id, const QDomElement &effect)
     ProjectClip *currentItem = m_rootFolder->clip(id);
     if (!currentItem) return;
     currentItem->removeEffect(effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
-    m_monitor->refreshMonitor();
+    m_monitor->refreshMonitorIfActive();
 }
 
 void Bin::addEffect(const QString &id, QDomElement &effect)
@@ -2128,7 +2142,7 @@ void Bin::addEffect(const QString &id, QDomElement &effect)
     if (!currentItem) return;
     currentItem->addEffect(m_monitor->profileInfo(), effect);
     emit masterClipUpdated(currentItem->controller(), m_monitor);
-    m_monitor->refreshMonitor();
+    m_monitor->refreshMonitorIfActive();
 }
 
 void Bin::editMasterEffect(ClipController *ctl)
@@ -2959,7 +2973,7 @@ void Bin::slotDisableEffects(bool disable)
 {
     m_rootFolder->disableEffects(disable);
     pCore->projectManager()->disableBinEffects(disable);
-    m_monitor->refreshMonitor();
+    m_monitor->refreshMonitorIfActive();
 }
 
 void Bin::setBinEffectsDisabledStatus(bool disabled)
@@ -3017,3 +3031,12 @@ void Bin::refreshProxySettings()
         if (!toProxy.isEmpty()) m_doc->slotProxyCurrentItem(true, toProxy);
     }
 }
+
+void Bin::slotSendAudioThumb(QString id)
+{
+    ProjectClip *clip = m_rootFolder->clip(id);
+    if (clip && clip->audioThumbCreated()) {
+        m_monitor->prepareAudioThumb(clip->audioChannels(), clip->audioFrameCache);
+    }
+}
+

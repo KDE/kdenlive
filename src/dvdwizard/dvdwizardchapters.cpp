@@ -60,7 +60,7 @@ void DvdWizardChapters::stopMonitor()
 
 void DvdWizardChapters::refreshMonitor()
 {
-    if (m_monitor) m_monitor->refreshMonitor();
+    if (m_monitor) m_monitor->refreshMonitorIfActive();
 }
 
 void DvdWizardChapters::slotUpdateChaptersList()
@@ -181,7 +181,7 @@ void DvdWizardChapters::setVobFiles(DVDFORMAT format, const QStringList &movies,
     adjustSize();
     updateGeometry();
     slotUpdateChaptersList();
-    m_monitor->refreshMonitor();
+    m_monitor->refreshMonitorIfActive();
 }
 
 QMap <QString, QString> DvdWizardChapters::chaptersData() const

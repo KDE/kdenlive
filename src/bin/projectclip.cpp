@@ -127,9 +127,9 @@ QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &
 
 void ProjectClip::updateAudioThumbnail(QVariantList audioLevels)
 {
-    ////qDebug() << "CLIPBASE RECIEDVED AUDIO DATA*********************************************";
     audioFrameCache = audioLevels;
     m_controller->audioThumbCreated = true;
+    bin()->emitRefreshAudioThumbs(m_id);
     emit gotAudioData();
 }
 
@@ -827,7 +827,7 @@ void ProjectClip::slotCreateAudioThumbs()
     QString clipHash = hash();
     if (clipHash.isEmpty()) return;
     QString audioPath = bin()->projectFolder().path() + "/thumbs/" + clipHash + "_audio.png";
-    double lengthInFrames = prod->get_playtime();
+    int lengthInFrames = prod->get_playtime();
     int frequency = audioInfo->samplingRate();
     if (frequency <= 0) frequency = 48000;
     int channels = audioInfo->channels();
@@ -859,6 +859,7 @@ void ProjectClip::slotCreateAudioThumbs()
     if (!audioProducer->is_valid()) {
         return;
     }
+    audioProducer->set("video_index", "-1");
     Mlt::Filter chans(*prod->profile(), "audiochannels");
     Mlt::Filter converter(*prod->profile(), "audioconvert");
     Mlt::Filter levels(*prod->profile(), "audiolevel");
@@ -866,7 +867,6 @@ void ProjectClip::slotCreateAudioThumbs()
     audioProducer->attach(converter);
     audioProducer->attach(levels);
 
-    audioProducer->set("video_index", "-1");
     int last_val = 0;
     emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0);//, i18n("Creating audio thumbnails"));
     double framesPerSecond = audioProducer->get_fps();
@@ -875,9 +875,10 @@ void ProjectClip::slotCreateAudioThumbs()
     for (int i = 0; i < channels; i++) {
         keys << "meta.media.audio_level." + QString::number(i);
     }
-    for (int z = (int) frame; z < (int)(frame + lengthInFrames) && !abortAudioThumb; ++z) {
-        int val = (int)((z - frame) / (frame + lengthInFrames) * 100.0);
-        if (last_val != val && val > 1) {
+    int val = 0;
+    for (int z = 0;z < lengthInFrames && !abortAudioThumb; ++z) {
+        val = (int)(z / lengthInFrames * 100.0);
+        if (last_val != val) {
             emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWorking, val);
             last_val = val;
         }

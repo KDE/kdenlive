@@ -28,6 +28,7 @@
 #include <mlt++/Mlt.h>
 #include "glwidget.h"
 #include "core.h"
+#include "qml/qmlaudiothumb.h"
 #include "kdenlivesettings.h"
 #include "mltcontroller/bincontroller.h"
 //#include "qmltypes/qmlutilities.h"
@@ -92,6 +93,7 @@ GLWidget::GLWidget(QObject *parent)
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");
     qRegisterMetaType<SharedFrame>("SharedFrame");
 
+    qmlRegisterType<QmlAudioThumb>("AudioThumb", 1, 0, "QmlAudioThumb");
     setPersistentOpenGLContext(true);
     setPersistentSceneGraph(true);
     setClearBeforeRendering(false);
@@ -1349,3 +1351,40 @@ void FrameRenderer::cleanup()
     }
 }
 
+void GLWidget::setAudioThumb(int channels, QVariantList audioCache)
+{
+    if (rootObject()) {
+        QmlAudioThumb *audioThumbDisplay = rootObject()->findChild<QmlAudioThumb *>("audiothumb");
+        if (audioThumbDisplay) {
+            QImage img(width(), height() / 6, QImage::Format_ARGB32_Premultiplied);
+            img.fill(Qt::transparent);
+            if (!audioCache.isEmpty() && channels > 0) {
+                int audioLevelCount = audioCache.count() - 1;
+                // simplified audio
+                QPainter painter(&img);
+                QRectF mappedRect(0, 0, img.width(), img.height());
+                int channelHeight = mappedRect.height();
+                QPainterPath positiveChannelPath;
+                double scale = (double) width() / audioLevelCount * channels;
+                int offset = 1;
+                if (scale < 1) {
+                    offset = (int) (1.0 / scale);
+                }
+                positiveChannelPath.moveTo(0, mappedRect.bottom());
+                for (int i = 0; i < audioLevelCount; i += offset) {
+                    double value = audioCache.at(qMin(i * channels, audioLevelCount)).toDouble() / 256;
+                    for (int channel = 1; channel < channels; channel ++) {
+                        value = qMax(value, audioCache.at(qMin(i * channels + channel, audioLevelCount)).toDouble() / 256);
+                    }
+                    positiveChannelPath.lineTo(i * scale, mappedRect.bottom() - (value * channelHeight));
+                }
+                positiveChannelPath.lineTo(mappedRect.right(), mappedRect.bottom());
+                painter.setPen(Qt::NoPen);
+                painter.setBrush(QBrush(QColor(80, 80, 150, 200)));
+                painter.drawPath(positiveChannelPath);
+                painter.end();
+            }
+            audioThumbDisplay->setImage(img);
+        }
+    }
+}

@@ -466,6 +466,8 @@ public:
     void refreshProxySettings();
     /** @brief A clip is ready, update its info panel if displayed. */
     void emitRefreshPanel(const QString &id);
+    /** @brief Audio thumbs just finished creating, update on monitor display. */
+    void emitRefreshAudioThumbs(const QString &id);
 
 private slots:
     void slotAddClip();
@@ -513,6 +515,9 @@ private slots:
     void slotRenameFolder();
     void slotCreateAudioThumbs();
     void doRefreshPanel(const QString &id);
+    /** @brief Send audio thumb data to monitor for display. */
+    void slotSendAudioThumb(QString id);
+    void doRefreshAudioThumbs(const QString &id);
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img, bool fromFile = false);
@@ -671,6 +676,8 @@ signals:
     void clipNameChanged(const QString &);
     /** @brief A clip was updated, request panel update. */
     void refreshPanel(const QString &id);
+    /** @brief A clip audio data was updated, request refresh. */
+    void refreshAudioThumbs(const QString &id);
 
 };
 

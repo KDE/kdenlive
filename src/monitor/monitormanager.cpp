@@ -242,8 +242,8 @@ void MonitorManager::slotRefreshCurrentMonitor(const QString &id)
 {
     // Clip producer was modified, check if clip is currently displayed in clip monitor
     m_clipMonitor->reloadProducer(id);
-    if (m_activeMonitor == m_clipMonitor) m_clipMonitor->refreshMonitor();
-    else m_projectMonitor->refreshMonitor();
+    if (m_activeMonitor == m_clipMonitor) m_clipMonitor->refreshMonitorIfActive();
+    else m_projectMonitor->refreshMonitorIfActive();
 }
 
 void MonitorManager::slotUpdateAudioMonitoring()

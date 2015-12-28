@@ -1629,8 +1629,8 @@ void MainWindow::connectDocument()
     //pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor, true);
     // set tool to select tool
     m_buttonSelectTool->setChecked(true);
-    connect(m_projectMonitorDock, SIGNAL(visibilityChanged(bool)), m_projectMonitor, SLOT(refreshMonitor(bool)), Qt::UniqueConnection);
-    connect(m_clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(refreshMonitor(bool)), Qt::UniqueConnection);
+    connect(m_projectMonitorDock, SIGNAL(visibilityChanged(bool)), m_projectMonitor, SLOT(slotRefreshMonitor(bool)), Qt::UniqueConnection);
+    connect(m_clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(slotRefreshMonitor(bool)), Qt::UniqueConnection);
 }
 
 void MainWindow::slotZoneMoved(int start, int end)

@@ -20,6 +20,7 @@ install(FILES
   kdenliveeffectscategory.rc
   kdenlivetranscodingrc
   kdenlivemonitor.qml
+  kdenliveclipmonitor.qml
   kdenlivemonitoreffectscene.qml
   kdenlivemonitorcornerscene.qml
   kdenlivemonitorsplit.qml

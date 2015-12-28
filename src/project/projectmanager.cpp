@@ -647,6 +647,6 @@ void ProjectManager::slotDisableTimelineEffects(bool disable)
     }
     m_trackView->disableTimelineEffects(disable);
     pCore->window()->m_effectStack->disableTimelineEffects(disable);
-    pCore->monitorManager()->projectMonitor()->refreshMonitor();
+    pCore->monitorManager()->projectMonitor()->refreshMonitorIfActive();
 }
 

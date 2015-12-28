@@ -12,8 +12,8 @@ Item {
     property point center
     property double scale
     signal editCurrentMarker()
-    
-      TextField {
+
+    TextField {
           id: marker
           objectName: "markertext"
           activeFocusOnPress: true
@@ -34,7 +34,7 @@ Item {
           visible: text != ""
           style: TextFieldStyle {
             background: Rectangle {
-                color: "#ffff0000"
+                color: "#ff0000ff"
                 radius: 5
             }
           }

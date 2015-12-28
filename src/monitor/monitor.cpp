@@ -28,6 +28,7 @@
 #include "kdenlivesettings.h"
 #include "timeline/abstractclipitem.h"
 #include "timeline/clip.h"
+#include "qml/qmlaudiothumb.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kthumb.h"
 #include "utils/KoIconUtils.h"
@@ -141,7 +142,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     glayout->setSpacing(0);
     glayout->setContentsMargins(0, 0, 0, 0);
     // Create QML OpenGL widget
-    m_glMonitor = new GLWidget();
+    m_glMonitor = new GLWidget;
     connect(m_glMonitor, SIGNAL(passKeyEvent(QKeyEvent*)), this, SLOT(doKeyPressEvent(QKeyEvent*)));
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow*>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);
@@ -149,7 +150,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_videoWidget->installEventFilter(leventEater);
     connect(leventEater, &QuickEventEater::addEffect, this, &Monitor::slotAddEffect);
 
-    QuickMonitorEventEater *monitorEventEater = new QuickMonitorEventEater(m_glWidget);
+    QuickMonitorEventEater *monitorEventEater = new QuickMonitorEventEater(this);
     m_glWidget->installEventFilter(monitorEventEater);
     connect(monitorEventEater, SIGNAL(doKeyPressEvent(QKeyEvent*)), this, SLOT(doKeyPressEvent(QKeyEvent*)));
 
@@ -174,9 +175,10 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     if (KdenliveSettings::displayMonitorInfo()) {
         // Load monitor overlay qml
-        m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitor.qml"))));
+        m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, m_id == Kdenlive::ClipMonitor ? QStringLiteral("kdenliveclipmonitor.qml") : QStringLiteral("kdenlivemonitor.qml"))));
         m_rootItem = m_glMonitor->rootObject();
-        m_markerItem = m_rootItem->childItems().first();
+        m_markerItem = m_rootItem->findChild<QQuickItem *>("markertext");
+        m_glMonitor->setAudioThumb();
         QObject::connect(m_rootItem, SIGNAL(editCurrentMarker()), this, SLOT(slotEditInlineMarker()), Qt::UniqueConnection);
     }
     connect(m_glMonitor, SIGNAL(showContextMenu(QPoint)), this, SLOT(slotShowMenu(QPoint)));
@@ -351,7 +353,7 @@ void Monitor::slotGetCurrentImage()
 {
     m_monitorManager->activateMonitor(m_id, true);
     m_glMonitor->sendFrameForAnalysis = true;
-    refreshMonitor();
+    refreshMonitorIfActive();
     // Update analysis state
     QTimer::singleShot(500, m_monitorManager, SIGNAL(checkScopes()));
 }
@@ -713,11 +715,15 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
                 screen = i;
             }
         }
+        QmlAudioThumb *audioThumbDisplay = m_glMonitor->rootObject()->findChild<QmlAudioThumb *>("audiothumb");
+        if (audioThumbDisplay) audioThumbDisplay->setProperty("stateVisible", false);
         m_glWidget->setParent(QApplication::desktop()->screen(screen));
         m_glWidget->move(QApplication::desktop()->screenGeometry(screen).bottomLeft());
         m_glWidget->showFullScreen();
     } else {
         m_glWidget->showNormal();
+        QmlAudioThumb *audioThumbDisplay = m_glMonitor->rootObject()->findChild<QmlAudioThumb *>("audiothumb");
+        if (audioThumbDisplay) audioThumbDisplay->setProperty("stateVisible", true);
         QVBoxLayout *lay = (QVBoxLayout *) layout();
         lay->insertWidget(0, m_glWidget, 10);
     }
@@ -772,6 +778,20 @@ void Monitor::slotStartDrag()
     drag->setPixmap(pix);
     drag->setHotSpot(QPoint(0, 50));*/
     drag->start(Qt::MoveAction);
+}
+
+void Monitor::enterEvent(QEvent * event)
+{
+    QmlAudioThumb *audioThumbDisplay = m_glMonitor->rootObject()->findChild<QmlAudioThumb *>("audiothumb");
+    if (audioThumbDisplay) audioThumbDisplay->setProperty("stateVisible", true);
+    QWidget::enterEvent(event);
+}
+
+void Monitor::leaveEvent(QEvent * event)
+{
+    QmlAudioThumb *audioThumbDisplay = m_glMonitor->rootObject()->findChild<QmlAudioThumb *>("audiothumb");
+    if (audioThumbDisplay) audioThumbDisplay->setProperty("stateVisible", false);
+    QWidget::leaveEvent(event);
 }
 
 // virtual
@@ -967,7 +987,7 @@ void Monitor::checkOverlay()
     }
     if (overlayText != m_markerItem->property("text")) {
         m_markerItem->setProperty("text", overlayText);
-        m_rootItem->setVisible(!overlayText.isEmpty());
+        m_markerItem->setVisible(!overlayText.isEmpty());
     }
 }
 
@@ -1130,10 +1150,16 @@ void Monitor::start()
     }
 }
 
-void Monitor::refreshMonitor(bool visible)
+void Monitor::slotRefreshMonitor(bool visible)
 {
-    if (visible && isActive()) {
-        m_glMonitor->raise();
+    if (visible) {
+        slotActivateMonitor(true);
+    }
+}
+
+void Monitor::refreshMonitorIfActive()
+{
+    if (isActive() && render) {
         render->doRefresh();
     }
 }
@@ -1250,10 +1276,12 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
 	    m_ruler->setZone(in, out);
 	    setClipZone(QPoint(in, out));
 	}
+	emit requestAudioThumb(controller->clipId());
 	//hasEffects =  controller->hasEffects();
     }
     else {
         render->setProducer(NULL, -1, isActive());
+        m_glMonitor->setAudioThumb();
         //hasEffects = false;
     }
 }
@@ -1426,7 +1454,7 @@ void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary)
     if (!temporary) m_lastMonitorSceneType = sceneType;
     if (sceneType == MonitorSceneGeometry) {
         if (!m_rootItem || m_rootItem->objectName() != QLatin1String("rooteffectscene")) {
-            m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitoreffectscene.qml"))));
+            m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, m_id == Kdenlive::ClipMonitor ? QStringLiteral("kdenliveclipmonitor.qml") : QStringLiteral("kdenlivemonitor.qml"))));
             m_rootItem = m_glMonitor->rootObject();
             QObject::connect(m_rootItem, SIGNAL(addKeyframe()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
             QObject::connect(m_rootItem, SIGNAL(seekToKeyframe()), this, SLOT(slotSeekToKeyFrame()), Qt::UniqueConnection);
@@ -1685,10 +1713,11 @@ void Monitor::loadMasterQml()
         // Root scene is already active
         return;
     }
-    m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitor.qml"))));
+    m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, m_id == Kdenlive::ClipMonitor ? QStringLiteral("kdenliveclipmonitor.qml") : QStringLiteral("kdenlivemonitor.qml"))));
     m_glMonitor->slotShowEffectScene(MonitorSceneNone);
     m_rootItem = m_glMonitor->rootObject();
-    m_markerItem = m_rootItem->childItems().first();
+    m_markerItem = m_rootItem->findChild<QQuickItem *>("markertext");
+    m_glMonitor->setAudioThumb();
     QObject::connect(m_rootItem, SIGNAL(editCurrentMarker()), this, SLOT(slotEditInlineMarker()), Qt::UniqueConnection);
 }
 
@@ -1781,3 +1810,7 @@ void Monitor::slotEditInlineMarker()
     }
 }
 
+void Monitor::prepareAudioThumb(int channels, QVariantList &audioCache)
+{
+    m_glMonitor->setAudioThumb(channels, audioCache);
+}

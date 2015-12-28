@@ -72,7 +72,7 @@ include(CheckIncludeFiles)
 check_include_files(malloc.h HAVE_MALLOC_H)
 check_include_files(pthread.h HAVE_PTHREAD_H)
 
-find_package(Qt5 CONFIG REQUIRED Core DBus Test Widgets Script Svg)
+find_package(Qt5 CONFIG REQUIRED Core DBus Test Widgets Script Svg Quick)
 
 find_package(KF5 5.15 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets 
                             DBusAddons KIO WidgetsAddons Plotting NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes DocTools Crash OPTIONAL_COMPONENTS FileMetaData)
