@@ -1079,6 +1079,7 @@ void GLWidget::mouseReleaseEvent(QMouseEvent * event)
 void GLWidget::mouseDoubleClickEvent(QMouseEvent * event)
 {
     QQuickView::mouseDoubleClickEvent(event);
+    if (event->isAccepted()) return;
     if (!rootObject() || rootObject()->objectName() != QLatin1String("rooteffectscene")) {
         emit switchFullScreen();
     }
