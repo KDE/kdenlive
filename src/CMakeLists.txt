@@ -243,8 +243,6 @@ include_directories(
 # to the components requested in find_package().
 #include(${QT_USE_FILE})
 
-
-
 target_link_libraries(kdenlive
    KF5::WidgetsAddons
    KF5::Plotting
@@ -260,7 +258,6 @@ target_link_libraries(kdenlive
    KF5::XmlGui
    KF5::GuiAddons
    KF5::Notifications
-   KF5::FileMetaData
    KF5::TextWidgets
    KF5::IconThemes
    KF5::Crash
@@ -274,6 +271,11 @@ target_link_libraries(kdenlive
   ${CMAKE_THREAD_LIBS_INIT}
   kiss_fft
 )
+
+if (KF5_FILEMETADATA)
+  add_definitions(-DKF5_USE_FILEMETADATA)
+  target_link_libraries(kdenlive KF5::FileMetaData)
+endif()
 
 qt5_use_modules( kdenlive Script Widgets Concurrent Qml Quick)
 

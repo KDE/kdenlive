@@ -30,10 +30,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utils/KoIconUtils.h"
 
 #include <KLocalizedString>
+
+#ifdef KF5_USE_FILEMETADATA
 #include <KFileMetaData/Extractor>
 #include <KFileMetaData/ExtractionResult>
 #include <KFileMetaData/PropertyInfo>
 #include <KFileMetaData/ExtractorCollection>
+#endif
+
 #include <KIO/Global>
 
 #include <QMimeDatabase>
@@ -51,6 +55,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QToolBar>
 #include <QFileDialog>
 
+#ifdef KF5_USE_FILEMETADATA
 class ExtractionResult : public KFileMetaData::ExtractionResult
 {
    public:
@@ -58,9 +63,9 @@ class ExtractionResult : public KFileMetaData::ExtractionResult
          : KFileMetaData::ExtractionResult( filename, mimetype, KFileMetaData::ExtractionResult::ExtractMetaData ),
            m_tree( tree ) {}
 
-     void append(const QString& text) override {}
+     void append(const QString& /*text*/) override {}
 
-     void addType(KFileMetaData::Type::Type type) override {}
+     void addType(KFileMetaData::Type::Type /*type*/) override {}
 
      void add(KFileMetaData::Property::Property property, const QVariant& value) override
      {
@@ -107,7 +112,7 @@ class ExtractionResult : public KFileMetaData::ExtractionResult
 private:
     QTreeWidget *m_tree;
 };
-
+#endif
 
 ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *controller, QWidget *parent) : QTabWidget(parent)
     , m_controller(controller)
@@ -637,6 +642,8 @@ void ClipPropertiesController::fillProperties()
     QList <QStringList> propertyMap;
 
     m_propertiesTree->setSortingEnabled(false);
+
+#ifdef KF5_USE_FILEMETADATA
     // Read File Metadata through KDE's metadata system
     KFileMetaData::ExtractorCollection metaDataCollection;
     QMimeDatabase mimeDatabase;
@@ -648,6 +655,7 @@ void ClipPropertiesController::fillProperties()
         ExtractionResult extractionResult(m_controller->clipUrl().toLocalFile(), mimeType.name(), m_propertiesTree);
         plugin->extract(&extractionResult);
     }
+#endif
 
     // Get MLT's metadata
     if (m_type == Image) {
