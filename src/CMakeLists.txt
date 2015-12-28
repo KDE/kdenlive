@@ -169,6 +169,7 @@ ki18n_wrap_ui(kdenlive_UIS
   ui/monitoreditwidget_ui.ui
   ui/profiledialog_ui.ui
   ui/projectsettings_ui.ui
+  ui/qtextclip_ui.ui
   ui/recmonitor_ui.ui
   ui/renderwidget_ui.ui
   ui/rgbparade_ui.ui

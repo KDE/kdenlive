@@ -1086,7 +1086,7 @@ void KdenliveDoc::deleteClip(const QString &clipId)
     // Delete controller and Mlt::Producer
     pCore->binController()->removeBinClip(clipId);
     // Remove from file watch
-    if (type != Color && type != SlideShow  && !url.isEmpty()) {
+    if (type != Color && type != SlideShow && type != QText && !url.isEmpty()) {
         m_fileWatcher.removeFile(url);
     }
 }

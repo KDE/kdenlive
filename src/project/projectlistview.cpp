@@ -220,7 +220,7 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
     if (!(item->flags() & Qt::ItemIsDragEnabled)) return;
 
     int column = columnAt(event->pos().x());
-    if (column == 0 && (item->clipType() == SlideShow || item->clipType() == Text || item->clipType() == Color || it->childCount() > 0)) {
+    if (column == 0 && (item->clipType() == SlideShow || item->clipType() == Text || item->clipType() == QText || item->clipType() == Color || it->childCount() > 0)) {
         QPixmap pix = it->data(0, Qt::DecorationRole).value<QPixmap>();
         int offset = pix.width() + indentation();
         if (item->parent()) offset += indentation();

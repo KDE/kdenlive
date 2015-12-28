@@ -138,7 +138,7 @@ QDomElement ProjectItem::toXml() const
 
 const QUrl ProjectItem::clipUrl() const
 {
-    if (m_clipType != Color && m_clipType != Virtual && m_clipType != Unknown)
+    if (m_clipType != Color && m_clipType != QText && m_clipType != Virtual && m_clipType != Unknown)
         return QUrl(m_clip->getProperty("resource"));
     else return QUrl();
 }

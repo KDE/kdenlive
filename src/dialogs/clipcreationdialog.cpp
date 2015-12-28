@@ -24,7 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/kdenlivedoc.h"
 #include "bin/bin.h"
 #include "bin/bincommands.h"
+#include "bin/projectclip.h"
 #include "ui_colorclip_ui.h"
+#include "ui_qtextclip_ui.h"
 #include "ui_templateclip_ui.h"
 #include "timecodedisplay.h"
 #include "doc/doccommands.h"
@@ -127,6 +129,98 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, QStringList groupInfo
         doc->commandStack()->push(command);
     }
     delete t;
+    delete dia;
+}
+
+void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin, ProjectClip *clip)
+{
+    KSharedConfigPtr config = KSharedConfig::openConfig();
+    KConfigGroup titleConfig(config, "TitleWidget");
+    QPointer<QDialog> dia = new QDialog(bin);
+    Ui::QTextClip_UI dia_ui;
+    dia_ui.setupUi(dia);
+    dia->setWindowTitle(i18n("Text Clip"));
+    dia_ui.fgColor->setAlphaChannelEnabled(true);
+    dia_ui.lineColor->setAlphaChannelEnabled(true);
+    dia_ui.bgColor->setAlphaChannelEnabled(true);
+    if (clip) {
+        dia_ui.name->setText(clip->getProducerProperty(QStringLiteral("kdenlive:clipname")));
+        dia_ui.text->setPlainText(clip->getProducerProperty(QStringLiteral("text")));
+        dia_ui.fgColor->setColor(clip->getProducerProperty(QStringLiteral("fgcolour")));
+        dia_ui.bgColor->setColor(clip->getProducerProperty(QStringLiteral("bgcolour")));
+        dia_ui.pad->setValue(clip->getProducerProperty(QStringLiteral("pad")).toInt());
+        dia_ui.lineColor->setColor(clip->getProducerProperty(QStringLiteral("olcolour")));
+        dia_ui.lineWidth->setValue(clip->getProducerProperty(QStringLiteral("outline")).toInt());
+        dia_ui.font->setCurrentFont(QFont(clip->getProducerProperty(QStringLiteral("family"))));
+        dia_ui.fontSize->setValue(clip->getProducerProperty(QStringLiteral("size")).toInt());
+        dia_ui.weight->setValue(clip->getProducerProperty(QStringLiteral("weight")).toInt());
+        dia_ui.italic->setChecked(clip->getProducerProperty(QStringLiteral("style")) == QStringLiteral("italic"));
+        dia_ui.duration->setText(doc->timecode().getTimecodeFromFrames(clip->getProducerProperty(QStringLiteral("out")).toInt()));
+    } else {
+        dia_ui.name->setText(i18n("Text Clip"));
+        dia_ui.fgColor->setColor(titleConfig.readEntry(QStringLiteral("font_color")));
+        dia_ui.bgColor->setColor(titleConfig.readEntry(QStringLiteral("background_color")));
+        dia_ui.lineColor->setColor(titleConfig.readEntry(QStringLiteral("font_outline_color")));
+        dia_ui.lineWidth->setValue(titleConfig.readEntry(QStringLiteral("font_outline")).toInt());
+        dia_ui.font->setCurrentFont(QFont(titleConfig.readEntry(QStringLiteral("font_family"))));
+        dia_ui.fontSize->setValue(titleConfig.readEntry(QStringLiteral("font_pixel_size")).toInt());
+        dia_ui.weight->setValue(titleConfig.readEntry(QStringLiteral("font_weight")).toInt());
+        dia_ui.italic->setChecked(titleConfig.readEntry(QStringLiteral("font_italic")).toInt());
+        dia_ui.duration->setText(titleConfig.readEntry(QStringLiteral("title_duration")));
+    }
+    if (dia->exec() == QDialog::Accepted) {
+        //KdenliveSettings::setColorclipcolor(color);
+        QDomDocument xml;
+        QDomElement prod = xml.createElement(QStringLiteral("producer"));
+        xml.appendChild(prod);
+        prod.setAttribute(QStringLiteral("type"), (int) QText);
+        uint id = bin->getFreeClipId();
+        prod.setAttribute(QStringLiteral("id"), QString::number(id));
+        
+        prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
+        prod.setAttribute(QStringLiteral("out"), doc->timecode().getFrameCount(dia_ui.duration->text()));
+        
+        QMap <QString, QString> properties;
+        properties.insert(QStringLiteral("kdenlive:clipname"), dia_ui.name->text());
+        if (!groupInfo.isEmpty()) {
+            properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
+        }
+        
+        properties.insert(QStringLiteral("mlt_service"), QStringLiteral("qtext"));
+        properties.insert(QStringLiteral("out"), QString::number(doc->timecode().getFrameCount(dia_ui.duration->text())));
+        properties.insert(QStringLiteral("length"), dia_ui.duration->text());
+        //properties.insert(QStringLiteral("scale"), QStringLiteral("off"));
+        //properties.insert(QStringLiteral("fill"), QStringLiteral("0"));
+        properties.insert(QStringLiteral("text"), dia_ui.text->document()->toPlainText());
+        properties.insert(QStringLiteral("fgcolour"), dia_ui.fgColor->color().name(QColor::HexArgb));
+        properties.insert(QStringLiteral("bgcolour"), dia_ui.bgColor->color().name(QColor::HexArgb));
+        properties.insert(QStringLiteral("olcolour"), dia_ui.lineColor->color().name(QColor::HexArgb));
+        properties.insert(QStringLiteral("outline"), QString::number(dia_ui.lineWidth->value()));
+        properties.insert(QStringLiteral("pad"), QString::number(dia_ui.pad->value()));
+        properties.insert(QStringLiteral("family"), dia_ui.font->currentFont().family());
+        properties.insert(QStringLiteral("size"), QString::number(dia_ui.fontSize->value()));
+        properties.insert(QStringLiteral("style"), dia_ui.italic->isChecked() ? QStringLiteral("italic") : QStringLiteral("normal"));
+        properties.insert(QStringLiteral("weight"), QString::number(dia_ui.weight->value()));
+        if (clip) {
+            QMap <QString, QString> oldProperties;
+            oldProperties.insert(QStringLiteral("out"), clip->getProducerProperty(QStringLiteral("out")));
+            oldProperties.insert(QStringLiteral("length"), clip->getProducerProperty(QStringLiteral("length")));
+            oldProperties.insert(QStringLiteral("kdenlive:clipname"), clip->name());
+            oldProperties.insert(QStringLiteral("ttl"), clip->getProducerProperty(QStringLiteral("ttl")));
+            oldProperties.insert(QStringLiteral("loop"), clip->getProducerProperty(QStringLiteral("loop")));
+            oldProperties.insert(QStringLiteral("crop"), clip->getProducerProperty(QStringLiteral("crop")));
+            oldProperties.insert(QStringLiteral("fade"), clip->getProducerProperty(QStringLiteral("fade")));
+            oldProperties.insert(QStringLiteral("luma_duration"), clip->getProducerProperty(QStringLiteral("luma_duration")));
+            oldProperties.insert(QStringLiteral("luma_file"), clip->getProducerProperty(QStringLiteral("luma_file")));
+            oldProperties.insert(QStringLiteral("softness"), clip->getProducerProperty(QStringLiteral("softness")));
+            oldProperties.insert(QStringLiteral("animation"), clip->getProducerProperty(QStringLiteral("animation")));
+            bin->slotEditClipCommand(clip->clipId(), oldProperties, properties);
+        } else {
+            addXmlProperties(prod, properties);
+            AddClipCommand *command = new AddClipCommand(doc, xml.documentElement(), QString::number(id), true);
+            doc->commandStack()->push(command);
+        }
+    }
     delete dia;
 }
 

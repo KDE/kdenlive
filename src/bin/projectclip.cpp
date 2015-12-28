@@ -463,6 +463,10 @@ const QString ProjectClip::getFileHash() const
           fileData = m_controller ? m_controller->property(QStringLiteral("xmldata")).toUtf8() : name().toUtf8();
           fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
           break;
+      case QText:
+          fileData = m_controller ? m_controller->property(QStringLiteral("text")).toUtf8() : name().toUtf8();
+          fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+          break;
       case Color:
           fileData = m_controller ? m_controller->property(QStringLiteral("resource")).toUtf8() : name().toUtf8();
           fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);

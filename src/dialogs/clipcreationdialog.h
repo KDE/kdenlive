@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class KdenliveDoc;
 class QUndoCommand;
 class Bin;
+class ProjectClip;
 
 /**
  * @namespace ClipCreationDialog
@@ -41,6 +42,7 @@ namespace ClipCreationDialog
 
     QStringList getExtensions();
     void createColorClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
+    void createQTextClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin, ProjectClip *clip = 0);
     void createClipFromXml(KdenliveDoc *doc, QDomElement xml, QStringList groupInfo, Bin *bin);
     void createSlideshowClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
     void createTitleClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin);

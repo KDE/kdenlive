@@ -408,7 +408,7 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
                     }
                 }
             }
-            if (clip->clipType() != Color && clip->clipType() != Image && clip->clipType() != Text)
+            if (clip->clipType() != Color && clip->clipType() != Image && clip->clipType() != Text && clip->clipType() != QText)
                 allowDurationChange = false;
             if (allowDurationChange && commonDuration != 0) {
                 if (commonDuration == -1)
@@ -563,7 +563,7 @@ void ProjectList::slotReloadClip(const QString &id)
             if (t == Text) {
                 if (clip && !clip->getProperty("xmltemplate").isEmpty())
                     regenerateTemplate(item);
-            } else if (t != Color && t != SlideShow && clip && clip->checkHash() == false) {
+            } else if (t != Color && t != SlideShow && t != QText && clip && clip->checkHash() == false) {
                 item->referencedClip()->setPlaceHolder(true);
                 item->setProperty("file_hash", QString());
             } else if (t == Image) {
@@ -572,7 +572,7 @@ void ProjectList::slotReloadClip(const QString &id)
 
             QDomElement e = item->toXml();
             // Make sure we get the correct producer length if it was adjusted in timeline
-            if (t == Color || t == Image || t == SlideShow || t == Text) {
+            if (t == Color || t == Image || t == SlideShow || t == Text || t == QText) {
                 int length = QString(clip->producerProperty("length")).toInt();
                 if (length > 0 && !e.hasAttribute("length")) {
                     e.setAttribute("length", length);
@@ -754,7 +754,7 @@ void ProjectList::slotClipSelected()
 void ProjectList::adjustProxyActions(ProjectItem *clip) const
 {
     if (!m_proxyAction) return;
-    if (clip == NULL || clip->type() != ProjectClipType || clip->clipType() == Color || clip->clipType() == Text || clip->clipType() == SlideShow || clip->clipType() == Audio) {
+    if (clip == NULL || clip->type() != ProjectClipType || clip->clipType() == Color || clip->clipType() == Text || clip->clipType() == QText || clip->clipType() == SlideShow || clip->clipType() == Audio) {
         m_proxyAction->setEnabled(false);
         return;
     }
@@ -769,7 +769,7 @@ void ProjectList::adjustProxyActions(ProjectItem *clip) const
 void ProjectList::adjustStabilizeActions(ProjectItem *clip) const
 {
 
-    if (clip == NULL || clip->type() != ProjectClipType || clip->clipType() == Color || clip->clipType() == Text || clip->clipType() == SlideShow) {
+    if (clip == NULL || clip->type() != ProjectClipType || clip->clipType() == Color || clip->clipType() == Text || clip->clipType() == QText || clip->clipType() == SlideShow) {
         m_clipsActionsMenu->setEnabled(false);
         return;
     }
@@ -779,7 +779,7 @@ void ProjectList::adjustStabilizeActions(ProjectItem *clip) const
 
 void ProjectList::adjustTranscodeActions(ProjectItem *clip) const
 {
-    if (clip == NULL || clip->type() != ProjectClipType || clip->clipType() == Color || clip->clipType() == Text || clip->clipType() == Playlist || clip->clipType() == SlideShow) {
+    if (clip == NULL || clip->type() != ProjectClipType || clip->clipType() == Color || clip->clipType() == Text || clip->clipType() == QText || clip->clipType() == Playlist || clip->clipType() == SlideShow) {
         m_transcodeAction->setEnabled(false);
         m_extractAudioAction->setEnabled(false);
         return;
@@ -1164,7 +1164,7 @@ void ProjectList::slotGotProxy(ProjectItem *item)
 
     // Make sure we get the correct producer length if it was adjusted in timeline
     ClipType t = item->clipType();
-    if (t == Color || t == Image || t == SlideShow || t == Text) {
+    if (t == Color || t == Image || t == SlideShow || t == Text || t == QText) {
         int length = QString(clip->producerProperty("length")).toInt();
         if (length > 0 && !e.hasAttribute("length")) {
             e.setAttribute("length", length);

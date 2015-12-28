@@ -169,7 +169,7 @@ void DocClipBase::setClipType(ClipType type)
 QUrl DocClipBase::fileURL() const
 {
     QString res = m_properties.value("resource");
-    if (m_clipType != Color && !res.isEmpty()) return QUrl::fromLocalFile(res);
+    if (m_clipType != Color && m_clipType != QText && !res.isEmpty()) return QUrl::fromLocalFile(res);
     return QUrl();
 }
 
@@ -206,7 +206,7 @@ const GenTime &DocClipBase::duration() const
 
 const GenTime DocClipBase::maxDuration() const
 {
-    if (m_clipType == Color || m_clipType == Image || m_clipType == Text || (m_clipType == SlideShow &&  m_properties.value("loop") == "1")) {
+    if (m_clipType == Color || m_clipType == Image || m_clipType == Text || m_clipType == QText || (m_clipType == SlideShow &&  m_properties.value("loop") == "1")) {
         /*const GenTime dur(15000, KdenliveSettings::project_fps());
         return dur;*/
         return GenTime();
@@ -303,6 +303,9 @@ const QString DocClipBase::shortInfo() const
     case Text:
         if (!fileURL().isEmpty() && getProperty("xmldata").isEmpty()) tip.append(i18n("Template text clip") + "</b><br />" + fileURL().path());
         else tip.append(i18n("Text clip") + "</b><br />" + fileURL().path());
+        break;
+    case QText:
+        tip.append(i18n("Text clip"));
         break;
     case SlideShow:
         tip.append(i18n("Slideshow clip") + "</b><br />" + fileURL().adjusted(QUrl::RemoveFilename).path());
@@ -986,6 +989,7 @@ QString DocClipBase::getClipHash() const
     if (m_clipType == SlideShow) hash = QCryptographicHash::hash(m_properties.value("resource").toLatin1().data(), QCryptographicHash::Md5).toHex();
     else if (m_clipType == Color) hash = QCryptographicHash::hash(m_properties.value("colour").toLatin1().data(), QCryptographicHash::Md5).toHex();
     else if (m_clipType == Text) hash = QCryptographicHash::hash(QString("title" + getId() + m_properties.value("xmldata")).toUtf8().data(), QCryptographicHash::Md5).toHex();
+    else if (m_clipType == QText) hash = QCryptographicHash::hash(m_properties.value("text").toUtf8().data(), QCryptographicHash::Md5).toHex();
     else {
         if (m_properties.contains("kdenlive:file_hash")) hash = m_properties.value("kdenlive:file_hash");
         if (hash.isEmpty()) hash = getHash(fileURL().path());

@@ -35,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "monitor/monitor.h"
 #include "doc/kdenlivedoc.h"
 #include "dialogs/clipcreationdialog.h"
+#include "ui_qtextclip_ui.h"
 #include "titler/titlewidget.h"
 #include "core.h"
 #include "utils/KoIconUtils.h"
@@ -1540,21 +1541,21 @@ void Bin::doRefreshPanel(const QString &id) {
 void Bin::showClipProperties(ProjectClip *clip, bool openExternalDialog )
 {
     if (!m_editAction->isChecked()) return;
-    if (clip && !clip->isReady()) {
+    if (!clip) {
+        m_propertiesPanel->setEnabled(false);
+        return;
+    }
+    if (!clip->isReady()) {
         m_propertiesPanel->setEnabled(false);
         return;
     }
     // Special case: text clips open title widget
-    if (clip && clip->clipType() == Text) {
-        // Cleanup widget for new content
-        /*foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
-            delete w;
-        }*/
+    if (clip->clipType() == Text) {
         m_propertiesPanel->setEnabled(false);
         if (openExternalDialog) showTitleWidget(clip);
         return;
     }
-    if (clip && clip->clipType() == SlideShow) {
+    if (clip->clipType() == SlideShow) {
         // Cleanup widget for new content
         foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
             delete w;
@@ -1563,16 +1564,17 @@ void Bin::showClipProperties(ProjectClip *clip, bool openExternalDialog )
         showSlideshowWidget(clip);
         return;
     }
-    m_propertiesPanel->show();
-    QString panelId = m_propertiesPanel->property("clipId").toString();
-    if (clip == NULL) {
-        m_propertiesPanel->setEnabled(false);
-        /*m_propertiesPanel->setProperty("clipId", QVariant());
+    if (clip->clipType() == QText) {
+        // Cleanup widget for new content
         foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
             delete w;
-        }*/
+        }
+        m_propertiesPanel->setEnabled(false);
+        ClipCreationDialog::createQTextClip(m_doc, getFolderInfo(), this, clip);
         return;
     }
+    m_propertiesPanel->show();
+    QString panelId = m_propertiesPanel->property("clipId").toString();
     if (panelId == clip->clipId()) {
         // the properties panel is already displaying current clip, do nothing
         m_propertiesPanel->setEnabled(true);
@@ -2012,6 +2014,9 @@ void Bin::slotCreateProjectClip()
           break;
       case TextTemplate:
           ClipCreationDialog::createTitleTemplateClip(m_doc, folderInfo, this);
+          break;
+      case QText:
+          ClipCreationDialog::createQTextClip(m_doc, folderInfo, this);
           break;
       default:
           break;

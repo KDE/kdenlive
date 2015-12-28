@@ -83,6 +83,11 @@ bool DocumentChecker::hasErrorInClips()
         e = documentProducers.item(i).toElement();
 	QString service = EffectsList::property(e, QStringLiteral("mlt_service"));
         if (service == QLatin1String("colour") || service == QLatin1String("color")) continue;
+        if (service == QLatin1String("qtext")) {
+            checkMissingImagesAndFonts(QStringList(), QStringList(EffectsList::property(e, QStringLiteral("family"))),
+                                       e.attribute(QStringLiteral("id")), e.attribute(QStringLiteral("name")));
+            continue;
+        }
         if (service == QLatin1String("kdenlivetitle")) {
             //TODO: Check is clip template is missing (xmltemplate) or hash changed
 	    QString xml = EffectsList::property(e, QStringLiteral("xmldata"));

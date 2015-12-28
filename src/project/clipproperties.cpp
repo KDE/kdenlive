@@ -315,6 +315,14 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         m_view.clip_thumb->setHidden(true);
         m_view.clip_color->setColor(QColor('#' + props.value("colour").right(8).left(6)));
         connect(m_view.clip_color, SIGNAL(changed(QColor)), this, SLOT(slotModified()));
+    } else if (t == QText) {
+        m_view.clip_path->setEnabled(false);
+        m_view.tabWidget->removeTab(METATAB);
+        m_view.tabWidget->removeTab(IMAGETAB);
+        m_view.tabWidget->removeTab(SLIDETAB);
+        m_view.tabWidget->removeTab(AUDIOTAB);
+        m_view.tabWidget->removeTab(VIDEOTAB);
+        m_view.clip_thumb->setHidden(true);
     } else if (t == SlideShow) {
         if (url.fileName().startsWith(QLatin1String(".all."))) {
             // the image sequence is defined by mimetype
@@ -452,7 +460,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         m_view.clip_thumb->setHidden(true);
     }
 
-    if (t != SlideShow && t != Color) {
+    if (t != SlideShow && t != Color && t != QText) {
         KFileItem f(url);
         f.setDelayedMimeTypes(true);
         m_view.clip_filesize->setText(KIO::convertSize(f.size()));
@@ -462,7 +470,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     }
     m_view.clip_duration->setInputMask(tc.mask());
     m_view.clip_duration->setText(tc.getTimecode(m_clip->duration()));
-    if (t != Image && t != Color && t != Text) {
+    if (t != Image && t != Color && t != Text && t != QText) {
         m_view.clip_duration->setReadOnly(true);
     } else {
         connect(m_view.clip_duration, SIGNAL(editingFinished()), this, SLOT(slotCheckMaxLength()));

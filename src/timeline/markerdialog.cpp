@@ -73,6 +73,7 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
             break;
         case Image:
         case Text:
+        case QText:
             m_previewTimer->start();
             //p = m_clip->pixmap(m_in->getValue(), width, height);
             break;

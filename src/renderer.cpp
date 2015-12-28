@@ -448,6 +448,7 @@ ClipType Render::getTypeForService(const QString &id, const QString &path) const
     }
     if (id == QLatin1String("color") || id == QLatin1String("colour")) return Color;
     if (id == QLatin1String("kdenlivetitle")) return Text;
+    if (id == QLatin1String("qtext")) return QText;
     if (id == QLatin1String("xml") || id == QLatin1String("consumer")) return Playlist;
     if (id == QLatin1String("webvfx")) return WebVfx;
     return Unknown;
@@ -558,6 +559,9 @@ void Render::processFileProperties()
             producer = new Mlt::Producer(*m_qmlView->profile(), 0, path.toUtf8().constData());
         } else if (type == Text) {
             path.prepend("kdenlivetitle:");
+            producer = new Mlt::Producer(*m_qmlView->profile(), 0, path.toUtf8().constData());
+        } else if (type == QText) {
+            path.prepend("qtext:");
             producer = new Mlt::Producer(*m_qmlView->profile(), 0, path.toUtf8().constData());
         } else if (type == Playlist) {
 	    //TODO: "xml" seems to corrupt project fps if different, and "consumer" crashed on audio transition
@@ -690,7 +694,7 @@ void Render::processFileProperties()
         if (info.xml.hasAttribute(QStringLiteral("out"))) clipOut = info.xml.attribute(QStringLiteral("out")).toInt();
 
         // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken even if outpoint is larger
-        if (type == Color || type == Text || type == Image || type == SlideShow) {
+        if (type == Color || type == Text || type == QText || type == Image || type == SlideShow) {
             int length;
             if (info.xml.hasAttribute(QStringLiteral("length"))) {
                 length = info.xml.attribute(QStringLiteral("length")).toInt();

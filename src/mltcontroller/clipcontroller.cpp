@@ -165,6 +165,9 @@ void ClipController::getInfoForProducer()
     else if (m_service == QLatin1String("webvfx")) {
         m_clipType = WebVfx;
     }
+    else if (m_service == QLatin1String("qtext")) {
+        m_clipType = QText;
+    }
     else m_clipType = Unknown;
     if (m_audioIndex > -1) m_audioInfo = new AudioStreamInfo(m_masterProducer, m_audioIndex);
 }

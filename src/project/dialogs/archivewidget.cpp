@@ -123,6 +123,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
             slideUrls.insert(id, slideUrl.path());
         }
         else if (t == Image) imageUrls.insert(id, clip->clipUrl().path());
+        else if (t == QText) allFonts << clip->property(QStringLiteral("family"));
         else if (t == Text) {
             QStringList imagefiles = TitleWidget::extractImageList(clip->property(QStringLiteral("xmldata")));
             QStringList fonts = TitleWidget::extractFontList(clip->property(QStringLiteral("xmldata")));
