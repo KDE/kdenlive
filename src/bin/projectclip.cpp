@@ -45,7 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *controller, ProjectFolder* parent) :
     AbstractProjectItem(AbstractProjectItem::ClipItem, id, parent)
-    , abortAudioThumb(false)
+    , m_abortAudioThumb(false)
     , m_controller(controller)
     , m_thumbsProducer(NULL)
 {
@@ -68,7 +68,7 @@ ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *control
 
 ProjectClip::ProjectClip(const QDomElement& description, QIcon thumb, ProjectFolder* parent) :
     AbstractProjectItem(AbstractProjectItem::ClipItem, description, parent)
-    , abortAudioThumb(false)
+    , m_abortAudioThumb(false)
     , m_controller(NULL)
     , m_type(Unknown)
     , m_thumbsProducer(NULL)
@@ -96,7 +96,7 @@ ProjectClip::ProjectClip(const QDomElement& description, QIcon thumb, ProjectFol
 ProjectClip::~ProjectClip()
 {
     // controller is deleted in bincontroller
-    abortAudioThumb = true;
+    abortAudioThumbs();
     bin()->slotAbortAudioThumb(m_id);
     QMutexLocker audioLock(&m_audioMutex);
     m_thumbMutex.lock();
@@ -105,6 +105,14 @@ ProjectClip::~ProjectClip()
     m_thumbThread.waitForFinished();
     delete m_thumbsProducer;
     audioFrameCache.clear();
+}
+
+void ProjectClip::abortAudioThumbs()
+{
+    m_abortAudioThumb = true;
+    if (m_audioThumbsProcess.state() != QProcess::NotRunning) {
+        m_audioThumbsProcess.terminate();
+    }
 }
 
 QString ProjectClip::getToolTip() const
@@ -827,7 +835,7 @@ void ProjectClip::slotCreateAudioThumbs()
     QString clipHash = hash();
     if (clipHash.isEmpty()) return;
     QString audioPath = bin()->projectFolder().path() + "/thumbs/" + clipHash + "_audio.png";
-    int lengthInFrames = prod->get_playtime();
+    int lengthInFrames = prod->get_length();
     int frequency = audioInfo->samplingRate();
     if (frequency <= 0) frequency = 48000;
     int channels = audioInfo->channels();
@@ -850,54 +858,150 @@ void ProjectClip::slotCreateAudioThumbs()
         updateAudioThumbnail(audioLevels);
         return;
     }
-    QString service = prod->get("mlt_service");
-    if (service == QLatin1String("avformat-novalidate"))
-        service = QStringLiteral("avformat");
-    else if (service.startsWith(QLatin1String("xml")))
-        service = QStringLiteral("xml-nogl");
-    QScopedPointer <Mlt::Producer> audioProducer(new Mlt::Producer(*prod->profile(), service.toUtf8().constData(), prod->get("resource")));
-    if (!audioProducer->is_valid()) {
-        return;
-    }
-    audioProducer->set("video_index", "-1");
-    Mlt::Filter chans(*prod->profile(), "audiochannels");
-    Mlt::Filter converter(*prod->profile(), "audioconvert");
-    Mlt::Filter levels(*prod->profile(), "audiolevel");
-    audioProducer->attach(chans);
-    audioProducer->attach(converter);
-    audioProducer->attach(levels);
 
-    int last_val = 0;
-    emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0);//, i18n("Creating audio thumbnails"));
-    double framesPerSecond = audioProducer->get_fps();
-    mlt_audio_format audioFormat = mlt_audio_s16;
-    QStringList keys;
-    for (int i = 0; i < channels; i++) {
-        keys << "meta.media.audio_level." + QString::number(i);
-    }
-    int val = 0;
-    for (int z = 0;z < lengthInFrames && !abortAudioThumb; ++z) {
-        val = (int)(100.0 * z / lengthInFrames);
-        if (last_val != val) {
-            emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWorking, val);
-            last_val = val;
+    if (KdenliveSettings::ffmpegaudiothumbnails()) {
+        QStringList args;
+        QTemporaryFile tmpfile;
+        if (!tmpfile.open()) {
+            bin()->emitMessage(i18n("Cannot create temporary file, check disk space and permissions"), ErrorMessage);
+            return;
         }
-        QScopedPointer<Mlt::Frame> mlt_frame(audioProducer->get_frame());
-        if (mlt_frame && mlt_frame->is_valid() && !mlt_frame->get_int("test_audio")) {
-            int samples = mlt_sample_calculator(framesPerSecond, frequency, z);
-            mlt_frame->get_audio(audioFormat, frequency, channels, samples);
-            for (int channel = 0; channel < channels; ++channel) {
-                double level = 256 * qMin(mlt_frame->get_double(keys.at(channel).toUtf8().constData()) * 0.9, 1.0);
-                audioLevels << level;
+        QTemporaryFile tmpfile2;
+        if (!tmpfile2.open()) {
+            bin()->emitMessage(i18n("Cannot create temporary file, check disk space and permissions"), ErrorMessage);
+            return;
+        }
+        tmpfile.close();
+        tmpfile2.close();
+        args << QStringLiteral("-i") << QUrl::fromLocalFile(prod->get("resource")).path() << QStringLiteral("-ac") << QString::number(channels);
+
+        if (channels == 1) {
+            args << QStringLiteral("-filter_complex:a") << QStringLiteral("aformat=channel_layouts=mono,aresample=async=100");
+            args << QStringLiteral("-map") << QStringLiteral("0:a") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< tmpfile.fileName();
+        } else {
+            args << QStringLiteral("-filter_complex:a") << QStringLiteral("[0:a]aresample=async=100,asplit[l][r]");
+            // Channel 1
+            args << QStringLiteral("-map") << QStringLiteral("[l]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< tmpfile.fileName();
+            // Channel 2
+            args << QStringLiteral("-map") << QStringLiteral("[r]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< tmpfile2.fileName();
+        }
+
+        emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0);
+        m_audioThumbsProcess.start(KdenliveSettings::ffmpegpath(), args);
+        bool ffmpegError = false;
+        if (!m_audioThumbsProcess.waitForStarted()) {
+            ffmpegError = true;
+        }
+        m_audioThumbsProcess.waitForFinished();
+        if (m_abortAudioThumb) {
+            emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
+            return;
+        }
+        if (ffmpegError || m_audioThumbsProcess.exitStatus() == QProcess::CrashExit) {
+            emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
+            bin()->emitMessage(i18n("Crash in %1 - creating audio thumbnails", KdenliveSettings::ffmpegpath()), ErrorMessage);
+            return;
+        }
+        tmpfile.open();
+        QByteArray res = tmpfile.readAll();
+        tmpfile.close();
+        if (res.size() == 0) {
+            emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
+            bin()->emitMessage(i18n("Error reading audio thumbnail"), ErrorMessage);
+            return;
+        }
+        const qint16* raw = (const qint16*) res.constData();
+
+        const qint16* raw2;
+        QByteArray res2;
+        QList<qint16> data2;
+        if (channels > 1) {
+            tmpfile2.open();
+            res2 = tmpfile2.readAll();
+            tmpfile2.close();
+            raw2 = (const qint16*) res2.constData();
+        }
+
+        double offset = (double) res.size() / (2 * lengthInFrames);
+        int pos = 0;
+        for (int i = 0; i < lengthInFrames; i++) {
+            long c1 = 0;
+            long c2 = 0;
+            pos = (int) (i * offset);
+            int steps = 0;
+            for (int j = 0; j < (int) offset && (pos + j < res.size()); j++) {
+                steps ++;
+                c1 += abs(raw[pos + j]);
+                if (channels > 1) {
+                    c2 += abs(raw2[pos + j]);
+                }
             }
-        } else if (!audioLevels.isEmpty()) {
-            for (int channel = 0; channel < channels; channel++)
-                audioLevels << audioLevels.last();
+            c1 /= steps;
+            c1 = c1 / 32768.0 * 1024;
+            audioLevels << (double) c1;
+            if (channels > 1) {
+                c2 /= steps;
+                c2 = c2 / 32768.0 * 1024;
+                audioLevels << (double)c2;
+            }
+            if (m_abortAudioThumb) break;
         }
-        if (abortAudioThumb) break;
+    } else {
+        QString service = prod->get("mlt_service");
+        if (service == QLatin1String("avformat-novalidate"))
+        service = QStringLiteral("avformat");
+        else if (service.startsWith(QLatin1String("xml")))
+            service = QStringLiteral("xml-nogl");
+        QScopedPointer <Mlt::Producer> audioProducer(new Mlt::Producer(*prod->profile(), service.toUtf8().constData(), prod->get("resource")));
+        if (!audioProducer->is_valid()) {
+            return;
+        }
+        audioProducer->set("video_index", "-1");
+        Mlt::Filter chans(*prod->profile(), "audiochannels");
+        Mlt::Filter converter(*prod->profile(), "audioconvert");
+        Mlt::Filter levels(*prod->profile(), "audiolevel");
+        audioProducer->attach(chans);
+        audioProducer->attach(converter);
+        audioProducer->attach(levels);
+
+        int last_val = 0;
+        emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0);//, i18n("Creating audio thumbnails"));
+        double framesPerSecond = audioProducer->get_fps();
+        mlt_audio_format audioFormat = mlt_audio_s16;
+        QStringList keys;
+        for (int i = 0; i < channels; i++) {
+            keys << "meta.media.audio_level." + QString::number(i);
+        }
+
+        int val = 0;
+        for (int z = 0;z < lengthInFrames && !m_abortAudioThumb; ++z) {
+            val = (int)(100.0 * z / lengthInFrames);
+            if (last_val != val) {
+                emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWorking, val);
+                last_val = val;
+            }
+            QScopedPointer<Mlt::Frame> mlt_frame(audioProducer->get_frame());
+            if (mlt_frame && mlt_frame->is_valid() && !mlt_frame->get_int("test_audio")) {
+                int samples = mlt_sample_calculator(framesPerSecond, frequency, z);
+                mlt_frame->get_audio(audioFormat, frequency, channels, samples);
+                for (int channel = 0; channel < channels; ++channel) {
+                    double level = 256 * qMin(mlt_frame->get_double(keys.at(channel).toUtf8().constData()) * 0.9, 1.0);
+                    audioLevels << level;
+                }
+            } else if (!audioLevels.isEmpty()) {
+                for (int channel = 0; channel < channels; channel++)
+                    audioLevels << audioLevels.last();
+            }
+            if (m_abortAudioThumb) break;
+        }
     }
 
-    if (!abortAudioThumb && audioLevels.size() > 0) {
+    emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
+    if (!m_abortAudioThumb) {
+        updateAudioThumbnail(audioLevels);
+    }
+
+    if (!m_abortAudioThumb && audioLevels.size() > 0) {
         // Put into an image for caching.
         int count = audioLevels.size();
         QImage image((count + 3) / 4, channels, QImage::Format_ARGB32);
@@ -918,11 +1022,7 @@ void ProjectClip::slotCreateAudioThumbs()
         }
         image.save(audioPath);
     }
-    emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);//, i18n("Audio thumbnails done"));
-    if (!abortAudioThumb) {
-        updateAudioThumbnail(audioLevels);
-    }
-    abortAudioThumb = false;
+    m_abortAudioThumb = false;
 }
 
 bool ProjectClip::isTransparent() const

@@ -66,8 +66,6 @@ public:
     ProjectClip(const QDomElement &description, QIcon thumb, ProjectFolder *parent);
     virtual ~ProjectClip();
 
-    bool abortAudioThumb;
-
     void reloadProducer(bool thumbnailOnly = false);
 
     /** @brief Returns a unique hash identifier used to store clip thumbnails. */
@@ -199,6 +197,8 @@ public:
     /** @brief get data analysis value. */
     QStringList updatedAnalysisData(const QString &name, const QString &data, int offset);
     QMap <QString, QString> analysisData(bool withPrefix = false);
+    /** @brief Abort running audio thumb process if any. */
+    void abortAudioThumbs();
 
 public slots:
     void updateAudioThumbnail(QVariantList audioLevels);
@@ -215,8 +215,7 @@ public slots:
     void setJobStatus(int jobType, int status, int progress = 0, const QString &statusMessage = QString());
 
 private:
-    //TODO: clip markers
-    QList <int> m_markers;
+    bool m_abortAudioThumb;
     /** @brief The Clip controller for this clip. */
     ClipController *m_controller;
     /** @brief Generate and store file hash if not available. */
@@ -228,6 +227,7 @@ private:
     QMutex m_producerMutex;
     QMutex m_thumbMutex;
     QMutex m_audioMutex;
+    QProcess m_audioThumbsProcess;
     QFuture <void> m_thumbThread;
     QList <int> m_requestedThumbs;
     const QString geometryWithOffset(const QString &data, int offset);

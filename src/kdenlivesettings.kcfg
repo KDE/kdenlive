@@ -168,6 +168,11 @@
       <label>Display audio thumbnails in timeline.</label>
       <default>true</default>
     </entry>
+    
+    <entry name="ffmpegaudiothumbnails" type="Bool">
+      <label>Use FFmpeg to create audio thumbnails (10x faster than MLT).</label>
+      <default>true</default>
+    </entry>
 
     <entry name="showmarkers" type="Bool">
       <label>Display clip markers comments in timeline.</label>

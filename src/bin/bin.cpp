@@ -486,7 +486,7 @@ void Bin::abortAudioThumbs()
     if (!m_audioThumbsThread.isRunning()) return;
     if (!m_processingAudioThumb.isEmpty()) {
         ProjectClip *clip = m_rootFolder->clip(m_processingAudioThumb);
-        if (clip) clip->abortAudioThumb = true;
+        if (clip) clip->abortAudioThumbs();
     }
     m_audioThumbMutex.lock();
     m_audioThumbsList.clear();

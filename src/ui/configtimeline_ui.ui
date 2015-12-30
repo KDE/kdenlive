@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>286</width>
-    <height>290</height>
+    <width>525</width>
+    <height>418</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -65,6 +65,13 @@
        </layout>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="kcfg_ffmpegaudiothumbnails">
+     <property name="text">
+      <string>Use FFmpeg for audio thumbnails (faster)</string>
+     </property>
     </widget>
    </item>
    <item>
