@@ -697,21 +697,21 @@ void ClipPropertiesController::fillProperties()
             propertyMap.append(QStringList() << i18n("Frame size") << QString::number(width) + "x" + QString::number(height));
 
             snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
-            double fps = m_controller->double_property(property);
-            if (fps > 0) {
-                    propertyMap.append(QStringList() << i18n("Frame rate") << QString::number(fps, 'g', 3));
+            QString fpsValue = m_controller->property(property);
+            if (!fpsValue.isEmpty()) {
+                propertyMap.append(QStringList() << i18n("Frame rate") << fpsValue);
             } else {
                 int rate_den = m_controller->int_property(QStringLiteral("meta.media.frame_rate_den"));
                 if (rate_den > 0) {
                     double fps = (double) m_controller->int_property(QStringLiteral("meta.media.frame_rate_num")) / rate_den;
-                    propertyMap.append(QStringList() << i18n("Frame rate") << QString::number(fps, 'g', 3));
+                    propertyMap.append(QStringList() << i18n("Frame rate") << QString::number(fps, 'f', 2));
                 }
             }
 
             snprintf(property, sizeof(property), "meta.media.%d.codec.bit_rate", vindex);
-            int bitrate = m_controller->int_property(property);
+            int bitrate = m_controller->int_property(property) / 1000;
             if (bitrate > 0) {
-                propertyMap.append(QStringList() << i18n("Video bitrate") << KIO::convertSize(bitrate) + "/" + i18nc("seconds", "s"));
+                propertyMap.append(QStringList() << i18n("Video bitrate") << QString::number(bitrate) + QStringLiteral(" ") + i18nc("Kilobytes per seconds", "kb/s"));
             }
 
             int scan = m_controller->int_property(QStringLiteral("meta.media.progressive"));
@@ -722,7 +722,7 @@ void ClipPropertiesController::fillProperties()
                 // Read media aspect ratio
                 par = m_controller->double_property(QStringLiteral("aspect_ratio"));
             }
-            propertyMap.append(QStringList() << i18n("Pixel aspect ratio") << QString::number(par, 'g', 3));
+            propertyMap.append(QStringList() << i18n("Pixel aspect ratio") << QString::number(par, 'f', 3));
             propertyMap.append(QStringList() << i18n("Pixel format") << m_controller->videoCodecProperty(QStringLiteral("pix_fmt")));
             int colorspace = m_controller->videoCodecProperty(QStringLiteral("colorspace")).toInt();
             propertyMap.append(QStringList() << i18n("Colorspace") << ProfilesDialog::getColorspaceDescription(colorspace));
@@ -740,12 +740,12 @@ void ClipPropertiesController::fillProperties()
 
             snprintf(property, sizeof(property), "meta.media.%d.codec.sample_rate", default_audio);
             int srate = m_controller->int_property(property);
-            propertyMap.append(QStringList() << i18n("Audio frequency") << QString::number(srate));
+            propertyMap.append(QStringList() << i18n("Audio frequency") << QString::number(srate) + QStringLiteral(" ") + i18nc("Herz", "Hz"));
 
             snprintf(property, sizeof(property), "meta.media.%d.codec.bit_rate", default_audio);
-            int bitrate = m_controller->int_property(property);
+            int bitrate = m_controller->int_property(property) / 1000;
             if (bitrate > 0) {
-                propertyMap.append(QStringList() << i18n("Audio bitrate") << KIO::convertSize(bitrate) + "/" + i18nc("seconds", "s"));
+                propertyMap.append(QStringList() << i18n("Audio bitrate") << QString::number(bitrate) + QStringLiteral(" ") + i18nc("Kilobytes per seconds", "kb/s"));
             }
         }
     }
