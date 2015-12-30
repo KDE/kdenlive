@@ -172,15 +172,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor, SIGNAL(effectChanged(QRect)), this, SIGNAL(effectChanged(QRect)));
     connect(m_glMonitor, SIGNAL(effectChanged(QVariantList)), this, SIGNAL(effectChanged(QVariantList)));
     connect(m_glMonitor, SIGNAL(lockMonitor(bool)), this, SLOT(slotLockMonitor(bool)), Qt::DirectConnection);
-
-    if (KdenliveSettings::displayMonitorInfo()) {
-        // Load monitor overlay qml
-        m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, m_id == Kdenlive::ClipMonitor ? QStringLiteral("kdenliveclipmonitor.qml") : QStringLiteral("kdenlivemonitor.qml"))));
-        m_rootItem = m_glMonitor->rootObject();
-        m_markerItem = m_rootItem->findChild<QQuickItem *>("markertext");
-        m_glMonitor->setAudioThumb();
-        QObject::connect(m_rootItem, SIGNAL(editCurrentMarker()), this, SLOT(slotEditInlineMarker()), Qt::UniqueConnection);
-    }
     connect(m_glMonitor, SIGNAL(showContextMenu(QPoint)), this, SLOT(slotShowMenu(QPoint)));
 
     m_glWidget->setMinimumSize(QSize(320, 180));
@@ -332,6 +323,10 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotSeek()));
     layout->addWidget(m_toolbar);
     if (m_recManager) layout->addWidget(m_recManager->toolbar());
+
+    // Load monitor overlay qml
+    loadMonitorScene();
+
     // Info message widget
     m_infoMessage = new KMessageWidget(this);
     layout->addWidget(m_infoMessage);
@@ -401,12 +396,13 @@ void Monitor::slotLockMonitor(bool lock)
     m_monitorManager->lockMonitor(m_id, lock);
 }
 
-void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu, QAction *loopClip)
+void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu, QAction *loopClip)
 {
     m_contextMenu = new QMenu(this);
     m_contextMenu->addMenu(m_playMenu);
     if (goMenu)
         m_contextMenu->addMenu(goMenu);
+
     if (markerMenu) {
         m_contextMenu->addMenu(markerMenu);
         QList <QAction *>list = markerMenu->actions();
@@ -443,6 +439,9 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
         QAction *setThumbFrame = m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
         m_configMenu->addAction(setThumbFrame);
     }
+
+    if (overlayMenu)
+        m_contextMenu->addMenu(overlayMenu);
 
     QAction *overlayAudio = m_contextMenu->addAction(QIcon(), i18n("Overlay audio waveform"));
     overlayAudio->setCheckable(true);
@@ -690,8 +689,6 @@ void Monitor::adjustScrollBars(float horizontal, float vertical)
 void Monitor::setZoom()
 {
     if (m_glMonitor->zoom() == 1.0f) {
-       /* m_zoomButton->setIcon(icon);
-        m_zoomButton->setChecked(false);*/
         m_horizontalScroll->hide();
         m_verticalScroll->hide();
     } else {
@@ -987,7 +984,6 @@ void Monitor::checkOverlay()
     }
     if (overlayText != m_markerItem->property("text")) {
         m_markerItem->setProperty("text", overlayText);
-        m_markerItem->setVisible(!overlayText.isEmpty());
     }
 }
 
@@ -1095,6 +1091,7 @@ void Monitor::seekCursor(int pos)
 {
     if (m_ruler->slotNewValue(pos)) {
         m_timePos->setValue(pos);
+        m_glMonitor->rootObject()->setProperty("timecode", m_timePos->displayText());
 	checkOverlay();
         if (m_id != Kdenlive::ClipMonitor) {
             emit renderPosition(pos);
@@ -1370,14 +1367,19 @@ void Monitor::switchDropFrames(bool drop)
     render->setDropFrames(drop);
 }
 
-void Monitor::switchMonitorInfo(bool show)
+void Monitor::switchMonitorInfo(int code)
 {
-    KdenliveSettings::setDisplayMonitorInfo(show);
-    if (m_rootItem && m_rootItem->objectName() != QLatin1String("root")) {
-        // we are not in main view, ignore
-        return;
+    int currentOverlay;
+    if (m_id == Kdenlive::ClipMonitor) {
+        currentOverlay = KdenliveSettings::displayClipMonitorInfo();
+        currentOverlay ^= code;
+        KdenliveSettings::setDisplayClipMonitorInfo(currentOverlay);
+    } else {
+        currentOverlay = KdenliveSettings::displayProjectMonitorInfo();
+        currentOverlay ^= code;
+        KdenliveSettings::setDisplayProjectMonitorInfo(currentOverlay);
     }
-    loadMasterQml();
+    updateQmlDisplay(currentOverlay);
 }
 
 void Monitor::updateMonitorGamma()
@@ -1400,6 +1402,7 @@ void Monitor::slotEditMarker()
 void Monitor::updateTimecodeFormat()
 {
     m_timePos->slotUpdateTimeCodeFormat();
+    m_glMonitor->rootObject()->setProperty("timecode", m_timePos->displayText());
 }
 
 QStringList Monitor::getZoneInfo() const
@@ -1454,7 +1457,7 @@ void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary)
     if (!temporary) m_lastMonitorSceneType = sceneType;
     if (sceneType == MonitorSceneGeometry) {
         if (!m_rootItem || m_rootItem->objectName() != QLatin1String("rooteffectscene")) {
-            m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, m_id == Kdenlive::ClipMonitor ? QStringLiteral("kdenliveclipmonitor.qml") : QStringLiteral("kdenlivemonitor.qml"))));
+            m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitoreffectscene.qml"))));
             m_rootItem = m_glMonitor->rootObject();
             QObject::connect(m_rootItem, SIGNAL(addKeyframe()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
             QObject::connect(m_rootItem, SIGNAL(seekToKeyframe()), this, SLOT(slotSeekToKeyFrame()), Qt::UniqueConnection);
@@ -1480,13 +1483,18 @@ void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary)
             m_glMonitor->slotShowEffectScene(sceneType);
         }
     }
-    else if (m_rootItem && m_rootItem->objectName() != QLatin1String("root") && m_rootItem->objectName() != QLatin1String("rootsplit"))  {
-        if (m_effectCompare && m_effectCompare->isEnabled() && m_effectCompare->isActive()) {
-            if (m_rootItem->objectName() != QLatin1String("rootsplit")) {
-                slotSwitchCompare(true);
+    else {
+        m_rootItem = m_glMonitor->rootObject();
+        if (m_rootItem && m_rootItem->objectName() != QLatin1String("root") && m_rootItem->objectName() != QLatin1String("rootsplit"))  {
+            if (m_effectCompare && m_effectCompare->isEnabled() && m_effectCompare->isActive()) {
+                if (m_rootItem->objectName() != QLatin1String("rootsplit")) {
+                    slotSwitchCompare(true);
+                }
             }
-        } 
-        else loadMasterQml();
+            else {
+                loadMasterQml();
+            }
+        }
     }
     if (m_sceneVisibilityAction) m_sceneVisibilityAction->setChecked(sceneType != MonitorSceneNone);
 }
@@ -1701,24 +1709,11 @@ void Monitor::slotSwitchCompare(bool enable)
 
 void Monitor::loadMasterQml()
 {
-    if (!KdenliveSettings::displayMonitorInfo()) {
-        // We don't want info overlay
-        if (m_rootItem) {
-            m_glMonitor->setSource(QUrl());
-            m_rootItem = NULL;
-        }
-        return;
-    }
     if ((m_rootItem && m_rootItem->objectName() == QLatin1String("root"))) {
         // Root scene is already active
         return;
     }
-    m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, m_id == Kdenlive::ClipMonitor ? QStringLiteral("kdenliveclipmonitor.qml") : QStringLiteral("kdenlivemonitor.qml"))));
-    m_glMonitor->slotShowEffectScene(MonitorSceneNone);
-    m_rootItem = m_glMonitor->rootObject();
-    m_markerItem = m_rootItem->findChild<QQuickItem *>("markertext");
-    m_glMonitor->setAudioThumb();
-    QObject::connect(m_rootItem, SIGNAL(editCurrentMarker()), this, SLOT(slotEditInlineMarker()), Qt::UniqueConnection);
+    loadMonitorScene();
 }
 
 void Monitor::slotAdjustEffectCompare()
@@ -1813,4 +1808,31 @@ void Monitor::slotEditInlineMarker()
 void Monitor::prepareAudioThumb(int channels, QVariantList &audioCache)
 {
     m_glMonitor->setAudioThumb(channels, audioCache);
+}
+
+void Monitor::loadMonitorScene()
+{
+    m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, m_id == Kdenlive::ClipMonitor ? QStringLiteral("kdenliveclipmonitor.qml") : QStringLiteral("kdenlivemonitor.qml"))));
+    m_glMonitor->slotShowEffectScene(MonitorSceneNone);
+    m_rootItem = m_glMonitor->rootObject();
+    m_markerItem = m_rootItem->findChild<QQuickItem *>("markertext");
+    m_glMonitor->setAudioThumb();
+    m_rootItem->setProperty("profile", QPoint(m_glMonitor->profileSize().width(), m_glMonitor->profileSize().height()));
+    m_rootItem->setProperty("scale", m_glMonitor->scale());
+    m_glMonitor->rootObject()->setProperty("timecode", m_timePos->displayText());
+    QObject::connect(m_rootItem, SIGNAL(editCurrentMarker()), this, SLOT(slotEditInlineMarker()), Qt::UniqueConnection);
+    if (m_id == Kdenlive::ClipMonitor) {
+        updateQmlDisplay(KdenliveSettings::displayClipMonitorInfo());
+    } else {
+        updateQmlDisplay(KdenliveSettings::displayProjectMonitorInfo());
+    }
+}
+
+void Monitor::updateQmlDisplay(int currentOverlay)
+{
+    m_glMonitor->rootObject()->setVisible(currentOverlay & 0x01);
+    m_glMonitor->rootObject()->setProperty("showMarkers", currentOverlay & 0x04);
+    m_glMonitor->rootObject()->setProperty("showTimecode", currentOverlay & 0x02);
+    m_glMonitor->rootObject()->setProperty("showSafezone", currentOverlay & 0x08);
+    m_glMonitor->rootObject()->setProperty("showAudiothumb", currentOverlay & 0x10);
 }

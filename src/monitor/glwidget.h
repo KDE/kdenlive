@@ -78,6 +78,7 @@ public:
     QRect rect() const { return m_rect; }
     QRect effectRect() const { return m_effectRect; }
     float zoom() const;
+    float scale() const;
     QPoint offset() const;
     Mlt::Consumer *consumer();
     Mlt::Producer *producer();
@@ -166,6 +167,7 @@ private:
     void removeAudioOverlay();
     void adjustAudioOverlay(bool isAudio);
     QOpenGLFramebufferObject *m_fbo;
+    void refreshSceneLayout();
 
 private slots:
     void resizeGL(int width, int height);

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="101" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="104" translationDomain="kdenlive">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -150,7 +150,7 @@
       <Action name="monitor_play_zone" />
       <Action name="monitor_loop_zone" />
       <Action name="monitor_loop_clip" />
-      <Separator />      
+      <Separator />
       <Menu name="monitor_go" ><text>Go To</text>
 	    <Action name="seek_start" />
 	    <Action name="monitor_seek_snap_backward" />
@@ -172,7 +172,13 @@
       <Action name="mark_out" />
       <Separator />
       <Action name="monitor_fullscreen" />
-      <Action name="monitor_overlay" />
+      <Menu name="monitor_config_overlay" ><text>Current Monitor Overlay</text>
+          <Action name="monitor_overlay" />
+          <Action name="monitor_overlay_tc" />
+          <Action name="monitor_overlay_safezone" />
+          <Action name="monitor_overlay_markers" />
+          <Action name="monitor_overlay_audiothumb" />
+      </Menu>
       <Menu name="monitor_config" ><text>Monitor config</text>
           <Action name="mlt_interlace" />
           <Action name="mlt_interpolation" />

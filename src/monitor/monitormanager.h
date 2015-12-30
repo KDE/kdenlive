@@ -134,6 +134,8 @@ signals:
     /** @brief Check if we still need to send frame for scopes */
     void checkScopes();
     void addEffect(QDomElement);
+    /** @brief Monitor activated, refresh overlay options actions */
+    void updateOverlayInfos(int, int);
 
 };
 

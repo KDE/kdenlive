@@ -992,16 +992,20 @@ void GLWidget::slotShowEffectScene(MonitorSceneType sceneType)
             //TODO
             break;
         default:
+          item->setProperty("profile", QPoint(m_monitorProfile->width(), m_monitorProfile->height()));
           item->setProperty("scale", (double) m_rect.width() / m_monitorProfile->width() * m_zoom);
-          item->setProperty("center", m_rect.center());
           break;
     }
 }
 
-
-float GLWidget::zoom() const 
+float GLWidget::zoom() const
 { 
     return m_zoom;// * m_monitorProfile->width() / m_rect.width();
+}
+
+float GLWidget::scale() const
+{ 
+    return (double) m_rect.width() / m_monitorProfile->width() * m_zoom;
 }
 
 Mlt::Profile *GLWidget::profile()
@@ -1025,6 +1029,7 @@ void GLWidget::resetProfile(MltVideoProfile profile)
     m_monitorProfile->set_display_aspect(profile.display_aspect_num, profile.display_aspect_den);
     m_monitorProfile->set_explicit(true);
     reconfigure();
+    refreshSceneLayout();
 }
 
 void GLWidget::reloadProfile(Mlt::Profile &profile)
@@ -1040,6 +1045,7 @@ void GLWidget::reloadProfile(Mlt::Profile &profile)
     m_monitorProfile->set_explicit(true);
     // The profile display aspect ratio may have changed.
     resizeGL(width(), height());
+    refreshSceneLayout();
 }
 
 QSize GLWidget::profileSize() const
@@ -1387,4 +1393,10 @@ void GLWidget::setAudioThumb(int channels, QVariantList audioCache)
             audioThumbDisplay->setImage(img);
         }
     }
+}
+
+void GLWidget::refreshSceneLayout()
+{
+    rootObject()->setProperty("profile", QPoint(m_monitorProfile->width(), m_monitorProfile->height()));
+    rootObject()->setProperty("scale", (double) m_rect.width() / m_monitorProfile->width() * m_zoom);
 }

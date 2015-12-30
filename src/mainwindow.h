@@ -405,7 +405,7 @@ private slots:
     void slotUpdateTrackInfo();
 
     void slotSwitchMonitors();
-    void slotSwitchMonitorOverlay(bool show);
+    void slotSwitchMonitorOverlay(QAction *);
     void slotSwitchDropFrames(bool drop);
     void slotSetMonitorGamma(int gamma);
     void slotCheckRenderStatus();
@@ -442,6 +442,8 @@ private slots:
     /** @brief Close Kdenlive and try to restart it */
     void slotRestart();
     void triggerKey(QKeyEvent* ev);
+    /** @brief Update monitor overlay actions on monitor switch */
+    void slotUpdateMonitorOverlays(int id, int code);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

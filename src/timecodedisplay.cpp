@@ -44,7 +44,6 @@ TimecodeDisplay::TimecodeDisplay(const Timecode& t, QWidget *parent)
     setValue(m_minimum);
 
     setTimeCodeFormat(KdenliveSettings::frametimecode(), true);
-
     connect(lineEdit(), SIGNAL(editingFinished()), this, SLOT(slotEditingFinished()));
 }
 
@@ -186,5 +185,10 @@ void TimecodeDisplay::slotEditingFinished()
     if (m_frametimecode) setValue(lineEdit()->text().toInt());
     else setValue(lineEdit()->text());
     emit timeCodeEditingFinished(m_value);
+}
+
+const QString TimecodeDisplay::displayText() const
+{
+    return lineEdit()->displayText();
 }
 

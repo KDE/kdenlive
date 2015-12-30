@@ -90,7 +90,7 @@ public:
     void resetProfile(MltVideoProfile profile);
     void setCustomProfile(const QString &profile, const Timecode &tc);
     void pause();
-    void setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL, QAction *loopClip = NULL);
+    void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL, QAction *loopClip = NULL);
     const QString sceneList();
     const QString activeClipId();
     GenTime position();
@@ -127,7 +127,7 @@ public:
     void setEffectKeyframe(bool enable);
     void sendFrameForAnalysis(bool analyse);
     void updateAudioForAnalysis();
-    void switchMonitorInfo(bool show);
+    void switchMonitorInfo(int code);
     void switchDropFrames(bool drop);
     void updateMonitorGamma();
     void mute(bool, bool updateIconOnly = false);
@@ -213,6 +213,8 @@ private:
     MonitorSceneType m_lastMonitorSceneType;
     void adjustScrollBars(float horizontal, float vertical);
     void loadMasterQml();
+    void loadMonitorScene();
+    void updateQmlDisplay(int currentOverlay);
 
 private slots:
     void seekCursor(int pos);
@@ -321,6 +323,7 @@ signals:
     /** @brief Update the text of a timeline guide. */
     void updateGuide(int, QString);
     void requestAudioThumb(QString);
+    void timeCodeUpdated(QString);
 };
 
 #endif

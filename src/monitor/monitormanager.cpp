@@ -128,6 +128,10 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh
     if (m_activeMonitor) {
         m_activeMonitor->blockSignals(true);
         m_activeMonitor->parentWidget()->raise();
+        if (name == Kdenlive::ClipMonitor) {
+            emit updateOverlayInfos(name, KdenliveSettings::displayClipMonitorInfo());
+        }
+        else emit updateOverlayInfos(name, KdenliveSettings::displayProjectMonitorInfo());
 	m_activeMonitor->blockSignals(false);
         m_activeMonitor->start();
         // why?

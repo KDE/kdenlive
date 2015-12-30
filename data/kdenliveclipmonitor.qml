@@ -10,9 +10,42 @@ Item {
     // default size, but scalable by user
     height: 300; width: 400
     property string comment
-    property point center
+    property string timecode
+    property point profile
     property double scale
+    property bool showMarkers
+    property bool showTimecode
+    property bool showSafezone
+    property bool showAudiothumb
     signal editCurrentMarker()
+
+    Item {
+        id: frame
+        objectName: "referenceframe"
+        width: root.profile.x * root.scale
+        height: root.profile.y * root.scale
+        anchors.centerIn: parent
+        visible: root.showSafezone
+
+        Rectangle {
+            id: safezone
+            objectName: "safezone"
+            color: "transparent"
+            border.color: "cyan"
+            width: parent.width * 0.9
+            height: parent.height * 0.9
+            anchors.centerIn: parent
+            Rectangle {
+              id: safetext
+              objectName: "safetext"
+              color: "transparent"
+              border.color: "cyan"
+              width: frame.width * 0.8
+              height: frame.height * 0.8
+              anchors.centerIn: parent
+            }
+        }
+    }
 
     QmlAudioThumb {
         id: audioThumb
@@ -25,6 +58,7 @@ Item {
         height: parent.height / 6
         //font.pixelSize * 3
         width: parent.width
+        visible: root.showAudiothumb
 
         states: [
             State { when: audioThumb.stateVisible;
@@ -45,31 +79,44 @@ Item {
         }
     }
 
-      TextField {
-          id: marker
-          objectName: "markertext"
-          activeFocusOnPress: true
-          onEditingFinished: {
+    Text {
+        id: timecode
+        objectName: "timecode"
+        color: "white"
+        style: Text.Outline; 
+        styleColor: "black"
+        text: root.timecode
+        font.pixelSize: root.height / 20
+        visible: root.showTimecode
+        anchors {
+            right: root.right
+            bottom: root.bottom
+            rightMargin: 4
+        }
+    }
+    TextField {
+        id: marker
+        objectName: "markertext"
+        activeFocusOnPress: true
+        onEditingFinished: {
             root.comment = marker.displayText
             marker.focus = false
             root.editCurrentMarker()
-          }
-
-          anchors {
-            right: parent.right
-            bottom: parent.bottom
-            rightMargin: 4
-            bottomMargin: 4
-          }
-
-          textColor: "white"
-          visible: text != ""
-          style: TextFieldStyle {
-            background: Rectangle {
-                color: "#ffff0000"
-                radius: 5
-            }
-          }
-          font.pointSize: root.height / 35
         }
+
+        anchors {
+            left: parent.left
+            bottom: parent.bottom
+        }
+        visible: root.showMarkers && text != ""
+        maximumLength: 20
+        style: TextFieldStyle {
+            textColor: "white"
+            background: Rectangle {
+                color: "#99ff0000"
+                width: marker.width
+            }
+        }
+        font.pixelSize: frame.height / 25
+    }
 }

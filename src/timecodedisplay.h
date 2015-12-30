@@ -76,6 +76,8 @@ public:
 
     virtual void stepBy(int steps);
 
+    const QString displayText() const;
+
 private:
     /** timecode for widget */
     Timecode m_timecode;

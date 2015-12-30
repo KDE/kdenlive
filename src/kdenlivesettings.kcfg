@@ -655,9 +655,14 @@
       <default>false</default>
     </entry>
 
-    <entry name="displayMonitorInfo" type="Bool">
+    <entry name="displayClipMonitorInfo" type="Int">
       <label>Show overlay info on monitor (in / out points, markers,...).</label>
-      <default>true</default>
+      <default>0x13</default>
+    </entry>
+
+    <entry name="displayProjectMonitorInfo" type="Int">
+      <label>Show overlay info on monitor (in / out points, markers,...).</label>
+      <default>0x03</default>
     </entry>
 
     <entry name="displayAudioOverlay" type="Bool">

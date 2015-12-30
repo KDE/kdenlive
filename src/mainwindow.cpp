@@ -344,13 +344,19 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     loadPlugins();
     loadDockActions();
     loadClipActions();
+    
+        // Connect monitor overlay info menu.
+    QMenu *monitorOverlay = static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_config_overlay"), this));
+    connect(monitorOverlay, SIGNAL(triggered(QAction*)), this, SLOT(slotSwitchMonitorOverlay(QAction*)));
 
-    m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_go"), this)), m_playZone, m_loopZone, NULL, m_loopClip);
-    m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_go"), this)), m_playZone, m_loopZone, static_cast<QMenu*>(factory()->container(QStringLiteral("marker_menu"), this)));
+    m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone, NULL, m_loopClip);
+    m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone, static_cast<QMenu*>(factory()->container(QStringLiteral("marker_menu"), this)));
 
     QMenu *clipInTimeline = static_cast<QMenu*>(factory()->container(QStringLiteral("clip_in_timeline"), this));
     clipInTimeline->setIcon(KoIconUtils::themedIcon(QStringLiteral("go-jump")));
     pCore->bin()->setupGeneratorMenu();
+
+    connect(pCore->monitorManager(), SIGNAL(updateOverlayInfos(int,int)), this, SLOT(slotUpdateMonitorOverlays(int,int)));
 
     // Setup and fill effects and transitions menus.
     QMenu *m = static_cast<QMenu*>(factory()->container(QStringLiteral("video_effects_menu"), this));
@@ -1033,8 +1039,27 @@ void MainWindow::setupActions()
     QAction *overlayInfo =  new QAction(KoIconUtils::themedIcon(QStringLiteral("help-hint")), i18n("Monitor Info Overlay"), this);
     addAction(QStringLiteral("monitor_overlay"), overlayInfo);
     overlayInfo->setCheckable(true);
-    overlayInfo->setChecked(KdenliveSettings::displayMonitorInfo());
-    connect(overlayInfo, SIGNAL(triggered(bool)), this, SLOT(slotSwitchMonitorOverlay(bool)));
+    overlayInfo->setData(0x01);
+
+    QAction *overlayTCInfo =  new QAction(KoIconUtils::themedIcon(QStringLiteral("help-hint")), i18n("Monitor Overlay Timecode"), this);
+    addAction(QStringLiteral("monitor_overlay_tc"), overlayTCInfo);
+    overlayTCInfo->setCheckable(true);
+    overlayTCInfo->setData(0x02);
+
+    QAction *overlayMarkerInfo =  new QAction(KoIconUtils::themedIcon(QStringLiteral("help-hint")), i18n("Monitor Overlay Markers"), this);
+    addAction(QStringLiteral("monitor_overlay_markers"), overlayMarkerInfo);
+    overlayMarkerInfo->setCheckable(true);
+    overlayMarkerInfo->setData(0x04);
+
+    QAction *overlaySafeInfo =  new QAction(KoIconUtils::themedIcon(QStringLiteral("help-hint")), i18n("Monitor Overlay Safe Zones"), this);
+    addAction(QStringLiteral("monitor_overlay_safezone"), overlaySafeInfo);
+    overlaySafeInfo->setCheckable(true);
+    overlaySafeInfo->setData(0x08);
+    
+    QAction *overlayAudioInfo =  new QAction(KoIconUtils::themedIcon(QStringLiteral("help-hint")), i18n("Monitor Overlay Audio Waveform"), this);
+    addAction(QStringLiteral("monitor_overlay_audiothumb"), overlayAudioInfo);
+    overlayAudioInfo->setCheckable(true);
+    overlayAudioInfo->setData(0x10);
 
     QAction *dropFrames = new QAction(QIcon(), i18n("Real Time (drop frames)"), this);
     dropFrames->setCheckable(true);
@@ -1738,7 +1763,6 @@ void MainWindow::updateConfiguration()
     m_buttonAutomaticSplitAudio->setChecked(KdenliveSettings::splitaudio());
 
     // Update list of transcoding profiles
-    qDebug()<<"+ + + 1UPDATE CONFIG + + + ";
     buildDynamicActions();
     loadClipActions();
 }
@@ -3112,10 +3136,13 @@ void MainWindow::slotSwitchMonitors()
     else pCore->bin()->focusBinView();
 }
 
-void MainWindow::slotSwitchMonitorOverlay(bool show)
+void MainWindow::slotSwitchMonitorOverlay(QAction *action)
 {
-    m_clipMonitor->switchMonitorInfo(show);
-    m_projectMonitor->switchMonitorInfo(show);
+    if (pCore->monitorManager()->isActive(Kdenlive::ClipMonitor)) {
+        m_clipMonitor->switchMonitorInfo(action->data().toInt());
+    } else {
+        m_projectMonitor->switchMonitorInfo(action->data().toInt());
+    }
 }
 
 void MainWindow::slotSwitchDropFrames(bool drop)
@@ -3294,6 +3321,20 @@ QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName
     dockWidget->setWidget(widget);
     addDockWidget(area, dockWidget);
     return dockWidget;
+}
+
+void MainWindow::slotUpdateMonitorOverlays(int id, int code)
+{
+    QMenu *monitorOverlay = static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_config_overlay"), this));
+    if (!monitorOverlay) return;
+    QList <QAction *> actions = monitorOverlay->actions();
+    foreach(QAction *ac, actions) {
+        int data = ac->data().toInt();
+        if (data == 0x010) {
+            ac->setEnabled(id == Kdenlive::ClipMonitor);
+        }
+        ac->setChecked(code & data);
+    }
 }
 
 
