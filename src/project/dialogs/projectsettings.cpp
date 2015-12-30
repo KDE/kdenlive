@@ -52,6 +52,10 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     project_folder->setUrl(QUrl(projectPath));
     loadProfiles();
 
+    manage_profiles->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
+    manage_profiles->setToolTip(i18n("Manage project profiles"));
+    connect(manage_profiles, SIGNAL(clicked(bool)), this, SLOT(slotEditProfiles()));
+
     m_buttonOk = buttonBox->button(QDialogButtonBox::Ok);
     //buttonOk->setEnabled(false);
     audio_thumbs->setChecked(KdenliveSettings::audiothumbnails());
