@@ -641,7 +641,7 @@ void Monitor::mousePressEvent(QMouseEvent * event)
 
 void Monitor::slotShowMenu(const QPoint pos)
 {
-    m_contextMenu->popup(pos);
+    if (m_contextMenu) m_contextMenu->popup(pos);
 }
 
 void Monitor::resizeEvent(QResizeEvent *event)
@@ -1815,6 +1815,9 @@ void Monitor::loadMonitorScene()
     m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, m_id == Kdenlive::ClipMonitor ? QStringLiteral("kdenliveclipmonitor.qml") : QStringLiteral("kdenlivemonitor.qml"))));
     m_glMonitor->slotShowEffectScene(MonitorSceneNone);
     m_rootItem = m_glMonitor->rootObject();
+    if (m_id == Kdenlive::DvdMonitor) {
+        m_rootItem->setVisible(false);
+    }
     m_markerItem = m_rootItem->findChild<QQuickItem *>("markertext");
     m_glMonitor->setAudioThumb();
     m_rootItem->setProperty("profile", QPoint(m_glMonitor->profileSize().width(), m_glMonitor->profileSize().height()));
@@ -1823,7 +1826,7 @@ void Monitor::loadMonitorScene()
     QObject::connect(m_rootItem, SIGNAL(editCurrentMarker()), this, SLOT(slotEditInlineMarker()), Qt::UniqueConnection);
     if (m_id == Kdenlive::ClipMonitor) {
         updateQmlDisplay(KdenliveSettings::displayClipMonitorInfo());
-    } else {
+    } else if (m_id == Kdenlive::ProjectMonitor) {
         updateQmlDisplay(KdenliveSettings::displayProjectMonitorInfo());
     }
 }

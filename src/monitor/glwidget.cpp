@@ -1397,6 +1397,7 @@ void GLWidget::setAudioThumb(int channels, QVariantList audioCache)
 
 void GLWidget::refreshSceneLayout()
 {
+    if (!rootObject()) return;
     rootObject()->setProperty("profile", QPoint(m_monitorProfile->width(), m_monitorProfile->height()));
     rootObject()->setProperty("scale", (double) m_rect.width() / m_monitorProfile->width() * m_zoom);
 }
