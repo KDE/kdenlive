@@ -227,7 +227,6 @@ private:
     QMutex m_producerMutex;
     QMutex m_thumbMutex;
     QMutex m_audioMutex;
-    QProcess m_audioThumbsProcess;
     QFuture <void> m_thumbThread;
     QList <int> m_requestedThumbs;
     const QString geometryWithOffset(const QString &data, int offset);
@@ -243,6 +242,8 @@ signals:
     void updateJobStatus(int jobType, int status, int progress = 0, const QString &statusMessage = QString());
     /** @brief Clip is ready, load properties. */
     void loadPropertiesPanel();
+    /** @brief Terminate running audio proxy job. */
+    void doAbortAudioThumbs();
 };
 
 #endif

@@ -110,9 +110,7 @@ ProjectClip::~ProjectClip()
 void ProjectClip::abortAudioThumbs()
 {
     m_abortAudioThumb = true;
-    if (m_audioThumbsProcess.state() != QProcess::NotRunning) {
-        m_audioThumbsProcess.terminate();
-    }
+    emit doAbortAudioThumbs();
 }
 
 QString ProjectClip::getToolTip() const
@@ -887,17 +885,20 @@ void ProjectClip::slotCreateAudioThumbs()
         }
 
         emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0);
-        m_audioThumbsProcess.start(KdenliveSettings::ffmpegpath(), args);
+        QProcess audioThumbsProcess;
+        connect(this, SIGNAL(doAbortAudioThumbs()), &audioThumbsProcess, SLOT(kill()));
+        audioThumbsProcess.start(KdenliveSettings::ffmpegpath(), args);
         bool ffmpegError = false;
-        if (!m_audioThumbsProcess.waitForStarted()) {
+        if (!audioThumbsProcess.waitForStarted()) {
             ffmpegError = true;
         }
-        m_audioThumbsProcess.waitForFinished();
+        audioThumbsProcess.waitForFinished();
         if (m_abortAudioThumb) {
             emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
+            m_abortAudioThumb = false;
             return;
         }
-        if (ffmpegError || m_audioThumbsProcess.exitStatus() == QProcess::CrashExit) {
+        if (ffmpegError || audioThumbsProcess.exitStatus() == QProcess::CrashExit) {
             emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
             bin()->emitMessage(i18n("Crash in %1 - creating audio thumbnails", KdenliveSettings::ffmpegpath()), ErrorMessage);
             return;
@@ -921,7 +922,7 @@ void ProjectClip::slotCreateAudioThumbs()
             tmpfile2.close();
             raw2 = (const qint16*) res2.constData();
         }
-
+        int progress = 0;
         double offset = (double) res.size() / (2 * lengthInFrames);
         int pos = 0;
         for (int i = 0; i < lengthInFrames; i++) {
@@ -937,12 +938,17 @@ void ProjectClip::slotCreateAudioThumbs()
                 }
             }
             c1 /= steps;
-            c1 = c1 / 32768.0 * 1024;
+            c1 = c1 * 800 / 32768.0;
             audioLevels << (double) c1;
             if (channels > 1) {
                 c2 /= steps;
-                c2 = c2 / 32768.0 * 1024;
+                c2 = c2 * 800 / 32768.0;
                 audioLevels << (double)c2;
+            }
+            int p = i * 100 / lengthInFrames;
+            if (p != progress) {
+                emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWorking, p);
+                progress = p;
             }
             if (m_abortAudioThumb) break;
         }
@@ -965,7 +971,7 @@ void ProjectClip::slotCreateAudioThumbs()
         audioProducer->attach(levels);
 
         int last_val = 0;
-        emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0);//, i18n("Creating audio thumbnails"));
+        emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0);
         double framesPerSecond = audioProducer->get_fps();
         mlt_audio_format audioFormat = mlt_audio_s16;
         QStringList keys;

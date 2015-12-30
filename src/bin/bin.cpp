@@ -3037,6 +3037,9 @@ void Bin::slotSendAudioThumb(QString id)
     ProjectClip *clip = m_rootFolder->clip(id);
     if (clip && clip->audioThumbCreated()) {
         m_monitor->prepareAudioThumb(clip->audioChannels(), clip->audioFrameCache);
+    } else {
+        QVariantList list;
+        m_monitor->prepareAudioThumb(0, list);
     }
 }
 
