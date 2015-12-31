@@ -445,6 +445,8 @@ private slots:
     /** @brief Update monitor overlay actions on monitor switch */
     void slotUpdateMonitorOverlays(int id, int code);
 
+    void slotChangeStyle(QAction *a);
+
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
     void configurationChanged();

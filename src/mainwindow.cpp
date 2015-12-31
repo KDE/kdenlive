@@ -95,6 +95,7 @@
 #include <QBitmap>
 #include <QUndoGroup>
 #include <QFileDialog>
+#include <QStyleFactory>
 
 #include <stdlib.h>
 #include <QStandardPaths>
@@ -145,6 +146,21 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     qRegisterMetaType<requestClipInfo> ("requestClipInfo");
 
     Core::build(this);
+
+    // Widget themes for non KDE users
+    KActionMenu *stylesAction= new KActionMenu(i18n("Style"), this);
+    QStringList availableStyles = QStyleFactory::keys();
+    QActionGroup *stylesGroup = new QActionGroup(stylesAction);
+
+    foreach(const QString &style, availableStyles) {
+        QAction *a = new QAction(style, stylesGroup);
+        a->setCheckable(true);
+        a->setData(style);
+        stylesAction->addAction(a);
+    }
+    connect(stylesGroup, &QActionGroup::triggered, this, &MainWindow::slotChangeStyle);
+
+    // Color schemes
     KActionMenu *themeAction= new KActionMenu(i18n("Theme"), this);
     ThemeManager::instance()->setThemeMenuAction(themeAction);
     ThemeManager::instance()->setCurrentTheme(KdenliveSettings::colortheme());
@@ -243,6 +259,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     // Color and icon theme stuff
     addAction(QStringLiteral("themes_menu"), themeAction);
     connect(m_commandStack, SIGNAL(cleanChanged(bool)), m_saveAction, SLOT(setDisabled(bool)));
+    addAction(QStringLiteral("styles_menu"), stylesAction);
 
     // Close non-general docks for the initial layout
     // only show important ones
@@ -3335,6 +3352,12 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
         }
         ac->setChecked(code & data);
     }
+}
+
+void MainWindow::slotChangeStyle(QAction *a)
+{
+    QString style = a->data().toString();
+    QApplication::setStyle(QStyleFactory::create(style));
 }
 
 
