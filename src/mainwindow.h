@@ -252,6 +252,8 @@ private:
     QListWidget *m_effectBasket;
     /** @brief Update statusbar stylesheet (in case of color theme change). */
     void setStatusBarStyleSheet(const QPalette &p);
+    /** @brief Update widget style. */
+    void doChangeStyle();
 
 public slots:
     void slotGotProgressInfo(const QString &message, int progress, MessageType type = DefaultMessage);

@@ -149,13 +149,24 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     // Widget themes for non KDE users
     KActionMenu *stylesAction= new KActionMenu(i18n("Style"), this);
-    QStringList availableStyles = QStyleFactory::keys();
     QActionGroup *stylesGroup = new QActionGroup(stylesAction);
 
+    // Add default style action
+    QAction *defaultStyle = new QAction(i18n("Default"), stylesGroup);
+    defaultStyle->setCheckable(true);
+    stylesAction->addAction(defaultStyle);
+    if (KdenliveSettings::widgetstyle().isEmpty()) {
+        defaultStyle->setChecked(true);
+    }
+
+    QStringList availableStyles = QStyleFactory::keys();
     foreach(const QString &style, availableStyles) {
         QAction *a = new QAction(style, stylesGroup);
         a->setCheckable(true);
         a->setData(style);
+        if (KdenliveSettings::widgetstyle() == style) {
+            a->setChecked(true);
+        }
         stylesAction->addAction(a);
     }
     connect(stylesGroup, &QActionGroup::triggered, this, &MainWindow::slotChangeStyle);
@@ -165,7 +176,11 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     ThemeManager::instance()->setThemeMenuAction(themeAction);
     ThemeManager::instance()->setCurrentTheme(KdenliveSettings::colortheme());
     connect(ThemeManager::instance(), SIGNAL(signalThemeChanged(const QString &)), this, SLOT(slotThemeChanged(const QString &)), Qt::DirectConnection);
-    ThemeManager::instance()->slotChangePalette();
+    if (!KdenliveSettings::widgetstyle().isEmpty()) {
+        // User wants a custom widget style, init
+        doChangeStyle();
+    }
+    else ThemeManager::instance()->slotChangePalette();
 
     new RenderingAdaptor(this);
     pCore->initialize();
@@ -3313,7 +3328,15 @@ QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName
 void MainWindow::slotChangeStyle(QAction *a)
 {
     QString style = a->data().toString();
-    QApplication::setStyle(QStyleFactory::create(style));
+    KdenliveSettings::setWidgetstyle(style);
+    doChangeStyle();
+}
+
+void MainWindow::doChangeStyle()
+{
+    QApplication::setStyle(QStyleFactory::create(KdenliveSettings::widgetstyle()));
+    // Changing widget style resets color theme, so update color theme again
+    ThemeManager::instance()->slotChangePalette();
 }
 
 
