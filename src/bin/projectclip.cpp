@@ -1031,7 +1031,7 @@ void ProjectClip::slotCreateAudioThumbs()
     if (!m_abortAudioThumb && audioLevels.size() > 0) {
         // Put into an image for caching.
         int count = audioLevels.size();
-        QImage image((count + 3) / 4, channels, QImage::Format_ARGB32);
+        QImage image((count + 3) / 4 / channels, channels, QImage::Format_ARGB32);
         int n = image.width() * image.height();
         for (int i = 0; i < n; i ++) {
             QRgb p; 
