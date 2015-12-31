@@ -905,7 +905,6 @@ void ProjectClip::slotCreateAudioThumbs()
                 args << QStringLiteral("-map") << QStringLiteral("[0:0]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("s16le")<< tmpfile2.fileName();
             }
         }
-        qDebug()<<args;
         emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0);
         QProcess audioThumbsProcess;
         connect(this, SIGNAL(doAbortAudioThumbs()), &audioThumbsProcess, SLOT(kill()));
