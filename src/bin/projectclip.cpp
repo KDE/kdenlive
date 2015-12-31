@@ -876,19 +876,36 @@ void ProjectClip::slotCreateAudioThumbs()
         }
         tmpfile.close();
         tmpfile2.close();
-        args << QStringLiteral("-i") << QUrl::fromLocalFile(prod->get("resource")).path() << QStringLiteral("-ac") << QString::number(channels);
+        args << QStringLiteral("-i") << QUrl::fromLocalFile(prod->get("resource")).path();
+        
+        bool isFFmpeg = KdenliveSettings::ffmpegpath().contains("ffmpeg");
 
         if (channels == 1) {
-            args << QStringLiteral("-filter_complex:a") << QStringLiteral("aformat=channel_layouts=mono,aresample=async=100");
-            args << QStringLiteral("-map") << QStringLiteral("0:a%1").arg(audioStream > 0 ? ":" + QString::number(audioStream) : "") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< tmpfile.fileName();
+            if (isFFmpeg) {
+                args << QStringLiteral("-ac") << QString::number(channels);
+                args << QStringLiteral("-filter_complex:a") << QStringLiteral("aformat=channel_layouts=mono,aresample=async=100");
+                args << QStringLiteral("-map") << QStringLiteral("0:a%1").arg(audioStream > 0 ? ":" + QString::number(audioStream) : "") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< tmpfile.fileName();
+            } else {
+                args << QStringLiteral("-filter_complex:a") << QStringLiteral("aformat=channel_layouts=mono:sample_rates=100");
+                args << QStringLiteral("-map") << QStringLiteral("0:a%1").arg(audioStream > 0 ? ":" + QString::number(audioStream) : "") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("s16le")<< tmpfile.fileName();
+            }
         } else {
-            args << QStringLiteral("-filter_complex:a") << QStringLiteral("[0:a%1]aresample=async=100,asplit[l][r]").arg(audioStream > 0 ? ":" + QString::number(audioStream) : "");
-            // Channel 1
-            args << QStringLiteral("-map") << QStringLiteral("[l]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< tmpfile.fileName();
-            // Channel 2
-            args << QStringLiteral("-map") << QStringLiteral("[r]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< tmpfile2.fileName();
+            if (isFFmpeg) {
+                //args << QStringLiteral("-ac") << QString::number(channels);
+                args << QStringLiteral("-filter_complex:a") << QStringLiteral("[0:a%1]aresample=async=100,channelsplit=channel_layout=stereo[0:0][0:1]").arg(audioStream > 0 ? ":" + QString::number(audioStream) : "");
+                // Channel 1
+                args << QStringLiteral("-map") << QStringLiteral("[0:1]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< tmpfile.fileName();
+                // Channel 2
+                args << QStringLiteral("-map") << QStringLiteral("[0:0]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< tmpfile2.fileName();
+            } else {
+                args << QStringLiteral("-filter_complex:a") << QStringLiteral("[0:a%1]aformat=sample_rates=100,channelsplit=channel_layout=stereo[0:0][0:1]").arg(audioStream > 0 ? ":" + QString::number(audioStream) : "");
+                // Channel 1
+                args << QStringLiteral("-map") << QStringLiteral("[0:1]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("s16le")<< tmpfile.fileName();
+                // Channel 2
+                args << QStringLiteral("-map") << QStringLiteral("[0:0]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("s16le")<< tmpfile2.fileName();
+            }
         }
-
+        qDebug()<<args;
         emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0);
         QProcess audioThumbsProcess;
         connect(this, SIGNAL(doAbortAudioThumbs()), &audioThumbsProcess, SLOT(kill()));
