@@ -176,7 +176,16 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     ThemeManager::instance()->setThemeMenuAction(themeAction);
     ThemeManager::instance()->setCurrentTheme(KdenliveSettings::colortheme());
     connect(ThemeManager::instance(), SIGNAL(signalThemeChanged(const QString &)), this, SLOT(slotThemeChanged(const QString &)), Qt::DirectConnection);
-    if (!KdenliveSettings::widgetstyle().isEmpty()) {
+
+    QString desktopStyle = QApplication::style()->objectName();
+    if (!desktopStyle.isEmpty() && QString::compare(desktopStyle, QLatin1String("breeze"), Qt::CaseInsensitive) != 0 && QString::compare(desktopStyle, QLatin1String("oxygen"), Qt::CaseInsensitive) != 0 && KdenliveSettings::widgetstyle().isEmpty()) {
+        if (availableStyles.contains(QLatin1String("breeze"), Qt::CaseInsensitive)) {
+            // Auto switch to Breeze theme
+            KdenliveSettings::setWidgetstyle(QStringLiteral("Breeze"));
+        }
+    }
+
+    if (!KdenliveSettings::widgetstyle().isEmpty() && QString::compare(desktopStyle, KdenliveSettings::widgetstyle(), Qt::CaseInsensitive) != 0) {
         // User wants a custom widget style, init
         doChangeStyle();
     }
