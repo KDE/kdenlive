@@ -77,6 +77,8 @@ public:
     virtual void stepBy(int steps);
 
     const QString displayText() const;
+    /** @brief Send a signal everytime the timecode changes. */
+    void sendTimecode(bool send);
 
 private:
     /** timecode for widget */
@@ -111,6 +113,8 @@ signals:
      */
     void valueChanged(int value, bool final);
     void timeCodeEditingFinished(int value = -1);
+    /** @brief Emit timecode on every change if requested. */
+    void emitTimeCode(const QString &);
 
 protected:
     virtual void keyPressEvent(QKeyEvent *e);

@@ -246,6 +246,8 @@ private slots:
     void slotEditInlineMarker();
     /** @brief Pass keypress event to mainwindow */
     void doKeyPressEvent(QKeyEvent*);
+    /** @brief The timecode was updated, refresh qml display */
+    void slotUpdateQmlTimecode(const QString &tc);
 
 public slots:
     void slotOpenDvdFile(const QString &);

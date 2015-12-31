@@ -1091,7 +1091,6 @@ void Monitor::seekCursor(int pos)
 {
     if (m_ruler->slotNewValue(pos)) {
         m_timePos->setValue(pos);
-        m_glMonitor->rootObject()->setProperty("timecode", m_timePos->displayText());
 	checkOverlay();
         if (m_id != Kdenlive::ClipMonitor) {
             emit renderPosition(pos);
@@ -1831,11 +1830,23 @@ void Monitor::loadMonitorScene()
     }
 }
 
+void Monitor::slotUpdateQmlTimecode(const QString &tc)
+{
+    m_glMonitor->rootObject()->setProperty("timecode", tc);
+}
+
 void Monitor::updateQmlDisplay(int currentOverlay)
 {
     m_glMonitor->rootObject()->setVisible(currentOverlay & 0x01);
     m_glMonitor->rootObject()->setProperty("showMarkers", currentOverlay & 0x04);
-    m_glMonitor->rootObject()->setProperty("showTimecode", currentOverlay & 0x02);
+    bool showTimecode = currentOverlay & 0x02;
+    m_glMonitor->rootObject()->setProperty("showTimecode", showTimecode);
+    m_timePos->sendTimecode(showTimecode);
+    if (showTimecode) {
+        connect(m_timePos, &TimecodeDisplay::emitTimeCode, this, &Monitor::slotUpdateQmlTimecode, Qt::UniqueConnection);
+    } else {
+        disconnect(m_timePos, &TimecodeDisplay::emitTimeCode, this, &Monitor::slotUpdateQmlTimecode);
+    }
     m_glMonitor->rootObject()->setProperty("showSafezone", currentOverlay & 0x08);
     m_glMonitor->rootObject()->setProperty("showAudiothumb", currentOverlay & 0x10);
 }
