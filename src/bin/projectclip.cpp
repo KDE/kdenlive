@@ -61,9 +61,7 @@ ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *control
     setParent(parent);
     connect(this, &ProjectClip::updateJobStatus, this, &ProjectClip::setJobStatus);
     bin()->loadSubClips(id, m_controller->getPropertiesFromPrefix(QStringLiteral("kdenlive:clipzone.")));
-    if (KdenliveSettings::audiothumbnails()) {
-        bin()->requestAudioThumbs(id);
-    }
+    createAudioThumbs();
 }
 
 ProjectClip::ProjectClip(const QDomElement& description, QIcon thumb, ProjectFolder* parent) :
@@ -320,7 +318,7 @@ bool ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
 
 void ProjectClip::createAudioThumbs()
 {
-    if (KdenliveSettings::audiothumbnails()) {
+    if (KdenliveSettings::audiothumbnails() && (m_type == AV || m_type == Audio)) {
         bin()->requestAudioThumbs(m_id);
     }
 }
@@ -877,7 +875,7 @@ void ProjectClip::slotCreateAudioThumbs()
         tmpfile.close();
         tmpfile2.close();
         args << QStringLiteral("-i") << QUrl::fromLocalFile(prod->get("resource")).path();
-        
+
         bool isFFmpeg = KdenliveSettings::ffmpegpath().contains("ffmpeg");
 
         if (channels == 1) {
