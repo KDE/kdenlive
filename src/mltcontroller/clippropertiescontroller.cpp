@@ -102,7 +102,14 @@ class ExtractionResult : public KFileMetaData::ExtractionResult
             if (info.valueType() == QVariant::DateTime) {
                 new QTreeWidgetItem(m_tree, QStringList() << info.displayName() << value.toDateTime().toString(Qt::DefaultLocaleShortDate));
             } else if (info.valueType() == QVariant::Int) {
-                new QTreeWidgetItem(m_tree, QStringList() << info.displayName() << QString::number(value.toInt()));
+                int val = value.toInt();
+                if (property == KFileMetaData::Property::BitRate) {
+                    // Adjust unit for bitrate
+                    new QTreeWidgetItem(m_tree, QStringList() << info.displayName() << QString::number(val/1000) + QStringLiteral(" ") + i18nc("Kilobytes per seconds", "kb/s"));
+                }
+                else {
+                    new QTreeWidgetItem(m_tree, QStringList() << info.displayName() << QString::number(val));
+                }
             } else if (info.valueType() == QVariant::Double) {
               new QTreeWidgetItem(m_tree, QStringList() << info.displayName() << QString::number(value.toDouble()));
             }
