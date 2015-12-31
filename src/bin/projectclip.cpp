@@ -829,10 +829,15 @@ void ProjectClip::slotCreateAudioThumbs()
     Mlt::Producer *prod = originalProducer();
     if (!prod || !prod->is_valid()) return;
     AudioStreamInfo *audioInfo = m_controller->audioInfo();
+    int audioStream = audioInfo->ffmpeg_audio_index();
     if (audioInfo == NULL) return;
     QString clipHash = hash();
     if (clipHash.isEmpty()) return;
-    QString audioPath = bin()->projectFolder().path() + "/thumbs/" + clipHash + "_audio.png";
+    QString audioPath = bin()->projectFolder().path() + "/thumbs/" + clipHash;
+    if (audioStream > 0) {
+        audioPath.append("_" + QString::number(audioInfo->audio_index()));
+    }
+    audioPath.append("_audio.png");
     int lengthInFrames = prod->get_length();
     int frequency = audioInfo->samplingRate();
     if (frequency <= 0) frequency = 48000;
@@ -875,9 +880,9 @@ void ProjectClip::slotCreateAudioThumbs()
 
         if (channels == 1) {
             args << QStringLiteral("-filter_complex:a") << QStringLiteral("aformat=channel_layouts=mono,aresample=async=100");
-            args << QStringLiteral("-map") << QStringLiteral("0:a") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< tmpfile.fileName();
+            args << QStringLiteral("-map") << QStringLiteral("0:a%1").arg(audioStream > 0 ? ":" + QString::number(audioStream) : "") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< tmpfile.fileName();
         } else {
-            args << QStringLiteral("-filter_complex:a") << QStringLiteral("[0:a]aresample=async=100,asplit[l][r]");
+            args << QStringLiteral("-filter_complex:a") << QStringLiteral("[0:a%1]aresample=async=100,asplit[l][r]").arg(audioStream > 0 ? ":" + QString::number(audioStream) : "");
             // Channel 1
             args << QStringLiteral("-map") << QStringLiteral("[l]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< tmpfile.fileName();
             // Channel 2

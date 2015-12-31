@@ -473,6 +473,10 @@ void Render::processProducerProperties(Mlt::Producer *prod, QDomElement xml)
         QString propertyName = props.at(i).toElement().attribute("name");
         if (!internalProperties.contains(propertyName) && !propertyName.startsWith("_")) {
             value = props.at(i).firstChild().nodeValue();
+            if (propertyName.startsWith("kdenlive-force.")) {
+                // this is a special forced property, pass it
+                propertyName.remove(0, 15);
+            }
             prod->set(propertyName.toUtf8().constData(), value.toUtf8().constData());
         }
     }
@@ -3336,8 +3340,8 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
             if (groupList.at(i)->isChecked()) {
                 int vindex = groupList.at(i)->property("vindex").toInt();
                 int aindex = comboList.at(i)->itemData(comboList.at(i)->currentIndex()).toInt();
-                data.insert(QStringLiteral("video_index"), QString::number(vindex));
-                data.insert(QStringLiteral("audio_index"), QString::number(aindex));
+                data.insert(QStringLiteral("kdenlive-force.video_index"), QString::number(vindex));
+                data.insert(QStringLiteral("kdenlive-force.audio_index"), QString::number(aindex));
                 data.insert(QStringLiteral("bypassDuplicate"), QStringLiteral("1"));
                 emit addClip(path, data);
             }
