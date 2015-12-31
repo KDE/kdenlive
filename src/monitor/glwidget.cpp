@@ -947,7 +947,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
             /*if (!m_monitorProfile->progressive())
                 m_consumer->set("progressive", property("progressive").toBool());*/
         m_consumer->set("volume", (double)volume / 100);
-        m_consumer->set("progressive", 1);
+        //m_consumer->set("progressive", 1);
         m_consumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
         m_consumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
         m_consumer->set("buffer", 25);

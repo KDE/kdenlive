@@ -468,6 +468,8 @@ public:
     void emitRefreshPanel(const QString &id);
     /** @brief Audio thumbs just finished creating, update on monitor display. */
     void emitRefreshAudioThumbs(const QString &id);
+    /** @brief Returns true if there is no clip. */
+    bool isEmpty() const;
 
 private slots:
     void slotAddClip();

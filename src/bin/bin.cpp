@@ -3043,3 +3043,9 @@ void Bin::slotSendAudioThumb(QString id)
     }
 }
 
+bool Bin::isEmpty() const
+{
+    // TODO: return true if we only have folders
+    if (m_clipCounter == 1) return true;
+    return m_rootFolder->isEmpty();
+}

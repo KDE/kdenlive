@@ -136,7 +136,8 @@ signals:
     void addEffect(QDomElement);
     /** @brief Monitor activated, refresh overlay options actions */
     void updateOverlayInfos(int, int);
-
+    /** @brief First clip does not match profect profile, switch. */
+    void switchProfile(MltVideoProfile profile, const QString &id, const QDomElement &xml);
 };
 
 #endif

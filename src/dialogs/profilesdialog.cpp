@@ -293,7 +293,13 @@ MltVideoProfile ProfilesDialog::getVideoProfile(const QString &name)
         //qDebug() << "// WARNING, COULD NOT FIND PROFILE " << name;
         return result;
     }
+    return getProfileFromPath(path, name);
+}
+
+MltVideoProfile ProfilesDialog::getProfileFromPath(const QString &path, const QString &name)
+{
     KConfig confFile(path, KConfig::SimpleConfig);
+    MltVideoProfile result;
     result.path = name;
     result.description = confFile.entryMap().value(QStringLiteral("description"));
     result.frame_rate_num = confFile.entryMap().value(QStringLiteral("frame_rate_num")).toInt();
@@ -342,7 +348,7 @@ bool ProfilesDialog::existingProfileDescription(const QString &desc)
     }
 
     // List custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("/profiles/"), QStandardPaths::LocateDirectory);
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
     for (int i = 0; i < customProfiles.size(); ++i) {
         QDir customDir(customProfiles.at(i));
         profilesFiles = customDir.entryList(profilesFilter, QDir::Files);
@@ -365,37 +371,22 @@ QString ProfilesDialog::existingProfile(const MltVideoProfile &profile)
     QDir mltDir(KdenliveSettings::mltpath());
     QStringList profilesFiles = mltDir.entryList(profilesFilter, QDir::Files);
     for (int i = 0; i < profilesFiles.size(); ++i) {
-        KConfig confFile(mltDir.absoluteFilePath(profilesFiles.at(i)), KConfig::SimpleConfig);
-        if (profile.display_aspect_den != confFile.entryMap().value(QStringLiteral("display_aspect_den")).toInt()) continue;
-        if (profile.display_aspect_num != confFile.entryMap().value(QStringLiteral("display_aspect_num")).toInt()) continue;
-        if (profile.sample_aspect_den != confFile.entryMap().value(QStringLiteral("sample_aspect_den")).toInt()) continue;
-        if (profile.sample_aspect_num != confFile.entryMap().value(QStringLiteral("sample_aspect_num")).toInt()) continue;
-        if (profile.width != confFile.entryMap().value(QStringLiteral("width")).toInt()) continue;
-        if (profile.height != confFile.entryMap().value(QStringLiteral("height")).toInt()) continue;
-        if (profile.frame_rate_den != confFile.entryMap().value(QStringLiteral("frame_rate_den")).toInt()) continue;
-        if (profile.frame_rate_num != confFile.entryMap().value(QStringLiteral("frame_rate_num")).toInt()) continue;
-        if (profile.progressive != confFile.entryMap().value(QStringLiteral("progressive")).toInt()) continue;
-        if (profile.colorspace != confFile.entryMap().value(QStringLiteral("colorspace")).toInt()) continue;
-        return profilesFiles.at(i);
+        MltVideoProfile test = getProfileFromPath(mltDir.absoluteFilePath(profilesFiles.at(i)), profilesFiles.at(i));
+        if (test == profile) {
+            return profilesFiles.at(i);
+        }
     }
 
     // Check custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("/profiles/"), QStandardPaths::LocateDirectory);
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
     for (int i = 0; i < customProfiles.size(); ++i) {
         profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
         for (int j = 0; j < profilesFiles.size(); ++j) {
-            KConfig confFile(customProfiles.at(i) + profilesFiles.at(j), KConfig::SimpleConfig);
-            if (profile.display_aspect_den != confFile.entryMap().value(QStringLiteral("display_aspect_den")).toInt()) continue;
-            if (profile.display_aspect_num != confFile.entryMap().value(QStringLiteral("display_aspect_num")).toInt()) continue;
-            if (profile.sample_aspect_den != confFile.entryMap().value(QStringLiteral("sample_aspect_den")).toInt()) continue;
-            if (profile.sample_aspect_num != confFile.entryMap().value(QStringLiteral("sample_aspect_num")).toInt()) continue;
-            if (profile.width != confFile.entryMap().value(QStringLiteral("width")).toInt()) continue;
-            if (profile.height != confFile.entryMap().value(QStringLiteral("height")).toInt()) continue;
-            if (profile.frame_rate_den != confFile.entryMap().value(QStringLiteral("frame_rate_den")).toInt()) continue;
-            if (profile.frame_rate_num != confFile.entryMap().value(QStringLiteral("frame_rate_num")).toInt()) continue;
-            if (profile.progressive != confFile.entryMap().value(QStringLiteral("progressive")).toInt()) continue;
-            if (profile.colorspace != confFile.entryMap().value(QStringLiteral("colorspace")).toInt()) continue;
-            return customProfiles.at(i) + profilesFiles.at(j);
+            QString path = customProfiles.at(i) + profilesFiles.at(j);
+            MltVideoProfile test = getProfileFromPath(path, path);
+            if (test == profile) {
+                return path;
+            }
         }
     }
     return QString();
@@ -418,7 +409,7 @@ QMap <QString, QString> ProfilesDialog::getProfilesInfo()
     }
 
     // List custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("/profiles/"), QStandardPaths::LocateDirectory);
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
     for (int i = 0; i < customProfiles.size(); ++i) {
         profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
         for (int j = 0; j < profilesFiles.size(); ++j) {
@@ -487,7 +478,7 @@ QMap <QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int
     }
 
     // List custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("/profiles/"), QStandardPaths::LocateDirectory);
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
     for (int i = 0; i < customProfiles.size(); ++i) {
         QStringList profiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
         for (int j = 0; j < profiles.size(); ++j) {

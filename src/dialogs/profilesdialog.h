@@ -76,6 +76,9 @@ public:
      *  @return The int code */
     static int getColorspaceFromDescription(const QString &description);
 
+    /** @brief Build a profile from it's url */
+    static MltVideoProfile getProfileFromPath(const QString &path, const QString &name);
+
 protected:
     virtual void closeEvent(QCloseEvent *event);
 

@@ -607,6 +607,23 @@ void Render::processFileProperties()
             producer = new Mlt::Producer(*m_qmlView->profile(), "xml-string", doc.toString().toUtf8().constData());
         } else {
             producer = new Mlt::Producer(*m_qmlView->profile(), 0, path.toUtf8().constData());
+            if (producer->is_valid() && info.xml.hasAttribute("checkProfile")) {
+                // Check if clip profile matches
+                Mlt::Profile *blankProfile = new Mlt::Profile();
+                blankProfile->set_explicit(false);
+                blankProfile->from_producer(*producer);
+                MltVideoProfile clipProfile = ProfilesDialog::getVideoProfile(*blankProfile);
+                MltVideoProfile projectProfile = ProfilesDialog::getVideoProfile(*m_qmlView->profile());
+                if (clipProfile != projectProfile) {
+                    // Profiles do not match, adjust profile
+                    delete producer;
+                    delete blankProfile;
+                    m_processingClipId.removeAll(info.clipId);
+                    info.xml.removeAttribute("checkProfile");
+                    emit switchProfile(clipProfile, info.clipId, info.xml);
+                    return;
+                }
+            }
         }
         if (producer == NULL || producer->is_blank() || !producer->is_valid()) {
             qDebug() << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: "<<path;

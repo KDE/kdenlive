@@ -285,5 +285,6 @@ private:
 };
 
 QDebug operator << (QDebug qd, const ItemInfo &info);
+QDebug operator << (QDebug qd, const MltVideoProfile &profile);
 
 #endif

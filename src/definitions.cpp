@@ -31,6 +31,23 @@ QDebug operator << (QDebug qd, const ItemInfo &info)
     return qd.maybeSpace();
 }
 
+QDebug operator << (QDebug qd, const MltVideoProfile &profile)
+{
+    qd << "Profile "<< &profile;
+    qd << "\tProfile fps num " << profile.frame_rate_num;
+    qd << "\tProfile fps den " << profile.frame_rate_den;
+    qd << "\tProfile width " << profile.width,
+    qd << "\tProfile height " << profile.height;
+    qd << "\tProfile progressive " << profile.progressive;
+    qd << "\tProfile sar num " << profile.sample_aspect_num;
+    qd << "\tProfile sar den " << profile.sample_aspect_den;
+    qd << "\tProfile dar num " << profile.display_aspect_num;
+    qd << "\tProfile dar den " << profile.display_aspect_den;
+    qd << "\tProfile colorspace " << profile.colorspace;
+    qd << "\tProfile description " << profile.description;
+    return qd.maybeSpace();
+}
+
 
 MltVideoProfile::MltVideoProfile() :
     frame_rate_num(0),
@@ -51,13 +68,15 @@ bool MltVideoProfile::operator==(const MltVideoProfile &point) const
     if (!description.isEmpty() && point.description  == description) {
         return true;
     }
-    return      point.frame_rate_num == frame_rate_num &&
-            point.frame_rate_den  == frame_rate_den  &&
+    int fps = frame_rate_num * 100 / frame_rate_den;
+    int sar = sample_aspect_num * 100 / sample_aspect_den;
+    int dar = display_aspect_num * 100 / display_aspect_den;
+    return      point.frame_rate_num * 100 / point.frame_rate_den == fps &&
             point.width == width &&
             point.height == height &&
             point.progressive == progressive &&
-            point.sample_aspect_num == sample_aspect_num &&
-            point.sample_aspect_den == sample_aspect_den &&
+            point.sample_aspect_num * 100 / point.sample_aspect_den == sar &&
+            point.display_aspect_num * 100 / point.display_aspect_den == dar &&
             point.colorspace == colorspace;
 }
 

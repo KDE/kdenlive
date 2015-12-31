@@ -27,7 +27,6 @@
 #include "dialogs/kdenlivesettingsdialog.h"
 #include "dialogs/clipcreationdialog.h"
 #include "effectslist/initeffects.h"
-#include "dialogs/profilesdialog.h"
 #include "project/dialogs/projectsettings.h"
 #include "project/clipmanager.h"
 #include "monitor/monitor.h"
@@ -143,7 +142,9 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     qRegisterMetaType<stringMap> ("stringMap");
     qRegisterMetaType<audioByteArray> ("audioByteArray");
     qRegisterMetaType< QVector <int> > ();
+    qRegisterMetaType<QDomElement> ("QDomElement");
     qRegisterMetaType<requestClipInfo> ("requestClipInfo");
+    qRegisterMetaType<MltVideoProfile> ("MltVideoProfile");
 
     Core::build(this);
 

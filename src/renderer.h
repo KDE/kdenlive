@@ -432,6 +432,8 @@ signals:
     void infoProcessingFinished();
     /** @brief We want to replace a clip with another, but before we need to change clip producer id so that there is no interference*/
     void prepareTimelineReplacement(const QString &);
+    /** @brief First clip does not match profect profile, switch. */
+    void switchProfile(MltVideoProfile profile, const QString &id, const QDomElement &xml);
 
 public slots:
 
