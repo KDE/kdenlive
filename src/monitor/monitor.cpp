@@ -962,25 +962,35 @@ void Monitor::slotSeek(int pos)
     m_ruler->update();
 }
 
-void Monitor::checkOverlay()
+void Monitor::checkOverlay(int pos)
 {
     if (!m_rootItem || m_rootItem->objectName() != QLatin1String("root")) {
         // we are not in main view, ignore
         return;
     }
     QString overlayText;
-    int pos = m_timePos->getValue();
+    if (pos == -1) pos = m_timePos->getValue();
     QPoint zone = m_ruler->zone();
-    if (pos == zone.x())
-        overlayText = i18n("In Point");
-    else if (pos == zone.y())
-        overlayText = i18n("Out Point");
-    else if (m_controller) {
-        overlayText = m_controller->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
+    if (m_id == Kdenlive::ClipMonitor) {
+        if (m_controller) {
+            overlayText = m_controller->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
+            if (overlayText.isEmpty()) {
+                if (pos == zone.x())
+                    overlayText = i18n("In Point");
+                else if (pos == zone.y())
+                    overlayText = i18n("Out Point");
+            }
+        }
     }
-    else {
+    else if (m_id == Kdenlive::ProjectMonitor) {
         // Check for timeline guides
         overlayText = m_ruler->markerAt(GenTime(pos, m_monitorManager->timecode().fps()));
+        if (overlayText.isEmpty()) {
+            if (pos == zone.x())
+                overlayText = i18n("In Point");
+            else if (pos == zone.y())
+                overlayText = i18n("Out Point");
+        }
     }
     if (overlayText != m_markerItem->property("text")) {
         m_markerItem->setProperty("text", overlayText);
@@ -1091,7 +1101,7 @@ void Monitor::seekCursor(int pos)
 {
     if (m_ruler->slotNewValue(pos)) {
         m_timePos->setValue(pos);
-	checkOverlay();
+	checkOverlay(pos);
         if (m_id != Kdenlive::ClipMonitor) {
             emit renderPosition(pos);
         }
@@ -1102,7 +1112,7 @@ void Monitor::rendererStopped(int pos)
 {
     if (m_ruler->slotNewValue(pos)) {
         m_timePos->setValue(pos);
-        checkOverlay();
+        checkOverlay(pos);
     }
     m_playAction->setActive(false);
 }
@@ -1280,6 +1290,7 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
         m_glMonitor->setAudioThumb();
         //hasEffects = false;
     }
+    checkOverlay();
 }
 
 void Monitor::enableCompare(int effectsCount)

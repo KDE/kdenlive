@@ -95,7 +95,7 @@ public:
     const QString activeClipId();
     GenTime position();
     /** @brief Check current position to show relevant infos in qml view (markers, zone in/out, etc). */
-    void checkOverlay();
+    void checkOverlay(int pos = -1);
     void updateTimecodeFormat();
     void updateMarkers();
     /** @brief Controller for the clip currently displayed (only valid for clip monitor). */
