@@ -242,6 +242,8 @@ public:
     int display_aspect_num;
     int display_aspect_den;
     int colorspace;
+    // A profile's width should always be a multiple of 8
+    void adjustWidth();
     MltVideoProfile();
     bool operator==(const MltVideoProfile& point) const;
     bool operator!=(const MltVideoProfile &other) const;

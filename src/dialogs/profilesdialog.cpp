@@ -71,6 +71,8 @@ ProfilesDialog::ProfilesDialog(QWidget * parent) :
     connect(m_view.progressive, SIGNAL(stateChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.size_h, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.size_w, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.size_w, &QAbstractSpinBox::editingFinished, this, &ProfilesDialog::slotAdjustWidth);
+    m_view.size_w->setSingleStep(8);
 }
 
 
@@ -112,6 +114,16 @@ ProfilesDialog::ProfilesDialog(QString profilePath, QWidget * parent) :
     connect(m_view.progressive, SIGNAL(stateChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.size_h, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.size_w, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.size_w, &QAbstractSpinBox::editingFinished, this, &ProfilesDialog::slotAdjustWidth);
+    m_view.size_w->setSingleStep(8);
+}
+
+void ProfilesDialog::slotAdjustWidth()
+{
+    // A profile's width should always be a multiple of 8
+    m_view.size_w->blockSignals(true);
+    m_view.size_w->setValue((m_view.size_w->value() + 7) / 8 * 8);
+    m_view.size_w->blockSignals(false);
 }
 
 void ProfilesDialog::slotProfileEdited()

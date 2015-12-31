@@ -614,6 +614,7 @@ void Render::processFileProperties()
                 blankProfile->from_producer(*producer);
                 MltVideoProfile clipProfile = ProfilesDialog::getVideoProfile(*blankProfile);
                 MltVideoProfile projectProfile = ProfilesDialog::getVideoProfile(*m_qmlView->profile());
+                clipProfile.adjustWidth();
                 if (clipProfile != projectProfile) {
                     // Profiles do not match, adjust profile
                     delete producer;

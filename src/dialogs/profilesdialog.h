@@ -89,6 +89,8 @@ private slots:
     void slotDeleteProfile();
     void slotSetDefaultProfile();
     void slotProfileEdited();
+    /** @brief Make sure the profile's width is always a multiple of 8 */
+    void slotAdjustWidth();
     virtual void accept();
     virtual void reject();
 

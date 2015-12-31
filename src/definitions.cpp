@@ -80,6 +80,11 @@ bool MltVideoProfile::operator==(const MltVideoProfile &point) const
             point.colorspace == colorspace;
 }
 
+void MltVideoProfile::adjustWidth()
+{
+    width = (width + 7) / 8 * 8;
+}
+
 bool MltVideoProfile::operator!=(const MltVideoProfile &other) const {
     return !(*this == other);
 }
