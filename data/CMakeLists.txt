@@ -19,11 +19,12 @@ install(FILES
   timeline_vthumbs.png
   kdenliveeffectscategory.rc
   kdenlivetranscodingrc
-  kdenlivemonitor.qml
-  kdenliveclipmonitor.qml
-  kdenlivemonitoreffectscene.qml
-  kdenlivemonitorcornerscene.qml
-  kdenlivemonitorsplit.qml
+# Qml are now embeded as Qt resources from /src/uiresources.qrc
+#  kdenlivemonitor.qml
+#  kdenliveclipmonitor.qml
+#  kdenlivemonitoreffectscene.qml
+#  kdenlivemonitorcornerscene.qml
+#  kdenlivemonitorsplit.qml
   DESTINATION ${DATA_INSTALL_DIR}/kdenlive)
 install(FILES  kdenlive.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
 install(FILES kdenlive_projectprofiles.knsrc kdenlive_renderprofiles.knsrc kdenlive_wipes.knsrc kdenlive_titles.knsrc DESTINATION ${CONFIG_INSTALL_DIR})

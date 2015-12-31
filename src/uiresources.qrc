@@ -2,4 +2,11 @@
   <qresource prefix="kxmlgui5/kdenlive">
     <file>kdenliveui.rc</file>
   </qresource>
+  <qresource prefix="qml">
+    <file alias="kdenlivemonitor.qml">../data/kdenlivemonitor.qml</file>
+    <file alias="kdenliveclipmonitor.qml">../data/kdenliveclipmonitor.qml</file>
+    <file alias="kdenlivemonitoreffectscene.qml">../data/kdenlivemonitoreffectscene.qml</file>
+    <file alias="kdenlivemonitorcornerscene.qml">../data/kdenlivemonitorcornerscene.qml</file>
+    <file alias="kdenlivemonitorsplit.qml">../data/kdenlivemonitorsplit.qml</file>
+  </qresource>
 </RCC>

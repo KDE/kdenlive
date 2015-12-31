@@ -1456,7 +1456,7 @@ void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary)
     if (!temporary) m_lastMonitorSceneType = sceneType;
     if (sceneType == MonitorSceneGeometry) {
         if (!m_rootItem || m_rootItem->objectName() != QLatin1String("rooteffectscene")) {
-            m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitoreffectscene.qml"))));
+            m_glMonitor->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitoreffectscene.qml")));
             m_rootItem = m_glMonitor->rootObject();
             QObject::connect(m_rootItem, SIGNAL(addKeyframe()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
             QObject::connect(m_rootItem, SIGNAL(seekToKeyframe()), this, SLOT(slotSeekToKeyFrame()), Qt::UniqueConnection);
@@ -1465,7 +1465,7 @@ void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary)
     }
     else if (sceneType == MonitorSceneCorners) {
         if (!m_rootItem || m_rootItem->objectName() != QLatin1String("rootcornerscene")) {
-            m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitorcornerscene.qml"))));
+            m_glMonitor->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorcornerscene.qml")));
             m_rootItem = m_glMonitor->rootObject();
             QObject::connect(m_rootItem, SIGNAL(addKeyframe()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
             QObject::connect(m_rootItem, SIGNAL(seekToKeyframe()), this, SLOT(slotSeekToKeyFrame()), Qt::UniqueConnection);
@@ -1475,7 +1475,7 @@ void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary)
     else if (sceneType == MonitorSceneRoto) {
         // TODO
         if (!m_rootItem || m_rootItem->objectName() != QLatin1String("rootcornerscene")) {
-            m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitorcornerscene.qml"))));
+            m_glMonitor->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorcornerscene.qml")));
             m_rootItem = m_glMonitor->rootObject();
             QObject::connect(m_rootItem, SIGNAL(addKeyframe()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
             QObject::connect(m_rootItem, SIGNAL(seekToKeyframe()), this, SLOT(slotSeekToKeyFrame()), Qt::UniqueConnection);
@@ -1691,7 +1691,7 @@ void Monitor::slotSwitchCompare(bool enable)
 	delete original;
         m_splitProducer = new Mlt::Producer(trac.get_producer());
         render->setProducer(m_splitProducer, pos, isActive());
-        m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivemonitorsplit.qml"))));
+        m_glMonitor->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorsplit.qml")));
         m_rootItem = m_glMonitor->rootObject();
         m_markerItem = NULL;
         QObject::connect(m_rootItem, SIGNAL(qmlMoveSplit()), this, SLOT(slotAdjustEffectCompare()), Qt::UniqueConnection);
@@ -1811,7 +1811,7 @@ void Monitor::prepareAudioThumb(int channels, QVariantList &audioCache)
 
 void Monitor::loadMonitorScene()
 {
-    m_glMonitor->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, m_id == Kdenlive::ClipMonitor ? QStringLiteral("kdenliveclipmonitor.qml") : QStringLiteral("kdenlivemonitor.qml"))));
+    m_glMonitor->setSource(QUrl(m_id == Kdenlive::ClipMonitor ? QStringLiteral("qrc:/qml/kdenliveclipmonitor.qml") : QStringLiteral("qrc:/qml/kdenlivemonitor.qml")));
     m_glMonitor->slotShowEffectScene(MonitorSceneNone);
     m_rootItem = m_glMonitor->rootObject();
     if (m_id == Kdenlive::DvdMonitor) {
