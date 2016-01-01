@@ -50,10 +50,6 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     m_view.icon_list->setIconSize(QSize(50, 50));
     m_view.show_thumbs->setChecked(KdenliveSettings::showslideshowthumbs());
 
-    connect(m_view.folder_url, SIGNAL(textChanged(QString)), this, SLOT(parseFolder()));
-    connect(m_view.image_type, SIGNAL(currentIndexChanged(int)), this, SLOT(parseFolder()));
-    connect(m_view.pattern_url, SIGNAL(textChanged(QString)), this, SLOT(parseFolder()));
-
     connect(m_view.show_thumbs, SIGNAL(stateChanged(int)), this, SLOT(slotEnableThumbs(int)));
     connect(m_view.slide_fade, SIGNAL(stateChanged(int)), this, SLOT(slotEnableLuma(int)));
     connect(m_view.luma_fade, SIGNAL(stateChanged(int)), this, SLOT(slotEnableLumaFile(int)));
@@ -91,16 +87,41 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     connect(m_view.clip_duration_format, SIGNAL(activated(int)), this, SLOT(slotUpdateDurationFormat(int)));
     m_view.clip_duration_frames->setHidden(true);
     m_view.luma_duration_frames->setHidden(true);
-    m_view.method_mime->setChecked(KdenliveSettings::slideshowbymime());
+    if (clip) {
+        QUrl url = clip->url();
+        if (url.fileName().startsWith(QLatin1String(".all."))) {
+            // the image sequence is defined by mimetype
+            m_view.method_mime->setChecked(true);
+            m_view.folder_url->setText(url.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).path());
+            QString filter = url.fileName();
+            QString ext = filter.section('.', -1);
+            for (int i = 0; i < m_view.image_type->count(); ++i) {
+                if (m_view.image_type->itemData(i).toString() == ext) {
+                    m_view.image_type->setCurrentIndex(i);
+                    break;
+                }
+            }
+        } else {
+            // the image sequence is defined by pattern
+            m_view.method_pattern->setChecked(true);
+            m_view.image_type->setHidden(true);
+            m_view.pattern_url->setText(url.path());
+        }
+    } else {
+        m_view.method_mime->setChecked(KdenliveSettings::slideshowbymime());
+        slotMethodChanged(m_view.method_mime->isChecked());
+    }
     connect(m_view.method_mime, SIGNAL(toggled(bool)), this, SLOT(slotMethodChanged(bool)));
-    slotMethodChanged(m_view.method_mime->isChecked());
+    connect(m_view.image_type, SIGNAL(currentIndexChanged(int)), this, SLOT(parseFolder()));
+    connect(m_view.folder_url, SIGNAL(textChanged(QString)), this, SLOT(parseFolder()));
+    connect(m_view.pattern_url, SIGNAL(textChanged(QString)), this, SLOT(parseFolder()));
 
 
     // Check for Kdenlive installed luma files
     QStringList filters;
     filters << QStringLiteral("*.pgm") << QStringLiteral("*.png");
 
-    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("lumas"));
+    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
     foreach(const QString & folder, customLumas) {
         QDir directory(folder);
         QStringList filesnames = directory.entryList(filters, QDir::Files);
@@ -120,7 +141,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
         QString filePath = lumafolder.absoluteFilePath(fname);
         m_view.luma_file->addItem(QIcon::fromTheme(filePath), fname, filePath);
     }
-    
+
     if (clip) {
         m_view.slide_loop->setChecked(clip->getProducerIntProperty(QStringLiteral("loop")));
         m_view.slide_crop->setChecked(clip->getProducerIntProperty(QStringLiteral("crop")));
@@ -142,8 +163,8 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
         } else m_view.luma_file->setEnabled(false);
         slotEnableLuma(m_view.slide_fade->checkState());
         slotEnableLumaFile(m_view.luma_fade->checkState());
+        parseFolder();
     }
-
     //adjustSize();
 }
 
@@ -215,27 +236,35 @@ void SlideshowClip::parseFolder()
         dir.setNameFilters(filters);
         result = dir.entryList(QDir::Files);
     } else {
+        int offset = 0;
+        QString path = m_view.pattern_url->text();
+        QDir dir(QUrl(path).adjusted(QUrl::RemoveFilename).path());
+        result = dir.entryList(QDir::Files);
         // find pattern
-        filter = m_view.pattern_url->url().fileName();
-        QString ext = '.' + filter.section('.', -1);
-        filter = filter.section('.', 0, -2);
-        int fullSize = filter.size();
-        while (filter.size() > 0 && filter.at(filter.size() - 1).isDigit()) {
-            filter.chop(1);
+        if (path.contains('?')) {
+            // New MLT syntax
+            offset = path.section(':', -1).toInt();
+            path = path.section('?', 0, 0);
         }
-        int precision = fullSize - filter.size();
-        int firstFrame = m_view.pattern_url->url().fileName().section('.', 0, -2).rightRef(precision).toInt();
-        QString path;
-        int gap = 0;
-        for (int i = firstFrame; gap < 100; ++i) {
-            path = filter + QString::number(i).rightJustified(precision, '0', false) + ext;
-            if (dir.exists(path)) {
-                result.append(path);
-                gap = 0;
-            } else {
-                gap++;
+        QString filter = QUrl::fromLocalFile(path).fileName();
+        QString ext = filter.section('.', -1);
+        filter = filter.section('%', 0, -2);
+        qDebug()<<" / /"<<path<<" / "<<ext<<" / "<<filter;
+        QString regexp = '^' + filter + "\\d+\\." + ext + '$';
+        QRegExp rx(regexp);
+        QStringList entries;
+        int ix;
+        foreach(const QString & path, result) {
+            if (rx.exactMatch(path)) {
+                if (offset > 0) {
+                    // make sure our image is in the range we want (> begin)
+                    ix = path.section(filter, 1).section('.', 0, 0).toInt();
+                    if (ix < offset) continue;
+                }
+                entries << path;
             }
         }
+        result = entries;
     }
     foreach(const QString & path, result) {
         QListWidgetItem *item = new QListWidgetItem(unknownicon, QUrl(path).fileName());
