@@ -734,7 +734,6 @@ void Render::processFileProperties()
             if (duration == 0) duration = length;
             producer->set("length", length);
         }
-
         if (clipOut > 0) producer->set_in_and_out(info.xml.attribute(QStringLiteral("in")).toInt(), clipOut);
 
         if (info.xml.hasAttribute(QStringLiteral("templatetext")))

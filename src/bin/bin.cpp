@@ -3057,6 +3057,9 @@ void Bin::reloadAllProducers()
     foreach(ProjectClip *clip, clipList) {
         QDomDocument doc;
         QDomElement xml = clip->toXml(doc);
+        // Make sure we reload clip length
+        xml.removeAttribute("out");
+        EffectsList::removeProperty(xml, "length");
         if (!xml.isNull()) {
             clip->setClipStatus(AbstractProjectItem::StatusWaiting);
             // We need to set a temporary id before all outdated producers are replaced;

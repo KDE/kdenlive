@@ -227,19 +227,19 @@ void ClipController::updateProducer(const QString &id, Mlt::Producer* producer)
 
     Mlt::Properties passProperties;
     // Keep track of necessary properties
-    passProperties.pass_list(*m_properties, getPassPropertiesList());
-    delete m_properties;
-    delete m_masterProducer;
-    m_masterProducer = producer;
-    m_properties = new Mlt::Properties(producer->get_properties());
-    QString proxy = m_properties->get("kdenlive:proxy");
+    QString proxy = producer->get("kdenlive:proxy");
     if (proxy.length() > 2) {
         // This is a proxy producer, read original url from kdenlive property
         m_usesProxy = true;
     }
     else m_usesProxy = false;
+    passProperties.pass_list(*m_properties, getPassPropertiesList(m_usesProxy));
+    delete m_properties;
+    delete m_masterProducer;
+    m_masterProducer = producer;
+    m_properties = new Mlt::Properties(producer->get_properties());
     // Pass properties from previous producer
-    m_properties->pass_list(passProperties, getPassPropertiesList());
+    m_properties->pass_list(passProperties, getPassPropertiesList(m_usesProxy));
     if (!m_masterProducer->is_valid()) qDebug()<<"// WARNING, USING INVALID PRODUCER";
     else {
         // URL and name shoule not be updated otherwise when proxying a clip we cannot find back the original url
