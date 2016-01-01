@@ -486,6 +486,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupI
                     // import as sequence if we found more than one image in the sequence
                     QStringList list;
                     QString pattern = SlideshowClip::selectedPath(url, false, QString(), &list);
+                    qDebug()<<" / // IMPORT PATTERN: "<<pattern<<" COUNT: "<<list.count();
                     int count = list.count();
                     if (count > 1) {
                         delete fileWidget;
