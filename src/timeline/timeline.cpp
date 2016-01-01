@@ -255,7 +255,7 @@ int Timeline::getTracks() {
         frame->setFrameStyle(QFrame::HLine);
         frame->setFixedHeight(1);
         headerLayout->insertWidget(0, frame);
-        Track *tk = new Track(i, m_trackActions, playlist, audio == 1 ? AudioTrack : VideoTrack, m_doc->fps(), this);
+        Track *tk = new Track(i, m_trackActions, playlist, audio == 1 ? AudioTrack : VideoTrack, this);
         m_tracks.append(tk);
         if (audio == 0 && !isBackgroundBlackTrack) {
             // Check if we have a composite transition for this track
@@ -1121,8 +1121,11 @@ void Timeline::slotVerticalZoomUp()
 
 void Timeline::updateProjectFps()
 {
+    qDebug()<<"Requesting FPS UPDATE: "<<m_doc->timecode().fps();
+    m_ruler->updateFrameSize();
     m_ruler->updateProjectFps(m_doc->timecode());
     m_trackview->updateProjectFps();
+    slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
 }
 
 void Timeline::slotRenameTrack(int ix, const QString &name)

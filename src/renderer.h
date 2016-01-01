@@ -301,7 +301,7 @@ class Render: public AbstractRender
     const QString getBinProperty(const QString &name);
     void setVolume(double volume);
     /** @brief Stop all activities in preparation for a change in profile */
-    void prepareProfileReset();
+    void prepareProfileReset(double fps);
     void updateSlowMotionProducers(const QString &id, QMap <QString, QString> passProperties);
     static QMap<QString, QString> mltGetTransitionParamsFromXml(const QDomElement &xml);
     /** @brief Make sure to close running threads before closing document */

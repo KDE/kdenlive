@@ -64,7 +64,6 @@ public:
     int duration() const;
     KdenliveDoc *document();
     void refresh() ;
-    void updateProjectFps();
     int outPoint() const;
     int inPoint() const;
     int fitZoom() const;
@@ -157,6 +156,7 @@ public slots:
     void slotSaveTimelinePreview(const QString &path);
     void checkDuration(int duration);
     void slotShowTrackEffects(int);
+    void updateProjectFps();
 
 private:
     Mlt::Tractor *m_tractor;

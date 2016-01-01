@@ -1337,7 +1337,7 @@ void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
     m_timePos->updateTimeCode(tc);
     if (render == NULL) return;
     slotActivateMonitor();
-    render->prepareProfileReset();
+    render->prepareProfileReset(tc.fps());
     m_glMonitor->resetProfile(ProfilesDialog::getVideoProfile(profile));
 }
 
@@ -1346,7 +1346,7 @@ void Monitor::resetProfile(MltVideoProfile profile)
     m_timePos->updateTimeCode(m_monitorManager->timecode());
     if (render == NULL) return;
 
-    render->prepareProfileReset();
+    render->prepareProfileReset(m_monitorManager->timecode().fps());
     m_glMonitor->resetProfile(profile);
 
     if (m_rootItem && m_rootItem->objectName() == QLatin1String("rooteffectscene")) {

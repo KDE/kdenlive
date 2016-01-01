@@ -1552,6 +1552,7 @@ void KdenliveDoc::updateProjectProfile()
     m_timecode.setFormat(fps);
     KdenliveSettings::setCurrent_profile(m_profile.path);
     pCore->monitorManager()->resetProfiles(m_profile, m_timecode);
+    emit updateFps();
 }
 
 void KdenliveDoc::resetProfile()

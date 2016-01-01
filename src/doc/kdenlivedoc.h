@@ -238,6 +238,8 @@ signals:
     void startAutoSave();
     /** @brief Current doc created effects, reload list */
     void reloadEffects();
+    /** @brief Fps was changed, update timeline */
+    void updateFps();
 };
 
 #endif

@@ -153,7 +153,7 @@ Mlt::Producer *Render::invalidProducer(const QString &id)
     return clip;
 }
 
-void Render::prepareProfileReset()
+void Render::prepareProfileReset(double fps)
 {
     m_refreshTimer.stop();
     if (m_isSplitView)
@@ -162,8 +162,8 @@ void Render::prepareProfileReset()
     m_requestList.clear();
     m_infoMutex.unlock();
     m_infoThread.waitForFinished();
+    m_fps = fps;
 }
-
 
 void Render::seek(const GenTime &time)
 {

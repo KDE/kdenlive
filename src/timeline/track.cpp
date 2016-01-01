@@ -28,13 +28,12 @@
 #include <QDebug>
 #include <math.h>
 
-Track::Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType type, qreal fps, QWidget *parent) :
+Track::Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType type, QWidget *parent) :
     effectsList(EffectsList(true)),
     type(type),
     trackHeader(NULL),
     m_index(index),
-    m_playlist(playlist),
-    m_fps(fps)
+    m_playlist(playlist)
 {
     QString playlist_name = playlist.get("id");
     if (playlist_name != "black_track") {
@@ -62,21 +61,16 @@ void Track::setPlaylist(Mlt::Playlist &playlist)
 
 qreal Track::fps()
 {
-    return m_fps;
+    return m_playlist.get_fps();
 }
 
 int Track::frame(qreal t)
 {
-    return round(t * m_fps);
+    return round(t * fps());
 }
 
 qreal Track::length() {
-    return m_playlist.get_playtime() / m_fps;
-}
-
-void Track::setFps(qreal fps)
-{
-    m_fps = fps;
+    return m_playlist.get_playtime() / fps();
 }
 
 // basic clip operations
@@ -602,7 +596,7 @@ void Track::updateClipProperties(const QString &id, QMap <QString, QString> prop
 int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *prod, Mlt::Properties passProps, bool removeEffect)
 {
     int newLength = 0;
-    int startPos = info.startPos.frames(m_fps);
+    int startPos = info.startPos.frames(fps());
     int clipIndex = m_playlist.get_clip_index_at(startPos);
     int clipLength = m_playlist.clip_length(clipIndex);
 
@@ -680,9 +674,9 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
 	    int blankEnd = m_playlist.clip_start(clipIndex) + m_playlist.clip_length(clipIndex);
 	    Mlt::Producer *cut;
 	    if (clipIndex + 1 < m_playlist.count() && (startPos + clipLength / speed > blankEnd)) {
-		GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
-		cut = prod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)(info.cropStart.frames(m_fps) / speed + maxLength.frames(m_fps) - 1));
-	    } else cut = prod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)((info.cropStart.frames(m_fps) + clipLength) / speed - 1));
+		GenTime maxLength = GenTime(blankEnd, fps()) - info.startPos;
+		cut = prod->cut((int)(info.cropStart.frames(fps()) / speed), (int)(info.cropStart.frames(fps()) / speed + maxLength.frames(fps()) - 1));
+	    } else cut = prod->cut((int)(info.cropStart.frames(fps()) / speed), (int)((info.cropStart.frames(fps()) + clipLength) / speed - 1));
 
 	    // move all effects to the correct producer
 	    Clip(*cut).addEffects(*clip);
@@ -718,12 +712,12 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
 		emit storeSlowMotion(url, prod);
 	    }
 
-	    int originalStart = (int)(speedIndependantInfo.cropStart.frames(m_fps));
-	    if (clipIndex + 1 < m_playlist.count() && (info.startPos + speedIndependantInfo.cropDuration).frames(m_fps) > blankEnd) {
-		GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
-		cut = prod->cut(originalStart, (int)(originalStart + maxLength.frames(m_fps) - 1));
+	    int originalStart = (int)(speedIndependantInfo.cropStart.frames(fps()));
+	    if (clipIndex + 1 < m_playlist.count() && (info.startPos + speedIndependantInfo.cropDuration).frames(fps()) > blankEnd) {
+		GenTime maxLength = GenTime(blankEnd, fps()) - info.startPos;
+		cut = prod->cut(originalStart, (int)(originalStart + maxLength.frames(fps()) - 1));
 	    } else {
-		cut = prod->cut(originalStart, (int)(originalStart + speedIndependantInfo.cropDuration.frames(m_fps)) - 1);
+		cut = prod->cut(originalStart, (int)(originalStart + speedIndependantInfo.cropDuration.frames(fps())) - 1);
 	    }
 
 	    // move all effects to the correct producer
@@ -760,21 +754,21 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
         int duration;
         int originalStart;
         if (speed == 1.0) {
-          duration = speedIndependantInfo.cropDuration.frames(m_fps);
-          originalStart = speedIndependantInfo.cropStart.frames(m_fps);
+          duration = speedIndependantInfo.cropDuration.frames(fps());
+          originalStart = speedIndependantInfo.cropStart.frames(fps());
         } else {
-          duration = (int) (speedIndependantInfo.cropDuration.frames(m_fps) / speed + 0.5);
-          originalStart = (int)(speedIndependantInfo.cropStart.frames(m_fps) / speed + 0.5);
+          duration = (int) (speedIndependantInfo.cropDuration.frames(fps()) / speed + 0.5);
+          originalStart = (int)(speedIndependantInfo.cropStart.frames(fps()) / speed + 0.5);
         }
-        qDebug()<<"/ / /UPDATE SPEED: "<<speed<<", "<<speedIndependantInfo.cropStart.frames(m_fps)<<":"<<originalStart;
+        qDebug()<<"/ / /UPDATE SPEED: "<<speed<<", "<<speedIndependantInfo.cropStart.frames(fps())<<":"<<originalStart;
         // Check that the blank space is long enough for our new duration
         clipIndex = m_playlist.get_clip_index_at(startPos);
         int blankEnd = m_playlist.clip_start(clipIndex) + m_playlist.clip_length(clipIndex);
 
         Mlt::Producer *cut;
         if (clipIndex + 1 < m_playlist.count() && (startPos + duration > blankEnd)) {
-            GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
-            cut = prod->cut(originalStart, (int)(originalStart + maxLength.frames(m_fps) - 1));
+            GenTime maxLength = GenTime(blankEnd, fps()) - info.startPos;
+            cut = prod->cut(originalStart, (int)(originalStart + maxLength.frames(fps()) - 1));
         } else {
 	      cut = prod->cut(originalStart, originalStart + duration - 1);
 	}

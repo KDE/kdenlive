@@ -47,13 +47,12 @@ class Track : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Mlt::Playlist playlist READ playlist WRITE setPlaylist)
-    Q_PROPERTY(qreal fps READ fps WRITE setFps)
 
 public:
     /** @brief Track constructor
      * @param playlist is the MLT object used for monitor/render
      * @param fps is the read speed (frames per seconds) */
-    explicit Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType type, qreal fps, QWidget *parent = 0);
+    explicit Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType type, QWidget *parent = 0);
     ~Track();
 
     /// Property access function
@@ -177,7 +176,6 @@ public:
 
 public Q_SLOTS:
     void setPlaylist(Mlt::Playlist &playlist);
-    void setFps(qreal fps);
 
 signals:
     /** @brief notify track length change to update background

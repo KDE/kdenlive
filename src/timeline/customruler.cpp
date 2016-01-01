@@ -100,6 +100,7 @@ void CustomRuler::updateProjectFps(const Timecode &t)
     m_timecode = t;
     mediumMarkDistance = FRAME_SIZE * m_timecode.fps();
     bigMarkDistance = FRAME_SIZE * m_timecode.fps() * 60;
+    setPixelPerMark(m_rate);
     update();
 }
 
