@@ -302,9 +302,9 @@ void CustomRuler::updateRuler(int pos)
     update(min * m_factor - offset() - 3, BIG_MARK_X, (max - min) * m_factor + 6, MAX_HEIGHT - BIG_MARK_X);
 }
 
-void CustomRuler::setPixelPerMark(int rate)
+void CustomRuler::setPixelPerMark(int rate, bool force)
 {
-    if (rate == m_rate) return;
+    if (rate == m_rate && !force) return;
     int scale = comboScale[rate];
     m_rate = rate;
     m_factor = 1.0 / (double) scale * FRAME_SIZE;

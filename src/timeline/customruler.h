@@ -40,7 +40,7 @@ class CustomRuler : public QWidget
 
 public:
     CustomRuler(const Timecode &tc, CustomTrackView *parent);
-    void setPixelPerMark(int rate);
+    void setPixelPerMark(int rate, bool force = false);
     static const int comboScale[];
     int outPoint() const;
     int inPoint() const;

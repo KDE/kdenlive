@@ -94,7 +94,6 @@ public:
     void loadGuides(QMap <double, QString> guidesData);
 
     void checkTrackHeight(bool force = false);
-    void updateProfile();
     void updatePalette();
     void refreshIcons();
     /** @brief Returns a kdenlive effect xml description from an effect tag / id */
@@ -156,7 +155,7 @@ public slots:
     void slotSaveTimelinePreview(const QString &path);
     void checkDuration(int duration);
     void slotShowTrackEffects(int);
-    void updateProjectFps();
+    void updateProfile(bool fpsChanged);
 
 private:
     Mlt::Tractor *m_tractor;

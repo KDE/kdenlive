@@ -264,15 +264,19 @@ int CustomTrackView::getFrameWidth() const
     return (int) (m_tracksHeight * m_document->dar() + 0.5);
 }
 
-void CustomTrackView::updateSceneFrameWidth()
+void CustomTrackView::updateSceneFrameWidth(bool fpsChanged)
 {
     int frameWidth = getFrameWidth();
-    QList<QGraphicsItem *> itemList = items();
-    ClipItem *item;
-    for (int i = 0; i < itemList.count(); ++i) {
-        if (itemList.at(i)->type() == AVWidget) {
-            item = static_cast<ClipItem*>(itemList.at(i));
-            item->resetFrameWidth(frameWidth);
+    if (fpsChanged && m_projectDuration > 0) {
+        reloadTimeline();
+    } else {
+        QList<QGraphicsItem *> itemList = items();
+        ClipItem *item;
+        for (int i = 0; i < itemList.count(); ++i) {
+            if (itemList.at(i)->type() == AVWidget) {
+                item = static_cast<ClipItem*>(itemList.at(i));
+                item->resetFrameWidth(frameWidth);
+            }
         }
     }
 }

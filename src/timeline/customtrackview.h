@@ -103,7 +103,7 @@ public:
     void cutSelectedClips();
     void setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition, QActionGroup *clipTypeGroup, QMenu *markermenu);
     bool checkTrackHeight(bool force = false);
-    void updateSceneFrameWidth();
+    void updateSceneFrameWidth(bool fpsChanged = false);
     void setTool(ProjectTool tool);
     ClipItem *cutClip(const ItemInfo &info, const GenTime &cutTime, bool cut, const EffectsList &oldStack = EffectsList(), bool execute = true);
     void slotSeekToPreviousSnap();

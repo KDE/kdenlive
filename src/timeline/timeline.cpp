@@ -1119,15 +1119,6 @@ void Timeline::slotVerticalZoomUp()
     m_trackview->verticalScrollBar()->setValue(headers_area->verticalScrollBar()->value());
 }
 
-void Timeline::updateProjectFps()
-{
-    qDebug()<<"Requesting FPS UPDATE: "<<m_doc->timecode().fps();
-    m_ruler->updateFrameSize();
-    m_ruler->updateProjectFps(m_doc->timecode());
-    m_trackview->updateProjectFps();
-    slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
-}
-
 void Timeline::slotRenameTrack(int ix, const QString &name)
 {
     QString currentName = track(ix)->getProperty(QStringLiteral("kdenlive:track_name"));
@@ -1182,12 +1173,14 @@ void Timeline::slotSaveTimelinePreview(const QString &path)
     img.save(path);
 }
 
-void Timeline::updateProfile()
+void Timeline::updateProfile(bool fpsChanged)
 {
     m_ruler->updateFrameSize();
-    m_trackview->updateSceneFrameWidth();
+    m_ruler->updateProjectFps(m_doc->timecode());
+    m_ruler->setPixelPerMark(m_doc->zoom().x(), true);
     slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
     slotSetZone(m_doc->zone(), false);
+    m_trackview->updateSceneFrameWidth(fpsChanged);
 }
 
 void Timeline::checkTrackHeight(bool force)

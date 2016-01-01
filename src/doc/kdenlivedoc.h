@@ -239,7 +239,7 @@ signals:
     /** @brief Current doc created effects, reload list */
     void reloadEffects();
     /** @brief Fps was changed, update timeline */
-    void updateFps();
+    void updateFps(bool changed);
 };
 
 #endif
