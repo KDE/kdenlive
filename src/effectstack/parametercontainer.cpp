@@ -102,7 +102,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         m_geometryWidget(NULL),
         m_metaInfo(metaInfo),
         m_effect(effect),
-        m_monitorEffectScene(MonitorSceneNone)
+        m_monitorEffectScene(MonitorSceneDefault)
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);

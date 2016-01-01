@@ -9,7 +9,7 @@ Item {
 
     // default size, but scalable by user
     height: 300; width: 400
-    property string comment
+    property string markerText
     property string timecode
     property point profile
     property double scale
@@ -99,7 +99,7 @@ Item {
         objectName: "markertext"
         activeFocusOnPress: true
         onEditingFinished: {
-            root.comment = marker.displayText
+            root.markerText = marker.displayText
             marker.focus = false
             root.editCurrentMarker()
         }
@@ -109,6 +109,7 @@ Item {
             bottom: parent.bottom
         }
         visible: root.showMarkers && text != ""
+        text: root.markerText
         maximumLength: 20
         style: TextFieldStyle {
             textColor: "white"

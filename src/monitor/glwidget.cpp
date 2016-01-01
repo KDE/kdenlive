@@ -204,20 +204,6 @@ void GLWidget::initializeGL()
     m_initSem.release();
 }
 
-void GLWidget::effectRectChanged()
-{
-    if (!rootObject()) return;
-    const QRect rect = rootObject()->property("framesize").toRect();
-    emit effectChanged(rect);
-}
-
-void GLWidget::effectPolygonChanged()
-{
-    if (!rootObject()) return;
-    QVariantList points = rootObject()->property("centerPoints").toList();
-    emit effectChanged(points);
-}
-
 void GLWidget::resizeGL(int width, int height)
 {
     int x, y, w, h;
@@ -969,38 +955,10 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
     return error;
 }
 
-void GLWidget::slotShowEffectScene(MonitorSceneType sceneType)
-{
-    QObject *item = rootObject();
-    if (!item) return;
-    switch (sceneType) {
-        case MonitorSceneGeometry:
-            QObject::connect(item, SIGNAL(effectChanged()), this, SLOT(effectRectChanged()), Qt::UniqueConnection);
-            item->setProperty("profile", QPoint(m_monitorProfile->width(), m_monitorProfile->height()));
-            item->setProperty("framesize", QRect(0, 0, m_monitorProfile->width(), m_monitorProfile->height()));
-            item->setProperty("scale", (double) m_rect.width() / m_monitorProfile->width() * m_zoom);
-            item->setProperty("center", m_rect.center());
-            break;
-        case MonitorSceneCorners:
-            QObject::connect(item, SIGNAL(effectPolygonChanged()), this, SLOT(effectPolygonChanged()), Qt::UniqueConnection);
-            item->setProperty("profile", QPoint(m_monitorProfile->width(), m_monitorProfile->height()));
-            item->setProperty("framesize", QRect(0, 0, m_monitorProfile->width(), m_monitorProfile->height()));
-            item->setProperty("scale", (double) m_rect.width() / m_monitorProfile->width() * m_zoom);
-            item->setProperty("center", m_rect.center());
-            break;
-        case MonitorSceneRoto:
-            //TODO
-            break;
-        default:
-          item->setProperty("profile", QPoint(m_monitorProfile->width(), m_monitorProfile->height()));
-          item->setProperty("scale", (double) m_rect.width() / m_monitorProfile->width() * m_zoom);
-          break;
-    }
-}
 
 float GLWidget::zoom() const
 { 
-    return m_zoom;// * m_monitorProfile->width() / m_rect.width();
+    return m_zoom;
 }
 
 float GLWidget::scale() const
@@ -1051,6 +1009,11 @@ void GLWidget::reloadProfile(Mlt::Profile &profile)
 QSize GLWidget::profileSize() const
 {
     return QSize(m_monitorProfile->width(), m_monitorProfile->height());
+}
+
+QRect GLWidget::displayRect() const
+{
+    return m_rect;
 }
 
 QPoint GLWidget::offset() const

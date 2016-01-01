@@ -644,7 +644,7 @@ MonitorSceneType CollapsibleEffect::needsMonitorEffectScene() const
     if (m_paramWidget)
         return m_paramWidget->needsMonitorEffectScene();
     else
-        return MonitorSceneNone;
+        return MonitorSceneDefault;
 }
 
 void CollapsibleEffect::setRange(int inPoint , int outPoint)

@@ -52,7 +52,7 @@ EffectStackView2::EffectStackView2(Monitor *projectMonitor, QWidget *parent) :
         m_draggedEffect(NULL),
         m_draggedGroup(NULL),
         m_groupIndex(0),
-        m_monitorSceneWanted(MonitorSceneNone),
+        m_monitorSceneWanted(MonitorSceneDefault),
         m_trackInfo(),
         m_transition(NULL)
 {
@@ -132,7 +132,7 @@ void EffectStackView2::slotTransitionItemSelected(Transition* t, int nextTrack, 
 void EffectStackView2::slotRenderPos(int pos)
 {
     if (m_effects.isEmpty()) return;
-    if (m_monitorSceneWanted != MonitorSceneNone) slotCheckMonitorPosition(pos);
+    if (m_monitorSceneWanted != MonitorSceneDefault) slotCheckMonitorPosition(pos);
     if (m_status == TIMELINE_CLIP && m_clipref) pos = pos - m_clipref->startPos().frames(KdenliveSettings::project_fps());
 
     for (int i = 0; i< m_effects.count(); ++i)
@@ -189,8 +189,8 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c, Monitor *m)
     if (m_clipref == NULL) {
         //TODO: clear list, reset paramdesc and info
         // If monitor scene is displayed, hide it
-        if (m_monitorSceneWanted != MonitorSceneNone) {
-            m_monitorSceneWanted = MonitorSceneNone;
+        if (m_monitorSceneWanted != MonitorSceneDefault) {
+            m_monitorSceneWanted = MonitorSceneDefault;
             m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
         }
         m_status = EMPTY;
@@ -248,8 +248,8 @@ void EffectStackView2::slotMasterClipItemSelected(ClipController* c, Monitor *m)
     if (m_masterclipref == NULL) {
         //TODO: clear list, reset paramdesc and info
         // If monitor scene is displayed, hide it
-        if (m_monitorSceneWanted != MonitorSceneNone) {
-            m_monitorSceneWanted = MonitorSceneNone;
+        if (m_monitorSceneWanted != MonitorSceneDefault) {
+            m_monitorSceneWanted = MonitorSceneDefault;
             m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
         }
         m_status = EMPTY;
@@ -288,7 +288,7 @@ void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo &info, Moni
 void EffectStackView2::setupListView()
 {
     blockSignals(true);
-    m_monitorSceneWanted = MonitorSceneNone;
+    m_monitorSceneWanted = MonitorSceneDefault;
     m_draggedEffect = NULL;
     m_draggedGroup = NULL;
     disconnect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
@@ -557,9 +557,9 @@ void EffectStackView2::startDrag()
 
 void EffectStackView2::slotUpdateEffectState(bool disable, int index, MonitorSceneType needsMonitorEffectScene)
 {
-    if (m_monitorSceneWanted != MonitorSceneNone && disable) {
-        m_monitorSceneWanted = MonitorSceneNone;
-        m_effectMetaInfo.monitor->slotShowEffectScene(MonitorSceneNone);
+    if (m_monitorSceneWanted != MonitorSceneDefault && disable) {
+        m_monitorSceneWanted = MonitorSceneDefault;
+        m_effectMetaInfo.monitor->slotShowEffectScene(MonitorSceneDefault);
     }
     else if (!disable && m_monitorSceneWanted == needsMonitorEffectScene) {
         m_monitorSceneWanted = needsMonitorEffectScene;
@@ -607,17 +607,17 @@ void EffectStackView2::slotSeekTimeline(int pos)
 
 void EffectStackView2::slotCheckMonitorPosition(int renderPos)
 {
-    if (m_monitorSceneWanted != MonitorSceneNone) {
+    if (m_monitorSceneWanted != MonitorSceneDefault) {
         if (m_status == TIMELINE_TRACK || m_status == MASTER_CLIP || (m_clipref && renderPos >= m_clipref->startPos().frames(KdenliveSettings::project_fps()) && renderPos <= m_clipref->endPos().frames(KdenliveSettings::project_fps()))) {
             if (!m_effectMetaInfo.monitor->effectSceneDisplayed(m_monitorSceneWanted)) {
                 m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
             }
         } else {
-            m_effectMetaInfo.monitor->slotShowEffectScene(MonitorSceneNone);
+            m_effectMetaInfo.monitor->slotShowEffectScene(MonitorSceneDefault);
         }
     }
     else {
-        m_effectMetaInfo.monitor->slotShowEffectScene(MonitorSceneNone);
+        m_effectMetaInfo.monitor->slotShowEffectScene(MonitorSceneDefault);
     }
 }
 
@@ -634,7 +634,7 @@ int EffectStackView2::trackIndex() const
 void EffectStackView2::clear()
 {
     m_effects.clear();
-    m_monitorSceneWanted = MonitorSceneNone;
+    m_monitorSceneWanted = MonitorSceneDefault;
     QWidget *view = m_ui.container->takeWidget();
     if (view) {
         delete view;

@@ -40,7 +40,7 @@ CornersWidget::CornersWidget(Monitor *monitor, const QDomElement& e, int minFram
         m_pos(0)
 {
     m_monitor->slotShowEffectScene(MonitorSceneCorners);
-    connect(m_monitor, SIGNAL(effectChanged(QVariantList)), this, SLOT(slotUpdateGeometry(QVariantList)));
+    connect(m_monitor, &Monitor::effectPointsChanged, this, &CornersWidget::slotUpdateGeometry);
     connect(this, SIGNAL(parameterChanged()), this, SLOT(slotUpdateItem()));
 }
 

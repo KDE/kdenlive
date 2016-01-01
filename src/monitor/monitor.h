@@ -51,6 +51,7 @@ class QQuickItem;
 class QScrollBar;
 class RecManager;
 class QToolButton;
+class QmlManager;
 
 class QuickEventEater : public QObject
 {
@@ -175,6 +176,8 @@ private:
     SmallRuler *m_ruler;
     /** @brief Widget holding the window for the QQuickView **/
     QWidget *m_videoWidget;
+    /** @brief Manager for qml overlay for the QQuickView **/
+    QmlManager *m_qmlManager;
 
     Mlt::Filter *m_splitEffect;
     Mlt::Producer *m_splitProducer;
@@ -207,13 +210,9 @@ private:
     QAction *m_editMarker;
     KMessageWidget *m_infoMessage;
     int m_forceSizeFactor;
-    /** @brief The base item of the qml view in monitor, used to set properties on the view that affect display **/
-    QQuickItem *m_rootItem;
-    QQuickItem *m_markerItem;
     MonitorSceneType m_lastMonitorSceneType;
     void adjustScrollBars(float horizontal, float vertical);
-    void loadMasterQml();
-    void loadMonitorScene();
+    void loadQmlScene(MonitorSceneType type);
     void updateQmlDisplay(int currentOverlay);
 
 private slots:
@@ -310,7 +309,7 @@ signals:
     /** @brief Request a zone extraction (ffmpeg transcoding). */
     void extractZone(const QString &id);
     void effectChanged(const QRect);
-    void effectChanged(QVariantList);
+    void effectPointsChanged(QVariantList);
     void addKeyframe();
     void seekToKeyframe(int);
     void addClipToProject(QUrl);

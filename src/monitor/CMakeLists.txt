@@ -8,4 +8,5 @@ set(kdenlive_SRCS
   monitor/recmonitor.cpp
   monitor/smallruler.cpp
   monitor/sharedframe.cpp
+  monitor/qmlmanager.cpp
   PARENT_SCOPE)

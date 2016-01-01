@@ -83,6 +83,7 @@ public:
     Mlt::Consumer *consumer();
     Mlt::Producer *producer();
     QSize profileSize() const;
+    QRect displayRect() const;
     /** @brief set to true if we want to emit a QImage of the frame for analysis */
     bool sendFrameForAnalysis;
     void updateGamma();
@@ -104,7 +105,6 @@ public slots:
     void setZoom(float zoom);
     void setOffsetX(int x);
     void setOffsetY(int y);
-    void slotShowEffectScene(MonitorSceneType sceneType);
     void slotSwitchAudioOverlay(bool enable);
     void initializeGL();
 
@@ -124,8 +124,6 @@ signals:
     void switchFullScreen(bool minimizeOnly = false);
     void mouseSeek(int eventDelta, bool fast);
     void startDrag();
-    void effectChanged(const QRect);
-    void effectChanged(const QVariantList);
     void analyseFrame(QImage);
     void audioSamplesSignal(const audioShortVector&,int,int,int);
     void showContextMenu(const QPoint);
@@ -173,8 +171,6 @@ private slots:
     void resizeGL(int width, int height);
     void updateTexture(GLuint yName, GLuint uName, GLuint vName);
     void paintGL();
-    void effectRectChanged();
-    void effectPolygonChanged();
     void slotError(QQuickWindow::SceneGraphError error, const QString &message);
 
 protected:

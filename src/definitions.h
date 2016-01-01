@@ -115,9 +115,11 @@ enum ProjectTool {
 
 enum MonitorSceneType {
     MonitorSceneNone = 0,
+    MonitorSceneDefault,
     MonitorSceneGeometry,
     MonitorSceneCorners,
-    MonitorSceneRoto
+    MonitorSceneRoto,
+    MonitorSceneSplit
 };
 
 enum TransitionType {

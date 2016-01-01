@@ -52,7 +52,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, const Timecode &timecode, int c
 {
     m_ui.setupUi(this);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
-    connect(m_monitor, SIGNAL(effectChanged(QRect)), this, SLOT(slotUpdateGeometry(QRect)));
+    connect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect);
     /*MonitorEditWidget *edit = monitor->getEffectEdit();
     edit->removeCustomControls();
     edit->addCustomButton(KoIconUtils::themedIcon("draw-path"), i18n("Show path"), this, SLOT(slotShowPath(bool)), true, KdenliveSettings::onmonitoreffects_geometryshowpath());
@@ -607,7 +607,7 @@ void GeometryWidget::slotUpdateGeometry()
     emit parameterChanged();
 }
 
-void GeometryWidget::slotUpdateGeometry(const QRect r)
+void GeometryWidget::slotUpdateGeometryRect(const QRect r)
 {
     Mlt::GeometryItem item;
     int pos = 0;

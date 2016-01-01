@@ -86,7 +86,7 @@ RotoWidget::~RotoWidget()
     if (m_monitor) {
         /*MonitorEditWidget *edit = m_monitor->getEffectEdit();
         edit->removeCustomControls();*/
-        m_monitor->slotShowEffectScene(MonitorSceneNone);
+        m_monitor->slotShowEffectScene(MonitorSceneDefault);
     }
 }
 
