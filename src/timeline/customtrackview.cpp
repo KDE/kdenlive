@@ -3228,6 +3228,8 @@ void CustomTrackView::checkCompositeTransitions(Mlt::Tractor *tractor)
 void CustomTrackView::reloadTimeline()
 {
     removeTipAnimation();
+    emit clipItemSelected(NULL);
+    emit transitionItemSelected(NULL);
     QList<QGraphicsItem *> selection = m_scene->items();
     selection.removeAll(m_cursorLine);
     for (int i = 0; i < m_guides.count(); ++i) {
