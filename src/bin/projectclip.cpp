@@ -301,12 +301,12 @@ bool ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
         // We did not yet have the controller, update info
         m_controller = controller;
         if (m_name.isEmpty()) m_name = m_controller->clipName();
-        m_duration = m_controller->getStringDuration();
         m_date = m_controller->date;
         m_description = m_controller->description();
         m_temporaryUrl.clear();
         if (m_type == Unknown) m_type = m_controller->clipType();
     }
+    m_duration = m_controller->getStringDuration();
     m_clipStatus = StatusReady;
     if (!hasProxy()) bin()->emitRefreshPanel(m_id);
     bin()->emitItemUpdated(this);

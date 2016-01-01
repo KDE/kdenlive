@@ -470,6 +470,8 @@ public:
     void emitRefreshAudioThumbs(const QString &id);
     /** @brief Returns true if there is no clip. */
     bool isEmpty() const;
+    /** @brief Trigger reload of all clips. */
+    void reloadAllProducers();
 
 private slots:
     void slotAddClip();

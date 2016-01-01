@@ -3049,3 +3049,18 @@ bool Bin::isEmpty() const
     if (m_clipCounter == 1) return true;
     return m_rootFolder->isEmpty();
 }
+
+void Bin::reloadAllProducers()
+{
+    QList <ProjectClip*> clipList = m_rootFolder->childClips();
+    emit openClip(NULL);
+    foreach(ProjectClip *clip, clipList) {
+        QDomDocument doc;
+        QDomElement xml = clip->toXml(doc);
+        if (!xml.isNull()) {
+            clip->setClipStatus(AbstractProjectItem::StatusWaiting);
+            // We need to set a temporary id before all outdated producers are replaced;
+            m_doc->renderer()->getFileProperties(xml, clip->clipId(), 150, true);
+        }
+    }
+}
