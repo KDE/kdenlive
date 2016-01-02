@@ -31,6 +31,7 @@
 #include <QAction>
 #include <QMimeData>
 
+#include <KMessageWidget>
 #include <klocalizedstring.h>
 
 LibraryTree::LibraryTree(QWidget *parent) : QTreeWidget(parent)
@@ -60,6 +61,9 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget
     m_libraryTree->setDragEnabled(true);
     //m_libraryTree->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
     lay->addWidget(m_libraryTree);
+    m_infoWidget = new KMessageWidget;
+    lay->addWidget(m_infoWidget);
+    m_infoWidget->hide();
     m_toolBar = new QToolBar(this);
     lay->addWidget(m_toolBar);
     setLayout(lay);
@@ -68,6 +72,9 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget
     if (!m_directory.exists()) {
         m_directory.mkpath(QStringLiteral("."));
     }
+    m_timer.setSingleShot(true);
+    m_timer.setInterval(4000);
+    connect(&m_timer, &QTimer::timeout, m_infoWidget, &KMessageWidget::animatedHide);
     parseLibrary();
 }
 
@@ -99,7 +106,12 @@ void LibraryWidget::parseLibrary()
 void LibraryWidget::slotAddToLibrary()
 {
     if (!m_manager->hasSelection()) {
-        // TODO: display message to user
+        m_timer.stop();
+        m_infoWidget->setText(i18n("Select clips in timeline for the Library"));
+        m_infoWidget->setWordWrap(m_infoWidget->text().length() > 35);
+        m_infoWidget->setMessageType(KMessageWidget::Warning);
+        m_infoWidget->animatedShow();
+        m_timer.start();
         return;
     }
     bool ok;

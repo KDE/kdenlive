@@ -33,8 +33,10 @@
 #include <QTreeWidget>
 #include <QToolBar>
 #include <QDir>
+#include <QTimer>
 
 class ProjectManager;
+class KMessageWidget;
 
 
 class LibraryTree : public QTreeWidget
@@ -62,6 +64,8 @@ public slots:
 private:
     LibraryTree *m_libraryTree;
     QToolBar *m_toolBar;
+    QTimer m_timer;
+    KMessageWidget *m_infoWidget;
     ProjectManager *m_manager;
     QDir m_directory;
     void parseLibrary();
