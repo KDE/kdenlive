@@ -22,6 +22,7 @@
 
 #include "librarywidget.h"
 #include "project/projectmanager.h"
+#include "utils/KoIconUtils.h"
 
 #include <QVBoxLayout>
 #include <QDateTime>
@@ -31,8 +32,8 @@
 #include <QAction>
 #include <QMimeData>
 
-#include <KMessageWidget>
 #include <klocalizedstring.h>
+#include <KMessageBox>
 
 LibraryTree::LibraryTree(QWidget *parent) : QTreeWidget(parent)
 {}
@@ -72,6 +73,9 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget
     if (!m_directory.exists()) {
         m_directory.mkpath(QStringLiteral("."));
     }
+
+    m_libraryTree->setContextMenuPolicy(Qt::ActionsContextMenu);
+    connect(m_libraryTree, &QTreeWidget::itemSelectionChanged, this, &LibraryWidget::updateActions);
     m_timer.setSingleShot(true);
     m_timer.setInterval(4000);
     connect(&m_timer, &QTimer::timeout, m_infoWidget, &KMessageWidget::animatedHide);
@@ -80,25 +84,58 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget
 
 void LibraryWidget::setupActions(QList <QAction *>list)
 {
+    QList <QAction *> menuList;
+    m_addAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("list-add")), i18n("Add Clip to Project"), this);
+    connect(m_addAction, SIGNAL(triggered(bool)), this, SLOT(slotAddToProject()));
+    m_deleteAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("edit-delete")), i18n("Delete Clip from Library"), this);
+    connect(m_deleteAction, SIGNAL(triggered(bool)), this, SLOT(slotDeleteFromLibrary()));
+    menuList << m_addAction << m_deleteAction;
+    m_toolBar->addAction(m_addAction);
     foreach(QAction *action, list) {
         m_toolBar->addAction(action);
+        menuList << action;
     }
+
+    // Create spacer
+    QWidget* spacer = new QWidget();
+    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_toolBar->addWidget(spacer);
+    m_toolBar->addSeparator();
+    m_toolBar->addAction(m_deleteAction);
+    m_libraryTree->addActions(menuList);
 }
 
 void LibraryWidget::parseLibrary()
 {
+    QString selectedUrl;
+    if (m_libraryTree->topLevelItemCount() > 0) {
+        // Remember last selected item
+        QTreeWidgetItem *current = m_libraryTree->currentItem();
+        if (current) {
+            selectedUrl = current->data(0, Qt::UserRole).toString();
+        }
+    }
     m_libraryTree->clear();
     QStringList filter;
     filter << QStringLiteral("*.mlt");
     const QStringList fileList = m_directory.entryList(filter, QDir::Files);
     QList <QTreeWidgetItem *> items;
+    QTreeWidgetItem *selectedItem = NULL;
     foreach(const QString &file, fileList) {
         QFileInfo info(m_directory.absoluteFilePath(file));
         QTreeWidgetItem *item = new QTreeWidgetItem(QStringList() << file.section(QLatin1Char('.'), 0, -2) << info.lastModified().toString(Qt::SystemLocaleShortDate));
         item->setData(0, Qt::UserRole, m_directory.absoluteFilePath(file));
+        if (item->data(0, Qt::UserRole).toString() == selectedUrl) {
+            selectedItem = item;
+        }
         items << item;
     }
     m_libraryTree->insertTopLevelItems(0, items);
+    if (selectedItem) {
+        m_libraryTree->setCurrentItem(selectedItem);
+    } else {
+        m_libraryTree->setCurrentItem(m_libraryTree->topLevelItem(0));
+    }
     m_libraryTree->setSortingEnabled(true);
     m_libraryTree->sortByColumn(0, Qt::AscendingOrder);
 }
@@ -106,12 +143,7 @@ void LibraryWidget::parseLibrary()
 void LibraryWidget::slotAddToLibrary()
 {
     if (!m_manager->hasSelection()) {
-        m_timer.stop();
-        m_infoWidget->setText(i18n("Select clips in timeline for the Library"));
-        m_infoWidget->setWordWrap(m_infoWidget->text().length() > 35);
-        m_infoWidget->setMessageType(KMessageWidget::Warning);
-        m_infoWidget->animatedShow();
-        m_timer.start();
+        showMessage(i18n("Select clips in timeline for the Library"));
         return;
     }
     bool ok;
@@ -122,5 +154,53 @@ void LibraryWidget::slotAddToLibrary()
     }
     QString fullPath = m_directory.absoluteFilePath(name + ".mlt");
     m_manager->slotSaveSelection(fullPath);
+    parseLibrary();
+}
+
+void LibraryWidget::showMessage(const QString &text, KMessageWidget::MessageType type)
+{
+    m_timer.stop();
+    m_infoWidget->setText(text);
+    m_infoWidget->setWordWrap(m_infoWidget->text().length() > 35);
+    m_infoWidget->setMessageType(type);
+    m_infoWidget->animatedShow();
+    m_timer.start();
+}
+
+void LibraryWidget::slotAddToProject()
+{
+    QTreeWidgetItem *current = m_libraryTree->currentItem();
+    if (!current) return;
+    QList <QUrl> list;
+    list << QUrl::fromLocalFile(current->data(0, Qt::UserRole).toString());
+    emit addProjectClips(list);
+}
+
+void LibraryWidget::updateActions()
+{
+    QTreeWidgetItem *current = m_libraryTree->currentItem();
+    if (!current) {
+        m_addAction->setEnabled(false);
+        m_deleteAction->setEnabled(false);
+        return;
+    }
+    m_addAction->setEnabled(true);
+    m_deleteAction->setEnabled(true);
+}
+
+void LibraryWidget::slotDeleteFromLibrary()
+{
+    QTreeWidgetItem *current = m_libraryTree->currentItem();
+    if (!current) {
+        //
+        return;
+    }
+    QString path = current->data(0, Qt::UserRole).toString();
+    if (KMessageBox::warningContinueCancel(this, i18n("This will delete the MLT playlist:\n%1", path)) != KMessageBox::Continue) {
+        return;
+    }
+    if (!QFile::remove(path)) {
+        showMessage(i18n("Error removing %1", path));
+    }
     parseLibrary();
 }

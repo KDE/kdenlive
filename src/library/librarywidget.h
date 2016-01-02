@@ -35,9 +35,9 @@
 #include <QDir>
 #include <QTimer>
 
-class ProjectManager;
-class KMessageWidget;
+#include <KMessageWidget>
 
+class ProjectManager;
 
 class LibraryTree : public QTreeWidget
 {
@@ -61,14 +61,25 @@ public:
 public slots:
     void slotAddToLibrary();
 
+private slots:
+    void slotAddToProject();
+    void slotDeleteFromLibrary();
+    void updateActions();
+
 private:
     LibraryTree *m_libraryTree;
     QToolBar *m_toolBar;
+    QAction *m_addAction;
+    QAction *m_deleteAction;
     QTimer m_timer;
     KMessageWidget *m_infoWidget;
     ProjectManager *m_manager;
     QDir m_directory;
     void parseLibrary();
+    void showMessage(const QString &text, KMessageWidget::MessageType type = KMessageWidget::Warning);
+
+signals:
+    void addProjectClips(QList <QUrl>);
 };
 
 #endif
