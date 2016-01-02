@@ -22,6 +22,7 @@
 #include "mainwindowadaptor.h"
 #include "core.h"
 #include "bin/projectclip.h"
+#include "library/librarywidget.h"
 #include "mltcontroller/clipcontroller.h"
 #include "kdenlivesettings.h"
 #include "dialogs/kdenlivesettingsdialog.h"
@@ -216,6 +217,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     setDockNestingEnabled(true);
     setCentralWidget(m_timelineArea);
     m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
+    m_libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     pCore->bin()->setMonitor(m_clipMonitor);
@@ -1248,7 +1250,12 @@ void MainWindow::setupActions()
 
     m_saveAction = KStandardAction::save(pCore->projectManager(), SLOT(saveFile()), actionCollection());
     m_saveAction->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-save")));
-    QAction *saveSelection = addAction(QStringLiteral("save_selection"), i18n("Save Selection"), pCore->projectManager(), SLOT(slotSaveSelection()), KoIconUtils::themedIcon(QStringLiteral("document-save")));
+
+    addAction(QStringLiteral("save_selection"), i18n("Save Selection"), pCore->projectManager(), SLOT(slotSaveSelection()), KoIconUtils::themedIcon(QStringLiteral("document-save")));
+
+    QAction *sentToLibrary = addAction(QStringLiteral("send_library"), i18n("Add Selection to Library"), pCore->library(), SLOT(slotAddToLibrary()), KoIconUtils::themedIcon(QStringLiteral("bookmark-new")));
+    
+    pCore->library()->setupActions(QList <QAction *>() << sentToLibrary);
 
     QAction *a = KStandardAction::quit(this, SLOT(close()),                  actionCollection());
     a->setIcon(KoIconUtils::themedIcon(QStringLiteral("application-exit")));

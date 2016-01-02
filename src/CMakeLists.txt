@@ -108,6 +108,7 @@ add_subdirectory(onmonitoritems/rotoscoping)
 add_subdirectory(mltcontroller)
 add_subdirectory(bin)
 add_subdirectory(qml)
+add_subdirectory(library)
 
 list(APPEND kdenlive_SRCS
   colortools.cpp

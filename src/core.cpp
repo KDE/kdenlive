@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "monitor/monitormanager.h"
 #include "mltcontroller/bincontroller.h"
 #include "bin/bin.h"
+#include "library/librarywidget.h"
 #include <QCoreApplication>
 #include <QDebug>
 
@@ -31,6 +32,7 @@ Core::Core(MainWindow *mainWindow) :
     , m_monitorManager(NULL)
     , m_binController(NULL)
     , m_binWidget(NULL)
+    , m_library(NULL)
 {
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(deleteLater()));
 }
@@ -56,6 +58,7 @@ void Core::initialize()
     m_projectManager = new ProjectManager(this);
     m_binWidget = new Bin();
     m_binController = new BinController();
+    m_library = new LibraryWidget(m_projectManager);
     connect(m_binWidget, SIGNAL(storeFolder(QString,QString,QString,QString)), m_binController, SLOT(slotStoreFolder(QString,QString,QString,QString)));
     connect(m_binController, SIGNAL(loadFolders(QMap<QString,QString>)), m_binWidget, SLOT(slotLoadFolders(QMap<QString,QString>)));
     connect(m_binController, SIGNAL(requestAudioThumb(QString)), m_binWidget, SLOT(slotCreateAudioThumb(QString)));
@@ -94,6 +97,11 @@ BinController *Core::binController()
 Bin *Core::bin()
 {
     return m_binWidget;
+}
+
+LibraryWidget *Core::library()
+{
+    return m_library;
 }
 
 void Core::initLocale()

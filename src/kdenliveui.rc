@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="106" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="107" translationDomain="kdenlive">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -130,6 +130,7 @@
       <Action name="group_clip" />
       <Action name="ungroup_clip" />
       <Action name="save_selection" />
+      <Action name="send_library" />
       <Separator />
       <Menu name="video_effects_menu" ><text>Add Effect</text>
 	  <ActionList name="add_effect" />

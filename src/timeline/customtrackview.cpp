@@ -7873,18 +7873,25 @@ void CustomTrackView::slotUpdateTimelineProducer(const QString &id)
     }
 }
 
-void CustomTrackView::exportTimelineSelection()
+bool CustomTrackView::hasSelection() const
+{
+    return (m_selectionGroup || m_dragItem);
+}
+
+void CustomTrackView::exportTimelineSelection(QString path)
 {
     if (!m_selectionGroup && !m_dragItem) {
 	qDebug()<<"/// ARGH, NO SELECTION GRP";
 	return;
     }
-    QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
-    if (clipFolder.isEmpty()) {
-        clipFolder = QDir::homePath();
+    if (path.isEmpty()) {
+        QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
+        if (clipFolder.isEmpty()) {
+            clipFolder = QDir::homePath();
+        }
+        path = QFileDialog::getSaveFileName(this, i18n("Save Zone"), clipFolder, i18n("MLT playlist (*.mlt)"));
+        if (path.isEmpty()) return;
     }
-    QString url = QFileDialog::getSaveFileName(this, i18n("Save Zone"), clipFolder, i18n("MLT playlist (*.mlt)"));
-    if (url.isEmpty()) return;
     QList<QGraphicsItem *> children;
     QRectF bounding;
     if (m_selectionGroup) {
@@ -7931,7 +7938,7 @@ void CustomTrackView::exportTimelineSelection()
 	      m_timeline->transitionHandler->duplicateTransitionOnPlaylist(tr->startPos().frames(m_document->fps()) - startOffest, tr->endPos().frames(m_document->fps()) - startOffest, tr->transitionTag(), tr->toXML(), a_track, b_track, field);
 	}
     }
-    Mlt::Consumer xmlConsumer(*newTractor->profile(),  ("xml:" + url).toUtf8().constData());
+    Mlt::Consumer xmlConsumer(*newTractor->profile(),  ("xml:" + path).toUtf8().constData());
     xmlConsumer.set("terminate_on_pause", 1);
     xmlConsumer.connect(*newTractor);
     xmlConsumer.run();

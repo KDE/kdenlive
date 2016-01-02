@@ -272,10 +272,16 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     return true;
 }
 
-void ProjectManager::slotSaveSelection()
+void ProjectManager::slotSaveSelection(QString path)
 {
-    m_trackView->projectView()->exportTimelineSelection();
+    m_trackView->projectView()->exportTimelineSelection(path);
 }
+
+bool ProjectManager::hasSelection() const
+{
+    return m_trackView->projectView()->hasSelection();
+}
+
 
 bool ProjectManager::saveFileAs()
 {

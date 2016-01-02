@@ -19,6 +19,7 @@ class ProjectManager;
 class MonitorManager;
 class BinController;
 class Bin;
+class LibraryWidget;
 
 #define pCore Core::self()
 
@@ -59,9 +60,11 @@ public:
     MonitorManager *monitorManager();
     /** @brief Returns a pointer to the project bin controller. */
     BinController *binController();
-
+    /** @brief Returns a pointer to the project bin. */
     Bin *bin();
-    
+    /** @brief Returns a pointer to the library. */
+    LibraryWidget *library();
+
 private:
     explicit Core(MainWindow *mainWindow);
     static Core *m_self;
@@ -74,6 +77,7 @@ private:
     MonitorManager *m_monitorManager;
     BinController *m_binController;
     Bin *m_binWidget;
+    LibraryWidget *m_library;
 
 signals:
     void coreIsReady();

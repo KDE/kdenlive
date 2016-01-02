@@ -234,6 +234,8 @@ public:
     void expandActiveClip();
     /** @brief Import amultitrack MLT playlist in timeline */
     void importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QMap <QString, QString> idMaps, QDomDocument doc, QUndoCommand *command);
+    /** @brief Returns true if there is a selected item in timeline */
+    bool hasSelection() const;
 
 public slots:
     /** @brief Send seek request to MLT. */
@@ -316,7 +318,7 @@ public slots:
     void slotInfoProcessingFinished();
     void slotAlignClip(int, int, int);
     /** @brief Export part of the playlist in an xml file */
-    void exportTimelineSelection();
+    void exportTimelineSelection(QString path = QString());
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);

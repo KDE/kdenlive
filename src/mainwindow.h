@@ -145,7 +145,7 @@ private:
     KColorSchemeManager *m_colorschemes;
 
     QDockWidget *m_projectBinDock;
-    QDockWidget *m_projectListDock;
+    QDockWidget *m_libraryDock;
 
     QDockWidget *m_effectListDock;
     EffectsListView *m_effectList;

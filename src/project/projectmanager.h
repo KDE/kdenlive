@@ -56,6 +56,8 @@ public:
     void prepareSave();
     /** @brief Disable all bin effects in current project */
     void disableBinEffects(bool disable);
+    /** @brief Returns true if there is a selected item in timeline */
+    bool hasSelection() const;
 
 public slots:
     void newFile(bool showProjectSettings = true, bool force = false);
@@ -72,7 +74,8 @@ public slots:
     /** @brief Shows a save file dialog for saving the project.
     * @return Whether the file was saved. */
     bool saveFileAs();
-    void slotSaveSelection();
+    /** @brief Saves current timeline selection to an MLT playlist. */
+    void slotSaveSelection(QString path = QString());
 
 
     /** @brief Set properties to match outputFileName and save the document.
