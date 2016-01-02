@@ -21,6 +21,8 @@
 #include <config-kdenlive.h>
 #include "mainwindow.h"
 
+#include "kxmlgui_version.h"
+
 #include <KAboutData>
 #include <KCrash>
 #include <QDebug>
@@ -94,7 +96,11 @@ int main(int argc, char *argv[])
 
     // Register DBus service
     KDBusService programDBusService;
+#if KXMLGUI_VERSION_MINOR > 14 || KXMLGUI_VERSION_MAJOR > 5
     KCrash::initialize();
+#else
+    KCrash::setCrashHandler(KCrash::defaultCrashHandler);
+#endif
 
     // see if we are starting with session management
     if (qApp->isSessionRestored()){
