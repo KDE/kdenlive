@@ -446,9 +446,7 @@ private slots:
     void triggerKey(QKeyEvent* ev);
     /** @brief Update monitor overlay actions on monitor switch */
     void slotUpdateMonitorOverlays(int id, int code);
-
-    void slotChangeStyle(QAction *a);
-
+    /** @brief Update widget style */
     void slotChangeStyle(QAction *a);
 
 signals:

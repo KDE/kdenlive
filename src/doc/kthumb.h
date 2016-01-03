@@ -73,6 +73,7 @@ public:
     static QPixmap getImage(const QUrl &url, int frame, int width, int height);
     static QImage getFrame(Mlt::Producer *producer, int framepos, int displayWidth, int height);
     static QImage getFrame(Mlt::Frame *frame, int width, int height);
+    static void saveThumbnail(const QString &url, const QString &dest, int height);
     /** @brief Calculates image variance, useful to know if a thumbnail is interesting. 
      *  @return an integer between 0 and 100. 0 means no variance, eg. black image while bigger values mean contrasted image
      * */

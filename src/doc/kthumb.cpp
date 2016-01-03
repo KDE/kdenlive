@@ -144,6 +144,26 @@ QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
     return pix;
 }
 
+//static
+void KThumb::saveThumbnail(const QString &url, const QString &dest, int height)
+{
+    Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
+    int width = height * profile.width() / profile.height();
+    Mlt::Producer *producer = new Mlt::Producer(profile, url.toUtf8().constData());
+    int frame = 0;
+    QImage img = getFrame(producer, frame, width, height);
+    int variance = KThumb::imageVariance(img);
+    if (variance < 6) {
+        // Thumbnail is not interesting (for example all black, seek to fetch better thumb
+        frame =  producer->get_playtime() > 100 ? 100 : producer->get_playtime() / 2 ;
+        producer->seek(frame);
+        img = getFrame(producer, frame, width, height);
+    }
+    img = img.scaled(width, height);
+    img.save(dest);
+    delete producer;
+}
+
 
 QImage KThumb::getProducerFrame(int framepos, int displayWidth, int height)
 {
