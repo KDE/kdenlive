@@ -55,6 +55,27 @@ public:
     explicit LibraryItemDelegate(QObject* parent = 0): QStyledItemDelegate(parent) {
     }
 
+    void updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & index) const
+    {
+        QStyleOptionViewItemV4 opt = option;
+        initStyleOption(&opt, index);
+        QRect r1 = option.rect;
+        QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+        const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+        double factor = (double) opt.decorationSize.height() / r1.height();
+        int decoWidth = 2 * textMargin;
+        if (factor != 0) {
+            decoWidth += opt.decorationSize.width() / factor;
+        }
+        int mid = (int)((r1.height() / 2));
+        r1.adjust(decoWidth, 0, 0, -mid);
+        QFont ft = option.font;
+        ft.setBold(true);
+        QFontMetricsF fm(ft);
+        QRect r2 =fm.boundingRect(r1, Qt::AlignLeft | Qt::AlignTop, index.data(Qt::DisplayRole).toString()).toRect();
+        editor->setGeometry( r2 );
+    }
+
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
     {
         QSize hint = QStyledItemDelegate::sizeHint(option, index);
