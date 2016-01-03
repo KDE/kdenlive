@@ -38,6 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QListView>
 #include <QFuture>
 #include <QMutex>
+#include <QLineEdit>
 
 class KdenliveDoc;
 class ClipController;
@@ -142,7 +143,33 @@ private slots:
 class BinItemDelegate: public QStyledItemDelegate
 {
 public:
-    explicit BinItemDelegate(QObject* parent = 0): QStyledItemDelegate(parent) {
+    explicit BinItemDelegate(QObject* parent = 0): QStyledItemDelegate(parent) 
+    {
+    }
+
+    void updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & index) const
+    {
+        QStyleOptionViewItemV4 opt = option;
+        initStyleOption(&opt, index);
+        QRect r1 = option.rect;
+        QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+        const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+        int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
+        double factor = (double) opt.decorationSize.height() / r1.height();
+        int decoWidth = 2 * textMargin;
+        int mid = 0;
+        if (factor != 0) {
+            decoWidth += opt.decorationSize.width() / factor;
+        }
+        if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem) {
+            mid = (int)((r1.height() / 2));
+        }
+        r1.adjust(decoWidth, 0, 0, -mid);
+        QFont ft = option.font;
+        ft.setBold(true);
+        QFontMetricsF fm(ft);
+        QRect r2 =fm.boundingRect(r1, Qt::AlignLeft | Qt::AlignTop, index.data(AbstractProjectItem::DataName).toString()).toRect();
+        editor->setGeometry( r2 );
     }
 
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
