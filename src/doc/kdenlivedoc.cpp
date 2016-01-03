@@ -228,7 +228,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
                         qDebug()<<" // / processing file validate ok";
                         parent->slotGotProgressInfo(i18n("Check missing clips"), 0);
                         qApp->processEvents();
-                        DocumentChecker d(m_document);
+                        DocumentChecker d(m_url, m_document);
                         success = !d.hasErrorInClips();
                         if (success) {
                             loadDocumentProperties();

@@ -25,6 +25,7 @@
 
 
 #include <QDir>
+#include <QUrl>
 #include <QDomElement>
 
 
@@ -33,7 +34,7 @@ class DocumentChecker: public QObject
     Q_OBJECT
 
 public:
-    explicit DocumentChecker(const QDomDocument &doc);
+    explicit DocumentChecker(QUrl url, const QDomDocument &doc);
     ~DocumentChecker();
     /**
      * @brief checks for problems with the clips in the project
@@ -58,6 +59,7 @@ private slots:
     void slotCheckButtons();
 
 private:
+    QUrl m_url;
     QDomDocument m_doc;
     Ui::MissingClips_UI m_ui;
     QDialog *m_dialog;
@@ -67,6 +69,7 @@ private:
     QMap <QString, QString> m_missingTitleImages;
     QMap <QString, QString> m_missingTitleFonts;
     QList <QDomElement> m_missingClips;
+    QStringList m_missingFonts;
     QStringList m_safeImages;
     QStringList m_safeFonts;
     QStringList m_missingProxyIds;

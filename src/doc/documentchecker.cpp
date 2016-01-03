@@ -58,8 +58,8 @@ const int LUMAPLACEHOLDER = 12;
 
 enum TITLECLIPTYPE { TITLE_IMAGE_ELEMENT = 20, TITLE_FONT_ELEMENT = 21 };
 
-DocumentChecker::DocumentChecker(const QDomDocument &doc):
-    m_doc(doc), m_dialog(NULL)
+DocumentChecker::DocumentChecker(QUrl url, const QDomDocument &doc):
+    m_url(url), m_doc(doc), m_dialog(NULL)
 {
 }
 
@@ -77,6 +77,7 @@ bool DocumentChecker::hasErrorInClips()
     QList <QDomElement> missingSources;
     m_safeImages.clear();
     m_safeFonts.clear();
+    m_missingFonts.clear();
     max = documentProducers.count();
     QStringList verifiedPaths;
     for (int i = 0; i < max; ++i) {
@@ -193,7 +194,7 @@ bool DocumentChecker::hasErrorInClips()
         }
     }
 
-    if (m_missingClips.isEmpty() && missingLumas.isEmpty() && missingProxies.isEmpty() && missingSources.isEmpty())
+    if (m_missingClips.isEmpty() && missingLumas.isEmpty() && missingProxies.isEmpty() && missingSources.isEmpty() && m_missingFonts.isEmpty())
         return false;
 
     m_dialog = new QDialog();
@@ -222,15 +223,7 @@ bool DocumentChecker::hasErrorInClips()
 	} else if (service == QLatin1String("mlt")) {
 	    clipType = i18n("Playlist clip");
 	} else if (e.tagName() == "missingtitle") {
-            status = e.attribute("type").toInt();
-            switch(status) {
-              case TITLE_IMAGE_ELEMENT:
-                clipType = i18n("Title Image");
-                break;
-              case TITLE_FONT_ELEMENT:
-                clipType = i18n("Title Font");
-                break;
-            }
+            clipType = i18n("Title Image");
         }
 	else {
 	    clipType = i18n("Unknown");
@@ -244,13 +237,6 @@ bool DocumentChecker::hasErrorInClips()
             item->setText(1, e.attribute("resource"));
             item->setData(0, typeRole, status);
             item->setData(0, typeOriginalResource, e.attribute("resource"));
-        } else if (status == TITLE_FONT_ELEMENT) {
-            item->setIcon(0, KoIconUtils::themedIcon("dialog-warning"));
-            item->setToolTip(1, e.attribute("name"));
-            QString ft = e.attribute("resource");
-            QString newft = QFontInfo(QFont(ft)).family();
-            item->setText(1, i18n("%1 will be replaced by %2", ft, newft));
-            item->setData(0, typeRole, status);
         } else {
             item->setIcon(0, KoIconUtils::themedIcon("dialog-close"));
             QString resource = EffectsList::property(e, "resource");
@@ -264,6 +250,18 @@ bool DocumentChecker::hasErrorInClips()
         //item->setData(0, typeRole, t);
         item->setData(0, idRole, e.attribute(QStringLiteral("id")));
         item->setToolTip(0, i18n("Missing item"));
+    }
+    
+    foreach(const QString font, m_missingFonts) {
+        QString clipType = i18n("Title Font");
+        QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
+        item->setData(0, statusRole, CLIPMISSING);
+        item->setIcon(0, KoIconUtils::themedIcon("dialog-warning"));
+        item->setToolTip(1, e.attribute("name"));
+        QString ft = e.attribute("resource");
+        QString newft = QFontInfo(QFont(ft)).family();
+        item->setText(1, i18n("%1 will be replaced by %2", ft, newft));
+        item->setData(0, typeRole, CLIPMISSING);
     }
 
     if (m_missingClips.count() > 0) {
@@ -362,12 +360,11 @@ bool DocumentChecker::hasErrorInClips()
             subitem->setData(0, idRole, id);
         }
     }
-    
     if (max > 0) {
         // original doc was modified
         m_doc.documentElement().setAttribute(QStringLiteral("modified"), QStringLiteral("1"));
     }
-    
+
     connect(m_ui.recursiveSearch, SIGNAL(pressed()), this, SLOT(slotSearchClips()));
     connect(m_ui.usePlaceholders, SIGNAL(pressed()), this, SLOT(slotPlaceholders()));
     connect(m_ui.removeSelected, SIGNAL(pressed()), this, SLOT(slotDeleteSelected()));
@@ -412,7 +409,8 @@ void DocumentChecker::setProperty(QDomElement effect, const QString &name, const
 
 void DocumentChecker::slotSearchClips()
 {
-    QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
+    //QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
+    QString clipFolder = m_url.adjusted(QUrl::RemoveFilename).path();
     QString newpath = QFileDialog::getExistingDirectory(qApp->activeWindow(), i18n("Clips folder"), clipFolder);
     if (newpath.isEmpty()) return;
     int ix = 0;
@@ -886,12 +884,7 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
         QFont f(fontelement);
         ////qDebug() << "/ / / CHK FONTS: " << fontelement << " = " << QFontInfo(f).family();
         if (fontelement != QFontInfo(f).family()) {
-            QDomElement e = doc.createElement(QStringLiteral("missingtitle"));
-            e.setAttribute(QStringLiteral("type"), TITLE_FONT_ELEMENT);
-            e.setAttribute(QStringLiteral("resource"), fontelement);
-            e.setAttribute(QStringLiteral("id"), id);
-            e.setAttribute(QStringLiteral("name"), baseClip);
-            m_missingClips.append(e);
+            m_missingFonts << fontelement;
         }
         else m_safeFonts.append(fontelement);
     }
