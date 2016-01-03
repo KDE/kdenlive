@@ -3046,12 +3046,13 @@ void Bin::slotSendAudioThumb(QString id)
 bool Bin::isEmpty() const
 {
     // TODO: return true if we only have folders
-    if (m_clipCounter == 1) return true;
+    if (m_clipCounter == 1 || m_rootFolder == NULL) return true;
     return m_rootFolder->isEmpty();
 }
 
 void Bin::reloadAllProducers()
 {
+    if (m_rootFolder == NULL || m_rootFolder->isEmpty()) return;
     QList <ProjectClip*> clipList = m_rootFolder->childClips();
     emit openClip(NULL);
     foreach(ProjectClip *clip, clipList) {
