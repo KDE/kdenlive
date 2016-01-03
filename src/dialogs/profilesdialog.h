@@ -26,6 +26,8 @@
 #include "ui_profiledialog_ui.h"
 #include <mlt++/Mlt.h>
 
+class KMessageWidget;
+
 class ProfilesDialog : public QDialog
 {
     Q_OBJECT
@@ -101,6 +103,7 @@ private:
     bool m_isCustomProfile;
     /** @brief If we are in single profile editing, should contain the path for this profile. */
     QString m_customProfilePath;
+    KMessageWidget *m_infoMessage;
     void saveProfile(QString path);
     bool askForSave();
 };

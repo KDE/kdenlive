@@ -449,6 +449,8 @@ private slots:
 
     void slotChangeStyle(QAction *a);
 
+    void slotChangeStyle(QAction *a);
+
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
     void configurationChanged();
