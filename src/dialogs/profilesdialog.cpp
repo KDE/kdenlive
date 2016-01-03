@@ -23,7 +23,9 @@
 
 
 #include <KMessageBox>
+#include <KMessageWidget>
 #include "klocalizedstring.h"
+
 #include <QDir>
 #include <QScriptEngine>
 #include <QCloseEvent>
@@ -36,6 +38,13 @@ ProfilesDialog::ProfilesDialog(QWidget * parent) :
     m_isCustomProfile(false)
 {
     m_view.setupUi(this);
+
+    // Add message widget
+    QGridLayout *lay = (QGridLayout *)layout();
+    m_infoMessage = new KMessageWidget;
+    lay->addWidget(m_infoMessage, 2, 0, 1, -1);
+    m_infoMessage->setCloseButtonVisible(true);
+    m_infoMessage->hide();
 
     // Fill colorspace list (see mlt_profile.h)
     m_view.colorspace->addItem(getColorspaceDescription(601), 601);
@@ -71,6 +80,7 @@ ProfilesDialog::ProfilesDialog(QWidget * parent) :
     connect(m_view.progressive, SIGNAL(stateChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.size_h, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.size_w, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.size_w, &QAbstractSpinBox::editingFinished, this, &ProfilesDialog::slotAdjustWidth);
 }
 
 
@@ -81,6 +91,13 @@ ProfilesDialog::ProfilesDialog(QString profilePath, QWidget * parent) :
     m_customProfilePath(profilePath)
 {
     m_view.setupUi(this);
+
+    // Add message widget
+    QGridLayout *lay = (QGridLayout *)layout();
+    m_infoMessage = new KMessageWidget;
+    lay->addWidget(m_infoMessage, 2, 0, 1, -1);
+    m_infoMessage->setCloseButtonVisible(true);
+    m_infoMessage->hide();
 
     // Fill colorspace list (see mlt_profile.h)
     m_view.colorspace->addItem(getColorspaceDescription(601), 601);
@@ -112,6 +129,26 @@ ProfilesDialog::ProfilesDialog(QString profilePath, QWidget * parent) :
     connect(m_view.progressive, SIGNAL(stateChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.size_h, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.size_w, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.size_w, &QAbstractSpinBox::editingFinished, this, &ProfilesDialog::slotAdjustWidth);
+}
+
+void ProfilesDialog::slotAdjustWidth()
+{
+    // A profile's width should always be a multiple of 8
+    m_view.size_w->blockSignals(true);
+    int val = m_view.size_w->value();
+    int correctedWidth = (val + 7) / 8 * 8;
+    if (val == correctedWidth) {
+        // Ok, no action required, width is a multiple of 8
+        m_infoMessage->animatedHide();
+    } else {
+        m_view.size_w->setValue(correctedWidth);
+        m_infoMessage->setText(i18n("Profile width must be a multiple of 8. It was adjusted to %1", correctedWidth));
+        m_infoMessage->setWordWrap(m_infoMessage->text().length() > 35);
+        m_infoMessage->setMessageType(KMessageWidget::Warning);
+        m_infoMessage->animatedShow();
+    }
+    m_view.size_w->blockSignals(false);
 }
 
 void ProfilesDialog::slotProfileEdited()
@@ -179,6 +216,13 @@ void ProfilesDialog::slotCreateProfile()
 
 void ProfilesDialog::slotSetDefaultProfile()
 {
+    if (m_profileIsModified) {
+        m_infoMessage->setText(i18n("Save your profile before setting it to default"));
+        m_infoMessage->setWordWrap(m_infoMessage->text().length() > 35);
+        m_infoMessage->setMessageType(KMessageWidget::Warning);
+        m_infoMessage->animatedShow();
+        return;
+    }
     int ix = m_view.profiles_list->currentIndex();
     QString path = m_view.profiles_list->itemData(ix).toString();
     if (!path.isEmpty()) KdenliveSettings::setDefault_profile(path);
@@ -186,6 +230,8 @@ void ProfilesDialog::slotSetDefaultProfile()
 
 bool ProfilesDialog::slotSaveProfile()
 {
+    slotAdjustWidth();
+
     if (!m_customProfilePath.isEmpty()) {
         saveProfile(m_customProfilePath);
         return true;

@@ -6,36 +6,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>376</width>
-    <height>458</height>
+    <width>430</width>
+    <height>502</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Profiles</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
+   <item row="0" column="5">
+    <widget class="QToolButton" name="button_delete">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="text">
-      <string>Profile</string>
+      <string>D</string>
      </property>
     </widget>
    </item>
    <item row="0" column="1">
     <widget class="KComboBox" name="profiles_list"/>
-   </item>
-   <item row="0" column="2">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
    </item>
    <item row="1" column="0" colspan="7">
     <widget class="QGroupBox" name="properties">
@@ -236,29 +226,18 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QPushButton" name="button_default">
-     <property name="text">
-      <string>Use as default</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="4" colspan="3">
-    <widget class="QDialogButtonBox" name="buttonBox">
+   <item row="0" column="2">
+    <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Close</set>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
      </property>
-    </widget>
-   </item>
-   <item row="0" column="3">
-    <widget class="QToolButton" name="button_create">
-     <property name="text">
-      <string>C</string>
-     </property>
-    </widget>
+    </spacer>
    </item>
    <item row="0" column="4">
     <widget class="QToolButton" name="button_save">
@@ -270,17 +249,38 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="5">
-    <widget class="QToolButton" name="button_delete">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
+   <item row="0" column="3">
+    <widget class="QToolButton" name="button_create">
      <property name="text">
-      <string>D</string>
+      <string>C</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="2" colspan="2">
+   <item row="3" column="4" colspan="3">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Close</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="QPushButton" name="button_default">
+     <property name="text">
+      <string>Use as default</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Profile</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2" colspan="2">
     <spacer name="horizontalSpacer_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -292,6 +292,22 @@
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="2" column="0" colspan="6">
+    <widget class="QFrame" name="messageFrame">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
