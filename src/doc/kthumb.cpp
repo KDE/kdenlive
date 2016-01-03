@@ -150,16 +150,22 @@ void KThumb::saveThumbnail(const QString &url, const QString &dest, int height)
     Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
     int width = height * profile.width() / profile.height();
     Mlt::Producer *producer = new Mlt::Producer(profile, url.toUtf8().constData());
-    int frame = 0;
-    QImage img = getFrame(producer, frame, width, height);
-    int variance = KThumb::imageVariance(img);
-    if (variance < 6) {
-        // Thumbnail is not interesting (for example all black, seek to fetch better thumb
-        frame =  producer->get_playtime() > 100 ? 100 : producer->get_playtime() / 2 ;
-        producer->seek(frame);
+    QImage img;
+    if (producer->is_valid()) {
+        int frame = 0;
         img = getFrame(producer, frame, width, height);
+        int variance = KThumb::imageVariance(img);
+        if (variance < 6) {
+            // Thumbnail is not interesting (for example all black, seek to fetch better thumb
+            frame =  producer->get_playtime() > 100 ? 100 : producer->get_playtime() / 2 ;
+            producer->seek(frame);
+            img = getFrame(producer, frame, width, height);
+        }
+        img = img.scaled(width, height);
+    } else {
+        img = QImage(width, height, QImage::Format_ARGB32_Premultiplied);
+        img.fill(Qt::red);
     }
-    img = img.scaled(width, height);
     img.save(dest);
     delete producer;
 }

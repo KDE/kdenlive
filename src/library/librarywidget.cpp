@@ -34,10 +34,12 @@
 #include <QMimeData>
 #include <QDropEvent>
 #include <QtConcurrent>
+#include <QToolBar>
+#include <QProgressBar>
 
 #include <klocalizedstring.h>
 #include <KMessageBox>
-
+#include <KIO/FileCopyJob>
 
 enum LibraryItem {
     PlayList,
@@ -80,7 +82,9 @@ void LibraryTree::slotUpdateThumb(const QString &path, const QString &iconPath)
     foreach(QTreeWidgetItem *item, list) {
         if (item->data(0, Qt::UserRole).toString() == path) {
             // We found our item
+            blockSignals(true);
             item->setData(0, Qt::DecorationRole, QIcon(iconPath));
+            blockSignals(false);
             break;
         }
     }
@@ -120,6 +124,7 @@ void LibraryTree::dropEvent(QDropEvent *event)
             dest = QUrl::fromLocalFile(dest).adjusted(QUrl::RemoveFilename).path();
         }
     }
+    event->accept();
     emit moveData(urls, dest);
 }
 
@@ -135,10 +140,17 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget
     m_libraryTree->setItemDelegate(new LibraryItemDelegate);
     m_libraryTree->setAlternatingRowColors(true);
     lay->addWidget(m_libraryTree);
+    // Info message
     m_infoWidget = new KMessageWidget;
     lay->addWidget(m_infoWidget);
     m_infoWidget->hide();
+    // Download progress bar
+    m_progressBar = new QProgressBar(this);
+    lay->addWidget(m_progressBar);
     m_toolBar = new QToolBar(this);
+    m_progressBar->setRange(0, 100);
+    m_progressBar->setOrientation(Qt::Horizontal);
+    m_progressBar->setVisible(false);
     lay->addWidget(m_toolBar);
     setLayout(lay);
     QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/library";
@@ -234,9 +246,8 @@ void LibraryWidget::parseFolder(QTreeWidgetItem *parentItem, const QString &fold
         item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable);
         parseFolder(item, directory.absoluteFilePath(file), selectedUrl);
     }
-    QStringList filter;
-    filter << QStringLiteral("*.mlt");
-    const QStringList fileList = directory.entryList(filter, QDir::Files);
+
+    const QStringList fileList = directory.entryList(QDir::Files);
     foreach(const QString &file, fileList) {
         QFileInfo info(directory.absoluteFilePath(file));
         QTreeWidgetItem *item;
@@ -247,7 +258,11 @@ void LibraryWidget::parseFolder(QTreeWidgetItem *parentItem, const QString &fold
         }
         item->setData(0, Qt::UserRole, directory.absoluteFilePath(file));
         item->setData(0, Qt::UserRole + 1, info.lastModified().toString(Qt::SystemLocaleShortDate));
-        item->setData(0, Qt::UserRole + 2, (int) LibraryItem::PlayList);
+        if (file.endsWith(".mlt") || file.endsWith(".kdenlive")) {
+            item->setData(0, Qt::UserRole + 2, (int) LibraryItem::PlayList);
+        } else {
+            item->setData(0, Qt::UserRole + 2, (int) LibraryItem::Clip);
+        }
         item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable);
         QString thumbPath = thumbnailPath(directory.absoluteFilePath(file));
         if (!QFile::exists(thumbPath)) {
@@ -350,9 +365,14 @@ void LibraryWidget::slotDeleteFromLibrary()
             }
         }
         dir.removeRecursively();
-    }
-    else if (current->data(0, Qt::UserRole + 2).toInt() == LibraryItem::PlayList) {
-        if (KMessageBox::warningContinueCancel(this, i18n("This will delete the MLT playlist:\n%1", path)) != KMessageBox::Continue) {
+    } else {
+        QString message;
+        if (current->data(0, Qt::UserRole + 2).toInt() == LibraryItem::PlayList) {
+            message = i18n("This will delete the MLT playlist:\n%1", path);
+        } else {
+            message = i18n("This will delete the file :\n%1", path);
+        }
+        if (KMessageBox::warningContinueCancel(this, message) != KMessageBox::Continue) {
             return;
         }
         // Remove thumbnail
@@ -361,8 +381,6 @@ void LibraryWidget::slotDeleteFromLibrary()
         if (!QFile::remove(path)) {
             showMessage(i18n("Error removing %1", path));
         }
-    } else {
-        qDebug()<<"* * *ERROR";
     }
     parseLibrary();
 }
@@ -419,17 +437,28 @@ void LibraryWidget::slotMoveData(QList <QUrl> urls, QString dest)
     }
     QDir dir(dest);
     if (!dir.exists()) return;
+    bool internal = true;
     foreach(const QUrl &url, urls) {
-        dir.rename(url.path(), url.fileName());
-        // Move thumbnail
-        dir.rename(thumbnailPath(url.path()), thumbnailPath(dir.absoluteFilePath(url.fileName())));
+        if (!url.path().startsWith(m_directory.path())) {
+            internal = false;
+            // Dropped an external file, attempt to copy it to library
+            KIO::FileCopyJob *copyJob = KIO::file_copy(url, QUrl::fromLocalFile(dir.absoluteFilePath(url.fileName())));
+            connect(copyJob, SIGNAL(finished(KJob *)), this, SLOT(slotDownloadFinished(KJob *)));
+            connect(copyJob, SIGNAL(percent(KJob *, unsigned long)), this, SLOT(slotDownloadProgress(KJob *, unsigned long)));
+        } else {
+            // Internal drag/drop
+            dir.rename(url.path(), url.fileName());
+            // Move thumbnail
+            dir.rename(thumbnailPath(url.path()), thumbnailPath(dir.absoluteFilePath(url.fileName())));
+        }
     }
-    parseLibrary();
+    if (internal) parseLibrary();
 }
 
 void LibraryWidget::slotItemEdited(QTreeWidgetItem *item, int column)
 {
     if (!item || column != 0) return;
+    m_libraryTree->blockSignals(true);
     if (item->data(0, Qt::UserRole + 2).toInt() == LibraryItem::Folder) {
         QDir dir(item->data(0, Qt::UserRole).toString());
         dir.cdUp();
@@ -438,9 +467,22 @@ void LibraryWidget::slotItemEdited(QTreeWidgetItem *item, int column)
     } else {
         QString oldPath = item->data(0, Qt::UserRole).toString();
         QDir dir(QUrl::fromLocalFile(oldPath).adjusted(QUrl::RemoveFilename).path());
-        dir.rename(oldPath, item->text(0) + QStringLiteral(".mlt"));
-        item->setData(0, Qt::UserRole, dir.absoluteFilePath(item->text(0)+ QStringLiteral(".mlt")));
+        dir.rename(oldPath, item->text(0) + oldPath.section(QLatin1Char('.'), -2, -1));
+        item->setData(0, Qt::UserRole, dir.absoluteFilePath(item->text(0) + oldPath.section(QLatin1Char('.'), -2, -1)));
         dir.rename(thumbnailPath(oldPath), thumbnailPath(item->data(0, Qt::UserRole).toString()));
     }
+    m_libraryTree->blockSignals(false);
 }
 
+void LibraryWidget::slotDownloadFinished(KJob *)
+{
+    m_progressBar->setValue(100);
+    m_progressBar->setVisible(false);
+    parseLibrary();
+}
+
+void LibraryWidget::slotDownloadProgress(KJob *, unsigned long progress)
+{
+    m_progressBar->setVisible(true);
+    m_progressBar->setValue(progress);
+}

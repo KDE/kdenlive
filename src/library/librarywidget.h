@@ -31,7 +31,6 @@
 #include "definitions.h"
 
 #include <QTreeWidget>
-#include <QToolBar>
 #include <QDir>
 #include <QTimer>
 #include <QStyledItemDelegate>
@@ -41,7 +40,9 @@
 #include <KMessageWidget>
 
 class ProjectManager;
-
+class KJob;
+class QProgressBar;
+class QToolBar;
 
 /**
  * @class BinItemDelegate
@@ -158,11 +159,13 @@ private slots:
     void slotRenameItem();
     void slotMoveData(QList <QUrl>, QString);
     void slotItemEdited(QTreeWidgetItem *item, int column);
-
+    void slotDownloadFinished(KJob *);
+    void slotDownloadProgress(KJob *, unsigned long);
 
 private:
     LibraryTree *m_libraryTree;
     QToolBar *m_toolBar;
+    QProgressBar *m_progressBar;
     QAction *m_addAction;
     QAction *m_deleteAction;
     QTimer m_timer;
