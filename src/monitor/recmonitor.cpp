@@ -1034,7 +1034,7 @@ void RecMonitor::slotChangeRecordingPreview(bool enable)
 }
 
 
-void RecMonitor::slotMouseSeek(int /*eventDelta*/, bool /*fast*/)
+void RecMonitor::slotMouseSeek(int /*eventDelta*/, int /*fast*/)
 {
 }
 

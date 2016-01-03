@@ -166,7 +166,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_horizontalScroll, SIGNAL(valueChanged(int)), m_glMonitor, SLOT(setOffsetX(int)));
     connect(m_verticalScroll, SIGNAL(valueChanged(int)), m_glMonitor, SLOT(setOffsetY(int)));
     connect(m_glMonitor, SIGNAL(frameDisplayed(const SharedFrame&)), this, SLOT(onFrameDisplayed(const SharedFrame&)));
-    connect(m_glMonitor, SIGNAL(mouseSeek(int,bool)), this, SLOT(slotMouseSeek(int,bool)));
+    connect(m_glMonitor, SIGNAL(mouseSeek(int,int)), this, SLOT(slotMouseSeek(int,int)));
     connect(m_glMonitor, SIGNAL(monitorPlay()), this, SLOT(slotPlay()));
     connect(m_glMonitor, SIGNAL(startDrag()), this, SLOT(slotStartDrag()));
     connect(m_glMonitor, SIGNAL(switchFullScreen(bool)), this, SLOT(slotSwitchFullScreen(bool)));
@@ -849,7 +849,7 @@ QStringList Monitor::mimeTypes() const
 // virtual
 void Monitor::wheelEvent(QWheelEvent * event)
 {
-    slotMouseSeek(event->delta(), event->modifiers() == Qt::ControlModifier);
+    slotMouseSeek(event->delta(), (int) event->modifiers());
     event->accept();
 }
 
@@ -875,14 +875,17 @@ void Monitor::keyPressEvent(QKeyEvent* event)
 }
 
 
-void Monitor::slotMouseSeek(int eventDelta, bool fast)
+void Monitor::slotMouseSeek(int eventDelta, int modifiers)
 {
-    if (fast) {
+    if (modifiers & Qt::ControlModifier) {
         int delta = m_monitorManager->timecode().fps();
         if (eventDelta > 0) delta = 0 - delta;
 	if (render->requestedSeekPosition != SEEK_INACTIVE)
 	    slotSeek(render->requestedSeekPosition - delta);
 	else slotSeek(render->seekFramePosition() - delta);
+    } else if (modifiers & Qt::AltModifier) {
+        if (eventDelta >= 0) slotSeekToNextSnap();
+        else slotSeekToPreviousSnap();
     } else {
         if (eventDelta >= 0) slotForwardOneFrame();
         else slotRewindOneFrame();
@@ -1654,6 +1657,8 @@ void Monitor::loadQmlScene(MonitorSceneType type)
 {
     m_qmlManager->setScene(m_id, type, m_glMonitor->profileSize(), m_glMonitor->displayRect(), m_glMonitor->zoom());
     QQuickItem *root = m_glMonitor->rootObject();
+    QFontInfo info(font());
+    root->setProperty("displayFontSize", info.pixelSize() * 1.4);
     switch (type) {
       case MonitorSceneSplit:
           QObject::connect(root, SIGNAL(qmlMoveSplit()), this, SLOT(slotAdjustEffectCompare()), Qt::UniqueConnection);
@@ -1674,7 +1679,7 @@ void Monitor::loadQmlScene(MonitorSceneType type)
           QObject::connect(root, SIGNAL(editCurrentMarker()), this, SLOT(slotEditInlineMarker()), Qt::UniqueConnection);
           m_qmlManager->setProperty(QLatin1String("timecode"), m_timePos->displayText());
           if (m_id == Kdenlive::ClipMonitor) {
-            updateQmlDisplay(KdenliveSettings::displayClipMonitorInfo());
+              updateQmlDisplay(KdenliveSettings::displayClipMonitorInfo());
           } else if (m_id == Kdenlive::ProjectMonitor) {
             updateQmlDisplay(KdenliveSettings::displayProjectMonitorInfo());
           }

@@ -155,7 +155,7 @@ public slots:
     void slotStopCapture();
     void slotUpdateCaptureFolder(const QString &currentProjectFolder);
     void slotUpdateFullScreenGrab();
-    void slotMouseSeek(int eventDelta, bool fast);
+    void slotMouseSeek(int eventDelta, int modifiers);
     void slotSwitchFullScreen(bool minimizeOnly = false);
 
 signals:

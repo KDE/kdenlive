@@ -17,6 +17,7 @@ Item {
     property bool showTimecode
     property bool showSafezone
     property bool showAudiothumb
+    property int displayFontSize
     signal editCurrentMarker()
 
     Item {
@@ -86,7 +87,7 @@ Item {
         style: Text.Outline; 
         styleColor: "black"
         text: root.timecode
-        font.pixelSize: root.height / 20
+        font.pixelSize: root.displayFontSize
         visible: root.showTimecode
         anchors {
             right: root.right
@@ -118,6 +119,6 @@ Item {
                 width: marker.width
             }
         }
-        font.pixelSize: frame.height / 25
+        font.pixelSize: root.displayFontSize
     }
 }

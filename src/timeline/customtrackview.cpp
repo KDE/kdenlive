@@ -341,6 +341,11 @@ void CustomTrackView::wheelEvent(QWheelEvent * e)
             if (e->delta() > 0) emit zoomIn();
             else emit zoomOut();
         }
+    } else if (e->modifiers() == Qt::AltModifier) {
+        if (m_moveOpMode == None || m_moveOpMode == WaitingForConfirm || m_moveOpMode == ZoomTimeline) {
+            if (e->delta() > 0) slotSeekToNextSnap();
+            else slotSeekToPreviousSnap();
+        }
     } else {
         if (m_moveOpMode == ResizeStart || m_moveOpMode == ResizeEnd) {
             // Don't allow scrolling + resizing

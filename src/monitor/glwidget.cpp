@@ -515,7 +515,7 @@ void GLWidget::wheelEvent(QWheelEvent * event)
         }
         return;
     }
-    emit mouseSeek(event->delta(), event->modifiers() & Qt::ControlModifier);
+    emit mouseSeek(event->delta(), (int) event->modifiers());
     event->accept();
 }
 

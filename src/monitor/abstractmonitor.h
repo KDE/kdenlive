@@ -88,7 +88,7 @@ public slots:
     virtual void stop() = 0;
     virtual void start() = 0;
     virtual void slotPlay() = 0;
-    virtual void slotMouseSeek(int eventDelta, bool fast) = 0;
+    virtual void slotMouseSeek(int eventDelta, int modifiers) = 0;
     bool slotActivateMonitor(bool forceRefresh = false);
     virtual void slotSwitchFullScreen(bool minimizeOnly = false) = 0;
 

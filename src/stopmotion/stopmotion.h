@@ -74,7 +74,7 @@ public slots:
     void stop();
     void start();
     void slotPlay();
-    void slotMouseSeek(int eventDelta, bool fast);
+    void slotMouseSeek(int eventDelta, int modifiers);
     void slotSwitchFullScreen(bool minimizeOnly = false);
 
 signals:

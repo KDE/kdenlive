@@ -291,7 +291,7 @@ public slots:
     void slotSetSelectedClip(AbstractClipItem *item);
     void slotSetSelectedClip(ClipItem *item);
     void slotSetSelectedClip(Transition *item);
-    void slotMouseSeek(int eventDelta, bool fast);
+    void slotMouseSeek(int eventDelta, int modifiers);
     void slotSwitchFullScreen(bool minimizeOnly = false);
     /** @brief Display or hide the record toolbar */
     void slotSwitchRec(bool enable);

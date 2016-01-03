@@ -139,7 +139,7 @@ void StopmotionMonitor::mute(bool,bool)
 {
 }
 
-void StopmotionMonitor::slotMouseSeek(int /*eventDelta*/, bool /*fast*/)
+void StopmotionMonitor::slotMouseSeek(int /*eventDelta*/, int /*fast*/)
 {
 }
 
