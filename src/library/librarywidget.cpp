@@ -75,7 +75,6 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget
     }
 
     m_libraryTree->setContextMenuPolicy(Qt::ActionsContextMenu);
-    connect(m_libraryTree, &QTreeWidget::itemSelectionChanged, this, &LibraryWidget::updateActions);
     m_timer.setSingleShot(true);
     m_timer.setInterval(4000);
     connect(&m_timer, &QTimer::timeout, m_infoWidget, &KMessageWidget::animatedHide);
@@ -103,6 +102,7 @@ void LibraryWidget::setupActions(QList <QAction *>list)
     m_toolBar->addSeparator();
     m_toolBar->addAction(m_deleteAction);
     m_libraryTree->addActions(menuList);
+    connect(m_libraryTree, &QTreeWidget::itemSelectionChanged, this, &LibraryWidget::updateActions);
 }
 
 void LibraryWidget::parseLibrary()
