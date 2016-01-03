@@ -65,7 +65,9 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     connect(generate_proxy, SIGNAL(toggled(bool)), proxy_minsize, SLOT(setEnabled(bool)));
     connect(generate_imageproxy, SIGNAL(toggled(bool)), proxy_imageminsize, SLOT(setEnabled(bool)));
 
+    QString currentProf;
     if (doc) {
+        currentProf = KdenliveSettings::current_profile();
         enable_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("enableproxy")).toInt());
         generate_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateproxy")).toInt());
         proxy_minsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyminsize")).toInt());
@@ -75,6 +77,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         m_proxyextension = doc->getDocumentProperty(QStringLiteral("proxyextension"));
     }
     else {
+        currentProf = KdenliveSettings::default_profile();
         enable_proxy->setChecked(KdenliveSettings::enableproxy());
         generate_proxy->setChecked(KdenliveSettings::generateproxy());
         proxy_minsize->setValue(KdenliveSettings::proxyminsize());
@@ -82,6 +85,13 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         generate_imageproxy->setChecked(KdenliveSettings::generateimageproxy());
         proxy_imageminsize->setValue(KdenliveSettings::proxyimageminsize());
         m_proxyextension = KdenliveSettings::proxyextension();
+    }
+    // Select profile
+    for (int i = 0; i < profiles_list->count(); ++i) {
+        if (profiles_list->itemData(i).toString() == currentProf) {
+            profiles_list->setCurrentIndex(i);
+            break;
+        }
     }
 
     proxy_minsize->setEnabled(generate_proxy->isChecked());
@@ -640,22 +650,20 @@ void ProjectSettings::loadProfiles()
         i.next();
         profiles_list->addItem(i.key(), i.value());
     }
-
-    QString currentProf = KdenliveSettings::current_profile();
-
-    for (int i = 0; i < profiles_list->count(); ++i) {
-        if (profiles_list->itemData(i).toString() == currentProf) {
-            profiles_list->setCurrentIndex(i);
-            break;
-        }
-    }
 }
 
 void ProjectSettings::slotEditProfiles()
 {
     ProfilesDialog *w = new ProfilesDialog;
     w->exec();
+    QString currentProf = profiles_list->currentData().toString();
     loadProfiles();
+    for (int i = 0; i < profiles_list->count(); ++i) {
+        if (profiles_list->itemData(i).toString() == currentProf) {
+            profiles_list->setCurrentIndex(i);
+            break;
+        }
+    }
     emit refreshProfiles();
     delete w;
 }

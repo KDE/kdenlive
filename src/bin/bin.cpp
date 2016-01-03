@@ -50,7 +50,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KToolBar>
 #include <KColorScheme>
 #include <KMessageBox>
-#include <KMessageBox>
 #include <KXMLGUIFactory>
 
 #include <QDialogButtonBox>
@@ -853,6 +852,7 @@ void Bin::setDocument(KdenliveDoc* project)
 {
     // Remove clip from Bin's monitor
     if (m_doc) emit openClip(NULL);
+    m_infoMessage->hide();
     setEnabled(false);
 
     // Cleanup previous project
@@ -3052,7 +3052,7 @@ bool Bin::isEmpty() const
 
 void Bin::reloadAllProducers()
 {
-    if (m_rootFolder == NULL || m_rootFolder->isEmpty()) return;
+    if (m_rootFolder == NULL || m_rootFolder->isEmpty() || !isEnabled()) return;
     QList <ProjectClip*> clipList = m_rootFolder->childClips();
     emit openClip(NULL);
     foreach(ProjectClip *clip, clipList) {

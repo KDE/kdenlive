@@ -246,7 +246,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
         m_url.clear();
         m_profile = ProfilesDialog::getVideoProfile(profileName);
         m_document = createEmptyDocument(tracks.x(), tracks.y());
-        updateProjectProfile();
+        updateProjectProfile(false);
     }
 
     // Ask to create the project directory if it does not exist
@@ -1539,10 +1539,10 @@ void KdenliveDoc::loadDocumentProperties()
     if (!list.isEmpty()) {
         m_profile = ProfilesDialog::getVideoProfileFromXml(list.at(0).toElement());
     }
-    updateProjectProfile();
+    updateProjectProfile(false);
 }
 
-void KdenliveDoc::updateProjectProfile()
+void KdenliveDoc::updateProjectProfile(bool reloadProducers)
 {
     KdenliveSettings::setProject_display_ratio((double) m_profile.display_aspect_num / m_profile.display_aspect_den);
     double fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
@@ -1553,6 +1553,7 @@ void KdenliveDoc::updateProjectProfile()
     m_timecode.setFormat(fps);
     KdenliveSettings::setCurrent_profile(m_profile.path);
     pCore->monitorManager()->resetProfiles(m_profile, m_timecode);
+    if (!reloadProducers) return;
     if (fpsChanged) {
         pCore->bin()->reloadAllProducers();
     }
@@ -1562,7 +1563,7 @@ void KdenliveDoc::updateProjectProfile()
 void KdenliveDoc::resetProfile()
 {
     m_profile = ProfilesDialog::getVideoProfile(KdenliveSettings::current_profile());
-    updateProjectProfile();
+    updateProjectProfile(true);
     emit docModified(true);
 }
 
@@ -1576,7 +1577,7 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
         QMap< QString, QString > profileProperties = ProfilesDialog::getSettingsFromFile(matchingProfile);
         m_profile.path = matchingProfile;
         m_profile.description = profileProperties.value("description");
-        updateProjectProfile();
+        updateProjectProfile(true);
         pCore->bin()->displayMessage(i18n("Switched to clip profile: %1", m_profile.description), KMessageWidget::Information);
         emit docModified(true);
     } else {
@@ -1585,7 +1586,7 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
             m_profile = profile;
             m_profile.description = QString("%1x%2 %3fps").arg(profile.width).arg(profile.height).arg(QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2));
             ProfilesDialog::saveProfile(m_profile);
-            updateProjectProfile();
+            updateProjectProfile(true);
             pCore->bin()->displayMessage(i18n("Switched to clip profile: %1", m_profile.description), KMessageWidget::Information);
             emit docModified(true);
         }

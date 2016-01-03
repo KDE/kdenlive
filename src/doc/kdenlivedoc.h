@@ -198,7 +198,7 @@ private:
     /** @brief Load document properties from the xml file */
     void loadDocumentProperties();
     /** @brief update document properties to reflect a change in the current profile */
-    void updateProjectProfile();
+    void updateProjectProfile(bool reloadProducers = false);
 
 public slots:
     void slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path);
