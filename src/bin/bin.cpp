@@ -320,7 +320,6 @@ Bin::Bin(QWidget* parent) :
     connect(m_itemModel, SIGNAL(effectDropped(QString, const QModelIndex &)), this, SLOT(slotEffectDropped(QString, const QModelIndex &)));
     connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)), this, SLOT(slotItemEdited(QModelIndex,QModelIndex,QVector<int>)));
     connect(m_itemModel, SIGNAL(addClipCut(QString,int,int)), this, SLOT(slotAddClipCut(QString,int,int)));
-    
     connect(this, &Bin::refreshPanel, this, &Bin::doRefreshPanel);
 
     // Zoom slider
@@ -1173,7 +1172,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_openAction->setEnabled(type == Image || type == Audio);
                 if (m_propertiesPanel->isVisible()) {
                     // if info panel is displayed, update info
-                    showClipProperties(static_cast<ProjectClip*>(currentItem), false);
+                    showClipProperties(static_cast<ProjectClip*>(currentItem), false, false);
                 }
                 m_deleteAction->setText(i18n("Delete Clip"));
                 m_proxyAction->setText(i18n("Proxy Clip"));
@@ -1535,12 +1534,12 @@ void Bin::doRefreshPanel(const QString &id) {
     if (m_editAction->isChecked()) {
         ProjectClip *currentItem = getFirstSelectedClip();
         if (currentItem && currentItem->clipId() == id) {
-            showClipProperties(currentItem);
+            showClipProperties(currentItem, true);
         }
     }
 }
 
-void Bin::showClipProperties(ProjectClip *clip, bool openExternalDialog )
+void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh, bool openExternalDialog )
 {
     if (!m_editAction->isChecked()) return;
     if (!clip) {
@@ -1577,7 +1576,7 @@ void Bin::showClipProperties(ProjectClip *clip, bool openExternalDialog )
     }
     m_propertiesPanel->show();
     QString panelId = m_propertiesPanel->property("clipId").toString();
-    if (panelId == clip->clipId()) {
+    if (!forceRefresh && panelId == clip->clipId()) {
         // the properties panel is already displaying current clip, do nothing
         m_propertiesPanel->setEnabled(true);
         return;
