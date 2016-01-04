@@ -296,7 +296,6 @@ bool CustomTrackView::checkTrackHeight(bool force)
                 m_scene->removeItem(itemList.at(i));
             }
         }
-
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
         for (int i = 0; i < itemList.count(); ++i) {
@@ -1823,7 +1822,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         offsetList.append(info.endPos);
         updateSnapPoints(NULL, offsetList);
         QStringList lockedTracks;
-        for (int i = 0; i < m_timeline->tracksCount(); ++i) {
+        for (int i = 1; i < m_timeline->tracksCount(); ++i) {
             if (m_timeline->getTrackInfo(i).isLocked) lockedTracks << QString::number(i);
         }
         m_selectionGroup->setProperty("locked_tracks", lockedTracks);
@@ -1915,7 +1914,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
 
         updateSnapPoints(NULL, offsetList);
         QStringList lockedTracks;
-        for (int i = 0; i < m_timeline->tracksCount(); ++i) {
+        for (int i = 1; i < m_timeline->tracksCount(); ++i) {
             if (m_timeline->getTrackInfo(i).isLocked) lockedTracks << QString::number(i);
         }
 
@@ -7610,7 +7609,7 @@ void CustomTrackView::updateTrackDuration(int track, QUndoCommand *command)
         tracks << track;
     } else {
         // negative track number -> update all tracks
-        for (int i = 0; i < m_timeline->tracksCount(); ++i)
+        for (int i = 1; i < m_timeline->tracksCount(); ++i)
             tracks << i;
     }
     /*for (int i = 0; i < tracks.count(); ++i) {
@@ -7820,7 +7819,7 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
     Mlt::Producer *videoProd = m_document->renderer()->getBinVideoProducer(id);
 
     QStringList allSlows;
-    for (int i = 0; i < m_timeline->tracksCount(); i++) {
+    for (int i = 1; i < m_timeline->tracksCount(); i++) {
 	allSlows << m_timeline->track(i)->getSlowmotionIds(id);
     }
     QLocale locale;
@@ -7849,7 +7848,7 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
         slowProd->set("id", producerid.toUtf8().constData());
 	newSlowMos.insert(allSlows.at(i), slowProd);
     }
-    for (int i = 0; i < m_timeline->tracksCount(); i++) {
+    for (int i = 1; i < m_timeline->tracksCount(); i++) {
         m_timeline->track(i)->replaceAll(id,  prod, videoProd, newSlowMos);
     }
 
@@ -7865,7 +7864,7 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
 
 void CustomTrackView::slotPrepareTimelineReplacement(const QString &id)
 {
-    for (int i = 0; i < m_timeline->tracksCount(); i++) {
+    for (int i = 1; i < m_timeline->tracksCount(); i++) {
         m_timeline->track(i)->replaceId(id);
     }
 }
@@ -7873,7 +7872,7 @@ void CustomTrackView::slotPrepareTimelineReplacement(const QString &id)
 void CustomTrackView::slotUpdateTimelineProducer(const QString &id)
 {
     Mlt::Producer *prod = m_document->renderer()->getBinProducer(id);
-    for (int i = 0; i < m_timeline->tracksCount(); i++) {
+    for (int i = 1; i < m_timeline->tracksCount(); i++) {
         m_timeline->track(i)->updateEffects(id,  prod);
     }
 }

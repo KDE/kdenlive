@@ -841,6 +841,7 @@ void Timeline::refreshIcons()
 
 void Timeline::adjustTrackHeaders()
 {
+    if (m_tracks.isEmpty()) return;
     int height = KdenliveSettings::trackheight() * m_scene->scale().y() - 1;
     for (int i = 1; i < m_tracks.count(); i++) {
         m_tracks.at(i)->trackHeader->adjustSize(height);
@@ -1220,7 +1221,7 @@ bool Timeline::moveClip(int startTrack, qreal startPos, int endTrack, qreal endP
 
 void Timeline::addTrackEffect(int trackIndex, QDomElement effect)
 {
-    if (trackIndex < 0 || trackIndex > m_tracks.count()) {
+    if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
         qWarning() << "Set Track effect outisde of range";
         return;
     }
@@ -1262,7 +1263,7 @@ void Timeline::addTrackEffect(int trackIndex, QDomElement effect)
 
 void Timeline::removeTrackEffect(int trackIndex, const QDomElement &effect)
 {
-    if (trackIndex < 0 || trackIndex > m_tracks.count()) {
+    if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
         qWarning() << "Set Track effect outisde of range";
         return;
     }
@@ -1280,7 +1281,7 @@ void Timeline::removeTrackEffect(int trackIndex, const QDomElement &effect)
 
 void Timeline::setTrackEffect(int trackIndex, int effectIndex, QDomElement effect)
 {
-    if (trackIndex < 0 || trackIndex > m_tracks.count()) {
+    if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
         qWarning() << "Set Track effect outisde of range";
         return;
     }
@@ -1297,7 +1298,7 @@ void Timeline::setTrackEffect(int trackIndex, int effectIndex, QDomElement effec
 
 void Timeline::enableTrackEffects(int trackIndex, const QList <int> &effectIndexes, bool disable)
 {
-    if (trackIndex < 0 || trackIndex > m_tracks.count()) {
+    if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
         qWarning() << "Set Track effect outisde of range";
         return;
     }
@@ -1312,7 +1313,7 @@ void Timeline::enableTrackEffects(int trackIndex, const QList <int> &effectIndex
 
 const EffectsList Timeline::getTrackEffects(int trackIndex)
 {
-    if (trackIndex < 0 || trackIndex > m_tracks.count()) {
+    if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
         qWarning() << "Set Track effect outisde of range";
         return EffectsList();
     }
@@ -1322,7 +1323,7 @@ const EffectsList Timeline::getTrackEffects(int trackIndex)
 
 QDomElement Timeline::getTrackEffect(int trackIndex, int effectIndex)
 {
-    if (trackIndex < 0 || trackIndex > m_tracks.count()) {
+    if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
         qWarning() << "Set Track effect outisde of range";
         return QDomElement();
     }
@@ -1334,7 +1335,7 @@ QDomElement Timeline::getTrackEffect(int trackIndex, int effectIndex)
 
 int Timeline::hasTrackEffect(int trackIndex, const QString &tag, const QString &id) 
 {
-    if (trackIndex < 0 || trackIndex > m_tracks.count()) {
+    if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
         qWarning() << "Set Track effect outisde of range";
         return -1;
     }
@@ -1369,7 +1370,7 @@ QPoint Timeline::getTracksCount()
 
 int Timeline::getTrackSpaceLength(int trackIndex, int pos, bool fromBlankStart)
 {
-    if (trackIndex < 0 || trackIndex > m_tracks.count()) {
+    if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
         qWarning() << "Set Track effect outisde of range";
         return 0;
     }
@@ -1445,7 +1446,7 @@ int Timeline::getSpaceLength(const GenTime &pos, int tk, bool fromBlankStart)
 
 void Timeline::disableTimelineEffects(bool disable)
 {
-    for (int i = 0; i< m_tracks.count(); i++) {
+    for (int i = 0; i< tracksCount(); i++) {
         track(i)->disableEffects(disable);
     }
 }

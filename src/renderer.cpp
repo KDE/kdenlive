@@ -627,7 +627,7 @@ void Render::processFileProperties()
                         projectProfile.description.clear();
                         delete producer;
                         m_processingClipId.removeAll(info.clipId);
-                        info.xml.removeAttribute("checkProfile");
+                        info.xml.removeAttribute(QStringLiteral("checkProfile"));
                         emit switchProfile(projectProfile, info.clipId, info.xml);
                         return;
                     } else {

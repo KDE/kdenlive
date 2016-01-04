@@ -1669,7 +1669,7 @@ void MainWindow::connectDocument()
     connect(m_effectStack->transitionConfig(), SIGNAL(seekTimeline(int)), trackView->projectView() , SLOT(seekCursorPos(int)));
 
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()));
-    connect(project, &KdenliveDoc::updateFps, trackView, &Timeline::updateProfile);
+    connect(project, &KdenliveDoc::updateFps, trackView, &Timeline::updateProfile, Qt::DirectConnection);
     connect(trackView, SIGNAL(zoneMoved(int,int)), this, SLOT(slotZoneMoved(int,int)));
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu, m_clipTypeGroup, static_cast<QMenu*>(factory()->container(QStringLiteral("marker_menu"), this)));
     if (m_renderWidget) {

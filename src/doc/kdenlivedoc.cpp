@@ -1554,10 +1554,10 @@ void KdenliveDoc::updateProjectProfile(bool reloadProducers)
     KdenliveSettings::setCurrent_profile(m_profile.path);
     pCore->monitorManager()->resetProfiles(m_profile, m_timecode);
     if (!reloadProducers) return;
+    emit updateFps(fpsChanged);
     if (fpsChanged) {
         pCore->bin()->reloadAllProducers();
     }
-    emit updateFps(fpsChanged);
 }
 
 void KdenliveDoc::resetProfile()
