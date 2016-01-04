@@ -164,10 +164,10 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget
     if (!m_directory.exists()) {
         m_directory.mkpath(QStringLiteral("."));
     }
-    QFileInfo fi(m_directory.path());
+    QFileInfo fi(m_directory.absolutePath());
     if (!m_directory.exists() || !fi.isWritable()) {
         // Something went wrong
-        showMessage(i18n("Check your settings, Library path is invalid: %1", m_directory.path()), KMessageWidget::Warning);
+        showMessage(i18n("Check your settings, Library path is invalid: %1", m_directory.absolutePath()), KMessageWidget::Warning);
         setEnabled(false);
     }
 
@@ -229,7 +229,7 @@ void LibraryWidget::parseLibrary()
     m_libraryTree->clear();
 
     // Build folders list
-    parseFolder(NULL, m_directory.path(), selectedUrl);
+    parseFolder(NULL, m_directory.absolutePath(), selectedUrl);
 
     if (m_lastSelectedItem) {
         m_libraryTree->setCurrentItem(m_lastSelectedItem);
@@ -293,6 +293,7 @@ void LibraryWidget::parseFolder(QTreeWidgetItem *parentItem, const QString &fold
 
 void LibraryWidget::slotAddToLibrary()
 {
+    if (!isEnabled()) return;
     if (!m_manager->hasSelection()) {
         showMessage(i18n("Select clips in timeline for the Library"));
         return;
@@ -367,7 +368,7 @@ void LibraryWidget::slotDeleteFromLibrary()
         // Deleting a folder
         QDir dir(path);
         // Make sure we are really trying to remove a directory located in the library folder
-        if (!path.startsWith(m_directory.path())) {
+        if (!path.startsWith(m_directory.absolutePath())) {
             showMessage(i18n("You are trying to remove an invalid folder: %1", path));
             return;
         }
@@ -417,7 +418,7 @@ void LibraryWidget::slotAddFolder()
         }
     }
     if (parentFolder.isEmpty()) {
-        parentFolder = m_directory.path();
+        parentFolder = m_directory.absolutePath();
     }
     QDir dir(parentFolder);
     if (dir.exists(name)) {
@@ -446,13 +447,13 @@ void LibraryWidget::slotMoveData(QList <QUrl> urls, QString dest)
     if (urls.isEmpty()) return;
     if (dest .isEmpty()) {
         // moving to library's root
-        dest = m_directory.path();
+        dest = m_directory.absolutePath();
     }
     QDir dir(dest);
     if (!dir.exists()) return;
     bool internal = true;
     foreach(const QUrl &url, urls) {
-        if (!url.path().startsWith(m_directory.path())) {
+        if (!url.path().startsWith(m_directory.absolutePath())) {
             internal = false;
             // Dropped an external file, attempt to copy it to library
             KIO::FileCopyJob *copyJob = KIO::file_copy(url, QUrl::fromLocalFile(dir.absoluteFilePath(url.fileName())));
@@ -520,10 +521,10 @@ void LibraryWidget::slotUpdateLibraryPath()
         }
         showMessage(i18n("Library path set to custom: %1", KdenliveSettings::libraryfolder()), KMessageWidget::Information);
     }
-    QFileInfo fi(m_directory.path());
+    QFileInfo fi(m_directory.absolutePath());
     if (!m_directory.exists() || !fi.isWritable()) {
         // Cannot write to new Library, try default one
-        if (KdenliveSettings::libraryfolder() != defaultPath) {
+        if (m_directory.absolutePath() != defaultPath) {
             showMessage(i18n("Cannot write to Library path: %1, using default", KdenliveSettings::libraryfolder()), KMessageWidget::Warning);
             m_directory.setPath(defaultPath);
             if (!m_directory.exists()) {
@@ -531,9 +532,10 @@ void LibraryWidget::slotUpdateLibraryPath()
             }
         }
     }
+    fi.setFile(m_directory.absolutePath());
     if (!m_directory.exists() || !fi.isWritable()) {
         // Something is really broken, disable library
-        showMessage(i18n("Check your settings, Library path is invalid: %1", m_directory.path()), KMessageWidget::Warning);
+        showMessage(i18n("Check your settings, Library path is invalid: %1", m_directory.absolutePath()), KMessageWidget::Warning);
         setEnabled(false);
     } else {
         setEnabled(true);
