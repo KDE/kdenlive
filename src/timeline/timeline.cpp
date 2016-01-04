@@ -813,6 +813,7 @@ void Timeline::updatePalette()
     QColor col = scheme.background().color();
     QColor col2 = scheme.foreground().color();
     headers_container->setStyleSheet(QStringLiteral("QLineEdit { background-color: transparent;color: %1;} QLineEdit:hover{ background-color: %2;} QLineEdit:focus { background-color: %2;}").arg(col2.name()).arg(col.name()));
+    m_trackview->updatePalette();
 }
 
 void Timeline::refreshIcons()

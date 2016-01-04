@@ -39,6 +39,7 @@
 #include "mainwindow.h"
 #include "transitionhandler.h"
 #include "project/clipmanager.h"
+#include "utils/KoIconUtils.h"
 #include "effectslist/initeffects.h"
 #include "dialogs/profilesdialog.h"
 #include "ui_keyframedialog_ui.h"
@@ -158,7 +159,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     m_thumbsTimer.setInterval(500);
     m_thumbsTimer.setSingleShot(true);
 
-    QIcon razorIcon = QIcon::fromTheme(QStringLiteral("edit-cut"));
+    QIcon razorIcon = KoIconUtils::themedIcon(QStringLiteral("edit-cut"));
     m_razorCursor = QCursor(razorIcon.pixmap(32, 32));
     m_spacerCursor = QCursor(Qt::SplitHCursor);
     connect(m_document->renderer(), SIGNAL(prepareTimelineReplacement(QString)), this, SLOT(slotPrepareTimelineReplacement(QString)), Qt::DirectConnection);
@@ -7423,6 +7424,8 @@ void CustomTrackView::updatePalette()
         pen1.setColor(line);
         m_cursorLine->setPen(pen1);
     }
+    QIcon razorIcon = KoIconUtils::themedIcon(QStringLiteral("edit-cut"));
+    m_razorCursor = QCursor(razorIcon.pixmap(32, 32));
 }
 
 void CustomTrackView::removeTipAnimation()
