@@ -607,22 +607,53 @@ void Render::processFileProperties()
             producer = new Mlt::Producer(*m_qmlView->profile(), "xml-string", doc.toString().toUtf8().constData());
         } else {
             producer = new Mlt::Producer(*m_qmlView->profile(), 0, path.toUtf8().constData());
-            if (producer->is_valid() && info.xml.hasAttribute("checkProfile")) {
+            if (producer->is_valid() && info.xml.hasAttribute(QStringLiteral("checkProfile")) && producer->get_int("video_index") > -1) {
                 // Check if clip profile matches
-                Mlt::Profile *blankProfile = new Mlt::Profile();
-                blankProfile->set_explicit(false);
-                blankProfile->from_producer(*producer);
-                MltVideoProfile clipProfile = ProfilesDialog::getVideoProfile(*blankProfile);
-                MltVideoProfile projectProfile = ProfilesDialog::getVideoProfile(*m_qmlView->profile());
-                clipProfile.adjustWidth();
-                if (clipProfile != projectProfile) {
-                    // Profiles do not match, adjust profile
-                    delete producer;
-                    delete blankProfile;
-                    m_processingClipId.removeAll(info.clipId);
-                    info.xml.removeAttribute("checkProfile");
-                    emit switchProfile(clipProfile, info.clipId, info.xml);
-                    return;
+                bool skipProducer = false;
+                QString service = producer->get("mlt_service");
+                // Check for image producer
+                if (service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) {
+                    // This is an image, create profile from image size
+                    int width = producer->get_int("meta.media.width");
+                    int height = producer->get_int("meta.media.height");
+                    if (width > 100 && height > 100) {
+                        MltVideoProfile projectProfile = ProfilesDialog::getVideoProfile(*m_qmlView->profile());
+                        projectProfile.width = width;
+                        projectProfile.height = height;
+                        projectProfile.sample_aspect_num = 1;
+                        projectProfile.sample_aspect_den = 1;
+                        projectProfile.display_aspect_num = width;
+                        projectProfile.display_aspect_den = height;
+                        projectProfile.description.clear();
+                        delete producer;
+                        m_processingClipId.removeAll(info.clipId);
+                        info.xml.removeAttribute("checkProfile");
+                        emit switchProfile(projectProfile, info.clipId, info.xml);
+                        return;
+                    } else {
+                        // Very small image, we probably don't want to use this as profile
+                        skipProducer = true;
+                    }
+                } else if (!service.contains(QStringLiteral("avformat"))) {
+                    skipProducer = true;
+                }
+
+                if (!skipProducer) {
+                    Mlt::Profile *blankProfile = new Mlt::Profile();
+                    blankProfile->set_explicit(false);
+                    blankProfile->from_producer(*producer);
+                    MltVideoProfile clipProfile = ProfilesDialog::getVideoProfile(*blankProfile);
+                    MltVideoProfile projectProfile = ProfilesDialog::getVideoProfile(*m_qmlView->profile());
+                    clipProfile.adjustWidth();
+                    if (clipProfile != projectProfile) {
+                        // Profiles do not match, adjust profile
+                        delete producer;
+                        delete blankProfile;
+                        m_processingClipId.removeAll(info.clipId);
+                        info.xml.removeAttribute("checkProfile");
+                        emit switchProfile(clipProfile, info.clipId, info.xml);
+                        return;
+                    }
                 }
             }
         }
