@@ -328,6 +328,7 @@ protected:
     virtual void dragLeaveEvent(QDragLeaveEvent * event);
     /** @brief Something has been dropped onto the timeline */
     virtual void dropEvent(QDropEvent * event);
+    virtual void enterEvent(QEvent * event);
     virtual void leaveEvent(QEvent * event);
     virtual void wheelEvent(QWheelEvent * e);
     virtual void keyPressEvent(QKeyEvent * event);
@@ -344,6 +345,7 @@ private:
     Timeline *m_timeline;
     CustomTrackScene *m_scene;
     QGraphicsLineItem *m_cursorLine;
+    QGraphicsLineItem *m_cutLine;
     ItemInfo m_dragItemInfo;
     ItemInfo m_selectionGroupInfo;
     /** @brief Possible timeline action */
@@ -535,6 +537,8 @@ private slots:
     void slotPrepareTimelineReplacement(const QString &id);
     /** @brief Update a producer in all tracks (for example when an effect changed). */
     void slotUpdateTimelineProducer(const QString &id);
+    /** @brief Refresh razor marker. */
+    void slotRefreshCutLine();
 
 signals:
     void cursorMoved(int, int);

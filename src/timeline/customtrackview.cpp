@@ -82,6 +82,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
   , m_timeline(timeline)
   , m_scene(projectscene)
   , m_cursorLine(NULL)
+  , m_cutLine(NULL)
   , m_operationMode(None)
   , m_moveOpMode(None)
   , m_dragItem(NULL)
@@ -141,6 +142,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     verticalScrollBar()->setTracking(true);
     // repaint guides when using vertical scroll
     connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(slotRefreshGuides()));
+    connect(horizontalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(slotRefreshCutLine()));
 
     m_cursorLine = projectscene->addLine(0, 0, 0, m_tracksHeight);
     m_cursorLine->setZValue(1000);
@@ -317,6 +319,9 @@ bool CustomTrackView::checkTrackHeight(bool force)
     }
     double newHeight = m_tracksHeight * m_timeline->visibleTracksCount() * matrix().m22();
     m_cursorLine->setLine(0, 0, 0, newHeight - 1);
+    if (m_cutLine) {
+        m_cutLine->setLine(0, 0, 0, m_tracksHeight);
+    }
     for (int i = 0; i < m_guides.count(); ++i) {
         m_guides.at(i)->setLine(0, 0, 0, newHeight - 1);
     }
@@ -539,6 +544,9 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
     if (m_operationMode == ContextMenu) {
         event->ignore();
         return;
+    }
+    if (m_cutLine) {
+        m_cutLine->setPos(mappedXPos, getPositionFromTrack(getTrackFromPos(mapToScene(event->pos()).y())));
     }
     if (m_moveOpMode == Seek && event->buttons() != Qt::NoButton) {
         QGraphicsView::mouseMoveEvent(event);
@@ -2857,9 +2865,28 @@ void CustomTrackView::dragLeaveEvent(QDragLeaveEvent * event)
     }
 }
 
+void CustomTrackView::enterEvent(QEvent * event)
+{
+      if (m_tool == RazorTool && !m_cutLine) {
+          m_cutLine = m_scene->addLine(0, 0, 0, m_tracksHeight);
+          m_cutLine->setZValue(1000);
+          QPen pen1 = QPen();
+          pen1.setWidth(1);
+          QColor line(Qt::red);
+          pen1.setColor(line);
+          m_cutLine->setPen(pen1);
+          m_cutLine->setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
+      }
+      QGraphicsView::enterEvent(event);
+}
+
 void CustomTrackView::leaveEvent(QEvent * event)
 {
       removeTipAnimation();
+      if (m_cutLine) {
+          delete m_cutLine;
+          m_cutLine = NULL;
+      }
       QGraphicsView::leaveEvent(event);
 }
 
@@ -5899,8 +5926,22 @@ void CustomTrackView::slotDeleteAllGuides()
 void CustomTrackView::setTool(ProjectTool tool)
 {
     m_tool = tool;
+    if (m_cutLine && tool != RazorTool) {
+        delete m_cutLine;
+        m_cutLine = NULL;
+    }
     switch (m_tool) {
     case RazorTool:
+        if (!m_cutLine) {
+            m_cutLine = m_scene->addLine(0, 0, 0, m_tracksHeight);
+            m_cutLine->setZValue(1000);
+            QPen pen1 = QPen();
+            pen1.setWidth(1);
+            QColor line(Qt::red);
+            pen1.setColor(line);
+            m_cutLine->setPen(pen1);
+            m_cutLine->setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
+        }
         setCursor(m_razorCursor);
         break;
     case SpacerTool:
@@ -5956,6 +5997,7 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale)
     }
     double verticalPos = mapToScene(QPoint(0, viewport()->height() / 2)).y();
     centerOn(QPointF(cursorPos(), verticalPos));
+    slotRefreshCutLine();
     m_scene->isZooming = false;
 }
 
@@ -8098,3 +8140,11 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> proc
     else delete command;
 }
 
+void CustomTrackView::slotRefreshCutLine()
+{
+    if (m_cutLine) {
+        QPointF pos = mapToScene(mapFromGlobal(QCursor::pos()));
+        int mappedXPos = qMax((int)(pos.x() + 0.5), 0);
+        m_cutLine->setPos(mappedXPos, getPositionFromTrack(getTrackFromPos(pos.y())));
+    }
+}
