@@ -24,6 +24,7 @@
 #include "project/projectmanager.h"
 #include "utils/KoIconUtils.h"
 #include "doc/kthumb.h"
+#include "kdenlivesettings.h"
 
 #include <QVBoxLayout>
 #include <QDateTime>
@@ -153,10 +154,21 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget
     m_progressBar->setVisible(false);
     lay->addWidget(m_toolBar);
     setLayout(lay);
-    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/library";
+    QString path;
+    if (KdenliveSettings::librarytodefaultfolder() || KdenliveSettings::libraryfolder().isEmpty()) {
+        path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/library");
+    } else {
+        path = KdenliveSettings::libraryfolder();
+    }
     m_directory = QDir(path);
     if (!m_directory.exists()) {
         m_directory.mkpath(QStringLiteral("."));
+    }
+
+    if (!m_directory.exists()) {
+        // Something went wrong
+        showMessage(i18n("Check your settings, Library path is invalid: %1", KdenliveSettings::libraryfolder()), KMessageWidget::Warning);
+        setEnabled(false);
     }
 
     m_libraryTree->setContextMenuPolicy(Qt::ActionsContextMenu);
@@ -486,3 +498,38 @@ void LibraryWidget::slotDownloadProgress(KJob *, unsigned long progress)
     m_progressBar->setVisible(true);
     m_progressBar->setValue(progress);
 }
+
+void LibraryWidget::slotUpdateLibraryPath()
+{
+    // Library path changed, reload library with updated path
+    m_libraryTree->blockSignals(true);
+    m_libraryTree->clear();
+    if (KdenliveSettings::librarytodefaultfolder() || KdenliveSettings::libraryfolder().isEmpty()) {
+        QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/library");
+        m_directory.setPath(path);
+        if (!m_directory.exists()) {
+            m_directory.mkpath(QStringLiteral("."));
+        }
+        showMessage(i18n("Library path set to default: %1", path), KMessageWidget::Information);
+    } else {
+        m_directory.setPath(KdenliveSettings::libraryfolder());
+        if (!m_directory.exists()) {
+            m_directory.mkpath(QStringLiteral("."));
+        }
+        if (!m_directory.exists()) {
+            // Cannot write to new Library
+            showMessage(i18n("Cannot write to Library path: %1, using default", KdenliveSettings::libraryfolder()), KMessageWidget::Warning);
+            QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/library");
+            m_directory.setPath(path);
+            if (!m_directory.exists()) {
+                m_directory.mkpath(QStringLiteral("."));
+            }
+        } else {
+            showMessage(i18n("Library path set to custom: %1", KdenliveSettings::libraryfolder()), KMessageWidget::Information);
+        }
+    }
+    setEnabled(m_directory.exists());
+    m_libraryTree->blockSignals(false);
+    parseLibrary();
+}
+

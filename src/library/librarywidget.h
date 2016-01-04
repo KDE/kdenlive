@@ -170,6 +170,7 @@ public:
 
 public slots:
     void slotAddToLibrary();
+    void slotUpdateLibraryPath();
 
 private slots:
     void slotAddToProject();

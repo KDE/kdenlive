@@ -102,6 +102,13 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_configEnv.capturefolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_capturefolder"));
     m_configEnv.capturefolderurl->setEnabled(!KdenliveSettings::capturetoprojectfolder());
     connect(m_configEnv.kcfg_capturetoprojectfolder, SIGNAL(clicked()), this, SLOT(slotEnableCaptureFolder()));
+    // Library folder
+    m_configEnv.libraryfolderurl->setMode(KFile::Directory);
+    m_configEnv.libraryfolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_libraryfolder"));
+    m_configEnv.libraryfolderurl->setEnabled(!KdenliveSettings::librarytodefaultfolder());
+    m_configEnv.kcfg_librarytodefaultfolder->setToolTip(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/library"));
+    connect(m_configEnv.kcfg_librarytodefaultfolder, SIGNAL(clicked()), this, SLOT(slotEnableLibraryFolder()));
+
     m_page2 = addPage(p2, i18n("Environment"));
     m_page2->setIcon(KoIconUtils::themedIcon(QStringLiteral("application-x-executable-script")));
 
@@ -429,6 +436,11 @@ void KdenliveSettingsDialog::slotEnableCaptureFolder()
     m_configEnv.capturefolderurl->setEnabled(!m_configEnv.kcfg_capturetoprojectfolder->isChecked());
 }
 
+void KdenliveSettingsDialog::slotEnableLibraryFolder()
+{
+    m_configEnv.libraryfolderurl->setEnabled(!m_configEnv.kcfg_librarytodefaultfolder->isChecked());
+}
+
 void KdenliveSettingsDialog::checkProfile()
 {
     m_configProject.kcfg_profiles_list->clear();
@@ -690,12 +702,14 @@ void KdenliveSettingsDialog::updateSettings()
 
     bool resetProfile = false;
     bool updateCapturePath = false;
+    bool updateLibrary = false;
 
     /*if (m_configShuttle.shuttledevicelist->count() > 0) {
     QString device = m_configShuttle.shuttledevicelist->itemData(m_configShuttle.shuttledevicelist->currentIndex()).toString();
     if (device != KdenliveSettings::shuttledevice()) KdenliveSettings::setShuttledevice(device);
     }*/
 
+    // Capture default folder
     if (m_configEnv.kcfg_capturetoprojectfolder->isChecked() != KdenliveSettings::capturetoprojectfolder()) {
         KdenliveSettings::setCapturetoprojectfolder(m_configEnv.kcfg_capturetoprojectfolder->isChecked());
         updateCapturePath = true;
@@ -704,6 +718,19 @@ void KdenliveSettingsDialog::updateSettings()
     if (m_configEnv.capturefolderurl->url().path() != KdenliveSettings::capturefolder()) {
         KdenliveSettings::setCapturefolder(m_configEnv.capturefolderurl->url().path());
         updateCapturePath = true;
+    }
+
+    // Library default folder
+    if (m_configEnv.kcfg_librarytodefaultfolder->isChecked() != KdenliveSettings::librarytodefaultfolder()) {
+        KdenliveSettings::setLibrarytodefaultfolder(m_configEnv.kcfg_librarytodefaultfolder->isChecked());
+        updateLibrary = true;
+    }
+
+    if (m_configEnv.libraryfolderurl->url().path() != KdenliveSettings::libraryfolder()) {
+        KdenliveSettings::setLibraryfolder(m_configEnv.libraryfolderurl->url().path());
+        if (!KdenliveSettings::librarytodefaultfolder()) {
+            updateLibrary = true;
+        }
     }
 
     if (m_configCapture.kcfg_dvgrabfilename->text() != KdenliveSettings::dvgrabfilename()) {
@@ -720,7 +747,7 @@ void KdenliveSettingsDialog::updateSettings()
         saveCurrentV4lProfile();
         KdenliveSettings::setV4l_format(0);
     }
-    
+
     // Check if screengrab is fullscreen
     if ((uint) m_configCapture.kcfg_grab_capture_type->currentIndex() != KdenliveSettings::grab_capture_type()) {
         KdenliveSettings::setGrab_capture_type(m_configCapture.kcfg_grab_capture_type->currentIndex());
@@ -756,6 +783,7 @@ void KdenliveSettingsDialog::updateSettings()
 
 
     if (updateCapturePath) emit updateCaptureFolder();
+    if (updateLibrary) emit updateLibraryFolder();
 
     QString value = m_configCapture.kcfg_v4l_alsadevice->itemData(m_configCapture.kcfg_v4l_alsadevice->currentIndex()).toString();
     if (value != KdenliveSettings::v4l_alsadevicename()) {

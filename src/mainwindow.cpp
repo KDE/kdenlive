@@ -1764,6 +1764,8 @@ void MainWindow::slotPreferences(int page, int option)
     connect(dialog, SIGNAL(settingsChanged(QString)), SIGNAL(configurationChanged()));
     connect(dialog, SIGNAL(doResetProfile()), pCore->projectManager(), SLOT(slotResetProfiles()));
     connect(dialog, SIGNAL(restartKdenlive()), this, SLOT(slotRestart()));
+    connect(dialog, SIGNAL(updateLibraryFolder()), pCore, SIGNAL(updateLibraryPath()));
+
     if (m_recMonitor) {
         connect(dialog, SIGNAL(updateCaptureFolder()), this, SLOT(slotUpdateCaptureFolder()));
         connect(dialog, SIGNAL(updateFullScreenGrab()), m_recMonitor, SLOT(slotUpdateFullScreenGrab()));

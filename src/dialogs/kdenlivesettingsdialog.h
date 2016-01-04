@@ -71,6 +71,7 @@ private slots:
     void slotShuttleModified();
     void slotDialogModified();
     void slotEnableCaptureFolder();
+    void slotEnableLibraryFolder();
     void slotUpdatev4lDevice();
     void slotUpdatev4lCaptureProfile();
     void slotManageEncodingProfile();
@@ -119,6 +120,7 @@ signals:
     void customChanged();
     void doResetProfile();
     void updateCaptureFolder();
+    void updateLibraryFolder();
     // Screengrab method changed between fullsceen and region, update rec monitor
     void updateFullScreenGrab();
     /** @brief A settings changed that requires a Kdenlive restart, trigger it */

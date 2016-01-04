@@ -81,6 +81,7 @@ private:
 
 signals:
     void coreIsReady();
+    void updateLibraryPath();
 };
 
 #endif
