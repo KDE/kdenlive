@@ -24,12 +24,14 @@
 #include <QMouseEvent>
 #include <QHBoxLayout>
 #include <QToolButton>
+#include <QScreen>
 #include <QDesktopWidget>
 #include <QFrame>
 #include <QApplication>
 #include <QTimer>
 #include <QIcon>
 #include <QDebug>
+#include <QWindow>
 #include <klocalizedstring.h>
 
 #ifdef Q_WS_X11
@@ -108,8 +110,10 @@ void ColorPickerWidget::slotGetAverageColor()
     Window root = RootWindow(QX11Info::display(), QX11Info::appScreen());
     m_image = XGetImage(QX11Info::display(), root, m_grabRect.x(), m_grabRect.y(), m_grabRect.width(), m_grabRect.height(), -1, ZPixmap);
 #else
-    QWidget *desktop = QApplication::desktop();
-    m_image = QPixmap::grabWindow(desktop->winId(), m_grabRect.x(), m_grabRect.y(), m_grabRect.width(), m_grabRect.height()).toImage();
+    QScreen *currentScreen = QApplication::primaryScreen();
+    if (currentScreen) {
+        m_image = currentScreen->grabWindow(0, m_grabRect.x(), m_grabRect.y(), m_grabRect.width(), m_grabRect.height()).toImage();
+    }
 #endif
 
     for (int x = 0; x < m_grabRect.width(); ++x) {
@@ -147,7 +151,7 @@ void ColorPickerWidget::mousePressEvent(QMouseEvent* event)
     }
 
     if (m_filterActive) {
-        m_grabRect = QRect(event->globalPos(), QSize(0, 0));
+        m_grabRect = QRect(event->globalPos(), QSize(1, 1));
         m_grabRectFrame->setGeometry(m_grabRect);
         m_grabRectFrame->show();
     }
@@ -162,6 +166,7 @@ void ColorPickerWidget::mouseReleaseEvent(QMouseEvent *event)
 
         m_grabRect.setWidth(event->globalX() - m_grabRect.x());
         m_grabRect.setHeight(event->globalY() - m_grabRect.y());
+        m_grabRect = m_grabRect.normalized();
 
         if (m_grabRect.width() * m_grabRect.height() == 0) {
 	    m_grabRectFrame->hide();
@@ -251,10 +256,13 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
     Q_UNUSED(destroyImage)
 
     if (m_image.isNull()) {
-        QWidget *desktop = QApplication::desktop();
-        QPixmap pm = QPixmap::grabWindow(desktop->winId(), p.x(), p.y(), 1, 1);
-        QImage i = pm.toImage();
-        return i.pixel(0, 0);
+        QScreen *currentScreen = QApplication::primaryScreen();
+        if (currentScreen) {
+            QPixmap pm = currentScreen->grabWindow(0, p.x(), p.y(), 1, 1);
+            QImage i = pm.toImage();
+            return i.pixel(0, 0);
+        }
+        else return qRgb(0, 0, 0);
     } else {
         return m_image.pixel(p.x(), p.y());
     }
