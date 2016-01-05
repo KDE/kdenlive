@@ -114,7 +114,7 @@ public:
     explicit RenderWidget(const QString &projectfolder, bool enableProxy, const MltVideoProfile &profile, QWidget * parent = 0);
     virtual ~RenderWidget();
     void setGuides(QMap <double, QString> guidesData, double duration);
-    void focusFirstVisibleItem(const QString &profile = QString());
+    void focusFirstVisibleItem(const QString &profile = QString(), const QString &category = QString());
     void setProfile(const MltVideoProfile& profile);
     void setRenderJob(const QString &dest, int progress = 0);
     void setRenderStatus(const QString &dest, int status, const QString &error);
@@ -150,7 +150,6 @@ private slots:
     void slotUpdateButtons(const QUrl &url);
     void slotUpdateButtons();
     void refreshView(const QString &profile = QString());
-    void refreshCategory(const QString &group = QString(), const QString &profile = QString());
 
     /** @brief Updates available options when a new format has been selected. */
     void refreshParams();
@@ -168,7 +167,7 @@ private slots:
     void parseScriptFiles();
     void slotCheckScript();
     void slotCheckJob();
-    void slotEditItem(QListWidgetItem *item);
+    void slotEditItem(QTreeWidgetItem *item);
     void slotCLeanUpJobs();
     void slotHideLog();
     void slotPrepareExport(bool scriptExport = false);
@@ -183,7 +182,11 @@ private slots:
     void slotUpdateAudioLabel(int ix);
     /** @brief Enable / disable the rescale options. */
     void setRescaleEnabled(bool enable);
-
+    /** @brief Adjust video/audio quality spinboxes from quality slider. */
+    void adjustAVQualities(int quality);
+    /** @brief Adjust video/audio quality spinboxes from quality slider. */
+    void adjustQuality(int videoQuality);
+    
 private:
     Ui::RenderWidget_UI m_view;
     QString m_projectFolder;
@@ -195,7 +198,7 @@ private:
     KMessageWidget *m_infoMessage;
 
     void parseMltPresets();
-    void parseProfiles(const QString &meta = QString(), const QString &group = QString(), const QString &profile = QString());
+    void parseProfiles();
     void parseFile(const QString &exportFile, bool editable);
     void updateButtons();
     QUrl filenameWithExtension(QUrl url, const QString &extension);
@@ -203,8 +206,6 @@ private:
     void checkRenderStatus();
     void startRendering(RenderJobItem *item);
     void saveProfile(const QDomElement &newprofile);
-    QList <QListWidgetItem *> m_renderItems;
-    QList <QListWidgetItem *> m_renderCategory;
     void errorMessage(const QString &message);
 
 signals:

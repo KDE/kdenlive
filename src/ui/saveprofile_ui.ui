@@ -7,13 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>329</width>
-    <height>538</height>
+    <height>618</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Save Profile</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="8" column="0">
+    <widget class="QLabel" name="speedsLabel">
+     <property name="text">
+      <string>Speed options</string>
+     </property>
+    </widget>
+   </item>
    <item row="6" column="0" colspan="3">
     <widget class="QGroupBox" name="vbitrates">
      <property name="title">
@@ -29,6 +36,12 @@
       </item>
       <item row="0" column="1">
        <widget class="QLineEdit" name="vbitrates_list">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="toolTip">
          <string>Best to worst quality</string>
         </property>
@@ -55,7 +68,7 @@
     <widget class="QLineEdit" name="profile_name"/>
    </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="groupLabel">
      <property name="text">
       <string>Group</string>
      </property>
@@ -103,27 +116,27 @@
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="profileLabel">
      <property name="text">
       <string>Profile name</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1" colspan="2">
-    <widget class="KComboBox" name="destination_list"/>
-   </item>
    <item row="1" column="1" colspan="2">
     <widget class="QLineEdit" name="group_name"/>
    </item>
+   <item row="0" column="1" colspan="2">
+    <widget class="KComboBox" name="destination_list"/>
+   </item>
    <item row="3" column="0">
-    <widget class="QLabel" name="label_4">
+    <widget class="QLabel" name="extensionLabel">
      <property name="text">
       <string>Extension</string>
      </property>
     </widget>
    </item>
    <item row="4" column="0" colspan="3">
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="parametersLabel">
      <property name="text">
       <string>Parameters (see &lt;a href=&quot;http://www.mltframework.org/bin/view/MLT/ConsumerAvformat&quot;&gt;MLT documentation&lt;/a&gt;)</string>
      </property>
@@ -133,13 +146,20 @@
     </widget>
    </item>
    <item row="0" column="0">
-    <widget class="QLabel" name="label_5">
+    <widget class="QLabel" name="destinationLabel">
      <property name="text">
       <string>Destination</string>
      </property>
     </widget>
    </item>
-   <item row="8" column="2">
+   <item row="5" column="0" colspan="3">
+    <widget class="QTextEdit" name="parameters">
+     <property name="acceptRichText">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -156,8 +176,11 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="3">
-    <widget class="QTextEdit" name="parameters">
+   <item row="8" column="2">
+    <widget class="QTextEdit" name="speeds_list">
+     <property name="toolTip">
+      <string>One line of options per speedup step, from slowest to fastest</string>
+     </property>
      <property name="acceptRichText">
       <bool>false</bool>
      </property>
