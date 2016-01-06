@@ -1025,6 +1025,9 @@ void Bin::slotLoadFolders(QMap<QString,QString> foldersData)
             if (parentFolder == m_rootFolder) {
                 // parent folder not yet created, create unnamed placeholder
                 parentFolder = new ProjectFolder(parentId, QString(), parentFolder);
+            } else if (parentFolder == NULL) {
+                // Strange, folder without parent detected, create standard one
+                parentFolder = new ProjectFolder(parentId, i18n("Folder"), m_rootFolder);
             }
         }
         // parent was found, create our folder
