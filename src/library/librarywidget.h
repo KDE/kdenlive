@@ -36,8 +36,13 @@
 #include <QStyledItemDelegate>
 #include <QApplication>
 #include <QPainter>
+#include <QMutex>
 
 #include <KMessageWidget>
+#include <KIOCore/KFileItem>
+#include <KIO/PreviewJob>
+#include <KIO/ListJob>
+#include <KIOCore/KCoreDirLister>
 
 class ProjectManager;
 class KJob;
@@ -62,11 +67,7 @@ public:
         QRect r1 = option.rect;
         QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
         const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-        double factor = (double) opt.decorationSize.height() / r1.height();
-        int decoWidth = 2 * textMargin;
-        if (factor != 0) {
-            decoWidth += opt.decorationSize.width() / factor;
-        }
+        int decoWidth = 2 * textMargin + r1.height() * 1.8;
         int mid = (int)((r1.height() / 2));
         r1.adjust(decoWidth, 0, 0, -mid);
         QFont ft = option.font;
@@ -111,14 +112,10 @@ public:
             QFont font = painter->font();
             font.setBold(true);
             painter->setFont(font);
-            double factor = (double) opt.decorationSize.height() / r1.height();
-            int decoWidth = 2 * textMargin;
-            if (factor != 0) {
-                r.setWidth(opt.decorationSize.width() / factor);
-                // Draw thumbnail
-                opt.icon.paint(painter, r);
-                decoWidth += r.width();
-            }
+            int decoWidth = 2 * textMargin + r1.height() * 1.8;;
+            r.setWidth(r1.height() * 1.8);
+            // Draw thumbnail
+            opt.icon.paint(painter, r);
             int mid = (int)((r1.height() / 2));
             r1.adjust(decoWidth, 0, 0, -mid);
             QRect r2 = option.rect;
@@ -154,6 +151,7 @@ protected:
 
 public slots:
     void slotUpdateThumb(const QString &path, const QString &iconPath);
+    void slotUpdateThumb(const QString &path, const QPixmap &pix);
 
 signals:
     void moveData(QList <QUrl>, QString);
@@ -176,13 +174,16 @@ private slots:
     void slotAddToProject();
     void slotDeleteFromLibrary();
     void updateActions();
-    void slotSaveThumbnail(const QString &path);
     void slotAddFolder();
     void slotRenameItem();
     void slotMoveData(QList <QUrl>, QString);
     void slotItemEdited(QTreeWidgetItem *item, int column);
     void slotDownloadFinished(KJob *);
     void slotDownloadProgress(KJob *, unsigned long);
+    void slotGotPreview(const KFileItem &item, const QPixmap &pix);
+    void slotItemsAdded (const QUrl &url, const KFileItemList &list);
+    void slotItemsDeleted(const KFileItemList &list);
+    void slotClearAll();
 
 private:
     LibraryTree *m_libraryTree;
@@ -193,12 +194,12 @@ private:
     QTimer m_timer;
     KMessageWidget *m_infoWidget;
     ProjectManager *m_manager;
-    QTreeWidgetItem *m_lastSelectedItem;
+    QList <QTreeWidgetItem *> m_folders;
+    KIO::PreviewJob *m_previewJob;
+    KCoreDirLister *m_coreLister;
+    QMutex m_treeMutex;
     QDir m_directory;
-    void parseLibrary();
-    void parseFolder(QTreeWidgetItem *parentItem, const QString &folder, const QString &selectedUrl);
     void showMessage(const QString &text, KMessageWidget::MessageType type = KMessageWidget::Warning);
-    QString thumbnailPath(const QString &path);
 
 signals:
     void addProjectClips(QList <QUrl>);
