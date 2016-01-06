@@ -1018,8 +1018,9 @@ void Bin::slotLoadFolders(QMap<QString,QString> foldersData)
     // Folder parent is saved in folderId, separated by a dot. for example "1.3" means parent folder id is "1" and new folder id is "3".
     ProjectFolder *parentFolder = m_rootFolder;
     QStringList folderIds = foldersData.keys();
-    for (int i = 0; i < folderIds.count(); i++) {
-        QString id = folderIds.at(i);
+    QStringList secondProcess;
+    while(!folderIds.isEmpty()) {
+        QString id = folderIds.takeFirst();
         QString parentId = id.section(QStringLiteral("."), 0, 0);
         if (parentId == QLatin1String("-1")) {
             parentFolder = m_rootFolder;
@@ -1031,8 +1032,16 @@ void Bin::slotLoadFolders(QMap<QString,QString> foldersData)
                 // parent folder not yet created, create unnamed placeholder
                 parentFolder = new ProjectFolder(parentId, QString(), parentFolder);
             } else if (parentFolder == NULL) {
-                // Strange, folder without parent detected, create standard one
-                parentFolder = new ProjectFolder(parentId, i18n("Folder"), m_rootFolder);
+                // folder without parent detected, create standard one
+                if (secondProcess.contains(id)) {
+                    // Orphaned folder
+                    parentFolder = new ProjectFolder(parentId, i18n("Folder"), m_rootFolder);
+                }
+                else {
+                    folderIds.append(id);
+                    secondProcess << id;
+                    continue;
+                }
             }
         }
         // parent was found, create our folder
