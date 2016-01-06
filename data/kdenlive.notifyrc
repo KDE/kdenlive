@@ -268,7 +268,7 @@ Comment[uk]=Було захоплено кадр, програма зберег�
 Comment[x-test]=xxA frame was captured to diskxx
 Comment[zh_CN]=一帧图像已被抓取到磁盘
 Comment[zh_TW]=已擷取一個影格到磁碟中
-Sound=KDE-Sys-App-Message.ogg
+Sound=Oxygen-Sys-App-Message.ogg
 Action=Sound
 
 [Event/ReadyToCapture]
@@ -308,7 +308,7 @@ Name[uk]=Приготовано до захоплення
 Name[x-test]=xxReady to capturexx
 Name[zh_CN]=准备抓取
 Name[zh_TW]=準備擷取
-Sound=KDE-Sys-App-Positive.ogg
+Sound=Oxygen-Sys-App-Positive.ogg
 Action=Sound
 
 [Event/ErrorMessage]
