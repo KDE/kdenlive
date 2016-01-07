@@ -1141,7 +1141,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             sEngine.globalObject().setProperty(paramName.toUtf8().constData(), paramValue);
         }
 
-        if (resizeProfile)
+        if (resizeProfile && !KdenliveSettings::gpu_accel())
             render_process_args << "consumer:" + (scriptExport ? "$SOURCE_" + QString::number(stemIdx) : playlistPaths.at(stemIdx));
         else
             render_process_args <<  (scriptExport ? "$SOURCE_" + QString::number(stemIdx) : playlistPaths.at(stemIdx));
