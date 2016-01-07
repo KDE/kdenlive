@@ -40,7 +40,7 @@ public:
 
     /** The curvemodes refer to the usage of the spline.
      * As this widget is currently only used for frei0r.curves the modes are the channels this filter accepts. */
-    enum CurveModes { ModeRed, ModeGreen, ModeBlue, ModeAlpha, ModeLuma, ModeRGB, ModeHue, ModeSaturation };
+    enum CurveModes { ModeRed = 0, ModeGreen, ModeBlue, ModeAlpha, ModeLuma, ModeRGB, ModeHue, ModeSaturation };
 
     /** @brief Sets the mode to @param mode and updates the editors background pixmap if necessary. */
     void setMode(CurveModes mode);

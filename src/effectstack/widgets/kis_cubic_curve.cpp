@@ -420,12 +420,12 @@ void KisCubicCurve::fromString(const QString& string)
     QStringList data = string.split(';');
 
     QList<QPointF> points;
-
+    QLocale locale;
     foreach(const QString & pair, data) {
         if (pair.indexOf('/') > -1) {
             QPointF p;
-            p.rx() = pair.section('/', 0, 0).toDouble();
-            p.ry() = pair.section('/', 1, 1).toDouble();
+            p.rx() = locale.toDouble(pair.section('/', 0, 0));
+            p.ry() = locale.toDouble(pair.section('/', 1, 1));
             points.append(p);
         }
     }
