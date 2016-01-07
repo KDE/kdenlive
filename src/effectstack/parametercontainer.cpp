@@ -528,7 +528,8 @@ void ParameterContainer::meetDependency(const QString& name, const QString &type
     } else if (type == "bezier_spline") {
         BezierSplineWidget *widget = static_cast<BezierSplineWidget*>(m_valueItems[name]);
         if (widget) {
-            widget->setMode((BezierSplineWidget::CurveModes)((int)(value.toDouble() * 10 + 0.5)));
+            QLocale locale;
+            widget->setMode((BezierSplineWidget::CurveModes)((int)(locale.toDouble(value) * 10 + 0.5)));
         }
     }
 }
