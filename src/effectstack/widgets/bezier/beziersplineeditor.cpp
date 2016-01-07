@@ -162,7 +162,7 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
     }
 
 
-    p.setPen(QPen(Qt::gray, 1, Qt::SolidLine));
+    p.setPen(QPen(palette().mid().color(), 1, Qt::SolidLine));
 
     /*
      * Borders
@@ -210,7 +210,7 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
         next = m_spline.getPoint(i + 1, wWidth, wHeight, true);
         splinePath.cubicTo(point.h2, next.h1, next.p);
     }
-    p.setPen(QPen(Qt::black, 1, Qt::SolidLine));
+    p.setPen(QPen(palette().text().color(), 1, Qt::SolidLine));
     p.drawPath(splinePath);
 
 

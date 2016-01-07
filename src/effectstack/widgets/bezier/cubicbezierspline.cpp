@@ -48,7 +48,7 @@ CubicBezierSpline& CubicBezierSpline::operator=(const CubicBezierSpline& spline)
 void CubicBezierSpline::fromString(const QString& spline)
 {
     m_points.clear();
-
+    QLocale locale;
     const QStringList bpoints = spline.split(QLatin1Char('|'));
     foreach(const QString &bpoint, bpoints) {
         const QStringList points = bpoint.split(QLatin1Char('#'));
@@ -56,7 +56,7 @@ void CubicBezierSpline::fromString(const QString& spline)
         foreach(const QString &point, points) {
             QStringList xy = point.split(QLatin1Char(';'));
             if (xy.count() == 2)
-                values.append(QPointF(xy.at(0).toDouble(), xy.at(1).toDouble()));
+                values.append(QPointF(locale.toDouble(xy.at(0)), locale.toDouble(xy.at(1))));
         }
         if (values.count() == 3) {
             m_points.append(BPoint(values.at(0), values.at(1), values.at(2)));

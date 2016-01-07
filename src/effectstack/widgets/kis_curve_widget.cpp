@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2005 Casper Boemann <cbr@boemann.dk>
+ *  Copyright (c) 2005 C. Boemann <cbo@boemann.dk>
  *  Copyright (c) 2009 Dmitry Kazakov <dimula73@gmail.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -42,10 +42,6 @@
 
 #include <QSpinBox>
 
-// KDE includes.
-
-#include <kcursor.h>
-
 #define bounds(x,a,b) (x<a ? a : (x>b ? b :x))
 #define MOUSE_AWAY_THRES 15
 #define POINT_AREA       1E-4
@@ -86,8 +82,7 @@ KisCurveWidget::KisCurveWidget(QWidget *parent, Qt::WindowFlags f)
 
 KisCurveWidget::~KisCurveWidget()
 {
-    if (d->m_pixmapCache)
-        delete d->m_pixmapCache;
+    delete d->m_pixmapCache;
     delete d;
 }
 
@@ -223,18 +218,18 @@ void KisCurveWidget::paintEvent(QPaintEvent *)
     int    wHeight = height() - 1;
 
     QPainter p(this);
-
     // Antialiasing is not a good idea here, because
     // the grid will drift one pixel to any side due to rounding of int
     // FIXME: let's user tell the last word (in config)
     //p.setRenderHint(QPainter::Antialiasing);
 
+    // fill with color to show widget bounds
+    p.fillRect(rect(), palette().base());
 
     //  draw background
     if (!d->m_pix.isNull()) {
         if (d->m_pixmapDirty || !d->m_pixmapCache) {
-            if (d->m_pixmapCache)
-                delete d->m_pixmapCache;
+            delete d->m_pixmapCache;
             d->m_pixmapCache = new QPixmap(width(), height());
             QPainter cachePainter(d->m_pixmapCache);
 
@@ -243,43 +238,29 @@ void KisCurveWidget::paintEvent(QPaintEvent *)
             d->m_pixmapDirty = false;
         }
         p.drawPixmap(0, 0, *d->m_pixmapCache);
-    } else
-        p.fillRect(rect(), palette().background());
-
+    }
 
     d->drawGrid(p, wWidth, wHeight);
 
-    /*KisConfig cfg;
-    if (cfg.antialiasCurves())
-        p.setRenderHint(QPainter::Antialiasing);*/
+
     p.setRenderHint(QPainter::Antialiasing);
 
     // Draw default line
-    p.setPen(QPen(Qt::gray, 1, Qt::SolidLine));
+    p.setPen(QPen(palette().mid().color(), 1, Qt::SolidLine));
     p.drawLine(QLineF(0, wHeight, wWidth, 0));
 
     // Draw curve.
-    double prevY = wHeight - d->m_curve.value(0.) * wHeight;
-    double prevX = 0.;
     int x;
+    QPolygonF poly;
 
-    p.setPen(QPen(Qt::black, 1, Qt::SolidLine));
+    p.setPen(QPen(palette().text().color(), 1, Qt::SolidLine));
     for (x = 0 ; x < wWidth ; ++x) {
         double normalizedX = double(x) / wWidth;
         double curY = wHeight - d->m_curve.value(normalizedX) * wHeight;
-
-        /**
-         * Keep in mind that QLineF rounds doubles
-         * to ints mathematically, not just rounds down
-         * like in C
-         */
-        p.drawLine(QLineF(prevX, prevY,
-                          x, curY));
-        prevX = x;
-        prevY = curY;
+        poly.append(QPointF(x, curY));
     }
-    p.drawLine(QLineF(prevX, prevY ,
-                      x, wHeight - d->m_curve.value(1.0) * wHeight));
+    poly.append(QPointF(x, wHeight - d->m_curve.value(1.0) * wHeight));
+    p.drawPolyline(poly);
 
     // Drawing curve handles.
     if (!d->m_readOnlyMode) {
