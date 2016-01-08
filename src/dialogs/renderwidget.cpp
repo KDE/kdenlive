@@ -1037,6 +1037,36 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             render_process_args << QStringLiteral("-locale:%1").arg(currentLocale);
         }
 
+        bool resizeProfile = false;
+        QString renderArgs = m_view.advanced_params->toPlainText().simplified();
+        QString std = renderArgs;
+        // Check for fps change
+        double forcedfps = 0;
+        if (std.startsWith(QLatin1String("r="))) {
+            QString sub = std.section(' ', 0, 0).toLower();
+            sub = sub.section('=', 1, 1);
+            forcedfps = sub.toDouble();
+        } else if (std.contains(QStringLiteral(" r="))) {
+            QString sub = std.section(QStringLiteral(" r="), 1, 1);
+            sub = sub.section(' ', 0, 0).toLower();
+            forcedfps = sub.toDouble();
+        } else if (std.contains(QStringLiteral("mlt_profile="))) {
+                QString sub = std.section(QStringLiteral("mlt_profile="), 1, 1);
+                sub = sub.section(' ', 0, 0).toLower();
+                MltVideoProfile destinationProfile = ProfilesDialog::getVideoProfile(sub);
+                forcedfps = (double) destinationProfile.frame_rate_num / destinationProfile.frame_rate_den;
+        }
+
+        // If there is an fps change, we need to use the producer consumer AND update the in/out points
+        if (!resizeProfile && forcedfps > 0 && qAbs((int) 100 * forcedfps - ((int) 100 * m_profile.frame_rate_num / m_profile.frame_rate_den)) > 2) {
+            resizeProfile = true;
+            double ratio = m_profile.frame_rate_num / m_profile.frame_rate_den / forcedfps;
+            if (ratio > 0) {
+                zoneIn /= ratio;
+                zoneOut /= ratio;
+            }
+        }
+
         if (m_view.render_zone->isChecked()) {
             render_process_args << "in=" + QString::number(zoneIn) << "out=" + QString::number(zoneOut);
         } else if (m_view.render_guide->isChecked()) {
@@ -1059,8 +1089,6 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             render_process_args << KdenliveSettings::KdenliveSettings::defaultplayerapp();
         else
             render_process_args << QStringLiteral("-");
-
-        QString renderArgs = m_view.advanced_params->toPlainText().simplified();
 
         // Project metadata
         if (m_view.export_meta->isChecked()) {
@@ -1100,7 +1128,6 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
 
         // Check if the rendering profile is different from project profile,
         // in which case we need to use the producer_comsumer from MLT
-        QString std = renderArgs;
         QString destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
         const QString currentSize = QString::number(width) + 'x' + QString::number(height);
         QString subsize = currentSize;
@@ -1115,7 +1142,12 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             // Add current size parameter
             renderArgs.append(subsize);
         }
-        bool resizeProfile = (subsize != currentSize);
+        // Check if we need to embed the playlist into the producer consumer
+        // That is required if PAR != 1
+        if (m_profile.sample_aspect_num != m_profile.sample_aspect_num) {
+            resizeProfile = true;
+        }
+
         QStringList paramsList = renderArgs.split(' ', QString::SkipEmptyParts);
 
         QScriptEngine sEngine;
