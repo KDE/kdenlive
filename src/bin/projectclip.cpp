@@ -255,8 +255,17 @@ QDomElement ProjectClip::toXml(QDomDocument& document, bool includeMeta)
     if (m_controller) {
         m_controller->getProducerXML(document, includeMeta);
         return document.documentElement().firstChildElement(QStringLiteral("producer"));
+    } else {
+        // We only have very basic infos, ike id and url, pass them
+        QDomElement prod = document.createElement(QStringLiteral("producer"));
+        prod.setAttribute(QStringLiteral("id"), m_id);
+        EffectsList::setProperty(prod, QStringLiteral("resource"), m_temporaryUrl.path());
+        if (m_type != Unknown) {
+            prod.setAttribute(QStringLiteral("type"), (int) m_type);
+        }
+        document.appendChild(prod);
+        return prod;
     }
-    return QDomElement();
 }
 
 void ProjectClip::setThumbnail(QImage img)
