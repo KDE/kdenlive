@@ -53,8 +53,7 @@ public:
 
 private:
     Mlt::Tractor *m_tractor;
-    double m_fps;
-    
+
 signals:
     void refresh();
 };
