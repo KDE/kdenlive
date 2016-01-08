@@ -1193,6 +1193,10 @@ bool Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
     QMutexLocker locker(&m_mutex);
     QString currentId;
     int consumerPosition = 0;
+    if (!producer && m_mltProducer && m_mltProducer->parent().get("id") == QLatin1String("black")) {
+        // Black clip already displayed no need to refresh
+        return true;
+    }
     if (m_mltProducer) {
         currentId = m_mltProducer->get("id");
         m_mltProducer->set_speed(0);

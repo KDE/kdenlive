@@ -1256,6 +1256,10 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
     if (render == NULL) return;
     bool sameClip = controller == m_controller && controller != NULL;
     m_controller = controller;
+    if (!m_glMonitor->isVisible()) {
+        // Don't load clip if monitor is not active (disabled)
+        return;
+    }
     if (m_qmlManager->sceneType() != MonitorSceneDefault && !sameClip) {
         // changed clip, disable split effect
         if (m_splitProducer) {
@@ -1287,7 +1291,6 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
     else {
         render->setProducer(NULL, -1, isActive());
         m_glMonitor->setAudioThumb();
-        //hasEffects = false;
     }
     checkOverlay();
 }
