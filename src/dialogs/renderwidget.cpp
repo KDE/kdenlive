@@ -1125,7 +1125,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         // Check if the rendering profile is different from project profile,
         // in which case we need to use the producer_comsumer from MLT
         const QString currentSize = QString::number(width) + 'x' + QString::number(height);
-        QString subsize = currentSize;
+        QString subsize;
         if (std.startsWith(QLatin1String("s="))) {
             subsize = std.section(' ', 0, 0).toLower();
             subsize = subsize.section('=', 1, 1);
@@ -1139,7 +1139,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         }
         // Check if we need to embed the playlist into the producer consumer
         // That is required if PAR != 1
-        if (m_profile.sample_aspect_num != m_profile.sample_aspect_num) {
+        if (m_profile.sample_aspect_num != m_profile.sample_aspect_num && subsize.isEmpty()) {
             resizeProfile = true;
         }
 

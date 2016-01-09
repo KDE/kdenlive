@@ -385,7 +385,8 @@ Bin::Bin(QWidget* parent) :
     settingsMenu->addAction(m_showDesc);
     settingsMenu->addAction(disableEffects);
     QToolButton *button = new QToolButton;
-    button->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
+    button->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-menu")));
+    button->setToolTip(i18n("Options"));
     button->setMenu(settingsMenu);
     button->setPopupMode(QToolButton::InstantPopup);
     m_toolbar->addWidget(button);

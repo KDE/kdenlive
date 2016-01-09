@@ -256,6 +256,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     m_audioButton = new QToolButton(this);
     m_audioButton->setMenu(menu);
+    m_audioButton->setToolTip(i18n("Volume"));
     m_audioButton->setPopupMode(QToolButton::InstantPopup);
     QIcon icon;
     if (KdenliveSettings::volume() == 0) icon = KoIconUtils::themedIcon(QStringLiteral("audio-volume-muted"));
@@ -313,7 +314,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_toolbar->addWidget(m_timePos);
 
     QToolButton *configButton = new QToolButton(m_toolbar);
-    configButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("system-run")));
+    configButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-menu")));
+    configButton->setToolTip(i18n("Options"));
     configButton->setMenu(m_configMenu);
     configButton->setPopupMode(QToolButton::QToolButton::InstantPopup);
     m_toolbar->addWidget(configButton);
@@ -1346,10 +1348,8 @@ void Monitor::resetProfile(MltVideoProfile profile)
 {
     m_timePos->updateTimeCode(m_monitorManager->timecode());
     if (render == NULL) return;
-
     render->prepareProfileReset(m_monitorManager->timecode().fps());
     m_glMonitor->resetProfile(profile);
-
     m_glMonitor->rootObject()->setProperty("framesize", QRect(0, 0, m_glMonitor->profileSize().width(), m_glMonitor->profileSize().height()));
 }
 
@@ -1582,6 +1582,14 @@ const QString Monitor::projectFolder() const
 void Monitor::setPalette ( const QPalette & p)
 {
     QWidget::setPalette(p);
+    QList<QToolButton *> allButtons = this->findChildren<QToolButton *>();
+    for (int i = 0; i < allButtons.count(); i++) {
+        QToolButton *m = allButtons.at(i);
+        QIcon ic = m->icon();
+        if (ic.isNull() || ic.name().isEmpty()) continue;
+        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        m->setIcon(newIcon);
+    }
     if (m_ruler) m_ruler->updatePalette();
 }
 
