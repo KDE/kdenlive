@@ -166,6 +166,8 @@ void GLWidget::processAudio(bool process)
                 m_audioLevels = new Mlt::Filter(*m_monitorProfile, "audiolevel");
                 if (!m_audioLevels->is_valid()) {
                     // Something is wrong
+                    if (m_frameRenderer) 
+                        m_frameRenderer->processAudio = false;
                     return;
                 }
                 m_audioLevels->set("iec_scale", 0);
