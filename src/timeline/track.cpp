@@ -43,8 +43,7 @@ Track::Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist
 
 Track::~Track()
 {
-    //qDebug()<<"// DELETING TRAK: "<<m_playlist.get("id");
-    trackHeader->deleteLater();
+    if (trackHeader) trackHeader->deleteLater();
 }
 
 // members access
