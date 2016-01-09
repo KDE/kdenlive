@@ -4,4 +4,5 @@ set(kdenlive_SRCS
   mltcontroller/clipcontroller.cpp
   mltcontroller/clippropertiescontroller.cpp
   mltcontroller/effectscontroller.cpp
+  mltcontroller/producerqueue.cpp
   PARENT_SCOPE)

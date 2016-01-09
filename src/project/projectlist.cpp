@@ -580,7 +580,7 @@ void ProjectList::slotReloadClip(const QString &id)
                 e.setAttribute("duration", clip->getProperty("duration"));
             }
             resetThumbsProducer(clip);
-            m_render->getFileProperties(e, item->clipId(), m_listView->iconSize().height(), true);
+            //m_render->getFileProperties(e, item->clipId(), m_listView->iconSize().height(), true);
         }
     }
 }

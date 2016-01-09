@@ -20,6 +20,7 @@ class MonitorManager;
 class BinController;
 class Bin;
 class LibraryWidget;
+class ProducerQueue;
 
 #define pCore Core::self()
 
@@ -62,6 +63,8 @@ public:
     BinController *binController();
     /** @brief Returns a pointer to the project bin. */
     Bin *bin();
+    /** @brief Returns a pointer to the producer queue. */
+    ProducerQueue *producerQueue();
     /** @brief Returns a pointer to the library. */
     LibraryWidget *library();
 
@@ -76,6 +79,7 @@ private:
     ProjectManager *m_projectManager;
     MonitorManager *m_monitorManager;
     BinController *m_binController;
+    ProducerQueue *m_producerQueue;
     Bin *m_binWidget;
     LibraryWidget *m_library;
 

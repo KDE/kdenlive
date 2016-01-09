@@ -776,7 +776,7 @@ void Bin::slotReloadClip()
             if (!xml.isNull()) {
                 currentItem->setClipStatus(AbstractProjectItem::StatusWaiting);
                 // We need to set a temporary id before all outdated producers are replaced;
-                m_doc->renderer()->getFileProperties(xml, currentItem->clipId(), 150, true);
+                m_doc->getFileProperties(xml, currentItem->clipId(), 150, true);
             }
         }
     }
@@ -875,7 +875,6 @@ void Bin::setDocument(KdenliveDoc* project)
     m_jobManager = new JobManager(this);
     m_rootFolder = new ProjectFolder(this);
     setEnabled(true);
-    connect(this, SIGNAL(producerReady(QString)), m_doc->renderer(), SLOT(slotProcessingDone(QString)), Qt::DirectConnection);
     connect(m_jobManager, SIGNAL(addClip(QString)), this, SLOT(slotAddUrl(QString)));
     connect(m_proxyAction, SIGNAL(toggled(bool)), m_doc, SLOT(slotProxyCurrentItem(bool)));
     connect(m_jobManager, SIGNAL(jobCount(int)), m_infoLabel, SLOT(slotSetJobCount(int)));
@@ -1634,7 +1633,7 @@ void Bin::reloadClip(const QString &id)
     if (!clip) return;
     QDomDocument doc;
     QDomElement xml = clip->toXml(doc);
-    if (!xml.isNull()) m_doc->renderer()->getFileProperties(xml, id, 150, true);
+    if (!xml.isNull()) m_doc->getFileProperties(xml, id, 150, true);
 }
 
 void Bin::slotThumbnailReady(const QString &id, const QImage &img, bool fromFile)
@@ -1955,13 +1954,13 @@ void Bin::gotProxy(const QString &id)
     if (clip) {
         QDomDocument doc;
         QDomElement xml = clip->toXml(doc, true);
-        if (!xml.isNull()) m_doc->renderer()->getFileProperties(xml, id, 150, true);
+        if (!xml.isNull()) m_doc->getFileProperties(xml, id, 150, true);
     }
 }
 
 void Bin::reloadProducer(const QString &id, QDomElement xml)
 {
-    m_doc->renderer()->getFileProperties(xml, id, 150, true);
+    m_doc->getFileProperties(xml, id, 150, true);
 }
 
 void Bin::refreshClip(const QString &id)
@@ -3078,7 +3077,7 @@ void Bin::reloadAllProducers()
         if (!xml.isNull()) {
             clip->setClipStatus(AbstractProjectItem::StatusWaiting);
             // We need to set a temporary id before all outdated producers are replaced;
-            m_doc->renderer()->getFileProperties(xml, clip->clipId(), 150, true);
+            m_doc->getFileProperties(xml, clip->clipId(), 150, true);
         }
     }
 }

@@ -13,6 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/projectmanager.h"
 #include "monitor/monitormanager.h"
 #include "mltcontroller/bincontroller.h"
+#include "mltcontroller/producerqueue.h"
 #include "bin/bin.h"
 #include "library/librarywidget.h"
 #include <QCoreApplication>
@@ -40,6 +41,7 @@ Core::Core(MainWindow *mainWindow) :
 Core::~Core()
 {
     m_monitorManager->stopActiveMonitor();
+    delete m_producerQueue;
     delete m_projectManager;
     delete m_binWidget;
     delete m_binController;
@@ -67,6 +69,17 @@ void Core::initialize()
     connect(m_binController, SIGNAL(abortAudioThumbs()), m_binWidget, SLOT(abortAudioThumbs()));
     connect(m_binController, SIGNAL(loadThumb(QString,QImage,bool)), m_binWidget, SLOT(slotThumbnailReady(QString,QImage,bool)));
     m_monitorManager = new MonitorManager(this);
+    // Producer queue, creating MLT::Producers on request
+    m_producerQueue = new ProducerQueue(m_binController);
+    connect(m_producerQueue, SIGNAL(gotFileProperties(requestClipInfo,ClipController *)), m_binWidget, SLOT(slotProducerReady(requestClipInfo,ClipController *)), Qt::DirectConnection);
+    connect(m_producerQueue, SIGNAL(replyGetImage(QString,QImage,bool)), m_binWidget, SLOT(slotThumbnailReady(QString,QImage,bool)));
+    connect(m_producerQueue, SIGNAL(removeInvalidClip(QString,bool)), m_binWidget, SLOT(slotRemoveInvalidClip(QString,bool)), Qt::DirectConnection);
+    connect(m_producerQueue, SIGNAL(addClip(const QString&,const QMap<QString,QString>&)), m_binWidget, SLOT(slotAddUrl(const QString&,const QMap<QString,QString>&)));
+    connect(m_binController, SIGNAL(createThumb(QDomElement,QString,int)), m_producerQueue, SLOT(getFileProperties(QDomElement,QString,int)));
+    connect(m_binWidget, SIGNAL(producerReady(QString)), m_producerQueue, SLOT(slotProcessingDone(QString)), Qt::DirectConnection);
+    //TODO
+    /*connect(m_producerQueue, SIGNAL(removeInvalidProxy(QString,bool)), m_binWidget, SLOT(slotRemoveInvalidProxy(QString,bool)));*/
+
     emit coreIsReady();
 }
 
@@ -99,6 +112,11 @@ BinController *Core::binController()
 Bin *Core::bin()
 {
     return m_binWidget;
+}
+
+ProducerQueue *Core::producerQueue()
+{
+    return m_producerQueue;
 }
 
 LibraryWidget *Core::library()

@@ -4794,7 +4794,7 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
     if (!binClip->isReady()) {
         // If the clip has no producer, we must wait until it is created...
         emit displayMessage(i18n("Waiting for clip..."), InformationMessage);
-	m_document->renderer()->forceProcessing(clipId);
+	m_document->forceProcessing(clipId);
         // If the clip is not ready, give it 10x3 seconds to complete the task...
         for (int i = 0; i < 10; ++i) {
             if (!binClip->isReady()) {

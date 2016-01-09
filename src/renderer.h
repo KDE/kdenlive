@@ -256,12 +256,6 @@ class Render: public AbstractRender
     Mlt::Producer *getProducer();
     /** @brief Returns a pointer to the bin's playlist. */
 
-    /** @brief Returns the number of clips to process (When requesting clip info). */
-    int processingItems();
-    /** @brief Force processing of clip with selected id. */
-    void forceProcessing(const QString &id);
-    /** @brief Are we currently processing clip with selected id. */
-    bool isProcessing(const QString &id);
     /** @brief Lock the MLT service */
     Mlt::Tractor *lockService();
     /** @brief Unlock the MLT service */
@@ -304,8 +298,6 @@ class Render: public AbstractRender
     void prepareProfileReset(double fps);
     void updateSlowMotionProducers(const QString &id, QMap <QString, QString> passProperties);
     static QMap<QString, QString> mltGetTransitionParamsFromXml(const QDomElement &xml);
-    /** @brief Make sure to close running threads before closing document */
-    void abortOperations();
 
 private:
 
@@ -340,8 +332,6 @@ private:
     QMutex m_infoMutex;
 
     QLocale m_locale;
-    QFuture <void> m_infoThread;
-    QList <requestClipInfo> m_requestList;
     /** @brief True if this monitor is active. */
     bool m_isActive;
     /** @brief True if the consumer is currently refreshing itself. */
@@ -350,8 +340,7 @@ private:
     void closeMlt();
     void mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest);
     QMap<QString, Mlt::Producer *> m_slowmotionProducers;
-    /** @brief The ids of the clips that are currently being loaded for info query */
-    QStringList m_processingClipId;
+    
 
     /** @brief Build the MLT Consumer object with initial settings.
      *  @param profileName The MLT profile to use for the consumer */
@@ -365,28 +354,14 @@ private:
     void cloneProperties(Mlt::Properties &dest, Mlt::Properties &source);
     /** @brief Get a track producer from a clip's id */
     Mlt::Producer *getProducerForTrack(Mlt::Playlist &trackPlaylist, const QString &clipId);
-    ClipType getTypeForService(const QString &id, const QString &path) const;
-    /** @brief Pass xml values to an MLT producer at build time */
-    void processProducerProperties(Mlt::Producer *prod, QDomElement xml);
     
 private slots:
 
     /** @brief Refreshes the monitor display. */
     void refresh();
-    /** @brief Process the clip info requests (in a separate thread). */
-    void processFileProperties();
-    /** @brief A clip with multiple video streams was found, ask what to do. */
-    void slotMultiStreamProducerFound(const QString &path, QList<int> audio_list, QList<int> video_list, stringMap data);
     void slotCheckSeeking();
 
 signals:
-
-    /** @brief The renderer received a reply to a getFileProperties request. */
-    void gotFileProperties(requestClipInfo,ClipController *);
-
-    /** @brief The renderer received a reply to a getImage request. */
-    void replyGetImage(const QString &, const QImage &,bool fromFile = false);
-    
     /** @brief The renderer stopped, either playing or rendering. */
     void stopped();
 
@@ -401,39 +376,26 @@ signals:
     void durationChanged(int, int offset = 0);
     void rendererPosition(int);
     void rendererStopped(int);
-    /** @brief The clip is not valid, should be removed from project. */
-    void removeInvalidClip(const QString &, bool replaceProducer);
-    /** @brief The proxy is not valid, should be deleted.
-     *  @param id The original clip's id
-     *  @param durationError Should be set to true if the proxy failed because it has not same length as original clip
-     */
-    void removeInvalidProxy(const QString &id, bool durationError);
-    /** @brief A proxy clip is missing, ask for creation. */
-    void requestProxy(QString);
-    /** @brief A multiple stream clip was found. */
-    void multiStreamFound(const QString &,QList<int>,QList<int>,stringMap data);
+
     /** @brief A clip has changed, we must reload timeline producers. */
     void replaceTimelineProducer(const QString&);
     void updateTimelineProducer(const QString&);
     /** @brief Load project notes. */
     void setDocumentNotes(const QString&);
-
+    /** @brief The renderer received a reply to a getFileProperties request. */
+    void gotFileProperties(requestClipInfo,ClipController *);
 
     /** @brief A frame's image has to be shown.
      *
      * Used in Mac OS X. */
     void showImageSignal(QImage);
     void showAudioSignal(const QVector<double> &);
-    void addClip(const QString &, const QMap<QString,QString>&);
     void checkSeeking();
     /** @brief Activate current monitor. */
     void activateMonitor(Kdenlive::MonitorId);
     void mltFrameReceived(Mlt::Frame *);
-    void infoProcessingFinished();
     /** @brief We want to replace a clip with another, but before we need to change clip producer id so that there is no interference*/
     void prepareTimelineReplacement(const QString &);
-    /** @brief First clip does not match profect profile, switch. */
-    void switchProfile(MltVideoProfile profile, const QString &id, const QDomElement &xml);
 
 public slots:
 
@@ -452,19 +414,11 @@ public slots:
     void seekToFrame(int pos);
     /** @brief Starts a timer to query for a refresh. */
     void doRefresh();
-    /** @brief Processing of this clip is over, producer was set on clip, remove from list. */
-    void slotProcessingDone(const QString &id);
     void emitFrameUpdated(QImage img);
     
     /** @brief Save a part of current timeline to an xml file. */
      void saveZone(QPoint zone);
 
-    /** @brief Requests the file properties for the specified URL (will be put in a queue list)
-    @param xml The xml parameters for the clip
-    @param clipId The clip Id string
-    @param imageHeight The height (in pixels) of the returned thumbnail (height of a treewidgetitem in projectlist)
-    @param replaceProducer If true, the MLT producer will be recreated */
-    void getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
     /** @brief Renderer moved to a new frame, check seeking */
     bool checkFrameNumber(int pos);
     void storeSlowmotionProducer(const QString &url, Mlt::Producer *prod, bool replace = false);

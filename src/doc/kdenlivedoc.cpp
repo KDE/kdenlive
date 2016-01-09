@@ -22,6 +22,7 @@
 #include "documentchecker.h"
 #include "documentvalidator.h"
 #include "mltcontroller/clipcontroller.h"
+#include "mltcontroller/producerqueue.h"
 #include <config-kdenlive.h>
 #include "kdenlivesettings.h"
 #include "renderer.h"
@@ -29,7 +30,6 @@
 #include "project/clipmanager.h"
 #include "project/projectcommands.h"
 #include "bin/bincommands.h"
-#include "project/projectlist.h"
 #include "effectslist/initeffects.h"
 #include "dialogs/profilesdialog.h"
 #include "titler/titlewidget.h"
@@ -99,7 +99,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     bool success = false;
     connect(m_commandStack, SIGNAL(indexChanged(int)), this, SLOT(slotModified()));
     connect(m_render, SIGNAL(setDocumentNotes(QString)), this, SLOT(slotSetDocumentNotes(QString)));
-    connect(pCore->monitorManager(), &MonitorManager::switchProfile, this, &KdenliveDoc::switchProfile);
+    connect(pCore->producerQueue(), &ProducerQueue::switchProfile, this, &KdenliveDoc::switchProfile);
     //connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
 
     // Init clip modification tracker
@@ -276,9 +276,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     dir.mkdir(QStringLiteral(".backup"));
 
     updateProjectFolderPlacesEntry();
-
-    ////qDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
-    connect(m_render, SIGNAL(addClip(const QString&,const QMap<QString,QString>&)), pCore->bin(), SLOT(slotAddUrl(const QString&,const QMap<QString,QString>&)));
 }
 
 void KdenliveDoc::slotSetDocumentNotes(const QString &notes)
@@ -303,6 +300,7 @@ int KdenliveDoc::setSceneList()
 {
     //m_render->resetProfile(m_profile);
     pCore->bin()->isLoading = true;
+    pCore->producerQueue()->abortOperations();
     if (m_render->setSceneList(m_document.toString(), m_documentProperties.value(QStringLiteral("position")).toInt()) == -1) {
         // INVALID MLT Consumer, something is wrong
         return -1;
@@ -895,7 +893,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId)
         elem.setAttribute("checkProfile", 1);
     }
     pCore->bin()->createClip(elem);
-    m_render->getFileProperties(elem, producerId, 150, true);
+    pCore->producerQueue()->getFileProperties(elem, producerId, 150, true);
 
     /*QString str;
     QTextStream stream(&str);
@@ -1426,7 +1424,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
         // Only allow proxy on some clip types
         if ((t == Video || t == AV || t == Unknown || t == Image || t == Playlist) && item->isReady()) {
 	    if ((doProxy && item->hasProxy()) || (!doProxy && !item->hasProxy() && pCore->binController()->hasClip(item->clipId()))) continue;
-            if (m_render->isProcessing(item->clipId())) {
+            if (pCore->producerQueue()->isProcessing(item->clipId())) {
                 continue;
             }
 
@@ -1551,6 +1549,7 @@ void KdenliveDoc::updateProjectProfile(bool reloadProducers)
     m_height = m_profile.height;
     bool fpsChanged = m_timecode.fps() != fps;
     m_timecode.setFormat(fps);
+    pCore->producerQueue()->abortOperations();
     KdenliveSettings::setCurrent_profile(m_profile.path);
     pCore->monitorManager()->resetProfiles(m_profile, m_timecode);
     if (!reloadProducers) return;
@@ -1591,6 +1590,16 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
             emit docModified(true);
         }
     }
-    renderer()->getFileProperties(xml, id, 150, true);
+    pCore->producerQueue()->getFileProperties(xml, id, 150, true);
+}
+
+void KdenliveDoc::forceProcessing(const QString &id)
+{
+    pCore->producerQueue()->forceProcessing(id);
+}
+
+void KdenliveDoc::getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer)
+{
+    pCore->producerQueue()->getFileProperties(xml, clipId, imageHeight, replaceProducer);
 }
 

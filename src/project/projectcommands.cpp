@@ -19,7 +19,6 @@
  ***************************************************************************/
 
 #include "projectcommands.h"
-#include "projectlist.h"
 #include "bin/projectclip.h"
 #include "doc/kdenlivedoc.h"
 

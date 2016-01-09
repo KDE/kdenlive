@@ -156,6 +156,9 @@ public:
     /** @brief Saves effects embedded in project file. */
     void saveCustomEffects(const QDomNodeList &customeffects);
     void resetProfile();
+    /** @brief Force processing of clip id in producer queue. */
+    void forceProcessing(const QString &id);
+    void getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
 
 private:
     QUrl m_url;

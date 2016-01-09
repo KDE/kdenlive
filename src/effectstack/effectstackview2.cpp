@@ -24,7 +24,6 @@
 #include "mainwindow.h"
 #include "doc/kthumb.h"
 #include "bin/projectclip.h"
-#include "project/projectlist.h"
 #include "effectslist/effectslist.h"
 #include "timeline/clipitem.h"
 #include "project/transitionsettings.h"

@@ -24,7 +24,6 @@
 #include <QDialog>
 #include <QPushButton>
 
-#include "project/projectlist.h"
 #include "ui_projectsettings_ui.h"
 
 class KdenliveDoc;

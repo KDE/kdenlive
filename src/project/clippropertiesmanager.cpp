@@ -11,7 +11,6 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "clippropertiesmanager.h"
 #include "clipproperties.h"
-#include "projectlist.h"
 #include "core.h"
 #include "projectmanager.h"
 #include "mainwindow.h"

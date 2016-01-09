@@ -12,13 +12,13 @@ the Free Software Foundation, either version 3 of the License, or
 #include "core.h"
 #include "bin/bin.h"
 #include "mltcontroller/bincontroller.h"
+#include "mltcontroller/producerqueue.h"
 #include "mainwindow.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitormanager.h"
 #include "doc/kdenlivedoc.h"
 #include "timeline/timeline.h"
 #include "project/dialogs/projectsettings.h"
-#include "projectlist.h"
 #include "timeline/customtrackview.h"
 #include "transitionsettings.h"
 #include "project/dialogs/archivewidget.h"
@@ -222,7 +222,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     if (!quit && !qApp->isSavingSession()) {
 	m_autoSaveTimer.stop();
         if (m_project) {
-            m_project->renderer()->abortOperations();
+            pCore->producerQueue()->abortOperations();
             pCore->bin()->abortAudioThumbs();
             pCore->window()->slotTimelineClipSelected(NULL, false);
             pCore->monitorManager()->clipMonitor()->slotOpenClip(NULL);
