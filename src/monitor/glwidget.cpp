@@ -63,11 +63,13 @@ static ClientWaitSync_fp ClientWaitSync = 0;
 
 using namespace Mlt;
 
-GLWidget::GLWidget(QObject *parent)
+GLWidget::GLWidget(int id, QObject *parent)
     : QQuickView((QWindow*) parent)
     , sendFrameForAnalysis(false)
+    , m_id(id)
     , m_shader(0)
     , m_glslManager(0)
+    , m_audioLevels(0)
     , m_consumer(0)
     , m_producer(0)
     , m_initSem(0)
@@ -156,6 +158,23 @@ void GLWidget::showEvent(QShowEvent * event)
     initializeGL();
 }
 
+void GLWidget::processAudio(bool process)
+{
+    if (m_consumer) {
+        if (process) {
+            if (!m_audioLevels) {
+                m_audioLevels = new Mlt::Filter(*m_monitorProfile, "audiolevel");
+                m_audioLevels->set("iec_scale", 0);
+            }
+            m_consumer->attach(*m_audioLevels);
+        } else if (m_audioLevels) {
+            m_consumer->detach(*m_audioLevels);
+        }
+    }
+    if (m_frameRenderer) 
+        m_frameRenderer->processAudio = process;
+}
+
 void GLWidget::initializeGL()
 {
     if (m_isInitialized || !isVisible() || !openglContext()) return;
@@ -197,6 +216,7 @@ void GLWidget::initializeGL()
     openglContext()->makeCurrent(this);
     //openglContext()->blockSignals(false);
     connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), this, SIGNAL(frameDisplayed(const SharedFrame&)), Qt::QueuedConnection);
+    connect(m_frameRenderer, SIGNAL(audioLevels(const audioLevelVector&)), this, SIGNAL(audioLevels(const audioLevelVector&)), Qt::QueuedConnection);
     connect(m_frameRenderer, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), this, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), Qt::QueuedConnection);
     connect(m_frameRenderer, SIGNAL(textureReady(GLuint,GLuint,GLuint)), SLOT(updateTexture(GLuint,GLuint,GLuint)), Qt::DirectConnection);
     connect(this, SIGNAL(textureUpdated()), this, SLOT(update()), Qt::QueuedConnection);
@@ -939,6 +959,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
         m_consumer->set("buffer", 25);
         m_consumer->set("prefill", 1);
         m_consumer->set("scrub_audio", 1);
+        processAudio(KdenliveSettings::monitoraudio() & m_id);
         if (KdenliveSettings::monitor_gamma() == 0) {
             m_consumer->set("color_trc", "iec61966_2_1");
         }
@@ -1160,6 +1181,7 @@ FrameRenderer::FrameRenderer(QOpenGLContext* shareContext, QSurface *surface)
      , m_surface(surface)
      , m_gl32(0)
      , sendAudioForAnalysis(false)
+     , processAudio(false)
 {
     Q_ASSERT(shareContext);
     m_renderTexture[0] = m_renderTexture[1] = m_renderTexture[2] = 0;
@@ -1209,11 +1231,25 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
         // of the application.
         emit frameDisplayed(m_frame);
 	
-	if (sendAudioForAnalysis) {
-	    mlt_audio_format audio_format = mlt_audio_s16;
-	    //FIXME: should not be hardcoded..
-	    int freq = 48000;
-	    int num_channels = 2;
+	if (processAudio) {
+            int channels = m_frame.get_audio_channels();
+            m_frame.get_audio();
+            QVector<double> levels;
+            for (int i = 0; i < channels; i++) {
+                QString s = QString("meta.media.audio_level.%1").arg(i);
+                double audioLevel = m_frame.get_double(s.toLatin1().constData());
+                if (audioLevel == 0.0) {
+                    levels << -100.0;
+                } else {
+                    levels << 20 * log10(audioLevel);
+                }
+            }
+            emit audioLevels(levels);
+        }
+        if (sendAudioForAnalysis) {
+            mlt_audio_format audio_format = m_frame.get_audio_format();
+	    int freq = m_frame.get_audio_frequency();
+	    int num_channels = m_frame.get_audio_channels();
 	    int samples = 0;
 	    qint16* data = (qint16*)frame.get_audio(audio_format, freq, num_channels, samples);
 

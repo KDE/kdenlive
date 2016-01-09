@@ -34,19 +34,17 @@ const int MAXCLIPDURATION = 15000;
 namespace Kdenlive {
 
 enum MonitorId {
-    NoMonitor,
-    ClipMonitor,
-    ProjectMonitor,
-    RecordMonitor,
-    StopMotionMonitor,
-    DvdMonitor
+    NoMonitor = 0x01,
+    ClipMonitor = 0x02,
+    ProjectMonitor = 0x04,
+    RecordMonitor = 0x08,
+    StopMotionMonitor = 0x10,
+    DvdMonitor = 0x20
 };
 
 const int DefaultThumbHeight = 100;
 
 }
-
-
 
 enum OperationType {
     None = 0,
@@ -196,6 +194,7 @@ struct requestClipInfo {
 typedef QMap<QString, QString> stringMap;
 typedef QMap <int, QMap <int, QByteArray> > audioByteArray;
 typedef QVector<qint16> audioShortVector;
+typedef QVector<double> audioLevelVector;
 
 class ItemInfo {
 public:

@@ -139,6 +139,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_isDarkTheme(false)
 {
     qRegisterMetaType<audioShortVector> ("audioShortVector");
+    qRegisterMetaType<audioLevelVector> ("audioLevelVector");
     qRegisterMetaType<MessageType> ("MessageType");
     qRegisterMetaType<stringMap> ("stringMap");
     qRegisterMetaType<audioByteArray> ("audioByteArray");
@@ -388,8 +389,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     loadPlugins();
     loadDockActions();
     loadClipActions();
-    
-        // Connect monitor overlay info menu.
+
+    // Connect monitor overlay info menu.
     QMenu *monitorOverlay = static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_config_overlay"), this));
     connect(monitorOverlay, SIGNAL(triggered(QAction*)), this, SLOT(slotSwitchMonitorOverlay(QAction*)));
 

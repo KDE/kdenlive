@@ -685,6 +685,11 @@
       <default>false</default>
     </entry>
 
+    <entry name="monitoraudio" type="Int">
+      <label>Show monitor's audio level widget.</label>
+      <default>0x03</default>
+    </entry>
+
     <entry name="showOnMonitorScene" type="Bool">
       <label>Show on monitor adjustable effect parameter (geometry, ..).</label>
       <default>true</default>

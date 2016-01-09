@@ -1,4 +1,3 @@
-
 /***************************************************************************
  *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
@@ -57,6 +56,8 @@
 #include <QWidgetAction>
 
 #define SEEK_INACTIVE (-1)
+
+
 
 QuickEventEater::QuickEventEater(QObject *parent) : QObject(parent)
 {
@@ -140,7 +141,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     glayout->setSpacing(0);
     glayout->setContentsMargins(0, 0, 0, 0);
     // Create QML OpenGL widget
-    m_glMonitor = new GLWidget;
+    m_glMonitor = new GLWidget((int) id);
     connect(m_glMonitor, SIGNAL(passKeyEvent(QKeyEvent*)), this, SLOT(doKeyPressEvent(QKeyEvent*)));
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow*>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);
@@ -292,6 +293,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(render, &Render::switchProfile, m_monitorManager, &MonitorManager::switchProfile);
     connect(m_glMonitor, SIGNAL(analyseFrame(QImage)), render, SLOT(emitFrameUpdated(QImage)));
     connect(m_glMonitor, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), render, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)));
+    connect(m_glMonitor, SIGNAL(audioLevels(const audioLevelVector&)), &m_levelManager, SLOT(slotAudioLevels(const audioLevelVector&)));
 
     if (id != Kdenlive::ClipMonitor) {
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
@@ -320,9 +322,14 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     configButton->setPopupMode(QToolButton::QToolButton::InstantPopup);
     m_toolbar->addWidget(configButton);
     if (m_recManager) m_toolbar->addAction(m_recManager->switchAction());
-    QWidget *spacer = new QWidget(this);
+    /*QWidget *spacer = new QWidget(this);
     spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-    m_toolbar->addWidget(spacer);
+    m_toolbar->addWidget(spacer);*/
+
+    m_toolbar->addSeparator();
+    m_audioMeterWidget = m_levelManager.createProgressBar(m_toolbar->height(), this);
+    m_toolbar->addWidget(m_audioMeterWidget);
+
     connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotSeek()));
     layout->addWidget(m_toolbar);
     if (m_recManager) layout->addWidget(m_recManager->toolbar());
@@ -334,6 +341,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_infoMessage = new KMessageWidget(this);
     layout->addWidget(m_infoMessage);
     m_infoMessage->hide();
+    displayAudioMonitor();
 }
 
 Monitor::~Monitor()
@@ -455,7 +463,13 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
         m_configMenu->addSeparator();
         m_configMenu->addAction(m_effectCompare);
     }
+    QAction *switchAudioMonitor = m_configMenu->addAction(i18n("Show Audio Levels"), this, SLOT(slotSwitchAudioMonitor()));
+    switchAudioMonitor->setCheckable(true);
+    switchAudioMonitor->setChecked(KdenliveSettings::monitoraudio() & m_id);
     m_configMenu->addAction(overlayAudio);
+    // For some reason, the frame in QAbstracSpinBox (base class of TimeCodeDisplay) needs to be displayed once, then hidden
+    // or it will never appear (supposed to appear on hover).
+    m_timePos->setFrame(false);
 }
 
 void Monitor::slotGoToMarker(QAction *action)
@@ -1591,6 +1605,7 @@ void Monitor::setPalette ( const QPalette & p)
         m->setIcon(newIcon);
     }
     if (m_ruler) m_ruler->updatePalette();
+    m_timePos->updatePalette(p);
 }
 
 
@@ -1802,6 +1817,20 @@ void Monitor::slotUpdateQmlTimecode(const QString &tc)
     m_glMonitor->rootObject()->setProperty("timecode", tc);
 }
 
+void Monitor::slotSwitchAudioMonitor()
+{
+    int currentOverlay = KdenliveSettings::monitoraudio();
+    currentOverlay ^= m_id;
+    KdenliveSettings::setMonitoraudio(currentOverlay);
+    displayAudioMonitor();
+}
+
+void Monitor::displayAudioMonitor()
+{
+    m_levelManager.setMonitorVisible(KdenliveSettings::monitoraudio() & m_id);
+    m_glMonitor->processAudio(KdenliveSettings::monitoraudio() & m_id);
+}
+
 void Monitor::updateQmlDisplay(int currentOverlay)
 {
     m_glMonitor->rootObject()->setVisible(currentOverlay & 0x01);
@@ -1817,3 +1846,4 @@ void Monitor::updateQmlDisplay(int currentOverlay)
     m_glMonitor->rootObject()->setProperty("showSafezone", currentOverlay & 0x08);
     m_glMonitor->rootObject()->setProperty("showAudiothumb", currentOverlay & 0x10);
 }
+

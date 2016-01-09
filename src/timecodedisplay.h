@@ -100,6 +100,7 @@ public slots:
     /** @brief Sets value's format according to Kdenlive's settings.
     * @param t (optional, if already existing) Timecode object to use */
     void slotUpdateTimeCodeFormat();
+    void updatePalette(QPalette pal);
 
 private slots:
     void slotEditingFinished();
@@ -120,6 +121,8 @@ protected:
     virtual void keyPressEvent(QKeyEvent *e);
     virtual void mouseReleaseEvent(QMouseEvent *);
     virtual void wheelEvent(QWheelEvent *e);
+    virtual void enterEvent(QEvent *e);
+    virtual void leaveEvent(QEvent *e);
     virtual QAbstractSpinBox::StepEnabled stepEnabled () const;
 
 };

@@ -37,7 +37,10 @@ TimecodeDisplay::TimecodeDisplay(const Timecode& t, QWidget *parent)
     lineEdit()->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     lineEdit()->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     QFontMetrics fm = lineEdit()->fontMetrics();
-    setMinimumWidth(fm.width(QStringLiteral("88:88:88:88888888")) + contentsMargins().right() + contentsMargins().right());
+    QPalette palette;
+    palette.setColor(QPalette::Base, palette.window().color());
+    setPalette(palette);
+    setMinimumWidth(fm.width(QStringLiteral("88:88:88:88888")) + contentsMargins().right() + contentsMargins().right());
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     setAccelerated(true);
 
@@ -45,6 +48,13 @@ TimecodeDisplay::TimecodeDisplay(const Timecode& t, QWidget *parent)
 
     setTimeCodeFormat(KdenliveSettings::frametimecode(), true);
     connect(lineEdit(), SIGNAL(editingFinished()), this, SLOT(slotEditingFinished()));
+}
+
+void TimecodeDisplay::updatePalette(QPalette pal)
+{
+    QPalette p(pal);
+    p.setColor(QPalette::Base, p.window().color());
+    setPalette(p);
 }
 
 // virtual protected
@@ -116,6 +126,17 @@ void TimecodeDisplay::wheelEvent(QWheelEvent *e)
     clearFocus();
 }
 
+void TimecodeDisplay::enterEvent(QEvent *e)
+{
+    QAbstractSpinBox::enterEvent(e);
+    setFrame(true);
+}
+
+void TimecodeDisplay::leaveEvent(QEvent *e)
+{
+    QAbstractSpinBox::leaveEvent(e);
+    setFrame(false);
+}
 
 int TimecodeDisplay::maximum() const
 {

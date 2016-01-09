@@ -9,4 +9,5 @@ set(kdenlive_SRCS
   monitor/smallruler.cpp
   monitor/sharedframe.cpp
   monitor/qmlmanager.cpp
+  monitor/monitoraudiolevel.cpp
   PARENT_SCOPE)

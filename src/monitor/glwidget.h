@@ -55,7 +55,7 @@ class GLWidget : public QQuickView, protected QOpenGLFunctions
     Q_PROPERTY(QPoint offset READ offset NOTIFY offsetChanged)
 
 public:
-    GLWidget(QObject *parent = 0);
+    GLWidget(int id, QObject *parent = 0);
     ~GLWidget();
 
     void createThread(RenderThread** thread, thread_function_t function, void* data);
@@ -94,6 +94,7 @@ public:
     void releaseMonitor();
     int realTime() const;
     void setAudioThumb(int channels = 0, QVariantList audioCache = QList<QVariant>());
+    void processAudio(bool);
 
 protected:
     void mouseReleaseEvent(QMouseEvent * event);
@@ -129,14 +130,17 @@ signals:
     void showContextMenu(const QPoint);
     void lockMonitor(bool);
     void passKeyEvent(QKeyEvent *);
+    void audioLevels(const audioLevelVector&);
 
 private:
+    int m_id;
     QRect m_rect;
     QRect m_effectRect;
     GLuint m_texture[3];
     QOpenGLShaderProgram* m_shader;
     QPoint m_dragStart;
     Mlt::Filter* m_glslManager;
+    Mlt::Filter* m_audioLevels;
     Mlt::Consumer* m_consumer;
     Mlt::Producer* m_producer;
     QSemaphore m_initSem;
@@ -217,6 +221,7 @@ signals:
     void textureReady(GLuint yName, GLuint uName = 0, GLuint vName = 0);
     void frameDisplayed(const SharedFrame& frame);
     void audioSamplesSignal(const audioShortVector&,int,int,int);
+    void audioLevels(const audioLevelVector&);
 
 private:
     QSemaphore m_semaphore;
@@ -229,6 +234,7 @@ public:
     GLuint m_displayTexture[3];
     QOpenGLFunctions_3_2_Core* m_gl32;
     bool sendAudioForAnalysis;
+    bool processAudio;
 };
 
 
