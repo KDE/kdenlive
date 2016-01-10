@@ -25,22 +25,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "definitions.h"
 
-#include <QProgressBar>
-#include <QLinearGradient>
-
-class MyProgressBar : public QProgressBar
+class MyAudioWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit MyProgressBar(int height, QWidget *parent = 0);
-    void setAudioValue(int value);
+    explicit MyAudioWidget(int height, QWidget *parent = 0);
+    void setAudioValues(const QList <int> &values);
 
 protected:
     void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
+    void resizeEvent ( QResizeEvent * event ) Q_DECL_OVERRIDE;
 
 private:
-    QLinearGradient m_gradient;
-    int m_peak;
+    QPixmap m_pixmap;
+    QList <int> m_peaks;
+    QList <int> m_values;
+    int m_channelHeight;
+    void drawBackground(int channels = 2);
 };
 
 
@@ -56,10 +57,7 @@ public slots:
     void slotAudioLevels(const audioLevelVector &dbLevels);
 
 private:
-    MyProgressBar *m_pBar1;
-    MyProgressBar *m_pBar2;
-    audioLevelVector m_levels;
-    audioLevelVector m_peaks;
+    MyAudioWidget *m_pBar1;
 
 };
 

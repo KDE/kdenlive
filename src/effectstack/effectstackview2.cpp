@@ -562,7 +562,7 @@ void EffectStackView2::slotUpdateEffectState(bool disable, int index, MonitorSce
     }
     else if (!disable && m_monitorSceneWanted == needsMonitorEffectScene) {
         m_monitorSceneWanted = needsMonitorEffectScene;
-        m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
+        m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted == MonitorSceneDefault ? MonitorSceneNone : m_monitorSceneWanted);
     }
     switch (m_status) {
         case TIMELINE_TRACK:

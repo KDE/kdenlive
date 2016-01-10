@@ -95,6 +95,7 @@ public:
     int realTime() const;
     void setAudioThumb(int channels = 0, QVariantList audioCache = QList<QVariant>());
     void processAudio(bool);
+    void setAudioChannels(int count);
 
 protected:
     void mouseReleaseEvent(QMouseEvent * event);
@@ -208,6 +209,7 @@ class FrameRenderer : public QThread
 public:
     explicit FrameRenderer(QOpenGLContext* shareContext, QSurface *surface);
     ~FrameRenderer();
+    int audioChannels;
     QSemaphore* semaphore() { return &m_semaphore; }
     QOpenGLContext* context() const { return m_context; }
     void clearFrame();

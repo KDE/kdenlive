@@ -226,8 +226,13 @@ void GLWidget::initializeGL()
     connect(m_frameRenderer, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), this, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), Qt::QueuedConnection);
     connect(m_frameRenderer, SIGNAL(textureReady(GLuint,GLuint,GLuint)), SLOT(updateTexture(GLuint,GLuint,GLuint)), Qt::DirectConnection);
     connect(this, SIGNAL(textureUpdated()), this, SLOT(update()), Qt::QueuedConnection);
-
     m_initSem.release();
+}
+
+void GLWidget::setAudioChannels(int count)
+{
+    if (m_frameRenderer)
+        m_frameRenderer->audioChannels = count;
 }
 
 void GLWidget::resizeGL(int width, int height)
@@ -1181,6 +1186,7 @@ void RenderThread::run()
 
 FrameRenderer::FrameRenderer(QOpenGLContext* shareContext, QSurface *surface)
      : QThread(0)
+     , audioChannels(2)
      , m_semaphore(3)
      , m_frame()
      , m_context(0)
@@ -1238,10 +1244,10 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
         emit frameDisplayed(m_frame);
 	
 	if (processAudio) {
-            int channels = m_frame.get_audio_channels();
+            //int channels = m_producer.get_int("channels"); //m_frame.get_audio_channels();
             m_frame.get_audio();
             QVector<double> levels;
-            for (int i = 0; i < channels; i++) {
+            for (int i = 0; i < audioChannels; i++) {
                 QString s = QString("meta.media.audio_level.%1").arg(i);
                 double audioLevel = m_frame.get_double(s.toLatin1().constData());
                 if (audioLevel == 0.0) {

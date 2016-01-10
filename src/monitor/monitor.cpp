@@ -25,6 +25,7 @@
 #include "smallruler.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/bincontroller.h"
+#include "lib/audio/audioStreamInfo.h"
 #include "kdenlivesettings.h"
 #include "timeline/abstractclipitem.h"
 #include "timeline/clip.h"
@@ -1300,12 +1301,14 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
 	    m_ruler->setZone(in, out);
 	    setClipZone(QPoint(in, out));
 	}
+	m_glMonitor->setAudioChannels(controller->audioInfo()->channels());
 	emit requestAudioThumb(controller->clipId());
 	//hasEffects =  controller->hasEffects();
     }
     else {
         render->setProducer(NULL, -1, isActive());
         m_glMonitor->setAudioThumb();
+        m_glMonitor->setAudioChannels(0);
     }
     checkOverlay();
 }

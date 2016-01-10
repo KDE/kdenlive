@@ -56,59 +56,92 @@ static inline double IEC_ScaleMax(double dB, double max)
 }
 
 
-MyProgressBar::MyProgressBar(int height, QWidget *parent) : QProgressBar(parent)
-  , m_peak(0)
+MyAudioWidget::MyAudioWidget(int height, QWidget *parent) : QWidget(parent)
 {
     setMaximumHeight(height);
-    m_gradient.setColorAt(0.0, QColor(Qt::darkGreen));
-    m_gradient.setColorAt(0.7142, QColor(Qt::green));
-    m_gradient.setColorAt(0.7143, Qt::yellow);
-    m_gradient.setColorAt(0.881, Qt::darkYellow);
-    m_gradient.setColorAt(0.9525, Qt::red);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 }
 
-void MyProgressBar::setAudioValue(int value)
+
+void MyAudioWidget::resizeEvent ( QResizeEvent * event )
 {
-    m_peak -= 1;
-    if (value >= m_peak && value <= 100) {
-        m_peak = value;
-    }
-    setValue(value);
+    drawBackground();
+    QWidget::resizeEvent(event);
 }
 
-void MyProgressBar::paintEvent(QPaintEvent *pe)
+void MyAudioWidget::drawBackground(int channels)
 {
-    QStylePainter p(this);
-    QStyleOptionProgressBarV2 opt;
-    initStyleOption(&opt);
-    QRect r = opt.rect;
-    int pos = QStyle::sliderPositionFromValue(minimum(), maximum(), value(), r.width());
-    int peak = QStyle::sliderPositionFromValue(minimum(), maximum(), m_peak, r.width());
-    r.setWidth(pos);
-    m_gradient.setStart(opt.rect.topLeft());
-    m_gradient.setFinalStop(opt.rect.topRight());
-    QPainterPath path;
-    path.addRoundedRect(opt.rect, 4, 4);
-    QPalette pal = palette();
-    p.fillPath(path, pal.color(QPalette::Dark));
-    p.setClipPath(path);
-    p.fillRect(r, QBrush(m_gradient));
-    if (peak > 0) {
-        r.setLeft(peak);
-        r.setWidth(2);
-        p.fillRect(r, pal.highlight());
+    QLinearGradient gradient(0, 0, width(), 0);
+    gradient.setColorAt(0.0, QColor(Qt::darkGreen));
+    gradient.setColorAt(0.7142, QColor(Qt::green));
+    gradient.setColorAt(0.7143, Qt::yellow);
+    gradient.setColorAt(0.881, Qt::darkYellow);
+    gradient.setColorAt(0.9525, Qt::red);
+
+    m_pixmap = QPixmap(width(), height());
+    m_pixmap.fill(Qt::transparent);
+    int totalHeight;
+    if (channels < 2) {
+        m_channelHeight = height() / 2;
+        totalHeight = m_channelHeight;
+    } else {
+        m_channelHeight = (height() - 2 * (channels -1)) / channels;
+        totalHeight = channels * m_channelHeight + (channels - 1) * 2;
     }
-    p.setClipping(false);
-    p.setBrush(Qt::NoBrush);
-    p.setPen(pal.color(QPalette::Dark));
-    p.setOpacity(0.4);
-    p.drawPath(path);
+    QRect rect(0, 0, width(), totalHeight);
+    QPainter p(&m_pixmap);
+    p.fillRect(rect, QBrush(gradient));
+    double steps = rect.width() / 12;
+    p.setPen(palette().dark().color());
+    for (int i = 1; i < 12; i++) {
+        p.drawLine(i * steps, 0, i * steps, totalHeight);
+    }
+    p.setCompositionMode(QPainter::CompositionMode_Source);
+    for (int i = 1; i < channels; i++) {
+        p.fillRect(0, i * m_channelHeight + 2 * (i - 1), rect.width(), 2, Qt::transparent);
+    }
+    p.end();
+}
+
+void MyAudioWidget::setAudioValues(const QList <int>& values)
+{
+    m_values = values;
+    if (m_peaks.size() != m_values.size()) {
+        m_peaks = values;
+        drawBackground(values.size());
+    } else {
+        for (int i = 0; i < m_values.size(); i++) {
+            m_peaks[i] --;
+            if (m_values.at(i) > m_peaks.at(i)) {
+                m_peaks[i] = m_values.at(i);
+            }
+        }
+    }
+    update();
+}
+
+void MyAudioWidget::paintEvent(QPaintEvent *)
+{
+    QPainter p(this);
+    QRect rect(0, 0, width(), height());
+    QList <int> vals = m_values;
+    if (vals.isEmpty()) {
+        p.setOpacity(0.2);
+        p.drawPixmap(rect, m_pixmap);
+        return;
+    }
+    p.drawPixmap(rect, m_pixmap);
+    p.setPen(palette().dark().color());
+    for (int i = 0; i < m_values.count(); i++) {
+        if (m_values.at(i) >= 100) continue;
+        p.fillRect(m_values.at(i) / 100.0 * rect.width(), i * m_channelHeight + (i * 2), rect.width(), m_channelHeight, palette().dark());
+        p.fillRect(m_peaks.at(i) / 100.0 * rect.width(), i * m_channelHeight + (i * 2), 2, m_channelHeight, palette().highlight());
+    }
 }
 
 
 MonitorAudioLevel::MonitorAudioLevel(QObject *parent) : QObject(parent)
   , m_pBar1(0)
-  , m_pBar2(0)
 {
 }
 
@@ -118,42 +151,24 @@ QWidget *MonitorAudioLevel::createProgressBar(int height, QWidget *parent)
     w->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     QVBoxLayout *lay = new QVBoxLayout;
     w->setLayout(lay);
-    m_pBar1 = new MyProgressBar(height / 4, w);
-    m_pBar1->setRange(0, 100);
-    m_pBar1->setValue(0);
-    m_pBar2 = new MyProgressBar(height / 4, w);
-    m_pBar2->setRange(0, 100);
-    m_pBar2->setValue(0);
+    m_pBar1 = new MyAudioWidget(height / 2, w);
     lay->addWidget(m_pBar1);
-    lay->addWidget(m_pBar2);
     return w;
 }
 
 void MonitorAudioLevel::slotAudioLevels(const audioLevelVector &dbLevels)
 {
-    m_levels = dbLevels;
-    int channels = m_levels.size();
-    if (m_peaks.size() != channels) {
-        m_peaks = m_levels;
-        //calcGraphRect();
-    } else {
-        for (int i = 0; i < channels; i++)
-        {
-            m_peaks[i] = m_peaks[i] - 0.2;
-            if (m_levels[i] >= m_peaks[i]) {
-                m_peaks[i] = m_levels[i];
-            }
+    QList <int> levels;
+    if (!dbLevels.isEmpty()) {
+        for (int i = 0; i < dbLevels.count(); i++) {
+            levels << (int) (IEC_Scale(dbLevels.at(i)) * 100);
         }
     }
-    m_pBar1->setAudioValue(IEC_ScaleMax(m_levels.at(0), 0) * 100);
-    if (channels > 1) m_pBar2->setAudioValue(IEC_ScaleMax(m_levels.at(1), 0) * 100);
+    m_pBar1->setAudioValues(levels);
 }
 
 void MonitorAudioLevel::setMonitorVisible(bool visible)
 {
-    return;
     if (m_pBar1)
         m_pBar1->setVisible(visible);
-    if (m_pBar2)
-        m_pBar2->setVisible(visible);
 }

@@ -773,7 +773,7 @@ void ClipItem::paint(QPainter *painter,
                 positiveChannelPath.lineTo(startx + (i - (startpixel + cropLeft)) * scale, mappedRect.bottom() - (value * channelHeight));
             }
             positiveChannelPath.lineTo(endx, mappedRect.bottom());
-            painter->setPen(Qt::NoPen);
+            painter->setPen(QColor(40, 40, 100, 220));
             painter->setBrush(QBrush(QColor(80, 80, 150, 200)));
             painter->drawPath(positiveChannelPath);
         } else if (channels >= 0) {
