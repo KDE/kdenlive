@@ -1476,6 +1476,13 @@ void Monitor::slotEnableEffectScene(bool enable)
 
 void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary)
 {
+    if (sceneType == MonitorSceneNone) {
+        // We just want to revert to normal scene
+        if (m_qmlManager->sceneType() == MonitorSceneSplit || m_qmlManager->sceneType() == MonitorSceneDefault) {
+            // Ok, nothing to do
+            return;
+        }
+    }
     if (!temporary) m_lastMonitorSceneType = sceneType;
     loadQmlScene(sceneType);
 }
