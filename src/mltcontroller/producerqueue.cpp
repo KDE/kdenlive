@@ -245,6 +245,10 @@ void ProducerQueue::processFileProperties()
             }
             else {
                 path.prepend("consumer:");
+                // This is currently crashing so I guess we'd better reject it for now
+                m_processingClipId.removeAll(info.clipId);
+                emit removeInvalidClip(info.clipId, info.replaceProducer, i18n("Cannot import playlists with different profile."));
+                continue;
             }
             producer = new Mlt::Producer(*m_binController->profile(), 0, path.toUtf8().constData());
         } else if (type == SlideShow) {

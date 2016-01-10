@@ -432,7 +432,7 @@ Bin::Bin(QWidget* parent) :
     m_logAction = new QAction(i18n("Show Log"), this);
     m_logAction->setCheckable(false);
     connect(m_logAction, SIGNAL(triggered()), this, SLOT(slotShowJobLog()));
-    connect(this, SIGNAL(requesteInvalidRemoval(QString,QUrl)), this, SLOT(slotQueryRemoval(QString,QUrl)));
+    connect(this, SIGNAL(requesteInvalidRemoval(QString,QUrl,QString)), this, SLOT(slotQueryRemoval(QString,QUrl,QString)));
     connect(this, &Bin::refreshAudioThumbs, this, &Bin::doRefreshAudioThumbs);
 }
 
@@ -1679,13 +1679,13 @@ void Bin::setWaitingStatus(const QString &id)
     if (clip) clip->setClipStatus(AbstractProjectItem::StatusWaiting);
 }
 
-void Bin::slotRemoveInvalidClip(const QString &id, bool replace)
+void Bin::slotRemoveInvalidClip(const QString &id, bool replace, const QString &errorMessage)
 {
     Q_UNUSED(replace)
 
     ProjectClip *clip = m_rootFolder->clip(id);
     if (!clip) return;
-    emit requesteInvalidRemoval(id, clip->url());
+    emit requesteInvalidRemoval(id, clip->url(), errorMessage);
 }
 
 void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
@@ -2894,13 +2894,17 @@ void Bin::slotShowDescColumn(bool show)
     }
 }
 
-void Bin::slotQueryRemoval(const QString &id, QUrl url)
+void Bin::slotQueryRemoval(const QString &id, QUrl url, const QString &errorMessage)
 {
     if (m_invalidClipDialog) {
         if (!url.isEmpty()) m_invalidClipDialog->addClip(id, url.toLocalFile());
         return;
     }
-    m_invalidClipDialog = new InvalidDialog(i18n("Invalid clip"),  i18n("Clip is invalid, will be removed from project."), true, this);
+    QString message = i18n("Clip is invalid, will be removed from project.");
+    if (!errorMessage.isEmpty()) {
+        message.append("\n" + errorMessage);
+    }
+    m_invalidClipDialog = new InvalidDialog(i18n("Invalid clip"), message, true, this);
     m_invalidClipDialog->addClip(id, url.toLocalFile());
     int result = m_invalidClipDialog->exec();
     if (result == QDialog::Accepted) {

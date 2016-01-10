@@ -73,7 +73,7 @@ void Core::initialize()
     m_producerQueue = new ProducerQueue(m_binController);
     connect(m_producerQueue, SIGNAL(gotFileProperties(requestClipInfo,ClipController *)), m_binWidget, SLOT(slotProducerReady(requestClipInfo,ClipController *)), Qt::DirectConnection);
     connect(m_producerQueue, SIGNAL(replyGetImage(QString,QImage,bool)), m_binWidget, SLOT(slotThumbnailReady(QString,QImage,bool)));
-    connect(m_producerQueue, SIGNAL(removeInvalidClip(QString,bool)), m_binWidget, SLOT(slotRemoveInvalidClip(QString,bool)), Qt::DirectConnection);
+    connect(m_producerQueue, SIGNAL(removeInvalidClip(QString,bool,QString)), m_binWidget, SLOT(slotRemoveInvalidClip(QString,bool,QString)), Qt::DirectConnection);
     connect(m_producerQueue, SIGNAL(addClip(const QString&,const QMap<QString,QString>&)), m_binWidget, SLOT(slotAddUrl(const QString&,const QMap<QString,QString>&)));
     connect(m_binController, SIGNAL(createThumb(QDomElement,QString,int)), m_producerQueue, SLOT(getFileProperties(QDomElement,QString,int)));
     connect(m_binWidget, SIGNAL(producerReady(QString)), m_producerQueue, SLOT(slotProcessingDone(QString)), Qt::DirectConnection);

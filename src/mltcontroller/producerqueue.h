@@ -101,7 +101,7 @@ signals:
     /** @brief First clip does not match profect profile, switch. */
     void switchProfile(MltVideoProfile profile, const QString &id, const QDomElement &xml);
     /** @brief The clip is not valid, should be removed from project. */
-    void removeInvalidClip(const QString &, bool replaceProducer);
+    void removeInvalidClip(const QString &, bool replaceProducer, const QString &message = QString());
     /** @brief The proxy is not valid, should be deleted.
      *  @param id The original clip's id
      *  @param durationError Should be set to true if the proxy failed because it has not same length as original clip

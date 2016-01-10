@@ -534,7 +534,7 @@ private slots:
     /** @brief Reset all text and log data from info message widget. */
     void slotResetInfoMessage();
     /** @brief Show dialog prompting for removal of invalid clips. */
-    void slotQueryRemoval(const QString &id, QUrl url);
+    void slotQueryRemoval(const QString &id, QUrl url, const QString &errorMessage);
     /** @brief Request display of current clip in monitor. */
     void slotOpenCurrent();
     void slotZoomView(bool zoomIn);
@@ -557,7 +557,7 @@ public slots:
      *  @param controller The Controller for this clip
      */
     void slotProducerReady(requestClipInfo info, ClipController *controller);
-    void slotRemoveInvalidClip(const QString &id, bool replace);
+    void slotRemoveInvalidClip(const QString &id, bool replace, const QString &errorMessage);
     /** @brief Create a folder when opening a document */
     void slotLoadFolders(QMap<QString,QString> foldersData);
     /** @brief Reload clip thumbnail - when frame for thumbnail changed */
@@ -696,7 +696,7 @@ signals:
     /** @brief Request updating of the effect stack if currently displayed. */
     void masterClipUpdated(ClipController *, Monitor *);
     void displayMessage(const QString &, MessageType);
-    void requesteInvalidRemoval(const QString &, QUrl);
+    void requesteInvalidRemoval(const QString &, QUrl, const QString &);
     /** @brief Markers changed, refresh panel. */
     void refreshPanelMarkers();
     /** @brief Analysis data changed, refresh panel. */
