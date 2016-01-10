@@ -7981,10 +7981,10 @@ void CustomTrackView::exportTimelineSelection(QString path)
 	    m_timeline->duplicateClipOnPlaylist(clip->track(), clip->startPos().seconds(), startOffest, newTractor->track(track));
 	}
 	else if (item->type() == TransitionWidget) {
-	      Transition *tr = static_cast<Transition*>(item);
-	      int a_track = tr->transitionEndTrack() - firstTrack;
-	      int b_track = tr->track() - firstTrack;
-	      m_timeline->transitionHandler->duplicateTransitionOnPlaylist(tr->startPos().frames(m_document->fps()) - startOffest, tr->endPos().frames(m_document->fps()) - startOffest, tr->transitionTag(), tr->toXML(), a_track, b_track, field);
+	    Transition *tr = static_cast<Transition*>(item);
+	    int a_track = qBound(0, tr->transitionEndTrack() - firstTrack, lastTrack - firstTrack + 1);
+	    int b_track = qBound(0, tr->track() - firstTrack, lastTrack - firstTrack + 1);;
+	    m_timeline->transitionHandler->duplicateTransitionOnPlaylist(tr->startPos().frames(m_document->fps()) - startOffest, tr->endPos().frames(m_document->fps()) - startOffest, tr->transitionTag(), tr->toXML(), a_track, b_track, field);
 	}
     }
     Mlt::Consumer xmlConsumer(*newTractor->profile(),  ("xml:" + path).toUtf8().constData());

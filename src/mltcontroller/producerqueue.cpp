@@ -228,7 +228,13 @@ void ProducerQueue::processFileProperties()
             MltVideoProfile projectProfile = ProfilesDialog::getVideoProfile(*m_binController->profile());
             //path.prepend("consumer:");
             producer = new Mlt::Producer(*xmlProfile, "xml", path.toUtf8().constData());
-            xmlProfile->from_producer(*producer);
+            if (!producer->is_valid()) {
+                delete producer;
+                delete xmlProfile;
+                m_processingClipId.removeAll(info.clipId);
+                emit removeInvalidClip(info.clipId, info.replaceProducer);
+                continue;
+            }
             MltVideoProfile clipProfile = ProfilesDialog::getVideoProfile(*xmlProfile);
             delete producer;
             delete xmlProfile;

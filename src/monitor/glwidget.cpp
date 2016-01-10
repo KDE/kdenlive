@@ -933,7 +933,6 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
             m_consumer->set("real_time", dropFrames);
             m_threadCreateEvent = m_consumer->listen("consumer-thread-create", this, (mlt_listener) onThreadCreate);
             m_threadJoinEvent = m_consumer->listen("consumer-thread-join", this, (mlt_listener) onThreadJoin);
-            
             delete m_displayEvent;
             if (!m_glslManager) {
                 // Make an event handler for when a frame's image should be displayed
