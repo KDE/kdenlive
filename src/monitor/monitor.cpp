@@ -1301,7 +1301,7 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
 	    m_ruler->setZone(in, out);
 	    setClipZone(QPoint(in, out));
 	}
-	m_glMonitor->setAudioChannels(controller->audioInfo()->channels());
+	m_glMonitor->setAudioChannels(controller->audioInfo() ? controller->audioInfo()->channels() : 0);
 	emit requestAudioThumb(controller->clipId());
 	//hasEffects =  controller->hasEffects();
     }
