@@ -175,6 +175,8 @@ void GLWidget::processAudio(bool process)
             m_consumer->attach(*m_audioLevels);
         } else if (m_audioLevels) {
             m_consumer->detach(*m_audioLevels);
+            delete m_audioLevels;
+            m_audioLevels = NULL;
         }
     }
     if (m_frameRenderer) 
@@ -899,6 +901,11 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
         if (m_consumer) {
             m_consumer->purge();
             m_consumer->stop();
+            if (m_audioLevels) {
+                m_consumer->detach(*m_audioLevels);
+                delete m_audioLevels;
+                m_audioLevels = NULL;
+            }
             delete m_consumer;
         }
         if (serviceName.isEmpty() || serviceName != KdenliveSettings::audiobackend()) {
@@ -1242,9 +1249,8 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
         // The frame is now done being modified and can be shared with the rest
         // of the application.
         emit frameDisplayed(m_frame);
-	
+
 	if (processAudio) {
-            //int channels = m_producer.get_int("channels"); //m_frame.get_audio_channels();
             m_frame.get_audio();
             QVector<double> levels;
             for (int i = 0; i < audioChannels; i++) {
@@ -1259,6 +1265,7 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
             emit audioLevels(levels);
         }
         if (sendAudioForAnalysis) {
+            // TODO: use mlt audiospectrum filter
             mlt_audio_format audio_format = m_frame.get_audio_format();
 	    int freq = m_frame.get_audio_frequency();
 	    int num_channels = m_frame.get_audio_channels();
@@ -1325,7 +1332,24 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
         // of the application.
         emit frameDisplayed(m_frame);
 
+        if (processAudio) {
+            //int channels = m_producer.get_int("channels"); //m_frame.get_audio_channels();
+            m_frame.get_audio();
+            QVector<double> levels;
+            for (int i = 0; i < audioChannels; i++) {
+                QString s = QString("meta.media.audio_level.%1").arg(i);
+                double audioLevel = m_frame.get_double(s.toLatin1().constData());
+                if (audioLevel == 0.0) {
+                    levels << -100.0;
+                } else {
+                    levels << 20 * log10(audioLevel);
+                }
+            }
+            emit audioLevels(levels);
+        }
+
 	if (sendAudioForAnalysis) {
+            // TODO: use mlt audiospectrum filter
 	    mlt_audio_format audio_format = mlt_audio_s16;
 	    //FIXME: should not be hardcoded..
 	    int freq = 48000;
