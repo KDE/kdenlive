@@ -1482,6 +1482,7 @@ void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary)
             // Ok, nothing to do
             return;
         }
+        sceneType = MonitorSceneDefault;
     }
     if (!temporary) m_lastMonitorSceneType = sceneType;
     loadQmlScene(sceneType);
