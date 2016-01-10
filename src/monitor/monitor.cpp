@@ -1296,6 +1296,12 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
 	      return;
 	}
         updateMarkers();
+        if (!sameClip) {
+            // Loading new clip, stop if playing
+            if (m_playAction->isActive()) {
+                m_playAction->setActive(false);
+            }
+        }
         render->setProducer(m_controller->masterProducer(), in, isActive());
 	if (out > -1) {
 	    m_ruler->setZone(in, out);
