@@ -369,6 +369,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     QToolButton *basketButton = new QToolButton(this);
     basketButton->setMenu(menu);
+    basketButton->setToolButtonStyle(toolBar()->toolButtonStyle());
     basketButton->setDefaultAction(widgetlist);
     basketButton->setPopupMode(QToolButton::InstantPopup);
     basketButton->setText(i18n("Favorite Effects"));
@@ -2457,7 +2458,7 @@ void MainWindow::slotSetTool(ProjectTool tool)
             message = i18n("Ctrl + click to use spacer on current track only");
             break;
         case RazorTool:
-            message = i18n("Click on a clip to cut it");
+            message = i18n("Click on a clip to cut it, Shift + move to preview cut frame");
             break;
         default:
             message = i18n("Shift + click to create a selection rectangle, Ctrl + click to add an item to selection");
