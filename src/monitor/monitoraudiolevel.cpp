@@ -90,15 +90,18 @@ void MyAudioWidget::drawBackground(int channels)
     }
     QRect rect(0, 0, width(), totalHeight);
     QPainter p(&m_pixmap);
+    p.setOpacity(0.4);
     p.fillRect(rect, QBrush(gradient));
+    p.setOpacity(1);
     double steps = rect.width() / 12;
     p.setPen(palette().dark().color());
     for (int i = 1; i < 12; i++) {
         p.drawLine(i * steps, 0, i * steps, totalHeight);
     }
     p.setCompositionMode(QPainter::CompositionMode_Source);
-    for (int i = 1; i < channels; i++) {
-        p.fillRect(0, i * m_channelHeight + 2 * (i - 1), rect.width(), 2, Qt::transparent);
+    for (int i = 0; i < channels; i++) {
+        p.drawRect(0, i * m_channelHeight + (i * 2), rect.width() - 1, m_channelHeight - 1);
+        if (i > 0) p.fillRect(0, i * m_channelHeight + 2 * (i - 1), rect.width(), 2, Qt::transparent);
     }
     p.end();
 }
@@ -135,7 +138,7 @@ void MyAudioWidget::paintEvent(QPaintEvent *)
     for (int i = 0; i < m_values.count(); i++) {
         if (m_values.at(i) >= 100) continue;
         p.fillRect(m_values.at(i) / 100.0 * rect.width(), i * m_channelHeight + (i * 2), rect.width(), m_channelHeight, palette().dark());
-        p.fillRect(m_peaks.at(i) / 100.0 * rect.width(), i * m_channelHeight + (i * 2), 2, m_channelHeight, palette().highlight());
+        p.fillRect(m_peaks.at(i) / 100.0 * rect.width(), i * m_channelHeight + (i * 2), 1, m_channelHeight, palette().text());
     }
 }
 
@@ -151,7 +154,7 @@ QWidget *MonitorAudioLevel::createProgressBar(int height, QWidget *parent)
     w->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     QVBoxLayout *lay = new QVBoxLayout;
     w->setLayout(lay);
-    m_pBar1 = new MyAudioWidget(height / 2, w);
+    m_pBar1 = new MyAudioWidget(height / 1.6, w);
     lay->addWidget(m_pBar1);
     return w;
 }
