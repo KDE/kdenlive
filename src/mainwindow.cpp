@@ -3024,7 +3024,9 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     bool exportAudio;
     if (m_renderWidget->automaticAudioExport()) {
         exportAudio = pCore->projectManager()->currentTimeline()->checkProjectAudio();
-    } else exportAudio = m_renderWidget->selectedAudioExport();
+    } else {
+    	exportAudio = m_renderWidget->selectedAudioExport();
+    }
 
     // Set playlist audio volume to 100%
     QDomDocument doc;
