@@ -143,6 +143,7 @@ void Timeline::loadTimeline()
 {
     parseDocument(m_doc->toXml());
     m_trackview->slotUpdateAllThumbs();
+    m_trackview->slotSelectTrack(m_trackview->getNextVideoTrack(1));
     slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
     slotSetZone(m_doc->zone(), false);
 }

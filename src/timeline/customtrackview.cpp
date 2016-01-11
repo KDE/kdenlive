@@ -377,6 +377,14 @@ int CustomTrackView::getPreviousVideoTrack(int track)
     return i;
 }
 
+int CustomTrackView::getNextVideoTrack(int track)
+{
+    for (; track < m_timeline->visibleTracksCount(); track++) {
+        if (m_timeline->getTrackInfo(track).type == VideoTrack) break;
+    }
+    return track;
+}
+
 
 void CustomTrackView::slotFetchNextThumbs()
 {

@@ -334,7 +334,6 @@ signals:
     void updateGuide(int, QString);
     void requestAudioThumb(QString);
     void timeCodeUpdated(QString);
-    void processFFt();
 };
 
 #endif

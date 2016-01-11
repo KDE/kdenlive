@@ -236,6 +236,8 @@ public:
     void importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QMap <QString, QString> idMaps, QDomDocument doc, QUndoCommand *command);
     /** @brief Returns true if there is a selected item in timeline */
     bool hasSelection() const;
+    /** @brief Get the index of the video track that is just above current track */
+    int getNextVideoTrack(int track);
 
 public slots:
     /** @brief Send seek request to MLT. */
@@ -428,7 +430,7 @@ private:
      * Will then be used to identify whether we resize a group or only one item of it. */
     bool m_controlModifier;
 
-    /** Get the index of the video track that is just below current track */
+    /** @brief Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
     void updatePositionEffects(ClipItem * item, const ItemInfo &info, bool standalone = true);
     bool insertDropClips(const QMimeData *data, const QPoint &pos);
