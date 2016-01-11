@@ -523,9 +523,7 @@ void RenderWidget::slotSaveProfile()
             profileElement.setAttribute(QStringLiteral("defaultaudioquality"), QString::number(ui.default_abitrate->value()));
             profileElement.setAttribute(QStringLiteral("audioqualities"), ui.abitrates_list->text());
         }
-        
-        if (args.contains(QStringLiteral("%speed"))) {
-            // profile has a variable speed
+        if (!ui.speeds_list->toPlainText().isEmpty()) {
             profileElement.setAttribute(QStringLiteral("speeds"), ui.speeds_list->toPlainText().replace('\n', ';').simplified());
         }
         
@@ -637,7 +635,7 @@ void RenderWidget::slotCopyToFavorites()
         profileElement.setAttribute(QStringLiteral("defaultaudioquality"), item->data(0, DefaultAudioBitrateRole).toString());
         profileElement.setAttribute(QStringLiteral("audioqualities"), item->data(0, AudioBitratesRole).toStringList().join(QStringLiteral(",")));
     }
-    if (params.contains(QStringLiteral("%speed"))) {
+    if (item->data(0, SpeedsRole).canConvert(QVariant::StringList) && item->data(0, SpeedsRole).toStringList().count()) {
         // profile has a variable speed
         profileElement.setAttribute(QStringLiteral("speeds"), item->data(0, SpeedsRole).toStringList().join(QStringLiteral(";")));
     }
@@ -773,7 +771,7 @@ void RenderWidget::slotEditProfile()
             profileElement.setAttribute(QStringLiteral("audioqualities"), ui.abitrates_list->text());
         }
 
-        if (args.contains(QStringLiteral("%speed"))) {
+        if (!ui.speeds_list->toPlainText().isEmpty()) {
             // profile has a variable speed
             profileElement.setAttribute(QStringLiteral("speeds"), ui.speeds_list->toPlainText().replace('\n', ';').simplified());
         }
@@ -1029,7 +1027,6 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             render_process_args << QStringLiteral("-locale:%1").arg(currentLocale);
         }
 
-        bool resizeProfile = false;
         QString renderArgs = m_view.advanced_params->toPlainText().simplified();
         QString std = renderArgs;
         // Check for fps change
@@ -1049,8 +1046,30 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
                 forcedfps = (double) destinationProfile.frame_rate_num / destinationProfile.frame_rate_den;
         }
 
+        bool resizeProfile = false;
+        if (renderArgs.contains("%dv_standard")) {
+            QString std;
+            if (fmod((double)m_profile.frame_rate_num / m_profile.frame_rate_den, 30.01) > 27) {
+                std = "ntsc";
+                if (!(m_profile.frame_rate_num == 30000 && m_profile.frame_rate_den == 1001))
+                    forcedfps = 30000.0 / 1001;
+                if (!(m_profile.width == 720 && m_profile.height == 480))
+                    resizeProfile = true;
+            } else {
+                std = "pal";
+                if (!(m_profile.frame_rate_num == 25 && m_profile.frame_rate_den == 1))
+                    forcedfps = 25;
+                if (!(m_profile.width == 720 && m_profile.height == 576))
+                    resizeProfile = true;
+            }
+
+            if ((double) m_profile.display_aspect_num / m_profile.display_aspect_den > 1.5)
+                std += "_wide";
+            renderArgs.replace("%dv_standard", std);
+        }
+        
         // If there is an fps change, we need to use the producer consumer AND update the in/out points
-        if (!resizeProfile && forcedfps > 0 && qAbs((int) 100 * forcedfps - ((int) 100 * m_profile.frame_rate_num / m_profile.frame_rate_den)) > 2) {
+        if (forcedfps > 0 && qAbs((int) 100 * forcedfps - ((int) 100 * m_profile.frame_rate_num / m_profile.frame_rate_den)) > 2) {
             resizeProfile = true;
             double ratio = m_profile.frame_rate_num / m_profile.frame_rate_den / forcedfps;
             if (ratio > 0) {
@@ -1083,7 +1102,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             render_process_args << QStringLiteral("-");
 
         if (m_view.speed->isEnabled()) {
-            renderArgs.replace("%speed", item->data(0, SpeedsRole).toStringList().at(m_view.speed->value()));
+            renderArgs.append(QChar(' ') + item->data(0, SpeedsRole).toStringList().at(m_view.speed->value()));
         }
         
         // Project metadata
@@ -1139,7 +1158,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         }
         // Check if we need to embed the playlist into the producer consumer
         // That is required if PAR != 1
-        if (m_profile.sample_aspect_num != m_profile.sample_aspect_num && subsize.isEmpty()) {
+        if (m_profile.sample_aspect_num != m_profile.sample_aspect_den && subsize.isEmpty()) {
             resizeProfile = true;
         }
 
@@ -1530,7 +1549,7 @@ void RenderWidget::refreshParams()
     QString params = item->data(0, ParamsRole).toString();
     errorMessage(item->data(0, ErrorRole).toString());
     m_view.advanced_params->setPlainText(params);
-    if (params.contains(QStringLiteral(" s=")) || params.startsWith(QLatin1String("s="))) {
+    if (params.contains(QStringLiteral(" s=")) || params.startsWith(QLatin1String("s=")) || params.contains("%dv_standard")) {
         // profile has a fixed size, do not allow resize
         m_view.rescale->setEnabled(false);
         setRescaleEnabled(false);
@@ -1560,8 +1579,6 @@ void RenderWidget::refreshParams()
     }
 
     // video quality control
-    qDebug() << params << " %bitrate? " << params.contains(QStringLiteral("%bitrate"));
-    qDebug() << item->data(0, BitratesRole).toStringList().join(';');
     if ((params.contains(QStringLiteral("%quality")) || params.contains(QStringLiteral("%bitrate")))
             && item->data(0, BitratesRole).canConvert(QVariant::StringList)) {
         // bitrates or quantizers list
@@ -1580,18 +1597,18 @@ void RenderWidget::refreshParams()
                 m_view.quality->setRange(qmin, qmax);
                 m_view.video->setRange(qmin, qmax);
             }
-            // look for minimum step
-            /*int step = qmax;
+            // at least 4 steps, + look for min step in profile definition
+            int step = qAbs(qmax - qmin) / 3;
             for (int i = 1; i < qs.count(); ++i) {
                 int dq = qAbs(qs.at(i).toInt() - qs.at(i-1).toInt());
                 if (dq < step) step = dq;
-            }*/
-            int step = pow(10,floor(log10(qAbs(qmax-qmin)/3))); //step by powers of 10, to have at least 4 ticks
+            }
             m_view.video->setSingleStep(step);
+            m_view.quality->setSingleStep(step);
         } else m_view.video->setEnabled(false);
     } else m_view.video->setEnabled(false);
     m_view.quality->setEnabled(m_view.video->isEnabled());
-    m_view.quality->setSingleStep(m_view.video->singleStep());
+    
     
     // audio quality control
     if ((params.contains(QStringLiteral("%audioquality")) || params.contains(QStringLiteral("%audiobitrate")))
@@ -1603,21 +1620,21 @@ void RenderWidget::refreshParams()
             int qmin = qs.last().toInt();
             if (qmax < qmin) {
                 m_view.audio->setRange(qmax, qmin);
+                m_view.audio->setProperty("decreasing", true);
             } else {
                 m_view.audio->setRange(qmin, qmax);
+                m_view.audio->setProperty("decreasing", false);
             }
             int step = pow(10,floor(log10(qAbs(qmax-qmin))));
             m_view.audio->setSingleStep(step);
         } else m_view.audio->setEnabled(false);
     } else m_view.audio->setEnabled(false);
         
-    if (params.contains(QStringLiteral("%speed")) && item->data(0, SpeedsRole).canConvert(QVariant::StringList)) {
-        int speeds = item->data(0, SpeedsRole).toStringList().count();
-        if (speeds > 1) {
-            m_view.speed->setEnabled(true);
-            m_view.speed->setMaximum(speeds - 1);
-            m_view.speed->setValue(speeds - 1);
-        } else m_view.speed->setEnabled(false);
+    if (item->data(0, SpeedsRole).canConvert(QVariant::StringList) && item->data(0, SpeedsRole).toStringList().count()) {
+        int speed = item->data(0, SpeedsRole).toStringList().count() - 1;
+        m_view.speed->setEnabled(true);
+        m_view.speed->setMaximum(speed);
+        m_view.speed->setValue(speed);
     } else m_view.speed->setEnabled(false);
     
     m_view.checkTwoPass->setEnabled(params.contains(QStringLiteral("passes")));
@@ -1842,7 +1859,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
                 item->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audioqualities")).split(',', QString::SkipEmptyParts));
             else if (params.contains("%audiobitrate"))
                 item->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audiobitrates")).split(',', QString::SkipEmptyParts));
-            if (params.contains("%speed"))
+            if (profile.hasAttribute(QStringLiteral("speeds")))
                 item->setData(0, SpeedsRole, profile.attribute(QStringLiteral("speeds")).split(';', QString::SkipEmptyParts));
             if (profile.hasAttribute(QStringLiteral("url")))
                 item->setData(0, ExtraRole, profile.attribute(QStringLiteral("url")));
@@ -1920,7 +1937,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
                 item->setData(0, AudioBitratesRole, profileElement.attribute(QStringLiteral("audioqualities")).split(',', QString::SkipEmptyParts));
             else if (params.contains("%audiobitrate"))
                 item->setData(0, AudioBitratesRole, profileElement.attribute(QStringLiteral("audiobitrates")).split(',', QString::SkipEmptyParts));
-            if (params.contains("%speed"))
+            if (profileElement.hasAttribute(QStringLiteral("speeds")))
                 item->setData(0, SpeedsRole, profileElement.attribute(QStringLiteral("speeds")).split(';', QString::SkipEmptyParts));
             if (profileElement.hasAttribute(QStringLiteral("url")))
                 item->setData(0, ExtraRole, profileElement.attribute(QStringLiteral("url")));
@@ -2425,10 +2442,16 @@ void RenderWidget::adjustAVQualities(int quality)
     m_view.video->blockSignals(true);
     m_view.video->setValue(quality);
     m_view.video->blockSignals(false);
-    m_view.audio->setValue(m_view.audio->minimum()
-        + (quality - m_view.video->minimum())
-        * (m_view.audio->maximum() - m_view.audio->minimum())
-        / (m_view.video->maximum() - m_view.video->minimum()));
+    // interpolate corresponding audio quality
+    // taking into account decreasing/increasing video/audio quality parameter
+    int dq = m_view.quality->invertedAppearance()
+        ? m_view.quality->maximum() - quality
+        : quality - m_view.quality->minimum();
+    dq = dq * (m_view.audio->maximum() - m_view.audio->minimum())
+            / (m_view.video->maximum() - m_view.video->minimum());
+    m_view.audio->setValue(m_view.audio->property("decreasing").toBool()
+        ? m_view.audio->maximum() - dq
+        : m_view.audio->minimum() + dq);
 }
 
 void RenderWidget::adjustQuality(int videoQuality)
