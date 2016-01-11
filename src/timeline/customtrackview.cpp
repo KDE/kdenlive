@@ -320,7 +320,7 @@ bool CustomTrackView::checkTrackHeight(bool force)
     double newHeight = m_tracksHeight * m_timeline->visibleTracksCount() * matrix().m22();
     m_cursorLine->setLine(0, 0, 0, newHeight - 1);
     if (m_cutLine) {
-        m_cutLine->setLine(0, 0, 0, m_tracksHeight);
+        m_cutLine->setLine(0, 0, 0, m_tracksHeight * m_scene->scale().y());
     }
     for (int i = 0; i < m_guides.count(); ++i) {
         m_guides.at(i)->setLine(0, 0, 0, newHeight - 1);
@@ -545,7 +545,7 @@ void CustomTrackView::spaceToolMoveToSnapPos(double snappedPos)
 void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 {
     int pos = event->x();
-    int mappedXPos = qMax((int)(mapToScene(event->pos()).x() + 0.5), 0);
+    int mappedXPos = qMax((int)(mapToScene(event->pos()).x()), 0);
     double snappedPos = getSnapPointForPos(mappedXPos);
     emit mousePosition(mappedXPos);
 
@@ -2876,7 +2876,7 @@ void CustomTrackView::dragLeaveEvent(QDragLeaveEvent * event)
 void CustomTrackView::enterEvent(QEvent * event)
 {
       if (m_tool == RazorTool && !m_cutLine) {
-          m_cutLine = m_scene->addLine(0, 0, 0, m_tracksHeight);
+          m_cutLine = m_scene->addLine(0, 0, 0, m_tracksHeight * m_scene->scale().y());
           m_cutLine->setZValue(1000);
           QPen pen1 = QPen();
           pen1.setWidth(1);
@@ -5941,7 +5941,7 @@ void CustomTrackView::setTool(ProjectTool tool)
     switch (m_tool) {
     case RazorTool:
         if (!m_cutLine) {
-            m_cutLine = m_scene->addLine(0, 0, 0, m_tracksHeight);
+            m_cutLine = m_scene->addLine(0, 0, 0, m_tracksHeight * m_scene->scale().y());
             m_cutLine->setZValue(1000);
             QPen pen1 = QPen();
             pen1.setWidth(1);
@@ -5949,6 +5949,7 @@ void CustomTrackView::setTool(ProjectTool tool)
             pen1.setColor(line);
             m_cutLine->setPen(pen1);
             m_cutLine->setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
+            slotRefreshCutLine();
         }
         setCursor(m_razorCursor);
         break;
@@ -8152,7 +8153,7 @@ void CustomTrackView::slotRefreshCutLine()
 {
     if (m_cutLine) {
         QPointF pos = mapToScene(mapFromGlobal(QCursor::pos()));
-        int mappedXPos = qMax((int)(pos.x() + 0.5), 0);
+        int mappedXPos = qMax((int)(pos.x()), 0);
         m_cutLine->setPos(mappedXPos, getPositionFromTrack(getTrackFromPos(pos.y())));
     }
 }
