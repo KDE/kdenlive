@@ -145,7 +145,6 @@ void AudioGraphWidget::drawDbLabels(QPainter& p, const QRect &rect)
 void AudioGraphWidget::drawChanLabels(QPainter& p, const QRect &rect, int barWidth)
 {
     int chanLabelCount = m_freqLabels.size();
-    int textHeight = fontMetrics().height();
     int stride = 1;
     int x = 0;
 
@@ -192,10 +191,10 @@ void AudioGraphWidget::paintEvent(QPaintEvent *pe)
     if (m_levels.isEmpty()) return;
     int chanCount = m_levels.size();
     rect.adjust(0, 0, 0, -fontMetrics().height());
-    double factor = rect.height();
+    int height = rect.height();
     for (int i = 0; i < chanCount; i++) {
         double level = IEC_ScaleMax(m_levels.at(i), m_maxDb) * rect.height();
-        p.fillRect(offset + i * barWidth + (2 * i), rect.height() - level, barWidth, level, Qt::darkGreen);
+        p.fillRect(offset + i * barWidth + (2 * i), height - level, barWidth, level, Qt::darkGreen);
     }
 }
 
@@ -210,6 +209,11 @@ AudioGraphSpectrum::AudioGraphSpectrum(MonitorManager *manager, QWidget *parent)
 
     Mlt::Profile profile;
     m_filter = new Mlt::Filter(profile, "fft");
+    if (!m_filter->is_valid()) {
+        KdenliveSettings::setEnableaudiospectrum(false);
+        setEnabled(false);
+        return;
+    }
     m_filter->set("window_size", WINDOW_SIZE);
     connect(m_manager, &MonitorManager::updateAudioSpectrum, this, &AudioGraphSpectrum::processSpectrum);
     QAction *a = new QAction(i18n("Enable Audio Spectrum"), this);
