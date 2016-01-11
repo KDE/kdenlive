@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef MONITORAUDIOLEVEL_H
 #define MONITORAUDIOLEVEL_H
 
-#include "definitions.h"
+#include <QWidget>
 
 class MyAudioWidget : public QWidget
 {
@@ -54,7 +54,7 @@ public:
     void setMonitorVisible(bool visible);
 
 public slots:
-    void slotAudioLevels(const audioLevelVector &dbLevels);
+    void slotAudioLevels(const QVector<double> &dbLevels);
 
 private:
     MyAudioWidget *m_pBar1;

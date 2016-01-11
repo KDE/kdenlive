@@ -23,6 +23,7 @@
 #include "core.h"
 #include "bin/projectclip.h"
 #include "library/librarywidget.h"
+#include "audiospectrum/audiographspectrum.h"
 #include "mltcontroller/clipcontroller.h"
 #include "kdenlivesettings.h"
 #include "dialogs/kdenlivesettingsdialog.h"
@@ -140,7 +141,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_isDarkTheme(false)
 {
     qRegisterMetaType<audioShortVector> ("audioShortVector");
-    qRegisterMetaType<audioLevelVector> ("audioLevelVector");
+    qRegisterMetaType< QVector<double> > ("QVector<double>");
     qRegisterMetaType<MessageType> ("MessageType");
     qRegisterMetaType<stringMap> ("stringMap");
     qRegisterMetaType<audioByteArray> ("audioByteArray");
@@ -220,6 +221,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     setCentralWidget(m_timelineArea);
     m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
     m_libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
+    
+    m_libraryDock = addDock(i18n("Audio Spectrum"), QStringLiteral("audiospectrum"), pCore->audioSpectrum());
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     pCore->bin()->setMonitor(m_clipMonitor);

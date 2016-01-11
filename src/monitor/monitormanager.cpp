@@ -71,6 +71,8 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor,
     m_monitorsList.append(projectMonitor);
     if (recMonitor)
         m_monitorsList.append(recMonitor);
+    if (KdenliveSettings::enableaudiospectrum()) 
+        activateAudioSpectrum(true);
 }
 
 void MonitorManager::appendMonitor(AbstractMonitor *monitor)
@@ -276,6 +278,15 @@ AbstractRender *MonitorManager::activeRenderer()
         return m_activeMonitor->abstractRender();
     }
     return NULL;
+}
+
+void MonitorManager::activateAudioSpectrum(bool activate)
+{
+    KdenliveSettings::setEnableaudiospectrum(activate);
+    if (m_clipMonitor)
+        m_clipMonitor->connectAudioSpectrum(activate);
+    if (m_projectMonitor)
+        m_projectMonitor->connectAudioSpectrum(activate);
 }
 
 void MonitorManager::slotSwitchFullscreen()

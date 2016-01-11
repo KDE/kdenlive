@@ -194,7 +194,6 @@ struct requestClipInfo {
 typedef QMap<QString, QString> stringMap;
 typedef QMap <int, QMap <int, QByteArray> > audioByteArray;
 typedef QVector<qint16> audioShortVector;
-typedef QVector<double> audioLevelVector;
 
 class ItemInfo {
 public:

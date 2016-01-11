@@ -779,6 +779,11 @@
       <default>false</default>
     </entry>
 
+    <entry name="enableaudiospectrum" type="Bool">
+      <label>Send frames to audiospectrum scope for live analysis.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="showstopmotionthumbs" type="Bool">
       <label>Show sequence thumbnails in stopmotion widget.</label>
       <default>true</default>

@@ -88,6 +88,7 @@ set_package_properties(QtScript PROPERTIES
 install(FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 kconfig_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
 
+add_subdirectory(audiospectrum)
 add_subdirectory(doc)
 add_subdirectory(project)
 add_subdirectory(timeline)
@@ -305,3 +306,4 @@ endif()
 
 install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})
 install(FILES kdenliveui.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kdenlive)
+

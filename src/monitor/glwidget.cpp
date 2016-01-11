@@ -224,7 +224,7 @@ void GLWidget::initializeGL()
     openglContext()->makeCurrent(this);
     //openglContext()->blockSignals(false);
     connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), this, SIGNAL(frameDisplayed(const SharedFrame&)), Qt::QueuedConnection);
-    connect(m_frameRenderer, SIGNAL(audioLevels(const audioLevelVector&)), this, SIGNAL(audioLevels(const audioLevelVector&)), Qt::QueuedConnection);
+    connect(m_frameRenderer, SIGNAL(audioLevels(const QVector<double>&)), this, SIGNAL(audioLevels(const QVector<double>&)), Qt::QueuedConnection);
     connect(m_frameRenderer, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), this, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), Qt::QueuedConnection);
     connect(m_frameRenderer, SIGNAL(textureReady(GLuint,GLuint,GLuint)), SLOT(updateTexture(GLuint,GLuint,GLuint)), Qt::DirectConnection);
     connect(this, SIGNAL(textureUpdated()), this, SLOT(update()), Qt::QueuedConnection);
@@ -1332,7 +1332,6 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
         emit frameDisplayed(m_frame);
 
         if (processAudio) {
-            //int channels = m_producer.get_int("channels"); //m_frame.get_audio_channels();
             m_frame.get_audio();
             QVector<double> levels;
             for (int i = 0; i < audioChannels; i++) {

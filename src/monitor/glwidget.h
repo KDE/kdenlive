@@ -131,7 +131,8 @@ signals:
     void showContextMenu(const QPoint);
     void lockMonitor(bool);
     void passKeyEvent(QKeyEvent *);
-    void audioLevels(const audioLevelVector&);
+    void audioLevels(const QVector<double>&);
+    void processFFt();
 
 private:
     int m_id;
@@ -223,7 +224,8 @@ signals:
     void textureReady(GLuint yName, GLuint uName = 0, GLuint vName = 0);
     void frameDisplayed(const SharedFrame& frame);
     void audioSamplesSignal(const audioShortVector&,int,int,int);
-    void audioLevels(const audioLevelVector&);
+    void audioLevels(const QVector<double>&);
+    void processFFt();
 
 private:
     QSemaphore m_semaphore;

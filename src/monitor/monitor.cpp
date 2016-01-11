@@ -293,7 +293,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
     connect(m_glMonitor, SIGNAL(analyseFrame(QImage)), render, SLOT(emitFrameUpdated(QImage)));
     connect(m_glMonitor, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), render, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)));
-    connect(m_glMonitor, SIGNAL(audioLevels(const audioLevelVector&)), &m_levelManager, SLOT(slotAudioLevels(const audioLevelVector&)));
+    connect(m_glMonitor, SIGNAL(audioLevels(const QVector<double>&)), &m_levelManager, SLOT(slotAudioLevels(const QVector<double>&)));
 
     if (id != Kdenlive::ClipMonitor) {
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
@@ -1863,3 +1863,11 @@ void Monitor::updateQmlDisplay(int currentOverlay)
     m_glMonitor->rootObject()->setProperty("showAudiothumb", currentOverlay & 0x10);
 }
 
+void Monitor::connectAudioSpectrum(bool activate)
+{
+    if (activate) {
+        connect(m_glMonitor, SIGNAL(frameDisplayed(const SharedFrame&)), m_monitorManager, SIGNAL(updateAudioSpectrum(const SharedFrame&)), Qt::UniqueConnection);
+    } else {
+        disconnect(m_glMonitor, SIGNAL(frameDisplayed(const SharedFrame&)), m_monitorManager, SIGNAL(updateAudioSpectrum(const SharedFrame&)));
+    }
+}

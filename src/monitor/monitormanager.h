@@ -67,6 +67,8 @@ public:
     Monitor *clipMonitor();
     Monitor *projectMonitor();
     void lockMonitor(Kdenlive::MonitorId name, bool);
+    /** @brief Should we monitor audio for spectrum analysis. */
+    void activateAudioSpectrum(bool activate);
     void refreshIcons();
 
 public slots:
@@ -136,6 +138,8 @@ signals:
     void addEffect(QDomElement);
     /** @brief Monitor activated, refresh overlay options actions */
     void updateOverlayInfos(int, int);
+    /** @brief info is available for audio spectum widget */
+    void updateAudioSpectrum(const SharedFrame&);
 };
 
 #endif

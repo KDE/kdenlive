@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "monitoraudiolevel.h"
 
 #include <QPainter>
+#include <QPaintEvent>
 #include <QStylePainter>
 #include <QVBoxLayout>
 
@@ -123,9 +124,10 @@ void MyAudioWidget::setAudioValues(const QList <int>& values)
     update();
 }
 
-void MyAudioWidget::paintEvent(QPaintEvent *)
+void MyAudioWidget::paintEvent(QPaintEvent *pe)
 {
     QPainter p(this);
+    p.setClipRect(pe->rect());
     QRect rect(0, 0, width(), height());
     QList <int> vals = m_values;
     if (vals.isEmpty()) {
@@ -159,7 +161,7 @@ QWidget *MonitorAudioLevel::createProgressBar(int height, QWidget *parent)
     return w;
 }
 
-void MonitorAudioLevel::slotAudioLevels(const audioLevelVector &dbLevels)
+void MonitorAudioLevel::slotAudioLevels(const QVector<double> &dbLevels)
 {
     QList <int> levels;
     if (!dbLevels.isEmpty()) {

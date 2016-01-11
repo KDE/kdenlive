@@ -146,6 +146,7 @@ public:
     /** @brief Send audio thumb data to qml for on monitor display */
     void prepareAudioThumb(int channels, QVariantList &audioCache);
     void refreshMonitorIfActive();
+    void connectAudioSpectrum(bool activate);
 
 protected:
     void mousePressEvent(QMouseEvent * event);
@@ -333,6 +334,7 @@ signals:
     void updateGuide(int, QString);
     void requestAudioThumb(QString);
     void timeCodeUpdated(QString);
+    void processFFt();
 };
 
 #endif

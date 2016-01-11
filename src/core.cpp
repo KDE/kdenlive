@@ -16,6 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mltcontroller/producerqueue.h"
 #include "bin/bin.h"
 #include "library/librarywidget.h"
+#include "audiospectrum/audiographspectrum.h"
 #include <QCoreApplication>
 #include <QDebug>
 
@@ -69,6 +70,7 @@ void Core::initialize()
     connect(m_binController, SIGNAL(abortAudioThumbs()), m_binWidget, SLOT(abortAudioThumbs()));
     connect(m_binController, SIGNAL(loadThumb(QString,QImage,bool)), m_binWidget, SLOT(slotThumbnailReady(QString,QImage,bool)));
     m_monitorManager = new MonitorManager(this);
+    m_audioSpectrum = new AudioGraphSpectrum(m_monitorManager);
     // Producer queue, creating MLT::Producers on request
     m_producerQueue = new ProducerQueue(m_binController);
     connect(m_producerQueue, SIGNAL(gotFileProperties(requestClipInfo,ClipController *)), m_binWidget, SLOT(slotProducerReady(requestClipInfo,ClipController *)), Qt::DirectConnection);
@@ -77,6 +79,7 @@ void Core::initialize()
     connect(m_producerQueue, SIGNAL(addClip(const QString&,const QMap<QString,QString>&)), m_binWidget, SLOT(slotAddUrl(const QString&,const QMap<QString,QString>&)));
     connect(m_binController, SIGNAL(createThumb(QDomElement,QString,int)), m_producerQueue, SLOT(getFileProperties(QDomElement,QString,int)));
     connect(m_binWidget, SIGNAL(producerReady(QString)), m_producerQueue, SLOT(slotProcessingDone(QString)), Qt::DirectConnection);
+
     //TODO
     /*connect(m_producerQueue, SIGNAL(removeInvalidProxy(QString,bool)), m_binWidget, SLOT(slotRemoveInvalidProxy(QString,bool)));*/
 
@@ -97,6 +100,11 @@ MainWindow* Core::window()
 ProjectManager *Core::projectManager()
 {
     return m_projectManager;
+}
+
+AudioGraphSpectrum *Core::audioSpectrum()
+{
+    return m_audioSpectrum;
 }
 
 MonitorManager* Core::monitorManager()
