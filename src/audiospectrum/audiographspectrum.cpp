@@ -125,7 +125,7 @@ AudioGraphWidget::AudioGraphWidget(QWidget *parent) : QWidget(parent)
     }
     m_maxDb = 0;
     setMinimumHeight(100);
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 }
 
 void AudioGraphWidget::showAudio(const QVector<double>&bands)
@@ -221,22 +221,30 @@ void AudioGraphWidget::paintEvent(QPaintEvent *pe)
 AudioGraphSpectrum::AudioGraphSpectrum(MonitorManager *manager, QWidget *parent) : QWidget(parent)
   , m_manager(manager)
   , m_filter(0)
+  , m_graphWidget(0)
 {
     QVBoxLayout *lay = new QVBoxLayout(this);
     m_graphWidget = new AudioGraphWidget(this);
     lay->addWidget(m_graphWidget);
+    Mlt::Profile profile;
+    m_filter = new Mlt::Filter(profile, "fft");
+    if (!m_filter->is_valid()) {
+        KdenliveSettings::setEnableaudiospectrum(false);
+        KMessageWidget *mw = new KMessageWidget(this);
+        mw->setCloseButtonVisible(false);
+        mw->setWordWrap(true);
+        mw->setMessageType(KMessageWidget::Information);
+        mw->setText(i18n("MLT must be compiled with libfftw3 to enable Audio Spectrum"));
+        lay->addWidget(mw);
+        mw->show();
+        setEnabled(false);
+        return;
+    }
     /*m_equalizer = new EqualizerWidget(this);
     lay->addWidget(m_equalizer);
     lay->setStretchFactor(m_graphWidget, 5);
     lay->setStretchFactor(m_equalizer, 3);*/
 
-    Mlt::Profile profile;
-    m_filter = new Mlt::Filter(profile, "fft");
-    if (!m_filter->is_valid()) {
-        KdenliveSettings::setEnableaudiospectrum(false);
-        setEnabled(false);
-        return;
-    }
     m_filter->set("window_size", WINDOW_SIZE);
     connect(m_manager, &MonitorManager::updateAudioSpectrum, this, &AudioGraphSpectrum::processSpectrum);
     QAction *a = new QAction(i18n("Enable Audio Spectrum"), this);
