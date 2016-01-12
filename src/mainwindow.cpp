@@ -35,6 +35,7 @@
 #include "monitor/monitormanager.h"
 #include "doc/kdenlivedoc.h"
 #include "timeline/timeline.h"
+#include "timeline/track.h"
 #include "timeline/customtrackview.h"
 #include "effectslist/effectslistview.h"
 #include "effectslist/effectbasket.h"
@@ -2985,7 +2986,9 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     bool exportAudio;
     if (m_renderWidget->automaticAudioExport()) {
         exportAudio = pCore->projectManager()->currentTimeline()->checkProjectAudio();
-    } else exportAudio = m_renderWidget->selectedAudioExport();
+    } else {
+    	exportAudio = m_renderWidget->selectedAudioExport();
+    }
 
     // Set playlist audio volume to 100%
     QDomDocument doc;
@@ -3045,22 +3048,29 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
     // check which audio tracks have to be exported
     if (stemExport) {
-        CustomTrackView* ctv = pCore->projectManager()->currentTimeline()->projectView();
-        int trackInfoCount = trackInfoList.count();
-        tracksCount = 0;
+        Timeline* ct = pCore->projectManager()->currentTimeline();
+        int allTracksCount = ct->tracksCount();
 
-        for (int i = 0; i < trackInfoCount; i++) {
-            TrackInfo info = trackInfoList.at(trackInfoCount - i - 1);
-            if (!info.isMute && ctv->hasAudio(i)) {
+        // reset tracks count (tracks to be rendered)
+        tracksCount = 0;
+        // begin with track 1 (track zero is a hidden black track)
+        for (int i = 1; i < allTracksCount; i++) {
+            Track* track = ct->track(i);
+            // add only tracks to render list that are not muted and have audio
+            if (track && !track->info().isMute && track->hasAudio()) {
                 QDomDocument docCopy = doc.cloneNode(true).toDocument();
+                QString trackName = track->info().trackName;
+
                 // save track name
-                trackNames << info.trackName;
-                qDebug() << "Track-Name: " << info.trackName;
-                // create stem export playlist content
-                QDomNodeList tracks = docCopy.elementsByTagName("track");
-                for (int j = trackInfoCount; j >= 0; j--) {
-                    if (j != (trackInfoCount - i)) {
-                        tracks.at(j).toElement().setAttribute("hide", "both");
+                trackNames << trackName;
+                qDebug() << "Track-Name: " << trackName;
+
+                // create stem export doc content
+                QDomNodeList tracks = docCopy.elementsByTagName(QStringLiteral("track"));
+                for (int j = 0; j < allTracksCount; j++) {
+                    if (j != i) {
+                        // mute other tracks
+                        tracks.at(j).toElement().setAttribute(QStringLiteral("hide"), QStringLiteral("both"));
                     }
                 }
                 docList << docCopy;
@@ -3077,7 +3087,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
         // add track number to path name
         if (stemExport) {
-            plPath = plPath + "_" + QString(trackNames.at(i)).replace(" ", "_");
+            plPath = plPath + "_" + QString(trackNames.at(i)).replace(QLatin1String(" "), QLatin1String("_"));
         }
         // add mlt suffix
         plPath += mltSuffix;
