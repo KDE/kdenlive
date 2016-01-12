@@ -221,9 +221,12 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     setDockNestingEnabled(true);
     setCentralWidget(m_timelineArea);
     m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
-    m_libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
-    
-    m_libraryDock = addDock(i18n("Audio Spectrum"), QStringLiteral("audiospectrum"), pCore->audioSpectrum());
+    QDockWidget * libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
+    QDockWidget * spectrumDock = addDock(i18n("Audio Spectrum"), QStringLiteral("audiospectrum"), pCore->audioSpectrum());
+
+    // Close library and audiospectrum on first run
+    libraryDock->close();
+    spectrumDock->close();
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     pCore->bin()->setMonitor(m_clipMonitor);

@@ -73,7 +73,7 @@ void MyAudioWidget::resizeEvent ( QResizeEvent * event )
 void MyAudioWidget::drawBackground(int channels, const QSize &widgetSize)
 {
     QSize newSize = widgetSize;
-    if (newSize.isNull()) {
+    if (newSize.isEmpty()) {
         newSize = QWidget::size();
     }
     QLinearGradient gradient(0, 0, newSize.width(), 0);
@@ -82,8 +82,7 @@ void MyAudioWidget::drawBackground(int channels, const QSize &widgetSize)
     gradient.setColorAt(0.7143, Qt::yellow);
     gradient.setColorAt(0.881, Qt::darkYellow);
     gradient.setColorAt(0.9525, Qt::red);
-
-    m_pixmap = QPixmap(newSize.width(), newSize.height());
+    m_pixmap = QPixmap(newSize);
     m_pixmap.fill(Qt::transparent);
     int totalHeight;
     if (channels < 2) {
@@ -178,6 +177,7 @@ void MonitorAudioLevel::slotAudioLevels(const QVector<double> &dbLevels)
 
 void MonitorAudioLevel::setMonitorVisible(bool visible)
 {
-    if (m_pBar1)
+    if (m_pBar1) {
         m_pBar1->setVisible(visible);
+    }
 }
