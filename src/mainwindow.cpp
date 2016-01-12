@@ -2941,7 +2941,6 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     QString mltSuffix(QStringLiteral(".mlt"));
     QList<QString> playlistPaths;
     QList<QString> trackNames;
-    const QList <TrackInfo> trackInfoList = pCore->projectManager()->currentTimeline()->getTracksInfo();
     int tracksCount = 1;
     bool stemExport = m_renderWidget->isStemAudioExportEnabled();
 
@@ -3026,7 +3025,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     if (m_renderWidget->automaticAudioExport()) {
         exportAudio = pCore->projectManager()->currentTimeline()->checkProjectAudio();
     } else {
-    	exportAudio = m_renderWidget->selectedAudioExport();
+        exportAudio = m_renderWidget->selectedAudioExport();
     }
 
     // Set playlist audio volume to 100%
