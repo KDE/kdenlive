@@ -66,30 +66,34 @@ MyAudioWidget::MyAudioWidget(int height, QWidget *parent) : QWidget(parent)
 
 void MyAudioWidget::resizeEvent ( QResizeEvent * event )
 {
-    drawBackground();
+    drawBackground(m_peaks.size(), event->size());
     QWidget::resizeEvent(event);
 }
 
-void MyAudioWidget::drawBackground(int channels)
+void MyAudioWidget::drawBackground(int channels, const QSize &widgetSize)
 {
-    QLinearGradient gradient(0, 0, width(), 0);
+    QSize newSize = widgetSize;
+    if (newSize.isNull()) {
+        newSize = QWidget::size();
+    }
+    QLinearGradient gradient(0, 0, newSize.width(), 0);
     gradient.setColorAt(0.0, QColor(Qt::darkGreen));
     gradient.setColorAt(0.7142, QColor(Qt::green));
     gradient.setColorAt(0.7143, Qt::yellow);
     gradient.setColorAt(0.881, Qt::darkYellow);
     gradient.setColorAt(0.9525, Qt::red);
 
-    m_pixmap = QPixmap(width(), height());
+    m_pixmap = QPixmap(newSize.width(), newSize.height());
     m_pixmap.fill(Qt::transparent);
     int totalHeight;
     if (channels < 2) {
-        m_channelHeight = height() / 2;
+        m_channelHeight = newSize.height() / 2;
         totalHeight = m_channelHeight;
     } else {
-        m_channelHeight = (height() - 2 * (channels -1)) / channels;
+        m_channelHeight = (newSize.height() - 2 * (channels -1)) / channels;
         totalHeight = channels * m_channelHeight + (channels - 1) * 2;
     }
-    QRect rect(0, 0, width(), totalHeight);
+    QRect rect(0, 0, newSize.width(), totalHeight);
     QPainter p(&m_pixmap);
     p.setOpacity(0.4);
     p.fillRect(rect, QBrush(gradient));

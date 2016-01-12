@@ -41,7 +41,7 @@ private:
     QList <int> m_peaks;
     QList <int> m_values;
     int m_channelHeight;
-    void drawBackground(int channels = 2);
+    void drawBackground(int channels = 2, const QSize &widgetSize = QSize());
 };
 
 

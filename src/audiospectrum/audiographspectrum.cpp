@@ -23,7 +23,9 @@
 #include "../monitor/monitormanager.h"
 #include "kdenlivesettings.h"
 
+#include <QFontDatabase>
 #include <QVBoxLayout>
+#include <QGridLayout>
 #include <QPaintEvent>
 #include <QPainter>
 #include <QAction>
@@ -99,6 +101,22 @@ static const int LAST_AUDIBLE_BAND_INDEX = 42;
 static const int AUDIBLE_BAND_COUNT = LAST_AUDIBLE_BAND_INDEX - FIRST_AUDIBLE_BAND_INDEX + 1;
 
 
+EqualizerWidget::EqualizerWidget(QWidget *parent) : QWidget(parent)
+{
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    QGridLayout *box = new QGridLayout(this);
+    QStringList labels;
+    labels << i18n("Master") << "50Hz" << "100Hz"<<"156Hz"<<"220Hz"<<"311Hz"<<"440Hz"<<"622Hz"<<"880Hz"<<"1.25kHz"<<"1.75kHz"<<"2.5kHz"<<"3.5kHz"<<"5kHz"<<"10kHz"<<"20kHz";
+    for (int i = 0; i < 16; i++) {
+        QSlider *sl = new QSlider(Qt::Vertical, this);
+        sl->setObjectName(QString::number(i));
+        box->addWidget(sl, 0, i);
+        QLabel *lab = new QLabel(labels.at(i), this);
+        box->addWidget(lab, 1, i);
+    }
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+}
+
 AudioGraphWidget::AudioGraphWidget(QWidget *parent) : QWidget(parent)
 {
     m_dbLabels << -50 << -40 << -35 << -30 << -25 << -20 << -15 << -10 << -5 << 0;
@@ -106,6 +124,8 @@ AudioGraphWidget::AudioGraphWidget(QWidget *parent) : QWidget(parent)
         m_freqLabels << BAND_TAB[i].label;
     }
     m_maxDb = 0;
+    setMinimumHeight(100);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 }
 
 void AudioGraphWidget::showAudio(const QVector<double>&bands)
@@ -201,11 +221,14 @@ void AudioGraphWidget::paintEvent(QPaintEvent *pe)
 AudioGraphSpectrum::AudioGraphSpectrum(MonitorManager *manager, QWidget *parent) : QWidget(parent)
   , m_manager(manager)
   , m_filter(0)
-  , m_semaphore(1)
 {
     QVBoxLayout *lay = new QVBoxLayout(this);
     m_graphWidget = new AudioGraphWidget(this);
     lay->addWidget(m_graphWidget);
+    /*m_equalizer = new EqualizerWidget(this);
+    lay->addWidget(m_equalizer);
+    lay->setStretchFactor(m_graphWidget, 5);
+    lay->setStretchFactor(m_equalizer, 3);*/
 
     Mlt::Profile profile;
     m_filter = new Mlt::Filter(profile, "fft");
@@ -226,13 +249,13 @@ AudioGraphSpectrum::AudioGraphSpectrum(MonitorManager *manager, QWidget *parent)
 
 AudioGraphSpectrum::~AudioGraphSpectrum()
 {
+    delete m_graphWidget;
     //delete m_filter;
 }
 
 void AudioGraphSpectrum::processSpectrum(const SharedFrame&frame)
 {
     if (!isVisible()) return;
-    m_semaphore.tryAcquire();
     mlt_audio_format format = mlt_audio_s16;
     int channels = frame.get_audio_channels();
     int frequency = frame.get_audio_frequency();

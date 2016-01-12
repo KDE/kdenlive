@@ -32,7 +32,6 @@
 
 #include <QWidget>
 #include <QVector>
-#include <QSemaphore>
 
 namespace Mlt {
 class Filter;
@@ -40,6 +39,14 @@ class Consumer;
 }
 
 class MonitorManager;
+
+class EqualizerWidget : public QWidget
+{
+    Q_OBJECT
+public:
+    EqualizerWidget(QWidget *parent = 0);
+
+};
 
 class AudioGraphWidget : public QWidget
 {
@@ -74,7 +81,7 @@ private:
     MonitorManager *m_manager;
     Mlt::Filter* m_filter;
     AudioGraphWidget *m_graphWidget;
-    QSemaphore m_semaphore;
+    EqualizerWidget *m_equalizer;
 
 public slots:
     void processSpectrum(const SharedFrame&frame);
