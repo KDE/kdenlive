@@ -2902,7 +2902,6 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     QString mltSuffix(".mlt");
     QList<QString> playlistPaths;
     QList<QString> trackNames;
-    const QList <TrackInfo> trackInfoList = pCore->projectManager()->currentTimeline()->getTracksInfo();
     int tracksCount = 1;
     bool stemExport = m_renderWidget->isStemAudioExportEnabled();
 
