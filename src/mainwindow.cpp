@@ -123,6 +123,15 @@ QMap <QString,QImage> MainWindow::m_lumacache;
     return a.first < b.first;
 }*/
 
+// determine the the default KDE style as defined BY THE USER
+// (as opposed to whatever style KDE considers default)
+static QString defaultStyle(const char *fallback=Q_NULLPTR)
+{
+    KSharedConfigPtr kdeGlobals = KSharedConfig::openConfig(QStringLiteral("kdeglobals"), KConfig::NoGlobals);
+    KConfigGroup cg(kdeGlobals, "KDE");
+    return cg.readEntry("widgetStyle", fallback);
+}
+
 MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & clipsToLoad, QWidget *parent) :
     KXmlGuiWindow(parent),
     m_timelineArea(NULL),
@@ -152,6 +161,19 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     KActionMenu *stylesAction= new KActionMenu(i18n("Style"), this);
     QActionGroup *stylesGroup = new QActionGroup(stylesAction);
 
+
+    // GTK theme does not work well with Kdenlive, and does not support color theming, so avoid it
+    QStringList availableStyles = QStyleFactory::keys();
+    QString desktopStyle = QApplication::style()->objectName();
+    if (QString::compare(desktopStyle, QLatin1String("GTK+"), Qt::CaseInsensitive) == 0 && KdenliveSettings::widgetstyle().isEmpty()) {
+        if (availableStyles.contains(QLatin1String("breeze"), Qt::CaseInsensitive)) {
+            // Auto switch to Breeze theme
+            KdenliveSettings::setWidgetstyle(QStringLiteral("Breeze"));
+        } else if (availableStyles.contains(QLatin1String("fusion"), Qt::CaseInsensitive)) {
+            KdenliveSettings::setWidgetstyle(QStringLiteral("Fusion"));
+        }
+    }
+
     // Add default style action
     QAction *defaultStyle = new QAction(i18n("Default"), stylesGroup);
     defaultStyle->setCheckable(true);
@@ -160,7 +182,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
         defaultStyle->setChecked(true);
     }
 
-    QStringList availableStyles = QStyleFactory::keys();
     foreach(const QString &style, availableStyles) {
         QAction *a = new QAction(style, stylesGroup);
         a->setCheckable(true);
@@ -177,14 +198,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     ThemeManager::instance()->setThemeMenuAction(themeAction);
     ThemeManager::instance()->setCurrentTheme(KdenliveSettings::colortheme());
     connect(ThemeManager::instance(), SIGNAL(signalThemeChanged(const QString &)), this, SLOT(slotThemeChanged(const QString &)), Qt::DirectConnection);
-
-    QString desktopStyle = QApplication::style()->objectName();
-    if (!desktopStyle.isEmpty() && QString::compare(desktopStyle, QLatin1String("breeze"), Qt::CaseInsensitive) != 0 && QString::compare(desktopStyle, QLatin1String("oxygen"), Qt::CaseInsensitive) != 0 && KdenliveSettings::widgetstyle().isEmpty()) {
-        if (availableStyles.contains(QLatin1String("breeze"), Qt::CaseInsensitive)) {
-            // Auto switch to Breeze theme
-            KdenliveSettings::setWidgetstyle(QStringLiteral("Breeze"));
-        }
-    }
 
     if (!KdenliveSettings::widgetstyle().isEmpty() && QString::compare(desktopStyle, KdenliveSettings::widgetstyle(), Qt::CaseInsensitive) != 0) {
         // User wants a custom widget style, init
@@ -3352,7 +3365,11 @@ void MainWindow::slotChangeStyle(QAction *a)
 
 void MainWindow::doChangeStyle()
 {
-    QApplication::setStyle(QStyleFactory::create(KdenliveSettings::widgetstyle()));
+    QString newStyle = KdenliveSettings::widgetstyle();
+    if (newStyle.isEmpty() || newStyle == QStringLiteral("Default")) {
+        newStyle = defaultStyle("Breeze");
+    }
+    QApplication::setStyle(QStyleFactory::create(newStyle));
     // Changing widget style resets color theme, so update color theme again
     ThemeManager::instance()->slotChangePalette();
 }
