@@ -234,15 +234,14 @@ void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList
             if (e.attribute(QStringLiteral("name")) == QLatin1String("use_profile") && !(proxy.isEmpty() || proxy == QLatin1String("-")))
                 e.setAttribute(QStringLiteral("value"), QStringLiteral("1"));
         }
-
         if (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
             if (e.attribute(QStringLiteral("keyframes")).isEmpty()) {
                 // Effect has a keyframe type parameter, we need to set the values
                 e.setAttribute(QStringLiteral("keyframes"), QString::number((int) info.cropStart.frames(fps)) + '=' + e.attribute(QStringLiteral("default")));
             }
-            else if (offset != 0) {
+            else {
                 // adjust keyframes to this clip
-                QString adjusted = adjustKeyframes(e.attribute(QStringLiteral("keyframes")), offset - info.cropStart.frames(fps));
+                QString adjusted = adjustKeyframes(e.attribute(QStringLiteral("keyframes")), offset, info.cropStart.frames(fps), (info.cropStart + info.cropDuration).frames(fps) - 1, pInfo);
                 e.setAttribute(QStringLiteral("keyframes"), adjusted);
             }
         }
@@ -317,14 +316,33 @@ void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList
     }
 }
 
-const QString EffectsController::adjustKeyframes(const QString &keyframes, int offset)
+const QString EffectsController::adjustKeyframes(const QString &keyframes, int oldIn, int newIn, int newOut, ProfileInfo pInfo)
 {
     QStringList result;
     // Simple keyframes
+    int offset = newIn - oldIn;
+    int max = newOut - newIn;
+    QLocale locale;
     const QStringList list = keyframes.split(QLatin1Char(';'), QString::SkipEmptyParts);
     foreach(const QString &keyframe, list) {
-        const int pos = keyframe.section('=', 0, 0).toInt() - offset;
+        const int pos = keyframe.section('=', 0, 0).toInt() + offset;
+        qDebug()<<"// KFR AT: "<<pos<<" (newOut: "<<newIn<<"x"<<newOut;
         const QString newKey = QString::number(pos) + '=' + keyframe.section('=', 1);
+        if (pos >= newOut) {
+            if (pos == newOut) {
+                result.append(newKey);
+            } else {
+                // Find correct interpolated value
+                Mlt::Geometry geom;
+                int framePos = oldIn + max;
+                geom.parse(keyframes.toUtf8().data(), newOut, pInfo.profileSize.rwidth(), pInfo.profileSize.rheight());
+                Mlt::GeometryItem item;
+                geom.fetch(&item, framePos);
+                const QString lastKey = QString::number(newIn + max) + '=' + locale.toString(item.x());
+                result.append(lastKey);
+            }
+            break;
+        }
         result.append(newKey);
     }
     return result.join(QStringLiteral(";"));

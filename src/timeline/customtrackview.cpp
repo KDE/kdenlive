@@ -6350,21 +6350,9 @@ void CustomTrackView::adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull() && (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe"))) {
-            QString def = e.attribute(QStringLiteral("default"));
             // Effect has a keyframe type parameter, we need to adjust the values
-            QStringList keys = e.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
-            QStringList newKeyFrames;
-            foreach(const QString &str, keys) {
-                int pos = str.section('=', 0, 0).toInt();
-                double val = str.section('=', 1, 1).toDouble();
-                pos += diff;
-                if (pos > max) {
-                    newKeyFrames.append(QString::number(max) + '=' + locale.toString(val));
-                    break;
-                } else newKeyFrames.append(QString::number(pos) + '=' + locale.toString(val));
-            }
-            ////qDebug()<<"ORIGIN: "<<keys<<", FIXED: "<<newKeyFrames;
-            e.setAttribute(QStringLiteral("keyframes"), newKeyFrames.join(QStringLiteral(";")));
+            QString adjusted = EffectsController::adjustKeyframes(e.attribute(QStringLiteral("keyframes")), oldstart.frames(m_document->fps()), newstart.frames(m_document->fps()), (newstart + duration).frames(m_document->fps()) - 1, m_document->getProfileInfo());
+            e.setAttribute(QStringLiteral("keyframes"), adjusted);
         }
     }
 }
