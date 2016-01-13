@@ -166,16 +166,13 @@
                </sizepolicy>
               </property>
               <property name="minimum">
-               <number>1</number>
+               <number>0</number>
               </property>
               <property name="maximum">
-               <number>10</number>
-              </property>
-              <property name="pageStep">
-               <number>3</number>
+               <number>4</number>
               </property>
               <property name="value">
-               <number>7</number>
+               <number>3</number>
               </property>
               <property name="orientation">
                <enum>Qt::Horizontal</enum>

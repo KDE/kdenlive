@@ -153,13 +153,13 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     m_view.setupUi(this);
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
-    
+
     setWindowTitle(i18n("Rendering"));
     m_view.buttonDelete->setIconSize(iconSize);
     m_view.buttonEdit->setIconSize(iconSize);
     m_view.buttonSave->setIconSize(iconSize);
     m_view.buttonFavorite->setIconSize(iconSize);
-    
+
     m_view.buttonDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("trash-empty")));
     m_view.buttonDelete->setToolTip(i18n("Delete profile"));
     m_view.buttonDelete->setEnabled(false);
@@ -175,9 +175,9 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
 
     m_view.buttonFavorite->setIcon(KoIconUtils::themedIcon(QStringLiteral("favorite")));
     m_view.buttonFavorite->setToolTip(i18n("Copy profile to favorites"));
-    
+
     m_view.advanced_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
-    
+
     m_view.optionsGroup->setVisible(m_view.options->isChecked());
     connect(m_view.options, SIGNAL(toggled(bool)), m_view.optionsGroup, SLOT(setVisible(bool)));
     m_view.videoLabel->setVisible(m_view.options->isChecked());
@@ -190,7 +190,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     connect(m_view.options, SIGNAL(toggled(bool)), m_view.audio, SLOT(setVisible(bool)));
     connect(m_view.quality, SIGNAL(valueChanged(int)), this, SLOT(adjustAVQualities(int)));
     connect(m_view.video, SIGNAL(valueChanged(int)), this, SLOT(adjustQuality(int)));
-    
+
     m_view.buttonRender->setEnabled(false);
     m_view.buttonGenerateScript->setEnabled(false);
     setRescaleEnabled(false);
@@ -526,7 +526,7 @@ void RenderWidget::slotSaveProfile()
         if (!ui.speeds_list->toPlainText().isEmpty()) {
             profileElement.setAttribute(QStringLiteral("speeds"), ui.speeds_list->toPlainText().replace('\n', ';').simplified());
         }
-        
+
         doc.appendChild(profileElement);
         saveProfile(doc.documentElement());
 
@@ -775,7 +775,7 @@ void RenderWidget::slotEditProfile()
             // profile has a variable speed
             profileElement.setAttribute(QStringLiteral("speeds"), ui.speeds_list->toPlainText().replace('\n', ';').simplified());
         }
-        
+
         profiles.appendChild(profileElement);
 
         //QCString save = doc.toString().utf8();
@@ -1067,7 +1067,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
                 std += "_wide";
             renderArgs.replace("%dv_standard", std);
         }
-        
+
         // If there is an fps change, we need to use the producer consumer AND update the in/out points
         if (forcedfps > 0 && qAbs((int) 100 * forcedfps - ((int) 100 * m_profile.frame_rate_num / m_profile.frame_rate_den)) > 2) {
             resizeProfile = true;
@@ -1104,7 +1104,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         if (m_view.speed->isEnabled()) {
             renderArgs.append(QChar(' ') + item->data(0, SpeedsRole).toStringList().at(m_view.speed->value()));
         }
-        
+
         // Project metadata
         if (m_view.export_meta->isChecked()) {
             QMap<QString, QString>::const_iterator i = metadata.constBegin();
@@ -1251,7 +1251,8 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         renderProps.insert(QStringLiteral("renderratio"), QString::number(m_view.rescale_keep->isChecked()));
         renderProps.insert(QStringLiteral("renderplay"), QString::number(m_view.play_after->isChecked()));
         renderProps.insert(QStringLiteral("rendertwopass"), QString::number(m_view.checkTwoPass->isChecked()));
-        renderProps.insert(QStringLiteral("renderquality"), QString::number(m_view.quality->value()));
+        renderProps.insert(QStringLiteral("renderquality"), QString::number(m_view.video->value()));
+        renderProps.insert(QStringLiteral("renderaudioquality"), QString::number(m_view.audio->value()));
         renderProps.insert(QStringLiteral("renderspeed"), QString::number(m_view.speed->value()));
 
         emit selectedRenderProfile(renderProps);
@@ -1413,7 +1414,7 @@ void RenderWidget::refreshView(const QString &profile)
     const QColor disabled = scheme.foreground(KColorScheme::InactiveText).color();
     const QColor disabledbg = scheme.background(KColorScheme::NegativeBackground).color();
     double project_framerate = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
-    
+
     for (int i = 0; i < m_view.formats->topLevelItemCount(); ++i) {
         QTreeWidgetItem *group = m_view.formats->topLevelItem(i);
         for (int j = 0; j < group->childCount(); ++j) {
@@ -1446,7 +1447,7 @@ void RenderWidget::refreshView(const QString &profile)
                     }
                 }
             }
-                
+
             // Make sure the selected profile uses an installed avformat codec / format
             if (!formatsList.isEmpty()) {
                 QString format;
@@ -1579,43 +1580,36 @@ void RenderWidget::refreshParams()
     }
 
     // video quality control
+    bool quality = false;
     if ((params.contains(QStringLiteral("%quality")) || params.contains(QStringLiteral("%bitrate")))
             && item->data(0, BitratesRole).canConvert(QVariant::StringList)) {
         // bitrates or quantizers list
         QStringList qs = item->data(0, BitratesRole).toStringList();
         if (qs.count() > 1) {
-            m_view.video->setEnabled(true);
+            quality = true;
             int qmax = qs.first().toInt();
             int qmin = qs.last().toInt();
             if (qmax < qmin) {
                 // always show best quality on right
-                m_view.quality->setInvertedAppearance(true);
-                m_view.quality->setRange(qmax, qmin);
                 m_view.video->setRange(qmax, qmin);
+                m_view.video->setProperty("decreasing", true);
             } else {
-                m_view.quality->setInvertedAppearance(false);
-                m_view.quality->setRange(qmin, qmax);
                 m_view.video->setRange(qmin, qmax);
+                m_view.video->setProperty("decreasing", false);
             }
-            // at least 4 steps, + look for min step in profile definition
-            int step = qAbs(qmax - qmin) / 3;
-            for (int i = 1; i < qs.count(); ++i) {
-                int dq = qAbs(qs.at(i).toInt() - qs.at(i-1).toInt());
-                if (dq < step) step = dq;
-            }
-            m_view.video->setSingleStep(step);
-            m_view.quality->setSingleStep(step);
-        } else m_view.video->setEnabled(false);
-    } else m_view.video->setEnabled(false);
-    m_view.quality->setEnabled(m_view.video->isEnabled());
-    
-    
+        }
+    }
+    m_view.video->setEnabled(quality);
+    m_view.quality->setEnabled(quality);
+
     // audio quality control
+    quality = false;
     if ((params.contains(QStringLiteral("%audioquality")) || params.contains(QStringLiteral("%audiobitrate")))
             && item->data(0, AudioBitratesRole).canConvert(QVariant::StringList)) {
         // bitrates or quantizers list
         QStringList qs = item->data(0, AudioBitratesRole).toStringList();
         if (qs.count() > 1) {
+            quality = true;
             int qmax = qs.first().toInt();
             int qmin = qs.last().toInt();
             if (qmax < qmin) {
@@ -1625,18 +1619,21 @@ void RenderWidget::refreshParams()
                 m_view.audio->setRange(qmin, qmax);
                 m_view.audio->setProperty("decreasing", false);
             }
-            int step = pow(10,floor(log10(qAbs(qmax-qmin))));
-            m_view.audio->setSingleStep(step);
-        } else m_view.audio->setEnabled(false);
-    } else m_view.audio->setEnabled(false);
-        
+            if (params.contains(QStringLiteral("%audiobitrate")))
+                m_view.audio->setSingleStep(32); // 32kbps step
+            else
+                m_view.audio->setSingleStep(1);
+        }
+    }
+    else m_view.audio->setEnabled(quality);
+
     if (item->data(0, SpeedsRole).canConvert(QVariant::StringList) && item->data(0, SpeedsRole).toStringList().count()) {
         int speed = item->data(0, SpeedsRole).toStringList().count() - 1;
         m_view.speed->setEnabled(true);
         m_view.speed->setMaximum(speed);
         m_view.speed->setValue(speed);
     } else m_view.speed->setEnabled(false);
-    
+
     m_view.checkTwoPass->setEnabled(params.contains(QStringLiteral("passes")));
 
     m_view.encoder_threads->setEnabled(!params.contains(QStringLiteral("threads=")));
@@ -1653,8 +1650,8 @@ void RenderWidget::reloadProfiles()
 void RenderWidget::parseProfiles()
 {
     m_view.formats->clear();
-    
-    // Parse our xml profile 
+
+    // Parse our xml profile
     QString exportFile = QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("export/profiles.xml"));
     parseFile(exportFile, false);
 
@@ -1693,7 +1690,7 @@ void RenderWidget::parseMltPresets()
             groupItem = new QTreeWidgetItem(QStringList(groupName));
             m_view.formats->addTopLevelItem(groupItem);
         }
-        
+
         QStringList profiles = root.entryList(QDir::Files, QDir::Name);
         foreach(const QString &prof, profiles) {
             KConfig config(root.absoluteFilePath(prof), KConfig::SimpleConfig );
@@ -1833,7 +1830,10 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
                 groupItem = foundGroup.takeFirst();
             } else {
                 groupItem = new QTreeWidgetItem(QStringList(groupName));
-                m_view.formats->addTopLevelItem(groupItem);
+                if (editable)
+                    m_view.formats->insertTopLevelItem(0, groupItem);
+                else
+                    m_view.formats->addTopLevelItem(groupItem);
             }
             
             // Check if item with same name already exists and replace it,
@@ -2006,7 +2006,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         QString t = i18n("Rendering finished in %1", est);
         item->setData(1, Qt::UserRole, t);
         QString notif = i18n("Rendering of %1 finished in %2", item->text(1), est);
-        //WARNING: notification below does not seem to work 
+        //WARNING: notification below does not seem to work
         KNotification::event(QStringLiteral("RenderFinished"), notif, QPixmap(), this);
         QString itemGroup = item->data(0, Qt::UserRole).toString();
         if (itemGroup == QLatin1String("dvd")) {
@@ -2250,7 +2250,18 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
     if (!url.isEmpty())
         m_view.out_file->setUrl(QUrl(url));
 
-    if (props.contains(QStringLiteral("renderquality"))) m_view.quality->setValue(props.value(QStringLiteral("renderquality")).toInt());
+    if (props.contains(QStringLiteral("renderprofile")) || props.contains(QStringLiteral("rendercategory")))
+        focusFirstVisibleItem(props.value(QStringLiteral("renderprofile")), props.value(QStringLiteral("rendercategory")));
+
+    if (props.contains(QStringLiteral("renderquality")))
+        m_view.video->setValue(props.value(QStringLiteral("renderquality")).toInt());
+    else if (props.contains(QStringLiteral("renderbitrate")))
+        m_view.video->setValue(props.value(QStringLiteral("renderbitrate")).toInt());
+    if (props.contains(QStringLiteral("renderaudioquality")))
+        m_view.audio->setValue(props.value(QStringLiteral("renderaudioquality")).toInt());
+    if (props.contains(QStringLiteral("renderaudiobitrate")))
+        m_view.audio->setValue(props.value(QStringLiteral("renderaudiobitrate")).toInt());
+
     if (props.contains(QStringLiteral("renderspeed"))) m_view.speed->setValue(props.value(QStringLiteral("renderspeed")).toInt());
 }
 
@@ -2417,7 +2428,7 @@ void RenderWidget::setRescaleEnabled(bool enable)
     for (int i = 0; i < m_view.rescale_box->layout()->count(); ++i) {
         if (m_view.rescale_box->itemAt(i)->widget())
             m_view.rescale_box->itemAt(i)->widget()->setEnabled(enable);
-    }   
+    }
 }
 
 void RenderWidget::keyPressEvent(QKeyEvent *e) {
@@ -2439,16 +2450,19 @@ void RenderWidget::keyPressEvent(QKeyEvent *e) {
 
 void RenderWidget::adjustAVQualities(int quality)
 {
-    m_view.video->blockSignals(true);
-    m_view.video->setValue(quality);
-    m_view.video->blockSignals(false);
-    // interpolate corresponding audio quality
+    // calculate video/audio quality indexes from the general quality cursor
     // taking into account decreasing/increasing video/audio quality parameter
-    int dq = m_view.quality->invertedAppearance()
-        ? m_view.quality->maximum() - quality
-        : quality - m_view.quality->minimum();
-    dq = dq * (m_view.audio->maximum() - m_view.audio->minimum())
-            / (m_view.video->maximum() - m_view.video->minimum());
+    double q = (double)quality / m_view.quality->maximum();
+
+    int dq = q * (m_view.video->maximum() - m_view.video->minimum());
+    // prevent video spinbox to update quality cursor (loop)
+    m_view.video->blockSignals(true);
+    m_view.video->setValue(m_view.video->property("decreasing").toBool()
+        ? m_view.video->maximum() - dq
+        : m_view.video->minimum() + dq);
+    m_view.video->blockSignals(false);
+    dq = q * (m_view.audio->maximum() - m_view.audio->minimum());
+    dq -= dq % m_view.audio->singleStep(); // keep a 32 pitch  for bitrates
     m_view.audio->setValue(m_view.audio->property("decreasing").toBool()
         ? m_view.audio->maximum() - dq
         : m_view.audio->minimum() + dq);
@@ -2456,7 +2470,11 @@ void RenderWidget::adjustAVQualities(int quality)
 
 void RenderWidget::adjustQuality(int videoQuality)
 {
+    int dq = videoQuality * m_view.quality->maximum() / (m_view.video->maximum() - m_view.video->minimum());
     m_view.quality->blockSignals(true);
-    m_view.quality->setValue(videoQuality);
+    m_view.quality->setValue(
+        m_view.video->property("decreasing").toBool()
+        ? m_view.video->maximum() - dq
+        : m_view.video->minimum() + dq);
     m_view.quality->blockSignals(false);
 }
