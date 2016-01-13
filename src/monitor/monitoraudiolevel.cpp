@@ -66,16 +66,18 @@ MyAudioWidget::MyAudioWidget(int height, QWidget *parent) : QWidget(parent)
 
 void MyAudioWidget::resizeEvent ( QResizeEvent * event )
 {
-    drawBackground(m_peaks.size(), event->size());
+    drawBackground(m_peaks.size());
     QWidget::resizeEvent(event);
 }
 
-void MyAudioWidget::drawBackground(int channels, const QSize &widgetSize)
+void MyAudioWidget::refreshPixmap()
 {
-    QSize newSize = widgetSize;
-    if (newSize.isEmpty()) {
-        newSize = QWidget::size();
-    }
+    drawBackground(m_peaks.size());
+}
+
+void MyAudioWidget::drawBackground(int channels)
+{
+    QSize newSize = QWidget::size();
     QLinearGradient gradient(0, 0, newSize.width(), 0);
     gradient.setColorAt(0.0, QColor(Qt::darkGreen));
     gradient.setColorAt(0.7142, QColor(Qt::green));
@@ -100,7 +102,7 @@ void MyAudioWidget::drawBackground(int channels, const QSize &widgetSize)
     double steps = rect.width() / 12;
     p.setPen(palette().dark().color());
     for (int i = 1; i < 12; i++) {
-        p.drawLine(i * steps, 0, i * steps, totalHeight);
+        p.drawLine(i * steps, 0, i * steps, totalHeight - 1);
     }
     p.setCompositionMode(QPainter::CompositionMode_Source);
     for (int i = 0; i < channels; i++) {
@@ -140,6 +142,7 @@ void MyAudioWidget::paintEvent(QPaintEvent *pe)
     }
     p.drawPixmap(rect, m_pixmap);
     p.setPen(palette().dark().color());
+    p.setOpacity(0.9);
     for (int i = 0; i < m_values.count(); i++) {
         if (m_values.at(i) >= 100) continue;
         p.fillRect(m_values.at(i) / 100.0 * rect.width(), i * m_channelHeight + (i * 2), rect.width(), m_channelHeight, palette().dark());
@@ -159,7 +162,7 @@ QWidget *MonitorAudioLevel::createProgressBar(int height, QWidget *parent)
     w->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     QVBoxLayout *lay = new QVBoxLayout;
     w->setLayout(lay);
-    m_pBar1 = new MyAudioWidget(height / 1.6, w);
+    m_pBar1 = new MyAudioWidget(height / 1.2, w);
     lay->addWidget(m_pBar1);
     return w;
 }
@@ -179,5 +182,12 @@ void MonitorAudioLevel::setMonitorVisible(bool visible)
 {
     if (m_pBar1) {
         m_pBar1->setVisible(visible);
+    }
+}
+
+void MonitorAudioLevel::refreshPixmap()
+{
+    if (m_pBar1) {
+        m_pBar1->refreshPixmap();
     }
 }

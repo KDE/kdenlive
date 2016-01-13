@@ -223,6 +223,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
     QDockWidget * libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
     QDockWidget * spectrumDock = addDock(i18n("Audio Spectrum"), QStringLiteral("audiospectrum"), pCore->audioSpectrum());
+    connect(this, &MainWindow::reloadTheme, pCore->audioSpectrum(), &AudioGraphSpectrum::refreshPixmap);
 
     // Close library and audiospectrum on first run
     libraryDock->close();

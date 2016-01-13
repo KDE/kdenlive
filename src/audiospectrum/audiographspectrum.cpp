@@ -103,7 +103,6 @@ static const int AUDIBLE_BAND_COUNT = LAST_AUDIBLE_BAND_INDEX - FIRST_AUDIBLE_BA
 
 EqualizerWidget::EqualizerWidget(QWidget *parent) : QWidget(parent)
 {
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QGridLayout *box = new QGridLayout(this);
     QStringList labels;
     labels << i18n("Master") << "50Hz" << "100Hz"<<"156Hz"<<"220Hz"<<"311Hz"<<"440Hz"<<"622Hz"<<"880Hz"<<"1.25kHz"<<"1.75kHz"<<"2.5kHz"<<"3.5kHz"<<"5kHz"<<"10kHz"<<"20kHz";
@@ -124,6 +123,7 @@ AudioGraphWidget::AudioGraphWidget(QWidget *parent) : QWidget(parent)
         m_freqLabels << BAND_TAB[i].label;
     }
     m_maxDb = 0;
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setMinimumHeight(100);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 }
@@ -137,26 +137,34 @@ void AudioGraphWidget::showAudio(const QVector<double>&bands)
 void AudioGraphWidget::drawDbLabels(QPainter& p, const QRect &rect)
 {
     int dbLabelCount = m_dbLabels.size();
-    int textHeight = fontMetrics().height();
+    int textHeight = fontMetrics().ascent();
     int x = 0;
     int y = 0;
+    int yline = 0;
 
     if (dbLabelCount == 0) return;
 
-    p.setPen(palette().text().color());
-
+    int maxWidth = fontMetrics().width(QStringLiteral("-50"));
     // dB scale is vertical along the left side
     int prevY = height();
+    QColor textCol = palette().text().color();
+    QColor lineCol = textCol;
+    p.setOpacity(0.8);
+    lineCol.setAlpha(100);
     for (int i = 0; i < dbLabelCount; i++) {
         int value = m_dbLabels[i];
-        QString label = QString().sprintf("%d", value);
-        x = rect.left();
-        y = rect.bottom() - IEC_ScaleMax(value, m_maxDb) * rect.height() + textHeight / 2;
+        QString label = QString::number(value);
+        x = rect.left() + maxWidth - fontMetrics().width(label);
+        yline = rect.bottom() - IEC_ScaleMax(value, m_maxDb) * rect.height();
+        y = yline + textHeight / 2;
         if (y - textHeight < 0) {
             y = textHeight;
         }
         if (prevY - y >= 2) {
+            p.setPen(textCol);
             p.drawText(x, y, label);
+            p.setPen(lineCol);
+            p.drawLine(rect.left() + maxWidth + 2, yline, rect.width(), yline);
             prevY = y - textHeight;
         }
     }
@@ -197,24 +205,41 @@ void AudioGraphWidget::drawChanLabels(QPainter& p, const QRect &rect, int barWid
     }
 }
 
-void AudioGraphWidget::paintEvent(QPaintEvent *pe)
+void AudioGraphWidget::resizeEvent ( QResizeEvent * event )
 {
-    QPainter p(this);
-    p.setClipRect(pe->rect());
-    QRect rect(0, 0, width(), height());
-    p.fillRect(rect, palette().dark().color());
+    drawBackground();
+    QWidget::resizeEvent(event);
+}
+
+void AudioGraphWidget::drawBackground()
+{
+    m_pixmap = QPixmap(width(), height());
+    m_pixmap.fill(palette().base().color());
+    QPainter p(&m_pixmap);
+    QRect rect(0, 0, width() - 3, height());
+    p.setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     drawDbLabels(p, rect);
     int offset = fontMetrics().width("888") + 2;
     rect.adjust(offset, 0, 0, 0);
     int barWidth = (rect.width() - (2 * (AUDIBLE_BAND_COUNT - 1))) / AUDIBLE_BAND_COUNT;
     drawChanLabels(p, rect, barWidth);
+    rect.adjust(0, 0, 0, -fontMetrics().height());
+    m_rect = rect;
+}
+
+void AudioGraphWidget::paintEvent(QPaintEvent *pe)
+{
+    QPainter p(this);
+    p.setClipRect(pe->rect());
+    p.drawPixmap(0, 0, m_pixmap);
     if (m_levels.isEmpty()) return;
     int chanCount = m_levels.size();
-    rect.adjust(0, 0, 0, -fontMetrics().height());
-    int height = rect.height();
+    int height = m_rect.height();
+    int barWidth = (m_rect.width() - (2 * (AUDIBLE_BAND_COUNT - 1))) / AUDIBLE_BAND_COUNT;
+    p.setOpacity(0.6);
     for (int i = 0; i < chanCount; i++) {
-        double level = IEC_ScaleMax(m_levels.at(i), m_maxDb) * rect.height();
-        p.fillRect(offset + i * barWidth + (2 * i), height - level, barWidth, level, Qt::darkGreen);
+        double level = IEC_ScaleMax(m_levels.at(i), m_maxDb) * height;
+        p.fillRect(m_rect.left() + i * barWidth + (2 * i), height - level, barWidth, level, Qt::darkGreen);
     }
 }
 
@@ -259,6 +284,12 @@ AudioGraphSpectrum::~AudioGraphSpectrum()
 {
     delete m_graphWidget;
     //delete m_filter;
+}
+
+void AudioGraphSpectrum::refreshPixmap()
+{
+    if (m_graphWidget)
+        m_graphWidget->drawBackground();
 }
 
 void AudioGraphSpectrum::processSpectrum(const SharedFrame&frame)

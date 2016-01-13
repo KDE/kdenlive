@@ -1622,6 +1622,7 @@ void Monitor::setPalette ( const QPalette & p)
     }
     if (m_ruler) m_ruler->updatePalette();
     m_timePos->updatePalette(p);
+    m_levelManager.refreshPixmap();
 }
 
 

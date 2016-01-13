@@ -32,6 +32,7 @@
 
 #include <QWidget>
 #include <QVector>
+#include <QPixmap>
 
 namespace Mlt {
 class Filter;
@@ -53,17 +54,21 @@ class AudioGraphWidget : public QWidget
     Q_OBJECT
 public:
     AudioGraphWidget(QWidget *parent = 0);
+    void drawBackground();
 
 public slots:
     void showAudio(const QVector<double>&bands);
 
 protected:
     void paintEvent(QPaintEvent *pe);
+    void resizeEvent(QResizeEvent * event);
 
 private:
     QVector<double> m_levels;
     QVector<int> m_dbLabels;
     QStringList m_freqLabels;
+    QPixmap m_pixmap;
+    QRect m_rect;
     int m_maxDb;
     void drawDbLabels(QPainter& p, const QRect &rect);
     void drawChanLabels(QPainter& p, const QRect &rect, int barWidth);
@@ -76,7 +81,6 @@ class AudioGraphSpectrum : public QWidget
 public:
     AudioGraphSpectrum(MonitorManager *manager, QWidget *parent = 0);
     virtual ~AudioGraphSpectrum();
-
 private:
     MonitorManager *m_manager;
     Mlt::Filter* m_filter;
@@ -85,6 +89,7 @@ private:
 
 public slots:
     void processSpectrum(const SharedFrame&frame);
+    void refreshPixmap();
 
 };
 

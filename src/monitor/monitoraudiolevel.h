@@ -31,6 +31,7 @@ class MyAudioWidget : public QWidget
 public:
     explicit MyAudioWidget(int height, QWidget *parent = 0);
     void setAudioValues(const QList <int> &values);
+    void refreshPixmap();
 
 protected:
     void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
@@ -41,7 +42,7 @@ private:
     QList <int> m_peaks;
     QList <int> m_values;
     int m_channelHeight;
-    void drawBackground(int channels = 2, const QSize &widgetSize = QSize());
+    void drawBackground(int channels = 2);
 };
 
 
@@ -52,6 +53,7 @@ public:
     explicit MonitorAudioLevel(QObject *parent = 0);
     QWidget *createProgressBar(int height, QWidget *parent);
     void setMonitorVisible(bool visible);
+    void refreshPixmap();
 
 public slots:
     void slotAudioLevels(const QVector<double> &dbLevels);
