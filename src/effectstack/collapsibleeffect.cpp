@@ -318,7 +318,9 @@ void CollapsibleEffect::slotDisable(bool disable, bool emitInfo)
     if (!disable || KdenliveSettings::disable_effect_parameters()) {
         widgetFrame->setEnabled(!disable);
     }
-    if (emitInfo) emit effectStateChanged(disable, effectIndex(), needsMonitorEffectScene());
+    if (emitInfo) {
+        emit effectStateChanged(disable, effectIndex(), needsMonitorEffectScene());
+    }
 }
 
 void CollapsibleEffect::slotDeleteEffect()

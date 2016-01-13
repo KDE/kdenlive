@@ -264,20 +264,18 @@ void EffectStackView2::slotMasterClipItemSelected(ClipController* c, Monitor *m)
 
 void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo &info, Monitor *m)
 {
-    if (m_status == TIMELINE_TRACK && ix == m_trackindex) {
-        // Track effects already displayed
-        return;
+    if (m_status != TIMELINE_TRACK || ix != m_trackindex) {
+        m_clipref = NULL;
+        m_status = TIMELINE_TRACK;
+        m_effectMetaInfo.monitor = m;
+        m_currentEffectList = info.effectsList;
+        m_trackInfo = info;
+        m_clipref = NULL;
+        m_masterclipref = NULL;
+        m_ui.checkAll->setToolTip(QString());
+        m_ui.checkAll->setText(i18n("Effects for track %1", info.trackName.isEmpty() ? QString::number(ix) : info.trackName));
     }
-    m_clipref = NULL;
-    m_status = TIMELINE_TRACK;
-    m_effectMetaInfo.monitor = m;
-    m_currentEffectList = info.effectsList;
-    m_trackInfo = info;
-    m_clipref = NULL;
-    m_masterclipref = NULL;
     setEnabled(true);
-    m_ui.checkAll->setToolTip(QString());
-    m_ui.checkAll->setText(i18n("Effects for track %1", info.trackName.isEmpty() ? QString::number(ix) : info.trackName));
     m_ui.checkAll->setEnabled(true);
     m_trackindex = ix;
     setupListView();
