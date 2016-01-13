@@ -2388,12 +2388,13 @@ void CustomTrackView::updateEffectState(int track, GenTime pos, QList <int> effe
 {
     if (pos < GenTime()) {
         // editing a track effect
-        if (!m_document->renderer()->mltEnableEffects(m_timeline->tracksCount() - track, pos, effectIndexes, disable)) {
+        if (!m_document->renderer()->mltEnableEffects(track, pos, effectIndexes, disable)) {
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
             return;
         }
-        m_timeline->enableTrackEffects(track - 1, effectIndexes, disable);
+        m_timeline->enableTrackEffects(track, effectIndexes, disable);
         emit updateTrackEffectState(track);
+        emit showTrackEffects(track, m_timeline->getTrackInfo(track));
         return;
     }
     // editing a clip effect
