@@ -345,11 +345,12 @@ void GeometryWidget::setupParam(const QDomElement &elem, int minframe, int maxfr
     }
 
     Mlt::GeometryItem item;
-    m_geometry->fetch(&item, m_monitor->render->seekFramePosition() - m_clipPos);
+    int framePos = qBound<int>(0, m_monitor->render->seekFramePosition() - m_clipPos, maxframe - minframe);
+    m_geometry->fetch(&item, framePos);
     checkSingleKeyframe();
     m_monitor->slotShowEffectScene(MonitorSceneGeometry);
     m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
-    slotPositionChanged(m_monitor->render->seekFramePosition() - m_clipPos, false);
+    slotPositionChanged(framePos, false);
 }
 
 void GeometryWidget::addParameter(const QDomElement &elem)
@@ -733,8 +734,15 @@ void GeometryWidget::slotSetOpacity(double value)
 {
     int pos = m_timePos->getValue();
     Mlt::GeometryItem item;
-    if (m_geometry->fetch(&item, pos) || item.key() == false)
-        return;
+    if (m_geometry->fetch(&item, pos) || item.key() == false) {
+        // Check if we are in a "one keyframe" situation
+        if (m_singleKeyframe && !m_geometry->next_key(&item, 0)) {
+            // Ok we have only one keyframe, edit this one
+        } else {
+            //TODO: show error message
+            return;
+        }
+    }
     item.mix(value);
     m_geometry->insert(item);
     emit parameterChanged();
