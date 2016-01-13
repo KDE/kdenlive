@@ -213,13 +213,16 @@ void AudioGraphWidget::resizeEvent ( QResizeEvent * event )
 
 void AudioGraphWidget::drawBackground()
 {
-    m_pixmap = QPixmap(width(), height());
+    QSize size(width(), height());
+    if (!size.isValid()) return;
+    m_pixmap = QPixmap(size);
+    if (m_pixmap.isNull()) return;
     m_pixmap.fill(palette().base().color());
     QPainter p(&m_pixmap);
     QRect rect(0, 0, width() - 3, height());
     p.setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     drawDbLabels(p, rect);
-    int offset = fontMetrics().width("888") + 2;
+    int offset = fontMetrics().width(QStringLiteral("888")) + 2;
     rect.adjust(offset, 0, 0, 0);
     int barWidth = (rect.width() - (2 * (AUDIBLE_BAND_COUNT - 1))) / AUDIBLE_BAND_COUNT;
     drawChanLabels(p, rect, barWidth);

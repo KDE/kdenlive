@@ -78,6 +78,7 @@ void MyAudioWidget::refreshPixmap()
 void MyAudioWidget::drawBackground(int channels)
 {
     QSize newSize = QWidget::size();
+    if (!newSize.isValid()) return;
     QLinearGradient gradient(0, 0, newSize.width(), 0);
     gradient.setColorAt(0.0, QColor(Qt::darkGreen));
     gradient.setColorAt(0.7142, QColor(Qt::green));
@@ -85,6 +86,7 @@ void MyAudioWidget::drawBackground(int channels)
     gradient.setColorAt(0.881, Qt::darkYellow);
     gradient.setColorAt(0.9525, Qt::red);
     m_pixmap = QPixmap(newSize);
+    if (m_pixmap.isNull()) return;
     m_pixmap.fill(Qt::transparent);
     int totalHeight;
     if (channels < 2) {
