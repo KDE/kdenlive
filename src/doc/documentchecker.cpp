@@ -201,7 +201,6 @@ bool DocumentChecker::hasErrorInClips()
         item->setData(0, idRole, l);
         item->setData(0, statusRole, LUMAMISSING);
     }
-
     m_ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_missingClips.isEmpty() && missingProxies.isEmpty() && missingSources.isEmpty());
     max = m_missingClips.count();
     m_missingProxyIds.clear();
@@ -241,6 +240,7 @@ bool DocumentChecker::hasErrorInClips()
             item->setData(0, typeOriginalResource, e.attribute("resource"));
         } else if (status == TITLE_FONT_ELEMENT) {
             item->setIcon(0, KoIconUtils::themedIcon("dialog-warning"));
+            item->setData(0, statusRole, CLIPPLACEHOLDER);
             item->setToolTip(1, e.attribute("name"));
             QString ft = e.attribute("resource");
             QString newft = QFontInfo(QFont(ft)).family();
@@ -891,7 +891,6 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
         else m_safeFonts.append(fontelement);
     }
 }
-
 
 void DocumentChecker::slotCheckButtons()
 {
