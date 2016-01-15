@@ -59,6 +59,8 @@ private:
     bool updateEffectParameters(const QDomNodeList &parameters, const QScriptValue *updateRules, const double serviceVersion, const double effectVersion);
     */
     QString factorizeGeomValue(QString value, double factor);
+    /** @brief Kdenlive <= 0.9.10 saved title clip item position/opacity with locale which was wrong, fix. */
+    void fixTitleProducerLocale(QDomElement &producer);
 };
 
 #endif

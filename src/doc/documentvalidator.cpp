@@ -1120,7 +1120,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             else trackRenaming.insert(entryId, newId);
             entry.setAttribute(QStringLiteral("producer"), newId);
         }
-
         if (!trackRenaming.isEmpty()) {
             for (int i = 0; i < producers.count(); ++i) {
                 QDomElement prod = producers.at(i).toElement();
@@ -1183,6 +1182,10 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 QDomElement entry = m_doc.createElement(QStringLiteral("entry"));
                 entry.setAttribute(QStringLiteral("producer"), id);
                 main_playlist.appendChild(entry);
+                QString service = EffectsList::property(prod, QStringLiteral("mlt_service"));
+                if (service == QLatin1String("kdenlivetitle")) {
+                    fixTitleProducerLocale(prod);
+                }
                 QDomElement source = m_source_producers.value(id);
                 if (!source.isNull()) {
                     updateProducerInfo(prod, source);
@@ -1190,6 +1193,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     entry.setAttribute(QStringLiteral("out"), QString::number(source.attribute(QStringLiteral("duration")).toInt() - 1));
                 }
                 frag.appendChild(prod);
+                // Changing prod parent removes it from list, so rewind index
+                i--;
             }
             else {
                 QDomElement originalProd = prod.cloneNode().toElement();
@@ -1264,6 +1269,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 entry.setAttribute(QStringLiteral("out"), QString::number(prod.attribute(QStringLiteral("duration")).toInt() - 1));
                 entry.setAttribute(QStringLiteral("producer"), id);
                 main_playlist.appendChild(entry);
+                if (type == 6) {
+                    fixTitleProducerLocale(originalProd);
+                }
                 frag.appendChild(originalProd);
                 ids << id;
             }
@@ -1877,5 +1885,51 @@ void DocumentValidator::checkOrphanedProducers()
         QDomNode firstProd = m_doc.firstChildElement(QStringLiteral("producer"));
         mlt.insertBefore(trackProds, firstProd);
     }
+}
+
+
+void DocumentValidator::fixTitleProducerLocale(QDomElement &producer)
+{
+    QString data = EffectsList::property(producer, "xmldata");
+    QDomDocument doc;
+    doc.setContent(data);
+    QDomNodeList nodes = doc.elementsByTagName(QStringLiteral("position"));
+    bool fixed = false;
+    for (int i = 0; i < nodes.count(); i++) {
+        QDomElement pos = nodes.at(i).toElement();
+        QString x = pos.attribute(QStringLiteral("x"));
+        QString y = pos.attribute(QStringLiteral("y"));
+        if (x.contains(QLatin1Char(','))) {
+            // x pos was saved in locale format, fix
+            x = x.section(QStringLiteral(","), 0, 0);
+            pos.setAttribute(QStringLiteral("x"), x);
+            fixed = true;
+        }
+        if (y.contains(QLatin1Char(','))) {
+            // x pos was saved in locale format, fix
+            y = y.section(QStringLiteral(","), 0, 0);
+            pos.setAttribute(QStringLiteral("y"), y);
+            fixed = true;
+        }
+    }
+    nodes = doc.elementsByTagName(QStringLiteral("content"));
+    for (int i = 0; i < nodes.count(); i++) {
+        QDomElement pos = nodes.at(i).toElement();
+        QString x = pos.attribute(QStringLiteral("font-outline"));
+        QString y = pos.attribute(QStringLiteral("textwidth"));
+        if (x.contains(QLatin1Char(','))) {
+            // x pos was saved in locale format, fix
+            x = x.section(QStringLiteral(","), 0, 0);
+            pos.setAttribute(QStringLiteral("font-outline"), x);
+            fixed = true;
+        }
+        if (y.contains(QLatin1Char(','))) {
+            // x pos was saved in locale format, fix
+            y = y.section(QStringLiteral(","), 0, 0);
+            pos.setAttribute(QStringLiteral("textwidth"), y);
+            fixed = true;
+        }
+    }
+    if (fixed) EffectsList::setProperty(producer, QStringLiteral("xmldata"), doc.toString());
 }
 
