@@ -14,14 +14,14 @@
    <string>Save Profile</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="8" column="0">
+   <item row="7" column="0">
     <widget class="QLabel" name="speedsLabel">
      <property name="text">
       <string>Speed options</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="0" colspan="3">
+   <item row="5" column="0" colspan="3">
     <widget class="QGroupBox" name="vbitrates">
      <property name="title">
       <string>Video</string>
@@ -64,17 +64,17 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="1" colspan="2">
+   <item row="1" column="1" colspan="2">
     <widget class="QLineEdit" name="profile_name"/>
    </item>
-   <item row="1" column="0">
+   <item row="0" column="0">
     <widget class="QLabel" name="groupLabel">
      <property name="text">
       <string>Group</string>
      </property>
     </widget>
    </item>
-   <item row="7" column="0" colspan="3">
+   <item row="6" column="0" colspan="3">
     <widget class="QGroupBox" name="abitrates">
      <property name="title">
       <string>Audio</string>
@@ -115,20 +115,17 @@
      <zorder>default_abitrate</zorder>
     </widget>
    </item>
-   <item row="2" column="0">
+   <item row="0" column="1" colspan="2">
+    <widget class="QLineEdit" name="group_name"/>
+   </item>
+   <item row="1" column="0">
     <widget class="QLabel" name="profileLabel">
      <property name="text">
       <string>Profile name</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1" colspan="2">
-    <widget class="QLineEdit" name="group_name"/>
-   </item>
-   <item row="0" column="1" colspan="2">
-    <widget class="KComboBox" name="destination_list"/>
-   </item>
-   <item row="3" column="0">
+   <item row="2" column="0">
     <widget class="QLabel" name="extensionLabel">
      <property name="text">
       <string>Extension</string>
@@ -136,6 +133,13 @@
     </widget>
    </item>
    <item row="4" column="0" colspan="3">
+    <widget class="QTextEdit" name="parameters">
+     <property name="acceptRichText">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="3">
     <widget class="QLabel" name="parametersLabel">
      <property name="text">
       <string>Parameters (see &lt;a href=&quot;http://www.mltframework.org/bin/view/MLT/ConsumerAvformat&quot;&gt;MLT documentation&lt;/a&gt;)</string>
@@ -145,21 +149,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="destinationLabel">
-     <property name="text">
-      <string>Destination</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0" colspan="3">
-    <widget class="QTextEdit" name="parameters">
-     <property name="acceptRichText">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="2">
+   <item row="9" column="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -169,14 +159,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="1" colspan="2">
-    <widget class="QLineEdit" name="extension">
-     <property name="maxLength">
-      <number>4</number>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="2">
+   <item row="7" column="2">
     <widget class="QTextEdit" name="speeds_list">
      <property name="toolTip">
       <string>One line of options per speedup step, from slowest to fastest</string>
@@ -186,15 +169,15 @@
      </property>
     </widget>
    </item>
+   <item row="2" column="1" colspan="2">
+    <widget class="QLineEdit" name="extension">
+     <property name="maxLength">
+      <number>4</number>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>profile_name</tabstop>
   <tabstop>extension</tabstop>
@@ -203,7 +186,6 @@
   <tabstop>default_vbitrate</tabstop>
   <tabstop>abitrates_list</tabstop>
   <tabstop>default_abitrate</tabstop>
-  <tabstop>destination_list</tabstop>
   <tabstop>group_name</tabstop>
  </tabstops>
  <resources/>

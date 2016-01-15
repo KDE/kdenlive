@@ -489,7 +489,13 @@ void RenderWidget::slotSaveProfile()
             }
         }
         else ui.abitrates->setHidden(true);
+
+        if (item->data(0, SpeedsRole).canConvert(QVariant::StringList) && item->data(0, SpeedsRole).toStringList().count()) {
+            QStringList speeds = item->data(0, SpeedsRole).toStringList();
+            ui.speeds_list->setText(speeds.join('\n'));
+        }
     }
+
     if (customGroup.isEmpty()) customGroup = i18nc("Group Name", "Custom");
     ui.group_name->setText(customGroup);
 
@@ -651,8 +657,6 @@ void RenderWidget::slotEditProfile()
     QString currentGroup = item->parent()->text(0);
 
     QString params = item->data(0, ParamsRole).toString();
-    QString extension = item->data(0, ExtensionRole).toString();
-    QString currentProfile = item->text(0);
 
     Ui::SaveProfile_UI ui;
     QPointer<QDialog> d = new QDialog(this);
@@ -662,12 +666,12 @@ void RenderWidget::slotEditProfile()
     if (customGroup.isEmpty()) customGroup = i18nc("Group Name", "Custom");
     ui.group_name->setText(customGroup);
 
-    ui.profile_name->setText(currentProfile);
-    ui.extension->setText(extension);
+    ui.profile_name->setText(item->text(0));
+    ui.extension->setText(item->data(0, ExtensionRole).toString());
     ui.parameters->setText(params);
     ui.profile_name->setFocus();
-    if (ui.parameters->toPlainText().contains(QStringLiteral("%bitrate")) || ui.parameters->toPlainText().contains(QStringLiteral("%quality"))) {
-        if (ui.parameters->toPlainText().contains(QStringLiteral("%quality"))) {
+    if (params.contains(QStringLiteral("%bitrate")) || ui.parameters->toPlainText().contains(QStringLiteral("%quality"))) {
+        if (params.contains(QStringLiteral("%quality"))) {
             ui.vbitrates_label->setText(i18n("Qualities"));
             ui.default_vbitrate_label->setText(i18n("Default quality"));
         } else {
@@ -684,8 +688,8 @@ void RenderWidget::slotEditProfile()
         ui.vbitrates->setHidden(true);
     }
 
-    if (ui.parameters->toPlainText().contains(QStringLiteral("%audiobitrate")) || ui.parameters->toPlainText().contains(QStringLiteral("%audioquality"))) {
-        if (ui.parameters->toPlainText().contains(QStringLiteral("%audioquality"))) {
+    if (params.contains(QStringLiteral("%audiobitrate")) || ui.parameters->toPlainText().contains(QStringLiteral("%audioquality"))) {
+        if (params.contains(QStringLiteral("%audioquality"))) {
             ui.abitrates_label->setText(i18n("Qualities"));
             ui.default_abitrate_label->setText(i18n("Default quality"));
         } else {
@@ -700,7 +704,14 @@ void RenderWidget::slotEditProfile()
         }
     }
     else ui.abitrates->setHidden(true);
+
+    if ( item->data(0, SpeedsRole).canConvert(QVariant::StringList) && item->data(0, SpeedsRole).toStringList().count()) {
+        QStringList speeds = item->data(0, SpeedsRole).toStringList();
+        ui.speeds_list->setText(speeds.join('\n'));
+    }
+
     d->setWindowTitle(i18n("Edit Profile"));
+
     if (d->exec() == QDialog::Accepted) {
         slotDeleteProfile(false);
         QString exportFile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/customprofiles.xml";
