@@ -238,6 +238,8 @@ public:
     bool hasSelection() const;
     /** @brief Get the index of the video track that is just above current track */
     int getNextVideoTrack(int track);
+    /** @brief returns id of clip under cursor and set pos to cursor position in clip */
+    const QString getClipUnderCursor(int *pos) const;
 
 public slots:
     /** @brief Send seek request to MLT. */

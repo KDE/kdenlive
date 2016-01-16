@@ -242,8 +242,6 @@ private:
 
     QTime m_timer;
     KXMLGUIClient *m_extraFactory;
-    /** @brief The last selected clip in timeline. */
-    ClipItem *m_mainClip;
     bool m_themeInitialized;
     bool m_isDarkTheme;
     QListWidget *m_effectBasket;

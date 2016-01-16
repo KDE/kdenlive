@@ -1261,7 +1261,7 @@ void Monitor::updateClipProducer(const QString &playlist)
 
 void Monitor::slotSeekController(ClipController *controller, int pos)
 {
-    if (controller != m_controller) {
+    if (controller && controller != m_controller) {
         slotOpenClip(controller, pos, -1);
     }
     else slotSeek(pos);

@@ -146,7 +146,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_projectMonitor(NULL),
     m_recMonitor(NULL),
     m_renderWidget(NULL),
-    m_mainClip(NULL),
     m_themeInitialized(false),
     m_isDarkTheme(false)
 {
@@ -2376,15 +2375,6 @@ void MainWindow::customEvent(QEvent* e)
 
 void MainWindow::slotTimelineClipSelected(ClipItem* item, bool raise)
 {
-    if (item != m_mainClip) {
-        if (m_mainClip) {
-            m_mainClip->setMainSelectedClip(false);
-        }
-        if (item) {
-            item->setMainSelectedClip(true);
-        }
-        m_mainClip = item;
-    }
     m_effectStack->slotClipItemSelected(item, m_projectMonitor);
     m_projectMonitor->slotSetSelectedClip(item);
     if (raise) {
@@ -2544,17 +2534,14 @@ void MainWindow::slotClipInTimeline(const QString &clipId)
 void MainWindow::slotClipInProjectTree()
 {
     if (pCore->projectManager()->currentTimeline()) {
-        QStringList clipIds;
-        if (m_mainClip) {
-            clipIds << m_mainClip->getBinId();
-        } else {
-            clipIds = pCore->projectManager()->currentTimeline()->projectView()->selectedClips();
-        }
-        if (clipIds.isEmpty()) {
+        int pos = -1;
+        const QString selectedId = pCore->projectManager()->currentTimeline()->projectView()->getClipUnderCursor(&pos);
+        if (selectedId.isEmpty()) {
             return;
         }
         m_projectBinDock->raise();
-        pCore->bin()->selectClipById(clipIds.at(0));
+        pCore->bin()->selectClipById(selectedId);
+        m_clipMonitor->slotSeekController(NULL,pos);
         if (m_projectMonitor->isActive()) {
             slotSwitchMonitors();
         }

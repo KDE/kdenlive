@@ -984,8 +984,8 @@ void Bin::selectClipById(const QString &clipId)
                 m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
             }
         }
-	selectProxyModel(m_proxyModel->mapFromSource(ix));
-	m_itemView->scrollTo(m_proxyModel->mapFromSource(ix));
+        selectProxyModel(m_proxyModel->mapFromSource(ix));
+        m_itemView->scrollTo(m_proxyModel->mapFromSource(ix));
     }
 }
 
