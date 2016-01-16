@@ -63,6 +63,26 @@ MltVideoProfile::MltVideoProfile() :
 {
 }
 
+MltVideoProfile::MltVideoProfile(const QVariantList &params)
+{
+    if (params.count() != 12) {
+        qDebug()<<" * * Trying to build a profile with incorrect param numbers";
+        return;
+    }
+    frame_rate_num = params.at(0).toInt();
+    frame_rate_den = params.at(1).toInt();
+    width = params.at(2).toInt();
+    height = params.at(3).toInt();
+    progressive = params.at(4).toBool();
+    sample_aspect_num = params.at(5).toInt();
+    sample_aspect_den = params.at(6).toInt();
+    display_aspect_num = params.at(7).toInt();
+    display_aspect_den = params.at(8).toInt();
+    colorspace = params.at(9).toInt();
+    path = params.at(10).toString();
+    description = params.at(11).toString();
+}
+
 bool MltVideoProfile::operator==(const MltVideoProfile &point) const
 {
     if (!description.isEmpty() && point.description  == description) {
@@ -80,9 +100,30 @@ bool MltVideoProfile::operator==(const MltVideoProfile &point) const
             point.colorspace == colorspace;
 }
 
+const QVariantList MltVideoProfile::toList()
+{
+    QVariantList result;
+    result << frame_rate_num << frame_rate_den << width << height << progressive << sample_aspect_num << sample_aspect_den <<display_aspect_num << display_aspect_den << colorspace << path << description;
+    return result;
+}
+
 void MltVideoProfile::adjustWidth()
 {
     width = (width + 7) / 8 * 8;
+}
+
+const QString MltVideoProfile::descriptiveString()
+{
+    QString data = description;
+    if (!data.isEmpty()) data.append(QStringLiteral(", "));
+    QString fps;
+    if (frame_rate_num % frame_rate_den == 0) {
+        fps = QString::number(frame_rate_num / frame_rate_den);
+    } else {
+        fps = QString::number((double)frame_rate_num / frame_rate_den, 'f', 2);
+    }
+    data.append(QString("%1x%2, %3fps").arg(width).arg(height).arg(fps));
+    return data;
 }
 
 bool MltVideoProfile::operator!=(const MltVideoProfile &other) const {

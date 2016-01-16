@@ -425,7 +425,7 @@ Bin::Bin(QWidget* parent) :
     // Info widget for failed jobs, other errors
     m_infoMessage = new BinMessageWidget;
     layout->addWidget(m_infoMessage);
-    m_infoMessage->setCloseButtonVisible(true);
+    m_infoMessage->setCloseButtonVisible(false);
     connect(m_infoMessage, SIGNAL(messageClosing()), this, SLOT(slotResetInfoMessage()));
     //m_infoMessage->setWordWrap(true);
     m_infoMessage->hide();
@@ -434,6 +434,7 @@ Bin::Bin(QWidget* parent) :
     connect(m_logAction, SIGNAL(triggered()), this, SLOT(slotShowJobLog()));
     connect(this, SIGNAL(requesteInvalidRemoval(QString,QUrl,QString)), this, SLOT(slotQueryRemoval(QString,QUrl,QString)));
     connect(this, &Bin::refreshAudioThumbs, this, &Bin::doRefreshAudioThumbs);
+    connect(this, SIGNAL(displayBinMessage(QString,KMessageWidget::MessageType)), this, SLOT(doDisplayMessage(QString,KMessageWidget::MessageType)));
 }
 
 Bin::~Bin()
@@ -1916,11 +1917,16 @@ void Bin::slotUpdateJobStatus(const QString&id, int jobType, int status, const Q
     }
 }
 
-void Bin::displayMessage(const QString &text, KMessageWidget::MessageType type)
+void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type, QList <QAction*> actions)
 {
     if (m_infoMessage->isHidden()) {
         m_infoMessage->setText(text);
         m_infoMessage->setWordWrap(m_infoMessage->text().length() > 35);
+        foreach(QAction *action, actions) {
+            m_infoMessage->addAction(action);
+            connect(action, SIGNAL(triggered(bool)), this, SLOT(slotMessageActionTriggered()));
+        }
+        m_infoMessage->setCloseButtonVisible(actions.isEmpty());
         m_infoMessage->setMessageType(type);
         m_infoMessage->animatedShow();
     }
@@ -2279,12 +2285,12 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
     QDomNodeList producers = doc.documentElement().elementsByTagName("producer");
     QDomNodeList tracks = doc.documentElement().elementsByTagName("track");
     if (invalid || producers.isEmpty()) {
-        emit displayMessage(i18n("Playlist clip %1 is invalid.", url.fileName()), KMessageWidget::Warning);
+        doDisplayMessage(i18n("Playlist clip %1 is invalid.", url.fileName()), KMessageWidget::Warning);
         delete command;
         return;
     }
     if (tracks.count() > pCore->projectManager()->currentTimeline()->visibleTracksCount() + 1) {
-        emit displayMessage(i18n("Playlist clip %1 has too many tracks (%2) to be imported. Add new tracks to your project.", url.fileName(), tracks.count()), KMessageWidget::Warning);
+        doDisplayMessage(i18n("Playlist clip %1 has too many tracks (%2) to be imported. Add new tracks to your project.", url.fileName(), tracks.count()), KMessageWidget::Warning);
         delete command;
         return;
     }
@@ -2559,7 +2565,7 @@ void Bin::slotGotFilterJobResults(QString id, int startPos, int track, stringMap
     int markersType = -1;
     if (filterInfo.contains(QStringLiteral("addmarkers"))) markersType = filterInfo.value(QStringLiteral("addmarkers")).toInt();
     if (results.isEmpty()) {
-        emit displayMessage(i18n("No data returned from clip analysis"), KMessageWidget::Warning);
+        emit displayBinMessage(i18n("No data returned from clip analysis"), KMessageWidget::Warning);
         return;
     }
     bool dataProcessed = false;
@@ -2571,9 +2577,9 @@ void Bin::slotGotFilterJobResults(QString id, int startPos, int track, stringMap
     if (filterInfo.contains(QStringLiteral("resultmessage"))) {
         QString mess = filterInfo.value(QStringLiteral("resultmessage"));
         mess.replace(QLatin1String("%count"), QString::number(value.count()));
-        emit displayMessage(mess, KMessageWidget::Information);
+        emit displayBinMessage(mess, KMessageWidget::Information);
     }
-    else emit displayMessage(i18n("Processing data analysis"), KMessageWidget::Information);
+    else emit displayBinMessage(i18n("Processing data analysis"), KMessageWidget::Information);
     if (filterInfo.contains(QStringLiteral("cutscenes"))) {
         // Check if we want to cut scenes from returned data
         dataProcessed = true;
@@ -2671,7 +2677,7 @@ void Bin::slotLoadClipMarkers(const QString &id)
     delete cbox;
     QFile file(url);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        emit displayMessage(i18n("Cannot open file %1", QUrl(url).fileName()), KMessageWidget::Warning);
+        emit displayBinMessage(i18n("Cannot open file %1", QUrl::fromLocalFile(url).fileName()), KMessageWidget::Warning);
         return;
     }
     QString data = QString::fromUtf8(file.readAll());
@@ -2768,7 +2774,7 @@ void Bin::slotSaveClipMarkers(const QString &id)
 
         QFile file(url);
         if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            emit displayMessage(i18n("Cannot open file %1", url), ErrorMessage);
+            emit displayBinMessage(i18n("Cannot open file %1", url), KMessageWidget::Error);
             return;
         }
         file.write(data.toUtf8());
@@ -2798,7 +2804,7 @@ void Bin::deleteAllClipMarkers(const QString &id)
     QUndoCommand *command = new QUndoCommand;
     command->setText(i18n("Delete clip markers"));
     if (!clip->deleteClipMarkers(command)) {
-        emit displayMessage(i18n("Clip has no markers"), KMessageWidget::Warning);
+        doDisplayMessage(i18n("Clip has no markers"), KMessageWidget::Warning);
     }
     if (command->childCount() > 0) m_doc->commandStack()->push(command);
     else delete command;
@@ -3084,4 +3090,9 @@ void Bin::reloadAllProducers()
             m_doc->getFileProperties(xml, clip->clipId(), 150, true);
         }
     }
+}
+
+void Bin::slotMessageActionTriggered()
+{
+    m_infoMessage->animatedHide();
 }

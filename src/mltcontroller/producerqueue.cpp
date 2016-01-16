@@ -289,11 +289,10 @@ void ProducerQueue::processFileProperties()
                         projectProfile.display_aspect_num = width;
                         projectProfile.display_aspect_den = height;
                         projectProfile.description.clear();
-                        delete producer;
-                        m_processingClipId.removeAll(info.clipId);
+                        //delete producer;
+                        //m_processingClipId.removeAll(info.clipId);
                         info.xml.removeAttribute(QStringLiteral("checkProfile"));
                         emit switchProfile(projectProfile, info.clipId, info.xml);
-                        return;
                     } else {
                         // Very small image, we probably don't want to use this as profile
                         skipProducer = true;
@@ -310,13 +309,12 @@ void ProducerQueue::processFileProperties()
                     MltVideoProfile projectProfile = ProfilesDialog::getVideoProfile(*m_binController->profile());
                     clipProfile.adjustWidth();
                     if (clipProfile != projectProfile) {
-                        // Profiles do not match, adjust profile
-                        delete producer;
+                        // Profiles do not match, propose profile adjustment
+                        //delete producer;
                         delete blankProfile;
-                        m_processingClipId.removeAll(info.clipId);
+                        //m_processingClipId.removeAll(info.clipId);
                         info.xml.removeAttribute("checkProfile");
                         emit switchProfile(clipProfile, info.clipId, info.xml);
-                        return;
                     }
                 }
             }

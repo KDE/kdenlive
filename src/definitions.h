@@ -245,8 +245,11 @@ public:
     // A profile's width should always be a multiple of 8
     void adjustWidth();
     MltVideoProfile();
+    MltVideoProfile(const QVariantList &params);
     bool operator==(const MltVideoProfile& point) const;
     bool operator!=(const MltVideoProfile &other) const;
+    const QVariantList toList();
+    const QString descriptiveString();
 };
 
 

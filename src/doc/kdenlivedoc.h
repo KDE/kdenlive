@@ -223,6 +223,7 @@ private slots:
     void slotModified();
     void slotSetDocumentNotes(const QString &notes);
     void switchProfile(MltVideoProfile profile, const QString &id, const QDomElement &xml);
+    void slotSwitchProfile();
 
 signals:
     void resetProjectList();

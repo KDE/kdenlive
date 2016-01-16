@@ -231,7 +231,7 @@ void JobManager::prepareJobs(QList <ProjectClip *>clips, double fps, AbstractCli
     //TODO filter clips
     QList <ProjectClip *> matching = filterClips(clips, jobType, params);
     if (matching.isEmpty()) {
-        m_bin->displayMessage(i18n("No valid clip to process"), KMessageWidget::Information);
+        m_bin->doDisplayMessage(i18n("No valid clip to process"), KMessageWidget::Information);
         return;
     }
     QMap <ProjectClip *, AbstractClipJob *> jobs;

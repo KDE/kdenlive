@@ -439,14 +439,13 @@ public:
     void setupGeneratorMenu();
     void startClipJob(const QStringList &params);
     void droppedUrls(QList <QUrl> urls);
-    void displayMessage(const QString &text, KMessageWidget::MessageType type);
-    
+
     void addClipCut(const QString&id, int in, int out);
     void removeClipCut(const QString&id, int in, int out);
-    
+
     /** @brief Create the subclips defined in the parent clip. */
     void loadSubClips(const QString&id, const QMap <QString,QString> data);
-    
+
     /** @brief Select a clip in the Bin from its id. */
     void selectClipById(const QString &id);
     /** @brief Set focus to the Bin view. */
@@ -549,6 +548,8 @@ private slots:
     /** @brief Send audio thumb data to monitor for display. */
     void slotSendAudioThumb(QString id);
     void doRefreshAudioThumbs(const QString &id);
+    /** @brief Enable item view and hide message */
+    void slotMessageActionTriggered();
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img, bool fromFile = false);
@@ -606,6 +607,7 @@ public slots:
     void slotGetCurrentProjectImage();
     void slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command);
     void abortAudioThumbs();
+    void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, QList <QAction*> actions = QList <QAction*>());
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);
@@ -695,6 +697,7 @@ signals:
     void masterClipSelected(ClipController *, Monitor *);
     /** @brief Request updating of the effect stack if currently displayed. */
     void masterClipUpdated(ClipController *, Monitor *);
+    void displayBinMessage(const QString &, KMessageWidget::MessageType);
     void displayMessage(const QString &, MessageType);
     void requesteInvalidRemoval(const QString &, QUrl, const QString &);
     /** @brief Markers changed, refresh panel. */

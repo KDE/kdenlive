@@ -38,6 +38,7 @@
 #include "core.h"
 #include "bin/bin.h"
 #include "bin/projectclip.h"
+#include "utils/KoIconUtils.h"
 #include "mltcontroller/bincontroller.h"
 #include "mltcontroller/effectscontroller.h"
 
@@ -1566,19 +1567,48 @@ void KdenliveDoc::resetProfile()
     emit docModified(true);
 }
 
+void KdenliveDoc::slotSwitchProfile()
+{
+    QAction *action = qobject_cast<QAction *>(sender());
+    QVariantList data = action->data().toList();
+    QString id = data.takeFirst().toString();
+    QDomDocument doc;
+    doc.setContent(data.takeFirst().toString(), true);
+    QDomElement xml = doc.documentElement();
+    if (!data.isEmpty()) {
+        // we want a profile switch
+        m_profile = MltVideoProfile(data);
+        updateProjectProfile(true);
+        emit docModified(true);
+    }
+}
+
 void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, const QDomElement &xml)
 {
     // Request profile update
     QString matchingProfile = ProfilesDialog::existingProfile(profile);
     if (!matchingProfile.isEmpty()) {
         // We found a known matching profile, switch and inform user
-        m_profile = profile;
         QMap< QString, QString > profileProperties = ProfilesDialog::getSettingsFromFile(matchingProfile);
-        m_profile.path = matchingProfile;
-        m_profile.description = profileProperties.value("description");
-        updateProjectProfile(true);
-        pCore->bin()->displayMessage(i18n("Switched to clip profile: %1", m_profile.description), KMessageWidget::Information);
-        emit docModified(true);
+        profile.path = matchingProfile;
+        profile.description = profileProperties.value("description");
+
+        // Build actions for the info message (switch / cancel)
+        QList <QAction*> list;
+        QAction *ac = new QAction(KoIconUtils::themedIcon(QStringLiteral("dialog-ok")), i18n("Switch"), this);
+        QVariantList params;
+        connect(ac, SIGNAL(triggered(bool)), this, SLOT(slotSwitchProfile()));
+        QDomDocument doc;
+        doc.appendChild(doc.importNode(xml, true));
+        params << id << doc.toString() << profile.toList();
+        ac->setData(params);
+        QAction *ac2 = new QAction(KoIconUtils::themedIcon(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
+        QVariantList params2;
+        params2 << id << doc.toString();
+        ac2->setData(params2);
+        connect(ac2, SIGNAL(triggered(bool)), this, SLOT(slotSwitchProfile()));
+        list << ac << ac2;
+        pCore->bin()->doDisplayMessage(i18n("Switch to clip profile %1?", profile.descriptiveString()), KMessageWidget::Information, list);
     } else {
         // No known profile, ask user if he wants to use clip profile anyway
         if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("No existing profile found for your clip (%1x%2, %3fps)\nDo you want to switch to that custom profile ?", profile.width, profile.height, QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2))) == KMessageBox::Yes) {
@@ -1586,11 +1616,11 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
             m_profile.description = QString("%1x%2 %3fps").arg(profile.width).arg(profile.height).arg(QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2));
             ProfilesDialog::saveProfile(m_profile);
             updateProjectProfile(true);
-            pCore->bin()->displayMessage(i18n("Switched to clip profile: %1", m_profile.description), KMessageWidget::Information);
+            pCore->bin()->doDisplayMessage(i18n("Switched to clip profile: %1", m_profile.description), KMessageWidget::Information);
             emit docModified(true);
+            pCore->producerQueue()->getFileProperties(xml, id, 150, true);
         }
     }
-    pCore->producerQueue()->getFileProperties(xml, id, 150, true);
 }
 
 void KdenliveDoc::forceProcessing(const QString &id)
