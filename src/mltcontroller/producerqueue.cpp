@@ -273,7 +273,6 @@ void ProducerQueue::processFileProperties()
             producer = new Mlt::Producer(*m_binController->profile(), 0, path.toUtf8().constData());
             if (producer->is_valid() && info.xml.hasAttribute(QStringLiteral("checkProfile")) && producer->get_int("video_index") > -1) {
                 // Check if clip profile matches
-                bool skipProducer = false;
                 QString service = producer->get("mlt_service");
                 // Check for image producer
                 if (service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) {
@@ -295,13 +294,8 @@ void ProducerQueue::processFileProperties()
                         emit switchProfile(projectProfile, info.clipId, info.xml);
                     } else {
                         // Very small image, we probably don't want to use this as profile
-                        skipProducer = true;
                     }
-                } else if (!service.contains(QStringLiteral("avformat"))) {
-                    skipProducer = true;
-                }
-
-                if (!skipProducer) {
+                } else if (service.contains(QStringLiteral("avformat"))) {
                     Mlt::Profile *blankProfile = new Mlt::Profile();
                     blankProfile->set_explicit(false);
                     blankProfile->from_producer(*producer);
