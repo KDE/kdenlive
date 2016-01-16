@@ -517,8 +517,9 @@ void ClipItem::slotSetStartThumb(const QImage &img)
     if (!img.isNull() && img.format() == QImage::Format_ARGB32) {
         QPixmap pix = QPixmap::fromImage(img);
         m_startPix = pix;
-        QRectF r = sceneBoundingRect();
-        r.setRight(pix.width() + 2);
+        QRectF r = boundingRect();
+        double width = FRAME_SIZE / projectScene()->scale().x() * projectScene()->scale().y();
+        r.setRight(r.left() + width + 2);
         update(r);
     }
 }
@@ -528,8 +529,9 @@ void ClipItem::slotSetEndThumb(const QImage &img)
     if (!img.isNull() && img.format() == QImage::Format_ARGB32) {
         QPixmap pix = QPixmap::fromImage(img);
         m_endPix = pix;
-        QRectF r = sceneBoundingRect();
-        r.setLeft(r.right() - pix.width() - 2);
+        QRectF r = boundingRect();
+        double width = FRAME_SIZE / projectScene()->scale().x() * projectScene()->scale().y();
+        r.setLeft(r.right() - width - 2);
         update(r);
     }
 }
@@ -540,20 +542,20 @@ void ClipItem::slotThumbReady(int frame, const QImage &img)
     if (m_startThumbRequested && frame == m_speedIndependantInfo.cropStart.frames(m_fps)) {
         QRectF r = boundingRect();
 	QPixmap pix = QPixmap::fromImage(img);
-	double width = pix.width() / projectScene()->scale().x();
+	double width = FRAME_SIZE / projectScene()->scale().x() * projectScene()->scale().y();
         m_startPix = pix;
         m_startThumbRequested = false;
-        update(r.left(), r.top(), width, pix.height());
+        update(r.left(), r.top(), width, r.height());
         if (m_clipType == Image || m_clipType == Text || m_clipType == QText) {
             update(r.right() - width, r.top(), width, pix.height());
         }
     } else if (m_endThumbRequested && frame == (m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1) {
         QRectF r = boundingRect();
 	QPixmap pix = QPixmap::fromImage(img);
-	double width = pix.width() / projectScene()->scale().x();
+        double width = FRAME_SIZE / projectScene()->scale().x() * projectScene()->scale().y();
         m_endPix = pix;
         m_endThumbRequested = false;
-        update(r.right() - width, r.top(), width, pix.height());
+        update(r.right() - width, r.top(), width, r.height());
     }
 }
 
@@ -735,20 +737,12 @@ void ClipItem::paint(QPainter *painter,
     }
     // draw audio thumbnails
     if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && m_clipState != PlaylistState::VideoOnly && ((m_clipType == AV && (exposed.bottom() > (rect().height() / 2) || m_clipState == PlaylistState::AudioOnly)) || m_clipType == Audio) && m_audioThumbReady && !m_binClip->audioFrameCache.isEmpty()) {
-        int startpixel = exposed.left();
-        if (startpixel < 0)
-            startpixel = 0;
-        int endpixel = (int) (exposed.right() + 0.5) + 1;
-        if (endpixel < 0)
-            endpixel = 0;
-        ////qDebug()<<"///  REPAINTING AUDIO THMBS ZONE: "<<startpixel<<"x"<<endpixel;
-
-        /*QPainterPath path = m_clipType == AV ? roundRectPathLower : resultClipPath;*/
-        QRectF mappedRect;
+        int startpixel = qMax(0, (int) exposed.left());
+        int endpixel = qMax(0, (int) (exposed.right() + 0.5) + 1);
+        QRectF mappedRect = mapped;
         if (m_clipType == AV && m_clipState != PlaylistState::AudioOnly) {
-            mappedRect = mapped;
             mappedRect.setTop(mappedRect.bottom() - mapped.height() / 2);
-        } else mappedRect = mapped;
+        }
 
         double scale = transformation.m11();
         int channels = m_binClip->audioChannels();
@@ -763,45 +757,85 @@ void ClipItem::paint(QPainter *painter,
         if (!KdenliveSettings::displayallchannels()) {
             // simplified audio
             int channelHeight = mappedRect.height();
-            QPainterPath positiveChannelPath;
-            positiveChannelPath.moveTo(startx, mappedRect.bottom());
-            for (int i = startpixel + cropLeft; i < endpixel + cropLeft + offset; i += offset) {
-                double value = m_binClip->audioFrameCache.at(qMin(i * channels, audioLevelCount)).toDouble() / 256;
-                for (int channel = 1; channel < channels; channel ++) {
-                    value = qMax(value, m_binClip->audioFrameCache.at(qMin(i * channels + channel, audioLevelCount)).toDouble() / 256);
+            int startOffset = startpixel + cropLeft;
+            int i = startOffset;
+            if (offset * scale > 1.0) {
+                // Pixels are smaller than a frame, draw using painterpath
+                QPainterPath positiveChannelPath;
+                positiveChannelPath.moveTo(startx, mappedRect.bottom());
+                for (; i < endpixel + cropLeft + offset; i += offset) {
+                    double value = m_binClip->audioFrameCache.at(qMin(i * channels, audioLevelCount)).toDouble() / 256;
+                    for (int channel = 1; channel < channels; channel ++) {
+                        value = qMax(value, m_binClip->audioFrameCache.at(qMin(i * channels + channel, audioLevelCount)).toDouble() / 256);
+                    }
+                    positiveChannelPath.lineTo(startx + (i - startOffset) * scale, mappedRect.bottom() - (value * channelHeight));
                 }
-                positiveChannelPath.lineTo(startx + (i - (startpixel + cropLeft)) * scale, mappedRect.bottom() - (value * channelHeight));
+                positiveChannelPath.lineTo(startx + (i - startOffset) * scale, mappedRect.bottom());
+                painter->setPen(Qt::NoPen);
+                painter->setBrush(QBrush(QColor(80, 80, 150, 200)));
+                painter->drawPath(positiveChannelPath);
+            } else {
+                // Pixels are larger than frames, draw simple lines
+                painter->setPen(QColor(80, 80, 150, 200));
+                i = startx;
+                for (; i < endx; i++) {
+                    int framePos = startOffset + ((i - startx) / scale);
+                    double value = m_binClip->audioFrameCache.at(qMin(framePos * channels, audioLevelCount)).toDouble() / 256;
+                    for (int channel = 1; channel < channels; channel ++) {
+                        value = qMax(value, m_binClip->audioFrameCache.at(qMin(framePos * channels + channel, audioLevelCount)).toDouble() / 256);
+                    }
+                    painter->drawLine(i, mappedRect.bottom() - (value * channelHeight), i, mappedRect.bottom());
+                }
             }
-            positiveChannelPath.lineTo(endx, mappedRect.bottom());
-            painter->setPen(QColor(40, 40, 100, 220));
-            painter->setBrush(QBrush(QColor(80, 80, 150, 200)));
-            painter->drawPath(positiveChannelPath);
         } else if (channels >= 0) {
             int channelHeight = (int) (mappedRect.height() + 0.5) / channels;
-            QMap<int, QPainterPath > positiveChannelPaths;
-            QMap<int, QPainterPath > negativeChannelPaths;
-            for (int channel = 0; channel < channels; channel ++) {
-                int y = channelHeight * channel + channelHeight / 2;
-                positiveChannelPaths[channel].moveTo(startx, mappedRect.bottom() - y);
-                negativeChannelPaths[channel].moveTo(startx, mappedRect.bottom() - y);
-                for (int i = startpixel + cropLeft; i < endpixel + cropLeft + offset; i += offset) {
-                    double value = m_binClip->audioFrameCache.at(qMin(i * channels + channel, audioLevelCount)).toDouble() / 256;
-                    positiveChannelPaths[channel].lineTo(startx + (i - (startpixel + cropLeft)) * scale, mappedRect.bottom() - (y + (value * channelHeight / 2)));
-                    negativeChannelPaths[channel].lineTo(startx + (i - (startpixel + cropLeft)) * scale, mappedRect.bottom() - (y - (value * channelHeight / 2)));
+            int startOffset = startpixel + cropLeft;
+            double value = 0;
+            if (offset * scale > 1.0) {
+                // Pixels are smaller than a frame, draw using painterpath
+                QMap<int, QPainterPath > positiveChannelPaths;
+                QMap<int, QPainterPath > negativeChannelPaths;
+                int i;
+                painter->setPen(QColor(80, 80, 150));
+                for (int channel = 0; channel < channels; channel ++) {
+                    int y = channelHeight * channel + channelHeight / 2;
+                    positiveChannelPaths[channel].moveTo(startx, mappedRect.bottom() - y);
+                    negativeChannelPaths[channel].moveTo(startx, mappedRect.bottom() - y);
+                    // Draw channel median line
+                    i = startOffset;
+                    painter->drawLine(startx, mappedRect.bottom() - y, endx, mappedRect.bottom() - y);
+                    for (; i < endpixel + cropLeft + offset; i += offset) {
+                        value = m_binClip->audioFrameCache.at(qMin(i * channels + channel, audioLevelCount)).toDouble() / 256 * channelHeight / 2;
+                        positiveChannelPaths[channel].lineTo(startx + (i - startOffset) * scale, mappedRect.bottom() - y - value);
+                        negativeChannelPaths[channel].lineTo(startx + (i - startOffset) * scale, mappedRect.bottom() - y + value);
+                    }
                 }
-            }
-            painter->setPen(QColor(80, 80, 150, 200));
-            for (int channel = 0; channel < channels; channel ++) {
-                int y = channelHeight * channel + channelHeight / 2;
-                positiveChannelPaths[channel].lineTo(endx, mappedRect.bottom() - y);
-                negativeChannelPaths[channel].lineTo(endx, mappedRect.bottom() - y);
-                painter->drawLine(startx, mappedRect.bottom() - (channelHeight * channel + channelHeight / 2), endx, mappedRect.bottom() - (channelHeight * channel + channelHeight / 2));
-            }
-            painter->setPen(Qt::NoPen);
-            painter->setBrush(QBrush(QColor(80, 80, 150, 200)));
-            for (int i = 0; i < channels; ++i) {
-                painter->drawPath(positiveChannelPaths.value(i));
-                painter->drawPath(negativeChannelPaths.value(i));
+                painter->setPen(Qt::NoPen);
+                painter->setBrush(QBrush(QColor(80, 80, 150, 200)));
+                for (int channel = 0; channel < channels; channel ++) {
+                    int y = channelHeight * channel + channelHeight / 2;
+                    positiveChannelPaths[channel].lineTo(startx + (i - startOffset) * scale, mappedRect.bottom() - y);
+                    negativeChannelPaths[channel].lineTo(startx + (i - startOffset) * scale, mappedRect.bottom() - y);
+                    painter->drawPath(positiveChannelPaths.value(channel));
+                    painter->drawPath(negativeChannelPaths.value(channel));
+                }
+            } else {
+                // Pixels are larger than frames, draw simple lines
+                painter->setPen(QColor(80, 80, 150));
+                for (int channel = 0; channel < channels; channel ++) {
+                    // Draw channel median line
+                    painter->drawLine(startx, mappedRect.bottom() - (channelHeight * channel + channelHeight / 2), endx, mappedRect.bottom() - (channelHeight * channel + channelHeight / 2));
+                }
+                int i = startx;
+                painter->setPen(QColor(80, 80, 150, 200));
+                for (; i < endx; i++) {
+                    int framePos = startOffset + ((i - startx) / scale);
+                    for (int channel = 0; channel < channels; channel ++) {
+                        int y = channelHeight * channel + channelHeight / 2;
+                        value = m_binClip->audioFrameCache.at(qMin(framePos * channels + channel, audioLevelCount)).toDouble() / 256 * channelHeight / 2;
+                        painter->drawLine(i, mappedRect.bottom() - value - y, i, mappedRect.bottom() - y + value);
+                    }
+                }
             }
         }
         painter->setPen(QPen());
