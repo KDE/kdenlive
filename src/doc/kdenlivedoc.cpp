@@ -1587,7 +1587,7 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
 {
     // Request profile update
     QString matchingProfile = ProfilesDialog::existingProfile(profile);
-    if (matchingProfile.isEmpty() && profile.width & 8 != 0) {
+    if (matchingProfile.isEmpty() && (profile.width % 8 != 0)) {
       // Make sure profile width is a multiple of 8, required by some parts of mlt
         profile.adjustWidth();
         matchingProfile = ProfilesDialog::existingProfile(profile);
