@@ -1587,6 +1587,11 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
 {
     // Request profile update
     QString matchingProfile = ProfilesDialog::existingProfile(profile);
+    if (matchingProfile.isEmpty() && profile.width & 8 != 0) {
+      // Make sure profile width is a multiple of 8, required by some parts of mlt
+        profile.adjustWidth();
+        matchingProfile = ProfilesDialog::existingProfile(profile);
+    }
     if (!matchingProfile.isEmpty()) {
         // We found a known matching profile, switch and inform user
         QMap< QString, QString > profileProperties = ProfilesDialog::getSettingsFromFile(matchingProfile);
@@ -1611,12 +1616,11 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
         pCore->bin()->doDisplayMessage(i18n("Switch to clip profile %1?", profile.descriptiveString()), KMessageWidget::Information, list);
     } else {
         // No known profile, ask user if he wants to use clip profile anyway
-        if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("No existing profile found for your clip (%1x%2, %3fps)\nDo you want to switch to that custom profile ?", profile.width, profile.height, QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2))) == KMessageBox::Yes) {
+        if (KMessageBox::warningContinueCancel(QApplication::activeWindow(), i18n("No profile found for your clip.\nCreate and switch to new profile (%1x%2, %3fps)?", profile.width, profile.height, QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2))) == KMessageBox::Continue) {
             m_profile = profile;
             m_profile.description = QString("%1x%2 %3fps").arg(profile.width).arg(profile.height).arg(QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2));
             ProfilesDialog::saveProfile(m_profile);
             updateProjectProfile(true);
-            //pCore->bin()->doDisplayMessage(i18n("Switched to clip profile: %1", m_profile.description), KMessageWidget::Information);
             emit docModified(true);
             pCore->producerQueue()->getFileProperties(xml, id, 150, true);
         }

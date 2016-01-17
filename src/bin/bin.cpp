@@ -1919,15 +1919,15 @@ void Bin::slotUpdateJobStatus(const QString&id, int jobType, int status, const Q
 
 void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type, QList <QAction*> actions)
 {
+    m_infoMessage->setText(text);
+    m_infoMessage->setWordWrap(m_infoMessage->text().length() > 35);
+    foreach(QAction *action, actions) {
+        m_infoMessage->addAction(action);
+        connect(action, SIGNAL(triggered(bool)), this, SLOT(slotMessageActionTriggered()));
+    }
+    m_infoMessage->setCloseButtonVisible(actions.isEmpty());
+    m_infoMessage->setMessageType(type);
     if (m_infoMessage->isHidden()) {
-        m_infoMessage->setText(text);
-        m_infoMessage->setWordWrap(m_infoMessage->text().length() > 35);
-        foreach(QAction *action, actions) {
-            m_infoMessage->addAction(action);
-            connect(action, SIGNAL(triggered(bool)), this, SLOT(slotMessageActionTriggered()));
-        }
-        m_infoMessage->setCloseButtonVisible(actions.isEmpty());
-        m_infoMessage->setMessageType(type);
         m_infoMessage->animatedShow();
     }
 }

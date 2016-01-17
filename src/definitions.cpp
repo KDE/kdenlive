@@ -115,7 +115,7 @@ void MltVideoProfile::adjustWidth()
 const QString MltVideoProfile::descriptiveString()
 {
     QString data = description;
-    if (!data.isEmpty()) data.append(QStringLiteral(", "));
+    if (!data.isEmpty()) data.append(QStringLiteral(" "));
     QString fps;
     if (frame_rate_num % frame_rate_den == 0) {
         fps = QString::number(frame_rate_num / frame_rate_den);
