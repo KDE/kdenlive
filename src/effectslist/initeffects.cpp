@@ -130,7 +130,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
         setlocale(LC_NUMERIC_MASK, locale.toUtf8().constData());
 #endif
     }
-    
+
     // Retrieve the list of MLT's available effects.
     Mlt::Properties *filters = repository->filters();
     QStringList filtersList;
@@ -174,6 +174,35 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     }
     delete transitions;
 
+    // Create structure holding all transitions descriptions so that if an XML file has no description, we take it from MLT
+    QMap <QString, QString> transDescriptions;
+    foreach(const QString & transname, transitionsItemList) {
+        QDomDocument doc = createDescriptionFromMlt(repository, QStringLiteral("transitions"), transname);
+        if (!doc.isNull()) {
+            if (doc.elementsByTagName(QStringLiteral("description")).count() > 0) {
+                QString desc = doc.documentElement().firstChildElement(QStringLiteral("description")).text();
+                if (!desc.isEmpty()) {
+                    transDescriptions.insert(transname, desc);
+                }
+            }
+        }
+    }
+    transitionsItemList.sort();
+
+    // Parse xml transition files
+    QStringList direc = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("transitions"), QStandardPaths::LocateDirectory);
+    // Iterate through effects directories to parse all XML files.
+    for (more = direc.begin(); more != direc.end(); ++more) {
+        QDir directory(*more);
+        QStringList filter;
+        filter << QStringLiteral("*.xml");
+        fileList = directory.entryList(filter, QDir::Files);
+        for (it = fileList.begin(); it != fileList.end(); ++it) {
+            itemName = directory.absoluteFilePath(*it);
+            parseTransitionFile(&MainWindow::transitions, itemName, transitionsItemList, repository, transDescriptions);
+        }
+    }
+
     // Remove blacklisted transitions from the list.
     QFile file(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("blacklisted_transitions.txt")));
     if (file.open(QIODevice::ReadOnly)) {
@@ -203,7 +232,6 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
                 mltFiltersList.removeAll(black);
                 mltBlackList << black;
 	    }
-	    
         }
         file2.close();
     }
@@ -232,7 +260,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     foreach(const QDomElement & effect, effectsMap)
         MainWindow::transitions.append(effect);
     effectsMap.clear();
-    
+
     // Create structure holding all effects descriptions so that if an XML effect has no description, we take it from MLT
     QMap <QString, QString> effectDescriptions;
     foreach(const QString & filtername, mltBlackList) {
@@ -251,7 +279,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
             }
         }
     }
-    
+
     // Create effects from MLT
     foreach(const QString & filtername, mltFiltersList) {
         QDomDocument doc = createDescriptionFromMlt(repository, QStringLiteral("filters"), filtername);
@@ -275,7 +303,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     }
 
     // Set the directories to look into for effects.
-    QStringList direc = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory);
+    direc = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory);
     // Iterate through effects directories to parse all XML files.
     for (more = direc.begin(); more != direc.end(); ++more) {
         QDir directory(*more);
@@ -630,7 +658,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
 
     foreach(const QString & name, names) {
         QDomDocument ret;
-        QDomElement ktrans = ret.createElement(QStringLiteral("ktransition"));
+        QDomElement ktrans = ret.createElement(QStringLiteral("transition"));
         ret.appendChild(ktrans);
         ktrans.setAttribute(QStringLiteral("tag"), name);
 
@@ -824,5 +852,98 @@ QDomElement initEffects::quickParameterFill(QDomDocument & doc, const QString &n
     return parameter;
 }
 
+// static
+void initEffects::parseTransitionFile(EffectsList *transitionList, const QString &name, QStringList transitionNames, Mlt::Repository *repository, QMap <QString, QString> effectDescriptions)
+{
+    QDomDocument doc;
+    QFile file(name);
+    doc.setContent(&file, false);
+    file.close();
+    QDomElement documentElement;
+    QDomNodeList effects;
+    QDomElement base = doc.documentElement();
+    QStringList addedTags;
+    effects = doc.elementsByTagName(QStringLiteral("transition"));
+    int i = effects.count();
+    if (i == 0) {
+        qDebug() << "+++++++++++++\nEffect broken: " << name<<"\n+++++++++++";;
+        return;
+    }
+
+    bool needsLocaleConversion = false;
+    i--;
+    for (; i >= 0 ; i--) {
+        QLocale locale;
+        QDomNode n = effects.item(i);
+        if (n.isNull()) continue;
+        documentElement = n.toElement();
+        QString id = documentElement.attribute(QStringLiteral("id"));
+        if (addedTags.contains(id)) {
+            // We already processed a version of that filter
+            continue;
+        }
+        //If XML has no description, take it fom MLT's descriptions
+        if (effectDescriptions.contains(id)) {
+            QDomNodeList desc = documentElement.elementsByTagName(QStringLiteral("description"));
+            if (desc.isEmpty()) {
+                QDomElement d = documentElement.ownerDocument().createElement(QStringLiteral("description"));
+                QDomText value = documentElement.ownerDocument().createTextNode(effectDescriptions.value(id));
+                d.appendChild(value);
+                documentElement.appendChild(d);
+            }
+        }
+
+        if (documentElement.hasAttribute(QStringLiteral("LC_NUMERIC"))) {
+            // set a locale for that file
+            locale = QLocale(documentElement.attribute(QStringLiteral("LC_NUMERIC")));
+            if (locale.decimalPoint() != QLocale().decimalPoint()) {
+                needsLocaleConversion = true;
+            }
+        }
+        locale.setNumberOptions(QLocale::OmitGroupSeparator);
+
+        if (needsLocaleConversion) {
+            // we need to convert all numbers to the system's locale (for example 0.5 -> 0,5)
+            QChar separator = QLocale().decimalPoint();
+            QChar oldSeparator = locale.decimalPoint();
+            QDomNodeList params = documentElement.elementsByTagName(QStringLiteral("parameter"));
+            for (int j = 0; j < params.count(); ++j) {
+                QDomNamedNodeMap attrs = params.at(j).attributes();
+                for (int k = 0; k < attrs.count(); ++k) {
+                    QString nodeName = attrs.item(k).nodeName();
+                    if (nodeName != QLatin1String("type") && nodeName != QLatin1String("name")) {
+                            QString val = attrs.item(k).nodeValue();
+                            if (val.contains(oldSeparator)) {
+                                QString newVal = val.replace(oldSeparator, separator);
+                                attrs.item(k).setNodeValue(newVal);
+                            }
+                    }
+                }
+            }
+        }
+
+        double version = -1;
+        Mlt::Properties *metadata = repository->metadata(transition_type, id.toUtf8().data());
+        if (metadata && metadata->is_valid()) {
+            version = metadata->get_double("version");
+        }
+        if (metadata) delete metadata;
+
+        if (documentElement.hasAttribute(QStringLiteral("version"))) {
+            // a specific version of the filter is required
+            if (locale.toDouble(documentElement.attribute(QStringLiteral("version"))) > version) {
+                continue;
+            }
+        }
+        if (version > -1) {
+            // Add version info to XML
+            QDomNode versionNode = doc.createElement(QStringLiteral("version"));
+            versionNode.appendChild(doc.createTextNode(QLocale().toString(version)));
+            documentElement.appendChild(versionNode);
+        }
+        addedTags << id;
+    }
+    transitionList->append(base);
+}
 
 

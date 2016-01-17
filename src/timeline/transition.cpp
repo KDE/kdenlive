@@ -60,7 +60,6 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, co
     if (m_automaticTransition) setBrush(QColor(200, 200, 50, 180));
     else setBrush(QColor(200, 100, 50, 180));
 
-    //m_referenceClip = clipa;
     if (params.isNull()) {
         m_parameters = MainWindow::transitions.getEffectByTag(QStringLiteral("luma"), QStringLiteral("dissolve")).cloneNode().toElement();
     } else {

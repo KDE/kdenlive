@@ -70,6 +70,7 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
 {
     QDomNodeList attribs = xml.elementsByTagName(QStringLiteral("parameter"));
     QMap<QString, QString> map;
+    QLocale locale;
     for (int i = 0; i < attribs.count(); ++i) {
         QDomElement e = attribs.item(i).toElement();
         QString name = e.attribute(QStringLiteral("name"));
@@ -78,8 +79,10 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
         if (!e.attribute(QStringLiteral("value")).isEmpty()) {
             map[name] = e.attribute(QStringLiteral("value"));
         }
-        if (e.attribute(QStringLiteral("type")) != QLatin1String("addedgeometry") && (e.attribute(QStringLiteral("factor"), QStringLiteral("1")) != QLatin1String("1") || e.attribute(QStringLiteral("offset"), QStringLiteral("0")) != QLatin1String("0"))) {
-            map[name] = QLocale().toString((map.value(name).toDouble() - e.attribute(QStringLiteral("offset"), QStringLiteral("0")).toDouble()) / e.attribute(QStringLiteral("factor"), QStringLiteral("1")).toDouble());
+        double factor = e.attribute(QStringLiteral("factor"), QStringLiteral("1")).toDouble();
+        double offset = e.attribute(QStringLiteral("offset"), QStringLiteral("0")).toDouble();
+        if (e.attribute(QStringLiteral("type")) != QLatin1String("addedgeometry") && (factor!= 1 || offset != 0)) {
+            map[name] = locale.toString((locale.toDouble(map.value(name)) - offset) / factor);
             //map[name]=map[name].replace(".",","); //FIXME how to solve locale conversion of . ,
         }
 

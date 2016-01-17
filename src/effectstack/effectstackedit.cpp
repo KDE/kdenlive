@@ -154,15 +154,15 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
     if (m_paramWidget) delete m_paramWidget;
     m_paramWidget = new ParameterContainer(d, info, &m_metaInfo, m_baseWidget);
     connect (m_paramWidget, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this, SIGNAL(parameterChanged(QDomElement,QDomElement,int)));
-    
+
     connect(m_paramWidget, SIGNAL(startFilterJob(QMap<QString,QString>&, QMap<QString,QString>&,QMap <QString, QString>&)), this, SIGNAL(startFilterJob(QMap<QString,QString>&, QMap<QString,QString>&,QMap <QString, QString>&)));
-    
+
     connect (this, SIGNAL(syncEffectsPos(int)), m_paramWidget, SIGNAL(syncEffectsPos(int)));
     connect (this, SIGNAL(initScene(int)), m_paramWidget, SIGNAL(initScene(int)));
     connect (m_paramWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
     connect (m_paramWidget, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
     connect (m_paramWidget, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
-    
+
     Q_FOREACH( QSpinBox * sp, m_baseWidget->findChildren<QSpinBox*>() ) {
         sp->installEventFilter( this );
         sp->setFocusPolicy( Qt::StrongFocus );

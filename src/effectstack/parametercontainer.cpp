@@ -149,7 +149,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
 
 
         /** See effects/README for info on the different types */
-
+        //qDebug()<<"-------------------------------------\n"<<effect.ownerDocument().toString()<<"\n-------------------";
         if (type == QLatin1String("double") || type == QLatin1String("constant")) {
             double min;
             double max;

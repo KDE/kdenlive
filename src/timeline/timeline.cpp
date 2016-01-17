@@ -382,7 +382,7 @@ void Timeline::getTransitions() {
                 QString value = prop.get(paramName.toUtf8().constData());
                 int factor = e.attribute(QStringLiteral("factor")).toInt();
                 if (value.isEmpty()) continue;
-                if (e.attribute(QStringLiteral("type")) == QLatin1String("double"))
+                if (e.attribute(QStringLiteral("type")) == QLatin1String("double") || e.attribute(QStringLiteral("type")) == QLatin1String("constant"))
                     adjustDouble(e, locale.toDouble(value));
                 else
                     e.setAttribute(QStringLiteral("value"), value);

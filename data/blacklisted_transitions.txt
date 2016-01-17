@@ -1,5 +1,6 @@
 # redundant transitions
 frei0r.composition
+frei0r.cairoblend
 
 # unusable transitions (parameters required, not implemented in Kdenlive)
 frei0r.alphainjection
