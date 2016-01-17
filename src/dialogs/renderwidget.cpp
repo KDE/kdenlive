@@ -953,12 +953,13 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
     // script file
     QFile file(scriptPath);
     int stemCount = playlistPaths.count();
+    bool stemExport = (trackNames.count() > 0);
 
     for (int stemIdx = 0; stemIdx < stemCount; stemIdx++) {
         QString dest(destBase);
 
         // on stem export append track name to each filename
-        if (stemCount > 1) {
+        if (stemExport) {
             QFileInfo dfi(dest);
             QStringList filePath;
             // construct the full file path
