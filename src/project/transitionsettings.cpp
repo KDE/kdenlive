@@ -133,7 +133,6 @@ if (event->mimeData()->hasFormat(QStringLiteral("application/x-qabstractitemmode
 void TransitionSettings::updateProjectFormat()
 {
     KdenliveDoc *project = pCore->projectManager()->current();
-    m_effectEdit->updateProjectFormat(project->timecode());
     m_tracks = pCore->projectManager()->currentTimeline()->getTracksInfo();
     updateTrackList();
 }

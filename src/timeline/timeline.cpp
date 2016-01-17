@@ -380,10 +380,9 @@ void Timeline::getTransitions() {
                 QDomElement e = params.item(i).toElement();
                 QString paramName = e.hasAttribute(QStringLiteral("tag")) ? e.attribute(QStringLiteral("tag")) : e.attribute(QStringLiteral("name"));
                 QString value = prop.get(paramName.toUtf8().constData());
-                int factor = e.attribute(QStringLiteral("factor")).toInt();
                 if (value.isEmpty()) continue;
-                if (e.attribute(QStringLiteral("type")) == QLatin1String("double") || e.attribute(QStringLiteral("type")) == QLatin1String("constant"))
-                    adjustDouble(e, locale.toDouble(value));
+                if (e.hasAttribute("factor") || e.hasAttribute("offset"))
+                    adjustDouble(e, value);
                 else
                     e.setAttribute(QStringLiteral("value"), value);
             }
@@ -418,7 +417,7 @@ bool Timeline::isSlide(QString geometry) {
     return true;
 }
 
-void Timeline::adjustDouble(QDomElement &e, double value) {
+void Timeline::adjustDouble(QDomElement &e, const QString &value) {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     QString factor = e.attribute(QStringLiteral("factor"), QStringLiteral("1"));
@@ -426,8 +425,19 @@ void Timeline::adjustDouble(QDomElement &e, double value) {
     double fact = 1;
     if (factor.contains('%')) fact = EffectsController::getStringEval(m_doc->getProfileInfo(), factor);
     else fact = locale.toDouble(factor);
-
-    e.setAttribute(QStringLiteral("value"), locale.toString(offset + value * fact));
+    QString type = e.attribute(QStringLiteral("type"));
+    if (type == QLatin1String("double") || type == QLatin1String("constant")) {
+        double val = locale.toDouble(value);
+        e.setAttribute(QStringLiteral("value"), locale.toString(offset + val * fact));
+    } else if (type == QLatin1String("simplekeyframe")) {
+        QStringList keys = value.split(QLatin1Char(';'));
+        for (int j = 0; j < keys.count(); ++j) {
+            QString pos = keys.at(j).section(QLatin1Char('='), 0, 0);
+            double val = locale.toDouble(keys.at(j).section(QLatin1Char('='), 1, 1)) * fact + offset;
+            keys[j] = pos + '=' + locale.toString(val);
+        }
+        e.setAttribute(QStringLiteral("value"), keys.join(QLatin1Char(';')));
+    }
 }
 
 void Timeline::parseDocument(const QDomDocument &doc)

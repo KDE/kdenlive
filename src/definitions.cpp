@@ -137,7 +137,7 @@ CommentedTime::CommentedTime(const GenTime &time, const QString &comment, int ma
     : t(time), c(comment), type(markerType) { }
 
 CommentedTime::CommentedTime(const QString &hash, const GenTime &time)
-    : t(time), c(hash.section(QStringLiteral(":"), 1)), type(hash.section(QStringLiteral(":"), 0, 0).toInt()) { }
+    : t(time), c(hash.section(QLatin1Char(':'), 1)), type(hash.section(QLatin1Char(':'), 0, 0).toInt()) { }
 
 QString CommentedTime::comment() const          {
     return (c.isEmpty() ? i18n("Marker") : c);

@@ -573,7 +573,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupI
         if (b->isChecked() && list.count() == 1) {
             // Check for image sequence
             QUrl url = list.at(0);
-            QString fileName = url.fileName().section('.', 0, -2);
+            QString fileName = url.fileName().section(QLatin1Char('.'), 0, -2);
             if (fileName.at(fileName.size() - 1).isDigit()) {
                 KFileItem item(url);
                 if (item.mimetype().startsWith(QLatin1String("image"))) {

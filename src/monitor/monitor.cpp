@@ -531,6 +531,11 @@ double Monitor::fps() const
     return m_monitorManager->timecode().fps();
 }
 
+Timecode Monitor::timecode() const
+{
+    return m_monitorManager->timecode();
+}
+
 void Monitor::updateMarkers()
 {
     if (m_controller) {

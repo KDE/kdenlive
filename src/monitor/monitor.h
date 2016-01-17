@@ -115,6 +115,8 @@ public:
     QString getTimecodeFromFrames(int pos);
     /** @brief Returns current project's fps. */
     double fps() const;
+    /** @brief Returns current project's timecode. */
+    Timecode timecode() const;
     /** @brief Get url for the clip's thumbnail */
     QString getMarkerThumb(GenTime pos);
     /** @brief Get current project's folder */

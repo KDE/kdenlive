@@ -1023,7 +1023,7 @@ void Bin::slotLoadFolders(QMap<QString,QString> foldersData)
     int iterations = 0;
     while(!folderIds.isEmpty()) {
         QString id = folderIds.takeFirst();
-        QString parentId = id.section(QStringLiteral("."), 0, 0);
+        QString parentId = id.section(QLatin1Char('.'), 0, 0);
         if (parentId == QLatin1String("-1")) {
             parentFolder = m_rootFolder;
         }
@@ -1048,7 +1048,7 @@ void Bin::slotLoadFolders(QMap<QString,QString> foldersData)
             }
         }
         // parent was found, create our folder
-        QString folderId = id.section(QStringLiteral("."), 1, 1);
+        QString folderId = id.section(QLatin1Char('.'), 1, 1);
         int numericId = folderId.toInt();
         if (numericId >= m_folderCounter) m_folderCounter = numericId + 1;
         // Check if placeholder folder was created
@@ -1100,9 +1100,9 @@ void Bin::removeSubClip(const QString &id, QUndoCommand *deleteCommand)
 {
     // Check parent item
     QString clipId = id;
-    int in = clipId.section(QStringLiteral(":"), 1, 1).toInt();
-    int out = clipId.section(QStringLiteral(":"), 2, 2).toInt();
-    clipId = clipId.section(QStringLiteral(":"), 0, 0);
+    int in = clipId.section(QLatin1Char(':'), 1, 1).toInt();
+    int out = clipId.section(QLatin1Char(':'), 2, 2).toInt();
+    clipId = clipId.section(QLatin1Char(':'), 0, 0);
     new AddBinClipCutCommand(this, clipId, in, out, false, deleteCommand);
 }
 
@@ -1417,9 +1417,9 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
 				    continue;
 				}
 				if (condition.startsWith(QLatin1String("vcodec")))
-				    transcodeActions.at(i)->setEnabled(condition.section('=', 1, 1) == videoCodec);
+				    transcodeActions.at(i)->setEnabled(condition.section(QLatin1Char('='), 1, 1) == videoCodec);
 				else if (condition.startsWith(QLatin1String("acodec")))
-				    transcodeActions.at(i)->setEnabled(condition.section('=', 1, 1) == audioCodec);
+				    transcodeActions.at(i)->setEnabled(condition.section(QLatin1Char('='), 1, 1) == audioCodec);
 			    }
 			}
 		    }
@@ -1665,8 +1665,8 @@ QStringList Bin::getBinFolderClipIds(const QString &id) const
 ProjectClip *Bin::getBinClip(const QString &id)
 {
     ProjectClip *clip = NULL;
-    if (id.contains(QStringLiteral("_"))) {
-        clip = m_rootFolder->clip(id.section(QStringLiteral("_"), 0, 0));
+    if (id.contains(QLatin1Char('_'))) {
+        clip = m_rootFolder->clip(id.section(QLatin1Char('_'), 0, 0));
     }
     else {
         clip = m_rootFolder->clip(id);
@@ -2269,7 +2269,7 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
 {
     QStringList folderInfo;
     // Create folder to hold imported clips
-    QString folderName = url.fileName().section(QStringLiteral("."), 0, 0);
+    QString folderName = url.fileName().section(QLatin1Char('.'), 0, 0);
     QString newId = QString::number(getFreeFolderId());
     new AddBinFolderCommand(this, newId, folderName.isEmpty() ? i18n("Folder") : folderName, m_rootFolder->clipId(), false, command);
 
@@ -2301,7 +2301,7 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
         QString resource = EffectsList::property(prod, "resource");
         QString service = EffectsList::property(prod, "mlt_service");
         if (service == "framebuffer") {
-            resource = resource.section(QStringLiteral("?"), 0, -2);
+            resource = resource.section(QLatin1Char('?'), 0, -2);
         }
         if (!resource.isEmpty() && processedUrl.contains(resource)) {
             // This is a sub-clip (track producer or slowmotion, ignore
@@ -2429,8 +2429,8 @@ void Bin::loadSubClips(const QString&id, const QMap <QString,QString> data)
             continue;
         }
         QImage img;
-        int in = i.value().section(QStringLiteral(";"), 0, 0).toInt();
-        int out = i.value().section(QStringLiteral(";"), 1, 1).toInt();
+        int in = i.value().section(QLatin1Char(';'), 0, 0).toInt();
+        int out = i.value().section(QLatin1Char(';'), 1, 1).toInt();
         missingThumbs << in;
         new ProjectSubClip(clip, in, out, m_doc->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()), i.key());
     }
@@ -2587,8 +2587,8 @@ void Bin::slotGotFilterJobResults(QString id, int startPos, int track, stringMap
         QUndoCommand *command = new QUndoCommand();
         command->setText(i18n("Auto Split Clip"));
         foreach (const QString &pos, value) {
-            if (!pos.contains(QStringLiteral("="))) continue;
-            int newPos = pos.section('=', 0, 0).toInt();
+            if (!pos.contains(QLatin1Char('='))) continue;
+            int newPos = pos.section(QLatin1Char('='), 0, 0).toInt();
             // Don't use scenes shorter than 1 second
             if (newPos - cutPos < 24) continue;
             new AddBinClipCutCommand(this, id, cutPos + offset, newPos + offset, true, command);

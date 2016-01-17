@@ -73,11 +73,6 @@ Monitor *EffectStackEdit::monitor()
     return m_metaInfo.monitor;
 }
 
-void EffectStackEdit::updateProjectFormat(const Timecode &t)
-{
-    m_metaInfo.timecode = t;
-}
-
 void EffectStackEdit::setFrameSize(const QPoint &p)
 {
     m_metaInfo.frameSize = p;

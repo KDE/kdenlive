@@ -94,6 +94,9 @@ public:
     /** @brief Makes the first parameter visible in timeline if no parameter is selected. */
     void checkVisibleParam();
 
+    /** @brief Returns attribute name for returned keyframes. */
+    const QString getTag() const;
+
 public slots:
 
     void slotUpdateRange(int inPoint, int outPoint);
@@ -119,6 +122,7 @@ private:
     Timecode m_timecode;
     QGridLayout *m_slidersLayout;
     PositionEdit *m_position;
+    bool m_keyframesTag;
 
 private slots:
     void slotDeleteKeyframe();

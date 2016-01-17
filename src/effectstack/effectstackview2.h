@@ -55,9 +55,6 @@ public:
     /** @brief Clears the list of effects and updates the buttons accordingly. */
     void clear();
 
-    /** @brief Passes updates @param t on to the effect editor. */
-    void updateProjectFormat(const Timecode &t);
-
     /** @brief Tells the effect editor to update its timecode format. */
     void updateTimecodeFormat();
 

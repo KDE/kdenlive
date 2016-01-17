@@ -37,7 +37,6 @@ class EffectStackEdit : public QScrollArea
 public:
     explicit EffectStackEdit(Monitor *monitor, QWidget *parent = 0);
     ~EffectStackEdit();
-    void updateProjectFormat(const Timecode &t);
     static QMap<QString, QImage> iconCache;
     /** @brief Sets attribute @param name to @param value.
     *

@@ -38,7 +38,6 @@ enum EFFECTMODE {
 };
 
 struct EffectMetaInfo {
-    Timecode timecode;
     Monitor *monitor;
     QPoint frameSize;
     EFFECTMODE status;
@@ -101,7 +100,6 @@ private:
     int m_out;
     QList<QWidget*> m_uiItems;
     QMap<QString, QWidget*> m_valueItems;
-    Timecode m_timecode;
     KeyframeEdit *m_keyframeEditor;
     GeometryWidget *m_geometryWidget;
     EffectMetaInfo *m_metaInfo;

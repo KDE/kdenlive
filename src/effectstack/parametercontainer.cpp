@@ -231,7 +231,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         } else if (type == QLatin1String("geometry")) {
             if (true /*KdenliveSettings::on_monitor_effects()*/) {
                 m_monitorEffectScene = MonitorSceneGeometry;
-                m_geometryWidget = new GeometryWidget(m_metaInfo->monitor, m_metaInfo->timecode, info.startPos.frames(KdenliveSettings::project_fps()), effect.hasAttribute(QStringLiteral("showrotation")), parent);
+                m_geometryWidget = new GeometryWidget(m_metaInfo->monitor, m_metaInfo->monitor->timecode(), info.startPos.frames(KdenliveSettings::project_fps()), effect.hasAttribute(QStringLiteral("showrotation")), parent);
                 m_geometryWidget->setFrameSize(m_metaInfo->frameSize);
                 connect(m_geometryWidget, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
                 if (minFrame == maxFrame) {
@@ -247,7 +247,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 connect(this, SIGNAL(syncEffectsPos(int)), m_geometryWidget, SLOT(slotSyncPosition(int)));
                 connect(this, SIGNAL(initScene(int)), m_geometryWidget, SLOT(slotInitScene(int)));
             } else {
-                Geometryval *geo = new Geometryval(m_metaInfo->monitor->profile(), m_metaInfo->timecode, m_metaInfo->frameSize, 0);
+                Geometryval *geo = new Geometryval(m_metaInfo->monitor->profile(), m_metaInfo->monitor->timecode(), m_metaInfo->frameSize, 0);
                 if (minFrame == maxFrame) {
                     geo->setupParam(pa, m_in, m_out);
 		    connect(this, SIGNAL(updateRange(int,int)), geo, SLOT(slotUpdateRange(int,int)));
@@ -269,13 +269,13 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 KeyframeEdit *geo;
                 if (pa.attribute(QStringLiteral("widget")) == QLatin1String("corners")) {
                     // we want a corners-keyframe-widget
-                    CornersWidget *corners = new CornersWidget(m_metaInfo->monitor, pa, m_in, m_out, m_metaInfo->timecode, e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt(), parent);
+                    CornersWidget *corners = new CornersWidget(m_metaInfo->monitor, pa, m_in, m_out, m_metaInfo->monitor->timecode(), e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt(), parent);
 		    connect(this, SIGNAL(updateRange(int,int)), corners, SLOT(slotUpdateRange(int,int)));
 		    m_monitorEffectScene = MonitorSceneCorners;
                     connect(this, SIGNAL(syncEffectsPos(int)), corners, SLOT(slotSyncPosition(int)));
                     geo = static_cast<KeyframeEdit *>(corners);
                 } else {
-                    geo = new KeyframeEdit(pa, m_in, m_out, m_metaInfo->timecode, e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt());
+                    geo = new KeyframeEdit(pa, m_in, m_out, m_metaInfo->monitor->timecode(), e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt());
 		    connect(this, SIGNAL(updateRange(int,int)), geo, SLOT(slotUpdateRange(int,int)));
                 }
                 m_vbox->addWidget(geo);
@@ -307,7 +307,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 // fadeout position starts from clip end
                 pos = m_out - pos;
             }
-            PositionEdit *posedit = new PositionEdit(paramName, pos, 0, m_out - m_in, m_metaInfo->timecode);
+            PositionEdit *posedit = new PositionEdit(paramName, pos, 0, m_out - m_in, m_metaInfo->monitor->timecode());
 	    posedit->setToolTip(comment);
 	    connect(this, SIGNAL(updateRange(int,int)), posedit, SLOT(setRange(int,int)));
             m_vbox->addWidget(posedit);
@@ -368,7 +368,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 meetDependency(paramName, type, EffectsList::parameter(e, depends));
         } else if (type == QLatin1String("roto-spline")) {
             m_monitorEffectScene = MonitorSceneRoto;
-            RotoWidget *roto = new RotoWidget(value.toLatin1(), m_metaInfo->monitor, info, m_metaInfo->timecode, parent);
+            RotoWidget *roto = new RotoWidget(value.toLatin1(), m_metaInfo->monitor, info, m_metaInfo->monitor->timecode(), parent);
             connect(roto, SIGNAL(valueChanged()), this, SLOT(slotCollectAllParameters()));
             connect(roto, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
             connect(this, SIGNAL(syncEffectsPos(int)), roto, SLOT(slotSyncPosition(int)));
@@ -774,7 +774,7 @@ void ParameterContainer::slotCollectAllParameters()
         } else if ((type == QLatin1String("simplekeyframe") || type == QLatin1String("keyframe")) && m_keyframeEditor) {
             QString realName = i18n(na.toElement().text().toUtf8().data());
             QString val = m_keyframeEditor->getValue(realName);
-            pa.setAttribute(QStringLiteral("keyframes"), val);
+            pa.setAttribute(m_keyframeEditor->getTag(), val);
 
             if (m_keyframeEditor->isVisibleParam(realName)) {
                 pa.setAttribute(QStringLiteral("intimeline"), QStringLiteral("1"));

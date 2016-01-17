@@ -30,9 +30,11 @@ KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, con
     QWidget(parent),
     m_min(minFrame),
     m_max(maxFrame),
-    m_timecode(tc)
+    m_timecode(tc),
+    m_keyframesTag(false)
 {
     setupUi(this);
+    //qDebug()<<" * **NEW KFR EDIT, "<<minFrame<<"/"<<maxFrame;
     if (m_max == -1) {
         // special case: keyframe for tracks, do not allow keyframes
         widgetTable->setHidden(true);
@@ -113,7 +115,7 @@ void KeyframeEdit::addParameter(const QDomElement &e, int activeKeyframe)
     QString comment;
     if (!commentElem.isNull())
         comment = i18n(commentElem.text().toUtf8().data());
-    
+
     int columnId = keyframe_list->columnCount();
     keyframe_list->insertColumn(columnId);
     keyframe_list->setHorizontalHeaderItem(columnId, new QTableWidgetItem(paramName));
@@ -129,7 +131,20 @@ void KeyframeEdit::addParameter(const QDomElement &e, int activeKeyframe)
         doubleparam->setInTimelineProperty(true);
     }
 
-    QStringList frames = e.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
+    QStringList frames;
+    if (e.hasAttribute(QStringLiteral("keyframes"))) {
+        // Effects have keyframes in a "keyframe" attribute, not sure why
+        frames = e.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
+        m_keyframesTag = true;
+    } else {
+        // Transitions take keyframes from the value param
+        QString framesValue = e.attribute(QStringLiteral("value"));
+        if (!framesValue.contains(QStringLiteral("="))) {
+            framesValue.prepend(QStringLiteral("0="));
+        }
+        frames = framesValue.split(';', QString::SkipEmptyParts);
+        m_keyframesTag = false;
+    }
     for (int i = 0; i < frames.count(); ++i) {
         int frame = frames.at(i).section('=', 0, 0).toInt();
         bool found = false;
@@ -258,7 +273,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
                 if (keyframe_list->item(i, col))
                     keyframes.append(QString::number(getPos(i)) + '=' + keyframe_list->item(i, col)->text() + ';');
             }
-            m_params[col].setAttribute(QStringLiteral("keyframes"), keyframes);
+            m_params[col].setAttribute(getTag(), keyframes);
         }
 
         emit parameterChanged();
@@ -296,8 +311,14 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
         if (keyframe_list->item(i, column))
             keyframes.append(QString::number(getPos(i)) + '=' + keyframe_list->item(i, column)->text() + ';');
     }
-    m_params[column].setAttribute(QStringLiteral("keyframes"), keyframes);
+    m_params[column].setAttribute(getTag(), keyframes);
     emit parameterChanged();
+}
+
+const QString KeyframeEdit::getTag() const
+{
+    QString tag = m_keyframesTag == true ? QStringLiteral("keyframes") : QStringLiteral("value");
+    return tag;
 }
 
 void KeyframeEdit::generateAllParams()
@@ -308,7 +329,7 @@ void KeyframeEdit::generateAllParams()
             if (keyframe_list->item(i, col))
                 keyframes.append(QString::number(getPos(i)) + '=' + keyframe_list->item(i, col)->text() + ';');
         }
-        m_params[col].setAttribute(QStringLiteral("keyframes"), keyframes);
+        m_params[col].setAttribute(getTag(), keyframes);
     }
     emit parameterChanged();
 }
@@ -319,7 +340,7 @@ const QString KeyframeEdit::getValue(const QString &name)
         QDomNode na = m_params.at(col).firstChildElement(QStringLiteral("name"));
         QString paramName = i18n(na.toElement().text().toUtf8().data());
         if (paramName == name)
-            return m_params.at(col).attribute(QStringLiteral("keyframes"));
+            return m_params.at(col).attribute(getTag());
     }
     return QString();
 }

@@ -69,6 +69,16 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, co
     else if (m_parameters.attribute(QStringLiteral("automatic")) == QLatin1String("1")) m_automaticTransition = true;
     if (m_parameters.attribute(QStringLiteral("force_track")) == QLatin1String("1")) m_forceTransitionTrack = true;
     m_name = i18n(m_parameters.firstChildElement("name").text().toUtf8().data());
+    /*QDomNodeList namenode = m_parameters.elementsByTagName(QStringLiteral("parameter"));
+    for (int i = 0; i < namenode.count() ; ++i) {
+        QDomElement pa = namenode.item(i).toElement();
+        if (pa.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
+            if (pa.attribute(QStringLiteral("keyframes")).isEmpty()) {
+                // Effect has a keyframe type parameter, we need to set the values
+                pa.setAttribute(QStringLiteral("keyframes"), QStringLiteral("0=") + pa.attribute(QStringLiteral("default")));
+            }
+        }
+    }*/
 }
 
 Transition::~Transition()
@@ -329,6 +339,16 @@ QDomElement Transition::toXML()
     m_parameters.setAttribute(QStringLiteral("end"), endPos().frames(m_fps));
     m_parameters.setAttribute(QStringLiteral("force_track"), m_forceTransitionTrack);
     m_parameters.setAttribute(QStringLiteral("automatic"), m_automaticTransition);
+    /*QDomNodeList namenode = m_parameters.elementsByTagName(QStringLiteral("parameter"));
+    for (int i = 0; i < namenode.count() ; ++i) {
+        QDomElement pa = namenode.item(i).toElement();
+        if (pa.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
+            if (pa.attribute(QStringLiteral("keyframes")).isEmpty()) {
+                // Effect has a keyframe type parameter, we need to set the values
+                pa.setAttribute(QStringLiteral("keyframes"), QStringLiteral("0=") + pa.attribute(QStringLiteral("default")));
+            }
+        }
+    }*/
     return m_parameters.cloneNode().toElement();
 }
 

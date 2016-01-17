@@ -703,11 +703,6 @@ void EffectStackView2::deleteCurrentEffect()
     }
 }
 
-void EffectStackView2::updateProjectFormat(const Timecode &t)
-{
-    m_effectMetaInfo.timecode = t;
-}
-
 void EffectStackView2::updateTimecodeFormat()
 {
     for (int i = 0; i< m_effects.count(); ++i)

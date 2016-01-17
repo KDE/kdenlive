@@ -81,11 +81,20 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
         }
         double factor = e.attribute(QStringLiteral("factor"), QStringLiteral("1")).toDouble();
         double offset = e.attribute(QStringLiteral("offset"), QStringLiteral("0")).toDouble();
-        if (e.attribute(QStringLiteral("type")) != QLatin1String("addedgeometry") && (factor!= 1 || offset != 0)) {
-            map[name] = locale.toString((locale.toDouble(map.value(name)) - offset) / factor);
-            //map[name]=map[name].replace(".",","); //FIXME how to solve locale conversion of . ,
+        if (factor!= 1 || offset != 0) {
+            if (e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
+                QStringList values = e.attribute(QStringLiteral("value")).split(';', QString::SkipEmptyParts);
+                for (int j = 0; j < values.count(); ++j) {
+                    QString pos = values.at(j).section(QLatin1Char('='), 0, 0);
+                    double val = (values.at(j).section(QLatin1Char('='), 1, 1).toDouble() - offset) / factor;
+                    values[j] = pos + '=' + locale.toString(val);
+                }
+                map[name] = values.join(QLatin1Char(';'));
+            } else if (e.attribute(QStringLiteral("type")) != QLatin1String("addedgeometry")) {
+                map[name] = locale.toString((locale.toDouble(map.value(name)) - offset) / factor);
+                //map[name]=map[name].replace(".",","); //FIXME how to solve locale conversion of . ,
+            }
         }
-
         if (e.attribute(QStringLiteral("namedesc")).contains(';')) {
             QString format = e.attribute(QStringLiteral("format"));
             QStringList separators = format.split(QStringLiteral("%d"), QString::SkipEmptyParts);

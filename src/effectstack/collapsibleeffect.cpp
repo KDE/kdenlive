@@ -494,7 +494,6 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
             vbox->addWidget(coll);
             //p = new ParameterContainer(effects.at(i).toElement(), info, isEffect, container);
         }
-        
     }
     else {
         m_paramWidget = new ParameterContainer(m_effect, info, metaInfo, widgetFrame);

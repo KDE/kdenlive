@@ -179,7 +179,7 @@ private:
     void parseDocument(const QDomDocument &doc);
     int loadTrack(int ix, int offset, Mlt::Playlist &playlist);
     void getEffects(Mlt::Service &service, ClipItem *clip, int track = 0);
-    void adjustDouble(QDomElement &e, double value);
+    void adjustDouble(QDomElement &e, const QString &value);
 
     /** @brief Adjust kdenlive effect xml parameters to the MLT value*/
     void adjustparameterValue(QDomNodeList clipeffectparams, const QString &paramname, const QString &paramvalue);
