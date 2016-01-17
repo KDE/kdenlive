@@ -950,20 +950,19 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
     // script file
     QFile file(scriptPath);
     int stemCount = playlistPaths.count();
+    bool stemExport = (trackNames.count() > 0);
 
     for (int stemIdx = 0; stemIdx < stemCount; stemIdx++) {
         QString dest(destBase);
 
         // on stem export append track name to each filename
-        if (stemCount > 1) {
+        if (stemExport) {
             QFileInfo dfi(dest);
             QStringList filePath;
             // construct the full file path
             filePath << dfi.absolutePath() << QDir::separator() << dfi.completeBaseName() + "_" <<
-                    QString(trackNames.at(stemIdx)).replace(" ","_") << "." << dfi.suffix();
-            dest = filePath.join("");
-            // debug output
-            qDebug() << "dest: " << dest;
+                    QString(trackNames.at(stemIdx)).replace(QLatin1String(" "),QLatin1String("_")) << QStringLiteral(".") << dfi.suffix();
+            dest = filePath.join(QLatin1String(""));
         }
 
         // Check whether target file has an extension.
