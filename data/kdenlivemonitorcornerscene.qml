@@ -12,6 +12,7 @@ Item {
     property point profile
     property point center
     property double scale
+    property double sourcedar
     onScaleChanged: canvas.requestPaint()
     property bool iskeyframe
     property int requestedKeyFrame
@@ -30,9 +31,11 @@ Item {
     Canvas {
       id: canvas
       property double handleSize
+      property double offset
       width: root.width
       height: root.height
       anchors.centerIn: root
+      offset: sourcedar < root.profile.x / root.profile.y ? (root.profile.x - root.profile.y * root.sourcedar) / (2 * root.profile.x) :(root.profile.y - root.profile.x / root.sourcedar) / (2 * root.profile.y)
       contextType: "2d";
       handleSize: fontReference.fontSize / 2
       renderStrategy: Canvas.Threaded;
@@ -44,21 +47,39 @@ Item {
             context.strokeStyle = Qt.rgba(1, 0, 0, 0.5)
             context.fillStyle = Qt.rgba(1, 0, 0, 0.5)
             context.lineWidth = 2
-
-            for(var i = 0; i < root.centerPoints.length; i++)
-            {
-                var p1 = convertPoint(root.centerPoints[i])
-                if(i == 0)
-                {
-                    context.moveTo(p1.x, p1.y)
-                    context.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
-                    continue
-                }
-                context.lineTo(p1.x, p1.y)
-                context.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
-            }
             var p1 = convertPoint(root.centerPoints[0])
+            var p2 = convertPoint(root.centerPoints[1])
+            var p3 = convertPoint(root.centerPoints[2])
+            var p4 = convertPoint(root.centerPoints[3])
+
+            // Handles
+            context.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
+            context.fillRect(p2.x - handleSize, p2.y - handleSize, 2 * handleSize, 2 * handleSize);
+            context.fillRect(p3.x - handleSize, p3.y - handleSize, 2 * handleSize, 2 * handleSize);
+            context.fillRect(p4.x - handleSize, p4.y - handleSize, 2 * handleSize, 2 * handleSize);
+            // Rect
+            context.moveTo(p1.x, p1.y)
+            context.lineTo(p2.x, p2.y)
+            context.lineTo(p3.x, p3.y)
+            context.lineTo(p4.x, p4.y)
             context.lineTo(p1.x, p1.y)
+
+            // Source rect
+            if (sourcedar > 0) {
+                if (sourcedar < root.profile.x / root.profile.y) {
+                    // vertical bars
+                    context.moveTo(p1.x + (offset * (p2.x - p1.x)), p1.y + (offset * (p2.y - p1.y)))
+                    context.lineTo(p4.x + (offset * (p3.x - p4.x)), p4.y + (offset * (p3.y-p4.y)))
+                    context.moveTo(p2.x + (offset * (p1.x - p2.x)), p2.y + (offset * (p1.y - p2.y)))
+                    context.lineTo(p3.x + (offset * (p4.x - p3.x)), p3.y + (offset * (p4.y-p3.y)))
+                } else {
+                    // horizontal bars
+                    context.moveTo(p1.x + (offset * (p4.x - p1.x)), p1.y + (offset * (p4.y - p1.y)))
+                    context.lineTo(p2.x + (offset * (p3.x - p2.x)), p2.y + (offset * (p3.y-p2.y)))
+                    context.moveTo(p4.x + (offset * (p1.x - p4.x)), p4.y + (offset * (p1.y - p4.y)))
+                    context.lineTo(p3.x + (offset * (p2.x - p3.x)), p3.y + (offset * (p2.y-p3.y)))
+                }
+            }
             context.stroke()
             context.restore()
         }
