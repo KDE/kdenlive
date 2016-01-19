@@ -40,6 +40,7 @@ enum EFFECTMODE {
 struct EffectMetaInfo {
     Monitor *monitor;
     QPoint frameSize;
+    double stretchFactor;
     EFFECTMODE status;
 };
 

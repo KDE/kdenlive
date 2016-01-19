@@ -272,6 +272,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                     CornersWidget *corners = new CornersWidget(m_metaInfo->monitor, pa, m_in, m_out, m_metaInfo->monitor->timecode(), e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt(), parent);
 		    connect(this, SIGNAL(updateRange(int,int)), corners, SLOT(slotUpdateRange(int,int)));
 		    m_monitorEffectScene = MonitorSceneCorners;
+                    corners->setFrameSize(m_metaInfo->frameSize, m_metaInfo->stretchFactor);
                     connect(this, SIGNAL(syncEffectsPos(int)), corners, SLOT(slotSyncPosition(int)));
                     geo = static_cast<KeyframeEdit *>(corners);
                 } else {

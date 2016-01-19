@@ -44,6 +44,7 @@ public:
     virtual ~CornersWidget();
 
     virtual void addParameter(const QDomElement &e, int activeKeyframe = -1);
+    void setFrameSize(const QPoint &size, double stretch);
 
 public slots:
     /** @brief Updates the on-monitor item.  */

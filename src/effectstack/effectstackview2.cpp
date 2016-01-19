@@ -182,7 +182,8 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c, Monitor *m)
             int frameWidth = c->binClip()->getProducerIntProperty(QStringLiteral("meta.media.width"));
             int frameHeight = c->binClip()->getProducerIntProperty(QStringLiteral("meta.media.height"));
             double factor = c->binClip()->getProducerProperty(QStringLiteral("aspect_ratio")).toDouble();
-            m_effectMetaInfo.frameSize = QPoint((int)(frameWidth * factor + 0.5), frameHeight);
+            m_effectMetaInfo.frameSize = QPoint(frameWidth, frameHeight);// (int)(frameWidth * factor + 0.5), frameHeight);
+            m_effectMetaInfo.stretchFactor = factor;
         }
     }
     if (m_clipref == NULL) {

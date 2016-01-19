@@ -9,7 +9,6 @@ Item {
     signal qmlMoveSplit()
     property int splitterPos
     property point center
-    property double scale
     // percentage holds splitter pos relative to the scene percentage
     property double percentage
     // realpercent holds splitter pos relative to the frame width percentage

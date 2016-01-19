@@ -69,7 +69,6 @@ public:
     void clearFrameRenderer();
 
     int displayWidth() const { return m_rect.width(); }
-    
     void updateAudioForAnalysis();
     int displayHeight() const { return m_rect.height(); }
 

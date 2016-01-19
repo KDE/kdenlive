@@ -264,12 +264,14 @@ void GLWidget::resizeGL(int width, int height)
     x = (width - w) / 2;
     y = (height - h) / 2;
     m_rect.setRect(x, y, w, h);
-    double scale = (double) m_rect.width() / m_monitorProfile->width() * m_zoom;
+    double scalex = (double) m_rect.width() / m_monitorProfile->width() * m_zoom;
+    double scaley = (double) m_rect.width() / ((double) m_monitorProfile->height() * m_monitorProfile->dar() / m_monitorProfile->width()) / m_monitorProfile->width() * m_zoom;
     QPoint center = m_rect.center();
     QQuickItem* rootQml = rootObject();
     if (rootQml) {
         rootQml->setProperty("center", center);
-        rootQml->setProperty("scale", scale);
+        rootQml->setProperty("scalex", scalex);
+        rootQml->setProperty("scaley", scaley);
         if (rootQml->objectName() == QLatin1String("rootsplit")) {
             // Adjust splitter pos
             rootQml->setProperty("splitterPos", x + (rootQml->property("realpercent").toDouble() * w));
@@ -1066,8 +1068,10 @@ void GLWidget::setZoom(float zoom)
     m_zoom = zoom;
     emit zoomChanged();
     if (rootObject()) {
-        double scale = rootObject()->property("scale").toDouble() * zoomRatio;
-        rootObject()->setProperty("scale", scale);
+        double scalex = rootObject()->property("scalex").toDouble() * zoomRatio;
+        rootObject()->setProperty("scalex", scalex);
+        double scaley = rootObject()->property("scaley").toDouble() * zoomRatio;
+        rootObject()->setProperty("scaley", scaley);
     }
     update();
 }
@@ -1106,6 +1110,11 @@ void GLWidget::setOffsetY(int y)
 {
     m_offset.setY(y);
     emit offsetChanged();
+    // TODO: pass scrollbar offset for qml view
+    /*if (rootObject()) {
+        double scaley = (double) m_rect.width() / (((double) m_monitorProfile->height() * m_monitorProfile->dar() / m_monitorProfile->width())) /         m_monitorProfile->width() * m_zoom;
+        rootObject()->setProperty("offsety", y / scaley );
+    }*/
     update();
 }
 
@@ -1442,5 +1451,6 @@ void GLWidget::refreshSceneLayout()
 {
     if (!rootObject()) return;
     rootObject()->setProperty("profile", QPoint(m_monitorProfile->width(), m_monitorProfile->height()));
-    rootObject()->setProperty("scale", (double) m_rect.width() / m_monitorProfile->width() * m_zoom);
+    rootObject()->setProperty("scalex", (double) m_rect.width() / m_monitorProfile->width() * m_zoom);
+    rootObject()->setProperty("scaley", (double) m_rect.width() / (((double) m_monitorProfile->height() * m_monitorProfile->dar() / m_monitorProfile->width())) / m_monitorProfile->width() * m_zoom);
 }

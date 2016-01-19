@@ -11,9 +11,12 @@ Item {
     property rect framesize
     property point profile
     property point center
-    property double scale
+    property double scalex
+    property double scaley
+    property double stretch
     property double sourcedar
-    onScaleChanged: canvas.requestPaint()
+    onScalexChanged: canvas.requestPaint()
+    onScaleyChanged: canvas.requestPaint()
     property bool iskeyframe
     property int requestedKeyFrame
     property var centerPoints: []
@@ -31,11 +34,11 @@ Item {
     Canvas {
       id: canvas
       property double handleSize
-      property double offset
+      property double darOffset
       width: root.width
       height: root.height
       anchors.centerIn: root
-      offset: sourcedar < root.profile.x / root.profile.y ? (root.profile.x - root.profile.y * root.sourcedar) / (2 * root.profile.x) :(root.profile.y - root.profile.x / root.sourcedar) / (2 * root.profile.y)
+      darOffset: root.sourcedar < root.profile.x * root.stretch / root.profile.y ? (root.profile.x * root.stretch - root.profile.y * root.sourcedar) / (2 * root.profile.x * root.stretch) :(root.profile.y - root.profile.x * root.stretch / root.sourcedar) / (2 * root.profile.y)
       contextType: "2d";
       handleSize: fontReference.fontSize / 2
       renderStrategy: Canvas.Threaded;
@@ -68,16 +71,16 @@ Item {
             if (sourcedar > 0) {
                 if (sourcedar < root.profile.x / root.profile.y) {
                     // vertical bars
-                    context.moveTo(p1.x + (offset * (p2.x - p1.x)), p1.y + (offset * (p2.y - p1.y)))
-                    context.lineTo(p4.x + (offset * (p3.x - p4.x)), p4.y + (offset * (p3.y-p4.y)))
-                    context.moveTo(p2.x + (offset * (p1.x - p2.x)), p2.y + (offset * (p1.y - p2.y)))
-                    context.lineTo(p3.x + (offset * (p4.x - p3.x)), p3.y + (offset * (p4.y-p3.y)))
+                    context.moveTo(p1.x + (darOffset * (p2.x - p1.x)), p1.y + (darOffset * (p2.y - p1.y)))
+                    context.lineTo(p4.x + (darOffset * (p3.x - p4.x)), p4.y + (darOffset * (p3.y-p4.y)))
+                    context.moveTo(p2.x + (darOffset * (p1.x - p2.x)), p2.y + (darOffset * (p1.y - p2.y)))
+                    context.lineTo(p3.x + (darOffset * (p4.x - p3.x)), p3.y + (darOffset * (p4.y-p3.y)))
                 } else {
                     // horizontal bars
-                    context.moveTo(p1.x + (offset * (p4.x - p1.x)), p1.y + (offset * (p4.y - p1.y)))
-                    context.lineTo(p2.x + (offset * (p3.x - p2.x)), p2.y + (offset * (p3.y-p2.y)))
-                    context.moveTo(p4.x + (offset * (p1.x - p4.x)), p4.y + (offset * (p1.y - p4.y)))
-                    context.lineTo(p3.x + (offset * (p2.x - p3.x)), p3.y + (offset * (p2.y-p3.y)))
+                    context.moveTo(p1.x + (darOffset * (p4.x - p1.x)), p1.y + (darOffset * (p4.y - p1.y)))
+                    context.lineTo(p2.x + (darOffset * (p3.x - p2.x)), p2.y + (darOffset * (p3.y-p2.y)))
+                    context.moveTo(p4.x + (darOffset * (p1.x - p4.x)), p4.y + (darOffset * (p1.y - p4.y)))
+                    context.lineTo(p3.x + (darOffset * (p2.x - p3.x)), p3.y + (darOffset * (p2.y-p3.y)))
                 }
             }
             context.stroke()
@@ -87,8 +90,8 @@ Item {
 
     function convertPoint(p)
     {
-        var x = frame.x + p.x * root.scale
-        var y = frame.y + p.y * root.scale
+        var x = frame.x + p.x * root.scalex
+        var y = frame.y + p.y * root.scaley
         return Qt.point(x,y);
     }
   }
@@ -96,8 +99,8 @@ Item {
         id: frame
         objectName: "referenceframe"
         property color hoverColor: "#ff0000"
-        width: root.profile.x * root.scale
-        height: root.profile.y * root.scale
+        width: root.profile.x * root.scalex
+        height: root.profile.y * root.scaley
         x: root.center.x - width / 2
         y: root.center.y - height / 2
         color: "transparent"
@@ -131,14 +134,10 @@ Item {
 
         onPositionChanged: {
             if (pressed && root.requestedKeyFrame >= 0) {
-                  root.centerPoints[root.requestedKeyFrame].x = (mouseX - frame.x) / root.scale;
-                  root.centerPoints[root.requestedKeyFrame].y = (mouseY - frame.y) / root.scale;
-                  canvas.requestPaint()
+                  root.centerPoints[root.requestedKeyFrame].x = (mouseX - frame.x) / root.scalex;
+                  root.centerPoints[root.requestedKeyFrame].y = (mouseY - frame.y) / root.scaley;
+                  root.effectPolygonChanged()
                 }
-        }
-
-        onReleased: {
-            root.effectPolygonChanged()
         }
     }
 }

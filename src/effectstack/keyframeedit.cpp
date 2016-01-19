@@ -34,7 +34,6 @@ KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, con
     m_keyframesTag(false)
 {
     setupUi(this);
-    //qDebug()<<" * **NEW KFR EDIT, "<<minFrame<<"/"<<maxFrame;
     if (m_max == -1) {
         // special case: keyframe for tracks, do not allow keyframes
         widgetTable->setHidden(true);

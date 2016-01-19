@@ -11,7 +11,8 @@ Item {
     property string markerText
     property string timecode
     property point profile
-    property double scale
+    property double scalex
+    property double scaley
     property bool showMarkers
     property bool showTimecode
     property bool showSafezone
@@ -22,8 +23,8 @@ Item {
     Item {
         id: frame
         objectName: "referenceframe"
-        width: root.profile.x * root.scale
-        height: root.profile.y * root.scale
+        width: root.profile.x * root.scalex
+        height: root.profile.y * root.scaley
         anchors.centerIn: parent
         visible: root.showSafezone
         Rectangle {

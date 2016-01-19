@@ -50,7 +50,7 @@ void QmlManager::setProperty(const QString &name, const QVariant &value)
     m_view->rootObject()->setProperty(name.toUtf8().constData(), value);
 }
 
-void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize profile, QRect displayRect, double zoom)
+void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize profile, double profileStretch, QRect displayRect, double zoom)
 {
     if (type == m_sceneType) {
         // Scene type already active
@@ -68,7 +68,8 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
             QObject::connect(root, SIGNAL(effectChanged()), this, SLOT(effectRectChanged()), Qt::UniqueConnection);
             root->setProperty("profile", QPoint(profile.width(), profile.height()));
             root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
-            root->setProperty("scale", (double) displayRect.width() / profile.width() * zoom);
+            root->setProperty("scalex", (double) displayRect.width() / profile.width() * zoom);
+            root->setProperty("scaley", (double) displayRect.width() / profileStretch / profile.width() * zoom);
             root->setProperty("center", displayRect.center());
             break;
         case MonitorSceneCorners:
@@ -77,7 +78,9 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
             QObject::connect(root, SIGNAL(effectPolygonChanged()), this, SLOT(effectPolygonChanged()), Qt::UniqueConnection);
             root->setProperty("profile", QPoint(profile.width(), profile.height()));
             root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
-            root->setProperty("scale", (double) displayRect.width() / profile.width() * zoom);
+            root->setProperty("scalex", (double) displayRect.width() / profile.width() * zoom);
+            root->setProperty("scaley", (double) displayRect.width() / profileStretch / profile.width() * zoom);
+            root->setProperty("stretch", profileStretch);
             root->setProperty("center", displayRect.center());
             break;
         case MonitorSceneRoto:
@@ -87,7 +90,9 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
             QObject::connect(root, SIGNAL(effectPolygonChanged()), this, SLOT(effectPolygonChanged()), Qt::UniqueConnection);
             root->setProperty("profile", QPoint(profile.width(), profile.height()));
             root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
-            root->setProperty("scale", (double) displayRect.width() / profile.width() * zoom);
+            root->setProperty("scalex", (double) displayRect.width() / profile.width() * zoom);
+            root->setProperty("scaley", (double) displayRect.width() / profileStretch / profile.width() * zoom);
+            root->setProperty("stretch", profileStretch);
             root->setProperty("center", displayRect.center());
             break;
         case MonitorSceneSplit:
@@ -97,7 +102,8 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
             m_view->setSource(QUrl(id == Kdenlive::ClipMonitor ? QStringLiteral("qrc:/qml/kdenliveclipmonitor.qml") : QStringLiteral("qrc:/qml/kdenlivemonitor.qml")));
             root = m_view->rootObject();
             root->setProperty("profile", QPoint(profile.width(), profile.height()));
-            root->setProperty("scale", (double) displayRect.width() / profile.width() * zoom);
+            root->setProperty("scalex", (double) displayRect.width() / profile.width() * zoom);
+            root->setProperty("scaley", (double) displayRect.width() / profileStretch / profile.width() * zoom);
             break;
     }
 
@@ -108,7 +114,6 @@ void QmlManager::effectRectChanged()
 {
     if (!m_view->rootObject()) return;
     const QRect rect = m_view->rootObject()->property("framesize").toRect();
-    qDebug()<<" - - -EFFECT RECT: "<<rect;
     emit effectChanged(rect);
 }
 

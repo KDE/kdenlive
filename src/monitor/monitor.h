@@ -128,6 +128,8 @@ public:
     int getZoneStart();
     int getZoneEnd();
     void setUpEffectGeometry(QRect r, QVariantList list = QVariantList());
+    /** @brief Returns effective display size */
+    QSize profileSize() const;
     QRect effectRect() const;
     QVariantList effectPolygon() const;
     void setEffectKeyframe(bool enable);
@@ -149,6 +151,8 @@ public:
     void prepareAudioThumb(int channels, QVariantList &audioCache);
     void refreshMonitorIfActive();
     void connectAudioSpectrum(bool activate);
+    /** @brief Set a property on the Qml scene **/
+    void setQmlProperty(const QString &name, const QVariant &value);
 
 protected:
     void mousePressEvent(QMouseEvent * event);

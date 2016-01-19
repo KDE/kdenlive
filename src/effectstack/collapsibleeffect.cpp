@@ -83,7 +83,7 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     l->insertWidget(0, m_colorIcon);
     title = new QLabel(this);
     l->insertWidget(2, title);
-    
+
     m_enabledButton = new KDualAction(i18n("Disable Effect"), i18n("Enable Effect"), this);
     m_enabledButton->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("hint")));
     m_enabledButton->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("visibility")));

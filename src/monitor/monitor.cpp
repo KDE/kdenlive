@@ -1701,9 +1701,14 @@ void Monitor::slotSwitchCompare(bool enable)
     slotActivateMonitor();
 }
 
+QSize Monitor::profileSize() const
+{
+    return m_glMonitor->profileSize();
+}
+
 void Monitor::loadQmlScene(MonitorSceneType type)
 {
-    m_qmlManager->setScene(m_id, type, m_glMonitor->profileSize(), m_glMonitor->displayRect(), m_glMonitor->zoom());
+    m_qmlManager->setScene(m_id, type, m_glMonitor->profileSize(), (double) render->renderWidth() / render->frameRenderWidth(), m_glMonitor->displayRect(), m_glMonitor->zoom());
     QQuickItem *root = m_glMonitor->rootObject();
     QFontInfo info(font());
     root->setProperty("displayFontSize", info.pixelSize() * 1.4);
@@ -1736,6 +1741,11 @@ void Monitor::loadQmlScene(MonitorSceneType type)
           break;
     }
     if (m_sceneVisibilityAction) m_sceneVisibilityAction->setChecked(type != MonitorSceneDefault);
+}
+
+void Monitor::setQmlProperty(const QString &name, const QVariant &value)
+{
+    m_qmlManager->setProperty(name, value);
 }
 
 void Monitor::slotAdjustEffectCompare()

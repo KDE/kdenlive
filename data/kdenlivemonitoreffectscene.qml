@@ -11,8 +11,10 @@ Item {
     property rect framesize
     property point profile
     property point center
-    property double scale
-    onScaleChanged: canvas.requestPaint()
+    property double scalex
+    property double scaley
+    onScalexChanged: canvas.requestPaint()
+    onScaleyChanged: canvas.requestPaint()
     property bool iskeyframe
     property int requestedKeyFrame
     property var centerPoints: []
@@ -64,8 +66,8 @@ Item {
 
     function convertPoint(p)
     {
-        var x = frame.x + p.x * root.scale
-        var y = frame.y + p.y * root.scale
+        var x = frame.x + p.x * root.scalex
+        var y = frame.y + p.y * root.scaley
         return Qt.point(x,y);
     }
   }
@@ -73,8 +75,8 @@ Item {
         id: frame
         objectName: "referenceframe"
         property color hoverColor: "#ff0000"
-        width: root.profile.x * root.scale
-        height: root.profile.y * root.scale
+        width: root.profile.x * root.scalex
+        height: root.profile.y * root.scaley
         x: root.center.x - width / 2
         y: root.center.y - height / 2
         color: "transparent"
@@ -114,10 +116,10 @@ Item {
     Rectangle {
         id: framerect
         property color hoverColor: "#ffffff"
-        x: frame.x + root.framesize.x * root.scale
-        y: frame.y + root.framesize.y * root.scale
-        width: root.framesize.width * root.scale
-        height: root.framesize.height * root.scale
+        x: frame.x + root.framesize.x * root.scalex
+        y: frame.y + root.framesize.y * root.scaley
+        width: root.framesize.width * root.scalex
+        height: root.framesize.height * root.scaley
         color: "transparent"
         border.color: "#ffff0000"
         Rectangle {
@@ -146,10 +148,10 @@ Item {
               }
               onPositionChanged: {
                 if (pressed) {
-                  framesize.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scale;
-                  framesize.width = (framerect.width - (mouseX - oldMouseX)) / root.scale;
-                  framesize.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scale;
-                  framesize.height = (framerect.height - (mouseY - oldMouseY)) / root.scale;
+                  framesize.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scalex;
+                  framesize.width = (framerect.width - (mouseX - oldMouseX)) / root.scalex;
+                  framesize.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scaley;
+                  framesize.height = (framerect.height - (mouseY - oldMouseY)) / root.scaley;
                   root.effectChanged()
                 }
               }
@@ -195,9 +197,9 @@ Item {
               }
               onPositionChanged: {
                 if (pressed) {
-                  framesize.width = (framerect.width + (mouseX - oldMouseX)) / root.scale;
-                  framesize.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scale;
-                  framesize.height = (framerect.height - (mouseY - oldMouseY)) / root.scale;
+                  framesize.width = (framerect.width + (mouseX - oldMouseX)) / root.scalex;
+                  framesize.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scaley;
+                  framesize.height = (framerect.height - (mouseY - oldMouseY)) / root.scaley;
                   root.effectChanged()
                 }
               }
@@ -232,9 +234,9 @@ Item {
               }
               onPositionChanged: {
                 if (pressed) {
-                  framesize.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scale;
-                  framesize.width = (framerect.width - (mouseX - oldMouseX)) / root.scale;
-                  framesize.height = (framerect.height + (mouseY - oldMouseY)) / root.scale;
+                  framesize.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scalex;
+                  framesize.width = (framerect.width - (mouseX - oldMouseX)) / root.scalex;
+                  framesize.height = (framerect.height + (mouseY - oldMouseY)) / root.scaley;
                   root.effectChanged()
                 }
               }
@@ -269,8 +271,8 @@ Item {
               }
               onPositionChanged: {
                 if (pressed) {
-                  framesize.width = (framerect.width + (mouseX - oldMouseX)) / root.scale;
-                  framesize.height = (framerect.height + (mouseY - oldMouseY)) / root.scale;
+                  framesize.width = (framerect.width + (mouseX - oldMouseX)) / root.scalex;
+                  framesize.height = (framerect.height + (mouseY - oldMouseY)) / root.scaley;
                   root.effectChanged()
                 }
               }
@@ -312,8 +314,8 @@ Item {
               }
               onPositionChanged: {
                   if (pressed) {
-                      framesize.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scale;
-                      framesize.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scale;
+                      framesize.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scalex;
+                      framesize.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scaley;
                       root.effectChanged()
                   }
               }
