@@ -629,15 +629,18 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
     QStringList imagenamelist;
     QStringList imagefiles;
     QStringList filters;
+    QString defaultWipeLuma;
     filters << QStringLiteral("*.png") << QStringLiteral("*.pgm");
     QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
     foreach(QString folder, customLumas) {
-        if (!folder.endsWith('/'))
-            folder.append('/');
-        QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
+        QDir dir(folder);
+        QStringList filesnames = dir.entryList(filters, QDir::Files);
         foreach(const QString & fname, filesnames) {
             imagenamelist.append(fname);
-            imagefiles.append(folder + fname);
+            imagefiles.append(dir.absoluteFilePath(fname));
+            if (fname.startsWith(QLatin1String("linear_x"))) {
+                defaultWipeLuma = dir.absoluteFilePath(fname);
+            }
         }
     }
 
@@ -736,7 +739,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
 
                 paramList.append(quickParameterFill(ret, i18n("Softness"), QStringLiteral("softness"), QStringLiteral("double"), QStringLiteral("0"), QStringLiteral("0"), QStringLiteral("100"), QLatin1String(""), QLatin1String(""), QStringLiteral("100")));
                 paramList.append(quickParameterFill(ret, i18nc("@property: means that the image is inverted", "Invert"), QStringLiteral("invert"), QStringLiteral("bool"), QStringLiteral("0"), QStringLiteral("0"), QStringLiteral("1")));
-                paramList.append(quickParameterFill(ret, i18n("Image File"), QStringLiteral("resource"), QStringLiteral("list"), imagefiles.first(), QLatin1String(""), QLatin1String(""), imagefiles.join(QStringLiteral(";")), imagenamelist.join(QStringLiteral(","))));
+                paramList.append(quickParameterFill(ret, i18n("Wipe Method"), QStringLiteral("resource"), QStringLiteral("list"), defaultWipeLuma, QLatin1String(""), QLatin1String(""), imagefiles.join(QStringLiteral(";")), imagenamelist.join(QStringLiteral(","))));
                 paramList.append(quickParameterFill(ret, i18n("Reverse Transition"), QStringLiteral("reverse"), QStringLiteral("bool"), QStringLiteral("0"), QStringLiteral("0"), QStringLiteral("1")));
                 //thumbnailer.prepareThumbnailsCall(imagelist);
             } else if (name == QLatin1String("composite")) {
