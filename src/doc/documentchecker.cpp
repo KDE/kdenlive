@@ -223,6 +223,7 @@ bool DocumentChecker::hasErrorInClips()
 	    clipType = i18n("Playlist clip");
 	} else if (e.tagName() == "missingtitle") {
             clipType = i18n("Title Image");
+            status = TITLE_IMAGE_ELEMENT;
         }
 	else {
 	    clipType = i18n("Unknown");
