@@ -1,22 +1,22 @@
 INSTALL(FILES 
-bi-linear_x.png 
-bi-linear_y.png 
-burst.png 
-checkerboard_small.png 
-clock.png 
-cloud.png 
-curtain.png 
-horizontal_blinds.png 
-linear_x.png 
-linear_y.png 
-radial-bars.png
-radial.png 
-spiral.png 
-spiral2.png 
-square.png 
-square2-bars.png 
-square2.png 
-symmetric_clock.png 
+bi-linear_x.pgm
+bi-linear_y.pgm
+burst.pgm
+checkerboard_small.pgm
+clock.pgm
+cloud.pgm
+curtain.pgm
+horizontal_blinds.pgm
+linear_x.pgm
+linear_y.pgm
+radial-bars.pgm
+radial.pgm
+spiral.pgm
+spiral2.pgm
+square.pgm
+square2-bars.pgm
+square2.pgm
+symmetric_clock.pgm
 
 DESTINATION ${DATA_INSTALL_DIR}/kdenlive/lumas)
 
