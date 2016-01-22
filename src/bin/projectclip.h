@@ -163,6 +163,7 @@ public:
     QMap <QString, QString> currentProperties(const QMap <QString, QString> &props);
     QString getProducerProperty(const QString &key) const;
     int getProducerIntProperty(const QString &key) const;
+    qint64 getProducerInt64Property(const QString &key) const;
     QColor getProducerColorProperty(const QString &key) const;
     
     QList < CommentedTime > commentedSnapMarkers() const;

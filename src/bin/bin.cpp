@@ -3120,3 +3120,17 @@ void Bin::cleanup()
     command->setText(i18n("Clean Project"));
     m_doc->clipManager()->slotDeleteClips(ids, QStringList(), subIds, command, true);
 }
+
+void Bin::getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unusedSize)
+{
+    QList <ProjectClip*> clipList = m_rootFolder->childClips();
+    foreach(ProjectClip *clip, clipList) {
+        if (clip->refCount() == 0) {
+            *unused += 1;
+            *unusedSize += clip->getProducerInt64Property("kdenlive:file_size");
+        } else {
+            *used += 1;
+            *usedSize += clip->getProducerInt64Property("kdenlive:file_size");
+        }
+    }
+}

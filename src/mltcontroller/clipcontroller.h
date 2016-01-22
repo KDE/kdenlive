@@ -114,6 +114,7 @@ public:
      */
     QString property(const QString &name) const;
     int int_property(const QString &name) const;
+    qint64 int64_property(const QString &name) const;
     double double_property(const QString &name) const;
     QColor color_property(const QString &name) const;
 

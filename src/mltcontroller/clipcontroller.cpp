@@ -308,6 +308,12 @@ int ClipController::int_property(const QString &name) const
     return m_properties->get_int(name.toUtf8().constData());
 }
 
+qint64 ClipController::int64_property(const QString &name) const
+{
+    if (!m_properties) return 0;
+    return m_properties->get_int64(name.toUtf8().constData());
+}
+
 double ClipController::double_property(const QString &name) const
 {
     if (!m_properties) return 0;

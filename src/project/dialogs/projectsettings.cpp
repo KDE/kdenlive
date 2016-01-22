@@ -30,6 +30,7 @@
 #include "dialogs/encodingprofilesdialog.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/bincontroller.h"
+#include "bin/bin.h"
 
 #include <KMessageBox>
 #include <QDebug>
@@ -185,6 +186,8 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     connect(profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
     connect(project_folder, SIGNAL(textChanged(QString)), this, SLOT(slotUpdateButton(QString)));
     connect(button_export, SIGNAL(clicked()), this, SLOT(slotExportToText()));
+    // Delete unused files is not implemented
+    delete_unused->setVisible(false);
 }
 
 void ProjectSettings::slotDeleteUnused()
@@ -271,10 +274,6 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     proxy_size->setText(KIO::convertSize(job->totalSize()));
     delete job;
     if (cacheOnly) return;
-    int unused = 0;
-    int used = 0;
-    KIO::filesize_t usedSize = 0;
-    KIO::filesize_t unUsedSize = 0;
     QList <ClipController*> list = pCore->binController()->getControllerList();
     files_list->clear();
 
@@ -313,12 +312,17 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
 
     for (int i = 0; i < list.count(); ++i) {
         ClipController *clip = list.at(i);
+        if (clip->clipType() == Color) {
+            // ignore color clips in list, there is no real file
+            continue;
+        }
         if (clip->clipType() == SlideShow) {
             QStringList subfiles = extractSlideshowUrls(clip->clipUrl());
             foreach(const QString & file, subfiles) {
                 count++;
                 new QTreeWidgetItem(slideshows, QStringList() << file);
             }
+            continue;
         } else if (!clip->clipUrl().isEmpty()) {
             //allFiles.append(clip->fileURL().path());
             switch (clip->clipType()) {
@@ -358,16 +362,13 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
                 new QTreeWidgetItem(others, QStringList() << file);
             }
         }
-
-        //TODO
-        if (false /*clip->numReferences() == 0*/) {
-            unused++;
-            //unUsedSize += clip->fileSize();
-        } else {
-            used++;
-            //usedSize += clip->fileSize();
-        }
     }
+
+    uint used = 0;
+    uint unUsed = 0;
+    qint64 usedSize = 0;
+    qint64 unUsedSize = 0;
+    pCore->bin()->getBinStats(&used, &unUsed, &usedSize, &unUsedSize);
     allFonts.removeDuplicates();
     // Hide unused categories
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
@@ -383,9 +384,9 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     }
     used_count->setText(QString::number(used));
     used_size->setText(KIO::convertSize(usedSize));
-    unused_count->setText(QString::number(unused));
+    unused_count->setText(QString::number(unUsed));
     unused_size->setText(KIO::convertSize(unUsedSize));
-    delete_unused->setEnabled(unused > 0);
+    delete_unused->setEnabled(unUsed > 0);
 }
 
 void ProjectSettings::accept()

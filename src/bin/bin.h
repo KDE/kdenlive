@@ -505,6 +505,8 @@ public:
     void reloadAllProducers();
     /** @brief Remove all unused clip from project bin. */
     void cleanup();
+    /** @brief Get usage stats for project bin. */
+    void getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unusedSize);
 
 private slots:
     void slotAddClip();

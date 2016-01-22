@@ -455,6 +455,15 @@ int ProjectClip::getProducerIntProperty(const QString &key) const
     return value;
 }
 
+qint64 ProjectClip::getProducerInt64Property(const QString &key) const
+{
+    qint64 value = 0;
+    if (m_controller) {
+        value = m_controller->int64_property(key);
+    }
+    return value;
+}
+
 QString ProjectClip::getProducerProperty(const QString &key) const
 {
     QString value;
