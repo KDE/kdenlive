@@ -273,7 +273,6 @@ void TransitionSettings::slotUpdateEffectParams(const QDomElement &oldparam, con
 {
     if (m_usedTransition) {
         m_usedTransition->setTransitionParameters(param);
-        m_usedTransition->update();
     }
     //oldparam must be also first given to Transition and then return the toXML()
     if (oldparam != param)

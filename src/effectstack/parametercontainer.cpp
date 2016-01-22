@@ -222,6 +222,19 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             if (!comment.isEmpty())
                 connect(this, SIGNAL(showComments(bool)), bval->widgetComment, SLOT(setVisible(bool)));
             m_uiItems.append(bval);
+        } else if (type == QLatin1String("switch")) {
+            Boolval *bval = new Boolval;
+            bval->setupUi(toFillin);
+            bval->checkBox->setCheckState(value == pa.attribute("min") ? Qt::Unchecked : Qt::Checked);
+            bval->name->setText(paramName);
+            bval->name->setToolTip(comment);
+            bval->labelComment->setText(comment);
+            bval->widgetComment->setHidden(true);
+            m_valueItems[paramName] = bval;
+            connect(bval->checkBox, SIGNAL(stateChanged(int)) , this, SLOT(slotCollectAllParameters()));
+            if (!comment.isEmpty())
+                connect(this, SIGNAL(showComments(bool)), bval->widgetComment, SLOT(setVisible(bool)));
+            m_uiItems.append(bval);
         } else if (type == QLatin1String("complex")) {
             ComplexParameter *pl = new ComplexParameter;
             pl->setupParam(effect, pa.attribute(QStringLiteral("name")), 0, 100);
@@ -652,6 +665,9 @@ void ParameterContainer::slotCollectAllParameters()
             if (val) {
 	        KComboBox *box = val->list;
 		setValue = box->itemData(box->currentIndex()).toString();
+                // special case, list value is allowed to be empty
+                pa.setAttribute(QStringLiteral("value"), setValue);
+                setValue.clear();
 	    }
         } else if (type == QLatin1String("bool")) {
 	    Boolval* val = static_cast<Boolval*>(m_valueItems.value(paramName));
@@ -659,6 +675,12 @@ void ParameterContainer::slotCollectAllParameters()
 		QCheckBox *box = val->checkBox;
 		setValue = box->checkState() == Qt::Checked ? "1" : "0" ;
 	    }
+	} else if (type == QLatin1String("switch")) {
+            Boolval* val = static_cast<Boolval*>(m_valueItems.value(paramName));
+            if (val) {
+                QCheckBox *box = val->checkBox;
+                setValue = box->checkState() == Qt::Checked ? pa.attribute("max") : pa.attribute("min") ;
+            }
         } else if (type == QLatin1String("color")) {
             ChooseColorWidget *choosecolor = static_cast<ChooseColorWidget*>(m_valueItems.value(paramName));
             if (choosecolor) setValue = choosecolor->getColor();

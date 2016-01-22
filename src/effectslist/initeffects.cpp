@@ -189,6 +189,37 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     }
     transitionsItemList.sort();
 
+    // Get list of installed luma files
+    QStringList imagenamelist;
+    QStringList imagefiles;
+    QStringList fileFilters;
+    QString defaultWipeLuma;
+    fileFilters << QStringLiteral("*.png") << QStringLiteral("*.pgm");
+    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
+    foreach(QString folder, customLumas) {
+        QDir dir(folder);
+        QStringList filesnames = dir.entryList(fileFilters, QDir::Files);
+        foreach(const QString & fname, filesnames) {
+            imagenamelist.append(fname);
+            imagefiles.append(dir.absoluteFilePath(fname));
+            if (fname.startsWith(QLatin1String("linear_x"))) {
+                defaultWipeLuma = dir.absoluteFilePath(fname);
+            }
+        }
+    }
+
+    // Check for MLT luma files.
+    QUrl folder(QString(mlt_environment("MLT_DATA")) + QDir::separator() + "lumas" + QDir::separator() + QString(mlt_environment("MLT_NORMALISATION")));
+    QDir lumafolder(folder.path());
+    QStringList filesnames = lumafolder.entryList(fileFilters, QDir::Files);
+    foreach(const QString & fname, filesnames) {
+        imagenamelist.append(fname);
+        imagefiles.append(lumafolder.absoluteFilePath(fname));
+    }
+    imagenamelist.prepend(i18n("None (Dissolve)"));
+    imagefiles.prepend(QString());
+
+
     // Parse xml transition files
     QStringList direc = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("transitions"), QStandardPaths::LocateDirectory);
     // Iterate through effects directories to parse all XML files.
@@ -199,7 +230,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
         fileList = directory.entryList(filter, QDir::Files);
         for (it = fileList.begin(); it != fileList.end(); ++it) {
             itemName = directory.absoluteFilePath(*it);
-            parseTransitionFile(&MainWindow::transitions, itemName, transitionsItemList, repository, transDescriptions);
+            parseTransitionFile(&MainWindow::transitions, itemName, transitionsItemList, repository, transDescriptions, imagefiles, imagenamelist, defaultWipeLuma);
         }
     }
 
@@ -217,7 +248,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     }
 
     // Fill transitions list.
-    fillTransitionsList(repository, &MainWindow::transitions, transitionsItemList);
+    fillTransitionsList(repository, &MainWindow::transitions, transitionsItemList, imagefiles, imagenamelist, defaultWipeLuma);
 
     // Remove blacklisted effects from the filters list.
     QStringList mltFiltersList = filtersList;
@@ -619,41 +650,12 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
     return ret;
 }
 
-void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *transitions, QStringList names)
+void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *transitions, QStringList names, QStringList imagefiles, QStringList imagenamelist, const QString &defaultWipeLuma)
 {
     // Remove transitions that are not implemented.
     int pos = names.indexOf(QStringLiteral("mix"));
     if (pos != -1)
         names.takeAt(pos);
-
-    QStringList imagenamelist;
-    QStringList imagefiles;
-    QStringList filters;
-    QString defaultWipeLuma;
-    filters << QStringLiteral("*.png") << QStringLiteral("*.pgm");
-    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
-    foreach(QString folder, customLumas) {
-        QDir dir(folder);
-        QStringList filesnames = dir.entryList(filters, QDir::Files);
-        foreach(const QString & fname, filesnames) {
-            imagenamelist.append(fname);
-            imagefiles.append(dir.absoluteFilePath(fname));
-            if (fname.startsWith(QLatin1String("linear_x"))) {
-                defaultWipeLuma = dir.absoluteFilePath(fname);
-            }
-        }
-    }
-
-    // Check for MLT luma files.
-    QUrl folder(QString(mlt_environment("MLT_DATA")) + QDir::separator() + "lumas" + QDir::separator() + QString(mlt_environment("MLT_NORMALISATION")));
-    QDir lumafolder(folder.path());
-    QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
-    foreach(const QString & fname, filesnames) {
-        imagenamelist.append(fname);
-        imagefiles.append(lumafolder.absoluteFilePath(fname));
-    }
-    imagenamelist.prepend(i18n("None (Dissolve)"));
-    imagefiles.prepend(QString());
 
     //WARNING: this is a hack to get around temporary invalid metadata in MLT, 2nd of june 2011 JBM
     QStringList customTransitions;
@@ -731,27 +733,18 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
              */
 
             // Implement default transitions.
+            //TODO: create xml files for transitions in data/transitions instead of hardcoding here
             QList<QDomElement> paramList;
-            if (name == QLatin1String("luma")) {
-                ktrans.setAttribute(QStringLiteral("id"), name);
-                tname.appendChild(ret.createTextNode(i18n("Wipe")));
-                desc.appendChild(ret.createTextNode(i18n("Applies a stationary transition between the current and next frames.")));
-
-                paramList.append(quickParameterFill(ret, i18n("Softness"), QStringLiteral("softness"), QStringLiteral("double"), QStringLiteral("0"), QStringLiteral("0"), QStringLiteral("100"), QLatin1String(""), QLatin1String(""), QStringLiteral("100")));
-                paramList.append(quickParameterFill(ret, i18nc("@property: means that the image is inverted", "Invert"), QStringLiteral("invert"), QStringLiteral("bool"), QStringLiteral("0"), QStringLiteral("0"), QStringLiteral("1")));
-                paramList.append(quickParameterFill(ret, i18n("Wipe Method"), QStringLiteral("resource"), QStringLiteral("list"), defaultWipeLuma, QLatin1String(""), QLatin1String(""), imagefiles.join(QStringLiteral(";")), imagenamelist.join(QStringLiteral(","))));
-                paramList.append(quickParameterFill(ret, i18n("Reverse Transition"), QStringLiteral("reverse"), QStringLiteral("bool"), QStringLiteral("0"), QStringLiteral("0"), QStringLiteral("1")));
-                //thumbnailer.prepareThumbnailsCall(imagelist);
-            } else if (name == QLatin1String("composite")) {
+            if (name == QLatin1String("composite")) {
                 ktrans.setAttribute(QStringLiteral("id"), name);
                 tname.appendChild(ret.createTextNode(i18n("Composite")));
                 desc.appendChild(ret.createTextNode(i18n("A key-framable alpha-channel compositor for two frames.")));
                 paramList.append(quickParameterFill(ret, i18n("Geometry"), QStringLiteral("geometry"), QStringLiteral("geometry"), QStringLiteral("0%/0%:100%x100%:100"), QStringLiteral("-500;-500;-500;-500;0"), QStringLiteral("500;500;500;500;100")));
                 paramList.append(quickParameterFill(ret, i18n("Alpha Channel Operation"), QStringLiteral("operator"), QStringLiteral("list"), QStringLiteral("over"), QLatin1String(""), QLatin1String(""), QStringLiteral("over,and,or,xor"), i18n("Over,And,Or,Xor")));
-                paramList.append(quickParameterFill(ret, i18n("Align"), QStringLiteral("aligned"), QStringLiteral("bool"), QStringLiteral("1"), QStringLiteral("0"), QStringLiteral("1")));
+                paramList.append(quickParameterFill(ret, i18n("Align"), QStringLiteral("aligned"), QStringLiteral("bool"), QStringLiteral("0"), QStringLiteral("0"), QStringLiteral("1")));
                 paramList.append(quickParameterFill(ret, i18n("Fill"), QStringLiteral("fill"), QStringLiteral("bool"), QStringLiteral("1"), QStringLiteral("0"), QStringLiteral("1")));
                 paramList.append(quickParameterFill(ret, i18n("Distort"), QStringLiteral("distort"), QStringLiteral("bool"), QStringLiteral("0"), QStringLiteral("0"), QStringLiteral("1")));
-                paramList.append(quickParameterFill(ret, i18n("Wipe File"), QStringLiteral("luma"), QStringLiteral("list"), QLatin1String(""), QLatin1String(""), QLatin1String(""), imagefiles.join(QStringLiteral(";")), imagenamelist.join(QStringLiteral(","))));
+                paramList.append(quickParameterFill(ret, i18n("Wipe Method"), QStringLiteral("luma"), QStringLiteral("list"), QLatin1String(""), QLatin1String(""), QLatin1String(""), imagefiles.join(QStringLiteral(";")), imagenamelist.join(QStringLiteral(","))));
                 paramList.append(quickParameterFill(ret, i18n("Wipe Softness"), QStringLiteral("softness"), QStringLiteral("double"), QStringLiteral("0"), QStringLiteral("0"), QStringLiteral("100"), QLatin1String(""), QLatin1String(""), QStringLiteral("100")));
                 paramList.append(quickParameterFill(ret, i18n("Wipe Invert"), QStringLiteral("luma_invert"), QStringLiteral("bool"), QStringLiteral("0"), QStringLiteral("0"), QStringLiteral("1")));
                 paramList.append(quickParameterFill(ret, i18n("Force Progressive Rendering"), QStringLiteral("progressive"), QStringLiteral("bool"), QStringLiteral("1"), QStringLiteral("0"), QStringLiteral("1")));
@@ -856,12 +849,21 @@ QDomElement initEffects::quickParameterFill(QDomDocument & doc, const QString &n
 }
 
 // static
-void initEffects::parseTransitionFile(EffectsList *transitionList, const QString &name, QStringList transitionNames, Mlt::Repository *repository, QMap <QString, QString> effectDescriptions)
+void initEffects::parseTransitionFile(EffectsList *transitionList, const QString &name, QStringList transitionNames, Mlt::Repository *repository, QMap <QString, QString> effectDescriptions, QStringList imagefiles, QStringList imagenamelist, const QString &defaultWipeLuma)
 {
     QDomDocument doc;
     QFile file(name);
-    doc.setContent(&file, false);
+    if (!file.open(QIODevice::ReadOnly)) {
+        return;
+    }
+    QTextStream out(&file);
+    QString fileContent = out.readAll();
     file.close();
+    // Check for special keywords
+    fileContent.replace(QLatin1String("%lumaPaths"), imagefiles.join(QLatin1Char(';')));
+    fileContent.replace(QLatin1String("%lumaNames"), imagenamelist.join(QLatin1Char(',')));
+    fileContent.replace(QLatin1String("%lumaDefault"), defaultWipeLuma);
+    doc.setContent(fileContent, false);
     QDomElement documentElement;
     QDomNodeList effects;
     QDomElement base = doc.documentElement();

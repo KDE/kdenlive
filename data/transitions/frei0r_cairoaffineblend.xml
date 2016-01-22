@@ -31,4 +31,4 @@
         <parameter type="constant" name="8" max="1000" min="0" default="0=0" factor="1000">
                 <name>Rotation Y center</name>
         </parameter>
-</effect>
+</transition>

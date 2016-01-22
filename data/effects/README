@@ -51,6 +51,7 @@ The rest:
         - attribute "name": MLT filter parameter name
         - attribute "paramprefix": a string to be prepended to the parameter value before passing it to MLT
         - attribute "default": initial value, format depends on parameter type
+        - attribue  "optional": if it is set, it means that this parameter can have an empty value. So then loading a project, don't set its value to default
         - attribute "type": widget (GUI) to use
             - "fixed":
                 - sets a (MLT filter) parameter, but does not expose it to the user (no GUI)
@@ -67,6 +68,9 @@ The rest:
                 - synonym for "constant"
             - "bool": 
                 - true/false
+                - represented by a checkbox
+            - "switch":
+                - 2 possible options defined by strings
                 - represented by a checkbox
             - "list":
                 - multiple choice

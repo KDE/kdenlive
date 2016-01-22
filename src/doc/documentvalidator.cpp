@@ -1367,7 +1367,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             if (!trackPlaylist.isNull()) {
                 QDomElement kdenliveTrack = old_tracks.at(i).toElement();
                 if (kdenliveTrack.attribute(QStringLiteral("type")) == QLatin1String("audio")) {
-                    qDebug()<<"Found AUDIO TK";
                     EffectsList::setProperty(trackPlaylist, QStringLiteral("kdenlive:audio_track"), QStringLiteral("1"));
                 }
                 if (kdenliveTrack.attribute(QStringLiteral("locked")) == QLatin1String("1")) {
@@ -1410,6 +1409,33 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         }
         EffectsList::setProperty(playlist, QStringLiteral("kdenlive:docproperties.version"), QString::number(currentVersion));
         if (!infoXml.isNull()) EffectsList::setProperty(playlist, QStringLiteral("kdenlive:docproperties.projectfolder"), infoXml.attribute(QStringLiteral("projectfolder")));
+    }
+
+    if (version < 0.92) {
+        // Luma transition used for wipe is deprecated, we now use a composite, convert
+        QDomNodeList transitionList = m_doc.elementsByTagName(QStringLiteral("transition"));
+        QDomElement trans;
+        for (int i = 0; i < transitionList.count(); i++) {
+            trans = transitionList.at(i).toElement();
+            QString id = EffectsList::property(trans, QStringLiteral("kdenlive_id"));
+            if (id == QLatin1String("luma")) {
+                EffectsList::setProperty(trans, QStringLiteral("kdenlive_id"), QStringLiteral("wipe"));
+                EffectsList::setProperty(trans, QStringLiteral("mlt_service"), QStringLiteral("composite"));
+                bool reverse = EffectsList::property(trans, QStringLiteral("reverse")).toInt();
+                EffectsList::setProperty(trans, QStringLiteral("luma_invert"), EffectsList::property(trans, QStringLiteral("invert")));
+                EffectsList::setProperty(trans, QStringLiteral("luma"), EffectsList::property(trans, QStringLiteral("resource")));
+                EffectsList::removeProperty(trans, QStringLiteral("invert"));
+                EffectsList::removeProperty(trans, QStringLiteral("reverse"));
+                EffectsList::removeProperty(trans, QStringLiteral("resource"));
+                if (reverse) {
+                    EffectsList::setProperty(trans, QStringLiteral("geometry"), QStringLiteral("0%/0%:100%x100%:100;-1=0%/0%:100%x100%:0"));
+                } else {
+                    EffectsList::setProperty(trans, QStringLiteral("geometry"), QStringLiteral("0%/0%:100%x100%:0;-1=0%/0%:100%x100%:100"));
+                }
+                EffectsList::setProperty(trans, QStringLiteral("aligned"), QStringLiteral("0"));
+                EffectsList::setProperty(trans, QStringLiteral("fill"), QStringLiteral("1"));
+            }
+        }
     }
 
     m_modified = true;

@@ -74,9 +74,8 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
     for (int i = 0; i < attribs.count(); ++i) {
         QDomElement e = attribs.item(i).toElement();
         QString name = e.attribute(QStringLiteral("name"));
-        ////qDebug()<<"-- TRANSITION PARAM: "<<name<<" = "<< e.attribute("name")<<" / " << e.attribute("value");
         map[name] = e.attribute(QStringLiteral("default"));
-        if (!e.attribute(QStringLiteral("value")).isEmpty()) {
+        if (e.hasAttribute(QStringLiteral("value"))) {
             map[name] = e.attribute(QStringLiteral("value"));
         }
         double factor = e.attribute(QStringLiteral("factor"), QStringLiteral("1")).toDouble();
@@ -247,7 +246,7 @@ void TransitionHandler::updateTransitionParams(QString type, int a_track, int b_
             for (it = map.begin(); it != map.end(); ++it) {
                 key = it.key();
                 mlt_properties_set(transproperties, key.toUtf8().constData(), it.value().toUtf8().constData());
-                ////qDebug() << " ------  UPDATING TRANS PARAM: " << key.toUtf8().constData() << ": " << it.value().toUtf8().constData();
+                //qDebug() << " ------  UPDATING TRANS PARAM: " << key.toUtf8().constData() << ": " << it.value().toUtf8().constData();
                 //filter->set("kdenlive_id", id);
             }
             break;

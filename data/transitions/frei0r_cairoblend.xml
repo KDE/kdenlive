@@ -10,4 +10,4 @@
                 <paramlistdisplay>Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,Color burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL saturation,HSL color,HSL luminosity</paramlistdisplay>
                 <name>Blend mode</name>
         </parameter>
-</effect>
+</transition>

@@ -380,7 +380,8 @@ void Timeline::getTransitions() {
                 QDomElement e = params.item(i).toElement();
                 QString paramName = e.hasAttribute(QStringLiteral("tag")) ? e.attribute(QStringLiteral("tag")) : e.attribute(QStringLiteral("name"));
                 QString value = prop.get(paramName.toUtf8().constData());
-                if (value.isEmpty()) continue;
+                // if transition parameter has an "optional" attribute, it means that it can contain an empty value
+                if (value.isEmpty() && !e.hasAttribute(QStringLiteral("optional"))) continue;
                 if (e.hasAttribute("factor") || e.hasAttribute("offset"))
                     adjustDouble(e, value);
                 else
