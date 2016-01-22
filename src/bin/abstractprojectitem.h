@@ -118,6 +118,8 @@ public:
     virtual QPoint zone() const;
     /** @brief Set current usage count. */
     void setRefCount(uint count);
+    /** @brief Returns clip's current usage count in timeline. */
+    uint refCount() const;
     /** @brief Increase usage count. */
     void addRef();
     /** @brief Decrease usage count. */

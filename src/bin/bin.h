@@ -503,6 +503,8 @@ public:
     bool isEmpty() const;
     /** @brief Trigger reload of all clips. */
     void reloadAllProducers();
+    /** @brief Remove all unused clip from project bin. */
+    void cleanup();
 
 private slots:
     void slotAddClip();

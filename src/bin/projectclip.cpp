@@ -195,6 +195,18 @@ ProjectSubClip* ProjectClip::getSubClip(int in, int out)
     return NULL;
 }
 
+QStringList ProjectClip::subClipIds() const
+{
+    QStringList subIds;
+    for (int i = 0; i < count(); ++i) {
+        AbstractProjectItem *clip = at(i);
+        if (clip) {
+            subIds << clip->clipId();
+        }
+    }
+    return subIds;
+}
+
 ProjectClip* ProjectClip::clipAt(int ix)
 {
     if (ix == index()) {

@@ -3105,3 +3105,18 @@ void Bin::resetUsageCount()
     }
 }
 
+void Bin::cleanup()
+{
+    QList <ProjectClip*> clipList = m_rootFolder->childClips();
+    QStringList ids;
+    QStringList subIds;
+    foreach(ProjectClip *clip, clipList) {
+        if (clip->refCount() == 0) {
+            ids << clip->clipId();
+            subIds << clip->subClipIds();
+        }
+    }
+    QUndoCommand *command = new QUndoCommand();
+    command->setText(i18n("Clean Project"));
+    m_doc->clipManager()->slotDeleteClips(ids, QStringList(), subIds, command, true);
+}

@@ -83,6 +83,11 @@ void AbstractProjectItem::setRefCount(uint count)
     bin()->emitItemUpdated(this);
 }
 
+uint AbstractProjectItem::refCount() const
+{
+    return m_usage;
+}
+
 void AbstractProjectItem::addRef()
 {
     m_usage++;

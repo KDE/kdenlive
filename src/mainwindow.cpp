@@ -1581,8 +1581,7 @@ void MainWindow::setRenderingFinished(const QString &url, int status, const QStr
 void MainWindow::slotCleanProject()
 {
     if (KMessageBox::warningContinueCancel(this, i18n("This will remove all unused clips from your project."), i18n("Clean up project")) == KMessageBox::Cancel) return;
-    //TODO
-    //m_projectList->cleanup();
+    pCore->bin()->cleanup();
 }
 
 void MainWindow::slotUpdateMousePosition(int pos)

@@ -199,6 +199,8 @@ public:
     QMap <QString, QString> analysisData(bool withPrefix = false);
     /** @brief Abort running audio thumb process if any. */
     void abortAudioThumbs();
+    /** @brief Returns the list of this clip's subclip's ids. */
+    QStringList subClipIds() const;
 
 public slots:
     void updateAudioThumbnail(QVariantList audioLevels);
