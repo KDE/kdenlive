@@ -490,6 +490,9 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_progressDialog->setLabelText(i18n("Loading clips"));
     m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value(QStringLiteral("timeline"))->actions(), &ok, pCore->window());
     connect(m_trackView, &Timeline::startLoadingBin, m_progressDialog, &QProgressDialog::setMaximum, Qt::DirectConnection);
+
+    connect(m_trackView, &Timeline::resetUsageCount, pCore->bin(), &Bin::resetUsageCount, Qt::DirectConnection);
+
     connect(m_trackView, &Timeline::loadingBin, m_progressDialog, &QProgressDialog::setValue, Qt::DirectConnection);
     m_trackView->loadTimeline();
     m_trackView->loadGuides(pCore->binController()->takeGuidesData());

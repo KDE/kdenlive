@@ -799,11 +799,6 @@ Render *KdenliveDoc::renderer()
     return m_render;
 }
 
-void KdenliveDoc::updateClip(const QString &id)
-{
-    emit updateClipDisplay(id);
-}
-
 int KdenliveDoc::getFramePos(const QString &duration)
 {
     return m_timecode.getFrameCount(duration);

@@ -33,6 +33,7 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id
     QObject()
     , m_parent(parent)
     , m_id(id)
+    , m_usage(0)
     , m_clipStatus(StatusReady)
     , m_jobType(AbstractClipJob::NOJOBTYPE)
     , m_jobProgress(0)
@@ -45,6 +46,7 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement
     QObject()
     , m_parent(parent)
     , m_id(description.attribute(QStringLiteral("id")))
+    , m_usage(0)
     , m_clipStatus(StatusReady)
     , m_jobType(AbstractClipJob::NOJOBTYPE)
     , m_jobProgress(0)
@@ -73,6 +75,24 @@ bool AbstractProjectItem::operator==(const AbstractProjectItem* projectItem) con
 AbstractProjectItem* AbstractProjectItem::parent() const
 {
     return m_parent;
+}
+
+void AbstractProjectItem::setRefCount(uint count)
+{
+    m_usage = count;
+    bin()->emitItemUpdated(this);
+}
+
+void AbstractProjectItem::addRef()
+{
+    m_usage++;
+    bin()->emitItemUpdated(this);
+}
+
+void AbstractProjectItem::removeRef()
+{
+    m_usage--;
+    bin()->emitItemUpdated(this);
 }
 
 const QString &AbstractProjectItem::clipId() const
@@ -155,10 +175,6 @@ QVariant AbstractProjectItem::data(DataType type) const
     QVariant data;
     QLocale locale;
     switch (type) {
-        case SortRole:
-            if (m_itemType == SubClipItem) data = QVariant(m_duration);
-            else data = QVariant(m_name);
-        break;
         case DataName:
             data = QVariant(m_name);
             break;
@@ -168,11 +184,17 @@ QVariant AbstractProjectItem::data(DataType type) const
 	case DataThumbnail:
             data = QVariant(m_thumbnail);
             break;
+        case DataId:
+            data = QVariant(m_id);
+            break;
 	case DataDuration:
 	    data = QVariant(m_duration);
             break;
         case DataDate:
             data = QVariant(m_date);
+            break;
+        case UsageCount:
+            data = QVariant(m_usage);
             break;
         case ItemTypeRole:
             data = QVariant(m_itemType);
@@ -191,9 +213,6 @@ QVariant AbstractProjectItem::data(DataType type) const
             break;
         case ClipToolTip:
             data = QVariant(getToolTip());
-            break;
-        case DataId:
-            data = QVariant(m_id);
             break;
         default:
             break;

@@ -32,7 +32,7 @@
 #include "customtrackview.h"
 #include "dialogs/profilesdialog.h"
 #include "mltcontroller/clipcontroller.h"
-
+#include "bin/projectclip.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "doc/kdenlivedoc.h"
@@ -236,7 +236,7 @@ int Timeline::getTracks() {
         clipsCount += track->count();
     }
     emit startLoadingBin(clipsCount);
-
+    emit resetUsageCount();
     checkTrackHeight(false);
     int height = KdenliveSettings::trackheight() * m_scene->scale().y() - 1;
     int headerWidth = 0;
@@ -912,6 +912,7 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist) {
 	    position += length;
 	    continue;
 	}
+	binclip->addRef();
         ItemInfo clipinfo;
         clipinfo.startPos = GenTime(position, fps);
         clipinfo.endPos = GenTime(position + length, fps);

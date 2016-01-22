@@ -99,7 +99,6 @@ public:
     /** @brief Get a list of all clip ids that are inside a folder. */
     QStringList getBinFolderClipIds(const QString &folderId) const;
     ClipController *getClipController(const QString &clipId);
-    void updateClip(const QString &id);
 
     /** @brief Informs Kdenlive of the audio thumbnails generation progress. */
     void setThumbsProgress(const QString &message, int progress);
@@ -227,7 +226,6 @@ private slots:
 
 signals:
     void resetProjectList();
-    void updateClipDisplay(const QString&);
     void progressInfo(const QString &, int);
 
     /** @brief Informs that the document status has been changed.

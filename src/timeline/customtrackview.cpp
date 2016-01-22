@@ -2594,6 +2594,7 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
         ClipItem *dup = item->clone(newPos);
+        dup->binClip()->addRef();
         dup->setPos(newPos.startPos.frames(m_document->fps()), getPositionFromTrack(newPos.track) + 1 + dup->itemOffset());
 
         // remove unwanted effects
@@ -2630,9 +2631,6 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         if (dup->checkKeyFrames(m_document->width(), m_document->height(), info.cropDuration.frames(m_document->fps()), cutTime.frames(m_document->fps())))
             slotRefreshEffects(dup);
 
-        //TODO
-        //item->baseClip()->addReference();
-        m_document->updateClip(item->getBinId());
         KdenliveSettings::setSnaptopoints(snap);
         return dup;
     } else {
@@ -2649,7 +2647,7 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
             emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(cutTime.frames(m_document->fps())), m_timeline->getTrackInfo(info.track).trackName), ErrorMessage);
             return NULL;
         }
-
+        dup->binClip()->removeRef();
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
 
@@ -2658,9 +2656,6 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
             item->setSelected(true);
             emit clipItemSelected(NULL);
         }
-        //TODO
-        //dup->baseClip()->removeReference();
-        m_document->updateClip(dup->getBinId());
         scene()->removeItem(dup);
         delete dup;
         dup = NULL;
@@ -2971,6 +2966,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
                 brokenClips.append(item);
                 continue;
             }
+            item->binClip()->addRef();
             adjustTimelineClips(m_scene->editMode(), item, ItemInfo(), addCommand);
 
             new AddTimelineClipCommand(this, clipBinId, item->info(), item->effectList(), item->clipState(), false, false, addCommand);
@@ -4489,6 +4485,7 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
     }
     m_waitingThumbs.removeAll(item);
     item->stopThumbs();
+    item->binClip()->removeRef();
     if (item->isSelected()) emit clipItemSelected(NULL);
     //TODO: notify bin of clip deletion?
     //item->baseClip()->removeReference();
@@ -4890,8 +4887,6 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
     bool isLocked = m_timeline->getTrackInfo(info.track).isLocked;
     if (isLocked) item->setItemLocked(true);
 
-    //TODO: notify bin ?
-    //baseclip->addReference();
     Mlt::Producer *prod;
     if (speed != 1.0) {
         prod = m_document->renderer()->getBinProducer(clipId);
@@ -4906,6 +4901,7 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
     else {
         prod = m_document->renderer()->getBinProducer(clipId);
     }
+    binClip->addRef();
     m_timeline->track(info.track)->add(info.startPos.seconds(), prod, info.cropStart.seconds(), (info.cropStart+info.cropDuration).seconds(), state, true, m_scene->editMode());
 
     for (int i = 0; i < item->effectsCount(); ++i) {

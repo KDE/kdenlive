@@ -116,24 +116,44 @@ public:
     /** @brief Returns the clip's id. */
     const QString &clipId() const;
     virtual QPoint zone() const;
+    /** @brief Set current usage count. */
+    void setRefCount(uint count);
+    /** @brief Increase usage count. */
+    void addRef();
+    /** @brief Decrease usage count. */
+    void removeRef();
 
     enum DataType {
+        // display name of item
         DataName = Qt::DisplayRole,
+        // image thumbnail
         DataThumbnail = Qt::DecorationRole,
+        // Tooltip text,usually full path
         ClipToolTip = Qt::ToolTipRole,
+        // unique id of the project clip / folder
         DataId = Qt::UserRole,
+        // creation date
         DataDate,
+        // Description for item (user editable)
         DataDescription,
-        SortRole,
+        // Number of occurences used in timeline
+        UsageCount,
+        // Empty if clip has no effect, icon otherwise
 	IconOverlay,
+        // item type (clip, subclip, folder)
         ItemTypeRole,
+        // Duration of the clip
         DataDuration,
+        // If there is a running job, which type
 	JobType,
+        // Current progress of the job
 	JobProgress,
+        // error message if job crashes (not fully implemented)
 	JobMessage,
+        // Item status (ready or not, missing, waiting, ...)
         ClipStatus
     };
-    
+
     enum CLIPSTATUS {
         StatusReady = 0,
         StatusMissing,
@@ -189,6 +209,7 @@ protected:
     QString m_duration;
     QDateTime m_date;
     QString m_id;
+    uint m_usage;
     CLIPSTATUS m_clipStatus;
     AbstractClipJob::JOBTYPE m_jobType;
     int m_jobProgress;

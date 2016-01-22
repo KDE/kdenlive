@@ -221,6 +221,8 @@ signals:
     void startLoadingBin(int);
     /** @brief Indicate which clip we are currently loading */
     void loadingBin(int);
+    /** @brief We are about to reload timeline, reset bin clip usage */
+    void resetUsageCount();
 
 };
 

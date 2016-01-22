@@ -3096,3 +3096,12 @@ void Bin::slotMessageActionTriggered()
 {
     m_infoMessage->animatedHide();
 }
+
+void Bin::resetUsageCount()
+{
+    QList <ProjectClip*> clipList = m_rootFolder->childClips();
+    foreach(ProjectClip *clip, clipList) {
+        clip->setRefCount(0);
+    }
+}
+

@@ -242,15 +242,20 @@ public:
                 font.setBold(false);
                 painter->setFont(font);
                 QString subText = index.data(AbstractProjectItem::DataDuration).toString();
-                //int usage = index.data(UsageRole).toInt();
-                //if (usage != 0) subText.append(QString(" (%1)").arg(usage));
-                //if (option.state & (QStyle::State_Selected)) painter->setPen(option.palette.color(QPalette::Mid));
-                r2.adjust(0, bounding.bottom() - r2.top(), 0, 0);
-                QColor subTextColor = painter->pen().color();
-                subTextColor.setAlphaF(.5);
-                painter->setPen(subTextColor);
-                painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop , subText, &bounding);
-		
+                if (!subText.isEmpty()) {
+                    r2.adjust(0, bounding.bottom() - r2.top(), 0, 0);
+                    QColor subTextColor = painter->pen().color();
+                    subTextColor.setAlphaF(.5);
+                    painter->setPen(subTextColor);
+                    painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop , subText, &bounding);
+                    // Draw usage counter
+                    int usage = index.data(AbstractProjectItem::UsageCount).toInt();
+                    if (usage > 0) {
+                        bounding.moveLeft(bounding.right() + (2 * textMargin));
+                        QString us = QString().sprintf("[%d]", usage);
+                        painter->drawText(bounding, Qt::AlignLeft | Qt::AlignTop , us, &bounding);
+                    }
+                }
                 if (type == AbstractProjectItem::ClipItem) {
                     // Overlay icon if necessary
                     QVariant v = index.data(AbstractProjectItem::IconOverlay);
@@ -608,6 +613,8 @@ public slots:
     void slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command);
     void abortAudioThumbs();
     void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, QList <QAction*> actions = QList <QAction*>());
+    /** @brief Reset all clip usage to 0 */
+    void resetUsageCount();
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);

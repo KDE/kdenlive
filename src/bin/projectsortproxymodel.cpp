@@ -31,7 +31,6 @@ ProjectSortProxyModel::ProjectSortProxyModel(QObject *parent)
     m_selection = new QItemSelectionModel(this);
     connect(m_selection, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(onCurrentRowChanged(QItemSelection,QItemSelection)));
     setDynamicSortFilter(true);
-    setSortRole(AbstractProjectItem::SortRole);
 }
 
 bool ProjectSortProxyModel::filterAcceptsRow(int sourceRow,
