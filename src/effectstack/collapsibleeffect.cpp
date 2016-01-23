@@ -470,6 +470,11 @@ void CollapsibleEffect::updateWidget(const ItemInfo &info, const QDomElement &ef
     setupWidget(info, metaInfo);
 }
 
+void CollapsibleEffect::updateFrameInfo()
+{
+    if (m_paramWidget) m_paramWidget->refreshFrameInfo();
+}
+
 void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaInfo)
 {
     if (m_effect.isNull()) {

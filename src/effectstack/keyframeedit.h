@@ -100,6 +100,7 @@ public:
 public slots:
 
     void slotUpdateRange(int inPoint, int outPoint);
+    void slotAddKeyframe(int pos = -1);
 
 protected:
     /** @brief Gets the position of a keyframe from the table.
@@ -126,7 +127,6 @@ private:
 
 private slots:
     void slotDeleteKeyframe();
-    void slotAddKeyframe();
     void slotGenerateParams(int row, int column);
     void slotAdjustKeyframePos(int value);
     void slotAdjustKeyframeValue(double value);
@@ -142,6 +142,8 @@ private slots:
 
     /** @brief Makes the parameter at column @param id the visible (in timeline) one. */
     void slotUpdateVisibleParameter(int id, bool update = true);
+    /** @brief A row was clicked, adjust parameters. */
+    void rowClicked(int row, int);
 
 signals:
     void parameterChanged();

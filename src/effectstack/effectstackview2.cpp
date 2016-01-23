@@ -181,7 +181,7 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c, Monitor *m)
             //TODO
             int frameWidth = c->binClip()->getProducerIntProperty(QStringLiteral("meta.media.width"));
             int frameHeight = c->binClip()->getProducerIntProperty(QStringLiteral("meta.media.height"));
-            double factor = c->binClip()->getProducerProperty(QStringLiteral("aspect_ratio")).toDouble();
+            double factor = c->binClip()->getDoubleProducerProperty(QStringLiteral("aspect_ratio"));
             m_effectMetaInfo.frameSize = QPoint(frameWidth, frameHeight);// (int)(frameWidth * factor + 0.5), frameHeight);
             m_effectMetaInfo.stretchFactor = factor;
         }
@@ -313,6 +313,7 @@ void EffectStackView2::setupListView()
         else if (selectedEffect > effectsCount) m_clipref->setSelectedEffect(effectsCount);
     }
 
+    CollapsibleEffect *selectedCollapsibleEffect = NULL;
     for (int i = 0; i < effectsCount; ++i) {
         QDomElement d = m_currentEffectList.at(i).cloneNode().toElement();
         if (d.isNull()) {
@@ -364,17 +365,10 @@ void EffectStackView2::setupListView()
         }
 
         CollapsibleEffect *currentEffect = new CollapsibleEffect(d, m_currentEffectList.at(i), info, &m_effectMetaInfo, i == effectsCount - 1, view);
-        if (m_status == TIMELINE_TRACK) {
-            isSelected = currentEffect->effectIndex() == 1;
-        }
-        else if (m_status == TIMELINE_CLIP) {
-            isSelected = currentEffect->effectIndex() == m_clipref->selectedEffectIndex();
-        }
-        else if (m_status == MASTER_CLIP) {
-            isSelected = currentEffect->effectIndex() == m_masterclipref->selectedEffectIndex;
-        }
+        isSelected = currentEffect->effectIndex() == activeEffectIndex();
         if (isSelected) {
             m_monitorSceneWanted = currentEffect->needsMonitorEffectScene();
+            selectedCollapsibleEffect = currentEffect;
         }
         currentEffect->setActive(isSelected);
         m_effects.append(currentEffect);
@@ -386,6 +380,12 @@ void EffectStackView2::setupListView()
         connectEffect(currentEffect);
     }
 
+    // show monitor scene if necessary
+    m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
+    if (selectedCollapsibleEffect) {
+        // pass frame size info to effect, so it can update the newly created qml scene
+        selectedCollapsibleEffect->updateFrameInfo();
+    }
     if (m_currentEffectList.isEmpty()) {
         m_ui.labelComment->setHidden(true);
     }
@@ -400,11 +400,27 @@ void EffectStackView2::setupListView()
 
     vbox1->addStretch(10);
     slotUpdateCheckAllButton();
-    // show monitor scene if necessary
-    m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
 
     // Wait a little bit for the new layout to be ready, then check if we have a scrollbar
     QTimer::singleShot(200, this, SLOT(slotCheckWheelEventFilter()));
+}
+
+int EffectStackView2::activeEffectIndex() const
+{
+    int index = 0;
+    switch (m_status) {
+      case TIMELINE_CLIP:
+          index = m_clipref->selectedEffectIndex();
+          break;
+      case MASTER_CLIP:
+          index = m_masterclipref->selectedEffectIndex;
+          break;
+      case TIMELINE_TRACK:
+      default:
+          // TODO
+          index = 1;
+    }
+    return index;
 }
 
 void EffectStackView2::connectEffect(CollapsibleEffect *currentEffect)
@@ -609,6 +625,9 @@ void EffectStackView2::slotCheckMonitorPosition(int renderPos)
         if (m_status == TIMELINE_TRACK || m_status == MASTER_CLIP || (m_clipref && renderPos >= m_clipref->startPos().frames(KdenliveSettings::project_fps()) && renderPos <= m_clipref->endPos().frames(KdenliveSettings::project_fps()))) {
             if (!m_effectMetaInfo.monitor->effectSceneDisplayed(m_monitorSceneWanted)) {
                 m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
+                // Find active effect and refresh frame info
+                CollapsibleEffect *activeEffect = getEffectByIndex(activeEffectIndex());
+                if (activeEffect) activeEffect->updateFrameInfo();
             }
         } else {
             m_effectMetaInfo.monitor->slotShowEffectScene(MonitorSceneDefault);

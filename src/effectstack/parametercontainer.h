@@ -81,6 +81,8 @@ public:
     /** @brief Update the in / out for the clip. */
     void setRange(int inPoint, int outPoint);
     int contentHeight() const;
+    /** @brief Update frame info (size, dar, ...). */
+    void refreshFrameInfo();
 
 private slots:
     void slotCollectAllParameters();
@@ -128,6 +130,7 @@ signals:
     void updateRange(int inPoint, int outPoint);
     /** @brief Request sending geometry info to monitor overlay. */
     void initScene(int);
+    void updateFrameInfo(const QPoint &size, double stretch);
 };
 
 #endif

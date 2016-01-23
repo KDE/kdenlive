@@ -40,15 +40,17 @@ public:
      * @param isEffect true if used in an effect, false if used in a transition
      * @param factor Factor by which the parameters differ from the range 0-1
      * @param parent (optional) Parent widget */
-    explicit CornersWidget(Monitor *monitor, const QDomElement &e, int minFrame, int maxFrame, const Timecode &tc, int activeKeyframe, QWidget* parent = 0);
+    explicit CornersWidget(Monitor *monitor, const QDomElement &e, int minFrame, int maxFrame, int pos, const Timecode &tc, int activeKeyframe, QWidget* parent = 0);
     virtual ~CornersWidget();
 
     virtual void addParameter(const QDomElement &e, int activeKeyframe = -1);
-    void setFrameSize(const QPoint &size, double stretch);
 
 public slots:
     /** @brief Updates the on-monitor item.  */
     void slotSyncPosition(int relTimelinePos);
+    void slotPrepareKeyframe();
+    /** @brief Get info about frame size, source clip dar. */
+    void setFrameSize(const QPoint &size, double stretch);
 
 private:
     Monitor *m_monitor;

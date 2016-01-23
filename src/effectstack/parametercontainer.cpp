@@ -282,10 +282,11 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 KeyframeEdit *geo;
                 if (pa.attribute(QStringLiteral("widget")) == QLatin1String("corners")) {
                     // we want a corners-keyframe-widget
-                    CornersWidget *corners = new CornersWidget(m_metaInfo->monitor, pa, m_in, m_out, m_metaInfo->monitor->timecode(), e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt(), parent);
+                    int relativePos = (m_metaInfo->monitor->position() - info.startPos).frames(KdenliveSettings::project_fps());
+                    CornersWidget *corners = new CornersWidget(m_metaInfo->monitor, pa, m_in, m_out, relativePos, m_metaInfo->monitor->timecode(), e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt(), parent);
 		    connect(this, SIGNAL(updateRange(int,int)), corners, SLOT(slotUpdateRange(int,int)));
 		    m_monitorEffectScene = MonitorSceneCorners;
-                    corners->setFrameSize(m_metaInfo->frameSize, m_metaInfo->stretchFactor);
+                    connect(this, &ParameterContainer::updateFrameInfo, corners, &CornersWidget::setFrameSize);
                     connect(this, SIGNAL(syncEffectsPos(int)), corners, SLOT(slotSyncPosition(int)));
                     geo = static_cast<KeyframeEdit *>(corners);
                 } else {
@@ -984,4 +985,7 @@ int ParameterContainer::contentHeight() const
     return m_vbox->sizeHint().height();
 }
 
-
+void ParameterContainer::refreshFrameInfo()
+{
+    emit updateFrameInfo(m_metaInfo->frameSize, m_metaInfo->stretchFactor);
+}

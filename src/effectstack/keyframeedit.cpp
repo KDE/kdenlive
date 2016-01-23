@@ -50,7 +50,7 @@ KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, con
     button_delete->setToolTip(i18n("Delete keyframe"));
     buttonResetKeyframe->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-undo")));
     buttonSeek->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-link")));
-    connect(keyframe_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotAdjustKeyframeInfo()));
+    connect(keyframe_list, &QTableWidget::cellActivated, this, &KeyframeEdit::rowClicked);
     connect(keyframe_list, SIGNAL(cellChanged(int,int)), this, SLOT(slotGenerateParams(int,int)));
 
     m_position = new PositionEdit(i18n("Position"), 0, 0, 1, tc, widgetTable);
@@ -196,50 +196,77 @@ void KeyframeEdit::slotDeleteKeyframe()
     buttonKeyframes->setHidden(!disable);
 }
 
-void KeyframeEdit::slotAddKeyframe()
+void KeyframeEdit::slotAddKeyframe(int pos)
 {
     keyframe_list->blockSignals(true);
     QTableWidgetItem *item = keyframe_list->currentItem();
-    int row = keyframe_list->currentRow();
+    int row = 0;
     int col = keyframe_list->currentColumn();
     int newrow = row;
-    int pos1 = getPos(row);
 
-    int result;
-    if (row < (keyframe_list->rowCount() - 1)) {
-        result = pos1 + (getPos(row + 1) - pos1) / 2;
-        newrow++;
-    } else if (row == 0) {
-        if (pos1 == m_min) {
-            result = m_max;
-            newrow++;
-        } else {
-            result = m_min;
+    int result = pos;
+    if (result > 0) {
+        // A position was provided
+        for (; newrow < keyframe_list->rowCount(); newrow++) {
+            int rowPos = getPos(newrow);
+            if (rowPos > result) {
+                break;
+            }
         }
     } else {
-        if (pos1 < m_max) {
-            // last keyframe selected and it is not at end of clip -> add keyframe at the end
-            result = m_max;
+        row = keyframe_list->currentRow();
+        newrow = row;
+        int pos1 = getPos(row);
+        if (row < (keyframe_list->rowCount() - 1)) {
+            result = pos1 + (getPos(row + 1) - pos1) / 2;
             newrow++;
+        } else if (row == 0) {
+            if (pos1 == m_min) {
+                result = m_max;
+                newrow++;
+            } else {
+                result = m_min;
+            }
         } else {
-            int pos2 = getPos(row - 1);
-            result = pos2 + (pos1 - pos2) / 2;
+            if (pos1 < m_max) {
+                // last keyframe selected and it is not at end of clip -> add keyframe at the end
+                result = m_max;
+                newrow++;
+            } else {
+                int pos2 = getPos(row - 1);
+                result = pos2 + (pos1 - pos2) / 2;
+            }
         }
     }
-
+    // Calculate new values
+    QList <double> previousValues;
+    QList <double> nextValues;
+    int rowCount = keyframe_list->rowCount();
+    for (int i = 0; i < keyframe_list->columnCount(); ++i) {
+        previousValues << keyframe_list->item(newrow - 1, i)->text().toDouble();
+        if (rowCount > 1) {
+            nextValues << keyframe_list->item(newrow, i)->text().toDouble();
+        }
+    }
+    int previousPos = getPos(newrow - 1);
+    int nextPos = getPos(newrow);
+    double factor = ((double) result - previousPos) / (nextPos - previousPos);
     keyframe_list->insertRow(newrow);
     keyframe_list->setVerticalHeaderItem(newrow, new QTableWidgetItem(getPosString(result)));
-    for (int i = 0; i < keyframe_list->columnCount(); ++i)
-        keyframe_list->setItem(newrow, i, new QTableWidgetItem(keyframe_list->item(item->row(), i)->text()));
-
+    for (int i = 0; i < keyframe_list->columnCount(); ++i) {
+        int newValue = rowCount == 1 ? previousValues.at(i) : (int) (previousValues.at(i) + ((nextValues.at(i) - previousValues.at(i)) * factor));
+        keyframe_list->setItem(newrow, i, new QTableWidgetItem(QString::number(newValue)));
+    }
     keyframe_list->resizeRowsToContents();
+    keyframe_list->setCurrentCell(newrow, col);
     slotAdjustKeyframeInfo();
     keyframe_list->blockSignals(false);
     generateAllParams();
+    if (rowCount == 1) {
+        // there was only one keyframe before, so now enable keyframe mode
+        slotKeyframeMode();
+    }
     button_delete->setEnabled(keyframe_list->rowCount() > 1);
-    keyframe_list->setCurrentCell(newrow, col);
-    keyframe_list->selectRow(newrow);
-    //slotGenerateParams(newrow, 0);
 }
 
 void KeyframeEdit::slotGenerateParams(int row, int column)
@@ -446,7 +473,9 @@ void KeyframeEdit::slotKeyframeMode()
 {
     widgetTable->setHidden(false);
     buttonKeyframes->setHidden(true);
-    slotAddKeyframe();
+    if (keyframe_list->rowCount() == 1) {
+        slotAddKeyframe();
+    }
 }
 
 void KeyframeEdit::slotResetKeyframe()
@@ -489,7 +518,6 @@ void KeyframeEdit::checkVisibleParam()
 {
     if (m_params.count() == 0)
         return;
-    
     foreach(const QDomElement &elem, m_params) {
         if (elem.attribute(QStringLiteral("intimeline")) == QLatin1String("1"))
             return;
@@ -504,4 +532,7 @@ void KeyframeEdit::slotUpdateRange(int inPoint, int outPoint)
     m_max = outPoint;
 }
 
-
+void KeyframeEdit::rowClicked(int row, int)
+{
+    slotAdjustKeyframeInfo(true);
+}

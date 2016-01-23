@@ -58,7 +58,7 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
     }
     if (id == Kdenlive::DvdMonitor) {
         return;
-    } 
+    }
     m_sceneType = type;
     QQuickItem *root;
     switch (type) {
