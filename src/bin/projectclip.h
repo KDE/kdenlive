@@ -165,12 +165,13 @@ public:
     int getProducerIntProperty(const QString &key) const;
     qint64 getProducerInt64Property(const QString &key) const;
     QColor getProducerColorProperty(const QString &key) const;
-    
+    double getDoubleProducerProperty(const QString &key) const;
+
     QList < CommentedTime > commentedSnapMarkers() const;
 
     /** @brief Returns true if we are using a proxy for this clip. */
     bool hasProxy() const;
-    
+
     /** Cache for every audio Frame with 10 Bytes */
     /** format is frame -> channel ->bytes */
     QVariantList audioFrameCache;

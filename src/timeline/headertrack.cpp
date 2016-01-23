@@ -26,6 +26,7 @@
 
 #include <klocalizedstring.h>
 #include <KDualAction>
+#include <KColorScheme>
 
 #include <QDebug>
 #include <QIcon>
@@ -210,6 +211,10 @@ void HeaderTrack::setSelectedIndex(int ix)
 {
     if (m_parentTrack->index() == ix) {
         m_isSelected = true;
+        QPalette pal = palette();
+        KColorScheme scheme(pal.currentColorGroup(), KColorScheme::Window,          KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+        pal.setColor(QPalette::Mid, scheme.background(KColorScheme::ActiveBackground ).color());
+        setPalette(pal);
         setBackgroundRole(QPalette::Mid);
         setAutoFillBackground(true);
     } else if (m_type != VideoTrack) {

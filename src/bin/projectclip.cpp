@@ -464,6 +464,15 @@ qint64 ProjectClip::getProducerInt64Property(const QString &key) const
     return value;
 }
 
+double ProjectClip::getDoubleProducerProperty(const QString &key) const
+{
+    double value = 0;
+    if (m_controller) {
+        value = m_controller->double_property(key);
+    }
+    return value;
+}
+
 QString ProjectClip::getProducerProperty(const QString &key) const
 {
     QString value;

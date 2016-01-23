@@ -127,6 +127,9 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     setAutoFillBackground(false);
     setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
     setContentsMargins(0, 0, 0, 0);
+    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    m_selectedTrackColor = scheme.background(KColorScheme::ActiveBackground ).color();
+    m_selectedTrackColor.setAlpha(150);
 
     m_animationTimer = new QTimeLine(800);
     m_animationTimer->setFrameRange(0, 5);
@@ -6078,7 +6081,7 @@ void CustomTrackView::drawBackground(QPainter * painter, const QRectF &rect)
         if (info.isLocked || info.type == AudioTrack || i == m_selectedTrack) {
             const QRectF track(min, m_tracksHeight * (maxTrack - i), max - min, m_tracksHeight - 1);
             if (i == m_selectedTrack)
-                painter->fillRect(track, palette().color(QPalette::Active, QPalette::Mid));
+                painter->fillRect(track, m_selectedTrackColor);
             else
                 painter->fillRect(track, info.isLocked ? lockedColor : audioColor);
         }
@@ -7527,6 +7530,9 @@ void CustomTrackView::updatePalette()
     }
     QIcon razorIcon = KoIconUtils::themedIcon(QStringLiteral("edit-cut"));
     m_razorCursor = QCursor(razorIcon.pixmap(32, 32));
+    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    m_selectedTrackColor = scheme.background(KColorScheme::ActiveBackground ).color();
+    m_selectedTrackColor.setAlpha(150);
 }
 
 void CustomTrackView::removeTipAnimation()
