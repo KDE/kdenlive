@@ -325,7 +325,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
     if (QFile::exists(saveUrlstring))
     {
         int ret = QMessageBox::warning(this, i18n("File Exists"),
-                                       i18n("Do you want to overwrite the existing file?."),
+                                       i18n("Do you want to overwrite the existing file?"),
                                        QMessageBox::Yes | QMessageBox::No,
                                        QMessageBox::No);
         if (ret==QMessageBox::No)
