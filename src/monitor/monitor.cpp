@@ -513,6 +513,7 @@ void Monitor::slotForceSize(QAction *a)
       default:
         // Free resize
         m_videoWidget->setMinimumSize(profileWidth, profileHeight);
+        m_videoWidget->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
         setMinimumSize(QSize(profileWidth, profileHeight + m_toolbar->height() + m_ruler->height()));
         setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         break;
