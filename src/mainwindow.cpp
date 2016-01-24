@@ -246,6 +246,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(m_clipMonitor, &Monitor::showConfigDialog, this, &MainWindow::slotPreferences);
     connect(m_clipMonitor, &Monitor::addMarker, this, &MainWindow::slotAddMarkerGuideQuickly);
     connect(m_clipMonitor, &Monitor::deleteMarker, this, &MainWindow::slotDeleteClipMarker);
+    connect(m_clipMonitor, &Monitor::seekToPreviousSnap, this, &MainWindow::slotSnapRewind);
+    connect(m_clipMonitor, &Monitor::seekToNextSnap, this, &MainWindow::slotSnapForward);
 
     connect(pCore->bin(), SIGNAL(clipNeedsReload(QString,bool)),this, SLOT(slotUpdateClip(QString,bool)));
     connect(pCore->bin(), SIGNAL(findInTimeline(QString)), this, SLOT(slotClipInTimeline(QString)));
@@ -262,6 +264,11 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     m_projectMonitor = new Monitor(Kdenlive::ProjectMonitor, pCore->monitorManager(), this);
     connect(m_projectMonitor, SIGNAL(passKeyPress(QKeyEvent*)), this, SLOT(triggerKey(QKeyEvent*)));
+    connect(m_projectMonitor, &Monitor::addMarker, this, &MainWindow::slotAddMarkerGuideQuickly);
+    connect(m_projectMonitor, &Monitor::deleteMarker, this, &MainWindow::slotDeleteClipMarker);
+    connect(m_projectMonitor, &Monitor::seekToPreviousSnap, this, &MainWindow::slotSnapRewind);
+    connect(m_projectMonitor, &Monitor::seekToNextSnap, this, &MainWindow::slotSnapForward);
+    
     connect(m_projectMonitor, SIGNAL(updateGuide(int, QString)), this, SLOT(slotEditGuide(int, QString)));
 
 /*
@@ -1940,7 +1947,7 @@ void MainWindow::slotAddClipMarker()
     delete d;
 }
 
-void MainWindow::slotDeleteClipMarker()
+void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
 {
     ClipController *clip = NULL;
     GenTime pos;
@@ -1964,7 +1971,10 @@ void MainWindow::slotDeleteClipMarker()
     QString id = clip->clipId();
     QString comment = clip->markerComment(pos);
     if (comment.isEmpty()) {
-        m_messageLabel->setMessage(i18n("No marker found at cursor time"), ErrorMessage);
+        if (allowGuideDeletion && m_projectMonitor->isActive()) {
+            slotDeleteGuide();
+        }
+        else m_messageLabel->setMessage(i18n("No marker found at cursor time"), ErrorMessage);
         return;
     }
     pCore->bin()->deleteClipMarker(comment, id, pos);

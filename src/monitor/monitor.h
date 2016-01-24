@@ -343,7 +343,9 @@ signals:
     void requestAudioThumb(QString);
     void timeCodeUpdated(QString);
     void addMarker();
-    void deleteMarker();
+    void deleteMarker(bool deleteGuide = true);
+    void seekToPreviousSnap();
+    void seekToNextSnap();
 };
 
 #endif

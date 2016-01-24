@@ -309,7 +309,7 @@ private slots:
     /** @brief Deletes item in timeline, project tree or effect stack depending on focus. */
     void slotDeleteItem();
     void slotAddClipMarker();
-    void slotDeleteClipMarker();
+    void slotDeleteClipMarker(bool allowGuideDeletion = false);
     void slotDeleteAllClipMarkers();
     void slotEditClipMarker();
 

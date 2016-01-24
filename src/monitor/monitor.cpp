@@ -905,8 +905,8 @@ void Monitor::slotMouseSeek(int eventDelta, int modifiers)
 	    slotSeek(render->requestedSeekPosition - delta);
 	else slotSeek(render->seekFramePosition() - delta);
     } else if (modifiers & Qt::AltModifier) {
-        if (eventDelta >= 0) slotSeekToNextSnap();
-        else slotSeekToPreviousSnap();
+        if (eventDelta >= 0) emit seekToNextSnap();
+        else emit seekToPreviousSnap();
     } else {
         if (eventDelta >= 0) slotForwardOneFrame();
         else slotRewindOneFrame();
@@ -1752,11 +1752,11 @@ void Monitor::connectQmlToolbar(QQuickItem *root)
     }
     button = root->findChild<QObject*>("nextKeyframe");
     if (button) {
-        QObject::connect(button, SIGNAL(clicked()), this, SLOT(slotSeekToNextSnap()), Qt::UniqueConnection);
+        QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(seekToNextSnap()), Qt::UniqueConnection);
     }
     button = root->findChild<QObject*>("prevKeyframe");
     if (button) {
-        QObject::connect(button, SIGNAL(clicked()), this, SLOT(slotSeekToPreviousSnap()), Qt::UniqueConnection);
+        QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(seekToPreviousSnap()), Qt::UniqueConnection);
     }
     button = root->findChild<QObject*>("addMarker");
     if (button) {
