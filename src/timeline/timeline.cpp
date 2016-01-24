@@ -52,6 +52,7 @@
 
 Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, QWidget *parent) :
     QWidget(parent),
+    multitrackView(false),
     m_scale(1.0),
     m_doc(doc),
     m_verticalZoom(1)
@@ -1481,4 +1482,10 @@ void Timeline::refreshTrackActions()
             action->setEnabled(tracks > 2);
         }
     }
+}
+
+void Timeline::slotMultitrackView(bool enable)
+{
+    multitrackView = enable;
+    transitionHandler->enableMultiTrack(enable);
 }

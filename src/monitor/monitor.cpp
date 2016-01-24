@@ -125,6 +125,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_loopClipAction(NULL)
     , m_effectCompare(NULL)
     , m_sceneVisibilityAction(NULL)
+    , m_multitrackView(NULL)
     , m_contextMenu(NULL)
     , m_selectedClip(NULL)
     , m_loopClipTransition(true)
@@ -443,9 +444,9 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
     m_contextMenu->addAction(extractFrame);
 
     if (m_id == Kdenlive::ProjectMonitor) {
-        QAction *splitView = m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("view-split-left-right")), i18n("Split view"), render, SLOT(slotSplitView(bool)));
-        splitView->setCheckable(true);
-        m_configMenu->addAction(splitView);
+        m_multitrackView = m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("view-split-left-right")), i18n("Multitrack view"), this, SIGNAL(multitrackView(bool)));
+        m_multitrackView->setCheckable(true);
+        m_configMenu->addAction(m_multitrackView);
     } else if (m_id == Kdenlive::ClipMonitor) {
         QAction *setThumbFrame = m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
         m_configMenu->addAction(setThumbFrame);
@@ -1369,6 +1370,7 @@ void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
     if (render == NULL) return;
     slotActivateMonitor();
     render->prepareProfileReset(tc.fps());
+    m_multitrackView->setChecked(false);
     m_glMonitor->resetProfile(ProfilesDialog::getVideoProfile(profile));
 }
 

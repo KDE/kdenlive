@@ -204,6 +204,7 @@ private:
     QAction *m_loopClipAction;
     KDualAction *m_effectCompare;
     QAction *m_sceneVisibilityAction;
+    QAction *m_multitrackView;
     QMenu *m_contextMenu;
     QMenu *m_configMenu;
     QMenu *m_playMenu;
@@ -340,6 +341,8 @@ signals:
     void updateClipMarker(QString, QList<CommentedTime>);
     /** @brief Update the text of a timeline guide. */
     void updateGuide(int, QString);
+    /** @brief Enable / disable project monitor multitrack view (split view with one track in each quarter). */
+    void multitrackView(bool);
     void requestAudioThumb(QString);
     void timeCodeUpdated(QString);
     void addMarker();

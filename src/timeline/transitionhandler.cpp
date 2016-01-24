@@ -424,3 +424,90 @@ void TransitionHandler::duplicateTransitionOnPlaylist(int in, int out, QString t
     field->plant_transition(transition, a_track, b_track);
 }
 
+void TransitionHandler::enableMultiTrack(bool enable)
+{
+    int tracks = m_tractor->count();
+    if (tracks < 3) {
+        // we need at leas 3 tracks (black bg track + 2 tracks to use this)
+        return;
+    }
+    QScopedPointer<Mlt::Service> service(m_tractor->field());
+    QScopedPointer<Mlt::Field> field(m_tractor->field());
+    field->lock();
+    if (enable) {
+        // disable track composition (frei0r.cairoblend)
+        QScopedPointer<Mlt::Field> field(m_tractor->field());
+        mlt_service nextservice = mlt_service_get_producer(field->get_service());
+        mlt_service_type type = mlt_service_identify( nextservice );
+        while (type == transition_type) {
+            Mlt::Transition transition((mlt_transition) nextservice);
+            nextservice = mlt_service_producer(nextservice);
+            int added = transition.get_int("internal_added");
+            if (added == 237) {
+                QString mlt_service = transition.get("mlt_service");
+                if (mlt_service == QLatin1String("frei0r.cairoblend") && transition.get_int("disable") == 0) {
+                    transition.set("disable", 1);
+                    transition.set("split_disable", 1);
+                }
+            }
+            if (nextservice == NULL) break;
+            type = mlt_service_identify(nextservice);
+        }
+        for (int i = 1, screen = 0; i < tracks && screen < 4; ++i) {
+            Mlt::Producer trackProducer(m_tractor->track(i));
+            if (QString(trackProducer.get("hide")).toInt() != 1) {
+                Mlt::Transition transition(*m_tractor->profile(), "composite");
+                transition.set("mlt_service", "composite");
+                transition.set("a_track", 0);
+                transition.set("b_track", i);
+                transition.set("distort", 0);
+                transition.set("aligned", 0);
+                // 200 is an arbitrary number so we can easily remove these transition later
+                transition.set("internal_added", 200);
+                QString geometry;
+                switch (screen) {
+                case 0:
+                    geometry = QStringLiteral("0/0:50%x50%");
+                    break;
+                case 1:
+                    geometry = QStringLiteral("50%/0:50%x50%");
+                    break;
+                case 2:
+                    geometry = QStringLiteral("0/50%:50%x50%");
+                    break;
+                case 3:
+                default:
+                    geometry = QStringLiteral("50%/50%:50%x50%");
+                    break;
+                }
+                transition.set("geometry", geometry.toUtf8().constData());
+                transition.set("always_active", 1);
+                field->plant_transition(transition, 0, i);
+                screen++;
+            }
+        }
+    } else {
+        QScopedPointer<Mlt::Field> field(m_tractor->field());
+        mlt_service nextservice = mlt_service_get_producer(field->get_service());
+        mlt_service_type type = mlt_service_identify( nextservice );
+        while (type == transition_type) {
+            Mlt::Transition transition((mlt_transition) nextservice);
+            nextservice = mlt_service_producer(nextservice);
+            int added = transition.get_int("internal_added");
+            if (added == 200) {
+                field->disconnect_service(transition);
+            } else if (added == 237) {
+                // re-enable track compositing
+                QString mlt_service = transition.get("mlt_service");
+                if (mlt_service == QLatin1String("frei0r.cairoblend") && transition.get_int("split_disable") == 1) {
+                    transition.set("disable", 0);
+                    transition.set("split_disable", (char*) NULL);
+                }
+            }
+            if (nextservice == NULL) break;
+            type = mlt_service_identify(nextservice);
+        }
+    }
+    field->unlock();
+    emit refresh();
+}

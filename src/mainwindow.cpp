@@ -1641,7 +1641,7 @@ void MainWindow::connectDocument()
     connect(pCore->producerQueue(), SIGNAL(infoProcessingFinished()), trackView->projectView(), SLOT(slotInfoProcessingFinished()), Qt::DirectConnection);
 
     connect(trackView->projectView(), SIGNAL(importKeyframes(GraphicsRectItem,QString,int)), this, SLOT(slotProcessImportKeyframes(GraphicsRectItem,QString,int)));
-
+    connect(m_projectMonitor, &Monitor::multitrackView, trackView, &Timeline::slotMultitrackView);
     connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), trackView, SLOT(slotSetZone(QPoint)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
@@ -2983,7 +2983,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         playlistPath = temp.fileName();
     }
 
-    QString playlistContent = m_projectMonitor->sceneList();
+    QString playlistContent = pCore->projectManager()->projectSceneList();
     if (!chapterFile.isEmpty()) {
         int in = 0;
         int out;

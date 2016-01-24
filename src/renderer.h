@@ -322,9 +322,6 @@ private:
     bool m_isLoopMode;
     GenTime m_loopStart;
 
-    /** @brief True when the monitor is in split view. */
-    bool m_isSplitView;
-
     Mlt::Producer *m_blackClip;
 
     QTimer m_refreshTimer;
@@ -409,13 +406,12 @@ public slots:
     /** @brief Checks if the file is readable by MLT. */
     bool isValid(const QUrl &url);
 
-    void slotSplitView(bool doit);
     void slotSwitchFullscreen();
     void seekToFrame(int pos);
     /** @brief Starts a timer to query for a refresh. */
     void doRefresh();
     void emitFrameUpdated(QImage img);
-    
+
     /** @brief Save a part of current timeline to an xml file. */
      void saveZone(QPoint zone);
 

@@ -58,6 +58,8 @@ public:
     void disableBinEffects(bool disable);
     /** @brief Returns true if there is a selected item in timeline */
     bool hasSelection() const;
+    /** @brief Returns current project's xml scene */
+    QString projectSceneList();
 
 public slots:
     void newFile(bool showProjectSettings = true, bool force = false);

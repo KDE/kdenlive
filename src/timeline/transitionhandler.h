@@ -50,6 +50,8 @@ public:
     void duplicateTransitionOnPlaylist(int in, int out, QString tag, QDomElement xml, int a_track, int b_track, Mlt::Field *field);
     /** @brief Get a transition with tag name. */
     Mlt::Transition *getTransition(const QString &name, int b_track, int a_track = -1, bool internalTransition = false) const;
+    /** @brief Enable/disable multitrack split view. */
+    void enableMultiTrack(bool enable);
 
 private:
     Mlt::Tractor *m_tractor;

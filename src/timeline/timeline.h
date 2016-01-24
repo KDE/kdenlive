@@ -52,6 +52,9 @@ class Timeline : public QWidget, public Ui::TimeLine_UI
 public:
     explicit Timeline(KdenliveDoc *doc, const QList <QAction *>& actions, bool *ok, QWidget *parent = 0);
     virtual ~ Timeline();
+
+    /** @brief is multitrack view (split screen for tracks) enabled */
+    bool multitrackView;
     Track* track(int i);
     /** @brief Number of tracks in the MLT playlist. */
     int tracksCount() const;
@@ -156,6 +159,8 @@ public slots:
     void checkDuration(int duration);
     void slotShowTrackEffects(int);
     void updateProfile(bool fpsChanged);
+    /** @brief Enable/disable multitrack view (split monitor in 4) */
+    void slotMultitrackView(bool enable);
 
 private:
     Mlt::Tractor *m_tractor;

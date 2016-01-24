@@ -244,7 +244,8 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     // Sync document properties
     prepareSave();
 
-    if (m_project->saveSceneList(outputFileName, pCore->monitorManager()->projectMonitor()->sceneList()) == false) {
+    QString scene = projectSceneList();
+    if (m_project->saveSceneList(outputFileName, scene) == false) {
         return false;
     }
 
@@ -610,8 +611,32 @@ void ProjectManager::slotStartAutoSave()
 void ProjectManager::slotAutoSave()
 {
     prepareSave();
+    bool multitrackEnabled = m_trackView->multitrackView;
+    if (multitrackEnabled) {
+        // Multitrack view was enabled, disable for auto save
+        m_trackView->slotMultitrackView(false);
+    }
     m_project->slotAutoSave();
+    if (multitrackEnabled) {
+        // Multitrack view was enabled, re-enable for auto save
+        m_trackView->slotMultitrackView(true);
+    }
     m_lastSave.start();
+}
+
+QString ProjectManager::projectSceneList()
+{
+    bool multitrackEnabled = m_trackView->multitrackView;
+    if (multitrackEnabled) {
+        // Multitrack view was enabled, disable for auto save
+        m_trackView->slotMultitrackView(false);
+    }
+    QString scene = pCore->monitorManager()->projectMonitor()->sceneList();
+    if (multitrackEnabled) {
+        // Multitrack view was enabled, re-enable for auto save
+        m_trackView->slotMultitrackView(true);
+    }
+    return scene;
 }
 
 void ProjectManager::prepareSave()

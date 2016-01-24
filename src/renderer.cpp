@@ -70,7 +70,6 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
     m_qmlView(qmlView),
     m_isZoneMode(false),
     m_isLoopMode(false),
-    m_isSplitView(false),
     m_blackClip(NULL),
     m_isActive(false),
     m_isRefreshing(false)
@@ -141,8 +140,6 @@ Mlt::Producer *Render::invalidProducer(const QString &id)
 void Render::prepareProfileReset(double fps)
 {
     m_refreshTimer.stop();
-    if (m_isSplitView)
-            slotSplitView(false);
     m_fps = fps;
 }
 
@@ -258,78 +255,6 @@ double Render::sar() const
 {
     return m_qmlView->profile()->sar();
 }
-
-void Render::slotSplitView(bool doit)
-{
-    m_isSplitView = doit;
-    Mlt::Service service(m_mltProducer->parent().get_service());
-    Mlt::Tractor tractor(service);
-    if (service.type() != tractor_type || tractor.count() < 2) return;
-    Mlt::Field *field = tractor.field();
-    if (doit) {
-        for (int i = 1, screen = 0; i < tractor.count() && screen < 4; ++i) {
-            Mlt::Producer trackProducer(tractor.track(i));
-            //qDebug() << "// TRACK: " << i << ", HIDE: " << trackProducer.get("hide");
-            if (QString(trackProducer.get("hide")).toInt() != 1) {
-                //qDebug() << "// ADIDNG TRACK: " << i;
-                Mlt::Transition *transition = new Mlt::Transition(*m_qmlView->profile(), "composite");
-                transition->set("mlt_service", "composite");
-                transition->set("a_track", 0);
-                transition->set("b_track", i);
-                transition->set("distort", 0);
-                transition->set("aligned", 0);
-                transition->set("internal_added", "200");
-                QString geometry;
-                switch (screen) {
-                case 0:
-                    geometry = QStringLiteral("0/0:50%x50%");
-                    break;
-                case 1:
-                    geometry = QStringLiteral("50%/0:50%x50%");
-                    break;
-                case 2:
-                    geometry = QStringLiteral("0/50%:50%x50%");
-                    break;
-                case 3:
-                default:
-                    geometry = QStringLiteral("50%/50%:50%x50%");
-                    break;
-                }
-                transition->set("geometry", geometry.toUtf8().constData());
-                transition->set("always_active", "1");
-                field->plant_transition(*transition, 0, i);
-                screen++;
-            }
-        }
-        m_isRefreshing = true;
-        m_mltConsumer->set("refresh", 1);
-    } else {
-        mlt_service serv = m_mltProducer->parent().get_service();
-        mlt_service nextservice = mlt_service_get_producer(serv);
-        mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
-        QString mlt_type = mlt_properties_get(properties, "mlt_type");
-        QString resource = mlt_properties_get(properties, "mlt_service");
-        mlt_service nextservicetodisconnect;
-
-        while (mlt_type == QLatin1String("transition")) {
-            QString added = mlt_properties_get(MLT_SERVICE_PROPERTIES(nextservice), "internal_added");
-            if (added == QLatin1String("200")) {
-                nextservicetodisconnect = nextservice;
-                nextservice = mlt_service_producer(nextservice);
-                mlt_field_disconnect_service(field->get_field(), nextservicetodisconnect);
-            }
-            else nextservice = mlt_service_producer(nextservice);
-            if (nextservice == NULL) break;
-            properties = MLT_SERVICE_PROPERTIES(nextservice);
-            mlt_type = mlt_properties_get(properties, "mlt_type");
-            resource = mlt_properties_get(properties, "mlt_service");
-            m_isRefreshing = true;
-            m_mltConsumer->set("refresh", 1);
-        }
-    }
-}
-
-
 
 
 
@@ -633,12 +558,9 @@ const QString Render::sceneList()
     xmlConsumer.set("store", "kdenlive");
     Mlt::Producer prod(m_mltProducer->get_producer());
     if (!prod.is_valid()) return QString();
-    bool split = m_isSplitView;
-    if (split) slotSplitView(false);
     xmlConsumer.connect(prod);
     xmlConsumer.run();
     playlist = QString::fromUtf8(xmlConsumer.get("kdenlive_playlist"));
-    if (split) slotSplitView(true);
     return playlist;
 }
 
