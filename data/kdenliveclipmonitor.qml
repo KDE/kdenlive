@@ -12,14 +12,36 @@ Item {
     property string markerText
     property string timecode
     property point profile
+    property double zoom
     property double scalex
     property double scaley
     property bool showMarkers
     property bool showTimecode
     property bool showSafezone
     property bool showAudiothumb
+    property bool showToolbar: false
     property int displayFontSize
+    onZoomChanged: {
+        sceneToolBar.setZoom(root.zoom)
+    }
     signal editCurrentMarker()
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.MidButton
+        onClicked: {
+            root.showToolbar = !root.showToolbar
+        }
+    }
+    SceneToolBar {
+        id: sceneToolBar
+        anchors {
+            left: parent.left
+            top: parent.top
+            topMargin: 10
+            leftMargin: 10
+        }
+        visible: root.showToolbar
+    }
 
     Item {
         id: frame

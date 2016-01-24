@@ -1712,6 +1712,7 @@ void Monitor::loadQmlScene(MonitorSceneType type)
     QQuickItem *root = m_glMonitor->rootObject();
     QFontInfo info(font());
     root->setProperty("displayFontSize", info.pixelSize() * 1.4);
+    connectQmlToolbar(root);
     switch (type) {
       case MonitorSceneSplit:
           QObject::connect(root, SIGNAL(qmlMoveSplit()), this, SLOT(slotAdjustEffectCompare()), Qt::UniqueConnection);
@@ -1741,6 +1742,34 @@ void Monitor::loadQmlScene(MonitorSceneType type)
           break;
     }
     if (m_sceneVisibilityAction) m_sceneVisibilityAction->setChecked(type != MonitorSceneDefault);
+}
+
+void Monitor::connectQmlToolbar(QQuickItem *root)
+{
+    QObject *button = root->findChild<QObject*>("fullScreen");
+    if (button) {
+        QObject::connect(button, SIGNAL(clicked()), this, SLOT(slotSwitchFullScreen()), Qt::UniqueConnection);
+    }
+    button = root->findChild<QObject*>("nextKeyframe");
+    if (button) {
+        QObject::connect(button, SIGNAL(clicked()), this, SLOT(slotSeekToNextSnap()), Qt::UniqueConnection);
+    }
+    button = root->findChild<QObject*>("prevKeyframe");
+    if (button) {
+        QObject::connect(button, SIGNAL(clicked()), this, SLOT(slotSeekToPreviousSnap()), Qt::UniqueConnection);
+    }
+    button = root->findChild<QObject*>("addMarker");
+    if (button) {
+        QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(addMarker()), Qt::UniqueConnection);
+    }
+    button = root->findChild<QObject*>("removeMarker");
+    if (button) {
+        QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(deleteMarker()), Qt::UniqueConnection);
+    }
+    button = root->findChild<QObject*>("zoomSlider");
+    if (button) {
+        QObject::connect(button, SIGNAL(zoomChanged(double)), m_glMonitor, SLOT(slotZoomScene(double)), Qt::UniqueConnection);
+    }
 }
 
 void Monitor::setQmlProperty(const QString &name, const QVariant &value)

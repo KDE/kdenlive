@@ -227,6 +227,8 @@ private:
     void loadQmlScene(MonitorSceneType type);
     void updateQmlDisplay(int currentOverlay);
     void displayAudioMonitor();
+    /** @brief Connect qml on monitor toolbar buttons */
+    void connectQmlToolbar(QQuickItem *root);
 
 private slots:
     void seekCursor(int pos);
@@ -340,6 +342,8 @@ signals:
     void updateGuide(int, QString);
     void requestAudioThumb(QString);
     void timeCodeUpdated(QString);
+    void addMarker();
+    void deleteMarker();
 };
 
 #endif

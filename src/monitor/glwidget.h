@@ -107,6 +107,7 @@ public slots:
     void setOffsetX(int x);
     void setOffsetY(int y);
     void slotSwitchAudioOverlay(bool enable);
+    void slotZoomScene(double value);
     void initializeGL();
 
 signals:

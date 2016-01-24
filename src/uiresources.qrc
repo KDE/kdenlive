@@ -8,5 +8,6 @@
     <file alias="kdenlivemonitoreffectscene.qml">../data/kdenlivemonitoreffectscene.qml</file>
     <file alias="kdenlivemonitorcornerscene.qml">../data/kdenlivemonitorcornerscene.qml</file>
     <file alias="kdenlivemonitorsplit.qml">../data/kdenlivemonitorsplit.qml</file>
+    <file alias="SceneToolBar.qml">../data/SceneToolBar.qml</file>
   </qresource>
 </RCC>

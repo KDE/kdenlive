@@ -523,6 +523,19 @@ void GLWidget::paintGL()
     check_error(f);
 }
 
+void GLWidget::slotZoomScene(double value)
+{
+    if (value >= 3) {
+        setZoom(value - 2.0f);
+    } else if (value == 2) {
+        setZoom(0.5);
+    } else if (value == 1) {
+        setZoom(0.25);
+    } else if (value == 0) {
+        setZoom(0.125);
+    }
+}
+
 void GLWidget::wheelEvent(QWheelEvent * event)
 {
     if (event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::ShiftModifier) {
@@ -544,7 +557,7 @@ void GLWidget::wheelEvent(QWheelEvent * event)
             else if (m_zoom == 2.0f) {
                 setZoom(1.0f);
             }
-            else {
+            else if (m_zoom > 0.2) {
                 setZoom(m_zoom / 2);
             }
         }
@@ -1068,6 +1081,7 @@ void GLWidget::setZoom(float zoom)
     m_zoom = zoom;
     emit zoomChanged();
     if (rootObject()) {
+        rootObject()->setProperty("zoom", m_zoom);
         double scalex = rootObject()->property("scalex").toDouble() * zoomRatio;
         rootObject()->setProperty("scalex", scalex);
         double scaley = rootObject()->property("scaley").toDouble() * zoomRatio;
