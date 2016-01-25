@@ -219,7 +219,7 @@ void GLWidget::initializeGL()
         m_shareContext->setShareContext(openglContext());
         m_shareContext->create();
     }
-    m_frameRenderer = new FrameRenderer(openglContext(), &m_offscreenSurface);
+    m_frameRenderer = new FrameRenderer(openglContext(), &m_offscreenSurface, KdenliveSettings::monitoraudio() & m_id);
     m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
     openglContext()->makeCurrent(this);
     //openglContext()->blockSignals(false);
@@ -841,6 +841,7 @@ int GLWidget::reconfigureMulti(QString params, QString path, Mlt::Profile *profi
         if (m_consumer) {
             m_consumer->purge();
             m_consumer->stop();
+            processAudio(false);
             delete m_consumer;
         }
         m_consumer = new Mlt::FilteredConsumer(*profile, "multi");
@@ -888,6 +889,9 @@ int GLWidget::reconfigureMulti(QString params, QString path, Mlt::Profile *profi
         //m_consumer->set("1.real_time", -KdenliveSettings::mltthreads());
         m_consumer->set("terminate_on_pause", 0);
         m_consumer->set("1.terminate_on_pause", 0);
+        //TODO: does this work on multi-consumer ?
+        //processAudio(KdenliveSettings::monitoraudio() & m_id);
+
         //m_consumer->set("1.terminate_on_pause", 0);// was commented out. restoring it  fixes mantis#3415 - FFmpeg recording freezes
         QStringList paramList = params.split(' ', QString::SkipEmptyParts);
         for (int i = 0; i < paramList.count(); ++i) {
@@ -916,11 +920,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
         if (m_consumer) {
             m_consumer->purge();
             m_consumer->stop();
-            if (m_audioLevels) {
-                m_consumer->detach(*m_audioLevels);
-                delete m_audioLevels;
-                m_audioLevels = NULL;
-            }
+            processAudio(false);
             delete m_consumer;
         }
         if (serviceName.isEmpty() || serviceName != KdenliveSettings::audiobackend()) {
@@ -1213,7 +1213,7 @@ void RenderThread::run()
     }
 }
 
-FrameRenderer::FrameRenderer(QOpenGLContext* shareContext, QSurface *surface)
+FrameRenderer::FrameRenderer(QOpenGLContext* shareContext, QSurface *surface, bool doProcessAudio)
      : QThread(0)
      , audioChannels(2)
      , m_semaphore(3)
@@ -1222,7 +1222,7 @@ FrameRenderer::FrameRenderer(QOpenGLContext* shareContext, QSurface *surface)
      , m_surface(surface)
      , m_gl32(0)
      , sendAudioForAnalysis(false)
-     , processAudio(false)
+     , processAudio(doProcessAudio)
 {
     Q_ASSERT(shareContext);
     m_renderTexture[0] = m_renderTexture[1] = m_renderTexture[2] = 0;
