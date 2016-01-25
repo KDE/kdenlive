@@ -1277,12 +1277,7 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
             QVector<double> levels;
             for (int i = 0; i < audioChannels; i++) {
                 QString s = QString("meta.media.audio_level.%1").arg(i);
-                double audioLevel = m_frame.get_double(s.toLatin1().constData());
-                if (audioLevel == 0.0) {
-                    levels << -100.0;
-                } else {
-                    levels << 20 * log10(audioLevel);
-                }
+                levels << m_frame.get_double(s.toLatin1().constData());
             }
             emit audioLevels(levels);
         }
@@ -1359,12 +1354,7 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
             QVector<double> levels;
             for (int i = 0; i < audioChannels; i++) {
                 QString s = QString("meta.media.audio_level.%1").arg(i);
-                double audioLevel = m_frame.get_double(s.toLatin1().constData());
-                if (audioLevel == 0.0) {
-                    levels << -100.0;
-                } else {
-                    levels << 20 * log10(audioLevel);
-                }
+                levels << m_frame.get_double(s.toLatin1().constData());
             }
             emit audioLevels(levels);
         }
