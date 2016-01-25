@@ -63,10 +63,12 @@ void MyAudioWidget::drawBackground(int channels)
     newSize.setHeight(newSize.height() - textHeight);
     QLinearGradient gradient(0, 0, newSize.width(), 0);
     gradient.setColorAt(0.0, Qt::darkGreen);
-    gradient.setColorAt(0.755, Qt::green);
-    gradient.setColorAt(0.756, Qt::yellow); // -2db
-    gradient.setColorAt(0.93, Qt::yellow);
-    gradient.setColorAt(0.94, Qt::red); // -1db
+    gradient.setColorAt(0.379, Qt::darkGreen);
+    gradient.setColorAt(0.38, Qt::green); // -20db
+    gradient.setColorAt(0.868, Qt::green);
+    gradient.setColorAt(0.869, Qt::yellow); // -2db
+    gradient.setColorAt(0.95, Qt::yellow);
+    gradient.setColorAt(0.951, Qt::red); // 0db
     m_pixmap = QPixmap(QWidget::size());
     if (m_pixmap.isNull()) return;
     m_pixmap.fill(Qt::transparent);
