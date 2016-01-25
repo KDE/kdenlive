@@ -88,7 +88,7 @@ void MyAudioWidget::drawBackground(int channels)
 
     // Channel labels are horizontal along the bottom.
     QVector<int> dbscale;
-    dbscale << 0 << -1 << -2 << -3 << -4 << -5 << -7 << -9 << -13 << -20 << -30 << -45;
+    dbscale << 0 << -2 << -5 << -10 << -15 << -20 << -30 << -45;
     int dbLabelCount = dbscale.size();
     // dB scale is horizontal along the bottom
     int prevX = m_pixmap.width() * 2;
