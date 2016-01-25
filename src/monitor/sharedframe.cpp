@@ -146,6 +146,11 @@ double SharedFrame::get_double(const char *name) const
     return d->f.get_double(name);
 }
 
+char* SharedFrame::get(const char *name) const
+{
+    return d->f.get(name);
+}
+
 int SharedFrame::get_position() const
 {
     return d->f.get_position();

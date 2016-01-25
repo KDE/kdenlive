@@ -58,7 +58,8 @@ public:
     Mlt::Frame clone(bool audio = false, bool image = false, bool alpha = false) const;
     int get_int(const char *name) const;
     int64_t get_int64(const char *name) const;
-	double get_double(const char *name) const;
+    double get_double(const char *name) const;
+    char* get(const char *name) const;
     int get_position() const;
     mlt_image_format get_image_format() const;
     int get_image_width() const;
