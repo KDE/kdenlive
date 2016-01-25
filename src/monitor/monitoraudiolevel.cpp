@@ -28,10 +28,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFont>
 #include <QDebug>
 
+const double log_factor = 1.0 / log10(1.0/127);
+
 static inline double levelToDB(double dB)
 {
     if (dB == 0) return 0;
-    return 100 * (1.0 - log10(dB)/log10(1.0/127));
+    return 100 * (1.0 - log10(dB) * log_factor);
 }
 
 MyAudioWidget::MyAudioWidget(int height, QWidget *parent) : QWidget(parent)
