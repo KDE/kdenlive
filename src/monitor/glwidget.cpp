@@ -1278,8 +1278,9 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
             for (int i = 0; i < audioChannels; i++) {
                 QString s = QString("meta.media.audio_level.%1").arg(i);
                 // We need to make sure that the property exists, otherwise a 0 is returned and then converted to 20dB when no audio is detected...
+                // TODO: find a way not to fetch the property twice
                 QString val = m_frame.get(s.toLatin1().constData());
-                double level = val.isEmpty() ? -1 : val.toDouble();
+                double level = val.isEmpty() ? -1 : m_frame.get_double(s.toLatin1().constData());
                 levels << level;
             }
             emit audioLevels(levels);
@@ -1358,8 +1359,9 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
             for (int i = 0; i < audioChannels; i++) {
                 QString s = QString("meta.media.audio_level.%1").arg(i);
                 // We need to make sure that the property exists, otherwise a 0 is returned and then converted to 20dB when no audio is detected...
+                // TODO: find a way not to fetch the property twice
                 QString val = m_frame.get(s.toLatin1().constData());
-                double level = val.isEmpty() ? -1 : val.toDouble();
+                double level = val.isEmpty() ? -1 : m_frame.get_double(s.toLatin1().constData());
                 levels << level;
             }
             emit audioLevels(levels);
