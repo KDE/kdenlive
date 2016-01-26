@@ -156,7 +156,9 @@ void Render::seek(int time)
     resetZoneMode();
     if (requestedSeekPosition == SEEK_INACTIVE) {
         requestedSeekPosition = time;
-        m_mltConsumer->purge();
+        if (m_mltProducer->get_speed() != 0) {
+            m_mltConsumer->purge();
+        }
         m_mltProducer->seek(time);
         if (!externalConsumer) {
             m_isRefreshing = true;
@@ -761,12 +763,12 @@ void Render::switchPlay(bool play)
         m_mltConsumer->set("refresh", 1);
         m_mltProducer->set_speed(1.0);
     } else {
+        m_mltConsumer->purge();
         m_mltProducer->set_speed(0.0);
         m_mltConsumer->set("buffer", 0);
         m_mltConsumer->set("prefill", 0);
         m_mltConsumer->set("real_time", -1);
         m_mltProducer->seek(m_mltConsumer->position() + 1);
-        m_mltConsumer->purge();
         m_mltConsumer->start();
     }
 }

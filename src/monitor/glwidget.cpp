@@ -1273,7 +1273,6 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
         emit frameDisplayed(m_frame);
 
 	if (processAudio) {
-            m_frame.get_audio();
             QVector<double> levels;
             for (int i = 0; i < audioChannels; i++) {
                 QString s = QString("meta.media.audio_level.%1").arg(i);
