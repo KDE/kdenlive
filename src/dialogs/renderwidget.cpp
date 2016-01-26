@@ -1551,6 +1551,8 @@ void RenderWidget::refreshParams()
     if (!item || item->isHidden() || extension.isEmpty()) {
         if (!item)
             errorMessage(i18n("No matching profile"));
+        else if (!item->parent()) // category
+            ;
         else if (extension.isEmpty()) {
             errorMessage(i18n("Invalid profile"));
         }
