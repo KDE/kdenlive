@@ -24,13 +24,13 @@
 #ifndef EFFECTSTACKVIEW2_H
 #define EFFECTSTACKVIEW2_H
 
-#include "ui_effectstack2_ui.h"
 #include "collapsibleeffect.h"
 #include "collapsiblegroup.h"
 
 class EffectsList;
 class ClipItem;
 class Transition;
+class EffectSettings;
 class TransitionSettings;
 class ClipController;
 class Monitor;
@@ -131,9 +131,8 @@ private:
     EffectsList m_currentEffectList;
 
     QVBoxLayout m_layout;
-    QWidget *m_effect;
+    EffectSettings *m_effect;
     TransitionSettings *m_transition;
-    Ui::EffectStack2_UI m_ui;
 
     /** @brief Contains info about effect like is it a track effect, which monitor displays it,... */
     EffectMetaInfo m_effectMetaInfo;

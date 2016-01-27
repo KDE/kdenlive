@@ -154,8 +154,6 @@ ki18n_wrap_ui(kdenlive_UIS
   ui/dvdwizardstatus_ui.ui
   ui/dvdwizardvob_ui.ui
   ui/effectlist_ui.ui
-  ui/effectstack_ui.ui
-  ui/effectstack2_ui.ui
   ui/freesound_ui.ui
   ui/geometryval_ui.ui
   ui/geometrywidget_ui.ui

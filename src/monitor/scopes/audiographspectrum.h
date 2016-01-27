@@ -21,7 +21,7 @@
 
 /*!
 * @class AudioGraphSpectrum
-* @brief An audio spectrum allowing to edit audio level / equalize clips or tracks
+* @brief An audio spectrum
 * @author Jean-Baptiste Mardelle
 */
 

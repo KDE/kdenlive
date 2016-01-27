@@ -15,6 +15,7 @@ set(kdenlive_SRCS
 #  project/projectlist.cpp
 #  project/projectlistview.cpp
 #  project/subprojectitem.cpp
+  project/effectsettings.cpp
   project/transitionsettings.cpp
   project/notesplugin.cpp
   PARENT_SCOPE)
