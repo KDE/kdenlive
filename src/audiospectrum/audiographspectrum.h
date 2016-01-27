@@ -28,7 +28,7 @@
 #ifndef AUDIOGRAPHSPECTRUM_H
 #define AUDIOGRAPHSPECTRUM_H
 
-#include "../monitor/sharedframe.h"
+#include "../monitor/scopes/sharedframe.h"
 
 #include <QWidget>
 #include <QVector>

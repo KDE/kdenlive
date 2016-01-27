@@ -1,3 +1,4 @@
+add_subdirectory(scopes)
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
   monitor/glwidget.cpp
@@ -7,7 +8,5 @@ set(kdenlive_SRCS
   monitor/recmanager.cpp
   monitor/recmonitor.cpp
   monitor/smallruler.cpp
-  monitor/sharedframe.cpp
   monitor/qmlmanager.cpp
-  monitor/monitoraudiolevel.cpp
   PARENT_SCOPE)

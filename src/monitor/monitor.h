@@ -21,12 +21,11 @@
 #define MONITOR_H
 
 #include "abstractmonitor.h"
-#include "monitoraudiolevel.h"
 #include "gentime.h"
 #include "renderer.h"
 #include "definitions.h"
 #include "timecodedisplay.h"
-#include "monitor/sharedframe.h"
+#include "scopes/sharedframe.h"
 #include "effectslist/effectslist.h"
 
 #include <QLabel>
@@ -52,9 +51,7 @@ class QScrollBar;
 class RecManager;
 class QToolButton;
 class QmlManager;
-
-
-
+class MonitorAudioLevel;
 
 class QuickEventEater : public QObject
 {
@@ -188,7 +185,6 @@ private:
     QWidget *m_videoWidget;
     /** @brief Manager for qml overlay for the QQuickView **/
     QmlManager *m_qmlManager;
-    MonitorAudioLevel m_levelManager;
 
     Mlt::Filter *m_splitEffect;
     Mlt::Producer *m_splitProducer;
@@ -223,7 +219,7 @@ private:
     KMessageWidget *m_infoMessage;
     int m_forceSizeFactor;
     MonitorSceneType m_lastMonitorSceneType;
-    QWidget *m_audioMeterWidget;
+    MonitorAudioLevel *m_audioMeterWidget;
     void adjustScrollBars(float horizontal, float vertical);
     void loadQmlScene(MonitorSceneType type);
     void updateQmlDisplay(int currentOverlay);

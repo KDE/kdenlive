@@ -30,7 +30,7 @@
 #include <QThread>
 #include <QRect>
 
-#include "sharedframe.h"
+#include "scopes/sharedframe.h"
 #include "definitions.h"
 
 class QOpenGLFunctions_3_2_Core;
@@ -93,7 +93,6 @@ public:
     void releaseMonitor();
     int realTime() const;
     void setAudioThumb(int channels = 0, QVariantList audioCache = QList<QVariant>());
-    void processAudio(bool);
     void setAudioChannels(int count);
 
 protected:
@@ -142,7 +141,6 @@ private:
     QOpenGLShaderProgram* m_shader;
     QPoint m_dragStart;
     Mlt::Filter* m_glslManager;
-    Mlt::Filter* m_audioLevels;
     Mlt::Consumer* m_consumer;
     Mlt::Producer* m_producer;
     QSemaphore m_initSem;
@@ -208,7 +206,7 @@ class FrameRenderer : public QThread
 {
     Q_OBJECT
 public:
-    explicit FrameRenderer(QOpenGLContext* shareContext, QSurface *surface, bool doProcessAudio);
+    explicit FrameRenderer(QOpenGLContext* shareContext, QSurface *surface);
     ~FrameRenderer();
     int audioChannels;
     QSemaphore* semaphore() { return &m_semaphore; }
@@ -238,7 +236,6 @@ public:
     GLuint m_displayTexture[3];
     QOpenGLFunctions_3_2_Core* m_gl32;
     bool sendAudioForAnalysis;
-    bool processAudio;
 };
 
 

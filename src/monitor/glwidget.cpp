@@ -69,7 +69,6 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_id(id)
     , m_shader(0)
     , m_glslManager(0)
-    , m_audioLevels(0)
     , m_consumer(0)
     , m_producer(0)
     , m_initSem(0)
@@ -158,31 +157,6 @@ void GLWidget::showEvent(QShowEvent * event)
     initializeGL();
 }
 
-void GLWidget::processAudio(bool process)
-{
-    if (m_consumer) {
-        if (process) {
-            if (!m_audioLevels) {
-                m_audioLevels = new Mlt::Filter(*m_monitorProfile, "audiolevel");
-                if (!m_audioLevels->is_valid()) {
-                    // Something is wrong
-                    if (m_frameRenderer) 
-                        m_frameRenderer->processAudio = false;
-                    return;
-                }
-                m_audioLevels->set("iec_scale", 0);
-            }
-            m_consumer->attach(*m_audioLevels);
-        } else if (m_audioLevels) {
-            m_consumer->detach(*m_audioLevels);
-            delete m_audioLevels;
-            m_audioLevels = NULL;
-        }
-    }
-    if (m_frameRenderer) 
-        m_frameRenderer->processAudio = process;
-}
-
 void GLWidget::initializeGL()
 {
     if (m_isInitialized || !isVisible() || !openglContext()) return;
@@ -219,22 +193,15 @@ void GLWidget::initializeGL()
         m_shareContext->setShareContext(openglContext());
         m_shareContext->create();
     }
-    m_frameRenderer = new FrameRenderer(openglContext(), &m_offscreenSurface, KdenliveSettings::monitoraudio() & m_id);
+    m_frameRenderer = new FrameRenderer(openglContext(), &m_offscreenSurface);
     m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
     openglContext()->makeCurrent(this);
     //openglContext()->blockSignals(false);
     connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), this, SIGNAL(frameDisplayed(const SharedFrame&)), Qt::QueuedConnection);
-    connect(m_frameRenderer, SIGNAL(audioLevels(const QVector<double>&)), this, SIGNAL(audioLevels(const QVector<double>&)), Qt::QueuedConnection);
     connect(m_frameRenderer, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), this, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), Qt::QueuedConnection);
     connect(m_frameRenderer, SIGNAL(textureReady(GLuint,GLuint,GLuint)), SLOT(updateTexture(GLuint,GLuint,GLuint)), Qt::DirectConnection);
     connect(this, SIGNAL(textureUpdated()), this, SLOT(update()), Qt::QueuedConnection);
     m_initSem.release();
-}
-
-void GLWidget::setAudioChannels(int count)
-{
-    if (m_frameRenderer)
-        m_frameRenderer->audioChannels = count;
 }
 
 void GLWidget::resizeGL(int width, int height)
@@ -841,7 +808,6 @@ int GLWidget::reconfigureMulti(QString params, QString path, Mlt::Profile *profi
         if (m_consumer) {
             m_consumer->purge();
             m_consumer->stop();
-            processAudio(false);
             delete m_consumer;
         }
         m_consumer = new Mlt::FilteredConsumer(*profile, "multi");
@@ -889,8 +855,6 @@ int GLWidget::reconfigureMulti(QString params, QString path, Mlt::Profile *profi
         //m_consumer->set("1.real_time", -KdenliveSettings::mltthreads());
         m_consumer->set("terminate_on_pause", 0);
         m_consumer->set("1.terminate_on_pause", 0);
-        //TODO: does this work on multi-consumer ?
-        //processAudio(KdenliveSettings::monitoraudio() & m_id);
 
         //m_consumer->set("1.terminate_on_pause", 0);// was commented out. restoring it  fixes mantis#3415 - FFmpeg recording freezes
         QStringList paramList = params.split(' ', QString::SkipEmptyParts);
@@ -920,7 +884,6 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
         if (m_consumer) {
             m_consumer->purge();
             m_consumer->stop();
-            processAudio(false);
             delete m_consumer;
         }
         if (serviceName.isEmpty() || serviceName != KdenliveSettings::audiobackend()) {
@@ -991,7 +954,6 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
         m_consumer->set("buffer", 25);
         m_consumer->set("prefill", 1);
         m_consumer->set("scrub_audio", 1);
-        processAudio(KdenliveSettings::monitoraudio() & m_id);
         if (KdenliveSettings::monitor_gamma() == 0) {
             m_consumer->set("color_trc", "iec61966_2_1");
         }
@@ -1213,16 +1175,14 @@ void RenderThread::run()
     }
 }
 
-FrameRenderer::FrameRenderer(QOpenGLContext* shareContext, QSurface *surface, bool doProcessAudio)
+FrameRenderer::FrameRenderer(QOpenGLContext* shareContext, QSurface *surface)
      : QThread(0)
-     , audioChannels(2)
      , m_semaphore(3)
      , m_frame()
      , m_context(0)
      , m_surface(surface)
      , m_gl32(0)
      , sendAudioForAnalysis(false)
-     , processAudio(doProcessAudio)
 {
     Q_ASSERT(shareContext);
     m_renderTexture[0] = m_renderTexture[1] = m_renderTexture[2] = 0;
@@ -1272,25 +1232,12 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
         // of the application.
         emit frameDisplayed(m_frame);
 
-	if (processAudio) {
-            QVector<double> levels;
-            for (int i = 0; i < audioChannels; i++) {
-                QString s = QString("meta.media.audio_level.%1").arg(i);
-                // We need to make sure that the property exists, otherwise a 0 is returned and then converted to 20dB when no audio is detected...
-                // TODO: find a way not to fetch the property twice
-                QString val = m_frame.get(s.toLatin1().constData());
-                double level = val.isEmpty() ? -1 : m_frame.get_double(s.toLatin1().constData());
-                levels << level;
-            }
-            emit audioLevels(levels);
-        }
         if (sendAudioForAnalysis) {
             // TODO: use mlt audiospectrum filter
-            mlt_audio_format audio_format = m_frame.get_audio_format();
-	    int freq = m_frame.get_audio_frequency();
+	    /*int freq = m_frame.get_audio_frequency();
 	    int num_channels = m_frame.get_audio_channels();
-	    int samples = 0;
-	    qint16* data = (qint16*)frame.get_audio(audio_format, freq, num_channels, samples);
+	    int samples = m_frame.get_audio_samples();
+	    const qint16* data = (qint16*)m_frame.get_audio(freq, num_channels, samples);
 
 	    if (data) {
 		// Data format: [ c00 c10 c01 c11 c02 c12 c03 c13 ... c0{samples-1} c1{samples-1} for 2 channels.
@@ -1301,7 +1248,7 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
 		if (samples > 0) {
 		    emit audioSamplesSignal(sampleVector, freq, num_channels, samples);
 		}
-	    }
+	    }*/
 	}
     }
     m_semaphore.release();
@@ -1351,20 +1298,6 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
         // The frame is now done being modified and can be shared with the rest
         // of the application.
         emit frameDisplayed(m_frame);
-
-        if (processAudio) {
-            m_frame.get_audio();
-            QVector<double> levels;
-            for (int i = 0; i < audioChannels; i++) {
-                QString s = QString("meta.media.audio_level.%1").arg(i);
-                // We need to make sure that the property exists, otherwise a 0 is returned and then converted to 20dB when no audio is detected...
-                // TODO: find a way not to fetch the property twice
-                QString val = m_frame.get(s.toLatin1().constData());
-                double level = val.isEmpty() ? -1 : m_frame.get_double(s.toLatin1().constData());
-                levels << level;
-            }
-            emit audioLevels(levels);
-        }
 
 	if (sendAudioForAnalysis) {
             // TODO: use mlt audiospectrum filter

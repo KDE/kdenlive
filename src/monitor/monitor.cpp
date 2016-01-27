@@ -25,6 +25,7 @@
 #include "smallruler.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/bincontroller.h"
+#include "scopes/monitoraudiolevel.h"
 #include "lib/audio/audioStreamInfo.h"
 #include "kdenlivesettings.h"
 #include "timeline/abstractclipitem.h"
@@ -294,7 +295,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
     connect(m_glMonitor, SIGNAL(analyseFrame(QImage)), render, SLOT(emitFrameUpdated(QImage)));
     connect(m_glMonitor, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), render, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)));
-    connect(m_glMonitor, SIGNAL(audioLevels(const QVector<double>&)), &m_levelManager, SLOT(slotAudioLevels(const QVector<double>&)));
 
     if (id != Kdenlive::ClipMonitor) {
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
@@ -328,7 +328,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_toolbar->addWidget(spacer);*/
 
     m_toolbar->addSeparator();
-    m_audioMeterWidget = m_levelManager.createProgressBar(m_toolbar->height(), this);
+    m_audioMeterWidget = new MonitorAudioLevel(m_glMonitor->profile(), this);
+    m_audioMeterWidget->setMinimumHeight(m_toolbar->height());
     m_toolbar->addWidget(m_audioMeterWidget);
 
     connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotSeek()));
@@ -348,6 +349,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 Monitor::~Monitor()
 {
     render->stop();
+    delete m_audioMeterWidget;
     delete m_glMonitor;
     delete m_videoWidget;
     delete m_glWidget;
@@ -1314,14 +1316,14 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
 	    m_ruler->setZone(in, out);
 	    setClipZone(QPoint(in, out));
 	}
-	m_glMonitor->setAudioChannels(controller->audioInfo() ? controller->audioInfo()->channels() : 0);
+	m_audioMeterWidget->audioChannels = controller->audioInfo() ? controller->audioInfo()->channels() : 0;
 	emit requestAudioThumb(controller->clipId());
 	//hasEffects =  controller->hasEffects();
     }
     else {
         render->setProducer(NULL, -1, isActive());
         m_glMonitor->setAudioThumb();
-        m_glMonitor->setAudioChannels(0);
+        m_audioMeterWidget->audioChannels = 0;
     }
     checkOverlay();
 }
@@ -1582,11 +1584,12 @@ void Monitor::onFrameDisplayed(const SharedFrame& frame)
 {
     int position = frame.get_position();
     seekCursor(position);
-    if (!render->checkFrameNumber(position)) {
-        m_playAction->setActive(false);
-    }
     if (position >= m_length) {
         m_playAction->setActive(false);
+    } else {
+        if (!render->checkFrameNumber(position)) {
+            m_playAction->setActive(false);
+        }
     }
 }
 
@@ -1630,7 +1633,7 @@ void Monitor::setPalette ( const QPalette & p)
     }
     if (m_ruler) m_ruler->updatePalette();
     m_timePos->updatePalette(p);
-    m_levelManager.refreshPixmap();
+    m_audioMeterWidget->refreshPixmap();
 }
 
 
@@ -1891,8 +1894,13 @@ void Monitor::slotSwitchAudioMonitor()
 
 void Monitor::displayAudioMonitor()
 {
-    m_levelManager.setMonitorVisible(KdenliveSettings::monitoraudio() & m_id);
-    m_glMonitor->processAudio(KdenliveSettings::monitoraudio() & m_id);
+    bool enable = KdenliveSettings::monitoraudio() & m_id;
+    if (enable) {
+        connect(m_glMonitor, SIGNAL(frameDisplayed(const SharedFrame&)), m_audioMeterWidget, SLOT(onNewFrame(const SharedFrame&)));
+    } else {
+        disconnect(m_glMonitor, SIGNAL(frameDisplayed(const SharedFrame&)), m_audioMeterWidget, SLOT(onNewFrame(const SharedFrame&)));
+    }
+    m_audioMeterWidget->setVisible(enable);
 }
 
 void Monitor::updateQmlDisplay(int currentOverlay)

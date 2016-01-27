@@ -842,8 +842,7 @@ void Render::seekToFrame(int pos)
 {
     if (!m_mltProducer || !m_isActive)
         return;
-    pos = qMax(0, pos - m_mltProducer->get_in());
-    pos = qMin(m_mltProducer->get_length(), pos);
+    pos = qBound(0, pos - m_mltProducer->get_in(), m_mltProducer->get_length());
     seek(pos);
 }
 
