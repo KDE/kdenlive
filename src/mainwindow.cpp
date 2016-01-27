@@ -23,7 +23,7 @@
 #include "core.h"
 #include "bin/projectclip.h"
 #include "library/librarywidget.h"
-#include "audiospectrum/audiographspectrum.h"
+#include "monitor/scopes/audiographspectrum.h"
 #include "mltcontroller/clipcontroller.h"
 #include "kdenlivesettings.h"
 #include "dialogs/kdenlivesettingsdialog.h"
@@ -234,12 +234,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     setCentralWidget(m_timelineArea);
     m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
     QDockWidget * libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
-    QDockWidget * spectrumDock = addDock(i18n("Audio Spectrum"), QStringLiteral("audiospectrum"), pCore->audioSpectrum());
-    connect(this, &MainWindow::reloadTheme, pCore->audioSpectrum(), &AudioGraphSpectrum::refreshPixmap);
-
-    // Close library and audiospectrum on first run
-    libraryDock->close();
-    spectrumDock->close();
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     pCore->bin()->setMonitor(m_clipMonitor);
@@ -276,11 +270,18 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_recMonitor = new RecMonitor(Kdenlive::RecordMonitor, pCore->monitorManager(), this);
     connect(m_recMonitor, SIGNAL(addProjectClip(QUrl)), this, SLOT(slotAddProjectClip(QUrl)));
     connect(m_recMonitor, SIGNAL(addProjectClipList(QList<QUrl>)), this, SLOT(slotAddProjectClipList(QList<QUrl>)));
-    
 
 */
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
     connect(m_clipMonitor, SIGNAL(addMasterEffect(QString,QDomElement)), pCore->bin(), SLOT(slotEffectDropped(QString,QDomElement)));
+
+    // Audio spectrum scope
+    m_audioSpectrum = new AudioGraphSpectrum(pCore->monitorManager());
+    QDockWidget * spectrumDock = addDock(i18n("Audio Spectrum"), QStringLiteral("audiospectrum"), m_audioSpectrum);
+    connect(this, &MainWindow::reloadTheme, m_audioSpectrum, &AudioGraphSpectrum::refreshPixmap);
+    // Close library and audiospectrum on first run
+    libraryDock->close();
+    spectrumDock->close();
 
     m_effectStack = new EffectStackView2(m_projectMonitor, this);
     connect(m_effectStack, SIGNAL(startFilterJob(const ItemInfo&,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)), pCore->bin(), SLOT(slotStartFilterJob(const ItemInfo &,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)));
@@ -625,6 +626,7 @@ void MainWindow::slotReloadTheme()
 MainWindow::~MainWindow()
 {
     delete m_stopmotion;
+    delete m_audioSpectrum;
     m_effectStack->slotClipItemSelected(NULL, m_projectMonitor);
     m_effectStack->slotTransitionItemSelected(NULL, 0, QPoint(), false);
     if (m_projectMonitor) m_projectMonitor->stop();

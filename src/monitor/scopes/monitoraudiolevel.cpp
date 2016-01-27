@@ -65,6 +65,10 @@ void MonitorAudioLevel::refreshScope(const QSize& /*size*/, bool /*full*/)
             Mlt::Frame mFrame = sFrame.clone(true, false, false);
             m_filter->process(mFrame);
             mFrame.get_audio( format, frequency, channels, samples );
+            if (samples == 0) {
+                // There was an error processing audio from frame
+                continue;
+            }
             QVector<int> levels;
             for (int i = 0; i < audioChannels; i++) {
                 QString s = QString("meta.media.audio_level.%1").arg(i);
@@ -179,6 +183,8 @@ void MonitorAudioLevel::setAudioValues(const QVector <int>& values)
 
 void MonitorAudioLevel::paintEvent(QPaintEvent *pe)
 {
+    if (!isVisible())
+        return;
     QPainter p(this);
     p.setClipRect(pe->rect());
     QRect rect(0, 0, width(), height());

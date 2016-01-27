@@ -50,6 +50,7 @@ class KdenliveDoc;
 class EffectsListView;
 class EffectStackView;
 class EffectStackView2;
+class AudioGraphSpectrum;
 class Monitor;
 class RecMonitor;
 class RenderWidget;
@@ -160,6 +161,8 @@ private:
 
     QDockWidget *m_recMonitorDock;
     RecMonitor *m_recMonitor;
+    
+    AudioGraphSpectrum *m_audioSpectrum;
 
     QDockWidget *m_undoViewDock;
 

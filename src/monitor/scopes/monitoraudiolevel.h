@@ -43,7 +43,6 @@ public:
 protected:
     void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
     void resizeEvent ( QResizeEvent * event ) Q_DECL_OVERRIDE;
-    void refreshScope(const QSize& size, bool full);
 
 private:
     Mlt::Filter* m_filter;
@@ -52,6 +51,7 @@ private:
     QVector <int> m_values;
     int m_channelHeight;
     void drawBackground(int channels = 2);
+    void refreshScope(const QSize& size, bool full) Q_DECL_OVERRIDE;
 
 public slots:
     void setAudioValues(const QVector <int> &values);

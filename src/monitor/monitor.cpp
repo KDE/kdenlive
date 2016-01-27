@@ -1582,6 +1582,7 @@ void Monitor::updateAudioForAnalysis()
 
 void Monitor::onFrameDisplayed(const SharedFrame& frame)
 {
+    m_monitorManager->frameDisplayed(frame);
     int position = frame.get_position();
     seekCursor(position);
     if (position >= m_length) {
@@ -1896,9 +1897,9 @@ void Monitor::displayAudioMonitor()
 {
     bool enable = KdenliveSettings::monitoraudio() & m_id;
     if (enable) {
-        connect(m_glMonitor, SIGNAL(frameDisplayed(const SharedFrame&)), m_audioMeterWidget, SLOT(onNewFrame(const SharedFrame&)));
+        connect(m_monitorManager, SIGNAL(frameDisplayed(const SharedFrame&)), m_audioMeterWidget, SLOT(onNewFrame(const SharedFrame&)), Qt::UniqueConnection);
     } else {
-        disconnect(m_glMonitor, SIGNAL(frameDisplayed(const SharedFrame&)), m_audioMeterWidget, SLOT(onNewFrame(const SharedFrame&)));
+        disconnect(m_monitorManager, SIGNAL(frameDisplayed(const SharedFrame&)), m_audioMeterWidget, SLOT(onNewFrame(const SharedFrame&)));
     }
     m_audioMeterWidget->setVisible(enable);
 }
@@ -1919,11 +1920,3 @@ void Monitor::updateQmlDisplay(int currentOverlay)
     m_glMonitor->rootObject()->setProperty("showAudiothumb", currentOverlay & 0x10);
 }
 
-void Monitor::connectAudioSpectrum(bool activate)
-{
-    if (activate) {
-        connect(m_glMonitor, SIGNAL(frameDisplayed(const SharedFrame&)), m_monitorManager, SIGNAL(updateAudioSpectrum(const SharedFrame&)), Qt::UniqueConnection);
-    } else {
-        disconnect(m_glMonitor, SIGNAL(frameDisplayed(const SharedFrame&)), m_monitorManager, SIGNAL(updateAudioSpectrum(const SharedFrame&)));
-    }
-}

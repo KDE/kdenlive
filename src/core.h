@@ -21,7 +21,6 @@ class BinController;
 class Bin;
 class LibraryWidget;
 class ProducerQueue;
-class AudioGraphSpectrum;
 
 #define pCore Core::self()
 
@@ -66,8 +65,6 @@ public:
     Bin *bin();
     /** @brief Returns a pointer to the producer queue. */
     ProducerQueue *producerQueue();
-    /** @brief Returns a pointer to the audio spectrum widget. */
-    AudioGraphSpectrum *audioSpectrum();
     /** @brief Returns a pointer to the library. */
     LibraryWidget *library();
 
@@ -83,7 +80,6 @@ private:
     MonitorManager *m_monitorManager;
     BinController *m_binController;
     ProducerQueue *m_producerQueue;
-    AudioGraphSpectrum *m_audioSpectrum;
     Bin *m_binWidget;
     LibraryWidget *m_library;
 
