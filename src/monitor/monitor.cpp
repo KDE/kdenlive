@@ -1585,12 +1585,11 @@ void Monitor::onFrameDisplayed(const SharedFrame& frame)
     m_monitorManager->frameDisplayed(frame);
     int position = frame.get_position();
     seekCursor(position);
-    if (position >= m_length) {
+    if (!render->checkFrameNumber(position)) {
         m_playAction->setActive(false);
-    } else {
-        if (!render->checkFrameNumber(position)) {
-            m_playAction->setActive(false);
-        }
+    }
+    else if (position >= m_length) {
+        m_playAction->setActive(false);
     }
 }
 

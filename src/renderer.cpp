@@ -154,6 +154,7 @@ void Render::seek(const GenTime &time)
 void Render::seek(int time)
 {
     resetZoneMode();
+    time = qBound(0, time, m_mltProducer->get_length() - 1);
     if (requestedSeekPosition == SEEK_INACTIVE) {
         requestedSeekPosition = time;
         if (m_mltProducer->get_speed() != 0) {
