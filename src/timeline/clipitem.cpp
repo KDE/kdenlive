@@ -736,11 +736,11 @@ void ClipItem::paint(QPainter *painter,
         }
     }
     // draw audio thumbnails
-    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && m_clipState != PlaylistState::VideoOnly && ((m_clipType == AV && (exposed.bottom() > (rect().height() / 2) || m_clipState == PlaylistState::AudioOnly)) || m_clipType == Audio) && m_audioThumbReady && !m_binClip->audioFrameCache.isEmpty()) {
+    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && m_clipState != PlaylistState::VideoOnly && (((m_clipType == AV || m_clipType == Playlist) && (exposed.bottom() > (rect().height() / 2) || m_clipState == PlaylistState::AudioOnly)) || m_clipType == Audio) && m_audioThumbReady && !m_binClip->audioFrameCache.isEmpty()) {
         int startpixel = qMax(0, (int) exposed.left());
         int endpixel = qMax(0, (int) (exposed.right() + 0.5) + 1);
         QRectF mappedRect = mapped;
-        if (m_clipType == AV && m_clipState != PlaylistState::AudioOnly) {
+        if (m_clipType != Audio && m_clipState != PlaylistState::AudioOnly) {
             mappedRect.setTop(mappedRect.bottom() - mapped.height() / 2);
         }
 

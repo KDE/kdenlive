@@ -129,9 +129,11 @@ void ClipController::getProducerXML(QDomDocument& document, bool includeMeta)
 void ClipController::getInfoForProducer()
 {
     date = QFileInfo(m_url.path()).lastModified();
-    m_audioIndex = int_property(QStringLiteral("audio_index"));
-    m_videoIndex = int_property(QStringLiteral("video_index"));
+    m_audioIndex = -1;
+    m_videoIndex = -1;
     if (m_service == QLatin1String("avformat") || m_service == QLatin1String("avformat-novalidate")) {
+        m_audioIndex = int_property(QStringLiteral("audio_index"));
+        m_videoIndex = int_property(QStringLiteral("video_index"));
         if (m_audioIndex == -1) {
             m_clipType = Video;
         }
@@ -169,7 +171,9 @@ void ClipController::getInfoForProducer()
         m_clipType = QText;
     }
     else m_clipType = Unknown;
-    if (m_audioIndex > -1) m_audioInfo = new AudioStreamInfo(m_masterProducer, m_audioIndex);
+    if (m_audioIndex > -1 || m_clipType == Playlist) {
+        m_audioInfo = new AudioStreamInfo(m_masterProducer, m_audioIndex);
+    }
 }
 
 bool ClipController::hasLimitedDuration() const

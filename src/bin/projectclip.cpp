@@ -339,7 +339,7 @@ bool ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
 
 void ProjectClip::createAudioThumbs()
 {
-    if (KdenliveSettings::audiothumbnails() && (m_type == AV || m_type == Audio)) {
+    if (KdenliveSettings::audiothumbnails() && (m_type == AV || m_type == Audio || m_type == Playlist)) {
         bin()->requestAudioThumbs(m_id);
     }
 }
@@ -899,7 +899,7 @@ void ProjectClip::slotCreateAudioThumbs()
         return;
     }
 
-    if (KdenliveSettings::ffmpegaudiothumbnails()) {
+    if (KdenliveSettings::ffmpegaudiothumbnails() && m_type != Playlist) {
         QStringList args;
         QTemporaryFile tmpfile;
         if (!tmpfile.open()) {
