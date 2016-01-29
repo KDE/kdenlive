@@ -298,7 +298,7 @@ bool ProjectManager::saveFileAs()
     if (fd.selectedFiles().isEmpty()) {
         return false;
     }
-    QString outputFile = fd.selectedFiles().first();
+    QString outputFile = fd.selectedFiles().at(0);
 
     if (QFile::exists(outputFile)) {
         // Show the file dialog again if the user does not want to overwrite the file

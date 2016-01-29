@@ -194,8 +194,8 @@ int KisCurveWidget::Private::nearestPointInRange(QPointF pt, int wWidth, int wHe
     }
 
     if (nearestIndex >= 0) {
-        if (fabs(pt.x() - m_curve.points()[nearestIndex].x()) *(wWidth - 1) < 5 &&
-                fabs(pt.y() - m_curve.points()[nearestIndex].y()) *(wHeight - 1) < 5) {
+        if (fabs(pt.x() - m_curve.points().at(nearestIndex).x()) *(wWidth - 1) < 5 &&
+                fabs(pt.y() - m_curve.points().at(nearestIndex).y()) *(wHeight - 1) < 5) {
             return nearestIndex;
         }
     }
@@ -243,8 +243,8 @@ void KisCurveWidget::Private::syncIOControls()
         m_intIn->blockSignals(true);
         m_intOut->blockSignals(true);
 
-        m_intIn->setValue(sp2io(m_curve.points()[m_grab_point_index].x()));
-        m_intOut->setValue(sp2io(m_curve.points()[m_grab_point_index].y()));
+        m_intIn->setValue(sp2io(m_curve.points().at(m_grab_point_index).x()));
+        m_intOut->setValue(sp2io(m_curve.points().at(m_grab_point_index).y()));
 
         m_intIn->blockSignals(false);
         m_intOut->blockSignals(false);

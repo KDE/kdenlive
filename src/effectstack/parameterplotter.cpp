@@ -234,7 +234,7 @@ void ParameterPlotter::mousePressEvent(QMouseEvent * event)
         } else {
             if (m_newPoints && m_activeIndexPlot >= 0) {
                 //setup new points
-                KPlotObject* p = plotObjects()[m_activeIndexPlot];
+                KPlotObject* p = plotObjects().at(m_activeIndexPlot);
                 QList<KPlotPoint*> points = p->points();
                 QList<QPointF> newpoints;
 

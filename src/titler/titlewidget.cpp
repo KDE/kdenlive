@@ -670,7 +670,7 @@ void TitleWidget::slotImageTool()
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     dialog.setNameFilters(mimeTypeFilters);
     if (dialog.exec() != QDialog::Accepted) return;
-    QUrl url = QUrl::fromLocalFile(dialog.selectedFiles().first());
+    QUrl url = QUrl::fromLocalFile(dialog.selectedFiles().at(0));
     if (url.isValid()) {
         KRecentDirs::add(QStringLiteral(":KdenliveImageFolder"), url.adjusted(QUrl::RemoveFilename).path());
         if (url.path().endsWith(QLatin1String(".svg"))) {

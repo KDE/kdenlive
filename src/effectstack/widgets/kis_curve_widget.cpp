@@ -125,7 +125,7 @@ void KisCurveWidget::inOutChanged(int)
         d->m_curve.setPoint(d->m_grab_point_index, pt);
         d->m_grab_point_index = d->m_curve.points().indexOf(pt);
     } else
-        pt = d->m_curve.points()[d->m_grab_point_index];
+        pt = d->m_curve.points().at(d->m_grab_point_index);
 
 
     d->m_intIn->blockSignals(true);
@@ -161,14 +161,14 @@ void KisCurveWidget::keyPressEvent(QKeyEvent *e)
     if (e->key() == Qt::Key_Delete || e->key() == Qt::Key_Backspace) {
         if (d->m_grab_point_index > 0 && d->m_grab_point_index < d->m_curve.points().count() - 1) {
             //x() find closest point to get focus afterwards
-            double grab_point_x = d->m_curve.points()[d->m_grab_point_index].x();
+            double grab_point_x = d->m_curve.points().at(d->m_grab_point_index).x();
 
             int left_of_grab_point_index = d->m_grab_point_index - 1;
             int right_of_grab_point_index = d->m_grab_point_index + 1;
             int new_grab_point_index;
 
-            if (fabs(d->m_curve.points()[left_of_grab_point_index].x() - grab_point_x) <
-                    fabs(d->m_curve.points()[right_of_grab_point_index].x() - grab_point_x)) {
+            if (fabs(d->m_curve.points().at(left_of_grab_point_index).x() - grab_point_x) <
+                    fabs(d->m_curve.points().at(right_of_grab_point_index).x() - grab_point_x)) {
                 new_grab_point_index = left_of_grab_point_index;
             } else {
                 new_grab_point_index = d->m_grab_point_index;
@@ -313,10 +313,10 @@ void KisCurveWidget::mousePressEvent(QMouseEvent * e)
         d->m_grab_point_index = closest_point_index;
     }
 
-    d->m_grabOriginalX = d->m_curve.points()[d->m_grab_point_index].x();
-    d->m_grabOriginalY = d->m_curve.points()[d->m_grab_point_index].y();
-    d->m_grabOffsetX = d->m_curve.points()[d->m_grab_point_index].x() - x;
-    d->m_grabOffsetY = d->m_curve.points()[d->m_grab_point_index].y() - y;
+    d->m_grabOriginalX = d->m_curve.points().at(d->m_grab_point_index).x();
+    d->m_grabOriginalY = d->m_curve.points().at(d->m_grab_point_index).y();
+    d->m_grabOffsetX = d->m_curve.points().at(d->m_grab_point_index).x() - x;
+    d->m_grabOffsetY = d->m_curve.points().at(d->m_grab_point_index).y() - y;
     d->m_curve.setPoint(d->m_grab_point_index, QPointF(x + d->m_grabOffsetX, y + d->m_grabOffsetY));
 
     d->m_draggedAwayPointIndex = -1;
@@ -386,18 +386,18 @@ void KisCurveWidget::mouseMoveEvent(QMouseEvent * e)
             leftX = 0.0;
             rightX = 0.0;
             /*if (d->m_curve.points().count() > 1)
-                rightX = d->m_curve.points()[d->m_grab_point_index + 1].x() - POINT_AREA;
+                rightX = d->m_curve.points().at(d->m_grab_point_index + 1).x() - POINT_AREA;
             else
                 rightX = 1.0;*/
         } else if (d->m_grab_point_index == d->m_curve.points().count() - 1) {
-            leftX = d->m_curve.points()[d->m_grab_point_index - 1].x() + POINT_AREA;
+            leftX = d->m_curve.points().at(d->m_grab_point_index - 1).x() + POINT_AREA;
             rightX = 1.0;
         } else {
             Q_ASSERT(d->m_grab_point_index > 0 && d->m_grab_point_index < d->m_curve.points().count() - 1);
 
             // the 1E-4 addition so we can grab the dot later.
-            leftX = d->m_curve.points()[d->m_grab_point_index - 1].x() + POINT_AREA;
-            rightX = d->m_curve.points()[d->m_grab_point_index + 1].x() - POINT_AREA;
+            leftX = d->m_curve.points().at(d->m_grab_point_index - 1).x() + POINT_AREA;
+            rightX = d->m_curve.points().at(d->m_grab_point_index + 1).x() - POINT_AREA;
         }
 
         x = bounds(x, leftX, rightX);
@@ -406,7 +406,7 @@ void KisCurveWidget::mouseMoveEvent(QMouseEvent * e)
         d->m_curve.setPoint(d->m_grab_point_index, QPointF(x, y));
 
         if (removePoint && d->m_curve.points().count() > 2) {
-            d->m_draggedAwayPoint = d->m_curve.points()[d->m_grab_point_index];
+            d->m_draggedAwayPoint = d->m_curve.points().at(d->m_grab_point_index);
             d->m_draggedAwayPointIndex = d->m_grab_point_index;
             d->m_curve.removePoint(d->m_grab_point_index);
             d->m_grab_point_index = bounds(d->m_grab_point_index, 0, d->m_curve.points().count() - 1);

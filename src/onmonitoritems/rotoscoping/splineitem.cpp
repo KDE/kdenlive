@@ -63,7 +63,7 @@ SplineItem::SplineItem(const QList< BPoint >& points, QGraphicsItem* parent, QGr
     setPen(framepen);
     setBrush(Qt::NoBrush);
     setAcceptHoverEvents(true);
-    m_view = scene->views().first();
+    m_view = scene->views().at(0);
     initSpline(scene, points);
 }
 

@@ -1849,7 +1849,7 @@ void Bin::setupGeneratorMenu()
 void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, QHash <QString, QAction*> actions)
 {
     // Setup actions
-    QAction *first = m_toolbar->actions().first();
+    QAction *first = m_toolbar->actions().at(0);
     m_deleteAction = actions.value(QStringLiteral("delete"));
     m_toolbar->insertAction(first, m_deleteAction);
 

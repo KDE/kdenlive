@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
         QString mltPath = parser.value(QStringLiteral("mlt-path"));
         QUrl url;
         if (parser.positionalArguments().count()) {
-            url = QUrl::fromLocalFile(parser.positionalArguments().first());
+            url = QUrl::fromLocalFile(parser.positionalArguments().at(0));
             // Make sure we get an absolute URL so that we can autosave correctly
             QString currentPath = QDir::currentPath();
             QUrl startup = QUrl::fromLocalFile(currentPath.endsWith(QDir::separator()) ? currentPath : currentPath + QDir::separator());
