@@ -1208,7 +1208,7 @@ void Monitor::switchPlay(bool play)
     render->switchPlay(play);
 }
 
-void Monitor::slotSwitchPlay(bool triggered)
+void Monitor::slotSwitchPlay()
 {
     if (render == NULL) return;
     slotActivateMonitor();

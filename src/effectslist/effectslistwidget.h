@@ -69,15 +69,14 @@ private:
 
     /** @brief Loads the effects from the given effectlist as item of this widget.
      * @param effectlist effectlist containing the effects that should be loaded
-     * @param icon the icon to be used for the QTreeWidgetItems
      * @param defaultFolder parent item which will be used by default 
      * @param folders list of folders which might be used instead for specific effects
      * @param type type of the effects
      * @param current name of selected effect before reload; if an effect name matches this one it will become selected
      * @param found will be set to true if an effect name matches current
      */
-    void loadEffects(const EffectsList *effectlist, QIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, int type, const QString &current, bool *found);
-    QIcon generateIcon(int size, const QString &name, const QString &group, QDomElement info);
+    void loadEffects(const EffectsList *effectlist, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, int type, const QString &current, bool *found);
+    QIcon generateIcon(int size, const QString &name, QDomElement info);
 
 private slots:
     void slotExpandItem(const QModelIndex & index);

@@ -145,12 +145,12 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
 
     //insertTopLevelItems(0, folders);
     if (transitionMode) {
-        loadEffects(&MainWindow::transitions, QIcon::fromTheme(QStringLiteral("kdenlive-show-video")), misc, &folders, TRANSITION_TYPE, current, &found);
+        loadEffects(&MainWindow::transitions, misc, &folders, TRANSITION_TYPE, current, &found);
     }
     else {
-        loadEffects(&MainWindow::videoEffects, QIcon::fromTheme(QStringLiteral("kdenlive-show-video")), misc, &folders, EFFECT_VIDEO, current, &found);
-        loadEffects(&MainWindow::audioEffects, QIcon::fromTheme(QStringLiteral("kdenlive-show-audio")), audio, &folders, EFFECT_AUDIO, current, &found);
-        loadEffects(&MainWindow::customEffects, QIcon::fromTheme(QStringLiteral("kdenlive-custom-effect")), custom, static_cast<QList<QTreeWidgetItem *> *>(0), EFFECT_CUSTOM, current, &found);
+        loadEffects(&MainWindow::videoEffects, misc, &folders, EFFECT_VIDEO, current, &found);
+        loadEffects(&MainWindow::audioEffects, audio, &folders, EFFECT_AUDIO, current, &found);
+        loadEffects(&MainWindow::customEffects, custom, static_cast<QList<QTreeWidgetItem *> *>(0), EFFECT_CUSTOM, current, &found);
         if (!found && !currentFolder.isEmpty()) {
             // previously selected effect was removed, focus on its parent folder
             for (int i = 0; i < topLevelItemCount(); ++i) {
@@ -233,7 +233,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
     }
 }
 
-void EffectsListWidget::loadEffects(const EffectsList *effectlist, QIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, int type, const QString &current, bool *found)
+void EffectsListWidget::loadEffects(const EffectsList *effectlist, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, int type, const QString &current, bool *found)
 {
     QStringList effectInfo, l;
     QTreeWidgetItem *item;
@@ -259,7 +259,7 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, QIcon icon, Q
             parentItem = defaultFolder;
 
         if (!effectInfo.isEmpty()) {
-            QIcon icon2 = generateIcon(fontSize, effectInfo.at(0), parentItem ? parentItem->text(0) : QString(), effectlist->at(ix));
+            QIcon icon2 = generateIcon(fontSize, effectInfo.at(0), effectlist->at(ix));
             item = new QTreeWidgetItem(parentItem, QStringList(effectInfo.takeFirst()));
             QString tag = effectInfo.at(0);
             if (type != EFFECT_CUSTOM && tag.startsWith(QLatin1String("movit."))) {
@@ -309,7 +309,7 @@ const QDomElement EffectsListWidget::currentEffect() const
     return itemEffect(type, info);
 }
 
-QIcon EffectsListWidget::generateIcon(int size, const QString &name, const QString &group, QDomElement info)
+QIcon EffectsListWidget::generateIcon(int size, const QString &name, QDomElement info)
 {
     QPixmap pix(size, size);
     if (name.isEmpty()) {

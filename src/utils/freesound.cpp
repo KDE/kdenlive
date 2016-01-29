@@ -306,7 +306,7 @@ QString FreeSound::getDefaultDownloadName(QListWidgetItem *item)
  * emits signal picked up by ResourceWidget that ResouceWidget uses
  * to set the Preview button back to the text Preview (it will say "Stop" before this.
  */
-void FreeSound::slotPreviewFinished(int exitCode, QProcess::ExitStatus exitStatus)
+void FreeSound::slotPreviewFinished()
 {
      emit previewFinished();
 }

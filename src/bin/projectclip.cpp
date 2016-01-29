@@ -880,7 +880,6 @@ void ProjectClip::slotCreateAudioThumbs()
     if (frequency <= 0) frequency = 48000;
     int channels = audioInfo->channels();
     if (channels <= 0) channels = 2;
-    double frame = 0.0;
     QVariantList audioLevels;
     QImage image(audioPath);
     if (!image.isNull()) {

@@ -601,7 +601,7 @@ void DocumentChecker::acceptDialog()
     while (child) {
         if (child->data(0, statusRole).toInt() == SOURCEMISSING) {
             for (int j = 0; j < child->childCount(); ++j) {
-                fixSourceClipItem(child->child(j), producers, trans);
+                fixSourceClipItem(child->child(j), producers);
             }
         }
         else fixClipItem(child, producers, trans);
@@ -611,7 +611,7 @@ void DocumentChecker::acceptDialog()
     //QDialog::accept();
 }
 
-void DocumentChecker::fixSourceClipItem(QTreeWidgetItem *child, QDomNodeList producers, QDomNodeList trans)
+void DocumentChecker::fixSourceClipItem(QTreeWidgetItem *child, QDomNodeList producers)
 {
     QDomElement e, property;
     QDomNodeList properties;

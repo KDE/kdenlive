@@ -230,7 +230,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
         fileList = directory.entryList(filter, QDir::Files);
         for (it = fileList.begin(); it != fileList.end(); ++it) {
             itemName = directory.absoluteFilePath(*it);
-            parseTransitionFile(&MainWindow::transitions, itemName, transitionsItemList, repository, transDescriptions, imagefiles, imagenamelist, defaultWipeLuma);
+            parseTransitionFile(&MainWindow::transitions, itemName, repository, transDescriptions, imagefiles, imagenamelist, defaultWipeLuma);
         }
     }
 
@@ -248,7 +248,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     }
 
     // Fill transitions list.
-    fillTransitionsList(repository, &MainWindow::transitions, transitionsItemList, imagefiles, imagenamelist, defaultWipeLuma);
+    fillTransitionsList(repository, &MainWindow::transitions, transitionsItemList, imagefiles, imagenamelist);
 
     // Remove blacklisted effects from the filters list.
     QStringList mltFiltersList = filtersList;
@@ -650,7 +650,7 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
     return ret;
 }
 
-void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *transitions, QStringList names, QStringList imagefiles, QStringList imagenamelist, const QString &defaultWipeLuma)
+void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *transitions, QStringList names, QStringList imagefiles, QStringList imagenamelist)
 {
     // Remove transitions that are not implemented.
     int pos = names.indexOf(QStringLiteral("mix"));
@@ -849,7 +849,7 @@ QDomElement initEffects::quickParameterFill(QDomDocument & doc, const QString &n
 }
 
 // static
-void initEffects::parseTransitionFile(EffectsList *transitionList, const QString &name, QStringList transitionNames, Mlt::Repository *repository, QMap <QString, QString> effectDescriptions, QStringList imagefiles, QStringList imagenamelist, const QString &defaultWipeLuma)
+void initEffects::parseTransitionFile(EffectsList *transitionList, const QString &name, Mlt::Repository *repository, QMap <QString, QString> effectDescriptions, QStringList imagefiles, QStringList imagenamelist, const QString &defaultWipeLuma)
 {
     QDomDocument doc;
     QFile file(name);

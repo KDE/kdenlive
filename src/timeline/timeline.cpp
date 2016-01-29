@@ -771,8 +771,6 @@ int Timeline::getLowestNonMutedAudioTrack()
 
 void Timeline::fixAudioMixing()
 {
-    // Make sure the audio mixing transitions are applied to the lowest audible (non muted) track
-    int lowestTrack = getLowestNonMutedAudioTrack();
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     field->lock();
     mlt_service nextservice = mlt_service_get_producer(field->get_service());

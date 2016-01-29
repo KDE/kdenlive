@@ -75,7 +75,7 @@ private:
     QStringList m_missingProxyIds;
 
     void fixClipItem(QTreeWidgetItem *child, QDomNodeList producers, QDomNodeList trans);
-    void fixSourceClipItem(QTreeWidgetItem *child, QDomNodeList producers, QDomNodeList trans);
+    void fixSourceClipItem(QTreeWidgetItem *child, QDomNodeList producers);
 };
 
 

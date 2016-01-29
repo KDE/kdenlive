@@ -258,7 +258,7 @@ private slots:
     void warningMessage(const QString &text);
     void slotLockMonitor(bool lock);
     void slotAddEffect(QDomElement effect);
-    void slotSwitchPlay(bool triggered);
+    void slotSwitchPlay();
     void slotEditInlineMarker();
     /** @brief Pass keypress event to mainwindow */
     void doKeyPressEvent(QKeyEvent*);

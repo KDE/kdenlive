@@ -6384,8 +6384,6 @@ void CustomTrackView::pasteClipEffects()
 void CustomTrackView::adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime duration, QDomElement xml)
 {
     // parse parameters to check if we need to adjust to the new crop start
-    int diff = (newstart - oldstart).frames(m_document->fps());
-    int max = (newstart + duration).frames(m_document->fps());
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     QDomNodeList params = xml.elementsByTagName(QStringLiteral("parameter"));
@@ -6882,7 +6880,6 @@ void CustomTrackView::splitAudio(bool warn)
         emit displayMessage(i18n("You must select at least one clip for this action"), ErrorMessage);
         return;
     }
-    bool hasVideo = false;
     QUndoCommand *splitCommand = new QUndoCommand();
     splitCommand->setText(i18n("Split audio"));
     for (int i = 0; i < selection.count(); ++i) {

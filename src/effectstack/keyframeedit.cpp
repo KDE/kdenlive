@@ -199,7 +199,6 @@ void KeyframeEdit::slotDeleteKeyframe()
 void KeyframeEdit::slotAddKeyframe(int pos)
 {
     keyframe_list->blockSignals(true);
-    QTableWidgetItem *item = keyframe_list->currentItem();
     int row = 0;
     int col = keyframe_list->currentColumn();
     int newrow = row;
@@ -532,7 +531,7 @@ void KeyframeEdit::slotUpdateRange(int inPoint, int outPoint)
     m_max = outPoint;
 }
 
-void KeyframeEdit::rowClicked(int row, int)
+void KeyframeEdit::rowClicked(int, int)
 {
     slotAdjustKeyframeInfo(true);
 }
