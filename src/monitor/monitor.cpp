@@ -1593,6 +1593,29 @@ void Monitor::onFrameDisplayed(const SharedFrame& frame)
     }
 }
 
+void Monitor::checkDrops(int dropped)
+{
+    double fps = m_monitorManager->timecode().fps();
+    if (dropped > 0) {
+        if (!m_droppedTimer.isValid()) {
+            // Start m_dropTimer
+            m_glMonitor->resetDrops();
+            m_droppedTimer.start();
+        }
+        else if (m_droppedTimer.hasExpired(1000)) {
+            // Evaluate drops every second
+            m_droppedTimer.invalidate();
+            m_glMonitor->resetDrops();
+            fps -= dropped;
+            m_qmlManager->setProperty(QStringLiteral("dropped"), true);
+            m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(fps, 'g', 2));
+        }
+    } else if (!m_droppedTimer.isValid()) {
+        m_qmlManager->setProperty(QStringLiteral("dropped"), false);
+        m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(fps, 'g', 2));
+    }
+}
+
 AbstractRender *Monitor::abstractRender()
 {
     return render;
@@ -1881,6 +1904,7 @@ void Monitor::prepareAudioThumb(int channels, QVariantList &audioCache)
 
 void Monitor::slotUpdateQmlTimecode(const QString &tc)
 {
+    checkDrops(m_glMonitor->droppedFrames());
     m_glMonitor->rootObject()->setProperty("timecode", tc);
 }
 

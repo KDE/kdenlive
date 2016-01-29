@@ -71,7 +71,6 @@ GenTime CustomTrackScene::nextSnapPoint(const GenTime &pos) const
 {
     foreach (const GenTime &seekPoint, m_snapPoints) {
         if (seekPoint > pos) {
-            qDebug()<<"FOUND SEEK: "<<seekPoint.frames(25);
             return seekPoint;
         }
     }

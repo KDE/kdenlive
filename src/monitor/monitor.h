@@ -34,6 +34,7 @@
 #include <QWindow>
 #include <QIcon>
 #include <QProcess>
+#include <QElapsedTimer>
 
 class SmallRuler;
 class ClipController;
@@ -220,12 +221,16 @@ private:
     int m_forceSizeFactor;
     MonitorSceneType m_lastMonitorSceneType;
     MonitorAudioLevel *m_audioMeterWidget;
+    QElapsedTimer m_droppedTimer;
+    double m_displayedFps;
     void adjustScrollBars(float horizontal, float vertical);
     void loadQmlScene(MonitorSceneType type);
     void updateQmlDisplay(int currentOverlay);
     void displayAudioMonitor();
     /** @brief Connect qml on monitor toolbar buttons */
     void connectQmlToolbar(QQuickItem *root);
+    /** @brief Check and display dropped frames */
+    void checkDrops(int dropped);
 
 private slots:
     void seekCursor(int pos);

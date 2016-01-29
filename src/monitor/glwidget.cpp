@@ -160,7 +160,6 @@ void GLWidget::showEvent(QShowEvent * event)
 void GLWidget::initializeGL()
 {
     if (m_isInitialized || !isVisible() || !openglContext()) return;
-    m_isInitialized = true;
     m_offscreenSurface.setFormat(openglContext()->format());
     m_offscreenSurface.create();
     openglContext()->makeCurrent(this);
@@ -198,10 +197,17 @@ void GLWidget::initializeGL()
     openglContext()->makeCurrent(this);
     //openglContext()->blockSignals(false);
     connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), this, SIGNAL(frameDisplayed(const SharedFrame&)), Qt::QueuedConnection);
-    connect(m_frameRenderer, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), this, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), Qt::QueuedConnection);
+
     connect(m_frameRenderer, SIGNAL(textureReady(GLuint,GLuint,GLuint)), SLOT(updateTexture(GLuint,GLuint,GLuint)), Qt::DirectConnection);
+    /*if (openglContext()->supportsThreadedOpenGL())
+        connect(m_frameRenderer, SIGNAL(textureReady(GLuint,GLuint,GLuint)), SLOT(updateTexture(GLuint,GLuint,GLuint)), Qt::DirectConnection);
+    else
+        connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), SLOT(onFrameDisplayed(const SharedFrame&)), Qt::QueuedConnection);*/
+
+    connect(m_frameRenderer, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), this, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), Qt::QueuedConnection);
     connect(this, SIGNAL(textureUpdated()), this, SLOT(update()), Qt::QueuedConnection);
     m_initSem.release();
+    m_isInitialized = true;
 }
 
 void GLWidget::resizeGL(int width, int height)
@@ -383,6 +389,16 @@ void GLWidget::paintGL()
     f->glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
     f->glClear(GL_COLOR_BUFFER_BIT);
     check_error(f);
+    
+    /*if (!openglContext()->supportsThreadedOpenGL()) {
+        m_mutex.lock();
+        if (!m_sharedFrame.is_valid()) {
+            m_mutex.unlock();
+            return;
+        }
+        uploadTextures(openglContext(), m_sharedFrame, m_texture);
+        m_mutex.unlock();
+    }*/
 
     if (!m_texture[0]) return;
 
@@ -730,6 +746,16 @@ int GLWidget::setProducer(Mlt::Producer* producer, bool reconfig)
     return error;
 }
 
+int GLWidget::droppedFrames() const
+{
+    return (m_consumer ? m_consumer->get_int("drop_count") : 0);
+}
+
+void GLWidget::resetDrops()
+{
+    if (m_consumer) m_consumer->set("drop_count", 0);
+}
+
 void GLWidget::createAudioOverlay(bool isAudio)
 {
     if (isAudio && KdenliveSettings::gpu_accel()) {
@@ -1052,6 +1078,14 @@ void GLWidget::setZoom(float zoom)
     update();
 }
 
+void GLWidget::onFrameDisplayed(const SharedFrame &frame)
+{
+    m_mutex.lock();
+    m_sharedFrame = frame;
+    m_mutex.unlock();
+    emit textureUpdated();
+}
+
 void GLWidget::mouseReleaseEvent(QMouseEvent * event)
 {
     QQuickView::mouseReleaseEvent(event);
@@ -1187,11 +1221,13 @@ FrameRenderer::FrameRenderer(QOpenGLContext* shareContext, QSurface *surface)
     Q_ASSERT(shareContext);
     m_renderTexture[0] = m_renderTexture[1] = m_renderTexture[2] = 0;
     m_displayTexture[0] = m_displayTexture[1] = m_displayTexture[2] = 0;
-    m_context = new QOpenGLContext;
-    m_context->setFormat(shareContext->format());
-    m_context->setShareContext(shareContext);
-    m_context->create();
-    m_context->moveToThread(this);
+    //if (shareContext->supportsThreadedOpenGL()) {
+        m_context = new QOpenGLContext;
+        m_context->setFormat(shareContext->format());
+        m_context->setShareContext(shareContext);
+        m_context->create();
+        m_context->moveToThread(this);
+    //}
     setObjectName(QStringLiteral("FrameRenderer"));
     moveToThread(this);
     start();
@@ -1200,21 +1236,19 @@ FrameRenderer::FrameRenderer(QOpenGLContext* shareContext, QSurface *surface)
 FrameRenderer::~FrameRenderer()
 {
     delete m_context;
-#ifdef Q_OS_WIN
-	// It's only ever initialised on Windows, thus this is safe.
     delete m_gl32;
-#endif
 }
 
 void FrameRenderer::showFrame(Mlt::Frame frame)
 {
-    if (m_context->isValid()) {
-        int width = 0;
-        int height = 0;
-        mlt_image_format format = mlt_image_yuv420p;
-        frame.get_image(format, width, height);
-        // Save this frame for future use and to keep a reference to the GL Texture.
-        m_frame = SharedFrame(frame);
+    int width = 0;
+    int height = 0;
+    mlt_image_format format = mlt_image_yuv420p;
+    frame.get_image(format, width, height);
+    // Save this frame for future use and to keep a reference to the GL Texture.
+    m_frame = SharedFrame(frame);
+
+    if (m_context && m_context->isValid()) {
         m_context->makeCurrent(m_surface);
         // Upload each plane of YUV to a texture.
         QOpenGLFunctions* f = m_context->functions();
@@ -1227,10 +1261,6 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
             qSwap(m_renderTexture[i], m_displayTexture[i]);
         emit textureReady(m_displayTexture[0], m_displayTexture[1], m_displayTexture[2]);
         m_context->doneCurrent();
-
-        // The frame is now done being modified and can be shared with the rest
-        // of the application.
-        emit frameDisplayed(m_frame);
 
         if (sendAudioForAnalysis) {
             // TODO: use mlt audiospectrum filter
@@ -1251,6 +1281,10 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
 	    }*/
 	}
     }
+    // The frame is now done being modified and can be shared with the rest
+    // of the application.
+    emit frameDisplayed(m_frame);
+
     m_semaphore.release();
 }
 

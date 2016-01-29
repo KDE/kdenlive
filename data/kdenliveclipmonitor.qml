@@ -118,6 +118,21 @@ Item {
             rightMargin: 4
         }
     }
+    Text {
+        id: fpsdropped
+        objectName: "fpsdropped"
+        color: root.dropped ? "red" : "white"
+        style: Text.Outline;
+        styleColor: "black"
+        text: root.fps + "fps"
+        visible: root.showTimecode
+        font.pixelSize: root.displayFontSize
+        anchors {
+            right: timecode.left
+            bottom: root.bottom
+            rightMargin: 10
+        }
+    }
     TextField {
         id: marker
         objectName: "markertext"

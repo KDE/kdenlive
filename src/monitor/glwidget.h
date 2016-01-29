@@ -93,7 +93,8 @@ public:
     void releaseMonitor();
     int realTime() const;
     void setAudioThumb(int channels = 0, QVariantList audioCache = QList<QVariant>());
-    void setAudioChannels(int count);
+    int droppedFrames() const;
+    void resetDrops();
 
 protected:
     void mouseReleaseEvent(QMouseEvent * event);
@@ -159,6 +160,8 @@ private:
     int m_colorspaceLocation;
     int m_textureLocation[3];
     float m_zoom;
+    SharedFrame m_sharedFrame;
+    QMutex m_mutex;
     QPoint m_offset;
     QOffscreenSurface m_offscreenSurface;
     QOpenGLContext* m_shareContext;
@@ -175,6 +178,7 @@ private slots:
     void resizeGL(int width, int height);
     void updateTexture(GLuint yName, GLuint uName, GLuint vName);
     void paintGL();
+    void onFrameDisplayed(const SharedFrame &frame);
     void slotError(QQuickWindow::SceneGraphError error, const QString &message);
 
 protected:
