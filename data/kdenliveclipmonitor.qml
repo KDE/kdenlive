@@ -15,6 +15,8 @@ Item {
     property double zoom
     property double scalex
     property double scaley
+    property bool dropped
+    property string fps
     property bool showMarkers
     property bool showTimecode
     property bool showSafezone
