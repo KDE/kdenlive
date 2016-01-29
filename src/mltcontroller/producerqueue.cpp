@@ -221,7 +221,7 @@ void ProducerQueue::processFileProperties()
         } else if (type == QText) {
             path.prepend("qtext:");
             producer = new Mlt::Producer(*m_binController->profile(), 0, path.toUtf8().constData());
-        } else if (type == Playlist) {
+        } else if (type == Playlist && !proxyProducer) {
             //TODO: "xml" seems to corrupt project fps if different, and "consumer" crashed on audio transition
             Mlt::Profile *xmlProfile = new Mlt::Profile();
             xmlProfile->set_explicit(false);
