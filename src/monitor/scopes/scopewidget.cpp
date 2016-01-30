@@ -21,7 +21,7 @@
 #include <QtConcurrent/QtConcurrent>
 
 ScopeWidget::ScopeWidget(QWidget *parent)
-  : QWidget()
+  : QWidget(parent)
   , m_queue(3, DataQueue<SharedFrame>::OverflowModeDiscardOldest)
   , m_future()
   , m_refreshPending(false)

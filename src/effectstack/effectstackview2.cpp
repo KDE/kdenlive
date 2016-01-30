@@ -748,7 +748,7 @@ void EffectStackView2::slotDeleteGroup(QDomDocument doc)
 {
     QDomNodeList effects = doc.elementsByTagName(QStringLiteral("effect"));
     ClipItem * clip = NULL;
-    int ix;
+    int ix = -1;
     if (m_status == MASTER_CLIP) {
         //TODO
         return;

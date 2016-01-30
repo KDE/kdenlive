@@ -27,7 +27,6 @@
 #include "timecodedisplay.h"
 #include "monitor/monitor.h"
 #include "effectstack/parametercontainer.h"
-#include "monitor/monitoreditwidget.h"
 #include "onmonitoritems/onmonitorrectitem.h"
 #include "onmonitoritems/onmonitorpathitem.h"
 #include "utils/KoIconUtils.h"

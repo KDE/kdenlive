@@ -46,7 +46,6 @@
 #include "mltcontroller/producerqueue.h"
 #include "dialogs/renderwidget.h"
 #include "renderer.h"
-#include "project/clipproperties.h"
 #include "dialogs/wizard.h"
 #include "project/projectcommands.h"
 #include "titler/titlewidget.h"

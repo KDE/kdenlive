@@ -21,17 +21,17 @@
 #ifndef ABSTRACTCLIPITEM
 #define ABSTRACTCLIPITEM
 
-#include <QGraphicsRectItem>
-#include <QGraphicsWidget>
-
-#if QT_VERSION >= 0x040600
-#endif
-
 #include "definitions.h"
 #include "gentime.h"
 
+#include "mlt++/MltProperties.h"
+
+#include <QGraphicsRectItem>
+#include <QGraphicsWidget>
+
 class CustomTrackScene;
 class QGraphicsSceneMouseEvent;
+
 
 class AbstractClipItem : public QObject, public QGraphicsRectItem
 {
@@ -58,12 +58,12 @@ public:
     void updateKeyFramePos(const GenTime &pos, const double value);
     int checkForSingleKeyframe();
     int addKeyFrame(const GenTime &pos, const double value);
-    bool hasKeyFrames() const;
+    bool hasKeyFrames();
     int editedKeyFramePos() const;
     int selectedKeyFramePos() const;
-    double editedKeyFrameValue() const;
+    double editedKeyFrameValue();
     /** @brief Returns the number of keyframes the selected effect has. */
-    int keyFrameNumber() const;
+    int keyFrameNumber();
     ItemInfo info() const;
     CustomTrackScene* projectScene();
     void updateRectGeometry();
@@ -113,7 +113,7 @@ protected:
         GenTime m_startPos;*/
     GenTime m_maxDuration;
     KEYFRAMETYPE m_keyframeType;
-    QMap <int, int> m_keyframes;
+    Mlt::Properties m_animation;
     /** @brief Stretch factor so that keyframes display on the full clip height. */
     double m_keyframeFactor;
     /** @brief Offset factor so that keyframes minimum value are displaed at the bottom of the clip. */
