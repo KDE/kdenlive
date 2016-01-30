@@ -31,6 +31,7 @@
 #include "widgets/cornerswidget.h"
 #include "widgets/bezier/beziersplinewidget.h"
 #include "effectstack/widgets/lumaliftgain.h"
+#include "effectstack/widgets/animationwidget.h"
 
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
@@ -235,6 +236,13 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             if (!comment.isEmpty())
                 connect(this, SIGNAL(showComments(bool)), bval->widgetComment, SLOT(setVisible(bool)));
             m_uiItems.append(bval);
+        } else if (type == QLatin1String("animated")) {
+            AnimationWidget *anim = new AnimationWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()), m_in, m_out, pa, e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt(), parent);
+            connect(anim, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
+            connect(this, SIGNAL(syncEffectsPos(int)), anim, SLOT(slotSyncPosition(int)));
+            connect(anim, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
+            m_valueItems[paramName+"animated"] = anim;
+            m_vbox->addWidget(anim);
         } else if (type == QLatin1String("complex")) {
             ComplexParameter *pl = new ComplexParameter;
             pl->setupParam(effect, pa.attribute(QStringLiteral("name")), 0, 100);
@@ -244,8 +252,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         } else if (type == QLatin1String("geometry")) {
             if (true /*KdenliveSettings::on_monitor_effects()*/) {
                 m_monitorEffectScene = MonitorSceneGeometry;
-                m_geometryWidget = new GeometryWidget(m_metaInfo->monitor, m_metaInfo->monitor->timecode(), info.startPos.frames(KdenliveSettings::project_fps()), effect.hasAttribute(QStringLiteral("showrotation")), parent);
-                m_geometryWidget->setFrameSize(m_metaInfo->frameSize);
+                m_geometryWidget = new GeometryWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()), effect.hasAttribute(QStringLiteral("showrotation")), parent);
                 connect(m_geometryWidget, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
                 if (minFrame == maxFrame) {
                     m_geometryWidget->setupParam(pa, m_in, m_out);
@@ -618,6 +625,9 @@ void ParameterContainer::updateTimecodeFormat()
         } else if (type == QLatin1String("roto-spline")) {
             RotoWidget *widget = static_cast<RotoWidget *>(m_valueItems[paramName]);
             widget->updateTimecodeFormat();
+        } else if (type == QLatin1String("animated")) {
+            AnimationWidget *widget = static_cast<AnimationWidget*>(m_valueItems[paramName+"animated"]);
+            widget->updateTimecodeFormat();
         }
     }
 }
@@ -652,8 +662,10 @@ void ParameterContainer::slotCollectAllParameters()
             paramName.append("geometry");
         else if (type == QLatin1String("keyframe"))
             paramName.append("keyframe");
+        else if (type == QLatin1String("animated"))
+            paramName.append("animated");
         if (type != QLatin1String("simplekeyframe") && type != QLatin1String("fixed") && type != QLatin1String("addedgeometry") && !m_valueItems.contains(paramName)) {
-            //qDebug() << "// Param: " << paramName << " NOT FOUND";
+            qDebug() << "// Param: " << paramName << " NOT FOUND";
             continue;
         }
 
@@ -761,6 +773,9 @@ void ParameterContainer::slotCollectAllParameters()
         } else if (type == QLatin1String("roto-spline")) {
             RotoWidget *widget = static_cast<RotoWidget *>(m_valueItems.value(paramName));
             if (widget) setValue = widget->getSpline();
+        } else if (type == QLatin1String("animated")) {
+            AnimationWidget *widget = static_cast<AnimationWidget *>(m_valueItems.value(paramName));
+            if (widget) setValue = widget->getAnimation();
         } else if (type == QLatin1String("wipe")) {
             Wipeval *wp = static_cast<Wipeval*>(m_valueItems.value(paramName));
             if (wp) {
@@ -827,8 +842,9 @@ void ParameterContainer::slotCollectAllParameters()
                 setValue = fontfamily->currentFont().family();
             }
         }
-        if (!setValue.isNull())
+        if (!setValue.isNull()) {
             pa.setAttribute(QStringLiteral("value"), setValue);
+        }
     }
     emit parameterChanged(oldparam, m_effect, m_effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
 }

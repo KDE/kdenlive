@@ -12,9 +12,11 @@ set(kdenlive_SRCS
   effectstack/graphicsscenerectmove.cpp
   effectstack/keyframeedit.cpp
   effectstack/keyframehelper.cpp
+  effectstack/animkeyframeruler.cpp
   effectstack/parametercontainer.cpp
   effectstack/parameterplotter.cpp
   effectstack/positionedit.cpp
+  effectstack/widgets/animationwidget.cpp
   effectstack/widgets/choosecolorwidget.cpp
   effectstack/widgets/colorpickerwidget.cpp
   effectstack/widgets/cornerswidget.cpp

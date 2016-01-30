@@ -1655,7 +1655,7 @@ void MainWindow::connectDocument()
 
     connect(trackView, SIGNAL(showTrackEffects(int,TrackInfo)), this, SLOT(slotTrackSelected(int,TrackInfo)));
 
-    connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*,bool)), this, SLOT(slotTimelineClipSelected(ClipItem*,bool)));
+    connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*,bool,bool)), this, SLOT(slotTimelineClipSelected(ClipItem*,bool,bool)));
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), m_effectStack, SLOT(slotTransitionItemSelected(Transition*,int,QPoint,bool)));
 
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), this, SLOT(slotActivateTransitionView(Transition*)));
@@ -2386,9 +2386,9 @@ void MainWindow::customEvent(QEvent* e)
         m_messageLabel->setMessage(static_cast <MltErrorEvent *>(e)->message(), MltError);
 }
 
-void MainWindow::slotTimelineClipSelected(ClipItem* item, bool raise)
+void MainWindow::slotTimelineClipSelected(ClipItem* item, bool reloadStack, bool raise)
 {
-    m_effectStack->slotClipItemSelected(item, m_projectMonitor);
+    m_effectStack->slotClipItemSelected(item, m_projectMonitor, reloadStack);
     m_projectMonitor->slotSetSelectedClip(item);
     if (raise) {
         m_effectStack->raiseWindow(m_effectStackDock);

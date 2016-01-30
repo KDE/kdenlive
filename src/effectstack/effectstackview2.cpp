@@ -142,7 +142,7 @@ void EffectStackView2::slotClipItemUpdate()
     }
 }
 
-void EffectStackView2::slotClipItemSelected(ClipItem* c, Monitor *m)
+void EffectStackView2::slotClipItemSelected(ClipItem* c, Monitor *m, bool reloadStack)
 {
     if (c) {
         m_effect->setHidden(false);
@@ -154,6 +154,9 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c, Monitor *m)
     m_trackindex = -1;
     if (c && !c->isEnabled()) return;
     if (c && c == m_clipref) {
+        if (!reloadStack) {
+            return;
+        }
     } else {
         m_effectMetaInfo.monitor = m;
         if (m_clipref) disconnect(m_clipref, SIGNAL(updateRange()), this, SLOT(slotClipItemUpdate()));
@@ -334,7 +337,6 @@ void EffectStackView2::setupListView()
             info.cropStart = GenTime(0);
             info.startPos = GenTime(0);
         }
-
         CollapsibleEffect *currentEffect = new CollapsibleEffect(d, m_currentEffectList.at(i), info, &m_effectMetaInfo, i == effectsCount - 1, view);
         isSelected = currentEffect->effectIndex() == activeEffectIndex();
         if (isSelected) {

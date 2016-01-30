@@ -1485,7 +1485,9 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
                 // Effects with a geometry parameter need to sync in / out with parent clip
                 needInOutSync = true;
             }
-            if (e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
+            else if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
+                parameters.addParam(e.attribute(QStringLiteral("name")), e.attribute(QStringLiteral("value")));
+            } else if (e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
                 QStringList values = e.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
                 double factor = locale.toDouble(e.attribute(QStringLiteral("factor"), QStringLiteral("1")));
                 double offset = e.attribute(QStringLiteral("offset"), QStringLiteral("0")).toDouble();
@@ -1510,7 +1512,6 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
                 parameters.addParam(QStringLiteral("endtag"), e.attribute(QStringLiteral("endtag"), QStringLiteral("end")));
             } else if (e.attribute(QStringLiteral("factor"), QStringLiteral("1")) == QLatin1String("1") && e.attribute(QStringLiteral("offset"), QStringLiteral("0")) == QLatin1String("0")) {
                 parameters.addParam(e.attribute(QStringLiteral("name")), e.attribute(QStringLiteral("value")));
-
             } else {
                 double fact;
                 if (e.attribute(QStringLiteral("factor")).contains('%')) {

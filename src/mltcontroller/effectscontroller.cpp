@@ -138,7 +138,9 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
             // effects with geometry param need in / out synced with the clip, request it...
             parameters.addParam(QStringLiteral("_sync_in_out"), QStringLiteral("1"));
         }
-        if (e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
+        if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
+            parameters.addParam(paramname, e.attribute(QStringLiteral("value")));
+        } else if (e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
             QStringList values = e.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
             double factor = e.attribute(QStringLiteral("factor"), QStringLiteral("1")).toDouble();
             double offset = e.attribute(QStringLiteral("offset"), QStringLiteral("0")).toDouble();

@@ -901,7 +901,7 @@ void CustomTrackView::updateTimelineSelection()
 	// clip selected, update effect stack
 	if (m_dragItem->type() == AVWidget && !m_dragItem->isItemLocked()) {
 	    ClipItem *selected = static_cast <ClipItem*>(m_dragItem);
-	    emit clipItemSelected(selected);
+	    emit clipItemSelected(selected, false);
 	} else {
 	    emit clipItemSelected(NULL);
 	}
@@ -2391,6 +2391,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
         }
 
         EffectsParameterList effectParams = EffectsController::getEffectArgs(m_document->getProfileInfo(), effect);
+
         // check if we are trying to reset a keyframe effect
         if (effectParams.hasParam(QStringLiteral("keyframes")) && effectParams.paramValue(QStringLiteral("keyframes")).isEmpty()) {
             clip->initEffect(m_document->getProfileInfo() , effect);
@@ -3966,7 +3967,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             // Only 1 item selected
             if (m_dragItem->type() == AVWidget) {
                 m_dragItem->setMainSelectedClip(true);
-                emit clipItemSelected(static_cast<ClipItem *>(m_dragItem));
+                emit clipItemSelected(static_cast<ClipItem *>(m_dragItem), false);
             }
         }
     }
@@ -4640,7 +4641,7 @@ void CustomTrackView::cutSelectedClips()
                     dup->setSelected(true);
                     m_dragItem = dup;
                     m_dragItem->setMainSelectedClip(true);
-                    emit clipItemSelected(dup);
+                    emit clipItemSelected(dup, false);
                 }
             }
         } else if (itemList.at(i)->type() == GroupWidget && itemList.at(i) != m_selectionGroup) {

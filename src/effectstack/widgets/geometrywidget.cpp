@@ -26,6 +26,7 @@
 #include "renderer.h"
 #include "timecodedisplay.h"
 #include "monitor/monitor.h"
+#include "effectstack/parametercontainer.h"
 #include "monitor/monitoreditwidget.h"
 #include "onmonitoritems/onmonitorrectitem.h"
 #include "onmonitoritems/onmonitorpathitem.h"
@@ -38,15 +39,16 @@
 #include <QMenu>
 
 
-GeometryWidget::GeometryWidget(Monitor* monitor, const Timecode &timecode, int clipPos, bool showRotation, QWidget* parent):
+GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotation, QWidget* parent):
     QWidget(parent),
-    m_monitor(monitor),
-    m_timePos(new TimecodeDisplay(timecode)),
+    m_monitor(info->monitor),
+    m_timePos(new TimecodeDisplay(info->monitor->timecode())),
     m_clipPos(clipPos),
     m_inPoint(0),
     m_outPoint(1),
     m_previous(NULL),
     m_geometry(NULL),
+    m_frameSize(info->frameSize),
     m_fixedGeom(false),
     m_singleKeyframe(false)
 {

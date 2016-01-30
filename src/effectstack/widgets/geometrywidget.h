@@ -33,6 +33,7 @@ class KeyframeHelper;
 class TimecodeDisplay;
 class QGraphicsRectItem;
 class DragValue;
+class EffectMetaInfo;
 
 class GeometryWidget : public QWidget
 {
@@ -43,7 +44,7 @@ public:
     * @param timecode Timecode needed by timecode display widget
     * @param clipPos Position of the clip in timeline
     * @param parent (optional) Parent widget */
-    explicit GeometryWidget(Monitor *monitor, const Timecode &timecode, int clipPos, bool showRotation, QWidget* parent = 0);
+    explicit GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotation, QWidget* parent = 0);
     virtual ~GeometryWidget();
     /** @brief Gets the geometry as a serialized string. */
     QString getValue() const;

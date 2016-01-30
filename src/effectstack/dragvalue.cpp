@@ -111,7 +111,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     m_scale->addAction(i18n("Nonlinear scale"));
     m_scale->setCurrentItem(KdenliveSettings::dragvalue_mode());
     m_menu->addAction(m_scale);
-    
+
     m_directUpdate = new QAction(i18n("Direct update"), this);
     m_directUpdate->setCheckable(true);
     m_directUpdate->setChecked(KdenliveSettings::dragvalue_directupdate());
