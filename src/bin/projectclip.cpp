@@ -969,8 +969,7 @@ void ProjectClip::slotCreateAudioThumbs()
             return;
         }
         const qint16* raw = (const qint16*) res.constData();
-
-        const qint16* raw2;
+        const qint16* raw2 = raw;
         QByteArray res2;
         QList<qint16> data2;
         if (channels > 1) {

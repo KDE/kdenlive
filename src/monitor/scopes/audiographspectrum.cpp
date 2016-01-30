@@ -312,7 +312,6 @@ void AudioGraphSpectrum::refreshPixmap()
 
 void AudioGraphSpectrum::refreshScope(const QSize& /*size*/, bool /*full*/)
 {
-    bool refresh = false;
     SharedFrame sFrame;
     while (m_queue.count() > 0) {
         sFrame = m_queue.pop();

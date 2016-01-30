@@ -329,7 +329,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transf
     }
 
     // make sure line ends at clip end
-    if (x2 != br.right())
+    if (x1 != br.right())
         painter->drawLine(transformation.map(QLineF(x1, y1, br.right(), y1)));
 
     painter->setRenderHint(QPainter::Antialiasing, antialiasing);
