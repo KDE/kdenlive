@@ -266,27 +266,18 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transf
     bool active = isSelected() || (parentItem() && parentItem()->isSelected());
 
     // draw keyframes
-    QColor color(Qt::blue);
-    QLineF l2;
-    painter->setPen(color);
     // Special case: Geometry keyframes are just vertical lines
     if (m_keyframeType == GeometryKeyframe) {
         for(int i = 0; i < anim->key_count(); ++i) {
             int key = anim->key_get_frame(i);
-            if (active) {
-                if (key == m_editedKeyframe)
-                    color = QColor(Qt::red);
-                else
-                    color = QColor(Qt::blue);
+            QColor color = (key == m_editedKeyframe) ? QColor(Qt::red) : QColor(Qt::blue);
+            if (active)
                 painter->setPen(color);
-            }
             x1 = br.x() + maxw * (key - start);
-            QLineF l(x1, br.top(), x1, br.height());
-            l2 = transformation.map(l);
-            
-            painter->drawLine(l2);
+            QLineF line = transformation.map(QLineF(x1, br.top(), x1, br.height()));
+            painter->drawLine(line);
             if (active) {
-                const QRectF frame(l2.x1() - 3, l2.y1() + (l2.y2() - l2.y1()) / 2 - 3, 6, 6);
+                const QRectF frame(line.x1() - 3, line.y1() + (line.y2() - line.y1()) / 2 - 3, 6, 6);
                 painter->fillRect(frame, color);
             }
         }
@@ -299,12 +290,11 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transf
         x1 = br.x();
         x2 = br.right();
         y1 = br.bottom() - (m_keyframeDefault - m_keyframeOffset) * maxh;
-        QLineF l(x1, y1, x2, y1);
-        QLineF l2 = transformation.map(l);
+        QLineF line = transformation.map(QLineF(x1, y1, x2, y1));
         painter->setPen(QColor(168, 168, 168, 180));
-        painter->drawLine(l2);
+        painter->drawLine(line);
         painter->setPen(QColor(108, 108, 108, 180));
-        painter->drawLine(l2.translated(0, 1));
+        painter->drawLine(line.translated(0, 1));
         painter->setPen(QColor(Qt::white));
         painter->setRenderHint(QPainter::Antialiasing);
     }
@@ -320,9 +310,10 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transf
         key = anim->key_get_frame(i);
         x2 = br.x() + maxw * (key - start);
         y2 = br.bottom() - (m_animation.anim_get_double("keyframes", key) - m_keyframeOffset) * maxh;
-        painter->drawLine(transformation.map(QLineF(x1, y1, x2, y2)));
+        QLineF line = transformation.map(QLineF(x1, y1, x2, y2));
+        painter->drawLine(line);
         if (active)
-            painter->fillRect(QRectF(l2.x1() - 3, l2.y1() - 3, 6, 6),
+            painter->fillRect(QRectF(line.x2() - 3, line.y2() - 3, 6, 6),
                               (key == m_editedKeyframe) ? QColor(Qt::red) : QColor(Qt::blue));
         x1 = x2;
         y1 = y2;
@@ -394,10 +385,10 @@ void AbstractClipItem::updateKeyFramePos(const GenTime &pos, const double value)
     Mlt::Animation *anim = m_animation.get_anim("keyframes");
     if (!anim->is_key(m_editedKeyframe))
         return;
-    int newpos = qMin(qMax((int)pos.frames(m_fps),
-                           anim->previous_key(m_editedKeyframe) + 1),
-                           anim->next_key(m_editedKeyframe) - 1);
-    double newval = qMin(qMax(value, 0.0), 100.0) / m_keyframeFactor + m_keyframeOffset;
+    int newpos = qBound(anim->previous_key(m_editedKeyframe - 1) + 1,
+                    (int)pos.frames(m_fps),
+                    anim->next_key(m_editedKeyframe + 1) - 1);
+    double newval = qBound(0.0, value, 100.0) / m_keyframeFactor + m_keyframeOffset;
     if (m_editedKeyframe != newpos)
         m_animation.get_anim("keyframes")->remove(m_editedKeyframe);
     m_animation.anim_set("keyframes", newval, newpos);
