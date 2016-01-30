@@ -19,7 +19,6 @@
 
 
 #include "clipmanager.h"
-#include "subprojectitem.h"
 #include "mltcontroller/clipcontroller.h"
 #include "kdenlivesettings.h"
 #include "doc/kthumb.h"

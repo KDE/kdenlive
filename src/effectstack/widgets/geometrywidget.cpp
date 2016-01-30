@@ -26,7 +26,6 @@
 #include "renderer.h"
 #include "timecodedisplay.h"
 #include "monitor/monitor.h"
-#include "monitor/monitoreditwidget.h"
 #include "onmonitoritems/onmonitorrectitem.h"
 #include "onmonitoritems/onmonitorpathitem.h"
 #include "utils/KoIconUtils.h"

@@ -24,8 +24,6 @@
 #include "timeline/transition.h"
 #include "effectslist/effectslist.h"
 #include "effectstack/effectstackedit.h"
-#include "monitor/monitoreditwidget.h"
-#include "monitor/monitorscene.h"
 #include "project/projectmanager.h"
 #include "doc/kdenlivedoc.h"
 #include "utils/KoIconUtils.h"
