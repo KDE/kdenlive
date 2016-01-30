@@ -173,6 +173,7 @@ public:
     void updateKeyframes(QDomElement effect);
     void updateGeometryKeyframes(QDomElement effect, int paramIndex, int width, int height, ItemInfo oldInfo);
     bool updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo);
+    void updateAnimatedKeyframes(QDomElement parameter, int paramIndex, ItemInfo oldInfo);
 
     /** @brief Adjusts effects after a clip duration change. */
     QMap<int, QDomElement> adjustEffectsToDuration(int width, int height, const ItemInfo &oldInfo);

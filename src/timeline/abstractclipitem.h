@@ -25,6 +25,7 @@
 #include "gentime.h"
 
 #include "mlt++/MltProperties.h"
+#include "mlt++/MltAnimation.h"
 
 #include <QGraphicsRectItem>
 #include <QGraphicsWidget>
@@ -45,7 +46,8 @@ public:
         NoKeyframe = 0,
         SimpleKeyframe,
         NormalKeyframe,
-        GeometryKeyframe
+        GeometryKeyframe,
+        AnimatedKeyframe
     };
 
     AbstractClipItem(const ItemInfo &info, const QRectF& rect, double fps);
@@ -55,9 +57,9 @@ public:
     /** @brief Move the selected keyframe (does not influence the effect, only the display in timeline).
     * @param pos new Position
     * @param value new Value */
-    void updateKeyFramePos(const GenTime &pos, const double value);
+    void updateKeyFramePos(int frame, const double y);
     int checkForSingleKeyframe();
-    int addKeyFrame(const GenTime &pos, const double value);
+    int addKeyFrame(const GenTime &pos, const double y);
     bool hasKeyFrames();
     int editedKeyFramePos() const;
     int selectedKeyFramePos() const;
@@ -113,14 +115,12 @@ protected:
         GenTime m_startPos;*/
     GenTime m_maxDuration;
     KEYFRAMETYPE m_keyframeType;
-    Mlt::Properties m_animation;
-    /** @brief Stretch factor so that keyframes display on the full clip height. */
-    double m_keyframeFactor;
-    /** @brief Offset factor so that keyframes minimum value are displaed at the bottom of the clip. */
-    double m_keyframeOffset;
-    /** @brief Default reset value for keyframe. */
+    Mlt::Properties m_keyProperties;
+    Mlt::Animation m_keyAnim;
     double m_keyframeDefault;
-    /** The (keyframe) parameter that is visible and editable in timeline (on the clip) */
+    double m_keyframeMin;
+    double m_keyframeMax;
+    double m_keyframeFactor;
     int m_visibleParam;
     double m_fps;
     /** @brief True if this is the last clip the user selected */
@@ -128,6 +128,9 @@ protected:
     /** @brief Draw the keyframes of a clip
       * @param painter The painter device for the clip
       */
+    double keyframeUnmap(double y);
+    QPointF keyframeMap(int frame, double value);
+    QPointF keyframePoint(int index);
     void drawKeyFrames(QPainter *painter, const QTransform &transformation);
     int mouseOverKeyFrames(QPointF pos, double maxOffset);
     void mousePressEvent(QGraphicsSceneMouseEvent * event);

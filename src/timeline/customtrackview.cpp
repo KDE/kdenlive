@@ -88,7 +88,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
   , m_dragItem(NULL)
   , m_dragGuide(NULL)
   , m_visualTip(NULL)
-  , m_animation(NULL)
+  , m_keyProperties(NULL)
   , m_autoScroll(KdenliveSettings::autoscroll())
   , m_timelineContextMenu(NULL)
   , m_timelineContextClipMenu(NULL)
@@ -131,10 +131,10 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     m_selectedTrackColor = scheme.background(KColorScheme::ActiveBackground ).color();
     m_selectedTrackColor.setAlpha(150);
 
-    m_animationTimer = new QTimeLine(800);
-    m_animationTimer->setFrameRange(0, 5);
-    m_animationTimer->setUpdateInterval(100);
-    m_animationTimer->setLoopCount(0);
+    m_keyPropertiesTimer = new QTimeLine(800);
+    m_keyPropertiesTimer->setFrameRange(0, 5);
+    m_keyPropertiesTimer->setUpdateInterval(100);
+    m_keyPropertiesTimer->setLoopCount(0);
 
     m_tipColor = QColor(0, 192, 0, 200);
     m_tipPen.setColor(QColor(255, 255, 255, 100));
@@ -180,7 +180,7 @@ CustomTrackView::~CustomTrackView()
     qDeleteAll(m_guides);
     m_guides.clear();
     m_waitingThumbs.clear();
-    delete m_animationTimer;
+    delete m_keyPropertiesTimer;
 }
 
 //virtual
@@ -632,10 +632,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             } else if (m_moveOpMode == KeyFrame) {
                 GenTime keyFramePos = GenTime(mappedXPos, m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
                 double pos = mapToScene(event->pos()).toPoint().y();
-                QRectF br = m_dragItem->sceneBoundingRect();
-                double maxh = 100.0 / br.height();
-                pos = (br.bottom() - pos) * maxh;
-                m_dragItem->updateKeyFramePos(keyFramePos, pos);
+                m_dragItem->updateKeyFramePos(keyFramePos.frames(fps()), pos);
                 QString position = m_document->timecode().getDisplayTimecodeFromFrames(m_dragItem->editedKeyFramePos(), KdenliveSettings::frametimecode());
                 emit displayMessage(position + " : " + QString::number(m_dragItem->editedKeyFrameValue()), InformationMessage);
             }
@@ -6394,10 +6391,15 @@ void CustomTrackView::adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime
     QDomNodeList params = xml.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
-        if (!e.isNull() && (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe"))) {
+        if (e.isNull()) continue;
+        if (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe")
+            || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
             // Effect has a keyframe type parameter, we need to adjust the values
             QString adjusted = EffectsController::adjustKeyframes(e.attribute(QStringLiteral("keyframes")), oldstart.frames(m_document->fps()), newstart.frames(m_document->fps()), (newstart + duration).frames(m_document->fps()) - 1, m_document->getProfileInfo());
             e.setAttribute(QStringLiteral("keyframes"), adjusted);
+        } else if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
+            QString adjusted = EffectsController::adjustKeyframes(e.attribute(QStringLiteral("value")), oldstart.frames(m_document->fps()), newstart.frames(m_document->fps()), (newstart + duration).frames(m_document->fps()) - 1, m_document->getProfileInfo());
+            e.setAttribute(QStringLiteral("value"), adjusted);
         }
     }
 }
@@ -7541,9 +7543,9 @@ void CustomTrackView::removeTipAnimation()
 {
     if (m_visualTip) {
         scene()->removeItem(m_visualTip);
-        m_animationTimer->stop();
-        delete m_animation;
-        m_animation = NULL;
+        m_keyPropertiesTimer->stop();
+        delete m_keyProperties;
+        m_keyProperties = NULL;
         delete m_visualTip;
         m_visualTip = NULL;
     }
@@ -7553,9 +7555,9 @@ void CustomTrackView::setTipAnimation(AbstractClipItem *clip, OperationType mode
 {
     if (m_visualTip == NULL) {
         QRectF rect = clip->sceneBoundingRect();
-        m_animation = new QGraphicsItemAnimation;
-        m_animation->setTimeLine(m_animationTimer);
-        m_animation->setScaleAt(1, 1, 1);
+        m_keyProperties = new QGraphicsItemAnimation;
+        m_keyProperties->setTimeLine(m_keyPropertiesTimer);
+        m_keyProperties->setScaleAt(1, 1, 1);
         QPolygon polygon;
         switch (mode) {
         case FadeIn:
@@ -7568,7 +7570,7 @@ void CustomTrackView::setTipAnimation(AbstractClipItem *clip, OperationType mode
             else
                 m_visualTip->setPos(rect.right() - static_cast<ClipItem*>(clip)->fadeOut(), rect.y());
 
-            m_animation->setScaleAt(.5, 2, 2);
+            m_keyProperties->setScaleAt(.5, 2, 2);
             break;
         case ResizeStart:
         case ResizeEnd:
@@ -7588,7 +7590,7 @@ void CustomTrackView::setTipAnimation(AbstractClipItem *clip, OperationType mode
             else
                 m_visualTip->setPos(rect.right(), rect.y() + rect.height() / 2);
 
-            m_animation->setScaleAt(.5, 2, 1);
+            m_keyProperties->setScaleAt(.5, 2, 1);
             break;
         case TransitionStart:
         case TransitionEnd:
@@ -7608,18 +7610,18 @@ void CustomTrackView::setTipAnimation(AbstractClipItem *clip, OperationType mode
             else
                 m_visualTip->setPos(rect.right(), rect.bottom());
 
-            m_animation->setScaleAt(.5, 2, 2);
+            m_keyProperties->setScaleAt(.5, 2, 2);
             break;
         default:
-            delete m_animation;
+            delete m_keyProperties;
             return;
         }
 
         m_visualTip->setFlags(QGraphicsItem::ItemIgnoresTransformations);
         m_visualTip->setZValue(100);
         scene()->addItem(m_visualTip);
-        m_animation->setItem(m_visualTip);
-        m_animationTimer->start();
+        m_keyProperties->setItem(m_visualTip);
+        m_keyPropertiesTimer->start();
     }
 }
 

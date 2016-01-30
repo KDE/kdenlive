@@ -360,8 +360,8 @@ private:
     Guide *m_dragGuide;
     QUndoStack *m_commandStack;
     QGraphicsItem *m_visualTip;
-    QGraphicsItemAnimation *m_animation;
-    QTimeLine *m_animationTimer;
+    QGraphicsItemAnimation *m_keyProperties;
+    QTimeLine *m_keyPropertiesTimer;
     QColor m_tipColor;
     QPen m_tipPen;
     QPoint m_clickEvent;
