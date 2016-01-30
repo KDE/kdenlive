@@ -291,7 +291,6 @@ void ClipItem::setKeyframes(const int ix, const QStringList &keyframes)
         if (!e.isNull() && (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) && (!e.hasAttribute(QStringLiteral("intimeline")) || e.attribute(QStringLiteral("intimeline")) == QLatin1String("1"))) {
             e.setAttribute(QStringLiteral("keyframes"), keyframes.at(keyframeParams));
             if (ix + 1 == m_selectedEffect && keyframeParams == 0) {
-                m_keyframes.clear();
                 m_visibleParam = i;
                 double max = locale.toDouble(e.attribute(QStringLiteral("max")));
                 double min = locale.toDouble(e.attribute(QStringLiteral("min")));
@@ -299,15 +298,14 @@ void ClipItem::setKeyframes(const int ix, const QStringList &keyframes)
                 m_keyframeOffset = min;
                 m_keyframeDefault = locale.toDouble(e.attribute(QStringLiteral("default")));
                 m_selectedKeyframe = 0;
-                // parse keyframes
-                const QStringList keyframes = e.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
-                foreach(const QString &str, keyframes) {
-                    int pos = str.section('=', 0, 0).toInt();
-                    double val = locale.toDouble(str.section('=', 1, 1));
-                    m_keyframes[pos] = val;
+                if (m_keyframeType == GeometryKeyframe) {
+                    m_animation.set("keyframes", e.attribute("value").toUtf8().constData());
+                    m_animation.anim_get_rect("keyframes", 0);
+                } else {
+                    m_animation.set("keyframes", e.attribute("keyframes").toUtf8().constData());
+                    m_animation.anim_get_double("keyframes", 0);
                 }
-                if (m_keyframes.find(m_editedKeyframe) == m_keyframes.end()) m_editedKeyframe = -1;
-                if (m_keyframes.find(m_editedKeyframe) == m_keyframes.end()) m_editedKeyframe = -1;
+                if (m_animation.get_anim("keyframes")->next_key(m_editedKeyframe) <= m_editedKeyframe) m_editedKeyframe = -1;
                 update();
             }
             ++keyframeParams;
@@ -381,10 +379,6 @@ void ClipItem::setSelectedEffect(const int ix)
         }
     }
 
-    if (!m_keyframes.isEmpty()) {
-        m_keyframes.clear();
-        refreshClip = true;
-    }
     if (refreshClip) {
         update();
     }
@@ -1823,7 +1817,6 @@ void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double 
 
 void ClipItem::updateKeyframes(QDomElement effect)
 {
-    m_keyframes.clear();
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     // parse keyframes
@@ -1844,7 +1837,6 @@ bool ClipItem::parseKeyframes(const QLocale locale, QDomElement e)
     else if (type == QLatin1String("simplekeyframe")) m_keyframeType = SimpleKeyframe;
     else if (type == QLatin1String("geometry")) m_keyframeType = GeometryKeyframe;
     if (m_keyframeType != NoKeyframe && (!e.hasAttribute(QStringLiteral("intimeline")) || e.attribute(QStringLiteral("intimeline")) == QLatin1String("1"))) {
-        m_keyframes.clear();
         double max = locale.toDouble(e.attribute(QStringLiteral("max")));
         double min = locale.toDouble(e.attribute(QStringLiteral("min")));
         m_keyframeFactor = 100.0 / (max - min);
@@ -1853,33 +1845,19 @@ bool ClipItem::parseKeyframes(const QLocale locale, QDomElement e)
         m_selectedKeyframe = 0;
 
         // parse keyframes
-        QStringList keyframes;
-        if (m_keyframeType == GeometryKeyframe) keyframes = e.attribute(QStringLiteral("value")).split(';', QString::SkipEmptyParts);
-        else keyframes = e.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
-        foreach(const QString &str, keyframes) {
-            int pos = str.section('=', 0, 0).toInt();
-            double val = m_keyframeType == GeometryKeyframe ? 0 : locale.toDouble(str.section('=', 1, 1));
-            m_keyframes[pos] = val;
+        if (m_keyframeType == GeometryKeyframe) {
+            m_animation.set("keyframes", e.attribute("value").toUtf8().constData());
+            m_animation.anim_get_rect("keyframes", 0);
+        } else {
+            m_animation.set("keyframes", e.attribute("keyframes").toUtf8().constData());
+            m_animation.anim_get_double("keyframes", 0);
         }
-        if (m_keyframes.find(m_editedKeyframe) == m_keyframes.end()) {
-            m_editedKeyframe = -1;
-        }
+        if (m_animation.get_anim("keyframes")->next_key(m_editedKeyframe) <= m_editedKeyframe) m_editedKeyframe = -1;
         return true;
     }
+    m_animation.set("keyframes", 0, 0);
     return false;
 }
-
-/*
-Mlt::Producer *ClipItem::getProducer(int track, bool trackSpecific)
-{
-    //TODO audio / video only
-    if (isAudioOnly())
-        return m_clip->audioProducer(track);
-    else if (isVideoOnly())
-        return m_clip->videoProducer(track);
-    else
-        return m_clip->getProducer(trackSpecific ? track : -1);
-}*/
 
 QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, const ItemInfo &oldInfo)
 {
