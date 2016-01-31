@@ -43,6 +43,7 @@ class AnimationWidget : public QWidget
     Q_OBJECT
 public:
     explicit AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, QDomElement xml, int activeKeyframe, QWidget *parent = 0);
+    virtual ~AnimationWidget();
     void updateTimecodeFormat();
     void addParameter(const QDomElement &e, int activeKeyframe);
     QString getAnimation();
@@ -59,9 +60,10 @@ private:
     Mlt::Animation *m_animController;
     Mlt::Properties m_animProperties;
     KSelectAction *m_selectType;
-    QAction *m_relativeToEnd;
+    QAction *m_reverseKeyframe;
     QList <QDomElement> m_params;
     QList <DoubleParameterWidget *> m_doubleWidgets;
+    QVector <int> m_keyframeRelatives;
     void parseKeyframes();
     void rebuildKeyframes();
     void updateToolbar();
@@ -73,12 +75,13 @@ private slots:
     void slotPrevious();
     void slotNext();
     void slotAddDeleteKeyframe(bool add);
-    void moveKeyframe(int oldPos, int newPos);
+    void moveKeyframe(int index, int oldPos, int newPos);
     void slotEditKeyframeType(QAction *action);
     void slotAdjustKeyframeValue(double value);
     void slotPositionChanged(int pos = -1, bool seek = true);
     void slotAddKeyframe(int);
     void slotDeleteKeyframe(int);
+    void slotReverseKeyframeType(bool reverse);
 
 signals:
     void seekToPos(int);

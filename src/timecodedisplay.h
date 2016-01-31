@@ -100,7 +100,6 @@ public slots:
     /** @brief Sets value's format according to Kdenlive's settings.
     * @param t (optional, if already existing) Timecode object to use */
     void slotUpdateTimeCodeFormat();
-    void updatePalette(QPalette pal);
 
 private slots:
     void slotEditingFinished();

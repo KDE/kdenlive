@@ -1662,7 +1662,6 @@ void Monitor::setPalette ( const QPalette & p)
         m->setIcon(newIcon);
     }
     if (m_ruler) m_ruler->updatePalette();
-    m_timePos->updatePalette(p);
     m_audioMeterWidget->refreshPixmap();
 }
 

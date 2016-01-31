@@ -21,7 +21,9 @@
 #include "kdenlivesettings.h"
 
 #include <QMouseEvent>
+#include <QLayout>
 #include <QLineEdit>
+#include <QStyle>
 #include <QFontDatabase>
 
 #include <KColorScheme>
@@ -34,27 +36,22 @@ TimecodeDisplay::TimecodeDisplay(const Timecode& t, QWidget *parent)
         m_maximum(-1),
         m_value(0)
 {
-    lineEdit()->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    QFont ft = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+    lineEdit()->setFont(ft);
+    setFont(ft);
     lineEdit()->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    QFontMetrics fm = lineEdit()->fontMetrics();
+    QFontMetrics fm(ft);
+    setFrame(false);
     QPalette palette;
-    palette.setColor(QPalette::Base, palette.window().color());
+    palette.setColor(QPalette::Base, Qt::transparent);//palette.window().color());
     setPalette(palette);
-    setMinimumWidth(fm.width(QStringLiteral("88:88:88:88888")) + contentsMargins().right() + contentsMargins().right());
-    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
-    setAccelerated(true);
-
-    setValue(m_minimum);
-
     setTimeCodeFormat(KdenliveSettings::frametimecode(), true);
-    connect(lineEdit(), SIGNAL(editingFinished()), this, SLOT(slotEditingFinished()));
-}
+    setValue(m_minimum);
+    setMinimumWidth(fm.width(QStringLiteral("88:88:88:88")) + contentsMargins().right() + contentsMargins().left() + frameSize().width() - lineEdit()->contentsRect().width() + QStyle::PM_SpinBoxFrameWidth + 6);
 
-void TimecodeDisplay::updatePalette(QPalette pal)
-{
-    QPalette p(pal);
-    p.setColor(QPalette::Base, p.window().color());
-    setPalette(p);
+    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Maximum);
+    setAccelerated(true);
+    connect(lineEdit(), SIGNAL(editingFinished()), this, SLOT(slotEditingFinished()));
 }
 
 // virtual protected

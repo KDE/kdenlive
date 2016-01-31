@@ -55,14 +55,15 @@ AnimKeyframeRuler::AnimKeyframeRuler(int min, int max, QWidget *parent) :
     setMinimumHeight(m_size);
     setMaximumHeight(m_size);
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
-    m_selected = scheme.decoration(KColorScheme::HoverColor).color();
+    m_selected = palette().highlight().color();
     m_keyframe = scheme.foreground(KColorScheme::LinkText).color();
 }
 
-void AnimKeyframeRuler::updateKeyframes(QVector<int> keyframes, QVector<int> types)
+void AnimKeyframeRuler::updateKeyframes(QVector<int> keyframes, QVector<int> types, QVector<int> relativeTypes)
 {
     m_keyframes = keyframes;
     m_keyframeTypes = types;
+    m_keyframeRelatives = relativeTypes;
     update();
 }
 
@@ -78,7 +79,6 @@ void AnimKeyframeRuler::mousePressEvent(QMouseEvent * event)
     int headOffset = m_lineHeight / 1.5;
     if (event->y() < m_lineHeight) {
         // check if we want to move a keyframe
-        int mousePos = qMax((int)(xPos / m_scale), 0);
         for (int i = 0; i < m_keyframes.count(); i++) {
             int kfrPos = m_keyframes.at(i);
             if (kfrPos * m_scale - xPos > headOffset) break;
@@ -108,13 +108,13 @@ void AnimKeyframeRuler::leaveEvent( QEvent * event )
     }
 }
 
+
 // virtual
 void AnimKeyframeRuler::mouseMoveEvent(QMouseEvent * event)
 {
     int xPos = event->x() - margin;
     int headOffset = m_lineHeight / 1.5;
     if (event->buttons() == Qt::NoButton) {
-        int mousePos = qMax((int)(xPos / m_scale), 0);
         if (qAbs(m_position * m_scale - xPos) < m_lineHeight && event->y() >= m_lineHeight) {
             // Mouse over time cursor
             if (m_hoverKeyframe != -2) {
@@ -197,7 +197,7 @@ void AnimKeyframeRuler::mouseReleaseEvent(QMouseEvent * event)
     setCursor(Qt::ArrowCursor);
     QWidget::mouseReleaseEvent(event);
     if (m_movingKeyframe) {
-        emit moveKeyframe(m_hoverKeyframe, m_movingKeyframePos);
+        emit moveKeyframe(m_keyframes.indexOf(m_hoverKeyframe), m_hoverKeyframe, m_movingKeyframePos);
     } else if (!m_dragStart.isNull()) {
         // Seek to selected keyframe
         m_seekPosition = m_hoverKeyframe;
@@ -236,19 +236,17 @@ void AnimKeyframeRuler::paintEvent(QPaintEvent *e)
     m_scale = (double) (width() - 2 * margin) / frameLength;
     int headOffset = m_lineHeight / 1.5;
     QPolygon polygon;
+    p.setPen(palette().text().color());
     for (int i = 0; i < m_keyframes.count(); i++) {
             int pos  = m_keyframes.at(i);
-            int scaledPos = margin + pos * m_scale;
             // draw keyframes
             if (pos == m_position || pos == m_hoverKeyframe) {
                 // active keyframe
                 p.setBrush(m_selected);
-                p.setPen(m_selected);
+            } else {
+                p.setBrush(m_keyframeRelatives.at(i) >= 0 ? palette().text() : Qt::yellow);
             }
-            else {
-                p.setPen(palette().text().color());
-                p.setBrush(palette().text());
-            }
+            int scaledPos = margin + pos * m_scale;
             p.drawLine(scaledPos, headOffset, scaledPos, m_size);
             mlt_keyframe_type type = (mlt_keyframe_type) m_keyframeTypes.at(i);
             switch(type) {
@@ -290,7 +288,7 @@ void AnimKeyframeRuler::paintEvent(QPaintEvent *e)
     p.setPen(Qt::NoPen);
     // draw pointer
     if (m_seekPosition != SEEK_INACTIVE) {
-        p.fillRect(margin + m_seekPosition * m_scale - 1, 0, 3, height(), palette().dark());
+        p.fillRect(margin + m_seekPosition * m_scale - 1, 0, 3, height(), palette().linkVisited());
     }
     QPolygon pa(3);
     const int cursor = margin + m_position * m_scale;

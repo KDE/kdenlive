@@ -5319,6 +5319,10 @@ void CustomTrackView::resizeClip(const ItemInfo &start, const ItemInfo &end, boo
         }
     }
     m_document->renderer()->doRefresh();
+    if (item == m_dragItem) {
+        // clip is selected, update effect stack
+        emit clipItemSelected(item);
+    }
     KdenliveSettings::setSnaptopoints(snap);
 }
 
@@ -7763,6 +7767,10 @@ void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, QUndoComma
             new EditEffectCommand(this, item->track(), item->startPos(), i.value(), item->effect(i.key()), i.value().attribute(QStringLiteral("kdenlive_ix")).toInt(), true, true, command);
             ++i;
         }
+    }
+    if (item == m_dragItem) {
+        // clip is selected, update effect stack
+        emit clipItemSelected(item);
     }
 }
 

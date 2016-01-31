@@ -59,7 +59,7 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     }
     filterWheelEvent = true;
     m_info.fromString(effect.attribute(QStringLiteral("kdenlive_info")));
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    //setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     buttonUp->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-up")));
     buttonUp->setToolTip(i18n("Move effect up"));
     buttonDown->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-down")));

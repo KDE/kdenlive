@@ -68,7 +68,7 @@ EffectStackView2::EffectStackView2(Monitor *projectMonitor, QWidget *parent) :
     m_layout.addWidget(m_effect);
     m_layout.addWidget(m_transition);
     m_transition->setHidden(true);
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    //setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setEnabled(false);
     setStyleSheet(getStyleSheet());
 }
