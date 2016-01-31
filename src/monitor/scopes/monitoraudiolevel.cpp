@@ -44,7 +44,11 @@ MonitorAudioLevel::MonitorAudioLevel(Mlt::Profile *profile, QWidget *parent) : S
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_filter = new Mlt::Filter(*profile, "audiolevel");
+    if (!m_filter->is_valid()) {
+        isValid = false;
+    }
     m_filter->set("iec_scale", 0);
+    isValid = true;
 }
 
 MonitorAudioLevel::~MonitorAudioLevel()

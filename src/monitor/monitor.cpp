@@ -331,6 +331,11 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_audioMeterWidget = new MonitorAudioLevel(m_glMonitor->profile(), this);
     m_audioMeterWidget->setMinimumHeight(m_toolbar->height());
     m_toolbar->addWidget(m_audioMeterWidget);
+    if (!m_audioMeterWidget->isValid) {
+        KdenliveSettings::setMonitoraudio(0);
+        m_audioMeterWidget->setVisible(false);
+        return;
+    }
 
     connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotSeek()));
     layout->addWidget(m_toolbar);
@@ -1913,6 +1918,11 @@ void Monitor::slotUpdateQmlTimecode(const QString &tc)
 
 void Monitor::slotSwitchAudioMonitor()
 {
+    if (!m_audioMeterWidget->isValid) {
+        KdenliveSettings::setMonitoraudio(0);
+        m_audioMeterWidget->setVisible(false);
+        return;
+    }
     int currentOverlay = KdenliveSettings::monitoraudio();
     currentOverlay ^= m_id;
     KdenliveSettings::setMonitoraudio(currentOverlay);

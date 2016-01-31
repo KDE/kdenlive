@@ -39,6 +39,7 @@ public:
     virtual ~MonitorAudioLevel();
     void refreshPixmap();
     int audioChannels;
+    bool isValid;
 
 protected:
     void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
