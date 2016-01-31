@@ -43,7 +43,7 @@ AnimKeyframeRuler::AnimKeyframeRuler(int min, int max, QWidget *parent) :
   , m_position(0)
   , m_scale(0)
   , m_movingKeyframe(false)
-  , m_movingKeyframePos(0)
+  , m_movingKeyframePos(-1)
   , m_hoverKeyframe(-1)
   , m_seekPosition(SEEK_INACTIVE)
 {
@@ -157,7 +157,11 @@ void AnimKeyframeRuler::mouseMoveEvent(QMouseEvent * event)
             m_dragStart = QPoint();
         }
         m_movingKeyframePos = qBound(0, (int)(xPos / m_scale), frameLength);
-        if (KdenliveSettings::snaptopoints() && qAbs(m_movingKeyframePos - m_position) < headOffset)
+        if (event->modifiers() & Qt::ShiftModifier) {
+            m_seekPosition = m_movingKeyframePos;
+            emit requestSeek(m_seekPosition);
+        }
+        else if (KdenliveSettings::snaptopoints() && qAbs(m_movingKeyframePos - m_position) < headOffset)
             m_movingKeyframePos = m_position;
         update();
         return;
@@ -206,6 +210,7 @@ void AnimKeyframeRuler::mouseReleaseEvent(QMouseEvent * event)
     }
     m_movingKeyframe = false;
     m_hoverKeyframe = -1;
+    m_movingKeyframePos = -1;
 }
 
 // virtual
@@ -317,6 +322,7 @@ void AnimKeyframeRuler::setValue(const int pos)
         m_seekPosition = SEEK_INACTIVE;
     }
     m_position = pos;
+    if (m_movingKeyframePos >= 0) return;
     update();
 }
 
