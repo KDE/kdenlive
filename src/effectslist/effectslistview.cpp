@@ -126,7 +126,6 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
     connect(m_effectsList, &EffectsListWidget::itemSelectionChanged, this, &EffectsListView::slotUpdateInfo);
     connect(m_effectsList, &EffectsListWidget::itemDoubleClicked, this, &EffectsListView::slotEffectSelected);
     connect(m_effectsList, SIGNAL(displayMenu(QTreeWidgetItem *, const QPoint &)), this, SLOT(slotDisplayMenu(QTreeWidgetItem *, const QPoint &)));
-    connect(search_effect, SIGNAL(hiddenChanged(QTreeWidgetItem*,bool)), this, SLOT(slotUpdateSearch(QTreeWidgetItem*,bool)));
     connect(m_effectsList, &EffectsListWidget::applyEffect, this, &EffectsListView::addEffect);
     connect(search_effect, SIGNAL(textChanged(QString)), this, SLOT(slotAutoExpand(QString)));
 
@@ -134,6 +133,7 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
     if (m_mode == TransitionMode) {
         return;
     }
+    connect(search_effect, SIGNAL(hiddenChanged(QTreeWidgetItem*,bool)), this, SLOT(slotUpdateSearch(QTreeWidgetItem*,bool)));
     switch (KdenliveSettings::selected_effecttab()) {
       case EffectsListWidget::EFFECT_VIDEO:
         effectsVideo->setChecked(true);
