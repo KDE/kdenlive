@@ -129,6 +129,7 @@ protected:
       * @param painter The painter device for the clip
       */
     double keyframeUnmap(double y);
+    double keyframeMap(double value);
     QPointF keyframeMap(int frame, double value);
     QPointF keyframePoint(int index);
     void drawKeyFrames(QPainter *painter, const QTransform &transformation);

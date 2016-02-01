@@ -233,6 +233,11 @@ double AbstractClipItem::keyframeUnmap(double y) {
     return ((br.bottom() - y) / br.height() * (m_keyframeMax - m_keyframeMin) + m_keyframeMin) / m_keyframeFactor;
 }
 
+double AbstractClipItem::keyframeMap(double value) {
+    QRectF br = rect();
+    return br.bottom() - br.height() * (value * m_keyframeFactor - m_keyframeMin) / (m_keyframeMax - m_keyframeMin);
+}
+
 QPointF AbstractClipItem::keyframeMap(int frame, double value) {
     QRectF br = rect();
     return QPointF(br.x() + br.width() * (frame - cropStart().frames(m_fps)) / cropDuration().frames(m_fps),
@@ -249,6 +254,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transf
     if (m_keyAnim.key_count() < 1)
         return;
     bool antialiasing = painter->renderHints() & QPainter::Antialiasing;
+    painter->save();
     bool active = isSelected() || (parentItem() && parentItem()->isSelected());
     QRectF br = rect();
 
@@ -274,7 +280,10 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transf
 
     // draw line showing default value
     if (active) {
-        double y = keyframeUnmap(m_keyframeDefault);
+        QColor col(Qt::black);
+        col.setAlpha(140);
+        painter->fillRect(QRectF(transformation.map(br.topLeft()), transformation.map(br.bottomRight())), col);
+        double y = keyframeMap(m_keyframeDefault);
         QLineF line = transformation.map(QLineF(br.x(), y, br.right(), y));
         painter->setPen(QColor(168, 168, 168, 180));
         painter->drawLine(line);
@@ -286,7 +295,8 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transf
 
     QPointF start = keyframePoint(0);
     QPainterPath path;
-    path.moveTo(br.x(), start.y());
+    path.moveTo(br.x(), br.bottom());
+    path.lineTo(br.x(), start.y());
     path.lineTo(start);
     for(int i = 0; i < m_keyAnim.key_count(); ++i) {
         if (active)
@@ -318,15 +328,20 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transf
             path.lineTo(br.right(), start.y());
         }
     }
+    path.lineTo(br.right(), br.bottom());
+    QColor col(Qt::white);//QApplication::palette().highlight().color());
+    col.setAlpha(active ? 120 : 80);
+    painter->setBrush(col);
     painter->drawPath(transformation.map(path));
     painter->setRenderHint(QPainter::Antialiasing, antialiasing);
+    painter->restore();
 }
 
 int AbstractClipItem::mouseOverKeyFrames(QPointF pos, double maxOffset)
 {
     for(int i = 0; i < m_keyAnim.key_count(); ++i) {
         int key = m_keyAnim.key_get_frame(i);
-        int value = m_keyProperties.anim_get_double("keyframes", key);
+        double value = m_keyProperties.anim_get_double("keyframes", key);
         QPointF p = keyframeMap(key, value);
         if (m_keyframeType == GeometryKeyframe)
             p.setY(rect().bottom() - rect().height() / 2);
