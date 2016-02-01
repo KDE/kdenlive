@@ -248,6 +248,8 @@ public:
     MltVideoProfile(const QVariantList &params);
     bool operator==(const MltVideoProfile& point) const;
     bool operator!=(const MltVideoProfile &other) const;
+    /** @brief Returns true if both profiles have same fps, and can be mixed with the xml producer */
+    bool isCompatible(const MltVideoProfile &point) const;
     const QVariantList toList();
     const QString descriptiveString();
 };

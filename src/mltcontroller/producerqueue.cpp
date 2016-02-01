@@ -238,7 +238,7 @@ void ProducerQueue::processFileProperties()
             MltVideoProfile clipProfile = ProfilesDialog::getVideoProfile(*xmlProfile);
             delete producer;
             delete xmlProfile;
-            if (clipProfile == projectProfile) {
+            if (clipProfile.isCompatible(projectProfile)) {
                 // We can use the "xml" producer since profile is the same (using it with different profiles corrupts the project.
                 // Beware that "consumer" currently crashes on audio mixes!
                 path.prepend("xml:");

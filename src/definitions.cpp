@@ -100,6 +100,11 @@ bool MltVideoProfile::operator==(const MltVideoProfile &point) const
             point.colorspace == colorspace;
 }
 
+bool MltVideoProfile::isCompatible(const MltVideoProfile &point) const
+{
+    return frame_rate_num * 100 / frame_rate_den == point.frame_rate_num * 100 / point.frame_rate_den;
+}
+
 const QVariantList MltVideoProfile::toList()
 {
     QVariantList result;
