@@ -169,6 +169,10 @@ void KeyframeEdit::addParameter(const QDomElement &e, int activeKeyframe)
             keyframe_list->selectRow(i);
         }
     }
+    if (!keyframe_list->currentItem()) {
+        keyframe_list->setCurrentCell(0, columnId);
+        keyframe_list->selectRow(0);
+    }
     keyframe_list->resizeColumnsToContents();
     keyframe_list->blockSignals(false);
     keyframe_list->horizontalHeader()->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -388,6 +392,7 @@ void KeyframeEdit::slotAdjustKeyframeInfo(bool seek)
     m_position->setRange(min, max, true);
     m_position->setPosition(getPos(item->row()));
     m_position->blockSignals(false);
+    QLocale locale;
 
     for (int col = 0; col < keyframe_list->columnCount(); ++col) {
         DoubleParameterWidget *doubleparam = static_cast <DoubleParameterWidget*>(m_slidersLayout->itemAtPosition(col, 0)->widget());
@@ -395,7 +400,7 @@ void KeyframeEdit::slotAdjustKeyframeInfo(bool seek)
             continue;
         doubleparam->blockSignals(true);
         if (keyframe_list->item(item->row(), col)) {
-            doubleparam->setValue(keyframe_list->item(item->row(), col)->text().toDouble());
+            doubleparam->setValue(locale.toDouble(keyframe_list->item(item->row(), col)->text()));
         } else {
             //qDebug() << "Null pointer exception caught: http://www.kdenlive.org/mantis/view.php?id=1771";
         }

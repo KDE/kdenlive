@@ -1064,7 +1064,11 @@ void Timeline::setParam(ProfileInfo info, QDomElement param, QString value) {
         for (int l = 0; l < kfrs.count(); ++l) {
             QString fr = kfrs.at(l).section('=', 0, 0);
             double val = locale.toDouble(kfrs.at(l).section('=', 1, 1));
-            kfrs[l] = fr + '=' + QString::number((int) (val * fact + offset));
+            if (fact != 1) {
+                // Add 0.5 since we are converting to integer below so that 0.8 is converted to 1 and not 0
+                val = val * fact + 0.5;
+            }
+            kfrs[l] = fr + '=' + QString::number((int) (val + offset));
         }
         param.setAttribute(QStringLiteral("keyframes"), kfrs.join(QStringLiteral(";")));
     } else if (type == QLatin1String("double") || type == QLatin1String("constant")) {
