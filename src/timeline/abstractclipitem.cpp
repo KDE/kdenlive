@@ -251,7 +251,7 @@ QPointF AbstractClipItem::keyframePoint(int index) {
 
 void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transformation)
 {
-    if (m_keyAnim.key_count() < 1)
+    if (m_keyframeType == NoKeyframe || m_keyAnim.key_count() < 1)
         return;
     bool antialiasing = painter->renderHints() & QPainter::Antialiasing;
     painter->save();

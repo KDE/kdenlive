@@ -204,8 +204,14 @@ bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int c
     bool clipEffectsModified = false;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    int effectsCount = m_effectList.count();
+    if (effectsCount == 0 && m_keyframeType != NoKeyframe) {
+        // reset keyframes
+        m_keyframeType = NoKeyframe;
+        update();
+    }
     // go through all effects this clip has
-    for (int ix = 0; ix < m_effectList.count(); ++ix) {
+    for (int ix = 0; ix < effectsCount; ++ix) {
         // Check geometry params
         resizeGeometries(ix, width, height, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1);
 
@@ -950,7 +956,6 @@ void ClipItem::paint(QPainter *painter,
         // draw effect or transition keyframes
         drawKeyFrames(painter, transformation);
     }
-    
     // draw clip border
     // expand clip rect to allow correct painting of clip border
     painter->setClipping(false);
@@ -1835,7 +1840,10 @@ bool ClipItem::parseKeyframes(const QLocale locale, QDomElement e)
     else if (type == QLatin1String("simplekeyframe")) m_keyframeType = SimpleKeyframe;
     else if (type == QLatin1String("geometry")) m_keyframeType = GeometryKeyframe;
     else if (type == QLatin1String("animated")) m_keyframeType = AnimatedKeyframe;
-    else return false;
+    else {
+        m_keyframeType = NoKeyframe;
+        return false;
+    }
     if (m_keyframeType != NoKeyframe && (!e.hasAttribute(QStringLiteral("intimeline"))
         || e.attribute(QStringLiteral("intimeline")) == QLatin1String("1"))) {
         m_keyframeMin = locale.toDouble(e.attribute(QStringLiteral("min")));
