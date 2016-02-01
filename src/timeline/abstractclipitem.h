@@ -121,6 +121,7 @@ protected:
     double m_keyframeMin;
     double m_keyframeMax;
     double m_keyframeFactor;
+    int m_handleSize;
     int m_visibleParam;
     double m_fps;
     /** @brief True if this is the last clip the user selected */

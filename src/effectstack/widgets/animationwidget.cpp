@@ -238,7 +238,7 @@ void AnimationWidget::moveKeyframe(int index, int oldPos, int newPos)
     if (!m_animController->get_item(oldPos, isKey, type)) {
         double val = m_animProperties.anim_get_double("anim", oldPos, m_timePos->maximum());
         m_animController->remove(oldPos);
-        if (m_keyframeRelatives.at(index) < 0) {
+        if (index >= 0 && m_keyframeRelatives.at(index) < 0) {
             // keyframe relative to end
             newPos -= m_timePos->maximum();
         }

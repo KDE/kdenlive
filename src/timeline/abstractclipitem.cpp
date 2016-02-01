@@ -53,6 +53,7 @@ AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF& rect, dou
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption, true);
     setPen(Qt::NoPen);
+    m_handleSize = QFontInfo(QApplication::font()).pixelSize() * 0.7;
 }
 
 AbstractClipItem::~AbstractClipItem()
@@ -144,8 +145,6 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit, bool /*emitChang
         durationDiff = GenTime() - cropStart();
     } else if (durationDiff >= cropDuration()) {
         return;
-        /*if (cropDuration() > GenTime(3, m_fps)) durationDiff = GenTime(3, m_fps);
-        else return;*/
     }
     m_info.startPos += durationDiff;
 
@@ -253,10 +252,10 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transf
 {
     if (m_keyframeType == NoKeyframe || m_keyAnim.key_count() < 1)
         return;
-    bool antialiasing = painter->renderHints() & QPainter::Antialiasing;
     painter->save();
     bool active = isSelected() || (parentItem() && parentItem()->isSelected());
     QRectF br = rect();
+    QPointF h(m_handleSize, m_handleSize);
 
     // draw keyframes
     // Special case: Geometry keyframes are just vertical lines
@@ -266,15 +265,15 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transf
             QColor color = (key == m_editedKeyframe) ? QColor(Qt::red) : QColor(Qt::blue);
             if (active)
                 painter->setPen(color);
-            double x = keyframePoint(i).x();
-            QLineF line = transformation.map(QLineF(x, br.top(), x, br.height()));
-            painter->drawLine(line);
+            QPointF k = keyframePoint(i);
+            painter->drawLine(transformation.map(QLineF(k.x(), br.top(), k.x(), br.height())));
             if (active) {
-                const QRectF frame(line.x1() - 3, line.y1() + (line.y2() - line.y1()) / 2 - 3, 6, 6);
-                painter->fillRect(frame, color);
+                k.setY(br.top() + br.height()/2);
+                painter->setBrush((m_keyAnim.key_get_frame(i) == m_editedKeyframe) ? QColor(Qt::red) : QColor(Qt::blue));
+                painter->drawEllipse(QRectF(transformation.map(k) - h/2, transformation.map(k) + h/2));
             }
         }
-        painter->setRenderHint(QPainter::Antialiasing, antialiasing);
+        painter->restore();
         return;
     }
 
@@ -299,9 +298,10 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transf
     path.lineTo(br.x(), start.y());
     path.lineTo(start);
     for(int i = 0; i < m_keyAnim.key_count(); ++i) {
-        if (active)
-            painter->fillRect(QRectF(transformation.map(start) - QPointF(3, 3), QSizeF(6, 6)),
-                              (m_keyAnim.key_get_frame(i) == m_editedKeyframe) ? QColor(Qt::red) : QColor(Qt::blue));
+        if (active) {
+            painter->setBrush((m_keyAnim.key_get_frame(i) == m_editedKeyframe) ? QColor(Qt::red) : QColor(Qt::blue));
+            painter->drawEllipse(QRectF(transformation.map(start) - h/2, transformation.map(start) + h / 2));
+        }
         if (i + 1 < m_keyAnim.key_count()) {
             QPointF end = keyframePoint(i + 1);
             switch (m_keyAnim.key_get_type(i)) {
@@ -314,7 +314,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transf
                     break;
                 case mlt_keyframe_smooth:
                     QPointF pre = keyframePoint(qMax(i - 1, 0));
-                    QPointF post = keyframePoint(qMin(i + 2, m_keyAnim.key_count()));
+                    QPointF post = keyframePoint(qMin(i + 2, m_keyAnim.key_count() - 1));
                     QPointF c1 = (end - pre) / 6.0; // + start
                     QPointF c2 = (start - post) / 6.0; // + end
                     double mid = (end.x() - start.x()) / 2;
@@ -333,7 +333,6 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transf
     col.setAlpha(active ? 120 : 80);
     painter->setBrush(col);
     painter->drawPath(transformation.map(path));
-    painter->setRenderHint(QPainter::Antialiasing, antialiasing);
     painter->restore();
 }
 
