@@ -378,7 +378,7 @@ void EffectsListView::slotRemoveEffect()
 
     QTreeWidgetItem *item = m_effectsList->currentItem();
     QString effectId = item->text(0);
-    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects";
+    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects/";
 
     QDir directory = QDir(path);
     QStringList filter;
