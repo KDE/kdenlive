@@ -275,6 +275,7 @@ bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int c
 
         if (effModified) {
             // update KeyFrames
+            qDebug()<<"* *SETTING NEW KFR: "<<newKeyFrameParams;
             setKeyframes(ix, newKeyFrameParams);
             clipEffectsModified = true;
         }
@@ -984,10 +985,11 @@ ProjectClip *ClipItem::binClip() const
 OperationType ClipItem::operationMode(const QPointF &pos)
 {
     if (isItemLocked()) return None;
+    // Position is relative to item
     const double scale = projectScene()->scale().x();
-    double maximumOffset = 6 / scale;
+    double maximumOffset = 6;
     if (isSelected() || (parentItem() && parentItem()->isSelected())) {
-        int kf = mouseOverKeyFrames(pos, maximumOffset);
+        int kf = mouseOverKeyFrames(pos, maximumOffset, scale);
         if (kf != -1) {
             m_editedKeyframe = kf;
             return KeyFrame;
@@ -998,9 +1000,9 @@ OperationType ClipItem::operationMode(const QPointF &pos)
     // Don't allow add transition if track height is very small. No transitions for audio only clips
     if (rect.height() < 30 || m_clipState == PlaylistState::AudioOnly || m_clipType == Audio) addtransitionOffset = 0;
 
-    if (qAbs((int)(pos.x() - (rect.x() + m_startFade))) < maximumOffset  && qAbs((int)(pos.y() - rect.y())) < 6) {
+    if (qAbs((int)(pos.x() - m_startFade)) < maximumOffset  && qAbs((int)(pos.y()) < 6)) {
         return FadeIn;
-    } else if ((pos.x() <= rect.x() + rect.width() / 2) && pos.x() - rect.x() < maximumOffset && (rect.bottom() - pos.y() > addtransitionOffset)) {
+    } else if ((pos.x() <= rect.width() / 2) && pos.x() < maximumOffset / scale && (rect.height() - pos.y() > addtransitionOffset)) {
         // If we are in a group, allow resize only if all clips start at same position
         if (parentItem()) {
             QGraphicsItemGroup *dragGroup = static_cast <QGraphicsItemGroup *>(parentItem());
@@ -1013,9 +1015,9 @@ OperationType ClipItem::operationMode(const QPointF &pos)
             }
         }
         return ResizeStart;
-    } else if (qAbs((int)(pos.x() - (rect.x() + rect.width() - m_endFade))) < maximumOffset && qAbs((int)(pos.y() - rect.y())) < 6) {
+    } else if (qAbs((int)(pos.x() - (rect.width() - m_endFade))) < maximumOffset && qAbs((int)(pos.y())) < 6) {
         return FadeOut;
-    } else if ((pos.x() >= rect.x() + rect.width() / 2) && (rect.right() - pos.x() < maximumOffset) && (rect.bottom() - pos.y() > addtransitionOffset)) {
+    } else if ((pos.x() >= rect.width() / 2) && (rect.width() - pos.x() < maximumOffset / scale) && (rect.height() - pos.y() > addtransitionOffset)) {
         // If we are in a group, allow resize only if all clips end at same position
         if (parentItem()) {
             QGraphicsItemGroup *dragGroup = static_cast <QGraphicsItemGroup *>(parentItem());
@@ -1028,9 +1030,9 @@ OperationType ClipItem::operationMode(const QPointF &pos)
             }
         }
         return ResizeEnd;
-    } else if ((pos.x() - rect.x() < 16 / scale) && (rect.bottom() - pos.y() <= addtransitionOffset)) {
+    } else if ((pos.x() < 16 / scale) && (rect.height() - pos.y() <= addtransitionOffset)) {
         return TransitionStart;
-    } else if ((rect.right() - pos.x() < 16 / scale) && (rect.bottom() - pos.y() <= addtransitionOffset)) {
+    } else if ((rect.width() - pos.x() < 16 / scale) && (rect.height() - pos.y() <= addtransitionOffset)) {
         return TransitionEnd;
     }
 
@@ -1718,7 +1720,7 @@ void ClipItem::setState(PlaylistState::ClipState state)
     m_audioThumbCachePic.clear();
 }
 
-void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
+void ClipItem::insertKeyframe(QDomElement effect, int pos, double val)
 {
     if (effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) return;
     QLocale locale;
@@ -1742,7 +1744,7 @@ void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
                     newkfr.append(str);
                 } else if (!added) {
                     if (i == m_visibleParam)
-                        newkfr.append(QString::number(pos) + '=' + QString::number(val));
+                        newkfr.append(QString::number(pos) + '=' + QString::number((int)val));
                     else
                         newkfr.append(QString::number(pos) + '=' + locale.toString(newval));
                     if (kpos > pos) newkfr.append(str);
@@ -1751,7 +1753,7 @@ void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
             }
             if (!added) {
                 if (i == m_visibleParam)
-                    newkfr.append(QString::number(pos) + '=' + QString::number(val));
+                    newkfr.append(QString::number(pos) + '=' + QString::number((int)val));
                 else
                     newkfr.append(QString::number(pos) + '=' + e.attribute(QStringLiteral("default")));
             }

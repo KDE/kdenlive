@@ -631,7 +631,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 static_cast<ClipItem*>(m_dragItem)->setFadeOut(static_cast<int>(m_dragItem->endPos().frames(m_document->fps()) - mappedXPos));
             } else if (m_moveOpMode == KeyFrame) {
                 GenTime keyFramePos = GenTime(mappedXPos, m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
-                double pos = mapToScene(event->pos()).toPoint().y();
+                double pos = m_dragItem->mapFromScene(mapToScene(event->pos()).toPoint()).y();
                 m_dragItem->updateKeyFramePos(keyFramePos.frames(fps()), pos);
                 QString position = m_document->timecode().getDisplayTimecodeFromFrames(m_dragItem->editedKeyFramePos(), KdenliveSettings::frametimecode());
                 emit displayMessage(position + " : " + QString::number(m_dragItem->editedKeyFrameValue()), InformationMessage);
@@ -696,7 +696,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 // If the item is very small, only allow move
                 opMode = MoveOperation;
             }
-            else opMode = clip->operationMode(mapToScene(event->pos()));
+            else opMode = clip->operationMode(clip->mapFromScene(mapToScene(event->pos())));
         }
 
         const double size = 5;
@@ -1260,7 +1260,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         m_dragItem->setSelected(itemSelected);
         m_selectionMutex.unlock();
     }
-    
+
     m_selectionMutex.lock();
     if (m_selectionGroup) {
 	m_selectionGroup->setProperty("y_absolute", yOffset);
@@ -1286,7 +1286,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                     // If the item is very small, only allow move
                     m_operationMode = MoveOperation;
                 }
-                else m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()));
+                else m_operationMode = m_dragItem->operationMode(m_dragItem->mapFromScene(mapToScene(event->pos())));
                 if (m_operationMode == ResizeEnd) {
                     // FIXME: find a better way to avoid move in ClipItem::itemChange?
                     m_dragItem->setProperty("resizingEnd", true);
@@ -1585,7 +1585,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
         // add keyframe
         GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x()), m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
         int single = m_dragItem->checkForSingleKeyframe();
-        int val = m_dragItem->addKeyFrame(keyFramePos, mapToScene(event->pos()).toPoint().y());
+        double val = m_dragItem->addKeyFrame(keyFramePos, mapToScene(event->pos()).y() - m_dragItem->scenePos().y());
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
         QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
         if (single > -1) {

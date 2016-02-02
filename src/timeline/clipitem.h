@@ -168,7 +168,7 @@ public:
     void setState(PlaylistState::ClipState state);
     void updateState(const QString &id);
 
-    void insertKeyframe(QDomElement effect, int pos, int val);
+    void insertKeyframe(QDomElement effect, int pos, double val);
     void movedKeyframe(QDomElement effect, int oldpos, int newpos, double value);
     void updateKeyframes(QDomElement effect);
     void updateGeometryKeyframes(QDomElement effect, int paramIndex, int width, int height, ItemInfo oldInfo);

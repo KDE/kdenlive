@@ -336,12 +336,14 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transf
     painter->restore();
 }
 
-int AbstractClipItem::mouseOverKeyFrames(QPointF pos, double maxOffset)
+int AbstractClipItem::mouseOverKeyFrames(QPointF pos, double maxOffset, double scale)
 {
+    pos.setX(pos.x()*scale);
     for(int i = 0; i < m_keyAnim.key_count(); ++i) {
         int key = m_keyAnim.key_get_frame(i);
         double value = m_keyProperties.anim_get_double("keyframes", key);
         QPointF p = keyframeMap(key, value);
+        p.setX(p.x()*scale);
         if (m_keyframeType == GeometryKeyframe)
             p.setY(rect().bottom() - rect().height() / 2);
         if ((pos - p).manhattanLength() < maxOffset) {
@@ -417,12 +419,13 @@ int AbstractClipItem::checkForSingleKeyframe()
     return -1;
 }
 
-int AbstractClipItem::addKeyFrame(const GenTime &pos, const double y)
+double AbstractClipItem::addKeyFrame(const GenTime &pos, const double y)
 {
     double newval = keyframeUnmap(y);
-    m_selectedKeyframe = pos.frames(m_fps);
+    qDebug()<<"NEW VAL; "<<newval<<" / "<<y;
+    /*m_selectedKeyframe = pos.frames(m_fps);
     m_keyProperties.anim_set("keyframes", newval, m_selectedKeyframe, 0, m_keyAnim.keyframe_type(m_selectedKeyframe));
-    update();
+    update();*/
     return newval;
 }
 

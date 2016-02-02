@@ -59,7 +59,7 @@ public:
     * @param value new Value */
     void updateKeyFramePos(int frame, const double y);
     int checkForSingleKeyframe();
-    int addKeyFrame(const GenTime &pos, const double y);
+    double addKeyFrame(const GenTime &pos, const double y);
     bool hasKeyFrames();
     int editedKeyFramePos() const;
     int selectedKeyFramePos() const;
@@ -134,7 +134,7 @@ protected:
     QPointF keyframeMap(int frame, double value);
     QPointF keyframePoint(int index);
     void drawKeyFrames(QPainter *painter, const QTransform &transformation);
-    int mouseOverKeyFrames(QPointF pos, double maxOffset);
+    int mouseOverKeyFrames(QPointF pos, double maxOffset, double scale);
     void mousePressEvent(QGraphicsSceneMouseEvent * event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
