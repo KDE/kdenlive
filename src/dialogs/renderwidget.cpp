@@ -190,6 +190,8 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     connect(m_view.options, SIGNAL(toggled(bool)), m_view.audio, SLOT(setVisible(bool)));
     connect(m_view.quality, SIGNAL(valueChanged(int)), this, SLOT(adjustAVQualities(int)));
     connect(m_view.video, SIGNAL(valueChanged(int)), this, SLOT(adjustQuality(int)));
+    connect(m_view.speed, SIGNAL(valueChanged(int)), this, SLOT(adjustSpeed(int)));
+    
 
     m_view.buttonRender->setEnabled(false);
     m_view.buttonGenerateScript->setEnabled(false);
@@ -1645,7 +1647,7 @@ void RenderWidget::refreshParams()
         int speed = item->data(0, SpeedsRole).toStringList().count() - 1;
         m_view.speed->setEnabled(true);
         m_view.speed->setMaximum(speed);
-        m_view.speed->setValue(speed);
+        m_view.speed->setValue(speed * 3 / 4); // default to intermediate speed
     } else m_view.speed->setEnabled(false);
 
     m_view.checkTwoPass->setEnabled(params.contains(QStringLiteral("passes")));
@@ -1703,6 +1705,7 @@ void RenderWidget::parseMltPresets()
         } else {
             groupItem = new QTreeWidgetItem(QStringList(groupName));
             m_view.formats->addTopLevelItem(groupItem);
+            groupItem->setExpanded(true);
         }
 
         QStringList profiles = root.entryList(QDir::Files, QDir::Name);
@@ -1742,6 +1745,7 @@ void RenderWidget::parseMltPresets()
         } else {
             groupItem = new QTreeWidgetItem(QStringList(groupName));
             m_view.formats->addTopLevelItem(groupItem);
+            groupItem->setExpanded(true);
         }
         QStringList profiles = root.entryList(QDir::Files, QDir::Name);
         foreach(const QString &prof, profiles) {
@@ -1846,8 +1850,10 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
                 groupItem = new QTreeWidgetItem(QStringList(groupName));
                 if (editable)
                     m_view.formats->insertTopLevelItem(0, groupItem);
-                else
+                else {
                     m_view.formats->addTopLevelItem(groupItem);
+                    groupItem->setExpanded(true);
+                }
             }
             
             // Check if item with same name already exists and replace it,
@@ -1913,6 +1919,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
         } else {
             groupItem = new QTreeWidgetItem(QStringList(groupName));
             m_view.formats->addTopLevelItem(groupItem);
+            groupItem->setExpanded(true);
         }
         
         QDomNode n = groups.item(i).firstChild();
@@ -2271,6 +2278,8 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
         m_view.video->setValue(props.value(QStringLiteral("renderquality")).toInt());
     else if (props.contains(QStringLiteral("renderbitrate")))
         m_view.video->setValue(props.value(QStringLiteral("renderbitrate")).toInt());
+    else
+        m_view.quality->setValue(m_view.quality->maximum() * 3 / 4);
     if (props.contains(QStringLiteral("renderaudioquality")))
         m_view.audio->setValue(props.value(QStringLiteral("renderaudioquality")).toInt());
     if (props.contains(QStringLiteral("renderaudiobitrate")))
@@ -2491,4 +2500,9 @@ void RenderWidget::adjustQuality(int videoQuality)
         ? m_view.video->maximum() - dq
         : m_view.video->minimum() + dq);
     m_view.quality->blockSignals(false);
+}
+
+void RenderWidget::adjustSpeed(int speedIndex)
+{
+    m_view.speed->setToolTip(i18n("Codec speed parameters:\n") + m_view.formats->currentItem()->data(0, SpeedsRole).toStringList().at(speedIndex));
 }

@@ -151,57 +151,36 @@
           <item>
            <layout class="QHBoxLayout" name="sizeGroup">
             <item>
-             <layout class="QGridLayout" name="qualityGroup">
-              <item row="2" column="0" colspan="3">
-               <widget class="QSlider" name="quality">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimum">
-                 <number>0</number>
-                </property>
-                <property name="maximum">
-                 <number>4</number>
-                </property>
-                <property name="value">
-                 <number>3</number>
-                </property>
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0">
-               <widget class="QLabel" name="qualitySizeLabel">
-                <property name="text">
-                 <string>Size</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="2">
-               <widget class="QLabel" name="qualityLabel">
-                <property name="text">
-                 <string>Quality</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <spacer name="qualitySpace">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
+             <widget class="QLabel" name="qualityLabel">
+              <property name="text">
+               <string>Quality</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="quality">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>Compromise file size versus quality</string>
+              </property>
+              <property name="minimum">
+               <number>0</number>
+              </property>
+              <property name="maximum">
+               <number>4</number>
+              </property>
+              <property name="value">
+               <number>3</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QLabel" name="videoLabel">
@@ -211,7 +190,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="video"/>
+             <widget class="QSpinBox" name="video">
+              <property name="toolTip">
+               <string>Video quality parameter (depends on codec)</string>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QLabel" name="audioLabel">
@@ -221,60 +204,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="audio"/>
-            </item>
-            <item>
-             <layout class="QGridLayout" name="speedGroup">
-              <item row="0" column="0">
-               <widget class="QLabel" name="speedSizeLabel">
-                <property name="text">
-                 <string>Size</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <spacer name="speedSpace">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item row="0" column="2">
-               <widget class="QLabel" name="speedLabel">
-                <property name="text">
-                 <string>Speed</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0" colspan="3">
-               <widget class="QSlider" name="speed">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="maximum">
-                 <number>1</number>
-                </property>
-                <property name="pageStep">
-                 <number>2</number>
-                </property>
-                <property name="value">
-                 <number>1</number>
-                </property>
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
-             </layout>
+             <widget class="QSpinBox" name="audio">
+              <property name="toolTip">
+               <string>Audio quality parameter or bitrate</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -468,6 +402,88 @@
            </widget>
           </item>
           <item>
+           <layout class="QHBoxLayout" name="threadGroup">
+            <item>
+             <widget class="QLabel" name="speedLabel">
+              <property name="toolTip">
+               <string>For a given quality, tune the compromise between encoding time and output file size (faster encoding ends with larger file)</string>
+              </property>
+              <property name="text">
+               <string>Encoder speed</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="speed">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>For a given quality, tune the compromise between encoding time and output file size (faster encoding ends with larger file)</string>
+              </property>
+              <property name="maximum">
+               <number>1</number>
+              </property>
+              <property name="pageStep">
+               <number>2</number>
+              </property>
+              <property name="value">
+               <number>1</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="threadsLabel">
+              <property name="text">
+               <string>Threads</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="encoder_threads">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>999</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="threadSpace">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkTwoPass">
+            <property name="text">
+             <string>2 pass</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <layout class="QHBoxLayout" name="scanGroup">
             <item>
              <widget class="QLabel" name="scanningLabel">
@@ -515,53 +531,6 @@
              </spacer>
             </item>
            </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="threadGroup">
-            <item>
-             <widget class="QLabel" name="threadsLabel">
-              <property name="text">
-               <string>Encoder threads</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="encoder_threads">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimum">
-               <number>1</number>
-              </property>
-              <property name="maximum">
-               <number>999</number>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="threadSpace">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkTwoPass">
-            <property name="text">
-             <string>2 pass</string>
-            </property>
-           </widget>
           </item>
           <item>
            <layout class="QHBoxLayout" name="rescale_group">

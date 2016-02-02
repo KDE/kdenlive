@@ -184,8 +184,10 @@ private slots:
     void setRescaleEnabled(bool enable);
     /** @brief Adjust video/audio quality spinboxes from quality slider. */
     void adjustAVQualities(int quality);
-    /** @brief Adjust video/audio quality spinboxes from quality slider. */
+    /** @brief Adjust quality slider from video spinbox. */
     void adjustQuality(int videoQuality);
+    /** @brief Show updated command parameter in tooltip. */
+    void adjustSpeed(int videoQuality);
     
 private:
     Ui::RenderWidget_UI m_view;
