@@ -1585,7 +1585,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
         // add keyframe
         GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x()), m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
         int single = m_dragItem->checkForSingleKeyframe();
-        double val = m_dragItem->addKeyFrame(keyFramePos, mapToScene(event->pos()).y() - m_dragItem->scenePos().y());
+        double val = m_dragItem->getKeyFrameClipHeight(mapToScene(event->pos()).y() - m_dragItem->scenePos().y());
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
         QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
         if (single > -1) {

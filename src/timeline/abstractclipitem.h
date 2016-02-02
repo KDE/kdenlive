@@ -59,7 +59,7 @@ public:
     * @param value new Value */
     void updateKeyFramePos(int frame, const double y);
     int checkForSingleKeyframe();
-    double addKeyFrame(const GenTime &pos, const double y);
+    double getKeyFrameClipHeight(const double y);
     bool hasKeyFrames();
     int editedKeyFramePos() const;
     int selectedKeyFramePos() const;

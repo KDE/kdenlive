@@ -389,7 +389,7 @@ void AbstractClipItem::updateKeyFramePos(int frame, const double y)
 {
     if (!m_keyProperties.get_anim("keyframes")->is_key(m_editedKeyframe))
         return;
-    int prev = m_keyAnim.previous_key(m_editedKeyframe - 1) + 1;
+    int prev = m_keyAnim.key_count() <= 1 || m_keyAnim.key_get_frame(0) == m_editedKeyframe ? frame : m_keyAnim.previous_key(m_editedKeyframe - 1);
     int next = m_keyAnim.next_key(m_editedKeyframe + 1) - 1;
     if (next <= 0) next = m_editedKeyframe;
     int newpos = qBound(prev, frame, next);
@@ -413,20 +413,16 @@ int AbstractClipItem::checkForSingleKeyframe()
     if (m_keyAnim.key_count() == 1 && m_keyAnim.is_key(start)) {
         double value = m_keyProperties.anim_get_double("keyframes", start);
         // Add keyframe at end of clip to allow inserting a new keframe in between
-        m_keyProperties.anim_set("keyframes", value, cropDuration().frames(m_fps));
+        int prevPos = m_keyAnim.previous_key(cropDuration().frames(m_fps));
+        m_keyProperties.anim_set("keyframes", value, cropDuration().frames(m_fps), 0, m_keyAnim.keyframe_type(prevPos));
         return value;
     }
     return -1;
 }
 
-double AbstractClipItem::addKeyFrame(const GenTime &pos, const double y)
+double AbstractClipItem::getKeyFrameClipHeight(const double y)
 {
-    double newval = keyframeUnmap(y);
-    qDebug()<<"NEW VAL; "<<newval<<" / "<<y;
-    /*m_selectedKeyframe = pos.frames(m_fps);
-    m_keyProperties.anim_set("keyframes", newval, m_selectedKeyframe, 0, m_keyAnim.keyframe_type(m_selectedKeyframe));
-    update();*/
-    return newval;
+    return keyframeUnmap(y);
 }
 
 bool AbstractClipItem::hasKeyFrames()
