@@ -275,7 +275,6 @@ bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int c
 
         if (effModified) {
             // update KeyFrames
-            qDebug()<<"* *SETTING NEW KFR: "<<newKeyFrameParams;
             setKeyframes(ix, newKeyFrameParams);
             clipEffectsModified = true;
         }
