@@ -1172,6 +1172,9 @@ const QString EffectStackView2::getStyleSheet()
 
     // group editable labels
     stylesheet.append(QStringLiteral("MyEditableLabel { background-color: transparent; color: palette(bright-text); border-radius: 2px;border: 1px solid transparent;} MyEditableLabel:hover {border: 1px solid palette(highlight);} "));
+    
+    // transparent qcombobox
+    stylesheet.append(QStringLiteral("QComboBox { background-color: transparent;} "));
 
     return stylesheet;
 }

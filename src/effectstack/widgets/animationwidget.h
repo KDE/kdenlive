@@ -24,6 +24,7 @@
 
 #include <QWidget>
 #include <QList>
+
 #include "timecodedisplay.h"
 #include "mlt++/MltProperties.h"
 
@@ -33,6 +34,7 @@ class KDualAction;
 class EffectMetaInfo;
 class DoubleParameterWidget;
 class KSelectAction;
+class QComboBox;
 
 namespace Mlt {
     class Animation;
@@ -53,11 +55,12 @@ private:
     Monitor *m_monitor;
     TimecodeDisplay *m_timePos;
     KDualAction* m_addKeyframe;
+    QComboBox *m_presetCombo;
     int m_clipPos;
     int m_inPoint;
     int m_outPoint;
     double m_factor;
-    Mlt::Animation *m_animController;
+    Mlt::Animation m_animController;
     Mlt::Properties m_animProperties;
     KSelectAction *m_selectType;
     QAction *m_reverseKeyframe;
@@ -67,6 +70,7 @@ private:
     void parseKeyframes();
     void rebuildKeyframes();
     void updateToolbar();
+    void loadPresets();
 
 public slots:
     void slotSyncPosition(int relTimelinePos);
@@ -82,6 +86,8 @@ private slots:
     void slotAddKeyframe(int);
     void slotDeleteKeyframe(int);
     void slotReverseKeyframeType(bool reverse);
+    void applyPreset(int ix);
+    void savePreset();
 
 signals:
     void seekToPos(int);

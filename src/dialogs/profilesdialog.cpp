@@ -348,18 +348,19 @@ MltVideoProfile ProfilesDialog::getProfileFromPath(const QString &path, const QS
 {
     KConfig confFile(path, KConfig::SimpleConfig);
     MltVideoProfile result;
+    QMap <QString, QString> entries = confFile.entryMap();
     result.path = name;
-    result.description = confFile.entryMap().value(QStringLiteral("description"));
-    result.frame_rate_num = confFile.entryMap().value(QStringLiteral("frame_rate_num")).toInt();
-    result.frame_rate_den = confFile.entryMap().value(QStringLiteral("frame_rate_den")).toInt();
-    result.width = confFile.entryMap().value(QStringLiteral("width")).toInt();
-    result.height = confFile.entryMap().value(QStringLiteral("height")).toInt();
-    result.progressive = confFile.entryMap().value(QStringLiteral("progressive")).toInt();
-    result.sample_aspect_num = confFile.entryMap().value(QStringLiteral("sample_aspect_num")).toInt();
-    result.sample_aspect_den = confFile.entryMap().value(QStringLiteral("sample_aspect_den")).toInt();
-    result.display_aspect_num = confFile.entryMap().value(QStringLiteral("display_aspect_num")).toInt();
-    result.display_aspect_den = confFile.entryMap().value(QStringLiteral("display_aspect_den")).toInt();
-    result.colorspace = confFile.entryMap().value(QStringLiteral("colorspace")).toInt();
+    result.description = entries.value(QStringLiteral("description"));
+    result.frame_rate_num = entries.value(QStringLiteral("frame_rate_num")).toInt();
+    result.frame_rate_den = entries.value(QStringLiteral("frame_rate_den")).toInt();
+    result.width = entries.value(QStringLiteral("width")).toInt();
+    result.height = entries.value(QStringLiteral("height")).toInt();
+    result.progressive = entries.value(QStringLiteral("progressive")).toInt();
+    result.sample_aspect_num = entries.value(QStringLiteral("sample_aspect_num")).toInt();
+    result.sample_aspect_den = entries.value(QStringLiteral("sample_aspect_den")).toInt();
+    result.display_aspect_num = entries.value(QStringLiteral("display_aspect_num")).toInt();
+    result.display_aspect_den = entries.value(QStringLiteral("display_aspect_den")).toInt();
+    result.colorspace = entries.value(QStringLiteral("colorspace")).toInt();
     return result;
 }
 

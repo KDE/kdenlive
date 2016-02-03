@@ -386,7 +386,7 @@ void EffectsListView::slotRemoveEffect()
     const QStringList fileList = directory.entryList(filter, QDir::Files);
     QString itemName;
     foreach(const QString &filename, fileList) {
-        itemName = QUrl(path + filename).path();
+        itemName = directory.absoluteFilePath(filename);
         QDomDocument doc;
         QFile file(itemName);
         doc.setContent(&file, false);
