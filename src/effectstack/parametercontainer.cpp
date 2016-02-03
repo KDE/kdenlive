@@ -237,7 +237,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 connect(this, SIGNAL(showComments(bool)), bval->widgetComment, SLOT(setVisible(bool)));
             m_uiItems.append(bval);
         } else if (type == QLatin1String("animated")) {
-            AnimationWidget *anim = new AnimationWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()), m_in, m_out, pa, e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt(), parent);
+            AnimationWidget *anim = new AnimationWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()), m_in, m_out, effect.attribute(QStringLiteral("id")), pa, e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt(), parent);
             connect(anim, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
             connect(this, SIGNAL(syncEffectsPos(int)), anim, SLOT(slotSyncPosition(int)));
             connect(anim, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));

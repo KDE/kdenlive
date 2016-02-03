@@ -34,6 +34,7 @@ class KDualAction;
 class EffectMetaInfo;
 class DoubleParameterWidget;
 class KSelectAction;
+class QDialog;
 class QComboBox;
 
 namespace Mlt {
@@ -44,7 +45,7 @@ class AnimationWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, QDomElement xml, int activeKeyframe, QWidget *parent = 0);
+    explicit AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, const QString &effectId, QDomElement xml, int activeKeyframe, QWidget *parent = 0);
     virtual ~AnimationWidget();
     void updateTimecodeFormat();
     void addParameter(const QDomElement &e, int activeKeyframe);
@@ -60,6 +61,8 @@ private:
     int m_inPoint;
     int m_outPoint;
     double m_factor;
+    QDomElement m_xml;
+    QString m_effectId;
     Mlt::Animation m_animController;
     Mlt::Properties m_animProperties;
     KSelectAction *m_selectType;
@@ -71,6 +74,7 @@ private:
     void rebuildKeyframes();
     void updateToolbar();
     void loadPresets();
+    void loadPreset(const QString &path);
 
 public slots:
     void slotSyncPosition(int relTimelinePos);
@@ -88,6 +92,7 @@ private slots:
     void slotReverseKeyframeType(bool reverse);
     void applyPreset(int ix);
     void savePreset();
+    void deletePreset();
 
 signals:
     void seekToPos(int);

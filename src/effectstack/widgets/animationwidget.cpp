@@ -30,6 +30,8 @@
 #include <QComboBox>
 #include <QDir>
 #include <QInputDialog>
+#include <QCheckBox>
+#include <QDialogButtonBox>
 
 #include <KDualAction>
 #include <KConfig>
@@ -47,7 +49,7 @@
 #include "../animkeyframeruler.h"
 
 
-AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, QDomElement xml, int activeKeyframe, QWidget *parent) :
+AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, const QString &effectId, QDomElement xml, int activeKeyframe, QWidget *parent) :
     QWidget(parent)
     , m_monitor(info->monitor)
     , m_timePos(new TimecodeDisplay(info->monitor->timecode(), this))
@@ -55,6 +57,8 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     , m_inPoint(min)
     , m_outPoint(max)
     , m_factor(1)
+    , m_xml(xml)
+    , m_effectId(effectId)
 {
     // Anim properties might at some point require some more infos like profile
     QString keyframes = xml.hasAttribute(QStringLiteral("value")) ? xml.attribute(QStringLiteral("value")) : xml.attribute(QStringLiteral("default"));
@@ -101,12 +105,10 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
 
     // Preset combo
     m_presetCombo = new QComboBox(this);
-    m_presetCombo->addItem(i18n("Default"), xml.attribute(QStringLiteral("default")));
     m_presetCombo->setToolTip(i18n("Presets"));
 
     // Load effect presets
     loadPresets();
-    m_presetCombo->setWindowOpacity(0.5);
     connect(m_presetCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(applyPreset(int)));
     tb->addWidget(m_presetCombo);
 
@@ -133,13 +135,18 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     connect(m_reverseKeyframe, &QAction::toggled, this, &AnimationWidget::slotReverseKeyframeType);
 
     // save preset
-    QAction *savePreset = new QAction(KoIconUtils::themedIcon(QStringLiteral("document-save")), i18n("Save current settings"), this);
+    QAction *savePreset = new QAction(KoIconUtils::themedIcon(QStringLiteral("document-save")), i18n("Save preset"), this);
     connect(savePreset, &QAction::triggered, this, &AnimationWidget::savePreset);
+
+    // delete preset
+    QAction *delPreset = new QAction(KoIconUtils::themedIcon(QStringLiteral("edit-delete")), i18n("Delete preset"), this);
+    connect(delPreset, &QAction::triggered, this, &AnimationWidget::deletePreset);
 
     QMenu *container = new QMenu;
     container->addAction(m_selectType);
     //container->addAction(m_reverseKeyframe);
     container->addAction(savePreset);
+    container->addAction(delPreset);
 
     QToolButton *menuButton = new QToolButton;
     menuButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-menu")));
@@ -276,13 +283,14 @@ void AnimationWidget::rebuildKeyframes()
     // Fetch keyframes
     QVector <int> keyframes;
     QVector <int> types;
-    QVector <int> relativeType;
+    m_keyframeRelatives.clear();
     int frame;
     mlt_keyframe_type type;
     for (int i = 0; i < m_animController.key_count(); i++) {
         if (!m_animController.key_get(i, frame, type)) {
             keyframes << frame;
             types << (int) type;
+            m_keyframeRelatives << 1;
         }
     }
     m_ruler->updateKeyframes(keyframes, types, m_keyframeRelatives);
@@ -445,7 +453,20 @@ void AnimationWidget::slotReverseKeyframeType(bool reverse)
 
 void AnimationWidget::loadPresets()
 {
-    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects/presets/presetsrc";
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/effects/presets/"));
+    while (m_presetCombo->count() > 0) {
+        m_presetCombo->removeItem(0);
+    }
+    m_presetCombo->removeItem(0);
+    QMap <QString, QVariant> defaultEntry;
+    defaultEntry.insert(QStringLiteral("keyframes"), m_xml.attribute(QStringLiteral("default")));
+    m_presetCombo->addItem(i18n("Default"), defaultEntry);
+    loadPreset(dir.absoluteFilePath(m_xml.attribute(QStringLiteral("type"))));
+    loadPreset(dir.absoluteFilePath(m_effectId));
+}
+
+void AnimationWidget::loadPreset(const QString &path)
+{
     KConfig confFile(path, KConfig::SimpleConfig);
     QStringList groups = confFile.groupList();
     foreach(const QString &grp, groups) {
@@ -463,12 +484,7 @@ void AnimationWidget::loadPresets()
 void AnimationWidget::applyPreset(int ix)
 {
     QMap<QString, QVariant> entries = m_presetCombo->itemData(ix).toMap();
-    QMapIterator<QString, QVariant> i(entries);
-    QString keyframes;
-    while (i.hasNext()) {
-        i.next();
-        keyframes = i.value().toString();
-    }
+    QString keyframes = entries.value(QStringLiteral("keyframes")).toString();
     m_animProperties.set("anim", keyframes.toUtf8().constData());
     // Required to initialize anim property
     m_animProperties.anim_get_int("anim", 0);
@@ -479,20 +495,48 @@ void AnimationWidget::applyPreset(int ix)
 
 void AnimationWidget::savePreset()
 {
-    QString fileName = QInputDialog::getText(this, i18n("Save as Preset"), i18n("Preset Name"));
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects/presets/");
+    QDialog d(this);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Save);
+    QVBoxLayout *l = new QVBoxLayout;
+    d.setLayout(l);
+    QLineEdit effectName(&d);
+    effectName.setPlaceholderText(i18n("Enter preset name"));
+    QCheckBox cb(i18n("Save as global preset (available to all effects)"), &d);
+    l->addWidget(&effectName);
+    l->addWidget(&cb);
+    l->addWidget(buttonBox);
+    d.connect(buttonBox, SIGNAL(rejected()), &d, SLOT(reject()));
+    d.connect(buttonBox, SIGNAL(accepted()), &d, SLOT(accept()));
+    if (d.exec() != QDialog::Accepted) {
+        return;
+    }
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/effects/presets/"));
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
-    QString path = dir.absoluteFilePath("presetsrc");
+    QString fileName = cb.isChecked() ? dir.absoluteFilePath(m_xml.attribute(QStringLiteral("type"))) : m_effectId;
     QString currentKeyframes = getAnimation();
-    KConfig confFile(path, KConfig::SimpleConfig);
-    KConfigGroup grp(&confFile, fileName);
-    grp.writeEntry("level", currentKeyframes);
+    KConfig confFile(dir.absoluteFilePath(fileName), KConfig::SimpleConfig);
+    KConfigGroup grp(&confFile, effectName.text());
+    grp.writeEntry("keyframes", currentKeyframes);
     confFile.sync();
-    while (m_presetCombo->count() > 1) {
-        m_presetCombo->removeItem(1);
+    loadPresets();
+}
+
+void AnimationWidget::deletePreset()
+{
+    QString effectName = m_presetCombo->currentText();
+    // try deleting as effect preset first
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/effects/presets/"));
+    KConfig confFile(dir.absoluteFilePath(m_effectId), KConfig::SimpleConfig);
+    KConfigGroup grp(&confFile, effectName);
+    if (grp.exists()) {
+    } else {
+        // try global preset
+        grp = KConfigGroup(&confFile, m_xml.attribute(QStringLiteral("type")));
     }
+    grp.deleteGroup();
+    confFile.sync();
     loadPresets();
 }
 
