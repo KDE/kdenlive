@@ -589,7 +589,7 @@ Mlt::Profile *ClipController::profile()
     return m_binController->profile();
 }
 
-void ClipController::addEffect(const ProfileInfo &pInfo, QDomElement &effect)
+void ClipController::addEffect(const ProfileInfo &pInfo, QDomElement &xml)
 {
     QMutexLocker lock(&m_effectMutex);
     Mlt::Service service = m_masterProducer->parent();
@@ -597,7 +597,7 @@ void ClipController::addEffect(const ProfileInfo &pInfo, QDomElement &effect)
     info.cropStart = GenTime();
     info.cropDuration = getPlaytime();
     EffectsList eff = effectList();
-    EffectsController::initEffect(info, pInfo, eff, property(QStringLiteral("kdenlive:proxy")), effect);
+    EffectsController::initEffect(info, pInfo, eff, property(QStringLiteral("kdenlive:proxy")), xml);
     // Add effect to list and setup a kdenlive_ix value
     int kdenlive_ix = 0;
     for (int i = 0; i < service.filter_count(); ++i) {
@@ -606,18 +606,19 @@ void ClipController::addEffect(const ProfileInfo &pInfo, QDomElement &effect)
         if (ix > kdenlive_ix) kdenlive_ix = ix;
     }
     kdenlive_ix++;
-    effect.setAttribute(QStringLiteral("kdenlive_ix"), kdenlive_ix);
-    EffectsParameterList params = EffectsController::getEffectArgs(pInfo, effect);
+    xml.setAttribute(QStringLiteral("kdenlive_ix"), kdenlive_ix);
+    EffectsParameterList params = EffectsController::getEffectArgs(pInfo, xml);
     Render::addFilterToService(service, params, getPlaytime().frames(m_binController->fps()));
     m_binController->updateTrackProducer(clipId());
 }
 
-void ClipController::removeEffect(int effectIndex)
+void ClipController::removeEffect(int effectIndex, bool delayRefresh)
 {
     QMutexLocker lock(&m_effectMutex);
     Mlt::Service service(m_masterProducer->parent());
     Render::removeFilterFromService(service, effectIndex, true);
-    m_binController->updateTrackProducer(clipId());
+    if (!delayRefresh)
+        m_binController->updateTrackProducer(clipId());
 }
 
 EffectsList ClipController::effectList()
@@ -664,6 +665,14 @@ void ClipController::changeEffectState(const QList <int> indexes, bool disable)
 
 void ClipController::updateEffect(const ProfileInfo &pInfo, const QDomElement &e, int ix)
 {
+    QString tag = e.attribute(QLatin1String("id"));
+    if (tag == QLatin1String("autotrack_rectangle") || tag.startsWith(QLatin1String("ladspa")) || tag == QLatin1String("sox")) {
+        // this filters cannot be edited, remove and re-add it
+        removeEffect(ix, true);
+        QDomElement clone = e.cloneNode().toElement();
+        addEffect(pInfo, clone);
+        return;
+    }
     EffectsParameterList params = EffectsController::getEffectArgs(pInfo, e);
     Mlt::Service service = m_masterProducer->parent();
     for (int i = 0; i < service.filter_count(); ++i) {

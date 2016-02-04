@@ -167,7 +167,7 @@ public:
     bool hasLimitedDuration() const;
     Mlt::Properties &properties();
     void addEffect(const ProfileInfo &pInfo, QDomElement &effect);
-    void removeEffect(int effectIndex);
+    void removeEffect(int effectIndex, bool delayRefresh = false);
     EffectsList effectList();
     /** @brief Enable/disable an effect. */
     void changeEffectState(const QList <int> indexes, bool disable);
