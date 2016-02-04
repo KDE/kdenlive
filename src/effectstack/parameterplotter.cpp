@@ -249,7 +249,7 @@ void ParameterPlotter::mousePressEvent(QMouseEvent * event)
                     newpoints.append(QPointF(pt->x(), pt->y()));
                 }
                 p->clearPoints();
-                foreach(const QPointF &qf, newpoints) {
+                foreach(const QPointF qf, newpoints) {
                     p->addPoint(qf);
                 }
                 replacePlotObject(m_activeIndexPlot, p);

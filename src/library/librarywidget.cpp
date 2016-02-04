@@ -478,7 +478,7 @@ void LibraryWidget::slotItemsDeleted(const KFileItemList &list)
 {
     m_libraryTree->blockSignals(true);
     QMutexLocker lock(&m_treeMutex);
-    foreach(const KFileItem fitem, list) {
+    foreach(const KFileItem &fitem, list) {
         QUrl fileUrl = fitem.url();
         QString path;
         if (fitem.isDir()) {
@@ -533,7 +533,7 @@ void LibraryWidget::slotItemsAdded(const QUrl &url, const KFileItemList &list)
 {
     m_libraryTree->blockSignals(true);
     QMutexLocker lock(&m_treeMutex);
-    foreach(const KFileItem fitem, list) {
+    foreach(const KFileItem &fitem, list) {
         QUrl fileUrl = fitem.url();
         QString name = fileUrl.fileName();
         QTreeWidgetItem *treeItem;

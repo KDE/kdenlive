@@ -2801,7 +2801,7 @@ void MainWindow::buildDynamicActions()
     Mlt::Profile profile;
     Mlt::Filter *filter;
 
-    foreach(const QString stab, QStringList() << "vidstab" << "videostab2" << "videostab") {
+    foreach(const QString &stab, QStringList() << "vidstab" << "videostab2" << "videostab") {
 	filter = Mlt::Factory::filter(profile, (char*)stab.toUtf8().constData());
         if (filter && filter->is_valid()) {
 	    QAction *action = new QAction(i18n("Stabilize") + " (" + stab + ")", m_extraFactory->actionCollection());
