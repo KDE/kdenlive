@@ -69,7 +69,6 @@ private:
     QAction *m_reverseKeyframe;
     QList <QDomElement> m_params;
     QList <DoubleParameterWidget *> m_doubleWidgets;
-    QVector <int> m_keyframeRelatives;
     void parseKeyframes();
     void rebuildKeyframes();
     void updateToolbar();

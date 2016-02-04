@@ -36,7 +36,7 @@ public:
     explicit AnimKeyframeRuler(int min, int max, QWidget *parent = 0);
     int value() const;
     int frameLength;
-    void updateKeyframes(QVector<int> keyframes, QVector<int> types, QVector<int> relativeTypes);
+    void updateKeyframes(QVector<int> keyframes, QVector<int> types);
 
 protected:
     void paintEvent(QPaintEvent * /*e*/);
@@ -53,7 +53,7 @@ private:
     /** @brief Holds the keyframe type (linear, discrete, smooth) for each keyframes. */
     QVector <int> m_keyframeTypes;
     /** @brief Holds the keyframe relativity (relative to start, to end, percent) for each keyframes. */
-    QVector <int> m_keyframeRelatives;
+    //QVector <int> m_keyframeRelatives;
     int m_position;
     int m_size;
     double m_scale;

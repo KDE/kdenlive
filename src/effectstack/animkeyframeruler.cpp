@@ -59,11 +59,10 @@ AnimKeyframeRuler::AnimKeyframeRuler(int min, int max, QWidget *parent) :
     m_keyframe = scheme.foreground(KColorScheme::LinkText).color();
 }
 
-void AnimKeyframeRuler::updateKeyframes(QVector<int> keyframes, QVector<int> types, QVector<int> relativeTypes)
+void AnimKeyframeRuler::updateKeyframes(QVector<int> keyframes, QVector<int> types)
 {
     m_keyframes = keyframes;
     m_keyframeTypes = types;
-    m_keyframeRelatives = relativeTypes;
     update();
 }
 
@@ -249,7 +248,8 @@ void AnimKeyframeRuler::paintEvent(QPaintEvent *e)
                 // active keyframe
                 p.setBrush(m_selected);
             } else {
-                p.setBrush(m_keyframeRelatives.at(i) >= 0 ? palette().text() : Qt::yellow);
+                //p.setBrush(m_keyframeRelatives.at(i) >= 0 ? palette().text() : Qt::yellow);
+		p.setBrush(palette().text());
             }
             int scaledPos = margin + pos * m_scale;
             p.drawLine(scaledPos, headOffset, scaledPos, m_size);
