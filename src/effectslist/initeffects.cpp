@@ -196,7 +196,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     QString defaultWipeLuma;
     fileFilters << QStringLiteral("*.png") << QStringLiteral("*.pgm");
     QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
-    foreach(QString folder, customLumas) {
+    foreach(const QString &folder, customLumas) {
         QDir dir(folder);
         QStringList filesnames = dir.entryList(fileFilters, QDir::Files);
         foreach(const QString & fname, filesnames) {
