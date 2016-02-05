@@ -39,7 +39,7 @@ public:
     const QString statusMessage();
     void processLogInfo();
     static QList <ProjectClip *> filterClips(QList <ProjectClip *>clips);
-    static QMap <ProjectClip *, AbstractClipJob *> prepareJob(Bin *bin, QList <ProjectClip *>clips);
+    static QHash <ProjectClip *, AbstractClipJob *> prepareJob(Bin *bin, QList <ProjectClip *>clips);
 
 private:
     QString m_dest;

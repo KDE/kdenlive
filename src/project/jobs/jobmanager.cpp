@@ -234,7 +234,7 @@ void JobManager::prepareJobs(QList <ProjectClip *>clips, double fps, AbstractCli
         m_bin->doDisplayMessage(i18n("No valid clip to process"), KMessageWidget::Information);
         return;
     }
-    QMap <ProjectClip *, AbstractClipJob *> jobs;
+    QHash <ProjectClip *, AbstractClipJob *> jobs;
     if (jobType == AbstractClipJob::TRANSCODEJOB) {
         jobs = CutClipJob::prepareTranscodeJob(fps, matching, params);
     } else if (jobType == AbstractClipJob::CUTJOB) {
@@ -249,7 +249,7 @@ void JobManager::prepareJobs(QList <ProjectClip *>clips, double fps, AbstractCli
         jobs = ProxyJob::prepareJob(m_bin, matching);
     }
     if (!jobs.isEmpty()) {
-        QMapIterator<ProjectClip *, AbstractClipJob *> i(jobs);
+        QHashIterator<ProjectClip *, AbstractClipJob *> i(jobs);
         while (i.hasNext()) {
             i.next();
             launchJob(i.key(), i.value(), false);

@@ -270,9 +270,9 @@ QList <ProjectClip *> ProxyJob::filterClips(QList <ProjectClip *>clips)
 }
 
 // static
-QMap <ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, QList <ProjectClip *>clips)
+QHash <ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, QList <ProjectClip *>clips)
 {
-    QMap <ProjectClip *, AbstractClipJob *> jobs;
+    QHash <ProjectClip *, AbstractClipJob *> jobs;
     QSize renderSize = bin->getRenderSize();
     QString params = bin->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
     for (int i = 0; i < clips.count(); i++) {

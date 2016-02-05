@@ -22,7 +22,7 @@
 #define FILTERJOB
 
 #include <QList>
-#include <QMap>
+#include <QHash>
 #include <QStringList>
 
 class ProjectClip;
@@ -33,7 +33,7 @@ class FilterJob
 
 public:
     static QList <ProjectClip *> filterClips(QList <ProjectClip *>clips, const QStringList &params);
-    static QMap <ProjectClip *, AbstractClipJob *> prepareJob(QList <ProjectClip*> clips, QStringList parameters);
+    static QHash <ProjectClip *, AbstractClipJob *> prepareJob(QList <ProjectClip*> clips, QStringList parameters);
 };
 
 #endif

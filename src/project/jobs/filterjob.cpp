@@ -57,9 +57,9 @@ QList <ProjectClip *> FilterJob::filterClips(QList <ProjectClip *>clips, const Q
     return result;
 }
 
-QMap <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectClip*> clips, QStringList parameters)
+QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectClip*> clips, QStringList parameters)
 {
-    QMap <ProjectClip *, AbstractClipJob *> jobs;
+    QHash <ProjectClip *, AbstractClipJob *> jobs;
     QStringList sources;
     for (int i = 0; i < clips.count(); i++) {
         sources << clips.at(i)->url().toLocalFile();
