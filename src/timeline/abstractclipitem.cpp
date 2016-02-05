@@ -38,26 +38,60 @@ AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF& rect, dou
         QObject()
         , QGraphicsRectItem(rect)
         , m_info(info)
-        , m_editedKeyframe(-1)
-        , m_selectedKeyframe(0)
-        , m_keyframeType(KEYFRAMETYPE::NoKeyframe)
-        , m_keyframeDefault(0)
-        , m_keyframeMin(0)
-        , m_keyframeMax(1)
-        , m_keyframeFactor(1)
         , m_visibleParam(0)
         , m_fps(fps)
         , m_isMainSelectedClip(false)
+	, m_keyframeView(QFontInfo(QApplication::font()).pixelSize() * 0.7, this)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption, true);
     setPen(Qt::NoPen);
-    m_handleSize = QFontInfo(QApplication::font()).pixelSize() * 0.7;
+    connect(&m_keyframeView, SIGNAL(updateKeyframes(const QRectF&)), this, SLOT(doUpdate(const QRectF&)));
 }
 
 AbstractClipItem::~AbstractClipItem()
 {
+}
+
+void AbstractClipItem::doUpdate(const QRectF &r)
+{
+    update(r);
+}
+
+void AbstractClipItem::updateKeyFramePos(int frame, const double y)
+{
+    m_keyframeView.updateKeyFramePos(rect(), frame, y);
+}
+
+int AbstractClipItem::editedKeyFramePos() const
+{
+    return m_keyframeView.editedKeyFramePos();
+}
+
+int AbstractClipItem::selectedKeyFramePos() const
+{
+    return m_keyframeView.selectedKeyFramePos();
+}
+
+void AbstractClipItem::updateSelectedKeyFrame()
+{
+    m_keyframeView.updateSelectedKeyFrame(rect());
+}
+
+int AbstractClipItem::keyframesCount()
+{
+    return m_keyframeView.keyframesCount();
+}
+
+double AbstractClipItem::editedKeyFrameValue()
+{
+    return m_keyframeView.editedKeyFrameValue();
+}
+
+double AbstractClipItem::getKeyFrameClipHeight(const double y)
+{
+    return m_keyframeView.getKeyFrameClipHeight(rect(), y);
 }
 
 void AbstractClipItem::closeAnimation()
@@ -225,209 +259,6 @@ void AbstractClipItem::updateFps(double fps)
 GenTime AbstractClipItem::maxDuration() const
 {
     return m_maxDuration;
-}
-
-double AbstractClipItem::keyframeUnmap(double y) {
-    QRectF br = rect();
-    return ((br.bottom() - y) / br.height() * (m_keyframeMax - m_keyframeMin) + m_keyframeMin) / m_keyframeFactor;
-}
-
-double AbstractClipItem::keyframeMap(double value) {
-    QRectF br = rect();
-    return br.bottom() - br.height() * (value * m_keyframeFactor - m_keyframeMin) / (m_keyframeMax - m_keyframeMin);
-}
-
-QPointF AbstractClipItem::keyframeMap(int frame, double value) {
-    QRectF br = rect();
-    return QPointF(br.x() + br.width() * (frame - cropStart().frames(m_fps)) / cropDuration().frames(m_fps),
-                   br.bottom() - br.height() * (value * m_keyframeFactor - m_keyframeMin) / (m_keyframeMax - m_keyframeMin));
-}
-
-QPointF AbstractClipItem::keyframePoint(int index) {
-    int frame = m_keyAnim.key_get_frame(index);
-    return keyframeMap(frame, m_keyProperties.anim_get_double("keyframes", frame));
-}
-
-void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transformation)
-{
-    if (m_keyframeType == NoKeyframe || m_keyAnim.key_count() < 1)
-        return;
-    painter->save();
-    bool active = isSelected() || (parentItem() && parentItem()->isSelected());
-    QRectF br = rect();
-    QPointF h(m_handleSize, m_handleSize);
-
-    // draw keyframes
-    // Special case: Geometry keyframes are just vertical lines
-    if (m_keyframeType == GeometryKeyframe) {
-        for(int i = 0; i < m_keyAnim.key_count(); ++i) {
-            int key = m_keyAnim.key_get_frame(i);
-            QColor color = (key == m_editedKeyframe) ? QColor(Qt::red) : QColor(Qt::blue);
-            if (active)
-                painter->setPen(color);
-            QPointF k = keyframePoint(i);
-            painter->drawLine(transformation.map(QLineF(k.x(), br.top(), k.x(), br.height())));
-            if (active) {
-                k.setY(br.top() + br.height()/2);
-                painter->setBrush((m_keyAnim.key_get_frame(i) == m_editedKeyframe) ? QColor(Qt::red) : QColor(Qt::blue));
-                painter->drawEllipse(QRectF(transformation.map(k) - h/2, transformation.map(k) + h/2));
-            }
-        }
-        painter->restore();
-        return;
-    }
-
-    // draw line showing default value
-    if (active) {
-        QColor col(Qt::black);
-        col.setAlpha(140);
-        painter->fillRect(QRectF(transformation.map(br.topLeft()), transformation.map(br.bottomRight())), col);
-        double y = keyframeMap(m_keyframeDefault);
-        QLineF line = transformation.map(QLineF(br.x(), y, br.right(), y));
-        painter->setPen(QColor(168, 168, 168, 180));
-        painter->drawLine(line);
-        painter->setPen(QColor(108, 108, 108, 180));
-        painter->drawLine(line.translated(0, 1));
-        painter->setPen(QColor(Qt::white));
-        painter->setRenderHint(QPainter::Antialiasing);
-    }
-
-    QPointF start = keyframePoint(0);
-    QPainterPath path;
-    path.moveTo(br.x(), br.bottom());
-    path.lineTo(br.x(), start.y());
-    path.lineTo(start);
-    for(int i = 0; i < m_keyAnim.key_count(); ++i) {
-        if (active) {
-            painter->setBrush((m_keyAnim.key_get_frame(i) == m_editedKeyframe) ? QColor(Qt::red) : QColor(Qt::blue));
-            painter->drawEllipse(QRectF(transformation.map(start) - h/2, transformation.map(start) + h / 2));
-        }
-        if (i + 1 < m_keyAnim.key_count()) {
-            QPointF end = keyframePoint(i + 1);
-            switch (m_keyAnim.key_get_type(i)) {
-                case mlt_keyframe_discrete:
-                    path.lineTo(end.x(), start.y());
-                    path.lineTo(end);
-                    break;
-                case mlt_keyframe_linear:
-                    path.lineTo(end);
-                    break;
-                case mlt_keyframe_smooth:
-                    QPointF pre = keyframePoint(qMax(i - 1, 0));
-                    QPointF post = keyframePoint(qMin(i + 2, m_keyAnim.key_count() - 1));
-                    QPointF c1 = (end - pre) / 6.0; // + start
-                    QPointF c2 = (start - post) / 6.0; // + end
-                    double mid = (end.x() - start.x()) / 2;
-                    if (c1.x() >  mid) c1 = c1 * mid / c1.x(); // scale down tangent vector to not go beyond middle
-                    if (c2.x() < -mid) c2 = c2 * -mid / c2.x();
-                    path.cubicTo(start + c1, end + c2, end);
-                    break;
-            }
-            start = end;
-        } else {
-            path.lineTo(br.right(), start.y());
-        }
-    }
-    path.lineTo(br.right(), br.bottom());
-    QColor col(Qt::white);//QApplication::palette().highlight().color());
-    col.setAlpha(active ? 120 : 80);
-    painter->setBrush(col);
-    painter->drawPath(transformation.map(path));
-    painter->restore();
-}
-
-int AbstractClipItem::mouseOverKeyFrames(QPointF pos, double maxOffset, double scale)
-{
-    pos.setX(pos.x()*scale);
-    for(int i = 0; i < m_keyAnim.key_count(); ++i) {
-        int key = m_keyAnim.key_get_frame(i);
-        double value = m_keyProperties.anim_get_double("keyframes", key);
-        QPointF p = keyframeMap(key, value);
-        p.setX(p.x()*scale);
-        if (m_keyframeType == GeometryKeyframe)
-            p.setY(rect().bottom() - rect().height() / 2);
-        if ((pos - p).manhattanLength() < maxOffset) {
-            setToolTip('[' + QString::number((GenTime(key, m_fps) - cropStart()).seconds(), 'f', 2)
-                       + i18n("seconds") + ", " + QString::number(value, 'f', 1) + ']');
-            return key;
-        } else if (p.x() > pos.x() + maxOffset) {
-            break;
-        }
-    }
-    setToolTip(QString());
-    return -1;
-}
-
-void AbstractClipItem::updateSelectedKeyFrame()
-{
-    if (m_editedKeyframe == -1)
-        return;
-    QPointF h(12, 12);
-    QPointF p = keyframeMap(m_selectedKeyframe, m_keyProperties.anim_get_double("keyframes", m_selectedKeyframe));
-    update(QRectF(p - h/2, p + h/2));
-    m_selectedKeyframe = m_editedKeyframe;
-    p = keyframeMap(m_selectedKeyframe, m_keyProperties.anim_get_double("keyframes", m_selectedKeyframe));
-    update(QRectF(p - h/2, p + h/2));
-}
-
-int AbstractClipItem::editedKeyFramePos() const
-{
-    return m_editedKeyframe;
-}
-
-double AbstractClipItem::editedKeyFrameValue()
-{
-    return m_keyProperties.anim_get_double("keyframes", m_editedKeyframe);
-}
-
-int AbstractClipItem::selectedKeyFramePos() const
-{
-    return m_selectedKeyframe;
-}
-
-void AbstractClipItem::updateKeyFramePos(int frame, const double y)
-{
-    if (!m_keyProperties.get_anim("keyframes")->is_key(m_editedKeyframe))
-        return;
-    int prev = m_keyAnim.key_count() <= 1 || m_keyAnim.key_get_frame(0) == m_editedKeyframe ? frame : m_keyAnim.previous_key(m_editedKeyframe - 1);
-    int next = m_keyAnim.next_key(m_editedKeyframe + 1) - 1;
-    if (next <= 0) next = m_editedKeyframe;
-    int newpos = qBound(prev, frame, next);
-    double newval = keyframeUnmap(y);
-    m_keyProperties.anim_set("keyframes", newval, newpos, 0, m_keyAnim.keyframe_type(m_editedKeyframe));
-    if (m_editedKeyframe != newpos)
-        m_keyAnim.remove(m_editedKeyframe);
-    m_editedKeyframe = newpos;
-    update();
-}
-
-int AbstractClipItem::keyFrameNumber()
-{
-    return m_keyAnim.key_count();
-}
-
-int AbstractClipItem::checkForSingleKeyframe()
-{
-    // Check if we have only one keyframe
-    int start = cropStart().frames(m_fps);
-    if (m_keyAnim.key_count() == 1 && m_keyAnim.is_key(start)) {
-        double value = m_keyProperties.anim_get_double("keyframes", start);
-        // Add keyframe at end of clip to allow inserting a new keframe in between
-        int prevPos = m_keyAnim.previous_key(cropDuration().frames(m_fps));
-        m_keyProperties.anim_set("keyframes", value, cropDuration().frames(m_fps), 0, m_keyAnim.keyframe_type(prevPos));
-        return value;
-    }
-    return -1;
-}
-
-double AbstractClipItem::getKeyFrameClipHeight(const double y)
-{
-    return keyframeUnmap(y);
-}
-
-bool AbstractClipItem::hasKeyFrames()
-{
-    return m_keyAnim.key_count() > 0;
 }
 
 CustomTrackScene* AbstractClipItem::projectScene()

@@ -10,6 +10,7 @@ set(kdenlive_SRCS
   timeline/customtrackview.cpp
   timeline/guide.cpp
   timeline/headertrack.cpp
+  timeline/keyframeview.cpp
   timeline/markerdialog.cpp
   timeline/spacerdialog.cpp
   timeline/timeline.cpp

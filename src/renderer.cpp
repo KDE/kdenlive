@@ -1531,7 +1531,6 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
     QString kfr = params.paramValue(QStringLiteral("keyframes"));
     if (!kfr.isEmpty()) {
         QStringList keyFrames = kfr.split(';', QString::SkipEmptyParts);
-        ////qDebug() << "// ADDING KEYFRAME EFFECT: " << params.paramValue("keyframes");
         char *starttag = qstrdup(params.paramValue(QStringLiteral("starttag"), QStringLiteral("start")).toUtf8().constData());
         char *endtag = qstrdup(params.paramValue(QStringLiteral("endtag"), QStringLiteral("end")).toUtf8().constData());
         ////qDebug() << "// ADDING KEYFRAME TAGS: " << starttag << ", " << endtag;
@@ -1613,13 +1612,12 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
         params.removeParam(QStringLiteral("kdenlive_id"));
         if (params.hasParam(QStringLiteral("_sync_in_out"))) {
             // This effect must sync in / out with parent clip
-            params.removeParam(QStringLiteral("_sync_in_out"));
+            //params.removeParam(QStringLiteral("_sync_in_out"));
             filter->set_in_and_out(service.get_int("in"), service.get_int("out"));
         }
 
         for (int j = 0; j < params.count(); ++j) {
             filter->set((prefix + params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
-            //qDebug()<<" / / SET PARAM: "<<params.at(j).name()<<" = "<<params.at(j).value();
         }
 
         if (tag == QLatin1String("sox")) {

@@ -18,9 +18,10 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef ABSTRACTCLIPITEM
-#define ABSTRACTCLIPITEM
+#ifndef ABSTRACTCLIPITEM_H
+#define ABSTRACTCLIPITEM_H
 
+#include "keyframeview.h"
 #include "definitions.h"
 #include "gentime.h"
 
@@ -42,30 +43,9 @@ class AbstractClipItem : public QObject, public QGraphicsRectItem
 
 public:
 
-    enum KEYFRAMETYPE {
-        NoKeyframe = 0,
-        SimpleKeyframe,
-        NormalKeyframe,
-        GeometryKeyframe,
-        AnimatedKeyframe
-    };
 
     AbstractClipItem(const ItemInfo &info, const QRectF& rect, double fps);
     virtual ~ AbstractClipItem();
-    void updateSelectedKeyFrame();
-
-    /** @brief Move the selected keyframe (does not influence the effect, only the display in timeline).
-    * @param pos new Position
-    * @param value new Value */
-    void updateKeyFramePos(int frame, const double y);
-    int checkForSingleKeyframe();
-    double getKeyFrameClipHeight(const double y);
-    bool hasKeyFrames();
-    int editedKeyFramePos() const;
-    int selectedKeyFramePos() const;
-    double editedKeyFrameValue();
-    /** @brief Returns the number of keyframes the selected effect has. */
-    int keyFrameNumber();
     ItemInfo info() const;
     CustomTrackScene* projectScene();
     void updateRectGeometry();
@@ -90,6 +70,13 @@ public:
     * @param posx Absolute position of new in point
     * @param hasSizeLimit (optional) Whether the clip has a maximum size */
     virtual void resizeStart(int posx, bool hasSizeLimit = true, bool emitChange = true);
+    void updateKeyFramePos(int frame, const double y);
+    int editedKeyFramePos() const;
+    int selectedKeyFramePos() const;
+    void updateSelectedKeyFrame();
+    int keyframesCount();
+    double editedKeyFrameValue();
+    double getKeyFrameClipHeight(const double y);
 
     /** @brief Resizes the clip from the end.
     * @param posx Absolute position of new out point */
@@ -104,37 +91,18 @@ public:
     /** @brief Is this clip selected as the main clip. */
     bool isMainSelectedClip();
     
+private slots:
+    void doUpdate(const QRectF &r);
+    
 protected:
     ItemInfo m_info;
-    /** The position of the current keyframe when it has moved */
-    int m_editedKeyframe;
-    /** The position of the current keyframe before it was moved */
-    int m_selectedKeyframe;
-    /*    GenTime m_cropStart;
-        GenTime m_cropDuration;
-        GenTime m_startPos;*/
     GenTime m_maxDuration;
-    KEYFRAMETYPE m_keyframeType;
-    Mlt::Properties m_keyProperties;
-    Mlt::Animation m_keyAnim;
-    double m_keyframeDefault;
-    double m_keyframeMin;
-    double m_keyframeMax;
-    double m_keyframeFactor;
-    int m_handleSize;
     int m_visibleParam;
     double m_fps;
     /** @brief True if this is the last clip the user selected */
     bool m_isMainSelectedClip;
-    /** @brief Draw the keyframes of a clip
-      * @param painter The painter device for the clip
-      */
-    double keyframeUnmap(double y);
-    double keyframeMap(double value);
-    QPointF keyframeMap(int frame, double value);
-    QPointF keyframePoint(int index);
-    void drawKeyFrames(QPainter *painter, const QTransform &transformation);
-    int mouseOverKeyFrames(QPointF pos, double maxOffset, double scale);
+    KeyframeView m_keyframeView;
+
     void mousePressEvent(QGraphicsSceneMouseEvent * event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent * event);

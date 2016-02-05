@@ -178,25 +178,25 @@ void AnimationWidget::updateTimecodeFormat()
 
 void AnimationWidget::slotPrevious()
 {
-    int previous = qMax(m_inPoint, m_animController.previous_key(m_timePos->getValue() + m_inPoint - 1));
-    slotPositionChanged(previous - m_inPoint, true);
+    int previous = qMax(0, m_animController.previous_key(m_timePos->getValue() - 1));
+    slotPositionChanged(previous, true);
 }
 
 void AnimationWidget::slotNext()
 {
-    int next = m_animController.next_key(m_timePos->getValue() + m_inPoint + 1);
+    int next = m_animController.next_key(m_timePos->getValue() + 1);
     if (next == 1 && m_timePos->getValue() != 0) {
         // No keyframe after current pos, return end position
-        next = m_timePos->maximum() + m_inPoint;
+        next = m_timePos->maximum();
     }
-    slotPositionChanged(next - m_inPoint, true);
+    slotPositionChanged(next, true);
 }
 
 void AnimationWidget::slotAddKeyframe(int pos)
 {
-    double val = m_animProperties.anim_get_double("anim", pos, m_timePos->maximum() + m_inPoint);
+    double val = m_animProperties.anim_get_double("anim", pos, m_timePos->maximum());
     // Add current keyframe type
-    m_animProperties.anim_set("anim", val, pos, m_timePos->maximum() + m_inPoint, (mlt_keyframe_type) m_selectType->currentAction()->data().toInt());
+    m_animProperties.anim_set("anim", val, pos, m_timePos->maximum(), (mlt_keyframe_type) m_selectType->currentAction()->data().toInt());
     rebuildKeyframes();
     m_selectType->setEnabled(true);
     m_addKeyframe->setActive(true);
@@ -218,7 +218,7 @@ void AnimationWidget::slotDeleteKeyframe(int pos)
 
 void AnimationWidget::slotAddDeleteKeyframe(bool add)
 {
-    int pos = m_timePos->getValue() + m_inPoint;
+    int pos = m_timePos->getValue();
     if (!add) {
         // Delete keyframe at current pos
         if (m_animController.is_key(pos)) {
@@ -245,13 +245,10 @@ void AnimationWidget::moveKeyframe(int index, int oldPos, int newPos)
 {
     bool isKey;
     mlt_keyframe_type type;
-    
-    oldPos += m_inPoint;
-    newPos += m_inPoint;
     if (!m_animController.get_item(oldPos, isKey, type)) {
-        double val = m_animProperties.anim_get_double("anim", oldPos, m_timePos->maximum() + m_inPoint);
+        double val = m_animProperties.anim_get_double("anim", oldPos, m_timePos->maximum());
 	m_animController.remove(oldPos);
-        m_animProperties.anim_set("anim", val, newPos, m_timePos->maximum() + m_inPoint, type);
+        m_animProperties.anim_set("anim", val, newPos, m_timePos->maximum(), type);
         rebuildKeyframes();
         updateToolbar();
         emit parameterChanged();
@@ -269,8 +266,8 @@ void AnimationWidget::rebuildKeyframes()
     mlt_keyframe_type type;
     for (int i = 0; i < m_animController.key_count(); i++) {
         if (!m_animController.key_get(i, frame, type)) {
-            if (frame >= m_inPoint) {
-		  keyframes << frame - m_inPoint;
+            if (frame >= 0) {
+		  keyframes << frame;
 		  types << (int) type;
 	    }
         }
@@ -280,8 +277,8 @@ void AnimationWidget::rebuildKeyframes()
 
 void AnimationWidget::updateToolbar()
 {
-    int pos = m_timePos->getValue() + m_inPoint;
-    double val = m_animProperties.anim_get_double("anim", pos, m_timePos->maximum() + m_inPoint);
+    int pos = m_timePos->getValue();
+    double val = m_animProperties.anim_get_double("anim", pos, m_timePos->maximum());
     //TODO: manage several params
     DoubleParameterWidget *slider = m_doubleWidgets.at(0);
     slider->setValue(val * m_factor);
@@ -313,17 +310,18 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
     m_ruler->setValue(pos);
     //TODO: manage several params
     DoubleParameterWidget *slider = m_doubleWidgets.at(0);
-    if (!m_animController.is_key(pos + m_inPoint)) {
+    if (!m_animController.is_key(pos)) {
         // no keyframe
-        if (m_animController.key_count() == 1) {
+        if (m_animController.key_count() <= 1) {
             // Special case: only one keyframe, allow adjusting whatever the position is
             m_monitor->setEffectKeyframe(true);
+	    slider->setEnabled(true);
         } else {
             m_monitor->setEffectKeyframe(false);
+	    slider->setEnabled(false);
         }
         m_selectType->setEnabled(false);
         m_addKeyframe->setActive(false);
-        slider->setEnabled(false);
     } else {
         // keyframe
         m_monitor->setEffectKeyframe(true);
@@ -331,14 +329,14 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
         m_selectType->setEnabled(true);
         QList<QAction *> types = m_selectType->actions();
         for (int i = 0; i < types.count(); i++) {
-            if (types.at(i)->data().toInt() == (int) m_animController.keyframe_type(pos + m_inPoint)) {
+            if (types.at(i)->data().toInt() == (int) m_animController.keyframe_type(pos)) {
                 m_selectType->setCurrentAction(types.at(i));
                 break;
             }
         }
         slider->setEnabled(true);
     }
-    double val = m_animProperties.anim_get_double("anim", pos + m_inPoint, m_timePos->maximum() + m_inPoint);
+    double val = m_animProperties.anim_get_double("anim", pos, m_timePos->maximum());
     slider->setValue(val * m_factor);
     if (seek)
         emit seekToPos(pos);
@@ -346,11 +344,11 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
 
 void AnimationWidget::slotEditKeyframeType(QAction *action)
 {
-    int pos = m_timePos->getValue() + m_inPoint;
+    int pos = m_timePos->getValue();
     if (m_animController.is_key(pos)) {
         // This is a keyframe
-        double val = m_animProperties.anim_get_double("anim", pos, m_timePos->maximum() + m_inPoint);
-        m_animProperties.anim_set("anim", val, pos, m_timePos->maximum() + m_inPoint, (mlt_keyframe_type) action->data().toInt());
+        double val = m_animProperties.anim_get_double("anim", pos, m_timePos->maximum());
+        m_animProperties.anim_set("anim", val, pos, m_timePos->maximum(), (mlt_keyframe_type) action->data().toInt());
         rebuildKeyframes();
         emit parameterChanged();
     }
@@ -388,12 +386,18 @@ void AnimationWidget::addParameter(const QDomElement &e, int activeKeyframe)
 
 void AnimationWidget::slotAdjustKeyframeValue(double value)
 {
-    int pos = m_timePos->getValue() + m_inPoint;
+    int pos = m_timePos->getValue();
     if (m_animController.is_key(pos)) {
         // This is a keyframe
-        m_animProperties.anim_set("anim", value / m_factor, pos, m_timePos->maximum() + m_inPoint, (mlt_keyframe_type) m_selectType->currentAction()->data().toInt());
+        m_animProperties.anim_set("anim", value / m_factor, pos, m_timePos->maximum(), (mlt_keyframe_type) m_selectType->currentAction()->data().toInt());
+	emit parameterChanged();
+    } else if (m_animController.key_count() <= 1) {
+	  pos = m_animController.key_get_frame(0);
+	  if (pos >= 0) {
+	      m_animProperties.anim_set("anim", value / m_factor, pos, m_timePos->maximum(), (mlt_keyframe_type) m_selectType->currentAction()->data().toInt());
+	      emit parameterChanged();
+	  }
     }
-    emit parameterChanged();
 }
 
 QString AnimationWidget::getAnimation()
@@ -414,7 +418,7 @@ QString AnimationWidget::getAnimation()
 
 void AnimationWidget::slotReverseKeyframeType(bool reverse)
 {
-    int pos = m_timePos->getValue() + m_inPoint;
+    int pos = m_timePos->getValue();
     /*if (m_animController.is_key(pos)) {
         for (int i = 0; i < m_animController.key_count(); i++) {
             if (m_animController.key_get_frame(i) == pos) {

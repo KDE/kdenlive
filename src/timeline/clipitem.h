@@ -144,6 +144,7 @@ public:
     /** @brief Adjust all geometry keyframes.
     * @param index Index of the effect */
     void resizeGeometries(const int index, int width, int height, int previousDuration, int start, int duration);
+    QString resizeAnimations(const int index, int width, int height, int previousDuration, int start, int duration);
 
     /** @brief Sets params with keyframes and updates the visible keyframes.
     * @param ix Number of the effect
@@ -168,12 +169,11 @@ public:
     void setState(PlaylistState::ClipState state);
     void updateState(const QString &id);
 
-    void insertKeyframe(QDomElement effect, int pos, double val);
+    void insertKeyframe(QDomElement effect, int pos, double val, bool defaultValue = false);
     void movedKeyframe(QDomElement effect, int oldpos, int newpos, double value);
     void updateKeyframes(QDomElement effect);
     void updateGeometryKeyframes(QDomElement effect, int paramIndex, int width, int height, ItemInfo oldInfo);
     bool updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo);
-    void updateAnimatedKeyframes(QDomElement parameter, int paramIndex, ItemInfo oldInfo);
 
     /** @brief Adjusts effects after a clip duration change. */
     QMap<int, QDomElement> adjustEffectsToDuration(int width, int height, const ItemInfo &oldInfo);
@@ -239,7 +239,6 @@ private:
     double m_framePixelWidth;
     QPixmap m_videoPix;
     QPixmap m_audioPix;
-    bool parseKeyframes(const QLocale locale, QDomElement e);
 
 private slots:
     void slotGetStartThumb();

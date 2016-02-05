@@ -630,9 +630,9 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             } else if (m_moveOpMode == FadeOut) {
                 static_cast<ClipItem*>(m_dragItem)->setFadeOut(static_cast<int>(m_dragItem->endPos().frames(m_document->fps()) - mappedXPos));
             } else if (m_moveOpMode == KeyFrame) {
-                GenTime keyFramePos = GenTime(mappedXPos, m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
-                double pos = m_dragItem->mapFromScene(mapToScene(event->pos()).toPoint()).y();
-                m_dragItem->updateKeyFramePos(keyFramePos.frames(fps()), pos);
+                GenTime keyFramePos = GenTime(mappedXPos, m_document->fps()) - m_dragItem->startPos();
+                double value = m_dragItem->mapFromScene(mapToScene(event->pos()).toPoint()).y();
+                m_dragItem->updateKeyFramePos(keyFramePos.frames(fps()), value);
                 QString position = m_document->timecode().getDisplayTimecodeFromFrames(m_dragItem->editedKeyFramePos(), KdenliveSettings::frametimecode());
                 emit displayMessage(position + " : " + QString::number(m_dragItem->editedKeyFrameValue()), InformationMessage);
             }
@@ -1581,15 +1581,15 @@ void CustomTrackView::groupSelectedItems(QList <QGraphicsItem *> selection, bool
 
 void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    if (m_dragItem && m_dragItem->hasKeyFrames()) {
+    if (m_dragItem && m_dragItem->keyframesCount() > 0) {
         // add keyframe
-        GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x()), m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
-        int single = m_dragItem->checkForSingleKeyframe();
+        GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x()), m_document->fps()) - m_dragItem->startPos();// + m_dragItem->cropStart();
+        int single = m_dragItem->keyframesCount();
         double val = m_dragItem->getKeyFrameClipHeight(mapToScene(event->pos()).y() - m_dragItem->scenePos().y());
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
         QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
-        if (single > -1) {
-            item->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), (item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1, single);
+        if (single == 1) {
+            item->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), (item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1, -1, true);
         }
         //QString previous = item->keyframes(item->selectedEffectIndex());
         item->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), keyFramePos.frames(m_document->fps()), val);
@@ -4456,7 +4456,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         int start = item->cropStart().frames(m_document->fps());
         int end = (item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1;
 
-        if ((val < -50 || val > 150) && item->editedKeyFramePos() != start && item->editedKeyFramePos() != end && item->keyFrameNumber() > 1) {
+        if ((val < -50 || val > 150) && item->editedKeyFramePos() != start && item->editedKeyFramePos() != end && item->keyframesCount() > 1) {
             //delete keyframe
             item->movedKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), item->selectedKeyFramePos(), -1, 0);
         } else {
@@ -6398,8 +6398,8 @@ void CustomTrackView::adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime
             QString adjusted = EffectsController::adjustKeyframes(e.attribute(QStringLiteral("keyframes")), oldstart.frames(m_document->fps()), newstart.frames(m_document->fps()), (newstart + duration).frames(m_document->fps()) - 1, m_document->getProfileInfo());
             e.setAttribute(QStringLiteral("keyframes"), adjusted);
         } else if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
-            QString adjusted = EffectsController::adjustKeyframes(e.attribute(QStringLiteral("value")), oldstart.frames(m_document->fps()), newstart.frames(m_document->fps()), (newstart + duration).frames(m_document->fps()) - 1, m_document->getProfileInfo());
-            e.setAttribute(QStringLiteral("value"), adjusted);
+	    QString resizedAnim = KeyframeView::cutAnimation(e.attribute(QStringLiteral("value")), 0,  duration.frames(m_document->fps()));
+            e.setAttribute(QStringLiteral("value"), resizedAnim);
         }
     }
 }

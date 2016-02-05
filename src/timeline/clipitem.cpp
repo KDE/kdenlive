@@ -205,15 +205,16 @@ bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int c
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     int effectsCount = m_effectList.count();
-    if (effectsCount == 0 && m_keyframeType != NoKeyframe) {
+    if (effectsCount == 0) {
         // reset keyframes
-        m_keyframeType = NoKeyframe;
-        update();
+	m_keyframeView.reset();
     }
     // go through all effects this clip has
     for (int ix = 0; ix < effectsCount; ++ix) {
         // Check geometry params
         resizeGeometries(ix, width, height, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1);
+        QString newAnimation = resizeAnimations(ix, width, height, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1);
+	if (!newAnimation.isEmpty()) setKeyframes(ix, newAnimation.split(';', QString::SkipEmptyParts));
 
         // Check keyframe params
         QStringList keyframeParams = keyframes(ix);
@@ -300,7 +301,7 @@ void ClipItem::setKeyframes(const int ix, const QStringList &keyframes)
             e.setAttribute(QStringLiteral("keyframes"), keyframes.at(keyframeParams));
             if (ix + 1 == m_selectedEffect && keyframeParams == 0) {
                 m_visibleParam = i;
-                parseKeyframes(locale, e);
+                m_keyframeView.loadKeyframes(locale, e, cropDuration().frames(m_fps));
                 update();
             }
             ++keyframeParams;
@@ -315,7 +316,7 @@ void ClipItem::setSelectedEffect(const int ix)
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     QDomElement effect = effectAtIndex(m_selectedEffect);
     bool refreshClip = false;
-    m_keyframeType = NoKeyframe;
+    m_keyframeView.reset();
     if (!effect.isNull() && effect.attribute(QStringLiteral("disable")) != QLatin1String("1")) {
         QString effectId = effect.attribute("id");
 
@@ -365,7 +366,7 @@ void ClipItem::setSelectedEffect(const int ix)
         for (int i = 0; i < params.count(); ++i) {
             QDomElement e = params.item(i).toElement();
             if (e.isNull()) continue;
-            if (parseKeyframes(locale, e)) {
+            if (m_keyframeView.loadKeyframes(locale, e, cropDuration().frames(m_fps))) {
                 m_visibleParam = i;
                 update();
                 return;
@@ -394,6 +395,28 @@ void ClipItem::resizeGeometries(const int index, int width, int height, int prev
     }
 }
 
+QString ClipItem::resizeAnimations(const int index, int width, int height, int previousDuration, int start, int duration)
+{
+    QString animation;
+    QString keyframes;
+    QDomElement effect = m_effectList.at(index);
+    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
+    for (int i = 0; i < params.count(); ++i) {
+        QDomElement e = params.item(i).toElement();
+        if (!e.isNull() && e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
+            animation = e.attribute(QStringLiteral("value"));
+	    QString result = KeyframeView::cutAnimation(animation, start, duration);
+	    // TODO: in case of multiple animated params, use _intimeline to detect active one
+	    keyframes = result;
+            e.setAttribute(QStringLiteral("value"), result);
+	    effect.setAttribute(QStringLiteral("in"), QString::number(start));
+	    effect.setAttribute(QStringLiteral("out"), QString::number(start + duration));
+	}
+    }
+    return keyframes;
+}
+
+
 QStringList ClipItem::keyframes(const int index)
 {
     QStringList result;
@@ -406,8 +429,8 @@ QStringList ClipItem::keyframes(const int index)
         if (   e.attribute(QStringLiteral("type")) == QLatin1String("keyframe")
             || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe"))
             result.append(e.attribute(QStringLiteral("keyframes")));
-        else if (e.attribute(QStringLiteral("type")) == QLatin1String("animated"))
-            result.append(e.attribute(QStringLiteral("value")));
+        /*else if (e.attribute(QStringLiteral("type")) == QLatin1String("animated"))
+            result.append(e.attribute(QStringLiteral("value")));*/
     }
     return result;
 }
@@ -954,7 +977,7 @@ void ClipItem::paint(QPainter *painter,
 
         painter->setPen(QPen(Qt::lightGray));
         // draw effect or transition keyframes
-        drawKeyFrames(painter, transformation);
+        m_keyframeView.drawKeyFrames(rect(), m_info.cropDuration.frames(m_fps), isSelected() || (parentItem() && parentItem()->isSelected()),  painter, transformation);
     }
     // draw clip border
     // expand clip rect to allow correct painting of clip border
@@ -988,9 +1011,8 @@ OperationType ClipItem::operationMode(const QPointF &pos)
     const double scale = projectScene()->scale().x();
     double maximumOffset = 6;
     if (isSelected() || (parentItem() && parentItem()->isSelected())) {
-        int kf = mouseOverKeyFrames(pos, maximumOffset, scale);
+        int kf = m_keyframeView.mouseOverKeyFrames(rect(), pos, maximumOffset, scale);
         if (kf != -1) {
-            m_editedKeyframe = kf;
             return KeyFrame;
         }
     }
@@ -1475,6 +1497,8 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
             }
             else if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
                 parameters.addParam(e.attribute(QStringLiteral("name")), e.attribute(QStringLiteral("value")));
+		// Effects with a animated parameter need to sync in / out with parent clip
+                needInOutSync = true;
             } else if (e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
                 QStringList values = e.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
                 double factor = locale.toDouble(e.attribute(QStringLiteral("factor"), QStringLiteral("1")));
@@ -1719,13 +1743,12 @@ void ClipItem::setState(PlaylistState::ClipState state)
     m_audioThumbCachePic.clear();
 }
 
-void ClipItem::insertKeyframe(QDomElement effect, int pos, double val)
+void ClipItem::insertKeyframe(QDomElement effect, int pos, double val, bool defaultValue)
 {
     if (effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) return;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     effect.setAttribute(QStringLiteral("active_keyframe"), pos);
-    m_editedKeyframe = pos;
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
@@ -1758,8 +1781,12 @@ void ClipItem::insertKeyframe(QDomElement effect, int pos, double val)
             }
             e.setAttribute(QStringLiteral("keyframes"), newkfr.join(QStringLiteral(";")));
         } else if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
-            m_keyProperties.anim_set("keyframes", val, pos, 0, m_keyAnim.keyframe_type(pos));
-            e.setAttribute(QStringLiteral("value"), m_keyAnim.serialize_cut());
+	    if (defaultValue) {
+		m_keyframeView.addDefaultKeyframe(pos, m_keyframeView.type(pos));
+	    } else {
+		m_keyframeView.addKeyframe(pos, val, m_keyframeView.type(pos));
+	    }
+            e.setAttribute(QStringLiteral("value"), m_keyframeView.serialize());
         }
     }
 }
@@ -1809,9 +1836,12 @@ void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double 
             }
             e.setAttribute(QStringLiteral("value"), newkfr.join(QStringLiteral(";")));
         } else if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
-            if (oldpos != newpos) m_keyAnim.remove(oldpos);
-            m_keyProperties.anim_set("keyframes", value, newpos, 0, m_keyAnim.keyframe_type(oldpos));
-            e.setAttribute(QStringLiteral("value"), m_keyAnim.serialize_cut());
+	    mlt_keyframe_type type = m_keyframeView.type(oldpos);
+            if (oldpos != newpos) {
+		m_keyframeView.removeKeyframe(oldpos);
+	    }
+	    m_keyframeView.addKeyframe(newpos, value, type);
+            e.setAttribute(QStringLiteral("value"), m_keyframeView.serialize());
         }
     }
 
@@ -1831,49 +1861,7 @@ void ClipItem::updateKeyframes(QDomElement effect)
         setSelectedEffect(m_selectedEffect);
         return;
     }
-    parseKeyframes(locale, e);
-}
-
-bool ClipItem::parseKeyframes(const QLocale locale, QDomElement e)
-{
-    QString type = e.attribute(QStringLiteral("type"));
-    if (type == QLatin1String("keyframe")) m_keyframeType = NormalKeyframe;
-    else if (type == QLatin1String("simplekeyframe")) m_keyframeType = SimpleKeyframe;
-    else if (type == QLatin1String("geometry")) m_keyframeType = GeometryKeyframe;
-    else if (type == QLatin1String("animated")) m_keyframeType = AnimatedKeyframe;
-    else {
-        m_keyframeType = NoKeyframe;
-        return false;
-    }
-    if (m_keyframeType != NoKeyframe && (!e.hasAttribute(QStringLiteral("intimeline"))
-        || e.attribute(QStringLiteral("intimeline")) == QLatin1String("1"))) {
-        m_keyframeMin = locale.toDouble(e.attribute(QStringLiteral("min")));
-        m_keyframeMax = locale.toDouble(e.attribute(QStringLiteral("max")));
-        m_keyframeDefault = locale.toDouble(e.attribute(QStringLiteral("default")));
-        m_keyframeFactor = 1;
-        m_selectedKeyframe = 0;
-
-        // parse keyframes
-        switch (m_keyframeType) {
-            case GeometryKeyframe:
-                m_keyProperties.set("keyframes", e.attribute("value").toUtf8().constData());
-                m_keyProperties.anim_get_rect("keyframes", 0);
-                break;
-            case AnimatedKeyframe:
-                m_keyProperties.set("keyframes", e.attribute("value").toUtf8().constData());
-                m_keyProperties.anim_get_double("keyframes", 0);
-                m_keyframeFactor = locale.toDouble(e.attribute(QStringLiteral("factor")));
-                break;
-            default:
-                m_keyProperties.set("keyframes", e.attribute("keyframes").toUtf8().constData());
-                m_keyProperties.anim_get_double("keyframes", 0);
-        }
-        m_keyAnim = m_keyProperties.get_animation("keyframes");
-        if (m_keyAnim.next_key(m_editedKeyframe) <= m_editedKeyframe) m_editedKeyframe = -1;
-        return true;
-    }
-    m_keyProperties.set("keyframes", 0, 0);
-    return false;
+    m_keyframeView.loadKeyframes(locale, e, cropDuration().frames(m_fps));
 }
 
 QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, const ItemInfo &oldInfo)
@@ -1947,9 +1935,9 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
                     effects[i] = effect.cloneNode().toElement();
                 updateNormalKeyframes(param, oldInfo);
             } else if (type == QLatin1String("animated")) {
-                if (!effects.contains(i))
-                    effects[i] = effect.cloneNode().toElement();
-                updateAnimatedKeyframes(param, j, oldInfo);
+	          effect.setAttribute(QStringLiteral("in"), cropStart().frames(m_fps));
+		  effect.setAttribute(QStringLiteral("out"), (cropStart() + cropDuration()).frames(m_fps) - 1);
+		  effects[i] = effect.cloneNode().toElement();
             } else if (type == QLatin1String("roto-spline")) {
                 if (!effects.contains(i))
                     effects[i] = effect.cloneNode().toElement();
@@ -2071,22 +2059,6 @@ void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, int w
         result.prepend("0=");
     }
     param.setAttribute(QStringLiteral("value"), result);
-}
-
-void ClipItem::updateAnimatedKeyframes(QDomElement effect, int paramIndex, ItemInfo oldInfo)
-{
-    QDomElement param = effect.elementsByTagName("parameter").item(paramIndex).toElement();
-    int offset = oldInfo.cropStart.frames(m_fps);
-    if (offset > 0) {
-        for(int i = 0; i < m_keyAnim.key_count(); ++i){
-            int oldPos = m_keyAnim.key_get_frame(i);
-            int newPos = oldPos + offset;
-            m_keyAnim.remove(oldPos);
-            m_keyProperties.anim_set("keyframes", m_keyProperties.anim_get_double("keyframes", oldPos), newPos, 0, m_keyAnim.keyframe_type(i));
-        }
-    }
-    QString result = m_keyAnim.serialize_cut();
-    param.setAttribute("value", result);
 }
 
 void ClipItem::slotRefreshClip()

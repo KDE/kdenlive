@@ -134,7 +134,7 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         QString paramname = prefix + e.attribute(QStringLiteral("name"));
-        if (e.attribute(QStringLiteral("type")) == QLatin1String("geometry") && !e.hasAttribute(QStringLiteral("fixed"))) {
+        if (e.attribute(QStringLiteral("type")) == QLatin1String("animated") || (e.attribute(QStringLiteral("type")) == QLatin1String("geometry") && !e.hasAttribute(QStringLiteral("fixed")))) {
             // effects with geometry param need in / out synced with the clip, request it...
             parameters.addParam(QStringLiteral("_sync_in_out"), QStringLiteral("1"));
         }
@@ -164,7 +164,7 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
             parameters.addParam(QStringLiteral("offset"), e.attribute(QStringLiteral("offset"), QStringLiteral("0")));
             parameters.addParam(QStringLiteral("starttag"), e.attribute(QStringLiteral("starttag"), QStringLiteral("start")));
             parameters.addParam(QStringLiteral("endtag"), e.attribute(QStringLiteral("endtag"), QStringLiteral("end")));
-        } else if (e.attribute(QStringLiteral("namedesc")).contains(';')) {
+        } else if (e.attribute(QStringLiteral("namedesc")).contains(QLatin1Char(';'))) {
             QString format = e.attribute(QStringLiteral("format"));
             QStringList separators = format.split(QStringLiteral("%d"), QString::SkipEmptyParts);
             QStringList values = e.attribute(QStringLiteral("value")).split(QRegExp("[,:;x]"));
@@ -209,7 +209,6 @@ void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList
 {
     // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
     // not be changed
-
     if (effect.attribute(QStringLiteral("id")) == QLatin1String("freeze") && diff > 0) {
         EffectsList::setParameter(effect, QStringLiteral("frame"), QString::number(diff));
     }
@@ -248,7 +247,7 @@ void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList
             }
         }
 
-        if (e.attribute(QStringLiteral("type")) == QLatin1String("geometry") && !e.hasAttribute(QStringLiteral("fixed"))) {
+        if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")  || (e.attribute(QStringLiteral("type")) == QLatin1String("geometry") && !e.hasAttribute(QStringLiteral("fixed")))) {
             // Effects with a geometry parameter need to sync in / out with parent clip
             effect.setAttribute(QStringLiteral("in"), QString::number((int) info.cropStart.frames(fps)));
             effect.setAttribute(QStringLiteral("out"), QString::number((int) (info.cropStart + info.cropDuration).frames(fps) - 1));
@@ -328,7 +327,6 @@ const QString EffectsController::adjustKeyframes(const QString &keyframes, int o
     const QStringList list = keyframes.split(QLatin1Char(';'), QString::SkipEmptyParts);
     foreach(const QString &keyframe, list) {
         const int pos = keyframe.section('=', 0, 0).toInt() + offset;
-        qDebug()<<"// KFR AT: "<<pos<<" (newOut: "<<newIn<<"x"<<newOut;
         const QString newKey = QString::number(pos) + '=' + keyframe.section('=', 1);
         if (pos >= newOut) {
             if (pos == newOut) {
