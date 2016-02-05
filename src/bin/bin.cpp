@@ -2549,7 +2549,17 @@ void Bin::slotGotFilterJobResults(QString id, int startPos, int track, stringMap
                 m_commandStack->push(command);
                 emit clipItemSelected(clip);*/
             }
-            
+
+            if (filterInfo.contains(QStringLiteral("storedata"))) {
+                // Store returned data as clip extra data
+                ProjectClip *clip = getBinClip(id);
+                if (clip) {
+                    QString key = filterInfo.value(QStringLiteral("key"));
+                    QStringList newValue = clip->updatedAnalysisData(key, results.value(key), filterInfo.value(QStringLiteral("offset")).toInt());
+                    slotAddClipExtraData(id, newValue.at(0), newValue.at(1));
+                }
+            }
+
             //emit gotFilterJobResults(id, startPos, track, results, filterInfo);*/
             return;
         } else {
@@ -2635,7 +2645,7 @@ void Bin::slotGotFilterJobResults(QString id, int startPos, int track, stringMap
     }
     if (!dataProcessed || filterInfo.contains(QStringLiteral("storedata"))) {
         // Store returned data as clip extra data
-        QStringList newValue = clip->updatedAnalysisData(key, results.value(key), filterInfo.value(QStringLiteral("offset")).toInt());
+        QStringList newValue = clip->updatedAnalysisData(key, results.value(key), offset);
         slotAddClipExtraData(id, newValue.at(0), newValue.at(1));
     }
 }

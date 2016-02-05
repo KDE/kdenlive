@@ -31,6 +31,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUrl>
 
 class ClipController;
+class QMimeData;
+
+class AnalysisTree : public QTreeWidget
+{
+public:
+    explicit AnalysisTree(QWidget *parent = 0);
+
+protected:
+    virtual QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const;
+};
+
 
 /**
  * @class ClipPropertiesController
@@ -91,7 +102,7 @@ private:
     QWidget *m_metaPage;
     QWidget *m_analysisPage;
     QTreeWidget *m_markerTree;
-    QTreeWidget *m_analysisTree;
+    AnalysisTree *m_analysisTree;
     void fillProperties();
 
 signals:

@@ -54,6 +54,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFontDatabase>
 #include <QToolBar>
 #include <QFileDialog>
+#include <QMimeData>
+
+
+AnalysisTree::AnalysisTree(QWidget *parent) : QTreeWidget(parent)
+{
+    setRootIsDecorated(false);
+    setColumnCount(2);
+    setAlternatingRowColors(true);
+    setHeaderHidden(true);
+    setDragEnabled(true);
+}
+
+//virtual
+QMimeData * AnalysisTree::mimeData(const QList<QTreeWidgetItem *> list) const
+{
+    QString data;
+    foreach(QTreeWidgetItem *item, list) {
+        if (item->flags() & Qt::ItemIsDragEnabled) {
+            data.append(item->text(1));
+        }
+    }
+    QMimeData *mime = new QMimeData;
+    mime->setData(QStringLiteral("kdenlive/geometry"), data.toUtf8());
+    return mime;
+}
 
 #ifdef KF5_USE_FILEMETADATA
 class ExtractionResult : public KFileMetaData::ExtractionResult
@@ -182,12 +207,7 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
 
     // Clip analysis
     QVBoxLayout *aBox = new QVBoxLayout;
-    m_analysisTree = new QTreeWidget;
-    m_analysisTree->setRootIsDecorated(false);
-    m_analysisTree->setColumnCount(2);
-    m_analysisTree->setAlternatingRowColors(true);
-    m_analysisTree->setHeaderHidden(true);
-    m_analysisTree->setDragEnabled(true);
+    m_analysisTree = new AnalysisTree(this);
     aBox ->addWidget(new QLabel(i18n("Analysis data")));
     aBox ->addWidget(m_analysisTree);
     QToolBar *bar2 = new QToolBar;

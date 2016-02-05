@@ -32,6 +32,8 @@
 #include <QInputDialog>
 #include <QCheckBox>
 #include <QDialogButtonBox>
+#include <QDragEnterEvent>
+#include <QMimeData>
 
 #include <KDualAction>
 #include <KConfig>
@@ -66,6 +68,8 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     // Required to initialize anim property
     m_animProperties.anim_get_int("anim", 0);
     m_animController = m_animProperties.get_animation("anim");
+
+    setAcceptDrops(true);
 
     // MLT doesnt give us info if keyframe is relative to end, so manually parse
     QStringList keys = keyframes.split(";");
@@ -520,3 +524,29 @@ void AnimationWidget::deletePreset()
     loadPresets();
 }
 
+//virtual
+void AnimationWidget::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
+        event->acceptProposedAction();
+    } else event->setAccepted(false);
+}
+
+void AnimationWidget::dropEvent(QDropEvent * event)
+{
+    /*if (event->proposedAction() == Qt::CopyAction && scene() && !scene()->views().isEmpty()) {
+        QString effects;
+        bool transitionDrop = false;
+        if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/transitionslist"))) {
+            // Transition drop
+            effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/transitionslist")));
+            transitionDrop = true;
+        } else {
+            // Effect drop
+            effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
+        }
+        event->acceptProposedAction();
+        QDomDocument doc;
+        doc.setContent(effects, true);
+    }*/
+}

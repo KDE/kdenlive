@@ -75,6 +75,10 @@ private:
     void loadPresets();
     void loadPreset(const QString &path);
 
+protected:
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dropEvent(QDropEvent * event);
+
 public slots:
     void slotSyncPosition(int relTimelinePos);
 
