@@ -404,7 +404,6 @@ void ClipManager::slotClipAvailable(const QString &path)
 
 void ClipManager::listRemovableVolumes()
 {
-    QList<SolidVolumeInfo> volumes;
     m_removableVolumes.clear();
 
     QList<Solid::Device> devices = Solid::Device::listFromType(Solid::DeviceInterface::StorageAccess);

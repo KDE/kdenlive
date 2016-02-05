@@ -4662,7 +4662,7 @@ void CustomTrackView::razorGroup(AbstractGroupItem* group, GenTime cutPos)
         QList <ItemInfo> clips1, transitions1;
         QList <ItemInfo> transitionsCut;
         QList <ItemInfo> clips2, transitions2;
-        QList <QGraphicsItem *> clipsToCut;
+        QVector <QGraphicsItem *> clipsToCut;
 
         // Collect info
         for (int i = 0; i < children.count(); ++i) {

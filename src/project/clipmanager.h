@@ -125,7 +125,7 @@ private:   // Private attributes
     /** @brief The id of currently processed clip for audio thumbs creation. */
     QString m_processingAudioThumbId;
     /** @brief The list of removable drives. */
-    QList<SolidVolumeInfo> m_removableVolumes;
+    QVector <SolidVolumeInfo> m_removableVolumes;
 
     QPoint m_projectTreeThumbSize;
 

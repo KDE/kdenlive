@@ -236,7 +236,7 @@ void ParameterPlotter::mousePressEvent(QMouseEvent * event)
                 //setup new points
                 KPlotObject* p = plotObjects().at(m_activeIndexPlot);
                 QList<KPlotPoint*> points = p->points();
-                QList<QPointF> newpoints;
+                QVector<QPointF> newpoints;
 
                 double newx = inPlot.x() * dataRect().width() / pixRect().width();
                 double newy = (height() - inPlot.y() - bottomPadding() - topPadding()) * dataRect().height() / pixRect().height();
