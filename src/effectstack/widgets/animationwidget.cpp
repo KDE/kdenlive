@@ -47,6 +47,7 @@
 #include "doubleparameterwidget.h"
 #include "monitor/monitor.h"
 #include "timecodedisplay.h"
+#include "kdenlivesettings.h"
 #include "effectstack/parametercontainer.h"
 #include "../animkeyframeruler.h"
 
@@ -112,21 +113,48 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     tb->addWidget(m_presetCombo);
 
     // Keyframe type widget
-    m_selectType = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-menu")), i18n("Keyframe interpolation"), this);
-    QAction *discrete = new QAction(i18n("Discrete"), this);
+    m_selectType = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("keyframes")), i18n("Keyframe interpolation"), this);
+    QAction *discrete = new QAction(KoIconUtils::themedIcon(QStringLiteral("discrete")), i18n("Discrete"), this);
     discrete->setData((int) mlt_keyframe_discrete);
     discrete->setCheckable(true);
     m_selectType->addAction(discrete);
-    QAction *linear = new QAction(i18n("Linear"), this);
+    QAction *linear = new QAction(KoIconUtils::themedIcon(QStringLiteral("linear")), i18n("Linear"), this);
     linear->setData((int) mlt_keyframe_linear);
     linear->setCheckable(true);
     m_selectType->addAction(linear);
-    QAction *curve = new QAction(i18n("Curve"), this);
+    QAction *curve = new QAction(KoIconUtils::themedIcon(QStringLiteral("smooth")), i18n("Smooth"), this);
     curve->setData((int) mlt_keyframe_smooth);
     curve->setCheckable(true);
     m_selectType->addAction(curve);
     m_selectType->setCurrentAction(linear);
     connect(m_selectType, SIGNAL(triggered(QAction*)), this, SLOT(slotEditKeyframeType(QAction*)));
+
+    KSelectAction *defaultInterp = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("keyframes")), i18n("Default interpolation"), this);
+    discrete = new QAction(KoIconUtils::themedIcon(QStringLiteral("discrete")), i18n("Discrete"), this);
+    discrete->setData((int) mlt_keyframe_discrete);
+    discrete->setCheckable(true);
+    defaultInterp->addAction(discrete);
+    linear = new QAction(KoIconUtils::themedIcon(QStringLiteral("linear")), i18n("Linear"), this);
+    linear->setData((int) mlt_keyframe_linear);
+    linear->setCheckable(true);
+    defaultInterp->addAction(linear);
+    curve = new QAction(KoIconUtils::themedIcon(QStringLiteral("smooth")), i18n("Smooth"), this);
+    curve->setData((int) mlt_keyframe_smooth);
+    curve->setCheckable(true);
+    defaultInterp->addAction(curve);
+    switch(KdenliveSettings::defaultkeyframeinterp()) {
+        case mlt_keyframe_discrete:
+            defaultInterp->setCurrentAction(discrete);
+            break;
+        case mlt_keyframe_smooth:
+            defaultInterp->setCurrentAction(curve);
+            break;
+        default:
+            defaultInterp->setCurrentAction(linear);
+            break;
+    }
+    connect(defaultInterp, SIGNAL(triggered(QAction*)), this, SLOT(slotSetDefaultInterp(QAction*)));
+
     m_selectType->setToolBarMode(KSelectAction::MenuMode);
 
     m_reverseKeyframe = new QAction(i18n("Relative to end"), this);
@@ -142,10 +170,11 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     connect(delPreset, &QAction::triggered, this, &AnimationWidget::deletePreset);
 
     QMenu *container = new QMenu;
-    container->addAction(m_selectType);
+    tb->addAction(m_selectType);
     //container->addAction(m_reverseKeyframe);
     container->addAction(savePreset);
     container->addAction(delPreset);
+    container->addAction(defaultInterp);
 
     QToolButton *menuButton = new QToolButton;
     menuButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-menu")));
@@ -199,8 +228,19 @@ void AnimationWidget::slotNext()
 void AnimationWidget::slotAddKeyframe(int pos)
 {
     double val = m_animProperties.anim_get_double("anim", pos, m_timePos->maximum());
-    // Add current keyframe type
-    m_animProperties.anim_set("anim", val, pos, m_timePos->maximum(), (mlt_keyframe_type) m_selectType->currentAction()->data().toInt());
+    // Try to get previous key's type
+    mlt_keyframe_type type = (mlt_keyframe_type) KdenliveSettings::defaultkeyframeinterp();
+    int previous = m_animController.previous_key(pos);
+    if (m_animController.is_key(previous)) {
+        type =  m_animController.keyframe_type(previous);
+    } else {
+        int next = m_animController.next_key(pos);
+        if (m_animController.is_key(next)) {
+            type =  m_animController.keyframe_type(next);
+        }
+    }
+
+    m_animProperties.anim_set("anim", val, pos, m_timePos->maximum(), type);
     rebuildKeyframes();
     m_selectType->setEnabled(true);
     m_addKeyframe->setActive(true);
@@ -331,9 +371,10 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
         m_monitor->setEffectKeyframe(true);
         m_addKeyframe->setActive(true);
         m_selectType->setEnabled(true);
+        mlt_keyframe_type currentType = m_animController.keyframe_type(pos);
         QList<QAction *> types = m_selectType->actions();
         for (int i = 0; i < types.count(); i++) {
-            if (types.at(i)->data().toInt() == (int) m_animController.keyframe_type(pos)) {
+            if ((mlt_keyframe_type) types.at(i)->data().toInt() == currentType) {
                 m_selectType->setCurrentAction(types.at(i));
                 break;
             }
@@ -356,6 +397,11 @@ void AnimationWidget::slotEditKeyframeType(QAction *action)
         rebuildKeyframes();
         emit parameterChanged();
     }
+}
+
+void AnimationWidget::slotSetDefaultInterp(QAction *action)
+{
+    KdenliveSettings::setDefaultkeyframeinterp(action->data().toInt());
 }
 
 void AnimationWidget::addParameter(const QDomElement &e, int activeKeyframe)

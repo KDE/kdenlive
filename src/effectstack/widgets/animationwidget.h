@@ -96,6 +96,7 @@ private slots:
     void applyPreset(int ix);
     void savePreset();
     void deletePreset();
+    void slotSetDefaultInterp(QAction *action);
 
 signals:
     void seekToPos(int);

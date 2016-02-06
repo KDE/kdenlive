@@ -159,6 +159,11 @@
   </group>
 
   <group name="timeline">
+    <entry name="defaultkeyframeinterp" type="Int">
+      <label>Default interpolation for keyframes.</label>
+      <default>1</default>
+    </entry>
+
     <entry name="videothumbnails" type="Bool">
       <label>Display video thumbnails in timeline.</label>
       <default>true</default>
@@ -168,7 +173,7 @@
       <label>Display audio thumbnails in timeline.</label>
       <default>true</default>
     </entry>
-    
+
     <entry name="ffmpegaudiothumbnails" type="Bool">
       <label>Use FFmpeg to create audio thumbnails (10x faster than MLT).</label>
       <default>true</default>
