@@ -43,6 +43,7 @@ class AbstractClipItem;
 class AbstractGroupItem;
 class Transition;
 class AudioCorrelation;
+class KSelectAction;
 
 class CustomTrackView : public QGraphicsView
 {
@@ -392,9 +393,12 @@ private:
     /** Should we auto scroll while playing (keep in sync with KdenliveSettings::autoscroll() */
     bool m_autoScroll;
     void displayContextMenu(QPoint pos, AbstractClipItem *clip);
+    void displayKeyframesMenu(QPoint pos, AbstractClipItem *clip);
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
+    QMenu *m_timelineContextKeyframeMenu;
+    KSelectAction *m_selectKeyframeType;
     QMenu *m_markerMenu;
     QAction *m_autoTransition;
     QAction *m_pasteEffectsAction;
@@ -544,6 +548,7 @@ private slots:
     void slotUpdateTimelineProducer(const QString &id);
     /** @brief Refresh razor marker. */
     void slotRefreshCutLine();
+    void slotEditKeyframeType(QAction *action);
 
 signals:
     void cursorMoved(int, int);

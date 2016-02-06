@@ -310,6 +310,11 @@ void ClipItem::setKeyframes(const int ix, const QStringList &keyframes)
 
 void ClipItem::setSelectedEffect(const int ix)
 {
+    int editedKeyframe = -1;
+    if (m_selectedEffect == ix) {
+        // reloading same effect, keep current keyframe reference
+        editedKeyframe = m_keyframeView.editedKeyframe;
+    }
     m_selectedEffect = ix;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
@@ -366,6 +371,9 @@ void ClipItem::setSelectedEffect(const int ix)
             QDomElement e = params.item(i).toElement();
             if (e.isNull()) continue;
             if (m_keyframeView.loadKeyframes(locale, e, cropDuration().frames(m_fps))) {
+                if (editedKeyframe > -1) {
+                    m_keyframeView.editedKeyframe = editedKeyframe;
+                }
                 m_visibleParam = i;
                 update();
                 return;
@@ -1538,7 +1546,7 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
     if (needInOutSync) {
         parameters.addParam(QStringLiteral("in"), QString::number((int) cropStart().frames(m_fps)));
         parameters.addParam(QStringLiteral("out"), QString::number((int) (cropStart() + cropDuration()).frames(m_fps) - 1));
-        parameters.addParam(QStringLiteral("_sync_in_out"), QStringLiteral("1"));
+        parameters.addParam(QStringLiteral("kdenlive:sync_in_out"), QStringLiteral("1"));
     }
     m_effectNames = m_effectList.effectNames().join(QStringLiteral(" / "));
     if (fade > 0) m_startFade = fade;

@@ -137,7 +137,7 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
         QString paramname = prefix + e.attribute(QStringLiteral("name"));
         if (e.attribute(QStringLiteral("type")) == QLatin1String("animated") || (e.attribute(QStringLiteral("type")) == QLatin1String("geometry") && !e.hasAttribute(QStringLiteral("fixed")))) {
             // effects with geometry param need in / out synced with the clip, request it...
-            parameters.addParam(QStringLiteral("_sync_in_out"), QStringLiteral("1"));
+            parameters.addParam(QStringLiteral("kdenlive:sync_in_out"), QStringLiteral("1"));
         }
         if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
             parameters.addParam(paramname, e.attribute(QStringLiteral("value")));
@@ -260,7 +260,7 @@ void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList
             // Effects with a geometry parameter need to sync in / out with parent clip
             effect.setAttribute(QStringLiteral("in"), QString::number((int) info.cropStart.frames(fps)));
             effect.setAttribute(QStringLiteral("out"), QString::number((int) (info.cropStart + info.cropDuration).frames(fps) - 1));
-            effect.setAttribute(QStringLiteral("_sync_in_out"), QStringLiteral("1"));
+            effect.setAttribute(QStringLiteral("kdenlive:sync_in_out"), QStringLiteral("1"));
         }
     }
     if (effect.attribute(QStringLiteral("tag")) == QLatin1String("volume") || effect.attribute(QStringLiteral("tag")) == QLatin1String("brightness")) {

@@ -982,7 +982,7 @@ void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
             EffectsList::setParameter(currenteffect, QStringLiteral("out"),  effect->get("out"));
             currenteffect.setAttribute(QStringLiteral("in"), effect->get_in());
             currenteffect.setAttribute(QStringLiteral("out"), effect->get_out());
-            currenteffect.setAttribute(QStringLiteral("_sync_in_out"), QStringLiteral("1"));
+            currenteffect.setAttribute(QStringLiteral("kdenlive:sync_in_out"), QStringLiteral("1"));
         }
         if (QString(effect->get("tag")) == QLatin1String("region")) getSubfilters(effect.data(), currenteffect);
 

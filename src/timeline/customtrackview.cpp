@@ -93,6 +93,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
   , m_timelineContextMenu(NULL)
   , m_timelineContextClipMenu(NULL)
   , m_timelineContextTransitionMenu(NULL)
+  , m_timelineContextKeyframeMenu(NULL)
   , m_markerMenu(NULL)
   , m_autoTransition(NULL)
   , m_pasteEffectsAction(NULL)
@@ -1089,6 +1090,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     // context menu requested
     if (event->button() == Qt::RightButton) {
+        // Check if we want keyframes context menu
         if (!m_dragItem && !m_dragGuide) {
             // check if there is a guide close to mouse click
             QList<QGraphicsItem *> guidesCollisionList = items(event->pos().x() - 5, event->pos().y(), 10, 2); // a rect of height < 2 does not always collide with the guide
@@ -1713,9 +1715,50 @@ void CustomTrackView::editItemDuration()
 
 void CustomTrackView::contextMenuEvent(QContextMenuEvent * event)
 {
-    qDebug()<<"/// diplaying ctxt";
-    m_operationMode = ContextMenu;
-    displayContextMenu(event->globalPos(), m_dragItem);
+    if (m_operationMode == KeyFrame) {
+        displayKeyframesMenu(event->globalPos(), m_dragItem);
+    } else {
+        m_operationMode = ContextMenu;
+        displayContextMenu(event->globalPos(), m_dragItem);
+    }
+}
+
+void CustomTrackView::displayKeyframesMenu(QPoint pos, AbstractClipItem *clip)
+{
+    if (!m_timelineContextKeyframeMenu) {
+        m_timelineContextKeyframeMenu = new QMenu(this);
+        // Keyframe type widget
+        m_selectKeyframeType = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("keyframes")), i18n("Interpolation"), this);
+        QAction *discrete = new QAction(KoIconUtils::themedIcon(QStringLiteral("discrete")), i18n("Discrete"), this);
+        discrete->setData((int) mlt_keyframe_discrete);
+        discrete->setCheckable(true);
+        m_selectKeyframeType->addAction(discrete);
+        QAction *linear = new QAction(KoIconUtils::themedIcon(QStringLiteral("linear")), i18n("Linear"), this);
+        linear->setData((int) mlt_keyframe_linear);
+        linear->setCheckable(true);
+        m_selectKeyframeType->addAction(linear);
+        QAction *curve = new QAction(KoIconUtils::themedIcon(QStringLiteral("smooth")), i18n("Smooth"), this);
+        curve->setData((int) mlt_keyframe_smooth);
+        curve->setCheckable(true);
+        m_selectKeyframeType->addAction(curve);
+        m_timelineContextKeyframeMenu->addAction(m_selectKeyframeType);
+        connect(m_selectKeyframeType, SIGNAL(triggered(QAction*)), this, SLOT(slotEditKeyframeType(QAction*)));
+    }
+    m_selectKeyframeType->setCurrentAction(clip->parseKeyframeActions(m_selectKeyframeType->actions()));
+    m_timelineContextKeyframeMenu->popup(pos);
+}
+
+void CustomTrackView::slotEditKeyframeType(QAction *action)
+{
+    int type = action->data().toInt();
+    ClipItem * item = static_cast <ClipItem *>(m_dragItem);
+    QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
+    item->editKeyframeType(item->getEffectAtIndex(item->selectedEffectIndex()), type);
+    QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
+    EditEffectCommand *command = new EditEffectCommand(this, item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false);
+    m_commandStack->push(command);
+    updateEffect(item->track(), item->startPos(), item->selectedEffect());
+    emit clipItemSelected(item, item->selectedEffectIndex());
 }
 
 void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip)
@@ -4475,7 +4518,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 
         EditEffectCommand *command = new EditEffectCommand(this, item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false);
         m_commandStack->push(command);
-
         updateEffect(item->track(), item->startPos(), item->selectedEffect());
         emit clipItemSelected(item);
     }

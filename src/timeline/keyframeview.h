@@ -29,6 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "mlt++/MltProperties.h"
 #include "mlt++/MltAnimation.h"
 
+class QAction;
+
 /**
  * @class KeyframeView
  * @brief Provides functionality for displaying and managing animation keyframes in timeline.
@@ -68,9 +70,9 @@ public:
     double getKeyFrameClipHeight(QRectF br, const double y);
      /** @brief Returns the number of keyframes the selected effect has, -1 if none. */
     int keyframesCount();
-    int editedKeyFramePos() const;
     int selectedKeyFramePos() const;
     double editedKeyFrameValue();
+    void editKeyframeType(int type);
     mlt_keyframe_type type(int frame);
     void removeKeyframe(int frame);
     void addKeyframe(int frame, double value, mlt_keyframe_type type);
@@ -83,6 +85,8 @@ public:
       */
     void drawKeyFrames(QRectF br, int length, bool active, QPainter *painter, const QTransform &transformation);
     int mouseOverKeyFrames(QRectF br, QPointF pos, double maxOffset, double scale);
+    void showMenu(QWidget *parent, QPoint pos);
+    QAction *parseKeyframeActions(QList <QAction *>actions);
     static QString cutAnimation(const QString &animation, int start, int duration);
 	
 private:
@@ -94,12 +98,11 @@ private:
     double m_keyframeMax;
     double m_keyframeFactor;
     int m_handleSize;
-
     double keyframeUnmap(QRectF br, double y);
     double keyframeMap(QRectF br, double value);
     QPointF keyframeMap(QRectF br, int frame, double value);
     QPointF keyframePoint(QRectF br, int index);
-    
+
 signals:
     void updateKeyframes(const QRectF &r = QRectF());
 };

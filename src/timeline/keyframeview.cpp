@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <QPainter>
+#include <QAction>
 
 #include "keyframeview.h"
 
@@ -150,6 +151,7 @@ void KeyframeView::drawKeyFrames(QRectF br, int length, bool active, QPainter *p
 int KeyframeView::mouseOverKeyFrames(QRectF br, QPointF pos, double maxOffset, double scale)
 {
     pos.setX(pos.x()*scale);
+    int previousEdit = editedKeyframe;
     for(int i = 0; i < m_keyAnim.key_count(); ++i) {
         int key = m_keyAnim.key_get_frame(i);
         double value = m_keyProperties.anim_get_double("keyframes", key);
@@ -162,6 +164,9 @@ int KeyframeView::mouseOverKeyFrames(QRectF br, QPointF pos, double maxOffset, d
             /*setToolTip('[' + QString::number((GenTime(key, m_fps) - cropStart()).seconds(), 'f', 2)
                        + i18n("seconds") + ", " + QString::number(value, 'f', 1) + ']');*/
 	    editedKeyframe = key;
+            if (previousEdit != editedKeyframe) {
+                updateKeyframes();
+            }
             return key;
         } else if (p.x() > pos.x() + maxOffset) {
             break;
@@ -169,6 +174,9 @@ int KeyframeView::mouseOverKeyFrames(QRectF br, QPointF pos, double maxOffset, d
     }
     //setToolTip(QString());
     editedKeyframe = -1;
+    if (previousEdit != editedKeyframe) {
+        updateKeyframes();
+    }
     return -1;
 }
 
@@ -181,12 +189,7 @@ void KeyframeView::updateSelectedKeyFrame(QRectF br)
     emit updateKeyframes(QRectF(p - h/2, p + h/2));
     selectedKeyframe = editedKeyframe;
     p = keyframeMap(br, selectedKeyframe, m_keyProperties.anim_get_double("keyframes", selectedKeyframe));
-    updateKeyframes(QRectF(p - h/2, p + h/2));
-}
-
-int KeyframeView::editedKeyFramePos() const
-{
-    return editedKeyframe;
+    emit updateKeyframes(QRectF(p - h/2, p + h/2));
 }
 
 double KeyframeView::editedKeyFrameValue()
@@ -267,6 +270,27 @@ void KeyframeView::addDefaultKeyframe(int frame, mlt_keyframe_type type)
 void KeyframeView::removeKeyframe(int frame)
 {
     m_keyAnim.remove(frame);
+}
+
+QAction *KeyframeView::parseKeyframeActions(QList <QAction *>actions)
+{
+
+    mlt_keyframe_type type = m_keyAnim.keyframe_type(editedKeyframe);
+    for (int i = 0; i < actions.count(); i++) {
+        if (actions.at(i)->data().toInt() == type) {
+            return actions.at(i);
+        }
+    }
+    return NULL;
+}
+
+void KeyframeView::editKeyframeType(int type)
+{
+    if (m_keyAnim.is_key(editedKeyframe)) {
+        // This is a keyframe
+        double val = m_keyProperties.anim_get_double("keyframes", editedKeyframe, 0);
+        m_keyProperties.anim_set("keyframes", val, editedKeyframe, 0, (mlt_keyframe_type) type);
+    }
 }
 
 const QString KeyframeView::serialize()

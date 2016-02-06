@@ -1610,7 +1610,7 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
             return false;
         }
         params.removeParam(QStringLiteral("kdenlive_id"));
-        if (params.hasParam(QStringLiteral("_sync_in_out"))) {
+        if (params.hasParam(QStringLiteral("kdenlive:sync_in_out"))) {
             // This effect must sync in / out with parent clip
             //params.removeParam(QStringLiteral("_sync_in_out"));
             filter->set_in_and_out(service.get_int("in"), service.get_int("out"));
@@ -1768,9 +1768,9 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
             refresh();
         return true;
     }
-    if (params.hasParam(QStringLiteral("_sync_in_out"))) {
+    if (params.hasParam(QStringLiteral("kdenlive:sync_in_out"))) {
         // This effect must sync in / out with parent clip
-        params.removeParam(QStringLiteral("_sync_in_out"));
+        //params.removeParam(QStringLiteral("sync_in_out"));
         filter->set_in_and_out(clip->get_in(), clip->get_out());
     }
 

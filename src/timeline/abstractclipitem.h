@@ -78,6 +78,8 @@ public:
     int keyframesCount();
     double editedKeyFrameValue();
     double getKeyFrameClipHeight(const double y);
+    QAction *parseKeyframeActions(QList <QAction *> list);
+    void editKeyframeType(QDomElement effect, int type);
 
     /** @brief Resizes the clip from the end.
     * @param posx Absolute position of new out point */

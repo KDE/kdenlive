@@ -39,10 +39,10 @@ AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF& rect, dou
         , QGraphicsRectItem(rect)
         , m_info(info)
         , m_visibleParam(0)
+        , m_selectedEffect(-1)
         , m_fps(fps)
         , m_isMainSelectedClip(false)
 	, m_keyframeView(QFontInfo(QApplication::font()).pixelSize() * 0.7, this)
-        , m_selectedEffect(-1)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
@@ -67,7 +67,7 @@ void AbstractClipItem::updateKeyFramePos(int frame, const double y)
 
 int AbstractClipItem::editedKeyFramePos() const
 {
-    return m_keyframeView.editedKeyFramePos();
+    return m_keyframeView.editedKeyframe;
 }
 
 int AbstractClipItem::selectedKeyFramePos() const
@@ -93,6 +93,11 @@ double AbstractClipItem::editedKeyFrameValue()
 double AbstractClipItem::getKeyFrameClipHeight(const double y)
 {
     return m_keyframeView.getKeyFrameClipHeight(rect(), y);
+}
+
+QAction *AbstractClipItem::parseKeyframeActions(QList <QAction *> list)
+{
+    return m_keyframeView.parseKeyframeActions(list);
 }
 
 void AbstractClipItem::closeAnimation()
@@ -359,6 +364,20 @@ int AbstractClipItem::posForTrack(int track)
     return pos;
 }
 
+void AbstractClipItem::editKeyframeType(QDomElement effect, int type)
+{
+    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
+    for (int i = 0; i < params.count(); ++i) {
+        QDomElement e = params.item(i).toElement();
+        if (e.isNull()) continue;
+        if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
+	    m_keyframeView.editKeyframeType(type);
+            qDebug()<<"* * *SERIAL: "<<m_keyframeView.serialize();
+            e.setAttribute(QStringLiteral("value"), m_keyframeView.serialize());
+        }
+    }
+}
+
 void AbstractClipItem::insertKeyframe(QDomElement effect, int pos, double val, bool defaultValue)
 {
     if (effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) return;
@@ -467,8 +486,6 @@ void AbstractClipItem::removeKeyframe(QDomElement effect, int oldpos, int newpos
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     effect.setAttribute(QStringLiteral("active_keyframe"), newpos);
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
-    int start = cropStart().frames(m_fps);
-    int end = (cropStart() + cropDuration()).frames(m_fps) - 1;
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.isNull()) continue;
