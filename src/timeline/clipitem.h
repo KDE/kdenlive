@@ -171,6 +171,7 @@ public:
 
     void insertKeyframe(QDomElement effect, int pos, double val, bool defaultValue = false);
     void movedKeyframe(QDomElement effect, int oldpos, int newpos, double value);
+    void removeKeyframe(QDomElement effect, int oldpos, int newpos);
     void updateKeyframes(QDomElement effect);
     void updateGeometryKeyframes(QDomElement effect, int paramIndex, int width, int height, ItemInfo oldInfo);
     bool updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo);

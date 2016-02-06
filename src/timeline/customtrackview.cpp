@@ -4458,7 +4458,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 
         if ((val < -50 || val > 150) && item->editedKeyFramePos() != start && item->editedKeyFramePos() != end && item->keyframesCount() > 1) {
             //delete keyframe
-            item->movedKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), item->selectedKeyFramePos(), -1, 0);
+            item->removeKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), item->selectedKeyFramePos(), item->editedKeyFramePos());
         } else {
             item->movedKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), item->selectedKeyFramePos(), item->editedKeyFramePos(), item->editedKeyFrameValue());
         }

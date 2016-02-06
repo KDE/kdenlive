@@ -1836,11 +1836,49 @@ void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double 
             }
             e.setAttribute(QStringLiteral("value"), newkfr.join(QStringLiteral(";")));
         } else if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
-	    mlt_keyframe_type type = m_keyframeView.type(oldpos);
-            if (oldpos != newpos) {
-		m_keyframeView.removeKeyframe(oldpos);
-	    }
-	    m_keyframeView.addKeyframe(newpos, value, type);
+            e.setAttribute(QStringLiteral("value"), m_keyframeView.serialize());
+        }
+    }
+
+    updateKeyframes(effect);
+    update();
+}
+
+void ClipItem::removeKeyframe(QDomElement effect, int oldpos, int newpos)
+{
+    if (effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) return;
+    QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    effect.setAttribute(QStringLiteral("active_keyframe"), newpos);
+    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
+    int start = cropStart().frames(m_fps);
+    int end = (cropStart() + cropDuration()).frames(m_fps) - 1;
+    for (int i = 0; i < params.count(); ++i) {
+        QDomElement e = params.item(i).toElement();
+        if (e.isNull()) continue;
+        if ((e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe"))) {
+            QString kfr = e.attribute(QStringLiteral("keyframes"));
+            const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
+            QStringList newkfr;
+            foreach(const QString &str, keyframes) {
+                if (str.section('=', 0, 0).toInt() != oldpos) {
+                    newkfr.append(str);
+                }
+            }
+            e.setAttribute(QStringLiteral("keyframes"), newkfr.join(QStringLiteral(";")));
+        }
+        else if (e.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
+            QString kfr = e.attribute(QStringLiteral("value"));
+            const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
+            QStringList newkfr;
+            foreach(const QString &str, keyframes) {
+                if (str.section('=', 0, 0).toInt() != oldpos) {
+                    newkfr.append(str);
+                }
+            }
+            e.setAttribute(QStringLiteral("value"), newkfr.join(QStringLiteral(";")));
+        } else if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
+            m_keyframeView.removeKeyframe(newpos);
             e.setAttribute(QStringLiteral("value"), m_keyframeView.serialize());
         }
     }
