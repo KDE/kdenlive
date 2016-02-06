@@ -449,5 +449,7 @@ bool Transition::updateKeyframes(ItemInfo oldInfo, ItemInfo newInfo)
     return true;
 }
 
-
+void Transition::updateKeyframes(QDomElement /*effect*/)
+{
+}
 

@@ -55,6 +55,7 @@ public:
     void closeAnimation();
 
     virtual OperationType operationMode(const QPointF &pos) = 0;
+    virtual void updateKeyframes(QDomElement effect) = 0;
     virtual GenTime startPos() const ;
     virtual GenTime endPos() const ;
     virtual int track() const ;
@@ -90,14 +91,19 @@ public:
     void setMainSelectedClip(bool selected);
     /** @brief Is this clip selected as the main clip. */
     bool isMainSelectedClip();
-    
+
+    void insertKeyframe(QDomElement effect, int pos, double val, bool defaultValue = false);
+    void movedKeyframe(QDomElement effect, int oldpos, int newpos, double value);
+    void removeKeyframe(QDomElement effect, int oldpos, int newpos);
+
 private slots:
     void doUpdate(const QRectF &r);
-    
+
 protected:
     ItemInfo m_info;
     GenTime m_maxDuration;
     int m_visibleParam;
+    int m_selectedEffect;
     double m_fps;
     /** @brief True if this is the last clip the user selected */
     bool m_isMainSelectedClip;
@@ -106,8 +112,8 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent * event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
-      int trackForPos(int position);
-      int posForTrack(int track);
+    int trackForPos(int position);
+    int posForTrack(int track);
 };
 
 #endif

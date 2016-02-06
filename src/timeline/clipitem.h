@@ -56,6 +56,7 @@ public:
     void resizeStart(int posx, bool size = true, bool emitChange = true);
     void resizeEnd(int posx, bool emitChange = true);
     OperationType operationMode(const QPointF &pos);
+    void updateKeyframes(QDomElement effect);
     static int itemHeight();
     int clipType() const;
     const QString &getBinId() const;
@@ -169,10 +170,6 @@ public:
     void setState(PlaylistState::ClipState state);
     void updateState(const QString &id);
 
-    void insertKeyframe(QDomElement effect, int pos, double val, bool defaultValue = false);
-    void movedKeyframe(QDomElement effect, int oldpos, int newpos, double value);
-    void removeKeyframe(QDomElement effect, int oldpos, int newpos);
-    void updateKeyframes(QDomElement effect);
     void updateGeometryKeyframes(QDomElement effect, int paramIndex, int width, int height, ItemInfo oldInfo);
     bool updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo);
 
@@ -225,7 +222,6 @@ private:
     QTimer m_startThumbTimer;
     QTimer m_endThumbTimer;
 
-    int m_selectedEffect;
     QTimeLine *m_timeLine;
     bool m_startThumbRequested;
     bool m_endThumbRequested;

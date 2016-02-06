@@ -50,7 +50,6 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
     m_startPix(QPixmap()),
     m_endPix(QPixmap()),
     m_hasThumbs(false),
-    m_selectedEffect(-1),
     m_timeLine(0),
     m_startThumbRequested(false),
     m_endThumbRequested(false),
@@ -1743,165 +1742,6 @@ void ClipItem::setState(PlaylistState::ClipState state)
     m_audioThumbCachePic.clear();
 }
 
-void ClipItem::insertKeyframe(QDomElement effect, int pos, double val, bool defaultValue)
-{
-    if (effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) return;
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    effect.setAttribute(QStringLiteral("active_keyframe"), pos);
-    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
-    for (int i = 0; i < params.count(); ++i) {
-        QDomElement e = params.item(i).toElement();
-        if (e.isNull()) continue;
-        if (   e.attribute(QStringLiteral("type")) == QLatin1String("keyframe")
-            || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
-            QString kfr = e.attribute(QStringLiteral("keyframes"));
-            const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
-            QStringList newkfr;
-            bool added = false;
-            foreach(const QString &str, keyframes) {
-                int kpos = str.section('=', 0, 0).toInt();
-                double newval = locale.toDouble(str.section('=', 1, 1));
-                if (kpos < pos) {
-                    newkfr.append(str);
-                } else if (!added) {
-                    if (i == m_visibleParam)
-                        newkfr.append(QString::number(pos) + '=' + QString::number((int)val));
-                    else
-                        newkfr.append(QString::number(pos) + '=' + locale.toString(newval));
-                    if (kpos > pos) newkfr.append(str);
-                    added = true;
-                } else newkfr.append(str);
-            }
-            if (!added) {
-                if (i == m_visibleParam)
-                    newkfr.append(QString::number(pos) + '=' + QString::number((int)val));
-                else
-                    newkfr.append(QString::number(pos) + '=' + e.attribute(QStringLiteral("default")));
-            }
-            e.setAttribute(QStringLiteral("keyframes"), newkfr.join(QStringLiteral(";")));
-        } else if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
-	    if (defaultValue) {
-		m_keyframeView.addDefaultKeyframe(pos, m_keyframeView.type(pos));
-	    } else {
-		m_keyframeView.addKeyframe(pos, val, m_keyframeView.type(pos));
-	    }
-            e.setAttribute(QStringLiteral("value"), m_keyframeView.serialize());
-        }
-    }
-}
-
-void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double value)
-{
-    if (effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) return;
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    effect.setAttribute(QStringLiteral("active_keyframe"), newpos);
-    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
-    int start = cropStart().frames(m_fps);
-    int end = (cropStart() + cropDuration()).frames(m_fps) - 1;
-    for (int i = 0; i < params.count(); ++i) {
-        QDomElement e = params.item(i).toElement();
-        if (e.isNull()) continue;
-        if ((e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe"))) {
-            QString kfr = e.attribute(QStringLiteral("keyframes"));
-            const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
-            QStringList newkfr;
-            foreach(const QString &str, keyframes) {
-                if (str.section('=', 0, 0).toInt() != oldpos) {
-                    newkfr.append(str);
-                } else if (newpos != -1) {
-                    newpos = qMax(newpos, start);
-                    newpos = qMin(newpos, end);
-                    if (i == m_visibleParam)
-                        newkfr.append(QString::number(newpos) + '=' + locale.toString(value));
-                    else
-                        newkfr.append(QString::number(newpos) + '=' + str.section('=', 1, 1));
-                }
-            }
-            e.setAttribute(QStringLiteral("keyframes"), newkfr.join(QStringLiteral(";")));
-        }
-        else if (e.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
-            QString kfr = e.attribute(QStringLiteral("value"));
-            const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
-            QStringList newkfr;
-            foreach(const QString &str, keyframes) {
-                if (str.section('=', 0, 0).toInt() != oldpos) {
-                    newkfr.append(str);
-                } else if (newpos != -1) {
-                    newpos = qMax(newpos, start);
-                    newpos = qMin(newpos, end);
-                    newkfr.append(QString::number(newpos) + '=' + str.section('=', 1, 1));
-                }
-            }
-            e.setAttribute(QStringLiteral("value"), newkfr.join(QStringLiteral(";")));
-        } else if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
-            e.setAttribute(QStringLiteral("value"), m_keyframeView.serialize());
-        }
-    }
-
-    updateKeyframes(effect);
-    update();
-}
-
-void ClipItem::removeKeyframe(QDomElement effect, int oldpos, int newpos)
-{
-    if (effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) return;
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    effect.setAttribute(QStringLiteral("active_keyframe"), newpos);
-    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
-    int start = cropStart().frames(m_fps);
-    int end = (cropStart() + cropDuration()).frames(m_fps) - 1;
-    for (int i = 0; i < params.count(); ++i) {
-        QDomElement e = params.item(i).toElement();
-        if (e.isNull()) continue;
-        if ((e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe"))) {
-            QString kfr = e.attribute(QStringLiteral("keyframes"));
-            const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
-            QStringList newkfr;
-            foreach(const QString &str, keyframes) {
-                if (str.section('=', 0, 0).toInt() != oldpos) {
-                    newkfr.append(str);
-                }
-            }
-            e.setAttribute(QStringLiteral("keyframes"), newkfr.join(QStringLiteral(";")));
-        }
-        else if (e.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
-            QString kfr = e.attribute(QStringLiteral("value"));
-            const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
-            QStringList newkfr;
-            foreach(const QString &str, keyframes) {
-                if (str.section('=', 0, 0).toInt() != oldpos) {
-                    newkfr.append(str);
-                }
-            }
-            e.setAttribute(QStringLiteral("value"), newkfr.join(QStringLiteral(";")));
-        } else if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
-            m_keyframeView.removeKeyframe(newpos);
-            e.setAttribute(QStringLiteral("value"), m_keyframeView.serialize());
-        }
-    }
-
-    updateKeyframes(effect);
-    update();
-}
-
-void ClipItem::updateKeyframes(QDomElement effect)
-{
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    // parse keyframes
-    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
-    QDomElement e = params.item(m_visibleParam).toElement();
-    if (e.isNull()) return;
-    if (e.attribute(QStringLiteral("intimeline")) != QLatin1String("1")) {
-        setSelectedEffect(m_selectedEffect);
-        return;
-    }
-    m_keyframeView.loadKeyframes(locale, e, cropDuration().frames(m_fps));
-}
-
 QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, const ItemInfo &oldInfo)
 {
     QMap<int, QDomElement> effects;
@@ -2136,3 +1976,17 @@ void ClipItem::slotUpdateThumb(QImage img)
     update();
 }
 
+void ClipItem::updateKeyframes(QDomElement effect)
+{
+    QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    // parse keyframes
+    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
+    QDomElement e = params.item(m_visibleParam).toElement();
+    if (e.isNull()) return;
+    if (e.attribute(QStringLiteral("intimeline")) != QLatin1String("1")) {
+        setSelectedEffect(m_selectedEffect);
+        return;
+    }
+    m_keyframeView.loadKeyframes(locale, e, cropDuration().frames(m_fps));
+}

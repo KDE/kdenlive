@@ -950,8 +950,16 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     // special cases (middle click button or ctrl / shift click)
     if (event->button() == Qt::MidButton) {
-        emit playMonitor();
-        m_operationMode = None;
+        if (m_operationMode == KeyFrame) {
+            if (m_dragItem->type() == AVWidget) {
+                ClipItem *item = static_cast<ClipItem *>(m_dragItem);
+                m_dragItem->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), m_dragItem->editedKeyFramePos(), -1, true);
+                m_dragItem->update();
+            }
+        } else {
+            emit playMonitor();
+            m_operationMode = None;
+        }
         return;
     }
 
@@ -1589,7 +1597,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
         QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
         if (single == 1) {
-            item->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), (item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1, -1, true);
+            item->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), (item->cropDuration()).frames(m_document->fps()) - 1, -1, true);
         }
         //QString previous = item->keyframes(item->selectedEffectIndex());
         item->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), keyFramePos.frames(m_document->fps()), val);
