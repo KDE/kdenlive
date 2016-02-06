@@ -73,7 +73,7 @@ private:
     void parseKeyframes();
     void rebuildKeyframes();
     void updateToolbar();
-    void loadPresets();
+    void loadPresets(QString currentText = QString());
     void loadPreset(const QString &path);
 
 protected:

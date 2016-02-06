@@ -505,9 +505,11 @@ void AnimationWidget::slotReverseKeyframeType(bool reverse)
     }*/
 }
 
-void AnimationWidget::loadPresets()
+void AnimationWidget::loadPresets(QString currentText)
 {
+    m_presetCombo->blockSignals(true);
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/effects/presets/"));
+    if (currentText.isEmpty()) currentText = m_presetCombo->currentText();
     while (m_presetCombo->count() > 0) {
         m_presetCombo->removeItem(0);
     }
@@ -517,6 +519,11 @@ void AnimationWidget::loadPresets()
     m_presetCombo->addItem(i18n("Default"), defaultEntry);
     loadPreset(dir.absoluteFilePath(m_xml.attribute(QStringLiteral("type"))));
     loadPreset(dir.absoluteFilePath(m_effectId));
+    if (!currentText.isEmpty()) {
+        int ix = m_presetCombo->findText(currentText);
+        if (ix >= 0) m_presetCombo->setCurrentIndex(ix);
+    }
+    m_presetCombo->blockSignals(false);
 }
 
 void AnimationWidget::loadPreset(const QString &path)
@@ -574,7 +581,7 @@ void AnimationWidget::savePreset()
     KConfigGroup grp(&confFile, effectName.text());
     grp.writeEntry("keyframes", currentKeyframes);
     confFile.sync();
-    loadPresets();
+    loadPresets(effectName.text());
 }
 
 void AnimationWidget::deletePreset()
