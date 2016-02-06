@@ -200,7 +200,7 @@ void AnimKeyframeRuler::mouseReleaseEvent(QMouseEvent * event)
     setCursor(Qt::ArrowCursor);
     QWidget::mouseReleaseEvent(event);
     if (m_movingKeyframe) {
-        emit moveKeyframe(m_keyframes.indexOf(m_hoverKeyframe), m_hoverKeyframe, m_movingKeyframePos);
+        emit moveKeyframe(m_hoverKeyframe, m_movingKeyframePos);
     } else if (!m_dragStart.isNull()) {
         // Seek to selected keyframe
         m_seekPosition = m_hoverKeyframe;

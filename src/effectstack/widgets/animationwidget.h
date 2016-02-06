@@ -86,7 +86,7 @@ private slots:
     void slotPrevious();
     void slotNext();
     void slotAddDeleteKeyframe(bool add);
-    void moveKeyframe(int index, int oldPos, int newPos);
+    void moveKeyframe(int oldPos, int newPos);
     void slotEditKeyframeType(QAction *action);
     void slotAdjustKeyframeValue(double value);
     void slotPositionChanged(int pos = -1, bool seek = true);

@@ -75,7 +75,7 @@ signals:
     void keyframeMoved(int);
     void addKeyframe(int);
     void removeKeyframe(int);
-    void moveKeyframe(int, int, int);
+    void moveKeyframe(int, int);
 };
 
 #endif

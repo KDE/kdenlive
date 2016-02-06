@@ -245,7 +245,7 @@ void AnimationWidget::slotSyncPosition(int relTimelinePos)
     }
 }
 
-void AnimationWidget::moveKeyframe(int index, int oldPos, int newPos)
+void AnimationWidget::moveKeyframe(int oldPos, int newPos)
 {
     bool isKey;
     mlt_keyframe_type type;
