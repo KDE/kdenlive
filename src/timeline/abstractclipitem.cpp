@@ -61,7 +61,7 @@ void AbstractClipItem::doUpdate(const QRectF &r)
 
 void AbstractClipItem::updateKeyFramePos(int frame, const double y)
 {
-    m_keyframeView.updateKeyFramePos(rect(), frame, y);
+    m_keyframeView.updateKeyFramePos(rect(), frame, qBound(0.0, y, rect().height()));
 }
 
 int AbstractClipItem::editedKeyFramePos() const
