@@ -58,11 +58,13 @@ QDomElement EffectsList::getEffectByName(const QString & name) const
 
 void EffectsList::initEffect(const QDomElement &effect) const
 {
+    return;
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
-        if (!e.hasAttribute(QStringLiteral("value")))
+        if (!e.hasAttribute(QStringLiteral("value"))) {
             e.setAttribute(QStringLiteral("value"), e.attribute(QStringLiteral("default")));
+        }
     }
 }
 

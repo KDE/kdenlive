@@ -64,7 +64,12 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     , m_effectId(effectId)
 {
     // Anim properties might at some point require some more infos like profile
-    QString keyframes = xml.hasAttribute(QStringLiteral("value")) ? xml.attribute(QStringLiteral("value")) : xml.attribute(QStringLiteral("default"));
+    QString keyframes;
+    if (xml.hasAttribute(QStringLiteral("value"))) {
+        keyframes = xml.attribute(QStringLiteral("value"));
+    } else {
+        keyframes = getDefaultKeyframes(xml.attribute(QStringLiteral("default")));
+    }
     m_animProperties.set("anim", keyframes.toUtf8().constData());
     // Required to initialize anim property
     m_animProperties.anim_get_int("anim", 0);
@@ -202,6 +207,25 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
 
 AnimationWidget::~AnimationWidget()
 {
+}
+
+//static
+QString AnimationWidget::getDefaultKeyframes(const QString &defaultValue)
+{
+    QString keyframes = QStringLiteral("0");
+    switch (KdenliveSettings::defaultkeyframeinterp()) {
+        case mlt_keyframe_discrete:
+            keyframes.append(QStringLiteral("|="));
+            break;
+        case mlt_keyframe_smooth:
+            keyframes.append(QStringLiteral("~="));
+            break;
+        default:
+            keyframes.append(QStringLiteral("="));
+            break;
+    }
+    keyframes.append(defaultValue);
+    return keyframes;
 }
 
 void AnimationWidget::updateTimecodeFormat()
@@ -489,7 +513,7 @@ void AnimationWidget::loadPresets()
     }
     m_presetCombo->removeItem(0);
     QMap <QString, QVariant> defaultEntry;
-    defaultEntry.insert(QStringLiteral("keyframes"), m_xml.attribute(QStringLiteral("default")));
+    defaultEntry.insert(QStringLiteral("keyframes"), getDefaultKeyframes(m_xml.attribute(QStringLiteral("default"))));
     m_presetCombo->addItem(i18n("Default"), defaultEntry);
     loadPreset(dir.absoluteFilePath(m_xml.attribute(QStringLiteral("type"))));
     loadPreset(dir.absoluteFilePath(m_effectId));

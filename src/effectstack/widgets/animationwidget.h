@@ -50,6 +50,7 @@ public:
     void updateTimecodeFormat();
     void addParameter(const QDomElement &e, int activeKeyframe);
     QString getAnimation();
+    static QString getDefaultKeyframes(const QString &defaultValue);
 
 private:
     AnimKeyframeRuler *m_ruler;

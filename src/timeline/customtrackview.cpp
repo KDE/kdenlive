@@ -4467,7 +4467,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 
         EditEffectCommand *command = new EditEffectCommand(this, item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false);
         m_commandStack->push(command);
-    
+
         updateEffect(item->track(), item->startPos(), item->selectedEffect());
         emit clipItemSelected(item);
     }

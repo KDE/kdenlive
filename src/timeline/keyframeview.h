@@ -29,13 +29,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "mlt++/MltProperties.h"
 #include "mlt++/MltAnimation.h"
 
+/**
+ * @class KeyframeView
+ * @brief Provides functionality for displaying and managing animation keyframes in timeline.
+ *
+ */
 
 class KeyframeView : public QObject
 {
     Q_OBJECT
-    
+
 public:
-    
+
     enum KEYFRAMETYPE {
         NoKeyframe = 0,
         SimpleKeyframe,
@@ -43,16 +48,16 @@ public:
         GeometryKeyframe,
         AnimatedKeyframe
     };
-    
+
     explicit KeyframeView(int handleSize, QObject *parent = 0);
     virtual ~KeyframeView();
-    
+
         /** The position of the current keyframe when it has moved */
     int editedKeyframe;
     /** The position of the current keyframe before it was moved */
     int selectedKeyframe;
     int duration;
-    
+
     void updateSelectedKeyFrame(QRectF br);
 
     /** @brief Move the selected keyframe (does not influence the effect, only the display in timeline).

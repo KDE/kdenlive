@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "effectscontroller.h"
 #include "dialogs/profilesdialog.h"
+#include "effectstack/widgets/animationwidget.h"
 
 #include <QUrl>
 #include <QDebug>
@@ -217,16 +218,24 @@ void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
+        const QString type = e.attribute(QStringLiteral("type"));
 
         if (e.isNull())
             continue;
 
-        // Check if this effect has a variable parameter
+        // Check if this effect has a variable parameter, init effects default value
         if (e.attribute(QStringLiteral("default")).contains('%')) {
             double evaluatedValue = EffectsController::getStringEval(pInfo, e.attribute(QStringLiteral("default")));
             e.setAttribute(QStringLiteral("default"), evaluatedValue);
             if (e.hasAttribute(QStringLiteral("value")) && e.attribute(QStringLiteral("value")).startsWith('%')) {
                 e.setAttribute(QStringLiteral("value"), evaluatedValue);
+            }
+        } else {
+            if (type == QLatin1String("animated")) {
+                e.setAttribute(QStringLiteral("value"), AnimationWidget::getDefaultKeyframes(e.attribute(QStringLiteral("default"))));
+            }
+            else {
+                e.setAttribute(QStringLiteral("value"), e.attribute(QStringLiteral("default")));
             }
         }
 
@@ -235,7 +244,7 @@ void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList
             if (e.attribute(QStringLiteral("name")) == QLatin1String("use_profile") && !(proxy.isEmpty() || proxy == QLatin1String("-")))
                 e.setAttribute(QStringLiteral("value"), QStringLiteral("1"));
         }
-        if (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
+        if (type == QLatin1String("keyframe") || type == QLatin1String("simplekeyframe")) {
             if (e.attribute(QStringLiteral("keyframes")).isEmpty()) {
                 // Effect has a keyframe type parameter, we need to set the values
                 e.setAttribute(QStringLiteral("keyframes"), QString::number((int) info.cropStart.frames(fps)) + '=' + e.attribute(QStringLiteral("default")));
@@ -247,7 +256,7 @@ void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList
             }
         }
 
-        if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")  || (e.attribute(QStringLiteral("type")) == QLatin1String("geometry") && !e.hasAttribute(QStringLiteral("fixed")))) {
+        if (type == QLatin1String("animated")  || (type == QLatin1String("geometry") && !e.hasAttribute(QStringLiteral("fixed")))) {
             // Effects with a geometry parameter need to sync in / out with parent clip
             effect.setAttribute(QStringLiteral("in"), QString::number((int) info.cropStart.frames(fps)));
             effect.setAttribute(QStringLiteral("out"), QString::number((int) (info.cropStart + info.cropDuration).frames(fps) - 1));
