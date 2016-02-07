@@ -170,11 +170,14 @@ public slots:
     void slotClipItemUpdate();
 
     void slotTrackItemSelected(int ix, const TrackInfo &info, Monitor *m = NULL);
-   
+
     /** @brief Check if the mouse wheel events should be used for scrolling the widget view. */
     void slotCheckWheelEventFilter();
-    
+
     void slotTransitionItemSelected(Transition* t, int nextTrack, const QPoint &p, bool update);
+
+    /** @brief Select active keyframe in an animated effect. */
+    void setActiveKeyframe(int frame);
 
 private slots:
 

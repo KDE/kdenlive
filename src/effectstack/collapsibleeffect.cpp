@@ -475,6 +475,11 @@ void CollapsibleEffect::updateFrameInfo()
     if (m_paramWidget) m_paramWidget->refreshFrameInfo();
 }
 
+void CollapsibleEffect::setActiveKeyframe(int frame)
+{
+    if (m_paramWidget) m_paramWidget->setActiveKeyframe(frame);
+}
+
 void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaInfo)
 {
     if (m_effect.isNull()) {

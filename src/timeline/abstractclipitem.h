@@ -72,14 +72,14 @@ public:
     * @param hasSizeLimit (optional) Whether the clip has a maximum size */
     virtual void resizeStart(int posx, bool hasSizeLimit = true, bool emitChange = true);
     void updateKeyFramePos(int frame, const double y);
-    int editedKeyFramePos() const;
     int selectedKeyFramePos() const;
-    void updateSelectedKeyFrame();
     int keyframesCount();
     double editedKeyFrameValue();
     double getKeyFrameClipHeight(const double y);
     QAction *parseKeyframeActions(QList <QAction *> list);
     void editKeyframeType(QDomElement effect, int type);
+    void attachKeyframeToEnd(QDomElement effect);
+    bool isAttachedToEnd() const;
 
     /** @brief Resizes the clip from the end.
     * @param posx Absolute position of new out point */
@@ -95,8 +95,8 @@ public:
     bool isMainSelectedClip();
 
     void insertKeyframe(QDomElement effect, int pos, double val, bool defaultValue = false);
-    void movedKeyframe(QDomElement effect, int oldpos, int newpos, double value);
-    void removeKeyframe(QDomElement effect, int oldpos, int newpos);
+    void movedKeyframe(QDomElement effect, int newpos, int oldpos = -1, double value = -1);
+    void removeKeyframe(QDomElement effect, int frame);
 
 private slots:
     void doUpdate(const QRectF &r);

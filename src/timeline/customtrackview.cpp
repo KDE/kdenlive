@@ -634,7 +634,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 GenTime keyFramePos = GenTime(mappedXPos, m_document->fps()) - m_dragItem->startPos();
                 double value = m_dragItem->mapFromScene(mapToScene(event->pos()).toPoint()).y();
                 m_dragItem->updateKeyFramePos(keyFramePos.frames(fps()), value);
-                QString position = m_document->timecode().getDisplayTimecodeFromFrames(m_dragItem->editedKeyFramePos(), KdenliveSettings::frametimecode());
+                QString position = m_document->timecode().getDisplayTimecodeFromFrames(m_dragItem->selectedKeyFramePos(), KdenliveSettings::frametimecode());
                 emit displayMessage(position + " : " + QString::number(m_dragItem->editedKeyFrameValue()), InformationMessage);
             }
             removeTipAnimation();
@@ -954,7 +954,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         if (m_operationMode == KeyFrame) {
             if (m_dragItem->type() == AVWidget) {
                 ClipItem *item = static_cast<ClipItem *>(m_dragItem);
-                m_dragItem->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), m_dragItem->editedKeyFramePos(), -1, true);
+                m_dragItem->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), m_dragItem->selectedKeyFramePos(), -1, true);
                 m_dragItem->update();
             }
         } else {
@@ -1339,7 +1339,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         m_selectionMutex.unlock();
     }
     if (m_operationMode == KeyFrame) {
-        m_dragItem->updateSelectedKeyFrame();
         return;
     } else if (m_operationMode == MoveOperation) {
         setCursor(Qt::ClosedHandCursor);
@@ -1742,10 +1741,27 @@ void CustomTrackView::displayKeyframesMenu(QPoint pos, AbstractClipItem *clip)
         curve->setCheckable(true);
         m_selectKeyframeType->addAction(curve);
         m_timelineContextKeyframeMenu->addAction(m_selectKeyframeType);
+        m_attachKeyframeToEnd = new QAction(i18n("Attach keyframe to end"), this);
+        m_attachKeyframeToEnd->setCheckable(true);
+        m_timelineContextKeyframeMenu->addAction(m_attachKeyframeToEnd);
         connect(m_selectKeyframeType, SIGNAL(triggered(QAction*)), this, SLOT(slotEditKeyframeType(QAction*)));
+        connect(m_attachKeyframeToEnd, SIGNAL(triggered(bool)), this, SLOT(slotAttachKeyframeToEnd()));
     }
+    m_attachKeyframeToEnd->setChecked(clip->isAttachedToEnd());
     m_selectKeyframeType->setCurrentAction(clip->parseKeyframeActions(m_selectKeyframeType->actions()));
     m_timelineContextKeyframeMenu->popup(pos);
+}
+
+void CustomTrackView::slotAttachKeyframeToEnd()
+{
+    ClipItem * item = static_cast <ClipItem *>(m_dragItem);
+    QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
+    item->attachKeyframeToEnd(item->getEffectAtIndex(item->selectedEffectIndex()));
+    QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
+    EditEffectCommand *command = new EditEffectCommand(this, item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false);
+    m_commandStack->push(command);
+    updateEffect(item->track(), item->startPos(), item->selectedEffect());
+    emit clipItemSelected(item, item->selectedEffectIndex());
 }
 
 void CustomTrackView::slotEditKeyframeType(QAction *action)
@@ -4507,11 +4523,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         int start = item->cropStart().frames(m_document->fps());
         int end = (item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1;
 
-        if ((val < -50 || val > 150) && item->editedKeyFramePos() != start && item->editedKeyFramePos() != end && item->keyframesCount() > 1) {
+        if ((val < -50 || val > 150) && item->selectedKeyFramePos() != start && item->selectedKeyFramePos() != end && item->keyframesCount() > 1) {
             //delete keyframe
-            item->removeKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), item->selectedKeyFramePos(), item->editedKeyFramePos());
+            item->removeKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), item->selectedKeyFramePos());
         } else {
-            item->movedKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), item->selectedKeyFramePos(), item->editedKeyFramePos(), item->editedKeyFrameValue());
+            item->movedKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), item->selectedKeyFramePos());
         }
 
         QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
@@ -4520,6 +4536,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         m_commandStack->push(command);
         updateEffect(item->track(), item->startPos(), item->selectedEffect());
         emit clipItemSelected(item);
+    } else if (m_moveOpMode == WaitingForConfirm && m_operationMode == KeyFrame && m_dragItem) {
+        emit setActiveKeyframe(m_dragItem->selectedKeyFramePos());
     }
     m_moveOpMode = None;
 }

@@ -23,6 +23,7 @@
 #include "keyframeedit.h"
 
 class GeometryWidget;
+class AnimationWidget;
 class Monitor;
 
 namespace Mlt {
@@ -83,6 +84,8 @@ public:
     int contentHeight() const;
     /** @brief Update frame info (size, dar, ...). */
     void refreshFrameInfo();
+    /** @brief Select active keyframe. */
+    void setActiveKeyframe(int frame);
 
 private slots:
     void slotCollectAllParameters();
@@ -105,6 +108,7 @@ private:
     QMap<QString, QWidget*> m_valueItems;
     KeyframeEdit *m_keyframeEditor;
     GeometryWidget *m_geometryWidget;
+    AnimationWidget *m_animationWidget;
     EffectMetaInfo *m_metaInfo;
     QDomElement m_effect;
     QVBoxLayout *m_vbox;

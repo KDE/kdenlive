@@ -79,6 +79,8 @@ public:
     void setKeyframes(const QString &data, int maximum);
     /** @brief Pass frame size info (dar, etc). */
     void updateFrameInfo();
+    /** @brief Select active keyframe. */
+    void setActiveKeyframe(int frame);
 
 public slots:
     void slotSyncEffectsPos(int pos);

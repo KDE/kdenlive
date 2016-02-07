@@ -49,8 +49,9 @@ public:
     virtual ~AnimationWidget();
     void updateTimecodeFormat();
     void addParameter(const QDomElement &e, int activeKeyframe);
-    QString getAnimation();
+    const QString getAnimation();
     static QString getDefaultKeyframes(const QString &defaultValue);
+    void setActiveKeyframe(int frame);
 
 private:
     AnimKeyframeRuler *m_ruler;
@@ -62,12 +63,16 @@ private:
     int m_inPoint;
     int m_outPoint;
     double m_factor;
+    /** @brief the keyframe position currently edited in slider */
+    int m_editedKeyframe;
+    /** @brief the keyframe position which should be attached to end (negative frame) */
+    int m_attachedToEnd;
     QDomElement m_xml;
     QString m_effectId;
     Mlt::Animation m_animController;
     Mlt::Properties m_animProperties;
     KSelectAction *m_selectType;
-    QAction *m_reverseKeyframe;
+    QAction *m_endAttach;
     QList <QDomElement> m_params;
     QList <DoubleParameterWidget *> m_doubleWidgets;
     void parseKeyframes();
@@ -75,6 +80,8 @@ private:
     void updateToolbar();
     void loadPresets(QString currentText = QString());
     void loadPreset(const QString &path);
+    /** @brief update the parameter slider to reflect value of current position / selected keyframe */
+    void updateSlider(int pos);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event);

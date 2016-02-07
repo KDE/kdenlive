@@ -45,7 +45,9 @@ AnimKeyframeRuler::AnimKeyframeRuler(int min, int max, QWidget *parent) :
   , m_movingKeyframe(false)
   , m_movingKeyframePos(-1)
   , m_hoverKeyframe(-1)
+  , m_selectedKeyframe(-1)
   , m_seekPosition(SEEK_INACTIVE)
+  , m_attachedToEnd(-2)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setMouseTracking(true);
@@ -59,10 +61,11 @@ AnimKeyframeRuler::AnimKeyframeRuler(int min, int max, QWidget *parent) :
     m_keyframe = scheme.foreground(KColorScheme::LinkText).color();
 }
 
-void AnimKeyframeRuler::updateKeyframes(QVector<int> keyframes, QVector<int> types)
+void AnimKeyframeRuler::updateKeyframes(QVector<int> keyframes, QVector<int> types, int attachToEnd)
 {
     m_keyframes = keyframes;
     m_keyframeTypes = types;
+    m_attachedToEnd = attachToEnd;
     update();
 }
 
@@ -107,6 +110,16 @@ void AnimKeyframeRuler::leaveEvent( QEvent * event )
     }
 }
 
+void AnimKeyframeRuler::setActiveKeyframe(int frame)
+{
+    m_selectedKeyframe = frame;
+    update();
+}
+
+int AnimKeyframeRuler::activeKeyframe() const
+{
+    return m_selectedKeyframe;
+}
 
 // virtual
 void AnimKeyframeRuler::mouseMoveEvent(QMouseEvent * event)
@@ -190,7 +203,9 @@ void AnimKeyframeRuler::mouseDoubleClickEvent(QMouseEvent * event)
             }
         }
         // add new keyframe
-        emit addKeyframe((int)(xPos / m_scale));
+        int newFrame = xPos / m_scale;
+        m_selectedKeyframe = newFrame;
+        emit addKeyframe(newFrame);
     }
 }
 
@@ -200,11 +215,15 @@ void AnimKeyframeRuler::mouseReleaseEvent(QMouseEvent * event)
     setCursor(Qt::ArrowCursor);
     QWidget::mouseReleaseEvent(event);
     if (m_movingKeyframe) {
+        m_selectedKeyframe = m_movingKeyframePos;
+        update();
         emit moveKeyframe(m_hoverKeyframe, m_movingKeyframePos);
     } else if (!m_dragStart.isNull()) {
         // Seek to selected keyframe
         m_seekPosition = m_hoverKeyframe;
+        m_selectedKeyframe = m_hoverKeyframe;
         m_dragStart = QPoint();
+        update();
         emit requestSeek(m_seekPosition);
     }
     m_movingKeyframe = false;
@@ -239,12 +258,22 @@ void AnimKeyframeRuler::paintEvent(QPaintEvent *e)
     p.setClipRect(clipRect);
     m_scale = (double) (width() - 2 * margin) / frameLength;
     int headOffset = m_lineHeight / 1.5;
+    if (m_attachedToEnd > -2) {
+        int negStart = margin + m_attachedToEnd * m_scale;
+        QRect negRect(negStart, 0, width() - margin - negStart, m_lineHeight + (headOffset / 2));
+        QColor neg(Qt::darkYellow);
+        neg.setAlpha(140);
+        p.fillRect(negRect, neg);
+    }
+
     QPolygon polygon;
     p.setPen(palette().text().color());
     for (int i = 0; i < m_keyframes.count(); i++) {
             int pos  = m_keyframes.at(i);
             // draw keyframes
-            if (pos == m_position || pos == m_hoverKeyframe) {
+            if (pos == m_selectedKeyframe) {
+                p.setBrush(Qt::red);
+            } else if (pos == m_hoverKeyframe) {
                 // active keyframe
                 p.setBrush(m_selected);
             } else {
@@ -306,7 +335,7 @@ void AnimKeyframeRuler::paintEvent(QPaintEvent *e)
     p.drawPolygon(pa);
 }
 
-int AnimKeyframeRuler::value() const
+int AnimKeyframeRuler::position() const
 {
     if (m_seekPosition == SEEK_INACTIVE) {
         return m_position;

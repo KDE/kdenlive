@@ -46,6 +46,7 @@
 #include "animationwidget.h"
 #include "doubleparameterwidget.h"
 #include "monitor/monitor.h"
+#include "timeline/keyframeview.h"
 #include "timecodedisplay.h"
 #include "kdenlivesettings.h"
 #include "effectstack/parametercontainer.h"
@@ -60,6 +61,7 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     , m_inPoint(min)
     , m_outPoint(max)
     , m_factor(1)
+    , m_editedKeyframe(-1)
     , m_xml(xml)
     , m_effectId(effectId)
 {
@@ -71,8 +73,9 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
         keyframes = getDefaultKeyframes(xml.attribute(QStringLiteral("default")));
     }
     m_animProperties.set("anim", keyframes.toUtf8().constData());
+    m_attachedToEnd = KeyframeView::checkNegatives(keyframes, max - min);
     // Required to initialize anim property
-    m_animProperties.anim_get_int("anim", 0);
+    m_animProperties.anim_get_int("anim", 0, max - min);
     m_animController = m_animProperties.get_animation("anim");
 
     setAcceptDrops(true);
@@ -159,12 +162,11 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
             break;
     }
     connect(defaultInterp, SIGNAL(triggered(QAction*)), this, SLOT(slotSetDefaultInterp(QAction*)));
-
     m_selectType->setToolBarMode(KSelectAction::MenuMode);
 
-    m_reverseKeyframe = new QAction(i18n("Relative to end"), this);
-    m_reverseKeyframe->setCheckable(true);
-    connect(m_reverseKeyframe, &QAction::toggled, this, &AnimationWidget::slotReverseKeyframeType);
+    m_endAttach = new QAction(i18n("Attach keyframe to end"), this);
+    m_endAttach->setCheckable(true);
+    connect(m_endAttach, &QAction::toggled, this, &AnimationWidget::slotReverseKeyframeType);
 
     // save preset
     QAction *savePreset = new QAction(KoIconUtils::themedIcon(QStringLiteral("document-save")), i18n("Save preset"), this);
@@ -176,7 +178,7 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
 
     QMenu *container = new QMenu;
     tb->addAction(m_selectType);
-    //container->addAction(m_reverseKeyframe);
+    container->addAction(m_endAttach);
     container->addAction(savePreset);
     container->addAction(delPreset);
     container->addAction(defaultInterp);
@@ -236,6 +238,7 @@ void AnimationWidget::updateTimecodeFormat()
 void AnimationWidget::slotPrevious()
 {
     int previous = qMax(0, m_animController.previous_key(m_timePos->getValue() - 1));
+    m_ruler->setActiveKeyframe(previous);
     slotPositionChanged(previous, true);
 }
 
@@ -245,6 +248,8 @@ void AnimationWidget::slotNext()
     if (next == 1 && m_timePos->getValue() != 0) {
         // No keyframe after current pos, return end position
         next = m_timePos->maximum();
+    } else {
+        m_ruler->setActiveKeyframe(next);
     }
     slotPositionChanged(next, true);
 }
@@ -265,11 +270,10 @@ void AnimationWidget::slotAddKeyframe(int pos)
     }
 
     m_animProperties.anim_set("anim", val, pos, m_timePos->maximum(), type);
+    m_ruler->setActiveKeyframe(pos);
     rebuildKeyframes();
     m_selectType->setEnabled(true);
     m_addKeyframe->setActive(true);
-    DoubleParameterWidget *slider = m_doubleWidgets.at(0);
-    slider->setEnabled(true);
     emit parameterChanged();
 }
 
@@ -317,6 +321,10 @@ void AnimationWidget::moveKeyframe(int oldPos, int newPos)
         double val = m_animProperties.anim_get_double("anim", oldPos, m_timePos->maximum());
 	m_animController.remove(oldPos);
         m_animProperties.anim_set("anim", val, newPos, m_timePos->maximum(), type);
+        m_ruler->setActiveKeyframe(newPos);
+        if (m_attachedToEnd == oldPos) {
+            m_attachedToEnd = newPos;
+        }
         rebuildKeyframes();
         updateToolbar();
         emit parameterChanged();
@@ -340,7 +348,7 @@ void AnimationWidget::rebuildKeyframes()
 	    }
         }
     }
-    m_ruler->updateKeyframes(keyframes, types);
+    m_ruler->updateKeyframes(keyframes, types, m_attachedToEnd);
 }
 
 void AnimationWidget::updateToolbar()
@@ -377,16 +385,27 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
 
     m_ruler->setValue(pos);
     //TODO: manage several params
+    updateSlider(pos);
+    if (seek)
+        emit seekToPos(pos);
+}
+
+void AnimationWidget::updateSlider(int pos)
+{
     DoubleParameterWidget *slider = m_doubleWidgets.at(0);
+    m_endAttach->blockSignals(true);
     if (!m_animController.is_key(pos)) {
         // no keyframe
         if (m_animController.key_count() <= 1) {
             // Special case: only one keyframe, allow adjusting whatever the position is
             m_monitor->setEffectKeyframe(true);
 	    slider->setEnabled(true);
+            m_endAttach->setEnabled(true);
+            m_endAttach->setChecked(m_attachedToEnd > -2 && m_animController.key_get_frame(0) >= m_attachedToEnd);
         } else {
             m_monitor->setEffectKeyframe(false);
 	    slider->setEnabled(false);
+            m_endAttach->setEnabled(false);
         }
         m_selectType->setEnabled(false);
         m_addKeyframe->setActive(false);
@@ -395,6 +414,8 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
         m_monitor->setEffectKeyframe(true);
         m_addKeyframe->setActive(true);
         m_selectType->setEnabled(true);
+        m_endAttach->setEnabled(true);
+        m_endAttach->setChecked(m_attachedToEnd > -2 && pos >= m_attachedToEnd);
         mlt_keyframe_type currentType = m_animController.keyframe_type(pos);
         QList<QAction *> types = m_selectType->actions();
         for (int i = 0; i < types.count(); i++) {
@@ -405,10 +426,9 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
         }
         slider->setEnabled(true);
     }
+    m_endAttach->blockSignals(false);
     double val = m_animProperties.anim_get_double("anim", pos, m_timePos->maximum());
     slider->setValue(val * m_factor);
-    if (seek)
-        emit seekToPos(pos);
 }
 
 void AnimationWidget::slotEditKeyframeType(QAction *action)
@@ -455,12 +475,13 @@ void AnimationWidget::addParameter(const QDomElement &e, int activeKeyframe)
     }
     m_doubleWidgets << doubleparam;
     int framePos = qBound<int>(0, m_monitor->render->seekFramePosition() - m_clipPos, m_timePos->maximum());
+    m_ruler->setActiveKeyframe(activeKeyframe);
     slotPositionChanged(framePos);
 }
 
 void AnimationWidget::slotAdjustKeyframeValue(double value)
 {
-    int pos = m_timePos->getValue();
+    int pos = m_ruler->position();
     if (m_animController.is_key(pos)) {
         // This is a keyframe
         m_animProperties.anim_set("anim", value / m_factor, pos, m_timePos->maximum(), (mlt_keyframe_type) m_selectType->currentAction()->data().toInt());
@@ -474,35 +495,55 @@ void AnimationWidget::slotAdjustKeyframeValue(double value)
     }
 }
 
-QString AnimationWidget::getAnimation()
+
+const QString AnimationWidget::getAnimation()
 {
-    m_animController.interpolate();
-    QString result = m_animController.serialize_cut(-1, -1);
-    QStringList keys = result.split(";");
-   /* for (int i = 0; i < keys.count(); i++) {
-        if (m_keyframeRelatives.at(i) < 0) {
-            int pos = keys.at(i).section("=", 0, 0).toInt();
-            // keyframe relative to end
-            pos -= m_timePos->maximum();
-            keys[i] = QString::number(pos) + "=" + keys.at(i).section("=", 1);
+    if (m_attachedToEnd == -2) {
+        return m_animController.serialize_cut();
+    }
+    int pos;
+    mlt_keyframe_type type;
+    QString key;
+    QLocale locale;
+    QStringList result;
+    int duration = m_timePos->maximum();
+    for(int i = 0; i < m_animController.key_count(); ++i) {
+        pos = m_animController.key_get_frame(i);
+        m_animController.key_get(i, pos, type);
+        double val = m_animProperties.anim_get_double("anim", pos, duration);
+        if (pos >= m_attachedToEnd) {
+            pos = qMin(pos - duration, -1);
         }
-    }*/
-    return keys.join(";");
+        key = QString::number(pos);
+        switch (type) {
+            case mlt_keyframe_discrete:
+                key.append("|=");
+                break;
+            case mlt_keyframe_smooth:
+                key.append("~=");
+                break;
+            default:
+                key.append("=");
+                break;
+        }
+        key.append(locale.toString(val));
+        result << key;
+    }
+    return result.join(";");
 }
 
 void AnimationWidget::slotReverseKeyframeType(bool reverse)
 {
     int pos = m_timePos->getValue();
-    /*if (m_animController.is_key(pos)) {
-        for (int i = 0; i < m_animController.key_count(); i++) {
-            if (m_animController.key_get_frame(i) == pos) {
-                m_keyframeRelatives[i] = reverse ? -1 : 1;
-                break;
-            }
+    if (m_animController.is_key(pos)) {
+        if (reverse) {
+            m_attachedToEnd = pos;
+        } else {
+            m_attachedToEnd = -2;
         }
         rebuildKeyframes();
         emit parameterChanged();
-    }*/
+    }
 }
 
 void AnimationWidget::loadPresets(QString currentText)
@@ -609,7 +650,12 @@ void AnimationWidget::dragEnterEvent(QDragEnterEvent *event)
     } else event->setAccepted(false);
 }
 
-void AnimationWidget::dropEvent(QDropEvent * event)
+void AnimationWidget::setActiveKeyframe(int frame)
+{
+    m_ruler->setActiveKeyframe(frame);
+}
+
+void AnimationWidget::dropEvent(QDropEvent * /*event*/)
 {
     /*if (event->proposedAction() == Qt::CopyAction && scene() && !scene()->views().isEmpty()) {
         QString effects;

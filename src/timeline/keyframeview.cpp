@@ -26,8 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "keyframeview.h"
 
 KeyframeView::KeyframeView(int handleSize, QObject *parent) : QObject(parent)
-    , editedKeyframe(-1)
-    , selectedKeyframe(0)
+    , activeKeyframe(-1)
+    , attachToEnd(-2)
     , duration(0)
     , m_keyframeType(KEYFRAMETYPE::NoKeyframe)
     , m_keyframeDefault(0)
@@ -58,7 +58,7 @@ QPointF KeyframeView::keyframeMap(QRectF br, int frame, double value) {
 
 QPointF KeyframeView::keyframePoint(QRectF br, int index) {
     int frame = m_keyAnim.key_get_frame(index);
-    return keyframeMap(br, frame, m_keyProperties.anim_get_double("keyframes", frame));
+    return keyframeMap(br, frame < 0 ? frame + duration : frame, m_keyProperties.anim_get_double("keyframes", frame, duration));
 }
 
 void KeyframeView::drawKeyFrames(QRectF br, int length, bool active, QPainter *painter, const QTransform &transformation)
@@ -66,6 +66,7 @@ void KeyframeView::drawKeyFrames(QRectF br, int length, bool active, QPainter *p
     if (duration == 0 || m_keyframeType == NoKeyframe || m_keyAnim.key_count() < 1)
         return;
     duration = length;
+    //m_keyAnim.set_length(length);
     painter->save();
     QPointF h(m_handleSize, m_handleSize);
 
@@ -73,15 +74,15 @@ void KeyframeView::drawKeyFrames(QRectF br, int length, bool active, QPainter *p
     // Special case: Geometry keyframes are just vertical lines
     if (m_keyframeType == GeometryKeyframe) {
         for(int i = 0; i < m_keyAnim.key_count(); ++i) {
-            int key = m_keyAnim.key_get_frame(i);
-            QColor color = (key == editedKeyframe) ? QColor(Qt::red) : QColor(Qt::blue);
+            int frame = m_keyAnim.key_get_frame(i);
+            QColor color = (frame == activeKeyframe) ? QColor(Qt::red) : QColor(Qt::blue);
             if (active)
                 painter->setPen(color);
             QPointF k = keyframePoint(br, i);
             painter->drawLine(transformation.map(QLineF(k.x(), br.top(), k.x(), br.height())));
             if (active) {
                 k.setY(br.top() + br.height()/2);
-                painter->setBrush((m_keyAnim.key_get_frame(i) == editedKeyframe) ? QColor(Qt::red) : QColor(Qt::blue));
+                painter->setBrush((m_keyAnim.key_get_frame(i) == activeKeyframe) ? QColor(Qt::red) : QColor(Qt::blue));
                 painter->drawEllipse(QRectF(transformation.map(k) - h/2, transformation.map(k) + h/2));
             }
         }
@@ -102,8 +103,15 @@ void KeyframeView::drawKeyFrames(QRectF br, int length, bool active, QPainter *p
         painter->drawLine(line.translated(0, 1));
         painter->setPen(QColor(Qt::white));
         painter->setRenderHint(QPainter::Antialiasing);
+        // Draw zone where keyframes are attached to end
+        if (attachToEnd > -2) {
+            QRectF negZone = br;
+            negZone.setLeft(br.x() + br.width() * attachToEnd / (double) duration);
+            QColor neg(Qt::darkYellow);
+            neg.setAlpha(190);
+            painter->fillRect(QRectF(transformation.map(negZone.topLeft()), transformation.map(negZone.bottomRight())), neg);
+        }
     }
-
     QPointF start = keyframePoint(br, 0);
     QPainterPath path;
     path.moveTo(br.x(), br.bottom());
@@ -111,12 +119,12 @@ void KeyframeView::drawKeyFrames(QRectF br, int length, bool active, QPainter *p
     path.lineTo(start);
     for(int i = 0; i < m_keyAnim.key_count(); ++i) {
         if (active) {
-            painter->setBrush((m_keyAnim.key_get_frame(i) == editedKeyframe) ? QColor(Qt::red) : QColor(Qt::blue));
+            painter->setBrush((m_keyAnim.key_get_frame(i) == activeKeyframe) ? QColor(Qt::red) : QColor(Qt::blue));
             painter->drawEllipse(QRectF(transformation.map(start) - h/2, transformation.map(start) + h / 2));
         }
         if (i + 1 < m_keyAnim.key_count()) {
-            QPointF end = keyframePoint(br, i + 1);
-            switch (m_keyAnim.key_get_type(i)) {
+             QPointF end = keyframePoint(br, i + 1);
+             switch (m_keyAnim.key_get_type(i)) {
                 case mlt_keyframe_discrete:
                     path.lineTo(end.x(), start.y());
                     path.lineTo(end);
@@ -151,10 +159,13 @@ void KeyframeView::drawKeyFrames(QRectF br, int length, bool active, QPainter *p
 int KeyframeView::mouseOverKeyFrames(QRectF br, QPointF pos, double maxOffset, double scale)
 {
     pos.setX(pos.x()*scale);
-    int previousEdit = editedKeyframe;
+    int previousEdit = activeKeyframe;
     for(int i = 0; i < m_keyAnim.key_count(); ++i) {
         int key = m_keyAnim.key_get_frame(i);
-        double value = m_keyProperties.anim_get_double("keyframes", key);
+        if (key < 0) {
+            key += duration;
+        }
+        double value = m_keyProperties.anim_get_double("keyframes", key, duration);
         QPointF p = keyframeMap(br, key, value);
         p.setX(p.x()*scale);
         if (m_keyframeType == GeometryKeyframe)
@@ -163,57 +174,45 @@ int KeyframeView::mouseOverKeyFrames(QRectF br, QPointF pos, double maxOffset, d
 	    //TODO
             /*setToolTip('[' + QString::number((GenTime(key, m_fps) - cropStart()).seconds(), 'f', 2)
                        + i18n("seconds") + ", " + QString::number(value, 'f', 1) + ']');*/
-	    editedKeyframe = key;
-            if (previousEdit != editedKeyframe) {
+	    activeKeyframe = key;
+            if (previousEdit != activeKeyframe) {
                 updateKeyframes();
             }
             return key;
-        } else if (p.x() > pos.x() + maxOffset) {
+        } /*else if (p.x() > pos.x() + maxOffset) {
             break;
-        }
+        }*/
     }
     //setToolTip(QString());
-    editedKeyframe = -1;
-    if (previousEdit != editedKeyframe) {
+    activeKeyframe = -1;
+    if (previousEdit != activeKeyframe) {
         updateKeyframes();
     }
     return -1;
 }
 
-void KeyframeView::updateSelectedKeyFrame(QRectF br)
-{
-    if (editedKeyframe == -1)
-        return;
-    QPointF h(12, 12);
-    QPointF p = keyframeMap(br, selectedKeyframe, m_keyProperties.anim_get_double("keyframes", selectedKeyframe));
-    emit updateKeyframes(QRectF(p - h/2, p + h/2));
-    selectedKeyframe = editedKeyframe;
-    p = keyframeMap(br, selectedKeyframe, m_keyProperties.anim_get_double("keyframes", selectedKeyframe));
-    emit updateKeyframes(QRectF(p - h/2, p + h/2));
-}
-
 double KeyframeView::editedKeyFrameValue()
 {
-    return m_keyProperties.anim_get_double("keyframes", editedKeyframe);
-}
-
-int KeyframeView::selectedKeyFramePos() const
-{
-    return selectedKeyframe;
+    return m_keyProperties.anim_get_double("keyframes", activeKeyframe, duration);
 }
 
 void KeyframeView::updateKeyFramePos(QRectF br, int frame, const double y)
 {
-    if (!m_keyAnim.is_key(editedKeyframe))
+    if (!m_keyAnim.is_key(activeKeyframe)) {
         return;
-    int prev = m_keyAnim.key_count() <= 1 || m_keyAnim.key_get_frame(0) == editedKeyframe ? 0 : m_keyAnim.previous_key(editedKeyframe - 1) + 1;
-    int next = m_keyAnim.key_count() <= 1 || m_keyAnim.key_get_frame(m_keyAnim.key_count() - 1) == editedKeyframe ? duration :  m_keyAnim.next_key(editedKeyframe + 1) - 1;
+    }
+    int prev = m_keyAnim.key_count() <= 1 || m_keyAnim.key_get_frame(0) == activeKeyframe ? 0 : m_keyAnim.previous_key(activeKeyframe - 1) + 1;
+    int next = m_keyAnim.key_count() <= 1 || m_keyAnim.key_get_frame(m_keyAnim.key_count() - 1) == activeKeyframe ? duration :  m_keyAnim.next_key(activeKeyframe + 1) - 1;
+    if (next < 0) next += duration;
     int newpos = qBound(prev, frame, next);
     double newval = keyframeUnmap(br, y);
-    m_keyProperties.anim_set("keyframes", newval, newpos, 0, m_keyAnim.keyframe_type(editedKeyframe));
-    if (editedKeyframe != newpos)
-        m_keyAnim.remove(editedKeyframe);
-    editedKeyframe = newpos;
+    m_keyProperties.anim_set("keyframes", newval, newpos, duration, m_keyAnim.keyframe_type(activeKeyframe));
+    if (activeKeyframe != newpos)
+        m_keyAnim.remove(activeKeyframe);
+    if (attachToEnd == activeKeyframe) {
+        attachToEnd = newpos;
+    }
+    activeKeyframe = newpos;
     emit updateKeyframes();
 }
 
@@ -222,10 +221,10 @@ int KeyframeView::checkForSingleKeyframe()
     // Check if we have only one keyframe
     int start = 0;
     if (m_keyAnim.key_count() == 1 && m_keyAnim.is_key(start)) {
-        double value = m_keyProperties.anim_get_double("keyframes", start);
+        double value = m_keyProperties.anim_get_double("keyframes", start, duration);
         // Add keyframe at end of clip to allow inserting a new keframe in between
         int prevPos = m_keyAnim.previous_key(duration);
-        m_keyProperties.anim_set("keyframes", value, duration, 0, m_keyAnim.keyframe_type(prevPos));
+        m_keyProperties.anim_set("keyframes", value, duration, duration, m_keyAnim.keyframe_type(prevPos));
         return value;
     }
     return -1;
@@ -254,16 +253,16 @@ mlt_keyframe_type KeyframeView::type(int frame)
 
 void KeyframeView::addKeyframe(int frame, double value, mlt_keyframe_type type)
 {
-    m_keyProperties.anim_set("keyframes", value, frame, 0, type);
+    m_keyProperties.anim_set("keyframes", value, frame, duration, type);
 }
 
 void KeyframeView::addDefaultKeyframe(int frame, mlt_keyframe_type type)
 {
     double value = m_keyframeDefault;
-    if (m_keyAnim.key_count() == 1) {
-	value = m_keyProperties.anim_get_double("keyframes", m_keyAnim.key_get_frame(0));
+    if (m_keyAnim.key_count() == 1 && frame != m_keyAnim.key_get_frame(0)) {
+	value = m_keyProperties.anim_get_double("keyframes", m_keyAnim.key_get_frame(0), duration);
     }
-    m_keyProperties.anim_set("keyframes", value, frame, 0, type);
+    m_keyProperties.anim_set("keyframes", value, frame, duration, type);
 }
 
 
@@ -275,7 +274,7 @@ void KeyframeView::removeKeyframe(int frame)
 QAction *KeyframeView::parseKeyframeActions(QList <QAction *>actions)
 {
 
-    mlt_keyframe_type type = m_keyAnim.keyframe_type(editedKeyframe);
+    mlt_keyframe_type type = m_keyAnim.keyframe_type(activeKeyframe);
     for (int i = 0; i < actions.count(); i++) {
         if (actions.at(i)->data().toInt() == type) {
             return actions.at(i);
@@ -284,23 +283,60 @@ QAction *KeyframeView::parseKeyframeActions(QList <QAction *>actions)
     return NULL;
 }
 
+void KeyframeView::attachKeyframeToEnd()
+{
+    attachToEnd = activeKeyframe;
+    emit updateKeyframes();
+}
+
 void KeyframeView::editKeyframeType(int type)
 {
-    if (m_keyAnim.is_key(editedKeyframe)) {
+    if (m_keyAnim.is_key(activeKeyframe)) {
         // This is a keyframe
-        double val = m_keyProperties.anim_get_double("keyframes", editedKeyframe, 0);
-        m_keyProperties.anim_set("keyframes", val, editedKeyframe, 0, (mlt_keyframe_type) type);
+        double val = m_keyProperties.anim_get_double("keyframes", activeKeyframe, duration);
+        m_keyProperties.anim_set("keyframes", val, activeKeyframe, duration, (mlt_keyframe_type) type);
     }
 }
 
 const QString KeyframeView::serialize()
 {
-    return m_keyAnim.serialize_cut();
+    if (attachToEnd == -2) {
+        return m_keyAnim.serialize_cut();
+    }
+    int pos;
+    mlt_keyframe_type type;
+    QString key;
+    QLocale locale;
+    QStringList result;
+    for(int i = 0; i < m_keyAnim.key_count(); ++i) {
+        pos = m_keyAnim.key_get_frame(i);
+        m_keyAnim.key_get(i, pos, type);
+        double val = m_keyProperties.anim_get_double("keyframes", pos, duration);
+        if (pos >= attachToEnd) {
+            pos = qMin(pos - duration, -1);
+        }
+        key = QString::number(pos);
+        switch (type) {
+            case mlt_keyframe_discrete:
+                key.append("|=");
+                break;
+            case mlt_keyframe_smooth:
+                key.append("~=");
+                break;
+            default:
+                key.append("=");
+                break;
+        }
+        key.append(locale.toString(val));
+        result << key;
+    }
+    return result.join(";");
 }
 
 bool KeyframeView::loadKeyframes(const QLocale locale, QDomElement e, int length)
 {
     QString type = e.attribute(QStringLiteral("type"));
+    attachToEnd = -2;
     if (type == QLatin1String("keyframe")) m_keyframeType = NormalKeyframe;
     else if (type == QLatin1String("simplekeyframe")) m_keyframeType = SimpleKeyframe;
     else if (type == QLatin1String("geometry")) m_keyframeType = GeometryKeyframe;
@@ -316,31 +352,53 @@ bool KeyframeView::loadKeyframes(const QLocale locale, QDomElement e, int length
         m_keyframeMax = locale.toDouble(e.attribute(QStringLiteral("max")));
         m_keyframeDefault = locale.toDouble(e.attribute(QStringLiteral("default")));
         m_keyframeFactor = 1;
-        selectedKeyframe = 0;
 
         // parse keyframes
         switch (m_keyframeType) {
             case GeometryKeyframe:
                 m_keyProperties.set("keyframes", e.attribute("value").toUtf8().constData());
-                m_keyProperties.anim_get_rect("keyframes", 0);
+                m_keyProperties.anim_get_rect("keyframes", 0, length);
                 break;
             case AnimatedKeyframe:
                 m_keyProperties.set("keyframes", e.attribute("value").toUtf8().constData());
-                m_keyProperties.anim_get_double("keyframes", 0);
+                attachToEnd = checkNegatives(e.attribute("value").toUtf8().constData(), duration);
+                // We need to initialize with length so that negative keyframes are correctly interpreted
+                m_keyProperties.anim_get_double("keyframes", 0, length);
                 m_keyframeFactor = locale.toDouble(e.attribute(QStringLiteral("factor")));
                 break;
             default:
                 m_keyProperties.set("keyframes", e.attribute("keyframes").toUtf8().constData());
-                m_keyProperties.anim_get_double("keyframes", 0);
+                m_keyProperties.anim_get_double("keyframes", 0, length);
         }
         m_keyAnim = m_keyProperties.get_animation("keyframes");
-        if (m_keyAnim.next_key(editedKeyframe) <= editedKeyframe) editedKeyframe = -1;
+        if (m_keyAnim.next_key(activeKeyframe) <= activeKeyframe) activeKeyframe = -1;
         return true;
     }
     m_keyProperties.set("keyframes", 0, 0);
     return false;
 }
 
+// static
+int KeyframeView::checkNegatives(const QString &data, int maxDuration)
+{
+    int result = -2;
+    QStringList frames = data.split(";");
+    for (int i = 0; i < frames.count(); i++) {
+        if (frames.at(i).startsWith("-")) {
+            // We found a negative kfr
+            QString sub = frames.at(i).section("=", 0, 0);
+            if (!sub.at(sub.length() - 1).isDigit()) {
+                // discrete or smooth keyframe, we need to remove the tag (| or ~)
+                sub.chop(1);
+            }
+            int negPos = sub.toInt() + maxDuration;
+            if (result == -2 || result > negPos) {
+                result = negPos;
+            }
+        }
+    }
+    return result;
+}
 
 void KeyframeView::reset()
 {
@@ -350,6 +408,8 @@ void KeyframeView::reset()
     }
     m_keyframeType = NoKeyframe;
     duration = 0;
+    attachToEnd = -2;
+    activeKeyframe = -1;
     emit updateKeyframes(); 
 }
 
@@ -365,13 +425,13 @@ QString KeyframeView::cutAnimation(const QString &animation, int start, int dura
 	double value = props.anim_get_double("keyframes", start);
 	int previous = anim.previous_key(start);
 	mlt_keyframe_type type = anim.keyframe_type(previous);
-	props.anim_set("keyframes", value, start, 0, type);	
+	props.anim_set("keyframes", value, start, start + duration, type);	
     }
     if (!anim.is_key(start + duration)) {
 	double value = props.anim_get_double("keyframes", start + duration);
 	int previous = anim.previous_key(start + duration);
 	mlt_keyframe_type type = anim.keyframe_type(previous);
-	props.anim_set("keyframes", value, start + duration, 0, type);	
+	props.anim_set("keyframes", value, start + duration, start + duration, type);	
     }
     return anim.serialize_cut(start, start + duration);
 }

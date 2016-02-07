@@ -34,9 +34,11 @@ class AnimKeyframeRuler : public QWidget
     Q_OBJECT
 public:
     explicit AnimKeyframeRuler(int min, int max, QWidget *parent = 0);
-    int value() const;
+    int position() const;
     int frameLength;
-    void updateKeyframes(QVector<int> keyframes, QVector<int> types);
+    void updateKeyframes(QVector<int> keyframes, QVector<int> types, int attachToEnd);
+    void setActiveKeyframe(int frame);
+    int activeKeyframe() const;
 
 protected:
     void paintEvent(QPaintEvent * /*e*/);
@@ -60,12 +62,14 @@ private:
     bool m_movingKeyframe;
     int m_movingKeyframePos;
     int m_movingKeyframeType;
+    int m_hoverKeyframe;
+    int m_selectedKeyframe;
     QPoint m_dragStart;
     int m_lineHeight;
-    int m_hoverKeyframe;
     QColor m_selected;
     QColor m_keyframe;
     int m_seekPosition;
+    int m_attachedToEnd;
 
 public slots:
     void setValue(const int pos);

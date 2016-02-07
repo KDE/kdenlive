@@ -101,6 +101,7 @@ class Fontval: public QWidget, public Ui::Fontval_UI
 ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo &info, EffectMetaInfo *metaInfo, QWidget * parent) :
         m_keyframeEditor(NULL),
         m_geometryWidget(NULL),
+        m_animationWidget(NULL),
         m_metaInfo(metaInfo),
         m_effect(effect),
         m_monitorEffectScene(MonitorSceneDefault)
@@ -237,12 +238,12 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 connect(this, SIGNAL(showComments(bool)), bval->widgetComment, SLOT(setVisible(bool)));
             m_uiItems.append(bval);
         } else if (type == QLatin1String("animated")) {
-            AnimationWidget *anim = new AnimationWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()), m_in, m_out, effect.attribute(QStringLiteral("id")), pa, e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt(), parent);
-            connect(anim, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
-            connect(this, SIGNAL(syncEffectsPos(int)), anim, SLOT(slotSyncPosition(int)));
-            connect(anim, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
-            m_valueItems[paramName+"animated"] = anim;
-            m_vbox->addWidget(anim);
+            m_animationWidget = new AnimationWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()), m_in, m_out, effect.attribute(QStringLiteral("id")), pa, e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt(), parent);
+            connect(m_animationWidget, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
+            connect(this, SIGNAL(syncEffectsPos(int)), m_animationWidget, SLOT(slotSyncPosition(int)));
+            connect(m_animationWidget, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
+            m_valueItems[paramName+"animated"] = m_animationWidget;
+            m_vbox->addWidget(m_animationWidget);
         } else if (type == QLatin1String("complex")) {
             ComplexParameter *pl = new ComplexParameter;
             pl->setupParam(effect, pa.attribute(QStringLiteral("name")), 0, 100);
@@ -626,8 +627,7 @@ void ParameterContainer::updateTimecodeFormat()
             RotoWidget *widget = static_cast<RotoWidget *>(m_valueItems[paramName]);
             widget->updateTimecodeFormat();
         } else if (type == QLatin1String("animated")) {
-            AnimationWidget *widget = static_cast<AnimationWidget*>(m_valueItems[paramName+"animated"]);
-            widget->updateTimecodeFormat();
+            if (m_animationWidget) m_animationWidget->updateTimecodeFormat();
         }
     }
 }
@@ -774,8 +774,7 @@ void ParameterContainer::slotCollectAllParameters()
             RotoWidget *widget = static_cast<RotoWidget *>(m_valueItems.value(paramName));
             if (widget) setValue = widget->getSpline();
         } else if (type == QLatin1String("animated")) {
-            AnimationWidget *widget = static_cast<AnimationWidget *>(m_valueItems.value(paramName));
-            if (widget) setValue = widget->getAnimation();
+            if (m_animationWidget) setValue = m_animationWidget->getAnimation();
         } else if (type == QLatin1String("wipe")) {
             Wipeval *wp = static_cast<Wipeval*>(m_valueItems.value(paramName));
             if (wp) {
@@ -986,7 +985,6 @@ void ParameterContainer::setKeyframes(const QString &data, int maximum)
 	return;
     }
     m_geometryWidget->importKeyframes(data, maximum);
-    
 }
 
 void ParameterContainer::setRange(int inPoint, int outPoint)
@@ -1005,3 +1003,9 @@ void ParameterContainer::refreshFrameInfo()
 {
     emit updateFrameInfo(m_metaInfo->frameSize, m_metaInfo->stretchFactor);
 }
+
+void ParameterContainer::setActiveKeyframe(int frame)
+{
+    if (m_animationWidget) m_animationWidget->setActiveKeyframe(frame);
+}
+

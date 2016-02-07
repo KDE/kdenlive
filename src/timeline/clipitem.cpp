@@ -313,7 +313,7 @@ void ClipItem::setSelectedEffect(const int ix)
     int editedKeyframe = -1;
     if (m_selectedEffect == ix) {
         // reloading same effect, keep current keyframe reference
-        editedKeyframe = m_keyframeView.editedKeyframe;
+        editedKeyframe = m_keyframeView.activeKeyframe;
     }
     m_selectedEffect = ix;
     QLocale locale;
@@ -372,7 +372,7 @@ void ClipItem::setSelectedEffect(const int ix)
             if (e.isNull()) continue;
             if (m_keyframeView.loadKeyframes(locale, e, cropDuration().frames(m_fps))) {
                 if (editedKeyframe > -1) {
-                    m_keyframeView.editedKeyframe = editedKeyframe;
+                    m_keyframeView.activeKeyframe = editedKeyframe;
                 }
                 m_visibleParam = i;
                 update();

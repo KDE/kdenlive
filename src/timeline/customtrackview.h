@@ -399,6 +399,7 @@ private:
     QMenu *m_timelineContextTransitionMenu;
     QMenu *m_timelineContextKeyframeMenu;
     KSelectAction *m_selectKeyframeType;
+    QAction *m_attachKeyframeToEnd;
     QMenu *m_markerMenu;
     QAction *m_autoTransition;
     QAction *m_pasteEffectsAction;
@@ -549,6 +550,7 @@ private slots:
     /** @brief Refresh razor marker. */
     void slotRefreshCutLine();
     void slotEditKeyframeType(QAction *action);
+    void slotAttachKeyframeToEnd();
 
 signals:
     void cursorMoved(int, int);
@@ -582,6 +584,8 @@ signals:
     void importPlaylistClips(ItemInfo info, QUrl url, QUndoCommand *expandCommand);
     /** @brief Show a specific frame in clip monitor */
     void showClipFrame(ClipController *, int);
+    /** @brief Select active keyframe in effect stack */
+    void setActiveKeyframe(int);
 };
 
 #endif

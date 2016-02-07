@@ -54,25 +54,25 @@ public:
     explicit KeyframeView(int handleSize, QObject *parent = 0);
     virtual ~KeyframeView();
 
-        /** The position of the current keyframe when it has moved */
-    int editedKeyframe;
-    /** The position of the current keyframe before it was moved */
-    int selectedKeyframe;
+    /** The position of the currently active keyframe */
+    int activeKeyframe;
+    /** @brief The keyframe position from which keyframes will be attached to end (-1 = disabled). */
+    int attachToEnd;
+    /** @brief Effect duration, must be updated on resize. */
     int duration;
 
-    void updateSelectedKeyFrame(QRectF br);
-
     /** @brief Move the selected keyframe (does not influence the effect, only the display in timeline).
-    * @param pos new Position
-    * @param value new Value */
+    * @param br the bounding rect for effect drawing
+    * @param frame new Position
+    * @param y new Value */
     void updateKeyFramePos(QRectF br, int frame, const double y);
     int checkForSingleKeyframe();
     double getKeyFrameClipHeight(QRectF br, const double y);
      /** @brief Returns the number of keyframes the selected effect has, -1 if none. */
     int keyframesCount();
-    int selectedKeyFramePos() const;
     double editedKeyFrameValue();
     void editKeyframeType(int type);
+    void attachKeyframeToEnd();
     mlt_keyframe_type type(int frame);
     void removeKeyframe(int frame);
     void addKeyframe(int frame, double value, mlt_keyframe_type type);
@@ -88,6 +88,8 @@ public:
     void showMenu(QWidget *parent, QPoint pos);
     QAction *parseKeyframeActions(QList <QAction *>actions);
     static QString cutAnimation(const QString &animation, int start, int duration);
+    /** @brief when loading an animation from a serialized string, check where is the first negative keyframe) */
+    static int checkNegatives(const QString &data, int maxDuration);
 	
 private:
     Mlt::Properties m_keyProperties;

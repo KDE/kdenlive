@@ -744,6 +744,14 @@ void EffectStackView2::slotSetCurrentEffect(int ix)
     }
 }
 
+void EffectStackView2::setActiveKeyframe(int frame)
+{
+    if (m_status == TIMELINE_CLIP) {
+        CollapsibleEffect *activeEffect = getEffectByIndex(activeEffectIndex());
+        if (activeEffect) activeEffect->setActiveKeyframe(frame);
+    }
+}
+
 void EffectStackView2::slotDeleteGroup(QDomDocument doc)
 {
     QDomNodeList effects = doc.elementsByTagName(QStringLiteral("effect"));
