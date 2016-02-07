@@ -1438,10 +1438,64 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         }
     }
 
+    if (version < 0.93) {
+        // convert old keyframe filters to animated
+        // these filters were "animated" by adding several instance of the filter, each one having a start and end tag.
+        // We convert by parsing the start and end tags vor values and adding all to the new animated parameter
+        QMap <QString, QStringList> keyframeFilterToConvert;
+        keyframeFilterToConvert.insert(QStringLiteral("volume"), QStringList() << QStringLiteral("gain") << QStringLiteral("end") << QStringLiteral("level"));
+        keyframeFilterToConvert.insert(QStringLiteral("brightness"), QStringList() << QStringLiteral("start") << QStringLiteral("end") << QStringLiteral("level"));
+
+        QDomNodeList entries = m_doc.elementsByTagName(QStringLiteral("entry"));
+        for (int i = 0; i < entries.count(); i++) {
+            QDomNode entry = entries.at(i);
+            QDomNodeList effects = entry.toElement().elementsByTagName(QStringLiteral("filter"));
+            QStringList parsedIds;
+            for (int j = 0; j < effects.count(); j++) {
+                QDomElement eff = effects.at(j).toElement();
+                QString id = EffectsList::property(eff, QStringLiteral("kdenlive_id"));
+                if (keyframeFilterToConvert.contains(id) && !parsedIds.contains(id)) {
+                    parsedIds << id;
+                    QMap <int, double> values;
+                    QStringList conversionParams = keyframeFilterToConvert.value(id);
+                    convertKeyframeEffect(eff, conversionParams, values);
+                    EffectsList::removeProperty(eff, conversionParams.at(0));
+                    EffectsList::removeProperty(eff, conversionParams.at(1));
+                    for (int k = j + 1; k < effects.count(); k++) {
+                        QDomElement subEffect = effects.at(k).toElement();
+                        QString subId = EffectsList::property(subEffect, QStringLiteral("kdenlive_id"));
+                        if (subId == id) {
+                            convertKeyframeEffect(subEffect, conversionParams, values);
+                            entry.removeChild(subEffect);
+                            k--;
+                        }
+                    }
+                    QStringList parsedValues;
+                    QLocale locale;
+                    QMapIterator<int, double> l(values);
+                    while (l.hasNext()) {
+                        l.next();
+                        parsedValues << QString::number(l.key()) + "=" + locale.toString(l.value());
+                    }
+                    qDebug()<<" ** * NEW PARAMETER: "<<parsedValues.join(";");
+                    EffectsList::setProperty(eff, conversionParams.at(2), parsedValues.join(";"));
+                }
+            }
+        }
+    }
+
     m_modified = true;
     return true;
 }
 
+void DocumentValidator::convertKeyframeEffect(QDomElement effect, QStringList params, QMap <int, double> &values)
+{
+    QLocale locale;
+    int in = effect.attribute(QStringLiteral("in")).toInt();
+    int out = effect.attribute(QStringLiteral("out")).toInt();
+    values.insert(in, locale.toDouble(EffectsList::property(effect, params.at(0))));
+    values.insert(out, locale.toDouble(EffectsList::property(effect, params.at(1))));
+}
 
 void DocumentValidator::updateProducerInfo(QDomElement prod, const QDomElement source)
 {

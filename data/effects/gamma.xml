@@ -3,7 +3,7 @@
 	<name>Gamma</name>
 	<description>Change gamma color value</description>
 	<author>Charles Yates</author>
-	<parameter type="constant" name="gamma" max="300" min="1" default="100" factor="100">
+	<parameter type="animated" name="gamma" max="300" min="1" default="1" factor="100">
 		<name>Gamma</name>
 	</parameter>
 </effect>

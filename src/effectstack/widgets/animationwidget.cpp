@@ -465,7 +465,7 @@ void AnimationWidget::addParameter(const QDomElement &e, int activeKeyframe)
     m_factor = e.hasAttribute(QStringLiteral("factor")) ? locale.toDouble(e.attribute(QStringLiteral("factor"))) : 1;
     DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, 0,
                                                                    e.attribute(QStringLiteral("min")).toDouble(), e.attribute(QStringLiteral("max")).toDouble(),
-                                                                   e.attribute(QStringLiteral("default")).toDouble(), comment, index, e.attribute(QStringLiteral("suffix")), e.attribute(QStringLiteral("decimals")).toInt(), this);
+                                                                   e.attribute(QStringLiteral("default")).toDouble() * m_factor, comment, index, e.attribute(QStringLiteral("suffix")), e.attribute(QStringLiteral("decimals")).toInt(), this);
     connect(doubleparam, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustKeyframeValue(double)));
     //connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
     //connect(doubleparam, SIGNAL(setInTimeline(int)), this, SLOT(slotUpdateVisibleParameter(int)));
