@@ -1666,7 +1666,7 @@ void MainWindow::connectDocument()
     connect(pCore->bin(), SIGNAL(clipNameChanged(QString)), trackView->projectView(), SLOT(clipNameChanged(QString)));    
     connect(pCore->bin(), SIGNAL(displayMessage(QString,MessageType)), m_messageLabel, SLOT(setMessage(QString,MessageType)));
 
-    connect(trackView->projectView(), SIGNAL(showClipFrame(ClipController*,int)), m_clipMonitor, SLOT(slotSeekController(ClipController*,int)));
+    connect(trackView->projectView(), SIGNAL(showClipFrame(const QString&,int)), pCore->bin(), SLOT(selectClipById(const QString&,int)));
     connect(trackView->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
     connect(m_projectMonitor, &Monitor::addEffect, trackView->projectView(), &CustomTrackView::slotAddEffectToCurrentItem);
 
@@ -2553,8 +2553,7 @@ void MainWindow::slotClipInProjectTree()
             return;
         }
         m_projectBinDock->raise();
-        pCore->bin()->selectClipById(selectedId);
-        m_clipMonitor->slotSeekController(NULL,pos);
+        pCore->bin()->selectClipById(selectedId, pos);
         if (m_projectMonitor->isActive()) {
             slotSwitchMonitors();
         }

@@ -972,8 +972,14 @@ QModelIndex Bin::getIndexForId(const QString &id, bool folderWanted) const
     return QModelIndex();
 }
 
-void Bin::selectClipById(const QString &clipId)
+void Bin::selectClipById(const QString &clipId, int frame)
 {
+    if (m_monitor->activeClipId() == clipId) {
+        if (frame > -1) {
+            m_monitor->slotSeek(frame);
+        }
+        return;
+    }
     QModelIndex ix = getIndexForId(clipId, false);
     if (ix.isValid()) {
 	m_proxyModel->selectionModel()->clearSelection();
@@ -986,6 +992,7 @@ void Bin::selectClipById(const QString &clipId)
         }
         selectProxyModel(m_proxyModel->mapFromSource(ix));
         m_itemView->scrollTo(m_proxyModel->mapFromSource(ix));
+        if (frame > -1) m_monitor->slotSeek(frame);
     }
 }
 
@@ -3144,3 +3151,4 @@ void Bin::getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unused
         }
     }
 }
+

@@ -21,5 +21,8 @@ set(kdenlive_SRCS
   timeline/transition.cpp
   timeline/transitionhandler.cpp
   timeline/timelinesearch.cpp
+  timeline/managers/guidemanager.cpp
+  timeline/managers/razormanager.cpp
+  timeline/managers/selectmanager.cpp
   PARENT_SCOPE)
 

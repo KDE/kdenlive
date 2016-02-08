@@ -62,8 +62,7 @@ enum OperationType {
     Spacer,
     RubberSelection,
     ScrollTimeline,
-    ZoomTimeline,
-    ContextMenu
+    ZoomTimeline
 };
 
 namespace PlaylistState {

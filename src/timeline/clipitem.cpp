@@ -208,11 +208,12 @@ bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int c
         // reset keyframes
 	m_keyframeView.reset();
     }
+    qDebug()<<" * * *CUTTINF CLP WIDTH: "<<width<<", PREVD: "<<previousDuration<<", CUT: "<<cutPos<<", CURR DUR: "<<cropDuration().frames(m_fps);
     // go through all effects this clip has
     for (int ix = 0; ix < effectsCount; ++ix) {
         // Check geometry params
         resizeGeometries(ix, width, height, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1);
-        QString newAnimation = resizeAnimations(ix, width, height, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1);
+        QString newAnimation = resizeAnimations(ix, width, height, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps));
 	if (!newAnimation.isEmpty()) setKeyframes(ix, newAnimation.split(';', QString::SkipEmptyParts));
 
         // Check keyframe params
@@ -412,7 +413,7 @@ QString ClipItem::resizeAnimations(const int index, int width, int height, int p
         QDomElement e = params.item(i).toElement();
         if (!e.isNull() && e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
             animation = e.attribute(QStringLiteral("value"));
-	    QString result = KeyframeView::cutAnimation(animation, start, duration);
+	    QString result = KeyframeView::cutAnimation(animation, start, duration, previousDuration);
 	    // TODO: in case of multiple animated params, use _intimeline to detect active one
 	    keyframes = result;
             e.setAttribute(QStringLiteral("value"), result);

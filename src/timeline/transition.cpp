@@ -453,3 +453,7 @@ void Transition::updateKeyframes(QDomElement /*effect*/)
 {
 }
 
+const QString &Transition::getBinId() const
+{
+    return NULL;
+}

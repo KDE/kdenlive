@@ -241,6 +241,11 @@ public:
     int getNextVideoTrack(int track);
     /** @brief returns id of clip under cursor and set pos to cursor position in clip */
     const QString getClipUnderCursor(int *pos) const;
+    /** @brief returns displayable timecode info */
+    QString getDisplayTimecode(const GenTime &time) const;
+    QString getDisplayTimecodeFromFrames(int frames) const;
+    /** @brief Call the default QGraphicsView mouse event */
+    void graphicsViewMouseEvent(QMouseEvent * event);
 
 public slots:
     /** @brief Send seek request to MLT. */
@@ -550,7 +555,7 @@ private slots:
     /** @brief Refresh razor marker. */
     void slotRefreshCutLine();
     void slotEditKeyframeType(QAction *action);
-    void slotAttachKeyframeToEnd();
+    void slotAttachKeyframeToEnd(bool attach);
 
 signals:
     void cursorMoved(int, int);
@@ -583,7 +588,7 @@ signals:
     /** @brief Prepare importing and expand of a playlist clip */
     void importPlaylistClips(ItemInfo info, QUrl url, QUndoCommand *expandCommand);
     /** @brief Show a specific frame in clip monitor */
-    void showClipFrame(ClipController *, int);
+    void showClipFrame(const QString &id, int frame);
     /** @brief Select active keyframe in effect stack */
     void setActiveKeyframe(int);
 };

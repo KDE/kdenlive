@@ -72,7 +72,7 @@ public:
     int keyframesCount();
     double editedKeyFrameValue();
     void editKeyframeType(int type);
-    void attachKeyframeToEnd();
+    void attachKeyframeToEnd(bool attach);
     mlt_keyframe_type type(int frame);
     void removeKeyframe(int frame);
     void addKeyframe(int frame, double value, mlt_keyframe_type type);
@@ -87,7 +87,7 @@ public:
     int mouseOverKeyFrames(QRectF br, QPointF pos, double maxOffset, double scale);
     void showMenu(QWidget *parent, QPoint pos);
     QAction *parseKeyframeActions(QList <QAction *>actions);
-    static QString cutAnimation(const QString &animation, int start, int duration);
+    static QString cutAnimation(const QString &animation, int start, int duration, int fullduration);
     /** @brief when loading an animation from a serialized string, check where is the first negative keyframe) */
     static int checkNegatives(const QString &data, int maxDuration);
 	

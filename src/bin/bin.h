@@ -451,8 +451,6 @@ public:
     /** @brief Create the subclips defined in the parent clip. */
     void loadSubClips(const QString&id, const QMap <QString,QString> data);
 
-    /** @brief Select a clip in the Bin from its id. */
-    void selectClipById(const QString &id);
     /** @brief Set focus to the Bin view. */
     void focusBinView() const;
     /** @brief Get a string list of all clip ids that are inside a folder defined by id. */
@@ -592,10 +590,6 @@ public slots:
     void slotAddClipCut(const QString&id, int in, int out);
     /** @brief Open current clip in an external editing application */
     void slotOpenClip();
-    /** @brief Creates a AddClipCommand to add, edit or delete a marker.
-     * @param id Id of the marker's clip
-     * @param t Position of the marker
-     * @param c Comment of the marker */
     void slotAddClipMarker(const QString &id, QList <CommentedTime> newMarker, QUndoCommand *groupCommand = 0);
     void slotLoadClipMarkers(const QString &id);
     void slotSaveClipMarkers(const QString &id);
@@ -619,6 +613,8 @@ public slots:
     void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, QList <QAction*> actions = QList <QAction*>());
     /** @brief Reset all clip usage to 0 */
     void resetUsageCount();
+        /** @brief Select a clip in the Bin from its id. */
+    void selectClipById(const QString &id, int frame = -1);
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);

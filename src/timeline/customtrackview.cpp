@@ -42,6 +42,9 @@
 #include "utils/KoIconUtils.h"
 #include "effectslist/initeffects.h"
 #include "dialogs/profilesdialog.h"
+#include "managers/guidemanager.h"
+#include "managers/razormanager.h"
+#include "managers/selectmanager.h"
 #include "ui_keyframedialog_ui.h"
 #include "ui_addtrack_ui.h"
 #include "ui_importkeyframesdialog_ui.h"
@@ -553,10 +556,6 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
     double snappedPos = getSnapPointForPos(mappedXPos);
     emit mousePosition(mappedXPos);
 
-    if (m_operationMode == ContextMenu) {
-        event->ignore();
-        return;
-    }
     if (m_cutLine) {
         m_cutLine->setPos(mappedXPos, getPositionFromTrack(getTrackFromPos(mapToScene(event->pos()).y())));
     }
@@ -652,132 +651,54 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         }
     }
 
-    if (m_tool == RazorTool) {
-        setCursor(m_razorCursor);
-    } else if (m_tool == SpacerTool) {
+    if (m_tool == SpacerTool) {
         setCursor(m_spacerCursor);
+        event->accept();
+        return;
     }
 
     QList<QGraphicsItem *> itemList = items(event->pos());
     QGraphicsRectItem *item = NULL;
-    OperationType opMode = None;
 
-    if (itemList.count() == 1 && itemList.at(0)->type() == GUIDEITEM) {
-        opMode = MoveGuide;
-        setCursor(Qt::SplitHCursor);
-    } else for (int i = 0; i < itemList.count(); ++i) {
-        if (itemList.at(i)->type() == AVWidget || itemList.at(i)->type() == TransitionWidget) {
-            item = (QGraphicsRectItem*) itemList.at(i);
+    bool abort = false;
+    GuideManager::checkOperation(itemList, this, event, m_operationMode, abort);
+    if (abort) {
+        return;
+    }
+
+    if (!abort) {
+        for (int i = 0; i < itemList.count(); ++i) {
+            if (itemList.at(i)->type() == AVWidget || itemList.at(i)->type() == TransitionWidget) {
+                item = (QGraphicsRectItem*) itemList.at(i);
+                break;
+            }
+        }
+    }
+    switch (m_tool) {
+        case RazorTool:
+            setCursor(m_razorCursor);
+            RazorManager::checkOperation(item, this, event, mappedXPos, m_operationMode, abort);
             break;
-        }
+        case SelectTool:
+        default:
+            SelectManager::checkOperation(item, this, event, m_selectionGroup, mappedXPos, m_operationMode, m_moveOpMode, abort);
+            break;
     }
+}
 
-    if (m_tool == SpacerTool) {
-        event->accept();
-        return;
-    }
+QString CustomTrackView::getDisplayTimecode(const GenTime &time) const
+{
+    return m_document->timecode().getDisplayTimecode(time, KdenliveSettings::frametimecode());
+}
 
-    if (item && event->buttons() == Qt::NoButton && m_moveOpMode != ZoomTimeline) {
-        AbstractClipItem *clip = static_cast <AbstractClipItem*>(item);
-        if (m_tool == RazorTool) {
-            // razor tool over a clip, display current frame in monitor
-            if (event->modifiers() == Qt::ShiftModifier && item->type() == AVWidget) {
-                //TODO: solve crash when showing frame when moving razor over clip
-                emit showClipFrame(static_cast<ClipItem*>(item)->binClip()->controller(), mappedXPos - (clip->startPos() - clip->cropStart()).frames(m_document->fps()));
-            }
-            event->accept();
-            return;
-        }
+QString CustomTrackView::getDisplayTimecodeFromFrames(int frames) const
+{
+    return m_document->timecode().getDisplayTimecodeFromFrames(frames, KdenliveSettings::frametimecode());
+}
 
-        if (m_selectionGroup && clip->parentItem() == m_selectionGroup) {
-            // all other modes break the selection, so the user probably wants to move it
-            opMode = MoveOperation;
-        } else {
-            if (clip->rect().width() * transform().m11() < 15) {
-                // If the item is very small, only allow move
-                opMode = MoveOperation;
-            }
-            else opMode = clip->operationMode(clip->mapFromScene(mapToScene(event->pos())));
-        }
-
-        const double size = 5;
-        if (opMode == m_moveOpMode) {
-            QGraphicsView::mouseMoveEvent(event);
-            return;
-        } else {
-            removeTipAnimation();
-        }
-        setTipAnimation(clip, opMode, size);
-        ClipItem *ci = NULL;
-        if (item->type() == AVWidget)
-            ci = static_cast <ClipItem *>(item);
-        QString message;
-        if (opMode == MoveOperation) {
-            setCursor(Qt::OpenHandCursor);
-            if (ci) {
-                message = ci->clipName() + i18n(":");
-                message.append(i18n(" Position:") + m_document->timecode().getDisplayTimecode(ci->info().startPos, KdenliveSettings::frametimecode()));
-                message.append(i18n(" Duration:") + m_document->timecode().getDisplayTimecode(ci->cropDuration(),  KdenliveSettings::frametimecode()));
-                if (clip->parentItem() && clip->parentItem()->type() == GroupWidget) {
-                    AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(clip->parentItem());
-                    if (clip->parentItem() == m_selectionGroup)
-                        message.append(i18n(" Selection duration:"));
-                    else
-                        message.append(i18n(" Group duration:"));
-                    message.append(m_document->timecode().getDisplayTimecode(parent->duration(), KdenliveSettings::frametimecode()));
-                    if (parent->parentItem() && parent->parentItem()->type() == GroupWidget) {
-                        AbstractGroupItem *parent2 = static_cast <AbstractGroupItem *>(parent->parentItem());
-                        message.append(i18n(" Selection duration:") + m_document->timecode().getDisplayTimecode(parent2->duration(), KdenliveSettings::frametimecode()));
-                    }
-                }
-            }
-        } else if (opMode == ResizeStart) {
-            setCursor(QCursor(Qt::SizeHorCursor));
-            if (ci)
-                message = i18n("Crop from start: ") + m_document->timecode().getDisplayTimecode(ci->cropStart(), KdenliveSettings::frametimecode());
-            if (item->type() == AVWidget && item->parentItem() && item->parentItem() != m_selectionGroup)
-                message.append(i18n("Use Ctrl to resize only current item, otherwise all items in this group will be resized at once."));
-        } else if (opMode == ResizeEnd) {
-            setCursor(QCursor(Qt::SizeHorCursor));
-            if (ci)
-                message = i18n("Duration: ") + m_document->timecode().getDisplayTimecode(ci->cropDuration(), KdenliveSettings::frametimecode());
-            if (item->type() == AVWidget && item->parentItem() && item->parentItem() != m_selectionGroup)
-                message.append(i18n("Use Ctrl to resize only current item, otherwise all items in this group will be resized at once."));
-        } else if (opMode == FadeIn || opMode == FadeOut) {
-            setCursor(Qt::PointingHandCursor);
-            if (ci && opMode == FadeIn && ci->fadeIn()) {
-                message = i18n("Fade in duration: ");
-                message.append(m_document->timecode().getDisplayTimecodeFromFrames(ci->fadeIn(), KdenliveSettings::frametimecode()));
-            } else if (ci && opMode == FadeOut && ci->fadeOut()) {
-                message = i18n("Fade out duration: ");
-                message.append(m_document->timecode().getDisplayTimecodeFromFrames(ci->fadeOut(), KdenliveSettings::frametimecode()));
-            } else {
-                message = i18n("Drag to add or resize a fade effect.");
-            }
-        } else if (opMode == TransitionStart || opMode == TransitionEnd) {
-            setCursor(Qt::PointingHandCursor);
-            message = i18n("Click to add a transition.");
-        } else if (opMode == KeyFrame) {
-            setCursor(Qt::PointingHandCursor);
-            emit displayMessage(i18n("Move keyframe above or below clip to remove it, double click to add a new one."), InformationMessage);
-        }
-
-        if (!message.isEmpty())
-            emit displayMessage(message, InformationMessage);
-        m_operationMode = opMode;
-    } // no clip under mouse
-    else if (m_tool == RazorTool) {
-        event->accept();
-        return;
-    } else if (opMode == MoveGuide) {
-        setCursor(QCursor(Qt::SizeHorCursor));
-        m_operationMode = opMode;
-    } else {
-        removeTipAnimation();
-        if (event->buttons() == Qt::NoButton && (m_moveOpMode == None || m_moveOpMode == WaitingForConfirm)) {
-	    setCursor(Qt::ArrowCursor);
-	}
-    }
+void CustomTrackView::graphicsViewMouseEvent(QMouseEvent * event)
+{
+    QGraphicsView::mouseMoveEvent(event);
 }
 
 void CustomTrackView::createRectangleSelection(QMouseEvent * event)
@@ -935,12 +856,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 {
     setFocus(Qt::MouseFocusReason);
     m_menuPosition = QPoint();
-    if (m_operationMode == ContextMenu && event->buttons() != Qt::RightButton) {
-        // Context menu was displayed, hide it and ignore event
-        m_operationMode = None;
-        event->ignore();
-        return;
-    }
     if (m_moveOpMode == MoveOperation) {
         // click while dragging, ignore
         event->ignore();
@@ -1122,7 +1037,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 	    m_dragItem->setZValue(99);
 	    if (m_dragItem->parentItem()) m_dragItem->parentItem()->setZValue(99);
 	}
-	event->ignore();
+	event->accept();
         updateTimelineSelection();
 	return;
     }
@@ -1717,9 +1632,9 @@ void CustomTrackView::contextMenuEvent(QContextMenuEvent * event)
     if (m_operationMode == KeyFrame) {
         displayKeyframesMenu(event->globalPos(), m_dragItem);
     } else {
-        m_operationMode = ContextMenu;
         displayContextMenu(event->globalPos(), m_dragItem);
     }
+    event->accept();
 }
 
 void CustomTrackView::displayKeyframesMenu(QPoint pos, AbstractClipItem *clip)
@@ -1745,18 +1660,18 @@ void CustomTrackView::displayKeyframesMenu(QPoint pos, AbstractClipItem *clip)
         m_attachKeyframeToEnd->setCheckable(true);
         m_timelineContextKeyframeMenu->addAction(m_attachKeyframeToEnd);
         connect(m_selectKeyframeType, SIGNAL(triggered(QAction*)), this, SLOT(slotEditKeyframeType(QAction*)));
-        connect(m_attachKeyframeToEnd, SIGNAL(triggered(bool)), this, SLOT(slotAttachKeyframeToEnd()));
+        connect(m_attachKeyframeToEnd, SIGNAL(triggered(bool)), this, SLOT(slotAttachKeyframeToEnd(bool)));
     }
     m_attachKeyframeToEnd->setChecked(clip->isAttachedToEnd());
     m_selectKeyframeType->setCurrentAction(clip->parseKeyframeActions(m_selectKeyframeType->actions()));
-    m_timelineContextKeyframeMenu->popup(pos);
+    m_timelineContextKeyframeMenu->exec(pos);
 }
 
-void CustomTrackView::slotAttachKeyframeToEnd()
+void CustomTrackView::slotAttachKeyframeToEnd(bool attach)
 {
     ClipItem * item = static_cast <ClipItem *>(m_dragItem);
     QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
-    item->attachKeyframeToEnd(item->getEffectAtIndex(item->selectedEffectIndex()));
+    item->attachKeyframeToEnd(item->getEffectAtIndex(item->selectedEffectIndex()), attach);
     QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
     EditEffectCommand *command = new EditEffectCommand(this, item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false);
     m_commandStack->push(command);
@@ -1814,7 +1729,7 @@ void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip)
             m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
             m_timelineContextClipMenu->popup(pos);
         } else if (clip->type() == TransitionWidget) {
-            m_timelineContextTransitionMenu->popup(pos);
+            m_timelineContextTransitionMenu->exec(pos);
         }
     }
 }
@@ -6466,7 +6381,7 @@ void CustomTrackView::adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime
             QString adjusted = EffectsController::adjustKeyframes(e.attribute(QStringLiteral("keyframes")), oldstart.frames(m_document->fps()), newstart.frames(m_document->fps()), (newstart + duration).frames(m_document->fps()) - 1, m_document->getProfileInfo());
             e.setAttribute(QStringLiteral("keyframes"), adjusted);
         } else if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
-	    QString resizedAnim = KeyframeView::cutAnimation(e.attribute(QStringLiteral("value")), 0,  duration.frames(m_document->fps()));
+	    QString resizedAnim = KeyframeView::cutAnimation(e.attribute(QStringLiteral("value")), 0,  duration.frames(m_document->fps()), duration.frames(m_document->fps()));
             e.setAttribute(QStringLiteral("value"), resizedAnim);
         }
     }

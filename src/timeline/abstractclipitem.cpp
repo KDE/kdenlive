@@ -359,14 +359,14 @@ int AbstractClipItem::posForTrack(int track)
     return pos;
 }
 
-void AbstractClipItem::attachKeyframeToEnd(QDomElement effect)
+void AbstractClipItem::attachKeyframeToEnd(QDomElement effect, bool attach)
 {
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.isNull()) continue;
         if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
-	    m_keyframeView.attachKeyframeToEnd();
+	    m_keyframeView.attachKeyframeToEnd(attach);
             e.setAttribute(QStringLiteral("value"), m_keyframeView.serialize());
         }
     }

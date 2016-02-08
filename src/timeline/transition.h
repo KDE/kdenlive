@@ -55,6 +55,7 @@ public:
     QString transitionTag() const;
     QStringList transitionInfo() const;
     OperationType operationMode(const QPointF &pos);
+    const QString &getBinId() const;
     void updateKeyframes(QDomElement effect);
     static int itemHeight();
     static int itemOffset();

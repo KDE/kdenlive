@@ -254,6 +254,10 @@ mlt_keyframe_type KeyframeView::type(int frame)
 void KeyframeView::addKeyframe(int frame, double value, mlt_keyframe_type type)
 {
     m_keyProperties.anim_set("keyframes", value, frame, duration, type);
+    // Last keyframe should stick to end
+    if (frame == duration - 1) {
+        attachToEnd = frame;
+    }
 }
 
 void KeyframeView::addDefaultKeyframe(int frame, mlt_keyframe_type type)
@@ -263,12 +267,19 @@ void KeyframeView::addDefaultKeyframe(int frame, mlt_keyframe_type type)
 	value = m_keyProperties.anim_get_double("keyframes", m_keyAnim.key_get_frame(0), duration);
     }
     m_keyProperties.anim_set("keyframes", value, frame, duration, type);
+    // Last keyframe should stick to end
+    if (frame == duration - 1) {
+        attachToEnd = frame;
+    }
 }
 
 
 void KeyframeView::removeKeyframe(int frame)
 {
     m_keyAnim.remove(frame);
+    if (frame == duration - 1 && frame == attachToEnd) {
+        attachToEnd = -2;
+    }
 }
 
 QAction *KeyframeView::parseKeyframeActions(QList <QAction *>actions)
@@ -283,9 +294,21 @@ QAction *KeyframeView::parseKeyframeActions(QList <QAction *>actions)
     return NULL;
 }
 
-void KeyframeView::attachKeyframeToEnd()
+void KeyframeView::attachKeyframeToEnd(bool attach)
 {
-    attachToEnd = activeKeyframe;
+    if (attach) {
+        attachToEnd = activeKeyframe;
+    } else {
+        if (attachToEnd != duration -1) {
+            // Check if there is a keyframe at end pos, and attach it to end if it is the case
+            if (m_keyAnim.is_key(duration -1)) {
+                attachToEnd = duration -1;
+            }
+        } else {
+            // We want to detach last keyframe from end
+            attachToEnd = -2;
+        }
+    }
     emit updateKeyframes();
 }
 
@@ -414,26 +437,26 @@ void KeyframeView::reset()
 }
 
 //static
-QString KeyframeView::cutAnimation(const QString &animation, int start, int duration)
+QString KeyframeView::cutAnimation(const QString &animation, int start, int duration, int fullduration)
 {
     Mlt::Properties props;
     props.set("keyframes", animation.toUtf8().constData());
-    props.anim_get_double("keyframes", 0);
+    props.anim_get_double("keyframes", 0, fullduration);
     Mlt::Animation anim = props.get_animation("keyframes");
     if (start > 0 && !anim.is_key(start)) {
 	// insert new keyframe at start
-	double value = props.anim_get_double("keyframes", start);
+	double value = props.anim_get_double("keyframes", start, fullduration);
 	int previous = anim.previous_key(start);
 	mlt_keyframe_type type = anim.keyframe_type(previous);
-	props.anim_set("keyframes", value, start, start + duration, type);	
+	props.anim_set("keyframes", value, start, start + duration, type);
     }
-    if (!anim.is_key(start + duration)) {
-	double value = props.anim_get_double("keyframes", start + duration);
-	int previous = anim.previous_key(start + duration);
+    if (!anim.is_key(start + duration - 1)) {
+	double value = props.anim_get_double("keyframes", start + duration - 1, fullduration);
+	int previous = anim.previous_key(start + duration - 1);
 	mlt_keyframe_type type = anim.keyframe_type(previous);
-	props.anim_set("keyframes", value, start + duration, start + duration, type);	
+	props.anim_set("keyframes", value, start + duration - 1, fullduration, type);	
     }
-    return anim.serialize_cut(start, start + duration);
+    return anim.serialize_cut(start, start + duration - 1);
 }
 
 

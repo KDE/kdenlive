@@ -61,6 +61,7 @@ public:
     virtual int track() const ;
     virtual GenTime cropStart() const ;
     virtual GenTime cropDuration() const ;
+    virtual const QString &getBinId() const = 0;
     /** @brief Return the current item's height */
     static int itemHeight();
     /** @brief Return the current item's vertical offset
@@ -78,7 +79,7 @@ public:
     double getKeyFrameClipHeight(const double y);
     QAction *parseKeyframeActions(QList <QAction *> list);
     void editKeyframeType(QDomElement effect, int type);
-    void attachKeyframeToEnd(QDomElement effect);
+    void attachKeyframeToEnd(QDomElement effect, bool attach);
     bool isAttachedToEnd() const;
 
     /** @brief Resizes the clip from the end.
