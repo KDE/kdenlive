@@ -151,6 +151,7 @@ public:
     void connectAudioSpectrum(bool activate);
     /** @brief Set a property on the Qml scene **/
     void setQmlProperty(const QString &name, const QVariant &value);
+    void displayAudioMonitor(bool isActive);
 
 protected:
     void mousePressEvent(QMouseEvent * event);
@@ -226,7 +227,6 @@ private:
     void adjustScrollBars(float horizontal, float vertical);
     void loadQmlScene(MonitorSceneType type);
     void updateQmlDisplay(int currentOverlay);
-    void displayAudioMonitor();
     /** @brief Connect qml on monitor toolbar buttons */
     void connectQmlToolbar(QQuickItem *root);
     /** @brief Check and display dropped frames */

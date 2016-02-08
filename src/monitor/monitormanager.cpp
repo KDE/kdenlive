@@ -130,8 +130,14 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh
         m_activeMonitor->parentWidget()->raise();
         if (name == Kdenlive::ClipMonitor) {
             emit updateOverlayInfos(name, KdenliveSettings::displayClipMonitorInfo());
+            m_projectMonitor->displayAudioMonitor(false);
+            m_clipMonitor->displayAudioMonitor(true);
         }
-        else emit updateOverlayInfos(name, KdenliveSettings::displayProjectMonitorInfo());
+        else {
+            emit updateOverlayInfos(name, KdenliveSettings::displayProjectMonitorInfo());
+            m_clipMonitor->displayAudioMonitor(false);
+            m_projectMonitor->displayAudioMonitor(true);
+        }
 	m_activeMonitor->blockSignals(false);
         m_activeMonitor->start();
         // why?

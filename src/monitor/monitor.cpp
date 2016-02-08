@@ -348,7 +348,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_infoMessage = new KMessageWidget(this);
     layout->addWidget(m_infoMessage);
     m_infoMessage->hide();
-    displayAudioMonitor();
 }
 
 Monitor::~Monitor()
@@ -1925,12 +1924,12 @@ void Monitor::slotSwitchAudioMonitor()
     int currentOverlay = KdenliveSettings::monitoraudio();
     currentOverlay ^= m_id;
     KdenliveSettings::setMonitoraudio(currentOverlay);
-    displayAudioMonitor();
+    displayAudioMonitor(isActive());
 }
 
-void Monitor::displayAudioMonitor()
+void Monitor::displayAudioMonitor(bool isActive)
 {
-    bool enable = KdenliveSettings::monitoraudio() & m_id;
+    bool enable = isActive && KdenliveSettings::monitoraudio() & m_id;
     if (enable) {
         connect(m_monitorManager, SIGNAL(frameDisplayed(const SharedFrame&)), m_audioMeterWidget, SLOT(onNewFrame(const SharedFrame&)), Qt::UniqueConnection);
     } else {
