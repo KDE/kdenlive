@@ -663,6 +663,7 @@ void Monitor::mousePressEvent(QMouseEvent * event)
             event->accept();
         }
     } else if (m_contextMenu) {
+        slotActivateMonitor();
         m_contextMenu->popup(event->globalPos());
         event->accept();
     }
@@ -671,6 +672,7 @@ void Monitor::mousePressEvent(QMouseEvent * event)
 
 void Monitor::slotShowMenu(const QPoint pos)
 {
+    slotActivateMonitor();
     if (m_contextMenu) m_contextMenu->popup(pos);
 }
 
