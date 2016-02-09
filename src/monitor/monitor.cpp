@@ -328,13 +328,16 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_toolbar->addWidget(spacer);*/
 
     m_toolbar->addSeparator();
-    m_audioMeterWidget = new MonitorAudioLevel(m_glMonitor->profile(), this);
-    m_audioMeterWidget->setMinimumHeight(m_toolbar->height());
+    int tm = 0;
+    int bm = 0;
+    m_toolbar->getContentsMargins(0, &tm, 0, &bm);
+    m_audioMeterWidget = new MonitorAudioLevel(m_glMonitor->profile(), m_toolbar->height() - tm - bm, this);
     m_toolbar->addWidget(m_audioMeterWidget);
     if (!m_audioMeterWidget->isValid) {
-        KdenliveSettings::setMonitoraudio(0);
-        m_audioMeterWidget->setVisible(false);
-        return;
+        KdenliveSettings::setMonitoraudio(0x01);
+        m_audioMeterWidget->setVisibility(false);
+    } else {
+        m_audioMeterWidget->setVisibility((KdenliveSettings::monitoraudio() & m_id) != 0);
     }
 
     connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotSeek()));
@@ -1919,25 +1922,29 @@ void Monitor::slotUpdateQmlTimecode(const QString &tc)
 void Monitor::slotSwitchAudioMonitor()
 {
     if (!m_audioMeterWidget->isValid) {
-        KdenliveSettings::setMonitoraudio(0);
-        m_audioMeterWidget->setVisible(false);
+        KdenliveSettings::setMonitoraudio(0x01);
+        m_audioMeterWidget->setVisibility(false);
         return;
     }
     int currentOverlay = KdenliveSettings::monitoraudio();
     currentOverlay ^= m_id;
     KdenliveSettings::setMonitoraudio(currentOverlay);
+    if (KdenliveSettings::monitoraudio() & m_id) {
+        // We want to enable this audio monitor, so make monitor active
+        slotActivateMonitor();
+    }
     displayAudioMonitor(isActive());
 }
 
 void Monitor::displayAudioMonitor(bool isActive)
 {
-    bool enable = isActive && KdenliveSettings::monitoraudio() & m_id;
+    bool enable = isActive && (KdenliveSettings::monitoraudio() & m_id);
     if (enable) {
         connect(m_monitorManager, SIGNAL(frameDisplayed(const SharedFrame&)), m_audioMeterWidget, SLOT(onNewFrame(const SharedFrame&)), Qt::UniqueConnection);
     } else {
         disconnect(m_monitorManager, SIGNAL(frameDisplayed(const SharedFrame&)), m_audioMeterWidget, SLOT(onNewFrame(const SharedFrame&)));
     }
-    m_audioMeterWidget->setVisible(enable);
+    m_audioMeterWidget->setVisibility((KdenliveSettings::monitoraudio() & m_id) != 0);
 }
 
 void Monitor::updateQmlDisplay(int currentOverlay)

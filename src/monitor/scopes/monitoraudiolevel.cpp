@@ -39,13 +39,15 @@ static inline double levelToDB(double dB)
     return 100 * (1.0 - log10(dB) * log_factor);
 }
 
-MonitorAudioLevel::MonitorAudioLevel(Mlt::Profile *profile, QWidget *parent) : ScopeWidget(parent)
+MonitorAudioLevel::MonitorAudioLevel(Mlt::Profile *profile, int height, QWidget *parent) : ScopeWidget(parent)
   , audioChannels(2)
+  , m_height(height)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_filter = new Mlt::Filter(*profile, "audiolevel");
     if (!m_filter->is_valid()) {
         isValid = false;
+        return;
     }
     m_filter->set("iec_scale", 0);
     isValid = true;
@@ -101,6 +103,7 @@ void MonitorAudioLevel::refreshPixmap()
 
 void MonitorAudioLevel::drawBackground(int channels)
 {
+    if (height() == 0) return;
     QSize newSize = QWidget::size();
     if (!newSize.isValid()) return;
     QFont ft = font();
@@ -185,10 +188,23 @@ void MonitorAudioLevel::setAudioValues(const QVector <int>& values)
     update();
 }
 
+void MonitorAudioLevel::setVisibility(bool enable)
+{
+    if (enable) {
+        setVisible(true);
+        setFixedHeight(m_height);
+    } else {
+        // set height to 0 so the toolbar layout is not affected
+        setFixedHeight(0);
+        setVisible(false);
+    }
+}
+
 void MonitorAudioLevel::paintEvent(QPaintEvent *pe)
 {
-    if (!isVisible())
+    if (!isVisible()) {
         return;
+    }
     QPainter p(this);
     p.setClipRect(pe->rect());
     QRect rect(0, 0, width(), height());
