@@ -289,9 +289,13 @@ void ClipItem::setKeyframes(const int ix, const QStringList &keyframes)
     if (effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) return;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
-    int keyframeParams = 0;
-    for (int i = 0; i < params.count(); ++i) {
+
+    if (m_keyframeView.loadKeyframes(locale, effect, cropDuration().frames(m_fps))) {
+        // Keyframable effect found
+        update();
+    }
+
+    /*for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.isNull()) continue;
         if (!(QStringList() << "keyframe" << "simplekeyframe" << "geometry" << "animated").contains(e.attribute("type")))
@@ -306,7 +310,7 @@ void ClipItem::setKeyframes(const int ix, const QStringList &keyframes)
             }
             ++keyframeParams;
         }
-    }
+    }*/
 }
 
 void ClipItem::setSelectedEffect(const int ix)
@@ -366,8 +370,10 @@ void ClipItem::setSelectedEffect(const int ix)
             m_endFade = EffectsList::parameter(fade, "out").toInt() - EffectsList::parameter(fade, "in").toInt();
             refreshClip = true;
         }
-
-        QDomNodeList params = effect.elementsByTagName("parameter");
+        if (m_keyframeView.loadKeyframes(locale, effect, cropDuration().frames(m_fps)) && !refreshClip) {
+            update();
+        }
+        /*QDomNodeList params = effect.elementsByTagName("parameter");
         for (int i = 0; i < params.count(); ++i) {
             QDomElement e = params.item(i).toElement();
             if (e.isNull()) continue;
@@ -379,7 +385,7 @@ void ClipItem::setSelectedEffect(const int ix)
                 update();
                 return;
             }
-        }
+        }*/
     }
 
     if (refreshClip) {

@@ -121,7 +121,7 @@ void KeyframeEdit::addParameter(const QDomElement &e, int activeKeyframe)
 
     DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, 0,
                                                                    m_params.at(columnId).attribute(QStringLiteral("min")).toDouble(), m_params.at(columnId).attribute(QStringLiteral("max")).toDouble(),
-                                                                   m_params.at(columnId).attribute(QStringLiteral("default")).toDouble(), comment, columnId, m_params.at(columnId).attribute(QStringLiteral("suffix")), m_params.at(columnId).attribute(QStringLiteral("decimals")).toInt(), this);
+                                                                   m_params.at(columnId).attribute(QStringLiteral("default")).toDouble(), comment, columnId, m_params.at(columnId).attribute(QStringLiteral("suffix")), m_params.at(columnId).attribute(QStringLiteral("decimals")).toInt(), false, this);
     connect(doubleparam, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustKeyframeValue(double)));
     connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
     connect(doubleparam, SIGNAL(setInTimeline(int)), this, SLOT(slotUpdateVisibleParameter(int)));

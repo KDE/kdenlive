@@ -663,6 +663,9 @@ void ParameterContainer::slotCollectAllParameters()
         for (int i = 0; i < namenode.count() ; ++i) {
             QDomElement pa = namenode.item(i).toElement();
             QString paramName = pa.attribute(QStringLiteral("name"));
+            if (values.count() > 1) {
+                pa.setAttribute(QStringLiteral("intimeline"), m_animationWidget->isActive(paramName) ? "1" : "0");
+            }
             if (values.contains(paramName)) {
                 pa.setAttribute(QStringLiteral("value"), values.value(paramName));
             }

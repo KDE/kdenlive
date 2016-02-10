@@ -53,6 +53,8 @@ public:
     static QString getDefaultKeyframes(const QString &defaultValue);
     void setActiveKeyframe(int frame);
     void finishSetup();
+    /** @brief Returns true if currently active param is name */
+    bool isActive(const QString &name) const;
 
 private:
     AnimKeyframeRuler *m_ruler;
@@ -109,11 +111,11 @@ private slots:
     void savePreset();
     void deletePreset();
     void slotSetDefaultInterp(QAction *action);
+    void slotUpdateVisibleParameter(bool display);
 
 signals:
     void seekToPos(int);
     void parameterChanged();
-    void enableEdit(bool);
 };
 
 #endif

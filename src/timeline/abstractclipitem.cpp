@@ -365,7 +365,8 @@ void AbstractClipItem::attachKeyframeToEnd(QDomElement effect, bool attach)
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.isNull()) continue;
-        if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
+        QString paramName = e.attribute(QStringLiteral("name"));
+        if (m_keyframeView.activeParam(paramName) && e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
 	    m_keyframeView.attachKeyframeToEnd(attach);
             e.setAttribute(QStringLiteral("value"), m_keyframeView.serialize());
         }
@@ -378,7 +379,8 @@ void AbstractClipItem::editKeyframeType(QDomElement effect, int type)
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.isNull()) continue;
-        if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
+        QString paramName = e.attribute(QStringLiteral("name"));
+        if (m_keyframeView.activeParam(paramName) && e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
 	    m_keyframeView.editKeyframeType(type);
             e.setAttribute(QStringLiteral("value"), m_keyframeView.serialize());
         }
@@ -395,7 +397,19 @@ void AbstractClipItem::insertKeyframe(QDomElement effect, int pos, double val, b
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.isNull()) continue;
-        if (   e.attribute(QStringLiteral("type")) == QLatin1String("keyframe")
+        QString paramName = e.attribute(QStringLiteral("name"));
+        if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
+            if (!m_keyframeView.activeParam(paramName)) {
+                continue;
+            }
+	    if (defaultValue) {
+		m_keyframeView.addDefaultKeyframe(pos, m_keyframeView.type(pos));
+	    } else {
+		m_keyframeView.addKeyframe(pos, val, m_keyframeView.type(pos));
+	    }
+            e.setAttribute(QStringLiteral("value"), m_keyframeView.serialize());
+        }
+        else if (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe")
             || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
             QString kfr = e.attribute(QStringLiteral("keyframes"));
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
@@ -422,13 +436,6 @@ void AbstractClipItem::insertKeyframe(QDomElement effect, int pos, double val, b
                     newkfr.append(QString::number(pos) + '=' + e.attribute(QStringLiteral("default")));
             }
             e.setAttribute(QStringLiteral("keyframes"), newkfr.join(QStringLiteral(";")));
-        } else if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
-	    if (defaultValue) {
-		m_keyframeView.addDefaultKeyframe(pos, m_keyframeView.type(pos));
-	    } else {
-		m_keyframeView.addKeyframe(pos, val, m_keyframeView.type(pos));
-	    }
-            e.setAttribute(QStringLiteral("value"), m_keyframeView.serialize());
         }
     }
 }
@@ -445,7 +452,12 @@ void AbstractClipItem::movedKeyframe(QDomElement effect, int newpos, int oldpos,
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.isNull()) continue;
-        if ((e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe"))) {
+        QString paramName = e.attribute(QStringLiteral("name"));
+        if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
+            if (m_keyframeView.activeParam(paramName))
+                e.setAttribute(QStringLiteral("value"), m_keyframeView.serialize());
+        }
+        else if ((e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe"))) {
             QString kfr = e.attribute(QStringLiteral("keyframes"));
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
             QStringList newkfr;
@@ -477,8 +489,6 @@ void AbstractClipItem::movedKeyframe(QDomElement effect, int newpos, int oldpos,
                 }
             }
             e.setAttribute(QStringLiteral("value"), newkfr.join(QStringLiteral(";")));
-        } else if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
-            e.setAttribute(QStringLiteral("value"), m_keyframeView.serialize());
         }
     }
 

@@ -25,6 +25,7 @@
 
 
 class DragValue;
+class QRadioButton;
 
 /**
  * @class DoubleParameterWidget
@@ -47,7 +48,7 @@ public:
     * @param comment A comment explaining the parameter. Will be shown for the tooltip.
     * @param suffix (optional) Suffix to display in spinbox
     * @param parent (optional) Parent Widget */
-    explicit DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString &suffix = QString(), int decimals = 0, QWidget* parent = 0);
+    explicit DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString &suffix = QString(), int decimals = 0, bool showRadiobutton = false, QWidget* parent = 0);
     ~DoubleParameterWidget();
 
     /** @brief The factor by which real param value is multiplicated to give the slider value. */
@@ -60,7 +61,9 @@ public:
     /** @brief Returns minimum size for QSpinBox, used to set all spinboxes to the same width. */
     int spinSize();
     void setSpinSize(int width);
-    
+    void setChecked(bool check);
+    void hideRadioButton();
+    void enableEdit(bool enable);
 
 public slots:
     /** @brief Sets the value to @param value. */
@@ -77,11 +80,14 @@ private slots:
 
 private:
     DragValue *m_dragVal;
+    QRadioButton *m_radio;
     
 signals:
     void valueChanged(double);
-    /** @brief User wants to see this parameter in timeline. */
+    /** @brief User wants to see this parameter in timeline (old way). */
     void setInTimeline(int);
+    /** @brief User wants to see this parameter in timeline. */
+    void displayInTimeline(bool);
 };
 
 #endif

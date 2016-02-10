@@ -22,18 +22,25 @@
 #include "effectstack/dragvalue.h"
 
 #include <QGridLayout>
+#include <QRadioButton>
 
 #include <QDebug>
 
 
-DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString &suffix, int decimals, QWidget *parent) 
+DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString &suffix, int decimals, bool showRadiobutton, QWidget *parent) 
   : QWidget(parent)
   , factor(1)
+  , m_radio(NULL)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     QGridLayout *layout = new QGridLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
+    if (showRadiobutton) {
+        m_radio = new QRadioButton(this);
+        layout->addWidget(m_radio, 0, 0);
+        connect(m_radio, &QRadioButton::toggled, this, &DoubleParameterWidget::displayInTimeline);
+    }
 
     m_dragVal = new DragValue(name, defaultValue, decimals, min, max, id, suffix, true, this);
     layout->addWidget(m_dragVal, 0, 1);
@@ -68,11 +75,30 @@ void DoubleParameterWidget::setValue(double value)
     m_dragVal->blockSignals(false);
 }
 
+void DoubleParameterWidget::enableEdit(bool enable)
+{
+    m_dragVal->setEnabled(enable);
+}
+
 void DoubleParameterWidget::slotSetValue(double value, bool final)
 {
+    if (m_radio && !m_radio->isChecked())
+        m_radio->setChecked(true);
     if (final) {
         emit valueChanged(value);
     }
+}
+
+void DoubleParameterWidget::setChecked(bool check)
+{
+    if (m_radio)
+        m_radio->setChecked(check);
+}
+
+void DoubleParameterWidget::hideRadioButton()
+{
+    if (m_radio)
+        m_radio->setVisible(false);
 }
 
 double DoubleParameterWidget::getValue()

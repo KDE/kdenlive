@@ -90,11 +90,14 @@ public:
     static QString cutAnimation(const QString &animation, int start, int duration, int fullduration);
     /** @brief when loading an animation from a serialized string, check where is the first negative keyframe) */
     static int checkNegatives(const QString &data, int maxDuration);
+    /** @brief returns true if currently edited parameter name is name */
+    bool activeParam(const QString &name) const;
 	
 private:
     Mlt::Properties m_keyProperties;
     Mlt::Animation m_keyAnim;
     KEYFRAMETYPE m_keyframeType;
+    QString m_inTimeline;
     double m_keyframeDefault;
     double m_keyframeMin;
     double m_keyframeMax;
@@ -104,6 +107,13 @@ private:
     double keyframeMap(QRectF br, double value);
     QPointF keyframeMap(QRectF br, int frame, double value);
     QPointF keyframePoint(QRectF br, int index);
+    QPointF keyframePoint(QRectF br, int frame, double value, double factor, double min, double max);
+    struct ParameterInfo {
+        double factor;
+        double min;
+        double max;
+    };
+    QMap <QString, ParameterInfo> m_paramInfos;
 
 signals:
     void updateKeyframes(const QRectF &r = QRectF());

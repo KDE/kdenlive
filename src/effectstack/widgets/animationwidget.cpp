@@ -191,6 +191,11 @@ void AnimationWidget::finishSetup()
 {
     // Load effect presets
     loadPresets();
+    
+    // If only one animated parametes, hide radiobutton
+    if (m_doubleWidgets.count() == 1) {
+        m_doubleWidgets.first()->hideRadioButton();
+    }
     // Load keyframes
     rebuildKeyframes();
     int framePos = qBound<int>(0, m_monitor->render->seekFramePosition() - m_clipPos, m_timePos->maximum());
@@ -286,24 +291,30 @@ void AnimationWidget::slotAddDeleteKeyframe(bool add)
     QStringList paramNames = m_doubleWidgets.keys();
     if (!add) {
         // Delete keyframe at current pos
+        slotDeleteKeyframe(pos, false);
+        /*
+        // Delete keyframe in all animations at current pos
         for (int i = 0; i < paramNames.count(); i++) {
             m_animController = m_animProperties.get_animation(paramNames.at(i).toUtf8().constData());
             if (m_animController.is_key(pos)) {
                 slotDeleteKeyframe(pos, false);
             }
-        }
+        }*/
     } else {
         // Create keyframe
+        slotAddKeyframe(pos, QString(), false);
+        /*
+        // Add keyframe in all animations
         for (int i = 0; i < paramNames.count(); i++) {
             m_animController = m_animProperties.get_animation(paramNames.at(i).toUtf8().constData());
             if (!m_animController.is_key(pos)) {
                 slotAddKeyframe(pos, paramNames.at(i), false);
             }
-        }
+        }*/
         m_ruler->setActiveKeyframe(pos);
     }
     // Restore default controller
-    m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
+    //m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
     // Rebuild
     rebuildKeyframes();
     emit parameterChanged();
@@ -326,6 +337,10 @@ void AnimationWidget::moveKeyframe(int oldPos, int newPos)
         qDebug()<<"////////ERROR NO KFR";
         return;
     }
+    double val = m_animProperties.anim_get_double(m_inTimeline.toUtf8().constData(), oldPos, m_timePos->maximum());
+    m_animController.remove(oldPos);
+    m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), val, newPos, m_timePos->maximum(), type);
+    /* Move keyframe in all geometries
     QStringList paramNames = m_doubleWidgets.keys();
     for (int i = 0; i < paramNames.count(); i++) {
         double val = m_animProperties.anim_get_double(paramNames.at(i).toUtf8().constData(), oldPos, m_timePos->maximum());
@@ -335,6 +350,7 @@ void AnimationWidget::moveKeyframe(int oldPos, int newPos)
     }
     // Restore default controller
     m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
+    */
     m_ruler->setActiveKeyframe(newPos);
     if (m_attachedToEnd == oldPos) {
         m_attachedToEnd = newPos;
@@ -381,11 +397,11 @@ void AnimationWidget::updateToolbar()
         }
         m_selectType->setEnabled(true);
         m_addKeyframe->setActive(true);
-        emit enableEdit(true);
+        m_doubleWidgets.value(m_inTimeline)->enableEdit(true);
     } else {
         m_selectType->setEnabled(false);
         m_addKeyframe->setActive(false);
-        emit enableEdit(false);
+        m_doubleWidgets.value(m_inTimeline)->enableEdit(false);
     }
 }
 
@@ -397,7 +413,6 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
         m_timePos->setValue(pos);
 
     m_ruler->setValue(pos);
-    //TODO: manage several params
     updateSlider(pos);
     if (seek)
         emit seekToPos(pos);
@@ -406,57 +421,70 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
 void AnimationWidget::updateSlider(int pos)
 {
     m_endAttach->blockSignals(true);
-    if (!m_animController.is_key(pos)) {
-        // no keyframe
-        if (m_animController.key_count() <= 1) {
-            // Special case: only one keyframe, allow adjusting whatever the position is
-            m_monitor->setEffectKeyframe(true);
-	    emit enableEdit(true);
-            m_endAttach->setEnabled(true);
-            m_endAttach->setChecked(m_attachedToEnd > -2 && m_animController.key_get_frame(0) >= m_attachedToEnd);
-        } else {
-            m_monitor->setEffectKeyframe(false);
-	    emit enableEdit(false);
-            m_endAttach->setEnabled(false);
-        }
-        m_selectType->setEnabled(false);
-        m_addKeyframe->setActive(false);
-    } else {
-        // keyframe
-        m_monitor->setEffectKeyframe(true);
-        m_addKeyframe->setActive(true);
-        m_selectType->setEnabled(true);
-        m_endAttach->setEnabled(true);
-        m_endAttach->setChecked(m_attachedToEnd > -2 && pos >= m_attachedToEnd);
-        mlt_keyframe_type currentType = m_animController.keyframe_type(pos);
-        QList<QAction *> types = m_selectType->actions();
-        for (int i = 0; i < types.count(); i++) {
-            if ((mlt_keyframe_type) types.at(i)->data().toInt() == currentType) {
-                m_selectType->setCurrentAction(types.at(i));
-                break;
-            }
-        }
-        emit enableEdit(true);
-    }
-    m_endAttach->blockSignals(false);
     QMapIterator<QString, DoubleParameterWidget *> i(m_doubleWidgets);
     while (i.hasNext()) {
         i.next();
+        m_animController = m_animProperties.get_animation(i.key().toUtf8().constData());
         double val = m_animProperties.anim_get_double(i.key().toUtf8().constData(), pos, m_timePos->maximum());
         i.value()->setValue(val * i.value()->factor);
+        if (!m_animController.is_key(pos)) {
+            // no keyframe
+            if (m_animController.key_count() <= 1) {
+                // Special case: only one keyframe, allow adjusting whatever the position is
+                i.value()->enableEdit(true);
+                if (i.key() == m_inTimeline) {
+                    m_monitor->setEffectKeyframe(true);
+                    m_endAttach->setEnabled(true);
+                    m_endAttach->setChecked(m_attachedToEnd > -2 && m_animController.key_get_frame(0) >= m_attachedToEnd);
+                }
+            } else {
+                i.value()->enableEdit(false);
+                if (i.key() == m_inTimeline) {
+                    m_monitor->setEffectKeyframe(false);
+                    m_endAttach->setEnabled(false);
+                }
+            }
+            if (i.key() == m_inTimeline) {
+                m_selectType->setEnabled(false);
+                m_addKeyframe->setActive(false);
+            }
+        } else {
+            // keyframe
+            if (i.key() == m_inTimeline) {
+                m_monitor->setEffectKeyframe(true);
+                m_addKeyframe->setActive(true);
+                m_selectType->setEnabled(true);
+                m_endAttach->setEnabled(true);
+                m_endAttach->setChecked(m_attachedToEnd > -2 && pos >= m_attachedToEnd);
+                mlt_keyframe_type currentType = m_animController.keyframe_type(pos);
+                QList<QAction *> types = m_selectType->actions();
+                for (int i = 0; i < types.count(); i++) {
+                    if ((mlt_keyframe_type) types.at(i)->data().toInt() == currentType) {
+                        m_selectType->setCurrentAction(types.at(i));
+                        break;
+                    }
+                }
+            }
+            i.value()->enableEdit(true);
+        }
     }
+    m_endAttach->blockSignals(false);
+    // Restore default controller
+    m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
 }
 
 void AnimationWidget::slotEditKeyframeType(QAction *action)
 {
     int pos = m_timePos->getValue();
     if (m_animController.is_key(pos)) {
-        // This is a keyframe, edit for all parameters
+        double val = m_animProperties.anim_get_double(m_inTimeline.toUtf8().constData(), pos, m_timePos->maximum());
+        m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), val, pos, m_timePos->maximum(), (mlt_keyframe_type) action->data().toInt());
+        /* This is a keyframe, edit for all parameters
         QStringList paramNames = m_doubleWidgets.keys();
         for (int i = 0; i < paramNames.count(); i++) {
             double val = m_animProperties.anim_get_double(paramNames.at(i).toUtf8().constData(), pos, m_timePos->maximum());
             m_animProperties.anim_set(paramNames.at(i).toUtf8().constData(), val, pos, m_timePos->maximum(), (mlt_keyframe_type) action->data().toInt());
-        }
+        }*/
         rebuildKeyframes();
         emit parameterChanged();
     }
@@ -496,19 +524,34 @@ void AnimationWidget::addParameter(const QDomElement &e)
     double factor = e.hasAttribute(QStringLiteral("factor")) ? locale.toDouble(e.attribute(QStringLiteral("factor"))) : 1;
     DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, 0,
                                                                    e.attribute(QStringLiteral("min")).toDouble(), e.attribute(QStringLiteral("max")).toDouble(),
-                                                                   e.attribute(QStringLiteral("default")).toDouble() * factor, comment, index, e.attribute(QStringLiteral("suffix")), e.attribute(QStringLiteral("decimals")).toInt(), this);
+                                                                   e.attribute(QStringLiteral("default")).toDouble() * factor, comment, index, e.attribute(QStringLiteral("suffix")), e.attribute(QStringLiteral("decimals")).toInt(), true, this);
     doubleparam->setObjectName(paramTag);
     doubleparam->factor = factor;
     connect(doubleparam, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustKeyframeValue(double)));
-    connect(this, SIGNAL(enableEdit(bool)), doubleparam, SLOT(setEnabled(bool)));
-    //connect(doubleparam, SIGNAL(setInTimeline(int)), this, SLOT(slotUpdateVisibleParameter(int)));
     layout()->addWidget(doubleparam);
     if (!e.hasAttribute(QStringLiteral("intimeline")) || e.attribute(QStringLiteral("intimeline")) == QLatin1String("1")) {
         doubleparam->setInTimelineProperty(true);
+        doubleparam->setChecked(true);
         m_inTimeline = paramTag;
-        m_animController = m_animProperties.get_animation(paramTag.toUtf8().constData());
+        m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
     }
     m_doubleWidgets.insert(paramTag, doubleparam);
+    connect(doubleparam, SIGNAL(displayInTimeline(bool)), this, SLOT(slotUpdateVisibleParameter(bool)));
+}
+
+void AnimationWidget::slotUpdateVisibleParameter(bool display)
+{
+    if (!display)
+        return;
+    DoubleParameterWidget *slider = qobject_cast<DoubleParameterWidget *>(QObject::sender());
+    if (slider) {
+        if (slider->objectName() == m_inTimeline) return;
+        m_doubleWidgets.value(m_inTimeline)->setChecked(false);
+        m_inTimeline = slider->objectName();
+        m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
+        rebuildKeyframes();
+        emit parameterChanged();
+    }
 }
 
 void AnimationWidget::slotAdjustKeyframeValue(double value)
@@ -532,6 +575,10 @@ void AnimationWidget::slotAdjustKeyframeValue(double value)
     }
 }
 
+bool AnimationWidget::isActive(const QString &name) const
+{
+    return name == m_inTimeline;
+}
 
 const QMap <QString, QString> AnimationWidget::getAnimation()
 {
