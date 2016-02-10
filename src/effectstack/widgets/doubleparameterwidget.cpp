@@ -28,6 +28,7 @@
 
 DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString &suffix, int decimals, QWidget *parent) 
   : QWidget(parent)
+  , factor(1)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     QGridLayout *layout = new QGridLayout(this);

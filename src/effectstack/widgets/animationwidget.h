@@ -48,10 +48,11 @@ public:
     explicit AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, const QString &effectId, QDomElement xml, int activeKeyframe, QWidget *parent = 0);
     virtual ~AnimationWidget();
     void updateTimecodeFormat();
-    void addParameter(const QDomElement &e, int activeKeyframe);
-    const QString getAnimation();
+    void addParameter(const QDomElement &e);
+    const QMap <QString, QString> getAnimation();
     static QString getDefaultKeyframes(const QString &defaultValue);
     void setActiveKeyframe(int frame);
+    void finishSetup();
 
 private:
     AnimKeyframeRuler *m_ruler;
@@ -62,9 +63,12 @@ private:
     int m_clipPos;
     int m_inPoint;
     int m_outPoint;
-    double m_factor;
     /** @brief the keyframe position currently edited in slider */
     int m_editedKeyframe;
+    /** @brief the list of names for animated parameters */
+    QStringList m_parameterNames;
+    /** @brief name of currently active animated parameter */
+    QString m_inTimeline;
     /** @brief the keyframe position which should be attached to end (negative frame) */
     int m_attachedToEnd;
     QDomElement m_xml;
@@ -74,7 +78,7 @@ private:
     KSelectAction *m_selectType;
     QAction *m_endAttach;
     QList <QDomElement> m_params;
-    QList <DoubleParameterWidget *> m_doubleWidgets;
+    QMap <QString, DoubleParameterWidget *> m_doubleWidgets;
     void parseKeyframes();
     void rebuildKeyframes();
     void updateToolbar();
@@ -98,8 +102,8 @@ private slots:
     void slotEditKeyframeType(QAction *action);
     void slotAdjustKeyframeValue(double value);
     void slotPositionChanged(int pos = -1, bool seek = true);
-    void slotAddKeyframe(int);
-    void slotDeleteKeyframe(int);
+    void slotAddKeyframe(int, QString paramName = QString(), bool directUpdate = true);
+    void slotDeleteKeyframe(int, bool directUpdate = true);
     void slotReverseKeyframeType(bool reverse);
     void applyPreset(int ix);
     void savePreset();
@@ -109,6 +113,7 @@ private slots:
 signals:
     void seekToPos(int);
     void parameterChanged();
+    void enableEdit(bool);
 };
 
 #endif

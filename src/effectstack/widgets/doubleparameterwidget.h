@@ -50,6 +50,9 @@ public:
     explicit DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString &suffix = QString(), int decimals = 0, QWidget* parent = 0);
     ~DoubleParameterWidget();
 
+    /** @brief The factor by which real param value is multiplicated to give the slider value. */
+    double factor;
+
     /** @brief Gets the parameter's value. */
     double getValue();
     /** @brief Set the inTimeline property to paint widget with other colors. */

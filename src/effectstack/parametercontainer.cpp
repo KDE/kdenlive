@@ -238,12 +238,16 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 connect(this, SIGNAL(showComments(bool)), bval->widgetComment, SLOT(setVisible(bool)));
             m_uiItems.append(bval);
         } else if (type == QLatin1String("animated")) {
-            m_animationWidget = new AnimationWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()), m_in, m_out, effect.attribute(QStringLiteral("id")), pa, e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt(), parent);
-            connect(m_animationWidget, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
-            connect(this, SIGNAL(syncEffectsPos(int)), m_animationWidget, SLOT(slotSyncPosition(int)));
-            connect(m_animationWidget, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
-            m_valueItems[paramName+"animated"] = m_animationWidget;
-            m_vbox->addWidget(m_animationWidget);
+            if (m_animationWidget) {
+                m_animationWidget->addParameter(pa);
+            } else {
+                m_animationWidget = new AnimationWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()), m_in, m_out, effect.attribute(QStringLiteral("id")), pa, e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt(), parent);
+                connect(m_animationWidget, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
+                connect(this, SIGNAL(syncEffectsPos(int)), m_animationWidget, SLOT(slotSyncPosition(int)));
+                connect(m_animationWidget, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
+                m_valueItems["animated"] = m_animationWidget;
+                m_vbox->addWidget(m_animationWidget);
+            }
         } else if (type == QLatin1String("complex")) {
             ComplexParameter *pl = new ComplexParameter;
             pl->setupParam(effect, pa.attribute(QStringLiteral("name")), 0, 100);
@@ -522,6 +526,10 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
 
     if (m_keyframeEditor)
         m_keyframeEditor->checkVisibleParam();
+    
+    if (m_animationWidget) {
+        m_animationWidget->finishSetup();
+    }
 
     // Make sure all doubleparam spinboxes have the same width, looks much better
     QList<DoubleParameterWidget *> allWidgets = findChildren<DoubleParameterWidget *>();
@@ -649,6 +657,18 @@ void ParameterContainer::slotCollectAllParameters()
 
     QDomNodeList namenode = m_effect.elementsByTagName(QStringLiteral("parameter"));
 
+    // special case, m_animationWidget can hold several parameters
+    if (m_animationWidget) {
+        QMap <QString, QString> values = m_animationWidget->getAnimation();
+        for (int i = 0; i < namenode.count() ; ++i) {
+            QDomElement pa = namenode.item(i).toElement();
+            QString paramName = pa.attribute(QStringLiteral("name"));
+            if (values.contains(paramName)) {
+                pa.setAttribute(QStringLiteral("value"), values.value(paramName));
+            }
+        }
+    }
+
     for (int i = 0; i < namenode.count() ; ++i) {
         QDomElement pa = namenode.item(i).toElement();
         QDomElement na = pa.firstChildElement(QStringLiteral("name"));
@@ -663,7 +683,7 @@ void ParameterContainer::slotCollectAllParameters()
         else if (type == QLatin1String("keyframe"))
             paramName.append("keyframe");
         else if (type == QLatin1String("animated"))
-            paramName.append("animated");
+            continue;
         if (type != QLatin1String("simplekeyframe") && type != QLatin1String("fixed") && type != QLatin1String("addedgeometry") && !m_valueItems.contains(paramName)) {
             qDebug() << "// Param: " << paramName << " NOT FOUND";
             continue;
@@ -773,8 +793,6 @@ void ParameterContainer::slotCollectAllParameters()
         } else if (type == QLatin1String("roto-spline")) {
             RotoWidget *widget = static_cast<RotoWidget *>(m_valueItems.value(paramName));
             if (widget) setValue = widget->getSpline();
-        } else if (type == QLatin1String("animated")) {
-            if (m_animationWidget) setValue = m_animationWidget->getAnimation();
         } else if (type == QLatin1String("wipe")) {
             Wipeval *wp = static_cast<Wipeval*>(m_valueItems.value(paramName));
             if (wp) {
