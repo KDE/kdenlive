@@ -1987,7 +1987,7 @@ void RenderWidget::setRenderJob(const QString &dest, int progress)
     item->setData(1, ProgressRole, progress);
     item->setStatus(RUNNINGJOB);
     if (progress == 0) {
-        item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("system-run")));
+        item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("media-record")));
         item->setData(1, TimeRole, QDateTime::currentDateTime());
         slotCheckJob();
     } else {
