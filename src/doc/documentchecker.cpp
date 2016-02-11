@@ -890,7 +890,6 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
     }
 }
 
-
 void DocumentChecker::slotCheckButtons()
 {
     if (m_ui.treeWidget->currentItem()) {

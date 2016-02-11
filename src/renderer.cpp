@@ -1576,6 +1576,11 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
                 int x2 = keyFrames.at(i + 1).section('=', 0, 0).toInt();
                 double y2 = keyFrames.at(i + 1).section('=', 1, 1).toDouble();
                 if (x2 == -1) x2 = duration;
+                // non-overlapping sections
+                if (i > 0) {
+                    y1 += (y2 - y1) / (x2 - x1);
+                    ++x1;
+                }
 
                 for (int j = 0; j < params.count(); ++j) {
                     filter->set(params.at(j).name().toUtf8().constData(), params.at(j).value().toUtf8().constData());
