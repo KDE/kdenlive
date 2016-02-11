@@ -59,6 +59,7 @@ HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track
     track_number->setText(m_name);
     track_number->setContextMenuPolicy(Qt::NoContextMenu);
     track_number->installEventFilter(this);
+    track_number->setEnabled(false);
     connect(track_number, SIGNAL(editingFinished()), this, SLOT(slotRenameTrack()));
     effect_label->setPixmap(KoIconUtils::themedIcon(QStringLiteral("kdenlive-track_has_effect")).pixmap(s));
     updateEffectLabel(info.effectsList.effectNames());
@@ -116,6 +117,9 @@ bool HeaderTrack::eventFilter(QObject *obj, QEvent *event)
     if (event->type() == QEvent::MouseButtonPress) {
         // Make sure to select current track when clicking in track name widget
         emit selectTrack(m_parentTrack->index());
+    } else if (event->type() == QEvent::MouseButtonDblClick) {
+        // Allow editing on double click
+        track_number->setEnabled(true);
     }
     return QWidget::eventFilter(obj, event);
 }
@@ -280,6 +284,7 @@ void HeaderTrack::slotRenameTrack()
     track_number->clearFocus();
     if (m_name != track_number->text())
         emit renameTrack(m_parentTrack->index(), track_number->text());
+    track_number->setEnabled(false);
 }
 
 void HeaderTrack::renameTrack(const QString &name)
