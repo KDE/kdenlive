@@ -943,11 +943,10 @@ QString Bin::slotAddFolder(const QString &folderName)
     if (ix.isValid()) {
         m_proxyModel->selectionModel()->clearSelection();
         int row =ix.row();
-        for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
-            const QModelIndex id = m_itemModel->index(row, i, ix.parent());
-            if (id.isValid()) {
-                m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
-            }
+        const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
+        const QModelIndex id2 = m_itemModel->index(row, m_rootFolder->supportedDataCount() - 1, ix.parent());
+        if (id.isValid() && id2.isValid()) {
+            m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::Select);
         }
         m_itemView->edit(m_proxyModel->mapFromSource(ix));
     }
@@ -984,11 +983,10 @@ void Bin::selectClipById(const QString &clipId, int frame)
     if (ix.isValid()) {
 	m_proxyModel->selectionModel()->clearSelection();
         int row =ix.row();
-        for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
-            const QModelIndex id = m_itemModel->index(row, i, ix.parent());
-            if (id.isValid()) {
-                m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
-            }
+        const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
+        const QModelIndex id2 = m_itemModel->index(row, m_rootFolder->supportedDataCount() - 1, ix.parent());
+        if (id.isValid() && id2.isValid()) {
+            m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::Select);
         }
         selectProxyModel(m_proxyModel->mapFromSource(ix));
         m_itemView->scrollTo(m_proxyModel->mapFromSource(ix));
@@ -1136,11 +1134,34 @@ void Bin::emitAboutToAddItem(AbstractProjectItem* item)
 void Bin::emitItemAdded(AbstractProjectItem* item)
 {
     m_itemModel->onItemAdded(item);
+    if (!m_proxyModel->selectionModel()->hasSelection()) {
+        QModelIndex ix = getIndexForId(item->clipId(), item->itemType() == AbstractProjectItem::FolderItem);
+        int row =ix.row();
+        if (row < 0) row = item->index();
+        const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
+        const QModelIndex id2 = m_itemModel->index(row, m_rootFolder->supportedDataCount() - 1, ix.parent());
+        m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::Select);
+        selectProxyModel(m_proxyModel->mapFromSource(id));
+    }
 }
 
 void Bin::emitAboutToRemoveItem(AbstractProjectItem* item)
 {
+    QModelIndex ix = m_proxyModel->mapFromSource(getIndexForId(item->clipId(), item->itemType() == AbstractProjectItem::FolderItem));
     m_itemModel->onAboutToRemoveItem(item);
+    int row =ix.row();
+    if (row > 0 && item->itemType() != AbstractProjectItem::SubClipItem) {
+        // Go one level up to select upper item (not on subclip because ix is the parent index for subclips)
+        row--;
+    }
+    if (!m_proxyModel->selectionModel()->hasSelection() || m_proxyModel->selectionModel()->isSelected(ix)) {
+        // we have to select item above deletion
+        QModelIndex id = m_proxyModel->index(row, 0, ix.parent());
+        QModelIndex id2 = m_proxyModel->index(row, m_rootFolder->supportedDataCount() - 1, ix.parent());
+        if (id.isValid() && id2.isValid()) {
+            m_proxyModel->selectionModel()->select(QItemSelection(id, id2), QItemSelectionModel::Select);
+        }
+    }
 }
 
 void Bin::emitItemRemoved(AbstractProjectItem* item)
@@ -1150,44 +1171,32 @@ void Bin::emitItemRemoved(AbstractProjectItem* item)
 
 void Bin::rowsInserted(const QModelIndex &parent, int start, int end)
 {
+    Q_UNUSED(parent)
+    Q_UNUSED(start)
     Q_UNUSED(end)
-    if (!m_proxyModel->selectionModel()->hasSelection()) {
-        for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
-            const QModelIndex id = m_itemModel->index(start, i, parent);
-            if (id.isValid()) {
-                m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
-            }
-        }
-        selectProxyModel(m_proxyModel->mapFromSource(m_itemModel->index(start, 0, parent)));
-    }
+    //Moved selection stuff to emitItemAdded otherwise selection is messaed up by sorting
 }
 
 void Bin::rowsRemoved(const QModelIndex &parent, int start, int end)
 {
+    Q_UNUSED(parent)
+    Q_UNUSED(start)
     Q_UNUSED(end)
-
-    QModelIndex id = m_itemModel->index(start, 0, parent);
-    if (!id.isValid() && start > 0) {
-        start--;
-    }
-    for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
-        id = m_itemModel->index(start, i, parent);
-        if (id.isValid()) {
-            m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
-        }
-    }
+    //Moved selection stuff to emitAboutToRemoveItem otherwise selection is messaed up by sorting
 }
 
 void Bin::selectProxyModel(const QModelIndex &id)
 {
-    if (isLoading) return;
+    if (isLoading) {
+        return;
+    }
     if (id.isValid()) {
         if (id.column() != 0) return;
         AbstractProjectItem *currentItem = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(id).internalPointer());
-	if (currentItem) {
+        if (currentItem) {
             // Set item as current so that it displays its content in clip monitor
             currentItem->setCurrent(true);
-            if (currentItem->itemType() != AbstractProjectItem::FolderItem) {
+            if (currentItem->itemType() == AbstractProjectItem::ClipItem) {
                 m_reloadAction->setEnabled(true);
                 m_duplicateAction->setEnabled(true);
                 ClipType type = static_cast<ProjectClip*>(currentItem)->clipType();
@@ -1199,13 +1208,23 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_deleteAction->setText(i18n("Delete Clip"));
                 m_proxyAction->setText(i18n("Proxy Clip"));
 		emit findInTimeline(currentItem->clipId());
-            } else {
+            } else if (currentItem->itemType() == AbstractProjectItem::FolderItem) {
                 // A folder was selected, disable editing clip
                 m_openAction->setEnabled(false);
                 m_reloadAction->setEnabled(false);
                 m_duplicateAction->setEnabled(false);
                 m_deleteAction->setText(i18n("Delete Folder"));
                 m_proxyAction->setText(i18n("Proxy Folder"));
+            } else if (currentItem->itemType() == AbstractProjectItem::SubClipItem) {
+                if (m_propertiesPanel->isVisible()) {
+                    // if info panel is displayed, update info
+                    showClipProperties(static_cast<ProjectClip*>(currentItem->parent()), false, false);
+                }
+                m_openAction->setEnabled(false);
+                m_reloadAction->setEnabled(false);
+                m_duplicateAction->setEnabled(false);
+                m_deleteAction->setText(i18n("Delete Clip"));
+                m_proxyAction->setText(i18n("Proxy Clip"));
             }
 	    m_deleteAction->setEnabled(true);
         } else {
@@ -1730,10 +1749,9 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
 		    continue;
 		}
 		AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
-                ProjectClip *currentItem = qobject_cast<ProjectClip*>(item);
-                if (currentItem && currentItem->clipId() == info.clipId) {
+                if (item && item->clipId() == info.clipId) {
                     // Item was selected, show it in monitor
-                    currentItem->setCurrent(true);
+                    item->setCurrent(true);
                     break;
                 }
             }
@@ -2129,11 +2147,10 @@ void Bin::slotEffectDropped(QString effect, const QModelIndex &parent)
         }
         m_proxyModel->selectionModel()->clearSelection();
         int row =parent.row();
-        for (int i = 0; i < m_rootFolder->supportedDataCount(); i++) {
-            const QModelIndex id = m_itemModel->index(row, i, parent.parent());
-            if (id.isValid()) {
-                m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
-            }
+        const QModelIndex id = m_itemModel->index(row, 0, parent.parent());
+        const QModelIndex id2 = m_itemModel->index(row, m_rootFolder->supportedDataCount() - 1, parent.parent());
+        if (id.isValid() && id2.isValid()) {
+            m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::Select);
         }
         parentItem->setCurrent(true);
         QDomDocument doc;
