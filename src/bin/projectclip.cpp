@@ -826,6 +826,7 @@ void ProjectClip::slotExtractSubImage(QList <int> frames)
     if (prod == NULL || !prod->is_valid()) return;
     int fullWidth = (int)((double) 150 * prod->profile()->dar() + 0.5);
     QDir thumbFolder(bin()->projectFolder().path() + "/thumbs/");
+    int max = prod->get_length();
     for (int i = 0; i < frames.count(); i++) {
         int pos = frames.at(i);
         QString path = thumbFolder.absoluteFilePath(hash() + "#" + QString::number(pos) + ".png");
@@ -839,9 +840,7 @@ void ProjectClip::slotExtractSubImage(QList <int> frames)
             }
             continue;
         }
-        int max = prod->get_out();
-        if (pos >= max) pos = max - 1;
-        if (pos < 0) pos = 0;
+        pos = qBound(0, pos, max - 1);
         prod->seek(pos);
         Mlt::Frame *frame = prod->get_frame();
         if (frame && frame->is_valid()) {
