@@ -143,6 +143,12 @@ QList < CommentedTime > ProjectClip::commentedSnapMarkers() const
     return QList < CommentedTime > ();
 }
 
+QStringList ProjectClip::markersText(GenTime in, GenTime out) const
+{
+    if (m_controller) return m_controller->markerComments(in, out);
+    return QStringList();
+}
+
 bool ProjectClip::audioThumbCreated() const
 {
     return (m_controller && m_controller->audioThumbCreated);

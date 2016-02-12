@@ -2458,6 +2458,8 @@ void Bin::addClipCut(const QString&id, int in, int out)
         return;
     }
     sub = new ProjectSubClip(clip, in, out, m_doc->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()));
+    QStringList markersComment = clip->markersText(GenTime(in, m_doc->fps()), GenTime(out, m_doc->fps()));
+    sub->setDescription(markersComment.join(";"));
     QtConcurrent::run(clip, &ProjectClip::slotExtractSubImage, QList <int>() << in);
 }
 

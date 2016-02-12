@@ -168,6 +168,8 @@ public:
     double getDoubleProducerProperty(const QString &key) const;
 
     QList < CommentedTime > commentedSnapMarkers() const;
+    /** @brief Returns a list of all markers comments between in ant out frames. */
+    QStringList markersText(GenTime in, GenTime out) const;
 
     /** @brief Returns true if we are using a proxy for this clip. */
     bool hasProxy() const;

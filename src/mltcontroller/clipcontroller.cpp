@@ -551,6 +551,21 @@ QString ClipController::markerComment(const GenTime &t) const
     return m_snapMarkers.at(ix).comment();
 }
 
+QStringList ClipController::markerComments(const GenTime &start, const GenTime &end) const
+{
+    QStringList comments;
+    for (int count = 0; count < m_snapMarkers.count(); ++count) {
+        if (m_snapMarkers.at(count).time() >= start) {
+            if (m_snapMarkers.at(count).time() > end) {
+                break;
+            } else {
+                comments << m_snapMarkers.at(count).comment();
+            }
+        }
+    }
+    return comments;
+}
+
 CommentedTime ClipController::markerAt(const GenTime &t) const
 {
     CommentedTime marker(t, QString());

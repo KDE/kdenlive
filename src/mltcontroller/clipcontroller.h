@@ -161,6 +161,7 @@ public:
     void loadSnapMarker(const QString &seconds, const QString &hash);
     QList < GenTime > snapMarkers() const;
     QString markerComment(const GenTime &t) const;
+    QStringList markerComments(const GenTime &start, const GenTime &end) const;
     CommentedTime markerAt(const GenTime &t) const;
     void setZone(const QPoint &zone);
     QPoint zone() const;
