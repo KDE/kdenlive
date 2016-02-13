@@ -614,7 +614,7 @@ void Render::saveZone(QPoint zone)
     else {
 	Mlt::Producer prod(m_mltProducer->get_producer());
 	Mlt::Producer *prod2 = prod.cut(zone.x(), zone.y());
-	Mlt::Playlist list;
+	Mlt::Playlist list(*m_mltProducer->profile());
 	list.insert_at(0, *prod2, 0);
 	//list.set("title", desc.toUtf8().constData());
 	xmlConsumer.connect(list);
@@ -642,7 +642,7 @@ bool Render::saveClip(int track, const GenTime &position, const QUrl &url, const
     
     Mlt::Consumer xmlConsumer(*m_qmlView->profile(), ("xml:" + url.toLocalFile()).toUtf8().constData());
     xmlConsumer.set("terminate_on_pause", 1);
-    Mlt::Playlist list;
+    Mlt::Playlist list(*m_qmlView->profile());
     list.insert_at(0, clip.data(), 0);
     //delete clip;
     list.set("title", desc.toUtf8().constData());
@@ -2287,7 +2287,7 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
     blockSignals(true);
     service.lock();
     Mlt::Tractor tractor(service);
-    Mlt::Playlist playlist;
+    Mlt::Playlist playlist(*service.profile());
     playlist.set("kdenlive:track_name", name.toUtf8().constData());
     int ct = tractor.count();
     if (ix > ct) {

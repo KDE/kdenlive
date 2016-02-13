@@ -200,7 +200,7 @@ void MeltJob::startJob()
         }
     }
     Mlt::Tractor tractor(*m_profile);
-    Mlt::Playlist playlist;
+    Mlt::Playlist playlist(*m_profile);
     playlist.append(*m_producer);
     tractor.set_track(playlist, 0);
     m_consumer->connect(tractor);
