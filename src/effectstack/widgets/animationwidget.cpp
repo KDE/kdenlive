@@ -566,8 +566,13 @@ void AnimationWidget::slotEditKeyframeType(QAction *action)
 {
     int pos = m_timePos->getValue();
     if (m_animController.is_key(pos)) {
-        double val = m_animProperties.anim_get_double(m_inTimeline.toUtf8().constData(), pos, m_timePos->maximum());
-        m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), val, pos, m_timePos->maximum(), (mlt_keyframe_type) action->data().toInt());
+        if (m_rectParameter == m_inTimeline) {
+            mlt_rect rect = m_animProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), pos, m_timePos->maximum());
+            m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), rect, pos, m_timePos->maximum(), (mlt_keyframe_type) action->data().toInt());
+        } else {
+            double val = m_animProperties.anim_get_double(m_inTimeline.toUtf8().constData(), pos, m_timePos->maximum());
+            m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), val, pos, m_timePos->maximum(), (mlt_keyframe_type) action->data().toInt());
+        }
         /* This is a keyframe, edit for all parameters
         QStringList paramNames = m_doubleWidgets.keys();
         for (int i = 0; i < paramNames.count(); i++) {
@@ -575,6 +580,7 @@ void AnimationWidget::slotEditKeyframeType(QAction *action)
             m_animProperties.anim_set(paramNames.at(i).toUtf8().constData(), val, pos, m_timePos->maximum(), (mlt_keyframe_type) action->data().toInt());
         }*/
         rebuildKeyframes();
+        setupMonitor();
         emit parameterChanged();
     }
 }
