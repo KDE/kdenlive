@@ -209,20 +209,19 @@ void SmallJobLabel::slotSetJobCount(int jobCount)
         // prepare animation
         setText(i18np("%1 job", "%1 jobs", jobCount));
         setToolTip(i18np("%1 pending job", "%1 pending jobs", jobCount));
-        
-        //if (!(KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects)) {
+
         if (style()->styleHint(QStyle::SH_Widget_Animate, 0, this)) {
             setFixedWidth(sizeHint().width());
             m_action->setVisible(true);
             return;
         }
-        
+
         if (m_action->isVisible()) {
             setFixedWidth(sizeHint().width());
             update();
             return;
         }
-        
+
         setFixedWidth(0);
         m_action->setVisible(true);
         int wantedWidth = sizeHint().width();
@@ -231,9 +230,7 @@ void SmallJobLabel::slotSetJobCount(int jobCount)
         if (m_timeLine->state() == QTimeLine::NotRunning) {
             m_timeLine->start();
         }
-    }
-    else {
-        //if (!(KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects)) {
+    } else {
         if (style()->styleHint(QStyle::SH_Widget_Animate, 0, this)) {
             setFixedWidth(0);
             m_action->setVisible(false);

@@ -215,6 +215,8 @@ void KeyframeView::drawKeyFrames(QRectF br, int length, bool active, QPainter *p
 
 int KeyframeView::mouseOverKeyFrames(QRectF br, QPointF pos, double maxOffset, double scale)
 {
+    if (m_keyframeType == NoKeyframe)
+        return -1;
     pos.setX(pos.x()*scale);
     int previousEdit = activeKeyframe;
     for(int i = 0; i < m_keyAnim.key_count(); ++i) {
