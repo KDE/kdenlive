@@ -311,8 +311,8 @@ OperationType Transition::operationMode(const QPointF &pos)
     double maximumOffset = 6 / scale;
 
     QRectF rect = sceneBoundingRect();
-    if (qAbs((int)(pos.x() - rect.x())) < maximumOffset) return ResizeStart;
-    else if (qAbs((int)(pos.x() - (rect.right()))) < maximumOffset) return ResizeEnd;
+    if (qAbs((int)(pos.x())) < maximumOffset) return ResizeStart;
+    else if (qAbs((int)(pos.x() - (rect.width()))) < maximumOffset) return ResizeEnd;
     return MoveOperation;
 }
 
