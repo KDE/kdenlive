@@ -67,6 +67,7 @@ public:
     Monitor *clipMonitor();
     Monitor *projectMonitor();
     void lockMonitor(Kdenlive::MonitorId name, bool);
+    void refreshCurrentMonitor();
     void refreshIcons();
 
 public slots:
@@ -102,8 +103,6 @@ public slots:
     void slotUpdateAudioMonitoring();
 
 private slots:
-    void slotRefreshCurrentMonitor(const QString &id);
-
     /** @brief Set MLT's consumer deinterlace method */
     void slotSetDeinterlacer(int ix);
     /** @brief Set MLT's consumer interpolation method */

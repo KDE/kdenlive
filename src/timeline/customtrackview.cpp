@@ -1774,7 +1774,7 @@ void CustomTrackView::insertClipCut(const QString &id, int in, int out)
     new AddTimelineClipCommand(this, id, pasteInfo, EffectsList(), PlaylistState::Original, true, false, addCommand);
     new RefreshMonitorCommand(this, true, false, addCommand);
     updateTrackDuration(pasteInfo.track, addCommand);
-    
+
     m_commandStack->push(addCommand);
 
     selectClip(true, false);

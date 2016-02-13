@@ -106,6 +106,7 @@ protected:
 
 public slots:
     void slotSyncPosition(int relTimelinePos);
+    void slotPositionChanged(int pos = -1, bool seek = true);
 
 private slots:
     void slotPrevious();
@@ -115,7 +116,6 @@ private slots:
     void slotEditKeyframeType(QAction *action);
     void slotAdjustKeyframeValue(double value);
     void slotAdjustRectKeyframeValue();
-    void slotPositionChanged(int pos = -1, bool seek = true);
     void slotAddKeyframe(int pos = -1, QString paramName = QString(), bool directUpdate = true);
     void slotDeleteKeyframe(int, bool directUpdate = true);
     void slotReverseKeyframeType(bool reverse);

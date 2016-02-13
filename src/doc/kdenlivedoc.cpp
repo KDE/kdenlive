@@ -309,6 +309,7 @@ int KdenliveDoc::setSceneList()
     pCore->bin()->isLoading = false;
     pCore->binController()->checkThumbnails(projectFolder().path() + "/thumbs/");
     m_documentProperties.remove(QStringLiteral("position"));
+    pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor, true);
     return 0;
 }
 

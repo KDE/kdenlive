@@ -248,10 +248,8 @@ void MonitorManager::resetProfiles(MltVideoProfile profile, const Timecode &tc)
     m_projectMonitor->resetProfile(profile);
 }
 
-void MonitorManager::slotRefreshCurrentMonitor(const QString &id)
+void MonitorManager::refreshCurrentMonitor()
 {
-    // Clip producer was modified, check if clip is currently displayed in clip monitor
-    m_clipMonitor->reloadProducer(id);
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->refreshMonitorIfActive();
     else m_projectMonitor->refreshMonitorIfActive();
 }

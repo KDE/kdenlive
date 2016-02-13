@@ -1287,7 +1287,9 @@ void Monitor::slotSeekController(ClipController *controller, int pos)
 
 void Monitor::slotOpenClip(ClipController *controller, int in, int out)
 {
-    if (render == NULL) return;
+    if (render == NULL) {
+        return;
+    }
     bool sameClip = controller == m_controller && controller != NULL;
     m_controller = controller;
     if (!m_glMonitor->isVisible()) {

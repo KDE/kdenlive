@@ -1188,7 +1188,7 @@ void Bin::rowsRemoved(const QModelIndex &parent, int start, int end)
 void Bin::selectProxyModel(const QModelIndex &id)
 {
     if (isLoading) {
-        return;
+        //return;
     }
     if (id.isValid()) {
         if (id.column() != 0) return;

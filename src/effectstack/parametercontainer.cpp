@@ -247,6 +247,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 m_animationWidget = new AnimationWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()), m_in, m_out, effect.attribute(QStringLiteral("id")), pa, e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt(), parent);
                 connect(m_animationWidget, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
                 connect(this, SIGNAL(syncEffectsPos(int)), m_animationWidget, SLOT(slotSyncPosition(int)));
+                connect(this, SIGNAL(initScene(int)), m_animationWidget, SLOT(slotPositionChanged(int)));
                 connect(m_animationWidget, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
                 m_vbox->addWidget(m_animationWidget);
             }
