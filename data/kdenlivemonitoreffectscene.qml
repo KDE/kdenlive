@@ -18,6 +18,7 @@ Item {
     property bool iskeyframe
     property int requestedKeyFrame
     property var centerPoints: []
+    property var centerPointsTypes: []
     onCenterPointsChanged: canvas.requestPaint()
     signal effectChanged()
     signal addKeyframe()
@@ -40,24 +41,59 @@ Item {
       renderStrategy: Canvas.Threaded;
       onPaint:
       {
-        if (context) {
+        if (context && root.centerPoints.length > 0) {
             context.clearRect(0,0, width, height);
             context.beginPath()
             context.strokeStyle = Qt.rgba(1, 0, 0, 0.5)
             context.fillStyle = Qt.rgba(1, 0, 0, 0.5)
             context.lineWidth = 2
-
+            var p1 = convertPoint(root.centerPoints[0])
+            context.moveTo(p1.x, p1.y)
+            context.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
             for(var i = 0; i < root.centerPoints.length; i++)
             {
-                var p1 = convertPoint(root.centerPoints[i])
-                if(i == 0)
-                {
-                    context.moveTo(p1.x, p1.y)
-                    context.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
-                    continue
-                }
-                context.lineTo(p1.x, p1.y)
                 context.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
+                if (i + 1 < root.centerPoints.length)
+                {
+                    var end = convertPoint(root.centerPoints[i + 1])
+
+                    if (root.centerPointsTypes.length != root.centerPoints.length || root.centerPointsTypes[i] == 0) {
+                        context.lineTo(end.x, end.y)
+                        p1 = end
+                        continue
+                    }
+
+                    var j = i - 1
+                    if (j < 0) {
+                        j = 0
+                    }
+                    var pre = convertPoint(root.centerPoints[j])
+                    j = i + 2
+                    if (j >= root.centerPoints.length) {
+                        j = root.centerPoints.length - 1
+                    }
+                    var post = convertPoint(root.centerPoints[j])
+                    var c1 = substractPoints(end, pre, 6.0)
+                    var c2 = substractPoints(p1, post, 6.0)
+                    var mid = distance(end, p1) / 2
+                    var c1Dist = Math.sqrt(Math.pow(c1.x, 2) + Math.pow(c1.y, 2))
+                    if (c1Dist > mid) {
+                        c1.x = c1.x * mid / c1Dist
+                        c1.y = c1.y * mid / c1Dist
+                    }
+                    var c2Dist = Math.sqrt(Math.pow(c2.x, 2) + Math.pow(c2.y, 2))
+                    if (c2Dist > mid) {
+                        c2.x = c2.x * -mid / c2Dist
+                        c2.y = c2.y * -mid / c2Dist
+                    }
+                    c1 = addPoints(c1, p1)
+                    c2 = addPoints(c2, end)
+                    context.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, end.x, end.y);
+                    //context.lineTo(end.x, end.y);
+                } else {
+                    context.lineTo(p1.x, p1.y)
+                }
+                p1 = end
             }
             context.stroke()
             context.restore()
@@ -68,6 +104,24 @@ Item {
     {
         var x = frame.x + p.x * root.scalex
         var y = frame.y + p.y * root.scaley
+        return Qt.point(x,y);
+    }
+    function addPoints(p1, p2)
+    {
+        var x = p1.x + p2.x
+        var y = p1.y + p2.y
+        return Qt.point(x,y);
+    }
+    function distance(p1, p2)
+    {
+        var x = p1.x + p2.x
+        var y = p1.y + p2.y
+        return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+    }
+    function substractPoints(p1, p2, f)
+    {
+        var x = (p1.x - p2.x) / f
+        var y = (p1.y - p2.y) / f
         return Qt.point(x,y);
     }
   }

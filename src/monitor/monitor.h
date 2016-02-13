@@ -125,7 +125,7 @@ public:
     Mlt::Profile *profile();
     int getZoneStart();
     int getZoneEnd();
-    void setUpEffectGeometry(QRect r, QVariantList list = QVariantList());
+    void setUpEffectGeometry(QRect r, QVariantList list = QVariantList(), QVariantList types = QVariantList());
     /** @brief Returns effective display size */
     QSize profileSize() const;
     QRect effectRect() const;

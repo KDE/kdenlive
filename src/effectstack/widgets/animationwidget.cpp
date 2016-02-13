@@ -50,6 +50,7 @@
 #include "timecodedisplay.h"
 #include "kdenlivesettings.h"
 #include "effectstack/parametercontainer.h"
+#include "effectstack/dragvalue.h"
 #include "../animkeyframeruler.h"
 
 
@@ -63,6 +64,10 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     , m_editedKeyframe(-1)
     , m_xml(xml)
     , m_effectId(effectId)
+    , m_spinX(NULL)
+    , m_spinY(NULL)
+    , m_spinWidth(NULL)
+    , m_spinHeight(NULL)
 {
     setAcceptDrops(true);
     QVBoxLayout* vbox2 = new QVBoxLayout(this);
@@ -79,6 +84,9 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     connect(m_ruler, &AnimKeyframeRuler::requestSeek, this, &AnimationWidget::seekToPos);
     connect(m_ruler, &AnimKeyframeRuler::moveKeyframe, this, &AnimationWidget::moveKeyframe);
     connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotPositionChanged()));
+    connect(m_monitor, &Monitor::effectChanged, this, &AnimationWidget::slotUpdateGeometryRect);
+    connect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
+    connect(m_monitor, SIGNAL(seekToKeyframe(int)), this, SLOT(slotSeekToKeyframe(int)));
 
     // seek to previous
     tb->addAction(KoIconUtils::themedIcon(QStringLiteral("media-skip-backward")), i18n("Previous keyframe"), this, SLOT(slotPrevious()));
@@ -179,6 +187,10 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     m_timePos->setFrame(false);
     m_timePos->setRange(0, m_outPoint - m_inPoint);
 
+    // Prepare property
+    mlt_profile profile = m_monitor->profile()->get_profile();
+    m_animProperties.set("_profile", profile, 0, NULL, NULL);
+
     // Display keyframe parameter
     addParameter(xml);
 }
@@ -191,7 +203,7 @@ void AnimationWidget::finishSetup()
 {
     // Load effect presets
     loadPresets();
-    
+
     // If only one animated parametes, hide radiobutton
     if (m_doubleWidgets.count() == 1) {
         m_doubleWidgets.first()->hideRadioButton();
@@ -251,7 +263,9 @@ void AnimationWidget::slotAddKeyframe(int pos, QString paramName, bool directUpd
     if (paramName.isEmpty()) {
         paramName = m_inTimeline;
     }
-    double val = m_animProperties.anim_get_double(paramName.toUtf8().constData(), pos, m_timePos->maximum());
+    if (pos == -1) {
+        pos = m_timePos->getValue();
+    }
     // Try to get previous key's type
     mlt_keyframe_type type = (mlt_keyframe_type) KdenliveSettings::defaultkeyframeinterp();
     int previous = m_animController.previous_key(pos);
@@ -264,9 +278,14 @@ void AnimationWidget::slotAddKeyframe(int pos, QString paramName, bool directUpd
         }
     }
 
-    m_animProperties.anim_set(paramName.toUtf8().constData(), val, pos, m_timePos->maximum(), type);
-    m_selectType->setEnabled(true);
-    m_addKeyframe->setActive(true);
+    if (paramName == m_rectParameter) {
+        mlt_rect rect = m_animProperties.anim_get_rect(paramName.toUtf8().constData(), pos, m_timePos->maximum());
+        m_animProperties.anim_set(paramName.toUtf8().constData(), rect, pos, m_timePos->maximum(), type);
+    } else {
+        double val = m_animProperties.anim_get_double(paramName.toUtf8().constData(), pos, m_timePos->maximum());
+        m_animProperties.anim_set(paramName.toUtf8().constData(), val, pos, m_timePos->maximum(), type);
+    }
+    slotPositionChanged(-1, false);
     if (directUpdate) {
         m_ruler->setActiveKeyframe(pos);
         rebuildKeyframes();
@@ -279,6 +298,7 @@ void AnimationWidget::slotDeleteKeyframe(int pos, bool directUpdate)
     m_animController.remove(pos);
     m_selectType->setEnabled(false);
     m_addKeyframe->setActive(false);
+    slotPositionChanged(-1, false);
     if (directUpdate) {
         rebuildKeyframes();
         emit parameterChanged();
@@ -337,9 +357,15 @@ void AnimationWidget::moveKeyframe(int oldPos, int newPos)
         qDebug()<<"////////ERROR NO KFR";
         return;
     }
-    double val = m_animProperties.anim_get_double(m_inTimeline.toUtf8().constData(), oldPos, m_timePos->maximum());
-    m_animController.remove(oldPos);
-    m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), val, newPos, m_timePos->maximum(), type);
+    if (m_inTimeline == m_rectParameter) {
+        mlt_rect rect = m_animProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), oldPos, m_timePos->maximum());
+        m_animController.remove(oldPos);
+        m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), rect, newPos, m_timePos->maximum(), type);
+    } else {
+        double val = m_animProperties.anim_get_double(m_inTimeline.toUtf8().constData(), oldPos, m_timePos->maximum());
+        m_animController.remove(oldPos);
+        m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), val, newPos, m_timePos->maximum(), type);
+    }
     /* Move keyframe in all geometries
     QStringList paramNames = m_doubleWidgets.keys();
     for (int i = 0; i < paramNames.count(); i++) {
@@ -356,7 +382,7 @@ void AnimationWidget::moveKeyframe(int oldPos, int newPos)
         m_attachedToEnd = newPos;
     }
     rebuildKeyframes();
-    updateToolbar();
+    slotPositionChanged(m_ruler->position(), false);
     emit parameterChanged();
 }
 
@@ -413,6 +439,9 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
         m_timePos->setValue(pos);
 
     m_ruler->setValue(pos);
+    if (m_spinX) {
+        updateRect(pos);
+    }
     updateSlider(pos);
     if (seek)
         emit seekToPos(pos);
@@ -473,6 +502,66 @@ void AnimationWidget::updateSlider(int pos)
     m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
 }
 
+void AnimationWidget::updateRect(int pos)
+{
+    m_endAttach->blockSignals(true);
+    m_animController = m_animProperties.get_animation(m_rectParameter.toUtf8().constData());
+    mlt_rect rect = m_animProperties.anim_get_rect(m_rectParameter.toUtf8().constData(), pos, m_timePos->maximum());
+    m_spinX->blockSignals(true);
+    m_spinY->blockSignals(true);
+    m_spinWidth->blockSignals(true);
+    m_spinHeight->blockSignals(true);
+    m_spinX->setValue(rect.x);
+    m_spinY->setValue(rect.y);
+    m_spinWidth->setValue(rect.w);
+    m_spinHeight->setValue(rect.h);
+    bool enableEdit = false;
+    if (!m_animController.is_key(pos)) {
+        // no keyframe
+        if (m_animController.key_count() <= 1) {
+            // Special case: only one keyframe, allow adjusting whatever the position is
+            enableEdit = true;
+            m_monitor->setEffectKeyframe(true);
+            m_endAttach->setEnabled(true);
+            m_endAttach->setChecked(m_attachedToEnd > -2 && m_animController.key_get_frame(0) >= m_attachedToEnd);
+        } else {
+            enableEdit = false;
+            m_monitor->setEffectKeyframe(false);
+            m_endAttach->setEnabled(false);
+        }
+        m_selectType->setEnabled(false);
+        m_addKeyframe->setActive(false);
+    } else {
+        // keyframe
+        enableEdit = true;
+        m_monitor->setEffectKeyframe(true);
+        m_addKeyframe->setActive(true);
+        m_selectType->setEnabled(true);
+        m_endAttach->setEnabled(true);
+        m_endAttach->setChecked(m_attachedToEnd > -2 && pos >= m_attachedToEnd);
+        mlt_keyframe_type currentType = m_animController.keyframe_type(pos);
+        QList<QAction *> types = m_selectType->actions();
+        for (int i = 0; i < types.count(); i++) {
+            if ((mlt_keyframe_type) types.at(i)->data().toInt() == currentType) {
+                m_selectType->setCurrentAction(types.at(i));
+                break;
+            }
+        }
+    }
+    m_spinX->setEnabled(enableEdit);
+    m_spinY->setEnabled(enableEdit);
+    m_spinWidth->setEnabled(enableEdit);
+    m_spinHeight->setEnabled(enableEdit);
+    m_spinX->blockSignals(false);
+    m_spinY->blockSignals(false);
+    m_spinWidth->blockSignals(false);
+    m_spinHeight->blockSignals(false);
+    m_endAttach->blockSignals(false);
+    setupMonitor(QRect(rect.x, rect.y, rect.w, rect.h));
+    // Restore default controller
+    m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
+}
+
 void AnimationWidget::slotEditKeyframeType(QAction *action)
 {
     int pos = m_timePos->getValue();
@@ -497,10 +586,6 @@ void AnimationWidget::slotSetDefaultInterp(QAction *action)
 
 void AnimationWidget::addParameter(const QDomElement &e)
 {
-    int index = 0;
-    if (!m_params.isEmpty()) {
-        index = m_params.count();
-    }
     // Anim properties might at some point require some more infos like profile
     QString keyframes;
     if (e.hasAttribute(QStringLiteral("value"))) {
@@ -511,16 +596,36 @@ void AnimationWidget::addParameter(const QDomElement &e)
     QString paramTag = e.attribute(QStringLiteral("name"));
     m_animProperties.set(paramTag.toUtf8().constData(), keyframes.toUtf8().constData());
     m_attachedToEnd = KeyframeView::checkNegatives(keyframes, m_timePos->maximum());
-    // Required to initialize anim property
-    m_animProperties.anim_get_int(paramTag.toUtf8().constData(), 0, m_timePos->maximum());
     m_params.append(e.cloneNode().toElement());
+    const QString paramType = e.attribute(QStringLiteral("type"));
+    if (paramType == QLatin1String("animated")) {
+        // one dimension parameter
+        // Required to initialize anim property
+        m_animProperties.anim_get_int(paramTag.toUtf8().constData(), 0, m_timePos->maximum());
+        buildSliderWidget(paramTag, e);
+    } else if (paramType == QLatin1String("animatedrect")) {
+        // one dimension parameter
+        // TODO: multiple rect parameters in effect ?
+        m_rectParameter = paramTag;
+        m_inTimeline = paramTag;
+        // Required to initialize anim property
+        m_animProperties.anim_get_rect(paramTag.toUtf8().constData(), 0, m_timePos->maximum());
+        buildRectWidget(paramTag, e);
+    }
+}
+
+void AnimationWidget::buildSliderWidget(const QString &paramTag, const QDomElement &e)
+{
+    QLocale locale;
     QDomElement na = e.firstChildElement(QStringLiteral("name"));
     QString paramName = i18n(na.text().toUtf8().data());
     QDomElement commentElem = e.firstChildElement(QStringLiteral("comment"));
     QString comment;
-    QLocale locale;
     if (!commentElem.isNull())
         comment = i18n(commentElem.text().toUtf8().data());
+
+    int index = m_params.count() - 1;
+
     double factor = e.hasAttribute(QStringLiteral("factor")) ? locale.toDouble(e.attribute(QStringLiteral("factor"))) : 1;
     DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, 0,
                                                                    e.attribute(QStringLiteral("min")).toDouble(), e.attribute(QStringLiteral("max")).toDouble(),
@@ -537,6 +642,38 @@ void AnimationWidget::addParameter(const QDomElement &e)
     }
     m_doubleWidgets.insert(paramTag, doubleparam);
     connect(doubleparam, SIGNAL(displayInTimeline(bool)), this, SLOT(slotUpdateVisibleParameter(bool)));
+}
+
+void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement &e)
+{
+    QLocale locale;
+    QDomElement na = e.firstChildElement(QStringLiteral("name"));
+    QString paramName = i18n(na.text().toUtf8().data());
+    QDomElement commentElem = e.firstChildElement(QStringLiteral("comment"));
+    QString comment;
+    if (!commentElem.isNull())
+        comment = i18n(commentElem.text().toUtf8().data());
+
+    QHBoxLayout *horLayout = new QHBoxLayout;
+    m_spinX = new DragValue(i18nc("x axis position", "X"), 0, 0, -99000, 99000, -1, QString(), false, this);
+    connect(m_spinX, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustRectKeyframeValue()));
+    horLayout->addWidget(m_spinX);
+
+    m_spinY = new DragValue(i18nc("y axis position", "Y"), 0, 0, -99000, 99000, -1, QString(), false, this);
+    connect(m_spinY, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustRectKeyframeValue()));
+    horLayout->addWidget(m_spinY);
+
+    m_spinWidth = new DragValue(i18nc("Frame width", "W"), m_monitor->render->frameRenderWidth(), 0, 1, 99000, -1, QString(), false, this);
+    connect(m_spinWidth, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustRectKeyframeValue()));
+    horLayout->addWidget(m_spinWidth);
+
+    m_spinHeight = new DragValue(i18nc("Frame height", "H"), m_monitor->render->renderHeight(), 0, 1, 99000, -1, QString(), false, this);
+    connect(m_spinHeight, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustRectKeyframeValue()));
+    horLayout->addWidget(m_spinHeight);
+    horLayout->addStretch(10);
+
+    static_cast<QVBoxLayout *>(layout())->addLayout(horLayout);
+    m_animController = m_animProperties.get_animation(paramTag.toUtf8().constData());
 }
 
 void AnimationWidget::slotUpdateVisibleParameter(bool display)
@@ -575,6 +712,28 @@ void AnimationWidget::slotAdjustKeyframeValue(double value)
     }
 }
 
+void AnimationWidget::slotAdjustRectKeyframeValue()
+{
+    m_animController = m_animProperties.get_animation(m_rectParameter.toUtf8().constData());
+    int pos = m_ruler->position();
+    mlt_rect rect;
+    rect.x = m_spinX->value();
+    rect.y = m_spinY->value();
+    rect.w = m_spinWidth->value();
+    rect.h = m_spinHeight->value();
+    if (m_animController.is_key(pos)) {
+        // This is a keyframe
+        m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, pos, m_timePos->maximum(), (mlt_keyframe_type) m_selectType->currentAction()->data().toInt());
+	emit parameterChanged();
+    } else if (m_animController.key_count() <= 1) {
+	  pos = m_animController.key_get_frame(0);
+	  if (pos >= 0) {
+	      m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, pos, m_timePos->maximum(), (mlt_keyframe_type) m_selectType->currentAction()->data().toInt());
+	      emit parameterChanged();
+	  }
+    }
+}
+
 bool AnimationWidget::isActive(const QString &name) const
 {
     return name == m_inTimeline;
@@ -583,6 +742,12 @@ bool AnimationWidget::isActive(const QString &name) const
 const QMap <QString, QString> AnimationWidget::getAnimation()
 {
     QMap <QString, QString> animationResults;
+
+    if (m_spinX) {
+        m_animController = m_animProperties.get_animation(m_rectParameter.toUtf8().constData());
+        // TODO: keyframes attached to end
+        animationResults.insert(m_rectParameter, m_animController.serialize_cut());
+    }
 
     QMapIterator<QString, DoubleParameterWidget *> i(m_doubleWidgets);
     while (i.hasNext()) {
@@ -763,6 +928,64 @@ void AnimationWidget::dragEnterEvent(QDragEnterEvent *event)
 void AnimationWidget::setActiveKeyframe(int frame)
 {
     m_ruler->setActiveKeyframe(frame);
+}
+
+void AnimationWidget::slotUpdateGeometryRect(const QRect r)
+{
+    int pos = m_timePos->getValue();
+    if (!m_animController.is_key(pos)) {
+        // no keyframe
+        if (m_animController.key_count() <= 1) {
+            // Special case: only one keyframe, allow adjusting whatever the position is
+            pos = m_animController.key_get_frame(0);
+            if (pos < 0) {
+                // error
+                qDebug()<<"* * *NOT on a keyframe, something is wrong";
+                return;
+            }
+        }
+    }
+    m_spinX->blockSignals(true);
+    m_spinY->blockSignals(true);
+    m_spinWidth->blockSignals(true);
+    m_spinHeight->blockSignals(true);
+    m_spinX->setValue(r.x());
+    m_spinY->setValue(r.y());
+    m_spinWidth->setValue(r.width());
+    m_spinHeight->setValue(r.height());
+    m_spinX->blockSignals(false);
+    m_spinY->blockSignals(false);
+    m_spinWidth->blockSignals(false);
+    m_spinHeight->blockSignals(false);
+    slotAdjustRectKeyframeValue();
+    setupMonitor();
+}
+
+void AnimationWidget::setupMonitor(QRect r)
+{
+    QVariantList points;
+    QVariantList types;
+    int pos;
+    mlt_keyframe_type type;
+    for(int j = 0; j < m_animController.key_count(); ++j) {
+        pos = m_animController.key_get_frame(j);
+        m_animController.key_get(j, pos, type);
+        if (m_animController.key_get_type(j) == mlt_keyframe_smooth) {
+            types << 1;
+        } else {
+            types << 0;
+        }
+        mlt_rect rect = m_animProperties.anim_get_rect(m_rectParameter.toUtf8().constData(), pos, m_timePos->maximum());
+        QRect frameRect(rect.x, rect.y, rect.w, rect.h);
+        points.append(QVariant(frameRect.center()));
+    }
+    m_monitor->setUpEffectGeometry(r, points, types);
+}
+
+void AnimationWidget::slotSeekToKeyframe(int ix)
+{
+    int pos = m_animController.key_get_frame(ix);
+    slotPositionChanged(pos, true);
 }
 
 void AnimationWidget::dropEvent(QDropEvent * /*event*/)

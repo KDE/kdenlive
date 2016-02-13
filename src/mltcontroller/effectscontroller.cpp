@@ -206,6 +206,13 @@ double EffectsController::getStringEval(const ProfileInfo &info, QString eval, c
     return sEngine.evaluate(eval.remove('%')).toNumber();
 }
 
+QString EffectsController::getStringRectEval(const ProfileInfo &info, QString eval, const QPoint& frameSize)
+{
+    eval.replace(QStringLiteral("%width"), QString::number(info.profileSize.width()));
+    eval.replace(QStringLiteral("%height"), QString::number(info.profileSize.height()));
+    return eval;
+}
+
 void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList list, const QString proxy, QDomElement effect, int diff, int offset)
 {
     // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
@@ -224,7 +231,13 @@ void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList
             continue;
 
         // Check if this effect has a variable parameter, init effects default value
-        if (e.attribute(QStringLiteral("default")).contains('%')) {
+        if (type == QLatin1String("animatedrect")) {
+            QString kfr = AnimationWidget::getDefaultKeyframes(e.attribute(QStringLiteral("default")));
+            if (kfr.contains("%")) {
+                kfr = EffectsController::getStringRectEval(pInfo, kfr);
+            }
+            e.setAttribute(QStringLiteral("value"), kfr);
+        } else if (e.attribute(QStringLiteral("default")).contains('%')) {
             double evaluatedValue = EffectsController::getStringEval(pInfo, e.attribute(QStringLiteral("default")));
             e.setAttribute(QStringLiteral("default"), evaluatedValue);
             if (e.hasAttribute(QStringLiteral("value"))) {
@@ -258,7 +271,7 @@ void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList
             }
         }
 
-        if (type == QLatin1String("animated")  || (type == QLatin1String("geometry") && !e.hasAttribute(QStringLiteral("fixed")))) {
+        if (type.startsWith(QStringLiteral("animated"))  || (type == QLatin1String("geometry") && !e.hasAttribute(QStringLiteral("fixed")))) {
             // Effects with a geometry parameter need to sync in / out with parent clip
             effect.setAttribute(QStringLiteral("in"), QString::number((int) info.cropStart.frames(fps)));
             effect.setAttribute(QStringLiteral("out"), QString::number((int) (info.cropStart + info.cropDuration).frames(fps) - 1));

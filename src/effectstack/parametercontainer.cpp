@@ -237,7 +237,10 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             if (!comment.isEmpty())
                 connect(this, SIGNAL(showComments(bool)), bval->widgetComment, SLOT(setVisible(bool)));
             m_uiItems.append(bval);
-        } else if (type == QLatin1String("animated")) {
+        } else if (type.startsWith(QLatin1String("animated"))) {
+            if (type == QLatin1String("animatedrect")) {
+                m_monitorEffectScene = MonitorSceneGeometry;
+            }
             if (m_animationWidget) {
                 m_animationWidget->addParameter(pa);
             } else {
@@ -245,7 +248,6 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 connect(m_animationWidget, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
                 connect(this, SIGNAL(syncEffectsPos(int)), m_animationWidget, SLOT(slotSyncPosition(int)));
                 connect(m_animationWidget, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
-                m_valueItems["animated"] = m_animationWidget;
                 m_vbox->addWidget(m_animationWidget);
             }
         } else if (type == QLatin1String("complex")) {
@@ -612,6 +614,9 @@ void ParameterContainer::updateTimecodeFormat()
     if (m_keyframeEditor)
         m_keyframeEditor->updateTimecodeFormat();
 
+    if (m_animationWidget) 
+        m_animationWidget->updateTimecodeFormat();
+
     QDomNodeList namenode = m_effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < namenode.count() ; ++i) {
         QDomNode pa = namenode.item(i);
@@ -634,15 +639,13 @@ void ParameterContainer::updateTimecodeFormat()
         } else if (type == QLatin1String("roto-spline")) {
             RotoWidget *widget = static_cast<RotoWidget *>(m_valueItems[paramName]);
             widget->updateTimecodeFormat();
-        } else if (type == QLatin1String("animated")) {
-            if (m_animationWidget) m_animationWidget->updateTimecodeFormat();
         }
     }
 }
 
 void ParameterContainer::slotCollectAllParameters()
 {
-    if (m_valueItems.isEmpty() || m_effect.isNull()) return;
+    if ((m_valueItems.isEmpty() && !m_animationWidget && !m_geometryWidget) || m_effect.isNull()) return;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     const QDomElement oldparam = m_effect.cloneNode().toElement();

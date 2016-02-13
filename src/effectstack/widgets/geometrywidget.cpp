@@ -96,13 +96,13 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
 
     m_spinX = new DragValue(i18nc("x axis position", "X"), 0, 0, -99000, 99000, -1, QString(), false, this);
     m_ui.horizontalLayout->addWidget(m_spinX, 0, 0);
-    
+
     m_spinY = new DragValue(i18nc("y axis position", "Y"), 0, 0, -99000, 99000, -1, QString(), false, this);
     m_ui.horizontalLayout->addWidget(m_spinY, 0, 1);
-    
+
     m_spinWidth = new DragValue(i18nc("Frame width", "W"), m_monitor->render->frameRenderWidth(), 0, 1, 99000, -1, QString(), false, this);
     m_ui.horizontalLayout->addWidget(m_spinWidth, 0, 2);
-    
+
     m_spinHeight = new DragValue(i18nc("Frame height", "H"), m_monitor->render->renderHeight(), 0, 1, 99000, -1, QString(), false, this);
     m_ui.horizontalLayout->addWidget(m_spinHeight, 0, 3);
 

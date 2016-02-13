@@ -1526,12 +1526,13 @@ void Monitor::slotSeekToKeyFrame()
     }
 }
 
-void Monitor::setUpEffectGeometry(QRect r, QVariantList list)
+void Monitor::setUpEffectGeometry(QRect r, QVariantList list, QVariantList types)
 {
     QQuickItem *root = m_glMonitor->rootObject();
     if (!root) return;
     if (!list.isEmpty()) {
         root->setProperty("centerPoints", list);
+        root->setProperty("centerPointsTypes", types);
     }
     if (!r.isEmpty()) root->setProperty("framesize", r);
 }

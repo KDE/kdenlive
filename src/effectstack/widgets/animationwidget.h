@@ -36,6 +36,7 @@ class DoubleParameterWidget;
 class KSelectAction;
 class QDialog;
 class QComboBox;
+class DragValue;
 
 namespace Mlt {
     class Animation;
@@ -67,10 +68,10 @@ private:
     int m_outPoint;
     /** @brief the keyframe position currently edited in slider */
     int m_editedKeyframe;
-    /** @brief the list of names for animated parameters */
-    QStringList m_parameterNames;
     /** @brief name of currently active animated parameter */
     QString m_inTimeline;
+    /** @brief name of geometry animated parameter */
+    QString m_rectParameter;
     /** @brief the keyframe position which should be attached to end (negative frame) */
     int m_attachedToEnd;
     QDomElement m_xml;
@@ -81,6 +82,10 @@ private:
     QAction *m_endAttach;
     QList <QDomElement> m_params;
     QMap <QString, DoubleParameterWidget *> m_doubleWidgets;
+    DragValue *m_spinX;
+    DragValue *m_spinY;
+    DragValue *m_spinWidth;
+    DragValue *m_spinHeight;
     void parseKeyframes();
     void rebuildKeyframes();
     void updateToolbar();
@@ -88,6 +93,12 @@ private:
     void loadPreset(const QString &path);
     /** @brief update the parameter slider to reflect value of current position / selected keyframe */
     void updateSlider(int pos);
+    void updateRect(int pos);
+    /** @brief Create widget to adjust param value */
+    void buildSliderWidget(const QString &paramTag, const QDomElement &e);
+    void buildRectWidget(const QString &paramTag, const QDomElement &e);
+    /** @brief Calculate path for keyframes centers and send to monitor */
+    void setupMonitor(QRect r = QRect());
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event);
@@ -103,8 +114,9 @@ private slots:
     void moveKeyframe(int oldPos, int newPos);
     void slotEditKeyframeType(QAction *action);
     void slotAdjustKeyframeValue(double value);
+    void slotAdjustRectKeyframeValue();
     void slotPositionChanged(int pos = -1, bool seek = true);
-    void slotAddKeyframe(int, QString paramName = QString(), bool directUpdate = true);
+    void slotAddKeyframe(int pos = -1, QString paramName = QString(), bool directUpdate = true);
     void slotDeleteKeyframe(int, bool directUpdate = true);
     void slotReverseKeyframeType(bool reverse);
     void applyPreset(int ix);
@@ -112,6 +124,8 @@ private slots:
     void deletePreset();
     void slotSetDefaultInterp(QAction *action);
     void slotUpdateVisibleParameter(bool display);
+    void slotUpdateGeometryRect(const QRect r);
+    void slotSeekToKeyframe(int ix);
 
 signals:
     void seekToPos(int);
