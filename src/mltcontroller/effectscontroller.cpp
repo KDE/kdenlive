@@ -227,9 +227,11 @@ void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList
         if (e.attribute(QStringLiteral("default")).contains('%')) {
             double evaluatedValue = EffectsController::getStringEval(pInfo, e.attribute(QStringLiteral("default")));
             e.setAttribute(QStringLiteral("default"), evaluatedValue);
-            if (e.hasAttribute(QStringLiteral("value")) && e.attribute(QStringLiteral("value")).startsWith('%')) {
-                e.setAttribute(QStringLiteral("value"), evaluatedValue);
-            }
+            if (e.hasAttribute(QStringLiteral("value"))) {
+                if (e.attribute(QStringLiteral("value")).startsWith('%')) {
+                    e.setAttribute(QStringLiteral("value"), evaluatedValue);
+                }
+            } else e.setAttribute(QStringLiteral("value"), evaluatedValue);
         } else {
             if (type == QLatin1String("animated")) {
                 e.setAttribute(QStringLiteral("value"), AnimationWidget::getDefaultKeyframes(e.attribute(QStringLiteral("default"))));

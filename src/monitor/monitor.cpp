@@ -1701,7 +1701,7 @@ void Monitor::slotSwitchCompare(bool enable)
         }
         m_splitEffect = new Mlt::Filter(*profile(), "frei0r.scale0tilt");
         if (m_splitEffect && m_splitEffect->is_valid()) {
-            m_splitEffect->set("Clip left", 0.5);
+            m_splitEffect->set("0", 0.5); // 0 is the Clip left parameter
         } else {
             // frei0r.scal0tilt is not available
             warningMessage(i18n("The scal0tilt filter is required for that feature, please install frei0r and restart Kdenlive"));
@@ -1723,6 +1723,7 @@ void Monitor::slotSwitchCompare(bool enable)
         trac.set_track(*original, 0);
         trac.set_track(*clone, 1);
         clone->attach(*m_splitEffect);
+        t.set("always_active", 1);
         trac.plant_transition(t, 0, 1);
 	delete clone;
 	delete original;
@@ -1828,7 +1829,7 @@ void Monitor::slotAdjustEffectCompare()
         // Store real frame percentage for resize events
         root->setProperty("realpercent", percent);
     }
-    if (m_splitEffect) m_splitEffect->set("Clip left", percent);
+    if (m_splitEffect) m_splitEffect->set("0", percent);
     render->doRefresh();
 }
 

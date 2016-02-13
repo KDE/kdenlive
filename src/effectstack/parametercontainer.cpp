@@ -165,7 +165,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 max = locale.toDouble(pa.attribute(QStringLiteral("max")));
 
             DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, locale.toDouble(value), min, max,
-                    locale.toDouble(pa.attribute(QStringLiteral("default"))), comment, -1, pa.attribute(QStringLiteral("suffix")), pa.attribute(QStringLiteral("decimals")).toInt(), parent);
+                    locale.toDouble(pa.attribute(QStringLiteral("default"))), comment, -1, pa.attribute(QStringLiteral("suffix")), pa.attribute(QStringLiteral("decimals")).toInt(), false, parent);
 	    doubleparam->setFocusPolicy(Qt::StrongFocus);
             m_vbox->addWidget(doubleparam);
             m_valueItems[paramName] = doubleparam;
