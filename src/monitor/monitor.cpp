@@ -177,6 +177,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor, SIGNAL(zoomChanged()), this, SLOT(setZoom()));
     connect(m_glMonitor, SIGNAL(lockMonitor(bool)), this, SLOT(slotLockMonitor(bool)), Qt::DirectConnection);
     connect(m_glMonitor, SIGNAL(showContextMenu(QPoint)), this, SLOT(slotShowMenu(QPoint)));
+    connect(m_glMonitor, &GLWidget::gpuNotSupported, this, &Monitor::gpuError);
 
     m_glWidget->setMinimumSize(QSize(320, 180));
     layout->addWidget(m_glWidget, 10);
@@ -190,7 +191,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     if (id == Kdenlive::ClipMonitor) {
         // Add options for recording
         m_recManager = new RecManager(this);
-        connect(m_recManager, &RecManager::warningMessage, this, &Monitor::warningMessage);
+        connect(m_recManager, SIGNAL(warningMessage(QString)), this, SLOT(warningMessage(QString)));
         connect(m_recManager, &RecManager::addClipToProject, this, &Monitor::addClipToProject);
     }
 
@@ -1673,14 +1674,19 @@ void Monitor::setPalette ( const QPalette & p)
 }
 
 
-void Monitor::warningMessage(const QString &text)
+void Monitor::gpuError()
+{
+    qWarning()<<" + + + + Error initializing Movit GLSL manager";
+    warningMessage(i18n("Cannot initialize Movit's GLSL manager, please disable Movit"), -1);
+}
+
+void Monitor::warningMessage(const QString &text, int timeout)
 {
     m_infoMessage->setMessageType(KMessageWidget::Warning);
     m_infoMessage->setText(text);
     m_infoMessage->setCloseButtonVisible(true);
     m_infoMessage->animatedShow();
-    QTimer::singleShot(5000, m_infoMessage, SLOT(animatedHide()));
- 
+    if (timeout > 0) QTimer::singleShot(timeout, m_infoMessage, SLOT(animatedHide()));
 }
 
 void Monitor::slotSwitchCompare(bool enable)

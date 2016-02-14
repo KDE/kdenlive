@@ -31,9 +31,6 @@
 #include "qml/qmlaudiothumb.h"
 #include "kdenlivesettings.h"
 #include "mltcontroller/bincontroller.h"
-//#include "qmltypes/qmlutilities.h"
-//#include "qmltypes/qmlfilter.h"
-//#include "mainwindow.h"
 
 #define USE_GL_SYNC // Use glFinish() if not defined.
 
@@ -114,6 +111,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     if (KdenliveSettings::gpu_accel())
         m_glslManager = new Mlt::Filter(*m_monitorProfile, "glsl.manager");
     if ((m_glslManager && !m_glslManager->is_valid())) {
+        emit gpuNotSupported();
         delete m_glslManager;
         m_glslManager = 0;
     }

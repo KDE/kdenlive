@@ -131,8 +131,6 @@ signals:
     void showContextMenu(const QPoint);
     void lockMonitor(bool);
     void passKeyEvent(QKeyEvent *);
-    void audioLevels(const QVector<double>&);
-    void processFFt();
 
 private:
     int m_id;

@@ -255,7 +255,7 @@ private slots:
     void slotForceSize(QAction *a);
     void slotSeekToKeyFrame();
     /** @brief Display a non blocking error message to user **/
-    void warningMessage(const QString &text);
+    void warningMessage(const QString &text, int timeout = 5000);
     void slotLockMonitor(bool lock);
     void slotAddEffect(QDomElement effect);
     void slotSwitchPlay();
@@ -264,6 +264,8 @@ private slots:
     void doKeyPressEvent(QKeyEvent*);
     /** @brief The timecode was updated, refresh qml display */
     void slotUpdateQmlTimecode(const QString &tc);
+    /** @brief There was an error initializing Movit */
+    void gpuError();
 
 public slots:
     void slotOpenDvdFile(const QString &);
