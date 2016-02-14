@@ -431,3 +431,21 @@ EffectsParameterList EffectsController::addEffect(const ProfileInfo &info, QDomE
     }
     return parameters;
 }
+
+void EffectsController::offsetKeyframes(int in, QDomElement effect)
+{
+    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
+    for (int i = 0; i < params.count(); ++i) {
+        QDomElement e = params.item(i).toElement();
+        if (e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
+            QStringList values = e.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
+            for (int j = 0; j < values.count(); ++j) {
+                int pos = values.at(j).section('=', 0, 0).toInt() - in;
+                values[j] = QString::number(pos) + "=" + values.at(j).section('=', 1);
+            }
+            e.setAttribute(QStringLiteral("keyframes"), values.join(";"));
+        }
+    }
+}
+
+

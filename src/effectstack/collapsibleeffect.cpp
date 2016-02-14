@@ -21,6 +21,7 @@
 #include "collapsibleeffect.h"
 #include "effectslist/effectslist.h"
 #include "kdenlivesettings.h"
+#include "mltcontroller/effectscontroller.h"
 #include "utils/KoIconUtils.h"
 #include "dialogs/clipcreationdialog.h"
 
@@ -356,6 +357,10 @@ void CollapsibleEffect::slotSaveEffect()
     effect.removeAttribute(QStringLiteral("kdenlive_ix"));
     effect.setAttribute(QStringLiteral("id"), name);
     effect.setAttribute(QStringLiteral("type"), QStringLiteral("custom"));
+    if (m_paramWidget) {
+        int in = m_paramWidget->range().x();
+        EffectsController::offsetKeyframes(in, effect);
+    }
     QDomElement effectname = effect.firstChildElement(QStringLiteral("name"));
     effect.removeChild(effectname);
     effectname = doc.createElement(QStringLiteral("name"));

@@ -111,6 +111,9 @@ namespace EffectsController
     /** @brief Adjust keyframes to the new clip. */
     const QString adjustKeyframes(const QString &keyframes, int oldIn, int newIn, int newEnd, ProfileInfo pInfo);
     EffectsParameterList addEffect(const ProfileInfo &info, QDomElement effect);
+
+    /** @brief Keyframe frame numbers are relative to clip's crop start. So when saving an effect, remove clip cropstart from keyframe numbers so that when we apply effect on another clip, frame numbers are applied relative to the new clip's crop start. */
+    void offsetKeyframes(int in, QDomElement effect);
 };
 
 #endif

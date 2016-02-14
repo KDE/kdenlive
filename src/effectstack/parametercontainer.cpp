@@ -1019,6 +1019,12 @@ void ParameterContainer::setRange(int inPoint, int outPoint)
     emit updateRange(m_in, m_out);
 }
 
+QPoint ParameterContainer::range() const
+{
+    QPoint range(m_in, m_out);
+    return range;
+}
+
 int ParameterContainer::contentHeight() const
 {
     return m_vbox->sizeHint().height();

@@ -81,6 +81,8 @@ public:
     void setKeyframes(const QString &data, int maximum);
     /** @brief Update the in / out for the clip. */
     void setRange(int inPoint, int outPoint);
+    /** @brief Returns the in / out for the clip. */
+    QPoint range() const;
     int contentHeight() const;
     /** @brief Update frame info (size, dar, ...). */
     void refreshFrameInfo();
