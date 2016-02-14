@@ -2,13 +2,13 @@
 <effect tag="movit.glow" id="movit.glow">
 	<name>Glow (GPU)</name>
 	<author>Steinar H. Gunderson</author>
-	<parameter type="simplekeyframe" name="radius" default="200" min="0" max="1000" factor="10">
+	<parameter type="animated" name="radius" default="20" min="0" max="1000" factor="10">
 		<name>Radius</name>
 	</parameter>
-	<parameter type="simplekeyframe" name="blur_mix" default="100" min="0" max="1000" factor="100">
+	<parameter type="animated" name="blur_mix" default="1" min="0" max="1000" factor="100">
 		<name>Glow strength</name>
 	</parameter>
-	<parameter type="simplekeyframe" name="highlight_cutoff" default="20" min="0" max="100" factor="100">
+	<parameter type="animated" name="highlight_cutoff" default="0.2" min="0" max="100" factor="100">
 		<name>Highlight cutoff threshold</name>
 	</parameter>
 </effect>

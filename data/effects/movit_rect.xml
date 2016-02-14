@@ -2,7 +2,7 @@
 <effect tag="movit.rect" id="movit.rect">
 	<name>Pan and Zoom (GPU)</name>
 	<author>Steinar H. Gunderson</author>
-	<parameter type="geometry" name="rect" default="0%,0%:100%x100%" opacity="false">
+	<parameter type="animatedrect" name="rect" default="0 0 %width %height" opacity="false">
 		<name>Rectangle</name>
 	</parameter>
 	<parameter type="bool" name="fill" default="1" min="0" max="1">

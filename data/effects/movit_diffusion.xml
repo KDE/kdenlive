@@ -2,10 +2,10 @@
 <effect tag="movit.diffusion" id="movit.diffusion">
 	<name>Diffusion (GPU)</name>
 	<author>Steinar H. Gunderson</author>
-	<parameter type="simplekeyframe" name="radius" default="150" min="0" max="1000" factor="10">
+	<parameter type="animated" name="radius" default="3" min="0" max="1000" factor="10">
 		<name>Radius</name>
 	</parameter>
-	<parameter type="simplekeyframe" name="mix" default="30" min="0" max="1000" factor="100">
+	<parameter type="animated" name="mix" default="0.3" min="0" max="1000" factor="100">
 		<name>Mix amount</name>
 	</parameter>
 </effect>

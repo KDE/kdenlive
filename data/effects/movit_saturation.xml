@@ -2,7 +2,7 @@
 <effect tag="movit.saturation" id="movit.saturation">
 	<name>Saturation (GPU)</name>
 	<author>Steinar H. Gunderson</author>
-	<parameter type="simplekeyframe" name="saturation" default="100" min="0" max="1000" factor="100">
+	<parameter type="animated" name="saturation" default="1" min="0" max="1000" factor="100">
 		<name>Saturation</name>
 	</parameter>
 </effect>

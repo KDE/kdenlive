@@ -2,7 +2,7 @@
 <effect tag="movit.opacity" id="movit.opacity">
 	<name>Opacity (GPU)</name>
 	<author>Steinar H. Gunderson</author>
-	<parameter type="simplekeyframe" name="opacity" default="100" min="0" max="200" factor="100">
+	<parameter type="animated" name="opacity" default="1" min="0" max="200" factor="100">
 		<name>Opacity</name>
 	</parameter>
 </effect>
