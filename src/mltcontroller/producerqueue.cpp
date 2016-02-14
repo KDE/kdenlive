@@ -435,11 +435,29 @@ void ProducerQueue::processFileProperties()
             // the old one has been removed.
             if (proxyProducer) {
                 // Recreate clip thumb
-                if (frameNumber > 0) producer->seek(frameNumber);
-                Mlt::Frame *frame = producer->get_frame();
-                if (frame && frame->is_valid()) {
-                    QImage img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
-                    emit replyGetImage(info.clipId, img);
+                Mlt::Frame *frame = NULL;
+                QImage img;
+                if (KdenliveSettings::gpu_accel()) {
+                    Clip clp(*producer);
+                    Mlt::Producer *glProd = clp.softClone(ClipController::getPassPropertiesList());
+                    if (frameNumber > 0) glProd->seek(frameNumber);
+                    Mlt::Filter scaler(*m_binController->profile(), "swscale");
+                    Mlt::Filter converter(*m_binController->profile(), "avcolor_space");
+                    glProd->attach(scaler);
+                    glProd->attach(converter);
+                    frame = glProd->get_frame();
+                    if (frame && frame->is_valid()) {
+                        img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
+                        emit replyGetImage(info.clipId, img);
+                    }
+                    delete glProd;
+                } else {
+                    if (frameNumber > 0) producer->seek(frameNumber);
+                    frame = producer->get_frame();
+                    if (frame && frame->is_valid()) {
+                        img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
+                        emit replyGetImage(info.clipId, img);
+                    }
                 }
                 if (frame) delete frame;
             }
