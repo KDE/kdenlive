@@ -191,7 +191,6 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     connect(m_view.quality, SIGNAL(valueChanged(int)), this, SLOT(adjustAVQualities(int)));
     connect(m_view.video, SIGNAL(valueChanged(int)), this, SLOT(adjustQuality(int)));
     connect(m_view.speed, SIGNAL(valueChanged(int)), this, SLOT(adjustSpeed(int)));
-    
 
     m_view.buttonRender->setEnabled(false);
     m_view.buttonGenerateScript->setEnabled(false);
@@ -2504,5 +2503,10 @@ void RenderWidget::adjustQuality(int videoQuality)
 
 void RenderWidget::adjustSpeed(int speedIndex)
 {
-    m_view.speed->setToolTip(i18n("Codec speed parameters:\n") + m_view.formats->currentItem()->data(0, SpeedsRole).toStringList().at(speedIndex));
+    if (m_view.formats->currentItem()) {
+        QStringList speeds = m_view.formats->currentItem()->data(0, SpeedsRole).toStringList();
+        if (speedIndex < speeds.count()) {
+            m_view.speed->setToolTip(i18n("Codec speed parameters:\n") + speeds.at(speedIndex));
+        }
+    }
 }
