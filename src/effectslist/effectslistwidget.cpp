@@ -481,12 +481,12 @@ void EffectsListWidget::resetRoot()
 {
     setRootIndex(indexFromItem(invisibleRootItem()));
 }
-void EffectsListWidget::createFavorites(QList <QTreeWidgetItem *>list)
+void EffectsListWidget::createTopLevelItems(QList <QTreeWidgetItem *>list, int effectType)
 {
     // Favorites is a pseudo-folder used to store items, not visible to end user, so don't i18n its name
-    QTreeWidgetItem *misc = findFolder(QStringLiteral("Favorites"));
+    QTreeWidgetItem *misc = findFolder(QStringLiteral("TemporaryFolder"));
     if (misc == NULL) {
-        misc = new QTreeWidgetItem(this, QStringList(QStringLiteral("Favorites")));
+        misc = new QTreeWidgetItem(this, QStringList(QStringLiteral("TemporaryFolder")));
         misc->setData(0, TypeRole, QString::number((int) EFFECT_FOLDER));
         misc->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     }
@@ -496,14 +496,14 @@ void EffectsListWidget::createFavorites(QList <QTreeWidgetItem *>list)
     for (int j = 0; j < misc->childCount(); ++j) {
         QTreeWidgetItem *child = misc->child(j);
         child->setHidden(false);
-        child->setData(0, Qt::UserRole, EFFECT_FAVORITES);
+        child->setData(0, Qt::UserRole, effectType);
     }
     setRootIndex(indexFromItem(misc));
 }
 
 void EffectsListWidget::resetFavorites()
 {
-    QTreeWidgetItem *misc = findFolder(QStringLiteral("Favorites"));
+    QTreeWidgetItem *misc = findFolder(QStringLiteral("TemporaryFolder"));
     if (misc) {
         setRootIndex(indexFromItem(invisibleRootItem()));
         delete misc;

@@ -238,8 +238,7 @@ void EffectsListView::filterList()
             search_effect->updateSearch(currentSearch);
         }
         return;
-    }
-    if (pos == EffectsListWidget::EFFECT_FAVORITES) {
+    } else if (pos == EffectsListWidget::EFFECT_FAVORITES) {
         m_removeAction->setText(i18n("Remove from favorites"));
 
         // Find favorites;
@@ -256,7 +255,28 @@ void EffectsListView::filterList()
                 }
             }
         }
-        m_effectsList->createFavorites(favorites);
+        m_effectsList->createTopLevelItems(favorites, EffectsListWidget::EFFECT_FAVORITES);
+        QString currentSearch = search_effect->text();
+        if (!currentSearch.isEmpty()) {
+            // There seems to be a problem with KTreeWidgetSearchLine when inserting items, so reset the search
+            search_effect->updateSearch("###");
+            search_effect->updateSearch(currentSearch);
+        }
+        return;
+    }
+    if (pos == EffectsListWidget::EFFECT_GPU) {
+        // Find favorites;
+        QList <QTreeWidgetItem *> favorites;
+        for (int i = 0; i < m_effectsList->topLevelItemCount(); ++i) {
+            QTreeWidgetItem *folder = m_effectsList->topLevelItem(i);
+            for (int j = 0; j < folder->childCount(); ++j) {
+                QTreeWidgetItem *item = folder->child(j);
+                if (pos == item->data(0, Qt::UserRole).toInt()) {
+                    favorites << item->clone();
+                }
+            }
+        }
+        m_effectsList->createTopLevelItems(favorites, EffectsListWidget::EFFECT_GPU);
         QString currentSearch = search_effect->text();
         if (!currentSearch.isEmpty()) {
             // There seems to be a problem with KTreeWidgetSearchLine when inserting items, so reset the search

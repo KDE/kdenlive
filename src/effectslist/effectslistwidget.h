@@ -53,7 +53,7 @@ class EffectsListWidget : public QTreeWidget
     void updatePalette();
     void setRootOnCustomFolder();
     void resetRoot();
-    void createFavorites(QList <QTreeWidgetItem *>list);
+    void createTopLevelItems(QList <QTreeWidgetItem *>list, int effectType);
     void resetFavorites();
 
 protected:
