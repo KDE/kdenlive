@@ -342,6 +342,8 @@ void EffectStackView2::setupListView()
         if (isSelected) {
             m_monitorSceneWanted = currentEffect->needsMonitorEffectScene();
             selectedCollapsibleEffect = currentEffect;
+            // show monitor scene if necessary
+            m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
         }
         currentEffect->setActive(isSelected);
         m_effects.append(currentEffect);
@@ -353,8 +355,6 @@ void EffectStackView2::setupListView()
         connectEffect(currentEffect);
     }
 
-    // show monitor scene if necessary
-    m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
     if (selectedCollapsibleEffect) {
         // pass frame size info to effect, so it can update the newly created qml scene
         selectedCollapsibleEffect->updateFrameInfo();

@@ -208,9 +208,6 @@ void AnimationWidget::finishSetup()
     }
     // Load keyframes
     rebuildKeyframes();
-    int framePos = qBound<int>(0, m_monitor->render->seekFramePosition() - m_clipPos, m_timePos->maximum());
-    //m_ruler->setActiveKeyframe(activeKeyframe);
-    slotPositionChanged(framePos);
 }
 
 //static
@@ -519,12 +516,16 @@ void AnimationWidget::updateRect(int pos)
         if (m_animController.key_count() <= 1) {
             // Special case: only one keyframe, allow adjusting whatever the position is
             enableEdit = true;
-            if (m_active) m_monitor->setEffectKeyframe(true);
+            if (m_active) {
+                m_monitor->setEffectKeyframe(true);
+            }
             m_endAttach->setEnabled(true);
             m_endAttach->setChecked(m_attachedToEnd > -2 && m_animController.key_get_frame(0) >= m_attachedToEnd);
         } else {
             enableEdit = false;
-            if (m_active) m_monitor->setEffectKeyframe(false);
+            if (m_active) {
+                m_monitor->setEffectKeyframe(false);
+            }
             m_endAttach->setEnabled(false);
         }
         m_selectType->setEnabled(false);
@@ -532,7 +533,9 @@ void AnimationWidget::updateRect(int pos)
     } else {
         // keyframe
         enableEdit = true;
-        if (m_active) m_monitor->setEffectKeyframe(true);
+        if (m_active) {
+            m_monitor->setEffectKeyframe(true);
+        }
         m_addKeyframe->setActive(true);
         m_selectType->setEnabled(true);
         m_endAttach->setEnabled(true);
@@ -1003,6 +1006,8 @@ void AnimationWidget::connectMonitor(bool activate)
         connect(m_monitor, &Monitor::effectChanged, this, &AnimationWidget::slotUpdateGeometryRect, Qt::UniqueConnection);
         connect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()), Qt::UniqueConnection);
         connect(m_monitor, SIGNAL(seekToKeyframe(int)), this, SLOT(slotSeekToKeyframe(int)), Qt::UniqueConnection);
+        int framePos = qBound<int>(0, m_monitor->render->seekFramePosition() - m_clipPos, m_timePos->maximum());
+        slotPositionChanged(framePos, false);
     } else {
         disconnect(m_monitor, &Monitor::effectChanged, this, &AnimationWidget::slotUpdateGeometryRect);
         disconnect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));

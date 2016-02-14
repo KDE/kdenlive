@@ -529,7 +529,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
 
     if (m_keyframeEditor)
         m_keyframeEditor->checkVisibleParam();
-    
+
     if (m_animationWidget) {
         m_animationWidget->finishSetup();
     }
