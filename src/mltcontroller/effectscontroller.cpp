@@ -230,8 +230,9 @@ void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList
         if (e.isNull())
             continue;
 
+        bool hasValue = e.hasAttribute(QStringLiteral("value"));
         // Check if this effect has a variable parameter, init effects default value
-        if (type == QLatin1String("animatedrect")) {
+        if (type == QLatin1String("animatedrect") && !hasValue) {
             QString kfr = AnimationWidget::getDefaultKeyframes(e.attribute(QStringLiteral("default")));
             if (kfr.contains("%")) {
                 kfr = EffectsController::getStringRectEval(pInfo, kfr);
@@ -246,10 +247,10 @@ void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList
                 }
             } else e.setAttribute(QStringLiteral("value"), evaluatedValue);
         } else {
-            if (type == QLatin1String("animated")) {
+            if (type == QLatin1String("animated") && !hasValue) {
                 e.setAttribute(QStringLiteral("value"), AnimationWidget::getDefaultKeyframes(e.attribute(QStringLiteral("default"))));
             }
-            else {
+            else if (!hasValue) {
                 e.setAttribute(QStringLiteral("value"), e.attribute(QStringLiteral("default")));
             }
         }
