@@ -1040,3 +1040,9 @@ void ParameterContainer::setActiveKeyframe(int frame)
     if (m_animationWidget) m_animationWidget->setActiveKeyframe(frame);
 }
 
+void ParameterContainer::connectMonitor(bool activate)
+{
+    if (m_animationWidget)
+        m_animationWidget->connectMonitor(activate);
+}
+

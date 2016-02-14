@@ -283,6 +283,9 @@ void CollapsibleEffect::setActive(bool activate)
 {
     decoframe->setProperty("active", activate);
     decoframe->setStyleSheet(decoframe->styleSheet());
+    if (m_paramWidget) {
+        m_paramWidget->connectMonitor(activate);
+    }
     if (activate) {
         m_colorIcon->setPixmap(m_iconPix);
     } else {

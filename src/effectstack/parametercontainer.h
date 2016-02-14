@@ -88,6 +88,8 @@ public:
     void refreshFrameInfo();
     /** @brief Select active keyframe. */
     void setActiveKeyframe(int frame);
+    /** @brief The effect was selected / deselected, so we have to update monitor connections. */
+    void connectMonitor(bool activate);
 
 private slots:
     void slotCollectAllParameters();

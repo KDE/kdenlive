@@ -131,6 +131,7 @@ void KeyframeView::drawKeyFrames(QRectF br, int length, bool active, QPainter *p
     paramNames.append(m_inTimeline);
     foreach (const QString &paramName, paramNames) {
         Mlt::Animation drawAnim = m_keyProperties.get_animation(paramName.toUtf8().constData());
+        if (!drawAnim.is_valid()) continue;
         ParameterInfo info = m_paramInfos.value(paramName);
         QPainterPath path;
         int frame = drawAnim.key_get_frame(0);

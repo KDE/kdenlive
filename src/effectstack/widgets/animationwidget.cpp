@@ -58,6 +58,7 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     QWidget(parent)
     , m_monitor(info->monitor)
     , m_timePos(new TimecodeDisplay(info->monitor->timecode(), this))
+    , m_active(false)
     , m_clipPos(clipPos)
     , m_inPoint(min)
     , m_outPoint(max)
@@ -84,9 +85,6 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     connect(m_ruler, &AnimKeyframeRuler::requestSeek, this, &AnimationWidget::seekToPos);
     connect(m_ruler, &AnimKeyframeRuler::moveKeyframe, this, &AnimationWidget::moveKeyframe);
     connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotPositionChanged()));
-    connect(m_monitor, &Monitor::effectChanged, this, &AnimationWidget::slotUpdateGeometryRect);
-    connect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
-    connect(m_monitor, SIGNAL(seekToKeyframe(int)), this, SLOT(slotSeekToKeyframe(int)));
 
     // seek to previous
     tb->addAction(KoIconUtils::themedIcon(QStringLiteral("media-skip-backward")), i18n("Previous keyframe"), this, SLOT(slotPrevious()));
@@ -462,14 +460,14 @@ void AnimationWidget::updateSlider(int pos)
                 // Special case: only one keyframe, allow adjusting whatever the position is
                 i.value()->enableEdit(true);
                 if (i.key() == m_inTimeline) {
-                    m_monitor->setEffectKeyframe(true);
+                    if (m_active) m_monitor->setEffectKeyframe(true);
                     m_endAttach->setEnabled(true);
                     m_endAttach->setChecked(m_attachedToEnd > -2 && m_animController.key_get_frame(0) >= m_attachedToEnd);
                 }
             } else {
                 i.value()->enableEdit(false);
                 if (i.key() == m_inTimeline) {
-                    m_monitor->setEffectKeyframe(false);
+                    if (m_active) m_monitor->setEffectKeyframe(false);
                     m_endAttach->setEnabled(false);
                 }
             }
@@ -480,7 +478,7 @@ void AnimationWidget::updateSlider(int pos)
         } else {
             // keyframe
             if (i.key() == m_inTimeline) {
-                m_monitor->setEffectKeyframe(true);
+                if (m_active) m_monitor->setEffectKeyframe(true);
                 m_addKeyframe->setActive(true);
                 m_selectType->setEnabled(true);
                 m_endAttach->setEnabled(true);
@@ -521,12 +519,12 @@ void AnimationWidget::updateRect(int pos)
         if (m_animController.key_count() <= 1) {
             // Special case: only one keyframe, allow adjusting whatever the position is
             enableEdit = true;
-            m_monitor->setEffectKeyframe(true);
+            if (m_active) m_monitor->setEffectKeyframe(true);
             m_endAttach->setEnabled(true);
             m_endAttach->setChecked(m_attachedToEnd > -2 && m_animController.key_get_frame(0) >= m_attachedToEnd);
         } else {
             enableEdit = false;
-            m_monitor->setEffectKeyframe(false);
+            if (m_active) m_monitor->setEffectKeyframe(false);
             m_endAttach->setEnabled(false);
         }
         m_selectType->setEnabled(false);
@@ -534,7 +532,7 @@ void AnimationWidget::updateRect(int pos)
     } else {
         // keyframe
         enableEdit = true;
-        m_monitor->setEffectKeyframe(true);
+        if (m_active) m_monitor->setEffectKeyframe(true);
         m_addKeyframe->setActive(true);
         m_selectType->setEnabled(true);
         m_endAttach->setEnabled(true);
@@ -985,7 +983,7 @@ void AnimationWidget::setupMonitor(QRect r)
         QRect frameRect(rect.x, rect.y, rect.w, rect.h);
         points.append(QVariant(frameRect.center()));
     }
-    m_monitor->setUpEffectGeometry(r, points, types);
+    if (m_active) m_monitor->setUpEffectGeometry(r, points, types);
 }
 
 void AnimationWidget::slotSeekToKeyframe(int ix)
@@ -993,6 +991,25 @@ void AnimationWidget::slotSeekToKeyframe(int ix)
     int pos = m_animController.key_get_frame(ix);
     slotPositionChanged(pos, true);
 }
+
+void AnimationWidget::connectMonitor(bool activate)
+{
+    m_active = activate;
+    if (!m_spinX) {
+        // No animated rect displayed in monitor, return
+        return;
+    }
+    if (activate) {
+        connect(m_monitor, &Monitor::effectChanged, this, &AnimationWidget::slotUpdateGeometryRect, Qt::UniqueConnection);
+        connect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()), Qt::UniqueConnection);
+        connect(m_monitor, SIGNAL(seekToKeyframe(int)), this, SLOT(slotSeekToKeyframe(int)), Qt::UniqueConnection);
+    } else {
+        disconnect(m_monitor, &Monitor::effectChanged, this, &AnimationWidget::slotUpdateGeometryRect);
+        disconnect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
+        disconnect(m_monitor, SIGNAL(seekToKeyframe(int)), this, SLOT(slotSeekToKeyframe(int)));
+    }
+}
+
 
 void AnimationWidget::dropEvent(QDropEvent * /*event*/)
 {

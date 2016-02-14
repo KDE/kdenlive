@@ -56,6 +56,8 @@ public:
     void finishSetup();
     /** @brief Returns true if currently active param is name */
     bool isActive(const QString &name) const;
+    /** @brief Effect was selected / deselected, update monitor connections */
+    void connectMonitor(bool activate);
 
 private:
     AnimKeyframeRuler *m_ruler;
@@ -63,6 +65,8 @@ private:
     TimecodeDisplay *m_timePos;
     KDualAction* m_addKeyframe;
     QComboBox *m_presetCombo;
+    /** @brief True if effect is currently selected in stack */
+    bool m_active;
     int m_clipPos;
     int m_inPoint;
     int m_outPoint;
