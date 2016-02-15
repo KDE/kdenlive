@@ -50,6 +50,8 @@ struct OnlineItemInfo {
     QString author;
     QString authorUrl;
     QString description;
+    QString fileType;
+    QString HQpreview;
 };
 
 

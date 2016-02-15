@@ -30,6 +30,7 @@
 
 /**
   \brief search and download sounds from freesound
+
   This class is used to search the freesound.org libraries and download sounds. Is used by ResourceWidget
 */
 class FreeSound : public AbstractService
@@ -53,7 +54,8 @@ public slots:
 private slots:
     void slotShowResults(KJob* job);
     void slotParseResults(KJob* job);
-    void slotPreviewFinished();
+    void slotPreviewFinished(int  exitCode, QProcess::ExitStatus exitStatus);
+    void slotPreviewErrored(QProcess::ProcessError error);
     
 private:
     QMap <QString, QString> m_metaInfo;

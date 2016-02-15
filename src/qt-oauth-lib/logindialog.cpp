@@ -1,0 +1,119 @@
+/********************************************************************************************************
+ * Copyright (C) 2015 Roger Morton (ttguy1@gmail.com)
+ *
+ * Purpose: implements client access to  freesound.org using ver2 of the freesound API.
+ *
+ * Based on code at  https://code.google.com/p/qt-oauth-lib/
+ * Which is Qt Library created by Integrated Computer Solutions, Inc. (ICS)
+ * to provide OAuth2.0 for the Google API.
+ *
+ *       Licence: GNU Lesser General Public License
+ * http://www.gnu.org/licenses/lgpl.html
+ * This version of the GNU Lesser General Public License incorporates the terms
+ * and conditions of version 3 of the GNU General Public License http://www.gnu.org/licenses/gpl-3.0-standalone.html
+ * supplemented by the additional permissions listed at http://www.gnu.org/licenses/lgpl.html
+ *
+ *      Disclaimer of Warranty.
+ * THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.
+ * EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE
+ * THE PROGRAM “AS IS” WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING,
+ * BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.
+ * SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR
+ * OR CORRECTION.
+ *
+ *     Limitation of Liability.
+ * IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING WILL ANY COPYRIGHT HOLDER,
+ * OR ANY OTHER PARTY WHO MODIFIES AND/OR CONVEYS THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO
+ * YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING
+ * OUT OF THE USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR
+ * DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A FAILURE OF
+ * THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+ *                                                                                                       *
+ *   You should have received a copy of the GNU General Public License                                   *
+ *    along with this program.  If not, see <http://www.gnu.org/licenses/>.                              *
+ *********************************************************************************************************/
+#include "logindialog.h"
+#include "ui_logindialog_ui.h"
+
+#include <QDebug>
+#include <QWebView>
+
+LoginDialog::LoginDialog(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::LoginDialog)
+{
+    ui->setupUi(this);
+    setWindowTitle(i18n("Freesound Login"));
+    ui->FreeSoundLoginLabel->setText(i18n("Enter your freesound account details to download the highest quality version of this file. Or use the High Quality preview file instead (no freesound account required)."));
+   // ui->textBrowser
+    connect(ui->webView, SIGNAL(urlChanged(QUrl)), this, SLOT(urlChanged(QUrl)));
+}
+
+LoginDialog::~LoginDialog()
+{
+    delete ui;
+}
+
+/**
+ * @brief LoginDialog::urlChanged
+ * @param url \n
+ *  If we succesfully get a Auth code in our URL we extract the code here and emit  LoginDialog::AuthCodeObtained signal
+ * http://www.freesound.org/docs/api/authentication.html#oauth2-authentication
+ */
+void LoginDialog::urlChanged(const QUrl &url)
+{
+    //qDebug() << "URL =" << url;
+    QString str = url.toString();
+    int posCode = str.indexOf("&code=");
+    int posErr = str.indexOf("&error=");
+    if(posCode != -1)
+    {
+
+        m_strAuthCode =str.mid(posCode+6) ;
+        emit AuthCodeObtained();
+        QDialog::accept();
+
+    }
+    if(posErr != -1)
+    {
+
+        QString sError =str.mid(posErr+7) ;
+        if (sError=="access_denied" )
+        {
+            emit accessDenied();
+        }
+        QDialog::accept();
+
+    }
+}
+
+
+
+QString LoginDialog::authCode()
+{
+    return m_strAuthCode;
+}
+
+
+void LoginDialog::setLoginUrl(const QUrl& url)
+{
+   ui->webView->setUrl(url);
+
+}
+
+void LoginDialog::on_GetHQpreview_clicked()
+{
+    emit UseHQPreview();
+    QDialog::accept();
+
+}
+
+void LoginDialog::on_CancelButton_clicked()
+{
+   emit canceled();
+
+    QDialog::accept();
+
+}

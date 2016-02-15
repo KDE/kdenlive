@@ -29,6 +29,8 @@
 
 #include <QDialog>
 #include <kio/jobclasses.h>
+#include "qt-oauth-lib/oauth2.h"
+#include <QNetworkReply>
 
 
 
@@ -36,6 +38,7 @@ class KPixmapSequenceOverlayPainter;
 class QAction;
 class QNetworkConfigurationManager;
 class QTemporaryFile;
+class QMovie;
 
 /**
   \brief This is the window that appears from Project>Online Resources
@@ -53,6 +56,9 @@ class ResourceWidget : public QDialog, public Ui::FreeSound_UI
 public:
     explicit ResourceWidget(const QString & folder, QWidget * parent = 0);
     ~ResourceWidget();
+
+//private:
+//    OAuth2*  m_pOAuth2;
 
 
 private slots:
@@ -75,31 +81,46 @@ private slots:
     void slotLoadThumb(const QString& url);
     /** @brief A file download is finished */
     void slotGotFile(KJob *job);
-    void slotSetMetadata(const QString &desc);
+    void slotSetMetadata(const QString &metadata);
     void slotSetDescription(const QString &desc);
     void slotSetImage(const QString &desc);
-    void slotSetTitle(const QString &desc);
+    void slotSetTitle(const QString &title);
     void slotSetMaximum(int max);
     void slotPreviewFinished();
+    void slotFreesoundAccessDenied();
+    void slotReadyRead();
+    void DownloadRequestFinished(QNetworkReply* reply);
+    void slotAccessTokenReceived(QString sAccessToken);
+    void slotFreesoundUseHQPreview();
+    void slotFreesoundCanceled();
+
+    void slotLoadPreview(const QString &url);
+    void slotLoadAnimatedGif(KJob *job);
+
 
 private:
+    OAuth2 *m_pOAuth2;
     QNetworkConfigurationManager *m_networkManager;
+    QNetworkAccessManager *m_networkAccessManager ;
     void loadConfig();
     void saveConfig();
     void parseLicense(const QString &);
-
+    QUrl GetSaveFileNameAndPath(QString path,QString ext);
+    QString GetSaveFileNameAndPathS(QString path,QString ext);
     QString m_folder;
+    QString  mSaveLocation;
     AbstractService *m_currentService;
     OnlineItemInfo m_currentInfo;
     KPixmapSequenceOverlayPainter *m_busyWidget;
     QAction *m_autoPlay;
     QTemporaryFile *m_tmpThumbFile;
     QString m_title;
-    QString m_image;
     QString m_desc;
     QString m_meta;
+    QMovie *m_movie;
     void updateLayout();
-   
+    void DoFileDownload(QUrl srcUrl, QUrl saveUrl);
+
 signals:
     void addClip(const QUrl&);
 };

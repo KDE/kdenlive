@@ -48,13 +48,13 @@ public:
 public slots:
     void slotStartSearch(const QString &searchText, int page = 0);
     OnlineItemInfo displayItemDetails(QListWidgetItem *item);
-    bool startItemPreview(QListWidgetItem *item);
-    void stopItemPreview(QListWidgetItem *item);
+  //  bool startItemPreview(QListWidgetItem *item);
+  //  void stopItemPreview(QListWidgetItem *item);
 
 private slots:
     void slotShowResults(KJob* job);
     void slotParseResults(KJob* job);
-    void slotParseThumbs(KJob* job);
+   // void slotParseThumbs(KJob* job);
     
 private:
     QMap <QString, QString> m_metaInfo;
@@ -63,6 +63,7 @@ private:
 
 signals:
     void addClip(const QUrl &, const QString &);
+    void gotPreview(const QString &url);
 };
 
 

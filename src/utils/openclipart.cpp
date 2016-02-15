@@ -37,7 +37,12 @@ OpenClipArt::OpenClipArt(QListWidget *listWidget, QObject *parent) :
 OpenClipArt::~OpenClipArt()
 {
 }
-
+/**
+ * @brief OpenClipArt::slotStartSearch
+ * @param searchText
+ * @param page
+ *called by  ResourceWidget::slotStartSearch
+ */
 void OpenClipArt::slotStartSearch(const QString &searchText, int page)
 {
     m_listWidget->clear();
@@ -70,7 +75,10 @@ void OpenClipArt::slotShowResults(KJob* job)
         item->setData(downloadRole, enclosure.attribute(QStringLiteral("url")));
         QDomElement link = currentClip.firstChildElement(QStringLiteral("link"));
         item->setData(infoUrl, link.firstChild().nodeValue());
-        QDomElement license = currentClip.firstChildElement(QStringLiteral("cc:license"));
+
+        QDomElement license = currentClip.firstChildElement("cc:license");
+
+
         item->setData(licenseRole, license.firstChild().nodeValue());
         QDomElement desc = currentClip.firstChildElement(QStringLiteral("description"));
         item->setData(descriptionRole, desc.firstChild().nodeValue());
@@ -97,6 +105,7 @@ OnlineItemInfo OpenClipArt::displayItemDetails(QListWidgetItem *item)
     info.infoUrl = item->data(infoUrl).toString();
     info.author = item->data(authorRole).toString();
     info.authorUrl = item->data(authorUrl).toString();
+
     info.license = "https://openclipart.org/share"; // all openclipartfiles are public domain
     info.description = item->data(descriptionRole).toString();
     emit gotThumb(item->data(imageRole).toString());

@@ -43,7 +43,7 @@ endif(NOT MLT_MELTBIN_failed)
 option(WITH_JogShuttle "Build Jog/Shuttle support" ON)
 
 set(FFMPEG_SUFFIX "" CACHE STRING "FFmpeg custom suffix")
-
+find_package (Qt5WebKitWidgets)
 find_package(LibV4L2)
 set_package_properties(LibV4L2 PROPERTIES 
                 DESCRIPTION "Collection of video4linux support libraries"
@@ -108,6 +108,7 @@ add_subdirectory(onmonitoritems/rotoscoping)
 add_subdirectory(mltcontroller)
 add_subdirectory(bin)
 add_subdirectory(qml)
+add_subdirectory(qt-oauth-lib)
 add_subdirectory(library)
 
 list(APPEND kdenlive_SRCS
@@ -162,6 +163,7 @@ ki18n_wrap_ui(kdenlive_UIS
   ui/keyframeeditor_ui.ui
   ui/keyframewidget_ui.ui
   ui/listval_ui.ui
+  ui/logindialog_ui.ui
   ui/managecaptures_ui.ui
   ui/manageencodingprofile_ui.ui
   ui/markerdialog_ui.ui
@@ -261,6 +263,7 @@ target_link_libraries(kdenlive
    KF5::TextWidgets
    KF5::IconThemes
    KF5::Crash
+   Qt5::WebKitWidgets
   ${Qt5_LIBRARIES}
   Qt5::Svg
   ${OPENGL_LIBRARIES}
