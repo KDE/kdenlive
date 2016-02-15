@@ -97,23 +97,17 @@ GLWidget::GLWidget(int id, QObject *parent)
     setClearBeforeRendering(false);
     setResizeMode(QQuickView::SizeRootObjectToView);
 
-    //rootContext->setContextProperty("settings", &ShotcutSettings::singleton());
-    /*rootContext()->setContextProperty("application", &QmlApplication::singleton());
-    rootContext()->setContextProperty("profile", &QmlProfile::singleton());
-    rootContext()->setContextProperty("view", new QmlView(this));*/
-    
-/*    QDir importPath = QmlUtilities::qmlDir();
-    importPath.cd("modules");
-    engine()->addImportPath(importPath.path());
-    QmlUtilities::setCommonProperties((QQuickView*)this);*/
     m_monitorProfile = new Mlt::Profile();
 
     if (KdenliveSettings::gpu_accel())
         m_glslManager = new Mlt::Filter(*m_monitorProfile, "glsl.manager");
     if ((m_glslManager && !m_glslManager->is_valid())) {
-        emit gpuNotSupported();
         delete m_glslManager;
         m_glslManager = 0;
+        KdenliveSettings::setGpu_accel(false);
+        // Need to destroy MLT global reference to prevent filters from trying to use GPU.
+        mlt_properties_set_data(mlt_global_properties(), "glslManager", NULL, 0, NULL, NULL);
+        emit gpuNotSupported();
     }
     connect(this, SIGNAL(sceneGraphInitialized()), SLOT(initializeGL()), Qt::DirectConnection);
     connect(this, SIGNAL(beforeRendering()), SLOT(paintGL()), Qt::DirectConnection);
@@ -158,11 +152,20 @@ void GLWidget::showEvent(QShowEvent * event)
 void GLWidget::initializeGL()
 {
     if (m_isInitialized || !isVisible() || !openglContext()) return;
-    m_offscreenSurface.setFormat(openglContext()->format());
-    m_offscreenSurface.create();
-    openglContext()->makeCurrent(this);
+    if (!m_offscreenSurface.isValid()) {
+        m_offscreenSurface.setFormat(openglContext()->format());
+        m_offscreenSurface.create();
+        openglContext()->makeCurrent(this);
+    }
     initializeOpenGLFunctions();
-    //openglContext()->blockSignals(true);
+    if (m_glslManager && openglContext()->isOpenGLES()) {
+        delete m_glslManager;
+        m_glslManager = 0;
+        KdenliveSettings::setGpu_accel(false);
+        // Need to destroy MLT global reference to prevent filters from trying to use GPU.
+        mlt_properties_set_data(mlt_global_properties(), "glslManager", NULL, 0, NULL, NULL);
+        emit gpuNotSupported();
+    }
     createShader();
 
 #if defined(USE_GL_SYNC) && !defined(Q_OS_WIN)
@@ -195,15 +198,14 @@ void GLWidget::initializeGL()
     openglContext()->makeCurrent(this);
     //openglContext()->blockSignals(false);
     connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), this, SIGNAL(frameDisplayed(const SharedFrame&)), Qt::QueuedConnection);
-
     connect(m_frameRenderer, SIGNAL(textureReady(GLuint,GLuint,GLuint)), SLOT(updateTexture(GLuint,GLuint,GLuint)), Qt::DirectConnection);
-    /*if (openglContext()->supportsThreadedOpenGL())
-        connect(m_frameRenderer, SIGNAL(textureReady(GLuint,GLuint,GLuint)), SLOT(updateTexture(GLuint,GLuint,GLuint)), Qt::DirectConnection);
-    else
-        connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), SLOT(onFrameDisplayed(const SharedFrame&)), Qt::QueuedConnection);*/
+
+    /*else {
+        connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), SLOT(onFrameDisplayed(const SharedFrame&)), Qt::QueuedConnection);
+    }*/
 
     connect(m_frameRenderer, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), this, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), Qt::QueuedConnection);
-    connect(this, SIGNAL(textureUpdated()), this, SLOT(update()), Qt::QueuedConnection);
+    connect(this, &GLWidget::textureUpdated, this, &GLWidget::update, Qt::QueuedConnection);
     m_initSem.release();
     m_isInitialized = true;
 }
@@ -387,7 +389,7 @@ void GLWidget::paintGL()
     f->glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
     f->glClear(GL_COLOR_BUFFER_BIT);
     check_error(f);
-    
+
     /*if (!openglContext()->supportsThreadedOpenGL()) {
         m_mutex.lock();
         if (!m_sharedFrame.is_valid()) {
@@ -614,7 +616,7 @@ static void onThreadCreate(mlt_properties owner, GLWidget* self,
 {
     Q_UNUSED(owner)
     Q_UNUSED(priority)
-    self->clearFrameRenderer();
+    //self->clearFrameRenderer();
     self->createThread(thread, function, data);
     self->lockMonitor();
 }
@@ -626,7 +628,7 @@ static void onThreadJoin(mlt_properties owner, GLWidget* self, RenderThread* thr
         thread->quit();
         thread->wait();
         delete thread;
-        self->clearFrameRenderer();
+        //self->clearFrameRenderer();
         self->releaseMonitor();
     }
 }
@@ -634,7 +636,7 @@ static void onThreadJoin(mlt_properties owner, GLWidget* self, RenderThread* thr
 void GLWidget::startGlsl()
 {
     if (m_glslManager) {
-        clearFrameRenderer();
+        //clearFrameRenderer();
         m_glslManager->fire_event("init glsl");
         if (!m_glslManager->get_int("glsl_supported")) {
             delete m_glslManager;
@@ -675,6 +677,7 @@ void GLWidget::stopGlsl()
 {
     m_consumer->purge();
     m_frameRenderer->clearFrame();
+
     //TODO This is commented out for now because it is causing crashes.
     //Technically, this should be the correct thing to do, but it appears
     //some changes have created regression (see shotcut)
@@ -890,7 +893,11 @@ int GLWidget::reconfigureMulti(QString params, QString path, Mlt::Profile *profi
         }
         // Connect the producer to the consumer - tell it to "run" later
         delete m_displayEvent;
-        m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_frame_show);
+        if (m_glslManager) {
+            m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_gl_frame_show);
+        } else {
+            m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_frame_show);
+        }
         m_consumer->connect(*m_producer);
         m_consumer->start();
         return 0;
@@ -935,25 +942,29 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
             m_consumer->set("real_time", dropFrames);
             m_threadCreateEvent = m_consumer->listen("consumer-thread-create", this, (mlt_listener) onThreadCreate);
             m_threadJoinEvent = m_consumer->listen("consumer-thread-join", this, (mlt_listener) onThreadJoin);
-            delete m_displayEvent;
-            if (!m_glslManager) {
-                // Make an event handler for when a frame's image should be displayed
-                m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_frame_show);
-                m_consumer->set("mlt_image_format", "yuv422");
-            } else {
-                m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_gl_frame_show);
-                if (!m_threadStartEvent)
-                    m_threadStartEvent = m_consumer->listen("consumer-thread-started", this, (mlt_listener) onThreadStarted);
-                if (!m_threadStopEvent)
-                    m_threadStopEvent = m_consumer->listen("consumer-thread-stopped", this, (mlt_listener) onThreadStopped);
-                if (!serviceName.startsWith(QLatin1String("decklink")))
-                    m_consumer->set("mlt_image_format", "glsl");
-            }
         }
     }
     if (m_consumer->is_valid()) {
         // Connect the producer to the consumer - tell it to "run" later
         if (m_producer) m_consumer->connect(*m_producer);
+        if (m_glslManager) {
+            if (!m_threadStartEvent)
+                m_threadStartEvent = m_consumer->listen("consumer-thread-started", this, (mlt_listener) onThreadStarted);
+            if (!m_threadStopEvent)
+                m_threadStopEvent = m_consumer->listen("consumer-thread-stopped", this, (mlt_listener) onThreadStopped);
+            if (!serviceName.startsWith(QLatin1String("decklink")))
+                m_consumer->set("mlt_image_format", "glsl");
+        } else {
+            m_consumer->set("mlt_image_format", "yuv422");
+        }
+
+        delete m_displayEvent;
+        if (m_glslManager) {
+            m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_gl_frame_show);
+        } else {
+            m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_frame_show);
+        }
+
         int volume = KdenliveSettings::volume();
         if (serviceName == QLatin1String("sdl_audio")) {
 /*#ifdef Q_OS_WIN
@@ -988,8 +999,6 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
     else {
         // Cleanup on error
         error = 2;
-        //Controller::closeConsumer();
-        //Controller::close();
     }
     return error;
 }
@@ -1081,7 +1090,7 @@ void GLWidget::onFrameDisplayed(const SharedFrame &frame)
     m_mutex.lock();
     m_sharedFrame = frame;
     m_mutex.unlock();
-    emit textureUpdated();
+    update();
 }
 
 void GLWidget::mouseReleaseEvent(QMouseEvent * event)
@@ -1168,7 +1177,8 @@ void GLWidget::on_gl_frame_show(mlt_consumer, void* self, mlt_frame frame_ptr)
     Mlt::Frame frame(frame_ptr);
     if (frame.get_int("rendered")) {
         GLWidget* widget = static_cast<GLWidget*>(self);
-        if (widget->m_frameRenderer && widget->m_frameRenderer->semaphore()->tryAcquire(1, 0)) {
+        int timeout = (widget->consumer()->get_int("real_time") > 0)? 0: 1000;
+        if (widget->m_frameRenderer && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
             QMetaObject::invokeMethod(widget->m_frameRenderer, "showGLFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));
         }
     }
@@ -1219,13 +1229,11 @@ FrameRenderer::FrameRenderer(QOpenGLContext* shareContext, QSurface *surface)
     Q_ASSERT(shareContext);
     m_renderTexture[0] = m_renderTexture[1] = m_renderTexture[2] = 0;
     m_displayTexture[0] = m_displayTexture[1] = m_displayTexture[2] = 0;
-    //if (shareContext->supportsThreadedOpenGL()) {
-        m_context = new QOpenGLContext;
-        m_context->setFormat(shareContext->format());
-        m_context->setShareContext(shareContext);
-        m_context->create();
-        m_context->moveToThread(this);
-    //}
+    m_context = new QOpenGLContext;
+    m_context->setFormat(shareContext->format());
+    m_context->setShareContext(shareContext);
+    m_context->create();
+    m_context->moveToThread(this);
     setObjectName(QStringLiteral("FrameRenderer"));
     moveToThread(this);
     start();
@@ -1246,7 +1254,7 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
     // Save this frame for future use and to keep a reference to the GL Texture.
     m_frame = SharedFrame(frame);
 
-    if (m_context && m_context->isValid()) {
+    if (m_context->isValid()) {
         m_context->makeCurrent(m_surface);
         // Upload each plane of YUV to a texture.
         QOpenGLFunctions* f = m_context->functions();
@@ -1256,9 +1264,13 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
         f->glFinish();
 
         for (int i = 0; i < 3; ++i)
-            qSwap(m_renderTexture[i], m_displayTexture[i]);
+            std::swap(m_renderTexture[i], m_displayTexture[i]);
         emit textureReady(m_displayTexture[0], m_displayTexture[1], m_displayTexture[2]);
         m_context->doneCurrent();
+
+        // The frame is now done being modified and can be shared with the rest
+        // of the application.
+        emit frameDisplayed(m_frame);
 
         if (sendAudioForAnalysis) {
             // TODO: use mlt audiospectrum filter
@@ -1279,9 +1291,6 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
 	    }*/
 	}
     }
-    // The frame is now done being modified and can be shared with the rest
-    // of the application.
-    emit frameDisplayed(m_frame);
 
     m_semaphore.release();
 }
@@ -1295,7 +1304,6 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
         frame.set("movit.convert.use_texture", 1);
         mlt_image_format format = mlt_image_glsl_texture;
         const GLuint* textureId = (GLuint*) frame.get_image(format, width, height);
-
         m_context->makeCurrent(m_surface);
 #ifdef USE_GL_SYNC
         GLsync sync = (GLsync) frame.get_data("movit.convert.fence");
@@ -1321,9 +1329,10 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
 #else
         m_context->functions()->glFinish();
 #endif // USE_GL_FENCE
-        emit textureReady(*textureId);
 
+        emit textureReady(*textureId);
         m_context->doneCurrent();
+
         // Save this frame for future use and to keep a reference to the GL Texture.
         m_frame = SharedFrame(frame);
 
@@ -1333,7 +1342,7 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
 
 	if (sendAudioForAnalysis) {
             // TODO: use mlt audiospectrum filter
-	    mlt_audio_format audio_format = mlt_audio_s16;
+	    /*mlt_audio_format audio_format = mlt_audio_s16;
 	    //FIXME: should not be hardcoded..
 	    int freq = 48000;
 	    int num_channels = 2;
@@ -1349,10 +1358,8 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
 		if (samples > 0) {
 		    emit audioSamplesSignal(sampleVector, freq, num_channels, samples);
 		}
-	    }
+	    }*/
 	}
-
-	
     }
     m_semaphore.release();
 }
