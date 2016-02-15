@@ -131,6 +131,7 @@ void HeaderTrack::updateStatus(TrackInfo info)
     if (m_switchVideo) m_switchVideo->setActive(info.isBlind);
     if (m_switchComposite) m_switchComposite->setActive(info.composite);
     m_switchLock->setActive(info.isLocked);
+    renameTrack(info.trackName);
 }
 
 void HeaderTrack::setTrackHeight(int height)

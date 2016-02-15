@@ -1140,6 +1140,7 @@ void Timeline::slotVerticalZoomUp()
 void Timeline::slotRenameTrack(int ix, const QString &name)
 {
     QString currentName = track(ix)->getProperty(QStringLiteral("kdenlive:track_name"));
+    if (currentName == name) return;
     ConfigTracksCommand *configTracks = new ConfigTracksCommand(this, ix, currentName, name);
     m_doc->commandStack()->push(configTracks);
 }

@@ -71,14 +71,9 @@ TracksConfigDialog::TracksConfigDialog(Timeline *timeline, int selected, QWidget
     setupUi(this);
 
     table->setColumnCount(6);
+    table->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     table->setHorizontalHeaderLabels(QStringList() << i18n("Name") << i18n("Type") << i18n("Hidden") << i18n("Muted") << i18n("Locked") << i18n("Composite"));
-    table->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
-    table->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Fixed);
-    table->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Fixed);
-    table->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Fixed);
-    table->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Fixed);
-    table->horizontalHeader()->setSectionResizeMode(5, QHeaderView::Fixed);
-
+    table->setSelectionMode(QAbstractItemView::SingleSelection);
     table->setItemDelegateForColumn(1, new TracksDelegate(this));
     table->verticalHeader()->setHidden(true);
 
@@ -103,11 +98,13 @@ TracksConfigDialog::TracksConfigDialog(Timeline *timeline, int selected, QWidget
     buttonDown->setEnabled(false);
 
     setupOriginal(selected);
-    table->resizeColumnToContents(0);
+    //table->resizeColumnToContents(0);
+    table->resizeColumnsToContents();
     /*QRect rect = table->geometry();
     rect.setWidth(table->horizontalHeader()->length());
     table->setGeometry(rect);*/
     table->horizontalHeader()->setStretchLastSection(true);
+    table->setMinimumSize(table->horizontalHeader()->length(), table->verticalHeader()->length() + table->horizontalHeader()->height() * 2);
     connect(table, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(slotUpdateRow(QTableWidgetItem*)));
 }
 
@@ -172,10 +169,12 @@ void TracksConfigDialog::setupOriginal(int selected)
         item4->setFlags(item4->flags() & ~Qt::ItemIsEditable);
         item4->setCheckState(info.isLocked ? Qt::Checked : Qt::Unchecked);
         table->setItem(i, 4, item4);
-        
+
         QTableWidgetItem *item5 = new QTableWidgetItem(QLatin1String(""));
         item5->setFlags(item5->flags() & ~Qt::ItemIsEditable);
         item5->setCheckState(info.composite? Qt::Checked : Qt::Unchecked);
+        if (info.type == AudioTrack)
+            item5->setFlags(item5->flags() & ~Qt::ItemIsEnabled);
         table->setItem(i, 5, item5);
     }
     table->setVerticalHeaderLabels(numbers);
@@ -191,12 +190,15 @@ void TracksConfigDialog::slotUpdateRow(QTableWidgetItem* item)
 {
     if (table->column(item) == 1) {
         QTableWidgetItem *item2 = table->item(table->row(item), 2);
+        QTableWidgetItem *item5 = table->item(table->row(item), 5);
         if (item->text() == i18n("Audio")) {
             item2->setFlags(item2->flags() & ~Qt::ItemIsEnabled);
             item2->setCheckState(Qt::Checked);
+            item5->setFlags(item2->flags() & ~Qt::ItemIsEnabled);
         } else {
             item2->setFlags(item2->flags() | Qt::ItemIsEnabled);
             item2->setCheckState(Qt::Unchecked);
+            item5->setFlags(item2->flags() | Qt::ItemIsEnabled);
         }
     }
 }
