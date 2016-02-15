@@ -66,6 +66,7 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
             m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitoreffectscene.qml")));
             root = m_view->rootObject();
             QObject::connect(root, SIGNAL(effectChanged()), this, SLOT(effectRectChanged()), Qt::UniqueConnection);
+            QObject::connect(root, SIGNAL(centersChanged()), this, SLOT(effectPolygonChanged()), Qt::UniqueConnection);
             root->setProperty("profile", QPoint(profile.width(), profile.height()));
             root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
             root->setProperty("scalex", (double) displayRect.width() / profile.width() * zoom);

@@ -21,6 +21,7 @@ Item {
     property var centerPointsTypes: []
     onCenterPointsChanged: canvas.requestPaint()
     signal effectChanged()
+    signal centersChanged()
     signal addKeyframe()
     signal seekToKeyframe()
 
@@ -140,6 +141,7 @@ Item {
         id: global
         objectName: "global"
         width: root.width; height: root.height
+        property bool isMoving : false
         anchors.centerIn: root
         hoverEnabled: true
         cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
@@ -157,10 +159,21 @@ Item {
               return false
         }
 
+        onPositionChanged: {
+            if (pressed && root.requestedKeyFrame != -1) {
+                  isMoving = true
+                  root.centerPoints[root.requestedKeyFrame].x = (mouseX - frame.x) / root.scalex;
+                  root.centerPoints[root.requestedKeyFrame].y = (mouseY - frame.y) / root.scaley;
+                  canvas.requestPaint()
+                  root.centersChanged()
+            }
+        }
+
         onClicked: {
-            if (root.requestedKeyFrame >= 0) {
+            if (root.requestedKeyFrame >= 0 && !isMoving) {
                 root.seekToKeyframe();
             }
+            isMoving = false
 
         }
         onDoubleClicked: {

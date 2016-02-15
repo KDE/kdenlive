@@ -968,6 +968,25 @@ void AnimationWidget::slotUpdateGeometryRect(const QRect r)
     setupMonitor();
 }
 
+void AnimationWidget::slotUpdateCenters(const QVariantList centers)
+{
+    if (centers.count() != m_animController.key_count()) {
+        qDebug()<<"* * * *CENTER POINTS MISMATCH, aborting edit";
+    }
+    int pos;
+    mlt_keyframe_type type;
+    for (int i = 0; i < m_animController.key_count(); ++i) {
+        m_animController.key_get(i, pos, type);
+        mlt_rect rect = m_animProperties.anim_get_rect(m_rectParameter.toUtf8().constData(), pos, m_timePos->maximum());
+        // Center rect to new pos
+        QPoint offset = centers.at(i).toPoint() - QPoint(rect.x + rect.w / 2, rect.y + rect.h / 2);
+        rect.x += offset.x();
+        rect.y += offset.y();
+        m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, pos, m_timePos->maximum(), type);
+    }
+    slotAdjustRectKeyframeValue();
+}
+
 void AnimationWidget::setupMonitor(QRect r)
 {
     QVariantList points;
@@ -1004,12 +1023,14 @@ void AnimationWidget::connectMonitor(bool activate)
     }
     if (activate) {
         connect(m_monitor, &Monitor::effectChanged, this, &AnimationWidget::slotUpdateGeometryRect, Qt::UniqueConnection);
+        connect(m_monitor, &Monitor::effectPointsChanged, this, &AnimationWidget::slotUpdateCenters, Qt::UniqueConnection);
         connect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()), Qt::UniqueConnection);
         connect(m_monitor, SIGNAL(seekToKeyframe(int)), this, SLOT(slotSeekToKeyframe(int)), Qt::UniqueConnection);
         int framePos = qBound<int>(0, m_monitor->render->seekFramePosition() - m_clipPos, m_timePos->maximum());
         slotPositionChanged(framePos, false);
     } else {
         disconnect(m_monitor, &Monitor::effectChanged, this, &AnimationWidget::slotUpdateGeometryRect);
+        disconnect(m_monitor, &Monitor::effectPointsChanged, this, &AnimationWidget::slotUpdateCenters);
         disconnect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
         disconnect(m_monitor, SIGNAL(seekToKeyframe(int)), this, SLOT(slotSeekToKeyframe(int)));
     }

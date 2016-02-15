@@ -129,6 +129,7 @@ private slots:
     void slotSetDefaultInterp(QAction *action);
     void slotUpdateVisibleParameter(bool display);
     void slotUpdateGeometryRect(const QRect r);
+    void slotUpdateCenters(const QVariantList centers);
     void slotSeekToKeyframe(int ix);
 
 signals:
