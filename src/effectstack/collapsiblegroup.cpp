@@ -80,7 +80,7 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, cons
     m_menu = new QMenu;
     m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("view-refresh")), i18n("Reset Group"), this, SLOT(slotResetGroup()));
     m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-save")), i18n("Save Group"), this, SLOT(slotSaveGroup()));
-    
+
     m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("list-remove")), i18n("Ungroup"), this, SLOT(slotUnGroup()));
     setAcceptDrops(true);
     menuButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-menu")));
@@ -402,7 +402,7 @@ QDomDocument CollapsibleGroup::effectsData()
     list.setAttribute(QStringLiteral("name"), m_title->text());
     doc.appendChild(list);
     for (int j = 0; j < m_subWidgets.count(); ++j) {
-	list.appendChild(doc.importNode(m_subWidgets.at(j)->effect(), true));
+	list.appendChild(doc.importNode(m_subWidgets.at(j)->effectForSave(), true));
     }
     return doc;
 }

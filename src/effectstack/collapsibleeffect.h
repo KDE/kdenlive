@@ -54,7 +54,10 @@ public:
     virtual bool eventFilter( QObject * o, QEvent * e );
     /** @brief Update effect GUI to reflect parameted changes. */
     void updateWidget(const ItemInfo &info, const QDomElement &effect, EffectMetaInfo *metaInfo);
+    /** @brief Returns effect xml. */
     QDomElement effect() const;
+    /** @brief Returns effect xml with keyframe offset for saving. */
+    QDomElement effectForSave() const;
     int groupIndex() const;
     bool isGroup() const;
     int effectIndex() const;

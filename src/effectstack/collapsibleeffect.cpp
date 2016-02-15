@@ -269,6 +269,17 @@ QDomElement CollapsibleEffect::effect() const
     return m_effect;
 }
 
+QDomElement CollapsibleEffect::effectForSave() const
+{
+    QDomElement effect = m_effect.cloneNode().toElement();
+    effect.removeAttribute(QStringLiteral("kdenlive_ix"));
+    if (m_paramWidget) {
+        int in = m_paramWidget->range().x();
+        EffectsController::offsetKeyframes(in, effect);
+    }
+    return effect;
+}
+
 bool CollapsibleEffect::isActive() const
 {
     return decoframe->property("active").toBool();
