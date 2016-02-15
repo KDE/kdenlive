@@ -290,6 +290,9 @@ void AnimationWidget::slotAddKeyframe(int pos, QString paramName, bool directUpd
 
 void AnimationWidget::slotDeleteKeyframe(int pos, bool directUpdate)
 {
+    if (pos == -1) {
+        pos = m_timePos->getValue();
+    }
     m_animController.remove(pos);
     m_selectType->setEnabled(false);
     m_addKeyframe->setActive(false);
@@ -1026,12 +1029,20 @@ void AnimationWidget::connectMonitor(bool activate)
         connect(m_monitor, &Monitor::effectPointsChanged, this, &AnimationWidget::slotUpdateCenters, Qt::UniqueConnection);
         connect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()), Qt::UniqueConnection);
         connect(m_monitor, SIGNAL(seekToKeyframe(int)), this, SLOT(slotSeekToKeyframe(int)), Qt::UniqueConnection);
+        connect(m_monitor, &Monitor::seekToNextKeyframe, this, &AnimationWidget::slotNext,Qt::UniqueConnection);
+        connect(m_monitor, &Monitor::seekToPreviousKeyframe, this, &AnimationWidget::slotPrevious,Qt::UniqueConnection);
+        connect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()), Qt::UniqueConnection);
+        connect(m_monitor, SIGNAL(deleteKeyframe()), this, SLOT(slotDeleteKeyframe()), Qt::UniqueConnection);
         int framePos = qBound<int>(0, m_monitor->render->seekFramePosition() - m_clipPos, m_timePos->maximum());
         slotPositionChanged(framePos, false);
     } else {
         disconnect(m_monitor, &Monitor::effectChanged, this, &AnimationWidget::slotUpdateGeometryRect);
         disconnect(m_monitor, &Monitor::effectPointsChanged, this, &AnimationWidget::slotUpdateCenters);
         disconnect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
+        disconnect(m_monitor, SIGNAL(deleteKeyframe()), this, SLOT(slotDeleteKeyframe()));
+        disconnect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
+        disconnect(m_monitor, &Monitor::seekToNextKeyframe, this, &AnimationWidget::slotNext);
+        disconnect(m_monitor, &Monitor::seekToPreviousKeyframe, this, &AnimationWidget::slotPrevious);
         disconnect(m_monitor, SIGNAL(seekToKeyframe(int)), this, SLOT(slotSeekToKeyframe(int)));
     }
 }

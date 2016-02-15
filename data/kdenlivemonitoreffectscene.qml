@@ -20,6 +20,7 @@ Item {
     property var centerPoints: []
     property var centerPointsTypes: []
     onCenterPointsChanged: canvas.requestPaint()
+    property bool showToolbar: false
     signal effectChanged()
     signal centersChanged()
     signal addKeyframe()
@@ -144,6 +145,7 @@ Item {
         property bool isMoving : false
         anchors.centerIn: root
         hoverEnabled: true
+        acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MidButton
         cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
 
         readonly property bool containsMouse: {
@@ -170,8 +172,12 @@ Item {
         }
 
         onClicked: {
-            if (root.requestedKeyFrame >= 0 && !isMoving) {
-                root.seekToKeyframe();
+            if (mouse.button & Qt.MidButton) {
+                root.showToolbar = !root.showToolbar
+            } else {
+                if (root.requestedKeyFrame >= 0 && !isMoving) {
+                    root.seekToKeyframe();
+                }
             }
             isMoving = false
 
@@ -179,6 +185,16 @@ Item {
         onDoubleClicked: {
             root.addKeyframe()
         }
+    }
+    EffectToolBar {
+        id: effectToolBar
+        anchors {
+            left: parent.left
+            top: parent.top
+            topMargin: 10
+            leftMargin: 10
+        }
+        visible: root.showToolbar
     }
     Rectangle {
         id: framerect

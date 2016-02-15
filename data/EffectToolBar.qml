@@ -3,8 +3,8 @@ import QtQuick.Controls.Styles 1.3
 import QtQuick 2.0
 
 Rectangle {
-    id: scenetoolbar
-    objectName: "scenetoolbar"
+    id: effecttoolbar
+    objectName: "effecttoolbar"
     width: fullscreenButton.width
     height: fullscreenButton.height * 5 + zoomSlider.height + 2
     color: Qt.rgba(1, 1, 1, 0.6)
@@ -32,24 +32,24 @@ Rectangle {
             tooltip: "Switch Full Screen"
         }
         ToolButton {
-            objectName: "nextSnap"
+            objectName: "nextKeyframe"
             iconName: "go-next"
-            tooltip: "Go to Next Snap Point"
+            tooltip: "Go to Next Keyframe"
         }
         ToolButton {
-            objectName: "prevSnap"
+            objectName: "prevKeyframe"
             iconName: "go-previous"
-            tooltip: "Go to Previous Snap Point"
+            tooltip: "Go to Previous Keyframe"
         }
         ToolButton {
-            objectName: "addMarker"
+            objectName: "addKeyframe"
             iconName: "list-add"
-            tooltip: "Add Marker"
+            tooltip: "Add Keyframe"
         }
         ToolButton {
-            objectName: "removeMarker"
+            objectName: "removeKeyframe"
             iconName: "list-remove"
-            tooltip: "Remove Marker"
+            tooltip: "Remove Keyframe"
         }
         Slider {
             id: zoomSlider

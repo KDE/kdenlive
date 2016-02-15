@@ -1800,11 +1800,12 @@ void Monitor::connectQmlToolbar(QQuickItem *root)
     if (button) {
         QObject::connect(button, SIGNAL(clicked()), this, SLOT(slotSwitchFullScreen()), Qt::UniqueConnection);
     }
-    button = root->findChild<QObject*>("nextKeyframe");
+    // Normal monitor toolbar
+    button = root->findChild<QObject*>("nextSnap");
     if (button) {
         QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(seekToNextSnap()), Qt::UniqueConnection);
     }
-    button = root->findChild<QObject*>("prevKeyframe");
+    button = root->findChild<QObject*>("prevSnap");
     if (button) {
         QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(seekToPreviousSnap()), Qt::UniqueConnection);
     }
@@ -1815,6 +1816,24 @@ void Monitor::connectQmlToolbar(QQuickItem *root)
     button = root->findChild<QObject*>("removeMarker");
     if (button) {
         QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(deleteMarker()), Qt::UniqueConnection);
+    }
+    
+    // Effect monitor toolbar
+    button = root->findChild<QObject*>("nextKeyframe");
+    if (button) {
+        QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(seekToNextKeyframe()), Qt::UniqueConnection);
+    }
+    button = root->findChild<QObject*>("prevKeyframe");
+    if (button) {
+        QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(seekToPreviousKeyframe()), Qt::UniqueConnection);
+    }
+    button = root->findChild<QObject*>("addKeyframe");
+    if (button) {
+        QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
+    }
+    button = root->findChild<QObject*>("removeKeyframe");
+    if (button) {
+        QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(deleteKeyframe()), Qt::UniqueConnection);
     }
     button = root->findChild<QObject*>("zoomSlider");
     if (button) {

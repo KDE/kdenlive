@@ -332,6 +332,9 @@ signals:
     void effectChanged(const QRect);
     void effectPointsChanged(QVariantList);
     void addKeyframe();
+    void deleteKeyframe();
+    void seekToNextKeyframe();
+    void seekToPreviousKeyframe();
     void seekToKeyframe(int);
     void addClipToProject(QUrl);
     void showConfigDialog(int,int);
