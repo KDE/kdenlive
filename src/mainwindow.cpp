@@ -1177,11 +1177,9 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("group_clip"), i18n("Group Clips"), this, SLOT(slotGroupClips()), KoIconUtils::themedIcon(QStringLiteral("object-group")), Qt::CTRL + Qt::Key_G);
 
-    QAction * ungroupClip = new QAction(KoIconUtils::themedIcon(QStringLiteral("object-ungroup")), i18n("Ungroup Clips"), this);
-    addAction(QStringLiteral("ungroup_clip"), ungroupClip);
-    ungroupClip->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_G);
+    QAction * ungroupClip = addAction(QStringLiteral("ungroup_clip"), i18n("Ungroup Clips"), this, SLOT(slotUnGroupClips()), KoIconUtils::themedIcon(QStringLiteral("object-ungroup")), Qt::CTRL + Qt::SHIFT + Qt::Key_G);
     ungroupClip->setData("ungroup_clip");
-    connect(ungroupClip, SIGNAL(triggered(bool)), this, SLOT(slotUnGroupClips()));
+
     addAction(QStringLiteral("edit_item_duration"), i18n("Edit Duration"), this, SLOT(slotEditItemDuration()), KoIconUtils::themedIcon(QStringLiteral("measure")));
     addAction(QStringLiteral("save_timeline_clip"), i18n("Save clip"), this, SLOT(slotSaveTimelineClip()), KoIconUtils::themedIcon(QStringLiteral("document-save")));
     addAction(QStringLiteral("clip_in_project_tree"), i18n("Clip in Project Bin"), this, SLOT(slotClipInProjectTree()), KoIconUtils::themedIcon(QStringLiteral("go-jump-definition")));
