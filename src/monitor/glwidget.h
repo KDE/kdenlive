@@ -158,6 +158,7 @@ private:
     int m_colorspaceLocation;
     int m_textureLocation[3];
     float m_zoom;
+    bool m_openGLSync;
     SharedFrame m_sharedFrame;
     QMutex m_mutex;
     QPoint m_offset;
@@ -166,6 +167,7 @@ private:
     bool m_audioWaveDisplayed;
     static void on_frame_show(mlt_consumer, void* self, mlt_frame frame);
     static void on_gl_frame_show(mlt_consumer, void* self, mlt_frame frame_ptr);
+    static void on_gl_nosync_frame_show(mlt_consumer, void* self, mlt_frame frame_ptr);
     void createAudioOverlay(bool isAudio);
     void removeAudioOverlay();
     void adjustAudioOverlay(bool isAudio);
@@ -216,6 +218,7 @@ public:
     void clearFrame();
     Q_INVOKABLE void showFrame(Mlt::Frame frame);
     Q_INVOKABLE void showGLFrame(Mlt::Frame frame);
+    Q_INVOKABLE void showGLNoSyncFrame(Mlt::Frame frame);
 
 public slots:
     void cleanup();

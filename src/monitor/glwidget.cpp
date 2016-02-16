@@ -32,8 +32,6 @@
 #include "kdenlivesettings.h"
 #include "mltcontroller/bincontroller.h"
 
-#define USE_GL_SYNC // Use glFinish() if not defined.
-
 #ifndef GL_UNPACK_ROW_LENGTH
 # ifdef GL_UNPACK_ROW_LENGTH_EXT
 #  define GL_UNPACK_ROW_LENGTH GL_UNPACK_ROW_LENGTH_EXT
@@ -82,6 +80,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_texCoordLocation(0)
     , m_colorspaceLocation(0)
     , m_zoom(1.0f)
+    , m_openGLSync(false)
     , m_offset(QPoint(0, 0))
     , m_shareContext(0)
     , m_audioWaveDisplayed(false)
@@ -158,6 +157,11 @@ void GLWidget::initializeGL()
         openglContext()->makeCurrent(this);
     }
     initializeOpenGLFunctions();
+    qDebug() << "OpenGL vendor: " << QString::fromUtf8((const char*) glGetString(GL_VENDOR));
+    qDebug() << "OpenGL renderer: " << QString::fromUtf8((const char*) glGetString(GL_RENDERER));
+    qDebug() << "OpenGL ARG_SYNC: "<<openglContext()->hasExtension("GL_ARB_sync");
+    qDebug() << "OpenGL OpenGLES: "<<openglContext()->isOpenGLES();
+
     if (m_glslManager && openglContext()->isOpenGLES()) {
         delete m_glslManager;
         m_glslManager = 0;
@@ -168,16 +172,15 @@ void GLWidget::initializeGL()
     }
     createShader();
 
-#if defined(USE_GL_SYNC) && !defined(Q_OS_WIN)
+#if !defined(Q_OS_WIN)
     // getProcAddress is not working for me on Windows.
     if (KdenliveSettings::gpu_accel()) {
+        m_openGLSync = false;
         if (m_glslManager && openglContext()->hasExtension("GL_ARB_sync")) {
             ClientWaitSync = (ClientWaitSync_fp) openglContext()->getProcAddress("glClientWaitSync");
-        }
-        if (!ClientWaitSync) {
-            emit gpuNotSupported();
-            delete m_glslManager;
-            m_glslManager = 0;
+            if (ClientWaitSync) {
+                m_openGLSync = true;
+            }
         }
     }
 #endif
@@ -894,7 +897,12 @@ int GLWidget::reconfigureMulti(QString params, QString path, Mlt::Profile *profi
         // Connect the producer to the consumer - tell it to "run" later
         delete m_displayEvent;
         if (m_glslManager) {
-            m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_gl_frame_show);
+            if (m_openGLSync) {
+                m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_gl_frame_show);
+            }
+            else {
+                m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_gl_nosync_frame_show);
+            }
         } else {
             m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_frame_show);
         }
@@ -1172,6 +1180,18 @@ void GLWidget::on_frame_show(mlt_consumer, void* self, mlt_frame frame_ptr)
     }
 }
 
+void GLWidget::on_gl_nosync_frame_show(mlt_consumer, void* self, mlt_frame frame_ptr)
+{
+    Mlt::Frame frame(frame_ptr);
+    if (frame.get_int("rendered")) {
+        GLWidget* widget = static_cast<GLWidget*>(self);
+        int timeout = (widget->consumer()->get_int("real_time") > 0)? 0: 1000;
+        if (widget->m_frameRenderer && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
+            QMetaObject::invokeMethod(widget->m_frameRenderer, "showGLNoSyncFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));
+        }
+    }
+}
+
 void GLWidget::on_gl_frame_show(mlt_consumer, void* self, mlt_frame frame_ptr)
 {
     Mlt::Frame frame(frame_ptr);
@@ -1305,7 +1325,6 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
         mlt_image_format format = mlt_image_glsl_texture;
         const GLuint* textureId = (GLuint*) frame.get_image(format, width, height);
         m_context->makeCurrent(m_surface);
-#ifdef USE_GL_SYNC
         GLsync sync = (GLsync) frame.get_data("movit.convert.fence");
         if (sync) {
 #ifdef Q_OS_WIN
@@ -1326,9 +1345,6 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
             }
 #endif // Q_OS_WIN
         }
-#else
-        m_context->functions()->glFinish();
-#endif // USE_GL_FENCE
 
         emit textureReady(*textureId);
         m_context->doneCurrent();
@@ -1363,6 +1379,32 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
     }
     m_semaphore.release();
 }
+
+void FrameRenderer::showGLNoSyncFrame(Mlt::Frame frame)
+{
+    if (m_context->isValid()) {
+        int width = 0;
+        int height = 0;
+
+        frame.set("movit.convert.use_texture", 1);
+        mlt_image_format format = mlt_image_glsl_texture;
+        const GLuint* textureId = (GLuint*) frame.get_image(format, width, height);
+        m_context->makeCurrent(m_surface);
+        m_context->functions()->glFinish();
+
+        emit textureReady(*textureId);
+        m_context->doneCurrent();
+
+        // Save this frame for future use and to keep a reference to the GL Texture.
+        m_frame = SharedFrame(frame);
+
+        // The frame is now done being modified and can be shared with the rest
+        // of the application.
+        emit frameDisplayed(m_frame);
+    }
+    m_semaphore.release();
+}
+
 
 void FrameRenderer::clearFrame()
 {
