@@ -84,6 +84,7 @@ EffectSettings::EffectSettings(QWidget* parent) :
     hbox->addWidget(checkAll);
     effectCompare = new QToolButton(this);
     effectCompare->setIcon(KoIconUtils::themedIcon(QStringLiteral("view-split-effect")));
+    effectCompare->setToolTip(i18n("Split compare"));
     effectCompare->setCheckable(true);
     effectCompare->setChecked(false);
     hbox->addWidget(effectCompare);
