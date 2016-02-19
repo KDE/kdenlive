@@ -64,6 +64,7 @@ EffectStackView2::EffectStackView2(Monitor *projectMonitor, QWidget *parent) :
     m_effect = new EffectSettings(this);
     m_transition = new TransitionSettings(projectMonitor, this);
     connect(m_effect->checkAll, SIGNAL(stateChanged(int)), this, SLOT(slotCheckAll(int)));
+    connect(m_effect->effectCompare, &QToolButton::toggled, this, &EffectStackView2::slotSwitchCompare);
 
     m_layout.addWidget(m_effect);
     m_layout.addWidget(m_transition);
@@ -144,6 +145,10 @@ void EffectStackView2::slotClipItemUpdate()
 
 void EffectStackView2::slotClipItemSelected(ClipItem* c, Monitor *m, bool reloadStack)
 {
+    if (m_effect->effectCompare->isChecked()) {
+        // disable split effect when changing clip
+        m_effect->effectCompare->setChecked(false);
+    }
     if (c) {
         m_effect->setHidden(false);
         m_transition->setHidden(true);
@@ -197,6 +202,10 @@ void EffectStackView2::slotRefreshMasterClipEffects(ClipController* c, Monitor *
 
 void EffectStackView2::slotMasterClipItemSelected(ClipController* c, Monitor *m)
 {
+    if (m_effect->effectCompare->isChecked()) {
+        // disable split effect when changing clip
+        m_effect->effectCompare->setChecked(false);
+    }
     m_clipref = NULL;
     m_trackindex = -1;
     if (c) {
@@ -234,12 +243,15 @@ void EffectStackView2::slotMasterClipItemSelected(ClipController* c, Monitor *m)
     setEnabled(true);
     m_status = MASTER_CLIP;
     m_currentEffectList = m_masterclipref->effectList();
-    m_effectMetaInfo.monitor->enableCompare(m_currentEffectList.count());
     setupListView();
 }
 
 void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo &info, Monitor *m)
 {
+    if (m_effect->effectCompare->isChecked()) {
+        // disable split effect when changing clip
+        m_effect->effectCompare->setChecked(false);
+    }
     if (m_status != TIMELINE_TRACK || ix != m_trackindex) {
         m_clipref = NULL;
         m_status = TIMELINE_TRACK;
@@ -279,6 +291,7 @@ void EffectStackView2::setupListView()
     vbox1->setSpacing(0);
 
     int effectsCount = m_currentEffectList.count();
+    m_effect->effectCompare->setEnabled(effectsCount > 0);
 
     // Make sure we always have one effect selected
     if (m_status == TIMELINE_CLIP) {
@@ -1229,3 +1242,23 @@ void EffectStackView2::disableTimelineEffects(bool disable)
     if (m_status == TIMELINE_CLIP) m_effect->setEnabled(!disable);
 }
 
+
+void EffectStackView2::slotSwitchCompare(bool enable)
+{
+    int pos = 0;
+    if (enable) {
+        if (m_status == TIMELINE_CLIP) {
+            pos = (m_effectMetaInfo.monitor->position() - m_clipref->startPos()).frames(KdenliveSettings::project_fps());
+        } else {
+            pos = m_effectMetaInfo.monitor->position().frames(KdenliveSettings::project_fps());
+        }
+        m_effectMetaInfo.monitor->slotSwitchCompare(enable, pos);
+    } else {
+        if (m_status == TIMELINE_CLIP) {
+            pos = (m_effectMetaInfo.monitor->position() + m_clipref->startPos()).frames(KdenliveSettings::project_fps());
+        } else {
+            pos = m_effectMetaInfo.monitor->position().frames(KdenliveSettings::project_fps());
+        }
+        m_effectMetaInfo.monitor->slotSwitchCompare(enable, pos);
+    }
+}

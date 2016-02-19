@@ -616,7 +616,9 @@ void ProjectManager::slotAutoSave()
         // Multitrack view was enabled, disable for auto save
         m_trackView->slotMultitrackView(false);
     }
+    m_trackView->connectOverlayTrack(false);
     m_project->slotAutoSave();
+    m_trackView->connectOverlayTrack(true);
     if (multitrackEnabled) {
         // Multitrack view was enabled, re-enable for auto save
         m_trackView->slotMultitrackView(true);
@@ -631,7 +633,9 @@ QString ProjectManager::projectSceneList()
         // Multitrack view was enabled, disable for auto save
         m_trackView->slotMultitrackView(false);
     }
+    m_trackView->connectOverlayTrack(false);
     QString scene = pCore->monitorManager()->projectMonitor()->sceneList();
+    m_trackView->connectOverlayTrack(true);
     if (multitrackEnabled) {
         // Multitrack view was enabled, re-enable for auto save
         m_trackView->slotMultitrackView(true);

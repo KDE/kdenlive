@@ -447,6 +447,9 @@ private slots:
     void slotUpdateMonitorOverlays(int id, int code);
     /** @brief Update widget style */
     void slotChangeStyle(QAction *a);
+    /** @brief Create temporary top track to preview an effect */
+    void createSplitOverlay(Mlt::Filter *filter);
+    void removeSplitOverlay();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

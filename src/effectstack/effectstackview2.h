@@ -231,24 +231,27 @@ private slots:
       ** @param groupName the name of the group to paste the effect
       */
     void slotMoveEffect(QList <int> currentIndexes, int newIndex, int groupIndex, QString groupName = QString());
-    
+
     /** @brief Remove effects from a group */
     void slotUnGroup(CollapsibleGroup* group);
-    
+
     /** @brief Add en effect to selected clip */
     void slotAddEffect(const QDomElement &effect);
-    
+
     /** @brief Enable / disable all effects for the clip */
     void slotCheckAll(int state);
-    
+
     /** @brief Update check all button status */
     void slotUpdateCheckAllButton();
-    
+
     /** @brief Display additional effect info */
     void slotShowComments();
-    
+
     /** @brief An effect group was renamed, update effects info */
     void slotRenameGroup(CollapsibleGroup *group);
+
+    /** @brief Dis/Enable monitor effect compare */
+    void slotSwitchCompare(bool enable);
 
 signals:
     void removeEffect(ClipItem*, int, const QDomElement&);

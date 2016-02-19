@@ -145,6 +145,11 @@ public:
     static bool isSlide(QString geometry);
     /** @brief Import amultitrack MLT playlist in timeline */
     void importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QMap <QString, QString> idMaps, QDomDocument doc, QUndoCommand *command);
+    /** @brief Creates an overlay track with a filtered clip */
+    bool createOverlay(Mlt::Filter *filter, int tk, int startPos);
+    void removeSplitOverlay();
+    /** @brief Temporarily add/remove track before saving */
+    void connectOverlayTrack(bool enable);
 
 protected:
     void keyPressEvent(QKeyEvent * event);
@@ -165,6 +170,9 @@ public slots:
 private:
     Mlt::Tractor *m_tractor;
     QList <Track*> m_tracks;
+    /** @brief number of special overlay tracks to preview effects */
+    bool m_hasOverlayTrack;
+    Mlt::Producer *m_overlayTrack;
     CustomRuler *m_ruler;
     CustomTrackView *m_trackview;
     QList <QString> m_invalidProducers;

@@ -143,8 +143,6 @@ public:
     /** @brief Returns the action displaying record toolbar */
     QAction *recAction();
     void refreshIcons();
-    /** @brief Enable or disable the effect compare feature depending on effects presence */
-    void enableCompare(int effectsCount);
     /** @brief Send audio thumb data to qml for on monitor display */
     void prepareAudioThumb(int channels, QVariantList &audioCache);
     void refreshMonitorIfActive();
@@ -152,6 +150,8 @@ public:
     /** @brief Set a property on the Qml scene **/
     void setQmlProperty(const QString &name, const QVariant &value);
     void displayAudioMonitor(bool isActive);
+    /** @brief Prepare split effect from timeline clip producer **/
+    void activateSplit();
 
 protected:
     void mousePressEvent(QMouseEvent * event);
@@ -200,7 +200,6 @@ private:
     KSelectAction *m_forceSize;
     /** Has to be available so we can enable and disable it. */
     QAction *m_loopClipAction;
-    KDualAction *m_effectCompare;
     QAction *m_sceneVisibilityAction;
     QAction *m_multitrackView;
     QMenu *m_contextMenu;
@@ -231,6 +230,8 @@ private:
     void connectQmlToolbar(QQuickItem *root);
     /** @brief Check and display dropped frames */
     void checkDrops(int dropped);
+    /** @brief Create temporary Mlt::Tractor holding a clip and it's effectless clone */
+    void buildSplitEffect(Mlt::Producer *original, int pos);
 
 private slots:
     void seekCursor(int pos);
@@ -248,8 +249,6 @@ private slots:
     void slotStartDrag();
     void setZoom();
     void slotEnableEffectScene(bool enable);
-    /** @brief split screen to compare clip with and without effect */
-    void slotSwitchCompare(bool enable);
     void slotAdjustEffectCompare();
     void slotShowMenu(const QPoint pos);
     void slotForceSize(QAction *a);
@@ -305,7 +304,8 @@ public slots:
     /** @brief Display the on monitor effect scene (to adjust geometry over monitor). */
     void slotShowEffectScene(MonitorSceneType sceneType, bool temporary = false);
     bool effectSceneDisplayed(MonitorSceneType effectType);
-
+    /** @brief split screen to compare clip with and without effect */
+    void slotSwitchCompare(bool enable, int pos);
     /** @brief Sets m_selectedClip to @param item. Used for looping it. */
     void slotSetSelectedClip(AbstractClipItem *item);
     void slotSetSelectedClip(ClipItem *item);
@@ -355,6 +355,8 @@ signals:
     void deleteMarker(bool deleteGuide = true);
     void seekToPreviousSnap();
     void seekToNextSnap();
+    void createSplitOverlay(Mlt::Filter *);
+    void removeSplitOverlay();
 };
 
 #endif

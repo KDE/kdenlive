@@ -52,10 +52,12 @@
 
 Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, QWidget *parent) :
     QWidget(parent),
-    multitrackView(false),
-    m_scale(1.0),
-    m_doc(doc),
-    m_verticalZoom(1)
+    multitrackView(false)
+    , m_hasOverlayTrack(false)
+    , m_overlayTrack(NULL)
+    , m_scale(1.0)
+    , m_doc(doc)
+    , m_verticalZoom(1)
 {
     m_trackActions << actions;
     setupUi(this);
@@ -157,12 +159,12 @@ Track* Timeline::track(int i)
 
 int Timeline::tracksCount() const
 {
-    return m_tractor->count();
+    return m_tractor->count() - (m_hasOverlayTrack ? 1 : 0);
 }
 
 int Timeline::visibleTracksCount() const
 {
-    return m_tractor->count() - 1;
+    return m_tractor->count() - 1 - (m_hasOverlayTrack ? 1 : 0);
 }
 
 //virtual
@@ -1231,7 +1233,6 @@ bool Timeline::moveClip(int startTrack, qreal startPos, int endTrack, qreal endP
     }
     sourceTrack->playlist().unlock();
     Track *destTrack = track(endTrack);
-    
     bool success = destTrack->add(endPos, clipProducer, GenTime(clipProducer->get_in(), destTrack->fps()).seconds(), GenTime(clipProducer->get_out() + 1, destTrack->fps()).seconds(), state, duplicate, mode);
     delete clipProducer;
     return success;
@@ -1433,7 +1434,7 @@ void Timeline::duplicateClipOnPlaylist(int tk, qreal startPos, int offset, Mlt::
     Mlt::Producer *clipProducer = sourceTrack->playlist().get_clip(clipIndex);
     Clip clp(clipProducer->parent());
     Mlt::Producer *cln = clp.clone();
-    
+
     // Clip effects must be moved from clip to the playlist entry, so first delete them from parent clip
     Clip(*cln).deleteEffects();
     cln->set_in_and_out(clipProducer->get_in(), clipProducer->get_out());
@@ -1491,4 +1492,63 @@ void Timeline::slotMultitrackView(bool enable)
 {
     multitrackView = enable;
     transitionHandler->enableMultiTrack(enable);
+}
+
+void Timeline::connectOverlayTrack(bool enable)
+{
+    if (!m_hasOverlayTrack) return;
+    m_tractor->lock();
+    if (enable) {
+        // Re-add overlaytrack
+        m_tractor->insert_track(*m_overlayTrack, tracksCount() + 1);
+        delete m_overlayTrack;
+        m_overlayTrack = NULL;
+    } else {
+        m_overlayTrack = m_tractor->track(tracksCount());
+        m_tractor->remove_track(tracksCount());
+    }
+    m_tractor->unlock();
+}
+
+void Timeline::removeSplitOverlay()
+{
+    if (!m_hasOverlayTrack) return;
+    m_tractor->lock();
+    m_tractor->remove_track(tracksCount());
+    m_hasOverlayTrack = false;
+    m_tractor->unlock();
+}
+
+bool Timeline::createOverlay(Mlt::Filter *filter, int tk, int startPos)
+{
+    Track *sourceTrack = track(tk);
+    if (!sourceTrack) return NULL;
+    m_tractor->lock();
+    int clipIndex = sourceTrack->playlist().get_clip_index_at(startPos);
+    Mlt::Producer *clipProducer = sourceTrack->playlist().get_clip(clipIndex);
+    Clip clp(clipProducer->parent());
+    Mlt::Producer *cln = clp.clone();
+    Clip(*cln).deleteEffects();
+    Mlt::Playlist overlay(*m_tractor->profile());
+    Mlt::Tractor trac(*m_tractor->profile());
+    trac.set_track(*clipProducer, 0);
+    trac.set_track(*cln, 1);
+    cln->attach(*filter);
+    QString splitTransition = KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend";
+    Mlt::Transition t(*m_tractor->profile(), splitTransition.toUtf8().constData());
+    t.set("always_active", 1);
+    trac.plant_transition(t, 0, 1);
+    delete cln;
+    delete clipProducer;
+    overlay.insert_blank(0, startPos);
+    Mlt::Producer split(trac.get_producer());
+    overlay.insert_at(startPos, &split, 1);
+    int trackIndex = tracksCount();
+    m_tractor->insert_track(overlay, trackIndex);
+    Mlt::Producer *overlayTrack = m_tractor->track(trackIndex);
+    overlayTrack->set("hide", 2);
+    delete overlayTrack;
+    m_hasOverlayTrack = true;
+    m_tractor->unlock();
+    return true;
 }

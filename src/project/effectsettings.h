@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "definitions.h"
 
 class QScrollArea;
+class QToolButton;
 
 class ElidedCheckBox : public QCheckBox
 {
@@ -58,6 +59,7 @@ public:
     void updatePalette();
     void setLabel(const QString &label, const QString &tooltip = QString());
     void updateCheckState(int state);
+    QToolButton *effectCompare;
 
 protected:
     void resizeEvent(QResizeEvent *event);

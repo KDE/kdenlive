@@ -2167,6 +2167,20 @@ void CustomTrackView::slotDropTransition(ClipItem *clip, QDomElement transition,
     m_menuPosition = QPoint();
 }
 
+void CustomTrackView::removeSplitOverlay()
+{
+    m_timeline->removeSplitOverlay();
+}
+
+bool CustomTrackView::createSplitOverlay(Mlt::Filter *filter)
+{
+    if (!m_dragItem || m_dragItem->type() != AVWidget) {
+        //TODO manage split clip
+        return false;
+    }
+    return m_timeline->createOverlay(filter, m_dragItem->track(), m_dragItem->startPos().frames(m_document->fps()));
+}
+
 void CustomTrackView::slotAddEffectToCurrentItem(QDomElement effect)
 {
     slotAddEffect(effect, GenTime(), -1);

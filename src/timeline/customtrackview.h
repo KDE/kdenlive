@@ -246,6 +246,9 @@ public:
     QString getDisplayTimecodeFromFrames(int frames) const;
     /** @brief Call the default QGraphicsView mouse event */
     void graphicsViewMouseEvent(QMouseEvent * event);
+    /** @brief Creates an overlay track with filtered clip */
+    bool createSplitOverlay(Mlt::Filter *filter);
+    void removeSplitOverlay();
 
 public slots:
     /** @brief Send seek request to MLT. */

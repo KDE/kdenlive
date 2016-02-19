@@ -822,8 +822,25 @@ void MainWindow::slotConnectMonitors()
 
     connect(m_clipMonitor, SIGNAL(refreshClipThumbnail(QString)), pCore->bin(), SLOT(slotRefreshClipThumbnail(QString)));
     connect(m_projectMonitor, SIGNAL(requestFrameForAnalysis(bool)), this, SLOT(slotMonitorRequestRenderFrame(bool)));
+    connect(m_projectMonitor, &Monitor::createSplitOverlay, this, &MainWindow::createSplitOverlay);
+    connect(m_projectMonitor, &Monitor::removeSplitOverlay, this, &MainWindow::removeSplitOverlay);
 }
 
+void MainWindow::createSplitOverlay(Mlt::Filter *filter)
+{
+    if (pCore->projectManager()->currentTimeline()) {
+        if (pCore->projectManager()->currentTimeline()->projectView()->createSplitOverlay(filter)) {
+            m_projectMonitor->activateSplit();
+        }
+    }
+}
+
+void MainWindow::removeSplitOverlay()
+{
+    if (pCore->projectManager()->currentTimeline()) {
+        pCore->projectManager()->currentTimeline()->projectView()->removeSplitOverlay();
+    }
+}
 
 void MainWindow::addAction(const QString &name, QAction *action)
 {

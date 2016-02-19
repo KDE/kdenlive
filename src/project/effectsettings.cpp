@@ -27,9 +27,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDebug>
 #include <QMimeData>
 #include <QScrollArea>
+#include <QToolButton>
 #include <QVBoxLayout>
 #include <QResizeEvent>
 #include "klocalizedstring.h"
+
+#include <KDualAction>
 
 ElidedCheckBox::ElidedCheckBox(QWidget *parent) :
     QCheckBox(parent)
@@ -77,7 +80,14 @@ EffectSettings::EffectSettings(QWidget* parent) :
     vbox1->setSpacing(0);
     checkAll = new ElidedCheckBox(this);
     checkAll->setToolTip(i18n("Enable/Disable all effects"));
-    vbox1->addWidget(checkAll);
+    QHBoxLayout *hbox = new QHBoxLayout;
+    hbox->addWidget(checkAll);
+    effectCompare = new QToolButton(this);
+    effectCompare->setIcon(KoIconUtils::themedIcon(QStringLiteral("view-split-effect")));
+    effectCompare->setCheckable(true);
+    effectCompare->setChecked(false);
+    hbox->addWidget(effectCompare);
+    vbox1->addLayout(hbox);
     container = new QScrollArea;
     container->setFrameShape(QFrame::NoFrame);
     container->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred));
@@ -119,5 +129,4 @@ void EffectSettings::resizeEvent(QResizeEvent *event)
     checkAll->updateText(checkAll->currentWidth() + diff);
     QWidget::resizeEvent(event);
 }
-
 

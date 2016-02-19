@@ -124,7 +124,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_dragStarted(false)
     , m_recManager(NULL)
     , m_loopClipAction(NULL)
-    , m_effectCompare(NULL)
     , m_sceneVisibilityAction(NULL)
     , m_multitrackView(NULL)
     , m_contextMenu(NULL)
@@ -269,18 +268,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_audioButton->setIcon(icon);
     m_toolbar->addWidget(m_audioButton);
 
-    if (id == Kdenlive::ClipMonitor) {
-        m_effectCompare = new KDualAction(i18n("Split"), i18n("Unsplit"), this);
-        m_effectCompare->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("view-split-effect")));
-        m_effectCompare->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("view-unsplit-effect")));
-        m_effectCompare->setActive(false);
-        m_effectCompare->setCheckable(true);
-        m_effectCompare->setChecked(false);
-        m_effectCompare->setEnabled(false);
-        m_toolbar->addSeparator();
-        m_toolbar->addAction(m_effectCompare);
-        connect(m_effectCompare, &KDualAction::activeChanged, this, &Monitor::slotSwitchCompare);
-    }
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setLayout(layout);
     setMinimumHeight(200);
@@ -470,10 +457,6 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
     connect(overlayAudio, SIGNAL(toggled(bool)), m_glMonitor, SLOT(slotSwitchAudioOverlay(bool)));
     overlayAudio->setChecked(KdenliveSettings::displayAudioOverlay());
 
-    if (m_effectCompare) {
-        m_configMenu->addSeparator();
-        m_configMenu->addAction(m_effectCompare);
-    }
     QAction *switchAudioMonitor = m_configMenu->addAction(i18n("Show Audio Levels"), this, SLOT(slotSwitchAudioMonitor()));
     switchAudioMonitor->setCheckable(true);
     switchAudioMonitor->setChecked(KdenliveSettings::monitoraudio() & m_id);
@@ -1297,7 +1280,7 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
         // Don't load clip if monitor is not active (disabled)
         return;
     }
-    if (m_qmlManager->sceneType() != MonitorSceneDefault && !sameClip) {
+    /*if (m_qmlManager->sceneType() != MonitorSceneDefault && !sameClip) {
         // changed clip, disable split effect
         if (m_splitProducer) {
             m_effectCompare->blockSignals(true);
@@ -1309,7 +1292,7 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
             m_splitEffect = NULL;
         }
         loadQmlScene(MonitorSceneDefault);
-    }
+    }*/
     //bool hasEffects;
     if (controller) {
 	if (m_recManager->toolbar()->isVisible()) {
@@ -1338,24 +1321,6 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
         m_audioMeterWidget->audioChannels = 0;
     }
     checkOverlay();
-}
-
-void Monitor::enableCompare(int effectsCount)
-{
-    if (!m_effectCompare) return;
-    if (effectsCount == 0) {
-        m_effectCompare->setEnabled(false);
-        m_effectCompare->setChecked(false);
-        m_effectCompare->setActive(false);
-        if (m_splitProducer) {
-            delete m_splitEffect;
-            m_splitProducer = NULL;
-            m_splitEffect = NULL;
-            loadQmlScene(MonitorSceneDefault);
-        }
-    } else {
-        m_effectCompare->setEnabled(true);
-    }
 }
 
 const QString Monitor::activeClipId()
@@ -1689,56 +1654,56 @@ void Monitor::warningMessage(const QString &text, int timeout)
     if (timeout > 0) QTimer::singleShot(timeout, m_infoMessage, SLOT(animatedHide()));
 }
 
-void Monitor::slotSwitchCompare(bool enable)
+void Monitor::activateSplit()
 {
-    if (m_controller == NULL || !m_controller->hasEffects()) {
-        // disable split effect
-        enableCompare(0);
-        if (m_controller) {
-            warningMessage(i18n("Clip has no effects"));
-        }
-        else {
-            warningMessage(i18n("Select a clip in project bin to compare effect"));
+    loadQmlScene(MonitorSceneSplit);
+    slotActivateMonitor(true);
+}
+
+void Monitor::slotSwitchCompare(bool enable, int pos)
+{
+    if (m_id == Kdenlive::ProjectMonitor) {
+        if (enable) {
+            if (m_qmlManager->sceneType() == MonitorSceneSplit) {
+                // Split scene is already active
+                return;
+            }
+            m_splitEffect = new Mlt::Filter(*profile(), "frei0r.scale0tilt");
+            if (m_splitEffect && m_splitEffect->is_valid()) {
+                m_splitEffect->set("0", 0.5); // 0 is the Clip left parameter
+            } else {
+                // frei0r.scal0tilt is not available
+                warningMessage(i18n("The scal0tilt filter is required for that feature, please install frei0r and restart Kdenlive"));
+                return;
+            }
+            emit createSplitOverlay(m_splitEffect);
+            return;
+        } else {
+            // Delete temp track
+            emit removeSplitOverlay();
+            delete m_splitEffect;
+            m_splitEffect = NULL;
+            loadQmlScene(MonitorSceneDefault);
+            slotActivateMonitor(true);
         }
         return;
     }
-    int pos = position().frames(m_monitorManager->timecode().fps());
+    if (m_controller == NULL || !m_controller->hasEffects()) {
+        // disable split effect
+        if (m_controller) {
+            //warningMessage(i18n("Clip has no effects"));
+        }
+        else {
+            //warningMessage(i18n("Select a clip in project bin to compare effect"));
+        }
+        return;
+    }
     if (enable) {
         if (m_qmlManager->sceneType() == MonitorSceneSplit) {
             // Split scene is already active
             return;
         }
-        m_splitEffect = new Mlt::Filter(*profile(), "frei0r.scale0tilt");
-        if (m_splitEffect && m_splitEffect->is_valid()) {
-            m_splitEffect->set("0", 0.5); // 0 is the Clip left parameter
-        } else {
-            // frei0r.scal0tilt is not available
-            warningMessage(i18n("The scal0tilt filter is required for that feature, please install frei0r and restart Kdenlive"));
-            return;
-        }
-        QString splitTransition = KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend";
-        Mlt::Transition t(*profile(), splitTransition.toUtf8().constData());
-        if (!t.is_valid()) {
-            delete m_splitEffect;
-            warningMessage(i18n("The cairoblend transition is required for that feature, please install frei0r and restart Kdenlive"));
-            return;
-        }
-        Mlt::Producer *original = m_controller->masterProducer();
-        Mlt::Tractor trac(*profile());
-	Clip clp(*original);
-        Mlt::Producer *clone = clp.clone();
-	Clip clp2(*clone);
-	clp2.deleteEffects();
-        trac.set_track(*original, 0);
-        trac.set_track(*clone, 1);
-        clone->attach(*m_splitEffect);
-        t.set("always_active", 1);
-        trac.plant_transition(t, 0, 1);
-	delete clone;
-	delete original;
-        m_splitProducer = new Mlt::Producer(trac.get_producer());
-        render->setProducer(m_splitProducer, pos, isActive());
-        loadQmlScene(MonitorSceneSplit);
+        buildSplitEffect(m_controller->masterProducer(), pos);
     }
     else if (m_splitEffect) {
         render->setProducer(m_controller->masterProducer(), pos, isActive());
@@ -1748,6 +1713,40 @@ void Monitor::slotSwitchCompare(bool enable)
         loadQmlScene(MonitorSceneDefault);
     }
     slotActivateMonitor();
+}
+
+void Monitor::buildSplitEffect(Mlt::Producer *original, int pos)
+{
+    m_splitEffect = new Mlt::Filter(*profile(), "frei0r.scale0tilt");
+    if (m_splitEffect && m_splitEffect->is_valid()) {
+        m_splitEffect->set("0", 0.5); // 0 is the Clip left parameter
+    } else {
+        // frei0r.scal0tilt is not available
+        warningMessage(i18n("The scal0tilt filter is required for that feature, please install frei0r and restart Kdenlive"));
+        return;
+    }
+    QString splitTransition = KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend";
+    Mlt::Transition t(*profile(), splitTransition.toUtf8().constData());
+    if (!t.is_valid()) {
+        delete m_splitEffect;
+        warningMessage(i18n("The cairoblend transition is required for that feature, please install frei0r and restart Kdenlive"));
+        return;
+    }
+    Mlt::Tractor trac(*profile());
+    Clip clp(*original);
+    Mlt::Producer *clone = clp.clone();
+    Clip clp2(*clone);
+    clp2.deleteEffects();
+    trac.set_track(*original, 0);
+    trac.set_track(*clone, 1);
+    clone->attach(*m_splitEffect);
+    t.set("always_active", 1);
+    trac.plant_transition(t, 0, 1);
+    delete clone;
+    delete original;
+    m_splitProducer = new Mlt::Producer(trac.get_producer());
+    render->setProducer(m_splitProducer, pos, isActive());
+    loadQmlScene(MonitorSceneSplit);
 }
 
 QSize Monitor::profileSize() const
