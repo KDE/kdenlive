@@ -70,7 +70,7 @@ The rest:
                 - true/false
                 - represented by a checkbox
             - "switch":
-                - 2 possible options defined by strings
+                - 2 possible options defined by strings (max / min)
                 - represented by a checkbox
             - "list":
                 - multiple choice

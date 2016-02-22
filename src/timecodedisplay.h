@@ -105,13 +105,6 @@ private slots:
     void slotEditingFinished();
 
 signals:
-    /**
-     * Emitted every time the value changes (by calling setValue() or
-     * by user interaction).
-     * @param value the new value
-     * @param final if the value is final ie not produced during sliding (on slider release it's final)
-     */
-    void valueChanged(int value, bool final);
     void timeCodeEditingFinished(int value = -1);
     /** @brief Emit timecode on every change if requested. */
     void emitTimeCode(const QString &);

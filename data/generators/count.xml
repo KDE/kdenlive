@@ -1,0 +1,23 @@
+<!DOCTYPE kpartgui>
+<generator tag="count" id="count" updateonduration="1">
+	<name>Counter</name>
+	<description>Generate frames with a counter and synchronized tone. The counter can go up or down.</description>
+	<author>Brian Matherly</author>
+        <parameter type="switch" name="direction" default="down" min="down" max="up">
+            <name>Count up</name>
+        </parameter>
+        <parameter type="switch" name="background" default="clock" min="clock" max="none">
+            <name>No background</name>
+        </parameter>
+        <parameter type="list" name="style" default="seconds+1" paramlist="seconds;seconds+1;frames;timecode;clock">
+		  <paramlistdisplay>Seconds to 0,Seconds to 1,Frames,Timecode,Clock</paramlistdisplay>
+		  <name>Counter Style</name>
+        </parameter>
+        <parameter type="list" name="sound" default="silent" paramlist="silent;2pop;frame0">
+		  <paramlistdisplay>Silent,1kHz beep before end,1kHz beep each second</paramlistdisplay>
+		  <name>Sound</name>
+        </parameter>
+        <parameter type="bool" name="drop" default="0" min="0" max="1">
+            <name>Drop frame timecode</name>
+        </parameter>
+</generator>
