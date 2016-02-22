@@ -532,7 +532,6 @@ private slots:
     void slotEffectDropped(QString effect, const QModelIndex &parent);
     void slotItemEdited(QModelIndex,QModelIndex,QVector<int>);
     void slotAddUrl(QString url, QMap <QString, QString> data = QMap <QString, QString>());
-    void slotAddClipToProject(QUrl url);
     void slotPrepareJobsMenu();
     void slotShowJobLog();
     /** @brief process clip job result. */
@@ -615,6 +614,7 @@ public slots:
     void resetUsageCount();
         /** @brief Select a clip in the Bin from its id. */
     void selectClipById(const QString &id, int frame = -1);
+    void slotAddClipToProject(QUrl url);
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);

@@ -9,5 +9,6 @@ set(kdenlive_SRCS
   bin/projectfolderup.cpp
   bin/projectsortproxymodel.cpp
   bin/bincommands.cpp
+  bin/generators/generators.cpp
   PARENT_SCOPE
 )

@@ -223,13 +223,7 @@ private:
     void saveOptions();
     virtual bool event(QEvent *e);
 
-    /** @brief Loads static and dynamic plugins.
-     *
-     * It scans static plugins as well as the filesystem: it doesn't load more
-     * than one plugin per file name, to avoid duplication due to conflicting
-     * installations. */
-    void loadPlugins();
-    void populateMenus(QObject *plugin);
+    void loadGenerators();
     void addToMenu(QObject *plugin, const QStringList &texts,
                    QMenu *menu, const char *member,
                    QActionGroup *actionGroup);
@@ -450,6 +444,8 @@ private slots:
     /** @brief Create temporary top track to preview an effect */
     void createSplitOverlay(Mlt::Filter *filter);
     void removeSplitOverlay();
+    /** @brief Create a generator's setup dialog */
+    void buildGenerator(QAction *action);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

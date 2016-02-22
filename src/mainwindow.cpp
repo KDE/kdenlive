@@ -22,6 +22,7 @@
 #include "mainwindowadaptor.h"
 #include "core.h"
 #include "bin/projectclip.h"
+#include "bin/generators/generators.h"
 #include "library/librarywidget.h"
 #include "monitor/scopes/audiographspectrum.h"
 #include "mltcontroller/clipcontroller.h"
@@ -418,7 +419,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     /*ScriptingPart* sp = new ScriptingPart(this, QStringList());
     guiFactory()->addClient(sp);*/
 
-    loadPlugins();
+    loadGenerators();
     loadDockActions();
     loadClipActions();
 
@@ -666,45 +667,19 @@ bool MainWindow::queryClose()
     return pCore->projectManager()->closeCurrentDocument(true, true);
 }
 
-void MainWindow::loadPlugins()
-{
-    foreach(QObject * plugin, QPluginLoader::staticInstances()) {
-        populateMenus(plugin);
-    }
-
-    /*QStringList directories = KGlobal::dirs()->findDirs("module", QString()); // port to QStandardPaths ?
-    QStringList filters;
-    filters << "libkdenlive*";
-    foreach(const QString & folder, directories) {
-        //qDebug() << "Parsing plugin folder: " << folder;
-        QDir pluginsDir(folder);
-        foreach(const QString & fileName,
-                pluginsDir.entryList(filters, QDir::Files)) {
-            //
-            // Avoid loading the same plugin twice when there is more than one
-            // installation.
-            //
-            if (!m_pluginFileNames.contains(fileName)) {
-                //qDebug() << "Found plugin: " << fileName;
-                QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
-                QObject *plugin = loader.instance();
-                if (plugin) {
-                    populateMenus(plugin);
-                    m_pluginFileNames += fileName;
-                } else
-                    qDebug() << "Error loading plugin: " << fileName << ", " << loader.errorString();
-            }
-        }
-    }*/
-}
-
-void MainWindow::populateMenus(QObject *plugin)
+void MainWindow::loadGenerators()
 {
     QMenu *addMenu = static_cast<QMenu*>(factory()->container(QStringLiteral("generators"), this));
-    ClipGenerator *iGenerator = qobject_cast<ClipGenerator *>(plugin);
-    if (iGenerator)
-        addToMenu(plugin, iGenerator->generators(KdenliveSettings::producerslist()), addMenu, SLOT(generateClip()),
-                  NULL);
+    Generators::getGenerators(KdenliveSettings::producerslist(), addMenu);
+    connect(addMenu, SIGNAL(triggered(QAction *)), this, SLOT(buildGenerator(QAction *)));
+}
+
+void MainWindow::buildGenerator(QAction *action)
+{
+    Generators gen(m_clipMonitor, action->data().toString(), this);
+    if (gen.exec() == QDialog::Accepted) {
+        pCore->bin()->slotAddClipToProject(gen.getSavedClip());
+    }
 }
 
 void MainWindow::addToMenu(QObject *plugin, const QStringList &texts,
@@ -2854,7 +2829,7 @@ void MainWindow::buildDynamicActions()
     ts->addAction(action->text(), action);
     connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
     kdenliveCategoryMap.insert(QStringLiteral("clipjobs"), ts);
-    
+
     if (kdenliveCategoryMap.contains(QStringLiteral("transcoderslist"))) {
 	ts = kdenliveCategoryMap.take(QStringLiteral("transcoderslist"));
 	delete ts;

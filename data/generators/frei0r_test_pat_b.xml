@@ -1,0 +1,11 @@
+<!DOCTYPE kpartgui>
+<generator tag="frei0r.test_pat_B" id="frei0r.test_pat_B">
+	<name>Color Bars</name>
+	<description>Generates test card lookalikes
+</description>
+	<author>Marko Cebokli</author>
+        <parameter type="list" name="0" default="0" paramlist="0;1;2;3;4;5;6;7">
+		  <paramlistdisplay>PAL color bars,PAL color bars with red,95% BBC color bars,75% EBU color bars,SMPTE color bars,Philips PM5544,FuBK,Simplified FuBK</paramlistdisplay>
+		  <name>Bar Type</name>
+	    </parameter>
+</generator>

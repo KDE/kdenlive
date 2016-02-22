@@ -1,4 +1,5 @@
 add_subdirectory(effects)
+add_subdirectory(generators)
 add_subdirectory(transitions)
 add_subdirectory(icons)
 add_subdirectory(lumas)
