@@ -54,6 +54,7 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     m_ui.setupUi(this);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     connect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect);
+    connect(m_monitor, &Monitor::effectPointsChanged, this, &GeometryWidget::slotUpdateCenters, Qt::UniqueConnection);
     /*MonitorEditWidget *edit = monitor->getEffectEdit();
     edit->removeCustomControls();
     edit->addCustomButton(KoIconUtils::themedIcon("draw-path"), i18n("Show path"), this, SLOT(slotShowPath(bool)), true, KdenliveSettings::onmonitoreffects_geometryshowpath());
@@ -648,6 +649,22 @@ void GeometryWidget::slotUpdateGeometryRect(const QRect r)
         }
     }
     m_monitor->setUpEffectGeometry(QRect(), calculateCenters());
+    emit parameterChanged();
+}
+
+void GeometryWidget::slotUpdateCenters(const QVariantList centers)
+{
+    Mlt::GeometryItem item;
+    int pos = 0;
+    int ix = 0;
+    while (!m_geometry->next_key(&item, pos)) {
+        QPoint center = centers.at(ix).toPoint();
+        item.x(center.x() - item.w() / 2);
+        item.y(center.y() - item.h() / 2);
+        m_geometry->insert(item);
+        pos = item.frame() + 1;
+        ix++;
+    }
     emit parameterChanged();
 }
 
