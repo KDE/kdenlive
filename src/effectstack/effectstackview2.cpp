@@ -350,7 +350,11 @@ void EffectStackView2::setupListView()
             info.cropStart = GenTime(0);
             info.startPos = GenTime(0);
         }
-        CollapsibleEffect *currentEffect = new CollapsibleEffect(d, m_currentEffectList.at(i), info, &m_effectMetaInfo, i == effectsCount - 1, view);
+        bool canMoveUp = true;
+        if (i == 0 || m_currentEffectList.at(i - 1).attribute(QStringLiteral("id")) == QLatin1String("speed")) {
+            canMoveUp = false;
+        }
+        CollapsibleEffect *currentEffect = new CollapsibleEffect(d, m_currentEffectList.at(i), info, &m_effectMetaInfo, canMoveUp, i == effectsCount - 1, view);
         isSelected = currentEffect->effectIndex() == activeEffectIndex();
         if (isSelected) {
             m_monitorSceneWanted = currentEffect->needsMonitorEffectScene();
@@ -812,16 +816,40 @@ void EffectStackView2::slotMoveEffectUp(const QList<int> &indexes, bool up)
     if (!up && indexes.last() >= m_currentEffectList.count()) return;
     int endPos;
     if (up) {
-        endPos = indexes.first() - 1;
+        endPos = getPreviousIndex(indexes.first());
     }
     else {
-        endPos =  indexes.last() + 1;
+        endPos = getNextIndex(indexes.last());
     }
     if (m_status == TIMELINE_TRACK) emit changeEffectPosition(NULL, m_trackindex, indexes, endPos);
     else if (m_status == TIMELINE_CLIP) emit changeEffectPosition(m_clipref, -1, indexes, endPos);
     else if (m_status == MASTER_CLIP) {
         //TODO
     }
+}
+
+int EffectStackView2::getPreviousIndex(int ix)
+{
+    CollapsibleEffect *current = getEffectByIndex(ix);
+    int previousIx = ix - 1;
+    CollapsibleEffect *destination = getEffectByIndex(previousIx);
+    while (previousIx > 1 && destination->groupIndex() != -1 && destination->groupIndex() != current->groupIndex()) {
+        previousIx--;
+        destination = getEffectByIndex(previousIx);
+    }
+    return previousIx;
+}
+
+int EffectStackView2::getNextIndex(int ix)
+{
+    CollapsibleEffect *current = getEffectByIndex(ix);
+    int previousIx = ix + 1;
+    CollapsibleEffect *destination = getEffectByIndex(previousIx);
+    while (destination && destination->groupIndex() != -1 && destination->groupIndex() != current->groupIndex()) {
+        previousIx++;
+        destination = getEffectByIndex(previousIx);
+    }
+    return previousIx;
 }
 
 void EffectStackView2::slotStartFilterJob(QMap <QString, QString> &filterParams, QMap <QString, QString> &consumerParams, QMap <QString, QString> &extraParams)
@@ -932,7 +960,7 @@ void EffectStackView2::slotCreateRegion(int ix, QUrl url)
     m_currentEffectList.removeAt(ix);
     m_currentEffectList.insert(region);
     current->deleteLater();
-    CollapsibleEffect *currentEffect = new CollapsibleEffect(region, m_currentEffectList.itemFromIndex(ix), info, &m_effectMetaInfo, ix == m_currentEffectList.count() - 1, m_effect->container->widget());
+    CollapsibleEffect *currentEffect = new CollapsibleEffect(region, m_currentEffectList.itemFromIndex(ix), info, &m_effectMetaInfo, false, ix == m_currentEffectList.count() - 1, m_effect->container->widget());
     connectEffect(currentEffect);
 
     if (m_status == TIMELINE_TRACK) {
@@ -996,7 +1024,7 @@ void EffectStackView2::slotCreateGroup(int ix)
         }
     }
 
-    CollapsibleGroup *group = new CollapsibleGroup(m_groupIndex, ix == 1, ix == m_currentEffectList.count() - 2, effectinfo, m_effect->container->widget());
+    CollapsibleGroup *group = new CollapsibleGroup(m_groupIndex, false, ix == m_currentEffectList.count() - 2, effectinfo, m_effect->container->widget());
     m_groupIndex++;
     connectGroup(group);
     l->insertWidget(groupPos, group);
@@ -1020,6 +1048,10 @@ void EffectStackView2::slotMoveEffect(QList <int> currentIndexes, int newIndex, 
 {
     if (currentIndexes.count() == 1) {
         CollapsibleEffect *effectToMove = getEffectByIndex(currentIndexes.at(0));
+        CollapsibleEffect *destination = getEffectByIndex(newIndex);
+        if (destination && !destination->isMovable()) {
+            newIndex++;
+        }
         if (effectToMove == NULL) return;
 
         QDomElement oldeffect = effectToMove->effect();
@@ -1130,6 +1162,11 @@ void EffectStackView2::processDroppedEffect(QDomElement e, QDropEvent *event)
     }
     else {
         // User is moving an effect
+        if (e.attribute(QStringLiteral("id")) == QLatin1String("speed")) {
+            // Speed effect cannot be moved
+            event->ignore();
+            return;
+        }
         slotMoveEffect(QList<int> () << ix, m_currentEffectList.count() + 1, -1);
     }
     event->setDropAction(Qt::MoveAction);

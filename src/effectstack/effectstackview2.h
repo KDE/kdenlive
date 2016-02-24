@@ -153,6 +153,10 @@ private:
     void connectGroup(CollapsibleGroup *group);
     /** @brief Returns index of currently selected effect in stack. */
     int activeEffectIndex() const;
+    /** @brief Returns index of previous effect in stack. */
+    int getPreviousIndex(int current);
+    /** @brief Returns index of next effect in stack. */
+    int getNextIndex(int ix);
 
 public slots:
     /** @brief Sets the clip whose effect list should be managed.

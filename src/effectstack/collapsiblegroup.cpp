@@ -410,7 +410,11 @@ QDomDocument CollapsibleGroup::effectsData()
 void CollapsibleGroup::adjustEffects()
 {
     for (int i = 0; i < m_subWidgets.count(); ++i) {
-	m_subWidgets.at(i)->adjustButtons(i, m_subWidgets.count());
+        if (i > 0 && !m_subWidgets.at(i - 1)->isMovable()) {
+            m_subWidgets.at(i)->adjustButtons(0, 0);
+        } else {
+            m_subWidgets.at(i)->adjustButtons(i, m_subWidgets.count());
+        }
     }
 }
 

@@ -46,13 +46,13 @@
 #include <KMessageBox>
 #include <KDualAction>
 
-CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent) :
+CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo, bool canMoveUp, bool lastEffect, QWidget * parent) :
     AbstractCollapsibleWidget(parent),
     m_paramWidget(NULL),
     m_effect(effect),
     m_original_effect(original_effect),
-    m_lastEffect(lastEffect),
-    m_regionEffect(false)
+    m_regionEffect(false),
+    m_isMovable(true)
 {
     if (m_effect.attribute(QStringLiteral("tag")) == QLatin1String("region")) {
         m_regionEffect = true;
@@ -67,8 +67,18 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     buttonDown->setToolTip(i18n("Move effect down"));
     buttonDel->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-deleffect")));
     buttonDel->setToolTip(i18n("Delete effect"));
-    if (effectIndex() == 1) buttonUp->setEnabled(false);
-    if (m_lastEffect) buttonDown->setEnabled(false);
+    buttonUp->setEnabled(canMoveUp);
+    buttonDown->setEnabled(!lastEffect);
+
+    if (m_effect.attribute(QStringLiteral("id")) == QLatin1String("speed")) {
+        // Speed effect is a "pseudo" effect, cannot be moved
+        buttonUp->setVisible(false);
+        buttonDown->setVisible(false);
+        m_isMovable = false;
+        setAcceptDrops(false);
+    } else {
+        setAcceptDrops(true);
+    }
 
     /*buttonReset->setIcon(KoIconUtils::themedIcon("view-refresh"));
     buttonReset->setToolTip(i18n("Reset effect"));*/
@@ -133,7 +143,6 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
         m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("folder-new")), i18n("Create Region"), this, SLOT(slotCreateRegion()));
     }
     setupWidget(info, metaInfo);
-    setAcceptDrops(true);
     menuButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-menu")));
     menuButton->setMenu(m_menu);
 
@@ -516,7 +525,11 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
         vbox->addWidget(container);
         // m_paramWidget = new ParameterContainer(m_effect.toElement(), info, metaInfo, container);
         for (int i = 0; i < effects.count(); ++i) {
-            CollapsibleEffect *coll = new CollapsibleEffect(effects.at(i).toElement(), origin_effects.at(i).toElement(), info, metaInfo, container);
+            bool canMoveUp = true;
+            if (i == 0 || effects.at(i - 1).toElement().attribute(QStringLiteral("id")) == QLatin1String("speed")) {
+                canMoveUp = false;
+            }
+            CollapsibleEffect *coll = new CollapsibleEffect(effects.at(i).toElement(), origin_effects.at(i).toElement(), info, metaInfo, canMoveUp, i == effects.count() - 1, container);
             m_subParamWidgets.append(coll);
             connect(coll, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this , SLOT(slotUpdateRegionEffectParams(QDomElement,QDomElement,int)));
             //container = new QWidget(widgetFrame);
@@ -609,8 +622,8 @@ void CollapsibleEffect::dropEvent(QDropEvent *event)
     QDomElement e = doc.documentElement();
     int ix = e.attribute(QStringLiteral("kdenlive_ix")).toInt();
     int currentEffectIx = effectIndex();
-    if (ix == currentEffectIx) {
-        // effect dropped on itself, reject
+    if (ix == currentEffectIx || e.attribute(QStringLiteral("id")) == QLatin1String("speed")) {
+        // effect dropped on itself, or unmovable speed dropped, reject
         event->ignore();
         return;
     }
@@ -687,5 +700,8 @@ void CollapsibleEffect::setKeyframes(const QString &data, int maximum)
     m_paramWidget->setKeyframes(data, maximum);
 }
 
-
+bool CollapsibleEffect::isMovable() const
+{
+    return m_isMovable;
+}
 

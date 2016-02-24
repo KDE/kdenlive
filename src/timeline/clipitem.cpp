@@ -1429,6 +1429,13 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
         // effect dropped from effect list
         ix = effectsCounter();
     } else ix = effect.attribute(QStringLiteral("kdenlive_ix")).toInt();
+
+    // Special case, speed effect is a "pseudo" effect, should always appear first and is not movable
+    if (effect.attribute(QStringLiteral("id")) == QLatin1String("speed")) {
+        ix = 1;
+        effect.setAttribute(QStringLiteral("kdenlive_ix"), QStringLiteral("1"));
+    }
+
     if (!m_effectList.isEmpty() && ix <= m_effectList.count()) {
         needRepaint = true;
         insertedEffect = m_effectList.insert(effect);

@@ -43,7 +43,7 @@ class CollapsibleEffect : public AbstractCollapsibleWidget
     Q_OBJECT
 
 public:
-    explicit CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent = 0);
+    explicit CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo, bool canMoveUp, bool lastEffect, QWidget * parent = 0);
     ~CollapsibleEffect();
     QLabel *title;
 	
@@ -84,6 +84,8 @@ public:
     void updateFrameInfo();
     /** @brief Select active keyframe. */
     void setActiveKeyframe(int frame);
+    /** @brief Returns true if effect can be moved (false for speed effect). */
+    bool isMovable() const;
 
 public slots:
     void slotSyncEffectsPos(int pos);
@@ -114,10 +116,10 @@ private:
     QDomElement m_effect;
     QDomElement m_original_effect;
     QList <QDomElement> m_subEffects;
-    bool m_lastEffect;
     QMenu *m_menu;
     QPoint m_clickPoint;
     EffectInfo m_info;
+    bool m_isMovable;
     QTimeLine *m_animation;
     /** @brief True if this is a region effect, which behaves in a special way, like a group. */
     bool m_regionEffect;
@@ -128,14 +130,14 @@ private:
     QPixmap m_iconPix;
     /** @brief Check if collapsed state changed and inform MLT. */
     void updateCollapsedState();
-    
+
 protected:
     virtual void mouseDoubleClickEvent ( QMouseEvent * event );
     virtual void mouseReleaseEvent( QMouseEvent *event );
     virtual void dragEnterEvent(QDragEnterEvent *event);
     virtual void dragLeaveEvent(QDragLeaveEvent *event);
     virtual void dropEvent(QDropEvent *event);
-    
+
 signals:
     void parameterChanged(const QDomElement &, const QDomElement&, int);
     void syncEffectsPos(int);
