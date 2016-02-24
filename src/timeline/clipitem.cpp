@@ -1448,9 +1448,11 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
         effectIn = EffectsList::parameter(effect, QStringLiteral("in")).toInt();
         effectOut = EffectsList::parameter(effect, QStringLiteral("out")).toInt();
     }
-    
+
     EffectsParameterList parameters;
     parameters.addParam(QStringLiteral("tag"), insertedEffect.attribute(QStringLiteral("tag")));
+    if (insertedEffect.hasAttribute(QStringLiteral("kdenlive_info")))
+        parameters.addParam(QStringLiteral("kdenlive_info"), insertedEffect.attribute(QStringLiteral("kdenlive_info")));
     parameters.addParam(QStringLiteral("kdenlive_ix"), insertedEffect.attribute(QStringLiteral("kdenlive_ix")));
     if (insertedEffect.hasAttribute(QStringLiteral("src"))) parameters.addParam(QStringLiteral("src"), insertedEffect.attribute(QStringLiteral("src")));
     if (insertedEffect.hasAttribute(QStringLiteral("disable"))) parameters.addParam(QStringLiteral("disable"), insertedEffect.attribute(QStringLiteral("disable")));
