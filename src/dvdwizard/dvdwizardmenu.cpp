@@ -101,6 +101,10 @@ DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent) :
     button->setPos((m_width - r.width()) / 2, (m_height - r.height()) / 2);
     button->setSelected(true);
 
+    if (m_view.use_grid->isChecked()) {
+       m_scene->setGridSize(10);
+    }
+    connect(m_view.use_grid, SIGNAL(toggled(bool)), this, SLOT(slotUseGrid(bool)));
 
     //m_view.menu_preview->resizefitInView(0, 0, m_width, m_height);
 
@@ -338,6 +342,15 @@ void DvdWizardMenu::checkBackgroundType(int ix)
 void DvdWizardMenu::buildColor()
 {
     m_color->setBrush(m_view.background_color->color());
+}
+
+void DvdWizardMenu::slotUseGrid(bool useGrid)
+{
+   if(useGrid)
+      m_scene->setGridSize(10);
+   else
+      m_scene->setGridSize(1);
+   m_scene->update();
 }
 
 void DvdWizardMenu::buildImage()

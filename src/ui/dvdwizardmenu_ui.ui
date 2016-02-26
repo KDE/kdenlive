@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>439</width>
-    <height>368</height>
+    <width>516</width>
+    <height>420</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_5">
@@ -111,7 +111,7 @@
             <property name="text">
              <string/>
             </property>
-            <property name="color">
+            <property name="color" stdset="0">
              <color>
               <red>255</red>
               <green>255</green>
@@ -141,7 +141,7 @@
             </item>
             <item>
              <widget class="KColorButton" name="highlighted_color">
-              <property name="color">
+              <property name="color" stdset="0">
                <color>
                 <red>255</red>
                 <green>85</green>
@@ -152,7 +152,7 @@
             </item>
             <item>
              <widget class="KColorButton" name="selected_color">
-              <property name="color">
+              <property name="color" stdset="0">
                <color>
                 <red>170</red>
                 <green>170</green>
@@ -271,6 +271,19 @@
        </widget>
       </item>
       <item row="5" column="0">
+       <widget class="QCheckBox" name="use_grid">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Use grid</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -283,7 +296,7 @@
         </property>
        </spacer>
       </item>
-      <item row="6" column="0" colspan="2">
+      <item row="7" column="0" colspan="2">
        <widget class="QLabel" name="error_message"/>
       </item>
      </layout>
@@ -303,14 +316,10 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>KUrlRequester</class>
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -39,7 +39,7 @@ class DvdScene : public QGraphicsScene
     Q_OBJECT
 public:
     explicit DvdScene(QObject * parent = 0): QGraphicsScene(parent) {
-        m_width = 0; m_height = 0; m_gridSize = 10;
+        m_width = 0; m_height = 0; m_gridSize = 1;
     }
     void setProfile(int width, int height) {
         m_width = width;
@@ -55,6 +55,9 @@ public:
     int gridSize() const {
        return m_gridSize;
     }
+    void setGridSize(int gridSize) {
+       m_gridSize = gridSize;
+    }
 private:
     int m_width;
     int m_height;
@@ -64,6 +67,24 @@ protected:
     void mouseReleaseEvent( QGraphicsSceneMouseEvent * mouseEvent ) {
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
         emit sceneChanged();
+    }
+    void drawForeground(QPainter *painter, const QRectF &rect) {
+       // draw the grid if needed
+       if (gridSize() <= 1)
+          return;
+
+       QPen pen;
+       painter->setPen(pen);
+
+       qreal left = int(rect.left()) - (int(rect.left()) % m_gridSize);
+       qreal top = int(rect.top()) - (int(rect.top()) % m_gridSize);
+       QVector<QPointF> points;
+       for (qreal x = left; x < rect.right(); x += m_gridSize){
+          for (qreal y = top; y < rect.bottom(); y += m_gridSize){
+             points.append(QPointF(x,y));
+          }
+       }
+       painter->drawPoints(points.data(), points.size());
     }
 signals:
     void sceneChanged();
@@ -209,6 +230,7 @@ private slots:
     void slotZoom();
     void slotUnZoom();
     void slotEnableShadows(int enable);
+    void slotUseGrid(bool useGrid);
 };
 
 #endif
