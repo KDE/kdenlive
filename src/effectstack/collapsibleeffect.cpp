@@ -684,7 +684,7 @@ void CollapsibleEffect::adjustButtons(int ix, int max)
 
 MonitorSceneType CollapsibleEffect::needsMonitorEffectScene() const
 {
-    if (m_paramWidget)
+    if (m_paramWidget && !m_enabledButton->isActive())
         return m_paramWidget->needsMonitorEffectScene();
     else
         return MonitorSceneDefault;

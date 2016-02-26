@@ -292,6 +292,10 @@ void EffectStackView2::setupListView()
 
     int effectsCount = m_currentEffectList.count();
     m_effect->effectCompare->setEnabled(effectsCount > 0);
+    if (effectsCount == 0) {
+        // No effect, make sure to display normal monitor scene
+        m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
+    }
 
     // Make sure we always have one effect selected
     if (m_status == TIMELINE_CLIP) {
@@ -361,6 +365,8 @@ void EffectStackView2::setupListView()
             selectedCollapsibleEffect = currentEffect;
             // show monitor scene if necessary
             m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
+            int position = (m_effectMetaInfo.monitor->position() - (m_status == TIMELINE_CLIP ? m_clipref->startPos() : GenTime())).frames(KdenliveSettings::project_fps());
+            currentEffect->slotSyncEffectsPos(position);
         }
         currentEffect->setActive(isSelected);
         m_effects.append(currentEffect);
@@ -565,9 +571,16 @@ void EffectStackView2::slotUpdateEffectState(bool disable, int index, MonitorSce
         m_monitorSceneWanted = MonitorSceneDefault;
         m_effectMetaInfo.monitor->slotShowEffectScene(MonitorSceneDefault);
     }
-    else if (!disable && m_monitorSceneWanted == needsMonitorEffectScene) {
+    else if (!disable) {
         m_monitorSceneWanted = needsMonitorEffectScene;
         m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted == MonitorSceneDefault ? MonitorSceneNone : m_monitorSceneWanted);
+        if (m_monitorSceneWanted != MonitorSceneDefault) {
+            CollapsibleEffect *activeEffect = getEffectByIndex(index);
+            if (activeEffect) {
+                int position = (m_effectMetaInfo.monitor->position() - (m_status == TIMELINE_CLIP ? m_clipref->startPos() : GenTime())).frames(KdenliveSettings::project_fps());
+                activeEffect->slotSyncEffectsPos(position);
+            }
+        }
     }
     switch (m_status) {
         case TIMELINE_TRACK:
@@ -746,16 +759,16 @@ void EffectStackView2::slotSetCurrentEffect(int ix)
         if (m_clipref && ix != m_clipref->selectedEffectIndex()) {
             m_clipref->setSelectedEffect(ix);
             for (int i = 0; i < m_effects.count(); ++i) {
-                if (m_effects.at(i)->effectIndex() == ix) {
-                    if (m_effects.at(i)->isActive()) return;
-                    m_effects.at(i)->setActive(true);
-                    m_monitorSceneWanted = m_effects.at(i)->needsMonitorEffectScene();
-                    slotCheckMonitorPosition(m_effectMetaInfo.monitor->render->seekFramePosition());
-                    // TODO: reintroduce effect description in stack ?
-                    /*m_ui.labelComment->setText(i18n(m_effects.at(i)->effect().firstChildElement("description").firstChildElement("full").text().toUtf8().data()));
-                    m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || m_ui.labelComment->text().isEmpty());*/
+                CollapsibleEffect *effect = m_effects.at(i);
+                if (effect->effectIndex() == ix) {
+                    if (effect->isActive()) return;
+                    effect->setActive(true);
+                    m_monitorSceneWanted = effect->needsMonitorEffectScene();
+                    m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
+                    int position = (m_effectMetaInfo.monitor->position() - (m_status == TIMELINE_CLIP ? m_clipref->startPos() : GenTime())).frames(KdenliveSettings::project_fps());
+                    effect->slotSyncEffectsPos(position);
                 }
-                else m_effects.at(i)->setActive(false);
+                else effect->setActive(false);
             }
         }
     }

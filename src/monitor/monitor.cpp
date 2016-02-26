@@ -1756,8 +1756,13 @@ QSize Monitor::profileSize() const
 
 void Monitor::loadQmlScene(MonitorSceneType type)
 {
-    if (m_id == Kdenlive::DvdMonitor) {
+    if (m_id == Kdenlive::DvdMonitor || type == m_qmlManager->sceneType()) {
         return;
+    }
+    if (m_sceneVisibilityAction && !m_sceneVisibilityAction->isChecked()) {
+        // User doesn't want effect scenes
+        if (type == MonitorSceneGeometry || type == MonitorSceneCorners || type == MonitorSceneRoto)
+            type = MonitorSceneDefault;
     }
     m_qmlManager->setScene(m_id, type, m_glMonitor->profileSize(), (double) render->renderWidth() / render->frameRenderWidth(), m_glMonitor->displayRect(), m_glMonitor->zoom());
     QQuickItem *root = m_glMonitor->rootObject();
@@ -1793,7 +1798,6 @@ void Monitor::loadQmlScene(MonitorSceneType type)
           break;
     }
     m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(m_monitorManager->timecode().fps(), 'g', 2));
-    if (m_sceneVisibilityAction) m_sceneVisibilityAction->setChecked(type != MonitorSceneDefault);
 }
 
 void Monitor::connectQmlToolbar(QQuickItem *root)

@@ -346,13 +346,7 @@ void GeometryWidget::setupParam(const QDomElement &elem, int minframe, int maxfr
         m_ui.horizontalLayout2->addStretch(2);
     }
 
-    Mlt::GeometryItem item;
-    int framePos = qBound<int>(0, m_monitor->render->seekFramePosition() - m_clipPos, maxframe - minframe);
-    m_geometry->fetch(&item, framePos);
     checkSingleKeyframe();
-    m_monitor->slotShowEffectScene(MonitorSceneGeometry);
-    m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
-    slotPositionChanged(framePos, false);
 }
 
 void GeometryWidget::addParameter(const QDomElement &elem)
@@ -370,9 +364,6 @@ void GeometryWidget::slotSyncPosition(int relTimelinePos)
     if (m_timePos->maximum() > 0 && KdenliveSettings::transitionfollowcursor()) {
         relTimelinePos = qBound(0, relTimelinePos, m_timePos->maximum());
         slotPositionChanged(relTimelinePos, false);
-        /*if (relTimelinePos != m_timePos->getValue()) {
-            slotPositionChanged(relTimelinePos, false);
-        }*/
     }
 }
 
@@ -508,7 +499,6 @@ void GeometryWidget::slotAddKeyframe(int pos)
     checkSingleKeyframe();
     m_timeline->update();
     slotPositionChanged(pos, false);
-    m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
     emit parameterChanged();
 }
 
