@@ -52,6 +52,8 @@ public:
     Mlt::Transition *getTransition(const QString &name, int b_track, int a_track = -1, bool internalTransition = false) const;
     /** @brief Enable/disable multitrack split view. */
     void enableMultiTrack(bool enable);
+    /** @brief Plug composite transitions depending on the en/disabled states. */
+    void rebuildComposites(int lowestVideoTrack);
 
 private:
     Mlt::Tractor *m_tractor;

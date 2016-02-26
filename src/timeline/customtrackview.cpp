@@ -3237,53 +3237,11 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
         }
     }
     // Check we have composite transitions where necessary
-    checkCompositeTransitions(tractor);
+    m_timeline->updateComposites();
     m_document->renderer()->unlockService(tractor);
     // Reload timeline and m_tracks structure from MLT's playlist
     reloadTimeline();
     loadGroups(groups);
-}
-
-void CustomTrackView::checkCompositeTransitions(Mlt::Tractor *tractor)
-{
-    //keep the composite transitions stack continuous 
-    QScopedPointer<Mlt::Field> field(tractor->field());
-    for (int i = 2; i < tractor->count(); i++) {
-        QScopedPointer<Mlt::Producer> topTrack(tractor->track(i));
-        QScopedPointer<Mlt::Producer> lowerTrack(tractor->track(i - 1));
-        QScopedPointer<Mlt::Transition> tr(m_timeline->transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", i, -1, true));
-        if (topTrack->get_int("kdenlive:audio_track") == 0 && lowerTrack->get_int("kdenlive:audio_track") == 0) {
-            // both tracks have video, we must have a composite transition
-            bool brokenTransition = false;
-            bool disabledTransition = false;
-            if (tr) {
-                // Check that the transition tracks are correct
-                int aTrack = tr->get_a_track();
-                int bTrack = tr->get_b_track();
-                disabledTransition = tr->get_int("disable") == 1;
-                if (bTrack != i || aTrack != i - 1) {
-                    field->disconnect_service(*tr.data());
-                    brokenTransition = true;
-                }
-            }
-            if (!tr || brokenTransition) {
-                // Create transition
-                Mlt::Transition composite(*tractor->profile(), KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend");
-                if (!composite.is_valid()) {
-                  // missing frei0r transition
-                  break;
-                }
-                composite.set("a_track", i - 1);
-                composite.set("b_track", i);
-                composite.set("internal_added", 237);
-                if (disabledTransition) composite.set("disable", 1);
-                field->plant_transition(composite, i - 1, i);
-            }
-        } else if (tr) {
-            // Both tracks are not video, don't leave composite transition
-            field->disconnect_service(*tr.data());
-        }
-    }
 }
 
 void CustomTrackView::reloadTimeline()
@@ -3361,7 +3319,7 @@ void CustomTrackView::removeTrack(int ix)
 
     // Delete track in MLT playlist
     tractor->remove_track(ix);
-    checkCompositeTransitions(tractor);
+    m_timeline->updateComposites();
     m_document->renderer()->unlockService(tractor);
     reloadTimeline();
     loadGroups(groups);

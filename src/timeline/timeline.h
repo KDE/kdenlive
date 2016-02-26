@@ -78,8 +78,6 @@ public:
     void switchTrackVideo(int ix, bool hide);
     /** @brief Dis / enable audio for a track. */
     void switchTrackAudio(int ix, bool mute);
-    /** @brief find lowest track with audio in timeline. */
-    int getLowestNonMutedAudioTrack();
     /** @brief Adjust audio transitions depending on tracks muted state. */
     void fixAudioMixing();
 
@@ -150,6 +148,8 @@ public:
     void removeSplitOverlay();
     /** @brief Temporarily add/remove track before saving */
     void connectOverlayTrack(bool enable);
+    /** @brief Update composite transitions's tracks */
+    void updateComposites();
 
 protected:
     void keyPressEvent(QKeyEvent * event);
@@ -198,6 +198,10 @@ private:
     void adjustparameterValue(QDomNodeList clipeffectparams, const QString &paramname, const QString &paramvalue);
     /** @brief Enable/disable track actions depending on number of tracks */
     void refreshTrackActions();
+    /** @brief find lowest track with audio in timeline. */
+    int getLowestNonMutedAudioTrack();
+    /** @brief find lowest video track in timeline. */
+    int getLowestVideoTrack();
 
 private slots:
     void slotSwitchTrackComposite(int trackIndex, bool enable);

@@ -352,22 +352,6 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
     QDomElement mlt = doc.createElement(QStringLiteral("mlt"));
     mlt.setAttribute(QStringLiteral("LC_NUMERIC"), QLatin1String(""));
     doc.appendChild(mlt);
-    // Create black producer
-    // For some unknown reason, we have to build the black producer here and not in renderer.cpp, otherwise
-    // the composite transitions with the black track are corrupted.
-    /*QDomElement pro = doc.createElement("profile");
-    pro.setAttribute("frame_rate_den", QString::number(m_profile.frame_rate_den));
-    pro.setAttribute("frame_rate_num", QString::number(m_profile.frame_rate_num));
-    pro.setAttribute("display_aspect_den", QString::number(m_profile.display_aspect_den));
-    pro.setAttribute("display_aspect_num", QString::number(m_profile.display_aspect_num));
-    pro.setAttribute("sample_aspect_den", QString::number(m_profile.sample_aspect_den));
-    pro.setAttribute("sample_aspect_num", QString::number(m_profile.sample_aspect_num));
-    pro.setAttribute("width", QString::number(m_profile.width));
-    pro.setAttribute("height", QString::number(m_profile.height));
-    pro.setAttribute("progressive", QString::number((int) m_profile.progressive));
-    pro.setAttribute("colorspace", QString::number(m_profile.colorspace));
-    pro.setAttribute("description", m_profile.description);
-    mlt.appendChild(pro);*/
 
     QDomElement blk = doc.createElement(QStringLiteral("producer"));
     blk.setAttribute(QStringLiteral("in"), 0);
@@ -429,12 +413,17 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
 
     // create playlists
     int total = tracks.count();
+    // The lower video track will recieve composite transitions
+    int lowerVideoTrack = -1;
     for (int i = 0; i < total; ++i) {
         QDomElement playlist = doc.createElement(QStringLiteral("playlist"));
         playlist.setAttribute(QStringLiteral("id"), "playlist" + QString::number(i+1));
         playlist.setAttribute(QStringLiteral("kdenlive:track_name"), tracks.at(i).trackName);
         if (tracks.at(i).type == AudioTrack) {
             playlist.setAttribute(QStringLiteral("kdenlive:audio_track"), 1);
+        } else if (lowerVideoTrack == -1) {
+            // Register first video track
+            lowerVideoTrack = i + 1;
         }
         mlt.appendChild(playlist);
     }
@@ -495,7 +484,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
         transition.appendChild(property);
 
         tractor.appendChild(transition);
-        if (i > 0 && tracks.at(i).type == VideoTrack && tracks.at(i-1).type == VideoTrack) {
+        if (i >= lowerVideoTrack && tracks.at(i).type == VideoTrack) {
             // Only add composite transition if both tracks are video
             transition = doc.createElement(QStringLiteral("transition"));
             property = doc.createElement(QStringLiteral("property"));
@@ -505,7 +494,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
 
             property = doc.createElement(QStringLiteral("property"));
             property.setAttribute(QStringLiteral("name"), QStringLiteral("a_track"));
-            property.appendChild(doc.createTextNode(QString::number(i)));
+            property.appendChild(doc.createTextNode(QString::number(lowerVideoTrack)));
             transition.appendChild(property);
 
             property = doc.createElement(QStringLiteral("property"));

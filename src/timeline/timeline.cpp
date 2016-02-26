@@ -711,6 +711,8 @@ void Timeline::slotSwitchTrackComposite(int trackIndex, bool enable)
     QScopedPointer<Mlt::Transition> transition(transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", trackIndex, -1, true));
     if (transition) {
         transition->set("disable", enable);
+        // When turning a track composite on/off, we need to re-plug transitions correctly
+        updateComposites();
         m_doc->renderer()->doRefresh();
         m_doc->setModified();
         //TODO: create undo/redo command for this
@@ -718,6 +720,14 @@ void Timeline::slotSwitchTrackComposite(int trackIndex, bool enable)
         Track* tk = track(trackIndex);
         tk->trackHeader->setComposite(false);
         qWarning() << "Composite transition not found";
+    }
+}
+
+void Timeline::updateComposites()
+{
+    int lowest = getLowestVideoTrack();
+    if (lowest >= 0) {
+        transitionHandler->rebuildComposites(lowest);
     }
 }
 
@@ -769,6 +779,16 @@ int Timeline::getLowestNonMutedAudioTrack()
         if (tk->state() < 2) return i;
     }
     return m_tracks.count();
+}
+
+int Timeline::getLowestVideoTrack()
+{
+    for (int i = 1; i < m_tracks.count(); ++i) {
+        if (track(i)->type == VideoTrack) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 void Timeline::fixAudioMixing()

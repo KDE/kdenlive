@@ -511,3 +511,44 @@ void TransitionHandler::enableMultiTrack(bool enable)
     field->unlock();
     emit refresh();
 }
+
+void TransitionHandler::rebuildComposites(int lowestVideoTrack)
+{
+    QList <Mlt::Transition *>composites;
+    QList <int> disabled;
+    QScopedPointer<Mlt::Service> service(m_tractor->field());
+    // Get the list of composite transitions
+    while (service && service->is_valid()) {
+        if (service->type() == transition_type) {
+            Mlt::Transition t((mlt_transition) service->get_service());
+            int internal = t.get_int("internal_added");
+            if (internal == 0) {
+                return;
+            }
+            QString service = t.get("mlt_service");
+            if (service == QLatin1String("frei0r.cairoblend") || service == QLatin1String("movit.overlay")) {
+                composites << new Mlt::Transition(t);
+                if (t.get_int("disable") == 1) {
+                    disabled << t.get_int("b_track");
+                }
+            }
+        }
+        service.reset(service->producer());
+    }
+    for (int i = 0; i < composites.count(); i++) {
+        Mlt::Transition *tr = composites.at(i);
+        int bTrack = tr->get_int("b_track");
+        if (disabled.contains(bTrack)) {
+            // transition disabled, pass
+            continue;
+        }
+        int aTrack = lowestVideoTrack;
+        for (int j = 0; j < disabled.count(); j++) {
+            if (disabled.at(j) < bTrack) {
+                aTrack = disabled.at(j);
+            } else break;
+        }
+        tr->set("a_track", aTrack);
+    }
+    qDeleteAll(composites);
+}

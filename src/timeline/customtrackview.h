@@ -526,9 +526,7 @@ private:
     void processEffect(ClipItem *item, QDomElement effect, int offset, QUndoCommand *effectCommand);
     /** @brief Reload all clips and transitions from MLT's playlist */
     void reloadTimeline();
-    /** @brief Make sure our automatic composite transitions are correctly setup. */
-    void checkCompositeTransitions(Mlt::Tractor *tractor);
-    /** @brief Timeline selection changed, update effect stack. */    
+    /** @brief Timeline selection changed, update effect stack. */
     void updateTimelineSelection();
 
 private slots:
