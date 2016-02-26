@@ -39,7 +39,7 @@ class DvdScene : public QGraphicsScene
     Q_OBJECT
 public:
     explicit DvdScene(QObject * parent = 0): QGraphicsScene(parent) {
-        m_width = 0; m_height = 0;
+        m_width = 0; m_height = 0; m_gridSize = 10;
     }
     void setProfile(int width, int height) {
         m_width = width;
@@ -52,9 +52,13 @@ public:
     int sceneHeight() const {
         return m_height;
     }
+    int gridSize() const {
+       return m_gridSize;
+    }
 private:
     int m_width;
     int m_height;
+    int m_gridSize;
     
 protected:
     void mouseReleaseEvent( QGraphicsSceneMouseEvent * mouseEvent ) {
@@ -118,6 +122,15 @@ protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) {
         if (change == ItemPositionChange && scene()) {
             QPoint newPos = value.toPoint();
+
+            if(QApplication::mouseButtons() == Qt::LeftButton && qobject_cast<DvdScene*> (scene())){
+               DvdScene* customScene = qobject_cast<DvdScene*> (scene());
+               int gridSize = customScene->gridSize();
+               qreal xV = round(newPos.x()/gridSize)*gridSize;
+               qreal yV = round(newPos.y()/gridSize)*gridSize;
+               newPos = QPoint(xV, yV);
+            }
+
             QRectF sceneShape = sceneBoundingRect();
             DvdScene *sc = static_cast < DvdScene * >(scene());
             newPos.setX(qMax(newPos.x(), 0));
