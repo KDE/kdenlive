@@ -953,7 +953,6 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist) {
             EffectsList::setParameter(speedeffect, QStringLiteral("speed"), QString::number((int)(100 * speed + 0.5)));
             EffectsList::setParameter(speedeffect, QStringLiteral("strobe"), QString::number(strobe));
             item->addEffect(m_doc->getProfileInfo(), speedeffect, false);
-            item->effectsCounter();
         }
         // parse clip effects
         getEffects(*clip, item);
@@ -972,7 +971,7 @@ void Timeline::loadGuides(QMap <double, QString> guidesData)
 }
 
 void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
-    int effectNb = 0;
+    int effectNb = clip->effectsCount();
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (int ix = 0; ix < service.filter_count(); ++ix) {
