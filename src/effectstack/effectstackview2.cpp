@@ -771,7 +771,7 @@ void EffectStackView2::setActiveKeyframe(int frame)
 
 void EffectStackView2::slotDeleteGroup(QDomDocument doc)
 {
-    QDomNodeList effects = doc.elementsByTagName(QStringLiteral("effect"));
+    
     ClipItem * clip = NULL;
     int ix = -1;
     if (m_status == MASTER_CLIP) {
@@ -785,9 +785,7 @@ void EffectStackView2::slotDeleteGroup(QDomDocument doc)
         clip = m_clipref;
         ix = -1;
     }
-
-    for (int i = 0; i < effects.count(); ++i)
-        emit removeEffect(clip, ix, effects.at(i).toElement());
+    emit removeEffectGroup(clip, ix, doc);
 }
 
 void EffectStackView2::slotDeleteEffect(const QDomElement &effect)

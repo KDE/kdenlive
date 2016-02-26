@@ -2285,18 +2285,31 @@ void CustomTrackView::processEffect(ClipItem *item, QDomElement effect, int offs
     new AddEffectCommand(this, item->track(), item->startPos(), effect, true, effectCommand);
 }
 
-void CustomTrackView::slotDeleteEffect(ClipItem *clip, int track, QDomElement effect, bool affectGroup)
+void CustomTrackView::slotDeleteEffectGroup(ClipItem *clip, int track, QDomDocument doc, bool affectGroup)
+{
+    QUndoCommand *delCommand = new QUndoCommand();
+    QString effectName = doc.documentElement().attribute(QStringLiteral("name"));
+    delCommand->setText(i18n("Delete %1", effectName));
+    QDomNodeList effects = doc.elementsByTagName(QStringLiteral("effect"));
+    for (int i = 0; i < effects.count(); ++i) {
+        slotDeleteEffect(clip, track, effects.at(i).toElement(), affectGroup, delCommand);
+    }
+    m_commandStack->push(delCommand);
+}
+
+void CustomTrackView::slotDeleteEffect(ClipItem *clip, int track, QDomElement effect, bool affectGroup, QUndoCommand *parentCommand)
 {
     if (clip == NULL) {
         // delete track effect
-        AddEffectCommand *command = new AddEffectCommand(this, track, GenTime(-1), effect, false);
-        m_commandStack->push(command);
+        AddEffectCommand *command = new AddEffectCommand(this, track, GenTime(-1), effect, false, parentCommand);
+        if (parentCommand == NULL) 
+            m_commandStack->push(command);
         return;
     }
     if (affectGroup && clip->parentItem() && clip->parentItem() == m_selectionGroup) {
         //clip is in a group, also remove the effect in other clips of the group
         QList<QGraphicsItem *> items = m_selectionGroup->childItems();
-        QUndoCommand *delCommand = new QUndoCommand();
+        QUndoCommand *delCommand = parentCommand == NULL ? new QUndoCommand() : parentCommand;
         QString effectName;
         QDomElement namenode = effect.firstChildElement(QStringLiteral("name"));
         if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
@@ -2323,14 +2336,17 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, int track, QDomElement ef
                 }
             }
         }
-        if (delCommand->childCount() > 0)
-            m_commandStack->push(delCommand);
-        else
-            delete delCommand;
+        if (parentCommand == NULL) {
+            if (delCommand->childCount() > 0)
+                m_commandStack->push(delCommand);
+            else
+                delete delCommand;
+        }
         return;
     }
-    AddEffectCommand *command = new AddEffectCommand(this, clip->track(), clip->startPos(), effect, false);
-    m_commandStack->push(command);
+    AddEffectCommand *command = new AddEffectCommand(this, clip->track(), clip->startPos(), effect, false, parentCommand);
+    if (parentCommand == NULL)
+        m_commandStack->push(command);
 }
 
 void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedEffect, bool updateEffectStack, bool replaceEffect)

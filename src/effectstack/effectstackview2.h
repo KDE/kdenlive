@@ -258,6 +258,7 @@ private slots:
     void slotSwitchCompare(bool enable);
 
 signals:
+    void removeEffectGroup(ClipItem*, int, const QDomDocument&);
     void removeEffect(ClipItem*, int, const QDomElement&);
     void removeMasterEffect(const QString &id, const QDomElement&);
     void addMasterEffect(const QString &id, const QDomElement&);

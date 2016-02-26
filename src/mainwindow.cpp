@@ -1671,6 +1671,7 @@ void MainWindow::connectDocument()
     connect(m_effectStack, SIGNAL(updateEffect(ClipItem*,int,QDomElement,QDomElement,int,bool)), trackView->projectView(), SLOT(slotUpdateClipEffect(ClipItem*,int,QDomElement,QDomElement,int,bool)));
     connect(m_effectStack, SIGNAL(updateClipRegion(ClipItem*,int,QString)), trackView->projectView(), SLOT(slotUpdateClipRegion(ClipItem*,int,QString)));
     connect(m_effectStack, SIGNAL(removeEffect(ClipItem*,int,QDomElement)), trackView->projectView(), SLOT(slotDeleteEffect(ClipItem*,int,QDomElement)));
+    connect(m_effectStack, SIGNAL(removeEffectGroup(ClipItem*,int,QDomDocument)), trackView->projectView(), SLOT(slotDeleteEffectGroup(ClipItem*,int,QDomDocument)));
 
     connect(m_effectStack, SIGNAL(addEffect(ClipItem*,QDomElement,int)), trackView->projectView(), SLOT(slotAddEffect(ClipItem*,QDomElement,int)));
     connect(m_effectStack, SIGNAL(changeEffectState(ClipItem*,int,QList<int>,bool)), trackView->projectView(), SLOT(slotChangeEffectState(ClipItem*,int,QList<int>,bool)));

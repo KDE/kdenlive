@@ -1435,7 +1435,6 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
         ix = 1;
         effect.setAttribute(QStringLiteral("kdenlive_ix"), QStringLiteral("1"));
     }
-
     if (!m_effectList.isEmpty() && ix <= m_effectList.count()) {
         needRepaint = true;
         insertedEffect = m_effectList.insert(effect);

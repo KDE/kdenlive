@@ -256,7 +256,8 @@ public slots:
     /** @brief Move timeline cursor to new position. */
     void setCursorPos(int pos);
     void moveCursorPos(int delta);
-    void slotDeleteEffect(ClipItem *clip, int track, QDomElement effect, bool affectGroup = true);
+    void slotDeleteEffectGroup(ClipItem *clip, int track, QDomDocument doc, bool affectGroup = true);
+    void slotDeleteEffect(ClipItem *clip, int track, QDomElement effect, bool affectGroup = true, QUndoCommand *parentCommand = NULL);
     void slotChangeEffectState(ClipItem *clip, int track, QList <int> effectIndexes, bool disable);
     void slotChangeEffectPosition(ClipItem *clip, int track, QList <int> currentPos, int newPos);
     void slotUpdateClipEffect(ClipItem *clip, int track, QDomElement oldeffect, QDomElement effect, int ix, bool refreshEffectStack = true);

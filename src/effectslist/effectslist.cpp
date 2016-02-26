@@ -347,7 +347,7 @@ QDomElement EffectsList::append(QDomElement e)
 {
     QDomElement result;
     if (!e.isNull()) {
-        result = m_baseElement.appendChild(e).toElement();//importNode(e, true)).toElement();
+        result = m_baseElement.appendChild(importNode(e, true)).toElement();
         if (m_useIndex) {
             updateIndexes(m_baseElement.childNodes(), m_baseElement.childNodes().count() - 1);
         }
