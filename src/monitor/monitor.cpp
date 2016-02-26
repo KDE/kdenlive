@@ -1349,7 +1349,7 @@ void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
     if (render == NULL) return;
     slotActivateMonitor();
     render->prepareProfileReset(tc.fps());
-    m_multitrackView->setChecked(false);
+    if (m_multitrackView) m_multitrackView->setChecked(false);
     m_glMonitor->resetProfile(ProfilesDialog::getVideoProfile(profile));
 }
 
@@ -1756,6 +1756,9 @@ QSize Monitor::profileSize() const
 
 void Monitor::loadQmlScene(MonitorSceneType type)
 {
+    if (m_id == Kdenlive::DvdMonitor) {
+        return;
+    }
     m_qmlManager->setScene(m_id, type, m_glMonitor->profileSize(), (double) render->renderWidth() / render->frameRenderWidth(), m_glMonitor->displayRect(), m_glMonitor->zoom());
     QQuickItem *root = m_glMonitor->rootObject();
     QFontInfo info(font());

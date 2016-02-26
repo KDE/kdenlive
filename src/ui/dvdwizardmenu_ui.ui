@@ -6,12 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>516</width>
-    <height>420</height>
+    <width>638</width>
+    <height>510</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_5">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item row="0" column="0">
@@ -30,9 +39,28 @@
       <bool>true</bool>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <property name="margin">
+      <property name="leftMargin">
        <number>0</number>
       </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item row="1" column="1" rowspan="6">
+       <widget class="QGraphicsView" name="menu_preview">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0" colspan="2">
        <widget class="QTabWidget" name="tabWidget">
         <property name="sizePolicy">
@@ -236,16 +264,6 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1" rowspan="5">
-       <widget class="QGraphicsView" name="menu_preview">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-       </widget>
-      </item>
       <item row="2" column="0">
        <widget class="QToolButton" name="delete_button">
         <property name="text">
@@ -270,19 +288,6 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
-       <widget class="QCheckBox" name="use_grid">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="text">
-         <string>Use grid</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
       <item row="6" column="0">
        <spacer name="verticalSpacer">
         <property name="orientation">
@@ -296,8 +301,21 @@
         </property>
        </spacer>
       </item>
-      <item row="7" column="0" colspan="2">
+      <item row="8" column="0" colspan="2">
        <widget class="QLabel" name="error_message"/>
+      </item>
+      <item row="7" column="1">
+       <widget class="QCheckBox" name="use_grid">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Use grid</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
