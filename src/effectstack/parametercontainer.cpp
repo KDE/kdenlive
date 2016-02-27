@@ -524,6 +524,12 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             m_vbox->addWidget(toFillin);
     }
 
+    if (effect.hasAttribute(QStringLiteral("kdenlive:sync_in_out"))) {
+        QCheckBox *cb = new QCheckBox(i18n("sync keyframes with clip start"));
+        cb->setChecked(effect.attribute(QStringLiteral("kdenlive:sync_in_out")) == QLatin1String("1"));
+        m_vbox->addWidget(cb);
+        connect(cb, &QCheckBox::toggled, this, &ParameterContainer::toggleSync);
+    }
     if (stretch)
         m_vbox->addStretch();
 
@@ -549,6 +555,13 @@ ParameterContainer::~ParameterContainer()
 {
     clearLayout(m_vbox);
     delete m_vbox;
+}
+
+void ParameterContainer::toggleSync(bool enable)
+{
+    const QDomElement oldparam = m_effect.cloneNode().toElement();
+    m_effect.setAttribute(QStringLiteral("kdenlive:sync_in_out"), enable ? "1" : "0");
+    emit parameterChanged(oldparam, m_effect, m_effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
 }
 
 void ParameterContainer::meetDependency(const QString& name, const QString &type, const QString &value)

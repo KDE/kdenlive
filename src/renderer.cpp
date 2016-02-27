@@ -1425,8 +1425,8 @@ bool Render::mltAddTrackEffect(int track, EffectsParameterList params)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
-    //TODO: memleak
-    Mlt::Producer trackProducer(tractor.track(track));
+    QScopedPointer <Mlt::Producer> tk(tractor.track(track));
+    Mlt::Producer trackProducer(tk.data());
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     Mlt::Service trackService(trackProducer.get_service()); //trackPlaylist
     return mltAddEffect(trackService, params, trackProducer.get_playtime() - 1, true);
@@ -1439,8 +1439,8 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
     Mlt::Service service(m_mltProducer->parent().get_service());
 
     Mlt::Tractor tractor(service);
-    //TODO: memleak
-    Mlt::Producer trackProducer(tractor.track(track));
+    QScopedPointer <Mlt::Producer> tk(tractor.track(track));
+    Mlt::Producer trackProducer(tk.data());
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 
     int clipIndex = trackPlaylist.get_clip_index_at((int) position.frames(m_fps));
@@ -1615,7 +1615,7 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
             return false;
         }
         params.removeParam(QStringLiteral("kdenlive_id"));
-        if (params.hasParam(QStringLiteral("kdenlive:sync_in_out"))) {
+        if (params.paramValue(QStringLiteral("kdenlive:sync_in_out")) == QLatin1String("1")) {
             // This effect must sync in / out with parent clip
             //params.removeParam(QStringLiteral("_sync_in_out"));
             filter->set_in_and_out(service.get_int("in"), service.get_int("out"));
@@ -1773,7 +1773,7 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
             refresh();
         return true;
     }
-    if (params.hasParam(QStringLiteral("kdenlive:sync_in_out"))) {
+    if (params.paramValue(QStringLiteral("kdenlive:sync_in_out")) == QLatin1String("1")) {
         // This effect must sync in / out with parent clip
         //params.removeParam(QStringLiteral("sync_in_out"));
         filter->set_in_and_out(clip->get_in(), clip->get_out());

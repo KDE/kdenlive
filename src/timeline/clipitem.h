@@ -144,13 +144,13 @@ public:
 
     /** @brief Adjust all geometry keyframes.
     * @param index Index of the effect */
-    void resizeGeometries(const int index, int width, int height, int previousDuration, int start, int duration);
+    bool resizeGeometries(const int index, int width, int height, int previousDuration, int start, int duration);
     QString resizeAnimations(const int index, int width, int height, int previousDuration, int start, int duration);
 
     /** @brief Sets params with keyframes and updates the visible keyframes.
     * @param ix Number of the effect
     * @param keyframes a list of strings of keyframes (one string per param), which should be used */
-    void setKeyframes(const int ix, const QStringList &keyframes);
+    void setKeyframes(const int ix, const QStringList &keyframes = QStringList());
     void setEffectList(const EffectsList &effectList);
     void setSpeed(const double speed, int strobe);
     double speed() const;

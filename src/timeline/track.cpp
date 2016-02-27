@@ -235,7 +235,7 @@ bool Track::resize(qreal t, qreal dt, bool end)
             }
         }
     }
-    
+
     m_playlist.consolidate_blanks();
     m_playlist.unlock();
     return true;
@@ -257,7 +257,9 @@ bool Track::cut(qreal t)
     m_playlist.unlock();
     QScopedPointer<Mlt::Producer> clip1(m_playlist.get_clip(index + 1));
     QScopedPointer<Mlt::Producer> clip2(m_playlist.get_clip(index));
-    Clip(*clip1).addEffects(*clip2, true);
+    Clip (*clip1).addEffects(*clip2, true);
+    // adjust filters in/out
+    Clip (*clip2).adjustEffectsLength();
     return true;
 }
 

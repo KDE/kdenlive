@@ -1254,6 +1254,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         m_selectionMutex.unlock();
     }
     if (m_operationMode == KeyFrame) {
+        m_dragItem->prepareKeyframeMove();
         return;
     } else if (m_operationMode == MoveOperation) {
         setCursor(Qt::ClosedHandCursor);
@@ -2358,6 +2359,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
     }
     int ix = insertedEffect.attribute(QStringLiteral("kdenlive_ix")).toInt();
     QDomElement effect = insertedEffect.cloneNode().toElement();
+    qDebug()<<" ** * *UPDATE EFFECT:\n"<<effect.ownerDocument().toString()<<"\n.--------------------";
     //qDebug() << "// update effect ix: " << effect.attribute("kdenlive_ix")<<", TAG: "<< insertedEffect.attribute("tag");
     if (pos < GenTime()) {
         // editing a track effect
@@ -2641,7 +2643,7 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         if (item->checkKeyFrames(m_document->width(), m_document->height(), info.cropDuration.frames(m_document->fps())))
             slotRefreshEffects(item);
 
-        if (dup->checkKeyFrames(m_document->width(), m_document->height(), info.cropDuration.frames(m_document->fps()), cutTime.frames(m_document->fps())))
+        if (dup->checkKeyFrames(m_document->width(), m_document->height(), info.cropDuration.frames(m_document->fps()), (cutTime - item->startPos()).frames(m_document->fps())))
             slotRefreshEffects(dup);
 
         KdenliveSettings::setSnaptopoints(snap);
@@ -2665,9 +2667,11 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         KdenliveSettings::setSnaptopoints(false);
 
         m_waitingThumbs.removeAll(dup);
-        if (dup->isSelected()) {
+        if (dup->isSelected() && dup == m_dragItem) {
             item->setSelected(true);
-            emit clipItemSelected(NULL);
+            item->setMainSelectedClip(true);
+            m_dragItem = item;
+            emit clipItemSelected(item);
         }
         scene()->removeItem(dup);
         delete dup;
@@ -4430,7 +4434,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             //delete keyframe
             item->removeKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), item->selectedKeyFramePos());
         } else {
-            item->movedKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), item->selectedKeyFramePos());
+            item->movedKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), item->selectedKeyFramePos(), item->originalKeyFramePos());
         }
 
         QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
@@ -4606,6 +4610,7 @@ void CustomTrackView::cutSelectedClips()
                 ClipItem *dup = getClipItemAtStart(currentPos, item->track());
                 if (item->isSelected() && dup) {
                     m_scene->clearSelection();
+                    item->setMainSelectedClip(false);
                     dup->setSelected(true);
                     m_dragItem = dup;
                     m_dragItem->setMainSelectedClip(true);

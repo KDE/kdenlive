@@ -74,6 +74,8 @@ public:
     virtual void resizeStart(int posx, bool hasSizeLimit = true, bool emitChange = true);
     void updateKeyFramePos(int frame, const double y);
     int selectedKeyFramePos() const;
+    int originalKeyFramePos() const;
+    void prepareKeyframeMove();
     int keyframesCount();
     double editedKeyFrameValue();
     double getKeyFrameClipHeight(const double y);

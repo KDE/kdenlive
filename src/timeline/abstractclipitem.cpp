@@ -65,9 +65,19 @@ void AbstractClipItem::updateKeyFramePos(int frame, const double y)
     m_keyframeView.updateKeyFramePos(rect(), frame, qBound(0.0, y, rect().height()));
 }
 
+void AbstractClipItem::prepareKeyframeMove()
+{
+    m_keyframeView.originalKeyframe = m_keyframeView.activeKeyframe;
+}
+
 int AbstractClipItem::selectedKeyFramePos() const
 {
     return m_keyframeView.activeKeyframe;
+}
+
+int AbstractClipItem::originalKeyFramePos() const
+{
+    return m_keyframeView.originalKeyframe;
 }
 
 int AbstractClipItem::keyframesCount()
@@ -182,6 +192,7 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit, bool /*emitChang
         return;
     }
     m_info.startPos += durationDiff;
+    m_keyframeView.setOffset(durationDiff.frames(m_fps));
 
     // set to true if crop from start is negative (possible for color clips, images as they have no size limit)
     bool negCropStart = false;
@@ -465,8 +476,7 @@ void AbstractClipItem::movedKeyframe(QDomElement effect, int newpos, int oldpos,
                 if (str.section('=', 0, 0).toInt() != oldpos) {
                     newkfr.append(str);
                 } else if (newpos != -1) {
-                    newpos = qMax(newpos, start);
-                    newpos = qMin(newpos, end);
+                    newpos = qBound(start, newpos, end);
                     if (i == m_visibleParam)
                         newkfr.append(QString::number(newpos) + '=' + locale.toString(value));
                     else
@@ -483,8 +493,7 @@ void AbstractClipItem::movedKeyframe(QDomElement effect, int newpos, int oldpos,
                 if (str.section('=', 0, 0).toInt() != oldpos) {
                     newkfr.append(str);
                 } else if (newpos != -1) {
-                    newpos = qMax(newpos, start);
-                    newpos = qMin(newpos, end);
+                    newpos = qBound(0, newpos, end - start);
                     newkfr.append(QString::number(newpos) + '=' + str.section('=', 1, 1));
                 }
             }

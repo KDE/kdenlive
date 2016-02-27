@@ -94,6 +94,7 @@ public:
 private slots:
     void slotCollectAllParameters();
     void slotStartFilterJobAction();
+    void toggleSync(bool enable);
 
 private:
         /** @brief Updates parameter @param name according to new value of dependency.

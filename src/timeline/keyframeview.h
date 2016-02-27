@@ -56,6 +56,8 @@ public:
 
     /** The position of the currently active keyframe */
     int activeKeyframe;
+    /** The position of the currently active keyframe before it was moved */
+    int originalKeyframe;
     /** @brief The keyframe position from which keyframes will be attached to end (-1 = disabled). */
     int attachToEnd;
     /** @brief Effect duration, must be updated on resize. */
@@ -92,6 +94,8 @@ public:
     static int checkNegatives(const QString &data, int maxDuration);
     /** @brief returns true if currently edited parameter name is name */
     bool activeParam(const QString &name) const;
+    /** @brief Sets a temporary offset for drawing keyframes when resizing clip start */
+    void setOffset(int frames);
 	
 private:
     Mlt::Properties m_keyProperties;
@@ -103,6 +107,8 @@ private:
     double m_keyframeMax;
     double m_keyframeFactor;
     int m_handleSize;
+    bool m_useOffset;
+    int m_offset;
     double keyframeUnmap(QRectF br, double y);
     double keyframeMap(QRectF br, double value);
     QPointF keyframeMap(QRectF br, int frame, double value);

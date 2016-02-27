@@ -55,6 +55,19 @@ void Clip::setProducer(Mlt::Producer& producer)
     m_producer = producer;
 }
 
+void Clip::adjustEffectsLength()
+{
+    int ct = 0;
+    Mlt::Filter *filter = m_producer.filter(ct);
+    while (filter) {
+	if (filter->get_int("kdenlive:sync_in_out") == 1) {
+            filter->set_in_and_out(m_producer.get_in(), m_producer.get_out());
+        }
+        ct++;
+	filter = m_producer.filter(ct);
+    }
+}
+
 void Clip::addEffects(Mlt::Service& service, bool skipFades)
 {
     for (int ix = 0; ix < service.filter_count(); ++ix) {
@@ -70,6 +83,10 @@ void Clip::addEffects(Mlt::Service& service, bool skipFades)
             if (copy && copy->is_valid()) {
                 for (int i = 0; i < effect->count(); ++i) {
                     QString paramName = effect->get_name(i);
+                    if (paramName == QLatin1String("kdenlive:sync_in_out") && QString(effect->get(i)) == QLatin1String("1")) {
+                        // Effect in/out must be synced with clip in/out
+                        copy->set_in_and_out(m_producer.get_in(), m_producer.get_out());
+                    }
                     if (paramName.at(0) != '_')
                         copy->set(effect->get_name(i), effect->get(i));
                 }

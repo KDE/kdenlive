@@ -999,8 +999,8 @@ void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
         }
 
         if (effect->get_out()) { // no keyframes but in/out points
-            EffectsList::setParameter(currenteffect, QStringLiteral("in"),  effect->get("in"));
-            EffectsList::setParameter(currenteffect, QStringLiteral("out"),  effect->get("out"));
+            /*EffectsList::setParameter(currenteffect, QStringLiteral("in"),  effect->get("in"));
+            EffectsList::setParameter(currenteffect, QStringLiteral("out"),  effect->get("out"));*/
             currenteffect.setAttribute(QStringLiteral("in"), effect->get_in());
             currenteffect.setAttribute(QStringLiteral("out"), effect->get_out());
             currenteffect.setAttribute(QStringLiteral("kdenlive:sync_in_out"), QStringLiteral("1"));

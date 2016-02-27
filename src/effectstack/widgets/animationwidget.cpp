@@ -211,19 +211,23 @@ void AnimationWidget::finishSetup()
 }
 
 //static
-QString AnimationWidget::getDefaultKeyframes(const QString &defaultValue)
+QString AnimationWidget::getDefaultKeyframes(const QString &defaultValue, bool linearOnly)
 {
     QString keyframes = QStringLiteral("0");
-    switch (KdenliveSettings::defaultkeyframeinterp()) {
-        case mlt_keyframe_discrete:
-            keyframes.append(QStringLiteral("|="));
-            break;
-        case mlt_keyframe_smooth:
-            keyframes.append(QStringLiteral("~="));
-            break;
-        default:
-            keyframes.append(QStringLiteral("="));
-            break;
+    if (linearOnly) {
+        keyframes.append(QStringLiteral("="));
+    } else {
+        switch (KdenliveSettings::defaultkeyframeinterp()) {
+            case mlt_keyframe_discrete:
+                keyframes.append(QStringLiteral("|="));
+                break;
+            case mlt_keyframe_smooth:
+                keyframes.append(QStringLiteral("~="));
+                break;
+            default:
+                keyframes.append(QStringLiteral("="));
+                break;
+        }
     }
     keyframes.append(defaultValue);
     return keyframes;

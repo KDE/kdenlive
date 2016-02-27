@@ -107,8 +107,8 @@ EffectsParameterList EffectsController::getEffectArgs(const ProfileInfo &info, c
     parameters.addParam(QStringLiteral("id"), effect.attribute(QStringLiteral("id")));
     if (effect.hasAttribute(QStringLiteral("src"))) parameters.addParam(QStringLiteral("src"), effect.attribute(QStringLiteral("src")));
     if (effect.hasAttribute(QStringLiteral("disable"))) parameters.addParam(QStringLiteral("disable"), effect.attribute(QStringLiteral("disable")));
-    if (effect.hasAttribute(QStringLiteral("in"))) parameters.addParam(QStringLiteral("in"), effect.attribute(QStringLiteral("in")));
-    if (effect.hasAttribute(QStringLiteral("out"))) parameters.addParam(QStringLiteral("out"), effect.attribute(QStringLiteral("out")));
+    /*if (effect.hasAttribute(QStringLiteral("in"))) parameters.addParam(QStringLiteral("in"), effect.attribute(QStringLiteral("in")));
+    if (effect.hasAttribute(QStringLiteral("out"))) parameters.addParam(QStringLiteral("out"), effect.attribute(QStringLiteral("out")));*/
     if (effect.attribute(QStringLiteral("id")) == QLatin1String("region")) {
         QDomNodeList subeffects = effect.elementsByTagName(QStringLiteral("effect"));
         for (int i = 0; i < subeffects.count(); ++i) {
@@ -232,8 +232,8 @@ void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList
 
         bool hasValue = e.hasAttribute(QStringLiteral("value"));
         // Check if this effect has a variable parameter, init effects default value
-        if (type == QLatin1String("animatedrect") && !hasValue) {
-            QString kfr = AnimationWidget::getDefaultKeyframes(e.attribute(QStringLiteral("default")));
+        if ((type == QLatin1String("animatedrect") || type == QLatin1String("geometry")) && !hasValue) {
+            QString kfr = AnimationWidget::getDefaultKeyframes(e.attribute(QStringLiteral("default")), type == QLatin1String("geometry"));
             if (kfr.contains("%")) {
                 kfr = EffectsController::getStringRectEval(pInfo, kfr);
             }

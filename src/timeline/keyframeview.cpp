@@ -35,6 +35,8 @@ KeyframeView::KeyframeView(int handleSize, QObject *parent) : QObject(parent)
     , m_keyframeMax(1)
     , m_keyframeFactor(1)
     , m_handleSize(handleSize)
+    , m_useOffset(false)
+    , m_offset(0)
 {
 }
 
@@ -58,7 +60,7 @@ QPointF KeyframeView::keyframeMap(QRectF br, int frame, double value) {
 
 QPointF KeyframeView::keyframePoint(QRectF br, int index) {
     int frame = m_keyAnim.key_get_frame(index);
-    return keyframeMap(br, frame < 0 ? frame + duration : frame, m_keyProperties.anim_get_double(m_inTimeline.toUtf8().constData(), frame, duration));
+    return keyframeMap(br, frame < 0 ? frame + duration + m_offset : frame + m_offset, m_keyProperties.anim_get_double(m_inTimeline.toUtf8().constData(), frame, duration));
 }
 
 QPointF KeyframeView::keyframePoint(QRectF br, int frame, double value, double factor, double min, double max) {
@@ -136,7 +138,7 @@ void KeyframeView::drawKeyFrames(QRectF br, int length, bool active, QPainter *p
         QPainterPath path;
         int frame = drawAnim.key_get_frame(0);
         double value = m_keyProperties.anim_get_double(paramName.toUtf8().constData(), frame, duration);
-        QPointF start = keyframePoint(br, frame, value, info.factor, info.min, info.max);
+        QPointF start = keyframePoint(br, frame + m_offset, value, info.factor, info.min, info.max);
         path.moveTo(br.x(), br.bottom());
         path.lineTo(br.x(), start.y());
         path.lineTo(start);
@@ -149,7 +151,7 @@ void KeyframeView::drawKeyFrames(QRectF br, int length, bool active, QPainter *p
             if (i + 1 < drawAnim.key_count()) {
                 frame = drawAnim.key_get_frame(i + 1);
                 value = m_keyProperties.anim_get_double(paramName.toUtf8().constData(), frame, duration);
-                QPointF end = keyframePoint(br, frame, value, info.factor, info.min, info.max);
+                QPointF end = keyframePoint(br, frame + m_offset, value, info.factor, info.min, info.max);
                 //QPointF end = keyframePoint(br, i + 1);
                 switch (drawAnim.key_get_type(i)) {
                     case mlt_keyframe_discrete:
@@ -432,6 +434,8 @@ bool KeyframeView::loadKeyframes(const QLocale locale, QDomElement effect, int l
         m_keyProperties.set(m_keyProperties.get_name(i), (char*) NULL);
     }
     attachToEnd = -2;
+    m_useOffset = effect.attribute(QStringLiteral("kdenlive:sync_in_out")) != QLatin1String("1");
+    m_offset = 0;
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
@@ -439,7 +443,7 @@ bool KeyframeView::loadKeyframes(const QLocale locale, QDomElement effect, int l
         QString type = e.attribute(QStringLiteral("type"));
         if (type == QLatin1String("keyframe")) m_keyframeType = NormalKeyframe;
         else if (type == QLatin1String("simplekeyframe")) m_keyframeType = SimpleKeyframe;
-        else if (type == QLatin1String("geometry")) m_keyframeType = GeometryKeyframe;
+        else if (type == QLatin1String("geometry") || type == QLatin1String("animatedrect")) m_keyframeType = GeometryKeyframe;
         else if (type == QLatin1String("animated")) m_keyframeType = AnimatedKeyframe;
         else continue;
         QString paramName = e.attribute(QStringLiteral("name"));
@@ -461,13 +465,18 @@ bool KeyframeView::loadKeyframes(const QLocale locale, QDomElement effect, int l
             m_inTimeline = paramName;
         }
         // parse keyframes
+        QString value = e.attribute(QStringLiteral("value"));
+        if (value.isEmpty()) {
+            value = e.attribute(QStringLiteral("default"));
+        }
+
         switch (m_keyframeType) {
             case GeometryKeyframe:
-                m_keyProperties.set(paramName.toUtf8().constData(), e.attribute("value").toUtf8().constData());
+                m_keyProperties.set(paramName.toUtf8().constData(), value.toUtf8().constData());
                 m_keyProperties.anim_get_rect(paramName.toUtf8().constData(), 0, length);
                 break;
             case AnimatedKeyframe:
-                m_keyProperties.set(paramName.toUtf8().constData(), e.attribute("value").toUtf8().constData());
+                m_keyProperties.set(paramName.toUtf8().constData(), value.toUtf8().constData());
                 // We need to initialize with length so that negative keyframes are correctly interpreted
                 m_keyProperties.anim_get_double(paramName.toUtf8().constData(), 0, length);
                 break;
@@ -481,6 +490,12 @@ bool KeyframeView::loadKeyframes(const QLocale locale, QDomElement effect, int l
         }
     }
     return (!m_inTimeline.isEmpty());
+}
+
+void KeyframeView::setOffset(int frames)
+{
+    if (m_useOffset)
+        m_offset -= frames;
 }
 
 // static
