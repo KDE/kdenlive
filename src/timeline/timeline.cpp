@@ -1548,6 +1548,7 @@ bool Timeline::createOverlay(Mlt::Filter *filter, int tk, int startPos)
     Clip clp(clipProducer->parent());
     Mlt::Producer *cln = clp.clone();
     Clip(*cln).deleteEffects();
+    cln->set_in_and_out(clipProducer->get_in(), clipProducer->get_out());
     Mlt::Playlist overlay(*m_tractor->profile());
     Mlt::Tractor trac(*m_tractor->profile());
     trac.set_track(*clipProducer, 0);
