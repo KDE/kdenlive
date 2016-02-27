@@ -971,7 +971,7 @@ void Timeline::loadGuides(QMap <double, QString> guidesData)
 }
 
 void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
-    int effectNb = clip->effectsCount();
+    int effectNb = clip == NULL ? 0 : clip->effectsCount();
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (int ix = 0; ix < service.filter_count(); ++ix) {
