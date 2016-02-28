@@ -103,6 +103,8 @@ EffectsParameterList EffectsController::getEffectArgs(const ProfileInfo &info, c
     parameters.addParam(QStringLiteral("tag"), effect.attribute(QStringLiteral("tag")));
     //if (effect.hasAttribute("region")) parameters.addParam("region", effect.attribute("region"));
     parameters.addParam(QStringLiteral("kdenlive_ix"), effect.attribute(QStringLiteral("kdenlive_ix")));
+    if (effect.hasAttribute(QStringLiteral("kdenlive:sync_in_out")))
+        parameters.addParam(QStringLiteral("kdenlive:sync_in_out"), effect.attribute(QStringLiteral("kdenlive:sync_in_out")));
     parameters.addParam(QStringLiteral("kdenlive_info"), effect.attribute(QStringLiteral("kdenlive_info")));
     parameters.addParam(QStringLiteral("id"), effect.attribute(QStringLiteral("id")));
     if (effect.hasAttribute(QStringLiteral("src"))) parameters.addParam(QStringLiteral("src"), effect.attribute(QStringLiteral("src")));
@@ -137,7 +139,7 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
         QString paramname = prefix + e.attribute(QStringLiteral("name"));
         if (e.attribute(QStringLiteral("type")) == QLatin1String("animated") || (e.attribute(QStringLiteral("type")) == QLatin1String("geometry") && !e.hasAttribute(QStringLiteral("fixed")))) {
             // effects with geometry param need in / out synced with the clip, request it...
-            parameters.addParam(QStringLiteral("kdenlive:sync_in_out"), QStringLiteral("1"));
+            //parameters.addParam(QStringLiteral("kdenlive:sync_in_out"), QStringLiteral("1"));
         }
         if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
             parameters.addParam(paramname, e.attribute(QStringLiteral("value")));

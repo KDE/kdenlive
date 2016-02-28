@@ -80,7 +80,7 @@ public:
     void addKeyframe(int frame, double value, mlt_keyframe_type type);
     void addDefaultKeyframe(int frame, mlt_keyframe_type type);
     const QString serialize();
-    bool loadKeyframes(const QLocale locale, QDomElement e, int length);
+    bool loadKeyframes(const QLocale locale, QDomElement e, int cropStart, int length);
     void reset();
           /** @brief Draw the keyframes of a clip
       * @param painter The painter device for the clip
@@ -89,7 +89,7 @@ public:
     int mouseOverKeyFrames(QRectF br, QPointF pos, double maxOffset, double scale);
     void showMenu(QWidget *parent, QPoint pos);
     QAction *parseKeyframeActions(QList <QAction *>actions);
-    static QString cutAnimation(const QString &animation, int start, int duration, int fullduration);
+    static QString cutAnimation(const QString &animation, int start, int duration, int fullduration, bool doCut = true);
     /** @brief when loading an animation from a serialized string, check where is the first negative keyframe) */
     static int checkNegatives(const QString &data, int maxDuration);
     /** @brief returns true if currently edited parameter name is name */

@@ -144,8 +144,8 @@ public:
 
     /** @brief Adjust all geometry keyframes.
     * @param index Index of the effect */
-    bool resizeGeometries(const int index, int width, int height, int previousDuration, int start, int duration);
-    QString resizeAnimations(const int index, int width, int height, int previousDuration, int start, int duration);
+    bool resizeGeometries(const int index, int width, int height, int previousDuration, int start, int duration, int cropStart);
+    QString resizeAnimations(const int index, int width, int height, int previousDuration, int start, int duration, int cropStart);
 
     /** @brief Sets params with keyframes and updates the visible keyframes.
     * @param ix Number of the effect

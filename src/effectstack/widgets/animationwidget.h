@@ -46,7 +46,7 @@ class AnimationWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, const QString &effectId, QDomElement xml, int activeKeyframe, QWidget *parent = 0);
+    explicit AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, QDomElement xml, int activeKeyframe, QWidget *parent = 0);
     virtual ~AnimationWidget();
     void updateTimecodeFormat();
     void addParameter(const QDomElement &e);
@@ -58,6 +58,8 @@ public:
     bool isActive(const QString &name) const;
     /** @brief Effect was selected / deselected, update monitor connections */
     void connectMonitor(bool activate);
+    /** @brief Adds an offset to all keyframes (translate by x frames) */
+    void offsetAnimation(int offset);
 
 private:
     AnimKeyframeRuler *m_ruler;
@@ -90,6 +92,7 @@ private:
     DragValue *m_spinY;
     DragValue *m_spinWidth;
     DragValue *m_spinHeight;
+    int m_offset;
     void parseKeyframes();
     void rebuildKeyframes();
     void updateToolbar();

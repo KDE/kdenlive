@@ -244,7 +244,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             if (m_animationWidget) {
                 m_animationWidget->addParameter(pa);
             } else {
-                m_animationWidget = new AnimationWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()), m_in, m_out, effect.attribute(QStringLiteral("id")), pa, e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt(), parent);
+                m_animationWidget = new AnimationWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()), m_in, m_out, effect.attribute(QStringLiteral("in")).toInt(), effect.attribute(QStringLiteral("id")), pa, e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt(), parent);
                 connect(m_animationWidget, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
                 connect(this, SIGNAL(syncEffectsPos(int)), m_animationWidget, SLOT(slotSyncPosition(int)));
                 connect(this, SIGNAL(initScene(int)), m_animationWidget, SLOT(slotPositionChanged(int)));
@@ -561,6 +561,60 @@ void ParameterContainer::toggleSync(bool enable)
 {
     const QDomElement oldparam = m_effect.cloneNode().toElement();
     m_effect.setAttribute(QStringLiteral("kdenlive:sync_in_out"), enable ? "1" : "0");
+    if (!enable) {
+        int oldIn = m_effect.attribute(QStringLiteral("in")).toInt();
+        if (oldIn > 0) {
+            if (m_animationWidget) {
+                // Switch keyframes offset
+                m_animationWidget->offsetAnimation(oldIn);
+                // Save updated animation to xml effect
+                QDomNodeList namenode = m_effect.elementsByTagName(QStringLiteral("parameter"));
+                QMap <QString, QString> values = m_animationWidget->getAnimation();
+                for (int i = 0; i < namenode.count() ; ++i) {
+                    QDomElement pa = namenode.item(i).toElement();
+                    QString paramName = pa.attribute(QStringLiteral("name"));
+                    if (values.count() > 1) {
+                        pa.setAttribute(QStringLiteral("intimeline"), m_animationWidget->isActive(paramName) ? "1" : "0");
+                    }
+                    if (values.contains(paramName)) {
+                        pa.setAttribute(QStringLiteral("value"), values.value(paramName));
+                    }
+                }
+            }
+            if (m_geometryWidget) {
+                // Switch keyframes offset
+                //m_geometryWidget->offsetAnimation(oldIn);
+            }
+        }
+        m_effect.removeAttribute(QStringLiteral("in"));
+        m_effect.removeAttribute(QStringLiteral("out"));
+    } else {
+        if (m_in > 0) {
+            if (m_animationWidget) {
+                // Switch keyframes offset
+                m_animationWidget->offsetAnimation(-m_in);
+                // Save updated animation to xml effect
+                QDomNodeList namenode = m_effect.elementsByTagName(QStringLiteral("parameter"));
+                QMap <QString, QString> values = m_animationWidget->getAnimation();
+                for (int i = 0; i < namenode.count() ; ++i) {
+                    QDomElement pa = namenode.item(i).toElement();
+                    QString paramName = pa.attribute(QStringLiteral("name"));
+                    if (values.count() > 1) {
+                        pa.setAttribute(QStringLiteral("intimeline"), m_animationWidget->isActive(paramName) ? "1" : "0");
+                    }
+                    if (values.contains(paramName)) {
+                        pa.setAttribute(QStringLiteral("value"), values.value(paramName));
+                    }
+                }
+            }
+            if (m_geometryWidget) {
+                // Switch keyframes offset
+                //m_geometryWidget->offsetAnimation(oldIn);
+            }
+        }
+        m_effect.setAttribute(QStringLiteral("in"), QString::number(m_in));
+        m_effect.setAttribute(QStringLiteral("out"), QString::number(m_out));
+    }
     emit parameterChanged(oldparam, m_effect, m_effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
 }
 

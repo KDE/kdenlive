@@ -1773,10 +1773,16 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
             refresh();
         return true;
     }
-    if (params.paramValue(QStringLiteral("kdenlive:sync_in_out")) == QLatin1String("1")) {
-        // This effect must sync in / out with parent clip
-        //params.removeParam(QStringLiteral("sync_in_out"));
-        filter->set_in_and_out(clip->get_in(), clip->get_out());
+    if (params.hasParam(QStringLiteral("kdenlive:sync_in_out"))) {
+        if (params.paramValue(QStringLiteral("kdenlive:sync_in_out")) == QLatin1String("1")) {
+            // This effect must sync in / out with parent clip
+            //params.removeParam(QStringLiteral("sync_in_out"));
+            filter->set_in_and_out(clip->get_in(), clip->get_out());
+        } else {
+            // Reset in/out properties
+            filter->set("in", (char*)NULL);
+            filter->set("out", (char*)NULL);
+        }
     }
 
     for (int j = 0; j < params.count(); ++j) {

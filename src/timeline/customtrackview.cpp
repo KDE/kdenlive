@@ -2359,7 +2359,6 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
     }
     int ix = insertedEffect.attribute(QStringLiteral("kdenlive_ix")).toInt();
     QDomElement effect = insertedEffect.cloneNode().toElement();
-    qDebug()<<" ** * *UPDATE EFFECT:\n"<<effect.ownerDocument().toString()<<"\n.--------------------";
     //qDebug() << "// update effect ix: " << effect.attribute("kdenlive_ix")<<", TAG: "<< insertedEffect.attribute("tag");
     if (pos < GenTime()) {
         // editing a track effect
@@ -2640,10 +2639,10 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         item->resizeEnd(cutPos);
         scene()->addItem(dup);
 
-        if (item->checkKeyFrames(m_document->width(), m_document->height(), info.cropDuration.frames(m_document->fps())))
+        if (item->checkKeyFrames(m_document->width(), m_document->height(), (info.cropDuration + info.cropStart).frames(m_document->fps())))
             slotRefreshEffects(item);
 
-        if (dup->checkKeyFrames(m_document->width(), m_document->height(), info.cropDuration.frames(m_document->fps()), (cutTime - item->startPos()).frames(m_document->fps())))
+        if (dup->checkKeyFrames(m_document->width(), m_document->height(), (info.cropDuration + info.cropStart).frames(m_document->fps()), (cutTime - item->startPos()).frames(m_document->fps())))
             slotRefreshEffects(dup);
 
         KdenliveSettings::setSnaptopoints(snap);
@@ -6374,8 +6373,14 @@ void CustomTrackView::adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime
             QString adjusted = EffectsController::adjustKeyframes(e.attribute(QStringLiteral("keyframes")), oldstart.frames(m_document->fps()), newstart.frames(m_document->fps()), (newstart + duration).frames(m_document->fps()) - 1, m_document->getProfileInfo());
             e.setAttribute(QStringLiteral("keyframes"), adjusted);
         } else if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
-	    QString resizedAnim = KeyframeView::cutAnimation(e.attribute(QStringLiteral("value")), 0,  duration.frames(m_document->fps()), duration.frames(m_document->fps()));
-            e.setAttribute(QStringLiteral("value"), resizedAnim);
+            if (xml.attribute(QStringLiteral("kdenlive:sync_in_out")) != QLatin1String("1")) {
+                QString resizedAnim = KeyframeView::cutAnimation(e.attribute(QStringLiteral("value")), 0,  duration.frames(m_document->fps()), duration.frames(m_document->fps()));
+                e.setAttribute(QStringLiteral("value"), resizedAnim);
+            } else if (xml.hasAttribute(QStringLiteral("kdenlive:sync_in_out"))) {
+                // Effect attached to clip in, update
+                xml.setAttribute("in", QString::number(newstart.frames(m_document->fps())));
+                xml.setAttribute("out", QString::number((newstart + duration).frames(m_document->fps())));
+            }
         }
     }
 }
@@ -7737,6 +7742,7 @@ void CustomTrackView::slotRefreshThumbs(const QString &id, bool resetThumbs)
 
 void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, QUndoCommand* command)
 {
+    qDebug()<<" ** * * * ADJUST EFFECTs TO DURATION";
     QMap<int, QDomElement> effects = item->adjustEffectsToDuration(m_document->width(), m_document->height(), oldInfo);
 
     if (!effects.isEmpty()) {

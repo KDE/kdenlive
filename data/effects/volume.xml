@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<effect tag="volume" id="volume" type="audio">
+<effect tag="volume" id="volume" type="audio" version="0.2">
 	<name>Volume (keyframable)</name>
 	<description>Adjust audio volume with keyframes</description>
 	<author>Dan Dennedy</author>

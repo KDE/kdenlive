@@ -465,8 +465,9 @@ void AbstractClipItem::movedKeyframe(QDomElement effect, int newpos, int oldpos,
         if (e.isNull()) continue;
         QString paramName = e.attribute(QStringLiteral("name"));
         if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
-            if (m_keyframeView.activeParam(paramName))
+            if (m_keyframeView.activeParam(paramName)) {
                 e.setAttribute(QStringLiteral("value"), m_keyframeView.serialize());
+            }
         }
         else if ((e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe"))) {
             QString kfr = e.attribute(QStringLiteral("keyframes"));
