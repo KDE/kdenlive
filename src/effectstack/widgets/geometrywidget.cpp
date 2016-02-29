@@ -38,7 +38,7 @@
 #include <QMenu>
 
 
-GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotation, QWidget* parent):
+GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotation, bool useOffset, QWidget* parent):
     QWidget(parent),
     m_monitor(info->monitor),
     m_timePos(new TimecodeDisplay(info->monitor->timecode())),
@@ -49,7 +49,8 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     m_geometry(NULL),
     m_frameSize(info->frameSize),
     m_fixedGeom(false),
-    m_singleKeyframe(false)
+    m_singleKeyframe(false),
+    m_useOffset(useOffset)
 {
     m_ui.setupUi(this);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
@@ -304,6 +305,29 @@ QString GeometryWidget::getValue() const
     return result;
 }
 
+QString GeometryWidget::offsetAnimation(int offset, bool useOffset)
+{
+    Mlt::Geometry *geometry = new Mlt::Geometry((char*)NULL, m_outPoint, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+    Mlt::GeometryItem item;
+    int pos = 0;
+    int ix = 0;
+    while (!m_geometry->next_key(&item, pos)) {
+        pos = item.frame() + 1;
+        item.frame(item.frame() + offset);
+        geometry->insert(item);
+        ix++;
+    }
+    m_useOffset = useOffset;
+    QString result = geometry->serialise();
+    if (!m_fixedGeom && result.contains(QStringLiteral(";")) && !result.section(QStringLiteral(";"),0,0).contains(QStringLiteral("="))) {
+        result.prepend("0=");
+    }
+    m_geometry->parse(result.toUtf8().data(), m_outPoint, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+    m_timeline->setKeyGeometry(m_geometry, m_inPoint, m_outPoint, m_useOffset);
+    delete geometry;
+    return result;
+}
+
 QString GeometryWidget::getExtraValue(const QString &name) const
 {
     int ix = m_extraGeometryNames.indexOf(name);
@@ -336,7 +360,7 @@ void GeometryWidget::setupParam(const QDomElement &elem, int minframe, int maxfr
     } else {
         m_fixedGeom = false;
         m_ui.widgetTimeWrapper->setHidden(false);
-        m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
+        m_timeline->setKeyGeometry(m_geometry, m_inPoint, m_outPoint, m_useOffset);
     }
     m_timePos->setRange(0, m_outPoint - m_inPoint);
 
@@ -387,17 +411,24 @@ void GeometryWidget::checkSingleKeyframe()
 
 void GeometryWidget::slotPositionChanged(int pos, bool seek)
 {
-    if (pos == -1)
-        pos = m_timePos->getValue();
-    else
+    int keyframePos;
+    if (pos == -1) {
+        pos = m_timeline->value();
+        keyframePos = pos;
+    } else {
         m_timePos->setValue(pos);
+        m_timeline->setValue(pos);
+        keyframePos = pos;
+        if (m_useOffset) {
+            keyframePos += m_inPoint;
+        }
+    }
 
     //m_timeline->blockSignals(true);
-    m_timeline->setValue(pos);
-    //m_timeline->blockSignals(false);
 
     Mlt::GeometryItem item;
-    if (!m_fixedGeom && (m_geometry->fetch(&item, pos) || item.key() == false)) {
+    bool fetch = m_geometry->fetch(&item, keyframePos);
+    if (!m_fixedGeom && (fetch || item.key() == false)) {
         // no keyframe
         if (m_singleKeyframe) {
             // Special case: only one keyframe, allow adjusting whatever the position is
@@ -423,7 +454,7 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
     for (int i = 0; i < m_extraGeometries.count(); ++i) {
         Mlt::Geometry *geom = m_extraGeometries.at(i);
         QString name = m_extraGeometryNames.at(i);
-        if (!geom->fetch(&item, pos)) {
+        if (!geom->fetch(&item, keyframePos)) {
             DragValue *widget = findChild<DragValue *>(name);
             if (widget) {
                 widget->blockSignals(true);
@@ -432,11 +463,9 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
             }
         }
     }
-    m_geometry->fetch(&item, pos);
     QRect r((int) item.x(), (int) item.y(), (int) item.w(), (int) item.h());
     m_monitor->setUpEffectGeometry(r, calculateCenters());
     slotUpdateProperties();
-
     if (seek && KdenliveSettings::transitionfollowcursor())
         emit seekToPos(pos);
 }
@@ -463,7 +492,11 @@ void GeometryWidget::slotSeekToKeyframe(int index)
         ix++;
         pos = item.frame() + 1;
     }
-    slotPositionChanged(item.frame(), true);
+    pos = item.frame();
+    if (m_useOffset) {
+        pos -= m_inPoint;
+    }
+    slotPositionChanged(pos, true);
 }
 
 
@@ -473,15 +506,20 @@ void GeometryWidget::slotAddKeyframe(int pos)
     if (m_ui.widgetTimeWrapper->isHidden())
         return;
     Mlt::GeometryItem item;
-    if (pos == -1)
-        pos = m_timeline->value(); // m_timePos->getValue();
-    item.frame(pos);
-    QRect rect = m_monitor->effectRect().normalized();
-    item.x(rect.x());
-    item.y(rect.y());
-    item.w(rect.width());
-    item.h(rect.height());
-    item.mix(m_opacity->value());
+    int seekPos;
+    if (pos == -1) {
+        pos = m_timeline->value();
+        seekPos = pos;
+        if (m_useOffset)
+            seekPos -= m_inPoint;
+    } else {
+        seekPos = pos;
+    }
+    m_geometry->fetch(&item, pos);
+    item.x((int)item.x());
+    item.y((int)item.y());
+    item.w((int)item.w());
+    item.h((int)item.h());
     m_geometry->insert(item);
 
     for (int i = 0; i < m_extraGeometries.count(); ++i) {
@@ -498,32 +536,36 @@ void GeometryWidget::slotAddKeyframe(int pos)
     }
     checkSingleKeyframe();
     m_timeline->update();
-    slotPositionChanged(pos, false);
+    slotPositionChanged(seekPos, false);
     emit parameterChanged();
 }
 
 void GeometryWidget::slotDeleteKeyframe(int pos)
 {
     Mlt::GeometryItem item;
-    if (pos == -1)
-        pos = m_timePos->getValue();
+    int seekPos;
+    if (pos == -1) {
+        pos = m_timeline->value();
+        seekPos = pos;
+        if (m_useOffset)
+            seekPos -= m_inPoint;
+    } else {
+        seekPos = pos;
+    }
     // check there is more than one keyframe, do not allow to delete last one
     if (m_geometry->next_key(&item, pos + 1)) {
         if (m_geometry->prev_key(&item, pos - 1) || item.frame() == pos)
             return;
     }
     m_geometry->remove(pos);
-
     for (int i = 0; i < m_extraGeometries.count(); ++i) {
         Mlt::Geometry *geom = m_extraGeometries.at(i);
         geom->remove(pos);
     }
 
     m_timeline->update();
-    m_geometry->fetch(&item, pos);
-    m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
     checkSingleKeyframe();
-    slotPositionChanged(pos, false);
+    slotPositionChanged(seekPos, false);
     emit parameterChanged();
 }
 
@@ -531,11 +573,13 @@ void GeometryWidget::slotPreviousKeyframe()
 {
     Mlt::GeometryItem item;
     // Go to start if no keyframe is found
-    int currentPos = m_timePos->getValue();
+    int currentPos = m_timeline->value();
     int pos = 0;
-    if (!m_geometry->prev_key(&item, currentPos - 1) && item.frame() < currentPos)
+    if (!m_geometry->prev_key(&item, currentPos - 1) && item.frame() < currentPos) {
         pos = item.frame();
-
+        if (m_useOffset)
+            pos -= m_inPoint;
+    }
     slotPositionChanged(pos);
 }
 
@@ -544,8 +588,11 @@ void GeometryWidget::slotNextKeyframe()
     Mlt::GeometryItem item;
     // Go to end if no keyframe is found
     int pos = m_timeline->frameLength;
-    if (!m_geometry->next_key(&item, m_timeline->value() + 1))
+    if (!m_geometry->next_key(&item, m_timeline->value() + 1)) {
         pos = item.frame();
+        if (m_useOffset)
+            pos -= m_inPoint;
+    }
 
     slotPositionChanged(pos);
 }
@@ -553,7 +600,7 @@ void GeometryWidget::slotNextKeyframe()
 void GeometryWidget::slotAddDeleteKeyframe()
 {
     Mlt::GeometryItem item;
-    if (m_geometry->fetch(&item, m_timePos->getValue()) || item.key() == false)
+    if (m_geometry->fetch(&item, m_timeline->value()) || item.key() == false)
         slotAddKeyframe();
     else
         slotDeleteKeyframe();
@@ -612,7 +659,7 @@ void GeometryWidget::slotUpdateGeometryRect(const QRect r)
         pos = item.frame();
     } else {
         if (!m_fixedGeom) {
-            pos = m_timePos->getValue();
+            pos = m_timeline->value();
         }
         // get keyframe and make sure it is the correct one
         if (m_geometry->next_key(&item, pos) || item.frame() != pos) {
@@ -868,7 +915,7 @@ void GeometryWidget::slotResetKeyframes()
     item.h(m_monitor->render->renderHeight());
     item.mix(100);
     m_geometry->insert(item);
-    m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
+    m_timeline->setKeyGeometry(m_geometry, m_inPoint, m_outPoint, m_useOffset);
     m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
     slotPositionChanged(-1, false);
     emit parameterChanged();
@@ -901,8 +948,7 @@ void GeometryWidget::slotResetNextKeyframes()
         item.mix(100);
         m_geometry->insert(item);
     }
-    m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
-    m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
+    m_timeline->setKeyGeometry(m_geometry, m_inPoint, m_outPoint, m_useOffset);
     slotPositionChanged(-1, false);
     emit parameterChanged();
 }
@@ -946,8 +992,7 @@ void GeometryWidget::slotResetPreviousKeyframes()
         item.mix(100);
         m_geometry->insert(item);
     }
-    m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
-    m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
+    m_timeline->setKeyGeometry(m_geometry, m_inPoint, m_outPoint, m_useOffset);
     slotPositionChanged(-1, false);
     emit parameterChanged();
 }
@@ -998,8 +1043,7 @@ void GeometryWidget::importKeyframes(const QString &data, int maximum)
         item.mix(100);
         m_geometry->insert(item);
     }
-    m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
-    m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
+    m_timeline->setKeyGeometry(m_geometry, m_inPoint, m_outPoint, m_useOffset);
     slotPositionChanged(-1, false);
     emit parameterChanged();
 }
@@ -1008,7 +1052,7 @@ void GeometryWidget::slotUpdateRange(int inPoint, int outPoint)
 {
     m_inPoint = inPoint;
     m_outPoint = outPoint;
-    m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
+    m_timeline->setKeyGeometry(m_geometry, m_inPoint, m_outPoint, m_useOffset);
     m_timePos->setRange(0, m_outPoint - m_inPoint);
 }
 

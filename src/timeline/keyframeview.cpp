@@ -392,7 +392,6 @@ bool KeyframeView::activeParam(const QString &name) const
 const QString KeyframeView::serialize()
 {
     if (attachToEnd == -2) {
-        qDebug()<<" * * *SERIALIZE CUT";
         return m_keyAnim.serialize_cut();
     }
     int pos;
@@ -498,7 +497,6 @@ void KeyframeView::setOffset(int frames)
 {
     if (m_useOffset) {
         m_offset -= frames;
-        qDebug()<<"  ** * *SETTING OFFSET: "<<m_offset;
     }
 }
 
@@ -548,7 +546,6 @@ QString KeyframeView::cutAnimation(const QString &animation, int start, int dura
     props.set("keyframes", animation.toUtf8().constData());
     props.anim_get_double("keyframes", 0, fullduration);
     Mlt::Animation anim = props.get_animation("keyframes");
-    qDebug()<<"BEFORE ANIM: "<<anim.serialize_cut();
     if (start > 0 && !anim.is_key(start)) {
 	// insert new keyframe at start
 	double value = props.anim_get_double("keyframes", start, fullduration);
@@ -556,16 +553,13 @@ QString KeyframeView::cutAnimation(const QString &animation, int start, int dura
 	mlt_keyframe_type type = anim.keyframe_type(previous);
 	props.anim_set("keyframes", value, start, fullduration, type);
     }
-    qDebug()<<"END KFR AT: "<<start + duration - 1<<", FULL: "<<fullduration;
     if (!anim.is_key(start + duration)) {
 	double value = props.anim_get_double("keyframes", start + duration, fullduration);
-        qDebug()<<" **  *ADDING END KF: "<<start + duration - 1<<" = "<<value;
 	int previous = anim.previous_key(start + duration);
 	mlt_keyframe_type type = anim.keyframe_type(previous);
 	props.anim_set("keyframes", value, start + duration, fullduration, type);	
     }
     if (!doCut) {
-        qDebug()<<"RESULT ANIM: "<<anim.serialize_cut()<<"\n--------------------------\n\n";
         return anim.serialize_cut();
     }
     return anim.serialize_cut(start, start + duration - 1);

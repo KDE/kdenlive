@@ -494,7 +494,7 @@ void AbstractClipItem::movedKeyframe(QDomElement effect, int newpos, int oldpos,
                 if (str.section('=', 0, 0).toInt() != oldpos) {
                     newkfr.append(str);
                 } else if (newpos != -1) {
-                    newpos = qBound(0, newpos, end - start);
+                    newpos = qBound(0, newpos, end);
                     newkfr.append(QString::number(newpos) + '=' + str.section('=', 1, 1));
                 }
             }

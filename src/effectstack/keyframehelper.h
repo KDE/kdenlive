@@ -59,9 +59,10 @@ private:
     QColor m_keyframe;
     QList <Mlt::Geometry *>m_extraGeometries;
     int m_seekPosition;
-        
+    int m_offset;
+
 public slots:
-    void setKeyGeometry(Mlt::Geometry *geom, const int length);
+    void setKeyGeometry(Mlt::Geometry *geom, int in, int out, bool useOffset = false);
     void addGeometry(Mlt::Geometry *geom);
     void setValue(const int pos);
 

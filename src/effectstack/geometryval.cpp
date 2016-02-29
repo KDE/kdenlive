@@ -393,7 +393,7 @@ void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
     ////qDebug() << " / / UPDATING TRANSITION VALUE: " << m_geom->serialise();
     //read param her and set rect
     if (!m_fixedMode) {
-        m_helper->setKeyGeometry(m_geom, maxFrame - minFrame - 1);
+        m_helper->setKeyGeometry(m_geom, minFrame, maxFrame);
         m_helper->update();
         /*QDomDocument doc;
         doc.appendChild(doc.importNode(par, true));
@@ -581,7 +581,7 @@ bool Geometryval::keyframeSelected()
 
 void Geometryval::slotUpdateRange(int inPoint, int outPoint)
 {
-    m_helper->setKeyGeometry(m_geom, outPoint - inPoint - 1);
+    m_helper->setKeyGeometry(m_geom, inPoint, outPoint);
     m_helper->update();
     m_timePos.setRange(0, outPoint - inPoint - 1);
 }

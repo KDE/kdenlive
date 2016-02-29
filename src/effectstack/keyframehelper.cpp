@@ -45,6 +45,7 @@ KeyframeHelper::KeyframeHelper(QWidget *parent) :
   , m_movingItem()
   , m_hoverKeyframe(-1)
   , m_seekPosition(SEEK_INACTIVE)
+  , m_offset(0)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setMouseTracking(true);
@@ -70,10 +71,10 @@ void KeyframeHelper::mousePressEvent(QMouseEvent * event)
     int headOffset = m_lineHeight / 1.5;
     if (m_geom != NULL && (event->y() <= headOffset)) {
         // check if we want to move a keyframe
-        int mousePos = qMax((int)(xPos / m_scale), 0);
+        int mousePos = qMax((int)(xPos / m_scale), 0) + m_offset;
         Mlt::GeometryItem item;
         if (m_geom->next_key(&item, mousePos) == 0) {
-            if (qAbs(item.frame() * m_scale - xPos) < headOffset) {
+            if (qAbs((item.frame() - m_offset)* m_scale - xPos) < headOffset) {
                 m_movingItem.x(item.x());
                 m_movingItem.y(item.y());
                 m_movingItem.w(item.w());
@@ -123,7 +124,7 @@ void KeyframeHelper::mouseMoveEvent(QMouseEvent * event)
     int xPos = event->x() - margin;
     int headOffset = m_lineHeight / 1.5;
     if (event->buttons() == Qt::NoButton) {
-        int mousePos = qMax((int)(xPos / m_scale), 0);
+        int mousePos = qMax((int)(xPos / m_scale), 0) + m_offset;
         if (qAbs(m_position * m_scale - xPos) < m_lineHeight && event->y() >= m_lineHeight) {
             // Mouse over time cursor
             if (m_hoverKeyframe != -2) {
@@ -137,7 +138,7 @@ void KeyframeHelper::mouseMoveEvent(QMouseEvent * event)
             // check if we want to move a keyframe
             Mlt::GeometryItem item;
             if (m_geom->next_key(&item, mousePos) == 0) {
-                if (qAbs(item.frame() * m_scale - xPos) < headOffset) {
+                if (qAbs((item.frame() - m_offset) * m_scale - xPos) < headOffset) {
                     if (m_hoverKeyframe == item.frame()) return;
                     m_hoverKeyframe = item.frame();
                     setCursor(Qt::PointingHandCursor);
@@ -167,7 +168,7 @@ void KeyframeHelper::mouseMoveEvent(QMouseEvent * event)
         int pos = qBound(0, (int)(xPos / m_scale), frameLength);
         if (KdenliveSettings::snaptopoints() && qAbs(pos - m_position) < headOffset)
             pos = m_position;
-        m_movingItem.frame(pos);
+        m_movingItem.frame(pos + m_offset);
         for (int i = 0; i < m_extraMovingItems.count(); ++i) {
             if (m_extraMovingItems.at(i))
                 m_extraMovingItems[i]->frame(pos);
@@ -188,7 +189,7 @@ void KeyframeHelper::mouseDoubleClickEvent(QMouseEvent * event)
     if (m_geom != NULL && event->button() == Qt::LeftButton) {
         // check if we want to move a keyframe
         int xPos = event->x() - margin;
-        int mousePos = qMax((int)(xPos / m_scale - 5), 0);
+        int mousePos = qMax((int)(xPos / m_scale - 5), 0) + m_offset;
         Mlt::GeometryItem item;
         if (m_geom->next_key(&item, mousePos) == 0 && item.frame() - mousePos < 10) {
             // There is already a keyframe close to mouse click
@@ -196,7 +197,7 @@ void KeyframeHelper::mouseDoubleClickEvent(QMouseEvent * event)
             return;
         }
         // add new keyframe
-        emit addKeyframe((int)(xPos / m_scale));
+        emit addKeyframe((int)(xPos / m_scale) + m_offset);
     }
 }
 
@@ -253,14 +254,19 @@ void KeyframeHelper::paintEvent(QPaintEvent *e)
     m_scale = (double) (width() - 2 * margin) / frameLength;
     int headOffset = m_lineHeight / 1.5;
     if (m_geom != NULL) {
-        int pos = 0;
+        int pos = m_offset;
         Mlt::GeometryItem item;
         while (true) {
             if (m_geom->next_key(&item, pos) == 1) break;
             pos = item.frame();
-            int scaledPos = margin + pos * m_scale;
+            int offsetPos = pos - m_offset;
+            if (offsetPos < 0) {
+                pos++;
+                continue;
+            }
+            int scaledPos = margin + offsetPos * m_scale;
             // draw keyframes
-            if (pos == m_position || pos == m_hoverKeyframe) {
+            if (offsetPos == m_position || offsetPos == m_hoverKeyframe) {
                 // active keyframe
                 p.setBrush(m_selected);
                 p.setPen(m_selected);
@@ -275,7 +281,7 @@ void KeyframeHelper::paintEvent(QPaintEvent *e)
         }
         if (m_movingKeyframe) {
             p.setBrush(m_selected);
-            int scaledPos = margin + (int)(m_movingItem.frame() * m_scale);
+            int scaledPos = margin + (int)((m_movingItem.frame() - m_offset) * m_scale);
             // draw keyframes
             p.drawLine(scaledPos, headOffset, scaledPos, m_size);
             p.drawEllipse(scaledPos - headOffset / 2, 0, headOffset, headOffset);
@@ -305,7 +311,7 @@ void KeyframeHelper::paintEvent(QPaintEvent *e)
 int KeyframeHelper::value() const
 {
     if (m_seekPosition == SEEK_INACTIVE) {
-        return m_position;
+        return m_position + m_offset;
     }
     return m_seekPosition;
 }
@@ -321,10 +327,11 @@ void KeyframeHelper::setValue(const int pos)
     update();
 }
 
-void KeyframeHelper::setKeyGeometry(Mlt::Geometry *geom, const int length)
+void KeyframeHelper::setKeyGeometry(Mlt::Geometry *geom, int in, int out, bool useOffset)
 {
     m_geom = geom;
-    frameLength = qMax(1, length);
+    m_offset = useOffset ? in : 0;
+    frameLength = qMax(1, out - in);
     update();
 }
 

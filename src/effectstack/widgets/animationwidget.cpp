@@ -1083,7 +1083,6 @@ void AnimationWidget::offsetAnimation(int offset)
             m_animProperties.anim_set(offsetAnimation.toUtf8().constData(), val, pos + offset, m_outPoint, type);
         }
         Mlt::Animation offsetAnim = m_animProperties.get_animation(offsetAnimation.toUtf8().constData());
-        qDebug()<<"ANIMS:"<<offset<<"\n"<<m_animController.serialize_cut()<<"\n--------\nn"<<offsetAnim.serialize_cut();
         m_animProperties.set(i.key().toUtf8().constData(), offsetAnim.serialize_cut());
         // Required to initialize anim property
         m_animProperties.anim_get_int(i.key().toUtf8().constData(), 0, m_outPoint);

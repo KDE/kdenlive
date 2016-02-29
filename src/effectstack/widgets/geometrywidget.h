@@ -44,7 +44,7 @@ public:
     * @param timecode Timecode needed by timecode display widget
     * @param clipPos Position of the clip in timeline
     * @param parent (optional) Parent widget */
-    explicit GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotation, QWidget* parent = 0);
+    explicit GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotation, bool useOffset, QWidget* parent = 0);
     virtual ~GeometryWidget();
     /** @brief Gets the geometry as a serialized string. */
     QString getValue() const;
@@ -56,6 +56,7 @@ public:
     void addParameter(const QDomElement &elem);
     void importKeyframes(const QString &data, int maximum);
     int currentPosition() const;
+    QString offsetAnimation(int offset, bool useOffset);
 
 public slots:
     /** @brief Sets up the rect and the geometry object.
@@ -104,6 +105,8 @@ private:
     bool m_fixedGeom;
     /** @brief True if there is only one keyframe in this geometry. */
     bool m_singleKeyframe;
+    /** @brief Should we use an offset when displaying keyframes (when effect is not synced with producer). */
+    bool m_useOffset;
     /** @brief Update monitor rect with current width / height values. */
     void updateMonitorGeometry();
     /** @brief Calculate the path for rectangle center moves. */

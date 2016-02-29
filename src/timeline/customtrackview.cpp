@@ -7742,7 +7742,6 @@ void CustomTrackView::slotRefreshThumbs(const QString &id, bool resetThumbs)
 
 void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, QUndoCommand* command)
 {
-    qDebug()<<" ** * * * ADJUST EFFECTs TO DURATION";
     QMap<int, QDomElement> effects = item->adjustEffectsToDuration(m_document->width(), m_document->height(), oldInfo);
 
     if (!effects.isEmpty()) {

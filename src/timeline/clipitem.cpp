@@ -400,18 +400,25 @@ void ClipItem::setSelectedEffect(const int ix)
     }
 }
 
-bool ClipItem::resizeGeometries(const int index, int width, int height, int previousDuration, int start, int duration, int cropDuration)
+bool ClipItem::resizeGeometries(const int index, int width, int height, int previousDuration, int start, int duration, int cropstart)
 {
     QString geom;
     bool modified = false;
     QDomElement effect = m_effectList.at(index);
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
+    bool cut = effect.attribute(QStringLiteral("kdenlive:sync_in_out")).toInt() == 1;
+    if (!cut) {
+        return false;
+    }
+    qDebug()<<" // / CUTTED CLIP: "<<start<<", CROP: "<<cropstart;
+    effect.setAttribute(QStringLiteral("in"), QString::number(cropstart));
+    effect.setAttribute(QStringLiteral("out"), QString::number(cropstart + duration));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull() && e.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
             geom = e.attribute(QStringLiteral("value"));
             Mlt::Geometry geometry(geom.toUtf8().data(), previousDuration, width, height);
-            e.setAttribute(QStringLiteral("value"), geometry.serialise(start, start + duration + cropDuration));
+            e.setAttribute(QStringLiteral("value"), geometry.serialise(start, start + duration));
             modified = true;
         }
     }
@@ -1842,21 +1849,22 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
             QString type = param.attribute(QStringLiteral("type"));
             if (type == QLatin1String("geometry") && !param.hasAttribute(QStringLiteral("fixed"))) {
                 if (!effects.contains(i)) {
-                    /*effect.setAttribute(QStringLiteral("in"), cropStart().frames(m_fps));
-                    effect.setAttribute(QStringLiteral("out"), (cropStart() + cropDuration()).frames(m_fps) - 1);*/
+                    if (effect.attribute(QStringLiteral("kdenlive:sync_in_out")) == QLatin1String("1")) {
+                        effect.setAttribute(QStringLiteral("in"), cropStart().frames(m_fps));
+                        effect.setAttribute(QStringLiteral("out"), (cropStart() + cropDuration()).frames(m_fps) - 1);
+                    }
                     effects[i] = effect.cloneNode().toElement();
                 }
-                updateGeometryKeyframes(effect, j, width, height, oldInfo);
+                //updateGeometryKeyframes(effect, j, width, height, oldInfo);
             } else if (type == QLatin1String("simplekeyframe") || type == QLatin1String("keyframe")) {
                 if (!effects.contains(i))
                     effects[i] = effect.cloneNode().toElement();
                 updateNormalKeyframes(param, oldInfo);
             } else if (type == QLatin1String("animated")) {
                 if (effect.attribute(QStringLiteral("kdenlive:sync_in_out")) == QLatin1String("1")) {
-                    qDebug()<<" * * * *ADJUSTING EEFCT in/out";
                     effect.setAttribute(QStringLiteral("in"), cropStart().frames(m_fps));
                     effect.setAttribute(QStringLiteral("out"), (cropStart() + cropDuration()).frames(m_fps) - 1);
-                } else qDebug()<<" * * * *NOT ADJUSTING EEFCT in/out";
+                }
 		effects[i] = effect.cloneNode().toElement();
             } else if (type == QLatin1String("roto-spline")) {
                 if (!effects.contains(i))

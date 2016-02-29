@@ -260,7 +260,11 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         } else if (type == QLatin1String("geometry")) {
             if (true /*KdenliveSettings::on_monitor_effects()*/) {
                 m_monitorEffectScene = MonitorSceneGeometry;
-                m_geometryWidget = new GeometryWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()), effect.hasAttribute(QStringLiteral("showrotation")), parent);
+                bool useOffset = false;
+                if (effect.tagName() == QLatin1String("effect") && effect.hasAttribute(QStringLiteral("kdenlive:sync_in_out")) && effect.attribute(QStringLiteral("kdenlive:sync_in_out")).toInt() == 0) {
+                    useOffset = true;
+                }
+                m_geometryWidget = new GeometryWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()), effect.hasAttribute(QStringLiteral("showrotation")), useOffset, parent);
                 connect(m_geometryWidget, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
                 if (minFrame == maxFrame) {
                     m_geometryWidget->setupParam(pa, m_in, m_out);
@@ -563,6 +567,7 @@ void ParameterContainer::toggleSync(bool enable)
     m_effect.setAttribute(QStringLiteral("kdenlive:sync_in_out"), enable ? "1" : "0");
     if (!enable) {
         int oldIn = m_effect.attribute(QStringLiteral("in")).toInt();
+        // geometry / animation attached to 0
         if (oldIn > 0) {
             if (m_animationWidget) {
                 // Switch keyframes offset
@@ -583,12 +588,20 @@ void ParameterContainer::toggleSync(bool enable)
             }
             if (m_geometryWidget) {
                 // Switch keyframes offset
-                //m_geometryWidget->offsetAnimation(oldIn);
+                QString updated = m_geometryWidget->offsetAnimation(oldIn, true);
+                QDomNodeList namenode = m_effect.elementsByTagName(QStringLiteral("parameter"));
+                for (int i = 0; i < namenode.count() ; ++i) {
+                    QDomElement pa = namenode.item(i).toElement();
+                    if (pa.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
+                        pa.setAttribute(QStringLiteral("value"), updated);
+                    }
+                }
             }
         }
         m_effect.removeAttribute(QStringLiteral("in"));
         m_effect.removeAttribute(QStringLiteral("out"));
     } else {
+        // geometry / animation attached to clip's crop start
         if (m_in > 0) {
             if (m_animationWidget) {
                 // Switch keyframes offset
@@ -609,7 +622,14 @@ void ParameterContainer::toggleSync(bool enable)
             }
             if (m_geometryWidget) {
                 // Switch keyframes offset
-                //m_geometryWidget->offsetAnimation(oldIn);
+                QString updated = m_geometryWidget->offsetAnimation(-m_in, false);
+                QDomNodeList namenode = m_effect.elementsByTagName(QStringLiteral("parameter"));
+                for (int i = 0; i < namenode.count() ; ++i) {
+                    QDomElement pa = namenode.item(i).toElement();
+                    if (pa.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
+                        pa.setAttribute(QStringLiteral("value"), updated);
+                    }
+                }
             }
         }
         m_effect.setAttribute(QStringLiteral("in"), QString::number(m_in));
