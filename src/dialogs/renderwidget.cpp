@@ -892,7 +892,7 @@ void RenderWidget::focusFirstVisibleItem(const QString &profile, const QString &
 {
     QTreeWidgetItem *item = 0;
     if (!profile.isEmpty()) {
-        QList <QTreeWidgetItem *> items = m_view.formats->findItems(profile, Qt::MatchExactly);
+        QList <QTreeWidgetItem *> items = m_view.formats->findItems(profile, Qt::MatchExactly | Qt::MatchRecursive);
         if (!items.isEmpty())
             if (!category.isEmpty())
                 foreach(item, items)
