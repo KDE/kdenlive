@@ -2112,11 +2112,11 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
                             subeffect.setAttribute(QStringLiteral("kdenlive_info"), effectInfo.toString());
                         }
                     }
-                    processEffect(item, subeffect, offset, effectCommand);
+                    processEffect(item, subeffect.cloneNode().toElement(), offset, effectCommand);
                 }
             }
             else {
-                processEffect(item, effect, offset, effectCommand);
+                processEffect(item, effect.cloneNode().toElement(), offset, effectCommand);
             }
         }
     }
