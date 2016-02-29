@@ -1676,12 +1676,11 @@ void MainWindow::connectDocument()
     connect(m_effectStack, SIGNAL(addEffect(ClipItem*,QDomElement,int)), trackView->projectView(), SLOT(slotAddEffect(ClipItem*,QDomElement,int)));
     connect(m_effectStack, SIGNAL(changeEffectState(ClipItem*,int,QList<int>,bool)), trackView->projectView(), SLOT(slotChangeEffectState(ClipItem*,int,QList<int>,bool)));
     connect(m_effectStack, SIGNAL(changeEffectPosition(ClipItem*,int,QList<int>,int)), trackView->projectView(), SLOT(slotChangeEffectPosition(ClipItem*,int,QList<int>,int)));
-    
+
     connect(m_effectStack, SIGNAL(refreshEffectStack(ClipItem*)), trackView->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
     connect(m_effectStack, SIGNAL(seekTimeline(int)), trackView->projectView(), SLOT(seekCursorPos(int)));
     connect(m_effectStack, SIGNAL(importClipKeyframes(GraphicsRectItem, QMap<QString,QString>)), trackView->projectView(), SLOT(slotImportClipKeyframes(GraphicsRectItem, QMap<QString,QString>)));
-    
-    
+
     // Transition config signals
     connect(m_effectStack->transitionConfig(), SIGNAL(transitionUpdated(Transition*,QDomElement)), trackView->projectView() , SLOT(slotTransitionUpdated(Transition*,QDomElement)));
     connect(m_effectStack->transitionConfig(), SIGNAL(importClipKeyframes(GraphicsRectItem, QMap<QString,QString>)), trackView->projectView() , SLOT(slotImportClipKeyframes(GraphicsRectItem, QMap<QString,QString>)));

@@ -52,7 +52,7 @@ private:
 protected:
     void dragEnterEvent(QDragEnterEvent * event );
     void dropEvent(QDropEvent * event );
-    
+
 public slots:
     void slotTransitionItemSelected(Transition* t, int nextTrack, const QPoint &p, bool update);
     void slotTransitionChanged(bool reinit = true, bool updateCurrent = false);
@@ -65,6 +65,7 @@ private slots:
     void slotRenderPos(int pos);
     void slotSeekTimeline(int pos);
     void slotCheckMonitorPosition(int renderPos);
+    void prepareImportClipKeyframes(GraphicsRectItem, QMap<QString,QString> data);
 
 signals:
     void transitionUpdated(Transition *, const QDomElement&);

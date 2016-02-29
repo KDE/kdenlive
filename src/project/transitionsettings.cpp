@@ -46,7 +46,7 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     vbox1->addWidget(m_effectEdit);
     frame->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     connect(m_effectEdit, &EffectStackEdit::seekTimeline, this, &TransitionSettings::slotSeekTimeline);
-    connect(m_effectEdit, &EffectStackEdit::importClipKeyframes, this, &TransitionSettings::importClipKeyframes);
+    connect(m_effectEdit, &EffectStackEdit::importClipKeyframes, this, &TransitionSettings::prepareImportClipKeyframes);
 
     setEnabled(false);
     setAcceptDrops(true);
@@ -73,6 +73,11 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     connect(transitionList, SIGNAL(activated(int)), this, SLOT(slotTransitionChanged()));
     connect(transitionTrack, SIGNAL(activated(int)), this, SLOT(slotTransitionTrackChanged()));
     connect(m_effectEdit, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this , SLOT(slotUpdateEffectParams(QDomElement,QDomElement)));
+}
+
+void TransitionSettings::prepareImportClipKeyframes(GraphicsRectItem, QMap<QString,QString> data)
+{
+    emit importClipKeyframes(TransitionWidget, data);
 }
 
 void TransitionSettings::refreshIcons()

@@ -7803,7 +7803,7 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, QMap<QStrin
     }
     else if (data.isEmpty()) {
         // Import keyframes from current clip to its effect
-        if (m_dragItem) item = static_cast<ClipItem*> (m_dragItem);
+        if (m_dragItem && m_dragItem->type() == AVWidget) item = static_cast<ClipItem*> (m_dragItem);
     }
 
     if (!item && data.isEmpty()) {
