@@ -41,6 +41,12 @@
 #include <QObject>
 #include <QNetworkReply>
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+static QString OAuth2_strClientSecret ="441d88374716e7a3503997151e4780566f007313";   //obtained when ttguy registered the kdenlive application with freesound
+#endif /* DOXYGEN_SHOULD_SKIP_THIS ^^^ don't make this any more public than it is. This preprocessing directive makes the Doxygen documention ignore this line */
+
+#ifdef QT5_USE_WEBKIT
+
 class LoginDialog;
 
 /**
@@ -137,5 +143,7 @@ private:
     LoginDialog* m_pLoginDialog;
     QWidget* m_pParent;
 };
+
+#endif // QT5_USE_WEBKIT
 
 #endif // OAUTH2_H

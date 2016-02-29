@@ -29,16 +29,13 @@
 
 #include <QDialog>
 #include <kio/jobclasses.h>
-#include "qt-oauth-lib/oauth2.h"
 #include <QNetworkReply>
 
-
-
-class KPixmapSequenceOverlayPainter;
 class QAction;
 class QNetworkConfigurationManager;
 class QTemporaryFile;
 class QMovie;
+class OAuth2;
 
 /**
   \brief This is the window that appears from Project>Online Resources
@@ -56,10 +53,6 @@ class ResourceWidget : public QDialog, public Ui::FreeSound_UI
 public:
     explicit ResourceWidget(const QString & folder, QWidget * parent = 0);
     ~ResourceWidget();
-
-//private:
-//    OAuth2*  m_pOAuth2;
-
 
 private slots:
     void slotStartSearch(int page = 0);
@@ -93,7 +86,7 @@ private slots:
     void slotAccessTokenReceived(QString sAccessToken);
     void slotFreesoundUseHQPreview();
     void slotFreesoundCanceled();
-
+    void slotSearchFinished();
     void slotLoadPreview(const QString &url);
     void slotLoadAnimatedGif(KJob *job);
 
@@ -111,7 +104,6 @@ private:
     QString  mSaveLocation;
     AbstractService *m_currentService;
     OnlineItemInfo m_currentInfo;
-    KPixmapSequenceOverlayPainter *m_busyWidget;
     QAction *m_autoPlay;
     QTemporaryFile *m_tmpThumbFile;
     QString m_title;

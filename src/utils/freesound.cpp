@@ -65,17 +65,15 @@ void FreeSound::slotStartSearch(const QString &searchText, int page)
 {
     // ver  2 of freesound API
     m_listWidget->clear();
-
     QString uri = "https://www.freesound.org/apiv2/search/text/?format=json&query=";
     uri.append(searchText);
     if (page > 1)
         uri.append("&page=" + QString::number(page));
-    uri.append("&token="  + OAuth2::m_strClientSecret);
 
+    uri.append("&token="  + OAuth2_strClientSecret);
    //  qDebug()<<uri;
     KIO::StoredTransferJob* resolveJob = KIO::storedGet( QUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
     connect(resolveJob, &KIO::StoredTransferJob::result, this, &FreeSound::slotShowResults);
-
 }
 
 /**
@@ -133,10 +131,7 @@ void FreeSound::slotShowResults(KJob* job)
 
                                     item->setData(authorUrl, "http://freesound.org/people/" + soundmap.value("username").toString());
                                     item->setData(licenseRole, soundmap.value("license"));
-                                    item->setData(infoData,"http://www.freesound.org/apiv2/sounds/"+ vid.toString() +"/?format=json&token=" + OAuth2::m_strClientSecret);
-
-
-
+                                    item->setData(infoData, "http://www.freesound.org/apiv2/sounds/"+ vid.toString() +"/?format=json&token=" + OAuth2_strClientSecret);
                                 }
                             }
                         }
@@ -185,7 +180,6 @@ OnlineItemInfo FreeSound::displayItemDetails(QListWidgetItem *item)
         // when the KJob resolveJob emits a result signal slotParseResults will be notified
         connect(resolveJob, &KJob::result, this, &FreeSound::slotParseResults);
     }
-
     return info;
 }
 
@@ -197,7 +191,6 @@ OnlineItemInfo FreeSound::displayItemDetails(QListWidgetItem *item)
  */
 void FreeSound::slotParseResults(KJob* job)
 {
-
     KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
     QJsonParseError jsonError;
     QJsonDocument doc = QJsonDocument::fromJson(storedQueryJob->data(), &jsonError);
@@ -210,16 +203,16 @@ void FreeSound::slotParseResults(KJob* job)
 
     if (data.canConvert(QVariant::Map)) {
         QMap <QString, QVariant> info = data.toMap();
-        
+
         html += "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\">";
-    
+
         if (info.contains("duration")) {
 	    html += "<tr>";
             html += "<td>" + i18n("Duration (s)") + "</td><td>" + QString::number( info.value("duration").toDouble()) + "</td></tr>";
             m_metaInfo.remove(i18n("Duration"));
             m_metaInfo.insert(i18n("Duration"),  info.value("duration").toString());
         }
-        
+
         if (info.contains("samplerate")) {
             html += "<tr class=\"cellone\">";
             html += "<td>" + i18n("Samplerate") + "</td><td>" + QString::number(info.value("samplerate").toDouble()) + "</td></tr>";
@@ -244,14 +237,13 @@ void FreeSound::slotParseResults(KJob* job)
         if (info.contains("previews")) {
             QMap <QString, QVariant> previews = info.value("previews").toMap();
 
-
             if (previews.contains("preview-lq-mp3")) {
                 m_metaInfo.insert("itemPreview", previews.value("preview-lq-mp3").toString());
             }
 
-            if (previews.contains("preview-hq-mp3")) {// Can use the high qual preview as alternative download if user does not have a free sound account
+            if (previews.contains("preview-hq-mp3")) {
+                // Can use the HQ preview as alternative download if user does not have a freesound account
                m_metaInfo.insert("HQpreview", previews.value("preview-hq-mp3").toString());
-
             }
 
         }
@@ -286,18 +278,17 @@ void FreeSound::slotParseResults(KJob* job)
  * @return
  */
 bool FreeSound::startItemPreview(QListWidgetItem *item)
-{    
+{
     if (!item)
         return false;
     const QString url = m_metaInfo.value("itemPreview");
     if (url.isEmpty())
         return false;
     if (m_previewProcess) {
-	    if (m_previewProcess->state() != QProcess::NotRunning) {
-		    m_previewProcess->close();
-		}
-       // m_previewProcess->start(KdenliveSettings::ffplaypath() + " " +  url  + " -nodisp -autoexit");
-       qDebug()<<KdenliveSettings::ffplaypath() + " " +  url  + " -nodisp -autoexit";
+        if (m_previewProcess->state() != QProcess::NotRunning) {
+            m_previewProcess->close();
+        }
+        qDebug()<<KdenliveSettings::ffplaypath() + " " +  url  + " -nodisp -autoexit";
         m_previewProcess->start(KdenliveSettings::ffplaypath(), QStringList() << url << QStringLiteral("-nodisp") << QStringLiteral("-autoexit"));
 
 	}
@@ -357,14 +348,14 @@ QString FreeSound::getDefaultDownloadName(QListWidgetItem *item)
  * emits signal picked up by ResourceWidget that ResouceWidget uses
  * to set the Preview button back to the text Preview (it will say "Stop" before this.)
  */
-void FreeSound::slotPreviewFinished(int  exitCode, QProcess::ExitStatus exitStatus)
+void FreeSound::slotPreviewFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
-
-     emit previewFinished();
-
+    Q_UNUSED(exitCode);
+    Q_UNUSED(exitStatus);
+    emit previewFinished();
 }
 
 void FreeSound::slotPreviewErrored(QProcess::ProcessError error)
 {
-  qDebug()<< error;
+    qDebug()<< error;
 }

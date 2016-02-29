@@ -43,7 +43,6 @@ endif(NOT MLT_MELTBIN_failed)
 option(WITH_JogShuttle "Build Jog/Shuttle support" ON)
 
 set(FFMPEG_SUFFIX "" CACHE STRING "FFmpeg custom suffix")
-find_package (Qt5WebKitWidgets)
 find_package(LibV4L2)
 set_package_properties(LibV4L2 PROPERTIES 
                 DESCRIPTION "Collection of video4linux support libraries"
@@ -108,7 +107,9 @@ add_subdirectory(onmonitoritems/rotoscoping)
 add_subdirectory(mltcontroller)
 add_subdirectory(bin)
 add_subdirectory(qml)
-add_subdirectory(qt-oauth-lib)
+if (Qt5WebKitWidgets_FOUND)
+  add_subdirectory(qt-oauth-lib)
+endif(Qt5WebKitWidgets_FOUND)
 add_subdirectory(library)
 
 list(APPEND kdenlive_SRCS
@@ -263,7 +264,6 @@ target_link_libraries(kdenlive
    KF5::TextWidgets
    KF5::IconThemes
    KF5::Crash
-   Qt5::WebKitWidgets
   ${Qt5_LIBRARIES}
   Qt5::Svg
   ${OPENGL_LIBRARIES}
@@ -281,6 +281,15 @@ if (KF5_FILEMETADATA)
 endif()
 
 qt5_use_modules( kdenlive Script Widgets Concurrent Qml Quick)
+
+if (Qt5WebKitWidgets_FOUND)
+  message(STATUS "Found Qt5 WebKitWidgets. You can use your Freesound.org credentials to download files")
+  add_definitions(-DQT5_USE_WEBKIT)
+  target_link_libraries(kdenlive Qt5::WebKitWidgets)
+else()
+  message(STATUS "Qt5 WebKitWidgets not found. You cannot use your Freesound.org credentials, only preview files can be downloaded from the Online Resources Widget")
+endif()
+
 
 if(Q_WS_X11)
   include_directories(${X11_Xlib_INCLUDE_PATH})

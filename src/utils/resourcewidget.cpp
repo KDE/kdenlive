@@ -44,7 +44,6 @@
 #include <KRun>
 #include <KConfigGroup>
 #include <KPixmapSequence>
-#include <KPixmapSequenceOverlayPainter>
 #include <KFileItem>
 #include <KMessageBox>
 #include <QUrlQuery>
@@ -55,7 +54,9 @@
 #include <QMovie>
 #include <QPixmap>
 
-
+#ifdef QT5_USE_WEBKIT
+#include "qt-oauth-lib/oauth2.h"
+#endif
 
 ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     QDialog(parent),
@@ -68,9 +69,6 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     setAttribute(Qt::WA_DeleteOnClose);
 
     m_tmpThumbFile = new QTemporaryFile;
-
-
-
     service_list->addItem(i18n("Freesound Audio Library"), FREESOUND);
     service_list->addItem(i18n("Archive.org Video Library"), ARCHIVEORG);
     service_list->addItem(i18n("Open Clip Art Graphic Library"), OPENCLIPART);
@@ -85,7 +83,6 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     connect(item_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
     connect(service_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChangeService()));
 
-    
     m_networkManager = new QNetworkConfigurationManager(this);
 
     if (!m_networkManager->isOnline()) {
@@ -98,7 +95,7 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     connect(info_browser, SIGNAL(anchorClicked(QUrl)), this, SLOT(slotOpenLink(QUrl)));
 
     m_networkAccessManager = new QNetworkAccessManager(this);
-    
+
     m_autoPlay = new QAction(i18n("Auto Play"), this);
     m_autoPlay->setCheckable(true);
     QMenu *resourceMenu = new QMenu;
@@ -106,19 +103,17 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     config_button->setMenu(resourceMenu);
     config_button->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
 
-    m_busyWidget = new KPixmapSequenceOverlayPainter(this);
-    m_busyWidget->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    m_busyWidget->setWidget(search_results->viewport());
-
     sound_box->setEnabled(false);
     search_text->setFocus();
+    connect(search_text, SIGNAL(returnPressed()), this, SLOT(slotStartSearch()));
 
-
+#ifdef QT5_USE_WEBKIT
     m_pOAuth2 = new OAuth2(this);
     connect(m_pOAuth2, SIGNAL(accessTokenReceived(QString)), this, SLOT(slotAccessTokenReceived(QString)));
     connect(m_pOAuth2, SIGNAL(accessDenied()), this, SLOT(slotFreesoundAccessDenied()));
     connect(m_pOAuth2, SIGNAL( UseHQPreview()), this, SLOT(slotFreesoundUseHQPreview()));
     connect(m_pOAuth2, SIGNAL(Canceled()), this, SLOT(slotFreesoundCanceled()));
+#endif
     m_currentService = new FreeSound(search_results);
     m_currentService->slotStartSearch("dummy", 0);// Run a dummy search to initialise the search.
                                     // for reasons I (ttguy) can not fathom the first search that gets run fails
@@ -170,7 +165,7 @@ void ResourceWidget::saveConfig()
  */
 void ResourceWidget::slotStartSearch(int page)
 {
-    m_busyWidget->start();
+    this->setCursor(Qt::WaitCursor);
     info_browser->clear();
     page_number->blockSignals(true);
     page_number->setValue(page);
@@ -338,7 +333,7 @@ void ResourceWidget::slotPlaySound()
     if (!m_currentService)
         return;
     caption= button_preview->text();
-    if (caption.contains( sPreview))
+    if (caption.contains(sPreview))
     {
         const bool started = m_currentService->startItemPreview(search_results->currentItem());
         if (started)
@@ -381,10 +376,13 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
 
         if(m_currentService->serviceType==FREESOUND)
         {
-            sFileExt=m_currentService->getExtension(search_results->currentItem());
+#ifdef QT5_USE_WEBKIT
+            sFileExt = m_currentService->getExtension(search_results->currentItem());
+#else
+            sFileExt = QStringLiteral("*.") + m_currentInfo.HQpreview.section('.', -1);
+#endif
             if ( sFileExt.isEmpty())
                 sFileExt=QStringLiteral("*.") + m_currentInfo.fileType;// if the file name had no extension then use the file type freesound says it is.
-
             ext ="Audio ("+ sFileExt +");;All Files(*.*)";
 
         }
@@ -408,6 +406,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
     }
     slotSetDescription("");
     button_import->setEnabled(false); // disable buttons while download runs. enabled in slotGotFile
+#ifdef QT5_USE_WEBKIT
     if(m_currentService->serviceType==FREESOUND)// open a dialog to authenticate with free sound and download the file
     {
         m_pOAuth2->obtainAccessToken();// when  job finished   ResourceWidget::slotAccessTokenReceived will be called
@@ -416,6 +415,14 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
     {
         DoFileDownload(srcUrl, QUrl (saveUrl));
     }
+#else
+    saveUrl=QUrl::fromLocalFile (mSaveLocation);
+    if(m_currentService->serviceType==FREESOUND) {
+        // No OAuth, default to HQ preview
+        srcUrl = QUrl(m_currentInfo.HQpreview);
+    }
+    DoFileDownload(srcUrl, QUrl (saveUrl));
+#endif
 }
 
 /**
@@ -501,7 +508,7 @@ void ResourceWidget::slotGotFile(KJob *job)
         KIO::FileCopyJob* copyJob = static_cast<KIO::FileCopyJob*>( job );
         const QUrl filePath = copyJob->destUrl();
 
-        KMessageBox::information(this,i18n( "Resource saved to ") + filePath.toString(), i18n("Data Imported"));
+        KMessageBox::information(this,i18n( "Resource saved to ") + filePath.path(), i18n("Data Imported"));
         emit addClip(filePath);
     }
 }
@@ -543,7 +550,7 @@ void ResourceWidget::slotChangeService()
     connect(m_currentService, SIGNAL(maxPages(int)), this, SLOT(slotSetMaximum(int)));
     connect(m_currentService, SIGNAL(searchInfo(QString)), search_info, SLOT(setText(QString)));
     connect(m_currentService, SIGNAL(gotThumb(QString)), this, SLOT(slotLoadThumb(QString)));
-    connect(m_currentService, SIGNAL(searchDone()), m_busyWidget, SLOT(stop()));
+    connect(m_currentService, SIGNAL(searchDone()), this, SLOT(slotSearchFinished()));
     if (m_currentService->hasPreview)
         connect (m_currentService,SIGNAL(previewFinished()),this, SLOT(slotPreviewFinished()));
 
@@ -555,6 +562,12 @@ void ResourceWidget::slotChangeService()
     if (!search_text->text().isEmpty())
         slotStartSearch();// automatically kick of a search if we have search text and we switch services.
 }
+
+void ResourceWidget::slotSearchFinished()
+{
+    this->setCursor(Qt::ArrowCursor);
+}
+
 /**
  * @brief ResourceWidget::slotSetMaximum
  * @param max
@@ -857,7 +870,9 @@ void ResourceWidget::DownloadRequestFinished(QNetworkReply* reply)
             }
             else
             {
+#ifdef QT5_USE_WEBKIT
                 m_pOAuth2->ForgetAccessToken();
+#endif
                 m_desc.append("<br>" + i18n("Error Saving File"));
                 updateLayout();
 
@@ -869,14 +884,16 @@ void ResourceWidget::DownloadRequestFinished(QNetworkReply* reply)
 
              if (reply->error()==QNetworkReply::AuthenticationRequiredError)
              {
-                 QString	sErrorText = reply->readAll();
-
+                 QString sErrorText = reply->readAll();
+#ifdef QT5_USE_WEBKIT
                  m_pOAuth2->obtainNewAccessToken();
-
+#endif
              }
              else
              {
+#ifdef QT5_USE_WEBKIT
                  m_pOAuth2->ForgetAccessToken();
+#endif
                   m_desc.append("<br>" + i18n( "Error Downloading File. Error code: ") + reply->error() + "<br>");
                   m_desc.append("<br><b>" +  i18n("Try importing again to obtain a new freesound connection")+ "</b>");
                   updateLayout();

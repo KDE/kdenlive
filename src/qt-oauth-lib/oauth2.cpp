@@ -48,9 +48,6 @@
 #include <KConfigGroup>
 
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-QString OAuth2::m_strClientSecret ="441d88374716e7a3503997151e4780566f007313";   //obtained when ttguy registered the kdenlive application with freesound
-#endif /* DOXYGEN_SHOULD_SKIP_THIS ^^^ don't make this any more public than it is. This preprocessing directive makes the Doxygen documention ignore this line */
 OAuth2::OAuth2(QWidget* parent)
 
 {
@@ -106,7 +103,7 @@ OAuth2::OAuth2(QWidget* parent)
    */
   QString OAuth2::getClientSecret() const
   {
-      return m_strClientSecret;
+      return OAuth2_strClientSecret;
   }
 
   /**
@@ -266,8 +263,8 @@ void OAuth2::RequestAccessCode(bool pIsReRequest, QString pCode)
 void OAuth2::serviceRequestFinished(QNetworkReply* reply)
 {
 
-   // QString sRefreshToken;
-    int iExpiresIn ;
+    // QString sRefreshToken;
+    // int iExpiresIn;
     QString sErrorText;
 
 
@@ -280,7 +277,7 @@ void OAuth2::serviceRequestFinished(QNetworkReply* reply)
          if (jsonError.error != QJsonParseError::NoError) {
             qDebug()<<"OAuth2::serviceRequestFinished jsonError.error:  " <<  jsonError.errorString();
             ForgetAccessToken();
-            emit accessTokenReceived("");//notifies ResourceWidget::slotAccessTokenReceived - empty string in access token indicates error
+            emit accessTokenReceived(QString());//notifies ResourceWidget::slotAccessTokenReceived - empty string in access token indicates error
 
 
          }
@@ -303,14 +300,14 @@ void OAuth2::serviceRequestFinished(QNetworkReply* reply)
                       mstr_RefreshToken = map.value("refresh_token").toString();
                  }
                  if (map.contains("expires_in")) {
-                      iExpiresIn = map.value("expires_in").toInt();//time in seconds until the access_token expires
+                      // iExpiresIn = map.value("expires_in").toInt(); //time in seconds until the access_token expires
                  }
                  if (map.contains("error")) {
                       m_bAccessTokenRec=false;
                       sErrorText = map.value("error").toString();
                       qDebug() << "OAuth2::serviceRequestFinished map error:  "<<  sErrorText;
                       ForgetAccessToken();
-                      emit accessTokenReceived("");//notifies ResourceWidget::slotAccessTokenReceived - empty string in access token indicates error
+                      emit accessTokenReceived(QString());//notifies ResourceWidget::slotAccessTokenReceived - empty string in access token indicates error
                  }
 
                  if (m_bAccessTokenRec)
