@@ -37,6 +37,10 @@
 
 int main(int argc, char *argv[])
 {
+    // Force QDomDocument to use a deterministic XML attribute order
+    extern Q_CORE_EXPORT QBasicAtomicInt qt_qhash_seed;
+    qt_qhash_seed.store(0);
+
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
     QCoreApplication::setAttribute(Qt::AA_X11InitThreads);
 #endif
