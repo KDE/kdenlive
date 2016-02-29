@@ -2928,12 +2928,18 @@ void MainWindow::slotTranscodeClip()
 
 void MainWindow::slotSetDocumentRenderProfile(const QMap <QString, QString> &props)
 {
+    KdenliveDoc *project = pCore->projectManager()->current();
+
+    bool modified = false;
     QMapIterator<QString, QString> i(props);
     while (i.hasNext()) {
         i.next();
-        pCore->projectManager()->current()->setDocumentProperty(i.key(), i.value());
+	if (project->getDocumentProperty(i.key()) == i.value())
+	    continue;
+	project->setDocumentProperty(i.key(), i.value());
+	modified = true;
     }
-    pCore->projectManager()->current()->setModified(true);
+    if (modified) project->setModified();
 }
 
 
