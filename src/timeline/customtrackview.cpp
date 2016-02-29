@@ -8135,7 +8135,7 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> proc
             int in = original->get_in();
             int out = original->get_out();
             insertInfo.cropStart = GenTime(in, m_document->fps());
-            insertInfo.cropDuration = GenTime(out - in, m_document->fps());
+            insertInfo.cropDuration = GenTime(out - in + 1, m_document->fps());
             insertInfo.endPos = insertInfo.startPos + insertInfo.cropDuration;
             insertInfo.track = lowerTrack + i;
             EffectsList effects = ClipController::xmlEffectList(original->profile(), *original);

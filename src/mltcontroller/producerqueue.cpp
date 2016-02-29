@@ -400,7 +400,9 @@ void ProducerQueue::processFileProperties()
 
         int clipOut = 0;
         int duration = 0;
-        if (info.xml.hasAttribute(QStringLiteral("out"))) clipOut = info.xml.attribute(QStringLiteral("out")).toInt();
+        if (info.xml.hasAttribute(QStringLiteral("out"))) {
+            clipOut = info.xml.attribute(QStringLiteral("out")).toInt();
+        }
 
         // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken even if outpoint is larger
         if (type == Color || type == Text || type == QText || type == Image || type == SlideShow) {
@@ -421,7 +423,9 @@ void ProducerQueue::processFileProperties()
             if (duration == 0) duration = length;
             producer->set("length", length);
         }
-        if (clipOut > 0) producer->set_in_and_out(info.xml.attribute(QStringLiteral("in")).toInt(), clipOut);
+        if (clipOut > 0) {
+            producer->set_in_and_out(info.xml.attribute(QStringLiteral("in")).toInt(), clipOut);
+        }
 
         if (info.xml.hasAttribute(QStringLiteral("templatetext")))
             producer->set("templatetext", info.xml.attribute(QStringLiteral("templatetext")).toUtf8().constData());
@@ -486,7 +490,7 @@ void ProducerQueue::processFileProperties()
 
         if (frameNumber > 0) producer->seek(frameNumber);
         duration = duration > 0 ? duration : producer->get_playtime();
-        ////qDebug() << "///////  PRODUCER: " << url.path() << " IS: " << producer->get_playtime();
+        //qDebug() << "///////  PRODUCER: " << url.path() << " IS: " << producer->get_playtime();
 
         if (type == SlideShow) {
             int ttl = EffectsList::property(info.xml,QStringLiteral("ttl")).toInt();
@@ -545,27 +549,25 @@ void ProducerQueue::processFileProperties()
             if (path.startsWith(QLatin1String("consumer:"))) {
                 path = "xml:" + path.section(QStringLiteral(":"), 1);
             }
-            Mlt::Profile *original_profile = new Mlt::Profile();
-            Mlt::Producer *tmpProd = new Mlt::Producer(*original_profile, 0, path.toUtf8().constData());
-            original_profile->from_producer(*tmpProd);
-            original_profile->set_explicit(true);
-            filePropertyMap[QStringLiteral("progressive")] = QString::number(original_profile->progressive());
-            filePropertyMap[QStringLiteral("colorspace")] = QString::number(original_profile->colorspace());
-            filePropertyMap[QStringLiteral("fps")] = QString::number(original_profile->fps());
-            filePropertyMap[QStringLiteral("aspect_ratio")] = QString::number(original_profile->sar());
-            double originalFps = original_profile->fps();
+            Mlt::Profile original_profile;
+            Mlt::Producer *tmpProd = new Mlt::Producer(original_profile, 0, path.toUtf8().constData());
+            original_profile.set_explicit(true);
+            filePropertyMap[QStringLiteral("progressive")] = QString::number(original_profile.progressive());
+            filePropertyMap[QStringLiteral("colorspace")] = QString::number(original_profile.colorspace());
+            filePropertyMap[QStringLiteral("fps")] = QString::number(original_profile.fps());
+            filePropertyMap[QStringLiteral("aspect_ratio")] = QString::number(original_profile.sar());
+            double originalFps = original_profile.fps();
             if (originalFps > 0 && originalFps != m_binController->profile()->fps()) {
                 // Warning, MLT detects an incorrect length in producer consumer when producer's fps != project's fps
                 //TODO: report bug to MLT
                 delete tmpProd;
-                tmpProd = new Mlt::Producer(*original_profile, 0, path.toUtf8().constData());
+                tmpProd = new Mlt::Producer(original_profile, 0, path.toUtf8().constData());
                 int originalLength = tmpProd->get_length();
                 int fixedLength = (int) (originalLength * m_binController->profile()->fps() / originalFps);
                 producer->set("length", fixedLength);
                 producer->set("out", fixedLength - 1);
             }
             delete tmpProd;
-            delete original_profile;
         }
         else if (mltService == QLatin1String("avformat")) {
             // Get frame rate
