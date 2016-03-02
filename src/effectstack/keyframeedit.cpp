@@ -206,7 +206,6 @@ void KeyframeEdit::slotAddKeyframe(int pos)
     int row = 0;
     int col = keyframe_list->currentColumn();
     int newrow = row;
-
     int result = pos;
     if (result > 0) {
         // A position was provided
@@ -245,20 +244,34 @@ void KeyframeEdit::slotAddKeyframe(int pos)
     QList <double> previousValues;
     QList <double> nextValues;
     int rowCount = keyframe_list->rowCount();
-    for (int i = 0; i < keyframe_list->columnCount(); ++i) {
-        previousValues << keyframe_list->item(newrow - 1, i)->text().toDouble();
-        if (rowCount > 1) {
-            nextValues << keyframe_list->item(newrow, i)->text().toDouble();
-        }
-    }
-    int previousPos = getPos(newrow - 1);
-    int nextPos = getPos(newrow);
-    double factor = ((double) result - previousPos) / (nextPos - previousPos);
+    // Insert new row
     keyframe_list->insertRow(newrow);
     keyframe_list->setVerticalHeaderItem(newrow, new QTableWidgetItem(getPosString(result)));
-    for (int i = 0; i < keyframe_list->columnCount(); ++i) {
-        int newValue = rowCount == 1 ? previousValues.at(i) : (int) (previousValues.at(i) + ((nextValues.at(i) - previousValues.at(i)) * factor));
-        keyframe_list->setItem(newrow, i, new QTableWidgetItem(QString::number(newValue)));
+
+    // If keyframe is inserted at start
+    if (newrow == 0) {
+        for (int i = 0; i < keyframe_list->columnCount(); ++i) {
+            int newValue = keyframe_list->item(1, i)->text().toDouble();
+            keyframe_list->setItem(newrow, i, new QTableWidgetItem(QString::number(newValue)));
+        }
+    } else if (newrow == rowCount){
+        // Keyframe inserted at end
+        for (int i = 0; i < keyframe_list->columnCount(); ++i) {
+            int newValue = keyframe_list->item(rowCount - 1, i)->text().toDouble();
+            keyframe_list->setItem(newrow, i, new QTableWidgetItem(QString::number(newValue)));
+        }
+    } else {
+        // Interpolate
+        int previousPos = getPos(newrow - 1);
+        int nextPos = getPos(newrow + 1);
+        double factor = ((double) result - previousPos) / (nextPos - previousPos);
+
+        for (int i = 0; i < keyframe_list->columnCount(); ++i) {
+            double previousValues = keyframe_list->item(newrow - 1, i)->text().toDouble();
+            double nextValues = keyframe_list->item(newrow + 1, i)->text().toDouble();
+            int newValue = (int) (previousValues + (nextValues- previousValues) * factor);
+            keyframe_list->setItem(newrow, i, new QTableWidgetItem(QString::number(newValue)));
+        }
     }
     keyframe_list->resizeRowsToContents();
     keyframe_list->setCurrentCell(newrow, col);
