@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="affine" id="pan_zoom" type="video" context="nomovit">
-	<name>Pan and Zoom</name>
+	<name>Position and Zoom</name>
 	<description>Adjust size and position of clip</description>
 	<author>Charles Yates</author>
 	<parameter type="geometry" name="transition.geometry" default="0,0:%widthx%height" opacity="false">
