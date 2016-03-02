@@ -159,6 +159,8 @@ breeze-light/lt_discrete.svgz
 breeze-light/lt_linear.svgz
 breeze-light/lt_smooth.svgz
 breeze-light/lt_keyframes.svgz
+breeze-light/lt_zone-in.svgz
+breeze-light/lt_zone-out.svgz
 
 breeze-dark/dk_application-exit.svgz
 breeze-dark/dk_audio-volume-medium.svgz
@@ -319,5 +321,7 @@ breeze-dark/dk_discrete.svgz
 breeze-dark/dk_linear.svgz
 breeze-dark/dk_smooth.svgz
 breeze-dark/dk_keyframes.svgz
+breeze-dark/dk_zone-in.svgz
+breeze-dark/dk_zone-out.svgz
 
 DESTINATION ${DATA_INSTALL_DIR}/kdenlive/pics)

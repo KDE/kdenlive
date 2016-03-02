@@ -416,12 +416,12 @@ void MonitorManager::setupActions()
     pCore->window()->addAction(QStringLiteral("seek_zone_end"), zoneEnd);
     connect(zoneEnd, &QAction::triggered, this, &MonitorManager::slotZoneEnd);
 
-    QAction *markIn = new QAction(KoIconUtils::themedIcon(QStringLiteral("go-first")), i18n("Set Zone In"), this);
+    QAction *markIn = new QAction(KoIconUtils::themedIcon(QStringLiteral("zone-in")), i18n("Set Zone In"), this);
     markIn->setShortcut(Qt::Key_I);
     pCore->window()->addAction(QStringLiteral("mark_in"), markIn);
     connect(markIn, &QAction::triggered, this, &MonitorManager::slotSetInPoint);
 
-    QAction *markOut = new QAction(KoIconUtils::themedIcon(QStringLiteral("go-last")), i18n("Set Zone Out"), this);
+    QAction *markOut = new QAction(KoIconUtils::themedIcon(QStringLiteral("zone-out")), i18n("Set Zone Out"), this);
     markOut->setShortcut(Qt::Key_O);
     pCore->window()-> addAction(QStringLiteral("mark_out"), markOut);
     connect(markOut, &QAction::triggered, this, &MonitorManager::slotSetOutPoint);
