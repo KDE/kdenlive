@@ -1,5 +1,5 @@
 [decklink]
-x246=crf=25 ab=192k vcodec=libx264 acodec=libvorbis ab=192k preset=veryfast threads=%threads;mov
+x264=crf=25 ab=192k vcodec=libx264 acodec=libvorbis ab=192k preset=veryfast threads=%threads;mov
 DNxHD=vcodec=dnxhd vb=145000k acodec=pcm_s16le threads=%threads;mov
 MPEG=qscale=4 ab=192k vcodec=mpeg2video acodec=mp2 threads=%threads;mpg
 
@@ -8,9 +8,9 @@ x264=-s 640x480 -g 5 -crf 25 -ab 128k -vcodec libx264 -acodec libvorbis -preset 
 MPEG=-s 640x480 -g 5 -qscale 6 -ab 128k -vcodec mpeg2video -acodec mp2;mpg
 
 [screengrab]
-X246 mute=-crf 25 -vcodec libx264 -preset veryfast -threads 0;mov
-X246 with audio=-i pulse -crf 25 -ab 192k -vcodec libx264 -acodec libvorbis -preset veryfast -threads 0;mov
+X264 mute=-crf 25 -vcodec libx264 -preset veryfast -threads 0;mov
+X264 with audio=-i pulse -crf 25 -ab 192k -vcodec libx264 -acodec libvorbis -preset veryfast -threads 0;mov
 
 [video4linux]
-x246=crf=25 ab=192k vcodec=libx264 acodec=libvorbis ab=192k preset=veryfast threads=%threads;mov
+x264=crf=25 ab=192k vcodec=libx264 acodec=libvorbis ab=192k preset=veryfast threads=%threads;mov
 MPEG=qscale=4 ab=192k vcodec=mpeg2video acodec=mp2 threads=%threads;mpg
