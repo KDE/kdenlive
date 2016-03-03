@@ -101,7 +101,7 @@ void TransitionSettings::refreshIcons()
 }
 
 void TransitionSettings::dragEnterEvent(QDragEnterEvent * event ) {
-    if (event->mimeData()->hasFormat(QStringLiteral("application/x-qabstractitemmodeldatalist"))) {
+    if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
         event->setDropAction(Qt::CopyAction);
         event->setAccepted(true);
     }
@@ -110,27 +110,13 @@ void TransitionSettings::dragEnterEvent(QDragEnterEvent * event ) {
 
 void TransitionSettings::dropEvent( QDropEvent* event ) 
 {
-if (event->mimeData()->hasFormat(QStringLiteral("application/x-qabstractitemmodeldatalist")))
-        {
-                QTreeWidget *tree = dynamic_cast<QTreeWidget *>(event->source());
- 
-                QByteArray itemData = event->mimeData()->data(QStringLiteral("application/x-qabstractitemmodeldatalist"));
-                QDataStream stream(&itemData, QIODevice::ReadOnly);
- 
-                int r, c;
-                QMap<int, QVariant> v;
-                stream >> r >> c >> v;
- 
-                QTreeWidgetItem *item = tree->topLevelItem(r);
- 
-                if( item && item->columnCount() == 2)
-                {
-                    QMap <QString, QString> data;
-                    data.insert(item->text(0), item->text(1));
-                    emit importClipKeyframes(TransitionWidget, m_usedTransition->info() , data);
-                }
-        }
- 
+    if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry")))
+    {
+        QString itemData = event->mimeData()->data(QStringLiteral("kdenlive/geometry"));
+        QMap <QString, QString> data;
+        data.insert(i18n("Geometry"), itemData);
+        emit importClipKeyframes(TransitionWidget, m_usedTransition->info() , data);
+    }
 }
 
 void TransitionSettings::updateProjectFormat()
