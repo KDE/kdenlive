@@ -63,6 +63,7 @@ EffectStackView2::EffectStackView2(Monitor *projectMonitor, QWidget *parent) :
 
     m_effect = new EffectSettings(this);
     m_transition = new TransitionSettings(projectMonitor, this);
+    connect(m_transition, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QMap<QString,QString>)), this, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QMap<QString,QString>)));
     connect(m_effect->checkAll, SIGNAL(stateChanged(int)), this, SLOT(slotCheckAll(int)));
     connect(m_effect->effectCompare, &QToolButton::toggled, this, &EffectStackView2::slotSwitchCompare);
 
@@ -437,7 +438,7 @@ void EffectStackView2::connectEffect(CollapsibleEffect *currentEffect)
     connect(currentEffect, SIGNAL(addEffect(QDomElement)), this , SLOT(slotAddEffect(QDomElement)));
     connect(currentEffect, SIGNAL(createRegion(int,QUrl)), this, SLOT(slotCreateRegion(int,QUrl)));
     connect(currentEffect, SIGNAL(deleteGroup(QDomDocument)), this , SLOT(slotDeleteGroup(QDomDocument)));
-    connect(currentEffect, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
+    connect(currentEffect, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QMap<QString,QString>)), this, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QMap<QString,QString>)));
 }
 
 void EffectStackView2::slotCheckWheelEventFilter()
@@ -1310,3 +1311,4 @@ void EffectStackView2::slotSwitchCompare(bool enable)
         m_effectMetaInfo.monitor->slotSwitchCompare(enable, pos);
     }
 }
+

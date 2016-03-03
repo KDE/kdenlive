@@ -26,5 +26,6 @@ set(kdenlive_SRCS
   effectstack/widgets/kis_curve_widget.cpp
   effectstack/widgets/colorwheel.cpp
   effectstack/widgets/lumaliftgain.cpp
+  effectstack/widgets/keyframeimport.cpp
   PARENT_SCOPE)
 

@@ -23,6 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPainter>
 #include <QAction>
 
+#include "klocalizedstring.h"
+
 #include "keyframeview.h"
 
 KeyframeView::KeyframeView(int handleSize, QObject *parent) : QObject(parent)
@@ -121,9 +123,6 @@ void KeyframeView::drawKeyFrames(QRectF br, int length, bool active, QPainter *p
     }
 
     int cnt = m_keyProperties.count();
-    double factor = 1;
-    double min;
-    double max;
     QStringList paramNames;
     for (int i = 0; i < cnt; i++) {
         paramNames << m_keyProperties.get_name(i);
@@ -214,6 +213,79 @@ void KeyframeView::drawKeyFrames(QRectF br, int length, bool active, QPainter *p
         painter->drawPath(transformation.map(path));
     }
     painter->restore();
+}
+
+void KeyframeView::drawKeyFrameChannels(QRectF br, int length, QPainter *painter, QList <QPoint> maximas, QColor textColor)
+{
+    duration = length;
+    double frameFactor = (double) duration / br.width();
+    double xDist = maximas.at(0).y() - maximas.at(0).x();
+    double yDist = maximas.at(1).y() - maximas.at(1).x();
+    double wDist = maximas.at(2).y() - maximas.at(2).x();
+    double hDist = maximas.at(3).y() - maximas.at(3).x();
+    double xOffset = maximas.at(0).x();
+    double yOffset = maximas.at(1).x();
+    double wOffset = maximas.at(2).x();
+    double hOffset = maximas.at(3).x();
+    QColor cX(255, 0, 0, 100);
+    QColor cY(0, 255, 0, 100);
+    QColor cW(0, 0, 255, 100);
+    QColor cH(255, 255, 0, 100);
+    QRectF txtRect = painter->boundingRect(br, QStringLiteral("t"));
+    txtRect.setX(2);
+    txtRect.setWidth(br.width() - 4);
+    txtRect.moveTop(br.height() - txtRect.height());
+    QRectF drawnText;
+    int maxHeight = br.height() - txtRect.height() - 2;
+    painter->setPen(textColor);
+    int rectSize = txtRect.height() / 2;
+    if (xDist > 0) {
+        painter->fillRect(txtRect.x(), txtRect.top() + rectSize / 2, rectSize, rectSize, cX);
+        txtRect.setX(txtRect.x() + rectSize * 2);
+        painter->drawText(txtRect, 0, i18nc("X as in x coordinate", "X"), &drawnText);
+    }
+    if (yDist > 0) {
+        if (drawnText.isValid()) txtRect.setX(drawnText.right() + rectSize);
+        painter->fillRect(txtRect.x(), txtRect.top() + rectSize / 2, rectSize, rectSize, cY);
+        txtRect.setX(txtRect.x() + rectSize * 2);
+        painter->drawText(txtRect, 0, i18nc("Y as in y coordinate", "Y"), &drawnText);
+    }
+    if (wDist > 0) {
+        if (drawnText.isValid()) txtRect.setX(drawnText.right() + rectSize);
+        painter->fillRect(txtRect.x(), txtRect.top() + rectSize / 2, rectSize, rectSize, cW);
+        txtRect.setX(txtRect.x() + rectSize * 2);
+        painter->drawText(txtRect, 0, i18n("Width"), &drawnText);
+    }
+    if (hDist > 0) {
+        if (drawnText.isValid()) txtRect.setX(drawnText.right() + rectSize);
+        painter->fillRect(txtRect.x(), txtRect.top() + rectSize / 2, rectSize, rectSize, cH);
+        txtRect.setX(txtRect.x() + rectSize * 2);
+        painter->drawText(txtRect, 0, i18n("Height"), &drawnText);
+    }
+
+    for (int i = 0; i < br.width(); i++) {
+        mlt_rect rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), (int) i * frameFactor, duration);
+        if (xDist > 0) {
+            painter->setPen(cX);
+            int val = (rect.x - xOffset) * maxHeight / xDist;
+            painter->drawLine(i, maxHeight - val, i, maxHeight);
+        }
+        if (yDist > 0) {
+            painter->setPen(cY);
+            int val = (rect.y - yOffset) * maxHeight / yDist;
+            painter->drawLine(i, maxHeight - val, i, maxHeight);
+        }
+        if (wDist > 0) {
+            painter->setPen(cW);
+            int val = (rect.w - wOffset) * maxHeight / wDist;
+            painter->drawLine(i, maxHeight - val, i, maxHeight);
+        }
+        if (hDist > 0) {
+            painter->setPen(cH);
+            int val = (rect.h - hOffset) * maxHeight / hDist;
+            painter->drawLine(i, maxHeight - val, i, maxHeight);
+        }
+    }
 }
 
 int KeyframeView::mouseOverKeyFrames(QRectF br, QPointF pos, double maxOffset, double scale)
@@ -424,9 +496,63 @@ const QString KeyframeView::serialize()
     return result.join(";");
 }
 
-bool KeyframeView::loadKeyframes(const QLocale locale, QDomElement effect, int cropStart, int length)
+QList <QPoint> KeyframeView::loadKeyframes(const QString &data)
 {
     m_keyframeType = NoKeyframe;
+    m_inTimeline = QStringLiteral("imported");
+    m_keyProperties.set(m_inTimeline.toUtf8().constData(), data.toUtf8().constData());
+    // We need to initialize with length so that negative keyframes are correctly interpreted
+    m_keyProperties.anim_get_double(m_inTimeline.toUtf8().constData(), 0);
+    m_keyAnim = m_keyProperties.get_animation(m_inTimeline.toUtf8().constData());
+    duration = m_keyAnim.length();
+    // calculate minimas / maximas
+    int max = m_keyAnim.key_count();
+    int frame = m_keyAnim.key_get_frame(0);
+    mlt_rect rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), frame, duration);
+    QPoint pX(rect.x, rect.x);
+    QPoint pY(rect.y, rect.y);
+    QPoint pW(rect.w, rect.w);
+    QPoint pH(rect.h, rect.h);
+    for (int i = 1; i < max; i++) {
+        frame = m_keyAnim.key_get_frame(i);
+        rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), frame, duration);
+        // Check x bounds
+        if (rect.x < pX.x()) {
+            pX.setX(rect.x);
+        }
+        if (rect.x > pX.y()) {
+            pX.setY(rect.x);
+        }
+        // Check y bounds
+        if (rect.y < pY.x()) {
+            pY.setX(rect.y);
+        }
+        if (rect.y > pY.y()) {
+            pY.setY(rect.y);
+        }
+        // Check w bounds
+        if (rect.w < pW.x()) {
+            pW.setX(rect.w);
+        }
+        if (rect.w > pW.y()) {
+            pW.setY(rect.w);
+        }
+        // Check h bounds
+        if (rect.h < pH.x()) {
+            pH.setX(rect.h);
+        }
+        if (rect.h > pH.y()) {
+            pH.setY(rect.h);
+        }
+    }
+    QList <QPoint> result;
+    result << pX << pY << pW << pH;
+    return result;
+}
+
+bool KeyframeView::loadKeyframes(const QLocale locale, QDomElement effect, int cropStart, int length)
+{
+    m_keyframeType = AnimatedKeyframe;
     duration = length;
     m_inTimeline.clear();
     // reset existing properties

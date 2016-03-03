@@ -80,12 +80,16 @@ public:
     void addKeyframe(int frame, double value, mlt_keyframe_type type);
     void addDefaultKeyframe(int frame, mlt_keyframe_type type);
     const QString serialize();
+    /** @brief Loads a rect animation and returns minimas/maximas for x,y,w,h **/
+    QList <QPoint> loadKeyframes(const QString &data);
     bool loadKeyframes(const QLocale locale, QDomElement e, int cropStart, int length);
     void reset();
-          /** @brief Draw the keyframes of a clip
+    /** @brief Draw the keyframes of a clip
       * @param painter The painter device for the clip
       */
     void drawKeyFrames(QRectF br, int length, bool active, QPainter *painter, const QTransform &transformation);
+    /** @brief Draw the x, y, w, h channels of an animated geometry */
+    void drawKeyFrameChannels(QRectF br, int length, QPainter *painter, QList <QPoint> maximas, QColor textColor);
     int mouseOverKeyFrames(QRectF br, QPointF pos, double maxOffset, double scale);
     void showMenu(QWidget *parent, QPoint pos);
     QAction *parseKeyframeActions(QList <QAction *>actions);

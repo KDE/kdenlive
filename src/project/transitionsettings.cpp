@@ -77,7 +77,7 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
 
 void TransitionSettings::prepareImportClipKeyframes(GraphicsRectItem, QMap<QString,QString> data)
 {
-    emit importClipKeyframes(TransitionWidget, data);
+    emit importClipKeyframes(TransitionWidget, m_usedTransition->info(), data);
 }
 
 void TransitionSettings::refreshIcons()
@@ -127,7 +127,7 @@ if (event->mimeData()->hasFormat(QStringLiteral("application/x-qabstractitemmode
                 {
                     QMap <QString, QString> data;
                     data.insert(item->text(0), item->text(1));
-                    emit importClipKeyframes(TransitionWidget, data);
+                    emit importClipKeyframes(TransitionWidget, m_usedTransition->info() , data);
                 }
         }
  
@@ -330,5 +330,6 @@ void TransitionSettings::updatePalette()
     // We need to reset current stylesheet if we want to change the palette!
     m_effectEdit->updatePalette();
 }
+
 
 

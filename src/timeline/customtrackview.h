@@ -324,7 +324,7 @@ public slots:
     void updateSnapPoints(AbstractClipItem *selected, QList <GenTime> offsetList = QList <GenTime> (), bool skipSelectedItems = false);
     
     void slotAddEffect(ClipItem *clip, const QDomElement &effect, int track = -1);
-    void slotImportClipKeyframes(GraphicsRectItem type, QMap<QString, QString> data = QMap<QString, QString>());
+    void slotImportClipKeyframes(GraphicsRectItem type, ItemInfo info, QMap<QString, QString> data = QMap<QString, QString>());
 
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();

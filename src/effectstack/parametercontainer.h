@@ -106,9 +106,9 @@ private:
     QString getWipeString(wipeInfo info);
     /** @brief Delete all child widgets */
     void clearLayout(QLayout *layout);
-    
     int m_in;
     int m_out;
+    ItemInfo m_info;
     QList<QWidget*> m_uiItems;
     QMap<QString, QWidget*> m_valueItems;
     KeyframeEdit *m_keyframeEditor;

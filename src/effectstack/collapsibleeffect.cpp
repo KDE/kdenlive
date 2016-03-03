@@ -50,6 +50,7 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     AbstractCollapsibleWidget(parent),
     m_paramWidget(NULL),
     m_effect(effect),
+    m_itemInfo(info),
     m_original_effect(original_effect),
     m_regionEffect(false),
     m_isMovable(true)
@@ -559,7 +560,7 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
     connect (this, SIGNAL(syncEffectsPos(int)), m_paramWidget, SIGNAL(syncEffectsPos(int)));
     connect (m_paramWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
     connect (m_paramWidget, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
-    connect(m_paramWidget, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
+    connect(m_paramWidget, SIGNAL(importClipKeyframes()), this, SLOT(prepareImportClipKeyframes()));
 }
 
 void CollapsibleEffect::slotDisableEffect(bool disable)
@@ -705,3 +706,7 @@ bool CollapsibleEffect::isMovable() const
     return m_isMovable;
 }
 
+void CollapsibleEffect::prepareImportClipKeyframes()
+{
+    emit importClipKeyframes(AVWidget, m_itemInfo, QMap<QString,QString>());
+}

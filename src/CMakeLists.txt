@@ -203,7 +203,6 @@ ki18n_wrap_ui(kdenlive_UIS
   ui/fontval_ui.ui
   ui/cutjobdialog_ui.ui
   ui/scenecutdialog_ui.ui
-  ui/importkeyframesdialog_ui.ui
 )
 
 if(BUILD_JogShuttle)

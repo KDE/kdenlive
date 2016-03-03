@@ -70,7 +70,7 @@ private slots:
 signals:
     void transitionUpdated(Transition *, const QDomElement&);
     void seekTimeline(int);
-    void importClipKeyframes(GraphicsRectItem = TransitionWidget, QMap<QString,QString> data = QMap<QString,QString>());
+    void importClipKeyframes(GraphicsRectItem, ItemInfo, QMap<QString,QString> data = QMap<QString,QString>());
 };
 
 #endif

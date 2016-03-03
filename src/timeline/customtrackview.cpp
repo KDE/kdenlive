@@ -41,13 +41,13 @@
 #include "project/clipmanager.h"
 #include "utils/KoIconUtils.h"
 #include "effectslist/initeffects.h"
+#include "effectstack/widgets/keyframeimport.h"
 #include "dialogs/profilesdialog.h"
 #include "managers/guidemanager.h"
 #include "managers/razormanager.h"
 #include "managers/selectmanager.h"
 #include "ui_keyframedialog_ui.h"
 #include "ui_addtrack_ui.h"
-#include "ui_importkeyframesdialog_ui.h"
 
 #include "lib/audio/audioEnvelope.h"
 #include "lib/audio/audioCorrelation.h"
@@ -7783,7 +7783,7 @@ void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPo
 }
 
 
-void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, QMap<QString, QString> data)
+void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, ItemInfo info, QMap<QString, QString> data)
 {
     ClipItem *item = NULL;
     if (type == TransitionWidget && data.isEmpty()) {
@@ -7818,25 +7818,13 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, QMap<QStrin
         emit displayMessage(i18n("No keyframe data found in clip"), ErrorMessage);
         return;
     }
-    QPointer<QDialog> d = new QDialog(this);
-    Ui::ImportKeyframesDialog_UI ui;
-    ui.setupUi(d);
-
-    // Set  up data
-    int ix = 0;
-    QMap<QString, QString>::const_iterator i = data.constBegin();
-    while (i != data.constEnd()) {
-        ui.data_list->insertItem(ix, i.key());
-        ui.data_list->setItemData(ix, i.value(), Qt::UserRole);
-        ++i;
-        ix++;
-    }
-
-    if (d->exec() != QDialog::Accepted) {
-        delete d;
+    KeyframeImport *import = new KeyframeImport(type, info, data, this);
+    if (import->exec() != QDialog::Accepted) {
+        // Aborted by user
+        delete import;
         return;
     }
-    QString keyframeData = ui.data_list->itemData(ui.data_list->currentIndex()).toString();
+    QString keyframeData = import->selectedData();
     // Keyframe data is stored in the clip in the project tree.
     // And we are importing this data into a transition on the timeline
     // And the clip on the timeline might be croped from the start.
@@ -7870,8 +7858,8 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, QMap<QStrin
     QStringList keyframeList = QString(newGeometry.serialise()).split(';', QString::SkipEmptyParts);
 
     QString result;
-    if (ui.import_position->isChecked()) {
-        if (ui.import_size->isChecked()) {
+    if (import->importPosition()) {
+        if (import->importSize()) {
             // if you choose the position and size check box
             // then you go into here and all the key frames
             // are imported. But the transtion also gets
@@ -7894,7 +7882,7 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, QMap<QStrin
             }
         }
     }
-    else if (ui.import_size->isChecked()) {
+    else if (import->importSize()) {
         // just the size check box is checked
         // In this case make the position info 0,0 and take the size info from
         // the source clip
@@ -7908,8 +7896,8 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, QMap<QStrin
         }
     }
     // connected to MainWindow::slotProcessImportKeyframes
-    emit importKeyframes(type, result, ui.limit_keyframes->isChecked() ? ui.max_keyframes->value() : -1);
-    delete d;
+    emit importKeyframes(type, result, import->limited());
+    delete import;
 }
 
 void CustomTrackView::slotReplaceTimelineProducer(const QString &id)

@@ -99,6 +99,7 @@ class Fontval: public QWidget, public Ui::Fontval_UI
 
 
 ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo &info, EffectMetaInfo *metaInfo, QWidget * parent) :
+        m_info(info),
         m_keyframeEditor(NULL),
         m_geometryWidget(NULL),
         m_animationWidget(NULL),
@@ -518,7 +519,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
 	    QPushButton *button = new QPushButton(paramName, toFillin);
 	    l->addWidget(button);
             m_valueItems[paramName] = button;
-            connect(button, SIGNAL(pressed()), this, SLOT(slotStartFilterJobAction()));   
+            connect(button, SIGNAL(pressed()), this, SLOT(slotStartFilterJobAction()));
         } else {
             delete toFillin;
             toFillin = NULL;
@@ -1023,7 +1024,8 @@ void ParameterContainer::slotStartFilterJobAction()
 	    consumerParams.insert(QStringLiteral("consumer"), pa.attribute(QStringLiteral("consumer")));
 	    QString filterattributes = pa.attribute(QStringLiteral("filterparams"));
 	    if (filterattributes.contains(QStringLiteral("%position"))) {
-		if (m_geometryWidget) filterattributes.replace(QLatin1String("%position"), QString::number(m_geometryWidget->currentPosition()));
+                int filterStart = qBound(m_in, (int) (m_metaInfo->monitor->position() - m_info.startPos).frames(KdenliveSettings::project_fps()) + m_in, m_out);
+		filterattributes.replace(QLatin1String("%position"), QString::number(filterStart));
 	    }
 
 	    // Fill filter params

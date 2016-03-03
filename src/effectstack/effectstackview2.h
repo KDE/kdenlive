@@ -204,7 +204,7 @@ private slots:
 
     /** @brief Delete an effect in the stack. */
     void slotDeleteEffect(const QDomElement &effect);
-    
+
     /** @brief Delete all effect in a group. */
     void slotDeleteGroup(QDomDocument doc);
 
@@ -215,19 +215,19 @@ private slots:
     void slotUpdateEffectState(bool disable, int index, MonitorSceneType needsMonitorEffectScene);
 
     void slotSetCurrentEffect(int ix);
-    
+
     /** @brief Triggers a filter job on this clip. */
     void slotStartFilterJob(QMap <QString, QString> &, QMap <QString, QString> &, QMap <QString, QString> &);
-    
+
     /** @brief Reset an effect to its default values. */
     void slotResetEffect(int ix);
-    
+
     /** @brief Create a group containing effect with ix index. */
     void slotCreateGroup(int ix);
-    
+
     /** @brief Create a region effect with ix index. */
     void slotCreateRegion(int ix, QUrl url);
-    
+
     /** @brief Move an effect.
       ** @param currentIndexes the list of effect indexes to move in stack layout
       ** @param newIndex the position where the effects will be moved
@@ -281,7 +281,7 @@ signals:
     void showComments(bool show);
     void startFilterJob(const ItemInfo &info, const QString &clipId, QMap<QString, QString>&, QMap<QString, QString>&, QMap<QString, QString>&);
     void addEffect(ClipItem*,const QDomElement &,int);
-    void importClipKeyframes(GraphicsRectItem = AVWidget, QMap<QString,QString> data = QMap<QString,QString>());
+    void importClipKeyframes(GraphicsRectItem, ItemInfo, QMap<QString,QString> data = QMap<QString,QString>());
 };
 
 #endif

@@ -1679,11 +1679,10 @@ void MainWindow::connectDocument()
 
     connect(m_effectStack, SIGNAL(refreshEffectStack(ClipItem*)), trackView->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
     connect(m_effectStack, SIGNAL(seekTimeline(int)), trackView->projectView(), SLOT(seekCursorPos(int)));
-    connect(m_effectStack, SIGNAL(importClipKeyframes(GraphicsRectItem, QMap<QString,QString>)), trackView->projectView(), SLOT(slotImportClipKeyframes(GraphicsRectItem, QMap<QString,QString>)));
+    connect(m_effectStack, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QMap<QString,QString>)), trackView->projectView(), SLOT(slotImportClipKeyframes(GraphicsRectItem, ItemInfo, QMap<QString,QString>)));
 
     // Transition config signals
     connect(m_effectStack->transitionConfig(), SIGNAL(transitionUpdated(Transition*,QDomElement)), trackView->projectView() , SLOT(slotTransitionUpdated(Transition*,QDomElement)));
-    connect(m_effectStack->transitionConfig(), SIGNAL(importClipKeyframes(GraphicsRectItem, QMap<QString,QString>)), trackView->projectView() , SLOT(slotImportClipKeyframes(GraphicsRectItem, QMap<QString,QString>)));
     connect(m_effectStack->transitionConfig(), SIGNAL(seekTimeline(int)), trackView->projectView() , SLOT(seekCursorPos(int)));
 
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()));

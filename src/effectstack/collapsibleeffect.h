@@ -109,11 +109,13 @@ private slots:
     void slotUpdateRegionEffectParams(const QDomElement /*old*/, const QDomElement /*e*/, int /*ix*/);
     /** @brief Dis/enable effect before processing an operation (color picker) */
     void slotDisableEffect(bool disable);
+    void prepareImportClipKeyframes();
 
 private:
     ParameterContainer *m_paramWidget;
     QList <CollapsibleEffect *> m_subParamWidgets;
     QDomElement m_effect;
+    ItemInfo m_itemInfo;
     QDomElement m_original_effect;
     QList <QDomElement> m_subEffects;
     QMenu *m_menu;
@@ -155,7 +157,7 @@ signals:
     void unGroup(CollapsibleEffect *);
     void createRegion(int, const QUrl&);
     void deleteGroup(const QDomDocument&);
-    void importClipKeyframes();
+    void importClipKeyframes(GraphicsRectItem, ItemInfo, QMap<QString,QString> data = QMap<QString,QString>());
 };
 
 

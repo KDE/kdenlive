@@ -1128,12 +1128,12 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
             else {
                 // Add data with another name
                 int i = 1;
-                QString data = m_controller->property("kdenlive:clipanalysis." + name + ' ' + QString::number(i));
-                while (!data.isEmpty()) {
+                QString previous = m_controller->property("kdenlive:clipanalysis." + name + QString::number(i));
+                while (!previous.isEmpty()) {
                     ++i;
-                    data = m_controller->property("kdenlive:clipanalysis." + name + ' ' + QString::number(i));
+                    previous = m_controller->property("kdenlive:clipanalysis." + name + QString::number(i));
                 }
-                return QStringList() << QString("kdenlive:clipanalysis." + name + ' ' + QString::number(i)) << geometryWithOffset(data, offset);
+                return QStringList() << QString("kdenlive:clipanalysis." + name + QString::number(i)) << geometryWithOffset(data, offset);
                 //m_controller->setProperty("kdenlive:clipanalysis." + name + ' ' + QString::number(i), geometryWithOffset(data, offset));
             }
         }

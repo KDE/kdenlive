@@ -2547,6 +2547,15 @@ void Bin::updateTimecodeFormat()
 void Bin::slotGotFilterJobResults(QString id, int startPos, int track, stringMap results, stringMap filterInfo)
 {
     if (filterInfo.contains("finalfilter")) {
+        if (filterInfo.contains(QStringLiteral("storedata"))) {
+            // Store returned data as clip extra data
+            ProjectClip *clip = getBinClip(id);
+            if (clip) {
+                QString key = filterInfo.value(QStringLiteral("key"));
+                QStringList newValue = clip->updatedAnalysisData(key, results.value(key), filterInfo.value(QStringLiteral("offset")).toInt());
+                slotAddClipExtraData(id, newValue.at(0), newValue.at(1));
+            }
+        }
         if (startPos == -1) {
             // Processing bin clip
             ProjectClip *currentItem = m_rootFolder->clip(id);
@@ -2571,16 +2580,6 @@ void Bin::slotGotFilterJobResults(QString id, int startPos, int track, stringMap
                 /*EditEffectCommand *command = new EditEffectCommand(this, clip->track(), clip->startPos(), effect, newEffect, clip->selectedEffectIndex(), true, true);
                 m_commandStack->push(command);
                 emit clipItemSelected(clip);*/
-            }
-
-            if (filterInfo.contains(QStringLiteral("storedata"))) {
-                // Store returned data as clip extra data
-                ProjectClip *clip = getBinClip(id);
-                if (clip) {
-                    QString key = filterInfo.value(QStringLiteral("key"));
-                    QStringList newValue = clip->updatedAnalysisData(key, results.value(key), filterInfo.value(QStringLiteral("offset")).toInt());
-                    slotAddClipExtraData(id, newValue.at(0), newValue.at(1));
-                }
             }
 
             //emit gotFilterJobResults(id, startPos, track, results, filterInfo);*/
