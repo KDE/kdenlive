@@ -38,7 +38,7 @@ public:
 
 public slots:
     void setRange(int min, int max, bool absolute = false);
-    
+
 private:
     TimecodeDisplay *m_display;
     QSlider *m_slider;

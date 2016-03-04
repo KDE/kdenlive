@@ -328,6 +328,21 @@ QString GeometryWidget::offsetAnimation(int offset, bool useOffset)
     return result;
 }
 
+void GeometryWidget::reload(const QString &tag, const QString &data)
+{
+    if (m_extraGeometryNames.contains(tag)) {
+        int ix = m_extraGeometryNames.indexOf(tag);
+        Mlt::Geometry *geom = m_extraGeometries.at(ix);
+        if (geom) {
+            geom->parse(data.toUtf8().data(), m_outPoint, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+            m_timeline->setKeyGeometry(geom, m_inPoint, m_outPoint, m_useOffset);
+        }
+    } else {
+        m_geometry->parse(data.toUtf8().data(), m_outPoint, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+        m_timeline->setKeyGeometry(m_geometry, m_inPoint, m_outPoint, m_useOffset);
+    }
+}
+
 QString GeometryWidget::getExtraValue(const QString &name) const
 {
     int ix = m_extraGeometryNames.indexOf(name);
@@ -450,7 +465,7 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
     m_opacity->blockSignals(true);
     m_opacity->setValue(item.mix());
     m_opacity->blockSignals(false);
-
+    QRect r((int) item.x(), (int) item.y(), (int) item.w(), (int) item.h());
     for (int i = 0; i < m_extraGeometries.count(); ++i) {
         Mlt::Geometry *geom = m_extraGeometries.at(i);
         QString name = m_extraGeometryNames.at(i);
@@ -463,9 +478,8 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
             }
         }
     }
-    QRect r((int) item.x(), (int) item.y(), (int) item.w(), (int) item.h());
     m_monitor->setUpEffectGeometry(r, calculateCenters());
-    slotUpdateProperties();
+    slotUpdateProperties(r);
     if (seek && KdenliveSettings::transitionfollowcursor())
         emit seekToPos(pos);
 }
@@ -705,9 +719,9 @@ void GeometryWidget::slotUpdateCenters(const QVariantList centers)
     emit parameterChanged();
 }
 
-void GeometryWidget::slotUpdateProperties()
+void GeometryWidget::slotUpdateProperties(QRect rect)
 {
-    QRect rect = m_monitor->effectRect().normalized();
+    if (!rect.isValid()) rect = m_monitor->effectRect().normalized();
     double size;
     if (rect.width() / m_monitor->render->dar() > rect.height())
         size = rect.width() * 100.0 / m_monitor->render->frameRenderWidth();
@@ -1007,11 +1021,10 @@ void GeometryWidget::importKeyframes(const QString &data, int maximum)
     }
     // Clear existing keyframes
     Mlt::GeometryItem item;
-    
+
     while (!m_geometry->next_key(&item, 0)) {
         m_geometry->remove(item.frame());
     }
-    
     int offset = 1;
     if (maximum > 0 && list.count() > maximum) {
         offset = list.count() / maximum;

@@ -57,6 +57,8 @@ public:
     void importKeyframes(const QString &data, int maximum);
     int currentPosition() const;
     QString offsetAnimation(int offset, bool useOffset);
+    /** @brief Effect param @tag was changed, reload keyframes */
+    void reload(const QString &tag, const QString &data);
 
 public slots:
     /** @brief Sets up the rect and the geometry object.
@@ -143,7 +145,7 @@ private slots:
     void slotUpdateGeometry();
     void slotUpdateGeometryRect(const QRect r);
     /** @brief Updates the spinBoxes according to the rect. */
-    void slotUpdateProperties();
+    void slotUpdateProperties(QRect rect = QRect());
 
     /** @brief Sets the rect's x position to @param value. */
     void slotSetX(double value);

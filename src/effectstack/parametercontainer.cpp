@@ -105,7 +105,8 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         m_animationWidget(NULL),
         m_metaInfo(metaInfo),
         m_effect(effect),
-        m_monitorEffectScene(MonitorSceneDefault)
+        m_monitorEffectScene(MonitorSceneDefault),
+        m_acceptDrops(false)
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
@@ -156,6 +157,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         if (type == QLatin1String("double") || type == QLatin1String("constant")) {
             double min;
             double max;
+            m_acceptDrops = true;
             if (pa.attribute(QStringLiteral("min")).contains('%'))
                 min = EffectsController::getStringEval(m_metaInfo->monitor->profileInfo(), pa.attribute(QStringLiteral("min")), m_metaInfo->frameSize);
             else
@@ -239,6 +241,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 connect(this, SIGNAL(showComments(bool)), bval->widgetComment, SLOT(setVisible(bool)));
             m_uiItems.append(bval);
         } else if (type.startsWith(QLatin1String("animated"))) {
+            m_acceptDrops = true;
             if (type == QLatin1String("animatedrect")) {
                 m_monitorEffectScene = MonitorSceneGeometry;
             }
@@ -259,6 +262,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             m_valueItems[paramName+"complex"] = pl;
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
         } else if (type == QLatin1String("geometry")) {
+            m_acceptDrops = true;
             if (true /*KdenliveSettings::on_monitor_effects()*/) {
                 m_monitorEffectScene = MonitorSceneGeometry;
                 bool useOffset = false;
@@ -1092,13 +1096,26 @@ MonitorSceneType ParameterContainer::needsMonitorEffectScene() const
     return m_monitorEffectScene;
 }
 
-void ParameterContainer::setKeyframes(const QString &data, int maximum)
+void ParameterContainer::setKeyframes(const QString &tag, const QString &data)
 {
-    if (!m_geometryWidget) {
-	//qDebug()<<" / / NO GEOMETRY WIDGET FOUND FOR IMPORTING DATA";
-	return;
+    const QDomElement oldparam = m_effect.cloneNode().toElement();
+    QDomNodeList namenode = m_effect.elementsByTagName(QStringLiteral("parameter"));
+    for (int i = 0; i < namenode.count() ; ++i) {
+        QDomElement pa = namenode.item(i).toElement();
+        if (pa.attribute(QStringLiteral("name")) == tag) {
+            pa.setAttribute(QStringLiteral("value"), data);
+            break;
+        }
     }
-    m_geometryWidget->importKeyframes(data, maximum);
+    if (m_geometryWidget) {
+        // Reload keyframes
+        m_geometryWidget->reload(tag, data);
+    }
+    if (m_animationWidget) {
+        // Reload keyframes
+        m_animationWidget->reload(tag, data);
+    }
+    emit parameterChanged(oldparam, m_effect, m_effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
 }
 
 void ParameterContainer::setRange(int inPoint, int outPoint)
@@ -1133,5 +1150,10 @@ void ParameterContainer::connectMonitor(bool activate)
 {
     if (m_animationWidget)
         m_animationWidget->connectMonitor(activate);
+}
+
+bool ParameterContainer::doesAcceptDrops() const
+{
+    return m_acceptDrops;
 }
 

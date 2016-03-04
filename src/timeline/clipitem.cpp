@@ -301,23 +301,6 @@ void ClipItem::setKeyframes(const int ix, const QStringList &keyframes)
         // Keyframable effect found
         update();
     }
-
-    /*for (int i = 0; i < params.count(); ++i) {
-        QDomElement e = params.item(i).toElement();
-        if (e.isNull()) continue;
-        if (!(QStringList() << "keyframe" << "simplekeyframe" << "geometry" << "animated").contains(e.attribute("type")))
-            continue;
-        if (!e.hasAttribute(QStringLiteral("intimeline"))
-            || e.attribute(QStringLiteral("intimeline")) == QLatin1String("1")) {
-            e.setAttribute(QStringLiteral("keyframes"), keyframes.at(keyframeParams));
-            if (ix + 1 == m_selectedEffect && keyframeParams == 0) {
-                m_visibleParam = i;
-                m_keyframeView.loadKeyframes(locale, e, cropDuration().frames(m_fps));
-                update();
-            }
-            ++keyframeParams;
-        }
-    }*/
 }
 
 void ClipItem::setSelectedEffect(const int ix)
@@ -379,20 +362,8 @@ void ClipItem::setSelectedEffect(const int ix)
         }
         if (m_keyframeView.loadKeyframes(locale, effect, cropStart().frames(m_fps), cropDuration().frames(m_fps)) && !refreshClip) {
             update();
+            return;
         }
-        /*QDomNodeList params = effect.elementsByTagName("parameter");
-        for (int i = 0; i < params.count(); ++i) {
-            QDomElement e = params.item(i).toElement();
-            if (e.isNull()) continue;
-            if (m_keyframeView.loadKeyframes(locale, e, cropDuration().frames(m_fps))) {
-                if (editedKeyframe > -1) {
-                    m_keyframeView.activeKeyframe = editedKeyframe;
-                }
-                m_visibleParam = i;
-                update();
-                return;
-            }
-        }*/
     }
 
     if (refreshClip) {

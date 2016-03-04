@@ -53,10 +53,11 @@ public:
     /** @brief Returns type of monitor scene requested by this transition. */
     MonitorSceneType needsMonitorEffectScene() const;
     /** @brief Set keyframes for this transition. */
-    void setKeyframes(const QString &data, int maximum);
+    void setKeyframes(const QString &tag, const QString &data);
     void updatePalette();
     /** @brief Emit geometry settings. */
     void initEffectScene(int pos);
+    bool doesAcceptDrops() const;
 
 private:
     EffectMetaInfo m_metaInfo;

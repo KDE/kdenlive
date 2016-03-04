@@ -78,7 +78,7 @@ public:
     /** @brief Returns true of this effect requires an on monitor adjustable effect scene. */
     MonitorSceneType needsMonitorEffectScene() const;
     /** @brief Set keyframes for this param. */
-    void setKeyframes(const QString &data, int maximum);
+    void setKeyframes(const QString &tag, const QString &data);
     /** @brief Update the in / out for the clip. */
     void setRange(int inPoint, int outPoint);
     /** @brief Returns the in / out for the clip. */
@@ -90,6 +90,7 @@ public:
     void setActiveKeyframe(int frame);
     /** @brief The effect was selected / deselected, so we have to update monitor connections. */
     void connectMonitor(bool activate);
+    bool doesAcceptDrops() const;
 
 private slots:
     void slotCollectAllParameters();
@@ -117,6 +118,7 @@ private:
     EffectMetaInfo *m_metaInfo;
     QDomElement m_effect;
     QVBoxLayout *m_vbox;
+    bool m_acceptDrops;
     MonitorSceneType m_monitorEffectScene;
 
 signals:

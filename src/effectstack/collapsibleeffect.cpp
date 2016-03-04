@@ -554,9 +554,9 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
 
     }
     connect (m_paramWidget, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this, SIGNAL(parameterChanged(QDomElement,QDomElement,int)));
-    
+
     connect(m_paramWidget, SIGNAL(startFilterJob(QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)), this, SIGNAL(startFilterJob(QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)));
-    
+
     connect (this, SIGNAL(syncEffectsPos(int)), m_paramWidget, SIGNAL(syncEffectsPos(int)));
     connect (m_paramWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
     connect (m_paramWidget, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
@@ -603,7 +603,11 @@ void CollapsibleEffect::dragEnterEvent(QDragEnterEvent *event)
         frame->setProperty("target", true);
         frame->setStyleSheet(frame->styleSheet());
         event->acceptProposedAction();
+    } else if (m_paramWidget->doesAcceptDrops() && event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
+        event->setDropAction(Qt::CopyAction);
+        event->setAccepted(true);
     }
+    else QWidget::dragEnterEvent(event);
 }
 
 void CollapsibleEffect::dragLeaveEvent(QDragLeaveEvent */*event*/)
@@ -614,6 +618,14 @@ void CollapsibleEffect::dragLeaveEvent(QDragLeaveEvent */*event*/)
 
 void CollapsibleEffect::dropEvent(QDropEvent *event)
 {
+    if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
+        emit activateEffect(effectIndex());
+        QString itemData = event->mimeData()->data(QStringLiteral("kdenlive/geometry"));
+        QMap <QString, QString> data;
+        data.insert(i18n("Geometry"), itemData);
+        emit importClipKeyframes(AVWidget, m_itemInfo, m_effect.cloneNode().toElement(), data);
+        return;
+    }
     frame->setProperty("target", false);
     frame->setStyleSheet(frame->styleSheet());
     const QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
@@ -696,9 +708,9 @@ void CollapsibleEffect::setRange(int inPoint , int outPoint)
     m_paramWidget->setRange(inPoint, outPoint);
 }
 
-void CollapsibleEffect::setKeyframes(const QString &data, int maximum)
+void CollapsibleEffect::setKeyframes(const QString &tag, const QString &data)
 {
-    m_paramWidget->setKeyframes(data, maximum);
+    m_paramWidget->setKeyframes(tag, data);
 }
 
 bool CollapsibleEffect::isMovable() const
@@ -708,5 +720,5 @@ bool CollapsibleEffect::isMovable() const
 
 void CollapsibleEffect::prepareImportClipKeyframes()
 {
-    emit importClipKeyframes(AVWidget, m_itemInfo, QMap<QString,QString>());
+    emit importClipKeyframes(AVWidget, m_itemInfo, m_effect.cloneNode().toElement(), QMap<QString,QString>());
 }

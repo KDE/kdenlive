@@ -77,7 +77,7 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
 
 void TransitionSettings::prepareImportClipKeyframes(GraphicsRectItem, QMap<QString,QString> data)
 {
-    emit importClipKeyframes(TransitionWidget, m_usedTransition->info(), data);
+    emit importClipKeyframes(TransitionWidget, m_usedTransition->info(), m_usedTransition->toXML(), data);
 }
 
 void TransitionSettings::refreshIcons()
@@ -101,7 +101,7 @@ void TransitionSettings::refreshIcons()
 }
 
 void TransitionSettings::dragEnterEvent(QDragEnterEvent * event ) {
-    if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
+    if (m_effectEdit->doesAcceptDrops() && event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
         event->setDropAction(Qt::CopyAction);
         event->setAccepted(true);
     }
@@ -115,7 +115,7 @@ void TransitionSettings::dropEvent( QDropEvent* event )
         QString itemData = event->mimeData()->data(QStringLiteral("kdenlive/geometry"));
         QMap <QString, QString> data;
         data.insert(i18n("Geometry"), itemData);
-        emit importClipKeyframes(TransitionWidget, m_usedTransition->info() , data);
+        emit importClipKeyframes(TransitionWidget, m_usedTransition->info(), m_usedTransition->toXML(), data);
     }
 }
 
@@ -306,9 +306,9 @@ void TransitionSettings::slotCheckMonitorPosition(int renderPos)
     }
 }
 
-void TransitionSettings::setKeyframes(const QString &data, int maximum)
+void TransitionSettings::setKeyframes(const QString &tag, const QString &data)
 {
-    m_effectEdit->setKeyframes(data, maximum);
+    m_effectEdit->setKeyframes(tag, data);
 }
 
 void TransitionSettings::updatePalette()

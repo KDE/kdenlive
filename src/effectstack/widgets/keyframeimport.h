@@ -27,7 +27,9 @@
 #include <QLabel>
 
 #include "definitions.h"
+#include "timecode.h"
 
+class PositionEdit;
 class QCheckBox;
 class QSpinBox;
 class KeyframeView;
@@ -36,29 +38,44 @@ class KeyframeImport : public QDialog
 {
     Q_OBJECT
 public:
-    explicit KeyframeImport(GraphicsRectItem type, ItemInfo info, QMap<QString, QString> data, QWidget *parent = 0);
+    explicit KeyframeImport(GraphicsRectItem type, ItemInfo info, QMap<QString, QString> data, const Timecode &tc, QDomElement xml, ProfileInfo profile, QWidget *parent = 0);
     virtual ~KeyframeImport();
-    int limited() const;
-    bool importPosition() const;
-    bool importSize() const;
     QString selectedData() const;
+    QString selectedTarget() const;
 
 private:
+    ItemInfo m_info;
+    QDomElement m_xml;
+    ProfileInfo m_profile;
+    bool m_supportsAnim;
     QComboBox *m_dataCombo;
     QLabel *m_previewLabel;
     KeyframeView *m_keyframeView;
-    QCheckBox *m_position;
-    QCheckBox *m_size;
-    QCheckBox *m_limit;
+    PositionEdit *m_inPoint;
+    PositionEdit *m_outPoint;
+    PositionEdit *m_offsetPoint;
+    QCheckBox *m_limitRange;
+    QCheckBox *m_limitKeyframes;
     QSpinBox *m_limitNumber;
+    QComboBox *m_sourceCombo;
+    QComboBox *m_targetCombo;
+    QLabel *m_sourceRangeLabel;
     QList <QPoint> m_maximas;
-    void updateDisplay();
+    QDoubleSpinBox m_destMin;
+    QDoubleSpinBox m_destMax;
+    /** @brief Contains the 4 dimensional (x,y,w,h) target parameter names / tag **/
+    QMap <QString, QString> m_geometryTargets;
+    /** @brief Contains the 1 dimensional target parameter names / tag **/
+    QMap <QString, QString> m_simpleTargets;
 
 protected:
     void resizeEvent(QResizeEvent *ev);
 
 private slots:
     void updateDataDisplay();
+    void updateDisplay();
+    void updateRange();
+    void updateDestinationRange();
 };
 
 #endif

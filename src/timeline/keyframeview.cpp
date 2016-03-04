@@ -72,7 +72,7 @@ QPointF KeyframeView::keyframePoint(QRectF br, int frame, double value, double f
 
 void KeyframeView::drawKeyFrames(QRectF br, int length, bool active, QPainter *painter, const QTransform &transformation)
 {
-    if (duration == 0 || m_keyframeType == NoKeyframe || m_keyAnim.key_count() < 1)
+    if (duration == 0 || m_keyframeType == NoKeyframe || !m_keyAnim.is_valid() || m_keyAnim.key_count() < 1)
         return;
     duration = length;
     //m_keyAnim.set_length(length);
@@ -215,10 +215,13 @@ void KeyframeView::drawKeyFrames(QRectF br, int length, bool active, QPainter *p
     painter->restore();
 }
 
-void KeyframeView::drawKeyFrameChannels(QRectF br, int length, QPainter *painter, QList <QPoint> maximas, QColor textColor)
+void KeyframeView::drawKeyFrameChannels(QRectF br, int in, int out, QPainter *painter, QList <QPoint> maximas, int limitKeyframes, QColor textColor)
 {
-    duration = length;
-    double frameFactor = (double) duration / br.width();
+    double frameFactor = (double) (out - in) / br.width();
+    int offset = 1;
+    if (limitKeyframes > 0) {
+        offset = (out - in) / limitKeyframes / frameFactor;
+    }
     double xDist = maximas.at(0).y() - maximas.at(0).x();
     double yDist = maximas.at(1).y() - maximas.at(1).x();
     double wDist = maximas.at(2).y() - maximas.at(2).x();
@@ -231,6 +234,8 @@ void KeyframeView::drawKeyFrameChannels(QRectF br, int length, QPainter *painter
     QColor cY(0, 255, 0, 100);
     QColor cW(0, 0, 255, 100);
     QColor cH(255, 255, 0, 100);
+
+    // Draw curves labels
     QRectF txtRect = painter->boundingRect(br, QStringLiteral("t"));
     txtRect.setX(2);
     txtRect.setWidth(br.width() - 4);
@@ -263,8 +268,9 @@ void KeyframeView::drawKeyFrameChannels(QRectF br, int length, QPainter *painter
         painter->drawText(txtRect, 0, i18n("Height"), &drawnText);
     }
 
+    // Draw curves
     for (int i = 0; i < br.width(); i++) {
-        mlt_rect rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), (int) i * frameFactor, duration);
+        mlt_rect rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), (int) (i * frameFactor) + in);
         if (xDist > 0) {
             painter->setPen(cX);
             int val = (rect.x - xOffset) * maxHeight / xDist;
@@ -286,7 +292,173 @@ void KeyframeView::drawKeyFrameChannels(QRectF br, int length, QPainter *painter
             painter->drawLine(i, maxHeight - val, i, maxHeight);
         }
     }
+    if (offset > 1) {
+        // Overlay limited keyframes curve
+        cX.setAlpha(255);
+        cY.setAlpha(255);
+        cW.setAlpha(255);
+        cH.setAlpha(255);
+        mlt_rect rect1 = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), in);
+        int prevPos = 0;
+        for (int i = offset; i < br.width(); i+= offset) {
+            mlt_rect rect2 = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), (int) (i * frameFactor) + in);
+            if (xDist > 0) {
+                painter->setPen(cX);
+                int val1 = (rect1.x - xOffset) * maxHeight / xDist;
+                int val2 = (rect2.x - xOffset) * maxHeight / xDist;
+                painter->drawLine(prevPos, maxHeight - val1, i, maxHeight - val2);
+            }
+            if (yDist > 0) {
+                painter->setPen(cY);
+                int val1 = (rect1.y - yOffset) * maxHeight / yDist;
+                int val2 = (rect2.y - yOffset) * maxHeight / yDist;
+                painter->drawLine(prevPos, maxHeight - val1, i, maxHeight - val2);
+            }
+            if (wDist > 0) {
+                painter->setPen(cW);
+                int val1 = (rect1.w - wOffset) * maxHeight / wDist;
+                int val2 = (rect2.w - wOffset) * maxHeight / wDist;
+                painter->drawLine(prevPos, maxHeight - val1, i, maxHeight - val2);
+            }
+            if (hDist > 0) {
+                painter->setPen(cH);
+                int val1 = (rect1.h - hOffset) * maxHeight / hDist;
+                int val2 = (rect2.h - hOffset) * maxHeight / hDist;
+                painter->drawLine(prevPos, maxHeight - val1, i, maxHeight - val2);
+            }
+            rect1 = rect2;
+            prevPos =i;
+        }
+    }
 }
+
+QString KeyframeView::getSingleAnimation(int ix, int in, int out, int offset, int limitKeyframes, QPoint maximas, double min, double max)
+{
+    m_keyProperties.set("kdenlive_import", "");
+    int newduration = out - in + offset;
+    m_keyProperties.anim_get_double("kdenlive_import", 0, newduration);
+    Mlt::Animation anim = m_keyProperties.get_animation("kdenlive_import");
+    double factor = (max - min) / (maximas.y() - maximas.x());
+    mlt_rect rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), in, duration);
+    double value;
+    switch (ix) {
+        case 1:
+            value = rect.y;
+            break;
+        case 2:
+            value = rect.w;
+            break;
+        case 3:
+            value = rect.h;
+            break;
+        default:
+            value = rect.x;
+            break;
+    }
+    if (maximas.x() > 0) {
+        value -= maximas.x();
+    }
+    value = value * factor + min;
+    m_keyProperties.anim_set("kdenlive_import", value, offset, newduration, limitKeyframes > 0 ? mlt_keyframe_smooth : mlt_keyframe_linear);
+    if (limitKeyframes > 0) {
+        int step = (out - in) / limitKeyframes;
+        for (int i = step; i < out; i+= step) {
+            rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), in + i, duration);
+            switch (ix) {
+                case 1:
+                    value = rect.y;
+                    break;
+                case 2:
+                    value = rect.w;
+                    break;
+                case 3:
+                    value = rect.h;
+                    break;
+                default:
+                    value = rect.x;
+                    break;
+            }
+            if (maximas.x() > 0) {
+                value -= maximas.x();
+            }
+            value = value * factor + min;
+            m_keyProperties.anim_set("kdenlive_import", value, offset + i, newduration, mlt_keyframe_smooth);
+        }
+    } else {
+        int next = m_keyAnim.next_key(in + 1);
+        while (next < out && next > 0) {
+            rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), next, duration);
+            switch (ix) {
+                case 1:
+                    value = rect.y;
+                    break;
+                case 2:
+                    value = rect.w;
+                    break;
+                case 3:
+                    value = rect.h;
+                    break;
+                default:
+                    value = rect.x;
+                    break;
+            }
+            if (maximas.x() > 0) {
+                value -= maximas.x();
+            }
+            value = value * factor + min;
+            m_keyProperties.anim_set("kdenlive_import", value, offset + next - in, newduration, mlt_keyframe_linear);
+            next = m_keyAnim.next_key(next + 1);
+        }
+    }
+    QString result = anim.serialize_cut();
+    m_keyProperties.set("kdenlive_import", (char*) NULL);
+    return result;
+}
+
+QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitKeyframes, ProfileInfo profile, bool allowAnimation)
+{
+    m_keyProperties.set("kdenlive_import", "");
+    int newduration = out - in + offset;
+    int pWidth = profile.profileSize.width();
+    int pHeight = profile.profileSize.height();
+    m_keyProperties.anim_get_double("kdenlive_import", 0, newduration);
+    Mlt::Animation anim = m_keyProperties.get_animation("kdenlive_import");
+    mlt_keyframe_type kftype = (limitKeyframes > 0 && allowAnimation) ? mlt_keyframe_smooth : mlt_keyframe_linear;
+    mlt_rect rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), in, duration);
+    rect.x = (int) rect.x;
+    rect.y = (int) rect.y;
+    rect.w = pWidth;
+    rect.h = pHeight;
+    rect.o = 100;
+    m_keyProperties.anim_set("kdenlive_import", rect, offset, newduration, kftype);
+    if (limitKeyframes > 0) {
+        int step = (out - in) / limitKeyframes;
+        for (int i = step; i < out; i+= step) {
+            rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), in + i, duration);
+            rect.x = (int) rect.x;
+            rect.y = (int) rect.y;
+            rect.w = pWidth;
+            rect.h = pHeight;
+            rect.o = 100;
+            m_keyProperties.anim_set("kdenlive_import", rect, offset + i, newduration, kftype);
+        }
+    } else {
+        int next = m_keyAnim.next_key(in + 1);
+        while (next < out && next > 0) {
+            rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), next, duration);
+            rect.x = (int) rect.x;
+            rect.y = (int) rect.y;
+            rect.w = pWidth;
+            rect.h = pHeight;
+            rect.o = 100;
+            m_keyProperties.anim_set("kdenlive_import", rect, offset + next - in, newduration, mlt_keyframe_linear);
+        }
+    }
+    QString result = anim.serialize_cut();
+    m_keyProperties.set("kdenlive_import", (char*) NULL);
+    return result;
+}
+
 
 int KeyframeView::mouseOverKeyFrames(QRectF br, QPointF pos, double maxOffset, double scale)
 {
@@ -552,7 +724,7 @@ QList <QPoint> KeyframeView::loadKeyframes(const QString &data)
 
 bool KeyframeView::loadKeyframes(const QLocale locale, QDomElement effect, int cropStart, int length)
 {
-    m_keyframeType = AnimatedKeyframe;
+    m_keyframeType = NoKeyframe;
     duration = length;
     m_inTimeline.clear();
     // reset existing properties

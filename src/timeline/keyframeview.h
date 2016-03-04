@@ -89,7 +89,7 @@ public:
       */
     void drawKeyFrames(QRectF br, int length, bool active, QPainter *painter, const QTransform &transformation);
     /** @brief Draw the x, y, w, h channels of an animated geometry */
-    void drawKeyFrameChannels(QRectF br, int length, QPainter *painter, QList <QPoint> maximas, QColor textColor);
+    void drawKeyFrameChannels(QRectF br, int in, int out, QPainter *painter, QList <QPoint> maximas, int limitKeyframes, QColor textColor);
     int mouseOverKeyFrames(QRectF br, QPointF pos, double maxOffset, double scale);
     void showMenu(QWidget *parent, QPoint pos);
     QAction *parseKeyframeActions(QList <QAction *>actions);
@@ -100,6 +100,10 @@ public:
     bool activeParam(const QString &name) const;
     /** @brief Sets a temporary offset for drawing keyframes when resizing clip start */
     void setOffset(int frames);
+    /** @brief Returns a copy of the original anim, with a crop zone (in/out), frame offset, max number of keyframes, and value mapping */
+    QString getSingleAnimation(int ix, int in, int out, int offset, int limitKeyframes, QPoint maximas, double min, double max);
+    /** @brief Returns a copy of the original anim, with a crop zone (in/out) and frame offset */
+    QString getOffsetAnimation(int in, int out, int offset, int limitKeyframes, ProfileInfo profile, bool allowAnimation);
 	
 private:
     Mlt::Properties m_keyProperties;

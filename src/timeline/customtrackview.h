@@ -324,7 +324,7 @@ public slots:
     void updateSnapPoints(AbstractClipItem *selected, QList <GenTime> offsetList = QList <GenTime> (), bool skipSelectedItems = false);
     
     void slotAddEffect(ClipItem *clip, const QDomElement &effect, int track = -1);
-    void slotImportClipKeyframes(GraphicsRectItem type, ItemInfo info, QMap<QString, QString> data = QMap<QString, QString>());
+    void slotImportClipKeyframes(GraphicsRectItem type, ItemInfo info, QDomElement xml, QMap<QString, QString> data = QMap<QString, QString>());
 
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
@@ -584,7 +584,7 @@ signals:
     /** @brief Cursor position changed, repaint ruler.*/
     void updateRuler(int pos);
     /** @brief Send data from a clip to be imported as keyframes for effect / transition.*/
-    void importKeyframes(GraphicsRectItem type, const QString&, int maximum);
+    void importKeyframes(GraphicsRectItem type, const QString&, const QString&);
     /** @brief Guides were changed, inform render widget*/
     void guidesUpdated();
     /** @brief Prepare importing and expand of a playlist clip */

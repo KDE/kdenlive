@@ -79,7 +79,7 @@ public:
     static const QString getStyleSheet();
 
     /** @brief Import keyframes from the clip metadata */
-    void setKeyframes(const QString &data, int maximum);
+    void setKeyframes(const QString &tag, const QString &data);
 
     /** @brief Returns the transition setting widget for signal/slot connections */
     TransitionSettings *transitionConfig();
@@ -281,7 +281,7 @@ signals:
     void showComments(bool show);
     void startFilterJob(const ItemInfo &info, const QString &clipId, QMap<QString, QString>&, QMap<QString, QString>&, QMap<QString, QString>&);
     void addEffect(ClipItem*,const QDomElement &,int);
-    void importClipKeyframes(GraphicsRectItem, ItemInfo, QMap<QString,QString> data = QMap<QString,QString>());
+    void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString> data = QMap<QString,QString>());
 };
 
 #endif

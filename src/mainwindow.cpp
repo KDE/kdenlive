@@ -1631,7 +1631,7 @@ void MainWindow::connectDocument()
     connect(trackView, SIGNAL(mousePosition(int)), this, SLOT(slotUpdateMousePosition(int)));
     connect(pCore->producerQueue(), SIGNAL(infoProcessingFinished()), trackView->projectView(), SLOT(slotInfoProcessingFinished()), Qt::DirectConnection);
 
-    connect(trackView->projectView(), SIGNAL(importKeyframes(GraphicsRectItem,QString,int)), this, SLOT(slotProcessImportKeyframes(GraphicsRectItem,QString,int)));
+    connect(trackView->projectView(), SIGNAL(importKeyframes(GraphicsRectItem,QString,QString)), this, SLOT(slotProcessImportKeyframes(GraphicsRectItem,QString,QString)));
     connect(m_projectMonitor, &Monitor::multitrackView, trackView, &Timeline::slotMultitrackView);
     connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), trackView, SLOT(slotSetZone(QPoint)));
@@ -1679,7 +1679,7 @@ void MainWindow::connectDocument()
 
     connect(m_effectStack, SIGNAL(refreshEffectStack(ClipItem*)), trackView->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
     connect(m_effectStack, SIGNAL(seekTimeline(int)), trackView->projectView(), SLOT(seekCursorPos(int)));
-    connect(m_effectStack, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QMap<QString,QString>)), trackView->projectView(), SLOT(slotImportClipKeyframes(GraphicsRectItem, ItemInfo, QMap<QString,QString>)));
+    connect(m_effectStack, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString>)), trackView->projectView(), SLOT(slotImportClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString>)));
 
     // Transition config signals
     connect(m_effectStack->transitionConfig(), SIGNAL(transitionUpdated(Transition*,QDomElement)), trackView->projectView() , SLOT(slotTransitionUpdated(Transition*,QDomElement)));
@@ -3341,15 +3341,15 @@ void MainWindow::slotSaveTimelineClip()
     }
 }
 
-void MainWindow::slotProcessImportKeyframes(GraphicsRectItem type, const QString& data, int maximum)
+void MainWindow::slotProcessImportKeyframes(GraphicsRectItem type, const QString &tag, const QString& data)
 {
     if (type == AVWidget) {
         // This data should be sent to the effect stack
-        m_effectStack->setKeyframes(data, maximum);
+        m_effectStack->setKeyframes(tag, data);
     }
     else if (type == TransitionWidget) {
         // This data should be sent to the transition stack
-        m_effectStack->transitionConfig()->setKeyframes(data, maximum);
+        m_effectStack->transitionConfig()->setKeyframes(tag, data);
     }
     else {
         // Error

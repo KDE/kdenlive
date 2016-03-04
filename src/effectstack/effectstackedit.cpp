@@ -189,11 +189,15 @@ MonitorSceneType EffectStackEdit::needsMonitorEffectScene() const
     return m_paramWidget->needsMonitorEffectScene();
 }
 
-void EffectStackEdit::setKeyframes(const QString &data, int maximum)
+void EffectStackEdit::setKeyframes(const QString &tag, const QString &data)
 {
     if (!m_paramWidget) return;
-    m_paramWidget->setKeyframes(data, maximum);
+    m_paramWidget->setKeyframes(tag, data);
 }
 
-
+bool EffectStackEdit::doesAcceptDrops() const
+{
+    if (!m_paramWidget) return false;
+    return m_paramWidget->doesAcceptDrops();
+}
 

@@ -79,7 +79,7 @@ public:
     /** @brief Set clip in / out points. */
     void setRange(int inPoint , int outPoint);
     /** @brief Import keyframes from a clip's data. */
-    void setKeyframes(const QString &data, int maximum);
+    void setKeyframes(const QString &tag, const QString &data);
     /** @brief Pass frame size info (dar, etc). */
     void updateFrameInfo();
     /** @brief Select active keyframe. */
@@ -157,7 +157,7 @@ signals:
     void unGroup(CollapsibleEffect *);
     void createRegion(int, const QUrl&);
     void deleteGroup(const QDomDocument&);
-    void importClipKeyframes(GraphicsRectItem, ItemInfo, QMap<QString,QString> data = QMap<QString,QString>());
+    void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString> data = QMap<QString,QString>());
 };
 
 

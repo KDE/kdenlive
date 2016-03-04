@@ -935,14 +935,6 @@ void AnimationWidget::deletePreset()
     loadPresets();
 }
 
-//virtual
-void AnimationWidget::dragEnterEvent(QDragEnterEvent *event)
-{
-    if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
-        event->acceptProposedAction();
-    } else event->setAccepted(false);
-}
-
 void AnimationWidget::setActiveKeyframe(int frame)
 {
     m_ruler->setActiveKeyframe(frame);
@@ -1091,22 +1083,17 @@ void AnimationWidget::offsetAnimation(int offset)
     m_offset -= offset;
 }
 
-
-void AnimationWidget::dropEvent(QDropEvent * /*event*/)
+void AnimationWidget::reload(const QString &tag, const QString &data)
 {
-    /*if (event->proposedAction() == Qt::CopyAction && scene() && !scene()->views().isEmpty()) {
-        QString effects;
-        bool transitionDrop = false;
-        if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/transitionslist"))) {
-            // Transition drop
-            effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/transitionslist")));
-            transitionDrop = true;
-        } else {
-            // Effect drop
-            effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
-        }
-        event->acceptProposedAction();
-        QDomDocument doc;
-        doc.setContent(effects, true);
-    }*/
+    m_animProperties.set(tag.toUtf8().constData(), data.toUtf8().constData());
+    m_animProperties.anim_get_int(tag.toUtf8().constData(), 0, m_outPoint);
+    m_attachedToEnd = KeyframeView::checkNegatives(data, m_outPoint);
+    m_inTimeline = tag;
+    QMapIterator<QString, DoubleParameterWidget *> i(m_doubleWidgets);
+    while (i.hasNext()) {
+        i.next();
+        i.value()->setChecked(i.key() == tag);
+    }
+    rebuildKeyframes();
 }
+

@@ -60,6 +60,8 @@ public:
     void connectMonitor(bool activate);
     /** @brief Adds an offset to all keyframes (translate by x frames) */
     void offsetAnimation(int offset);
+    /** @brief Effect param @tag was changed, reload keyframes */
+    void reload(const QString &tag, const QString &data);
 
 private:
     AnimKeyframeRuler *m_ruler;
@@ -106,10 +108,6 @@ private:
     void buildRectWidget(const QString &paramTag, const QDomElement &e);
     /** @brief Calculate path for keyframes centers and send to monitor */
     void setupMonitor(QRect r = QRect());
-
-protected:
-    void dragEnterEvent(QDragEnterEvent *event);
-    void dropEvent(QDropEvent * event);
 
 public slots:
     void slotSyncPosition(int relTimelinePos);

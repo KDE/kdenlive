@@ -7783,7 +7783,7 @@ void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPo
 }
 
 
-void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, ItemInfo info, QMap<QString, QString> data)
+void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, ItemInfo info, QDomElement xml, QMap<QString, QString> data)
 {
     ClipItem *item = NULL;
     if (type == TransitionWidget && data.isEmpty()) {
@@ -7818,18 +7818,22 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, ItemInfo in
         emit displayMessage(i18n("No keyframe data found in clip"), ErrorMessage);
         return;
     }
-    KeyframeImport *import = new KeyframeImport(type, info, data, this);
+    KeyframeImport *import = new KeyframeImport(type, info, data, m_document->timecode(), xml, m_document->getProfileInfo(), this);
     if (import->exec() != QDialog::Accepted) {
         // Aborted by user
         delete import;
         return;
     }
     QString keyframeData = import->selectedData();
+    QString tag = import->selectedTarget();
+    delete import;
+    emit importKeyframes(type, tag, keyframeData);
+    return;
     // Keyframe data is stored in the clip in the project tree.
     // And we are importing this data into a transition on the timeline
     // And the clip on the timeline might be croped from the start.
 
-    int offset = 0;
+    /*int offset = 0;
     int duration;
     if (item) {
         offset = item->cropStart().frames(m_document->fps());
@@ -7897,7 +7901,7 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, ItemInfo in
     }
     // connected to MainWindow::slotProcessImportKeyframes
     emit importKeyframes(type, result, import->limited());
-    delete import;
+    */
 }
 
 void CustomTrackView::slotReplaceTimelineProducer(const QString &id)

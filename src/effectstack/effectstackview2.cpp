@@ -63,7 +63,7 @@ EffectStackView2::EffectStackView2(Monitor *projectMonitor, QWidget *parent) :
 
     m_effect = new EffectSettings(this);
     m_transition = new TransitionSettings(projectMonitor, this);
-    connect(m_transition, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QMap<QString,QString>)), this, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QMap<QString,QString>)));
+    connect(m_transition, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString>)), this, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString>)));
     connect(m_effect->checkAll, SIGNAL(stateChanged(int)), this, SLOT(slotCheckAll(int)));
     connect(m_effect->effectCompare, &QToolButton::toggled, this, &EffectStackView2::slotSwitchCompare);
 
@@ -438,7 +438,7 @@ void EffectStackView2::connectEffect(CollapsibleEffect *currentEffect)
     connect(currentEffect, SIGNAL(addEffect(QDomElement)), this , SLOT(slotAddEffect(QDomElement)));
     connect(currentEffect, SIGNAL(createRegion(int,QUrl)), this, SLOT(slotCreateRegion(int,QUrl)));
     connect(currentEffect, SIGNAL(deleteGroup(QDomDocument)), this , SLOT(slotDeleteGroup(QDomDocument)));
-    connect(currentEffect, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QMap<QString,QString>)), this, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QMap<QString,QString>)));
+    connect(currentEffect, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString>)), this, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString>)));
 }
 
 void EffectStackView2::slotCheckWheelEventFilter()
@@ -1194,11 +1194,11 @@ void EffectStackView2::dropEvent(QDropEvent *event)
     processDroppedEffect(doc.documentElement(), event);
 }
 
-void EffectStackView2::setKeyframes(const QString &data, int maximum)
+void EffectStackView2::setKeyframes(const QString &tag, const QString &data)
 {
     for (int i = 0; i < m_effects.count(); ++i) {
         if (m_effects.at(i)->isActive()) {
-	    m_effects.at(i)->setKeyframes(data, maximum);
+	    m_effects.at(i)->setKeyframes(tag, data);
             break;
         }
     }

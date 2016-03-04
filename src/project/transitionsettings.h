@@ -36,7 +36,7 @@ public:
     void raiseWindow(QWidget*);
     void updateProjectFormat();
     void updateTimecodeFormat();
-    void setKeyframes(const QString &data, int maximum);
+    void setKeyframes(const QString &tag, const QString &data);
     void updatePalette();
     void refreshIcons();
 
@@ -70,7 +70,7 @@ private slots:
 signals:
     void transitionUpdated(Transition *, const QDomElement&);
     void seekTimeline(int);
-    void importClipKeyframes(GraphicsRectItem, ItemInfo, QMap<QString,QString> data = QMap<QString,QString>());
+    void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString> data = QMap<QString,QString>());
 };
 
 #endif
