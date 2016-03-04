@@ -7786,6 +7786,7 @@ void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPo
 void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, ItemInfo info, QDomElement xml, QMap<QString, QString> data)
 {
     ClipItem *item = NULL;
+    ItemInfo srcInfo;
     if (type == TransitionWidget && data.isEmpty()) {
         // We want to import keyframes to a transition
         if (!m_selectionGroup) {
@@ -7797,6 +7798,7 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, ItemInfo in
         for (int i = 0; i < children.count(); ++i) {
             if (children.at(i)->type() == AVWidget) {
                 item = static_cast<ClipItem*>(children.at(i));
+                srcInfo = item->info();
                 break;
             }
         }
@@ -7818,7 +7820,7 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, ItemInfo in
         emit displayMessage(i18n("No keyframe data found in clip"), ErrorMessage);
         return;
     }
-    KeyframeImport *import = new KeyframeImport(type, info, data, m_document->timecode(), xml, m_document->getProfileInfo(), this);
+    KeyframeImport *import = new KeyframeImport(type, srcInfo, info, data, m_document->timecode(), xml, m_document->getProfileInfo(), this);
     if (import->exec() != QDialog::Accepted) {
         // Aborted by user
         delete import;
@@ -7828,80 +7830,6 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, ItemInfo in
     QString tag = import->selectedTarget();
     delete import;
     emit importKeyframes(type, tag, keyframeData);
-    return;
-    // Keyframe data is stored in the clip in the project tree.
-    // And we are importing this data into a transition on the timeline
-    // And the clip on the timeline might be croped from the start.
-
-    /*int offset = 0;
-    int duration;
-    if (item) {
-        offset = item->cropStart().frames(m_document->fps());
-        duration = item->binClip()->duration().frames(m_document->renderer()->fps());
-    }
-    else {
-        duration = keyframeData.section(QStringLiteral(";"), -1).section(QStringLiteral("="), 0, 0).toInt();
-    }
-   //Geometry( char *data = NULL, int length = 0, int nw = -1, int nh = -1 );
-    // This geometry object is created with the keyframe data from our clip in the project tree
-    Mlt::Geometry geometry(keyframeData.toUtf8().data(), duration, m_document->renderer()->frameRenderWidth(), m_document->renderer()->renderHeight());
-   // vvv create another Mlt:Geometery object in newGeometry - create with empty data
-    Mlt::Geometry newGeometry(QString().toUtf8().data(), duration, m_document->renderer()->frameRenderWidth(), m_document->renderer()->renderHeight());
-    Mlt::GeometryItem gitem;
-    geometry.fetch(&gitem, offset);
-    gitem.frame(0);
-    newGeometry.insert(gitem);
-    // copying the geometry items to newGeometry starting from the ofset position
-    int pos = offset + 1;
-    while (!geometry.next_key(&gitem, pos)) {
-        pos = gitem.frame();
-        gitem.frame(pos - offset);
-        pos++;
-        newGeometry.insert(gitem);
-    }
-    QStringList keyframeList = QString(newGeometry.serialise()).split(';', QString::SkipEmptyParts);
-
-    QString result;
-    if (import->importPosition()) {
-        if (import->importSize()) {
-            // if you choose the position and size check box
-            // then you go into here and all the key frames
-            // are imported. But the transtion also gets
-            // sized down to the size of the obscure rectangle
-            foreach(const QString &key, keyframeList) {
-                if (key.count('=') > 1) result.append(key.section('=', 0, 1));
-                else result.append(key);
-                result.append(';');
-            }
-        }
-        else {
-            // if you only select the position check box
-            foreach(const QString &key, keyframeList) {
-                QString PosSect;
-                PosSect =key.section(':', 0, 0);
-                result.append( PosSect);
-                // add the size component to the key frame data - making it the same size as the clip
-                result.append(':' + QString::number( m_document->renderer()->frameRenderWidth()) + 'x' + QString::number( m_document->renderer()->renderHeight()) );
-                result.append(';');
-            }
-        }
-    }
-    else if (import->importSize()) {
-        // just the size check box is checked
-        // In this case make the position info 0,0 and take the size info from
-        // the source clip
-        foreach(const QString &key, keyframeList) {
-            QString FrameNumSect;
-            FrameNumSect =key.section('=', 0, 0);
-            QString sizeSect;
-            sizeSect=key.section(':', 1, 1);
-            result.append(FrameNumSect + "=0/0:" + sizeSect);
-            result.append(';');
-        }
-    }
-    // connected to MainWindow::slotProcessImportKeyframes
-    emit importKeyframes(type, result, import->limited());
-    */
 }
 
 void CustomTrackView::slotReplaceTimelineProducer(const QString &id)

@@ -35,6 +35,7 @@ public:
     int getPosition() const;
     void setPosition(int pos);
     void updateTimecodeFormat();
+    bool isValid() const;
 
 public slots:
     void setRange(int min, int max, bool absolute = false);

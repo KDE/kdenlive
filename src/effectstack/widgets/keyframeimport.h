@@ -38,13 +38,12 @@ class KeyframeImport : public QDialog
 {
     Q_OBJECT
 public:
-    explicit KeyframeImport(GraphicsRectItem type, ItemInfo info, QMap<QString, QString> data, const Timecode &tc, QDomElement xml, ProfileInfo profile, QWidget *parent = 0);
+    explicit KeyframeImport(GraphicsRectItem type, ItemInfo srcInfo, ItemInfo dstInfo, QMap<QString, QString> data, const Timecode &tc, QDomElement xml, ProfileInfo profile, QWidget *parent = 0);
     virtual ~KeyframeImport();
     QString selectedData() const;
     QString selectedTarget() const;
 
 private:
-    ItemInfo m_info;
     QDomElement m_xml;
     ProfileInfo m_profile;
     bool m_supportsAnim;

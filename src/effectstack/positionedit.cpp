@@ -30,9 +30,7 @@ PositionEdit::PositionEdit(const QString &name, int pos, int min, int max, const
     QWidget(parent)
 {
     QHBoxLayout *layout = new QHBoxLayout(this);
-
-    QLabel *label = new QLabel(name, this);
-
+    QLabel label(name, this);
     m_slider = new QSlider(Qt::Horizontal);
     m_slider->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
     m_slider->setRange(min, max);
@@ -41,14 +39,15 @@ PositionEdit::PositionEdit(const QString &name, int pos, int min, int max, const
     m_display->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred));
     m_display->setRange(min, max);
 
-    layout->addWidget(label);
+    layout->addWidget(&label);
     layout->addWidget(m_slider);
     layout->addWidget(m_display);
 
+    m_slider->setValue(pos);
+    m_display->setValue(pos);
     connect(m_slider, SIGNAL(valueChanged(int)), m_display, SLOT(setValue(int)));
     connect(m_slider, SIGNAL(valueChanged(int)), this, SIGNAL(parameterChanged(int)));
     connect(m_display, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotUpdatePosition()));
-    m_slider->setValue(pos);
 }
 
 PositionEdit::~PositionEdit()
@@ -91,6 +90,11 @@ void PositionEdit::setRange(int min, int max, bool absolute)
         m_slider->setRange(0, max - min);
         m_display->setRange(0, max - min);
     }
+}
+
+bool PositionEdit::isValid() const
+{
+    return m_slider->minimum() != m_slider->maximum();
 }
 
 

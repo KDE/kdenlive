@@ -38,9 +38,8 @@
 #include "effectstack/positionedit.h"
 #include "timeline/keyframeview.h"
 
-KeyframeImport::KeyframeImport(GraphicsRectItem type, ItemInfo info, QMap<QString, QString> data, const Timecode &tc, QDomElement xml, ProfileInfo profile, QWidget *parent) :
+KeyframeImport::KeyframeImport(GraphicsRectItem type, ItemInfo srcInfo, ItemInfo dstInfo, QMap<QString, QString> data, const Timecode &tc, QDomElement xml, ProfileInfo profile, QWidget *parent) :
     QDialog(parent)
-    , m_info(info)
     , m_xml(xml)
     , m_profile(profile)
     , m_supportsAnim(false)
@@ -70,10 +69,10 @@ KeyframeImport::KeyframeImport(GraphicsRectItem type, ItemInfo info, QMap<QStrin
     lay->addWidget(m_previewLabel);
     m_keyframeView = new KeyframeView(0, this);
     // Zone in / out
-    m_inPoint = new PositionEdit(i18n("In"), 0, 0, 100, tc, this);
+    m_inPoint = new PositionEdit(i18n("In"), srcInfo.cropStart.frames(tc.fps()), srcInfo.cropStart.frames(tc.fps()), (srcInfo.cropStart + srcInfo.cropDuration).frames(tc.fps()), tc, this);
     connect(m_inPoint, SIGNAL(parameterChanged(int)), this, SLOT(updateDisplay()));
     lay->addWidget(m_inPoint);
-    m_outPoint = new PositionEdit(i18n("Out"), 0, 0, 100, tc, this);
+    m_outPoint = new PositionEdit(i18n("Out"), (srcInfo.cropStart + srcInfo.cropDuration).frames(tc.fps()), srcInfo.cropStart.frames(tc.fps()), (srcInfo.cropStart + srcInfo.cropDuration).frames(tc.fps()), tc, this);
     connect(m_outPoint, SIGNAL(parameterChanged(int)), this, SLOT(updateDisplay()));
     lay->addWidget(m_outPoint);
 
@@ -146,7 +145,7 @@ KeyframeImport::KeyframeImport(GraphicsRectItem type, ItemInfo info, QMap<QStrin
     lay->addLayout(l1);
 
     // Output offset
-    m_offsetPoint = new PositionEdit(i18n("Offset"), 0, 0, info.cropDuration.frames(tc.fps()), tc, this);
+    m_offsetPoint = new PositionEdit(i18n("Offset"), 0, 0, dstInfo.cropDuration.frames(tc.fps()), tc, this);
     lay->addWidget(m_offsetPoint);
 
     // Source range
@@ -209,14 +208,16 @@ void KeyframeImport::updateDataDisplay()
     QString data = m_dataCombo->currentData().toString();
     m_maximas = m_keyframeView->loadKeyframes(data);
     updateRange();
-    m_inPoint->blockSignals(true);
-    m_outPoint->blockSignals(true);
-    m_inPoint->setRange(0, m_keyframeView->duration);
-    m_outPoint->setRange(0, m_keyframeView->duration);
-    m_inPoint->setPosition(0);
-    m_outPoint->setPosition(m_keyframeView->duration);
-    m_inPoint->blockSignals(false);
-    m_outPoint->blockSignals(false);
+    if (!m_inPoint->isValid()) {
+        m_inPoint->blockSignals(true);
+        m_outPoint->blockSignals(true);
+        m_inPoint->setRange(0, m_keyframeView->duration);
+        m_outPoint->setRange(0, m_keyframeView->duration);
+        m_inPoint->setPosition(0);
+        m_outPoint->setPosition(m_keyframeView->duration);
+        m_inPoint->blockSignals(false);
+        m_outPoint->blockSignals(false);
+    }
     updateDisplay();
 }
 
