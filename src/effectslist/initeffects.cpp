@@ -659,7 +659,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
 
     //WARNING: this is a hack to get around temporary invalid metadata in MLT, 2nd of june 2011 JBM
     QStringList customTransitions;
-    customTransitions << QStringLiteral("composite") << QStringLiteral("luma") << QStringLiteral("affine") << QStringLiteral("mix") << QStringLiteral("region");
+    customTransitions << QStringLiteral("composite") << QStringLiteral("affine") << QStringLiteral("mix") << QStringLiteral("region");
 
     foreach(const QString & name, names) {
         QDomDocument ret;

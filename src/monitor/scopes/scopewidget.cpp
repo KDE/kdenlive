@@ -29,8 +29,8 @@ ScopeWidget::ScopeWidget(QWidget *parent)
   , m_forceRefresh(false)
   , m_size(0, 0)
 {
-    qDebug() << "begin" << m_future.isFinished();
-    qDebug() << "end";
+    //qDebug() << "begin" << m_future.isFinished();
+    //qDebug() << "end";
 }
 
 ScopeWidget::~ScopeWidget()
