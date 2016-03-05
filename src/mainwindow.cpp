@@ -214,6 +214,13 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     MltConnection::locateMeltAndProfilesPath(MltPath);
 
     KdenliveSettings::setCurrent_profile(KdenliveSettings::default_profile());
+
+    // If using a custom profile, make sure the file exists or fallback to default
+    if (KdenliveSettings::current_profile().startsWith(QStringLiteral("/")) && !QFile::exists(KdenliveSettings::current_profile())) {
+        KMessageBox::sorry(this, i18n("Cannot find your default profile, switching to ATSC 1080p 25"));
+        KdenliveSettings::setCurrent_profile("atsc_1080p_25");
+        KdenliveSettings::setDefault_profile("atsc_1080p_25");
+    }
     m_commandStack = new QUndoGroup;
     m_timelineArea = new QTabWidget(this);
     //m_timelineArea->setTabReorderingEnabled(true);
