@@ -89,7 +89,6 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, cons
     m_enabledButton = new KDualAction(i18n("Disable Effect"), i18n("Enable Effect"), this);
     m_enabledButton->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("hint")));
     m_enabledButton->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("visibility")));
-    m_enabledButton->setActive(true);
     enabledButton->setDefaultAction(m_enabledButton);
 
 
