@@ -129,7 +129,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
     m_vbox = new QVBoxLayout(parent);
     m_vbox->setContentsMargins(4, 0, 4, 0);
     m_vbox->setSpacing(2);
-
+    // qDebug()<<"-------------------------------------\n"<<"LOADED TRANS: "<<effect.attribute("tag")<<"\n-------------------";
     if (effect.attribute(QStringLiteral("id")) == QLatin1String("movit.lift_gamma_gain") || effect.attribute(QStringLiteral("id")) == QLatin1String("lift_gamma_gain") ) {
         // We use a special custom widget here
         LumaLiftGain *gainWidget = new LumaLiftGain(namenode, parent);
@@ -153,7 +153,6 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
 
 
         /** See effects/README for info on the different types */
-        //qDebug()<<"-------------------------------------\n"<<effect.ownerDocument().toString()<<"\n-------------------";
         if (type == QLatin1String("double") || type == QLatin1String("constant")) {
             double min;
             double max;

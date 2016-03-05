@@ -67,6 +67,7 @@ void initEffects::refreshLumas()
         imagenamelist.append(fname);
         imagefiles.append(lumafolder.absoluteFilePath(fname));
     }
+    //TODO adapt to Wipe transition
     QDomElement lumaTransition = MainWindow::transitions.getEffectByTag(QStringLiteral("luma"), QStringLiteral("luma"));
     QDomNodeList params = lumaTransition.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
@@ -654,6 +655,10 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
 {
     // Remove transitions that are not implemented.
     int pos = names.indexOf(QStringLiteral("mix"));
+    if (pos != -1)
+        names.takeAt(pos);
+    // Remove unused luma transition, replaced with a custom composite Wipe transition
+    pos = names.indexOf(QStringLiteral("luma"));
     if (pos != -1)
         names.takeAt(pos);
 
