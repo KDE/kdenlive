@@ -173,7 +173,11 @@ void TimecodeDisplay::setValue(const QString &value)
 
 void TimecodeDisplay::setValue(int value)
 {
-    value = qBound(m_minimum, value, m_maximum);
+    if (m_maximum > 0) {
+        value = qBound(m_minimum, value, m_maximum);
+    } else {
+        value = qMax(m_minimum, value);
+    }
 
     if (m_frametimecode) {
 	if (value == m_value && !lineEdit()->text().isEmpty()) return;
