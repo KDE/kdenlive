@@ -158,7 +158,11 @@ void ClipController::getInfoForProducer()
         m_hasLimitedDuration = false;
     }
     else if (m_service == QLatin1String("kdenlivetitle")) {
-        m_clipType = Text;
+        if (!m_url.isEmpty()) {
+            m_clipType = TextTemplate;
+        } else {
+            m_clipType = Text;
+        }
         m_hasLimitedDuration = false;
     }
     else if (m_service == QLatin1String("xml") || m_service == QLatin1String("consumer")) {

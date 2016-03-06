@@ -324,7 +324,7 @@ void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, QStringList g
         QDomDocument xml;
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
-        
+
         QMap <QString, QString> properties;
         properties.insert(QStringLiteral("resource"), textTemplate);
         properties.insert(QStringLiteral("kdenlive:clipname"), i18n("Template title clip"));
@@ -334,7 +334,7 @@ void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, QStringList g
         addXmlProperties(prod, properties);
         uint id = bin->getFreeClipId();
         prod.setAttribute(QStringLiteral("id"), QString::number(id));
-        prod.setAttribute(QStringLiteral("type"), (int) Text);
+        prod.setAttribute(QStringLiteral("type"), (int) TextTemplate);
         prod.setAttribute(QStringLiteral("transparency"), QStringLiteral("1"));
         prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
 

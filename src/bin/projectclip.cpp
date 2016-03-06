@@ -600,14 +600,13 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
             bin()->startJob(m_id, AbstractClipJob::PROXYJOB);
         }
     }
-    else if (properties.contains(QStringLiteral("resource"))) {
+    else if (properties.contains(QStringLiteral("resource")) || properties.contains(QStringLiteral("templatetext"))) {
         // Clip resource changed, update thumbnail
         if (m_type != Color) {
             reloadProducer();
         }
         else reload = true;
     }
-
     if (properties.contains(QStringLiteral("xmldata")) || !passProperties.isEmpty()) {
         reload = true;
     }
@@ -627,7 +626,7 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
     }
     if (reload) {
         // producer has changed, refresh monitor and thumbnail
-        if (reload) reloadProducer(true);
+        reloadProducer(true);
         bin()->refreshClip(m_id);
     }
     if (!passProperties.isEmpty()) {

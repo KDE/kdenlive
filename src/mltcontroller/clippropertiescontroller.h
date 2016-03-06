@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class ClipController;
 class QMimeData;
+class QTextEdit;
 
 class AnalysisTree : public QTreeWidget
 {
@@ -86,6 +87,7 @@ private slots:
     void slotAspectValueChanged(int);
     void slotComboValueChanged();
     void slotValueChanged(int value);
+    void slotTextChanged();
 
 private:
     ClipController *m_controller;
@@ -103,6 +105,7 @@ private:
     QWidget *m_analysisPage;
     QTreeWidget *m_markerTree;
     AnalysisTree *m_analysisTree;
+    QTextEdit *m_textEdit;
     void fillProperties();
 
 signals:

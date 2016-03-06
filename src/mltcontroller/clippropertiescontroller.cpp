@@ -55,7 +55,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QToolBar>
 #include <QFileDialog>
 #include <QMimeData>
-
+#include <QTextEdit>
 
 AnalysisTree::AnalysisTree(QWidget *parent) : QTreeWidget(parent)
 {
@@ -221,7 +221,7 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
 
     // Force properties
     QVBoxLayout *vbox = new QVBoxLayout;
-    if (m_type == Color || m_type == Image || m_type == AV || m_type == Video) {
+    if (m_type == Color || m_type == Image || m_type == AV || m_type == Video || m_type == TextTemplate) {
         // Edit duration widget
         m_originalProperties.insert(QStringLiteral("out"), m_properties.get("out"));
         m_originalProperties.insert(QStringLiteral("length"), m_properties.get("length"));
@@ -245,7 +245,18 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         connect(this, SIGNAL(updateTimeCodeFormat()), timePos, SLOT(slotUpdateTimeCodeFormat()));
         connect(this, SIGNAL(modified(int)), timePos, SLOT(setValue(int)));
     }
-    if (m_type == Color) {
+    if (m_type == TextTemplate) {
+        // Edit text widget
+        QString currentText = m_properties.get("templatetext");
+        m_originalProperties.insert(QStringLiteral("templatetext"), currentText);
+        m_textEdit = new QTextEdit(currentText, this);
+        m_textEdit->setPlaceholderText(i18n("Enter template text here"));
+        m_textEdit->setAcceptRichText(false);
+        vbox->addWidget(m_textEdit);
+        QPushButton *button = new QPushButton(i18n("Apply"), this);
+        vbox->addWidget(button);
+        connect(button, &QPushButton::clicked, this, &ClipPropertiesController::slotTextChanged);
+    } else if (m_type == Color) {
         // Edit color widget
         m_originalProperties.insert(QStringLiteral("resource"), m_properties.get("resource"));
         mlt_color color = m_properties.get_color("resource");
@@ -254,8 +265,7 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         //connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
         connect(choosecolor, SIGNAL(modified(QColor)), this, SLOT(slotColorModified(QColor)));
         connect(this, SIGNAL(modified(QColor)), choosecolor, SLOT(slotColorModified(QColor)));
-    }
-    if (m_type == Image) {
+    } else if (m_type == Image) {
         int transparency = m_properties.get_int("kdenlive:transparency");
         m_originalProperties.insert(QStringLiteral("kdenlive:transparency"), QString::number(transparency));
         QHBoxLayout *hlay = new QHBoxLayout;
@@ -266,7 +276,6 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         hlay->addWidget(box);
         vbox->addLayout(hlay);
     }
-    
     if (m_type == AV || m_type == Video || m_type == Image) {
         // Aspect ratio
         int force_ar_num = m_properties.get_int("force_aspect_num");
@@ -1026,3 +1035,12 @@ void ClipPropertiesController::slotLoadAnalysis()
         emit editAnalysis(m_id, "kdenlive:clipanalysis." + i.key(), i.value());
     }
 }
+
+void ClipPropertiesController::slotTextChanged()
+{
+    QMap <QString, QString> properties;
+    properties.insert(QStringLiteral("templatetext"), m_textEdit->toPlainText());
+    emit updateClipProperties(m_id, m_originalProperties, properties);
+    m_originalProperties = properties;
+}
+

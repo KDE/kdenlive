@@ -215,7 +215,7 @@ void ProducerQueue::processFileProperties()
         if (type == Color) {
             path.prepend("color:");
             producer = new Mlt::Producer(*m_binController->profile(), 0, path.toUtf8().constData());
-        } else if (type == Text) {
+        } else if (type == Text || type == TextTemplate) {
             path.prepend("kdenlivetitle:");
             producer = new Mlt::Producer(*m_binController->profile(), 0, path.toUtf8().constData());
         } else if (type == QText) {
@@ -405,7 +405,7 @@ void ProducerQueue::processFileProperties()
         }
 
         // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken even if outpoint is larger
-        if (type == Color || type == Text || type == QText || type == Image || type == SlideShow) {
+        if (type == Color || type == Text || type == TextTemplate || type == QText || type == Image || type == SlideShow) {
             int length;
             if (info.xml.hasAttribute(QStringLiteral("length"))) {
                 length = info.xml.attribute(QStringLiteral("length")).toInt();

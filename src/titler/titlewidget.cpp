@@ -537,10 +537,7 @@ QStringList TitleWidget::extractFontList(const QString& xml)
 //static
 void TitleWidget::refreshTitleTemplates()
 {
-    QStringList titlenamelist = QStringList() << i18n("None");
-    QStringList titlefiles = QStringList() << QString();
-    QStringList filters;
-    filters << QStringLiteral("*.kdenlivetitle") ;
+    QStringList filters = QStringList() << QStringLiteral("*.kdenlivetitle") ;
     titletemplates.clear();
     QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("titles"));
     foreach(const QString & folderpath, titleTemplates) {
@@ -554,7 +551,6 @@ void TitleWidget::refreshTitleTemplates()
             titletemplates.append(t);
         }
     }
-    //qDebug()  << titlenamelist << titlefiles;
 }
 
 void TitleWidget::templateIndexChanged(int index)
