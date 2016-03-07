@@ -113,11 +113,17 @@ bool DocumentChecker::hasErrorInClips()
 
         QString proxy = EffectsList::property(e, QStringLiteral("kdenlive:proxy"));
         if (proxy.length() > 1) {
+            if (!proxy.startsWith(QLatin1String("/"))) {
+                proxy.prepend(root);
+            }
             if (!QFile::exists(proxy)) {
                 // Missing clip found
                 missingProxies.append(e);
             }
             QString original = EffectsList::property(e, QStringLiteral("kdenlive:originalurl"));
+            if (!original.startsWith(QLatin1String("/"))) {
+                original.prepend(root);
+            }
             if (!QFile::exists(original)) {
                 // clip has proxy but original clip is missing
                 missingSources.append(e);
