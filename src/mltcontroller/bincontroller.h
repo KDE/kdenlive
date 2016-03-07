@@ -158,9 +158,18 @@ public:
 
     /** @brief Save a property from the main bin */
     const QString getProperty(const QString &name);
-    
+
     /** @brief Return a list of proxy / original url */
     QMap <QString, QString> getProxies();
+
+    /** @brief Loads the MLT's XML document root */
+    void setDocumentRoot(const QString &);
+
+    /** @brief Returns the MLT's XML document root */
+    const QString documentRoot() const;
+
+    /** @brief Returns a list of all clips hashes. */
+    QStringList getProjectHashes();
 
 public slots:
     /** @brief Stored a Bin Folder id / name to MLT's bin playlist. Using an empry folderName deletes the property */
@@ -169,22 +178,25 @@ public slots:
 private:
     /** @brief The MLT playlist holding our Producers */
     Mlt::Playlist * m_binPlaylist;
-    
+
     /** @brief The current MLT profile's filename */
     QString m_activeProfile;
 
     /** @brief The MLT repository, useful for filter/producer requests */    
     Mlt::Repository *m_repository;
-    
+
     /** @brief Can be used to copy filters from a clip to another */
     void duplicateFilters(Mlt::Producer original, Mlt::Producer clone);
-    
+
     /** @brief This list holds all producer controllers for the playlist, indexed by id */
     QMap <QString, ClipController *> m_clipList;
-    
+
     /** @brief This list holds all extra controllers (slowmotion, video only, ... that are in timeline, indexed by id */
     QMap <QString, Mlt::Producer *> m_extraClipList;
-    
+
+    /** @brief Stores MLT's xml playlist document root, useful to recover full urls */
+    QString m_documentRoot;
+
     /** @brief Remove a clip from MLT's special bin playlist */
     void removeBinPlaylistClip(const QString &id);
 

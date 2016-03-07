@@ -105,8 +105,8 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         m_animationWidget(NULL),
         m_metaInfo(metaInfo),
         m_effect(effect),
-        m_monitorEffectScene(MonitorSceneDefault),
-        m_acceptDrops(false)
+        m_acceptDrops(false),
+        m_monitorEffectScene(MonitorSceneDefault)
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);

@@ -456,7 +456,6 @@ int Render::setSceneList(QString playlist, int position)
     m_locale = QLocale();
     m_locale.setNumberOptions(QLocale::OmitGroupSeparator);
     m_mltProducer = new Mlt::Producer(*m_qmlView->profile(), "xml-string", playlist.toUtf8().constData());
-    //qDebug()<<" + + +PLAYLIST: "<<playlist;
     //m_mltProducer = new Mlt::Producer(*m_qmlView->profile(), "xml-nogl-string", playlist.toUtf8().constData());
     if (!m_mltProducer || !m_mltProducer->is_valid()) {
         qDebug() << " WARNING - - - - -INVALID PLAYLIST: " << playlist.toUtf8().constData();
@@ -472,6 +471,9 @@ int Render::setSceneList(QString playlist, int position)
         // Seek to correct place after opening project.
         m_mltProducer->seek(position);
     }
+
+    // init MLT's document root, useful to find full urls
+    m_binController->setDocumentRoot(doc.documentElement().attribute(QStringLiteral("root")));
 
     // Fill Bin's playlist
     Mlt::Service service(m_mltProducer->parent().get_service());

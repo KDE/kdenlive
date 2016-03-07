@@ -68,11 +68,37 @@ void BinController::destroyBin()
     m_clipList.clear();
 }
 
+void BinController::setDocumentRoot(const QString &root)
+{
+    if (root.isEmpty())
+        m_documentRoot.clear();
+    else
+        m_documentRoot = root + QStringLiteral("/");
+}
+
+const QString BinController::documentRoot() const
+{
+    return m_documentRoot;
+}
+
 void BinController::loadExtraProducer(const QString &id, Mlt::Producer *prod)
 {
     if (m_extraClipList.contains(id)) return;
     m_extraClipList.insert(id, prod);
 }
+
+QStringList BinController::getProjectHashes()
+{
+    QStringList hashes;
+    QMapIterator<QString, ClipController *> i(m_clipList);
+    while (i.hasNext()) {
+        i.next();
+        hashes << i.value()->getClipHash();
+    }
+    hashes.removeDuplicates();
+    return hashes;
+}
+
 
 void BinController::initializeBin(Mlt::Playlist playlist)
 {

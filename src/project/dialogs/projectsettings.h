@@ -80,6 +80,10 @@ private:
     void loadProfiles();
     QString m_proxyparameters;
     QString m_proxyextension;
+    /** @brief List of all proxies urls in this project. */
+    QStringList m_projectProxies;
+    /** @brief List of all thumbnails used in this project. */
+    QStringList m_projectThumbs;
     /** @brief Fill the proxy profiles combobox. */
     void loadProxyProfiles();
 

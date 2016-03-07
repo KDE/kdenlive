@@ -229,13 +229,13 @@ void ProjectSettings::slotDeleteUnused()
 void ProjectSettings::slotClearCache()
 {
     buttonBox->setEnabled(false);
-    // Delete and recteate the thumbs directory
-    QDir dir(project_folder->url().path());
-    // Try to make sure we delete the correct directory
-    if (dir.cd(QStringLiteral("thumbs")) && dir.dirName() == QLatin1String("thumbs")) {
-        dir.removeRecursively();
-        dir.setPath(project_folder->url().path());
-        dir.mkdir(QStringLiteral("thumbs"));
+    enable_proxy->setChecked(false);
+    emit disableProxies();
+    // Delete proxy files
+    QDir folder(project_folder->url().path());
+    folder.cd(QStringLiteral("thumbs"));
+    foreach(const QString path, m_projectThumbs) {
+        folder.remove(path);
     }
     buttonBox->setEnabled(true);
     slotUpdateFiles(true);
@@ -243,17 +243,15 @@ void ProjectSettings::slotClearCache()
 
 void ProjectSettings::slotDeleteProxies()
 {
-    if (KMessageBox::warningContinueCancel(this, i18n("Deleting proxy clips will disable proxies for this project.")) != KMessageBox::Continue) return;
+    if (KMessageBox::warningContinueCancelList(this, i18n("Deleting these proxy clips will disable proxies for this project."), m_projectProxies) != KMessageBox::Continue) return;
     buttonBox->setEnabled(false);
     enable_proxy->setChecked(false);
     emit disableProxies();
-    // Delete and recteate the proxy directory
-    QDir dir(project_folder->url().path() + QDir::separator() + "proxy/");
-    // Try to make sure we delete the correct directory
-    if (dir.exists() && dir.dirName() == QLatin1String("proxy")) {
-        dir.removeRecursively();
-        dir.setPath(project_folder->url().path());
-        dir.mkdir(QStringLiteral("proxy"));
+    // Delete proxy files
+    QDir folder(project_folder->url().path());
+    folder.cd(QStringLiteral("proxy"));
+    foreach(const QString path, m_projectProxies) {
+        folder.remove(path);
     }
     buttonBox->setEnabled(true);
     slotUpdateFiles(true);
@@ -261,18 +259,41 @@ void ProjectSettings::slotDeleteProxies()
 
 void ProjectSettings::slotUpdateFiles(bool cacheOnly)
 {
+    // Get list of current project hashes
+    QStringList hashes = pCore->binController()->getProjectHashes();
+    m_projectProxies.clear();
+    m_projectThumbs.clear();
+    // Check for matches in thumbs
+    qint64 totalSize = 0;
     QDir folder(project_folder->url().path());
     folder.cd(QStringLiteral("thumbs"));
-    KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(folder.absolutePath()));
-    job->exec();
-    thumbs_count->setText(QString::number(job->totalFiles()));
-    thumbs_size->setText(KIO::convertSize(job->totalSize()));
+    QStringList thumbs = folder.entryList(QDir::Files);
+    foreach(const QString &thumb, thumbs) {
+        QString px = thumb.section('.', 0, 0).section('#', 0, 0).section('_', 0, 0);
+        if (hashes.contains(px)) {
+            m_projectThumbs << thumb;
+            QFileInfo f(folder.absoluteFilePath(thumb));
+            totalSize += f.size();
+        }
+    }
+    thumbs_count->setText(QString::number(m_projectThumbs.count()));
+    thumbs_size->setText(KIO::convertSize(totalSize));
+    clear_cache->setEnabled(!m_projectThumbs.isEmpty());
+    // Check for matches in proxies
+    totalSize = 0;
     folder.cd(QStringLiteral("../proxy"));
-    job = KIO::directorySize(QUrl::fromLocalFile(folder.absolutePath()));
-    job->exec();
-    proxy_count->setText(QString::number(job->totalFiles()));
-    proxy_size->setText(KIO::convertSize(job->totalSize()));
-    delete job;
+    QStringList proxies = folder.entryList(QDir::Files);
+    foreach(const QString &proxy, proxies) {
+        QString px = proxy.section('.', 0, 0);
+        if (hashes.contains(px)) {
+            m_projectProxies << proxy;
+            QFileInfo f(folder.absoluteFilePath(proxy));
+            totalSize += f.size();
+        }
+    }
+    proxy_count->setText(QString::number(m_projectProxies.count()));
+    proxy_size->setText(KIO::convertSize(totalSize));
+    delete_proxies->setEnabled(!m_projectProxies.isEmpty());
     if (cacheOnly) return;
     QList <ClipController*> list = pCore->binController()->getControllerList();
     files_list->clear();
