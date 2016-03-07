@@ -1360,6 +1360,10 @@ void Monitor::resetProfile(MltVideoProfile profile)
     render->prepareProfileReset(m_monitorManager->timecode().fps());
     m_glMonitor->resetProfile(profile);
     m_glMonitor->rootObject()->setProperty("framesize", QRect(0, 0, m_glMonitor->profileSize().width(), m_glMonitor->profileSize().height()));
+    double fps = m_monitorManager->timecode().fps();
+    // Update dro pframe info
+    m_qmlManager->setProperty(QStringLiteral("dropped"), false);
+    m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(fps, 'g', 2));
 }
 
 void Monitor::saveSceneList(const QString &path, const QDomElement &info)
