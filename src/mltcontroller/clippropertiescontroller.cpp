@@ -249,9 +249,10 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         // Edit text widget
         QString currentText = m_properties.get("templatetext");
         m_originalProperties.insert(QStringLiteral("templatetext"), currentText);
-        m_textEdit = new QTextEdit(currentText, this);
-        m_textEdit->setPlaceholderText(i18n("Enter template text here"));
+        m_textEdit = new QTextEdit(this);
         m_textEdit->setAcceptRichText(false);
+        m_textEdit->setPlainText(currentText);
+        m_textEdit->setPlaceholderText(i18n("Enter template text here"));
         vbox->addWidget(m_textEdit);
         QPushButton *button = new QPushButton(i18n("Apply"), this);
         vbox->addWidget(button);
