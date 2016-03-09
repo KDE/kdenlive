@@ -131,7 +131,7 @@ void OAuth2::ForgetAccessToken()
 QString OAuth2::loginUrl()
 {
 
-    QString str = QString("%1?client_id=%2&redirect_uri=%3&response_type=%4").arg(m_strEndPoint).arg(m_strClientID).arg(m_strRedirectURI).arg(m_strResponseType);
+    QString str = QString("%1?client_id=%2&redirect_uri=%3&response_type=%4").arg(m_strEndPoint, m_strClientID, m_strRedirectURI, m_strResponseType);
   //  qDebug() << "Login URL" << str;
     return str;
 }

@@ -207,7 +207,7 @@ void ResourceWidget::slotUpdateCurrentSound()
                                                     // the info for the current item.
                                                     // updateLayout() adds  m_image,m_desc and m_meta to the title to make up the html that displays on the widget
     if (!m_currentInfo.infoUrl.isEmpty())
-        title += QStringLiteral(" (<a href=\"%1\">%2</a>)").arg(m_currentInfo.infoUrl).arg(i18nc("the url link pointing to a web page", "link"));
+        title += QStringLiteral(" (<a href=\"%1\">%2</a>)").arg(m_currentInfo.infoUrl, i18nc("the url link pointing to a web page", "link"));
     title.append("</h3>");
     
     if (!m_currentInfo.authorUrl.isEmpty()) {

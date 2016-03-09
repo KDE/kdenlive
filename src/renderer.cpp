@@ -444,7 +444,7 @@ int Render::setSceneList(QString playlist, int position)
 
     if (m_mltProducer) {
         m_mltProducer->set_speed(0);
-        qDeleteAll(m_slowmotionProducers.values());
+        qDeleteAll(m_slowmotionProducers);
         m_slowmotionProducers.clear();
 
         delete m_mltProducer;

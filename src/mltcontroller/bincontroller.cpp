@@ -61,10 +61,10 @@ void BinController::destroyBin()
         delete m_binPlaylist;
         m_binPlaylist = NULL;
     }
-    qDeleteAll(m_extraClipList.values());
+    qDeleteAll(m_extraClipList);
     m_extraClipList.clear();
 
-    qDeleteAll(m_clipList.values());
+    qDeleteAll(m_clipList);
     m_clipList.clear();
 }
 

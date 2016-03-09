@@ -266,11 +266,12 @@ void RotoWidget::slotRemoveKeyframe(int pos)
 
     QMap<QString, QVariant> map = m_data.toMap();
     map.remove(QString::number(pos + m_in).rightJustified(log10((double)m_out) + 1, '0'));
-    m_data = QVariant(map);
 
-    if (m_data.toMap().count() == 1) {
+    if (map.count() == 1) {
         // only one keyframe -> switch from map to list again
-        m_data = m_data.toMap().begin().value();
+        m_data = map.begin().value();
+    } else {
+        m_data = QVariant(map);
     }
 
     slotPositionChanged(m_keyframeWidget->getPosition(), false);

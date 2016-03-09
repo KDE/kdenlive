@@ -56,7 +56,7 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
                 "QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %2;border-right: 0px;background: %4;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %2;}"
                 "QAbstractSpinBox#dragBox {border: 1px solid %1;border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;}"
                 "QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { border: 1px solid %2;} QAbstractSpinBox:hover#dragBox {border: 1px solid %3;} "
-                ).arg(dark_bg.name()).arg(selected_bg.name()).arg(hover_bg.name()).arg(light_bg.name()));
+                ).arg(dark_bg.name(), selected_bg.name(), hover_bg.name(), light_bg.name()));
     setStyleSheet(stylesheet);
 
     if (m_urls.count() == 1) {

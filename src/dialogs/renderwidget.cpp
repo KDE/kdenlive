@@ -1122,7 +1122,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         if (m_view.export_meta->isChecked()) {
             QMap<QString, QString>::const_iterator i = metadata.constBegin();
             while (i != metadata.constEnd()) {
-                renderArgs.append(QStringLiteral(" %1=%2").arg(i.key()).arg(QString(QUrl::toPercentEncoding(i.value()))));
+                renderArgs.append(QStringLiteral(" %1=%2").arg(i.key(), QString(QUrl::toPercentEncoding(i.value()))));
                 ++i;
             }
         }

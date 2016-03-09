@@ -123,7 +123,6 @@ void SplineItem::setPoints(const QList< BPoint >& points)
     }
 
     qDeleteAll(childItems());
-    childItems().clear();
 
     QPainterPath path(points.at(0).p);
     for (int i = 0; i < points.count(); ++i) {

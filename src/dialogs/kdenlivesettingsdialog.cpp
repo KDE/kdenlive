@@ -1290,36 +1290,21 @@ void KdenliveSettingsDialog::slotReloadShuttleDevices()
         devDirStr = QStringLiteral("/dev/input");
     }
 
-    DeviceMap devMap = JogShuttle::enumerateDevices(devDirStr);
-    if (!devMap.isEmpty()) {
-        m_configShuttle.shuttledevicelist->clear();
-    }
-
     QStringList devNamesList;
     QStringList devPathList;
+    m_configShuttle.shuttledevicelist->clear();
+
+    DeviceMap devMap = JogShuttle::enumerateDevices(devDirStr);
     DeviceMapIter iter = devMap.begin();
-    if (iter == devMap.end()) {
-        KdenliveSettings::shuttledevicenames().clear();
-        KdenliveSettings::shuttledevicepaths().clear();
-        m_configShuttle.shuttledevicelist->clear();
-    }
     while (iter != devMap.end()) {
-        //qDebug() << iter.key() << ": " << iter.value();
         m_configShuttle.shuttledevicelist->addItem(iter.key(), iter.value());
         devNamesList << iter.key();
         devPathList << iter.value();
         ++iter;
     }
-
     KdenliveSettings::setShuttledevicenames(devNamesList);
     KdenliveSettings::setShuttledevicepaths(devPathList);
     QTimer::singleShot(200, this, SLOT(slotUpdateShuttleDevice()));
-
-    //qDebug() << "Devices reloaded";
-
 #endif //USE_JOGSHUTTLE
 }
-
-
-
 

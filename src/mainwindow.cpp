@@ -1398,7 +1398,7 @@ void MainWindow::setStatusBarStyleSheet(const QPalette &p)
     QColor buttonBord = scheme.foreground(KColorScheme::LinkText).color();
     QColor buttonBord2 = scheme.shade(KColorScheme::LightShade);
     statusBar()->setStyleSheet(QStringLiteral("QStatusBar QLabel {font-size:%1pt;} QStatusBar::item { border: 0px; font-size:%1pt;padding:0px; }").arg(statusBar()->font().pointSize()));
-    QString style1 = QStringLiteral("QToolBar { border: 0px } QToolButton { border-style: inset; border:1px solid transparent;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton#timecode {padding-right:10px;} QToolButton:hover { background: %3;border-style: inset; border:1px solid %3;border-radius: 3px;} QToolButton:checked { background-color: %1; border-style: inset; border:1px solid %2;border-radius: 3px;}").arg(buttonBg.name()).arg(buttonBord.name()).arg(buttonBord2.name());
+    QString style1 = QStringLiteral("QToolBar { border: 0px } QToolButton { border-style: inset; border:1px solid transparent;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton#timecode {padding-right:10px;} QToolButton:hover { background: %3;border-style: inset; border:1px solid %3;border-radius: 3px;} QToolButton:checked { background-color: %1; border-style: inset; border:1px solid %2;border-radius: 3px;}").arg(buttonBg.name(), buttonBord.name(), buttonBord2.name());
     statusBar()->setStyleSheet(style1);
 }
 
