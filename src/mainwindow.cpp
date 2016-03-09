@@ -2197,7 +2197,7 @@ void MainWindow::slotInsertClipOverwrite()
 {
     if (pCore->projectManager()->currentTimeline()) {
         QStringList data = m_clipMonitor->getZoneInfo();
-        pCore->projectManager()->currentTimeline()->projectView()->insertZoneOverwrite(data, pCore->projectManager()->currentTimeline()->inPoint());
+        pCore->projectManager()->currentTimeline()->projectView()->insertZoneOverwrite(data, pCore->projectManager()->currentTimeline()->projectView()->seekPosition());
     }
 }
 

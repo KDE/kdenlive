@@ -7478,7 +7478,7 @@ void CustomTrackView::insertZoneOverwrite(QStringList data, int in)
     ItemInfo info;
     info.startPos = GenTime(in, m_document->fps());
     info.cropStart = GenTime(data.at(1).toInt(), m_document->fps());
-    info.endPos = info.startPos + GenTime(data.at(2).toInt(), m_document->fps()) - info.cropStart;
+    info.endPos = info.startPos + GenTime(data.at(2).toInt() + 1, m_document->fps()) - info.cropStart;
     info.cropDuration = info.endPos - info.startPos;
     info.track = m_selectedTrack;
     QUndoCommand *addCommand = new QUndoCommand();

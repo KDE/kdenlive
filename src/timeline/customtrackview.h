@@ -205,7 +205,7 @@ public:
     bool hasAudio(int track) const;
 
     int getFrameWidth() const;
-    /** @brief Returns last requested seeking pos (or SEEK_INACTIVE if no seek). */
+    /** @brief Returns last requested seeking pos, or current cursor position. */
     int seekPosition() const;
 
     /** @brief Trigger a monitor refresh. */
