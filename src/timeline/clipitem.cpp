@@ -212,85 +212,20 @@ bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int c
     for (int ix = 0; ix < effectsCount; ++ix) {
         // Check geometry params
         clipEffectsModified = resizeGeometries(ix, width, height, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1, cropStart().frames(m_fps));
-        QString newAnimation = resizeAnimations(ix, width, height, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1,cropStart().frames(m_fps));
-	if (!newAnimation.isEmpty()) {
+        QString newAnimation = resizeAnimations(ix, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1,cropStart().frames(m_fps));
+        if (!newAnimation.isEmpty()) {
             //setKeyframes(ix, newAnimation.split(';', QString::SkipEmptyParts));
             clipEffectsModified = true;
         }
-
         if (clipEffectsModified) {
             setKeyframes(ix);
             continue;
-        }
-
-        // Check keyframe params
-        QStringList keyframeParams = keyframes(ix);
-        QStringList newKeyFrameParams;
-        bool effModified = false;
-
-        // go through all params which have keyframes
-        foreach(const QString &kfr, keyframeParams) {
-            const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
-            QStringList newKeyFrames;
-            bool cutKeyFrame = false;
-            bool modified = false;
-            int lastPos = -1;
-            double lastValue = -1;
-            int start = cropStart().frames(m_fps);
-            int end = (cropStart() + cropDuration()).frames(m_fps) - 1;
-
-            // go through all keyframes for one param
-            foreach(const QString &str, keyframes) {
-                int pos = str.section('=', 0, 0).toInt();
-                double val = locale.toDouble(str.section('=', 1, 1));
-                if (pos - start < 0) {
-                    // a keyframe is defined before the start of the clip
-                    cutKeyFrame = true;
-                } else if (cutKeyFrame) {
-                    // create new keyframe at clip start, calculate interpolated value
-                    if (pos > start) {
-                        int diff = pos - lastPos;
-                        double ratio = (double)(start - lastPos) / diff;
-                        int newValue = lastValue + (val - lastValue) * ratio;
-                        newKeyFrames.append(QString::number(start) + '=' + QString::number(newValue));
-                        modified = true;
-                    }
-                    cutKeyFrame = false;
-                }
-                if (!cutKeyFrame) {
-                    if (pos > end) {
-                        // create new keyframe at clip end, calculate interpolated value
-                        int diff = pos - lastPos;
-                        if (diff != 0) {
-                            double ratio = (double)(end - lastPos) / diff;
-                            int newValue = lastValue + (val - lastValue) * ratio;
-                            newKeyFrames.append(QString::number(end) + '=' + QString::number(newValue));
-                            modified = true;
-                        }
-                        break;
-                    } else {
-                        newKeyFrames.append(QString::number(pos) + '=' + QString::number(val));
-                    }
-                }
-                lastPos = pos;
-                lastValue = val;
-            }
-
-            newKeyFrameParams.append(newKeyFrames.join(QStringLiteral(";")));
-            if (modified)
-                effModified = true;
-        }
-
-        if (effModified) {
-            // update KeyFrames
-            setKeyframes(ix, newKeyFrameParams);
-            clipEffectsModified = true;
         }
     }
     return clipEffectsModified;
 }
 
-void ClipItem::setKeyframes(const int ix, const QStringList &keyframes)
+void ClipItem::setKeyframes(const int ix)
 {
     QDomElement effect = m_effectList.at(ix);
     if (effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) return;
@@ -361,6 +296,9 @@ void ClipItem::setSelectedEffect(const int ix)
             refreshClip = true;
         }
         if (m_keyframeView.loadKeyframes(locale, effect, cropStart().frames(m_fps), cropDuration().frames(m_fps)) && !refreshClip) {
+            if (editedKeyframe >= 0) {
+                m_keyframeView.activeKeyframe = editedKeyframe;
+            }
             update();
             return;
         }
@@ -396,7 +334,7 @@ bool ClipItem::resizeGeometries(const int index, int width, int height, int prev
     return modified;
 }
 
-QString ClipItem::resizeAnimations(const int index, int width, int height, int previousDuration, int start, int duration, int cropstart)
+QString ClipItem::resizeAnimations(const int index, int previousDuration, int start, int duration, int cropstart)
 {
     QString animation;
     QString keyframes;
@@ -1758,7 +1696,7 @@ void ClipItem::setState(PlaylistState::ClipState state)
     m_audioThumbCachePic.clear();
 }
 
-QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, const ItemInfo &oldInfo)
+QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(const ItemInfo &oldInfo)
 {
     QMap<int, QDomElement> effects;
     qDebug()<<"Adjusting effect to duraion";
@@ -1826,7 +1764,7 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
                     }
                     effects[i] = effect.cloneNode().toElement();
                 }
-                //updateGeometryKeyframes(effect, j, width, height, oldInfo);
+                //updateGeometryKeyframes(effect, j, oldInfo);
             } else if (type == QLatin1String("simplekeyframe") || type == QLatin1String("keyframe")) {
                 if (!effects.contains(i))
                     effects[i] = effect.cloneNode().toElement();
@@ -1934,12 +1872,12 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo)
     return false;
 }
 
-void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, int width, int height, ItemInfo oldInfo)
+void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, ItemInfo oldInfo)
 {
     QDomElement param = effect.elementsByTagName(QStringLiteral("parameter")).item(paramIndex).toElement();
-    int offset = oldInfo.cropStart.frames(m_fps);
     QString data = param.attribute(QStringLiteral("value"));
-    /*if (offset > 0) {
+    /*int offset = oldInfo.cropStart.frames(m_fps);
+    if (offset > 0) {
         QStringList kfrs = data.split(';');
         data.clear();
         foreach (const QString &keyframe, kfrs) {

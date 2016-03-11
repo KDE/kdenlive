@@ -54,7 +54,7 @@
 #include "../animkeyframeruler.h"
 
 
-AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, QDomElement xml, int activeKeyframe, QWidget *parent) :
+AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, QDomElement xml, QWidget *parent) :
     QWidget(parent)
     , m_monitor(info->monitor)
     , m_timePos(new TimecodeDisplay(info->monitor->timecode(), this))

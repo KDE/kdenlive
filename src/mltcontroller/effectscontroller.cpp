@@ -208,7 +208,7 @@ double EffectsController::getStringEval(const ProfileInfo &info, QString eval, c
     return sEngine.evaluate(eval.remove('%')).toNumber();
 }
 
-QString EffectsController::getStringRectEval(const ProfileInfo &info, QString eval, const QPoint& frameSize)
+QString EffectsController::getStringRectEval(const ProfileInfo &info, QString eval)
 {
     eval.replace(QStringLiteral("%width"), QString::number(info.profileSize.width()));
     eval.replace(QStringLiteral("%height"), QString::number(info.profileSize.height()));

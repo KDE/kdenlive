@@ -39,7 +39,7 @@ namespace SelectManager
      * @param operationMode Will be set to under mouse operation if applicable
      * @param abort Will be set to true if an operation matched and the items list should not be tested for further operation modes
      **/
-    void checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, AbstractGroupItem *group, int eventPos, OperationType &operationMode, OperationType moveOperation, bool &abort);
+    void checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, AbstractGroupItem *group, OperationType &operationMode, OperationType moveOperation);
 };
 
 #endif

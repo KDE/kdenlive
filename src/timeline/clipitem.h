@@ -145,12 +145,12 @@ public:
     /** @brief Adjust all geometry keyframes.
     * @param index Index of the effect */
     bool resizeGeometries(const int index, int width, int height, int previousDuration, int start, int duration, int cropStart);
-    QString resizeAnimations(const int index, int width, int height, int previousDuration, int start, int duration, int cropStart);
+    QString resizeAnimations(const int index, int previousDuration, int start, int duration, int cropStart);
 
     /** @brief Sets params with keyframes and updates the visible keyframes.
     * @param ix Number of the effect
     * @param keyframes a list of strings of keyframes (one string per param), which should be used */
-    void setKeyframes(const int ix, const QStringList &keyframes = QStringList());
+    void setKeyframes(const int ix);
     void setEffectList(const EffectsList &effectList);
     void setSpeed(const double speed, int strobe);
     double speed() const;
@@ -170,11 +170,11 @@ public:
     void setState(PlaylistState::ClipState state);
     void updateState(const QString &id);
 
-    void updateGeometryKeyframes(QDomElement effect, int paramIndex, int width, int height, ItemInfo oldInfo);
+    void updateGeometryKeyframes(QDomElement effect, int paramIndex, ItemInfo oldInfo);
     bool updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo);
 
     /** @brief Adjusts effects after a clip duration change. */
-    QMap<int, QDomElement> adjustEffectsToDuration(int width, int height, const ItemInfo &oldInfo);
+    QMap<int, QDomElement> adjustEffectsToDuration(const ItemInfo &oldInfo);
 
     /** Returns the necessary (audio, video, general) producer.
      * @param track Track of the requested producer

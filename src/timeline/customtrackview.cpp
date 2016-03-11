@@ -681,7 +681,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             break;
         case SelectTool:
         default:
-            SelectManager::checkOperation(item, this, event, m_selectionGroup, mappedXPos, m_operationMode, m_moveOpMode, abort);
+            SelectManager::checkOperation(item, this, event, m_selectionGroup, m_operationMode, m_moveOpMode);
             break;
     }
 }
@@ -7742,7 +7742,7 @@ void CustomTrackView::slotRefreshThumbs(const QString &id, bool resetThumbs)
 
 void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, QUndoCommand* command)
 {
-    QMap<int, QDomElement> effects = item->adjustEffectsToDuration(m_document->width(), m_document->height(), oldInfo);
+    QMap<int, QDomElement> effects = item->adjustEffectsToDuration(oldInfo);
 
     if (!effects.isEmpty()) {
         QMap<int, QDomElement>::const_iterator i = effects.constBegin();
@@ -7820,7 +7820,7 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, ItemInfo in
         emit displayMessage(i18n("No keyframe data found in clip"), ErrorMessage);
         return;
     }
-    KeyframeImport *import = new KeyframeImport(type, srcInfo, info, data, m_document->timecode(), xml, m_document->getProfileInfo(), this);
+    KeyframeImport *import = new KeyframeImport(srcInfo, info, data, m_document->timecode(), xml, m_document->getProfileInfo(), this);
     if (import->exec() != QDialog::Accepted) {
         // Aborted by user
         delete import;

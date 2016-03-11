@@ -31,7 +31,7 @@
 
 #include "klocalizedstring.h"
 
-void SelectManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, AbstractGroupItem *group, int eventPos, OperationType &operationMode, OperationType moveOperation, bool &abort)
+void SelectManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, AbstractGroupItem *group, OperationType &operationMode, OperationType moveOperation)
 {
     if (item && event->buttons() == Qt::NoButton && operationMode != ZoomTimeline) {
         AbstractClipItem *clip = static_cast <AbstractClipItem*>(item);
@@ -47,14 +47,10 @@ void SelectManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, Q
             else operationMode = clip->operationMode(clip->mapFromScene(view->mapToScene(event->pos())));
         }
 
-        const double size = 5;
         if (operationMode == moveOperation) {
             view->graphicsViewMouseEvent(event);
             return;
-        } else {
-            //removeTipAnimation();
         }
-        //setTipAnimation(clip, operationMode, size);
         ClipItem *ci = NULL;
         if (item->type() == AVWidget)
             ci = static_cast <ClipItem *>(item);
