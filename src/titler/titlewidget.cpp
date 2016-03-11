@@ -175,16 +175,10 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(effect_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotAddEffect(int)));
     connect(typewriter_delay, SIGNAL(valueChanged(int)), this, SLOT(slotEditTypewriter(int)));
     connect(typewriter_start, SIGNAL(valueChanged(int)), this, SLOT(slotEditTypewriter(int)));
-    connect(blur_radius, SIGNAL(valueChanged(int)), this, SLOT(slotEditBlur(int)));
-    connect(shadow_radius, SIGNAL(valueChanged(int)), this, SLOT(slotEditShadow()));
-    connect(shadow_x, SIGNAL(valueChanged(int)), this, SLOT(slotEditShadow()));
-    connect(shadow_y, SIGNAL(valueChanged(int)), this, SLOT(slotEditShadow()));
-    effect_stack->setHidden(true);
-    effect_frame->setEnabled(false);
 
     connect(origin_x_left, SIGNAL(clicked()), this, SLOT(slotOriginXClicked()));
     connect(origin_y_top, SIGNAL(clicked()), this, SLOT(slotOriginYClicked()));
-    
+
     connect(render, SIGNAL(frameUpdated(QImage)), this, SLOT(slotGotBackground(QImage)));
 
     // Position and size
@@ -206,7 +200,6 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(buttonAlignLeft, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonAlignRight, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonAlignCenter, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
-    connect(buttonAlignNone, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(displayBg, SIGNAL(stateChanged(int)), this, SLOT(displayBackgroundFrame()));
 
     connect(m_unicodeDialog, SIGNAL(charSelected(QString)), this, SLOT(slotInsertUnicodeString(QString)));
@@ -231,7 +224,6 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     buttonAlignCenter->setIconSize(iconSize);
     buttonAlignLeft->setIconSize(iconSize);
     buttonAlignRight->setIconSize(iconSize);
-    buttonAlignNone->setIconSize(iconSize);
     buttonFitZoom->setIcon(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-best")));
     buttonRealSize->setIcon(KoIconUtils::themedIcon(QStringLiteral("zoom-original")));
     buttonItalic->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-text-italic")));
@@ -239,9 +231,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     buttonAlignCenter->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-justify-center")));
     buttonAlignLeft->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-justify-left")));
     buttonAlignRight->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-justify-right")));
-    buttonAlignNone->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-none")));
 
-    buttonAlignNone->setToolTip(i18n("No alignment"));
     buttonAlignRight->setToolTip(i18n("Align right"));
     buttonAlignLeft->setToolTip(i18n("Align left"));
     buttonAlignCenter->setToolTip(i18n("Align center"));
@@ -440,6 +430,9 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
 
     // mbd: load saved settings
     readChoices();
+
+    // Hide effects not implemented
+    tabWidget->removeTab(3);
 
     graphicsView->show();
     graphicsView->setInteractive(true);
@@ -695,18 +688,17 @@ void TitleWidget::slotImageTool()
 
 void TitleWidget::showToolbars(TITLETOOL toolType)
 {
+    toolbar_stack->setEnabled(toolType != TITLE_SELECT);
     switch (toolType) {
-    case TITLE_SELECT:
-        toolbar_stack->setCurrentIndex(0);
-        break;
     case TITLE_IMAGE:
-        toolbar_stack->setCurrentIndex(3);
+        toolbar_stack->setCurrentIndex(2);
         break;
     case TITLE_RECTANGLE:
         toolbar_stack->setCurrentIndex(1);
         break;
     case TITLE_TEXT:
-        toolbar_stack->setCurrentIndex(2);
+    default:
+        toolbar_stack->setCurrentIndex(0);
         break;
     }
 }
@@ -2126,7 +2118,7 @@ void TitleWidget::slotAddEffect(int ix)
 {
     QList<QGraphicsItem *> list = graphicsView->scene()->selectedItems();
     int effect = effect_list->itemData(ix).toInt();
-
+/*
     if (list.size() == 1) {
         if (effect == NOEFFECT)
             effect_stack->setHidden(true);
@@ -2136,7 +2128,7 @@ void TitleWidget::slotAddEffect(int ix)
         }
     } else // Hide the effects stack when more than one element is selected.
         effect_stack->setHidden(true);
-
+*/
     foreach(QGraphicsItem * item, list) {
         switch (effect) {
         case NOEFFECT:
@@ -2197,7 +2189,7 @@ void TitleWidget::slotEditBlur(int ix)
 
 void TitleWidget::slotEditShadow()
 {
-    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+    /*QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
         QGraphicsEffect *eff = l[0]->graphicsEffect();
         QGraphicsDropShadowEffect *shadow = static_cast <QGraphicsDropShadowEffect *>(eff);
@@ -2205,7 +2197,7 @@ void TitleWidget::slotEditShadow()
             shadow->setBlurRadius(shadow_radius->value());
             shadow->setOffset(shadow_x->value(), shadow_y->value());
         }
-    }
+    }*/
 }
 
 qreal TitleWidget::zIndexBounds(bool maxBound, bool intersectingOnly)
@@ -2403,8 +2395,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
 
     if (referenceItem == NULL) {
         //qDebug() << "NULL item.\n";
-        effect_stack->setHidden(true);
-        effect_frame->setEnabled(false);
         effect_list->setCurrentIndex(0);
         origin_x_left->setChecked(false);
         origin_y_top->setChecked(false);
@@ -2423,7 +2413,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
         letter_spacing->setValue(0);
         line_spacing->setValue(0);
     } else {
-        effect_frame->setEnabled(true);
         frame_properties->setEnabled(true);
         if (referenceItem != m_startViewport && referenceItem != m_endViewport) {
             itemzoom->setEnabled(true);
@@ -2455,10 +2444,9 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                         typewriter_delay->setValue(params.at(0).toInt());
                         typewriter_start->setValue(params.at(1).toInt());
                         effect_list->setCurrentIndex(effect_list->findData((int) TYPEWRITEREFFECT));
-                        effect_stack->setHidden(false);
                     }
                 } else {
-                    if (i->graphicsEffect()) {
+                    /*if (i->graphicsEffect()) {
                         QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *>(i->graphicsEffect());
                         if (blur) {
                             effect_list->setCurrentIndex(effect_list->findData((int) BLUREFFECT));
@@ -2478,7 +2466,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                     } else {
                         effect_list->setCurrentIndex(effect_list->findData((int) NOEFFECT));
                         effect_stack->setHidden(true);
-                    }
+                    }*/
                 }
                 font_size->blockSignals(true);
                 font_family->blockSignals(true);
@@ -2488,7 +2476,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 fontColorButton->blockSignals(true);
                 buttonAlignLeft->blockSignals(true);
                 buttonAlignRight->blockSignals(true);
-                buttonAlignNone->blockSignals(true);
                 buttonAlignCenter->blockSignals(true);
 
                 QFont font = i->font();
@@ -2518,10 +2505,9 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 }
                 QTextCursor cur = i->textCursor();
                 QTextBlockFormat format = cur.blockFormat();
-                if (i->textWidth() == -1) buttonAlignNone->setChecked(true);
-                else if (format.alignment() == Qt::AlignHCenter) buttonAlignCenter->setChecked(true);
+                if (format.alignment() == Qt::AlignHCenter) buttonAlignCenter->setChecked(true);
                 else if (format.alignment() == Qt::AlignRight) buttonAlignRight->setChecked(true);
-                else if (format.alignment() == Qt::AlignLeft) buttonAlignLeft->setChecked(true);
+                else buttonAlignLeft->setChecked(true);
                 letter_spacing->setValue(font.letterSpacing());
                 line_spacing->setValue(format.lineHeight());
 
@@ -2533,7 +2519,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 fontColorButton->blockSignals(false);
                 buttonAlignLeft->blockSignals(false);
                 buttonAlignRight->blockSignals(false);
-                buttonAlignNone->blockSignals(false);
                 buttonAlignCenter->blockSignals(false);
 
                 // mbt 1607: Select text if the text item is an unchanged template item.
