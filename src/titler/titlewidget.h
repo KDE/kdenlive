@@ -167,7 +167,7 @@ private:
     /** @brief Updates the item position. Does not change GUI elements. */
     void updatePosition(QGraphicsItem *i, int x, int y);
 
-    void textChanged(QGraphicsTextItem *i);
+    void textChanged(MyTextItem *i);
     void updateAxisButtons(QGraphicsItem *i);
 
     void updateTextOriginX();
@@ -213,7 +213,7 @@ private:
     QString getTooltipWithShortcut(const QString& text, QAction *button);
 
 public slots:
-    void slotNewText(QGraphicsTextItem *tt);
+    void slotNewText(MyTextItem *tt);
     void slotNewRect(QGraphicsRectItem *rect);
     void slotChangeBackground();
 

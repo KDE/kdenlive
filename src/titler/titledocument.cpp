@@ -19,6 +19,7 @@
 
 #include "kdenlivesettings.h"
 #include "timecode.h"
+#include "effectstack/graphicsscenerectmove.h"
 
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -33,6 +34,7 @@
 #include <QGraphicsItem>
 #include <QGraphicsRectItem>
 #include <QGraphicsTextItem>
+#include <QTextDocument>
 #include <QGraphicsSvgItem>
 #include <QCryptographicHash>
 #include <QSvgRenderer>
@@ -137,12 +139,14 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
 #endif
     main.setAttribute(QStringLiteral("LC_NUMERIC"), locale);
     doc.appendChild(main);
+    QTextCursor cur;
+    QTextBlockFormat format;
 
     foreach(QGraphicsItem * item, m_scene->items()) {
         QDomElement e = doc.createElement(QStringLiteral("item"));
         QDomElement content = doc.createElement(QStringLiteral("content"));
         QFont font;
-        QGraphicsTextItem *t;
+        MyTextItem *t;
 
         switch (item->type()) {
         case 7:
@@ -164,7 +168,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             break;
         case 8:
             e.setAttribute(QStringLiteral("type"), QStringLiteral("QGraphicsTextItem"));
-            t = static_cast<QGraphicsTextItem *>(item);
+            t = static_cast<MyTextItem *>(item);
             // Don't save empty text nodes
             if (t->toPlainText().simplified().isEmpty()) continue;
             //content.appendChild(doc.createTextNode(((QGraphicsTextItem*)item)->toHtml()));
@@ -175,6 +179,13 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             content.setAttribute(QStringLiteral("font-pixel-size"), font.pixelSize());
             content.setAttribute(QStringLiteral("font-italic"), font.italic());
             content.setAttribute(QStringLiteral("font-underline"), font.underline());
+            content.setAttribute(QStringLiteral("letter-spacing"), QString::number(font.letterSpacing()));
+            cur = QTextCursor(t->document());
+            cur.select(QTextCursor::Document);
+            format = cur.blockFormat();
+            content.setAttribute(QStringLiteral("line-spacing"), QString::number(format.lineHeight()));
+            content.setAttribute(QStringLiteral("box-width"), QString::number(t->boundingRect().width()));
+            content.setAttribute(QStringLiteral("box-height"), QString::number(t->boundingRect().height()));
             {
                 QTextCursor cursor(t->document());
                 cursor.select(QTextCursor::Document);
@@ -202,7 +213,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
                 content.setAttribute(QStringLiteral("kdenlive-axis-y-inverted"), t->data(OriginYTop).toInt());
             }
             if (t->textWidth() != -1) {
-                content.setAttribute(QStringLiteral("alignment"), t->textCursor().blockFormat().alignment());
+                content.setAttribute(QStringLiteral("alignment"), (int) t->alignment());
             }
             break;
         default:
@@ -381,10 +392,14 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                         QFont f2;
                         f2.setPointSize(txtProperties.namedItem(QStringLiteral("font-size")).nodeValue().toInt());
                         font.setPixelSize(QFontInfo(f2).pixelSize());
-                    } else
+                    } else {
                         font.setPixelSize(txtProperties.namedItem(QStringLiteral("font-pixel-size")).nodeValue().toInt());
+                    }
+                    font.setLetterSpacing(QFont::AbsoluteSpacing, txtProperties.namedItem(QStringLiteral("letter-spacing")).nodeValue().toInt());
                     QColor col(stringToColor(txtProperties.namedItem(QStringLiteral("font-color")).nodeValue()));
-                    QGraphicsTextItem *txt = m_scene->addText(items.item(i).namedItem(QStringLiteral("content")).firstChild().nodeValue(), font);
+                    MyTextItem *txt = new MyTextItem(items.item(i).namedItem(QStringLiteral("content")).firstChild().nodeValue(), NULL);
+                    txt->setFont(font);
+                    m_scene->addItem(txt);
                     QTextCursor cursor(txt->document());
                     cursor.select(QTextCursor::Document);
                     QTextCharFormat format;
@@ -398,19 +413,16 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                         );
 
                     }
+                    if (txtProperties.namedItem(QStringLiteral("line-spacing")).nodeValue().toInt() != 0.0) {
+                        QTextBlockFormat format = cursor.blockFormat();
+                        format.setLineHeight(txtProperties.namedItem(QStringLiteral("line-spacing")).nodeValue().toInt(), QTextBlockFormat::LineDistanceHeight);
+                        cursor.setBlockFormat(format);
+                    }
                     format.setForeground(QBrush(col));
                     cursor.mergeCharFormat(format);
                     txt->setTextInteractionFlags(Qt::NoTextInteraction);
                     if (txtProperties.namedItem(QStringLiteral("alignment")).isNull() == false) {
-                        txt->setTextWidth(txt->boundingRect().width());
-                        QTextCursor cur = txt->textCursor();
-                        QTextBlockFormat format = cur.blockFormat();
-                        format.setAlignment((Qt::Alignment) txtProperties.namedItem(QStringLiteral("alignment")).nodeValue().toInt());
-                        cur.select(QTextCursor::Document);
-                        cur.setBlockFormat(format);
-                        txt->setTextCursor(cur);
-                        cur.clearSelection();
-                        txt->setTextCursor(cur);
+                        txt->setAlignment((Qt::Alignment) txtProperties.namedItem(QStringLiteral("alignment")).nodeValue().toInt());
                     }
 
                     if (!txtProperties.namedItem(QStringLiteral("kdenlive-axis-x-inverted")).isNull()) {

@@ -27,10 +27,74 @@
 #include <QGraphicsView>
 #include <QCursor>
 #include <QTextCursor>
+#include <QTextDocument>
 #include <QList>
 #include <QKeyEvent>
 #include <QApplication>
 #include <QTextBlock>
+
+MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent) :
+    QGraphicsTextItem(txt, parent)
+    , m_alignment(Qt::AlignLeft)
+{
+    document()->setDocumentMargin(0);
+    updateGeometry();
+    connect(document(), SIGNAL(contentsChange(int, int, int)),
+            this, SLOT(updateGeometry(int, int, int)));
+}
+
+Qt::Alignment MyTextItem::alignment() const
+{
+    return m_alignment;
+}
+
+void MyTextItem::setAlignment(Qt::Alignment alignment)
+{
+    m_alignment = alignment;
+    QTextBlockFormat format;
+    format.setAlignment(alignment);
+    QTextCursor cursor = textCursor();      // save cursor position
+    int position = textCursor().position();
+    cursor.select(QTextCursor::Document);
+    cursor.mergeBlockFormat(format);
+    cursor.clearSelection();
+    cursor.setPosition(position);           // restore cursor position
+    setTextCursor(cursor);
+}
+
+void MyTextItem::updateGeometry(int, int, int)
+{
+    updateGeometry();
+}
+ 
+void MyTextItem::updateGeometry()
+{
+    QPointF topRightPrev = boundingRect().topRight();
+    setTextWidth(-1);
+    setTextWidth(boundingRect().width());
+    setAlignment(m_alignment);
+    QPointF topRight = boundingRect().topRight();
+ 
+    if (m_alignment & Qt::AlignRight)
+    {
+        setPos(pos() + (topRightPrev - topRight));
+    }
+}
+
+QRectF MyTextItem::boundingRect() const
+{
+    QRectF base = QGraphicsTextItem::boundingRect();
+    QTextCursor cur(document());
+    cur.select(QTextCursor::Document);
+    QTextBlockFormat format = cur.blockFormat();
+    int lines = document()->lineCount();
+    int lineHeight = format.lineHeight();
+    int lineHeight2 = QFontMetrics(font()).lineSpacing();
+    if (lines > 1) {
+        base.setHeight(lines * lineHeight2 + lineHeight * (lines - 1));
+    }
+    return base;
+}
 
 
 GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent) :
@@ -80,7 +144,7 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent * keyEvent)
         return;
     }
     if (m_selectedItem->type() == QGraphicsTextItem::Type) {
-        QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(m_selectedItem);
+        MyTextItem *t = static_cast<MyTextItem *>(m_selectedItem);
         if (t->textInteractionFlags() & Qt::TextEditorInteraction) {
             QGraphicsScene::keyPressEvent(keyEvent);
             return;
@@ -135,7 +199,7 @@ void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e)
     QGraphicsItem* g = i.first();
     if (g->type() == QGraphicsTextItem::Type) {
         m_selectedItem = g;
-        QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(g);
+        MyTextItem *t = static_cast<MyTextItem *>(g);
         t->setTextInteractionFlags(Qt::TextEditorInteraction);
     } else emit doubleClickEvent();
     QGraphicsScene::mouseDoubleClickEvent(e);
@@ -169,7 +233,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
         if (item == NULL  || !(item->flags() & QGraphicsItem::ItemIsSelectable)) {
             if (m_selectedItem && m_selectedItem->type() == QGraphicsTextItem::Type) {
                 // disable text editing
-                QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(m_selectedItem);
+                MyTextItem *t = static_cast<MyTextItem *>(m_selectedItem);
                 t->textCursor().setPosition(0);
                 QTextBlock cur = t->textCursor().block();
                 t->setTextCursor(QTextCursor(cur));
@@ -188,7 +252,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
             m_selectedItem = item;
             //qDebug() << "/////////  ITEM TYPE: " << item->type();
             if (item->type() == QGraphicsTextItem::Type) {
-                QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(item);
+                MyTextItem *t = static_cast<MyTextItem *>(item);
                 if (t->textInteractionFlags() == Qt::TextEditorInteraction) {
                     QGraphicsScene::mousePressEvent(e);
                     return;
@@ -242,10 +306,11 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
         m_sceneClickPoint = e->scenePos();
         m_selectedItem = NULL;
     } else if (m_tool == TITLE_TEXT) {
-        m_selectedItem = addText(QString());
-        emit newText((QGraphicsTextItem *) m_selectedItem);
+        m_selectedItem = new MyTextItem(QString(), NULL);
+        addItem(m_selectedItem);
+        emit newText((MyTextItem *) m_selectedItem);
         m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-        ((QGraphicsTextItem *)m_selectedItem)->setTextInteractionFlags(Qt::TextEditorInteraction);
+        ((MyTextItem *)m_selectedItem)->setTextInteractionFlags(Qt::TextEditorInteraction);
         m_selectedItem->setPos(e->scenePos() - QPointF(0, (int)(m_fontSize / 2)));
         QGraphicsScene::mousePressEvent(e);
     }
@@ -258,7 +323,7 @@ void GraphicsSceneRectMove::clearTextSelection()
 {
     if (m_selectedItem && m_selectedItem->type() == QGraphicsTextItem::Type) {
         // disable text editing
-        QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(m_selectedItem);
+        MyTextItem *t = static_cast<MyTextItem *>(m_selectedItem);
         t->textCursor().setPosition(0);
         QTextBlock cur = t->textCursor().block();
         t->setTextCursor(QTextCursor(cur));
@@ -429,7 +494,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
                 return;
             }*/
         } else if (m_selectedItem->type() == QGraphicsTextItem::Type) {
-            QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(m_selectedItem);
+            MyTextItem *t = static_cast<MyTextItem *>(m_selectedItem);
             if (t->textInteractionFlags() & Qt::TextEditorInteraction) {
                 QGraphicsScene::mouseMoveEvent(e);
                 return;

@@ -22,9 +22,27 @@
 #define GRAPHICSSCENERECTMOVE_H
 
 #include <QGraphicsScene>
+#include <QGraphicsTextItem>
 
 enum resizeModes {NoResize, TopLeft, BottomLeft, TopRight, BottomRight, Left, Right, Up, Down};
 enum TITLETOOL { TITLE_SELECT = 0, TITLE_RECTANGLE = 1, TITLE_TEXT = 2, TITLE_IMAGE = 3 };
+
+class MyTextItem: public QGraphicsTextItem
+{
+    Q_OBJECT
+public:
+    MyTextItem(const QString &, QGraphicsItem *);
+    void setAlignment(Qt::Alignment alignment);
+    virtual QRectF boundingRect() const;
+    Qt::Alignment alignment() const;
+
+private:
+    Qt::Alignment m_alignment;
+
+public slots:
+    void updateGeometry(int, int, int);
+    void updateGeometry();
+};
 
 class GraphicsSceneRectMove: public QGraphicsScene
 {
@@ -65,7 +83,7 @@ signals:
     void itemMoved();
     void sceneZoom(bool);
     void newRect(QGraphicsRectItem *);
-    void newText(QGraphicsTextItem *);
+    void newText(MyTextItem *);
     void actionFinished();
     void doubleClickEvent();
 };

@@ -140,7 +140,9 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(fontColorButton, SIGNAL(changed(QColor)), this, SLOT(slotUpdateText())) ;
     connect(textOutlineColor, SIGNAL(changed(QColor)), this, SLOT(slotUpdateText())) ;
     connect(font_family, SIGNAL(currentFontChanged(QFont)), this, SLOT(slotUpdateText())) ;
-    connect(font_size, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText())) ;
+    connect(font_size, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText()));
+    connect(letter_spacing, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText())) ;
+    connect(line_spacing, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText())) ;
     connect(textOutline, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText()));
     connect(font_weight_box, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateText()));
 
@@ -432,7 +434,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(m_scene, SIGNAL(sceneZoom(bool)), this , SLOT(slotZoom(bool)));
     connect(m_scene, SIGNAL(actionFinished()), this , SLOT(slotSelectTool()));
     connect(m_scene, SIGNAL(newRect(QGraphicsRectItem*)), this , SLOT(slotNewRect(QGraphicsRectItem*)));
-    connect(m_scene, SIGNAL(newText(QGraphicsTextItem*)), this , SLOT(slotNewText(QGraphicsTextItem*)));
+    connect(m_scene, SIGNAL(newText(MyTextItem*)), this , SLOT(slotNewText(MyTextItem*)));
     connect(zoom_slider, SIGNAL(valueChanged(int)), this , SLOT(slotUpdateZoom(int)));
     connect(zoom_spin, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateZoom(int)));
 
@@ -568,8 +570,7 @@ void TitleWidget::templateIndexChanged(int index)
         QList<QGraphicsItem *> list = graphicsView->scene()->items();
         foreach(QGraphicsItem * qgItem, list) {
             if (qgItem->type() == TEXTITEM) {
-                QGraphicsTextItem *i;
-                i = static_cast<QGraphicsTextItem *>(qgItem);
+                MyTextItem *i = static_cast<MyTextItem *>(qgItem);
                 i->setProperty("isTemplate", "true");
                 i->setProperty("templateText", i->toHtml());
             }
@@ -854,10 +855,18 @@ void TitleWidget::slotNewRect(QGraphicsRectItem * rect)
     //graphicsView->setFocus();
 }
 
-void TitleWidget::slotNewText(QGraphicsTextItem *tt)
+void TitleWidget::slotNewText(MyTextItem *tt)
 {
     updateAxisButtons(tt); // back to default
 
+    letter_spacing->blockSignals(true);
+    line_spacing->blockSignals(true);
+    letter_spacing->setValue(0);
+    line_spacing->setValue(0);
+    letter_spacing->blockSignals(false);
+    line_spacing->blockSignals(false);
+    letter_spacing->setEnabled(true);
+    line_spacing->setEnabled(true);
     QFont font = font_family->currentFont();
     font.setPixelSize(font_size->value());
     // mbd: issue 551:
@@ -869,6 +878,7 @@ void TitleWidget::slotNewText(QGraphicsTextItem *tt)
     QColor color = fontColorButton->color();
     QColor outlineColor = textOutlineColor->color();
     tt->setDefaultTextColor(color);
+    tt->document()->setDocumentMargin(0);
 
     QTextCursor cur(tt->document());
     cur.select(QTextCursor::Document);
@@ -926,7 +936,7 @@ void TitleWidget::selectionChanged()
     l = graphicsView->scene()->items();
     foreach(QGraphicsItem * item, l) {
         if (item->type() == TEXTITEM && !item->isSelected()) {
-            QGraphicsTextItem *i = static_cast<QGraphicsTextItem *>(item);
+            MyTextItem *i = static_cast<MyTextItem *>(item);
             i->clearFocus();
         }
     }
@@ -1164,7 +1174,7 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
         value_w->setValue((int) r->rect().width());
         value_h->setValue((int) r->rect().height());
     } else if (i->type() == TEXTITEM) {
-        QGraphicsTextItem *t = static_cast <QGraphicsTextItem *>(i);
+        MyTextItem *t = static_cast <MyTextItem *>(i);
         value_w->setValue((int) t->boundingRect().width());
         value_h->setValue((int) t->boundingRect().height());
     }
@@ -1182,7 +1192,7 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
 
     if (i->type() == TEXTITEM) {
 
-        QGraphicsTextItem *rec = static_cast <QGraphicsTextItem *>(i);
+        MyTextItem *rec = static_cast <MyTextItem *>(i);
 
         // Set the correct x coordinate value
         if (origin_x_left->isChecked()) {
@@ -1269,7 +1279,7 @@ void TitleWidget::updatePosition(QGraphicsItem *i)
 void TitleWidget::updatePosition(QGraphicsItem *i, int x, int y)
 {
     if (i->type() == TEXTITEM) {
-        QGraphicsTextItem *rec = static_cast <QGraphicsTextItem *>(i);
+        MyTextItem *rec = static_cast <MyTextItem *>(i);
 
         int posX;
         if (origin_x_left->isChecked()) {
@@ -1422,11 +1432,11 @@ void TitleWidget::slotChanged()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() >= 1 && l.at(0)->type() == TEXTITEM) {
-        textChanged(static_cast <QGraphicsTextItem *>(l.at(0)));
+        textChanged(static_cast <MyTextItem *>(l.at(0)));
     }
 }
 
-void TitleWidget::textChanged(QGraphicsTextItem *i)
+void TitleWidget::textChanged(MyTextItem *i)
 {
     /*
      * If the user has set origin_x_left (the same for y), we need to look
@@ -1475,7 +1485,7 @@ void TitleWidget::slotInsertUnicodeString(const QString &text)
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     if (l.size() > 0) {
         if (l.at(0)->type() == TEXTITEM) {
-            QGraphicsTextItem *t = static_cast <QGraphicsTextItem *>(l.at(0));
+            MyTextItem *t = static_cast <MyTextItem *>(l.at(0));
             t->textCursor().insertText(text);
         }
     }
@@ -1488,6 +1498,7 @@ void TitleWidget::slotUpdateText()
     font.setItalic(buttonItalic->isChecked());
     font.setUnderline(buttonUnder->isChecked());
     font.setWeight(font_weight_box->itemData(font_weight_box->currentIndex()).toInt());
+    font.setLetterSpacing(QFont::AbsoluteSpacing, letter_spacing->value());
     QColor color = fontColorButton->color();
     QColor outlineColor = textOutlineColor->color();
 
@@ -1495,10 +1506,10 @@ void TitleWidget::slotUpdateText()
 
     int i;
     for (i = 0; i < graphicsView->scene()->selectedItems().length(); ++i) {
-        QGraphicsTextItem* item = NULL;
+        MyTextItem* item = NULL;
         QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
         if (l.at(i)->type() == TEXTITEM) {
-            item = static_cast <QGraphicsTextItem *>(l.at(i));
+            item = static_cast <MyTextItem *>(l.at(i));
         }
         if (!item) {
             // No text item, try next one.
@@ -1509,14 +1520,13 @@ void TitleWidget::slotUpdateText()
         QTextCursor cur(item->document());
         cur.select(QTextCursor::Document);
         QTextBlockFormat format = cur.blockFormat();
+        format.setLineHeight(line_spacing->value(), QTextBlockFormat::LineDistanceHeight);
         if (buttonAlignLeft->isChecked() || buttonAlignCenter->isChecked() || buttonAlignRight->isChecked()) {
-            item->setTextWidth(item->boundingRect().width());
-            if (buttonAlignCenter->isChecked()) format.setAlignment(Qt::AlignHCenter);
-            else if (buttonAlignRight->isChecked()) format.setAlignment(Qt::AlignRight);
-            else if (buttonAlignLeft->isChecked()) format.setAlignment(Qt::AlignLeft);
+            if (buttonAlignCenter->isChecked()) item->setAlignment(Qt::AlignHCenter);
+            else if (buttonAlignRight->isChecked()) item->setAlignment(Qt::AlignRight);
+            else if (buttonAlignLeft->isChecked()) item->setAlignment(Qt::AlignLeft);
         } else {
-            format.setAlignment(Qt::AlignLeft);
-            item->setTextWidth(-1);
+            item->setAlignment(Qt::AlignLeft);
         }
 
         // Set font properties
@@ -2031,8 +2041,8 @@ void TitleWidget::slotAnimEnd(bool anim)
 void TitleWidget::addAnimInfoText()
 {
     // add text to anim viewport
-    QGraphicsTextItem *t = new QGraphicsTextItem(i18nc("Indicates the start of an animation", "Start"), m_startViewport);
-    QGraphicsTextItem *t2 = new QGraphicsTextItem(i18nc("Indicates the end of an animation", "End"), m_endViewport);
+    MyTextItem *t = new MyTextItem(i18nc("Indicates the start of an animation", "Start"), m_startViewport);
+    MyTextItem *t2 = new MyTextItem(i18nc("Indicates the end of an animation", "End"), m_endViewport);
     QFont font = t->font();
     font.setPixelSize(m_startViewport->rect().width() / 10);
     QColor col = m_startViewport->pen().color();
@@ -2050,7 +2060,7 @@ void TitleWidget::updateInfoText()
 {
     // update info text font
     if (!m_startViewport->childItems().isEmpty()) {
-        QGraphicsTextItem *item = static_cast <QGraphicsTextItem *>(m_startViewport->childItems().at(0));
+        MyTextItem *item = static_cast <MyTextItem *>(m_startViewport->childItems().at(0));
         if (item) {
             QFont font = item->font();
             font.setPixelSize(m_startViewport->rect().width() / 10);
@@ -2058,7 +2068,7 @@ void TitleWidget::updateInfoText()
         }
     }
     if (!m_endViewport->childItems().isEmpty()) {
-        QGraphicsTextItem *item = static_cast <QGraphicsTextItem *>(m_endViewport->childItems().at(0));
+        MyTextItem *item = static_cast <MyTextItem *>(m_endViewport->childItems().at(0));
         if (item) {
             QFont font = item->font();
             font.setPixelSize(m_endViewport->rect().width() / 10);
@@ -2408,6 +2418,10 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
         itemrotatey->setEnabled(false);
         itemrotatez->setEnabled(false);
         frame_properties->setEnabled(false);
+        letter_spacing->setEnabled(false);
+        line_spacing->setEnabled(false);
+        letter_spacing->setValue(0);
+        line_spacing->setValue(0);
     } else {
         effect_frame->setEnabled(true);
         frame_properties->setEnabled(true);
@@ -2423,9 +2437,13 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
             itemrotatez->setEnabled(false);
             updateInfoText();
         }
+
+        letter_spacing->setEnabled(referenceItem->type() == TEXTITEM);
+        line_spacing->setEnabled(referenceItem->type() == TEXTITEM);
+
         if (referenceItem->type() == TEXTITEM) {
             showToolbars(TITLE_TEXT);
-            QGraphicsTextItem* i = static_cast <QGraphicsTextItem *>(referenceItem);
+            MyTextItem* i = static_cast <MyTextItem *>(referenceItem);
             if (!i->toPlainText().isEmpty()) {
                 // We have an existing text item selected
                 if (!i->data(100).isNull()) {
@@ -2504,6 +2522,8 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 else if (format.alignment() == Qt::AlignHCenter) buttonAlignCenter->setChecked(true);
                 else if (format.alignment() == Qt::AlignRight) buttonAlignRight->setChecked(true);
                 else if (format.alignment() == Qt::AlignLeft) buttonAlignLeft->setChecked(true);
+                letter_spacing->setValue(font.letterSpacing());
+                line_spacing->setValue(format.lineHeight());
 
                 font_size->blockSignals(false);
                 font_family->blockSignals(false);
