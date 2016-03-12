@@ -783,7 +783,7 @@ void Monitor::slotStartDrag()
     list.append(m_controller->clipId());
     QPoint p = m_ruler->zone();
     list.append(QString::number(p.x()));
-    list.append(QString::number(p.y()));
+    list.append(QString::number(p.y() + 1));
     QByteArray data;
     data.append(list.join(QStringLiteral(";")).toUtf8());
     mimeData->setData(QStringLiteral("kdenlive/clip"), data);
@@ -1433,7 +1433,7 @@ QStringList Monitor::getZoneInfo() const
     if (m_controller == NULL) return result;
     result << m_controller->clipId();
     QPoint zone = m_ruler->zone();
-    result << QString::number(zone.x()) << QString::number(zone.y());
+    result << QString::number(zone.x()) << QString::number(zone.y() + 1);
     return result;
 }
 

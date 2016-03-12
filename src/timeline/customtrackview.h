@@ -389,8 +389,9 @@ private:
     ClipItem *getClipItemAtEnd(GenTime pos, int track);
     /** @brief Returns a clip from timeline 
      *  @param pos the time position
-     *  @param track the track where the clip is in MLT coordinates */
-    ClipItem *getClipItemAtStart(GenTime pos, int track);
+     *  @param track the track where the clip is in MLT coordinates 
+     *  @param end the end position of the clip in case of overlapping clips (overwrite mode) */
+    ClipItem *getClipItemAtStart(GenTime pos, int track, GenTime end = GenTime());
     /** @brief Returns a transition from timeline
      *  @param pos a time value that is inside the clip
      *  @param track the track where the clip is in MLT coordinates */
@@ -467,7 +468,7 @@ private:
     /** Selects all items in the scene rect, and sets ok to false if a group going over several tracks is found in it */
     QList<QGraphicsItem *> checkForGroups(const QRectF &rect, bool *ok);
     /** Adjust clips under another one when working in overwrite mode */
-    void adjustTimelineClips(EditMode mode, ClipItem *item, ItemInfo posinfo, QUndoCommand *command);
+    void adjustTimelineClips(EditMode mode, ClipItem *item, ItemInfo posinfo, QUndoCommand *command, bool doIt = true);
     void adjustTimelineTransitions(EditMode mode, Transition *item, QUndoCommand *command);
     /** Adjust keyframes when pasted to another clip */
     void adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime duration, QDomElement xml);

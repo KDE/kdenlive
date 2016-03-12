@@ -107,10 +107,10 @@ bool Track::doAdd(qreal t, Mlt::Producer *cut, int mode)
         } else if (mode == 2) {
             m_playlist.split_at(pos);
         }
-        m_playlist.insert_blank(m_playlist.get_clip_index_at(pos), len);
+        //m_playlist.insert_blank(m_playlist.get_clip_index_at(pos), len);
     }
     m_playlist.consolidate_blanks();
-    if (m_playlist.insert_at(frame(t), cut, 1) == m_playlist.count() - 1) {
+    if (m_playlist.insert_at(pos, cut, 1) == m_playlist.count() - 1) {
         emit newTrackDuration(m_playlist.get_playtime());
     }
     return true;
@@ -180,7 +180,6 @@ bool Track::resize(qreal t, qreal dt, bool end)
     m_playlist.lock();
     int index = m_playlist.get_clip_index_at(frame(t));
     int length = frame(dt);
-
     QScopedPointer<Mlt::Producer> clip(m_playlist.get_clip(index));
     if (clip == NULL || clip->is_blank()) {
         qWarning("Can't resize clip at %f", t);
