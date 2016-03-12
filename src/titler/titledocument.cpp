@@ -147,6 +147,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
         QDomElement content = doc.createElement(QStringLiteral("content"));
         QFont font;
         MyTextItem *t;
+        double xPosition = item->pos().x();
 
         switch (item->type()) {
         case 7:
@@ -183,9 +184,29 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             cur = QTextCursor(t->document());
             cur.select(QTextCursor::Document);
             format = cur.blockFormat();
-            content.setAttribute(QStringLiteral("line-spacing"), QString::number(format.lineHeight()));
-            content.setAttribute(QStringLiteral("box-width"), QString::number(t->boundingRect().width()));
+            if (t->toPlainText() == QLatin1String("%s")) {
+                // template text box, adjust size for later remplacement text
+                if (t->alignment() == Qt::AlignHCenter) {
+                    // grow dimensions on both sides
+                    double xcenter = item->pos().x() + (t->boundingRect().width()) / 2;
+                    double offset = qMin(xcenter, m_width - xcenter);
+                    xPosition = xcenter - offset;
+                    content.setAttribute(QStringLiteral("box-width"), QString::number(2 * offset));
+                } else if (t->alignment() == Qt::AlignRight) {
+                    // grow to the left
+                    double offset = item->pos().x() + (t->boundingRect().width());
+                    xPosition = 0;
+                    content.setAttribute(QStringLiteral("box-width"), QString::number(offset));
+                } else {
+                    // left align, grow on right side
+                    double offset = m_width - item->pos().x();
+                    content.setAttribute(QStringLiteral("box-width"), QString::number(offset));
+                }
+            } else {
+                content.setAttribute(QStringLiteral("box-width"), QString::number(t->boundingRect().width()));
+            }
             content.setAttribute(QStringLiteral("box-height"), QString::number(t->boundingRect().height()));
+            content.setAttribute(QStringLiteral("line-spacing"), QString::number(format.lineHeight()));
             {
                 QTextCursor cursor(t->document());
                 cursor.select(QTextCursor::Document);
@@ -222,7 +243,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
 
         // position
         QDomElement pos = doc.createElement(QStringLiteral("position"));
-        pos.setAttribute(QStringLiteral("x"), QString::number(item->pos().x()));
+        pos.setAttribute(QStringLiteral("x"), QString::number(xPosition));
         pos.setAttribute(QStringLiteral("y"), QString::number(item->pos().y()));
         QTransform transform = item->transform();
         QDomElement tr = doc.createElement(QStringLiteral("transform"));
@@ -370,6 +391,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
             QGraphicsItem *gitem = NULL;
             //qDebug() << items.item(i).attributes().namedItem("type").nodeValue();
             int zValue = items.item(i).attributes().namedItem(QStringLiteral("z-index")).nodeValue().toInt();
+            double xPosition = items.item(i).namedItem(QStringLiteral("position")).attributes().namedItem(QStringLiteral("x")).nodeValue().toDouble();
             if (zValue > -1000) {
                 if (items.item(i).attributes().namedItem(QStringLiteral("type")).nodeValue() == QLatin1String("QGraphicsTextItem")) {
                     QDomNamedNodeMap txtProperties = items.item(i).namedItem(QStringLiteral("content")).attributes();
@@ -437,6 +459,20 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                         QStringList effData = QStringList() << QStringLiteral("typewriter") << txtProperties.namedItem(QStringLiteral("typewriter")).nodeValue();
                         txt->setData(100, effData);
                     }
+                    if (txt->toPlainText() == QLatin1String("%s")) {
+                        // template text box, adjust size for later remplacement text
+                        if (txt->alignment() == Qt::AlignHCenter) {
+                            // grow dimensions on both sides
+                            double width = txtProperties.namedItem(QStringLiteral("box-width")).nodeValue().toDouble();
+                            double xcenter = (width - xPosition) / 2.0;
+                            xPosition = xcenter - txt->boundingRect().width() / 2;
+                        } else if (txt->alignment() == Qt::AlignRight) {
+                            // grow to the left
+                            xPosition = xPosition + txtProperties.namedItem(QStringLiteral("box-width")).nodeValue().toDouble() - txt->boundingRect().width();
+                        } else {
+                            // left align, grow on right side, nothing to do
+                        }
+                    }
 
                     gitem = txt;
                 } else if (items.item(i).attributes().namedItem(QStringLiteral("type")).nodeValue() == QLatin1String("QGraphicsRectItem")) {
@@ -487,7 +523,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
             }
             //pos and transform
             if (gitem) {
-                QPointF p(items.item(i).namedItem(QStringLiteral("position")).attributes().namedItem(QStringLiteral("x")).nodeValue().toDouble(),
+                QPointF p(xPosition,
                           items.item(i).namedItem(QStringLiteral("position")).attributes().namedItem(QStringLiteral("y")).nodeValue().toDouble());
                 gitem->setPos(p);
                 QDomElement trans = items.item(i).namedItem(QStringLiteral("position")).firstChild().toElement();
