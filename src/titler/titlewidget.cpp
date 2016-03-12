@@ -462,7 +462,9 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(templateBox, SIGNAL(currentIndexChanged(int)), this, SLOT(templateIndexChanged(int)));
 
     buttonBox->button(QDialogButtonBox::Ok)->setEnabled(KdenliveSettings::hastitleproducer());
-    refreshTitleTemplates();
+    if (titletemplates.isEmpty()) {
+        refreshTitleTemplates(m_projectTitlePath);
+    }
     //templateBox->setIconSize(QSize(60,60));
     templateBox->clear();
     templateBox->addItem(QLatin1String(""));
@@ -530,13 +532,26 @@ QStringList TitleWidget::extractFontList(const QString& xml)
     return result;
 }
 //static
-void TitleWidget::refreshTitleTemplates()
+void TitleWidget::refreshTitleTemplates(const QString &projectPath)
 {
     QStringList filters = QStringList() << QStringLiteral("*.kdenlivetitle") ;
     titletemplates.clear();
-    QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("titles"));
+
+    // project templates
+    QDir dir(projectPath);
+    QStringList templateFiles = dir.entryList(filters, QDir::Files);
+    foreach(const QString & fname, templateFiles) {
+        TitleTemplate t;
+            t.name = fname;
+            t.file = dir.absoluteFilePath(fname);
+            t.icon = QIcon(KThumb::getImage(QUrl::fromLocalFile(t.file), 0, 60, 60));
+            titletemplates.append(t);
+    }
+
+    // system templates
+    QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory);
     foreach(const QString & folderpath, titleTemplates) {
-         QDir folder(folderpath);
+        QDir folder(folderpath);
         QStringList filesnames = folder.entryList(filters, QDir::Files);
         foreach(const QString & fname, filesnames) {
             TitleTemplate t;

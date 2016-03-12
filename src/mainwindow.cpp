@@ -2660,8 +2660,12 @@ int MainWindow::getNewStuff(const QString &configFile)
 
 void MainWindow::slotGetNewTitleStuff()
 {
-    if (getNewStuff(QStringLiteral("kdenlive_titles.knsrc")) > 0)
-        TitleWidget::refreshTitleTemplates();
+    if (getNewStuff(QStringLiteral("kdenlive_titles.knsrc")) > 0) {
+        // get project title path
+        QString titlePath = pCore->projectManager()->current()->projectFolder().path();
+        titlePath.append(QStringLiteral("/titles/"));
+        TitleWidget::refreshTitleTemplates(titlePath);
+    }
 }
 
 void MainWindow::slotGetNewLumaStuff()

@@ -39,9 +39,24 @@ TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget * parent
     QStringList filter;
     filter << QStringLiteral("*.kdenlivetitle");
     const QString path = folder + "/titles/";
-    QStringList templateFiles = QDir(path).entryList(filter, QDir::Files);
-    for (int i = 0; i < templateFiles.size(); ++i)
-        m_view.template_list->comboBox()->addItem(templateFiles.at(i), path + templateFiles.at(i));
+
+    // Project templates
+    QDir dir(path);
+    QStringList templateFiles = dir.entryList(filter, QDir::Files);
+    foreach(const QString & fname, templateFiles) {
+        m_view.template_list->comboBox()->addItem(fname, dir.absoluteFilePath(fname));
+    }
+
+    // System templates
+    QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory);
+
+    foreach(const QString & folderpath, titleTemplates) {
+        QDir folder(folderpath);
+        QStringList filesnames = folder.entryList(filter, QDir::Files);
+        foreach(const QString & fname, filesnames) {
+            m_view.template_list->comboBox()->addItem(fname, folder.absoluteFilePath(fname));
+        }
+    }
 
     if (!templateFiles.isEmpty())
         m_view.buttonBox->button(QDialogButtonBox::Ok)->setFocus();

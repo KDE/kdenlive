@@ -86,7 +86,7 @@ public:
     int duration() const;
 
     /** @brief Retrieves a list of all available title templates. */
-    static void refreshTitleTemplates();
+    static void refreshTitleTemplates(const QString &projectPath);
 
 protected:
     void resizeEvent(QResizeEvent * event);
