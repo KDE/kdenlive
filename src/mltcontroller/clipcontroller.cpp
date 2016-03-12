@@ -374,6 +374,10 @@ QString ClipController::clipName() const
 
 QString ClipController::description() const
 {
+    if (m_clipType == TextTemplate) {
+        QString name = property(QStringLiteral("templatetext"));
+        return name;
+    }
     QString name = property(QStringLiteral("kdenlive:description"));
     if (!name.isEmpty()) return name;
     return property(QStringLiteral("meta.attr.comment.markup"));

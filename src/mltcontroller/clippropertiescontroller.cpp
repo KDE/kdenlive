@@ -516,13 +516,21 @@ void ClipPropertiesController::slotRefreshTimeCode()
 
 void ClipPropertiesController::slotReloadProperties()
 {
-    if (m_type == Color) {
-        m_originalProperties.insert(QStringLiteral("resource"), m_properties.get("resource"));
-        m_originalProperties.insert(QStringLiteral("out"), m_properties.get("out"));
-        m_originalProperties.insert(QStringLiteral("length"), m_properties.get("length"));
-        emit modified(m_properties.get_int("length"));
-        mlt_color color = m_properties.get_color("resource");
-        emit modified(QColor::fromRgb(color.r, color.g, color.b));
+    mlt_color color;
+    switch (m_type) {
+        case Color:
+            m_originalProperties.insert(QStringLiteral("resource"), m_properties.get("resource"));
+            m_originalProperties.insert(QStringLiteral("out"), m_properties.get("out"));
+            m_originalProperties.insert(QStringLiteral("length"), m_properties.get("length"));
+            emit modified(m_properties.get_int("length"));
+            color = m_properties.get_color("resource");
+            emit modified(QColor::fromRgb(color.r, color.g, color.b));
+            break;
+        case TextTemplate:
+            m_textEdit->setPlainText(m_properties.get("templatetext"));
+            break;
+        default:
+            break;
     }
 }
 

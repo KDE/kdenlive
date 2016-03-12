@@ -149,6 +149,9 @@ public:
 
     void updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & index) const
     {
+        if (index.column() != 0) {
+            return QStyledItemDelegate::updateEditorGeometry(editor, option, index);
+        }
         QStyleOptionViewItemV4 opt = option;
         initStyleOption(&opt, index);
         QRect r1 = option.rect;

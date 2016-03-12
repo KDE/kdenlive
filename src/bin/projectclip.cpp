@@ -568,6 +568,11 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
     bool reload = false;
     // Some properties also need to be passed to track producers
     QStringList timelineProperties;
+    if (properties.contains(QLatin1String("templatetext"))) {
+        m_description = properties.value(QLatin1String("templatetext"));
+        bin()->emitItemUpdated(this);
+        refreshPanel = true;
+    }
     timelineProperties << QStringLiteral("force_aspect_ratio") << QStringLiteral("video_index") << QStringLiteral("audio_index") << QStringLiteral("set.force_full_luma")<< QStringLiteral("full_luma") <<QStringLiteral("threads") <<QStringLiteral("force_colorspace")<<QStringLiteral("force_tff")<<QStringLiteral("force_progressive")<<QStringLiteral("force_fps");
     QStringList keys;
     keys << QStringLiteral("luma_duration") << QStringLiteral("luma_file") << QStringLiteral("fade") << QStringLiteral("ttl") << QStringLiteral("softness") << QStringLiteral("crop") << QStringLiteral("animation");
@@ -696,8 +701,13 @@ bool ProjectClip::rename(const QString &name, int column)
       case 2:
         if (m_description == name) return false;
         // Rename clip
-        oldProperites.insert(QStringLiteral("kdenlive:description"), m_description);
-        newProperites.insert(QStringLiteral("kdenlive:description"), name);
+        if (m_type == TextTemplate) {
+            oldProperites.insert(QStringLiteral("templatetext"), m_description);
+            newProperites.insert(QStringLiteral("templatetext"), name);
+        } else {
+            oldProperites.insert(QStringLiteral("kdenlive:description"), m_description);
+            newProperites.insert(QStringLiteral("kdenlive:description"), name);
+        }
         m_description = name;
         edited = true;
         break;
