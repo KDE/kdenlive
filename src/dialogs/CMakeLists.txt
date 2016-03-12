@@ -6,5 +6,6 @@ set(kdenlive_SRCS
   dialogs/profilesdialog.cpp
   dialogs/renderwidget.cpp
   dialogs/wizard.cpp
+  dialogs/titletemplatedialog.cpp
   PARENT_SCOPE)
 

@@ -69,8 +69,8 @@ public slots:
     void updateClipUrl(const QUrl &url, const QString &hash);
 
 public:
-    static QPixmap getImage(const QUrl &url, int width, int height);
-    static QPixmap getImage(const QUrl &url, int frame, int width, int height);
+    static QPixmap getImage(const QUrl &url, int width, int height = -1);
+    static QPixmap getImage(const QUrl &url, int frame, int width, int height = -1);
     static QImage getFrame(Mlt::Producer *producer, int framepos, int displayWidth, int height);
     static QImage getFrame(Mlt::Frame *frame, int width, int height);
     static void saveThumbnail(const QString &url, const QString &dest, int height);

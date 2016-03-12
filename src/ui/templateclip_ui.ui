@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>372</width>
-    <height>198</height>
+    <width>680</width>
+    <height>352</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
@@ -36,6 +36,19 @@
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
        <widget class="QTextEdit" name="description"/>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="preview">
+        <property name="minimumSize">
+         <size>
+          <width>300</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

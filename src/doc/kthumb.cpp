@@ -136,6 +136,9 @@ QImage KThumb::extractImage(int frame, int width, int height)
 QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
 {
     Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
+    if (height == -1) {
+        height = width * profile.height() / profile.width();
+    }
     QPixmap pix(width, height);
     if (!url.isValid()) return pix;
     Mlt::Producer *producer = new Mlt::Producer(profile, url.path().toUtf8().constData());

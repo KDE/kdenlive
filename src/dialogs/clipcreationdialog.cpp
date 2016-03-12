@@ -27,10 +27,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bin/projectclip.h"
 #include "ui_colorclip_ui.h"
 #include "ui_qtextclip_ui.h"
-#include "ui_templateclip_ui.h"
 #include "timecodedisplay.h"
 #include "doc/doccommands.h"
 #include "titler/titlewidget.h"
+#include "titletemplatedialog.h"
 #include "project/dialogs/slideshowclip.h"
 
 #include <KMessageBox>
@@ -297,29 +297,11 @@ void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, QStringList groupInfo
 
 void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
 {
-    // Get the list of existing templates
-    QStringList filter;
-    filter << QStringLiteral("*.kdenlivetitle");
-    const QString path = doc->projectFolder().path() + QDir::separator() + "titles/";
-    QStringList templateFiles = QDir(path).entryList(filter, QDir::Files);
 
-    QPointer<QDialog> dia = new QDialog(QApplication::activeWindow());
-    Ui::TemplateClip_UI dia_ui;
-    dia_ui.setupUi(dia);
-    for (int i = 0; i < templateFiles.size(); ++i)
-        dia_ui.template_list->comboBox()->addItem(templateFiles.at(i), path + templateFiles.at(i));
+    QPointer<TitleTemplateDialog> dia = new TitleTemplateDialog(doc->projectFolder().path(), QApplication::activeWindow());
 
-    if (!templateFiles.isEmpty())
-        dia_ui.buttonBox->button(QDialogButtonBox::Ok)->setFocus();
-    QStringList mimeTypeFilters;
-    mimeTypeFilters <<QStringLiteral("application/x-kdenlivetitle");
-    dia_ui.template_list->setFilter(mimeTypeFilters.join(' '));
-    //warning: setting base directory doesn't work??
-    dia_ui.template_list->setUrl(QUrl::fromLocalFile(path));
-    dia_ui.text_box->setHidden(true);
     if (dia->exec() == QDialog::Accepted) {
-        QString textTemplate = dia_ui.template_list->comboBox()->itemData(dia_ui.template_list->comboBox()->currentIndex()).toString();
-        if (textTemplate.isEmpty()) textTemplate = dia_ui.template_list->comboBox()->currentText();
+        QString textTemplate = dia->selectedTemplate();
         // Create a cloned template clip
         QDomDocument xml;
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
@@ -337,6 +319,7 @@ void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, QStringList g
         prod.setAttribute(QStringLiteral("type"), (int) TextTemplate);
         prod.setAttribute(QStringLiteral("transparency"), QStringLiteral("1"));
         prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
+        prod.setAttribute(QStringLiteral("templatetext"), dia->selectedText());
 
         int duration = 0;
         QDomDocument titledoc;
