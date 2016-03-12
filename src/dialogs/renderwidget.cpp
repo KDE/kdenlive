@@ -1640,7 +1640,7 @@ void RenderWidget::refreshParams()
                 m_view.audio->setSingleStep(1);
         }
     }
-    else m_view.audio->setEnabled(quality);
+    m_view.audio->setEnabled(quality);
 
     if (item->data(0, SpeedsRole).canConvert(QVariant::StringList) && item->data(0, SpeedsRole).toStringList().count()) {
         int speed = item->data(0, SpeedsRole).toStringList().count() - 1;

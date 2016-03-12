@@ -1874,6 +1874,7 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo)
 
 void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, ItemInfo oldInfo)
 {
+    Q_UNUSED(oldInfo)
     QDomElement param = effect.elementsByTagName(QStringLiteral("parameter")).item(paramIndex).toElement();
     QString data = param.attribute(QStringLiteral("value"));
     /*int offset = oldInfo.cropStart.frames(m_fps);

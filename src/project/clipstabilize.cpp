@@ -98,9 +98,17 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
         hi.next();
         QHash<QString,QString> val=hi.value();
         if (val[QStringLiteral("type")]==QLatin1String("int") || val[QStringLiteral("type")]==QLatin1String("double")){
-            DoubleParameterWidget *dbl=new DoubleParameterWidget(hi.key(), val[QStringLiteral("value")].toDouble(),
-                    val[QStringLiteral("min")].toDouble(),val[QStringLiteral("max")].toDouble(),val[QStringLiteral("value")].toDouble(),
-                    QLatin1String(""),0/*id*/,QLatin1String("")/*suffix*/,val[QStringLiteral("decimals")]!=QLatin1String("")?val[QStringLiteral("decimals")].toInt():0,this);
+            DoubleParameterWidget *dbl=new DoubleParameterWidget(hi.key()/*name*/,
+                    val[QStringLiteral("value")].toDouble(),
+                    val[QStringLiteral("min")].toDouble(),
+                    val[QStringLiteral("max")].toDouble(),
+                    val[QStringLiteral("value")].toDouble(),/*default*/
+                    QLatin1String(""),/*comment*/
+                    0/*id*/,
+                    QLatin1String(""),/*suffix*/
+                    val[QStringLiteral("decimals")] != QLatin1String("") ? val[QStringLiteral("decimals")].toInt() : 0,
+                    true,/*showRadioBtn*/
+                    this);
             dbl->setObjectName(hi.key());
             dbl->setToolTip(val[QStringLiteral("tooltip")]);
             connect(dbl, &DoubleParameterWidget::valueChanged, this, &ClipStabilize::slotUpdateParams);

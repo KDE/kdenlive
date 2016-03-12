@@ -33,7 +33,7 @@ class KeyframeHelper;
 class TimecodeDisplay;
 class QGraphicsRectItem;
 class DragValue;
-class EffectMetaInfo;
+struct EffectMetaInfo;
 
 class GeometryWidget : public QWidget
 {

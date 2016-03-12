@@ -32,6 +32,118 @@
 
 enum { DvdButtonItem = QGraphicsItem::UserType + 1, DvdButtonUnderlineItem = QGraphicsItem::UserType + 2 };
 
+DvdScene::DvdScene(QObject * parent):
+      QGraphicsScene(parent)
+    , m_width(0)
+    , m_height(0)
+    , m_gridSize(1)
+{
+}
+void DvdScene::setProfile(int width, int height) {
+    m_width = width;
+    m_height = height;
+    setSceneRect(0, 0, m_width, m_height);
+}
+int DvdScene::sceneWidth() const {
+    return m_width;
+}
+int DvdScene::sceneHeight() const {
+    return m_height;
+}
+int DvdScene::gridSize() const {
+    return m_gridSize;
+}
+void DvdScene::setGridSize(int gridSize) {
+    m_gridSize = gridSize;
+}
+void DvdScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * mouseEvent ) {
+    QGraphicsScene::mouseReleaseEvent(mouseEvent);
+    emit sceneChanged();
+}
+void DvdScene::drawForeground(QPainter *painter, const QRectF &rect) {
+    // draw the grid if needed
+    if (gridSize() <= 1)
+        return;
+
+    QPen pen;
+    painter->setPen(pen);
+
+    qreal left = int(rect.left()) - (int(rect.left()) % m_gridSize);
+    qreal top = int(rect.top()) - (int(rect.top()) % m_gridSize);
+    QVector<QPointF> points;
+    for (qreal x = left; x < rect.right(); x += m_gridSize){
+        for (qreal y = top; y < rect.bottom(); y += m_gridSize){
+            points.append(QPointF(x,y));
+        }
+    }
+    painter->drawPoints(points.data(), points.size());
+}
+
+DvdButton::DvdButton(const QString & text):
+      QGraphicsTextItem(text)
+    , m_target(0)
+    , m_command(QStringLiteral("jump title 1"))
+    , m_backToMenu(false) {
+    setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+}
+void DvdButton::setTarget(int t, const QString &c) {
+    m_target = t;
+    m_command = c;
+}
+int DvdButton::target() const {
+    return m_target;
+}
+QString DvdButton::command() const {
+    return m_command;
+}
+bool DvdButton::backMenu() const {
+    return m_backToMenu;
+}
+int DvdButton::type() const {
+    // Enable the use of qgraphicsitem_cast with this item.
+    return UserType + 1;
+}
+void DvdButton::setBackMenu(bool back) {
+    m_backToMenu = back;
+}
+
+QVariant DvdButton::itemChange(GraphicsItemChange change, const QVariant &value) {
+    if (change == ItemPositionChange && scene()) {
+        QPoint newPos = value.toPoint();
+
+        if(QApplication::mouseButtons() == Qt::LeftButton && qobject_cast<DvdScene*> (scene())){
+            DvdScene* customScene = qobject_cast<DvdScene*> (scene());
+            int gridSize = customScene->gridSize();
+            qreal xV = round(newPos.x()/gridSize)*gridSize;
+            qreal yV = round(newPos.y()/gridSize)*gridSize;
+            newPos = QPoint(xV, yV);
+        }
+
+        QRectF sceneShape = sceneBoundingRect();
+        DvdScene *sc = static_cast < DvdScene * >(scene());
+        newPos.setX(qMax(newPos.x(), 0));
+        newPos.setY(qMax(newPos.y(), 0));
+        if (newPos.x() + sceneShape.width() > sc->width())
+            newPos.setX(sc->width() - sceneShape.width());
+        if (newPos.y() + sceneShape.height() > sc->height())
+            newPos.setY(sc->height() - sceneShape.height());
+
+        sceneShape.translate(newPos - pos());
+        QList<QGraphicsItem*> list = scene()->items(sceneShape, Qt::IntersectsItemShape);
+        list.removeAll(this);
+        if (!list.isEmpty()) {
+            for (int i = 0; i < list.count(); ++i) {
+                if (list.at(i)->type() == Type)
+                    return pos();
+            }
+        }
+        return newPos;
+    }
+    return QGraphicsItem::itemChange(change, value);
+}
+
+
 DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent) :
     QWizardPage(parent),
     m_color(NULL),
@@ -742,6 +854,4 @@ void DvdWizardMenu::slotUnZoom()
 {
     m_view.menu_preview->scale(0.5, 0.5);
 }
-
-
 

@@ -259,11 +259,11 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fp
     // if clip and project have different frame rate, adjust in and out
     int in = zone.x();
     int out = zone.y();
-    int max = clip->duration().frames(fps);
+    int max = clip->duration().frames(originalFps);
     int duration = out - in - 1;
     // Locale conversion does not seem necessary here...
-    QString timeIn = QString::number(GenTime(in, fps).ms() / 1000);
-    QString timeOut = QString::number(GenTime(duration, fps).ms() / 1000);
+    QString timeIn = QString::number(GenTime(in, originalFps).ms() / 1000);
+    QString timeOut = QString::number(GenTime(duration, originalFps).ms() / 1000);
 
     QPointer<QDialog> d = new QDialog(QApplication::activeWindow());
     Ui::CutJobDialog_UI ui;

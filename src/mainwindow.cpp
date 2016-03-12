@@ -1290,6 +1290,7 @@ void MainWindow::setupActions()
     a = KStandardAction::preferences(this, SLOT(slotPreferences()),        actionCollection());
     a->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
     a = KStandardAction::configureNotifications(this, SLOT(configureNotifications()), actionCollection());
+    a->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
     a = KStandardAction::copy(this,                   SLOT(slotCopy()),               actionCollection());
     a->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-copy")));
     a = KStandardAction::paste(this,                  SLOT(slotPaste()),              actionCollection());

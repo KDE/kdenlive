@@ -1023,11 +1023,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             m_dragGuide = static_cast <Guide *>(guidesCollisionList.at(0));*/
         }
         m_menuPosition = m_clickEvent;
-        if (dragGroup == NULL) {
+        /* if (dragGroup == NULL) {
             if (m_dragItem && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup)
                 dragGroup = static_cast<AbstractGroupItem*> (m_dragItem->parentItem());
-
         }
+        */
         if (m_dragItem) {
             if (!m_dragItem->isSelected()) {
                 resetSelectionGroup();

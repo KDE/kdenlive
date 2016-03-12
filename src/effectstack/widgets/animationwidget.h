@@ -31,7 +31,7 @@
 class AnimKeyframeRuler;
 class Monitor;
 class KDualAction;
-class EffectMetaInfo;
+struct EffectMetaInfo;
 class DoubleParameterWidget;
 class KSelectAction;
 class QDialog;

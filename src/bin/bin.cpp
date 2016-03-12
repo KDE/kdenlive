@@ -1019,7 +1019,7 @@ void Bin::renameFolder(const QString &id, const QString &name)
 void Bin::slotLoadFolders(QMap<QString,QString> foldersData)
 {
     // Folder parent is saved in folderId, separated by a dot. for example "1.3" means parent folder id is "1" and new folder id is "3".
-    ProjectFolder *parentFolder = m_rootFolder;
+    ProjectFolder *parentFolder;
     QStringList folderIds = foldersData.keys();
     int maxIterations = folderIds.count() * folderIds.count();
     int iterations = 0;

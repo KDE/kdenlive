@@ -33,7 +33,7 @@ class MyTextItem: public QGraphicsTextItem
 public:
     MyTextItem(const QString &, QGraphicsItem *);
     void setAlignment(Qt::Alignment alignment);
-    virtual QRectF boundingRect() const;
+    QRectF boundingRect() const;
     Qt::Alignment alignment() const;
 
 private:
