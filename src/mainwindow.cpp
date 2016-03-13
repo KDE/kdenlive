@@ -3348,7 +3348,7 @@ void MainWindow::slotSaveTimelineClip()
         }
         QUrl url = QFileDialog::getSaveFileUrl(this, i18n("Save clip"), pCore->projectManager()->current()->projectFolder(), i18n("MLT playlist (*.mlt)"));
         if (url.isValid()) {
-            m_projectMonitor->render->saveClip(pCore->projectManager()->currentTimeline()->tracksCount() - clip->track(), clip->startPos(), url);
+            m_projectMonitor->render->saveClip(clip->track(), clip->startPos(), url);
         }
     }
 }

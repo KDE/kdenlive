@@ -638,10 +638,9 @@ bool Render::saveClip(int track, const GenTime &position, const QUrl &url, const
     int clipIndex = trackPlaylist.get_clip_index_at((int) position.frames(m_fps));
     QScopedPointer<Mlt::Producer> clip(trackPlaylist.get_clip(clipIndex));
     if (!clip) {
-        //qDebug() << "WARINIG, CANNOT FIND CLIP ON track: " << track << ", AT POS: " << position.frames(m_fps);
+        qDebug() << "WARINIG, CANNOT FIND CLIP ON track: " << track << ", AT POS: " << position.frames(m_fps);
         return false;
     }
-    
     Mlt::Consumer xmlConsumer(*m_qmlView->profile(), ("xml:" + url.toLocalFile()).toUtf8().constData());
     xmlConsumer.set("terminate_on_pause", 1);
     Mlt::Playlist list(*m_qmlView->profile());
