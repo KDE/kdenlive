@@ -102,7 +102,11 @@ bool DocumentChecker::hasErrorInClips()
         if (!resource.startsWith(QLatin1String("/"))) {
             resource.prepend(root);
         }
-        if (service == QLatin1String("framebuffer")) {
+        if (service == QLatin1String("timewarp")) {
+            //slowmotion clip, trim speed info
+            resource = EffectsList::property(e, QStringLiteral("warp_resource"));
+        }
+        else if (service == QLatin1String("framebuffer")) {
             //slowmotion clip, trim speed info
             resource = resource.section(QStringLiteral("?"), 0, 0);
         }
@@ -221,7 +225,7 @@ bool DocumentChecker::hasErrorInClips()
         QString clipType;
         int status = CLIPMISSING;
 	QString service = EffectsList::property(e, QStringLiteral("mlt_service"));
-	if (service == QLatin1String("avformat") || service == QLatin1String("avformat-novalidate") || service == QLatin1String("framebuffer")) {
+	if (service == QLatin1String("avformat") || service == QLatin1String("avformat-novalidate") || service == QLatin1String("framebuffer") || service == QLatin1String("timewarp")) {
 	    clipType = i18n("Video clip");
 	} else if (service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) {
 	    clipType = i18n("Image clip");

@@ -70,7 +70,7 @@
 #include <xlocale.h>
 #endif
 
-const double DOCUMENTVERSION = 0.93;
+const double DOCUMENTVERSION = 0.94;
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent) :
     QObject(parent),

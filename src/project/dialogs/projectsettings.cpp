@@ -531,7 +531,10 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
         QString type = EffectsList::property(e, QStringLiteral("mlt_service"));
         if (type != QLatin1String("colour")) {
             QString url = EffectsList::property(e, QStringLiteral("resource"));
-            if (type == QLatin1String("framebuffer")) {
+            if (type == QLatin1String("timewarp")) {
+                url = EffectsList::property(e, QStringLiteral("warp_resource"));
+            }
+            else if (type == QLatin1String("framebuffer")) {
                 url = url.section('?', 0, 0);
             }
             if (!url.isEmpty()) {

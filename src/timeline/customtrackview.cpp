@@ -2012,7 +2012,6 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
             return;
         }
         clearSelection();
-        qDebug()<<" // / ADDING EFFECT TO TRACK: "<<track;
         m_timeline->addTrackEffect(track, effect);
         m_document->renderer()->mltAddTrackEffect(track, EffectsController::getEffectArgs(m_document->getProfileInfo(), effect));
         emit updateTrackEffectState(track);
@@ -4866,14 +4865,30 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
     scene()->addItem(item);
     bool isLocked = m_timeline->getTrackInfo(info.track).isLocked;
     if (isLocked) item->setItemLocked(true);
-
+    bool duplicate = true;
     Mlt::Producer *prod;
     if (speed != 1.0) {
         prod = m_document->renderer()->getBinProducer(clipId);
         QString url = QString::fromUtf8(prod->get("resource"));
-        url.append('?' + locale.toString(speed));
-        if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
-        prod = m_document->renderer()->getSlowmotionProducer(url);
+        //url.append('?' + locale.toString(speed));
+        Track::SlowmoInfo slowInfo;
+        slowInfo.speed = speed;
+        slowInfo.strobe = strobe;
+        slowInfo.state = state;
+        Mlt::Producer *copy = m_document->renderer()->getSlowmotionProducer(slowInfo.toString(locale) + url);
+        if (copy == NULL) {
+            url.prepend(locale.toString(speed) + ":");
+            Mlt::Properties passProperties;
+            Mlt::Properties original(prod->get_properties());
+            passProperties.pass_list(original, ClipController::getPassPropertiesList(false));
+            copy = m_timeline->track(info.track)->buildSlowMoProducer(passProperties, url, clipId, slowInfo);
+        }
+        if (copy == NULL) {
+            emit displayMessage(i18n("Cannot insert clip..."), ErrorMessage);
+            return;
+        }
+        prod = copy;
+        duplicate = false;
     }
     else if (item->clipState() == PlaylistState::VideoOnly) {
         prod = m_document->renderer()->getBinVideoProducer(clipId);
@@ -4882,7 +4897,7 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
         prod = m_document->renderer()->getBinProducer(clipId);
     }
     binClip->addRef();
-    m_timeline->track(info.track)->add(info.startPos.seconds(), prod, info.cropStart.seconds(), (info.cropStart+info.cropDuration).seconds(), state, true, m_scene->editMode());
+    m_timeline->track(info.track)->add(info.startPos.seconds(), prod, info.cropStart.seconds(), (info.cropStart+info.cropDuration).seconds(), state, duplicate, m_scene->editMode());
 
     for (int i = 0; i < item->effectsCount(); ++i) {
         m_document->renderer()->mltAddEffect(info.track, info.startPos, EffectsController::getEffectArgs(m_document->getProfileInfo(), item->effect(i)), false);
@@ -7168,12 +7183,40 @@ void CustomTrackView::doChangeClipType(const GenTime &pos, int track, PlaylistSt
         return;
     }
     Mlt::Producer *prod;
+    double speed = clip->speed();
+
     if (state == PlaylistState::VideoOnly) {
         prod = m_document->renderer()->getBinVideoProducer(clip->getBinId());
     }
-    else prod = m_document->renderer()->getBinProducer(clip->getBinId());
+    else {
+        prod = m_document->renderer()->getBinProducer(clip->getBinId());
+    }
+    if (speed != 1) {
+        QLocale locale;
+        QString url = prod->get("resource");
+        Track::SlowmoInfo info;
+        info.speed = speed;
+        info.strobe = 1;
+        info.state = state;
+        Mlt::Producer *copy = m_document->renderer()->getSlowmotionProducer(info.toString(locale) + url);
+        if (copy == NULL) {
+            // create mute slowmo producer
+            url.prepend(locale.toString(speed) + ":");
+            Mlt::Properties passProperties;
+            Mlt::Properties original(prod->get_properties());
+            passProperties.pass_list(original, ClipController::getPassPropertiesList(false));
+            copy = m_timeline->track(track)->buildSlowMoProducer(passProperties, url, clip->getBinId(), info);
+        }
+        if (copy == NULL) {
+            // Failed to get slowmo producer, error
+            qDebug()<<"Failed to get slowmo producer, error";
+            return;
+        }
+        prod = copy;
+    }
+
     if (prod && prod->is_valid() && m_timeline->track(track)->replace(pos.seconds(), prod, state)) {
-        clip->setState(state); 
+        clip->setState(state);
     } else {
         // Changing clip type failed
         emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", pos.frames(m_document->fps()), m_timeline->getTrackInfo(track).trackName), ErrorMessage);
@@ -7218,7 +7261,6 @@ void CustomTrackView::updateClipTypeActions(ClipItem *clip)
             }
         }
     }
-    
     for (int i = 0; i < m_audioActions.count(); ++i) {
         m_audioActions.at(i)->setEnabled(hasAudio);
     }
@@ -7846,46 +7888,43 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
     Mlt::Producer *prod = m_document->renderer()->getBinProducer(id);
     Mlt::Producer *videoProd = m_document->renderer()->getBinVideoProducer(id);
 
-    QStringList allSlows;
+    QList <Track::SlowmoInfo> allSlows;
     for (int i = 1; i < m_timeline->tracksCount(); i++) {
-	allSlows << m_timeline->track(i)->getSlowmotionIds(id);
+	allSlows << m_timeline->track(i)->getSlowmotionInfos(id);
     }
     QLocale locale;
-    allSlows.removeDuplicates();
-
+    QString url = prod->get("resource");
     // generate all required slowmo producers
+    QStringList processedUrls;
     QMap <QString, Mlt::Producer *> newSlowMos;
     for (int i = 0; i < allSlows.count(); i++) {
 	// find out speed and strobe values
-	double speed = locale.toDouble(allSlows.at(i).section(QStringLiteral(":"), 0, 0));
-	int strobe = 0;
-	if (allSlows.at(i).contains(QStringLiteral(":"))) {
-	    strobe = allSlows.at(i).section(QStringLiteral(":"), 1, 1).toInt();
-	}
-	QString url = prod->get("resource");
-	url.append('?' + locale.toString(speed));
-        if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
+        Track::SlowmoInfo info = allSlows.at(i);
+        QString wrapUrl = QStringLiteral("timewrap:") + locale.toString(info.speed) + ':' + url;
 	// build slowmo producer
-	Mlt::Producer *slowProd = new Mlt::Producer(*prod->profile(), 0, ("framebuffer:" + url).toUtf8().constData());
+	if (processedUrls.contains(wrapUrl)) continue;
+        processedUrls << wrapUrl;
+	Mlt::Producer *slowProd = new Mlt::Producer(*prod->profile(), 0, wrapUrl.toUtf8().constData());
 	if (!slowProd->is_valid()) {
                 qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
 		continue;
         }
-        if (strobe > 1) slowProd->set("strobe", strobe);
-        QString producerid = "slowmotion:" + id + ':' + allSlows.at(i);
+        //if (strobe > 1) slowProd->set("strobe", strobe);
+        QString producerid = "slowmotion:" + id + ':' + info.toString(locale);
         slowProd->set("id", producerid.toUtf8().constData());
-	newSlowMos.insert(allSlows.at(i), slowProd);
+	newSlowMos.insert(info.toString(locale), slowProd);
     }
     for (int i = 1; i < m_timeline->tracksCount(); i++) {
         m_timeline->track(i)->replaceAll(id,  prod, videoProd, newSlowMos);
     }
 
     // update slowmotion storage
+    
     QMapIterator<QString, Mlt::Producer *> i(newSlowMos);
     while (i.hasNext()) {
 	i.next();
 	Mlt::Producer *sprod = i.value();
-	m_document->renderer()->storeSlowmotionProducer(sprod->get("resource"), sprod, true);
+	m_document->renderer()->storeSlowmotionProducer(i.key() + url, sprod, true);
     }
     m_timeline->refreshTractor();
 }
@@ -8047,7 +8086,10 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> proc
             // Found a producer, import it
             QString resource = original->parent().get("resource");
             QString service = original->parent().get("mlt_service");
-            if (service == "framebuffer") {
+            if (service == QLatin1String("timewarp")) {
+                resource = original->parent().get("warp_resource");
+            }
+            else if (service == QLatin1String("framebuffer")) {
                 resource = resource.section(QStringLiteral("?"), 0, -2);
             }
             QString originalId = processedUrl.value(resource);

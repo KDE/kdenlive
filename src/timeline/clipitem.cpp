@@ -1919,6 +1919,10 @@ PlaylistState::ClipState ClipItem::clipState() const
 
 void ClipItem::updateState(const QString &id)
 {
+    if (id.startsWith(QLatin1String("slowmotion"))) {
+        m_clipState = (PlaylistState::ClipState) id.section(":", -1).toInt();
+        return;
+    }
     if (id.endsWith(QLatin1String("_audio"))) {
         m_clipState = PlaylistState::AudioOnly;
     }

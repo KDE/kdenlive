@@ -65,7 +65,7 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectCli
         sources << clips.at(i)->url().toLocalFile();
     }
     QString filterName = parameters.first();
-    if (filterName == QLatin1String("framebuffer")) {
+    if (filterName == QLatin1String("timewarp")) {
         QMap <QString, QString> producerParams = QMap <QString, QString> ();
         QMap <QString, QString> filterParams = QMap <QString, QString> ();
         QMap <QString, QString> consumerParams = QMap <QString, QString> ();
@@ -75,7 +75,7 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectCli
         extraParams.insert(QStringLiteral("projecttreefilter"), QStringLiteral("1"));
         extraParams.insert(QStringLiteral("producer_profile"), QStringLiteral("1"));
         for (int i = 0; i < clips.count(); i++) {
-            QString prodstring = QString("framebuffer:" + sources.at(i) + "?-1");
+            QString prodstring = QString("timewarp:-1:" + sources.at(i));
             producerParams.insert(QStringLiteral("producer"), prodstring);
             consumerParams.insert(QStringLiteral("consumer"), "xml:" + sources.at(i) + ".mlt");
             ProjectClip *clip = clips.at(i);

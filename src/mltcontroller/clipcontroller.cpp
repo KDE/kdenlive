@@ -278,11 +278,11 @@ Mlt::Producer *ClipController::getTrackProducer(const QString trackName, Playlis
     }
     QString clipWithTrackId = clipId();
     clipWithTrackId.append("_" + trackName);
-    
+
     //TODO handle audio / video only producers and framebuffer
     if (clipState == PlaylistState::AudioOnly) clipWithTrackId.append("_audio");
     else if (clipState == PlaylistState::VideoOnly) clipWithTrackId.append("_video");
-    
+
     Mlt::Producer *clone = m_binController->cloneProducer(*m_masterProducer);
     clone->set("id", clipWithTrackId.toUtf8().constData());
     //m_binController->replaceBinPlaylistClip(clipWithTrackId, clone->parent());

@@ -2319,9 +2319,12 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
     QMap <QString, QString> idMaps;
     for (int i = 0; i < producers.count(); i++) {
         QDomElement prod = producers.at(i).toElement();
-        QString resource = EffectsList::property(prod, "resource");
-        QString service = EffectsList::property(prod, "mlt_service");
-        if (service == "framebuffer") {
+        QString resource = EffectsList::property(prod, QStringLiteral("resource"));
+        QString service = EffectsList::property(prod, QStringLiteral("mlt_service"));
+        if (service == QLatin1String("timewarp")) {
+            resource = EffectsList::property(prod, QStringLiteral("warp_resource"));
+        }
+        else if (service == QLatin1String("framebuffer")) {
             resource = resource.section(QLatin1Char('?'), 0, -2);
         }
         if (!resource.isEmpty() && processedUrl.contains(resource)) {
@@ -2330,9 +2333,9 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
         }
         // Add clip
         QDomElement clone = prod.cloneNode(true).toElement();
-        EffectsList::setProperty(clone, "kdenlive:folderid", newId);
+        EffectsList::setProperty(clone, QStringLiteral("kdenlive:folderid"), newId);
         QString id = QString::number(getFreeClipId());
-        idMaps.insert(prod.attribute("id"), id);
+        idMaps.insert(prod.attribute(QStringLiteral("id")), id);
         processedUrl.insert(resource, id);
         ClipCreationDialog::createClipsCommand(m_doc, clone, id, command);
     }

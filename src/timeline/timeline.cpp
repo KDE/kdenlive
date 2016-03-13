@@ -251,14 +251,17 @@ int Timeline::getTracks() {
         bool isBackgroundBlackTrack = playlist_name == QLatin1String("black_track");
         // check track effects
         Mlt::Playlist playlist(*track);
-        int trackduration;
-        int audio = playlist.get_int("kdenlive:audio_track");
-        trackduration = loadTrack(i, offset, playlist);
+        int trackduration = 0;
+        int audio = 0;
+        if (!isBackgroundBlackTrack) {
+            audio = playlist.get_int("kdenlive:audio_track");
+            trackduration = loadTrack(i, offset, playlist);
+            QFrame *frame = new QFrame(headers_container);
+            frame->setFrameStyle(QFrame::HLine);
+            frame->setFixedHeight(1);
+            headerLayout->insertWidget(0, frame);
+        }
         offset += track->count();
-        QFrame *frame = new QFrame(headers_container);
-        frame->setFrameStyle(QFrame::HLine);
-        frame->setFixedHeight(1);
-        headerLayout->insertWidget(0, frame);
         Track *tk = new Track(i, m_trackActions, playlist, audio == 1 ? AudioTrack : VideoTrack, this);
         m_tracks.append(tk);
         if (audio == 0 && !isBackgroundBlackTrack) {
@@ -906,8 +909,10 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist) {
             continue;
         }
         QString id = idString;
-        double speed = 1.0;
-        int strobe = 1;
+        Track::SlowmoInfo slowInfo;
+        slowInfo.speed = 1.0;
+        slowInfo.strobe = 1;
+        slowInfo.state = PlaylistState::Original;
         bool hasSpeedEffect = false;
         if (idString.endsWith(QLatin1String("_video"))) {
             // Video only producer, store it in BinController
@@ -918,11 +923,12 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist) {
             QLocale locale;
             locale.setNumberOptions(QLocale::OmitGroupSeparator);
             id = idString.section(':', 1, 1);
-            speed = locale.toDouble(idString.section(':', 2, 2));
-            strobe = idString.section(':', 3, 3).toInt();
-            if (strobe == 0) strobe = 1;
+            slowInfo.speed = locale.toDouble(idString.section(':', 2, 2));
+            slowInfo.strobe = idString.section(':', 3, 3).toInt();
+            if (slowInfo.strobe == 0) slowInfo.strobe = 1;
+            QString url = clip->get("warp_resource");
 	    // Slowmotion producer, store it for reuse
-            m_doc->renderer()->storeSlowmotionProducer(idString, new Mlt::Producer(clip->parent()));
+            m_doc->renderer()->storeSlowmotionProducer(slowInfo.toString(locale) + url, new Mlt::Producer(clip->parent()));
         }
         id = id.section('_', 0, 0);
 	int length = out - in + 1;
@@ -930,6 +936,7 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist) {
         if (binclip == NULL) {
 	    // Warning, unknown clip found, timeline corruption!!
 	    //TODO: fix this
+            qDebug()<<"* * * * *UNKNOWN CLIP, WE ARE DEAD: "<<id;
 	    position += length;
 	    continue;
 	}
@@ -942,7 +949,7 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist) {
         clipinfo.track = ix;
 	position += length;
 	//qDebug()<<"// Loading clip: "<<idString<<" / SPEED: "<<speed<<"\n++++++++++++++++++++++++";
-        ClipItem *item = new ClipItem(binclip, clipinfo, fps, speed, strobe, m_trackview->getFrameWidth(), true);
+        ClipItem *item = new ClipItem(binclip, clipinfo, fps, slowInfo.speed, slowInfo.strobe, m_trackview->getFrameWidth(), true);
         item->setPos(clipinfo.startPos.frames(fps), KdenliveSettings::trackheight() * (visibleTracksCount() - clipinfo.track) + 1 + item->itemOffset());
         //qDebug()<<" * * Loaded clip on tk: "<<clipinfo.track<< ", POS: "<<clipinfo.startPos.frames(fps);
         item->updateState(idString);
@@ -950,8 +957,8 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist) {
         if (locked) item->setItemLocked(true);
         if (hasSpeedEffect) {
             QDomElement speedeffect = MainWindow::videoEffects.getEffectByTag(QString(), QStringLiteral("speed")).cloneNode().toElement();
-            EffectsList::setParameter(speedeffect, QStringLiteral("speed"), QString::number((int)(100 * speed + 0.5)));
-            EffectsList::setParameter(speedeffect, QStringLiteral("strobe"), QString::number(strobe));
+            EffectsList::setParameter(speedeffect, QStringLiteral("speed"), QString::number((int)(100 * slowInfo.speed + 0.5)));
+            EffectsList::setParameter(speedeffect, QStringLiteral("strobe"), QString::number(slowInfo.strobe));
             item->addEffect(m_doc->getProfileInfo(), speedeffect, false);
         }
         // parse clip effects
@@ -1429,8 +1436,12 @@ int Timeline::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Play
 {
     QLocale locale;
     QString url = QString::fromUtf8(originalProd->get("resource"));
-    url.append('?' + locale.toString(speed));
-    if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
+    Track::SlowmoInfo slowInfo;
+    slowInfo.speed = speed;
+    slowInfo.strobe = strobe;
+    slowInfo.state = state;
+    url.prepend(slowInfo.toString(locale));
+    //if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
     Mlt::Producer *prod;
     if (removeEffect) {
         // We want to remove framebuffer producer, so pass original
@@ -1439,10 +1450,12 @@ int Timeline::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Play
         // Pass slowmotion producer
         prod = m_doc->renderer()->getSlowmotionProducer(url);
     }
+    QString id = originalProd->get("id");
+    id = id.section(QStringLiteral("_"), 0,  0);
     Mlt::Properties passProperties;
     Mlt::Properties original(originalProd->get_properties());
     passProperties.pass_list(original, ClipController::getPassPropertiesList(false));
-    return track(info.track)->changeClipSpeed(info, speedIndependantInfo, state, speed, strobe, prod, passProperties);
+    return track(info.track)->changeClipSpeed(info, speedIndependantInfo, state, speed, strobe, prod, id, passProperties);
 }
 
 void Timeline::duplicateClipOnPlaylist(int tk, qreal startPos, int offset, Mlt::Producer *prod)

@@ -45,6 +45,7 @@
 
 #include <QStandardPaths>
 
+#define AMPTODBFS(x) pow(10,20.0/(x))
 
 DocumentValidator::DocumentValidator(const QDomDocument &doc, const QUrl &documentUrl):
         m_doc(doc),
@@ -1473,15 +1474,65 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     QStringList parsedValues;
                     QLocale locale;
                     QMapIterator<int, double> l(values);
-                    while (l.hasNext()) {
-                        l.next();
-                        parsedValues << QString::number(l.key()) + "=" + locale.toString(l.value());
+                    if (id == QLatin1String("volume")) {
+                        // convert old volume range (0-300) to new dB values (-60-60)
+                        while (l.hasNext()) {
+                            l.next();
+                            double v = l.value();
+                            if (v <= 0) {
+                                v = -60;
+                            } else {
+                                v = log(v) * 20;
+                            }
+                            parsedValues << QString::number(l.key()) + "=" + locale.toString(v);
+                        }
+                    } else {
+                        while (l.hasNext()) {
+                            l.next();
+                            parsedValues << QString::number(l.key()) + "=" + locale.toString(l.value());
+                        }
                     }
-                    qDebug()<<" ** * NEW PARAMETER: "<<parsedValues.join(";");
                     EffectsList::setProperty(eff, conversionParams.at(2), parsedValues.join(";"));
                 }
             }
         }
+    }
+
+    if (version < 0.94) {
+        // convert slowmotion effects/producers
+        QDomNodeList producers = m_doc.elementsByTagName(QStringLiteral("producer"));
+        int max = producers.count();
+        QStringList slowmoIds;
+        for (int i = 0; i < max; ++i) {
+            QDomElement prod = producers.at(i).toElement();
+            QString id = prod.attribute(QStringLiteral("id"));
+            if (id.startsWith(QLatin1String("slowmotion"))) {
+                QString service = EffectsList::property(prod, QStringLiteral("mlt_service"));
+                if (service == QLatin1String("framebuffer")) {
+                    // convert to new timewarp producer
+                    prod.setAttribute(QStringLiteral("id"), id + ":1");
+                    slowmoIds << id;
+                    EffectsList::setProperty(prod, QStringLiteral("mlt_service"), QStringLiteral("timewarp"));
+                    QString resource = EffectsList::property(prod, QStringLiteral("resource"));
+                    EffectsList::setProperty(prod, QStringLiteral("warp_resource"), resource.section(QStringLiteral("?"), 0, 0));
+                    EffectsList::setProperty(prod, QStringLiteral("warp_speed"), resource.section(QStringLiteral("?"), 1).section(QStringLiteral(":"), 0, 0));
+                    EffectsList::setProperty(prod, QStringLiteral("resource"), resource.section(QStringLiteral("?"), 1) + ":" + resource.section(QStringLiteral("?"), 0, 0));
+                    EffectsList::setProperty(prod, QStringLiteral("audio_index"), "-1");
+                }
+            }
+        }
+        if (!slowmoIds.isEmpty()) {
+            producers = m_doc.elementsByTagName(QStringLiteral("entry"));
+            max = producers.count();
+            for (int i = 0; i < max; ++i) {
+                QDomElement prod = producers.at(i).toElement();
+                QString entryId = prod.attribute(QStringLiteral("producer"));
+                if (slowmoIds.contains(entryId)) {
+                    prod.setAttribute(QStringLiteral("producer"), entryId + ":1");
+                }
+            }
+        }
+        qDebug()<<"------------------------\n"<<m_doc.toString();
     }
 
     m_modified = true;

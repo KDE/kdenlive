@@ -2826,10 +2826,10 @@ void MainWindow::buildDynamicActions()
         }
         delete filter;
     }
-    if (KdenliveSettings::producerslist().contains(QStringLiteral("framebuffer"))) {
+    if (KdenliveSettings::producerslist().contains(QStringLiteral("timewarp"))) {
 	QAction *action = new QAction(i18n("Reverse clip"), m_extraFactory->actionCollection());
         QStringList stabJob;
-        stabJob << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << QStringLiteral("framebuffer");
+        stabJob << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << QStringLiteral("timewarp");
         action->setData(stabJob);
 	ts->addAction(action->text(), action);
         connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));

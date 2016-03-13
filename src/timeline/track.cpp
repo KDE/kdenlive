@@ -291,9 +291,10 @@ void Track::replaceId(const QString &id)
     }
 }
 
-QStringList Track::getSlowmotionIds(const QString &id)
+QList <Track::SlowmoInfo> Track::getSlowmotionInfos(const QString &id)
 {
-    QStringList list;
+    QList <Track::SlowmoInfo> list;
+    QLocale locale;
     for (int i = 0; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;
         QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
@@ -303,11 +304,10 @@ QStringList Track::getSlowmotionIds(const QString &id)
 	}
 	current.remove(0, 1);
 	if (current.startsWith("slowmotion:" + id + ":")) {
-	      QString info = current.section(QStringLiteral(":"), 2);
-	      if (!list.contains(info)) {
-		  list << info;
-	      }
-	}
+            Track::SlowmoInfo info;
+            info.readFromString(current.section(":", 2), locale);
+            list << info;
+        }
     }
     return list;
 }
@@ -319,6 +319,7 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
     QString idForVideoTrack;
     QString service = original->parent().get("mlt_service");
     QString idForTrack = original->parent().get("id");
+    QLocale locale;
     if (needsDuplicate(service)) {
         // We have to use the track clip duplication functions, because of audio glitches in MLT's multitrack
         idForAudioTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + "_audio";
@@ -339,8 +340,7 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
         Mlt::Producer *cut = NULL;
 	if (current.startsWith("slowmotion:" + id + ":")) {
 	      // Slowmotion producer, just update resource
-	      QString slowMoId = current.section(QStringLiteral(":"), 2);
-	      Mlt::Producer *slowProd = newSlowMos.value(slowMoId);
+	      Mlt::Producer *slowProd = newSlowMos.value(current.section(QStringLiteral(":"), 2));
 	      if (!slowProd || !slowProd->is_valid()) {
 		    qDebug()<<"/// WARNING, couldn't find replacement slowmo for "<<id;
 		    continue;
@@ -395,7 +395,8 @@ bool Track::replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state
     int index = m_playlist.get_clip_index_at(frame(t));
     Mlt::Producer *cut;
     QScopedPointer <Mlt::Producer> orig(m_playlist.replace_with_blank(index));
-    if (state != PlaylistState::VideoOnly) {
+    QString service = prod->get("mlt_service");
+    if (state != PlaylistState::VideoOnly && service != QLatin1String("timewarp")) {
         // Get track duplicate
         Mlt::Producer *copyProd = clipProducer(prod, state);
         cut = copyProd->cut(orig->get_in(), orig->get_out());
@@ -593,7 +594,37 @@ void Track::updateClipProperties(const QString &id, QMap <QString, QString> prop
     }
 }
 
-int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *prod, Mlt::Properties passProps, bool removeEffect)
+Mlt::Producer *Track::buildSlowMoProducer(Mlt::Properties passProps, const QString &url, const QString &id, Track::SlowmoInfo info)
+{
+    QLocale locale;
+    Mlt::Producer *prod = new Mlt::Producer(*m_playlist.profile(), 0, ("timewarp:" + url).toUtf8().constData());
+    if (!prod->is_valid()) {
+	qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
+	return NULL;
+    }
+    QString producerid = "slowmotion:" + id + ':' + info.toString(locale);
+    prod->set("id", producerid.toUtf8().constData());
+
+    // copy producer props
+    for (int i = 0; i < passProps.count(); i++) {
+	prod->set(passProps.get_name(i), passProps.get(i)); 
+    }
+    // set clip state
+    switch ((int) info.state) {
+        case PlaylistState::VideoOnly:
+            prod->set("audio_index", -1);
+            break;
+        case PlaylistState::AudioOnly:
+            prod->set("video_index", -1);
+            break;
+        default:
+            break;
+    }
+    emit storeSlowMotion(info.toString(locale) + url, prod);
+    return prod;
+}
+
+int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *prod, const QString &id, Mlt::Properties passProps, bool removeEffect)
 {
     int newLength = 0;
     int startPos = info.startPos.frames(fps());
@@ -620,51 +651,28 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
     QLocale locale;
     if (speed <= 0 && speed > -1) speed = 1.0;
     QString serv = clipparent.get("mlt_service");
-    QString url = QString::fromUtf8(clipparent.get("resource"));
-    if (serv == QLatin1String("framebuffer")) {
-	url = url.section(QStringLiteral("?"), 0, 0);
+    QString url;
+    if (serv == QLatin1String("timewarp")) {
+        url = QString::fromUtf8(clipparent.get("warp_resource"));
+    } else {
+        url = QString::fromUtf8(clipparent.get("resource"));
     }
-    url.append('?' + locale.toString(speed));
-    if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
-    QString id = clipparent.get("id");
-    id = id.section(QStringLiteral("_"), 0,  0);
+    url.prepend(locale.toString(speed) + ':');
+    Track::SlowmoInfo slowInfo;
+    slowInfo.speed = speed;
+    slowInfo.strobe = strobe;
+    slowInfo.state = state;
 
     if (serv.contains(QStringLiteral("avformat"))) {
 	if (speed != 1.0 || strobe > 1) {
 	    m_playlist.lock();
 	    if (!prod || !prod->is_valid()) {
-		prod = new Mlt::Producer(*m_playlist.profile(), 0, ("framebuffer:" + url).toUtf8().constData());
-		if (!prod->is_valid()) {
-		    qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
-		    return -1;
-		}
-		if (strobe > 1) prod->set("strobe", strobe);
-		QString producerid = "slowmotion:" + id + ':' + locale.toString(speed);
-		if (strobe > 1) producerid.append(':' + QString::number(strobe));
-		prod->set("id", producerid.toUtf8().constData());
-		// copy producer props
-		for (int i = 0; i < passProps.count(); i++) {
-		    prod->set(passProps.get_name(i), passProps.get(i)); 
-		}
-	      
-		/*
-		double ar = original->parent().get_double("force_aspect_ratio");
-		if (ar != 0.0) slowprod->set("force_aspect_ratio", ar);
-		double fps = original->parent().get_double("force_fps");
-		if (fps != 0.0) slowprod->set("force_fps", fps);
-		int threads = original->parent().get_int("threads");
-		if (threads != 0) slowprod->set("threads", threads);
-		if (original->parent().get("force_progressive"))
-		    slowprod->set("force_progressive", original->parent().get_int("force_progressive"));
-		if (original->parent().get("force_tff"))
-		    slowprod->set("force_tff", original->parent().get_int("force_tff"));
-		int ix = original->parent().get_int("video_index");
-		if (ix != 0) slowprod->set("video_index", ix);
-		int colorspace = original->parent().get_int("force_colorspace");
-		if (colorspace != 0) slowprod->set("force_colorspace", colorspace);
-		int full_luma = original->parent().get_int("set.force_full_luma");
-		if (full_luma != 0) slowprod->set("set.force_full_luma", full_luma);*/
-		emit storeSlowMotion(url, prod);
+		prod = buildSlowMoProducer(passProps, url, id, slowInfo);
+                if (prod == NULL) {
+                    // error, abort
+                    qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
+                    return -1;
+                }
 	    }
 	    QScopedPointer <Mlt::Producer> clip(m_playlist.replace_with_blank(clipIndex));
 	    m_playlist.consolidate_blanks(0);
@@ -698,18 +706,12 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
 	    Mlt::Producer *cut;
 	
 	    if (!prod || !prod->is_valid()) {
-		prod = new Mlt::Producer(*m_playlist.profile(), 0, ("framebuffer:" + url).toUtf8().constData());
-		if (!prod->is_valid()) {
-		    qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
-		    return -1;
-		}
-		QString producerid = "slowmotion:" + id + ':' + locale.toString(speed);
-		prod->set("id", producerid.toUtf8().constData());
-		// copy producer props
-		for (int i = 0; i < passProps.count(); i++) {
-		    prod->set(passProps.get_name(i), passProps.get(i)); 
-		}
-		emit storeSlowMotion(url, prod);
+		prod = buildSlowMoProducer(passProps, url, id, slowInfo);
+                if (prod == NULL) {
+                    // error, abort
+                    qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
+                    return -1;
+                }
 	    }
 
 	    int originalStart = (int)(speedIndependantInfo.cropStart.frames(fps()));
@@ -728,23 +730,15 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
 	    newLength = m_playlist.clip_length(clipIndex);
 	    m_playlist.unlock();
 	}
-    } else if (serv == QLatin1String("framebuffer")) {
+    } else if (serv == QLatin1String("timewarp")) {
         m_playlist.lock();
         if (!prod || !prod->is_valid()) {
-            prod = new Mlt::Producer(*m_playlist.profile(), 0, ("framebuffer:" + url).toUtf8().constData());
-	    if (!prod->is_valid()) {
-		qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
-		return -1;
-	    }
-            prod->set("strobe", strobe);
-            QString producerid = "slowmotion:" + id.section(':', 1, 1) + ':' + locale.toString(speed);
-            if (strobe > 1) producerid.append(':' + QString::number(strobe));
-            prod->set("id", producerid.toUtf8().constData());
-            // copy producer props
-	    for (int i = 0; i < passProps.count(); i++) {
-		prod->set(passProps.get_name(i), passProps.get(i)); 
-	    }
-	    emit storeSlowMotion(url, prod);
+            prod = buildSlowMoProducer(passProps, url, id, slowInfo);
+            if (prod == NULL) {
+                // error, abort
+                qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
+                return -1;
+            }
         }
         if (removeEffect) {
             prod = clipProducer(prod, state);

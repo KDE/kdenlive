@@ -55,6 +55,26 @@ public:
     explicit Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType type, QWidget *parent = 0);
     ~Track();
 
+    struct SlowmoInfo {
+        double speed;
+        int strobe;
+        PlaylistState::ClipState state;
+        QString toString(QLocale locale) {
+            QStringList str;
+            str << locale.toString(speed) << QString::number(strobe) << QString::number((int) state);
+            return str.join(":");
+        }
+        void readFromString(const QString str, QLocale locale) {
+            speed = locale.toDouble(str.section(":", 0, 0));
+            strobe = str.section(":", 1, 1).toInt();
+            if (str.count(QLatin1Char(':')) == 1) {
+                state = PlaylistState::Original;
+            } else {
+                state = (PlaylistState::ClipState) str.section(":", 2, 2).toInt();
+            }
+        }
+    };
+
     /// Property access function
     Mlt::Playlist & playlist();
     qreal fps();
@@ -150,7 +170,8 @@ public:
      * "speed" is the current speed. 
      * If removeEffect is true, we revert to original avformat producer
      */
-    int changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *prod, Mlt::Properties passProps, bool removeEffect = false);
+    int changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *prod, const QString &id, Mlt::Properties passProps, bool removeEffect = false);
+    Mlt::Producer *buildSlowMoProducer(Mlt::Properties passProps, const QString &url, const QString &id, Track::SlowmoInfo info);
     /** @brief Returns true if there is a clip with audio on this track */
     bool hasAudio();
     void setProperty(const QString &name, const QString &value);
@@ -168,7 +189,7 @@ public:
     /** @brief Update producer properties on all instances of this clip. */
     void updateClipProperties(const QString &id, QMap <QString, QString> properties);
     /** @brief Returns a list of speed info for all slowmotion producer used on this track for an id. */
-    QStringList getSlowmotionIds(const QString &id);
+    QList <SlowmoInfo> getSlowmotionInfos(const QString &id);
     /** @brief Returns the length of blank space from a position pos. */
     int spaceLength(int pos, bool fromBlankStart);
     /** @brief Dis/enable all effects on this track. */
