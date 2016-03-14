@@ -452,8 +452,3 @@ bool Transition::updateKeyframes(ItemInfo oldInfo, ItemInfo newInfo)
 void Transition::updateKeyframes(QDomElement /*effect*/)
 {
 }
-
-const QString &Transition::getBinId() const
-{
-    return 0;
-}

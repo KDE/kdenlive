@@ -61,7 +61,6 @@ public:
     virtual int track() const ;
     virtual GenTime cropStart() const ;
     virtual GenTime cropDuration() const ;
-    virtual const QString &getBinId() const = 0;
     /** @brief Return the current item's height */
     static int itemHeight();
     /** @brief Return the current item's vertical offset

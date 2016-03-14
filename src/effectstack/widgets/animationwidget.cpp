@@ -740,6 +740,7 @@ void AnimationWidget::slotAdjustRectKeyframeValue()
     rect.y = m_spinY->value();
     rect.w = m_spinWidth->value();
     rect.h = m_spinHeight->value();
+    rect.o = 1;
     if (m_animController.is_key(pos)) {
         // This is a keyframe
         m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, pos, m_outPoint, (mlt_keyframe_type) m_selectType->currentAction()->data().toInt());

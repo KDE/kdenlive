@@ -19,7 +19,7 @@
 
 #include "razormanager.h"
 #include "../customtrackview.h"
-#include "../abstractclipitem.h"
+#include "../clipitem.h"
 #include "../gentime.h"
 #include "bin/projectclip.h"
 #include "mltcontroller/clipcontroller.h"
@@ -32,7 +32,7 @@ void RazorManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, QM
     if (item && event->buttons() == Qt::NoButton && operationMode != ZoomTimeline) {
         // razor tool over a clip, display current frame in monitor
         if (event->modifiers() == Qt::ShiftModifier && item->type() == AVWidget) {
-            AbstractClipItem *clip = static_cast <AbstractClipItem*>(item);
+            ClipItem *clip = static_cast <ClipItem*>(item);
             QMetaObject::invokeMethod(view, "showClipFrame", Qt::QueuedConnection, Q_ARG(QString, clip->getBinId()), Q_ARG(int, eventPos - (clip->startPos() - clip->cropStart()).frames(view->fps())));
         }
         event->accept();
