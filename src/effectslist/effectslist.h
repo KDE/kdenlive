@@ -94,10 +94,6 @@ public:
 private:
     QDomElement m_baseElement;
     bool m_useIndex;
-    
-    /** @brief Init effect default parameter values. */
-    void initEffect(const QDomElement &effect) const;
-
 };
 
 #endif

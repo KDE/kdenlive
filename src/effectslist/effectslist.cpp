@@ -56,18 +56,6 @@ QDomElement EffectsList::getEffectByName(const QString & name) const
 }
 
 
-void EffectsList::initEffect(const QDomElement &effect) const
-{
-    return;
-    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
-    for (int i = 0; i < params.count(); ++i) {
-        QDomElement e = params.item(i).toElement();
-        if (!e.hasAttribute(QStringLiteral("value"))) {
-            e.setAttribute(QStringLiteral("value"), e.attribute(QStringLiteral("default")));
-        }
-    }
-}
-
 QDomElement EffectsList::getEffectByTag(const QString & tag, const QString & id) const
 {
     QDomNodeList effects = m_baseElement.childNodes();
@@ -81,15 +69,12 @@ QDomElement EffectsList::getEffectByTag(const QString & tag, const QString & id)
                     QDomNodeList subeffects = effect.elementsByTagName(QStringLiteral("effect"));
                     for (int j = 0; j < subeffects.count(); ++j) {
                         QDomElement sub = subeffects.at(j).toElement();
-                        initEffect(sub);
                     }
                 }
-                else initEffect(effect);
                 return effect;
             }
         } else if (!tag.isEmpty()) {
             if (effect.attribute(QStringLiteral("tag")) == tag) {
-                initEffect(effect);
                 return effect;
             }
         }
