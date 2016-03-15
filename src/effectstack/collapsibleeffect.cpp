@@ -53,6 +53,7 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     m_itemInfo(info),
     m_original_effect(original_effect),
     m_isMovable(true),
+    m_animation(NULL),
     m_regionEffect(false)
 {
     if (m_effect.attribute(QStringLiteral("tag")) == QLatin1String("region")) {

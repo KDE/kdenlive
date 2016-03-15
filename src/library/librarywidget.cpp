@@ -149,6 +149,7 @@ void LibraryTree::dropEvent(QDropEvent *event)
 
 LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget(parent)
   , m_manager(manager)
+  , m_previewJob(NULL)
 {
     QVBoxLayout *lay = new QVBoxLayout(this);
     m_libraryTree = new LibraryTree(this);

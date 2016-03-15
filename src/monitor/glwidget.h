@@ -212,7 +212,6 @@ class FrameRenderer : public QThread
 public:
     explicit FrameRenderer(QOpenGLContext* shareContext, QSurface *surface);
     ~FrameRenderer();
-    int audioChannels;
     QSemaphore* semaphore() { return &m_semaphore; }
     QOpenGLContext* context() const { return m_context; }
     void clearFrame();

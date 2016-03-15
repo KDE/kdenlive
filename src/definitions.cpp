@@ -63,10 +63,20 @@ MltVideoProfile::MltVideoProfile() :
 {
 }
 
-MltVideoProfile::MltVideoProfile(const QVariantList &params)
+MltVideoProfile::MltVideoProfile(const QVariantList &params) :
+    frame_rate_num(0),
+    frame_rate_den(0),
+    width(0),
+    height(0),
+    progressive(0),
+    sample_aspect_num(0),
+    sample_aspect_den(0),
+    display_aspect_num(0),
+    display_aspect_den(0),
+    colorspace(0)
 {
     if (params.count() != 12) {
-        qDebug()<<" * * Trying to build a profile with incorrect param numbers";
+        qWarning("Trying to build a profile with incorrect param numbers");
         return;
     }
     frame_rate_num = params.at(0).toInt();

@@ -3072,18 +3072,16 @@ void Bin::refreshProxySettings()
         QList <ProjectClip*> toProxy;
         foreach (ProjectClip *clp, clipList) {
             ClipType t = clp->clipType();
-            if (t == AV || t == Video || t == Playlist) {
-                int width = clp->getProducerIntProperty(QStringLiteral("meta.media.width"));
-                if (m_doc->autoGenerateProxy(width)) {
-                    // Start proxy
-                    toProxy << clp;
-                    continue;
-                }
-                else if (t == Image && m_doc->autoGenerateImageProxy(clp->getProducerIntProperty(QStringLiteral("meta.media.width")))) {
-                    // Start proxy
-                    toProxy << clp;
-                    continue;
-                }
+            if ((t == AV || t == Video || t == Playlist)
+                && m_doc->autoGenerateProxy(clp->getProducerIntProperty(QStringLiteral("meta.media.width")))) {
+                // Start proxy
+                toProxy << clp;
+                continue;
+            } else if (t == Image
+                && m_doc->autoGenerateImageProxy(clp->getProducerIntProperty(QStringLiteral("meta.media.width")))) {
+                // Start proxy
+                toProxy << clp;
+                continue;
             }
         }
         if (!toProxy.isEmpty()) m_doc->slotProxyCurrentItem(true, toProxy);

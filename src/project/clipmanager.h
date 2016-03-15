@@ -106,7 +106,6 @@ private:   // Private attributes
     QList <QString> m_audioThumbsQueue;
     /** the document undo stack*/
     KdenliveDoc *m_doc;
-    int m_folderIdCounter;
     /** List of the clip IDs that need to be reloaded after being externally modified */
     QMap <QString, QTime> m_modifiedClips;
     /** Struct containing the list of clip thumbnails to request (clip id and frames) */

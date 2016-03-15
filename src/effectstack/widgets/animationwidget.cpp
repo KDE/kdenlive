@@ -431,11 +431,13 @@ void AnimationWidget::updateToolbar()
         }
         m_selectType->setEnabled(true);
         m_addKeyframe->setActive(true);
-        m_doubleWidgets.value(m_inTimeline)->enableEdit(true);
+        if (m_doubleWidgets.value(m_inTimeline))
+            m_doubleWidgets.value(m_inTimeline)->enableEdit(true);
     } else {
         m_selectType->setEnabled(false);
         m_addKeyframe->setActive(false);
-        m_doubleWidgets.value(m_inTimeline)->enableEdit(false);
+        if (m_doubleWidgets.value(m_inTimeline))
+            m_doubleWidgets.value(m_inTimeline)->enableEdit(false);
     }
 }
 
@@ -702,7 +704,8 @@ void AnimationWidget::slotUpdateVisibleParameter(bool display)
     DoubleParameterWidget *slider = qobject_cast<DoubleParameterWidget *>(QObject::sender());
     if (slider) {
         if (slider->objectName() == m_inTimeline) return;
-        m_doubleWidgets.value(m_inTimeline)->setChecked(false);
+        if (m_doubleWidgets.value(m_inTimeline))
+            m_doubleWidgets.value(m_inTimeline)->setChecked(false);
         m_inTimeline = slider->objectName();
         m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
         rebuildKeyframes();
@@ -713,10 +716,10 @@ void AnimationWidget::slotUpdateVisibleParameter(bool display)
 void AnimationWidget::slotAdjustKeyframeValue(double value)
 {
     DoubleParameterWidget *slider = qobject_cast<DoubleParameterWidget *>(QObject::sender());
-    if (slider) {
-        m_inTimeline = slider->objectName();
-        m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
-    }
+    if (!slider) return;
+    m_inTimeline = slider->objectName();
+    m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
+
     int pos = m_ruler->position() - m_offset;
     if (m_animController.is_key(pos)) {
         // This is a keyframe

@@ -139,9 +139,10 @@ void BinController::initializeBin(Mlt::Playlist playlist)
             delete producer;
         }
         else {
-            if (m_clipList.contains(id) && m_clipList.value(id)) {
-                //Controller was already added by a track producer, add master now
-                m_clipList.value(id)->addMasterProducer(producer->parent());
+            //Controller was already added by a track producer, add master now
+            if (m_clipList.contains(id)) {
+                ClipController *master = m_clipList.value(id);
+                if (master) master->addMasterProducer(producer->parent());
             }
             else {
                 // Controller has not been created yet

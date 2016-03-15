@@ -44,6 +44,7 @@ AnimKeyframeRuler::AnimKeyframeRuler(int min, int max, QWidget *parent) :
   , m_scale(0)
   , m_movingKeyframe(false)
   , m_movingKeyframePos(-1)
+  , m_movingKeyframeType(mlt_keyframe_linear)
   , m_hoverKeyframe(-1)
   , m_selectedKeyframe(-1)
   , m_seekPosition(SEEK_INACTIVE)

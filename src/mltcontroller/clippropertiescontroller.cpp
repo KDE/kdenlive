@@ -152,6 +152,7 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
     , m_id(controller->clipId())
     , m_type(controller->clipType())
     , m_properties(controller->properties())
+    , m_textEdit(NULL)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setDocumentMode(true);

@@ -304,7 +304,7 @@ void CustomRuler::updateRuler(int pos)
 
 void CustomRuler::setPixelPerMark(int rate, bool force)
 {
-    if (rate == m_rate && !force) return;
+    if (rate < 0 || (rate == m_rate && !force)) return;
     int scale = comboScale[rate];
     m_rate = rate;
     m_factor = 1.0 / (double) scale * FRAME_SIZE;

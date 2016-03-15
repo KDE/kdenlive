@@ -264,13 +264,15 @@ void KeyframeEdit::slotAddKeyframe(int pos)
         // Interpolate
         int previousPos = getPos(newrow - 1);
         int nextPos = getPos(newrow + 1);
-        double factor = ((double) result - previousPos) / (nextPos - previousPos);
+        if (nextPos > previousPos) {
+            double factor = ((double) result - previousPos) / (nextPos - previousPos);
 
-        for (int i = 0; i < keyframe_list->columnCount(); ++i) {
-            double previousValues = keyframe_list->item(newrow - 1, i)->text().toDouble();
-            double nextValues = keyframe_list->item(newrow + 1, i)->text().toDouble();
-            int newValue = (int) (previousValues + (nextValues- previousValues) * factor);
-            keyframe_list->setItem(newrow, i, new QTableWidgetItem(QString::number(newValue)));
+            for (int i = 0; i < keyframe_list->columnCount(); ++i) {
+                double previousValues = keyframe_list->item(newrow - 1, i)->text().toDouble();
+                double nextValues = keyframe_list->item(newrow + 1, i)->text().toDouble();
+                int newValue = (int) (previousValues + (nextValues- previousValues) * factor);
+                keyframe_list->setItem(newrow, i, new QTableWidgetItem(QString::number(newValue)));
+            }
         }
     }
     keyframe_list->resizeRowsToContents();

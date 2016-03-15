@@ -97,6 +97,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
   , m_timelineContextClipMenu(NULL)
   , m_timelineContextTransitionMenu(NULL)
   , m_timelineContextKeyframeMenu(NULL)
+  , m_selectKeyframeType(NULL)
   , m_markerMenu(NULL)
   , m_autoTransition(NULL)
   , m_pasteEffectsAction(NULL)

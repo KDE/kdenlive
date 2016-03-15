@@ -592,7 +592,7 @@ void MainWindow::slotThemeChanged(const QString &theme)
         if (m_clipMonitor) m_clipMonitor->refreshIcons();
         if (m_projectMonitor) m_projectMonitor->refreshIcons();
         if (pCore->monitorManager()) pCore->monitorManager()->refreshIcons();
-        if (m_effectStack->transitionConfig()) m_effectStack->transitionConfig()->refreshIcons();
+        if (m_effectStack && m_effectStack->transitionConfig()) m_effectStack->transitionConfig()->refreshIcons();
         if (m_effectList) m_effectList->refreshIcons();
         if (m_effectStack) m_effectStack->refreshIcons();
         if (pCore->projectManager() && pCore->projectManager()->currentTimeline()) {

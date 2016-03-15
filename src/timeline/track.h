@@ -209,8 +209,6 @@ private:
     int m_index;
     /** MLT playlist behind the scene */
     Mlt::Playlist m_playlist;
-    /** frames per second (read speed) */
-    qreal m_fps;
     /** @brief Returns true is this MLT service needs duplication to work on multiple tracks */
     bool needsDuplicate(const QString &service) const;
 };

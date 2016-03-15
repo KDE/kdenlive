@@ -333,7 +333,8 @@ bool ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
         m_temporaryUrl.clear();
         if (m_type == Unknown) m_type = m_controller->clipType();
     }
-    m_duration = m_controller->getStringDuration();
+    if (m_controller)
+        m_duration = m_controller->getStringDuration();
     m_clipStatus = StatusReady;
     if (!hasProxy()) bin()->emitRefreshPanel(m_id);
     bin()->emitItemUpdated(this);
@@ -880,8 +881,8 @@ void ProjectClip::slotCreateAudioThumbs()
     Mlt::Producer *prod = originalProducer();
     if (!prod || !prod->is_valid()) return;
     AudioStreamInfo *audioInfo = m_controller->audioInfo();
-    int audioStream = audioInfo->ffmpeg_audio_index();
     if (audioInfo == NULL) return;
+    int audioStream = audioInfo->ffmpeg_audio_index();
     QString clipHash = hash();
     if (clipHash.isEmpty()) return;
     QString audioPath = bin()->projectFolder().path() + "/thumbs/" + clipHash;
@@ -1007,11 +1008,11 @@ void ProjectClip::slotCreateAudioThumbs()
                     c2 += abs(raw2[pos + j]);
                 }
             }
-            c1 /= steps;
+            if (steps) c1 /= steps;
             c1 = c1 * 800 / 32768.0;
             audioLevels << (double) c1;
             if (channels > 1) {
-                c2 /= steps;
+                if (steps) c2 /= steps;
                 c2 = c2 * 800 / 32768.0;
                 audioLevels << (double)c2;
             }

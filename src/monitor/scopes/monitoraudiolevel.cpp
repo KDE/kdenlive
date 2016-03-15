@@ -42,6 +42,7 @@ static inline double levelToDB(double dB)
 MonitorAudioLevel::MonitorAudioLevel(Mlt::Profile *profile, int height, QWidget *parent) : ScopeWidget(parent)
   , audioChannels(2)
   , m_height(height)
+  , m_channelHeight(height/2)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_filter = new Mlt::Filter(*profile, "audiolevel");

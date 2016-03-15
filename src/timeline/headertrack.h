@@ -58,7 +58,6 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event);
 
 private:
-    int m_index;
     TrackType m_type;
     Track *m_parentTrack;
     bool m_isSelected;

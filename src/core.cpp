@@ -32,6 +32,7 @@ Core::Core(MainWindow *mainWindow) :
     , m_projectManager(NULL)
     , m_monitorManager(NULL)
     , m_binController(NULL)
+    , m_producerQueue(NULL)
     , m_binWidget(NULL)
     , m_library(NULL)
 {

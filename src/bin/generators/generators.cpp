@@ -33,7 +33,12 @@
 #include <KRecentDirs>
 #include <KMessageBox>
 
-Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent) : QDialog(parent)
+Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent) :
+      QDialog(parent)
+    , m_producer(NULL)
+    , m_timePos(NULL)
+    , m_container(NULL)
+    , m_preview(NULL)
 {
     QFile file(path);
     QDomDocument doc;

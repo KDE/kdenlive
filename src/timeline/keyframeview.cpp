@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 KeyframeView::KeyframeView(int handleSize, QObject *parent) : QObject(parent)
     , activeKeyframe(-1)
+    , originalKeyframe(-1)
     , attachToEnd(-2)
     , duration(0)
     , m_keyframeType(KEYFRAMETYPE::NoKeyframe)
@@ -452,6 +453,7 @@ QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitK
             rect.h = pHeight;
             rect.o = 100;
             m_keyProperties.anim_set("kdenlive_import", rect, offset + next - in, newduration, mlt_keyframe_linear);
+            next = m_keyAnim.next_key(next + 1);
         }
     }
     QString result = anim.serialize_cut();

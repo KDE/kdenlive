@@ -115,8 +115,8 @@ QVariant DvdButton::itemChange(GraphicsItemChange change, const QVariant &value)
         if(QApplication::mouseButtons() == Qt::LeftButton && qobject_cast<DvdScene*> (scene())){
             DvdScene* customScene = qobject_cast<DvdScene*> (scene());
             int gridSize = customScene->gridSize();
-            qreal xV = round(newPos.x()/gridSize)*gridSize;
-            qreal yV = round(newPos.y()/gridSize)*gridSize;
+            int xV = (newPos.x()/gridSize)*gridSize;
+            int yV = (newPos.y()/gridSize)*gridSize;
             newPos = QPoint(xV, yV);
         }
 
