@@ -44,6 +44,15 @@ public slots:
     void updateGeometry();
 };
 
+class MyRectItem: public QGraphicsRectItem
+{
+public:
+    MyRectItem(QGraphicsItem *parent = 0);
+    void setRect(const QRectF & rectangle);
+private:
+    QRectF m_rect;
+};
+
 class GraphicsSceneRectMove: public QGraphicsScene
 {
     Q_OBJECT

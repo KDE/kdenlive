@@ -728,30 +728,25 @@
               </layout>
              </widget>
              <widget class="QWidget" name="rectangle">
-              <layout class="QGridLayout" name="gridLayout_12">
+              <layout class="QGridLayout" name="gridLayout_2">
                <item row="0" column="0">
-                <widget class="QLabel" name="label_2">
+                <widget class="QRadioButton" name="plain_rect">
                  <property name="text">
-                  <string>Color</string>
+                  <string>P&amp;lain Color</string>
                  </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_11">
-                 <property name="text">
-                  <string>Border </string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QSpinBox" name="rectLineWidth">
-                 <property name="maximum">
-                  <number>5000</number>
+                 <property name="checked">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
                <item row="0" column="1">
                 <widget class="KColorButton" name="rectBColor">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="color">
                   <color>
                    <red>0</red>
@@ -768,14 +763,48 @@
                  </property>
                 </widget>
                </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_4">
+               <item row="1" column="0">
+                <widget class="QRadioButton" name="gradient_rect">
                  <property name="text">
-                  <string>Border Width</string>
+                  <string>&amp;Gradient</string>
                  </property>
                 </widget>
                </item>
                <item row="1" column="1">
+                <widget class="QComboBox" name="gradients_rect_combo">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2">
+                <widget class="QToolButton" name="edit_gradient_2">
+                 <property name="text">
+                  <string>...</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="3">
+                <spacer name="horizontalSpacer_5">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_11">
+                 <property name="text">
+                  <string>Border </string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
                 <widget class="KColorButton" name="rectFColor">
                  <property name="color">
                   <color>
@@ -794,6 +823,20 @@
                 </widget>
                </item>
                <item row="3" column="0">
+                <widget class="QLabel" name="label_4">
+                 <property name="text">
+                  <string>Border Width</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QSpinBox" name="rectLineWidth">
+                 <property name="maximum">
+                  <number>5000</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
                 <spacer name="verticalSpacer_5">
                  <property name="orientation">
                   <enum>Qt::Vertical</enum>
@@ -802,19 +845,6 @@
                   <size>
                    <width>20</width>
                    <height>40</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item row="1" column="2">
-                <spacer name="horizontalSpacer_5">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
                   </size>
                  </property>
                 </spacer>
@@ -1289,6 +1319,38 @@
     <hint type="destinationlabel">
      <x>652</x>
      <y>454</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>plain_rect</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rectBColor</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>523</x>
+     <y>424</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>674</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>gradient_rect</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>gradients_rect_combo</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>523</x>
+     <y>464</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>672</x>
+     <y>464</y>
     </hint>
    </hints>
   </connection>

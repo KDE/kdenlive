@@ -70,6 +70,10 @@ QLinearGradient GradientWidget::gradientFromString(const QString &str, int width
 {
     QStringList values = str.split(";");
     QLinearGradient gr;
+    if (values.count() < 5) {
+        // invalid gradient data
+        return gr;
+    }
     gr.setColorAt(values.at(2).toDouble() / 100, values.at(0));
     gr.setColorAt(values.at(3).toDouble() / 100, values.at(1));
     double angle = values.at(4).toDouble();

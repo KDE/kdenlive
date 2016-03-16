@@ -164,6 +164,9 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
 
     connect(rectFColor, SIGNAL(changed(QColor)), this, SLOT(rectChanged()));
     connect(rectBColor, SIGNAL(changed(QColor)), this, SLOT(rectChanged()));
+    connect(plain_rect, SIGNAL(clicked(bool)), this, SLOT(rectChanged()));
+    connect(gradient_rect, SIGNAL(clicked(bool)), this, SLOT(rectChanged()));
+    connect(gradients_rect_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(rectChanged()));
     connect(rectLineWidth, SIGNAL(valueChanged(int)), this, SLOT(rectChanged()));
 
     // Fill effects
@@ -870,8 +873,16 @@ void TitleWidget::slotNewRect(QGraphicsRectItem * rect)
     penf.setWidth(rectLineWidth->value());
     penf.setJoinStyle(Qt::RoundJoin);
     rect->setPen(penf);
-    QColor b = rectBColor->color();
-    rect->setBrush(QBrush(b));
+    if (plain_rect->isChecked()) {
+        rect->setBrush(QBrush(rectBColor->color()));
+        rect->setData(TitleDocument::Gradient, QVariant());
+    } else {
+        // gradient
+        QString gradientData = gradients_rect_combo->currentData().toString();
+        rect->setData(TitleDocument::Gradient, gradientData);
+        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, rect->boundingRect().width(), rect->boundingRect().height());
+        rect->setBrush(QBrush(gr));
+    }
     rect->setZValue(m_count++);
     rect->setData(TitleDocument::ZoomFactor, 100);
     prepareTools(rect);
@@ -1601,8 +1612,16 @@ void TitleWidget::rectChanged()
             penf.setWidth(rectLineWidth->value());
             penf.setJoinStyle(Qt::RoundJoin);
             rec->setPen(penf);
-            QColor b = rectBColor->color();
-            rec->setBrush(QBrush(b));
+            if (plain_rect->isChecked()) {
+                rec->setBrush(QBrush(rectBColor->color()));
+                rec->setData(TitleDocument::Gradient, QVariant());
+            } else {
+                // gradient
+                QString gradientData = gradients_rect_combo->currentData().toString();
+                rec->setData(TitleDocument::Gradient, gradientData);
+                QLinearGradient gr = GradientWidget::gradientFromString(gradientData, rec->boundingRect().width(), rec->boundingRect().height());
+                rec->setBrush(QBrush(gr));
+            }
         }
     }
 }
@@ -2624,7 +2643,21 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 QColor fcol = rec->pen().color();
                 QColor bcol = rec->brush().color();
                 rectFColor->setColor(fcol);
-                rectBColor->setColor(bcol);
+                QString gradientData = rec->data(TitleDocument::Gradient).toString();
+                if (gradientData.isEmpty()) {
+                    plain_rect->setChecked(true);
+                    rectBColor->setColor(bcol);
+                } else {
+                    gradient_rect->setChecked(true);
+                    gradients_rect_combo->blockSignals(true);
+                    int ix = gradients_rect_combo->findData(gradientData);
+                    if (ix == -1) {
+                        storeGradient(gradientData);
+                        ix = gradients_rect_combo->findData(gradientData);
+                    }
+                    gradients_rect_combo->setCurrentIndex(ix);
+                    gradients_rect_combo->blockSignals(false);
+                }
                 settingUp = false;
                 rectLineWidth->setValue(rec->pen().width());
                 enableToolbars(TITLE_RECTANGLE);
@@ -2714,14 +2747,18 @@ void TitleWidget::storeGradient(const QString &gradientData)
     painter.end();
     QIcon icon(pix);
     gradients_combo->addItem(icon, gradName, gradientData);
+    gradients_rect_combo->addItem(icon, gradName, gradientData);
 }
 
 void TitleWidget::loadGradients()
 {
     QMap <QString, QString> gradients;
     gradients_combo->blockSignals(true);
+    gradients_rect_combo->blockSignals(true);
     QString data = gradients_combo->currentData().toString();
+    QString rect_data = gradients_rect_combo->currentData().toString();
     gradients_combo->clear();
+    gradients_rect_combo->clear();
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup group(config, "TitleGradients");
     QMap <QString, QString> values = group.entryMap();
@@ -2737,12 +2774,18 @@ void TitleWidget::loadGradients()
         painter.end();
         QIcon icon(pix);
         gradients_combo->addItem(icon, k.key(), k.value());
+        gradients_rect_combo->addItem(icon, k.key(), k.value());
     }
     int ix = gradients_combo->findData(data);
     if (ix >= 0) {
         gradients_combo->setCurrentIndex(ix);
     }
+    ix = gradients_rect_combo->findData(rect_data);
+    if (ix >= 0) {
+        gradients_rect_combo->setCurrentIndex(ix);
+    }
     gradients_combo->blockSignals(false);
+    gradients_rect_combo->blockSignals(false);
 }
 
 

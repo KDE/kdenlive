@@ -113,6 +113,20 @@ QRectF MyTextItem::boundingRect() const
     return base;
 }
 
+MyRectItem::MyRectItem(QGraphicsItem *parent) :
+    QGraphicsRectItem(parent)
+{
+}
+
+void MyRectItem::setRect(const QRectF & rectangle)
+{
+    QGraphicsRectItem::setRect(rectangle);
+    if (m_rect != rectangle && !data(TitleDocument::Gradient).isNull()) {
+        m_rect = rectangle;
+        QLinearGradient gr = GradientWidget::gradientFromString(data(TitleDocument::Gradient).toString(), m_rect.width(), m_rect.height());
+        setBrush(QBrush(gr));
+    }
+}
 
 GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent) :
     QGraphicsScene(parent),
@@ -486,7 +500,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
                 break;
             }
             if (m_selectedItem->type() == QGraphicsRectItem::Type && m_resizeMode != NoResize) {
-                QGraphicsRectItem *gi = (QGraphicsRectItem*)m_selectedItem;
+                MyRectItem *gi = (MyRectItem*)m_selectedItem;
                 // Resize using aspect ratio
                 if (!m_selectedItem->data(0).isNull()) {
                     // we want to keep aspect ratio
@@ -574,10 +588,13 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
             // create new rect item
             QRectF r(0, 0, e->scenePos().x() - m_sceneClickPoint.x(), e->scenePos().y() - m_sceneClickPoint.y());
             r = r.normalized();
-            m_selectedItem = addRect(QRectF(0, 0, r.width(), r.height()));
-            emit newRect((QGraphicsRectItem *) m_selectedItem);
-            m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+            MyRectItem *rect = new MyRectItem();
+            rect->setRect(QRectF(0, 0, r.width(), r.height()));
+            addItem(rect);
+            m_selectedItem = rect;
             m_selectedItem->setPos(m_sceneClickPoint);
+            emit newRect(rect);
+            m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
             m_resizeMode = BottomRight;
             QGraphicsScene::mouseMoveEvent(e);
         }
