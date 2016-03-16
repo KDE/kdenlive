@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "titlewidget.h"
+#include "gradientwidget.h"
 #include "kdenlivesettings.h"
 #include "doc/kthumb.h"
 #include "KoSliderCombo.h"
@@ -87,6 +88,15 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     fontColorButton->setAlphaChannelEnabled(true);
     textOutlineColor->setAlphaChannelEnabled(true);
 
+    QButtonGroup *colorGroup = new QButtonGroup(this);
+    colorGroup->addButton(gradient_color);
+    colorGroup->addButton(plain_color);
+
+    QButtonGroup *alignGroup = new QButtonGroup(this);
+    alignGroup->addButton(buttonAlignLeft);
+    alignGroup->addButton(buttonAlignCenter);
+    alignGroup->addButton(buttonAlignRight);
+
     textOutline->setMinimum(0);
     textOutline->setMaximum(200);
     //textOutline->setDecimals(0);
@@ -137,7 +147,11 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(backgroundColor, SIGNAL(changed(QColor)), this, SLOT(slotChangeBackground())) ;
     connect(backgroundAlpha, SIGNAL(valueChanged(int)), this, SLOT(slotChangeBackground())) ;
 
-    connect(fontColorButton, SIGNAL(changed(QColor)), this, SLOT(slotUpdateText())) ;
+    connect(fontColorButton, SIGNAL(changed(QColor)), this, SLOT(slotUpdateText()));
+    connect(plain_color, SIGNAL(clicked(bool)), this, SLOT(slotUpdateText()));
+    connect(gradient_color, SIGNAL(clicked(bool)), this, SLOT(slotUpdateText()));
+    connect(gradients_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateText()));
+
     connect(textOutlineColor, SIGNAL(changed(QColor)), this, SLOT(slotUpdateText())) ;
     connect(font_family, SIGNAL(currentFontChanged(QFont)), this, SLOT(slotUpdateText())) ;
     connect(font_size, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText()));
@@ -200,6 +214,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(buttonAlignLeft, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonAlignRight, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonAlignCenter, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
+    connect(edit_gradient, SIGNAL(clicked()), this, SLOT(slotEditGradient()));
     connect(displayBg, SIGNAL(stateChanged(int)), this, SLOT(displayBackgroundFrame()));
 
     connect(m_unicodeDialog, SIGNAL(charSelected(QString)), this, SLOT(slotInsertUnicodeString(QString)));
@@ -231,6 +246,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     buttonAlignCenter->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-justify-center")));
     buttonAlignLeft->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-justify-left")));
     buttonAlignRight->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-justify-right")));
+    edit_gradient->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
 
     buttonAlignRight->setToolTip(i18n("Align right"));
     buttonAlignLeft->setToolTip(i18n("Align left"));
@@ -399,7 +415,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     m_titledocument.setScene(m_scene, m_frameWidth, m_frameHeight);
     connect(m_scene, SIGNAL(changed(QList<QRectF>)), this, SLOT(slotChanged()));
     connect(font_size, SIGNAL(valueChanged(int)), m_scene, SLOT(slotUpdateFontSize(int)));
-    
+
     QPen framepen(Qt::DotLine);
     framepen.setColor(Qt::red);
 
@@ -409,7 +425,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     m_frameBorder->setBrush(Qt::transparent);
     m_frameBorder->setFlags(0);
     graphicsView->scene()->addItem(m_frameBorder);
-    
+
     m_frameImage = new QGraphicsPixmapItem();
     QTransform qtrans;
     qtrans.scale(2.0, 2.0);
@@ -429,6 +445,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(zoom_spin, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateZoom(int)));
 
     // mbd: load saved settings
+    loadGradients();
     readChoices();
 
     // Hide effects not implemented
@@ -703,7 +720,7 @@ void TitleWidget::slotImageTool()
 
 void TitleWidget::showToolbars(TITLETOOL toolType)
 {
-    toolbar_stack->setEnabled(toolType != TITLE_SELECT);
+    //toolbar_stack->setEnabled(toolType != TITLE_SELECT);
     switch (toolType) {
     case TITLE_IMAGE:
         toolbar_stack->setCurrentIndex(2);
@@ -856,7 +873,7 @@ void TitleWidget::slotNewRect(QGraphicsRectItem * rect)
     QColor b = rectBColor->color();
     rect->setBrush(QBrush(b));
     rect->setZValue(m_count++);
-    rect->setData(ZOOMFACTOR, 100);
+    rect->setData(TitleDocument::ZoomFactor, 100);
     prepareTools(rect);
     //setCurrentItem(rect);
     //graphicsView->setFocus();
@@ -893,11 +910,18 @@ void TitleWidget::slotNewText(MyTextItem *tt)
     QTextCharFormat cformat = cur.charFormat();
     double outlineWidth = textOutline->value() / 10.0;
 
-    tt->setData(101, outlineWidth);
-    tt->setData(102, outlineColor);
+    tt->setData(TitleDocument::OutlineWidth, outlineWidth);
+    tt->setData(TitleDocument::OutlineColor, outlineColor);
     if (outlineWidth > 0.0) cformat.setTextOutline(QPen(outlineColor, outlineWidth));
 
-    cformat.setForeground(QBrush(color));
+    if (gradient_color->isChecked()) {
+        QString gradientData = gradients_combo->currentData().toString();
+        tt->setData(TitleDocument::Gradient, gradientData);
+        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, tt->boundingRect().width(), tt->boundingRect().height());
+        cformat.setForeground(QBrush(gr));
+    } else {
+        cformat.setForeground(QBrush(color));
+    }
     cur.setCharFormat(cformat);
     cur.setBlockFormat(format);
     tt->setTextCursor(cur);
@@ -1265,7 +1289,7 @@ void TitleWidget::updateRotZoom(QGraphicsItem *i)
 
     Transform t = m_transformations.value(i);
 
-    if (!i->data(ZOOMFACTOR).isNull()) itemzoom->setValue(i->data(ZOOMFACTOR).toInt());
+    if (!i->data(TitleDocument::ZoomFactor).isNull()) itemzoom->setValue(i->data(TitleDocument::ZoomFactor).toInt());
     else itemzoom->setValue((int)(t.scalex * 100.0 + 0.5));
 
     itemrotatex->setValue((int)(t.rotatex));
@@ -1508,6 +1532,11 @@ void TitleWidget::slotUpdateText()
     font.setLetterSpacing(QFont::AbsoluteSpacing, letter_spacing->value());
     QColor color = fontColorButton->color();
     QColor outlineColor = textOutlineColor->color();
+    QString gradientData;
+    if (gradient_color->isChecked()) {
+        // user wants a gradient
+        gradientData = gradients_combo->currentData().toString();
+    }
 
     double outlineWidth = textOutline->value() / 10.0;
 
@@ -1540,11 +1569,18 @@ void TitleWidget::slotUpdateText()
         item->setFont(font);
         QTextCharFormat cformat = cur.charFormat();
 
-        item->setData(101, outlineWidth);
-        item->setData(102, outlineColor);
+        item->setData(TitleDocument::OutlineWidth, outlineWidth);
+        item->setData(TitleDocument::OutlineColor, outlineColor);
         if (outlineWidth > 0.0) cformat.setTextOutline(QPen(outlineColor, outlineWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 
-        cformat.setForeground(QBrush(color));
+        if (gradientData.isEmpty()) {
+            cformat.setForeground(QBrush(color));
+        } else {
+            QLinearGradient gr = GradientWidget::gradientFromString(gradientData, item->boundingRect().width(), item->boundingRect().height());
+            cformat.setForeground(QBrush(gr));
+        }
+        // Store gradient in item properties
+        item->setData(TitleDocument::Gradient, gradientData);
         cur.setCharFormat(cformat);
         cur.setBlockFormat(format);
         //  item->setTextCursor(cur);
@@ -1584,7 +1620,7 @@ void TitleWidget::itemScaled(int val)
         qtrans.rotate(x.rotatey, Qt::YAxis);
         qtrans.rotate(x.rotatez, Qt::ZAxis);
         l[0]->setTransform(qtrans);
-        l[0]->setData(ZOOMFACTOR, val);
+        l[0]->setData(TitleDocument::ZoomFactor, val);
         m_transformations[l.at(0)] = x;
         updateDimension(l.at(0));
     }
@@ -1622,7 +1658,7 @@ void TitleWidget::itemRotate(int val, int axis)
             break;
         }
 
-        l[0]->setData(ROTATEFACTOR, QList<QVariant>() << QVariant(x.rotatex) << QVariant(x.rotatey) << QVariant(x.rotatez));
+        l[0]->setData(TitleDocument::RotateFactor, QList<QVariant>() << QVariant(x.rotatex) << QVariant(x.rotatey) << QVariant(x.rotatez));
 
         QTransform qtrans;
         qtrans.scale(x.scalex, x.scaley);
@@ -1631,7 +1667,7 @@ void TitleWidget::itemRotate(int val, int axis)
         qtrans.rotate(x.rotatez, Qt::ZAxis);
         l[0]->setTransform(qtrans);
         m_transformations[l.at(0)] = x;
-        if (l[0]->data(ZOOMFACTOR).isNull()) l[0]->setData(ZOOMFACTOR, 100);
+        if (l[0]->data(TitleDocument::ZoomFactor).isNull()) l[0]->setData(TitleDocument::ZoomFactor, 100);
         updateDimension(l.at(0));
     }
 }
@@ -1827,8 +1863,8 @@ void TitleWidget::setXml(const QDomDocument &doc)
         Transform x;
         x.scalex = t.m11();
         x.scaley = t.m22();
-        if (!items.at(i)->data(ROTATEFACTOR).isNull()) {
-            QList<QVariant> rotlist = items.at(i)->data(ROTATEFACTOR).toList();
+        if (!items.at(i)->data(TitleDocument::RotateFactor).isNull()) {
+            QList<QVariant> rotlist = items.at(i)->data(TitleDocument::RotateFactor).toList();
             if (rotlist.count() >= 3) {
                 x.rotatex = rotlist[0].toDouble();
                 x.rotatey = rotlist[1].toDouble();
@@ -2423,11 +2459,13 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
         itemrotatey->setEnabled(false);
         itemrotatez->setEnabled(false);
         frame_properties->setEnabled(false);
-        letter_spacing->setEnabled(false);
+        toolbar_stack->setEnabled(false);
+        /*letter_spacing->setEnabled(false);
         line_spacing->setEnabled(false);
         letter_spacing->setValue(0);
-        line_spacing->setValue(0);
+        line_spacing->setValue(0);*/
     } else {
+        toolbar_stack->setEnabled(true);
         frame_properties->setEnabled(true);
         if (referenceItem != m_startViewport && referenceItem != m_endViewport) {
             itemzoom->setEnabled(true);
@@ -2506,25 +2544,49 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 QColor color = cursor.charFormat().foreground().color();
                 fontColorButton->setColor(color);
 
-                if (!i->data(101).isNull()) {
+                if (!i->data(TitleDocument::OutlineWidth).isNull()) {
                     textOutline->blockSignals(true);
-                    textOutline->setValue(i->data(101).toDouble() * 10);
+                    textOutline->setValue(i->data(TitleDocument::OutlineWidth).toDouble() * 10);
+                    textOutline->blockSignals(false);
+                } else {
+                    textOutline->blockSignals(true);
+                    textOutline->setValue(0);
                     textOutline->blockSignals(false);
                 }
-                if (!i->data(102).isNull()) {
+                if (!i->data(TitleDocument::OutlineColor).isNull()) {
                     textOutlineColor->blockSignals(true);
-                    QVariant variant = i->data(102);
+                    QVariant variant = i->data(TitleDocument::OutlineColor);
                     color = variant.value<QColor>();
                     textOutlineColor->setColor(color);
                     textOutlineColor->blockSignals(false);
+                }
+                if (!i->data(TitleDocument::Gradient).isNull()) {
+                    gradients_combo->blockSignals(true);
+                    gradient_color->setChecked(true);
+                    QString gradientData = i->data(TitleDocument::Gradient).toString();
+                    int ix = gradients_combo->findData(gradientData);
+                    if (ix == -1) {
+                        // This gradient does not exist in our settings, store it
+                        storeGradient(gradientData);
+                        ix = gradients_combo->findData(gradientData);
+                    }
+                    gradients_combo->setCurrentIndex(ix);
+                    gradients_combo->blockSignals(false);
+                } else {
+                    plain_color->setChecked(true);
                 }
                 QTextCursor cur = i->textCursor();
                 QTextBlockFormat format = cur.blockFormat();
                 if (format.alignment() == Qt::AlignHCenter) buttonAlignCenter->setChecked(true);
                 else if (format.alignment() == Qt::AlignRight) buttonAlignRight->setChecked(true);
                 else buttonAlignLeft->setChecked(true);
+
+                letter_spacing->blockSignals(true);
+                line_spacing->blockSignals(true);
                 letter_spacing->setValue(font.letterSpacing());
                 line_spacing->setValue(format.lineHeight());
+                letter_spacing->blockSignals(false);
+                line_spacing->blockSignals(false);
 
                 font_size->blockSignals(false);
                 font_family->blockSignals(false);
@@ -2586,7 +2648,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
             frame_properties->setEnabled(false);
         }
         zValue->setValue((int)referenceItem->zValue());
-        if (!referenceItem->data(ZOOMFACTOR).isNull()) itemzoom->setValue(referenceItem->data(ZOOMFACTOR).toInt());
+        if (!referenceItem->data(TitleDocument::ZoomFactor).isNull()) itemzoom->setValue(referenceItem->data(TitleDocument::ZoomFactor).toInt());
         else itemzoom->setValue((int)(m_transformations.value(referenceItem).scalex * 100.0 + 0.5));
         itemrotatex->setValue((int)(m_transformations.value(referenceItem).rotatex));
         itemrotatey->setValue((int)(m_transformations.value(referenceItem).rotatey));
@@ -2604,6 +2666,83 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
     value_y->blockSignals(blockY);
     value_w->blockSignals(blockW);
     value_h->blockSignals(blockH);
+}
+
+
+void TitleWidget::slotEditGradient()
+{
+    GradientWidget d;
+    if (d.exec() == QDialog::Accepted) {
+        // Save current gradients
+        QMap <QString, QString> gradients = d.gradients();
+        QList <QIcon> icons = d.icons();
+        QMap<QString, QString>::const_iterator i = gradients.constBegin();
+        KSharedConfigPtr config = KSharedConfig::openConfig();
+        KConfigGroup group(config, "TitleGradients");
+        group.deleteGroup();
+        gradients_combo->clear();
+        int ix = 0;
+        while (i != gradients.constEnd()) {
+            group.writeEntry(i.key(), i.value());
+            gradients_combo->addItem(icons.at(ix), i.key(), i.value());
+            ++i;
+            ix++;
+        }
+        group.sync();
+    }
+}
+
+void TitleWidget::storeGradient(const QString &gradientData)
+{
+    KSharedConfigPtr config = KSharedConfig::openConfig();
+    KConfigGroup group(config, "TitleGradients");
+    QMap <QString, QString> values = group.entryMap();
+    int ix = values.count();
+    QString gradName = i18n("Gradient %1", ix);
+    while (values.contains(gradName)) {
+        ix++;
+        gradName = i18n("Gradient %1", ix);
+    }
+    group.writeEntry(gradName, gradientData);
+    group.sync();
+    QPixmap pix(30, 30);
+    QLinearGradient gr = GradientWidget::gradientFromString(gradientData, pix.width(), pix.height());
+    gr.setStart(0, pix.height() / 2);
+    gr.setFinalStop(pix.width(), pix.height() / 2);
+    QPainter painter(&pix);
+    painter.fillRect(0, 0, pix.width(), pix.height(), QBrush(gr));
+    painter.end();
+    QIcon icon(pix);
+    gradients_combo->addItem(icon, gradName, gradientData);
+}
+
+void TitleWidget::loadGradients()
+{
+    QMap <QString, QString> gradients;
+    gradients_combo->blockSignals(true);
+    QString data = gradients_combo->currentData().toString();
+    gradients_combo->clear();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
+    KConfigGroup group(config, "TitleGradients");
+    QMap <QString, QString> values = group.entryMap();
+    QMapIterator<QString, QString> k(values);
+    while (k.hasNext()) {
+        k.next();
+        QPixmap pix(30, 30);
+        QLinearGradient gr = GradientWidget::gradientFromString(k.value(), pix.width(), pix.height());
+        gr.setStart(0, pix.height() / 2);
+        gr.setFinalStop(pix.width(), pix.height() / 2);
+        QPainter painter(&pix);
+        painter.fillRect(0, 0, pix.width(), pix.height(), QBrush(gr));
+        painter.end();
+        QIcon icon(pix);
+        gradients_combo->addItem(icon, k.key(), k.value());
+    }
+    int ix = gradients_combo->findData(data);
+    if (ix >= 0) {
+        gradients_combo->setCurrentIndex(ix);
+    }
+    gradients_combo->blockSignals(false);
 }
 
 

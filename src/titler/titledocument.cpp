@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "titledocument.h"
+#include "gradientwidget.h"
 
 #include "kdenlivesettings.h"
 #include "timecode.h"
@@ -146,6 +147,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
         QDomElement e = doc.createElement(QStringLiteral("item"));
         QDomElement content = doc.createElement(QStringLiteral("content"));
         QFont font;
+        QString gradient;
         MyTextItem *t;
         double xPosition = item->pos().x();
 
@@ -181,6 +183,10 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             content.setAttribute(QStringLiteral("font-italic"), font.italic());
             content.setAttribute(QStringLiteral("font-underline"), font.underline());
             content.setAttribute(QStringLiteral("letter-spacing"), QString::number(font.letterSpacing()));
+            gradient = item->data(TitleDocument::Gradient).toString();
+            if (!gradient.isEmpty()) {
+                content.setAttribute(QStringLiteral("gradient"), gradient);
+            }
             cur = QTextCursor(t->document());
             cur.select(QTextCursor::Document);
             format = cur.blockFormat();
@@ -212,9 +218,9 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
                 cursor.select(QTextCursor::Document);
                 QColor fontcolor = cursor.charFormat().foreground().color();
                 content.setAttribute(QStringLiteral("font-color"), colorToString(fontcolor));
-                if (!t->data(101).isNull()) content.setAttribute(QStringLiteral("font-outline"), QString::number(t->data(101).toDouble()));
-                if (!t->data(102).isNull()) {
-                    QVariant variant = t->data(102);
+                if (!t->data(TitleDocument::OutlineWidth).isNull()) content.setAttribute(QStringLiteral("font-outline"), QString::number(t->data(TitleDocument::OutlineWidth).toDouble()));
+                if (!t->data(TitleDocument::OutlineColor).isNull()) {
+                    QVariant variant = t->data(TitleDocument::OutlineColor);
                     QColor outlineColor = variant.value<QColor>();
                     content.setAttribute(QStringLiteral("font-outline-color"), colorToString(outlineColor));
                 }
@@ -247,11 +253,11 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
         pos.setAttribute(QStringLiteral("y"), QString::number(item->pos().y()));
         QTransform transform = item->transform();
         QDomElement tr = doc.createElement(QStringLiteral("transform"));
-        if (!item->data(ZOOMFACTOR).isNull()) {
-            tr.setAttribute(QStringLiteral("zoom"), QString::number(item->data(ZOOMFACTOR).toInt()));
+        if (!item->data(TitleDocument::ZoomFactor).isNull()) {
+            tr.setAttribute(QStringLiteral("zoom"), QString::number(item->data(TitleDocument::ZoomFactor).toInt()));
         }
-        if (!item->data(ROTATEFACTOR).isNull()) {
-            QList<QVariant> rotlist = item->data(ROTATEFACTOR).toList();
+        if (!item->data(TitleDocument::RotateFactor).isNull()) {
+            QList<QVariant> rotlist = item->data(TitleDocument::RotateFactor).toList();
             tr.setAttribute(QStringLiteral("rotation"), QStringLiteral("%1,%2,%3").arg(rotlist[0].toDouble()).arg(rotlist[1].toDouble()).arg(rotlist[2].toDouble()));
         }
         tr.appendChild(doc.createTextNode(
@@ -421,14 +427,15 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                     QColor col(stringToColor(txtProperties.namedItem(QStringLiteral("font-color")).nodeValue()));
                     MyTextItem *txt = new MyTextItem(items.item(i).namedItem(QStringLiteral("content")).firstChild().nodeValue(), NULL);
                     txt->setFont(font);
+                    txt->setTextInteractionFlags(Qt::NoTextInteraction);
                     m_scene->addItem(txt);
                     QTextCursor cursor(txt->document());
                     cursor.select(QTextCursor::Document);
-                    QTextCharFormat format;
+                    QTextCharFormat cformat = cursor.charFormat();
                     if (txtProperties.namedItem(QStringLiteral("font-outline")).nodeValue().toDouble() > 0.0) {
-                        txt->setData(101, txtProperties.namedItem(QStringLiteral("font-outline")).nodeValue().toDouble());
-                        txt->setData(102, stringToColor(txtProperties.namedItem(QStringLiteral("font-outline-color")).nodeValue()));
-                        format.setTextOutline(
+                        txt->setData(TitleDocument::OutlineWidth, txtProperties.namedItem(QStringLiteral("font-outline")).nodeValue().toDouble());
+                        txt->setData(TitleDocument::OutlineColor, stringToColor(txtProperties.namedItem(QStringLiteral("font-outline-color")).nodeValue()));
+                        cformat.setTextOutline(
                             QPen(QColor(stringToColor(txtProperties.namedItem(QStringLiteral("font-outline-color")).nodeValue())),
                                  txtProperties.namedItem(QStringLiteral("font-outline")).nodeValue().toDouble(),
                                  Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
@@ -440,9 +447,17 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                         format.setLineHeight(txtProperties.namedItem(QStringLiteral("line-spacing")).nodeValue().toInt(), QTextBlockFormat::LineDistanceHeight);
                         cursor.setBlockFormat(format);
                     }
-                    format.setForeground(QBrush(col));
-                    cursor.mergeCharFormat(format);
-                    txt->setTextInteractionFlags(Qt::NoTextInteraction);
+                    cformat.setForeground(QBrush(col));
+                    cursor.setCharFormat(cformat);
+                    if (txtProperties.namedItem(QStringLiteral("gradient")).isNull() == false) {
+                        // Gradient color
+                        QString data = txtProperties.namedItem(QStringLiteral("gradient")).nodeValue();
+                        txt->setData(TitleDocument::Gradient, data);
+                        QLinearGradient gr = GradientWidget::gradientFromString(data, txt->boundingRect().width(), txt->boundingRect().height());
+                        cformat.setForeground(QBrush(gr));
+                        cursor.setCharFormat(cformat);
+                    }
+
                     if (txtProperties.namedItem(QStringLiteral("alignment")).isNull() == false) {
                         txt->setAlignment((Qt::Alignment) txtProperties.namedItem(QStringLiteral("alignment")).nodeValue().toInt());
                     }
@@ -529,9 +544,9 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                 QDomElement trans = items.item(i).namedItem(QStringLiteral("position")).firstChild().toElement();
                 gitem->setTransform(stringToTransform(trans.firstChild().nodeValue()));
                 QString rotate = trans.attribute(QStringLiteral("rotation"));
-                if (!rotate.isEmpty()) gitem->setData(ROTATEFACTOR, stringToList(rotate));
+                if (!rotate.isEmpty()) gitem->setData(TitleDocument::RotateFactor, stringToList(rotate));
                 QString zoom = trans.attribute(QStringLiteral("zoom"));
-                if (!zoom.isEmpty()) gitem->setData(ZOOMFACTOR, zoom.toInt());
+                if (!zoom.isEmpty()) gitem->setData(TitleDocument::ZoomFactor, zoom.toInt());
                 int zValue = items.item(i).attributes().namedItem(QStringLiteral("z-index")).nodeValue().toInt();
                 if (zValue > maxZValue) maxZValue = zValue;
                 gitem->setZValue(zValue);

@@ -19,6 +19,8 @@
  ***************************************************************************/
 
 #include "graphicsscenerectmove.h"
+#include "titler/titledocument.h"
+#include "titler/gradientwidget.h"
 
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
@@ -65,6 +67,21 @@ void MyTextItem::setAlignment(Qt::Alignment alignment)
 void MyTextItem::updateGeometry(int, int, int)
 {
     updateGeometry();
+    // update gradient if necessary
+    QString gradientData = data(TitleDocument::Gradient).toString();
+    if (!gradientData.isEmpty()) {
+        QTextCursor cursor = textCursor(); 
+        QTextCharFormat cformat;
+        QRectF rect = boundingRect();
+        int position = textCursor().position();
+        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, rect.width(), rect.height());
+        cursor.select(QTextCursor::Document);
+        cformat.setForeground(QBrush(gr));
+        cursor.mergeCharFormat(cformat);
+        cursor.clearSelection();
+        cursor.setPosition(position);           // restore cursor position
+        setTextCursor(cursor);
+    }
 }
  
 void MyTextItem::updateGeometry()

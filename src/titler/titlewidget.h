@@ -50,9 +50,9 @@ public:
     int rotatex, rotatey, rotatez;
 };
 
-/*! \class KdenliveDoc
-    \brief Represents a kdenlive project file
-Instances of TitleWidget classes are instansiated by KdenliveDoc::slotCreateTextClip ()
+/*! \class TitleWidget
+    \brief Title creation dialog
+    Instances of TitleWidget classes are instansiated by KdenliveDoc::slotCreateTextClip ()
 */
 class TitleWidget : public QDialog , public Ui::TitleWidget_UI
 {
@@ -211,6 +211,8 @@ private:
 
     /** @brief Appends the shortcut of a QAction to a tooltip text */
     QString getTooltipWithShortcut(const QString& text, QAction *button);
+    void loadGradients();
+    void storeGradient(const QString &gradientData);
 
 public slots:
     void slotNewText(MyTextItem *tt);
@@ -346,7 +348,8 @@ private slots:
     void slotZIndexBottom();
     /** Called when the user wants to apply a different template to the title */
     void templateIndexChanged(int);
-    
+    void slotEditGradient();
+
 signals:
     void requestBackgroundFrame();
 };

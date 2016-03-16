@@ -28,14 +28,18 @@ class QGraphicsScene;
 class QGraphicsRectItem;
 class QGraphicsItem;
 
-const int ROTATEFACTOR = 103;
-const int ZOOMFACTOR = 104;
-
 class TitleDocument
 {
 
 public:
     TitleDocument();
+    enum TitleProperties {
+        OutlineWidth = 101,
+        OutlineColor,
+        Gradient,
+        RotateFactor,
+        ZoomFactor
+    };
     void setScene(QGraphicsScene* scene, int width, int height);
     bool saveDocument(const QUrl &url, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int duration, bool embed_images = false);
     QDomDocument xml(QGraphicsRectItem* startv, QGraphicsRectItem* endv, bool embed_images = false);
