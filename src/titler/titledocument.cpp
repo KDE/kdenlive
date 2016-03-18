@@ -503,16 +503,17 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
 
                     gitem = txt;
                 } else if (itemNode.attributes().namedItem(QStringLiteral("type")).nodeValue() == QLatin1String("QGraphicsRectItem")) {
-                    QString rect = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("rect")).nodeValue();
-                    QString br_str = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("brushcolor")).nodeValue();
-                    QString pen_str = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("pencolor")).nodeValue();
-                    double penwidth = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("penwidth")).nodeValue().toDouble();
+                    QDomNamedNodeMap rectProperties = itemNode.namedItem(QStringLiteral("content")).attributes();
+                    QString rect = rectProperties.namedItem(QStringLiteral("rect")).nodeValue();
+                    QString br_str = rectProperties.namedItem(QStringLiteral("brushcolor")).nodeValue();
+                    QString pen_str = rectProperties.namedItem(QStringLiteral("pencolor")).nodeValue();
+                    double penwidth = rectProperties.namedItem(QStringLiteral("penwidth")).nodeValue().toDouble();
                     MyRectItem *rec = new MyRectItem();
                     rec->setRect(stringToRect(rect));
                     rec->setPen(QPen(QBrush(stringToColor(pen_str)), penwidth, Qt::SolidLine, Qt::SquareCap, Qt::RoundJoin));
-                    if (itemNode.namedItem(QStringLiteral("gradient")).isNull() == false) {
+                    if (rectProperties.namedItem(QStringLiteral("gradient")).isNull() == false) {
                         // Gradient color
-                        QString data = itemNode.namedItem(QStringLiteral("gradient")).nodeValue();
+                        QString data = rectProperties.namedItem(QStringLiteral("gradient")).nodeValue();
                         rec->setData(TitleDocument::Gradient, data);
                         QLinearGradient gr = GradientWidget::gradientFromString(data, rec->rect().width(), rec->rect().height());
                         rec->setBrush(QBrush(gr));

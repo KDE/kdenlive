@@ -225,6 +225,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(buttonAlignRight, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonAlignCenter, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(edit_gradient, SIGNAL(clicked()), this, SLOT(slotEditGradient()));
+    connect(edit_rect_gradient, SIGNAL(clicked()), this, SLOT(slotEditGradient()));
     connect(displayBg, SIGNAL(stateChanged(int)), this, SLOT(displayBackgroundFrame()));
 
     connect(m_unicodeDialog, SIGNAL(charSelected(QString)), this, SLOT(slotInsertUnicodeString(QString)));
@@ -256,7 +257,8 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     buttonAlignCenter->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-justify-center")));
     buttonAlignLeft->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-justify-left")));
     buttonAlignRight->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-justify-right")));
-    edit_gradient->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
+    edit_gradient->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
+    edit_rect_gradient->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
 
     buttonAlignRight->setToolTip(i18n("Align right"));
     buttonAlignLeft->setToolTip(i18n("Align left"));
@@ -2728,10 +2730,12 @@ void TitleWidget::slotEditGradient()
         KConfigGroup group(config, "TitleGradients");
         group.deleteGroup();
         gradients_combo->clear();
+        gradients_rect_combo->clear();
         int ix = 0;
         while (i != gradients.constEnd()) {
             group.writeEntry(i.key(), i.value());
             gradients_combo->addItem(icons.at(ix), i.key(), i.value());
+            gradients_rect_combo->addItem(icons.at(ix), i.key(), i.value());
             ++i;
             ix++;
         }
