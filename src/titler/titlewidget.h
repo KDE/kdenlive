@@ -349,6 +349,7 @@ private slots:
     /** Called when the user wants to apply a different template to the title */
     void templateIndexChanged(int);
     void slotEditGradient();
+    void slotUpdateShadow();
 
 signals:
     void requestBackgroundFrame();

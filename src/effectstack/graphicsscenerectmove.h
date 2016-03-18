@@ -31,13 +31,24 @@ class MyTextItem: public QGraphicsTextItem
 {
     Q_OBJECT
 public:
-    MyTextItem(const QString &, QGraphicsItem *);
+    MyTextItem(const QString &, QGraphicsItem *parent = Q_NULLPTR);
     void setAlignment(Qt::Alignment alignment);
     QRectF boundingRect() const;
     Qt::Alignment alignment() const;
+    void updateShadow(bool enabled, int blur, int xoffset, int yoffset, QColor color);
+    QStringList shadowInfo() const;
+    void loadShadow(QStringList info);
+    void paint( QPainter *painter, const QStyleOptionGraphicsItem * option, QWidget* w);
 
 private:
     Qt::Alignment m_alignment;
+    QImage m_shadow;
+    QPoint m_shadowOffset;
+    int m_shadowBlur;
+    QColor m_shadowColor;
+    bool m_useShadow;
+    void updateShadow();
+    void blurShadow(const QImage &image, int radius, bool alphaOnly);
 
 public slots:
     void updateGeometry(int, int, int);

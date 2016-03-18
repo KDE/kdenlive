@@ -87,6 +87,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     rectFColor->setAlphaChannelEnabled(true);
     fontColorButton->setAlphaChannelEnabled(true);
     textOutlineColor->setAlphaChannelEnabled(true);
+    shadowColor->setAlphaChannelEnabled(true);
 
     QButtonGroup *colorGroup = new QButtonGroup(this);
     colorGroup->addButton(gradient_color);
@@ -146,6 +147,12 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
 
     connect(backgroundColor, SIGNAL(changed(QColor)), this, SLOT(slotChangeBackground())) ;
     connect(backgroundAlpha, SIGNAL(valueChanged(int)), this, SLOT(slotChangeBackground())) ;
+
+    connect(shadowBox, SIGNAL(toggled(bool)), this, SLOT(slotUpdateShadow()));
+    connect(shadowColor, SIGNAL(changed(QColor)), this, SLOT(slotUpdateShadow()));
+    connect(blur_radius, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateShadow()));
+    connect(shadowX, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateShadow()));
+    connect(shadowY, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateShadow()));
 
     connect(fontColorButton, SIGNAL(changed(QColor)), this, SLOT(slotUpdateText()));
     connect(plain_color, SIGNAL(clicked(bool)), this, SLOT(slotUpdateText()));
@@ -496,6 +503,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
 
 TitleWidget::~TitleWidget()
 {
+    m_scene->blockSignals(true);
     delete m_buttonRect;
     delete m_buttonText;
     delete m_buttonImage;
@@ -924,7 +932,7 @@ void TitleWidget::slotNewText(MyTextItem *tt)
     tt->setData(TitleDocument::OutlineWidth, outlineWidth);
     tt->setData(TitleDocument::OutlineColor, outlineColor);
     if (outlineWidth > 0.0) cformat.setTextOutline(QPen(outlineColor, outlineWidth));
-
+    tt->updateShadow(shadowBox->isChecked(), blur_radius->value(), shadowX->value(), shadowY->value(), shadowColor->color());
     if (gradient_color->isChecked()) {
         QString gradientData = gradients_combo->currentData().toString();
         tt->setData(TitleDocument::Gradient, gradientData);
@@ -1552,9 +1560,9 @@ void TitleWidget::slotUpdateText()
     double outlineWidth = textOutline->value() / 10.0;
 
     int i;
-    for (i = 0; i < graphicsView->scene()->selectedItems().length(); ++i) {
+    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+    for (i = 0; i < l.length(); ++i) {
         MyTextItem* item = NULL;
-        QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
         if (l.at(i)->type() == TEXTITEM) {
             item = static_cast <MyTextItem *>(l.at(i));
         }
@@ -2198,7 +2206,6 @@ void TitleWidget::slotAddEffect(int ix)
         }
     } else // Hide the effects stack when more than one element is selected.
         effect_stack->setHidden(true);
-*/
     foreach(QGraphicsItem * item, list) {
         switch (effect) {
         case NOEFFECT:
@@ -2206,10 +2213,6 @@ void TitleWidget::slotAddEffect(int ix)
             item->setGraphicsEffect(0);
             break;
         case TYPEWRITEREFFECT:
-            /*
-             * Allow the user to set the typewriter effect to more than one
-             * element, but do not add it to non-text elements.
-             */
             if (item->type() == TEXTITEM) {
                 QStringList effdata = QStringList() << QStringLiteral("typewriter") << QString::number(typewriter_delay->value()) + ';' + QString::number(typewriter_start->value());
                 item->setData(100, effdata);
@@ -2223,7 +2226,7 @@ void TitleWidget::slotAddEffect(int ix)
             item->setGraphicsEffect(new QGraphicsDropShadowEffect());
             break;
         }
-    }
+    }*/
 }
 
 void TitleWidget::slotFontText(const QString& s)
@@ -2594,14 +2597,25 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 } else {
                     plain_color->setChecked(true);
                 }
-                QTextCursor cur = i->textCursor();
-                QTextBlockFormat format = cur.blockFormat();
-                if (format.alignment() == Qt::AlignHCenter) buttonAlignCenter->setChecked(true);
-                else if (format.alignment() == Qt::AlignRight) buttonAlignRight->setChecked(true);
+                if (i->alignment() == Qt::AlignHCenter) buttonAlignCenter->setChecked(true);
+                else if (i->alignment() == Qt::AlignRight) buttonAlignRight->setChecked(true);
                 else buttonAlignLeft->setChecked(true);
+
+                QStringList sInfo = i->shadowInfo();
+                if (sInfo.count() >= 5) {
+                    shadowBox->setChecked(sInfo.at(0).toInt() == true);
+                    shadowBox->blockSignals(true);
+                    shadowColor->setColor(QColor(sInfo.at(1)));
+                    blur_radius->setValue(sInfo.at(2).toInt());
+                    shadowX->setValue(sInfo.at(3).toInt());
+                    shadowY->setValue(sInfo.at(4).toInt());
+                    shadowBox->blockSignals(false);
+                }
 
                 letter_spacing->blockSignals(true);
                 line_spacing->blockSignals(true);
+                QTextCursor cur = i->textCursor();
+                QTextBlockFormat format = cur.blockFormat();
                 letter_spacing->setValue(font.letterSpacing());
                 line_spacing->setValue(format.lineHeight());
                 letter_spacing->blockSignals(false);
@@ -2788,4 +2802,18 @@ void TitleWidget::loadGradients()
     gradients_rect_combo->blockSignals(false);
 }
 
-
+void TitleWidget::slotUpdateShadow()
+{
+    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+    for (int i = 0; i < graphicsView->scene()->selectedItems().length(); ++i) {
+        MyTextItem* item = NULL;
+        if (l.at(i)->type() == TEXTITEM) {
+            item = static_cast <MyTextItem *>(l.at(i));
+        }
+        if (!item) {
+            // No text item, try next one.
+            continue;
+        }
+        item->updateShadow(shadowBox->isChecked(), blur_radius->value(), shadowX->value(), shadowY->value(), shadowColor->color());
+    }
+}

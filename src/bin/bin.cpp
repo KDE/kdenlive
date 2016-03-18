@@ -2855,20 +2855,20 @@ void Bin::showTitleWidget(ProjectClip *clip)
 {
     QString path = clip->getProducerProperty(QStringLiteral("resource"));
     QString titlepath = m_doc->projectFolder().path() + QDir::separator() + "titles/";
-    QPointer<TitleWidget> dia_ui = new TitleWidget(QUrl(), m_doc->timecode(), titlepath, pCore->monitorManager()->projectMonitor()->render, pCore->window());
-    connect(dia_ui, SIGNAL(requestBackgroundFrame()), pCore->monitorManager()->projectMonitor(), SLOT(slotGetCurrentImage()));
+    TitleWidget dia_ui(QUrl(), m_doc->timecode(), titlepath, pCore->monitorManager()->projectMonitor()->render, pCore->window());
+    connect(&dia_ui, SIGNAL(requestBackgroundFrame()), pCore->monitorManager()->projectMonitor(), SLOT(slotGetCurrentImage()));
         QDomDocument doc;
         doc.setContent(clip->getProducerProperty(QStringLiteral("xmldata")));
-        dia_ui->setXml(doc);
-        if (dia_ui->exec() == QDialog::Accepted) {
+        dia_ui.setXml(doc);
+        if (dia_ui.exec() == QDialog::Accepted) {
             QMap <QString, QString> newprops;
-            newprops.insert(QStringLiteral("xmldata"), dia_ui->xml().toString());
-            if (dia_ui->duration() != clip->duration().frames(m_doc->fps())) {
+            newprops.insert(QStringLiteral("xmldata"), dia_ui.xml().toString());
+            if (dia_ui.duration() != clip->duration().frames(m_doc->fps())) {
                 // duration changed, we need to update duration
-                newprops.insert(QStringLiteral("out"), QString::number(dia_ui->duration() - 1));
+                newprops.insert(QStringLiteral("out"), QString::number(dia_ui.duration() - 1));
                 int currentLength = clip->getProducerIntProperty(QStringLiteral("length"));
-                if (currentLength <= dia_ui->duration()) {
-                    newprops.insert(QStringLiteral("length"), QString::number(dia_ui->duration()));
+                if (currentLength <= dia_ui.duration()) {
+                    newprops.insert(QStringLiteral("length"), QString::number(dia_ui.duration()));
                 } else {
                     newprops.insert(QStringLiteral("length"), clip->getProducerProperty(QStringLiteral("length")));
                 }
@@ -2879,14 +2879,13 @@ void Bin::showTitleWidget(ProjectClip *clip)
                 // we are editing an external file, asked if we want to detach from that file or save the result to that title file.
                 if (KMessageBox::questionYesNo(pCore->window(), i18n("You are editing an external title clip (%1). Do you want to save your changes to the title file or save the changes for this project only?", path), i18n("Save Title"), KGuiItem(i18n("Save to title file")), KGuiItem(i18n("Save in project only"))) == KMessageBox::Yes) {
                     // save to external file
-                    dia_ui->saveTitle(QUrl::fromLocalFile(path));
+                    dia_ui.saveTitle(QUrl::fromLocalFile(path));
                 } else {
                     newprops.insert(QStringLiteral("resource"), QString());
                 }
             }
             slotEditClipCommand(clip->clipId(), clip->currentProperties(newprops), newprops);
         }
-        delete dia_ui;
 }
 
 void Bin::slotResetInfoMessage()

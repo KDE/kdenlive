@@ -38,7 +38,9 @@
 MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent) :
     QGraphicsTextItem(txt, parent)
     , m_alignment(Qt::AlignLeft)
+    , m_useShadow(false)
 {
+    setCacheMode(QGraphicsItem::ItemCoordinateCache);
     document()->setDocumentMargin(0);
     updateGeometry();
     connect(document(), SIGNAL(contentsChange(int, int, int)),
@@ -48,6 +50,29 @@ MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent) :
 Qt::Alignment MyTextItem::alignment() const
 {
     return m_alignment;
+}
+
+void MyTextItem::updateShadow(bool enabled, int blur, int xoffset, int yoffset, QColor color)
+{
+    m_shadowOffset = QPoint(xoffset, yoffset);
+    m_shadowBlur = blur;
+    m_shadowColor = color;
+    m_useShadow = enabled;
+    updateShadow();
+    update();
+}
+
+QStringList MyTextItem::shadowInfo() const
+{
+    QStringList info;
+    info << QString::number(m_useShadow) << m_shadowColor.name(QColor::HexArgb) << QString::number( m_shadowBlur) << QString::number(m_shadowOffset.x()) << QString::number(m_shadowOffset.y());
+    return info;
+}
+
+void MyTextItem::loadShadow(QStringList info)
+{
+    if (info.count() < 5) return;
+    updateShadow((info.at(0).toInt() == true), info.at(2).toInt(), info.at(3).toInt(),info.at(4).toInt(), QColor(info.at(1)));
 }
 
 void MyTextItem::setAlignment(Qt::Alignment alignment)
@@ -82,6 +107,131 @@ void MyTextItem::updateGeometry(int, int, int)
         cursor.setPosition(position);           // restore cursor position
         setTextCursor(cursor);
     }
+    if (m_useShadow) {
+        updateShadow();
+    }
+}
+
+void MyTextItem::updateShadow()
+{
+    QString text = toPlainText();
+    if (text.isEmpty()) {
+        m_shadow = QImage();
+        return;
+    }
+    QFontMetrics metrics(font());
+    //ADJUST TO CURRENT SETTING
+    int lineSpacing = 0;
+    lineSpacing += metrics.lineSpacing();
+    QPainterPath path;
+
+    // Calculate line width
+    QStringList lines = text.split('\n');
+    double linePos = metrics.ascent();
+    QRectF bounding = boundingRect();
+    foreach(const QString &line, lines)
+    {
+        QPainterPath linePath;
+        linePath.addText(0, linePos, font(), line);
+        linePos += lineSpacing;
+        if ( m_alignment == Qt::AlignHCenter ) {
+            double offset = (bounding.width() - metrics.width(line)) / 2;
+            linePath.translate(offset, 0);
+        } else if ( m_alignment == Qt::AlignRight ) {
+            double offset = (bounding.width() - metrics.width(line));
+            linePath.translate(offset, 0);
+        }
+        path.addPath(linePath);
+    }
+    // Calculate position of text in parent item
+    QRectF pathRect = QRectF(0, 0, bounding.width(), linePos - lineSpacing + metrics.descent() );
+    QPointF offset = bounding.center() - pathRect.center() + m_shadowOffset;
+    path.translate(offset);
+    QRectF fullSize = bounding.united(path.boundingRect());
+    QImage shadow(fullSize.width(), fullSize.height(), QImage::Format_ARGB32_Premultiplied);
+    shadow.fill(Qt::transparent);
+    QPainter painter(&shadow);
+    painter.fillPath(path, QBrush(m_shadowColor));
+    painter.end();
+    if (m_shadowBlur > 0) {
+        blurShadow(shadow, m_shadowBlur, true);
+    } else {
+        m_shadow = shadow;
+    }
+}
+
+void MyTextItem::blurShadow(const QImage &image, int radius, bool alphaOnly)
+{
+    int tab[] = { 14, 10, 8, 6, 5, 5, 4, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2 };
+    int alpha = (radius < 1)  ? 16 : (radius > 17) ? 1 : tab[radius-1];
+
+    m_shadow = image.convertToFormat(QImage::Format_ARGB32_Premultiplied);
+    int r1 = 0;
+    int r2 = image.height() - 1;
+    int c1 = 0;
+    int c2 = image.width() - 1;
+
+    int bpl = m_shadow.bytesPerLine();
+    int rgba[4];
+    unsigned char* p;
+
+    int i1 = 0;
+    int i2 = 3;
+
+    if (alphaOnly)
+        i1 = i2 = (QSysInfo::ByteOrder == QSysInfo::BigEndian ? 0 : 3);
+
+    for (int col = c1; col <= c2; col++) {
+        p = m_shadow.scanLine(r1) + col * 4;
+        for (int i = i1; i <= i2; i++)
+            rgba[i] = p[i] << 4;
+
+        p += bpl;
+        for (int j = r1; j < r2; j++, p += bpl)
+            for (int i = i1; i <= i2; i++)
+                p[i] = (rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4;
+    }
+
+    for (int row = r1; row <= r2; row++) {
+        p = m_shadow.scanLine(row) + c1 * 4;
+        for (int i = i1; i <= i2; i++)
+            rgba[i] = p[i] << 4;
+
+        p += 4;
+        for (int j = c1; j < c2; j++, p += 4)
+            for (int i = i1; i <= i2; i++)
+                p[i] = (rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4;
+    }
+
+    for (int col = c1; col <= c2; col++) {
+        p = m_shadow.scanLine(r2) + col * 4;
+        for (int i = i1; i <= i2; i++)
+            rgba[i] = p[i] << 4;
+
+        p -= bpl;
+        for (int j = r1; j < r2; j++, p -= bpl)
+            for (int i = i1; i <= i2; i++)
+                p[i] = (rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4;
+    }
+
+    for (int row = r1; row <= r2; row++) {
+        p = m_shadow.scanLine(row) + c2 * 4;
+        for (int i = i1; i <= i2; i++)
+            rgba[i] = p[i] << 4;
+
+        p -= 4;
+        for (int j = c1; j < c2; j++, p -= 4)
+            for (int i = i1; i <= i2; i++)
+                p[i] = (rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4;
+    }
+}
+
+void MyTextItem::paint( QPainter *painter, const QStyleOptionGraphicsItem * option, QWidget* w)
+{
+    if (m_useShadow && !m_shadow.isNull()) {
+        painter->drawImage(0, 0, m_shadow);
+    }
+    QGraphicsTextItem::paint(painter, option, w);
 }
  
 void MyTextItem::updateGeometry()
@@ -110,12 +260,15 @@ QRectF MyTextItem::boundingRect() const
     if (lines > 1) {
         base.setHeight(lines * lineHeight2 + lineHeight * (lines - 1));
     }
+    base.setRight(base.right() + m_shadowOffset.x());
+    base.setBottom(base.bottom() + m_shadowOffset.y());
     return base;
 }
 
 MyRectItem::MyRectItem(QGraphicsItem *parent) :
     QGraphicsRectItem(parent)
 {
+    setCacheMode(QGraphicsItem::ItemCoordinateCache);
 }
 
 void MyRectItem::setRect(const QRectF & rectangle)
@@ -337,12 +490,13 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
         m_sceneClickPoint = e->scenePos();
         m_selectedItem = NULL;
     } else if (m_tool == TITLE_TEXT) {
-        m_selectedItem = new MyTextItem(QString(), NULL);
-        addItem(m_selectedItem);
-        emit newText((MyTextItem *) m_selectedItem);
-        m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-        ((MyTextItem *)m_selectedItem)->setTextInteractionFlags(Qt::TextEditorInteraction);
-        m_selectedItem->setPos(e->scenePos() - QPointF(0, (int)(m_fontSize / 2)));
+        MyTextItem *textItem = new MyTextItem(QString(), NULL);
+        addItem(textItem);
+        emit newText(textItem);
+        textItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+        textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
+        textItem->setPos(e->scenePos() - QPointF(0, (int)(m_fontSize / 2)));
+        m_selectedItem = textItem;
         QGraphicsScene::mousePressEvent(e);
     }
 

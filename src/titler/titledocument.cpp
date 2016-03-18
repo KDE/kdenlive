@@ -168,6 +168,10 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             content.setAttribute(QStringLiteral("pencolor"), colorToString(static_cast<QGraphicsRectItem*>(item)->pen().color()));
             content.setAttribute(QStringLiteral("penwidth"), static_cast<QGraphicsRectItem*>(item)->pen().width());
             content.setAttribute(QStringLiteral("brushcolor"), colorToString(static_cast<QGraphicsRectItem*>(item)->brush().color()));
+            gradient = item->data(TitleDocument::Gradient).toString();
+            if (!gradient.isEmpty()) {
+                content.setAttribute(QStringLiteral("gradient"), gradient);
+            }
             break;
         case 8:
             e.setAttribute(QStringLiteral("type"), QStringLiteral("QGraphicsTextItem"));
@@ -242,6 +246,8 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             if (t->textWidth() != -1) {
                 content.setAttribute(QStringLiteral("alignment"), (int) t->alignment());
             }
+
+            content.setAttribute(QStringLiteral("shadow"), t->shadowInfo().join(";"));
             break;
         default:
             continue;
@@ -395,12 +401,13 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
         QDomNodeList items = titles.item(0).childNodes();
         for (int i = 0; i < items.count(); ++i) {
             QGraphicsItem *gitem = NULL;
+            QDomNode itemNode = items.item(i);
             //qDebug() << items.item(i).attributes().namedItem("type").nodeValue();
-            int zValue = items.item(i).attributes().namedItem(QStringLiteral("z-index")).nodeValue().toInt();
-            double xPosition = items.item(i).namedItem(QStringLiteral("position")).attributes().namedItem(QStringLiteral("x")).nodeValue().toDouble();
+            int zValue = itemNode.attributes().namedItem(QStringLiteral("z-index")).nodeValue().toInt();
+            double xPosition = itemNode.namedItem(QStringLiteral("position")).attributes().namedItem(QStringLiteral("x")).nodeValue().toDouble();
             if (zValue > -1000) {
-                if (items.item(i).attributes().namedItem(QStringLiteral("type")).nodeValue() == QLatin1String("QGraphicsTextItem")) {
-                    QDomNamedNodeMap txtProperties = items.item(i).namedItem(QStringLiteral("content")).attributes();
+                if (itemNode.attributes().namedItem(QStringLiteral("type")).nodeValue() == QLatin1String("QGraphicsTextItem")) {
+                    QDomNamedNodeMap txtProperties = itemNode.namedItem(QStringLiteral("content")).attributes();
                     QFont font(txtProperties.namedItem(QStringLiteral("font")).nodeValue());
 
                     QDomNode node = txtProperties.namedItem(QStringLiteral("font-bold"));
@@ -425,10 +432,10 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                     }
                     font.setLetterSpacing(QFont::AbsoluteSpacing, txtProperties.namedItem(QStringLiteral("letter-spacing")).nodeValue().toInt());
                     QColor col(stringToColor(txtProperties.namedItem(QStringLiteral("font-color")).nodeValue()));
-                    MyTextItem *txt = new MyTextItem(items.item(i).namedItem(QStringLiteral("content")).firstChild().nodeValue(), NULL);
+                    MyTextItem *txt = new MyTextItem(itemNode.namedItem(QStringLiteral("content")).firstChild().nodeValue(), NULL);
+                    m_scene->addItem(txt);
                     txt->setFont(font);
                     txt->setTextInteractionFlags(Qt::NoTextInteraction);
-                    m_scene->addItem(txt);
                     QTextCursor cursor(txt->document());
                     cursor.select(QTextCursor::Document);
                     QTextCharFormat cformat = cursor.charFormat();
@@ -469,6 +476,11 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                         txt->setData(OriginYTop, txtProperties.namedItem(QStringLiteral("kdenlive-axis-y-inverted")).nodeValue().toInt());
                     }
 
+                    if (!txtProperties.namedItem(QStringLiteral("shadow")).isNull()) {
+                        QString info = txtProperties.namedItem(QStringLiteral("shadow")).nodeValue();
+                        txt->loadShadow(info.split(';'));
+                    }
+
                     // Effects
                     if (!txtProperties.namedItem(QStringLiteral("typewriter")).isNull()) {
                         QStringList effData = QStringList() << QStringLiteral("typewriter") << txtProperties.namedItem(QStringLiteral("typewriter")).nodeValue();
@@ -490,16 +502,29 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                     }
 
                     gitem = txt;
-                } else if (items.item(i).attributes().namedItem(QStringLiteral("type")).nodeValue() == QLatin1String("QGraphicsRectItem")) {
-                    QString rect = items.item(i).namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("rect")).nodeValue();
-                    QString br_str = items.item(i).namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("brushcolor")).nodeValue();
-                    QString pen_str = items.item(i).namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("pencolor")).nodeValue();
-                    double penwidth = items.item(i).namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("penwidth")).nodeValue().toDouble();
-                    QGraphicsRectItem *rec = m_scene->addRect(stringToRect(rect), QPen(QBrush(stringToColor(pen_str)), penwidth, Qt::SolidLine, Qt::SquareCap, Qt::RoundJoin), QBrush(stringToColor(br_str)));
+                } else if (itemNode.attributes().namedItem(QStringLiteral("type")).nodeValue() == QLatin1String("QGraphicsRectItem")) {
+                    QString rect = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("rect")).nodeValue();
+                    QString br_str = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("brushcolor")).nodeValue();
+                    QString pen_str = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("pencolor")).nodeValue();
+                    double penwidth = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("penwidth")).nodeValue().toDouble();
+                    MyRectItem *rec = new MyRectItem();
+                    rec->setRect(stringToRect(rect));
+                    rec->setPen(QPen(QBrush(stringToColor(pen_str)), penwidth, Qt::SolidLine, Qt::SquareCap, Qt::RoundJoin));
+                    if (itemNode.namedItem(QStringLiteral("gradient")).isNull() == false) {
+                        // Gradient color
+                        QString data = itemNode.namedItem(QStringLiteral("gradient")).nodeValue();
+                        rec->setData(TitleDocument::Gradient, data);
+                        QLinearGradient gr = GradientWidget::gradientFromString(data, rec->rect().width(), rec->rect().height());
+                        rec->setBrush(QBrush(gr));
+                    } else {
+                        rec->setBrush(QBrush(stringToColor(br_str)));
+                    }
+                    m_scene->addItem(rec);
+
                     gitem = rec;
-                } else if (items.item(i).attributes().namedItem(QStringLiteral("type")).nodeValue() == QLatin1String("QGraphicsPixmapItem")) {
-                    QString url = items.item(i).namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("url")).nodeValue();
-                    QString base64 = items.item(i).namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("base64")).nodeValue();
+                } else if (itemNode.attributes().namedItem(QStringLiteral("type")).nodeValue() == QLatin1String("QGraphicsPixmapItem")) {
+                    QString url = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("url")).nodeValue();
+                    QString base64 = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("base64")).nodeValue();
                     QPixmap pix;
                     if (base64.isEmpty()) {
                         pix.load(url);
@@ -513,9 +538,9 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                         rec->setData(Qt::UserRole + 1, base64);
                     }
                     gitem = rec;
-                } else if (items.item(i).attributes().namedItem(QStringLiteral("type")).nodeValue() == QLatin1String("QGraphicsSvgItem")) {
-                    QString url = items.item(i).namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("url")).nodeValue();
-                    QString base64 = items.item(i).namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("base64")).nodeValue();
+                } else if (itemNode.attributes().namedItem(QStringLiteral("type")).nodeValue() == QLatin1String("QGraphicsSvgItem")) {
+                    QString url = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("url")).nodeValue();
+                    QString base64 = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("base64")).nodeValue();
                     QGraphicsSvgItem *rec = NULL;
                     if (base64.isEmpty()) {
                         rec = new QGraphicsSvgItem(url);
@@ -539,21 +564,21 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
             //pos and transform
             if (gitem) {
                 QPointF p(xPosition,
-                          items.item(i).namedItem(QStringLiteral("position")).attributes().namedItem(QStringLiteral("y")).nodeValue().toDouble());
+                          itemNode.namedItem(QStringLiteral("position")).attributes().namedItem(QStringLiteral("y")).nodeValue().toDouble());
                 gitem->setPos(p);
-                QDomElement trans = items.item(i).namedItem(QStringLiteral("position")).firstChild().toElement();
+                QDomElement trans = itemNode.namedItem(QStringLiteral("position")).firstChild().toElement();
                 gitem->setTransform(stringToTransform(trans.firstChild().nodeValue()));
                 QString rotate = trans.attribute(QStringLiteral("rotation"));
                 if (!rotate.isEmpty()) gitem->setData(TitleDocument::RotateFactor, stringToList(rotate));
                 QString zoom = trans.attribute(QStringLiteral("zoom"));
                 if (!zoom.isEmpty()) gitem->setData(TitleDocument::ZoomFactor, zoom.toInt());
-                int zValue = items.item(i).attributes().namedItem(QStringLiteral("z-index")).nodeValue().toInt();
+                int zValue = itemNode.attributes().namedItem(QStringLiteral("z-index")).nodeValue().toInt();
                 if (zValue > maxZValue) maxZValue = zValue;
                 gitem->setZValue(zValue);
                 gitem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
                 // effects
-                QDomNode eff = items.item(i).namedItem(QStringLiteral("effect"));
+                QDomNode eff = itemNode.namedItem(QStringLiteral("effect"));
                 if (!eff.isNull()) {
                     QDomElement e = eff.toElement();
                     if (e.attribute(QStringLiteral("type")) == QLatin1String("blur")) {
@@ -569,10 +594,10 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                 }
             }
 
-            if (items.item(i).nodeName() == QLatin1String("background")) {
+            if (itemNode.nodeName() == QLatin1String("background")) {
                 //qDebug() << items.item(i).attributes().namedItem("color").nodeValue();
-                QColor color = QColor(stringToColor(items.item(i).attributes().namedItem(QStringLiteral("color")).nodeValue()));
-                //color.setAlpha(items.item(i).attributes().namedItem("alpha").nodeValue().toInt());
+                QColor color = QColor(stringToColor(itemNode.attributes().namedItem(QStringLiteral("color")).nodeValue()));
+                //color.setAlpha(itemNode.attributes().namedItem("alpha").nodeValue().toInt());
                 QList<QGraphicsItem *> items = m_scene->items();
                 for (int i = 0; i < items.size(); ++i) {
                     if (items.at(i)->zValue() == -1100) {
@@ -580,13 +605,13 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                         break;
                     }
                 }
-            } else if (items.item(i).nodeName() == QLatin1String("startviewport") && startv) {
-                QString rect = items.item(i).attributes().namedItem(QStringLiteral("rect")).nodeValue();
+            } else if (itemNode.nodeName() == QLatin1String("startviewport") && startv) {
+                QString rect = itemNode.attributes().namedItem(QStringLiteral("rect")).nodeValue();
                 QRectF r = stringToRect(rect);
                 startv->setRect(0, 0, r.width(), r.height());
                 startv->setPos(r.topLeft());
-            } else if (items.item(i).nodeName() == QLatin1String("endviewport") && endv) {
-                QString rect = items.item(i).attributes().namedItem(QStringLiteral("rect")).nodeValue();
+            } else if (itemNode.nodeName() == QLatin1String("endviewport") && endv) {
+                QString rect = itemNode.attributes().namedItem(QStringLiteral("rect")).nodeValue();
                 QRectF r = stringToRect(rect);
                 endv->setRect(0, 0, r.width(), r.height());
                 endv->setPos(r.topLeft());
