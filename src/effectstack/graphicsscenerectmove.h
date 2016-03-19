@@ -51,7 +51,7 @@ private:
     QColor m_shadowColor;
     bool m_useShadow;
     void updateShadow();
-    void blurShadow(const QImage &image, int radius, bool alphaOnly);
+    void blurShadow(QImage &image, int radius);
 
 public slots:
     void updateGeometry(int, int, int);

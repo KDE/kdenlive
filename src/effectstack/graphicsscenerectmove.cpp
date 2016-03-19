@@ -148,41 +148,37 @@ void MyTextItem::updateShadow()
     QPointF offset = bounding.center() - pathRect.center() + m_shadowOffset;
     path.translate(offset);
     QRectF fullSize = bounding.united(path.boundingRect());
-    QImage shadow(fullSize.width(), fullSize.height(), QImage::Format_ARGB32_Premultiplied);
-    shadow.fill(Qt::transparent);
-    QPainter painter(&shadow);
+    m_shadow = QImage(fullSize.width(), fullSize.height(), QImage::Format_ARGB32_Premultiplied);
+    m_shadow.fill(Qt::transparent);
+    QPainter painter(&m_shadow);
     painter.fillPath(path, QBrush(m_shadowColor));
     painter.end();
     if (m_shadowBlur > 0) {
-        blurShadow(shadow, m_shadowBlur, true);
-    } else {
-        m_shadow = shadow;
+        blurShadow(m_shadow, m_shadowBlur);
     }
 }
 
-void MyTextItem::blurShadow(const QImage &image, int radius, bool alphaOnly)
+void MyTextItem::blurShadow(QImage &result, int radius)
 {
     int tab[] = { 14, 10, 8, 6, 5, 5, 4, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2 };
     int alpha = (radius < 1)  ? 16 : (radius > 17) ? 1 : tab[radius-1];
 
-    m_shadow = image.convertToFormat(QImage::Format_ARGB32_Premultiplied);
     int r1 = 0;
-    int r2 = image.height() - 1;
+    int r2 = result.height() - 1;
     int c1 = 0;
-    int c2 = image.width() - 1;
+    int c2 = result.width() - 1;
 
-    int bpl = m_shadow.bytesPerLine();
+    int bpl = result.bytesPerLine();
     int rgba[4];
     unsigned char* p;
 
     int i1 = 0;
     int i2 = 3;
 
-    if (alphaOnly)
-        i1 = i2 = (QSysInfo::ByteOrder == QSysInfo::BigEndian ? 0 : 3);
+    i1 = i2 = (QSysInfo::ByteOrder == QSysInfo::BigEndian ? 0 : 3);
 
     for (int col = c1; col <= c2; col++) {
-        p = m_shadow.scanLine(r1) + col * 4;
+        p = result.scanLine(r1) + col * 4;
         for (int i = i1; i <= i2; i++)
             rgba[i] = p[i] << 4;
 
@@ -193,7 +189,7 @@ void MyTextItem::blurShadow(const QImage &image, int radius, bool alphaOnly)
     }
 
     for (int row = r1; row <= r2; row++) {
-        p = m_shadow.scanLine(row) + c1 * 4;
+        p = result.scanLine(row) + c1 * 4;
         for (int i = i1; i <= i2; i++)
             rgba[i] = p[i] << 4;
 
@@ -204,7 +200,7 @@ void MyTextItem::blurShadow(const QImage &image, int radius, bool alphaOnly)
     }
 
     for (int col = c1; col <= c2; col++) {
-        p = m_shadow.scanLine(r2) + col * 4;
+        p = result.scanLine(r2) + col * 4;
         for (int i = i1; i <= i2; i++)
             rgba[i] = p[i] << 4;
 
@@ -215,7 +211,7 @@ void MyTextItem::blurShadow(const QImage &image, int radius, bool alphaOnly)
     }
 
     for (int row = r1; row <= r2; row++) {
-        p = m_shadow.scanLine(row) + c2 * 4;
+        p = result.scanLine(row) + c2 * 4;
         for (int i = i1; i <= i2; i++)
             rgba[i] = p[i] << 4;
 
