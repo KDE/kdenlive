@@ -248,7 +248,7 @@ void MyTextItem::updateGeometry()
     }
 }
 
-QRectF MyTextItem::boundingRect() const
+QRectF MyTextItem::baseBoundingRect() const
 {
     QRectF base = QGraphicsTextItem::boundingRect();
     QTextCursor cur(document());
@@ -260,6 +260,12 @@ QRectF MyTextItem::boundingRect() const
     if (lines > 1) {
         base.setHeight(lines * lineHeight2 + lineHeight * (lines - 1));
     }
+    return base;
+}
+
+QRectF MyTextItem::boundingRect() const
+{
+    QRectF base = baseBoundingRect();
     base.setRight(base.right() + m_shadowOffset.x());
     base.setBottom(base.bottom() + m_shadowOffset.y());
     return base;

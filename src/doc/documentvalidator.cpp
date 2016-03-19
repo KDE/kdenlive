@@ -1532,7 +1532,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 }
             }
         }
-        qDebug()<<"------------------------\n"<<m_doc.toString();
+        //qDebug()<<"------------------------\n"<<m_doc.toString();
     }
 
     m_modified = true;

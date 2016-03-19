@@ -198,13 +198,13 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
                 // template text box, adjust size for later remplacement text
                 if (t->alignment() == Qt::AlignHCenter) {
                     // grow dimensions on both sides
-                    double xcenter = item->pos().x() + (t->boundingRect().width()) / 2;
+                    double xcenter = item->pos().x() + (t->baseBoundingRect().width()) / 2;
                     double offset = qMin(xcenter, m_width - xcenter);
                     xPosition = xcenter - offset;
                     content.setAttribute(QStringLiteral("box-width"), QString::number(2 * offset));
                 } else if (t->alignment() == Qt::AlignRight) {
                     // grow to the left
-                    double offset = item->pos().x() + (t->boundingRect().width());
+                    double offset = item->pos().x() + (t->baseBoundingRect().width());
                     xPosition = 0;
                     content.setAttribute(QStringLiteral("box-width"), QString::number(offset));
                 } else {
@@ -213,9 +213,9 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
                     content.setAttribute(QStringLiteral("box-width"), QString::number(offset));
                 }
             } else {
-                content.setAttribute(QStringLiteral("box-width"), QString::number(t->boundingRect().width()));
+                content.setAttribute(QStringLiteral("box-width"), QString::number(t->baseBoundingRect().width()));
             }
-            content.setAttribute(QStringLiteral("box-height"), QString::number(t->boundingRect().height()));
+            content.setAttribute(QStringLiteral("box-height"), QString::number(t->baseBoundingRect().height()));
             content.setAttribute(QStringLiteral("line-spacing"), QString::number(format.lineHeight()));
             {
                 QTextCursor cursor(t->document());
@@ -510,7 +510,11 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                     double penwidth = rectProperties.namedItem(QStringLiteral("penwidth")).nodeValue().toDouble();
                     MyRectItem *rec = new MyRectItem();
                     rec->setRect(stringToRect(rect));
-                    rec->setPen(QPen(QBrush(stringToColor(pen_str)), penwidth, Qt::SolidLine, Qt::SquareCap, Qt::RoundJoin));
+                    if (penwidth > 0) {
+                        rec->setPen(QPen(QBrush(stringToColor(pen_str)), penwidth, Qt::SolidLine, Qt::SquareCap, Qt::RoundJoin));
+                    } else {
+                        rec->setPen(Qt::NoPen);
+                    }
                     if (rectProperties.namedItem(QStringLiteral("gradient")).isNull() == false) {
                         // Gradient color
                         QString data = rectProperties.namedItem(QStringLiteral("gradient")).nodeValue();

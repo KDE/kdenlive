@@ -337,7 +337,7 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double 
     if (!existingFiles.isEmpty()) {
         if (KMessageBox::warningContinueCancelList(QApplication::activeWindow(), i18n("The transcoding job will overwrite the following files:"), existingFiles) ==  KMessageBox::Cancel) return jobs;
     }
-    
+
     QPointer<QDialog> d = new QDialog(QApplication::activeWindow());
     Ui::CutJobDialog_UI ui;
     ui.setupUi(d);

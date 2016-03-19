@@ -878,11 +878,14 @@ void TitleWidget::slotNewRect(QGraphicsRectItem * rect)
 {
     updateAxisButtons(rect); // back to default
 
-    QColor f = rectFColor->color();
-    QPen penf(f);
-    penf.setWidth(rectLineWidth->value());
-    penf.setJoinStyle(Qt::RoundJoin);
-    rect->setPen(penf);
+    if (rectLineWidth->value() == 0) {
+        rect->setPen(Qt::NoPen);
+    } else {
+        QPen penf(rectFColor->color());
+        penf.setWidth(rectLineWidth->value());
+        penf.setJoinStyle(Qt::RoundJoin);
+        rect->setPen(penf);
+    }
     if (plain_rect->isChecked()) {
         rect->setBrush(QBrush(rectBColor->color()));
         rect->setData(TitleDocument::Gradient, QVariant());

@@ -33,7 +33,10 @@ class MyTextItem: public QGraphicsTextItem
 public:
     MyTextItem(const QString &, QGraphicsItem *parent = Q_NULLPTR);
     void setAlignment(Qt::Alignment alignment);
+    /** @brief returns an extended bounding containing shadow */
     QRectF boundingRect() const;
+    /** @brief returns the normal bounding rect around text */
+    QRectF baseBoundingRect() const;
     Qt::Alignment alignment() const;
     void updateShadow(bool enabled, int blur, int xoffset, int yoffset, QColor color);
     QStringList shadowInfo() const;
