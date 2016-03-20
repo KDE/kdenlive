@@ -137,10 +137,17 @@ void ProxyJob::startJob()
     } else {
         m_isFfmpegJob = true;
         QStringList parameters;
+        if (m_proxyParams.contains(QStringLiteral("-noautorotate"))) {
+            // The noautorotate flag must be passed before input source
+            parameters << QStringLiteral("-noautorotate");
+        }
         parameters << QStringLiteral("-i") << m_src;
         QString params = m_proxyParams;
-        foreach(const QString &s, params.split(QLatin1Char(' ')))
-            parameters << s;
+        foreach(const QString &s, params.split(QLatin1Char(' '))) {
+            if (s != QLatin1String("-noautorotate")) {
+                parameters << s;
+            }
+        }
 
         // Make sure we don't block when proxy file already exists
         parameters << QStringLiteral("-y");
