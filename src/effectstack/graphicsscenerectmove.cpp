@@ -121,8 +121,7 @@ void MyTextItem::updateShadow()
     }
     QFontMetrics metrics(font());
     //ADJUST TO CURRENT SETTING
-    int lineSpacing = 0;
-    lineSpacing += metrics.lineSpacing();
+    int lineSpacing = data(TitleDocument::LineSpacing).toInt() + metrics.lineSpacing();
     QPainterPath path;
 
     // Calculate line width

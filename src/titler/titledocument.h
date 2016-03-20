@@ -36,6 +36,7 @@ public:
     enum TitleProperties {
         OutlineWidth = 101,
         OutlineColor,
+        LineSpacing,
         Gradient,
         RotateFactor,
         ZoomFactor

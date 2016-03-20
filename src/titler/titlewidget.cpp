@@ -176,13 +176,13 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(gradients_rect_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(rectChanged()));
     connect(rectLineWidth, SIGNAL(valueChanged(int)), this, SLOT(rectChanged()));
 
-    // Fill effects
-    effect_list->addItem(i18n("None"), NOEFFECT);
+    // Fill effects, NOT SUPPORTED in titler version 2
+    /*effect_list->addItem(i18n("None"), NOEFFECT);
     if (render->getMltVersionInfo(QStringLiteral("kdenlivetitle")) > 1.0) {
 	// there was a bug in MLT's kdenlivetitle module version 1 that crashed on typewriter effect
 	effect_list->addItem(i18n("Typewriter"), TYPEWRITEREFFECT);
     }
-    effect_list->addItem(i18n("Blur"), BLUREFFECT);
+    effect_list->addItem(i18n("Blur"), BLUREFFECT);*/
 
 
     connect(zValue, SIGNAL(valueChanged(int)), this, SLOT(zIndexChanged(int)));
@@ -459,6 +459,17 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     // mbd: load saved settings
     loadGradients();
     readChoices();
+
+    if (render->getMltVersionInfo(QStringLiteral("kdenlivetitle")) < 2.0) {
+        // Gradients and shadows are only supported since version 2, so disable
+        shadowBox->setEnabled(false);
+        gradient_color->setEnabled(false);
+        gradients_combo->setEnabled(false);
+        gradients_rect_combo->setEnabled(false);
+        gradient_rect->setEnabled(false);
+        edit_gradient->setEnabled(false);
+        edit_rect_gradient->setEnabled(false);
+    }
 
     // Hide effects not implemented
     tabWidget->removeTab(3);
@@ -1580,6 +1591,7 @@ void TitleWidget::slotUpdateText()
         QTextCursor cur(item->document());
         cur.select(QTextCursor::Document);
         QTextBlockFormat format = cur.blockFormat();
+        item->setData(TitleDocument::LineSpacing, line_spacing->value());
         format.setLineHeight(line_spacing->value(), QTextBlockFormat::LineDistanceHeight);
         if (buttonAlignLeft->isChecked() || buttonAlignCenter->isChecked() || buttonAlignRight->isChecked()) {
             if (buttonAlignCenter->isChecked()) item->setAlignment(Qt::AlignHCenter);

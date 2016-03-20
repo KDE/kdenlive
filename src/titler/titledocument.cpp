@@ -220,13 +220,13 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
                 content.setAttribute(QStringLiteral("box-width"), QString::number(t->baseBoundingRect().width()));
             }
             content.setAttribute(QStringLiteral("box-height"), QString::number(t->baseBoundingRect().height()));
-            content.setAttribute(QStringLiteral("line-spacing"), QString::number(format.lineHeight()));
+            if (!t->data(TitleDocument::LineSpacing).isNull()) content.setAttribute(QStringLiteral("line-spacing"), QString::number(t->data(TitleDocument::LineSpacing).toInt()));
             {
                 QTextCursor cursor(t->document());
                 cursor.select(QTextCursor::Document);
                 QColor fontcolor = cursor.charFormat().foreground().color();
                 content.setAttribute(QStringLiteral("font-color"), colorToString(fontcolor));
-                if (!t->data(TitleDocument::OutlineWidth).isNull()) content.setAttribute(QStringLiteral("font-outline"), QString::number(t->data(TitleDocument::OutlineWidth).toDouble()));
+                if (!t->data(TitleDocument::OutlineWidth).isNull()) content.setAttribute(QStringLiteral("font-outline"), QString::number(t->data(TitleDocument::OutlineWidth).toInt()));
                 if (!t->data(TitleDocument::OutlineColor).isNull()) {
                     QVariant variant = t->data(TitleDocument::OutlineColor);
                     QColor outlineColor = variant.value<QColor>();
@@ -453,10 +453,12 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                         );
 
                     }
-                    if (txtProperties.namedItem(QStringLiteral("line-spacing")).nodeValue().toInt() != 0.0) {
+                    if (!txtProperties.namedItem(QStringLiteral("line-spacing")).isNull()) {
+                        int lineSpacing = txtProperties.namedItem(QStringLiteral("line-spacing")).nodeValue().toInt();
                         QTextBlockFormat format = cursor.blockFormat();
-                        format.setLineHeight(txtProperties.namedItem(QStringLiteral("line-spacing")).nodeValue().toInt(), QTextBlockFormat::LineDistanceHeight);
+                        format.setLineHeight(lineSpacing, QTextBlockFormat::LineDistanceHeight);
                         cursor.setBlockFormat(format);
+                        txt->setData(TitleDocument::LineSpacing, lineSpacing);
                     }
                     cformat.setForeground(QBrush(col));
                     cursor.setCharFormat(cformat);
