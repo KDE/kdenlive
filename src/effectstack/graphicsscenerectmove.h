@@ -24,7 +24,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsTextItem>
 
-enum resizeModes {NoResize, TopLeft, BottomLeft, TopRight, BottomRight, Left, Right, Up, Down};
+enum resizeModes {NoResize = 0, TopLeft, BottomLeft, TopRight, BottomRight, Left, Right, Up, Down};
 enum TITLETOOL { TITLE_SELECT = 0, TITLE_RECTANGLE = 1, TITLE_TEXT = 2, TITLE_IMAGE = 3 };
 
 class MyTextItem: public QGraphicsTextItem
@@ -97,9 +97,10 @@ private:
     double m_zoom;
     QGraphicsItem* m_selectedItem;
     resizeModes m_resizeMode;
+    resizeModes m_possibleAction;
     QPointF m_sceneClickPoint;
     TITLETOOL m_tool;
-    QPoint m_clickPoint;
+    QPointF m_clickPoint;
     int m_fontSize;
 
 signals:

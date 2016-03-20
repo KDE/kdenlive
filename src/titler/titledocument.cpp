@@ -166,7 +166,11 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             e.setAttribute(QStringLiteral("type"), QStringLiteral("QGraphicsRectItem"));
             content.setAttribute(QStringLiteral("rect"), rectFToString(static_cast<QGraphicsRectItem*>(item)->rect().normalized()));
             content.setAttribute(QStringLiteral("pencolor"), colorToString(static_cast<QGraphicsRectItem*>(item)->pen().color()));
-            content.setAttribute(QStringLiteral("penwidth"), static_cast<QGraphicsRectItem*>(item)->pen().width());
+            if (static_cast<QGraphicsRectItem*>(item)->pen() == Qt::NoPen) {
+                content.setAttribute(QStringLiteral("penwidth"), 0);
+            } else {
+                content.setAttribute(QStringLiteral("penwidth"), static_cast<QGraphicsRectItem*>(item)->pen().width());
+            }
             content.setAttribute(QStringLiteral("brushcolor"), colorToString(static_cast<QGraphicsRectItem*>(item)->brush().color()));
             gradient = item->data(TitleDocument::Gradient).toString();
             if (!gradient.isEmpty()) {

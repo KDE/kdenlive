@@ -129,7 +129,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     itemrotatez->setToolTip(i18n("Rotation around the Z axis"));
 
     rectLineWidth->setMinimum(0);
-    rectLineWidth->setMaximum(100);
+    rectLineWidth->setMaximum(500);
     //rectLineWidth->setDecimals(0);
     rectLineWidth->setValue(0);
     rectLineWidth->setToolTip(i18n("Border width"));
@@ -357,7 +357,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     itembottom->setIconSize(iconSize);
     itemright->setIconSize(iconSize);
     itemleft->setIconSize(iconSize);
-    
+
     itemhcenter->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-hor")));
     itemhcenter->setToolTip(i18n("Align item horizontally"));
     itemvcenter->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-vert")));
@@ -1621,10 +1621,14 @@ void TitleWidget::rectChanged()
         if (l.at(i)->type() == RECTITEM && !settingUp) {
             QGraphicsRectItem *rec = static_cast<QGraphicsRectItem *>(l.at(i));
             QColor f = rectFColor->color();
-            QPen penf(f);
-            penf.setWidth(rectLineWidth->value());
-            penf.setJoinStyle(Qt::RoundJoin);
-            rec->setPen(penf);
+            if (rectLineWidth->value() == 0) {
+                rec->setPen(Qt::NoPen);
+            } else {
+                QPen penf(f);
+                penf.setWidth(rectLineWidth->value());
+                penf.setJoinStyle(Qt::RoundJoin);
+                rec->setPen(penf);
+            }
             if (plain_rect->isChecked()) {
                 rec->setBrush(QBrush(rectBColor->color()));
                 rec->setData(TitleDocument::Gradient, QVariant());
@@ -2678,7 +2682,11 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                     gradients_rect_combo->blockSignals(false);
                 }
                 settingUp = false;
-                rectLineWidth->setValue(rec->pen().width());
+                if (rec->pen() == Qt::NoPen) {
+                    rectLineWidth->setValue(0);
+                } else {
+                    rectLineWidth->setValue(rec->pen().width());
+                }
                 enableToolbars(TITLE_RECTANGLE);
             }
 
