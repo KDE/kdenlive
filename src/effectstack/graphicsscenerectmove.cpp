@@ -121,8 +121,7 @@ void MyTextItem::updateShadow()
     }
     QFontMetrics metrics(font());
     //ADJUST TO CURRENT SETTING
-    int lineSpacing = 0;
-    lineSpacing += metrics.lineSpacing();
+    int lineSpacing = data(TitleDocument::LineSpacing).toInt() + metrics.lineSpacing();
     QPainterPath path;
 
     // Calculate line width
@@ -287,6 +286,7 @@ GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent) :
     QGraphicsScene(parent),
     m_selectedItem(NULL),
     m_resizeMode(NoResize),
+    m_possibleAction(NoResize),
     m_tool(TITLE_RECTANGLE)
 {
     //grabMouse();
@@ -400,12 +400,15 @@ void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 
 void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
 {
-    m_clickPoint = e->screenPos();
+    m_clickPoint = e->scenePos();
     QPointF p = e->scenePos();
     p += QPoint(-2, -2);
-    m_resizeMode = NoResize;
+    m_resizeMode = m_possibleAction;
     const QList <QGraphicsItem *> list = items(QRectF(p , QSizeF(4, 4)).toRect());
     QGraphicsItem *item = NULL;
+    if (e->modifiers() != Qt::ControlModifier) {
+        clearSelection();
+    }
 
     if (m_tool == TITLE_SELECT) {
         foreach(QGraphicsItem *g, list) {
@@ -452,42 +455,33 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
                 else
                     r1 = m_selectedItem->boundingRect().normalized();
 
-                QList<QGraphicsView*> viewlist = views();
-                QGraphicsView *view = NULL;
-                if (viewlist.size() > 0) view = viewlist[0];
-                if (view == NULL) return;
-                // Item mapped coordinates
-                QPolygon r = m_selectedItem->deviceTransform(view->viewportTransform()).map(r1).toPolygon();
-                QPainterPath top(r.point(0));
-                top.lineTo(r.point(1));
-                QPainterPath bottom(r.point(2));
-                bottom.lineTo(r.point(3));
-                QPainterPath left(r.point(0));
-                left.lineTo(r.point(3));
-                QPainterPath right(r.point(1));
-                right.lineTo(r.point(2));
-
-
-                // The area interested by the mouse pointer
-                QPoint viewPos = view->mapFromScene(e->scenePos());
-                QPainterPath mouseArea;
-                mouseArea.addRect(viewPos.x() - 4, viewPos.y() - 4, 8, 8);
-
-                // Check for collisions between the mouse and the borders
-                if (mouseArea.contains(r.point(0))) m_resizeMode = TopLeft;
-                else if (mouseArea.contains(r.point(2))) m_resizeMode = BottomRight;
-                else if (mouseArea.contains(r.point(1))) m_resizeMode = TopRight;
-                else if (mouseArea.contains(r.point(3))) m_resizeMode = BottomLeft;
-                else if (top.intersects(mouseArea)) m_resizeMode = Up;
-                else if (bottom.intersects(mouseArea)) m_resizeMode = Down;
-                else if (right.intersects(mouseArea)) m_resizeMode = Right;
-                else if (left.intersects(mouseArea)) m_resizeMode = Left;
-
-                else
-                    setCursor(Qt::ClosedHandCursor);
+                r1.translate(m_selectedItem->scenePos());
+                switch (m_resizeMode) {
+                    case BottomRight:
+                    case Right:
+                    case Down:
+                        m_clickPoint = r1.topLeft();
+                        e->accept();
+                        break;
+                    case TopLeft:
+                    case Left:
+                    case Up:
+                        m_clickPoint = r1.bottomRight();
+                        e->accept();
+                        break;
+                    case TopRight:
+                        m_clickPoint = r1.bottomLeft();
+                        e->accept();
+                        break;
+                    case BottomLeft:
+                        m_clickPoint = r1.topRight();
+                        e->accept();
+                        break;
+                    default:
+                        break;
+                }
             }
         }
-        QGraphicsScene::mousePressEvent(e);
     } else if (m_tool == TITLE_RECTANGLE) {
         m_sceneClickPoint = e->scenePos();
         m_selectedItem = NULL;
@@ -499,9 +493,9 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
         textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
         textItem->setPos(e->scenePos() - QPointF(0, (int)(m_fontSize / 2)));
         m_selectedItem = textItem;
-        QGraphicsScene::mousePressEvent(e);
+        m_selectedItem->setSelected(true);
     }
-
+    QGraphicsScene::mousePressEvent(e);
     //qDebug() << "//////  MOUSE CLICK, RESIZE MODE: " << m_resizeMode;
 
 }
@@ -522,11 +516,20 @@ void GraphicsSceneRectMove::clearTextSelection()
 
 void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 {
-    if (e->buttons() != Qt::NoButton && (e->screenPos() - m_clickPoint).manhattanLength() < QApplication::startDragDistance()) {
-        e->accept();
-        return;
+    if (e->buttons() != Qt::NoButton && !m_selectedItem) {
+        QList<QGraphicsView*> viewlist = views();
+        if (viewlist.isEmpty()) {
+            // invalid
+            e->accept();
+            return;
+        }
+        QGraphicsView *view = viewlist.at(0);
+        if (view->mapFromScene((e->scenePos() - m_clickPoint)).manhattanLength() < QApplication::startDragDistance()) {
+            e->accept();
+            return;
+        }
     }
-    if (m_selectedItem && e->buttons() & Qt::LeftButton) {
+    if (m_selectedItem && (e->buttons() & Qt::LeftButton)) {
         if (m_selectedItem->type() == QGraphicsRectItem::Type || m_selectedItem->type() == QGraphicsSvgItem::Type || m_selectedItem->type() == QGraphicsPixmapItem::Type) {
             QRectF newrect;
             if (m_selectedItem->type() == QGraphicsRectItem::Type)
@@ -534,127 +537,29 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
             else
                 newrect = m_selectedItem->boundingRect();
             QPointF newpoint = e->scenePos();
-            /*
-             * The vertices of the rectangle (check for matrix
-             * transformation); to be replaced by QTransform::map()?
-             */
-            QPointF itemOrigin = m_selectedItem->scenePos();
-            QTransform transform = m_selectedItem->transform();
-            QPointF topLeft(transform.m11() * newrect.toRect().left() + transform.m21() * newrect.toRect().top() + transform.m31() + itemOrigin.x(), transform.m22() * newrect.toRect().top() + transform.m12() * newrect.toRect().left() + transform.m32() + itemOrigin.y());
-            QPointF bottomLeft(transform.m11() * newrect.toRect().left() + transform.m21() * newrect.toRect().bottom() + transform.m31() + itemOrigin.x(), transform.m22() * newrect.toRect().bottom() + transform.m12() * newrect.toRect().left() + transform.m32() + itemOrigin.y());
-            QPointF topRight(transform.m11() * newrect.toRect().right() + transform.m21() * newrect.toRect().top() + transform.m31() + itemOrigin.x(), transform.m22() * newrect.toRect().top() + transform.m12() * newrect.toRect().right() + transform.m32() + itemOrigin.y());
-            QPointF bottomRight(transform.m11() * newrect.toRect().right() + transform.m21() * newrect.toRect().bottom() + transform.m31() + itemOrigin.x(), transform.m22() * newrect.toRect().bottom() + transform.m12() * newrect.toRect().right() + transform.m32() + itemOrigin.y());
-            // Convert the mouse coordinates applying inverted transformation
-            QPointF newPointRelative = newpoint - itemOrigin;
-            QPointF resizePoint(transform.inverted().m11() * newPointRelative.x() + transform.inverted().m21() * newPointRelative.y() + transform.inverted().m31(), transform.inverted().m22() * newPointRelative.y() + transform.inverted().m12() * newPointRelative.x() + transform.inverted().m32());
-            /*
-             * Will check if the mouse is on the right of the limit lines with a
-             * determinant (it must be less than zero because the Y axis is
-             * inverted)
-             */
-            int determinantH, determinantV;
-            // Check whether to resize or to just move the item(s)
             switch (m_resizeMode) {
-            case TopLeft:
-                determinantV = (bottomRight.x() - newpoint.x()) * (topRight.y() - newpoint.y()) - (bottomRight.y() - newpoint.y()) * (topRight.x() - newpoint.x());
-                determinantH = (bottomLeft.x() - newpoint.x()) * (bottomRight.y() - newpoint.y()) - (bottomLeft.y() - newpoint.y()) * (bottomRight.x() - newpoint.x());
-                if (determinantV < 0) {
-                    if (determinantH < 0) {
-                        // resizePoint is not working for some reason
-                        newrect.setBottomRight(QPointF(newrect.width() - (transform.inverted().m11() * resizePoint.x() + transform.inverted().m21() * resizePoint.y() + transform.inverted().m31()), newrect.bottom() - (transform.inverted().m22() * resizePoint.y() + transform.inverted().m12() * resizePoint.x() + transform.inverted().m32())));
-                        m_selectedItem->setPos(resizePoint + itemOrigin);
-                    } else
-                        m_resizeMode = BottomLeft;
-                } else {
-                    if (determinantH < 0)
-                        m_resizeMode = TopRight;
-                    else
-                        m_resizeMode = BottomRight;
-                }
-                break;
-            case BottomLeft:
-                determinantV = (bottomRight.x() - newpoint.x()) * (topRight.y() - newpoint.y()) - (bottomRight.y() - newpoint.y()) * (topRight.x() - newpoint.x());
-                determinantH = (topRight.x() - newpoint.x()) * (topLeft.y() - newpoint.y()) - (topRight.y() - newpoint.y()) * (topLeft.x() - newpoint.x());
-                if (determinantV < 0) {
-                    if (determinantH < 0) {
-                        newrect.setBottomRight(QPointF(newrect.width() - resizePoint.x(), resizePoint.y()));
-                        m_selectedItem->setPos(QPointF(transform.m11() * resizePoint.x() + transform.m21() *(newrect.bottom() - resizePoint.y()) + transform.m31() + itemOrigin.x(), transform.m22() *(newrect.bottom() - resizePoint.y()) + transform.m12() * resizePoint.x() + transform.m32() + itemOrigin.y()));
-                    } else
-                        m_resizeMode = TopLeft;
-                } else {
-                    if (determinantH < 0)
-                        m_resizeMode = BottomRight;
-                    else
-                        m_resizeMode = TopRight;
-                }
-                break;
-            case TopRight:
-                determinantV = (topLeft.x() - newpoint.x()) * (bottomLeft.y() - newpoint.y()) - (topLeft.y() - newpoint.y()) * (bottomLeft.x() - newpoint.x());
-                determinantH = (bottomLeft.x() - newpoint.x()) * (bottomRight.y() - newpoint.y()) - (bottomLeft.y() - newpoint.y()) * (bottomRight.x() - newpoint.x());
-                if (determinantV < 0) {
-                    if (determinantH < 0) {
-                        newrect.setBottomRight(QPointF(resizePoint.x(), newrect.bottom() - resizePoint.y()));
-                        m_selectedItem->setPos(QPointF(transform.m11() *(newrect.width() - resizePoint.x()) + transform.m21() * resizePoint.y() + transform.m31() + itemOrigin.x(), transform.m22() * resizePoint.y() + transform.m12() *(newrect.width() - resizePoint.x()) + transform.m32() + itemOrigin.y()));
-                    } else
-                        m_resizeMode = BottomRight;
-                } else {
-                    if (determinantH < 0)
-                        m_resizeMode = TopLeft;
-                    else
-                        m_resizeMode = BottomLeft;
-                }
-                break;
-            case BottomRight:
-                determinantV = (topLeft.x() - newpoint.x()) * (bottomLeft.y() - newpoint.y()) - (topLeft.y() - newpoint.y()) * (bottomLeft.x() - newpoint.x());
-                determinantH = (topRight.x() - newpoint.x()) * (topLeft.y() - newpoint.y()) - (topRight.y() - newpoint.y()) * (topLeft.x() - newpoint.x());
-                if (determinantV < 0) {
-                    if (determinantH < 0)
-                        newrect.setBottomRight(resizePoint);
-                    else
-                        m_resizeMode = TopRight;
-                } else {
-                    if (determinantH < 0)
-                        m_resizeMode = BottomLeft;
-                    else
-                        m_resizeMode = TopLeft;
-                }
-                break;
-            case Left:
-                determinantV = (bottomRight.x() - newpoint.x()) * (topRight.y() - newpoint.y()) - (bottomRight.y() - newpoint.y()) * (topRight.x() - newpoint.x());
-                if (determinantV < 0) {
-                    newrect.setRight(newrect.width() - resizePoint.x());
-                    m_selectedItem->setPos(QPointF(transform.m11() * resizePoint.x() + transform.m31() + itemOrigin.x(), transform.m12() * resizePoint.x() + transform.m32() + itemOrigin.y()));
-                } else
-                    m_resizeMode = Right;
-                break;
-            case Right:
-                determinantV = (topLeft.x() - newpoint.x()) * (bottomLeft.y() - newpoint.y()) - (topLeft.y() - newpoint.y()) * (bottomLeft.x() - newpoint.x());
-                if (determinantV < 0)
-                    newrect.setRight(resizePoint.x());
-                else
-                    m_resizeMode = Left;
-                break;
-            case Up:
-                determinantH = (bottomLeft.x() - newpoint.x()) * (bottomRight.y() - newpoint.y()) - (bottomLeft.y() - newpoint.y()) * (bottomRight.x() - newpoint.x());
-                if (determinantH < 0) {
-                    newrect.setBottom(newrect.bottom() - resizePoint.y());
-                    m_selectedItem->setPos(QPointF(transform.m21() * resizePoint.y() + transform.m31() + itemOrigin.x(), transform.m22() * resizePoint.y() + transform.m32() + itemOrigin.y()));
-                } else
-                    m_resizeMode = Down;
-                break;
-            case Down:
-                determinantH = (topRight.x() - newpoint.x()) * (topLeft.y() - newpoint.y()) - (topRight.y() - newpoint.y()) * (topLeft.x() - newpoint.x());
-                if (determinantH < 0)
-                    newrect.setBottom(resizePoint.y());
-                else
-                    m_resizeMode = Up;
-                break;
-            default:
-                QPointF diff = e->scenePos() - m_sceneClickPoint;
-                m_sceneClickPoint = e->scenePos();
-                foreach (QGraphicsItem *qgi, selectedItems()) { qgi->moveBy(diff.x(), diff.y()); }
-                break;
+                case BottomRight:
+                case BottomLeft:
+                case TopRight:
+                case TopLeft:
+                    newrect = QRectF(m_clickPoint, newpoint).normalized();
+                    break;
+                case Up:
+                    newrect = QRectF(m_clickPoint, QPointF(m_clickPoint.x() - newrect.width(), newpoint.y())).normalized();
+                    break;
+                case Down:
+                    newrect = QRectF(m_clickPoint, QPointF(newrect.width() + m_clickPoint.x(), newpoint.y())).normalized();
+                    break;
+                case Right:
+                    newrect = QRectF(m_clickPoint, QPointF(newpoint.x(), m_clickPoint.y() + newrect.height())).normalized();
+                    break;
+                case Left:
+                    newrect = QRectF(m_clickPoint, QPointF(newpoint.x(), m_clickPoint.y() - newrect.height())).normalized();
+                    break;
+                default:
+                    break;
             }
+
             if (m_selectedItem->type() == QGraphicsRectItem::Type && m_resizeMode != NoResize) {
                 MyRectItem *gi = (MyRectItem*)m_selectedItem;
                 // Resize using aspect ratio
@@ -665,21 +570,11 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
                     if (hRatio < vRatio) newrect.setHeight(m_selectedItem->data(1).toInt() * hRatio);
                     else newrect.setWidth(m_selectedItem->data(0).toInt() * vRatio);
                 }
-
-                gi->setRect(newrect);
-            }
-            /*else {
-            qreal s;
-            if (resizeMode == Left || resizeMode == Right ) s = m_selectedItem->boundingRect().width() / newrect.width();
-            else s = m_selectedItem->boundingRect().height() / newrect.height();
-            m_selectedItem->scale( 1 / s, 1 / s );
-            //qDebug()<<"/// SCALING SVG, RESIZE MODE: "<<resizeMode<<", RECT:"<<m_selectedItem->boundingRect();
-            }*/
-            //gi->setPos(m_selectedItem->scenePos());
-            /*if (resizeMode == NoResize) {
-                QGraphicsScene::mouseMoveEvent(e);
+                gi->setPos(newrect.topLeft());
+                gi->setRect(QRectF(QPointF(), newrect.bottomRight() - newrect.topLeft()));
                 return;
-            }*/
+            }
+            QGraphicsScene::mouseMoveEvent(e);
         } else if (m_selectedItem->type() == QGraphicsTextItem::Type) {
             MyTextItem *t = static_cast<MyTextItem *>(m_selectedItem);
             if (t->textInteractionFlags() & Qt::TextEditorInteraction) {
@@ -725,18 +620,49 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
                 // The area interested by the mouse pointer
                 QPoint viewPos = view->mapFromScene(e->scenePos());
                 QPainterPath mouseArea;
-                mouseArea.addRect(viewPos.x() - 4, viewPos.y() - 4, 8, 8);
+                QFontMetrics metrics(font());
+                int box = metrics.lineSpacing() / 2;
+                mouseArea.addRect(viewPos.x() - box, viewPos.y() - box, 2 * box, 2 * box);
 
                 // Check for collisions between the mouse and the borders
-                if (mouseArea.contains(r.point(0)) || mouseArea.contains(r.point(2))) setCursor(Qt::SizeFDiagCursor);
-                else if (mouseArea.contains(r.point(1)) || mouseArea.contains(r.point(3))) setCursor(Qt::SizeBDiagCursor);
-                else if (top.intersects(mouseArea) || bottom.intersects(mouseArea)) setCursor(Qt::SizeVerCursor);
-                else if (right.intersects(mouseArea) || left.intersects(mouseArea)) setCursor(Qt::SizeHorCursor);
-                else
+                if (mouseArea.contains(r.point(0))) {
+                    m_possibleAction = TopLeft;
+                    setCursor(Qt::SizeFDiagCursor);
+                } else if (mouseArea.contains(r.point(2))) {
+                    m_possibleAction = BottomRight;
+                    setCursor(Qt::SizeFDiagCursor);
+                }
+                else if (mouseArea.contains(r.point(1))) {
+                    m_possibleAction = TopRight;
+                    setCursor(Qt::SizeBDiagCursor);
+                } else if (mouseArea.contains(r.point(3))) {
+                    m_possibleAction = BottomLeft;
+                    setCursor(Qt::SizeBDiagCursor);
+                }
+                else if (top.intersects(mouseArea)) {
+                    m_possibleAction = Up;
+                    setCursor(Qt::SizeVerCursor);
+                } else if (bottom.intersects(mouseArea)) {
+                    m_possibleAction = Down;
+                    setCursor(Qt::SizeVerCursor);
+                }
+                else if (right.intersects(mouseArea)) {
+                    m_possibleAction = Right;
+                    setCursor(Qt::SizeHorCursor);
+                } else if (left.intersects(mouseArea)) {
+                    m_possibleAction = Left;
+                    setCursor(Qt::SizeHorCursor);
+                }
+                else {
                     setCursor(Qt::OpenHandCursor);
-                break;
+                    m_possibleAction = NoResize;
+                }
             }
-            if (!itemFound) setCursor(Qt::ArrowCursor);
+            if (!itemFound) {
+                m_possibleAction = NoResize;
+                setCursor(Qt::ArrowCursor);
+            }
+            break;
         }
         QGraphicsScene::mouseMoveEvent(e);
     } else if (m_tool == TITLE_RECTANGLE && e->buttons() & Qt::LeftButton) {
@@ -749,6 +675,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
             addItem(rect);
             m_selectedItem = rect;
             m_selectedItem->setPos(m_sceneClickPoint);
+            m_selectedItem->setSelected(true);
             emit newRect(rect);
             m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
             m_resizeMode = BottomRight;

@@ -166,7 +166,11 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             e.setAttribute(QStringLiteral("type"), QStringLiteral("QGraphicsRectItem"));
             content.setAttribute(QStringLiteral("rect"), rectFToString(static_cast<QGraphicsRectItem*>(item)->rect().normalized()));
             content.setAttribute(QStringLiteral("pencolor"), colorToString(static_cast<QGraphicsRectItem*>(item)->pen().color()));
-            content.setAttribute(QStringLiteral("penwidth"), static_cast<QGraphicsRectItem*>(item)->pen().width());
+            if (static_cast<QGraphicsRectItem*>(item)->pen() == Qt::NoPen) {
+                content.setAttribute(QStringLiteral("penwidth"), 0);
+            } else {
+                content.setAttribute(QStringLiteral("penwidth"), static_cast<QGraphicsRectItem*>(item)->pen().width());
+            }
             content.setAttribute(QStringLiteral("brushcolor"), colorToString(static_cast<QGraphicsRectItem*>(item)->brush().color()));
             gradient = item->data(TitleDocument::Gradient).toString();
             if (!gradient.isEmpty()) {
@@ -216,13 +220,13 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
                 content.setAttribute(QStringLiteral("box-width"), QString::number(t->baseBoundingRect().width()));
             }
             content.setAttribute(QStringLiteral("box-height"), QString::number(t->baseBoundingRect().height()));
-            content.setAttribute(QStringLiteral("line-spacing"), QString::number(format.lineHeight()));
+            if (!t->data(TitleDocument::LineSpacing).isNull()) content.setAttribute(QStringLiteral("line-spacing"), QString::number(t->data(TitleDocument::LineSpacing).toInt()));
             {
                 QTextCursor cursor(t->document());
                 cursor.select(QTextCursor::Document);
                 QColor fontcolor = cursor.charFormat().foreground().color();
                 content.setAttribute(QStringLiteral("font-color"), colorToString(fontcolor));
-                if (!t->data(TitleDocument::OutlineWidth).isNull()) content.setAttribute(QStringLiteral("font-outline"), QString::number(t->data(TitleDocument::OutlineWidth).toDouble()));
+                if (!t->data(TitleDocument::OutlineWidth).isNull()) content.setAttribute(QStringLiteral("font-outline"), QString::number(t->data(TitleDocument::OutlineWidth).toInt()));
                 if (!t->data(TitleDocument::OutlineColor).isNull()) {
                     QVariant variant = t->data(TitleDocument::OutlineColor);
                     QColor outlineColor = variant.value<QColor>();
@@ -449,10 +453,12 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                         );
 
                     }
-                    if (txtProperties.namedItem(QStringLiteral("line-spacing")).nodeValue().toInt() != 0.0) {
+                    if (!txtProperties.namedItem(QStringLiteral("line-spacing")).isNull()) {
+                        int lineSpacing = txtProperties.namedItem(QStringLiteral("line-spacing")).nodeValue().toInt();
                         QTextBlockFormat format = cursor.blockFormat();
-                        format.setLineHeight(txtProperties.namedItem(QStringLiteral("line-spacing")).nodeValue().toInt(), QTextBlockFormat::LineDistanceHeight);
+                        format.setLineHeight(lineSpacing, QTextBlockFormat::LineDistanceHeight);
                         cursor.setBlockFormat(format);
+                        txt->setData(TitleDocument::LineSpacing, lineSpacing);
                     }
                     cformat.setForeground(QBrush(col));
                     cursor.setCharFormat(cformat);

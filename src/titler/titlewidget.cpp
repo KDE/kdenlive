@@ -129,7 +129,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     itemrotatez->setToolTip(i18n("Rotation around the Z axis"));
 
     rectLineWidth->setMinimum(0);
-    rectLineWidth->setMaximum(100);
+    rectLineWidth->setMaximum(500);
     //rectLineWidth->setDecimals(0);
     rectLineWidth->setValue(0);
     rectLineWidth->setToolTip(i18n("Border width"));
@@ -176,13 +176,13 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(gradients_rect_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(rectChanged()));
     connect(rectLineWidth, SIGNAL(valueChanged(int)), this, SLOT(rectChanged()));
 
-    // Fill effects
-    effect_list->addItem(i18n("None"), NOEFFECT);
+    // Fill effects, NOT SUPPORTED in titler version 2
+    /*effect_list->addItem(i18n("None"), NOEFFECT);
     if (render->getMltVersionInfo(QStringLiteral("kdenlivetitle")) > 1.0) {
 	// there was a bug in MLT's kdenlivetitle module version 1 that crashed on typewriter effect
 	effect_list->addItem(i18n("Typewriter"), TYPEWRITEREFFECT);
     }
-    effect_list->addItem(i18n("Blur"), BLUREFFECT);
+    effect_list->addItem(i18n("Blur"), BLUREFFECT);*/
 
 
     connect(zValue, SIGNAL(valueChanged(int)), this, SLOT(zIndexChanged(int)));
@@ -357,7 +357,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     itembottom->setIconSize(iconSize);
     itemright->setIconSize(iconSize);
     itemleft->setIconSize(iconSize);
-    
+
     itemhcenter->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-hor")));
     itemhcenter->setToolTip(i18n("Align item horizontally"));
     itemvcenter->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-vert")));
@@ -459,6 +459,17 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     // mbd: load saved settings
     loadGradients();
     readChoices();
+
+    if (render->getMltVersionInfo(QStringLiteral("kdenlivetitle")) < 2.0) {
+        // Gradients and shadows are only supported since version 2, so disable
+        shadowBox->setEnabled(false);
+        gradient_color->setEnabled(false);
+        gradients_combo->setEnabled(false);
+        gradients_rect_combo->setEnabled(false);
+        gradient_rect->setEnabled(false);
+        edit_gradient->setEnabled(false);
+        edit_rect_gradient->setEnabled(false);
+    }
 
     // Hide effects not implemented
     tabWidget->removeTab(3);
@@ -1580,6 +1591,7 @@ void TitleWidget::slotUpdateText()
         QTextCursor cur(item->document());
         cur.select(QTextCursor::Document);
         QTextBlockFormat format = cur.blockFormat();
+        item->setData(TitleDocument::LineSpacing, line_spacing->value());
         format.setLineHeight(line_spacing->value(), QTextBlockFormat::LineDistanceHeight);
         if (buttonAlignLeft->isChecked() || buttonAlignCenter->isChecked() || buttonAlignRight->isChecked()) {
             if (buttonAlignCenter->isChecked()) item->setAlignment(Qt::AlignHCenter);
@@ -1621,10 +1633,14 @@ void TitleWidget::rectChanged()
         if (l.at(i)->type() == RECTITEM && !settingUp) {
             QGraphicsRectItem *rec = static_cast<QGraphicsRectItem *>(l.at(i));
             QColor f = rectFColor->color();
-            QPen penf(f);
-            penf.setWidth(rectLineWidth->value());
-            penf.setJoinStyle(Qt::RoundJoin);
-            rec->setPen(penf);
+            if (rectLineWidth->value() == 0) {
+                rec->setPen(Qt::NoPen);
+            } else {
+                QPen penf(f);
+                penf.setWidth(rectLineWidth->value());
+                penf.setJoinStyle(Qt::RoundJoin);
+                rec->setPen(penf);
+            }
             if (plain_rect->isChecked()) {
                 rec->setBrush(QBrush(rectBColor->color()));
                 rec->setData(TitleDocument::Gradient, QVariant());
@@ -2678,7 +2694,11 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                     gradients_rect_combo->blockSignals(false);
                 }
                 settingUp = false;
-                rectLineWidth->setValue(rec->pen().width());
+                if (rec->pen() == Qt::NoPen) {
+                    rectLineWidth->setValue(0);
+                } else {
+                    rectLineWidth->setValue(rec->pen().width());
+                }
                 enableToolbars(TITLE_RECTANGLE);
             }
 
