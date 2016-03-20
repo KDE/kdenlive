@@ -355,6 +355,7 @@ private:
     int m_tracksHeight;
     int m_projectDuration;
     int m_cursorPos;
+    double m_cursorOffset;
     KdenliveDoc *m_document;
     Timeline *m_timeline;
     CustomTrackScene *m_scene;
