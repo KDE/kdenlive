@@ -285,6 +285,9 @@ void EffectStackView2::setupListView()
     m_groupIndex = 0;
     blockSignals(false);
     view = new QWidget(m_effect->container);
+    QPalette p = qApp->palette();
+    p.setBrush(QPalette::Window, QBrush(Qt::transparent));
+    view->setPalette(p);
     m_effect->container->setWidget(view);
 
     QVBoxLayout *vbox1 = new QVBoxLayout(view);
