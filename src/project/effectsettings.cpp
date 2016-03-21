@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDebug>
 #include <QMimeData>
 #include <QScrollArea>
+#include <QApplication>
 #include <QToolButton>
 #include <QVBoxLayout>
 #include <QResizeEvent>
@@ -93,6 +94,9 @@ EffectSettings::EffectSettings(QWidget* parent) :
     container->setFrameShape(QFrame::NoFrame);
     container->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred));
     container->setWidgetResizable(true);
+    QPalette p = qApp->palette();
+    p.setBrush(QPalette::Window, QBrush(Qt::transparent));
+    container->setPalette(p);
     container->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     vbox1->addWidget(container);
     setLayout(vbox1);

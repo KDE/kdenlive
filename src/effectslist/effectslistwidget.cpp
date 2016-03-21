@@ -55,7 +55,7 @@ EffectsListWidget::~EffectsListWidget()
 void EffectsListWidget::updatePalette()
 {
     QPalette p = qApp->palette();
-    p.setBrush(QPalette::Base, p.window());
+    p.setBrush(QPalette::Base, QBrush(Qt::transparent));
     setPalette(p);
 }
 
