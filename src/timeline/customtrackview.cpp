@@ -81,6 +81,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
   , m_tracksHeight(KdenliveSettings::trackheight())
   , m_projectDuration(0)
   , m_cursorPos(0)
+  , m_cursorOffset(0)
   , m_document(doc)
   , m_timeline(timeline)
   , m_scene(projectscene)
@@ -3752,9 +3753,9 @@ int CustomTrackView::seekPosition() const
 void CustomTrackView::setCursorPos(int pos)
 {
     if (pos != m_cursorPos) {
-        emit cursorMoved((int)(m_cursorPos), (int)(pos));
+        emit cursorMoved(m_cursorPos, pos);
         m_cursorPos = pos;
-        m_cursorLine->setPos(m_cursorPos + 0.5, 0);
+        m_cursorLine->setPos(m_cursorPos + m_cursorOffset, 0);
         if (m_autoScroll) checkScrolling();
     }
     //else emit updateRuler();
@@ -6021,6 +6022,7 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale)
         c.setAlpha(255);
         p.setColor(c);
         m_cursorLine->setPen(p);
+        m_cursorOffset = 0;
     }
     else {
         m_cursorLine->setFlag(QGraphicsItem::ItemIgnoresTransformations, false);
@@ -6029,6 +6031,7 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale)
         c.setAlpha(100);
         p.setColor(c);
         m_cursorLine->setPen(p);
+        m_cursorOffset = 0.5;
     }
     bool adjust = false;
     if (verticalScale != matrix().m22()) adjust = true;
