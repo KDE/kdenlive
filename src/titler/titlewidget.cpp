@@ -2744,7 +2744,11 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
 
 void TitleWidget::slotEditGradient()
 {
-    GradientWidget d;
+    QMap <QString, QString> gradients;
+    for (int i = 0; i < gradients_combo->count(); i++) {
+	gradients.insert(gradients_combo->itemText(i), gradients_combo->itemData(i).toString());
+    }
+    GradientWidget d(gradients);
     if (d.exec() == QDialog::Accepted) {
         // Save current gradients
         QMap <QString, QString> gradients = d.gradients();
@@ -2806,7 +2810,7 @@ void TitleWidget::loadGradients()
     QMap <QString, QString> values = group.entryMap();
     if (values.isEmpty()) {
         // Ensure we at least always have one sample black to white gradient
-        values.insert(i18n("Gradient"), QStringLiteral("#ffffff;#000000;0;1;0"));
+        values.insert(i18n("Gradient"), QStringLiteral("#ffffffff;#ff000000;0;100;90"));
     }
     QMapIterator<QString, QString> k(values);
     while (k.hasNext()) {

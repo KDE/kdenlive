@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "utils/KoIconUtils.h"
 
-GradientWidget::GradientWidget(QWidget *parent) :
+GradientWidget::GradientWidget(QMap <QString, QString> gradients, QWidget *parent) :
     QDialog(parent),
     Ui::GradientEdit_UI()
 {
@@ -50,7 +50,7 @@ GradientWidget::GradientWidget(QWidget *parent) :
     m_height = metrics.lineSpacing();
     gradient_list->setIconSize(QSize(6 * m_height, m_height));
     connect(gradient_list, SIGNAL(currentRowChanged(int)), this, SLOT(loadGradient()));
-    loadGradients();
+    loadGradients(gradients);
 }
 
 void GradientWidget::resizeEvent(QResizeEvent* event)
@@ -196,14 +196,15 @@ QList <QIcon> GradientWidget::icons() const
 }
 
 
-void GradientWidget::loadGradients()
+void GradientWidget::loadGradients(QMap <QString, QString> gradients)
 {
-    QMap <QString, QString> gradients;
     gradient_list->clear();
-    KSharedConfigPtr config = KSharedConfig::openConfig();
-    KConfigGroup group(config, "TitleGradients");
-    QMap <QString, QString> values = group.entryMap();
-    QMapIterator<QString, QString> k(values);
+    if (gradients.isEmpty()) {
+	KSharedConfigPtr config = KSharedConfig::openConfig();
+	KConfigGroup group(config, "TitleGradients");
+	gradients = group.entryMap();
+    }
+    QMapIterator<QString, QString> k(gradients);
     while (k.hasNext()) {
         k.next();
         QPixmap pix(6 * m_height, m_height);
