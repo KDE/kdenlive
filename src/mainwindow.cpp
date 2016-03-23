@@ -2545,7 +2545,7 @@ void MainWindow::slotClipInProjectTree()
 {
     if (pCore->projectManager()->currentTimeline()) {
         int pos = -1;
-        QSize zone;
+        QPoint zone;
         const QString selectedId = pCore->projectManager()->currentTimeline()->projectView()->getClipUnderCursor(&pos, &zone);
         if (selectedId.isEmpty()) {
             return;

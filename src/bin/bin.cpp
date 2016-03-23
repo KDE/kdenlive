@@ -968,7 +968,7 @@ QModelIndex Bin::getIndexForId(const QString &id, bool folderWanted) const
     return QModelIndex();
 }
 
-void Bin::selectClipById(const QString &clipId, int frame, const QSize &zone)
+void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone)
 {
     if (m_monitor->activeClipId() == clipId) {
         if (frame > -1) {

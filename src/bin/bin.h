@@ -616,7 +616,7 @@ public slots:
     /** @brief Reset all clip usage to 0 */
     void resetUsageCount();
         /** @brief Select a clip in the Bin from its id. */
-    void selectClipById(const QString &id, int frame = -1, const QSize &zone = QSize());
+    void selectClipById(const QString &id, int frame = -1, const QPoint &zone = QPoint());
     void slotAddClipToProject(QUrl url);
 
 protected:
