@@ -42,22 +42,23 @@ public:
      * @param projectPath default path to save to or load from title documents
      * @param render project renderer
      * @param parent (optional) parent widget */
-    explicit GradientWidget(QWidget *parent = 0);
+    explicit GradientWidget(QMap <QString, QString> gradients = QMap<QString, QString>(), int ix = 0, QWidget *parent = 0);
     void resizeEvent(QResizeEvent* event);
     QString gradientToString() const;
     static QLinearGradient gradientFromString(const QString &str, int width, int height);
     QMap <QString, QString> gradients() const;
     QList <QIcon> icons() const;
+    int selectedGradient() const;
 
 private:
     QLinearGradient m_gradient;
     int m_height;
     QStringList getNames() const;
-    void loadGradients();
+    void loadGradients(QMap <QString, QString> gradients = QMap<QString, QString>());
 
 private slots:
     void updatePreview();
-    void saveGradient();
+    void saveGradient(const QString &name = QString());
     void loadGradient();
     void deleteGradient();
 };

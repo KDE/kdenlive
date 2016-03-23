@@ -257,12 +257,13 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     buttonAlignCenter->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-justify-center")));
     buttonAlignLeft->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-justify-left")));
     buttonAlignRight->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-justify-right")));
-    edit_gradient->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
-    edit_rect_gradient->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
+    edit_gradient->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-edit")));
+    edit_rect_gradient->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-edit")));
 
     buttonAlignRight->setToolTip(i18n("Align right"));
     buttonAlignLeft->setToolTip(i18n("Align left"));
     buttonAlignCenter->setToolTip(i18n("Align center"));
+    buttonAlignLeft->setChecked(true);
 
     m_unicodeAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-insert-unicode")), QString(), this);
     m_unicodeAction->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_U);
@@ -2743,7 +2744,19 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
 
 void TitleWidget::slotEditGradient()
 {
-    GradientWidget d;
+    QToolButton *caller = qobject_cast<QToolButton *>(QObject::sender());
+    if (!caller) return;
+    QComboBox *combo = NULL;
+    if (caller == edit_gradient) {
+	combo = gradients_combo;
+    } else {
+	combo = gradients_rect_combo;
+    }
+    QMap <QString, QString> gradients;
+    for (int i = 0; i < combo->count(); i++) {
+	gradients.insert(combo->itemText(i), combo->itemData(i).toString());
+    }
+    GradientWidget d(gradients, combo->currentIndex());
     if (d.exec() == QDialog::Accepted) {
         // Save current gradients
         QMap <QString, QString> gradients = d.gradients();
@@ -2752,7 +2765,7 @@ void TitleWidget::slotEditGradient()
         KSharedConfigPtr config = KSharedConfig::openConfig();
         KConfigGroup group(config, "TitleGradients");
         group.deleteGroup();
-        gradients_combo->clear();
+        combo->clear();
         gradients_rect_combo->clear();
         int ix = 0;
         while (i != gradients.constEnd()) {
@@ -2763,6 +2776,7 @@ void TitleWidget::slotEditGradient()
             ix++;
         }
         group.sync();
+	combo->setCurrentIndex(d.selectedGradient());
     }
 }
 
@@ -2771,7 +2785,7 @@ void TitleWidget::storeGradient(const QString &gradientData)
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup group(config, "TitleGradients");
     QMap <QString, QString> values = group.entryMap();
-    int ix = values.count();
+    int ix = qMax(1, values.count());
     QString gradName = i18n("Gradient %1", ix);
     while (values.contains(gradName)) {
         ix++;
@@ -2803,6 +2817,10 @@ void TitleWidget::loadGradients()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup group(config, "TitleGradients");
     QMap <QString, QString> values = group.entryMap();
+    if (values.isEmpty()) {
+        // Ensure we at least always have one sample black to white gradient
+        values.insert(i18n("Gradient"), QStringLiteral("#ffffffff;#ff000000;0;100;90"));
+    }
     QMapIterator<QString, QString> k(values);
     while (k.hasNext()) {
         k.next();

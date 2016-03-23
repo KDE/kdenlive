@@ -2545,12 +2545,13 @@ void MainWindow::slotClipInProjectTree()
 {
     if (pCore->projectManager()->currentTimeline()) {
         int pos = -1;
-        const QString selectedId = pCore->projectManager()->currentTimeline()->projectView()->getClipUnderCursor(&pos);
+        QPoint zone;
+        const QString selectedId = pCore->projectManager()->currentTimeline()->projectView()->getClipUnderCursor(&pos, &zone);
         if (selectedId.isEmpty()) {
             return;
         }
         m_projectBinDock->raise();
-        pCore->bin()->selectClipById(selectedId, pos);
+        pCore->bin()->selectClipById(selectedId, pos, zone);
         if (m_projectMonitor->isActive()) {
             slotSwitchMonitors();
         }

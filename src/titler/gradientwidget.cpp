@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "utils/KoIconUtils.h"
 
-GradientWidget::GradientWidget(QWidget *parent) :
+GradientWidget::GradientWidget(QMap <QString, QString> gradients, int ix, QWidget *parent) :
     QDialog(parent),
     Ui::GradientEdit_UI()
 {
@@ -50,7 +50,8 @@ GradientWidget::GradientWidget(QWidget *parent) :
     m_height = metrics.lineSpacing();
     gradient_list->setIconSize(QSize(6 * m_height, m_height));
     connect(gradient_list, SIGNAL(currentRowChanged(int)), this, SLOT(loadGradient()));
-    loadGradients();
+    loadGradients(gradients);
+    gradient_list->setCurrentRow(ix);
 }
 
 void GradientWidget::resizeEvent(QResizeEvent* event)
@@ -121,9 +122,18 @@ void GradientWidget::updatePreview()
     painter.fillPath(path, br2);
     painter.end();
     preview->setPixmap(p);
+    // save changes to currently active gradient
+    QListWidgetItem *current = gradient_list->currentItem();
+    if (!current) return;
+    saveGradient(current->text());
 }
 
-void GradientWidget::saveGradient()
+int GradientWidget::selectedGradient() const
+{
+    return gradient_list->currentRow();
+}
+
+void GradientWidget::saveGradient(const QString &name)
 {
     QPixmap pix(6 * m_height, m_height);
     pix.fill(Qt::transparent);
@@ -133,16 +143,23 @@ void GradientWidget::saveGradient()
     painter.fillRect(0, 0, pix.width(), pix.height(), QBrush(m_gradient));
     painter.end();
     QIcon icon(pix);
-    int ct = gradient_list->count();
-    QStringList existing = getNames();
-    QString test = i18n("Gradient %1", ct);
-    while (existing.contains(test)) {
-        ct++;
-        test = i18n("Gradient %1", ct);
+    QListWidgetItem *item = NULL;
+    if (!name.isEmpty()) {
+	item = gradient_list->currentItem();
+	item->setIcon(icon);
+    } else {
+	// Create new gradient
+        int ct = gradient_list->count();
+	QStringList existing = getNames();
+	QString test = i18n("Gradient %1", ct);
+	while (existing.contains(test)) {
+	    ct++;
+	    test = i18n("Gradient %1", ct);
+	}
+	item = new QListWidgetItem(icon, test, gradient_list);
+	item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     }
-    QListWidgetItem *item = new QListWidgetItem(icon, test, gradient_list);
     item->setData(Qt::UserRole, gradientToString());
-    item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 }
 
 QStringList GradientWidget::getNames() const
@@ -196,14 +213,15 @@ QList <QIcon> GradientWidget::icons() const
 }
 
 
-void GradientWidget::loadGradients()
+void GradientWidget::loadGradients(QMap <QString, QString> gradients)
 {
-    QMap <QString, QString> gradients;
     gradient_list->clear();
-    KSharedConfigPtr config = KSharedConfig::openConfig();
-    KConfigGroup group(config, "TitleGradients");
-    QMap <QString, QString> values = group.entryMap();
-    QMapIterator<QString, QString> k(values);
+    if (gradients.isEmpty()) {
+	KSharedConfigPtr config = KSharedConfig::openConfig();
+	KConfigGroup group(config, "TitleGradients");
+	gradients = group.entryMap();
+    }
+    QMapIterator<QString, QString> k(gradients);
     while (k.hasNext()) {
         k.next();
         QPixmap pix(6 * m_height, m_height);
