@@ -2772,7 +2772,7 @@ void TitleWidget::storeGradient(const QString &gradientData)
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup group(config, "TitleGradients");
     QMap <QString, QString> values = group.entryMap();
-    int ix = QMax(1, values.count());
+    int ix = qMax(1, values.count());
     QString gradName = i18n("Gradient %1", ix);
     while (values.contains(gradName)) {
         ix++;
