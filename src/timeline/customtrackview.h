@@ -239,8 +239,9 @@ public:
     bool hasSelection() const;
     /** @brief Get the index of the video track that is just above current track */
     int getNextVideoTrack(int track);
-    /** @brief returns id of clip under cursor and set pos to cursor position in clip */
-    const QString getClipUnderCursor(int *pos) const;
+    /** @brief returns id of clip under cursor and set pos to cursor position in clip, 
+     *  zone gets in/out points */
+    const QString getClipUnderCursor(int *pos, QSize *zone = NULL) const;
     /** @brief returns displayable timecode info */
     QString getDisplayTimecode(const GenTime &time) const;
     QString getDisplayTimecodeFromFrames(int frames) const;

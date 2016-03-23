@@ -263,6 +263,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     buttonAlignRight->setToolTip(i18n("Align right"));
     buttonAlignLeft->setToolTip(i18n("Align left"));
     buttonAlignCenter->setToolTip(i18n("Align center"));
+    buttonAlignLeft->setChecked(true);
 
     m_unicodeAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-insert-unicode")), QString(), this);
     m_unicodeAction->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_U);

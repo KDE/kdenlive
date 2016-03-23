@@ -6429,7 +6429,7 @@ ClipItem *CustomTrackView::getClipUnderCursor() const
     return NULL;
 }
 
-const QString CustomTrackView::getClipUnderCursor(int *pos) const
+const QString CustomTrackView::getClipUnderCursor(int *pos, QSize *zone) const
 {
     ClipItem *item = getClipUnderCursor();
     if (item == NULL) {
@@ -6438,6 +6438,9 @@ const QString CustomTrackView::getClipUnderCursor(int *pos) const
         }
     } else {
         *pos = seekPosition() - (item->startPos() - item->cropStart()).frames(m_document->fps());
+        if (zone) {
+            *zone = QSize(item->cropStart().frames(m_document->fps()), (item->cropStart() + item->cropDuration()).frames(m_document->fps()));
+        }
     }
     QString result;
     if (item) {
