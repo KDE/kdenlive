@@ -257,8 +257,8 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     buttonAlignCenter->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-justify-center")));
     buttonAlignLeft->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-justify-left")));
     buttonAlignRight->setIcon(KoIconUtils::themedIcon(QStringLiteral("format-justify-right")));
-    edit_gradient->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
-    edit_rect_gradient->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
+    edit_gradient->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-edit")));
+    edit_rect_gradient->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-edit")));
 
     buttonAlignRight->setToolTip(i18n("Align right"));
     buttonAlignLeft->setToolTip(i18n("Align left"));
@@ -2772,7 +2772,7 @@ void TitleWidget::storeGradient(const QString &gradientData)
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup group(config, "TitleGradients");
     QMap <QString, QString> values = group.entryMap();
-    int ix = values.count();
+    int ix = QMax(1, values.count());
     QString gradName = i18n("Gradient %1", ix);
     while (values.contains(gradName)) {
         ix++;
@@ -2804,6 +2804,10 @@ void TitleWidget::loadGradients()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup group(config, "TitleGradients");
     QMap <QString, QString> values = group.entryMap();
+    if (values.isEmpty()) {
+        // Ensure we at least always have one sample black to white gradient
+        values.insert(i18n("Gradient"), QStringLiteral("#ffffff;#000000;0;1;0"));
+    }
     QMapIterator<QString, QString> k(values);
     while (k.hasNext()) {
         k.next();
