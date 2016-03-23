@@ -2744,11 +2744,19 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
 
 void TitleWidget::slotEditGradient()
 {
-    QMap <QString, QString> gradients;
-    for (int i = 0; i < gradients_combo->count(); i++) {
-	gradients.insert(gradients_combo->itemText(i), gradients_combo->itemData(i).toString());
+    QToolButton *caller = qobject_cast<QToolButton *>(QObject::sender());
+    if (!caller) return;
+    QComboBox *combo = NULL;
+    if (caller == edit_gradient) {
+	combo = gradients_combo;
+    } else {
+	combo = gradients_rect_combo;
     }
-    GradientWidget d(gradients);
+    QMap <QString, QString> gradients;
+    for (int i = 0; i < combo->count(); i++) {
+	gradients.insert(combo->itemText(i), combo->itemData(i).toString());
+    }
+    GradientWidget d(gradients, combo->currentIndex());
     if (d.exec() == QDialog::Accepted) {
         // Save current gradients
         QMap <QString, QString> gradients = d.gradients();
@@ -2757,7 +2765,7 @@ void TitleWidget::slotEditGradient()
         KSharedConfigPtr config = KSharedConfig::openConfig();
         KConfigGroup group(config, "TitleGradients");
         group.deleteGroup();
-        gradients_combo->clear();
+        combo->clear();
         gradients_rect_combo->clear();
         int ix = 0;
         while (i != gradients.constEnd()) {
@@ -2768,6 +2776,7 @@ void TitleWidget::slotEditGradient()
             ix++;
         }
         group.sync();
+	combo->setCurrentIndex(d.selectedGradient());
     }
 }
 
