@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QVBoxLayout>
 #include <QFont>
 #include <QDebug>
+#include <math.h>
 
 const double log_factor = 1.0 / log10(1.0/127);
 
