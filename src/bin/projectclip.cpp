@@ -875,6 +875,25 @@ int ProjectClip::audioChannels() const
     return m_controller->audioInfo()->channels();
 }
 
+void ProjectClip::discardAudioThumb()
+{
+    if (!m_controller) return;
+    abortAudioThumbs();
+    AudioStreamInfo *audioInfo = m_controller->audioInfo();
+    if (audioInfo == NULL) return;
+    int audioStream = audioInfo->ffmpeg_audio_index();
+    QString clipHash = hash();
+    if (clipHash.isEmpty()) return;
+    QString audioPath = bin()->projectFolder().path() + "/thumbs/" + clipHash;
+    if (audioStream > 0) {
+        audioPath.append("_" + QString::number(audioInfo->audio_index()));
+    }
+    audioPath.append("_audio.png");
+    QFile::remove(audioPath);
+    audioFrameCache.clear();
+    m_controller->audioThumbCreated = false;
+}
+
 void ProjectClip::slotCreateAudioThumbs()
 {
     QMutexLocker lock(&m_audioMutex);
@@ -958,7 +977,7 @@ void ProjectClip::slotCreateAudioThumbs()
         }
         emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0);
         QProcess audioThumbsProcess;
-        connect(this, SIGNAL(doAbortAudioThumbs()), &audioThumbsProcess, SLOT(kill()));
+        connect(this, SIGNAL(doAbortAudioThumbs()), &audioThumbsProcess, SLOT(kill()), Qt::DirectConnection);
         audioThumbsProcess.start(KdenliveSettings::ffmpegpath(), args);
         bool ffmpegError = false;
         if (!audioThumbsProcess.waitForStarted()) {
@@ -984,7 +1003,7 @@ void ProjectClip::slotCreateAudioThumbs()
             return;
         }
         const qint16* raw = (const qint16*) res.constData();
-        const qint16* raw2 = raw;
+        const qint16* raw2;
         QByteArray res2;
         QList<qint16> data2;
         if (channels > 1) {

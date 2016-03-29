@@ -3124,6 +3124,7 @@ void Bin::reloadAllProducers()
         EffectsList::removeProperty(xml, "length");
         if (!xml.isNull()) {
             clip->setClipStatus(AbstractProjectItem::StatusWaiting);
+            clip->discardAudioThumb();
             // We need to set a temporary id before all outdated producers are replaced;
             m_doc->getFileProperties(xml, clip->clipId(), 150, true);
         }
