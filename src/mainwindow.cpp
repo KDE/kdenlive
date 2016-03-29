@@ -3066,6 +3066,12 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         }
     }
 
+    // Add autoclose to playlists.
+    QDomNodeList playlists = doc.elementsByTagName("playlist");
+    for (int i = 0; i < playlists.length();++i) {
+        playlists.item(i).toElement().setAttribute("autoclose", 1);
+    }
+
     // Do we want proxy rendering
     if (project->useProxy() && !m_renderWidget->proxyRendering()) {
         QString root = doc.documentElement().attribute(QStringLiteral("root"));

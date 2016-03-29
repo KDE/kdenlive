@@ -205,6 +205,8 @@ public:
     void abortAudioThumbs();
     /** @brief Returns the list of this clip's subclip's ids. */
     QStringList subClipIds() const;
+    /** @brief Delete cached audio thumb - needs to be recreated */
+    void discardAudioThumb();
 
 public slots:
     void updateAudioThumbnail(QVariantList audioLevels);

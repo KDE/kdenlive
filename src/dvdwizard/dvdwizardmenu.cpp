@@ -65,7 +65,7 @@ void DvdScene::drawForeground(QPainter *painter, const QRectF &rect) {
     if (gridSize() <= 1)
         return;
 
-    QPen pen;
+    QPen pen(QColor(255, 0, 0, 100));
     painter->setPen(pen);
 
     qreal left = int(rect.left()) - (int(rect.left()) % m_gridSize);

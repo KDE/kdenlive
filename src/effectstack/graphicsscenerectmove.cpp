@@ -41,6 +41,7 @@ MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent) :
     , m_useShadow(false)
 {
     setCacheMode(QGraphicsItem::ItemCoordinateCache);
+    setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     document()->setDocumentMargin(0);
     updateGeometry();
     connect(document(), SIGNAL(contentsChange(int, int, int)),
@@ -266,10 +267,34 @@ QRectF MyTextItem::boundingRect() const
     return base;
 }
 
+QVariant MyTextItem::itemChange(GraphicsItemChange change, const QVariant &value) 
+{
+    if (change == ItemPositionChange && scene()) {
+        QPoint newPos = value.toPoint();
+        if (QApplication::mouseButtons() == Qt::LeftButton && qobject_cast<GraphicsSceneRectMove*> (scene())) {
+            GraphicsSceneRectMove* customScene = qobject_cast<GraphicsSceneRectMove*> (scene());
+            int gridSize = customScene->gridSize();
+            int xV = (newPos.x()/gridSize)*gridSize;
+            int yV = (newPos.y()/gridSize)*gridSize;
+            newPos = QPoint(xV, yV);
+        }
+        return newPos;
+    } else if (change == QGraphicsItem::ItemSelectedHasChanged) {
+        if (value.toBool() == false) {
+            // Make sure to deselect text when item loses focus
+            QTextCursor cur(document());
+            cur.clearSelection();
+            setTextCursor(cur);
+        }
+    }
+    return QGraphicsItem::itemChange(change, value);
+}
+
 MyRectItem::MyRectItem(QGraphicsItem *parent) :
     QGraphicsRectItem(parent)
 {
     setCacheMode(QGraphicsItem::ItemCoordinateCache);
+    setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 }
 
 void MyRectItem::setRect(const QRectF & rectangle)
@@ -282,12 +307,75 @@ void MyRectItem::setRect(const QRectF & rectangle)
     }
 }
 
+QVariant MyRectItem::itemChange(GraphicsItemChange change, const QVariant &value) 
+{
+    if (change == ItemPositionChange && scene()) {
+        QPoint newPos = value.toPoint();
+        if (QApplication::mouseButtons() == Qt::LeftButton && qobject_cast<GraphicsSceneRectMove*> (scene())) {
+            GraphicsSceneRectMove* customScene = qobject_cast<GraphicsSceneRectMove*> (scene());
+            int gridSize = customScene->gridSize();
+            int xV = (newPos.x()/gridSize)*gridSize;
+            int yV = (newPos.y()/gridSize)*gridSize;
+            newPos = QPoint(xV, yV);
+        }
+        return newPos;
+    }
+    return QGraphicsItem::itemChange(change, value);
+}
+
+MyPixmapItem::MyPixmapItem(const QPixmap &pixmap, QGraphicsItem *parent) :
+    QGraphicsPixmapItem(pixmap, parent)
+{
+    setCacheMode(QGraphicsItem::ItemCoordinateCache);
+    setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+}
+
+QVariant MyPixmapItem::itemChange(GraphicsItemChange change, const QVariant &value) 
+{
+    if (change == ItemPositionChange && scene()) {
+        QPoint newPos = value.toPoint();
+        if (QApplication::mouseButtons() == Qt::LeftButton && qobject_cast<GraphicsSceneRectMove*> (scene())) {
+            GraphicsSceneRectMove* customScene = qobject_cast<GraphicsSceneRectMove*> (scene());
+            int gridSize = customScene->gridSize();
+            int xV = (newPos.x()/gridSize)*gridSize;
+            int yV = (newPos.y()/gridSize)*gridSize;
+            newPos = QPoint(xV, yV);
+        }
+        return newPos;
+    }
+    return QGraphicsItem::itemChange(change, value);
+}
+
+MySvgItem::MySvgItem(const QString &fileName, QGraphicsItem *parent) :
+    QGraphicsSvgItem(fileName, parent)
+{
+    setCacheMode(QGraphicsItem::ItemCoordinateCache);
+    setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+}
+
+QVariant MySvgItem::itemChange(GraphicsItemChange change, const QVariant &value) 
+{
+    if (change == ItemPositionChange && scene()) {
+        QPoint newPos = value.toPoint();
+        if (QApplication::mouseButtons() == Qt::LeftButton && qobject_cast<GraphicsSceneRectMove*> (scene())) {
+            GraphicsSceneRectMove* customScene = qobject_cast<GraphicsSceneRectMove*> (scene());
+            int gridSize = customScene->gridSize();
+            int xV = (newPos.x()/gridSize)*gridSize;
+            int yV = (newPos.y()/gridSize)*gridSize;
+            newPos = QPoint(xV, yV);
+        }
+        return newPos;
+    }
+    return QGraphicsItem::itemChange(change, value);
+}
 GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent) :
     QGraphicsScene(parent),
     m_selectedItem(NULL),
     m_resizeMode(NoResize),
     m_possibleAction(NoResize),
-    m_tool(TITLE_RECTANGLE)
+    m_tool(TITLE_RECTANGLE),
+    m_gridSize(20),
+    m_createdText(false)
 {
     //grabMouse();
     m_zoom = 1.0;
@@ -336,8 +424,8 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent * keyEvent)
             return;
         }
     }
-    int diff = 1;
-    if (keyEvent->modifiers() & Qt::ControlModifier) diff = 10;
+    int diff = m_gridSize;
+    if (keyEvent->modifiers() & Qt::ControlModifier) diff = m_gridSize * 5;
     switch (keyEvent->key()) {
     case Qt::Key_Left:
         foreach (QGraphicsItem *qgi, selectedItems()) { qgi->moveBy(-diff,0); }
@@ -382,8 +470,13 @@ void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e)
     QList<QGraphicsItem*> i = items(QRectF(p , QSizeF(4, 4)).toRect());
     if (i.isEmpty()) return;
 
+    int ix = 1;
     QGraphicsItem* g = i.first();
-    if (g->type() == QGraphicsTextItem::Type) {
+    while (!(g->flags() & QGraphicsItem::ItemIsSelectable) && ix < i.count()) {
+        g = i.at(ix);
+        ix++;
+    }
+    if (g && g->type() == QGraphicsTextItem::Type && g->flags() & QGraphicsItem::ItemIsSelectable) {
         m_selectedItem = g;
         MyTextItem *t = static_cast<MyTextItem *>(g);
         t->setTextInteractionFlags(Qt::TextEditorInteraction);
@@ -395,12 +488,23 @@ void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 {
     if (m_tool == TITLE_RECTANGLE && m_selectedItem) setSelectedItem(m_selectedItem);
     QGraphicsScene::mouseReleaseEvent(e);
+    if (m_createdText) {
+        m_selectedItem->setSelected(true);
+        MyTextItem *newText = static_cast<MyTextItem*>(m_selectedItem);
+        QTextCursor cur(newText->document());
+        cur.select(QTextCursor::Document);
+        newText->setTextCursor(cur);
+        m_createdText = false;
+    }
     emit actionFinished();
 }
 
 void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
 {
-    m_clickPoint = e->scenePos();
+    int xPos = ((int) e->scenePos().x() / m_gridSize) * m_gridSize;
+    int yPos = ((int) e->scenePos().y() / m_gridSize) * m_gridSize;
+    m_clickPoint = QPointF(xPos, yPos);
+    //m_clickPoint = e->scenePos();
     QPointF p = e->scenePos();
     p += QPoint(-2, -2);
     m_resizeMode = m_possibleAction;
@@ -414,7 +518,11 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
         foreach(QGraphicsItem *g, list) {
             //qDebug() << " - - CHECKING ITEM Z:" << g->zValue() << ", TYPE: " << g->type();
             // check is there is a selected item in list
-            if (g->zValue() > -1000 && g->isSelected()) {
+            if (!(g->flags() & QGraphicsItem::ItemIsSelectable)) {
+                continue;
+            }
+            if (g->zValue() > -1000/* && g->isSelected()*/) {
+                g->setSelected(true);
                 item = g;
                 break;
             }
@@ -447,6 +555,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
                     return;
                 }
                 t->setTextInteractionFlags(Qt::NoTextInteraction);
+                t->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
                 setCursor(Qt::ClosedHandCursor);
             } else if (item->type() == QGraphicsRectItem::Type || item->type() == QGraphicsSvgItem::Type || item->type() == QGraphicsPixmapItem::Type) {
                 QRectF r1;
@@ -483,17 +592,19 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
             }
         }
     } else if (m_tool == TITLE_RECTANGLE) {
-        m_sceneClickPoint = e->scenePos();
+        m_sceneClickPoint = QPointF(xPos, yPos);
         m_selectedItem = NULL;
     } else if (m_tool == TITLE_TEXT) {
-        MyTextItem *textItem = new MyTextItem(QString(), NULL);
+        MyTextItem *textItem = new MyTextItem(QStringLiteral("Text"), NULL);
+        yPos = (((int) e->scenePos().y() - (int)(m_fontSize / 2)) / m_gridSize) * m_gridSize;
+        textItem->setPos(xPos, yPos);
         addItem(textItem);
-        emit newText(textItem);
         textItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
-        textItem->setPos(e->scenePos() - QPointF(0, (int)(m_fontSize / 2)));
+        emit newText(textItem);
         m_selectedItem = textItem;
         m_selectedItem->setSelected(true);
+        m_createdText = true;
     }
     QGraphicsScene::mousePressEvent(e);
     //qDebug() << "//////  MOUSE CLICK, RESIZE MODE: " << m_resizeMode;
@@ -536,7 +647,9 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
                 newrect = ((QGraphicsRectItem*)m_selectedItem)->rect();
             else
                 newrect = m_selectedItem->boundingRect();
-            QPointF newpoint = e->scenePos();
+            int xPos = ((int) e->scenePos().x() / m_gridSize) * m_gridSize;
+            int yPos = ((int) e->scenePos().y() / m_gridSize) * m_gridSize;
+            QPointF newpoint(xPos, yPos);
             switch (m_resizeMode) {
                 case BottomRight:
                 case BottomLeft:
@@ -581,9 +694,8 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
                 QGraphicsScene::mouseMoveEvent(e);
                 return;
             }
-            QPointF diff = e->scenePos() - m_sceneClickPoint;
+            QGraphicsScene::mouseMoveEvent(e);
             m_sceneClickPoint = e->scenePos();
-            foreach (QGraphicsItem *qgi, selectedItems()) { qgi->moveBy(diff.x(), diff.y()); }
         }
         emit itemMoved();
     } else if (m_tool == TITLE_SELECT) {
@@ -597,9 +709,13 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
         bool itemFound = false;
         QList<QGraphicsItem *> list = items(QRectF(p , QSizeF(4, 4)).toRect());
         foreach(const QGraphicsItem* g, list) {
+            if (!(g->flags() & QGraphicsItem::ItemIsSelectable)) {
+                continue;
+            }
             if ((g->type() == QGraphicsSvgItem::Type || g->type() == QGraphicsPixmapItem::Type) && g->zValue() > -1000) {
                 // image or svg item
                 setCursor(Qt::OpenHandCursor);
+                itemFound = true;
                 break;
             } else if (g->type() == QGraphicsRectItem::Type && g->zValue() > -1000) {
                 if (view == NULL) continue;
@@ -658,11 +774,11 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
                     m_possibleAction = NoResize;
                 }
             }
-            if (!itemFound) {
-                m_possibleAction = NoResize;
-                setCursor(Qt::ArrowCursor);
-            }
             break;
+        }
+        if (!itemFound) {
+            m_possibleAction = NoResize;
+            setCursor(Qt::ArrowCursor);
         }
         QGraphicsScene::mouseMoveEvent(e);
     } else if (m_tool == TITLE_RECTANGLE && e->buttons() & Qt::LeftButton) {
@@ -677,7 +793,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
             m_selectedItem->setPos(m_sceneClickPoint);
             m_selectedItem->setSelected(true);
             emit newRect(rect);
-            m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+            m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
             m_resizeMode = BottomRight;
             QGraphicsScene::mouseMoveEvent(e);
         }
@@ -731,6 +847,43 @@ void GraphicsSceneRectMove::setCursor(QCursor c)
 void GraphicsSceneRectMove::slotUpdateFontSize(int s)
 {
     m_fontSize = s;
+}
+
+void GraphicsSceneRectMove::drawForeground(QPainter *painter, const QRectF &rect) {
+    // draw the grid if needed
+    if (m_gridSize <= 1)
+        return;
+
+    QPen pen(QColor(255, 0, 0, 100));
+    painter->setPen(pen);
+
+    qreal left = int(rect.left()) - (int(rect.left()) % m_gridSize);
+    qreal top = int(rect.top()) - (int(rect.top()) % m_gridSize);
+    QVector<QPointF> points;
+    for (qreal x = left; x < rect.right(); x += m_gridSize){
+        for (qreal y = top; y < rect.bottom(); y += m_gridSize){
+            points.append(QPointF(x,y));
+        }
+    }
+    painter->drawPoints(points.data(), points.size());
+}
+
+int GraphicsSceneRectMove::gridSize() const
+{
+    return m_gridSize;
+}
+
+void GraphicsSceneRectMove::slotUseGrid(bool enableGrid)
+{
+    m_gridSize = enableGrid ? 20 : 1;
+}
+
+void GraphicsSceneRectMove::addNewItem(QGraphicsItem *item)
+{
+    clearSelection();
+    addItem(item);
+    item->setSelected(true);
+    m_selectedItem = item;
 }
 
 
