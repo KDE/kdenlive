@@ -108,6 +108,7 @@ private:
     QMap<QGraphicsItem*, Transform > m_transformations;
     TitleDocument m_titledocument;
     QGraphicsRectItem *m_frameBorder;
+    QGraphicsRectItem *m_frameBackground;
     QGraphicsPixmapItem *m_frameImage;
     int m_frameWidth;
     int m_frameHeight;

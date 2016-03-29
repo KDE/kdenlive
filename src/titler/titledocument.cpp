@@ -144,6 +144,9 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
     QTextBlockFormat format;
 
     foreach(QGraphicsItem * item, m_scene->items()) {
+        if (!(item->flags() & QGraphicsItem::ItemIsSelectable)) {
+            continue;
+        }
         QDomElement e = doc.createElement(QStringLiteral("item"));
         QDomElement content = doc.createElement(QStringLiteral("content"));
         QFont font;

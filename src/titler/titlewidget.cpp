@@ -429,15 +429,32 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(m_scene, SIGNAL(changed(QList<QRectF>)), this, SLOT(slotChanged()));
     connect(font_size, SIGNAL(valueChanged(int)), m_scene, SLOT(slotUpdateFontSize(int)));
 
-    QPen framepen(Qt::DotLine);
+    // Video frame rect
+    QPen framepen;
     framepen.setColor(Qt::red);
-
     m_frameBorder = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
     m_frameBorder->setPen(framepen);
-    m_frameBorder->setZValue(-1100);
+    m_frameBorder->setZValue(1000);
     m_frameBorder->setBrush(Qt::transparent);
     m_frameBorder->setFlags(0);
     graphicsView->scene()->addItem(m_frameBorder);
+
+    // semi transparent safe zones
+    framepen.setColor(QColor(255, 0, 0, 60));
+    QGraphicsRectItem *safe1 = new QGraphicsRectItem(QRectF(m_frameWidth * 0.05, m_frameHeight * 0.05, m_frameWidth * 0.9, m_frameHeight * 0.9), m_frameBorder);
+    safe1->setBrush(Qt::transparent);
+    safe1->setPen(framepen);
+    safe1->setFlags(0);
+    QGraphicsRectItem *safe2 = new QGraphicsRectItem(QRectF(m_frameWidth * 0.1, m_frameHeight * 0.1, m_frameWidth * 0.8, m_frameHeight * 0.8), m_frameBorder);
+    safe2->setBrush(Qt::transparent);
+    safe2->setPen(framepen);
+    safe2->setFlags(0);
+
+    m_frameBackground = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
+    m_frameBackground->setZValue(-1100);
+    m_frameBackground->setBrush(Qt::transparent);
+    m_frameBackground->setFlags(0);
+    graphicsView->scene()->addItem(m_frameBackground);
 
     m_frameImage = new QGraphicsPixmapItem();
     QTransform qtrans;
@@ -498,6 +515,10 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
         QTimer::singleShot(200, this, SLOT(slotAdjustZoom()));
     }
     initAnimation();
+    QColor color = backgroundColor->color();
+    m_scene->setBackgroundBrush(QBrush(color));
+    color.setAlpha(backgroundAlpha->value());
+    m_frameBackground->setBrush(color);
     connect(anim_start, SIGNAL(toggled(bool)), this, SLOT(slotAnimStart(bool)));
     connect(anim_end, SIGNAL(toggled(bool)), this, SLOT(slotAnimEnd(bool)));
     connect(templateBox, SIGNAL(currentIndexChanged(int)), this, SLOT(templateIndexChanged(int)));
@@ -1492,7 +1513,7 @@ void TitleWidget::slotChangeBackground()
     QColor color = backgroundColor->color();
     m_scene->setBackgroundBrush(QBrush(color));
     color.setAlpha(backgroundAlpha->value());
-    m_frameBorder->setBrush(QBrush(color));
+    m_frameBackground->setBrush(QBrush(color));
 }
 
 void TitleWidget::slotChanged()

@@ -382,8 +382,13 @@ void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e)
     QList<QGraphicsItem*> i = items(QRectF(p , QSizeF(4, 4)).toRect());
     if (i.isEmpty()) return;
 
+    int ix = 1;
     QGraphicsItem* g = i.first();
-    if (g->type() == QGraphicsTextItem::Type) {
+    while (!(g->flags() & QGraphicsItem::ItemIsSelectable) && ix < i.count()) {
+        g = i.at(ix);
+        ix++;
+    }
+    if (g && g->type() == QGraphicsTextItem::Type && g->flags() & QGraphicsItem::ItemIsSelectable) {
         m_selectedItem = g;
         MyTextItem *t = static_cast<MyTextItem *>(g);
         t->setTextInteractionFlags(Qt::TextEditorInteraction);
@@ -414,7 +419,11 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
         foreach(QGraphicsItem *g, list) {
             //qDebug() << " - - CHECKING ITEM Z:" << g->zValue() << ", TYPE: " << g->type();
             // check is there is a selected item in list
-            if (g->zValue() > -1000 && g->isSelected()) {
+            if (!(g->flags() & QGraphicsItem::ItemIsSelectable)) {
+                continue;
+            }
+            if (g->zValue() > -1000/* && g->isSelected()*/) {
+                g->setSelected(true);
                 item = g;
                 break;
             }
@@ -597,9 +606,13 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
         bool itemFound = false;
         QList<QGraphicsItem *> list = items(QRectF(p , QSizeF(4, 4)).toRect());
         foreach(const QGraphicsItem* g, list) {
+            if (!(g->flags() & QGraphicsItem::ItemIsSelectable)) {
+                continue;
+            }
             if ((g->type() == QGraphicsSvgItem::Type || g->type() == QGraphicsPixmapItem::Type) && g->zValue() > -1000) {
                 // image or svg item
                 setCursor(Qt::OpenHandCursor);
+                itemFound = true;
                 break;
             } else if (g->type() == QGraphicsRectItem::Type && g->zValue() > -1000) {
                 if (view == NULL) continue;
@@ -658,11 +671,11 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
                     m_possibleAction = NoResize;
                 }
             }
-            if (!itemFound) {
-                m_possibleAction = NoResize;
-                setCursor(Qt::ArrowCursor);
-            }
             break;
+        }
+        if (!itemFound) {
+            m_possibleAction = NoResize;
+            setCursor(Qt::ArrowCursor);
         }
         QGraphicsScene::mouseMoveEvent(e);
     } else if (m_tool == TITLE_RECTANGLE && e->buttons() & Qt::LeftButton) {
