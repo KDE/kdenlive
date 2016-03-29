@@ -892,6 +892,7 @@ void ProjectClip::discardAudioThumb()
     QFile::remove(audioPath);
     audioFrameCache.clear();
     m_controller->audioThumbCreated = false;
+    m_abortAudioThumb = false;
 }
 
 void ProjectClip::slotCreateAudioThumbs()
