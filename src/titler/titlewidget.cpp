@@ -428,6 +428,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     m_titledocument.setScene(m_scene, m_frameWidth, m_frameHeight);
     connect(m_scene, SIGNAL(changed(QList<QRectF>)), this, SLOT(slotChanged()));
     connect(font_size, SIGNAL(valueChanged(int)), m_scene, SLOT(slotUpdateFontSize(int)));
+    connect(use_grid, SIGNAL(toggled(bool)), m_scene, SLOT(slotUseGrid(bool)));
 
     // Video frame rect
     QPen framepen;
@@ -440,7 +441,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     graphicsView->scene()->addItem(m_frameBorder);
 
     // semi transparent safe zones
-    framepen.setColor(QColor(255, 0, 0, 60));
+    framepen.setColor(QColor(255, 0, 0, 100));
     QGraphicsRectItem *safe1 = new QGraphicsRectItem(QRectF(m_frameWidth * 0.05, m_frameHeight * 0.05, m_frameWidth * 0.9, m_frameHeight * 0.9), m_frameBorder);
     safe1->setBrush(Qt::transparent);
     safe1->setPen(framepen);
@@ -742,20 +743,20 @@ void TitleWidget::slotImageTool()
     if (url.isValid()) {
         KRecentDirs::add(QStringLiteral(":KdenliveImageFolder"), url.adjusted(QUrl::RemoveFilename).path());
         if (url.path().endsWith(QLatin1String(".svg"))) {
-            QGraphicsSvgItem *svg = new QGraphicsSvgItem(url.toLocalFile());
-            svg->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+            MySvgItem *svg = new MySvgItem(url.toLocalFile());
+            svg->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
             svg->setZValue(m_count++);
             svg->setData(Qt::UserRole, url.path());
-            graphicsView->scene()->addItem(svg);
+            m_scene->addNewItem(svg);
             prepareTools(svg);
         } else {
             QPixmap pix(url.path());
-            QGraphicsPixmapItem *image = new QGraphicsPixmapItem(pix);
+            MyPixmapItem *image = new MyPixmapItem(pix);
             image->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
-            image->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+            image->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
             image->setData(Qt::UserRole, url.path());
             image->setZValue(m_count++);
-            graphicsView->scene()->addItem(image);
+            m_scene->addNewItem(image);
             prepareTools(image);
         }
     }
@@ -2015,6 +2016,8 @@ void TitleWidget::writeChoices()
     titleConfig.writeEntry("background_color", backgroundColor->color());
     titleConfig.writeEntry("background_alpha", backgroundAlpha->value());
 
+    titleConfig.writeEntry("use_grid", use_grid->isChecked());
+
     //! \todo Not sure if I should sync - it is probably safe to do it
     config->sync();
 
@@ -2058,6 +2061,8 @@ void TitleWidget::readChoices()
 
     backgroundColor->setColor(titleConfig.readEntry("background_color", backgroundColor->color()));
     backgroundAlpha->setValue(titleConfig.readEntry("background_alpha", backgroundAlpha->value()));
+    use_grid->setChecked(titleConfig.readEntry("use_grid", false));
+    m_scene->slotUseGrid(use_grid->isChecked());
 }
 
 void TitleWidget::adjustFrameSize()
@@ -2883,3 +2888,4 @@ void TitleWidget::slotUpdateShadow()
         item->updateShadow(shadowBox->isChecked(), blur_radius->value(), shadowX->value(), shadowY->value(), shadowColor->color());
     }
 }
+

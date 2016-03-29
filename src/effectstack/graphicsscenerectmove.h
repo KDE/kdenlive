@@ -23,6 +23,7 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsTextItem>
+#include <QGraphicsSvgItem>
 
 enum resizeModes {NoResize = 0, TopLeft, BottomLeft, TopRight, BottomRight, Left, Right, Up, Down};
 enum TITLETOOL { TITLE_SELECT = 0, TITLE_RECTANGLE = 1, TITLE_TEXT = 2, TITLE_IMAGE = 3 };
@@ -42,6 +43,9 @@ public:
     QStringList shadowInfo() const;
     void loadShadow(QStringList info);
     void paint( QPainter *painter, const QStyleOptionGraphicsItem * option, QWidget* w);
+
+protected:
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:
     Qt::Alignment m_alignment;
@@ -63,8 +67,26 @@ class MyRectItem: public QGraphicsRectItem
 public:
     MyRectItem(QGraphicsItem *parent = 0);
     void setRect(const QRectF & rectangle);
+protected:
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 private:
     QRectF m_rect;
+};
+
+class MyPixmapItem: public QGraphicsPixmapItem
+{
+public:
+    MyPixmapItem(const QPixmap &pixmap, QGraphicsItem *parent = 0);
+protected:
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+};
+
+class MySvgItem: public QGraphicsSvgItem
+{
+public:
+    MySvgItem(const QString &fileName, QGraphicsItem *parent = 0);
+protected:
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 };
 
 class GraphicsSceneRectMove: public QGraphicsScene
@@ -79,9 +101,12 @@ public:
     void setTool(TITLETOOL tool);
     TITLETOOL tool() const;
     void clearTextSelection();
+    int gridSize() const;
+    void addNewItem(QGraphicsItem *item);
 
 public slots:
     void slotUpdateFontSize(int s);
+    void slotUseGrid(bool enableGrid);
 
 protected:
     virtual void keyPressEvent(QKeyEvent * keyEvent);
@@ -91,6 +116,7 @@ protected:
     /** @brief Resizes and moves items */
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent*);
     virtual void wheelEvent(QGraphicsSceneWheelEvent * wheelEvent);
+    void drawForeground(QPainter *painter, const QRectF &rect);
 
 private:
     void setCursor(QCursor);
@@ -102,6 +128,8 @@ private:
     TITLETOOL m_tool;
     QPointF m_clickPoint;
     int m_fontSize;
+    int m_gridSize;
+    bool m_createdText;
 
 signals:
     void itemMoved();
