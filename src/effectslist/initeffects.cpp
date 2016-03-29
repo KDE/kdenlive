@@ -627,9 +627,12 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
                     params.setAttribute(QStringLiteral("value"), paramdesc.get("default"));
                 }
 
-                QDomElement pname = ret.createElement(QStringLiteral("name"));
-                pname.appendChild(ret.createTextNode(paramdesc.get("title")));
-                params.appendChild(pname);
+                QString paramName = paramdesc.get("title");
+                if (!paramName.isEmpty()) {
+                    QDomElement pname = ret.createElement(QStringLiteral("name"));
+                    pname.appendChild(ret.createTextNode(paramName));
+                    params.appendChild(pname);
+                }
 		
 		if (paramdesc.get("description")) {
 		    QDomElement desc = ret.createElement(QStringLiteral("comment"));
