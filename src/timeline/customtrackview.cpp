@@ -6431,7 +6431,7 @@ ClipItem *CustomTrackView::getClipUnderCursor() const
 
 const QString CustomTrackView::getClipUnderCursor(int *pos, QPoint *zone) const
 {
-    ClipItem *item = getClipUnderCursor();
+    ClipItem *item = static_cast < ClipItem *>(getMainActiveClip());
     if (item == NULL) {
         if (m_dragItem && m_dragItem->type() == AVWidget) {
             item = static_cast < ClipItem *>(m_dragItem);
