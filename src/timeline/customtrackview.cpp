@@ -4130,6 +4130,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     if (m_dragItemInfo.track != info.track)
                         updateTrackDuration(m_dragItemInfo.track, moveCommand);
                     m_commandStack->push(moveCommand);
+                    updateTransitionWidget(transition, info);
                 }
             }
         } else {
@@ -5425,6 +5426,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                 m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(), xml.attribute("transition_atrack").toInt(), info.startPos, info.endPos, xml);
                 kfrCommand = new EditTransitionCommand(this, transition->track(), transition->startPos(), old, xml, false, command);
             }
+            updateTransitionWidget(transition, info);
             MoveTransitionCommand *moveCommand = new MoveTransitionCommand(this, oldInfo, info, false, command);
             if (command == NULL) {
                 if (kfrCommand) m_commandStack->push(kfrCommand);
@@ -5545,17 +5547,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
                 m_timeline->transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("transition_btrack")).toInt(), xml.attribute(QStringLiteral("transition_atrack")).toInt(), transition->startPos(), transition->endPos(), xml);
                 new EditTransitionCommand(this, transition->track(), transition->startPos(), old, xml, false, command);
             }
-            QPoint p;
-            ClipItem *transitionClip = getClipItemAtStart(info.startPos, info.track);
-            if (transitionClip && transitionClip->binClip()) {
-                int frameWidth = transitionClip->binClip()->getProducerIntProperty(QStringLiteral("meta.media.width"));
-                int frameHeight = transitionClip->binClip()->getProducerIntProperty(QStringLiteral("meta.media.height"));
-                double factor = transitionClip->binClip()->getProducerProperty(QStringLiteral("aspect_ratio")).toDouble();
-                if (factor == 0) factor = 1.0;
-                p.setX((int)(frameWidth * factor + 0.5));
-                p.setY(frameHeight);
-            }
-            emit transitionItemSelected(transition, getPreviousVideoTrack(info.track), p, true);
+            updateTransitionWidget(transition, info);
             new MoveTransitionCommand(this, oldInfo, info, false, command);
         }
     }
@@ -8179,4 +8171,19 @@ void CustomTrackView::slotRefreshCutLine()
         int mappedXPos = qMax((int)(pos.x()), 0);
         m_cutLine->setPos(mappedXPos, getPositionFromTrack(getTrackFromPos(pos.y())));
     }
+}
+
+void CustomTrackView::updateTransitionWidget(Transition *tr, ItemInfo info)
+{
+    QPoint p;
+    ClipItem *transitionClip = getClipItemAtStart(info.startPos, info.track);
+    if (transitionClip && transitionClip->binClip()) {
+        int frameWidth = transitionClip->binClip()->getProducerIntProperty(QStringLiteral("meta.media.width"));
+        int frameHeight = transitionClip->binClip()->getProducerIntProperty(QStringLiteral("meta.media.height"));
+        double factor = transitionClip->binClip()->getProducerProperty(QStringLiteral("aspect_ratio")).toDouble();
+        if (factor == 0) factor = 1.0;
+        p.setX((int)(frameWidth * factor + 0.5));
+        p.setY(frameHeight);
+    }
+    emit transitionItemSelected(tr, getPreviousVideoTrack(tr->track()), p, true);
 }

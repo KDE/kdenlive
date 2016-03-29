@@ -532,6 +532,8 @@ private:
     void reloadTimeline();
     /** @brief Timeline selection changed, update effect stack. */
     void updateTimelineSelection();
+    /** @brief Send updtaed info to transition widget. */
+    void updateTransitionWidget(Transition *tr, ItemInfo info);
 
 private slots:
     void slotRefreshGuides();
