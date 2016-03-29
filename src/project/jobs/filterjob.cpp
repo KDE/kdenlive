@@ -73,7 +73,8 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectCli
         producerParams.insert(QStringLiteral("in"), QStringLiteral("0"));
         producerParams.insert(QStringLiteral("out"), QStringLiteral("-1"));
         extraParams.insert(QStringLiteral("projecttreefilter"), QStringLiteral("1"));
-        extraParams.insert(QStringLiteral("producer_profile"), QStringLiteral("1"));
+        // Reverse clip using project profile since playlists can only be included with same fps
+        // extraParams.insert(QStringLiteral("producer_profile"), QStringLiteral("1"));
         for (int i = 0; i < clips.count(); i++) {
             QString prodstring = QString("timewarp:-1:" + sources.at(i));
             producerParams.insert(QStringLiteral("producer"), prodstring);
