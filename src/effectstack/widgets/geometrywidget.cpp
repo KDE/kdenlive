@@ -56,13 +56,6 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     connect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect);
     connect(m_monitor, &Monitor::effectPointsChanged, this, &GeometryWidget::slotUpdateCenters, Qt::UniqueConnection);
-    /*MonitorEditWidget *edit = monitor->getEffectEdit();
-    edit->removeCustomControls();
-    edit->addCustomButton(KoIconUtils::themedIcon("draw-path"), i18n("Show path"), this, SLOT(slotShowPath(bool)), true, KdenliveSettings::onmonitoreffects_geometryshowpath());
-    edit->addCustomButton(KoIconUtils::themedIcon("transform-crop"), i18n("Show previous keyframe"), this, SLOT(slotShowPreviousKeyFrame(bool)), true, KdenliveSettings::onmonitoreffects_geometryshowprevious());
-    m_scene = edit->getScene();
-    m_scene->cleanup();*/
-
     /*
         Setup of timeline and keyframe controls
     */
@@ -73,7 +66,7 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     m_timeline = new KeyframeHelper(m_ui.frameTimeline);
     layout->addWidget(m_timeline);
     layout->setContentsMargins(0, 0, 0, 0);
-    
+
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
 
@@ -428,7 +421,7 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
 {
     int keyframePos;
     if (pos == -1) {
-        pos = m_timeline->value();
+        pos = m_timePos->getValue();
         keyframePos = pos;
     } else {
         m_timePos->setValue(pos);
