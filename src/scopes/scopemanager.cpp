@@ -307,10 +307,10 @@ void ScopeManager::createScopes()
     createScopeDock(new Waveform(pCore->window()),      i18n("Waveform"));
     createScopeDock(new RGBParade(pCore->window()),     i18n("RGB Parade"));
     createScopeDock(new Histogram(pCore->window()),     i18n("Histogram"));
-
-    createScopeDock(new AudioSignal(pCore->window()),   i18n("Audio Signal"));
-    createScopeDock(new AudioSpectrum(pCore->window()), i18n("AudioSpectrum"));
-    createScopeDock(new Spectrogram(pCore->window()),   i18n("Spectrogram"));
+    // Deprecated scopes
+    // createScopeDock(new Spectrogram(pCore->window()),   i18n("Spectrogram"));
+    // createScopeDock(new AudioSignal(pCore->window()),   i18n("Audio Signal"));
+    // createScopeDock(new AudioSpectrum(pCore->window()), i18n("AudioSpectrum"));
 }
 
 template <class T> void ScopeManager::createScopeDock(T* scopeWidget, const QString& title)
