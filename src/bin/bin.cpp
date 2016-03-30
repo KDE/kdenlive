@@ -1351,6 +1351,7 @@ void Bin::slotInitView(QAction *action)
 	} else {
             view->header()->resizeSections(QHeaderView::ResizeToContents);
             view->resizeColumnToContents(0);
+            view->setColumnHidden(1, true);
             view->setColumnHidden(2, true);
 	}
         m_showDate->setChecked(!view->isColumnHidden(1));

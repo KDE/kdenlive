@@ -411,7 +411,7 @@ public:
     void emitAboutToRemoveItem(AbstractProjectItem* item);
     void emitItemRemoved(AbstractProjectItem* item);
     void setupMenu(QMenu *addMenu, QAction *defaultAction, QHash <QString, QAction*> actions);
-    
+
     /** @brief The source file was modified, we will reload it soon, disable item in the meantime */
     void setWaitingStatus(const QString &id);
 

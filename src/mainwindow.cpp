@@ -1429,6 +1429,10 @@ void MainWindow::readOptions()
     KConfigGroup initialGroup(config, "version");
     if (!initialGroup.exists() || KdenliveSettings::ffmpegpath().isEmpty() || KdenliveSettings::ffplaypath().isEmpty()) {
         // this is our first run, show Wizard
+        if (KdenliveSettings::trackheight() == 0) {
+            QFontMetrics metrics(font());
+            KdenliveSettings::setTrackheight(metrics.height() * 3);
+        }
         QPointer<Wizard> w = new Wizard(false, this);
         if (w->exec() == QDialog::Accepted && w->isOk()) {
             w->adjustSettings();
