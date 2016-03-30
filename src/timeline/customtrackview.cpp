@@ -3966,10 +3966,10 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     QUndoCommand *moveCommand = new QUndoCommand();
                     moveCommand->setText(i18n("Move clip"));
                     adjustTimelineClips(m_scene->editMode(), item, ItemInfo(), moveCommand, false);
-
                     bool isLocked = m_timeline->getTrackInfo(item->track()).isLocked;
                     if (isLocked) item->setItemLocked(true);
                     new MoveClipCommand(this, m_dragItemInfo, info, false, moveCommand);
+
                     // Also move automatic transitions (on lower track)
                     Transition *startTransition = getTransitionItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track);
                     ItemInfo startTrInfo;
@@ -3981,12 +3981,12 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         newStartTrInfo = startTrInfo;
                         newStartTrInfo.track = info.track;
                         newStartTrInfo.startPos = info.startPos;
-                        newStartTrInfo.cropDuration = newStartTrInfo.endPos - info.startPos;
-                        //TODO
+                        //newStartTrInfo.cropDuration = newStartTrInfo.endPos - info.startPos;
                         if (m_dragItemInfo.track == info.track /*&& !item->baseClip()->isTransparent()*/ && getClipItemAtEnd(newStartTrInfo.endPos, startTransition->transitionEndTrack())) {
-                            // transition end should stay the same
+                            // transition matches clip end on lower track, resize it
+                            newStartTrInfo.cropDuration = newStartTrInfo.endPos - newStartTrInfo.startPos;
                         } else {
-                            // transition end should be adjusted to clip
+                            // move transition with clip
                             newStartTrInfo.endPos = newStartTrInfo.endPos + (newStartTrInfo.startPos - startTrInfo.startPos);
                         }
                         if (newStartTrInfo.startPos < newStartTrInfo.endPos) moveStartTrans = true;
@@ -3999,10 +3999,10 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                             ItemInfo newTrInfo = trInfo;
                             newTrInfo.track = info.track;
                             newTrInfo.endPos = m_dragItem->endPos();
-                            newTrInfo.cropDuration = newTrInfo.endPos - newTrInfo.startPos;
                             //TODO
                             if (m_dragItemInfo.track == info.track /*&& !item->baseClip()->isTransparent()*/ && getClipItemAtStart(trInfo.startPos, tr->transitionEndTrack())) {
-                                // transition start should stay the same
+                                // transition start should stay the same, duration changes
+                                newTrInfo.cropDuration = newTrInfo.endPos - newTrInfo.startPos;
                             } else {
                                 // transition start should be moved
                                 newTrInfo.startPos = newTrInfo.startPos + (newTrInfo.endPos - trInfo.endPos);
@@ -4028,6 +4028,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                                         transTrack = getPreviousVideoTrack(info.track);
                                     }
                                     adjustTimelineTransitions(m_scene->editMode(), startTransition, moveCommand);
+                                    if (startTransition->updateKeyframes(startTrInfo, newStartTrInfo)) {
+                                        QDomElement old = startTransition->toXML();
+                                        QDomElement xml = startTransition->toXML();
+                                        m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newStartTrInfo.startPos, newStartTrInfo.endPos, xml);
+                                    }
                                     new AddTransitionCommand(this, newStartTrInfo, transTrack, startTransition->toXML(), false, true, moveCommand);
                                 }
                             }
@@ -4053,7 +4058,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         newTrInfo.startPos = m_dragItem->startPos();
                         newTrInfo.cropDuration = newTrInfo.endPos - m_dragItem->startPos();
                         ClipItem * upperClip = getClipItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track - 1);
-                        //TODO
                         if (!upperClip /*|| !upperClip->baseClip()->isTransparent()*/) {
                             if (!getClipItemAtEnd(newTrInfo.endPos, tr->track())) {
                                 // transition end should be adjusted to clip on upper track
@@ -4073,20 +4077,19 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     }
                     if (m_dragItemInfo.track == info.track && (tr == NULL || tr->endPos() < m_dragItemInfo.endPos)) {
                         // Check if there is a transition at clip end
-                        tr = getTransitionItemAtEnd(m_dragItemInfo.endPos, m_dragItemInfo.track - 1);
+                        tr = getTransitionItemAtEnd(m_dragItemInfo.endPos, m_dragItemInfo.track + 1);
                         if (tr && tr->isAutomatic() && tr->transitionEndTrack() == m_dragItemInfo.track) {
                             ItemInfo trInfo = tr->info();
                             ItemInfo newTrInfo = trInfo;
                             newTrInfo.endPos = m_dragItem->endPos();
-                            newTrInfo.cropDuration = m_dragItem->endPos() - newTrInfo.startPos;
-                            //qDebug() << "CLIP ENDS AT: " << newTrInfo.endPos.frames(25);
-                            //qDebug() << "CLIP STARTS AT: " << newTrInfo.startPos.frames(25);
                             ClipItem * upperClip = getClipItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track + 1);
-                            //TODO
                             if (!upperClip /*|| !upperClip->baseClip()->isTransparent()*/) {
                                 if (!getClipItemAtStart(trInfo.startPos, tr->track())) {
-                                    // transition start should be moved
-                                    newTrInfo.startPos = newTrInfo.startPos + (newTrInfo.endPos - trInfo.endPos);
+                                    // transition moved, update start
+                                    newTrInfo.startPos = m_dragItem->endPos() - newTrInfo.cropDuration;
+                                } else {
+                                    // transition start should be resized
+                                    newTrInfo.cropDuration = m_dragItem->endPos() - newTrInfo.startPos;
                                 }
                                 if (newTrInfo.startPos < newTrInfo.endPos) {
                                     adjustTimelineTransitions(m_scene->editMode(), tr, moveCommand);
