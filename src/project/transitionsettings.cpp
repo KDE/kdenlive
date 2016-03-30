@@ -250,6 +250,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack
             transitionList->blockSignals(false);
         }
         if (m_effectEdit->needsMonitorEffectScene()) {
+            slotRenderPos(m_effectEdit->monitor()->position().frames(KdenliveSettings::project_fps()));
             connect(m_effectEdit->monitor(), SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)), Qt::UniqueConnection);
         }
     } else {

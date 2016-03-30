@@ -587,6 +587,8 @@ void GeometryWidget::slotPreviousKeyframe()
         if (m_useOffset)
             pos -= m_inPoint;
     }
+    // Make sure we don't seek past transition's in
+    pos = qMax(pos, 0);
     slotPositionChanged(pos);
 }
 
@@ -600,7 +602,8 @@ void GeometryWidget::slotNextKeyframe()
         if (m_useOffset)
             pos -= m_inPoint;
     }
-
+    // Make sure we don't seek past transition's out
+    pos = qMin(pos, m_timeline->frameLength);
     slotPositionChanged(pos);
 }
 
