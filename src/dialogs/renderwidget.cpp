@@ -333,6 +333,10 @@ RenderWidget::~RenderWidget()
 
 void RenderWidget::slotEditItem(QTreeWidgetItem *item)
 {
+    if (item->parent() == NULL) {
+        // This is a top level item - group - don't edit
+        return;
+    }
     const QString edit = item->data(0, EditableRole).toString();
     if (edit.isEmpty() || !edit.endsWith(QLatin1String("customprofiles.xml")))
         slotSaveProfile();
