@@ -82,9 +82,10 @@ public:
     static EffectsList audioEffects;
     static EffectsList customEffects;
     static EffectsList transitions;
-    
+
     /** @brief Cache for luma files thumbnails. */
     static QMap <QString,QImage> m_lumacache;
+    static QMap <QString,QStringList> m_lumaFiles;
 
     /** @brief Adds an action to the action collection and stores the name. */
     void addAction(const QString &name, QAction *action);

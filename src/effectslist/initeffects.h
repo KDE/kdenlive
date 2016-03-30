@@ -55,7 +55,7 @@ public:
      * It creates an element for each transition, asking to MLT for information
      * when possible, using default parameters otherwise. It also adds some
      * "virtual" transition, and removes those not implemented. */
-    static void fillTransitionsList(Mlt::Repository *repository, EffectsList *transitions, QStringList names, QStringList imagefiles, QStringList imagenamelist);
+    static void fillTransitionsList(Mlt::Repository *repository, EffectsList *transitions, QStringList names);
 
     /** @brief Creates an element describing a transition parameter.
      * @param doc document containing the transition element
@@ -89,7 +89,7 @@ public:
                                 const QString &name, QStringList filtersList,
                                 QStringList producersList,
                                 Mlt::Repository *repository, QMap <QString, QString> effectDescriptions);
-    static void parseTransitionFile(EffectsList *transitionList, const QString &name, Mlt::Repository *repository, QMap <QString, QString> effectDescriptions, QStringList imagefiles, QStringList imagenamelist, const QString &defaultWipeLuma);
+    static void parseTransitionFile(EffectsList *transitionList, const QString &name, Mlt::Repository *repository, QMap <QString, QString> effectDescriptions);
     
     /** @brief Reloads information about custom effects. */
     static void parseCustomEffectsFile();

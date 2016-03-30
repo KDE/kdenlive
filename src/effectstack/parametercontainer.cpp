@@ -241,33 +241,49 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             Listval *lsval = new Listval;
             lsval->setupUi(toFillin);
 	    lsval->list->setFocusPolicy(Qt::StrongFocus);
-            QStringList listitems = pa.attribute(QStringLiteral("paramlist")).split(';');
-            if (listitems.count() == 1) {
-                // probably custom effect created before change to ';' as separator
-                listitems = pa.attribute(QStringLiteral("paramlist")).split(',');
-            }
-            QDomElement list = pa.firstChildElement(QStringLiteral("paramlistdisplay"));
-            QStringList listitemsdisplay;
-            if (!list.isNull()) {
-                listitemsdisplay = i18n(list.text().toUtf8().data()).split(',');
-            } else {
-                listitemsdisplay = i18n(pa.attribute("paramlistdisplay").toUtf8().data()).split(',');
-            }
-            if (listitemsdisplay.count() != listitems.count())
-                listitemsdisplay = listitems;
-            lsval->list->setIconSize(QSize(30, 30));
-            for (int i = 0; i < listitems.count(); ++i) {
-                lsval->list->addItem(listitemsdisplay.at(i), listitems.at(i));
-                QString entry = listitems.at(i);
-                if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
-                    if (!MainWindow::m_lumacache.contains(entry)) {
-                        QImage pix(entry);
-                        MainWindow::m_lumacache.insert(entry, pix.scaled(30, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-                    }
-		    lsval->list->setItemIcon(i, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
+            QString items = pa.attribute(QStringLiteral("paramlist"));
+            QStringList listitems;
+            if (items == QLatin1String("%lumaPaths")) {
+                // Special case: Luma files
+                // Create thumbnails
+                lsval->list->setIconSize(QSize(50, 30));
+                if (m_metaInfo->monitor->profileInfo().profileSize.width() > 1000) {
+                    // HD project
+                    listitems = MainWindow::m_lumaFiles.value(QStringLiteral("HD"));
+                } else {
+                    listitems = MainWindow::m_lumaFiles.value(QStringLiteral("PAL"));
                 }
+                lsval->list->addItem(i18n("None (Dissolve)"));
+                for (int i = 0; i < listitems.count(); ++i) {
+                    QString entry = listitems.at(i);
+                    lsval->list->addItem(listitems.at(i).section(QStringLiteral("/"), -1), entry);
+                    if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
+                        if (!MainWindow::m_lumacache.contains(entry)) {
+                            QImage pix(entry);
+                            MainWindow::m_lumacache.insert(entry, pix.scaled(50, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                        }
+                        lsval->list->setItemIcon(i + 1, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
+                    }
+                }
+                lsval->list->setCurrentText(pa.attribute(QStringLiteral("default")));
+                if (!value.isEmpty() && listitems.contains(value)) lsval->list->setCurrentIndex(listitems.indexOf(value) + 1);
+            } else {
+                listitems = items.split(';');
+                if (listitems.count() == 1) {
+                    // probably custom effect created before change to ';' as separator
+                    listitems = pa.attribute(QStringLiteral("paramlist")).split(',');
+                }
+                QDomElement list = pa.firstChildElement(QStringLiteral("paramlistdisplay"));
+                QStringList listitemsdisplay;
+                if (!list.isNull()) {
+                    listitemsdisplay = i18n(list.text().toUtf8().data()).split(',');
+                } else {
+                    listitemsdisplay = i18n(pa.attribute("paramlistdisplay").toUtf8().data()).split(',');
+                }
+                if (listitemsdisplay.count() != listitems.count())
+                    listitemsdisplay = listitems;
+                if (!value.isEmpty() && listitems.contains(value)) lsval->list->setCurrentIndex(listitems.indexOf(value));
             }
-            if (!value.isEmpty()) lsval->list->setCurrentIndex(listitems.indexOf(value));
             lsval->name->setText(paramName);
 	    lsval->setToolTip(comment);
             lsval->labelComment->setText(comment);

@@ -19,12 +19,11 @@
 
 
 #include "transitionhandler.h"
-
+#include "mainwindow.h"
 
 TransitionHandler::TransitionHandler(Mlt::Tractor *tractor) :
     m_tractor(tractor)
 {
-    
 }
 
 bool TransitionHandler::addTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool do_refresh)
@@ -74,15 +73,44 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
     for (int i = 0; i < attribs.count(); ++i) {
         QDomElement e = attribs.item(i).toElement();
         QString name = e.attribute(QStringLiteral("name"));
-        map[name] = e.attribute(QStringLiteral("default"));
         if (e.hasAttribute(QStringLiteral("value"))) {
             map[name] = e.attribute(QStringLiteral("value"));
+        } else {
+            QString defaultValue = e.attribute(QStringLiteral("default"));
+            // special case: luma file, we need to find full path for the default luma
+            if (!defaultValue.isEmpty() && e.attribute(QStringLiteral("paramlist")) == QLatin1String("%lumaPaths")) {
+                QString lumaFolder;
+                if (m_tractor->profile()->width() > 1000) {
+                    lumaFolder = QStringLiteral("HD");
+                } else {
+                    lumaFolder = QStringLiteral("PAL");
+                }
+                QStringList lumas = MainWindow::m_lumaFiles.value(lumaFolder);
+                bool found = false;
+                foreach(const QString &luma, lumas) {
+                    if (QUrl::fromLocalFile(luma).fileName() == defaultValue) {
+                        map[name] = luma;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    if (lumas.isEmpty()) {
+                        // Something is wrong
+                        map[name] = QString();
+                    } else {
+                        map[name] = lumas.first();
+                    }
+                }
+            } else {
+                map[name] = defaultValue;
+            }
         }
         double factor = e.attribute(QStringLiteral("factor"), QStringLiteral("1")).toDouble();
         double offset = e.attribute(QStringLiteral("offset"), QStringLiteral("0")).toDouble();
         if (factor!= 1 || offset != 0) {
             if (e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
-                QStringList values = e.attribute(QStringLiteral("value")).split(';', QString::SkipEmptyParts);
+                QStringList values = map.value(name).split(';', QString::SkipEmptyParts);
                 for (int j = 0; j < values.count(); ++j) {
                     QString pos = values.at(j).section(QLatin1Char('='), 0, 0);
                     double val = (values.at(j).section(QLatin1Char('='), 1, 1).toDouble() - offset) / factor;
@@ -98,7 +126,7 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
             //TODO: Deprecated, does not seem used anywhere...
             QString format = e.attribute(QStringLiteral("format"));
             QStringList separators = format.split(QStringLiteral("%d"), QString::SkipEmptyParts);
-            QStringList values = e.attribute(QStringLiteral("value")).split(QRegExp("[,:;x]"));
+            QStringList values = map.value(name).split(QRegExp("[,:;x]"));
             QString neu;
             QTextStream txtNeu(&neu);
             if (values.size() > 0)
@@ -110,7 +138,7 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
             }
             if (i < separators.size())
                 txtNeu << separators[i];
-            map[e.attribute(QStringLiteral("name"))] = neu;
+            map[name] = neu;
         }
 
     }

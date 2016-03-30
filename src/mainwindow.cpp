@@ -120,6 +120,7 @@ EffectsList MainWindow::customEffects;
 EffectsList MainWindow::transitions;
 
 QMap <QString,QImage> MainWindow::m_lumacache;
+QMap <QString,QStringList> MainWindow::m_lumaFiles;
 
 /*static bool sortByNames(const QPair<QString, QAction *> &a, const QPair<QString, QAction*> &b)
 {

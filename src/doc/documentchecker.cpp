@@ -71,6 +71,13 @@ bool DocumentChecker::hasErrorInClips()
     QString root = m_doc.documentElement().attribute(QStringLiteral("root"));
     if (!root.isEmpty()) root = QDir::cleanPath(root) + QDir::separator();
     QDomNodeList documentProducers = m_doc.elementsByTagName(QStringLiteral("producer"));
+    QDomElement profile = m_doc.documentElement().firstChildElement(QStringLiteral("profile"));
+    bool hdProfile = true;
+    if (!profile.isNull()) {
+        if (profile.attribute(QStringLiteral("width")).toInt() < 1000) {
+            hdProfile = false;
+        }
+    }
     // List clips whose proxy is missing
     QList <QDomElement> missingProxies;
     // List clips who have a working proxy but no source clip
@@ -175,6 +182,15 @@ bool DocumentChecker::hasErrorInClips()
         if (!filePath.startsWith('/')) filePath.prepend(root);
         if (!QFile::exists(filePath)) {
             QString fixedLuma;
+            // check if this was an old format luma, not in correct folder
+            fixedLuma = filePath.section("/", 0, -2);
+            fixedLuma.append(hdProfile ? "/HD/" : "/PAL/");
+            fixedLuma.append(filePath.section("/", -1));
+            if (QFile::exists(fixedLuma)) {
+                // Auto replace pgm with png for lumas
+                autoFixLuma.insert(filePath, fixedLuma);
+                continue;
+            }
             if (filePath.endsWith(".pgm")) {
                 fixedLuma = filePath.section(".", 0, -2) + ".png";
             }
