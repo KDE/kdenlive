@@ -519,7 +519,7 @@
                <item row="2" column="0">
                 <widget class="QRadioButton" name="plain_color">
                  <property name="text">
-                  <string>P&amp;lain Color</string>
+                  <string>So&amp;lid Color</string>
                  </property>
                  <property name="checked">
                   <bool>true</bool>
@@ -818,7 +818,7 @@
                <item row="0" column="0">
                 <widget class="QRadioButton" name="plain_rect">
                  <property name="text">
-                  <string>P&amp;lain Color</string>
+                  <string>So&amp;lid Color</string>
                  </property>
                  <property name="checked">
                   <bool>true</bool>
