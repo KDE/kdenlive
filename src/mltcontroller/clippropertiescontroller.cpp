@@ -222,6 +222,11 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
 
     // Force properties
     QVBoxLayout *vbox = new QVBoxLayout;
+    if (m_type == Text || m_type == SlideShow || m_type == QText) {
+        QPushButton *editButton = new QPushButton(i18n("Edit Clip"), this);
+        connect(editButton, SIGNAL(clicked()), this, SIGNAL(editClip()));
+        vbox->addWidget(editButton);
+    }
     if (m_type == Color || m_type == Image || m_type == AV || m_type == Video || m_type == TextTemplate) {
         // Edit duration widget
         m_originalProperties.insert(QStringLiteral("out"), m_properties.get("out"));

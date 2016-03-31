@@ -1537,14 +1537,42 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
         if (item->itemType() == AbstractProjectItem::ClipItem) {
             ProjectClip *clip = static_cast<ProjectClip*>(item);
             if (clip) {
-                if (clip->clipType() != Text) {
-                    m_editAction->trigger();
-                } else {
-                    m_propertiesPanel->setEnabled(false);
+                if (clip->clipType() == Text) {
                     showTitleWidget(clip);
+                } else if (clip->clipType() == SlideShow) {
+                    showSlideshowWidget(clip);
+                } else if (clip->clipType() == QText) {
+                    ClipCreationDialog::createQTextClip(m_doc, getFolderInfo(), this, clip);
+                } else {
+                    m_editAction->trigger();
                 }
             }
         }
+    }
+}
+
+void Bin::slotEditClip()
+{
+    QString panelId = m_propertiesPanel->property("clipId").toString();
+    QModelIndex current = m_proxyModel->selectionModel()->currentIndex();
+    AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(current).internalPointer());
+    if (item->clipId() != panelId) {
+        // wrong clip
+        return;
+    }
+    ProjectClip *clip = qobject_cast<ProjectClip*>(item);
+    switch (clip->clipType()) {
+        case Text:
+            showTitleWidget(clip);
+            break;
+        case SlideShow:
+            showSlideshowWidget(clip);
+            break;
+        case QText:
+            ClipCreationDialog::createQTextClip(m_doc, getFolderInfo(), this, clip);
+            break;
+        default:
+            break;
     }
 }
 
@@ -1563,11 +1591,7 @@ void Bin::slotSwitchClipProperties(const QModelIndex &ix)
         // User clicked in the icon, open clip properties
         AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
         ProjectClip *clip = qobject_cast<ProjectClip*>(item);
-        if (clip && clip->clipType() == Text) {
-            m_propertiesPanel->setEnabled(false);
-        } else {
-            m_propertiesPanel->setEnabled(true);
-        }
+        m_propertiesPanel->setEnabled(true);
         showClipProperties(clip);
     }
     else {
@@ -1594,45 +1618,16 @@ void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh, bool openExte
         return;
     }
     // Special case: text clips open title widget
-    if (clip->clipType() == Text) {
-        foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
-            delete w;
-        }
-        m_propertiesPanel->setProperty("clipId", clip->clipId());
-        m_propertiesPanel->setEnabled(false);
-        return;
-    }
-    if (clip->clipType() == SlideShow) {
-        // Cleanup widget for new content
-        foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
-            delete w;
-        }
-        m_propertiesPanel->setProperty("clipId", clip->clipId());
-        m_propertiesPanel->setEnabled(false);
-        showSlideshowWidget(clip);
-        return;
-    }
-    if (clip->clipType() == QText) {
-        // Cleanup widget for new content
-        foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
-            delete w;
-        }
-        m_propertiesPanel->setProperty("clipId", clip->clipId());
-        m_propertiesPanel->setEnabled(false);
-        ClipCreationDialog::createQTextClip(m_doc, getFolderInfo(), this, clip);
-        return;
-    }
+    m_propertiesPanel->setEnabled(true);
     QString panelId = m_propertiesPanel->property("clipId").toString();
     if (!forceRefresh && panelId == clip->clipId()) {
         // the properties panel is already displaying current clip, do nothing
-        m_propertiesPanel->setEnabled(true);
         return;
     }
     // Cleanup widget for new content
     foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
             delete w;
     }
-    m_propertiesPanel->setEnabled(true);
     m_propertiesPanel->setProperty("clipId", clip->clipId());
     QVBoxLayout *lay = static_cast<QVBoxLayout*>(m_propertiesPanel->layout());
     if (lay == 0) {
@@ -1645,7 +1640,7 @@ void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh, bool openExte
     connect(panel, SIGNAL(updateClipProperties(const QString &, QMap<QString, QString>, QMap<QString, QString>)), this, SLOT(slotEditClipCommand(const QString &, QMap<QString, QString>, QMap<QString, QString>)));
     connect(panel, SIGNAL(seekToFrame(int)), m_monitor, SLOT(slotSeek(int)));
     connect(panel, SIGNAL(addMarkers(QString,QList<CommentedTime>)), this, SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
-
+    connect(panel, SIGNAL(editClip()), this, SLOT(slotEditClip()));
     connect(panel, SIGNAL(editAnalysis(QString,QString,QString)), this, SLOT(slotAddClipExtraData(QString,QString,QString)));
 
     connect(panel, SIGNAL(loadMarkers(QString)), this, SLOT(slotLoadClipMarkers(QString)));

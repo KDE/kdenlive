@@ -560,6 +560,8 @@ private slots:
     void doRefreshAudioThumbs(const QString &id);
     /** @brief Enable item view and hide message */
     void slotMessageActionTriggered();
+    /** @brief Request editing of title or slideshow clip */
+    void slotEditClip();
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img, bool fromFile = false);
