@@ -4831,7 +4831,6 @@ void CustomTrackView::slotInfoProcessingFinished()
 
 void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList effects, PlaylistState::ClipState state, bool refresh)
 {
-    qDebug()<<" / / /ADDING CLIP: "<<info.startPos.frames(15);
     ProjectClip *binClip = m_document->getBinClip(clipId);
     if (!binClip) {
         emit displayMessage(i18n("Cannot insert clip..."), ErrorMessage);
