@@ -36,7 +36,6 @@
 #include <QDebug>
 #include <QDomDocument>
 #include <QTreeWidgetItem>
-#include <QTreeWidgetItem>
 #include <QHeaderView>
 #include <QInputDialog>
 #include <QProcess>
@@ -916,6 +915,7 @@ void RenderWidget::focusFirstVisibleItem(const QString &profile, const QString &
     if (item) {
         m_view.formats->setCurrentItem(item);
         item->parent()->setExpanded(true);
+        refreshParams();
     }
     updateButtons();
 }
