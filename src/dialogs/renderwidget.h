@@ -207,7 +207,7 @@ private:
     /** @brief Check if a job needs to be started. */
     void checkRenderStatus();
     void startRendering(RenderJobItem *item);
-    bool saveProfile(const QDomElement &newprofile);
+    bool saveProfile(QDomElement newprofile);
     void errorMessage(const QString &message);
 
 signals:

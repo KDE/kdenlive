@@ -546,7 +546,7 @@ void RenderWidget::slotSaveProfile()
 }
 
 
-bool RenderWidget::saveProfile(const QDomElement &newprofile)
+bool RenderWidget::saveProfile(QDomElement newprofile)
 {
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/");
     if (!dir.exists()) {
@@ -575,22 +575,29 @@ bool RenderWidget::saveProfile(const QDomElement &newprofile)
 
 
     QDomNodeList profilelist = doc.elementsByTagName(QStringLiteral("profile"));
+    QString newProfileName = newprofile.attribute(QStringLiteral("name"));
+    // Check existing profiles
+    QStringList existingProfileNames;
     int i = 0;
     while (!profilelist.item(i).isNull()) {
-        // make sure a profile with same name doesn't exist
         documentElement = profilelist.item(i).toElement();
         QString profileName = documentElement.attribute(QStringLiteral("name"));
-        if (profileName == newprofile.attribute(QStringLiteral("name"))) {
-            // a profile with that same name already exists
-            bool ok;
-            QString newProfileName = QInputDialog::getText(this, i18n("Profile already exists"), i18n("This profile name already exists. Change the name if you don't want to overwrite it."), QLineEdit::Normal, profileName, &ok);
-            if (!ok) return false;
-            if (profileName == newProfileName) {
-                profiles.removeChild(profilelist.item(i));
-                break;
-            }
+        existingProfileNames << profileName;
+        i++;
+    }
+    // Check if a profile with that same name already exists
+    bool ok;
+    while (existingProfileNames.contains(newProfileName)) {
+        QString updatedProfileName = QInputDialog::getText(this, i18n("Profile already exists"), i18n("This profile name already exists. Change the name if you don't want to overwrite it."), QLineEdit::Normal, newProfileName, &ok);
+        if (!ok) return false;
+        if (updatedProfileName == newProfileName) {
+            // remove previous profile
+            profiles.removeChild(profilelist.item(existingProfileNames.indexOf(newProfileName)));
+            break;
+        } else {
+            newProfileName = updatedProfileName;
+            newprofile.setAttribute(QStringLiteral("name"), newProfileName);
         }
-        ++i;
     }
 
     profiles.appendChild(newprofile);
@@ -652,7 +659,7 @@ void RenderWidget::slotCopyToFavorites()
     }
     doc.appendChild(profileElement);
     if (saveProfile(doc.documentElement())) {
-        parseProfiles(currentProfile);
+        parseProfiles(profileElement.attribute(QStringLiteral("name")));
     }
 }
 
