@@ -545,7 +545,8 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                     } else {
                         pix.loadFromData(QByteArray::fromBase64(base64.toLatin1()));
                     }
-                    QGraphicsPixmapItem *rec = m_scene->addPixmap(pix);
+                    MyPixmapItem *rec = new MyPixmapItem(pix);
+                    m_scene->addItem(rec);
                     rec->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
                     rec->setData(Qt::UserRole, url);
                     if (!base64.isEmpty()) {
@@ -557,9 +558,9 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                     QString base64 = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("base64")).nodeValue();
                     QGraphicsSvgItem *rec = NULL;
                     if (base64.isEmpty()) {
-                        rec = new QGraphicsSvgItem(url);
+                        rec = new MySvgItem(url);
                     } else {
-                        rec = new QGraphicsSvgItem();
+                        rec = new MySvgItem();
                         QSvgRenderer *renderer = new QSvgRenderer(QByteArray::fromBase64(base64.toLatin1()), rec);
                         rec->setSharedRenderer(renderer);
                         //QString elem=rec->elementId();
@@ -588,7 +589,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                 if (!zoom.isEmpty()) gitem->setData(TitleDocument::ZoomFactor, zoom.toInt());
                 if (zValue >= maxZValue) maxZValue = zValue + 1;
                 gitem->setZValue(zValue);
-                gitem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+                gitem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
 
                 // effects
                 QDomNode eff = itemNode.namedItem(QStringLiteral("effect"));

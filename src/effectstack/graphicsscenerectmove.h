@@ -84,7 +84,7 @@ protected:
 class MySvgItem: public QGraphicsSvgItem
 {
 public:
-    MySvgItem(const QString &fileName, QGraphicsItem *parent = 0);
+    MySvgItem(const QString &fileName = QString(), QGraphicsItem *parent = 0);
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 };
