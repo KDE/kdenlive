@@ -280,12 +280,12 @@ Bin::Bin(QWidget* parent) :
   , m_invalidClipDialog(NULL)
   , m_gainedFocus(false)
 {
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    m_layout = new QVBoxLayout(this);
 
     // Create toolbar for buttons
     m_toolbar = new KToolBar(this);
     m_toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    layout->addWidget(m_toolbar);
+    m_layout->addWidget(m_toolbar);
 
     // Search line
     m_proxyModel = new ProjectSortProxyModel(this);
@@ -413,15 +413,12 @@ Bin::Bin(QWidget* parent) :
 
     m_binTreeViewDelegate = new BinItemDelegate(this);
     //connect(pCore->projectManager(), SIGNAL(projectOpened(Project*)), this, SLOT(setProject(Project*)));
-    m_splitter = new QSplitter(this);
     m_headerInfo = QByteArray::fromBase64(KdenliveSettings::treeviewheaders().toLatin1());
-    layout->addWidget(m_splitter);
     m_propertiesPanel = new QWidget(this);
-    m_splitter->addWidget(m_propertiesPanel);
 
     // Info widget for failed jobs, other errors
     m_infoMessage = new BinMessageWidget;
-    layout->addWidget(m_infoMessage);
+    m_layout->addWidget(m_infoMessage);
     m_infoMessage->setCloseButtonVisible(false);
     connect(m_infoMessage, SIGNAL(messageClosing()), this, SLOT(slotResetInfoMessage()));
     //m_infoMessage->setWordWrap(true);
@@ -432,6 +429,7 @@ Bin::Bin(QWidget* parent) :
     connect(this, SIGNAL(requesteInvalidRemoval(QString,QUrl,QString)), this, SLOT(slotQueryRemoval(QString,QUrl,QString)));
     connect(this, &Bin::refreshAudioThumbs, this, &Bin::doRefreshAudioThumbs);
     connect(this, SIGNAL(displayBinMessage(QString,KMessageWidget::MessageType)), this, SLOT(doDisplayMessage(QString,KMessageWidget::MessageType)));
+    m_propertiesDock = pCore->window()->addDock(i18n("Clip Properties"), "clipProperties", m_propertiesPanel);
 }
 
 Bin::~Bin()
@@ -1313,13 +1311,13 @@ void Bin::slotInitView(QAction *action)
 
     switch (m_listType) {
 	case BinIconView:
-	    m_itemView = new MyListView(m_splitter);
+	    m_itemView = new MyListView(this);
 	    m_folderUp = new ProjectFolderUp(NULL);
 	    m_showDate->setEnabled(false);
 	    m_showDesc->setEnabled(false);
 	    break;
 	default:
-	    m_itemView = new MyTreeView(m_splitter);
+	    m_itemView = new MyTreeView(this);
 	    m_showDate->setEnabled(true);
 	    m_showDesc->setEnabled(true);
 	    break;
@@ -1333,10 +1331,7 @@ void Bin::slotInitView(QAction *action)
     m_blankThumb.addPixmap(pix);
     m_itemView->setModel(m_proxyModel);
     m_itemView->setSelectionModel(m_proxyModel->selectionModel());
-    m_splitter->addWidget(m_itemView);
-    m_splitter->insertWidget(2, m_propertiesPanel);
-    m_splitter->setSizes(QList <int>() << 4 << 2);
-    m_propertiesPanel->hide();
+    m_layout->addWidget(m_itemView);
 
     // setup some default view specific parameters
     if (m_listType == BinTreeView) {
@@ -1539,12 +1534,25 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
             m_itemView->edit(ix);
             return;
         }
-        m_editAction->trigger();
+        if (item->itemType() == AbstractProjectItem::ClipItem) {
+            ProjectClip *clip = static_cast<ProjectClip*>(item);
+            if (clip) {
+                if (clip->clipType() != Text) {
+                    m_editAction->trigger();
+                } else {
+                    m_propertiesPanel->setEnabled(false);
+                    showTitleWidget(clip);
+                }
+            }
+        }
     }
 }
 
-void Bin::slotSwitchClipProperties()
+void Bin::slotSwitchClipProperties(bool display)
 {
+    m_propertiesDock->toggleViewAction()->trigger();
+    if (display)
+        m_propertiesDock->raise();
     QModelIndex current = m_proxyModel->selectionModel()->currentIndex();
     slotSwitchClipProperties(current);
 }
@@ -1553,40 +1561,30 @@ void Bin::slotSwitchClipProperties(const QModelIndex &ix)
 {
     if (ix.isValid()) {
         // User clicked in the icon, open clip properties
-        if (m_propertiesPanel->isHidden()) {
-	    AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
-            ProjectClip *clip = qobject_cast<ProjectClip*>(item);
-            if (clip && clip->clipType() == Text) {
-		m_propertiesPanel->hide();
-	    } else {
-		m_propertiesPanel->setEnabled(true);
-		m_propertiesPanel->show();
-		
-	    }
-            showClipProperties(clip);
+        AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
+        ProjectClip *clip = qobject_cast<ProjectClip*>(item);
+        if (clip && clip->clipType() == Text) {
+            m_propertiesPanel->setEnabled(false);
+        } else {
+            m_propertiesPanel->setEnabled(true);
         }
-        else m_propertiesPanel->hide();
+        showClipProperties(clip);
     }
     else {
-        if (m_propertiesPanel->isHidden()) {
-            showClipProperties(NULL);
-        }
-        else m_propertiesPanel->hide();
+        m_propertiesPanel->setEnabled(false);
     }
 }
 
-void Bin::doRefreshPanel(const QString &id) {
-    if (m_editAction->isChecked()) {
-        ProjectClip *currentItem = getFirstSelectedClip();
-        if (currentItem && currentItem->clipId() == id) {
-            showClipProperties(currentItem, true);
-        }
+void Bin::doRefreshPanel(const QString &id)
+{
+    ProjectClip *currentItem = getFirstSelectedClip();
+    if (currentItem && currentItem->clipId() == id) {
+        showClipProperties(currentItem, true);
     }
 }
 
 void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh, bool openExternalDialog )
 {
-    if (!m_editAction->isChecked()) return;
     if (!clip) {
         m_propertiesPanel->setEnabled(false);
         return;
@@ -1597,8 +1595,11 @@ void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh, bool openExte
     }
     // Special case: text clips open title widget
     if (clip->clipType() == Text) {
+        foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
+            delete w;
+        }
+        m_propertiesPanel->setProperty("clipId", clip->clipId());
         m_propertiesPanel->setEnabled(false);
-        if (openExternalDialog) showTitleWidget(clip);
         return;
     }
     if (clip->clipType() == SlideShow) {
@@ -1606,6 +1607,7 @@ void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh, bool openExte
         foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
             delete w;
         }
+        m_propertiesPanel->setProperty("clipId", clip->clipId());
         m_propertiesPanel->setEnabled(false);
         showSlideshowWidget(clip);
         return;
@@ -1615,11 +1617,11 @@ void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh, bool openExte
         foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
             delete w;
         }
+        m_propertiesPanel->setProperty("clipId", clip->clipId());
         m_propertiesPanel->setEnabled(false);
         ClipCreationDialog::createQTextClip(m_doc, getFolderInfo(), this, clip);
         return;
     }
-    m_propertiesPanel->show();
     QString panelId = m_propertiesPanel->property("clipId").toString();
     if (!forceRefresh && panelId == clip->clipId()) {
         // the properties panel is already displaying current clip, do nothing
@@ -1901,6 +1903,7 @@ void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, QHash <QString, QAct
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_toolbar->insertWidget(folder, m_addButton);
     m_menu = new QMenu();
+    connect(m_propertiesDock, &QDockWidget::visibilityChanged, m_editAction, &QAction::setChecked);
     //m_menu->addActions(addMenu->actions());
 }
 

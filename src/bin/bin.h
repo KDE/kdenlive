@@ -41,8 +41,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QLineEdit>
 
 class KdenliveDoc;
+class QVBoxLayout;
 class ClipController;
-class QSplitter;
+class QDockWidget;
 class QTimeLine;
 class KToolBar;
 class QMenu;
@@ -576,7 +577,7 @@ public slots:
     void slotRefreshClipProperties();
     void slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos);
     void slotSwitchClipProperties(const QModelIndex &ix);
-    void slotSwitchClipProperties();
+    void slotSwitchClipProperties(bool display = true);
     /** @brief Creates a new folder with optional name, and returns new folder's id */
     QString slotAddFolder(const QString &folderName = QString());
     void slotCreateProjectClip();
@@ -641,7 +642,6 @@ private:
     QAction *m_inTimelineAction;
     QAction *m_showDate;
     QAction *m_showDesc;
-    QSplitter *m_splitter;
     /** @brief Holds an available unique id for a clip to be created */
     int m_clipCounter;
     /** @brief Holds an available unique id for a folder to be created */
@@ -652,6 +652,8 @@ private:
     QSize m_iconSize;
     /** @brief Keeps the column width info of the tree view. */
     QByteArray m_headerInfo;
+    QVBoxLayout *m_layout;
+    QDockWidget *m_propertiesDock;
     QWidget *m_propertiesPanel;
     QSlider *m_slider;
     Monitor *m_monitor;
