@@ -164,7 +164,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     m_view.buttonDelete->setToolTip(i18n("Delete profile"));
     m_view.buttonDelete->setEnabled(false);
 
-    m_view.buttonEdit->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-properties")));
+    m_view.buttonEdit->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-edit")));
     m_view.buttonEdit->setToolTip(i18n("Edit profile"));
     m_view.buttonEdit->setEnabled(false);
 
@@ -547,7 +547,7 @@ void RenderWidget::slotSaveProfile()
 }
 
 
-void RenderWidget::saveProfile(const QDomElement &newprofile)
+bool RenderWidget::saveProfile(const QDomElement &newprofile)
 {
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/");
     if (!dir.exists()) {
@@ -585,7 +585,7 @@ void RenderWidget::saveProfile(const QDomElement &newprofile)
             // a profile with that same name already exists
             bool ok;
             QString newProfileName = QInputDialog::getText(this, i18n("Profile already exists"), i18n("This profile name already exists. Change the name if you don't want to overwrite it."), QLineEdit::Normal, profileName, &ok);
-            if (!ok) return;
+            if (!ok) return false;
             if (profileName == newProfileName) {
                 profiles.removeChild(profilelist.item(i));
                 break;
@@ -600,16 +600,17 @@ void RenderWidget::saveProfile(const QDomElement &newprofile)
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         KMessageBox::sorry(this, i18n("Unable to write to file %1", dir.absoluteFilePath("customprofiles.xml")));
-        return;
+        return false;
     }
     QTextStream out(&file);
     out << doc.toString();
     if (file.error() != QFile::NoError) {
         KMessageBox::error(this, i18n("Cannot write to file %1", dir.absoluteFilePath("customprofiles.xml")));
         file.close();
-        return;
+        return false;
     }
     file.close();
+    return true;
 }
 
 void RenderWidget::slotCopyToFavorites()
@@ -651,8 +652,9 @@ void RenderWidget::slotCopyToFavorites()
         profileElement.setAttribute(QStringLiteral("speeds"), item->data(0, SpeedsRole).toStringList().join(QStringLiteral(";")));
     }
     doc.appendChild(profileElement);
-    saveProfile(doc.documentElement());
-    parseProfiles();
+    if (saveProfile(doc.documentElement())) {
+        parseProfiles(currentProfile);
+    }
 }
 
 void RenderWidget::slotEditProfile()
@@ -897,11 +899,9 @@ void RenderWidget::focusFirstVisibleItem(const QString &profile, const QString &
     QTreeWidgetItem *item = 0;
     if (!profile.isEmpty()) {
         QList <QTreeWidgetItem *> items = m_view.formats->findItems(profile, Qt::MatchExactly | Qt::MatchRecursive);
-        if (!items.isEmpty())
-            if (!category.isEmpty())
-                foreach(item, items)
-                    if (item->parent()->text(0) == category)
-                        break;
+        if (!items.isEmpty()) {
+            item = items.first();
+        }
     }
     if (!item) {
         // searched profile not found in any category, select 1st available profile
@@ -1549,6 +1549,12 @@ void RenderWidget::refreshParams()
 {
     // Format not available (e.g. codec not installed); Disable start button
     QTreeWidgetItem *item = m_view.formats->currentItem();
+    if (!item || item->parent() == NULL) {
+        // This is a category item, not a real profile
+        m_view.buttonBox->setEnabled(false);
+    } else {
+        m_view.buttonBox->setEnabled(true);
+    }
     QString extension;
     if (item) {
         extension = item->data(0, ExtensionRole).toString();
@@ -1666,7 +1672,7 @@ void RenderWidget::reloadProfiles()
     parseProfiles();
 }
 
-void RenderWidget::parseProfiles()
+void RenderWidget::parseProfiles(const QString &selectedProfile)
 {
     m_view.formats->clear();
 
@@ -1689,6 +1695,8 @@ void RenderWidget::parseProfiles()
         parseFile(directory.absoluteFilePath(filename), true);
     if (QFile::exists(exportFolder + "customprofiles.xml"))
         parseFile(exportFolder + "customprofiles.xml", true);
+
+    focusFirstVisibleItem(selectedProfile);
 }
 
 void RenderWidget::parseMltPresets()
@@ -1924,7 +1932,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             m_view.formats->addTopLevelItem(groupItem);
             groupItem->setExpanded(true);
         }
-        
+
         QDomNode n = groups.item(i).firstChild();
         while (!n.isNull()) {
             if (n.toElement().tagName() != QLatin1String("profile")) {
