@@ -586,8 +586,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                 if (!rotate.isEmpty()) gitem->setData(TitleDocument::RotateFactor, stringToList(rotate));
                 QString zoom = trans.attribute(QStringLiteral("zoom"));
                 if (!zoom.isEmpty()) gitem->setData(TitleDocument::ZoomFactor, zoom.toInt());
-                int zValue = itemNode.attributes().namedItem(QStringLiteral("z-index")).nodeValue().toInt();
-                if (zValue > maxZValue) maxZValue = zValue;
+                if (zValue >= maxZValue) maxZValue = zValue + 1;
                 gitem->setZValue(zValue);
                 gitem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 

@@ -1837,27 +1837,10 @@ void TitleWidget::loadTitle(QUrl url)
         }
         m_scene->clearTextSelection();
         QDomDocument doc;
-        
         QFile file(url.path());
         doc.setContent(&file, false);
         file.close();
         setXml(doc);
-
-        /*int out;
-        m_count = m_titledocument.loadDocument(url, m_startViewport, m_endViewport, &out) + 1;
-        adjustFrameSize();
-        title_duration->setText(m_tc.getTimecode(GenTime(out, m_render->fps())));
-        insertingValues = true;
-        startViewportX->setValue(m_startViewport->data(0).toInt());
-        startViewportY->setValue(m_startViewport->data(1).toInt());
-        startViewportSize->setValue(m_startViewport->data(2).toInt());
-        endViewportX->setValue(m_endViewport->data(0).toInt());
-        endViewportY->setValue(m_endViewport->data(1).toInt());
-        endViewportSize->setValue(m_endViewport->data(2).toInt());
-
-        insertingValues = false;
-        slotSelectTool();
-        slotAdjustZoom();*/
     }
 }
 
