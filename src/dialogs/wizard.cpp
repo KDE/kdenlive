@@ -742,20 +742,11 @@ void Wizard::adjustSettings()
         installExtraMimes(QStringLiteral("video/dv"), globs);
         runUpdateMimeDatabase();
     }
-    /*KdenliveSettings::setAudiothumbnails(m_extra.audiothumbs->isChecked());
-    KdenliveSettings::setVideothumbnails(m_extra.videothumbs->isChecked());
-    KdenliveSettings::setCrashrecovery(m_extra.autosave->isChecked());*/
     if (m_standard.profiles_list->currentItem()) {
         QString selectedProfile = m_standard.profiles_list->currentItem()->data(Qt::UserRole).toString();
         if (selectedProfile.isEmpty()) selectedProfile = QStringLiteral("dv_pal");
         KdenliveSettings::setDefault_profile(selectedProfile);
     }
-    /*QString path = m_extra.projectfolder->url().path();
-    QDir dir;
-    if (dir.mkpath(path) == false) {
-        qDebug() << "/// ERROR CREATING PROJECT FOLDER: " << path;
-    } else KdenliveSettings::setDefaultprojectfolder(path);*/
-
 }
 
 void Wizard::slotCheckMlt()
