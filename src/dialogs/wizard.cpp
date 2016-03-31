@@ -410,7 +410,7 @@ void Wizard::checkMissingCodecs()
     if (acodecsList.contains(QStringLiteral("libvorbis"))) replaceVorbisCodec = true;
     bool replaceLibfaacCodec = false;
     if (!acodecsList.contains(QStringLiteral("aac")) && acodecsList.contains(QStringLiteral("libfaac"))) replaceLibfaacCodec = true;
-    
+
     QString exportFolder = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/";
     QDir directory = QDir(exportFolder);
     QStringList filter;
@@ -442,8 +442,18 @@ void Wizard::checkMissingCodecs()
     }
     requiredACodecs.removeDuplicates();
     requiredVCodecs.removeDuplicates();
-    if (replaceVorbisCodec) requiredACodecs.replaceInStrings(QStringLiteral("vorbis"), QStringLiteral("libvorbis"));
-    if (replaceLibfaacCodec) requiredACodecs.replaceInStrings(QStringLiteral("aac"), QStringLiteral("libfaac"));
+    if (replaceVorbisCodec)  {
+        int ix = requiredACodecs.indexOf(QStringLiteral("vorbis"));
+        if (ix > -1) {
+            requiredACodecs.replace(ix, QStringLiteral("libvorbis"));
+        }
+    }
+    if (replaceLibfaacCodec) {
+        int ix = requiredACodecs.indexOf(QStringLiteral("aac"));
+        if (ix > -1) {
+            requiredACodecs.replace(ix, QStringLiteral("libfaac"));
+        }
+    }
 
     for (int i = 0; i < acodecsList.count(); ++i)
         requiredACodecs.removeAll(acodecsList.at(i));

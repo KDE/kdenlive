@@ -1850,7 +1850,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
 
             if (replaceVorbisCodec && params.contains(QStringLiteral("acodec=vorbis"))) {
                 // replace vorbis with libvorbis
-                params = params.replace(QLatin1String("vorbis"), QLatin1String("libvorbis"));
+                params = params.replace(QLatin1String("=vorbis"), QLatin1String("=libvorbis"));
             }
             if (replaceLibfaacCodec && params.contains(QStringLiteral("acodec=aac"))) {
                 // replace libfaac with aac
@@ -1953,7 +1953,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
 
             if (replaceVorbisCodec && params.contains(QStringLiteral("acodec=vorbis"))) {
                 // replace vorbis with libvorbis
-                params = params.replace(QLatin1String("vorbis"), QLatin1String("libvorbis"));
+                params = params.replace(QLatin1String("=vorbis"), QLatin1String("=libvorbis"));
             }
             if (replaceLibfaacCodec && params.contains(QStringLiteral("acodec=aac"))) {
                 // replace libfaac with aac
