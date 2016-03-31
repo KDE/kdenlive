@@ -2803,6 +2803,7 @@ void TitleWidget::storeGradient(const QString &gradientData)
     group.writeEntry(gradName, gradientData);
     group.sync();
     QPixmap pix(30, 30);
+    pix.fill(Qt::transparent);
     QLinearGradient gr = GradientWidget::gradientFromString(gradientData, pix.width(), pix.height());
     gr.setStart(0, pix.height() / 2);
     gr.setFinalStop(pix.width(), pix.height() / 2);
@@ -2834,6 +2835,7 @@ void TitleWidget::loadGradients()
     while (k.hasNext()) {
         k.next();
         QPixmap pix(30, 30);
+        pix.fill(Qt::transparent);
         QLinearGradient gr = GradientWidget::gradientFromString(k.value(), pix.width(), pix.height());
         gr.setStart(0, pix.height() / 2);
         gr.setFinalStop(pix.width(), pix.height() / 2);
