@@ -423,6 +423,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     m_scene = new GraphicsSceneRectMove(this);
     graphicsView->setScene(m_scene);
     graphicsView->setMouseTracking(true);
+    graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     graphicsView->setDragMode(QGraphicsView::RubberBandDrag);
     graphicsView->setRubberBandSelectionMode(Qt::ContainsItemBoundingRect);
     m_titledocument.setScene(m_scene, m_frameWidth, m_frameHeight);
