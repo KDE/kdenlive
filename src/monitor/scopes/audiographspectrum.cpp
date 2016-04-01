@@ -30,6 +30,8 @@
 #include <QPainter>
 #include <QAction>
 
+#include <math.h>
+
 #include <mlt++/Mlt.h>
 
 
