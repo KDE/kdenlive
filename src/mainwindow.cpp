@@ -1425,14 +1425,17 @@ void MainWindow::readOptions()
             KdenliveSettings::setDefaultprojectfolder(dir.absolutePath());
         }
     }
+    if (KdenliveSettings::trackheight() == 0) {
+        QFontMetrics metrics(font());
+        KdenliveSettings::setTrackheight(metrics.height() * 3);
+    }
+    if (KdenliveSettings::trackheight() == 0) {
+        KdenliveSettings::setTrackheight(50);
+    }
 
     KConfigGroup initialGroup(config, "version");
     if (!initialGroup.exists() || KdenliveSettings::ffmpegpath().isEmpty() || KdenliveSettings::ffplaypath().isEmpty()) {
         // this is our first run, show Wizard
-        if (KdenliveSettings::trackheight() == 0) {
-            QFontMetrics metrics(font());
-            KdenliveSettings::setTrackheight(metrics.height() * 3);
-        }
         QPointer<Wizard> w = new Wizard(false, this);
         if (w->exec() == QDialog::Accepted && w->isOk()) {
             w->adjustSettings();
