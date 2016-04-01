@@ -1427,7 +1427,7 @@ void MainWindow::readOptions()
     }
     if (KdenliveSettings::trackheight() == 0) {
         QFontMetrics metrics(font());
-        KdenliveSettings::setTrackheight(metrics.height() * 3);
+        KdenliveSettings::setTrackheight(metrics.height() * 2.5);
     }
     if (KdenliveSettings::trackheight() == 0) {
         KdenliveSettings::setTrackheight(50);
