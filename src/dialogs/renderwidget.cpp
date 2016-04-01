@@ -2287,7 +2287,7 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
 
     QString url = props.value(QStringLiteral("renderurl"));
     if (!url.isEmpty())
-        m_view.out_file->setUrl(QUrl(url));
+        m_view.out_file->setUrl(QUrl::fromLocalFile(url));
 
     if (props.contains(QStringLiteral("renderprofile")) || props.contains(QStringLiteral("rendercategory")))
         focusFirstVisibleItem(props.value(QStringLiteral("renderprofile")), props.value(QStringLiteral("rendercategory")));
