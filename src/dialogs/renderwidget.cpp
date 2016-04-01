@@ -2120,7 +2120,7 @@ void RenderWidget::slotCLeanUpJobs()
     int ix = 0;
     RenderJobItem *current = static_cast<RenderJobItem*> (m_view.running_jobs->topLevelItem(ix));
     while (current) {
-        if (current->status() == FINISHEDJOB)
+        if (current->status() == FINISHEDJOB || current->status() == ABORTEDJOB)
             delete current;
         else ix++;
         current = static_cast<RenderJobItem*>(m_view.running_jobs->topLevelItem(ix));
