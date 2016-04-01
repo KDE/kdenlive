@@ -444,6 +444,8 @@ void Timeline::adjustDouble(QDomElement &e, const QString &value) {
             keys[j] = pos + '=' + locale.toString(val);
         }
         e.setAttribute(QStringLiteral("value"), keys.join(QLatin1Char(';')));
+    } else {
+        e.setAttribute(QStringLiteral("value"), value);
     }
 }
 

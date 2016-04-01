@@ -129,7 +129,12 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
     m_vbox = new QVBoxLayout(parent);
     m_vbox->setContentsMargins(4, 0, 4, 0);
     m_vbox->setSpacing(2);
-    // qDebug()<<"-------------------------------------\n"<<"LOADED TRANS: "<<effect.attribute("tag")<<"\n-------------------";
+    
+    /*
+    QDomElement clone = effect.cloneNode(true).toElement();
+    QDomDocument doc;
+    doc.appendChild(doc.importNode(clone, true));
+    qDebug()<<"-------------------------------------\n"<<"LOADED TRANS: "<<doc.toString()<<"\n-------------------";*/
     if (effect.attribute(QStringLiteral("id")) == QLatin1String("movit.lift_gamma_gain") || effect.attribute(QStringLiteral("id")) == QLatin1String("lift_gamma_gain") ) {
         // We use a special custom widget here
         LumaLiftGain *gainWidget = new LumaLiftGain(namenode, parent);
@@ -298,7 +303,9 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             }
         } else if (type == QLatin1String("addedgeometry")) {
             // this is a parameter that should be linked to the geometry widget, for example rotation, shear, ...
-            if (m_geometryWidget) m_geometryWidget->addParameter(pa);
+            if (m_geometryWidget) {
+                m_geometryWidget->addParameter(pa);
+            }
         } else if (type == QLatin1String("keyframe") || type == QLatin1String("simplekeyframe")) {
             // keyframe editor widget
             if (m_keyframeEditor == NULL) {
