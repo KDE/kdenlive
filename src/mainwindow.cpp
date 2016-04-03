@@ -1894,8 +1894,7 @@ void MainWindow::slotDeleteItem()
 {
     if (QApplication::focusWidget() &&
             QApplication::focusWidget()->parentWidget() &&
-            QApplication::focusWidget()->parentWidget()->parentWidget() &&
-            QApplication::focusWidget()->parentWidget()->parentWidget() == pCore->bin()) {
+            QApplication::focusWidget()->parentWidget() == pCore->bin()) {
         pCore->bin()->slotDeleteClip();
 
     } else {
