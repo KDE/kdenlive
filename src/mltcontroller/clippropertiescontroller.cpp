@@ -146,7 +146,7 @@ private:
 };
 #endif
 
-ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *controller, QWidget *parent) : QTabWidget(parent)
+ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *controller, QWidget *parent) : QWidget(parent)
     , m_controller(controller)
     , m_tc(tc)
     , m_id(controller->clipId())
@@ -155,7 +155,15 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
     , m_textEdit(NULL)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    setDocumentMode(true);
+    QVBoxLayout *lay = new QVBoxLayout;
+    lay->setContentsMargins(0,0,0,0);
+    m_clipLabel = new QLabel(controller->clipName());
+    lay->addWidget(m_clipLabel);
+    m_tabWidget = new QTabWidget(this);
+    lay->addWidget(m_tabWidget);
+    setLayout(lay);
+    m_tabWidget->setDocumentMode(true);
+    m_tabWidget->setTabPosition(QTabWidget::East);
     m_forcePage = new QWidget(this);
     m_propertiesPage = new QWidget(this);
     m_markersPage = new QWidget(this);
@@ -491,28 +499,28 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
     }
     m_forcePage->setLayout(vbox);
     vbox->addStretch(10);
-    addTab(m_propertiesPage, QString());
-    addTab(m_markersPage, QString());
-    addTab(m_forcePage, QString());
-    addTab(m_metaPage, QString());
-    addTab(m_analysisPage, QString());
-    setTabIcon(0, KoIconUtils::themedIcon(QStringLiteral("edit-find")));
-    setTabToolTip(0, i18n("Properties"));
-    setTabIcon(1, KoIconUtils::themedIcon(QStringLiteral("bookmark-new")));
-    setTabToolTip(1, i18n("Markers"));
-    setTabIcon(2, KoIconUtils::themedIcon(QStringLiteral("document-edit")));
-    setTabToolTip(2, i18n("Force properties"));
-    setTabIcon(3, KoIconUtils::themedIcon(QStringLiteral("view-grid")));
-    setTabToolTip(3, i18n("Metadata"));
-    setTabIcon(4, KoIconUtils::themedIcon(QStringLiteral("visibility")));
-    setTabToolTip(4, i18n("Analysis"));
-    setCurrentIndex(KdenliveSettings::properties_panel_page());
-    if (m_type == Color) setTabEnabled(0, false);
+    m_tabWidget->addTab(m_propertiesPage, QString());
+    m_tabWidget->addTab(m_markersPage, QString());
+    m_tabWidget->addTab(m_forcePage, QString());
+    m_tabWidget->addTab(m_metaPage, QString());
+    m_tabWidget->addTab(m_analysisPage, QString());
+    m_tabWidget->setTabIcon(0, KoIconUtils::themedIcon(QStringLiteral("edit-find")));
+    m_tabWidget->setTabToolTip(0, i18n("Properties"));
+    m_tabWidget->setTabIcon(1, KoIconUtils::themedIcon(QStringLiteral("bookmark-new")));
+    m_tabWidget->setTabToolTip(1, i18n("Markers"));
+    m_tabWidget->setTabIcon(2, KoIconUtils::themedIcon(QStringLiteral("document-edit")));
+    m_tabWidget->setTabToolTip(2, i18n("Force properties"));
+    m_tabWidget->setTabIcon(3, KoIconUtils::themedIcon(QStringLiteral("view-grid")));
+    m_tabWidget->setTabToolTip(3, i18n("Metadata"));
+    m_tabWidget->setTabIcon(4, KoIconUtils::themedIcon(QStringLiteral("visibility")));
+    m_tabWidget->setTabToolTip(4, i18n("Analysis"));
+    m_tabWidget->setCurrentIndex(KdenliveSettings::properties_panel_page());
+    if (m_type == Color) m_tabWidget->setTabEnabled(0, false);
 }
 
 ClipPropertiesController::~ClipPropertiesController()
 {
-    KdenliveSettings::setProperties_panel_page(currentIndex());
+    KdenliveSettings::setProperties_panel_page(m_tabWidget->currentIndex());
 }
 
 void ClipPropertiesController::slotRefreshTimeCode()
@@ -523,6 +531,7 @@ void ClipPropertiesController::slotRefreshTimeCode()
 void ClipPropertiesController::slotReloadProperties()
 {
     mlt_color color;
+    m_clipLabel->setText(m_properties.get("kdenlive:clipname"));
     switch (m_type) {
         case Color:
             m_originalProperties.insert(QStringLiteral("resource"), m_properties.get("resource"));

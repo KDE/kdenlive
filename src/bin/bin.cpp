@@ -414,8 +414,8 @@ Bin::Bin(QWidget* parent) :
     m_binTreeViewDelegate = new BinItemDelegate(this);
     //connect(pCore->projectManager(), SIGNAL(projectOpened(Project*)), this, SLOT(setProject(Project*)));
     m_headerInfo = QByteArray::fromBase64(KdenliveSettings::treeviewheaders().toLatin1());
-    m_propertiesPanel = new QWidget(this);
-
+    m_propertiesPanel = new QScrollArea(this);
+    m_propertiesPanel->setFrameShape(QFrame::NoFrame);
     // Info widget for failed jobs, other errors
     m_infoMessage = new BinMessageWidget;
     m_layout->addWidget(m_infoMessage);
@@ -1202,10 +1202,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_duplicateAction->setEnabled(true);
                 ClipType type = static_cast<ProjectClip*>(currentItem)->clipType();
                 m_openAction->setEnabled(type == Image || type == Audio);
-                if (m_propertiesPanel->isVisible()) {
-                    // if info panel is displayed, update info
-                    showClipProperties(static_cast<ProjectClip*>(currentItem), false, false);
-                }
+                showClipProperties(static_cast<ProjectClip*>(currentItem), false, false);
                 m_deleteAction->setText(i18n("Delete Clip"));
                 m_proxyAction->setText(i18n("Proxy Clip"));
 		emit findInTimeline(currentItem->clipId());
@@ -1217,10 +1214,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_deleteAction->setText(i18n("Delete Folder"));
                 m_proxyAction->setText(i18n("Proxy Folder"));
             } else if (currentItem->itemType() == AbstractProjectItem::SubClipItem) {
-                if (m_propertiesPanel->isVisible()) {
-                    // if info panel is displayed, update info
-                    showClipProperties(static_cast<ProjectClip*>(currentItem->parent()), false, false);
-                }
+                showClipProperties(static_cast<ProjectClip*>(currentItem->parent()), false, false);
                 m_openAction->setEnabled(false);
                 m_reloadAction->setEnabled(false);
                 m_duplicateAction->setEnabled(false);
@@ -1609,11 +1603,7 @@ void Bin::doRefreshPanel(const QString &id)
 
 void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh, bool openExternalDialog )
 {
-    if (!clip) {
-        m_propertiesPanel->setEnabled(false);
-        return;
-    }
-    if (!clip->isReady()) {
+    if (!clip || !clip->isReady()) {
         m_propertiesPanel->setEnabled(false);
         return;
     }

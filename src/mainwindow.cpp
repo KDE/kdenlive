@@ -1637,9 +1637,6 @@ void MainWindow::connectDocument()
     KdenliveSettings::setProject_fps(project->fps());
     m_clipMonitorDock->raise();
     m_effectStack->transitionConfig()->updateProjectFormat();
-    //connect(m_projectList, SIGNAL(refreshClip(QString,bool)), trackView->projectView(), SLOT(slotRefreshThumbs(QString,bool)));
-    //connect(m_projectList, SIGNAL(projectModified()), project, SLOT(setModified()));
-    //connect(m_projectList, SIGNAL(clipNameChanged(QString,QString)), trackView->projectView(), SLOT(clipNameChanged(QString,QString)));
 
     connect(trackView, SIGNAL(configTrack()), this, SLOT(slotConfigTrack()));
     connect(trackView, SIGNAL(updateTracksInfo()), this, SLOT(slotUpdateTrackInfo()));
