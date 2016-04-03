@@ -196,7 +196,6 @@ public:
     PlaylistState::ClipState clipState() const;
 
 protected:
-    //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
     void dropEvent(QGraphicsSceneDragDropEvent *event);

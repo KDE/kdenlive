@@ -30,6 +30,8 @@
 #include <QPainter>
 #include <QAction>
 
+#include <math.h>
+
 #include <mlt++/Mlt.h>
 
 
@@ -244,9 +246,8 @@ void AudioGraphWidget::paintEvent(QPaintEvent *pe)
     int barWidth = (m_rect.width() - (2 * (AUDIBLE_BAND_COUNT - 1))) / AUDIBLE_BAND_COUNT;
     p.setOpacity(0.6);
     for (int i = 0; i < chanCount; i++) {
-        //double level = levelToDB(m_levels.at(i)) * height;
-        double level = m_levels.at(i) * height;
-        //qDebug()<<"* * *LEVEL: "<<level<<" = "<<m_levels.at(i);;
+        double level = (0.5 + m_levels.at(i)) / 1.5 * height;
+        if (level < 0) continue;
         p.fillRect(m_rect.left() + i * barWidth + (2 * i), height - level, barWidth, level, Qt::darkGreen);
     }
 }
@@ -373,9 +374,8 @@ void AudioGraphSpectrum::processSpectrum()
     // band. Convert to dB.
     for (band = 0; band < bands.size(); band++) {
         double mag = bands[band];
-        //double dB = mag > 0.0 ? 20 * log10( mag ) : -1000.0;
-        double dB = mag > 0.0 ? levelToDB(mag) : -100;
-        bands[band] = dB > 0 ? dB : 0;
+        double dB = mag > 0.0 ? levelToDB(mag) : -100.0;
+        bands[band] = dB;
     }
 
     // Update the audio signal widget

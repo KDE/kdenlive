@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2016 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -250,12 +250,15 @@ bool ProfilesDialog::slotSaveProfile()
         saveProfile(path);
     } else {
         int i = 0;
-        QString customName = QStringLiteral("profiles/customprofile");
-        QString profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + customName + QString::number(i);
-        //qDebug() << " TYING PROFILE FILE: " << profilePath;
+	QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/profiles/"));
+	if (!dir.exists()) {
+	    dir.mkpath(QStringLiteral("."));
+	}
+        QString customName = QStringLiteral("customprofile");
+        QString profilePath =  dir.absoluteFilePath(customName + QString::number(i));
         while (QFile::exists(profilePath)) {
             ++i;
-            profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + customName + QString::number(i);
+            profilePath = dir.absoluteFilePath(customName + QString::number(i));
         }
         saveProfile(profilePath);
     }
@@ -552,12 +555,15 @@ void ProfilesDialog::saveProfile(MltVideoProfile &profile, QString profilePath)
 {
     if (profilePath.isEmpty()) {
         int i = 0;
-        QString customName = QStringLiteral("profiles/customprofile");
-        profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + customName + QString::number(i);
-        //qDebug() << " TYING PROFILE FILE: " << profilePath;
+	QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/profiles/"));
+	if (!dir.exists()) {
+	    dir.mkpath(QStringLiteral("."));
+	}
+        QString customName = QStringLiteral("customprofile");
+        QString profilePath =  dir.absoluteFilePath(customName + QString::number(i));
         while (QFile::exists(profilePath)) {
             ++i;
-            profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + customName + QString::number(i);
+            profilePath = dir.absoluteFilePath(customName + QString::number(i));
         }
     }
     QFile file(profilePath);

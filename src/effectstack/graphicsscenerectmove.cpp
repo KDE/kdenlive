@@ -148,7 +148,7 @@ void MyTextItem::updateShadow()
     QPointF offset = bounding.center() - pathRect.center() + m_shadowOffset;
     path.translate(offset);
     QRectF fullSize = bounding.united(path.boundingRect());
-    m_shadow = QImage(fullSize.width(), fullSize.height(), QImage::Format_ARGB32_Premultiplied);
+    m_shadow = QImage(fullSize.width() + qAbs(m_shadowOffset.x()) + m_shadowBlur, fullSize.height() + qAbs(m_shadowOffset.y()), QImage::Format_ARGB32_Premultiplied);
     m_shadow.fill(Qt::transparent);
     QPainter painter(&m_shadow);
     painter.fillPath(path, QBrush(m_shadowColor));
@@ -174,8 +174,6 @@ void MyTextItem::blurShadow(QImage &result, int radius)
 
     int i1 = 0;
     int i2 = 3;
-
-    i1 = i2 = (QSysInfo::ByteOrder == QSysInfo::BigEndian ? 0 : 3);
 
     for (int col = c1; col <= c2; col++) {
         p = result.scanLine(r1) + col * 4;

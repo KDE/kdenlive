@@ -953,7 +953,7 @@ OperationType ClipItem::operationMode(const QPointF &pos)
     if (isItemLocked()) return None;
     // Position is relative to item
     const double scale = projectScene()->scale().x();
-    double maximumOffset = 6;
+    double maximumOffset = 8 / scale;
     if (isSelected() || (parentItem() && parentItem()->isSelected())) {
         int kf = m_keyframeView.mouseOverKeyFrames(rect(), pos, maximumOffset, scale);
         if (kf != -1) {
@@ -964,10 +964,9 @@ OperationType ClipItem::operationMode(const QPointF &pos)
     int addtransitionOffset = 10;
     // Don't allow add transition if track height is very small. No transitions for audio only clips
     if (rect.height() < 30 || m_clipState == PlaylistState::AudioOnly || m_clipType == Audio) addtransitionOffset = 0;
-
-    if (qAbs((int)(pos.x() - m_startFade)) < maximumOffset  && qAbs((int)(pos.y()) < 6)) {
+    if (qAbs((int)(pos.x() - m_startFade)) < maximumOffset  && qAbs((int)(pos.y()) < 10)) {
         return FadeIn;
-    } else if ((pos.x() <= rect.width() / 2) && pos.x() < maximumOffset / scale && (rect.height() - pos.y() > addtransitionOffset)) {
+    } else if ((pos.x() <= rect.width() / 2) && pos.x() < maximumOffset && (rect.height() - pos.y() > addtransitionOffset)) {
         // If we are in a group, allow resize only if all clips start at same position
         if (parentItem()) {
             QGraphicsItemGroup *dragGroup = static_cast <QGraphicsItemGroup *>(parentItem());
@@ -980,9 +979,9 @@ OperationType ClipItem::operationMode(const QPointF &pos)
             }
         }
         return ResizeStart;
-    } else if (qAbs((int)(pos.x() - (rect.width() - m_endFade))) < maximumOffset && qAbs((int)(pos.y())) < 6) {
+    } else if (qAbs((int)(pos.x() - (rect.width() - m_endFade))) < maximumOffset && qAbs((int)(pos.y())) < 10) {
         return FadeOut;
-    } else if ((pos.x() >= rect.width() / 2) && (rect.width() - pos.x() < maximumOffset / scale) && (rect.height() - pos.y() > addtransitionOffset)) {
+    } else if ((pos.x() >= rect.width() / 2) && (rect.width() - pos.x() < maximumOffset) && (rect.height() - pos.y() > addtransitionOffset)) {
         // If we are in a group, allow resize only if all clips end at same position
         if (parentItem()) {
             QGraphicsItemGroup *dragGroup = static_cast <QGraphicsItemGroup *>(parentItem());
@@ -995,9 +994,9 @@ OperationType ClipItem::operationMode(const QPointF &pos)
             }
         }
         return ResizeEnd;
-    } else if ((pos.x() < 16 / scale) && (rect.height() - pos.y() <= addtransitionOffset)) {
+    } else if ((pos.x() < maximumOffset) && (rect.height() - pos.y() <= addtransitionOffset)) {
         return TransitionStart;
-    } else if ((rect.width() - pos.x() < 16 / scale) && (rect.height() - pos.y() <= addtransitionOffset)) {
+    } else if ((rect.width() - pos.x() < maximumOffset) && (rect.height() - pos.y() <= addtransitionOffset)) {
         return TransitionEnd;
     }
 
@@ -1266,10 +1265,6 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
     }
     return QGraphicsItem::itemChange(change, value);
 }
-
-// virtual
-/*void ClipItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event) {
-}*/
 
 int ClipItem::effectsCounter()
 {

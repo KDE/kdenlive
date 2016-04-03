@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1119</width>
-    <height>602</height>
+    <width>1176</width>
+    <height>672</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -101,31 +101,61 @@
                 </spacer>
                </item>
                <item>
-                <widget class="QToolButton" name="buttonFavorite">
-                 <property name="text">
-                  <string>&amp;Favorite</string>
+                <widget class="QGroupBox" name="buttonBox">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
                  </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QToolButton" name="buttonSave">
-                 <property name="text">
-                  <string>&amp;Save</string>
+                 <property name="title">
+                  <string/>
                  </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QToolButton" name="buttonEdit">
-                 <property name="text">
-                  <string>&amp;Edit</string>
+                 <property name="flat">
+                  <bool>true</bool>
                  </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QToolButton" name="buttonDelete">
-                 <property name="text">
-                  <string>&amp;Delete</string>
-                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout">
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QToolButton" name="buttonFavorite">
+                    <property name="text">
+                     <string>&amp;Favorite</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QToolButton" name="buttonSave">
+                    <property name="text">
+                     <string>&amp;Save</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QToolButton" name="buttonEdit">
+                    <property name="text">
+                     <string>&amp;Edit</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QToolButton" name="buttonDelete">
+                    <property name="text">
+                     <string>&amp;Delete</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </widget>
                </item>
               </layout>

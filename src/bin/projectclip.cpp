@@ -50,12 +50,16 @@ ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *control
     , m_thumbsProducer(NULL)
 {
     m_clipStatus = StatusReady;
-    m_thumbnail = thumb;
     m_name = m_controller->clipName();
     m_duration = m_controller->getStringDuration();
     m_date = m_controller->date;
     m_description = m_controller->description();
     m_type = m_controller->clipType();
+    if (m_type == Audio) {
+        m_thumbnail = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
+    } else {
+        m_thumbnail = thumb;
+    }
     // Make sure we have a hash for this clip
     hash();
     setParent(parent);
@@ -76,6 +80,9 @@ ProjectClip::ProjectClip(const QDomElement& description, QIcon thumb, ProjectFol
     m_thumbnail = thumb;
     if (description.hasAttribute(QStringLiteral("type"))) {
         m_type = (ClipType) description.attribute(QStringLiteral("type")).toInt();
+        if (m_type == Audio) {
+            m_thumbnail = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
+        }
     }
     m_temporaryUrl = QUrl::fromLocalFile(getXmlProperty(description, QStringLiteral("resource")));
     QString clipName = getXmlProperty(description, QStringLiteral("kdenlive:clipname"));
@@ -331,7 +338,12 @@ bool ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
         m_date = m_controller->date;
         m_description = m_controller->description();
         m_temporaryUrl.clear();
-        if (m_type == Unknown) m_type = m_controller->clipType();
+        if (m_type == Unknown) {
+            m_type = m_controller->clipType();
+            if (m_type == Audio) {
+                m_thumbnail = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
+            }
+        }
     }
     if (m_controller)
         m_duration = m_controller->getStringDuration();
@@ -879,20 +891,29 @@ void ProjectClip::discardAudioThumb()
 {
     if (!m_controller) return;
     abortAudioThumbs();
-    AudioStreamInfo *audioInfo = m_controller->audioInfo();
-    if (audioInfo == NULL) return;
+    QString audioThumbPath = getAudioThumbPath(m_controller->audioInfo());
+    if (!audioThumbPath.isEmpty())
+        QFile::remove(audioThumbPath);
+    audioFrameCache.clear();
+    m_controller->audioThumbCreated = false;
+    m_abortAudioThumb = false;
+}
+
+const QString ProjectClip::getAudioThumbPath(AudioStreamInfo *audioInfo)
+{
+    if (audioInfo == NULL) 
+        return QString();
     int audioStream = audioInfo->ffmpeg_audio_index();
     QString clipHash = hash();
-    if (clipHash.isEmpty()) return;
+    if (clipHash.isEmpty()) 
+        return QString();
     QString audioPath = bin()->projectFolder().path() + "/thumbs/" + clipHash;
     if (audioStream > 0) {
         audioPath.append("_" + QString::number(audioInfo->audio_index()));
     }
-    audioPath.append("_audio.png");
-    QFile::remove(audioPath);
-    audioFrameCache.clear();
-    m_controller->audioThumbCreated = false;
-    m_abortAudioThumb = false;
+    int roundedFps = (int) m_controller->profile()->fps();
+    audioPath.append(QString("_%1_audio.png").arg(roundedFps));
+    return audioPath;
 }
 
 void ProjectClip::slotCreateAudioThumbs()
@@ -901,15 +922,10 @@ void ProjectClip::slotCreateAudioThumbs()
     Mlt::Producer *prod = originalProducer();
     if (!prod || !prod->is_valid()) return;
     AudioStreamInfo *audioInfo = m_controller->audioInfo();
-    if (audioInfo == NULL) return;
+    QString audioPath = getAudioThumbPath(audioInfo);
+    if (audioPath.isEmpty())
+        return;
     int audioStream = audioInfo->ffmpeg_audio_index();
-    QString clipHash = hash();
-    if (clipHash.isEmpty()) return;
-    QString audioPath = bin()->projectFolder().path() + "/thumbs/" + clipHash;
-    if (audioStream > 0) {
-        audioPath.append("_" + QString::number(audioInfo->audio_index()));
-    }
-    audioPath.append("_audio.png");
     int lengthInFrames = prod->get_length();
     int frequency = audioInfo->samplingRate();
     if (frequency <= 0) frequency = 48000;

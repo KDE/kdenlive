@@ -120,6 +120,7 @@ signals:
     void loadMarkers(const QString &);
     void saveMarkers(const QString &);
     void editAnalysis(const QString &id, const QString &name, const QString &value);
+    void editClip();
 };
 
 #endif

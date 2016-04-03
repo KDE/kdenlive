@@ -32,11 +32,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFuture>
 
 class ProjectFolder;
+class AudioStreamInfo;
 class QDomElement;
 class ClipController;
 class ClipPropertiesController;
 class ProjectSubClip;
 class QUndoCommand;
+
 namespace Mlt {
   class Producer;
   class Properties;
@@ -207,6 +209,8 @@ public:
     QStringList subClipIds() const;
     /** @brief Delete cached audio thumb - needs to be recreated */
     void discardAudioThumb();
+    /** @brief Get path for this clip's audio thumbnail */
+    const QString getAudioThumbPath(AudioStreamInfo *audioInfo);
 
 public slots:
     void updateAudioThumbnail(QVariantList audioLevels);

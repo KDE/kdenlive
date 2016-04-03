@@ -90,6 +90,7 @@ private:
     Ui::WizardCheck_UI m_check;
     QVBoxLayout *m_startLayout;
     bool m_systemCheckIsOk;
+    bool m_brokenModule;
     QLabel *m_welcomeLabel;
     QMap <QString, QString> m_dvProfiles;
     QMap <QString, QString> m_hdvProfiles;

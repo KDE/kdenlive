@@ -483,6 +483,10 @@ void BinController::checkThumbnails(const QString thumbFolder)
     while (i.hasNext()) {
         i.next();
         ClipController *ctrl = i.value();
+        if (ctrl->clipType() == Audio) {
+            //no thumbnails for audio clip
+            continue;
+        }
         bool foundFile = false;
         if (!ctrl->getClipHash().isEmpty()) {
             QImage img(thumbFolder + ctrl->getClipHash() + ".png");

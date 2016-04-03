@@ -33,8 +33,10 @@
 
 void SelectManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, AbstractGroupItem *group, OperationType &operationMode, OperationType moveOperation)
 {
+    OperationType currentMode = operationMode;
     if (item && event->buttons() == Qt::NoButton && operationMode != ZoomTimeline) {
         AbstractClipItem *clip = static_cast <AbstractClipItem*>(item);
+        QString tooltipMessage;
 
         if (group && clip->parentItem() == group) {
             // all other modes break the selection, so the user probably wants to move it
@@ -49,6 +51,8 @@ void SelectManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, Q
 
         if (operationMode == moveOperation) {
             view->graphicsViewMouseEvent(event);
+            if (currentMode != operationMode)
+                view->setToolTip(tooltipMessage);
             return;
         }
         ClipItem *ci = NULL;
@@ -96,18 +100,24 @@ void SelectManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, Q
                 message.append(view->getDisplayTimecodeFromFrames(ci->fadeOut()));
             } else {
                 message = i18n("Drag to add or resize a fade effect.");
+                tooltipMessage = message;
             }
         } else if (operationMode == TransitionStart || operationMode == TransitionEnd) {
             view->setCursor(Qt::PointingHandCursor);
             message = i18n("Click to add a transition.");
+            tooltipMessage = message;
         } else if (operationMode == KeyFrame) {
             view->setCursor(Qt::PointingHandCursor);
              QMetaObject::invokeMethod(view, "displayMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Move keyframe above or below clip to remove it, double click to add a new one.")), Q_ARG(MessageType, InformationMessage));
         }
-
+        if (currentMode != operationMode)
+            view->setToolTip(tooltipMessage);
         if (!message.isEmpty())
             QMetaObject::invokeMethod(view, "displayMessage", Qt::QueuedConnection, Q_ARG(QString, message), Q_ARG(MessageType, InformationMessage));
     } else if (event->buttons() == Qt::NoButton && (moveOperation == None || moveOperation == WaitingForConfirm)) {
+        operationMode = None;
+        if (currentMode != operationMode)
+            view->setToolTip(QString());
         view->setCursor(Qt::ArrowCursor);
     }
 }

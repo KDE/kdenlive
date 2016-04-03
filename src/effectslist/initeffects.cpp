@@ -833,6 +833,7 @@ QDomElement initEffects::quickParameterFill(QDomDocument & doc, const QString &n
     QDomElement parameter = doc.createElement(QStringLiteral("parameter"));
     parameter.setAttribute(QStringLiteral("tag"), tag);
     parameter.setAttribute(QStringLiteral("default"), def);
+    parameter.setAttribute(QStringLiteral("value"), def);
     parameter.setAttribute(QStringLiteral("type"), type);
     parameter.setAttribute(QStringLiteral("name"), tag);
     parameter.setAttribute(QStringLiteral("max"), max);

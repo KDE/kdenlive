@@ -188,7 +188,7 @@ private slots:
     void adjustQuality(int videoQuality);
     /** @brief Show updated command parameter in tooltip. */
     void adjustSpeed(int videoQuality);
-    
+
 private:
     Ui::RenderWidget_UI m_view;
     QString m_projectFolder;
@@ -200,14 +200,14 @@ private:
     KMessageWidget *m_infoMessage;
 
     void parseMltPresets();
-    void parseProfiles();
+    void parseProfiles(const QString &selectedProfile = QString());
     void parseFile(const QString &exportFile, bool editable);
     void updateButtons();
     QUrl filenameWithExtension(QUrl url, const QString &extension);
     /** @brief Check if a job needs to be started. */
     void checkRenderStatus();
     void startRendering(RenderJobItem *item);
-    void saveProfile(const QDomElement &newprofile);
+    bool saveProfile(QDomElement newprofile);
     void errorMessage(const QString &message);
 
 signals:

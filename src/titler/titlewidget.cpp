@@ -423,6 +423,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     m_scene = new GraphicsSceneRectMove(this);
     graphicsView->setScene(m_scene);
     graphicsView->setMouseTracking(true);
+    graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     graphicsView->setDragMode(QGraphicsView::RubberBandDrag);
     graphicsView->setRubberBandSelectionMode(Qt::ContainsItemBoundingRect);
     m_titledocument.setScene(m_scene, m_frameWidth, m_frameHeight);
@@ -1837,27 +1838,10 @@ void TitleWidget::loadTitle(QUrl url)
         }
         m_scene->clearTextSelection();
         QDomDocument doc;
-        
         QFile file(url.path());
         doc.setContent(&file, false);
         file.close();
         setXml(doc);
-
-        /*int out;
-        m_count = m_titledocument.loadDocument(url, m_startViewport, m_endViewport, &out) + 1;
-        adjustFrameSize();
-        title_duration->setText(m_tc.getTimecode(GenTime(out, m_render->fps())));
-        insertingValues = true;
-        startViewportX->setValue(m_startViewport->data(0).toInt());
-        startViewportY->setValue(m_startViewport->data(1).toInt());
-        startViewportSize->setValue(m_startViewport->data(2).toInt());
-        endViewportX->setValue(m_endViewport->data(0).toInt());
-        endViewportY->setValue(m_endViewport->data(1).toInt());
-        endViewportSize->setValue(m_endViewport->data(2).toInt());
-
-        insertingValues = false;
-        slotSelectTool();
-        slotAdjustZoom();*/
     }
 }
 
@@ -2820,6 +2804,7 @@ void TitleWidget::storeGradient(const QString &gradientData)
     group.writeEntry(gradName, gradientData);
     group.sync();
     QPixmap pix(30, 30);
+    pix.fill(Qt::transparent);
     QLinearGradient gr = GradientWidget::gradientFromString(gradientData, pix.width(), pix.height());
     gr.setStart(0, pix.height() / 2);
     gr.setFinalStop(pix.width(), pix.height() / 2);
@@ -2851,6 +2836,7 @@ void TitleWidget::loadGradients()
     while (k.hasNext()) {
         k.next();
         QPixmap pix(30, 30);
+        pix.fill(Qt::transparent);
         QLinearGradient gr = GradientWidget::gradientFromString(k.value(), pix.width(), pix.height());
         gr.setStart(0, pix.height() / 2);
         gr.setFinalStop(pix.width(), pix.height() / 2);

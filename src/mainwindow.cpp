@@ -1331,7 +1331,7 @@ void MainWindow::setupActions()
     QAction *addFolder = addAction(QStringLiteral("add_folder"), i18n("Create Folder"), pCore->bin(), SLOT(slotAddFolder()), KoIconUtils::themedIcon(QStringLiteral("folder-new")));
     addClips->addAction(addAction(QStringLiteral("download_resource"), i18n("Online Resources"), this, SLOT(slotDownloadResources()), KoIconUtils::themedIcon(QStringLiteral("edit-download"))));
     
-    QAction *clipProperties = addAction(QStringLiteral("clip_properties"), i18n("Clip Properties"), pCore->bin(), SLOT(slotSwitchClipProperties()), KoIconUtils::themedIcon(QStringLiteral("document-edit")));
+    QAction *clipProperties = addAction(QStringLiteral("clip_properties"), i18n("Clip Properties"), pCore->bin(), SLOT(slotSwitchClipProperties(bool)), KoIconUtils::themedIcon(QStringLiteral("document-edit")));
     clipProperties->setCheckable(true);
     clipProperties->setData("clip_properties");
 
@@ -1424,6 +1424,13 @@ void MainWindow::readOptions()
             dir.cd("kdenlive");
             KdenliveSettings::setDefaultprojectfolder(dir.absolutePath());
         }
+    }
+    if (KdenliveSettings::trackheight() == 0) {
+        QFontMetrics metrics(font());
+        KdenliveSettings::setTrackheight(metrics.height() * 2.5);
+    }
+    if (KdenliveSettings::trackheight() == 0) {
+        KdenliveSettings::setTrackheight(50);
     }
 
     KConfigGroup initialGroup(config, "version");
@@ -3082,27 +3089,40 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
         QDomNodeList producers = doc.elementsByTagName(QStringLiteral("producer"));
         QString producerResource;
+        QString producerService;
         QString suffix;
+        QString prefix;
         for (int n = 0; n < producers.length(); ++n) {
             QDomElement e = producers.item(n).toElement();
             producerResource = EffectsList::property(e, QStringLiteral("resource"));
+            producerService = EffectsList::property(e, QStringLiteral("mlt_service"));
             if (producerResource.isEmpty()) {
                 continue;
+            }
+            if (producerService == QLatin1String("timewarp")) {
+                // slowmotion producer
+                prefix = producerResource.section(':', 0, 0) + ":";
+                producerResource = producerResource.section(':', 1);
+            } else {
+                prefix.clear();
+            }
+            if (producerService == QLatin1String("framebuffer")) {
+                // slowmotion producer
+                suffix = '?' + producerResource.section('?', 1);
+                producerResource = producerResource.section('?', 0, 0);
+            } else {
+                suffix.clear();
             }
             if (!producerResource.startsWith('/')) {
                 producerResource.prepend(root + '/');
             }
-            if (producerResource.contains('?')) {
-                // slowmotion producer
-                suffix = '?' + producerResource.section('?', 1);
-                producerResource = producerResource.section('?', 0, 0);
-            }
-            else {
-                suffix.clear();
-            }
             if (!producerResource.isEmpty()) {
                 if (proxies.contains(producerResource)) {
-                    EffectsList::setProperty(e, QStringLiteral("resource"), proxies.value(producerResource) + suffix);
+                    QString replacementResource = proxies.value(producerResource);
+                    EffectsList::setProperty(e, QStringLiteral("resource"), prefix + replacementResource + suffix);
+                    if (producerService == QLatin1String("timewarp")) {
+                        EffectsList::setProperty(e, QStringLiteral("warp_resource"), replacementResource);
+                    }
                     // We need to delete the "aspect_ratio" property because proxy clips
                     // sometimes have different ratio than original clips
                     EffectsList::removeProperty(e, QStringLiteral("aspect_ratio"));

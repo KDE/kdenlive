@@ -36,7 +36,6 @@
 #include <QDebug>
 #include <QDomDocument>
 #include <QTreeWidgetItem>
-#include <QTreeWidgetItem>
 #include <QHeaderView>
 #include <QInputDialog>
 #include <QProcess>
@@ -164,7 +163,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     m_view.buttonDelete->setToolTip(i18n("Delete profile"));
     m_view.buttonDelete->setEnabled(false);
 
-    m_view.buttonEdit->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-properties")));
+    m_view.buttonEdit->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-edit")));
     m_view.buttonEdit->setToolTip(i18n("Edit profile"));
     m_view.buttonEdit->setEnabled(false);
 
@@ -333,6 +332,10 @@ RenderWidget::~RenderWidget()
 
 void RenderWidget::slotEditItem(QTreeWidgetItem *item)
 {
+    if (item->parent() == NULL) {
+        // This is a top level item - group - don't edit
+        return;
+    }
     const QString edit = item->data(0, EditableRole).toString();
     if (edit.isEmpty() || !edit.endsWith(QLatin1String("customprofiles.xml")))
         slotSaveProfile();
@@ -543,7 +546,7 @@ void RenderWidget::slotSaveProfile()
 }
 
 
-void RenderWidget::saveProfile(const QDomElement &newprofile)
+bool RenderWidget::saveProfile(QDomElement newprofile)
 {
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/");
     if (!dir.exists()) {
@@ -572,22 +575,29 @@ void RenderWidget::saveProfile(const QDomElement &newprofile)
 
 
     QDomNodeList profilelist = doc.elementsByTagName(QStringLiteral("profile"));
+    QString newProfileName = newprofile.attribute(QStringLiteral("name"));
+    // Check existing profiles
+    QStringList existingProfileNames;
     int i = 0;
     while (!profilelist.item(i).isNull()) {
-        // make sure a profile with same name doesn't exist
         documentElement = profilelist.item(i).toElement();
         QString profileName = documentElement.attribute(QStringLiteral("name"));
-        if (profileName == newprofile.attribute(QStringLiteral("name"))) {
-            // a profile with that same name already exists
-            bool ok;
-            QString newProfileName = QInputDialog::getText(this, i18n("Profile already exists"), i18n("This profile name already exists. Change the name if you don't want to overwrite it."), QLineEdit::Normal, profileName, &ok);
-            if (!ok) return;
-            if (profileName == newProfileName) {
-                profiles.removeChild(profilelist.item(i));
-                break;
-            }
+        existingProfileNames << profileName;
+        i++;
+    }
+    // Check if a profile with that same name already exists
+    bool ok;
+    while (existingProfileNames.contains(newProfileName)) {
+        QString updatedProfileName = QInputDialog::getText(this, i18n("Profile already exists"), i18n("This profile name already exists. Change the name if you don't want to overwrite it."), QLineEdit::Normal, newProfileName, &ok);
+        if (!ok) return false;
+        if (updatedProfileName == newProfileName) {
+            // remove previous profile
+            profiles.removeChild(profilelist.item(existingProfileNames.indexOf(newProfileName)));
+            break;
+        } else {
+            newProfileName = updatedProfileName;
+            newprofile.setAttribute(QStringLiteral("name"), newProfileName);
         }
-        ++i;
     }
 
     profiles.appendChild(newprofile);
@@ -596,16 +606,17 @@ void RenderWidget::saveProfile(const QDomElement &newprofile)
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         KMessageBox::sorry(this, i18n("Unable to write to file %1", dir.absoluteFilePath("customprofiles.xml")));
-        return;
+        return false;
     }
     QTextStream out(&file);
     out << doc.toString();
     if (file.error() != QFile::NoError) {
         KMessageBox::error(this, i18n("Cannot write to file %1", dir.absoluteFilePath("customprofiles.xml")));
         file.close();
-        return;
+        return false;
     }
     file.close();
+    return true;
 }
 
 void RenderWidget::slotCopyToFavorites()
@@ -647,8 +658,9 @@ void RenderWidget::slotCopyToFavorites()
         profileElement.setAttribute(QStringLiteral("speeds"), item->data(0, SpeedsRole).toStringList().join(QStringLiteral(";")));
     }
     doc.appendChild(profileElement);
-    saveProfile(doc.documentElement());
-    parseProfiles();
+    if (saveProfile(doc.documentElement())) {
+        parseProfiles(profileElement.attribute(QStringLiteral("name")));
+    }
 }
 
 void RenderWidget::slotEditProfile()
@@ -893,11 +905,9 @@ void RenderWidget::focusFirstVisibleItem(const QString &profile, const QString &
     QTreeWidgetItem *item = 0;
     if (!profile.isEmpty()) {
         QList <QTreeWidgetItem *> items = m_view.formats->findItems(profile, Qt::MatchExactly | Qt::MatchRecursive);
-        if (!items.isEmpty())
-            if (!category.isEmpty())
-                foreach(item, items)
-                    if (item->parent()->text(0) == category)
-                        break;
+        if (!items.isEmpty()) {
+            item = items.first();
+        }
     }
     if (!item) {
         // searched profile not found in any category, select 1st available profile
@@ -912,6 +922,7 @@ void RenderWidget::focusFirstVisibleItem(const QString &profile, const QString &
     if (item) {
         m_view.formats->setCurrentItem(item);
         item->parent()->setExpanded(true);
+        refreshParams();
     }
     updateButtons();
 }
@@ -1545,6 +1556,12 @@ void RenderWidget::refreshParams()
 {
     // Format not available (e.g. codec not installed); Disable start button
     QTreeWidgetItem *item = m_view.formats->currentItem();
+    if (!item || item->parent() == NULL) {
+        // This is a category item, not a real profile
+        m_view.buttonBox->setEnabled(false);
+    } else {
+        m_view.buttonBox->setEnabled(true);
+    }
     QString extension;
     if (item) {
         extension = item->data(0, ExtensionRole).toString();
@@ -1662,7 +1679,7 @@ void RenderWidget::reloadProfiles()
     parseProfiles();
 }
 
-void RenderWidget::parseProfiles()
+void RenderWidget::parseProfiles(const QString &selectedProfile)
 {
     m_view.formats->clear();
 
@@ -1685,6 +1702,8 @@ void RenderWidget::parseProfiles()
         parseFile(directory.absoluteFilePath(filename), true);
     if (QFile::exists(exportFolder + "customprofiles.xml"))
         parseFile(exportFolder + "customprofiles.xml", true);
+
+    focusFirstVisibleItem(selectedProfile);
 }
 
 void RenderWidget::parseMltPresets()
@@ -1831,7 +1850,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
 
             if (replaceVorbisCodec && params.contains(QStringLiteral("acodec=vorbis"))) {
                 // replace vorbis with libvorbis
-                params = params.replace(QLatin1String("vorbis"), QLatin1String("libvorbis"));
+                params = params.replace(QLatin1String("=vorbis"), QLatin1String("=libvorbis"));
             }
             if (replaceLibfaacCodec && params.contains(QStringLiteral("acodec=aac"))) {
                 // replace libfaac with aac
@@ -1920,7 +1939,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             m_view.formats->addTopLevelItem(groupItem);
             groupItem->setExpanded(true);
         }
-        
+
         QDomNode n = groups.item(i).firstChild();
         while (!n.isNull()) {
             if (n.toElement().tagName() != QLatin1String("profile")) {
@@ -1934,7 +1953,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
 
             if (replaceVorbisCodec && params.contains(QStringLiteral("acodec=vorbis"))) {
                 // replace vorbis with libvorbis
-                params = params.replace(QLatin1String("vorbis"), QLatin1String("libvorbis"));
+                params = params.replace(QLatin1String("=vorbis"), QLatin1String("=libvorbis"));
             }
             if (replaceLibfaacCodec && params.contains(QStringLiteral("acodec=aac"))) {
                 // replace libfaac with aac
@@ -2101,7 +2120,7 @@ void RenderWidget::slotCLeanUpJobs()
     int ix = 0;
     RenderJobItem *current = static_cast<RenderJobItem*> (m_view.running_jobs->topLevelItem(ix));
     while (current) {
-        if (current->status() == FINISHEDJOB)
+        if (current->status() == FINISHEDJOB || current->status() == ABORTEDJOB)
             delete current;
         else ix++;
         current = static_cast<RenderJobItem*>(m_view.running_jobs->topLevelItem(ix));
@@ -2268,7 +2287,7 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
 
     QString url = props.value(QStringLiteral("renderurl"));
     if (!url.isEmpty())
-        m_view.out_file->setUrl(QUrl(url));
+        m_view.out_file->setUrl(QUrl::fromLocalFile(url));
 
     if (props.contains(QStringLiteral("renderprofile")) || props.contains(QStringLiteral("rendercategory")))
         focusFirstVisibleItem(props.value(QStringLiteral("renderprofile")), props.value(QStringLiteral("rendercategory")));

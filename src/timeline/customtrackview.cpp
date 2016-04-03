@@ -3726,6 +3726,13 @@ void CustomTrackView::deleteClip(const QString &clipId, QUndoCommand *deleteComm
                     new GroupClipsCommand(this, QList<ItemInfo>() << item->info(), QList<ItemInfo>(), false, deleteCommand);
                 }
                 new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->clipState(), true, true, deleteCommand);
+                // Check if it is a title clip with automatic transition, than remove it
+                if (item->clipType() == Text) {
+                    Transition *tr = getTransitionItemAtStart(item->startPos(), item->track());
+                    if (tr && tr->endPos() == item->endPos()) {
+                        new AddTransitionCommand(this, tr->info(), tr->transitionEndTrack(), tr->toXML(), true, true, deleteCommand);
+                    }
+                }
             }
         }
     }
@@ -4553,12 +4560,17 @@ void CustomTrackView::deleteSelectedClips()
         if (itemList.at(i)->type() == AVWidget) {
             clipCount++;
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
-            ////qDebug()<<"// DELETE CLP AT: "<<item->info().startPos.frames(25);
             new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->clipState(), true, true, deleteSelected);
+            // Check if it is a title clip with automatic transition, than remove it
+            if (item->clipType() == Text) {
+                Transition *tr = getTransitionItemAtStart(item->startPos(), item->track());
+                if (tr && tr->endPos() == item->endPos()) {
+                    new AddTransitionCommand(this, tr->info(), tr->transitionEndTrack(), tr->toXML(), true, true, deleteSelected);
+                }
+            }
         } else if (itemList.at(i)->type() == TransitionWidget) {
             transitionCount++;
             Transition *item = static_cast <Transition *>(itemList.at(i));
-            ////qDebug()<<"// DELETE TRANS AT: "<<item->info().startPos.frames(25);
             new AddTransitionCommand(this, item->info(), item->transitionEndTrack(), item->toXML(), true, true, deleteSelected);
         }
     }
@@ -4819,7 +4831,6 @@ void CustomTrackView::slotInfoProcessingFinished()
 
 void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList effects, PlaylistState::ClipState state, bool refresh)
 {
-    qDebug()<<" / / /ADDING CLIP: "<<info.startPos.frames(15);
     ProjectClip *binClip = m_document->getBinClip(clipId);
     if (!binClip) {
         emit displayMessage(i18n("Cannot insert clip..."), ErrorMessage);
