@@ -636,6 +636,7 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
 
     if (properties.contains(QStringLiteral("kdenlive:clipname"))) {
         m_name = properties.value(QStringLiteral("kdenlive:clipname"));
+        refreshPanel = true;
         bin()->emitItemUpdated(this);
     }
     if (refreshPanel) {

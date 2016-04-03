@@ -42,6 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class KdenliveDoc;
 class QVBoxLayout;
+class QScrollArea;
 class ClipController;
 class QDockWidget;
 class QTimeLine;
@@ -656,7 +657,7 @@ private:
     QByteArray m_headerInfo;
     QVBoxLayout *m_layout;
     QDockWidget *m_propertiesDock;
-    QWidget *m_propertiesPanel;
+    QScrollArea *m_propertiesPanel;
     QSlider *m_slider;
     Monitor *m_monitor;
     QIcon m_blankThumb;

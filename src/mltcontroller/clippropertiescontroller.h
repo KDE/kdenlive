@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class ClipController;
 class QMimeData;
 class QTextEdit;
+class QLabel;
 
 class AnalysisTree : public QTreeWidget
 {
@@ -50,7 +51,7 @@ protected:
  */
 
 
-class ClipPropertiesController : public QTabWidget
+class ClipPropertiesController : public QWidget
 {
   Q_OBJECT
 public:
@@ -91,6 +92,8 @@ private slots:
 
 private:
     ClipController *m_controller;
+    QTabWidget *m_tabWidget;
+    QLabel *m_clipLabel;
     Timecode m_tc;
     QString m_id;
     ClipType m_type;
