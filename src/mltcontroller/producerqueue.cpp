@@ -696,12 +696,6 @@ void ProducerQueue::processFileProperties()
                     if (frameNumber > -1) filePropertyMap[QStringLiteral("thumbnailFrame")] = QString::number(frameNumber);
                     emit replyGetImage(info.clipId, img);
                 } else if (frame->get_int("test_audio") == 0) {
-                    QIcon icon = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
-                    QImage img(fullWidth, info.imageHeight, QImage::Format_ARGB32_Premultiplied);
-                    img.fill(Qt::transparent);
-                    QPainter painter( &img );
-                    icon.paint(&painter, 0, 0, img.width(), img.height());
-                    emit replyGetImage(info.clipId, img);
                     filePropertyMap[QStringLiteral("type")] = QStringLiteral("audio");
                 }
                 delete frame;
