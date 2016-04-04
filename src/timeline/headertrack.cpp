@@ -217,7 +217,7 @@ void HeaderTrack::setSelectedIndex(int ix)
     if (m_parentTrack->index() == ix) {
         m_isSelected = true;
         QPalette pal = palette();
-        KColorScheme scheme(pal.currentColorGroup(), KColorScheme::Window,          KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+        KColorScheme scheme(pal.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
         pal.setColor(QPalette::Mid, scheme.background(KColorScheme::ActiveBackground ).color());
         setPalette(pal);
         setBackgroundRole(QPalette::Mid);
