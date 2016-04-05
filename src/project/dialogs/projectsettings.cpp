@@ -69,6 +69,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     QString currentProf;
     if (doc) {
         currentProf = KdenliveSettings::current_profile();
+        qDebug()<<" * * *DOC PROFILE: "<<currentProf;
         enable_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("enableproxy")).toInt());
         generate_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateproxy")).toInt());
         proxy_minsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyminsize")).toInt());
@@ -87,12 +88,14 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         proxy_imageminsize->setValue(KdenliveSettings::proxyimageminsize());
         m_proxyextension = KdenliveSettings::proxyextension();
     }
+    qDebug()<<" * * *SELECTED PROFILE: "<<currentProf;
     // Select profile
-    for (int i = 0; i < profiles_list->count(); ++i) {
-        if (profiles_list->itemData(i).toString() == currentProf) {
-            profiles_list->setCurrentIndex(i);
-            break;
-        }
+    int ix = profiles_list->findData(currentProf);
+    if (ix > -1) {
+        profiles_list->setCurrentIndex(ix);
+    } else {
+        // Error, profile not found
+        qWarning()<<"Project profile not found, disable  editing";
     }
 
     proxy_minsize->setEnabled(generate_proxy->isChecked());
@@ -673,7 +676,7 @@ void ProjectSettings::loadProfiles()
     QMapIterator<QString, QString> i(profilesInfo);
     while (i.hasNext()) {
         i.next();
-        profiles_list->addItem(i.key(), i.value());
+        profiles_list->addItem(i.value(), i.key());
     }
 }
 
@@ -683,11 +686,12 @@ void ProjectSettings::slotEditProfiles()
     w->exec();
     QString currentProf = profiles_list->currentData().toString();
     loadProfiles();
-    for (int i = 0; i < profiles_list->count(); ++i) {
-        if (profiles_list->itemData(i).toString() == currentProf) {
-            profiles_list->setCurrentIndex(i);
-            break;
-        }
+    int ix = profiles_list->findData(currentProf);
+    if (ix > -1) {
+        profiles_list->setCurrentIndex(ix);
+    } else {
+        // Error, profile not found
+        qWarning()<<"Project profile not found, disable  editing";
     }
     emit refreshProfiles();
     delete w;

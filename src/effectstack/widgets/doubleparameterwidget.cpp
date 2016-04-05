@@ -53,6 +53,11 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, 
     connect(m_dragVal, SIGNAL(inTimeline(int)), this, SIGNAL(setInTimeline(int)));
 }
 
+bool DoubleParameterWidget::hasEditFocus() const
+{
+    return m_dragVal->hasEditFocus();
+}
+
 DoubleParameterWidget::~DoubleParameterWidget()
 {
     delete m_dragVal;

@@ -64,6 +64,8 @@ public:
     void setChecked(bool check);
     void hideRadioButton();
     void enableEdit(bool enable);
+    /** @brief Returns true if widget is currently being edited */
+    bool hasEditFocus() const;
 
 public slots:
     /** @brief Sets the value to @param value. */

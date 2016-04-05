@@ -464,12 +464,14 @@ void AnimationWidget::updateSlider(int pos)
         i.next();
         m_animController = m_animProperties.get_animation(i.key().toUtf8().constData());
         double val = m_animProperties.anim_get_double(i.key().toUtf8().constData(), pos, m_outPoint);
-        i.value()->setValue(val * i.value()->factor);
         if (!m_animController.is_key(pos)) {
             // no keyframe
             if (m_animController.key_count() <= 1) {
                 // Special case: only one keyframe, allow adjusting whatever the position is
                 i.value()->enableEdit(true);
+                if (!i.value()->hasEditFocus()) {
+                    i.value()->setValue(val * i.value()->factor);
+                }
                 if (i.key() == m_inTimeline) {
                     if (m_active) m_monitor->setEffectKeyframe(true);
                     m_endAttach->setEnabled(true);
@@ -477,6 +479,7 @@ void AnimationWidget::updateSlider(int pos)
                 }
             } else {
                 i.value()->enableEdit(false);
+                i.value()->setValue(val * i.value()->factor);
                 if (i.key() == m_inTimeline) {
                     if (m_active) m_monitor->setEffectKeyframe(false);
                     m_endAttach->setEnabled(false);
@@ -488,6 +491,7 @@ void AnimationWidget::updateSlider(int pos)
             }
         } else {
             // keyframe
+            i.value()->setValue(val * i.value()->factor);
             if (i.key() == m_inTimeline) {
                 if (m_active) m_monitor->setEffectKeyframe(true);
                 m_addKeyframe->setActive(true);

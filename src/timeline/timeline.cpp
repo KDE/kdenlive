@@ -852,6 +852,10 @@ void Timeline::updatePalette()
     QColor col2 = scheme.foreground().color();
     headers_container->setStyleSheet(QStringLiteral("QLineEdit { background-color: transparent;color: %1;} QLineEdit:hover{ background-color: %2;} QLineEdit:focus { background-color: %2;}").arg(col2.name(), col.name()));
     m_trackview->updatePalette();
+    if (!m_tracks.isEmpty()) {
+        int ix = m_trackview->selectedTrack();
+        m_tracks.at(ix)->trackHeader->setSelectedIndex(ix);
+    }
 }
 
 void Timeline::refreshIcons()

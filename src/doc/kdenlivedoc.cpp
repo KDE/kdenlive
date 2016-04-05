@@ -1555,11 +1555,9 @@ void KdenliveDoc::resetProfile()
 void KdenliveDoc::slotSwitchProfile()
 {
     QAction *action = qobject_cast<QAction *>(sender());
+    if (!action) return;
     QVariantList data = action->data().toList();
     QString id = data.takeFirst().toString();
-    QDomDocument doc;
-    doc.setContent(data.takeFirst().toString(), true);
-    QDomElement xml = doc.documentElement();
     if (!data.isEmpty()) {
         // we want a profile switch
         m_profile = MltVideoProfile(data);
@@ -1588,13 +1586,11 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
         QAction *ac = new QAction(KoIconUtils::themedIcon(QStringLiteral("dialog-ok")), i18n("Switch"), this);
         QVariantList params;
         connect(ac, SIGNAL(triggered(bool)), this, SLOT(slotSwitchProfile()));
-        QDomDocument doc;
-        doc.appendChild(doc.importNode(xml, true));
-        params << id << doc.toString() << profile.toList();
+        params << id << profile.toList();
         ac->setData(params);
         QAction *ac2 = new QAction(KoIconUtils::themedIcon(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
         QVariantList params2;
-        params2 << id << doc.toString();
+        params2 << id;
         ac2->setData(params2);
         connect(ac2, SIGNAL(triggered(bool)), this, SLOT(slotSwitchProfile()));
         list << ac << ac2;

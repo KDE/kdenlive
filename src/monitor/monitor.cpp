@@ -1280,20 +1280,6 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
         // Don't load clip if monitor is not active (disabled)
         return;
     }
-    /*if (m_qmlManager->sceneType() != MonitorSceneDefault && !sameClip) {
-        // changed clip, disable split effect
-        if (m_splitProducer) {
-            m_effectCompare->blockSignals(true);
-            m_effectCompare->setActive(false);
-            m_effectCompare->setChecked(false);
-            m_effectCompare->blockSignals(false);
-            delete m_splitEffect;
-            m_splitProducer = NULL;
-            m_splitEffect = NULL;
-        }
-        loadQmlScene(MonitorSceneDefault);
-    }*/
-    //bool hasEffects;
     if (controller) {
 	if (m_recManager->toolbar()->isVisible()) {
 	      // we are in record mode, don't display clip
@@ -1359,6 +1345,7 @@ void Monitor::resetProfile(MltVideoProfile profile)
     if (render == NULL) return;
     render->prepareProfileReset(m_monitorManager->timecode().fps());
     m_glMonitor->resetProfile(profile);
+    render->finishProfileReset();
     m_glMonitor->rootObject()->setProperty("framesize", QRect(0, 0, m_glMonitor->profileSize().width(), m_glMonitor->profileSize().height()));
     double fps = m_monitorManager->timecode().fps();
     // Update dro pframe info
