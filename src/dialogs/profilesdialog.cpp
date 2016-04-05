@@ -560,7 +560,7 @@ void ProfilesDialog::saveProfile(MltVideoProfile &profile, QString profilePath)
 	    dir.mkpath(QStringLiteral("."));
 	}
         QString customName = QStringLiteral("customprofile");
-        QString profilePath =  dir.absoluteFilePath(customName + QString::number(i));
+        profilePath =  dir.absoluteFilePath(customName + QString::number(i));
         while (QFile::exists(profilePath)) {
             ++i;
             profilePath = dir.absoluteFilePath(customName + QString::number(i));
