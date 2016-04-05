@@ -925,11 +925,14 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
             m_consumer->stop();
             delete m_consumer;
         }
-        if (serviceName.isEmpty() || serviceName != KdenliveSettings::audiobackend()) {
-            m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, KdenliveSettings::audiobackend().toUtf8().constData());
+        // Force rtaudio backend for movit, because with SDL it crashes on stop/start
+        QString audioBackend = m_glslManager == NULL ? KdenliveSettings::audiobackend() : QStringLiteral("rtaudio");
+        if (serviceName.isEmpty() || serviceName != audioBackend) {
+            m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, audioBackend.toUtf8().constData());
             if (m_consumer->is_valid())
-                serviceName = KdenliveSettings::audiobackend();
+                serviceName = audioBackend;
             else {
+                // Fallback
                 serviceName = QStringLiteral("sdl_audio");
             }
             delete m_consumer;
