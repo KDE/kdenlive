@@ -166,15 +166,16 @@ void ProfilesDialog::fillList(const QString &selectedProfile)
     QMapIterator<QString, QString> i(profilesInfo);
     while (i.hasNext()) {
         i.next();
-        m_view.profiles_list->addItem(i.key(), i.value());
+        m_view.profiles_list->addItem(i.value(), i.key());
     }
 
     if (!KdenliveSettings::default_profile().isEmpty()) {
-        for (int i = 0; i < m_view.profiles_list->count(); ++i) {
-            if (m_view.profiles_list->itemData(i).toString() == KdenliveSettings::default_profile()) {
-                m_view.profiles_list->setCurrentIndex(i);
-                break;
-            }
+        int ix = m_view.profiles_list->findData(KdenliveSettings::default_profile());
+        if (ix > -1) {
+            m_view.profiles_list->setCurrentIndex(ix);
+        } else {
+            // Error, profile not found
+            qWarning()<<"Project profile not found, disable  editing";
         }
     }
     int ix = m_view.profiles_list->findText(selectedProfile);
@@ -457,17 +458,18 @@ QMap <QString, QString> ProfilesDialog::getProfilesInfo()
     for (int i = 0; i < profilesFiles.size(); ++i) {
         KConfig confFile(mltDir.absoluteFilePath(profilesFiles.at(i)), KConfig::SimpleConfig);
         QString desc = confFile.entryMap().value(QStringLiteral("description"));
-        if (!desc.isEmpty()) result.insert(desc, profilesFiles.at(i));
+        if (!desc.isEmpty()) result.insert(profilesFiles.at(i), desc);
     }
 
     // List custom profiles
     QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
     for (int i = 0; i < customProfiles.size(); ++i) {
-        profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
+        QDir profileDir(customProfiles.at(i));
+        profilesFiles = profileDir.entryList(profilesFilter, QDir::Files);
         for (int j = 0; j < profilesFiles.size(); ++j) {
-            KConfig confFile(customProfiles.at(i) + profilesFiles.at(j), KConfig::SimpleConfig);
+            KConfig confFile(profileDir.absoluteFilePath(profilesFiles.at(j)), KConfig::SimpleConfig);
             QString desc = confFile.entryMap().value(QStringLiteral("description"));
-            if (!desc.isEmpty()) result.insert(desc, customProfiles.at(i) + profilesFiles.at(j));
+            if (!desc.isEmpty()) result.insert(profileDir.absoluteFilePath(profilesFiles.at(j)), desc);
         }
     }
     return result;

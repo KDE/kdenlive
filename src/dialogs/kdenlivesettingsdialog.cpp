@@ -448,16 +448,17 @@ void KdenliveSettingsDialog::checkProfile()
     QMapIterator<QString, QString> i(profilesInfo);
     while (i.hasNext()) {
         i.next();
-        m_configProject.kcfg_profiles_list->addItem(i.key(), i.value());
+        m_configProject.kcfg_profiles_list->addItem(i.value(), i.key());
     }
 
     if (!KdenliveSettings::default_profile().isEmpty()) {
-        for (int i = 0; i < m_configProject.kcfg_profiles_list->count(); ++i) {
-            if (m_configProject.kcfg_profiles_list->itemData(i).toString() == KdenliveSettings::default_profile()) {
-                m_configProject.kcfg_profiles_list->setCurrentIndex(i);
-                KdenliveSettings::setProfiles_list(i);
-                break;
-            }
+        int ix = m_configProject.kcfg_profiles_list->findData(KdenliveSettings::default_profile());
+        if (ix > -1) {
+            m_configProject.kcfg_profiles_list->setCurrentIndex(ix);
+            KdenliveSettings::setProfiles_list(ix);
+        } else {
+            // Error, profile not found
+            qWarning()<<"Project profile not found, disable  editing";
         }
     }
 }

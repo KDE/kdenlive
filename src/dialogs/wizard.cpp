@@ -96,10 +96,10 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
     QMap<QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
     QMap<QString, QString>::const_iterator i = profilesInfo.constBegin();
     while (i != profilesInfo.constEnd()) {
-        QMap< QString, QString > profileData = ProfilesDialog::getSettingsFromFile(i.value());
-        if (profileData.value(QStringLiteral("width")) == QLatin1String("720")) m_dvProfiles.insert(i.key(), i.value());
-        else if (profileData.value(QStringLiteral("width")).toInt() >= 1080) m_hdvProfiles.insert(i.key(), i.value());
-        else m_otherProfiles.insert(i.key(), i.value());
+        QMap< QString, QString > profileData = ProfilesDialog::getSettingsFromFile(i.key());
+        if (profileData.value(QStringLiteral("width")) == QLatin1String("720")) m_dvProfiles.insert(i.value(), i.key());
+        else if (profileData.value(QStringLiteral("width")).toInt() >= 1080) m_hdvProfiles.insert(i.value(), i.key());
+        else m_otherProfiles.insert(i.value(), i.key());
         ++i;
     }
 
