@@ -143,6 +143,14 @@ void Render::prepareProfileReset(double fps)
     m_fps = fps;
 }
 
+void Render::finishProfileReset()
+{
+    delete m_blackClip;
+    m_blackClip = new Mlt::Producer(*m_qmlView->profile(), "colour:black");
+    m_blackClip->set("id", "black");
+    m_blackClip->set("mlt_type", "producer");
+}
+
 void Render::seek(const GenTime &time)
 {
     if (!m_mltProducer || !m_isActive)

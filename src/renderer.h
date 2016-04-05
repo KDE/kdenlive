@@ -296,6 +296,7 @@ class Render: public AbstractRender
     void setVolume(double volume);
     /** @brief Stop all activities in preparation for a change in profile */
     void prepareProfileReset(double fps);
+    void finishProfileReset();
     void updateSlowMotionProducers(const QString &id, QMap <QString, QString> passProperties);
     static QMap<QString, QString> mltGetTransitionParamsFromXml(const QDomElement &xml);
 
