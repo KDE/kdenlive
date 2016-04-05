@@ -144,6 +144,12 @@ DragValue::~DragValue()
     //delete m_directUpdate;
 }
 
+bool DragValue::hasEditFocus() const
+{
+    QWidget * fWidget = QApplication::focusWidget();
+    return (fWidget && fWidget->parentWidget() == this);
+}
+
 int DragValue::spinSize()
 {
     if (m_intEdit)
