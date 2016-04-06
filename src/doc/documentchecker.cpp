@@ -696,18 +696,17 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers
                 e = producers.item(i).toElement();
                 if (e.attribute(QStringLiteral("id")).section('_', 0, 0) == id || e.attribute(QStringLiteral("id")).section(':', 1, 1) == id) {
                     // Fix clip
-                    properties = e.childNodes();
-                    for (int j = 0; j < properties.count(); ++j) {
-                        property = properties.item(j).toElement();
-                        if (property.attribute(QStringLiteral("name")) == QLatin1String("resource")) {
-                            QString resource = property.firstChild().nodeValue();
-                            if (resource.contains(QRegExp("\\?[0-9]+\\.[0-9]+(&amp;strobe=[0-9]+)?$")))
-                                property.firstChild().setNodeValue(child->text(1) + '?' + resource.section('?', -1));
-                            else
-                                property.firstChild().setNodeValue(child->text(1));
-                            break;
-                        }
+                    QString resource = getProperty(e, QLatin1String("resource"));
+                    QString service = getProperty(e, QLatin1String("mlt_service"));
+                    QString fixedResource = child->text(1);
+                    if (resource.contains(QRegExp("\\?[0-9]+\\.[0-9]+(&amp;strobe=[0-9]+)?$"))) {
+                        fixedResource.append('?' + resource.section('?', -1));
                     }
+                    if (service == QLatin1String("timewarp")) {
+                        setProperty(e, QLatin1String("warp_resource"), fixedResource);
+                        fixedResource.prepend(getProperty(e, QLatin1String("warp_speed")) + ":");
+                    }
+                    setProperty(e, QLatin1String("resource"), fixedResource);
                 }
             }
         }
