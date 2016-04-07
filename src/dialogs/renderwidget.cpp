@@ -357,7 +357,7 @@ void RenderWidget::setDocumentPath(const QString &path)
 {
     if (m_view.out_file->url().adjusted(QUrl::RemoveFilename).path() == QUrl::fromLocalFile(m_projectFolder).adjusted(QUrl::RemoveFilename).path()) {
         const QString fileName = m_view.out_file->url().fileName();
-        m_view.out_file->setUrl(QUrl(path + fileName));
+        m_view.out_file->setUrl(QUrl::fromLocalFile(path + fileName));
     }
     m_projectFolder = path;
     parseScriptFiles();
@@ -1226,7 +1226,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             QTextStream outStream(&file);
             QString stemIdxStr(QString::number(stemIdx));
 
-            outStream << "SOURCE_" << stemIdxStr << "=" << '\"' + QUrl(playlistPaths.at(stemIdx)).toEncoded() + '\"' << '\n';
+            outStream << "SOURCE_" << stemIdxStr << "=" << '\"' + QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded() + '\"' << '\n';
             outStream << "TARGET_" << stemIdxStr << "=" << '\"' + QUrl::fromLocalFile(dest).toEncoded() + '\"' << '\n';
             outStream << "PARAMETERS_" << stemIdxStr << "=" << '\"' + render_process_args.join(QStringLiteral(" ")) + '\"' << '\n';
             outStream << "$RENDERER $PARAMETERS_" << stemIdxStr << "\n\n";
@@ -1418,10 +1418,9 @@ void RenderWidget::setProfile(const MltVideoProfile &profile)
     }
 }
 
-void RenderWidget::refreshView(const QString &profile)
+void RenderWidget::refreshView()
 {
     m_view.formats->blockSignals(true);
-    m_view.formats->clear();
     QIcon brokenIcon = KoIconUtils::themedIcon(QStringLiteral("dialog-close"));
     QIcon warningIcon = KoIconUtils::themedIcon(QStringLiteral("dialog-warning"));
 
@@ -1433,16 +1432,14 @@ void RenderWidget::refreshView(const QString &profile)
 	vcodecsList = KdenliveSettings::videocodecs();
 	acodecsList = KdenliveSettings::audiocodecs();
     }
-
     KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
     const QColor disabled = scheme.foreground(KColorScheme::InactiveText).color();
     const QColor disabledbg = scheme.background(KColorScheme::NegativeBackground).color();
     double project_framerate = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
-
     for (int i = 0; i < m_view.formats->topLevelItemCount(); ++i) {
         QTreeWidgetItem *group = m_view.formats->topLevelItem(i);
         for (int j = 0; j < group->childCount(); ++j) {
-            QTreeWidgetItem *item = group->child(i);
+            QTreeWidgetItem *item = group->child(j);
             QString std = item->data(0, StandardRole).toString();
             if (std.isEmpty()
                 || (std.contains(QStringLiteral("PAL"), Qt::CaseInsensitive) && m_profile.frame_rate_num == 25 && m_profile.frame_rate_den == 1)
@@ -1455,7 +1452,6 @@ void RenderWidget::refreshView(const QString &profile)
                 item->setForeground(0, disabled);
                 continue;
             }
-
             std = item->data(0, ParamsRole).toString();
             // Make sure the selected profile uses the same frame rate as project profile
             if (std.contains(QStringLiteral("mlt_profile="))) {
@@ -1524,7 +1520,7 @@ void RenderWidget::refreshView(const QString &profile)
             }
         }
     }
-    focusFirstVisibleItem(profile);
+    focusFirstVisibleItem();
     m_view.formats->blockSignals(false);
     refreshParams();
 }
