@@ -6708,6 +6708,8 @@ void CustomTrackView::slotDeleteTrack(int ix)
     d->video_track->setHidden(true);
     d->audio_track->setHidden(true);
     if (d->exec() == QDialog::Accepted) {
+        // Make sure the selected track index is not outside range
+        m_selectedTrack = qBound(1, m_selectedTrack, m_timeline->tracksCount() - 2);
         ix = m_timeline->visibleTracksCount() - d->comboTracks->currentIndex();
         TrackInfo info = m_timeline->getTrackInfo(ix);
         deleteTimelineTrack(ix, info);
@@ -7426,8 +7428,7 @@ QStringList CustomTrackView::selectedClips() const
 
 void CustomTrackView::slotSelectTrack(int ix)
 {
-    m_selectedTrack = qMax(0, ix);
-    m_selectedTrack = qMin(ix, m_timeline->tracksCount() - 1);
+    m_selectedTrack = qBound(1, ix, m_timeline->tracksCount() - 1);
     emit updateTrackHeaders();
     m_timeline->slotShowTrackEffects(ix);
     QRectF rect(mapToScene(QPoint(10, 0)).x(), getPositionFromTrack(ix) , 10, m_tracksHeight);
