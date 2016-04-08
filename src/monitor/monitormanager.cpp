@@ -147,6 +147,12 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh
     return (m_activeMonitor != NULL);
 }
 
+void MonitorManager::resetDisplay()
+{
+    m_projectMonitor->clearDisplay();
+    m_clipMonitor->clearDisplay();
+}
+
 bool MonitorManager::isActive(Kdenlive::MonitorId id) const
 {
     return m_activeMonitor ? m_activeMonitor->id() == id: false;

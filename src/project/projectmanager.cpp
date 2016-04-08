@@ -124,6 +124,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     QMap <QString, QString> documentProperties;
     QMap <QString, QString> documentMetadata;
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
+    pCore->monitorManager()->resetDisplay();
     if (!showProjectSettings) {
         if (!closeCurrentDocument()) {
             return;
@@ -469,6 +470,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     if (m_progressDialog) {
         delete m_progressDialog;
     }
+    pCore->monitorManager()->resetDisplay();
     m_progressDialog = new QProgressDialog(pCore->window());
     m_progressDialog->setWindowTitle(i18n("Loading project"));
     m_progressDialog->setCancelButton(0);
