@@ -699,7 +699,7 @@ void ClipItem::paint(QPainter *painter,
         int startpixel = qMax(0, (int) exposed.left());
         int endpixel = qMax(0, (int) (exposed.right() + 0.5) + 1);
         QRectF mappedRect = mapped;
-        if (m_clipType != Audio && m_clipState != PlaylistState::AudioOnly) {
+        if (m_clipType != Audio && m_clipState != PlaylistState::AudioOnly && KdenliveSettings::videothumbnails()) {
             mappedRect.setTop(mappedRect.bottom() - mapped.height() / 2);
         }
 
