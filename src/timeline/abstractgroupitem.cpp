@@ -284,13 +284,10 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         int maximumTrack = projectScene()->tracksCount();
         int groupHeight = 0;
         for (int i = 0; i < groupTracks.count(); ++i) {
-            int offset = groupTracks.at(i) - topTrack;
-            if (offset > groupHeight) groupHeight = offset;
+            int trackOffset = topTrack - groupTracks.at(i) + 1;
+            if (trackOffset > groupHeight) groupHeight = trackOffset;
         }
-        
-        maximumTrack -= groupHeight;
-        proposedTrack = qMin(proposedTrack, maximumTrack);
-        proposedTrack = qMax(proposedTrack, groupTracks.count());
+        proposedTrack = qBound(groupHeight, proposedTrack, maximumTrack);
         int groupOffset = proposedTrack - topTrack;
         if (!lockedTracks.isEmpty()) {
             for (int i = 0; i < groupTracks.count(); ++i) {
