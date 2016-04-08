@@ -527,7 +527,7 @@ void BinController::checkAudioThumbs()
     }
 }
 
-void BinController::saveDocumentProperties(const QMap <QString, QString> props, const QMap <double, QString> guidesData)
+void BinController::saveDocumentProperties(const QMap <QString, QString> props, const QMap <QString, QString> metadata, const QMap <double, QString> guidesData)
 {
     // Clear previous properites
     Mlt::Properties playlistProps(m_binPlaylist->get_properties());
@@ -537,6 +537,15 @@ void BinController::saveDocumentProperties(const QMap <QString, QString> props, 
         QString propName = QStringLiteral("kdenlive:docproperties.") + docProperties.get_name(i);
         playlistProps.set(propName.toUtf8().constData(), (char *)NULL);
     }
+
+    // Clear previous metadata
+    Mlt::Properties docMetadata;
+    docMetadata.pass_values(playlistProps, "kdenlive:docmetadata.");
+    for (int i = 0; i < docMetadata.count(); i++) {
+        QString propName = QStringLiteral("kdenlive:docmetadata.") + docMetadata.get_name(i);
+        playlistProps.set(propName.toUtf8().constData(), (char *)NULL);
+    }
+
     // Clear previous guides
     Mlt::Properties guideProperties;
     guideProperties.pass_values(playlistProps, "kdenlive:guide.");
@@ -549,6 +558,12 @@ void BinController::saveDocumentProperties(const QMap <QString, QString> props, 
     while (i.hasNext()) {
         i.next();
         playlistProps.set(("kdenlive:docproperties." + i.key()).toUtf8().constData(), i.value().toUtf8().constData());
+    }
+
+    QMapIterator<QString, QString> j(metadata);
+    while (j.hasNext()) {
+        j.next();
+        playlistProps.set(("kdenlive:docmetadata." + j.key()).toUtf8().constData(), j.value().toUtf8().constData());
     }
 
     // Append guides

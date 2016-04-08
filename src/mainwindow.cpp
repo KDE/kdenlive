@@ -3333,7 +3333,7 @@ void MainWindow::slotUpdateProxySettings()
 void MainWindow::slotArchiveProject()
 {
     QList <ClipController*> list = pCore->binController()->getControllerList();
-    pCore->binController()->saveDocumentProperties(pCore->projectManager()->current()->documentProperties(), pCore->projectManager()->currentTimeline()->projectView()->guidesData());
+    pCore->binController()->saveDocumentProperties(pCore->projectManager()->current()->documentProperties(), pCore->projectManager()->current()->metadata(), pCore->projectManager()->currentTimeline()->projectView()->guidesData());
     QDomDocument doc = pCore->projectManager()->current()->xmlSceneList(m_projectMonitor->sceneList());
     QPointer<ArchiveWidget> d = new ArchiveWidget(pCore->projectManager()->current()->url().fileName(), doc, list, pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), this);
     if (d->exec()) {

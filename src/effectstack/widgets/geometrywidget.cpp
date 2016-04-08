@@ -527,6 +527,7 @@ void GeometryWidget::slotAddKeyframe(int pos)
     item.y((int)item.y());
     item.w((int)item.w());
     item.h((int)item.h());
+    item.mix((int)item.mix());
     m_geometry->insert(item);
 
     for (int i = 0; i < m_extraGeometries.count(); ++i) {

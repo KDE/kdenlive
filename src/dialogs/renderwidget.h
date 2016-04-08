@@ -149,7 +149,7 @@ public slots:
 private slots:
     void slotUpdateButtons(const QUrl &url);
     void slotUpdateButtons();
-    void refreshView(const QString &profile = QString());
+    void refreshView();
 
     /** @brief Updates available options when a new format has been selected. */
     void refreshParams();
