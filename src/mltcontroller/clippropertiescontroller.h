@@ -89,6 +89,7 @@ private slots:
     void slotComboValueChanged();
     void slotValueChanged(int value);
     void slotTextChanged();
+    void updateTab(int ix);
 
 private:
     ClipController *m_controller;
