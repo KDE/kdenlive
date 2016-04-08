@@ -435,10 +435,13 @@ Bin::Bin(QWidget* parent) :
 Bin::~Bin()
 {
     blockSignals(true);
+    m_proxyModel->selectionModel()->blockSignals(true);
     setEnabled(false);
     abortAudioThumbs();
-    foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
+    if (m_propertiesPanel) {
+        foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
             delete w;
+        }
     }
     if (m_rootFolder) {
         while (!m_rootFolder->isEmpty()) {
@@ -451,6 +454,7 @@ Bin::~Bin()
     delete m_itemView;
     delete m_jobManager;
     delete m_infoMessage;
+    delete m_propertiesPanel;
 }
 
 void Bin::slotAbortAudioThumb(const QString &id)
@@ -1537,8 +1541,11 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
                     showSlideshowWidget(clip);
                 } else if (clip->clipType() == QText) {
                     ClipCreationDialog::createQTextClip(m_doc, getFolderInfo(), this, clip);
-                } else {
+                } else if (!m_editAction->isChecked()) {
                     m_editAction->trigger();
+                } else {
+                    m_propertiesPanel->show();
+                    m_propertiesPanel->raise();
                 }
             }
         }

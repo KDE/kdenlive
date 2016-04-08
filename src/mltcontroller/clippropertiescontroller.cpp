@@ -516,11 +516,16 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
     m_tabWidget->setTabToolTip(4, i18n("Analysis"));
     m_tabWidget->setCurrentIndex(KdenliveSettings::properties_panel_page());
     if (m_type == Color) m_tabWidget->setTabEnabled(0, false);
+    connect(m_tabWidget, &QTabWidget::currentChanged, this, &ClipPropertiesController::updateTab);
 }
 
 ClipPropertiesController::~ClipPropertiesController()
 {
-    KdenliveSettings::setProperties_panel_page(m_tabWidget->currentIndex());
+}
+
+void ClipPropertiesController::updateTab(int ix)
+{
+    KdenliveSettings::setProperties_panel_page(ix);
 }
 
 void ClipPropertiesController::slotRefreshTimeCode()

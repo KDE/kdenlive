@@ -854,7 +854,9 @@ void Timeline::updatePalette()
     m_trackview->updatePalette();
     if (!m_tracks.isEmpty()) {
         int ix = m_trackview->selectedTrack();
-        m_tracks.at(ix)->trackHeader->setSelectedIndex(ix);
+        if (m_tracks.at(ix)->trackHeader) {
+            m_tracks.at(ix)->trackHeader->setSelectedIndex(ix);
+        }
     }
 }
 
