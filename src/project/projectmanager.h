@@ -138,6 +138,7 @@ private:
     KRecentFilesAction *m_recentFilesAction;
     NotesPlugin *m_notesPlugin;
     QProgressDialog *m_progressDialog;
+    void saveRecentFiles();
 };
 
 #endif

@@ -267,10 +267,18 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     pCore->window()->setWindowTitle(m_project->description());
     m_project->setModified(false);
     m_recentFilesAction->addUrl(QUrl::fromLocalFile(outputFileName));
+    saveRecentFiles();
     m_fileRevert->setEnabled(true);
     pCore->window()->m_undoView->stack()->setClean();
 
     return true;
+}
+
+void ProjectManager::saveRecentFiles()
+{
+    KSharedConfigPtr config = KSharedConfig::openConfig();
+    m_recentFilesAction->saveEntries(KConfigGroup(config, "Recent Files"));
+    config->sync();
 }
 
 void ProjectManager::slotSaveSelection(QString path)
@@ -339,6 +347,7 @@ void ProjectManager::openFile()
         return;
     }
     m_recentFilesAction->addUrl(url);
+    saveRecentFiles();
     openFile(url);
 }
 

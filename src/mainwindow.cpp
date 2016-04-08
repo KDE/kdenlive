@@ -1406,9 +1406,6 @@ void MainWindow::setStatusBarStyleSheet(const QPalette &p)
 void MainWindow::saveOptions()
 {
     KdenliveSettings::self()->save();
-    KSharedConfigPtr config = KSharedConfig::openConfig();
-    pCore->projectManager()->recentFilesAction()->saveEntries(KConfigGroup(config, "Recent Files"));
-    config->sync();
 }
 
 void MainWindow::readOptions()
