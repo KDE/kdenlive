@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2016 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -42,6 +42,17 @@
 #include <QDir>
 #include <kmessagebox.h>
 #include <QFileDialog>
+#include <QInputDialog>
+
+class NoEditDelegate: public QStyledItemDelegate 
+{
+    public:
+      NoEditDelegate(QObject* parent=0): QStyledItemDelegate(parent) {}
+      virtual QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+        return 0;
+      }
+};
+
 
 ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString &projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
     QDialog(parent), m_savedProject(savedProject), m_lumas(lumas)
@@ -69,7 +80,6 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     QString currentProf;
     if (doc) {
         currentProf = KdenliveSettings::current_profile();
-        qDebug()<<" * * *DOC PROFILE: "<<currentProf;
         enable_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("enableproxy")).toInt());
         generate_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateproxy")).toInt());
         proxy_minsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyminsize")).toInt());
@@ -88,7 +98,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         proxy_imageminsize->setValue(KdenliveSettings::proxyimageminsize());
         m_proxyextension = KdenliveSettings::proxyextension();
     }
-    qDebug()<<" * * *SELECTED PROFILE: "<<currentProf;
+
     // Select profile
     int ix = profiles_list->findData(currentProf);
     if (ix > -1) {
@@ -122,6 +132,8 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         video_tracks->setEnabled(false);
         audio_tracks->setEnabled(false);
     }
+
+    metadata_list->setItemDelegateForColumn(0, new NoEditDelegate(this));
 
     // Metadata list
     QTreeWidgetItem *item = new QTreeWidgetItem(metadata_list, QStringList() << i18n("Title"));
@@ -164,7 +176,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
 	metadata.remove(QStringLiteral("meta.attr.date.markup"));
     }
     item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    
+
     QMap<QString, QString>::const_iterator meta = metadata.constBegin();
     while (meta != metadata.constEnd()) {
 	item = new QTreeWidgetItem(metadata_list, QStringList() << meta.key().section('.', 2,2));
@@ -173,12 +185,12 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
 	item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 	++meta;
     }
-    
+
     connect(add_metadata, SIGNAL(clicked()), this, SLOT(slotAddMetadataField()));
     connect(delete_metadata, SIGNAL(clicked()), this, SLOT(slotDeleteMetadataField()));
     add_metadata->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
     delete_metadata->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
-    
+
     slotUpdateDisplay();
     if (doc != NULL) {
         slotUpdateFiles();
@@ -659,7 +671,9 @@ const QMap <QString, QString> ProjectSettings::metadata() const
 
 void ProjectSettings::slotAddMetadataField()
 {
-    QTreeWidgetItem *item = new QTreeWidgetItem(metadata_list, QStringList() << i18n("field_name"));
+    QString metaField = QInputDialog::getText(this, i18n("Metadata"), i18n("Metadata"));
+    if (metaField.isEmpty()) return;
+    QTreeWidgetItem *item = new QTreeWidgetItem(metadata_list, QStringList() << metaField);
     item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 }
 

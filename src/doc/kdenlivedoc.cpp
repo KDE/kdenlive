@@ -1510,6 +1510,9 @@ void KdenliveDoc::loadDocumentProperties()
             if (name.startsWith(QLatin1String("kdenlive:docproperties."))) {
                 name = name.section(QStringLiteral("."), 1);
                 m_documentProperties.insert(name, e.firstChild().nodeValue());
+            } else if (name.startsWith(QLatin1String("kdenlive:docmetadata."))) {
+                name = name.section(QStringLiteral("."), 1);
+                m_documentMetadata.insert(name, e.firstChild().nodeValue());
             }
         }
     }
