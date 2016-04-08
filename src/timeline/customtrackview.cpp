@@ -3296,6 +3296,8 @@ void CustomTrackView::removeTrack(int ix)
     // Clear effect stack
     clearSelection();
     emit transitionItemSelected(NULL);
+    // Make sure the selected track index is not outside range
+    m_selectedTrack = qBound(1, m_selectedTrack, m_timeline->tracksCount() - 2);
 
     //Delete composite transition
     Mlt::Tractor *tractor = m_document->renderer()->lockService();
@@ -6708,13 +6710,9 @@ void CustomTrackView::slotDeleteTrack(int ix)
     d->video_track->setHidden(true);
     d->audio_track->setHidden(true);
     if (d->exec() == QDialog::Accepted) {
-        // Make sure the selected track index is not outside range
-        m_selectedTrack = qBound(1, m_selectedTrack, m_timeline->tracksCount() - 2);
         ix = m_timeline->visibleTracksCount() - d->comboTracks->currentIndex();
         TrackInfo info = m_timeline->getTrackInfo(ix);
         deleteTimelineTrack(ix, info);
-        /*AddTrackCommand* command = new AddTrackCommand(this, ix, info, false);
-        m_commandStack->push(command);*/
     }
     delete d;
 }
@@ -6741,6 +6739,8 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
     // Clear effect stack
     clearSelection();
     emit transitionItemSelected(NULL);
+    // Make sure the selected track index is not outside range
+    m_selectedTrack = qBound(1, m_selectedTrack, m_timeline->tracksCount() - 2);
 
     double startY = getPositionFromTrack(ix) + 1 + m_tracksHeight / 2;
     QRectF r(0, startY, sceneRect().width(), m_tracksHeight / 2 - 1);
