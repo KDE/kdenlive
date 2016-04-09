@@ -61,6 +61,7 @@ public:
     void createThread(RenderThread** thread, thread_function_t function, void* data);
     void startGlsl();
     void stopGlsl();
+    void clear();
     /** @brief Update producer, should ONLY be called from renderer.cpp */
     int setProducer(Mlt::Producer*, bool reconfig = true);
     int reconfigureMulti(QString params, QString path, Mlt::Profile *profile);

@@ -377,6 +377,12 @@ static void uploadTextures(QOpenGLContext* context, SharedFrame& frame, GLuint t
     check_error(f);
 }
 
+void GLWidget::clear()
+{
+    stopGlsl();
+    update();
+}
+
 void GLWidget::paintGL()
 {
     QOpenGLFunctions* f = openglContext()->functions();
@@ -388,7 +394,7 @@ void GLWidget::paintGL()
     f->glDepthMask(GL_FALSE);
     f->glViewport(0, 0, width, height);
     check_error(f);
-    QColor color(KdenliveSettings::window_background()); //= QPalette().color(QPalette::Window);
+    QColor color(KdenliveSettings::window_background());
     f->glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
     f->glClear(GL_COLOR_BUFFER_BIT);
     check_error(f);
@@ -678,8 +684,10 @@ void GLWidget::clearFrameRenderer()
 
 void GLWidget::stopGlsl()
 {
-    m_consumer->purge();
-    m_frameRenderer->clearFrame();
+    if (m_consumer)
+        m_consumer->purge();
+    if (m_frameRenderer)
+        m_frameRenderer->clearFrame();
 
     //TODO This is commented out for now because it is causing crashes.
     //Technically, this should be the correct thing to do, but it appears

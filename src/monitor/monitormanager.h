@@ -69,6 +69,7 @@ public:
     void lockMonitor(Kdenlive::MonitorId name, bool);
     void refreshCurrentMonitor();
     void refreshIcons();
+    void resetDisplay();
 
 public slots:
 

@@ -152,6 +152,8 @@ public:
     void displayAudioMonitor(bool isActive);
     /** @brief Prepare split effect from timeline clip producer **/
     void activateSplit();
+    /** @brief Clear monitor display **/
+    void clearDisplay();
 
 protected:
     void mousePressEvent(QMouseEvent * event);

@@ -124,6 +124,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     QMap <QString, QString> documentProperties;
     QMap <QString, QString> documentMetadata;
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
+    pCore->monitorManager()->resetDisplay();
     if (!showProjectSettings) {
         if (!closeCurrentDocument()) {
             return;
@@ -267,10 +268,18 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     pCore->window()->setWindowTitle(m_project->description());
     m_project->setModified(false);
     m_recentFilesAction->addUrl(QUrl::fromLocalFile(outputFileName));
+    saveRecentFiles();
     m_fileRevert->setEnabled(true);
     pCore->window()->m_undoView->stack()->setClean();
 
     return true;
+}
+
+void ProjectManager::saveRecentFiles()
+{
+    KSharedConfigPtr config = KSharedConfig::openConfig();
+    m_recentFilesAction->saveEntries(KConfigGroup(config, "Recent Files"));
+    config->sync();
 }
 
 void ProjectManager::slotSaveSelection(QString path)
@@ -339,6 +348,7 @@ void ProjectManager::openFile()
         return;
     }
     m_recentFilesAction->addUrl(url);
+    saveRecentFiles();
     openFile(url);
 }
 
@@ -460,6 +470,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     if (m_progressDialog) {
         delete m_progressDialog;
     }
+    pCore->monitorManager()->resetDisplay();
     m_progressDialog = new QProgressDialog(pCore->window());
     m_progressDialog->setWindowTitle(i18n("Loading project"));
     m_progressDialog->setCancelButton(0);

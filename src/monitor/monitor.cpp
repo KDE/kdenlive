@@ -1989,3 +1989,7 @@ void Monitor::updateQmlDisplay(int currentOverlay)
     m_glMonitor->rootObject()->setProperty("showAudiothumb", currentOverlay & 0x10);
 }
 
+void Monitor::clearDisplay()
+{
+    m_glMonitor->clear();
+}
