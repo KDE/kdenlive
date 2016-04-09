@@ -3091,6 +3091,7 @@ void CustomTrackView::adjustTimelineClips(EditMode mode, ClipItem *item, ItemInf
                     } else {
                         ItemInfo newclipInfo = clip->info();
                         newclipInfo.endPos = info.startPos;
+                        newclipInfo.cropDuration = newclipInfo.endPos - newclipInfo.startPos;
                         new ResizeClipCommand(this, clip->info(), newclipInfo, doIt, false, command);
                         if (!doIt) {
                             clip->resizeEnd(info.startPos.frames(m_document->fps()));
@@ -3108,6 +3109,7 @@ void CustomTrackView::adjustTimelineClips(EditMode mode, ClipItem *item, ItemInf
                 } else {
                     ItemInfo newclipInfo = clip->info();
                     newclipInfo.startPos = info.endPos;
+                    newclipInfo.cropDuration = newclipInfo.endPos - newclipInfo.startPos;
                     new ResizeClipCommand(this, clip->info(), newclipInfo, doIt, false, command);
                     if (!doIt) {
                         clip->resizeStart(info.endPos.frames(m_document->fps()));
