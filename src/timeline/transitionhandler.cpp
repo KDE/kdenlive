@@ -95,6 +95,7 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
             }
         }
         if (e.attribute(QStringLiteral("namedesc")).contains(';')) {
+            //TODO: Deprecated, does not seem used anywhere...
             QString format = e.attribute(QStringLiteral("format"));
             QStringList separators = format.split(QStringLiteral("%d"), QString::SkipEmptyParts);
             QStringList values = e.attribute(QStringLiteral("value")).split(QRegExp("[,:;x]"));
