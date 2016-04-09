@@ -168,6 +168,7 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
             parameters.addParam(QStringLiteral("starttag"), e.attribute(QStringLiteral("starttag"), QStringLiteral("start")));
             parameters.addParam(QStringLiteral("endtag"), e.attribute(QStringLiteral("endtag"), QStringLiteral("end")));
         } else if (e.attribute(QStringLiteral("namedesc")).contains(QLatin1Char(';'))) {
+            //TODO: Deprecated, does not seem used anywhere...
             QString format = e.attribute(QStringLiteral("format"));
             QStringList separators = format.split(QStringLiteral("%d"), QString::SkipEmptyParts);
             QStringList values = e.attribute(QStringLiteral("value")).split(QRegExp("[,:;x]"));
@@ -186,10 +187,10 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
                 if (e.attribute(QStringLiteral("factor")).contains('%')) {
                     fact = getStringEval(info, e.attribute(QStringLiteral("factor")));
                 } else {
-                    fact = e.attribute(QStringLiteral("factor"), QStringLiteral("1")).toDouble();
+                    fact = locale.toDouble(e.attribute(QStringLiteral("factor"), QStringLiteral("1")));
                 }
                 double offset = e.attribute(QStringLiteral("offset"), QStringLiteral("0")).toDouble();
-                parameters.addParam(paramname, locale.toString((e.attribute(QStringLiteral("value")).toDouble() - offset) / fact));
+                parameters.addParam(paramname, locale.toString((locale.toDouble(e.attribute(QStringLiteral("value"))) - offset) / fact));
             } else {
                 parameters.addParam(paramname, e.attribute(QStringLiteral("value")));
             }

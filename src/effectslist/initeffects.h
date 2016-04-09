@@ -73,8 +73,6 @@ public:
                                           const QString &list = QString(),
                                           const QString &listdisplaynames = QString(),
                                           const QString &factor = QString(),
-                                          const QString &namedesc = QString(),
-                                          const QString &format = QString(),
                                           const QString &opacity = QString());
 
     /** @brief Parses a file to record information about one or more effects.

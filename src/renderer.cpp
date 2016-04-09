@@ -2172,47 +2172,6 @@ void Render::mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_tr
 }
 
 
-
-QMap<QString, QString> Render::mltGetTransitionParamsFromXml(const QDomElement &xml)
-{
-    QDomNodeList attribs = xml.elementsByTagName(QStringLiteral("parameter"));
-    QMap<QString, QString> map;
-    for (int i = 0; i < attribs.count(); ++i) {
-        QDomElement e = attribs.item(i).toElement();
-        QString name = e.attribute(QStringLiteral("name"));
-        ////qDebug()<<"-- TRANSITION PARAM: "<<name<<" = "<< e.attribute("name")<<" / " << e.attribute("value");
-        map[name] = e.attribute(QStringLiteral("default"));
-        if (!e.attribute(QStringLiteral("value")).isEmpty()) {
-            map[name] = e.attribute(QStringLiteral("value"));
-        }
-        if (e.attribute(QStringLiteral("type")) != QLatin1String("addedgeometry") && (e.attribute(QStringLiteral("factor"), QStringLiteral("1")) != QLatin1String("1") || e.attribute(QStringLiteral("offset"), QStringLiteral("0")) != QLatin1String("0"))) {
-            map[name] = QLocale().toString((map.value(name).toDouble() - e.attribute(QStringLiteral("offset"), QStringLiteral("0")).toDouble()) / e.attribute(QStringLiteral("factor"), QStringLiteral("1")).toDouble());
-            //map[name]=map[name].replace(".",","); //FIXME how to solve locale conversion of . ,
-        }
-
-        if (e.attribute(QStringLiteral("namedesc")).contains(';')) {
-            QString format = e.attribute(QStringLiteral("format"));
-            QStringList separators = format.split(QStringLiteral("%d"), QString::SkipEmptyParts);
-            QStringList values = e.attribute(QStringLiteral("value")).split(QRegExp("[,:;x]"));
-            QString neu;
-            QTextStream txtNeu(&neu);
-            if (values.size() > 0)
-                txtNeu << (int)values[0].toDouble();
-            int i = 0;
-            for (i = 0; i < separators.size() && i + 1 < values.size(); ++i) {
-                txtNeu << separators[i];
-                txtNeu << (int)(values[i+1].toDouble());
-            }
-            if (i < separators.size())
-                txtNeu << separators[i];
-            map[e.attribute(QStringLiteral("name"))] = neu;
-        }
-
-    }
-    return map;
-}
-
-
 /*const QList <Mlt::Producer *> Render::producersList()
 {
     QList <Mlt::Producer *> prods;

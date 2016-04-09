@@ -774,7 +774,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                 paramList.append(quickParameterFill(ret, i18n("Fix Shear Z"), "fix_shear_z", "double", "0", "0", "360"));*/
 
                 paramList.append(quickParameterFill(ret, QStringLiteral("keyed"), QStringLiteral("keyed"), QStringLiteral("fixed"), QStringLiteral("1"), QStringLiteral("1"), QStringLiteral("1")));
-                paramList.append(quickParameterFill(ret, i18n("Geometry"), QStringLiteral("geometry"), QStringLiteral("geometry"),  QStringLiteral("0/0:100%x100%:100%"), QStringLiteral("0/0:100%x100%:100%"), QStringLiteral("0/0:100%x100%:100%"), QLatin1String(""), QLatin1String(""), QLatin1String(""), QLatin1String(""), QLatin1String(""), QStringLiteral("true")));
+                paramList.append(quickParameterFill(ret, i18n("Geometry"), QStringLiteral("geometry"), QStringLiteral("geometry"),  QStringLiteral("0/0:100%x100%:100%"), QStringLiteral("0/0:100%x100%:100%"), QStringLiteral("0/0:100%x100%:100%"), QLatin1String(""), QLatin1String(""), QLatin1String(""), QStringLiteral("true")));
                 paramList.append(quickParameterFill(ret, i18n("Distort"), QStringLiteral("distort"), QStringLiteral("bool"), QStringLiteral("0"), QStringLiteral("0"), QStringLiteral("1")));
                 paramList.append(quickParameterFill(ret, i18n("Rotate X"), QStringLiteral("rotate_x"), QStringLiteral("addedgeometry"), QStringLiteral("0"), QStringLiteral("-1800"), QStringLiteral("1800"), QString(), QString(), QStringLiteral("10")));
                 paramList.append(quickParameterFill(ret, i18n("Rotate Y"), QStringLiteral("rotate_y"), QStringLiteral("addedgeometry"), QStringLiteral("0"), QStringLiteral("-1800"), QStringLiteral("1800"), QString(), QString(), QStringLiteral("10")));
@@ -828,7 +828,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
     transitions->append(ret.documentElement());*/
 }
 
-QDomElement initEffects::quickParameterFill(QDomDocument & doc, const QString &name, const QString &tag, const QString &type, const QString &def, const QString &min, const QString &max, const QString &list, const QString &listdisplaynames, const QString &factor, const QString &namedesc, const QString &format, const QString &opacity)
+QDomElement initEffects::quickParameterFill(QDomDocument & doc, const QString &name, const QString &tag, const QString &type, const QString &def, const QString &min, const QString &max, const QString &list, const QString &listdisplaynames, const QString &factor, const QString &opacity)
 {
     QDomElement parameter = doc.createElement(QStringLiteral("parameter"));
     parameter.setAttribute(QStringLiteral("tag"), tag);
@@ -844,10 +844,6 @@ QDomElement initEffects::quickParameterFill(QDomDocument & doc, const QString &n
         parameter.setAttribute(QStringLiteral("paramlistdisplay"), listdisplaynames);
     if (!factor.isEmpty())
         parameter.setAttribute(QStringLiteral("factor"), factor);
-    if (!namedesc.isEmpty())
-        parameter.setAttribute(QStringLiteral("namedesc"), namedesc);
-    if (!format.isEmpty())
-        parameter.setAttribute(QStringLiteral("format"), format);
     if (!opacity.isEmpty())
         parameter.setAttribute(QStringLiteral("opacity"), opacity);
     QDomElement pname = doc.createElement(QStringLiteral("name"));

@@ -298,7 +298,6 @@ class Render: public AbstractRender
     void prepareProfileReset(double fps);
     void finishProfileReset();
     void updateSlowMotionProducers(const QString &id, QMap <QString, QString> passProperties);
-    static QMap<QString, QString> mltGetTransitionParamsFromXml(const QDomElement &xml);
 
 private:
 
