@@ -6726,8 +6726,8 @@ void CustomTrackView::slotConfigTracks(int ix)
     if (d->exec() == QDialog::Accepted) {
         configTracks(d->tracksList());
         QList <int> toDelete = d->deletedTracks();
-        for (int i = 0; i < toDelete.count(); ++i) {
-            int track = m_timeline->visibleTracksCount() - toDelete.at(i);
+        while (!toDelete.isEmpty()) {
+            int track = toDelete.takeLast();
             TrackInfo info = m_timeline->getTrackInfo(track);
             deleteTimelineTrack(track, info);
         }
@@ -7935,7 +7935,6 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
     }
 
     // update slowmotion storage
-    
     QMapIterator<QString, Mlt::Producer *> i(newSlowMos);
     while (i.hasNext()) {
 	i.next();

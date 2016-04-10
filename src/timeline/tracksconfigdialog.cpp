@@ -183,7 +183,7 @@ void TracksConfigDialog::setupOriginal(int selected)
     if (selected != -1)
         table->selectRow(max - selected);
 
-    m_deletedRows = QList<int>();
+    m_deletedRows.clear();
 }
 
 void TracksConfigDialog::slotUpdateRow(QTableWidgetItem* item)
@@ -206,18 +206,12 @@ void TracksConfigDialog::slotUpdateRow(QTableWidgetItem* item)
 void TracksConfigDialog::slotDelete()
 {
     int row = table->currentRow();
-    if (row < 0)
+    int trackToDelete = table->rowCount() - row;
+    if (row < 0 || m_deletedRows.contains(trackToDelete))
         return;
-    int i = 0;
-    while (i < m_deletedRows.count()) {
-        if (m_deletedRows.at(i) == row)
-            return;
-        if (m_deletedRows.at(i) > row)
-            break;
-        ++i;
-    }
-    m_deletedRows.insert(i, row);
-    for (i = 0; i < table->columnCount(); ++i) {
+    m_deletedRows.append(trackToDelete);
+    qSort(m_deletedRows);
+    for (int i = 0; i < table->columnCount(); ++i) {
         QTableWidgetItem *item = table->item(row, i);
         item->setFlags(Qt::NoItemFlags);
         item->setBackground(palette().dark());

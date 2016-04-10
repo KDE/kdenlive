@@ -934,9 +934,13 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist) {
             slowInfo.speed = locale.toDouble(idString.section(':', 2, 2));
             slowInfo.strobe = idString.section(':', 3, 3).toInt();
             if (slowInfo.strobe == 0) slowInfo.strobe = 1;
-            QString url = clip->get("warp_resource");
+            slowInfo.state = (PlaylistState::ClipState) idString.section(':', 4, 4).toInt();
 	    // Slowmotion producer, store it for reuse
-            m_doc->renderer()->storeSlowmotionProducer(slowInfo.toString(locale) + url, new Mlt::Producer(clip->parent()));
+            Mlt::Producer *parentProd = new Mlt::Producer(clip->parent());
+            QString url = parentProd->get("warp_resource");
+            if (!m_doc->renderer()->storeSlowmotionProducer(slowInfo.toString(locale) + url, parentProd)) {
+                delete parentProd;
+            }
         }
         id = id.section('_', 0, 0);
 	int length = out - in + 1;

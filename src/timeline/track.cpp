@@ -620,7 +620,9 @@ Mlt::Producer *Track::buildSlowMoProducer(Mlt::Properties passProps, const QStri
         default:
             break;
     }
-    emit storeSlowMotion(info.toString(locale) + url, prod);
+    QString slowmoId = info.toString(locale);
+    slowmoId.append(prod->get("warp_resource"));
+    emit storeSlowMotion(slowmoId, prod);
     return prod;
 }
 
@@ -662,7 +664,6 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
     slowInfo.speed = speed;
     slowInfo.strobe = strobe;
     slowInfo.state = state;
-
     if (serv.contains(QStringLiteral("avformat"))) {
 	if (speed != 1.0 || strobe > 1) {
 	    m_playlist.lock();

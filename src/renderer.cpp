@@ -2496,16 +2496,19 @@ void Render::setVolume(double volume)
     }
 }
 
-void Render::storeSlowmotionProducer(const QString &url, Mlt::Producer *prod, bool replace)
+bool Render::storeSlowmotionProducer(const QString &url, Mlt::Producer *prod, bool replace)
 {
       if (!m_slowmotionProducers.contains(url)) {
 	    m_slowmotionProducers.insert(url, prod);
+            return true;
       }
       else if (replace) {
 	    Mlt::Producer *old = m_slowmotionProducers.take(url);
 	    delete old;
 	    m_slowmotionProducers.insert(url, prod);
+            return true;
       }
+      return false;
 }
 
 Mlt::Producer *Render::getSlowmotionProducer(const QString &url)
