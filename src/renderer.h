@@ -417,7 +417,8 @@ public slots:
 
     /** @brief Renderer moved to a new frame, check seeking */
     bool checkFrameNumber(int pos);
-    void storeSlowmotionProducer(const QString &url, Mlt::Producer *prod, bool replace = false);
+    /** @brief Keep a reference to slowmo producer. Returns false is producer is already stored */
+    bool storeSlowmotionProducer(const QString &url, Mlt::Producer *prod, bool replace = false);
     void seek(int time);
 };
 

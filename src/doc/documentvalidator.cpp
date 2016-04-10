@@ -1976,14 +1976,13 @@ void DocumentValidator::checkOrphanedProducers()
                 // Search for a similar producer
                 QDomElement binProd = producers.at(j).toElement();
                 QString binId = binProd.attribute(QStringLiteral("id")).section(QStringLiteral("_"), 0, 0);
-                if (binId.startsWith(QLatin1String("slowmotion")) || !binProducers.contains(binId)) continue;
+                if (service != QLatin1String("timewarp") && (binId.startsWith(QLatin1String("slowmotion")) || !binProducers.contains(binId))) continue;
                 QString binService = EffectsList::property(binProd, QStringLiteral("mlt_service"));
-                qDebug()<<" / /LKNG FOR: "<<service<<" / "<<orphanValue;
+                qDebug()<<" / /LKNG FOR: "<<service<<" / "<<orphanValue<<", checking: "<<binProd.attribute("id");
                 if (service != binService) continue;
                 QString binValue = EffectsList::property(binProd, distinctiveTag);
                 if (binValue == orphanValue) {
                     // Found probable source producer, replace
-                    qDebug()<<" / / /FOUND SOURCE: "<< binId;
                     frag.appendChild(prod);
                     i--;
                     QDomNodeList entries = m_doc.elementsByTagName(QStringLiteral("entry"));

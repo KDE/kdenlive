@@ -7935,7 +7935,6 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
     }
 
     // update slowmotion storage
-    
     QMapIterator<QString, Mlt::Producer *> i(newSlowMos);
     while (i.hasNext()) {
 	i.next();
