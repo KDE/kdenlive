@@ -114,6 +114,8 @@ public:
     int m_exitCode;
     QMap<QString, KActionCategory*> kdenliveCategoryMap;
     QList <QAction *> getExtraActions(const QString &name);
+    /** @brief Returns true if docked widget is tabbed with another widget from its object name */
+    bool isTabbedWith(QDockWidget *widget, const QString & otherWidget);
 
 protected:
 
