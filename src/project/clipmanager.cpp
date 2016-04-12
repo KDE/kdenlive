@@ -349,6 +349,9 @@ void ClipManager::resetGroups()
 
 QString ClipManager::groupsXml() const
 {
+    if (m_groupsList.isEmpty()) {
+	return QString();
+    }
     QDomDocument doc;
     QDomElement groups = doc.createElement(QStringLiteral("groups"));
     doc.appendChild(groups);
