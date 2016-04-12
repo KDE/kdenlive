@@ -106,6 +106,7 @@
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QtGlobal>
 
 static const char version[] = KDENLIVE_VERSION;
 namespace Mlt
@@ -307,6 +308,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_transitionList = new EffectsListView(EffectsListView::TransitionMode);
     m_transitionListDock = addDock(i18n("Transitions"), QStringLiteral("transition_list"), m_transitionList);
 
+    setupActions();
+
     // Add monitors here to keep them at the right of the window
     m_clipMonitorDock = addDock(i18n("Clip Monitor"), QStringLiteral("clip_monitor"), m_clipMonitor);
     m_projectMonitorDock = addDock(i18n("Project Monitor"), QStringLiteral("project_monitor"), m_projectMonitor);
@@ -319,9 +322,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_undoView->setEmptyLabel(i18n("Clean"));
     m_undoView->setGroup(m_commandStack);
     m_undoViewDock = addDock(i18n("Undo History"), QStringLiteral("undo_history"), m_undoView);
-
-
-    setupActions();
 
     // Color and icon theme stuff
     addAction(QStringLiteral("themes_menu"), themeAction);
@@ -336,7 +336,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     /// Tabify Widgets ///
     tabifyDockWidget(m_transitionListDock, m_effectListDock);
-    tabifyDockWidget(m_effectListDock, m_effectStackDock);
+    tabifyDockWidget(pCore->bin()->clipPropertiesDock(), m_effectStackDock);
+    //tabifyDockWidget(m_effectListDock, m_effectStackDock);
 
     tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
     if (m_recMonitor) {
@@ -3460,6 +3461,19 @@ void MainWindow::doChangeStyle()
     ThemeManager::instance()->slotChangePalette();
 }
 
+bool MainWindow::isTabbedWith(QDockWidget *widget, const QString & otherWidget)
+{
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+    QList<QDockWidget *> tabbed = tabifiedDockWidgets(widget);
+    for (int i = 0; i < tabbed.count(); i++) {
+        if (tabbed.at(i)->objectName() == otherWidget)
+            return true;
+    }
+    return false;
+#else
+    return false;
+#endif
+}
 
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW

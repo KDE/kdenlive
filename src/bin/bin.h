@@ -510,6 +510,8 @@ public:
     void cleanup();
     /** @brief Get usage stats for project bin. */
     void getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unusedSize);
+    /** @brief Returns the clip properties dockwidget. */
+    QDockWidget *clipPropertiesDock();
 
 private slots:
     void slotAddClip();

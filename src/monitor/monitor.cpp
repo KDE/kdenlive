@@ -190,7 +190,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     if (id == Kdenlive::ClipMonitor) {
         // Add options for recording
         m_recManager = new RecManager(this);
-        connect(m_recManager, SIGNAL(warningMessage(QString)), this, SLOT(warningMessage(QString)));
+        connect(m_recManager, SIGNAL(warningMessage(QString,int,QList <QAction*>)), this, SLOT(warningMessage(QString,int,QList <QAction*>)));
         connect(m_recManager, &RecManager::addClipToProject, this, &Monitor::addClipToProject);
     }
 
@@ -1636,10 +1636,13 @@ void Monitor::gpuError()
     warningMessage(i18n("Cannot initialize Movit's GLSL manager, please disable Movit"), -1);
 }
 
-void Monitor::warningMessage(const QString &text, int timeout)
+void Monitor::warningMessage(const QString &text, int timeout, QList <QAction*> actions)
 {
     m_infoMessage->setMessageType(KMessageWidget::Warning);
     m_infoMessage->setText(text);
+    foreach(QAction *action, actions) {
+        m_infoMessage->addAction(action);
+    }
     m_infoMessage->setCloseButtonVisible(true);
     m_infoMessage->animatedShow();
     if (timeout > 0) QTimer::singleShot(timeout, m_infoMessage, SLOT(animatedHide()));

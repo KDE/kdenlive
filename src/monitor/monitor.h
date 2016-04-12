@@ -256,7 +256,7 @@ private slots:
     void slotForceSize(QAction *a);
     void slotSeekToKeyFrame();
     /** @brief Display a non blocking error message to user **/
-    void warningMessage(const QString &text, int timeout = 5000);
+    void warningMessage(const QString &text, int timeout = 5000, QList <QAction*> actions = QList <QAction*>());
     void slotLockMonitor(bool lock);
     void slotAddEffect(QDomElement effect);
     void slotSwitchPlay();

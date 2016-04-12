@@ -429,7 +429,6 @@ Bin::Bin(QWidget* parent) :
     connect(this, SIGNAL(requesteInvalidRemoval(QString,QUrl,QString)), this, SLOT(slotQueryRemoval(QString,QUrl,QString)));
     connect(this, &Bin::refreshAudioThumbs, this, &Bin::doRefreshAudioThumbs);
     connect(this, SIGNAL(displayBinMessage(QString,KMessageWidget::MessageType)), this, SLOT(doDisplayMessage(QString,KMessageWidget::MessageType)));
-    m_propertiesDock = pCore->window()->addDock(i18n("Clip Properties"), "clipProperties", m_propertiesPanel);
 }
 
 Bin::~Bin()
@@ -455,6 +454,11 @@ Bin::~Bin()
     delete m_jobManager;
     delete m_infoMessage;
     delete m_propertiesPanel;
+}
+
+QDockWidget *Bin::clipPropertiesDock()
+{
+    return m_propertiesDock;
 }
 
 void Bin::slotAbortAudioThumb(const QString &id)
@@ -1544,8 +1548,11 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
                 } else if (!m_editAction->isChecked()) {
                     m_editAction->trigger();
                 } else {
-                    m_propertiesPanel->show();
-                    m_propertiesPanel->raise();
+                    // Check if properties panel is not tabbed under Bin
+                    if (!pCore->window()->isTabbedWith(m_propertiesDock, QStringLiteral("project_bin"))) {
+                        m_propertiesDock->show();
+                        m_propertiesDock->raise();
+                    }
                 }
             }
         }
@@ -1580,8 +1587,9 @@ void Bin::slotEditClip()
 void Bin::slotSwitchClipProperties(bool display)
 {
     m_propertiesDock->toggleViewAction()->trigger();
-    if (display)
+    if (display) {
         m_propertiesDock->raise();
+    }
     QModelIndex current = m_proxyModel->selectionModel()->currentIndex();
     slotSwitchClipProperties(current);
 }
@@ -1895,7 +1903,8 @@ void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, QHash <QString, QAct
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_toolbar->insertWidget(folder, m_addButton);
     m_menu = new QMenu();
-    connect(m_propertiesDock, &QDockWidget::visibilityChanged, m_editAction, &QAction::setChecked);
+    m_propertiesDock = pCore->window()->addDock(i18n("Clip Properties"), "clip_properties", m_propertiesPanel);
+    connect(m_propertiesDock->toggleViewAction(), &QAction::toggled, m_editAction, &QAction::setChecked);
     //m_menu->addActions(addMenu->actions());
 }
 

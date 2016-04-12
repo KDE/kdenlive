@@ -27,9 +27,10 @@
 #include "dialogs/profilesdialog.h"
 #include "utils/KoIconUtils.h"
 
-#include <QDebug>
+#include <KMessageBox>
 #include "klocalizedstring.h"
 
+#include <QDebug>
 #include <QComboBox>
 #include <QToolBar>
 #include <QDesktopWidget>
@@ -52,7 +53,10 @@ RecManager::RecManager(Monitor *parent) :
     m_recAction = m_recToolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("media-record")), i18n("Record"));
     m_recAction->setCheckable(true);
     connect(m_recAction, &QAction::toggled, this, &RecManager::slotRecord);
-    
+
+    m_showLogAction = new QAction(i18n("Show log"), this);
+    connect(m_showLogAction, SIGNAL(triggered(bool)), this, SLOT(slotShowLog()));
+
     m_recVideo = new QCheckBox(i18n("Video"));
     m_recAudio = new QCheckBox(i18n("Audio"));
     m_recToolbar->addWidget(m_recVideo);
@@ -155,7 +159,6 @@ void RecManager::slotRecord(bool record)
             // TODO: when recording audio only, allow param configuration?
             if (!m_recVideo->isChecked()) {
 		  v4lparameters.clear();
-		  
 	    }
 
             // Add alsa audio capture
@@ -209,17 +212,27 @@ void RecManager::slotRecord(bool record)
         m_captureProcess->terminate();
         QTimer::singleShot(1500, m_captureProcess, SLOT(kill()));
         return;
-    }   
+    }
     if (m_captureProcess) return;
     m_recError.clear();
-    m_captureProcess = new QProcess;
-    connect(m_captureProcess, &QProcess::stateChanged, this, &RecManager::slotProcessStatus);
-    connect(m_captureProcess, &QProcess::readyReadStandardError, this, &RecManager::slotReadProcessInfo);
 
     QString extension = KdenliveSettings::grab_extension();
     QDir captureFolder;
     if (KdenliveSettings::capturetoprojectfolder()) captureFolder = QDir(m_monitor->projectFolder());
     else captureFolder = QDir(KdenliveSettings::capturefolder());
+
+    QFileInfo checkCaptureFolder(captureFolder.absolutePath());
+    if (!checkCaptureFolder.isWritable()) {
+        emit warningMessage(i18n("The directory %1, could not be created.\nPlease make sure you have the required permissions.", captureFolder.absolutePath()));
+        m_recAction->blockSignals(true);
+        m_recAction->setChecked(false);
+        m_recAction->blockSignals(false);
+        return;
+    }
+
+    m_captureProcess = new QProcess;
+    connect(m_captureProcess, &QProcess::stateChanged, this, &RecManager::slotProcessStatus);
+    connect(m_captureProcess, &QProcess::readyReadStandardError, this, &RecManager::slotReadProcessInfo);
 
     QString path = captureFolder.absoluteFilePath("capture0000." + extension);
     int i = 1;
@@ -228,7 +241,7 @@ void RecManager::slotRecord(bool record)
         path = captureFolder.absoluteFilePath("capture" + num + '.' + extension);
         ++i;
     }
-    m_captureFile = QUrl(path);
+    m_captureFile = QUrl::fromLocalFile(path);
     QString args;
     QString captureSize;
     int screen = -1;
@@ -249,7 +262,7 @@ void RecManager::slotRecord(bool record)
     } else {
         // Region capture
         captureArgs << QStringLiteral("-s") << QString::number(KdenliveSettings::grab_width()) + 'x' + QString::number(KdenliveSettings::grab_height());
-        captureSize.append('+' + QString::number(KdenliveSettings::grab_offsetx()) + '.' + QString::number(KdenliveSettings::grab_offsetx()));
+        captureSize.append('+' + QString::number(KdenliveSettings::grab_offsetx()) + ',' + QString::number(KdenliveSettings::grab_offsety()));
     }
     // fps
     captureArgs << QStringLiteral("-r") << QString::number(KdenliveSettings::grab_fps());
@@ -276,12 +289,12 @@ void RecManager::slotProcessStatus(QProcess::ProcessState status)
         m_device_selector->setEnabled(true);
         if (m_captureProcess) {
             if (m_captureProcess->exitStatus() == QProcess::CrashExit) {
-                emit warningMessage(i18n("Capture crashed, please check your parameters"));
+                emit warningMessage(i18n("Capture crashed, please check your parameters"), -1, QList <QAction*>() << m_showLogAction);
             } else {
                 if (true) {
                     int code = m_captureProcess->exitCode();
                     if (code != 0 && code != 255) {
-                        emit warningMessage(i18n("Capture crashed, please check your parameters"));
+                        emit warningMessage(i18n("Capture crashed, please check your parameters"), -1, QList <QAction*>() << m_showLogAction);
                     }
                     else {
                         // Capture successfull, add clip to project
@@ -413,3 +426,8 @@ void RecManager::slotPreview(bool preview)
     }*/
 }
 
+
+void RecManager::slotShowLog()
+{
+    KMessageBox::information(QApplication::activeWindow(), m_recError);
+}

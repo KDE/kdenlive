@@ -72,6 +72,7 @@ private:
     QProcess *m_captureProcess;
     QAction *m_recAction;
     QAction *m_playAction;
+    QAction *m_showLogAction;
     QToolBar *m_recToolbar;
     QComboBox *m_screenCombo;
     QComboBox *m_device_selector;
@@ -86,10 +87,11 @@ private slots:
     void slotReadProcessInfo();
     void showRecConfig();
     void slotVideoDeviceChanged(int ix = -1);
+    void slotShowLog();
 
 signals:
     void addClipToProject(QUrl);
-    void warningMessage(QString);
+    void warningMessage(QString, int timeout = 5000, QList <QAction*> actions = QList <QAction*>());
 };
 
 #endif
