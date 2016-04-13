@@ -1545,9 +1545,12 @@ void DocumentValidator::convertKeyframeEffect(QDomElement effect, QStringList pa
 {
     QLocale locale;
     int in = effect.attribute(QStringLiteral("in")).toInt() - offset;
-    int out = effect.attribute(QStringLiteral("out")).toInt() - offset;
     values.insert(in, locale.toDouble(EffectsList::property(effect, params.at(0))));
-    values.insert(out, locale.toDouble(EffectsList::property(effect, params.at(1))));
+    QString endValue = EffectsList::property(effect, params.at(1));
+    if (!endValue.isEmpty()) {
+        int out = effect.attribute(QStringLiteral("out")).toInt() - offset;
+        values.insert(out, locale.toDouble(endValue));
+    }
 }
 
 void DocumentValidator::updateProducerInfo(QDomElement prod, const QDomElement source)
