@@ -1459,14 +1459,15 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     parsedIds << id;
                     QMap <int, double> values;
                     QStringList conversionParams = keyframeFilterToConvert.value(id);
-                    convertKeyframeEffect(eff, conversionParams, values);
+                    int offset = eff.attribute(QStringLiteral("in")).toInt();
+                    convertKeyframeEffect(eff, conversionParams, values, offset);
                     EffectsList::removeProperty(eff, conversionParams.at(0));
                     EffectsList::removeProperty(eff, conversionParams.at(1));
                     for (int k = j + 1; k < effects.count(); k++) {
                         QDomElement subEffect = effects.at(k).toElement();
                         QString subId = EffectsList::property(subEffect, QStringLiteral("kdenlive_id"));
                         if (subId == id) {
-                            convertKeyframeEffect(subEffect, conversionParams, values);
+                            convertKeyframeEffect(subEffect, conversionParams, values, offset);
                             entry.removeChild(subEffect);
                             k--;
                         }
@@ -1482,7 +1483,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                             if (v <= 0) {
                                 v = -60;
                             } else {
-                                v = log(v) * 20;
+                                v = log10(v) * 20;
                             }
                             parsedValues << QString::number(l.key()) + "=" + locale.toString(v);
                         }
@@ -1493,6 +1494,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         }
                     }
                     EffectsList::setProperty(eff, conversionParams.at(2), parsedValues.join(";"));
+                    EffectsList::setProperty(eff, QStringLiteral("kdenlive:sync_in_out"), QStringLiteral("1"));
                 }
             }
         }
@@ -1539,11 +1541,11 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     return true;
 }
 
-void DocumentValidator::convertKeyframeEffect(QDomElement effect, QStringList params, QMap <int, double> &values)
+void DocumentValidator::convertKeyframeEffect(QDomElement effect, QStringList params, QMap <int, double> &values, int offset)
 {
     QLocale locale;
-    int in = effect.attribute(QStringLiteral("in")).toInt();
-    int out = effect.attribute(QStringLiteral("out")).toInt();
+    int in = effect.attribute(QStringLiteral("in")).toInt() - offset;
+    int out = effect.attribute(QStringLiteral("out")).toInt() - offset;
     values.insert(in, locale.toDouble(EffectsList::property(effect, params.at(0))));
     values.insert(out, locale.toDouble(EffectsList::property(effect, params.at(1))));
 }
