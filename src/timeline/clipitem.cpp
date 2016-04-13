@@ -319,7 +319,6 @@ bool ClipItem::resizeGeometries(const int index, int width, int height, int prev
     if (!cut) {
         return false;
     }
-    qDebug()<<" // / CUTTED CLIP: "<<start<<", CROP: "<<cropstart;
     effect.setAttribute(QStringLiteral("in"), QString::number(cropstart));
     effect.setAttribute(QStringLiteral("out"), QString::number(cropstart + duration));
     for (int i = 0; i < params.count(); ++i) {
@@ -1441,12 +1440,16 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
             if (e.attribute(QStringLiteral("type")) == QLatin1String("geometry") && !e.hasAttribute(QStringLiteral("fixed"))) {
                 // Effects with a geometry parameter need to sync in / out with parent clip
                 parameters.addParam(e.attribute(QStringLiteral("name")), e.attribute(QStringLiteral("value")));
-                needInOutSync = true;
+                if (!e.hasAttribute(QStringLiteral("kdenlive:sync_in_out")) || e.attribute(QStringLiteral("kdenlive:sync_in_out")) ==  QLatin1String("1")) {
+                    needInOutSync = true;
+                }
             }
             else if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
                 parameters.addParam(e.attribute(QStringLiteral("name")), e.attribute(QStringLiteral("value")));
 		// Effects with a animated parameter need to sync in / out with parent clip
-                needInOutSync = true;
+                if (!e.hasAttribute(QStringLiteral("kdenlive:sync_in_out")) || e.attribute(QStringLiteral("kdenlive:sync_in_out")) ==  QLatin1String("1")) {
+                    needInOutSync = true;
+                }
             } else if (e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
                 QStringList values = e.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
                 double factor = locale.toDouble(e.attribute(QStringLiteral("factor"), QStringLiteral("1")));
@@ -1487,7 +1490,7 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
     if (needInOutSync) {
         parameters.addParam(QStringLiteral("in"), QString::number((int) cropStart().frames(m_fps)));
         parameters.addParam(QStringLiteral("out"), QString::number((int) (cropStart() + cropDuration()).frames(m_fps) - 1));
-        parameters.addParam(QStringLiteral("kdenlive:sync_in_out"), QStringLiteral("0"));
+        parameters.addParam(QStringLiteral("kdenlive:sync_in_out"), QStringLiteral("1"));
     }
     m_effectNames = m_effectList.effectNames().join(QStringLiteral(" / "));
     if (fade > 0) m_startFade = fade;
