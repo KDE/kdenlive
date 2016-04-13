@@ -633,34 +633,6 @@ void Render::saveZone(QPoint zone)
     }
 }
 
-
-bool Render::saveClip(int track, const GenTime &position, const QUrl &url, const QString &desc)
-{
-    // find clip
-    Mlt::Service service(m_mltProducer->parent().get_service());
-    Mlt::Tractor tractor(service);
-    //TODO: memleak
-    Mlt::Producer trackProducer(tractor.track(track));
-    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-
-    int clipIndex = trackPlaylist.get_clip_index_at((int) position.frames(m_fps));
-    QScopedPointer<Mlt::Producer> clip(trackPlaylist.get_clip(clipIndex));
-    if (!clip) {
-        qDebug() << "WARINIG, CANNOT FIND CLIP ON track: " << track << ", AT POS: " << position.frames(m_fps);
-        return false;
-    }
-    Mlt::Consumer xmlConsumer(*m_qmlView->profile(), ("xml:" + url.toLocalFile()).toUtf8().constData());
-    xmlConsumer.set("terminate_on_pause", 1);
-    Mlt::Playlist list(*m_qmlView->profile());
-    list.insert_at(0, clip.data(), 0);
-    //delete clip;
-    list.set("title", desc.toUtf8().constData());
-    xmlConsumer.connect(list);
-    xmlConsumer.run();
-    //qDebug()<<"// SAVED: "<<url;
-    return true;
-}
-
 double Render::fps() const
 {
     return m_fps;

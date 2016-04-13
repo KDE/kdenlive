@@ -153,9 +153,6 @@ class Render: public AbstractRender
     void play(const GenTime & startTime);
     bool playZone(const GenTime & startTime, const GenTime & stopTime);
     void loopZone(const GenTime & startTime, const GenTime & stopTime);
-    
-    /** @brief Save a clip in timeline to an xml playlist. */
-    bool saveClip(int track, const GenTime &position, const QUrl &url, const QString &desc = QString());
 
     /** @brief Return true if we are currently playing */
     bool isPlaying() const;
