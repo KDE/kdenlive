@@ -319,7 +319,6 @@ bool ClipItem::resizeGeometries(const int index, int width, int height, int prev
     if (!cut) {
         return false;
     }
-    qDebug()<<" // / CUTTED CLIP: "<<start<<", CROP: "<<cropstart;
     effect.setAttribute(QStringLiteral("in"), QString::number(cropstart));
     effect.setAttribute(QStringLiteral("out"), QString::number(cropstart + duration));
     for (int i = 0; i < params.count(); ++i) {

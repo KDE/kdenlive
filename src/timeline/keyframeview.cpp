@@ -862,7 +862,7 @@ QString KeyframeView::cutAnimation(const QString &animation, int start, int dura
     if (!doCut) {
         return anim.serialize_cut();
     }
-    return anim.serialize_cut(start, start + duration - 1);
+    return anim.serialize_cut(start, start + duration);
 }
 
 

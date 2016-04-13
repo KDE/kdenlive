@@ -250,7 +250,7 @@ void AnimationWidget::slotPrevious()
 void AnimationWidget::slotNext()
 {
     int next = m_animController.next_key(m_timePos->getValue() - m_offset + 1) + m_offset;
-    if (next == m_offset + 1 && m_timePos->getValue() != 0) {
+    if (!m_animController.is_key(next)) {
         // No keyframe after current pos, return end position
         next = m_timePos->maximum();
     } else {
