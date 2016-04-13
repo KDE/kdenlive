@@ -1181,7 +1181,6 @@ void MainWindow::setupActions()
     ungroupClip->setData("ungroup_clip");
 
     addAction(QStringLiteral("edit_item_duration"), i18n("Edit Duration"), this, SLOT(slotEditItemDuration()), KoIconUtils::themedIcon(QStringLiteral("measure")));
-    addAction(QStringLiteral("save_timeline_clip"), i18n("Save clip"), this, SLOT(slotSaveTimelineClip()), KoIconUtils::themedIcon(QStringLiteral("document-save")));
     addAction(QStringLiteral("clip_in_project_tree"), i18n("Clip in Project Bin"), this, SLOT(slotClipInProjectTree()), KoIconUtils::themedIcon(QStringLiteral("go-jump-definition")));
     addAction(QStringLiteral("overwrite_to_in_point"), i18n("Insert Clip Zone in Timeline (Overwrite)"), this, SLOT(slotInsertClipOverwrite()), QIcon(), Qt::Key_V);
     addAction(QStringLiteral("select_timeline_clip"), i18n("Select Clip"), this, SLOT(slotSelectTimelineClip()), KoIconUtils::themedIcon(QStringLiteral("edit-select")), Qt::Key_Plus);
@@ -3356,22 +3355,6 @@ void MainWindow::slotDownloadResources()
     ResourceWidget *d = new ResourceWidget(currentFolder);
     connect(d, SIGNAL(addClip(QUrl)), this, SLOT(slotAddProjectClip(QUrl)));
     d->show();
-}
-
-
-void MainWindow::slotSaveTimelineClip()
-{
-    if (pCore->projectManager()->currentTimeline() && m_projectMonitor->render) {
-        ClipItem *clip = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor(true);
-        if (!clip) {
-            m_messageLabel->setMessage(i18n("Select a clip to save"), InformationMessage);
-            return;
-        }
-        QUrl url = QFileDialog::getSaveFileUrl(this, i18n("Save clip"), pCore->projectManager()->current()->projectFolder(), i18n("MLT playlist (*.mlt)"));
-        if (url.isValid()) {
-            m_projectMonitor->render->saveClip(clip->track(), clip->startPos(), url);
-        }
-    }
 }
 
 void MainWindow::slotProcessImportKeyframes(GraphicsRectItem type, const QString &tag, const QString& data)
