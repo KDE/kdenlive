@@ -618,7 +618,7 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
             bin()->startJob(m_id, AbstractClipJob::PROXYJOB);
         }
     }
-    else if (properties.contains(QStringLiteral("resource")) || properties.contains(QStringLiteral("templatetext"))) {
+    else if (properties.contains(QStringLiteral("resource")) || properties.contains(QStringLiteral("templatetext")) || properties.contains(QStringLiteral("autorotate"))) {
         // Clip resource changed, update thumbnail
         if (m_type != Color) {
             reloadProducer();

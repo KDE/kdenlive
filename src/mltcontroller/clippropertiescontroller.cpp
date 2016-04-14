@@ -409,7 +409,18 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         hlay->addWidget(box);
         hlay->addWidget(combo);
         vbox->addLayout(hlay);
-        
+
+        //Autorotate
+        QString autorotate = m_properties.get("autorotate");
+        m_originalProperties.insert(QStringLiteral("autorotate"), autorotate);
+        hlay = new QHBoxLayout;
+        box = new QCheckBox(i18n("Disable autorotate"), this);
+        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
+        box->setObjectName(QStringLiteral("autorotate"));
+        box->setChecked(autorotate == QLatin1String("0"));
+        hlay->addWidget(box);
+        vbox->addLayout(hlay);
+
         //Decoding threads
         QString threads = m_properties.get("threads");
         m_originalProperties.insert(QStringLiteral("threads"), threads);
@@ -485,7 +496,7 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         hlay->addWidget(box);
         hlay->addWidget(combo);
         vbox->addLayout(hlay);
-        
+
         //Full luma
         QString force_luma = m_properties.get("set.force_full_luma");
         m_originalProperties.insert(QStringLiteral("set.force_full_luma"), force_luma);
@@ -602,6 +613,9 @@ void ClipPropertiesController::slotEnableForce(int state)
             properties.insert(QStringLiteral("force_aspect_num"), QString());
             properties.insert(QStringLiteral("force_aspect_ratio"), QString());
         }
+        else if (param == QLatin1String("autorotate")) {
+            properties.insert(QStringLiteral("autorotate"), QString());
+        }
         else {
             properties.insert(param, QString());
         }
@@ -630,6 +644,9 @@ void ClipPropertiesController::slotEnableForce(int state)
         }
         else if (param == QLatin1String("kdenlive:transparency") || param == QLatin1String("set.force_full_luma")) {
             properties.insert(param, QStringLiteral("1"));
+        }
+        else if (param == QLatin1String("autorotate")) {
+            properties.insert(QStringLiteral("autorotate"), QStringLiteral("0"));
         }
         else if (param == QLatin1String("force_ar")) {
             QSpinBox *spin = findChild<QSpinBox *>(QStringLiteral("force_aspect_num_value"));

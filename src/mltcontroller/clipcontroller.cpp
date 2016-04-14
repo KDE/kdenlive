@@ -216,9 +216,9 @@ const QString ClipController::clipId()
 const char *ClipController::getPassPropertiesList(bool passLength)
 {
     if (!passLength) {
-	return "kdenlive:proxy,kdenlive:originalurl,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_colorspace,set.force_full_luma,file_hash";
+	return "kdenlive:proxy,kdenlive:originalurl,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_colorspace,set.force_full_luma,file_hash,autorotate";
     }
-    return "kdenlive:proxy,kdenlive:originalurl,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_colorspace,set.force_full_luma,templatetext,file_hash,xmldata,length";
+    return "kdenlive:proxy,kdenlive:originalurl,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_colorspace,set.force_full_luma,templatetext,file_hash,autorotate,xmldata,length";
 }
 
 QMap <QString, QString> ClipController::getPropertiesFromPrefix(const QString &prefix, bool withPrefix)
