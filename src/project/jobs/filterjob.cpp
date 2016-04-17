@@ -87,7 +87,7 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectCli
         }
         return jobs;
     }
-    if (filterName == QLatin1String("motion_est")) {
+    else if (filterName == QLatin1String("motion_est")) {
         // Show config dialog
         QPointer<QDialog> d = new QDialog(QApplication::activeWindow());
         Ui::SceneCutDialog_UI ui;
@@ -177,7 +177,7 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectCli
         }
         return jobs;
     }
-    if (filterName == QLatin1String("vidstab")) {
+    else if (filterName == QLatin1String("vidstab")) {
         // vidstab 
         QPointer<ClipStabilize> d = new ClipStabilize(sources, filterName);
         if (d->exec() == QDialog::Accepted) {

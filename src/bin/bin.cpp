@@ -885,9 +885,9 @@ void Bin::setDocument(KdenliveDoc* project)
     connect(m_discardCurrentClipJobs, SIGNAL(triggered()), m_jobManager, SLOT(slotDiscardClipJobs()));
     connect(m_cancelJobs, SIGNAL(triggered()), m_jobManager, SLOT(slotCancelJobs()));
     connect(m_jobManager, SIGNAL(updateJobStatus(QString,int,int,QString,QString,QString)), this, SLOT(slotUpdateJobStatus(QString,int,int,QString,QString,QString)));
-    
+
     connect(m_jobManager, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SLOT(slotGotFilterJobResults(QString,int,int,stringMap,stringMap)));
-    
+
     //connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_itemView
     //connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
     slotInitView(NULL);
@@ -1333,7 +1333,7 @@ void Bin::slotInitView(QAction *action)
     m_blankThumb.addPixmap(pix);
     m_itemView->setModel(m_proxyModel);
     m_itemView->setSelectionModel(m_proxyModel->selectionModel());
-    m_layout->addWidget(m_itemView);
+    m_layout->insertWidget(1, m_itemView);
 
     // setup some default view specific parameters
     if (m_listType == BinTreeView) {

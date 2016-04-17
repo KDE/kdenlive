@@ -127,7 +127,7 @@ speed.xml
 swapchannels.xml
 tcolor.xml
 vignette.xml
-
+tracker.xml
 
 
 DESTINATION ${DATA_INSTALL_DIR}/kdenlive/effects)

@@ -7832,7 +7832,6 @@ void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPo
         emit displayMessage(i18n("Cannot find clip for effect update %1.", extra.value("finalfilter")), ErrorMessage);
         return;
     }
-
     QDomElement newEffect;
     QDomElement effect = clip->getEffectAtIndex(clip->selectedEffectIndex());
     if (effect.attribute(QStringLiteral("id")) == extra.value(QStringLiteral("finalfilter"))) {
@@ -7840,7 +7839,6 @@ void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPo
         QMap<QString, QString>::const_iterator i = filterParams.constBegin();
         while (i != filterParams.constEnd()) {
             EffectsList::setParameter(newEffect, i.key(), i.value());
-            //qDebug()<<"// RESULT FILTER: "<<i.key()<<"="<< i.value();
             ++i;
         }
         EditEffectCommand *command = new EditEffectCommand(this, clip->track(), clip->startPos(), effect, newEffect, clip->selectedEffectIndex(), true, true);

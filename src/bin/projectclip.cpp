@@ -658,14 +658,14 @@ void ProjectClip::setJobStatus(int jobType, int status, int progress, const QStr
     m_jobType = (AbstractClipJob::JOBTYPE) jobType;
     if (progress > 0) {
         if (m_jobProgress == progress) return;
-	m_jobProgress = progress;
+        m_jobProgress = progress;
     }
     else {
-	m_jobProgress = (ClipJobStatus) status;
-	if ((status == JobAborted || status == JobCrashed  || status == JobDone) && !statusMessage.isEmpty()) {
-	    m_jobMessage = statusMessage;
+        m_jobProgress = status;
+        if ((status == JobAborted || status == JobCrashed  || status == JobDone) && !statusMessage.isEmpty()) {
+            m_jobMessage = statusMessage;
             bin()->emitMessage(statusMessage, OperationCompletedMessage);
-	}
+        }
     }
     bin()->emitItemUpdated(this);
 }

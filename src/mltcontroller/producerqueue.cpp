@@ -253,6 +253,7 @@ void ProducerQueue::processFileProperties()
                 emit removeInvalidClip(info.clipId, info.replaceProducer, i18n("Cannot import playlists with different profile."));
                 continue;
             }
+            m_binController->profile()->set_explicit(true);
             producer = new Mlt::Producer(*m_binController->profile(), 0, path.toUtf8().constData());
         } else if (type == SlideShow) {
             producer = new Mlt::Producer(*m_binController->profile(), 0, path.toUtf8().constData());

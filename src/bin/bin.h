@@ -272,38 +272,36 @@ public:
                     }
 
                     int jobProgress = index.data(AbstractProjectItem::JobProgress).toInt();
-                    if (jobProgress != 0 && jobProgress != JobDone && jobProgress != JobAborted) {
-                        if (jobProgress != JobCrashed) {
-                            // Draw job progress bar
-                            QColor color = option.palette.alternateBase().color();
-                            painter->setPen(Qt::NoPen);
-                            color.setAlpha(180);
-                            painter->setBrush(QBrush(color));
-                            QRect progress(r1.x() + 1, opt.rect.bottom() - 12, r1.width() / 2, 8);
+                    if (jobProgress > 0 || jobProgress == JobWaiting) {
+                        // Draw job progress bar
+                        QColor color = option.palette.alternateBase().color();
+                        painter->setPen(Qt::NoPen);
+                        color.setAlpha(180);
+                        painter->setBrush(QBrush(color));
+                        QRect progress(r1.x() + 1, opt.rect.bottom() - 12, r1.width() / 2, 8);
+                        painter->drawRect(progress);
+                        painter->setBrush(option.palette.text());
+                        if (jobProgress > 0) {
+                            progress.adjust(1, 1, 0, -1);
+                            progress.setWidth((progress.width() - 4) * jobProgress / 100);
                             painter->drawRect(progress);
-                            painter->setBrush(option.palette.text());
-                            if (jobProgress > 0) {
-                                progress.adjust(1, 1, 0, -1);
-                                progress.setWidth((progress.width() - 4) * jobProgress / 100);
-                                painter->drawRect(progress);
-                            } else if (jobProgress == JobWaiting) {
-                                // Draw kind of a pause icon
-                                progress.adjust(1, 1, 0, -1);
-                                progress.setWidth(2);
-                                painter->drawRect(progress);
-                                progress.moveLeft(progress.right() + 2);
-                                painter->drawRect(progress);
-                            }
-                        } else if (jobProgress == JobCrashed) {
-                            QString jobText = index.data(AbstractProjectItem::JobMessage).toString();
-                            if (!jobText.isEmpty()) {
-                                QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + jobText + " ");
-                                painter->setPen(Qt::NoPen);
-                                painter->setBrush(option.palette.highlight());
-                                painter->drawRoundedRect(txtBounding, 2, 2);
-                                painter->setPen(option.palette.highlightedText().color());
-                                painter->drawText(txtBounding, Qt::AlignCenter, jobText);
-                            }
+                        } else if (jobProgress == JobWaiting) {
+                            // Draw kind of a pause icon
+                            progress.adjust(1, 1, 0, -1);
+                            progress.setWidth(2);
+                            painter->drawRect(progress);
+                            progress.moveLeft(progress.right() + 2);
+                            painter->drawRect(progress);
+                        }
+                    } else if (jobProgress == JobCrashed) {
+                        QString jobText = index.data(AbstractProjectItem::JobMessage).toString();
+                        if (!jobText.isEmpty()) {
+                            QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + jobText + " ");
+                            painter->setPen(Qt::NoPen);
+                            painter->setBrush(option.palette.highlight());
+                            painter->drawRoundedRect(txtBounding, 2, 2);
+                            painter->setPen(option.palette.highlightedText().color());
+                            painter->drawText(txtBounding, Qt::AlignCenter, jobText);
                         }
                     }
                 }

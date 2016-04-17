@@ -112,6 +112,7 @@ private:
     ItemInfo m_info;
     QList<QWidget*> m_uiItems;
     QMap<QString, QWidget*> m_valueItems;
+    QList<QWidget*> m_conditionalWidgets;
     KeyframeEdit *m_keyframeEditor;
     GeometryWidget *m_geometryWidget;
     AnimationWidget *m_animationWidget;
@@ -120,6 +121,7 @@ private:
     QVBoxLayout *m_vbox;
     bool m_acceptDrops;
     MonitorSceneType m_monitorEffectScene;
+    bool m_conditionParameter;
 
 signals:
     void parameterChanged(const QDomElement &, const QDomElement&, int);

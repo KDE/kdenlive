@@ -291,8 +291,11 @@ void GeometryWidget::updateTimecodeFormat()
 
 QString GeometryWidget::getValue() const
 {
+    if (m_fixedGeom) {
+        return QString("%1 %2 %3 %4").arg(m_spinX->value()).arg(m_spinY->value()).arg(m_spinWidth->value()).arg(m_spinHeight->value());
+    }
     QString result = m_geometry->serialise();
-    if (!m_fixedGeom && result.contains(QStringLiteral(";")) && !result.section(QStringLiteral(";"),0,0).contains(QStringLiteral("="))) {
+    if (result.contains(QStringLiteral(";")) && !result.section(QStringLiteral(";"),0,0).contains(QStringLiteral("="))) {
         result.prepend("0=");
     }
     return result;
