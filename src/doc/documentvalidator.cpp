@@ -1460,6 +1460,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     QMap <int, double> values;
                     QStringList conversionParams = keyframeFilterToConvert.value(id);
                     int offset = eff.attribute(QStringLiteral("in")).toInt();
+                    int out = eff.attribute(QStringLiteral("out")).toInt();
                     convertKeyframeEffect(eff, conversionParams, values, offset);
                     EffectsList::removeProperty(eff, conversionParams.at(0));
                     EffectsList::removeProperty(eff, conversionParams.at(1));
@@ -1468,6 +1469,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         QString subId = EffectsList::property(subEffect, QStringLiteral("kdenlive_id"));
                         if (subId == id) {
                             convertKeyframeEffect(subEffect, conversionParams, values, offset);
+                            out = subEffect.attribute(QStringLiteral("out")).toInt();
                             entry.removeChild(subEffect);
                             k--;
                         }
@@ -1495,6 +1497,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     }
                     EffectsList::setProperty(eff, conversionParams.at(2), parsedValues.join(";"));
                     EffectsList::setProperty(eff, QStringLiteral("kdenlive:sync_in_out"), QStringLiteral("1"));
+                    eff.setAttribute(QStringLiteral("out"), out);
                 }
             }
         }
