@@ -164,8 +164,9 @@ void MeltJob::startJob()
         setStatus(JobCrashed);
         return;
     }
-
-    m_consumer->set("real_time", -KdenliveSettings::mltthreads() );
+    if (!m_consumerParams.contains(QStringLiteral("real_time"))) {
+        m_consumer->set("real_time", -KdenliveSettings::mltthreads() );
+    }
     // Process consumer params
     QMapIterator<QString, QString> j(m_consumerParams);
     ignoredProps.clear();
