@@ -2849,7 +2849,7 @@ void MainWindow::buildDynamicActions()
     if (kdenliveCategoryMap.contains(QStringLiteral("audiotranscoderslist"))) {
 	ts = kdenliveCategoryMap.take(QStringLiteral("audiotranscoderslist"));
 	delete ts;
-    }    
+    }
     ts = new KActionCategory(i18n("Transcoders"), m_extraFactory->actionCollection());
     KActionCategory *ats = new KActionCategory(i18n("Extract Audio"), m_extraFactory->actionCollection());
     KSharedConfigPtr config = KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivetranscodingrc")), KConfig::CascadeConfig);
@@ -2890,7 +2890,7 @@ void MainWindow::buildDynamicActions()
     connect(showTimeline, SIGNAL(triggered(bool)), this, SLOT(slotShowTimeline(bool)));
     guiActions->addAction(showTimeline->text(), showTimeline);
     actionCollection()->addAction(showTimeline->text(), showTimeline);
-    
+
     QList <QDockWidget *> docks = findChildren<QDockWidget *>();
     for (int i = 0; i < docks.count(); ++i) {
         QDockWidget* dock = docks.at(i);

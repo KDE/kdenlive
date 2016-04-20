@@ -145,10 +145,11 @@ void MyTextItem::updateShadow()
     }
     // Calculate position of text in parent item
     QRectF pathRect = QRectF(0, 0, bounding.width(), linePos - lineSpacing + metrics.descent() );
-    QPointF offset = bounding.center() - pathRect.center() + m_shadowOffset;
+    
+    QPointF offset = bounding.center() - pathRect.center() + QPointF(2 * m_shadowBlur, 2 * m_shadowBlur);
     path.translate(offset);
     QRectF fullSize = bounding.united(path.boundingRect());
-    m_shadow = QImage(fullSize.width() + qAbs(m_shadowOffset.x()) + m_shadowBlur, fullSize.height() + qAbs(m_shadowOffset.y()), QImage::Format_ARGB32_Premultiplied);
+    m_shadow = QImage(fullSize.width() + qAbs(m_shadowOffset.x()) + 4 * m_shadowBlur, fullSize.height() + qAbs(m_shadowOffset.y()) + 4 * m_shadowBlur, QImage::Format_ARGB32_Premultiplied);
     m_shadow.fill(Qt::transparent);
     QPainter painter(&m_shadow);
     painter.fillPath(path, QBrush(m_shadowColor));
@@ -223,7 +224,7 @@ void MyTextItem::blurShadow(QImage &result, int radius)
 void MyTextItem::paint( QPainter *painter, const QStyleOptionGraphicsItem * option, QWidget* w)
 {
     if (m_useShadow && !m_shadow.isNull()) {
-        painter->drawImage(0, 0, m_shadow);
+        painter->drawImage(m_shadowOffset.x() - 2 * m_shadowBlur, m_shadowOffset.y() - 2 * m_shadowBlur, m_shadow);
     }
     QGraphicsTextItem::paint(painter, option, w);
 }
@@ -260,8 +261,10 @@ QRectF MyTextItem::baseBoundingRect() const
 QRectF MyTextItem::boundingRect() const
 {
     QRectF base = baseBoundingRect();
-    base.setRight(base.right() + m_shadowOffset.x());
-    base.setBottom(base.bottom() + m_shadowOffset.y());
+    if (m_shadowOffset.x() > 0)
+        base.setRight(base.right() + m_shadowOffset.x());
+    if (m_shadowOffset.y() > 0)
+        base.setBottom(base.bottom() + m_shadowOffset.y());
     return base;
 }
 
