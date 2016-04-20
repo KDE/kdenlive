@@ -125,7 +125,7 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectCli
         consumerParams.insert(QStringLiteral("rescale"), QStringLiteral("nearest"));
         consumerParams.insert(QStringLiteral("deinterlace_method"), QStringLiteral("onefield"));
         consumerParams.insert(QStringLiteral("top_field_first"), QStringLiteral("-1"));
-        
+
         // Extra
         QMap <QString, QString> extraParams;
         extraParams.insert(QStringLiteral("key"), QStringLiteral("shot_change_list"));
@@ -217,6 +217,7 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectCli
                     consumerParams.insert(QStringLiteral("consumer"), consumerName + ':' + mltfile);
                     trffile = QUrl::fromLocalFile(mltfile + ".trf");
                 }
+                consumerParams.insert(QStringLiteral("real_time"), QStringLiteral("-1"));
                 // Append a 'filename' parameter for saving vidstab data
                 filterParams.insert(QStringLiteral("filename"), trffile.path());
                 MeltJob *job = new MeltJob(clip->clipType(), clip->clipId(), producerParams, filterParams, consumerParams, extraParams);
