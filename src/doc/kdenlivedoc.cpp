@@ -325,7 +325,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
         audioTrack.isMute = false;
         audioTrack.isBlind = true;
         audioTrack.isLocked = false;
-        audioTrack.trackName = QStringLiteral("Audio ") + QString::number(audiotracks - i);
+        audioTrack.trackName = i18n("Audio %1", audiotracks - i);
         audioTrack.duration = 0;
         audioTrack.effectsList = EffectsList(true);
         tracks.append(audioTrack);
@@ -337,7 +337,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
         videoTrack.isMute = false;
         videoTrack.isBlind = false;
         videoTrack.isLocked = false;
-        videoTrack.trackName = QStringLiteral("Video ") + QString::number(videotracks - i);
+        videoTrack.trackName = i18n("Video %1", i + 1);
         videoTrack.duration = 0;
         videoTrack.effectsList = EffectsList(true);
         tracks.append(videoTrack);

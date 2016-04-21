@@ -24,9 +24,26 @@
 #include <QGraphicsScene>
 #include <QGraphicsTextItem>
 #include <QGraphicsSvgItem>
+#include <QGraphicsEffect>
 
 enum resizeModes {NoResize = 0, TopLeft, BottomLeft, TopRight, BottomRight, Left, Right, Up, Down};
 enum TITLETOOL { TITLE_SELECT = 0, TITLE_RECTANGLE = 1, TITLE_TEXT = 2, TITLE_IMAGE = 3 };
+
+class MyQGraphicsEffect: public QGraphicsEffect
+{
+public:
+    MyQGraphicsEffect(QObject *parent = Q_NULLPTR);
+    QRectF boundingRectFor(const QRectF &rect) const;
+    void setOffset(int xOffset, int yOffset, int blur);
+    void setShadow(QImage image);
+protected:
+    void draw(QPainter *painter);
+private:
+    int m_xOffset;
+    int m_yOffset;
+    int m_blur;
+    QImage m_shadow;
+};
 
 class MyTextItem: public QGraphicsTextItem
 {
@@ -42,18 +59,17 @@ public:
     void updateShadow(bool enabled, int blur, int xoffset, int yoffset, QColor color);
     QStringList shadowInfo() const;
     void loadShadow(QStringList info);
-    void paint( QPainter *painter, const QStyleOptionGraphicsItem * option, QWidget* w);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt);
 
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:
     Qt::Alignment m_alignment;
-    QImage m_shadow;
     QPoint m_shadowOffset;
     int m_shadowBlur;
     QColor m_shadowColor;
-    bool m_useShadow;
+    MyQGraphicsEffect *m_shadowEffect;
     void updateShadow();
     void blurShadow(QImage &image, int radius);
 

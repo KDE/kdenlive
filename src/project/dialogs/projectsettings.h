@@ -72,6 +72,8 @@ private slots:
     void slotEditProfiles();
     /** @brief Display proxy profiles management dialog. */
     void slotManageEncodingProfile();
+    /** @brief Open editor for metadata item. */
+    void slotEditMetadata(QTreeWidgetItem *, int );
 
 private:
     QPushButton *m_buttonOk;

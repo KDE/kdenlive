@@ -35,15 +35,60 @@
 #include <QApplication>
 #include <QTextBlock>
 
+MyQGraphicsEffect::MyQGraphicsEffect(QObject *parent) :
+    QGraphicsEffect(parent)
+    , m_xOffset(0)
+    , m_yOffset(0)
+{
+}
+
+void MyQGraphicsEffect::setShadow(QImage image)
+{
+    m_shadow = image;
+}
+
+void MyQGraphicsEffect::setOffset(int xOffset, int yOffset, int blur)
+{
+    m_xOffset = xOffset;
+    m_yOffset = yOffset;
+    m_blur = blur;
+    updateBoundingRect();
+}
+
+QRectF MyQGraphicsEffect::boundingRectFor(const QRectF &rect) const
+{
+    QRectF shadowBounding = rect;
+    if (m_xOffset > 0) {
+        shadowBounding.adjust(- 2 * m_blur, 0, m_xOffset + 2 * m_blur, 0);
+    } else {
+        shadowBounding.adjust(m_xOffset - 2 * m_blur, 0, 2 * m_blur, 0);
+    }
+    if (m_yOffset > 0) {
+        shadowBounding.adjust(0, - 2 * m_blur, 0, m_yOffset + 2 * m_blur);
+    } else {
+        shadowBounding.adjust(0,m_yOffset - 2 * m_blur, 0, 2 * m_blur);
+    }
+    return shadowBounding;
+}
+
+void MyQGraphicsEffect::draw(QPainter *painter)
+{
+    painter->fillRect(boundingRect(), Qt::transparent);
+    painter->drawImage(-2 * m_blur + m_xOffset, -2 * m_blur + m_yOffset, m_shadow);
+    drawSource(painter);
+}
+
+
 MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent) :
     QGraphicsTextItem(txt, parent)
     , m_alignment(Qt::AlignLeft)
-    , m_useShadow(false)
 {
     setCacheMode(QGraphicsItem::ItemCoordinateCache);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     document()->setDocumentMargin(0);
     updateGeometry();
+    m_shadowEffect = new MyQGraphicsEffect(this);
+    setGraphicsEffect(m_shadowEffect);
     connect(document(), SIGNAL(contentsChange(int, int, int)),
             this, SLOT(updateGeometry(int, int, int)));
 }
@@ -58,7 +103,8 @@ void MyTextItem::updateShadow(bool enabled, int blur, int xoffset, int yoffset, 
     m_shadowOffset = QPoint(xoffset, yoffset);
     m_shadowBlur = blur;
     m_shadowColor = color;
-    m_useShadow = enabled;
+    m_shadowEffect->setEnabled(enabled);
+    m_shadowEffect->setOffset(xoffset, yoffset, blur);
     updateShadow();
     update();
 }
@@ -66,7 +112,7 @@ void MyTextItem::updateShadow(bool enabled, int blur, int xoffset, int yoffset, 
 QStringList MyTextItem::shadowInfo() const
 {
     QStringList info;
-    info << QString::number(m_useShadow) << m_shadowColor.name(QColor::HexArgb) << QString::number( m_shadowBlur) << QString::number(m_shadowOffset.x()) << QString::number(m_shadowOffset.y());
+    info << QString::number(m_shadowEffect->isEnabled()) << m_shadowColor.name(QColor::HexArgb) << QString::number( m_shadowBlur) << QString::number(m_shadowOffset.x()) << QString::number(m_shadowOffset.y());
     return info;
 }
 
@@ -108,16 +154,17 @@ void MyTextItem::updateGeometry(int, int, int)
         cursor.setPosition(position);           // restore cursor position
         setTextCursor(cursor);
     }
-    if (m_useShadow) {
+    if (m_shadowEffect->isEnabled()) {
         updateShadow();
     }
+    update();
 }
 
 void MyTextItem::updateShadow()
 {
     QString text = toPlainText();
     if (text.isEmpty()) {
-        m_shadow = QImage();
+        m_shadowEffect->setShadow(QImage());
         return;
     }
     QFontMetrics metrics(font());
@@ -145,18 +192,18 @@ void MyTextItem::updateShadow()
     }
     // Calculate position of text in parent item
     QRectF pathRect = QRectF(0, 0, bounding.width(), linePos - lineSpacing + metrics.descent() );
-    
     QPointF offset = bounding.center() - pathRect.center() + QPointF(2 * m_shadowBlur, 2 * m_shadowBlur);
     path.translate(offset);
     QRectF fullSize = bounding.united(path.boundingRect());
-    m_shadow = QImage(fullSize.width() + qAbs(m_shadowOffset.x()) + 4 * m_shadowBlur, fullSize.height() + qAbs(m_shadowOffset.y()) + 4 * m_shadowBlur, QImage::Format_ARGB32_Premultiplied);
-    m_shadow.fill(Qt::transparent);
-    QPainter painter(&m_shadow);
+    QImage shadow(fullSize.width() + qAbs(m_shadowOffset.x()) + 4 * m_shadowBlur, fullSize.height() + qAbs(m_shadowOffset.y()) + 4 * m_shadowBlur, QImage::Format_ARGB32_Premultiplied);
+    shadow.fill(Qt::transparent);
+    QPainter painter(&shadow);
     painter.fillPath(path, QBrush(m_shadowColor));
     painter.end();
     if (m_shadowBlur > 0) {
-        blurShadow(m_shadow, m_shadowBlur);
+        blurShadow(shadow, m_shadowBlur);
     }
+    m_shadowEffect->setShadow(shadow);
 }
 
 void MyTextItem::blurShadow(QImage &result, int radius)
@@ -221,14 +268,6 @@ void MyTextItem::blurShadow(QImage &result, int radius)
     }
 }
 
-void MyTextItem::paint( QPainter *painter, const QStyleOptionGraphicsItem * option, QWidget* w)
-{
-    if (m_useShadow && !m_shadow.isNull()) {
-        painter->drawImage(m_shadowOffset.x() - 2 * m_shadowBlur, m_shadowOffset.y() - 2 * m_shadowBlur, m_shadow);
-    }
-    QGraphicsTextItem::paint(painter, option, w);
-}
- 
 void MyTextItem::updateGeometry()
 {
     QPointF topRightPrev = boundingRect().topRight();
@@ -289,6 +328,28 @@ QVariant MyTextItem::itemChange(GraphicsItemChange change, const QVariant &value
         }
     }
     return QGraphicsItem::itemChange(change, value);
+}
+
+void MyTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt)
+{
+    if(textInteractionFlags() == Qt::TextEditorInteraction)
+    {
+        // if editor mode is already on: pass double click events on to the editor:
+        QGraphicsTextItem::mouseDoubleClickEvent(evt);
+        return;
+    }
+    // if editor mode is off:
+    // 1. turn editor mode on and set selected and focused:
+    //SetTextInteraction(true);
+    setTextInteractionFlags(Qt::TextEditorInteraction);
+    setFocus(Qt::MouseFocusReason);
+    // 2. send a single click to this QGraphicsTextItem (this will set the cursor to the mouse position):
+    // create a new mouse event with the same parameters as evt
+    QGraphicsSceneMouseEvent *click = new QGraphicsSceneMouseEvent(QEvent::GraphicsSceneMousePress);
+    click->setButton(evt->button());
+    click->setPos(evt->pos());
+    QGraphicsTextItem::mousePressEvent(click);
+    delete click; // don't forget to delete the event
 }
 
 MyRectItem::MyRectItem(QGraphicsItem *parent) :
@@ -479,8 +540,6 @@ void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e)
     }
     if (g && g->type() == QGraphicsTextItem::Type && g->flags() & QGraphicsItem::ItemIsSelectable) {
         m_selectedItem = g;
-        MyTextItem *t = static_cast<MyTextItem *>(g);
-        t->setTextInteractionFlags(Qt::TextEditorInteraction);
     } else emit doubleClickEvent();
     QGraphicsScene::mouseDoubleClickEvent(e);
 }
@@ -528,7 +587,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
                 break;
             }
         }
-        if (item == NULL  || !(item->flags() & QGraphicsItem::ItemIsSelectable)) {
+        if (item == NULL  || m_selectedItem != item) {
             if (m_selectedItem && m_selectedItem->type() == QGraphicsTextItem::Type) {
                 // disable text editing
                 MyTextItem *t = static_cast<MyTextItem *>(m_selectedItem);
@@ -537,6 +596,8 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
                 t->setTextCursor(QTextCursor(cur));
                 t->setTextInteractionFlags(Qt::NoTextInteraction);
             }
+        }
+        if (item == NULL  || !(item->flags() & QGraphicsItem::ItemIsSelectable)) {
             m_selectedItem = NULL;
             foreach(QGraphicsItem* g, list) {
                 if (g->zValue() > -1000) {
