@@ -44,16 +44,6 @@
 #include <QFileDialog>
 #include <QInputDialog>
 
-class NoEditDelegate: public QStyledItemDelegate 
-{
-    public:
-      NoEditDelegate(QObject* parent=0): QStyledItemDelegate(parent) {}
-      virtual QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-        return 0;
-      }
-};
-
-
 ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString &projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
     QDialog(parent), m_savedProject(savedProject), m_lumas(lumas)
 {
@@ -133,7 +123,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         audio_tracks->setEnabled(false);
     }
 
-    metadata_list->setItemDelegateForColumn(0, new NoEditDelegate(this));
+    connect(metadata_list, &QTreeWidget::itemDoubleClicked, this, &ProjectSettings::slotEditMetadata);
 
     // Metadata list
     QTreeWidgetItem *item = new QTreeWidgetItem(metadata_list, QStringList() << i18n("Title"));
@@ -203,6 +193,11 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     connect(button_export, SIGNAL(clicked()), this, SLOT(slotExportToText()));
     // Delete unused files is not implemented
     delete_unused->setVisible(false);
+}
+
+void ProjectSettings::slotEditMetadata(QTreeWidgetItem *item, int )
+{
+    metadata_list->editItem(item, 1);
 }
 
 void ProjectSettings::slotDeleteUnused()
