@@ -111,6 +111,7 @@ void MyTextItem::updateGeometry(int, int, int)
     if (m_useShadow) {
         updateShadow();
     }
+    update();
 }
 
 void MyTextItem::updateShadow()
@@ -145,7 +146,6 @@ void MyTextItem::updateShadow()
     }
     // Calculate position of text in parent item
     QRectF pathRect = QRectF(0, 0, bounding.width(), linePos - lineSpacing + metrics.descent() );
-    
     QPointF offset = bounding.center() - pathRect.center() + QPointF(2 * m_shadowBlur, 2 * m_shadowBlur);
     path.translate(offset);
     QRectF fullSize = bounding.united(path.boundingRect());
