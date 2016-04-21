@@ -6670,7 +6670,13 @@ void CustomTrackView::slotInsertTrack(int ix)
     QPointer<TrackDialog> d = new TrackDialog(m_timeline, parentWidget());
     d->comboTracks->setCurrentIndex(m_timeline->visibleTracksCount() - ix);
     d->label->setText(i18n("Insert track"));
-    d->track_name->setText(i18n("Video %1", ix));
+    QStringList existingTrackNames = m_timeline->getTrackNames();
+    int i = 1;
+    QString proposedName = i18n("Video %1", i);
+    while (existingTrackNames.contains(proposedName)) {
+        proposedName = i18n("Video %1", ++i);
+    }
+    d->track_name->setText(proposedName);
     d->setWindowTitle(i18n("Insert New Track"));
 
     if (d->exec() == QDialog::Accepted) {

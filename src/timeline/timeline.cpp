@@ -608,6 +608,15 @@ QList <TrackInfo> Timeline::getTracksInfo()
     return tracks;
 }
 
+QStringList Timeline::getTrackNames()
+{
+    QStringList trackNames;
+    for (int i = 0; i < tracksCount(); i++) {
+        trackNames << track(i)->info().trackName;
+    }
+    return trackNames;
+}
+
 void Timeline::lockTrack(int ix, bool lock)
 {
     Track *tk = track(ix);
