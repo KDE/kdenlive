@@ -330,6 +330,28 @@ QVariant MyTextItem::itemChange(GraphicsItemChange change, const QVariant &value
     return QGraphicsItem::itemChange(change, value);
 }
 
+void MyTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt)
+{
+    if(textInteractionFlags() == Qt::TextEditorInteraction)
+    {
+        // if editor mode is already on: pass double click events on to the editor:
+        QGraphicsTextItem::mouseDoubleClickEvent(evt);
+        return;
+    }
+    // if editor mode is off:
+    // 1. turn editor mode on and set selected and focused:
+    //SetTextInteraction(true);
+    setTextInteractionFlags(Qt::TextEditorInteraction);
+    setFocus(Qt::MouseFocusReason);
+    // 2. send a single click to this QGraphicsTextItem (this will set the cursor to the mouse position):
+    // create a new mouse event with the same parameters as evt
+    QGraphicsSceneMouseEvent *click = new QGraphicsSceneMouseEvent(QEvent::GraphicsSceneMousePress);
+    click->setButton(evt->button());
+    click->setPos(evt->pos());
+    QGraphicsTextItem::mousePressEvent(click);
+    delete click; // don't forget to delete the event
+}
+
 MyRectItem::MyRectItem(QGraphicsItem *parent) :
     QGraphicsRectItem(parent)
 {
@@ -518,8 +540,6 @@ void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e)
     }
     if (g && g->type() == QGraphicsTextItem::Type && g->flags() & QGraphicsItem::ItemIsSelectable) {
         m_selectedItem = g;
-        MyTextItem *t = static_cast<MyTextItem *>(g);
-        t->setTextInteractionFlags(Qt::TextEditorInteraction);
     } else emit doubleClickEvent();
     QGraphicsScene::mouseDoubleClickEvent(e);
 }

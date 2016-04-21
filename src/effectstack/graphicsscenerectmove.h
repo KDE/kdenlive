@@ -59,6 +59,7 @@ public:
     void updateShadow(bool enabled, int blur, int xoffset, int yoffset, QColor color);
     QStringList shadowInfo() const;
     void loadShadow(QStringList info);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt);
 
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
