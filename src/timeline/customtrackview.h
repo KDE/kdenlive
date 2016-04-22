@@ -334,6 +334,8 @@ public slots:
     void slotAlignClip(int, int, int);
     /** @brief Export part of the playlist in an xml file */
     void exportTimelineSelection(QString path = QString());
+    /** Remove zone from current track */
+    void extractZone(bool closeGap);
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);

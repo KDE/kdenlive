@@ -3175,8 +3175,82 @@ void CustomTrackView::adjustTimelineClips(TimelineMode::EditMode mode, ClipItem 
             updateTrackDuration(info.track, command);
         }
     }
-
     KdenliveSettings::setSnaptopoints(snap);
+}
+
+void CustomTrackView::extractZone(bool closeGap)
+{
+    // remove track zone and close gap
+    QPoint z = m_document->zone();
+    QRectF rect(z.x(), getPositionFromTrack(m_selectedTrack) + m_tracksHeight / 2, z.y() - z.x() - 1, 5);
+    QList<QGraphicsItem *> selection = m_scene->items(rect);
+    if (selection.isEmpty())
+        return;
+    GenTime inPoint(z.x(), m_document->fps());
+    GenTime outPoint(z.y(), m_document->fps());
+    QUndoCommand *command = new QUndoCommand();
+    command->setText(i18n("Remove Zone"));
+    for (int i = 0; i < selection.count(); ++i) {
+        if (!selection.at(i)->isEnabled()) continue;
+        if (selection.at(i)->type() == AVWidget) {
+            ClipItem *clip = static_cast<ClipItem *>(selection.at(i));
+            if (clip->startPos() < inPoint) {
+                ItemInfo info = clip->info();
+                info.startPos = inPoint;
+                new RazorClipCommand(this, clip->info(), clip->effectList(), inPoint, true, command);
+                if (clip->endPos() > outPoint) {
+                    new RazorClipCommand(this, info, clip->effectList(), outPoint, true, command);
+                    info.cropDuration = outPoint - inPoint;
+                    info.endPos = outPoint;
+                }
+                new AddTimelineClipCommand(this, clip->getBinId(), info, clip->effectList(), clip->clipState(), true, true, command);
+            } else if (clip->endPos() > outPoint) {
+                ItemInfo newclipInfo = clip->info();
+                newclipInfo.startPos = outPoint;
+                newclipInfo.cropDuration = newclipInfo.endPos - newclipInfo.startPos;
+                new ResizeClipCommand(this, clip->info(), newclipInfo, true, false, command);
+            } else {
+                // Clip is entirely inside zone, delete it
+                new AddTimelineClipCommand(this, clip->getBinId(), clip->info(), clip->effectList(), clip->clipState(), true, true, command);
+            }
+        }
+    }
+    if (closeGap) {
+        // Remove empty zone
+        // Make sure there is no group in the way
+        rect = QRectF(z.x(), getPositionFromTrack(m_selectedTrack) + m_tracksHeight / 2, sceneRect().width() - z.x(), m_tracksHeight / 2 - 2);
+        bool isOk;
+        selection = checkForGroups(rect, &isOk);
+        if (!isOk) {
+            // groups found on track, do not allow the move
+            emit displayMessage(i18n("Cannot remove space in a track with a group"), ErrorMessage);
+            return;
+        }
+
+        QList<ItemInfo> clipsToMove;
+        QList<ItemInfo> transitionsToMove;
+
+        for (int i = 0; i < selection.count(); ++i) {
+            if (selection.at(i)->type() == AVWidget || selection.at(i)->type() == TransitionWidget) {
+                AbstractClipItem *item = static_cast <AbstractClipItem *>(selection.at(i));
+                ItemInfo moveInfo = item->info();
+                if (item->type() == AVWidget) {
+                    if (moveInfo.endPos > outPoint) {
+                        moveInfo.startPos = outPoint;
+                        moveInfo.cropDuration = moveInfo.endPos - moveInfo.startPos;
+                    }
+                    clipsToMove.append(moveInfo);
+                }
+                else if (item->type() == TransitionWidget)
+                    transitionsToMove.append(moveInfo);
+            }
+        }
+        if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) {
+            new InsertSpaceCommand(this, clipsToMove, transitionsToMove, m_selectedTrack, -(outPoint - inPoint), true, command);
+            updateTrackDuration(m_selectedTrack, command);
+        }
+    }
+    m_commandStack->push(command);
 }
 
 

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="112" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="113" translationDomain="kdenlive">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -105,6 +105,10 @@
       <Menu name="keyboard_insert" ><text>Insertion</text>
 	  <Action name="insert_to_in_point" />
           <Action name="overwrite_to_in_point" />
+      </Menu>
+      <Menu name="keyboard_remove" ><text>Removal</text>
+	  <Action name="remove_extract" />
+          <Action name="remove_lift" />
       </Menu>
       <Action name="resize_timeline_clip_start" />
       <Action name="resize_timeline_clip_end" />
