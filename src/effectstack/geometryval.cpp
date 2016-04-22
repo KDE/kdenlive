@@ -574,8 +574,7 @@ bool Geometryval::keyframeSelected()
 {
     Mlt::GeometryItem item;
     int pos = m_timePos.getValue();
-    if (m_geom->fetch(&item, pos) || item.key() == false) return false;
-    return true;
+    return !(m_geom->fetch(&item, pos) || item.key() == false);
 }
 
 

@@ -2224,11 +2224,11 @@ void TitleWidget::slotResize200()
     } else m_startViewport->setRect(0, 0, m_frameWidth * 2, m_frameHeight * 2);
 }
 
-void TitleWidget::slotAddEffect(int ix)
+void TitleWidget::slotAddEffect(int /*ix*/)
 {
     QList<QGraphicsItem *> list = graphicsView->scene()->selectedItems();
-    int effect = effect_list->itemData(ix).toInt();
 /*
+    int effect = effect_list->itemData(ix).toInt();
     if (list.size() == 1) {
         if (effect == NOEFFECT)
             effect_stack->setHidden(true);

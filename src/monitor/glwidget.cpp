@@ -717,22 +717,18 @@ void GLWidget::slotSwitchAudioOverlay(bool enable)
     }
 }
 
-int GLWidget::setProducer(Mlt::Producer* producer, bool reconfig)
+int GLWidget::setProducer(Mlt::Producer* producer)
 {
     int error = 0;//Controller::setProducer(producer, isMulti);
-    /*if (m_producer) {
-        delete m_producer;
-        m_producer = NULL;
-    }*/
     m_producer = producer;
-    if (!reconfig && m_consumer) return 0;
-    if (producer) {
+    if (m_producer) {
         error = reconfigure();
         if (!error) {
             // The profile display aspect ratio may have changed.
             resizeGL(width(), height());
         }
-    }
+    } else return error;
+    if (!m_consumer) return error;
     if (m_producer->get_int("video_index") == -1) {
         // This is an audio only clip, attach visualization filter. Currently, the filter crashes MLT when Movit accel is used
         if (!m_audioWaveDisplayed) {
@@ -770,6 +766,7 @@ void GLWidget::resetDrops()
 
 void GLWidget::createAudioOverlay(bool isAudio)
 {
+    if (!m_consumer) return;
     if (isAudio && KdenliveSettings::gpu_accel()) {
         // Audiowaveform filter crashes on Movit + audio clips)
         return;

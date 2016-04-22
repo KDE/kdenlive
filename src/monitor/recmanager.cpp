@@ -371,23 +371,21 @@ Mlt::Producer *RecManager::createV4lProducer()
 	p->set("audio_ix", ui->v4lAudioComboBox->currentIndex());*/
 	prod->set("force_seekable", 0);
     }
-    if (m_recAudio->isChecked()) {
-	// Add audio track
+    if (m_recAudio->isChecked() && prod && prod->is_valid()) {
+        // Add audio track
 	Mlt::Producer* audio = new Mlt::Producer(*vidProfile, QStringLiteral("alsa:%1?channels=%2").arg(KdenliveSettings::v4l_alsadevicename()).arg(KdenliveSettings::alsachannels()).toUtf8().constData());
-        if (!prod || !prod->is_valid()) return NULL;
 	audio->set("mlt_service", "avformat-novalidate");
 	audio->set("audio_index", 0);
 	audio->set("video_index", -1);
-	if (prod) {
-	    Mlt::Tractor* tractor = new Mlt::Tractor(*vidProfile);
-	    tractor->set_track(*prod, 0);
-	    delete prod;
-	    tractor->set_track(*audio, 1);
-	    delete audio;
-	    prod = new Mlt::Producer(tractor->get_producer());
-	    delete tractor;
-	}
+        Mlt::Tractor* tractor = new Mlt::Tractor(*vidProfile);
+        tractor->set_track(*prod, 0);
+        delete prod;
+        tractor->set_track(*audio, 1);
+        delete audio;
+        prod = new Mlt::Producer(tractor->get_producer());
+        delete tractor;
     }
+    delete vidProfile;
     return prod;
 }
 

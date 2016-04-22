@@ -337,7 +337,7 @@ bool Render::updateProducer(Mlt::Producer *producer)
     m_fps = producer->get_fps();
     m_mltProducer = producer;
     if (m_qmlView) {
-        m_qmlView->setProducer(producer, false);
+        m_qmlView->setProducer(producer);
         m_mltConsumer = m_qmlView->consumer();
     }
     return true;

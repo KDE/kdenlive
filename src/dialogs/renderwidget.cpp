@@ -900,7 +900,7 @@ void RenderWidget::updateButtons()
 }
 
 
-void RenderWidget::focusFirstVisibleItem(const QString &profile, const QString &category)
+void RenderWidget::focusFirstVisibleItem(const QString &profile)
 {
     QTreeWidgetItem *item = 0;
     if (!profile.isEmpty()) {
@@ -2024,10 +2024,12 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
 {
     RenderJobItem *item;
     QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
-    if (!existing.isEmpty()) item = static_cast<RenderJobItem*> (existing.at(0));
-    else {
+    if (!existing.isEmpty()) {
+        item = static_cast<RenderJobItem*> (existing.at(0));
+    } else {
         item = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);
     }
+    if (!item) return;
     if (status == -1) {
         // Job finished successfully
         item->setStatus(FINISHEDJOB);
@@ -2060,6 +2062,8 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
     } else if (status == -3) {
         // User aborted job
         item->setStatus(ABORTEDJOB);
+    } else {
+        delete item;
     }
     slotCheckJob();
     checkRenderStatus();
@@ -2286,7 +2290,7 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
         m_view.out_file->setUrl(QUrl::fromLocalFile(url));
 
     if (props.contains(QStringLiteral("renderprofile")) || props.contains(QStringLiteral("rendercategory")))
-        focusFirstVisibleItem(props.value(QStringLiteral("renderprofile")), props.value(QStringLiteral("rendercategory")));
+        focusFirstVisibleItem(props.value(QStringLiteral("renderprofile")));
 
     if (props.contains(QStringLiteral("renderquality")))
         m_view.video->setValue(props.value(QStringLiteral("renderquality")).toInt());

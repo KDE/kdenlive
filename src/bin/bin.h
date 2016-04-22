@@ -689,7 +689,7 @@ private:
     QMutex m_audioThumbMutex;
     /** @brief Indicates whether audio thumbnail creation is running. */
     QFuture<void> m_audioThumbsThread;
-    void showClipProperties(ProjectClip *clip, bool forceRefresh = false, bool openExternalDialog = true);
+    void showClipProperties(ProjectClip *clip, bool forceRefresh = false);
     const QStringList getFolderInfo(QModelIndex selectedIx = QModelIndex());
     /** @brief Get the QModelIndex value for an item in the Bin. */
     QModelIndex getIndexForId(const QString &id, bool folderWanted) const;

@@ -588,9 +588,11 @@ void ProjectManager::slotOpenBackup(const QUrl& url)
         m_project->backupLastSavedVersion(projectFile.path());
         closeCurrentDocument(false);
         doOpenFile(QUrl::fromLocalFile(requestedBackup), NULL);
-        m_project->setUrl(projectFile);
-        m_project->setModified(true);
-        pCore->window()->setWindowTitle(m_project->description());
+        if (m_project) {
+            m_project->setUrl(projectFile);
+            m_project->setModified(true);
+            pCore->window()->setWindowTitle(m_project->description());
+        }
     }
     delete dia;
 }
