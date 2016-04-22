@@ -102,7 +102,6 @@ private:
     QIcon m_badIcon;
 
 private slots:
-    void slotCheckThumbs();
     void slotCheckStandard();
     void slotCheckSelectedItem();
     void slotCheckMlt();

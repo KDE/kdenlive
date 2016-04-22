@@ -1082,126 +1082,99 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             return;
         }
     }
-    bool itemSelected = false;
-    if (m_dragItem->isSelected()) {
-        itemSelected = true;
-    }
-    else if (m_dragItem->parentItem() && m_dragItem->parentItem()->isSelected()) {
-        itemSelected = true;
-    }
-    else if (dragGroup && dragGroup->isSelected()) {
-        itemSelected = true;
-    }
-    bool selected = !m_dragItem->isSelected();
-
-    QGraphicsView::mousePressEvent(event);
-
-    if (event->modifiers() & Qt::ControlModifier)  {
-	// Handle ctrl click events
-        resetSelectionGroup();
-	m_dragItem->setSelected(selected);
-	groupSelectedItems(QList <QGraphicsItem*>(), false, true);
-	if (selected) {
-	    m_selectionMutex.lock();
-	    if (m_selectionGroup) {
-		m_selectionGroup->setProperty("y_absolute", yOffset);
-		m_selectionGroup->setProperty("locked_tracks", lockedTracks);
-	    }
-	    m_selectionMutex.unlock();
-	}
-	else {
-            m_dragItem->setMainSelectedClip(false);
-	    m_dragItem = NULL;
-	}
-	updateTimelineSelection();
-	return;
-    }
-    if (itemSelected == false) {
-        // User clicked a non selected item, select it
-        resetSelectionGroup(false);
-        m_scene->clearSelection();
-	m_dragItem->setSelected(true);
-	m_dragItem->setZValue(99);
-        if (m_dragItem->parentItem()) m_dragItem->parentItem()->setZValue(99);
-        // A refresh seems necessary otherwise in zoomed mode, some clips disappear
-        //viewport()->update();
-        
-	/*if (event->modifiers() == Qt::ControlModifier) {	
-	    event->ignore();
-	}
-	else if (!itemSelected) {
-	    event->accept();
-	}*/
-	//if (event->button() == Qt::LeftButton) QGraphicsView::mousePressEvent(event);
-	
-	/*if (event->modifiers() == Qt::ControlModifier) {	
-	    if (!selected) {
-		// item was deselected, update m_dragItem
-		groupSelectedItems(QList <QGraphicsItem*>(), false, true);
-	    }
-	}*/
-	/*if (!itemSelected) {
-            // Item was not selected, trigger click
-            if (event->button() == Qt::LeftButton) QGraphicsView::mousePressEvent(event);
-        } else {
-            // Item was selected and we ctrl+clicked on it. Deselect it but don't allow moving it
-            event->ignore();
-        }*/
-/*
-        if (dragGroup) {
-            dragGroup->setSelected(selected);
-            QList<QGraphicsItem *> children = dragGroup->childItems();
-            for (int i = 0; i < children.count(); ++i) {
-                children.at(i)->setSelected(selected);
-            }
-            if (dragGroup->parentItem()) {
-                dragGroup->parentItem()->setSelected(selected);
-            }
+    if (m_dragItem) {
+        bool itemSelected = false;
+        bool selected = true;
+        if (m_dragItem->isSelected()) {
+            itemSelected = true;
+            selected = false;
+        } else if (m_dragItem->parentItem() && m_dragItem->parentItem()->isSelected()) {
+            itemSelected = true;
+        } else if (dragGroup && dragGroup->isSelected()) {
+            itemSelected = true;
         }
-        else
-            m_dragItem->setSelected(selected);*/
 
+        QGraphicsView::mousePressEvent(event);
 
-	//qDebug()<<" / / CURRNETLY SELECTED ITEM: "<<m_dragItem->startPos().frames(25);
-
-        if (m_dragItem && m_dragItem->type() == AVWidget) {
-            ClipItem *clip = static_cast<ClipItem*>(m_dragItem);
-            updateClipTypeActions(dragGroup == NULL ? clip : NULL);
-            m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
+        if (event->modifiers() & Qt::ControlModifier)  {
+            // Handle ctrl click events // Handle ctrl click events
+            resetSelectionGroup();
+            m_dragItem->setSelected(selected);
+            groupSelectedItems(QList <QGraphicsItem*>(), false, true);
+            if (selected) {
+                m_selectionMutex.lock();
+                if (m_selectionGroup) {
+                    m_selectionGroup->setProperty("y_absolute", yOffset);
+                    m_selectionGroup->setProperty("locked_tracks", lockedTracks);
+                }
+                m_selectionMutex.unlock();
+            }
+            else {
+                m_dragItem->setMainSelectedClip(false);
+                m_dragItem = NULL;
+            }
+            updateTimelineSelection();
+            return;
+            
+            resetSelectionGroup();
+            m_dragItem->setSelected(selected);
+            groupSelectedItems(QList <QGraphicsItem*>(), false, true);
+            if (selected) {
+                m_selectionMutex.lock();
+                if (m_selectionGroup) {
+                    m_selectionGroup->setProperty("y_absolute", yOffset);
+                    m_selectionGroup->setProperty("locked_tracks", lockedTracks);
+                }
+                m_selectionMutex.unlock();
+            }
+            else {
+                m_dragItem->setMainSelectedClip(false);
+                m_dragItem = NULL;
+            }
+            updateTimelineSelection();
+            return;
         }
-        else updateClipTypeActions(NULL);
-    }
-    else {
+        if (itemSelected == false) {
+            // User clicked a non selected item, select it
+            resetSelectionGroup(false);
+            m_scene->clearSelection();
+            m_dragItem->setSelected(true);
+            m_dragItem->setZValue(99);
+            if (m_dragItem->parentItem()) m_dragItem->parentItem()->setZValue(99);
+
+            if (m_dragItem && m_dragItem->type() == AVWidget) {
+                ClipItem *clip = static_cast<ClipItem*>(m_dragItem);
+                updateClipTypeActions(dragGroup == NULL ? clip : NULL);
+                m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
+            }
+            else updateClipTypeActions(NULL);
+        }
+        else {
+            m_selectionMutex.lock();
+            if (m_selectionGroup) {
+                QList<QGraphicsItem *> children = m_selectionGroup->childItems();
+                for (int i = 0; i < children.count(); ++i) {
+                    children.at(i)->setSelected(itemSelected);
+                }
+                m_selectionGroup->setSelected(itemSelected);
+
+            }
+            if (dragGroup) {
+                dragGroup->setSelected(itemSelected);
+            }
+            m_dragItem->setSelected(itemSelected);
+            m_selectionMutex.unlock();
+        }
+
         m_selectionMutex.lock();
         if (m_selectionGroup) {
-            QList<QGraphicsItem *> children = m_selectionGroup->childItems();
-            for (int i = 0; i < children.count(); ++i) {
-                children.at(i)->setSelected(itemSelected);
-            }
-            m_selectionGroup->setSelected(itemSelected);
-
+            m_selectionGroup->setProperty("y_absolute", yOffset);
+            m_selectionGroup->setProperty("locked_tracks", lockedTracks);
         }
-        if (dragGroup) {
-            dragGroup->setSelected(itemSelected);
-        }
-        m_dragItem->setSelected(itemSelected);
         m_selectionMutex.unlock();
+
+        updateTimelineSelection();
     }
-
-    m_selectionMutex.lock();
-    if (m_selectionGroup) {
-	m_selectionGroup->setProperty("y_absolute", yOffset);
-	m_selectionGroup->setProperty("locked_tracks", lockedTracks);
-    }
-    m_selectionMutex.unlock();
-
-    //if (collisionClip != NULL || m_dragItem == NULL) {
-    updateTimelineSelection();
-    //}
-
-    // If clicked item is selected, allow move
-    //if (!(event->modifiers() | Qt::ControlModifier) && m_operationMode == NONE)
-    //QGraphicsView::mousePressEvent(event);
 
     if (event->button() == Qt::LeftButton) {
         if (m_dragItem) {
@@ -2346,9 +2319,10 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, int track, QDomElement ef
         }
         return;
     }
-    AddEffectCommand *command = new AddEffectCommand(this, clip->track(), clip->startPos(), effect, false, parentCommand);
-    if (parentCommand == NULL)
+    if (parentCommand == NULL) {
+        AddEffectCommand *command = new AddEffectCommand(this, clip->track(), clip->startPos(), effect, false, parentCommand);
         m_commandStack->push(command);
+    }
 }
 
 void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedEffect, bool updateEffectStack, bool replaceEffect)
@@ -3492,7 +3466,7 @@ void CustomTrackView::lockTrack(int ix, bool lock, bool requestUpdate)
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == GroupWidget && static_cast<AbstractGroupItem*>(selection.at(i)) != m_selectionGroup) {
             if (selection.at(i)->parentItem() && m_selectionGroup) {
-                selection.removeAll((QGraphicsItem*)m_selectionGroup);
+                selection.removeAll(static_cast<QGraphicsItem*>(m_selectionGroup));
                 resetSelectionGroup();
             }
 
@@ -3530,7 +3504,7 @@ void CustomTrackView::lockTrack(int ix, bool lock, bool requestUpdate)
         } else if((selection.at(i)->type() == AVWidget || selection.at(i)->type() == TransitionWidget)) {
             if (selection.at(i)->parentItem()) {
                 if (selection.at(i)->parentItem() == m_selectionGroup) {
-                    selection.removeAll((QGraphicsItem*)m_selectionGroup);
+                    selection.removeAll(static_cast<QGraphicsItem*>(m_selectionGroup));
                     resetSelectionGroup();
                 } else {
                     // groups are handled separately
@@ -5550,11 +5524,11 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                 kfrCommand = new EditTransitionCommand(this, transition->track(), transition->startPos(), old, xml, false, command);
             }
             updateTransitionWidget(transition, info);
-            MoveTransitionCommand *moveCommand = new MoveTransitionCommand(this, oldInfo, info, false, command);
             if (command == NULL) {
                 if (kfrCommand) m_commandStack->push(kfrCommand);
+                MoveTransitionCommand *moveCommand = new MoveTransitionCommand(this, oldInfo, info, false, command);
                 m_commandStack->push(moveCommand);
-            }
+            } else if (kfrCommand) delete kfrCommand;
         }
 
     }
@@ -5815,11 +5789,13 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected, QList <GenTim
                 }
             }
             // Add clip markers
+            QList<GenTime> markers;
             ClipController *controller = m_document->getClipController(item->getBinId());
-            if (!controller) {
-                qDebug()<<" + + ++ WARN, NO CTLRR!!!";
+            if (controller) {
+                markers = item->snapMarkers(controller->snapMarkers());
+            } else {
+                qWarning("No controller!");
             }
-            QList < GenTime > markers = item->snapMarkers(controller->snapMarkers());
             for (int j = 0; j < markers.size(); ++j) {
                 GenTime t = markers.at(j);
                 snaps.append(t);
@@ -6010,7 +5986,7 @@ void CustomTrackView::slotAddGuide(bool dialog)
     }
 }
 
-void CustomTrackView::slotEditGuide(int guidePos, const QString newText)
+void CustomTrackView::slotEditGuide(int guidePos, const QString& newText)
 {
     GenTime pos;
     if (guidePos == -1) pos = GenTime(m_cursorPos, m_document->fps());
@@ -7129,7 +7105,7 @@ void CustomTrackView::slotAlignClip(int track, int pos, int shift)
     ClipItem *clip = getClipItemAtStart(GenTime(pos, m_document->fps()), track);
     if (!clip) {
         emit displayMessage(i18n("Cannot find clip to align."), ErrorMessage);
-        //emit displayMessage(i18n("Auto-aligned %1 clips.", counter), InformationMessage);
+        delete moveCommand;
         return;
     }
     GenTime add(shift, m_document->fps());
@@ -7710,80 +7686,6 @@ void CustomTrackView::removeTipAnimation()
     }
 }
 
-void CustomTrackView::setTipAnimation(AbstractClipItem *clip, OperationType mode, const double size)
-{
-    if (m_visualTip == NULL) {
-        QRectF rect = clip->sceneBoundingRect();
-        m_keyProperties = new QGraphicsItemAnimation;
-        m_keyProperties->setTimeLine(m_keyPropertiesTimer);
-        m_keyProperties->setScaleAt(1, 1, 1);
-        QPolygon polygon;
-        switch (mode) {
-        case FadeIn:
-        case FadeOut:
-            m_visualTip = new QGraphicsEllipseItem(-size, -size, size * 2, size * 2);
-            ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
-            ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
-            if (mode == FadeIn)
-                m_visualTip->setPos(rect.x() + static_cast<ClipItem*>(clip)->fadeIn(), rect.y());
-            else
-                m_visualTip->setPos(rect.right() - static_cast<ClipItem*>(clip)->fadeOut(), rect.y());
-
-            m_keyProperties->setScaleAt(.5, 2, 2);
-            break;
-        case ResizeStart:
-        case ResizeEnd:
-            polygon << QPoint(0, - size * 2);
-            if (mode == ResizeStart)
-                polygon << QPoint(size * 2, 0);
-            else
-                polygon << QPoint(- size * 2, 0);
-            polygon << QPoint(0, size * 2);
-            polygon << QPoint(0, - size * 2);
-
-            m_visualTip = new QGraphicsPolygonItem(polygon);
-            ((QGraphicsPolygonItem*) m_visualTip)->setBrush(m_tipColor);
-            ((QGraphicsPolygonItem*) m_visualTip)->setPen(m_tipPen);
-            if (mode == ResizeStart)
-                m_visualTip->setPos(rect.x(), rect.y() + rect.height() / 2);
-            else
-                m_visualTip->setPos(rect.right(), rect.y() + rect.height() / 2);
-
-            m_keyProperties->setScaleAt(.5, 2, 1);
-            break;
-        case TransitionStart:
-        case TransitionEnd:
-            polygon << QPoint(0, - size * 2);
-            if (mode == TransitionStart)
-                polygon << QPoint(size * 2, 0);
-            else
-                polygon << QPoint(- size * 2, 0);
-            polygon << QPoint(0, 0);
-            polygon << QPoint(0, - size * 2);
-
-            m_visualTip = new QGraphicsPolygonItem(polygon);
-            ((QGraphicsPolygonItem*) m_visualTip)->setBrush(m_tipColor);
-            ((QGraphicsPolygonItem*) m_visualTip)->setPen(m_tipPen);
-            if (mode == TransitionStart)
-                m_visualTip->setPos(rect.x(), rect.bottom());
-            else
-                m_visualTip->setPos(rect.right(), rect.bottom());
-
-            m_keyProperties->setScaleAt(.5, 2, 2);
-            break;
-        default:
-            delete m_keyProperties;
-            return;
-        }
-
-        m_visualTip->setFlags(QGraphicsItem::ItemIgnoresTransformations);
-        m_visualTip->setZValue(100);
-        scene()->addItem(m_visualTip);
-        m_keyProperties->setItem(m_visualTip);
-        m_keyPropertiesTimer->start();
-    }
-}
-
 bool CustomTrackView::hasAudio(int track) const
 {
     QRectF rect(0, (double)(getPositionFromTrack(track) + 1), (double) sceneRect().width(), (double)(m_tracksHeight - 1));
@@ -7837,41 +7739,6 @@ void CustomTrackView::slotAddTrackEffect(const QDomElement &effect, int ix)
     else delete effectCommand;
 }
 
-void CustomTrackView::updateTrackNames(int track, bool added)
-{
-    QList <TrackInfo> tracks = m_timeline->getTracksInfo();
-    int max = tracks.count();
-    int docTrack = max - track - 1;
-
-    // count number of tracks of each type
-    int videoTracks = 0;
-    int audioTracks = 0;
-    for (int i = max - 1; i >= 0; --i) {
-        TrackInfo info = tracks.at(i);
-        if (info.type == VideoTrack)
-            videoTracks++;
-        else
-            audioTracks++;
-
-        if (i <= docTrack) {
-            QString type = (info.type == VideoTrack ? "Video " : "Audio ");
-            int typeNumber = (info.type == VideoTrack ? videoTracks : audioTracks);
-
-            if (added) {
-                if (i == docTrack || info.trackName == type + QString::number(typeNumber - 1)) {
-                    info.trackName = type + QString::number(typeNumber);
-                    m_timeline->setTrackInfo(i, info);
-                }
-            } else {
-                if (info.trackName == type + QString::number(typeNumber + 1)) {
-                    info.trackName = type + QString::number(typeNumber);
-                    m_timeline->setTrackInfo(i, info);
-                }
-            }
-        }
-    }
-    emit tracksChanged();
-}
 
 void CustomTrackView::updateTrackDuration(int track, QUndoCommand *command)
 {
@@ -7904,19 +7771,6 @@ void CustomTrackView::updateTrackDuration(int track, QUndoCommand *command)
     }*/
 }
 
-void CustomTrackView::slotRefreshThumbs(const QString &id, bool resetThumbs)
-{
-    QList<QGraphicsItem *> list = scene()->items();
-    ClipItem *clip = NULL;
-    for (int i = 0; i < list.size(); ++i) {
-        if (list.at(i)->type() == AVWidget) {
-            clip = static_cast <ClipItem *>(list.at(i));
-            if (clip->getBinId() == id) {
-                clip->refreshClip(true, resetThumbs);
-            }
-        }
-    }
-}
 
 void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, QUndoCommand* command)
 {
@@ -7963,33 +7817,31 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, ItemInfo in
 {
     ClipItem *item = NULL;
     ItemInfo srcInfo;
-    if (type == TransitionWidget && data.isEmpty()) {
-        // We want to import keyframes to a transition
-        if (!m_selectionGroup) {
-            emit displayMessage(i18n("You need to select one clip and one transition"), ErrorMessage);
-            return;
-        }
-        // Make sure there is no collision
-        QList<QGraphicsItem *> children = m_selectionGroup->childItems();
-        for (int i = 0; i < children.count(); ++i) {
-            if (children.at(i)->type() == AVWidget) {
-                item = static_cast<ClipItem*>(children.at(i));
-                srcInfo = item->info();
-                break;
+    if (data.isEmpty()) {
+        if (type == TransitionWidget) {
+            // We want to import keyframes to a transition
+            if (!m_selectionGroup) {
+                emit displayMessage(i18n("You need to select one clip and one transition"), ErrorMessage);
+                return;
+            }
+            // Make sure there is no collision
+            QList<QGraphicsItem *> children = m_selectionGroup->childItems();
+            for (int i = 0; i < children.count(); ++i) {
+                if (children.at(i)->type() == AVWidget) {
+                    item = static_cast<ClipItem*>(children.at(i));
+                    srcInfo = item->info();
+                    break;
+                }
             }
         }
-    }
-    else if (data.isEmpty()) {
-        // Import keyframes from current clip to its effect
-        if (m_dragItem && m_dragItem->type() == AVWidget) item = static_cast<ClipItem*> (m_dragItem);
-    }
-
-    if (!item && data.isEmpty()) {
-        emit displayMessage(i18n("No clip found"), ErrorMessage);
-        return;
-    }
-    if (data.isEmpty()) {
-        // Load it from clip
+        else {
+            // Import keyframes from current clip to its effect
+            if (m_dragItem && m_dragItem->type() == AVWidget) item = static_cast<ClipItem*> (m_dragItem);
+        }
+        if (!item) {
+            emit displayMessage(i18n("No clip found"), ErrorMessage);
+            return;
+        }
         data = item->binClip()->analysisData();
     }
     if (data.isEmpty()) {
@@ -7998,7 +7850,6 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, ItemInfo in
     }
     QPointer<KeyframeImport>import = new KeyframeImport(srcInfo, info, data, m_document->timecode(), xml, m_document->getProfileInfo(), this);
     if (import->exec() != QDialog::Accepted) {
-        // Aborted by user
         delete import;
         return;
     }

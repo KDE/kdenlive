@@ -319,13 +319,6 @@ struct media_ctrl_device supported_devices[] = {
 	{ 0, 0, 0, 0, 0 }
 };
 
-
-void media_ctrl_translate(struct media_ctrl *ctrl, struct input_event *ev, struct media_ctrl_event *me) 
-{
-	if ( ctrl->device ) ctrl->device->translate(ctrl, ev, me);
-}
-
-
 void media_ctrl_read_event(struct media_ctrl *ctrl, struct media_ctrl_event *me) 
 {
 	ssize_t n;
@@ -403,14 +396,6 @@ int probe_device(struct media_ctrl *mc)
 			
 	return 0;
 }
-
-
-void media_ctrl_get_device_list() 
-{
-	// TBD
-}
-
-
 
 void find_first_device(struct media_ctrl *mc) 
 {

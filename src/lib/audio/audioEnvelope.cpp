@@ -169,27 +169,6 @@ void AudioEnvelope::slotProcessEnveloppe()
 
 }
 
-QImage AudioEnvelope::drawEnvelope()
-{
-    if (m_envelope == NULL) {
-        loadEnvelope();
-    }
-
-    QImage img(m_envelopeSize, 400, QImage::Format_ARGB32);
-    img.fill(qRgb(255,255,255));
-
-    if (m_envelopeMax == 0)
-        return img;
-
-    for (int x = 0; x < img.width(); ++x) {
-        double fy = m_envelope[x]/double(m_envelopeMax) * img.height();
-        for (int y = img.height()-1; y > img.height()-1-fy; --y) {
-            img.setPixel(x,y, qRgb(50, 50, 50));
-        }
-    }
-    return img;
-}
-
 void AudioEnvelope::dumpInfo() const
 {
     if (m_envelope == NULL) {

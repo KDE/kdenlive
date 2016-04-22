@@ -145,7 +145,7 @@ public:
     Mlt::Repository *mltRepository();
 
     /** @brief Load thumbnails for all producers */
-    void checkThumbnails(const QString thumbFolder);
+    void checkThumbnails(const QString &thumbFolder);
 
     /** @brief Request audio thumbnails for all producers */
     void checkAudioThumbs();

@@ -156,21 +156,6 @@ QString AudioSpectrum::widgetName() const
     return QStringLiteral("AudioSpectrum");
 }
 
-bool AudioSpectrum::isBackgroundDependingOnInput() const
-{
-    return false;
-}
-
-bool AudioSpectrum::isScopeDependingOnInput() const
-{
-    return true;
-}
-
-bool AudioSpectrum::isHUDDependingOnInput() const
-{
-    return false;
-}
-
 QImage AudioSpectrum::renderBackground(uint)
 {
     return QImage();

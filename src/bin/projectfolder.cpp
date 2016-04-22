@@ -75,10 +75,10 @@ QList <ProjectClip *> ProjectFolder::childClips()
     for (int i = 0; i < count(); ++i) {
         AbstractProjectItem *child = at(i);
         if (child->itemType() == ClipItem) {
-            allChildren << (ProjectClip *) child;
+            allChildren << static_cast<ProjectClip*>(child);
         }
         else if (child->itemType() == FolderItem) {
-            allChildren << ((ProjectFolder *) child)->childClips();
+            allChildren << static_cast<ProjectFolder*>(child)->childClips();
         }
     }
     return allChildren;

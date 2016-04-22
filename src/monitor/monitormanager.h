@@ -67,7 +67,6 @@ public:
     Monitor *clipMonitor();
     Monitor *projectMonitor();
     void lockMonitor(Kdenlive::MonitorId name, bool);
-    void refreshCurrentMonitor();
     void refreshIcons();
     void resetDisplay();
 
@@ -124,7 +123,6 @@ private:
     AbstractMonitor *m_activeMonitor;
     QList <AbstractMonitor *>m_monitorsList;
     KDualAction *m_muteAction;
-    void updateAudioIcons();
 
 signals:
     /** @brief When the monitor changed, update the visible color scopes */

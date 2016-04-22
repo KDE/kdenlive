@@ -402,11 +402,6 @@ void GeometryWidget::slotSyncPosition(int relTimelinePos)
     }
 }
 
-int GeometryWidget::currentPosition() const
-{
-    return m_inPoint + m_timePos->getValue();
-}
-
 void GeometryWidget::slotRequestSeek(int pos)
 {
     if (KdenliveSettings::transitionfollowcursor())

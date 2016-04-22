@@ -220,11 +220,11 @@ void ArchiveOrg::slotParseResults(KJob* job)
                QString sPreviewUrl;
                QString sThumbUrl;
                QString minsLong;
-               bool bThumbNailFound =false;
                files = i.value();
                if (files.canConvert(QVariant::Map)) {
                    QMap <QString, QVariant> filesList = files.toMap();
                    QMap<QString, QVariant>::const_iterator j = filesList.constBegin();
+                   bool bThumbNailFound =false;
                    while (j != filesList.constEnd()) {
                       //  qDebug()<<"ArchiveOrg::slotParseResults - file url "<< "https://archive.org/download/"+ m_metaInfo.value(QStringLiteral("id")) + j.key();
                          sDownloadUrl = "https://archive.org/download/"+ m_metaInfo.value(QStringLiteral("id")) + j.key();

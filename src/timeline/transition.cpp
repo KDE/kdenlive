@@ -364,11 +364,6 @@ bool Transition::hasGeometry()
     return false;
 }
 
-int Transition::defaultZValue() const
-{
-    return 3;
-}
-
 bool Transition::updateKeyframes(ItemInfo oldInfo, ItemInfo newInfo)
 {
     QString keyframes;

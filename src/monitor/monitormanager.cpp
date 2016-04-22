@@ -254,12 +254,6 @@ void MonitorManager::resetProfiles(MltVideoProfile profile, const Timecode &tc)
     m_projectMonitor->resetProfile(profile);
 }
 
-void MonitorManager::refreshCurrentMonitor()
-{
-    if (m_activeMonitor == m_clipMonitor) m_clipMonitor->refreshMonitorIfActive();
-    else m_projectMonitor->refreshMonitorIfActive();
-}
-
 void MonitorManager::slotUpdateAudioMonitoring()
 {
     if (m_clipMonitor) {
@@ -534,15 +528,4 @@ void MonitorManager::slotSetOutPoint()
     } else if (m_activeMonitor == m_projectMonitor) {
         m_projectMonitor->slotSetZoneEnd();
     }
-}
-
-void MonitorManager::updateAudioIcons()
-{
-    Monitor *m = static_cast<Monitor *> (m_activeMonitor);
-    if (!m) return;
-    int volume = m->render->volume();
-    m_muteAction->blockSignals(true);
-    m_muteAction->setChecked(volume == 0);
-    m_muteAction->blockSignals(false);
-    m->mute(volume == 0, true);
 }

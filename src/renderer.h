@@ -191,10 +191,6 @@ class Render: public AbstractRender
     Mlt::Producer *getSlowmotionProducer(const QString &url);
     void mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset);
     int mltGetSpaceLength(const GenTime &pos, int track, bool fromBlankStart);
-
-    /** @brief Returns the duration/length of @param track as reported by the track producer. */
-    int mltTrackDuration(int track);
-
     bool mltResizeClipCrop(ItemInfo info, GenTime newCropStart);
 
     /** @brief Deletes an effect from a clip in MLT's playlist. */
@@ -235,9 +231,6 @@ class Render: public AbstractRender
     void mltMoveTrackEffect(int track, int oldPos, int newPos);
 
     QList <TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack);
-
-    void mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track);
-    Mlt::Producer *invalidProducer(const QString &id);
 
     //const QList <Mlt::Producer *> producersList();
     void setDropFrames(bool show);
@@ -332,7 +325,6 @@ private:
     bool m_isRefreshing;
 
     void closeMlt();
-    void mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest);
     QMap<QString, Mlt::Producer *> m_slowmotionProducers;
     
 

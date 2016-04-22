@@ -126,40 +126,6 @@ Qt::ItemFlags ProjectItemModel::flags(const QModelIndex& index) const
     }
 }
 
-bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
-{
-    Q_UNUSED(row)
-    Q_UNUSED(column)
-    if (action == Qt::IgnoreAction)
-        return true;
-
-    if (data->hasUrls()) {
-        emit itemDropped(data->urls(), parent);
-        return true;
-    }
-
-    if (data->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
-        // Dropping an Bin item
-        QStringList ids = QString(data->data(QStringLiteral("kdenlive/producerslist"))).split(';');
-        emit itemDropped(ids, parent);
-        return true;
-    }
-
-    if (data->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
-        // Dropping effect on a Bin item
-        const QString effect = QString::fromUtf8(data->data(QStringLiteral("kdenlive/effectslist")));
-        emit effectDropped(effect, parent);
-        return true;
-    }
-
-    if (data->hasFormat(QStringLiteral("kdenlive/clip"))) {
-        QStringList list = QString(data->data(QStringLiteral("kdenlive/clip"))).split(';');
-        emit addClipCut(list.at(0), list.at(1).toInt(), list.at(2).toInt());
-    }
-
-    return false;
-}
-
 QVariant ProjectItemModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {

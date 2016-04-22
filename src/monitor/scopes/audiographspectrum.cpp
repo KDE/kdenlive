@@ -146,9 +146,6 @@ void AudioGraphWidget::drawDbLabels(QPainter& p, const QRect &rect)
 {
     int dbLabelCount = m_dbLabels.size();
     int textHeight = fontMetrics().ascent();
-    int x = 0;
-    int y = 0;
-    int yline = 0;
 
     if (dbLabelCount == 0) return;
 
@@ -159,10 +156,9 @@ void AudioGraphWidget::drawDbLabels(QPainter& p, const QRect &rect)
     p.setPen(textCol);
     for (int i = 0; i < dbLabelCount; i++) {
         QString label = QString::number(m_dbLabels.at(i));
-        x = rect.left() + maxWidth - fontMetrics().width(label);
-        yline = rect.bottom() - pow(10.0,(double)m_dbLabels.at(i) / 50.0 )*rect.height()*40.0/42;
-        //yline = rect.bottom() - levelToDB(value) * rect.height();
-        y = yline + textHeight / 2;
+        int x = rect.left() + maxWidth - fontMetrics().width(label);
+        int yline = rect.bottom() - pow(10.0,(double)m_dbLabels.at(i) / 50.0 )*rect.height()*40.0/42;
+        int y = yline + textHeight / 2;
         if (y - textHeight < 0) {
             y = textHeight;
         }
@@ -178,7 +174,6 @@ void AudioGraphWidget::drawChanLabels(QPainter& p, const QRect &rect, int barWid
 {
     int chanLabelCount = m_freqLabels.size();
     int stride = 1;
-    int x = 0;
 
     if (chanLabelCount == 0) return;
 
@@ -201,7 +196,7 @@ void AudioGraphWidget::drawChanLabels(QPainter& p, const QRect &rect, int barWid
     int y = rect.bottom();
     for (int i = 0; i < chanLabelCount; i+= stride) {
         QString label = m_freqLabels.at(i);
-        x = rect.left() + (2 * i) + i * barWidth + barWidth / 2 - fontMetrics().width(label) / 2;
+        int x = rect.left() + (2 * i) + i * barWidth + barWidth / 2 - fontMetrics().width(label) / 2;
         if (x > prevX) {
             p.drawText(x, y, label);
             prevX = x + fontMetrics().width(label);

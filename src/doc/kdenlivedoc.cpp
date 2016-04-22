@@ -959,26 +959,6 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId)
     return true; */
 }
 
-void KdenliveDoc::setNewClipResource(const QString &id, const QString &path)
-{
-    QDomNodeList prods = m_document.elementsByTagName(QStringLiteral("producer"));
-    int maxprod = prods.count();
-    for (int i = 0; i < maxprod; ++i) {
-        QDomNode m = prods.at(i);
-        QString prodId = m.toElement().attribute(QStringLiteral("id"));
-        if (prodId == id || prodId.startsWith(id + '_')) {
-            QDomNodeList params = m.childNodes();
-            for (int j = 0; j < params.count(); ++j) {
-                QDomElement e = params.item(j).toElement();
-                if (e.attribute(QStringLiteral("name")) == QLatin1String("resource")) {
-                    e.firstChild().setNodeValue(path);
-                    break;
-                }
-            }
-        }
-    }
-}
-
 QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const
 {
     QString foundFileName;
@@ -1220,14 +1200,6 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
         bookmark.setMetaDataItem(QStringLiteral("OnlyInApp"), kdenliveName);
         bookmarkManager->emitChanged(root);
     }
-}
-
-QStringList KdenliveDoc::getExpandedFolders()
-{
-    QStringList result = m_documentProperties.value(QStringLiteral("expandedfolders")).split(';');
-    // this property is only needed once when opening project, so clear it now
-    m_documentProperties.remove(QStringLiteral("expandedfolders"));
-    return result;
 }
 
 const QSize KdenliveDoc::getRenderSize() const

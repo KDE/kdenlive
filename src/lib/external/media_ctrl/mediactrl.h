@@ -145,7 +145,6 @@ struct media_ctrl_device {
 	void (*translate)(struct media_ctrl *ctrl, struct input_event *ev, struct media_ctrl_event *me);
 };
 
-void media_ctrl_open(struct media_ctrl *);
 void media_ctrl_open_dev(struct media_ctrl *, const char *devname);
 void media_ctrl_close(struct media_ctrl *);
 void media_ctrl_read_event(struct media_ctrl *, struct media_ctrl_event *);

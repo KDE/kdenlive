@@ -54,7 +54,7 @@ class AudioGraphWidget : public QWidget
 {
     Q_OBJECT
 public:
-    AudioGraphWidget(QWidget *parent = 0);
+    explicit AudioGraphWidget(QWidget *parent = 0);
     void drawBackground();
 
 public slots:

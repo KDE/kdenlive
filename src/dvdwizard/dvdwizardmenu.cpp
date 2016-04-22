@@ -44,12 +44,6 @@ void DvdScene::setProfile(int width, int height) {
     m_height = height;
     setSceneRect(0, 0, m_width, m_height);
 }
-int DvdScene::sceneWidth() const {
-    return m_width;
-}
-int DvdScene::sceneHeight() const {
-    return m_height;
-}
 int DvdScene::gridSize() const {
     return m_gridSize;
 }

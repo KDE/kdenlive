@@ -119,24 +119,6 @@ void Render::slotSwitchFullscreen()
         m_mltConsumer->set("full_screen", 1);
 }
 
-Mlt::Producer *Render::invalidProducer(const QString &id)
-{
-    Mlt::Producer *clip;
-    QString txt = '+' + i18n("Missing clip") + ".txt";
-    char *tmp = qstrdup(txt.toUtf8().constData());
-    clip = new Mlt::Producer(*m_qmlView->profile(), tmp);
-    delete[] tmp;
-    if (clip == NULL) {
-        clip = new Mlt::Producer(*m_qmlView->profile(), "colour", "red");
-    } else {
-        clip->set("bgcolour", "0xff0000ff");
-        clip->set("pad", "10");
-    }
-    clip->set("id", id.toUtf8().constData());
-    clip->set("mlt_type", "producer");
-    return clip;
-}
-
 void Render::prepareProfileReset(double fps)
 {
     m_refreshTimer.stop();
@@ -337,7 +319,7 @@ bool Render::updateProducer(Mlt::Producer *producer)
     m_fps = producer->get_fps();
     m_mltProducer = producer;
     if (m_qmlView) {
-        m_qmlView->setProducer(producer, false);
+        m_qmlView->setProducer(producer);
         m_mltConsumer = m_qmlView->consumer();
     }
     return true;
@@ -1130,28 +1112,6 @@ void Render::unlockService(Mlt::Tractor *tractor)
     service.unlock();
 }
 
-
-
-
-int Render::mltTrackDuration(int track)
-{
-    if (!m_mltProducer) {
-        //qDebug() << "PLAYLIST NOT INITIALISED //////";
-        return -1;
-    }
-    Mlt::Producer parentProd(m_mltProducer->parent());
-    if (parentProd.get_producer() == NULL) {
-        //qDebug() << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
-        return -1;
-    }
-
-    Mlt::Service service(parentProd.get_service());
-    Mlt::Tractor tractor(service);
-    //TODO: memleak
-    Mlt::Producer trackProducer(tractor.track(track));
-    return trackProducer.get_playtime() - 1;
-}
-
 void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset)
 {
     if (!m_mltProducer) {
@@ -1292,26 +1252,6 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
     m_isRefreshing = true;
     m_mltConsumer->set("refresh", 1);
 }
-
-
-void Render::mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest)
-{
-    if (source == dest) return;
-    Mlt::Service sourceService(source->get_service());
-    Mlt::Service destService(dest->get_service());
-
-    // move all effects to the correct producer
-    int ct = 0;
-    Mlt::Filter *filter = sourceService.filter(ct);
-    while (filter) {
-        if (filter->get_int("kdenlive_ix") != 0) {
-            sourceService.detach(*filter);
-            destService.attach(*filter);
-        } else ct++;
-        filter = sourceService.filter(ct);
-    }
-}
-
 
 bool Render::mltRemoveTrackEffect(int track, int index, bool updateIndex)
 {
@@ -2099,84 +2039,6 @@ void Render::cloneProperties(Mlt::Properties &dest, Mlt::Properties &source)
         }
     }
 }
-
-// adds the transition by keeping the instance order from topmost track down to background
-void Render::mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track)
-{
-    mlt_service nextservice = mlt_service_get_producer(field->get_service());
-    mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
-    QString mlt_type = mlt_properties_get(properties, "mlt_type");
-    QString resource = mlt_properties_get(properties, "mlt_service");
-    QList <Mlt::Transition *> trList;
-    mlt_properties insertproperties = tr.get_properties();
-    QString insertresource = mlt_properties_get(insertproperties, "mlt_service");
-    bool isMixTransition = insertresource == QLatin1String("mix");
-
-    while (mlt_type == QLatin1String("transition")) {
-        Mlt::Transition transition((mlt_transition) nextservice);
-        nextservice = mlt_service_producer(nextservice);
-        int aTrack = transition.get_a_track();
-        int bTrack = transition.get_b_track();
-        if ((isMixTransition || resource != QLatin1String("mix")) && (aTrack < a_track || (aTrack == a_track && bTrack > b_track))) {
-            Mlt::Properties trans_props(transition.get_properties());
-            Mlt::Transition *cp = new Mlt::Transition(*m_qmlView->profile(), transition.get("mlt_service"));
-            Mlt::Properties new_trans_props(cp->get_properties());
-            //new_trans_props.inherit(trans_props);
-            cloneProperties(new_trans_props, trans_props);
-            trList.append(cp);
-            field->disconnect_service(transition);
-        }
-        //else qDebug() << "// FOUND TRANS OK, "<<resource<< ", A_: " << aTrack << ", B_ "<<bTrack;
-
-        if (nextservice == NULL) break;
-        properties = MLT_SERVICE_PROPERTIES(nextservice);
-        mlt_type = mlt_properties_get(properties, "mlt_type");
-        resource = mlt_properties_get(properties, "mlt_service");
-    }
-    field->plant_transition(tr, a_track, b_track);
-
-    // re-add upper transitions
-    for (int i = trList.count() - 1; i >= 0; --i) {
-        ////qDebug()<< "REPLANT ON TK: "<<trList.at(i)->get_a_track()<<", "<<trList.at(i)->get_b_track();
-        field->plant_transition(*trList.at(i), trList.at(i)->get_a_track(), trList.at(i)->get_b_track());
-    }
-    qDeleteAll(trList);
-}
-
-
-/*const QList <Mlt::Producer *> Render::producersList()
-{
-    QList <Mlt::Producer *> prods;
-    if (m_mltProducer == NULL) return prods;
-    Mlt::Service service(m_mltProducer->parent().get_service());
-    if (service.type() != tractor_type) return prods;
-    Mlt::Tractor tractor(service);
-    QStringList ids;
-
-    int trackNb = tractor.count();
-    for (int t = 1; t < trackNb; ++t) {
-        Mlt::Producer *tt = tractor.track(t);
-        Mlt::Producer trackProducer(tt);
-        delete tt;
-        Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-        if (!trackPlaylist.is_valid()) continue;
-        int clipNb = trackPlaylist.count();
-        for (int i = 0; i < clipNb; ++i) {
-            Mlt::Producer *c = trackPlaylist.get_clip(i);
-            if (c == NULL) continue;
-            QString prodId = c->parent().get("id");
-            if (!c->is_blank() && !ids.contains(prodId) && !prodId.startsWith(QLatin1String("slowmotion")) && !prodId.isEmpty()) {
-                Mlt::Producer *nprod = new Mlt::Producer(c->get_parent());
-                if (nprod) {
-                    ids.append(prodId);
-                    prods.append(nprod);
-                }
-            }
-            delete c;
-        }
-    }
-    return prods;
-}*/
 
 void Render::fillSlowMotionProducers()
 {

@@ -46,7 +46,6 @@ class HeaderTrack;
 class Track : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(Mlt::Playlist playlist READ playlist WRITE setPlaylist)
 
 public:
     /** @brief Track constructor
@@ -64,7 +63,7 @@ public:
             str << locale.toString(speed) << QString::number(strobe) << QString::number((int) state);
             return str.join(":");
         }
-        void readFromString(const QString str, QLocale locale) {
+        void readFromString(const QString &str, QLocale locale) {
             speed = locale.toDouble(str.section(":", 0, 0));
             strobe = str.section(":", 1, 1).toInt();
             if (str.count(QLatin1Char(':')) == 1) {
@@ -194,9 +193,6 @@ public:
     int spaceLength(int pos, bool fromBlankStart);
     /** @brief Dis/enable all effects on this track. */
     void disableEffects(bool disable);
-
-public Q_SLOTS:
-    void setPlaylist(Mlt::Playlist &playlist);
 
 signals:
     /** @brief notify track length change to update background

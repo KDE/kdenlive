@@ -1210,7 +1210,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_duplicateAction->setEnabled(true);
                 ClipType type = static_cast<ProjectClip*>(currentItem)->clipType();
                 m_openAction->setEnabled(type == Image || type == Audio);
-                showClipProperties(static_cast<ProjectClip*>(currentItem), false, false);
+                showClipProperties(static_cast<ProjectClip*>(currentItem), false);
                 m_deleteAction->setText(i18n("Delete Clip"));
                 m_proxyAction->setText(i18n("Proxy Clip"));
 		emit findInTimeline(currentItem->clipId());
@@ -1222,7 +1222,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_deleteAction->setText(i18n("Delete Folder"));
                 m_proxyAction->setText(i18n("Proxy Folder"));
             } else if (currentItem->itemType() == AbstractProjectItem::SubClipItem) {
-                showClipProperties(static_cast<ProjectClip*>(currentItem->parent()), false, false);
+                showClipProperties(static_cast<ProjectClip*>(currentItem->parent()), false);
                 m_openAction->setEnabled(false);
                 m_reloadAction->setEnabled(false);
                 m_duplicateAction->setEnabled(false);
@@ -1457,7 +1457,6 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     }
     // Enable / disable clip actions
     m_proxyAction->setEnabled(m_doc->getDocumentProperty("enableproxy").toInt() && enableClipActions);
-    m_transcodeAction->setEnabled(enableClipActions);
     m_openAction->setEnabled(type == Image || type == Audio);
     m_reloadAction->setEnabled(enableClipActions);
     m_duplicateAction->setEnabled(enableClipActions);
@@ -1469,7 +1468,10 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_duplicateAction->setVisible(!isFolder);
     m_editAction->setVisible(!isFolder);
     m_inTimelineAction->setVisible(!isFolder);
-    m_transcodeAction->menuAction()->setVisible(!isFolder && clipService.contains(QStringLiteral("avformat")));
+    if (m_transcodeAction) {
+        m_transcodeAction->setEnabled(enableClipActions);
+        m_transcodeAction->menuAction()->setVisible(!isFolder && clipService.contains(QStringLiteral("avformat")));
+    }
     m_clipsActionsMenu->menuAction()->setVisible(!isFolder && (clipService.contains(QStringLiteral("avformat")) || clipService.contains(QStringLiteral("xml")) || clipService.contains(QStringLiteral("consumer"))));
     m_extractAudioAction->menuAction()->setVisible(!isFolder && !audioCodec.isEmpty());
 
@@ -1480,22 +1482,6 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     } else {
 	// Clicked in empty area
 	m_addButton->menu()->exec(event->globalPos());
-    }
-}
-
-
-void Bin::slotRefreshClipProperties()
-{
-    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
-    foreach (const QModelIndex &ix, indexes) {
-        if (!ix.isValid() || ix.column() != 0) {
-	    continue;
-	}
-        AbstractProjectItem *clip = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
-        if (clip && clip->itemType() == AbstractProjectItem::ClipItem) {
-            showClipProperties(qobject_cast<ProjectClip *>(clip));
-            break;
-        }
     }
 }
 
@@ -1616,7 +1602,7 @@ void Bin::doRefreshPanel(const QString &id)
     }
 }
 
-void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh, bool openExternalDialog )
+void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh)
 {
     if (!clip || !clip->isReady()) {
         m_propertiesPanel->setEnabled(false);
@@ -2369,13 +2355,13 @@ void Bin::renameFolderCommand(const QString &id, const QString &newName, const Q
     m_doc->commandStack()->push(command);
 }
 
-void Bin::renameSubClipCommand(const QString &id, const QString &newName, const QString oldName, int in, int out)
+void Bin::renameSubClipCommand(const QString& id, const QString& newName, const QString& oldName, int in, int out)
 {
     RenameBinSubClipCommand *command = new RenameBinSubClipCommand(this, id, newName, oldName, in, out);
     m_doc->commandStack()->push(command);
 }
 
-void Bin::renameSubClip(const QString &id, const QString &newName, const QString oldName, int in, int out)
+void Bin::renameSubClip(const QString& id, const QString& newName, const QString& oldName, int in, int out)
 {
     ProjectClip *clip = m_rootFolder->clip(id);
     if (!clip) return;

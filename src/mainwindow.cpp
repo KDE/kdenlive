@@ -648,33 +648,6 @@ MainWindow::~MainWindow()
     Mlt::Factory::close();
 }
 
-
-//virtual
-bool MainWindow::queryClose()
-{
-    //TODO: use this function?
-    if (m_renderWidget) {
-        int waitingJobs = m_renderWidget->waitingJobsCount();
-        if (waitingJobs > 0) {
-            switch (KMessageBox::warningYesNoCancel(this, i18np("You have 1 rendering job waiting in the queue.\nWhat do you want to do with this job?", "You have %1 rendering jobs waiting in the queue.\nWhat do you want to do with these jobs?", waitingJobs), QString(), KGuiItem(i18n("Start them now")), KGuiItem(i18n("Delete them")))) {
-            case KMessageBox::Yes :
-                // create script with waiting jobs and start it
-                if (m_renderWidget->startWaitingRenderJobs() == false) return false;
-                break;
-            case KMessageBox::No :
-                // Don't do anything, jobs will be deleted
-                break;
-            default:
-                return false;
-            }
-        }
-    }
-    saveOptions();
-
-    // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
-    return pCore->projectManager()->closeCurrentDocument(true, true);
-}
-
 void MainWindow::loadGenerators()
 {
     QMenu *addMenu = static_cast<QMenu*>(factory()->container(QStringLiteral("generators"), this));
@@ -687,38 +660,6 @@ void MainWindow::buildGenerator(QAction *action)
     Generators gen(m_clipMonitor, action->data().toString(), this);
     if (gen.exec() == QDialog::Accepted) {
         pCore->bin()->slotAddClipToProject(gen.getSavedClip());
-    }
-}
-
-void MainWindow::addToMenu(QObject *plugin, const QStringList &texts,
-                           QMenu *menu, const char *member,
-                           QActionGroup *actionGroup)
-{
-    //qDebug() << "// ADD to MENU" << texts;
-    foreach(const QString & text, texts) {
-        QAction *action = new QAction(text, plugin);
-        action->setData(text);
-        connect(action, SIGNAL(triggered()), this, member);
-        menu->addAction(action);
-
-        if (actionGroup) {
-            action->setCheckable(true);
-            actionGroup->addAction(action);
-        }
-    }
-}
-
-
-void MainWindow::generateClip()
-{
-    QAction *action = qobject_cast<QAction *>(sender());
-    ClipGenerator *iGenerator = qobject_cast<ClipGenerator *>(action->parent());
-
-    KdenliveDoc *project = pCore->projectManager()->current();
-    QUrl clipUrl = iGenerator->generatedClip(KdenliveSettings::rendererpath(), action->data().toString(), project->projectFolder(),
-                                             QStringList(), QStringList(), project->fps(), project->width(), project->height());
-    if (clipUrl.isValid()) {
-        pCore->bin()->droppedUrls(QList <QUrl> () << clipUrl);
     }
 }
 
@@ -1751,13 +1692,6 @@ void MainWindow::slotGuidesUpdated()
     m_projectMonitor->setGuides(guidesData);
 }
 
-void MainWindow::slotEditKeys()
-{
-    KShortcutsDialog dialog(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this);
-    dialog.addCollection(actionCollection(), i18nc("general keyboard shortcuts", "General"));
-    dialog.configure();
-}
-
 void MainWindow::slotPreferences(int page, int option)
 {
     /*
@@ -2286,11 +2220,6 @@ void MainWindow::slotEditItemDuration()
 void MainWindow::slotAddProjectClip(const QUrl &url)
 {
     pCore->bin()->droppedUrls(QList<QUrl>() << url);
-}
-
-void MainWindow::slotAddProjectClipList(const QList<QUrl> &urls)
-{
-    pCore->bin()->droppedUrls(urls);
 }
 
 void MainWindow::slotAddTransition(QAction *result)
@@ -3365,12 +3294,6 @@ void MainWindow::slotArchiveProject()
     }
     delete d;
 }
-
-void MainWindow::slotElapsedTime()
-{
-    //qDebug()<<"-----------------------------------------\n"<<"Time elapsed: "<<m_timer.elapsed()<<"\n-------------------------";
-}
-
 
 void MainWindow::slotDownloadResources()
 {

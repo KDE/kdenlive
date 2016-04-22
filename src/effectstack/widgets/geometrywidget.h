@@ -55,7 +55,6 @@ public:
     void setFrameSize(const QPoint &size);
     void addParameter(const QDomElement &elem);
     void importKeyframes(const QString &data, int maximum);
-    int currentPosition() const;
     QString offsetAnimation(int offset, bool useOffset);
     /** @brief Effect param @tag was changed, reload keyframes */
     void reload(const QString &tag, const QString &data);

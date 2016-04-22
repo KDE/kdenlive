@@ -114,7 +114,7 @@ public:
     explicit RenderWidget(const QString &projectfolder, bool enableProxy, const MltVideoProfile &profile, QWidget * parent = 0);
     virtual ~RenderWidget();
     void setGuides(QMap <double, QString> guidesData, double duration);
-    void focusFirstVisibleItem(const QString &profile = QString(), const QString &category = QString());
+    void focusFirstVisibleItem(const QString &profile = QString());
     void setProfile(const MltVideoProfile& profile);
     void setRenderJob(const QString &dest, int progress = 0);
     void setRenderStatus(const QString &dest, int status, const QString &error);
@@ -124,7 +124,6 @@ public:
     int waitingJobsCount() const;
     QString getFreeScriptName(const QUrl &projectName = QUrl(), const QString &prefix = QString());
     bool startWaitingRenderJobs();
-    void missingClips(bool hasMissing);
     /** @brief Returns true if the export audio checkbox is set to automatic. */
     bool automaticAudioExport() const;
     /** @brief Returns true if user wants audio export. */

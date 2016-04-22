@@ -40,8 +40,6 @@ class DvdScene : public QGraphicsScene
 public:
     explicit DvdScene(QObject * parent = 0);
     void setProfile(int width, int height);
-    int sceneWidth() const;
-    int sceneHeight() const;
     int gridSize() const;
     void setGridSize(int gridSize);
 private:

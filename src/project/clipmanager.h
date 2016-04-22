@@ -73,7 +73,6 @@ Q_OBJECT public:
     void slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId);
     void slotDeleteClips(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand, bool execute);
     void setThumbsProgress(const QString &message, int progress);
-    QMap <QString, QString> documentFolderList() const;
     int lastClipId() const;
     QString projectFolder() const;
     /** @brief Prepare deletion of clips and folders from the Bin. */
@@ -96,8 +95,6 @@ public slots:
     
 private slots:
     void slotGetThumbs();
-    /** @brief Clip has been copied, add it now. */
-    void slotAddCopiedClip(KIO::Job*, const QUrl&, const QUrl &dst);
 
 private:   // Private attributes
     /** @brief the list of groups in the document */
@@ -127,11 +124,6 @@ private:   // Private attributes
     QVector <SolidVolumeInfo> m_removableVolumes;
 
     QPoint m_projectTreeThumbSize;
-
-    /** @brief Get a list of drives, to check if we have files on removable media. */
-    void listRemovableVolumes();
-    /** @brief Check if added file is on a removable drive. */
-    bool isOnRemovableDevice(const QUrl &url);
 
 signals:
     void reloadClip(const QString &);

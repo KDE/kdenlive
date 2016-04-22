@@ -149,11 +149,11 @@ void ClipItem::setEffectList(const EffectsList &effectList)
     m_effectNames = m_effectList.effectNames().join(QStringLiteral(" / "));
     m_startFade = 0;
     m_endFade = 0;
-    bool startFade = false;
-    bool endFade = false;
     if (!m_effectList.isEmpty()) {
         // If we only have one fade in /ou effect, always display it in timeline
         for (int i = 0; i < m_effectList.count(); ++i) {
+            bool startFade = false;
+            bool endFade = false;
             QDomElement effect = m_effectList.at(i);
             QString effectId = effect.attribute(QStringLiteral("id"));
             // check if it is a fade effect
@@ -1868,33 +1868,6 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo)
     }
 
     return false;
-}
-
-void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, ItemInfo oldInfo)
-{
-    Q_UNUSED(oldInfo)
-    QDomElement param = effect.elementsByTagName(QStringLiteral("parameter")).item(paramIndex).toElement();
-    QString data = param.attribute(QStringLiteral("value"));
-    /*int offset = oldInfo.cropStart.frames(m_fps);
-    if (offset > 0) {
-        QStringList kfrs = data.split(';');
-        data.clear();
-        foreach (const QString &keyframe, kfrs) {
-            if (keyframe.contains('=')) {
-                int pos = keyframe.section('=', 0, 0).toInt();
-                pos += offset;
-                data.append(QString::number(pos) + '=' + keyframe.section('=', 1) + ';');
-            }
-            else data.append(keyframe + ';');
-        }
-    }
-    Mlt::Geometry geometry(data.toUtf8().data(), oldInfo.cropDuration.frames(m_fps), width, height);
-    QString result = geometry.serialise(cropStart().frames(m_fps), (cropStart() + cropDuration()).frames(m_fps) - 1);
-    // We need to make sure that first keyframe, when at 0 time pos, contains the "0=" keyword, required for new MLT rect property
-    if (result.contains(QStringLiteral(";")) && !result.section(QStringLiteral(";"),0,0).contains(QStringLiteral("="))) {
-        result.prepend("0=");
-    }
-    param.setAttribute(QStringLiteral("value"), result);*/
 }
 
 void ClipItem::slotRefreshClip()

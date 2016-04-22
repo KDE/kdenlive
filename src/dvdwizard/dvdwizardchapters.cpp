@@ -58,11 +58,6 @@ void DvdWizardChapters::stopMonitor()
     if (m_monitor) m_monitor->pause();
 }
 
-void DvdWizardChapters::refreshMonitor()
-{
-    if (m_monitor) m_monitor->refreshMonitorIfActive();
-}
-
 void DvdWizardChapters::slotUpdateChaptersList()
 {
     m_manager->activateMonitor(Kdenlive::DvdMonitor, true);

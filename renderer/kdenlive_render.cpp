@@ -112,14 +112,16 @@ int main(int argc, char **argv)
         RenderJob *job = new RenderJob(doerase, usekuiserver, pid, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
         if (!locale.isEmpty()) job->setLocale(locale);
         job->start();
+        RenderJob *dualjob = NULL;
         if (dualpass) {
             if (vprelist.size()>1)
                 args.replaceInStrings(QRegExp(QLatin1String("^vpre=.*")),QStringLiteral("vpre=%1").arg(vprelist.at(1)));
             args.replace(args.indexOf(QStringLiteral("pass=1")), QStringLiteral("pass=2"));
-            RenderJob *dualjob = new RenderJob(erase, usekuiserver, pid, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
+            dualjob = new RenderJob(erase, usekuiserver, pid, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
             QObject::connect(job, SIGNAL(renderingFinished()), dualjob, SLOT(start()));
         }
         app.exec();
+        if (dualjob) delete dualjob;
     } else {
         fprintf(stderr, "Kdenlive video renderer for MLT.\nUsage: "
                 "kdenlive_render [-erase] [-kuiserver] [-locale:LOCALE] [in=pos] [out=pos] [render] [profile] [rendermodule] [player] [src] [dest] [[arg1] [arg2] ...]\n"

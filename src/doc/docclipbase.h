@@ -73,7 +73,6 @@ public:
     /** Returns any property of this clip. */
     const QString getProperty(const QString &prop) const;
     void setProperty(const QString &key, const QString &value);
-    void clearProperty(const QString &key);
 
     /** Returns the internal unique id of the clip. */
     const QString &getId() const;
@@ -113,8 +112,6 @@ public:
     void setProducer(Mlt::Producer &producer, bool reset = false, bool readPropertiesFromProducer = false);
     /** Retrieve a producer for a track */
     Mlt::Producer *getProducer(int track = -1);
-    /** Retrieve the producer that shows only video */
-    Mlt::Producer *videoProducer(int track);
     /** Retrieve the producer that shows only audio */
     Mlt::Producer *audioProducer(int track);
 
@@ -155,10 +152,8 @@ public:
     KThumb *thumbProducer();
 
     QString getClipHash() const;
-    const char *producerProperty(const char *name) const;
     void setProducerProperty(const char *name, const char *data);
     void resetProducerProperty(const char *name);
-    void deleteProducers();
 
     /** Set default play zone for clip monitor */
     void setZone(const QPoint &zone);
@@ -167,23 +162,12 @@ public:
 
     /** Returns true is clip is missing but user wants to keep it as placeholder */
     bool isPlaceHolder() const;
-    void setValid();
     static QString getHash(const QString &path);
 
     void addCutZone(int in, int out, const QString &desc = QString());
-    bool hasCutZone(const QPoint &p) const;
-    void removeCutZone(int in, int out);
-    void updateCutZone(int oldin, int oldout, int in, int out, const QString &desc = QString());
 
-    bool hasVideoCodec(const QString &codec) const;
-    bool hasAudioCodec(const QString &codec) const;
-    bool checkHash() const;
-    void setPlaceHolder(bool place);
     QImage extractImage(int frame, int width, int height);
-    void clearThumbProducer();
-    void reloadThumbProducer();
     bool isClean() const;
-    void setAnalysisData(const QString &name, const QString &data, int offset = 0);
     QMap <QString, QString> analysisData() const;
     int lastSeekPosition;
     /** Cache for every audio Frame with 10 Bytes */
@@ -194,8 +178,6 @@ public:
     /** Return the current values for a set of properties */
     QMap <QString, QString> currentProperties(const QMap<QString, QString> &props);
     QMap <QString, QStringList> metadata() const;
-    /** @brief Returns a short info string about the clip to display in tooltip */
-    const QString shortInfo() const;
 
 private:   // Private attributes
     /** The number of times this clip is used in the project - the number of references to this clip
@@ -261,7 +243,6 @@ public slots:
     QList < GenTime > snapMarkers() const;
     QString markerComment(const GenTime &t) const;
     CommentedTime markerAt(const GenTime &t) const;
-    uint getClipThumbFrame() const;
     void setProperties(QMap<QString, QString> properties);
     void setMetadata(const QMap <QString, QString> &properties, const QString &tool = QString());
     void slotExtractImage(const QList <int> &frames);

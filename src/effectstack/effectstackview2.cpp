@@ -928,12 +928,6 @@ void EffectStackView2::slotResetEffect(int ix)
     //m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || m_ui.labelComment->text().isEmpty());
 }
 
-void EffectStackView2::slotShowComments()
-{
-    /*m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || m_ui.labelComment->text().isEmpty());
-    emit showComments(m_ui.buttonShowComments->isChecked());*/
-}
-
 void EffectStackView2::slotCreateRegion(int ix, QUrl url)
 {
     QDomElement oldeffect = m_currentEffectList.itemFromIndex(ix);

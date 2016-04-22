@@ -248,9 +248,6 @@ private slots:
     /** @brief Update check all button status */
     void slotUpdateCheckAllButton();
 
-    /** @brief Display additional effect info */
-    void slotShowComments();
-
     /** @brief An effect group was renamed, update effects info */
     void slotRenameGroup(CollapsibleGroup *group);
 

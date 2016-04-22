@@ -867,10 +867,9 @@ void ProjectClip::doExtractImage()
     int fullWidth = (int)((double) 150 * prod->profile()->dar() + 0.5);
     QDir thumbFolder(bin()->projectFolder().path() + "/thumbs/");
     int max = prod->get_length();
-    int pos;
     while (!m_requestedThumbs.isEmpty()) {
         m_thumbMutex.lock();
-        pos = m_requestedThumbs.takeFirst();
+        int pos = m_requestedThumbs.takeFirst();
         m_thumbMutex.unlock();
         if (thumbFolder.exists(hash() + '#' + QString::number(pos) + ".png")) {
             emit thumbReady(pos, QImage(thumbFolder.absoluteFilePath(hash() + '#' + QString::number(pos) + ".png")));
@@ -1008,13 +1007,17 @@ void ProjectClip::slotCreateAudioThumbs()
             bin()->emitMessage(i18n("Cannot create temporary file, check disk space and permissions"), ErrorMessage);
             return;
         }
-        QTemporaryFile tmpfile2;
-        if (!tmpfile2.open()) {
-            bin()->emitMessage(i18n("Cannot create temporary file, check disk space and permissions"), ErrorMessage);
-            return;
-        }
         tmpfile.close();
-        tmpfile2.close();
+        QList <QTemporaryFile*> channelFiles;
+        for (int i = 1; i < channels; i++) {
+            QTemporaryFile *channelTmpfile = new QTemporaryFile;
+            if (!channelTmpfile->open()) {
+                bin()->emitMessage(i18n("Cannot create temporary file, check disk space and permissions"), ErrorMessage);
+                return;
+            }
+            channelTmpfile->close();
+            channelFiles << channelTmpfile;
+        }
         args << QStringLiteral("-i") << QUrl::fromLocalFile(prod->get("resource")).path();
 
         bool isFFmpeg = KdenliveSettings::ffmpegpath().contains("ffmpeg");
@@ -1028,21 +1031,35 @@ void ProjectClip::slotCreateAudioThumbs()
                 args << QStringLiteral("-filter_complex:a") << QStringLiteral("aformat=channel_layouts=mono:sample_rates=100");
                 args << QStringLiteral("-map") << QStringLiteral("0:a%1").arg(audioStream > 0 ? ":" + QString::number(audioStream) : "") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("s16le")<< tmpfile.fileName();
             }
-        } else {
+        } else if (channels == 2) {
             if (isFFmpeg) {
                 //args << QStringLiteral("-ac") << QString::number(channels);
                 args << QStringLiteral("-filter_complex:a") << QStringLiteral("[0:a%1]aresample=async=100,channelsplit=channel_layout=stereo[0:0][0:1]").arg(audioStream > 0 ? ":" + QString::number(audioStream) : "");
                 // Channel 1
                 args << QStringLiteral("-map") << QStringLiteral("[0:1]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< tmpfile.fileName();
                 // Channel 2
-                args << QStringLiteral("-map") << QStringLiteral("[0:0]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< tmpfile2.fileName();
+                args << QStringLiteral("-map") << QStringLiteral("[0:0]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< channelFiles[0]->fileName();
             } else {
                 args << QStringLiteral("-filter_complex:a") << QStringLiteral("[0:a%1]aformat=sample_rates=100,channelsplit=channel_layout=stereo[0:0][0:1]").arg(audioStream > 0 ? ":" + QString::number(audioStream) : "");
                 // Channel 1
                 args << QStringLiteral("-map") << QStringLiteral("[0:1]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("s16le")<< tmpfile.fileName();
                 // Channel 2
-                args << QStringLiteral("-map") << QStringLiteral("[0:0]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("s16le")<< tmpfile2.fileName();
+                args << QStringLiteral("-map") << QStringLiteral("[0:0]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("s16le")<< channelFiles[0]->fileName();
             }
+        } else if (channels == 6) {
+            args << QStringLiteral("-filter_complex:a") << QStringLiteral("[0:a%1]aresample=async=100,channelsplit=channel_layout=5.1[FL][FR][FC][LFE][BL][BR]").arg(audioStream > 0 ? ":" + QString::number(audioStream) : "");
+                // Channel 1
+                args << QStringLiteral("-map") << QStringLiteral("[FL]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< tmpfile.fileName();
+                // Channel 2
+                args << QStringLiteral("-map") << QStringLiteral("[FR]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< channelFiles[0]->fileName();
+                // Channel 3
+                args << QStringLiteral("-map") << QStringLiteral("[FC]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< channelFiles[1]->fileName();
+                // Channel 4
+                args << QStringLiteral("-map") << QStringLiteral("[LFE]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< channelFiles[2]->fileName();
+                // Channel 5
+                args << QStringLiteral("-map") << QStringLiteral("[BL]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< channelFiles[3]->fileName();
+                // Channel 6
+                args << QStringLiteral("-map") << QStringLiteral("[BR]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< channelFiles[4]->fileName();
         }
         emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0);
         QProcess audioThumbsProcess;
@@ -1066,43 +1083,52 @@ void ProjectClip::slotCreateAudioThumbs()
         tmpfile.open();
         QByteArray res = tmpfile.readAll();
         tmpfile.close();
-        if (res.size() == 0) {
+        if (res.isEmpty()) {
             emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
             bin()->emitMessage(i18n("Error reading audio thumbnail"), ErrorMessage);
             return;
         }
         const qint16* raw = (const qint16*) res.constData();
-        const qint16* raw2;
+        QList <const qint16*> rawChannels;
         QByteArray res2;
         QList<qint16> data2;
-        if (channels > 1) {
-            tmpfile2.open();
-            res2 = tmpfile2.readAll();
-            tmpfile2.close();
-            raw2 = (const qint16*) res2.constData();
+        for (int i = 1; i < channelFiles.count(); i++) {
+            channelFiles[i - 1]->open();
+            res2 = channelFiles[i - 1]->readAll();
+            channelFiles[i - 1]->close();
+            if (res2.isEmpty()) {
+                // Something went wrong, abort
+                emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
+                bin()->emitMessage(i18n("Error reading audio thumbnail"), ErrorMessage);
+                return;
+            }
+            rawChannels << (const qint16*) res2.constData();
         }
         int progress = 0;
         double offset = (double) res.size() / (2 * lengthInFrames);
-        int pos = 0;
         for (int i = 0; i < lengthInFrames; i++) {
             long c1 = 0;
-            long c2 = 0;
-            pos = (int) (i * offset);
+            QList <long> channelsData;
+            for (int k = 0; k < rawChannels.count(); k++) {
+                channelsData << 0;
+            }
+            int pos = (int) (i * offset);
             int steps = 0;
             for (int j = 0; j < (int) offset && (pos + j < res.size()); j++) {
                 steps ++;
                 c1 += abs(raw[pos + j]);
-                if (channels > 1) {
-                    c2 += abs(raw2[pos + j]);
+                for (int k = 0; k < rawChannels.count(); k++) {
+                    channelsData[k] +=abs(rawChannels[k][pos + j]);
                 }
+
             }
             if (steps) c1 /= steps;
             c1 = c1 * 800 / 32768.0;
             audioLevels << (double) c1;
-            if (channels > 1) {
-                if (steps) c2 /= steps;
-                c2 = c2 * 800 / 32768.0;
-                audioLevels << (double)c2;
+            for (int k = 0; k < rawChannels.count(); k++) {
+                if (steps) channelsData[k] /= steps;
+                channelsData[k] *= 800 / 32768.0;
+                audioLevels << (double)channelsData[k];
             }
             int p = i * 100 / lengthInFrames;
             if (p != progress) {
@@ -1138,9 +1164,8 @@ void ProjectClip::slotCreateAudioThumbs()
             keys << "meta.media.audio_level." + QString::number(i);
         }
 
-        int val = 0;
         for (int z = 0;z < lengthInFrames && !m_abortAudioThumb; ++z) {
-            val = (int)(100.0 * z / lengthInFrames);
+            int val = (int)(100.0 * z / lengthInFrames);
             if (last_val != val) {
                 emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWorking, val);
                 last_val = val;

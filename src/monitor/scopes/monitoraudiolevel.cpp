@@ -174,23 +174,6 @@ void MonitorAudioLevel::drawBackground(int channels)
     p.end();
 }
 
-void MonitorAudioLevel::setAudioValues(const QVector <int>& values)
-{
-    m_values = values;
-    if (m_peaks.size() != m_values.size()) {
-        m_peaks = values;
-        drawBackground(values.size());
-    } else {
-        for (int i = 0; i < m_values.size(); i++) {
-            m_peaks[i] --;
-            if (m_values.at(i) > m_peaks.at(i)) {
-                m_peaks[i] = m_values.at(i);
-            }
-        }
-    }
-    update();
-}
-
 void MonitorAudioLevel::setVisibility(bool enable)
 {
     if (enable) {

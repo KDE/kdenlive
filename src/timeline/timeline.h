@@ -107,7 +107,6 @@ public:
      *  @param ix The track number in MLT's coordinates (0 = black track, 1 = bottom audio, etc) 
      *  deprecated use string version with track name instead */
     TrackInfo getTrackInfo(int ix);
-    int getTrackIndex(const QString &id);
     void setTrackInfo(int trackIndex, TrackInfo info);
     QList <TrackInfo> getTracksInfo();
     QStringList getTrackNames();
@@ -131,7 +130,6 @@ public:
     int getTracks();
     void getTransitions();
     void refreshTractor();
-    void saveZone(const QUrl url, const QPoint &zone);
     void duplicateClipOnPlaylist(int tk, qreal startPos, int offset, Mlt::Producer *prod);
     int getSpaceLength(const GenTime &pos, int tk, bool fromBlankStart);
     void blockTrackSignals(bool block);
@@ -199,8 +197,6 @@ private:
     void adjustparameterValue(QDomNodeList clipeffectparams, const QString &paramname, const QString &paramvalue);
     /** @brief Enable/disable track actions depending on number of tracks */
     void refreshTrackActions();
-    /** @brief find lowest track with audio in timeline. */
-    int getLowestNonMutedAudioTrack();
     /** @brief find lowest video track in timeline. */
     int getLowestVideoTrack();
 

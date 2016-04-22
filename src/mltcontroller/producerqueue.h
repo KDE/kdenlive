@@ -52,8 +52,6 @@ public:
     explicit ProducerQueue(BinController *controller);
     ~ProducerQueue();
 
-    /** @brief Returns the number of clips to process (When requesting clip info). */
-    int processingItems();
     /** @brief Force processing of clip with selected id. */
     void forceProcessing(const QString &id);
     /** @brief Are we currently processing clip with selected id. */

@@ -41,7 +41,6 @@ static const int WINDOW_SIZE = 8000; // 6 Hz FFT bins at 48kHz
 struct band
 {
     float low;    // Low frequency
-    float center; // Center frequency
     float high;   // High frequency
     const char* label;
 };
@@ -138,9 +137,6 @@ void AudioGraphWidget::drawDbLabels(QPainter& p, const QRect &rect)
 {
     int dbLabelCount = m_dbLabels.size();
     int textHeight = fontMetrics().ascent();
-    int x = 0;
-    int y = 0;
-    int yline = 0;
 
     if (dbLabelCount == 0) return;
 
@@ -154,9 +150,9 @@ void AudioGraphWidget::drawDbLabels(QPainter& p, const QRect &rect)
     for (int i = 0; i < dbLabelCount; i++) {
         int value = m_dbLabels[i];
         QString label = QString::number(value);
-        x = rect.left() + maxWidth - fontMetrics().width(label);
-        yline = rect.bottom() - IEC_ScaleMax(value, m_maxDb) * rect.height();
-        y = yline + textHeight / 2;
+        int x = rect.left() + maxWidth - fontMetrics().width(label);
+        int yline = rect.bottom() - IEC_ScaleMax(value, m_maxDb) * rect.height();
+        int y = yline + textHeight / 2;
         if (y - textHeight < 0) {
             y = textHeight;
         }
@@ -174,7 +170,6 @@ void AudioGraphWidget::drawChanLabels(QPainter& p, const QRect &rect, int barWid
 {
     int chanLabelCount = m_freqLabels.size();
     int stride = 1;
-    int x = 0;
 
     if (chanLabelCount == 0) return;
 
@@ -197,7 +192,7 @@ void AudioGraphWidget::drawChanLabels(QPainter& p, const QRect &rect, int barWid
     int y = rect.bottom();
     for (int i = 0; i < chanLabelCount; i+= stride) {
         QString label = m_freqLabels.at(i);
-        x = rect.left() + (2 * i) + i * barWidth + barWidth / 2 - fontMetrics().width(label) / 2;
+        int x = rect.left() + (2 * i) + i * barWidth + barWidth / 2 - fontMetrics().width(label) / 2;
         if (x > prevX) {
             p.drawText(x, y, label);
             prevX = x + fontMetrics().width(label);

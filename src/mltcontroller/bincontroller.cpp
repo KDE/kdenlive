@@ -476,7 +476,7 @@ void BinController::updateTrackProducer(const QString &id)
     emit updateTimelineProducer(id);
 }
 
-void BinController::checkThumbnails(const QString thumbFolder)
+void BinController::checkThumbnails(const QString& thumbFolder)
 {
     // Parse all controllers and load thumbnails
     QMapIterator<QString, ClipController *> i(m_clipList);

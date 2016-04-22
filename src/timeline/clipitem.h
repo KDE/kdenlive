@@ -170,7 +170,6 @@ public:
     void setState(PlaylistState::ClipState state);
     void updateState(const QString &id);
 
-    void updateGeometryKeyframes(QDomElement effect, int paramIndex, ItemInfo oldInfo);
     bool updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo);
 
     /** @brief Adjusts effects after a clip duration change. */

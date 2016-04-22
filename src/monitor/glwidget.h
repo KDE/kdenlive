@@ -63,11 +63,10 @@ public:
     void stopGlsl();
     void clear();
     /** @brief Update producer, should ONLY be called from renderer.cpp */
-    int setProducer(Mlt::Producer*, bool reconfig = true);
+    int setProducer(Mlt::Producer* producer);
     int reconfigureMulti(QString params, QString path, Mlt::Profile *profile);
     void stopCapture();
     int reconfigure(Mlt::Profile *profile = NULL);
-    void clearFrameRenderer();
 
     int displayWidth() const { return m_rect.width(); }
     void updateAudioForAnalysis();
@@ -180,7 +179,6 @@ private slots:
     void updateTexture(GLuint yName, GLuint uName, GLuint vName);
     void paintGL();
     void onFrameDisplayed(const SharedFrame &frame);
-    void slotError(QQuickWindow::SceneGraphError error, const QString &message);
 
 protected:
     void resizeEvent(QResizeEvent* event);

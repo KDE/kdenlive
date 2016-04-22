@@ -32,8 +32,7 @@ enum TITLETOOL { TITLE_SELECT = 0, TITLE_RECTANGLE = 1, TITLE_TEXT = 2, TITLE_IM
 class MyQGraphicsEffect: public QGraphicsEffect
 {
 public:
-    MyQGraphicsEffect(QObject *parent = Q_NULLPTR);
-    QRectF boundingRectFor(const QRectF &rect) const;
+    explicit MyQGraphicsEffect(QObject *parent = Q_NULLPTR);
     void setOffset(int xOffset, int yOffset, int blur);
     void setShadow(QImage image);
 protected:
@@ -81,7 +80,7 @@ public slots:
 class MyRectItem: public QGraphicsRectItem
 {
 public:
-    MyRectItem(QGraphicsItem *parent = 0);
+    explicit MyRectItem(QGraphicsItem *parent = 0);
     void setRect(const QRectF & rectangle);
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);

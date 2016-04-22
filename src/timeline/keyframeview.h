@@ -68,7 +68,6 @@ public:
     * @param frame new Position
     * @param y new Value */
     void updateKeyFramePos(QRectF br, int frame, const double y);
-    int checkForSingleKeyframe();
     double getKeyFrameClipHeight(QRectF br, const double y);
      /** @brief Returns the number of keyframes the selected effect has, -1 if none. */
     int keyframesCount();

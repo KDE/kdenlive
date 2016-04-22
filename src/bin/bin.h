@@ -463,9 +463,9 @@ public:
     /** @brief Rename a folder and store new name in MLT. */
     void renameFolder(const QString &id, const QString &name);
     /** @brief Build a rename subclip command. */
-    void renameSubClipCommand(const QString &id, const QString &newName, const QString oldName, int in, int out);
+    void renameSubClipCommand(const QString &id, const QString &newName, const QString &oldName, int in, int out);
     /** @brief Rename a clip zone (subclip). */
-    void renameSubClip(const QString &id, const QString &newName, const QString oldName, int in, int out);
+    void renameSubClip(const QString &id, const QString &newName, const QString &oldName, int in, int out);
     /** @brief Returns current project's timecode. */
     Timecode projectTimecode() const;
     /** @brief Trigger timecode format refresh where needed. */
@@ -580,7 +580,6 @@ public slots:
     /** @brief Reload clip thumbnail - when frame for thumbnail changed */
     void slotRefreshClipThumbnail(const QString &id);
     void slotDeleteClip();
-    void slotRefreshClipProperties();
     void slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos);
     void slotSwitchClipProperties(const QModelIndex &ix);
     void slotSwitchClipProperties(bool display = true);
@@ -690,7 +689,7 @@ private:
     QMutex m_audioThumbMutex;
     /** @brief Indicates whether audio thumbnail creation is running. */
     QFuture<void> m_audioThumbsThread;
-    void showClipProperties(ProjectClip *clip, bool forceRefresh = false, bool openExternalDialog = true);
+    void showClipProperties(ProjectClip *clip, bool forceRefresh = false);
     const QStringList getFolderInfo(QModelIndex selectedIx = QModelIndex());
     /** @brief Get the QModelIndex value for an item in the Bin. */
     QModelIndex getIndexForId(const QString &id, bool folderWanted) const;

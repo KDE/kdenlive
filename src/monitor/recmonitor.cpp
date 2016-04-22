@@ -1021,9 +1021,10 @@ void RecMonitor::buildMltDevice(const QString &path)
     if (m_captureDevice == NULL) {
 	m_monitorManager->updateScopeSource();
         //TODO
-        //m_captureDevice = new MltDeviceCapture(path, videoSurface, this);
+        /*m_captureDevice = new MltDeviceCapture(path, videoSurface, this);
         connect(m_captureDevice, &MltDeviceCapture::droppedFrames, this, &RecMonitor::slotDroppedFrames);
         m_captureDevice->sendFrameForAnalysis = m_analyse;
+        */
         m_monitorManager->updateScopeSource();
     }
 }

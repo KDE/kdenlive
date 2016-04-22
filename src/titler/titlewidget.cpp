@@ -2224,11 +2224,11 @@ void TitleWidget::slotResize200()
     } else m_startViewport->setRect(0, 0, m_frameWidth * 2, m_frameHeight * 2);
 }
 
-void TitleWidget::slotAddEffect(int ix)
+void TitleWidget::slotAddEffect(int /*ix*/)
 {
     QList<QGraphicsItem *> list = graphicsView->scene()->selectedItems();
-    int effect = effect_list->itemData(ix).toInt();
 /*
+    int effect = effect_list->itemData(ix).toInt();
     if (list.size() == 1) {
         if (effect == NOEFFECT)
             effect_stack->setHidden(true);
@@ -2280,29 +2280,6 @@ void TitleWidget::slotEditTypewriter(int /*ix*/)
         QStringList effdata = QStringList() << QStringLiteral("typewriter") << QString::number(typewriter_delay->value()) + ';' + QString::number(typewriter_start->value());
         l[0]->setData(100, effdata);
     }
-}
-
-void TitleWidget::slotEditBlur(int ix)
-{
-    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    if (l.size() == 1) {
-        QGraphicsEffect *eff = l[0]->graphicsEffect();
-        QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *>(eff);
-        if (blur) blur->setBlurRadius(ix);
-    }
-}
-
-void TitleWidget::slotEditShadow()
-{
-    /*QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    if (l.size() == 1) {
-        QGraphicsEffect *eff = l[0]->graphicsEffect();
-        QGraphicsDropShadowEffect *shadow = static_cast <QGraphicsDropShadowEffect *>(eff);
-        if (shadow) {
-            shadow->setBlurRadius(shadow_radius->value());
-            shadow->setOffset(shadow_x->value(), shadow_y->value());
-        }
-    }*/
 }
 
 qreal TitleWidget::zIndexBounds(bool maxBound, bool intersectingOnly)

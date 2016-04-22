@@ -216,7 +216,7 @@ QString EffectsController::getStringRectEval(const ProfileInfo &info, QString ev
     return eval;
 }
 
-void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList list, const QString proxy, QDomElement effect, int diff, int offset)
+void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList list, const QString& proxy, QDomElement effect, int diff, int offset)
 {
     // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
     // not be changed
