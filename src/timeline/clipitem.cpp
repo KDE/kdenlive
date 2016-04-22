@@ -514,6 +514,9 @@ void ClipItem::slotThumbReady(int frame, const QImage &img)
         m_endPix = pix;
         m_endThumbRequested = false;
         update(r.right() - width, r.top(), width, r.height());
+    } else if (projectScene()->scale().x() == FRAME_SIZE) {
+        // We are in full zoom, each frame should be painted
+        update();
     }
 }
 
@@ -653,11 +656,9 @@ void ClipItem::paint(QPainter *painter,
             thumbRect.moveTopLeft(mapped.topLeft());
             painter->drawPixmap(thumbRect, m_startPix, m_startPix.rect());
         }
-    } else {
 
         // if we are in full zoom, paint thumbnail for every frame
-        //TODO
-        if (false && /*m_clip->thumbProducer() &&*/ clipType() != Color && clipType() != Audio && m_clipState != PlaylistState::AudioOnly && transformation.m11() == FRAME_SIZE) {
+        if (clipType() != Color && clipType() != Audio && transformation.m11() == FRAME_SIZE) {
             int offset = (m_info.startPos - m_info.cropStart).frames(m_fps);
             int left = qMax((int) m_info.cropStart.frames(m_fps) + 1, (int) mapToScene(exposed.left(), 0).x() - offset);
             int right = qMin((int)(m_info.cropStart + m_info.cropDuration).frames(m_fps) - 1, (int) mapToScene(exposed.right(), 0).x() - offset);
@@ -669,26 +670,21 @@ void ClipItem::paint(QPainter *painter,
                 }
             }
             else {
-                //TODO
-                if (false /*m_clip->thumbProducer()*/) {
-                    QImage img;
-                    QPen pen(Qt::white);
-                    pen.setStyle(Qt::DotLine);
-                    QSet <int> missing;
-                    for (int i = left; i <= right; ++i) {
-                        QPointF xpos = startPos + QPointF(FRAME_SIZE *(i - startOffset), 0);
-                        //TODO
-                        //img = m_clip->thumbProducer()->findCachedThumb(i);
-                        if (img.isNull()) missing << i;
-                        else {
-                            painter->drawImage(xpos, img);
-                        }
-                        painter->drawLine(xpos, xpos + QPointF(0, mapped.height()));
+                QImage img;
+                QPen pen(Qt::white);
+                pen.setStyle(Qt::DotLine);
+                QSet <int> missing;
+                for (int i = left; i <= right; ++i) {
+                    QPointF xpos = startPos + QPointF(FRAME_SIZE *(i - startOffset), 0);
+                    img = m_binClip->findCachedThumb(i);
+                    if (img.isNull()) missing << i;
+                    else {
+                        painter->drawImage(xpos, img);
                     }
-                    if (!missing.isEmpty()) {
-                        //TODO
-                        //m_clip->thumbProducer()->queryIntraThumbs(missing);
-                    }
+                    painter->drawLine(xpos, xpos + QPointF(0, mapped.height()));
+                }
+                if (!missing.isEmpty()) {
+                    m_binClip->slotQueryIntraThumbs(missing.toList());
                 }
             }
         }

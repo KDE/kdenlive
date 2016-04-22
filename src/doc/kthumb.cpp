@@ -404,7 +404,6 @@ void KThumb::slotGetIntraThumbs()
             }
             else qDebug()<<"// INSERT FAILD FOR: "<<pos;
         }
-        
     }
     if (addedThumbs) emit thumbsCached();
 }

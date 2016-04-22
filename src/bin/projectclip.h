@@ -189,7 +189,7 @@ public:
      *  @param audioCodec set to true if you want to check audio codec. When false, this will check the video codec
      */
     const QString codec(bool audioCodec) const;
-    
+
     void addClipMarker(QList <CommentedTime> newMarkers, QUndoCommand *groupCommand);
     bool deleteClipMarkers(QUndoCommand *groupCommand);
     void addMarkers(QList <CommentedTime> &markers);
@@ -211,6 +211,9 @@ public:
     void discardAudioThumb();
     /** @brief Get path for this clip's audio thumbnail */
     const QString getAudioThumbPath(AudioStreamInfo *audioInfo);
+    /** @brief Returns a cached pixmap for a frame of this clip */
+    QImage findCachedThumb(int pos);
+    void slotQueryIntraThumbs(QList <int> frames);
 
 public slots:
     void updateAudioThumbnail(QVariantList audioLevels);
@@ -238,11 +241,15 @@ private:
     Mlt::Producer *m_thumbsProducer;
     QMutex m_producerMutex;
     QMutex m_thumbMutex;
+    QMutex m_intraThumbMutex;
     QMutex m_audioMutex;
     QFuture <void> m_thumbThread;
     QList <int> m_requestedThumbs;
+    QFuture <void> m_intraThread;
+    QList <int> m_intraThumbs;
     const QString geometryWithOffset(const QString &data, int offset);
     void doExtractImage();
+    void doExtractIntra();
 
 signals:
     void gotAudioData();

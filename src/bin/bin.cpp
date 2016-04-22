@@ -3179,3 +3179,17 @@ void Bin::getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unused
     }
 }
 
+QImage Bin::findCachedPixmap(const QString &path)
+{
+    QImage img;
+    m_doc->clipManager()->pixmapCache->findImage(path, &img);
+    return img;
+}
+
+void Bin::cachePixmap(const QString &path, QImage img)
+{
+    if (!m_doc->clipManager()->pixmapCache->contains(path)) {
+        m_doc->clipManager()->pixmapCache->insertImage(path, img);
+    }
+}
+

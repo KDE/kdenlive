@@ -802,6 +802,50 @@ QVariant ProjectClip::data(DataType type) const
     return AbstractProjectItem::data(type);
 }
 
+void ProjectClip::slotQueryIntraThumbs(QList <int> frames)
+{
+    QMutexLocker lock(&m_intraThumbMutex);
+    for (int i = 0; i < frames.count(); i++) {
+        if (!m_intraThumbs.contains(frames.at(i))) {
+            m_intraThumbs << frames.at(i);
+        }
+    }
+    qSort(m_intraThumbs);
+    if (!m_intraThread.isRunning()) {
+        m_intraThread = QtConcurrent::run(this, &ProjectClip::doExtractIntra);
+    }
+}
+
+void ProjectClip::doExtractIntra()
+{
+    Mlt::Producer *prod = thumbProducer();
+    if (prod == NULL || !prod->is_valid()) return;
+    int fullWidth = (int)((double) 150 * prod->profile()->dar() + 0.5);
+    int max = prod->get_length();
+    int pos;
+    while (!m_intraThumbs.isEmpty()) {
+        m_intraThumbMutex.lock();
+        pos = m_intraThumbs.takeFirst();
+        m_intraThumbMutex.unlock();
+        if (pos >= max) pos = max - 1;
+        const QString path = url().path() + '_' + QString::number(pos);
+        QImage img = bin()->findCachedPixmap(path);
+        if (!img.isNull()) {
+            // Cache already contains image
+            continue;
+        }
+	prod->seek(pos);
+	Mlt::Frame *frame = prod->get_frame();
+	if (frame && frame->is_valid()) {
+            img = KThumb::getFrame(frame, fullWidth, 150);
+            bin()->cachePixmap(path, img);
+            emit thumbReady(pos, img);
+        }
+        delete frame;
+    }
+}
+
+
 void ProjectClip::slotExtractImage(QList <int> frames)
 {
     QMutexLocker lock(&m_thumbMutex);
@@ -832,11 +876,18 @@ void ProjectClip::doExtractImage()
             emit thumbReady(pos, QImage(thumbFolder.absoluteFilePath(hash() + '#' + QString::number(pos) + ".png")));
             continue;
         }
-	if (pos >= max) pos = max - 1;
+        if (pos >= max) pos = max - 1;
+        const QString path = url().path() + '_' + QString::number(pos);
+        QImage img = bin()->findCachedPixmap(path);
+        if (!img.isNull()) {
+            emit thumbReady(pos, img);
+            continue;
+        }
 	prod->seek(pos);
 	Mlt::Frame *frame = prod->get_frame();
 	if (frame && frame->is_valid()) {
-            QImage img = KThumb::getFrame(frame, fullWidth, 150);
+            img = KThumb::getFrame(frame, fullWidth, 150);
+            bin()->cachePixmap(path, img);
             emit thumbReady(pos, img);
         }
         delete frame;
@@ -1211,4 +1262,10 @@ const QString ProjectClip::geometryWithOffset(const QString &data, int offset)
         newgeometry.insert(item);
     }
     return newgeometry.serialise();
+}
+
+QImage ProjectClip::findCachedThumb(int pos)
+{
+    const QString path = url().path() + '_' + QString::number(pos);
+    return bin()->findCachedPixmap(path);
 }

@@ -510,6 +510,9 @@ public:
     void getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unusedSize);
     /** @brief Returns the clip properties dockwidget. */
     QDockWidget *clipPropertiesDock();
+    /** @brief Returns a cached thumbnail. */
+    QImage findCachedPixmap(const QString &path);
+    void cachePixmap(const QString &path, QImage img);
 
 private slots:
     void slotAddClip();
