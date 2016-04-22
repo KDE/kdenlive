@@ -306,7 +306,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
 
         QList<QGraphicsItem*> collidingItems;
         QPainterPath shape;
-        if (projectScene()->editMode() == NormalEdit) {
+        if (projectScene()->editMode() == TimelineMode::NormalEdit) {
             shape = clipGroupShape(newPos - pos());
             collidingItems = scene->items(shape, Qt::IntersectsItemShape);
             collidingItems.removeAll(this);
@@ -362,7 +362,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
             }
         }
 
-        if (projectScene()->editMode() == NormalEdit) {
+        if (projectScene()->editMode() == TimelineMode::NormalEdit) {
             shape = transitionGroupShape(newPos - pos());
             collidingItems = scene->items(shape, Qt::IntersectsItemShape);
             collidingItems.removeAll(this);

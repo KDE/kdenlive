@@ -1182,7 +1182,8 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("edit_item_duration"), i18n("Edit Duration"), this, SLOT(slotEditItemDuration()), KoIconUtils::themedIcon(QStringLiteral("measure")));
     addAction(QStringLiteral("clip_in_project_tree"), i18n("Clip in Project Bin"), this, SLOT(slotClipInProjectTree()), KoIconUtils::themedIcon(QStringLiteral("go-jump-definition")));
-    addAction(QStringLiteral("overwrite_to_in_point"), i18n("Insert Clip Zone in Timeline (Overwrite)"), this, SLOT(slotInsertClipOverwrite()), QIcon(), Qt::Key_V);
+    addAction(QStringLiteral("overwrite_to_in_point"), i18n("Insert Clip Zone in Timeline (Overwrite)"), this, SLOT(slotInsertClipOverwrite()), QIcon(), Qt::Key_B);
+    addAction(QStringLiteral("insert_to_in_point"), i18n("Insert Clip Zone in Timeline (Insert)"), this, SLOT(slotInsertClipInsert()), QIcon(), Qt::Key_V);
     addAction(QStringLiteral("select_timeline_clip"), i18n("Select Clip"), this, SLOT(slotSelectTimelineClip()), KoIconUtils::themedIcon(QStringLiteral("edit-select")), Qt::Key_Plus);
     addAction(QStringLiteral("deselect_timeline_clip"), i18n("Deselect Clip"), this, SLOT(slotDeselectTimelineClip()), KoIconUtils::themedIcon(QStringLiteral("edit-select")), Qt::Key_Minus);
     addAction(QStringLiteral("select_add_timeline_clip"), i18n("Add Clip To Selection"), this, SLOT(slotSelectAddTimelineClip()),
@@ -2198,7 +2199,15 @@ void MainWindow::slotInsertClipOverwrite()
 {
     if (pCore->projectManager()->currentTimeline()) {
         QStringList data = m_clipMonitor->getZoneInfo();
-        pCore->projectManager()->currentTimeline()->projectView()->insertZoneOverwrite(data, pCore->projectManager()->currentTimeline()->projectView()->seekPosition());
+        pCore->projectManager()->currentTimeline()->projectView()->insertZone(TimelineMode::OverwriteEdit, data, pCore->projectManager()->currentTimeline()->projectView()->seekPosition());
+    }
+}
+
+void MainWindow::slotInsertClipInsert()
+{
+    if (pCore->projectManager()->currentTimeline()) {
+        QStringList data = m_clipMonitor->getZoneInfo();
+        pCore->projectManager()->currentTimeline()->projectView()->insertZone(TimelineMode::InsertEdit, data, pCore->projectManager()->currentTimeline()->projectView()->seekPosition());
     }
 }
 
@@ -2462,11 +2471,11 @@ void MainWindow::slotChangeEdit(QAction * action)
         return;
 
     if (action == m_overwriteEditTool)
-        pCore->projectManager()->currentTimeline()->projectView()->setEditMode(OverwriteEdit);
+        pCore->projectManager()->currentTimeline()->projectView()->setEditMode(TimelineMode::OverwriteEdit);
     else if (action == m_insertEditTool)
-        pCore->projectManager()->currentTimeline()->projectView()->setEditMode(InsertEdit);
+        pCore->projectManager()->currentTimeline()->projectView()->setEditMode(TimelineMode::InsertEdit);
     else
-        pCore->projectManager()->currentTimeline()->projectView()->setEditMode(NormalEdit);
+        pCore->projectManager()->currentTimeline()->projectView()->setEditMode(TimelineMode::NormalEdit);
 }
 
 void MainWindow::slotSetTool(ProjectTool tool)

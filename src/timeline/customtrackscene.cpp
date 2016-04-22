@@ -26,7 +26,7 @@ CustomTrackScene::CustomTrackScene(Timeline *timeline, QObject *parent) :
         isZooming(false),
         m_timeline(timeline),
         m_scale(1.0, 1.0),
-        m_editMode(NormalEdit)
+        m_editMode(TimelineMode::NormalEdit)
 {
 }
 
@@ -99,12 +99,12 @@ MltVideoProfile CustomTrackScene::profile() const
     return m_timeline->mltProfile();
 }
 
-void CustomTrackScene::setEditMode(EditMode mode)
+void CustomTrackScene::setEditMode(TimelineMode::EditMode mode)
 {
     m_editMode = mode;
 }
 
-EditMode CustomTrackScene::editMode() const
+TimelineMode::EditMode CustomTrackScene::editMode() const
 {
     return m_editMode;
 }

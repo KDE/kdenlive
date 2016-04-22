@@ -30,15 +30,10 @@
 #include <QGraphicsScene>
 
 #include "gentime.h"
+#include "definitions.h"
 
 class Timeline;
 class MltVideoProfile;
-
-enum EditMode {
-    NormalEdit = 0,
-    OverwriteEdit = 1,
-    InsertEdit = 2
-};
 
 
 
@@ -57,14 +52,14 @@ public:
     QPointF scale() const;
     int tracksCount() const;
     MltVideoProfile profile() const;
-    void setEditMode(EditMode mode);
-    EditMode editMode() const;
+    void setEditMode(TimelineMode::EditMode mode);
+    TimelineMode::EditMode editMode() const;
     bool isZooming;
 
 private:
     Timeline *m_timeline;
     QPointF m_scale;
-    EditMode m_editMode;
+    TimelineMode::EditMode m_editMode;
     QList <GenTime> m_snapPoints;
 };
 

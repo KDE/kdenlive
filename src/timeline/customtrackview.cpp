@@ -3050,11 +3050,11 @@ void CustomTrackView::dropEvent(QDropEvent * event)
     setFocus();
 }
 
-void CustomTrackView::adjustTimelineClips(EditMode mode, ClipItem *item, ItemInfo posinfo, QUndoCommand *command, bool doIt)
+void CustomTrackView::adjustTimelineClips(TimelineMode::EditMode mode, ClipItem *item, ItemInfo posinfo, QUndoCommand *command, bool doIt)
 {
     bool snap = KdenliveSettings::snaptopoints();
     KdenliveSettings::setSnaptopoints(false);
-    if (mode == OverwriteEdit) {
+    if (mode == TimelineMode::OverwriteEdit) {
         // if we are in overwrite mode, move clips accordingly
         ItemInfo info;
         if (item == NULL) info = posinfo;
@@ -3117,7 +3117,7 @@ void CustomTrackView::adjustTimelineClips(EditMode mode, ClipItem *item, ItemInf
                 }
             }
         }
-    } else if (mode == InsertEdit) {
+    } else if (mode == TimelineMode::InsertEdit) {
         // if we are in push mode, move clips accordingly
         ItemInfo info;
         if (item == NULL) info = posinfo;
@@ -3128,19 +3128,51 @@ void CustomTrackView::adjustTimelineClips(EditMode mode, ClipItem *item, ItemInf
         for (int i = 0; i < selection.count(); ++i) {
             if (selection.at(i)->type() == AVWidget) {
                 ClipItem *clip = static_cast<ClipItem *>(selection.at(i));
-                if (clip->startPos() < info.startPos) {
-                    if (clip->endPos() > info.startPos) {
-                        ItemInfo clipInfo = clip->info();
-                        ItemInfo dupInfo = clipInfo;
-                        GenTime diff = info.startPos - clipInfo.startPos;
-                        dupInfo.startPos = info.startPos;
-                        dupInfo.cropStart += diff;
-                        dupInfo.cropDuration = clipInfo.endPos - info.startPos;
-                        new RazorClipCommand(this, clipInfo, clip->effectList(), info.startPos, true, command);
-                    }
+                if (clip->startPos() < info.startPos && clip->endPos() > info.startPos) {
+                    // Clip goes before and after insert zone, cut
+                    new RazorClipCommand(this, clip->info(), clip->effectList(), info.startPos, true, command);
                 }
-                // TODO: add insertspacecommand
             }
+        }
+        // Insert blank
+        if (m_timeline->isTrackLocked(info.track)) {
+            emit displayMessage(i18n("Cannot insert space in a locked track"), ErrorMessage);
+            return;
+        }
+
+        int pos = info.startPos.frames(m_document->fps());
+
+        // Make sure there is no group in the way
+        rect = QRectF(pos, getPositionFromTrack(info.track) + m_tracksHeight / 2, sceneRect().width() - pos, m_tracksHeight / 2 - 2);
+        bool isOk;
+        selection = checkForGroups(rect, &isOk);
+        if (!isOk) {
+            // groups found on track, do not allow the move
+            emit displayMessage(i18n("Cannot insert space in a track with a group"), ErrorMessage);
+            return;
+        }
+
+        QList<ItemInfo> clipsToMove;
+        QList<ItemInfo> transitionsToMove;
+
+        for (int i = 0; i < selection.count(); ++i) {
+            if (selection.at(i)->type() == AVWidget || selection.at(i)->type() == TransitionWidget) {
+                AbstractClipItem *item = static_cast <AbstractClipItem *>(selection.at(i));
+                ItemInfo moveInfo = item->info();
+                if (item->type() == AVWidget) {
+                    if (moveInfo.startPos < info.startPos) {
+                        // This is the clip that we have just cut, adjust start
+                        moveInfo.startPos = info.startPos;
+                    }
+                    clipsToMove.append(moveInfo);
+                }
+                else if (item->type() == TransitionWidget)
+                    transitionsToMove.append(moveInfo);
+            }
+        }
+        if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) {
+            new InsertSpaceCommand(this, clipsToMove, transitionsToMove, info.track, info.cropDuration, true, command);
+            updateTrackDuration(info.track, command);
         }
     }
 
@@ -3148,9 +3180,9 @@ void CustomTrackView::adjustTimelineClips(EditMode mode, ClipItem *item, ItemInf
 }
 
 
-void CustomTrackView::adjustTimelineTransitions(EditMode mode, Transition *item, QUndoCommand *command)
+void CustomTrackView::adjustTimelineTransitions(TimelineMode::EditMode mode, Transition *item, QUndoCommand *command)
 {
-    if (mode == OverwriteEdit) {
+    if (mode == TimelineMode::OverwriteEdit) {
         // if we are in overwrite or push mode, move clips accordingly
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
@@ -3664,7 +3696,6 @@ void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> t
         trackClipStartList[i] = -1;
         trackTransitionStartList[i] = -1;
     }
-
     if (!clipsToMove.isEmpty()) for (int i = 0; i < clipsToMove.count(); ++i) {
         ClipItem *clip = getClipItemAtStart(clipsToMove.at(i).startPos + offset, clipsToMove.at(i).track);
         if (clip) {
@@ -6217,7 +6248,7 @@ void CustomTrackView::copyClip()
 
 bool CustomTrackView::canBePastedTo(ItemInfo info, int type) const
 {
-    if (m_scene->editMode() != NormalEdit) {
+    if (m_scene->editMode() != TimelineMode::NormalEdit) {
         // If we are in overwrite mode, always allow the move
         return true;
     }
@@ -7519,7 +7550,7 @@ QStringList CustomTrackView::extractTransitionsLumas()
     return urls;
 }
 
-void CustomTrackView::setEditMode(EditMode mode)
+void CustomTrackView::setEditMode(TimelineMode::EditMode mode)
 {
     m_scene->setEditMode(mode);
 }
@@ -7545,7 +7576,7 @@ void CustomTrackView::checkTrackSequence(int track)
     if (times != timelineList) KMessageBox::sorry(this, i18n("error"), i18n("TRACTOR"));
 }
 
-void CustomTrackView::insertZoneOverwrite(QStringList data, int in)
+void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, QStringList data, int in)
 {
     if (data.isEmpty()) return;
     ItemInfo info;
@@ -7556,7 +7587,7 @@ void CustomTrackView::insertZoneOverwrite(QStringList data, int in)
     info.track = m_selectedTrack;
     QUndoCommand *addCommand = new QUndoCommand();
     addCommand->setText(i18n("Insert clip"));
-    adjustTimelineClips(OverwriteEdit, NULL, info, addCommand);
+    adjustTimelineClips(sceneMode, NULL, info, addCommand);
     new AddTimelineClipCommand(this, data.at(0), info, EffectsList(), PlaylistState::Original, true, false, addCommand);
     updateTrackDuration(info.track, addCommand);
     m_commandStack->push(addCommand);

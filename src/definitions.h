@@ -75,6 +75,14 @@ namespace PlaylistState {
 
 };
 
+namespace TimelineMode {
+    enum EditMode {
+        NormalEdit = 0,
+        OverwriteEdit = 1,
+        InsertEdit = 2
+    };
+};
+
 enum ClipType {
     Unknown = 0,
     Audio = 1,

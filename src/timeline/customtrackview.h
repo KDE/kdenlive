@@ -184,7 +184,7 @@ public:
     void selectClip(bool add, bool group = false, int track = -1, int pos = -1);
     void selectTransition(bool add, bool group = false);
     QStringList extractTransitionsLumas();
-    void setEditMode(EditMode mode);
+    void setEditMode(TimelineMode::EditMode mode);
 
     /** @brief Inserts @param clip.
     * @param clip The clip to insert
@@ -299,7 +299,7 @@ public slots:
     void slotTrackUp();
     void slotTrackDown();
     void slotSelectTrack(int ix);
-    void insertZoneOverwrite(QStringList data, int in);
+    void insertZone(TimelineMode::EditMode sceneMode, QStringList data, int in);
 
     /** @brief Rebuilds a group to fit again after children changed.
     * @param childTrack the track of one of the groups children
@@ -470,8 +470,8 @@ private:
     /** Selects all items in the scene rect, and sets ok to false if a group going over several tracks is found in it */
     QList<QGraphicsItem *> checkForGroups(const QRectF &rect, bool *ok);
     /** Adjust clips under another one when working in overwrite mode */
-    void adjustTimelineClips(EditMode mode, ClipItem *item, ItemInfo posinfo, QUndoCommand *command, bool doIt = true);
-    void adjustTimelineTransitions(EditMode mode, Transition *item, QUndoCommand *command);
+    void adjustTimelineClips(TimelineMode::EditMode mode, ClipItem *item, ItemInfo posinfo, QUndoCommand *command, bool doIt = true);
+    void adjustTimelineTransitions(TimelineMode::EditMode mode, Transition *item, QUndoCommand *command);
     /** Adjust keyframes when pasted to another clip */
     void adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime duration, QDomElement xml);
 

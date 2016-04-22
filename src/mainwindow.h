@@ -320,6 +320,7 @@ private slots:
     void slotAddMarkerGuideQuickly();
     void slotCutTimelineClip();
     void slotInsertClipOverwrite();
+    void slotInsertClipInsert();
     void slotSelectTimelineClip();
     void slotSelectTimelineTransition();
     void slotDeselectTimelineClip();
