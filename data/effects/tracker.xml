@@ -27,11 +27,12 @@
 	   <paramlistdisplay>Median Blur,Gaussian Blur</paramlistdisplay>
 		<name>Blur type</name>
 	</parameter>
-        <parameter type="fixed" name="results" value="" />
+        <parameter type="readonly" name="results" value="">
+            <name>Tracking data</name>
+	</parameter>
 	<conditionalinfo>Filter is in preview mode. Click Analyse to see real effect</conditionalinfo>
         <parameter type="filterjob" filtertag="opencv.tracker" filterparams="%params" consumer="null" consumerparams=" all=1 terminate_on_pause=1">
 		<jobparam name="key">results</jobparam>
-                <jobparam name="storedata" />
 		<jobparam name="finalfilter">opencv.tracker</jobparam>
                 <jobparam name="displaydataname">Motion tracking</jobparam>
 		<name conditional="Reset">Analyse</name>

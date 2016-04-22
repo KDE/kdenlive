@@ -22,6 +22,8 @@
 
 #include "keyframeedit.h"
 
+#include <QLabel>
+
 class GeometryWidget;
 class AnimationWidget;
 class Monitor;
@@ -52,6 +54,21 @@ struct wipeInfo {
     WIPE_DIRECTON end;
     int startTransparency;
     int endTransparency;
+};
+
+class DraggableLabel : public QLabel
+{
+    Q_OBJECT
+public:
+    explicit DraggableLabel(const QString &text, QWidget *parent = Q_NULLPTR);
+protected:
+    void mousePressEvent(QMouseEvent *ev);
+    void mouseReleaseEvent(QMouseEvent *ev);
+    void mouseMoveEvent(QMouseEvent *ev);
+signals:
+    void startDrag(const QString &);
+private:
+    QPoint m_clickStart;
 };
 
 class MySpinBox : public QSpinBox
@@ -96,6 +113,9 @@ private slots:
     void slotCollectAllParameters();
     void slotStartFilterJobAction();
     void toggleSync(bool enable);
+    /** @brief Copy parameter value to clipboard. */
+    void copyData(const QString &name);
+    void makeDrag(const QString &name);
 
 private:
         /** @brief Updates parameter @param name according to new value of dependency.

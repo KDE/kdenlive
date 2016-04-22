@@ -18,6 +18,7 @@
 #include "transition.h"
 #include "clipitem.h"
 #include "customtrackscene.h"
+#include "customtrackview.h"
 
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
@@ -29,6 +30,7 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QPropertyAnimation>
+#include <QMimeData>
 #include <klocalizedstring.h>
 
 Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, const QDomElement &params, bool automaticTransition) :
@@ -69,16 +71,16 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, co
     else if (m_parameters.attribute(QStringLiteral("automatic")) == QLatin1String("1")) m_automaticTransition = true;
     if (m_parameters.attribute(QStringLiteral("force_track")) == QLatin1String("1")) m_forceTransitionTrack = true;
     m_name = i18n(m_parameters.firstChildElement("name").text().toUtf8().data());
-    /*QDomNodeList namenode = m_parameters.elementsByTagName(QStringLiteral("parameter"));
+
+    QDomNodeList namenode = m_parameters.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < namenode.count() ; ++i) {
         QDomElement pa = namenode.item(i).toElement();
-        if (pa.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
-            if (pa.attribute(QStringLiteral("keyframes")).isEmpty()) {
-                // Effect has a keyframe type parameter, we need to set the values
-                pa.setAttribute(QStringLiteral("keyframes"), QStringLiteral("0=") + pa.attribute(QStringLiteral("default")));
-            }
+        QString paramType = pa.attribute(QStringLiteral("type"));
+        if (paramType == QLatin1String("geometry") || paramType == QLatin1String("animated")) {
+            setAcceptDrops(true);
+            break;
         }
-    }*/
+    }
 }
 
 Transition::~Transition()
@@ -452,3 +454,28 @@ bool Transition::updateKeyframes(ItemInfo oldInfo, ItemInfo newInfo)
 void Transition::updateKeyframes(QDomElement /*effect*/)
 {
 }
+
+//virtual
+void Transition::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
+{
+    if (isItemLocked()) event->setAccepted(false);
+    else if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
+        event->acceptProposedAction();
+    } else event->setAccepted(false);
+}
+
+//virtual
+void Transition::dropEvent(QGraphicsSceneDragDropEvent * event)
+{
+    if (scene() && !scene()->views().isEmpty()) {
+        QString geometry = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/geometry")));
+        event->acceptProposedAction();
+        CustomTrackView *view = static_cast<CustomTrackView*>(scene()->views().first());
+        if (view) {
+            view->dropTransitionGeometry(this, geometry);
+        }
+    }
+}
+
+
+

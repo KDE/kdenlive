@@ -604,7 +604,7 @@ void CollapsibleEffect::dragEnterEvent(QDragEnterEvent *event)
         frame->setProperty("target", true);
         frame->setStyleSheet(frame->styleSheet());
         event->acceptProposedAction();
-    } else if (m_paramWidget->doesAcceptDrops() && event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
+    } else if (m_paramWidget->doesAcceptDrops() && event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry")) && event->source()->objectName() != QStringLiteral("ParameterContainer")) {
         event->setDropAction(Qt::CopyAction);
         event->setAccepted(true);
     }
@@ -620,6 +620,9 @@ void CollapsibleEffect::dragLeaveEvent(QDragLeaveEvent */*event*/)
 void CollapsibleEffect::dropEvent(QDropEvent *event)
 {
     if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
+        if (event->source()->objectName() == QStringLiteral("ParameterContainer")) {
+            return;
+        }
         emit activateEffect(effectIndex());
         QString itemData = event->mimeData()->data(QStringLiteral("kdenlive/geometry"));
         QMap <QString, QString> data;

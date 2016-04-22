@@ -250,6 +250,7 @@ public:
     /** @brief Creates an overlay track with filtered clip */
     bool createSplitOverlay(Mlt::Filter *filter);
     void removeSplitOverlay();
+    void dropTransitionGeometry(Transition *trans, const QString &geometry);
 
 public slots:
     /** @brief Send seek request to MLT. */

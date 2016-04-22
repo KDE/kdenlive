@@ -7996,7 +7996,7 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, ItemInfo in
         emit displayMessage(i18n("No keyframe data found in clip"), ErrorMessage);
         return;
     }
-    KeyframeImport *import = new KeyframeImport(srcInfo, info, data, m_document->timecode(), xml, m_document->getProfileInfo(), this);
+    QPointer<KeyframeImport>import = new KeyframeImport(srcInfo, info, data, m_document->timecode(), xml, m_document->getProfileInfo(), this);
     if (import->exec() != QDialog::Accepted) {
         // Aborted by user
         delete import;
@@ -8004,8 +8004,8 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, ItemInfo in
     }
     QString keyframeData = import->selectedData();
     QString tag = import->selectedTarget();
-    delete import;
     emit importKeyframes(type, tag, keyframeData);
+    delete import;
 }
 
 void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
@@ -8311,4 +8311,30 @@ void CustomTrackView::updateTransitionWidget(Transition *tr, ItemInfo info)
         p.setY(frameHeight);
     }
     emit transitionItemSelected(tr, getPreviousVideoTrack(tr->track()), p, true);
+}
+
+void CustomTrackView::dropTransitionGeometry(Transition *trans, const QString &geometry)
+{
+    if (m_dragItem && m_dragItem != trans) {
+        clearSelection(false);
+        m_dragItem = trans;
+        m_dragItem->setMainSelectedClip(true);
+        trans->setSelected(true);
+        updateTimelineSelection();
+    }
+    /*ItemInfo info = trans->info();
+    QPoint p;
+    ClipItem *transitionClip = getClipItemAtStart(info.startPos, info.track);
+    if (transitionClip && transitionClip->binClip()) {
+        int frameWidth = transitionClip->binClip()->getProducerIntProperty(QStringLiteral("meta.media.width"));
+        int frameHeight = transitionClip->binClip()->getProducerIntProperty(QStringLiteral("meta.media.height"));
+        double factor = transitionClip->binClip()->getProducerProperty(QStringLiteral("aspect_ratio")).toDouble();
+        if (factor == 0) factor = 1.0;
+        p.setX((int)(frameWidth * factor + 0.5));
+        p.setY(frameHeight);
+    }
+    emit transitionItemSelected(trans, getPreviousVideoTrack(info.track), p, true);*/
+    QMap <QString, QString> data;
+    data.insert(i18n("Dropped Geometry"), geometry);
+    slotImportClipKeyframes(TransitionWidget, trans->info(), trans->toXML(), data);
 }

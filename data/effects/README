@@ -126,6 +126,8 @@ The rest:
                     - "keywordsdisplay": list of names to use for the values separated by semicolon
             - "fontfamily":
                 - Font typeface entry
+            - "readonly" :
+                - Data (usually an animated geometry) that can be pasted to clipboard or dragged/dropped on another geometry parameter. Cannot be modified directly by user.
 ==========
 
 ==========

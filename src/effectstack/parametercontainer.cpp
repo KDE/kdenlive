@@ -38,6 +38,7 @@
 #include "colortools.h"
 #include "dialogs/clipcreationdialog.h"
 #include "mltcontroller/effectscontroller.h"
+#include "utils/KoIconUtils.h"
 #include "onmonitoritems/rotoscoping/rotowidget.h"
 
 #include "ui_listval_ui.h"
@@ -54,6 +55,40 @@
 #include <QString>
 #include <QImage>
 #include <QDebug>
+#include <QClipboard>
+#include <QDrag>
+#include <QMimeData>
+
+
+DraggableLabel::DraggableLabel(const QString &text, QWidget *parent):
+    QLabel(text, parent)
+{
+    setContextMenuPolicy(Qt::NoContextMenu);
+    setToolTip(i18n("Click to copy data to clipboard"));
+}
+
+void DraggableLabel::mousePressEvent(QMouseEvent *ev)
+{
+    QLabel::mousePressEvent(ev);
+    if (ev->button() == Qt::LeftButton) {
+        m_clickStart = ev->pos();
+    }
+}
+
+void DraggableLabel::mouseReleaseEvent(QMouseEvent *ev)
+{
+    QLabel::mouseReleaseEvent(ev);
+    m_clickStart = QPoint();
+}
+
+void DraggableLabel::mouseMoveEvent(QMouseEvent *ev)
+{
+    QLabel::mouseMoveEvent(ev);
+    if (!m_clickStart.isNull() && (m_clickStart - ev->pos()).manhattanLength() >= QApplication::startDragDistance()) {
+        emit startDrag(objectName());
+        m_clickStart = QPoint();
+    }
+}
 
 MySpinBox::MySpinBox(QWidget * parent):
     QSpinBox(parent)
@@ -111,6 +146,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    setObjectName(QStringLiteral("ParameterContainer"));
 
     m_in = info.cropStart.frames(KdenliveSettings::project_fps());
     m_out = (info.cropStart + info.cropDuration).frames(KdenliveSettings::project_fps()) - 1;
@@ -609,6 +645,17 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             l->addWidget(button);
             m_valueItems[paramName] = button;
             connect(button, SIGNAL(pressed()), this, SLOT(slotStartFilterJobAction()));
+        } else if (type == QLatin1String("readonly")) {
+            QHBoxLayout *lay= new QHBoxLayout(toFillin);
+            DraggableLabel *lab = new DraggableLabel(QString("<a href=\"%1\">").arg(pa.attribute(QStringLiteral("name"))) + paramName + QStringLiteral("</a>"));
+            lab->setObjectName(pa.attribute(QStringLiteral("name")));
+            connect(lab, &QLabel::linkActivated, this, &ParameterContainer::copyData);
+            connect(lab, &DraggableLabel::startDrag, this, &ParameterContainer::makeDrag);
+            lay->setContentsMargins(0, 0, 0, 0);
+            lay->addWidget(lab);
+            lab->setVisible(m_conditionParameter);
+            lab->setProperty("revert", 1);
+            m_conditionalWidgets << lab;
         } else {
             delete toFillin;
             toFillin = NULL;
@@ -649,6 +696,32 @@ ParameterContainer::~ParameterContainer()
 {
     clearLayout(m_vbox);
     delete m_vbox;
+}
+
+void ParameterContainer::copyData(const QString &name)
+{
+    QString value = EffectsList::parameter(m_effect, name);
+    if (value.isEmpty())
+        return;
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(value);
+}
+
+void ParameterContainer::makeDrag(const QString &name)
+{
+    QString value = EffectsList::parameter(m_effect, name);
+    if (value.isEmpty())
+        return;
+    QDrag *dr = new QDrag(this);
+    // The data to be transferred by the drag and drop operation is contained in a QMimeData object
+    QMimeData *mimeData = new QMimeData;
+    QByteArray data;
+    data.append(value.toUtf8());
+    mimeData->setData(QStringLiteral("kdenlive/geometry"),  data);
+    // Assign ownership of the QMimeData object to the QDrag object.
+    dr->setMimeData(mimeData);
+    // Start the drag and drop operation
+    dr->exec(Qt::CopyAction);
 }
 
 void ParameterContainer::toggleSync(bool enable)
@@ -1115,6 +1188,11 @@ void ParameterContainer::slotStartFilterJobAction()
             emit parameterChanged(oldparam, m_effect, m_effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
             // Re-enable locked parameters
             foreach (QWidget *w, m_conditionalWidgets) {
+                if (w->property("revert").toInt() == 1) {
+                    // This widget should only be displayed if we have a result, so hide
+                    w->setVisible(false);
+                    continue;
+                }
                 if (!w->isVisible()) {
                     w->setVisible(true);
                 }
