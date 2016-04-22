@@ -296,20 +296,6 @@ int EditEffectCommand::id() const
     return 1;
 }
 // virtual
-bool EditEffectCommand::mergeWith(const QUndoCommand * other)
-{
-    if (other->id() != id())
-        return false;
-    if (m_track != static_cast<const EditEffectCommand*>(other)->m_track)
-        return false;
-    if (m_stackPos != static_cast<const EditEffectCommand*>(other)->m_stackPos)
-        return false;
-    if (m_pos != static_cast<const EditEffectCommand*>(other)->m_pos)
-        return false;
-    m_effect = static_cast<const EditEffectCommand*>(other)->m_effect.cloneNode().toElement();
-    return true;
-}
-// virtual
 void EditEffectCommand::undo()
 {
     m_view->updateEffect(m_track, m_pos, m_oldeffect, true, m_replaceEffect);

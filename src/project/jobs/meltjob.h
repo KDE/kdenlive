@@ -70,8 +70,6 @@ public:
     void setStatus(ClipJobStatus status);
     /** @brief Here we will send the current progress info to anyone interested. */
     void emitFrameNumber(int pos);
-    /** @brief Returns true if the job was called by a clip in the project Bin. */
-    bool isProjectFilter() const;
     
 private:
     Mlt::Consumer *m_consumer;

@@ -106,7 +106,7 @@ namespace EffectsController
     QString getStringRectEval(const ProfileInfo &info, QString eval);
 
      /** @brief Initialize some effects parameters: keyframes, fades, in / out points  */
-    void initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList list, const QString proxy, QDomElement effect, int diff = 0, int offset = 0);
+    void initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList list, const QString &proxy, QDomElement effect, int diff = 0, int offset = 0);
 
     /** @brief Adjust keyframes to the new clip. */
     const QString adjustKeyframes(const QString &keyframes, int oldIn, int newIn, int newEnd, ProfileInfo pInfo);

@@ -137,34 +137,6 @@ QString OAuth2::loginUrl()
 }
 
 /**
- * @brief OAuth2::AuthorizationCode - returns the Authorisation code obtained from freesound.
- * @return - the Authorisation Code to freesound \n
- * Authorisation codes have life time of 10mins. Need to be exchanged for access token in less than that time.
- * Can only be used once to get an access token
- * http://www.freesound.org/docs/api/authentication.html#oauth2-authentication
- */
-QString OAuth2::AuthorizationCode()
-{
-    return m_strAuthorizationCode;
-}
-/**
- * @brief OAuth2::isAuthorized returns true if we have obtained an Authorization code from freesound
- * @return - true if we have obtained an Authorization code from freesound
- */
-bool OAuth2::isAuthorized()
-{
-    return !m_strAuthorizationCode.isEmpty();
-    }
-/**
- * @brief OAuth2::AccessToken returns the access token we have obtained.
- * @return - the access token we have obtained. access tokens last 24hours
- */
-QString OAuth2::AccessToken() const
-{
-    return m_strAccessToken;
-}
-
-/**
  * @brief OAuth2::obtainAccessToken - Obtains freesound access  token. opens the login dialog to connect to freesound if it needs to. \n
  * Called by  ResourceWidget::slotSaveItem
  *

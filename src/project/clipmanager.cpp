@@ -201,11 +201,6 @@ void ClipManager::setThumbsProgress(const QString &message, int progress)
 }
 
 
-QMap <QString, QString> ClipManager::documentFolderList() const
-{
-    return m_folderList;
-}
-
 void ClipManager::deleteProjectItems(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand)
 {
     // Create meta command
@@ -256,29 +251,6 @@ void ClipManager::slotDeleteClips(QStringList clipIds, QStringList folderIds, QS
         m_doc->commandStack()->push(deleteCommand);
     }
 }
-
-
-/*const QList <DocClipBase *> ClipManager::getClipByResource(const QString &resource)
-{
-    QList <DocClipBase *> list;
-    QString clipResource;
-    QString proxyResource;
-    for (int i = 0; i < m_clipList.count(); ++i) {
-        clipResource = m_clipList.at(i)->getProperty("resource");
-        proxyResource = m_clipList.at(i)->getProperty("proxy");
-        if (clipResource.isEmpty()) clipResource = m_clipList.at(i)->getProperty("colour");
-        if (clipResource == resource || proxyResource == resource) {
-            list.append(m_clipList.at(i));
-        }
-    }
-    return list;
-}*/
-
-void ClipManager::slotAddCopiedClip(KIO::Job*, const QUrl&, const QUrl &dst)
-{
-    pCore->bin()->droppedUrls(QList<QUrl>() << dst);
-}
-
 
 void ClipManager::slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId)
 {
@@ -404,90 +376,6 @@ void ClipManager::slotClipAvailable(const QString &path)
 }
 */
 
-
-void ClipManager::listRemovableVolumes()
-{
-    m_removableVolumes.clear();
-
-    QList<Solid::Device> devices = Solid::Device::listFromType(Solid::DeviceInterface::StorageAccess);
-
-    foreach(const Solid::Device &accessDevice, devices)
-    {
-        // check for StorageAccess
-        if (!accessDevice.is<Solid::StorageAccess>())
-            continue;
-
-        const Solid::StorageAccess *access = accessDevice.as<Solid::StorageAccess>();
-
-        if (!access->isAccessible())
-            continue;
-
-        // check for StorageDrive
-        Solid::Device driveDevice;
-        for (Solid::Device currentDevice = accessDevice; currentDevice.isValid(); currentDevice = currentDevice.parent())
-        {
-            if (currentDevice.is<Solid::StorageDrive>())
-            {
-                driveDevice = currentDevice;
-                break;
-            }
-        }
-        if (!driveDevice.isValid())
-            continue;
-
-        Solid::StorageDrive *drive = driveDevice.as<Solid::StorageDrive>();
-        if (!drive->isRemovable()) continue;
-
-        // check for StorageVolume
-        Solid::Device volumeDevice;
-        for (Solid::Device currentDevice = accessDevice; currentDevice.isValid(); currentDevice = currentDevice.parent())
-        {
-            if (currentDevice.is<Solid::StorageVolume>())
-            {
-                volumeDevice = currentDevice;
-                break;
-            }
-        }
-        if (!volumeDevice.isValid())
-            continue;
-
-        Solid::StorageVolume *volume = volumeDevice.as<Solid::StorageVolume>();
-
-        SolidVolumeInfo info;
-        info.path = access->filePath();
-        info.isMounted = access->isAccessible();
-        if (!info.path.isEmpty() && !info.path.endsWith('/'))
-            info.path += '/';
-        info.uuid = volume->uuid();
-        info.label = volume->label();
-        info.isRemovable = drive->isRemovable();
-        m_removableVolumes << info;
-    }
-}
-
-bool ClipManager::isOnRemovableDevice(const QUrl &url)
-{
-    //SolidVolumeInfo volume;
-    QString path = url.adjusted(QUrl::StripTrailingSlash).path();
-    int volumeMatch = 0;
-
-    //FIXME: Network shares! Here we get only the volume of the mount path...
-    // This is probably not really clean. But Solid does not help us.
-    foreach (const SolidVolumeInfo &v, m_removableVolumes)
-    {
-        if (v.isMounted && !v.path.isEmpty() && path.startsWith(v.path))
-        {
-            int length = v.path.length();
-            if (length > volumeMatch)
-            {
-                volumeMatch = v.path.length();
-                //volume = v;
-            }
-        }
-    }
-
-    return volumeMatch;
-}
 
 void ClipManager::projectTreeThumbReady(const QString &id, int frame, const QImage &img, int type)
 {

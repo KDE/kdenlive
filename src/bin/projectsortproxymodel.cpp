@@ -33,19 +33,6 @@ ProjectSortProxyModel::ProjectSortProxyModel(QObject *parent)
     setDynamicSortFilter(true);
 }
 
-bool ProjectSortProxyModel::filterAcceptsRow(int sourceRow,
-         const QModelIndex &sourceParent) const
-{
-    if (filterAcceptsRowItself(sourceRow, sourceParent)) {
-        return true;
-    }
-    //accept if any of the children is accepted on it's own merits
-    if (hasAcceptedChildren(sourceRow, sourceParent)) {
-        return true;
-    }
-    return false;
-}
-
 bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow,
          const QModelIndex &sourceParent) const
 {

@@ -53,11 +53,6 @@ Mlt::Playlist & Track::playlist()
     return m_playlist;
 }
 
-void Track::setPlaylist(Mlt::Playlist &playlist)
-{
-    m_playlist = playlist;
-}
-
 qreal Track::fps()
 {
     return m_playlist.get_fps();
@@ -627,6 +622,7 @@ Mlt::Producer *Track::buildSlowMoProducer(Mlt::Properties passProps, const QStri
 
 int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *prod, const QString &id, Mlt::Properties passProps, bool removeEffect)
 {
+    bool newprod = false;
     int newLength = 0;
     int startPos = info.startPos.frames(fps());
     int clipIndex = m_playlist.get_clip_index_at(startPos);
@@ -673,6 +669,7 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
                     qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
                     return -1;
                 }
+                newprod = true;
 	    }
 	    QScopedPointer <Mlt::Producer> clip(m_playlist.replace_with_blank(clipIndex));
 	    m_playlist.consolidate_blanks(0);
@@ -712,7 +709,8 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
                     qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
                     return -1;
                 }
-	    }
+                newprod = true;
+            }
 
 	    int originalStart = (int)(speedIndependantInfo.cropStart.frames(fps()));
 	    if (clipIndex + 1 < m_playlist.count() && (info.startPos + speedIndependantInfo.cropDuration).frames(fps()) > blankEnd) {
@@ -739,6 +737,7 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
                 qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
                 return -1;
             }
+            newprod = true;
         }
         if (removeEffect) {
             prod = clipProducer(prod, state);
@@ -779,6 +778,7 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
         // We changed the speed of last clip in playlist, check track length
         emit newTrackDuration(m_playlist.get_playtime());
     }
+    if (newprod) delete prod;
     return newLength;
 }
 

@@ -244,7 +244,7 @@ public:
     // A profile's width should always be a multiple of 8
     void adjustWidth();
     MltVideoProfile();
-    MltVideoProfile(const QVariantList &params);
+    explicit MltVideoProfile(const QVariantList &params);
     bool operator==(const MltVideoProfile& point) const;
     bool operator!=(const MltVideoProfile &other) const;
     /** @brief Returns true if both profiles have same fps, and can be mixed with the xml producer */

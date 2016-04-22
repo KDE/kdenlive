@@ -111,13 +111,6 @@ void ProducerQueue::forceProcessing(const QString &id)
     }
 }
 
-int ProducerQueue::processingItems()
-{
-    QMutexLocker lock(&m_infoMutex);
-    const int count = m_requestList.count() + m_processingClipId.count();
-    return count;
-}
-
 void ProducerQueue::slotProcessingDone(const QString &id)
 {
     QMutexLocker lock(&m_infoMutex);

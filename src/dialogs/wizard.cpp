@@ -664,20 +664,6 @@ void Wizard::runUpdateMimeDatabase()
     }
 }
 
-void Wizard::slotCheckThumbs()
-{
-    QString pixname = QStringLiteral("timeline_vthumbs.png");
-    if (!m_extra.audiothumbs->isChecked() && !m_extra.videothumbs->isChecked()) {
-        pixname = QStringLiteral("timeline_nothumbs.png");
-    } else if (m_extra.audiothumbs->isChecked()) {
-        if (m_extra.videothumbs->isChecked())
-            pixname = QStringLiteral("timeline_avthumbs.png");
-        else pixname = QStringLiteral("timeline_athumbs.png");
-    }
-
-    m_extra.timeline_preview->setPixmap(QPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, pixname)));
-}
-
 void Wizard::slotCheckStandard()
 {
     m_standard.profiles_list->clear();

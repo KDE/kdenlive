@@ -2237,8 +2237,8 @@ void RenderWidget::slotDeleteScript()
     if (item) {
         QString path = item->data(1, Qt::UserRole + 1).toString();
         bool success = true;
-        success |= QFile::remove(path + ".mlt");
-        success |= QFile::remove(path);
+        success &= QFile::remove(path + ".mlt");
+        success &= QFile::remove(path);
         if (!success) qWarning()<<"// Error removing script or playlist: "<<path<<", "<<path<<".mlt";
         parseScriptFiles();
     }
@@ -2371,14 +2371,6 @@ void RenderWidget::slotPlayRendering(QTreeWidgetItem *item, int)
     QList<QUrl> urls;
     urls.append(QUrl::fromLocalFile(item->text(1)));
     KRun::run(KdenliveSettings::defaultplayerapp(), urls, this);
-}
-
-void RenderWidget::missingClips(bool hasMissing)
-{
-    if (hasMissing) {
-        m_view.errorLabel->setText(i18n("Check missing clips"));
-        m_view.errorBox->setHidden(false);
-    } else m_view.errorBox->setHidden(true);
 }
 
 void RenderWidget::errorMessage(const QString &message)

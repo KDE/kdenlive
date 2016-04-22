@@ -638,19 +638,6 @@ bool Timeline::isTrackLocked(int ix)
     return locked == 1;
 }
 
-int Timeline::getTrackIndex(const QString &id)
-{
-    for (int i = 0; i < m_tractor->count(); i++) {
-        QScopedPointer<Mlt::Producer> track(m_tractor->track(i));
-        QString mltTrackName = track->get("producer");
-        if (mltTrackName == id) {
-            return i;
-        }
-    }
-    return -1;
-
-}
-
 void Timeline::updateTrackState(int ix, int state)
 {
     int currentState = 0;
@@ -784,15 +771,6 @@ void Timeline::switchTrackAudio(int ix, bool mute)
     //if (audioMixingBroken) fixAudioMixing();
     m_tractor->multitrack()->refresh();
     m_tractor->refresh();
-}
-
-int Timeline::getLowestNonMutedAudioTrack()
-{
-    for (int i = 1; i < m_tracks.count(); ++i) {
-        Track *tk = track(i);
-        if (tk->state() < 2) return i;
-    }
-    return m_tracks.count();
 }
 
 int Timeline::getLowestVideoTrack()

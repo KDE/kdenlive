@@ -130,12 +130,6 @@ GLWidget::~GLWidget()
     delete m_shader;
 }
 
-
-void GLWidget::slotError(QQuickWindow::SceneGraphError, QString const& message)
-{
-    qDebug()<<"// SCene error: "<<message;
-}
-
 void GLWidget::updateAudioForAnalysis()
 {
     if (m_frameRenderer) 
@@ -674,12 +668,6 @@ void GLWidget::releaseMonitor()
 void GLWidget::lockMonitor()
 {
     emit lockMonitor(true);
-}
-
-void GLWidget::clearFrameRenderer()
-{
-    /*if (m_consumer) m_consumer->purge();
-    if (m_frameRenderer) m_frameRenderer->clearFrame();*/
 }
 
 void GLWidget::stopGlsl()

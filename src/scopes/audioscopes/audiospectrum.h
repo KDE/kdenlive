@@ -52,9 +52,6 @@ protected:
     QImage renderHUD(uint accelerationFactor);
     QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int freq, const int num_channels, const int num_samples, const int newData);
     QImage renderBackground(uint accelerationFactor);
-    bool isHUDDependingOnInput() const;
-    bool isScopeDependingOnInput() const;
-    bool isBackgroundDependingOnInput() const;
     virtual void readConfig();
     void writeConfig();
 

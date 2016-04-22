@@ -1486,22 +1486,6 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
 }
 
 
-void Bin::slotRefreshClipProperties()
-{
-    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
-    foreach (const QModelIndex &ix, indexes) {
-        if (!ix.isValid() || ix.column() != 0) {
-	    continue;
-	}
-        AbstractProjectItem *clip = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
-        if (clip && clip->itemType() == AbstractProjectItem::ClipItem) {
-            showClipProperties(qobject_cast<ProjectClip *>(clip));
-            break;
-        }
-    }
-}
-
-
 void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
 {
     AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());  
@@ -2371,13 +2355,13 @@ void Bin::renameFolderCommand(const QString &id, const QString &newName, const Q
     m_doc->commandStack()->push(command);
 }
 
-void Bin::renameSubClipCommand(const QString &id, const QString &newName, const QString oldName, int in, int out)
+void Bin::renameSubClipCommand(const QString& id, const QString& newName, const QString& oldName, int in, int out)
 {
     RenameBinSubClipCommand *command = new RenameBinSubClipCommand(this, id, newName, oldName, in, out);
     m_doc->commandStack()->push(command);
 }
 
-void Bin::renameSubClip(const QString &id, const QString &newName, const QString oldName, int in, int out)
+void Bin::renameSubClip(const QString& id, const QString& newName, const QString& oldName, int in, int out)
 {
     ProjectClip *clip = m_rootFolder->clip(id);
     if (!clip) return;

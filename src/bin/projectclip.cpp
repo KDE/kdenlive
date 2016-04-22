@@ -823,10 +823,9 @@ void ProjectClip::doExtractImage()
     int fullWidth = (int)((double) 150 * prod->profile()->dar() + 0.5);
     QDir thumbFolder(bin()->projectFolder().path() + "/thumbs/");
     int max = prod->get_length();
-    int pos;
     while (!m_requestedThumbs.isEmpty()) {
         m_thumbMutex.lock();
-        pos = m_requestedThumbs.takeFirst();
+        int pos = m_requestedThumbs.takeFirst();
         m_thumbMutex.unlock();
         if (thumbFolder.exists(hash() + '#' + QString::number(pos) + ".png")) {
             emit thumbReady(pos, QImage(thumbFolder.absoluteFilePath(hash() + '#' + QString::number(pos) + ".png")));
@@ -1032,11 +1031,10 @@ void ProjectClip::slotCreateAudioThumbs()
         }
         int progress = 0;
         double offset = (double) res.size() / (2 * lengthInFrames);
-        int pos = 0;
         for (int i = 0; i < lengthInFrames; i++) {
             long c1 = 0;
             long c2 = 0;
-            pos = (int) (i * offset);
+            int pos = (int) (i * offset);
             int steps = 0;
             for (int j = 0; j < (int) offset && (pos + j < res.size()); j++) {
                 steps ++;
@@ -1087,9 +1085,8 @@ void ProjectClip::slotCreateAudioThumbs()
             keys << "meta.media.audio_level." + QString::number(i);
         }
 
-        int val = 0;
         for (int z = 0;z < lengthInFrames && !m_abortAudioThumb; ++z) {
-            val = (int)(100.0 * z / lengthInFrames);
+            int val = (int)(100.0 * z / lengthInFrames);
             if (last_val != val) {
                 emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWorking, val);
                 last_val = val;

@@ -3360,7 +3360,7 @@ void CustomTrackView::lockTrack(int ix, bool lock, bool requestUpdate)
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == GroupWidget && static_cast<AbstractGroupItem*>(selection.at(i)) != m_selectionGroup) {
             if (selection.at(i)->parentItem() && m_selectionGroup) {
-                selection.removeAll((QGraphicsItem*)m_selectionGroup);
+                selection.removeAll(static_cast<QGraphicsItem*>(m_selectionGroup));
                 resetSelectionGroup();
             }
 
@@ -3398,7 +3398,7 @@ void CustomTrackView::lockTrack(int ix, bool lock, bool requestUpdate)
         } else if((selection.at(i)->type() == AVWidget || selection.at(i)->type() == TransitionWidget)) {
             if (selection.at(i)->parentItem()) {
                 if (selection.at(i)->parentItem() == m_selectionGroup) {
-                    selection.removeAll((QGraphicsItem*)m_selectionGroup);
+                    selection.removeAll(static_cast<QGraphicsItem*>(m_selectionGroup));
                     resetSelectionGroup();
                 } else {
                     // groups are handled separately
@@ -5881,7 +5881,7 @@ void CustomTrackView::slotAddGuide(bool dialog)
     }
 }
 
-void CustomTrackView::slotEditGuide(int guidePos, const QString newText)
+void CustomTrackView::slotEditGuide(int guidePos, const QString& newText)
 {
     GenTime pos;
     if (guidePos == -1) pos = GenTime(m_cursorPos, m_document->fps());
@@ -7581,80 +7581,6 @@ void CustomTrackView::removeTipAnimation()
     }
 }
 
-void CustomTrackView::setTipAnimation(AbstractClipItem *clip, OperationType mode, const double size)
-{
-    if (m_visualTip == NULL) {
-        QRectF rect = clip->sceneBoundingRect();
-        m_keyProperties = new QGraphicsItemAnimation;
-        m_keyProperties->setTimeLine(m_keyPropertiesTimer);
-        m_keyProperties->setScaleAt(1, 1, 1);
-        QPolygon polygon;
-        switch (mode) {
-        case FadeIn:
-        case FadeOut:
-            m_visualTip = new QGraphicsEllipseItem(-size, -size, size * 2, size * 2);
-            ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
-            ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
-            if (mode == FadeIn)
-                m_visualTip->setPos(rect.x() + static_cast<ClipItem*>(clip)->fadeIn(), rect.y());
-            else
-                m_visualTip->setPos(rect.right() - static_cast<ClipItem*>(clip)->fadeOut(), rect.y());
-
-            m_keyProperties->setScaleAt(.5, 2, 2);
-            break;
-        case ResizeStart:
-        case ResizeEnd:
-            polygon << QPoint(0, - size * 2);
-            if (mode == ResizeStart)
-                polygon << QPoint(size * 2, 0);
-            else
-                polygon << QPoint(- size * 2, 0);
-            polygon << QPoint(0, size * 2);
-            polygon << QPoint(0, - size * 2);
-
-            m_visualTip = new QGraphicsPolygonItem(polygon);
-            ((QGraphicsPolygonItem*) m_visualTip)->setBrush(m_tipColor);
-            ((QGraphicsPolygonItem*) m_visualTip)->setPen(m_tipPen);
-            if (mode == ResizeStart)
-                m_visualTip->setPos(rect.x(), rect.y() + rect.height() / 2);
-            else
-                m_visualTip->setPos(rect.right(), rect.y() + rect.height() / 2);
-
-            m_keyProperties->setScaleAt(.5, 2, 1);
-            break;
-        case TransitionStart:
-        case TransitionEnd:
-            polygon << QPoint(0, - size * 2);
-            if (mode == TransitionStart)
-                polygon << QPoint(size * 2, 0);
-            else
-                polygon << QPoint(- size * 2, 0);
-            polygon << QPoint(0, 0);
-            polygon << QPoint(0, - size * 2);
-
-            m_visualTip = new QGraphicsPolygonItem(polygon);
-            ((QGraphicsPolygonItem*) m_visualTip)->setBrush(m_tipColor);
-            ((QGraphicsPolygonItem*) m_visualTip)->setPen(m_tipPen);
-            if (mode == TransitionStart)
-                m_visualTip->setPos(rect.x(), rect.bottom());
-            else
-                m_visualTip->setPos(rect.right(), rect.bottom());
-
-            m_keyProperties->setScaleAt(.5, 2, 2);
-            break;
-        default:
-            delete m_keyProperties;
-            return;
-        }
-
-        m_visualTip->setFlags(QGraphicsItem::ItemIgnoresTransformations);
-        m_visualTip->setZValue(100);
-        scene()->addItem(m_visualTip);
-        m_keyProperties->setItem(m_visualTip);
-        m_keyPropertiesTimer->start();
-    }
-}
-
 bool CustomTrackView::hasAudio(int track) const
 {
     QRectF rect(0, (double)(getPositionFromTrack(track) + 1), (double) sceneRect().width(), (double)(m_tracksHeight - 1));
@@ -7708,41 +7634,6 @@ void CustomTrackView::slotAddTrackEffect(const QDomElement &effect, int ix)
     else delete effectCommand;
 }
 
-void CustomTrackView::updateTrackNames(int track, bool added)
-{
-    QList <TrackInfo> tracks = m_timeline->getTracksInfo();
-    int max = tracks.count();
-    int docTrack = max - track - 1;
-
-    // count number of tracks of each type
-    int videoTracks = 0;
-    int audioTracks = 0;
-    for (int i = max - 1; i >= 0; --i) {
-        TrackInfo info = tracks.at(i);
-        if (info.type == VideoTrack)
-            videoTracks++;
-        else
-            audioTracks++;
-
-        if (i <= docTrack) {
-            QString type = (info.type == VideoTrack ? "Video " : "Audio ");
-            int typeNumber = (info.type == VideoTrack ? videoTracks : audioTracks);
-
-            if (added) {
-                if (i == docTrack || info.trackName == type + QString::number(typeNumber - 1)) {
-                    info.trackName = type + QString::number(typeNumber);
-                    m_timeline->setTrackInfo(i, info);
-                }
-            } else {
-                if (info.trackName == type + QString::number(typeNumber + 1)) {
-                    info.trackName = type + QString::number(typeNumber);
-                    m_timeline->setTrackInfo(i, info);
-                }
-            }
-        }
-    }
-    emit tracksChanged();
-}
 
 void CustomTrackView::updateTrackDuration(int track, QUndoCommand *command)
 {
@@ -7775,19 +7666,6 @@ void CustomTrackView::updateTrackDuration(int track, QUndoCommand *command)
     }*/
 }
 
-void CustomTrackView::slotRefreshThumbs(const QString &id, bool resetThumbs)
-{
-    QList<QGraphicsItem *> list = scene()->items();
-    ClipItem *clip = NULL;
-    for (int i = 0; i < list.size(); ++i) {
-        if (list.at(i)->type() == AVWidget) {
-            clip = static_cast <ClipItem *>(list.at(i));
-            if (clip->getBinId() == id) {
-                clip->refreshClip(true, resetThumbs);
-            }
-        }
-    }
-}
 
 void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, QUndoCommand* command)
 {

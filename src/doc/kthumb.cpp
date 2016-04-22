@@ -115,13 +115,6 @@ void KThumb::getThumb(int frame)
     emit thumbReady(frame, img);
 }
 
-void KThumb::getGenericThumb(int frame, int height, int type)
-{
-    const int dwidth = (int)(height * m_dar + 0.5);
-    QImage img = getProducerFrame(frame, dwidth, height);
-    m_clipManager->projectTreeThumbReady(m_id, frame, img, type);
-}
-
 QImage KThumb::extractImage(int frame, int width, int height)
 {
     if (m_producer == NULL) {
@@ -146,33 +139,6 @@ QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
     delete producer;
     return pix;
 }
-
-//static
-void KThumb::saveThumbnail(const QString &url, const QString &dest, int height)
-{
-    Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
-    int width = height * profile.width() / profile.height();
-    Mlt::Producer *producer = new Mlt::Producer(profile, url.toUtf8().constData());
-    QImage img;
-    if (producer->is_valid()) {
-        int frame = 0;
-        img = getFrame(producer, frame, width, height);
-        int variance = KThumb::imageVariance(img);
-        if (variance < 6) {
-            // Thumbnail is not interesting (for example all black, seek to fetch better thumb
-            frame =  producer->get_playtime() > 100 ? 100 : producer->get_playtime() / 2 ;
-            producer->seek(frame);
-            img = getFrame(producer, frame, width, height);
-        }
-        img = img.scaled(width, height);
-    } else {
-        img = QImage(width, height, QImage::Format_ARGB32_Premultiplied);
-        img.fill(Qt::red);
-    }
-    img.save(dest);
-    delete producer;
-}
-
 
 QImage KThumb::getProducerFrame(int framepos, int displayWidth, int height)
 {
@@ -408,14 +374,3 @@ void KThumb::slotGetIntraThumbs()
     }
     if (addedThumbs) emit thumbsCached();
 }
-
-QImage KThumb::findCachedThumb(int pos)
-{
-    QImage img;
-    const QString path = m_url.path() + '_' + QString::number(pos);
-    m_clipManager->pixmapCache->findImage(path, &img);
-    return img;
-}
-
-
-

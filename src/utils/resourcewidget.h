@@ -98,7 +98,6 @@ private:
     void loadConfig();
     void saveConfig();
     void parseLicense(const QString &);
-    QUrl GetSaveFileNameAndPath(QString path,QString ext);
     QString GetSaveFileNameAndPathS(QString path,QString ext);
     QString m_folder;
     QString  mSaveLocation;

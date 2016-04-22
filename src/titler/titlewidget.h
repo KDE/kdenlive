@@ -338,8 +338,6 @@ private slots:
      * stack would help, and would permit us to make more QGraphicsEffects
      * coexist (with different layers of QGraphicsItems). */
     void slotAddEffect(int ix);
-    void slotEditBlur(int ix);
-    void slotEditShadow();
     void slotEditTypewriter(int ix);
 
     /** @brief Changes the Z index of objects. */

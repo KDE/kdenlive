@@ -109,7 +109,6 @@ class DvdWizardVob : public QWizardPage
 public:
     explicit DvdWizardVob(QWidget * parent = 0);
     virtual ~DvdWizardVob();
-    virtual bool isComplete() const;
     QStringList selectedUrls() const;
     void setUrl(const QString &url);
     DVDFORMAT dvdFormat() const;

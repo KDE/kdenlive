@@ -525,20 +525,6 @@ void KeyframeView::updateKeyFramePos(QRectF br, int frame, const double y)
     emit updateKeyframes();
 }
 
-int KeyframeView::checkForSingleKeyframe()
-{
-    // Check if we have only one keyframe
-    int start = 0;
-    if (m_keyAnim.key_count() == 1 && m_keyAnim.is_key(start)) {
-        double value = m_keyProperties.anim_get_double(m_inTimeline.toUtf8().constData(), start, duration - m_offset);
-        // Add keyframe at end of clip to allow inserting a new keframe in between
-        int prevPos = m_keyAnim.previous_key(duration - m_offset);
-        m_keyProperties.anim_set(m_inTimeline.toUtf8().constData(), value, duration - m_offset, duration - m_offset, m_keyAnim.keyframe_type(prevPos));
-        return value;
-    }
-    return -1;
-}
-
 double KeyframeView::getKeyFrameClipHeight(QRectF br, const double y)
 {
     return keyframeUnmap(br, y);
@@ -640,13 +626,12 @@ const QString KeyframeView::serialize()
     if (attachToEnd == -2) {
         return m_keyAnim.serialize_cut();
     }
-    int pos;
     mlt_keyframe_type type;
     QString key;
     QLocale locale;
     QStringList result;
     for(int i = 0; i < m_keyAnim.key_count(); ++i) {
-        pos = m_keyAnim.key_get_frame(i);
+        int pos = m_keyAnim.key_get_frame(i);
         m_keyAnim.key_get(i, pos, type);
         double val = m_keyProperties.anim_get_double(m_inTimeline.toUtf8().constData(), pos, duration - m_offset);
         if (pos >= attachToEnd) {

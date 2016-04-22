@@ -124,7 +124,6 @@ public:
     int waitingJobsCount() const;
     QString getFreeScriptName(const QUrl &projectName = QUrl(), const QString &prefix = QString());
     bool startWaitingRenderJobs();
-    void missingClips(bool hasMissing);
     /** @brief Returns true if the export audio checkbox is set to automatic. */
     bool automaticAudioExport() const;
     /** @brief Returns true if user wants audio export. */

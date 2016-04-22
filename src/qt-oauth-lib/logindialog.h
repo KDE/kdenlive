@@ -84,12 +84,6 @@ signals:
 private slots:
     void urlChanged(const QUrl& url);
 
-
-
-    void on_GetHQpreview_clicked();
-
-    void on_CancelButton_clicked();
-
 private:
     Ui::LoginDialog *ui;
     QString m_strAuthCode;

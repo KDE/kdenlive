@@ -173,11 +173,6 @@ QUrl DocClipBase::fileURL() const
     return QUrl();
 }
 
-uint DocClipBase::getClipThumbFrame() const
-{
-    return (uint) m_properties.value("thumbnail").toInt();
-}
-
 const QString DocClipBase::description() const
 {
     return m_properties.value("description");
@@ -269,61 +264,6 @@ QDomElement DocClipBase::toXML(bool hideTemporaryProperties) const
     return doc.documentElement();
 }
 
-const QString DocClipBase::shortInfo() const
-{
-
-    QString info;
-    if (m_clipType == AV || m_clipType == Video || m_clipType == Image || m_clipType == Playlist) {
-        info = m_properties.value("frame_size") + ' ';
-        if (m_properties.contains("fps")) {
-            info.append(i18n("%1 fps", m_properties.value("fps").left(5)));
-        }
-        if (!info.simplified().isEmpty()) info.prepend(" - ");
-    }
-    else if (m_clipType == Audio) {
-        info = " - " + m_properties.value("frequency") + i18n("Hz");
-    }
-    QString tip = "<b>";
-    switch (m_clipType) {
-    case Audio:
-        tip.append(i18n("Audio clip") + "</b>" + info + "<br />" + fileURL().path());
-        break;
-    case Video:
-        tip.append(i18n("Mute video clip") + "</b>" + info + "<br />" + fileURL().path());
-        break;
-    case AV:
-        tip.append(i18n("Video clip") + "</b>" + info + "<br />" + fileURL().path());
-        break;
-    case Color:
-        tip.append(i18n("Color clip"));
-        break;
-    case Image:
-        tip.append(i18n("Image clip") + "</b>" + info + "<br />" + fileURL().path());
-        break;
-    case Text:
-        if (!fileURL().isEmpty() && getProperty("xmldata").isEmpty()) tip.append(i18n("Template text clip") + "</b><br />" + fileURL().path());
-        else tip.append(i18n("Text clip") + "</b><br />" + fileURL().path());
-        break;
-    case QText:
-        tip.append(i18n("Text clip"));
-        break;
-    case SlideShow:
-        tip.append(i18n("Slideshow clip") + "</b><br />" + fileURL().adjusted(QUrl::RemoveFilename).path());
-        break;
-    case Virtual:
-        tip.append(i18n("Virtual clip"));
-        break;
-    case Playlist:
-        tip.append(i18n("Playlist clip") + "</b>" + info + "<br />" + fileURL().path());
-        break;
-    default:
-        tip.append(i18n("Unknown clip"));
-        break;
-    }
-    return tip;
-}
-
-
 void DocClipBase::updateAudioThumbnail(const audioByteArray& data)
 {
     ////qDebug() << "CLIPBASE RECIEDVED AUDIO DATA*********************************************";
@@ -406,137 +346,15 @@ CommentedTime DocClipBase::markerAt(const GenTime &t) const
     return CommentedTime();
 }
 
-void DocClipBase::clearThumbProducer()
-{
-    if (m_thumbProd) m_thumbProd->clearProducer();
-}
-
-void DocClipBase::reloadThumbProducer()
-{
-    if (m_thumbProd && !m_thumbProd->hasProducer())
-        m_thumbProd->setProducer(getProducer());
-}
-
-void DocClipBase::deleteProducers()
-{
-    if (m_thumbProd) m_thumbProd->clearProducer();
-    
-    if (numReferences() > 0 && (!m_baseTrackProducers.isEmpty() || !m_videoTrackProducers.isEmpty() || !m_audioTrackProducers.isEmpty())) {
-        // Clip is used in timeline, delay producers deletion
-        for (int i = 0; i < m_baseTrackProducers.count(); ++i) {
-            m_toDeleteProducers.append(m_baseTrackProducers.at(i));
-        }
-        for (int i = 0; i < m_videoTrackProducers.count(); ++i) {
-            m_toDeleteProducers.append(m_videoTrackProducers.at(i));
-        }
-        for (int i = 0; i < m_audioTrackProducers.count(); ++i) {
-            m_toDeleteProducers.append(m_audioTrackProducers.at(i));
-        }
-    }
-    else {
-        qDeleteAll(m_baseTrackProducers);
-        qDeleteAll(m_videoTrackProducers);
-        qDeleteAll(m_audioTrackProducers);
-        m_replaceMutex.unlock();
-    }
-    m_baseTrackProducers.clear();
-    m_videoTrackProducers.clear();
-    m_audioTrackProducers.clear();
-}
-
 bool DocClipBase::isClean() const
 {
     return m_toDeleteProducers.isEmpty();
-}
-
-void DocClipBase::setValid()
-{
-    m_placeHolder = false;
 }
 
 void DocClipBase::setProducer(Mlt::Producer &producer, bool reset, bool readPropertiesFromProducer)
 {
     setDuration(GenTime(producer.get_length(), KdenliveSettings::project_fps()));
     return;
-    /*
-    if (producer == NULL) return;
-    if (reset) {
-        QMutexLocker locker(&m_producerMutex);
-        m_replaceMutex.lock();
-        deleteProducers();
-    }
-    QString id = producer->get("id");
-    if (m_placeHolder || !producer->is_valid()) {
-        char *tmp = qstrdup(i18n("Missing clip").toUtf8().constData());
-        producer->set("markup", tmp);
-        producer->set("bgcolour", "0xff0000ff");
-        producer->set("pad", "10");
-        delete[] tmp;
-    }
-    else if (m_thumbProd && !m_thumbProd->hasProducer()) {
-        if (m_clipType != Audio) {
-            if (!id.endsWith(QLatin1String("_audio")))
-                m_thumbProd->setProducer(producer);
-        }
-        else m_thumbProd->setProducer(producer);
-        emit getAudioThumbs();
-    }
-    bool updated = false;
-    if (id.contains('_')) {
-        // this is a subtrack producer, insert it at correct place
-        id = id.section('_', 1);
-        if (id.endsWith(QLatin1String("audio"))) {
-            int pos = id.section('_', 0, 0).toInt();
-            if (pos >= m_audioTrackProducers.count()) {
-                while (m_audioTrackProducers.count() - 1 < pos) {
-                    m_audioTrackProducers.append(NULL);
-                }
-            }
-            if (m_audioTrackProducers.at(pos) == NULL) {
-                m_audioTrackProducers[pos] = producer;
-            }
-            else delete producer;
-            return;
-        } else if (id.endsWith(QLatin1String("video"))) {
-            int pos = 0;
-            // Keep compatibility with older projects where video only producers were not track specific
-            if (id.contains('_')) pos = id.section('_', 0, 0).toInt();
-            if (pos >= m_videoTrackProducers.count()) {
-                while (m_videoTrackProducers.count() - 1 < pos) {
-                    m_videoTrackProducers.append(NULL);
-                }
-            }
-            if (m_videoTrackProducers.at(pos) == NULL) {
-                m_videoTrackProducers[pos] = producer;
-            }
-            else delete producer;
-            return;
-        }
-        int pos = id.toInt();
-        if (pos >= m_baseTrackProducers.count()) {
-            while (m_baseTrackProducers.count() - 1 < pos) {
-                m_baseTrackProducers.append(NULL);
-            }
-        }
-        if (m_baseTrackProducers.at(pos) == NULL) {
-            m_baseTrackProducers[pos] = producer;
-            updated = true;
-        }
-        else delete producer;
-    } else {
-        if (m_baseTrackProducers.isEmpty()) {
-            m_baseTrackProducers.append(producer);
-            updated = true;
-        }
-        else if (m_baseTrackProducers.at(0) == NULL) {
-            m_baseTrackProducers[0] = producer;
-            updated = true;
-        }
-        else delete producer;
-    }
-    if (updated && readPropertiesFromProducer && (m_clipType != Color && m_clipType != Image && m_clipType != Text))
-        setDuration(GenTime(producer->get_length(), KdenliveSettings::project_fps()));
-    */
 }
 
 static double getPixelAspect(QMap<QString, QString>& props) {
@@ -601,35 +419,6 @@ void DocClipBase::adjustProducerProperties(Mlt::Producer *prod, const QString &i
         prod->set("out", m_properties.value("proxy_out").toInt());
     }
 
-}
-
-Mlt::Producer *DocClipBase::videoProducer(int track)
-{
-    QMutexLocker locker(&m_producerMutex);
-    if (m_videoTrackProducers.count() <= track) {
-        while (m_videoTrackProducers.count() - 1 < track) {
-            m_videoTrackProducers.append(NULL);
-        }
-    }
-    if (m_videoTrackProducers.at(track) == NULL) {
-        int i;
-        for (i = 0; i < m_videoTrackProducers.count(); ++i)
-            if (m_videoTrackProducers.at(i) != NULL) break;
-        Mlt::Producer *base;
-        if (i >= m_videoTrackProducers.count()) {
-            // Could not find a valid producer for that clip
-            locker.unlock();
-            base = getProducer();
-            if (base == NULL) {
-                return NULL;
-            }
-            locker.relock();
-        }
-        else base = m_videoTrackProducers.at(i);
-        m_videoTrackProducers[track] = cloneProducer(base);
-        adjustProducerProperties(m_videoTrackProducers.at(track), QString(getId() + '_' + QString::number(track) + "_video"), true, false);
-    }
-    return m_videoTrackProducers.at(track);
 }
 
 Mlt::Producer *DocClipBase::getProducer(int track)
@@ -761,17 +550,6 @@ void DocClipBase::resetProducerProperty(const char *name)
             m_baseTrackProducers[i]->set(name, (const char*) NULL);
     }
 }
-
-const char *DocClipBase::producerProperty(const char *name) const
-{
-    for (int i = 0; i < m_baseTrackProducers.count(); ++i) {
-        if (m_baseTrackProducers.at(i) != NULL) {
-            return m_baseTrackProducers.at(i)->get(name);
-        }
-    }
-    return NULL;
-}
-
 
 void DocClipBase::slotRefreshProducer()
 {
@@ -946,11 +724,6 @@ QMap <QString, QStringList> DocClipBase::metadata() const
     return m_metadata;
 }
 
-void DocClipBase::clearProperty(const QString &key)
-{
-    m_properties.remove(key);
-}
-
 void DocClipBase::getFileHash(const QString &url)
 {
     if (m_clipType == SlideShow) return;
@@ -976,13 +749,6 @@ void DocClipBase::getFileHash(const QString &url)
     }
 }
 
-bool DocClipBase::checkHash() const
-{
-    QUrl url = fileURL();
-    if (url.isValid() && getClipHash() != getHash(url.toLocalFile())) return false;
-    return true;
-}
-
 QString DocClipBase::getClipHash() const
 {
     QString hash;
@@ -996,11 +762,6 @@ QString DocClipBase::getClipHash() const
         
     }
     return hash;
-}
-
-void DocClipBase::setPlaceHolder(bool place)
-{
-    m_placeHolder = place;
 }
 
 // static
@@ -1141,76 +902,6 @@ void DocClipBase::addCutZone(int in, int out, const QString &desc)
     m_cutZones.append(info);
 }
 
-bool DocClipBase::hasCutZone(const QPoint &p) const
-{
-    for (int i = 0; i < m_cutZones.count(); ++i)
-        if (m_cutZones.at(i).zone == p)
-            return true;
-    return false;
-}
-
-
-void DocClipBase::removeCutZone(int in, int out)
-{
-    QPoint p(in, out);
-    for (int i = 0; i < m_cutZones.count(); ++i) {
-        if (m_cutZones.at(i).zone == p) {
-            m_cutZones.removeAt(i);
-            --i;
-        }
-    }
-}
-
-void DocClipBase::updateCutZone(int oldin, int oldout, int in, int out, const QString &desc)
-{
-    QPoint old(oldin, oldout);
-    for (int i = 0; i < m_cutZones.size(); ++i) {
-        if (m_cutZones.at(i).zone == old) {
-            CutZoneInfo info;
-            info.zone = QPoint(in, out);
-            info.description = desc;
-            m_cutZones.replace(i, info);
-            break;
-        }
-    }
-}
-
-bool DocClipBase::hasVideoCodec(const QString &codec) const
-{
-    Mlt::Producer *prod = NULL;
-    if (m_baseTrackProducers.count() == 0) return false;
-    for (int i = 0; i < m_baseTrackProducers.count(); ++i) {
-        if (m_baseTrackProducers.at(i) != NULL) {
-            prod = m_baseTrackProducers.at(i);
-            break;
-        }
-    }
-
-    if (!prod) return false;
-    int default_video = prod->get_int("video_index");
-    char property[200];
-    snprintf(property, sizeof(property), "meta.media.%d.codec.name", default_video);
-    return prod->get(property) == codec;
-}
-
-bool DocClipBase::hasAudioCodec(const QString &codec) const
-{
-    Mlt::Producer *prod = NULL;
-    if (m_baseTrackProducers.count() == 0) return false;
-    for (int i = 0; i < m_baseTrackProducers.count(); ++i) {
-        if (m_baseTrackProducers.at(i) != NULL) {
-            prod = m_baseTrackProducers.at(i);
-            break;
-        }
-    }
-    if (!prod) return false;
-    int default_video = prod->get_int("audio_index");
-    char property[200];
-    snprintf(property, sizeof(property), "meta.media.%d.codec.name", default_video);
-    return prod->get(property) == codec;
-}
-
-
 void DocClipBase::slotExtractImage(const QList <int> &frames)
 {
     if (m_thumbProd == NULL) return;
@@ -1222,41 +913,6 @@ QImage DocClipBase::extractImage(int frame, int width, int height)
     if (m_thumbProd == NULL) return QImage();
     QMutexLocker locker(&m_producerMutex);
     return m_thumbProd->extractImage(frame, width, height);
-}
-
-void DocClipBase::setAnalysisData(const QString &name, const QString &data, int offset)
-{
-    if (data.isEmpty()) m_analysisdata.remove(name);
-    else {
-        if (m_analysisdata.contains(name)) {
-            if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Clip already contains analysis data %1", name), QString(), KGuiItem(i18n("Merge")), KGuiItem(i18n("Add"))) == KMessageBox::Yes) {
-                // Merge data
-                Mlt::Profile *profile = m_baseTrackProducers.at(0)->profile();
-                Mlt::Geometry geometry(m_analysisdata.value(name).toUtf8().data(), m_properties.value("duration").toInt(), profile->width(), profile->height());
-                Mlt::Geometry newGeometry(data.toUtf8().data(), m_properties.value("duration").toInt(), profile->width(), profile->height());
-                Mlt::GeometryItem item;
-                int pos = 0;
-                while (!newGeometry.next_key(&item, pos)) {
-                    pos = item.frame();
-                    item.frame(pos + offset);
-                    pos++;
-                    geometry.insert(item);
-                }
-                m_analysisdata.insert(name, geometry.serialise());
-            }
-            else {
-                // Add data with another name
-                int i = 1;
-                QString newname = name + ' ' + QString::number(i);
-                while (m_analysisdata.contains(newname)) {
-                    ++i;
-                    newname = name + ' ' + QString::number(i);
-                }
-                m_analysisdata.insert(newname, geometryWithOffset(data, offset));
-            }
-        }
-        else m_analysisdata.insert(name, geometryWithOffset(data, offset));
-    }
 }
 
 const QString DocClipBase::geometryWithOffset(const QString &data, int offset)
@@ -1280,7 +936,3 @@ QMap <QString, QString> DocClipBase::analysisData() const
 {
     return m_analysisdata;
 }
-
-
-
-

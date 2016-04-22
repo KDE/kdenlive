@@ -279,7 +279,7 @@ public slots:
      * @param dialog (default = true) false = do not show the dialog but use current position as position and comment */
     void slotAddGuide(bool dialog = true);
     void slotEditGuide(const CommentedTime &guide);
-    void slotEditGuide(int guidePos = -1, const QString newText = QString());
+    void slotEditGuide(int guidePos = -1, const QString &newText = QString());
     void slotDeleteGuide(int guidePos = -1);
     void slotDeleteAllGuides();
     void editGuide(const GenTime &oldPos, const GenTime &pos, const QString &comment);
@@ -477,12 +477,6 @@ private:
 
     /** @brief Removes the tip and stops the animation timer. */
     void removeTipAnimation();
-    /** @brief Creates a new tip animation.
-    * @param clip clip to display the tip on
-    * @param mode operation mode for which the tip should be displayed
-    * @param size size of the tip */
-    void setTipAnimation(AbstractClipItem *clip, OperationType mode, const double size);
-
     /** @brief Takes care of updating effects and attached transitions during a resize from start.
     * @param item Item to resize
     * @param oldInfo The item's info before resizement (set to item->info() is @param check true)
@@ -503,14 +497,6 @@ private:
     * @param group The group to cut
     * @param cutPos The absolute position of the cut */
     void razorGroup(AbstractGroupItem *group, GenTime cutPos);
-
-    /** @brief Update Tracknames to fit again after track was added/deleted.
-     * @param track Number of track which was added/deleted
-     * @param added true = track added, false = track deleted
-     * 
-     * The default track name consists of type + number. If we add/delete a track the number has to be adjusted
-     * if the name is still the default one. */
-    void updateTrackNames(int track, bool added);
 
     /** @brief Updates the duration stored in a track's TrackInfo.
      * @param track Number of track as used in ItemInfo (not the numbering used in KdenliveDoc) (negative for all tracks)
@@ -548,10 +534,6 @@ private slots:
     /** @brief Context menu is finished, restore normal operation mode. */
     void slotContextMenuActivated();
     void slotDoResetMenuPosition();
-    /** @brief Re-create the clip thumbnails.
-     *  @param id The clip's Id string.
-     *  @param resetThumbs Should we recreate the timeline thumbnails. */
-    void slotRefreshThumbs(const QString &id, bool resetThumbs);
     /** @brief A Filter job producer results. */
     void slotGotFilterJobResults(const QString &id, int startPos, int track, stringMap filterParams, stringMap extra);
     /** @brief Replace a producer in all tracks (for example when proxying a clip). */

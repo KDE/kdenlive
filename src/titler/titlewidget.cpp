@@ -2282,29 +2282,6 @@ void TitleWidget::slotEditTypewriter(int /*ix*/)
     }
 }
 
-void TitleWidget::slotEditBlur(int ix)
-{
-    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    if (l.size() == 1) {
-        QGraphicsEffect *eff = l[0]->graphicsEffect();
-        QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *>(eff);
-        if (blur) blur->setBlurRadius(ix);
-    }
-}
-
-void TitleWidget::slotEditShadow()
-{
-    /*QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    if (l.size() == 1) {
-        QGraphicsEffect *eff = l[0]->graphicsEffect();
-        QGraphicsDropShadowEffect *shadow = static_cast <QGraphicsDropShadowEffect *>(eff);
-        if (shadow) {
-            shadow->setBlurRadius(shadow_radius->value());
-            shadow->setOffset(shadow_x->value(), shadow_y->value());
-        }
-    }*/
-}
-
 qreal TitleWidget::zIndexBounds(bool maxBound, bool intersectingOnly)
 {
     qreal bound = maxBound ? -99 : 99;

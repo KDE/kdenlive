@@ -230,62 +230,6 @@ QString Timecode::getStringTimecode(int frames, const double &fps, bool showFram
     return text;
 }
 
-
-//static
-QString Timecode::getEasyTimecode(const GenTime & time, const double &fps)
-{
-    // Returns the timecode in an easily read display, like 3 min. 5 sec.
-    int frames = (int) time.frames(fps);
-
-    bool negative = false;
-    if (frames < 0) {
-        negative = true;
-        frames = qAbs(frames);
-    }
-
-    int seconds = (int)(frames / fps);
-    frames = frames - ((int)(fps * seconds));
-
-    int minutes = seconds / 60;
-    seconds = seconds % 60;
-    int hours = minutes / 60;
-    minutes = minutes % 60;
-
-    QString text;
-    bool trim = false;
-
-    if (negative)
-        text.append('-');
-    if (hours != 0) {
-        text.append(QString::number(hours).rightJustified(2, '0', false));
-        text.append(' ' + i18n("hour") + ' ');
-        trim = true;
-    }
-    if (minutes != 0 || trim) {
-        if (!trim) {
-            text.append(QString::number(minutes));
-        } else
-            text.append(QString::number(minutes).rightJustified(2, '0', false));
-        text.append(' ' + i18n("min.") + ' ');
-        trim = true;
-    }
-    if (seconds != 0 || trim) {
-        if (!trim) {
-            text.append(QString::number(seconds));
-        } else
-            text.append(QString::number(seconds).rightJustified(2, '0', false));
-        text.append(' ' + i18n("sec."));
-        trim = true;
-    }
-    if (!trim) {
-        text.append(QString::number(frames));
-        text.append(' ' + i18n("frames"));
-    }
-
-    return text;
-}
-
-
 const QString Timecode::getTimecodeHH_MM_SS_FF(const GenTime & time) const
 {
     if (m_dropFrameTimecode) {

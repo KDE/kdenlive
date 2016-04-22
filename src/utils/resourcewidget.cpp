@@ -785,19 +785,6 @@ void ResourceWidget::slotAccessTokenReceived(QString sAccessToken)
      }
 }
 /**
- * @brief ResourceWidget::GetSaveFileNameAndPath
- * @param path - starting path where dialog will open on
- * @param ext - file exension filter to have in play on the dialog
- * @return QUrl of the choosen path
- *  * Prompts user to choose a file name and path as to where to save a file.
- * Returns a QUrl of the path and file name
- */
-QUrl ResourceWidget::GetSaveFileNameAndPath(QString path,QString ext)
-{
-    QString savloc = GetSaveFileNameAndPathS( path, ext);
-    return (QUrl::fromLocalFile (savloc));
-}
-/**
  * @brief ResourceWidget::GetSaveFileNameAndPathS
  * @param path -  starting path where dialog will open on
  * @param ext - file exension filter to have in play on the dialog

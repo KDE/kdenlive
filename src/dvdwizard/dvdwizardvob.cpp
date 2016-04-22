@@ -377,14 +377,6 @@ void DvdWizardVob::slotDeleteVobFile()
 }
 
 
-// virtual
-bool DvdWizardVob::isComplete() const
-{
-    if (!m_installCheck) return false;
-    if (m_vobList->topLevelItemCount() == 0) return false;
-    return true;
-}
-
 void DvdWizardVob::setUrl(const QString &url)
 {
     slotAddVobFile(QUrl::fromLocalFile(url));

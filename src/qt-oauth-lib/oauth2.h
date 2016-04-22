@@ -59,12 +59,8 @@ class OAuth2 : public QObject
     Q_OBJECT
 
 public:
-    OAuth2(QWidget* parent = 0);
-    QString AuthorizationCode();
-    QString AccessToken() const;
+    explicit OAuth2(QWidget* parent = 0);
 
-
-    bool isAuthorized();
     void obtainAccessToken();
     void obtainNewAccessToken();
     void ForgetAccessToken();

@@ -267,11 +267,6 @@ void MeltJob::emitFrameNumber(int pos)
     }
 }
 
-bool MeltJob::isProjectFilter() const
-{
-    return m_extra.contains(QStringLiteral("projecttreefilter"));
-}
-
 void MeltJob::setStatus(ClipJobStatus status)
 {
     m_jobStatus = status;

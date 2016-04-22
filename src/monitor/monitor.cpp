@@ -1261,14 +1261,6 @@ void Monitor::updateClipProducer(const QString &playlist)
     render->play(1.0);
 }
 
-void Monitor::slotSeekController(ClipController *controller, int pos)
-{
-    if (controller && controller != m_controller) {
-        slotOpenClip(controller, pos, -1);
-    }
-    else slotSeek(pos);
-}
-
 void Monitor::slotOpenClip(ClipController *controller, int in, int out)
 {
     if (render == NULL) {
@@ -1436,7 +1428,7 @@ void Monitor::slotSetSelectedClip(AbstractClipItem* item)
 
 void Monitor::slotSetSelectedClip(ClipItem* item)
 {
-    if (item || (!item && !m_loopClipTransition)) {
+    if (item || !m_loopClipTransition) {
         m_loopClipTransition = false;
         slotSetSelectedClip((AbstractClipItem*)item); //FIXME static_cast fails!
     }
@@ -1444,7 +1436,7 @@ void Monitor::slotSetSelectedClip(ClipItem* item)
 
 void Monitor::slotSetSelectedClip(Transition* item)
 {
-    if (item || (!item && m_loopClipTransition)) {
+    if (item || m_loopClipTransition) {
         m_loopClipTransition = true;
         slotSetSelectedClip((AbstractClipItem*)item); //FIXME static_cast fails!
     }

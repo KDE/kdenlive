@@ -118,12 +118,6 @@ public:
     bool isTabbedWith(QDockWidget *widget, const QString & otherWidget);
 
 protected:
-
-    /** @brief Closes the window.
-     * @return false if the user presses "Cancel" on a confirmation dialog or
-     *     the operation requested (starting waiting jobs or saving file) fails,
-     *     true otherwise */
-    virtual bool queryClose();
     virtual void closeEvent(QCloseEvent*);
 
     /** @brief Reports a message in the status bar when an error occurs. */
@@ -226,10 +220,6 @@ private:
     virtual bool event(QEvent *e);
 
     void loadGenerators();
-    void addToMenu(QObject *plugin, const QStringList &texts,
-                   QMenu *menu, const char *member,
-                   QActionGroup *actionGroup);
-
     /** @brief Instantiates a "Get Hot New Stuff" dialog.
      * @param configFile configuration file for KNewStuff
      * @return number of installed items */
@@ -265,8 +255,6 @@ public slots:
     void slotRefreshProfiles();
 
 private slots:
-    /** @brief Shows the shortcut dialog. */
-    void slotEditKeys();
     void loadDockActions();
     /** @brief Reflects setting changes to the GUI. */
     void updateConfiguration();
@@ -329,7 +317,6 @@ private slots:
     void slotAddVideoEffect(QAction *result);
     void slotAddTransition(QAction *result);
     void slotAddProjectClip(const QUrl &url);
-    void slotAddProjectClipList(const QList<QUrl> &urls);
     void slotTrackSelected(int index, const TrackInfo &info, bool raise = true);
     void slotActivateTransitionView(Transition *transition);
     void slotChangeTool(QAction * action);
@@ -370,8 +357,6 @@ private slots:
     void slotGetNewMltProfileStuff();
     void slotAutoTransition();
     void slotRunWizard();
-    /** @brief Lets the sampleplugin create a generator.  */
-    void generateClip();
     void slotZoneMoved(int start, int end);
     void slotDvdWizard(const QString &url = QString());
     void slotGroupClips();
@@ -420,8 +405,6 @@ private slots:
     void slotUpdateProxySettings();
     /** @brief Disable proxies for this project. */
     void slotDisableProxies();
-
-    void slotElapsedTime();
     /** @brief Open the online services search dialog. */
     void slotDownloadResources();
 

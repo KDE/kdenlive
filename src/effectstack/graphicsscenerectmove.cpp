@@ -39,6 +39,7 @@ MyQGraphicsEffect::MyQGraphicsEffect(QObject *parent) :
     QGraphicsEffect(parent)
     , m_xOffset(0)
     , m_yOffset(0)
+    , m_blur(0)
 {
 }
 
@@ -53,22 +54,6 @@ void MyQGraphicsEffect::setOffset(int xOffset, int yOffset, int blur)
     m_yOffset = yOffset;
     m_blur = blur;
     updateBoundingRect();
-}
-
-QRectF MyQGraphicsEffect::boundingRectFor(const QRectF &rect) const
-{
-    QRectF shadowBounding = rect;
-    if (m_xOffset > 0) {
-        shadowBounding.adjust(- 2 * m_blur, 0, m_xOffset + 2 * m_blur, 0);
-    } else {
-        shadowBounding.adjust(m_xOffset - 2 * m_blur, 0, 2 * m_blur, 0);
-    }
-    if (m_yOffset > 0) {
-        shadowBounding.adjust(0, - 2 * m_blur, 0, m_yOffset + 2 * m_blur);
-    } else {
-        shadowBounding.adjust(0,m_yOffset - 2 * m_blur, 0, 2 * m_blur);
-    }
-    return shadowBounding;
 }
 
 void MyQGraphicsEffect::draw(QPainter *painter)
@@ -736,7 +721,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
             }
 
             if (m_selectedItem->type() == QGraphicsRectItem::Type && m_resizeMode != NoResize) {
-                MyRectItem *gi = (MyRectItem*)m_selectedItem;
+                MyRectItem *gi = static_cast<MyRectItem*>(m_selectedItem);
                 // Resize using aspect ratio
                 if (!m_selectedItem->data(0).isNull()) {
                     // we want to keep aspect ratio

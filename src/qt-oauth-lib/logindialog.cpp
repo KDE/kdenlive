@@ -102,18 +102,3 @@ void LoginDialog::setLoginUrl(const QUrl& url)
    ui->webView->setUrl(url);
 
 }
-
-void LoginDialog::on_GetHQpreview_clicked()
-{
-    emit UseHQPreview();
-    QDialog::accept();
-
-}
-
-void LoginDialog::on_CancelButton_clicked()
-{
-   emit canceled();
-
-    QDialog::accept();
-
-}

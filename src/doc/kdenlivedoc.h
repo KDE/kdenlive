@@ -132,8 +132,6 @@ public:
 
     /** @brief Gets the list of renderer properties saved into the document. */
     QMap <QString, QString> getRenderProperties() const;
-    /** @brief Get a list of folder id's that were opened on last save. */
-    QStringList getExpandedFolders();
     /** @brief Read the display ratio from an xml project file. */
     static double getDisplayRatio(const QString &path);
     /** @brief Backup the project file */
@@ -185,7 +183,6 @@ private:
     QMap <QString, QString> m_documentProperties;
     QMap <QString, QString> m_documentMetadata;
 
-    void setNewClipResource(const QString &id, const QString &path);
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
     void moveProjectData(const QUrl &url);
 

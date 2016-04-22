@@ -32,7 +32,7 @@ class QmlAudioThumb : public QQuickPaintedItem
 {
     Q_OBJECT
 public:
-    QmlAudioThumb(QQuickItem *parent = 0);
+    explicit QmlAudioThumb(QQuickItem *parent = 0);
     void setImage(QImage &img);
     void paint(QPainter *painter);
 private:
