@@ -937,7 +937,7 @@ void ProjectClip::slotCreateAudioThumbs()
         // convert cached image
         int n = image.width() * image.height();
         for (int i = 0; i < n; i++) {
-            QRgb p = image.pixel(i / 2, i % channels);
+            QRgb p = image.pixel(i / channels, i % channels);
             audioLevels << qRed(p);
             audioLevels << qGreen(p);
             audioLevels << qBlue(p);
@@ -1041,10 +1041,10 @@ void ProjectClip::slotCreateAudioThumbs()
         QList <const qint16*> rawChannels;
         QByteArray res2;
         QList<qint16> data2;
-        for (int i = 1; i < channelFiles.count(); i++) {
-            channelFiles[i - 1]->open();
-            res2 = channelFiles[i - 1]->readAll();
-            channelFiles[i - 1]->close();
+        for (int i = 0; i < channelFiles.count(); i++) {
+            channelFiles[i]->open();
+            res2 = channelFiles[i]->readAll();
+            channelFiles[i]->close();
             if (res2.isEmpty()) {
                 // Something went wrong, abort
                 emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
@@ -1054,16 +1054,23 @@ void ProjectClip::slotCreateAudioThumbs()
             rawChannels << (const qint16*) res2.constData();
         }
         int progress = 0;
-        double offset = (double) res.size() / (2 * lengthInFrames);
+        QList <long> channelsData;
+        double offset = (double) res.size() / (2.0 * lengthInFrames);
+        int intraOffset = 1;
+        if (offset > 1000) {
+            intraOffset = offset / 60;
+        } else if (offset > 250) {
+            intraOffset = offset / 10;
+        }
         for (int i = 0; i < lengthInFrames; i++) {
             long c1 = 0;
-            QList <long> channelsData;
+            channelsData.clear();
             for (int k = 0; k < rawChannels.count(); k++) {
                 channelsData << 0;
             }
             int pos = (int) (i * offset);
             int steps = 0;
-            for (int j = 0; j < (int) offset && (pos + j < res.size()); j++) {
+            for (int j = 0; j < (int) offset && (pos + j < res.size()); j += intraOffset) {
                 steps ++;
                 c1 += abs(raw[pos + j]);
                 for (int k = 0; k < rawChannels.count(); k++) {
@@ -1074,7 +1081,7 @@ void ProjectClip::slotCreateAudioThumbs()
             if (steps) c1 /= steps;
             c1 = c1 * 800 / 32768.0;
             audioLevels << (double) c1;
-            for (int k = 0; k < rawChannels.count(); k++) {
+            for (int k = 0; k < channelsData.count(); k++) {
                 if (steps) channelsData[k] /= steps;
                 channelsData[k] *= 800 / 32768.0;
                 audioLevels << (double)channelsData[k];
@@ -1143,7 +1150,7 @@ void ProjectClip::slotCreateAudioThumbs()
     if (!m_abortAudioThumb && audioLevels.size() > 0) {
         // Put into an image for caching.
         int count = audioLevels.size();
-        QImage image((count + 3) / 4 / channels, channels, QImage::Format_ARGB32);
+        QImage image(lrint((count + 3) / 4.0 / channels), channels, QImage::Format_ARGB32);
         int n = image.width() * image.height();
         for (int i = 0; i < n; i ++) {
             QRgb p; 
@@ -1157,7 +1164,7 @@ void ProjectClip::slotCreateAudioThumbs()
                 int a = last;
                 p = qRgba(r, g, b, a);
             }
-            image.setPixel(i / 2, i % channels, p);
+            image.setPixel(i / channels, i % channels, p);
         }
         image.save(audioPath);
     }
