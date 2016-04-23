@@ -55,6 +55,9 @@ private:
     int m_channelHeight;
     void drawBackground(int channels = 2);
     void refreshScope(const QSize& size, bool full) Q_DECL_OVERRIDE;
+
+private slots:
+    void setAudioValues(const QVector <int>& values);
 };
 
 #endif
