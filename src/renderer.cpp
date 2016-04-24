@@ -2332,25 +2332,25 @@ void Render::setVolume(double volume)
 
 bool Render::storeSlowmotionProducer(const QString &url, Mlt::Producer *prod, bool replace)
 {
-      if (!m_slowmotionProducers.contains(url)) {
-	    m_slowmotionProducers.insert(url, prod);
-            return true;
-      }
-      else if (replace) {
-	    Mlt::Producer *old = m_slowmotionProducers.take(url);
-	    delete old;
-	    m_slowmotionProducers.insert(url, prod);
-            return true;
-      }
-      return false;
+    if (!m_slowmotionProducers.contains(url)) {
+        m_slowmotionProducers.insert(url, prod);
+        return true;
+    }
+    else if (replace) {
+        Mlt::Producer *old = m_slowmotionProducers.take(url);
+        delete old;
+        m_slowmotionProducers.insert(url, prod);
+        return true;
+    }
+    return false;
 }
 
 Mlt::Producer *Render::getSlowmotionProducer(const QString &url)
 {
-      if (m_slowmotionProducers.contains(url)) {
-	    return m_slowmotionProducers.value(url);
-      }
-      return NULL;
+    if (m_slowmotionProducers.contains(url)) {
+        return m_slowmotionProducers.value(url);
+    }
+    return NULL;
 }
 
 void Render::updateSlowMotionProducers(const QString &id, QMap <QString, QString> passProperties)

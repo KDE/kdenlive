@@ -622,29 +622,30 @@ Mlt::Producer *Track::buildSlowMoProducer(Mlt::Properties passProps, const QStri
 
 int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *prod, const QString &id, Mlt::Properties passProps, bool removeEffect)
 {
-    bool newprod = false;
     int newLength = 0;
     int startPos = info.startPos.frames(fps());
     int clipIndex = m_playlist.get_clip_index_at(startPos);
     int clipLength = m_playlist.clip_length(clipIndex);
-
+    m_playlist.lock();
     QScopedPointer<Mlt::Producer> original(m_playlist.get_clip(clipIndex));
     if (original == NULL) {
         qDebug()<<"// No clip to apply effect";
+        m_playlist.unlock();
         return -1;
     }
     if (!original->is_valid() || original->is_blank()) {
         // invalid clip
         qDebug()<<"// Invalid clip to apply effect";
+        m_playlist.unlock();
         return -1;
     }
     Mlt::Producer clipparent = original->parent();
     if (!clipparent.is_valid() || clipparent.is_blank()) {
         // invalid clip
         qDebug()<<"// Invalid parent to apply effect";
+        m_playlist.unlock();
         return -1;
     }
-
     QLocale locale;
     if (speed <= 0 && speed > -1) speed = 1.0;
     QString serv = clipparent.get("mlt_service");
@@ -661,15 +662,14 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
     slowInfo.state = state;
     if (serv.contains(QStringLiteral("avformat"))) {
 	if (speed != 1.0 || strobe > 1) {
-	    m_playlist.lock();
 	    if (!prod || !prod->is_valid()) {
 		prod = buildSlowMoProducer(passProps, url, id, slowInfo);
                 if (prod == NULL) {
                     // error, abort
                     qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
+                    m_playlist.unlock();
                     return -1;
                 }
-                newprod = true;
 	    }
 	    QScopedPointer <Mlt::Producer> clip(m_playlist.replace_with_blank(clipIndex));
 	    m_playlist.consolidate_blanks(0);
@@ -689,10 +689,7 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
 	    delete cut;
 	    clipIndex = m_playlist.get_clip_index_at(startPos);
 	    newLength = m_playlist.clip_length(clipIndex);
-	    m_playlist.unlock();
 	} else if (speed == 1.0 && strobe < 2) {
-	    m_playlist.lock();
-
 	    QScopedPointer <Mlt::Producer> clip(m_playlist.replace_with_blank(clipIndex));
 	    m_playlist.consolidate_blanks(0);
 
@@ -707,9 +704,9 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
                 if (prod == NULL) {
                     // error, abort
                     qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
+                    m_playlist.unlock();
                     return -1;
                 }
-                newprod = true;
             }
 
 	    int originalStart = (int)(speedIndependantInfo.cropStart.frames(fps()));
@@ -726,18 +723,16 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
 	    delete cut;
 	    clipIndex = m_playlist.get_clip_index_at(startPos);
 	    newLength = m_playlist.clip_length(clipIndex);
-	    m_playlist.unlock();
 	}
     } else if (serv == QLatin1String("timewarp")) {
-        m_playlist.lock();
         if (!prod || !prod->is_valid()) {
             prod = buildSlowMoProducer(passProps, url, id, slowInfo);
             if (prod == NULL) {
                 // error, abort
                 qDebug()<<"++++ FAILED TO CREATE SLOWMO PROD";
+                m_playlist.unlock();
                 return -1;
             }
-            newprod = true;
         }
         if (removeEffect) {
             prod = clipProducer(prod, state);
@@ -753,7 +748,7 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
           duration = (int) (speedIndependantInfo.cropDuration.frames(fps()) / speed + 0.5);
           originalStart = (int)(speedIndependantInfo.cropStart.frames(fps()) / speed + 0.5);
         }
-        qDebug()<<"/ / /UPDATE SPEED: "<<speed<<", "<<speedIndependantInfo.cropStart.frames(fps())<<":"<<originalStart;
+        //qDebug()<<"/ / /UPDATE SPEED: "<<speed<<", "<<speedIndependantInfo.cropStart.frames(fps())<<":"<<originalStart;
         // Check that the blank space is long enough for our new duration
         clipIndex = m_playlist.get_clip_index_at(startPos);
         int blankEnd = m_playlist.clip_start(clipIndex) + m_playlist.clip_length(clipIndex);
@@ -772,13 +767,12 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
         delete cut;
         clipIndex = m_playlist.get_clip_index_at(startPos);
         newLength = m_playlist.clip_length(clipIndex);
-        m_playlist.unlock();
     }
+    m_playlist.unlock();
     if (clipIndex + 1 == m_playlist.count()) {
         // We changed the speed of last clip in playlist, check track length
         emit newTrackDuration(m_playlist.get_playtime());
     }
-    if (newprod) delete prod;
     return newLength;
 }
 
