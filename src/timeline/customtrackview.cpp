@@ -3156,7 +3156,7 @@ void CustomTrackView::extractZone(bool closeGap)
 {
     // remove track zone and close gap
     QPoint z = m_document->zone();
-    QRectF rect(z.x(), getPositionFromTrack(m_selectedTrack) + m_tracksHeight / 2, z.y() - z.x() - 1, 5);
+    QRectF rect(z.x(), 0, z.y() - z.x() - 1, m_timeline->visibleTracksCount() * m_tracksHeight);
     QList<QGraphicsItem *> selection = m_scene->items(rect);
     if (selection.isEmpty())
         return;
@@ -3168,6 +3168,9 @@ void CustomTrackView::extractZone(bool closeGap)
         if (!selection.at(i)->isEnabled()) continue;
         if (selection.at(i)->type() == AVWidget) {
             ClipItem *clip = static_cast<ClipItem *>(selection.at(i));
+            // Skip locked tracks
+            if (m_timeline->getTrackInfo(clip->track()).isLocked)
+                continue;
             if (clip->startPos() < inPoint) {
                 ItemInfo info = clip->info();
                 info.startPos = inPoint;
@@ -3191,15 +3194,15 @@ void CustomTrackView::extractZone(bool closeGap)
     }
     if (closeGap) {
         // Remove empty zone
-        // Make sure there is no group in the way
-        rect = QRectF(z.x(), getPositionFromTrack(m_selectedTrack) + m_tracksHeight / 2, sceneRect().width() - z.x(), m_tracksHeight / 2 - 2);
+        rect = QRectF(z.x(), 0, sceneRect().width() - z.x(), m_timeline->visibleTracksCount() * m_tracksHeight);
         bool isOk;
-        selection = checkForGroups(rect, &isOk);
-        if (!isOk) {
+        //selection = checkForGroups(rect, &isOk);
+        selection = m_scene->items(rect);
+        /*if (!isOk) {
             // groups found on track, do not allow the move
             emit displayMessage(i18n("Cannot remove space in a track with a group"), ErrorMessage);
             return;
-        }
+        }*/
 
         QList<ItemInfo> clipsToMove;
         QList<ItemInfo> transitionsToMove;
@@ -3207,9 +3210,12 @@ void CustomTrackView::extractZone(bool closeGap)
         for (int i = 0; i < selection.count(); ++i) {
             if (selection.at(i)->type() == AVWidget || selection.at(i)->type() == TransitionWidget) {
                 AbstractClipItem *item = static_cast <AbstractClipItem *>(selection.at(i));
+                if (m_timeline->getTrackInfo(item->track()).isLocked) {
+                    continue;
+                }
                 ItemInfo moveInfo = item->info();
                 if (item->type() == AVWidget) {
-                    if (moveInfo.endPos > outPoint) {
+                    if (moveInfo.startPos < outPoint && moveInfo.endPos > outPoint) {
                         moveInfo.startPos = outPoint;
                         moveInfo.cropDuration = moveInfo.endPos - moveInfo.startPos;
                     }
@@ -3220,8 +3226,8 @@ void CustomTrackView::extractZone(bool closeGap)
             }
         }
         if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) {
-            new InsertSpaceCommand(this, clipsToMove, transitionsToMove, m_selectedTrack, -(outPoint - inPoint), true, command);
-            updateTrackDuration(m_selectedTrack, command);
+            new InsertSpaceCommand(this, clipsToMove, transitionsToMove, -1, -(outPoint - inPoint), true, command);
+            updateTrackDuration(-1, command);
         }
     }
     m_commandStack->push(command);
@@ -3748,7 +3754,17 @@ void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> t
         ClipItem *clip = getClipItemAtStart(clipsToMove.at(i).startPos + offset, clipsToMove.at(i).track);
         if (clip) {
             if (clip->parentItem()) {
-                m_selectionGroup->addItem(clip->parentItem());
+                // If group has a locked item, ungroup first
+                AbstractGroupItem *grp = static_cast <AbstractGroupItem *>(clip->parentItem());
+                if (grp->isItemLocked()) {
+                    m_document->clipManager()->removeGroup(grp);
+                    if (grp == m_selectionGroup) m_selectionGroup = NULL;
+                    scene()->destroyItemGroup(grp);
+                    clip->setItemLocked(false);
+                    m_selectionGroup->addItem(clip);
+                } else {
+                    m_selectionGroup->addItem(clip->parentItem());
+                }
             } else {
                 m_selectionGroup->addItem(clip);
             }
@@ -3762,7 +3778,17 @@ void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> t
         Transition *transition = getTransitionItemAtStart(transToMove.at(i).startPos + offset, transToMove.at(i).track);
         if (transition) {
             if (transition->parentItem()) {
-                m_selectionGroup->addItem(transition->parentItem());
+                // If group has a locked item, ungroup first
+                AbstractGroupItem *grp = static_cast <AbstractGroupItem *>(transition->parentItem());
+                if (grp->isItemLocked()) {
+                    m_document->clipManager()->removeGroup(grp);
+                    if (grp == m_selectionGroup) m_selectionGroup = NULL;
+                    scene()->destroyItemGroup(grp);
+                    transition->setItemLocked(false);
+                    m_selectionGroup->addItem(transition);
+                } else {
+                    m_selectionGroup->addItem(transition->parentItem());
+                }
             } else {
                 m_selectionGroup->addItem(transition);
             }
@@ -3962,7 +3988,6 @@ void CustomTrackView::completeSpaceOperation(int track, GenTime &timeOffset)
 
   clearSelection();
   m_operationMode = None;
-  return;
 }
 
 void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
