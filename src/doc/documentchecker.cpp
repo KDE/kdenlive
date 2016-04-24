@@ -22,7 +22,6 @@
 #include "kthumb.h"
 
 #include "titler/titlewidget.h"
-#include "definitions.h"
 #include "kdenlivesettings.h"
 #include "utils/KoIconUtils.h"
 
@@ -45,6 +44,7 @@ const int idRole = Qt::UserRole + 2;
 const int statusRole = Qt::UserRole + 3;
 const int typeRole = Qt::UserRole + 4;
 const int typeOriginalResource = Qt::UserRole + 5;
+const int clipTypeRole = Qt::UserRole + 6;
 
 const int CLIPMISSING = 0;
 const int CLIPOK = 1;
@@ -136,7 +136,7 @@ bool DocumentChecker::hasErrorInClips()
             continue;
         }
         // Check for slideshows
-        bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QStringLiteral("?"));
+        bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QStringLiteral("?")) || resource.contains(QStringLiteral("%"));
         if ((service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) && slideshow) {
             resource = QUrl::fromLocalFile(resource).adjusted(QUrl::RemoveFilename).path();
         }
@@ -223,20 +223,33 @@ bool DocumentChecker::hasErrorInClips()
     for (int i = 0; i < max; ++i) {
         e = m_missingClips.at(i).toElement();
         QString clipType;
+        ClipType type;
         int status = CLIPMISSING;
+        QString resource = EffectsList::property(e, "resource");
+        bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QStringLiteral("?")) || resource.contains(QStringLiteral("%"));
 	QString service = EffectsList::property(e, QStringLiteral("mlt_service"));
 	if (service == QLatin1String("avformat") || service == QLatin1String("avformat-novalidate") || service == QLatin1String("framebuffer") || service == QLatin1String("timewarp")) {
 	    clipType = i18n("Video clip");
+            type = AV;
 	} else if (service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) {
-	    clipType = i18n("Image clip");
+            if (slideshow) {
+                clipType = i18n("Slideshow clip");
+                type = SlideShow;
+            } else {
+                clipType = i18n("Image clip");
+                type = Image;
+            }
 	} else if (service == QLatin1String("mlt")) {
 	    clipType = i18n("Playlist clip");
+            type = Playlist;
 	} else if (e.tagName() == "missingtitle") {
             clipType = i18n("Title Image");
             status = TITLE_IMAGE_ELEMENT;
+            type = Text;
         }
 	else {
 	    clipType = i18n("Unknown");
+            type = Unknown;
 	}
 
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
@@ -249,7 +262,6 @@ bool DocumentChecker::hasErrorInClips()
             item->setData(0, typeOriginalResource, e.attribute("resource"));
         } else {
             item->setIcon(0, KoIconUtils::themedIcon("dialog-close"));
-            QString resource = EffectsList::property(e, "resource");
             if (!resource.startsWith("/")) {
                 resource.prepend(root);
             }
@@ -257,11 +269,11 @@ bool DocumentChecker::hasErrorInClips()
             item->setData(0, hashRole, EffectsList::property(e, QStringLiteral("kdenlive:file_hash")));
             item->setData(0, sizeRole, EffectsList::property(e, QStringLiteral("kdenlive:file_size")));
         }
-        //item->setData(0, typeRole, t);
+        item->setData(0, clipTypeRole, type);
         item->setData(0, idRole, e.attribute(QStringLiteral("id")));
         item->setToolTip(0, i18n("Missing item"));
     }
-    
+
     foreach(const QString font, m_missingFonts) {
         QString clipType = i18n("Title Font");
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
@@ -374,7 +386,7 @@ bool DocumentChecker::hasErrorInClips()
         // original doc was modified
         m_doc.documentElement().setAttribute(QStringLiteral("modified"), QStringLiteral("1"));
     }
-
+    m_ui.treeWidget->resizeColumnToContents(0);
     connect(m_ui.recursiveSearch, SIGNAL(pressed()), this, SLOT(slotSearchClips()));
     connect(m_ui.usePlaceholders, SIGNAL(pressed()), this, SLOT(slotPlaceholders()));
     connect(m_ui.removeSelected, SIGNAL(pressed()), this, SLOT(slotDeleteSelected()));
@@ -444,9 +456,14 @@ void DocumentChecker::slotSearchClips()
         }
         else if (child->data(0, statusRole).toInt() == CLIPMISSING) {
             bool perfectMatch = true;
-            QString clipPath = searchFileRecursively(searchDir, child->data(0, sizeRole).toString(), child->data(0, hashRole).toString(), child->text(1));
+            ClipType type = (ClipType) child->data(0, clipTypeRole).toInt();
+            QString clipPath;
+            if (type != SlideShow) {
+                // Slideshows cannot be found with hash / size
+                clipPath = searchFileRecursively(searchDir, child->data(0, sizeRole).toString(), child->data(0, hashRole).toString(), child->text(1));
+            }
             if (clipPath.isEmpty()) {
-                clipPath = searchPathRecursively(searchDir, QUrl::fromLocalFile(child->text(1)).fileName());
+                clipPath = searchPathRecursively(searchDir, QUrl::fromLocalFile(child->text(1)).fileName(), type);
                 perfectMatch = false;
             }
             if (!clipPath.isEmpty()) {
@@ -513,19 +530,32 @@ QString DocumentChecker::searchLuma(const QDir &dir, const QString &file) const
     return searchPathRecursively(dir, fname);
 }
 
-QString DocumentChecker::searchPathRecursively(const QDir &dir, const QString &fileName) const
+QString DocumentChecker::searchPathRecursively(const QDir &dir, const QString &fileName, ClipType type) const
 {
     QString foundFileName;
     QStringList filters;
-    filters << fileName;
+    if (type == SlideShow) {
+        if (fileName.contains(QLatin1Char('%'))) {
+            filters << fileName.section(QLatin1Char('%'), 0 ,-2) + QStringLiteral("*");
+        }
+        else return QString(); 
+    } else {
+        filters << fileName;
+    }
     QDir searchDir(dir);
     searchDir.setNameFilters(filters);
     QStringList filesAndDirs = searchDir.entryList(QDir::Files | QDir::Readable);
-    if (!filesAndDirs.isEmpty()) return searchDir.absoluteFilePath(filesAndDirs.at(0));
+    if (!filesAndDirs.isEmpty()) {
+        // File Found
+        if (type == SlideShow) {
+            return searchDir.absoluteFilePath(fileName);
+        }
+        return searchDir.absoluteFilePath(filesAndDirs.at(0));;
+    }
     searchDir.setNameFilters(QStringList());
     filesAndDirs = searchDir.entryList(QDir::Dirs | QDir::Readable | QDir::Executable | QDir::NoDotAndDotDot);
     for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); ++i) {
-        foundFileName = searchPathRecursively(searchDir.absoluteFilePath(filesAndDirs.at(i)), fileName);
+        foundFileName = searchPathRecursively(searchDir.absoluteFilePath(filesAndDirs.at(i)), fileName, type);
         if (!foundFileName.isEmpty())
             break;
     }
@@ -580,7 +610,12 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
     QUrl url = KUrlRequesterDialog::getUrl(QUrl::fromLocalFile(item->text(1)), m_dialog, i18n("Enter new location for file"));
     if (!url.isValid()) return;
     item->setText(1, url.path());
-    if (QFile::exists(url.path())) {
+    ClipType type = (ClipType) item->data(0, clipTypeRole).toInt();
+    bool fixed = false;
+    if (type == SlideShow && QFile::exists(url.adjusted(QUrl::RemoveFilename).path())) {
+        fixed = true;
+    }
+    if (fixed || QFile::exists(url.path())) {
         item->setIcon(0, KoIconUtils::themedIcon("dialog-ok"));
         int id = item->data(0, statusRole).toInt();
         if (id < 10) item->setData(0, statusRole, CLIPOK);
