@@ -3191,6 +3191,51 @@ void CustomTrackView::extractZone(bool closeGap)
                 // Clip is entirely inside zone, delete it
                 new AddTimelineClipCommand(this, clip->getBinId(), clip->info(), clip->effectList(), clip->clipState(), true, true, command);
             }
+        } else if (selection.at(i)->type() == TransitionWidget) {
+            Transition *trans = static_cast<Transition *>(selection.at(i));
+            // Skip locked tracks
+            if (m_timeline->getTrackInfo(trans->track()).isLocked)
+                continue;
+            ItemInfo baseInfo = trans->info();
+            QDomElement old = trans->toXML();
+            if (trans->startPos() < inPoint) {
+                ItemInfo info = baseInfo;
+                info.endPos = inPoint;
+                info.cropDuration = info.endPos - info.startPos;
+                if (trans->updateKeyframes(baseInfo, info)) {
+                    QDomElement xml = old.cloneNode().toElement();
+                    // Resize transition
+                    m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), info.startPos, info.endPos, xml);
+                    new EditTransitionCommand(this, baseInfo.track, baseInfo.startPos, old, xml, true, command);
+                }
+                new MoveTransitionCommand(this, baseInfo, info, true, command);
+                if (trans->endPos() > outPoint) {
+                    // Duplicate transition
+                    QDomElement xml =  old.cloneNode().toElement();
+                    // Resize transition
+                    ItemInfo info = baseInfo;
+                    info.startPos = outPoint;
+                    info.cropDuration = info.endPos - info.startPos;
+                    m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), info.startPos, info.endPos, xml);
+                    new AddTransitionCommand(this, info, trans->transitionEndTrack(), xml, false, true, command);
+                }
+            } else if (trans->endPos() > outPoint) {
+                // Resize
+                ItemInfo info = trans->info();
+                info.startPos = outPoint;
+                info.cropDuration = info.endPos - info.startPos;
+                QDomElement old = trans->toXML();
+                if (trans->updateKeyframes(baseInfo, info)) {
+                    QDomElement xml =  old.cloneNode().toElement();
+                    // Resize transition
+                    m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), info.startPos, info.endPos, xml);
+                    new EditTransitionCommand(this, baseInfo.track, baseInfo.startPos, old, xml, true, command);
+                }
+                new MoveTransitionCommand(this, baseInfo, info, true, command);
+            } else {
+                // Transition is entirely inside zone, delete it
+                new AddTransitionCommand(this, baseInfo, trans->transitionEndTrack(), old, true, true, command);
+            }
         }
     }
     if (closeGap) {
@@ -3218,8 +3263,16 @@ void CustomTrackView::extractZone(bool closeGap)
                     }
                     clipsToMove.append(moveInfo);
                 }
-                else if (item->type() == TransitionWidget)
+                else if (item->type() == TransitionWidget) {
+                    if (moveInfo.startPos < outPoint) {
+                        if (moveInfo.endPos <= outPoint) {
+                            continue;
+                        }
+                        moveInfo.startPos = outPoint;
+                        moveInfo.cropDuration = moveInfo.endPos - moveInfo.startPos;
+                    }
                     transitionsToMove.append(moveInfo);
+                }
             }
         }
         if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) {
@@ -4126,9 +4179,9 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                                     new AddTransitionCommand(this, startTrInfo, startTransition->transitionEndTrack(), startTransition->toXML(), true, true, moveCommand);
                                 }
                                 adjustTimelineTransitions(m_scene->editMode(), tr, moveCommand);
+                                QDomElement old = tr->toXML();
                                 if (tr->updateKeyframes(trInfo, newTrInfo)) {
-                                    QDomElement old = tr->toXML();
-                                    QDomElement xml = tr->toXML();
+                                    QDomElement xml = old.cloneNode().toElement();
                                     m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
                                     new EditTransitionCommand(this, tr->track(), tr->startPos(), old, xml, false, moveCommand);
                                 }
@@ -4155,7 +4208,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         adjustTimelineTransitions(m_scene->editMode(), startTransition, moveCommand);
                         if (startTransition->updateKeyframes(startTrInfo, newStartTrInfo)) {
                             QDomElement old = startTransition->toXML();
-                            QDomElement xml = startTransition->toXML();
+                            QDomElement xml = old.cloneNode().toElement();
                             m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newStartTrInfo.startPos, newStartTrInfo.endPos, xml);
                             new EditTransitionCommand(this, startTransition->track(), startTransition->startPos(), old, xml, false, moveCommand);
                         }
@@ -4177,9 +4230,9 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                             }
                             if (newTrInfo.startPos < newTrInfo.endPos) {
                                 adjustTimelineTransitions(m_scene->editMode(), tr, moveCommand);
+                                QDomElement old = tr->toXML();
                                 if (tr->updateKeyframes(trInfo, newTrInfo)) {
-                                    QDomElement old = tr->toXML();
-                                    QDomElement xml = tr->toXML();
+                                    QDomElement xml = old.cloneNode().toElement();
                                     m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
                                     new EditTransitionCommand(this, tr->track(), tr->startPos(), old, xml, false, moveCommand);
                                 }
@@ -4205,9 +4258,9 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                                 }
                                 if (newTrInfo.startPos < newTrInfo.endPos) {
                                     adjustTimelineTransitions(m_scene->editMode(), tr, moveCommand);
+                                    QDomElement old = tr->toXML();
                                     if (tr->updateKeyframes(trInfo, newTrInfo)) {
-                                        QDomElement old = tr->toXML();
-                                        QDomElement xml = tr->toXML();
+                                        QDomElement xml = old.cloneNode().toElement();
                                         m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
                                         new EditTransitionCommand(this, tr->track(), tr->startPos(), old, xml, false, moveCommand);
                                     }
