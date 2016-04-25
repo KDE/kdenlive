@@ -3209,7 +3209,10 @@ void CustomTrackView::extractZone(bool closeGap)
                 }
                 ItemInfo moveInfo = item->info();
                 if (item->type() == AVWidget) {
-                    if (moveInfo.startPos < outPoint && moveInfo.endPos > outPoint) {
+                    if (moveInfo.startPos < outPoint) {
+                        if (moveInfo.endPos <= outPoint) {
+                            continue;
+                        }
                         moveInfo.startPos = outPoint;
                         moveInfo.cropDuration = moveInfo.endPos - moveInfo.startPos;
                     }
@@ -8196,18 +8199,6 @@ void CustomTrackView::dropTransitionGeometry(Transition *trans, const QString &g
         trans->setSelected(true);
         updateTimelineSelection();
     }
-    /*ItemInfo info = trans->info();
-    QPoint p;
-    ClipItem *transitionClip = getClipItemAtStart(info.startPos, info.track);
-    if (transitionClip && transitionClip->binClip()) {
-        int frameWidth = transitionClip->binClip()->getProducerIntProperty(QStringLiteral("meta.media.width"));
-        int frameHeight = transitionClip->binClip()->getProducerIntProperty(QStringLiteral("meta.media.height"));
-        double factor = transitionClip->binClip()->getProducerProperty(QStringLiteral("aspect_ratio")).toDouble();
-        if (factor == 0) factor = 1.0;
-        p.setX((int)(frameWidth * factor + 0.5));
-        p.setY(frameHeight);
-    }
-    emit transitionItemSelected(trans, getPreviousVideoTrack(info.track), p, true);*/
     QMap <QString, QString> data;
     data.insert(i18n("Dropped Geometry"), geometry);
     slotImportClipKeyframes(TransitionWidget, trans->info(), trans->toXML(), data);
