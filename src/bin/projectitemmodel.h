@@ -73,6 +73,7 @@ public:
     void onAboutToRemoveItem(AbstractProjectItem *item);
     /** @brief Prepare some stuff after removing a new item */
     void onItemRemoved(AbstractProjectItem *item);
+    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
     Qt::DropActions supportedDropActions() const;
 
 public slots:
