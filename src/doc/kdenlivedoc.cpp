@@ -763,6 +763,11 @@ MltVideoProfile KdenliveDoc::mltProfile() const
     return m_profile;
 }
 
+bool KdenliveDoc::profileChanged(const QString &profile) const
+{
+    return m_profile.toList() != ProfilesDialog::getVideoProfile(profile).toList();
+}
+
 ProfileInfo KdenliveDoc::getProfileInfo() const
 {
         ProfileInfo info;

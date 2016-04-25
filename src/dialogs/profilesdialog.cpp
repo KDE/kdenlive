@@ -32,7 +32,7 @@
 #include <QStandardPaths>
 #include <QDebug>
 
-ProfilesDialog::ProfilesDialog(QWidget * parent) :
+ProfilesDialog::ProfilesDialog(QString profileDescription, QWidget * parent) :
     QDialog(parent),
     m_profileIsModified(false),
     m_isCustomProfile(false)
@@ -62,7 +62,7 @@ ProfilesDialog::ProfilesDialog(QWidget * parent) :
     m_view.button_create->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-new")));
     m_view.button_create->setToolTip(i18n("Create new profile"));
 
-    fillList();
+    fillList(profileDescription);
     slotUpdateDisplay();
     connect(m_view.profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
     connect(m_view.button_create, SIGNAL(clicked()), this, SLOT(slotCreateProfile()));
@@ -85,7 +85,7 @@ ProfilesDialog::ProfilesDialog(QWidget * parent) :
 }
 
 
-ProfilesDialog::ProfilesDialog(QString profilePath, QWidget * parent) :
+ProfilesDialog::ProfilesDialog(QString profilePath, bool, QWidget * parent) :
     QDialog(parent),
     m_profileIsModified(false),
     m_isCustomProfile(true),

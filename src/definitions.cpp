@@ -115,7 +115,7 @@ bool MltVideoProfile::isCompatible(const MltVideoProfile &point) const
     return frame_rate_num * 100 / frame_rate_den == point.frame_rate_num * 100 / point.frame_rate_den;
 }
 
-const QVariantList MltVideoProfile::toList()
+const QVariantList MltVideoProfile::toList() const
 {
     QVariantList result;
     result << frame_rate_num << frame_rate_den << width << height << progressive << sample_aspect_num << sample_aspect_den <<display_aspect_num << display_aspect_den << colorspace << path << description;

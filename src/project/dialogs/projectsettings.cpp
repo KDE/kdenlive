@@ -691,7 +691,7 @@ void ProjectSettings::loadProfiles()
 
 void ProjectSettings::slotEditProfiles()
 {
-    ProfilesDialog *w = new ProfilesDialog;
+    ProfilesDialog *w = new ProfilesDialog(profiles_list->currentText());
     w->exec();
     QString currentProf = profiles_list->currentData().toString();
     loadProfiles();
