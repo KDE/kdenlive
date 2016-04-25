@@ -156,6 +156,8 @@ public:
     /** @brief Force processing of clip id in producer queue. */
     void forceProcessing(const QString &id);
     void getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
+    /** @brief Returns true if the profile file has changed. */
+    bool profileChanged(const QString &profile) const;
 
 private:
     QUrl m_url;

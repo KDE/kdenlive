@@ -1428,7 +1428,7 @@ void MainWindow::slotEditProjectSettings()
         if (KdenliveSettings::audiothumbnails() != w->enableAudioThumbs()) {
             slotSwitchAudioThumbs();
         }
-        if (project->profilePath() != profile) {
+        if (project->profilePath() != profile || project->profileChanged(profile)) {
             KdenliveSettings::setCurrent_profile(profile);
             pCore->projectManager()->slotResetProfiles();
             slotUpdateDocumentState(true);

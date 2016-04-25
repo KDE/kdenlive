@@ -1256,7 +1256,7 @@ void KdenliveSettingsDialog::slotUpdateProxyProfile(int ix)
 void KdenliveSettingsDialog::slotEditVideo4LinuxProfile()
 {
     QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
-    QPointer<ProfilesDialog> w = new ProfilesDialog(vl4ProfilePath);
+    QPointer<ProfilesDialog> w = new ProfilesDialog(vl4ProfilePath, true);
     if (w->exec() == QDialog::Accepted) {
         // save and update profile
         loadCurrentV4lProfileInfo();
