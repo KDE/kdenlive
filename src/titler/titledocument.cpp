@@ -280,28 +280,6 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
                       );
         e.setAttribute(QStringLiteral("z-index"), item->zValue());
         pos.appendChild(tr);
-
-        // effects
-        QGraphicsEffect *eff = item->graphicsEffect();
-        if (eff) {
-            QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *>(eff);
-            QDomElement effect = doc.createElement(QStringLiteral("effect"));
-            if (blur) {
-                effect.setAttribute(QStringLiteral("type"), QStringLiteral("blur"));
-                effect.setAttribute(QStringLiteral("blurradius"), QString::number(blur->blurRadius()));
-            } /*else {
-		//WARNING:those effects are anyways broken because they use QPixmaps which are not safe for MLT's threaded workflow
-                QGraphicsDropShadowEffect *shadow = static_cast <QGraphicsDropShadowEffect *>(eff);
-                if (shadow) {
-                    effect.setAttribute("type", "shadow");
-                    effect.setAttribute("blurradius", shadow->blurRadius());
-                    effect.setAttribute("xoffset", shadow->xOffset());
-                    effect.setAttribute("yoffset", shadow->yOffset());
-                }
-            }*/
-            e.appendChild(effect);
-        }
-
         e.appendChild(pos);
         e.appendChild(content);
         if (item->zValue() > -1000) main.appendChild(e);
