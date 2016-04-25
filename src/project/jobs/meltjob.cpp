@@ -104,7 +104,7 @@ void MeltJob::startJob()
     if (out == -1) {
 	m_producer = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
         if (m_producer && m_extra.contains(QStringLiteral("producer_profile"))) {
-            //m_profile->from_producer(*m_producer);
+            m_profile->from_producer(*m_producer);
             m_profile->set_explicit(true);
         }
         if (m_profile->fps() != fps) {
@@ -118,7 +118,7 @@ void MeltJob::startJob()
     else {
 	Mlt::Producer *tmp = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
         if (tmp && m_extra.contains(QStringLiteral("producer_profile"))) {
-            //m_profile->from_producer(*tmp);
+            m_profile->from_producer(*tmp);
             m_profile->set_explicit(true);
         }
         if (m_profile->fps() != fps) {
