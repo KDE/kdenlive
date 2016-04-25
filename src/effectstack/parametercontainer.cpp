@@ -282,6 +282,9 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 }
                 if (listitemsdisplay.count() != listitems.count())
                     listitemsdisplay = listitems;
+                for (int i = 0; i < listitems.count(); ++i) {
+                    lsval->list->addItem(listitemsdisplay.at(i), listitems.at(i));
+                }
                 if (!value.isEmpty() && listitems.contains(value)) lsval->list->setCurrentIndex(listitems.indexOf(value));
             }
             lsval->name->setText(paramName);

@@ -3195,14 +3195,7 @@ void CustomTrackView::extractZone(bool closeGap)
     if (closeGap) {
         // Remove empty zone
         rect = QRectF(z.x(), 0, sceneRect().width() - z.x(), m_timeline->visibleTracksCount() * m_tracksHeight);
-        bool isOk;
-        //selection = checkForGroups(rect, &isOk);
         selection = m_scene->items(rect);
-        /*if (!isOk) {
-            // groups found on track, do not allow the move
-            emit displayMessage(i18n("Cannot remove space in a track with a group"), ErrorMessage);
-            return;
-        }*/
 
         QList<ItemInfo> clipsToMove;
         QList<ItemInfo> transitionsToMove;
