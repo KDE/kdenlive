@@ -146,7 +146,7 @@ public:
     *
     * Makes sure no clip on track to lock is selected. */
     void lockTrack(int ix, bool lock, bool requestUpdate = true);
-    void groupClips(bool group = true, QList<QGraphicsItem *> itemList = QList<QGraphicsItem *>(), QUndoCommand *command = NULL);
+    void groupClips(bool group = true, QList<QGraphicsItem *> itemList = QList<QGraphicsItem *>(), bool forceLock = false, QUndoCommand *command = NULL);
     void doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> transitionInfos, bool group);
     void loadGroups(const QDomNodeList &groups);
 
@@ -523,6 +523,8 @@ private:
     void updateTimelineSelection();
     /** @brief Send updtaed info to transition widget. */
     void updateTransitionWidget(Transition *tr, ItemInfo info);
+    /** @brief Break groups containing an item in a locked track. */
+    void breakLockedGroups(int track, QList<ItemInfo> clipsToMove, QList<ItemInfo> transitionsToMove, QUndoCommand *masterCommand, bool doIt = true);
 
 private slots:
     void slotRefreshGuides();

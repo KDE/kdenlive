@@ -262,7 +262,9 @@ void HeaderTrack::switchLock(bool enable)
 
 void HeaderTrack::setLock(bool lock)
 {
+    m_switchLock->blockSignals(true);
     m_switchLock->setActive(lock);
+    m_switchLock->blockSignals(false);
 }
 
 void HeaderTrack::disableComposite()
