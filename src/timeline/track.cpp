@@ -767,7 +767,10 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
         delete cut;
         clipIndex = m_playlist.get_clip_index_at(startPos);
         newLength = m_playlist.clip_length(clipIndex);
+        if (removeEffect)
+            delete prod;
     }
+    //Do not delete prod, it is now stored in the slowmotion producers list
     m_playlist.unlock();
     if (clipIndex + 1 == m_playlist.count()) {
         // We changed the speed of last clip in playlist, check track length

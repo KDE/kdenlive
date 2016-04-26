@@ -173,6 +173,7 @@ void MonitorAudioLevel::drawBackground(int channels)
     p.end();
 }
 
+// cppcheck-suppress unusedFunction
 void MonitorAudioLevel::setAudioValues(const QVector <int>& values)
 {
     m_values = values;
