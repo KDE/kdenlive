@@ -126,7 +126,7 @@ Qt::ItemFlags ProjectItemModel::flags(const QModelIndex& index) const
     }
 }
 
-// Responsible for dropping effects
+// cppcheck-suppress unusedFunction
 bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
 {
     Q_UNUSED(row)
@@ -243,6 +243,7 @@ int ProjectItemModel::columnCount(const QModelIndex& parent) const
     }
 }
 
+// cppcheck-suppress unusedFunction
 Qt::DropActions ProjectItemModel::supportedDropActions() const
 {
     return Qt::CopyAction | Qt::MoveAction;

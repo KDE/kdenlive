@@ -51,6 +51,7 @@ private slots:
 
 protected:
     /** @brief Decide which items should be displayed depending on the search string  */
+    // cppcheck-suppress unusedFunction
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
     /** @brief Reimplemented to show folders first  */
     bool lessThan(const QModelIndex & left, const QModelIndex & right) const;
