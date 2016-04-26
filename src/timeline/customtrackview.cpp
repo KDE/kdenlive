@@ -3159,12 +3159,40 @@ void CustomTrackView::extractZone(bool closeGap)
     QPoint z = m_document->zone();
     QRectF rect(z.x(), 0, z.y() - z.x() - 1, m_timeline->visibleTracksCount() * m_tracksHeight);
     QList<QGraphicsItem *> selection = m_scene->items(rect);
+    QList<QGraphicsItem *> gapSelection;
     if (selection.isEmpty())
         return;
     GenTime inPoint(z.x(), m_document->fps());
     GenTime outPoint(z.y(), m_document->fps());
     QUndoCommand *command = new QUndoCommand();
     command->setText(i18n("Remove Zone"));
+
+    if (closeGap) {
+        // We are going to move clips that are after zone, so break locked groups first.
+        QRectF gapRect = QRectF(z.x(), 0, sceneRect().width() - z.x(), m_timeline->visibleTracksCount() * m_tracksHeight);
+        gapSelection = m_scene->items(gapRect);
+        QList<ItemInfo> clipsToMove;
+        QList<ItemInfo> transitionsToMove;
+        for (int i = 0; i < selection.count(); ++i) {
+            if (!selection.at(i)->isEnabled()) continue;
+            if (selection.at(i)->type() == AVWidget) {
+                ClipItem *clip = static_cast<ClipItem *>(selection.at(i));
+                // Skip locked tracks
+                if (m_timeline->getTrackInfo(clip->track()).isLocked)
+                    continue;
+                ItemInfo moveInfo = clip->info();
+                if (clip->type() == AVWidget) {
+                    clipsToMove.append(moveInfo);
+                } else if (clip->type() == TransitionWidget) {
+                    transitionsToMove.append(moveInfo);
+                }
+            }
+        }
+        if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) {
+            breakLockedGroups(-1, clipsToMove, transitionsToMove, command);
+        }
+    }
+
     for (int i = 0; i < selection.count(); ++i) {
         if (!selection.at(i)->isEnabled()) continue;
         if (selection.at(i)->type() == AVWidget) {
@@ -3240,15 +3268,11 @@ void CustomTrackView::extractZone(bool closeGap)
     }
     if (closeGap) {
         // Remove empty zone
-        rect = QRectF(z.x(), 0, sceneRect().width() - z.x(), m_timeline->visibleTracksCount() * m_tracksHeight);
-        selection = m_scene->items(rect);
-
         QList<ItemInfo> clipsToMove;
         QList<ItemInfo> transitionsToMove;
-
-        for (int i = 0; i < selection.count(); ++i) {
-            if (selection.at(i)->type() == AVWidget || selection.at(i)->type() == TransitionWidget) {
-                AbstractClipItem *item = static_cast <AbstractClipItem *>(selection.at(i));
+        for (int i = 0; i < gapSelection.count(); ++i) {
+            if (gapSelection.at(i)->type() == AVWidget || gapSelection.at(i)->type() == TransitionWidget) {
+                AbstractClipItem *item = static_cast <AbstractClipItem *>(gapSelection.at(i));
                 if (m_timeline->getTrackInfo(item->track()).isLocked) {
                     continue;
                 }
@@ -3276,7 +3300,6 @@ void CustomTrackView::extractZone(bool closeGap)
             }
         }
         if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) {
-            breakLockedGroups(-1, clipsToMove, transitionsToMove, command);
             new InsertSpaceCommand(this, clipsToMove, transitionsToMove, -1, -(outPoint - inPoint), true, command);
             updateTrackDuration(-1, command);
         }
