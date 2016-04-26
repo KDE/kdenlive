@@ -5349,7 +5349,6 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
     // do this here, too, because otherwise undo won't update the group
     if (item->parentItem() && item->parentItem() != m_selectionGroup)
         new RebuildGroupCommand(this, item->info().track, item->endPos() - GenTime(1, m_document->fps()), command);
-
     ItemInfo info = item->info();
     if (item->type() == AVWidget) {
         bool success = m_timeline->track(oldInfo.track)->resize(oldInfo.startPos.seconds(), (item->startPos() - oldInfo.startPos).seconds(), false);
@@ -5415,27 +5414,23 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
             KdenliveSettings::setSnaptopoints(snap);
             emit displayMessage(i18n("Cannot resize transition"), ErrorMessage);
         } else {
-            EditTransitionCommand *kfrCommand = NULL;
             QDomElement old = transition->toXML();
             if (transition->updateKeyframes(oldInfo, info)) {
                 QDomElement xml = transition->toXML();
                 m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(), xml.attribute("transition_atrack").toInt(), info.startPos, info.endPos, xml);
-                kfrCommand = new EditTransitionCommand(this, transition->track(), transition->startPos(), old, xml, false, command);
+                new EditTransitionCommand(this, transition->track(), transition->startPos(), old, xml, false, command);
             }
             updateTransitionWidget(transition, info);
-            if (command == NULL) {
-                if (kfrCommand) m_commandStack->push(kfrCommand);
-                MoveTransitionCommand *moveCommand = new MoveTransitionCommand(this, oldInfo, info, false, command);
-                m_commandStack->push(moveCommand);
-            } else if (kfrCommand) delete kfrCommand;
+            new MoveTransitionCommand(this, oldInfo, info, false, command);
         }
-
     }
-    if (item->parentItem() && item->parentItem() != m_selectionGroup)
+    if (item->parentItem() && item->parentItem() != m_selectionGroup) {
         new RebuildGroupCommand(this, item->info().track, item->endPos() - GenTime(1, m_document->fps()), command);
+    }
 
-    if (!hasParentCommand)
+    if (!hasParentCommand) {
         m_commandStack->push(command);
+    }
 }
 
 void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldInfo, int pos, bool check, QUndoCommand *command)
