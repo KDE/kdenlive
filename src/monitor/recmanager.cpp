@@ -385,7 +385,6 @@ Mlt::Producer *RecManager::createV4lProducer()
         prod = new Mlt::Producer(tractor->get_producer());
         delete tractor;
     }
-    delete vidProfile;
     return prod;
 }
 
