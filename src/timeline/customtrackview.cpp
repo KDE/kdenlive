@@ -3201,20 +3201,25 @@ void CustomTrackView::extractZone(bool closeGap)
             if (m_timeline->getTrackInfo(clip->track()).isLocked)
                 continue;
             if (clip->startPos() < inPoint) {
-                ItemInfo info = clip->info();
+                ItemInfo baseInfo = clip->info();
+                ItemInfo info = baseInfo;
                 info.startPos = inPoint;
-                new RazorClipCommand(this, clip->info(), clip->effectList(), inPoint, true, command);
+                info.cropDuration = info.endPos - info.startPos;
                 if (clip->endPos() > outPoint) {
-                    new RazorClipCommand(this, info, clip->effectList(), outPoint, true, command);
+                    new RazorClipCommand(this, baseInfo, clip->effectList(), outPoint, true, command);
                     info.cropDuration = outPoint - inPoint;
                     info.endPos = outPoint;
+                    baseInfo.endPos = outPoint;
+                    baseInfo.cropDuration = outPoint - baseInfo.startPos;
                 }
+                new RazorClipCommand(this, baseInfo, clip->effectList(), inPoint, true, command);
                 new AddTimelineClipCommand(this, clip->getBinId(), info, clip->effectList(), clip->clipState(), true, true, command);
             } else if (clip->endPos() > outPoint) {
                 ItemInfo newclipInfo = clip->info();
-                newclipInfo.startPos = outPoint;
+                new RazorClipCommand(this, newclipInfo, clip->effectList(), outPoint, true, command);
+                newclipInfo.endPos = outPoint;
                 newclipInfo.cropDuration = newclipInfo.endPos - newclipInfo.startPos;
-                new ResizeClipCommand(this, clip->info(), newclipInfo, true, false, command);
+                new AddTimelineClipCommand(this, clip->getBinId(), newclipInfo, clip->effectList(), clip->clipState(), true, true, command);
             } else {
                 // Clip is entirely inside zone, delete it
                 new AddTimelineClipCommand(this, clip->getBinId(), clip->info(), clip->effectList(), clip->clipState(), true, true, command);
