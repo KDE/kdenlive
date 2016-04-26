@@ -1,4 +1,6 @@
 import QtQuick 2.0
+import QtQuick.Controls 1.3
+import QtQuick.Controls.Styles 1.3
 
 Item {
     id: root
@@ -40,7 +42,7 @@ Item {
         //onEntered: { splitter.visible = true }
         onExited: { splitter.visible = false }
     }
-    
+
     Rectangle {
         id: splitter
         x: root.splitterPos
@@ -49,8 +51,18 @@ Item {
         height: root.height
         color: "red"
         visible: false
+        Text {
+            text: 'Effect'
+            color: "red"
+            anchors {
+                right: parent.left
+                top: parent.top
+                topMargin: 10
+                rightMargin: 10
+            }
+        }
     }
-    
+
     Timer {
         id: timer
 
