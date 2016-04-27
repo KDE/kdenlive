@@ -64,6 +64,7 @@ public:
     ~StopmotionMonitor();
     AbstractRender *abstractRender();
     Kdenlive::MonitorId id() const;
+    void setRender(MltDeviceCapture *render);
     void mute(bool,bool);
 
 private:

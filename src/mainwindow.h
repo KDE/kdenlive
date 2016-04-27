@@ -255,6 +255,8 @@ public slots:
     void slotRefreshProfiles();
 
 private slots:
+    /** @brief Shows the shortcut dialog. */
+    void slotEditKeys();
     void loadDockActions();
     /** @brief Reflects setting changes to the GUI. */
     void updateConfiguration();
@@ -317,6 +319,7 @@ private slots:
     void slotAddVideoEffect(QAction *result);
     void slotAddTransition(QAction *result);
     void slotAddProjectClip(const QUrl &url);
+    void slotAddProjectClipList(const QList<QUrl> &urls);
     void slotTrackSelected(int index, const TrackInfo &info, bool raise = true);
     void slotActivateTransitionView(Transition *transition);
     void slotChangeTool(QAction * action);

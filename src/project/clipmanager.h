@@ -95,6 +95,8 @@ public slots:
     
 private slots:
     void slotGetThumbs();
+    /** @brief Clip has been copied, add it now. */
+    void slotAddCopiedClip(KIO::Job*, const QUrl&, const QUrl &dst);
 
 private:   // Private attributes
     /** @brief the list of groups in the document */
@@ -124,6 +126,9 @@ private:   // Private attributes
     QVector <SolidVolumeInfo> m_removableVolumes;
 
     QPoint m_projectTreeThumbSize;
+
+    /** @brief Check if added file is on a removable drive. */
+    bool isOnRemovableDevice(const QUrl &url);
 
 signals:
     void reloadClip(const QString &);

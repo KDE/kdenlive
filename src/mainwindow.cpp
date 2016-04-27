@@ -1692,6 +1692,13 @@ void MainWindow::slotGuidesUpdated()
     m_projectMonitor->setGuides(guidesData);
 }
 
+void MainWindow::slotEditKeys()
+{
+    KShortcutsDialog dialog(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this);
+    dialog.addCollection(actionCollection(), i18nc("general keyboard shortcuts", "General"));
+    dialog.configure();
+}
+
 void MainWindow::slotPreferences(int page, int option)
 {
     /*
@@ -2196,6 +2203,11 @@ void MainWindow::slotEditItemDuration()
 void MainWindow::slotAddProjectClip(const QUrl &url)
 {
     pCore->bin()->droppedUrls(QList<QUrl>() << url);
+}
+
+void MainWindow::slotAddProjectClipList(const QList<QUrl> &urls)
+{
+    pCore->bin()->droppedUrls(urls);
 }
 
 void MainWindow::slotAddTransition(QAction *result)

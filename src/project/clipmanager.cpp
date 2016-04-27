@@ -252,6 +252,12 @@ void ClipManager::slotDeleteClips(QStringList clipIds, QStringList folderIds, QS
     }
 }
 
+void ClipManager::slotAddCopiedClip(KIO::Job*, const QUrl&, const QUrl &dst)
+{
+    pCore->bin()->droppedUrls(QList<QUrl>() << dst);
+}
+
+
 void ClipManager::slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId)
 {
     QDomDocument doc;
@@ -376,6 +382,30 @@ void ClipManager::slotClipAvailable(const QString &path)
 }
 */
 
+
+bool ClipManager::isOnRemovableDevice(const QUrl &url)
+{
+    //SolidVolumeInfo volume;
+    QString path = url.adjusted(QUrl::StripTrailingSlash).path();
+    int volumeMatch = 0;
+
+    //FIXME: Network shares! Here we get only the volume of the mount path...
+    // This is probably not really clean. But Solid does not help us.
+    foreach (const SolidVolumeInfo &v, m_removableVolumes)
+    {
+        if (v.isMounted && !v.path.isEmpty() && path.startsWith(v.path))
+        {
+            int length = v.path.length();
+            if (length > volumeMatch)
+            {
+                volumeMatch = v.path.length();
+                //volume = v;
+            }
+        }
+    }
+
+    return volumeMatch;
+}
 
 void ClipManager::projectTreeThumbReady(const QString &id, int frame, const QImage &img, int type)
 {
