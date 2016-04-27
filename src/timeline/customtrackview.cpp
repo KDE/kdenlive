@@ -3145,7 +3145,7 @@ void CustomTrackView::adjustTimelineClips(TimelineMode::EditMode mode, ClipItem 
             }
         }
         if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) {
-            breakLockedGroups(info.track, clipsToMove, transitionsToMove, command);
+            breakLockedGroups(clipsToMove, transitionsToMove, command);
             new InsertSpaceCommand(this, clipsToMove, transitionsToMove, info.track, info.cropDuration, true, command);
             updateTrackDuration(info.track, command);
         }
@@ -3173,10 +3173,10 @@ void CustomTrackView::extractZone(bool closeGap)
         gapSelection = m_scene->items(gapRect);
         QList<ItemInfo> clipsToMove;
         QList<ItemInfo> transitionsToMove;
-        for (int i = 0; i < selection.count(); ++i) {
-            if (!selection.at(i)->isEnabled()) continue;
-            if (selection.at(i)->type() == AVWidget) {
-                ClipItem *clip = static_cast<ClipItem *>(selection.at(i));
+        for (int i = 0; i < gapSelection.count(); ++i) {
+            if (!gapSelection.at(i)->isEnabled()) continue;
+            if (gapSelection.at(i)->type() == AVWidget) {
+                ClipItem *clip = static_cast<ClipItem *>(gapSelection.at(i));
                 // Skip locked tracks
                 if (m_timeline->getTrackInfo(clip->track()).isLocked)
                     continue;
@@ -3189,7 +3189,7 @@ void CustomTrackView::extractZone(bool closeGap)
             }
         }
         if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) {
-            breakLockedGroups(-1, clipsToMove, transitionsToMove, command);
+            breakLockedGroups(clipsToMove, transitionsToMove, command);
         }
     }
 
@@ -3745,7 +3745,7 @@ void CustomTrackView::slotRemoveSpace()
     }
     QUndoCommand *command = new QUndoCommand;
     command->setText(length > 0 ? i18n("Remove space") : i18n("Insert space"));
-    breakLockedGroups(track, clipsToMove, transitionsToMove, command);
+    breakLockedGroups(clipsToMove, transitionsToMove, command);
     new InsertSpaceCommand(this, clipsToMove, transitionsToMove, track, GenTime(-length, m_document->fps()), true, command);
     updateTrackDuration(track, command);
     m_commandStack->push(command);
@@ -3811,7 +3811,7 @@ void CustomTrackView::slotInsertSpace()
     if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) {
         QUndoCommand *command = new QUndoCommand;
         command->setText(spaceDuration < GenTime() ? i18n("Remove space") : i18n("Insert space"));
-        breakLockedGroups(track, clipsToMove, transitionsToMove, command);
+        breakLockedGroups(clipsToMove, transitionsToMove, command);
         new InsertSpaceCommand(this, clipsToMove, transitionsToMove, track, spaceDuration, true, command);
         updateTrackDuration(track, command);
         m_commandStack->push(command);
@@ -3906,7 +3906,7 @@ void CustomTrackView::deleteClip(const QString &clipId, QUndoCommand *deleteComm
                 count++;
                 if (item->parentItem()) {
                     // Clip is in a group, destroy the group
-                    new GroupClipsCommand(this, QList<ItemInfo>() << item->info(), QList<ItemInfo>(), false, deleteCommand);
+                    new GroupClipsCommand(this, QList<ItemInfo>() << item->info(), QList<ItemInfo>(), false, true, deleteCommand);
                 }
                 new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->clipState(), true, true, deleteCommand);
                 // Check if it is a title clip with automatic transition, than remove it
@@ -4051,7 +4051,7 @@ void CustomTrackView::completeSpaceOperation(int track, GenTime &timeOffset)
         QUndoCommand *command = new QUndoCommand;
         command->setText(timeOffset < GenTime() ? i18n("Remove space") : i18n("Insert space"));
         //TODO: break groups upstream
-        breakLockedGroups(track, clipsToMove, transitionsToMove, command, false);
+        breakLockedGroups(clipsToMove, transitionsToMove, command, false);
         new InsertSpaceCommand(this, clipsToMove, transitionsToMove, track, timeOffset, false, command);
         updateTrackDuration(track, command);
         m_commandStack->push(command);
@@ -4735,7 +4735,7 @@ void CustomTrackView::deleteSelectedClips()
             }
             itemList += children;
             if (clipInfos.count() > 0)
-                new GroupClipsCommand(this, clipInfos, transitionInfos, false, deleteSelected);
+                new GroupClipsCommand(this, clipInfos, transitionInfos, false, true, deleteSelected);
 
         } else if (itemList.at(i)->parentItem() && itemList.at(i)->parentItem()->type() == GroupWidget)
             itemList.insert(i + 1, itemList.at(i)->parentItem());
@@ -4886,13 +4886,13 @@ void CustomTrackView::razorGroup(AbstractGroupItem* group, GenTime cutPos)
             clips1 << clip->info();
             clips2 << secondClip->info();
         }
-        new GroupClipsCommand(this, clips1, transitions1, true, command);
-        new GroupClipsCommand(this, clips2, transitions2, true, command);
+        new GroupClipsCommand(this, clips1, transitions1, true, true, command);
+        new GroupClipsCommand(this, clips2, transitions2, true, true, command);
         m_commandStack->push(command);
     }
 }
 
-void CustomTrackView::groupClips(bool group, QList<QGraphicsItem *> itemList, bool forceLock, QUndoCommand *command)
+void CustomTrackView::groupClips(bool group, QList<QGraphicsItem *> itemList, bool forceLock, QUndoCommand *command, bool doIt)
 {
     if (itemList.isEmpty()) itemList = scene()->selectedItems();
     QList <ItemInfo> clipInfos;
@@ -4942,25 +4942,34 @@ void CustomTrackView::groupClips(bool group, QList<QGraphicsItem *> itemList, bo
             }
             if (!clipGrpInfos.isEmpty() || !transitionGrpInfos.isEmpty()) {
                 if (command) {
-                    new GroupClipsCommand(this, clipGrpInfos, transitionGrpInfos, false, command);
+                    new GroupClipsCommand(this, clipGrpInfos, transitionGrpInfos, false, doIt, command);
                 }
                 else {
-                    new GroupClipsCommand(this, clipGrpInfos, transitionGrpInfos, false, metaCommand);
+                    new GroupClipsCommand(this, clipGrpInfos, transitionGrpInfos, false, doIt, metaCommand);
+                }
+                if (!doIt) {
+                    //Action must be performed right now
+                    doGroupClips(clipGrpInfos, transitionGrpInfos, false);
                 }
             }
         }
         if (command) {
             // Create new group
-            new GroupClipsCommand(this, clipInfos, transitionInfos, group, command);
+            qDebug()<<"CREATE GRP COMMAND ITEMS: "<<clipInfos<<", IDUT: "<<doIt;
+            new GroupClipsCommand(this, clipInfos, transitionInfos, group, doIt, command);
         } else {
             if (metaCommand) {
-                new GroupClipsCommand(this, clipInfos, transitionInfos, group, metaCommand);
+                new GroupClipsCommand(this, clipInfos, transitionInfos, group, doIt, metaCommand);
                 m_commandStack->push(metaCommand);
             }
             else {
-                GroupClipsCommand *command = new GroupClipsCommand(this, clipInfos, transitionInfos, group);
+                GroupClipsCommand *command = new GroupClipsCommand(this, clipInfos, transitionInfos, group, doIt);
                 m_commandStack->push(command);
             }
+        }
+        if (!doIt) {
+            //Action must be performed right now
+            doGroupClips(clipInfos, transitionInfos, group);
         }
     }
 }
@@ -4973,7 +4982,10 @@ void CustomTrackView::doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> 
         // ungroup, find main group to destroy it...
         for (int i = 0; i < clipInfos.count(); ++i) {
             ClipItem *clip = getClipItemAtStart(clipInfos.at(i).startPos, clipInfos.at(i).track);
-            if (clip == NULL) continue;
+            if (clip == NULL) {
+                qDebug()<<" * ** Cannot find UNGROUP clip at: "<<clipInfos.at(i).startPos.frames(25)<<" / "<<clipInfos.at(i).track;
+                continue;
+            }
             if (clip->parentItem() && clip->parentItem()->type() == GroupWidget) {
                 AbstractGroupItem *grp = static_cast <AbstractGroupItem *>(clip->parentItem());
                 m_document->clipManager()->removeGroup(grp);
@@ -6976,7 +6988,7 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
             new GroupClipsCommand(this, clipGrpInfos, transitionGrpInfos, false, deleteTrack);
             // Rebuild group without clips from track to delete
             if (!newClipGrpInfos.isEmpty() || !newTransitionGrpInfos.isEmpty()) {
-                new GroupClipsCommand(this, newClipGrpInfos, newTransitionGrpInfos, true, deleteTrack);
+                new GroupClipsCommand(this, newClipGrpInfos, newTransitionGrpInfos, true, true, deleteTrack);
             }
         }
     }
@@ -8280,18 +8292,20 @@ void CustomTrackView::dropTransitionGeometry(Transition *trans, const QString &g
     slotImportClipKeyframes(TransitionWidget, trans->info(), trans->toXML(), data);
 }
 
-void CustomTrackView::breakLockedGroups(int track, QList<ItemInfo> clipsToMove, QList<ItemInfo> transitionsToMove, QUndoCommand *masterCommand, bool doIt)
+void CustomTrackView::breakLockedGroups(QList<ItemInfo> clipsToMove, QList<ItemInfo> transitionsToMove, QUndoCommand *masterCommand, bool doIt)
 {
     QList <AbstractGroupItem *> processedGroups;
     for (int i = 0; i < clipsToMove.count(); ++i) {
         ClipItem *clip = getClipItemAtStart(clipsToMove.at(i).startPos, clipsToMove.at(i).track);
-        if (clip == NULL || !clip->parentItem())
+        if (clip == NULL || !clip->parentItem()) {
+            qDebug()<<" * ** Canot find clip to break: "<<clipsToMove.at(i).startPos.frames(25)<<", "<<clipsToMove.at(i).track;
             continue;
+        }
         // If group has a locked item, ungroup first
         AbstractGroupItem *grp = static_cast <AbstractGroupItem *>(clip->parentItem());
         if (grp->isItemLocked() && !processedGroups.contains(grp)) {
             processedGroups << grp;
-            groupClips(false, grp->childItems(), true, masterCommand);
+            groupClips(false, grp->childItems(), true, masterCommand, doIt);
         }
     }
     for (int i = 0; i < transitionsToMove.count(); ++i) {
@@ -8302,7 +8316,7 @@ void CustomTrackView::breakLockedGroups(int track, QList<ItemInfo> clipsToMove, 
         AbstractGroupItem *grp = static_cast <AbstractGroupItem *>(trans->parentItem());
         if (grp->isItemLocked() && !processedGroups.contains(grp)) {
             processedGroups << grp;
-            groupClips(false, grp->childItems(), true, masterCommand);
+            groupClips(false, grp->childItems(), true, masterCommand, doIt);
         }
     }
 }

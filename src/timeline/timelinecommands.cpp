@@ -386,12 +386,13 @@ void EditTransitionCommand::redo()
     m_doIt = true;
 }
 
-GroupClipsCommand::GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> &clipInfos, const QList <ItemInfo>& transitionInfos, bool group, QUndoCommand * parent) :
+GroupClipsCommand::GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> &clipInfos, const QList <ItemInfo>& transitionInfos, bool group, bool doIt, QUndoCommand * parent) :
     QUndoCommand(parent),
     m_view(view),
     m_clips(clipInfos),
     m_transitions(transitionInfos),
-    m_group(group)
+    m_group(group),
+    m_doIt(doIt)
 {
     if (m_group)
         setText(i18n("Group clips"));
@@ -406,7 +407,9 @@ void GroupClipsCommand::undo()
 // virtual
 void GroupClipsCommand::redo()
 {
-    m_view->doGroupClips(m_clips, m_transitions, m_group);
+    if (m_doIt)
+        m_view->doGroupClips(m_clips, m_transitions, m_group);
+    m_doIt = true;
 }
 
 InsertSpaceCommand::InsertSpaceCommand(CustomTrackView *view, const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> &transToMove, int track, const GenTime &duration, bool doIt, QUndoCommand * parent) :

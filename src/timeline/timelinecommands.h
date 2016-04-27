@@ -207,7 +207,7 @@ private:
 class GroupClipsCommand : public QUndoCommand
 {
 public:
-    GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> &clipInfos, const QList <ItemInfo> &transitionInfos, bool group, QUndoCommand * parent = 0);
+    GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> &clipInfos, const QList <ItemInfo> &transitionInfos, bool group, bool doIt = true, QUndoCommand * parent = 0);
     void undo();
     void redo();
 
@@ -216,6 +216,7 @@ private:
     const QList <ItemInfo> m_clips;
     const QList <ItemInfo> m_transitions;
     bool m_group;
+    bool m_doIt;
 };
 
 class InsertSpaceCommand : public QUndoCommand
