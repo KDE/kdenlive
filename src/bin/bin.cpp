@@ -1938,6 +1938,13 @@ void Bin::slotUpdateJobStatus(const QString&id, int jobType, int status, const Q
 
 void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type, QList <QAction*> actions)
 {
+    // Remove axisting actions if any
+    QList <QAction *> acts = m_infoMessage->actions();
+    while (!acts.isEmpty()) {
+	QAction *a = acts.takeFirst();
+	m_infoMessage->removeAction(a);
+	delete a;
+    }
     m_infoMessage->setText(text);
     m_infoMessage->setWordWrap(m_infoMessage->text().length() > 35);
     foreach(QAction *action, actions) {
