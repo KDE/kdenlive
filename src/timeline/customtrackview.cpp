@@ -1389,6 +1389,7 @@ void CustomTrackView::groupSelectedItems(QList <QGraphicsItem *> selection, bool
             groupsList.insert(it);
         }
     }
+    bool lockGroup = false;
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == AVWidget || selection.at(i)->type() == TransitionWidget) {
             if (selection.at(i)->parentItem() && selection.at(i)->parentItem()->type() == GroupWidget) {
@@ -1401,7 +1402,8 @@ void CustomTrackView::groupSelectedItems(QList <QGraphicsItem *> selection, bool
             }
             else {
                 AbstractClipItem *it = static_cast<AbstractClipItem *> (selection.at(i));
-                if (!it || it->isItemLocked()) continue;
+                if (!it) continue;
+                if (it->isItemLocked()) lockGroup = true;
                 itemsList.insert(selection.at(i));
             }
         }
@@ -1453,6 +1455,8 @@ void CustomTrackView::groupSelectedItems(QList <QGraphicsItem *> selection, bool
         foreach (QGraphicsItem *value, itemsList) {
             newGroup->addItem(value);
         }
+        if (lockGroup)
+            newGroup->setItemLocked(true);
         scene()->addItem(newGroup);
         KdenliveSettings::setSnaptopoints(snap);
         if (selectNewGroup) newGroup->setSelected(true);
