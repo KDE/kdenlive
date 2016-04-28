@@ -119,6 +119,11 @@ public:
     bool isTabbedWith(QDockWidget *widget, const QString & otherWidget);
 
 protected:
+    /** @brief Closes the window.
+     * @return false if the user presses "Cancel" on a confirmation dialog or
+     *     the operation requested (starting waiting jobs or saving file) fails,
+     *     true otherwise */
+    virtual bool queryClose();
     virtual void closeEvent(QCloseEvent*);
 
     /** @brief Reports a message in the status bar when an error occurs. */
