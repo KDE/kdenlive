@@ -1151,7 +1151,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("clip_in_project_tree"), i18n("Clip in Project Bin"), this, SLOT(slotClipInProjectTree()), KoIconUtils::themedIcon(QStringLiteral("go-jump-definition")));
     addAction(QStringLiteral("overwrite_to_in_point"), i18n("Insert Clip Zone in Timeline (Overwrite)"), this, SLOT(slotInsertClipOverwrite()), QIcon(), Qt::Key_B);
     addAction(QStringLiteral("insert_to_in_point"), i18n("Insert Clip Zone in Timeline (Insert)"), this, SLOT(slotInsertClipInsert()), QIcon(), Qt::Key_V);
-    addAction(QStringLiteral("remove_extract"), i18n("Extract Timeline Zone"), this, SLOT(slotExtractZone()), QIcon());
+    addAction(QStringLiteral("remove_extract"), i18n("Extract Timeline Zone"), this, SLOT(slotExtractZone()), QIcon(), Qt::SHIFT + Qt::Key_X);
     addAction(QStringLiteral("remove_lift"), i18n("Lift Timeline Zone"), this, SLOT(slotLiftZone()), QIcon(), Qt::Key_Z);
     addAction(QStringLiteral("select_timeline_clip"), i18n("Select Clip"), this, SLOT(slotSelectTimelineClip()), KoIconUtils::themedIcon(QStringLiteral("edit-select")), Qt::Key_Plus);
     addAction(QStringLiteral("deselect_timeline_clip"), i18n("Deselect Clip"), this, SLOT(slotDeselectTimelineClip()), KoIconUtils::themedIcon(QStringLiteral("edit-select")), Qt::Key_Minus);
