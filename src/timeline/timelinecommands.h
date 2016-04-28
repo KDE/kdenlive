@@ -158,6 +158,7 @@ class EditEffectCommand : public QUndoCommand
 public:
     EditEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, int stackPos, bool refreshEffectStack, bool doIt, QUndoCommand *parent = 0);
     virtual int id() const;
+    virtual bool mergeWith(const QUndoCommand * command);
     void undo();
     void redo();
 private:

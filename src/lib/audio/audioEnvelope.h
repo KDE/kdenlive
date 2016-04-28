@@ -41,6 +41,8 @@ public:
     void loadEnvelope();
     void normalizeEnvelope(bool clampTo0 = false);
 
+    QImage drawEnvelope();
+
     void dumpInfo() const;
     
     int track() const;
