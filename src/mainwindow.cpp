@@ -648,6 +648,31 @@ MainWindow::~MainWindow()
     Mlt::Factory::close();
 }
 
+//virtual
+bool MainWindow::queryClose()
+{
+    if (m_renderWidget) {
+        int waitingJobs = m_renderWidget->waitingJobsCount();
+        if (waitingJobs > 0) {
+            switch (KMessageBox::warningYesNoCancel(this, i18np("You have 1 rendering job waiting in the queue.\nWhat do you want to do with this job?", "You have %1 rendering jobs waiting in the queue.\nWhat do you want to do with these jobs?", waitingJobs), QString(), KGuiItem(i18n("Start them now")), KGuiItem(i18n("Delete them")))) {
+            case KMessageBox::Yes :
+                // create script with waiting jobs and start it
+                if (m_renderWidget->startWaitingRenderJobs() == false) return false;
+                break;
+            case KMessageBox::No :
+                // Don't do anything, jobs will be deleted
+                break;
+           default:
+                return false;
+            }
+        }
+    }
+    saveOptions();
+
+    // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
+    return pCore->projectManager()->closeCurrentDocument(true, true);
+}
+
 void MainWindow::loadGenerators()
 {
     QMenu *addMenu = static_cast<QMenu*>(factory()->container(QStringLiteral("generators"), this));
