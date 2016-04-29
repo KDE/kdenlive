@@ -1609,6 +1609,8 @@ int ClipItem::nextFreeEffectGroupIndex() const
 void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event)
 {
     if (event->proposedAction() == Qt::CopyAction && scene() && !scene()->views().isEmpty()) {
+        if (m_selectionTimer.isActive())
+        m_selectionTimer.stop();
         QString effects;
         bool transitionDrop = false;
         if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/transitionslist"))) {
@@ -1657,12 +1659,22 @@ void ClipItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
     if (isItemLocked()) event->setAccepted(false);
     else if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist")) || event->mimeData()->hasFormat(QStringLiteral("kdenlive/transitionslist"))) {
         event->acceptProposedAction();
+        m_selectionTimer.start();
     } else event->setAccepted(false);
 }
 
 void ClipItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
 {
     Q_UNUSED(event)
+    if (m_selectionTimer.isActive())
+        m_selectionTimer.stop();
+}
+
+void ClipItem::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
+{
+    QGraphicsItem::dragMoveEvent(event);
+    if (m_selectionTimer.isActive() && !isSelected())
+        m_selectionTimer.start();
 }
 
 void ClipItem::addTransition(Transition* t)

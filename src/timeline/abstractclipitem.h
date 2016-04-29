@@ -30,6 +30,7 @@
 
 #include <QGraphicsRectItem>
 #include <QGraphicsWidget>
+#include <QTimer>
 
 class CustomTrackScene;
 class QGraphicsSceneMouseEvent;
@@ -102,12 +103,14 @@ public:
 
 private slots:
     void doUpdate(const QRectF &r);
+    void slotSelectItem();
 
 protected:
     ItemInfo m_info;
     GenTime m_maxDuration;
     int m_visibleParam;
     int m_selectedEffect;
+    QTimer m_selectionTimer;
     double m_fps;
     /** @brief True if this is the last clip the user selected */
     bool m_isMainSelectedClip;
@@ -118,6 +121,9 @@ protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
     int trackForPos(int position);
     int posForTrack(int track);
+
+signals:
+    void selectItem(AbstractClipItem*);
 };
 
 #endif

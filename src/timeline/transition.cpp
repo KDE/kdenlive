@@ -134,6 +134,17 @@ void Transition::setTransitionParameters(const QDomElement &params)
         else if (m_parameters.attribute(QStringLiteral("force_track")) == QLatin1String("0")) setForcedTrack(false, m_parameters.attribute(QStringLiteral("transition_btrack")).toInt());
         m_name = i18n(m_parameters.firstChildElement("name").text().toUtf8().data());
         update();
+        bool hasGeometry = false;
+        QDomNodeList namenode = m_parameters.elementsByTagName(QStringLiteral("parameter"));
+        for (int i = 0; i < namenode.count() ; ++i) {
+            QDomElement pa = namenode.item(i).toElement();
+            QString paramType = pa.attribute(QStringLiteral("type"));
+            if (paramType == QLatin1String("geometry") || paramType == QLatin1String("animated")) {
+                hasGeometry = true;
+                break;
+            }
+        }
+        setAcceptDrops(hasGeometry);
     }
 }
 
@@ -456,13 +467,30 @@ void Transition::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
     if (isItemLocked()) event->setAccepted(false);
     else if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
         event->acceptProposedAction();
+        m_selectionTimer.start();
     } else event->setAccepted(false);
+}
+
+void Transition::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
+{
+    Q_UNUSED(event)
+    if (m_selectionTimer.isActive())
+        m_selectionTimer.stop();
+}
+
+void Transition::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
+{
+    QGraphicsItem::dragMoveEvent(event);
+    if (m_selectionTimer.isActive() && !isSelected())
+        m_selectionTimer.start();
 }
 
 //virtual
 void Transition::dropEvent(QGraphicsSceneDragDropEvent * event)
 {
     if (scene() && !scene()->views().isEmpty()) {
+        if (m_selectionTimer.isActive())
+        m_selectionTimer.stop();
         QString geometry = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/geometry")));
         event->acceptProposedAction();
         CustomTrackView *view = static_cast<CustomTrackView*>(scene()->views().first());

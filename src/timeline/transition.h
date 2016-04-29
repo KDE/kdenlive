@@ -80,6 +80,8 @@ public:
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
+    void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
+    void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
     void dropEvent(QGraphicsSceneDragDropEvent *event);
 
 private:

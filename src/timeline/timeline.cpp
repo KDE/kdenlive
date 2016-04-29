@@ -393,7 +393,9 @@ void Timeline::getTransitions() {
                 else
                     e.setAttribute(QStringLiteral("value"), value);
             }
-            Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base, QString(prop.get("automatic")) == QLatin1String("1"));
+            Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base,
+ QString(prop.get("automatic")) == QLatin1String("1"));
+            connect(tr, &AbstractClipItem::selectItem, m_trackview, &CustomTrackView::slotSelectItem);
             tr->setPos(transitionInfo.startPos.frames(m_doc->fps()), KdenliveSettings::trackheight() * (visibleTracksCount() - transitionInfo.track) + 1 + tr->itemOffset());
             if (QString(prop.get("force_track")) == QLatin1String("1")) tr->setForcedTrack(true, a_track);
             if (isTrackLocked(b_track)) tr->setItemLocked(true);
@@ -949,6 +951,7 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist) {
 	position += length;
 	//qDebug()<<"// Loading clip: "<<idString<<" / SPEED: "<<speed<<"\n++++++++++++++++++++++++";
         ClipItem *item = new ClipItem(binclip, clipinfo, fps, slowInfo.speed, slowInfo.strobe, m_trackview->getFrameWidth(), true);
+        connect(item, &AbstractClipItem::selectItem, m_trackview, &CustomTrackView::slotSelectItem);
         item->setPos(clipinfo.startPos.frames(fps), KdenliveSettings::trackheight() * (visibleTracksCount() - clipinfo.track) + 1 + item->itemOffset());
         //qDebug()<<" * * Loaded clip on tk: "<<clipinfo.track<< ", POS: "<<clipinfo.startPos.frames(fps);
         item->updateState(idString);

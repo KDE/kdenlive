@@ -1765,8 +1765,6 @@ void CustomTrackView::insertClipCut(const QString &id, int in, int out)
 
 bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
 {
-    QPointF framePos = mapToScene(pos);
-    int track = getTrackFromPos(framePos.y());
     m_clipDrag = data->hasFormat(QStringLiteral("kdenlive/clip")) || data->hasFormat(QStringLiteral("kdenlive/producerslist"));
     // This is not a clip drag, maybe effect or other...
     if (!m_clipDrag) return false;
@@ -1775,6 +1773,8 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         m_dragItem->setMainSelectedClip(false);
     m_dragItem = NULL;
     resetSelectionGroup(false);
+    QPointF framePos = mapToScene(pos);
+    int track = getTrackFromPos(framePos.y());
     QMutexLocker lock(&m_selectionMutex);
     if (track <= 0 || track > m_timeline->tracksCount() - 1 || m_timeline->getTrackInfo(track).isLocked) return true;
     if (data->hasFormat(QStringLiteral("kdenlive/clip"))) {
@@ -1807,6 +1807,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         }
         m_selectionGroup = new AbstractGroupItem(m_document->fps());
         ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1, getFrameWidth());
+        connect(item, &AbstractClipItem::selectItem, this, &CustomTrackView::slotSelectItem);
         m_selectionGroup->addItem(item);
 
         QList <GenTime> offsetList;
@@ -1895,6 +1896,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
             start += info.cropDuration;
             offsetList.append(start);
             ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1, getFrameWidth(), true);
+            connect(item, &AbstractClipItem::selectItem, this, &CustomTrackView::slotSelectItem);
             item->setPos(info.startPos.frames(m_document->fps()), item->itemOffset());
             if (ids.size() > 1) m_selectionGroup->addItem(item);
             else {
@@ -1940,8 +1942,7 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event)
             event->setDropAction(Qt::MoveAction);
             event->acceptProposedAction();
         }
-    } 
-    else {
+    } else {
         QGraphicsView::dragEnterEvent(event);
     }
 }
@@ -2136,6 +2137,18 @@ void CustomTrackView::slotDropEffect(ClipItem *clip, QDomElement effect, GenTime
         clip->setSelected(true);
         emit clipItemSelected(clip);
     }
+}
+
+void CustomTrackView::slotSelectItem(AbstractClipItem *item)
+{
+    clearSelection(false);
+    m_dragItem = item;
+    m_dragItem->setMainSelectedClip(true);
+    item->setSelected(true);
+    if (item->type() == AVWidget)
+        emit clipItemSelected((ClipItem*)item);
+    else if (item->type() == TransitionWidget)
+        emit transitionItemSelected((Transition*)item);
 }
 
 void CustomTrackView::slotDropTransition(ClipItem *clip, QDomElement transition, QPointF scenePos)
@@ -2587,6 +2600,7 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
         ClipItem *dup = item->clone(newPos);
+        connect(dup, &AbstractClipItem::selectItem, this, &CustomTrackView::slotSelectItem);
         dup->binClip()->addRef();
         dup->setPos(newPos.startPos.frames(m_document->fps()), getPositionFromTrack(newPos.track) + 1 + dup->itemOffset());
 
@@ -2770,6 +2784,7 @@ void CustomTrackView::slotAddTransition(ClipItem* /*clip*/, ItemInfo transitionI
 void CustomTrackView::addTransition(const ItemInfo &transitionInfo, int endTrack, const QDomElement &params, bool refresh)
 {
     Transition *tr = new Transition(transitionInfo, endTrack, m_document->fps(), params, true);
+    connect(tr, &AbstractClipItem::selectItem, this, &CustomTrackView::slotSelectItem);
     tr->setPos(transitionInfo.startPos.frames(m_document->fps()), getPositionFromTrack(transitionInfo.track) + tr->itemOffset() + 1);
     ////qDebug() << "---- ADDING transition " << params.attribute("value");
     if (m_timeline->transitionHandler->addTransition(tr->transitionTag(), endTrack, transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, tr->toXML(), refresh)) {
@@ -5082,6 +5097,7 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
         }
     }
     ClipItem *item = new ClipItem(binClip, info, m_document->fps(), speed, strobe, getFrameWidth());
+    connect(item, &AbstractClipItem::selectItem, this, &CustomTrackView::slotSelectItem);
     item->setPos(info.startPos.frames(m_document->fps()), getPositionFromTrack(info.track) + 1 + item->itemOffset());
     item->setState(state);
     item->setEffectList(effects);

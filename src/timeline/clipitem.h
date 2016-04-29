@@ -197,6 +197,7 @@ public:
 protected:
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
+    void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
     void dropEvent(QGraphicsSceneDragDropEvent *event);
     //virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *);
     //virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *);

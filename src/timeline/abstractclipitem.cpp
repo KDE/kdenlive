@@ -49,6 +49,9 @@ AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF& rect, dou
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption, true);
     setPen(Qt::NoPen);
     connect(&m_keyframeView, SIGNAL(updateKeyframes(const QRectF&)), this, SLOT(doUpdate(const QRectF&)));
+    m_selectionTimer.setSingleShot(true);
+    m_selectionTimer.setInterval(1000);
+    QObject::connect(&m_selectionTimer, &QTimer::timeout, this, &AbstractClipItem::slotSelectItem);
 }
 
 AbstractClipItem::~AbstractClipItem()
@@ -324,6 +327,11 @@ void AbstractClipItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
     } else {
         QGraphicsItem::mouseMoveEvent(event);
     }
+}
+
+void AbstractClipItem::slotSelectItem()
+{
+    emit selectItem(this);
 }
 
 int AbstractClipItem::itemHeight()
