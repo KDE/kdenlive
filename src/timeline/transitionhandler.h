@@ -43,7 +43,7 @@ public:
     void cloneProperties(Mlt::Properties &dest, Mlt::Properties &source);
     void updateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool force = false);
     void updateTransitionParams(QString type, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml);
-    void deleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);
+    bool deleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);
     void deleteTrackTransitions(int ix);
     bool moveTransition(QString type, int startTrack,  int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut);
     QList <TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack);

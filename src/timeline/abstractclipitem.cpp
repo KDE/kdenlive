@@ -555,4 +555,50 @@ void AbstractClipItem::removeKeyframe(QDomElement effect, int frame)
     update();
 }
 
+bool AbstractClipItem::resizeGeometries(QDomElement effect, int width, int height, int previousDuration, int start, int duration, int cropstart)
+{
+    QString geom;
+    bool modified = false;
+    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
+    bool cut = effect.attribute(QStringLiteral("sync_in_out")).toInt() == 1 || effect.tagName() == QLatin1String("transition");
+    if (!cut) {
+        return false;
+    }
+    effect.setAttribute(QStringLiteral("in"), QString::number(cropstart));
+    effect.setAttribute(QStringLiteral("out"), QString::number(cropstart + duration));
+    for (int i = 0; i < params.count(); ++i) {
+        QDomElement e = params.item(i).toElement();
+        if (!e.isNull() && e.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
+            geom = e.attribute(QStringLiteral("value"));
+            Mlt::Geometry geometry(geom.toUtf8().data(), previousDuration, width, height);
+            e.setAttribute(QStringLiteral("value"), geometry.serialise(start, start + duration));
+            modified = true;
+        }
+    }
+    return modified;
+}
 
+QString AbstractClipItem::resizeAnimations(QDomElement effect, int previousDuration, int start, int duration, int cropstart)
+{
+    QString animation;
+    QString keyframes;
+    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
+    for (int i = 0; i < params.count(); ++i) {
+        QDomElement e = params.item(i).toElement();
+        if (!e.isNull() && e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
+            animation = e.attribute(QStringLiteral("value"));
+	    QString result;
+            if (effect.attribute(QStringLiteral("sync_in_out")) == QLatin1String("1")) {
+                keyframes = KeyframeView::cutAnimation(animation, start, duration, previousDuration);
+                effect.setAttribute(QStringLiteral("in"), QString::number(start));
+                effect.setAttribute(QStringLiteral("out"), QString::number(start + duration));
+            }
+            else {
+                keyframes = KeyframeView::cutAnimation(animation, cropstart, duration, previousDuration, false);
+            }
+            // TODO: in case of multiple animated params, use _intimeline to detect active one
+            e.setAttribute(QStringLiteral("value"), keyframes);
+	}
+    }
+    return keyframes;
+}

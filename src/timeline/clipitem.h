@@ -142,11 +142,6 @@ public:
     * @return a list of strings of keyframes (one string per param) */
     QStringList keyframes(const int index);
 
-    /** @brief Adjust all geometry keyframes.
-    * @param index Index of the effect */
-    bool resizeGeometries(const int index, int width, int height, int previousDuration, int start, int duration, int cropStart);
-    QString resizeAnimations(const int index, int previousDuration, int start, int duration, int cropStart);
-
     /** @brief Sets params with keyframes and updates the visible keyframes.
     * @param ix Number of the effect
     * @param keyframes a list of strings of keyframes (one string per param), which should be used */

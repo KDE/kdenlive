@@ -292,7 +292,7 @@ void TransitionHandler::updateTransitionParams(QString type, int a_track, int b_
 }
 
 
-void TransitionHandler::deleteTransition(QString tag, int /*a_track*/, int b_track, GenTime in, GenTime out, QDomElement /*xml*/, bool /*do_refresh*/)
+bool TransitionHandler::deleteTransition(QString tag, int /*a_track*/, int b_track, GenTime in, GenTime out, QDomElement /*xml*/, bool /*do_refresh*/)
 {
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     field->lock();
@@ -301,6 +301,7 @@ void TransitionHandler::deleteTransition(QString tag, int /*a_track*/, int b_tra
     QString resource = mlt_properties_get(properties, "mlt_service");
     double fps = m_tractor->get_fps();
     const int old_pos = (int)((in + out).frames(fps) / 2);
+    bool found = false;
     ////qDebug() << " del trans pos: " << in.frames(25) << '-' << out.frames(25);
 
     mlt_service_type mlt_type = mlt_service_identify( nextservice );
@@ -312,6 +313,7 @@ void TransitionHandler::deleteTransition(QString tag, int /*a_track*/, int b_tra
         ////qDebug() << "// FOUND EXISTING TRANS, IN: " << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack;
 
         if (resource == tag && b_track == currentTrack && currentIn <= old_pos && currentOut >= old_pos) {
+            found = true;
             mlt_field_disconnect_service(field->get_field(), nextservice);
             break;
         }
@@ -324,6 +326,7 @@ void TransitionHandler::deleteTransition(QString tag, int /*a_track*/, int b_tra
     field->unlock();
     //askForRefresh();
     //if (m_isBlocked == 0) m_mltConsumer->set("refresh", 1);
+    return found;
 }
 
 void TransitionHandler::deleteTrackTransitions(int ix)

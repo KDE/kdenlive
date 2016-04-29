@@ -107,6 +107,7 @@ public:
     void updateSceneFrameWidth(bool fpsChanged = false);
     void setTool(ProjectTool tool);
     ClipItem *cutClip(const ItemInfo &info, const GenTime &cutTime, bool cut, const EffectsList &oldStack = EffectsList(), bool execute = true);
+    Transition *cutTransition(const ItemInfo &info, const GenTime &cutTime, bool cut, const QDomElement &oldStack = QDomElement(), bool execute = true);
     void slotSeekToPreviousSnap();
     void slotSeekToNextSnap();
     double getSnapPointForPos(double pos);

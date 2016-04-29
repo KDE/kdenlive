@@ -215,6 +215,9 @@ public:
     /** Track number */
     int track;
     ItemInfo() : track(0) {}
+    bool isValid() const {
+        return startPos != endPos;
+    }
 };
 
 class TransitionInfo {

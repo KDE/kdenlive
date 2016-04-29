@@ -320,6 +320,23 @@ private:
     GenTime m_cutTime;
     bool m_doIt;
 };
+
+
+class RazorTransitionCommand : public QUndoCommand
+{
+public:
+    RazorTransitionCommand(CustomTrackView *view, const ItemInfo &info, const QDomElement params, const GenTime &cutTime, bool doIt = true, QUndoCommand * parent = 0);
+    void undo();
+    void redo();
+private:
+    CustomTrackView *m_view;
+    ItemInfo m_info;
+    QDomElement m_originalParams;
+    GenTime m_cutTime;
+    bool m_doIt;
+};
+
+
 /*
 class RazorGroupCommand : public QUndoCommand
 {

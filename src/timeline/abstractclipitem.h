@@ -121,6 +121,8 @@ protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
     int trackForPos(int position);
     int posForTrack(int track);
+    bool resizeGeometries(QDomElement effect, int width, int height, int previousDuration, int start, int duration, int cropstart);
+    QString resizeAnimations(QDomElement effect, int previousDuration, int start, int duration, int cropstart);
 
 signals:
     void selectItem(AbstractClipItem*);

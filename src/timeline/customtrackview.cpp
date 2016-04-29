@@ -2649,7 +2649,7 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
             emit displayMessage(i18n("Cannot find clip to uncut"), ErrorMessage);
             return NULL;
         }
-        
+
         if (!m_timeline->track(info.track)->del(cutTime.seconds())) {
             emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(cutTime.frames(m_document->fps())), m_timeline->getTrackInfo(info.track).trackName), ErrorMessage);
             return NULL;
@@ -2674,6 +2674,96 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         if (success) {
             item->resizeEnd((int) info.endPos.frames(m_document->fps()));
             item->setEffectList(oldStack);
+        } else {
+            emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
+        }
+        KdenliveSettings::setSnaptopoints(snap);
+        return item;
+    }
+}
+
+Transition *CustomTrackView::cutTransition(const ItemInfo &info, const GenTime &cutTime, bool cut, const QDomElement &oldStack, bool execute)
+{
+    if (cut) {
+        // cut clip
+        Transition *item = getTransitionItemAtStart(info.startPos, info.track);
+        if (!item || cutTime >= item->endPos() || cutTime <= item->startPos()) {
+            emit displayMessage(i18n("Cannot find transition to cut"), ErrorMessage);
+            if (item)
+                qDebug() << "/////////  ERROR CUTTING transition : (" << item->startPos().frames(25) << '-' << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << '-' << info.endPos.frames(25) << ')' << ", CUT: " << cutTime.frames(25);
+            else
+                qDebug() << "/// ERROR NO transition at: " << info.startPos.frames(m_document->fps()) << ", track: " << info.track;
+            return NULL;
+        }
+
+        bool success = true;
+        if (execute) {
+            success = m_timeline->transitionHandler->moveTransition(item->transitionTag(), info.track, info.track, item->transitionEndTrack(), info.startPos, info.endPos, info.startPos, cutTime);
+            if (success) {
+                success = m_timeline->transitionHandler->addTransition(item->transitionTag(), item->transitionEndTrack(), info.track, cutTime, info.endPos, item->toXML(), false);
+            }
+        }
+        int cutPos = (int) cutTime.frames(m_document->fps());
+        ItemInfo newPos;
+        newPos.startPos = cutTime;
+        newPos.endPos = info.endPos;
+        newPos.cropStart = item->info().cropStart + (cutTime - info.startPos);
+        newPos.track = info.track;
+        newPos.cropDuration = newPos.endPos - newPos.startPos;
+
+        bool snap = KdenliveSettings::snaptopoints();
+        KdenliveSettings::setSnaptopoints(false);
+        Transition *dup = item->clone(newPos);
+        connect(dup, &AbstractClipItem::selectItem, this, &CustomTrackView::slotSelectItem);
+        dup->setPos(newPos.startPos.frames(m_document->fps()), getPositionFromTrack(newPos.track) + 1 + dup->itemOffset());
+
+        item->resizeEnd(cutPos);
+        scene()->addItem(dup);
+
+        if (item->checkKeyFrames(m_document->width(), m_document->height(), (info.cropDuration + info.cropStart).frames(m_document->fps()))) {
+            m_timeline->transitionHandler->updateTransitionParams(item->transitionTag(), item->transitionEndTrack(), info.track, info.startPos, cutTime, item->toXML());
+        }
+        if (dup->checkKeyFrames(m_document->width(), m_document->height(), (info.cropDuration + info.cropStart).frames(m_document->fps()), (cutTime - item->startPos()).frames(m_document->fps()))) {
+            m_timeline->transitionHandler->updateTransitionParams(item->transitionTag(), item->transitionEndTrack(), info.track, cutTime, info.endPos, dup->toXML());
+        }
+
+        KdenliveSettings::setSnaptopoints(snap);
+        return dup;
+    } else {
+        // uncut transition
+        Transition *item = getTransitionItemAtStart(info.startPos, info.track);
+        Transition *dup = getTransitionItemAtStart(cutTime, info.track);
+
+        if (!item || !dup || item == dup) {
+            emit displayMessage(i18n("Cannot find transition to uncut"), ErrorMessage);
+            return NULL;
+        }
+
+        ItemInfo transitionInfo = dup->info();
+        if (!m_timeline->transitionHandler->deleteTransition(dup->transitionTag(), dup->transitionEndTrack(), transitionInfo.track, cutTime, transitionInfo.endPos, dup->toXML(), false)) {
+            emit displayMessage(i18n("Error removing transition at %1 on track %2", m_document->timecode().getTimecodeFromFrames(cutTime.frames(m_document->fps())), m_timeline->getTrackInfo(info.track).trackName), ErrorMessage);
+            return NULL;
+        }
+        bool snap = KdenliveSettings::snaptopoints();
+        KdenliveSettings::setSnaptopoints(false);
+
+        if (dup->isSelected() && dup == m_dragItem) {
+            item->setSelected(true);
+            item->setMainSelectedClip(true);
+            m_dragItem = item;
+            emit transitionItemSelected(item);
+        }
+        scene()->removeItem(dup);
+        delete dup;
+        dup = NULL;
+
+        ItemInfo clipinfo = item->info();
+        bool success = m_timeline->transitionHandler->moveTransition(item->transitionTag(), clipinfo.track, clipinfo.track, item->transitionEndTrack(), clipinfo.startPos, clipinfo.endPos, clipinfo.startPos, transitionInfo.endPos);
+
+        if (success) {
+            item->resizeEnd((int) info.endPos.frames(m_document->fps()));
+            item->setTransitionParameters(oldStack);
+            m_timeline->transitionHandler->updateTransitionParams(item->transitionTag(), item->transitionEndTrack(), info.track, info.startPos, info.endPos, oldStack);
         } else {
             emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
         }
@@ -3249,44 +3339,31 @@ void CustomTrackView::extractZone(bool closeGap)
             if (m_timeline->getTrackInfo(trans->track()).isLocked)
                 continue;
             ItemInfo baseInfo = trans->info();
-            QDomElement old = trans->toXML();
+            QDomElement xml = trans->toXML();
             if (trans->startPos() < inPoint) {
                 ItemInfo info = baseInfo;
-                info.endPos = inPoint;
+                info.startPos = inPoint;
                 info.cropDuration = info.endPos - info.startPos;
-                if (trans->updateKeyframes(baseInfo, info)) {
-                    QDomElement xml = old.cloneNode().toElement();
-                    // Resize transition
-                    m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), info.startPos, info.endPos, xml);
-                    new EditTransitionCommand(this, baseInfo.track, baseInfo.startPos, old, xml, true, command);
-                }
-                new MoveTransitionCommand(this, baseInfo, info, true, command);
                 if (trans->endPos() > outPoint) {
-                    // Duplicate transition
-                    QDomElement xml =  old.cloneNode().toElement();
-                    // Resize transition
-                    ItemInfo info = baseInfo;
-                    info.startPos = outPoint;
-                    info.cropDuration = info.endPos - info.startPos;
-                    m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), info.startPos, info.endPos, xml);
-                    new AddTransitionCommand(this, info, trans->transitionEndTrack(), xml, false, true, command);
+                    // Transition starts before and ends after zone, proceed cuts
+                    new RazorTransitionCommand(this, baseInfo, xml, outPoint, true, command);
+                    info.cropDuration = outPoint - inPoint;
+                    info.endPos = outPoint;
+                    baseInfo.endPos = outPoint;
+                    baseInfo.cropDuration = outPoint - baseInfo.startPos;
                 }
+                new RazorTransitionCommand(this, baseInfo, xml, inPoint, true, command);
+                new AddTransitionCommand(this, info, trans->transitionEndTrack(), xml, true, true, command);
             } else if (trans->endPos() > outPoint) {
-                // Resize
-                ItemInfo info = trans->info();
-                info.startPos = outPoint;
+                // Cut and remove first part
+                new RazorTransitionCommand(this, baseInfo, xml, outPoint, true, command);
+                ItemInfo info = baseInfo;
+                info.endPos = outPoint;
                 info.cropDuration = info.endPos - info.startPos;
-                QDomElement old = trans->toXML();
-                if (trans->updateKeyframes(baseInfo, info)) {
-                    QDomElement xml =  old.cloneNode().toElement();
-                    // Resize transition
-                    m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), info.startPos, info.endPos, xml);
-                    new EditTransitionCommand(this, baseInfo.track, baseInfo.startPos, old, xml, true, command);
-                }
-                new MoveTransitionCommand(this, baseInfo, info, true, command);
+                new AddTransitionCommand(this, info, trans->transitionEndTrack(), xml, true, true, command);
             } else {
                 // Transition is entirely inside zone, delete it
-                new AddTransitionCommand(this, baseInfo, trans->transitionEndTrack(), old, true, true, command);
+                new AddTransitionCommand(this, baseInfo, trans->transitionEndTrack(), xml, true, true, command);
             }
         }
     }

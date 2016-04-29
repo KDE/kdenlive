@@ -622,6 +622,31 @@ void RazorClipCommand::redo()
     }
     m_doIt = true;
 }
+
+RazorTransitionCommand::RazorTransitionCommand(CustomTrackView *view, const ItemInfo &info, const QDomElement params, const GenTime &cutTime, bool doIt, QUndoCommand * parent) :
+    QUndoCommand(parent),
+    m_view(view),
+    m_info(info),
+    m_cutTime(cutTime),
+    m_doIt(doIt)
+{
+    m_originalParams = params.cloneNode(true).toElement();
+    setText(i18n("Razor clip"));
+}
+// virtual
+void RazorTransitionCommand::undo()
+{
+    m_view->cutTransition(m_info, m_cutTime, false, m_originalParams);
+}
+// virtual
+void RazorTransitionCommand::redo()
+{
+    if (m_doIt) {
+        m_view->cutTransition(m_info, m_cutTime, true);
+    }
+    m_doIt = true;
+}
+
 /*
 RazorGroupCommand::RazorGroupCommand(CustomTrackView *view, QList <ItemInfo> clips1, QList <ItemInfo> transitions1, QList <ItemInfo> clipsCut, QList <ItemInfo> transitionsCut, QList <ItemInfo> clips2, QList <ItemInfo> transitions2, GenTime cutPos, QUndoCommand * parent) :
     QUndoCommand(parent),

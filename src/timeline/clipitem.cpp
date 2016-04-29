@@ -211,8 +211,9 @@ bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int c
     // go through all effects this clip has
     for (int ix = 0; ix < effectsCount; ++ix) {
         // Check geometry params
-        clipEffectsModified = resizeGeometries(ix, width, height, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1, cropStart().frames(m_fps));
-        QString newAnimation = resizeAnimations(ix, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1,cropStart().frames(m_fps));
+        QDomElement effect = m_effectList.at(ix);
+        clipEffectsModified = resizeGeometries(effect, width, height, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1, cropStart().frames(m_fps));
+        QString newAnimation = resizeAnimations(effect, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1,cropStart().frames(m_fps));
         if (!newAnimation.isEmpty()) {
             //setKeyframes(ix, newAnimation.split(';', QString::SkipEmptyParts));
             clipEffectsModified = true;
@@ -308,57 +309,6 @@ void ClipItem::setSelectedEffect(const int ix)
         update();
     }
 }
-
-bool ClipItem::resizeGeometries(const int index, int width, int height, int previousDuration, int start, int duration, int cropstart)
-{
-    QString geom;
-    bool modified = false;
-    QDomElement effect = m_effectList.at(index);
-    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
-    bool cut = effect.attribute(QStringLiteral("sync_in_out")).toInt() == 1;
-    if (!cut) {
-        return false;
-    }
-    effect.setAttribute(QStringLiteral("in"), QString::number(cropstart));
-    effect.setAttribute(QStringLiteral("out"), QString::number(cropstart + duration));
-    for (int i = 0; i < params.count(); ++i) {
-        QDomElement e = params.item(i).toElement();
-        if (!e.isNull() && e.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
-            geom = e.attribute(QStringLiteral("value"));
-            Mlt::Geometry geometry(geom.toUtf8().data(), previousDuration, width, height);
-            e.setAttribute(QStringLiteral("value"), geometry.serialise(start, start + duration));
-            modified = true;
-        }
-    }
-    return modified;
-}
-
-QString ClipItem::resizeAnimations(const int index, int previousDuration, int start, int duration, int cropstart)
-{
-    QString animation;
-    QString keyframes;
-    QDomElement effect = m_effectList.at(index);
-    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
-    for (int i = 0; i < params.count(); ++i) {
-        QDomElement e = params.item(i).toElement();
-        if (!e.isNull() && e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
-            animation = e.attribute(QStringLiteral("value"));
-	    QString result;
-            if (effect.attribute(QStringLiteral("sync_in_out")) == QLatin1String("1")) {
-                keyframes = KeyframeView::cutAnimation(animation, start, duration, previousDuration);
-                effect.setAttribute(QStringLiteral("in"), QString::number(start));
-                effect.setAttribute(QStringLiteral("out"), QString::number(start + duration));
-            }
-            else {
-                keyframes = KeyframeView::cutAnimation(animation, cropstart, duration, previousDuration, false);
-            }
-            // TODO: in case of multiple animated params, use _intimeline to detect active one
-            e.setAttribute(QStringLiteral("value"), keyframes);
-	}
-    }
-    return keyframes;
-}
-
 
 QStringList ClipItem::keyframes(const int index)
 {

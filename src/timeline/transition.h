@@ -68,7 +68,7 @@ public:
     void updateTransitionEndTrack(int newtrack);
     void setForcedTrack(bool force, int track);
     bool forcedTrack() const;
-    Transition *clone();
+    Transition *clone(ItemInfo newInfo = ItemInfo());
     bool isAutomatic() const;
     void setAutomatic(bool automatic);
     bool hasGeometry();
@@ -76,6 +76,7 @@ public:
      * @param oldEnd the previous transition end, so that when we expand the transition, if there is a keyframe at end we move it
      */
     bool updateKeyframes(ItemInfo oldInfo, ItemInfo newInfo);
+    bool checkKeyFrames(int width, int height, int previousDuration, int cutPos = -1);
 
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
