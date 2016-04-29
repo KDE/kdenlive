@@ -3263,10 +3263,53 @@ void CustomTrackView::adjustTimelineClips(TimelineMode::EditMode mode, ClipItem 
     KdenliveSettings::setSnaptopoints(snap);
 }
 
-void CustomTrackView::extractZone(bool closeGap)
+void CustomTrackView::cutTimeline(int cutPos, QUndoCommand *masterCommand)
+{
+    QRectF rect(cutPos, 0, 1, m_timeline->visibleTracksCount() * m_tracksHeight);
+    QList<QGraphicsItem *> selection = m_scene->items(rect);
+    // We are going to move clips that are after zone, so break locked groups first.
+    QList<ItemInfo> clipsToCut;
+    QList<ItemInfo> transitionsToCut;
+    for (int i = 0; i < selection.count(); ++i) {
+        if (!selection.at(i)->isEnabled()) continue;
+        if (selection.at(i)->type() == AVWidget) {
+            ClipItem *clip = static_cast<ClipItem *>(selection.at(i));
+            // Skip locked tracks
+            if (m_timeline->getTrackInfo(clip->track()).isLocked)
+                continue;
+            ItemInfo moveInfo = clip->info();
+            if (clip->type() == AVWidget) {
+                clipsToCut.append(moveInfo);
+            } else if (clip->type() == TransitionWidget) {
+                transitionsToCut.append(moveInfo);
+            }
+        }
+    }
+    if (!clipsToCut.isEmpty() || !transitionsToCut.isEmpty()) {
+        breakLockedGroups(clipsToCut, transitionsToCut, masterCommand);
+    }
+    // Razor
+    for (int i = 0; i < selection.count(); ++i) {
+        if (!selection.at(i)->isEnabled()) continue;
+        if (selection.at(i)->type() == AVWidget) {
+            ClipItem *clip = static_cast<ClipItem *>(selection.at(i));
+            // Skip locked tracks
+            if (m_timeline->getTrackInfo(clip->track()).isLocked)
+                continue;
+            new RazorClipCommand(this, clip->info(), clip->effectList(), GenTime(cutPos, m_document->fps()), true, masterCommand);
+        } else if (selection.at(i)->type() == TransitionWidget) {
+            Transition *trans = static_cast<Transition *>(selection.at(i));
+            // Skip locked tracks
+            if (m_timeline->getTrackInfo(trans->track()).isLocked)
+                continue;
+            new RazorTransitionCommand(this, trans->info(), trans->toXML(), GenTime(cutPos, m_document->fps()), true, masterCommand);
+        }
+    }
+}
+
+void CustomTrackView::extractZone(QPoint z, bool closeGap, QUndoCommand *masterCommand)
 {
     // remove track zone and close gap
-    QPoint z = m_document->zone();
     QRectF rect(z.x(), 0, z.y() - z.x() - 1, m_timeline->visibleTracksCount() * m_tracksHeight);
     QList<QGraphicsItem *> selection = m_scene->items(rect);
     QList<QGraphicsItem *> gapSelection;
@@ -3274,8 +3317,11 @@ void CustomTrackView::extractZone(bool closeGap)
         return;
     GenTime inPoint(z.x(), m_document->fps());
     GenTime outPoint(z.y(), m_document->fps());
-    QUndoCommand *command = new QUndoCommand();
-    command->setText(i18n("Remove Zone"));
+    bool hasMasterCommand = masterCommand != NULL;
+    if (!hasMasterCommand) {
+        masterCommand = new QUndoCommand();
+        masterCommand->setText(i18n("Remove Zone"));
+    }
 
     if (closeGap) {
         // We are going to move clips that are after zone, so break locked groups first.
@@ -3299,7 +3345,7 @@ void CustomTrackView::extractZone(bool closeGap)
             }
         }
         if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) {
-            breakLockedGroups(clipsToMove, transitionsToMove, command);
+            breakLockedGroups(clipsToMove, transitionsToMove, masterCommand);
         }
     }
 
@@ -3316,23 +3362,23 @@ void CustomTrackView::extractZone(bool closeGap)
                 info.startPos = inPoint;
                 info.cropDuration = info.endPos - info.startPos;
                 if (clip->endPos() > outPoint) {
-                    new RazorClipCommand(this, baseInfo, clip->effectList(), outPoint, true, command);
+                    new RazorClipCommand(this, baseInfo, clip->effectList(), outPoint, true, masterCommand);
                     info.cropDuration = outPoint - inPoint;
                     info.endPos = outPoint;
                     baseInfo.endPos = outPoint;
                     baseInfo.cropDuration = outPoint - baseInfo.startPos;
                 }
-                new RazorClipCommand(this, baseInfo, clip->effectList(), inPoint, true, command);
-                new AddTimelineClipCommand(this, clip->getBinId(), info, clip->effectList(), clip->clipState(), true, true, command);
+                new RazorClipCommand(this, baseInfo, clip->effectList(), inPoint, true, masterCommand);
+                new AddTimelineClipCommand(this, clip->getBinId(), info, clip->effectList(), clip->clipState(), true, true, masterCommand);
             } else if (clip->endPos() > outPoint) {
                 ItemInfo newclipInfo = clip->info();
-                new RazorClipCommand(this, newclipInfo, clip->effectList(), outPoint, true, command);
+                new RazorClipCommand(this, newclipInfo, clip->effectList(), outPoint, true, masterCommand);
                 newclipInfo.endPos = outPoint;
                 newclipInfo.cropDuration = newclipInfo.endPos - newclipInfo.startPos;
-                new AddTimelineClipCommand(this, clip->getBinId(), newclipInfo, clip->effectList(), clip->clipState(), true, true, command);
+                new AddTimelineClipCommand(this, clip->getBinId(), newclipInfo, clip->effectList(), clip->clipState(), true, true, masterCommand);
             } else {
                 // Clip is entirely inside zone, delete it
-                new AddTimelineClipCommand(this, clip->getBinId(), clip->info(), clip->effectList(), clip->clipState(), true, true, command);
+                new AddTimelineClipCommand(this, clip->getBinId(), clip->info(), clip->effectList(), clip->clipState(), true, true, masterCommand);
             }
         } else if (selection.at(i)->type() == TransitionWidget) {
             Transition *trans = static_cast<Transition *>(selection.at(i));
@@ -3347,24 +3393,24 @@ void CustomTrackView::extractZone(bool closeGap)
                 info.cropDuration = info.endPos - info.startPos;
                 if (trans->endPos() > outPoint) {
                     // Transition starts before and ends after zone, proceed cuts
-                    new RazorTransitionCommand(this, baseInfo, xml, outPoint, true, command);
+                    new RazorTransitionCommand(this, baseInfo, xml, outPoint, true, masterCommand);
                     info.cropDuration = outPoint - inPoint;
                     info.endPos = outPoint;
                     baseInfo.endPos = outPoint;
                     baseInfo.cropDuration = outPoint - baseInfo.startPos;
                 }
-                new RazorTransitionCommand(this, baseInfo, xml, inPoint, true, command);
-                new AddTransitionCommand(this, info, trans->transitionEndTrack(), xml, true, true, command);
+                new RazorTransitionCommand(this, baseInfo, xml, inPoint, true, masterCommand);
+                new AddTransitionCommand(this, info, trans->transitionEndTrack(), xml, true, true, masterCommand);
             } else if (trans->endPos() > outPoint) {
                 // Cut and remove first part
-                new RazorTransitionCommand(this, baseInfo, xml, outPoint, true, command);
+                new RazorTransitionCommand(this, baseInfo, xml, outPoint, true, masterCommand);
                 ItemInfo info = baseInfo;
                 info.endPos = outPoint;
                 info.cropDuration = info.endPos - info.startPos;
-                new AddTransitionCommand(this, info, trans->transitionEndTrack(), xml, true, true, command);
+                new AddTransitionCommand(this, info, trans->transitionEndTrack(), xml, true, true, masterCommand);
             } else {
                 // Transition is entirely inside zone, delete it
-                new AddTransitionCommand(this, baseInfo, trans->transitionEndTrack(), xml, true, true, command);
+                new AddTransitionCommand(this, baseInfo, trans->transitionEndTrack(), xml, true, true, masterCommand);
             }
         }
     }
@@ -3402,13 +3448,13 @@ void CustomTrackView::extractZone(bool closeGap)
             }
         }
         if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) {
-            new InsertSpaceCommand(this, clipsToMove, transitionsToMove, -1, -(outPoint - inPoint), true, command);
-            updateTrackDuration(-1, command);
+            new InsertSpaceCommand(this, clipsToMove, transitionsToMove, -1, -(outPoint - inPoint), true, masterCommand);
+            updateTrackDuration(-1, masterCommand);
         }
     }
-    m_commandStack->push(command);
+    if (!hasMasterCommand)
+        m_commandStack->push(masterCommand);
 }
-
 
 void CustomTrackView::adjustTimelineTransitions(TimelineMode::EditMode mode, Transition *item, QUndoCommand *command)
 {
@@ -3912,6 +3958,30 @@ void CustomTrackView::slotInsertSpace()
         new InsertSpaceCommand(this, clipsToMove, transitionsToMove, track, spaceDuration, true, command);
         updateTrackDuration(track, command);
         m_commandStack->push(command);
+    }
+}
+
+void CustomTrackView::insertTimelineSpace(GenTime startPos, GenTime duration)
+{
+    int pos = startPos.frames(m_document->fps());
+    QRectF rect(pos, 0, sceneRect().width() - pos, m_timeline->visibleTracksCount() * m_tracksHeight);
+    QList<QGraphicsItem *> items = scene()->items(rect);
+    QList<ItemInfo> clipsToMove;
+    QList<ItemInfo> transitionsToMove;
+
+    for (int i = 0; i < items.count(); ++i) {
+        if (items.at(i)->type() == AVWidget || items.at(i)->type() == TransitionWidget) {
+            AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
+            if (m_timeline->getTrackInfo(item->track()).isLocked)
+                continue;
+            if (item->type() == AVWidget)
+                clipsToMove.append(item->info());
+            else if (item->type() == TransitionWidget)
+                transitionsToMove.append(item->info());
+        }
+    }
+    if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) {
+        insertSpace(clipsToMove, transitionsToMove, -1, duration, GenTime());
     }
 }
 
@@ -7851,25 +7921,35 @@ void CustomTrackView::checkTrackSequence(int track)
     if (times != timelineList) KMessageBox::sorry(this, i18n("error"), i18n("TRACTOR"));
 }
 
-void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, QStringList data, int in)
+void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString clipId, QPoint binZone)
 {
-    if (data.isEmpty()) return;
+    if (binZone.isNull()) return;
+    QPoint timelineZone = m_document->zone();
     ItemInfo info;
-    info.startPos = GenTime(in, m_document->fps());
-    info.cropStart = GenTime(data.at(1).toInt(), m_document->fps());
-    info.endPos = info.startPos + GenTime(data.at(2).toInt(), m_document->fps()) - info.cropStart;
+    int binLength = binZone.y() - binZone.x();
+    int timelineLength = timelineZone.y() - timelineZone.x();
+    info.startPos = GenTime(timelineZone.x(), m_document->fps());
+    info.cropStart = GenTime(binZone.x(), m_document->fps());
+    info.endPos = info.startPos + GenTime(timelineLength > binLength ? binLength : timelineLength, m_document->fps());
     info.cropDuration = info.endPos - info.startPos;
     info.track = m_selectedTrack;
     QUndoCommand *addCommand = new QUndoCommand();
     addCommand->setText(i18n("Insert clip"));
-    adjustTimelineClips(sceneMode, NULL, info, addCommand);
-    new AddTimelineClipCommand(this, data.at(0), info, EffectsList(), PlaylistState::Original, true, false, addCommand);
+    if (sceneMode == TimelineMode::OverwriteEdit) {
+        // We clear the selected zone in all non locked tracks
+        extractZone(QPoint(timelineZone.x(), info.endPos.frames(m_document->fps())), false, addCommand);
+    } else {
+        // Cut and move clips forward
+        cutTimeline(timelineZone.x(), addCommand);
+        new AddSpaceCommand(this, info, true, addCommand);
+    }
+    new AddTimelineClipCommand(this, clipId, info, EffectsList(), PlaylistState::Original, true, false, addCommand);
     // Automatic audio split
     if (KdenliveSettings::splitaudio())
         splitAudio(false, info, addCommand);
     updateTrackDuration(info.track, addCommand);
     m_commandStack->push(addCommand);
-    selectClip(true, false, m_selectedTrack, in);
+    selectClip(true, false, m_selectedTrack, timelineZone.x());
 }
 
 void CustomTrackView::clearSelection(bool emitInfo)

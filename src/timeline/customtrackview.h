@@ -254,6 +254,7 @@ public:
     void dropTransitionGeometry(Transition *trans, const QString &geometry);
     /** @brief Switch current track lock state */
     void switchTrackLock();
+    void insertTimelineSpace(GenTime startPos, GenTime duration);
 
 public slots:
     /** @brief Send seek request to MLT. */
@@ -303,7 +304,7 @@ public slots:
     void slotTrackUp();
     void slotTrackDown();
     void slotSelectTrack(int ix);
-    void insertZone(TimelineMode::EditMode sceneMode, QStringList data, int in);
+    void insertZone(TimelineMode::EditMode sceneMode, const QString clipId, QPoint binZone);
 
     /** @brief Rebuilds a group to fit again after children changed.
     * @param childTrack the track of one of the groups children
@@ -339,7 +340,7 @@ public slots:
     /** @brief Export part of the playlist in an xml file */
     void exportTimelineSelection(QString path = QString());
     /** Remove zone from current track */
-    void extractZone(bool closeGap);
+    void extractZone(QPoint z, bool closeGap, QUndoCommand *masterCommand = NULL);
     /** @brief Select an item in timeline. */
     void slotSelectItem(AbstractClipItem *item);
 
@@ -530,6 +531,8 @@ private:
     void updateTransitionWidget(Transition *tr, ItemInfo info);
     /** @brief Break groups containing an item in a locked track. */
     void breakLockedGroups(QList<ItemInfo> clipsToMove, QList<ItemInfo> transitionsToMove, QUndoCommand *masterCommand, bool doIt = true);
+    /** @brief Cut clips in all non locked tracks. */
+    void cutTimeline(int cutPos, QUndoCommand *masterCommand);
 
 private slots:
     void slotRefreshGuides();

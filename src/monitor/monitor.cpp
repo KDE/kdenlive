@@ -1406,14 +1406,10 @@ void Monitor::updateTimecodeFormat()
     m_glMonitor->rootObject()->setProperty("timecode", m_timePos->displayText());
 }
 
-QStringList Monitor::getZoneInfo() const
+QPoint Monitor::getZoneInfo() const
 {
-    QStringList result;
-    if (m_controller == NULL) return result;
-    result << m_controller->clipId();
-    QPoint zone = m_ruler->zone();
-    result << QString::number(zone.x()) << QString::number(zone.y() + 1);
-    return result;
+    if (m_controller == NULL) return QPoint();
+    return m_ruler->zone();
 }
 
 void Monitor::slotSetSelectedClip(AbstractClipItem* item)

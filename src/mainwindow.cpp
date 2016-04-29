@@ -2131,32 +2131,30 @@ void MainWindow::slotCutTimelineClip()
 void MainWindow::slotInsertClipOverwrite()
 {
     if (pCore->projectManager()->currentTimeline()) {
-        QStringList data = m_clipMonitor->getZoneInfo();
-        pCore->projectManager()->currentTimeline()->projectView()->insertZone(TimelineMode::OverwriteEdit, data, pCore->projectManager()->currentTimeline()->projectView()->seekPosition());
+        QPoint binZone = m_clipMonitor->getZoneInfo();
+        pCore->projectManager()->currentTimeline()->projectView()->insertZone(TimelineMode::OverwriteEdit, m_clipMonitor->activeClipId(), binZone);
     }
 }
 
 void MainWindow::slotInsertClipInsert()
 {
     if (pCore->projectManager()->currentTimeline()) {
-        QStringList data = m_clipMonitor->getZoneInfo();
-        pCore->projectManager()->currentTimeline()->projectView()->insertZone(TimelineMode::InsertEdit, data, pCore->projectManager()->currentTimeline()->projectView()->seekPosition());
+        QPoint binZone = m_clipMonitor->getZoneInfo();
+        pCore->projectManager()->currentTimeline()->projectView()->insertZone(TimelineMode::InsertEdit, m_clipMonitor->activeClipId(), binZone);
     }
 }
 
 void MainWindow::slotExtractZone()
 {
     if (pCore->projectManager()->currentTimeline()) {
-        QStringList data = m_clipMonitor->getZoneInfo();
-        pCore->projectManager()->currentTimeline()->projectView()->extractZone(true);
+        pCore->projectManager()->currentTimeline()->projectView()->extractZone(m_projectMonitor->getZoneInfo(), true);
     }
 }
 
 void MainWindow::slotLiftZone()
 {
     if (pCore->projectManager()->currentTimeline()) {
-        QStringList data = m_clipMonitor->getZoneInfo();
-        pCore->projectManager()->currentTimeline()->projectView()->extractZone(false);
+        pCore->projectManager()->currentTimeline()->projectView()->extractZone(m_projectMonitor->getZoneInfo(),false);
     }
 }
 
@@ -3224,15 +3222,15 @@ void MainWindow::slotSetMonitorGamma(int gamma)
 void MainWindow::slotInsertZoneToTree()
 {
     if (!m_clipMonitor->isActive() || m_clipMonitor->currentController() == NULL) return;
-    QStringList info = m_clipMonitor->getZoneInfo();
-    pCore->bin()->slotAddClipCut(info.at(0), info.at(1).toInt(), info.at(2).toInt());
+    QPoint info = m_clipMonitor->getZoneInfo();
+    pCore->bin()->slotAddClipCut(m_clipMonitor->activeClipId(), info.x(), info.y());
 }
 
 void MainWindow::slotInsertZoneToTimeline()
 {
     if (pCore->projectManager()->currentTimeline() == NULL || m_clipMonitor->currentController() == NULL) return;
-    QStringList info = m_clipMonitor->getZoneInfo();
-    pCore->projectManager()->currentTimeline()->projectView()->insertClipCut(m_clipMonitor->activeClipId(), info.at(1).toInt(), info.at(2).toInt());
+    QPoint info = m_clipMonitor->getZoneInfo();
+    pCore->projectManager()->currentTimeline()->projectView()->insertClipCut(m_clipMonitor->activeClipId(), info.x(), info.y());
 }
 
 

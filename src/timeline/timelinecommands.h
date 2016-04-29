@@ -235,6 +235,18 @@ private:
     bool m_doIt;
 };
 
+class AddSpaceCommand : public QUndoCommand
+{
+public:
+    AddSpaceCommand(CustomTrackView *view, ItemInfo spaceInfo, bool doIt, QUndoCommand * parent = 0);
+    void undo();
+    void redo();
+private:
+    CustomTrackView *m_view;
+    ItemInfo m_spaceInfo;
+    bool m_doIt;
+};
+
 class LockTrackCommand : public QUndoCommand
 {
 public:

@@ -300,7 +300,7 @@ public slots:
     void slotSeekToPreviousSnap();
     void adjustRulerSize(int length, int offset = 0);
     void setTimePos(const QString &pos);
-    QStringList getZoneInfo() const;
+    QPoint getZoneInfo() const;
     /** @brief Display the on monitor effect scene (to adjust geometry over monitor). */
     void slotShowEffectScene(MonitorSceneType sceneType, bool temporary = false);
     bool effectSceneDisplayed(MonitorSceneType effectType);

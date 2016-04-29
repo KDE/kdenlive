@@ -426,6 +426,29 @@ void GroupClipsCommand::redo()
     m_doIt = true;
 }
 
+AddSpaceCommand::AddSpaceCommand(CustomTrackView *view, ItemInfo spaceInfo, bool doIt, QUndoCommand * parent) :
+    QUndoCommand(parent),
+    m_view(view),
+    m_spaceInfo(spaceInfo),
+    m_doIt(doIt)
+{
+}
+
+// virtual
+void AddSpaceCommand::undo()
+{
+    m_view->insertTimelineSpace(m_spaceInfo.startPos, -m_spaceInfo.cropDuration);
+}
+// virtual
+void AddSpaceCommand::redo()
+{
+    if (m_doIt) {
+        m_view->insertTimelineSpace(m_spaceInfo.startPos, m_spaceInfo.cropDuration);
+    }
+    m_doIt = true;
+}
+
+
 InsertSpaceCommand::InsertSpaceCommand(CustomTrackView *view, const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> &transToMove, int track, const GenTime &duration, bool doIt, QUndoCommand * parent) :
     QUndoCommand(parent),
     m_view(view),
