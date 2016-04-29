@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="113" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="114" translationDomain="kdenlive">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -119,9 +119,6 @@
           <Action name="clip_in_project_tree" />
           <Action name="expand_timeline_clip" />
       </Menu>
-      <Menu name="all_clips" ><text>All clips</text>
-          <Action name="ripple_delete" />
-      </Menu>
       <Menu name="guide_menu" ><text>Guides</text>
 		<Action name="add_guide" />
 		<Action name="edit_guide" />
@@ -136,6 +133,8 @@
       <Action name="ungroup_clip" />
       <Action name="save_selection" />
       <Action name="send_library" />
+      <Separator />
+      <Action name="switch_track_lock" />
       <Separator />
       <Menu name="video_effects_menu" ><text>Add Effect</text>
 	  <ActionList name="add_effect" />

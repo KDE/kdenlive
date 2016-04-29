@@ -425,8 +425,6 @@ private slots:
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
 
-    // Ripple Edit 
-    void slotRippleDelete();
     void slotThemeChanged(const QString &);
     void slotReloadTheme();
     /** @brief Close Kdenlive and try to restart it */

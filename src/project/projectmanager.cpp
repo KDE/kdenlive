@@ -703,3 +703,9 @@ void ProjectManager::slotDisableTimelineEffects(bool disable)
     pCore->monitorManager()->projectMonitor()->refreshMonitorIfActive();
 }
 
+void ProjectManager::slotSwitchTrackLock()
+{
+    m_trackView->projectView()->switchTrackLock();
+}
+
+

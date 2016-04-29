@@ -1334,7 +1334,7 @@ void MainWindow::setupActions()
 
     //TODO: port stopmotion to new Monitor code
     //addAction("stopmotion", i18n("Stop Motion Capture"), this, SLOT(slotOpenStopmotion()), KoIconUtils::themedIcon("image-x-generic"));
-    addAction(QStringLiteral("ripple_delete"), i18n("Ripple Delete"), this, SLOT(slotRippleDelete()), QIcon(), Qt::CTRL + Qt::Key_X);
+    addAction(QStringLiteral("switch_track_lock"), i18n("Switch Track Lock"), pCore->projectManager(), SLOT(slotSwitchTrackLock()), QIcon(), Qt::SHIFT + Qt::Key_L);
 
     QHash <QString, QAction*> actions;
     actions.insert(QStringLiteral("reload"), reloadClip);
@@ -2052,45 +2052,6 @@ void MainWindow::slotRemoveSpace()
 {
     if (pCore->projectManager()->currentTimeline())
         pCore->projectManager()->currentTimeline()->projectView()->slotRemoveSpace();
-}
-
-void MainWindow::slotRippleDelete()
-{
-  if (!m_projectMonitor->isActive() || !pCore->projectManager()->currentTimeline()) return;
-      
-  int zoneStart = m_projectMonitor->getZoneStart();
-  int zoneEnd = m_projectMonitor->getZoneEnd();
-  if (!zoneStart && zoneEnd == (pCore->projectManager()->currentTimeline()->duration() - 1)) return;
-
-  int zoneFrameCount = zoneEnd - zoneStart;
-  
-  m_projectMonitor->slotZoneStart();
-  pCore->projectManager()->currentTimeline()->projectView()->setCursorPos(zoneStart);
-  pCore->projectManager()->currentTimeline()->projectView()->slotSelectAllClips();
-  pCore->projectManager()->currentTimeline()->projectView()->cutSelectedClips();    
-  pCore->projectManager()->currentTimeline()->projectView()->resetSelectionGroup(false);
-  m_projectMonitor->slotZoneEnd();
-  pCore->projectManager()->currentTimeline()->projectView()->setCursorPos(zoneEnd);
-  zoneEnd++;
-  pCore->projectManager()->currentTimeline()->projectView()->selectItemsRightOfFrame(zoneEnd);
-  pCore->projectManager()->currentTimeline()->projectView()->setInPoint();
-  pCore->projectManager()->currentTimeline()->projectView()->resetSelectionGroup(false);
-
-  zoneEnd++;
-  pCore->projectManager()->currentTimeline()->projectView()->selectItemsRightOfFrame(zoneEnd);
-  
-  pCore->projectManager()->currentTimeline()->projectView()->spaceToolMoveToSnapPos((double) zoneEnd);
-  pCore->projectManager()->currentTimeline()->projectView()->spaceToolMoveToSnapPos((double) zoneStart);
-  
-  GenTime timeOffset = GenTime(zoneFrameCount * -1, pCore->projectManager()->current()->fps());
-  pCore->projectManager()->currentTimeline()->projectView()->completeSpaceOperation(-1, timeOffset);
-  
-  m_projectMonitor->slotZoneStart();
-  pCore->projectManager()->currentTimeline()->projectView()->setCursorPos(zoneStart);
-
-  pCore->projectManager()->currentTimeline()->projectView()->resetSelectionGroup(false);
-  
-  return;
 }
 
 void MainWindow::slotInsertTrack()

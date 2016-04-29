@@ -1590,3 +1590,4 @@ bool Timeline::createOverlay(Mlt::Filter *filter, int tk, int startPos)
     m_tractor->unlock();
     return true;
 }
+

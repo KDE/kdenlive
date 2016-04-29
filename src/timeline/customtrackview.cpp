@@ -8418,3 +8418,7 @@ void CustomTrackView::breakLockedGroups(QList<ItemInfo> clipsToMove, QList<ItemI
     }
 }
 
+void CustomTrackView::switchTrackLock()
+{
+    slotSwitchTrackLock(m_selectedTrack, !m_timeline->getTrackInfo(m_selectedTrack).isLocked);
+}

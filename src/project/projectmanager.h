@@ -107,6 +107,9 @@ public slots:
     /** @brief Dis/enable all timeline effects */
     void slotDisableTimelineEffects(bool disable);
 
+    /** @brief Un/Lock current timeline track */
+    void slotSwitchTrackLock();
+
 
 private slots:
     void slotRevert();

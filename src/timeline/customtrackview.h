@@ -252,6 +252,8 @@ public:
     bool createSplitOverlay(Mlt::Filter *filter);
     void removeSplitOverlay();
     void dropTransitionGeometry(Transition *trans, const QString &geometry);
+    /** @brief Switch current track lock state */
+    void switchTrackLock();
 
 public slots:
     /** @brief Send seek request to MLT. */
