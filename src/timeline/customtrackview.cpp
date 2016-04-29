@@ -1753,14 +1753,14 @@ void CustomTrackView::insertClipCut(const QString &id, int in, int out)
     new RefreshMonitorCommand(this, false, true, addCommand);
     new AddTimelineClipCommand(this, id, pasteInfo, EffectsList(), PlaylistState::Original, true, false, addCommand);
     new RefreshMonitorCommand(this, true, false, addCommand);
-    updateTrackDuration(pasteInfo.track, addCommand);
-
+    // Automatic audio split
+    if (KdenliveSettings::splitaudio())
+        splitAudio(false, info, addCommand);
+    else
+        updateTrackDuration(pasteInfo.track, addCommand);
     m_commandStack->push(addCommand);
 
     selectClip(true, false);
-    // Automatic audio split
-    if (KdenliveSettings::splitaudio())
-        splitAudio(false);
 }
 
 bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
@@ -3068,7 +3068,11 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             item->binClip()->addRef();
             adjustTimelineClips(m_scene->editMode(), item, ItemInfo(), addCommand, false);
             new AddTimelineClipCommand(this, clipBinId, item->info(), item->effectList(), item->clipState(), false, false, addCommand);
-            updateTrackDuration(info.track, addCommand);
+            // Automatic audio split
+            if (KdenliveSettings::splitaudio())
+                splitAudio(false, info, addCommand);
+            else
+                updateTrackDuration(info.track, addCommand);
 
             if (item->binClip()->isTransparent() && getTransitionItemAtStart(info.startPos, info.track) == NULL) {
                 // add transparency transition if space is available
@@ -3079,6 +3083,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             }
             item->setSelected(true);
         }
+
         // Add refresh command for redo
         new RefreshMonitorCommand(this, false, false, addCommand);
         for (int i = 0; i < brokenClips.count(); i++) {
@@ -3088,10 +3093,6 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         brokenClips.clear();
         if (addCommand->childCount() > 0) m_commandStack->push(addCommand);
         else delete addCommand;
-
-        // Automatic audio split
-        if (KdenliveSettings::splitaudio())
-            splitAudio(false);
 
         /*
         // debug info
@@ -7199,16 +7200,27 @@ void CustomTrackView::loadGroups(const QDomNodeList &groups)
     }
 }
 
-void CustomTrackView::splitAudio(bool warn)
+void CustomTrackView::splitAudio(bool warn, ItemInfo info, QUndoCommand *masterCommand)
 {
     resetSelectionGroup();
-    QList<QGraphicsItem *> selection = scene()->selectedItems();
+    QList<QGraphicsItem *> selection;
+    if (info.isValid()) {
+        ClipItem *clip = getClipItemAtStart(info.startPos, info.track);
+        if (clip) {
+            selection << clip;
+        }
+    } else {
+        selection = scene()->selectedItems();
+    }
     if (selection.isEmpty()) {
         emit displayMessage(i18n("You must select at least one clip for this action"), ErrorMessage);
         return;
     }
-    QUndoCommand *splitCommand = new QUndoCommand();
-    splitCommand->setText(i18n("Split audio"));
+    bool hasMasterCommand = masterCommand != NULL;
+    if (!hasMasterCommand) {
+        masterCommand = new QUndoCommand();
+        masterCommand->setText(i18n("Split audio"));
+    }
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == AVWidget) {
             ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
@@ -7218,18 +7230,20 @@ void CustomTrackView::splitAudio(bool warn)
                 } else {
                     EffectsList effects;
                     effects.clone(clip->effectList());
-                    new SplitAudioCommand(this, clip->track(), clip->startPos(), effects, splitCommand);
+                    new SplitAudioCommand(this, clip->track(), clip->startPos(), effects, masterCommand);
                 }
             }
         }
     }
-    if (splitCommand->childCount()) {
-        updateTrackDuration(-1, splitCommand);
-        m_commandStack->push(splitCommand);
-    }
-    else {
+    if (masterCommand->childCount()) {
+        updateTrackDuration(-1, masterCommand);
+        if (!hasMasterCommand) {
+            m_commandStack->push(masterCommand);
+        }
+    } else {
         if (warn) emit displayMessage(i18n("No clip to split"), ErrorMessage);
-        delete splitCommand;
+        if (!hasMasterCommand)
+            delete masterCommand;
     }
 }
 
@@ -7850,13 +7864,12 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, QStringList d
     addCommand->setText(i18n("Insert clip"));
     adjustTimelineClips(sceneMode, NULL, info, addCommand);
     new AddTimelineClipCommand(this, data.at(0), info, EffectsList(), PlaylistState::Original, true, false, addCommand);
-    updateTrackDuration(info.track, addCommand);
-    m_commandStack->push(addCommand);
-
-    selectClip(true, false, m_selectedTrack, in);
     // Automatic audio split
     if (KdenliveSettings::splitaudio())
-        splitAudio();
+        splitAudio(false, info, addCommand);
+    updateTrackDuration(info.track, addCommand);
+    m_commandStack->push(addCommand);
+    selectClip(true, false, m_selectedTrack, in);
 }
 
 void CustomTrackView::clearSelection(bool emitInfo)
