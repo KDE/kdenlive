@@ -164,7 +164,7 @@ public:
     * @param pos Position of the clip to split
     * @param track Track of the clip
     * @param split Split or unsplit */
-    void doSplitAudio(const GenTime &pos, int track, EffectsList effects, bool split);
+    void doSplitAudio(const GenTime &pos, int track, bool split);
     /** @brief Sets the clip type (av, video only, audio only) of the current selection. */
     void setClipType(PlaylistState::ClipState state);
     void doChangeClipType(const GenTime &pos, int track, PlaylistState::ClipState state);

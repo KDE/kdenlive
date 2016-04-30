@@ -3310,6 +3310,11 @@ void CustomTrackView::cutTimeline(int cutPos, QUndoCommand *masterCommand)
 void CustomTrackView::extractZone(QPoint z, bool closeGap, QUndoCommand *masterCommand)
 {
     // remove track zone and close gap
+    if (closeGap && m_timeline->getTrackInfo(m_selectedTrack).isLocked) {
+        // Cannot perform an Extract operation on a locked track
+        emit displayMessage(i18n("Cannot perform operation on a locked track"), ErrorMessage);
+        return;
+    }
     if (z.isNull())
         z = m_document->zone();
     QRectF rect(z.x(), 0, z.y() - z.x() - 1, m_timeline->visibleTracksCount() * m_tracksHeight);
@@ -7276,22 +7281,22 @@ void CustomTrackView::splitAudio(bool warn, ItemInfo info, QUndoCommand *masterC
 {
     resetSelectionGroup();
     QList<QGraphicsItem *> selection;
-    if (info.isValid()) {
-        ClipItem *clip = getClipItemAtStart(info.startPos, info.track);
-        if (clip) {
-            selection << clip;
-        }
-    } else {
-        selection = scene()->selectedItems();
-    }
-    if (selection.isEmpty()) {
-        emit displayMessage(i18n("You must select at least one clip for this action"), ErrorMessage);
-        return;
-    }
     bool hasMasterCommand = masterCommand != NULL;
     if (!hasMasterCommand) {
         masterCommand = new QUndoCommand();
         masterCommand->setText(i18n("Split audio"));
+    }
+    if (!info.isValid()) {
+        // Operate on current selection
+        selection = scene()->selectedItems();
+        if (selection.isEmpty()) {
+            emit displayMessage(i18n("You must select at least one clip for this action"), ErrorMessage);
+            if (!hasMasterCommand)
+                delete masterCommand;
+            return;
+        }
+    } else {
+        new SplitAudioCommand(this, info.track, info.startPos, masterCommand);
     }
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == AVWidget) {
@@ -7300,9 +7305,7 @@ void CustomTrackView::splitAudio(bool warn, ItemInfo info, QUndoCommand *masterC
                 if (clip->parentItem()) {
                     emit displayMessage(i18n("Cannot split audio of grouped clips"), ErrorMessage);
                 } else {
-                    EffectsList effects;
-                    effects.clone(clip->effectList());
-                    new SplitAudioCommand(this, clip->track(), clip->startPos(), effects, masterCommand);
+                    new SplitAudioCommand(this, clip->track(), clip->startPos(), masterCommand);
                 }
             }
         }
@@ -7442,13 +7445,15 @@ void CustomTrackView::slotAlignClip(int track, int pos, int shift)
 
 }
 
-void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList effects, bool split)
+void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split)
 {
     ClipItem *clip = getClipItemAtStart(pos, track);
     if (clip == NULL) {
         //qDebug() << "// Cannot find clip to split!!!";
         return;
     }
+    EffectsList effects;
+    effects.clone(clip->effectList());
     if (split) {
         int start = pos.frames(m_document->fps());
         int freetrack = track - 1;
@@ -7925,6 +7930,11 @@ void CustomTrackView::checkTrackSequence(int track)
 
 void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString clipId, QPoint binZone)
 {
+    if (m_timeline->getTrackInfo(m_selectedTrack).isLocked) {
+        // Cannot perform an Extract operation on a locked track
+        emit displayMessage(i18n("Cannot perform operation on a locked track"), ErrorMessage);
+        return;
+    }
     if (binZone.isNull()) return;
     QPoint timelineZone = m_document->zone();
     ItemInfo info;
