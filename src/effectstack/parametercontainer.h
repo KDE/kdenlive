@@ -69,6 +69,7 @@ signals:
     void startDrag(const QString &);
 private:
     QPoint m_clickStart;
+    bool m_dragStarted;
 };
 
 class MySpinBox : public QSpinBox

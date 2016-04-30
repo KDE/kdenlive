@@ -30,7 +30,7 @@ PositionEdit::PositionEdit(const QString &name, int pos, int min, int max, const
     QWidget(parent)
 {
     QHBoxLayout *layout = new QHBoxLayout(this);
-    QLabel label(name, this);
+    QLabel *label = new QLabel(name, this);
     m_slider = new QSlider(Qt::Horizontal);
     m_slider->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
     m_slider->setRange(min, max);
@@ -39,7 +39,7 @@ PositionEdit::PositionEdit(const QString &name, int pos, int min, int max, const
     m_display->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred));
     m_display->setRange(min, max);
 
-    layout->addWidget(&label);
+    layout->addWidget(label);
     layout->addWidget(m_slider);
     layout->addWidget(m_display);
 

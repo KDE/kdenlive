@@ -62,6 +62,7 @@
 
 DraggableLabel::DraggableLabel(const QString &text, QWidget *parent):
     QLabel(text, parent)
+    , m_dragStarted(false)
 {
     setContextMenuPolicy(Qt::NoContextMenu);
     setToolTip(i18n("Click to copy data to clipboard"));
@@ -72,12 +73,17 @@ void DraggableLabel::mousePressEvent(QMouseEvent *ev)
     QLabel::mousePressEvent(ev);
     if (ev->button() == Qt::LeftButton) {
         m_clickStart = ev->pos();
+        m_dragStarted = false;
     }
 }
 
 void DraggableLabel::mouseReleaseEvent(QMouseEvent *ev)
 {
-    QLabel::mouseReleaseEvent(ev);
+    // Don't call mouserelease in cas of drag because label might be deleted by a drop
+    if (!m_dragStarted)
+        QLabel::mouseReleaseEvent(ev);
+    else 
+        ev->ignore();
     m_clickStart = QPoint();
 }
 
@@ -86,6 +92,7 @@ void DraggableLabel::mouseMoveEvent(QMouseEvent *ev)
     QLabel::mouseMoveEvent(ev);
     if (!m_clickStart.isNull() && (m_clickStart - ev->pos()).manhattanLength() >= QApplication::startDragDistance()) {
         emit startDrag(objectName());
+        m_dragStarted = true;
         m_clickStart = QPoint();
     }
 }
