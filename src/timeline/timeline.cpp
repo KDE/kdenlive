@@ -835,16 +835,18 @@ void Timeline::updatePalette()
     setPalette(qApp->palette());
     QPalette p = qApp->palette();
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
-    QColor norm = scheme.shade(scheme.background(KColorScheme::ActiveBackground).color(), KColorScheme::MidShade);
-    p.setColor(QPalette::Button, norm);
     QColor col = scheme.background().color();
     QColor col2 = scheme.foreground().color();
-    headers_container->setStyleSheet(QStringLiteral("QLineEdit { background-color: transparent;color: %1;} QLineEdit:hover{ background-color: %2;} QLineEdit:focus { background-color: %2;}").arg(col2.name(), col.name()));
+    headers_container->setStyleSheet(QStringLiteral("QLineEdit { background-color: transparent;color: %1;} QLineEdit:hover{ background-color: %2;} QLineEdit:focus { background-color: %2;} ").arg(col2.name(), col.name()));
     m_trackview->updatePalette();
     if (!m_tracks.isEmpty()) {
         int ix = m_trackview->selectedTrack();
-        if (m_tracks.at(ix)->trackHeader) {
-            m_tracks.at(ix)->trackHeader->setSelectedIndex(ix);
+        for (int i = 0; i < m_tracks.count(); i++) {
+            if (m_tracks.at(i)->trackHeader) {
+                m_tracks.at(i)->trackHeader->refreshPalette();
+                if (i == ix)
+                    m_tracks.at(ix)->trackHeader->setSelectedIndex(ix);
+            }
         }
     }
 }

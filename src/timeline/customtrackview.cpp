@@ -137,6 +137,9 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     m_selectedTrackColor = scheme.background(KColorScheme::ActiveBackground ).color();
     m_selectedTrackColor.setAlpha(150);
 
+    m_lockedTrackColor = scheme.background(KColorScheme::NegativeBackground ).color();
+    m_lockedTrackColor.setAlpha(150);
+
     m_keyPropertiesTimer = new QTimeLine(800);
     m_keyPropertiesTimer->setFrameRange(0, 5);
     m_keyPropertiesTimer->setUpdateInterval(100);
@@ -6459,16 +6462,17 @@ void CustomTrackView::drawBackground(QPainter * painter, const QRectF &rect)
     double max = rect.right();
     painter->drawLine(QPointF(min, 0), QPointF(max, 0));
     int maxTrack = m_timeline->visibleTracksCount();
-    QColor lockedColor = palette().button().color();
     QColor audioColor = palette().alternateBase().color();
+    QColor activeLockColor = m_lockedTrackColor;
+    activeLockColor.setAlpha(90);
     for (int i = 1; i <= maxTrack; ++i) {
         TrackInfo info = m_timeline->getTrackInfo(i);
         if (info.isLocked || info.type == AudioTrack || i == m_selectedTrack) {
             const QRectF track(min, m_tracksHeight * (maxTrack - i), max - min, m_tracksHeight - 1);
             if (i == m_selectedTrack)
-                painter->fillRect(track, m_selectedTrackColor);
+                painter->fillRect(track, info.isLocked ? activeLockColor : m_selectedTrackColor);
             else
-                painter->fillRect(track, info.isLocked ? lockedColor : audioColor);
+                painter->fillRect(track, info.isLocked ? m_lockedTrackColor : audioColor);
         }
         painter->drawLine(QPointF(min, m_tracksHeight * (maxTrack - i) - 1), QPointF(max, m_tracksHeight * (maxTrack - i) - 1));
     }
@@ -7988,6 +7992,8 @@ void CustomTrackView::updatePalette()
     KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     m_selectedTrackColor = scheme.background(KColorScheme::ActiveBackground ).color();
     m_selectedTrackColor.setAlpha(150);
+    m_lockedTrackColor = scheme.background(KColorScheme::NegativeBackground ).color();
+    m_lockedTrackColor.setAlpha(150);
 }
 
 void CustomTrackView::removeTipAnimation()

@@ -77,10 +77,8 @@ HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track
     m_switchAudio->setActive(info.isMute);
     connect(m_switchAudio, SIGNAL(activeChanged(bool)), this, SLOT(switchAudio(bool)));
     m_tb->addAction(m_switchAudio);
-
+    setAutoFillBackground(true);
     if (m_type == VideoTrack) {
-        setBackgroundRole(QPalette::AlternateBase);
-        setAutoFillBackground(true);
         m_switchVideo = new KDualAction(i18n("Disable video"), i18n("Enable video"), this);
         m_switchVideo->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-hide-video")));
         m_switchVideo->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-video")));
@@ -95,6 +93,7 @@ HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track
         connect(m_switchComposite, &KDualAction::activeChangedByUser, this, &HeaderTrack::switchComposite);
         m_tb->addAction(m_switchComposite);
     } else {
+        setBackgroundRole(QPalette::AlternateBase);
         m_switchVideo = NULL;
         m_switchComposite = NULL;
     }
@@ -131,7 +130,21 @@ void HeaderTrack::updateStatus(TrackInfo info)
     if (m_switchVideo) m_switchVideo->setActive(info.isBlind);
     if (m_switchComposite) m_switchComposite->setActive(info.composite);
     m_switchLock->setActive(info.isLocked);
+    updateBackground(info.isLocked);
     renameTrack(info.trackName);
+}
+
+void HeaderTrack::updateBackground(bool isLocked)
+{
+    if (isLocked) {
+        setBackgroundRole(m_isSelected ? QPalette::Dark : QPalette::Shadow);
+    } else if (m_isSelected) {
+        setBackgroundRole(QPalette::Mid);
+    } else if (m_type == VideoTrack) {
+        setBackgroundRole(QPalette::Base);
+    } else {
+        setBackgroundRole(QPalette::AlternateBase);
+    }
 }
 
 void HeaderTrack::setTrackHeight(int height)
@@ -214,28 +227,18 @@ void HeaderTrack::dragEnterEvent(QDragEnterEvent *event)
 
 void HeaderTrack::setSelectedIndex(int ix)
 {
-    if (m_parentTrack->index() == ix) {
-        m_isSelected = true;
-        QPalette pal = palette();
-        KColorScheme scheme(pal.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
-        pal.setColor(QPalette::Mid, scheme.background(KColorScheme::ActiveBackground ).color());
-        setPalette(pal);
-        setBackgroundRole(QPalette::Mid);
-        setAutoFillBackground(true);
-    } else if (m_type != VideoTrack) {
-        m_isSelected = false;
-        setAutoFillBackground(false);
-    } else {
-        m_isSelected = false;
-        setBackgroundRole(QPalette::AlternateBase);
-    }
-    update();
+    m_isSelected = ix == m_parentTrack->index();
+    updateBackground(m_switchLock->isActive());
 }
 
 void HeaderTrack::adjustSize(int height)
 {
     // Don't show track buttons if size is too small
-    bool smallTracks = height < 40;
+    QFontMetrics metrics(font());
+    int trackHeight = metrics.height();
+    QStyle *style = qApp->style();
+    trackHeight += style->pixelMetric(QStyle::PM_ToolBarIconSize) + 2 * style->pixelMetric(QStyle::PM_ToolBarItemMargin) + style->pixelMetric(QStyle::PM_ToolBarItemSpacing);
+    bool smallTracks = height < trackHeight;
     m_tb->setHidden(smallTracks);
     setFixedHeight(height);
 }
@@ -265,6 +268,7 @@ void HeaderTrack::setLock(bool lock)
     m_switchLock->blockSignals(true);
     m_switchLock->setActive(lock);
     m_switchLock->blockSignals(false);
+    updateBackground(lock);
 }
 
 void HeaderTrack::disableComposite()
@@ -301,6 +305,16 @@ QString HeaderTrack::name() const
     return m_name;
 }
 
-
+void HeaderTrack::refreshPalette()
+{
+    QPalette pal = palette();
+    KColorScheme scheme(pal.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    pal.setColor(QPalette::Base, scheme.background(KColorScheme::NormalBackground).color());
+    pal.setColor(QPalette::AlternateBase, scheme.background(KColorScheme::AlternateBackground).color());
+    pal.setColor(QPalette::Mid, scheme.background(KColorScheme::ActiveBackground ).color());
+    pal.setColor(QPalette::Shadow, scheme.background(KColorScheme::NeutralBackground ).color());
+    pal.setColor(QPalette::Dark, scheme.background(KColorScheme::NegativeBackground ).color());
+    setPalette(pal);
+}
 
 

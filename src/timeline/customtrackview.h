@@ -389,6 +389,7 @@ private:
     QList <CommentedTime> m_searchPoints;
     QList <Guide *> m_guides;
     QColor m_selectedTrackColor;
+    QColor m_lockedTrackColor;
 
     /** @brief Returns a clip from timeline
      *  @param pos a time value that is inside the clip

@@ -49,6 +49,7 @@ public:
     void updateStatus(TrackInfo info);
     /** @brief Track has no composite transition, disable switch button.*/
     void disableComposite();
+    void refreshPalette();
 
 protected:
     void mousePressEvent(QMouseEvent * event);
@@ -67,7 +68,7 @@ private:
     KDualAction *m_switchVideo;
     KDualAction *m_switchAudio;
     KDualAction *m_switchLock;
-    
+    void updateBackground(bool isLocked);
 
 private slots:
     void switchAudio(bool);
