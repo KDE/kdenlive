@@ -235,7 +235,11 @@ void HeaderTrack::setSelectedIndex(int ix)
 void HeaderTrack::adjustSize(int height)
 {
     // Don't show track buttons if size is too small
-    bool smallTracks = height < 40;
+    QFontMetrics metrics(font());
+    int trackHeight = metrics.height();
+    QStyle *style = qApp->style();
+    trackHeight += style->pixelMetric(QStyle::PM_ToolBarIconSize) + 2 * style->pixelMetric(QStyle::PM_ToolBarItemMargin) + style->pixelMetric(QStyle::PM_ToolBarItemSpacing);
+    bool smallTracks = height < trackHeight;
     m_tb->setHidden(smallTracks);
     setFixedHeight(height);
 }
