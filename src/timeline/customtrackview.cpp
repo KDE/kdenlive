@@ -3310,6 +3310,8 @@ void CustomTrackView::cutTimeline(int cutPos, QUndoCommand *masterCommand)
 void CustomTrackView::extractZone(QPoint z, bool closeGap, QUndoCommand *masterCommand)
 {
     // remove track zone and close gap
+    if (z.isNull())
+        z = m_document->zone();
     QRectF rect(z.x(), 0, z.y() - z.x() - 1, m_timeline->visibleTracksCount() * m_tracksHeight);
     QList<QGraphicsItem *> selection = m_scene->items(rect);
     QList<QGraphicsItem *> gapSelection;

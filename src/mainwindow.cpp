@@ -2147,14 +2147,14 @@ void MainWindow::slotInsertClipInsert()
 void MainWindow::slotExtractZone()
 {
     if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->extractZone(m_projectMonitor->getZoneInfo(), true);
+        pCore->projectManager()->currentTimeline()->projectView()->extractZone(QPoint(), true);
     }
 }
 
 void MainWindow::slotLiftZone()
 {
     if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->extractZone(m_projectMonitor->getZoneInfo(),false);
+        pCore->projectManager()->currentTimeline()->projectView()->extractZone(QPoint(),false);
     }
 }
 
