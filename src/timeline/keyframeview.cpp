@@ -235,7 +235,6 @@ void KeyframeView::drawKeyFrameChannels(QRectF br, int in, int out, QPainter *pa
     QColor cY(0, 255, 0, 100);
     QColor cW(0, 0, 255, 100);
     QColor cH(255, 255, 0, 100);
-
     // Draw curves labels
     QRectF txtRect = painter->boundingRect(br, QStringLiteral("t"));
     txtRect.setX(2);
@@ -248,25 +247,25 @@ void KeyframeView::drawKeyFrameChannels(QRectF br, int in, int out, QPainter *pa
     if (xDist > 0) {
         painter->fillRect(txtRect.x(), txtRect.top() + rectSize / 2, rectSize, rectSize, cX);
         txtRect.setX(txtRect.x() + rectSize * 2);
-        painter->drawText(txtRect, 0, i18nc("X as in x coordinate", "X"), &drawnText);
+        painter->drawText(txtRect, 0, i18nc("X as in x coordinate", "X") + QString(" (%1-%2)").arg(maximas.at(0).x()).arg(maximas.at(0).y()), &drawnText);
     }
     if (yDist > 0) {
         if (drawnText.isValid()) txtRect.setX(drawnText.right() + rectSize);
         painter->fillRect(txtRect.x(), txtRect.top() + rectSize / 2, rectSize, rectSize, cY);
         txtRect.setX(txtRect.x() + rectSize * 2);
-        painter->drawText(txtRect, 0, i18nc("Y as in y coordinate", "Y"), &drawnText);
+        painter->drawText(txtRect, 0, i18nc("Y as in y coordinate", "Y") + QString(" (%1-%2)").arg(maximas.at(1).x()).arg(maximas.at(1).y()), &drawnText);
     }
     if (wDist > 0) {
         if (drawnText.isValid()) txtRect.setX(drawnText.right() + rectSize);
         painter->fillRect(txtRect.x(), txtRect.top() + rectSize / 2, rectSize, rectSize, cW);
         txtRect.setX(txtRect.x() + rectSize * 2);
-        painter->drawText(txtRect, 0, i18n("Width"), &drawnText);
+        painter->drawText(txtRect, 0, i18n("Width") + QString(" (%1-%2)").arg(maximas.at(2).x()).arg(maximas.at(2).y()), &drawnText);
     }
     if (hDist > 0) {
         if (drawnText.isValid()) txtRect.setX(drawnText.right() + rectSize);
         painter->fillRect(txtRect.x(), txtRect.top() + rectSize / 2, rectSize, rectSize, cH);
         txtRect.setX(txtRect.x() + rectSize * 2);
-        painter->drawText(txtRect, 0, i18n("Height"), &drawnText);
+        painter->drawText(txtRect, 0, i18n("Height") + QString(" (%1-%2)").arg(maximas.at(3).x()).arg(maximas.at(3).y()), &drawnText);
     }
 
     // Draw curves

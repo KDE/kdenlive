@@ -1610,7 +1610,11 @@ void ClipItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
     else if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist")) || event->mimeData()->hasFormat(QStringLiteral("kdenlive/transitionslist"))) {
         event->acceptProposedAction();
         m_selectionTimer.start();
-    } else event->setAccepted(false);
+    } else if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
+        m_selectionTimer.start();
+        event->acceptProposedAction();
+    }
+    else event->setAccepted(false);
 }
 
 void ClipItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)

@@ -82,13 +82,17 @@ void DraggableLabel::mouseReleaseEvent(QMouseEvent *ev)
     // Don't call mouserelease in cas of drag because label might be deleted by a drop
     if (!m_dragStarted)
         QLabel::mouseReleaseEvent(ev);
-    else 
+    else
         ev->ignore();
     m_clickStart = QPoint();
 }
 
 void DraggableLabel::mouseMoveEvent(QMouseEvent *ev)
 {
+    if (m_dragStarted) {
+        ev->ignore();
+        return;
+    }
     QLabel::mouseMoveEvent(ev);
     if (!m_clickStart.isNull() && (m_clickStart - ev->pos()).manhattanLength() >= QApplication::startDragDistance()) {
         emit startDrag(objectName());
@@ -738,7 +742,7 @@ void ParameterContainer::makeDrag(const QString &name)
     QString value = EffectsList::parameter(m_effect, name);
     if (value.isEmpty())
         return;
-    QDrag *dr = new QDrag(this);
+    QDrag *dr = new QDrag(qApp);
     // The data to be transferred by the drag and drop operation is contained in a QMimeData object
     QMimeData *mimeData = new QMimeData;
     QByteArray data;

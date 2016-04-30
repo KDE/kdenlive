@@ -218,7 +218,6 @@ void KeyframeImport::updateDataDisplay()
         m_inPoint->blockSignals(false);
         m_outPoint->blockSignals(false);
     }
-    updateDisplay();
 }
 
 void KeyframeImport::updateRange()
@@ -265,6 +264,7 @@ void KeyframeImport::updateRange()
         }
     }
     m_sourceRangeLabel->setText(rangeText);
+    updateDisplay();
 }
 
 void KeyframeImport::updateDestinationRange()
@@ -306,39 +306,52 @@ void KeyframeImport::updateDisplay()
     pix.fill(Qt::transparent);
     QPainter *painter = new QPainter(&pix);
     QList <QPoint> maximas;
-    if (m_limitRange->isChecked()) {
-        maximas = m_maximas;
-    } else {
-        int profileWidth = m_profile.profileSize.width();
-        int profileHeight = m_profile.profileSize.height();
-        if (m_maximas.count() > 0) {
-            if (m_maximas.at(0).x() == m_maximas.at(0).y()) {
-                maximas << QPoint();
-            } else {
+    int selectedtarget = m_sourceCombo->currentData().toInt();
+    int profileWidth = m_profile.profileSize.width();
+    int profileHeight = m_profile.profileSize.height();
+    if (m_maximas.count() > 0) {
+        if (m_maximas.at(0).x() == m_maximas.at(0).y() || (selectedtarget < 10 && selectedtarget != 0)) {
+            maximas << QPoint();
+        } else {
+            if (m_limitRange->isChecked())
+                maximas << m_maximas.at(0);
+            else {
                 QPoint p1(qMin(0, m_maximas.at(0).x()), qMax(profileWidth, m_maximas.at(0).y()));
                 maximas << p1;
             }
         }
-        if (m_maximas.count() > 1) {
-            if (m_maximas.at(1).x() == m_maximas.at(1).y()) {
-                maximas << QPoint();
-            } else {
+    }
+    if (m_maximas.count() > 1) {
+        if (m_maximas.at(1).x() == m_maximas.at(1).y() || (selectedtarget < 10 && selectedtarget != 1)) {
+            maximas << QPoint();
+        } else {
+            if (m_limitRange->isChecked())
+                maximas << m_maximas.at(1);
+            else {
                 QPoint p2(qMin(0, m_maximas.at(1).x()), qMax(profileHeight, m_maximas.at(1).y()));
                 maximas << p2;
             }
         }
-        if (m_maximas.count() > 2) {
-            if (m_maximas.at(2).x() == m_maximas.at(2).y()) {
-                maximas << QPoint();
-            } else {
+    }
+    if (m_maximas.count() > 2) {
+        if (m_maximas.at(2).x() == m_maximas.at(2).y() || (selectedtarget < 10 && selectedtarget != 2)) {
+            maximas << QPoint();
+        } else {
+            if (m_limitRange->isChecked())
+                maximas << m_maximas.at(2);
+            else {
                 QPoint p3(qMin(0, m_maximas.at(2).x()), qMax(profileWidth, m_maximas.at(2).y()));
                 maximas << p3;
             }
         }
-        if (m_maximas.count() > 3) {
-            if (m_maximas.at(3).x() == m_maximas.at(3).y()) {
-                maximas << QPoint();
-            } else {
+    }
+    if (m_maximas.count() > 3) {
+        if (m_maximas.at(3).x() == m_maximas.at(3).y() || (selectedtarget < 10 && selectedtarget != 3)) {
+            maximas << QPoint();
+        } else {
+            if (m_limitRange->isChecked())
+                maximas << m_maximas.at(3);
+            else {
                 QPoint p4(qMin(0, m_maximas.at(3).x()), qMax(profileHeight, m_maximas.at(3).y()));
                 maximas << p4;
             }
