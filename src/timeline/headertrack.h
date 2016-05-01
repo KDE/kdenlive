@@ -62,6 +62,7 @@ private:
     TrackType m_type;
     Track *m_parentTrack;
     bool m_isSelected;
+    bool m_isTarget;
     QString m_name;
     QToolBar *m_tb;
     KDualAction *m_switchComposite;
@@ -69,6 +70,7 @@ private:
     KDualAction *m_switchAudio;
     KDualAction *m_switchLock;
     void updateBackground(bool isLocked);
+    void updateLed();
 
 private slots:
     void switchAudio(bool);

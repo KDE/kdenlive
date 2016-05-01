@@ -42,6 +42,7 @@ HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track
         m_type(info.type),
         m_parentTrack(parent),
         m_isSelected(false),
+        m_isTarget(false),
         m_switchComposite(NULL),
         m_switchVideo(NULL)
 {
@@ -131,6 +132,7 @@ void HeaderTrack::updateStatus(TrackInfo info)
     if (m_switchComposite) m_switchComposite->setActive(info.composite);
     m_switchLock->setActive(info.isLocked);
     updateBackground(info.isLocked);
+    updateLed();
     renameTrack(info.trackName);
 }
 
@@ -229,6 +231,7 @@ void HeaderTrack::setSelectedIndex(int ix)
 {
     m_isSelected = ix == m_parentTrack->index();
     updateBackground(m_switchLock->isActive());
+    updateLed();
 }
 
 void HeaderTrack::adjustSize(int height)
@@ -237,7 +240,7 @@ void HeaderTrack::adjustSize(int height)
     QFontMetrics metrics(font());
     int trackHeight = metrics.height();
     QStyle *style = qApp->style();
-    trackHeight += style->pixelMetric(QStyle::PM_ToolBarIconSize) + 2 * style->pixelMetric(QStyle::PM_ToolBarItemMargin) + style->pixelMetric(QStyle::PM_ToolBarItemSpacing);
+    trackHeight += style->pixelMetric(QStyle::PM_ToolBarIconSize);
     bool smallTracks = height < trackHeight;
     m_tb->setHidden(smallTracks);
     setFixedHeight(height);
@@ -251,11 +254,13 @@ void HeaderTrack::switchComposite(bool enable)
 void HeaderTrack::switchVideo(bool enable)
 {
     emit switchTrackVideo(m_parentTrack->index(), enable);
+    updateLed();
 }
 
 void HeaderTrack::switchAudio(bool enable)
 {
     emit switchTrackAudio(m_parentTrack->index(), enable);
+    updateLed();
 }
 
 void HeaderTrack::switchLock(bool enable)
@@ -269,6 +274,21 @@ void HeaderTrack::setLock(bool lock)
     m_switchLock->setActive(lock);
     m_switchLock->blockSignals(false);
     updateBackground(lock);
+    updateLed();
+}
+
+void HeaderTrack::updateLed()
+{
+    if (m_switchLock->isActive()) {
+        // Locked track
+        kled->setColor(Qt::darkRed);
+    } else if (m_isTarget) {
+        kled->setColor(Qt::darkGreen);
+    } else if (m_switchAudio->isActive() || (m_switchVideo && m_switchVideo->isActive())) {
+        kled->setColor(0xffcc00);
+    } else {
+        kled->setColor(palette().base().color());
+    }
 }
 
 void HeaderTrack::disableComposite()
@@ -315,6 +335,7 @@ void HeaderTrack::refreshPalette()
     pal.setColor(QPalette::Shadow, scheme.background(KColorScheme::NeutralBackground ).color());
     pal.setColor(QPalette::Dark, scheme.background(KColorScheme::NegativeBackground ).color());
     setPalette(pal);
+    updateLed();
 }
 
 
