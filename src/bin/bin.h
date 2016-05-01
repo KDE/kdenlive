@@ -80,17 +80,25 @@ signals:
 class MyTreeView: public QTreeView
 {
     Q_OBJECT
+    Q_PROPERTY(bool editing READ isEditing WRITE setEditing)
 public:
     explicit MyTreeView(QWidget *parent = 0);
-
+    void setEditing(bool edit);
 protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent * event);
     void focusInEvent(QFocusEvent *event);
+    void keyPressEvent(QKeyEvent* event);
+
+protected slots:
+    void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint);
+    void editorDestroyed(QObject *editor);
 
 private:
     QPoint m_startPos;
+    bool m_editing;
     bool performDrag();
+    bool isEditing();
 
 signals:
     void focusView();

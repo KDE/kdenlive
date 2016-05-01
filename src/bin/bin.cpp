@@ -63,7 +63,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUndoCommand>
 
 
-MyListView::MyListView(QWidget * parent) : QListView(parent) 
+MyListView::MyListView(QWidget * parent) : QListView(parent)
 {
     setViewMode(QListView::IconMode);
     setMovement(QListView::Static);
@@ -81,7 +81,10 @@ void MyListView::focusInEvent(QFocusEvent *event)
     if (event->reason() == Qt::MouseFocusReason) emit focusView();
 }
 
-MyTreeView::MyTreeView(QWidget * parent) : QTreeView(parent) {}
+MyTreeView::MyTreeView(QWidget * parent) : QTreeView(parent)
+{
+    setEditing(false);
+}
 
 void MyTreeView::mousePressEvent(QMouseEvent *event)
 {
@@ -106,6 +109,45 @@ void MyTreeView::mouseMoveEvent(QMouseEvent * event)
         dragged = performDrag();
     }
     if (!dragged) QTreeView::mouseMoveEvent(event);
+}
+
+void MyTreeView::closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint)
+{
+    QAbstractItemView::closeEditor(editor, hint);
+    setEditing(false);
+}
+
+void MyTreeView::editorDestroyed(QObject *editor)
+{
+    QAbstractItemView::editorDestroyed(editor);
+    setEditing(false);
+}
+
+void MyTreeView::keyPressEvent(QKeyEvent* event)
+{
+    if (isEditing() == true) {
+        QTreeView::keyPressEvent(event);
+        return;
+    }
+    QModelIndex currentIndex = this->currentIndex();
+    if( event->key() == Qt::Key_Return && currentIndex.isValid() ) {
+        if (this->isExpanded( currentIndex )) {
+            this->collapse(currentIndex);
+        } else {
+            this->expand(currentIndex);
+        }
+    }
+    QTreeView::keyPressEvent(event);
+}
+
+bool MyTreeView::isEditing()
+{
+    return m_editing;
+}
+
+void MyTreeView::setEditing(bool edit)
+{
+    m_editing = edit;
 }
 
 bool MyTreeView::performDrag()
@@ -951,6 +993,7 @@ QString Bin::slotAddFolder(const QString &folderName)
         if (id.isValid() && id2.isValid()) {
             m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::Select);
         }
+        m_itemView->setProperty("editing", true);
         m_itemView->edit(m_proxyModel->mapFromSource(ix));
     }
     return newId;
@@ -1519,6 +1562,7 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
         IconRect.setSize(m_itemView->iconSize());
         if (!pos.isNull() && ((ix.column() == 2 && item->itemType() == AbstractProjectItem::ClipItem) || !IconRect.contains(pos))) {
             // User clicked outside icon, trigger rename
+            m_itemView->setProperty("editing", true);
             m_itemView->edit(ix);
             return;
         }
@@ -2349,7 +2393,7 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
 void Bin::slotItemEdited(QModelIndex ix,QModelIndex,QVector<int>)
 {
     if (ix.isValid()) {
-        // User clicked in the icon, open clip properties
+        // Clip renamed
         AbstractProjectItem *item = static_cast<AbstractProjectItem*>(ix.internalPointer());
         ProjectClip *clip = qobject_cast<ProjectClip*>(item);  
 	if (clip) emit clipNameChanged(clip->clipId());
@@ -3059,6 +3103,7 @@ void Bin::slotRenameFolder()
         AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
         ProjectFolder *currentItem = qobject_cast<ProjectFolder*>(item);
         if (currentItem) {
+            m_itemView->setProperty("editing", true);
             m_itemView->edit(ix);
             return;
         }
