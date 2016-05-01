@@ -238,7 +238,7 @@ void HeaderTrack::adjustSize(int height)
     QFontMetrics metrics(font());
     int trackHeight = metrics.height();
     QStyle *style = qApp->style();
-    trackHeight += style->pixelMetric(QStyle::PM_ToolBarIconSize) + 2 * style->pixelMetric(QStyle::PM_ToolBarItemMargin) + style->pixelMetric(QStyle::PM_ToolBarItemSpacing);
+    trackHeight += style->pixelMetric(QStyle::PM_ToolBarIconSize);
     bool smallTracks = height < trackHeight;
     m_tb->setHidden(smallTracks);
     setFixedHeight(height);
