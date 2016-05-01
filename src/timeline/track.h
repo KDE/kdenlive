@@ -103,14 +103,14 @@ public:
      * @param mode allow insert in non-blanks by replacing (mode=1) or pushing (mode=2) content
      * The playlist must be locked / unlocked before and after calling doAdd
      * @return true if success */
-    bool doAdd(qreal t, Mlt::Producer *cut, int mode);
-    bool add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, PlaylistState::ClipState state, bool duplicate, int mode);
+    bool doAdd(qreal t, Mlt::Producer *cut, TimelineMode::EditMode mode);
+    bool add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, PlaylistState::ClipState state, bool duplicate, TimelineMode::EditMode mode);
     /** @brief Move a clip in the track
      * @param start where clip is present (in seconds);
      * @param end wher the clip should be moved
      * @param mode allow insert in non-blanks by replacing (mode=1) or pushing (mode=2) content
      * @return true if success */
-    bool move(qreal start, qreal end, int mode = 0);
+    bool move(qreal start, qreal end, TimelineMode::EditMode mode = TimelineMode::NormalEdit);
     /** @brief delete a clip
      * @param time where clip is present (in seconds);
      * @return true if success */
@@ -193,6 +193,8 @@ public:
     int spaceLength(int pos, bool fromBlankStart);
     /** @brief Dis/enable all effects on this track. */
     void disableEffects(bool disable);
+    /** @brief Returns true if position is on last clip or beyond track length. */
+    bool isLastClip(qreal t);
 
 signals:
     /** @brief notify track length change to update background

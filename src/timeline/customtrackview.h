@@ -68,7 +68,7 @@ public:
       If \c out_actualEnd is not NULL, it will be set to the position the clip really ended up at.
       For example, attempting to move a clip to t = -1 s will actually move it to t = 0 s.
       */
-    bool moveClip(const ItemInfo &start, const ItemInfo &end, bool refresh, ItemInfo *out_actualEnd = NULL);
+    bool moveClip(const ItemInfo &start, const ItemInfo &end, bool refresh, bool alreadyMoved, ItemInfo *out_actualEnd = NULL);
     void moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> startTransition, const GenTime &offset, const int trackOffset, bool reverseMove = false);
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
     void moveTransition(const ItemInfo &start, const ItemInfo &end, bool refresh);
@@ -211,7 +211,9 @@ public:
 
     /** @brief Trigger a monitor refresh. */
     void monitorRefresh();
-    
+    /** @brief Trigger a monitor refresh if timeline cursor is inside range. */
+    void monitorRefresh(ItemInfo range);
+
     /** @brief Returns frame number of current mouse position. */
     int getMousePos() const;
 
@@ -255,7 +257,8 @@ public:
     /** @brief Switch current track lock state */
     void switchTrackLock();
     void switchAllTrackLock();
-    void insertTimelineSpace(GenTime startPos, GenTime duration);
+    /** @brief Insert space in timeline. track = -1 means all tracks */
+    void insertTimelineSpace(GenTime startPos, GenTime duration, int track = -1, QList <ItemInfo> excludeList = QList <ItemInfo>());
 
 public slots:
     /** @brief Send seek request to MLT. */
@@ -341,7 +344,7 @@ public slots:
     /** @brief Export part of the playlist in an xml file */
     void exportTimelineSelection(QString path = QString());
     /** Remove zone from current track */
-    void extractZone(QPoint z, bool closeGap, QUndoCommand *masterCommand = NULL);
+    void extractZone(QPoint z, bool closeGap, QList <ItemInfo> excludedClips = QList <ItemInfo>(), QUndoCommand *masterCommand = NULL, int track = -1);
     /** @brief Select an item in timeline. */
     void slotSelectItem(AbstractClipItem *item);
 
@@ -534,7 +537,7 @@ private:
     /** @brief Break groups containing an item in a locked track. */
     void breakLockedGroups(QList<ItemInfo> clipsToMove, QList<ItemInfo> transitionsToMove, QUndoCommand *masterCommand, bool doIt = true);
     /** @brief Cut clips in all non locked tracks. */
-    void cutTimeline(int cutPos, QUndoCommand *masterCommand);
+    void cutTimeline(int cutPos, QList <ItemInfo> excluded, QUndoCommand *masterCommand, int track = -1);
 
 private slots:
     void slotRefreshGuides();

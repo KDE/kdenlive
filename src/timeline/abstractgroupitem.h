@@ -60,6 +60,8 @@ public:
 
     /** @brief Gets the duration (length) of the group. */
     GenTime duration();
+    /** @brief Gets the start frame of the group. */
+    GenTime startPos();
 
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);

@@ -1278,3 +1278,8 @@ QImage ProjectClip::findCachedThumb(int pos)
     const QString path = url().path() + '_' + QString::number(pos);
     return bin()->findCachedPixmap(path);
 }
+
+bool ProjectClip::hasAudio() const
+{
+    return (m_type == AV || m_type == Audio || m_type == Playlist);
+}

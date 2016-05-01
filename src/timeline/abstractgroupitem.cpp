@@ -574,4 +574,22 @@ GenTime AbstractGroupItem::duration()
     return end - start;
 }
 
+GenTime AbstractGroupItem::startPos()
+{
+    QList <QGraphicsItem *> children = childItems();
+    GenTime start = GenTime(-1.0);
+    for (int i = 0; i < children.count(); ++i) {
+        if (children.at(i)->type() != GroupWidget) {
+            AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
+            if (item) {
+                if (start < GenTime() || item->startPos() < start)
+                    start = item->startPos();
+            }
+        } else {
+            children << children.at(i)->childItems();
+        }
+    }
+    return start;
+}
+
 

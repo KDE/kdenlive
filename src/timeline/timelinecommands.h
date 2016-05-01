@@ -238,13 +238,15 @@ private:
 class AddSpaceCommand : public QUndoCommand
 {
 public:
-    AddSpaceCommand(CustomTrackView *view, ItemInfo spaceInfo, bool doIt, QUndoCommand * parent = 0);
+    AddSpaceCommand(CustomTrackView *view, ItemInfo spaceInfo, QList <ItemInfo> excludeList, bool doIt, QUndoCommand * parent = 0, bool trackonly = false);
     void undo();
     void redo();
 private:
     CustomTrackView *m_view;
     ItemInfo m_spaceInfo;
+    QList <ItemInfo> m_excludeList;
     bool m_doIt;
+    bool m_trackOnly;
 };
 
 class LockTrackCommand : public QUndoCommand
@@ -262,7 +264,7 @@ private:
 class MoveClipCommand : public QUndoCommand
 {
 public:
-    MoveClipCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, QUndoCommand * parent = 0);
+    MoveClipCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool alreadyMoved, bool doIt, QUndoCommand * parent = 0);
     void undo();
     void redo();
 private:
@@ -272,6 +274,7 @@ private:
     bool m_doIt;
     bool m_refresh;
     bool m_success;
+    bool m_alreadyMoved;
 };
 
 class MoveEffectCommand : public QUndoCommand
@@ -382,11 +385,12 @@ private:
 class RefreshMonitorCommand : public QUndoCommand
 {
 public:
-    RefreshMonitorCommand(CustomTrackView *view, bool execute, bool refreshOnUndo, QUndoCommand * parent = 0);
+    RefreshMonitorCommand(CustomTrackView *view, ItemInfo info, bool execute, bool refreshOnUndo, QUndoCommand * parent = 0);
     void undo();
     void redo();
 private:
     CustomTrackView *m_view;
+    ItemInfo m_info;
     bool m_exec;
     bool m_execOnUndo;
 };

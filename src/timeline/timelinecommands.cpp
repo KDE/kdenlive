@@ -426,26 +426,29 @@ void GroupClipsCommand::redo()
     m_doIt = true;
 }
 
-AddSpaceCommand::AddSpaceCommand(CustomTrackView *view, ItemInfo spaceInfo, bool doIt, QUndoCommand * parent) :
+AddSpaceCommand::AddSpaceCommand(CustomTrackView *view, ItemInfo spaceInfo, QList <ItemInfo> excludeList, bool doIt, QUndoCommand * parent, bool trackonly) :
     QUndoCommand(parent),
     m_view(view),
     m_spaceInfo(spaceInfo),
-    m_doIt(doIt)
+    m_excludeList(excludeList),
+    m_doIt(doIt),
+    m_trackOnly(trackonly)
 {
 }
 
 // virtual
 void AddSpaceCommand::undo()
 {
-    m_view->insertTimelineSpace(m_spaceInfo.startPos, -m_spaceInfo.cropDuration);
+    m_view->insertTimelineSpace(m_spaceInfo.startPos, -m_spaceInfo.cropDuration, m_trackOnly ? m_spaceInfo.track : -1);
 }
 // virtual
 void AddSpaceCommand::redo()
 {
     if (m_doIt) {
-        m_view->insertTimelineSpace(m_spaceInfo.startPos, m_spaceInfo.cropDuration);
+        m_view->insertTimelineSpace(m_spaceInfo.startPos, m_spaceInfo.cropDuration, m_trackOnly ? m_spaceInfo.track : -1, m_excludeList);
     }
     m_doIt = true;
+    m_excludeList.clear();
 }
 
 
@@ -499,13 +502,14 @@ void LockTrackCommand::redo()
     m_view->lockTrack(m_ix, m_lock);
 }
 
-MoveClipCommand::MoveClipCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, QUndoCommand * parent)
+MoveClipCommand::MoveClipCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool alreadyMoved, bool doIt, QUndoCommand * parent)
     : QUndoCommand(parent),
       m_view(view),
       m_startPos(start),
       m_endPos(end),
       m_doIt(doIt),
-      m_success(true)
+      m_success(true),
+      m_alreadyMoved(alreadyMoved)
 {
     setText(i18n("Move clip"));
     if (parent) {
@@ -523,17 +527,18 @@ void MoveClipCommand::undo()
     // We can only undo what was done;
     // if moveClip() failed in redo() the document does (or should) not change.
     if (m_success) {
-        m_view->moveClip(m_endPos, m_startPos, m_refresh);
+        m_view->moveClip(m_endPos, m_startPos, m_refresh, false);
     }
 }
 void MoveClipCommand::redo()
 {
     if (m_doIt) {
         //        qDebug() << "Executing move clip command. End now:" << m_endPos;
-        m_success = m_view->moveClip(m_startPos, m_endPos, m_refresh, &m_endPos);
+        m_success = m_view->moveClip(m_startPos, m_endPos, m_refresh, m_alreadyMoved, &m_endPos);
         //        qDebug() << "Move clip command executed. End now: " << m_endPos;
     }
     m_doIt = true;
+    m_alreadyMoved = false;
 }
 
 MoveEffectCommand::MoveEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QList<int> &oldPos, int newPos, QUndoCommand * parent) :
@@ -714,9 +719,10 @@ void RebuildGroupCommand::redo()
     m_view->rebuildGroup(m_childTrack, m_childPos);
 }
 
-RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, bool execute, bool refreshOnUndo, QUndoCommand * parent) :
+RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, ItemInfo info, bool execute, bool refreshOnUndo, QUndoCommand * parent) :
     QUndoCommand(parent),
     m_view(view),
+    m_info(info),
     m_exec(execute),
     m_execOnUndo(refreshOnUndo)
 {
@@ -725,13 +731,13 @@ RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, bool execute
 void RefreshMonitorCommand::undo()
 {
     if (m_execOnUndo)
-        m_view->monitorRefresh();
+        m_view->monitorRefresh(m_info);
 }
 // virtual
 void RefreshMonitorCommand::redo()
 {
     if (m_exec && !m_execOnUndo)
-        m_view->monitorRefresh();
+        m_view->monitorRefresh(m_info);
     m_exec = true;
 }
 

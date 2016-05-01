@@ -847,8 +847,6 @@ void MainWindow::setupActions()
     toolbar->addAction(m_insertEditTool);
     m_insertEditTool->setCheckable(true);
     m_insertEditTool->setChecked(false);
-    // not implemented yet
-    m_insertEditTool->setEnabled(false);
 
     QActionGroup *editGroup = new QActionGroup(this);
     editGroup->addAction(m_normalEditTool);
@@ -856,8 +854,6 @@ void MainWindow::setupActions()
     editGroup->addAction(m_insertEditTool);
     editGroup->setExclusive(true);
     connect(editGroup, SIGNAL(triggered(QAction*)), this, SLOT(slotChangeEdit(QAction*)));
-    //connect(m_overwriteEditTool, SIGNAL(toggled(bool)), this, SLOT(slotSetOverwriteMode(bool)));
-
     toolbar->addSeparator();
 
     // create tools buttons

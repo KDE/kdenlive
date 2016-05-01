@@ -179,12 +179,15 @@ public:
     void resetFrameWidth(int width);
     /** @brief Clip is about to be deleted, block thumbs. */
     void stopThumbs();
-    
+
     /** @brief Get a free index value for effect group. */
     int nextFreeEffectGroupIndex() const;
-    
+
     /** @brief Returns true of this clip needs a duplicate (MLT requires duplicate for clips with audio or we get clicks. */
     bool needsDuplicate() const;
+
+    /** @brief Returns true of this has audio. */
+    bool hasAudio() const;
 
     /** @brief Returns some info useful for recreating this clip. */
     PlaylistState::ClipState clipState() const;

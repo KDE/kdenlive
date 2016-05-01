@@ -1854,6 +1854,11 @@ PlaylistState::ClipState ClipItem::clipState() const
     return m_clipState;
 }
 
+bool ClipItem::hasAudio() const
+{
+    return (m_clipState != PlaylistState::VideoOnly && m_binClip->hasAudio());
+}
+
 void ClipItem::updateState(const QString &id)
 {
     if (id.startsWith(QLatin1String("slowmotion"))) {

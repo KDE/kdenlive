@@ -92,7 +92,7 @@ public:
     *
     * Parses all tracks to check if there is audio data. */
     bool checkProjectAudio();
-    
+
     /** @brief Load guides from data */
     void loadGuides(QMap <double, QString> guidesData);
 
@@ -102,7 +102,7 @@ public:
     /** @brief Returns a kdenlive effect xml description from an effect tag / id */
     static QDomElement getEffectByTag(const QString &effecttag, const QString &effectid);
     /** @brief Move a clip between tracks */
-    bool moveClip(int startTrack, qreal startPos, int endTrack, qreal endPos, PlaylistState::ClipState state, int mode, bool duplicate);
+    bool moveClip(int startTrack, qreal startPos, int endTrack, qreal endPos, PlaylistState::ClipState state, TimelineMode::EditMode mode, bool duplicate);
     void renameTrack(int ix, const QString &name);
     void updateTrackState(int ix, int state);
     /** @brief Returns info about a track.
@@ -155,7 +155,8 @@ public:
     void switchTrackTarget();
     /** @brief Refresh Header Leds */
     void updateHeaders();
-
+    /** @brief Returns true if position is on the last clip */
+    bool isLastClip(ItemInfo info);
 protected:
     void keyPressEvent(QKeyEvent * event);
 

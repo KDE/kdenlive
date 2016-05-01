@@ -218,6 +218,15 @@ public:
     bool isValid() const {
         return startPos != endPos;
     }
+    bool contains(GenTime pos) const {
+        if (startPos == endPos)
+            return true;
+        return (pos < endPos && pos > startPos);
+    }
+    bool operator==(const ItemInfo &a)
+    {
+        return startPos == a.startPos && endPos == a.endPos && track == a.track && cropStart == a.cropStart;
+    }
 };
 
 class TransitionInfo {

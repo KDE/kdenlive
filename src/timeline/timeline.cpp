@@ -598,6 +598,15 @@ TrackInfo Timeline::getTrackInfo(int ix)
     return tk->info();
 }
 
+bool Timeline::isLastClip(ItemInfo info)
+{
+    Track *tk = track(info.track);
+    if (tk == NULL) {
+        return true;
+    }
+    return tk->isLastClip(info.endPos.ms());
+}
+
 void Timeline::setTrackInfo(int ix, TrackInfo info)
 {
     if (ix < 0 || ix > m_tracks.count()) {
@@ -1267,7 +1276,7 @@ void Timeline::checkTrackHeight(bool force)
     }
 }
 
-bool Timeline::moveClip(int startTrack, qreal startPos, int endTrack, qreal endPos, PlaylistState::ClipState state, int mode, bool duplicate)
+bool Timeline::moveClip(int startTrack, qreal startPos, int endTrack, qreal endPos, PlaylistState::ClipState state, TimelineMode::EditMode mode, bool duplicate)
 {
     if (startTrack == endTrack) {
         return track(startTrack)->move(startPos, endPos, mode);

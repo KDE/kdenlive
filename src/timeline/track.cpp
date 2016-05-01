@@ -68,8 +68,7 @@ qreal Track::length() {
 }
 
 // basic clip operations
-
-bool Track::add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, PlaylistState::ClipState state, bool duplicate, int mode)
+bool Track::add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, PlaylistState::ClipState state, bool duplicate, TimelineMode::EditMode mode)
 {
     Mlt::Producer *cut = NULL;
     if (parent == NULL || !parent->is_valid()) {
@@ -92,14 +91,14 @@ bool Track::add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, Playlis
     return result;
 }
 
-bool Track::doAdd(qreal t, Mlt::Producer *cut, int mode)
+bool Track::doAdd(qreal t, Mlt::Producer *cut, TimelineMode::EditMode mode)
 {
     int pos = frame(t);
     int len = cut->get_out() - cut->get_in() + 1;
     if (pos < m_playlist.get_playtime() && mode > 0) {
-        if (mode == 1) {
+        if (mode == TimelineMode::OverwriteEdit) {
             m_playlist.remove_region(pos, len);
-        } else if (mode == 2) {
+        } else if (mode == TimelineMode::InsertEdit) {
             m_playlist.split_at(pos);
         }
         //m_playlist.insert_blank(m_playlist.get_clip_index_at(pos), len);
@@ -111,7 +110,7 @@ bool Track::doAdd(qreal t, Mlt::Producer *cut, int mode)
     return true;
 }
 
-bool Track::move(qreal start, qreal end, int mode)
+bool Track::move(qreal start, qreal end, TimelineMode::EditMode mode)
 {
     int pos = frame(start);
     m_playlist.lock();
@@ -137,6 +136,15 @@ bool Track::move(qreal start, qreal end, int mode)
 	  emit newTrackDuration(m_playlist.get_playtime());
     }
     return result;
+}
+
+bool Track::isLastClip(qreal t)
+{
+    int clipIndex = m_playlist.get_clip_index_at(frame(t));
+    if (clipIndex >= m_playlist.count() - 1) {
+	return true;
+    }
+    return false;
 }
 
 bool Track::del(qreal t)
