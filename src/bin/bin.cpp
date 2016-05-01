@@ -899,6 +899,8 @@ void Bin::setDocument(KdenliveDoc* project)
     // Remove clip from Bin's monitor
     if (m_doc) emit openClip(NULL);
     m_infoMessage->hide();
+    blockSignals(true);
+    m_proxyModel->selectionModel()->blockSignals(true);
     setEnabled(false);
 
     // Cleanup previous project
@@ -921,6 +923,8 @@ void Bin::setDocument(KdenliveDoc* project)
     m_jobManager = new JobManager(this);
     m_rootFolder = new ProjectFolder(this);
     setEnabled(true);
+    blockSignals(false);
+    m_proxyModel->selectionModel()->blockSignals(false);
     connect(m_jobManager, SIGNAL(addClip(QString)), this, SLOT(slotAddUrl(QString)));
     connect(m_proxyAction, SIGNAL(toggled(bool)), m_doc, SLOT(slotProxyCurrentItem(bool)));
     connect(m_jobManager, SIGNAL(jobCount(int)), m_infoLabel, SLOT(slotSetJobCount(int)));

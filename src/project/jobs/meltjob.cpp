@@ -87,34 +87,38 @@ void MeltJob::startJob()
         setStatus(JobCrashed);
         return;
     }
-    if (m_extra.contains(QStringLiteral("producer_profile"))) {
+    Mlt::Profile *projectProfile = new Mlt::Profile(KdenliveSettings::current_profile().toUtf8().constData());
+    bool producerProfile = m_extra.contains(QStringLiteral("producer_profile"));
+    if (producerProfile) {
 	m_profile = new Mlt::Profile;
 	m_profile->set_explicit(false);
-    }
-    else {
-	m_profile = new Mlt::Profile(KdenliveSettings::current_profile().toUtf8().constData());
+    } else {
+        m_profile = projectProfile;
     }
     if (m_extra.contains(QStringLiteral("resize_profile"))) {
         m_profile->set_height(m_extra.value(QStringLiteral("resize_profile")).toInt());
 	m_profile->set_width(m_profile->height() * m_profile->sar());
     }
-    double fps = m_profile->fps();
-    int fps_num = m_profile->frame_rate_num();
-    int fps_den = m_profile->frame_rate_den();
-    m_producer = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
-    if (m_producer && m_extra.contains(QStringLiteral("producer_profile"))) {
-        m_profile->from_producer(*m_producer);
+    double fps = projectProfile->fps();
+    int fps_num = projectProfile->frame_rate_num();
+    int fps_den = projectProfile->frame_rate_den();
+    Mlt::Producer *producer = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
+    if (producer && producerProfile) {
+        m_profile->from_producer(*producer);
         m_profile->set_explicit(true);
     }
-    if (m_profile->fps() != fps) {
+    if (m_profile->fps() != fps || producerProfile) {
         // Reload producer
-        delete m_producer;
+        delete producer;
         // Force same fps as projec profile or the resulting .mlt will not load in our project
         m_profile->set_frame_rate(fps_num, fps_den);
-        m_producer = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
+        producer = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
+    }
+    if (producerProfile) {
+        delete projectProfile;
     }
 
-    if (!m_producer || !m_producer->is_valid()) {
+    if (!producer || !producer->is_valid()) {
 	// Clip was removed or something went wrong, Notify user?
 	//m_errorMessage.append(i18n("Invalid clip"));
         setStatus(JobCrashed);
@@ -124,18 +128,21 @@ void MeltJob::startJob()
     // Process producer params
     QMapIterator<QString, QString> i(m_producerParams);
     QStringList ignoredProps;
-    ignoredProps << QStringLiteral("producer");// << QStringLiteral("in") << QStringLiteral("out");
+    ignoredProps << QStringLiteral("producer") << QStringLiteral("in") << QStringLiteral("out");
     while (i.hasNext()) {
 	i.next();
 	QString key = i.key();
 	if (!ignoredProps.contains(key)) {
-	    m_producer->set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
+	    producer->set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
 	}
     }
 
-    m_length = m_producer->get_playtime();
-    if (m_length == 0)
-        m_length = m_producer->get_length();
+    if (out == -1) {
+        m_producer = producer;
+    } else {
+        m_producer = producer->cut(in, out);
+        delete producer;
+    }
 
     // Build consumer
     if (consumerName.contains(QLatin1String(":"))) {
@@ -185,9 +192,16 @@ void MeltJob::startJob()
             }
         }
     }
-    m_consumer->connect(*m_producer);
+    Mlt::Tractor tractor(*m_profile);
+    Mlt::Playlist playlist;
+    playlist.append(*m_producer);
+    tractor.set_track(playlist, 0);
+    m_consumer->connect(tractor);
     m_producer->set_speed(0);
     m_producer->seek(0);
+    m_length = m_producer->get_playtime();
+    if (m_length == 0)
+        m_length = m_producer->get_length();
     if (m_filter) m_producer->attach(*m_filter);
     m_showFrameEvent = m_consumer->listen("consumer-frame-render", this, (mlt_listener) consumer_frame_render);
     m_producer->set_speed(1);
