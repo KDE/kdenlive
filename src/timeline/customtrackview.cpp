@@ -7975,10 +7975,6 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
             extractAudio = false;
         if (m_timeline->videoTarget == -1 || m_timeline->getTrackInfo(m_timeline->videoTarget).isLocked)
             extractVideo = false;
-        if (!extractAudio && !extractVideo) {
-            emit displayMessage(i18n("Please select target track(s) to perform operation"), ErrorMessage);
-            return;
-        }
     }
     else if (m_timeline->getTrackInfo(m_selectedTrack).isLocked) {
         // Cannot perform an Extract operation on a locked track
@@ -8008,16 +8004,17 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
     if (KdenliveSettings::splitaudio()) {
         if (extractVideo) {
             info.track = m_timeline->videoTarget;
-        if (extractAudio) {
-            new AddTimelineClipCommand(this, clipId, info, EffectsList(), PlaylistState::Original, true, false, addCommand);
-        } else {
-            new AddTimelineClipCommand(this, clipId, info, EffectsList(), PlaylistState::VideoOnly, true, false, addCommand);
-        }
-        }
-        else {
+            if (extractAudio) {
+                new AddTimelineClipCommand(this, clipId, info, EffectsList(), PlaylistState::Original, true, false, addCommand);
+            } else {
+                new AddTimelineClipCommand(this, clipId, info, EffectsList(), PlaylistState::VideoOnly, true, false, addCommand);
+            }
+        } else if (extractAudio) {
             // Extract audio only
             info.track = m_timeline->audioTarget;
             new AddTimelineClipCommand(this, clipId, info, EffectsList(), PlaylistState::AudioOnly, true, false, addCommand);
+        } else {
+            emit displayMessage(i18n("No target track(s) selected"), InformationMessage);
         }
     }
     else {
