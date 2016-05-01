@@ -152,7 +152,7 @@ public:
     void loadGroups(const QDomNodeList &groups);
 
     /** @brief Creates SplitAudioCommands for selected clips. */
-    void splitAudio(bool warn = true, ItemInfo info = ItemInfo(), QUndoCommand *masterCommand = NULL);
+    void splitAudio(bool warn = true, ItemInfo info = ItemInfo(), int destTrack = -1, QUndoCommand *masterCommand = NULL);
 
     /// Define which clip to take as reference for automatic audio alignment
     void setAudioAlignReference();
@@ -164,7 +164,7 @@ public:
     * @param pos Position of the clip to split
     * @param track Track of the clip
     * @param split Split or unsplit */
-    void doSplitAudio(const GenTime &pos, int track, bool split);
+    void doSplitAudio(const GenTime &pos, int track, int destTrack, bool split);
     /** @brief Sets the clip type (av, video only, audio only) of the current selection. */
     void setClipType(PlaylistState::ClipState state);
     void doChangeClipType(const GenTime &pos, int track, PlaylistState::ClipState state);

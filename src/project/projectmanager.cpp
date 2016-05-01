@@ -708,4 +708,9 @@ void ProjectManager::slotSwitchTrackLock()
     m_trackView->projectView()->switchTrackLock();
 }
 
+void ProjectManager::slotSwitchTrackTarget()
+{
+    m_trackView->switchTrackTarget();
+}
+
 

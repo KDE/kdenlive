@@ -39,10 +39,10 @@
 
 HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track *parent, QWidget *parentWidget) :
         QWidget(parentWidget),
+        isTarget(false),
         m_type(info.type),
         m_parentTrack(parent),
         m_isSelected(false),
-        m_isTarget(false),
         m_switchComposite(NULL),
         m_switchVideo(NULL)
 {
@@ -277,12 +277,18 @@ void HeaderTrack::setLock(bool lock)
     updateLed();
 }
 
+void HeaderTrack::switchTarget(bool enable)
+{
+    isTarget = enable;
+    updateLed();
+}
+
 void HeaderTrack::updateLed()
 {
     if (m_switchLock->isActive()) {
         // Locked track
         kled->setColor(Qt::darkRed);
-    } else if (m_isTarget) {
+    } else if (isTarget) {
         kled->setColor(Qt::darkGreen);
     } else if (m_switchAudio->isActive() || (m_switchVideo && m_switchVideo->isActive())) {
         kled->setColor(0xffcc00);

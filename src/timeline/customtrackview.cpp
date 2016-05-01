@@ -1736,7 +1736,27 @@ void CustomTrackView::insertClipCut(const QString &id, int in, int out)
     ItemInfo pasteInfo = info;
     pasteInfo.startPos = GenTime(m_cursorPos, m_document->fps());
     pasteInfo.endPos = pasteInfo.startPos + info.endPos;
-    pasteInfo.track = selectedTrack();
+    PlaylistState::ClipState state = PlaylistState::Original;
+    if (KdenliveSettings::splitaudio()) {
+        if (m_timeline->videoTarget > -1) {
+            pasteInfo.track = m_timeline->videoTarget;
+            if (m_timeline->audioTarget == -1)
+                state = PlaylistState::VideoOnly;
+        }
+        else if (m_timeline->audioTarget > -1) {
+            pasteInfo.track = m_timeline->audioTarget;
+            state = PlaylistState::AudioOnly;
+        } else {
+            emit displayMessage(i18n("Please select target track(s) to perform operation"), ErrorMessage);
+            return;
+        }
+    } else {
+        pasteInfo.track = selectedTrack();
+    }
+    if (m_timeline->getTrackInfo(pasteInfo.track).isLocked) {
+        emit displayMessage(i18n("Cannot perform operation on a locked track"), ErrorMessage);
+        return;
+    }
     bool ok = canBePastedTo(pasteInfo, AVWidget);
     if (!ok) {
         // Cannot be inserted at cursor pos, insert at end of track
@@ -1754,11 +1774,13 @@ void CustomTrackView::insertClipCut(const QString &id, int in, int out)
     QUndoCommand *addCommand = new QUndoCommand();
     addCommand->setText(i18n("Add timeline clip"));
     new RefreshMonitorCommand(this, false, true, addCommand);
-    new AddTimelineClipCommand(this, id, pasteInfo, EffectsList(), PlaylistState::Original, true, false, addCommand);
+    new AddTimelineClipCommand(this, id, pasteInfo, EffectsList(), state, true, false, addCommand);
     new RefreshMonitorCommand(this, true, false, addCommand);
     // Automatic audio split
-    if (KdenliveSettings::splitaudio())
-        splitAudio(false, info, addCommand);
+    if (KdenliveSettings::splitaudio() && m_timeline->audioTarget > -1 && m_timeline->videoTarget > -1) {
+        if (!m_timeline->getTrackInfo(m_timeline->audioTarget).isLocked)
+            splitAudio(false, pasteInfo, m_timeline->audioTarget, addCommand);
+    }
     else
         updateTrackDuration(pasteInfo.track, addCommand);
     m_commandStack->push(addCommand);
@@ -3073,7 +3095,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             new AddTimelineClipCommand(this, clipBinId, item->info(), item->effectList(), item->clipState(), false, false, addCommand);
             // Automatic audio split
             if (KdenliveSettings::splitaudio())
-                splitAudio(false, info, addCommand);
+                splitAudio(false, info, -1, addCommand);
             else
                 updateTrackDuration(info.track, addCommand);
 
@@ -7281,7 +7303,7 @@ void CustomTrackView::loadGroups(const QDomNodeList &groups)
     }
 }
 
-void CustomTrackView::splitAudio(bool warn, ItemInfo info, QUndoCommand *masterCommand)
+void CustomTrackView::splitAudio(bool warn, ItemInfo info, int destTrack, QUndoCommand *masterCommand)
 {
     resetSelectionGroup();
     QList<QGraphicsItem *> selection;
@@ -7300,7 +7322,7 @@ void CustomTrackView::splitAudio(bool warn, ItemInfo info, QUndoCommand *masterC
             return;
         }
     } else {
-        new SplitAudioCommand(this, info.track, info.startPos, masterCommand);
+        new SplitAudioCommand(this, info.track, destTrack, info.startPos, masterCommand);
     }
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == AVWidget) {
@@ -7309,7 +7331,7 @@ void CustomTrackView::splitAudio(bool warn, ItemInfo info, QUndoCommand *masterC
                 if (clip->parentItem()) {
                     emit displayMessage(i18n("Cannot split audio of grouped clips"), ErrorMessage);
                 } else {
-                    new SplitAudioCommand(this, clip->track(), clip->startPos(), masterCommand);
+                    new SplitAudioCommand(this, clip->track(), destTrack, clip->startPos(), masterCommand);
                 }
             }
         }
@@ -7449,7 +7471,7 @@ void CustomTrackView::slotAlignClip(int track, int pos, int shift)
 
 }
 
-void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split)
+void CustomTrackView::doSplitAudio(const GenTime &pos, int track, int destTrack, bool split)
 {
     ClipItem *clip = getClipItemAtStart(pos, track);
     if (clip == NULL) {
@@ -7460,26 +7482,27 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split)
     effects.clone(clip->effectList());
     if (split) {
         int start = pos.frames(m_document->fps());
-        int freetrack = track - 1;
-
         // do not split audio when we are on an audio track
         if (m_timeline->getTrackInfo(track).type == AudioTrack)
             return;
 
-        for (; freetrack > 0; freetrack--) {
-            TrackInfo info = m_timeline->getTrackInfo(freetrack);
-            if (info.type == AudioTrack && !info.isLocked) {
-                int blength = m_timeline->getTrackSpaceLength(freetrack, start, false);
-                if (blength == -1 || blength >= clip->cropDuration().frames(m_document->fps())) {
-                    break;
+        if (destTrack == -1) {
+            destTrack = track - 1;
+            for (; destTrack > 0; destTrack--) {
+                TrackInfo info = m_timeline->getTrackInfo(destTrack);
+                if (info.type == AudioTrack && !info.isLocked) {
+                    int blength = m_timeline->getTrackSpaceLength(destTrack, start, false);
+                    if (blength == -1 || blength >= clip->cropDuration().frames(m_document->fps())) {
+                        break;
+                    }
                 }
             }
         }
-        if (freetrack == 0) {
+        if (destTrack == 0) {
             emit displayMessage(i18n("No empty space to put clip audio"), ErrorMessage);
         } else {
             ItemInfo info = clip->info();
-            info.track = freetrack;
+            info.track = destTrack;
             scene()->clearSelection();
             addClip(clip->getBinId(), info, clip->effectList(), PlaylistState::AudioOnly, false);
             clip->setSelected(true);
@@ -7488,7 +7511,7 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split)
                 if (m_timeline->track(track)->replace(pos.seconds(), m_document->renderer()->getBinVideoProducer(clip->getBinId()))) {
                     clip->setState(PlaylistState::VideoOnly);
                 } else {
-                    emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", pos.frames(m_document->fps()), freetrack), ErrorMessage);
+                    emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", pos.frames(m_document->fps()), destTrack), ErrorMessage);
                 }
                 audioClip->setSelected(true);
 
@@ -7500,7 +7523,7 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split)
                         deleteEffect(track, pos, clip->effect(videoIx));
                         audioIx++;
                     } else {
-                        deleteEffect(freetrack, pos, audioClip->effect(audioIx));
+                        deleteEffect(destTrack, pos, audioClip->effect(audioIx));
                         videoIx++;
                     }
                 }
@@ -7934,7 +7957,19 @@ void CustomTrackView::checkTrackSequence(int track)
 
 void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString clipId, QPoint binZone)
 {
-    if (m_timeline->getTrackInfo(m_selectedTrack).isLocked) {
+    bool extractAudio = true;
+    bool extractVideo = true;
+    if (KdenliveSettings::splitaudio()) {
+        if (m_timeline->audioTarget == -1 || m_timeline->getTrackInfo(m_timeline->audioTarget).isLocked) 
+            extractAudio = false;
+        if (m_timeline->videoTarget == -1 || m_timeline->getTrackInfo(m_timeline->videoTarget).isLocked)
+            extractVideo = false;
+        if (!extractAudio && !extractVideo) {
+            emit displayMessage(i18n("Please select target track(s) to perform operation"), ErrorMessage);
+            return;
+        }
+    }
+    else if (m_timeline->getTrackInfo(m_selectedTrack).isLocked) {
         // Cannot perform an Extract operation on a locked track
         emit displayMessage(i18n("Cannot perform operation on a locked track"), ErrorMessage);
         return;
@@ -7959,10 +7994,29 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
         cutTimeline(timelineZone.x(), addCommand);
         new AddSpaceCommand(this, info, true, addCommand);
     }
-    new AddTimelineClipCommand(this, clipId, info, EffectsList(), PlaylistState::Original, true, false, addCommand);
+    if (KdenliveSettings::splitaudio()) {
+        if (extractVideo) {
+            info.track = m_timeline->videoTarget;
+        if (extractAudio) {
+            new AddTimelineClipCommand(this, clipId, info, EffectsList(), PlaylistState::Original, true, false, addCommand);
+        } else {
+            new AddTimelineClipCommand(this, clipId, info, EffectsList(), PlaylistState::VideoOnly, true, false, addCommand);
+        }
+        }
+        else {
+            // Extract audio only
+            info.track = m_timeline->audioTarget;
+            new AddTimelineClipCommand(this, clipId, info, EffectsList(), PlaylistState::AudioOnly, true, false, addCommand);
+        }
+    }
+    else {
+        new AddTimelineClipCommand(this, clipId, info, EffectsList(), PlaylistState::Original, true, false, addCommand);
+    }
     // Automatic audio split
-    if (KdenliveSettings::splitaudio())
-        splitAudio(false, info, addCommand);
+    if (KdenliveSettings::splitaudio() && extractVideo) {
+        if (!m_timeline->getTrackInfo(m_timeline->audioTarget).isLocked)
+            splitAudio(false, info, m_timeline->audioTarget, addCommand);
+    }
     updateTrackDuration(info.track, addCommand);
     m_commandStack->push(addCommand);
     selectClip(true, false, m_selectedTrack, timelineZone.x());
@@ -8533,3 +8587,4 @@ void CustomTrackView::switchTrackLock()
 {
     slotSwitchTrackLock(m_selectedTrack, !m_timeline->getTrackInfo(m_selectedTrack).isLocked);
 }
+

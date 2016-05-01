@@ -36,6 +36,7 @@ class HeaderTrack : public QWidget, public Ui::TrackHeader_UI
 public:
     HeaderTrack(TrackInfo info, const QList <QAction *>& actions, Track *parent, QWidget *parentWidget);
     virtual ~HeaderTrack();
+    bool isTarget;
     void setTrackHeight(int height);
     void setLock(bool lock);
     void setComposite(bool enable);
@@ -50,6 +51,7 @@ public:
     /** @brief Track has no composite transition, disable switch button.*/
     void disableComposite();
     void refreshPalette();
+    void switchTarget(bool enable);
 
 protected:
     void mousePressEvent(QMouseEvent * event);
@@ -62,7 +64,6 @@ private:
     TrackType m_type;
     Track *m_parentTrack;
     bool m_isSelected;
-    bool m_isTarget;
     QString m_name;
     QToolBar *m_tb;
     KDualAction *m_switchComposite;

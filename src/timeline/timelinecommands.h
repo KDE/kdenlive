@@ -408,13 +408,14 @@ private:
 class SplitAudioCommand : public QUndoCommand
 {
 public:
-    SplitAudioCommand(CustomTrackView *view, const int track, const GenTime &pos, QUndoCommand * parent = 0);
+    SplitAudioCommand(CustomTrackView *view, const int track, const int destTrack, const GenTime &pos, QUndoCommand * parent = 0);
     void undo();
     void redo();
 private:
     CustomTrackView *m_view;
     const GenTime m_pos;
     const int m_track;
+    const int m_destTrack;
 };
 
 #endif

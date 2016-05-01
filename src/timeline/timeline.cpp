@@ -58,6 +58,8 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
     , m_scale(1.0)
     , m_doc(doc)
     , m_verticalZoom(1)
+    , videoTarget(-1)
+    , audioTarget(-1)
 {
     m_trackActions << actions;
     setupUi(this);
@@ -1593,3 +1595,37 @@ bool Timeline::createOverlay(Mlt::Filter *filter, int tk, int startPos)
     return true;
 }
 
+
+void Timeline::switchTrackTarget()
+{
+    if (!KdenliveSettings::splitaudio()) {
+        // This feature is only available on split mode
+        return;
+    }
+    Track *current = m_tracks.at(m_trackview->selectedTrack());
+    TrackType trackType = current->info().type;
+    if (trackType == VideoTrack) {
+        if (m_trackview->selectedTrack() == videoTarget) {
+            // Switch off
+            current->trackHeader->switchTarget(false);
+            videoTarget = -1;
+        } else {
+            if (videoTarget > -1)
+                m_tracks.at(videoTarget)->trackHeader->switchTarget(false);
+            current->trackHeader->switchTarget(true);
+            videoTarget = m_trackview->selectedTrack();
+        }
+    } else if (trackType == AudioTrack) {
+        if (m_trackview->selectedTrack() == audioTarget) {
+            // Switch off
+            current->trackHeader->switchTarget(false);
+            audioTarget = -1;
+        } else {
+            if (audioTarget > -1)
+                m_tracks.at(audioTarget)->trackHeader->switchTarget(false);
+            current->trackHeader->switchTarget(true);
+            audioTarget = m_trackview->selectedTrack();
+        }
+    }
+    
+}

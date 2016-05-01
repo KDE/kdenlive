@@ -759,22 +759,23 @@ void ResizeClipCommand::redo()
     m_doIt = true;
 }
 
-SplitAudioCommand::SplitAudioCommand(CustomTrackView *view, const int track, const GenTime &pos, QUndoCommand * parent) :
+SplitAudioCommand::SplitAudioCommand(CustomTrackView *view, const int track, int destTrack, const GenTime &pos, QUndoCommand * parent) :
     QUndoCommand(parent),
     m_view(view),
     m_pos(pos),
-    m_track(track)
+    m_track(track),
+    m_destTrack(destTrack)
 {
     setText(i18n("Split audio"));
 }
 // virtual
 void SplitAudioCommand::undo()
 {
-    m_view->doSplitAudio(m_pos, m_track, false);
+    m_view->doSplitAudio(m_pos, m_track, m_destTrack, false);
 }
 // virtual
 void SplitAudioCommand::redo()
 {
-    m_view->doSplitAudio(m_pos, m_track, true);
+    m_view->doSplitAudio(m_pos, m_track, m_destTrack, true);
 }
 

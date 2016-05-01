@@ -55,6 +55,8 @@ public:
 
     /** @brief is multitrack view (split screen for tracks) enabled */
     bool multitrackView;
+    int videoTarget;
+    int audioTarget;
     Track* track(int i);
     /** @brief Number of tracks in the MLT playlist. */
     int tracksCount() const;
@@ -149,6 +151,8 @@ public:
     void connectOverlayTrack(bool enable);
     /** @brief Update composite transitions's tracks */
     void updateComposites();
+    /** @brief Switch current track target state */
+    void switchTrackTarget();
 
 protected:
     void keyPressEvent(QKeyEvent * event);
