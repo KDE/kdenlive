@@ -288,11 +288,15 @@ void HeaderTrack::updateLed()
     if (m_switchLock->isActive()) {
         // Locked track
         kled->setColor(Qt::darkRed);
+        kled->setToolTip(i18n("Locked track"));
     } else if (isTarget && KdenliveSettings::splitaudio()) {
         kled->setColor(Qt::darkGreen);
+        kled->setToolTip(i18n("Target track"));
     } else if (m_switchAudio->isActive() || (m_switchVideo && m_switchVideo->isActive())) {
         kled->setColor(0xffcc00);
+        kled->setToolTip(m_switchAudio->isActive() ? i18n("Muted track") : i18n("Blind track"));
     } else {
+        kled->setToolTip(QString());
         kled->setColor(palette().base().color());
     }
 }

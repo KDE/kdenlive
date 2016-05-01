@@ -193,6 +193,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     }
     emit docOpened(m_project);
     //pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
+    m_trackView->projectView()->setFocus();
     m_lastSave.start();
 }
 
