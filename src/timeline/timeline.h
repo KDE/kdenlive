@@ -153,6 +153,8 @@ public:
     void updateComposites();
     /** @brief Switch current track target state */
     void switchTrackTarget();
+    /** @brief Refresh Header Leds */
+    void updateHeaders();
 
 protected:
     void keyPressEvent(QKeyEvent * event);

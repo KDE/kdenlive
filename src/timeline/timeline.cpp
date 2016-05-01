@@ -53,13 +53,13 @@
 Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, QWidget *parent) :
     QWidget(parent),
     multitrackView(false)
+    , videoTarget(-1)
+    , audioTarget(-1)
     , m_hasOverlayTrack(false)
     , m_overlayTrack(NULL)
     , m_scale(1.0)
     , m_doc(doc)
     , m_verticalZoom(1)
-    , videoTarget(-1)
-    , audioTarget(-1)
 {
     m_trackActions << actions;
     setupUi(this);
@@ -848,6 +848,17 @@ void Timeline::updatePalette()
                 m_tracks.at(i)->trackHeader->refreshPalette();
                 if (i == ix)
                     m_tracks.at(ix)->trackHeader->setSelectedIndex(ix);
+            }
+        }
+    }
+}
+
+void Timeline::updateHeaders()
+{
+    if (!m_tracks.isEmpty()) {
+        for (int i = 0; i < m_tracks.count(); i++) {
+            if (m_tracks.at(i)->trackHeader) {
+                m_tracks.at(i)->trackHeader->updateLed();
             }
         }
     }

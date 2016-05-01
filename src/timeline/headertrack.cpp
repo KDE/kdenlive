@@ -288,7 +288,7 @@ void HeaderTrack::updateLed()
     if (m_switchLock->isActive()) {
         // Locked track
         kled->setColor(Qt::darkRed);
-    } else if (isTarget) {
+    } else if (isTarget && KdenliveSettings::splitaudio()) {
         kled->setColor(Qt::darkGreen);
     } else if (m_switchAudio->isActive() || (m_switchVideo && m_switchVideo->isActive())) {
         kled->setColor(0xffcc00);

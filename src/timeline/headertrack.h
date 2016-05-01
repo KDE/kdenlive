@@ -52,6 +52,7 @@ public:
     void disableComposite();
     void refreshPalette();
     void switchTarget(bool enable);
+    void updateLed();
 
 protected:
     void mousePressEvent(QMouseEvent * event);
@@ -71,7 +72,6 @@ private:
     KDualAction *m_switchAudio;
     KDualAction *m_switchLock;
     void updateBackground(bool isLocked);
-    void updateLed();
 
 private slots:
     void switchAudio(bool);

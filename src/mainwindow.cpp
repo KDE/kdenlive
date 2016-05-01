@@ -1823,6 +1823,9 @@ void MainWindow::slotSwitchSplitAudio()
 {
     KdenliveSettings::setSplitaudio(!KdenliveSettings::splitaudio());
     m_buttonAutomaticSplitAudio->setChecked(KdenliveSettings::splitaudio());
+    if (pCore->projectManager()->currentTimeline()) {
+        pCore->projectManager()->currentTimeline()->updateHeaders();
+    }
 }
 
 void MainWindow::slotSwitchVideoThumbs()
