@@ -109,6 +109,7 @@ public slots:
 
     /** @brief Un/Lock current timeline track */
     void slotSwitchTrackLock();
+    void slotSwitchAllTrackLock();
     /** @brief Un/Set current track as target */
     void slotSwitchTrackTarget();
 

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="115" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="116" translationDomain="kdenlive">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -135,6 +135,7 @@
       <Action name="send_library" />
       <Menu name="timeline_tracks" ><text>Tracks</text>
         <Action name="switch_track_lock" />
+        <Action name="switch_all_track_lock" />
         <Action name="switch_track_target" />
       </Menu>
       <Separator />

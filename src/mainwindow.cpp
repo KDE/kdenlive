@@ -1335,6 +1335,7 @@ void MainWindow::setupActions()
     //TODO: port stopmotion to new Monitor code
     //addAction("stopmotion", i18n("Stop Motion Capture"), this, SLOT(slotOpenStopmotion()), KoIconUtils::themedIcon("image-x-generic"));
     addAction(QStringLiteral("switch_track_lock"), i18n("Switch Track Lock"), pCore->projectManager(), SLOT(slotSwitchTrackLock()), QIcon(), Qt::SHIFT + Qt::Key_L);
+    addAction(QStringLiteral("switch_all_track_lock"), i18n("Switch All Track Lock"), pCore->projectManager(), SLOT(slotSwitchAllTrackLock()), QIcon(), Qt::CTRL + Qt::SHIFT + Qt::Key_L);
     addAction(QStringLiteral("switch_track_target"), i18n("Switch Track Target"), pCore->projectManager(), SLOT(slotSwitchTrackTarget()), QIcon(), Qt::SHIFT + Qt::Key_T);
 
     QHash <QString, QAction*> actions;

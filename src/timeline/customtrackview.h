@@ -254,6 +254,7 @@ public:
     void dropTransitionGeometry(Transition *trans, const QString &geometry);
     /** @brief Switch current track lock state */
     void switchTrackLock();
+    void switchAllTrackLock();
     void insertTimelineSpace(GenTime startPos, GenTime duration);
 
 public slots:
@@ -275,7 +276,7 @@ public slots:
     void slotTransitionUpdated(Transition *, QDomElement);
     void slotSwitchTrackAudio(int ix, bool enable);
     void slotSwitchTrackVideo(int ix, bool enable);
-    void slotSwitchTrackLock(int ix, bool enable);
+    void slotSwitchTrackLock(int ix, bool enable, bool applyToAll = false);
     void slotUpdateClip(const QString &clipId, bool reload = true);
 
     bool addGuide(const GenTime &pos, const QString &comment, bool loadingProject = false);

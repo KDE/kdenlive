@@ -3709,9 +3709,20 @@ void CustomTrackView::slotSwitchTrackAudio(int ix, bool enable)
     m_document->renderer()->doRefresh();
 }
 
-void CustomTrackView::slotSwitchTrackLock(int ix, bool enable)
+void CustomTrackView::slotSwitchTrackLock(int ix, bool enable, bool applyToAll)
 {
-    LockTrackCommand *command = new LockTrackCommand(this, ix, enable);
+    QUndoCommand *command = NULL;
+    if (!applyToAll) {
+        command = new LockTrackCommand(this, ix, enable);
+    } else {
+        command = new QUndoCommand;
+        command->setText(i18n("Switch All Track Lock"));
+        for (int i = 1; i <= m_timeline->visibleTracksCount(); ++i) {
+            if (i == ix) 
+                continue;
+            new LockTrackCommand(this, i, enable, command);
+        }
+    }
     m_commandStack->push(command);
 }
 
@@ -8586,5 +8597,13 @@ void CustomTrackView::breakLockedGroups(QList<ItemInfo> clipsToMove, QList<ItemI
 void CustomTrackView::switchTrackLock()
 {
     slotSwitchTrackLock(m_selectedTrack, !m_timeline->getTrackInfo(m_selectedTrack).isLocked);
+}
+
+void CustomTrackView::switchAllTrackLock()
+{
+    if (m_selectedTrack > 1)
+        slotSwitchTrackLock(m_selectedTrack, !m_timeline->getTrackInfo(1).isLocked, true);
+    else if (m_timeline->visibleTracksCount() > 1)
+        slotSwitchTrackLock(m_selectedTrack, !m_timeline->getTrackInfo(2).isLocked, true);
 }
 
