@@ -297,6 +297,12 @@ int Timeline::getTracks() {
         }
     }
     headers_container->setFixedWidth(headerWidth);
+    if (audioTarget > -1) {
+        m_tracks.at(audioTarget)->trackHeader->switchTarget(true);
+    }
+    if (videoTarget > -1) {
+        m_tracks.at(videoTarget)->trackHeader->switchTarget(true);
+    }
     updatePalette();
     refreshTrackActions();
     return duration;
@@ -1638,5 +1644,4 @@ void Timeline::switchTrackTarget()
             audioTarget = m_trackview->selectedTrack();
         }
     }
-    
 }

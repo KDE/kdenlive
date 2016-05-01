@@ -3567,6 +3567,10 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
     if (ix == -1 || ix > m_timeline->tracksCount()) {
         ix = m_timeline->tracksCount() + 1;
     }
+    if (ix <= m_timeline->videoTarget)
+        m_timeline->videoTarget++;
+    if (ix <= m_timeline->audioTarget)
+        m_timeline->audioTarget++;
 
     // Prepare groups for reload
     QDomDocument doc;
@@ -3640,6 +3644,16 @@ void CustomTrackView::removeTrack(int ix)
     emit transitionItemSelected(NULL);
     // Make sure the selected track index is not outside range
     m_selectedTrack = qBound(1, m_selectedTrack, m_timeline->tracksCount() - 2);
+    if (ix == m_timeline->audioTarget) {
+        m_timeline->audioTarget = -1;
+    } else if (m_timeline->audioTarget > ix) {
+        m_timeline->audioTarget--;
+    }
+    if (ix == m_timeline->videoTarget) {
+        m_timeline->videoTarget = -1;
+    } else if (m_timeline->videoTarget > ix) {
+        m_timeline->videoTarget--;
+    }
 
     //Delete composite transition
     Mlt::Tractor *tractor = m_document->renderer()->lockService();
@@ -3682,7 +3696,7 @@ void CustomTrackView::removeTrack(int ix)
             }
         }
     }
-    
+
     //Manually remove all transitions issued from track ix, otherwise  MLT will relocate it to another track
     m_timeline->transitionHandler->deleteTrackTransitions(ix);
 
