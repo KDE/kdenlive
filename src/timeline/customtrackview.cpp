@@ -5165,7 +5165,6 @@ void CustomTrackView::groupClips(bool group, QList<QGraphicsItem *> itemList, bo
         }
         if (command) {
             // Create new group
-            qDebug()<<"CREATE GRP COMMAND ITEMS: "<<clipInfos<<", IDUT: "<<doIt;
             new GroupClipsCommand(this, clipInfos, transitionInfos, group, doIt, command);
         } else {
             if (metaCommand) {
