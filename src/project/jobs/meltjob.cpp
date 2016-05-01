@@ -87,27 +87,29 @@ void MeltJob::startJob()
         setStatus(JobCrashed);
         return;
     }
-    if (m_extra.contains(QStringLiteral("producer_profile"))) {
+    Mlt::Profile *projectProfile = new Mlt::Profile(KdenliveSettings::current_profile().toUtf8().constData());
+    bool producerProfile = m_extra.contains(QStringLiteral("producer_profile"));
+    if (producerProfile) {
 	m_profile = new Mlt::Profile;
 	m_profile->set_explicit(false);
     }
     else {
-	m_profile = new Mlt::Profile(KdenliveSettings::current_profile().toUtf8().constData());
+	m_profile = projectProfile;
     }
     if (m_extra.contains(QStringLiteral("resize_profile"))) {
         m_profile->set_height(m_extra.value(QStringLiteral("resize_profile")).toInt());
 	m_profile->set_width(m_profile->height() * m_profile->sar());
     }
-    double fps = m_profile->fps();
-    int fps_num = m_profile->frame_rate_num();
-    int fps_den = m_profile->frame_rate_den();
+    double fps = projectProfile->fps();
+    int fps_num = projectProfile->frame_rate_num();
+    int fps_den = projectProfile->frame_rate_den();
     if (out == -1) {
 	m_producer = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
-        if (m_producer && m_extra.contains(QStringLiteral("producer_profile"))) {
+        if (m_producer && producerProfile) {
             m_profile->from_producer(*m_producer);
             m_profile->set_explicit(true);
         }
-        if (m_profile->fps() != fps) {
+        if (m_profile->fps() != fps || producerProfile) {
             // Reload producer
             delete m_producer;
             // Force same fps as projec profile or the resulting .mlt will not load in our project
@@ -117,11 +119,11 @@ void MeltJob::startJob()
     }
     else {
 	Mlt::Producer *tmp = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
-        if (tmp && m_extra.contains(QStringLiteral("producer_profile"))) {
+        if (tmp && producerProfile) {
             m_profile->from_producer(*tmp);
             m_profile->set_explicit(true);
         }
-        if (m_profile->fps() != fps) {
+        if (m_profile->fps() != fps || producerProfile) {
             // Reload producer
             delete tmp;
             // Force same fps as projec profile or the resulting .mlt will not load in our project
@@ -130,6 +132,9 @@ void MeltJob::startJob()
         }
         if (tmp) m_producer = tmp->cut(in, out);
 	delete tmp;
+    }
+    if (!producerProfile) {
+        delete projectProfile;
     }
 
     if (!m_producer || !m_producer->is_valid()) {
