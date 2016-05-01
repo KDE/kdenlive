@@ -285,7 +285,9 @@ void AbstractClipItem::setItemLocked(bool locked)
     if (locked)
         setSelected(false);
 
-    setFlag(QGraphicsItem::ItemIsMovable, !locked);
+    // Allow move only if not in a group
+    if (locked || parentItem() == NULL)
+        setFlag(QGraphicsItem::ItemIsMovable, !locked);
     setFlag(QGraphicsItem::ItemIsSelectable, !locked);
 }
 
