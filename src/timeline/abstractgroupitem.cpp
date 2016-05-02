@@ -61,7 +61,7 @@ int AbstractGroupItem::track() const
             continue;
         }
         AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
-        if (item && (topTrack == -1 || topTrack > item->track())) {
+        if (item && (topTrack == -1 || topTrack < item->track())) {
             topTrack = item->track();
         }
     }
@@ -227,10 +227,8 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         int xpos = projectScene()->getSnapPointForPos((int)(start.x() + newPos.x() - pos().x()), KdenliveSettings::snaptopoints());
 
         xpos = qMax(xpos, 0);
-        ////qDebug()<<"GRP XPOS:"<<xpos<<", START:"<<start.x()<<",NEW:"<<newPos.x()<<"; SCENE:"<<scenePos().x()<<",POS:"<<pos().x();
         newPos.setX((int)(pos().x() + xpos - (int) start.x()));
         QStringList lockedTracks = property("locked_tracks").toStringList();
-	
         int proposedTrack = trackForPos(property("y_absolute").toInt() + newPos.y());
         // Check if top item is a clip or a transition
         int offset = 0;
@@ -289,14 +287,18 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         }
         proposedTrack = qBound(groupHeight, proposedTrack, maximumTrack);
         int groupOffset = proposedTrack - topTrack;
+        bool lockAdjust = false;
         if (!lockedTracks.isEmpty()) {
             for (int i = 0; i < groupTracks.count(); ++i) {
                 if (lockedTracks.contains(QString::number(groupTracks.at(i) + groupOffset))) {
-                    return pos();
+                    newPos.setY(pos().y());
+                    lockAdjust = true;
+                    break;
                 }
             }
         }
-        newPos.setY(posForTrack(proposedTrack) + offset);
+        if (!lockAdjust)
+            newPos.setY(posForTrack(proposedTrack) + offset);
         //if (newPos == start) return start;
 
         /*if (newPos.x() < 0) {
@@ -329,14 +331,15 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                     // Collision
                     if (newPos.y() != pos().y()) {
                         // Track change results in collision, restore original position
-                        return pos();
+                        newPos.setY(pos().y());
+                    } else {
+                        AbstractClipItem *item = static_cast <AbstractClipItem *>(collision);
+                        // Determine best pos
+                        QPainterPath clipPath;
+                        clipPath.addRect(item->sceneBoundingRect());
+                        QPainterPath res = shape.intersected(clipPath);
+                        offset = qMax(offset, (int)(res.boundingRect().width() + 0.5));
                     }
-                    AbstractClipItem *item = static_cast <AbstractClipItem *>(collision);
-                    // Determine best pos
-                    QPainterPath clipPath;
-                    clipPath.addRect(item->sceneBoundingRect());
-                    QPainterPath res = shape.intersected(clipPath);
-                    offset = qMax(offset, (int)(res.boundingRect().width() + 0.5));
                 }
             }
             if (offset > 0) {

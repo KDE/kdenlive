@@ -4137,6 +4137,7 @@ void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> t
                 trackTransitionStartList[transToMove.at(i).track] = transToMove.at(i).startPos.frames(m_document->fps());
         } else emit displayMessage(i18n("Cannot move transition at position %1, track %2", m_document->timecode().getTimecodeFromFrames(transToMove.at(i).startPos.frames(m_document->fps())), transToMove.at(i).track), ErrorMessage);
     }
+
     m_selectionGroup->setTransform(QTransform::fromTranslate(diff, 0), true);
 
     // update items coordinates
