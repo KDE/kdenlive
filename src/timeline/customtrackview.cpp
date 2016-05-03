@@ -3097,7 +3097,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             new AddTimelineClipCommand(this, clipBinId, info, item->effectList(), item->clipState(), true, false, addCommand);
             // Automatic audio split
             if (KdenliveSettings::splitaudio() && item->hasAudio())
-                splitAudio(false, info, -1, addCommand);
+                splitAudio(false, info, m_timeline->audioTarget, addCommand);
             else
                 updateTrackDuration(info.track, addCommand);
 
