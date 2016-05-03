@@ -214,8 +214,8 @@ public:
     /** @brief Returns a cached pixmap for a frame of this clip */
     QImage findCachedThumb(int pos);
     void slotQueryIntraThumbs(QList <int> frames);
-    /** @brief Returns true if this producer has audio */
-    bool hasAudio() const;
+    /** @brief Returns true if this producer has audio and can be splitted on timeline*/
+    bool isSplittable() const;
 
 public slots:
     void updateAudioThumbnail(QVariantList audioLevels);

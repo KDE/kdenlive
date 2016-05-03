@@ -187,7 +187,7 @@ public:
     bool needsDuplicate() const;
 
     /** @brief Returns true of this has audio. */
-    bool hasAudio() const;
+    bool isSplittable() const;
 
     /** @brief Returns some info useful for recreating this clip. */
     PlaylistState::ClipState clipState() const;

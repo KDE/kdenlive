@@ -1778,7 +1778,7 @@ void CustomTrackView::insertClipCut(const QString &id, int in, int out)
     new RefreshMonitorCommand(this, pasteInfo, true, false, addCommand);
     // Automatic audio split
     if (KdenliveSettings::splitaudio() && m_timeline->audioTarget > -1 && m_timeline->videoTarget > -1) {
-        if (!m_timeline->getTrackInfo(m_timeline->audioTarget).isLocked && m_document->getBinClip(id)->hasAudio())
+        if (!m_timeline->getTrackInfo(m_timeline->audioTarget).isLocked && m_document->getBinClip(id)->isSplittable())
             splitAudio(false, pasteInfo, m_timeline->audioTarget, addCommand);
     }
     else
@@ -3096,7 +3096,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             QString clipBinId = item->getBinId();
             new AddTimelineClipCommand(this, clipBinId, info, item->effectList(), item->clipState(), true, false, addCommand);
             // Automatic audio split
-            if (KdenliveSettings::splitaudio() && item->hasAudio())
+            if (KdenliveSettings::splitaudio() && item->isSplittable())
                 splitAudio(false, info, m_timeline->audioTarget, addCommand);
             else
                 updateTrackDuration(info.track, addCommand);
@@ -8115,7 +8115,7 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
     }
     // Automatic audio split
     if (KdenliveSettings::splitaudio() && extractVideo && extractAudio) {
-        if (!m_timeline->getTrackInfo(m_timeline->audioTarget).isLocked && m_document->getBinClip(clipId)->hasAudio())
+        if (!m_timeline->getTrackInfo(m_timeline->audioTarget).isLocked && m_document->getBinClip(clipId)->isSplittable())
             splitAudio(false, info, m_timeline->audioTarget, addCommand);
     }
     updateTrackDuration(info.track, addCommand);

@@ -1279,7 +1279,7 @@ QImage ProjectClip::findCachedThumb(int pos)
     return bin()->findCachedPixmap(path);
 }
 
-bool ProjectClip::hasAudio() const
+bool ProjectClip::isSplittable() const
 {
-    return (m_type == AV || m_type == Audio || m_type == Playlist);
+    return (m_type == AV || m_type == Playlist);
 }

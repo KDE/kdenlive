@@ -1854,9 +1854,9 @@ PlaylistState::ClipState ClipItem::clipState() const
     return m_clipState;
 }
 
-bool ClipItem::hasAudio() const
+bool ClipItem::isSplittable() const
 {
-    return (m_clipState != PlaylistState::VideoOnly && m_binClip->hasAudio());
+    return (m_clipState != PlaylistState::VideoOnly && m_binClip->isSplittable());
 }
 
 void ClipItem::updateState(const QString &id)
