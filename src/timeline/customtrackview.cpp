@@ -8069,13 +8069,19 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
         return;
     }
     if (binZone.isNull()) return;
-    QPoint timelineZone = m_document->zone();
+    QPoint timelineZone;
+    if (KdenliveSettings::useTimelineZoneToEdit())
+        timelineZone = m_document->zone();
+    else {
+        timelineZone.setX(seekPosition());
+        timelineZone.setY(-1);
+    }
     ItemInfo info;
     int binLength = binZone.y() - binZone.x();
     int timelineLength = timelineZone.y() - timelineZone.x();
     info.startPos = GenTime(timelineZone.x(), m_document->fps());
     info.cropStart = GenTime(binZone.x(), m_document->fps());
-    info.endPos = info.startPos + GenTime(timelineLength > binLength ? binLength : timelineLength, m_document->fps());
+    info.endPos = info.startPos + GenTime(KdenliveSettings::useTimelineZoneToEdit() ? timelineLength : binLength, m_document->fps());
     info.cropDuration = info.endPos - info.startPos;
     info.track = m_selectedTrack;
     QUndoCommand *addCommand = new QUndoCommand();

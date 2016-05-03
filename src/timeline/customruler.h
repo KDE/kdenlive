@@ -49,6 +49,7 @@ public:
     int offset() const;
     void updateProjectFps(const Timecode &t);
     void updateFrameSize();
+    void activateZone();
 
 protected:
     void paintEvent(QPaintEvent * /*e*/);
@@ -69,6 +70,7 @@ private:
     int m_offset;
     /** @brief the position of the seek point */
     int m_headPosition;
+    QColor m_zoneBG;
     RULER_MOVE m_moveCursor;
     QMenu *m_contextMenu;
     QAction *m_editGuide;

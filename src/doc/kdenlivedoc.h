@@ -158,6 +158,7 @@ public:
     void getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
     /** @brief Returns true if the profile file has changed. */
     bool profileChanged(const QString &profile) const;
+    void doAddAction(const QString &name, QAction *a);
 
 private:
     QUrl m_url;

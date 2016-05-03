@@ -93,6 +93,8 @@ CustomRuler::CustomRuler(const Timecode &tc, CustomTrackView *parent) :
     m_goMenu = m_contextMenu->addMenu(i18n("Go To"));
     connect(m_goMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotGoToGuide(QAction*)));
     setMouseTracking(true);
+    m_zoneBG = palette().color(QPalette::Highlight);
+    m_zoneBG.setAlpha(KdenliveSettings::useTimelineZoneToEdit() ? 180 : 60);
 }
 
 void CustomRuler::updateProjectFps(const Timecode &t)
@@ -396,7 +398,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     // Draw zone background
     const int zoneStart = (int)(m_zoneStart * m_factor);
     const int zoneEnd = (int)(m_zoneEnd * m_factor);
-    p.fillRect(zoneStart - m_offset, LABEL_SIZE + 2, zoneEnd - zoneStart, MAX_HEIGHT - LABEL_SIZE - 2, palette().color(QPalette::Highlight));
+    p.fillRect(zoneStart - m_offset, LABEL_SIZE + 2, zoneEnd - zoneStart, MAX_HEIGHT - LABEL_SIZE - 2, m_zoneBG);
 
     double f, fend;
     const int offsetmax = ((paintRect.right() + m_offset) / FRAME_SIZE + 1) * FRAME_SIZE;
@@ -471,7 +473,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
         pa.setPoints(4, zoneEnd - m_offset - FONT_WIDTH / 2, LABEL_SIZE + 2, zoneEnd - m_offset, LABEL_SIZE + 2, zoneEnd - m_offset, MAX_HEIGHT - 1, zoneEnd - m_offset - FONT_WIDTH / 2, MAX_HEIGHT - 1);
         p.drawPolyline(pa);
     }
-    
+
     // draw pointer
     const int value  =  m_view->cursorPos() * m_factor - m_offset;
     QPolygon pa(3);
@@ -488,4 +490,9 @@ void CustomRuler::paintEvent(QPaintEvent *e)
 
 }
 
+void CustomRuler::activateZone()
+{
+    m_zoneBG.setAlpha(KdenliveSettings::useTimelineZoneToEdit() ? 180 : 60);
+    update();
+}
 

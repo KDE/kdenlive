@@ -103,6 +103,16 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
     connect(butLarge, SIGNAL(clicked()), this, SLOT(slotVerticalZoomUp()));
     sizeLayout->addWidget(butLarge);
 
+    QToolButton *enableZone = new QToolButton(this);
+    QAction *ac = new QAction(KoIconUtils::themedIcon(QStringLiteral("measure")), i18n("Use Timeline Zone for Insert"), this);
+    enableZone->setAutoRaise(true);
+    ac->setCheckable(true);
+    ac->setChecked(KdenliveSettings::useTimelineZoneToEdit());
+    enableZone->setDefaultAction(ac);
+    connect(ac, &QAction::toggled, this, &Timeline::slotEnableZone);
+    sizeLayout->addWidget(enableZone);
+    m_doc->doAddAction(QStringLiteral("use_timeline_zone_in_edit"), ac);
+
     QHBoxLayout *tracksLayout = new QHBoxLayout;
     tracksLayout->setContentsMargins(0, 0, 0, 0);
     tracksLayout->setSpacing(0);
@@ -866,6 +876,7 @@ void Timeline::updatePalette()
             }
         }
     }
+    m_ruler->activateZone();
 }
 
 void Timeline::updateHeaders()
@@ -1653,4 +1664,10 @@ void Timeline::switchTrackTarget()
             audioTarget = m_trackview->selectedTrack();
         }
     }
+}
+
+void Timeline::slotEnableZone(bool enable)
+{
+    KdenliveSettings::setUseTimelineZoneToEdit(enable);
+    m_ruler->activateZone();
 }

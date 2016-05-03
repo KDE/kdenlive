@@ -198,7 +198,7 @@
       <label>Vertical drag in timeline ruler zooms.</label>
       <default>false</default>
     </entry>
-    
+
     <entry name="trackheight" type="Int">
       <label>Tracks height in pixel.</label>
       <default>0</default>
@@ -206,6 +206,11 @@
 
     <entry name="splitaudio" type="Bool">
       <label>Automatically split audio and video.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="useTimelineZoneToEdit" type="Bool">
+    <label>Use timeline zone as in/out editing points.</label>
       <default>false</default>
     </entry>
     </group>

@@ -229,6 +229,8 @@ private slots:
     void slotUpdateVerticalScroll(int min, int max);
     /** @brief Update the track label showing applied effects.*/
     void slotUpdateTrackEffectState(int);
+    /** @brief Toggle use of timeline zone for editing.*/
+    void slotEnableZone(bool enable);
 
 signals:
     void mousePosition(int);
