@@ -614,7 +614,7 @@ bool Timeline::isLastClip(ItemInfo info)
     if (tk == NULL) {
         return true;
     }
-    return tk->isLastClip(info.endPos.ms());
+    return tk->isLastClip(info.endPos.seconds());
 }
 
 void Timeline::setTrackInfo(int ix, TrackInfo info)

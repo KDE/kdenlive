@@ -3050,7 +3050,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         QList<QGraphicsItem *> items;
         if (m_selectionGroup) {
             items = m_selectionGroup->childItems();
-            startPos = m_selectionGroup->startPos();
+            startPos = GenTime((int) m_selectionGroup->scenePos().x(), m_document->fps());
             duration = m_selectionGroup->duration();
         } else if (m_dragItem) {
             m_dragItem->setMainSelectedClip(false);
