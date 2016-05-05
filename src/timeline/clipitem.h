@@ -58,7 +58,7 @@ public:
     OperationType operationMode(const QPointF &pos);
     void updateKeyframes(QDomElement effect);
     static int itemHeight();
-    int clipType() const;
+    ClipType clipType() const;
     const QString &getBinId() const;
     const QString getBinHash() const;
     ProjectClip *binClip() const;

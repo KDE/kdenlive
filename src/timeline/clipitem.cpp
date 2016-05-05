@@ -521,7 +521,7 @@ QDomElement ClipItem::itemXml() const
     return doc.documentElement();
 }
 
-int ClipItem::clipType() const
+ClipType ClipItem::clipType() const
 {
     return m_clipType;
 }

@@ -3086,7 +3086,8 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         }
         for (int i = 0; i < items.count(); ++i) {
             ClipItem *item = static_cast <ClipItem *>(items.at(i));
-            if (!hasVideoClip && (item->clipType() == AV || item->clipType() == Video)) hasVideoClip = true;
+	    ClipType cType = item->clipType();
+            if (!hasVideoClip && (cType == AV || cType == Video)) hasVideoClip = true;
             if (items.count() == 1) {
                 updateClipTypeActions(item);
             } else {
@@ -3094,9 +3095,18 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             }
             ItemInfo info = item->info();
             QString clipBinId = item->getBinId();
-            new AddTimelineClipCommand(this, clipBinId, info, item->effectList(), item->clipState(), true, false, addCommand);
+	    PlaylistState::ClipState pState = item->clipState();
+	    if (KdenliveSettings::splitaudio()) {
+		if (m_timeline->getTrackInfo(info.track).type == AudioTrack) {
+		    if (cType != Audio)
+			pState = PlaylistState::AudioOnly;
+		} else if (item->isSplittable()) {
+		    pState = PlaylistState::VideoOnly;
+		}
+	    }
+            new AddTimelineClipCommand(this, clipBinId, info, item->effectList(), pState, true, false, addCommand);
             // Automatic audio split
-            if (KdenliveSettings::splitaudio() && item->isSplittable())
+            if (KdenliveSettings::splitaudio() && item->isSplittable() && pState != PlaylistState::AudioOnly)
                 splitAudio(false, info, m_timeline->audioTarget, addCommand);
             else
                 updateTrackDuration(info.track, addCommand);
@@ -7885,10 +7895,11 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
 {
     bool extractAudio = true;
     bool extractVideo = true;
+    ClipType cType = m_document->getBinClip(clipId)->clipType();
     if (KdenliveSettings::splitaudio()) {
         if (m_timeline->audioTarget == -1 || m_timeline->getTrackInfo(m_timeline->audioTarget).isLocked) 
             extractAudio = false;
-        if (m_timeline->videoTarget == -1 || m_timeline->getTrackInfo(m_timeline->videoTarget).isLocked)
+        if (cType == Audio || m_timeline->videoTarget == -1 || m_timeline->getTrackInfo(m_timeline->videoTarget).isLocked)
             extractVideo = false;
     }
     else if (m_timeline->getTrackInfo(m_selectedTrack).isLocked) {
@@ -7933,7 +7944,7 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
         } else if (extractAudio) {
             // Extract audio only
             info.track = m_timeline->audioTarget;
-            new AddTimelineClipCommand(this, clipId, info, EffectsList(), PlaylistState::AudioOnly, true, false, addCommand);
+            new AddTimelineClipCommand(this, clipId, info, EffectsList(), cType == Audio ? PlaylistState::Original : PlaylistState::AudioOnly, true, false, addCommand);
         } else {
             emit displayMessage(i18n("No target track(s) selected"), InformationMessage);
         }

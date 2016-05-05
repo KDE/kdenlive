@@ -105,6 +105,7 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
 
     QToolButton *enableZone = new QToolButton(this);
     QAction *ac = new QAction(KoIconUtils::themedIcon(QStringLiteral("measure")), i18n("Use Timeline Zone for Insert"), this);
+    ac->setShortcut(Qt::Key_G);
     enableZone->setAutoRaise(true);
     ac->setCheckable(true);
     ac->setChecked(KdenliveSettings::useTimelineZoneToEdit());
