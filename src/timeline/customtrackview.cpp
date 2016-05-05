@@ -3076,7 +3076,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         }
 
         if (m_scene->editMode() == TimelineMode::InsertEdit) {
-            cutTimeline(startPos.frames(m_document->fps()), QList <ItemInfo>(), addCommand);
+            cutTimeline(startPos.frames(m_document->fps()), QList <ItemInfo>(), QList <ItemInfo>(), addCommand);
             ItemInfo info;
             info.startPos = startPos;
             info.cropDuration = duration;
@@ -3155,137 +3155,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
     setFocus();
 }
 
-void CustomTrackView::adjustTimelineClips(TimelineMode::EditMode mode, ClipItem *item, ItemInfo posinfo, QUndoCommand *command, bool doIt)
-{
-    bool snap = KdenliveSettings::snaptopoints();
-    KdenliveSettings::setSnaptopoints(false);
-    if (mode == TimelineMode::OverwriteEdit) {
-        // if we are in overwrite mode, move clips accordingly
-        ItemInfo info;
-        if (item == NULL) info = posinfo;
-        else info = item->info();
-        QRectF rect(info.startPos.frames(m_document->fps()), getPositionFromTrack(info.track) + m_tracksHeight / 2, (info.endPos - info.startPos).frames(m_document->fps()) - 1, 5);
-        QList<QGraphicsItem *> selection = m_scene->items(rect);
-        if (item) selection.removeAll(item);
-        for (int i = 0; i < selection.count(); ++i) {
-            if (!selection.at(i)->isEnabled()) continue;
-            if (selection.at(i)->type() == AVWidget) {
-                ClipItem *clip = static_cast<ClipItem *>(selection.at(i));
-                if (clip->startPos() < info.startPos) {
-                    if (clip->endPos() > info.endPos) {
-                        ItemInfo clipInfo = clip->info();
-                        ItemInfo dupInfo = clipInfo;
-                        GenTime diff = info.startPos - clipInfo.startPos;
-                        dupInfo.startPos = info.startPos;
-                        dupInfo.cropStart += diff;
-                        dupInfo.cropDuration = clipInfo.endPos - info.startPos;
-                        ItemInfo newdupInfo = dupInfo;
-                        GenTime diff2 = info.endPos - info.startPos;
-                        newdupInfo.startPos = info.endPos;
-                        newdupInfo.cropStart += diff2;
-                        newdupInfo.cropDuration = clipInfo.endPos - info.endPos;
-                        new RazorClipCommand(this, clipInfo, clip->effectList(), info.startPos, doIt, command);
-                        new ResizeClipCommand(this, dupInfo, newdupInfo, doIt, false, command);
-                        if (!doIt) {
-                            // GUI only
-                            ClipItem *dup = cutClip(clipInfo, info.startPos, true, EffectsList(false), false);
-                            if (dup) {
-                                dup->resizeStart(info.endPos.frames(m_document->fps()));
-                            }
-                        }
-                    } else {
-                        ItemInfo newclipInfo = clip->info();
-                        newclipInfo.endPos = info.startPos;
-                        newclipInfo.cropDuration = newclipInfo.endPos - newclipInfo.startPos;
-                        new ResizeClipCommand(this, clip->info(), newclipInfo, doIt, false, command);
-                        if (!doIt) {
-                            clip->resizeEnd(info.startPos.frames(m_document->fps()));
-                        }
-                    }
-                } else if (clip->endPos() <= info.endPos) {
-                    new AddTimelineClipCommand(this, clip->getBinId(), clip->info(), clip->effectList(), clip->clipState(), doIt, true, command);
-                    if (!doIt) {
-                        // GUI only
-                        m_waitingThumbs.removeAll(clip);
-                        scene()->removeItem(clip);
-                        delete clip;
-                        clip = NULL;
-                    }
-                } else {
-                    ItemInfo newclipInfo = clip->info();
-                    newclipInfo.startPos = info.endPos;
-                    newclipInfo.cropDuration = newclipInfo.endPos - newclipInfo.startPos;
-                    new ResizeClipCommand(this, clip->info(), newclipInfo, doIt, false, command);
-                    if (!doIt) {
-                        clip->resizeStart(info.endPos.frames(m_document->fps()));
-                    }
-                }
-            }
-        }
-    } else if (mode == TimelineMode::InsertEdit) {
-        // if we are in push mode, move clips accordingly
-        ItemInfo info;
-        if (item == NULL) info = posinfo;
-        else info = item->info();
-        QRectF rect(info.startPos.frames(m_document->fps()), getPositionFromTrack(info.track) + m_tracksHeight / 2, (info.endPos - info.startPos).frames(m_document->fps()) - 1, 5);
-        QList<QGraphicsItem *> selection = m_scene->items(rect);
-        if (item) selection.removeAll(item);
-        for (int i = 0; i < selection.count(); ++i) {
-            if (selection.at(i)->type() == AVWidget) {
-                ClipItem *clip = static_cast<ClipItem *>(selection.at(i));
-                if (clip->startPos() < info.startPos && clip->endPos() > info.startPos) {
-                    // Clip goes before and after insert zone, cut
-                    qDebug()<<"* * *FOUND 1 clip to CUT: "<<clip->info().startPos.frames(25);
-                    new RazorClipCommand(this, clip->info(), clip->effectList(), info.startPos, true, command);
-                }
-            }
-        }
-        // Insert blank
-        if (m_timeline->isTrackLocked(info.track)) {
-            emit displayMessage(i18n("Cannot insert space in a locked track"), ErrorMessage);
-            return;
-        }
-
-        int pos = info.startPos.frames(m_document->fps());
-
-        // Make sure there is no group in the way
-        rect = QRectF(pos, getPositionFromTrack(info.track) + m_tracksHeight / 2, sceneRect().width() - pos, m_tracksHeight / 2 - 2);
-        bool isOk;
-        selection = checkForGroups(rect, &isOk);
-        if (!isOk) {
-            // groups found on track, do not allow the move
-            emit displayMessage(i18n("Cannot insert space in a track with a group"), ErrorMessage);
-            return;
-        }
-        if (item) selection.removeAll(item);
-        QList<ItemInfo> clipsToMove;
-        QList<ItemInfo> transitionsToMove;
-
-        for (int i = 0; i < selection.count(); ++i) {
-            if (selection.at(i)->type() == AVWidget || selection.at(i)->type() == TransitionWidget) {
-                AbstractClipItem *item = static_cast <AbstractClipItem *>(selection.at(i));
-                ItemInfo moveInfo = item->info();
-                if (item->type() == AVWidget) {
-                    if (moveInfo.startPos < info.startPos) {
-                        // This is the clip that we have just cut, adjust start
-                        moveInfo.startPos = info.startPos;
-                    }
-                    clipsToMove.append(moveInfo);
-                }
-                else if (item->type() == TransitionWidget)
-                    transitionsToMove.append(moveInfo);
-            }
-        }
-        if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) {
-            breakLockedGroups(clipsToMove, transitionsToMove, command);
-            new InsertSpaceCommand(this, clipsToMove, transitionsToMove, info.track, info.cropDuration, true, command);
-            updateTrackDuration(info.track, command);
-        }
-    }
-    KdenliveSettings::setSnaptopoints(snap);
-}
-
-void CustomTrackView::cutTimeline(int cutPos, QList <ItemInfo> excluded, QUndoCommand *masterCommand, int track)
+void CustomTrackView::cutTimeline(int cutPos, QList <ItemInfo> excludedClips, QList <ItemInfo> excludedTransitions, QUndoCommand *masterCommand, int track)
 {
     QRectF rect;
     if (track == -1) {
@@ -3307,7 +3177,7 @@ void CustomTrackView::cutTimeline(int cutPos, QList <ItemInfo> excluded, QUndoCo
             if (m_timeline->getTrackInfo(clip->track()).isLocked)
                 continue;
             ItemInfo moveInfo = clip->info();
-            if (excluded.contains(moveInfo)) {
+            if (excludedClips.contains(moveInfo)) {
                 continue;
             }
             if (clip->type() == AVWidget) {
@@ -3329,7 +3199,7 @@ void CustomTrackView::cutTimeline(int cutPos, QList <ItemInfo> excluded, QUndoCo
             if (m_timeline->getTrackInfo(clip->track()).isLocked)
                 continue;
             ItemInfo info = clip->info();
-            if (excluded.contains(info)) {
+            if (excludedClips.contains(info)) {
                 continue;
             }
             new RazorClipCommand(this, info, clip->effectList(), GenTime(cutPos, m_document->fps()), true, masterCommand);
@@ -3339,7 +3209,7 @@ void CustomTrackView::cutTimeline(int cutPos, QList <ItemInfo> excluded, QUndoCo
             if (m_timeline->getTrackInfo(trans->track()).isLocked)
                 continue;
             ItemInfo info = trans->info();
-            if (excluded.contains(info)) {
+            if (excludedTransitions.contains(info)) {
                 continue;
             }
             new RazorTransitionCommand(this, info, trans->toXML(), GenTime(cutPos, m_document->fps()), true, masterCommand);
@@ -4059,7 +3929,7 @@ void CustomTrackView::insertTimelineSpace(GenTime startPos, GenTime duration, in
     QList<QGraphicsItem *> items = scene()->items(rect);
     QList<ItemInfo> clipsToMove;
     QList<ItemInfo> transitionsToMove;
-    QList<QGraphicsItem *> excludedItems;
+    QList<AbstractClipItem *> excludedItems;
 
     for (int i = 0; i < items.count(); ++i) {
         if (items.at(i)->type() == AVWidget || items.at(i)->type() == TransitionWidget) {
@@ -4068,7 +3938,7 @@ void CustomTrackView::insertTimelineSpace(GenTime startPos, GenTime duration, in
                 continue;
             if (excludeList.contains(item->info())) {
                 excludedItems << item;
-                m_scene->removeItem(item);
+		item->setItemLocked(true);
                 continue;
             }
             if (item->type() == AVWidget)
@@ -4080,8 +3950,8 @@ void CustomTrackView::insertTimelineSpace(GenTime startPos, GenTime duration, in
     if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) {
         insertSpace(clipsToMove, transitionsToMove, -1, duration, GenTime());
     }
-    foreach(QGraphicsItem *item, excludedItems) {
-        m_scene->addItem(item);
+    foreach(AbstractClipItem *item, excludedItems) {
+      item->setItemLocked(false);
     }
 }
 
@@ -4348,6 +4218,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
     if (event->modifiers() & Qt::ControlModifier)  {
 	event->ignore();
     }
+
     QGraphicsView::mouseReleaseEvent(event);
     setDragMode(QGraphicsView::NoDrag);
 
@@ -4423,7 +4294,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             if (m_dragItem->type() == AVWidget && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
                 ClipItem *item = static_cast <ClipItem *>(m_dragItem);
                 bool success = true;
-                //m_timeline->moveClip(m_dragItemInfo.track, m_dragItemInfo.startPos.seconds(), info.track, info.startPos.seconds(), item->clipState(), m_scene->editMode(), item->needsDuplicate());
                 if (success) {
                     QUndoCommand *moveCommand = new QUndoCommand();
                     moveCommand->setText(i18n("Move clip"));
@@ -4433,7 +4303,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     item->setItemLocked(true);
                     ItemInfo initialClip = m_dragItemInfo;
                     if (m_scene->editMode() == TimelineMode::InsertEdit) {
-                        cutTimeline(info.startPos.frames(m_document->fps()), excluded, moveCommand, info.track);
+                        cutTimeline(info.startPos.frames(m_document->fps()), excluded, QList <ItemInfo>(), moveCommand, info.track);
                         new AddSpaceCommand(this, info, excluded, true, moveCommand, true);
                         bool isLastClip = m_timeline->isLastClip(info);
                         if (!isLastClip && info.track == m_dragItemInfo.track && info.startPos < m_dragItemInfo.startPos) {
@@ -4444,7 +4314,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     } else if (m_scene->editMode() == TimelineMode::OverwriteEdit) {
                         extractZone(QPoint(info.startPos.frames(m_document->fps()), info.endPos.frames(m_document->fps())), false, excluded, moveCommand, info.track);
                     }
-                    //adjustTimelineClips(m_scene->editMode(), item, ItemInfo(), moveCommand, false);
                     bool isLocked = m_timeline->getTrackInfo(item->track()).isLocked;
                     new MoveClipCommand(this, initialClip, info, true, true, moveCommand);
 
@@ -4619,13 +4488,19 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         } else {
             // Moving several clips. We need to delete them and readd them to new position,
             // or they might overlap each other during the move
-            QGraphicsItemGroup *group;
+            AbstractGroupItem *group;
             if (m_selectionGroup) {
-                group = static_cast <QGraphicsItemGroup *>(m_selectionGroup);
+                group = static_cast <AbstractGroupItem *>(m_selectionGroup);
             }
             else {
-                group = static_cast <QGraphicsItemGroup *>(m_dragItem->parentItem());
+                group = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
             }
+            ItemInfo cutInfo;
+	    cutInfo.startPos = GenTime(m_dragItem->scenePos().x(), m_document->fps());
+	    cutInfo.cropDuration = group->duration();
+	    cutInfo.endPos = cutInfo.startPos + cutInfo.cropDuration;
+	    qDebug()<<"/// READY TO CUT AT: "<<cutInfo.startPos.frames(25)<<" / "<<m_dragItem->scenePos().x()<<", duration: "<<group->duration().frames(25);
+
             QList<QGraphicsItem *> items = group->childItems();
             QList<ItemInfo> clipsToMove;
             QList<ItemInfo> transitionsToMove;
@@ -4633,131 +4508,52 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             GenTime timeOffset = GenTime(m_dragItem->scenePos().x(), m_document->fps()) - m_dragItemInfo.startPos;
             const int trackOffset = getTrackFromPos(m_dragItem->scenePos().y()) - m_dragItemInfo.track;
 
-            QUndoCommand *moveGroup = new QUndoCommand();
+            QUndoCommand *moveGroup = new QUndoCommand();		   
             moveGroup->setText(i18n("Move group"));
-            if (timeOffset != GenTime() || trackOffset != 0) {
-                // remove items in MLT playlist
-
-                // Expand groups
-                int max = items.count();
-                for (int i = 0; i < max; ++i) {
-                    if (items.at(i)->type() == GroupWidget) {
-                        items += items.at(i)->childItems();
-                    }
-                }
-                m_timeline->blockTrackSignals(true);
-                for (int i = 0; i < items.count(); ++i) {
-                    if (items.at(i)->type() != AVWidget && items.at(i)->type() != TransitionWidget) continue;
-                    AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
-                    ItemInfo info = item->info();
-                    if (item->type() == AVWidget) {
-                        if (!m_timeline->track(info.track)->del(info.startPos.seconds())) {
-                            emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps())), m_timeline->getTrackInfo(info.track).trackName), ErrorMessage);
-                        } else {
-                            clipsToMove.append(info);
-                        }
-                    } else {
-                        transitionsToMove.append(info);
-                        Transition *tr = static_cast <Transition*>(item);
-                        m_timeline->transitionHandler->deleteTransition(tr->transitionTag(), tr->transitionEndTrack(), info.track, info.startPos, info.endPos, tr->toXML());
-                    }
-                }
-                m_timeline->blockTrackSignals(false);
-                for (int i = 0; i < items.count(); ++i) {
-                    // re-add items in correct place
-                    if (items.at(i)->type() != AVWidget && items.at(i)->type() != TransitionWidget) continue;
-                    AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
-                    int realTrack = getTrackFromPos(item->scenePos().y());
-                    item->updateItem(realTrack);
-                    ItemInfo info = item->info();
-                    bool isLocked = m_timeline->getTrackInfo(info.track).isLocked;
-                    if (isLocked) {
-                        group->removeFromGroup(item);
-                        item->setItemLocked(true);
-                    }
-
-                    if (item->type() == AVWidget) {
-                        ClipItem *clip = static_cast <ClipItem*>(item);
-                        adjustTimelineClips(m_scene->editMode(), clip, ItemInfo(), moveGroup);
-                        /*Mlt::Producer *prod = m_document->renderer()->getTrackProducer(clip->getBinId(), info.track, clip->isAudioOnly(), clip->isVideoOnly());
-                        //prod = prod->cut(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
-			prod->set_in_and_out(info.cropStart.frames(fps()), (info.cropStart + info.cropDuration).frames(fps()) - 1);
-                        m_timeline->track(info.track)info.startPos.seconds(), prod, m_scene->editMode());*/
-                        Mlt::Producer *prod;
-                        if (clip->clipState() == PlaylistState::VideoOnly) {
-                            prod = m_document->renderer()->getBinVideoProducer(clip->getBinId());
-                        }
-                        else {
-                            prod = m_document->renderer()->getBinProducer(clip->getBinId());
-                        }
-                        m_timeline->track(info.track)->add(info.startPos.seconds(), prod, info.cropStart.seconds(), (info.cropStart + info.cropDuration).seconds(), clip->clipState(), true, m_scene->editMode());
-
-                        for (int i = 0; i < clip->effectsCount(); ++i) {
-                            m_document->renderer()->mltAddEffect(info.track, info.startPos, EffectsController::getEffectArgs(m_document->getProfileInfo(), clip->effect(i)), false);
-                        }
-                    } else {
-                        Transition *tr = static_cast <Transition*>(item);
-                        int newTrack = tr->transitionEndTrack();
-                        if (!tr->forcedTrack()) {
-                            newTrack = getPreviousVideoTrack(info.track);
-                        }
-                        tr->updateTransitionEndTrack(newTrack);
-                        adjustTimelineTransitions(m_scene->editMode(), tr, moveGroup);
-                        m_timeline->transitionHandler->addTransition(tr->transitionTag(), newTrack, info.track, info.startPos, info.endPos, tr->toXML());
-                    }
-                }
-                new MoveGroupCommand(this, clipsToMove, transitionsToMove, timeOffset, trackOffset, false, moveGroup);
-                updateTrackDuration(-1, moveGroup);
-                m_commandStack->push(moveGroup);
-
-                //QPointF top = group->sceneBoundingRect().topLeft();
-                //QPointF oldpos = m_selectionGroup->scenePos();
-                ////qDebug()<<"SELECTION GRP POS: "<<m_selectionGroup->scenePos()<<", TOP: "<<top;
-                //group->setPos(top);
-                //TODO: get rid of the 3 lines below
-                if (m_selectionGroup) {
-                    m_selectionGroupInfo.startPos = GenTime(m_selectionGroup->scenePos().x(), m_document->fps());
-                    m_selectionGroupInfo.track = m_selectionGroup->track();
-                    items = m_selectionGroup->childItems();
-                    resetSelectionGroup(false);
-
-                    QSet <QGraphicsItem*> groupList;
-                    QSet <QGraphicsItem*> itemList;
-                    while (!items.isEmpty()) {
-                        QGraphicsItem *first = items.takeFirst();
-                        if (first->type() == GroupWidget) {
-                            if (first != m_selectionGroup) {
-                                groupList.insert(first);
-                            }
-                        }
-                        else if (first->type() == AVWidget || first->type() == TransitionWidget) {
-                            if (first->parentItem() && first->parentItem()->type() == GroupWidget) {
-                                if (first->parentItem() != m_selectionGroup) {
-                                    groupList.insert(first->parentItem());
-                                }
-                                else itemList.insert(first);
-                            }
-                            else itemList.insert(first);
-                        }
-                    }
-                    foreach(QGraphicsItem *item, groupList) {
-                        itemList.unite(item->childItems().toSet());
-                        rebuildGroup(static_cast <AbstractGroupItem*>(item));
-                    }
-
-                    foreach(QGraphicsItem *item, itemList) {
-                        item->setSelected(true);
-                        if (item->parentItem())
-                            item->parentItem()->setSelected(true);
-                    }
-                    resetSelectionGroup();
-                    groupSelectedItems(itemList.toList());
-                } else {
-                    AbstractGroupItem *grp = static_cast <AbstractGroupItem *>(group);
-                    rebuildGroup(grp);
+	    
+	    // Expand groups
+            int max = items.count();
+            for (int i = 0; i < max; ++i) {
+		if (items.at(i)->type() == GroupWidget) {
+		    items += items.at(i)->childItems();
                 }
             }
-        }
+            QList <ItemInfo> updatedClipsToMove;
+            QList <ItemInfo> updatedTransitionsToMove;
+	    for (int i = 0; i < items.count(); ++i) {
+                    if (items.at(i)->type() != AVWidget && items.at(i)->type() != TransitionWidget) continue;
+                    AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
+                    ItemInfo info = item->info();
+                    if (item->type() == AVWidget) {
+			clipsToMove.append(info);
+			updatedClipsToMove << item->info();
+		    } else {
+			transitionsToMove.append(info);
+			updatedTransitionsToMove << item->info();
+		    }
+            }
+	    if (m_scene->editMode() == TimelineMode::InsertEdit) {
+		cutTimeline(cutInfo.startPos.frames(m_document->fps()), clipsToMove, transitionsToMove, moveGroup, -1);
+                new AddSpaceCommand(this, cutInfo, clipsToMove, true, moveGroup, false);
+                bool isLastClip = m_timeline->isLastClip(cutInfo);
+                if (!isLastClip && cutInfo.track == m_dragItemInfo.track && cutInfo.startPos < m_dragItemInfo.startPos) {
+		    //TODO: remove offset to allow finding correct clip to move
+                    //initialClip.startPos += m_dragItemInfo.cropDuration;
+                    //initialClip.endPos += m_dragItemInfo.cropDuration;
+                }
+            } else if (m_scene->editMode() == TimelineMode::OverwriteEdit) {
+		extractZone(QPoint(cutInfo.startPos.frames(m_document->fps()), cutInfo.endPos.frames(m_document->fps())), false, updatedClipsToMove, moveGroup, -1);
+            }
+	    new MoveGroupCommand(this, clipsToMove, transitionsToMove, timeOffset, trackOffset, true, true, moveGroup);
+	    m_commandStack->push(moveGroup);
+	    // Finish move, update coordinates
+	    for (int i = 0; i < items.count(); ++i) {
+		if (items.at(i)->type() != AVWidget && items.at(i)->type() != TransitionWidget) continue;
+		AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
+	    	// Now that we have stored the initial coordinates, update for the move operation
+		item->updateItem(item->track() + trackOffset);
+	    }
+	}
         m_moveOpMode = None;
         m_document->renderer()->doRefresh();
     } else if (m_moveOpMode == ResizeStart && m_dragItem && m_dragItem->startPos() != m_dragItemInfo.startPos) {
@@ -5483,7 +5279,27 @@ ClipItem *CustomTrackView::getClipItemAtStart(GenTime pos, int track, GenTime en
 	      clip = test;
 	      break;
 	    }
-        }
+	}
+    }
+    return clip;
+}
+
+ClipItem *CustomTrackView::getMovedClipItem(ItemInfo info, GenTime offset, int trackOffset)
+{
+    QList<QGraphicsItem *> list = scene()->items(QPointF((info.startPos + offset).frames(m_document->fps()), getPositionFromTrack(info.track + trackOffset) + m_tracksHeight / 2));
+    ClipItem *clip = NULL;
+    for (int i = 0; i < list.size(); ++i) {
+        if (!list.at(i)->isEnabled()) continue;
+        if (list.at(i)->type() == AVWidget) {
+            ClipItem *test = static_cast <ClipItem *>(list.at(i));
+            if (test->startPos() == info.startPos) {
+		if (test->endPos() != info.endPos) {
+		    continue;
+                }
+            }
+	    clip = test;
+	    break;
+	}
     }
     return clip;
 }
@@ -5619,7 +5435,7 @@ bool CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool 
     return success;
 }
 
-void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> startTransition, const GenTime &offset, const int trackOffset, bool reverseMove)
+void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> startTransition, const GenTime &offset, const int trackOffset, bool alreadyMoved, bool reverseMove)
 {
     // Group Items
     resetSelectionGroup();
@@ -5634,7 +5450,14 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
             startClip[i].startPos = startClip.at(i).startPos - offset;
             startClip[i].track = startClip.at(i).track - trackOffset;
         }
-        ClipItem *clip = getClipItemAtStart(startClip.at(i).startPos, startClip.at(i).track);
+        ClipItem *clip = NULL;
+	if (alreadyMoved) {
+	    qDebug()<<"// chking moved clip at: "<< (startClip.at(i).startPos + offset).frames(25);
+	    clip = getMovedClipItem(startClip.at(i), offset, trackOffset);
+	} else {
+	    clip = getClipItemAtStart(startClip.at(i).startPos, startClip.at(i).track);
+	}
+
         if (clip) {
             clip->setItemLocked(false);
             if (clip->parentItem()) {
@@ -5650,7 +5473,11 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
             startTransition[i].startPos = startTransition.at(i).startPos - offset;
             startTransition[i].track = startTransition.at(i).track - trackOffset;
         }
-        Transition *tr = getTransitionItemAt(startTransition.at(i).startPos, startTransition.at(i).track);
+        Transition *tr = NULL;
+	if (alreadyMoved)
+	    tr = getTransitionItemAt(startTransition.at(i).startPos + offset, startTransition.at(i).track + trackOffset);
+	else 
+	    tr = getTransitionItemAt(startTransition.at(i).startPos, startTransition.at(i).track);
         if (tr) {
             tr->setItemLocked(false);
             if (tr->parentItem()) {
@@ -5667,7 +5494,8 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
 
-        m_selectionGroup->setTransform(QTransform::fromTranslate(offset.frames(m_document->fps()), -trackOffset *(qreal) m_tracksHeight), true);
+	if (!alreadyMoved)
+	    m_selectionGroup->setTransform(QTransform::fromTranslate(offset.frames(m_document->fps()), -trackOffset *(qreal) m_tracksHeight), true);
         //m_selectionGroup->moveBy(offset.frames(m_document->fps()), trackOffset *(qreal) m_tracksHeight);
 
         QList<QGraphicsItem *> children = m_selectionGroup->childItems();
@@ -8091,7 +7919,7 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
         extractZone(QPoint(timelineZone.x(), info.endPos.frames(m_document->fps())), false, QList <ItemInfo>(), addCommand);
     } else {
         // Cut and move clips forward
-        cutTimeline(timelineZone.x(), QList <ItemInfo>(), addCommand);
+        cutTimeline(timelineZone.x(), QList <ItemInfo>(), QList <ItemInfo>(), addCommand);
         new AddSpaceCommand(this, info, QList <ItemInfo>(), true, addCommand);
     }
     if (KdenliveSettings::splitaudio()) {

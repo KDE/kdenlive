@@ -340,29 +340,28 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                         QPainterPath res = shape.intersected(clipPath);
                         offset = qMax(offset, (int)(res.boundingRect().width() + 0.5));
                     }
+                    break;
                 }
             }
-            if (offset > 0) {
-                if (forwardMove) {
-                    newPos.setX(newPos.x() - offset);
-                } else {
-                    newPos.setX(newPos.x() + offset);
-                }
-                // If there is still a collision after our position adjust, restore original pos
-                collidingItems = scene->items(clipGroupShape(newPos - pos()), Qt::IntersectsItemShape);
-                collidingItems.removeAll(this);
-                for (int i = 0; i < children.count(); ++i) {
-                    if (children.at(i)->type() == GroupWidget) {
-                        QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
-                        for (int j = 0; j < subchildren.count(); ++j) {
-                            collidingItems.removeAll(subchildren.at(j));
-                        }
+            if (forwardMove) {
+                newPos.setX(newPos.x() - offset);
+            } else {
+		newPos.setX(newPos.x() + offset);
+            }
+            // If there is still a collision after our position adjust, restore original pos
+            collidingItems = scene->items(clipGroupShape(newPos - pos()), Qt::IntersectsItemShape);
+            collidingItems.removeAll(this);
+            for (int i = 0; i < children.count(); ++i) {
+		if (children.at(i)->type() == GroupWidget) {
+		    QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
+                    for (int j = 0; j < subchildren.count(); ++j) {
+			collidingItems.removeAll(subchildren.at(j));
                     }
-                    collidingItems.removeAll(children.at(i));
                 }
-                for (int i = 0; i < collidingItems.count(); ++i)
-                    if (collidingItems.at(i)->type() == AVWidget) return pos();
+                collidingItems.removeAll(children.at(i));
             }
+            for (int i = 0; i < collidingItems.count(); ++i)
+                if (collidingItems.at(i)->type() == AVWidget) return pos();
         }
 
         if (projectScene()->editMode() == TimelineMode::NormalEdit) {

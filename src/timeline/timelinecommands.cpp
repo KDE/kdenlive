@@ -575,13 +575,14 @@ void MoveEffectCommand::redo()
     m_view->moveEffect(m_track, m_pos, m_oldindex, m_newindex);
 }
 
-MoveGroupCommand::MoveGroupCommand(CustomTrackView *view, const QList <ItemInfo> &startClip, const QList <ItemInfo> &startTransition, const GenTime &offset, const int trackOffset, bool doIt, QUndoCommand * parent) :
+MoveGroupCommand::MoveGroupCommand(CustomTrackView *view, const QList <ItemInfo> &startClip, const QList <ItemInfo> &startTransition, const GenTime &offset, const int trackOffset, bool alreadyMoved, bool doIt, QUndoCommand * parent) :
     QUndoCommand(parent),
     m_view(view),
     m_startClip(startClip),
     m_startTransition(startTransition),
     m_offset(offset),
     m_trackOffset(trackOffset),
+    m_alreadyMoved(alreadyMoved),
     m_doIt(doIt)
 {
     setText(i18n("Move group"));
@@ -590,14 +591,15 @@ MoveGroupCommand::MoveGroupCommand(CustomTrackView *view, const QList <ItemInfo>
 void MoveGroupCommand::undo()
 {
     m_doIt = true;
-    m_view->moveGroup(m_startClip, m_startTransition, GenTime() - m_offset, - m_trackOffset, true);
+    m_view->moveGroup(m_startClip, m_startTransition, GenTime() - m_offset, - m_trackOffset, false, true);
 }
 // virtual
 void MoveGroupCommand::redo()
 {
     if (m_doIt)
-        m_view->moveGroup(m_startClip, m_startTransition, m_offset, m_trackOffset, false);
+        m_view->moveGroup(m_startClip, m_startTransition, m_offset, m_trackOffset, m_alreadyMoved, false);
     m_doIt = true;
+    m_alreadyMoved = false;
 }
 
 MoveTransitionCommand::MoveTransitionCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, QUndoCommand * parent) :

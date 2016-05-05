@@ -177,6 +177,8 @@ void AbstractClipItem::updateItem(int track)
 {
     m_info.track = track;
     m_info.startPos = GenTime((int) scenePos().x(), m_fps);
+    if (m_info.cropDuration > GenTime())
+	m_info.endPos = m_info.startPos + m_info.cropDuration;
 }
 
 void AbstractClipItem::updateRectGeometry()

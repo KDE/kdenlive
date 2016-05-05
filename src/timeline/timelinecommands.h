@@ -296,7 +296,7 @@ private:
 class MoveGroupCommand : public QUndoCommand
 {
 public:
-    MoveGroupCommand(CustomTrackView *view, const QList <ItemInfo> &startClip, const QList <ItemInfo> &startTransition, const GenTime &offset, const int trackOffset, bool doIt, QUndoCommand * parent = 0);
+    MoveGroupCommand(CustomTrackView *view, const QList <ItemInfo> &startClip, const QList <ItemInfo> &startTransition, const GenTime &offset, const int trackOffset, bool alreadyMoved, bool doIt, QUndoCommand * parent = 0);
     void undo();
     void redo();
 private:
@@ -305,6 +305,7 @@ private:
     const QList <ItemInfo> m_startTransition;
     const GenTime m_offset;
     const int m_trackOffset;
+    bool m_alreadyMoved;
     bool m_doIt;
 };
 

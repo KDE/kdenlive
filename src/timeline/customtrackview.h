@@ -69,7 +69,7 @@ public:
       For example, attempting to move a clip to t = -1 s will actually move it to t = 0 s.
       */
     bool moveClip(const ItemInfo &start, const ItemInfo &end, bool refresh, bool alreadyMoved, ItemInfo *out_actualEnd = NULL);
-    void moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> startTransition, const GenTime &offset, const int trackOffset, bool reverseMove = false);
+    void moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> startTransition, const GenTime &offset, const int trackOffset, bool alreadyMoved, bool reverseMove);
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
     void moveTransition(const ItemInfo &start, const ItemInfo &end, bool refresh);
     void resizeClip(const ItemInfo &start, const ItemInfo &end, bool dontWorry = false);
@@ -408,6 +408,9 @@ private:
      *  @param track the track where the clip is in MLT coordinates 
      *  @param end the end position of the clip in case of overlapping clips (overwrite mode) */
     ClipItem *getClipItemAtStart(GenTime pos, int track, GenTime end = GenTime());
+    /** @brief Returns a moved clip from timeline (means that the item was moved but its ItemInfo coordinates have not been updated yet)
+     * */
+    ClipItem *getMovedClipItem(ItemInfo info, GenTime offset, int trackOffset);
     /** @brief Returns a transition from timeline
      *  @param pos a time value that is inside the clip
      *  @param track the track where the clip is in MLT coordinates */
@@ -483,8 +486,6 @@ private:
     bool itemCollision(AbstractClipItem *item, const ItemInfo &newPos);
     /** Selects all items in the scene rect, and sets ok to false if a group going over several tracks is found in it */
     QList<QGraphicsItem *> checkForGroups(const QRectF &rect, bool *ok);
-    /** Adjust clips under another one when working in overwrite mode */
-    void adjustTimelineClips(TimelineMode::EditMode mode, ClipItem *item, ItemInfo posinfo, QUndoCommand *command, bool doIt = true);
     void adjustTimelineTransitions(TimelineMode::EditMode mode, Transition *item, QUndoCommand *command);
     /** Adjust keyframes when pasted to another clip */
     void adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime duration, QDomElement xml);
@@ -537,7 +538,7 @@ private:
     /** @brief Break groups containing an item in a locked track. */
     void breakLockedGroups(QList<ItemInfo> clipsToMove, QList<ItemInfo> transitionsToMove, QUndoCommand *masterCommand, bool doIt = true);
     /** @brief Cut clips in all non locked tracks. */
-    void cutTimeline(int cutPos, QList <ItemInfo> excluded, QUndoCommand *masterCommand, int track = -1);
+    void cutTimeline(int cutPos, QList <ItemInfo> excludedClips, QList <ItemInfo> excludedTransitions, QUndoCommand *masterCommand, int track = -1);
 
 private slots:
     void slotRefreshGuides();
