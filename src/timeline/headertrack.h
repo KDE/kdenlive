@@ -86,7 +86,7 @@ signals:
     void switchTrackComposite(int index,bool);
     void switchTrackLock(int index,bool);
     void renameTrack(int index, const QString&name);
-    void selectTrack(int index);
+    void selectTrack(int index, bool switchTarget = false);
     void configTrack();
     void addTrackEffect(const QDomElement &, int index);
 };

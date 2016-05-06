@@ -295,7 +295,7 @@ int Timeline::getTracks() {
             connect(tk->trackHeader, SIGNAL(switchTrackVideo(int,bool)), m_trackview, SLOT(slotSwitchTrackVideo(int,bool)));
             connect(tk->trackHeader, SIGNAL(switchTrackAudio(int,bool)), m_trackview, SLOT(slotSwitchTrackAudio(int,bool)));
             connect(tk->trackHeader, SIGNAL(switchTrackLock(int,bool)), m_trackview, SLOT(slotSwitchTrackLock(int,bool)));
-            connect(tk->trackHeader, SIGNAL(selectTrack(int)), m_trackview, SLOT(slotSelectTrack(int)));
+            connect(tk->trackHeader, SIGNAL(selectTrack(int,bool)), m_trackview, SLOT(slotSelectTrack(int,bool)));
             connect(tk->trackHeader, SIGNAL(renameTrack(int,QString)), this, SLOT(slotRenameTrack(int,QString)));
             connect(tk->trackHeader, SIGNAL(configTrack()), this, SIGNAL(configTrack()));
             connect(tk->trackHeader, SIGNAL(addTrackEffect(QDomElement,int)), m_trackview, SLOT(slotAddTrackEffect(QDomElement,int)));

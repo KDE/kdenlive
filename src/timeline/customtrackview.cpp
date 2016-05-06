@@ -7780,7 +7780,7 @@ QStringList CustomTrackView::selectedClips() const
     return clipIds;
 }
 
-void CustomTrackView::slotSelectTrack(int ix)
+void CustomTrackView::slotSelectTrack(int ix, bool switchTarget)
 {
     m_selectedTrack = qBound(1, ix, m_timeline->tracksCount() - 1);
     emit updateTrackHeaders();
@@ -7788,6 +7788,8 @@ void CustomTrackView::slotSelectTrack(int ix)
     QRectF rect(mapToScene(QPoint(10, 0)).x(), getPositionFromTrack(ix) , 10, m_tracksHeight);
     ensureVisible(rect, 0, 0);
     viewport()->update();
+    if (switchTarget)
+	m_timeline->switchTrackTarget();
 }
 
 void CustomTrackView::slotSelectClipsInTrack()

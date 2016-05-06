@@ -171,7 +171,8 @@ void HeaderTrack::mousePressEvent(QMouseEvent * event)
     if (track_number->hasFocus()) {
         track_number->clearFocus();
     }
-    emit selectTrack(m_parentTrack->index());
+    QWidget *underMouse = childAt(event->pos());
+    emit selectTrack(m_parentTrack->index(), underMouse == kled);
     QWidget::mousePressEvent(event);
 }
 
