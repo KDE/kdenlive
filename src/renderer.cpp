@@ -2076,7 +2076,7 @@ void Render::fillSlowMotionProducers()
 }
 
 //Updates all transitions
-QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool videoTrack)
+QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool videoTrack, int lowestVideoTrack)
 {
     QList <TransitionInfo> transitionInfos;
     // Track add / delete was only added recently in MLT (pre 0.9.8 release).
@@ -2113,62 +2113,6 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
     tractor.refresh();
 
     Mlt::Field *field = tractor.field();
-    // Move transitions
-    /*mlt_service serv = m_mltProducer->parent().get_service();
-    mlt_service nextservice = mlt_service_get_producer(serv);
-    mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
-    QString mlt_type = mlt_properties_get(properties, "mlt_type");
-    QString resource = mlt_properties_get(properties, "mlt_service");
-    QList <Mlt::Transition *> trList;
-
-    while (mlt_type == "transition") {
-        if (resource != "mix") {
-            Mlt::Transition transition((mlt_transition) nextservice);
-            nextservice = mlt_service_producer(nextservice);
-            int currentbTrack = transition.get_b_track();
-            int currentaTrack = transition.get_a_track();
-            bool trackChanged = false;
-            bool forceTransitionTrack = false;
-            if (currentbTrack >= ix) {
-                if (currentbTrack == ix && currentaTrack < ix) forceTransitionTrack = true;
-                currentbTrack++;
-                trackChanged = true;
-            }
-            if (currentaTrack >= ix) {
-                currentaTrack++;
-                trackChanged = true;
-            }
-            //qDebug()<<"// Newtrans: "<<currentaTrack<<"/"<<currentbTrack;
-
-            // disconnect all transitions
-            Mlt::Properties trans_props(transition.get_properties());
-            Mlt::Transition *cp = new Mlt::Transition(*m_qmlView->profile(), transition.get("mlt_service"));
-            Mlt::Properties new_trans_props(cp->get_properties());
-            cloneProperties(new_trans_props, trans_props);
-            //new_trans_props.inherit(trans_props);
-
-            if (trackChanged) {
-                // Transition track needs to be adjusted
-                cp->set("a_track", currentaTrack);
-                cp->set("b_track", currentbTrack);
-                // Check if transition track was changed and needs to be forced
-                if (forceTransitionTrack) cp->set("force_track", 1);
-                TransitionInfo trInfo;
-                trInfo.startPos = GenTime(transition.get_in(), m_fps);
-                trInfo.a_track = currentaTrack;
-                trInfo.b_track = currentbTrack;
-                trInfo.forceTrack = cp->get_int("force_track");
-                transitionInfos.append(trInfo);
-            }
-            trList.append(cp);
-            field->disconnect_service(transition);
-        }
-        else nextservice = mlt_service_producer(nextservice);
-        if (nextservice == NULL) break;
-        properties = MLT_SERVICE_PROPERTIES(nextservice);
-        mlt_type = mlt_properties_get(properties, "mlt_type");
-        resource = mlt_properties_get(properties, "mlt_service");
-    }*/
 
     // Add audio mix transition to last track
     Mlt::Transition mix(*m_qmlView->profile(), "mix");
@@ -2180,14 +2124,17 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
     field->plant_transition(mix, 0, ix);
 
     if (videoTrack) {
-        Mlt::Transition composite(*m_qmlView->profile(), KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend");
-        if (composite.is_valid()) {
-            composite.set("a_track", ix - 1);
-            composite.set("b_track", ix);
-            composite.set("internal_added", 237);
-            field->plant_transition(composite, ix - 1, ix);
-        }
-        //mltPlantTransition(field, composite, ct-1, ct);
+	if (ix <= lowestVideoTrack) {
+	    // Track was inserted as lowest video track, it should not have a composite, but previous lowest should
+	    ix = lowestVideoTrack + 1;
+	}
+	Mlt::Transition composite(*m_qmlView->profile(), KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend");
+	if (composite.is_valid()) {
+	    composite.set("a_track", ix - 1);
+	    composite.set("b_track", ix);
+	    composite.set("internal_added", 237);
+	    field->plant_transition(composite, ix - 1, ix);
+	}
     }
 
     /*
