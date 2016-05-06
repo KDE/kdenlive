@@ -157,6 +157,9 @@ public:
     void updateHeaders();
     /** @brief Returns true if position is on the last clip */
     bool isLastClip(ItemInfo info);
+        /** @brief find lowest video track in timeline. */
+    int getLowestVideoTrack();
+
 protected:
     void keyPressEvent(QKeyEvent * event);
 
@@ -204,8 +207,6 @@ private:
     void adjustparameterValue(QDomNodeList clipeffectparams, const QString &paramname, const QString &paramvalue);
     /** @brief Enable/disable track actions depending on number of tracks */
     void refreshTrackActions();
-    /** @brief find lowest video track in timeline. */
-    int getLowestVideoTrack();
 
 private slots:
     void slotSwitchTrackComposite(int trackIndex, bool enable);

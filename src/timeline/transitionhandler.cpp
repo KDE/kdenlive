@@ -549,6 +549,7 @@ void TransitionHandler::rebuildComposites(int lowestVideoTrack)
     QList <Mlt::Transition *>composites;
     QList <int> disabled;
     QScopedPointer<Mlt::Service> service(m_tractor->field());
+    Mlt::Field *field = m_tractor->field();
     // Get the list of composite transitions
     while (service && service->is_valid()) {
         if (service->type() == transition_type) {
@@ -570,6 +571,11 @@ void TransitionHandler::rebuildComposites(int lowestVideoTrack)
     for (int i = 0; i < composites.count(); i++) {
         Mlt::Transition *tr = composites.at(i);
         int bTrack = tr->get_int("b_track");
+	if (bTrack == lowestVideoTrack) {
+	    // Disable lowest video track transition
+	    field->disconnect_service(*tr);
+	    continue;
+	}
         if (disabled.contains(bTrack)) {
             // transition disabled, pass
             continue;
@@ -582,5 +588,6 @@ void TransitionHandler::rebuildComposites(int lowestVideoTrack)
         }
         tr->set("a_track", aTrack);
     }
+    delete field;
     qDeleteAll(composites);
 }

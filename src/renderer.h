@@ -230,7 +230,7 @@ class Render: public AbstractRender
     void mltMoveEffect(int track, const GenTime &position, int oldPos, int newPos);
     void mltMoveTrackEffect(int track, int oldPos, int newPos);
 
-    QList <TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack);
+    QList <TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack, int lowestVideoTrack);
 
     //const QList <Mlt::Producer *> producersList();
     void setDropFrames(bool show);

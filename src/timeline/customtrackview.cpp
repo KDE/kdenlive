@@ -3478,6 +3478,7 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
         m_timeline->videoTarget++;
     if (ix <= m_timeline->audioTarget)
         m_timeline->audioTarget++;
+    int lowestVideoTrack = m_timeline->getLowestVideoTrack();
 
     // Prepare groups for reload
     QDomDocument doc;
@@ -3504,7 +3505,7 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
     }
 
     // insert track in MLT's playlist
-    transitionInfos = m_document->renderer()->mltInsertTrack(ix,  type.trackName, type.type == VideoTrack);
+    transitionInfos = m_document->renderer()->mltInsertTrack(ix,  type.trackName, type.type == VideoTrack, lowestVideoTrack);
     Mlt::Tractor *tractor = m_document->renderer()->lockService();
     // When adding a track, MLT sometimes incorrectly updates transition's tracks
     if (ix < m_timeline->tracksCount()) {
@@ -3609,6 +3610,7 @@ void CustomTrackView::removeTrack(int ix)
 
     // Delete track in MLT playlist
     tractor->remove_track(ix);
+    // Make sure lowest video track has no composite
     m_timeline->updateComposites();
     m_document->renderer()->unlockService(tractor);
     reloadTimeline();
