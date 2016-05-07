@@ -932,7 +932,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     AbstractGroupItem *dragGroup = NULL;
     AbstractClipItem *collisionClip = NULL;
     bool found = false;
-    QStringList lockedTracks;
+    QList<int> lockedTracks;
     double yOffset = 0;
     m_selectionMutex.lock();
     while (!m_dragGuide && ct < collisionList.count()) {
@@ -953,16 +953,27 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                 m_dragItem->setMainSelectedClip(true);
             }
             found = true;
+	    bool allowAudioOnly = false;
+	    if (KdenliveSettings::splitaudio() && m_dragItem->type() == AVWidget) {
+		ClipItem *clp = static_cast<ClipItem *>(m_dragItem);
+		if (clp) {
+		    if (clp->clipType() == Audio || clp->clipState() == PlaylistState::AudioOnly) {
+			allowAudioOnly = true;
+		    }
+		}
+	    }
             for (int i = 1; i < m_timeline->tracksCount(); ++i) {
-                if (m_timeline->getTrackInfo(i).isLocked) lockedTracks << QString::number(i);
+		TrackInfo nfo = m_timeline->getTrackInfo(i);
+                if (nfo.isLocked || (allowAudioOnly && nfo.type == VideoTrack))
+		    lockedTracks << i;
             }
             yOffset = mapToScene(m_clickEvent).y() - m_dragItem->scenePos().y();
             m_dragItem->setProperty("y_absolute", yOffset);
-            m_dragItem->setProperty("locked_tracks", lockedTracks);
+            m_dragItem->setProperty("locked_tracks", QVariant::fromValue(lockedTracks));
             m_dragItemInfo = m_dragItem->info();
             if (m_selectionGroup) {
                 m_selectionGroup->setProperty("y_absolute", yOffset);
-                m_selectionGroup->setProperty("locked_tracks", lockedTracks);
+                m_selectionGroup->setProperty("locked_tracks", QVariant::fromValue(lockedTracks));
             }
             if (m_dragItem->parentItem() && m_dragItem->parentItem()->type() == GroupWidget && m_dragItem->parentItem() != m_selectionGroup) {
                 QGraphicsItem *topGroup = m_dragItem->parentItem();
@@ -971,7 +982,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                 }
                 dragGroup = static_cast <AbstractGroupItem *>(topGroup);
                 dragGroup->setProperty("y_absolute", yOffset);
-                dragGroup->setProperty("locked_tracks", lockedTracks);
+                dragGroup->setProperty("locked_tracks", QVariant::fromValue(lockedTracks));
             }
             break;
         }
@@ -1108,7 +1119,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                 m_selectionMutex.lock();
                 if (m_selectionGroup) {
                     m_selectionGroup->setProperty("y_absolute", yOffset);
-                    m_selectionGroup->setProperty("locked_tracks", lockedTracks);
+                    m_selectionGroup->setProperty("locked_tracks", QVariant::fromValue(lockedTracks));
                 }
                 m_selectionMutex.unlock();
             }
@@ -1126,7 +1137,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                 m_selectionMutex.lock();
                 if (m_selectionGroup) {
                     m_selectionGroup->setProperty("y_absolute", yOffset);
-                    m_selectionGroup->setProperty("locked_tracks", lockedTracks);
+                    m_selectionGroup->setProperty("locked_tracks", QVariant::fromValue(lockedTracks));
                 }
                 m_selectionMutex.unlock();
             }
@@ -1172,7 +1183,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         m_selectionMutex.lock();
         if (m_selectionGroup) {
             m_selectionGroup->setProperty("y_absolute", yOffset);
-            m_selectionGroup->setProperty("locked_tracks", lockedTracks);
+            m_selectionGroup->setProperty("locked_tracks", QVariant::fromValue(lockedTracks));
         }
         m_selectionMutex.unlock();
 
@@ -1830,6 +1841,24 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         if (m_scene->editMode() == TimelineMode::NormalEdit && !canBePastedTo(pasteInfo, AVWidget)) {
             return true;
         }
+        QList<int> lockedTracks;
+	bool allowAudioOnly = false;
+	if (KdenliveSettings::splitaudio()) {
+	    if (clip) {
+		if (clip->clipType() == Audio) {
+		    allowAudioOnly = true;
+		}
+	    }
+	}
+        for (int i = 1; i < m_timeline->tracksCount(); ++i) {
+	    TrackInfo nfo = m_timeline->getTrackInfo(i);
+            if (nfo.isLocked || (allowAudioOnly && nfo.type == VideoTrack))
+		lockedTracks << i;
+        }
+        if (lockedTracks.contains(track)) {
+	    return false;
+	}
+        
         m_selectionGroup = new AbstractGroupItem(m_document->fps());
         ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1, getFrameWidth());
         connect(item, &AbstractClipItem::selectItem, this, &CustomTrackView::slotSelectItem);
@@ -1838,11 +1867,8 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         QList <GenTime> offsetList;
         offsetList.append(info.endPos);
         updateSnapPoints(NULL, offsetList);
-        QStringList lockedTracks;
-        for (int i = 1; i < m_timeline->tracksCount(); ++i) {
-            if (m_timeline->getTrackInfo(i).isLocked) lockedTracks << QString::number(i);
-        }
-        m_selectionGroup->setProperty("locked_tracks", lockedTracks);
+
+        m_selectionGroup->setProperty("locked_tracks", QVariant::fromValue(lockedTracks));
         m_selectionGroup->setPos(framePos);
         scene()->addItem(m_selectionGroup);
         m_selectionGroup->setSelected(true);
@@ -1868,6 +1894,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         }
 
         // Check if clips can be inserted at that position
+	bool allowAudioOnly = false;
         for (int i = 0; i < ids.size(); ++i) {
             QString clipData = ids.at(i);
 	    QString clipId = clipData.section('/', 0, 0);
@@ -1892,10 +1919,27 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
             info.track = track;
             infoList.append(info);
             start += info.cropDuration;
+	    if (KdenliveSettings::splitaudio() && clip->clipType() == Audio)
+		allowAudioOnly = true;
         }
         if (m_scene->editMode() == TimelineMode::NormalEdit && !canBePastedTo(infoList, AVWidget)) {
             return true;
         }
+	QList<int> lockedTracks;
+	bool locked = false;
+	for (int i = 1; i < m_timeline->tracksCount(); ++i) {
+	    TrackInfo nfo = m_timeline->getTrackInfo(i);
+	    if (nfo.isLocked) {
+		lockedTracks << i;
+	    } else if (allowAudioOnly && nfo.type == VideoTrack) {
+		if (track == i) {
+		    locked = true;
+		}
+		lockedTracks << i;
+	    }
+	}
+	if (locked)
+	    return false;
         if (ids.size() > 1) {
             m_selectionGroup = new AbstractGroupItem(m_document->fps());
         }
@@ -1934,18 +1978,14 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         }
 
         updateSnapPoints(NULL, offsetList);
-        QStringList lockedTracks;
-        for (int i = 1; i < m_timeline->tracksCount(); ++i) {
-            if (m_timeline->getTrackInfo(i).isLocked) lockedTracks << QString::number(i);
-        }
 
         if (m_selectionGroup) {
-            m_selectionGroup->setProperty("locked_tracks", lockedTracks);
+            m_selectionGroup->setProperty("locked_tracks", QVariant::fromValue(lockedTracks));
             scene()->addItem(m_selectionGroup);
             m_selectionGroup->setPos(framePos);
         }
         else if (m_dragItem) {
-            m_dragItem->setProperty("locked_tracks", lockedTracks);
+            m_dragItem->setProperty("locked_tracks", QVariant::fromValue(lockedTracks));
             scene()->addItem(m_dragItem);
             m_dragItem->setPos(framePos);
         }
@@ -7429,7 +7469,13 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, int destTrack,
                     }
                 }
             }
-        }
+        } else {
+	    // Expanding to target track, check it is not locked
+	    TrackInfo info = m_timeline->getTrackInfo(destTrack);
+	    if (info.type != AudioTrack || info.isLocked) {
+		destTrack = 0;
+	    }
+	}
         if (destTrack == 0) {
             emit displayMessage(i18n("No empty space to put clip audio"), ErrorMessage);
         } else {

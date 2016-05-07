@@ -243,8 +243,8 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
         xpos = qMax(xpos, 0);
         newPos.setX(xpos);
         int newTrack = trackForPos(newPos.y());
-        QStringList lockedTracks = property("locked_tracks").toStringList();
-        if (lockedTracks.contains(QString::number(newTrack))) {
+	QList<int> lockedTracks = property("locked_tracks").value< QList<int> >();
+        if (lockedTracks.contains(newTrack)) {
             // Trying to move to a locked track
             return pos();
         }

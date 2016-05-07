@@ -1139,8 +1139,8 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
         newPos.setX(xpos);
         // Warning: newPos gives a position relative to the click event, so hack to get absolute pos
 	int newTrack = trackForPos(property("y_absolute").toInt() + newPos.y());
-        QStringList lockedTracks = property("locked_tracks").toStringList();
-        if (lockedTracks.contains(QString::number(newTrack))) {
+        QList<int> lockedTracks = property("locked_tracks").value< QList<int> >();
+        if (lockedTracks.contains(newTrack)) {
             // Trying to move to a locked track
             return pos();
         }

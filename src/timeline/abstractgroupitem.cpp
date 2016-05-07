@@ -228,7 +228,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
 
         xpos = qMax(xpos, 0);
         newPos.setX((int)(pos().x() + xpos - (int) start.x()));
-        QStringList lockedTracks = property("locked_tracks").toStringList();
+        QList<int> lockedTracks = property("locked_tracks").value< QList<int> >();
         int proposedTrack = trackForPos(property("y_absolute").toInt() + newPos.y());
         // Check if top item is a clip or a transition
         int offset = 0;
@@ -290,7 +290,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         bool lockAdjust = false;
         if (!lockedTracks.isEmpty()) {
             for (int i = 0; i < groupTracks.count(); ++i) {
-                if (lockedTracks.contains(QString::number(groupTracks.at(i) + groupOffset))) {
+                if (lockedTracks.contains(groupTracks.at(i) + groupOffset)) {
                     newPos.setY(pos().y());
                     lockAdjust = true;
                     break;
