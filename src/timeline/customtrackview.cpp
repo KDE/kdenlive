@@ -5520,7 +5520,7 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
         }
         Transition *tr = NULL;
 	if (alreadyMoved)
-	    tr = getTransitionItemAt(startTransition.at(i).startPos + offset, startTransition.at(i).track trackOffset);
+	    tr = getTransitionItemAt(startTransition.at(i).startPos + offset, startTransition.at(i).track + trackOffset);
 	else 
 	    tr = getTransitionItemAt(startTransition.at(i).startPos, startTransition.at(i).track);
         if (tr) {
@@ -7956,7 +7956,10 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
     if (KdenliveSettings::useTimelineZoneToEdit())
         timelineZone = m_document->zone();
     else {
-        timelineZone.setX(seekPosition());
+        int cursorPos = seekPosition();
+        if (cursorPos == m_projectDuration)
+            cursorPos++;
+        timelineZone.setX(cursorPos);
         timelineZone.setY(-1);
     }
     ItemInfo info;
