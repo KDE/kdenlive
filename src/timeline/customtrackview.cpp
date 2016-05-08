@@ -7945,7 +7945,8 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
 {
     bool extractAudio = true;
     bool extractVideo = true;
-    ClipType cType = m_document->getBinClip(clipId)->clipType();
+    ProjectClip *clp = m_document->getBinClip(clipId);
+    ClipType cType = clp->clipType();
     if (KdenliveSettings::splitaudio()) {
         if (m_timeline->audioTarget == -1 || m_timeline->getTrackInfo(m_timeline->audioTarget).isLocked) 
             extractAudio = false;
@@ -7968,6 +7969,15 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
     ItemInfo info;
     int binLength = binZone.y() - binZone.x();
     int timelineLength = timelineZone.y() - timelineZone.x();
+    if (KdenliveSettings::useTimelineZoneToEdit()) {
+	if (clp->hasLimitedDuration()) {
+	    //Make sure insert duration is not longer than clip length
+	    timelineLength = qMin(timelineLength, (int) clp->duration().frames(m_document->fps()) - binZone.x());
+	} else if (timelineLength > clp->duration().frames(m_document->fps())) {
+	    // Update source clip max length
+	    clp->setProducerProperty(QStringLiteral("length"), timelineLength + 1);
+	}
+    }
     info.startPos = GenTime(timelineZone.x(), m_document->fps());
     info.cropStart = GenTime(binZone.x(), m_document->fps());
     info.endPos = info.startPos + GenTime(KdenliveSettings::useTimelineZoneToEdit() ? timelineLength : binLength, m_document->fps());
@@ -8004,7 +8014,7 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
     }
     // Automatic audio split
     if (KdenliveSettings::splitaudio() && extractVideo && extractAudio) {
-        if (!m_timeline->getTrackInfo(m_timeline->audioTarget).isLocked && m_document->getBinClip(clipId)->isSplittable())
+        if (!m_timeline->getTrackInfo(m_timeline->audioTarget).isLocked && clp->isSplittable())
             splitAudio(false, info, m_timeline->audioTarget, addCommand);
     }
     updateTrackDuration(info.track, addCommand);
