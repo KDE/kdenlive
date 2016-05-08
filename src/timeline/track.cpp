@@ -159,7 +159,7 @@ bool Track::del(qreal t)
     if (clip)
         delete clip;
     else {
-        qWarning("Error deleting clip at %f", t);
+        qWarning("Error deleting clip at %d, tk: %d", frame(t), m_index);
         m_playlist.unlock();
         return false;
     }

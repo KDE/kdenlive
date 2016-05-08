@@ -4562,7 +4562,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 
             QUndoCommand *moveGroup = new QUndoCommand();		   
             moveGroup->setText(i18n("Move group"));
-	    
+
 	    // Expand groups
             int max = items.count();
             for (int i = 0; i < max; ++i) {
@@ -4598,13 +4598,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             }
 	    new MoveGroupCommand(this, clipsToMove, transitionsToMove, timeOffset, trackOffset, true, true, moveGroup);
 	    m_commandStack->push(moveGroup);
-	    // Finish move, update coordinates
-	    for (int i = 0; i < items.count(); ++i) {
-		if (items.at(i)->type() != AVWidget && items.at(i)->type() != TransitionWidget) continue;
-		AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
-	    	// Now that we have stored the initial coordinates, update for the move operation
-		item->updateItem(item->track() + trackOffset);
-	    }
 	}
         m_moveOpMode = None;
         m_document->renderer()->doRefresh();
@@ -5341,7 +5334,7 @@ ClipItem *CustomTrackView::getMovedClipItem(ItemInfo info, GenTime offset, int t
     QList<QGraphicsItem *> list = scene()->items(QPointF((info.startPos + offset).frames(m_document->fps()), getPositionFromTrack(info.track + trackOffset) + m_tracksHeight / 2));
     ClipItem *clip = NULL;
     for (int i = 0; i < list.size(); ++i) {
-        if (!list.at(i)->isEnabled()) continue;
+        //if (!list.at(i)->isEnabled()) continue;
         if (list.at(i)->type() == AVWidget) {
             ClipItem *test = static_cast <ClipItem *>(list.at(i));
             if (test->startPos() == info.startPos) {
@@ -5504,18 +5497,18 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
         }
         ClipItem *clip = NULL;
 	if (alreadyMoved) {
-	    qDebug()<<"// chking moved clip at: "<< (startClip.at(i).startPos + offset).frames(25);
 	    clip = getMovedClipItem(startClip.at(i), offset, trackOffset);
 	} else {
 	    clip = getClipItemAtStart(startClip.at(i).startPos, startClip.at(i).track);
 	}
 
         if (clip) {
-            clip->setItemLocked(false);
             if (clip->parentItem()) {
                 m_selectionGroup->addItem(clip->parentItem());
+                clip->parentItem()->setEnabled(false);
             } else {
                 m_selectionGroup->addItem(clip);
+                clip->setEnabled(false);
             }
             m_timeline->track(startClip.at(i).track)->del(startClip.at(i).startPos.seconds());
         } else qDebug() << "//MISSING CLIP AT: " << startClip.at(i).startPos.frames(25)<<" / track: "<<startClip.at(i).track<<" / OFFSET: "<<trackOffset;
@@ -5527,15 +5520,16 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
         }
         Transition *tr = NULL;
 	if (alreadyMoved)
-	    tr = getTransitionItemAt(startTransition.at(i).startPos + offset, startTransition.at(i).track + trackOffset);
+	    tr = getTransitionItemAt(startTransition.at(i).startPos + offset, startTransition.at(i).track trackOffset);
 	else 
 	    tr = getTransitionItemAt(startTransition.at(i).startPos, startTransition.at(i).track);
         if (tr) {
-            tr->setItemLocked(false);
             if (tr->parentItem()) {
                 m_selectionGroup->addItem(tr->parentItem());
+                tr->parentItem()->setEnabled(false);
             } else {
                 m_selectionGroup->addItem(tr);
+                tr->setEnabled(false);
             }
             m_timeline->transitionHandler->deleteTransition(tr->transitionTag(), tr->transitionEndTrack(), startTransition.at(i).track, startTransition.at(i).startPos, startTransition.at(i).endPos, tr->toXML());
         } else qDebug() << "//MISSING TRANSITION AT: " << startTransition.at(i).startPos.frames(25);
@@ -5571,14 +5565,13 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
             // re-add items in correct place
             if (children.at(i)->type() != AVWidget && children.at(i)->type() != TransitionWidget) continue;
             AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
-            int realTrack = getTrackFromPos(item->scenePos().y());
-            item->updateItem(realTrack);
+            item->setEnabled(true);
             ItemInfo info = item->info();
+            item->updateItem(info.track + trackOffset);
+            info = item->info();
             bool isLocked = m_timeline->getTrackInfo(info.track).isLocked;
             if (isLocked)
                 item->setItemLocked(true);
-            else if (item->isItemLocked())
-                item->setItemLocked(false);
 
             if (item->type() == AVWidget) {
                 ClipItem *clip = static_cast <ClipItem*>(item);
