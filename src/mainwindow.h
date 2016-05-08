@@ -274,7 +274,7 @@ private slots:
     void slotEditProjectSettings();
 
     /** @brief Turns automatic splitting of audio and video on/off. */
-    void slotSwitchSplitAudio();
+    void slotSwitchSplitAudio(bool enable);
     void slotSwitchMarkersComments();
     void slotSwitchSnap();
     void slotRenderProject();

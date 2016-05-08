@@ -961,7 +961,7 @@ void MainWindow::setupActions()
     toolbar->addAction(m_buttonAutomaticSplitAudio);
     m_buttonAutomaticSplitAudio->setCheckable(true);
     m_buttonAutomaticSplitAudio->setChecked(KdenliveSettings::splitaudio());
-    connect(m_buttonAutomaticSplitAudio, SIGNAL(triggered()), this, SLOT(slotSwitchSplitAudio()));
+    connect(m_buttonAutomaticSplitAudio, &QAction::toggled, this, &MainWindow::slotSwitchSplitAudio);
 
     m_buttonVideoThumbs = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-videothumb")), i18n("Show video thumbnails"), this);
     toolbar->addAction(m_buttonVideoThumbs);
@@ -1809,16 +1809,16 @@ void MainWindow::updateConfiguration()
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
-    m_buttonAutomaticSplitAudio->setChecked(KdenliveSettings::splitaudio());
+    slotSwitchSplitAudio(KdenliveSettings::splitaudio());
 
     // Update list of transcoding profiles
     buildDynamicActions();
     loadClipActions();
 }
 
-void MainWindow::slotSwitchSplitAudio()
+void MainWindow::slotSwitchSplitAudio(bool enable)
 {
-    KdenliveSettings::setSplitaudio(!KdenliveSettings::splitaudio());
+    KdenliveSettings::setSplitaudio(enable);
     m_buttonAutomaticSplitAudio->setChecked(KdenliveSettings::splitaudio());
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->updateHeaders();
