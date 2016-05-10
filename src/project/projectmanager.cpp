@@ -167,6 +167,9 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     bool ok;
     pCore->bin()->setDocument(doc);
     m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value(QStringLiteral("timeline"))->actions(), &ok, pCore->window());
+    // Set default target tracks to upper audio / lower video tracks
+    m_trackView->audioTarget = projectTracks.y() > 0 ? projectTracks.y() : -1;
+    m_trackView->videoTarget = projectTracks.x() > 0 ? projectTracks.y() + 1 : -1;
     connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo, QUrl, QUndoCommand*)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo, QUrl, QUndoCommand*)), Qt::DirectConnection);
 
     m_trackView->loadTimeline();
@@ -503,10 +506,12 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_progressDialog->setLabelText(i18n("Loading clips"));
     m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value(QStringLiteral("timeline"))->actions(), &ok, pCore->window());
     connect(m_trackView, &Timeline::startLoadingBin, m_progressDialog, &QProgressDialog::setMaximum, Qt::DirectConnection);
-
     connect(m_trackView, &Timeline::resetUsageCount, pCore->bin(), &Bin::resetUsageCount, Qt::DirectConnection);
-
     connect(m_trackView, &Timeline::loadingBin, m_progressDialog, &QProgressDialog::setValue, Qt::DirectConnection);
+
+    // Set default target tracks to upper audio / lower video tracks
+    m_trackView->audioTarget = doc->getDocumentProperty(QStringLiteral("audiotargettrack"), QStringLiteral("-1")).toInt();
+    m_trackView->videoTarget = doc->getDocumentProperty(QStringLiteral("videotargettrack"), QStringLiteral("-1")).toInt();
     m_trackView->loadTimeline();
     m_trackView->loadGuides(pCore->binController()->takeGuidesData());
     connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo, QUrl, QUndoCommand*)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo, QUrl, QUndoCommand*)), Qt::DirectConnection);
@@ -659,7 +664,7 @@ QString ProjectManager::projectSceneList()
 
 void ProjectManager::prepareSave()
 {
-    pCore->binController()->saveDocumentProperties(m_project->documentProperties(), m_project->metadata(), m_trackView->projectView()->guidesData());
+    pCore->binController()->saveDocumentProperties(m_trackView->documentProperties(), m_project->metadata(), m_trackView->projectView()->guidesData());
     QString projectNotes = m_project->documentNotes();
     pCore->binController()->saveProperty(QStringLiteral("kdenlive:documentnotes"), projectNotes);
     QString groupsXml = m_project->groupsXml();

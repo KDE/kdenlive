@@ -164,6 +164,14 @@ void Timeline::loadTimeline()
     slotSetZone(m_doc->zone(), false);
 }
 
+QMap <QString, QString> Timeline::documentProperties()
+{
+    QMap <QString, QString> props = m_doc->documentProperties();
+    props.insert(QStringLiteral("audiotargettrack"), QString::number(audioTarget));
+    props.insert(QStringLiteral("videotargettrack"), QString::number(videoTarget));
+    return props;
+}
+
 Track* Timeline::track(int i) 
 {
     if (i < 0 || i >= m_tracks.count()) return NULL;

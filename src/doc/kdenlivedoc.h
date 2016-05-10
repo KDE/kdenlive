@@ -128,7 +128,7 @@ public:
     QPoint zone() const;
     int setSceneList();
     void setDocumentProperty(const QString &name, const QString &value);
-    const QString getDocumentProperty(const QString &name) const;
+    const QString getDocumentProperty(const QString &name, const QString &defaultValue = QString()) const;
 
     /** @brief Gets the list of renderer properties saved into the document. */
     QMap <QString, QString> getRenderProperties() const;
@@ -145,7 +145,7 @@ public:
     /** @brief Add url to the file watcher so that we monitor changes */
     void watchFile(const QUrl &url);
     /** @brief Get all document properties that need to be saved */
-    const QMap <QString, QString> documentProperties();
+    QMap <QString, QString> documentProperties();
     bool useProxy() const;
     bool autoGenerateProxy(int width) const;
     bool autoGenerateImageProxy(int width) const;

@@ -1112,9 +1112,11 @@ void KdenliveDoc::setDocumentProperty(const QString &name, const QString &value)
     m_documentProperties[name] = value;
 }
 
-const QString KdenliveDoc::getDocumentProperty(const QString &name) const
+const QString KdenliveDoc::getDocumentProperty(const QString &name, const QString &defaultValue) const
 {
-    return m_documentProperties.value(name);
+    if (m_documentProperties.contains(name))
+        return m_documentProperties.value(name);
+    return defaultValue;
 }
 
 QMap <QString, QString> KdenliveDoc::getRenderProperties() const
@@ -1464,7 +1466,7 @@ void KdenliveDoc::slotProcessModifiedClips()
     if (m_modifiedClips.isEmpty()) m_modifiedTimer.stop();
 }
 
-const QMap <QString, QString> KdenliveDoc::documentProperties()
+QMap <QString, QString> KdenliveDoc::documentProperties()
 {
     m_documentProperties.insert(QStringLiteral("version"), QString::number(DOCUMENTVERSION));
     m_documentProperties.insert(QStringLiteral("kdenliveversion"), QStringLiteral(KDENLIVE_VERSION));

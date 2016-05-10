@@ -159,6 +159,8 @@ public:
     bool isLastClip(ItemInfo info);
     /** @brief find lowest video track in timeline. */
     int getLowestVideoTrack();
+    /** @brief Returns the document properties with some added values from timeline. */
+    QMap <QString, QString> documentProperties();
 
 protected:
     void keyPressEvent(QKeyEvent * event);
