@@ -157,7 +157,7 @@ public:
     void updateHeaders();
     /** @brief Returns true if position is on the last clip */
     bool isLastClip(ItemInfo info);
-        /** @brief find lowest video track in timeline. */
+    /** @brief find lowest video track in timeline. */
     int getLowestVideoTrack();
 
 protected:
