@@ -2963,7 +2963,6 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         chapters.setAttribute(QStringLiteral("fps"), project->fps());
         doc.appendChild(chapters);
 
-        
         QMap <double, QString> guidesData = pCore->projectManager()->currentTimeline()->projectView()->guidesData();
         QMapIterator<double, QString> g(guidesData);
         QLocale locale;

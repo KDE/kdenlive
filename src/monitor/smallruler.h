@@ -43,7 +43,7 @@ public:
     void adjustScale(int maximum, int offset);
     void setZone(int start, int end);
     void setZoneStart();
-    void setZoneEnd();
+    void setZoneEnd(bool discardLastFrame = false);
     QPoint zone() const;
     void setMarkers(const QList < CommentedTime >& list);
     QString markerAt(GenTime pos);

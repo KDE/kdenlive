@@ -567,8 +567,8 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
     if (m_moveOpMode == Seek && event->buttons() != Qt::NoButton) {
         QGraphicsView::mouseMoveEvent(event);
         if (mappedXPos != m_document->renderer()->getCurrentSeekPosition() && mappedXPos != cursorPos()) {
-                seekCursorPos(mappedXPos);
-                slotCheckPositionScrolling();
+            seekCursorPos(mappedXPos);
+            slotCheckPositionScrolling();
         }
         return;
     }
@@ -7958,10 +7958,7 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
     if (KdenliveSettings::useTimelineZoneToEdit())
         timelineZone = m_document->zone();
     else {
-        int cursorPos = seekPosition();
-        if (cursorPos == m_projectDuration)
-            cursorPos++;
-        timelineZone.setX(cursorPos);
+        timelineZone.setX(seekPosition());
         timelineZone.setY(-1);
     }
     ItemInfo info;

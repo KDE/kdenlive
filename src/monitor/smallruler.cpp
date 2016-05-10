@@ -81,16 +81,12 @@ void SmallRuler::adjustScale(int maximum, int offset)
 
 void SmallRuler::setZoneStart()
 {
-    int pos = m_render->requestedSeekPosition;
-    if (pos == SEEK_INACTIVE) pos = m_render->seekFramePosition();
-    setZone(pos, -1);
+    setZone(m_render->getCurrentSeekPosition(), -1);
 }
 
-void SmallRuler::setZoneEnd()
+void SmallRuler::setZoneEnd(bool discardLastFrame)
 {
-    int pos = m_render->requestedSeekPosition;
-    if (pos == SEEK_INACTIVE) pos = m_render->seekFramePosition();
-    setZone(-1, pos);
+    setZone(-1, m_render->getCurrentSeekPosition() - (discardLastFrame ? 1 : 0));
 }
 
 void SmallRuler::setZone(int start, int end)

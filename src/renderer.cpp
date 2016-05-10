@@ -888,13 +888,11 @@ double Render::playSpeed() const
 GenTime Render::seekPosition() const
 {
     if (m_mltConsumer) return GenTime((int) m_mltConsumer->position(), m_fps);
-    //if (m_mltProducer) return GenTime((int) m_mltProducer->position(), m_fps);
     else return GenTime();
 }
 
 int Render::seekFramePosition() const
 {
-    //if (m_mltProducer) return (int) m_mltProducer->position();
     if (m_mltConsumer) return (int) m_mltConsumer->position();
     return 0;
 }
@@ -920,7 +918,7 @@ void Render::emitFrameUpdated(Mlt::Frame& frame)
 int Render::getCurrentSeekPosition() const
 {
     if (requestedSeekPosition != SEEK_INACTIVE) return requestedSeekPosition;
-    return (int) m_mltProducer->position();
+    return (int) m_mltConsumer->position();
 }
 
 bool Render::checkFrameNumber(int pos)
@@ -1005,14 +1003,14 @@ void Render::mltCheckLength(Mlt::Tractor *tractor)
     if (m_isZoneMode) resetZoneMode();
     if (trackNb == 1) {
         QScopedPointer<Mlt::Producer> trackProducer(tractor->track(0));
-        duration = trackProducer->get_playtime() - 1;
+        duration = trackProducer->get_playtime();
         m_mltProducer->set("out", duration);
         emit durationChanged(duration);
         return;
     }
     while (trackNb > 1) {
         QScopedPointer<Mlt::Producer> trackProducer(tractor->track(trackNb - 1));
-        int trackDuration = trackProducer->get_playtime() - 1;
+        int trackDuration = trackProducer->get_playtime();
         if (trackDuration > duration) duration = trackDuration;
         trackNb--;
     }

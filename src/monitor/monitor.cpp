@@ -631,9 +631,9 @@ void Monitor::slotSetZoneStart()
     checkOverlay();
 }
 
-void Monitor::slotSetZoneEnd()
+void Monitor::slotSetZoneEnd(bool discardLastFrame)
 {
-    m_ruler->setZoneEnd();
+    m_ruler->setZoneEnd(discardLastFrame);
     emit zoneUpdated(m_ruler->zone());
     setClipZone(m_ruler->zone());
     checkOverlay();

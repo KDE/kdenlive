@@ -397,7 +397,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
 
     // Draw zone background
     const int zoneStart = (int)(m_zoneStart * m_factor);
-    const int zoneEnd = (int)(m_zoneEnd * m_factor);
+    const int zoneEnd = (int)((m_zoneEnd + 1)* m_factor);
     p.fillRect(zoneStart - m_offset, LABEL_SIZE + 2, zoneEnd - zoneStart, MAX_HEIGHT - LABEL_SIZE - 2, m_zoneBG);
 
     double f, fend;

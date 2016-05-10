@@ -292,7 +292,7 @@ public slots:
     void slotStart();
     void slotEnd();
     void slotSetZoneStart();
-    void slotSetZoneEnd();
+    void slotSetZoneEnd(bool discardLastFrame = false);
     void slotZoneStart();
     void slotZoneEnd();
     void slotZoneMoved(int start, int end);

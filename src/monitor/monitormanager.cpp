@@ -526,6 +526,9 @@ void MonitorManager::slotSetOutPoint()
     if (m_activeMonitor == m_clipMonitor) {
         m_clipMonitor->slotSetZoneEnd();
     } else if (m_activeMonitor == m_projectMonitor) {
-        m_projectMonitor->slotSetZoneEnd();
+        // Zone end behaves slightly differently in clip monitor and timeline monitor.
+        // in timeline, set zone end selects the frame before current cursor, but in clip monitor
+        // it selects frame at current cursor position.
+        m_projectMonitor->slotSetZoneEnd(true);
     }
 }
