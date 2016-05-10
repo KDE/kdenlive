@@ -149,7 +149,7 @@ public:
     void connectOverlayTrack(bool enable);
     /** @brief Update composite transitions's tracks */
     void updateComposites();
-        /** @brief find lowest video track in timeline. */
+    /** @brief find lowest video track in timeline. */
     int getLowestVideoTrack();
 
 protected:

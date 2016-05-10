@@ -775,10 +775,11 @@ void Timeline::switchTrackAudio(int ix, bool mute)
 
 int Timeline::getLowestVideoTrack()
 {
-    for (int i = 1; i < m_tracks.count(); ++i) {
-        if (track(i)->type == VideoTrack) {
+    for (int i = 1; i < m_tractor->count(); ++i) {
+        QScopedPointer<Mlt::Producer> track(m_tractor->track(i));
+        Mlt::Playlist playlist(*track);
+        if (playlist.get_int("kdenlive:audio_track") != 1)
             return i;
-        }
     }
     return -1;
 }
