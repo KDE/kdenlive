@@ -3220,27 +3220,29 @@ void CustomTrackView::cutTimeline(int cutPos, QList <ItemInfo> excludedClips, QL
     QList<ItemInfo> clipsToCut;
     QList<ItemInfo> transitionsToCut;
     for (int i = 0; i < selection.count(); ++i) {
-        if (!selection.at(i)->isEnabled()) continue;
-        if (selection.at(i)->type() == AVWidget) {
-            ClipItem *clip = static_cast<ClipItem *>(selection.at(i));
-            // Skip locked tracks
-            if (m_timeline->getTrackInfo(clip->track()).isLocked)
-                continue;
-            ItemInfo moveInfo = clip->info();
+        AbstractClipItem *item = static_cast<AbstractClipItem *> (selection.at(i));
+        if (!item || !item->isEnabled() || !item->parentItem()) continue;
+        ItemInfo moveInfo = item->info();
+        // Skip locked tracks
+        if (m_timeline->getTrackInfo(moveInfo.track).isLocked)
+            continue;
+        if (item->type() == AVWidget) {
             if (excludedClips.contains(moveInfo)) {
                 continue;
             }
-            if (clip->type() == AVWidget) {
-                clipsToCut.append(moveInfo);
-            } else if (clip->type() == TransitionWidget) {
-                transitionsToCut.append(moveInfo);
+            clipsToCut.append(moveInfo);
+        } else if (item->type() == TransitionWidget) {
+            if (excludedTransitions.contains(moveInfo)) {
+                continue;
             }
+            transitionsToCut.append(moveInfo);
         }
     }
     if (!clipsToCut.isEmpty() || !transitionsToCut.isEmpty()) {
         breakLockedGroups(clipsToCut, transitionsToCut, masterCommand);
     }
     // Razor
+    GenTime cutPosition = GenTime(cutPos, m_document->fps());
     for (int i = 0; i < selection.count(); ++i) {
         if (!selection.at(i)->isEnabled()) continue;
         if (selection.at(i)->type() == AVWidget) {
@@ -3249,20 +3251,20 @@ void CustomTrackView::cutTimeline(int cutPos, QList <ItemInfo> excludedClips, QL
             if (m_timeline->getTrackInfo(clip->track()).isLocked)
                 continue;
             ItemInfo info = clip->info();
-            if (excludedClips.contains(info)) {
+            if (excludedClips.contains(info) || cutPosition == info.startPos) {
                 continue;
             }
-            new RazorClipCommand(this, info, clip->effectList(), GenTime(cutPos, m_document->fps()), true, masterCommand);
+            new RazorClipCommand(this, info, clip->effectList(), cutPosition, true, masterCommand);
         } else if (selection.at(i)->type() == TransitionWidget) {
             Transition *trans = static_cast<Transition *>(selection.at(i));
             // Skip locked tracks
             if (m_timeline->getTrackInfo(trans->track()).isLocked)
                 continue;
             ItemInfo info = trans->info();
-            if (excludedTransitions.contains(info)) {
+            if (excludedTransitions.contains(info) || cutPosition == info.startPos) {
                 continue;
             }
-            new RazorTransitionCommand(this, info, trans->toXML(), GenTime(cutPos, m_document->fps()), true, masterCommand);
+            new RazorTransitionCommand(this, info, trans->toXML(), cutPosition, true, masterCommand);
         }
     }
 }
