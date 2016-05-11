@@ -948,6 +948,7 @@ void ProjectClip::slotCreateAudioThumbs()
         updateAudioThumbnail(audioLevels);
         return;
     }
+    bool jobFinished = false;
 
     if (KdenliveSettings::ffmpegaudiothumbnails() && m_type != Playlist) {
         QStringList args;
@@ -1008,69 +1009,70 @@ void ProjectClip::slotCreateAudioThumbs()
             m_abortAudioThumb = false;
             return;
         }
-        if (ffmpegError || audioThumbsProcess.exitStatus() == QProcess::CrashExit) {
-            emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
-            bin()->emitMessage(i18n("Crash in %1 - creating audio thumbnails", KdenliveSettings::ffmpegpath()), ErrorMessage);
-            return;
-        }
 
-        int dataSize = 0;
-        QList <const qint16*> rawChannels;
-        QList <QByteArray> sourceChannels;
-        QList<qint16> data2;
-        for (int i = 0; i < channelFiles.count(); i++) {
-            channelFiles[i]->open();
-            QByteArray res = channelFiles[i]->readAll();
-            channelFiles[i]->close();
-            if (dataSize == 0) {
-                dataSize = res.size();
-            }
-            if (res.isEmpty() || res.size() != dataSize) {
-                // Something went wrong, abort
-                emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
-                bin()->emitMessage(i18n("Error reading audio thumbnail"), ErrorMessage);
-                return;
-            }
-            rawChannels << (const qint16*) res.constData();
-            // We need to keep res2 alive or rawChannels data will die
-            sourceChannels << res;
-        }
-        int progress = 0;
-        QList <long> channelsData;
-        double offset = (double) dataSize / (2.0 * lengthInFrames);
-        int intraOffset = 1;
-        if (offset > 1000) {
-            intraOffset = offset / 60;
-        } else if (offset > 250) {
-            intraOffset = offset / 10;
-        }
-        double factor = 800.0 / 32768;
-        for (int i = 0; i < lengthInFrames; i++) {
-            channelsData.clear();
-            for (int k = 0; k < rawChannels.count(); k++) {
-                channelsData << 0;
-            }
-            int pos = (int) (i * offset);
-            int steps = 0;
-            for (int j = 0; j < (int) offset && (pos + j < dataSize); j += intraOffset) {
-                steps ++;
-                for (int k = 0; k < rawChannels.count(); k++) {
-                    channelsData[k] += abs(rawChannels[k][pos + j]);
+        if (!ffmpegError && audioThumbsProcess.exitStatus() != QProcess::CrashExit) {
+            int dataSize = 0;
+            QList <const qint16*> rawChannels;
+            QList <QByteArray> sourceChannels;
+            QList<qint16> data2;
+            for (int i = 0; i < channelFiles.count(); i++) {
+                channelFiles[i]->open();
+                QByteArray res = channelFiles[i]->readAll();
+                channelFiles[i]->close();
+                if (dataSize == 0) {
+                    dataSize = res.size();
                 }
-
+                if (res.isEmpty() || res.size() != dataSize) {
+                    // Something went wrong, abort
+                    emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
+                    bin()->emitMessage(i18n("Error reading audio thumbnail"), ErrorMessage);
+                    return;
+                }
+                rawChannels << (const qint16*) res.constData();
+                // We need to keep res2 alive or rawChannels data will die
+                sourceChannels << res;
             }
-            for (int k = 0; k < channelsData.count(); k++) {
-                if (steps) channelsData[k] /= steps;
-                audioLevels << channelsData[k] * factor;
+            int progress = 0;
+            QList <long> channelsData;
+            double offset = (double) dataSize / (2.0 * lengthInFrames);
+            int intraOffset = 1;
+            if (offset > 1000) {
+                intraOffset = offset / 60;
+            } else if (offset > 250) {
+                intraOffset = offset / 10;
             }
-            int p = i * 100 / lengthInFrames;
-            if (p != progress) {
-                emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWorking, p);
-                progress = p;
+            double factor = 800.0 / 32768;
+            for (int i = 0; i < lengthInFrames; i++) {
+                channelsData.clear();
+                for (int k = 0; k < rawChannels.count(); k++) {
+                    channelsData << 0;
+                }
+                int pos = (int) (i * offset);
+                int steps = 0;
+                for (int j = 0; j < (int) offset && (pos + j < dataSize); j += intraOffset) {
+                    steps ++;
+                    for (int k = 0; k < rawChannels.count(); k++) {
+                        channelsData[k] += abs(rawChannels[k][pos + j]);
+                    }
+                }
+                for (int k = 0; k < channelsData.count(); k++) {
+                    if (steps) channelsData[k] /= steps;
+                    audioLevels << channelsData[k] * factor;
+                }
+                int p = i * 100 / lengthInFrames;
+                if (p != progress) {
+                    emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWorking, p);
+                    progress = p;
+                }
+                if (m_abortAudioThumb) break;
             }
-            if (m_abortAudioThumb) break;
+            jobFinished = true;
+        } else {
+            bin()->emitMessage(i18n("Failed to create FFmpeg audio thumbnails, using MLT"), ErrorMessage);
         }
-    } else {
+    }
+    if (!jobFinished && !m_abortAudioThumb) {
+        // MLT audio thumbs: slower but safer
         QString service = prod->get("mlt_service");
         if (service == QLatin1String("avformat-novalidate"))
         service = QStringLiteral("avformat");
