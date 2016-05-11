@@ -4553,7 +4553,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 	    cutInfo.startPos = GenTime(m_dragItem->scenePos().x(), m_document->fps());
 	    cutInfo.cropDuration = group->duration();
 	    cutInfo.endPos = cutInfo.startPos + cutInfo.cropDuration;
-	    qDebug()<<"/// READY TO CUT AT: "<<cutInfo.startPos.frames(25)<<" / "<<m_dragItem->scenePos().x()<<", duration: "<<group->duration().frames(25);
 
             QList<QGraphicsItem *> items = group->childItems();
             QList<ItemInfo> clipsToMove;
@@ -4561,6 +4560,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 
             GenTime timeOffset = GenTime(m_dragItem->scenePos().x(), m_document->fps()) - m_dragItemInfo.startPos;
             const int trackOffset = getTrackFromPos(m_dragItem->scenePos().y()) - m_dragItemInfo.track;
+            qDebug()<<" / / / /TRACK OFFSET: "<<trackOffset;
 
             QUndoCommand *moveGroup = new QUndoCommand();		   
             moveGroup->setText(i18n("Move group"));
@@ -5544,7 +5544,6 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
 
 	if (!alreadyMoved)
 	    m_selectionGroup->setTransform(QTransform::fromTranslate(offset.frames(m_document->fps()), -trackOffset *(qreal) m_tracksHeight), true);
-        //m_selectionGroup->moveBy(offset.frames(m_document->fps()), trackOffset *(qreal) m_tracksHeight);
 
         QList<QGraphicsItem *> children = m_selectionGroup->childItems();
         QList <AbstractGroupItem*> groupList;
@@ -5569,8 +5568,10 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
             AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
             item->setEnabled(true);
             ItemInfo info = item->info();
-            item->updateItem(info.track + trackOffset);
-            info = item->info();
+            if (!alreadyMoved) {
+                item->updateItem(info.track + trackOffset);
+                info = item->info();
+            }
             bool isLocked = m_timeline->getTrackInfo(info.track).isLocked;
             if (isLocked)
                 item->setItemLocked(true);
