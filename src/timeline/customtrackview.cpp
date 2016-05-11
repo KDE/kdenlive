@@ -5507,10 +5507,13 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
         if (clip) {
             if (clip->parentItem()) {
                 m_selectionGroup->addItem(clip->parentItem());
-                clip->parentItem()->setEnabled(false);
+                // If timeline clip is already at destination, make sure it is not moved twice
+                if (alreadyMoved)
+                    clip->parentItem()->setEnabled(false);
             } else {
                 m_selectionGroup->addItem(clip);
-                clip->setEnabled(false);
+                if (alreadyMoved)
+                    clip->setEnabled(false);
             }
             m_timeline->track(startClip.at(i).track)->del(startClip.at(i).startPos.seconds());
         } else qDebug() << "//MISSING CLIP AT: " << startClip.at(i).startPos.frames(25)<<" / track: "<<startClip.at(i).track<<" / OFFSET: "<<trackOffset;
@@ -5528,10 +5531,12 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
         if (tr) {
             if (tr->parentItem()) {
                 m_selectionGroup->addItem(tr->parentItem());
-                tr->parentItem()->setEnabled(false);
+                if (alreadyMoved)
+                    tr->parentItem()->setEnabled(false);
             } else {
                 m_selectionGroup->addItem(tr);
-                tr->setEnabled(false);
+                if (alreadyMoved)
+                    tr->setEnabled(false);
             }
             m_timeline->transitionHandler->deleteTransition(tr->transitionTag(), tr->transitionEndTrack(), startTransition.at(i).track, startTransition.at(i).startPos, startTransition.at(i).endPos, tr->toXML());
         } else qDebug() << "//MISSING TRANSITION AT: " << startTransition.at(i).startPos.frames(25);
@@ -5551,7 +5556,13 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
         int max = children.count();
         for (int i = 0; i < max; ++i) {
             if (children.at(i)->type() == GroupWidget) {
-                children += children.at(i)->childItems();
+                QList <QGraphicsItem *> groupChildren = children.at(i)->childItems();
+                for (int j = 0; j < groupChildren.count(); j++) {
+                    AbstractClipItem *item = static_cast<AbstractClipItem*>(groupChildren.at(j));
+                    ItemInfo nfo = item->info();
+                    item->updateItem(nfo.track + trackOffset);
+                }
+                children += groupChildren;
                 //AbstractGroupItem *grp = static_cast<AbstractGroupItem *>(children.at(i));
                 //grp->moveBy(offset.frames(m_document->fps()), trackOffset *(qreal) m_tracksHeight);
                 /*m_document->clipManager()->removeGroup(grp);
