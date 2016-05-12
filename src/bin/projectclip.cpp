@@ -970,6 +970,8 @@ const QString ProjectClip::getAudioThumbPath(AudioStreamInfo *audioInfo)
 void ProjectClip::slotCreateAudioThumbs()
 {
     QMutexLocker lock(&m_audioMutex);
+    if (m_audioThumbsProcess.state() != QProcess::NotRunning)
+        return;
     Mlt::Producer *prod = originalProducer();
     if (!prod || !prod->is_valid()) return;
     AudioStreamInfo *audioInfo = m_controller->audioInfo();
@@ -1014,6 +1016,8 @@ void ProjectClip::slotCreateAudioThumbs()
             channelFiles << channelTmpfile;
         }
         args << QStringLiteral("-i") << QUrl::fromLocalFile(prod->get("resource")).path();
+        // Output progress info
+        args << QStringLiteral("-progress") << QStringLiteral("/dev/stdout");
 
         bool isFFmpeg = KdenliveSettings::ffmpegpath().contains("ffmpeg");
 
@@ -1047,21 +1051,21 @@ void ProjectClip::slotCreateAudioThumbs()
                 }
         }
         emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0);
-        QProcess audioThumbsProcess;
-        connect(this, SIGNAL(doAbortAudioThumbs()), &audioThumbsProcess, SLOT(kill()), Qt::DirectConnection);
-        audioThumbsProcess.start(KdenliveSettings::ffmpegpath(), args);
+        connect(this, SIGNAL(doAbortAudioThumbs()), &m_audioThumbsProcess, SLOT(kill()), Qt::DirectConnection);
+        connect(&m_audioThumbsProcess, &QProcess::readyReadStandardOutput, this, &ProjectClip::updateFfmpegProgress);
+        m_audioThumbsProcess.start(KdenliveSettings::ffmpegpath(), args);
         bool ffmpegError = false;
-        if (!audioThumbsProcess.waitForStarted()) {
+        if (!m_audioThumbsProcess.waitForStarted()) {
             ffmpegError = true;
         }
-        audioThumbsProcess.waitForFinished();
+        m_audioThumbsProcess.waitForFinished(-1);
         if (m_abortAudioThumb) {
             emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
             m_abortAudioThumb = false;
             return;
         }
 
-        if (!ffmpegError && audioThumbsProcess.exitStatus() != QProcess::CrashExit) {
+        if (!ffmpegError && m_audioThumbsProcess.exitStatus() != QProcess::CrashExit) {
             int dataSize = 0;
             QList <const qint16*> rawChannels;
             QList <QByteArray> sourceChannels;
@@ -1110,7 +1114,7 @@ void ProjectClip::slotCreateAudioThumbs()
                     if (steps) channelsData[k] /= steps;
                     audioLevels << channelsData[k] * factor;
                 }
-                int p = i * 100 / lengthInFrames;
+                int p = 50 + (i * 50 / lengthInFrames);
                 if (p != progress) {
                     emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWorking, p);
                     progress = p;
@@ -1199,6 +1203,18 @@ void ProjectClip::slotCreateAudioThumbs()
         image.save(audioPath);
     }
     m_abortAudioThumb = false;
+}
+
+void ProjectClip::updateFfmpegProgress()
+{
+    QString result = m_audioThumbsProcess.readAllStandardOutput();
+    QStringList lines = result.split('\n');
+    foreach(const QString & data, lines) {
+        if (data.startsWith(QStringLiteral("out_time_ms"))) {
+            long ms = data.section(QLatin1Char('='), 1).toLong();
+            emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWorking, (int) (ms / duration().ms() / 20));
+        }
+    }
 }
 
 bool ProjectClip::isTransparent() const
