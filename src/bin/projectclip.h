@@ -236,6 +236,7 @@ private:
     QUrl m_temporaryUrl;
     ClipType m_type;
     Mlt::Producer *m_thumbsProducer;
+    QProcess m_audioThumbsProcess;
     QMutex m_producerMutex;
     QMutex m_thumbMutex;
     QMutex m_audioMutex;
@@ -243,6 +244,9 @@ private:
     QList <int> m_requestedThumbs;
     const QString geometryWithOffset(const QString &data, int offset);
     void doExtractImage();
+
+private slots:
+    void updateFfmpegProgress();
 
 signals:
     void gotAudioData();
