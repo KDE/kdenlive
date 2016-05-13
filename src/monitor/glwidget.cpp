@@ -478,7 +478,7 @@ void GLWidget::paintGL()
         if (!m_fbo || m_fbo->size() != QSize(fullWidth, fullHeight)) {
             delete m_fbo;
             QOpenGLFramebufferObjectFormat fmt;
-            fmt.setSamples(0);
+            fmt.setSamples(1);
             fmt.setInternalTextureFormat(GL_RGB); //GL_RGBA32F);  // which one is the fastest ?
             m_fbo = new QOpenGLFramebufferObject(fullWidth, fullHeight, fmt); //GL_TEXTURE_2D);
         }
