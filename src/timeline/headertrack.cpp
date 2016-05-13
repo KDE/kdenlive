@@ -120,6 +120,8 @@ bool HeaderTrack::eventFilter(QObject *obj, QEvent *event)
     } else if (event->type() == QEvent::MouseButtonDblClick) {
         // Allow editing on double click
         track_number->setEnabled(true);
+        track_number->setFocus(Qt::MouseFocusReason);
+        event->accept();
     }
     return QWidget::eventFilter(obj, event);
 }
