@@ -3277,8 +3277,10 @@ void CustomTrackView::extractZone(QPoint z, bool closeGap, QList <ItemInfo> excl
         emit displayMessage(i18n("Cannot perform operation on a locked track"), ErrorMessage);
         return;
     }
-    if (z.isNull())
+    if (z.isNull()) {
         z = m_document->zone();
+        z.setY(z.y() + 1);
+    }
     QRectF rect;
     if (track == -1) {
         // All tracks
@@ -7967,8 +7969,10 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
     }
     if (binZone.isNull()) return;
     QPoint timelineZone;
-    if (KdenliveSettings::useTimelineZoneToEdit())
+    if (KdenliveSettings::useTimelineZoneToEdit()) {
         timelineZone = m_document->zone();
+        timelineZone.setY(timelineZone.y() + 1);
+    }
     else {
         timelineZone.setX(seekPosition());
         timelineZone.setY(-1);

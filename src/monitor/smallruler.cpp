@@ -104,7 +104,7 @@ void SmallRuler::setZone(int start, int end)
         if (start != -1 && end <= start) {
             m_zoneStart = qMax(0, start - (m_zoneEnd - end));
             m_zoneEnd = end;
-        } else if (start == -1 && end <= m_zoneStart) {
+        } else if (start == -1 && end < m_zoneStart) {
             m_zoneStart = qMax(0, m_zoneStart - (m_zoneEnd - end));
             m_zoneEnd = end;
         } else m_zoneEnd = end;

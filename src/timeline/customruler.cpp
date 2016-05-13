@@ -167,7 +167,7 @@ void CustomRuler::mousePressEvent(QMouseEvent * event)
     if (event->y() > 10) {
         if (qAbs(pos - m_zoneStart * m_factor) < 4) m_moveCursor = RULER_START;
         else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2.0) * m_factor) < 4) m_moveCursor = RULER_MIDDLE;
-        else if (qAbs(pos - m_zoneEnd * m_factor) < 4) m_moveCursor = RULER_END;
+        else if (qAbs(pos - (m_zoneEnd + 1)* m_factor) < 4) m_moveCursor = RULER_END;
         m_view->updateSnapPoints(NULL);
     }
     if (m_moveCursor == RULER_CURSOR) {
@@ -214,8 +214,8 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
                 if (verticalDiff != m_rate) emit adjustZoom(verticalDiff);
             }
             return;
-        } else if (m_moveCursor == RULER_START) m_zoneStart = qMin(pos, m_zoneEnd - 1);
-        else if (m_moveCursor == RULER_END) m_zoneEnd = qMax(pos, m_zoneStart + 1);
+        } else if (m_moveCursor == RULER_START) m_zoneStart = qMin(pos, m_zoneEnd);
+        else if (m_moveCursor == RULER_END) m_zoneEnd = qMax(pos, m_zoneStart);
         else if (m_moveCursor == RULER_MIDDLE) {
             int move = pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2);
             if (move + m_zoneStart < 0) move = - m_zoneStart;
@@ -224,7 +224,7 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
         }
         int min = qMin(m_zoneStart, zoneStart);
         int max = qMax(m_zoneEnd, zoneEnd);
-        update(min * m_factor - m_offset - 2, 0, (max - min) * m_factor + 4, height());
+        update(min * m_factor - m_offset - 2, 0, (max - min + 1) * m_factor + 4, height());
 
     } else {
         int pos = (int)((event->x() + m_offset));
@@ -235,7 +235,7 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
             setCursor(QCursor(Qt::SizeHorCursor));
             if (KdenliveSettings::frametimecode()) setToolTip(i18n("Zone start: %1", m_zoneStart));
             else setToolTip(i18n("Zone start: %1", m_timecode.getTimecodeFromFrames(m_zoneStart)));
-        } else if (qAbs(pos - m_zoneEnd * m_factor) < 4) {
+        } else if (qAbs(pos - (m_zoneEnd + 1) * m_factor) < 4) {
             setCursor(QCursor(Qt::SizeHorCursor));
             if (KdenliveSettings::frametimecode()) setToolTip(i18n("Zone end: %1", m_zoneEnd));
             else setToolTip(i18n("Zone end: %1", m_timecode.getTimecodeFromFrames(m_zoneEnd)));
