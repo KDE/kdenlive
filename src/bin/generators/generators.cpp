@@ -166,10 +166,12 @@ QUrl Generators::getSavedClip(QString clipFolder)
                 return getSavedClip(url.path());
             }
         }
+        Mlt::Tractor trac(*m_producer->profile());
         m_producer->set("length", m_timePos->getValue());
         m_producer->set_in_and_out(0, m_timePos->getValue() - 1);
+        trac.set_track(*m_producer, 0);
         Mlt::Consumer c(*m_producer->profile(), "xml", url.path().toUtf8().constData());
-        c.connect(*m_producer);
+        c.connect(trac);
         c.run();
         return url;
     }
