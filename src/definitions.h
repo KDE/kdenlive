@@ -70,7 +70,8 @@ namespace PlaylistState {
     enum ClipState {
 	Original = 0,
 	VideoOnly = 1,
-	AudioOnly = 2
+	AudioOnly = 2,
+        Disabled = 3
     };
 
 };

@@ -1971,6 +1971,10 @@ void DocumentValidator::checkOrphanedProducers()
         QString id = prod.attribute(QStringLiteral("id")).section(QStringLiteral("_"), 0, 0);
         if (id.startsWith(QLatin1String("slowmotion")) || id == QLatin1String("black")) continue;
         if (!binProducers.contains(id)) {
+            QString binId = EffectsList::property(prod, QStringLiteral("kdenlive:binid"));
+            if (!binId.isEmpty() && binProducers.contains(binId)) {
+                continue;
+            }
             qWarning()<<" ///////// WARNING, FOUND UNKNOWN PRODUDER: "<<id<<" ----------------";
             // This producer is unknown to Bin
             QString resource = EffectsList::property(prod, QStringLiteral("resource"));

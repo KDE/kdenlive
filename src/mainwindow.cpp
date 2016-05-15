@@ -1187,23 +1187,29 @@ void MainWindow::setupActions()
 
     QAction * audioOnly = new QAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Audio Only"), this);
     addAction(QStringLiteral("clip_audio_only"), audioOnly);
-    audioOnly->setData("clip_audio_only");
+    audioOnly->setData(PlaylistState::AudioOnly);
     audioOnly->setCheckable(true);
 
     QAction * videoOnly = new QAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Video Only"), this);
     addAction(QStringLiteral("clip_video_only"), videoOnly);
-    videoOnly->setData("clip_video_only");
+    videoOnly->setData(PlaylistState::VideoOnly);
     videoOnly->setCheckable(true);
 
     QAction * audioAndVideo = new QAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Audio and Video"), this);
     addAction(QStringLiteral("clip_audio_and_video"), audioAndVideo);
-    audioAndVideo->setData("clip_audio_and_video");
+    audioAndVideo->setData(PlaylistState::Original);
     audioAndVideo->setCheckable(true);
+
+    QAction * disabledClip = new QAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Disabled"), this);
+    addAction(QStringLiteral("clip_disabled"), disabledClip);
+    disabledClip->setData(PlaylistState::Disabled);
+    disabledClip->setCheckable(true);
 
     m_clipTypeGroup = new QActionGroup(this);
     m_clipTypeGroup->addAction(audioOnly);
     m_clipTypeGroup->addAction(videoOnly);
     m_clipTypeGroup->addAction(audioAndVideo);
+    m_clipTypeGroup->addAction(disabledClip);
     connect(m_clipTypeGroup, SIGNAL(triggered(QAction*)), this, SLOT(slotUpdateClipType(QAction*)));
     m_clipTypeGroup->setEnabled(false);
 
@@ -2684,11 +2690,7 @@ void MainWindow::slotAlignAudio()
 void MainWindow::slotUpdateClipType(QAction *action)
 {
     if (pCore->projectManager()->currentTimeline()) {
-        PlaylistState::ClipState state = PlaylistState::Original;
-        if (action->data().toString() == QLatin1String("clip_audio_only")) 
-            state = PlaylistState::AudioOnly;
-        else if (action->data().toString() == QLatin1String("clip_video_only"))
-            state = PlaylistState::VideoOnly;
+        PlaylistState::ClipState state = (PlaylistState::ClipState) action->data().toInt();
         pCore->projectManager()->currentTimeline()->projectView()->setClipType(state);
     }
 }

@@ -164,11 +164,10 @@ void AddTransitionCommand::redo()
     m_doIt = true;
 }
 
-ChangeClipTypeCommand::ChangeClipTypeCommand(CustomTrackView *view, const int track, const GenTime &pos, PlaylistState::ClipState state, PlaylistState::ClipState originalState, QUndoCommand * parent) :
+ChangeClipTypeCommand::ChangeClipTypeCommand(CustomTrackView *view, ItemInfo info, PlaylistState::ClipState state, PlaylistState::ClipState originalState, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
-        m_pos(pos),
-        m_track(track),
+        m_info(info),
         m_state(state),
         m_originalState(originalState)
 {
@@ -177,12 +176,12 @@ ChangeClipTypeCommand::ChangeClipTypeCommand(CustomTrackView *view, const int tr
 // virtual
 void ChangeClipTypeCommand::undo()
 {
-    m_view->doChangeClipType(m_pos, m_track, m_originalState);
+    m_view->doChangeClipType(m_info, m_originalState);
 }
 // virtual
 void ChangeClipTypeCommand::redo()
 {
-    m_view->doChangeClipType(m_pos, m_track, m_state);
+    m_view->doChangeClipType(m_info, m_state);
 }
 
 ChangeEffectStateCommand::ChangeEffectStateCommand(CustomTrackView *view, const int track, const GenTime& pos, const QList <int>& effectIndexes, bool disable, bool refreshEffectStack, bool doIt, QUndoCommand *parent) :

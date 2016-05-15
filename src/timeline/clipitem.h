@@ -163,7 +163,7 @@ public:
     QPixmap startThumb() const;
     QPixmap endThumb() const;
     void setState(PlaylistState::ClipState state);
-    void updateState(const QString &id);
+    void updateState(const QString &id, int aIndex, int vIndex);
 
     bool updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo);
 
@@ -233,6 +233,7 @@ private:
     double m_framePixelWidth;
     QPixmap m_videoPix;
     QPixmap m_audioPix;
+    QPixmap m_disabledPix;
 
 private slots:
     void slotGetStartThumb();

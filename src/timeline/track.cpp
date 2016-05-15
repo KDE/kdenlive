@@ -76,7 +76,13 @@ bool Track::add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, Playlis
     if (parent == NULL || !parent->is_valid()) {
         return false;
     }
-    if (duplicate && state != PlaylistState::VideoOnly) {
+    if (state == PlaylistState::Disabled) {
+        QScopedPointer<Mlt::Producer> prodCopy(Clip(*parent).clone());
+        prodCopy->set("video_index", -1);
+        prodCopy->set("audio_index", -1);
+        prodCopy->set("kdenlive:binid", parent->get("id"));
+        cut = prodCopy->cut(frame(tcut), frame(dtcut) - 1);
+    } else if (duplicate && state != PlaylistState::VideoOnly) {
         QScopedPointer<Mlt::Producer> newProd(clipProducer(parent, state));
         cut = newProd->cut(frame(tcut), frame(dtcut) - 1);
     }
@@ -402,7 +408,13 @@ bool Track::replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state
     Mlt::Producer *cut;
     QScopedPointer <Mlt::Producer> orig(m_playlist.replace_with_blank(index));
     QString service = prod->get("mlt_service");
-    if (state != PlaylistState::VideoOnly && service != QLatin1String("timewarp")) {
+    if (state == PlaylistState::Disabled) {
+        QScopedPointer<Mlt::Producer> prodCopy(Clip(*prod).clone());
+        prodCopy->set("video_index", -1);
+        prodCopy->set("audio_index", -1);
+        prodCopy->set("kdenlive:binid", prod->get("id"));
+        cut = prodCopy->cut(orig->get_in(), orig->get_out());
+    } else if (state != PlaylistState::VideoOnly && service != QLatin1String("timewarp")) {
         // Get track duplicate
         Mlt::Producer *copyProd = clipProducer(prod, state);
         cut = copyProd->cut(orig->get_in(), orig->get_out());

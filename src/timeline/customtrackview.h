@@ -167,7 +167,7 @@ public:
     void doSplitAudio(const GenTime &pos, int track, int destTrack, bool split);
     /** @brief Sets the clip type (av, video only, audio only) of the current selection. */
     void setClipType(PlaylistState::ClipState state);
-    void doChangeClipType(const GenTime &pos, int track, PlaylistState::ClipState state);
+    void doChangeClipType(ItemInfo info, PlaylistState::ClipState state);
     int hasGuide(int pos, int offset);
     void reloadTransitionLumas();
     void updateProjectFps();

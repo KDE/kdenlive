@@ -71,6 +71,7 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
 
     m_videoPix = QIcon::fromTheme(QStringLiteral("kdenlive-show-video")).pixmap(QSize(16, 16));
     m_audioPix = QIcon::fromTheme(QStringLiteral("kdenlive-show-audio")).pixmap(QSize(16, 16));
+    m_disabledPix = QIcon::fromTheme(QStringLiteral("remove")).pixmap(QSize(16, 16));
 
     m_clipType = m_binClip->clipType();
     //m_cropStart = info.cropStart;
@@ -785,6 +786,9 @@ void ClipItem::paint(QPainter *painter,
             break;
           case PlaylistState::AudioOnly:
             painter->drawPixmap(txtBounding2.topLeft() - QPointF(17, -1), m_audioPix);
+            break;
+          case PlaylistState::Disabled:
+            painter->drawPixmap(txtBounding2.topLeft() - QPointF(17, -1), m_disabledPix);
             break;
           default:
             break;
@@ -1859,20 +1863,31 @@ bool ClipItem::isSplittable() const
     return (m_clipState != PlaylistState::VideoOnly && m_binClip->isSplittable());
 }
 
-void ClipItem::updateState(const QString &id)
+void ClipItem::updateState(const QString &id, int aIndex, int vIndex)
 {
-    if (id.startsWith(QLatin1String("slowmotion"))) {
-        m_clipState = (PlaylistState::ClipState) id.section(":", -1).toInt();
-        return;
+    bool disabled = false;
+    if (m_clipType == AV || m_clipType == Playlist) {
+        disabled = (aIndex == -1 && vIndex == -1);
+    } else if (m_clipType == Video) {
+        disabled = (vIndex == -1);
+    } else if (m_clipType == Audio) {
+        disabled = (aIndex == -1);
     }
-    if (id.endsWith(QLatin1String("_audio"))) {
-        m_clipState = PlaylistState::AudioOnly;
-    }
-    else if (id.endsWith(QLatin1String("_video"))) {
-        m_clipState = PlaylistState::VideoOnly;
-    }
+    if (disabled)
+        m_clipState = PlaylistState::Disabled;
     else {
         m_clipState = PlaylistState::Original;
+
+        if (id.startsWith(QLatin1String("slowmotion"))) {
+            m_clipState = (PlaylistState::ClipState) id.section(":", -1).toInt();
+            return;
+        }
+        if (id.endsWith(QLatin1String("_audio"))) {
+            m_clipState = PlaylistState::AudioOnly;
+        }
+        else if (id.endsWith(QLatin1String("_video"))) {
+            m_clipState = PlaylistState::VideoOnly;
+        }
     }
 }
 

@@ -7522,6 +7522,8 @@ void CustomTrackView::setClipType(PlaylistState::ClipState state)
         text = i18n("Video only");
     else if (state == PlaylistState::AudioOnly)
         text = i18n("Audio only");
+    else if (state == PlaylistState::Disabled)
+        text = i18n("Disabled");
 
     resetSelectionGroup();
     QList<QGraphicsItem *> selection = scene()->selectedItems();
@@ -7534,11 +7536,11 @@ void CustomTrackView::setClipType(PlaylistState::ClipState state)
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == AVWidget) {
             ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
-            if (clip->clipType() == AV || clip->clipType() == Playlist) {
+            if (clip->clipType() == AV || clip->clipType() == Playlist || clip->clipType() == Audio) {
                 if (clip->parentItem()) {
                     emit displayMessage(i18n("Cannot change grouped clips"), ErrorMessage);
                 } else {
-                    new ChangeClipTypeCommand(this, clip->track(), clip->startPos(), state, clip->clipState(), videoCommand);
+                    new ChangeClipTypeCommand(this, clip->info(), state, clip->clipState(), videoCommand);
                 }
             }
         }
@@ -7557,11 +7559,11 @@ void CustomTrackView::monitorRefresh()
     m_document->renderer()->doRefresh();
 }
 
-void CustomTrackView::doChangeClipType(const GenTime &pos, int track, PlaylistState::ClipState state)
+void CustomTrackView::doChangeClipType(ItemInfo info, PlaylistState::ClipState state)
 {
-    ClipItem *clip = getClipItemAtStart(pos, track);
+    ClipItem *clip = getClipItemAtStart(info.startPos, info.track);
     if (clip == NULL) {
-        emit displayMessage(i18n("Cannot find clip to edit (time: %1, track: %2)", pos.frames(m_document->fps()), m_timeline->getTrackInfo(track).trackName), ErrorMessage);
+        emit displayMessage(i18n("Cannot find clip to edit (time: %1, track: %2)", info.startPos.frames(m_document->fps()), m_timeline->getTrackInfo(info.track).trackName), ErrorMessage);
         return;
     }
     Mlt::Producer *prod;
@@ -7576,18 +7578,18 @@ void CustomTrackView::doChangeClipType(const GenTime &pos, int track, PlaylistSt
     if (speed != 1) {
         QLocale locale;
         QString url = prod->get("resource");
-        Track::SlowmoInfo info;
-        info.speed = speed;
-        info.strobe = 1;
-        info.state = state;
-        Mlt::Producer *copy = m_document->renderer()->getSlowmotionProducer(info.toString(locale) + url);
+        Track::SlowmoInfo slowmoInfo;
+        slowmoInfo.speed = speed;
+        slowmoInfo.strobe = 1;
+        slowmoInfo.state = state;
+        Mlt::Producer *copy = m_document->renderer()->getSlowmotionProducer(slowmoInfo.toString(locale) + url);
         if (copy == NULL) {
             // create mute slowmo producer
             url.prepend(locale.toString(speed) + ":");
             Mlt::Properties passProperties;
             Mlt::Properties original(prod->get_properties());
             passProperties.pass_list(original, ClipController::getPassPropertiesList(false));
-            copy = m_timeline->track(track)->buildSlowMoProducer(passProperties, url, clip->getBinId(), info);
+            copy = m_timeline->track(info.track)->buildSlowMoProducer(passProperties, url, clip->getBinId(), slowmoInfo);
         }
         if (copy == NULL) {
             // Failed to get slowmo producer, error
@@ -7597,23 +7599,24 @@ void CustomTrackView::doChangeClipType(const GenTime &pos, int track, PlaylistSt
         prod = copy;
     }
 
-    if (prod && prod->is_valid() && m_timeline->track(track)->replace(pos.seconds(), prod, state)) {
+    if (prod && prod->is_valid() && m_timeline->track(info.track)->replace(info.startPos.seconds(), prod, state)) {
         clip->setState(state);
     } else {
         // Changing clip type failed
-        emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", pos.frames(m_document->fps()), m_timeline->getTrackInfo(track).trackName), ErrorMessage);
+        emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", info.startPos.frames(m_document->fps()), m_timeline->getTrackInfo(info.track).trackName), ErrorMessage);
         return;
     }
     clip->update();
+    monitorRefresh(info);
 }
 
 void CustomTrackView::updateClipTypeActions(ClipItem *clip)
 {
     bool hasAudio;
     bool hasAV;
-    if (clip == NULL || (clip->clipType() != AV && clip->clipType() != Playlist)) {
+    if (clip == NULL) {
         m_clipTypeGroup->setEnabled(false);
-        hasAudio = clip != NULL && clip->clipType() == Audio;
+        hasAudio = false;
         hasAV = false;
     } else {
         switch (clip->clipType()) {
@@ -7621,23 +7624,21 @@ void CustomTrackView::updateClipTypeActions(ClipItem *clip)
         case Playlist:
             hasAudio = true;
             hasAV = true;
+            m_clipTypeGroup->setEnabled(true);
             break;
         case Audio:
             hasAudio = true;
             hasAV = false;
+            m_clipTypeGroup->setEnabled(true);
             break;
         default:
             hasAudio = false;
             hasAV = false;
+            m_clipTypeGroup->setEnabled(false);
         }
-        m_clipTypeGroup->setEnabled(true);
         QList <QAction *> actions = m_clipTypeGroup->actions();
-        QString lookup;
-        if (clip->clipState() == PlaylistState::AudioOnly) lookup = QStringLiteral("clip_audio_only");
-        else if (clip->clipState() == PlaylistState::VideoOnly) lookup = QStringLiteral("clip_video_only");
-        else  lookup = QStringLiteral("clip_audio_and_video");
         for (int i = 0; i < actions.count(); ++i) {
-            if (actions.at(i)->data().toString() == lookup) {
+            if (actions.at(i)->data().toInt() == clip->clipState()) {
                 actions.at(i)->setChecked(true);
                 break;
             }

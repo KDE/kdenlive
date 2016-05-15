@@ -94,13 +94,12 @@ private:
 class ChangeClipTypeCommand : public QUndoCommand
 {
 public:
-    ChangeClipTypeCommand(CustomTrackView *view, const int track, const GenTime &pos, PlaylistState::ClipState state, PlaylistState::ClipState originalState, QUndoCommand * parent = 0);
+    ChangeClipTypeCommand(CustomTrackView *view, ItemInfo info, PlaylistState::ClipState state, PlaylistState::ClipState originalState, QUndoCommand * parent = 0);
     void undo();
     void redo();
 private:
     CustomTrackView *m_view;
-    const GenTime m_pos;
-    const int m_track;
+    ItemInfo m_info;
     PlaylistState::ClipState m_state;
     PlaylistState::ClipState m_originalState;
 };
