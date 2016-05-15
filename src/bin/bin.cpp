@@ -2334,8 +2334,9 @@ void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
 	    }
         }
     }
-    if (!clipsToAdd.isEmpty()) 
-	ClipCreationDialog::createClipsCommand(m_doc, clipsToAdd, folderInfo, this);
+    if (!clipsToAdd.isEmpty()) {
+        ClipCreationDialog::createClipsCommand(m_doc, clipsToAdd, folderInfo, this);
+    }
 }
 
 void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)

@@ -123,6 +123,7 @@ private:
 
     /** @brief The current effect may require an on monitor scene. */
     MonitorSceneType m_monitorSceneWanted;
+    QMutex m_mutex;
 
     /** If in track mode: Info of the edited track to be able to access its duration. */
     TrackInfo m_trackInfo;

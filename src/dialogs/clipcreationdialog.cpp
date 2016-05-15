@@ -418,7 +418,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
             if (folderFiles.count() > 1) foldersList.append(folderFiles);
         }
     }*/
-    
+
     foreach(const QUrl &file, urls) {
         QDomDocument xml;
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
@@ -444,21 +444,6 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
             prod.setAttribute(QStringLiteral("in"), 0);
             prod.setAttribute(QStringLiteral("out"), doc->getFramePos(KdenliveSettings::image_duration()) - 1);
             if (KdenliveSettings::autoimagetransparency()) properties.insert(QStringLiteral("kdenlive:transparency"), QStringLiteral("1"));
-                // Read EXIF metadata for JPEG
-                if (type.inherits(QStringLiteral("image/jpeg"))) {
-                    //TODO KF5 how to read metadata?
-                    /*
-                    KFileMetaInfo metaInfo(file.path(), QString("image/jpeg"), KFileMetaInfo::TechnicalInfo);
-                    const QHash<QString, KFileMetaInfoItem> metaInfoItems = metaInfo.items();
-                    foreach(const KFileMetaInfoItem & metaInfoItem, metaInfoItems) {
-                        QDomElement meta = xml.createElement("metaproperty");
-                        meta.setAttribute("name", "meta.attr." + metaInfoItem.name().section('#', 1));
-                        QDomText value = xml.createTextNode(metaInfoItem.value().toString());
-                        meta.setAttribute("tool", "KDE Metadata");
-                        meta.appendChild(value);
-                        prod.appendChild(meta);
-                    }*/
-                }
         } else if (type.inherits(QStringLiteral("application/x-kdenlivetitle"))) {
             // opening a title file
             QDomDocument txtdoc(QStringLiteral("titledocument"));

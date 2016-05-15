@@ -169,10 +169,6 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     m_scrollTimer.setInterval(100);
     m_scrollTimer.setSingleShot(true);
 
-    connect(&m_thumbsTimer, SIGNAL(timeout()), this, SLOT(slotFetchNextThumbs()));
-    m_thumbsTimer.setInterval(500);
-    m_thumbsTimer.setSingleShot(true);
-
     QIcon razorIcon = KoIconUtils::themedIcon(QStringLiteral("edit-cut"));
     m_razorCursor = QCursor(razorIcon.pixmap(32, 32));
     m_spacerCursor = QCursor(Qt::SplitHCursor);
@@ -188,7 +184,6 @@ CustomTrackView::~CustomTrackView()
 {
     qDeleteAll(m_guides);
     m_guides.clear();
-    m_waitingThumbs.clear();
     delete m_keyPropertiesTimer;
 }
 
@@ -395,19 +390,6 @@ int CustomTrackView::getNextVideoTrack(int track)
         if (m_timeline->getTrackInfo(track).type == VideoTrack) break;
     }
     return track;
-}
-
-
-void CustomTrackView::slotFetchNextThumbs()
-{
-    if (!m_waitingThumbs.isEmpty()) {
-        ClipItem *item = m_waitingThumbs.takeFirst();
-        while (item == NULL && !m_waitingThumbs.isEmpty()) {
-            item = m_waitingThumbs.takeFirst();
-        }
-        if (item) item->slotFetchThumbs();
-        if (!m_waitingThumbs.isEmpty()) m_thumbsTimer.start();
-    }
 }
 
 void CustomTrackView::slotCheckMouseScrolling()
@@ -1973,8 +1955,6 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
                 m_dragItem->setMainSelectedClip(true);
             }
             item->setSelected(true);
-            //TODO:
-	    //if (!clip->isPlaceHolder()) m_waitingThumbs.append(item);
         }
 
         updateSnapPoints(NULL, offsetList);
@@ -1990,7 +1970,6 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
             m_dragItem->setPos(framePos);
         }
         //m_selectionGroup->setZValue(10);
-        m_thumbsTimer.start();
     }
     return true;
 }
@@ -2620,8 +2599,8 @@ void CustomTrackView::slotChangeEffectPosition(ClipItem *clip, int track, QList 
 void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, int track, QDomElement oldeffect, QDomElement effect, int ix, bool refreshEffectStack)
 {
     EditEffectCommand *command;
-    if (clip) command = new EditEffectCommand(this, clip->track(), clip->startPos(), oldeffect, effect, ix, refreshEffectStack, true);
-    else command = new EditEffectCommand(this, track, GenTime(-1), oldeffect, effect, ix, refreshEffectStack, true);
+    if (clip) command = new EditEffectCommand(this, clip->track(), clip->startPos(), oldeffect.cloneNode().toElement(), effect.cloneNode().toElement(), ix, refreshEffectStack, true);
+    else command = new EditEffectCommand(this, track, GenTime(-1), oldeffect.cloneNode().toElement(), effect.cloneNode().toElement(), ix, refreshEffectStack, true);
     m_commandStack->push(command);
 }
 
@@ -2634,43 +2613,38 @@ void CustomTrackView::slotUpdateClipRegion(ClipItem *clip, int ix, QString regio
     m_commandStack->push(command);
 }
 
-ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime, bool cut, const EffectsList &oldStack, bool execute)
+void CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime, bool cut, const EffectsList &oldStack, bool execute)
 {
     if (cut) {
         // cut clip
         ClipItem *item = getClipItemAtStart(info.startPos, info.track);
+        bool selectDup = false;
+        if (item == m_dragItem) {
+            emit clipItemSelected(NULL);
+            selectDup = true;
+        }
         if (!item || cutTime >= item->endPos() || cutTime <= item->startPos()) {
             emit displayMessage(i18n("Cannot find clip to cut"), ErrorMessage);
             if (item)
                 qDebug() << "/////////  ERROR CUTTING CLIP : (" << item->startPos().frames(25) << '-' << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << '-' << info.endPos.frames(25) << ')' << ", CUT: " << cutTime.frames(25);
             else
                 qDebug() << "/// ERROR NO CLIP at: " << info.startPos.frames(m_document->fps()) << ", track: " << info.track;
-            return NULL;
+            return;
         }
 
         if (execute) {
             if (!m_timeline->track(info.track)->cut(cutTime.seconds())) {
                 // Error cuting clip in playlist
-                return NULL;
+                return;
             }
         }
-        int cutPos = (int) cutTime.frames(m_document->fps());
-        ItemInfo newPos;
-        newPos.startPos = cutTime;
-        newPos.endPos = info.endPos;
-        newPos.cropStart = item->info().cropStart + (cutTime - info.startPos);
-        newPos.track = info.track;
-        newPos.cropDuration = newPos.endPos - newPos.startPos;
-
-        bool snap = KdenliveSettings::snaptopoints();
-        KdenliveSettings::setSnaptopoints(false);
-        ClipItem *dup = item->clone(newPos);
-        connect(dup, &AbstractClipItem::selectItem, this, &CustomTrackView::slotSelectItem);
-        dup->binClip()->addRef();
-        dup->setPos(newPos.startPos.frames(m_document->fps()), getPositionFromTrack(newPos.track) + 1 + dup->itemOffset());
+        m_timeline->reloadTrack(info.track, info.startPos.frames(m_document->fps()), info.endPos.frames(m_document->fps()));
 
         // remove unwanted effects
         // fade in from 2nd part of the clip
+        item = getClipItemAtStart(info.startPos, info.track);
+        ClipItem *dup = getClipItemAtStart(cutTime, info.track);
+        dup->binClip()->addRef();
         int ix = dup->hasEffect(QString(), QStringLiteral("fadein"));
         if (ix != -1) {
             QDomElement oldeffect = dup->effectAtIndex(ix);
@@ -2693,57 +2667,47 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
             item->deleteEffect(oldeffect.attribute(QStringLiteral("kdenlive_ix")).toInt());
         }
 
-
-        item->resizeEnd(cutPos);
-        scene()->addItem(dup);
-
         if (item->checkKeyFrames(m_document->width(), m_document->height(), (info.cropDuration + info.cropStart).frames(m_document->fps())))
             slotRefreshEffects(item);
 
         if (dup->checkKeyFrames(m_document->width(), m_document->height(), (info.cropDuration + info.cropStart).frames(m_document->fps()), (cutTime - item->startPos()).frames(m_document->fps())))
             slotRefreshEffects(dup);
-
-        KdenliveSettings::setSnaptopoints(snap);
-        return dup;
+        if (selectDup) {
+            dup->setSelected(true);
+            dup->setMainSelectedClip(true);
+            m_dragItem = dup;
+            emit clipItemSelected(dup);
+        }
+        return;
     } else {
         // uncut clip
         ClipItem *item = getClipItemAtStart(info.startPos, info.track);
         ClipItem *dup = getClipItemAtStart(cutTime, info.track);
-
+        bool selectDup = false;
+        if (m_dragItem == item || m_dragItem == dup) {
+            emit clipItemSelected(NULL);
+            selectDup = true;
+        }
         if (!item || !dup || item == dup) {
             emit displayMessage(i18n("Cannot find clip to uncut"), ErrorMessage);
-            return NULL;
+            return;
         }
-
         if (!m_timeline->track(info.track)->del(cutTime.seconds())) {
             emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(cutTime.frames(m_document->fps())), m_timeline->getTrackInfo(info.track).trackName), ErrorMessage);
-            return NULL;
+            return;
         }
         dup->binClip()->removeRef();
-        bool snap = KdenliveSettings::snaptopoints();
-        KdenliveSettings::setSnaptopoints(false);
-
-        m_waitingThumbs.removeAll(dup);
-        if (dup->isSelected() && dup == m_dragItem) {
+        m_timeline->track(info.track)->resize(info.startPos.seconds(), (info.endPos - cutTime).seconds(), true);
+        m_timeline->reloadTrack(info.track, info.startPos.frames(m_document->fps()), info.endPos.frames(m_document->fps()));
+        item = getClipItemAtStart(info.startPos, info.track);
+        // Restore original effects
+        item->setEffectList(oldStack);
+        if (selectDup) {
             item->setSelected(true);
             item->setMainSelectedClip(true);
             m_dragItem = item;
             emit clipItemSelected(item);
         }
-        scene()->removeItem(dup);
-        delete dup;
-        dup = NULL;
-
-        ItemInfo clipinfo = item->info();
-        bool success = m_timeline->track(clipinfo.track)->resize(clipinfo.startPos.seconds(), (info.endPos - cutTime).seconds(), true);
-        if (success) {
-            item->resizeEnd((int) info.endPos.frames(m_document->fps()));
-            item->setEffectList(oldStack);
-        } else {
-            emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
-        }
-        KdenliveSettings::setSnaptopoints(snap);
-        return item;
     }
 }
 
@@ -3037,8 +3001,6 @@ void CustomTrackView::dragMoveEvent(QDragMoveEvent * event)
 void CustomTrackView::dragLeaveEvent(QDragLeaveEvent * event)
 {
     if ((m_selectionGroup || m_dragItem) && m_clipDrag) {
-        m_thumbsTimer.stop();
-        m_waitingThumbs.clear();
         QList<QGraphicsItem *> items;
         QMutexLocker lock(&m_selectionMutex);
         if (m_selectionGroup) items = m_selectionGroup->childItems();
@@ -4792,7 +4754,6 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
         emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps())), m_timeline->getTrackInfo(info.track).trackName), ErrorMessage);
         return;
     }
-    m_waitingThumbs.removeAll(item);
     item->stopThumbs();
     item->binClip()->removeRef();
     if (item->isSelected()) emit clipItemSelected(NULL);
@@ -4935,6 +4896,12 @@ void CustomTrackView::cutSelectedClips()
     QList<QGraphicsItem *> itemList = scene()->selectedItems();
     QList<AbstractGroupItem *> groups;
     GenTime currentPos = GenTime(m_cursorPos, m_document->fps());
+    if (itemList.isEmpty()) {
+        // Fetch clip on selected track / under cursor
+        ClipItem *under = getClipItemAtMiddlePoint(m_cursorPos, m_selectedTrack);
+        if (under)
+            itemList << under;
+    }
     for (int i = 0; i < itemList.count(); ++i) {
         if (!itemList.at(i))
             continue;
@@ -4947,16 +4914,6 @@ void CustomTrackView::cutSelectedClips()
             } else if (currentPos > item->startPos() && currentPos < item->endPos()) {
                 RazorClipCommand *command = new RazorClipCommand(this, item->info(), item->effectList(), currentPos);
                 m_commandStack->push(command);
-                // Select right part of the cut for further cuts
-                ClipItem *dup = getClipItemAtStart(currentPos, item->track());
-                if (item->isSelected() && dup) {
-                    m_scene->clearSelection();
-                    item->setMainSelectedClip(false);
-                    dup->setSelected(true);
-                    m_dragItem = dup;
-                    m_dragItem->setMainSelectedClip(true);
-                    emit clipItemSelected(dup, false);
-                }
             }
         } else if (itemList.at(i)->type() == GroupWidget && itemList.at(i) != m_selectionGroup) {
             AbstractGroupItem *group = static_cast<AbstractGroupItem *>(itemList.at(i));
@@ -5013,10 +4970,15 @@ void CustomTrackView::razorGroup(AbstractGroupItem* group, GenTime cutPos)
         // Process the cut
         for (int i = 0; i < clipsToCut.count(); ++i) {
             ClipItem *clip = static_cast<ClipItem *>(clipsToCut.at(i));
-            new RazorClipCommand(this, clip->info(), clip->effectList(), cutPos, false, command);
-            ClipItem *secondClip = cutClip(clip->info(), cutPos, true);
-            clips1 << clip->info();
-            clips2 << secondClip->info();
+            new RazorClipCommand(this, clip->info(), clip->effectList(), cutPos, true, command);
+            ItemInfo info = clip->info();
+            info.endPos = GenTime(cutPos.frames(m_document->fps()) - 1, m_document->fps());
+            info.cropDuration = info.endPos - info.startPos;
+            ItemInfo cutInfo = info;
+            cutInfo.startPos = cutPos;
+            cutInfo.cropDuration = cutInfo.endPos - cutInfo.startPos;
+            clips1 << info;
+            clips2 << cutInfo;
         }
         new GroupClipsCommand(this, clips1, transitions1, true, true, command);
         new GroupClipsCommand(this, clips2, transitions2, true, true, command);
@@ -5256,11 +5218,6 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
     if (refresh) {
         m_document->renderer()->doRefresh();
     }
-    //TODO: manage placeholders
-    /*if (!baseclip->isPlaceHolder())
-        m_waitingThumbs.append(item);
-        */
-    //m_thumbsTimer.start();
 }
 
 void CustomTrackView::slotUpdateClip(const QString &clipId, bool reload)
@@ -7180,7 +7137,6 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
         if (selection.at(i)->type() == AVWidget) {
             ClipItem *item =  static_cast <ClipItem *>(selection.at(i));
             new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->clipState(), false, true, deleteTrack);
-            m_waitingThumbs.removeAll(item);
             m_scene->removeItem(item);
             delete item;
             item = NULL;
@@ -8162,7 +8118,6 @@ void CustomTrackView::updateTrackDuration(int track, QUndoCommand *command)
 void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, QUndoCommand* command)
 {
     QMap<int, QDomElement> effects = item->adjustEffectsToDuration(oldInfo);
-
     if (!effects.isEmpty()) {
         QMap<int, QDomElement>::const_iterator i = effects.constBegin();
         while (i != effects.constEnd()) {
@@ -8185,7 +8140,7 @@ void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPo
         return;
     }
     QDomElement newEffect;
-    QDomElement effect = clip->getEffectAtIndex(clip->selectedEffectIndex());
+    QDomElement effect = clip->effectAtIndex(clip->selectedEffectIndex());
     if (effect.attribute(QStringLiteral("id")) == extra.value(QStringLiteral("finalfilter"))) {
         newEffect = effect.cloneNode().toElement();
         QMap<QString, QString>::const_iterator i = filterParams.constBegin();

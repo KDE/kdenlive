@@ -241,7 +241,6 @@ private:
     QUrl m_temporaryUrl;
     ClipType m_type;
     Mlt::Producer *m_thumbsProducer;
-    QProcess m_audioThumbsProcess;
     QMutex m_producerMutex;
     QMutex m_thumbMutex;
     QMutex m_intraThumbMutex;

@@ -23,6 +23,8 @@
 
 #include "track.h"
 #include "headertrack.h"
+#include "kdenlivesettings.h"
+
 #include "clip.h"
 #include <QtGlobal>
 #include <QDebug>
@@ -133,7 +135,7 @@ bool Track::move(qreal start, qreal end, TimelineMode::EditMode mode)
     bool result = doAdd(end, clipProducer.data(), mode);
     m_playlist.unlock();
     if (durationChanged) {
-	  emit newTrackDuration(m_playlist.get_playtime());
+	emit newTrackDuration(m_playlist.get_playtime());
     }
     return result;
 }
@@ -165,7 +167,9 @@ bool Track::del(qreal t)
     }
     m_playlist.consolidate_blanks();
     m_playlist.unlock();
-    if (durationChanged) emit newTrackDuration(m_playlist.get_playtime());
+    if (durationChanged) {
+        emit newTrackDuration(m_playlist.get_playtime());
+    }
     return true;
 }
 

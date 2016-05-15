@@ -161,6 +161,7 @@ public:
     int getLowestVideoTrack();
     /** @brief Returns the document properties with some added values from timeline. */
     QMap <QString, QString> documentProperties();
+    void reloadTrack(int ix, int start = 0, int end = -1);
 
 protected:
     void keyPressEvent(QKeyEvent * event);
@@ -201,7 +202,7 @@ private:
     void adjustTrackHeaders();
 
     void parseDocument(const QDomDocument &doc);
-    int loadTrack(int ix, int offset, Mlt::Playlist &playlist);
+    int loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start = 0, int end = -1, bool updateReferences = true);
     void getEffects(Mlt::Service &service, ClipItem *clip, int track = 0);
     void adjustDouble(QDomElement &e, const QString &value);
 

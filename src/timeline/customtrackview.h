@@ -106,7 +106,7 @@ public:
     bool checkTrackHeight(bool force = false);
     void updateSceneFrameWidth(bool fpsChanged = false);
     void setTool(ProjectTool tool);
-    ClipItem *cutClip(const ItemInfo &info, const GenTime &cutTime, bool cut, const EffectsList &oldStack = EffectsList(), bool execute = true);
+    void cutClip(const ItemInfo &info, const GenTime &cutTime, bool cut, const EffectsList &oldStack = EffectsList(), bool execute = true);
     Transition *cutTransition(const ItemInfo &info, const GenTime &cutTime, bool cut, const QDomElement &oldStack = QDomElement(), bool execute = true);
     void slotSeekToPreviousSnap();
     void slotSeekToNextSnap();
@@ -439,7 +439,6 @@ private:
     QList <QAction*> m_avActions;
     QActionGroup *m_clipTypeGroup;
     QTimer m_scrollTimer;
-    QTimer m_thumbsTimer;
     int m_scrollOffset;
     bool m_clipDrag;
 
@@ -452,7 +451,6 @@ private:
     /** Used to get the point in timeline where a context menu was opened */
     QPoint m_menuPosition;
     AbstractGroupItem *m_selectionGroup;
-    QList <ClipItem *> m_waitingThumbs;
     int m_selectedTrack;
     int m_spacerOffset;
 
@@ -545,7 +543,6 @@ private slots:
     void slotCheckMouseScrolling();
     void slotEditTimeLineGuide();
     void slotDeleteTimeLineGuide();
-    void slotFetchNextThumbs();
     void checkTrackSequence(int track);
     void slotGoToMarker(QAction *action);
     /** @brief Context menu is finished, prepare resetting las known menu pos. */

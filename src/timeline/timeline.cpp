@@ -274,17 +274,22 @@ int Timeline::getTracks() {
         Mlt::Playlist playlist(*track);
         int trackduration = 0;
         int audio = 0;
+        Track *tk = NULL;
         if (!isBackgroundBlackTrack) {
             audio = playlist.get_int("kdenlive:audio_track");
+            tk = new Track(i, m_trackActions, playlist, audio == 1 ? AudioTrack : VideoTrack, this);
+            m_tracks.append(tk);
             trackduration = loadTrack(i, offset, playlist);
             QFrame *frame = new QFrame(headers_container);
             frame->setFrameStyle(QFrame::HLine);
             frame->setFixedHeight(1);
             headerLayout->insertWidget(0, frame);
+        } else {
+            // Black track
+            tk = new Track(i, m_trackActions, playlist, audio == 1 ? AudioTrack : VideoTrack, this);
+            m_tracks.append(tk);
         }
         offset += track->count();
-        Track *tk = new Track(i, m_trackActions, playlist, audio == 1 ? AudioTrack : VideoTrack, this);
-        m_tracks.append(tk);
         if (audio == 0 && !isBackgroundBlackTrack) {
             // Check if we have a composite transition for this track
             QScopedPointer<Mlt::Transition> transition(transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", i, -1, true));
@@ -933,25 +938,49 @@ void Timeline::adjustTrackHeaders()
     }
 }
 
-int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist) {
+void Timeline::reloadTrack(int ix, int start, int end)
+{
+    // Get playlist
+    Mlt::Playlist pl = m_tracks.at(ix)->playlist();
+    if (end == -1) 
+        end = pl.get_length();
+    // Remove current clips
+    int startIndex = pl.get_clip_index_at(start);
+    int endIndex = pl.get_clip_index_at(end);
+    double startY = m_trackview->getPositionFromTrack(ix) + 2;
+    QRectF r(start, startY, end - start, 2);
+    QList<QGraphicsItem *> selection = m_scene->items(r);
+    QList<QGraphicsItem *> toDelete;
+    for (int i = 0; i < selection.count(); i++) {
+        if (selection.at(i)->type() == AVWidget)
+            toDelete << selection.at(i);
+    }
+    qDeleteAll(toDelete);
+    // Reload items
+    loadTrack(ix, 0, pl, startIndex, endIndex, false);
+}
+
+int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, int end, bool updateReferences) {
     // parse track
-    int position = 0;
+    Mlt::ClipInfo *info = new Mlt::ClipInfo();
     double fps = m_doc->fps();
+    if (end == -1)
+        end = playlist.count();
     bool locked = playlist.get_int("kdenlive:locked_track") == 1;
-    for(int i = 0; i < playlist.count(); ++i) {
+    for(int i = start; i < end; ++i) {
         emit loadingBin(offset + i + 1);
-        QScopedPointer<Mlt::Producer> clip(playlist.get_clip(i));
-        if (clip->is_blank()) {
-            position += clip->get_playtime();
+        if (playlist.is_blank(i)) {
             continue;
         }
+        playlist.clip_info(i, info);
+        Mlt::Producer *clip = info->cut;
         // Found a clip
-        int in = clip->get_in();
-        int out = clip->get_out();
-        QString idString = clip->parent().get("id");
+        int in = info->frame_in;
+        int out = info->frame_out;
+        QString idString = info->producer->get("id");
         if (in > out || m_invalidProducers.contains(idString)) {
             QString trackName = playlist.get("kdenlive:track_name");
-            m_documentErrors.append(i18n("Invalid clip removed from track %1 at %2\n", trackName.isEmpty() ? QString::number(ix) : trackName, position));
+            m_documentErrors.append(i18n("Invalid clip removed from track %1 at %2\n", trackName.isEmpty() ? QString::number(ix) : trackName, info->start));
             playlist.remove(i);
             --i;
             continue;
@@ -989,17 +1018,16 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist) {
 	    // Warning, unknown clip found, timeline corruption!!
 	    //TODO: fix this
             qDebug()<<"* * * * *UNKNOWN CLIP, WE ARE DEAD: "<<id;
-	    position += length;
 	    continue;
 	}
-	binclip->addRef();
+	if (updateReferences)
+            binclip->addRef();
         ItemInfo clipinfo;
-        clipinfo.startPos = GenTime(position, fps);
-        clipinfo.endPos = GenTime(position + length, fps);
+        clipinfo.startPos = GenTime(info->start, fps);
+        clipinfo.endPos = GenTime(info->start + length, fps);
         clipinfo.cropStart = GenTime(in, fps);
         clipinfo.cropDuration = GenTime(length, fps);
         clipinfo.track = ix;
-	position += length;
 	//qDebug()<<"// Loading clip: "<<idString<<" / SPEED: "<<speed<<"\n++++++++++++++++++++++++";
         ClipItem *item = new ClipItem(binclip, clipinfo, fps, slowInfo.speed, slowInfo.strobe, m_trackview->getFrameWidth(), true);
         connect(item, &AbstractClipItem::selectItem, m_trackview, &CustomTrackView::slotSelectItem);
@@ -1017,7 +1045,8 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist) {
         // parse clip effects
         getEffects(*clip, item);
     }
-    return position;
+    delete info;
+    return playlist.get_length();
 }
 
 void Timeline::loadGuides(QMap <double, QString> guidesData)

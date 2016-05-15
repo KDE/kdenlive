@@ -146,6 +146,7 @@ void EffectStackView2::slotClipItemUpdate()
 
 void EffectStackView2::slotClipItemSelected(ClipItem* c, Monitor *m, bool reloadStack)
 {
+    QMutexLocker lock (&m_mutex);
     if (m_effect->effectCompare->isChecked()) {
         // disable split effect when changing clip
         m_effect->effectCompare->setChecked(false);

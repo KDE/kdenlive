@@ -970,8 +970,6 @@ const QString ProjectClip::getAudioThumbPath(AudioStreamInfo *audioInfo)
 void ProjectClip::slotCreateAudioThumbs()
 {
     QMutexLocker lock(&m_audioMutex);
-    if (m_audioThumbsProcess.state() != QProcess::NotRunning)
-        return;
     Mlt::Producer *prod = originalProducer();
     if (!prod || !prod->is_valid()) return;
     AudioStreamInfo *audioInfo = m_controller->audioInfo();
@@ -1002,7 +1000,6 @@ void ProjectClip::slotCreateAudioThumbs()
         return;
     }
     bool jobFinished = false;
-
     if (KdenliveSettings::ffmpegaudiothumbnails() && m_type != Playlist) {
         QStringList args;
         QList <QTemporaryFile*> channelFiles;
@@ -1051,21 +1048,22 @@ void ProjectClip::slotCreateAudioThumbs()
                 }
         }
         emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0);
-        connect(this, SIGNAL(doAbortAudioThumbs()), &m_audioThumbsProcess, SLOT(kill()), Qt::DirectConnection);
-        connect(&m_audioThumbsProcess, &QProcess::readyReadStandardOutput, this, &ProjectClip::updateFfmpegProgress);
-        m_audioThumbsProcess.start(KdenliveSettings::ffmpegpath(), args);
+        QProcess audioThumbsProcess;
+        connect(this, SIGNAL(doAbortAudioThumbs()), &audioThumbsProcess, SLOT(kill()), Qt::DirectConnection);
+        connect(&audioThumbsProcess, &QProcess::readyReadStandardOutput, this, &ProjectClip::updateFfmpegProgress);
+        audioThumbsProcess.start(KdenliveSettings::ffmpegpath(), args);
         bool ffmpegError = false;
-        if (!m_audioThumbsProcess.waitForStarted()) {
+        if (!audioThumbsProcess.waitForStarted()) {
             ffmpegError = true;
         }
-        m_audioThumbsProcess.waitForFinished(-1);
+        audioThumbsProcess.waitForFinished(-1);
         if (m_abortAudioThumb) {
             emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
             m_abortAudioThumb = false;
             return;
         }
 
-        if (!ffmpegError && m_audioThumbsProcess.exitStatus() != QProcess::CrashExit) {
+        if (!ffmpegError && audioThumbsProcess.exitStatus() != QProcess::CrashExit) {
             int dataSize = 0;
             QList <const qint16*> rawChannels;
             QList <QByteArray> sourceChannels;
@@ -1207,7 +1205,10 @@ void ProjectClip::slotCreateAudioThumbs()
 
 void ProjectClip::updateFfmpegProgress()
 {
-    QString result = m_audioThumbsProcess.readAllStandardOutput();
+    QProcess *callerProcess = qobject_cast<QProcess *> (QObject::sender());
+    if (!callerProcess)
+        return;
+    QString result = callerProcess->readAllStandardOutput();
     QStringList lines = result.split('\n');
     foreach(const QString & data, lines) {
         if (data.startsWith(QStringLiteral("out_time_ms"))) {
