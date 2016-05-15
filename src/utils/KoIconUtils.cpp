@@ -29,6 +29,11 @@
 namespace KoIconUtils
 {
 
+
+#if KXMLGUI_VERSION_MINOR > 22 || KXMLGUI_VERSION_MAJOR > 5
+    // Returning QIcon::fromTheme directly from header file
+#else
+
 QIcon themedIcon(const QString &name) {
     // try load themed icon
     if (name.isEmpty()) return QIcon();
@@ -56,5 +61,5 @@ QIcon themedIcon(const QString &name) {
     return icon;
 
 }
-
+#endif
 }

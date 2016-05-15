@@ -585,6 +585,8 @@ void MainWindow::slotThemeChanged(const QString &theme)
         }
     }
 
+#if KXMLGUI_VERSION_MINOR < 23 && KXMLGUI_VERSION_MAJOR == 5
+    // Not required anymore with auto colored icons since KF5 5.23
     QColor background = plt.window().color();
     bool useDarkIcons = background.value() < 100;
     if (m_themeInitialized && useDarkIcons != m_isDarkTheme) {
@@ -612,6 +614,7 @@ void MainWindow::slotThemeChanged(const QString &theme)
     }
     m_themeInitialized = true;
     m_isDarkTheme = useDarkIcons;
+#endif
     connect(this, SIGNAL(reloadTheme()), this, SLOT(slotReloadTheme()), Qt::UniqueConnection);
 }
 

@@ -404,7 +404,7 @@ void MonitorManager::setupActions()
     zoneStart->setShortcut(Qt::SHIFT + Qt::Key_I);
     pCore->window()->addAction(QStringLiteral("seek_zone_start"), zoneStart);
     connect(zoneStart, &QAction::triggered, this, &MonitorManager::slotZoneStart);
-    
+
     m_muteAction = new KDualAction(i18n("Mute monitor"), i18n("Unmute monitor"), this);
     m_muteAction->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("audio-volume-medium")));
     m_muteAction->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("audio-volume-muted")));

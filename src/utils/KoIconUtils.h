@@ -19,17 +19,23 @@
 #ifndef __KO_ICON_UTILS_H
 #define __KO_ICON_UTILS_H
 
-
-class QIcon;
-class QString;
+#include "kxmlgui_version.h"
+#include <QIcon>
 
 namespace KoIconUtils
 {
+#if KXMLGUI_VERSION_MINOR > 22 || KXMLGUI_VERSION_MAJOR > 5
+    inline QIcon themedIcon(const QString &name)
+    {
+        return QIcon::fromTheme(name);
+    };
+#else
     /**
      * Load a themed icon using its base name. Use it in
      * Krita instead of previous themedIcon()
      */
     QIcon themedIcon(const QString &name);
+#endif
 }
 
 #endif /* __KIS_ICON_UTILS_H */
