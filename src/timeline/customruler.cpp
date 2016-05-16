@@ -474,6 +474,13 @@ void CustomRuler::paintEvent(QPaintEvent *e)
         p.drawPolyline(pa);
     }
 
+    // draw Rendering preview zones
+    QColor preview(Qt::yellow);
+    foreach(int frame, m_renderingPreviews) {
+        QRect rec(frame * m_factor  - m_offset, MAX_HEIGHT - 2, 199 * m_factor, 2);
+        p.fillRect(rec, preview);
+    }
+
     // draw pointer
     const int value  =  m_view->cursorPos() * m_factor - m_offset;
     QPolygon pa(3);
@@ -496,3 +503,11 @@ void CustomRuler::activateZone()
     update();
 }
 
+void CustomRuler::updatePreview(int frame, bool rendered)
+{
+    if (rendered)
+        m_renderingPreviews << frame;
+    else
+        m_renderingPreviews.removeAll(frame);
+    update(frame * m_factor - offset(), MAX_HEIGHT - 2, (199) * m_factor, 2);
+}

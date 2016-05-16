@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="117" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="119" translationDomain="kdenlive">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -76,7 +76,7 @@
       <Action name="razor_tool" />
       <Action name="spacer_tool" />
     </Menu>
-    
+
     <Menu name="clip" ><text>Clip</text>
           <Menu name="marker_menu" ><text>Markers</text>
 		<Action name="add_clip_marker" />
@@ -111,6 +111,7 @@
 	  <Action name="remove_extract" />
           <Action name="remove_lift" />
       </Menu>
+      <Action name="prerender_timeline_zone" />
       <Action name="resize_timeline_clip_start" />
       <Action name="resize_timeline_clip_end" />
       <Menu name="current_clip" ><text>Current clip</text>

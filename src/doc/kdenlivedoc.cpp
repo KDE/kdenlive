@@ -1606,3 +1606,20 @@ void KdenliveDoc::doAddAction(const QString &name, QAction *a)
 {
     pCore->window()->actionCollection()->addAction(name, a);
 }
+
+void KdenliveDoc::previewRender()
+{
+    QString cacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    QString documentId = m_documentProperties.value(QStringLiteral("documentid"));
+    m_render->previewRendering(zone(), cacheDir, documentId);
+    emit progressInfo(i18n("Rendering preview"), 0);
+}
+
+void KdenliveDoc::invalidatePreviews(QList <int> chunks)
+{
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+    QString documentId = m_documentProperties.value(QStringLiteral("documentid"));
+    foreach(int i, chunks) {
+        QFile::remove(dir.absoluteFilePath(documentId + QString("-%1.mp4").arg(i)));
+    }
+}

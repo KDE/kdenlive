@@ -50,6 +50,7 @@ public:
     void updateProjectFps(const Timecode &t);
     void updateFrameSize();
     void activateZone();
+    void updatePreview(int frame, bool rendered = true);
 
 protected:
     void paintEvent(QPaintEvent * /*e*/);
@@ -82,7 +83,7 @@ private:
     int m_startRate;
     MOUSE_MOVE m_mouseMove;
     QMenu *m_goMenu;
-
+    QList <int> m_renderingPreviews;
 
 public slots:
     void slotMoveRuler(int newPos);

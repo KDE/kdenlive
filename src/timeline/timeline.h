@@ -235,6 +235,8 @@ private slots:
     void slotUpdateTrackEffectState(int);
     /** @brief Toggle use of timeline zone for editing.*/
     void slotEnableZone(bool enable);
+    void gotPreviewRender(int frame, const QString &file, int progress);
+    void invalidatePreview(int startFrame, int length);
 
 signals:
     void mousePosition(int);

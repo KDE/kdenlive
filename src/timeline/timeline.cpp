@@ -142,6 +142,7 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
     connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));
     connect(m_trackview->horizontalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(slotUpdateVerticalScroll(int,int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
+    connect(m_doc->renderer(), &Render::previewRender, this, &Timeline::gotPreviewRender);
 }
 
 Timeline::~Timeline()
@@ -318,6 +319,7 @@ int Timeline::getTracks() {
             }
             connect(tk, &Track::newTrackDuration, this, &Timeline::checkDuration, Qt::DirectConnection);
             connect(tk, SIGNAL(storeSlowMotion(QString,Mlt::Producer *)), m_doc->renderer(), SLOT(storeSlowmotionProducer(QString,Mlt::Producer *)));
+            connect(tk, &Track::invalidatePreview, this, &Timeline::invalidatePreview);
         }
     }
     headers_container->setFixedWidth(headerWidth);
@@ -1714,4 +1716,55 @@ void Timeline::slotEnableZone(bool enable)
 {
     KdenliveSettings::setUseTimelineZoneToEdit(enable);
     m_ruler->activateZone();
+}
+
+void Timeline::gotPreviewRender(int frame, const QString &file, int progress)
+{
+    m_ruler->updatePreview(frame);
+    if (!m_hasOverlayTrack) {
+        // Create overlay track
+        Mlt::Playlist overlay(*m_tractor->profile());
+        int trackIndex = tracksCount();
+        m_tractor->lock();
+        m_tractor->insert_track(overlay, trackIndex);
+        m_tractor->unlock();
+        m_hasOverlayTrack = true;
+    }
+    Mlt::Producer *overlayTrack = m_tractor->track(tracksCount());
+    m_tractor->lock();
+    Mlt::Playlist trackPlaylist((mlt_playlist) overlayTrack->get_service());
+    delete overlayTrack;
+    if (trackPlaylist.is_blank_at(frame)) {
+        Mlt::Producer prod(*m_tractor->profile(), 0, file.toUtf8().constData());
+        prod.set("mlt_service", "avformat-novalidate");
+        trackPlaylist.insert_at(frame, &prod, 1);
+    }
+    m_tractor->unlock();
+    m_doc->progressInfo(i18n("Rendering preview"), progress);
+    //m_doc->updatePreview(progress);
+}
+
+void Timeline::invalidatePreview(int startFrame, int length)
+{
+    if (!m_hasOverlayTrack)
+        return;
+    int start = startFrame / 200;
+    int end = lrintf((startFrame + length) / 200);
+    Mlt::Producer *overlayTrack = m_tractor->track(tracksCount());
+    m_tractor->lock();
+    Mlt::Playlist trackPlaylist((mlt_playlist) overlayTrack->get_service());
+    delete overlayTrack;
+    QList <int> list;
+    for (int i = start; i <=end; i++) {
+        int ix = trackPlaylist.get_clip_index_at(200 * i);
+        if (trackPlaylist.is_blank(i))
+            continue;
+        list << i;
+        Mlt::Producer *prod = trackPlaylist.replace_with_blank(ix);
+        delete prod;
+        m_ruler->updatePreview(i * 200, false);
+    }
+    trackPlaylist.consolidate_blanks();
+    m_tractor->unlock();
+    m_doc->invalidatePreviews(list);
 }

@@ -159,6 +159,8 @@ public:
     /** @brief Returns true if the profile file has changed. */
     bool profileChanged(const QString &profile) const;
     void doAddAction(const QString &name, QAction *a);
+    void previewRender();
+    void invalidatePreviews(QList <int> chunks);
 
 private:
     QUrl m_url;

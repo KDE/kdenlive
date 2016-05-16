@@ -831,7 +831,7 @@ void MainWindow::setupActions()
 
     setStatusBarStyleSheet(palette());
     QString styleBorderless = QStringLiteral("QToolButton { border-width: 0px;margin: 1px 3px 0px;padding: 0px;}");
-    
+
     //create edit mode buttons
     m_normalEditTool = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-normal-edit")), i18n("Normal mode"), this);
     m_normalEditTool->setShortcut(i18nc("Normal editing", "n"));
@@ -1014,6 +1014,9 @@ void MainWindow::setupActions()
 
     statusBar()->addWidget(m_messageLabel, 10);
     statusBar()->addWidget(m_statusProgressBar, 0);
+    QWidget *spacer = new QWidget(this);
+    spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+    statusBar()->addWidget(spacer, 10);
     statusBar()->addPermanentWidget(toolbar);
 
     m_timeFormatButton = new KSelectAction(QStringLiteral("00:00:00:00 / 00:00:00:00"), this);
@@ -1152,6 +1155,8 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("insert_to_in_point"), i18n("Insert Clip Zone in Timeline (Insert)"), this, SLOT(slotInsertClipInsert()), QIcon(), Qt::Key_V);
     addAction(QStringLiteral("remove_extract"), i18n("Extract Timeline Zone"), this, SLOT(slotExtractZone()), QIcon(), Qt::SHIFT + Qt::Key_X);
     addAction(QStringLiteral("remove_lift"), i18n("Lift Timeline Zone"), this, SLOT(slotLiftZone()), QIcon(), Qt::Key_Z);
+    addAction(QStringLiteral("prerender_timeline_zone"), i18n("Timeline Preview Render"), this, SLOT(slotPreviewRender()), QIcon());
+
     addAction(QStringLiteral("select_timeline_clip"), i18n("Select Clip"), this, SLOT(slotSelectTimelineClip()), KoIconUtils::themedIcon(QStringLiteral("edit-select")), Qt::Key_Plus);
     addAction(QStringLiteral("deselect_timeline_clip"), i18n("Deselect Clip"), this, SLOT(slotDeselectTimelineClip()), KoIconUtils::themedIcon(QStringLiteral("edit-select")), Qt::Key_Minus);
     addAction(QStringLiteral("select_add_timeline_clip"), i18n("Add Clip To Selection"), this, SLOT(slotSelectAddTimelineClip()),
@@ -2168,6 +2173,13 @@ void MainWindow::slotLiftZone()
     }
 }
 
+void MainWindow::slotPreviewRender()
+{
+    if (pCore->projectManager()->current()) {
+        pCore->projectManager()->current()->previewRender();
+    }
+}
+
 void MainWindow::slotSelectTimelineClip()
 {
     if (pCore->projectManager()->currentTimeline())
@@ -2333,10 +2345,10 @@ void MainWindow::slotGotProgressInfo(const QString &message, int progress, Messa
     if (type == DefaultMessage) {
         m_statusProgressBar->setValue(progress);
     }
-    m_messageLabel->setMessage(message, type);
+    m_messageLabel->setMessage(progress < 100 ? message : QString(), type);
     if (progress >= 0) {
         if (type == DefaultMessage) {
-            m_statusProgressBar->setVisible(true);
+            m_statusProgressBar->setVisible(progress < 100);
         }
     } else {
         m_statusProgressBar->setVisible(false);

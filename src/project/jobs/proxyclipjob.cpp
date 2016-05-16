@@ -167,7 +167,6 @@ void ProxyJob::startJob()
         }
         m_jobProcess->waitForFinished(400);
     }
-    
     if (m_jobStatus != JobAborted) {
         int result = m_jobProcess->exitStatus();
         if (result == QProcess::NormalExit) {
